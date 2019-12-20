@@ -45,5 +45,18 @@ public interface InlineTextController {
 	/**
 	 * Bring the editor to the foreground and start editing
 	 */
-	void toForeground();
+	void toForeground(int x, int y);
+
+	/**
+	 * @param key
+	 *            property name
+	 * @param val
+	 *            property value
+	 */
+	void format(String key, Object val);
+
+	/**
+	 * Set content from geo
+	 */
+	void updateContent();
 }

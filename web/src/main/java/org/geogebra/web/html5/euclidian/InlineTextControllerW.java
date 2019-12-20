@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.web.richtext.Editor;
@@ -19,6 +20,7 @@ public class InlineTextControllerW implements InlineTextController {
 	private Element parent;
 	private Editor editor;
 	private Style style;
+	private EuclidianView view;
 
 	/**
 	 * @param geo
@@ -26,15 +28,16 @@ public class InlineTextControllerW implements InlineTextController {
 	 * @param parent
 	 *            parent div
 	 */
-	public InlineTextControllerW(GeoInlineText geo, Element parent) {
+	public InlineTextControllerW(GeoInlineText geo, Element parent,
+			EuclidianView view) {
 		this.geo = geo;
 		this.parent = parent;
+		this.view = view;
 	}
 
 	@Override
 	public void create() {
-		editor = new CarotaEditor();
-
+		editor = new CarotaEditor(view.getFontSize());
 		final Widget widget = editor.getWidget();
 		style = widget.getElement().getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
@@ -68,9 +71,7 @@ public class InlineTextControllerW implements InlineTextController {
 		style.setTop(y, Style.Unit.PX);
 	}
 
-	/**
-	 * Set content from geo
-	 */
+	@Override
 	public void updateContent() {
 		if (geo.getContent() != null) {
 			editor.setContent(geo.getContent());
@@ -89,12 +90,20 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void toBackground() {
+		editor.deselect();
 		editor.getWidget().addStyleName("background");
+		geo.updateRepaint();
 	}
 
 	@Override
-	public void toForeground() {
+	public void toForeground(int x, int y) {
 		editor.getWidget().removeStyleName("background");
-		editor.focus();
+		editor.focus(x - editor.getWidget().getAbsoluteLeft(),
+				y - editor.getWidget().getAbsoluteTop() + view.getAbsoluteTop());
+	}
+
+	@Override
+	public void format(String key, Object val) {
+		editor.format(key, val);
 	}
 }

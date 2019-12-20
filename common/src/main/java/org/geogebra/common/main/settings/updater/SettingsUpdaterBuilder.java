@@ -8,7 +8,7 @@ import org.geogebra.common.main.App;
 public class SettingsUpdaterBuilder {
 
 	private App app;
-	private SettingsUpdater prototype;
+	private FontSettingsUpdater fontSettingsUpdater;
 
 	/**
 	 * @param app app
@@ -23,41 +23,33 @@ public class SettingsUpdaterBuilder {
 	 * or from a new SettingsUpdater instance.
 	 */
 	public SettingsUpdater newSettingsUpdater() {
-		initPrototypeIfNull();
+		SettingsUpdater prototype = new SettingsUpdater();
 		prototype.setEuclidianHost(app);
 		prototype.setSettings(app.getSettings());
 		prototype.setAppConfig(app.getConfig());
 		prototype.setKernel(app.getKernel());
-		prototype.setFontSettingsUpdater(newFontSettingsUpdater());
+		prototype.setFontSettingsUpdater(getFontSettingsUpdater());
 		prototype.setLabelSettingsUpdater(newLabelSettingsUpdater());
 		return prototype;
 	}
 
-	private void initPrototypeIfNull() {
-		if (prototype == null) {
-			prototype = new SettingsUpdater();
-		}
-	}
-
-	protected FontSettingsUpdater newFontSettingsUpdater() {
-		return new FontSettingsUpdater(app);
+	private FontSettingsUpdater getFontSettingsUpdater() {
+		return fontSettingsUpdater == null ? new FontSettingsUpdater(app)
+				: fontSettingsUpdater;
 	}
 
 	private LabelSettingsUpdater newLabelSettingsUpdater() {
 		return new LabelSettingsUpdater(app);
 	}
 
-	protected App getApp() {
-		return app;
-	}
-
 	/**
-	 * Sets the prototype which will be used in the newSettingsUpdater method
-	 * for building the SettingsUpdater object.
-	 * @param prototype The newSettingsUpdater method will build on this object
-	 *                    and it will return this object after all the attributes has been set.
+	 * @param fontSettingsUpdater
+	 *            font settings updater
+	 * @return this
 	 */
-	public void setPrototype(SettingsUpdater prototype) {
-		this.prototype = prototype;
+	public SettingsUpdaterBuilder withFontSettingsUpdater(
+			FontSettingsUpdater fontSettingsUpdater) {
+		this.fontSettingsUpdater = fontSettingsUpdater;
+		return this;
 	}
 }

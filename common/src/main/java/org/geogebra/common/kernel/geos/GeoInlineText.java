@@ -1,19 +1,25 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Inline Geo Text element.
  */
-public class GeoInlineText extends GeoElement implements Translateable {
+public class GeoInlineText extends GeoElement
+		implements Translateable, TextStyle {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
@@ -23,11 +29,15 @@ public class GeoInlineText extends GeoElement implements Translateable {
 	private double height;
 
 	private String content;
+	private int contentDefaultSize;
 
 	/**
 	 * Creates new GeoInlineText instance.
 	 *
-	 * @param c construction
+	 * @param c
+	 *            construction
+	 * @param location
+	 *            on-screen location
 	 */
 	public GeoInlineText(Construction c, GPoint2D location) {
 		this(c, location, DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -45,6 +55,12 @@ public class GeoInlineText extends GeoElement implements Translateable {
 		this.location = location;
 		this.width = width;
 		this.height = height;
+		this.contentDefaultSize = getCurrentFontSize();
+	}
+
+	private int getCurrentFontSize() {
+		return kernel.getApplication().getSettings().getFontSettings()
+				.getAppFontSize();
 	}
 
 	/**
@@ -56,6 +72,10 @@ public class GeoInlineText extends GeoElement implements Translateable {
 		return location;
 	}
 
+	/**
+	 * @param location
+	 *            on-screen location
+	 */
 	public void setLocation(GPoint2D location) {
 		this.location = location;
 	}
@@ -96,10 +116,17 @@ public class GeoInlineText extends GeoElement implements Translateable {
 		this.height = height;
 	}
 
+	/**
+	 * @param content
+	 *            JSON representation of the document (used by Carota)
+	 */
 	public void setContent(String content) {
 		this.content = content;
 	}
 
+	/**
+	 * @return JSON representation of the document (used by Carota)
+	 */
 	public String getContent() {
 		return content;
 	}
@@ -199,5 +226,68 @@ public class GeoInlineText extends GeoElement implements Translateable {
 	@Override
 	public boolean isTranslateable() {
 		return true;
+	}
+
+	@Override
+	public int getFontStyle() {
+		JSONObject firstWord = getFormat().optJSONObject(0);
+		if (firstWord != null) {
+			boolean bold = firstWord.optBoolean("bold");
+			boolean italic = firstWord.optBoolean("italic");
+			return (bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0);
+		}
+
+		return GFont.PLAIN;
+	}
+
+	private JSONArray getFormat() {
+		if (!StringUtil.empty(content)) {
+			try {
+				JSONArray json = new JSONArray(content);
+				return json;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return new JSONArray();
+	}
+
+	@Override
+	public double getFontSizeMultiplier() {
+		JSONObject firstWord = getFormat().optJSONObject(0);
+		if (firstWord != null) {
+			int viewFontSize = kernel.getApplication()
+					.getActiveEuclidianView().getFontSize();
+			double size = firstWord.optDouble("size", viewFontSize);
+			return size / viewFontSize;
+		}
+		return GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
+	}
+
+	/**
+	 * @return whether size change was needed
+	 */
+	public boolean updateFontSize() {
+		if (contentDefaultSize != getCurrentFontSize()) {
+			try {
+				JSONArray words = getFormat();
+				for (int i = 0; i < words.length(); i++) {
+					JSONObject word = words.optJSONObject(i);
+					if (word.has("size")) {
+						double size = word.getDouble("size")
+								* getCurrentFontSize()
+								/ contentDefaultSize;
+						word.put("size", size);
+					}
+				}
+
+				content = words.toString();
+				contentDefaultSize = getCurrentFontSize();
+				return true;
+			} catch (JSONException | RuntimeException e) {
+				Log.debug(e);
+			}
+		}
+		return false;
 	}
 }

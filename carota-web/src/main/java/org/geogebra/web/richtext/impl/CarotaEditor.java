@@ -1,11 +1,12 @@
 package org.geogebra.web.richtext.impl;
 
+import org.geogebra.web.richtext.Editor;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.richtext.Editor;
 
 /**
  * Inline text editor based on Carota.
@@ -16,15 +17,16 @@ public class CarotaEditor implements Editor {
 	private JavaScriptObject editor;
 
 	private static native JavaScriptObject createEditorNative(Element div) /*-{
-        return $wnd.carota.editor.create(div);
+		return $wnd.murok = $wnd.carota.editor.create(div);
 	}-*/;
 
-	private static native void focusNative(JavaScriptObject editor) /*-{
-		editor.notifySelectionChanged(true);
+	private static native void focusNative(JavaScriptObject editor, int x, int y) /*-{
+		var ordinal = editor.byCoordinate(x, y).ordinal;
+		editor.select(ordinal, ordinal, true);
 	}-*/;
 
 	private native void setContentNative(JavaScriptObject editor, String content) /*-{
-		editor.load(JSON.parse(content));
+		editor.load(JSON.parse(content), false);
 	}-*/;
 
 	private native void addListenerNative(Widget widget, JavaScriptObject editor,
@@ -32,7 +34,9 @@ public class CarotaEditor implements Editor {
 		var updateTimer = null;
 
 		editor.contentChanged(function() {
-			listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSizeChanged(*)();
+			setTimeout(function() {
+                listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSizeChanged(*)();
+            }, 0);
 
 			if (updateTimer !== null) {
 				clearTimeout(updateTimer);
@@ -47,8 +51,8 @@ public class CarotaEditor implements Editor {
 	/**
 	 * Create a new instance of Carota editor.
 	 */
-	public CarotaEditor() {
-		CarotaUtil.ensureJavascriptInjected();
+	public CarotaEditor(double defaultFontSize) {
+		CarotaUtil.ensureInitialized(defaultFontSize);
 		widget = createWidget();
 	}
 
@@ -61,11 +65,11 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
-	public void focus() {
+	public void focus(final int x, final int y) {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				focusNative(editor);
+				focusNative(editor, x, y);
 			}
 		});
 	}
@@ -84,4 +88,22 @@ public class CarotaEditor implements Editor {
 	public void addListener(EditorChangeListener listener) {
 		addListenerNative(widget, editor, listener);
 	}
+
+	@Override
+	public void deselect() {
+		deselectNative(editor);
+	}
+
+	private static native void deselectNative(JavaScriptObject editor) /*-{
+		editor.select(0, 0, false);
+	}-*/;
+
+	public void format(String key, Object val) {
+		formatNative(editor, key, val);
+	}
+
+	private static native void formatNative(JavaScriptObject editor, String key, Object val) /*-{
+		editor.documentRange().setFormatting(key, val);
+	}-*/;
+
 }

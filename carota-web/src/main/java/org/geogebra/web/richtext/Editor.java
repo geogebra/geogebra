@@ -29,7 +29,7 @@ public interface Editor {
 	/**
 	 * Focuses the editor.
 	 */
-	void focus();
+	void focus(int x, int y);
 
 	/**
 	 * Sets the editor change listener
@@ -41,4 +41,8 @@ public interface Editor {
 	 * @param content JSON encoded string in Carota format
 	 */
 	void setContent(String content);
+
+	void deselect();
+
+	void format(String key, Object val);
 }

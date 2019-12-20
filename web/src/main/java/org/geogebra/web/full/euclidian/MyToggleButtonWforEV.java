@@ -2,9 +2,12 @@ package org.geogebra.web.full.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 
 import com.google.gwt.resources.client.ImageResource;
+
+import java.util.List;
 
 /**
  * Toggle button that should be visible if no geos are selected or to be
@@ -26,12 +29,12 @@ public class MyToggleButtonWforEV extends MyToggleButtonW {
 	}
 
 	@Override
-	public void update(Object[] geos) {
+	public void update(List<GeoElement> geos) {
 		if (stylebar.app.isUnbundledOrWhiteboard()) {
-			this.setVisible(geos.length == 0);
+			this.setVisible(geos.size() == 0);
 		} else {
 			int mode = stylebar.mode;
-			this.setVisible(geos.length == 0 && !EuclidianView.isPenMode(mode)
+			this.setVisible(geos.size() == 0 && !EuclidianView.isPenMode(mode)
 					&& mode != EuclidianConstants.MODE_DELETE
 					&& mode != EuclidianConstants.MODE_ERASER);
 		}

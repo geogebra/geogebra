@@ -51,6 +51,9 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 					view.toScreenCoordY(point.getY()) + padding);
 			textController.setHeight((int) (text.getHeight() - 2 * padding));
 			textController.setWidth((int) (text.getWidth() - 2 * padding));
+			if (text.updateFontSize()) {
+				textController.updateContent();
+			}
 		}
 
 		getBoundingBox().setRectangle(getBounds());
@@ -67,10 +70,12 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	/**
 	 * Send this to foreground
+	 * @param x x mouse coordinates in pixels
+	 * @param y y mouse coordinates in pixels
 	 */
-	public void toForeground() {
+	public void toForeground(int x, int y) {
 		if (textController != null) {
-			textController.toForeground();
+			textController.toForeground(x, y);
 		}
 	}
 
@@ -177,5 +182,17 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		// Not implemented
+	}
+
+	/**
+	 * @param key
+	 *            formatting option
+	 * @param val
+	 *            value (String, int or bool, depending on key)
+	 */
+	public void format(String key, Object val) {
+		if (textController != null) {
+			textController.format(key, val);
+		}
 	}
 }

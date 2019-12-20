@@ -3,14 +3,17 @@ package org.geogebra.web.full.gui.util;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
@@ -58,7 +61,6 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnPointStyle.getMySlider().setTickSpacing(1);
 
 		btnPointStyle.addPopupHandler(this);
-
 	}
 
 	/**
@@ -94,7 +96,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			} else {
 				double alpha = btnColor.getSliderValue() / 100.0;
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color,
-						alpha, app);
+						alpha);
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
@@ -165,8 +167,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 					}
 					return;
 				}
-				EuclidianStyleBarStatic.applyColor(targetGeos, color,
-						geo0.getAlphaValue(), app);
+				applyColor(targetGeos, color, geo0.getAlphaValue());
 			}
 
 			@Override
@@ -202,6 +203,25 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	@Override
 	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		handleEventHandlers(actionButton);
+	}
+
+	protected boolean applyColor(ArrayList<GeoElement> targetGeos, GColor color,
+			double alpha) {
+		boolean ret = EuclidianStyleBarStatic.applyColor(targetGeos, color,
+				alpha);
+		String htmlColor = StringUtil.toHtmlColor(color);
+		return formatInlineText(targetGeos, "color", htmlColor) || ret;
+	}
+
+	protected boolean formatInlineText(ArrayList<GeoElement> targetGeos,
+			String key, Object val) {
+		for (GeoElement geo : targetGeos) {
+			DrawableND draw = app.getActiveEuclidianView().getDrawableFor(geo);
+			if (draw instanceof DrawInlineText) {
+				((DrawInlineText) draw).format(key, val);
+			}
+		}
+		return false;
 	}
 
 	protected abstract void handleEventHandlers(Object source);

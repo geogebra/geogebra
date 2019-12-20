@@ -1860,6 +1860,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public InlineTextController createInlineTextController(GeoInlineText geo) {
-		return new InlineTextControllerW(geo, getAbsolutePanel().getParent().getElement());
+		Element parentElement = getAbsolutePanel().getParent().getElement();
+		return new InlineTextControllerW(geo, parentElement, this);
 	}
 }

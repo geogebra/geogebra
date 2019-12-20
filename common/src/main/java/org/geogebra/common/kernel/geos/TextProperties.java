@@ -1,16 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-
 /**
  * Element with text properties
  */
-public interface TextProperties extends GeoElementND {
-	/**
-	 * 
-	 * @return font size (relative)
-	 */
-	public double getFontSizeMultiplier();
+public interface TextProperties extends TextStyle {
 
 	/**
 	 * 
@@ -18,12 +11,6 @@ public interface TextProperties extends GeoElementND {
 	 *            font size (relative)
 	 */
 	public void setFontSizeMultiplier(double size);
-
-	/**
-	 * 
-	 * @return font style
-	 */
-	public int getFontStyle();
 
 	/**
 	 * 
