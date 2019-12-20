@@ -4855,7 +4855,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 				// size of eraser
 				sbxml.append("\t<eraserSize val=\"");
-				sbxml.append(getEuclidianController().getDeleteToolSize());
+				sbxml.append(settings.getDeleteToolSize());
 				sbxml.append("\"/>\n");
 
 				sbxml.append("\t<language val=\"");

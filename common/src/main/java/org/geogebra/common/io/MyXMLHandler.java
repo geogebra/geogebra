@@ -1509,7 +1509,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private static boolean handleEraserSize(EuclidianSettings ev,
-										 LinkedHashMap<String, String> attrs) {
+			LinkedHashMap<String, String> attrs) {
 		int eraserSize = Integer.parseInt(attrs.get("val"));
 		ev.setDeleteToolSize(eraserSize);
 		return true;

@@ -1163,7 +1163,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	/**
 	 * @param size
-	 *            delee tool size
+	 *            delete tool size
 	 */
 	public void setDeleteToolSize(int size) {
 		this.deleteToolSize = size;
@@ -1696,7 +1696,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setLastPenThickness(int lastPenThickness) {
 		this.lastPenThickness = lastPenThickness;
-		settingChanged();
 	}
 
 	/**
@@ -1712,5 +1711,4 @@ public class EuclidianSettings extends AbstractSettings {
 	public void setLastHighlighterThinckness(int lastHighlighterThinckness) {
 		this.lastHighlighterThinckness = lastHighlighterThinckness;
 	}
-
 }
