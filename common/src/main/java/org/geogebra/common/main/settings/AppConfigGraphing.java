@@ -239,9 +239,9 @@ public class AppConfigGraphing implements AppConfig {
 
 	@Override
 	public Set<FillType> getAvailableFillTypes() {
-		return new HashSet<>(Arrays.asList(FillType.STANDARD, FillType.HATCH,
-				FillType.CROSSHATCHED, FillType.CHESSBOARD, FillType.DOTTED,
-				FillType.HONEYCOMB, FillType.BRICK, FillType.WEAVING, FillType.SYMBOLS));
+		Set<FillType> set = new HashSet<>(Arrays.asList(FillType.values()));
+		set.remove(FillType.IMAGE);
+		return set;
 	}
 
 	@Override
