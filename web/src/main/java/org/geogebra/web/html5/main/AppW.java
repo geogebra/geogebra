@@ -4024,5 +4024,4 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
 		return null;
 	}
-
 }

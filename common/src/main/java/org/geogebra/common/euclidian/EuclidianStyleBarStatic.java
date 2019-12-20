@@ -368,21 +368,17 @@ public class EuclidianStyleBarStatic {
 	 *            geos
 	 * @return true if "label style" button applies on all geos
 	 */
-	final static public GeoElement checkGeosForCaptionStyle(Object[] geos,
-			int mode, App app) {
-		if (geos.length <= 0) {
+	public static GeoElement checkGeosForCaptionStyle(List<GeoElement> geos) {
+		if (geos.size() <= 0) {
 			return null;
 		}
 
-		GeoElement geo = null;
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement current = (GeoElement) geos[i];
+		for (GeoElement current : geos) {
 			if (current.isLabelShowable()
 					|| current.isGeoAngle()
 					|| (current.isGeoNumeric() && ((GeoNumeric) current)
-							.isSliderFixed())) {
-				geo = (GeoElement) geos[i];
-				return geo;
+					.isSliderFixed())) {
+				return current;
 			}
 		}
 
@@ -675,24 +671,24 @@ public class EuclidianStyleBarStatic {
 	 *            current app mode
 	 * @return table text
 	 */
-	public static AlgoTableText updateTableText(Object[] geos, int mode) {
+	public static AlgoTableText updateTableText(List<GeoElement> geos, int mode) {
 		AlgoTableText tableText = null;
-		if (geos == null || geos.length == 0 || EuclidianView.isPenMode(mode)) {
+		if (geos == null || geos.size() == 0 || EuclidianView.isPenMode(mode)) {
 			return tableText;
 		}
 
 		boolean geosOK = true;
 		AlgoElement algo;
 
-		for (int i = 0; i < geos.length; i++) {
-			algo = ((GeoElement) geos[i]).getParentAlgorithm();
+		for (int i = 0; i < geos.size(); i++) {
+			algo = geos.get(i).getParentAlgorithm();
 			if (!(algo instanceof AlgoTableText)) {
 				geosOK = false;
 			}
 		}
 
-		if (geosOK && geos[0] != null) {
-			algo = ((GeoElement) geos[0]).getParentAlgorithm();
+		if (geosOK && geos.get(0) != null) {
+			algo = geos.get(0).getParentAlgorithm();
 			tableText = (AlgoTableText) algo;
 		}
 
@@ -838,14 +834,12 @@ public class EuclidianStyleBarStatic {
 	 *            geos
 	 * @return true if "fix position" button applies on all geos
 	 */
-	final static public boolean checkGeosForFixPosition(Object[] geos) {
-		if (geos.length <= 0) {
+	public static boolean checkGeosForFixPosition(List<GeoElement> geos) {
+		if (geos.size() <= 0) {
 			return false;
 		}
 
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-
+		for (GeoElement geo : geos) {
 			if (!geo.isPinnable()) {
 				return false;
 			}
@@ -869,13 +863,12 @@ public class EuclidianStyleBarStatic {
 	 *            geos
 	 * @return true if "fix object" button applies on all geos
 	 */
-	final static public boolean checkGeosForFixObject(Object[] geos) {
-		if (geos.length <= 0) {
+	public static boolean checkGeosForFixObject(List<GeoElement> geos) {
+		if (geos.size() <= 0) {
 			return false;
 		}
 
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
+		for (GeoElement geo : geos) {
 			if (!geo.isFixable()) {
 				return false;
 			}
@@ -890,13 +883,12 @@ public class EuclidianStyleBarStatic {
 	 *            geos
 	 * @return true if "angle interval" button applies on all geos
 	 */
-	final static public GeoElement checkGeosForAngleInterval(Object[] geos) {
-		if (geos.length <= 0) {
+	public static GeoElement checkGeosForAngleInterval(List<GeoElement> geos) {
+		if (geos.size() <= 0) {
 			return null;
 		}
 
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
+		for (GeoElement geo : geos) {
 			if ((geo.isDefaultGeo() || !geo.isIndependent())
 					&& (geo instanceof AngleProperties) && !geo.isGeoList()
 					|| OptionsModel.isAngleList(geo)) {
@@ -921,12 +913,7 @@ public class EuclidianStyleBarStatic {
 			return locateable.isAbsoluteScreenLocActive();
 		}
 
-		if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView) {
-			return true;
-		}
-
-		return false;
-
+		return geo.getParentAlgorithm() instanceof AlgoAttachCopyToView;
 	}
 
 	/**

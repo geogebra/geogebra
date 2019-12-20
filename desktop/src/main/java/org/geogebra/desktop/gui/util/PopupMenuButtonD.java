@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -20,6 +21,7 @@ import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -308,7 +310,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 	 * @param geos
 	 *            geo elements
 	 */
-	public void update(Object[] geos) {
+	public void update(List<GeoElement> geos) {
 		// override in subclasses
 	}
 
