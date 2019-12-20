@@ -85,9 +85,9 @@ public class BaseUnitTest {
 	 *            algebra input to be processed
 	 * @return resulting element
 	 */
-	protected GeoElement add(String command) {
-		GeoElementND[] geoElements =
-				getAlgebraProcessor().processAlgebraCommand(command, false);
+	protected <T extends GeoElement> T add(String command) {
+		T[] geoElements =
+				(T[]) getAlgebraProcessor().processAlgebraCommand(command, false);
 		return getFirstElement(geoElements);
 	}
 
@@ -95,8 +95,8 @@ public class BaseUnitTest {
 		return getApp().getKernel().getAlgebraProcessor();
 	}
 
-	private GeoElement getFirstElement(GeoElementND[] geoElements) {
-		return geoElements.length == 0 ? null : geoElements[0].toGeoElement();
+	private <T extends GeoElement> T getFirstElement(T[] geoElements) {
+		return geoElements.length == 0 ? null : (T) geoElements[0].toGeoElement();
 	}
 
 	/**
@@ -106,11 +106,11 @@ public class BaseUnitTest {
 	 *            algebra input to be processed
 	 * @return resulting element
 	 */
-	protected GeoElement addAvInput(String command) {
+	protected <T extends GeoElement> T addAvInput(String command) {
 		App app = getApp();
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, false);
-		GeoElementND[] geoElements =
-				getAlgebraProcessor()
+		T[] geoElements =
+				(T[]) getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(
 								command,
 								false,
