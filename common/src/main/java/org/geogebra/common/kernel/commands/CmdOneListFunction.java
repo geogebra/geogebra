@@ -33,7 +33,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c, @Nullable EvalInfo info) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
@@ -42,7 +42,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 		case 0:
 			throw argNumErr(c);
 		case 1:
-			return new GeoElement[]{process(c, info, arg[0])};
+			return new GeoElement[] { process(c, info, arg[0]) };
 			// more than one argument
 		default:
 

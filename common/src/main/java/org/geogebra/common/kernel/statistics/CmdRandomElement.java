@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.statistics;
 
-import javax.annotation.Nullable;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CmdOneListFunction;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -30,7 +28,7 @@ public class CmdRandomElement extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String label, GeoList b, @Nullable EvalInfo info) {
+	final protected GeoElement doCommand(String label, GeoList b, EvalInfo info) {
 		AlgoRandomElement algo = new AlgoRandomElement(cons, b);
 		GeoElement element = algo.getElement();
 		initSymbolicMode(element, info);
@@ -38,7 +36,7 @@ public class CmdRandomElement extends CmdOneListFunction {
 		return element;
 	}
 
-	private void initSymbolicMode(GeoElement element, @Nullable EvalInfo info) {
+	private void initSymbolicMode(GeoElement element, EvalInfo info) {
 		if (info != null && info.isFractions() && element instanceof HasSymbolicMode) {
 			((HasSymbolicMode) element).setSymbolicMode(true, false);
 		}
