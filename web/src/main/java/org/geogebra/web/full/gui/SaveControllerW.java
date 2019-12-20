@@ -286,7 +286,8 @@ public class SaveControllerW implements SaveController {
 			MarvlAPI api = new MarvlAPI(
 					app.getVendorSettings().getAPIBaseUrl(),
 					new MarvlURLChecker());
-			api.uploadMaterial(tubeID, visibility, fileName, base64, materialCallback,
+			api.uploadMaterial(tubeID, visibility, fileName, base64,
+					materialCallback,
 					this.saveType);
 		} else {
 			app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,

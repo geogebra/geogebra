@@ -54,6 +54,9 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 		onFileNew();
 	}
 
+	/**
+	 * reset everything for new file
+	 */
 	public void onFileNew() {
 		// ignore active: don't save means we want new construction
 		app.setWaitCursor();
