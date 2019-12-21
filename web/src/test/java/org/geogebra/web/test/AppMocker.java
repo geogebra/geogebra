@@ -17,7 +17,6 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.core.client.impl.SchedulerImpl;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.google.gwtmockito.GwtMockito;
 import com.google.gwtmockito.fakes.FakeProvider;
@@ -109,7 +108,6 @@ public class AppMocker {
 						};
 					}
 				});
-		GwtMockito.useProviderForType(ClientBundle.class, new CustomFakeClientBundleProvider());
 		Browser.mockWebGL();
 		FactoryProvider.setInstance(new MockFactoryProviderGWT());
 		setTestLogger();
