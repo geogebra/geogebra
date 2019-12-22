@@ -13,7 +13,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.factories.AwtFactoryHeadless;
 import org.geogebra.web.html5.awt.GAlphaCompositeW;
@@ -25,7 +24,6 @@ import org.geogebra.web.html5.awt.GTexturePaintW;
 import org.geogebra.web.html5.awt.font.GTextLayoutW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
@@ -76,11 +74,6 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 	public GGradientPaint newGradientPaint(double x, double y, GColor bg2,
 			double x2, double i, GColor bg) {
 		return new GGradientPaintW(x, y, bg2, x2, i, bg);
-	}
-
-	@Override
-	public FocusListener newFocusListener(Object listener) {
-		return new FocusListenerW(listener);
 	}
 
 	@Override

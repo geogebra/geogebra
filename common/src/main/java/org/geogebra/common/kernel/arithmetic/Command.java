@@ -103,7 +103,8 @@ public class Command extends ValidExpression
 			boolean allowEvaluationForTypeCheck) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		this.allowEvaluationForTypeCheck = allowEvaluationForTypeCheck;
+		this.allowEvaluationForTypeCheck = app.getConfig().isCASEnabled()
+				&& allowEvaluationForTypeCheck;
 
 		/*
 		 * need to check app.isUsingInternalCommandNames() due to clash with

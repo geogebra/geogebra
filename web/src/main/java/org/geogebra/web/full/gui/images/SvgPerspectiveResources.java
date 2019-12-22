@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.images;
 
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.resources.SVGResource;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 
 /**
@@ -10,7 +10,8 @@ import com.google.gwt.resources.client.ClientBundle;
  */
 @SuppressWarnings("javadoc")
 public interface SvgPerspectiveResources extends ClientBundle {
-	SvgPerspectiveResources INSTANCE = ImageFactory.getPerspectiveResources();
+
+	SvgPerspectiveResources INSTANCE = GWT.create(SvgPerspectiveResources.class);
 
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_algebra.svg")
 	SVGResource menu_icon_algebra();
@@ -97,40 +98,37 @@ public interface SvgPerspectiveResources extends ClientBundle {
 	SVGResource menu_icon_whiteboard();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_algebra.svg")
-	SVGResource menu_icon_algebra24();
+	SVGResource menu_icon_algebra_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_graphics.svg")
-	SVGResource menu_icon_geometry24();
+	SVGResource menu_icon_geometry_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_cas.svg")
-	SVGResource menu_icon_cas24();
-
-	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_graphics.svg")
-	SVGResource menu_icon_graphics24();
+	SVGResource menu_icon_cas_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_graphics2.svg")
-	SVGResource menu_icon_graphics224();
+	SVGResource menu_icon_graphics2_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_graphics_extra.svg")
-	SVGResource menu_icon_graphics_extra24();
+	SVGResource menu_icon_graphics_extra_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_spreadsheet.svg")
-	SVGResource menu_icon_spreadsheet24();
+	SVGResource menu_icon_spreadsheet_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_3d.svg")
-	SVGResource menu_icon_graphics3D24();
+	SVGResource menu_icon_graphics3D_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_construction_protocol.svg")
-	SVGResource menu_icon_construction_protocol24();
+	SVGResource menu_icon_construction_protocol_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_probability.svg")
-	SVGResource menu_icon_probability24();
+	SVGResource menu_icon_probability_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_whiteboard.svg")
-	SVGResource menu_icon_whiteboard24();
+	SVGResource menu_icon_whiteboard_transparent();
 
 	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_exam.svg")
-	SVGResource menu_icon_exam24();
+	SVGResource menu_icon_exam_transparent();
 
 	// StyleBar
 

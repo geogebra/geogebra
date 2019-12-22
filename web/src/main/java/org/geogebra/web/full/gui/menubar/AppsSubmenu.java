@@ -5,6 +5,8 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
+import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -33,31 +35,40 @@ public class AppsSubmenu extends Submenu {
 
 	private void initActions() {
 		addMenuItem("graphing", "GraphingCalculator",
-				MaterialDesignResources.INSTANCE.graphing());
+				SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent());
 		addMenuItem("geometry", "Geometry",
-				MaterialDesignResources.INSTANCE.geometry());
+				SvgPerspectiveResources.INSTANCE
+						.menu_icon_geometry_transparent());
 		addMenuItem("3d", "Graphing3D",
-				MaterialDesignResources.INSTANCE.graphing3D());
+				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D_transparent());
+		addMenuItem("cas", "CASCalculator",
+				SvgPerspectiveResources.INSTANCE.menu_icon_cas_transparent());
 		addMenuItem("calculator", "ScientificCalculator",
 				MaterialDesignResources.INSTANCE.scientific());
+		addMenuItem("notes", "Notes",
+				SvgPerspectiveResources.INSTANCE.menu_icon_whiteboard_transparent());
 		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
-		if (app.isUnbundledGraphing() && !app.isExam() && app.getLAF().isGraphingExamSupported()) {
-			addItem(MainMenu.getMenuBarHtml(MaterialDesignResources.INSTANCE.exam_graphing(),
-					app.getLocalization().getMenu("ExamGraphingCalc.short")),
-					true, new MenuCommand(getApp()) {
-
-						@Override
-						public void execute() {
-							if (app.isMenuShowing()) {
-								app.toggleMenu();
-							}
-							((DialogManagerW) app.getDialogManager())
-									.getSaveDialog()
-									.showIfNeeded(getExamCallback());
-						}
-					});
+		if (app.getConfig().hasExam() && !app.isExam() && app.getLAF().isOfflineExamSupported()) {
+			addExamMenuItem();
 		}
+	}
+
+	private void addExamMenuItem() {
+		addItem(MainMenu.getMenuBarHtml(((AppWFull) app).getActivity().getExamIcon(),
+				app.getLocalization().getMenu(app.getConfig().getExamMenuItemText())),
+				true, new MenuCommand(getApp()) {
+
+					@Override
+					public void execute() {
+						if (app.isMenuShowing()) {
+							app.toggleMenu();
+						}
+						((DialogManagerW) app.getDialogManager())
+								.getSaveDialog()
+								.showIfNeeded(getExamCallback());
+					}
+				});
 	}
 
 	/**

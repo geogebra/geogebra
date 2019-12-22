@@ -132,10 +132,10 @@ public class AppCommon extends App {
 
     @Override
     protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
-		this.getSettings().getEuclidian(1).setPreferredSize(
+		getSettings().getEuclidian(1).setPreferredSize(
 				AwtFactory.getPrototype().newDimension(800, 600));
 		return new EuclidianViewNoGui(getEuclidianController(), 1,
-				this.getSettings().getEuclidian(1),
+				getSettings().getEuclidian(1),
 				createGraphics());
     }
 
@@ -240,7 +240,7 @@ public class AppCommon extends App {
 
     @Override
     public boolean showView(int view) {
-		Perspective p = this.getTmpPerspective(null);
+		Perspective p = getTmpPerspective(null);
 		if (p != null) {
 			for (DockPanelData dp : p.getDockPanelData()) {
 				if (dp.getViewId() == view) {
@@ -579,7 +579,7 @@ public class AppCommon extends App {
 		kernel.clearConstruction(true);
 		kernel.initUndoInfo();
 		resetMaxLayerUsed();
-		this.resetCurrentFile();
+		resetCurrentFile();
 		setMoveMode();
 		return true;
 	}
@@ -666,7 +666,7 @@ public class AppCommon extends App {
 
     @Override
     public DrawEquation getDrawEquation() {
-        return null;
+        return new DrawEquationStub();
     }
 
     @Override

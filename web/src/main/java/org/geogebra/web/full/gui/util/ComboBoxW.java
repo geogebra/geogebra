@@ -7,13 +7,13 @@ import org.geogebra.web.full.gui.advanced.client.datamodel.ListDataModel;
 import org.geogebra.web.full.gui.advanced.client.datamodel.ListModelEvent;
 import org.geogebra.web.full.gui.advanced.client.ui.widget.ComboBox;
 import org.geogebra.web.full.gui.advanced.client.ui.widget.combo.DropDownPosition;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -65,12 +65,11 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 
 		final AutoCompleteTextFieldW tf = getSelectedValue();
 		tf.addStyleName("AutoCompleteTextFieldW");
-		tf.addFocusListener(new FocusListenerW(this) {
+		tf.addBlurHandler(new BlurHandler() {
 
 			@Override
 			public void onBlur(BlurEvent event) {
 				onValueChange(tf.getText());
-				super.onBlur(event);
 			}
 
 		});

@@ -9,14 +9,13 @@ import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.keyboard.base.KeyboardType;
-import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
+import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.javax.swing.GCheckMarkLabel;
-import org.geogebra.web.html5.event.FocusListenerW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
@@ -26,6 +25,8 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -52,7 +53,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	private GCheckMarkLabel cmName;
 	private GCheckMarkLabel cmValue;
 	private NameValueModel model;
-	private TabbedKeyboard kbd;
+	private VirtualKeyboardGUI kbd;
 	private FlowPanel namePanel;
 
 	/**
@@ -106,9 +107,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		// remove focus, see GGB-
 		// tfName.setDeferredFocus(true);
 
-		tfName.addFocusListener(new FocusListenerW(this) {
+		tfName.addBlurHandler(new BlurHandler() {
 			@Override
-			protected void wrapFocusLost() {
+			public void onBlur(BlurEvent event) {
 				if (model.noLabelUpdateNeeded(tfName.getText())) {
 					return;
 				}
@@ -152,7 +153,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		main.add(cmValue.getPanel());
 		main.setStyleName("labelPopupPanel");
 		getMyPopup().setWidget(main);
-		kbd = (TabbedKeyboard) ((GuiManagerW) app.getGuiManager())
+		kbd = ((AppWFull) app).getKeyboardManager()
 				.getOnScreenKeyboard(tfName, null);
 		getMyPopup().addAutoHidePartner(kbd.getElement());
 		setLabels();

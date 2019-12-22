@@ -1466,6 +1466,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return true;
 	}
 
+	@Override
+	public boolean hasFocus() {
+		return getMathField().hasFocus();
+	}
+
 	public boolean isForceControls() {
 		return forceControls;
 	}
@@ -1683,8 +1688,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				String label = ScreenReader.getAriaExpression(app, text,
 						ariaPreview);
 				if (StringUtil.empty(label)) {
-					label = mf.getDescription(
-							ScreenReader.getExpressionReader(app));
+					label = mf.getDescription();
 				}
 				mf.setAriaLabel(label);
 			} else {

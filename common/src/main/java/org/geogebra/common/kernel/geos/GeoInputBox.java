@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
@@ -38,7 +39,11 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private TextAlignment textAlignment = TextAlignment.LEFT;
 
 	private @Nonnull GeoElementND linkedGeo;
-	private @Nonnull InputBoxProcessor inputBoxProcessor;
+	private @Nonnull
+	InputBoxProcessor inputBoxProcessor;
+
+	private String tempUserEvalInput;
+	private String tempUserDisplayInput;
 
 	/**
 	 * Creates new text field
@@ -92,25 +97,43 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 	/**
 	 *
-	 * @return text to edit.
+	 * @return text to edit with the symbolic editor
 	 */
 	public String getTextForEditor() {
+		if (tempUserEvalInput != null) {
+			return tempUserEvalInput;
+		}
+
+		if (linkedGeo.isGeoText()) {
+			return ((GeoText) linkedGeo).getTextString();
+		}
+
+		String linkedGeoText = linkedGeo.getRedefineString(true, true);
+
+		if ("?".equals(linkedGeoText)) {
+			return "";
+		}
+
+		return linkedGeoText;
+	}
+
+	/**
+	 * Get the text to display and edit with the non symbolic editor
+	 *
+	 * @return the text
+	 */
+	public String getText() {
+		if (tempUserEvalInput != null) {
+			return tempUserEvalInput;
+		}
 		if (linkedGeo.isGeoText()) {
 			return ((GeoText) linkedGeo).getTextString();
 		}
 
 		String linkedGeoText;
 
-		if (linkedGeo.isGeoNumeric()) {
-			GeoNumeric numeric = (GeoNumeric) linkedGeo;
-
-			if (!numeric.isDefined() || isSymbolicMode() && numeric.isSymbolicMode()) {
-				linkedGeoText = numeric.getRedefineString(true, true);
-			} else if (numeric.isSymbolicMode()) {
-				linkedGeoText = numeric.getValueForInputBar();
-			} else {
-				linkedGeoText = numeric.toValueString(tpl);
-			}
+		if (isSymbolicMode()) {
+			linkedGeoText = toLaTex();
 		} else {
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
@@ -123,37 +146,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 * Get the text (used for scripting)
+	 * Get the string that should be displayed by the renderer.
 	 *
-	 * @return the text
+	 * @return editor display string
 	 */
-	public String getText() {
-		if (linkedGeo.isGeoText()) {
-			return ((GeoText) linkedGeo).getTextString();
-		}
-
-		String linkedGeoText;
-
-		if (linkedGeo.isGeoNumeric()) {
-			if (symbolicMode && ((GeoNumeric) linkedGeo).isSymbolicMode()
-					&& !((GeoNumeric) linkedGeo).isSimple()) {
-				linkedGeoText = toLaTex();
-			} else if (linkedGeo.isDefined() && linkedGeo.isIndependent()) {
-				linkedGeoText = linkedGeo.toValueString(tpl);
-			} else {
-				linkedGeoText = linkedGeo.getRedefineString(true, true);
-			}
-		} else if (isSymbolicMode()) {
-			linkedGeoText = toLaTex();
-		} else {
-			linkedGeoText = linkedGeo.getRedefineString(true, true);
-		}
-
-		if ("?".equals(linkedGeoText)) {
-			return "";
-		}
-
-		return linkedGeoText;
+	public String getDisplayText() {
+		return isSymbolicMode() && tempUserDisplayInput != null ? tempUserDisplayInput : getText();
 	}
 
 	private String toLaTex() {
@@ -250,6 +248,14 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.append(getAlignment().toString());
 			sb.append("\"/>\n");
 		}
+
+		if (tempUserDisplayInput != null && tempUserEvalInput != null) {
+			sb.append("\t<tempUserInput display=\"");
+			sb.append(tempUserDisplayInput);
+			sb.append("\" eval=\"");
+			sb.append(tempUserEvalInput);
+			sb.append("\"/>\n");
+		}
 	}
 
 	@Override
@@ -262,7 +268,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 *            new value for linkedGeo
 	 */
 	public void updateLinkedGeo(String inputText) {
-		inputBoxProcessor.updateLinkedGeo(inputText, tpl, printDecimals > -1 || printFigures > -1);
+		inputBoxProcessor.updateLinkedGeo(inputText, tpl);
 	}
 
 	/**
@@ -395,10 +401,19 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public String getAuralText() {
 		ScreenReaderBuilder sb = new ScreenReaderBuilder();
-		sb.append(getKernel().getLocalization().getMenu("Text Field"));
+		sb.append(getKernel().getLocalization().getMenu("TextField"));
 		sb.appendSpace();
-		sb.append(getCaption(StringTemplate.screenReader));
+		addAuralCaption(sb);
 		return sb.toString();
+	}
+
+	/**
+	 * Sets the symbolic mode.
+	 *
+	 * @param symbolicMode True for symbolic mode
+	 */
+	public void setSymbolicMode(boolean symbolicMode) {
+		setSymbolicMode(symbolicMode, false);
 	}
 
 	@Override
@@ -449,5 +464,53 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public boolean needsSymbolButton() {
 		return getLength() >= EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
 				&& !(linkedGeo instanceof GeoText && linkedGeo.isLabelSet());
+	}
+
+	/**
+	 * Get the temporary user evaluation input. This input is
+	 * in ASCII math format and can be evaluated.
+	 *
+	 * @return user eval input
+	 */
+	public String getTempUserEvalInput() {
+		return tempUserEvalInput;
+	}
+
+	/**
+	 * Set the temporary user evaluation input. This input
+	 * must be in ASCII math format.
+	 *
+	 * @param tempUserEvalInput temporary user eval input
+	 */
+	public void setTempUserEvalInput(String tempUserEvalInput) {
+		this.tempUserEvalInput = tempUserEvalInput;
+	}
+
+	/**
+	 * Get the temporary user display input. This input
+	 * can be in ASCII or LaTeX format.
+	 *
+	 * @return temporary display user input
+	 */
+	public String getTempUserDisplayInput() {
+		return tempUserDisplayInput;
+	}
+
+	/**
+	 * Set the temporary user display input. This input
+	 * must be in LaTeX or ASCII math format.
+	 *
+	 * @param tempUserDisplayInput temporary user display input
+	 */
+	public void setTempUserDisplayInput(String tempUserDisplayInput) {
+		this.tempUserDisplayInput = tempUserDisplayInput;
+	}
+
+	/**
+	 * Clears the temp user inputs.
+	 */
+	public void clearTempUserInput() {
+		this.tempUserDisplayInput = null;
+		this.tempUserEvalInput = null;
 	}
 }

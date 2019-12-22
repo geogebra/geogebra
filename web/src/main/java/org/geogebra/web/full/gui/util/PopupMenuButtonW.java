@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
@@ -87,7 +86,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param isBorderTeal
 	 *            - true if the border should be teal
 	 */
-	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
+	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, boolean isBorderTeal) {
 		this(app, data, rows, columns, mode, true, false, null, isBorderTeal);
 	}
@@ -112,7 +111,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param isBorderTeal
 	 *            - true if the border should be teal
 	 */
-	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
+	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0,
 			boolean isBorderTeal) {
@@ -142,13 +141,13 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param isBorderTeal
 	 *            - true if the border should be teal
 	 */
-	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
+	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, boolean[] selected,
 			HashMap<Integer, Integer> lineStyleMap0,
 			final boolean isBorderTeal) {
 		super();
-		this.app = (AppW) app;
+		this.app = app;
 		this.hasTable = hasTable;
 		this.lineStyleMap = lineStyleMap0;
 		if (selected != null) {

@@ -18,7 +18,6 @@ import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -1587,7 +1586,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @return resource bundle for icons
 	 */
 	protected SvgPerspectiveResources getResources() {
-		return ImageFactory.getPerspectiveResources();
+		return SvgPerspectiveResources.INSTANCE;
 	}
 
 	/**

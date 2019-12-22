@@ -411,6 +411,7 @@ public class CoordSys {
 	public void resetCoordSys() {
 		setMadeCoordSys(-1);
         vxIsZero = false;
+        equationVector.set(Double.NaN);
 	}
 
 	/**

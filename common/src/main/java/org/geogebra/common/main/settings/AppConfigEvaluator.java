@@ -1,6 +1,8 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfigDefault;
 
 /**
@@ -27,5 +29,15 @@ public class AppConfigEvaluator extends AppConfigDefault {
 	@Override
 	public String getTutorialKey() {
 		return "evaluator_tutorials";
+	}
+
+	@Override
+	public boolean isCASEnabled() {
+		return false;
+	}
+
+	@Override
+	public CommandFilter getCommandFilter() {
+		return CommandFilterFactory.createNoCasCommandFilter();
 	}
 }

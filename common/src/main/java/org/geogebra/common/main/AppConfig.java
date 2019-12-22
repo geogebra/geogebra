@@ -1,10 +1,12 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 public interface AppConfig {
@@ -109,12 +111,12 @@ public interface AppConfig {
 	/**
 	 * @return whether sliders in AV are allowed
 	 */
-	public boolean hasSlidersInAV();
+	boolean hasSlidersInAV();
 
 	/**
 	 * @return true if sliders are created automatically
 	 */
-	public boolean hasAutomaticSliders();
+	boolean hasAutomaticSliders();
 
 	/**
 	 * @return whether objects should be labeled a, b, ...
@@ -137,9 +139,9 @@ public interface AppConfig {
 	int getDefaultLabelingStyle();
 
 	/**
-	 * @return the Command Selector for the app.
+	 * @return the Command filter for the app.
 	 */
-	CommandNameFilter getCommandNameFilter();
+	CommandFilter getCommandFilter();
 
 	/**
 	 * @return whether the app should show the tools panel or not
@@ -162,5 +164,35 @@ public interface AppConfig {
 	 * @return app version
 	 */
 	GeoGebraConstants.Version getVersion();
+
+	/**
+	 * @return weather has exam or not (currently only graphing and cas)
+	 */
+	boolean hasExam();
+
+	/**
+	 * @return the ggbtranskey for the exam starting menu item in the MainMenu
+	 */
+	String getExamMenuItemText();
+
+	/**
+	 * Whether it shows the error dialog for the input boxes.
+	 *
+	 * @return true iff it should show the error dialog
+	 */
+	boolean isShowingErrorDialogForInputBox();
+
+	/**
+	 * Create app specific operation argument filter.
+	 * <code>null</code> is allowed.
+	 *
+	 * @return operation argument filter
+	 */
+	OperationArgumentFilter createOperationArgumentFilter();
+
+	/**
+	 * @return creates app specific parser functions
+	 */
+	ParserFunctions createParserFunctions();
 }
 

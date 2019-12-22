@@ -3,10 +3,10 @@ package org.geogebra.web.full.gui.dialog.options;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.NumberOptionsModel;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -15,13 +15,13 @@ public abstract class DecoOptionPanel extends OptionPanel
 		implements IComboListener {
 	private Label decoLabel;
 	private PopupMenuButtonW decoPopup;
-	private App app;
+	private AppW app;
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public DecoOptionPanel(App app) {
+	public DecoOptionPanel(AppW app) {
 		this.app = app;
 	}
 

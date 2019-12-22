@@ -7,14 +7,15 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.FocusListenerCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.util.AutoCompleteDictionary;
+
+import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
  * Mock of a textfield, provides consistent getter/setter for content and
@@ -26,7 +27,8 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	private TextAlignment alignment;
 	private boolean focus = false;
 	private GeoInputBox geoInputBox = null;
-	private List<FocusListener> focusListeners = new ArrayList<>();
+	private List<FocusListenerDelegate> focusListeners = new ArrayList<>();
+	private List<KeyHandler> keyHandlers = new ArrayList<>();
 
 	@Override
 	public void showPopupSymbolButton(boolean b) {
@@ -64,13 +66,13 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	}
 
 	@Override
-	public void addFocusListener(FocusListener focusListener) {
-		this.focusListeners.add(focusListener);
+	public void addFocusListener(FocusListenerDelegate focusListener) {
+		focusListeners.add(focusListener);
 	}
 
 	@Override
 	public void addKeyHandler(KeyHandler handler) {
-		// for test, not needed
+		keyHandlers.add(handler);
 	}
 
 	@Override
@@ -205,8 +207,17 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 	 * Notify all listeners
 	 */
 	public void blur() {
-		for (FocusListener listener : focusListeners) {
-			((FocusListenerCommon) listener).focusLost();
+		for (FocusListenerDelegate listener : focusListeners) {
+			listener.focusLost();
+		}
+	}
+
+	/**
+	 * Notify all handlers about Enter key release
+	 */
+	public void onEnter() {
+		for (KeyHandler listener : new ArrayList<>(keyHandlers)) {
+			listener.keyReleased(new KeyEventC(KeyCodes.ENTER));
 		}
 	}
 }

@@ -13,7 +13,6 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -184,7 +183,7 @@ public class GGWToolBar extends Composite
 
 	// undo-redo buttons
 	private void addUndoPanel() {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 
 		redoButton = new StandardButton(pr.menu_header_redo(), null, 32, app);
 		redoButton.getUpHoveringFace()
@@ -394,7 +393,7 @@ public class GGWToolBar extends Composite
 	}
 
 	private void initMenuButton() {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		this.menuBarShowing = true;
 
 		openMenuButton = new StandardButton(pr.menu_header_open_menu(), null,
@@ -430,7 +429,7 @@ public class GGWToolBar extends Composite
 	}
 
 	private void initOpenSearchButton() {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		openSearchButton = new StandardButton(pr.menu_header_open_search(),
 				null, 32, 32, app);
 		openSearchButton.getUpFace()
@@ -670,6 +669,9 @@ public class GGWToolBar extends Composite
 
 		case EuclidianConstants.MODE_FITLINE:
 			return resourceBundle.mode_fitline_32();
+
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+			return resourceBundle.mode_freehandshape_32();
 
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			return resourceBundle.mode_freehandshape_32();

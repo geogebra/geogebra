@@ -1,27 +1,27 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import java.util.Vector;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.KeyboardType;
-import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
-
-import java.util.Vector;
 
 /**
  * Class for Plus menu for AV Input to select input method (expression, text or
@@ -36,11 +36,11 @@ public class ContextMenuAVPlus implements SetLabels {
 	/** Localization */
 	protected Localization loc;
 	/** Application */
-	AppW app;
+	AppWFull app;
 	/** The AV item associated the menu with */
 	RadioTreeItem item;
 	/** On-Screen Keyboard instance to switch tabs if needed */
-	TabbedKeyboard kbd;
+	VirtualKeyboardGUI kbd;
 
 	/**
 	 * Creates new context menu
@@ -52,7 +52,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		app = item.getApplication();
 		loc = app.getLocalization();
 		this.item = item;
-		kbd = (TabbedKeyboard) ((GuiManagerW) app.getGuiManager())
+		kbd = app.getKeyboardManager()
 				.getOnScreenKeyboard(item, null);
 		wrappedPopup = new GPopupMenuW(app);
 		if (app.isUnbundled()) {
@@ -66,7 +66,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	private void buildGUI() {
 		wrappedPopup.clearItems();
 		addExpressionItem();
-		if (!app.getSettings().getToolbarSettings().is3D()) {
+		if (app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN3D) {
 			addTextItem();
 
 			if (app.showToolBar() && toolbarHasImageMode()) {
@@ -140,7 +140,7 @@ public class ContextMenuAVPlus implements SetLabels {
 						item.getController().setInputAsText(false);
 						app.getImageManager().setPreventAuxImage(true);
 						
-						((GuiManagerW) app.getGuiManager()).loadImage(null,
+						app.getGuiManager().loadImage(null,
 								null, false, app.getActiveEuclidianView());
 					}
 				});

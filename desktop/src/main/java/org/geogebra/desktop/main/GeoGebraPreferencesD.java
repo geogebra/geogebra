@@ -25,8 +25,6 @@ import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.util.UtilD;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Stores user settings and options as preferences.
  * 
@@ -393,8 +391,6 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/**
 	 * Saves preferences by taking the application's current values.
 	 */
-	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
-			"don't need to check return value of mkdirs()" })
 	public void saveXMLPreferences(AppD app) {
 
 		String userPrefsXML = app.getPreferencesXML();
@@ -407,7 +403,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		if (isSaveSettingsToFile()) {
 
 			// make sure folder exists
-			new File(PREFS_PATH).mkdirs();
+			UtilD.mkdirs(new File(PREFS_PATH));
 
 			UtilD.writeStringToFile(userPrefsXML, WINDOWS_USERS_PREFS);
 			UtilD.writeStringToFile(objectPrefsXML, WINDOWS_OBJECTS_PREFS);
@@ -632,23 +628,18 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/**
 	 * Clears all user preferences.
 	 */
-	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
-			"don't need to check return value of delete()" })
 	public void clearPreferences(App app) {
 
 		if (isSaveSettingsToFile()) {
 			try {
-				new File(WINDOWS_OBJECTS_PREFS).delete();
-				new File(WINDOWS_USERS_PREFS).delete();
-				new File(WINDOWS_MACROS_PREFS).delete();
-
+				UtilD.delete(new File(WINDOWS_OBJECTS_PREFS));
+				UtilD.delete(new File(WINDOWS_USERS_PREFS));
+				UtilD.delete(new File(WINDOWS_MACROS_PREFS));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			return;
 		}
-
 		try {
 			ggbPrefs.clear();
 			ggbPrefs.flush();

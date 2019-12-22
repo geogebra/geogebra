@@ -109,8 +109,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	private StringBuilder sbToString;
 
-	private StringBuilder sbBuildValueString = new StringBuilder(50);
-
 	private static StringBuilder sbToStringLHS = new StringBuilder("\u221E");
 
 	/** list of points on this line */
@@ -193,7 +191,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		this.y = y;
 		this.z = z;
 		setDefinition(null);
-		// Application.debug("x="+x+", y="+y+", z="+z);
 	}
 
 	/**
@@ -213,9 +210,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	final public void setCoords(GeoVec3D v) {
 		setCoords(v.x, v.y, v.z);
-		/*
-		 * x = v.x; y = v.y; z = v.z;
-		 */
 	}
 
 	/**
@@ -677,15 +671,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean showInAlgebraView() {
-		// independent or defined
-		// return isIndependent() || isDefined();
-
-		return isDefined() || showUndefinedInAlgebraView;
+		return showUndefinedInAlgebraView || isDefined();
 	}
 
 	/**
 	 * Set whether this line should be visible in AV when undefined
-	 * 
+	 *
 	 * @param flag
 	 *            true to show undefined
 	 */
@@ -769,19 +760,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return true iff defined as tangent of given conic
 	 */
 	final public boolean isDefinedTangent(GeoConic c) {
-		boolean isTangent = false;
-
-		Object ob = getParentAlgorithm();
+		AlgoElement ob = getParentAlgorithm();
 		if (ob instanceof TangentAlgo) {
-			GeoElement[] input = ((AlgoElement) ob).getInput();
-			for (int i = 0; i < input.length; i++) {
-				if (input[i] == c) {
-					isTangent = true;
-					break;
+			for (GeoElement geo : ob.getInput()) {
+				if (geo == c) {
+					return true;
 				}
 			}
 		}
-		return isTangent;
+
+		return false;
 	}
 
 	/**
@@ -792,18 +780,15 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @return true iff defined as a asymptote of conic c
 	 */
 	final public boolean isDefinedAsymptote(GeoConic c) {
-		boolean isAsymptote = false;
-
 		if (Algos.isUsedFor(Commands.Asymptote, this)) {
-			GeoElement[] input = getParentAlgorithm().getInput();
-			for (int i = 0; i < input.length; i++) {
-				if (input[i] == c) {
-					isAsymptote = true;
-					break;
+			for (GeoElement geo : getParentAlgorithm().getInput()) {
+				if (geo == c) {
+					return true;
 				}
 			}
 		}
-		return isAsymptote;
+
+		return false;
 	}
 
 	/***********************************************************
@@ -968,47 +953,31 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/** output depends on mode: PARAMETRIC or EQUATION */
 	@Override
 	public String toString(StringTemplate tpl) {
-		StringBuilder sbToStr = getSbToString();
-		sbToStr.setLength(0);
-		sbToStr.append(label);
-		sbToStr.append(": ");
-		sbToStr.append(buildValueString(tpl).toString());
-		return sbToStr.toString();
+		return label + ": " + toValueString(tpl);
 	}
 
 	private StringBuilder getSbToString() {
 		if (sbToString == null) {
 			sbToString = new StringBuilder(50);
+		} else {
+			sbToString.setLength(0);
 		}
 		return sbToString;
 	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return buildValueString(tpl).toString();
-	}
-
-	@Override
-	public String toStringMinimal(StringTemplate tpl) {
-		StringBuilder sbToStr = getSbToString();
-		sbToStr.setLength(0);
-		getXMLtagsMinimal(sbToStr, tpl);
-		return sbToStr.toString();
-	}
-
-	private StringBuilder buildValueString(StringTemplate tpl) {
 		if (tpl.hasCASType()) {
 			if (getDefinition() != null) {
-				StringBuilder sb = getSbBuildValueString();
-				sb.append(getDefinition().toValueString(tpl));
-				return sb;
+				return getDefinition().toValueString(tpl);
 			}
+
 			double[] numbers = new double[3];
 			numbers[0] = x;
 			numbers[1] = y;
 			numbers[2] = z;
 			double gcd = Kernel.gcd(numbers);
-			StringBuilder sb = getSbBuildValueString();
+			StringBuilder sb = getSbToString();
 			sb.append("(");
 			if (gcd != 1 && !DoubleUtil.isZero(gcd)) {
 				sb.append(kernel.format(x / gcd, tpl));
@@ -1031,7 +1000,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			} else {
 				sb.append(kernel.format(-z, tpl));
 			}
-			return sb;
+			return sb.toString();
 		}
 
 		double[] P = new double[2];
@@ -1039,18 +1008,13 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		char op = '=';
 
 		if (!coefficientsDefined() || (DoubleUtil.isZero(x) && DoubleUtil.isZero(y)
-						&& getToStringMode() != EQUATION_USER)) {
-
-			String ret = "y = ?";
-
+				&& getToStringMode() != EQUATION_USER)) {
 			if (getToStringMode() == PARAMETRIC) {
-				ret = "X = (?, ?)";
-			} else if (DoubleUtil.isZero(y)) {
+				return "X = (?, ?)";
+			} else {
 				// eg list = {x = ?}
-				ret = "x = ?";
+				return  "?";
 			}
-
-			return new StringBuilder(ret);
 		}
 
 		switch (getToStringMode()) {
@@ -1058,11 +1022,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
-			return kernel.buildExplicitEquation(g, vars, op, tpl, true);
+			return kernel.buildExplicitEquation(g, vars, op, tpl, true).toString();
 
 		case PARAMETRIC:
 			getInhomPointOnLine(P); // point
-			StringBuilder sbBuildValueStr = getSbBuildValueString();
+			StringBuilder sbBuildValueStr = getSbToString();
 			GeoCasCell casCell = getCorrespondingCasCell();
 			if (casCell == null || !casCell.isAssignmentVariableDefined()) {
 				sbBuildValueStr.append("X = ");
@@ -1078,7 +1042,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			sbBuildValueStr.append(", ");
 			sbBuildValueStr.append(kernel.format(-x, tpl));
 			sbBuildValueStr.append(")");
-			return sbBuildValueStr;
+			return sbBuildValueStr.toString();
 
 		case EQUATION_IMPLICIT_NON_CANONICAL:
 		case EQUATION_GENERAL:
@@ -1087,14 +1051,14 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[2] = z;
 			if (DoubleUtil.isZero(x) || DoubleUtil.isZero(y)) {
 				return kernel.buildExplicitEquation(g, vars, op, tpl,
-						EQUATION_IMPLICIT_NON_CANONICAL == getToStringMode());
+						EQUATION_IMPLICIT_NON_CANONICAL == getToStringMode()).toString();
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
 					false, false, op, tpl,
-					EQUATION_IMPLICIT_NON_CANONICAL == getToStringMode());
+					EQUATION_IMPLICIT_NON_CANONICAL == getToStringMode()).toString();
 		case EQUATION_USER:
 			if (getDefinition() != null) {
-				return new StringBuilder(getDefinition().toValueString(tpl));
+				return getDefinition().toValueString(tpl);
 			}
 			return buildImplicitEquation(g, tpl, op);
 		default: // EQUATION_IMPLICIT
@@ -1102,27 +1066,23 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 	}
 
-	private StringBuilder buildImplicitEquation(double[] g, StringTemplate tpl,
-			char op) {
+	@Override
+	public String toStringMinimal(StringTemplate tpl) {
+		StringBuilder sbToStr = getSbToString();
+		getXMLtagsMinimal(sbToStr, tpl);
+		return sbToStr.toString();
+	}
+
+	private String buildImplicitEquation(double[] g, StringTemplate tpl, char op) {
 		g[0] = x;
 		g[1] = y;
 		g[2] = z;
 		if (DoubleUtil.isZero(x) || DoubleUtil.isZero(y)) {
-			return kernel.buildExplicitEquation(g, vars, op, tpl, true);
+			return kernel.buildExplicitEquation(g, vars, op, tpl, true).toString();
 		}
 		boolean useGCD = true;
 		return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN, useGCD, false, op, tpl,
-				true);
-	}
-
-	private StringBuilder getSbBuildValueString() {
-		if (sbBuildValueString == null) {
-			sbBuildValueString = new StringBuilder();
-		} else {
-			// needed for GGB-719
-			sbBuildValueString.setLength(0);
-		}
-		return sbBuildValueString;
+				true).toString();
 	}
 
 	/**

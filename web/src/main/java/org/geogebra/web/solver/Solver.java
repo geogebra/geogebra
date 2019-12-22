@@ -157,7 +157,7 @@ public class Solver {
 		app.getAppletFrame().updateHeaderSize();
 		mathField.setPixelRatio(Browser.getPixelRatio());
 		mathField.repaint();
-		keyboard.updateSize();
+		keyboard.onResize();
 
 		for (int i = 0; i < stepsPanel.getWidgetCount(); i++) {
 			if (stepsPanel.getWidget(i) instanceof StepInformation) {

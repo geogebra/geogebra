@@ -1,15 +1,18 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
@@ -197,8 +200,8 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public CommandNameFilter getCommandNameFilter() {
-		return CommandNameFilterFactory.createNoCasCommandNameFilter();
+	public CommandFilter getCommandFilter() {
+		return CommandFilterFactory.createNoCasCommandFilter();
 	}
 
 	@Override
@@ -219,5 +222,30 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.GEOMETRY;
+	}
+
+	@Override
+	public boolean hasExam() {
+		return false;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "";
+	}
+
+	@Override
+	public boolean isShowingErrorDialogForInputBox() {
+		return true;
+	}
+
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return null;
+	}
+
+	@Override
+	public ParserFunctions createParserFunctions() {
+		return ParserFunctionsFactory.createParserFunctions();
 	}
 }
