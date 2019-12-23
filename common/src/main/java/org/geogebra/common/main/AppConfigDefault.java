@@ -245,9 +245,7 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public Set<FillType> getAvailableFillTypes() {
-		Set<FillType> set = new HashSet<>(Arrays.asList(FillType.values()));
-		set.remove(FillType.IMAGE);
-		return set;
+		return new HashSet<>(Arrays.asList(FillType.values()));
 	}
 
 	@Override
