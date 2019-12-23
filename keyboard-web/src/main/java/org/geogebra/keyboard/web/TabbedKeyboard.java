@@ -80,6 +80,9 @@ public class TabbedKeyboard extends FlowPanel
 	private ButtonRepeater repeater;
 	private boolean hasMoreButton;
 
+	private KeyboardSwitcher.SwitcherButton ansSwitcher;
+	private KeyboardSwitcher.SwitcherButton defaultSwitcher;
+
 	/**
 	 * @param appKeyboard
 	 *            {@link HasKeyboard}
@@ -135,7 +138,14 @@ public class TabbedKeyboard extends FlowPanel
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
-		switcher.addSwitch(keyboard, "123");
+		ansSwitcher = switcher.addSwitch(keyboard, "123");
+		ansSwitcher.setVisible(false);
+
+		keyboard = buildPanel(kbf.createDefaultKeyboard(), this);
+		tabs.add(keyboard);
+		keyboard.setVisible(false);
+		defaultSwitcher = switcher.addSwitch(keyboard, "123");
+
 		keyboard = buildPanel(kbf.createFunctionsKeyboard(), this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
@@ -745,6 +755,19 @@ public class TabbedKeyboard extends FlowPanel
 			}
 		}
 		this.processField = field;
+		updateKeyboard();
+	}
+
+	private void updateKeyboard() {
+		boolean requestsAns = processField.requestsAns();
+		setVisibleAndSelected(ansSwitcher, requestsAns);
+		setVisibleAndSelected(defaultSwitcher, !requestsAns);
+	}
+
+	private void setVisibleAndSelected(KeyboardSwitcher.SwitcherButton btn, boolean selected) {
+		btn.getKeyboard().setVisible(selected);
+		btn.setVisible(selected);
+		switcher.setSelected(btn, selected);
 	}
 
 	@Override

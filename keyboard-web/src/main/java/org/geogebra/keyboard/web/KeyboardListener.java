@@ -98,4 +98,9 @@ public interface KeyboardListener {
 	 * Ans key pressed
 	 */
 	void ansPressed();
+
+	/**
+	 * Requests the ans key
+	 */
+	boolean requestsAns();
 }
