@@ -759,9 +759,11 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void updateKeyboard() {
-		boolean requestsAns = processField.requestsAns();
-		setVisibleAndSelected(ansSwitcher, requestsAns);
-		setVisibleAndSelected(defaultSwitcher, !requestsAns);
+		if (processField != null) {
+			boolean requestsAns = processField.requestsAns();
+			setVisibleAndSelected(ansSwitcher, requestsAns);
+			setVisibleAndSelected(defaultSwitcher, !requestsAns);
+		}
 	}
 
 	private void setVisibleAndSelected(KeyboardSwitcher.SwitcherButton btn, boolean selected) {
