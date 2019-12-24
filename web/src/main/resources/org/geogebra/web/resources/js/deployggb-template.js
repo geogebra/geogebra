@@ -542,7 +542,7 @@ var GGBApplet = function() {
         var appName = parameters.id !== undefined ? parameters.id : removedID;
         var app = window[appName];
 
-        if (typeof app === "object" && typeof app.getBase64 === "function") { // Check if the variable is a GeoGebra Applet and remove it
+        if (app && typeof app === "object" && typeof app.getBase64 === "function") { // Check if the variable is a GeoGebra Applet and remove it
             app.remove();
             window[appName] = null;
         }
