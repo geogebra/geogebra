@@ -2848,7 +2848,7 @@ __GGB__keysVar["hr"].menu = {
     "Successes": "Pogotci",
     "Suggestion.CreateSlider": "Izradi kliza\u010d",
     "Suggestion.SpecialPoints": "Osobite to\u010dke",
-    "Suite": "Suite",
+    "Suite": "Komplet",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Zbroji vrijednost",
