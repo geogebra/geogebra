@@ -600,7 +600,7 @@ public class PopupMenuButtonW extends MyCJButton
 	}
 
 	/**
-	 * @param array
+	 * @param geos
 	 *            GeoElements whose state is displayed in
 	 *            this table
 	 */
