@@ -130,4 +130,9 @@ public interface GeoGebraActivity {
 	boolean isWhiteboard();
 
 	ApiExporter getApiExporter();
+
+	/**
+	 * @return icon for menu
+	 */
+	SVGResource getExamIcon();
 }

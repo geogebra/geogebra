@@ -46,8 +46,6 @@ public class Settings {
 
 	private DataAnalysisSettings daSettings;
 
-	private ToolbarSettings toolbarSettings;
-
 	private TableSettings tableSettings;
 
 	private FontSettings fontSettings;
@@ -159,13 +157,6 @@ public class Settings {
 					dataCollectionSettings.getListeners());
 		}
 
-		if (toolbarSettings == null) {
-			toolbarSettings = new ToolbarSettings();
-		} else {
-			toolbarSettings = new ToolbarSettings(
-					toolbarSettings.getListeners());
-		}
-
 		tableSettings = new TableSettings();
 
 		for (Resetable setting : resetableSettings) {
@@ -197,7 +188,6 @@ public class Settings {
 		casSettings.beginBatch();
 		probCalcSettings.beginBatch();
 		dataCollectionSettings.beginBatch();
-		toolbarSettings.beginBatch();
 		tableSettings.beginBatch();
 	}
 
@@ -225,7 +215,6 @@ public class Settings {
 		casSettings.endBatch();
 		probCalcSettings.endBatch();
 		dataCollectionSettings.endBatch();
-		toolbarSettings.endBatch();
 		tableSettings.endBatch();
 	}
 
@@ -369,13 +358,6 @@ public class Settings {
 	 */
 	public final DataCollectionSettings getDataCollection() {
 		return dataCollectionSettings;
-	}
-
-	/**
-	 * @return settings of toolbar
-	 */
-	public final ToolbarSettings getToolbarSettings() {
-		return toolbarSettings;
 	}
 
 	/**

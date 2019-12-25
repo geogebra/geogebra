@@ -68,7 +68,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	/** coord sys */
 	protected CoordSys coordsys;
-	private boolean showUndefinedInAlgebraView = false;
+
 	private float fading = 0.10f;
 	private EuclidianViewForPlaneCompanionInterface euclidianViewForPlane;
 
@@ -438,22 +438,11 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public void setUndefined() {
 		coordsys.setUndefined();
-
-	}
-
-	/**
-	 * Set whether this line should be visible in AV when undefined
-	 * 
-	 * @param flag
-	 *            true to show undefined
-	 */
-	public void showUndefinedInAlgebraView(boolean flag) {
-		showUndefinedInAlgebraView = flag;
 	}
 
 	@Override
 	public boolean showInAlgebraView() {
-		return isDefined() || showUndefinedInAlgebraView;
+		return true;
 	}
 
 	@Override
@@ -463,29 +452,22 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return buildValueString(tpl).toString();
-	}
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-		StringBuilder sbToString = getSbToString();
-		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append(": "); // TODO use kernel property
-		sbToString.append(buildValueString(tpl));
-		return sbToString.toString();
-	}
-
-	private StringBuilder buildValueString(StringTemplate tpl) {
-
+		if (!isDefinitionValid()) {
+			return "?";
+		}
 		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
 		// as a plane
 		if (getToStringMode() == GeoLine.EQUATION_USER
 				&& getDefinition() != null) {
-			return new StringBuilder(getDefinition().toValueString(tpl));
+			return getDefinition().toValueString(tpl);
 		}
 		return buildValueString(tpl, kernel, getCoordSys().getEquationVector(),
-				!isLabelSet());
+				!isLabelSet()).toString();
+	}
+
+	@Override
+	final public String toString(StringTemplate tpl) {
+		return label + ": " + toValueString(tpl);
 	}
 
 	@Override
@@ -509,7 +491,7 @@ public class GeoPlane3D extends GeoElement3D
 	 *            whether to force +0z
 	 * @return value as stringbuilder
 	 */
-	static public final StringBuilder buildValueString(StringTemplate tpl,
+	static public StringBuilder buildValueString(StringTemplate tpl,
 			Kernel kernel, Coords coords, boolean needsZ) {
 		return kernel.buildImplicitEquation(coords.get(), VAR_STRING,
 				KEEP_LEADING_SIGN, true, needsZ, '=', tpl, true);
@@ -815,7 +797,7 @@ public class GeoPlane3D extends GeoElement3D
 		coordsys.makeEquationVector();
 	}
 
-	final private void rotate(NumberValue phiVal, Coords center,
+	private void rotate(NumberValue phiVal, Coords center,
 			Coords direction) {
 		coordsys.rotate(phiVal.getDouble(), center, direction.normalized());
 		coordsys.makeEquationVector();

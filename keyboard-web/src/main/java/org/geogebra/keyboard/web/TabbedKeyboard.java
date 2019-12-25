@@ -27,13 +27,15 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * tabbed keyboard
  */
-public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
+public class TabbedKeyboard extends FlowPanel
+		implements ButtonHandler, RequiresResize {
 
 	/**
 	 * small height
@@ -585,10 +587,8 @@ public class TabbedKeyboard extends FlowPanel implements ButtonHandler {
 				button.getPrimaryActionName(), bh);
 	}
 
-	/**
-	 * 
-	 */
-	public void updateSize() {
+	@Override
+	public void onResize() {
 		if (hasKeyboard.getInnerWidth() < 0) {
 			return;
 		}

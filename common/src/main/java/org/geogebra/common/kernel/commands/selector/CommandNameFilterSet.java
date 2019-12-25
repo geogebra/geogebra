@@ -7,9 +7,9 @@ import java.util.Set;
 import org.geogebra.common.kernel.commands.Commands;
 
 /**
- * CommandNameFilter interface implemented using HashSet&lt;Commands&gt;
+ * CommandFilter interface implemented using HashSet&lt;Commands&gt;
  */
-class CommandNameFilterSet implements CommandNameFilter {
+class CommandNameFilterSet implements CommandFilter {
 
     private Set<Commands> allowedCommands;
 	private boolean inverse;

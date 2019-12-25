@@ -11,7 +11,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.util.WindowsNativeUIController;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
@@ -311,8 +310,6 @@ public class InputDialogW extends InputDialog
 		if (textComponent != null) {
 			textComponent.getTextField().getValueBox()
 					.addKeyUpHandler(this);
-			textComponent
-					.addFocusListener(new FocusListenerW(this));
 			textComponent.getTextField().getValueBox()
 					.addKeyPressHandler(this);
 		}

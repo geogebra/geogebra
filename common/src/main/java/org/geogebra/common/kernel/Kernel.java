@@ -608,7 +608,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return the Evaluator for ExpressionNode
 	 */
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator(Kernel kernel) {
-		return new ExpressionNodeEvaluator(app.getLocalization(), kernel);
+		return new ExpressionNodeEvaluator(app.getLocalization(), kernel,
+				app.getConfig().createOperationArgumentFilter());
 	}
 
 	/**

@@ -819,8 +819,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return btnLabel;
 	}
 
-	protected class ProjectionPopup extends PopupMenuButtonW {
+	public class ProjectionPopup extends PopupMenuButtonW {
 
+		/**
+		 * @param app
+		 *            application
+		 * @param projectionIcons
+		 *            icons
+		 */
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
 					SelectionTable.MODE_ICON, true, false, null, false);
@@ -835,10 +841,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 						&& mode != EuclidianConstants.MODE_PEN);
 			}
 		}
-		/*
-		 * @Override public Point getToolTipLocation(MouseEvent e) { return new
-		 * Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
-		 */
 	}
 
 	protected void createChangeViewButtons() {

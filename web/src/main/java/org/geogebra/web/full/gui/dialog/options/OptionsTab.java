@@ -69,7 +69,6 @@ import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -79,6 +78,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -1035,10 +1036,11 @@ public class OptionsTab extends FlowPanel {
 			inputPanel = new InputPanelW(null, app, 1, -1, false);
 			tfSize = inputPanel.getTextComponent();
 			tfSize.setAutoComplete(false);
-			tfSize.addFocusListener(new FocusListenerW(this) {
+			tfSize.addBlurHandler(new BlurHandler() {
 				@Override
-				protected void wrapFocusLost() {
+				public void onBlur(BlurEvent event) {
 					model.applyChanges(tfSize.getText());
+
 				}
 			});
 			tfSize.addKeyHandler(new KeyHandler() {
@@ -1110,9 +1112,9 @@ public class OptionsTab extends FlowPanel {
 			tfButtonHeight = ipButtonHeight.getTextComponent();
 			tfButtonHeight.setAutoComplete(false);
 
-			FocusListenerW focusListener = new FocusListenerW(this) {
+			BlurHandler focusListener = new BlurHandler() {
 				@Override
-				protected void wrapFocusLost() {
+				public void onBlur(BlurEvent event) {
 					getModel().setSizesFromString(getTfButtonWidth().getText(),
 							getTfButtonHeight().getText(),
 							getCbUseFixedSize().getValue());
@@ -1120,8 +1122,8 @@ public class OptionsTab extends FlowPanel {
 				}
 			};
 
-			tfButtonWidth.addFocusListener(focusListener);
-			tfButtonHeight.addFocusListener(focusListener);
+			tfButtonWidth.addBlurHandler(focusListener);
+			tfButtonHeight.addBlurHandler(focusListener);
 
 			KeyHandler keyHandler = new KeyHandler() {
 

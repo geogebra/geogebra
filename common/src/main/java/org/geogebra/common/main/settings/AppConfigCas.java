@@ -2,8 +2,11 @@ package org.geogebra.common.main.settings;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 
 /**
  * Config for CAS Calculator app
@@ -46,8 +49,8 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public CommandNameFilter getCommandNameFilter() {
-		return CommandNameFilterFactory.createCasCommandNameFilter();
+	public CommandFilter getCommandFilter() {
+		return CommandFilterFactory.createCasCommandFilter();
 	}
 
 	@Override
@@ -73,5 +76,20 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.CAS;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "ExamCAS.short";
+	}
+
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return null;
+	}
+
+	@Override
+	public ParserFunctions createParserFunctions() {
+		return ParserFunctionsFactory.createParserFunctions();
 	}
 }

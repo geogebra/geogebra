@@ -3,6 +3,8 @@ package org.geogebra.web.full.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -35,6 +37,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -56,6 +59,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.ShareControllerW;
+import org.geogebra.web.full.gui.WhatsNewDialog;
 import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWMenuBar;
@@ -96,9 +100,11 @@ import org.geogebra.web.full.main.activity.MixedRealityActivity;
 import org.geogebra.web.full.main.activity.NotesActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.full.main.activity.SuiteActivity;
+import org.geogebra.web.full.main.video.VideoManagerW;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -112,6 +118,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
@@ -127,6 +134,9 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -142,6 +152,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AppWFull extends AppW implements HasKeyboard {
 
+	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
 	private final static int AUTO_SAVE_PERIOD = 2000;
 
 	private DataCollection dataCollection;
@@ -175,6 +186,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	FloatingMenuPanel floatingMenuPanel = null;
 
 	private EmbedManagerW embedManager;
+	private VideoManagerW videoManager;
 
 	private SaveController saveController = null;
 
@@ -184,6 +196,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private KeyboardManager keyboardManager;
 	/** dialog manager */
 	protected DialogManagerW dialogManager = null;
+    private String autosavedMaterial = null;
 
 	/**
 	 *
@@ -205,8 +218,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		this.frame = frame;
 		this.device = device;
 
-		if (this.getArticleElement().getDataParamApp()) {
-			maybeStartAutosave();
+		if (getArticleElement().getDataParamApp()) {
+			startDialogChain();
 		}
 
 		setAppletHeight(frame.getComputedHeight());
@@ -384,7 +397,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void updateKeyBoardField(MathKeyboardListener field) {
-		getGuiManager().setOnScreenKeyboardTextField(field);
+		getKeyboardManager().setOnScreenKeyboardTextField(field);
 	}
 
 	@Override
@@ -455,6 +468,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void doSetLanguage(String lang, boolean asyncCall) {
 		super.doSetLanguage(lang, asyncCall);
+		if (asyncCall) {
+			getKeyboardManager().updateKeyboardLanguage();
+		}
 
 		if (getLocalization().isRightToLeftReadingOrder()) {
 			ResourcesInjectorFull.injectRTLstyles();
@@ -1143,27 +1159,82 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	private void maybeStartAutosave() {
-		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
-			return;
-		}
-		final String materialJSON = getFileManager().getAutosaveJSON();
-		if (materialJSON != null && !this.isStartedWithFile()
-				&& this.getExam() == null) {
+	private void startDialogChain() {
+		autosavedMaterial = getFileManager().getAutosaveJSON();
+		afterLocalizationLoaded(new Runnable() {
+			@Override
+			public void run() {
+				maybeShowRecentChangesDialog();
+			}
+		});
+	}
 
-			afterLocalizationLoaded(new Runnable() {
-
+	private void maybeShowRecentChangesDialog() {
+		if (shouldShowRecentChangesDialog(RECENT_CHANGES_KEY) && isUnbundledGraphing()) {
+			LocalizationW localization = getLocalization();
+			String message = localization.getMenu(RECENT_CHANGES_KEY);
+			String readMore = localization.getMenu("tutorial_apps_comparison");
+			String link = "https://www.geogebra.org/m/" + readMore;
+			showRecentChangesDialog(message, link, new Runnable() {
 				@Override
 				public void run() {
-					getDialogManager()
-							.showRecoverAutoSavedDialog(AppWFull.this,
-									materialJSON);
+					maybeStartAutosave();
+				}
+			});
+			setHideRecentChanges(RECENT_CHANGES_KEY);
+		} else {
+			maybeStartAutosave();
+		}
+	}
+
+	private String getRecentChangesCookieKey(String key) {
+		return "RecentChanges" + key + "Shown";
+	}
+
+	private boolean shouldShowRecentChangesDialog(String key) {
+		String shown = Cookies.getCookie(getRecentChangesCookieKey(key));
+		return !"true".equals(shown);
+	}
+
+	private void setHideRecentChanges(String key) {
+		Cookies.setCookie(getRecentChangesCookieKey(key), "true");
+	}
+
+	private void maybeStartAutosave() {
+		if (hasMacroToRestore() || !getLAF().autosaveSupported()) {
+			return;
+		}
+		if (autosavedMaterial != null && !isStartedWithFile() && getExam() == null) {
+			afterLocalizationLoaded(new Runnable() {
+				@Override
+				public void run() {
+					getDialogManager().showRecoverAutoSavedDialog(
+							AppWFull.this, autosavedMaterial);
+					autosavedMaterial = null;
 				}
 			});
 		} else {
-			this.startAutoSave();
+			startAutoSave();
 		}
+	}
 
+	private void showRecentChangesDialog(String message, String link,
+										 final Runnable closingCallback) {
+		final WhatsNewDialog dialog = new WhatsNewDialog(this, message, link);
+		dialog.addCloseHandler(new CloseHandler<GPopupPanel>() {
+			@Override
+			public void onClose(CloseEvent<GPopupPanel> closeEvent) {
+				closingCallback.run();
+			}
+		});
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				dialog.show();
+				dialog.center();
+			}
+		};
+		timer.schedule(0);
 	}
 
 	/**
@@ -1305,8 +1376,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (frame != null) {
 			frame.clear();
 			frame.add((Widget) getEuclidianViewpanel());
-			// we need to make sure trace works after this, see #4373 or #4236
-			this.getEuclidianView1().createImage();
+			// we need to make sure trace works after this, see
+			// https://jira.geogebra.org/browse/TRAC-4232
+			// https://jira.geogebra.org/browse/TRAC-4034
+			getEuclidianView1().createImage();
+			getEuclidianView1().invalidateBackground();
 			DockPanelW euclidianDockPanel = (DockPanelW) getEuclidianViewpanel();
 			euclidianDockPanel.setVisible(true);
 			euclidianDockPanel.setEmbeddedSize(getSettings()
@@ -1345,9 +1419,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 			return;
-		}
-		if (isWhiteboardActive()) {
-			this.setToolbarPosition(SwingConstants.SOUTH, false);
 		}
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
@@ -1544,6 +1615,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			if (current != null && current.getToolbarDefinition() != null) {
 				getGuiManager().setGeneralToolBarDefinition(
 						current.getToolbarDefinition());
+				updatePerspective(current);
 			}
 		} else if (!asSlide) {
 			getGuiManager().getLayout().getDockManager()
@@ -1753,8 +1825,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void persistWidthAndHeight() {
 		if (this.oldSplitLayoutPanel != null) {
-			spWidth = this.oldSplitLayoutPanel.getEstimateWidth();
-			setSpHeight(this.oldSplitLayoutPanel.getEstimateHeight());
+			spWidth = oldSplitLayoutPanel.getEstimateWidth();
+			spHeight = oldSplitLayoutPanel.getEstimateHeight();
 		}
 	}
 
@@ -2050,6 +2122,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return embedManager;
 	}
 
+	@Override
+	public final VideoManager getVideoManager() {
+		if (videoManager == null) {
+			videoManager = new VideoManagerW();
+		}
+		return videoManager;
+	}
+
 	private int getSpHeight() {
 		return spHeight;
 	}
@@ -2108,10 +2188,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return embedManager != null ? embedManager.getEmbeddedCalculators() : null;
 	}
 
-	/**
-	 * @return manager for showing/hiding keyboard
-	 */
-	public KeyboardManager getKeyboardManager() {
+	@Override
+	public @Nonnull KeyboardManager getKeyboardManager() {
 		if (keyboardManager == null) {
 			keyboardManager = new KeyboardManager(this);
 		}

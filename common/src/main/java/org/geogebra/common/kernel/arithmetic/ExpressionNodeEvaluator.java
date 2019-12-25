@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.arithmetic;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -30,23 +31,37 @@ import org.geogebra.common.util.debug.Log;
  *         Evaluator for ExpressionNode (used in Operation.evaluate())
  */
 public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
+
 	private Localization loc;
+	private OperationArgumentFilter filter;
+
 	/**
 	 * Kernel used to create the results
 	 */
 	protected Kernel kernel;
 
 	/**
+	 * Creates a new expression node evaluator
+	 * @param loc localization
+	 * @param kernel kernel
+	 */
+	public ExpressionNodeEvaluator(Localization loc, Kernel kernel) {
+		this(loc, kernel, null);
+	}
+
+	/**
 	 * Creates new expression node evaluator
 	 * 
-	 * @param loc0
+	 * @param loc
 	 *            localization for errors
 	 * @param kernel
 	 *            kernel
 	 */
-	public ExpressionNodeEvaluator(Localization loc0, Kernel kernel) {
-		this.loc = loc0;
+	public ExpressionNodeEvaluator(Localization loc, Kernel kernel,
+								   OperationArgumentFilter filter) {
+		this.loc = loc;
 		this.kernel = kernel;
+		this.filter = filter;
 	}
 
 	/**
@@ -87,7 +102,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		rt = right.evaluate(tpl); // right tree
 
 		// handle list operations first
-
+		if (filter != null && !filter.isAllowed(operation, lt, rt)) {
+			throw illegalBinary(lt, rt, Errors.IllegalArgument, operation.name());
+		}
 		ExpressionValue special = handleSpecial(lt, rt, left, right, operation,
 				tpl);
 		if (special != null) {

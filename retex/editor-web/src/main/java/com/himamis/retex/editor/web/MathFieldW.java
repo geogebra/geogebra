@@ -36,6 +36,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -119,6 +120,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private static int counter = 0;
 	private String foregroundCssColor = "#000000";
 	private String backgroundCssColor = "#ffffff";
+	private ChangeHandler changeHandler;
+	private int fixMargin = 0;
+	private int minHeight = 0;
 
 	/**
 	 * 
@@ -201,22 +205,40 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            label for assistive technology
 	 */
 	public void setAriaLabel(String label) {
-		if ((mobileBrowser() || isMacOS() || isIE()) && !"".equals(label)) {
+		Element target = getElementForAriaLabel();
+		if (target != null) {
+			target.setAttribute("aria-label", label);
+		}
+	}
+
+	private Element getElementForAriaLabel() {
+		if ((mobileBrowser() || isMacOS() || isIE())) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
-			FactoryProvider.debugS(label);
-			if (!"textbox".equals(parent.getElement().getAttribute("role"))) {
-				parent.getElement().setAttribute("aria-live", "assertive");
-				parent.getElement().setAttribute("aria-atomic", "true");
-				parent.getElement().setAttribute("role", "textbox");
+			Element parentElement = parent.getElement();
+			if (!"textbox".equals(parentElement.getAttribute("role"))) {
+				parentElement.setAttribute("aria-live", "assertive");
+				parentElement.setAttribute("aria-atomic", "true");
+				parentElement.setAttribute("role", "textbox");
 			}
 
-			parent.getElement().setAttribute("aria-label", label);
-			return;
+			return parentElement;
 		}
 		if (inputTextArea != null) {
-			inputTextArea.getElement().setAttribute("aria-label", label);
+			return inputTextArea.getElement();
 		}
+		return null;
+	}
+
+	/**
+	 * @return aria label
+	 */
+	public String getAriaLabel() {
+		Element target = getElementForAriaLabel();
+		if (target != null) {
+			return target.getAttribute("aria-label");
+		}
+		return "";
 	}
 
 	/**
@@ -370,7 +392,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				int code = convertToJavaKeyCode(event.getNativeEvent());
 				boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
 						getModifiers(event), getChar(event.getNativeEvent())));
-
+				FactoryProvider.debugS("down:" + code);
 				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 				if (code == JavaKeyCodes.VK_LEFT
 						|| code == JavaKeyCodes.VK_RIGHT) {
@@ -399,6 +421,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (expressionReader != null) {
 			setAriaLabel(this.mathFieldInternal.getEditorState()
 					.getDescription(expressionReader));
+		} else {
+			FactoryProvider.debugS("no reader");
 		}
 	}
 
@@ -574,13 +598,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	private double computeHeight(TeXIcon lastIcon2) {
 		int margin = getMargin(lastIcon2);
-		return roundUp(lastIcon2.getIconHeight() + margin + bottomOffset);
+		return Math.max(roundUp(lastIcon2.getIconHeight() + margin + bottomOffset), minHeight);
 	}
 
 	private int getMargin(TeXIcon lastIcon2) {
-		return (int) Math.max(0, roundUp(-lastIcon2.getTrueIconHeight()
-				+ lastIcon2.getTrueIconDepth()
-				+ getFontSize()));
+		return fixMargin > 0 ? fixMargin : (int) Math.max(0,
+				roundUp(-lastIcon2.getTrueIconHeight()
+						+ lastIcon2.getTrueIconDepth()
+						+ getFontSize()));
 	}
 
 	private native boolean active(Element element) /*-{
@@ -625,7 +650,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	@Override
 	public void fireInputChangedEvent() {
-		// TODO Auto-generated method stub
+		if (changeHandler != null) {
+			changeHandler.onChange(null);
+		}
 	}
 
 	@Override
@@ -662,7 +689,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (focus) {
 			startBlink();
 			if (focusHandler != null) {
-				focusHandler.onFocus(null);
+				focusHandler.onFocus(new FocusEvent() {
+					// send non-null event here so that it's logged
+				});
 			}
 			focuser = new Timer() {
 
@@ -1062,14 +1091,15 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	}
 
 	/**
-	 * @param er
-	 *            expression reader
 	 * @return description for screen reader
 	 */
-	public String getDescription(ExpressionReader er) {
-		mathFieldInternal.getEditorState();
-		return ScreenReaderSerializer.fullDescription(er,
+	public String getDescription() {
+		if (expressionReader != null) {
+			return ScreenReaderSerializer.fullDescription(
+					expressionReader,
 				mathFieldInternal.getEditorState().getRootComponent());
+		}
+		return "";
 	}
 
 	/**
@@ -1123,5 +1153,29 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	public void setBackgroundCssColor(String cssColor) {
 		this.backgroundCssColor = cssColor;
+	}
+
+	/**
+	 * @param changeHandler
+	 *            change event handler
+	 */
+	public void setChangeListener(ChangeHandler changeHandler) {
+		this.changeHandler = changeHandler;
+	}
+
+	/**
+	 * sets a fix margin of the mathfield, only used when bigger than 0
+	 * @param fixMargin value of the fix margin
+	 */
+	public void setFixMargin(int fixMargin) {
+		this.fixMargin = fixMargin;
+	}
+
+	/**
+	 * sets a minimum height of the mathfield, only used when bigger than 0
+	 * @param minHeight value of the minimum height
+	 */
+	public void setMinHeight(int minHeight) {
+		this.minHeight = minHeight;
 	}
 }

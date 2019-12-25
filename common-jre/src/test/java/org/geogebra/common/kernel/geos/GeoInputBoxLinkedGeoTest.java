@@ -90,39 +90,98 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
 		inputBox.setSymbolicMode(true, false);
 		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
-		updateInput("1 + 1 / 5");
+		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
 		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
 	}
 
 	@Test
-	public void symbolicShouldSupportDecimals() {
-		setupInput("l", "1 + 1 / 5");
-		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("1.2", inputBox.getTextForEditor());
-		updateInput("1 + 1 / 5");
-		Assert.assertEquals("1.2", inputBox.getTextForEditor());
-	}
-
-	@Test
-	public void nonsymbolicShouldSupportFractions() {
+	public void nonsymbolicShouldShowDefinition() {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
 		inputBox.setSymbolicMode(false, false);
-		inputBox.updateRepaint();
-		Assert.assertEquals("6 / 5", inputBox.getTextForEditor());
-		updateInput("1 + 1/5");
-		Assert.assertEquals("6 / 5", inputBox.getTextForEditor());
+		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
+		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
+		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
 	}
 
 	@Test
-	public void nonsymbolicShouldSupportDecimals() {
-		setupInput("l", "1 + 1 / 5");
-		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
+	public void shouldShowValueForSimpleNumeric() {
+		setupInput("l", "5");
+		inputBox.setSymbolicMode(true, false);
+		Assert.assertEquals("5", inputBox.getText());
+		Assert.assertEquals("5", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void shouldBeEmptyAfterSettingLineUndefined() {
+		setupInput("f", "y = 5");
+		t("SetValue(f, ?)");
+		Assert.assertEquals("", inputBox.getText());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingLineUndefined() {
+		setupInput("f", "y = 5");
+		t("SetValue(f, ?)");
+		inputBox.setSymbolicMode(true, false);
+		Assert.assertEquals("", inputBox.getText());
+		Assert.assertEquals("", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void shouldBeEmptyAfterSettingPlaneUndefined() {
+		setupInput("eq1", "4x + 3y + 2z = 1");
+		t("SetValue(eq1, ?)");
+		Assert.assertEquals("", inputBox.getText());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingPlaneUndefined() {
+		setupInput("eq1", "4x + 3y + 2z = 1");
+		t("SetValue(eq1, ?)");
+		inputBox.setSymbolicMode(true, false);
+		Assert.assertEquals("", inputBox.getText());
+		Assert.assertEquals("", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void shouldBeEmptyAfterSettingComplexUndefined() {
+		setupInput("z1", "3 + i");
+		t("SetValue(z1, ?)");
+		Assert.assertEquals("", inputBox.getText());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingComplexUndefined() {
+		setupInput("z1", "3 + i");
+		t("SetValue(z1, ?)");
+		inputBox.setSymbolicMode(true, false);
+		Assert.assertEquals("", inputBox.getText());
+		Assert.assertEquals("", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void functionParameterShouldNotChangeToX() {
+		add("f(c) = c / ?");
+		inputBox = (GeoInputBox) add("ib=InputBox(f)");
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("1.2", inputBox.getTextForEditor());
-		updateInput("1 + 1/5");
-		Assert.assertEquals("1.2", inputBox.getTextForEditor());
+		Assert.assertEquals("c / ?", inputBox.getText());
+		updateInput("?");
+		Assert.assertEquals("", inputBox.getText());
+		updateInput("c / 3");
+		Assert.assertEquals("c / 3", inputBox.getText());
+	}
+
+	@Test
+	public void twoVariableFunctionParameterShouldNotChangeToX() {
+		add("g(p, q) = p / ?");
+		inputBox = (GeoInputBox) add("ib=InputBox(g)");
+		inputBox.setSymbolicMode(false, false);
+		Assert.assertEquals("p / ?", inputBox.getText());
+		updateInput("?");
+		Assert.assertEquals("", inputBox.getText());
+		updateInput("p / q");
+		Assert.assertEquals("p / q", inputBox.getText());
 	}
 
 	private void t(String input, String... expected) {

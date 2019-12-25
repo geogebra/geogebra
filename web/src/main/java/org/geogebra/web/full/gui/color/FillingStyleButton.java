@@ -2,12 +2,12 @@ package org.geogebra.web.full.gui.color;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ButtonPopupMenu;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -27,7 +27,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 	 * @param app
 	 *            application
 	 */
-	public FillingStyleButton(App app) {
+	public FillingStyleButton(AppW app) {
 		super(app, createDummyIcons(5), -1, 5, SelectionTable.MODE_ICON, false);
 		ButtonPopupMenu pp = (ButtonPopupMenu) getMyPopup();
 		// pp.addStyleName("fillingPopup");

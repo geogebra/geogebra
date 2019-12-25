@@ -355,18 +355,6 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/scientific.svg")
 	SVGResource scientific();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/graphing.svg")
-	SVGResource graphing();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/geometry.svg")
-	SVGResource geometry();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/graphing3D.svg")
-	SVGResource graphing3D();
-
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/whiteboard.png")
-	ImageResource whiteboard();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/mebis-logo.png")
 	ImageResource mebis();
 
@@ -444,6 +432,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/exam_graphing.svg")
 	SVGResource exam_graphing();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/exam_cas.svg")
+	SVGResource exam_cas();
 
 	// MOW resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/arrow-alt-circle-down.svg")
