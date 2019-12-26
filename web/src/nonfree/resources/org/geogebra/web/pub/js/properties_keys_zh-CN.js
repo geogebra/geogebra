@@ -1264,7 +1264,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "AisNotDefined": "%0 \u672a\u5b9a\u4e49",
     "AisaDegenerateBranchOfB": "%0 \u662f %1 \u7684\u4e00\u79cd\u9000\u5316\u60c5\u51b5",
     "AisaTangentToB": "%0 \u662f %1 \u7684\u5207\u7ebf",
-    "Algebra": "\u4ee3\u6570",
+    "Algebra": "\u4ee3\u6570\u533a",
     "AlgebraDescriptions": "\u4ee3\u6570\u63cf\u8ff0",
     "AlgebraWindow": "\u4ee3\u6570\u533a",
     "AliesOnB": "%0 \u5728 %1 \u4e0a",
