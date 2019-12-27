@@ -601,6 +601,9 @@ public class AlgebraItem {
 	 * @return provider of last AV item
 	 */
 	public static HasLastItem getLastItemProvider(final App app) {
+		if (!app.getConfig().hasAnsButtonInAv()) {
+			return null;
+		}
 		return new ConstructionItemProvider(app.getKernel().getConstruction());
 	}
 

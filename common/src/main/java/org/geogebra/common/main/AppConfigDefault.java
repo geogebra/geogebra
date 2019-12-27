@@ -242,4 +242,9 @@ public class AppConfigDefault implements AppConfig {
 	public boolean isShowingErrorDialogForInputBox() {
 		return false;
 	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return false;
+	}
 }

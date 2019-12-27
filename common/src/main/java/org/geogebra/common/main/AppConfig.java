@@ -194,5 +194,10 @@ public interface AppConfig {
 	 * @return creates app specific parser functions
 	 */
 	ParserFunctions createParserFunctions();
+
+	/**
+	 * @return true if it has 'ans' button in the AV.
+	 */
+	boolean hasAnsButtonInAv();
 }
 

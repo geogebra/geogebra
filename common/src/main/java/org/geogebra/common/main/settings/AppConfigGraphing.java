@@ -245,4 +245,9 @@ public class AppConfigGraphing implements AppConfig {
 	public ParserFunctions createParserFunctions() {
 		return ParserFunctionsFactory.createGraphingParserFunctions();
 	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return true;
+	}
 }
