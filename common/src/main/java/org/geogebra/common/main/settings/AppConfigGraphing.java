@@ -27,7 +27,6 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
-			dp.makeVisible();
 			dp.setLocation("3");
 		}
 		else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
