@@ -84,7 +84,11 @@ public class KeyboardSwitcher extends FlowPanel {
         }
     }
 
-	protected void unselectAll() {
+    protected boolean isSelected(Button btn) {
+        return btn.getStyleName().contains("selected");
+    }
+
+    protected void unselectAll() {
         for (Widget btn : switches) {
             btn.removeStyleName("selected");
         }
