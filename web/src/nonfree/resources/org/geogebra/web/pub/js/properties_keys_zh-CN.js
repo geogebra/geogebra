@@ -3014,7 +3014,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "TrueOnPartsFalseOnParts": "(\u547d\u9898\u6210\u7acb\u6761\u4ef6\u4e0d\u5b8c\u5907; \u7279\u5b9a\u6761\u4ef6\u4e0b\u6210\u7acb, \u7279\u5b9a\u6761\u4ef6\u4e0b\u4e0d\u6210\u7acb)",
     "Turtle": "\u7ed8\u56fe\u6d77\u9f9f",
     "Tutorial": "\u6559\u7a0b",
-    "Tutorial3D": "aWhYSpvy",
+    "Tutorial3D": "ysef4qwx",
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "uvxc62ft",
