@@ -768,6 +768,13 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	@Override
+	public String getReportBugUrl() {
+		return GeoGebraConstants.GEOGEBRA_REPORT_BUG
+				+ "?v=" + app.getPlatform().getName()
+				+ "&lang=" + app.getLocalization().getLanguage();
+	}
+
+	@Override
 	public void redo() {
 		getApp().setWaitCursor();
 		kernel.redo();
