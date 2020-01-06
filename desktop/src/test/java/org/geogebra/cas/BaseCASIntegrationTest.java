@@ -20,26 +20,25 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.hamcrest.MatcherAssert;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
 public class BaseCASIntegrationTest {
 	static public boolean silent = false;
 
-	protected static Kernel kernel;
-	private static AppDNoGui app;
+	protected Kernel kernel;
+	private AppDNoGui app;
 
 	/**
 	 * Logs all tests which don't give the expected but a valid result.
 	 */
 	static CASTestLogger logger;
 
-	static MyArbitraryConstant arbconst;
+	MyArbitraryConstant arbconst;
 
 	/**
 	 * Create app and CAS.
 	 */
-	@BeforeClass
-	public static void setupCas() {
+	@Before
+	public void setupCas() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 
 		if (silent) {
@@ -71,21 +70,12 @@ public class BaseCASIntegrationTest {
 		}
 	}
 
-	/**
-	 * Before every test: Clear the construction list to make sure there is
-	 * nothing already defined.
-	 */
-	@Before
-	public void beforeTest() {
-		kernel.clearConstruction(true);
-	}
-
-	protected static void t(String input, String expectedResult,
+	protected void t(String input, String expectedResult,
 			String... validResults) {
 		ta(false, input, expectedResult, validResults);
 	}
 
-	static void ta(boolean keepInput, String input,
+	void ta(boolean keepInput, String input,
 			String expectedResult, String... validResults) {
 		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
 		ta(f, keepInput, input, expectedResult, validResults);
@@ -112,7 +102,7 @@ public class BaseCASIntegrationTest {
 	 * @param validResults
 	 *            Valid, but undesired results.
 	 */
-	protected static void ta(GeoCasCell f, boolean keepInput, String input,
+	protected void ta(GeoCasCell f, boolean keepInput, String input,
 			String expectedResult, String... validResults) {
 		String result;
 
@@ -175,12 +165,12 @@ public class BaseCASIntegrationTest {
 	 * @param validResults
 	 *            alternative results
 	 */
-	static void tk(String input, String expectedResult,
+	void tk(String input, String expectedResult,
 			String... validResults) {
 		ta(true, input, expectedResult, validResults);
 	}
 
-	protected static AppDNoGui getApp() {
+	protected AppDNoGui getApp() {
 		return app;
 	}
 }

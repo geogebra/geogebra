@@ -12,8 +12,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.desktop.main.AppD;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 public class SpreadsheetKeyListenerD implements KeyListener {
 
 	private AppD app;
@@ -40,8 +38,6 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 	}
 
 	@Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		// Application.debug(keyCode+"");
@@ -359,7 +355,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				editor.tabReturnCol = -1;
 			}
 
-			// fall through
+			//$FALL-THROUGH$
 		case KeyEvent.VK_PAGE_DOWN:
 		case KeyEvent.VK_PAGE_UP:
 			// stop cell being erased before moving
@@ -399,7 +395,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				e.consume();
 
 			}
-			// no break, fall through
+			//$FALL-THROUGH$
 		default:
 			if (!Character.isIdentifierIgnorable(e.getKeyChar())
 					&& !editor.isEditing() && !(ctrlDown || e.isAltDown())) {
