@@ -148,7 +148,7 @@ public class KeyboardManager
 
 	private Element getAppletContainer() {
 		Element scaler = app.getArticleElement().getParentElement();
-		Element container = scaler.getParentElement();
+		Element container = scaler == null ? null : scaler.getParentElement();
 		if (container == null) {
 			return RootPanel.getBodyElement();
 		}
@@ -177,6 +177,7 @@ public class KeyboardManager
 		if (textField != null) {
 			setOnScreenKeyboardTextField(textField);
 		}
+
 		keyboard.setListener(listener);
 		return keyboard;
 	}
@@ -215,10 +216,46 @@ public class KeyboardManager
 	@Override
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
 		if (keyboard != null) {
+			if  (textField != null) {
+				addExtraSpaceForKeyboard();
+			} else {
+				removeExtraSpaceForKeyboard();
+			}
+
 			keyboard.setProcessing(
 					GuiManagerW.makeKeyboardListener(
 							textField, AlgebraItem.getLastItemProvider(app)));
 		}
+	}
+
+	private void addExtraSpaceForKeyboard() {
+		if (noExtraSpaceNeededForKeyboard()) {
+			return;
+		}
+
+		clearAppletContainerTransition();
+		setAppletContainerPaddingBottom(estimateKeyboardHeight() + "px");
+	}
+
+	private boolean noExtraSpaceNeededForKeyboard() {
+		return !shouldDetach() || getAppletContainer() == null;
+	}
+
+	private void clearAppletContainerTransition() {
+		getAppletContainer().getStyle().clearProperty("transition");
+	}
+
+	private void removeExtraSpaceForKeyboard() {
+		if (noExtraSpaceNeededForKeyboard()) {
+			return;
+		}
+
+		getAppletContainer().getStyle().setProperty("transition", "padding-bottom 0.2s linear");
+		setAppletContainerPaddingBottom("0");
+	}
+
+	private void setAppletContainerPaddingBottom(String value) {
+		getAppletContainer().getStyle().setProperty("paddingBottom", value);
 	}
 
 	/**
@@ -227,6 +264,7 @@ public class KeyboardManager
 	public void onScreenEditingEnded() {
 		if (keyboard != null) {
 			keyboard.endEditing();
+			removeExtraSpaceForKeyboard();
 		}
 	}
 

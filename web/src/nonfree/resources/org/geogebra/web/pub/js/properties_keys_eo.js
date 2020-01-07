@@ -1904,6 +1904,7 @@ __GGB__keysVar["eo"].menu = {
     "GeneratePstricks": "Generi kodon",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
+    "GeoGebraApps": "GeoGebra Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forumo",
     "GeoGebraGeometry": "GeoGebra Geometry",

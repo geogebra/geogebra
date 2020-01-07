@@ -121,8 +121,9 @@ test {
     outputs.upToDateWhen { false }
 }
 spotbugs {
-     ignoreFailures = true
-     excludeFilter = file("config/findbugs.xml")
+    ignoreFailures = true
+    excludeFilter = file("config/findbugs.xml")
+    jvmArgs = ['-Dfindbugs.sf.comment=true']
 }
 
 import org.gradle.plugins.ide.eclipse.model.AccessRule
