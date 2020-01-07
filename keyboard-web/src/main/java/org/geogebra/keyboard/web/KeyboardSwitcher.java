@@ -26,6 +26,12 @@ public class KeyboardSwitcher extends FlowPanel {
 
         private KeyPanelBase keyboard;
 
+        /**
+         * Create a new SwitcherButton
+         *
+         * @param label label
+         * @param keyboard keyboard
+         */
         public SwitcherButton(String label, KeyPanelBase keyboard) {
             super(label);
             this.keyboard = keyboard;
@@ -43,6 +49,9 @@ public class KeyboardSwitcher extends FlowPanel {
             return keyboard;
         }
 
+        /**
+         * Makes the keyboard visible and selects the button.
+         */
         public void select() {
             tabbedkeyboard.hideTabs();
             unselectAll();

@@ -100,7 +100,9 @@ public interface KeyboardListener {
 	void ansPressed();
 
 	/**
-	 * Requests the ans key
+	 * Requests the ans key.
+	 *
+	 * @return true if the listener requests the 'ans' key
 	 */
 	boolean requestsAns();
 }
