@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -227,8 +228,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				.hasFocus())
 				&& !(((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
 						.getAlgebraInput()).getTextField().hasFocus())) {
-
-			super.handleCopyCut(cut);
+			CopyPaste.handleCutCopy(app, cut);
 		}
 	}
 

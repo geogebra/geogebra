@@ -162,10 +162,6 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
-	private static void copySelected(App app) {
-		app.getCopyPaste().copyToXML(app, app.getSelectionManager().getSelectedGeos());
-	}
-
 	@Override
 	public void copyToXML(App app, List<GeoElement> geos) {
 		copyToXMLInternal(app, geos);
@@ -494,10 +490,23 @@ public class CopyPasteW extends CopyPaste {
 			}
 		});
 
-		// hack for safari
-        target.addEventListener('copy', function(a) {
-            @org.geogebra.web.html5.util.CopyPasteW::copySelected(*)(app);
+		var copying = false;
+
+		target.addEventListener('copy', function() {
+			if (!copying) {
+                copying = true;
+                @org.geogebra.common.util.CopyPaste::handleCutCopy(*)(app, false);
+                copying = false;
+            }
         });
+
+        target.addEventListener('cut', function() {
+            if (!copying) {
+                copying = true;
+                @org.geogebra.common.util.CopyPaste::handleCutCopy(*)(app, true);
+                copying = false;
+            }
+        })
 	}-*/;
 
 	/**

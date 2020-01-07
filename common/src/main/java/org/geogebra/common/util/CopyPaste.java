@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.SelectionManager;
 
 public abstract class CopyPaste {
 
@@ -52,6 +53,25 @@ public abstract class CopyPaste {
 	public abstract void pasteFromXML(App app);
 
 	public abstract void duplicate(App app, List<GeoElement> selection);
+
+	public static void handleCutCopy(App app, boolean cut) {
+		SelectionManager selection = app.getSelectionManager();
+		app.setWaitCursor();
+		ArrayList<GeoElement> tempSelection
+				= new ArrayList<>(selection.getSelectedGeos());
+
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(cut);
+		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos());
+		if (cut) {
+			app.deleteSelectedObjects(cut);
+		} else {
+			app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
+		}
+		app.updateMenubar();
+
+		selection.setSelectedGeos(tempSelection, false);
+		app.setDefaultCursor();
+	}
 
 	/**
 	 * copyToXML - Step 2 Add subgeos of geos like points of a segment or line
