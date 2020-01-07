@@ -289,7 +289,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized void debug(String string) {
-
 		Log.debug(string);
 	}
 
