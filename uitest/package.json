@@ -12,6 +12,6 @@
     "http-server": "^0.11.1",
     "jest-image-snapshot": "2.7.0",
     "wait-on": "^3.2.0",
-    "@geogebra/web-test-harness": "0.1.1"
+    "@geogebra/web-test-harness": "0.1.9"
   }
 }
