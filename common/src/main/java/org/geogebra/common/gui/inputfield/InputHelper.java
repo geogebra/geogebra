@@ -66,6 +66,7 @@ public class InputHelper {
 			return;
 		}
 		for (GeoElementND geo : geos) {
+			updateSymbolicMode(geo);
 			if (geo instanceof GeoText) {
 				GeoText text = (GeoText) geo;
 				centerText(text, ev);
@@ -210,7 +211,7 @@ public class InputHelper {
 
 		curWord.setLength(0);
 		if (curWordEnd <= length) {
-			curWord.append(text.substring(curWordStart, curWordEnd));
+			curWord.append(text, curWordStart, curWordEnd);
 		} else {
 			Log.debug("CARET OUTSIDE");
 		}
