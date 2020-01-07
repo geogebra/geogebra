@@ -29,7 +29,6 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
-			dp.makeVisible();
 			dp.setLocation("3");
 			dp.setToolMode(true);
 		}
