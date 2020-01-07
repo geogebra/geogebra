@@ -248,4 +248,9 @@ public class AppConfigGeometry implements AppConfig {
 	public ParserFunctions createParserFunctions() {
 		return ParserFunctionsFactory.createParserFunctions();
 	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return true;
+	}
 }

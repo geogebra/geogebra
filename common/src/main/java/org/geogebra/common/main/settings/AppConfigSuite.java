@@ -36,4 +36,9 @@ public class AppConfigSuite extends AppConfigGraphing {
 	public ParserFunctions createParserFunctions() {
 		return ParserFunctionsFactory.createParserFunctions();
 	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return false;
+	}
 }
