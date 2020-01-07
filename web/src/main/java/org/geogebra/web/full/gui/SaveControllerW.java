@@ -159,7 +159,7 @@ public class SaveControllerW implements SaveController {
 		final AsyncOperation<String> handler = new AsyncOperation<String>() {
 			@Override
 			public void callback(String base64) {
-				if (titleChanged && isWorksheet()) {
+				if (titleChanged && (isWorksheet() || savedAsTemplate())) {
 					Log.debug("SAVE filename changed");
 					getAppW().updateMaterialURL(0, null, null);
 					doUploadToGgt(getAppW().getTubeId(), visibility, base64,
@@ -282,13 +282,13 @@ public class SaveControllerW implements SaveController {
 	 */
 	void doUploadToGgt(String tubeID, String visibility, String base64,
 			MaterialCallbackI materialCallback) {
-		if (app.isWhiteboardActive() && !"".equals(app.getVendorSettings().getAPIBaseUrl())) {
+		if (app.isWhiteboardActive() && !"".equals(app.getVendorSettings().getAPIBaseUrl()) &&
+			savedAsTemplate()) {
 			MarvlAPI api = new MarvlAPI(
 					app.getVendorSettings().getAPIBaseUrl(),
 					new MarvlURLChecker());
 			api.uploadMaterial(tubeID, visibility, fileName, base64,
-					materialCallback,
-					this.saveType);
+					materialCallback, this.saveType);
 		} else {
 			app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
 				fileName, base64, materialCallback, this.saveType);
