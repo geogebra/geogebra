@@ -8,8 +8,7 @@ import java.io.InputStream;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.geogebra.desktop.util.UtilD;
 
 /**
  * Adapted from
@@ -26,8 +25,6 @@ public class MyClassPathLoader {
 	 *            eg javagiac or javagiac64
 	 * @return success
 	 */
-	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
-			"don't need to check return value of delete()" })
 	public boolean loadLibrary(String libname) {
 
 		String extension, prefix;
@@ -58,7 +55,7 @@ public class MyClassPathLoader {
 			// Math.random() to avoid problems with 2 instances
 			File tmpFile = writeTmpFile(ins, fname);
 			System.load(tmpFile.getAbsolutePath());
-			tmpFile.delete();
+			UtilD.delete(tmpFile);
 			ins.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -83,13 +80,11 @@ public class MyClassPathLoader {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
-			"don't need to check return value of delete()" })
 	private static File writeTmpFile(InputStream ins, String filename)
 			throws IOException {
 
 		File tmpFile = new File(System.getProperty("java.io.tmpdir"), filename);
-		tmpFile.delete();
+		UtilD.delete(tmpFile);
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(tmpFile);
