@@ -437,8 +437,6 @@ public class ExamEnvironment {
 	}
 
 	private void clearClipboard() {
-		CopyPaste copyPaste = app.getCopyPaste();
-		copyPaste.clearClipboard();
 		app.copyTextToSystemClipboard("");
 	}
 

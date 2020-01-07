@@ -406,8 +406,4 @@ public abstract class CopyPaste {
 
 		return ret;
 	}
-
-	public void clearClipboard() {
-		// implemented for each platform
-	}
 }
