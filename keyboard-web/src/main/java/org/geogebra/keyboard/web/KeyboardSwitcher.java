@@ -110,6 +110,7 @@ public class KeyboardSwitcher extends FlowPanel {
         closeButton.getUpFace().setImage(img);
         closeButton.getUpHoveringFace().setImage(hoverImg);
         closeButton.addStyleName("closeTabbedKeyboardButton");
+		closeButton.getElement().setAttribute("data-test", "closeKeyboardButton");
         ClickStartHandler.init(closeButton, new ClickStartHandler() {
 
             @Override

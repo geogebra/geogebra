@@ -1904,6 +1904,7 @@ __GGB__keysVar["tr"].menu = {
     "GeneratePstricks": "PSTricks \xfcret",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Hesap Makinesi",
+    "GeoGebraApps": "GeoGebra Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS Hesap Makinesi",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometri",

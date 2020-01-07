@@ -1904,6 +1904,7 @@ __GGB__keysVar["sl"].menu = {
     "GeneratePstricks": "Izdelaj kodo za PSTricks",
     "GeoGebra3DGrapher": "GeoGebrino 3D ra\u010dunalo",
     "GeoGebra3DGrapher.short": "3D grafi\u010dni kalkulator",
+    "GeoGebraApps": "GeoGebra Apps",
     "GeoGebraCASCalculator": "GeoGebra SSR ra\u010dunalo",
     "GeoGebraForum": "GeoGebra forum",
     "GeoGebraGeometry": "Geometrija z GeoGebro",
