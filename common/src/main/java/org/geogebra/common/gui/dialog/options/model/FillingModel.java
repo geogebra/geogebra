@@ -93,8 +93,13 @@ public class FillingModel extends MultipleOptionsModel {
 
 	@Override
 	public List<String> getChoices(Localization loc) {
+		List<FillType> types = fillTypes;
+		if (app.isExam()) {
+			types = new ArrayList<>(fillTypes);
+			types.remove(FillType.IMAGE);
+		}
 		List<String> choices = new ArrayList<>();
-		for (FillType fillType: fillTypes) {
+		for (FillType fillType: types) {
 			String key = getFillTypeTranslationKey(fillType);
 			choices.add(loc.getMenu(key));
 		}
