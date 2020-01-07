@@ -280,10 +280,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *            child
 	 * @return parent article element corresponding to applet
 	 */
-	ArticleElement getGGBArticle(Element el) {
+	private ArticleElement getGGBArticle(Element el) {
 		// if SVG clicked, getClassName returns non-string
-		if ((el.getClassName() + "")
-				.indexOf("geogebraweb-dummy-invisible") >= 0) {
+		if ((el.getClassName() + "").contains("geogebraweb-dummy-invisible")) {
 			return null;
 		}
 
@@ -351,7 +350,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		setDownKeys(event);
-		Log.debug("PRESS");
 		event.stopPropagation();
 		if (inFocus) {
 			// in theory, default action of TAB is not triggered here
@@ -361,9 +359,11 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			// TAB only fires in Firefox here, and it only has a keyCode!
 			KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeEvent()
 					.getKeyCode());
-			if (kc != KeyCodes.TAB) {
+			// Do not prevent default for the v key, otherwise paste events are not fired
+			if (kc != KeyCodes.TAB && event.getNativeEvent().getKeyCode() != 'v'
+					&& event.getNativeEvent().getKeyCode() != 'c') {
 				event.preventDefault();
-			} else if (keydownPreventsDefaultKeypressTAB) {
+			} else if (kc == KeyCodes.TAB && keydownPreventsDefaultKeypressTAB) {
 				// we only have to allow default action for TAB
 				// if the onKeyDown handler allowed it, so we
 				// have to check this boolean here, which is double
@@ -383,14 +383,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
 		if (inFocus) {
-			// KeyCodes kc =
-			// KeyCodes.translateGWTcode(event.getNativeKeyCode());
-			// if (kc != KeyCodes.TAB) {
-				// maybe need to check TAB in Firefox, or in onKeyPress
-			// but probably not, so this check is commented out
-				event.preventDefault();
-			// }
+			event.preventDefault();
 		}
+
 		event.stopPropagation();
 		// now it is private, but can be public, also it is void, but can return
 		// boolean as in desktop, if needed
@@ -406,26 +401,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		// do this only, if we really have focus
 
 		if (inFocus) {
-			handleKeyPressed(event);
+			handleGeneralKeys(event);
 		} else if (event.getNativeKeyCode() == com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER) {
 			setFocused(true);
 		}
-	}
-
-	private boolean handleKeyPressed(KeyUpEvent event) {
-		// GENERAL KEYS:
-		// handle ESC, function keys, zooming with Ctrl +, Ctrl -, etc.
-		if (handleGeneralKeys(event)) {
-			return true;
-		}
-
-		// SELECTED GEOS:
-		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		// if (handleSelectedGeosKeys(event,
-		// app.getSelectionManager().getSelectedGeos())) {
-		// return true;
-		// }
-		return false;
 	}
 
 	/**
@@ -434,10 +413,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *
 	 * @param event
 	 *            event
-	 * @return whether event was consumed
 	 */
-	public boolean handleGeneralKeys(KeyUpEvent event) {
-
+	public void handleGeneralKeys(KeyUpEvent event) {
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB || kc == KeyCodes.ESCAPE) {
 			// the problem is that we want to prevent the default action
@@ -453,7 +430,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			// AlgebraInputW.onKeyUp, AutoCompleteTextFieldW.onKeyUp
 			event.stopPropagation();
 
-			return true;
+			return;
 		}
 
 		boolean handled = handleGeneralKeys(kc,
@@ -463,7 +440,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		if (handled) {
 			event.preventDefault();
 		}
-		return handled;
 	}
 
 	private static boolean isControlKeyDown(KeyUpEvent event) {
