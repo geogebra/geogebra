@@ -212,59 +212,6 @@ public class ArbitraryConstIntegrationTest {
 						+ Unicode.EULER_STRING + "^(-sqrt(2) * x)");
 	}
 
-	@Test
-	public void integral_1() {
-		ta("Integral[(x+1)/(x+2*sqrt(x)-3)]",
-				"15 * log(sqrt(x) + 3) + log(abs(sqrt(x) - 1)) + x - 4*sqrt(x) + c_1");
-	}
-
-	@Test
-	public void integral_2() {
-		ta("Integral[2sin(x)cos(x)]", "sin(x)^(2) + c_1");
-	}
-
-	@Test
-	public void integral_3() {
-		ta("Integral[ " + Unicode.EULER_STRING + "^x/(1+ "
-				+ Unicode.EULER_STRING + "^(2x))]",
-				"arctan(" + Unicode.EULER_STRING + "^(x)) + c_1",
-				"tan" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "("
-						+ Unicode.EULER_STRING + "^(x)) + c_1");
-	}
-
-	@Test
-	public void integral_4() {
-		ta("Integral[sin(x)(4*cos(x)) " + Unicode.EULER_STRING
-				+ "^(2*cos(x)+1)]",
-				"-(2*cos(x) - 1) * " + Unicode.EULER_STRING
-						+ "^(2*cos(x) + 1) + c_1");
-	}
-
-	/*
-	 * @Test public void integral_5() { ta("Integral[x * cos(a * x)]",
-	 * "cos(a * x) / a^(2) + x * sin(a * x) / a + c_1"); }
-	 * 
-	 * @Test public void integral_6() { ta("Integral[ln(x)/x]",
-	 * "1 / 2 * log(x)^(2) + c_1"); }
-	 * 
-	 * @Test public void integral_7() { ta("Integral[cos(x)^2 sin(x)]",
-	 * "(-1) / 3 * cos(x)^(3) + c_1"); }
-	 * 
-	 * @Test public void integral_8() { ta(
-	 * "Integral[(x^5+x^4+2 x^3+2 x^2+5x+9)/(x^2+1)^3]",
-	 * "1 / 4 * (12*x^(3) + 20*x - 4) / (x^(2) + 1)^(2) + 4*arctan(x) + 1 / 2 * log(x^(2) + 1) + c_1"
-	 * , "1 / 4 * (12*x^(3) + 20*x - 4) / (x^(2) + 1)^(2) + 4*tan" +
-	 * Unicode.SUPERSCRIPT_MINUS_ONE_STRING +
-	 * "(x) + 1 / 2 * log(x^(2) + 1) + c_1"); }
-	 * 
-	 * @Test public void integral_9() { ta("Integral[x/(1-sqrt(2+x))]",
-	 * "-2 * (1 / 3 * sqrt(x + 2) * (x + 2) + 1 / 2 * (x + 2) - sqrt(x + 2) - log(abs(sqrt(x + 2) - 1))) + c_1"
-	 * ); }
-	 * 
-	 * @Test public void integral_10() { ta("Integral[1 / sqrt(x - x^2)]",
-	 * "arcsin(2*x - 1) + c_1", "sin" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING +
-	 * "(2*x - 1) + c_1"); }
-	 */
 	/**
 	 * @param input
 	 *            The input.

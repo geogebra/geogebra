@@ -1,12 +1,12 @@
 package org.geogebra.desktop.kernel;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import org.geogebra.common.jre.io.MyXMLioJre;
-import org.geogebra.common.kernel.AppState;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import org.geogebra.common.jre.io.MyXMLioJre;
+import org.geogebra.common.kernel.AppState;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * App State that is saved as a temporary file.
@@ -34,12 +34,12 @@ public class FileAppState implements AppState {
         return null;
     }
 
-    @Override
-    @SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
-            "don't need to check return value" })
-    public void delete() {
-        file.delete();
-    }
+	@Override
+	public void delete() {
+		if (!file.delete()) {
+			Log.warn("Failed to delete " + file.getAbsolutePath());
+		}
+	}
 
     /**
      * Unwrap the file

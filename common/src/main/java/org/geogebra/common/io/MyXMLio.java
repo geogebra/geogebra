@@ -470,7 +470,7 @@ public abstract class MyXMLio {
 	 * @author mathieu
 	 *
 	 */
-	protected interface XMLStream {
+	public interface XMLStream {
 		// tagging interface
 	}
 

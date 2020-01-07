@@ -43,10 +43,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private List<GeoElement> specPoints;
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
 	private boolean isUpdating = false;
-    /**
-     * storing the special points parent algos: needed for iOS as GeoElement as only weak
-     * reference to its parent algo
-     */
+	/**
+	 * storing the special points parent algos: needed for iOS as GeoElement as only weak
+	 * reference to its parent algo
+	 */
 	private List<AlgoElement> specPointAlgos;
 
 	/**
@@ -60,42 +60,6 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		app.getSelectionManager().addListener(this);
 		app.getEventDispatcher().addEventListener(this);
 		app.getActiveEuclidianView().getEuclidianController().addZoomerListener(this);
-	}
-
-	private List<GeoElement> getSpecPoints(GeoElement geo0,
-			List<GeoElement> selectedGeos) {
-
-        // we set parent algorithm to null due to weak reference in iOS
-        if (specPoints != null) {
-            for (GeoElement geo : specPoints) {
-                geo.setParentAlgorithm(null);
-            }
-        }
-        specPointAlgos.clear();
-		specPoints = null;
-		GeoElement geo = (geo0 == null && selectedGeos != null
-				&& selectedGeos.size() > 0) ? selectedGeos.get(0) : geo0;
-
-		if (geo != null) {
-			ArrayList<GeoElementND> specPoints0 = new ArrayList<>();
-			getSpecPoints(geo, specPoints0);
-
-			if (specPoints0.size() > 0) {
-				specPoints = new ArrayList<>(specPoints0.size());
-				for (GeoElementND pt : specPoints0) {
-					if (pt != null) {
-						specPoints.add(pt.toGeoElement());
-						pt.remove();
-						pt.setAdvancedVisualStyle(kernel
-							.getConstruction().getConstructionDefaults()
-							.getDefaultGeo(
-									ConstructionDefaults.DEFAULT_POINT_PREVIEW));
-					}
-				}
-			}
-		}
-
-		return specPoints;
 	}
 
 	/**
@@ -112,12 +76,56 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		// Prevent calling update special points recursively
 		isUpdating = true;
 
-		getSpecPoints(geo, kernel.getApplication().getSelectionManager()
-				.getSelectedGeos());
-
+		getSpecPoints(geo);
 		fireSpecialPointsChangedEvent();
 
 		isUpdating = false;
+	}
+
+	private List<GeoElement> getSpecPoints(GeoElement geo0) {
+		clearSpecPoints();
+		GeoElement geo = getGeoForSpecialPoints(geo0);
+
+		if (geo != null) {
+			ArrayList<GeoElementND> specPoints0 = new ArrayList<>();
+			getSpecPoints(geo, specPoints0);
+			boolean canBeRemoved = geo.canBeRemovedAsInput();
+			geo.setCanBeRemovedAsInput(false);
+			if (specPoints0.size() > 0) {
+				specPoints = new ArrayList<>(specPoints0.size());
+				for (GeoElementND pt : specPoints0) {
+					if (pt != null) {
+						specPoints.add(pt.toGeoElement());
+						pt.remove();
+						pt.setAdvancedVisualStyle(kernel
+							.getConstruction().getConstructionDefaults()
+							.getDefaultGeo(
+									ConstructionDefaults.DEFAULT_POINT_PREVIEW));
+					}
+				}
+				geo.setCanBeRemovedAsInput(canBeRemoved);
+			}
+		}
+
+		return specPoints;
+	}
+
+	private void clearSpecPoints() {
+		// we set parent algorithm to null due to weak reference in iOS
+		if (specPoints != null) {
+			for (GeoElement geo : specPoints) {
+				geo.setParentAlgorithm(null);
+			}
+		}
+		specPointAlgos.clear();
+		specPoints = null;
+	}
+
+	private GeoElement getGeoForSpecialPoints(GeoElement geo) {
+		List<GeoElement> selectedGeos = kernel.getApplication()
+				.getSelectionManager().getSelectedGeos();
+		return geo == null && selectedGeos != null
+				&& selectedGeos.size() > 0 ? selectedGeos.get(0) : geo;
 	}
 
 	private void getSpecPoints(GeoElementND geo,
@@ -357,7 +365,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void storeAlgo(AlgoElement algo) {
-	    // we need to store parent algos due to weak reference in iOS
+		// we need to store parent algos due to weak reference in iOS
 		specPointAlgos.add(algo);
 	}
 
