@@ -1904,6 +1904,7 @@ __GGB__keysVar["am"].menu = {
     "GeneratePstricks": "\u12ae\u12f5 \u12a0\u134d\u120d\u1245",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3-\u120d Grapher",
+    "GeoGebraApps": "GeoGebra Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra \u1218\u12f5\u1228\u12ad",
     "GeoGebraGeometry": "GeoGebra Geometry",
