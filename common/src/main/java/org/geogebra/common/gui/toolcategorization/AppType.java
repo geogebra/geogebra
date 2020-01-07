@@ -18,5 +18,9 @@ public enum AppType {
     /**
      * 3D graphing calculator
      */
-    GRAPHER_3D
+	GRAPHER_3D,
+	/**
+	 * Suite
+	 */
+	SUITE
 }

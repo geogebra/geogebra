@@ -74,8 +74,6 @@ import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * @author Markus Hohenwarter
  */
@@ -335,8 +333,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		cbFormat.addActionListener(new ActionListener() {
 			@Override
-			@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-					"missing break is deliberate" })
 			public void actionPerformed(ActionEvent arg0) {
 				textAsShapesCB.setEnabled(true);
 				switch (selectedFormat()) {
@@ -350,7 +346,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					break;
 				case EPS:
 					textAsShapesCB.setEnabled(false);
-					// fall through
+					//$FALL-THROUGH$
 				case PDF:
 					dpiPanel.remove(resolutionInDPILabel);
 					dpiPanel.remove(cbDPI);

@@ -580,10 +580,10 @@ public class CommandsTest {
 	@Test
 	public void complexArithmetic() {
 		ti("(0i)^2", "0 + 0i");
-		ti("(0i)^0", "NaN - NaNi");
-		ti("(0i)^-1", "NaN - NaNi");
+		ti("(0i)^0", "?");
+		ti("(0i)^-1", "?");
 		ti("(2+0i)^0", "1 + 0i");
-		ti("(1/0+0i)^0", "NaN - NaNi");
+		ti("(1/0+0i)^0", "?");
 	}
 
 	@Test

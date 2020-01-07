@@ -21,11 +21,9 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -50,6 +48,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private static final int TF_MARGIN_VERTICAL = 10;
 	/** Padding of the field (plain text) */
 	public static final int TF_PADDING_HORIZONTAL = 2;
+	public static final int MIN_HEIGHT = 24;
 
 	/** textfield */
 	private final GeoInputBox geoInputBox;
@@ -63,6 +62,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private int oldLength = 0;
 	private GFont textFont;
 	private TextRenderer textRenderer;
+	private GDimension labelDimension = null;
 
 	/**
 	 * @param view
@@ -76,8 +76,7 @@ public class DrawInputBox extends CanvasDrawable {
 		this.geo = geo;
 
 		if (getTextField() != null) {
-			getTextField().addFocusListener(
-					AwtFactory.getPrototype().newFocusListener(new InputFieldListener()));
+			getTextField().addFocusListener(new InputFieldListener());
 			getTextField().addKeyHandler(new InputFieldKeyListener());
 
 		}
@@ -90,7 +89,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 * 
 	 * @author Michael + Judit
 	 */
-	public class InputFieldListener extends FocusListener
+	public class InputFieldListener
 			implements FocusListenerDelegate {
 
 		private String initialText;
@@ -100,11 +99,11 @@ public class DrawInputBox extends CanvasDrawable {
 			if (!isSelectedForInput()) {
 				return;
 			}
+
 			getView().getEuclidianController().textfieldHasFocus(true);
 			updateGeoInputBox();
 
 			initialText = getTextField().getText();
-
 			view.getViewTextField().setBoxVisible(true);
 		}
 
@@ -151,13 +150,13 @@ public class DrawInputBox extends CanvasDrawable {
 			}
 
 			AutoCompleteTextField tf = getTextField();
+			geoInputBox.clearTempUserInput();
 
 			if (e.isEnterKey()) {
 				// Force focus removal in IE
 				tf.setFocus(false);
 				getView().requestFocusInWindow();
 				tf.setVisible(false);
-				draw(getView().getGraphicsForPen());
 				getGeoInputBox().updateLinkedGeo(tf.getText());
 			} else {
 				GeoElementND linkedGeo = geoInputBox.getLinkedGeo();
@@ -209,11 +208,12 @@ public class DrawInputBox extends CanvasDrawable {
 		if (geoInputBox.isSymbolicMode()) {
 			textRenderer = new LaTeXTextRenderer(this);
 		} else {
-			textRenderer = new SimpleTextRenderer(this);
+			textRenderer = new SimpleTextRenderer(view.getApplication(), this);
 		}
 		if (getTextField() == null) {
 			return;
 		}
+
 		if (!forView) {
 			getTextField().setVisible(false);
 			view.getViewTextField().setBoxVisible(false);
@@ -245,9 +245,8 @@ public class DrawInputBox extends CanvasDrawable {
 
 		setLabelFontSize((int) (view.getFontSize()
 				* getGeoInputBox().getFontSizeMultiplier()));
-
-		updateGeoInputBox();
 		if (isSelectedForInput()) {
+			updateGeoInputBox();
 			updateStyle(getTextField());
 		} else {
 			textFont = getTextFont(getGeoInputBox().getText());
@@ -270,7 +269,6 @@ public class DrawInputBox extends CanvasDrawable {
 			getGeoInputBox().updateText(tf);
 			tf.setTextAlignmentsForInputBox(geoInputBox.getAlignment());
 		}
-
 	}
 
 	private void updateStyle(AutoCompleteTextField tf) {
@@ -328,9 +326,10 @@ public class DrawInputBox extends CanvasDrawable {
 
 	@Override
 	public int getPreferredHeight() {
-		return (int) Math.round(((getView().getApplication().getFontSize()
+		int height = (int) Math.round(((getView().getApplication().getFontSize()
 				* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR)
 				+ TF_MARGIN_VERTICAL;
+		return Math.max(height, MIN_HEIGHT);
 	}
 
 	@Override
@@ -360,12 +359,22 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 	}
 
+	/**
+	 * Returns the bounds of the input box.
+	 * This method is public for testing.
+	 *
+	 * @return The bounds of the input box.
+	 */
+	public GRectangle getInputFieldBounds() {
+		return getInputFieldBounds(view.getGraphicsForPen());
+	}
+
 	private GRectangle getInputFieldBounds(GGraphics2D g2) {
 		return textRenderer.measureBounds(g2, geoInputBox,  textFont, labelDesc);
 	}
 
 	private void drawTextOnCanvas(GGraphics2D g2) {
-		String text = getGeoInputBox().getText();
+		String text = getGeoInputBox().getDisplayText();
 		g2.setFont(textFont.deriveFont(GFont.PLAIN));
 		g2.setPaint(geo.getObjectColor());
 		drawText(g2, text);
@@ -373,13 +382,10 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void drawText(GGraphics2D g2, String text) {
 		int textTop = (int) Math.round(getInputFieldBounds(g2).getY());
-		int lineHeight = getTextBottom();
-
-		textRenderer.drawText(view.getApplication(), geoInputBox, g2, textFont, text,
-				getTextLeft(), textTop, getContentWidth(), lineHeight);
+		textRenderer.drawText(geoInputBox, g2, textFont, text, getTextLeft(), textTop);
 	}
 
-	private double getContentWidth() {
+	double getContentWidth() {
 		return boxWidth - TF_PADDING_HORIZONTAL * 2;
 	}
 
@@ -387,7 +393,7 @@ public class DrawInputBox extends CanvasDrawable {
 		return boxLeft + TF_PADDING_HORIZONTAL;
 	}
 
-	private int getTextBottom() {
+	int getTextBottom() {
 		return (getPreferredHeight() / 2) + (int) (getLabelFontSize() * 0.4);
 	}
 
@@ -424,7 +430,7 @@ public class DrawInputBox extends CanvasDrawable {
 					? geo.getBackgroundColor() : view.getBackgroundCommon();
 			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
 					boxHeight);
-					
+
 			highlightLabel(g2, latexLabel);
 
 			g2.setPaint(geo.getObjectColor());
@@ -438,7 +444,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 			drawText(g2, text);
 		}
-		
+
 		g2.setFont(font);
 		if (isSelectedForInput()) {
 			view.getViewTextField().repaintBox(g2);
@@ -448,9 +454,8 @@ public class DrawInputBox extends CanvasDrawable {
 	@Override
 	protected boolean hitWidgetBounds(int x, int y) {
 		return geoInputBox.isSymbolicMode()
-			? getInputFieldBounds(view.getGraphicsForPen()).contains(x, y)
+			? getInputFieldBounds().contains(x, y)
 			: super.hitWidgetBounds(x, y);
-
 	}
 
 	/**
@@ -463,7 +468,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
 		if (isLatexString(text)) {
-			drawLatex(g2, geo0, getLabelFont(), text, xLabel, yLabel);
+			labelDimension = drawLatex(g2, geo0, getLabelFont(), text, xLabel, getLabelTop());
 		} else {
 			g2.setPaint(geo.getObjectColor());
 
@@ -490,7 +495,11 @@ public class DrawInputBox extends CanvasDrawable {
 
 		view.getViewTextField().revalidateBox();
 		measureLabel(view.getGraphicsForPen(), getGeoInputBox(), labelDesc);
-		labelRectangle.setBounds(boxLeft, boxTop, getPreferredWidth(), getPreferredHeight());
+		labelRectangle.setBounds(boxLeft,
+				(int) Math.round(getLabelTop() + ((getHeightForLabel(labelDesc)
+						- getPreferredHeight()) / 2.0)),
+				getPreferredWidth(),
+				getPreferredHeight());
 		view.getViewTextField().setBoxBounds(labelRectangle);
 	}
 
@@ -529,7 +538,7 @@ public class DrawInputBox extends CanvasDrawable {
 		tf.setDrawTextField(this);
 		tf.setUsedForInputBox(getGeoInputBox());
 		tf.setVisible(true);
-		
+
 		if (canSetWidgetPixelSize()) {
 			tf.setPrefSize(getPreferredWidth(), getPreferredHeight());
 		} else {
@@ -552,7 +561,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 */
 	public void attachMathField() {
 		hideTextField();
-		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds(view.getGraphicsForPen()));
+		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds());
 		geoInputBox.updateRepaint();
 	}
 
@@ -623,5 +632,14 @@ public class DrawInputBox extends CanvasDrawable {
 	 */
 	public void setEditing(boolean editing) {
 		this.editing = editing;
+	}
+
+	/**
+	 *
+	 * @return height of the label depending of whether it was latex or not
+	 */
+	int getHeightForLabel(String label) {
+		return isLatexString(label) && labelDimension != null ? labelDimension.getHeight()
+				: getLabelTextHeight();
 	}
 }

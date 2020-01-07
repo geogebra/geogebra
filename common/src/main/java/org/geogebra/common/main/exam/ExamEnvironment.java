@@ -20,6 +20,7 @@ import org.geogebra.common.main.exam.output.OutputFilter;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.TimeFormatAdapter;
@@ -93,6 +94,7 @@ public class ExamEnvironment {
 	public void setStart(long time) {
 		examStartTime = time;
 		closed = -1;
+		clearClipboard();
 	}
 
 	/**
@@ -431,6 +433,13 @@ public class ExamEnvironment {
 	public void exit() {
 		storeEndTime();
 		restoreCommands();
+		clearClipboard();
+	}
+
+	private void clearClipboard() {
+		CopyPaste copyPaste = app.getCopyPaste();
+		copyPaste.clearClipboard();
+		app.copyTextToSystemClipboard("");
 	}
 
 	/**

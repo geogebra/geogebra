@@ -49,8 +49,8 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -768,8 +768,7 @@ public abstract class GeoElement extends ConstructionElement
 			// beware correct vars for f(t) = t + a
 			if (isAlgebraLabelVisible()) {
 				inputBarStr = getAssignmentLHS(stringTemplate)
-					+ getLabelDelimiterWithSpace()
-						+ inputBarStr;
+						+ getLabelDelimiterWithSpace() + inputBarStr;
 			}
 
 		} else {
@@ -1500,17 +1499,6 @@ public abstract class GeoElement extends ConstructionElement
 	public GeoElementGraphicsAdapter getGraphicsAdapter() {
 		return graphicsadapter;
 	}
-
-	/**
-	 * @return
-	 * 
-	 * 		private static Color getInverseColor(Color c) { float[] hsb =
-	 *         Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
-	 *         hsb[0] += 0.40; if (hsb[0] > 1) hsb[0]--; hsb[1] = 1; hsb[2] =
-	 *         0.7f; return Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
-	 * 
-	 *         }
-	 */
 
 	/**
 	 * Moves label by updating label offset
@@ -2426,10 +2414,6 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
 		return getFormulaString(tpl, !symbolic);
-		// if (symbolic)
-		// return toString();
-		// else
-		// return toDefinedValueString();
 	}
 
 	/**
@@ -4483,10 +4467,8 @@ public abstract class GeoElement extends ConstructionElement
 		if (isDefinitionValid()) {
 			return toString(tpl);
 		}
-		final StringBuilder sbAlgebraDesc = new StringBuilder();
-		sbAlgebraDesc.append(label);
-		sbAlgebraDesc.append(" = ?");
-		return sbAlgebraDesc.toString();
+
+		return getAssignmentLHS(tpl) + " = ?";
 	}
 
 	/**
@@ -6095,7 +6077,7 @@ public abstract class GeoElement extends ConstructionElement
 			diffSb.append(")]");
 			final String diff = kernel.evaluateGeoGebraCAS(diffSb.toString(),
 					null);
-			return (Double.valueOf(diff) == 0d);
+			return (Double.parseDouble(diff) == 0d);
 		} catch (final Throwable e) {
 			return false;
 		}
@@ -6104,35 +6086,26 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public String getFormulaString(final StringTemplate tpl,
 			final boolean substituteNumbers) {
-
-		String ret = "";
-
 		// GeoFunction & GeoFunctionNVar override this, no need to care about
 		// them
-		// only inequalities call this
 
-		// matrices
-		if (isGeoList() && tpl.hasType(StringType.LATEX)
-				&& ((GeoList) this).isMatrix()) {
+		String ret;
+		if (isMatrix() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
-		}
-		// vectors
-		else if (isGeoVector() && tpl.hasType(StringType.LATEX)) {
+		} else if (isGeoVector() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
-		} // curves
-		else if (isGeoCurveCartesian() && tpl.hasType(StringType.LATEX)) {
+		} else if (isGeoCurveCartesian() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
 		} else if (isGeoSurfaceCartesian() && tpl.hasType(StringType.LATEX)) {
 			ret = toLaTeXString(!substituteNumbers, tpl);
 		} else {
 			ret = substituteNumbers ? toValueString(tpl) : getDefinition(tpl);
 		}
-
-		// GeoNumeric eg a=1
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
-				&& isLabelSet()) {
+				&& isLabelSet() && !sendValueToCas) {
 			ret = tpl.printVariableName(label);
 		}
+
 		if ("".equals(ret) && isGeoCasCell()
 				&& ((GeoCasCell) this).getAssignmentVariable() != null) {
 			ret = getLabel(tpl);
@@ -6148,9 +6121,7 @@ public abstract class GeoElement extends ConstructionElement
 		 */
 
 		if (tpl.hasType(StringType.LATEX)) {
-			if ("?".equals(ret)) {
-				ret = "?";
-			} else if ((Unicode.INFINITY + "").equals(ret)) {
+			if ((Unicode.INFINITY + "").equals(ret)) {
 				ret = "\\infty";
 			} else if ((Unicode.MINUS_INFINITY_STRING).equals(ret)) {
 				ret = "-\\infty";

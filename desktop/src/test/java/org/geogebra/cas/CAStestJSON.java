@@ -2,6 +2,7 @@ package org.geogebra.cas;
 
 import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeFalse;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -33,6 +34,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.headless.AppDNoGui;
+import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.util.ReportBuilder;
 import org.junit.AfterClass;
@@ -319,7 +321,15 @@ public class CAStestJSON {
 			t(failures, cmd.input, cmd.output);
 		}
 		Assert.assertEquals(failures[0].toString(), failures[1].toString());
+	}
 
+	private static void testCatNoMac(String category) {
+		if (!AppD.MAC_OS) {
+			testCat(category);
+		} else {
+			testcases.remove(category);
+			assumeFalse(true); // mark test as skipped
+		}
 	}
 
 	/**
@@ -1316,6 +1326,16 @@ public class CAStestJSON {
 	@Test
 	public void testSolveIneq() {
 		testCat("SolveIneq");
+	}
+
+	@Test
+	public void testSolveLambertIneq() {
+		testCatNoMac("SolveLambertIneq");
+	}
+
+	@Test
+	public void testEvaluateOrdering() {
+		testCatNoMac("EvaluateOrdering");
 	}
 
 	@Test

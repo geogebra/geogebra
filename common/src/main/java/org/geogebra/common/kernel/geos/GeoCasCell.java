@@ -1567,7 +1567,7 @@ public class GeoCasCell extends GeoElement
 				ArrayList<GeoNumeric> constList = arbconst.getConstList();
 				if (!constList.isEmpty()) {
 					for (GeoNumeric geoNum : constList) {
-						geoNum.setSendValueToCas(true);
+						geoNum.setSendValueToCas(false);
 						GeoDummyReplacer replacer = GeoDummyReplacer
 								.getReplacer(geoNum.getLabelSimple(), geoNum,
 										false);

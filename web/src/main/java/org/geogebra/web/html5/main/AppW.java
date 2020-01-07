@@ -61,7 +61,6 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
-import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -142,7 +141,6 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-import org.geogebra.web.html5.video.VideoManagerW;
 import org.geogebra.web.plugin.WebsocketLogger;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -196,7 +194,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected FontManagerW fontManager;
 	private SpreadsheetTableModelSimple tableModel;
 	private SoundManagerW soundManager;
-	private VideoManagerW videoManager;
 	private AsyncManager asyncManager;
 
 	protected MaterialsManagerI fm;
@@ -487,14 +484,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			soundManager = new SoundManagerW(this);
 		}
 		return soundManager;
-	}
-
-	@Override
-	public final VideoManager getVideoManager() {
-		if (videoManager == null) {
-			videoManager = new VideoManagerW();
-		}
-		return videoManager;
 	}
 
 	/**

@@ -10,7 +10,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.VirtualKeyboardListener;
@@ -77,8 +77,6 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 public class AutoCompleteTextFieldW extends FlowPanel
 		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
 		KeyDownHandler, KeyUpHandler, KeyPressHandler,
@@ -121,6 +119,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private OnBackSpaceHandler onBackSpaceHandler = null;
 	private boolean suggestionJustHappened = false;
 	private GeoInputBox geoUsedForInputBox;
+	protected boolean isFocused = false;
 	/**
 	 * Pattern to find an argument description as found in the syntax
 	 * information of a command.
@@ -488,11 +487,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void addFocusListener(FocusListener listener) {
-		if (listener instanceof FocusListenerW) {
-			textField.getValueBox().addFocusHandler((FocusListenerW) listener);
-			textField.getValueBox().addBlurHandler((FocusListenerW) listener);
-		}
+	public void addFocusListener(FocusListenerDelegate listener) {
+		FocusListenerW focusListener = new FocusListenerW(listener, textField);
+		addFocusHandler(focusListener);
+		addBlurHandler(focusListener);
 	}
 
 	@Override
@@ -891,8 +889,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void onKeyUp(KeyUpEvent e) {
 		int keyCode = e.getNativeKeyCode();
 		// we don't want to trap AltGr
@@ -987,8 +983,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 			}
 
-			// fall through eg Alt-2 for squared
-
+			//$FALL-THROUGH$
 		default:
 			if (MathFieldW.isRightAlt(e.getNativeEvent())) {
 				rightAltDown = true;
@@ -1371,7 +1366,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public boolean hasFocus() {
-		return false;
+		return isFocused;
 	}
 
 	/**
@@ -1491,6 +1486,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void setFocus(boolean focus) {
+		isFocused = focus;
 		textField.setFocus(focus);
 	}
 

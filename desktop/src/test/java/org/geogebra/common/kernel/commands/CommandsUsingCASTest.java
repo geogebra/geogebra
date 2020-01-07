@@ -127,6 +127,28 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void randomDerivatives() {
+		add("f(x)=1/(x+RandomBetween(1,100))");
+		add("g=Derivative(2*f)");
+		add("h=Derivative(2*f)");
+		add("f1(x)=RandomElement({x^2})");
+		add("g1=Derivative(f1)");
+
+		String xml = "<expression label=\"f2\" exp=\"f2(x) = x\" />"
+				+ "<element type=\"function\" label=\"f2\">" + "<casMap>"
+				+ "<entry key=\"Derivative[((Random[-5, 5] x^Random[3, 4]) + Random[1, 4]) / ((Random[1, 3] x) + Random[1, 5]),x,1]\" val=\"((8 * x^(3)) + (6 * x^(2)) - 4) / ((4 * x^(2)) + (4 * x) + 1)\"/>"
+				+ "</casMap></element>";
+		app.getGgbApi().evalXML(xml);
+		Assert.assertFalse(app.getXML().contains("<entry"));
+		add("UpdateConstruction()");
+		t("g(7)-h(7)", "0");
+	}
+
+	private static void add(String string) {
+		ap.processAlgebraCommand(string, false);
+	}
+
+	@Test
 	public void cmdAsymptote() {
 		t("Asymptote[ x*y=1 ]", new String[] { "x = 0", "y = 0" });
 		t("Asymptote[ 1/x ]", "{y = 0, x = 0}");

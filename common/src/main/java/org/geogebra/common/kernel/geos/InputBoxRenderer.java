@@ -3,11 +3,13 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.util.debug.Log;
 
 class InputBoxRenderer {
 	private GeoElementND linkedGeo;
 	private StringTemplate stringTemplateForLaTeX;
 	private GeoInputBox inputBox;
+	public String tempUserEvalInput;
 
 	InputBoxRenderer(GeoInputBox inputBox) {
 		this.inputBox = inputBox;
@@ -15,6 +17,9 @@ class InputBoxRenderer {
 	}
 
 	String getText() {
+		if (tempUserEvalInput != null) {
+			return tempUserEvalInput;
+		}
 		if (linkedGeo.isGeoText()) {
 			return ((GeoText) linkedGeo).getTextString();
 		}
@@ -26,6 +31,7 @@ class InputBoxRenderer {
 		} else if (inputBox.isSymbolicMode()) {
 			linkedGeoText = getTextForSymbolic();
 		} else {
+			Log.printStacktrace("default");
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
 
@@ -53,7 +59,7 @@ class InputBoxRenderer {
 	}
 
 	private String getTextForNumeric(GeoNumeric numeric) {
-		if (inputBox.symbolicMode && numeric.isSymbolicMode() && !numeric.isSimple()) {
+		if (inputBox.symbolicMode && !numeric.isSimple()) {
 			return toLaTex();
 		} else if (numeric.isDefined() && numeric.isIndependent()) {
 			return numeric.toValueString(inputBox.tpl);

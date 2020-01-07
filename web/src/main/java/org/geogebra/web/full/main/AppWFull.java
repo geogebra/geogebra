@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Cookies;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -40,6 +37,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -102,6 +100,7 @@ import org.geogebra.web.full.main.activity.MixedRealityActivity;
 import org.geogebra.web.full.main.activity.NotesActivity;
 import org.geogebra.web.full.main.activity.ScientificActivity;
 import org.geogebra.web.full.main.activity.SuiteActivity;
+import org.geogebra.web.full.main.video.VideoManagerW;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -135,6 +134,9 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -184,6 +186,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	FloatingMenuPanel floatingMenuPanel = null;
 
 	private EmbedManagerW embedManager;
+	private VideoManagerW videoManager;
 
 	private SaveController saveController = null;
 
@@ -1373,8 +1376,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (frame != null) {
 			frame.clear();
 			frame.add((Widget) getEuclidianViewpanel());
-			// we need to make sure trace works after this, see #4373 or #4236
-			this.getEuclidianView1().createImage();
+			// we need to make sure trace works after this, see
+			// https://jira.geogebra.org/browse/TRAC-4232
+			// https://jira.geogebra.org/browse/TRAC-4034
+			getEuclidianView1().createImage();
+			getEuclidianView1().invalidateBackground();
 			DockPanelW euclidianDockPanel = (DockPanelW) getEuclidianViewpanel();
 			euclidianDockPanel.setVisible(true);
 			euclidianDockPanel.setEmbeddedSize(getSettings()
@@ -1413,9 +1419,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 			return;
-		}
-		if (isWhiteboardActive()) {
-			this.setToolbarPosition(SwingConstants.SOUTH, false);
 		}
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
@@ -1612,6 +1615,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			if (current != null && current.getToolbarDefinition() != null) {
 				getGuiManager().setGeneralToolBarDefinition(
 						current.getToolbarDefinition());
+				updatePerspective(current);
 			}
 		} else if (!asSlide) {
 			getGuiManager().getLayout().getDockManager()
@@ -1821,8 +1825,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void persistWidthAndHeight() {
 		if (this.oldSplitLayoutPanel != null) {
-			spWidth = this.oldSplitLayoutPanel.getEstimateWidth();
-			setSpHeight(this.oldSplitLayoutPanel.getEstimateHeight());
+			spWidth = oldSplitLayoutPanel.getEstimateWidth();
+			spHeight = oldSplitLayoutPanel.getEstimateHeight();
 		}
 	}
 
@@ -2116,6 +2120,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 			embedManager = new EmbedManagerW(this);
 		}
 		return embedManager;
+	}
+
+	@Override
+	public final VideoManager getVideoManager() {
+		if (videoManager == null) {
+			videoManager = new VideoManagerW();
+		}
+		return videoManager;
 	}
 
 	private int getSpHeight() {

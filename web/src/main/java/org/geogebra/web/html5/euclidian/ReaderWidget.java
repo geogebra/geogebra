@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -89,7 +89,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	 *            to read.
 	 */
 	private void read(final String text) {
-		Log.debug("read text: " + text);
+		ScreenReader.debug(text);
 		// make sure text isn't truncated by <return>
 		// https://help.geogebra.org/topic/alttext-reading-stops-at-hard-return
 		setText(text.replace('\n', ' '));
