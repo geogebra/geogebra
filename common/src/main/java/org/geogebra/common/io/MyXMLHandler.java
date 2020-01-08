@@ -1552,7 +1552,6 @@ public class MyXMLHandler implements DocHandler {
 	private static boolean handleLanguage(App app,
 			  LinkedHashMap<String, String> attrs) {
 		String lang = attrs.get("val");
-		Log.debug("LANGUAGE: " + lang);
 		app.setLanguage(lang);
 		return true;
 	}
