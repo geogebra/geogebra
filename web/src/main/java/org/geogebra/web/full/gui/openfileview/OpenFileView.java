@@ -441,7 +441,7 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public boolean onOpenFile() {
 		setConstructionTitleAsMaterial();
-		return true;
+		return false;
 	}
 
 	private void setConstructionTitleAsMaterial() {
