@@ -35,6 +35,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class VideoManagerW implements VideoManager {
 
+	private AppWFull app;
+
 	/**
 	 * true if only preview images are needed (i.e. for image export)
 	 */
@@ -42,6 +44,10 @@ public class VideoManagerW implements VideoManager {
 
 	private Map<GeoVideo, AbstractVideoPlayer> players = new HashMap<>();
 	private ArrayList<AbstractVideoPlayer> cache = new ArrayList<>();
+
+	public VideoManagerW(AppWFull app) {
+		this.app = app;
+	}
 
 	@Override
 	public void loadGeoVideo(GeoVideo geo) {
@@ -56,6 +62,7 @@ public class VideoManagerW implements VideoManager {
 		}
 
 		playerOf(video).setBackground(false);
+		app.getMaskWidgets().masksToForeground();
 	}
 
 	@Override
@@ -130,7 +137,6 @@ public class VideoManagerW implements VideoManager {
 
 		players.put(video, player);
 
-		AppWFull app = (AppWFull) video.getKernel().getApplication();
 		DockPanelW panel = app.getGuiManager().getLayout().getDockManager()
 				.getPanel(App.VIEW_EUCLIDIAN);
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(player);
