@@ -8252,8 +8252,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Sends the videos to background.
-	 *
+	 * Sends the widgets to background.
 	 */
 	public void widgetsToBackground() {
 		if (app.getVideoManager() != null) {
@@ -8261,6 +8260,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		if (app.getEmbedManager() != null) {
 			app.getEmbedManager().backgroundAll();
+		}
+		if (app.getMaskWidgets() != null) {
+			app.getMaskWidgets().clearMasks();
 		}
 	}
 

@@ -306,4 +306,12 @@ public class PointerEventHandler {
 		
 	}-*/;
 
+	public static void startCapture(EuclidianViewW view) {
+		startCapture(view.getAbsolutePanel().getElement());
+	}
+
+	private static native void startCapture(Element element) /*-{
+		$wnd.pointerCapture = element;
+	}-*/;
+
 }
