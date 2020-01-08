@@ -13,4 +13,6 @@ public interface MathKeyboardListener {
 
 	public boolean needsAutofocus();
 
+	boolean hasFocus();
+
 }
