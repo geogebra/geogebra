@@ -8,16 +8,18 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
 
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertTrue;
 
 @RunWith(GwtMockitoTestRunner.class)
 @WithClassesToStub({JLMContext2d.class, RootPanel.class})
 public class TemplateLoadTest {
-	private AppWFull app;
+	private static AppWFull app;
 
+	@Before
 	public void init() {
 		TestArticleElement articleElement = new TestArticleElement("prerelease", "notes");
 		app = AppMocker.mockApplet(articleElement);
@@ -50,33 +52,28 @@ public class TemplateLoadTest {
 
 	@Test
 	public void testLoadTemplatePenThickness() {
-		init();
-		assertTrue(app.getActiveEuclidianView().getSettings().getLastPenThickness() == 30);
+        Assert.assertEquals(app.getActiveEuclidianView().getSettings().getLastPenThickness(),30);
 	}
 
 	@Test
 	public void testLoadTemplatePenColor() {
-		init();
-		assertTrue(app.getActiveEuclidianView().getSettings().getLastSelectedPenColor()
-				== GColor.newColor(204,0,153));
+        Assert.assertEquals(app.getActiveEuclidianView().getSettings().getLastSelectedPenColor(),
+				GColor.newColor(204,0,153));
 	}
 
 	@Test
 	public void testLoadTemplateHighlighterThickness() {
-		init();
-		assertTrue(app.getActiveEuclidianView().getSettings().getLastHighlighterThinckness() == 1);
+        Assert.assertEquals(app.getActiveEuclidianView().getSettings().getLastHighlighterThinckness(),1);
 	}
 
 	@Test
 	public void testLoadTemplateHighlighterColor() {
-		init();
-		assertTrue(app.getActiveEuclidianView().getSettings().getLastSelectedHighlighterColor()
-				== GColor.newColor(219,97,20));
+        Assert.assertEquals(app.getActiveEuclidianView().getSettings()
+            .getLastSelectedHighlighterColor(), GColor.newColor(219,97,20));
 	}
 
 	@Test
 	public void testLoadTemplateEraserSize() {
-		init();
-		assertTrue(app.getActiveEuclidianView().getSettings().getDeleteToolSize() == 61);
+        Assert.assertEquals(app.getActiveEuclidianView().getSettings().getDeleteToolSize(),61);
 	}
 }
