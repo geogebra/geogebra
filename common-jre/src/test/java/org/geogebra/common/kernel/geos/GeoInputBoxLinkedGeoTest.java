@@ -145,6 +145,15 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void shouldBeEmptyAfterPlaneInputUndefined() {
+		setupInput("eq1", "4x + 3y + 2z = 1");
+		GeoElement ib2 = add("in2=InputBox(eq1)");
+		updateInput("?");
+		Assert.assertEquals("", inputBox.getText());
+		Assert.assertEquals("", ((GeoInputBox) ib2).getText());
+	}
+
+	@Test
 	public void shouldBeEmptyAfterSettingComplexUndefined() {
 		setupInput("z1", "3 + i");
 		t("SetValue(z1, ?)");
