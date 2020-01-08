@@ -54,6 +54,8 @@ public abstract class CopyPaste {
 
 	public abstract void duplicate(App app, List<GeoElement> selection);
 
+	public abstract void clearClipboard();
+
 	public static void handleCutCopy(App app, boolean cut) {
 		SelectionManager selection = app.getSelectionManager();
 		app.setWaitCursor();

@@ -456,6 +456,12 @@ public class CopyPasteW extends CopyPaste {
 		pasteGeoGebraXMLInternal(app, copiedXmlLabels, copiedXml.toString());
 	}
 
+	@Override
+	public native void clearClipboard() /*-{
+        $wnd.localStorage.setItem(
+            @org.geogebra.web.html5.util.CopyPasteW::pastePrefix, '');
+	}-*/;
+
 	public static native void installPaste(App app, Element target) /*-{
 		target.addEventListener('paste', function(a) {
 			if (a.target.tagName.toUpperCase() === 'INPUT'

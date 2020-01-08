@@ -663,4 +663,14 @@ public class CopyPasteD extends CopyPaste {
 		copyToXML(app, selection);
 		pasteFromXML(app);
 	}
+
+	@Override
+	public void clearClipboard() {
+		if (copiedXML != null) {
+			copiedXML.setLength(0);
+		}
+		if (copiedXMLforSameWindow != null) {
+			copiedXMLforSameWindow.setLength(0);
+		}
+	}
 }
