@@ -14,4 +14,12 @@ public interface TextStyle extends GeoElementND {
 	 */
 	double getFontSizeMultiplier();
 
+	/**
+	 * For buttons
+	 * 
+	 * @return true if most of these properties are ignored and just size is
+	 *         taken into account
+	 */
+	boolean justFontSize();
+
 }

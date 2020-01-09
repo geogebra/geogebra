@@ -3,10 +3,8 @@ package org.geogebra.web.full.gui.util;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -33,9 +31,11 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	protected PointStylePopup btnPointStyle;
 
 	protected boolean needUndo = false;
+	protected final InlineTextFormatter inlineFormatter;
 
 	public StyleBarW2(AppW app, int viewID) {
 		super(app, viewID);
+		inlineFormatter = new InlineTextFormatter(app);
 	}
 
 	protected void createLineStyleBtn() {
@@ -210,18 +210,8 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		boolean ret = EuclidianStyleBarStatic.applyColor(color,
 				alpha, app);
 		String htmlColor = StringUtil.toHtmlColor(color);
-		return formatInlineText(targetGeos, "color", htmlColor) || ret;
-	}
-
-	protected boolean formatInlineText(ArrayList<GeoElement> targetGeos,
-			String key, Object val) {
-		for (GeoElement geo : targetGeos) {
-			DrawableND draw = app.getActiveEuclidianView().getDrawableFor(geo);
-			if (draw instanceof DrawInlineText) {
-				((DrawInlineText) draw).format(key, val);
-			}
-		}
-		return false;
+		return inlineFormatter.formatInlineText(targetGeos, "color", htmlColor)
+				|| ret;
 	}
 
 	protected abstract void handleEventHandlers(Object source);

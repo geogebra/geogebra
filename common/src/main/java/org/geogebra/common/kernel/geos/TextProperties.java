@@ -69,14 +69,6 @@ public interface TextProperties extends TextStyle {
 	public boolean useSignificantFigures();
 
 	/**
-	 * For buttons
-	 * 
-	 * @return true if most of these properties are ignored and just size is
-	 *         taken into account
-	 */
-	public boolean justFontSize();
-
-	/**
 	 * @return whether this was created using a command with LaTeX output
 	 */
 	public boolean isLaTeXTextCommand();

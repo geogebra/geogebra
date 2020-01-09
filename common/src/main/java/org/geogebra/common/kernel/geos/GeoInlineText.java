@@ -290,4 +290,9 @@ public class GeoInlineText extends GeoElement
 		}
 		return false;
 	}
+
+	@Override
+	public boolean justFontSize() {
+		return false;
+	}
 }

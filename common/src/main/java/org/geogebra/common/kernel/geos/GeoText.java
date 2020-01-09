@@ -905,12 +905,7 @@ public class GeoText extends GeoElement
 			return FONTSIZE_VERY_LARGE;
 		}
 		return FONTSIZE_EXTRA_LARGE;
-
 	}
-
-	// public void setFontSize(int size) {
-	// fontSize = size;
-	// }
 
 	@Override
 	public void setFontSizeMultiplier(double d) {
@@ -933,7 +928,6 @@ public class GeoText extends GeoElement
 		} else {
 			setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS);
 		}
-
 	}
 
 	@Override

@@ -1629,7 +1629,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 				selectedIndex);
 		double size = GeoText.getRelativeFontSize(selectedIndex)
 				* ev.getFontSize();
-		return formatInlineText(targetGeos, "size", size) || ret;
+		return inlineFormatter.formatInlineText(targetGeos, "size", size)
+				|| ret;
 	}
 
 	private boolean applyFontStyle(ArrayList<GeoElement> targetGeos, int mask,
@@ -1637,7 +1638,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		boolean ret = EuclidianStyleBarStatic.applyFontStyle(targetGeos, mask,
 				add);
 		String property = mask == GFont.BOLD ? "bold" : "italic";
-		return formatInlineText(targetGeos, property, add) || ret;
+		return inlineFormatter.formatInlineText(targetGeos, property, add)
+				|| ret;
 	}
 
 	/**

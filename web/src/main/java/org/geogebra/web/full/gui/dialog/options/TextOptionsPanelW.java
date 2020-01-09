@@ -7,6 +7,7 @@ import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOptionsListener;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
@@ -17,6 +18,7 @@ import org.geogebra.web.full.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.full.gui.dialog.TextPreviewPanelW;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
+import org.geogebra.web.full.gui.util.InlineTextFormatter;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
@@ -57,7 +59,6 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	private Button btnOk;
 	private Button btnCancel;
 
-	private boolean secondLineVisible = false;
 	GeoTextEditor editor;
 	private TextEditAdvancedPanel advancedPanel;
 	private TextPreviewPanelW previewer;
@@ -67,8 +68,11 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	private boolean mayDetectLaTeX = true;
 
+	private InlineTextFormatter inlineFormatter;
+
 	public TextOptionsPanelW(TextOptionsModel model, AppW app) {
 		createGUI(model, app);
+		inlineFormatter = new InlineTextFormatter(app);
 	}
 
 	public void createGUI(TextOptionsModel model0, final AppW appw) {
@@ -94,9 +98,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			}
 		});
 		lbSize = new ListBox();
-		for (String item : model.getFonts()) {
-			lbSize.addItem(item);
-		}
+
 		lbSize.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -109,6 +111,12 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 									.getFontSizeMultiplier() * 100)
 							+ "%";
 
+					AsyncOperation<String[]> customSizeHandler = new AsyncOperation<String[]>() {
+						@Override
+						public void callback(String[] dialogResult) {
+							model.applyFontSizeFromString(dialogResult[1]);
+						}
+					};
 					appw.getGuiManager()
 							.getOptionPane()
 							.showInputDialog(
@@ -116,17 +124,14 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 											.getLocalization()
 											.getMenu("EnterPercentage"),
 									currentSize, null,
-									new AsyncOperation<String[]>() {
-
-								@Override
-										public void callback(
-												String[] dialogResult) {
-									model.applyFontSizeFromString(dialogResult[1]);
-								}
-									});
+									customSizeHandler);
 
 				} else {
 					model.applyFontSizeFromIndex(lbSize.getSelectedIndex());
+					double size = GeoText
+							.getRelativeFontSize(lbSize.getSelectedIndex())
+							* app.getActiveEuclidianView().getFontSize();
+					inlineFormat("size", size);
 				}
 				updatePreview();
 			}
@@ -171,6 +176,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			public void onClick(ClickEvent event) {
 				model.setEditGeoText(editor.getText());
 				model.applyFontStyle(btnBold.getValue(), btnItalic.getValue());
+				inlineFormat("bold", btnBold.getValue());
+				inlineFormat("italic", btnItalic.getValue());
 				updatePreview();
 			}
 		};
@@ -227,7 +234,6 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		mainPanel.add(firstLine);
 		mainPanel.add(secondLine);
-		secondLineVisible = true;
 
 		editorPanel = new FlowPanel();
 		editorPanel.setStyleName("optionsInput");
@@ -271,6 +277,10 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		setWidget(mainPanel);
 	}
 
+	protected void inlineFormat(String key, Object val) {
+		inlineFormatter.formatInlineText(model.getGeosAsList(), key, val);
+	}
+
 	protected boolean isSerif() {
 		return lbFont.getSelectedIndex() == 1;
 	}
@@ -311,23 +321,11 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		}
 
 		return this;
-
 	}
 
 	@Override
 	public void setLabels() {
-		String[] fontSizes = loc.getFontSizeStrings();
-
-		int selectedIndex = lbSize.getSelectedIndex();
-		lbSize.clear();
-
-		for (int i = 0; i < fontSizes.length; ++i) {
-			lbSize.addItem(fontSizes[i]);
-		}
-
-		lbSize.addItem(loc.getMenu("Custom") + Unicode.ELLIPSIS);
-
-		lbSize.setSelectedIndex(selectedIndex);
+		rebuildSizeListBox();
 
 		decimalLabel.setText(loc.getMenu("Rounding") + ":");
 
@@ -349,40 +347,30 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		btnCancel.setText(loc.getMenu("Cancel"));
 	}
 
-	@Override
-	public void setWidgetsVisible(boolean showFontDetails, boolean isButton) {
-		// hide most options for Textfields
-		lbFont.setVisible(showFontDetails);
-		btnBold.setVisible(showFontDetails);
-		btnItalic.setVisible(showFontDetails);
-		secondLine.setVisible(showFontDetails);
-		secondLineVisible = showFontDetails;
+	private void rebuildSizeListBox() {
+		String[] fontSizes = loc.getFontSizeStrings();
 
-		if (isButton) {
-			secondLine.setVisible(!showFontDetails);
-			secondLineVisible = !showFontDetails;
+		int selectedIndex = lbSize.getSelectedIndex();
+		lbSize.clear();
+
+		for (int i = 0; i < fontSizes.length; ++i) {
+			lbSize.addItem(fontSizes[i]);
 		}
-	}
+		if (model.hasGeos() && !(model.getGeoAt(0) instanceof GeoInlineText)) {
+			lbSize.addItem(loc.getMenu("Custom") + Unicode.ELLIPSIS);
+		}
 
-	@Override
-	public void setFontSizeVisibleOnly() {
-		lbSize.setVisible(true);
-		lbFont.setVisible(false);
-		btnBold.setVisible(false);
-		btnItalic.setVisible(false);
-		secondLine.setVisible(false);
+		lbSize.setSelectedIndex(selectedIndex);
 	}
 
 	@Override
 	public void selectSize(int index) {
 		lbSize.setSelectedIndex(index);
-
 	}
 
 	@Override
 	public void selectFont(int index) {
 		lbFont.setSelectedIndex(index);
-
 	}
 
 	@Override
@@ -391,25 +379,14 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	}
 
 	@Override
-	public void setSecondLineVisible(boolean noDecimals) {
-		if (noDecimals) {
-
-			if (secondLineVisible) {
-				secondLineVisible = false;
-			}
-		} else {
-			if (!secondLineVisible) {
-				secondLineVisible = true;
-			}
-
-			secondLine.setVisible(secondLineVisible);
-		}
-
+	public void updateWidgetVisibility() {
+		secondLine.setVisible(model.hasRounding());
 		editorPanel.setVisible(model.isTextEditable());
-		lbFont.setVisible(model.isTextEditable());
+		lbFont.setVisible(model.hasFontStyle());
+		btnBold.setVisible(model.hasFontStyle());
+		btnItalic.setVisible(model.hasFontStyle());
 		btnLatex.setVisible(model.isTextEditable());
 		btnPanel.setVisible(model.isTextEditable());
-
 	}
 
 	@Override
@@ -423,12 +400,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	@Override
 	public void selectFontStyle(int style) {
-
-		btnBold.setValue(style == GFont.BOLD
-				|| style == (GFont.BOLD + GFont.ITALIC));
-		btnItalic.setValue(style == GFont.ITALIC
-				|| style == (GFont.BOLD + GFont.ITALIC));
-
+		btnBold.setValue((style & GFont.BOLD) != 0);
+		btnItalic.setValue((style & GFont.ITALIC) != 0);
 	}
 
 	@Override
@@ -458,11 +431,6 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	@Override
 	public void setEditorText(ArrayList<DynamicTextElement> list) {
 		editor.setText(list);
-	}
-
-	@Override
-	public void setEditorText(String text) {
-		editor.setText(text);
 	}
 
 	@Override
