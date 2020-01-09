@@ -33,6 +33,12 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	protected boolean needUndo = false;
 	protected final InlineTextFormatter inlineFormatter;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param viewID
+	 *            parent view ID
+	 */
 	public StyleBarW2(AppW app, int viewID) {
 		super(app, viewID);
 		inlineFormatter = new InlineTextFormatter(app);

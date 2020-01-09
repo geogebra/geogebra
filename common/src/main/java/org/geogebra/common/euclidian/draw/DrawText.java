@@ -12,18 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Matrix.Coords;
