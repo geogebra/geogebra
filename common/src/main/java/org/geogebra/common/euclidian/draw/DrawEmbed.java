@@ -1,6 +1,9 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -9,7 +12,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.factories.AwtFactory;
@@ -22,7 +24,7 @@ import org.geogebra.common.main.App.ExportType;
  * Drawable for embedded apps
  */
 public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
-	private BoundingBox boundingBox;
+	private BoundingBox<GEllipse2DDouble> boundingBox;
 	private GRectangle2D bounds;
 	private double originalRatio = Double.NaN;
 	private GeoEmbed geoEmbed;
@@ -66,12 +68,12 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	@Override
-	public int getWidthThreshold() {
+	public double getWidthThreshold() {
 		return EMBED_SIZE_THRESHOLD;
 	}
 
 	@Override
-	public int getHeightThreshold() {
+	public double getHeightThreshold() {
 		return EMBED_SIZE_THRESHOLD;
 	}
 
@@ -112,8 +114,8 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	private boolean hitBoundingBox(int hitX, int hitY, int hitThreshold) {
-		return getBoundingBox() != null && getBoundingBox() == view.getBoundingBox()
-				&& getBoundingBox().hit(hitX, hitY, hitThreshold);
+		return view.getBoundingBox() != null && geo.isSelected()
+				&& view.getBoundingBox().hit(hitX, hitY, hitThreshold);
 	}
 
 	@Override
@@ -132,9 +134,9 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
+	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = createBoundingBox(false, false);
+			boundingBox = createBoundingBox(false);
 			setMetrics();
 		}
 		boundingBox.updateFrom(geo);
@@ -177,12 +179,11 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D p,
-			EuclidianBoundingBoxHandler handler) {
+	public void fromPoints(ArrayList<GPoint2D> pts) {
 		if (Double.isNaN(originalRatio)) {
 			updateOriginalRatio();
 		}
-		getBoundingBox().resize(this, p, handler);
+		BoundingBox.resize(this, pts.get(0), pts.get(1));
 	}
 
 	@Override

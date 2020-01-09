@@ -182,10 +182,7 @@ public class DrawableList implements Iterable<Drawable> {
 			if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
 					&& !(geo.isGeoInputBox()) && !geo.isMask()) {
-				if (cur.d.needsUpdate()) {
-					cur.d.setNeedsUpdate(false);
-					cur.d.update();
-				}
+				cur.d.updateIfNeeded();
 				cur.d.draw(g2);
 			}
 			cur = cur.next;

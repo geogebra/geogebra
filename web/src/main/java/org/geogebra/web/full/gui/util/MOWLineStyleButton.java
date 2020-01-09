@@ -54,6 +54,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	@Override
 	public void handlePopupActionEvent() {
 		model.applyLineTypeFromIndex(getSelectedIndex());
+		getMyPopup().hide();
 		updatePreview();
 	}
 

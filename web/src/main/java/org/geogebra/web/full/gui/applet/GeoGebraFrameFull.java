@@ -276,7 +276,7 @@ public class GeoGebraFrameFull
 			keyboardState = KeyboardState.ANIMATING_OUT;
 			app.persistWidthAndHeight();
 			showKeyboardButton(textField);
-			removeKeyboard(textField);
+			removeKeyboard();
 			keyboardState = KeyboardState.HIDDEN;
 		}
 
@@ -293,8 +293,8 @@ public class GeoGebraFrameFull
 		timer.schedule(0);
 	}
 
-	private void removeKeyboard(MathKeyboardListener textField) {
-		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(textField);
+	private void removeKeyboard() {
+		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(null);
 		this.setKeyboardShowing(false);
 
 		ToolbarPanel toolbarPanel = getGuiManager()
@@ -492,6 +492,7 @@ public class GeoGebraFrameFull
 				|| getKeyboardManager().shouldKeyboardBeShown()
 				|| keyboardNeededForGraphicsTools()) {
 			doShowKeyBoard(show, textField);
+			showKeyboardButton(textField);
 			return true;
 		}
 		showKeyboardButton(textField);
@@ -523,10 +524,23 @@ public class GeoGebraFrameFull
 
 		if (showKeyboardButton != null) {
 			add(showKeyboardButton);
-			boolean isButtonNeeded = getGuiManager().hasKeyboardListener();
-			showKeyboardButton.show(isButtonNeeded, textField);
+			showKeyboardButton.show(isButtonNeeded(textField), textField);
 			showKeyboardButton.addStyleName("openKeyboardButton2");
 		}
+	}
+
+	private boolean isButtonNeeded(MathKeyboardListener textField) {
+		MathKeyboardListener keyboardListener = getGuiManager().getKeyboardListener();
+		if (app.getGuiManager().hasSpreadsheetView() || app.isUnbundled()) {
+			return keyboardListener != null;
+		}
+
+		if (textField != null && keyboardListener != null) {
+			return app.isKeyboardNeeded()
+					&& (textField.hasFocus() || keyboardListener.hasFocus());
+		}
+
+		return false;
 	}
 
 	private boolean appNeedsKeyboard() {
@@ -567,7 +581,7 @@ public class GeoGebraFrameFull
 				ensureKeyboardDeferred();
 				add(keyBoard);
 			} else {
-				removeKeyboard(null);
+				removeKeyboard();
 				if (this.showKeyboardButton != null) {
 					this.showKeyboardButton.hide();
 				}

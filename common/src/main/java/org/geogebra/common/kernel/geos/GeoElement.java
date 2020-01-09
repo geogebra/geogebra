@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,8 +50,8 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -768,8 +769,7 @@ public abstract class GeoElement extends ConstructionElement
 			// beware correct vars for f(t) = t + a
 			if (isAlgebraLabelVisible()) {
 				inputBarStr = getAssignmentLHS(stringTemplate)
-					+ getLabelDelimiterWithSpace()
-						+ inputBarStr;
+						+ getLabelDelimiterWithSpace() + inputBarStr;
 			}
 
 		} else {
@@ -4468,10 +4468,8 @@ public abstract class GeoElement extends ConstructionElement
 		if (isDefinitionValid()) {
 			return toString(tpl);
 		}
-		final StringBuilder sbAlgebraDesc = new StringBuilder();
-		sbAlgebraDesc.append(label);
-		sbAlgebraDesc.append(" = ?");
-		return sbAlgebraDesc.toString();
+
+		return getAssignmentLHS(tpl) + " = ?";
 	}
 
 	/**
@@ -6103,6 +6101,10 @@ public abstract class GeoElement extends ConstructionElement
 			ret = toLaTeXString(!substituteNumbers, tpl);
 		} else {
 			ret = substituteNumbers ? toValueString(tpl) : getDefinition(tpl);
+		}
+		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
+				&& isLabelSet() && !sendValueToCas) {
+			ret = tpl.printVariableName(label);
 		}
 
 		if ("".equals(ret) && isGeoCasCell()
@@ -7748,5 +7750,9 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public GeoElementND unwrapSymbolic() {
 		return this;
+	}
+
+	public List<GeoElement> getPartialSelection(boolean removeOriginal) {
+		return Collections.singletonList(this);
 	}
 }

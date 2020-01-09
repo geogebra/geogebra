@@ -1,9 +1,15 @@
 package org.geogebra.common.euclidian.draw;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.util.TextObject;
+import org.geogebra.test.euclidian.AutoCompleteTextFieldC;
 import org.geogebra.test.euclidian.TextFieldCommonJre;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +41,7 @@ public class DrawInputBoxTest extends BaseUnitTest {
 		int symbolicInputBoxHeight = getHeightOfInputBox(inputBoxDrawer, true);
 		int nonSymbolicInputBoxHeight = getHeightOfInputBox(inputBoxDrawer, false);
 
-		Assert.assertEquals(symbolicInputBoxHeight, nonSymbolicInputBoxHeight);
+		assertEquals(symbolicInputBoxHeight, nonSymbolicInputBoxHeight);
 	}
 
 	@Test
@@ -54,7 +60,8 @@ public class DrawInputBoxTest extends BaseUnitTest {
 
 		int symbolicInputBoxHeightFocused = getHeightOfInputBox(inputBoxDrawer, true);
 
-		Assert.assertEquals(symbolicInputBoxHeightNotFocused, symbolicInputBoxHeightFocused);
+		assertEquals(symbolicInputBoxHeightNotFocused,
+				symbolicInputBoxHeightFocused);
 	}
 
 	@Test
@@ -76,7 +83,31 @@ public class DrawInputBoxTest extends BaseUnitTest {
 		inputBox.textObjectUpdated(textObject);
 
 		int symbolicInputBoxHeight = getHeightOfInputBox(inputBoxDrawer, true);
-		Assert.assertEquals(symbolicInputBoxHeightEmptyInput, symbolicInputBoxHeight);
+		assertEquals(symbolicInputBoxHeightEmptyInput, symbolicInputBoxHeight);
+	}
+
+	@Test
+	public void inputBoxShouldNotStealContent() {
+		EuclidianView ev = getApp().getActiveEuclidianView();
+		ev.setViewTextField(new TextFieldCommonJre(ev));
+		add("a=1");
+		GeoInputBox inputBoxNumber = (GeoInputBox) add("InputBox(a)");
+		add("B=(1,1)");
+		add("InputBox(B)");
+		inputBoxNumber
+				.setClickScript(
+						new GgbScript(getApp(), "UpdateConstruction()"));
+		AutoCompleteTextFieldC tf = (AutoCompleteTextFieldC) ((DrawInputBox) ev
+				.getDrawableFor(inputBoxNumber)).getTextField();
+		tf.setUsedForInputBox(inputBoxNumber);
+		tf.requestFocus();
+		tf.setText("2");
+		tf.blur();
+		tf.onEnter();
+		assertEquals(GeoClass.NUMERIC, lookup("a").getGeoClassType());
+		// the textfield is now hidden, can be empty or contain "2", but not
+		// definition of B
+		assertNotEquals("(1, 1)", tf.getText());
 	}
 
 	private int getHeightOfInputBox(DrawInputBox inputBoxDrawer, boolean symbolicMode) {
@@ -89,7 +120,7 @@ public class DrawInputBoxTest extends BaseUnitTest {
 		inputBoxDrawer.update();
 	}
 
-	private TextObject mockTextObjectWithReturn(String text) {
+	private static TextObject mockTextObjectWithReturn(String text) {
 		TextObject textObject = Mockito.mock(TextObject.class);
 		Mockito.when(textObject.getText()).thenReturn(text);
 		return textObject;

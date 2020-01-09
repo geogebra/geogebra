@@ -18,11 +18,15 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
@@ -33,6 +37,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -184,9 +189,11 @@ public abstract class Drawable extends DrawableND {
 	public abstract GeoElement getGeoElement();
 
 	/**
-	 * @return bounding box construction
+	 * @return bounding box with handlers
 	 */
-	public abstract BoundingBox getBoundingBox();
+	public BoundingBox<? extends GShape> getBoundingBox() {
+		return null;
+	}
 
 	@Override
 	public double getxLabel() {
@@ -219,8 +226,8 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return min width in pixels
 	 */
-	public int getWidthThreshold() {
-		return 0;
+	public double getWidthThreshold() {
+		return Double.NEGATIVE_INFINITY;
 	}
 
 	/**
@@ -228,8 +235,8 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return min height in pixels
 	 */
-	public int getHeightThreshold() {
-		return 0;
+	public double getHeightThreshold() {
+		return Double.NEGATIVE_INFINITY;
 	}
 
 	/**
@@ -535,10 +542,8 @@ public abstract class Drawable extends DrawableND {
 	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y,
-			int hitThreshold) {
-		if (getBoundingBox() != null
-				&& getBoundingBox() == view.getBoundingBox()) {
+	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y, int hitThreshold) {
+		if (getBoundingBox() != null && getBoundingBox() == view.getBoundingBox()) {
 			return getBoundingBox().getHitHandler(x, y, hitThreshold);
 		}
 
@@ -801,13 +806,9 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * method to update geoElement of drawable by drag of resize handlers of
-	 * boundingBox
-	 * 
-	 * @param p
-	 *            - mouse release position
+	 * method to update geoElement of drawable after resizing the boundingBox
 	 */
-	public void updateGeo(GPoint2D p) {
+	public void updateGeo() {
 		// do nothing here
 	}
 
@@ -921,19 +922,86 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Helper method for creating a BoundingBox object.
-	 * @param isImage is image
 	 * @param hasRotationHandler has rotation handler
 	 * @return bounding box
 	 */
-	protected BoundingBox createBoundingBox(boolean isImage, boolean hasRotationHandler) {
-		BoundingBox boundingBox = new BoundingBox(isImage, hasRotationHandler);
+	protected BoundingBox<GEllipse2DDouble> createBoundingBox(boolean hasRotationHandler) {
+		MultiBoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
 		boundingBox.setColor(getActiveColor());
 
 		return boundingBox;
 	}
 
 	private GColor getActiveColor() {
-		App app = geo.getKernel().getApplication();
+		App app = view.getApplication();
 		return app.getPrimaryColor();
+	}
+
+	@Override
+	public void setPartialHitClip(GRectangle rect) {
+		// just strokes
+	}
+
+	@Override
+	public GRectangle getPartialHitClip() {
+		return null;
+	}
+
+	/**
+	 * @return bounding box for multi-selection, possibly clipped
+	 */
+	public GRectangle2D getBoundsClipped() {
+		return getBoundingBox() != null ? getBoundingBox().getRectangle() : getBounds();
+	}
+
+	/**
+	 * Reset partial hit rectangle after click
+	 * 
+	 * @param x
+	 *            screen x-coord of the click
+	 * @param y
+	 *            screen y-coord of the click
+	 * @return whether we clicked outside of partial hit
+	 */
+	public boolean resetPartialHitClip(int x, int y) {
+		return false; // only for strokes
+	}
+
+	/**
+	 * @param points
+	 *            list of points defining the drawable
+	 */
+	public void fromPoints(ArrayList<GPoint2D> points) {
+		// only shapes
+	}
+
+	/**
+	 * @return list of points defining the drawable
+	 */
+	protected List<GPoint2D> toPoints() {
+		GRectangle2D bounds = getBoundingBox() != null
+				? getBoundingBox().getRectangle()
+				: getBounds();
+		List<GPoint2D> ret = new ArrayList<>(2);
+		ret.add(new MyPoint(bounds.getMinX(), bounds.getMinY()));
+		ret.add(new MyPoint(bounds.getMaxX(), bounds.getMaxY()));
+		return ret;
+	}
+
+	/**
+	 * @return width threshold for
+	 */
+	public double getDiagonalWidthThreshold() {
+		return getWidthThreshold();
+	}
+
+	/**
+	 * Update this if it's marked as outdated
+	 */
+	public void updateIfNeeded() {
+		if (needsUpdate()) {
+			setNeedsUpdate(false);
+			update();
+		}
 	}
 }

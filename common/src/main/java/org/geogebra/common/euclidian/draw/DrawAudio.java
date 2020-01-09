@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -200,12 +199,12 @@ public class DrawAudio extends Drawable {
 	}
 
 	@Override
-	public int getWidthThreshold() {
+	public double getWidthThreshold() {
 		return geoAudio.getWidth();
 	}
 
 	@Override
-	public int getHeightThreshold() {
+	public double getHeightThreshold() {
 		return geoAudio.getHeight();
 	}
 
@@ -377,11 +376,6 @@ public class DrawAudio extends Drawable {
 	@Override
 	public GeoElement getGeoElement() {
 		return geo;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		return null;
 	}
 
 	@Override

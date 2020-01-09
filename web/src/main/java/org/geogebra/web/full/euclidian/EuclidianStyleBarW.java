@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -600,8 +599,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnCrop = new MyToggleButtonW(new NoDragImage(
 				MaterialDesignResources.INSTANCE.crop_black(), 24));
 		btnCrop.addStyleName("btnCrop");
-		btnCrop.setDown(app.getActiveEuclidianView().getBoundingBox() != null
-				&& app.getActiveEuclidianView().getBoundingBox().isCropBox());
+		btnCrop.setDown(ev.getBoundingBox() != null
+				&& ev.getBoundingBox().isCropBox());
 		ClickStartHandler.init(btnCrop, new ClickStartHandler(true, true) {
 
 			@Override
@@ -615,10 +614,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private void toggleCrop(boolean val) {
 		if (getBtncrop() != null) {
-			Drawable dr = ((Drawable) app.getActiveEuclidianView()
-					.getDrawableFor(activeGeoList.get(0)));
-			dr.getBoundingBox().setCropBox(val);
-			app.getActiveEuclidianView().repaintView();
+			ev.getEuclidianController().updateBoundingBoxFromSelection(val);
+			ev.repaintView();
 			updateStyleBar();
 		}
 	}
@@ -638,23 +635,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void onClick(Widget source) {
-				// force closing keyboard
-				getFrame().showKeyBoard(false, null, true);
-				boolean deletePoints = true;
-				for (int i = activeGeoList.size() - 1; i >= 0; i--) {
-					if (!(activeGeoList.get(i) instanceof GeoPoint)) {
-						activeGeoList.get(i).remove();
-						deletePoints = false;
-					}
-				}
-				if (deletePoints) {
-					app.deleteSelectedObjects(false);
-				} else {
-					app.storeUndoInfo();
-				}
-
-				app.getActiveEuclidianView().getEuclidianController()
-						.clearSelectionAndRectangle();
+				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+				app.deleteSelectedObjects(false);
 			}
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);
@@ -819,8 +801,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return btnLabel;
 	}
 
-	protected class ProjectionPopup extends PopupMenuButtonW {
+	public class ProjectionPopup extends PopupMenuButtonW {
 
+		/**
+		 * @param app
+		 *            application
+		 * @param projectionIcons
+		 *            icons
+		 */
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
 					SelectionTable.MODE_ICON, true, false, null, false);
@@ -835,10 +823,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 						&& mode != EuclidianConstants.MODE_PEN);
 			}
 		}
-		/*
-		 * @Override public Point getToolTipLocation(MouseEvent e) { return new
-		 * Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
-		 */
 	}
 
 	protected void createChangeViewButtons() {

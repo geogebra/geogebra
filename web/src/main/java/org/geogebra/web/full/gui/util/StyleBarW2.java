@@ -96,14 +96,13 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			} else {
 				double alpha = btnColor.getSliderValue() / 100.0;
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color,
-						alpha);
+						alpha, app);
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
 				int selectedIndex = btnLineStyle.getSelectedIndex();
 				int lineSize = btnLineStyle.getSliderValue();
-				needUndo = EuclidianStyleBarStatic.applyLineStyle(targetGeos,
-						selectedIndex, lineSize);
+				needUndo = EuclidianStyleBarStatic.applyLineStyle(selectedIndex, lineSize, app);
 			}
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
@@ -167,7 +166,8 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 					}
 					return;
 				}
-				applyColor(targetGeos, color, geo0.getAlphaValue());
+				EuclidianStyleBarStatic.applyColor(targetGeos, color,
+						geo0.getAlphaValue(), app);
 			}
 
 			@Override

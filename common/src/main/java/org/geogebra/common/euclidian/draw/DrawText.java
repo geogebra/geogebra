@@ -12,15 +12,17 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
@@ -161,13 +163,13 @@ public final class DrawText extends Drawable {
 
 		// We need check for null bounding box because of
 		// SetValue[text,Text["a",(1,1)]] makes it null
-		if (text.isNeedsUpdatedBoundingBox() && (textChanged || positionChanged
-				|| fontChanged || text.getKernel().getForceUpdatingBoundingBox()
+		if (text.isNeedsUpdatedBoundingBox() && (textChanged || positionChanged || fontChanged
+				|| text.getKernel().getForceUpdatingBoundingBox()
 				|| text.getBoundingBox() == null)) {
 			// ensure that bounding box gets updated by drawing text once
 			if (isLaTeX) {
-				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont,
-						geo.getObjectColor(), view.getBackgroundCommon());
+				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont, geo.getObjectColor(),
+						view.getBackgroundCommon());
 			} else {
 				drawMultilineText(view.getTempGraphics2D(textFont), textFont);
 			}
@@ -176,8 +178,7 @@ public final class DrawText extends Drawable {
 			double xRW = view.toRealWorldCoordX(labelRectangle.getX());
 			double yRW = view.toRealWorldCoordY(labelRectangle.getY());
 
-			text.setBoundingBox(xRW, yRW,
-					labelRectangle.getWidth() * view.getInvXscale(),
+			text.setBoundingBox(xRW, yRW, labelRectangle.getWidth() * view.getInvXscale(),
 					-labelRectangle.getHeight() * view.getInvYscale());
 		}
 	}
@@ -280,8 +281,7 @@ public final class DrawText extends Drawable {
 		int newFontStyle = text.getFontStyle();
 		boolean newSerifFont = text.isSerifFont();
 
-		if (text.getTextString() != null
-				&& textFont.canDisplayUpTo(text.getTextString()) != -1
+		if (incompatibleCharacters()
 				|| fontSize != newFontSize || fontStyle != newFontStyle
 				|| newSerifFont != serifFont) {
 			super.updateFontSize();
@@ -298,6 +298,11 @@ public final class DrawText extends Drawable {
 		}
 
 		return false;
+	}
+
+	private boolean incompatibleCharacters() {
+		return text.getTextString() != null
+				&& textFont.canDisplayUpTo(text.getTextString()) != -1;
 	}
 
 	/**
@@ -318,87 +323,6 @@ public final class DrawText extends Drawable {
 		}
 
 		return labelRectangle;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		return null;
-	}
-
-	@Override
-	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
-		prepareBoundingBoxResize(point, handler);
-		text.update();
-	}
-
-	private void prepareBoundingBoxResize(GPoint2D point,
-			EuclidianBoundingBoxHandler handler) {
-		double minX = labelRectangle.getMinX();
-		double maxX = labelRectangle.getMaxX();
-		double minY = labelRectangle.getMinY();
-		double maxY = labelRectangle.getMaxY();
-		double mouseY = point.getY();
-		double mouseX = point.getX();
-		GeoPointND startPoint;
-		int h;
-		switch (handler) {
-		case TOP:
-			h = (int) (maxY - mouseY);
-			if (h < text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN) {
-				h = text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN;
-				mouseY = maxY - h;
-			}
-			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
-			startPoint = text.getStartPoint();
-			startPoint.setCoords(startPoint.getInhomX(),
-					view.toRealWorldCoordY(mouseY + fontSize + EuclidianStatic.EDITOR_MARGIN),
-					1.0);
-			break;
-		case BOTTOM:
-			if (mouseY - minY < text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN) {
-				mouseY = minY + text.getTextHeight() + 2 * EuclidianStatic.EDITOR_MARGIN;
-			}
-			h = (int) (mouseY - minY);
-			labelRectangle.setSize((int) labelRectangle.getWidth(), h);
-			break;
-		case RIGHT:
-			int w = (int) (mouseX - minX);
-			if (w < MIN_EDITOR_WIDTH) {
-				w = MIN_EDITOR_WIDTH;
-			}
-			labelRectangle.setSize(w,
-					(int) labelRectangle.getHeight());
-			break;
-		case LEFT:
-			int width = (int) (maxX - mouseX);
-			if (width < MIN_EDITOR_WIDTH) {
-				mouseX = maxX - MIN_EDITOR_WIDTH;
-				width = MIN_EDITOR_WIDTH;
-			}
-			width += EuclidianStatic.EDITOR_MARGIN;
-			labelRectangle.setSize(width, (int) labelRectangle.getHeight());
-			startPoint = text.getStartPoint();
-			startPoint.setCoords(view.toRealWorldCoordX(mouseX), startPoint.getInhomY(), 1.0);
-			break;
-		case BOTTOM_LEFT:
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT);
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM);
-			break;
-		case TOP_RIGHT:
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT);
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP);
-			break;
-		case TOP_LEFT:
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.LEFT);
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.TOP);
-			break;
-		case BOTTOM_RIGHT:
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.RIGHT);
-			prepareBoundingBoxResize(point, EuclidianBoundingBoxHandler.BOTTOM);
-			break;
-		default:
-			break;
-		}
 	}
 
 	/**

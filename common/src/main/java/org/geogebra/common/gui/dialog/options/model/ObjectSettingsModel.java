@@ -81,7 +81,7 @@ abstract public class ObjectSettingsModel {
         }
 
 		EuclidianStyleBarStatic.applyColor(geoElementsList, color,
-					geoElement.getAlphaValue());
+					geoElement.getAlphaValue(), app);
 
         app.setPropertiesOccured();
     }
@@ -509,8 +509,7 @@ abstract public class ObjectSettingsModel {
             return;
         }
 
-		EuclidianStyleBarStatic.applyColor(geoElementsList,
-				geoElement.getObjectColor(), alpha);
+        EuclidianStyleBarStatic.applyColor(geoElementsList, geoElement.getObjectColor(), alpha, app);
 
         app.setPropertiesOccured();
     }

@@ -182,6 +182,7 @@ public class CmdSetValue extends CmdScripting {
 						&& Double.isNaN(arg1.evaluateDouble())) {
 					// eg SetValue[a,?] for line
 					arg0.setUndefined();
+					arg0.resetDefinition();
 				} else {
 					// copy() needed for eg
 					// rnd = {1,2,3,4}

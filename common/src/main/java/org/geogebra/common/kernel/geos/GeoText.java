@@ -167,7 +167,7 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoText copy() {
 		return new GeoText(this);
 	}
 

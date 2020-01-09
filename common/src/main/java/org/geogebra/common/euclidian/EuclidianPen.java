@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
@@ -13,7 +12,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -43,7 +41,7 @@ public class EuclidianPen implements GTimerListener {
 	/** Polyline that conects stylebar to pen settings */
 	public final GeoPolyLine defaultPenLine;
 
-	private AlgoElement lastAlgo = null;
+	private AlgoLocusStroke lastAlgo = null;
 	/** points created by pen */
 	protected ArrayList<GPoint> penPoints = new ArrayList<>();
 
@@ -235,20 +233,6 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * Update the info about last geo so that we can continue a polyline
-	 *
-	 * @param penGeo
-	 *            last object created with pen
-	 */
-	public void setPenGeo(GeoElement penGeo) {
-		if (penGeo == null) {
-			lastAlgo = null;
-		} else if (penGeo.getParentAlgorithm() instanceof AlgoLocusStroke) {
-			lastAlgo = penGeo.getParentAlgorithm();
-		}
-	}
-
-	/**
 	 * Make sure we start using a new polyline
 	 */
 	public void resetPenOffsets() {
@@ -269,8 +253,7 @@ public class EuclidianPen implements GTimerListener {
 		view.setCursor(EuclidianCursor.TRANSPARENT);
 		if (isErasingEvent(e)) {
 			view.getEuclidianController().getDeleteMode()
-					.handleMouseDraggedForDelete(e,
-							view.getSettings().getDeleteToolSize(), true);
+					.handleMouseDraggedForDelete(e, true);
 			app.getKernel().notifyRepaint();
 		} else {
 			// drawing in progress, so we need repaint
@@ -348,15 +331,6 @@ public class EuclidianPen implements GTimerListener {
 	 *            event
 	 */
 	public void addPointPenMode(AbstractEvent e) {
-		// if a PolyLine is selected, we can append to it.
-
-		ArrayList<GeoElement> selGeos = app.getSelectionManager()
-				.getSelectedGeos();
-
-		if (selGeos.size() == 1 && selGeos.get(0) instanceof GeoPolyLine) {
-			lastAlgo = selGeos.get(0).getParentAlgorithm();
-		}
-
 		view.setCursor(EuclidianCursor.TRANSPARENT);
 
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
@@ -506,31 +480,15 @@ public class EuclidianPen implements GTimerListener {
 		this.initialPoint = null;
 	}
 
-	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
+	private void addPointsToPolyLine(ArrayList<GPoint> penPoints) {
 		Construction cons = app.getKernel().getConstruction();
-		List<MyPoint> newPts;
 		if (startNewStroke) {
 			lastAlgo = null;
 			startNewStroke = false;
 		}
-		int ptsLength = 0;
-		if (lastAlgo == null) {
-			newPts = new ArrayList<>(penPoints2.size());
-		} else {
-			AlgoLocusStroke algo = getAlgoStroke(lastAlgo);
 
-			ptsLength = algo.getPointsLength();
-
-			newPts = new ArrayList<>(penPoints2.size() + 1 + ptsLength);
-
-			for (int i = 0; i < ptsLength; i++) {
-				newPts.add(algo.getPointCopy(i));
-			}
-
-			newPts.add(new MyPoint(Double.NaN, Double.NaN));
-		}
-
-		for (GPoint p : penPoints2) {
+		ArrayList<MyPoint> newPts = new ArrayList<>(penPoints.size());
+		for (GPoint p : penPoints) {
 			double x = view.toRealWorldCoordX(p.getX());
 			double y = view.toRealWorldCoordY(p.getY());
 
@@ -539,32 +497,20 @@ public class EuclidianPen implements GTimerListener {
 					DoubleUtil.checkDecimalFraction(y)));
 		}
 
-		AlgoElement algo;
 		// don't set label
-		if (lastAlgo instanceof AlgoLocusStroke) {
-			((AlgoLocusStroke) lastAlgo).updatePointArray(newPts, ptsLength,
-					view.getScale(0));
+		if (lastAlgo != null) {
+			lastAlgo.getPenStroke().appendPointArray(newPts);
 			lastAlgo.getOutput(0).updateRepaint();
 			return;
 		}
-		AlgoElement newPolyLine = new AlgoLocusStroke(cons, newPts);
+
+		AlgoLocusStroke newPolyLine = new AlgoLocusStroke(cons, newPts);
 		// set label
 		newPolyLine.getOutput(0).setLabel(null);
-		algo = newPolyLine;
+		newPolyLine.getOutput(0).setTooltipMode(GeoElementND.TOOLTIP_OFF);
+		lastAlgo = newPolyLine;
 
-		algo.getOutput(0).setTooltipMode(GeoElementND.TOOLTIP_OFF);
-
-		if (lastAlgo != null) {
-			try {
-				cons.replace(lastAlgo.getOutput(0), algo.getOutput(0));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		lastAlgo = algo;
-
-		GeoElement poly = algo.getOutput(0);
+		GeoElement poly = newPolyLine.getOutput(0);
 
 		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);
@@ -578,13 +524,6 @@ public class EuclidianPen implements GTimerListener {
 		poly.updateRepaint();
 
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
-	}
-
-	private static AlgoLocusStroke getAlgoStroke(AlgoElement al) {
-		if (al instanceof AlgoLocusStroke) {
-			return (AlgoLocusStroke) al;
-		}
-		return (AlgoLocusStroke) al.getInput()[0].getParentAlgorithm();
 	}
 
 	/**
