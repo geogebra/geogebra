@@ -3197,6 +3197,7 @@ public class AlgebraProcessor {
 				ret.updateRepaint();
 			}
 			ret.setDefinition(n);
+			InputHelper.initSymbolicMode(ret);
 		}
 
 		// operations and variables are present
