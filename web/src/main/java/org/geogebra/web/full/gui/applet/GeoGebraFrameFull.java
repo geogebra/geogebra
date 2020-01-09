@@ -123,9 +123,9 @@ public class GeoGebraFrameFull
 		getArticleMap().put(article.getId(), application);
 
 		if (!app.isApplet()) {
-			CopyPasteW.installPaste(application, RootPanel.getBodyElement());
+			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
 		} else {
-			CopyPasteW.installPaste(application, getElement());
+			CopyPasteW.installCutCopyPaste(application, getElement());
 		}
 
 		if (app != null) {

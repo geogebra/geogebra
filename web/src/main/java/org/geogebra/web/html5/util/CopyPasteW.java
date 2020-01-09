@@ -255,6 +255,9 @@ public class CopyPasteW extends CopyPaste {
             copyFrom.value = encoded;
             copyFrom.select();
             $doc.execCommand('copy');
+            $wnd.setTimeout(function() {
+                $doc.body.focus();
+            }, 0);
 		}
 
 		$wnd.localStorage.setItem(
@@ -462,7 +465,7 @@ public class CopyPasteW extends CopyPaste {
             @org.geogebra.web.html5.util.CopyPasteW::pastePrefix, '');
 	}-*/;
 
-	public static native void installPaste(App app, Element target) /*-{
+	public static native void installCutCopyPaste(App app, Element target) /*-{
 		target.addEventListener('paste', function(a) {
 			if (a.target.tagName.toUpperCase() === 'INPUT'
 				|| a.target.tagName.toUpperCase() === 'TEXTAREA'
@@ -498,21 +501,16 @@ public class CopyPasteW extends CopyPaste {
 
 		var copying = false;
 
-		target.addEventListener('copy', function() {
-			if (!copying) {
-                copying = true;
-                @org.geogebra.common.util.CopyPaste::handleCutCopy(*)(app, false);
-                copying = false;
-            }
-        });
-
-        target.addEventListener('cut', function() {
+		function cutCopy(event) {
             if (!copying) {
                 copying = true;
-                @org.geogebra.common.util.CopyPaste::handleCutCopy(*)(app, true);
+                @org.geogebra.common.util.CopyPaste::handleCutCopy(*)(app, event.type === 'cut');
                 copying = false;
             }
-        })
+		}
+
+		target.addEventListener('copy', cutCopy);
+        target.addEventListener('cut', cutCopy)
 	}-*/;
 
 	/**

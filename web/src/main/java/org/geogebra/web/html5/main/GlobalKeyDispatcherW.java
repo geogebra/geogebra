@@ -360,9 +360,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeEvent()
 					.getKeyCode());
 			// Do not prevent default for the v key, otherwise paste events are not fired
-			if (kc != KeyCodes.TAB && event.getNativeEvent().getKeyCode() != 'v'
-					&& event.getNativeEvent().getKeyCode() != 'c'
-					&& event.getNativeEvent().getKeyCode() != 'x') {
+			if (kc != KeyCodes.TAB && event.getCharCode() != 'v'
+					&& event.getCharCode() != 'c' && event.getCharCode() != 'x') {
 				event.preventDefault();
 			} else if (kc == KeyCodes.TAB && keydownPreventsDefaultKeypressTAB) {
 				// we only have to allow default action for TAB
