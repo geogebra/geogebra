@@ -3,7 +3,6 @@ package org.geogebra.web.richtext.impl;
 import org.geogebra.web.richtext.Editor;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
@@ -66,12 +65,7 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void focus(final int x, final int y) {
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				focusNative(editor, x, y);
-			}
-		});
+		focusNative(editor, x, y);
 	}
 
 	@Override

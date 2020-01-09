@@ -6535,8 +6535,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		inlineText.setLabel(null);
-		((DrawInlineText) view.getDrawableFor(inlineText)).toForeground(0, 0);
 		selectAndShowBoundingBox(inlineText);
+		((DrawInlineText) view.getDrawableFor(inlineText)).toForeground(0, 0);
 
 		return true;
 	}
