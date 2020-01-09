@@ -1904,7 +1904,7 @@ __GGB__keysVar["eu"].menu = {
     "GeneratePstricks": "Sortu PSTricks kodea LaTeX-erako",
     "GeoGebra3DGrapher": "GeoGebra 3D Kalkulagailua",
     "GeoGebra3DGrapher.short": "3D Kalkulagailua",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS Kalkulagailua",
     "GeoGebraForum": "GeoGebra Foroa",
     "GeoGebraGeometry": "GeoGebra Geometria",

@@ -4441,6 +4441,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (getApplication().getEmbedManager() != null) {
 			getApplication().getEmbedManager().storeEmbeds();
 		}
+
 	}
 
 	private void restoreAfterReload() {
@@ -4450,6 +4451,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (getApplication().getVideoManager() != null) {
 			getApplication().getVideoManager().clearStoredVideos();
 		}
+		getApplication().getActiveEuclidianView().restoreDynamicStylebar();
 	}
 
 	/**

@@ -22,7 +22,6 @@ import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -365,24 +364,5 @@ public class DrawSlider extends Drawable {
 			addLabelOffsetEnsureOnScreen(view.getFontPoint());
 		}
 	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// private void setPointSize(int pointSize) {
-	// if (this.pointSize != pointSize) {
-	// diameter = 2 * pointSize;
-	// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-	// // HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-	// hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
-	// }
-	//
-	// Log.error("pointSize = " + pointSize);
-	//
-	// this.pointSize = pointSize;
-	// }
 
 }

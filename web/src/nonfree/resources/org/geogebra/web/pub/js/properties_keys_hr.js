@@ -1904,7 +1904,7 @@ __GGB__keysVar["hr"].menu = {
     "GeneratePstricks": "Generiraj PSTricks kod",
     "GeoGebra3DGrapher": "GeoGebra 3D kalkulator",
     "GeoGebra3DGrapher.short": "3D kalkulator",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS kalkulator",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "Geometrija",

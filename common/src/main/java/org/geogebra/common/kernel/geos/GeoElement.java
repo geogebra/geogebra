@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1636,7 +1637,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public void setFixed(boolean flag) {
 		if (!flag) {
-			fixed = kernel.getApplication().isExamStarted()
+			fixed = kernel.getApplication().getConfig().isObjectDraggingRestricted()
 					&& AlgebraItem.isFunctionOrEquationFromUser(this)
 					&& !this.isDefaultGeo();
 		} else if (isFixable()) {
@@ -7749,5 +7750,9 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public GeoElementND unwrapSymbolic() {
 		return this;
+	}
+
+	public List<GeoElement> getPartialSelection(boolean removeOriginal) {
+		return Collections.singletonList(this);
 	}
 }

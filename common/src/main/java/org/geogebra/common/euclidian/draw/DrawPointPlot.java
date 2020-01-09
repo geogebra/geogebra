@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -36,7 +34,7 @@ public class DrawPointPlot extends Drawable {
 	private boolean labelVisible;
 	private double[] coords = new double[2];
 
-	private AlgoElement algo;
+	private AlgoDotPlot algo;
 	private ArrayList<DrawPoint> drawPoints;
 
 	private int pointStyle;
@@ -68,7 +66,7 @@ public class DrawPointPlot extends Drawable {
 	}
 
 	private void init() {
-		algo = geo.getParentAlgorithm();
+		algo = (AlgoDotPlot) geo.getParentAlgorithm();
 		drawPoints = new ArrayList<>();
 		updatePointLists();
 	}
@@ -166,8 +164,7 @@ public class DrawPointPlot extends Drawable {
 		updatePointLists();
 
 		// adjust point coordinates for a density plot
-		if (drawType == DrawType.DOT_PLOT
-				&& ((AlgoDotPlot) algo).stackAdjacentDots()) {
+		if (drawType == DrawType.DOT_PLOT && algo.stackAdjacentDots()) {
 			doDotDensity();
 		}
 
@@ -206,7 +203,6 @@ public class DrawPointPlot extends Drawable {
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}
-
 	}
 
 	private void updatePointLists() {
@@ -262,11 +258,11 @@ public class DrawPointPlot extends Drawable {
 
 		pointSize = pointList.getPointSize();
 		double h = 2 * pointSize * view.getInvXscale();
-		scaleFactor = ((AlgoDotPlot) algo).getScaleFactor();
+		scaleFactor = algo.getScaleFactor();
 
 		GeoPoint pt = null;
-		GeoList xList = ((AlgoDotPlot) algo).getUniqueXList();
-		GeoList freqList = ((AlgoDotPlot) algo).getFrequencyList();
+		GeoList xList = algo.getUniqueXList();
+		GeoList freqList = algo.getFrequencyList();
 
 		int xIndex = 0;
 		int dotCount = 1;
@@ -290,9 +286,7 @@ public class DrawPointPlot extends Drawable {
 				dotCount++;
 				xIndex++;
 			}
-
 		}
-
 	}
 
 	/**
@@ -303,7 +297,7 @@ public class DrawPointPlot extends Drawable {
 		double x = getDotPlotX(index);
 		String text = view.getKernel().format(x,
 				StringTemplate.defaultTemplate);
-		((AlgoDotPlot) geo.getParentAlgorithm()).setToolTipPointText(text);
+		algo.setToolTipPointText(text);
 
 		// force automatic tool tip update
 		view.setToolTipText(" ");
@@ -312,8 +306,8 @@ public class DrawPointPlot extends Drawable {
 	private double getDotPlotX(int index) {
 		double x = 0;
 		int xIndex = 0;
-		GeoList list1 = ((AlgoDotPlot) algo).getUniqueXList();
-		GeoList list2 = ((AlgoDotPlot) algo).getFrequencyList();
+		GeoList list1 = algo.getUniqueXList();
+		GeoList list2 = algo.getFrequencyList();
 
 		for (int i = 0; i < list1.size(); i++) {
 
@@ -328,11 +322,5 @@ public class DrawPointPlot extends Drawable {
 			}
 		}
 		return x;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
