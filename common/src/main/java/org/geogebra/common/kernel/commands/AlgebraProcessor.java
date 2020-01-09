@@ -3193,12 +3193,12 @@ public class AlgebraProcessor {
 			// Create GeoList object
 			ret = kernel.getAlgoDispatcher().list(label, geoElements,
 					isIndependent);
+			((HasSymbolicMode) ret).initSymbolicMode();
 			if (!evalList.isDefined()) {
 				ret.setUndefined();
 				ret.updateRepaint();
 			}
 			ret.setDefinition(n);
-			((HasSymbolicMode) ret).initSymbolicMode();
 		}
 
 		// operations and variables are present
