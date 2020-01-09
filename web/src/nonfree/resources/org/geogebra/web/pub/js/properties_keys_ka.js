@@ -1904,7 +1904,7 @@ __GGB__keysVar["ka"].menu = {
     "GeneratePstricks": "PSTricks \u10d9\u10dd\u10d3\u10d8\u10e1 \u10d2\u10d4\u10dc\u10d4\u10e0\u10d8\u10e0\u10d4\u10d1\u10d0",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra-\u10e1 \u10e4\u10dd\u10e0\u10e3\u10db\u10d8",
     "GeoGebraGeometry": "GeoGebra Geometry",

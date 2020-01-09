@@ -1904,7 +1904,7 @@ __GGB__keysVar["hu"].menu = {
     "GeneratePstricks": "PSTricks k\xf3d gener\xe1l\xe1sa",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D rajzol\xf3",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra Komputeralgebra",
     "GeoGebraForum": "GeoGebra F\xf3rum",
     "GeoGebraGeometry": "GeoGebra geometria",

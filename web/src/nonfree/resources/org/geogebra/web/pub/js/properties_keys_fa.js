@@ -1904,7 +1904,7 @@ __GGB__keysVar["fa"].menu = {
     "GeneratePstricks": "\u062a\u0648\u0644\u06cc\u062f \u06a9\u062f",
     "GeoGebra3DGrapher": "\u0645\u0627\u0634\u06cc\u0646 \u062d\u0633\u0627\u0628 \u0633\u0647\u200c\u0628\u0639\u062f\u06cc \u062c\u0626\u0648\u062c\u0628\u0631\u0627",
     "GeoGebra3DGrapher.short": "\u0645\u0627\u0634\u06cc\u0646 \u062d\u0633\u0627\u0628 \u0633\u0647 \u0628\u0639\u062f\u06cc",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "\u062c\u0626\u0648\u062c\u0628\u0631\u0627 CAS \u0645\u0627\u0634\u06cc\u0646 \u062d\u0633\u0627\u0628",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "\u062c\u0626\u0648\u062c\u0628\u0631\u0627 \u0647\u0646\u062f\u0633\u0647",

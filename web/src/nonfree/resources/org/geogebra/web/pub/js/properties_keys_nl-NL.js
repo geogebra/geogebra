@@ -1904,7 +1904,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "GeneratePstricks": "Genereer PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Graf.rekenmachine",
     "GeoGebra3DGrapher.short": "3D rekenmachine",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS rekenmachine",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Meetkunde",

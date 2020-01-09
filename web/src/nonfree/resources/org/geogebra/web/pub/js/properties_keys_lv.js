@@ -1904,7 +1904,7 @@ __GGB__keysVar["lv"].menu = {
     "GeneratePstricks": "\u0122ener\u0113t kodu",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forums",
     "GeoGebraGeometry": "GeoGebra Geometry",

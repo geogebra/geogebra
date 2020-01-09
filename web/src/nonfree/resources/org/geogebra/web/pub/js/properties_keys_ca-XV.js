@@ -1904,7 +1904,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "GeneratePstricks": "Genera PSTricks per a LaTeX",
     "GeoGebra3DGrapher": "Calculadora 3D de GeoGebra",
     "GeoGebra3DGrapher.short": "Calculadora 3D",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "Calculadora CAS del GeoGebra",
     "GeoGebraForum": "F\xf2rum del GeoGebra",
     "GeoGebraGeometry": "Geometria de GeoGebra",

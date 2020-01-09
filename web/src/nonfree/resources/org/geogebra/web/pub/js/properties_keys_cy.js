@@ -1904,7 +1904,7 @@ __GGB__keysVar["cy"].menu = {
     "GeneratePstricks": "Cynhyrchu cod PSTricks",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "Fforwm GeoGebra",
     "GeoGebraGeometry": "GeoGebra Geometry",

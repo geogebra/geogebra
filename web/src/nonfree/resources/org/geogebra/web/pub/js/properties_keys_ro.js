@@ -1904,7 +1904,7 @@ __GGB__keysVar["ro"].menu = {
     "GeneratePstricks": "Genereaz\u0103 cod",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "Calculator 3D",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "Calculatorul GeoGebra CAS",
     "GeoGebraForum": "Forumul GeoGebra",
     "GeoGebraGeometry": "Geometrie GeoGebra",
