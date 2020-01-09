@@ -34,6 +34,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -104,6 +105,14 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	final public static int DELAY_BETWEEN_MOVE_EVENTS = 15;
 
+	private static final int OUTER_GLOW_WIDTH = 5;
+	private static final int OUTER_GLOW_ALPHA = 48;
+	private static final int INNER_GLOW_WIDTH = 2;
+	private static final int INNER_GLOW_ALPHA = 101;
+	private static final int SELECTION_ARC = 4;
+	private static final int ICON_SIZE = 36;
+	private static final int ICON_MARGIN = 4;
+
 	private GGraphics2DWI g2p = null;
 	private GGraphics2DWI g2bg = null;
 	private GGraphics2D g2dtemp;
@@ -124,7 +133,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 
 	private long lastRepaint;
-
+	private boolean isResetIconSelected = false;
 	private boolean inFocus = false;
 	/** application **/
 	AppW appW = (AppW) super.app;
@@ -1317,14 +1326,46 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
+	/**
+	 * Sets whether the reset icon should be selected.
+	 * It changes the reset icon appearance.
+	 *
+	 * @param selected true if the reset icon is selected
+	 */
+	public void setResetIconSelected(boolean selected) {
+		isResetIconSelected = selected;
+		suggestRepaint();
+	}
+
 	@Override
 	protected void drawResetIcon(GGraphics2D g) {
-		int w = getWidth();
-
 		// omit for export
 		if (!appW.isExporting()) {
-			((GGraphics2DW) g).drawImage(getResetImage(), w - 24, 2);
+			GGraphics2DW graphics = (GGraphics2DW) g;
+			ImageElement resetIcon = getResetImage();
+			int width = getWidth();
+			int iconWidth = resetIcon.getWidth();
+			int iconHeight = resetIcon.getHeight();
+
+			graphics.drawImage(resetIcon,
+					width - ICON_MARGIN - iconWidth - (ICON_SIZE - iconWidth) / 2,
+					ICON_MARGIN + (ICON_SIZE - iconHeight) / 2);
+			if (isResetIconSelected) {
+				drawHighlight(graphics, width - ICON_MARGIN - ICON_SIZE, ICON_MARGIN, ICON_SIZE);
+			}
 		}
+	}
+
+	private void drawHighlight(GGraphics2DW graphics, int x, int y, int highlightSize) {
+		// Outer glow
+		graphics.setStroke(new DefaultBasicStroke(OUTER_GLOW_WIDTH));
+		graphics.setColor(GColor.BLACK.deriveWithAlpha(OUTER_GLOW_ALPHA));
+		graphics.drawRoundRect(x, y, highlightSize, highlightSize, SELECTION_ARC, SELECTION_ARC);
+
+		// Inner glow
+		graphics.setStroke(new DefaultBasicStroke(INNER_GLOW_WIDTH));
+		graphics.setColor(GColor.BLACK.deriveWithAlpha(INNER_GLOW_ALPHA));
+		graphics.drawRoundRect(x, y, highlightSize, highlightSize, SELECTION_ARC, SELECTION_ARC);
 	}
 
 	/* needed because set the id of canvas */
