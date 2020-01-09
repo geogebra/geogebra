@@ -83,7 +83,7 @@ abstract public class ObjectSettingsModel {
         if (!hasFurtherStyle()) {
             EuclidianStyleBarStatic.applyTextColor(geoElementsList, color);
         } else {
-            EuclidianStyleBarStatic.applyColor(geoElementsList, color, geoElement.getAlphaValue(), app);
+            EuclidianStyleBarStatic.applyColor(color, geoElement.getAlphaValue(), app);
         }
 
         app.setPropertiesOccured();
@@ -511,7 +511,7 @@ abstract public class ObjectSettingsModel {
             return;
         }
 
-        EuclidianStyleBarStatic.applyColor(geoElementsList, geoElement.getObjectColor(), alpha, app);
+        EuclidianStyleBarStatic.applyColor(geoElement.getObjectColor(), alpha, app);
 
         app.setPropertiesOccured();
     }

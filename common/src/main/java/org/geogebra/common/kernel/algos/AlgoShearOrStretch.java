@@ -168,19 +168,34 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 		}
 
 		// translate -Q
-		tranOut.translate(new Coords(qx, qy, 0));
+		Coords negativeStartPoint = new Coords(qx, qy, 0);
+		tranOut.translate(negativeStartPoint);
 
 		if (shear) {
 			out.matrixTransform(1 - c * s * n, c * c * n, -s * s * n,
 					1 + s * c * n);
 		} else {
-			out.matrixTransform(c * c + s * s * n, c * s * (1 - n),
-					c * s * (1 - n), s * s + c * c * n);
+			stretch(out, c, s, n);
 		}
-		tranOut.translate(new Coords(-qx, -qy, 0));
+		negativeStartPoint.mulInside(-1);
+		tranOut.translate(negativeStartPoint);
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
 		}
+	}
+
+	/**
+	 * @param out
+	 *            transformable
+	 * @param c
+	 *            direction cosine
+	 * @param s
+	 *            direction sine
+	 * @param n
+	 *            stretch factor
+	 */
+	public static void stretch(MatrixTransformable out, double c, double s, double n) {
+		out.matrixTransform(c * c + s * s * n, c * s * (1 - n), c * s * (1 - n), s * s + c * c * n);
 	}
 
 	@Override
@@ -222,15 +237,12 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 
 	@Override
 	public double getAreaScaleFactor() {
-
 		if (shear) {
 			return 1;
 		}
-
 		// else
 		// stretch
 		return n;
-
 	}
 
 }

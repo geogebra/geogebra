@@ -2,8 +2,6 @@ package org.geogebra.web.html5.euclidian;
 
 import java.util.ArrayList;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -20,6 +18,8 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -216,21 +216,21 @@ public class TextControllerW
 	}
 
 	@Override
-	public String wrapText(String txt, DrawText d) {
+	public String wrapText(String txt, DrawText d, GRectangle bounds) {
 		String editText = txt.replace("&nbsp;", " ");
 		String[] rows = editText.split("\n");
 		ArrayList<String> wrappedRows = new ArrayList<>();
 		for (int i = 0; i < rows.length; i++) {
-			wrappedRows.addAll(wrapRow(rows[i], d));
+			wrappedRows.addAll(wrapRow(rows[i], d, bounds));
 		}
 		return StringUtil.join("\n", wrappedRows);
 	}
 
-	private static int getCurrentWidth(DrawText d) {
-		if (d == null || d.getBounds() == null) {
+	private static int getCurrentWidth(GRectangle bounds) {
+		if (bounds == null) {
 			return DrawText.MIN_EDITOR_WIDTH;
 		}
-		return (int) d.getBounds().getWidth();
+		return (int) bounds.getWidth();
 	}
 
 	/**
@@ -242,9 +242,9 @@ public class TextControllerW
 	 *            drawable
 	 * @return list of short rows
 	 */
-	public ArrayList<String> wrapRow(String row, DrawText drawText) {
+	public ArrayList<String> wrapRow(String row, DrawText drawText, GRectangle bounds) {
 		String[] words = row.split(" ");
-		int rowLength = getCurrentWidth(drawText) - 2 * EuclidianStatic.EDITOR_MARGIN;
+		int rowLength = getCurrentWidth(bounds) - 2 * EuclidianStatic.EDITOR_MARGIN;
 		int i = 0;
 		String currRow, tempRow = "";
 		ArrayList<String> wrappedRow = new ArrayList<>();
