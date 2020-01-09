@@ -1902,8 +1902,8 @@ public class GeoNumeric extends GeoElement
 	public void initSymbolicMode() {
 		ExpressionNode definition = getDefinition();
 		boolean symbolicMode =
-				definition == null ||
-						(!definition.isSimpleFraction() && definition.isFractionNoPi());
+				(definition == null)
+						|| (!definition.isSimpleFraction() && definition.isFractionNoPi());
 		setSymbolicMode(symbolicMode, false);
 	}
 

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -3193,7 +3192,9 @@ public class AlgebraProcessor {
 			// Create GeoList object
 			ret = kernel.getAlgoDispatcher().list(label, geoElements,
 					isIndependent);
-			((HasSymbolicMode) ret).initSymbolicMode();
+			if (info.isFractions()) {
+				((HasSymbolicMode) ret).initSymbolicMode();
+			}
 			if (!evalList.isDefined()) {
 				ret.setUndefined();
 				ret.updateRepaint();
