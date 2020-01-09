@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -21,7 +20,6 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	private static final int padding = 8;
 	private GeoInlineText text;
 	private InlineTextController textController;
-	private BoundingBox boundingBox;
 
 	/**
 	 * Create a new DrawInlineText instance.
@@ -55,8 +53,6 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 				textController.updateContent();
 			}
 		}
-
-		getBoundingBox().setRectangle(getBounds());
 	}
 
 	/**
@@ -102,16 +98,6 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	@Override
 	public GeoElement getGeoElement() {
 		return geo;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		if (boundingBox == null) {
-			boundingBox = createBoundingBox(false, false);
-			boundingBox.setRectangle(getBounds());
-		}
-		boundingBox.updateFrom(geo);
-		return boundingBox;
 	}
 
 	@Override

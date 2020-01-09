@@ -478,8 +478,7 @@ public class EuclidianStyleBarStatic {
 	 *            opacity
 	 * @return success
 	 */
-	public static boolean applyColor(List<GeoElement> geos, GColor color,
-			double alpha, App app) {
+	public static boolean applyColor(GColor color, double alpha, App app) {
 		boolean needUndo = false;
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		List<GeoElement> geos = app.getSelectionManager().getSelectedGeos();
@@ -526,7 +525,7 @@ public class EuclidianStyleBarStatic {
 			if (geo instanceof TextStyle) {
 				if (geo.getBackgroundColor() != color
 						|| geo.getAlphaValue() != alpha) {
-					geo.setBackgroundColor(color == null ? null : color);
+					geo.setBackgroundColor(color);
 					// TODO apply background alpha
 					// --------
 					geo.updateVisualStyleRepaint(GProperty.COLOR_BG);

@@ -95,7 +95,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 				openColorChooser(targetGeos, false);
 			} else {
 				double alpha = btnColor.getSliderValue() / 100.0;
-				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color,
+				needUndo = EuclidianStyleBarStatic.applyColor(color,
 						alpha, app);
 			}
 		} else if (source == btnLineStyle) {
@@ -166,7 +166,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 					}
 					return;
 				}
-				EuclidianStyleBarStatic.applyColor(targetGeos, color,
+				EuclidianStyleBarStatic.applyColor(color,
 						geo0.getAlphaValue(), app);
 			}
 
@@ -207,8 +207,8 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 	protected boolean applyColor(ArrayList<GeoElement> targetGeos, GColor color,
 			double alpha) {
-		boolean ret = EuclidianStyleBarStatic.applyColor(targetGeos, color,
-				alpha);
+		boolean ret = EuclidianStyleBarStatic.applyColor(color,
+				alpha, app);
 		String htmlColor = StringUtil.toHtmlColor(color);
 		return formatInlineText(targetGeos, "color", htmlColor) || ret;
 	}
