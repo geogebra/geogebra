@@ -197,9 +197,14 @@ public class SaveDialogMow extends DialogBoxW
 		if (visibility == MaterialVisibility.Shared && hasNewName(activeMaterial)) {
 			return MaterialVisibility.Private;
 		}
+		return visibility;
 	}
 
-	@Override
+	private boolean hasNewName(Material material) {
+		return !material.getTitle().equals(getInputField().getText());
+	}
+
+			@Override
 	public void setLabels() {
 		defaultSaveCaptionAndCancel();
 		titleLbl.setText(loc.getMenu("Title"));
