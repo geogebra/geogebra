@@ -7991,7 +7991,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (startBoundingBoxState == null) {
 			startBoundingBoxState = new BoundingBoxResizeState(
 					view.getBoundingBox().getRectangle(),
-					selection.getSelectedGeos(), view, handler.isDiagonal());
+					selection.getSelectedGeos(), view);
 		}
 		GPoint2D mouseDistance = getMouseDistance(event, handler);
 

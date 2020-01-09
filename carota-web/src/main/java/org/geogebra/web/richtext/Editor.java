@@ -16,7 +16,7 @@ public interface Editor {
 		/**
 		 * Called instantly on editor state change
 		 */
-		void onSizeChanged();
+		void onSizeChanged(double minHeight);
 	}
 
 	/**

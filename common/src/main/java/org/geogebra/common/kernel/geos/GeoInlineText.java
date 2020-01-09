@@ -28,6 +28,8 @@ public class GeoInlineText extends GeoElement
 	private double width;
 	private double height;
 
+	private double minHeight;
+
 	private String content;
 	private int contentDefaultSize;
 
@@ -114,6 +116,14 @@ public class GeoInlineText extends GeoElement
 	 */
 	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	public double getMinHeight() {
+		return Math.max(minHeight, DEFAULT_HEIGHT);
+	}
+
+	public void setMinHeight(double minHeight) {
+		this.minHeight = minHeight;
 	}
 
 	/**

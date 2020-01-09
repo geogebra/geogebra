@@ -52,9 +52,9 @@ public class InlineTextControllerW implements InlineTextController {
 			}
 
 			@Override
-			public void onSizeChanged() {
-				geo.setWidth(Math.max(widget.getOffsetWidth(), geo.getWidth()));
-				geo.setHeight(Math.max(widget.getOffsetHeight(), geo.getHeight()));
+			public void onSizeChanged(double minHeight) {
+				geo.setHeight(Math.max(minHeight, geo.getHeight()));
+				geo.setMinHeight(minHeight);
 				geo.updateRepaint();
 			}
 		});
