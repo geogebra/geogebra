@@ -1904,7 +1904,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "GeneratePstricks": "\u7522\u751f PSTricks \u683c\u5f0f\u6a94",
     "GeoGebra3DGrapher": "GeoGebra 3D \u8a08\u7b97\u6a5f",
     "GeoGebra3DGrapher.short": "\u7acb\u9ad4\u5716",
-    "GeoGebraApps": "GeoGebra Apps",
+    "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS \u8a08\u7b97\u6a5f",
     "GeoGebraForum": "GeoGebra \u8a0e\u8ad6\u5340",
     "GeoGebraGeometry": "GeoGebra Geometry",

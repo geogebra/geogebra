@@ -28,7 +28,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
@@ -1496,11 +1495,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	 */
 	public void onMouseUp(int x, int y) {
 		drawOptions.onMouseUp(x, y);
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		return null;
 	}
 
 	@Override

@@ -1,6 +1,10 @@
 package org.geogebra.common.main;
 
-import com.himamis.retex.editor.share.util.KeyCodes;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
@@ -13,8 +17,8 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -32,10 +36,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
+import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
  * Handles keyboard events. This class only dispatches
@@ -256,6 +257,7 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	public boolean handleArrowKeyMovement(List<GeoElement> geos,
 			double[] diff, double increment) {
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		GeoElement geo = geos.get(0);
 
 		boolean allSliders = true;
@@ -1424,6 +1426,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 			// DELETE selected objects
 			if (!app.isApplet() || keyboardShortcutsEnabled()) {
+				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 				app.deleteSelectedObjects(false);
 				return true;
 			}

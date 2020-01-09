@@ -422,19 +422,17 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * @param geos
-	 *            elements
 	 * @param lineStyleIndex
 	 *            line style index
 	 * @param lineSize
 	 *            line thickness
 	 * @return success
 	 */
-	public static boolean applyLineStyle(ArrayList<GeoElement> geos,
-			int lineStyleIndex, int lineSize) {
+	public static boolean applyLineStyle(int lineStyleIndex, int lineSize, App app) {
 		int lineStyle = EuclidianView.getLineType(lineStyleIndex);
 		boolean needUndo = false;
-
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+		ArrayList<GeoElement> geos = app.getSelectionManager().getSelectedGeos();
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo.getLineType() != lineStyle
@@ -442,10 +440,8 @@ public class EuclidianStyleBarStatic {
 				geo.setLineType(lineStyle);
 				geo.setLineThickness(lineSize);
 				geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
-				needUndo = true;
 			}
 		}
-
 		return needUndo;
 	}
 
@@ -480,8 +476,6 @@ public class EuclidianStyleBarStatic {
 	}
 
 	/**
-	 * @param geos
-	 *            elements
 	 * @param color
 	 *            color
 	 * @param alpha
@@ -490,9 +484,10 @@ public class EuclidianStyleBarStatic {
 	 *            application
 	 * @return success
 	 */
-	public static boolean applyColor(List<GeoElement> geos, GColor color,
-			double alpha, App app) {
+	public static boolean applyColor(GColor color,	double alpha, App app) {
 		boolean needUndo = false;
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+		List<GeoElement> geos = app.getSelectionManager().getSelectedGeos();
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			// apply object color to all other geos except images or text
