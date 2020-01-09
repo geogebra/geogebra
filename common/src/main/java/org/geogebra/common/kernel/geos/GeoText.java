@@ -120,8 +120,6 @@ public class GeoText extends GeoElement
 	private int totalHeight;
 	private int totalWidth;
 
-	private boolean isEditMode;
-
 	private int textHeight;
 
 	/**
@@ -1489,18 +1487,6 @@ public class GeoText extends GeoElement
 		builder.clear();
 		builder.append(txt);
 		return txt;
-	}
-
-	public boolean isEditMode() {
-		return isEditMode;
-	}
-
-	public void setEditMode() {
-		this.isEditMode = true;
-	}
-
-	public void cancelEditMode() {
-		this.isEditMode = false;
 	}
 
 	public void setTextHeight(int height) {
