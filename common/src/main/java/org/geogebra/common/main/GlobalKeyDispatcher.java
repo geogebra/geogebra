@@ -1014,6 +1014,9 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	protected abstract void showPrintPreview(App app2);
 
+	/**
+	 * Handle Ctrl+V
+	 */
 	protected void handleCtrlV() {
 		// overridden in desktop, in web, we listen to paste events
 	}
@@ -1026,13 +1029,13 @@ public abstract class GlobalKeyDispatcher {
 	protected abstract boolean handleCtrlShiftN(boolean isAltDown);
 
 	/**
-	 * overridden in desktop, in web we listen to cut and copy events
+	 * Overridden in desktop, in web we listen to cut and copy events
 	 *
 	 * @param cut
 	 *            whether to cut (false = copy)
 	 */
 	protected void handleCopyCut(boolean cut) {
-
+		// overridden in desktop, in web, we listen to paste events
 	}
 
 	/**

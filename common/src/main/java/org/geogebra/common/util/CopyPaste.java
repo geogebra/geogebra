@@ -56,6 +56,12 @@ public abstract class CopyPaste {
 
 	public abstract void clearClipboard();
 
+	/**
+	 * @param app
+	 *            application
+	 * @param cut
+	 *            whether to cut (false = copy)
+	 */
 	public static void handleCutCopy(App app, boolean cut) {
 		SelectionManager selection = app.getSelectionManager();
 		app.setWaitCursor();
@@ -336,9 +342,12 @@ public abstract class CopyPaste {
 	 *            application
 	 * @param labels
 	 *            new labels
+	 * @param renameInScripts
+	 *            whether to update references in scripts after rename
+	 * @return list of elements
 	 */
 	protected static ArrayList<GeoElement> handleLabels(App app,
-			ArrayList<String> labels, boolean putdown) {
+			ArrayList<String> labels, boolean renameInScripts) {
 		ArrayList<GeoElement> ret = new ArrayList<>();
 
 		Kernel kernel = app.getKernel();
@@ -380,7 +389,7 @@ public abstract class CopyPaste {
 				geo.setLabel(geo.getIndexLabel(
 						geo.getLabelSimple().substring(labelPrefix.length())));
 				// geo.getLabelSimple() is now not the oldLabel, ideally
-				if (putdown) {
+				if (renameInScripts) {
 					geo.getKernel().renameLabelInScripts(oldLabel,
 							geo.getLabelSimple());
 				}
