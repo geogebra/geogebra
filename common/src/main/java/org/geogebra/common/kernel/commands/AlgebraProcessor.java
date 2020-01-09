@@ -93,6 +93,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
@@ -3125,8 +3126,8 @@ public class AlgebraProcessor {
 			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
 
-		if (info.isFractions()) {
-			InputHelper.initSymbolicMode(ret);
+		if (info.isFractions() && ret instanceof HasSymbolicMode) {
+			((HasSymbolicMode) ret).initSymbolicMode();
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
@@ -3197,7 +3198,7 @@ public class AlgebraProcessor {
 				ret.updateRepaint();
 			}
 			ret.setDefinition(n);
-			InputHelper.initSymbolicMode(ret);
+			((HasSymbolicMode) ret).initSymbolicMode();
 		}
 
 		// operations and variables are present

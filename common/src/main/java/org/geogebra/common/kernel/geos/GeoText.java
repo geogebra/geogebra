@@ -1441,6 +1441,11 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
+	public void initSymbolicMode() {
+		setSymbolicMode(true, true);
+	}
+
+	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		if (mode != this.symbolicMode) {
 			this.symbolicMode = mode;
