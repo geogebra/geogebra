@@ -1347,7 +1347,8 @@ public class EuclidianViewW extends EuclidianView implements
 			int iconWidth = resetIcon.getWidth();
 			int iconHeight = resetIcon.getHeight();
 
-			graphics.drawImage(resetIcon, width - ICON_MARGIN - iconWidth - (ICON_SIZE - iconWidth) / 2,
+			graphics.drawImage(resetIcon,
+					width - ICON_MARGIN - iconWidth - (ICON_SIZE - iconWidth) / 2,
 					ICON_MARGIN + (ICON_SIZE - iconHeight) / 2);
 			if (isResetIconSelected) {
 				drawHighlight(graphics, width - ICON_MARGIN - ICON_SIZE, ICON_MARGIN, ICON_SIZE);
