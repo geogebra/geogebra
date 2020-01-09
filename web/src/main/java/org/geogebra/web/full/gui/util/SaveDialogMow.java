@@ -197,11 +197,6 @@ public class SaveDialogMow extends DialogBoxW
 		if (visibility == MaterialVisibility.Shared && hasNewName(activeMaterial)) {
 			return MaterialVisibility.Private;
 		}
-		return visibility;
-	}
-
-	private boolean hasNewName(Material material) {
-		return !material.getTitle().equals(getInputField().getText());
 	}
 
 	@Override
