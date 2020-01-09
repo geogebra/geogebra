@@ -1,7 +1,10 @@
 package org.geogebra.web.full.euclidian;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -1155,8 +1158,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnColor.addPopupHandler(this);
 	}
 
+	private FillType[] getFillTypes() {
+		Set<FillType> wantedTypes = new HashSet<>(Arrays.asList(FillType.STANDARD, FillType.HATCH,
+				FillType.DOTTED, FillType.CROSSHATCHED, FillType.HONEYCOMB));
+		Set<FillType> availableTypes = app.getConfig().getAvailableFillTypes();
+		wantedTypes.retainAll(availableTypes);
+		return wantedTypes.toArray(new FillType[0]);
+	}
+
 	private void createFillingBtn() {
-		btnFilling = new FillingStyleButton(app) {
+		btnFilling = new FillingStyleButton(app, getFillTypes()) {
 			@Override
 			public void update(Object[] geos) {
 

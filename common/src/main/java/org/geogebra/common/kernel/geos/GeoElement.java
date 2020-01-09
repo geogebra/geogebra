@@ -1637,7 +1637,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public void setFixed(boolean flag) {
 		if (!flag) {
-			fixed = kernel.getApplication().isExamStarted()
+			fixed = kernel.getApplication().getConfig().isObjectDraggingRestricted()
 					&& AlgebraItem.isFunctionOrEquationFromUser(this)
 					&& !this.isDefaultGeo();
 		} else if (isFixable()) {
