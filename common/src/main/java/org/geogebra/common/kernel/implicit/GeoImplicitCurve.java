@@ -849,17 +849,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public void getXML(boolean listeners, StringBuilder sbxml) {
+	protected void getExpressionXML(StringBuilder sb) {
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sbxml.append("<expression");
-			sbxml.append(" label=\"");
-			sbxml.append(label);
-			sbxml.append("\" exp=\"");
-			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
+			sb.append("<expression");
+			sb.append(" label=\"");
+			sb.append(label);
+			sb.append("\" exp=\"");
+			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
 			// expression
-			sbxml.append("\"/>\n");
+			sb.append("\"/>\n");
 		}
-		super.getXML(listeners, sbxml);
 	}
 
 	@Override
