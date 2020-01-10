@@ -12,18 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -211,14 +205,12 @@ public final class DrawText extends Drawable {
 				drawMultilineLaTeX(g2, textFont, geo.getObjectColor(),
 						bg != null ? bg : view.getBackgroundCommon());
 			} else {
-				if (!text.isEditMode()) {
-					if (geo.getAlphaValue() > 0.0) {
-						g2.setPaint(geo.getFillColor());
-					} else {
-						g2.setPaint(geo.getObjectColor());
-					}
-					drawMultilineText(g2, textFont);
+				if (geo.getAlphaValue() > 0.0) {
+					g2.setPaint(geo.getFillColor());
+				} else {
+					g2.setPaint(geo.getObjectColor());
 				}
+				drawMultilineText(g2, textFont);
 			}
 
 			// draw label rectangle
@@ -312,14 +304,6 @@ public final class DrawText extends Drawable {
 	public GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
-		}
-		if (text.isEditMode() && (labelRectangle.getWidth() < MIN_EDITOR_WIDTH
-				|| labelRectangle.getHeight() < MIN_EDITOR_HEIGHT)) {
-			labelRectangle.setBounds((int) labelRectangle.getX(),
-					(int) labelRectangle.getY(),
-					(int) Math.max(labelRectangle.getWidth(), MIN_EDITOR_WIDTH),
-					(int) Math.max(labelRectangle.getHeight(),
-							MIN_EDITOR_HEIGHT));
 		}
 
 		return labelRectangle;

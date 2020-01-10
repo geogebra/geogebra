@@ -14,11 +14,17 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public class BoundingBoxResizeState {
-	private GRectangle2D rect;
-	private ArrayList<ArrayList<GPoint2D>> ratios;
-	private double widthHeightRatio = 1;
+
 	private double widthThreshold = Double.NEGATIVE_INFINITY;
 	private double heightThreshold = Double.NEGATIVE_INFINITY;
+
+	private double widthHeightRatio = 1;
+
+	private GRectangle2D rect;
+	private final EuclidianView view;
+	private final ArrayList<GeoElement> geos;
+
+	private ArrayList<ArrayList<GPoint2D>> ratios;
 
 	/**
 	 * @param rect
@@ -29,19 +35,35 @@ public class BoundingBoxResizeState {
 	 *            current view
 	 */
 	public BoundingBoxResizeState(GRectangle2D rect, ArrayList<GeoElement> geos,
-			EuclidianView view, boolean diagonal) {
-		this.rect = rect;
+			EuclidianView view) {
 		ratios = new ArrayList<>();
+		this.rect = rect;
+		this.geos = geos;
+		this.view = view;
+	}
 
+	/**
+	 * @param i
+	 *            index of the geo
+	 * @return positions of the corners of the geo from the side of bounding box
+	 *         in ratio [minX, maxX, minY, maxY]
+	 */
+	public ArrayList<GPoint2D> getRatios(int i) {
+		return ratios.get(i);
+	}
+
+	/**
+	 * Update the bounding box resize state. Some of the width or height thresholds
+	 * might have changed in the meantime (e.g. GeoInlineText)
+	 */
+	public void update() {
 		if (this.rect != null) {
 			widthHeightRatio = rect.getWidth() / rect.getHeight();
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
+			for (GeoElement geo : geos) {
 				Drawable dr = (Drawable) view.getDrawableFor(geo);
 				// check and update thresholds
 				if (dr.getWidthThreshold() > widthThreshold) {
-					widthThreshold = diagonal ? dr.getDiagonalWidthThreshold()
-							: dr.getWidthThreshold();
+					widthThreshold = dr.getWidthThreshold();
 				}
 				if (dr.getHeightThreshold() > heightThreshold) {
 					heightThreshold = dr.getHeightThreshold();
@@ -59,16 +81,6 @@ public class BoundingBoxResizeState {
 				ratios.add(forGeo);
 			}
 		}
-	}
-
-	/**
-	 * @param i
-	 *            index of the geo
-	 * @return positions of the corners of the geo from the side of bounding box
-	 *         in ratio [minX, maxX, minY, maxY]
-	 */
-	public ArrayList<GPoint2D> getRatios(int i) {
-		return ratios.get(i);
 	}
 
 	/**

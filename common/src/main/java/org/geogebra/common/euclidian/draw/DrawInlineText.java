@@ -12,6 +12,8 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 
+import java.util.ArrayList;
+
 /**
  * Class that handles drawing inline text elements.
  */
@@ -78,6 +80,16 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	@Override
 	public GRectangle getBounds() {
 		return AwtFactory.getPrototype().newRectangle(getLeft(), getTop(), getWidth(), getHeight());
+	}
+
+	@Override
+	public double getWidthThreshold() {
+		return GeoInlineText.DEFAULT_WIDTH;
+	}
+
+	@Override
+	public double getHeightThreshold() {
+		return text.getMinHeight();
 	}
 
 	@Override
@@ -168,6 +180,25 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		// Not implemented
+	}
+
+	@Override
+	public void fromPoints(ArrayList<GPoint2D> points) {
+		double newWidth = Math.abs(points.get(1).getX() - points.get(0).getX());
+		double newHeight = Math.abs(points.get(1).getY() - points.get(0).getY());
+
+		if (Math.abs(newWidth - getWidth()) > 1 || Math.abs(newHeight - getHeight()) > 1) {
+			text.setWidth(newWidth);
+			text.setHeight(newHeight);
+			text.setLocation(
+					AwtFactory.getPrototype().newPoint2D(
+							view.toRealWorldCoordX(Math.min(points.get(0).getX(),
+									points.get(1).getX())),
+							view.toRealWorldCoordY(Math.min(points.get(0).getY(),
+									points.get(1).getY()))
+					)
+			);
+		}
 	}
 
 	/**

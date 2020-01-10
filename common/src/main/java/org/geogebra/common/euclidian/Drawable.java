@@ -989,13 +989,6 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * @return width threshold for
-	 */
-	public double getDiagonalWidthThreshold() {
-		return getWidthThreshold();
-	}
-
-	/**
 	 * Update this if it's marked as outdated
 	 */
 	public void updateIfNeeded() {
