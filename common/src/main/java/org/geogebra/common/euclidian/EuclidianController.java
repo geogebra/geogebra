@@ -7991,7 +7991,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					view.getBoundingBox().getRectangle(),
 					selection.getSelectedGeos(), view);
 		}
-		startBoundingBoxState.update();
+		startBoundingBoxState.updateThresholds();
 
 		GPoint2D mouseDistance = getMouseDistance(event, handler);
 
@@ -8033,8 +8033,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
 			GeoElement geo = selection.getSelectedGeos().get(i);
 			Drawable dr = (Drawable) view.getDrawableFor(geo);
+
+			if (dr == null) {
+				continue;
+			}
+
 			// calculate new positions relative to bounding box
-			ArrayList<GPoint2D> pts = startBoundingBoxState.getRatios(i);
+			ArrayList<GPoint2D> pts = startBoundingBoxState.getRatios(geo);
 			ArrayList<GPoint2D> transformedPts = new ArrayList<>();
 			for (GPoint2D pt : pts) {
 				transformedPts.add(
