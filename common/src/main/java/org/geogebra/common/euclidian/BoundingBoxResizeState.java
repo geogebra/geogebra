@@ -53,9 +53,10 @@ public class BoundingBoxResizeState {
 	}
 
 	/**
-	 * @return bounding box bounds
+	 * Update the bounding box resize state. Some of the width or height thresholds
+	 * might have changed in the meantime (e.g. GeoInlineText)
 	 */
-	public GRectangle2D getRectangle() {
+	public void update() {
 		if (this.rect != null) {
 			widthHeightRatio = rect.getWidth() / rect.getHeight();
 			for (GeoElement geo : geos) {
@@ -80,7 +81,12 @@ public class BoundingBoxResizeState {
 				ratios.add(forGeo);
 			}
 		}
+	}
 
+	/**
+	 * @return bounding box bounds
+	 */
+	public GRectangle2D getRectangle() {
 		return this.rect;
 	}
 
