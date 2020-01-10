@@ -96,7 +96,7 @@ __GGB__keysVar["fi"].command = {
     "ArePerpendicular.Syntax": "[ <Suora>, <Suora> ]",
     "Area": "PintaAla",
     "Area.Syntax": "[ <Kartioleikkaus> ]\n[ <Monikulmio> ]\n[ <Piste>, ..., <Piste> ]",
-    "Assume": "Olettaen",
+    "Assume": "Oleta",
     "Assume.SyntaxCAS": "[ <Ehto>, <Lauseke> ]",
     "Asymptote": "Asymptootti",
     "Asymptote.Syntax": "[ <Kartioleikkaus> ]\n[ <Funktio> ]\n[ <Implisiittinen k\xe4yr\xe4> ]",
