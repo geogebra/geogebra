@@ -1,4 +1,5 @@
 pipeline {
+    options { overrideIndexTriggers(false) }
     agent {label 'electron'}
     triggers { 
         cron('H 10,19 * * 1-5') 
