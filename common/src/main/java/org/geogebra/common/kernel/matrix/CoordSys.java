@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.Matrix;
+package org.geogebra.common.kernel.matrix;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.DoubleUtil;

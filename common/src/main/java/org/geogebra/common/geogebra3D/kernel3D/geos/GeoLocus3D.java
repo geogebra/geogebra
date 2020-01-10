@@ -17,11 +17,11 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.SegmentType;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Locus of points

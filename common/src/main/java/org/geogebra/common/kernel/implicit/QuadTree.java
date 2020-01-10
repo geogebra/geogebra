@@ -7,8 +7,8 @@ import java.util.ListIterator;
 
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**

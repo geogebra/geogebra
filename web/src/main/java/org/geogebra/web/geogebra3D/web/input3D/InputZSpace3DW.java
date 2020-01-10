@@ -2,7 +2,7 @@ package org.geogebra.web.geogebra3D.web.input3D;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.web.full.gui.layout.DockPanelW;

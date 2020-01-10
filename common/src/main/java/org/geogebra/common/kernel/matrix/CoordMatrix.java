@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package org.geogebra.common.kernel.Matrix;
+package org.geogebra.common.kernel.matrix;
 
 import java.util.ArrayList;
 

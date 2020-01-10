@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.TransformDilate;
 import org.geogebra.common.kernel.TransformMirror;
 import org.geogebra.common.kernel.TransformRotate;
 import org.geogebra.common.kernel.TransformTranslate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.advanced.AlgoCentroidPolygon;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -59,6 +58,7 @@ import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
 

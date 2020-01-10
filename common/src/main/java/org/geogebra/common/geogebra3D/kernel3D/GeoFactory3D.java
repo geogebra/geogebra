@@ -21,7 +21,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitCurve3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
-import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -37,6 +36,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.main.MyError;
 
 /**

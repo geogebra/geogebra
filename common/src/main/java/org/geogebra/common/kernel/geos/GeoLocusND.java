@@ -22,11 +22,11 @@ import org.geogebra.common.kernel.PathMoverLocus;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 
 /**

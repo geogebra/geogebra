@@ -14,13 +14,13 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Converts a list into a Point (or Points) adapted from AlgoRootsPolynomial

@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -12,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 

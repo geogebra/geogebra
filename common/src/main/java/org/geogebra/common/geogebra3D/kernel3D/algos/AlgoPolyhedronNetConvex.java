@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedronNet;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -20,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoPolyhedronNetConvex extends AlgoElement3D {

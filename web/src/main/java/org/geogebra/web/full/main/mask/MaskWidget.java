@@ -4,8 +4,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.dom.client.Style;

@@ -8,8 +8,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * 

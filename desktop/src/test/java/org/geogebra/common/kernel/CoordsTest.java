@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
