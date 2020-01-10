@@ -46,7 +46,7 @@ public class TextOptionsModel extends OptionsModel {
 
 		void setEditorText(ArrayList<DynamicTextElement> list);
 
-		void updatePreview();
+		void updatePreviewPanel();
 
 		void reinitEditor();
 
@@ -181,7 +181,7 @@ public class TextOptionsModel extends OptionsModel {
 		}
 
 		editGeo.setFontSizeMultiplier(value);
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 	}
 
 	public String[] getFonts() {
@@ -205,7 +205,7 @@ public class TextOptionsModel extends OptionsModel {
 			editGeo.setSerifFont(isSerif);
 		}
 
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 	}
 
 	public void applyDecimalPlaces(int decimals) {
@@ -220,7 +220,7 @@ public class TextOptionsModel extends OptionsModel {
 			}
 			text.updateRepaint();
 		}
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 
 	}
 
@@ -246,7 +246,7 @@ public class TextOptionsModel extends OptionsModel {
 			}
 		}
 
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 	}
 
 	public String getGeoGebraString(ArrayList<DynamicTextElement> list,
@@ -297,7 +297,7 @@ public class TextOptionsModel extends OptionsModel {
 		}
 
 		editGeo = null;
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 	}
 
 	public void setLaTeX(boolean isLatex, boolean updateAlgo) {
@@ -307,7 +307,7 @@ public class TextOptionsModel extends OptionsModel {
 
 		editGeo.setLaTeX(isLatex, updateAlgo);
 		editGeo.updateRepaint();
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 		storeUndoInfo();
 	}
 

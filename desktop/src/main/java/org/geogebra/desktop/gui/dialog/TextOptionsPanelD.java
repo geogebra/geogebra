@@ -284,7 +284,7 @@ class TextOptionsPanelD extends JPanel
 	}
 
 	@Override
-	public void updatePreview() {
+	public void updatePreviewPanel() {
 		if (this.propertiesPanelD.getTextPanel() != null) {
 			this.propertiesPanelD.getTextPanel().td.handleDocumentEvent();
 		}

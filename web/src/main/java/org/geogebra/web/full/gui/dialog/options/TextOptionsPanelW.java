@@ -129,7 +129,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 							* app.getActiveEuclidianView().getFontSize();
 					inlineFormat("size", size);
 				}
-				updatePreview();
+				updatePreviewPanel();
 			}
 		});
 
@@ -174,7 +174,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 				model.applyFontStyle(btnBold.getValue(), btnItalic.getValue());
 				inlineFormat("bold", btnBold.getValue());
 				inlineFormat("italic", btnItalic.getValue());
-				updatePreview();
+				updatePreviewPanel();
 			}
 		};
 
@@ -189,7 +189,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 				// manual override -> ignore autodetect
 				mayDetectLaTeX = isLatex();
 
-				updatePreview();
+				updatePreviewPanel();
 			}
 		});
 		btnLatex.addStyleName("btnLatex");
@@ -206,7 +206,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			public void onChange(ChangeEvent event) {
 				model.setEditGeoText(editor.getText());
 				model.applyDecimalPlaces(lbDecimalPlaces.getSelectedIndex());
-				updatePreview();
+				updatePreviewPanel();
 			}
 		});
 
@@ -309,8 +309,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		getModel().updateProperties();
 		setLabels();
 		advancedPanel.updateGeoList();
-		if (getModel().hasPreview()) {
-			updatePreview();
+		if (model.isTextEditable()) {
+			updatePreviewPanel();
 			editor.updateFonts();
 		}
 
@@ -383,13 +383,6 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		btnPanel.setVisible(model.isTextEditable());
 	}
 
-	@Override
-	public void updatePreview() {
-		if (model.isTextEditable()) {
-			updatePreviewPanel();
-		}
-	}
-
 	boolean isLatex() {
 		return btnLatex.getValue();
 	}
@@ -407,10 +400,10 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	
 	@Override
 	public void updatePreviewPanel(boolean byUser) {
-		TextPreviewPanelW previewer = advancedPanel.getPreviewer();
-		if (previewer == null) {
+		if (!model.isTextEditable()) {
 			return;
 		}
+		TextPreviewPanelW previewer = advancedPanel.getPreviewer();
 		previewer.updateFonts();
 		boolean wasLaTeX = isLatex();
 		boolean isLaTeX = previewer
