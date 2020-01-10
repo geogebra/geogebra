@@ -133,10 +133,14 @@ public class ZoomPanel extends FlowPanel
 
 		fullscreenBtn.setStyleName("zoomPanelBtn");
 
-		FastClickHandler handlerFullscreen = new FastClickHandler() {
-
+		FastClickHandler handlerFullscreen = new FastClickHandler.Typed() {
 			@Override
 			public void onClick(Widget source) {
+				// never called - do nothing
+			}
+
+			@Override
+			public void onClick(String type) {
 				getZoomController().onFullscreenPressed(getPanelElement(),
 						fullscreenBtn, type);
 				setFullScreenAuralText();
