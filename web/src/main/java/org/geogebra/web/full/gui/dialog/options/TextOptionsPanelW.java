@@ -38,9 +38,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		ITextEditPanel, GeoElementSelectionListener {
-	/**
-		 * 
-		 */
 
 	TextOptionsModel model;
 
@@ -61,7 +58,6 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	GeoTextEditor editor;
 	private TextEditAdvancedPanel advancedPanel;
-	private TextPreviewPanelW previewer;
 	private Localization loc;
 
 	private AppW app;
@@ -242,8 +238,6 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		editorPanel.add(advancedPanel);
 		mainPanel.add(editorPanel);
 
-		previewer = advancedPanel.getPreviewer();
-
 		btnPanel = new FlowPanel();
 		btnPanel.setStyleName("optionsPanel");
 		btnOk = new Button();
@@ -391,7 +385,9 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	@Override
 	public void updatePreview() {
-		updatePreviewPanel();
+		if (model.isTextEditable()) {
+			updatePreviewPanel();
+		}
 	}
 
 	boolean isLatex() {
@@ -411,6 +407,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	
 	@Override
 	public void updatePreviewPanel(boolean byUser) {
+		TextPreviewPanelW previewer = advancedPanel.getPreviewer();
 		if (previewer == null) {
 			return;
 		}
