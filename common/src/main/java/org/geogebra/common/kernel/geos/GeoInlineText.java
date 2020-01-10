@@ -7,8 +7,10 @@ import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -21,7 +23,7 @@ import org.geogebra.common.util.debug.Log;
  * Inline Geo Text element.
  */
 public class GeoInlineText extends GeoElement
-		implements Translateable, TextStyle {
+		implements Translateable, TextStyle, PointRotateable {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
@@ -321,6 +323,16 @@ public class GeoInlineText extends GeoElement
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void rotate(NumberValue r) {
+
+	}
+
+	@Override
+	public void rotate(NumberValue r, GeoPointND S) {
+
 	}
 
     private void setContentFromText(GeoText geo) {

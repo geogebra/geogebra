@@ -54,7 +54,6 @@ public class DrawLocus extends Drawable {
 	private GeneralPathClippedForCurvePlotter gp;
 	private double[] labelPosition;
 	private CoordSys transformSys;
-	private BoundingBox boundingBox;
 	private GBufferedImage bitmap;
 	private AlgoElement algo;
 
@@ -150,11 +149,6 @@ public class DrawLocus extends Drawable {
 		if (geo.isInverseFill()) {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
-		}
-
-		if (geo.getKernel().getApplication().isWhiteboardActive()
-				&& geo.getGeoClassType() == GeoClass.PENSTROKE && getBounds() != null) {
-			getBoundingBox().setRectangle(getBounds2D());
 		}
 	}
 
@@ -348,18 +342,6 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
-		if (view.getApplication().isWhiteboardActive()) {
-			if (boundingBox == null) {
-				boundingBox = createBoundingBox(geo instanceof Rotateable);
-			}
-			boundingBox.updateFrom(geo);
-			return boundingBox;
-		}
-		return null;
-	}
-
-	@Override
 	public void setPartialHitClip(GRectangle rect) {
 		this.partialHitClip = rect;
 	}
@@ -371,11 +353,6 @@ public class DrawLocus extends Drawable {
 			return geo.isSelected();
 		}
 		return false;
-	}
-
-	@Override
-	public boolean hasRotationHandler() {
-		return geo instanceof Rotateable;
 	}
 
 	@Override

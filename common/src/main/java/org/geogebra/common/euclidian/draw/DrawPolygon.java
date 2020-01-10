@@ -139,10 +139,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 			}
 
 		}
-		if (geo.isShape() && view
-				.getHitHandler() != EuclidianBoundingBoxHandler.ROTATION && getBounds() != null) {
-				getBoundingBox().setRectangle(getBounds());
-		}
 	}
 
 	private void createShape() {
@@ -436,15 +432,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return super.getShape();
 	}
 
-	@Override
-	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
-		if (boundingBox == null) {
-			boundingBox = createBoundingBox(true);
-		}
-		boundingBox.updateFrom(geo);
-		return boundingBox;
-	}
-
 	/**
 	 * method to update points of poly after mouse release
 	 * 
@@ -500,11 +487,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 					view.toRealWorldCoordY(coordArr[1]), 1);
 			it.next();
 		}
-	}
-
-	@Override
-	protected boolean hasRotationHandler() {
-		return true;
 	}
 
 	@Override

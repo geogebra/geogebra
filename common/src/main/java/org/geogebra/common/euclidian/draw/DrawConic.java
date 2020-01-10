@@ -424,14 +424,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}
-
-		if (geo.isShape()) {
-			if (getBounds() != null) {
-				getBoundingBox().setRectangle(getBounds());
-			} else {
-				getBoundingBox().setRectangle(null);
-			}
-		}
 	}
 
 	/**
@@ -2053,24 +2045,14 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 */
 	public void setIgnoreSingularities(boolean ignore) {
 		this.ignoreSingularities = ignore;
-
-	}
-
-	@Override
-	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
-		if (boundingBox == null) {
-			boundingBox = createBoundingBox(true);
-		}
-		boundingBox.updateFrom(geo);
-		return boundingBox;
 	}
 
 	/**
 	 * resizing by drag of side handler for rotated ellipses
 	 */
 	private void stretchEllipse(GPoint2D p0, GPoint2D p, GPoint2D tangent) {
-		double ratioX = (p.getX() - p0.getX()) / getBoundingBox().getRectangle().getWidth();
-		double ratioY = (p.getY() - p0.getY()) / getBoundingBox().getRectangle().getHeight();
+		double ratioX = (p.getX() - p0.getX()) / getBounds().getWidth();
+		double ratioY = (p.getY() - p0.getY()) / getBounds().getHeight();
 		boolean originalTangentIncreaseScreen = Math.abs(tangent.getY() - p.getY()) > Math
 				.abs(p0.getY() - tangent.getY());
 		boolean boxOrientationChanged = ratioX * ratioY < 0;
@@ -2089,7 +2071,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 			conic.translate(corner);
 
 			// update bounding box
-			getBoundingBox().setRectangle(rectForRotatedEllipse());
 			conic.updateRepaint();
 		}
 	}
@@ -2146,11 +2127,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 		return new double[] { overBsquared, overAsquared,
 				-1 + centerX * centerX * overBsquared + centerY * centerY * overAsquared, 0,
 				-centerX * overBsquared, -centerY * overAsquared };
-	}
-
-	@Override
-	protected boolean hasRotationHandler() {
-		return true;
 	}
 
 	@Override
