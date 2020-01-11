@@ -76,6 +76,7 @@ dependencies {
         "com.jogamp:gluegen-rt:$joglVersion:natives-linux-i586"
     runtime "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-amd64",
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-i586",
+        "fr.ujf-grenoble:javagiac:69259b:natives-linux-arm",
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64", // 201503271100 should have been used (for some strange reason versions cannot be mixed)
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
