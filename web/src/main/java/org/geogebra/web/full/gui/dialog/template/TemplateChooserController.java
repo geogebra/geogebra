@@ -4,11 +4,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.TemplateChooserControllerI;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TemplateChooserController {
+public class TemplateChooserController implements TemplateChooserControllerI {
     private ArrayList<TemplatePreviewCard> templates;
     private TemplatePreviewCard selected;
 
@@ -23,6 +24,7 @@ public class TemplateChooserController {
      * @param appW see {@link AppW}
      * @param templates list of materials having type ggs-templates or notes-templates
      */
+    @Override
     public void fillTemplates(AppW appW, List<Material> templates) {
         getTemplates().clear();
         getTemplates().add(new TemplatePreviewCard(appW, null, false,

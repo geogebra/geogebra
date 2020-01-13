@@ -1460,7 +1460,7 @@ public class GgbAPIW extends GgbAPI {
 							if (result.isEmpty()) {
 								GgbAPIW.super.newConstruction();
 							} else {
-								((GuiManagerW) app.getGuiManager()).getTemplateController()
+								(((AppW) app).getGuiManager()).getTemplateController()
 										.fillTemplates((AppW) app, result);
 								app.getDialogManager().showTemplateChooser();
 							}
