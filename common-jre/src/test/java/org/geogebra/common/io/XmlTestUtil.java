@@ -25,7 +25,7 @@ public class XmlTestUtil {
 		String xml = "";
 		try {
 
-			URL schemaFile = new URL("http://static.geogebra.org/ggb.xsd");
+			URL schemaFile = new URL("https://www.geogebra.org/apps/xsd/ggb.xsd");
 			xml = application.getXML();
 			Source xmlFile = new StreamSource(new StringReader(xml));
 

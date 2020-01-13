@@ -61,9 +61,4 @@ public class AlgoDependentSymbolic extends AlgoElement implements UsesCAS {
 	public String toString(StringTemplate tpl) {
 		return symbolic.getDefinition().toString(tpl);
 	}
-
-	@Override
-	protected String toExpString(StringTemplate tpl) {
-		return symbolic.toString(tpl);
-	}
 }
