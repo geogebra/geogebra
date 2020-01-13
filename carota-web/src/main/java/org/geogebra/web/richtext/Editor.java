@@ -15,8 +15,16 @@ public interface Editor {
 
 		/**
 		 * Called instantly on editor state change
+		 * 
+		 * @param minHeight
+		 *            minimum height in pixels
 		 */
 		void onSizeChanged(double minHeight);
+
+		/**
+		 * Called on selection change
+		 */
+		void onSelectionChanged();
 	}
 
 	/**
@@ -42,7 +50,29 @@ public interface Editor {
 	 */
 	void setContent(String content);
 
+	/**
+	 * Deselect all text
+	 */
 	void deselect();
 
+	/**
+	 * Format selection or (if nothing selected) whole document.
+	 * 
+	 * @param key
+	 *            property name
+	 * @param val
+	 *            property value (double, bool or color string)
+	 */
 	void format(String key, Object val);
+
+	/**
+	 * @param <T>
+	 *            parameter type (bool, string or double)
+	 * @param key
+	 *            property name
+	 * @param fallback
+	 *            fallback to use when format not found
+	 * @return format property value
+	 */
+	<T> T getFormat(String key, T fallback);
 }

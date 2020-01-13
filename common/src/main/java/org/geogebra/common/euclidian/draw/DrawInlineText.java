@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -11,8 +13,6 @@ import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
-
-import java.util.ArrayList;
 
 /**
  * Class that handles drawing inline text elements.
@@ -211,5 +211,12 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		if (textController != null) {
 			textController.format(key, val);
 		}
+	}
+
+	public <T> T getFormat(String key, T fallback) {
+		if (textController != null) {
+			return textController.getFormat(key, fallback);
+		}
+		return fallback;
 	}
 }

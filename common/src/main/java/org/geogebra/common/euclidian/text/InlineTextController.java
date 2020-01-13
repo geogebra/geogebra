@@ -59,4 +59,6 @@ public interface InlineTextController {
 	 * Set content from geo
 	 */
 	void updateContent();
+
+	<T> T getFormat(String key, T fallback);
 }

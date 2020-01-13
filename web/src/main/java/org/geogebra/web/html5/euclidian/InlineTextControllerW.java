@@ -57,6 +57,11 @@ public class InlineTextControllerW implements InlineTextController {
 				geo.setMinHeight(minHeight);
 				geo.updateRepaint();
 			}
+
+			@Override
+			public void onSelectionChanged() {
+				geo.getKernel().getApplication().updateStyleBars();
+			}
 		});
 	}
 
@@ -105,5 +110,9 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void format(String key, Object val) {
 		editor.format(key, val);
+	}
+
+	public <T> T getFormat(String key, T fallback) {
+		return editor.getFormat(key, fallback);
 	}
 }

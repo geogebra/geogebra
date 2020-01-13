@@ -3,8 +3,12 @@ buildscript {
         classpath "org.wisepersist:gwt-gradle-plugin:$gwtGradlePluginVersion"
     }
 }
+plugins {
+    id 'java'
+    id 'checkstyle'
+    id 'pmd'
+}
 
-apply plugin: 'java'
 apply plugin: 'gwt-base'
 
 sourceCompatibility = 1.7
@@ -12,6 +16,12 @@ targetCompatibility = 1.7
 
 gwt {
     gwtVersion=gwtCompilerVersion
+}
+
+pmd {
+     ignoreFailures = true
+     ruleSets = []
+     ruleSetFiles = files("../web/config/pmd.xml")
 }
 
 // Publish the sources in the gwt configuration

@@ -21,7 +21,7 @@ public class CarotaUtil {
 		isScriptInjected = true;
 		setDefaultFontSize(fontSize);
 	}
-	
+
 	public static native void setDefaultFontSize(double size) /*-{
 		if ($wnd.carota) {
 			$wnd.carota.runs.defaultFormatting.size = size;
