@@ -39,6 +39,8 @@ public interface InlineTextController {
 	 */
 	void setHeight(int height);
 
+	void setAngle(double angle);
+
 	/**
 	 * Put the editor behind the canvas
 	 */

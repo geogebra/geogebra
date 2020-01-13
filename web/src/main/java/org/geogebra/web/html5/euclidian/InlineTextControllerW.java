@@ -102,6 +102,11 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public void setAngle(double angle) {
+		style.setProperty("transform", "rotate(" + angle + "rad)");
+	}
+
+	@Override
 	public void toBackground() {
 		editor.deselect();
 		editor.getWidget().addStyleName(INVISIBLE);

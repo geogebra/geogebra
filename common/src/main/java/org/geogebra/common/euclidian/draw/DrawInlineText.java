@@ -51,6 +51,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 					view.toScreenCoordY(point.getY()) + padding);
 			textController.setHeight((int) (text.getHeight() - 2 * padding));
 			textController.setWidth((int) (text.getWidth() - 2 * padding));
+			textController.setAngle(text.getAngle());
 			if (text.updateFontSize()) {
 				textController.updateContent();
 			}

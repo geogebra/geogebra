@@ -32,6 +32,8 @@ public class GeoInlineText extends GeoElement
 	private double width;
 	private double height;
 
+	private double angle;
+
 	private double minHeight;
 
 	private String content = "[]";
@@ -327,12 +329,16 @@ public class GeoInlineText extends GeoElement
 
 	@Override
 	public void rotate(NumberValue r) {
-
+		angle -= r.getDouble();
 	}
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
+		angle -= r.getDouble();
+	}
 
+	public double getAngle() {
+		return angle;
 	}
 
     private void setContentFromText(GeoText geo) {
