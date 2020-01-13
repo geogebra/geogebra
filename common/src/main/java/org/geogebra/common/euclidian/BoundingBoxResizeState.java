@@ -74,8 +74,6 @@ public class BoundingBoxResizeState {
 	}
 
 	/**
-	 * @param i
-	 *            index of the geo
 	 * @return positions of the corners of the geo from the side of bounding box
 	 *         in ratio [minX, maxX, minY, maxY]
 	 */
@@ -134,23 +132,5 @@ public class BoundingBoxResizeState {
 	 */
 	public double getHeightThreshold() {
 		return heightThreshold;
-	}
-
-	/**
-	 * @param i
-	 *            index of the element
-	 * @return starting width of the element
-	 */
-	public double getWidth(int i) {
-		return rect.getWidth() * (ratios.get(i).get(1).getX() - ratios.get(i).get(0).getX());
-	}
-
-	/**
-	 * @param i
-	 *            index of the element
-	 * @return starting height of the element
-	 */
-	public double getHeight(int i) {
-		return rect.getHeight() * (ratios.get(i).get(1).getY() - ratios.get(i).get(0).getY());
 	}
 }

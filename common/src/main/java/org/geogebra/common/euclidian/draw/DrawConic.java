@@ -31,7 +31,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangularShape;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -149,14 +148,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/** first half-axis */
 	protected double a;
 	private double b;
-	private double tsq;
-	private double step;
-	private double t;
-	private double denom;
-	private double x;
 	private double y;
-	private int index0;
-	private int index1;
 	/** number of points used for hyperbola path */
 	protected int points = PLOT_POINTS;
 	private GeneralPathClipped hypLeft;
@@ -177,7 +169,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 	private boolean isPreview = false;
 	private boolean ignoreSingularities;
 
-	private BoundingBox<GEllipse2DDouble> boundingBox;
 	/** eigenvectors */
 	protected Coords[] ev;
 	private GeoLine diameter;
@@ -1048,7 +1039,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		}
 
 		// hyperbola is visible on screen
-		step = Math.sqrt((x0 - a) / (x0 + a)) / (points - 1);
+		double step = Math.sqrt((x0 - a) / (x0 + a)) / (points - 1);
 
 		// build Polyline of parametric hyperbola
 		// hyp(t) = 1/(1-t^2) {a(1+t^2), 2bt}, 0 <= t < 1
@@ -1059,15 +1050,15 @@ public class DrawConic extends SetDrawable implements Previewable {
 		 */
 		updateHyperbolaAddPoint(points - 1, a, 0);
 
-		t = step;
+		double t = step;
 		int i = 1;
-		index0 = points; // points ... 2*points - 2
-		index1 = points - 2; // points-2 ... 0
+		int index0 = points; // points ... 2*points - 2
+		int index1 = points - 2; // points-2 ... 0
 		while (index1 >= 0) {
-			tsq = t * t;
-			denom = 1.0 - tsq;
+			double tsq = t * t;
+			double denom = 1.0 - tsq;
 			// calc coords of first quadrant
-			x = (a * (1.0 + tsq) / denom);
+			double x = (a * (1.0 + tsq) / denom);
 			y = (2.0 * b * t / denom);
 
 			// first and second quadrants
