@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**

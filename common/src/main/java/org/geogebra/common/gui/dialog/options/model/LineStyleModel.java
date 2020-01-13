@@ -148,6 +148,8 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	public void applyLineType(int type) {
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+		setGeos(app.getSelectionManager().getSelectedGeos().toArray());
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setLineType(type);

@@ -7,13 +7,23 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.arithmetic.filter.GraphingOperationArgumentFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Config for Graphing Calculator app
@@ -225,5 +235,47 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public String getExamMenuItemText() {
 		return "ExamGraphingCalc.short";
+	}
+
+	@Override
+	public Set<FillType> getAvailableFillTypes() {
+		Set<FillType> set = new HashSet<>(Arrays.asList(FillType.values()));
+		set.remove(FillType.IMAGE);
+		return set;
+	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return true;
+	}
+
+	@Override
+	public boolean isShowingErrorDialogForInputBox() {
+		return true;
+	}
+
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return new GraphingOperationArgumentFilter();
+	}
+
+	@Override
+	public ParserFunctions createParserFunctions() {
+		return ParserFunctionsFactory.createGraphingParserFunctions();
+	}
+
+	@Override
+	public int getEnforcedLineEquationForm() {
+		return GeoLine.EQUATION_USER;
+	}
+
+	@Override
+	public int getEnforcedConicEquationForm() {
+		return GeoConic.EQUATION_USER;
+	}
+
+	@Override
+	public boolean shouldHideEquations() {
+		return true;
 	}
 }

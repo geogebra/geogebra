@@ -1,10 +1,10 @@
 package org.geogebra.web.full.euclidian;
 
-import com.google.gwt.animation.client.AnimationScheduler;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.euclidian.draw.LaTeXTextRenderer;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
@@ -12,14 +12,18 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.InputBoxWidget;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
+import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 /**
  * MathField-capable editor for EV, Web implementation.
@@ -39,6 +43,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private String text;
 	private MathFieldEditor editor;
 	private final SymbolicEditorDecorator decorator;
+	private TeXSerializer serializer;
 
 	/**
 	 * Constructor
@@ -52,10 +57,13 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
+		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
+		editor.getMathField().setMinHeight(DrawInputBox.MIN_HEIGHT);
 		int baseFontSize = app.getSettings()
 				.getFontSettings().getAppFontSize() + 3;
 
 		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
+		serializer = new TeXSerializer();
 	}
 
 	@Override
@@ -71,7 +79,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		return null;
+		return editor.getKeyboardListener();
 	}
 
 	private void resetChanges() {
@@ -87,7 +95,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		}
 
 		editor.setText(text);
-
+		editor.setLabel(geoInputBox.getAuralText());
 	}
 
 	private void updateText() {
@@ -118,6 +126,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 			public void execute(double timestamp) {
 				view.doRepaint2();
 				editor.setVisible(false);
+				editor.setKeyboardVisibility(false);
 			}
 		});
 	}
@@ -128,6 +137,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	private void applyChanges() {
+		setTempUserDisplayInput();
 		String editedText = editor.getText();
 		if (editedText.trim().equals(text)) {
 			return;
@@ -135,11 +145,19 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		geoInputBox.updateLinkedGeo(editedText);
 	}
 
+	private void setTempUserDisplayInput() {
+		MathFieldInternal mathFieldInternal = editor.getMathField().getInternal();
+		MathFormula formula = mathFieldInternal.getFormula();
+		String latex = serializer.serialize(formula);
+		geoInputBox.setTempUserDisplayInput(latex);
+	}
+
 	@Override
 	public void onKeyTyped() {
 		decorator.update();
 		geoInputBox.update();
 		editor.scrollHorizontally();
+		editor.updateAriaLabel();
 	}
 
 	@Override

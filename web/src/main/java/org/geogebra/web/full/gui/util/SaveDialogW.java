@@ -66,7 +66,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private ListBox listBox;
 
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<>();
-	private MaterialVisibility defaultVisibility;
 	private Localization loc;
 	private BaseWidgetFactory widgetFactory;
 	private ComponentCheckbox templateCheckbox;
@@ -77,12 +76,12 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * 
 	 * @param app
 	 *            see {@link AppW}
+	 * @param factory
+	 *            widget factory
 	 */
 	public SaveDialogW(final AppW app, BaseWidgetFactory factory) {
 		super(app.getPanel(), app);
 		this.widgetFactory = factory;
-		this.defaultVisibility = app.isMebis() ? MaterialVisibility.Private
-				: MaterialVisibility.Shared;
 		this.appW = app;
 		this.loc = appW.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");
@@ -232,11 +231,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			        .location_drive();
 			this.supportedProviders.add(Provider.GOOGLE);
 		}
-		if (user != null && user.hasOneDrive()) {
-			providerImages[providerCount++] = BrowseResources.INSTANCE
-			        .location_skydrive();
-			this.supportedProviders.add(Provider.ONE);
-		}
 		if (appW.getLAF().supportsLocalSave()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_local();
@@ -253,10 +247,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		listBox = widgetFactory.newListBox();
 		listBox.addStyleName("visibility");
-		listBox.addItem(loc.getMenu("Private"));
-		listBox.addItem(loc.getMenu("Shared"));
-		listBox.addItem(loc.getMenu("Public"));
-		listBox.setItemSelected(MaterialVisibility.Private.getIndex(), true);
 		if (appW.getLAF().supportsGoogleDrive()) {
 			providerPopup.addPopupHandler(this);
 			providerPopup.setSelectedIndex(appW.getFileManager()
@@ -325,7 +315,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			}
 		});
 
-		this.setTitle();
+		setTitle();
 		if (appW.isOffline()) {
 			this.providerPopup.setVisible(this.supportedProviders
 					.contains(Provider.LOCAL));
@@ -333,23 +323,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			this.providerPopup.setVisible(true);
 			this.providerPopup.setSelectedIndex(this.supportedProviders
 					.indexOf(appW.getFileManager().getFileProvider()));
-			// appW.getFileManager().setFileProvider(
-			// org.geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
-			if (appW.getActiveMaterial() != null) {
-				if (appW.getActiveMaterial().getVisibility()
-						.equals(MaterialVisibility.Public.getToken())) {
-					this.listBox.setSelectedIndex(MaterialVisibility.Public.getIndex());
-				} else if (appW.getActiveMaterial().getVisibility()
-						.equals(MaterialVisibility.Shared.getToken())) {
-					this.listBox.setSelectedIndex(MaterialVisibility.Shared.getIndex());
-				} else {
-					this.listBox
-							.setSelectedIndex(MaterialVisibility.Private.getIndex());
-				}
-			} else {
-				this.listBox.setSelectedIndex(defaultVisibility.getIndex());
-			}
 		}
+		rebuildVisibilityList();
 		listBox.setVisible(
 				appW.getFileManager().getFileProvider() == Provider.TUBE);
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
@@ -438,15 +413,30 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.titleLabel.setText(loc.getMenu("Title") + ": ");
 		this.dontSaveButton.setText(loc.getMenu("DontSave"));
 		this.saveButton.setText(loc.getMenu("Save"));
-		this.listBox.setItemText(MaterialVisibility.Private.getIndex(),
-				loc.getMenu("Private"));
-		this.listBox.setItemText(MaterialVisibility.Shared.getIndex(),
-				loc.getMenu("Shared"));
-		this.listBox.setItemText(MaterialVisibility.Public.getIndex(),
-				loc.getMenu("Public"));
-		if (templateTxt != null) {
-			templateTxt.setText(loc.getMenu("saveTemplate"));
+        if (templateTxt != null) {
+            templateTxt.setText(loc.getMenu("saveTemplate"));
+        }
+		rebuildVisibilityList();
+	}
+
+	private void rebuildVisibilityList() {
+		listBox.clear();
+		listBox.addItem(loc.getMenu("Private"));
+		listBox.addItem(loc.getMenu("Shared"));
+		MaterialVisibility currentVisibility = getCurrentVisibility();
+		if (currentVisibility == MaterialVisibility.Public) {
+			listBox.addItem(loc.getMenu("Public"));
 		}
+		listBox.setSelectedIndex(currentVisibility.getIndex());
+	}
+
+	private MaterialVisibility getCurrentVisibility() {
+		Material activeMaterial = appW.getActiveMaterial();
+		if (activeMaterial != null
+				&& app.getLoginOperation().owns(activeMaterial)) {
+			return MaterialVisibility.value(activeMaterial.getVisibility());
+		}
+		return MaterialVisibility.Shared;
 	}
 
 	@Override
@@ -462,19 +452,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
-			this.setAvailableProviders();
+			setAvailableProviders();
 		}
-	}
-
-	/**
-	 * @param visibility
-	 *            new default
-	 * @return this
-	 */
-	@Override
-	public SaveDialogW setDefaultVisibility(MaterialVisibility visibility) {
-		this.defaultVisibility = visibility;
-		return this;
 	}
 
 	/**

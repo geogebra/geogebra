@@ -1,6 +1,10 @@
 package org.geogebra.web.html5.event;
 
-import org.geogebra.common.euclidian.event.FocusListener;
+import javax.annotation.Nonnull;
+
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
+import org.geogebra.common.main.ScreenReader;
+import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -11,11 +15,19 @@ import com.google.gwt.event.dom.client.FocusHandler;
  * @author judit
  * 
  */
-public class FocusListenerW extends FocusListener implements FocusHandler,
-        BlurHandler {
+public class FocusListenerW implements FocusHandler, BlurHandler {
 
-	public FocusListenerW(Object listener) {
-		setListenerClass(listener);
+	private FocusListenerDelegate delegate;
+	private ScrollableSuggestBox textField;
+
+	/**
+	 * @param listener
+	 *            delegate
+	 */
+	public FocusListenerW(@Nonnull FocusListenerDelegate listener,
+			ScrollableSuggestBox textField) {
+		this.delegate = listener;
+		this.textField = textField;
 	}
 
 	/** dummy method */
@@ -25,11 +37,12 @@ public class FocusListenerW extends FocusListener implements FocusHandler,
 
 	@Override
 	public void onFocus(FocusEvent event) {
-		wrapFocusGained();
+		delegate.focusGained();
+		ScreenReader.debug(textField.getElement().getAttribute("aria-label"));
 	}
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		wrapFocusLost();
+		delegate.focusLost();
 	}
 }

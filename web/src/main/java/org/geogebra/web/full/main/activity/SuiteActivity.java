@@ -1,7 +1,7 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.main.settings.AppConfigSuite;
-import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.resources.SVGResource;
 
 /**
@@ -18,7 +18,7 @@ public class SuiteActivity extends BaseActivity {
 
 	@Override
 	public SVGResource getIcon() {
-		return MaterialDesignResources.INSTANCE.graphing();
+		return SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent();
 	}
 
 }

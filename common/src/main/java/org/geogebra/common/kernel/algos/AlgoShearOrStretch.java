@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -35,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -168,19 +168,34 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 		}
 
 		// translate -Q
-		tranOut.translate(new Coords(qx, qy, 0));
+		Coords negativeStartPoint = new Coords(qx, qy, 0);
+		tranOut.translate(negativeStartPoint);
 
 		if (shear) {
 			out.matrixTransform(1 - c * s * n, c * c * n, -s * s * n,
 					1 + s * c * n);
 		} else {
-			out.matrixTransform(c * c + s * s * n, c * s * (1 - n),
-					c * s * (1 - n), s * s + c * c * n);
+			stretch(out, c, s, n);
 		}
-		tranOut.translate(new Coords(-qx, -qy, 0));
+		negativeStartPoint.mulInside(-1);
+		tranOut.translate(negativeStartPoint);
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
 		}
+	}
+
+	/**
+	 * @param out
+	 *            transformable
+	 * @param c
+	 *            direction cosine
+	 * @param s
+	 *            direction sine
+	 * @param n
+	 *            stretch factor
+	 */
+	public static void stretch(MatrixTransformable out, double c, double s, double n) {
+		out.matrixTransform(c * c + s * s * n, c * s * (1 - n), c * s * (1 - n), s * s + c * c * n);
 	}
 
 	@Override
@@ -222,15 +237,12 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 
 	@Override
 	public double getAreaScaleFactor() {
-
 		if (shear) {
 			return 1;
 		}
-
 		// else
 		// stretch
 		return n;
-
 	}
 
 }

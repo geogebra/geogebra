@@ -30,8 +30,6 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoDistancePointObject;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -61,6 +59,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords3;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
@@ -377,28 +377,34 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public void set(GeoElementND geo) {
-		Function geoFun = geo == null ? null
-				: ((GeoFunctionable) geo).getFunction();
-
-		if (geoFun == null) {
-			fun = null;
-			isDefined = false;
-			return;
-		}
-		isDefined = geo.isDefined();
-		setFunction(new Function(geoFun, kernel));
-
-		// macro OUTPUT
-		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
-			// this object is an output object of AlgoMacro
-			// we need to check the references to all geos in its function's
-			// expression
-			if (!geo.isIndependent()) {
-				AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
-				algoMacro.initFunction(this.fun);
+		if (geo instanceof GeoFunctionable) {
+			Function geoFun = ((GeoFunctionable) geo).getFunction();
+			if (geoFun == null) {
+				fun = null;
+				isDefined = false;
+				return;
 			}
+			if (geo.isGeoNumeric() && fun != null) {
+				geoFun = new Function(geoFun.getExpression(),
+						fun.getFunctionVariable());
+			}
+			isDefined = geo.isDefined();
+			setFunction(new Function(geoFun, kernel));
+
+			// macro OUTPUT
+			if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
+				// this object is an output object of AlgoMacro
+				// we need to check the references to all geos in its function's
+				// expression
+				if (!geo.isIndependent()) {
+					AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
+					algoMacro.initFunction(this.fun);
+				}
+			}
+			isInequality = null;
+		} else {
+			setUndefined();
 		}
-		isInequality = null;
 	}
 
 	/**
@@ -1466,14 +1472,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	final public boolean isFunctionInX() {
 		return true;
 	}
-
-	/*
-	 * public final GeoFunctionConditional getParentCondFun() { return
-	 * parentCondFun; }
-	 * 
-	 * public final void setParentCondFun(GeoFunctionConditional parentCondFun)
-	 * { this.parentCondFun = parentCondFun; }
-	 */
 
 	// Michael Borcherds 2009-02-15
 	@Override

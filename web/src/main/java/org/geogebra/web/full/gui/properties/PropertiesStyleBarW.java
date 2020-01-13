@@ -7,13 +7,11 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.TestHarness;
 
@@ -205,7 +203,7 @@ public class PropertiesStyleBarW extends
 	 * @return icon URL
 	 */
 	protected String getTypeIcon(OptionType type) {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		switch (type) {
 		case GLOBAL:
 			return MaterialDesignResources.INSTANCE.gear().getSafeUri()
@@ -213,19 +211,16 @@ public class PropertiesStyleBarW extends
 		case DEFAULTS:
 			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
 		case SPREADSHEET:
-			return ImgResourceHelper.safeURI(pr.menu_icon_spreadsheet24());
+			return pr.menu_icon_spreadsheet_transparent().getSafeUri().asString();
 		case EUCLIDIAN:
-			return MaterialDesignResources.INSTANCE.geometry()
-									.getSafeUri().asString();
+			return pr.menu_icon_graphics().getSafeUri().asString();
 		case EUCLIDIAN2:
-			return ImgResourceHelper.safeURI(pr.menu_icon_graphics224());
+			return pr.menu_icon_graphics2_transparent().getSafeUri().asString();
 		case CAS:
-			return ImgResourceHelper.safeURI(pr.menu_icon_cas24());
+			return pr.menu_icon_cas_transparent().getSafeUri().asString();
 		case ALGEBRA:
-			return MaterialDesignResources.INSTANCE.graphing().getSafeUri()
-					.asString();
+			return pr.menu_icon_algebra_transparent().getSafeUri().asString();
 		case OBJECTS:
-			//return AppResources.INSTANCE.options_objects24().getSafeUri().asString();
 			return GuiResources.INSTANCE.properties_object().getSafeUri().asString();
 		case LAYOUT:
 			return AppResources.INSTANCE.options_layout24().getSafeUri().asString();

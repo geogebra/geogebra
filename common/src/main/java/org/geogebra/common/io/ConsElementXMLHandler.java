@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -1122,6 +1123,23 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
+	private boolean handleTempUserInput(LinkedHashMap<String, String> attrs) {
+
+		// name of linked geo
+		String eval = attrs.get("eval");
+		String display = attrs.get("display");
+
+		if (geo instanceof GeoInputBox) {
+			GeoInputBox inputBox = (GeoInputBox) geo;
+			inputBox.setTempUserDisplayInput(display);
+			inputBox.setTempUserEvalInput(eval);
+		} else {
+			Log.error("temp user input not supported for " + geo.getGeoClassType());
+		}
+
+		return true;
+	}
+
 	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
 		String align = attrs.get("val");
 
@@ -2041,6 +2059,9 @@ public class ConsElementXMLHandler {
 			case "length":
 				handleLength(attrs);
 				break;
+			case "tempUserInput":
+				handleTempUserInput(attrs);
+				break;
 			case "listType":
 				handleListType(attrs);
 				break;
@@ -2058,6 +2079,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "outlyingIntersections":
 				handleOutlyingIntersections(attrs);
+				break;
+			case "parentLabel":
+				handleParentLabel(attrs);
 				break;
 			case "pointSize":
 				handlePointSize(attrs);
@@ -2128,6 +2152,13 @@ public class ConsElementXMLHandler {
 			default:
 				Log.error("unknown tag in <element>: " + eName);
 			}
+		}
+
+	}
+
+	private void handleParentLabel(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoLocusStroke) {
+			((GeoLocusStroke) geo).setSplitParentLabel(attrs.get("val"));
 		}
 
 	}

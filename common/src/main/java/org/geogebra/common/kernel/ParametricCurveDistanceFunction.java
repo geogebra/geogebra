@@ -13,9 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Distance function of a curve that implements UnivariateFunction.

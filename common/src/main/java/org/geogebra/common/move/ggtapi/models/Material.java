@@ -17,7 +17,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 public class Material implements Comparable<Material>, Serializable {
 
 	public enum Provider {
-		TUBE, GOOGLE, ONE, LOCAL
+		TUBE, GOOGLE, LOCAL
 	}
 
 	public enum MaterialType {
@@ -823,7 +823,17 @@ public class Material implements Comparable<Material>, Serializable {
 		return creator;
 	}
 
+	/**
+	 * @param creator
+	 *            material creator
+	 */
 	public void setCreator(UserPublic creator) {
 		this.creator = creator;
+		setCreatorAsAuthor();
+	}
+
+	private void setCreatorAsAuthor() {
+		author = creator.getUsername();
+		authorID = creator.getId();
 	}
 }

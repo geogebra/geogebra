@@ -39,4 +39,19 @@ public class AppConfigNotes extends AppConfigDefault {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.NOTES;
 	}
+
+	@Override
+	public int getEnforcedLineEquationForm() {
+		return -1;
+	}
+
+	@Override
+	public int getEnforcedConicEquationForm() {
+		return -1;
+	}
+
+	@Override
+	public boolean shouldHideEquations() {
+		return false;
+	}
 }

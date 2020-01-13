@@ -608,7 +608,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return the Evaluator for ExpressionNode
 	 */
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator(Kernel kernel) {
-		return new ExpressionNodeEvaluator(app.getLocalization(), kernel);
+		return new ExpressionNodeEvaluator(app.getLocalization(), kernel,
+				app.getConfig().createOperationArgumentFilter());
 	}
 
 	/**
@@ -4440,6 +4441,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (getApplication().getEmbedManager() != null) {
 			getApplication().getEmbedManager().storeEmbeds();
 		}
+
 	}
 
 	private void restoreAfterReload() {
@@ -4449,6 +4451,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (getApplication().getVideoManager() != null) {
 			getApplication().getVideoManager().clearStoredVideos();
 		}
+		getApplication().getActiveEuclidianView().restoreDynamicStylebar();
 	}
 
 	/**

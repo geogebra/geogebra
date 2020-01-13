@@ -41,9 +41,6 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.advanced.AlgoDynamicCoordinates3D;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -73,6 +70,9 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -987,16 +987,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		StringBuilder sbToString = getSbToString();
-		sbToString.setLength(0);
-		sbToString.append(label);
-
-		GeoPoint.addEqualSignToString(sbToString, getToStringMode(),
-				tpl.getCoordStyle(kernel.getCoordStyle()));
-
-		sbToString.append(toValueString(tpl));
-
-		return sbToString.toString();
+		return label
+				+ GeoPoint.getEqualSign(getToStringMode(),
+				tpl.getCoordStyle(kernel.getCoordStyle()))
+				+ toValueString(tpl);
 	}
 
 	@Override
