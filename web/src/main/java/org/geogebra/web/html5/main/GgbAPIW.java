@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -21,10 +22,14 @@ import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.move.ggtapi.models.Chapter;
+import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -1445,4 +1450,29 @@ public class GgbAPIW extends GgbAPI {
 		return ((AppW) app).getFrameElement();
 	}
 
+	@Override
+	public void newConstruction() {
+		if (app.isWhiteboardActive() && app.getLoginOperation() != null) {
+			app.getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
+					new MaterialCallbackI() {
+						@Override
+						public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+							if (result.isEmpty()) {
+								GgbAPIW.super.newConstruction();
+							} else {
+								((GuiManagerW) app.getGuiManager()).getTemplateController()
+										.fillTemplates((AppW) app, result);
+								app.getDialogManager().showTemplateChooser();
+							}
+						}
+
+						@Override
+						public void onError(Throwable exception) {
+							Log.error("Error on templates load");
+						}
+					});
+			return;
+		}
+		super.newConstruction();
+	}
 }
