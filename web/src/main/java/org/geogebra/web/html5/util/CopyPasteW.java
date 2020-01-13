@@ -222,43 +222,47 @@ public class CopyPasteW extends CopyPaste {
 		app.setBlockUpdateScripts(scriptsBlocked);
 	}
 
+	public static native void writeToExternalClipboard(String toWrite) /*-{
+        if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.write) {
+            // Supported in Chrome
+
+            var data = new ClipboardItem({
+                'text/plain': new Blob([toWrite], {
+                    type: 'text/plain'
+                })
+            });
+
+            $wnd.navigator.clipboard.write([data]).then(function() {
+                @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("successfully wrote gegeobra data to clipboard");
+            }, function() {
+                @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("writing geogebra data to clipboard failed");
+            });
+        } else if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
+            // Supported in Firefox
+
+            $wnd.navigator.clipboard.writeText(toWrite).then(function() {
+                @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("successfully wrote text to clipboard");
+            }, function() {
+                @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("writing text to clipboard failed");
+            });
+        } else {
+            // Supported in Safari
+
+            var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
+            copyFrom.value = toWrite;
+            copyFrom.select();
+            $doc.execCommand('copy');
+            $wnd.setTimeout(function() {
+                $doc.body.focus();
+            }, 0);
+        }
+    }-*/;
+
 	private static native void saveToClipboard(String toSave) /*-{
 		var encoded = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix
 			+ btoa(toSave);
 
-		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.write) {
-			// Supported in Chrome
-
-			var data = new ClipboardItem({
-				'text/plain': new Blob([encoded], {
-					type: 'text/plain'
-				})
-			});
-
-			$wnd.navigator.clipboard.write([data]).then(function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("successfully wrote gegeobra data to clipboard");
-			}, function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("writing geogebra data to clipboard failed");
-			});
-		} else if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
-			// Supported in Firefox
-
-			$wnd.navigator.clipboard.writeText(encoded).then(function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("successfully wrote text to clipboard");
-			}, function() {
-				@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("writing text to clipboard failed");
-			});
-		} else {
-			// Supported in Safari
-
-			var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
-			copyFrom.value = encoded;
-			copyFrom.select();
-			$doc.execCommand('copy');
-			$wnd.setTimeout(function() {
-				$doc.body.focus();
-			}, 0);
-		}
+        @org.geogebra.web.html5.util.CopyPasteW::writeToExternalClipboard(*)(encoded);
 
 		$wnd.localStorage.setItem(
 			@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, toSave);
@@ -466,11 +470,15 @@ public class CopyPasteW extends CopyPaste {
 	}-*/;
 
 	public static native void installCutCopyPaste(App app, Element target) /*-{
+    	function incorrectTarget(target) {
+            return target.tagName.toUpperCase() === 'INPUT'
+            	|| target.tagName.toUpperCase() === 'TEXTAREA'
+            	|| target.tagName.toUpperCase() === 'BR'
+            	|| target.parentElement.classList.contains('mowTextEditor');
+	    }
+
 		target.addEventListener('paste', function(a) {
-			if (a.target.tagName.toUpperCase() === 'INPUT'
-				|| a.target.tagName.toUpperCase() === 'TEXTAREA'
-				|| a.target.tagName.toUpperCase() === 'BR'
-				|| a.target.parentElement.classList.contains("mowTextEditor")) {
+			if (incorrectTarget(a.target)) {
 				return;
 			}
 
@@ -499,14 +507,12 @@ public class CopyPasteW extends CopyPaste {
 			}
 		});
 
-		var copying = false;
-
 		function cutCopy(event) {
-			if (!copying) {
-				copying = true;
-				@org.geogebra.common.util.CopyPaste::handleCutCopy(*)(app, event.type === 'cut');
-				copying = false;
-			}
+            if (incorrectTarget(event.target)) {
+                return;
+            }
+
+            @org.geogebra.common.util.CopyPaste::handleCutCopy(*)(app, event.type === 'cut');
 		}
 
 		target.addEventListener('copy', cutCopy);

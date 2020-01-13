@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.main.AppW;
 
 public class CopyPasteCutW extends CopyPasteCut {
 
@@ -129,9 +128,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 			// is not crucial, and redundant/harmful in IE...
 			setInternalClipboardContents(new String(getCellBufferStr()));
 		} else {
-			((AppW) app).copyTextToSystemClipboard(
-					new String(getCellBufferStr()),
-					getFocusCallback());
+			app.copyTextToSystemClipboard(new String(getCellBufferStr()));
+			getTable().editCellAt(sourceColumn1, sourceRow1);
 		}
 
 		// store copies of the actual geos in the internal buffer
@@ -141,15 +139,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 			setCellBufferGeo(RelativeCopy.getValues(app, column1, row1, column2,
 					row2));
 		}
-	}
-
-	private Runnable getFocusCallback() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				getTable().editCellAt(sourceColumn1, sourceRow1);
-			}
-		};
 	}
 
 	@Override
@@ -291,9 +280,5 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 	private static native String getSystemClipboardIE() /*-{
 		return $wnd.clipboardData.getData('Text');
-	}-*/;
-
-	public static native void copyToSystemClipboardIE(String value) /*-{
-		return $wnd.clipboardData.setData('Text', value);
 	}-*/;
 }

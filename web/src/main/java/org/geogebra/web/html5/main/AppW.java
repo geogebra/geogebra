@@ -3614,60 +3614,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return hiddenTextArea;
 	}-*/;
 
-	/**
-	 * https://jsfiddle.net/alvaroAV/a2pt16yq/ works in IE11, Chrome
-	 *
-	 * this method doesn't always work in Edge, Firefox as needs to be run from eg
-	 * button
-	 * 
-	 * IE11: asks user for permission
-	 *
-	 * @param value text to copy
-	 */
-	public static native void copyToSystemClipboardNative(String value) /*-{
-
-		// async Clipboard API
-		// doesn't work in Firefox either so might as well just use execCommand('copy')
-		//if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
-		//	// https://github.com/gwtproject/gwt/issues/9490
-		//	// .catch changed to ["catch"]
-		//	$wnd.navigator.clipboard.writeText(value).then(function() {
-		//		$wnd.console.log("Clipboard copy OK")
-		//	})["catch"](function(e) {
-		//		$wnd.console.log("Problem copying to clipboard")
-		//	});
-		//}
-
-		// currently seems to work in Chrome, IE11, Edge+Chromium
-		// doesn't seem to work in Edge, Firefox from GGB button
-		// document.execCommand('cut'/'copy') was denied because it was not called 
-		// from inside a short running user-generated event handler.
-		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
-		copyFrom.value = value;
-		copyFrom.select();
-		$doc.execCommand('copy');
-
-	}-*/;
-
 	@Override
 	public void copyTextToSystemClipboard(String text) {
 		Log.debug("copying to clipboard " + text);
-		copyToSystemClipboardNative(text);
-	}
-
-	/**
-	 * @param text
-	 *            text to copy
-	 * @param notify
-	 *            callback after copy is done
-	 */
-	public void copyTextToSystemClipboard(String text, Runnable notify) {
-		Log.debug("copying to clipboard " + text);
-		copyToSystemClipboardNative(text);
-
-		if (notify != null) {
-			notify.run();
-		}
+		CopyPasteW.writeToExternalClipboard(text);
 	}
 
 	private static void setLastActive(Element e) {
