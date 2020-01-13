@@ -16,7 +16,7 @@ public class CarotaEditor implements Editor {
 	private JavaScriptObject editor;
 
 	private static native JavaScriptObject createEditorNative(Element div) /*-{
-		return $wnd.murok = $wnd.carota.editor.create(div);
+		return $wnd.carota.editor.create(div);
 	}-*/;
 
 	private static native void focusNative(JavaScriptObject editor, int x, int y) /*-{
@@ -102,7 +102,6 @@ public class CarotaEditor implements Editor {
 
 	private static native void formatNative(JavaScriptObject editor, String key, Object val) /*-{
 		var selection = editor.selectedRange();
-		console.log(selection);
 		var range = selection.start == selection.end ? editor.documentRange()
 				: selection;
 		range.setFormatting(key, val);

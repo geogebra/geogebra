@@ -2,6 +2,7 @@ package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.impl.CarotaEditor;
@@ -60,7 +61,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 			@Override
 			public void onSelectionChanged() {
-				geo.getKernel().getApplication().updateStyleBars();
+				geo.getKernel().notifyUpdateVisualStyle(geo, GProperty.FONT);
 			}
 		});
 	}
