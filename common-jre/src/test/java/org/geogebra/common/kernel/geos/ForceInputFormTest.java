@@ -12,6 +12,14 @@ import java.util.ArrayList;
 public class ForceInputFormTest extends BaseUnitTest {
 
     @Test
+    public void testRayToStringMode() {
+        getApp().setConfig(new AppConfigGraphing());
+
+        GeoRay geoRay = getElementFactory().createGeoRay();
+        Assert.assertEquals(GeoRay.EQUATION_USER, geoRay.getToStringMode());
+    }
+
+    @Test
     public void testLinesAndConicsToStringMode() {
         getApp().setConfig(new AppConfigGraphing());
 
@@ -20,9 +28,9 @@ public class ForceInputFormTest extends BaseUnitTest {
         GeoConic parabola = (GeoConic) factory.create("y=xx");
         GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
-        Assert.assertEquals(geoLine.getToStringMode(), GeoLine.EQUATION_USER);
-        Assert.assertEquals(parabola.getToStringMode(), GeoConic.EQUATION_USER);
-        Assert.assertEquals(hyperbola.getToStringMode(), GeoConic.EQUATION_USER);
+        Assert.assertEquals(GeoLine.EQUATION_USER, geoLine.getToStringMode());
+        Assert.assertEquals(GeoConic.EQUATION_USER, parabola.getToStringMode());
+        Assert.assertEquals(GeoConic.EQUATION_USER, hyperbola.getToStringMode());
     }
 
     @Test
