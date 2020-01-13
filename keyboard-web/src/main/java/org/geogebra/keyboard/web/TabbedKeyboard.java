@@ -767,7 +767,7 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void updateKeyboard() {
-		if (processField == null) {
+		if (processField == null || ansSwitcher == null) {
 			return;
 		}
 		boolean requestsAns = processField.requestsAns();
