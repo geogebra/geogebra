@@ -27,7 +27,6 @@ public class ForceInputFormTest extends BaseUnitTest {
         Assert.assertEquals(hyperbola.getToStringMode(), GeoConic.EQUATION_USER);
     }
 
-
     @Test
     public void testHideOutputRowGraphing() {
         getApp().setConfig(new AppConfigGraphing());
