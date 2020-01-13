@@ -30,7 +30,7 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 
 	@Override
 	public void callback(Boolean active) {
-		if (app.isWhiteboardActive()) {
+		if (app.isWhiteboardActive() && app.getLoginOperation() != null) {
 			app.getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
 					new MaterialCallbackI() {
 						@Override
