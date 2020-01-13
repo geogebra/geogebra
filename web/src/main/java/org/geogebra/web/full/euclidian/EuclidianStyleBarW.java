@@ -41,7 +41,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -53,7 +52,6 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -641,13 +639,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);
 		add(btnDelete);
-	}
-
-	/**
-	 * @return the frame with casting.
-	 */
-	private GeoGebraFrameFull getFrame() {
-		return (((AppWFull) app).getAppletFrame());
 	}
 
 	protected void closeLabelPopup() {
@@ -1629,7 +1620,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 				selectedIndex);
 		double size = GeoText.getRelativeFontSize(selectedIndex)
 				* ev.getFontSize();
-		return formatInlineText(targetGeos, "size", size) || ret;
+		return inlineFormatter.formatInlineText(targetGeos, "size", size)
+				|| ret;
 	}
 
 	private boolean applyFontStyle(ArrayList<GeoElement> targetGeos, int mask,
@@ -1637,7 +1629,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		boolean ret = EuclidianStyleBarStatic.applyFontStyle(targetGeos, mask,
 				add);
 		String property = mask == GFont.BOLD ? "bold" : "italic";
-		return formatInlineText(targetGeos, property, add) || ret;
+		return inlineFormatter.formatInlineText(targetGeos, property, add)
+				|| ret;
 	}
 
 	/**

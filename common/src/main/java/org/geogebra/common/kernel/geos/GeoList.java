@@ -1940,11 +1940,6 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public boolean justFontSize() {
-		return false;
-	}
-
-	@Override
 	public boolean hasMoveableInputPoints(
 			final EuclidianViewInterfaceSlim view) {
 		// we don't want e.g. DotPlots to be dragged

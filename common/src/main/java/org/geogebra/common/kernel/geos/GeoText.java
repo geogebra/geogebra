@@ -120,8 +120,6 @@ public class GeoText extends GeoElement
 	private int totalHeight;
 	private int totalWidth;
 
-	private int textHeight;
-
 	/**
 	 * Creates new text
 	 * 
@@ -903,12 +901,7 @@ public class GeoText extends GeoElement
 			return FONTSIZE_VERY_LARGE;
 		}
 		return FONTSIZE_EXTRA_LARGE;
-
 	}
-
-	// public void setFontSize(int size) {
-	// fontSize = size;
-	// }
 
 	@Override
 	public void setFontSizeMultiplier(double d) {
@@ -931,7 +924,6 @@ public class GeoText extends GeoElement
 		} else {
 			setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS);
 		}
-
 	}
 
 	@Override
@@ -1159,18 +1151,12 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public boolean justFontSize() {
-		return false;
-	}
-
-	@Override
 	public boolean isRedefineable() {
 		return true;
 	}
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-
 		return isLaTeX() || (getTextString() != null
 				&& getTextString().indexOf('_') != -1);
 	}
@@ -1266,7 +1252,6 @@ public class GeoText extends GeoElement
 		GeoText text = getColumnHeadingText(spreadsheetTraceableLeftTree);
 		text.setLaTeX(this.isLaTeX, false);
 		spreadsheetColumnHeadings.add(text);
-
 	}
 
 	@Override
@@ -1275,7 +1260,6 @@ public class GeoText extends GeoElement
 		GeoNumeric numeric = new GeoNumeric(cons,
 				spreadsheetTraceableValue.evaluateDouble());
 		spreadsheetTraceList.add(numeric);
-
 	}
 
 	@Override
@@ -1325,7 +1309,6 @@ public class GeoText extends GeoElement
 			sb.append(fontStyle);
 			sb.append("\"/>\n");
 		}
-
 	}
 
 	@Override
@@ -1419,7 +1402,6 @@ public class GeoText extends GeoElement
 				updateParent();
 			}
 		}
-
 	}
 
 	@Override
@@ -1489,14 +1471,6 @@ public class GeoText extends GeoElement
 		return txt;
 	}
 
-	public void setTextHeight(int height) {
-		textHeight = height;
-	}
-
-	public int getTextHeight() {
-		return textHeight;
-	}
-
 	@Override
 	public void addAuralContent(Localization loc, ScreenReaderBuilder sb) {
 		sb.append(getAuralText());
@@ -1521,7 +1495,6 @@ public class GeoText extends GeoElement
 		}
 
 		return ScreenReader.convertToReadable(ret);
-
 	}
 
 	@Override
