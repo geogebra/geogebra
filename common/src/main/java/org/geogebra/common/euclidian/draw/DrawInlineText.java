@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -9,10 +10,12 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
+import org.geogebra.common.euclidian.TextBoundingBox;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class that handles drawing inline text elements.
@@ -20,8 +23,19 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget {
 
 	private static final int padding = 8;
+
 	private GeoInlineText text;
 	private InlineTextController textController;
+
+	private GAffineTransform directTransform;
+	private GAffineTransform inverseTransform;
+
+	private GPoint2D corner0;
+	private GPoint2D corner1;
+	private GPoint2D corner2;
+	private GPoint2D corner3;
+
+	private TextBoundingBox boundingBox;
 
 	/**
 	 * Create a new DrawInlineText instance.
@@ -31,6 +45,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	 */
 	public DrawInlineText(EuclidianView view, GeoInlineText text) {
 		super(view, text);
+
 		this.text = text;
 		this.textController = view.createInlineTextController(text);
 		createEditor();
@@ -45,16 +60,43 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public void update() {
+		GPoint2D point = text.getLocation();
+
+		double angle = text.getAngle();
+		int width = text.getWidth();
+		int height = text.getHeight();
+
+		directTransform = AwtFactory.getPrototype().newAffineTransform();
+		directTransform.translate(view.toScreenCoordX(point.getX()), view.toScreenCoordY(point.getY()));
+		directTransform.rotate(angle);
+		directTransform.scale(width, height);
+
+		try {
+			inverseTransform = directTransform.createInverse();
+		} catch (Exception e) {
+			Log.error(e.getMessage());
+		}
+
+		corner0 = directTransform.transform(new GPoint2D.Double(0, 0), null);
+		corner1 = directTransform.transform(new GPoint2D.Double(1, 0), null);
+		corner2 = directTransform.transform(new GPoint2D.Double(1, 1), null);
+		corner3 = directTransform.transform(new GPoint2D.Double(0, 1), null);
+
 		if (textController != null) {
-			GPoint2D point = text.getLocation();
-			textController.setLocation(view.toScreenCoordX(point.getX()) + padding,
-					view.toScreenCoordY(point.getY()) + padding);
-			textController.setHeight((int) (text.getHeight() - 2 * padding));
-			textController.setWidth((int) (text.getWidth() - 2 * padding));
-			textController.setAngle(text.getAngle());
+			textController.setLocation(view.toScreenCoordX(point.getX()),
+					view.toScreenCoordY(point.getY()));
+			textController.setHeight(height - 2 * padding);
+			textController.setWidth(width - 2 * padding);
+			textController.setAngle(angle);
 			if (text.updateFontSize()) {
 				textController.updateContent();
 			}
+		}
+
+		if (boundingBox != null) {
+			boundingBox.setRectangle(getBounds());
+			boundingBox.setTransform(directTransform);
+			boundingBox.setAngle(angle);
 		}
 	}
 
@@ -84,6 +126,16 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	}
 
 	@Override
+	public TextBoundingBox getBoundingBox() {
+		if (boundingBox == null) {
+			boundingBox = new TextBoundingBox();
+			boundingBox.setColor(view.getApplication().getPrimaryColor());
+		}
+		boundingBox.updateFrom(geo);
+		return boundingBox;
+	}
+
+	@Override
 	public double getWidthThreshold() {
 		return GeoInlineText.DEFAULT_WIDTH;
 	}
@@ -102,7 +154,8 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		return getBounds().contains(x, y);
+		GPoint2D p = inverseTransform.transform(new GPoint2D.Double(x, y), null);
+		return 0 < p.getX() && p.getX() < 1 && 0 < p.getY() && p.getY() < 1;
 	}
 
 	@Override
@@ -140,14 +193,14 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public int getLeft() {
-		GPoint2D point = text.getLocation();
-		return view.toScreenCoordX(point.getX());
+		return (int) Math.min(Math.min(corner0.getX(), corner1.getX()),
+				Math.min(corner2.getX(), corner3.getX()));
 	}
 
 	@Override
 	public int getTop() {
-		GPoint2D point = text.getLocation();
-		return view.toScreenCoordY(point.getY());
+		return (int) Math.min(Math.min(corner0.getY(), corner1.getY()),
+				Math.min(corner2.getY(), corner3.getY()));
 	}
 
 	@Override
@@ -162,12 +215,18 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public int getWidth() {
-		return (int) text.getWidth();
+		return (int) (Math.max(Math.max(corner0.getX(), corner1.getX()),
+				Math.max(corner2.getX(), corner3.getX()))
+				- Math.min(Math.min(corner0.getX(), corner1.getX()),
+				Math.min(corner2.getX(), corner3.getX())));
 	}
 
 	@Override
 	public int getHeight() {
-		return (int) text.getHeight();
+		return (int) (Math.max(Math.max(corner0.getY(), corner1.getY()),
+				Math.max(corner2.getY(), corner3.getY()))
+				- Math.min(Math.min(corner0.getY(), corner1.getY()),
+				Math.min(corner2.getY(), corner3.getY())));
 	}
 
 	@Override
@@ -187,8 +246,8 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> points) {
-		double newWidth = Math.abs(points.get(1).getX() - points.get(0).getX());
-		double newHeight = Math.abs(points.get(1).getY() - points.get(0).getY());
+		int newWidth = (int) Math.abs(points.get(1).getX() - points.get(0).getX());
+		int newHeight = (int) Math.abs(points.get(1).getY() - points.get(0).getY());
 
 		if (Math.abs(newWidth - getWidth()) > 1 || Math.abs(newHeight - getHeight()) > 1) {
 			text.setWidth(newWidth);

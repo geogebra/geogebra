@@ -42,5 +42,4 @@ public class SegmentBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	public EuclidianCursor getCursor(EuclidianBoundingBoxHandler nrHandler) {
 		return EuclidianCursor.DRAG;
 	}
-
 }

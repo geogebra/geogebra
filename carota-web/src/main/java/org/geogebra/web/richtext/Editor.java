@@ -20,7 +20,7 @@ public interface Editor {
 		 * @param minHeight
 		 *            minimum height in pixels
 		 */
-		void onSizeChanged(double minHeight);
+		void onSizeChanged(int minHeight);
 
 		/**
 		 * Called on selection change

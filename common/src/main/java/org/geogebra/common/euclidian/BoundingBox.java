@@ -21,9 +21,12 @@ import org.geogebra.common.main.GeoGebraColorConstants;
  *
  */
 public abstract class BoundingBox<T extends GShape> {
+
+	protected static final int ROTATION_HANDLER_DISTANCE = 25;
+
 	protected GRectangle2D rectangle;
 	protected final ArrayList<T> handlers;
-	private GColor color;
+	protected GColor color;
 	private boolean fixed;
 
 	/**

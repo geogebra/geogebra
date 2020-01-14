@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
@@ -16,6 +17,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -335,6 +337,18 @@ public class GeoInlineText extends GeoElement
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		angle -= r.getDouble();
+
+		double phi = r.getDouble();
+		double cos = MyMath.cos(phi);
+		double sin = Math.sin(phi);
+		double qx = S.getInhomCoords().getX();
+		double qy = S.getInhomCoords().getY();
+
+		double x = location.getX();
+		double y = location.getY();
+
+		location.setLocation((x - qx) * cos + (qy - y) * sin + qx,
+				(x - qx) * sin + (y - qy) * cos + qy);
 	}
 
 	public double getAngle() {

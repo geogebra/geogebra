@@ -2858,8 +2858,8 @@ public class AffineTransform implements GAffineTransform {
     @Override
 	public GPoint2D transform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {
-            if (ptSrc instanceof Point2D.Double) {
-                ptDst = new Point2D.Double();
+            if (ptSrc instanceof GPoint2D.Double) {
+                ptDst = new GPoint2D.Double();
             } else {
                 //ptDst = new Point2D.Float();
             	throw new RuntimeException("Point2D.Float not available");

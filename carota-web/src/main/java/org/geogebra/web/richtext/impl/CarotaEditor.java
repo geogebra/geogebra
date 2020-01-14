@@ -1,6 +1,7 @@
 package org.geogebra.web.richtext.impl;
 
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.Style;
 import org.geogebra.web.richtext.Editor;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -64,6 +65,9 @@ public class CarotaEditor implements Editor {
 	private Widget createWidget() {
 		HTML html = new HTML();
 		html.setStyleName("mowWidget");
+		html.getElement().getStyle().setProperty("transformOrigin", "-8px -8px");
+		html.getElement().getStyle().setProperty("boxSizing", "border-box");
+		html.getElement().getStyle().setMargin(8, Style.Unit.PX);
 		return html;
 	}
 
