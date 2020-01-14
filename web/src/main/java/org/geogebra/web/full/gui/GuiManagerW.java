@@ -2341,9 +2341,7 @@ public class GuiManagerW extends GuiManager
 		return null;
 	}
 
-	/**
-	 * @return controller of the template chooser dialog
-	 */
+	@Override
 	public TemplateChooserController getTemplateController() {
 		if (templateController == null) {
 			templateController = new TemplateChooserController();
