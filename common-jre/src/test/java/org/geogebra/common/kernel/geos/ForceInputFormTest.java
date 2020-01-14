@@ -64,50 +64,50 @@ public class ForceInputFormTest extends BaseUnitTest {
         Assert.assertEquals(ray.needToShowBothRowsInAV(), DescriptionMode.DEFINITION_VALUE);
     }
 
-    @Test
-    public void testEquationPropertyIsHiddenGraphing() {
-        getApp().setConfig(new AppConfigGraphing());
-        getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
-
-        GeoElementFactory factory = getElementFactory();
-        GeoLine geoLine = factory.createGeoLine();
-        GeoConic parabola = (GeoConic) factory.create("y=xx");
-        GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
-        GeoRay ray = (GeoRay) factory.create("g:Ray((0,0),(1,1))");
-
-        GeoElement[] geos = new GeoElement[]{geoLine, parabola, hyperbola, ray};
-
-        for (GeoElement geo : geos) {
-            ObjectSettingsModel objectSettingsModel = asList(geo);
-
-            Assert.assertFalse(objectSettingsModel.hasEquationModeSetting());
-            Assert.assertTrue(LineEqnModel.forceInputForm(getApp(), geo));
-        }
-    }
-
-    @Test
-    public void testEquationPropertyIsHiddenGeometry() {
-        getApp().setConfig(new AppConfigGeometry());
-        getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
+	@Test
+	public void testEquationPropertyIsHiddenGraphing() {
+		getApp().setConfig(new AppConfigGraphing());
+		getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
 
 		GeoElementFactory factory = getElementFactory();
-		GeoLine geoLine = (GeoLine) factory.create("f:Line((0,0),(1,1))");
-		GeoRay ray = (GeoRay) factory.create("g:Ray((0,0),(1,1))");
+		GeoLine geoLine = factory.createGeoLine();
+		GeoConic parabola = (GeoConic) factory.create("y=xx");
+		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
+		GeoRay ray = getElementFactory().createGeoRay();
+
+		GeoElement[] geos = new GeoElement[]{geoLine, parabola, hyperbola, ray};
+
+		for (GeoElement geo : geos) {
+			ObjectSettingsModel objectSettingsModel = asList(geo);
+
+			Assert.assertFalse(objectSettingsModel.hasEquationModeSetting());
+			Assert.assertTrue(LineEqnModel.forceInputForm(getApp(), geo));
+		}
+	}
+
+	@Test
+	public void testEquationPropertyIsHiddenGeometry() {
+		getApp().setConfig(new AppConfigGeometry());
+		getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
+
+		GeoElementFactory factory = getElementFactory();
+		GeoLine geoLine = (GeoLine) factory.create("Line((0,0),(1,1))");
+		GeoRay ray = getElementFactory().createGeoRay();
 		GeoConic parabola = (GeoConic) factory.create("y=xx");
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
-        ObjectSettingsModel objectSettingsModel = asList(geoLine);
-        Assert.assertTrue(objectSettingsModel.hasEquationModeSetting());
+		ObjectSettingsModel objectSettingsModel = asList(geoLine);
+		Assert.assertTrue(objectSettingsModel.hasEquationModeSetting());
 
-        objectSettingsModel = asList(ray);
-        Assert.assertTrue(objectSettingsModel.hasEquationModeSetting());
+		objectSettingsModel = asList(ray);
+		Assert.assertTrue(objectSettingsModel.hasEquationModeSetting());
 
 		GeoElement[] geos = new GeoElement[]{geoLine, ray, parabola, hyperbola};
 
 		for (GeoElement geo : geos) {
 			Assert.assertFalse(LineEqnModel.forceInputForm(getApp(), geo));
 		}
-    }
+	}
 
     private ObjectSettingsModel asList(GeoElement f) {
         ArrayList<GeoElement> list = new ArrayList<>();
