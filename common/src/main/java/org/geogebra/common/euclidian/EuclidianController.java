@@ -10005,7 +10005,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// handle video/audio/embeded/text release (mow)
-		if (handleVideoEmbedReleased()) {
+		if (!app.isRightClick(event) && handleVideoEmbedReleased()) {
 			return;
 		}
 

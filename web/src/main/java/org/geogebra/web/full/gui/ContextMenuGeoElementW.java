@@ -577,10 +577,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addCutCopyPaste() {
-		if (getGeo() instanceof GeoEmbed) {
-			return;
-		}
-
 		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
 
 		Command cutCommand = new Command() {

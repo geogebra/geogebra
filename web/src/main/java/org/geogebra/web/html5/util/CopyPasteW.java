@@ -19,9 +19,9 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.geos.GeoMedia;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
@@ -426,7 +426,7 @@ public class CopyPasteW extends CopyPaste {
 			ArrayList<GeoElement> shapes = new ArrayList<>();
 			for (GeoElement created : createdElements) {
 				if (created.isShape() || created instanceof GeoLocusStroke
-						|| created instanceof GeoMedia || created instanceof GeoText
+						|| created instanceof GeoWidget || created instanceof GeoText
 						|| created instanceof GeoImage) {
 					shapes.add(created);
 				}
