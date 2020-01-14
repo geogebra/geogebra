@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -2079,6 +2080,9 @@ public class ConsElementXMLHandler {
 			case "outlyingIntersections":
 				handleOutlyingIntersections(attrs);
 				break;
+			case "parentLabel":
+				handleParentLabel(attrs);
+				break;
 			case "pointSize":
 				handlePointSize(attrs);
 				break;
@@ -2148,6 +2152,13 @@ public class ConsElementXMLHandler {
 			default:
 				Log.error("unknown tag in <element>: " + eName);
 			}
+		}
+
+	}
+
+	private void handleParentLabel(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoLocusStroke) {
+			((GeoLocusStroke) geo).setSplitParentLabel(attrs.get("val"));
 		}
 
 	}

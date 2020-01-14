@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Interface for GeoElements that can be evaluated as a 3D curve

@@ -95,6 +95,7 @@ public class OpenFileView extends MyHeaderPanel
 					true);
 		}
 		this.app.getLoginOperation().getView().add(this);
+		app.registerOpenFileListener(this);
 		initGUI();
 	}
 
@@ -439,8 +440,13 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public boolean onOpenFile() {
-		// TODO
+		setConstructionTitleAsMaterial();
 		return false;
+	}
+
+	private void setConstructionTitleAsMaterial() {
+		app.getKernel().getConstruction().setTitle(
+				app.getActiveMaterial().getTitle());
 	}
 
 	private MaterialCallback getUserMaterialsCB(final int type) {

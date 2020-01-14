@@ -22,7 +22,6 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -415,79 +414,6 @@ public class DrawTurtle extends Drawable {
 		// pen color dot
 		ellipse.setFrame(-3, -3, 6, 6);
 		dot = at.createTransformedShape(ellipse);
-		// g2.setColor(Color.black);
-		// g2.draw(ellipse);
 	}
 
-	@Override
-	public BoundingBox getBoundingBox() {
-		return null;
-	}
-
-	/**
-	 * Draw turtle shapes.
-	 * 
-	 * @param g2
-	 **/
-	/*
-	 * private void drawTurtleShape(geogebra.common.awt.GGraphics2D g2, int
-	 * shapeNumber, GColor penColor) {
-	 * 
-	 * int r = 8; // turtle radius float x, y; gPath.reset();
-	 * 
-	 * switch (shapeNumber) {
-	 * 
-	 * case 0: // no turtle is drawn break;
-	 * 
-	 * case 1: // ellipse body with legs and head
-	 * 
-	 * // back legs g2.setStroke(stroke2); x = (1.3 * r * Math.cos(Math.PI /
-	 * 6)); y = (1.3 * r * Math.sin(Math.PI / 6)); gPath.moveTo(0, 0);
-	 * gPath.lineTo(-x, y); gPath.moveTo(0, 0); gPath.lineTo(-x, -y);
-	 * g2.setColor(GColor.black); g2.draw(gPath);
-	 * 
-	 * // front legs g2.setStroke(stroke2); x = (1.2 * r * Math.cos(Math.PI /
-	 * 4)); y = (1.2 * r * Math.sin(Math.PI / 4)); gPath.moveTo(0, 0);
-	 * gPath.lineTo(x, y); gPath.moveTo(0, 0); gPath.lineTo(x, -y);
-	 * g2.setColor(GColor.black); gPath.createTransformedShape(at);
-	 * g2.draw(gPath);
-	 * 
-	 * g2.setStroke(stroke1);
-	 * 
-	 * // head ellipse.setFrame(r - 3, -3, 6, 6); g2.setColor(GColor.gray);
-	 * g2.fill(ellipse); g2.setColor(GColor.black); g2.draw(ellipse);
-	 * 
-	 * // body ellipse.setFrame(-r, -r, 2 * r, 1.8 * r);
-	 * g2.setColor(GColor.green); g2.fill(ellipse); g2.setColor(GColor.black);
-	 * g2.draw(ellipse);
-	 * 
-	 * // pen color dot ellipse.setFrame(-3, -3, 6, 6);
-	 * g2.setColor(turtle.getPenColor()); g2.fill(ellipse);
-	 * //g2.setColor(Color.black); //g2.draw(ellipse);
-	 * 
-	 * break;
-	 * 
-	 * case 2: // triangle shape
-	 * 
-	 * g2.setStroke(stroke1);
-	 * 
-	 * // body ellipse.setFrame(-r, -r, 2 * r, 2 * r);
-	 * g2.setColor(GColor.green); g2.fill(ellipse); g2.setColor(GColor.black);
-	 * g2.draw(ellipse);
-	 * 
-	 * // triangle x = (r * Math.cos(2*Math.PI / 3)); y = (r *
-	 * Math.sin(2*Math.PI / 3)); gPath.moveTo(r, 0); gPath.lineTo(x, y);
-	 * gPath.lineTo(x, -y); gPath.lineTo(r, 0); g2.setColor(penColor);
-	 * g2.fill(gPath);
-	 * 
-	 * break;
-	 * 
-	 * case 3:
-	 * 
-	 * GImage img = turtle.getTurtleImageList().get(0); GAffineTransform tr =
-	 * g2.getTransform(); g2.setTransform(at); g2.drawImage(img, -8, -8);
-	 * g2.setTransform(tr);
-	 * 
-	 * } }
-	 */
 }

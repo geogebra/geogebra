@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.PathParameter;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * interface for 2D/3D arcs/sectors

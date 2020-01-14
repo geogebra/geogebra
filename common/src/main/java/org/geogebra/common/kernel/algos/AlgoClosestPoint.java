@@ -16,13 +16,13 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.FixedPathRegionAlgo;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 public class AlgoClosestPoint extends AlgoElement
 		implements FixedPathRegionAlgo {

@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.junit.Assert;
 import org.junit.Test;
 

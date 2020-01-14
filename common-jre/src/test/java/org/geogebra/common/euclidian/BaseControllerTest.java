@@ -156,7 +156,7 @@ public class BaseControllerTest {
 	protected void checkContentWithVisibility(boolean visible, String... desc) {
 		int i = 0;
 		for (String label : app.getGgbApi().getAllObjectNames()) {
-			GeoElement geo = app.getKernel().lookupLabel(label);
+			GeoElement geo = lookup(label);
 			if (geo.isEuclidianVisible() == visible) {
 				assertTrue(
 						"Extra element: "
@@ -169,6 +169,15 @@ public class BaseControllerTest {
 			}
 		}
 		assertEquals(desc.length, i);
+	}
+
+	/**
+	 * @param label
+	 *            label
+	 * @return construction element
+	 */
+	protected GeoElement lookup(String label) {
+		return app.getKernel().lookupLabel(label);
 	}
 
 }

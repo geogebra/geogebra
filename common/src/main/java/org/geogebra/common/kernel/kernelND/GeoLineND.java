@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.kernelND;
 
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * @author mathieu

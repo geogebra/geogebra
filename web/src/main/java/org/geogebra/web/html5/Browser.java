@@ -345,7 +345,12 @@ public class Browser {
 		}
 	}
 
-	private static void setTransform(Style style, String transform) {
+	/**
+	 * Sets css transform property to every browser.
+	 * @param style to set the property to.
+	 * @param transform css transform to set.
+	 */
+	public static void setTransform(Style style, String transform) {
 		style.setProperty("webkitTransform", transform);
 		style.setProperty("mozTransform", transform);
 		style.setProperty("msTransform", transform);

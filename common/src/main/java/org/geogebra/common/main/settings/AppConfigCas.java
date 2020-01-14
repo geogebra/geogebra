@@ -5,6 +5,11 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.kernel.geos.properties.FillType;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 
@@ -81,6 +86,16 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public String getExamMenuItemText() {
 		return "ExamCAS.short";
+	}
+
+	@Override
+	public Set<FillType> getAvailableFillTypes() {
+		return new HashSet<>(Arrays.asList(FillType.values()));
+	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return false;
 	}
 
 	@Override
