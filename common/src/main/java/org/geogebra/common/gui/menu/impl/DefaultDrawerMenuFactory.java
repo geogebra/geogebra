@@ -160,15 +160,15 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				"Geometry", Action.START_GEOMETRY);
 		ActionableItem graphing3d = new ActionableItemImpl(Icon.APP_GRAPHING3D,
 				"GeoGebra3DGrapher.short", Action.START_GRAPHING_3D);
-		ActionableItem scientific = new ActionableItemImpl(Icon.APP_SCIENTIFIC,
-				"ScientificCalculator", Action.START_SCIENTIFIC);
 		ActionableItem cas = platform == GeoGebraConstants.Platform.WEB ? null
 				: new ActionableItemImpl(Icon.APP_CAS_CALCULATOR,
 						"CASCalculator", Action.START_CAS_CALCULATOR);
+		ActionableItem scientific = new ActionableItemImpl(Icon.APP_SCIENTIFIC,
+				"ScientificCalculator", Action.START_SCIENTIFIC);
 		ActionableItem classic = isMobile() ? null : new ActionableItemImpl(Icon.APP_CLASSIC,
 				"Classic", Action.START_CLASSIC);
 		List<ActionableItem> retVal = removeNulls(graphing, geometry,
-				graphing3d, scientific, cas, classic);
+				graphing3d, cas, scientific, classic);
 		return retVal.toArray(new ActionableItem[0]);
 	}
 
