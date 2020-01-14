@@ -47,8 +47,10 @@ public class InlineTextControllerW implements InlineTextController {
 		editor.addListener(new Editor.EditorChangeListener() {
 			@Override
 			public void onContentChanged(String content) {
-				geo.setContent(content);
-				geo.getKernel().storeUndoInfo();
+				if (!content.equals(geo.getContent())) {
+					geo.setContent(content);
+					geo.getKernel().storeUndoInfo();
+				}
 			}
 
 			@Override

@@ -5485,7 +5485,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
-			changedKernel = inlineText(selectionPreview);
+			inlineText(selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_AUDIO:
@@ -6506,9 +6506,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return changedKernel;
 	}
 
-	private boolean inlineText(boolean selPreview) {
+	private void inlineText(boolean selPreview) {
 		if (selPreview) {
-			return false;
+			return;
 		}
 
 		GeoInlineText inlineText;
@@ -6537,8 +6537,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		inlineText.setLabel(null);
 		selectAndShowBoundingBox(inlineText);
 		((DrawInlineText) view.getDrawableFor(inlineText)).toForeground(0, 0);
-
-		return true;
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {

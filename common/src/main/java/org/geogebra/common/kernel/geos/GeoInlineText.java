@@ -30,7 +30,7 @@ public class GeoInlineText extends GeoElement
 
 	private double minHeight;
 
-	private String content;
+	private String content = "[]";
 	private int contentDefaultSize;
 
 	/**
