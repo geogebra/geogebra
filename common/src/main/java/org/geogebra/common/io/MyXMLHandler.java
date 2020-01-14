@@ -1607,7 +1607,6 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			double[] dists = new double[3];
 			dists[0] = StringUtil.parseDouble(attrs.get("distX"));
-			dists[0] = StringUtil.parseDouble(attrs.get("distX"));
 			dists[1] = StringUtil.parseDouble(attrs.get("distY"));
 
 			// in v4.0 the polar grid adds an angle step element to
