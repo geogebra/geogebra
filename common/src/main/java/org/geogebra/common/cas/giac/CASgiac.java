@@ -304,7 +304,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * of discrete points, then convert the linear polynomials to a product
 		 * of circle definitions with zero radius.
 		 */
-		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); /*print(ee);*/ ll:=lvar(ee); /*print(ll);*/ if (size(ee)>1) begin /*print(fsolve(ee,ll));*/ ff:=round(fsolve(ee,ll)*precision)/precision; /*print(ff);*/ gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); /*print(gg);*/ od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
+		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; print(\"polys size=\"+size(polys)); ee:=eliminate(polys,revlist(elimvars)); print(ee); ll:=lvar(ee); print(ll); if (size(ee)>1) begin /*print(fsolve(ee,ll));*/ ff:=round(fsolve(ee,ll)*precision)/precision; /*print(ff);*/ gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); print(gg); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
 		/**
 		 * Help simplifying the input when computing the Jacobian matrix in the
 		 * Envelope command. Input: a list of polynomials and a list of
@@ -322,26 +322,19 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * Used internally.
 		 */
-		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /*print(polys);*/ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
+		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); print(\"input: \"+size(polys)+\" eqs in \"+size(vars)+\" vars\"); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); ii:=-1; end; end; ii:=ii+1; od; vars:=lvar(polys); print(\"output: \"+size(polys)+\" eqs in \"+size(vars)+\" vars\");  return polys; end"),
 		/**
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars. Used internally.
 		 */
-		JACOBI_DET("jacobiDet", "jacobiDet(polys,excludevars):=begin local J, ii, vars, s, j, k; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); return det_minor(J); end"),
-		/**
-		 * Compute the Jacobian determinant of the polys with respect to
-		 * excludevars, but first some geometrical preparations are performed to
-		 * simplify the result. Used internally.
-		 */
-		GEOM_JACOBI_DET("geomJacobiDet",
-				"geomJacobiDet(polys,excludevars):=begin local J; J:=jacobiPrepare(polys,excludevars); return jacobiDet(J,excludevars); end"),
+		JACOBI_DET("jacobiDet", "jacobiDet(polys,excludevars):=begin local J, ii, vars, s, j, k, dm; vars:=lvar(polys); for ii from 0 to size(excludevars)-1 do vars:=remove(excludevars[ii], vars); od; s:=size(vars); J:=matrix(s,s,(j,k)->diff(polys[j],vars[k])); dm:=det_minor(J); print(\"det size=\"+size(dm)); return dm; end"),
 		/**
 		 * Compute the coefficients of the envelope equation for the input
 		 * polys, elimvars with given precision for the curve variables x and y.
 		 * Used publicly.
 		 */
 		ENVELOPE_EQU("envelopeEqu",
-				"envelopeEqu(polys,elimvars,precision,curvevarx,curvevary):=begin local D; D:=geomJacobiDet(polys,[curvevarx,curvevary]); polys:=append(polys,D); return locusEqu(polys,elimvars,precision,curvevarx,curvevary); end"),
+				"envelopeEqu(polys,elimvars,precision,curvevarx,curvevary):=begin local polys2, D; polys2:=jacobiPrepare(polys,[curvervarx,curvevary]); D:=jacobiDet(polys2,[curvevarx,curvevary]); polys2:=append(polys2,D); return locusEqu(polys2,elimvars,precision,curvevarx,curvevary); end"),
 		/**
 		 * Compute the coefficients of the locus equation for the input polys,
 		 * elimvars with given precision for the curve variables x and y. Used
@@ -440,9 +433,8 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(LOCUS_EQU, GEOM_ELIM);
 			setDependency(LOCUS_EQU, JACOBI_PREPARE);
 			setDependency(ENVELOPE_EQU, LOCUS_EQU);
-			setDependency(ENVELOPE_EQU, GEOM_JACOBI_DET);
-			setDependency(GEOM_JACOBI_DET, JACOBI_PREPARE);
-			setDependency(GEOM_JACOBI_DET, JACOBI_DET);
+			setDependency(ENVELOPE_EQU, JACOBI_PREPARE);
+			setDependency(ENVELOPE_EQU, JACOBI_DET);
 			setDependency(AFACTOR_ALG_NUM, IRRED);
 			setDependency(ABSFACT, AFACTOR_ALG_NUM);
 			setDependency(COS_2PI_OVER_N_MINPOLY, FACTOR_SQR_FREE);
