@@ -1,14 +1,15 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class ForceInputFormTest extends BaseUnitTest {
 
@@ -42,6 +43,24 @@ public class ForceInputFormTest extends BaseUnitTest {
         Assert.assertEquals(GeoConic.EQUATION_EXPLICIT, parabola.getToStringMode());
         Assert.assertEquals(GeoConic.EQUATION_IMPLICIT, hyperbola.getToStringMode());
         Assert.assertEquals(GeoRay.EQUATION_IMPLICIT_NON_CANONICAL, geoRay.getToStringMode());
+    }
+
+    @Test
+    public void testHideOutputRowGraphing() {
+        getApp().setConfig(new AppConfigGraphing());
+        GeoRay ray = getElementFactory().createGeoRay();
+
+        Assert.assertTrue(AlgebraItem.shouldShowOnlyDefinitionForGeo(ray));
+        Assert.assertEquals(ray.needToShowBothRowsInAV(), DescriptionMode.DEFINITION);
+    }
+
+    @Test
+    public void testShowOutputRowGeometry() {
+        getApp().setConfig(new AppConfigGeometry());
+		GeoRay ray = getElementFactory().createGeoRay();
+
+        Assert.assertFalse(AlgebraItem.shouldShowOnlyDefinitionForGeo(ray));
+        Assert.assertEquals(ray.needToShowBothRowsInAV(), DescriptionMode.DEFINITION_VALUE);
     }
 
     @Test
