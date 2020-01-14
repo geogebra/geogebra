@@ -103,6 +103,7 @@ public class CopyPasteW extends CopyPaste {
 
 		ConstructionElement geo;
 		String label;
+
 		for (ConstructionElement conel : conels) {
 			geo = conel;
 			if (geo.isGeoElement()) {
@@ -200,7 +201,9 @@ public class CopyPasteW extends CopyPaste {
 		geostohide.addAll(addAlgosDependentFromInside(geoslocal));
 
 		Kernel kernel = app.getKernel();
-
+		if (app.getEmbedManager() != null) {
+			app.getEmbedManager().persist();
+		}
 		beforeSavingToXML(geoslocal, geostohide);
 
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();

@@ -15,7 +15,7 @@ import org.geogebra.common.util.StringUtil;
 public class GeoEmbed extends GeoWidget implements Translateable {
 
 	private boolean defined = true;
-	private int embedID;
+	private int embedID = -1;
 	private double contentWidth = 800;
 	private double contentHeight = 600;
 	private boolean background = true;
