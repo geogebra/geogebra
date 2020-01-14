@@ -2568,6 +2568,7 @@ __GGB__keysVar["tr"].menu = {
     "Repeat": "Tekrar",
     "ReplaceAll": "T\xfcm h\xfccreleri de\u011fi\u015ftir",
     "ReportBug": "Hata Bildir",
+    "ReportProblem": "Hata Bildir",
     "RequireEquals": "Komutlardan \xf6nce \"=\" gerekir",
     "Reset": "S\u0131f\u0131rla",
     "ResidualPlot": "Art\u0131k \xc7izim",

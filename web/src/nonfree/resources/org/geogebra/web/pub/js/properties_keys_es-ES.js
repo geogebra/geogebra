@@ -2568,6 +2568,7 @@ __GGB__keysVar["es-ES"].menu = {
     "Repeat": "Repite",
     "ReplaceAll": "Reemplaza todas las celdas",
     "ReportBug": "Informar de un fallo",
+    "ReportProblem": "Informar de un fallo",
     "RequireEquals": "Se necesita el signo \"=\" antes de los comandos",
     "Reset": "Reinicio",
     "ResidualPlot": "Diagrama Residual",

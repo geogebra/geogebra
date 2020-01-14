@@ -2568,6 +2568,7 @@ __GGB__keysVar["cs"].menu = {
     "Repeat": "Opakovat",
     "ReplaceAll": "Nahradit v\u0161echny bu\u0148ky",
     "ReportBug": "Nahl\xe1sit chybu",
+    "ReportProblem": "Nahl\xe1sit chybu",
     "RequireEquals": "Vy\u017eadovat \"=\" p\u0159ed p\u0159\xedkazy",
     "Reset": "Obnovit",
     "ResidualPlot": "Zbytkov\xfd graf",

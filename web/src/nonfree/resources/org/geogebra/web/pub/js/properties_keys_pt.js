@@ -2568,6 +2568,7 @@ __GGB__keysVar["pt"].menu = {
     "Repeat": "Repetir",
     "ReplaceAll": "Substituir todas as c\xe9lulas",
     "ReportBug": "Reportar Erro",
+    "ReportProblem": "Reportar Erro",
     "RequireEquals": "Exigir \"=\" Antes dos Comandos",
     "Reset": "Reiniciar",
     "ResidualPlot": "Diagrama de Res\xedduos",

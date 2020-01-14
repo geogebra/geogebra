@@ -2568,6 +2568,7 @@ __GGB__keysVar["gl"].menu = {
     "Repeat": "Repetir",
     "ReplaceAll": "Substit\xfae todas as celas",
     "ReportBug": "Informe de erros atopados",
+    "ReportProblem": "Informe de erros atopados",
     "RequireEquals": "Requ\xedrese \" = \" antes dos comandos",
     "Reset": "Reiniciar",
     "ResidualPlot": "Gr\xe1fico residual",

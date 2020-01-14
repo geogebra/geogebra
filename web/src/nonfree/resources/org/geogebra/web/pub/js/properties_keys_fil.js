@@ -2568,6 +2568,7 @@ __GGB__keysVar["fil"].menu = {
     "Repeat": "Ulitin",
     "ReplaceAll": "Replace all cells",
     "ReportBug": "Report Bug",
+    "ReportProblem": "Report Bug",
     "RequireEquals": "Require \"=\" Before Commands",
     "Reset": "Reset",
     "ResidualPlot": "Residual Plot",

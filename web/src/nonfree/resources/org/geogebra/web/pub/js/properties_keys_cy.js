@@ -2568,6 +2568,7 @@ __GGB__keysVar["cy"].menu = {
     "Repeat": "Ailadrodd",
     "ReplaceAll": "Disodli pob cell",
     "ReportBug": "Adrodd am nam",
+    "ReportProblem": "Adrodd am nam",
     "RequireEquals": "Angen \"=\" cyn pob gorchymyn",
     "Reset": "Ailosod",
     "ResidualPlot": "Plot Gweddilliol",

@@ -2568,6 +2568,7 @@ __GGB__keysVar["mr"].menu = {
     "Repeat": "\u092a\u0941\u0928\u0930\u093e\u0935\u0943\u0924\u094d\u0924\u0940 (repeat)",
     "ReplaceAll": "Replace all cells",
     "ReportBug": "Report Bug",
+    "ReportProblem": "Report problem",
     "RequireEquals": "Require \"=\" Before Commands",
     "Reset": "Reset",
     "ResidualPlot": "Residual Plot",

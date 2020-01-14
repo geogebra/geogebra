@@ -2568,6 +2568,7 @@ __GGB__keysVar["sv"].menu = {
     "Repeat": "Upprepa",
     "ReplaceAll": "Ers\xe4tt alla celler",
     "ReportBug": "Rapportera fel",
+    "ReportProblem": "Rapportera fel",
     "RequireEquals": "Kr\xe4v \"=\" framf\xf6r kommandon",
     "Reset": "Nollst\xe4ll",
     "ResidualPlot": "Residualdiagram",

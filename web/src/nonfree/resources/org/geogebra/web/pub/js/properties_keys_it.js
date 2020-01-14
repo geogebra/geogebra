@@ -2568,6 +2568,7 @@ __GGB__keysVar["it"].menu = {
     "Repeat": "Ripeti",
     "ReplaceAll": "Sostituisci tutte le celle",
     "ReportBug": "Segnala un problema",
+    "ReportProblem": "Segnala un problema",
     "RequireEquals": "Richiedi \"=\" prima dei comandi",
     "Reset": "Reimposta",
     "ResidualPlot": "Grafico dei residui",

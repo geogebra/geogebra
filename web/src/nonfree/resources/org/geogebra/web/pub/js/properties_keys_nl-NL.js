@@ -2568,6 +2568,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Repeat": "Herhaal",
     "ReplaceAll": "Vervang alle cellen",
     "ReportBug": "Meld een bug in het programma",
+    "ReportProblem": "Meld een bug in het programma",
     "RequireEquals": "Nodig \"=\" voor de commando\'s",
     "Reset": "Reset",
     "ResidualPlot": "Residual plot",

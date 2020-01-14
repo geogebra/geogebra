@@ -2568,6 +2568,7 @@ __GGB__keysVar["sl"].menu = {
     "Repeat": "Ponovi",
     "ReplaceAll": "Zamenjaj vse celice",
     "ReportBug": "Sporo\u010dilo o napaki",
+    "ReportProblem": "Sporo\u010dilo o napaki",
     "RequireEquals": "Zahteva \"=\" pred ukazom",
     "Reset": "Ponovni zagon",
     "ResidualPlot": "Slika ostankov",

@@ -2568,6 +2568,7 @@ __GGB__keysVar["ta"].menu = {
     "Repeat": "\u0bae\u0bc0\u0bb3\u0b9a\u0bcd\u0b9a\u0bc6\u0baf\u0bcd\u0b95",
     "ReplaceAll": "Replace all cells",
     "ReportBug": "Report Bug",
+    "ReportProblem": "Report problem",
     "RequireEquals": "Require \"=\" Before Commands",
     "Reset": "Reset",
     "ResidualPlot": "Residual Plot",

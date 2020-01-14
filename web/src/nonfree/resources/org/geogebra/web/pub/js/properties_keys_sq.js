@@ -2568,6 +2568,7 @@ __GGB__keysVar["sq"].menu = {
     "Repeat": "Perserit",
     "ReplaceAll": "Zevendeso te gjitha qelizat",
     "ReportBug": "Raporto Difektin",
+    "ReportProblem": "Raporto Difektin",
     "RequireEquals": "Kerkohet \"=\" Para Komandave",
     "Reset": "Rivendos",
     "ResidualPlot": "Vizatim Rezidual",

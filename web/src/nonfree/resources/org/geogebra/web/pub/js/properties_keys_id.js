@@ -2568,6 +2568,7 @@ __GGB__keysVar["id"].menu = {
     "Repeat": "Ulangi",
     "ReplaceAll": "Ganti semua sel",
     "ReportBug": "Laporkan Bug",
+    "ReportProblem": "Laporkan Bug",
     "RequireEquals": "Dibutuhkan \"=\" sebelum perintah",
     "Reset": "Set Ulang",
     "ResidualPlot": "Pot Sisa",

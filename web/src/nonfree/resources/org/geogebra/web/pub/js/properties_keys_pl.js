@@ -2568,6 +2568,7 @@ __GGB__keysVar["pl"].menu = {
     "Repeat": "Powt\xf3rz",
     "ReplaceAll": "Zast\u0105p wszystkie kom\xf3rki",
     "ReportBug": "Raport Bug",
+    "ReportProblem": "Raport Bug",
     "RequireEquals": "Wymagane \"=\" przed poleceniem",
     "Reset": "Resetuj",
     "ResidualPlot": "Residual Plot",

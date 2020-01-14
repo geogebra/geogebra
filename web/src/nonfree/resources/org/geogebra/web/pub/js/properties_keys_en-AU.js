@@ -2568,6 +2568,7 @@ __GGB__keysVar["en-AU"].menu = {
     "Repeat": "Repeat",
     "ReplaceAll": "Replace all cells",
     "ReportBug": "Report Bug",
+    "ReportProblem": "Report problem",
     "RequireEquals": "Require \"=\" Before Commands",
     "Reset": "Reset",
     "ResidualPlot": "Residual Plot",

@@ -2568,6 +2568,7 @@ __GGB__keysVar["lt"].menu = {
     "Repeat": "Kartoti",
     "ReplaceAll": "Pakeisti visus laukelius",
     "ReportBug": "Prane\u0161ti apie klaid\u0105",
+    "ReportProblem": "Prane\u0161ti apie klaid\u0105",
     "RequireEquals": "Reikalaujama \"=\" prie\u0161 komandas",
     "Reset": "Atstatyti",
     "ResidualPlot": "Liekanos Grafikas",

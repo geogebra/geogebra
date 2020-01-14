@@ -2568,6 +2568,7 @@ __GGB__keysVar["ro"].menu = {
     "Repeat": "Repet\u0103",
     "ReplaceAll": "\xcenlocuie\u015fte toate celulele",
     "ReportBug": "Raportare eroare",
+    "ReportProblem": "Raportare eroare",
     "RequireEquals": "Necesit\u0103 \"=\" \xeenaintea comenzilor",
     "Reset": "Resetare",
     "ResidualPlot": "Grafic de reziduuri",

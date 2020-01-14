@@ -2568,6 +2568,7 @@ __GGB__keysVar["uz"].menu = {
     "Repeat": "Takrorlash",
     "ReplaceAll": "Replace all cells",
     "ReportBug": "Xato haqida xabar berish",
+    "ReportProblem": "Xato haqida xabar berish",
     "RequireEquals": "Buyruqlardan oldin \"=\" bo\'lishi lozim",
     "Reset": "Qayta o'rnatish",
     "ResidualPlot": "Residual Plot",

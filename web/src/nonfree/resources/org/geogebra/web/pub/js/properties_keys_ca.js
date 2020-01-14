@@ -2568,6 +2568,7 @@ __GGB__keysVar["ca"].menu = {
     "Repeat": "Repeteix",
     "ReplaceAll": "Substitueix totes les cel\xb7les",
     "ReportBug": "Avisa d'un bug",
+    "ReportProblem": "Avisa d'un bug",
     "RequireEquals": "Cal el signe = abans dels comandaments",
     "Reset": "Reinicia",
     "ResidualPlot": "Gr\xe0fic de residus",

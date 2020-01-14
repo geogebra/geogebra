@@ -2568,6 +2568,7 @@ __GGB__keysVar["eu"].menu = {
     "Repeat": "Errepikatu",
     "ReplaceAll": "Ordeztu gelaxka guztiak",
     "ReportBug": "Programazio-errorearen berri eman",
+    "ReportProblem": "Programazio-errorearen berri eman",
     "RequireEquals": "\"=\" Behar da Komandoen Aurretik",
     "Reset": "Berrezarri",
     "ResidualPlot": "Hondar-grafikoa",

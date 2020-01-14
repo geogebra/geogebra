@@ -2568,6 +2568,7 @@ __GGB__keysVar["eo"].menu = {
     "Repeat": "Repeat",
     "ReplaceAll": "Replace all cells",
     "ReportBug": "Raporti cimon",
+    "ReportProblem": "Raporti cimon",
     "RequireEquals": "Require \"=\" Before Commands",
     "Reset": "Reset",
     "ResidualPlot": "Residual Plot",

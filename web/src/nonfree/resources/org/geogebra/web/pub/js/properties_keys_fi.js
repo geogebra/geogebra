@@ -2568,6 +2568,7 @@ __GGB__keysVar["fi"].menu = {
     "Repeat": "Toista",
     "ReplaceAll": "Korvaa kaikki solut",
     "ReportBug": "Ilmoita ohjelmointivirheest\xe4",
+    "ReportProblem": "Ilmoita ohjelmointivirheest\xe4",
     "RequireEquals": "Vaadi \"=\" ennen komentoa",
     "Reset": "Nollaa",
     "ResidualPlot": "J\xe4\xe4nn\xf6skuvio",

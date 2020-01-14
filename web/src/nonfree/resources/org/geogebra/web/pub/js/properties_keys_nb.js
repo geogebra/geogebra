@@ -2568,6 +2568,7 @@ __GGB__keysVar["nb"].menu = {
     "Repeat": "Gjenta",
     "ReplaceAll": "Erstatt alle",
     "ReportBug": "Rapporter feil",
+    "ReportProblem": "Rapporter feil",
     "RequireEquals": "Krev \"=\" foran kommandoer",
     "Reset": "Tilbakestill",
     "ResidualPlot": "Restplott",

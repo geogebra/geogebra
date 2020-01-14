@@ -2568,6 +2568,7 @@ __GGB__keysVar["sr"].menu = {
     "Repeat": "Ponavljanje",
     "ReplaceAll": "Zameni sve \u0107elije",
     "ReportBug": "Prijavi gre\u0161ku",
+    "ReportProblem": "Prijavi gre\u0161ku",
     "RequireEquals": "Zahtevaj \"=\" pre naredbe",
     "Reset": "Reset",
     "ResidualPlot": "Rezidualni grafikon",

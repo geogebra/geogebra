@@ -2568,6 +2568,7 @@ __GGB__keysVar["ms"].menu = {
     "Repeat": "Ulang",
     "ReplaceAll": "Ganti semua sel",
     "ReportBug": "Lapor Pepijat",
+    "ReportProblem": "Lapor Pepijat",
     "RequireEquals": "Perlu \"=\" Sebelum Perintah",
     "Reset": "Set Semula",
     "ResidualPlot": "Plot Sisa",

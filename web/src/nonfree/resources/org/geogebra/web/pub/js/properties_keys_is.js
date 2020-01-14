@@ -2568,6 +2568,7 @@ __GGB__keysVar["is"].menu = {
     "Repeat": "Endurtaka",
     "ReplaceAll": "Skipta \xfat \xf6llum reitum",
     "ReportBug": "Tilkynna villu",
+    "ReportProblem": "Tilkynna villu",
     "RequireEquals": "Krefjast \"=\" \xe1 undan skipunum",
     "Reset": "Endursetja",
     "ResidualPlot": "Leifarit",

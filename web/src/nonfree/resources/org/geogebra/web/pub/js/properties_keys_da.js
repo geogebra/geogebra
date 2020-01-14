@@ -2568,6 +2568,7 @@ __GGB__keysVar["da"].menu = {
     "Repeat": "Gentag",
     "ReplaceAll": "Erstat alle celler",
     "ReportBug": "Indberet en fejl",
+    "ReportProblem": "Indberet en fejl",
     "RequireEquals": "Kr\xe6ver \"=\" f\xf8r kommando",
     "Reset": "Reset",
     "ResidualPlot": "residualdiagram",

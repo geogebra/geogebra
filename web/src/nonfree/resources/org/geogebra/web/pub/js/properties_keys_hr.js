@@ -2568,6 +2568,7 @@ __GGB__keysVar["hr"].menu = {
     "Repeat": "Ponavljanje",
     "ReplaceAll": "Zamijeni sve \u0107elije",
     "ReportBug": "Prijavi gre\u0161ku",
+    "ReportProblem": "Prijavi gre\u0161ku",
     "RequireEquals": "Zahtijeva se znak \"=\" prije naredbe",
     "Reset": "Vrati izvorno",
     "ResidualPlot": "Rezidualni grafikon",

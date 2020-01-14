@@ -2568,6 +2568,7 @@ __GGB__keysVar["et"].menu = {
     "Repeat": "Korda",
     "ReplaceAll": "Asenda k\xf5ik lahtrid",
     "ReportBug": "Teata veast",
+    "ReportProblem": "Teata veast",
     "RequireEquals": "N\xf5uab \"=\" enne k\xe4ske",
     "Reset": "L\xe4htesta",
     "ResidualPlot": "J\xe4\xe4kliikmete diagramm?",

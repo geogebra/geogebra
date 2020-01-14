@@ -2568,6 +2568,7 @@ __GGB__keysVar["hu"].menu = {
     "Repeat": "Ism\xe9tl\xe9s",
     "ReplaceAll": "Minden cell\xe1t cser\xe9l",
     "ReportBug": "Hiba jelent\xe9se",
+    "ReportProblem": "Hiba jelent\xe9se",
     "RequireEquals": "\"=\" jel a parancsok elej\xe9n",
     "Reset": "\xdajrakezd",
     "ResidualPlot": "K\xfcl\xf6nbs\xe9gf\xfcggv\xe9ny",

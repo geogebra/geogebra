@@ -2568,6 +2568,7 @@ __GGB__keysVar["xh"].menu = {
     "Repeat": "Phinda",
     "ReplaceAll": "Hlaziya onke amagumbi",
     "ReportBug": "yiXele iNcukuthu",
+    "ReportProblem": "yiXele iNcukuthu",
     "RequireEquals": "Funeka u \"=\" Phambi kweMiyalelo",
     "Reset": "Hlaziya",
     "ResidualPlot": "iResidual Plot",

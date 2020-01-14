@@ -2568,6 +2568,7 @@ __GGB__keysVar["sk"].menu = {
     "Repeat": "Opakova\u0165",
     "ReplaceAll": "Vymeni\u0165 v\u0161etky bunky",
     "ReportBug": "Nahl\xe1senie chyby",
+    "ReportProblem": "Nahl\xe1senie chyby",
     "RequireEquals": "Vy\u017eaduje \"=\" pred pr\xedkazmi",
     "Reset": "Reset",
     "ResidualPlot": "Diagram rezidu\xe1lu",

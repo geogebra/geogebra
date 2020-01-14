@@ -2568,6 +2568,7 @@ __GGB__keysVar["bs"].menu = {
     "Repeat": "Ponovi",
     "ReplaceAll": "Zamijeni sve \u0107elije",
     "ReportBug": "Prijavi gre\u0161ku",
+    "ReportProblem": "Prijavi gre\u0161ku",
     "RequireEquals": "Zahtjeva znak \"=\" prije naredbe",
     "Reset": "Poni\u0161ti",
     "ResidualPlot": "Dijagram disperzije",
