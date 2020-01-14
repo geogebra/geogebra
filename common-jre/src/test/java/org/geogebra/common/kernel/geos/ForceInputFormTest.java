@@ -16,11 +16,11 @@ public class ForceInputFormTest extends BaseUnitTest {
     public void testLinesConicsRaysToStringModeInGraphing() {
         getApp().setConfig(new AppConfigGraphing());
 
-        GeoLine geoLine = getElementFactory().createGeoLine();
         GeoElementFactory factory = getElementFactory();
+        GeoLine geoLine = factory.createGeoLine();
         GeoConic parabola = (GeoConic) factory.create("y=xx");
         GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
-        GeoRay geoRay = getElementFactory().createGeoRay();
+        GeoRay geoRay = factory.createGeoRay();
 
         Assert.assertEquals(GeoLine.EQUATION_USER, geoLine.getToStringMode());
         Assert.assertEquals(GeoConic.EQUATION_USER, parabola.getToStringMode());
@@ -32,11 +32,11 @@ public class ForceInputFormTest extends BaseUnitTest {
     public void testLinesConicsRaysToStringModeInGeometry() {
         getApp().setConfig(new AppConfigGeometry());
 
-        GeoLine geoLine = getElementFactory().createGeoLine();
         GeoElementFactory factory = getElementFactory();
+        GeoLine geoLine = factory.createGeoLine();
         GeoConic parabola = (GeoConic) factory.create("y=xx");
         GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
-        GeoRay geoRay = getElementFactory().createGeoRay();
+        GeoRay geoRay = factory.createGeoRay();
 
         Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, geoLine.getToStringMode());
         Assert.assertEquals(GeoConic.EQUATION_EXPLICIT, parabola.getToStringMode());
@@ -48,8 +48,8 @@ public class ForceInputFormTest extends BaseUnitTest {
     public void testEquationPropertyIsHidden() {
         getApp().setConfig(new AppConfigGraphing());
 
-        GeoLine geoLine = getElementFactory().createGeoLine();
         GeoElementFactory factory = getElementFactory();
+        GeoLine geoLine = factory.createGeoLine();
         GeoConic parabola = (GeoConic) factory.create("y=xx");
         GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
