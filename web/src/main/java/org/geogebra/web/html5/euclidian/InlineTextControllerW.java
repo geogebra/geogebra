@@ -113,6 +113,7 @@ public class InlineTextControllerW implements InlineTextController {
 		editor.format(key, val);
 	}
 
+	@Override
 	public <T> T getFormat(String key, T fallback) {
 		return editor.getFormat(key, fallback);
 	}

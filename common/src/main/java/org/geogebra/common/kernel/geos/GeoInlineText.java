@@ -254,7 +254,8 @@ public class GeoInlineText extends GeoElement
 	}
 
 	private DrawInlineText getDrawable() {
-		return (DrawInlineText) kernel.getApplication().getActiveEuclidianView().getDrawableFor(this);
+		return (DrawInlineText) kernel.getApplication()
+				.getActiveEuclidianView().getDrawableFor(this);
 	}
 
 	private JSONArray getFormat() {

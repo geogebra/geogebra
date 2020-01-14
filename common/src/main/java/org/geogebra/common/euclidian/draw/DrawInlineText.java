@@ -213,6 +213,12 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		}
 	}
 
+	/**
+	 * @param key formatting option name
+	 * @param fallback fallback when not set / indeterminate
+	 * @param <T> option type
+	 * @return formatting option value or fallback
+	 */
 	public <T> T getFormat(String key, T fallback) {
 		if (textController != null) {
 			return textController.getFormat(key, fallback);
