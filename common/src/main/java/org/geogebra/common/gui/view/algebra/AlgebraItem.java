@@ -589,14 +589,15 @@ public class AlgebraItem {
 
 	/**
 	 * Create provider of texts for ANS button
-	 * 
+	 *
 	 * @param app
 	 *            app
 	 * @return provider of last AV item
 	 */
 	public static HasLastItem getLastItemProvider(final App app) {
 		if (!app.getConfig().hasAnsButtonInAv()
-				|| app.getActiveEuclidianView().getEuclidianController().isSymbolicEditorSelected()) {
+				|| app.getActiveEuclidianView().getEuclidianController()
+				.isSymbolicEditorSelected()) {
 			return null;
 		}
 		return new ConstructionItemProvider(app.getKernel().getConstruction());
