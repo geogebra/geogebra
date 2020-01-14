@@ -16,7 +16,7 @@ public class ModeShapeTest extends BaseControllerTest {
 		setMode(EuclidianConstants.MODE_MASK);
 		dragStart(50, 50);
 		dragEnd(200, 150);
-		checkContent("q1 = 6", "a = 3", "b = 2", "c = 3", "d = 2");
+		checkContent("q1 = 6", "f = 3", "g = 2", "h = 3", "i = 2");
 		GeoElement mask = getApp().getKernel().lookupLabel("q1");
 		Assert.assertEquals(1, mask.getAlphaValue(), Kernel.MIN_PRECISION);
 	}

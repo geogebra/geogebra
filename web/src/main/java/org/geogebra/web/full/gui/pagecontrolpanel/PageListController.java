@@ -371,7 +371,6 @@ public class PageListController implements PageListControllerInterface,
 			setCardSelected(0);
 		} catch (Exception e) {
 			Log.debug(e);
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return true;

@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Interface for geos which can be dilated from point

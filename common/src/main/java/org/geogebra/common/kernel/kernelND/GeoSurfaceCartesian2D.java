@@ -3,13 +3,13 @@ package org.geogebra.common.kernel.kernelND;
 import java.util.TreeMap;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.matrix.Coords3;
 import org.geogebra.common.plugin.GeoClass;
 
 /**

@@ -445,11 +445,9 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void hideDynamicStylebar() {
-		if (!app.isUnbundledOrWhiteboard()
-				|| !((AppW) app).allowStylebar()) {
-			return;
+		if (getView().hasDynamicStyleBar()) {
+			getView().getDynamicStyleBar().setVisible(false);
 		}
-		getView().getDynamicStyleBar().setVisible(false);
 	}
 
 	@Override

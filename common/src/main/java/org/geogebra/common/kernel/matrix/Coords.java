@@ -10,7 +10,7 @@ the Free Software Foundation.
 
  */
 
-package org.geogebra.common.kernel.Matrix;
+package org.geogebra.common.kernel.matrix;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Kernel;

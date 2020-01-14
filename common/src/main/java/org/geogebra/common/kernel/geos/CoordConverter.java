@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Converts mouse movement to parameter change

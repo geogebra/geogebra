@@ -76,6 +76,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * 
 	 * @param app
 	 *            see {@link AppW}
+	 * @param factory
+	 *            widget factory
 	 */
 	public SaveDialogW(final AppW app, BaseWidgetFactory factory) {
 		super(app.getPanel(), app);
@@ -411,10 +413,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.titleLabel.setText(loc.getMenu("Title") + ": ");
 		this.dontSaveButton.setText(loc.getMenu("DontSave"));
 		this.saveButton.setText(loc.getMenu("Save"));
-		rebuildVisibilityList();
         if (templateTxt != null) {
             templateTxt.setText(loc.getMenu("saveTemplate"));
         }
+		rebuildVisibilityList();
 	}
 
 	private void rebuildVisibilityList() {

@@ -1,7 +1,10 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
@@ -21,6 +24,7 @@ public class FillingModel extends MultipleOptionsModel {
 	private Kernel kernel;
 	private boolean hasGeoButton;
 	private boolean hasGeoTurtle;
+	private List<FillType> fillTypes;
 
 	public interface IFillingListener extends IComboListener {
 		void setSymbolsVisible(boolean isVisible);
@@ -73,44 +77,63 @@ public class FillingModel extends MultipleOptionsModel {
 	public FillingModel(App app) {
 		super(app);
 		kernel = app.getKernel();
+		setupFillTypes();
 	}
 
-	public IFillingListener getFillingListener() {
+	private void setupFillTypes() {
+		Set<FillType> types = new HashSet<>(Arrays.asList(FillType.values()));
+		Set<FillType> availableFillTypes = app.getConfig().getAvailableFillTypes();
+		types.retainAll(availableFillTypes);
+		fillTypes = new ArrayList<>(types);
+	}
+
+	private IFillingListener getFillingListener() {
 		return (IFillingListener) getListener();
 	}
 
 	@Override
 	public List<String> getChoices(Localization loc) {
+		List<FillType> types = fillTypes;
 		if (app.isExam()) {
-			return Arrays.asList(loc.getMenu("Filling.Standard"), // index 0
-					loc.getMenu("Filling.Hatch"), // index 1
-					loc.getMenu("Filling.Crosshatch"), // index 2
-					loc.getMenu("Filling.Chessboard"), // index 3
-					loc.getMenu("Filling.Dotted"), // index 4
-					loc.getMenu("Filling.Honeycomb"), // index 5
-					loc.getMenu("Filling.Brick"), // index 6
-					loc.getMenu("Filling.Weaving"), // index 6
-					loc.getMenu("Filling.Symbol")// index 7
-			);
+			types = new ArrayList<>(fillTypes);
+			types.remove(FillType.IMAGE);
 		}
-		return Arrays.asList(loc.getMenu("Filling.Standard"), // index 0
-				loc.getMenu("Filling.Hatch"), // index 1
-				loc.getMenu("Filling.Crosshatch"), // index 2
-				loc.getMenu("Filling.Chessboard"), // index 3
-				loc.getMenu("Filling.Dotted"), // index 4
-				loc.getMenu("Filling.Honeycomb"), // index 5
-				loc.getMenu("Filling.Brick"), // index 6
-				loc.getMenu("Filling.Weaving"), // index 6
-				loc.getMenu("Filling.Symbol"), // index 7
-				loc.getMenu("Filling.Image") // index 8
-		);
-
+		List<String> choices = new ArrayList<>();
+		for (FillType fillType: types) {
+			String key = getFillTypeTranslationKey(fillType);
+			choices.add(loc.getMenu(key));
+		}
+		return choices;
 	}
 
-	public void updateFillType(FillType newFillType) {
+	private String getFillTypeTranslationKey(FillType fillType) {
+		switch (fillType) {
+			case HATCH:
+				return "Filling.Hatch";
+			case CROSSHATCHED:
+				return "Filling.Crosshatch";
+			case CHESSBOARD:
+				return "Filling.Chessboard";
+			case DOTTED:
+				return "Filling.Dotted";
+			case HONEYCOMB:
+				return "Filling.Honeycomb";
+			case BRICK:
+				return "Filling.Brick";
+			case WEAVING:
+				return "Filling.Weaving";
+			case SYMBOLS:
+				return "Filling.Symbol";
+			case IMAGE:
+				return "Filling.Image";
+			case STANDARD:
+			default:
+				return "Filling.Standard";
+		}
+	}
 
+	private void updateFillType(FillType newFillType) {
 		switch (newFillType) {
-
 		case STANDARD:
 			getFillingListener().setStandardFillType();
 			break;
@@ -395,7 +418,7 @@ public class FillingModel extends MultipleOptionsModel {
 		storeUndoInfo();
 	}
 
-	public boolean updateBarsFillType(GeoElement geo, int type,
+	private boolean updateBarsFillType(GeoElement geo, int type,
 			String fileName) {
 		int selectedBarIndex = getFillingListener().getSelectedBarIndex();
 		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
@@ -536,12 +559,7 @@ public class FillingModel extends MultipleOptionsModel {
 		return fillType;
 	}
 
-	public void setFillType(FillType fillType) {
-		this.fillType = fillType;
-	}
-
 	public FillType getFillTypeAt(int index) {
-		return FillType.values()[index];
+		return fillTypes.get(index);
 	}
-
 }

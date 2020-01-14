@@ -14,10 +14,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 
 /**

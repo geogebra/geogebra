@@ -36,7 +36,6 @@ import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -77,6 +76,7 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 

@@ -7,12 +7,12 @@ import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 
 /**

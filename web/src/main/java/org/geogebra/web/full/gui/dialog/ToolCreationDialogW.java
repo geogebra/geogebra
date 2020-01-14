@@ -37,8 +37,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Dialog to create a new user defined tool
  */
@@ -253,14 +251,13 @@ public class ToolCreationDialogW extends DialogBoxW implements
 	 * @param tab
 	 *            selected tab
 	 */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH", "OK to fall through here" })
 	protected void updateBackNextButtons(int tab) {
 		btBack.setEnabled(tab > 0);
 
 		switch (tab) {
 		case 1: // input objects
 			toolModel.updateInputList();
-			// fall through
+			//$FALL-THROUGH$
 		case 0: // output objects
 			btNext.setText(loc.getMenu("Next") + " >");
 			btNext.setEnabled(true);

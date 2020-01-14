@@ -21,8 +21,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Key event handler for spreadsheet
  */
@@ -53,8 +51,6 @@ public class SpreadsheetKeyListenerW
 	}
 
 	@Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void onKeyDown(KeyDownEvent e) {
 
 		e.stopPropagation();
@@ -202,7 +198,7 @@ public class SpreadsheetKeyListenerW
 			}
 			editor.onEnter();
 
-			// fall through
+			//$FALL-THROUGH$
 		case GWTKeycodes.KEY_PAGEDOWN:// KeyEvent.VK_PAGE_DOWN:
 			e.preventDefault();
 
@@ -241,7 +237,7 @@ public class SpreadsheetKeyListenerW
 			if (e.isControlKeyDown()) {
 				selectAll(pos);
 			}
-			// no break, fall through
+			//$FALL-THROUGH$
 		default:
 			if (/*
 				 * ? !Character.isIdentifierIgnorable(
