@@ -174,10 +174,9 @@ public class EmbedManagerW implements EmbedManager {
 		scaler.setHeight("100%");
 		addToGraphics(scaler);
 
-		String url = drawEmbed.getGeoEmbed().getURL();
 		EmbedElement old = cache.get(drawEmbed.getEmbedID());
 		if (old == null) {
-			EmbedElement value = url.contains("graspablemath.com")
+			EmbedElement value = drawEmbed.getGeoEmbed().isGraspableMath()
 					? new GraspableEmbedElement(parentPanel, this)
 					: new EmbedElement(parentPanel);
 			widgets.put(drawEmbed, value);

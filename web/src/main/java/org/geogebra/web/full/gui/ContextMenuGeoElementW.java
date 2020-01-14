@@ -11,12 +11,7 @@ import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
-import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.*;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -576,6 +571,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addCutCopyPaste() {
+		if (!(getGeo() instanceof GeoEmbed
+				&& ((GeoEmbed) getGeo()).isGraspableMath())) {
+			addCutCopy();
+		}
+		addPasteItem();
+		wrappedPopup.addSeparator();
+	}
+
+	private void addCutCopy() {
 		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
 
 		Command cutCommand = new Command() {
@@ -601,10 +605,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		addHtmlAction(copyCommand, MainMenu
 				.getMenuBarHtml(resources.copy_black(), loc.getMenu("Copy")));
-
-		addPasteItem();
-
-		wrappedPopup.addSeparator();
 	}
 
 	private void addDuplicate() {

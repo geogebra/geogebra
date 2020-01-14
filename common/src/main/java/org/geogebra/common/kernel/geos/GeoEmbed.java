@@ -288,4 +288,8 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	public boolean isTranslateable() {
 		return true;
 	}
+
+	public boolean isGraspableMath() {
+		return getURL().contains("graspablemath.com");
+	}
 }
