@@ -19,11 +19,6 @@ public class TemplateChooserController implements TemplateChooserControllerI {
         templates = new ArrayList<>();
     }
 
-    /**
-     * fill templates list given a material list
-     * @param appW see {@link AppW}
-     * @param templates list of materials having type ggs-templates or notes-templates
-     */
     @Override
     public void fillTemplates(AppW appW, List<Material> templates) {
         getTemplates().clear();
