@@ -483,4 +483,18 @@ public class MarvlAPI implements BackendAPI {
 		// implement me
 		return urlChecker;
 	}
+
+	@Override
+	public void getTemplateMaterials(final MaterialCallbackI templateMaterialsCB) {
+		if (model == null) {
+			templateMaterialsCB.onError(new Exception("Error on template load. No model found"));
+			return;
+		}
+
+		performRequest("GET",
+				"/users/" + model.getUserId()
+						+ "/materials?filter="
+						+ "ggs-template",
+				null, templateMaterialsCB);
+	}
 }

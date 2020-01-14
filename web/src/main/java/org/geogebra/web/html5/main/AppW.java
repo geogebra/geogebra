@@ -3395,7 +3395,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void updateMaterialURL(int id, String sharingKey, String title) {
 		setTubeId(id > 0 ? Integer.toString(id) : sharingKey);
 		if (articleElement.getDataParamApp() && sharingKey != null) {
-
 			Browser.changeUrl(getCurrentURL(sharingKey, false));
 			if (!StringUtil.empty(title)) {
 				Browser.changeMetaTitle(title);

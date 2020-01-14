@@ -153,6 +153,11 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private int defaultLabelingStyle = ConstructionDefaults.LABEL_VISIBLE_NOT_SET;
 
+	private GColor lastSelectedPenColor = GColor.BLACK;
+	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
+	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
+	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
+
 	/**
 	 * @param app
 	 *            application
@@ -1158,7 +1163,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	/**
 	 * @param size
-	 *            delee tool size
+	 *            delete tool size
 	 */
 	public void setDeleteToolSize(int size) {
 		this.deleteToolSize = size;
@@ -1647,5 +1652,63 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setDefaultLabelingStyle(int labelingStyle) {
 		this.defaultLabelingStyle = labelingStyle;
+	}
+
+	/**
+	 * @return last selected pen color
+	 */
+	public GColor getLastSelectedPenColor() {
+		return lastSelectedPenColor;
+	}
+
+	/**
+	 * @param lastSelectedPenColor
+	 *            update last selected pen color
+	 */
+	public void setLastSelectedPenColor(GColor lastSelectedPenColor) {
+		this.lastSelectedPenColor = lastSelectedPenColor;
+	}
+
+	/**
+	 * @return last selected highlighter color
+	 */
+	public GColor getLastSelectedHighlighterColor() {
+		return lastSelectedHighlighterColor;
+	}
+
+	/**
+	 * @param lastSelectedHighlighterColor
+	 *            update last selected highlighter color
+	 */
+	public void setLastSelectedHighlighterColor(GColor lastSelectedHighlighterColor) {
+		this.lastSelectedHighlighterColor = lastSelectedHighlighterColor;
+	}
+
+	/**
+	 * @return last selected size for pen
+	 */
+	public int getLastPenThickness() {
+		return lastPenThickness;
+	}
+
+	/**
+	 * @param lastPenThickness size of pen
+	 */
+	public void setLastPenThickness(int lastPenThickness) {
+		this.lastPenThickness = lastPenThickness;
+	}
+
+	/**
+	 * @return last selected size of highlighter
+	 */
+	public int getLastHighlighterThinckness() {
+		return lastHighlighterThinckness;
+	}
+
+	/**
+	 * @param lastHighlighterThinckness size of highlighter
+	 */
+	public void setLastHighlighterThinckness(int lastHighlighterThinckness) {
+		this.lastHighlighterThinckness = lastHighlighterThinckness;
 	}
 }

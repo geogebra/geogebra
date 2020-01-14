@@ -1574,4 +1574,111 @@ $duration: 0.2s;
             padding-top: 28px;
         }
    	}
+
+   	.MaterialDialogBox.optionDialog.templateChooser {
+   	    padding-left: 0px;
+        padding-right: 0px;
+        max-width: 680px;
+        max-height: 486px;
+        overflow: auto;
+
+   	    .Caption {
+   	        height: 26px;
+   	        line-height: 26px;
+   	        margin-left: 24px;
+   	        margin-bottom: 0px;
+   	    }
+
+   	    .templatesPanel {
+   	        max-width: 649px;
+            height: 372px;
+            display: inline-block;
+            overflow: auto;
+            padding-left: 15px;
+            padding-right: 16px;
+            margin-top: 12px;
+
+            &.withBorder {
+                border-bottom: 1px solid $black-12;
+                height: 371px;
+                max-width: 665px;
+                padding-right: 0px;
+            }
+
+   	        .templateCard {
+   	            width: 200px;
+   	            border-radius: 2px;
+                background-color: #fff;
+                box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+                transition: box-shadow .25s;
+                position: relative;
+                display: inline-block;
+                margin: 8px 8px 8px 8px;
+                cursor: pointer;
+
+                &:hover {
+                    box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+                }
+
+                &.selected {
+                    outline: 2px solid $mow_primary;
+                    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+                    transition: box-shadow .25s;
+                }
+
+                &.selected:hover {
+                    box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+                }
+
+                .cardImgPanel {
+                    width: 100%;
+                    height: 120px;
+                }
+
+                .cardInfoPanel {
+                    width: 100%;
+                    height: 44px;
+                    border-radius: 0 0 2px 2px;
+                    background-color: $mow_card_background;
+                    box-sizing: border-box;
+                    display: flex;
+
+                    .cardTitle {
+                        line-height: 28px;
+                        font-size: 125%;
+                        height: 28px;
+                        width: 154px;
+                        padding: 8px 30px 8px 16px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        display: block;
+                        color: $text-primary;
+                    }
+
+                    .mowMoreButton {
+                        width: 24px;
+                        height: 24px;
+                        padding: 10px 6px 10px 10px;
+                        position: relative;
+                        opacity: 0.54;
+                        cursor: pointer;
+
+                        &.gwt-ToggleButton-up-hovering {
+                            opacity: 1;
+                        }
+                    }
+                }
+   	         }
+   	    }
+
+        .DialogButtonPanel {
+            margin-right: 8px;
+            padding-top: 4px !important;
+
+            .button {
+                color: $mow_primary;
+             }
+        }
+   	}
 }

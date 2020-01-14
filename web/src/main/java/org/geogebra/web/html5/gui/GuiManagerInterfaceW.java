@@ -18,6 +18,7 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 
 import com.google.gwt.user.client.Command;
+import org.geogebra.web.html5.main.TemplateChooserControllerI;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
@@ -172,4 +173,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @return the editor
 	 */
 	SymbolicEditor createSymbolicEditor(EuclidianViewW view);
+
+	/**
+	 *
+	 * @return templates controller
+	 */
+	TemplateChooserControllerI getTemplateController();
 }

@@ -443,13 +443,11 @@
 	.mowMatMenu.gwt-PopupPanel {
 		width: 168px;
    		min-width: 112px !important;
+   		z-index: 502;
    		.gwt-MenuItem { 
    			width: 168px;
     		min-width: 112px !important;
 			padding-left: 56px !important;
-			&:focus {
-   				background: $mow_light;
-			}
 		}
 	}
 

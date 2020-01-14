@@ -784,17 +784,35 @@ public class MyXMLHandler implements DocHandler {
 		case "evSettings":
 			ok = handleEvSettings(evSet, attrs);
 			break;
+		case "eraserSize":
+			ok = handleEraserSize(evSet, attrs);
+			break;
 		case "grid":
 			ok = handleGrid(evSet, attrs);
 			break;
 		case "gridColor":
 			ok = handleGridColor(evSet, attrs);
 			break;
+		case "highlighterSize":
+			ok = handleHighlighterSize(evSet, attrs);
+			break;
+		case "highlighterColor":
+			ok = handleHighlighterColor(evSet, attrs);
+			break;
 		case "lineStyle":
 			ok = handleLineStyle(evSet, attrs);
 			break;
 		case "labelStyle":
 			ok = handleLabelStyle(evSet, attrs);
+			break;
+		case "language":
+			ok = handleLanguage(app, attrs);
+			break;
+		case "penSize":
+			ok = handlePenSize(evSet, attrs);
+			break;
+		case "penColor":
+			ok = handlePenColor(evSet, attrs);
 			break;
 		case "rulerColor":
 			ok = handleRulerColor(evSet, attrs);
@@ -1487,6 +1505,54 @@ public class MyXMLHandler implements DocHandler {
 		int rulerType = Integer.parseInt(attrs.get("val"));
 		ev.setRulerType(rulerType);
 		ev.setRulerBold(Boolean.parseBoolean(attrs.get("bold")));
+		return true;
+	}
+
+	private static boolean handleEraserSize(EuclidianSettings ev,
+			LinkedHashMap<String, String> attrs) {
+		int eraserSize = Integer.parseInt(attrs.get("val"));
+		ev.setDeleteToolSize(eraserSize);
+		return true;
+	}
+
+	private static boolean handlePenSize(EuclidianSettings ev,
+			LinkedHashMap<String, String> attrs) {
+		int penSize = Integer.parseInt(attrs.get("val"));
+		ev.setLastPenThickness(penSize);
+		return true;
+	}
+
+	private static boolean handlePenColor(EuclidianSettings ev,
+			LinkedHashMap<String, String> attrs) {
+		GColor col = handleColorAttrs(attrs);
+		if (col == null) {
+			return false;
+		}
+		ev.setLastSelectedPenColor(col);
+		return true;
+	}
+
+	private static boolean handleHighlighterSize(EuclidianSettings ev,
+			 LinkedHashMap<String, String> attrs) {
+		int highlighterSize = Integer.parseInt(attrs.get("val"));
+		ev.setLastHighlighterThinckness(highlighterSize);
+		return true;
+	}
+
+	private static boolean handleHighlighterColor(EuclidianSettings ev,
+			  LinkedHashMap<String, String> attrs) {
+		GColor col = handleColorAttrs(attrs);
+		if (col == null) {
+			return false;
+		}
+		ev.setLastSelectedHighlighterColor(col);
+		return true;
+	}
+
+	private static boolean handleLanguage(App app,
+			  LinkedHashMap<String, String> attrs) {
+		String lang = attrs.get("val");
+		app.setLanguage(lang);
 		return true;
 	}
 

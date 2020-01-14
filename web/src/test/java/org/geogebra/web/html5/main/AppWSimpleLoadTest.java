@@ -24,7 +24,6 @@ public class AppWSimpleLoadTest {
 
 	@Test
 	public void testLoadApp() {
-
 		TestArticleElement articleElement = new TestArticleElement("prerelease", "simple");
 		String json = FileIO.load(jsonPath);
 		articleElement.attr("jsonFile", json);
