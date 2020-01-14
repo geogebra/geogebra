@@ -266,6 +266,23 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testCanRedefineSameClassDependent() {
+		add("a = 1");
+		add("b = 2");
+		add("c = a + b");
+		GeoInputBox inputBox = add("box = InputBox(c)");
+		inputBox.updateLinkedGeo("7");
+
+		Assert.assertEquals("7", inputBox.getText());
+		Assert.assertTrue(inputBox.getLinkedGeo().isIndependent());
+
+		inputBox.updateLinkedGeo("a + b");
+
+		Assert.assertEquals("a + b", inputBox.getText());
+		Assert.assertFalse(inputBox.getLinkedGeo().isIndependent());
+	}
+
+	@Test
 	public void testGeoPointDoesNotChangeDisplayMode() {
 		testDoesNotChangeDisplayMode("(1, 2)", Kernel.COORD_CARTESIAN);
 		testDoesNotChangeDisplayMode("1 + 2" + Unicode.IMAGINARY, Kernel.COORD_COMPLEX);

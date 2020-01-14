@@ -1964,7 +1964,9 @@ public class AlgebraProcessor {
 			// a changeable replaceable is not redefined:
 			// it gets the value of ret[0]
 			// (note: texts are always redefined)
-			if (!info.mayRedefineIndependent() && replaceable.isChangeable()
+			if (!info.mayRedefineIndependent()
+					&& ret[0].isIndependent()
+					&& replaceable.isChangeable()
 					&& !(replaceable.isGeoText())) {
 				try {
 					replaceable.set(ret[0]);
