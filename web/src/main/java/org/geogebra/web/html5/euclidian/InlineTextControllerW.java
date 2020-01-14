@@ -111,6 +111,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void format(String key, Object val) {
 		editor.format(key, val);
+		geo.setContent(editor.getContent());
 	}
 
 	@Override

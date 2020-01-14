@@ -39,10 +39,6 @@ describe('Text tool test', () => {
             cy.get(".carotaTextArea textarea").type("GeoGebra Rocks");
             cy.wait(500);
             cy.get(".btnBold img").click();
-            // lose focus
-            selectors.euclidianView.get()
-                .mouseEvent('down', 500, 300)
-                .mouseEvent('up', 500, 300);
 
             cy.window().then((win) => {
                 parseString(win.ggbApplet.getXML("a"), (err, data) => {

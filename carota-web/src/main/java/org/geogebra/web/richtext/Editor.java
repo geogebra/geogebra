@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.Widget;
 /** The interface to the Carota editor */
 public interface Editor {
 
-	interface EditorChangeListener {
+    interface EditorChangeListener {
 
 		/**
 		 * Called 0.5s after the last change in the editor state
@@ -75,4 +75,9 @@ public interface Editor {
 	 * @return format property value
 	 */
 	<T> T getFormat(String key, T fallback);
+
+	/**
+	 * @return JSON encoded editor content
+	 */
+	String getContent();
 }

@@ -112,6 +112,15 @@ public class CarotaEditor implements Editor {
 		return getFormatNative(editor, key, fallback);
 	}
 
+	@Override
+	public String getContent() {
+		return getContentNative(editor);
+	}
+
+	private native String getContentNative(JavaScriptObject editor) /*-{
+		return JSON.stringify(editor.save());
+	}-*/;
+
 	private native <T> T getFormatNative(JavaScriptObject editorAPI, String key,
 			T fallback) /*-{
 		var format = editorAPI.selectedRange().getFormatting()[key];
