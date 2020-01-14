@@ -202,7 +202,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		ActionableItem askQuestion = new ActionableItemImpl(Icon.QUESTION_ANSWER,
 				"AskAQuestion", Action.SHOW_FORUM);
 		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT,
-				"ReportBug", Action.REPORT_PROBLEM);
+				"ReportProblem", Action.REPORT_PROBLEM);
 		ActionableItem license = new ActionableItemImpl(Icon.INFO,
 				"AboutLicense", Action.SHOW_LICENSE);
 		return new SubmenuItemImpl(Icon.HELP, "HelpAndFeedback",
