@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 /**
  * List to store Drawable objects for fast drawing.
  */
-public class DrawableList {
+public class DrawableList implements Iterable<Drawable> {
 	/** first drawable in the list */
 	public Link head;
 	private Link tail;
@@ -182,10 +182,7 @@ public class DrawableList {
 			if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
 					&& !(geo.isGeoInputBox()) && !geo.isMask()) {
-				if (cur.d.needsUpdate()) {
-					cur.d.setNeedsUpdate(false);
-					cur.d.update();
-				}
+				cur.d.updateIfNeeded();
 				cur.d.draw(g2);
 			}
 			cur = cur.next;
@@ -305,6 +302,11 @@ public class DrawableList {
 			// do nothing
 		}
 
+	}
+
+	@Override
+	public Iterator<Drawable> iterator() {
+		return getIterator();
 	}
 
 }

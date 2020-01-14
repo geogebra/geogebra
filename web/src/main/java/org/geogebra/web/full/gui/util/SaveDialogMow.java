@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
@@ -181,14 +182,18 @@ public class SaveDialogMow extends DialogBoxW
 			hide();
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
-			MaterialVisibility visibility = ((AppW) app)
-					.getActiveMaterial() != null ? MaterialVisibility.value(
-									((AppW) app).getActiveMaterial()
-											.getVisibility())
-							: MaterialVisibility.Private;
-			app.getSaveController().saveAs(getInputField().getText(),
+			Material activeMaterial = ((AppW) app).getActiveMaterial();
+			MaterialVisibility visibility = activeMaterial != null
+					? MaterialVisibility.value(activeMaterial.getVisibility())
+					: MaterialVisibility.Private;
+			app.getKernel().getConstruction().setTitle(getInputText());
+			app.getSaveController().saveAs(getInputText(),
 					visibility, this);
 		}
+	}
+
+	private String getInputText() {
+		return getInputField().getText();
 	}
 
 	@Override
@@ -241,11 +246,6 @@ public class SaveDialogMow extends DialogBoxW
 	@Override
 	public void setSaveType(MaterialType saveType) {
 		app.getSaveController().setSaveType(saveType);
-	}
-
-	@Override
-	public SaveDialogI setDefaultVisibility(MaterialVisibility visibility) {
-		return this;
 	}
 
 	/**

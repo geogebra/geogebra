@@ -88,7 +88,7 @@ public class GgbScript extends Script {
 			if ((i % 2) == 0 || isFunction(starr, i, app)) {
 				retone.append(starr[i]);
 				// app.getFunction("nroot")
-			} else if (app.getParserFunctions().isFunction(starr[i])) {
+			} else if (app.getParserFunctions().isTranslatableFunction(starr[i])) {
 				retone.append(app.getLocalization().getFunction(starr[i]));
 			} else {
 				// Log.debug("NOT FUNCTION" + starr[i]);

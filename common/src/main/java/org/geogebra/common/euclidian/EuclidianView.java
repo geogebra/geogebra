@@ -45,9 +45,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngle;
@@ -70,6 +67,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
@@ -177,7 +177,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * bounding box
 	 */
-	protected BoundingBox boundingBox;
+	protected BoundingBox<? extends GShape> boundingBox;
 	private EuclidianBoundingBoxHandler hitHandler = EuclidianBoundingBoxHandler.UNDEFINED;
 
 	// shape tools
@@ -901,8 +901,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		if (updateDrawables) {
-			this.updateAllDrawablesForView(true);
-			this.updateBackgroundOnNextRepaint = true;
+			updateAllDrawablesForView(true);
+			invalidateBackground();
 		}
 
 		updatingBounds = false;
@@ -1397,7 +1397,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
         onCoordSystemChangedFromSetCoordSystem();
 		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
 		if (repaint) {
-			updateBackgroundOnNextRepaint = true;
+			invalidateBackground();
 			updateAllDrawablesForView(repaint);
 
 			// needed so that eg Corner[2,1] updates properly on zoom / pan
@@ -1408,6 +1408,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		// tells app that set coord system occured
 		app.setCoordSystemOccured();
+	}
+
+	/**
+	 * Make sure background gets updated
+	 */
+	public void invalidateBackground() {
+		updateBackgroundOnNextRepaint = true;
 	}
 
     /**
@@ -2067,7 +2074,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return true;
 		}
 		if (isVisibleInThisView(geo)
-				&& (geo.isLabelSet() || this.isPlotPanel())) {
+				&& (geo.isLabelSet() || isPlotPanel())) {
 			return geo.isEuclidianVisible()
 
 					|| (geo.isGeoText() && ((GeoText) geo)
@@ -2405,7 +2412,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void updateHighlight(GeoElementND geo) {
-		// nothing to do here
+		if (!geo.toGeoElement().isSelected()) {
+			DrawableND drawableND = drawableMap.get(geo);
+			if (drawableND != null) {
+				drawableND.setPartialHitClip(null);
+			}
+		}
 	}
 
 	@Override
@@ -2832,17 +2844,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param boundingBox
 	 *            - bounding box for select
 	 */
-	public void setBoundingBox(BoundingBox boundingBox) {
-		// if old bounding box reset -> reset crop properties
-		if (this.boundingBox != null && boundingBox != null
-				&& boundingBox.equals(this.boundingBox)) {
-			boundingBox.setCropBox(this.boundingBox.isCropBox());
-		}
-		// end croping if geo deselected or other geo selected
-		if ((boundingBox == null || !boundingBox.equals(this.boundingBox))
-				&& this.boundingBox != null) {
-			this.boundingBox.setCropBox(false);
-		}
+	public void setBoundingBox(BoundingBox<? extends GShape> boundingBox) {
 		this.boundingBox = boundingBox;
 	}
 
@@ -2970,7 +2972,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void setDrawBorderAxes(boolean[] drawBorderAxes) {
 		this.drawBorderAxes = drawBorderAxes;
 		// don't show corner coordinates if one of the axes is sticky
-		this.setAxesCornerCoordsVisible(!(drawBorderAxes[0] || drawBorderAxes[1]));
+		setAxesCornerCoordsVisible(!(drawBorderAxes[0] || drawBorderAxes[1]));
 	}
 
 	/**
@@ -3533,7 +3535,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public abstract boolean requestFocusInWindow();
 
-	// Michael Borcherds 2008-03-01
 	/**
 	 * Draws all geometric objects
 	 * 
@@ -3551,17 +3552,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).startGroup("layer "+layer);
 			drawLayers[layer].drawAll(g2);
-
-			if (getEuclidianController().isMultiSelection()) {
-				getEuclidianController().setBoundingBoxFromList(
-						app.getSelectionManager().getSelectedGeos());
-			}
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).endGroup("layer "+layer);
 		}
+		if (getEuclidianController().isMultiSelection()) {
+			getEuclidianController()
+					.setBoundingBoxFromList(app.getSelectionManager().getSelectedGeos());
+		}
 	}
 
-	// Michael Borcherds 2008-03-01
 	/**
 	 * Draws all objects
 	 * 
@@ -3961,8 +3960,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			drawGrid = new DrawGrid(this);
 		}
 		// vars for handling positive-only axes
-		double xCrossPix = this.getXZero() + (axisCross[1] * getXscale());
-		double yCrossPix = this.getYZero() - (axisCross[0] * getYscale());
+		double xCrossPix = getXZero() + (axisCross[1] * getXscale());
+		double yCrossPix = getYZero() - (axisCross[0] * getYscale());
 
 		// this needs to be after setClip()
 		// bug in FreeHEP (PDF export)
@@ -4155,7 +4154,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	double getYAxisCrossingPixel() {
-		return this.getYZero() - (axisCross[0] * getYscale());
+		return getYZero() - (axisCross[0] * getYscale());
 	}
 
 	boolean xAxisOnscreen() {
@@ -4245,11 +4244,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		while (it.hasNext()) {
 			Drawable d = it.next();
 			if (d.geo.isMask()) {
-				if (d.needsUpdate()) {
-					d.setNeedsUpdate(false);
-					d.update();
-				}
-
+				d.updateIfNeeded();
 				d.draw(g2);
 			}
 		}
@@ -4338,7 +4333,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
-
 	}
 
 	@Override
@@ -4359,7 +4353,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return boundingBox
 	 */
-	public BoundingBox getBoundingBox() {
+	public BoundingBox<? extends GShape> getBoundingBox() {
 		return boundingBox;
 	}
 
@@ -6562,5 +6556,36 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public HitDetector getHitDetector() {
 		return hitDetector;
+	}
+
+	/**
+	 * Reset partial hits for all drawables
+	 * 
+	 * @param x
+	 *            screen x-coord of pointer event
+	 * @param y
+	 *            screen y-coord of pointer event
+	 * @param threshold
+	 *            hit threshold
+	 * @return whether selection changed
+	 */
+	public boolean resetPartialHits(int x, int y, int threshold) {
+		if (boundingBox != null && boundingBox.hit(x, y, threshold)) {
+			return false;
+		}
+		boolean deselected = false;
+		for (Drawable draw : this.allDrawableList) {
+			deselected = draw.resetPartialHitClip(x, y) || deselected;
+		}
+		return deselected;
+	}
+
+	/**
+	 * Show stylebar if bounding box visible
+	 */
+	public void restoreDynamicStylebar() {
+		if (euclidianController.isMultiSelection()) {
+			euclidianController.showDynamicStylebar();
+		}
 	}
 }

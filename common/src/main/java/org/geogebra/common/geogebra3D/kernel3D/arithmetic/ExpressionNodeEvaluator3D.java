@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.Localization;
@@ -23,6 +24,18 @@ import org.geogebra.common.plugin.Operation;
  * 
  */
 public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
+
+	/**
+	 * Creates a new expression node evaluator.
+	 *
+	 * @param loc localization
+	 * @param kernel kernel
+	 * @param filter operation filter
+	 */
+	public ExpressionNodeEvaluator3D(Localization loc, Kernel kernel,
+									 OperationArgumentFilter filter) {
+		super(loc, kernel, filter);
+	}
 
 	/**
 	 * @param l10n

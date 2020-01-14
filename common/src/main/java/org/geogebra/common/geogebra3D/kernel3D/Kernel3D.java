@@ -39,8 +39,6 @@ import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Manager3DInterface;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoPointVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -54,6 +52,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -162,7 +162,8 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator(Kernel kernel) {
-		return new ExpressionNodeEvaluator3D(app.getLocalization(), kernel);
+		return new ExpressionNodeEvaluator3D(app.getLocalization(), kernel,
+				app.getConfig().createOperationArgumentFilter());
 	}
 
 	/**

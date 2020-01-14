@@ -3,10 +3,10 @@ package org.geogebra.common.geogebra3D.euclidianFor3D;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**

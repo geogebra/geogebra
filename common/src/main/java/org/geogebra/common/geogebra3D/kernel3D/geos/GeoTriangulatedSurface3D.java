@@ -2,8 +2,8 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.geogebra3D.kernel3D.MyPoint3D;
 import org.geogebra.common.kernel.SegmentType;
-import org.geogebra.common.kernel.Matrix.Coords3;
-import org.geogebra.common.kernel.Matrix.CoordsDouble3;
+import org.geogebra.common.kernel.matrix.Coords3;
+import org.geogebra.common.kernel.matrix.CoordsDouble3;
 
 /**
  * Represent 3D triangulated surface. The set of points {p1, p2, p3, ... , pn}

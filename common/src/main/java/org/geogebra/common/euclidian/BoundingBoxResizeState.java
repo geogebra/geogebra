@@ -2,7 +2,9 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -13,19 +15,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class BoundingBoxResizeState {
 	private GRectangle2D rect;
-	private double[][] ratios;
+	private ArrayList<ArrayList<GPoint2D>> ratios;
 	private double widthHeightRatio = 1;
-	private int widthThreshold = BoundingBox.SIDE_THRESHOLD;
-	private int heightThreshold = BoundingBox.SIDE_THRESHOLD;
-
-	/**
-	 * thresholdXReached from last update
-	 */
-	public boolean lastThresholdX = false;
-	/**
-	 * thresholdYReached from last update
-	 */
-	public boolean lastThresholdY = false;
+	private double widthThreshold = Double.NEGATIVE_INFINITY;
+	private double heightThreshold = Double.NEGATIVE_INFINITY;
 
 	/**
 	 * @param rect
@@ -35,38 +28,35 @@ public class BoundingBoxResizeState {
 	 * @param view
 	 *            current view
 	 */
-	public BoundingBoxResizeState(GRectangle2D rect,
-			ArrayList<GeoElement> geos, EuclidianView view) {
+	public BoundingBoxResizeState(GRectangle2D rect, ArrayList<GeoElement> geos,
+			EuclidianView view, boolean diagonal) {
 		this.rect = rect;
-		ratios = new double[geos.size()][4];
+		ratios = new ArrayList<>();
 
 		if (this.rect != null) {
 			widthHeightRatio = rect.getWidth() / rect.getHeight();
 			for (int i = 0; i < geos.size(); i++) {
-				Drawable dr = (Drawable) view.getDrawableFor(geos.get(i));
+				GeoElement geo = geos.get(i);
+				Drawable dr = (Drawable) view.getDrawableFor(geo);
 				// check and update thresholds
 				if (dr.getWidthThreshold() > widthThreshold) {
-					widthThreshold = dr.getWidthThreshold();
+					widthThreshold = diagonal ? dr.getDiagonalWidthThreshold()
+							: dr.getWidthThreshold();
 				}
 				if (dr.getHeightThreshold() > heightThreshold) {
 					heightThreshold = dr.getHeightThreshold();
 				}
 				// calculate the min/max coordinates
-				GRectangle2D bounds = dr.getBoundingBox() != null
-						? dr.getBoundingBox().getRectangle()
-						: dr.getBounds();
-				ratios[i][0] = (bounds.getMinX()
-						- view.getBoundingBox().getRectangle().getMinX())
-						/ view.getBoundingBox().getRectangle().getWidth();
-				ratios[i][1] = (bounds.getMaxX()
-						- view.getBoundingBox().getRectangle().getMinX())
-						/ view.getBoundingBox().getRectangle().getWidth();
-				ratios[i][2] = (bounds.getMinY()
-						- view.getBoundingBox().getRectangle().getMinY())
-						/ view.getBoundingBox().getRectangle().getHeight();
-				ratios[i][3] = (bounds.getMaxY()
-						- view.getBoundingBox().getRectangle().getMinY())
-						/ view.getBoundingBox().getRectangle().getHeight();
+
+				ArrayList<GPoint2D> forGeo = new ArrayList<>(2);
+				GRectangle2D rectangle = view.getBoundingBox().getRectangle();
+				for (GPoint2D pt : dr.toPoints()) {
+					forGeo.add(
+							new MyPoint((pt.getX() - rectangle.getMinX()) / rectangle.getWidth(),
+									(pt.getY() - rectangle.getMinY()) / rectangle.getHeight()));
+				}
+
+				ratios.add(forGeo);
 			}
 		}
 	}
@@ -77,8 +67,8 @@ public class BoundingBoxResizeState {
 	 * @return positions of the corners of the geo from the side of bounding box
 	 *         in ratio [minX, maxX, minY, maxY]
 	 */
-	public double[] getRatios(int i) {
-		return this.ratios[i];
+	public ArrayList<GPoint2D> getRatios(int i) {
+		return ratios.get(i);
 	}
 
 	/**
@@ -98,14 +88,14 @@ public class BoundingBoxResizeState {
 	/**
 	 * @return minimum width of the bounding box based on the selected elements
 	 */
-	public int getWidthThreshold() {
+	public double getWidthThreshold() {
 		return widthThreshold;
 	}
 
 	/**
 	 * @return minimum height of the bounding box based on the selected elements
 	 */
-	public int getHeightThreshold() {
+	public double getHeightThreshold() {
 		return heightThreshold;
 	}
 
@@ -115,7 +105,7 @@ public class BoundingBoxResizeState {
 	 * @return starting width of the element
 	 */
 	public double getWidth(int i) {
-		return rect.getWidth() * (ratios[i][1] - ratios[i][0]);
+		return rect.getWidth() * (ratios.get(i).get(1).getX() - ratios.get(i).get(0).getX());
 	}
 
 	/**
@@ -124,6 +114,6 @@ public class BoundingBoxResizeState {
 	 * @return starting height of the element
 	 */
 	public double getHeight(int i) {
-		return rect.getHeight() * (ratios[i][3] - ratios[i][2]);
+		return rect.getHeight() * (ratios.get(i).get(1).getY() - ratios.get(i).get(0).getY());
 	}
 }
