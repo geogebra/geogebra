@@ -3922,7 +3922,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** GGB-2255 */
             case GEOMETRIC_DISCOVERY:
-                return prerelease;
+                return true;
 
 		/** APPS-890 */
             case AUTOLABEL_CAS_SETTINGS:
