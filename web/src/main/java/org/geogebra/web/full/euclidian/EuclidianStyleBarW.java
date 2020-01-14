@@ -1933,9 +1933,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private static int getFontStyle(List<GeoElement> geos) {
-		int style = 0;
+		int style = GFont.ITALIC | GFont.BOLD;
 		for (GeoElement geo : geos) {
-			style |= ((TextStyle) geo.getGeoElementForPropertiesDialog()).getFontStyle();
+			style &= ((TextStyle) geo.getGeoElementForPropertiesDialog()).getFontStyle();
 		}
 
 		return style;

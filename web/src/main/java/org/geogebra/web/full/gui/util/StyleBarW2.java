@@ -78,7 +78,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	protected void openColorChooser(ArrayList<GeoElement> targetGeos,
 			boolean background) {
 		if (app.isWhiteboardActive()) {
-			openColorDialog(targetGeos, background);
+			openColorDialogForWhiteboard(targetGeos, background);
 		} else {
 			openPropertiesForColor(background);
 		}
@@ -139,17 +139,13 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		}
 	}
 
-	protected void openColorDialog(final ArrayList<GeoElement> targetGeos,
-			final boolean background) {
-		if (!app.isWhiteboardActive()) {
-			return;
-		}
-
+	protected void openColorDialogForWhiteboard(final ArrayList<GeoElement> targetGeos,
+												final boolean background) {
 		final GeoElement geo0 = targetGeos.get(0);
 		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
 
 		GColor originalColor;
-		if (app.isUnbundledOrWhiteboard() && background) {
+		if (background) {
 			originalColor = geo0.getBackgroundColor();
 		} else {
 			originalColor = geo0.getObjectColor();
@@ -159,45 +155,41 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 			@Override
 			public void onForegroundSelected() {
-				// TODO Auto-generated method stub
-
+				// no foreground/background switcher
 			}
 
 			@Override
 			public void onColorChange(GColor color) {
+				boolean changed;
 				if (background) {
-					if (app.isUnbundledOrWhiteboard()) {
-						EuclidianStyleBarStatic.applyBgColor(targetGeos, color,
+					changed = EuclidianStyleBarStatic.applyBgColor(targetGeos, color,
 								geo0.getAlphaValue());
-					}
-					return;
+				} else {
+					changed = applyColor(targetGeos, color, geo0.getAlphaValue());
 				}
-				EuclidianStyleBarStatic.applyColor(color,
-						geo0.getAlphaValue(), app);
+				if (changed) {
+					app.storeUndoInfo();
+				}
 			}
 
 			@Override
 			public void onClearBackground() {
-				// TODO Auto-generated method stub
-
+				// no clear background button
 			}
 
 			@Override
 			public void onBarSelected() {
-				// TODO Auto-generated method stub
-
+				// no bar chart support
 			}
 
 			@Override
 			public void onBackgroundSelected() {
-				// TODO Auto-generated method stub
-
+				// no foreground / background switcher
 			}
 
 			@Override
 			public void onAlphaChange() {
-				// TODO Auto-generated method stub
-
+				// no alpha slider
 			}
 		});
 	}
