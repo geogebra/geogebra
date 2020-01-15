@@ -118,6 +118,10 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public <T> T getFormat(String key, T fallback) {
-		return editor.getFormat(key, fallback);
+		if (editor.getWidget().getElement().hasClassName("background")) {
+			return editor.getDocumentFormat(key, fallback);
+		} else {
+			return editor.getFormat(key, fallback);
+		}
 	}
 }

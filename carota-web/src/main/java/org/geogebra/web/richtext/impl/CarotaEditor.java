@@ -102,7 +102,7 @@ public class CarotaEditor implements Editor {
 
 	private static native void formatNative(JavaScriptObject editor, String key, Object val) /*-{
 		var selection = editor.selectedRange();
-		var range = selection.start == selection.end ? editor.documentRange()
+		var range = selection.start === selection.end ? editor.documentRange()
 				: selection;
 		range.setFormatting(key, val);
 	}-*/;
@@ -110,6 +110,11 @@ public class CarotaEditor implements Editor {
 	@Override
 	public <T> T getFormat(String key, T fallback) {
 		return getFormatNative(editor, key, fallback);
+	}
+
+	@Override
+	public <T> T getDocumentFormat(String key, T fallback) {
+		return getDocumentFormatNative(editor, key, fallback);
 	}
 
 	@Override
@@ -130,4 +135,12 @@ public class CarotaEditor implements Editor {
 		return format || fallback;
 	}-*/;
 
+	private native <T> T getDocumentFormatNative(JavaScriptObject editorAPI, String key,
+			T fallback) /*-{
+        var format = editorAPI.documentRange().getFormatting()[key];
+        if (typeof format == 'object') {
+            return fallback;
+        }
+        return format || fallback;
+	}-*/;
 }

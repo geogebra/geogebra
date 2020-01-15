@@ -5,7 +5,7 @@ import com.google.gwt.user.client.ui.Widget;
 /** The interface to the Carota editor */
 public interface Editor {
 
-    interface EditorChangeListener {
+	interface EditorChangeListener {
 
 		/**
 		 * Called 0.5s after the last change in the editor state
@@ -15,7 +15,7 @@ public interface Editor {
 
 		/**
 		 * Called instantly on editor state change
-		 * 
+		 *
 		 * @param minHeight
 		 *            minimum height in pixels
 		 */
@@ -57,7 +57,7 @@ public interface Editor {
 
 	/**
 	 * Format selection or (if nothing selected) whole document.
-	 * 
+	 *
 	 * @param key
 	 *            property name
 	 * @param val
@@ -75,6 +75,17 @@ public interface Editor {
 	 * @return format property value
 	 */
 	<T> T getFormat(String key, T fallback);
+
+	/**
+	 * @param <T>
+	 *            parameter type (bool, string or double)
+	 * @param key
+	 *            property name
+	 * @param fallback
+	 *            fallback to use when format not found
+	 * @return format property value of the entire document
+	 */
+	<T> T getDocumentFormat(String key, T fallback);
 
 	/**
 	 * @return JSON encoded editor content
