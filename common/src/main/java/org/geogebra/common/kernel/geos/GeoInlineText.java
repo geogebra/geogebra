@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -240,14 +241,21 @@ public class GeoInlineText extends GeoElement
 
 	@Override
 	public int getFontStyle() {
-		JSONObject firstWord = getFormat().optJSONObject(0);
-		if (firstWord != null) {
-			boolean bold = firstWord.optBoolean("bold");
-			boolean italic = firstWord.optBoolean("italic");
+		DrawInlineText drawable = getDrawable();
+		try {
+			boolean bold = drawable.getFormat("bold", false);
+			boolean italic = drawable.getFormat("italic", false);
 			return (bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0);
+		} catch (RuntimeException e) {
+			Log.warn("No format for " + this);
 		}
 
 		return GFont.PLAIN;
+	}
+
+	private DrawInlineText getDrawable() {
+		return (DrawInlineText) kernel.getApplication()
+				.getActiveEuclidianView().getDrawableFor(this);
 	}
 
 	private JSONArray getFormat() {
@@ -264,14 +272,16 @@ public class GeoInlineText extends GeoElement
 
 	@Override
 	public double getFontSizeMultiplier() {
-		JSONObject firstWord = getFormat().optJSONObject(0);
-		if (firstWord != null) {
-			int viewFontSize = kernel.getApplication()
-					.getActiveEuclidianView().getFontSize();
-			double size = firstWord.optDouble("size", viewFontSize);
+		DrawInlineText drawable = getDrawable();
+		double viewFontSize = kernel.getApplication().getActiveEuclidianView().getFontSize();
+		double defaultMultiplier = GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
+		try {
+			double size = drawable.getFormat("size", viewFontSize * defaultMultiplier);
 			return size / viewFontSize;
+		} catch (RuntimeException e) {
+			Log.warn("No format for " + this);
 		}
-		return GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
+		return defaultMultiplier;
 	}
 
 	/**

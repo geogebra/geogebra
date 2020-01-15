@@ -16,7 +16,7 @@ public class CarotaEditor implements Editor {
 	private JavaScriptObject editor;
 
 	private static native JavaScriptObject createEditorNative(Element div) /*-{
-		return $wnd.murok = $wnd.carota.editor.create(div);
+		return $wnd.carota.editor.create(div);
 	}-*/;
 
 	private static native void focusNative(JavaScriptObject editor, int x, int y) /*-{
@@ -45,6 +45,9 @@ public class CarotaEditor implements Editor {
 				listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onContentChanged(*)(JSON.stringify(editor.save()));
 			}, 500);
 		})
+		editor.selectionChanged(function() {
+			listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSelectionChanged()()
+		});
 	}-*/;
 
 	/**
@@ -92,12 +95,39 @@ public class CarotaEditor implements Editor {
 		editor.select(0, 0, false);
 	}-*/;
 
+	@Override
 	public void format(String key, Object val) {
 		formatNative(editor, key, val);
 	}
 
 	private static native void formatNative(JavaScriptObject editor, String key, Object val) /*-{
-		editor.documentRange().setFormatting(key, val);
+		var selection = editor.selectedRange();
+		var range = selection.start == selection.end ? editor.documentRange()
+				: selection;
+		range.setFormatting(key, val);
+	}-*/;
+
+	@Override
+	public <T> T getFormat(String key, T fallback) {
+		return getFormatNative(editor, key, fallback);
+	}
+
+	@Override
+	public String getContent() {
+		return getContentNative(editor);
+	}
+
+	private native String getContentNative(JavaScriptObject editor) /*-{
+		return JSON.stringify(editor.save());
+	}-*/;
+
+	private native <T> T getFormatNative(JavaScriptObject editorAPI, String key,
+			T fallback) /*-{
+		var format = editorAPI.selectedRange().getFormatting()[key];
+		if (typeof format == 'object') {
+			return fallback;
+		}
+		return format || fallback;
 	}-*/;
 
 }
