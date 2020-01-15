@@ -630,6 +630,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	@Override
 	public void getTemplateMaterials(MaterialCallbackI cb) {
-		// no templates for old api
+		// TODO use here the right api
+		cb.onLoaded(new ArrayList<Material>(), null);
 	}
 }
