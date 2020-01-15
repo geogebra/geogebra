@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
@@ -59,6 +60,13 @@ public class GeoInlineText extends GeoElement
 		this.width = width;
 		this.height = height;
 		this.contentDefaultSize = getCurrentFontSize();
+	}
+
+	public GeoInlineText(GeoText geoText) {
+		super(geoText.getConstruction());
+		location = new GPoint2D.Double(geoText.getStartPoint().getInhomX(),
+				geoText.getStartPoint().getInhomY());
+		setContentFromText(geoText);
 	}
 
 	private int getCurrentFontSize() {
@@ -261,8 +269,7 @@ public class GeoInlineText extends GeoElement
 	private JSONArray getFormat() {
 		if (!StringUtil.empty(content)) {
 			try {
-				JSONArray json = new JSONArray(content);
-				return json;
+				return new JSONArray(content);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -273,7 +280,7 @@ public class GeoInlineText extends GeoElement
 	@Override
 	public double getFontSizeMultiplier() {
 		DrawInlineText drawable = getDrawable();
-		double viewFontSize = kernel.getApplication().getActiveEuclidianView().getFontSize();
+		double viewFontSize = getCurrentFontSize();
 		double defaultMultiplier = GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
 		try {
 			double size = drawable.getFormat("size", viewFontSize * defaultMultiplier);
@@ -311,4 +318,28 @@ public class GeoInlineText extends GeoElement
 		return false;
 	}
 
+    private void setContentFromText(GeoText geo) {
+		int fontStyle = geo.getFontStyle();
+		double fontSize = geo.getFontSizeMultiplier();
+		try {
+			JSONArray content = new JSONArray();
+			JSONObject text = new JSONObject().put("text", geo.getTextString());
+			content.put(text);
+			if ((fontStyle & GFont.BOLD) > 0) {
+				text.put("bold", true);
+			}
+			if ((fontStyle & GFont.ITALIC) > 0) {
+				text.put("italic", true);
+			}
+			if (fontSize != 1.0) {
+				text.put("size", fontSize * getCurrentFontSize());
+			}
+			if (!GColor.BLACK.equals(geo.getObjectColor())) {
+				text.put("color", StringUtil.toHtmlColor(geo.getObjectColor()));
+			}
+			setContent(content.toString());
+		} catch (JSONException e) {
+			// unlikely
+		}
+    }
 }
