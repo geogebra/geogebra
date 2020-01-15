@@ -34,8 +34,8 @@ public class CarotaEditor implements Editor {
 
 		editor.contentChanged(function() {
 			setTimeout(function() {
-                listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSizeChanged(*)(editor.frame.height);
-            }, 0);
+				listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSizeChanged(*)(editor.frame.height);
+			}, 0);
 
 			if (updateTimer !== null) {
 				clearTimeout(updateTimer);
@@ -44,7 +44,8 @@ public class CarotaEditor implements Editor {
 				updateTimer = null;
 				listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onContentChanged(*)(JSON.stringify(editor.save()));
 			}, 500);
-		})
+		});
+
 		editor.selectionChanged(function() {
 			listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSelectionChanged()()
 		});
@@ -137,10 +138,10 @@ public class CarotaEditor implements Editor {
 
 	private native <T> T getDocumentFormatNative(JavaScriptObject editorAPI, String key,
 			T fallback) /*-{
-        var format = editorAPI.documentRange().getFormatting()[key];
-        if (typeof format == 'object') {
-            return fallback;
-        }
-        return format || fallback;
+		var format = editorAPI.documentRange().getFormatting()[key];
+		if (typeof format == 'object') {
+			return fallback;
+		}
+		return format || fallback;
 	}-*/;
 }
