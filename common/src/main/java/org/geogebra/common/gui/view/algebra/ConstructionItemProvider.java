@@ -21,7 +21,7 @@ final class ConstructionItemProvider implements HasLastItem {
 
 	@Override
 	public String getLastItem() {
-		String text = cons.getLastGeoElement()
+		String text = cons.getLastCasEvaluableGeoElement()
 				.toOutputValueString(StringTemplate.algebraTemplate);
 		if (StringUtil.isSimpleNumber(text)) {
 			return text;
