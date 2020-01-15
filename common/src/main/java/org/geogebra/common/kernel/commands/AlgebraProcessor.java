@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -93,6 +92,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
@@ -411,9 +411,11 @@ public class AlgebraProcessor {
 								 boolean redefineIndependent, boolean storeUndoInfo,
 								 boolean withSliders, ErrorHandler handler,
 								 AsyncOperation<GeoElementND> callback) {
-		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
+		EvalInfo info =
+				new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
 						.withSymbolicMode(app.getKernel().getSymbolicMode())
-						.withLabelRedefinitionAllowedFor(geo.getLabelSimple());
+						.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
+						.withFractions(true);
 		changeGeoElementNoExceptionHandling(geo, newValue,
 				info.withSliders(withSliders), storeUndoInfo, callback, handler);
 	}
@@ -2172,7 +2174,7 @@ public class AlgebraProcessor {
 				return ret;
 			}
 		}
-		if (!fun.initFunction(info.isSimplifyingIntegers())) {
+		if (!fun.initFunction(info)) {
 			ExpressionNode copy = fun.getExpression().deepCopy(kernel);
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
@@ -3123,8 +3125,8 @@ public class AlgebraProcessor {
 			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
 
-		if (info.isFractions()) {
-			InputHelper.updateSymbolicMode(ret);
+		if (info.isFractions() && ret instanceof HasSymbolicMode) {
+			((HasSymbolicMode) ret).initSymbolicMode();
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
@@ -3190,6 +3192,9 @@ public class AlgebraProcessor {
 			// Create GeoList object
 			ret = kernel.getAlgoDispatcher().list(label, geoElements,
 					isIndependent);
+			if (info.isFractions()) {
+				((HasSymbolicMode) ret).initSymbolicMode();
+			}
 			if (!evalList.isDefined()) {
 				ret.setUndefined();
 				ret.updateRepaint();

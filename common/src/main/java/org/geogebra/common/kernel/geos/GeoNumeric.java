@@ -1899,6 +1899,15 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
+	public void initSymbolicMode() {
+		ExpressionNode definition = getDefinition();
+		boolean symbolicMode =
+				(definition == null)
+						|| (!definition.isSimpleFraction() && definition.isFractionNoPi());
+		setSymbolicMode(symbolicMode, false);
+	}
+
+	@Override
 	public void setSymbolicMode(boolean mode, boolean update) {
 		this.symbolicMode = mode;
 	}

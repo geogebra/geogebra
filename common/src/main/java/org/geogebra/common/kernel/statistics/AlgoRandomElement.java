@@ -41,12 +41,10 @@ public class AlgoRandomElement extends AlgoElement implements SetRandomValue {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param geoList
 	 *            list to pick from
 	 */
-	public AlgoRandomElement(Construction cons, String label, GeoList geoList) {
+	public AlgoRandomElement(Construction cons, GeoList geoList) {
 		super(cons);
 		this.geoList = geoList;
 
@@ -69,7 +67,6 @@ public class AlgoRandomElement extends AlgoElement implements SetRandomValue {
 
 		setInputOutput();
 		compute();
-		element.setLabel(label);
 		cons.addRandomGeo(element);
 	}
 
@@ -107,7 +104,6 @@ public class AlgoRandomElement extends AlgoElement implements SetRandomValue {
 
 		GeoElement randElement = geoList.get((int) Math.floor(
 				(cons.getApplication().getRandomNumber() * geoList.size())));
-
 		// check type:
 		if (randElement.getGeoClassType() == element.getGeoClassType()) {
 			element.set(randElement);

@@ -3000,6 +3000,11 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
+	public void initSymbolicMode() {
+		setSymbolicMode(true, false);
+	}
+
+	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		for (int i = 0; i < this.size(); i++) {
 			if (get(i) instanceof HasSymbolicMode) {

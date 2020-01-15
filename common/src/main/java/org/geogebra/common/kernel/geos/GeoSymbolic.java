@@ -437,6 +437,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	@Override
+	public void initSymbolicMode() {
+		setSymbolicMode(true, false);
+	}
+
+	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		this.symbolicMode = mode;
 	}
