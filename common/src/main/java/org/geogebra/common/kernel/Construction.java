@@ -576,12 +576,11 @@ public class Construction {
 	 * @return the last Cas Evaluable GeoElement object in the construction list.
 	 */
 	public GeoElement getLastCasEvaluableGeoElement() {
-		GeoElement lastElement = geoSetWithCasCells.last();
-		for (int i = 0; i < geoSetWithCasCells.size(); i++) {
-			if (lastElement != null && lastElement.isCasEvaluableObject()) {
+		Iterator<GeoElement> descending = geoSetWithCasCells.descendingIterator();
+		while (descending.hasNext()) {
+			GeoElement lastElement = descending.next();
+			if (lastElement.isCasEvaluableObject()) {
 				return lastElement;
-			} else {
-				lastElement = geoSetWithCasCells.lower(lastElement);
 			}
 		}
 		return null;
