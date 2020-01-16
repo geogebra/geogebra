@@ -521,7 +521,7 @@ public class GeoLocusStroke extends GeoLocus
 		Collections.sort(interPointList, new Comparator<MyPoint>() {
 			@Override
 			public int compare(MyPoint p1, MyPoint p2) {
-				return Double.compare(p.distanceSqr(p1), p.distanceSqr(p2));
+				return Double.compare(p.distanceSq(p1), p.distanceSq(p2));
 			}
 		});
 

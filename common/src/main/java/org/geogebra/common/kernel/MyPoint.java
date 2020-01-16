@@ -14,15 +14,13 @@ package org.geogebra.common.kernel;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.MyMath;
 
 /**
  * Point representing part of a segment
  */
-public class MyPoint extends GPoint2D implements Point {
+public class MyPoint extends GPoint2D {
 
 	private SegmentType segmentType = SegmentType.LINE_TO;
 
@@ -75,16 +73,6 @@ public class MyPoint extends GPoint2D implements Point {
 	@Override
 	public String toString() {
 		return "(" + x + ", " + y + ")";
-	}
-
-	/**
-	 * @param p
-	 *            other point
-	 * @return euclidian distance from p
-	 */
-	@Override
-	public double distance(Point p) {
-		return MyMath.length(p.getX() - x, p.getY() - y);
 	}
 
 	/**
@@ -168,18 +156,11 @@ public class MyPoint extends GPoint2D implements Point {
 		this.segmentType = lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
 	}
 
-	@Override
-	public double distanceSqr(Point to) {
-		return distanceSq(x, y, to.getX(), to.getY());
-	}
-
-	@Override
 	public boolean isActive() {
 		// reuse field "lineTo"
 		return segmentType == SegmentType.LINE_TO;
 	}
 
-	@Override
 	public void setActive(boolean active) {
 		// re-use field "lineTo"
 		this.segmentType = active ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
