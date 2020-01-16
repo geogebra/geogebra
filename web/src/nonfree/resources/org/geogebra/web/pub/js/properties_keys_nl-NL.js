@@ -3319,6 +3319,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "mow.offlineMyFiles": "Open offline bestand",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noColor": "No color",
     "notes_tutorials": "ca4qynme",
     "of": "van",
     "off": "uit",

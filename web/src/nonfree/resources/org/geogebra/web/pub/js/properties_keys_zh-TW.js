@@ -3319,6 +3319,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "mow.offlineMyFiles": "\u958b\u555f\u96e2\u7dda\u6a94\u6848",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noColor": "No color",
     "notes_tutorials": "fp7bctpr",
     "of": "of",
     "off": "\u95dc\u9589",

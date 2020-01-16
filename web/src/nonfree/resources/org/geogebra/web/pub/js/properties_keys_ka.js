@@ -3319,6 +3319,7 @@ __GGB__keysVar["ka"].menu = {
     "mow.offlineMyFiles": "Open offline file",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noColor": "No color",
     "notes_tutorials": "fp7bctpr",
     "of": "of",
     "off": "\u10d2\u10d0\u10db\u10dd\u10e0\u10d7\u10d5\u10d0",

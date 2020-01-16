@@ -3319,6 +3319,7 @@ __GGB__keysVar["ko"].menu = {
     "mow.offlineMyFiles": "\uc624\ud504\ub77c\uc778 \ud30c\uc77c \uc5f4\uae30",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noColor": "No color",
     "notes_tutorials": "fp7bctpr",
     "of": "\ucd1d",
     "off": "\uc0ac\uc6a9\uc548\ud568",

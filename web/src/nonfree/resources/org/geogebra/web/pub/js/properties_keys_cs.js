@@ -3319,6 +3319,7 @@ __GGB__keysVar["cs"].menu = {
     "mow.offlineMyFiles": "Otev\u0159\xedt offline soubor",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noColor": "No color",
     "notes_tutorials": "fp7bctpr",
     "of": "z",
     "off": "vypnuto",

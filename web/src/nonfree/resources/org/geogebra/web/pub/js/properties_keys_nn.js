@@ -3319,6 +3319,7 @@ __GGB__keysVar["nn"].menu = {
     "mow.offlineMyFiles": "Opne lokalt lagra fil",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "noColor": "No color",
     "notes_tutorials": "fp7bctpr",
     "of": "av",
     "off": "av",
