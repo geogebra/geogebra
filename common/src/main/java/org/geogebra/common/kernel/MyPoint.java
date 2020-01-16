@@ -20,35 +20,29 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
- * Lightweight point with lineTo flag that can be easily transformed into
- * GeoPoint
+ * Point representing part of a segment
  */
 public class MyPoint extends GPoint2D implements Point {
-	/** x-coord */
-	public double x;
-	/** y-coord */
-	public double y;
-	/** lineto flag */
+
 	private SegmentType segmentType = SegmentType.LINE_TO;
 
 	/**
 	 * Creates new empty MyPoint for cache
 	 */
 	public MyPoint() {
-		//
+		super();
 	}
 
 	/**
 	 * Creates new lineto MyPoint
-	 * 
+	 *
 	 * @param x
 	 *            x-coord
 	 * @param y
 	 *            y-coord
 	 */
 	public MyPoint(double x, double y) {
-		this.x = x;
-		this.y = y;
+		super(x, y);
 	}
 
 	/**
@@ -62,22 +56,8 @@ public class MyPoint extends GPoint2D implements Point {
 	 *            lineto flag
 	 */
 	public MyPoint(double x, double y, SegmentType segmentType) {
-		this.x = x;
-		this.y = y;
+		super(x, y);
 		this.segmentType = segmentType;
-	}
-
-	/**
-	 * @param px
-	 *            x-coordinate
-	 * @param py
-	 *            y-coordinate
-	 * @return euclidian distance to otherpoint squared
-	 */
-	public double distSqr(double px, double py) {
-		double vx = px - x;
-		double vy = py - y;
-		return vx * vx + vy * vy;
 	}
 
 	/**
@@ -125,16 +105,6 @@ public class MyPoint extends GPoint2D implements Point {
 		return segmentType == SegmentType.LINE_TO;
 	}
 
-	@Override
-	public double getX() {
-		return x;
-	}
-
-	@Override
-	public double getY() {
-		return y;
-	}
-
 	/**
 	 * @return 0; for 3D compatibility
 	 */
@@ -155,11 +125,6 @@ public class MyPoint extends GPoint2D implements Point {
 	@Override
 	public void setY(double y) {
 		this.y = y;
-	}
-
-	@Override
-	public double distance(GPoint2D q) {
-		return distance(q.getX(), q.getY());
 	}
 
 	/**
@@ -201,12 +166,11 @@ public class MyPoint extends GPoint2D implements Point {
 	 */
 	public void setLineTo(boolean lineTo) {
 		this.segmentType = lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
-
 	}
 
 	@Override
 	public double distanceSqr(Point to) {
-		return distSqr(to.getX(), to.getY());
+		return distanceSq(x, y, to.getX(), to.getY());
 	}
 
 	@Override
@@ -219,7 +183,6 @@ public class MyPoint extends GPoint2D implements Point {
 	public void setActive(boolean active) {
 		// re-use field "lineTo"
 		this.segmentType = active ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
-
 	}
 
 	/**
@@ -241,26 +204,6 @@ public class MyPoint extends GPoint2D implements Point {
 	 */
 	public boolean isDefined() {
 		return MyDouble.isFinite(x);
-	}
-
-	/**
-	 * @param x1
-	 *            x-coord
-	 * @param y1
-	 *            y-coord
-	 */
-	public void setCoords(double x1, double y1) {
-		x = x1;
-		y = y1;
-
-	}
-
-	/**
-	 * Invalidate this point
-	 */
-	public void setUndefined() {
-		x = java.lang.Double.NaN;
-
 	}
 
 	/**

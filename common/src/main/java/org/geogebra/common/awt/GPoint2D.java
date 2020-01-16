@@ -42,7 +42,6 @@ public class GPoint2D {
 		return Math.sqrt(distanceSq(getX(), getY(), x1, y1));
 	}
 
-
 	/**
 	 * @param x1
 	 *            x-coord of first point
