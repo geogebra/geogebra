@@ -1,6 +1,8 @@
 package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
@@ -147,6 +149,10 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public double getWidthThreshold() {
+		if (text.getHeight() - text.getMinHeight() < 2) {
+			return text.getWidth();
+		}
+
 		return GeoInlineText.DEFAULT_WIDTH;
 	}
 
@@ -310,21 +316,28 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> points) {
-		int newWidth = (int) Math.abs(points.get(1).getX() - points.get(0).getX());
-		int newHeight = (int) Math.abs(points.get(1).getY() - points.get(0).getY());
+		double newAngle = Math.atan2(points.get(1).getY() - points.get(0).getY(),
+				points.get(1).getX() - points.get(0).getX());
 
-		if (Math.abs(newWidth - getWidth()) > 1 || Math.abs(newHeight - getHeight()) > 1) {
-			text.setWidth(newWidth);
-			text.setHeight(newHeight);
-			text.setLocation(
-					AwtFactory.getPrototype().newPoint2D(
-							view.toRealWorldCoordX(Math.min(points.get(0).getX(),
-									points.get(1).getX())),
-							view.toRealWorldCoordY(Math.min(points.get(0).getY(),
-									points.get(1).getY()))
-					)
-			);
-		}
+		double newWidth = Math.max(GeoInlineText.DEFAULT_WIDTH,
+				points.get(1).distance(points.get(0)));
+		double newHeight = Math.max(text.getMinHeight(),
+				points.get(2).distance(points.get(0)));
+
+		text.setWidth(newWidth);
+		text.setHeight(newHeight);
+		text.setAngle(newAngle);
+		text.setLocation(
+				AwtFactory.getPrototype().newPoint2D(
+						view.toRealWorldCoordX(points.get(0).getX()),
+						view.toRealWorldCoordY(points.get(0).getY())
+				)
+		);
+	}
+
+	@Override
+	protected List<GPoint2D> toPoints() {
+		return Arrays.asList(corner0, corner1, corner3);
 	}
 
 	/**

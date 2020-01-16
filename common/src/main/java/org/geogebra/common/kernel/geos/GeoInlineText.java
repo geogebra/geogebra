@@ -355,6 +355,10 @@ public class GeoInlineText extends GeoElement
 		return angle;
 	}
 
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+
     private void setContentFromText(GeoText geo) {
 		int fontStyle = geo.getFontStyle();
 		double fontSize = geo.getFontSizeMultiplier();
