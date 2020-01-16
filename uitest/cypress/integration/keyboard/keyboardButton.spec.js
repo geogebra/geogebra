@@ -27,6 +27,7 @@ describe('Keyboard button visibility test', () => {
         cy.writeInAVInput("g(x)=x");
 
         selectors.closeKeyboardButton.get().should('be.visible');
+        cy.wait(200); // wait for finishing keyboard up animation
         selectors.closeKeyboardButton.get().click()
         cy.keyboardShouldNotPresent();
         selectors.showKeyboardButton.get().should('not.be.visible');
@@ -35,6 +36,7 @@ describe('Keyboard button visibility test', () => {
     it("Keyboard button should be visible when input gains focus and keyboard was closed earlier",
     () => {
         cy.writeInAVInput("g(x)=x");
+        cy.wait(200); // wait for finishing keyboard up animation
         selectors.closeKeyboardButton.get().click()
 
         selectors.euclidianView.get()
