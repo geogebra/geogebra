@@ -21,7 +21,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
-import org.geogebra.ggbjdk.java.awt.geom.Point2D;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
@@ -58,12 +57,12 @@ public abstract class AwtFactoryHeadless extends AwtFactory {
 
 	@Override
 	public GPoint2D newPoint2D() {
-		return new Point2D.Double();
+		return new GPoint2D.Double();
 	}
 
 	@Override
 	public GPoint2D newPoint2D(double x, double y) {
-		return new Point2D.Double(x, y);
+		return new GPoint2D.Double(x, y);
 	}
 
 	@Override
