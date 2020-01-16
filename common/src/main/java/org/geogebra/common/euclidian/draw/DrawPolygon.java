@@ -64,7 +64,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			.newGeneralPath();
 	private boolean fillShape = false;
 
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private GPoint2D endPoint = new GPoint2D();
 
 	/**
 	 * Creates new DrawPolygon

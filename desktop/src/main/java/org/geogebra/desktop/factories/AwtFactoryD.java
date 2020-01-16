@@ -25,7 +25,6 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGradientPaint;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -112,16 +111,6 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GDimension newDimension(int width, int height) {
 		return new GDimensionD(width, height);
-	}
-
-	@Override
-	public GPoint2D newPoint2D() {
-		return new GPoint2D();
-	}
-
-	@Override
-	public GPoint2D newPoint2D(double x, double y) {
-		return new GPoint2D(x, y);
 	}
 
 	/*

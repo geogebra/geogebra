@@ -201,8 +201,7 @@ public class ModeShape {
 	 *         anchor
 	 */
 	public static GPoint2D snapPoint(double x1, double y1, double x2, double y2) {
-		return AwtFactory.getPrototype().newPoint2D(snap(x2, x1, Math.abs(y1 - y2)),
-				snap(y2, y1, Math.abs(x1 - x2)));
+		return new GPoint2D(snap(x2, x1, Math.abs(y1 - y2)), snap(y2, y1, Math.abs(x1 - x2)));
 	}
 
 	private static double snap(double y2, double y1, double scale) {

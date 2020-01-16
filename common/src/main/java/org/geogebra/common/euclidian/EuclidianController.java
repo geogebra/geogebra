@@ -7859,8 +7859,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// resize selected geo
 				if (getResizedShape().getGeoElement().isSelected()) {
 					dontClearSelection = true;
-					GPoint2D p = AwtFactory.getPrototype()
-							.newPoint2D(event.getX(), event.getY());
+					GPoint2D p = new GPoint2D(event.getX(), event.getY());
 					getResizedShape().updateByBoundingBoxResize(p,
 							view.getHitHandler());
 				}
@@ -8151,7 +8150,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		default:
 			break;
 		}
-		return AwtFactory.getPrototype().newPoint2D(distX, distY);
+		return new GPoint2D(distX, distY);
 	}
 
 	/**
