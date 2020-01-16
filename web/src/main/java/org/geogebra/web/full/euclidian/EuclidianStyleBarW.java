@@ -117,6 +117,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private MyToggleButtonW btnShowAxes;
 	private MyToggleButtonW btnBold;
 	private MyToggleButtonW btnItalic;
+	private MyToggleButtonW btnUnderline;
 
 	private MyToggleButtonW btnFixPosition;
 	private MyToggleButtonW btnFixObject;
@@ -526,6 +527,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		add(btnBold);
 		add(btnItalic);
+		add(btnUnderline);
 		if (!app.isUnbundledOrWhiteboard()) {
 			add(btnTextSize);
 		}
@@ -739,7 +741,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	protected MyToggleButtonW[] newToggleBtnList() {
 		return new MyToggleButtonW[] { getAxesOrGridToggleButton(), btnBold,
-				btnItalic, btnFixPosition, btnFixObject, btnDeleteSizes[0],
+				btnItalic, btnUnderline, btnFixPosition, btnFixObject, btnDeleteSizes[0],
 				btnDeleteSizes[1], btnDeleteSizes[2] };
 	}
 
@@ -775,6 +777,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createTextColorBtn();
 		createTextBoldBtn();
 		createTextItalicBtn();
+		createTextUnderlineBtn();
 		createFixPositionBtn();
 		createFixObjectBtn();
 		createTextSizeBtn();
@@ -1409,6 +1412,23 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 		btnItalic.addStyleName("btnItalic");
 		btnItalic.addValueChangeHandler(this);
+	}
+
+	private void createTextUnderlineBtn() {
+		btnUnderline = new MyToggleButtonW(new NoDragImage(
+			MaterialDesignResources.INSTANCE.text_underline_black(), 24)) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkTextNoInputBox(geos);
+				super.setVisible(geosOK);
+				if (geosOK) {
+					//int style = getFontStyle(geos);
+				}
+			}
+		};
+		btnUnderline.addStyleName("btnUnderline");
+		btnUnderline.addValueChangeHandler(this);
 	}
 
 	private void createTextSizeBtn() {
