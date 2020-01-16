@@ -38,7 +38,7 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 				g2.drawLine((int) corners[i].getX(), (int) corners[i].getY(),
 						(int) corners[(i + 1) % 4].getX(), (int) corners[(i + 1) % 4].getY());
 			}
-			g2.drawLine((int) corners[6].getX(), (int) corners[6].getY(),
+			g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
 					rotationHandlerx, rotationHandlery);
 		}
 
@@ -65,14 +65,14 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		setHandlerTransformed(1, 0, 1);
 		setHandlerTransformed(2, 1, 1);
 		setHandlerTransformed(3, 1, 0);
-		setHandlerTransformed(4, 0.5, 1);
-		setHandlerTransformed(5, 1, 0.5);
-		setHandlerTransformed(6, 0.5, 0);
-		setHandlerTransformed(7, 0, 0.5);
+		setHandlerTransformed(4, 0.5, 0);
+		setHandlerTransformed(5, 0, 0.5);
+		setHandlerTransformed(6, 0.5, 1);
+		setHandlerTransformed(7, 1, 0.5);
 
-		rotationHandlerx = (int) (corners[6].getX()
+		rotationHandlerx = (int) (corners[4].getX()
 				+ Math.sin(angle) * ROTATION_HANDLER_DISTANCE);
-		rotationHandlery = (int) (corners[6].getY()
+		rotationHandlery = (int) (corners[4].getY()
 				- Math.cos(angle) * ROTATION_HANDLER_DISTANCE);
 
 		setHandlerFromCenter(8, rotationHandlerx, rotationHandlery);

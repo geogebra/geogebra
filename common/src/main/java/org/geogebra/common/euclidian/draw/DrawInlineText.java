@@ -60,14 +60,41 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public void update() {
+		updateTransforms();
+
+		GPoint2D point = text.getLocation();
+		double angle = text.getAngle();
+		double width = text.getWidth();
+		double height = text.getHeight();
+
+		if (textController != null) {
+			textController.setLocation(view.toScreenCoordX(point.getX()),
+					view.toScreenCoordY(point.getY()));
+			textController.setHeight((int) (height - 2 * padding));
+			textController.setWidth((int) (width - 2 * padding));
+			textController.setAngle(angle);
+			if (text.updateFontSize()) {
+				textController.updateContent();
+			}
+		}
+
+		if (boundingBox != null) {
+			boundingBox.setRectangle(getBounds());
+			boundingBox.setTransform(directTransform);
+			boundingBox.setAngle(angle);
+		}
+	}
+
+	private void updateTransforms() {
 		GPoint2D point = text.getLocation();
 
 		double angle = text.getAngle();
-		int width = text.getWidth();
-		int height = text.getHeight();
+		double width = text.getWidth();
+		double height = text.getHeight();
 
 		directTransform = AwtFactory.getPrototype().newAffineTransform();
-		directTransform.translate(view.toScreenCoordX(point.getX()), view.toScreenCoordY(point.getY()));
+		directTransform.translate(view.toScreenCoordXd(point.getX()),
+				view.toScreenCoordYd(point.getY()));
 		directTransform.rotate(angle);
 		directTransform.scale(width, height);
 
@@ -81,23 +108,6 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		corner1 = directTransform.transform(new GPoint2D.Double(1, 0), null);
 		corner2 = directTransform.transform(new GPoint2D.Double(1, 1), null);
 		corner3 = directTransform.transform(new GPoint2D.Double(0, 1), null);
-
-		if (textController != null) {
-			textController.setLocation(view.toScreenCoordX(point.getX()),
-					view.toScreenCoordY(point.getY()));
-			textController.setHeight(height - 2 * padding);
-			textController.setWidth(width - 2 * padding);
-			textController.setAngle(angle);
-			if (text.updateFontSize()) {
-				textController.updateContent();
-			}
-		}
-
-		if (boundingBox != null) {
-			boundingBox.setRectangle(getBounds());
-			boundingBox.setTransform(directTransform);
-			boundingBox.setAngle(angle);
-		}
 	}
 
 	/**
@@ -241,7 +251,53 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
-		// Not implemented
+		GPoint2D transformed = inverseTransform.transform(point, null);
+
+		double x = 0;
+		double y = 0;
+		double width = text.getWidth();
+		double height = text.getHeight();
+
+		switch (handler) {
+		case RIGHT:
+		case TOP_RIGHT:
+		case BOTTOM_RIGHT:
+			width *= transformed.getX();
+			break;
+		case LEFT:
+		case TOP_LEFT:
+		case BOTTOM_LEFT:
+			width *= 1 - transformed.getX();
+			x = transformed.getX();
+			break;
+		}
+
+		switch (handler) {
+		case BOTTOM:
+		case BOTTOM_LEFT:
+		case BOTTOM_RIGHT:
+			height *= transformed.getY();
+			break;
+		case TOP:
+		case TOP_LEFT:
+		case TOP_RIGHT:
+			height *= 1 - transformed.getY();
+			y = transformed.getY();
+			break;
+		}
+
+		width = Math.max(width, GeoInlineText.DEFAULT_WIDTH);
+		height = Math.max(height, GeoInlineText.DEFAULT_HEIGHT);
+
+		GPoint2D origin = directTransform.transform(new GPoint2D.Double(x, y), null);
+
+		text.setLocation(new GPoint2D.Double(view.toRealWorldCoordX(origin.getX()),
+				view.toRealWorldCoordY(origin.getY())));
+		text.setWidth(width);
+		text.setHeight(height);
+		text.updateRepaint();
+
+		updateTransforms();
 	}
 
 	@Override

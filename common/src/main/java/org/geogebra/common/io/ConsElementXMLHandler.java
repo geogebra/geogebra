@@ -240,8 +240,8 @@ public class ConsElementXMLHandler {
 				((GeoEmbed) geo).setContentWidth(widthD);
 				((GeoEmbed) geo).setContentHeight(heightD);
 			} else if (geo instanceof GeoInlineText) {
-				((GeoInlineText) geo).setWidth((int) widthD);
-				((GeoInlineText) geo).setHeight((int) heightD);
+				((GeoInlineText) geo).setWidth(widthD);
+				((GeoInlineText) geo).setHeight(heightD);
 			}
 
 			return true;
