@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.awt;
 
+import com.google.gwt.dom.client.CanvasElement;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -951,6 +952,21 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public void drawImage(ImageElement img, int x, int y) {
 		try {
 			context.drawImage(img, x, y);
+		} catch (Exception e) {
+			Log.error("error in context.drawImage.3 method");
+		}
+	}
+
+	/**
+	 * @param canvasImg
+	 *            canvas image
+	 * @param x
+	 *            left offset
+	 * @param y
+	 */
+	public void drawImage(CanvasElement canvasImg, int x, int y) {
+		try {
+			context.drawImage(canvasImg, x, y);
 		} catch (Exception e) {
 			Log.error("error in context.drawImage.3 method");
 		}

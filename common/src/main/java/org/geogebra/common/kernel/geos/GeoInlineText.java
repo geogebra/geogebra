@@ -62,8 +62,13 @@ public class GeoInlineText extends GeoElement
 		this.contentDefaultSize = getCurrentFontSize();
 	}
 
+	/**
+	 * Create inline text from standard text (for compatibility with first notes release)
+	 * @param geoText standard text
+	 */
 	public GeoInlineText(GeoText geoText) {
 		super(geoText.getConstruction());
+		this.contentDefaultSize = getCurrentFontSize();
 		location = new GPoint2D.Double(geoText.getStartPoint().getInhomX(),
 				geoText.getStartPoint().getInhomY());
 		setContentFromText(geoText);
@@ -312,7 +317,7 @@ public class GeoInlineText extends GeoElement
 				contentDefaultSize = getCurrentFontSize();
 				return true;
 			} catch (JSONException | RuntimeException e) {
-				Log.debug(e);
+				Log.debug(getCurrentFontSize());
 			}
 		}
 		return false;

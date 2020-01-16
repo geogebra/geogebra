@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -95,10 +94,8 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		// quick demo to show color maintained on loading, please replace in the bg color ticket
-		if (geo.getBackgroundColor() != null) {
-			g2.setPaint(geo.getBackgroundColor().deriveWithAlpha(100));
-			g2.fillRect(getLeft(), getTop(), getWidth(), getHeight());
+		if (textController != null) {
+			textController.draw(g2, getLeft(), getTop());
 		}
 	}
 

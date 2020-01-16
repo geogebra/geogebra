@@ -1469,7 +1469,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleBoundingBox(LinkedHashMap<String, String> attrs) {
-		if (geo instanceof GeoText && app.isWhiteboardActive()) {
+		if (geo instanceof GeoText && geo.isIndependent()) {
 			try {
 				GeoInlineText ret = new GeoInlineText((GeoText) geo);
 				geo.getConstruction().replace(geo, ret);

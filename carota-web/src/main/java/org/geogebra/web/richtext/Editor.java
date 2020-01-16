@@ -1,5 +1,6 @@
 package org.geogebra.web.richtext;
 
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.user.client.ui.Widget;
 
 /** The interface to the Carota editor */
@@ -91,4 +92,6 @@ public interface Editor {
 	 * @return JSON encoded editor content
 	 */
 	String getContent();
+
+	CanvasElement getCanvasElement();
 }

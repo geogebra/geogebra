@@ -1,5 +1,6 @@
 package org.geogebra.web.richtext.impl;
 
+import com.google.gwt.dom.client.CanvasElement;
 import org.geogebra.web.richtext.Editor;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -57,13 +58,12 @@ public class CarotaEditor implements Editor {
 	public CarotaEditor(double defaultFontSize) {
 		CarotaUtil.ensureInitialized(defaultFontSize);
 		widget = createWidget();
+		editor = createEditorNative(widget.getElement());
 	}
 
 	private Widget createWidget() {
-		HTML html = new HTML("<div></div>");
-		html.addStyleName("mowWidget");
-		html.addStyleName("background");
-		editor = createEditorNative(html.getElement());
+		HTML html = new HTML();
+		html.setStyleName("mowWidget");
 		return html;
 	}
 
@@ -121,6 +121,11 @@ public class CarotaEditor implements Editor {
 	@Override
 	public String getContent() {
 		return getContentNative(editor);
+	}
+
+	@Override
+	public CanvasElement getCanvasElement() {
+		return widget.getElement().getElementsByTagName("canvas").getItem(0).cast();
 	}
 
 	private native String getContentNative(JavaScriptObject editor) /*-{

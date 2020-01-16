@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.text;
 
+import org.geogebra.common.awt.GGraphics2D;
+
 /**
  * Controller for the inline text editor.
  */
@@ -61,4 +63,6 @@ public interface InlineTextController {
 	void updateContent();
 
 	<T> T getFormat(String key, T fallback);
+
+	void draw(GGraphics2D g2, int x, int y);
 }
