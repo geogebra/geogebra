@@ -286,8 +286,16 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 			break;
 		}
 
+		if (height < text.getMinHeight()) {
+			if (width < text.getWidth()) {
+				return;
+			} else {
+				y = 0;
+			}
+		}
+
 		width = Math.max(width, GeoInlineText.DEFAULT_WIDTH);
-		height = Math.max(height, GeoInlineText.DEFAULT_HEIGHT);
+		height = Math.max(height, text.getMinHeight());
 
 		GPoint2D origin = directTransform.transform(new GPoint2D.Double(x, y), null);
 
