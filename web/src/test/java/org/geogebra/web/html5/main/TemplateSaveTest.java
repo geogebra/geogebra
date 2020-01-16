@@ -7,6 +7,7 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.util.file.FileIO;
@@ -33,6 +34,8 @@ public class TemplateSaveTest {
 		settings.setDeleteToolSize(61);
 		String pathString = "src/test/java/org/geogebra/web/html5/main/templateXML.txt";
 		String fileContent = FileIO.load(pathString);
-        Assert.assertEquals(app.getXML()+ "\n",fileContent);
+		StringBuilder sb = new StringBuilder();
+		app.getActiveEuclidianView().getXML(sb, false);
+        Assert.assertEquals(sb.toString(), fileContent);
 	}
 }
