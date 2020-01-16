@@ -138,6 +138,29 @@
                 width: calc(100% - 74px);
              }
         }
+
+        .noColBtn {
+            display: inline-flex;
+            cursor: pointer;
+            margin: 1px 1px 4px 1px;
+            width: calc(100% - 2px);
+
+            &:hover {
+                background-color: $black-04;
+            }
+
+            img {
+                opacity: 0.54;
+            }
+
+            .gwt-Label {
+                font-size: 14px;
+                margin: 2px 0px 2px 12px;
+                height: 20px;
+                line-height: 20px;
+                cursor: pointer;
+            }
+        }
 	}
 	
 /*****************

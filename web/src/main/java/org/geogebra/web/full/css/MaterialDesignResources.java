@@ -27,6 +27,10 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	SVGResource arrow_drop_down();
 
 	// dynamic stylebar
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_color_reset-24px" +
+			".svg")
+	SVGResource no_color();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/baseline-format_color_text-24px.svg")
 	SVGResource text_color();
 
