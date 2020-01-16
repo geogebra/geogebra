@@ -1,4 +1,4 @@
-package org.geogebra.common.kernel.Matrix;
+package org.geogebra.common.kernel.matrix;
 
 /**
  * class for 3 floats (x, y, z)

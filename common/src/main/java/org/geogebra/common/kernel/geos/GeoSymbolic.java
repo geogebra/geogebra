@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Symbolic geo for CAS computations in AV
@@ -187,15 +188,15 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			return;
 		}
 		ExpressionValue def = getDefinition().unwrap();
-		if (getDefinition().containsFreeFunctionVariable(null)) {
+		if (def instanceof FunctionNVar) {
+			setVariables(((FunctionNVar) def).getFunctionVariables());
+		} else if (getDefinition().containsFreeFunctionVariable(null)) {
 			fVars.clear();
 			FunctionVarCollector functionVarCollector = FunctionVarCollector
 					.getCollector();
 			getDefinition().traverse(functionVarCollector);
 			fVars.addAll(
 					Arrays.asList(functionVarCollector.buildVariables(kernel)));
-		} else if (def instanceof FunctionNVar) {
-			setVariables(((FunctionNVar) def).getFunctionVariables());
 		}
 	}
 
@@ -436,6 +437,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	@Override
+	public void initSymbolicMode() {
+		setSymbolicMode(true, false);
+	}
+
+	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		this.symbolicMode = mode;
 	}
@@ -492,6 +498,18 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			twinGeo.setVisualStyle(this);
 		}
 		super.updateVisualStyle(property);
+	}
+
+	@Override
+	protected void getExpressionXML(StringBuilder sb) {
+		if (isIndependent() && getDefaultGeoType() < 0) {
+			sb.append("<expression");
+			sb.append(" label=\"");
+			sb.append(label);
+			sb.append("\" exp=\"");
+			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
+			sb.append("\" />\n");
+		}
 	}
 
 	@Override

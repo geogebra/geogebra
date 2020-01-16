@@ -2,8 +2,10 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CmdOneListFunction;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 
 /**
  * RandomElement[ &lt;List> ]
@@ -21,9 +23,22 @@ public class CmdRandomElement extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoRandomElement algo = new AlgoRandomElement(cons, a, b);
-		return algo.getElement();
+	protected GeoElement doCommand(String label, GeoList list) {
+		return doCommand(label, list, null);
 	}
 
+	@Override
+	final protected GeoElement doCommand(String label, GeoList b, EvalInfo info) {
+		AlgoRandomElement algo = new AlgoRandomElement(cons, b);
+		GeoElement element = algo.getElement();
+		initSymbolicMode(element, info);
+		element.setLabel(label);
+		return element;
+	}
+
+	private void initSymbolicMode(GeoElement element, EvalInfo info) {
+		if (info != null && info.isFractions() && element instanceof HasSymbolicMode) {
+			((HasSymbolicMode) element).setSymbolicMode(true, false);
+		}
+	}
 }

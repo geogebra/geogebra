@@ -3,8 +3,8 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * class for rays, spheres, etc. that can hit 3D objects in 3D view

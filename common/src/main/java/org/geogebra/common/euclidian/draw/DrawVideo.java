@@ -1,12 +1,14 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -29,7 +31,7 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	private GRectangle bounds;
 	private int left;
 	private int top;
-	private BoundingBox boundingBox;
+	private BoundingBox<GEllipse2DDouble> boundingBox;
 	private double originalRatio = Double.NaN;
 	private final static int VIDEO_SIZE_THRESHOLD = 100;
 
@@ -60,12 +62,12 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	@Override
-	public int getWidthThreshold() {
+	public double getWidthThreshold() {
 		return VIDEO_SIZE_THRESHOLD;
 	}
 
 	@Override
-	public int getHeightThreshold() {
+	public double getHeightThreshold() {
 		return VIDEO_SIZE_THRESHOLD;
 	}
 
@@ -120,9 +122,8 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	private boolean hitBoundingBox(int hitX, int hitY, int hitThreshold) {
-		return getBoundingBox() != null
-				&& getBoundingBox() == view.getBoundingBox()
-				&& getBoundingBox().hit(hitX, hitY, hitThreshold);
+		return view.getBoundingBox() != null && geo.isSelected()
+				&& view.getBoundingBox().hit(hitX, hitY, hitThreshold);
 	}
 
 	@Override
@@ -136,10 +137,10 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
+	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
 		if (video.isBackground()) {
 			if (boundingBox == null) {
-				boundingBox = createBoundingBox(false, false);
+				boundingBox = createBoundingBox(false);
 				setMetrics();
 			}
 			boundingBox.updateFrom(geo);
@@ -155,13 +156,11 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D point,
-			EuclidianBoundingBoxHandler handler) {
+	public void fromPoints(ArrayList<GPoint2D> pts) {
 		if (Double.isNaN(originalRatio)) {
 			updateOriginalRatio();
 		}
-
-		getBoundingBox().resize(this, point, handler);
+		BoundingBox.resize(this, pts.get(0), pts.get(1));
 	}
 
 	@Override

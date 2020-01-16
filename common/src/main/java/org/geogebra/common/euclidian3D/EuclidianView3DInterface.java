@@ -3,9 +3,9 @@ package org.geogebra.common.euclidian3D;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * 

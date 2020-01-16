@@ -15,11 +15,11 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicPart3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.PathParameter;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicPartConicPointsND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Arc or sector defined by a conic, start- and end-point.

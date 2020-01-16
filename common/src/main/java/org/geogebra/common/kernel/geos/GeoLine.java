@@ -31,9 +31,6 @@ import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
@@ -56,6 +53,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.CoordMatrixUtil;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
@@ -690,7 +690,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		GeoLine l = (GeoLine) geo;
 		parameter = l.parameter;
-		toStringMode = l.toStringMode;
+		setModeIfEquationFormIsNotForced(l.toStringMode);
 		reuseDefinition(geo);
 	}
 
@@ -936,17 +936,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	final public void setMode(int mode) {
-		switch (mode) {
-		case PARAMETRIC:
-		case EQUATION_EXPLICIT:
-		case EQUATION_IMPLICIT_NON_CANONICAL:
-		case EQUATION_GENERAL:
-		case EQUATION_USER:
-			toStringMode = mode;
-			break;
-
-		default:
-			toStringMode = EQUATION_IMPLICIT;
+		if (isEquationFormEnforced()) {
+			toStringMode = cons.getApplication().getConfig().getEnforcedLineEquationForm();
+		} else {
+			setModeWithImplicitEquationAsDefault(mode);
 		}
 	}
 
@@ -1820,7 +1813,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public void setToGeneral() {
-		this.toStringMode = GeoLine.EQUATION_GENERAL;
+		setModeIfEquationFormIsNotForced(EQUATION_GENERAL);
 	}
 
 	@Override
@@ -1960,4 +1953,34 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return true;
 	}
 
+	private void setModeIfEquationFormIsNotForced(int mode) {
+		if (isEquationFormEnforced()) {
+			toStringMode = cons.getApplication().getConfig().getEnforcedLineEquationForm();
+		} else {
+			toStringMode = mode;
+		}
+	}
+
+	private boolean isEquationFormEnforced() {
+		if (cons.getApplication().getConfig().getEnforcedLineEquationForm() == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	private void setModeWithImplicitEquationAsDefault(int mode) {
+		switch (mode) {
+			case PARAMETRIC:
+			case EQUATION_EXPLICIT:
+			case EQUATION_IMPLICIT_NON_CANONICAL:
+			case EQUATION_GENERAL:
+			case EQUATION_USER:
+				toStringMode = mode;
+				break;
+
+			default:
+				toStringMode = EQUATION_IMPLICIT;
+		}
+	}
 }
