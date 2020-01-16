@@ -203,7 +203,6 @@ public class MyToggleButtonW extends GToggleButton
 		if (ignoreTab) {
 			setTabIndex(-1);
 		}
-
 	}
 
 	/**

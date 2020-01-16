@@ -753,7 +753,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
 		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
-				btnColor, btnBgColor, btnTextColor, btnFilling,
+				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
 				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval,
 				btnLabelStyle, btnPointCapture, btnChangeView };
 	}
@@ -1277,22 +1277,18 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				@Override
 				public void update(List<GeoElement> geos) {
-					boolean geosOK = checkGeoText(geos);
+					boolean geosOK = checkTextNoInputBox(geos);
 					super.setVisible(geosOK);
 					if (geosOK) {
 						GeoElement geo = geos.get(0)
 								.getGeoElementForPropertiesDialog();
-						GColor geoTextColor = geo.getBackgroundColor();
+						GColor geoTextBgColor = geo.getBackgroundColor();
 						updateColorTable();
 
-						// find the geoColor in the table and select it
-						int index = this.getColorIndex(geoTextColor);
-						setSelectedIndex(index);
-
-						// if nothing was selected, set the icon to show the
-						// non-standard color
-						if (index == -1) {
-							this.setIcon(getButtonIcon());
+						// find the bgColor in the table and select it
+						if (geoTextBgColor != null) {
+							int index = this.getColorIndex(geoTextBgColor);
+							setSelectedIndex(index);
 						}
 					}
 				}
@@ -1303,9 +1299,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 							MaterialDesignResources.INSTANCE.color_black(), 24);
 				}
 			};
+			btnTextBgColor.setEnableTable(true);
+			btnTextBgColor.addPopupHandler(this);
 		}
-		btnTextBgColor.setEnableTable(true);
-		btnTextBgColor.addPopupHandler(this);
 	}
 
 	private void createTextColorBtn() {
@@ -1374,7 +1370,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				@Override
 				public void update(List<GeoElement> geos) {
-
 					boolean geosOK = checkTextNoInputBox(geos);
 					super.setVisible(geosOK);
 					if (geosOK) {
@@ -1630,7 +1625,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 				needUndo = applyColor(targetGeos, color, 1);
 			}
-		}else if (source == btnTextBgColor) {
+		} else if (source == btnTextBgColor) {
 			if (btnTextBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextBgColor.getSelectedColor();
 				if (color == null) {

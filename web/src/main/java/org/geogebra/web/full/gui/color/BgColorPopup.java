@@ -15,6 +15,7 @@ import org.geogebra.web.html5.main.AppW;
 public class BgColorPopup extends ColorPopupMenuButton implements SetLabels {
     private FormLabel noColLbl;
     private Localization localization;
+
     /**
      * @param app          {@link AppW}
      * @param colorSetType {@code int}
