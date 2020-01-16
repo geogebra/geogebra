@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.util.debug.Log;
 
 public class VectorToMatrix {
 	private final Kernel kernel;
@@ -18,15 +19,21 @@ public class VectorToMatrix {
 
 	/**
 	 * Builds a matrix-like string {{x}, {y}, {z}} from ExpressionNode
+	 * Preferably use definition, if not possible fall back to numbers.
 	 *
-	 * @param template StringTemplate to use.
-	 * @param expressionNode as input.
+	 * @param tpl StringTemplate to use.
+	 * @param definition vector definition.
+	 *
 	 * @return the matrix-like string.
 	 */
-	public String build(StringTemplate template, ExpressionNode expressionNode) {
+	public String build(StringTemplate tpl, ExpressionNode definition, double... coordinates){
+		ExpressionValue unwrap = definition == null ? null : definition.unwrap();
+		return unwrap instanceof MyVecNDNode
+				? build(tpl, (MyVecNDNode) unwrap)
+				: build(tpl, coordinates);
+	}
 
-		MyVecNDNode vecNode = (MyVecNDNode) expressionNode.unwrap();
-
+	private String build(StringTemplate template, MyVecNDNode vecNode) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		sb.append(surroundWithBrackets(vecNode.getX(), template));
@@ -48,7 +55,7 @@ public class VectorToMatrix {
 	 * @param coordinates the values of the vector build from.
 	 * @return {{x}, {y}} format string.
 	 */
-	public String build(StringTemplate tpl, double... coordinates) {
+	private String build(StringTemplate tpl, double... coordinates) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		String separator = "";
@@ -62,7 +69,7 @@ public class VectorToMatrix {
 	}
 
 	private String surroundWithBrackets(ExpressionValue value, StringTemplate tpl) {
-		return "{" + value.toLaTeXString(true, tpl) + "}";
+		return "{" + value.toString( tpl) + "}";
 	}
 
 	private String surroundWithBrackets(double value, StringTemplate tpl) {

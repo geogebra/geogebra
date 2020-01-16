@@ -31,7 +31,6 @@ class InputBoxRenderer {
 		} else if (inputBox.isSymbolicMode()) {
 			linkedGeoText = getTextForSymbolic();
 		} else {
-			Log.printStacktrace("default");
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
 

@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoDependentVector;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -62,6 +61,8 @@ import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
+import javax.annotation.CheckForNull;
+
 /**
  *
  * @author Markus
@@ -83,7 +84,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	private StringBuilder sbToString = new StringBuilder(50);
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
 	private StringBuilder sb;
-	private VectorToMatrix converter;
+	private @CheckForNull VectorToMatrix converter;
 
 	/**
 	 * Creates new GeoVector
@@ -125,7 +126,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		super(c, x, y, z); // GeoVec3D constructor
 		setConstructionDefaults();
 		setLabel(label);
-		// setEuclidianVisible(false);
 	}
 
 	/**
@@ -137,7 +137,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public GeoVector(GeoVector vector) {
 		this(vector.cons);
 		set(vector);
-		// setEuclidianVisible(false);
 	}
 
 	@Override
@@ -575,10 +574,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			return buildValueString(tpl).toString();
 		}
 
-		ExpressionNode definition = getDefinition();
-		return definition != null
-				? getConverter().build(tpl, getDefinition())
-				: getConverter().build(tpl, getX(), getY());
+		return getConverter().build(tpl, getDefinition(), getX(), getY());
 	}
 
 	private VectorToMatrix getConverter() {
@@ -1131,7 +1127,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public boolean isColumnEditable() {
-		return isIndependent()
-				|| getParentAlgorithm() instanceof AlgoDependentVector;
+		return isIndependent()	|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 }

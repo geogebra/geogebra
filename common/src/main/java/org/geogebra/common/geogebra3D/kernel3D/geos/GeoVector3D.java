@@ -11,7 +11,9 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -864,10 +866,10 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	private String buildColumnVectorValueString(StringTemplate tpl) {
-		ExpressionNode definition = getDefinition();
-		return definition != null
-				? getConverter().build(tpl, getDefinition())
-				: getConverter().build(tpl, getX(), getY(), getZ());
+		if (getToStringMode() != Kernel.COORD_CARTESIAN && getToStringMode() != Kernel.COORD_CARTESIAN_3D) {
+			return buildValueString(tpl).toString();
+		}
+		return getConverter().build(tpl, getDefinition(), getX(), getY(), getZ());
 	}
 
 	private VectorToMatrix getConverter() {
