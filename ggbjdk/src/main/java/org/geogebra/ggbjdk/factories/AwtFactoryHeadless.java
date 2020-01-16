@@ -57,12 +57,12 @@ public abstract class AwtFactoryHeadless extends AwtFactory {
 
 	@Override
 	public GPoint2D newPoint2D() {
-		return new GPoint2D.Double();
+		return new GPoint2D();
 	}
 
 	@Override
 	public GPoint2D newPoint2D(double x, double y) {
-		return new GPoint2D.Double(x, y);
+		return new GPoint2D(x, y);
 	}
 
 	@Override

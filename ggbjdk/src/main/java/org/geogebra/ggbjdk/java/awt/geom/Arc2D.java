@@ -471,7 +471,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
         double angle = Math.toRadians(-getAngleStart());
         double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
         double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
-        return new GPoint2D.Double(x, y);
+        return new GPoint2D(x, y);
     }
 
     /**
@@ -489,7 +489,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
         double angle = Math.toRadians(-getAngleStart() - getAngleExtent());
         double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
         double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
-        return new GPoint2D.Double(x, y);
+        return new GPoint2D(x, y);
     }
 
     /**

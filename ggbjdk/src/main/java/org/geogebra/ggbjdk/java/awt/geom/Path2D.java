@@ -253,7 +253,7 @@ public abstract class Path2D implements Shape {
 
         @Override
 		GPoint2D getPoint(int coordindex) {
-            return new GPoint2D.Double(doubleCoords[coordindex],
+            return new GPoint2D(doubleCoords[coordindex],
                                       doubleCoords[coordindex+1]);
         }
 

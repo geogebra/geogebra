@@ -141,7 +141,7 @@ public abstract class Line2D implements Shape, GLine2D {
          */
         @Override
 		public GPoint2D getP1() {
-            return new GPoint2D.Double(x1, y1);
+            return new GPoint2D(x1, y1);
         }
 
         /**
@@ -168,7 +168,7 @@ public abstract class Line2D implements Shape, GLine2D {
          */
         @Override
 		public GPoint2D getP2() {
-            return new GPoint2D.Double(x2, y2);
+            return new GPoint2D(x2, y2);
         }
 
         /**

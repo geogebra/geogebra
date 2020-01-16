@@ -2858,7 +2858,7 @@ public class AffineTransform implements GAffineTransform {
     @Override
 	public GPoint2D transform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {
-            ptDst = new GPoint2D.Double();
+            ptDst = new GPoint2D();
         }
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();
@@ -2940,7 +2940,7 @@ public class AffineTransform implements GAffineTransform {
             double y = src.getY();
             GPoint2D dst = ptDst[dstOff++];
             if (dst == null) {
-                dst = new GPoint2D.Double();
+                dst = new GPoint2D();
                 ptDst[dstOff - 1] = dst;
             }
             switch (state) {
@@ -3118,7 +3118,7 @@ public class AffineTransform implements GAffineTransform {
         throws NoninvertibleTransformException
     {
         if (ptDst == null) {
-        	ptDst = new GPoint2D.Double();
+        	ptDst = new GPoint2D();
         }
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();
@@ -3342,7 +3342,7 @@ public class AffineTransform implements GAffineTransform {
      */
     public GPoint2D deltaTransform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {
-            ptDst = new GPoint2D.Double();
+            ptDst = new GPoint2D();
         }
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();

@@ -181,7 +181,7 @@ public abstract class CubicCurve2D implements GShape  {
          */
         @Override
 		public GPoint2D getP1() {
-            return new GPoint2D.Double(x1, y1);
+            return new GPoint2D(x1, y1);
         }
 
         /**
@@ -208,7 +208,7 @@ public abstract class CubicCurve2D implements GShape  {
          */
         @Override
 		public GPoint2D getCtrlP1() {
-            return new GPoint2D.Double(ctrlx1, ctrly1);
+            return new GPoint2D(ctrlx1, ctrly1);
         }
 
         /**
@@ -235,7 +235,7 @@ public abstract class CubicCurve2D implements GShape  {
          */
         @Override
 		public GPoint2D getCtrlP2() {
-            return new GPoint2D.Double(ctrlx2, ctrly2);
+            return new GPoint2D(ctrlx2, ctrly2);
         }
 
         /**
@@ -262,7 +262,7 @@ public abstract class CubicCurve2D implements GShape  {
          */
         @Override
 		public GPoint2D getP2() {
-            return new GPoint2D.Double(x2, y2);
+            return new GPoint2D(x2, y2);
         }
 
         /**
