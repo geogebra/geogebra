@@ -48,7 +48,6 @@ import org.geogebra.desktop.awt.GGeneralPathD;
 import org.geogebra.desktop.awt.GGenericRectangle2DD;
 import org.geogebra.desktop.awt.GGradientPaintD;
 import org.geogebra.desktop.awt.GLine2DD;
-import org.geogebra.desktop.awt.GPoint2DD;
 import org.geogebra.desktop.awt.GQuadCurve2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.awt.GTextLayoutD;
@@ -117,17 +116,17 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public GPoint2D newPoint2D() {
-		return new GPoint2DD();
+		return new GPoint2D();
 	}
 
 	@Override
 	public GPoint2D newPoint2D(double x, double y) {
-		return new GPoint2DD(x, y);
+		return new GPoint2D(x, y);
 	}
 
 	/*
 	 * @Override public Point newPoint() { return new geogebra.awt.Point(); }
-	 * 
+	 *
 	 * @Override public Point newPoint(int x, int y) { return new
 	 * geogebra.awt.Point(x,y); }
 	 */

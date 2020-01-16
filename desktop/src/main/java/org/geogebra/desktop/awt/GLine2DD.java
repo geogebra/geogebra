@@ -90,7 +90,7 @@ public class GLine2DD implements GLine2D, GShapeD {
 		if (p1 == null) {
 			return null;
 		}
-		return new GPoint2DD(p1.getX(), p1.getY());
+		return new GPoint2D(p1.getX(), p1.getY());
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class GLine2DD implements GLine2D, GShapeD {
 		if (p2 == null) {
 			return null;
 		}
-		return new GPoint2DD(p2.getX(), p2.getY());
+		return new GPoint2D(p2.getX(), p2.getY());
 	}
 
 	@Override
