@@ -26,7 +26,7 @@ public class VectorToMatrix {
 	 *
 	 * @return the matrix-like string.
 	 */
-	public String build(StringTemplate tpl, ExpressionNode definition, double... coordinates){
+	public String build(StringTemplate tpl, ExpressionNode definition, double... coordinates) {
 		ExpressionValue unwrap = definition == null ? null : definition.unwrap();
 		return unwrap instanceof MyVecNDNode
 				? build(tpl, (MyVecNDNode) unwrap)
@@ -69,7 +69,7 @@ public class VectorToMatrix {
 	}
 
 	private String surroundWithBrackets(ExpressionValue value, StringTemplate tpl) {
-		return "{" + value.toString( tpl) + "}";
+		return "{" + value.toString(tpl) + "}";
 	}
 
 	private String surroundWithBrackets(double value, StringTemplate tpl) {

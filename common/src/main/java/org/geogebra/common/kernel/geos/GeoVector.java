@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.StringTemplate;
 
-
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -1129,6 +1128,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public boolean isColumnEditable() {
-		return isIndependent()	|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
+		return isIndependent()
+				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 }

@@ -864,7 +864,8 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	private String buildColumnVectorValueString(StringTemplate tpl) {
-		if (getToStringMode() != Kernel.COORD_CARTESIAN && getToStringMode() != Kernel.COORD_CARTESIAN_3D) {
+		if (getToStringMode() != Kernel.COORD_CARTESIAN
+				&& getToStringMode() != Kernel.COORD_CARTESIAN_3D) {
 			return buildValueString(tpl).toString();
 		}
 		return getConverter().build(tpl, getDefinition(), getX(), getY(), getZ());
