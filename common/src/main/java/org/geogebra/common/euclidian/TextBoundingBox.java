@@ -6,10 +6,12 @@ import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 
 public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 
-	private double angle;
+	private GeoInlineText text;
 
 	private GPoint2D[] corners = new GPoint2D[9];
 	private int rotationHandlerx;
@@ -25,6 +27,12 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	@Override
 	protected GEllipse2DDouble createHandler() {
 		return AwtFactory.getPrototype().newEllipse2DDouble();
+	}
+
+	@Override
+	public void updateFrom(GeoElement geo) {
+		super.updateFrom(geo);
+		text = (GeoInlineText) geo;
 	}
 
 	@Override
@@ -71,15 +79,11 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		setHandlerTransformed(7, 1, 0.5);
 
 		rotationHandlerx = (int) (corners[4].getX()
-				+ Math.sin(angle) * ROTATION_HANDLER_DISTANCE);
+				+ Math.sin(text.getAngle()) * ROTATION_HANDLER_DISTANCE);
 		rotationHandlery = (int) (corners[4].getY()
-				- Math.cos(angle) * ROTATION_HANDLER_DISTANCE);
+				- Math.cos(text.getAngle()) * ROTATION_HANDLER_DISTANCE);
 
 		setHandlerFromCenter(8, rotationHandlerx, rotationHandlery);
-	}
-
-	public void setAngle(double angle) {
-		this.angle = angle;
 	}
 
 	public void setTransform(GAffineTransform transform) {

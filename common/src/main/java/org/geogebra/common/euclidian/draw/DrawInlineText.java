@@ -79,12 +79,6 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 				textController.updateContent();
 			}
 		}
-
-		if (boundingBox != null) {
-			boundingBox.setRectangle(getBounds());
-			boundingBox.setTransform(directTransform);
-			boundingBox.setAngle(angle);
-		}
 	}
 
 	private void updateTransforms() {
@@ -110,6 +104,11 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		corner1 = directTransform.transform(new GPoint2D.Double(1, 0), null);
 		corner2 = directTransform.transform(new GPoint2D.Double(1, 1), null);
 		corner3 = directTransform.transform(new GPoint2D.Double(0, 1), null);
+
+		if (boundingBox != null) {
+			boundingBox.setRectangle(getBounds());
+			boundingBox.setTransform(directTransform);
+		}
 	}
 
 	/**
