@@ -163,7 +163,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (textController != null) {
-			textController.draw(g2, getLeft(), getTop());
+			textController.draw(g2);
 		}
 	}
 

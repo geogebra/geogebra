@@ -66,5 +66,5 @@ public interface InlineTextController {
 
 	<T> T getFormat(String key, T fallback);
 
-	void draw(GGraphics2D g2, int x, int y);
+	void draw(GGraphics2D g2);
 }

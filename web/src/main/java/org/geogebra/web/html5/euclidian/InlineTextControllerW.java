@@ -1,8 +1,11 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -136,13 +139,26 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public void draw(GGraphics2D g2, int x, int y) {
+	public void draw(GGraphics2D g2) {
+		GPoint2D origin = geo.getLocation();
+		int x = view.toScreenCoordX(origin.getX());
+		int y = view.toScreenCoordY(origin.getY());
+
+		g2.saveTransform();
+
+		GAffineTransform transform = AwtFactory.getPrototype().newAffineTransform();
+		transform.translate(x, y);
+		transform.rotate(geo.getAngle());
+		g2.transform(transform);
+
 		if (geo.getBackgroundColor() != null) {
 			g2.setPaint(geo.getBackgroundColor());
-			g2.fillRect(x, y, (int) geo.getWidth(), (int) geo.getHeight());
+			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
 		}
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
-			((GGraphics2DW) g2).drawImage(editor.getCanvasElement(), x + PADDING, y + PADDING);
+			((GGraphics2DW) g2).drawImage(editor.getCanvasElement(), PADDING, PADDING);
 		}
+
+		g2.restoreTransform();
 	}
 }
