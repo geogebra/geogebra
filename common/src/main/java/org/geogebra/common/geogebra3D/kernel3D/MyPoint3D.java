@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.MyMath;
 
 /**
  * Lightweight point with segmentType that can be easily transformed into
