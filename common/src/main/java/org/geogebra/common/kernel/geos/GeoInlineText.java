@@ -204,6 +204,8 @@ public class GeoInlineText extends GeoElement
 		sb.append(width);
 		sb.append("\" height=\"");
 		sb.append(height);
+		sb.append("\" angle=\"");
+		sb.append(angle);
 		sb.append("\"/>\n");
 	}
 
