@@ -263,32 +263,18 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		double width = text.getWidth();
 		double height = text.getHeight();
 
-		switch (handler) {
-		case RIGHT:
-		case TOP_RIGHT:
-		case BOTTOM_RIGHT:
+		if (handler.getDx() == 1) {
 			width *= transformed.getX();
-			break;
-		case LEFT:
-		case TOP_LEFT:
-		case BOTTOM_LEFT:
+		} else if (handler.getDx() == -1) {
 			width *= 1 - transformed.getX();
 			x = transformed.getX();
-			break;
 		}
 
-		switch (handler) {
-		case BOTTOM:
-		case BOTTOM_LEFT:
-		case BOTTOM_RIGHT:
+		if (handler.getDy() == 1) {
 			height *= transformed.getY();
-			break;
-		case TOP:
-		case TOP_LEFT:
-		case TOP_RIGHT:
+		} else if (handler.getDy() == -1) {
 			height *= 1 - transformed.getY();
 			y = transformed.getY();
-			break;
 		}
 
 		if (height < text.getMinHeight() && width < text.getWidth()) {

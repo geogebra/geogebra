@@ -112,6 +112,10 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		setHandlerFromCenter(8, rotationHandlerx, rotationHandlery);
 	}
 
+	/**
+	 * Set the transform and update the handlers
+	 * @param transform GAffineTransform
+	 */
 	public void setTransform(GAffineTransform transform) {
 		this.transform = transform;
 		updateHandlers();

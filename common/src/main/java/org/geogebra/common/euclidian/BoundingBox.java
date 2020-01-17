@@ -292,7 +292,7 @@ public abstract class BoundingBox<T extends GShape> {
 	}
 
 	/**
-	 * @param nrHandler
+	 * @param handler
 	 *            handler
 	 * @return resizing cursor or null
 	 */
