@@ -142,7 +142,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void nextFromLastGeo() {
-		if (!focusZoomPanel(true, nextID(-1))) {
+		int viewId = nextID(-1);
+		if (!focusResetIcon(viewId) && !focusZoomPanel(true, viewId)) {
 			focusFirstElement();
 		}
 	}
@@ -153,6 +154,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return dp.focusSpeechRecBtn();
 		}
 		return false;
+	}
+
+	private boolean focusResetIcon(int viewId) {
+		EuclidianViewAccessibiliyAdapter dp = getEuclidianPanel(viewId);
+		return dp != null && dp.focusResetButton();
 	}
 
 	private boolean focusZoomPanel(boolean first, int viewID) {
@@ -502,13 +508,14 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public boolean onSelectLastGeo(boolean forward) {
 		if (forward) {
-			if (focusPlay(app.getActiveEuclidianView().getViewID())) {
+			int activeViewId = app.getActiveEuclidianView().getViewID();
+			if (focusPlay(activeViewId)) {
 				return true;
 			}
 			int viewID = nextID(-1);
 			focusPlay(viewID);
 			setTabOverGeos(false);
-			if (!focusZoomPanel(true, viewID)) {
+			if (!focusResetIcon(activeViewId) && !focusZoomPanel(true, viewID)) {
 				nextFromZoomPanel(viewID);
 			}
 			return true;
