@@ -842,7 +842,7 @@ public final class DrawImage extends Drawable {
 
 	@Override
 	public GRectangle2D getBoundsForStylebarPosition() {
-		if (geoImage.isCropped() && !getBoundingBox().isCropBox()) {
+		if (geoImage.isCropped() && !view.getBoundingBox().isCropBox()) {
 			return getCropBox();
 		}
 		return getBounds();

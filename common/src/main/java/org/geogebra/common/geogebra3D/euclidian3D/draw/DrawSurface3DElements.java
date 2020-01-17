@@ -6,9 +6,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurfaceElements;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
-import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import org.geogebra.common.kernel.matrix.Coords3;
 import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
 /**

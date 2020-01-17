@@ -19,11 +19,11 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoAreaPoints;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordSys;
 
 /**
  * 3D polygon area

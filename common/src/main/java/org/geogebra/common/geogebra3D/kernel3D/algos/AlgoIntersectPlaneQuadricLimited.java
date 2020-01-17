@@ -27,11 +27,11 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**

@@ -10,8 +10,6 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.Animatable;
@@ -24,6 +22,8 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * 

@@ -16,14 +16,15 @@ import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Class for polylines created using pen
@@ -38,6 +39,8 @@ public class GeoLocusStroke extends GeoLocus
 
 	/** cache the part of XML that follows after expression label="stroke1" */
 	private StringBuilder xmlPoints;
+
+	private String splitParentLabel;
 
 	/**
 	 * @param cons
@@ -350,15 +353,19 @@ public class GeoLocusStroke extends GeoLocus
 
 		ArrayList<GeoElement> result = new ArrayList<>();
 		if (inside.size() != 0) {
-			AlgoLocusStroke insideStroke = new AlgoLocusStroke(cons, inside);
-			result.add(insideStroke.getPenStroke());
+			result.add(partialStroke(inside));
 		}
 		if (outside.size() != 0) {
-			AlgoLocusStroke outsideStroke = new AlgoLocusStroke(cons, outside);
-			result.add(outsideStroke.getPenStroke());
+			result.add(partialStroke(outside));
 		}
 
 		return result;
+	}
+
+	private GeoElement partialStroke(ArrayList<MyPoint> inside) {
+		AlgoLocusStroke insideStroke = new AlgoLocusStroke(cons, inside);
+		insideStroke.getPenStroke().splitParentLabel = getLabelSimple();
+		return insideStroke.getPenStroke();
 	}
 
 	@Override
@@ -773,5 +780,23 @@ public class GeoLocusStroke extends GeoLocus
 		values.add(xCoordsP2);
 		values.add(yCoordsP2);
 		return values;
+	}
+
+	public String getSplitParentLabel() {
+		return splitParentLabel;
+	}
+
+	@Override
+	public void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+		if (!StringUtil.empty(splitParentLabel)) {
+			sb.append("\t<parentLabel val=\"");
+			sb.append(StringUtil.encodeXML(splitParentLabel));
+			sb.append("\"/>");
+		}
+	}
+
+	public void setSplitParentLabel(String string) {
+		this.splitParentLabel = string;
 	}
 }

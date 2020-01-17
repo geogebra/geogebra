@@ -182,16 +182,29 @@ public class SaveDialogMow extends DialogBoxW
 			hide();
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
-			Material activeMaterial = ((AppW) app).getActiveMaterial();
-			MaterialVisibility visibility = activeMaterial != null
-					? MaterialVisibility.value(activeMaterial.getVisibility())
-					: MaterialVisibility.Private;
 			app.getSaveController().saveAs(getInputField().getText(),
-					visibility, this);
+					getSaveVisibility(), this);
 		}
 	}
 
-	@Override
+	private MaterialVisibility getSaveVisibility() {
+		Material activeMaterial = ((AppW) app).getActiveMaterial();
+		if (activeMaterial == null) {
+			return MaterialVisibility.Private;
+		}
+
+		MaterialVisibility visibility = MaterialVisibility.value(activeMaterial.getVisibility());
+		if (visibility == MaterialVisibility.Shared && hasNewName(activeMaterial)) {
+			return MaterialVisibility.Private;
+		}
+		return visibility;
+	}
+
+	private boolean hasNewName(Material material) {
+		return !material.getTitle().equals(getInputField().getText());
+	}
+
+			@Override
 	public void setLabels() {
 		defaultSaveCaptionAndCancel();
 		titleLbl.setText(loc.getMenu("Title"));

@@ -27,9 +27,6 @@ import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoEllipseFociLength;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
@@ -54,6 +51,9 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -1302,7 +1302,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		GeoConicND co = (GeoConicND) geo;
 
 		// copy everything
-		toStringMode = co.toStringMode;
+		setModeIfEquationFormIsNotForced(co.toStringMode);
 		type = co.type;
 		for (int i = 0; i < 6; i++) {
 			matrix[i] = co.matrix[i]; // flat matrix A
@@ -1381,19 +1381,11 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param mode
 	 *            equation mode (one of EQUATION_* constants)
 	 */
-	final public void setToStringMode(int mode) {
-		switch (mode) {
-		case EQUATION_SPECIFIC:
-		case EQUATION_EXPLICIT:
-		case EQUATION_USER:
-		case EQUATION_PARAMETRIC:
-		case EQUATION_VERTEX:
-		case EQUATION_CONICFORM:
-			this.toStringMode = mode;
-			break;
-
-		default:
-			this.toStringMode = EQUATION_IMPLICIT;
+	public void setToStringMode(int mode) {
+		if (isEquationFormEnforced()) {
+			toStringMode = cons.getApplication().getConfig().getEnforcedConicEquationForm();
+		} else {
+			setModeWithImplicitEquationAsDefault(mode);
 		}
 	}
 
@@ -4579,6 +4571,38 @@ public abstract class GeoConicND extends GeoQuadricND
 			return false;
 		}
 		return true;
+	}
+
+	private void setModeIfEquationFormIsNotForced(int mode) {
+		if (isEquationFormEnforced()) {
+			toStringMode = cons.getApplication().getConfig().getEnforcedConicEquationForm();
+		} else {
+			toStringMode = mode;
+		}
+	}
+
+	private boolean isEquationFormEnforced() {
+		if (cons.getApplication().getConfig().getEnforcedConicEquationForm() == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	private void setModeWithImplicitEquationAsDefault(int mode) {
+		switch (mode) {
+			case EQUATION_SPECIFIC:
+			case EQUATION_EXPLICIT:
+			case EQUATION_USER:
+			case EQUATION_PARAMETRIC:
+			case EQUATION_VERTEX:
+			case EQUATION_CONICFORM:
+				toStringMode = mode;
+				break;
+
+			default:
+				toStringMode = EQUATION_IMPLICIT;
+		}
 	}
 
 }

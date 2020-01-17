@@ -13,11 +13,11 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Compute a plane through a point and parallel to a line (or segment, ...)

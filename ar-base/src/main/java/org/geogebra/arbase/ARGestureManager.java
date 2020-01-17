@@ -2,7 +2,7 @@ package org.geogebra.arbase;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 
 abstract public class ARGestureManager{

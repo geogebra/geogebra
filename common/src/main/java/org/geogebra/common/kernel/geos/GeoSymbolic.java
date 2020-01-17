@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Symbolic geo for CAS computations in AV
@@ -157,6 +158,12 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	@Override
+	public void resetDefinition() {
+		super.resetDefinition();
+		fVars.clear();
+	}
+
+	@Override
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.getCollector());
@@ -183,19 +190,18 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private void computeFunctionVariables() {
-		if (getDefinition() == null) {
+		if (getDefinition() == null || !fVars.isEmpty()) {
 			return;
 		}
 		ExpressionValue def = getDefinition().unwrap();
-		if (getDefinition().containsFreeFunctionVariable(null)) {
-			fVars.clear();
+		if (def instanceof FunctionNVar) {
+			setVariables(((FunctionNVar) def).getFunctionVariables());
+		} else if (getDefinition().containsFreeFunctionVariable(null)) {
 			FunctionVarCollector functionVarCollector = FunctionVarCollector
 					.getCollector();
 			getDefinition().traverse(functionVarCollector);
 			fVars.addAll(
 					Arrays.asList(functionVarCollector.buildVariables(kernel)));
-		} else if (def instanceof FunctionNVar) {
-			setVariables(((FunctionNVar) def).getFunctionVariables());
 		}
 	}
 
@@ -436,6 +442,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	@Override
+	public void initSymbolicMode() {
+		setSymbolicMode(true, false);
+	}
+
+	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		this.symbolicMode = mode;
 	}
@@ -497,9 +508,21 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public void getXMLtags(StringBuilder builder) {
 		super.getXMLtags(builder);
+		getFVarsXML(builder);
 		getLineStyleXML(builder);
 		XMLBuilder.appendPointProperties(builder, this);
 		XMLBuilder.appendSymbolicMode(builder, this, true);
+	}
+
+	private void getFVarsXML(StringBuilder sb) {
+		String prefix = "";
+		sb.append("\t<variables val=\"");
+		for (FunctionVariable variable: fVars) {
+			sb.append(prefix);
+			sb.append(StringUtil.encodeXML(variable.getSetVarString()));
+			prefix = ",";
+		}
+		sb.append("\"/>\n");
 	}
 
 	@Override

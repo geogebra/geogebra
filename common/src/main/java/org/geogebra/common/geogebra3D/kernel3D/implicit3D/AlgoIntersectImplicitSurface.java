@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersect3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -16,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.Operation;
 
 /**

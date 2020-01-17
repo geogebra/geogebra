@@ -10,13 +10,13 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -508,7 +508,6 @@ public class EuclidianPen implements GTimerListener {
 		// set label
 		newPolyLine.getOutput(0).setLabel(null);
 		newPolyLine.getOutput(0).setTooltipMode(GeoElementND.TOOLTIP_OFF);
-
 		lastAlgo = newPolyLine;
 
 		GeoElement poly = newPolyLine.getOutput(0);

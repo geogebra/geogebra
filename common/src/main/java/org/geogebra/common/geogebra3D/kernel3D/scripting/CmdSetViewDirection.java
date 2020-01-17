@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.kernel3D.scripting;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -11,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.MyError;
 
 /**

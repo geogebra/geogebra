@@ -11,16 +11,6 @@ import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
  */
 public class GgbSettings implements VendorSettings {
 
-	private ViewPreferences viewPreferences;
-
-	/**
-	 * Ggb specific settings
-	 */
-	public GgbSettings() {
-		viewPreferences = new ViewPreferences();
-		viewPreferences.setMobileFullScreenButtonEnabled(false);
-	}
-
 	@Override
 	public String getLicenseURL() {
 		return GeoGebraConstants.GGW_ABOUT_LICENSE_URL;
@@ -29,11 +19,6 @@ public class GgbSettings implements VendorSettings {
 	@Override
 	public String getAppTitle(AppConfig config) {
 		return config.getAppTitle();
-	}
-
-	@Override
-	public ViewPreferences getViewPreferences() {
-		return viewPreferences;
 	}
 
 	@Override

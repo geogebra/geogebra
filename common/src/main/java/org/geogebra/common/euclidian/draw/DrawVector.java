@@ -32,10 +32,10 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 

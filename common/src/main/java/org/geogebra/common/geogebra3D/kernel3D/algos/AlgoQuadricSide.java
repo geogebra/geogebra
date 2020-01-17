@@ -3,11 +3,11 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * @author ggb3D

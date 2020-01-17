@@ -47,7 +47,6 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
@@ -135,6 +134,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.HasSegments;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.kernel.statistics.CmdFitLineY;
 import org.geogebra.common.main.App;
@@ -7862,6 +7862,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		for (GeoElement part : splitPartsToRemove) {
 			part.remove();
 		}
+		if (app.isWhiteboardActive()) {
+			app.setMode(EuclidianConstants.MODE_SELECT_MOW);
+		}
 	}
 
 	protected void replaceTranslated(GeoElement geo, GeoElement replacement) {
@@ -7897,8 +7900,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * Sends the videos to background.
-	 *
+	 * Sends the widgets to background.
 	 */
 	public void widgetsToBackground() {
 		if (app.getVideoManager() != null) {
@@ -7906,6 +7908,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		if (app.getEmbedManager() != null) {
 			app.getEmbedManager().backgroundAll();
+		}
+		if (app.getMaskWidgets() != null) {
+			app.getMaskWidgets().clearMasks();
 		}
 	}
 
@@ -9752,7 +9757,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Update bounding box to match selection
-	 * 
+	 *
 	 * @param crop
 	 *            whether the box should be in crop mode
 	 */

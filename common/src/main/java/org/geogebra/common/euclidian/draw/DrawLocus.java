@@ -28,13 +28,13 @@ import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.Rotateable;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.plugin.GeoClass;
@@ -344,10 +344,7 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	public GRectangle getBoundsForStylebarPosition() {
-		if (gp == null) {
-			return null;
-		}
-		return gp.getBounds();
+		return getBoundsClipped();
 	}
 
 	@Override

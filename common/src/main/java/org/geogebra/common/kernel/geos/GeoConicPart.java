@@ -25,8 +25,6 @@ import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.TransformMirror;
-import org.geogebra.common.kernel.Matrix.CoordNearest;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircle;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
@@ -42,6 +40,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartParameters;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordNearest;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
