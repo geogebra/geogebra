@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.util.debug.Log;
 
 public class VectorToMatrix {
 	private final Kernel kernel;

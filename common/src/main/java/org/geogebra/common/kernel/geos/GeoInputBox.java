@@ -159,7 +159,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 *
 	 * @return linked geo
 	 */
-	public GeoElementND getLinkedGeo() {
+	public @Nonnull GeoElementND getLinkedGeo() {
 		return linkedGeo;
 	}
 

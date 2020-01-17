@@ -24,7 +24,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -39,6 +38,7 @@ import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -336,9 +336,8 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 				updatePathSegment();
 
 				GeoPoint P;
-				Iterator<GeoPointND> it = waitingPointSet.iterator();
-				while (it.hasNext()) {
-					P = (GeoPoint) it.next();
+				for (GeoPointND geoPointND : waitingPointSet) {
+					P = (GeoPoint) geoPointND;
 					pathSegment.pointChanged(P);
 					P.updateCoords();
 				}
@@ -383,8 +382,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public boolean showInAlgebraView() {
-		// independent or defined
-		// return isIndependent() || isDefined();
 		return true;
 	}
 
@@ -408,16 +405,12 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return DoubleUtil.isEqual(x, v.x) && DoubleUtil.isEqual(y, v.y);
 	}
 
-	/***********************************************************
-	 * MOVEMENTS
-	 ***********************************************************/
 	/**
 	 * rotate this vector by angle phi around (0,0)
 	 */
 	@Override
 	public void rotate(NumberValue phi) {
 		rotateXY(phi);
-
 	}
 
 	/**
@@ -435,9 +428,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	@Override
 	public void mirror(Coords Q) {
-
 		setCoords(-x, -y, z);
-
 	}
 
 	@Override
@@ -451,17 +442,13 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public void dilate(NumberValue rval, Coords S) {
 		double r = rval.getDouble();
 		setCoords(r * x, r * y, z);
-
 	}
 
 	@Override
 	public void matrixTransform(double a, double b, double c, double d) {
-
-		Double x1 = a * x + b * y;
-		Double y1 = c * x + d * y;
-
+		double x1 = a * x + b * y;
+		double y1 = c * x + d * y;
 		setCoords(x1, y1, z);
-
 	}
 
 	/*********************************************************************/
@@ -514,16 +501,13 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 
-		switch (tpl.getStringType()) {
-		case GIAC:
+		if (tpl.getStringType() == ExpressionNodeConstants.StringType.GIAC) {
 			sbBuildValueString.append("ggbvect[");
 			sbBuildValueString.append(kernel.format(getInhomVec().getX(), tpl));
 			sbBuildValueString.append(',');
 			sbBuildValueString.append(kernel.format(getInhomVec().getY(), tpl));
 			sbBuildValueString.append("]");
 			return sbBuildValueString;
-
-		default: // continue below
 		}
 		switch (getToStringMode()) {
 		case Kernel.COORD_POLAR:
@@ -555,12 +539,9 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		default: // CARTESIAN
 			sbBuildValueString.append("(");
 			sbBuildValueString.append(kernel.format(x, tpl));
-			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
-			case Kernel.COORD_STYLE_AUSTRIAN:
+			if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
 				sbBuildValueString.append(" | ");
-				break;
-
-			default:
+			} else {
 				sbBuildValueString.append(", ");
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
@@ -599,8 +580,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public double[] getPointAsDouble() {
 		return new double[] { x, y, 0 };
 	}
-
-	/** POLAR or CARTESIAN */
 
 	/**
 	 * returns all class-specific xml tags for saveXML
@@ -797,24 +776,22 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 	private static String buildTabular(String[] inputs, StringBuilder sb) {
 		boolean alignOnDecimalPoint = true;
-		for (int i = 0; i < inputs.length; i++) {
-			if (inputs[i].indexOf('.') == -1) {
+		for (String s : inputs) {
+			if (s.indexOf('.') == -1) {
 				alignOnDecimalPoint = false;
-				continue;
+				break;
 			}
 		}
 
+		sb.append("\\left( \\begin{align}");
 		if (alignOnDecimalPoint) {
-			sb.append("\\left( \\begin{align}");
 			for (int i = 0; i < inputs.length; i++) {
 				inputs[i] = inputs[i].replace(".", "\\hspace{-0.2em} &.");
 			}
-		} else {
-			sb.append("\\left( \\begin{align}");
 		}
 
-		for (int i = 0; i < inputs.length; i++) {
-			sb.append(inputs[i]);
+		for (String input : inputs) {
+			sb.append(input);
 			sb.append(" \\\\ ");
 		}
 
@@ -995,14 +972,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public String getTraceDialogAsValues() {
 		String name = getLabelTextOrHTML(false);
 
-		StringBuilder sbTrace = new StringBuilder();
-		sbTrace.append("x(");
-		sbTrace.append(name);
-		sbTrace.append("), y(");
-		sbTrace.append(name);
-		sbTrace.append(")");
-
-		return sbTrace.toString();
+		return "x(" + name + "), y(" + name + ")";
 	}
 
 	@Override
