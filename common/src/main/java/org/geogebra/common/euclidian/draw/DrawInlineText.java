@@ -291,16 +291,23 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 			break;
 		}
 
-		if (height < text.getMinHeight()) {
-			if (width < text.getWidth()) {
-				return;
-			} else {
-				y = 0;
-			}
+		if (height < text.getMinHeight() && width < text.getWidth()) {
+			return;
 		}
 
-		width = Math.max(width, GeoInlineText.DEFAULT_WIDTH);
-		height = Math.max(height, text.getMinHeight());
+		if (height < text.getMinHeight()) {
+			if (y != 0) {
+				y = 1 - text.getMinHeight() / text.getHeight();
+			}
+			height = text.getMinHeight();
+		}
+
+		if (width < GeoInlineText.DEFAULT_WIDTH) {
+			if (x != 0) {
+				x = 1 - GeoInlineText.DEFAULT_WIDTH / text.getWidth();
+			}
+			width = GeoInlineText.DEFAULT_WIDTH;
+		}
 
 		GPoint2D origin = directTransform.transform(new GPoint2D.Double(x, y), null);
 
