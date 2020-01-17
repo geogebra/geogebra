@@ -296,8 +296,8 @@ public abstract class BoundingBox<T extends GShape> {
 	 *            handler
 	 * @return resizing cursor or null
 	 */
-	public EuclidianCursor getCursor(EuclidianBoundingBoxHandler nrHandler) {
-		switch (nrHandler) {
+	public EuclidianCursor getCursor(EuclidianBoundingBoxHandler handler) {
+		switch (handler) {
 		case TOP_LEFT:
 		case BOTTOM_RIGHT:
 			return EuclidianCursor.RESIZE_NWSE;

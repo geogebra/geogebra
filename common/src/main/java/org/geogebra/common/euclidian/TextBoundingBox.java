@@ -58,6 +58,32 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 		return false;
 	}
 
+	@Override
+	public EuclidianCursor getCursor(EuclidianBoundingBoxHandler handler) {
+		if (handler == EuclidianBoundingBoxHandler.ROTATION) {
+			return EuclidianCursor.ROTATION;
+		}
+
+		// evil hackery to get closest rotation handler
+		int cursorIndex = (int) Math.round(4 * (Math.atan2(handler.getDx(), handler.getDy())
+				- text.getAngle()) / Math.PI) % 4;
+
+		// I'd need a proper number theoretic remainder, but I have to make do with
+		// Computer Science modulo (there is Math.floorMod in java8)
+		switch ((4 + cursorIndex) % 4) {
+			case 0:
+				return EuclidianCursor.RESIZE_NS;
+			case 1:
+				return EuclidianCursor.RESIZE_NWSE;
+			case 2:
+				return EuclidianCursor.RESIZE_EW;
+			case 3:
+				return EuclidianCursor.RESIZE_NESW;
+			default:
+				return EuclidianCursor.DEFAULT;
+		}
+	}
+
 	private void setHandlerFromCenter(int i, double x, double y) {
 		handlers.get(i).setFrameFromCenter(x, y, x + HANDLER_RADIUS,
 				y + HANDLER_RADIUS);
