@@ -175,6 +175,20 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertEquals("p / q", inputBox.getText());
 	}
 
+	@Test
+	public void testGeoNumericExtendsMinMax() {
+		GeoNumeric numeric = add("a = 5");
+		numeric.initAlgebraSlider();
+		Assert.assertFalse(numeric.getIntervalMax() >= 20);
+		Assert.assertFalse(numeric.getIntervalMin() <= -20);
+
+		GeoInputBox inputBox = add("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("20");
+		Assert.assertTrue(numeric.getIntervalMax() >= 20);
+		inputBox.updateLinkedGeo("-20");
+		Assert.assertTrue(numeric.getIntervalMin() <= -20);
+	}
+
 	private void t(String input, String... expected) {
 		AlgebraTestHelper.testSyntaxSingle(input, expected,
 				getApp().getKernel().getAlgebraProcessor(),
