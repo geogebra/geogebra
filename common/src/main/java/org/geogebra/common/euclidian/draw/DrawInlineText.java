@@ -24,7 +24,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget {
 
-	private static final int padding = 8;
+	public static final int PADDING = 8;
 
 	private GeoInlineText text;
 	private InlineTextController textController;
@@ -72,8 +72,8 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		if (textController != null) {
 			textController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			textController.setHeight((int) (height - 2 * padding));
-			textController.setWidth((int) (width - 2 * padding));
+			textController.setHeight((int) (height - 2 * PADDING));
+			textController.setWidth((int) (width - 2 * PADDING));
 			textController.setAngle(angle);
 			if (text.updateFontSize()) {
 				textController.updateContent();

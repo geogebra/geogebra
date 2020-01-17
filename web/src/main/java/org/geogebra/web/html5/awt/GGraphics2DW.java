@@ -986,6 +986,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void saveTransform() {
+		color = null; // saveTransform changes color in context, cached color needs reset too
 		context.saveTransform();
 	}
 
