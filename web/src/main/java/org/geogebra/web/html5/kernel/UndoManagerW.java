@@ -38,16 +38,6 @@ public class UndoManagerW extends UndoManager {
 	}
 
 	@Override
-	public void storeUndoInfoAfterPasteOrAdd() {
-		// this can cause a java.lang.OutOfMemoryError for very large
-		// constructions
-		final StringBuilder currentUndoXML = construction
-		        .getCurrentUndoXML(true);
-
-		doStoreUndoInfo(currentUndoXML);
-	}
-
-	@Override
 	public void storeUndoInfo(final StringBuilder currentUndoXML,
 			final boolean refresh) {
 		doStoreUndoInfo(currentUndoXML);
@@ -63,11 +53,10 @@ public class UndoManagerW extends UndoManager {
 	 *            string builder with construction XML
 	 */
 	synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
-
 		try {
 			// insert undo info
 			String undoXMLString = undoXML.toString();
-			AppState appStateToAdd = null;
+			AppState appStateToAdd;
 			if (storage != null) {
 				appStateToAdd = new StorageAppState(storage, undoXMLString);
 			} else {
@@ -76,15 +65,10 @@ public class UndoManagerW extends UndoManager {
 			UndoCommand command = new UndoCommand(appStateToAdd, ((AppW) app).getSlideID());
 			maybeStoreUndoCommand(command);
 			pruneStateList();
-			app.getEventDispatcher().dispatchEvent(
-			        new Event(EventType.STOREUNDO));
-
-		} catch (Exception e) {
+			app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
+		} catch (Exception | Error e) {
 			Log.debug("storeUndoInfo: " + e.toString());
 			e.printStackTrace();
-		} catch (Error err) {
-			Log.debug("UndoManager.storeUndoInfo: " + err.toString());
-			err.printStackTrace();
 		}
 		updateUndoActions();
 	}

@@ -31,7 +31,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.io.MyXMLioD;
-import org.geogebra.desktop.util.CopyPasteD;
 
 /**
  * UndoManager handles undo information for a Construction. It uses an undo info
@@ -54,27 +53,6 @@ public class UndoManagerD extends UndoManager {
 	public UndoManagerD(Construction cons, boolean sync) {
 		super(cons);
 		this.sync = sync;
-	}
-
-	/**
-	 * Adds construction state to undo info list
-	 */
-	@Override
-	public void storeUndoInfoAfterPasteOrAdd() {
-
-		// this can cause a java.lang.OutOfMemoryError for very large
-		// constructions
-		final StringBuilder currentUndoXML = construction
-				.getCurrentUndoXML(true);
-		// force create event dispatcher before we go to thread
-		Thread undoSaverThread = new Thread() {
-			@Override
-			public void run() {
-				doStoreUndoInfo(currentUndoXML);
-				((CopyPasteD) app.getCopyPaste()).pastePutDownCallback(app);
-			}
-		};
-		execute(undoSaverThread);
 	}
 
 	private void execute(Runnable undoSaveAction) {
