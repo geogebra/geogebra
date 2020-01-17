@@ -3319,7 +3319,7 @@ __GGB__keysVar["it"].menu = {
     "mow.offlineMyFiles": "Apri file offline",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "noColor": "No color",
+    "noColor": "Nessun colore",
     "notes_tutorials": "f3theet4",
     "of": "di",
     "off": "Disattiva",
