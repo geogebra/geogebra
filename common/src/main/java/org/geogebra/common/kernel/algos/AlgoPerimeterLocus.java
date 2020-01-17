@@ -85,7 +85,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 		double length = 0;
 		for (int i = 1; i < points.size(); i++) {
 			MyPoint pt = points.get(i);
-			length = length + pt.distance((MyPoint) lastPoint);
+			length = length + pt.distance(lastPoint);
 			lastPoint = pt;
 		}
 		circum.setValue(length);

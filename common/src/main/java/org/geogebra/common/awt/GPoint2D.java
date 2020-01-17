@@ -13,6 +13,11 @@ public class GPoint2D {
 		setLocation(0, 0);
 	}
 
+	/**
+	 * Set x and y coordinates of the point
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 */
 	public void setLocation(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -26,6 +31,13 @@ public class GPoint2D {
 		return y;
 	}
 
+	/**
+	 * @return 0; for 3D compatibility
+	 */
+	public double getZ() {
+		return 0;
+	}
+
 	public void setX(double x) {
 		this.x = x;
 	}
@@ -35,11 +47,11 @@ public class GPoint2D {
 	}
 
 	public double distance(GPoint2D q) {
-		return Math.sqrt(distanceSq(getX(), getY(), q.getX(), q.getY()));
+		return Math.hypot(getX() - q.getX(), getY() - q.getY());
 	}
 
 	public double distance(double x1, double y1) {
-		return Math.sqrt(distanceSq(getX(), getY(), x1, y1));
+		return Math.hypot(getX() - x1, getY() - y1);
 	}
 
 	public double distanceSq(GPoint2D to) {

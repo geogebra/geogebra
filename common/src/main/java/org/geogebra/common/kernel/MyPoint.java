@@ -51,7 +51,7 @@ public class MyPoint extends GPoint2D {
 	 * @param y
 	 *            y-coord
 	 * @param segmentType
-	 *            lineto flag
+	 *            segment type
 	 */
 	public MyPoint(double x, double y, SegmentType segmentType) {
 		super(x, y);
@@ -94,28 +94,6 @@ public class MyPoint extends GPoint2D {
 	}
 
 	/**
-	 * @return 0; for 3D compatibility
-	 */
-	public double getZ() {
-		return 0;
-	}
-
-	@Override
-	public double distance(double x1, double y1) {
-		return GPoint2D.distanceSq(getX(), getY(), x1, y1);
-	}
-
-	@Override
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	@Override
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	/**
 	 * 
 	 * @param point
 	 *            point
@@ -150,19 +128,25 @@ public class MyPoint extends GPoint2D {
 	 * Change to lineto /moveto point
 	 * 
 	 * @param lineTo
-	 *            whether this shoul be linto point
+	 *            whether this should be lineto point
 	 */
 	public void setLineTo(boolean lineTo) {
 		this.segmentType = lineTo ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
 	}
 
+	/**
+	 * Reuses the segmentType field (active iff LINE_TO)
+	 * @return whether it is an active point (for TSP solver)
+	 */
 	public boolean isActive() {
-		// reuse field "lineTo"
 		return segmentType == SegmentType.LINE_TO;
 	}
 
+	/**
+	 * Reuses the segmentType field (for TSP solver)
+	 * @param active if true, set segmentType to LINE_TO, otherwise to MOVE_TO
+	 */
 	public void setActive(boolean active) {
-		// re-use field "lineTo"
 		this.segmentType = active ? SegmentType.LINE_TO : SegmentType.MOVE_TO;
 	}
 
