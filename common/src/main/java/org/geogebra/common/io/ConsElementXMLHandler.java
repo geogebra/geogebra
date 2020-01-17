@@ -1059,7 +1059,7 @@ public class ConsElementXMLHandler {
 	 * So we store all (geo, startpoint expression) pairs and process them at
 	 * the end of the construction.
 	 * 
-	 * @see processStartPointList
+	 * @see #processStartPointList()
 	 */
 	private void handleStartPoint(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoInlineText) {
@@ -1192,7 +1192,7 @@ public class ConsElementXMLHandler {
 	 * So we store all (geo, expression) pairs and process them at the end of
 	 * the construction.
 	 * 
-	 * @see processLinkedGeoList
+	 * @see #processLinkedGeoList()
 	 */
 	private boolean handleLinkedGeo(LinkedHashMap<String, String> attrs) {
 
@@ -1469,17 +1469,19 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleBoundingBox(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoInlineText)) {
-			Log.error("wrong element type for <boundingBox>: " + geo.getClass());
-			return;
+		if (geo instanceof GeoText && geo.isIndependent()) {
+			try {
+				GeoInlineText ret = new GeoInlineText((GeoText) geo);
+				geo.getConstruction().replace(geo, ret);
+				geo = ret;
+				ret.setWidth(Integer.parseInt(attrs.get("width")));
+				ret.setHeight(Integer.parseInt(attrs.get("height")));
+			} catch (Exception e) {
+				Log.debug(e);
+			}
+		} else {
+			Log.error("Unexpected type for <boundingBox>: " + geo.getClass());
 		}
-		// TODO: check the code when we convert all MOW texts to inline texts
-		GeoInlineText text = (GeoInlineText) geo;
-		text.setWidth(Integer.parseInt(attrs.get("width")));
-		text.setHeight(Integer.parseInt(attrs.get("height")));
-		text.setLocation(AwtFactory.getPrototype().newPoint2D(
-				Integer.parseInt(attrs.get("x")),
-				Integer.parseInt(attrs.get("y"))));
 	}
 
 	private boolean handleMatrix(LinkedHashMap<String, String> attrs) {

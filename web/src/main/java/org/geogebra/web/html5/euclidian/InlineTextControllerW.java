@@ -1,9 +1,11 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 
@@ -16,6 +18,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class InlineTextControllerW implements InlineTextController {
 
+	private static final String INVISIBLE = "invisible";
+	private static final int PADDING = 8;
 	private GeoInlineText geo;
 
 	private Element parent;
@@ -40,6 +44,7 @@ public class InlineTextControllerW implements InlineTextController {
 	public void create() {
 		editor = new CarotaEditor(view.getFontSize());
 		final Widget widget = editor.getWidget();
+		widget.addStyleName(INVISIBLE);
 		style = widget.getElement().getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
 		parent.appendChild(editor.getWidget().getElement());
@@ -99,13 +104,13 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void toBackground() {
 		editor.deselect();
-		editor.getWidget().addStyleName("background");
+		editor.getWidget().addStyleName(INVISIBLE);
 		geo.updateRepaint();
 	}
 
 	@Override
 	public void toForeground(int x, int y) {
-		editor.getWidget().removeStyleName("background");
+		editor.getWidget().removeStyleName(INVISIBLE);
 		editor.focus(x - editor.getWidget().getAbsoluteLeft(),
 				y - editor.getWidget().getAbsoluteTop() + view.getAbsoluteTop());
 	}
@@ -118,10 +123,21 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public <T> T getFormat(String key, T fallback) {
-		if (editor.getWidget().getElement().hasClassName("background")) {
+		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
 			return editor.getDocumentFormat(key, fallback);
 		} else {
 			return editor.getFormat(key, fallback);
+		}
+	}
+
+	@Override
+	public void draw(GGraphics2D g2, int x, int y) {
+		if (geo.getBackgroundColor() != null) {
+			g2.setPaint(geo.getBackgroundColor());
+			g2.fillRect(x, y, (int) geo.getWidth(), (int) geo.getHeight());
+		}
+		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
+			((GGraphics2DW) g2).drawImage(editor.getCanvasElement(), x + PADDING, y + PADDING);
 		}
 	}
 }

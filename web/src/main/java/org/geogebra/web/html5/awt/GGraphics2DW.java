@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.awt;
 
+import com.google.gwt.dom.client.CanvasElement;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -763,16 +764,15 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		setWidth(Math.max(0, preferredSize.getWidth()));
-		setHeight(Math.max(0, preferredSize.getHeight()));
+		int width = Math.max(0, preferredSize.getWidth());
+		int height = Math.max(0, preferredSize.getHeight());
+		setWidth(width);
+		setHeight(height);
 
 		// do not use getOffsetWidth here,
 		// as it is prepared by the browser and not yet ready...
 		// if preferredSize can be negative, have a check for it instead
-		setCoordinateSpaceSize(
-				(preferredSize.getWidth() >= 0) ? preferredSize.getWidth() : 0,
-				(preferredSize.getHeight() >= 0) ? preferredSize.getHeight()
-						: 0);
+		setCoordinateSpaceSize(width, height);
 	}
 
 	@Override
@@ -810,7 +810,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	private void roundRect(int x, int y, int w, int h, double r) {
 
 		// gives good approximation to circular arc
-		double K = 4 / 3 * (Math.sqrt(2) - 1);
+		double K = 4.0 / 3 * (Math.sqrt(2) - 1);
 
 		double right = x + w;
 		double bottom = y + h;
@@ -951,6 +951,22 @@ public class GGraphics2DW implements GGraphics2DWI {
 	public void drawImage(ImageElement img, int x, int y) {
 		try {
 			context.drawImage(img, x, y);
+		} catch (Exception e) {
+			Log.error("error in context.drawImage.3 method");
+		}
+	}
+
+	/**
+	 * @param canvasImg
+	 *            canvas image
+	 * @param x
+	 *            left offset
+	 * @param y
+	 *            top offset
+	 */
+	public void drawImage(CanvasElement canvasImg, int x, int y) {
+		try {
+			context.drawImage(canvasImg, x, y);
 		} catch (Exception e) {
 			Log.error("error in context.drawImage.3 method");
 		}
