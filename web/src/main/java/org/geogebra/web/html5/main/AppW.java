@@ -25,6 +25,7 @@ import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
@@ -4022,6 +4023,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return manager for showing/hiding keyboard
 	 */
 	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
+		return null;
+	}
+
+	/**
+	 * Create provider of texts for ANS button.
+	 *
+	 * @return provider of last AV item
+	 */
+	public HasLastItem getLastItemProvider() {
 		return null;
 	}
 }
