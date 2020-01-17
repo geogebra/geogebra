@@ -3319,7 +3319,7 @@ __GGB__keysVar["ja"].menu = {
     "mow.offlineMyFiles": "\u30aa\u30d5\u30e9\u30a4\u30f3\u30d5\u30a1\u30a4\u30eb\u3092\u958b\u304f",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
-    "noColor": "No color",
+    "noColor": "\u8272\u306a\u3057",
     "notes_tutorials": "fp7bctpr",
     "of": "\u306e",
     "off": "\u30aa\u30d5",

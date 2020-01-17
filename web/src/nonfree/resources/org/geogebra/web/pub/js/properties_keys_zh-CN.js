@@ -3018,7 +3018,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Tutorial": "\u6559\u7a0b",
     "Tutorial3D": "ysef4qwx",
     "TutorialClassic": "cxqnngwx",
-    "TutorialGeometry": "DmVNbn2V",
+    "TutorialGeometry": "mn6gygsa",
     "TutorialGraphing": "uvxc62ft",
     "TutorialScientific": "nfzknyt8",
     "Tutorials": "\u6559\u7a0b",

@@ -1909,7 +1909,7 @@ __GGB__keysVar["hr"].menu = {
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "Geometrija",
     "GeoGebraGraphingCalculator": "GeoGebra grafi\u010dki kalkulator",
-    "GeoGebraMaterials": "GeoGebra Uradci",
+    "GeoGebraMaterials": "GeoGebra uradci",
     "GeoGebraProperties": "GeoGebra Svojstva",
     "GeoGebraScientificCalculator": "GeoGebra znanstveni kalkulator",
     "GeogebraToAsymptoteExport": "Izvoz GeoGebre u Asymptote",
