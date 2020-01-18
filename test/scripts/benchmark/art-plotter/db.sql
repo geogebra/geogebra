@@ -25,11 +25,11 @@ insert into provers (name, outsourcing, platform) values ('Web', '', 'web');
 insert into provers (name, outsourcing, platform) values ('Node', '', 'desktop6');
 insert into provers (name, outsourcing, platform) values ('Wasm', '', 'desktop6');
 
--- Using Jenkins' environment settings, assuming SVN being used,
+-- Using Jenkins' environment settings, assuming Git being used,
 -- see https://wiki.jenkins-ci.org/display/JENKINS/Building+a+software+project
 create table builds (
  build_number int not null primary key,
- svn_revision int,
+ git_revision text,
  build_url text,
  machine text);
 

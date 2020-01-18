@@ -3,7 +3,7 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Setting defaults.
-MY_VERSION=2.1
+MY_VERSION=2.2
 
 IMGHEIGHT=25
 HTML=html/all.html
@@ -11,9 +11,8 @@ TEX=html/all.tex
 CSV=none
 # Don't use this, it is just an example:
 COLUMNS="DesktopInternal DesktopGrobcov Web Node Wasm"
-TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/art-plotter
-GEOGEBRAWEB_URL1=https://www.geogebra.org/classic/?filename=https://dev.geogebra.org/trac/export
-GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter
+TESTGGBURLBASE_GGBDIR=https://github.com/kovzol/geogebra/raw/master/test/scripts/benchmark/art-plotter
+GEOGEBRAWEB_URL=https://www.geogebra.org/classic/?filename=$GGBURLBASE_GGBDIR
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 DOTS=20
 NICEHTML=1
@@ -31,7 +30,6 @@ usage() {
  echo "   -T <file>    set name for output .tex file ($TEX)"
  echo "   -c <list>    space separated list of prover engines to show as columns ($COLUMNS)"
  echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
- echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
  echo "   -d <length>  use dots in test names in LaTeX output if the name is longer than length ($DOTS)"
  echo "   -N           do not use nice HTML output (similarly to LaTeX)"
  echo "   -h           show this help"
@@ -45,7 +43,7 @@ version() {
  exit 0
  }
 
-while getopts "H:o:T:c:d:b:Nehv" OPT; do
+while getopts "H:o:T:c:g:d:b:Nhv" OPT; do
  case $OPT in
   H)
    IMGHEIGHT="$OPTARG"
@@ -67,6 +65,7 @@ while getopts "H:o:T:c:d:b:Nehv" OPT; do
    ;;
   g)
    TESTGGBURLBASE_GGBDIR="$OPTARG"
+   GEOGEBRAWEB_URL=https://www.geogebra.org/classic/?filename=$GGBURLBASE_GGBDIR
    ;;
   b)
    BUILD_NUMBER="$OPTARG"
@@ -98,7 +97,7 @@ rm -f $HTML $TEX
 # Title
 TITLE="ART plotter benchmark for GeoGebra $BUILD_NUMBER"
 DATE=`date "+%Y-%m-%d %H:%M"`
-SVN_REVISION=`sqlite3 sqlite3db "select svn_revision from builds where build_number=$BUILD_NUMBER"`
+GIT_REVISION=`sqlite3 sqlite3db "select git_revision from builds where build_number=$BUILD_NUMBER"`
 BUILD_URL=`sqlite3 sqlite3db "select build_url from builds where build_number=$BUILD_NUMBER"`
 HOST=`sqlite3 sqlite3db "select machine from builds where build_number=$BUILD_NUMBER"`
 echo "<!DOCTYPE html><html><head>
@@ -186,7 +185,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$TEST.png
  # TODO: change "latest" to current revision:
- echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"${GEOGEBRAWEB_URL1}/latest/${GEOGEBRAWEB_URL2}/$i#\"><img src=\"$TEST.png\" height=${IMGHEIGHT}></a></td>" >> $MYDIR/$HTML
+ echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"${GEOGEBRAWEB_URL}/$i#\"><img src=\"$TEST.png\" height=${IMGHEIGHT}></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
 
  if [ `expr ${#TEST} '>' $DOTS` = 1 ]; then
