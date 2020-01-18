@@ -143,9 +143,9 @@ prereq unzip
 prereq zip
 prereq timeout
 
-REVISION=`svn info | grep ^Revision: | cut -f2 -d" "`
+REVISION=`git log --oneline | cut -f1 -d" "`
 if [ "$REVISION" != "" ]; then
- REVISION=" (r$REVISION)"
+ REVISION=" ($REVISION)"
  fi
 # public static final String VERSION_STRING = "5.0.122.0";
 VERSION=`cat $GEOGEBRADIR/common/src/main/java/org/geogebra/common/GeoGebraConstants.java |\
@@ -247,13 +247,14 @@ for i in `find tests -name '*.ggb' | sort`; do
     TIME=""
     touch $REGRESSIONFILE
     }
+   # This piece of code does not work as of 2020-01-18, so disabled for the moment:
    # Maybe the computation was incomplete (due to out of memory error, for example):
-   LOOPS=`grep Equ\( $MYDIR/tmp/.test.stdout | wc -l`
-   if ((LOOPS < 2)); then
-    RESULT=""
-    TIME=""
-    touch $REGRESSIONFILE
-    fi
+   # LOOPS=`grep Equ\( $MYDIR/tmp/.test.stdout | wc -l`
+   # if ((LOOPS < 2)); then
+   #  RESULT=""
+   #  TIME=""
+   #  touch $REGRESSIONFILE
+   #  fi
   # Web
 
   # Node/Wasm
