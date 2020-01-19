@@ -11,8 +11,9 @@ TEX=html/all.tex
 CSV=none
 # Don't use this, it is just an example:
 COLUMNS="DesktopInternal DesktopGrobcov Web Node Wasm"
-TESTGGBURLBASE_GGBDIR=https://github.com/kovzol/geogebra/raw/master/test/scripts/benchmark/art-plotter
-GEOGEBRAWEB_URL=https://www.geogebra.org/classic/?filename=$GGBURLBASE_GGBDIR
+TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/art-plotter
+GEOGEBRAWEB_URL1=http://www.autgeo.online/geogebra-discovery/?filename=https://dev.geogebra.org/trac/export
+GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
 DOTS=20
 NICEHTML=1
@@ -65,7 +66,6 @@ while getopts "H:o:T:c:g:d:b:Nhv" OPT; do
    ;;
   g)
    TESTGGBURLBASE_GGBDIR="$OPTARG"
-   GEOGEBRAWEB_URL=https://www.geogebra.org/classic/?filename=$GGBURLBASE_GGBDIR
    ;;
   b)
    BUILD_NUMBER="$OPTARG"
@@ -185,7 +185,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$TEST.png
  # TODO: change "latest" to current revision:
- echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"${GEOGEBRAWEB_URL}/$i#\"><img src=\"$TEST.png\" height=${IMGHEIGHT}></a></td>" >> $MYDIR/$HTML
+ echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"${GEOGEBRAWEB_URL1}/latest/${GEOGEBRAWEB_URL2}/$i#\"><img src=\"$TEST.png\" height=${IMGHEIGHT}></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
 
  if [ `expr ${#TEST} '>' $DOTS` = 1 ]; then
