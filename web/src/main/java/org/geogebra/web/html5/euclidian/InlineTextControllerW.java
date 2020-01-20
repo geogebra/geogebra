@@ -46,7 +46,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void create() {
-		editor = new CarotaEditor(view.getFontSize());
+		editor = new CarotaEditor(DrawInlineText.PADDING, view.getFontSize());
 		final Widget widget = editor.getWidget();
 		widget.addStyleName(INVISIBLE);
 		style = widget.getElement().getStyle();

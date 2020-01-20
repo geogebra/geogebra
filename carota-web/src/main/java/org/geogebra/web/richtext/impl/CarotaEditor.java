@@ -56,16 +56,17 @@ public class CarotaEditor implements Editor {
 	/**
 	 * Create a new instance of Carota editor.
 	 */
-	public CarotaEditor(double defaultFontSize) {
+	public CarotaEditor(int padding, double defaultFontSize) {
 		CarotaUtil.ensureInitialized(defaultFontSize);
-		widget = createWidget();
+		widget = createWidget(padding);
 		editor = createEditorNative(widget.getElement());
 	}
 
-	private Widget createWidget() {
+	private Widget createWidget(int padding) {
 		HTML html = new HTML();
 		html.setStyleName("mowWidget");
-		html.getElement().getStyle().setProperty("transformOrigin", "-8px -8px");
+		String origin = "-" + padding + "px ";
+		html.getElement().getStyle().setProperty("transformOrigin", origin + origin);
 		html.getElement().getStyle().setProperty("boxSizing", "border-box");
 		html.getElement().getStyle().setMargin(8, Style.Unit.PX);
 		return html;

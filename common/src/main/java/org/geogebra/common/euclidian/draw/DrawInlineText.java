@@ -313,8 +313,12 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 		double newWidth = Math.max(GeoInlineText.DEFAULT_WIDTH,
 				points.get(1).distance(points.get(0)));
-		double newHeight = Math.max(text.getMinHeight(),
-				points.get(2).distance(points.get(0)));
+
+		double newHeight = points.get(2).distance(points.get(0));
+
+		if (newHeight < text.getMinHeight()) {
+			return;
+		}
 
 		text.setWidth(newWidth);
 		text.setHeight(newHeight);

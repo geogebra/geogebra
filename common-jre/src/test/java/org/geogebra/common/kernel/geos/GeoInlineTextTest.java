@@ -6,14 +6,13 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class GeoInlineTextTest extends BaseUnitTest {
 
-	String COMPATIBILITY_XML = "\"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+	private static final String COMPATIBILITY_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 			+ "<geogebra format=\"5.0\" version=\"5.0.570.0\" app=\"notes\" >\n"
 			+ "<gui>\n"
 			+ "\t<font  size=\"16\"/>\n"
@@ -27,7 +26,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 			+ "\t<boundingBox x=\"500\" y=\"600\" width=\"150\" height=\"50\"/>\n"
 			+ "</element>\n"
 			+ "</construction>\n"
-			+ "</geogebra>\"";
+			+ "</geogebra>";
 
 	@Test
 	public void inlineTextCorrectlySavedAndLoaded() {
@@ -35,6 +34,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 		final double y = 2.5;
 		final int width = 1848;
 		final int height = 1956;
+		final double angle = 2.7182;
 		final String content = "this is a sample text; {}";
 
 		Construction cons = getApp().getKernel().getConstruction();
@@ -43,6 +43,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 
 		GeoInlineText savedInlineText = new GeoInlineText(cons, startPoint, width, height);
 		savedInlineText.setLabel("testText");
+		savedInlineText.setAngle(angle);
 		savedInlineText.setContent(content);
 
 		String appXML = getApp().getXML();
@@ -55,6 +56,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 		assertEquals(y, loadedInlineText.getLocation().getY(), Kernel.MAX_PRECISION);
 		assertEquals(width, loadedInlineText.getWidth(), Kernel.MAX_PRECISION);
 		assertEquals(height, loadedInlineText.getHeight(), Kernel.MAX_PRECISION);
+		assertEquals(angle, loadedInlineText.getAngle(), Kernel.MAX_PRECISION);
 		assertEquals(content, loadedInlineText.getContent());
 	}
 
