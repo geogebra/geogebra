@@ -134,7 +134,6 @@ public class EuclidianViewW extends EuclidianView implements
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 
 	private long lastRepaint;
-	private boolean isResetIconSelected = false;
 	private boolean inFocus = false;
 	/** application **/
 	AppW appW = (AppW) super.app;
@@ -1340,20 +1339,6 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
-	/**
-	 * Sets whether the reset icon should be selected.
-	 * It changes the reset icon appearance.
-	 *
-	 * @param selected true if the reset icon is selected
-	 */
-	private void setResetIconSelected(boolean selected) {
-		if (isResetIconSelected != selected) {
-			isResetIconSelected = selected;
-			invalidateBackground();
-			repaint();
-		}
-	}
-
 	public void focusResetIcon() {
 		setResetIconSelected(true);
 	}
@@ -1371,7 +1356,7 @@ public class EuclidianViewW extends EuclidianView implements
 			graphics.drawImage(resetIcon,
 					width - ICON_MARGIN - iconWidth - (ICON_SIZE - iconWidth) / 2,
 					ICON_MARGIN + (ICON_SIZE - iconHeight) / 2);
-			if (isResetIconSelected) {
+			if (isResetIconSelected()) {
 				drawHighlight(graphics, width - ICON_MARGIN - ICON_SIZE, ICON_MARGIN, ICON_SIZE);
 			}
 		}
