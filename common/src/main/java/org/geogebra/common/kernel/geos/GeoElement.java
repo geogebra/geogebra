@@ -51,7 +51,6 @@ import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
@@ -87,6 +86,7 @@ import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -4906,10 +4906,18 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public void getXML(boolean getListenersToo, final StringBuilder sb) {
+		getExpressionXML(sb);
+		getElementOpenTagXML(sb);
+		getXMLtags(sb);
+		getCaptionXML(sb);
+		getExtraTagsXML(sb);
+		if (getListenersToo) {
+			getListenerTagsXML(sb);
+		}
+		getElementCloseTagXML(sb);
+	}
 
-		// make sure numbers are not put in XML in eg Arabic
-		// final boolean oldI8NValue = Kernel.internationalizeDigits;
-		// Kernel.internationalizeDigits = false;
+	protected void getExpressionXML(StringBuilder sb) {
 		if (isIndependent() && definition != null && getDefaultGeoType() < 0) {
 			sb.append("<expression");
 			sb.append(" label=\"");
@@ -4940,17 +4948,6 @@ public abstract class GeoElement extends ConstructionElement
 			}
 			sb.append("/>\n");
 		}
-
-		getElementOpenTagXML(sb);
-
-		getXMLtags(sb);
-		getCaptionXML(sb);
-		getExtraTagsXML(sb);
-		if (getListenersToo) {
-			getListenerTagsXML(sb);
-		}
-		getElementCloseTagXML(sb);
-
 	}
 
 	/**

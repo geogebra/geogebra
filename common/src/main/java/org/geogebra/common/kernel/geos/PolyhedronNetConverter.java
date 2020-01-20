@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.kernel3D.algos.ExtrudeConverter;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 
 public class PolyhedronNetConverter extends ExtrudeConverter {
 

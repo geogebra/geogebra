@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.media.MediaURLParser;

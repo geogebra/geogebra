@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * manager for packing buffers (for curves)
