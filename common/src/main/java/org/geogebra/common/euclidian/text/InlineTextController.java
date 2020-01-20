@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.text;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 
 /**
@@ -66,5 +67,5 @@ public interface InlineTextController {
 
 	<T> T getFormat(String key, T fallback);
 
-	void draw(GGraphics2D g2);
+	void draw(GGraphics2D g2, GAffineTransform transform);
 }

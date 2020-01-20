@@ -14,8 +14,6 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	private GeoInlineText text;
 
 	private GPoint2D[] corners = new GPoint2D[9];
-	private int rotationHandlerx;
-	private int rotationHandlery;
 
 	private GAffineTransform transform;
 
@@ -47,7 +45,7 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 						(int) corners[(i + 1) % 4].getX(), (int) corners[(i + 1) % 4].getY());
 			}
 			g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
-					rotationHandlerx, rotationHandlery);
+					(int) corners[8].getX(), (int) corners[8].getY());
 		}
 
 		drawHandlers(g2);
@@ -95,21 +93,18 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	private void updateHandlers() {
+		double width = text.getWidth();
+		double height = text.getHeight();
+
 		setHandlerTransformed(0, 0, 0);
-		setHandlerTransformed(1, 0, 1);
-		setHandlerTransformed(2, 1, 1);
-		setHandlerTransformed(3, 1, 0);
-		setHandlerTransformed(4, 0.5, 0);
-		setHandlerTransformed(5, 0, 0.5);
-		setHandlerTransformed(6, 0.5, 1);
-		setHandlerTransformed(7, 1, 0.5);
-
-		rotationHandlerx = (int) (corners[4].getX()
-				+ Math.sin(text.getAngle()) * ROTATION_HANDLER_DISTANCE);
-		rotationHandlery = (int) (corners[4].getY()
-				- Math.cos(text.getAngle()) * ROTATION_HANDLER_DISTANCE);
-
-		setHandlerFromCenter(8, rotationHandlerx, rotationHandlery);
+		setHandlerTransformed(1, 0, height);
+		setHandlerTransformed(2, width, height);
+		setHandlerTransformed(3, width, 0);
+		setHandlerTransformed(4, width / 2, 0);
+		setHandlerTransformed(5, 0, height / 2);
+		setHandlerTransformed(6, width / 2, height);
+		setHandlerTransformed(7, width, height / 2);
+		setHandlerTransformed(8, width / 2, -ROTATION_HANDLER_DISTANCE);
 	}
 
 	/**

@@ -92,7 +92,6 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		directTransform.translate(view.toScreenCoordXd(point.getX()),
 				view.toScreenCoordYd(point.getY()));
 		directTransform.rotate(angle);
-		directTransform.scale(width, height);
 
 		try {
 			inverseTransform = directTransform.createInverse();
@@ -101,9 +100,9 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		}
 
 		corner0 = directTransform.transform(new GPoint2D.Double(0, 0), null);
-		corner1 = directTransform.transform(new GPoint2D.Double(1, 0), null);
-		corner2 = directTransform.transform(new GPoint2D.Double(1, 1), null);
-		corner3 = directTransform.transform(new GPoint2D.Double(0, 1), null);
+		corner1 = directTransform.transform(new GPoint2D.Double(width, 0), null);
+		corner2 = directTransform.transform(new GPoint2D.Double(width, height), null);
+		corner3 = directTransform.transform(new GPoint2D.Double(0, height), null);
 
 		if (boundingBox != null) {
 			boundingBox.setRectangle(getBounds());
@@ -163,14 +162,15 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (textController != null) {
-			textController.draw(g2);
+			textController.draw(g2, directTransform);
 		}
 	}
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
 		GPoint2D p = inverseTransform.transform(new GPoint2D.Double(x, y), null);
-		return 0 < p.getX() && p.getX() < 1 && 0 < p.getY() && p.getY() < 1;
+		return 0 < p.getX() && p.getX() < text.getWidth()
+				&& 0 < p.getY() && p.getY() < text.getHeight();
 	}
 
 	@Override
@@ -264,16 +264,16 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		double height = text.getHeight();
 
 		if (handler.getDx() == 1) {
-			width *= transformed.getX();
+			width = transformed.getX();
 		} else if (handler.getDx() == -1) {
-			width *= 1 - transformed.getX();
+			width = text.getWidth() - transformed.getX();
 			x = transformed.getX();
 		}
 
 		if (handler.getDy() == 1) {
-			height *= transformed.getY();
+			height = transformed.getY();
 		} else if (handler.getDy() == -1) {
-			height *= 1 - transformed.getY();
+			height = text.getHeight() - transformed.getY();
 			y = transformed.getY();
 		}
 
@@ -283,14 +283,14 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 		if (height < text.getMinHeight()) {
 			if (y != 0) {
-				y = 1 - text.getMinHeight() / text.getHeight();
+				y = text.getHeight() - text.getMinHeight();
 			}
 			height = text.getMinHeight();
 		}
 
 		if (width < GeoInlineText.DEFAULT_WIDTH) {
 			if (x != 0) {
-				x = 1 - GeoInlineText.DEFAULT_WIDTH / text.getWidth();
+				x = text.getWidth() - GeoInlineText.DEFAULT_WIDTH;
 			}
 			width = GeoInlineText.DEFAULT_WIDTH;
 		}

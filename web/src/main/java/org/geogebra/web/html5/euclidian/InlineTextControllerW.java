@@ -140,15 +140,12 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public void draw(GGraphics2D g2) {
+	public void draw(GGraphics2D g2, GAffineTransform transform) {
 		GPoint2D origin = geo.getLocation();
 		int x = view.toScreenCoordX(origin.getX());
 		int y = view.toScreenCoordY(origin.getY());
 		g2.saveTransform();
 
-		GAffineTransform transform = AwtFactory.getPrototype().newAffineTransform();
-		transform.translate(x, y);
-		transform.rotate(geo.getAngle());
 		g2.transform(transform);
 
 		if (geo.getBackgroundColor() != null) {
