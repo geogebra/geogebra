@@ -121,6 +121,8 @@ $duration: 0.2s;
 
 		.templatePanel {
             display: flex;
+            width: fit-content;
+            cursor: pointer;
 
             .checkbox {
            	    margin: 2px 16px 0px 0px;
@@ -131,13 +133,13 @@ $duration: 0.2s;
                         background-color: $teal-default;
            	        }
            	    }
-
            	}
 
             .templateTxt {
                 font-size: 100%;
                 height: 28px;
                 line-height: 28px;
+                color: $text-primary;
             }
         }
 
@@ -1181,6 +1183,8 @@ $duration: 0.2s;
    		.templatePanel {
    		    display: flex;
    		    margin-bottom: 20px;
+   		    cursor: pointer;
+            width: fit-content;
 
    		    .checkbox {
    		        margin: 2px 16px 0px 0px;
@@ -1190,6 +1194,7 @@ $duration: 0.2s;
                 font-size: 100%;
                 height: 28px;
                 line-height: 28px;
+                color: $text-primary;
             }
    		}
 	}

@@ -1,8 +1,10 @@
 package org.geogebra.web.shared;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -11,24 +13,31 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
  * material design checkbox component
  */
 public class ComponentCheckbox extends FlowPanel {
-
     private boolean selected;
+    private FlowPanel checkbox;
 
     /**
      *
      * @param setSelected true if the checkmark is shown
      */
-    public ComponentCheckbox(boolean setSelected) {
-        setSelected(setSelected);
-        this.addStyleName("checkbox");
+    public ComponentCheckbox(boolean setSelected, Label templateTxt) {
+        this.selected = setSelected;
+        this.addStyleName("templatePanel");
+        checkbox = new FlowPanel();
+        checkbox.addStyleName("checkbox");
+        if (selected) {
+            checkbox.addStyleName("selected");
+        }
         SimplePanel background = new SimplePanel();
         background.addStyleName("background");
         NoDragImage checkMark = new NoDragImage(MaterialDesignResources.INSTANCE.check_white(),
                 14, 14);
         checkMark.addStyleName("checkmark");
-        this.add(background);
-        this.add(checkMark);
-        updateCheckboxStyle();
+        checkbox.add(background);
+        checkbox.add(checkMark);
+        templateTxt.setStyleName("templateTxt");
+        this.add(checkbox);
+        this.add(templateTxt);
         ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
             @Override
@@ -59,9 +68,9 @@ public class ComponentCheckbox extends FlowPanel {
      */
     public void updateCheckboxStyle() {
         if (isSelected()) {
-            this.addStyleName("selected");
+            checkbox.addStyleName("selected");
         } else {
-            this.removeStyleName("selected");
+            checkbox.removeStyleName("selected");
         }
     }
 }

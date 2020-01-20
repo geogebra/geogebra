@@ -169,15 +169,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	}
 
 	private FlowPanel getCheckboxPanel() {
-		FlowPanel checkboxPanel = new FlowPanel();
-		checkboxPanel.addStyleName("templatePanel");
-		templateCheckbox = new ComponentCheckbox(false);
 		templateTxt = new Label();
-		templateTxt.setStyleName("templateTxt");
 		templateTxt.setText(loc.getMenu("saveTemplate"));
-		checkboxPanel.add(templateCheckbox);
-		checkboxPanel.add(templateTxt);
-		return checkboxPanel;
+		templateCheckbox = new ComponentCheckbox(false, templateTxt);
+		return templateCheckbox;
 	}
 
 	private FlowPanel getButtonPanel() {
