@@ -458,7 +458,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	.MaterialDialogBox.mediaDialog {
-   		.mowMediaDialogContent {
+   		.mowInputPanelContent {
    			.AutoCompleteTextFieldW {
    				margin: 8px 16px 8px 0px;
    			}
@@ -547,7 +547,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
    		}
 
    		.DialogButtonPanel {
-   			padding-top: 8px !important;
+   			padding-top: 8px;
 
    			.button {
    				color: $mow_dark;
@@ -616,7 +616,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
    		}
 
 		.DialogButtonPanel {
-			padding-top: 8px !important;
+			padding-top: 8px;
 
 			.button-up-disabled {
 				opacity: 1;
@@ -1170,14 +1170,14 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
  	.MaterialDialogBox.saveDialogMow {
 		@extend .mediaDialog;
 
-		.mowMediaDialogContent {
+		.mowInputPanelContent {
 				.AutoCompleteTextFieldW {
    					margin: 8px 16px 16px 0px !important;
    				}
    		}
 
-		.mowMediaDialogContent.hoverState,
-			.mowMediaDialogContent.focusState {
+		.mowInputPanelContent.hoverState,
+			.mowInputPanelContent.focusState {
 				.AutoCompleteTextFieldW {
    					margin: 8px 16px 15px 0px !important;
    				}
@@ -1682,7 +1682,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
         .DialogButtonPanel {
             margin-right: 8px;
-            padding-top: 4px !important;
+            padding-top: 4px;
 
             .button {
                 color: $mow_primary;
