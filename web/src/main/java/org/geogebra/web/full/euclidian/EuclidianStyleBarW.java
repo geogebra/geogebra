@@ -1944,6 +1944,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTipText(btnFixPosition, "AbsoluteScreenLocation");
 		setToolTipText(btnFixObject, "FixObject");
 		setToolTipText(btnTextColor, "stylebar.Color");
+		if (btnTextBgColor != null) {
+			setToolTipText(btnTextBgColor, "stylebar.BgColor");
+		}
 	}
 
 	private void setToolTipText(MyCJButton btn, String key) {
