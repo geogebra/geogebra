@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.accessibility.EuclidianViewAccessibiliyAdapter;
 import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 
@@ -59,6 +60,16 @@ public class SinglePanelAccessibilityAdapter
 
 	@Override
 	public boolean focusSettings() {
+		return false;
+	}
+
+	@Override
+	public boolean focusResetButton() {
+		if (app.showResetIcon() && getEuclidianView() instanceof EuclidianViewW) {
+			EuclidianViewW view = (EuclidianViewW) getEuclidianView();
+			view.focusResetIcon();
+			return true;
+		}
 		return false;
 	}
 

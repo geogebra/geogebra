@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import com.google.gwt.dom.client.Document;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
@@ -194,7 +195,20 @@ public class EuclidianViewW extends EuclidianView implements
 		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo,
 				settings);
 		initClickStartHandler();
+		attachFocusinHandler();
 	}
+
+	private void attachFocusinHandler() {
+		addFocusEventHandler(Document.get().getBody());
+	}
+
+	private native void addFocusEventHandler(Element element) /*-{
+        var that = this;
+        var handler = function(e) {
+            that.@org.geogebra.web.html5.euclidian.EuclidianViewW::setResetIconSelected(Z)(false);
+        }
+        element.addEventListener("focusin", handler);
+    }-*/;
 
 	private void initClickStartHandler() {
 		if (g2p.getCanvas() == null) {
@@ -1332,9 +1346,16 @@ public class EuclidianViewW extends EuclidianView implements
 	 *
 	 * @param selected true if the reset icon is selected
 	 */
-	public void setResetIconSelected(boolean selected) {
-		isResetIconSelected = selected;
-		suggestRepaint();
+	private void setResetIconSelected(boolean selected) {
+		if (isResetIconSelected != selected) {
+			isResetIconSelected = selected;
+			invalidateBackground();
+			repaint();
+		}
+	}
+
+	public void focusResetIcon() {
+		setResetIconSelected(true);
 	}
 
 	@Override
