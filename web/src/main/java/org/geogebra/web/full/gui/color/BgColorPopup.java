@@ -4,6 +4,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -42,6 +43,11 @@ public class BgColorPopup extends ColorPopupMenuButton implements SetLabels {
 
             @Override
             public void onClick(ClickEvent event) {
+                boolean needUndo = EuclidianStyleBarStatic.applyBgColor(app.getSelectionManager()
+                         .getSelectedGeos(), null, 1);
+                if (needUndo) {
+                    app.storeUndoInfo();
+                }
                 closePopup();
             }
         }, ClickEvent.getType());
