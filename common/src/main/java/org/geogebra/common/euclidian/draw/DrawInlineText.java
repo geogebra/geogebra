@@ -126,7 +126,8 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	 */
 	public void toForeground(int x, int y) {
 		if (textController != null) {
-			textController.toForeground(x, y);
+			GPoint2D p = inverseTransform.transform(new GPoint2D.Double(x, y), null);
+			textController.toForeground((int) p.getX(), (int) p.getY());
 		}
 	}
 

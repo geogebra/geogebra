@@ -3,11 +3,9 @@ package org.geogebra.web.html5.euclidian;
 import com.google.gwt.dom.client.CanvasElement;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.text.InlineTextController;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -120,8 +118,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void toForeground(int x, int y) {
 		editor.getWidget().removeStyleName(INVISIBLE);
-		editor.focus(x - editor.getWidget().getAbsoluteLeft(),
-				y - editor.getWidget().getAbsoluteTop() + view.getAbsoluteTop());
+		editor.focus(x, y);
 	}
 
 	@Override
@@ -141,11 +138,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void draw(GGraphics2D g2, GAffineTransform transform) {
-		GPoint2D origin = geo.getLocation();
-		int x = view.toScreenCoordX(origin.getX());
-		int y = view.toScreenCoordY(origin.getY());
 		g2.saveTransform();
-
 		g2.transform(transform);
 
 		if (geo.getBackgroundColor() != null) {
