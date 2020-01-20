@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.algebra;
 
-import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -585,22 +584,6 @@ public class AlgebraItem {
 		boolean hasGeneratedEquation = hasEquation && !isFunctionOrEquationFromUser(geoElement);
 
 		return hasGeneratedEquation && (!hasSensitiveEquation || shouldHideSensitiveEquation);
-	}
-
-	/**
-	 * Create provider of texts for ANS button
-	 *
-	 * @param app
-	 *            app
-	 * @return provider of last AV item
-	 */
-	public static HasLastItem getLastItemProvider(final App app) {
-		if (!app.getConfig().hasAnsButtonInAv()
-				|| app.getActiveEuclidianView().getEuclidianController()
-				.isSymbolicEditorSelected()) {
-			return null;
-		}
-		return new ConstructionItemProvider(app.getKernel().getConstruction());
 	}
 
 	/**
