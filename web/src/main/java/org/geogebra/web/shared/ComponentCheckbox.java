@@ -4,10 +4,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.util.Dom;
 
 /**
  * material design checkbox component
@@ -67,10 +67,6 @@ public class ComponentCheckbox extends FlowPanel {
      * update style of checkbox depending on its status (selected or not selected)
      */
     public void updateCheckboxStyle() {
-        if (isSelected()) {
-            checkbox.addStyleName("selected");
-        } else {
-            checkbox.removeStyleName("selected");
-        }
+        Dom.toggleClass(checkbox, "selected", isSelected());
     }
 }

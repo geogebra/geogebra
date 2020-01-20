@@ -22,25 +22,22 @@ public class TemplateChooserController implements TemplateChooserControllerI {
     @Override
     public void fillTemplates(AppW appW, List<Material> templates) {
         getTemplates().clear();
-        getTemplates().add(new TemplatePreviewCard(appW, null, false,
-                new AsyncOperation<TemplatePreviewCard>() {
-
-                    @Override
-                    public void callback(TemplatePreviewCard card) {
-                        setSelected(card);
-                    }
-                }));
+        getTemplates().add(buildCard(appW, null, false));
         for (Material material : templates) {
-            getTemplates().add(new TemplatePreviewCard(appW, material, true,
-                    new AsyncOperation<TemplatePreviewCard>() {
+            getTemplates().add(buildCard(appW, material, true));
+        }
+        setSelected(getTemplates().get(0));
+    }
+
+    private TemplatePreviewCard buildCard(AppW appW, Material material, boolean hasMoreButton) {
+        return new TemplatePreviewCard(appW, material, hasMoreButton,
+           new AsyncOperation<TemplatePreviewCard>() {
 
                 @Override
                 public void callback(TemplatePreviewCard card) {
                     setSelected(card);
                 }
-            }));
-        }
-        setSelected(getTemplates().get(0));
+        });
     }
 
     /**

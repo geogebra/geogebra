@@ -15,6 +15,7 @@ import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 
 public class TemplatePreviewCard extends FlowPanel
         implements SetLabels, MaterialCardI {
@@ -90,11 +91,7 @@ public class TemplatePreviewCard extends FlowPanel
      * @param selected true if template should be selected, false otherwise
      */
     public void setSelected(boolean selected) {
-        if (selected) {
-            this.addStyleName("selected");
-        } else {
-            this.removeStyleName("selected");
-        }
+        Dom.toggleClass(this, "selected", selected);
     }
 
     /**

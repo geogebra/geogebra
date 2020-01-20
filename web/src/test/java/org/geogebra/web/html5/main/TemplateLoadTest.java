@@ -5,10 +5,11 @@ import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,7 @@ import org.junit.runner.RunWith;
 @WithClassesToStub({JLMContext2d.class, RootPanel.class})
 public class TemplateLoadTest {
 	private static AppWFull app;
+	private static EuclidianSettings settings;
 
 	@Before
 	public void init() {
@@ -48,32 +50,32 @@ public class TemplateLoadTest {
 				"<scripting blocked=\"false\" disabled=\"false\"/>\n" +
 				"<construction title=\"templateTest\" author=\"\" date=\"\">\n</construction>\n" +
 				"</geogebra>",false);
+		settings = app.getActiveEuclidianView().getSettings();
 	}
 
 	@Test
 	public void testLoadTemplatePenThickness() {
-        Assert.assertEquals(app.getActiveEuclidianView().getSettings().getLastPenThickness(),30);
+        assertEquals(settings.getLastPenThickness(),30);
 	}
 
 	@Test
 	public void testLoadTemplatePenColor() {
-        Assert.assertEquals(app.getActiveEuclidianView().getSettings().getLastSelectedPenColor(),
-				GColor.newColor(204,0,153));
+        assertEquals(settings.getLastSelectedPenColor(), GColor.newColor(204,0,153));
 	}
 
 	@Test
 	public void testLoadTemplateHighlighterThickness() {
-        Assert.assertEquals(app.getActiveEuclidianView().getSettings().getLastHighlighterThinckness(),1);
+        assertEquals(settings.getLastHighlighterThinckness(),1);
 	}
 
 	@Test
 	public void testLoadTemplateHighlighterColor() {
-        Assert.assertEquals(app.getActiveEuclidianView().getSettings()
-            .getLastSelectedHighlighterColor(), GColor.newColor(219,97,20));
+        assertEquals(settings.getLastSelectedHighlighterColor(),
+				GColor.newColor(219,97,20));
 	}
 
 	@Test
 	public void testLoadTemplateEraserSize() {
-        Assert.assertEquals(app.getActiveEuclidianView().getSettings().getDeleteToolSize(),61);
+        assertEquals(settings.getDeleteToolSize(),61);
 	}
 }
