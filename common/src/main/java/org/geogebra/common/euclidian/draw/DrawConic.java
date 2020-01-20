@@ -1536,10 +1536,10 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	private GRectangle rectForRotatedEllipse() {
-		double sin = Math.abs(conic.eigenvec[1].getX());
-		double cos = Math.abs(conic.eigenvec[1].getY());
+		double sin = conic.eigenvec[1].getX();
+		double cos = conic.eigenvec[1].getY();
 
-		double halfWidth = Math.hypot(-conic.getHalfAxis(1)  * sin,
+		double halfWidth = Math.hypot(conic.getHalfAxis(1)  * sin,
 				conic.getHalfAxis(0)  * cos);
 		double halfHeight = Math.hypot(conic.getHalfAxis(1)  * cos,
 				conic.getHalfAxis(0)  * sin);
