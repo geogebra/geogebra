@@ -1906,7 +1906,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		getLabelPopup().setLabels();
 		btnLineStyle.setLabels();
 		btnColor.setLabels();
-		btnTextBgColor.setLabels();
+		if (btnTextBgColor != null) {
+			btnTextBgColor.setLabels();
+		}
 		if (btnCrop != null) {
 			btnCrop.setText(loc.getMenu("stylebar.Crop"));
 		}
