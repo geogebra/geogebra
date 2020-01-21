@@ -2,7 +2,6 @@ package org.geogebra.web.html5.util;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.storage.client.Storage;
-import com.google.gwt.user.client.Window;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;

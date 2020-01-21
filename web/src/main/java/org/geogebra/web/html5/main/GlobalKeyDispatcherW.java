@@ -2,7 +2,6 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
@@ -665,6 +664,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				break;
 			case 'x':
 				CopyPaste.handleCutCopy(app, true);
+				break;
+			default:
+				break;
 		}
 
 	}
