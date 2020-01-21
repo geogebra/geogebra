@@ -1629,7 +1629,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			if (btnTextBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextBgColor.getSelectedColor();
 				if (color == null) {
-					openColorChooser(targetGeos, false);
+					openColorChooser(targetGeos, true);
 					return false;
 				}
 				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
