@@ -74,6 +74,11 @@ public class JSONParserGGT {
 		if (!"".equals(getString(obj, "syncstamp"))) {
 			material.setSyncStamp(Long.parseLong(getString(obj, "syncstamp")));
 		}
+
+		if (!"".equals(getAppName(obj))) {
+			material.setAppName(getAppName(obj));
+		}
+
 		material.setVisibility(getString(obj, "visibility"));
 		material.setFileName(getString(obj, "fileUrl"));
 		material.setSharingKey(sharingKey);
@@ -124,6 +129,10 @@ public class JSONParserGGT {
 			setCreator(material, obj);
 		}
 		return material;
+	}
+
+	private static String getAppName(JSONObject obj) {
+		return getString(obj, "appname");
 	}
 
 	private static void setCreator(Material material, JSONObject obj) {

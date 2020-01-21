@@ -78,6 +78,7 @@ public class FileManagerW extends FileManager {
 		updateViewerId(mat);
 		mat.setLocalID(id);
 		try {
+			mat.setAppName(app.getConfig().getAppName());
 			stockStore.setItem(key, mat.toJson().toString());
 			cb.onSaved(mat, true);
 		} catch (Exception e) {
@@ -221,6 +222,7 @@ public class FileManagerW extends FileManager {
 				final Material mat = createMaterial(s,
 				        System.currentTimeMillis() / 1000);
 				try {
+					mat.setAppName(app.getConfig().getAppName());
 					stockStore.setItem(getAutosaveKey(),
 							mat.toJson().toString());
 				} catch (Exception e) {

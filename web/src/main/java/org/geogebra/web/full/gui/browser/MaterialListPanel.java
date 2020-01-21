@@ -185,17 +185,37 @@ public class MaterialListPanel extends FlowPanel
 	public final void addGGTMaterials(final List<Material> matList,
 			final ArrayList<Chapter> chapters) {
 		if (chapters == null || chapters.size() < 2) {
-			for (final Material mat : matList) {
-				addMaterial(mat, true, false);
-			}
+			addMaterials(matList);
 		} else {
-			for (int i = 0; i < chapters.size(); i++) {
-				addHeading(chapters.get(i).getTitle());
-				int[] materialIDs = chapters.get(i).getMaterials();
-				for (int j = 0; j < materialIDs.length; j++) {
-					addMaterial(findMaterial(matList, materialIDs[j]), true,
-							false);
-				}
+			addChapters(matList, chapters);
+		}
+	}
+
+	private void addMaterials(List<Material> matList) {
+		List<Material> materials = filterByApplication(matList);
+		for (final Material mat : materials) {
+			addMaterial(mat, true, false);
+		}
+	}
+
+	private List<Material> filterByApplication(List<Material> materials) {
+		List<Material> result = new ArrayList<>();
+		for (Material material: materials) {
+			if (app.getConfig().getAppName().equalsIgnoreCase(material.getAppName())) {
+				result.add(material);
+			}
+		}
+
+		return result;
+	}
+
+	private void addChapters(List<Material> matList, final ArrayList<Chapter> chapters) {
+		for (int i = 0; i < chapters.size(); i++) {
+			addHeading(chapters.get(i).getTitle());
+			int[] materialIDs = chapters.get(i).getMaterials();
+			for (int j = 0; j < materialIDs.length; j++) {
+				addMaterial(findMaterial(matList, materialIDs[j]), true,
+						false);
 			}
 		}
 	}
