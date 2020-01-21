@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -44,6 +45,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private int pointStyle;
 	private int pointSize;
 	private boolean symbolicMode;
+	private boolean isSlider = false;
 
 	/**
 	 * @return output expression
@@ -579,5 +581,42 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public GeoElementND unwrapSymbolic() {
 		return getTwinGeo();
+	}
+
+	/**
+	 * @return true if it can be displayed as a slider
+	 */
+	public boolean isSlider() {
+		return isSlider;
+	}
+
+	/**
+	 * Set whether this can be displayed as slider.
+	 * The setter only works if {@link GeoSymbolic#canBecomeSlider()} returns true.
+	 *
+	 * @param slider true to make it slider displayable
+	 */
+	public void setSlider(boolean slider) {
+		isSlider = canBecomeSlider() && slider;
+		if (isSlider) {
+			initNumericSlider();
+		}
+	}
+
+	private void initNumericSlider() {
+		GeoElementND twin = getTwinGeo();
+		if (twin.isGeoNumeric()) {
+			GeoNumeric numeric = (GeoNumeric) twin;
+			boolean visible = numeric.isEuclidianVisible();
+			numeric.setEuclidianVisible(true);
+			numeric.setEuclidianVisible(visible);
+		}
+	}
+
+	/**
+	 * @return true if the element can become slider.
+	 */
+	public boolean canBecomeSlider() {
+		return AlgebraItem.shouldShowSlider(getTwinGeo().toGeoElement());
 	}
 }
