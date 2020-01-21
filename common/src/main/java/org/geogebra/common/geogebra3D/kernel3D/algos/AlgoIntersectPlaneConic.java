@@ -2,12 +2,12 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import org.geogebra.common.kernel.matrix.CoordMatrixUtil;
+import org.geogebra.common.kernel.matrix.Coords;
 
 public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 	private Coords[] intersection;

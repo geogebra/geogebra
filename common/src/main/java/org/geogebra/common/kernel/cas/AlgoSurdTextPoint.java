@@ -15,11 +15,11 @@ package org.geogebra.common.kernel.cas;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;

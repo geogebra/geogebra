@@ -1,6 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.solid;
 
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Creates the five platonic solids.

@@ -171,7 +171,7 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoText copy() {
 		return new GeoText(this);
 	}
 
@@ -1438,6 +1438,11 @@ public class GeoText extends GeoElement
 	@Override
 	public DescriptionMode needToShowBothRowsInAV() {
 		return DescriptionMode.VALUE;
+	}
+
+	@Override
+	public void initSymbolicMode() {
+		setSymbolicMode(true, true);
 	}
 
 	@Override

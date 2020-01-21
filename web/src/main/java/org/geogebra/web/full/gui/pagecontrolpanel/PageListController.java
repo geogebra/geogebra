@@ -113,8 +113,6 @@ public class PageListController implements PageListControllerInterface,
 	 * 
 	 * @param i
 	 *            index of the slide to load
-	 * @param newPage
-	 *            true if slide is new slide
 	 */
 	private void loadSlide(int i) {
 		try {
@@ -373,7 +371,6 @@ public class PageListController implements PageListControllerInterface,
 			setCardSelected(0);
 		} catch (Exception e) {
 			Log.debug(e);
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return true;

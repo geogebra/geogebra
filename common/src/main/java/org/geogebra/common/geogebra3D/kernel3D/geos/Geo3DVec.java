@@ -23,7 +23,6 @@ import java.util.HashSet;
 import org.apache.commons.math3.complex.Complex;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -40,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**

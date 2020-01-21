@@ -21,14 +21,12 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoAnglePoints;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -36,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -724,13 +723,6 @@ public class DrawAngle extends Drawable implements Previewable {
 	 */
 	public void setMaxRadius(double d) {
 		this.maxRadius = d;
-
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

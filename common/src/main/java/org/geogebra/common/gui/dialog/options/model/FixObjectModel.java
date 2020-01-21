@@ -20,7 +20,7 @@ public class FixObjectModel extends BooleanOptionModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		return geo.isFixable() && (!app.isExamStarted()
+		return geo.isFixable() && (!app.getConfig().isObjectDraggingRestricted()
 				|| !AlgebraItem.isFunctionOrEquationFromUser(geo));
 	}
 

@@ -15,13 +15,13 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Compute a circle with point and radius (missing direction)

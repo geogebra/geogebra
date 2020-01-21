@@ -8,8 +8,8 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**

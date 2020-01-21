@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.Commands;
@@ -34,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.MyMath;
 

@@ -72,10 +72,4 @@ public class DrawSymbolic extends Drawable {
 		return false;
 	}
 
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

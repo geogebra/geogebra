@@ -9,9 +9,9 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 

@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -10,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.MyMath;
 
 /**

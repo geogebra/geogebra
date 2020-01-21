@@ -4,13 +4,13 @@ import java.util.TreeMap;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.HasSegments;
+import org.geogebra.common.kernel.matrix.CoordMatrixUtil;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Computes plane x polygnon intersection.

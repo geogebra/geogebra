@@ -10,11 +10,11 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoAnglePlanes;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoAnglePointsND;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
