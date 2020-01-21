@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
@@ -24,7 +25,7 @@ public class BoundingBoxResizeState {
 	private final EuclidianView view;
 	private final ArrayList<GeoElement> geos;
 
-	private ArrayList<ArrayList<GPoint2D>> ratios;
+	private HashMap<GeoElement, ArrayList<GPoint2D>> ratios;
 
 	/**
 	 * @param rect
@@ -36,32 +37,21 @@ public class BoundingBoxResizeState {
 	 */
 	public BoundingBoxResizeState(GRectangle2D rect, ArrayList<GeoElement> geos,
 			EuclidianView view) {
-		ratios = new ArrayList<>();
+		ratios = new HashMap<>();
 		this.rect = rect;
 		this.geos = geos;
 		this.view = view;
-	}
 
-	/**
-	 * @param i
-	 *            index of the geo
-	 * @return positions of the corners of the geo from the side of bounding box
-	 *         in ratio [minX, maxX, minY, maxY]
-	 */
-	public ArrayList<GPoint2D> getRatios(int i) {
-		return ratios.get(i);
-	}
-
-	/**
-	 * Update the bounding box resize state. Some of the width or height thresholds
-	 * might have changed in the meantime (e.g. GeoInlineText)
-	 */
-	public void update() {
 		if (this.rect != null) {
 			widthHeightRatio = rect.getWidth() / rect.getHeight();
 			for (GeoElement geo : geos) {
 				Drawable dr = (Drawable) view.getDrawableFor(geo);
 				// check and update thresholds
+
+				if (dr == null) {
+					continue;
+				}
+
 				if (dr.getWidthThreshold() > widthThreshold) {
 					widthThreshold = dr.getWidthThreshold();
 				}
@@ -78,7 +68,40 @@ public class BoundingBoxResizeState {
 									(pt.getY() - rectangle.getMinY()) / rectangle.getHeight()));
 				}
 
-				ratios.add(forGeo);
+				ratios.put(geo, forGeo);
+			}
+		}
+	}
+
+	/**
+	 * @return positions of the corners of the geo from the side of bounding box
+	 *         in ratio [minX, maxX, minY, maxY]
+	 */
+	public ArrayList<GPoint2D> getRatios(GeoElement geo) {
+		return ratios.get(geo);
+	}
+
+	/**
+	 * Update the bounding box resize state. Some of the width or height thresholds
+	 * might have changed in the meantime (e.g. GeoInlineText)
+	 */
+	public void updateThresholds() {
+		if (this.rect != null) {
+			widthHeightRatio = rect.getWidth() / rect.getHeight();
+			for (GeoElement geo : geos) {
+				Drawable dr = (Drawable) view.getDrawableFor(geo);
+				// check and update thresholds
+
+				if (dr == null) {
+					continue;
+				}
+
+				if (dr.getWidthThreshold() > widthThreshold) {
+					widthThreshold = dr.getWidthThreshold();
+				}
+				if (dr.getHeightThreshold() > heightThreshold) {
+					heightThreshold = dr.getHeightThreshold();
+				}
 			}
 		}
 	}
@@ -109,23 +132,5 @@ public class BoundingBoxResizeState {
 	 */
 	public double getHeightThreshold() {
 		return heightThreshold;
-	}
-
-	/**
-	 * @param i
-	 *            index of the element
-	 * @return starting width of the element
-	 */
-	public double getWidth(int i) {
-		return rect.getWidth() * (ratios.get(i).get(1).getX() - ratios.get(i).get(0).getX());
-	}
-
-	/**
-	 * @param i
-	 *            index of the element
-	 * @return starting height of the element
-	 */
-	public double getHeight(int i) {
-		return rect.getHeight() * (ratios.get(i).get(1).getY() - ratios.get(i).get(0).getY());
 	}
 }

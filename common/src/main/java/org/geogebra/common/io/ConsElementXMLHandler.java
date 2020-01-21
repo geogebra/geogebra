@@ -218,13 +218,16 @@ public class ConsElementXMLHandler {
 	private boolean handleDimensions(LinkedHashMap<String, String> attrs) {
 		String width = attrs.get("width");
 		String height = attrs.get("height");
+		String angle = attrs.get("angle");
 		if (width != null && height != null) {
 
 			double widthD = -1;
 			double heightD = -1;
+			double angleD = 0;
 			try {
 				widthD = StringUtil.parseDouble(width);
 				heightD = StringUtil.parseDouble(height);
+				angleD = StringUtil.parseDouble(angle);
 			} catch (Exception e) {
 				Log.warn(e.getMessage());
 			}
@@ -242,6 +245,7 @@ public class ConsElementXMLHandler {
 			} else if (geo instanceof GeoInlineText) {
 				((GeoInlineText) geo).setWidth(widthD);
 				((GeoInlineText) geo).setHeight(heightD);
+				((GeoInlineText) geo).setAngle(angleD);
 			}
 
 			return true;

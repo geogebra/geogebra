@@ -1,7 +1,10 @@
 package org.geogebra.web.html5.euclidian;
 
+import com.google.gwt.dom.client.CanvasElement;
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineText;
@@ -19,7 +22,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class InlineTextControllerW implements InlineTextController {
 
 	private static final String INVISIBLE = "invisible";
-	private static final int PADDING = 8;
 	private GeoInlineText geo;
 
 	private Element parent;
@@ -42,7 +44,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void create() {
-		editor = new CarotaEditor(view.getFontSize());
+		editor = new CarotaEditor(DrawInlineText.PADDING, view.getFontSize());
 		final Widget widget = editor.getWidget();
 		widget.addStyleName(INVISIBLE);
 		style = widget.getElement().getStyle();
@@ -60,7 +62,7 @@ public class InlineTextControllerW implements InlineTextController {
 			}
 
 			@Override
-			public void onSizeChanged(double minHeight) {
+			public void onSizeChanged(int minHeight) {
 				geo.setHeight(Math.max(minHeight, geo.getHeight()));
 				geo.setMinHeight(minHeight);
 				geo.updateRepaint();
@@ -102,6 +104,11 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public void setAngle(double angle) {
+		style.setProperty("transform", "rotate(" + angle + "rad)");
+	}
+
+	@Override
 	public void toBackground() {
 		editor.deselect();
 		editor.getWidget().addStyleName(INVISIBLE);
@@ -111,8 +118,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void toForeground(int x, int y) {
 		editor.getWidget().removeStyleName(INVISIBLE);
-		editor.focus(x - editor.getWidget().getAbsoluteLeft(),
-				y - editor.getWidget().getAbsoluteTop() + view.getAbsoluteTop());
+		editor.focus(x, y);
 	}
 
 	@Override
@@ -131,13 +137,22 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public void draw(GGraphics2D g2, int x, int y) {
+	public void draw(GGraphics2D g2, GAffineTransform transform) {
+		g2.saveTransform();
+		g2.transform(transform);
+
 		if (geo.getBackgroundColor() != null) {
 			g2.setPaint(geo.getBackgroundColor());
-			g2.fillRect(x, y, (int) geo.getWidth(), (int) geo.getHeight());
+			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
 		}
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
-			((GGraphics2DW) g2).drawImage(editor.getCanvasElement(), x + PADDING, y + PADDING);
+			CanvasElement canvas = editor.getCanvasElement();
+			if (canvas.getWidth() > 0 && canvas.getHeight() > 0) {
+				((GGraphics2DW) g2).drawImage(canvas,
+						DrawInlineText.PADDING, DrawInlineText.PADDING);
+			}
 		}
+
+		g2.restoreTransform();
 	}
 }

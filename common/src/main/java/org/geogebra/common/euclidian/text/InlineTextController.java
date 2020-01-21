@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.text;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 
 /**
@@ -39,6 +40,8 @@ public interface InlineTextController {
 	 */
 	void setHeight(int height);
 
+	void setAngle(double angle);
+
 	/**
 	 * Put the editor behind the canvas
 	 */
@@ -64,5 +67,5 @@ public interface InlineTextController {
 
 	<T> T getFormat(String key, T fallback);
 
-	void draw(GGraphics2D g2, int x, int y);
+	void draw(GGraphics2D g2, GAffineTransform transform);
 }

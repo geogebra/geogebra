@@ -144,7 +144,7 @@ public class MyPoint extends GPoint2D implements Point {
 
 	@Override
 	public double distance(double x1, double y1) {
-		return GPoint2D.distanceSq(getX(), getY(), x1, y1);
+		return Math.sqrt(GPoint2D.distanceSq(getX(), getY(), x1, y1));
 	}
 
 	@Override

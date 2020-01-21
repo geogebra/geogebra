@@ -7991,7 +7991,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					view.getBoundingBox().getRectangle(),
 					selection.getSelectedGeos(), view);
 		}
-		startBoundingBoxState.update();
+		startBoundingBoxState.updateThresholds();
 
 		GPoint2D mouseDistance = getMouseDistance(event, handler);
 
@@ -8033,8 +8033,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		for (int i = 0; i < selection.getSelectedGeos().size(); i++) {
 			GeoElement geo = selection.getSelectedGeos().get(i);
 			Drawable dr = (Drawable) view.getDrawableFor(geo);
+
+			if (dr == null) {
+				continue;
+			}
+
 			// calculate new positions relative to bounding box
-			ArrayList<GPoint2D> pts = startBoundingBoxState.getRatios(i);
+			ArrayList<GPoint2D> pts = startBoundingBoxState.getRatios(geo);
 			ArrayList<GPoint2D> transformedPts = new ArrayList<>();
 			for (GPoint2D pt : pts) {
 				transformedPts.add(
@@ -10008,6 +10013,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (selectedGeos.size() == 1) {
 			GeoElement geoElement = selectedGeos.get(0);
 			return geoElement.isGeoSegment()
+					|| geoElement instanceof GeoInlineText
 					|| (geoElement.isGeoImage() && !geoElement.isLocked() && crop);
 		}
 		return false;
@@ -12624,7 +12630,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		for (GeoElement geo : geos) {
 			Drawable dr = ((Drawable) view.getDrawableFor(geo));
 			if (dr != null) {
-				if (!dr.hasRotationHandler()) {
+				if (!(geo instanceof PointRotateable)) {
 					hasRotationHandler = false;
 				}
 				GRectangle2D bounds = dr.getBoundsClipped();

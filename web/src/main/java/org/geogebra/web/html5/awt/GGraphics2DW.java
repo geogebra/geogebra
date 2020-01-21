@@ -952,7 +952,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 		try {
 			context.drawImage(img, x, y);
 		} catch (Exception e) {
-			Log.error("error in context.drawImage.3 method");
+			Log.error(e.getMessage());
 		}
 	}
 
@@ -968,7 +968,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 		try {
 			context.drawImage(canvasImg, x, y);
 		} catch (Exception e) {
-			Log.error("error in context.drawImage.3 method");
+			Log.error(e.getMessage());
 		}
 	}
 
@@ -986,6 +986,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void saveTransform() {
+		color = null; // saveTransform changes color in context, cached color needs reset too
 		context.saveTransform();
 	}
 

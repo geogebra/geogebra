@@ -7,13 +7,16 @@ import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -21,7 +24,7 @@ import org.geogebra.common.util.debug.Log;
  * Inline Geo Text element.
  */
 public class GeoInlineText extends GeoElement
-		implements Translateable, TextStyle {
+		implements Translateable, TextStyle, PointRotateable {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
@@ -29,6 +32,8 @@ public class GeoInlineText extends GeoElement
 	private GPoint2D location;
 	private double width;
 	private double height;
+
+	private double angle;
 
 	private double minHeight;
 
@@ -199,6 +204,8 @@ public class GeoInlineText extends GeoElement
 		sb.append(width);
 		sb.append("\" height=\"");
 		sb.append(height);
+		sb.append("\" angle=\"");
+		sb.append(angle);
 		sb.append("\"/>\n");
 	}
 
@@ -321,6 +328,36 @@ public class GeoInlineText extends GeoElement
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public void rotate(NumberValue r) {
+		angle -= r.getDouble();
+	}
+
+	@Override
+	public void rotate(NumberValue r, GeoPointND S) {
+		angle -= r.getDouble();
+
+		double phi = r.getDouble();
+		double cos = MyMath.cos(phi);
+		double sin = Math.sin(phi);
+		double qx = S.getInhomCoords().getX();
+		double qy = S.getInhomCoords().getY();
+
+		double x = location.getX();
+		double y = location.getY();
+
+		location.setLocation((x - qx) * cos + (qy - y) * sin + qx,
+				(x - qx) * sin + (y - qy) * cos + qy);
+	}
+
+	public double getAngle() {
+		return angle;
+	}
+
+	public void setAngle(double angle) {
+		this.angle = angle;
 	}
 
     private void setContentFromText(GeoText geo) {

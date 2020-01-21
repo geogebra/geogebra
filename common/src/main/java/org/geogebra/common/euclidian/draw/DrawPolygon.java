@@ -16,17 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GArea;
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
@@ -59,7 +56,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
 
-	private BoundingBox<GEllipse2DDouble> boundingBox;
 	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
 	private boolean fillShape = false;
@@ -138,10 +134,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 				}
 			}
 
-		}
-		if (geo.isShape() && view
-				.getHitHandler() != EuclidianBoundingBoxHandler.ROTATION && getBounds() != null) {
-				getBoundingBox().setRectangle(getBounds());
 		}
 	}
 
@@ -436,15 +428,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return super.getShape();
 	}
 
-	@Override
-	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
-		if (boundingBox == null) {
-			boundingBox = createBoundingBox(true);
-		}
-		boundingBox.updateFrom(geo);
-		return boundingBox;
-	}
-
 	/**
 	 * method to update points of poly after mouse release
 	 * 
@@ -500,11 +483,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 					view.toRealWorldCoordY(coordArr[1]), 1);
 			it.next();
 		}
-	}
-
-	@Override
-	protected boolean hasRotationHandler() {
-		return true;
 	}
 
 	@Override
