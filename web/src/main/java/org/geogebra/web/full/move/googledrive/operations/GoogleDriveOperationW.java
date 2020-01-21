@@ -4,7 +4,7 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.operations.BaseOperation;
-import org.geogebra.common.move.views.BaseEventView;
+import org.geogebra.common.move.views.BaseView;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
@@ -59,7 +59,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	public GoogleDriveOperationW(AppW app) {
 		this.app = app;
 		setCurrentFileId();
-		setView(new BaseEventView());
+		setView(new BaseView<EventRenderable>());
 		setModel(new GoogleDriveModelW());
 
 		app.getLoginOperation().getView().add(this);

@@ -1,8 +1,8 @@
 package org.geogebra.common.move.operations;
 
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.events.GenericEvent;
 import org.geogebra.common.move.models.BaseModel;
-import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.move.views.BaseView;
 
 /**
@@ -65,14 +65,15 @@ public abstract class BaseOperation<T> {
 	 * @param event
 	 *            The Event to trigger
 	 */
-	public void onEvent(final BaseEvent event) {
+	public void onEvent(final GenericEvent<T> event) {
 		if (model != null) {
 			model.onEvent(event);
 		}
 
-		if (view instanceof BaseEventView) {
-			((BaseEventView) view).onEvent(event);
+		if (view != null) {
+			view.onEvent(event);
 		}
+
 	}
 
 }

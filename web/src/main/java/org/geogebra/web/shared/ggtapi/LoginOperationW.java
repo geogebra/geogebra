@@ -3,11 +3,14 @@ package org.geogebra.web.shared.ggtapi;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.events.GenericEvent;
+import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.move.views.BaseEventView;
+import org.geogebra.common.move.views.BaseView;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -30,10 +33,9 @@ public class LoginOperationW extends LogInOperation {
 	private AppW app;
 	private BackendAPI api;
 
-	private class EventViewW extends BaseEventView {
+	private class LanguageLoginCallback implements EventRenderable {
 		@Override
-		public void onEvent(BaseEvent event) {
-			super.onEvent(event);
+		public void renderEvent(BaseEvent event) {
 			if (isLoggedIn()) {
 				app.setLanguage(getUserLanguage());
 			} else {
@@ -52,7 +54,8 @@ public class LoginOperationW extends LogInOperation {
 	public LoginOperationW(AppW appWeb) {
 		super();
 		this.app = appWeb;
-		setView(new EventViewW());
+		setView(new BaseView<EventRenderable>());
+		getView().add(new LanguageLoginCallback());
 		setModel(new AuthenticationModelW(appWeb));
 
 		iniNativeEvents();
@@ -157,6 +160,7 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	public void passiveLogin() {
+		model.onEvent(new LoginAttemptEvent());
 		if (StringUtil.empty(app.getArticleElement().getParamLoginURL())) {
 			processCookie(true);
 			return;

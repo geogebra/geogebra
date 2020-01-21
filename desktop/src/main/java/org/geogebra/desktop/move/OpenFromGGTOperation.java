@@ -3,7 +3,6 @@ package org.geogebra.desktop.move;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.operations.BaseOperation;
-import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.move.views.EventRenderable;
 
 /**

@@ -3,7 +3,9 @@ package org.geogebra.common.move.ggtapi.models;
 import java.util.ArrayList;
 
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.events.GenericEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
+import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.models.BaseModel;
@@ -15,16 +17,17 @@ import org.geogebra.common.move.models.BaseModel;
 public abstract class AuthenticationModel extends BaseModel {
 	private GeoGebraTubeUser loggedInUser = null;
 
-	private boolean stayLoggedOut;
-
 	/**
 	 * token name for user logged in got back from GGT
 	 */
 	public static String GGB_TOKEN_KEY_NAME = "token";
+	private boolean stayLoggedOut;
+	private boolean loginStarted;
 
 	@Override
-	public void onEvent(BaseEvent event) {
+	public void onEvent(GenericEvent<?> event) {
 		if (event instanceof LoginEvent) {
+			this.loginStarted = false;
 			LoginEvent loginEvent = (LoginEvent) event;
 			if (loginEvent.isSuccessful()) {
 				onLoginSuccess(loginEvent.getUser(), loginEvent.getJSON());
@@ -34,6 +37,8 @@ public abstract class AuthenticationModel extends BaseModel {
 		} else if (event instanceof LogOutEvent) {
 			clearLoginToken();
 			loggedInUser = null;
+		} else if(event instanceof LoginAttemptEvent) {
+			loginStarted = true;
 		}
 	}
 
@@ -147,10 +152,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 * @return true, if a user is currently logged in or false otherwise.
 	 */
 	public boolean isLoggedIn() {
-		if (loggedInUser == null) {
-			return false;
-		}
-		return true;
+		return loggedInUser != null;
 	}
 
 	/**
@@ -178,6 +180,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 */
 	public void stayLoggedOut() {
 		this.stayLoggedOut = true;
+		this.loginStarted = false;
 	}
 
 	/**
@@ -187,4 +190,7 @@ public abstract class AuthenticationModel extends BaseModel {
 		return !stayLoggedOut;
 	}
 
+	public boolean isLoginStarted() {
+		return loginStarted;
+	}
 }

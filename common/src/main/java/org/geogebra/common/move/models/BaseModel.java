@@ -1,6 +1,7 @@
 package org.geogebra.common.move.models;
 
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.events.GenericEvent;
 
 /**
  * @author gabor Base for all Models (eg. data handling) in Common Sometimes not
@@ -15,7 +16,7 @@ public class BaseModel {
 	 * @param event
 	 *            the event that was triggered.
 	 */
-	public void onEvent(BaseEvent event) {
+	public void onEvent(GenericEvent<?> event) {
 		// No default action
 	}
 

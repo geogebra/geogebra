@@ -97,9 +97,8 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
 		Log.debug(
 				"Sending call to GeoGebraTube API to authorize the login token...");
-
 		// Trigger an event to signal the login attempt
-		onEvent(new LoginAttemptEvent(user));
+		onEvent(new LoginAttemptEvent());
 
 		// Send API request to check if the token is valid
 		api.authorizeUser(user, this, automatic);

@@ -3,7 +3,9 @@ package org.geogebra.desktop.move.ggtapi.views;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.views.BaseEventView;
+import org.geogebra.common.move.events.GenericEvent;
+import org.geogebra.common.move.views.BaseView;
+import org.geogebra.common.move.views.EventRenderable;
 
 /**
  * A basic view based on Swing that can handle events
@@ -11,10 +13,10 @@ import org.geogebra.common.move.views.BaseEventView;
  * @author stefan
  *
  */
-public class BaseSwingEventView extends BaseEventView {
+public class BaseSwingEventView extends BaseView<EventRenderable> {
 
 	@Override
-	public void onEvent(final BaseEvent event) {
+	public void onEvent(final GenericEvent<EventRenderable> event) {
 
 		// call the gui event on the Event dispatch thread.
 		SwingUtilities.invokeLater(new Runnable() {
