@@ -773,14 +773,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createPointCaptureBtn();
 		createDeleteSiztBtn();
 
+		createColorBtn();
 		if (app.isWhiteboardActive()) {
-			createColorBtn();
 			createFillingBtn();
-		} else {
-			createColorBtn();
+			createTextBgColorBtn();
 		}
 		createBgColorBtn();
-		createTextBgColorBtn();
 		createTextColorBtn();
 		createTextBoldBtn();
 		createTextItalicBtn();
@@ -1271,37 +1269,21 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createTextBgColorBtn() {
-		if (app.isWhiteboardActive()) {
-			btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT,
-					false) {
+		btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
-				@Override
-				public void update(List<GeoElement> geos) {
-					boolean geosOK = checkTextNoInputBox(geos);
-					super.setVisible(geosOK);
-					if (geosOK) {
-						GeoElement geo = geos.get(0)
-								.getGeoElementForPropertiesDialog();
-						GColor geoTextBgColor = geo.getBackgroundColor();
-						updateColorTable();
+			@Override
+			public void update(List<GeoElement> geos) {
+				super.setVisible(checkTextNoInputBox(geos));
+			}
 
-						// find the bgColor in the table and select it
-						if (geoTextBgColor != null) {
-							int index = this.getColorIndex(geoTextBgColor);
-							setSelectedIndex(index);
-						}
-					}
-				}
-
-				@Override
-				public ImageOrText getButtonIcon() {
-					return  new ImageOrText(
-							MaterialDesignResources.INSTANCE.color_black(), 24);
-				}
-			};
-			btnTextBgColor.setEnableTable(true);
-			btnTextBgColor.addPopupHandler(this);
-		}
+			@Override
+			public ImageOrText getButtonIcon() {
+				return new ImageOrText(
+						MaterialDesignResources.INSTANCE.color_black(), 24);
+			}
+		};
+		btnTextBgColor.setEnableTable(true);
+		btnTextBgColor.addPopupHandler(this);
 	}
 
 	private void createTextColorBtn() {

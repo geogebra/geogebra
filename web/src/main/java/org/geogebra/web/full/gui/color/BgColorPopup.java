@@ -14,52 +14,52 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
 public class BgColorPopup extends ColorPopupMenuButton implements SetLabels {
-    private FormLabel noColLbl;
-    private Localization localization;
+	private FormLabel noColLbl;
+	private Localization localization;
 
-    /**
-     * @param app          {@link AppW}
-     * @param colorSetType {@code int}
-     * @param hasSlider    {@code boolean}
-     */
-    public BgColorPopup(AppW app, int colorSetType, boolean hasSlider) {
-        super(app, colorSetType, hasSlider);
-        localization = app.getLocalization();
-        // rearrange the content
-        VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
-        panel.clear();
-        addNoColorButton(panel);
-        panel.add(getMyTable());
-        setLabels();
-    }
+	/**
+	 * @param app          {@link AppW}
+	 * @param colorSetType {@code int}
+	 * @param hasSlider    {@code boolean}
+	 */
+	public BgColorPopup(AppW app, int colorSetType, boolean hasSlider) {
+		super(app, colorSetType, hasSlider);
+		localization = app.getLocalization();
+		// rearrange the content
+		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
+		panel.clear();
+		addNoColorButton(panel);
+		panel.add(getMyTable());
+		setLabels();
+	}
 
-    private void addNoColorButton(VerticalPanel panel) {
-        FlowPanel noColBtn = new FlowPanel();
-        noColBtn.addStyleName("noColBtn");
-        noColBtn.add(new NoDragImage(MaterialDesignResources.INSTANCE.no_color(), 24));
-        noColLbl = new FormLabel();
-        noColBtn.add(noColLbl);
-        noColBtn.addDomHandler(new ClickHandler() {
+	private void addNoColorButton(VerticalPanel panel) {
+		FlowPanel noColBtn = new FlowPanel();
+		noColBtn.addStyleName("noColBtn");
+		noColBtn.add(new NoDragImage(MaterialDesignResources.INSTANCE.no_color(), 24));
+		noColLbl = new FormLabel();
+		noColBtn.add(noColLbl);
+		noColBtn.addDomHandler(new ClickHandler() {
 
-            @Override
-            public void onClick(ClickEvent event) {
-                boolean needUndo = EuclidianStyleBarStatic.applyBgColor(app.getSelectionManager()
-                         .getSelectedGeos(), null, 1);
-                if (needUndo) {
-                    app.storeUndoInfo();
-                }
-                closePopup();
-            }
-        }, ClickEvent.getType());
-        panel.add(noColBtn);
-    }
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean needUndo = EuclidianStyleBarStatic.applyBgColor(app.getSelectionManager()
+						 .getSelectedGeos(), null, 1);
+				if (needUndo) {
+					app.storeUndoInfo();
+				}
+				closePopup();
+			}
+		}, ClickEvent.getType());
+		panel.add(noColBtn);
+	}
 
-    public void closePopup() {
-        getMyPopup().hide();
-    }
+	private void closePopup() {
+		getMyPopup().hide();
+	}
 
-    @Override
-    public void setLabels() {
-        noColLbl.setText(localization.getMenu("noColor"));
-    }
+	@Override
+	public void setLabels() {
+		noColLbl.setText(localization.getMenu("noColor"));
+	}
 }
