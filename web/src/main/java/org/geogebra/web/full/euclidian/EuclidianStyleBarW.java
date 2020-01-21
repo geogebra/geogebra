@@ -44,6 +44,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.color.BgColorPopup;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -109,6 +110,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	// // buttons and lists of buttons
 	private ColorPopupMenuButton btnBgColor;
 	private ColorPopupMenuButton btnTextColor;
+	private BgColorPopup btnTextBgColor;
 	private PopupMenuButtonW btnTextSize;
 	private PopupMenuButtonW btnLabelStyle;
 	private PopupMenuButtonW btnAngleInterval;
@@ -502,6 +504,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		add(btnPointCapture);
 
 		// add color and style buttons
+		if (btnTextBgColor != null) {
+			add(btnTextBgColor);
+		}
 		add(btnColor);
 		add(btnBgColor);
 		add(btnTextColor);
@@ -748,7 +753,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
 		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
-				btnColor, btnBgColor, btnTextColor, btnFilling,
+				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
 				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval,
 				btnLabelStyle, btnPointCapture, btnChangeView };
 	}
@@ -768,11 +773,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createPointCaptureBtn();
 		createDeleteSiztBtn();
 
+		createColorBtn();
 		if (app.isWhiteboardActive()) {
-			createColorBtn();
 			createFillingBtn();
-		} else {
-			createColorBtn();
+			createTextBgColorBtn();
 		}
 		createBgColorBtn();
 		createTextColorBtn();
@@ -1264,6 +1268,24 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnBgColor.addPopupHandler(this);
 	}
 
+	private void createTextBgColorBtn() {
+		btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				super.setVisible(checkTextNoInputBox(geos));
+			}
+
+			@Override
+			public ImageOrText getButtonIcon() {
+				return new ImageOrText(
+						MaterialDesignResources.INSTANCE.color_black(), 24);
+			}
+		};
+		btnTextBgColor.setEnableTable(true);
+		btnTextBgColor.addPopupHandler(this);
+	}
+
 	private void createTextColorBtn() {
 		btnTextColor = new ColorPopupMenuButton(app,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
@@ -1330,7 +1352,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				@Override
 				public void update(List<GeoElement> geos) {
-
 					boolean geosOK = checkTextNoInputBox(geos);
 					super.setVisible(geosOK);
 					if (geosOK) {
@@ -1585,6 +1606,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 					return false;
 				}
 				needUndo = applyColor(targetGeos, color, 1);
+			}
+		} else if (source == btnTextBgColor) {
+			if (btnTextBgColor.getSelectedIndex() >= 0) {
+				GColor color = btnTextBgColor.getSelectedColor();
+				if (color == null) {
+					openColorChooser(targetGeos, true);
+					return false;
+				}
+				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
+						color, 1);
 			}
 		} else if (source == btnFilling) {
 			FillType fillType = btnFilling.getSelectedFillType();
@@ -1857,6 +1888,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		getLabelPopup().setLabels();
 		btnLineStyle.setLabels();
 		btnColor.setLabels();
+		if (btnTextBgColor != null) {
+			btnTextBgColor.setLabels();
+		}
 		if (btnCrop != null) {
 			btnCrop.setText(loc.getMenu("stylebar.Crop"));
 		}
@@ -1894,6 +1928,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTipText(btnFixPosition, "AbsoluteScreenLocation");
 		setToolTipText(btnFixObject, "FixObject");
 		setToolTipText(btnTextColor, "stylebar.Color");
+		if (btnTextBgColor != null) {
+			setToolTipText(btnTextBgColor, "stylebar.BgColor");
+		}
 	}
 
 	private void setToolTipText(MyCJButton btn, String key) {
