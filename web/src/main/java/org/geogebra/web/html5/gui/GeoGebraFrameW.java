@@ -119,13 +119,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * @return map article id -&gt; article
-	 */
-	public static HashMap<String, AppW> getArticleMap() {
-		return articleMap;
-	}
-
-	/**
 	 * @param el
 	 *            ArticleElement to be used as dummy parent, if it's the last
 	 *            one

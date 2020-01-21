@@ -120,7 +120,6 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(ArticleElementInterface article,
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
-		getArticleMap().put(article.getId(), application);
 
 		if (!app.isApplet()) {
 			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());

@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Window;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -27,6 +28,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import java.util.ArrayList;
@@ -267,15 +269,13 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}-*/;
 
-	private static native void saveToClipboard(String toSave) /*-{
-		var encoded = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix
-			+ btoa(toSave);
-
-		@org.geogebra.web.html5.util.CopyPasteW::writeToExternalClipboard(*)(encoded);
-
-		$wnd.localStorage.setItem(
-			@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, toSave);
-	}-*/;
+	private static void saveToClipboard(String toSave) {
+		if (!Browser.isiOS()) {
+			String encoded = pastePrefix + GlobalFunctions.btoa(toSave);
+			writeToExternalClipboard(encoded);
+		}
+		Storage.getLocalStorageIfSupported().setItem(pastePrefix, toSave);
+	}
 
 	@Override
 	public native void pasteFromXML(App app)  /*-{
@@ -525,6 +525,10 @@ public class CopyPasteW extends CopyPaste {
 		target.addEventListener('cut', cutCopy)
 	}-*/;
 
+	/**
+	 * Paste from internal keyboard
+	 * @param appX application
+	 */
 	public static void pasteInternal(App appX) {
 		String stored = Storage.getLocalStorageIfSupported().getItem(pastePrefix);
 		if (!StringUtil.empty(stored)) {
