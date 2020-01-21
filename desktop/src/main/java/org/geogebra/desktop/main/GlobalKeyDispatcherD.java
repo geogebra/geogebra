@@ -107,11 +107,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		if (handleSelectedGeosKeys(event, selection.getSelectedGeos())) {
-			return true;
-		}
-
-		return false;
+		return handleSelectedGeosKeys(event, selection.getSelectedGeos());
 	}
 
 	/**
@@ -170,8 +166,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			return true;
 		}
 
-		if (((AppD) app).isUsingFullGui()
-				&& ((GuiManagerD) app.getGuiManager()).noMenusOpen()) {
+		if (app.isUsingFullGui()
+				&& app.getGuiManager().noMenusOpen()) {
 			if (app.showAlgebraInput() && !((GuiManagerD) app.getGuiManager())
 					.getAlgebraInput().hasFocus()) {
 				// focus this frame (needed for external view windows)
@@ -276,7 +272,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			// load next file in folder
 
 			// ask if OK to discard current file
-			if (((AppD) app).isSaved() || ((AppD) app).saveCurrentFile()) {
+			if (app.isSaved() || ((AppD) app).saveCurrentFile()) {
 				MyFileFilter fileFilter = new MyFileFilter();
 				fileFilter.addExtension(FileExtensions.GEOGEBRA);
 				File[] options = ((AppD) app).getCurrentPath()
@@ -296,9 +292,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				}
 				TreeSet<File> sortedSet = new TreeSet<>(
 						UtilD.getFileComparator());
-				for (int i = 0; i < options.length; i++) {
-					if (options[i].isFile()) {
-						sortedSet.add(options[i]);
+				for (File option : options) {
+					if (option.isFile()) {
+						sortedSet.add(option);
 					}
 				}
 

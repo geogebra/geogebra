@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.util;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.storage.client.Storage;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -25,6 +26,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.ExternalAccess;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
 
 import java.util.ArrayList;
@@ -508,10 +510,7 @@ public class CopyPasteW extends CopyPaste {
 				return;
 			}
 
-			var stored = $wnd.localStorage.getItem(pastePrefix);
-			if (stored) {
-				@org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, stored);
-			}
+			@org.geogebra.web.html5.util.CopyPasteW::pasteInternal(*)(app);
 		});
 
 		function cutCopy(event) {
@@ -525,6 +524,13 @@ public class CopyPasteW extends CopyPaste {
 		target.addEventListener('copy', cutCopy);
 		target.addEventListener('cut', cutCopy)
 	}-*/;
+
+	public static void pasteInternal(App appX) {
+		String stored = Storage.getLocalStorageIfSupported().getItem(pastePrefix);
+		if (!StringUtil.empty(stored)) {
+			pasteGeoGebraXML(appX, stored);
+		}
+	}
 
 	/**
 	 * Check if there is any readable content in the system clipboard (if supported),

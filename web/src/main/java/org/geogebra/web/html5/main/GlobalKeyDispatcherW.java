@@ -10,12 +10,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GlobalKeyDispatcher;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
@@ -372,7 +375,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				event.preventDefault();
 			}
 		}
-
+		if (Browser.isiOS() && isControlKeyDown(event)) {
+			handleIosKeyboard(event.getCharCode());
+		}
 		// this needs to be done in onKeyPress -- keyUp is not case sensitive
 		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.has(Feature.MOW_TEXT_TOOL)) {
 			this.renameStarted(event.getCharCode());
@@ -442,23 +447,22 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 	}
 
-	private static boolean isControlKeyDown(KeyUpEvent event) {
+	private static boolean isControlKeyDown(KeyEvent<? extends EventHandler> event) {
 		return event.isControlKeyDown()
-				|| Browser.isMacOS() && event.isMetaKeyDown();
+				|| (Browser.isMacOS() || Browser.isiOS()) && event.isMetaKeyDown();
 	}
 
 	/**
 	 *
 	 * @param event
 	 *            native event
-	 * @return whether it was handled
 	 */
-	public boolean handleSelectedGeosKeysNative(NativeEvent event) {
-		return handleSelectedGeosKeys(
+	public void handleSelectedGeosKeysNative(NativeEvent event) {
+		handleSelectedGeosKeys(
 				KeyCodes.translateGWTcode(event
-		                .getKeyCode()), selection.getSelectedGeos(),
-		        event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
-		        false);
+						.getKeyCode()), selection.getSelectedGeos(),
+				event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
+				false);
 	}
 
 	@Override
@@ -535,7 +539,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				&& event.isControlKeyDown()) {
 			event.preventDefault();
 		}
-
 		if (keydownPreventsDefaultKeypressTAB) {
 			event.preventDefault();
 		}
@@ -598,15 +601,12 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 
 		if (app.getGuiManager() != null
-		        && ((GuiManagerInterfaceW) app.getGuiManager()).noMenusOpen()) {
+		        && app.getGuiManager().noMenusOpen()) {
 			if (app.showAlgebraInput()) {
-				// && !((GuiManagerW) app.getGuiManager()).getAlgebraInput()
-				// .hasFocus()) {
-
-				if (((GuiManagerInterfaceW) app.getGuiManager())
-						.getAlgebraInput() != null) {
-					((GuiManagerInterfaceW) app.getGuiManager())
-							.getAlgebraInput().requestFocus();
+				AlgebraInput algebraInput = ((GuiManagerInterfaceW) app.getGuiManager())
+						.getAlgebraInput();
+				if (algebraInput != null) {
+					algebraInput.requestFocus();
 					return true;
 				}
 			}
@@ -656,6 +656,20 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	protected KeyCodes translateKey(int i) {
 		return KeyCodes.translateGWTcode(i);
+	}
+
+	protected void handleIosKeyboard(char code) {
+		switch(code) {
+			case 'v':
+				CopyPasteW.pasteInternal(app);
+				break;
+			case 'c':
+				CopyPaste.handleCutCopy(app, true);
+				break;
+			case 'x':
+				CopyPaste.handleCutCopy(app, false);
+		}
+
 	}
 
 }
