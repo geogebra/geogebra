@@ -1,7 +1,15 @@
 package org.geogebra.common.jre.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.*;
+import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.commands.CommandDispatcherAdvanced;
+import org.geogebra.common.kernel.commands.CommandDispatcherCAS;
+import org.geogebra.common.kernel.commands.CommandDispatcherDiscrete;
+import org.geogebra.common.kernel.commands.CommandDispatcherInterface;
+import org.geogebra.common.kernel.commands.CommandDispatcherProver;
+import org.geogebra.common.kernel.commands.CommandDispatcherScripting;
+import org.geogebra.common.kernel.commands.CommandDispatcherStats;
+import org.geogebra.common.kernel.commands.CommandDispatcherSteps;
 
 public class CommandDispatcherJre extends CommandDispatcher {
 

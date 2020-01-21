@@ -111,6 +111,9 @@
             <property name="allowedAnnotations" value="Override, Test, Before"/>
             <property name="allowThrowsTagsForSubclasses" value="true"/>
         </module>
+        <module name="AvoidStarImport">
+            <property name="allowStaticMemberImports" value="true"/>
+        </module>
     </module>
    
 </module>

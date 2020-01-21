@@ -13,8 +13,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
@@ -49,6 +47,8 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -849,17 +849,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public void getXML(boolean listeners, StringBuilder sbxml) {
+	protected void getExpressionXML(StringBuilder sb) {
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sbxml.append("<expression");
-			sbxml.append(" label=\"");
-			sbxml.append(label);
-			sbxml.append("\" exp=\"");
-			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
+			sb.append("<expression");
+			sb.append(" label=\"");
+			sb.append(label);
+			sb.append("\" exp=\"");
+			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
 			// expression
-			sbxml.append("\"/>\n");
+			sb.append("\"/>\n");
 		}
-		super.getXML(listeners, sbxml);
 	}
 
 	@Override

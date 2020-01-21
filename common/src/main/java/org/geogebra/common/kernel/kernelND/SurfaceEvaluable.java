@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords3;
+import org.geogebra.common.kernel.matrix.Coords3;
 
 /**
  * Surface with parametric equation z=f(x1,x2,...,xn)

@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.kernelND;
 
-import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.CoordSys;
 
 /**
  * Simple interface for elements that have a coord sys

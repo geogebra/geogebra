@@ -2,10 +2,10 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.ChangeableParent;
 import org.geogebra.common.kernel.geos.CoordConverter;
+import org.geogebra.common.kernel.matrix.CoordMatrixUtil;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 public class ExtrudeConverter implements CoordConverter {

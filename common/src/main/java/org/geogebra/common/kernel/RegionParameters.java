@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * @author Mathieu Blossier

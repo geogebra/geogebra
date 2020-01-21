@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -11,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -26,8 +28,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Utitlity class for AV items
@@ -575,7 +575,7 @@ public class AlgebraItem {
 	/**
 	 * Tells whether the output row should be visible for the given object. We
 	 * want to show only the definition for implicit equations, functions and
-	 * conics created by tool or command in Exam mode
+	 * conics created by tool or command
 	 *
 	 * @param geoElement
 	 *            geoElement
@@ -584,13 +584,15 @@ public class AlgebraItem {
 	 */
 	public static boolean shouldShowOnlyDefinitionForGeo(
 			GeoElementND geoElement) {
-		if (geoElement instanceof EquationValue
-				&& !(geoElement instanceof GeoLine)
-				&& geoElement.getKernel().getApplication().isExamStarted()) {
+		boolean shouldHideEquations =
+				geoElement.getKernel().getApplication().getConfig().shouldHideEquations();
+		boolean hasEquation = geoElement instanceof EquationValue;
+		boolean hasSensitiveEquation =
+				geoElement instanceof GeoLine || geoElement instanceof GeoConic;
+		boolean shouldHideSensitiveEquation = hasSensitiveEquation && shouldHideEquations;
+		boolean hasGeneratedEquation = hasEquation && !isFunctionOrEquationFromUser(geoElement);
 
-			return !isFunctionOrEquationFromUser(geoElement);
-		}
-		return false;
+		return hasGeneratedEquation && (!hasSensitiveEquation || shouldHideSensitiveEquation);
 	}
 
 	/**
