@@ -27,7 +27,7 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 @RunWith(GwtMockitoTestRunner.class)
 @WithClassesToStub({TextAreaElement.class, EuclidianSimplePanelW.class,
 		JLMContext2d.class, RootPanel.class, ResizeComposite.class})
-public class AppWSimpleLoadTest {
+public class LoadFromJsonFileTest {
 	private static final String CLOSED_AV_JSON_PATH =
 			"src/test/java/org/geogebra/web/html5/main/closedAV.json";
 	private static final String jsonPath =
