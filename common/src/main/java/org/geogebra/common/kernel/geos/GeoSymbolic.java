@@ -614,9 +614,12 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 * @param slider true to make it slider displayable
 	 */
 	public void setSlider(boolean slider) {
-		isSlider = canBecomeSlider() && slider;
-		if (isSlider) {
-			initNumericSlider();
+		if (isSlider != slider) {
+			isSlider = slider && canBecomeSlider();
+			if (isSlider) {
+				initNumericSlider();
+			}
+			notifyUpdate();
 		}
 	}
 
