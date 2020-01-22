@@ -1711,19 +1711,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void updatePerspectiveForUnbundled(Perspective perspective) {
-		if (isPortrait()) {
-			return;
-		}
-
 		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
 		DockPanelData[] dpDataArray = perspective.getDockPanelData();
-		for (int i = 0; i < dpDataArray.length; ++i) {
-			DockPanelData panelData = dpDataArray[i];
+		for (DockPanelData panelData : dpDataArray) {
 			DockPanelW panel = dm.getPanel(panelData.getViewId());
 			if (panel instanceof ToolbarDockPanelW) {
 				updateToolbarPanelVisibility((ToolbarDockPanelW) panel, panelData.isVisible());
 			}
-			if (panel != null) {
+			if (panel != null && !isPortrait()) {
 				updateDividerLocation(dm, panelData);
 			}
 		}
