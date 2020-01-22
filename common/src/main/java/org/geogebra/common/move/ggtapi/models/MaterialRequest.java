@@ -266,6 +266,10 @@ public class MaterialRequest implements Request {
 	}
 
 	private static boolean isNotesApp(String appName) {
+		if (appName == null) {
+			return false;
+		}
+
 		return "notes".equals(appName.toLowerCase());
 	}
 
