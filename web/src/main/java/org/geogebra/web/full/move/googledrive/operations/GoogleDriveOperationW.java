@@ -4,7 +4,6 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.operations.BaseOperation;
-import org.geogebra.common.move.views.BaseView;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
@@ -29,13 +28,13 @@ import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.user.client.Window.Location;
 
 /**
- * @author gabor
+ * Operational class for Google Drive Api
  *
- *         Operational class for Google Drive Api
+ * @author gabor
  */
 public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
         implements EventRenderable, GoogleDriveOperation {
-
+	private final GoogleDriveModelW model;
 	private static final String GoogleApiJavaScriptSrc = "https://apis.google.com/js/client.js?onload=GGW_loadGoogleDrive";
 	private boolean driveLoaded;
 	private AppW app;
@@ -59,8 +58,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	public GoogleDriveOperationW(AppW app) {
 		this.app = app;
 		setCurrentFileId();
-		setView(new BaseView<EventRenderable>());
-		setModel(new GoogleDriveModelW());
+		model = new GoogleDriveModelW();
 
 		app.getLoginOperation().getView().add(this);
 		getView().add(this);
@@ -80,9 +78,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		return driveBase64description;
 	}
 
-	@Override
 	public GoogleDriveModelW getModel() {
-		return (GoogleDriveModelW) super.getModel();
+		return model;
 	}
 
 	/**
@@ -274,9 +271,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 		if (event instanceof LogOutEvent) {
 			logOut();
-			return;
 		}
-
 	}
 
 	/**
@@ -422,8 +417,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 * interact with Google Drive)
 	 */
 	public void logOut() {
-		this.onEvent(new GoogleLogOutEvent());
-		this.getModel().setLoggedInFromGoogleDrive(false);
+		onEvent(new GoogleLogOutEvent());
+		getModel().setLoggedInFromGoogleDrive(false);
 	}
 
 	/**
@@ -617,6 +612,11 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 			this.waitingHandler = todo;
 			login(false);
 		}
+	}
+
+	private void onEvent(BaseEvent event) {
+		model.onEvent(event);
+		dispatchEvent(event);
 	}
 
 }

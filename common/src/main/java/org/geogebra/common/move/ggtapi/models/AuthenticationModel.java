@@ -1,20 +1,18 @@
 package org.geogebra.common.move.ggtapi.models;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.events.GenericEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
-import org.geogebra.common.move.models.BaseModel;
+
+import java.util.ArrayList;
 
 /**
  * @author gabor Base class for login logout operations
  *
  */
-public abstract class AuthenticationModel extends BaseModel {
+public abstract class AuthenticationModel {
 	private GeoGebraTubeUser loggedInUser = null;
 
 	/**
@@ -24,8 +22,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	private boolean stayLoggedOut;
 	private boolean loginStarted;
 
-	@Override
-	public void onEvent(GenericEvent<?> event) {
+	public void onEvent(BaseEvent event) {
 		if (event instanceof LoginEvent) {
 			this.loginStarted = false;
 			LoginEvent loginEvent = (LoginEvent) event;
@@ -37,7 +34,7 @@ public abstract class AuthenticationModel extends BaseModel {
 		} else if (event instanceof LogOutEvent) {
 			clearLoginToken();
 			loggedInUser = null;
-		} else if(event instanceof LoginAttemptEvent) {
+		} else if (event instanceof LoginAttemptEvent) {
 			loginStarted = true;
 		}
 	}

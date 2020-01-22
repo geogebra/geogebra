@@ -36,7 +36,7 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	 */
 	public void setOnline(boolean online) {
 		this.online = online;
-		view.onEvent(new BooleanEvent(online));
+		dispatchEvent(new BooleanEvent(online));
 	}
 
 }
