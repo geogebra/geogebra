@@ -2,12 +2,11 @@ package org.geogebra.web.html5.util;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.storage.client.Storage;
-import org.geogebra.common.awt.GRectangle;
+import com.google.gwt.user.client.Timer;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.draw.DrawText;
-import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -16,17 +15,21 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
@@ -36,7 +39,6 @@ import java.util.List;
 
 public class CopyPasteW extends CopyPaste {
 
-	@ExternalAccess
 	private static final String pastePrefix = "ggbpastedata";
 
 	private static final int defaultTextWidth = 300;
@@ -335,51 +337,57 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}-*/;
 
-	@ExternalAccess
-	private static native void pasteText(App app, String text) /*-{
-		var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
-
+	private static void pasteText(App app, String text) {
 		if (text.startsWith(pastePrefix)) {
-			@org.geogebra.web.html5.util.CopyPasteW::pasteGeoGebraXML(*)(app, atob(text.substring(pastePrefix.length)));
+			pasteGeoGebraXML(app, GlobalFunctions.atob(text.substring(pastePrefix.length())));
 		} else {
-			@org.geogebra.web.html5.util.CopyPasteW::pastePlainText(*)(app, text);
+			pastePlainText(app, text);
 		}
-	}-*/;
+	}
 
 	@ExternalAccess
 	private static void pasteImage(App app, String encodedImage) {
 		((AppW) app).urlDropHappened(encodedImage, null, null, null);
 	}
 
-	@ExternalAccess
 	private static void pastePlainText(App app, String plainText) {
-		EuclidianView ev = app.getActiveEuclidianView();
-
-		GeoText txt = app.getKernel().getAlgebraProcessor().text(plainText);
-		txt.setLabel(null);
-
-		DrawText drawText = (DrawText) app.getActiveEuclidianView().getDrawableFor(txt);
-		GRectangle bounds = AwtFactory.getPrototype().newRectangle(
-				0, 0, defaultTextWidth, 0);
-		drawText.adjustBoundingBoxToText(bounds);
-
-		txt.setNeedsUpdatedBoundingBox(true);
-		txt.update();
-
-		try {
-			txt.setStartPoint(new GeoPoint(app.getKernel().getConstruction(),
-					ev.toRealWorldCoordX((ev.getWidth() - defaultTextWidth) / 2.0),
-					ev.toRealWorldCoordY((ev.getHeight() - drawText.getBounds().getHeight()) / 2),
-					1));
-		} catch (CircularDefinitionException e) {
-			// should never happen
-		}
-
-		txt.setNeedsUpdatedBoundingBox(true);
-		txt.update();
-
 		if (app.isWhiteboardActive()) {
-			ev.getEuclidianController().selectAndShowBoundingBox(txt);
+			EuclidianView ev = app.getActiveEuclidianView();
+
+			GeoInlineText txt = new GeoInlineText(app.getKernel().getConstruction(),
+					new GPoint2D.Double(ev.toRealWorldCoordX(-defaultTextWidth), 0),
+					defaultTextWidth, GeoInlineText.DEFAULT_HEIGHT);
+			txt.setLabel(null);
+
+			JSONArray array = new JSONArray();
+			JSONObject object = new JSONObject();
+			try {
+				object.put("text", plainText);
+			} catch (JSONException e) {
+				Log.error(e.getMessage());
+				return;
+			}
+			array.put(object);
+
+			txt.setContent(array.toString());
+
+			DrawInlineText drawText = (DrawInlineText) app.getActiveEuclidianView()
+					.getDrawableFor(txt);
+			drawText.update();
+			drawText.updateContent();
+
+			new Timer() {
+				@Override
+				public void run() {
+					txt.setLocation(new GPoint2D.Double(
+							ev.toRealWorldCoordX((ev.getWidth() - defaultTextWidth) / 2.0),
+							ev.toRealWorldCoordY((ev.getHeight() - txt.getHeight()) / 2.0)
+					));
+					drawText.update();
+
+					ev.getEuclidianController().selectAndShowBoundingBox(txt);
+				}
+			}.schedule(100);
 		}
 	}
 
@@ -500,8 +508,6 @@ public class CopyPasteW extends CopyPaste {
 				reader.readAsDataURL(a.clipboardData.files[0]);
 				return;
 			}
-
-			var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
 
 			var text = a.clipboardData.getData("text/plain");
 			if (text) {
