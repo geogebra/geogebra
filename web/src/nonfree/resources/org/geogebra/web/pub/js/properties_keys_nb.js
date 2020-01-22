@@ -2563,6 +2563,7 @@ __GGB__keysVar["nb"].menu = {
     "RemoveLabel": "Fjern navn/merking",
     "RemoveLineBreaks": "Fjern linjeskift",
     "RemoveRow": "Fjern rad",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Fjern objekt fra sporingsliste",
     "Rename": "Gi nytt navn",
     "Repeat": "Gjenta",

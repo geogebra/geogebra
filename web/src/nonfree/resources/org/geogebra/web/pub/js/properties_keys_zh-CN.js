@@ -2563,6 +2563,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "RemoveLabel": "\u5220\u9664\u6807\u7b7e",
     "RemoveLineBreaks": "\u5220\u9664\u6362\u884c\u7b26",
     "RemoveRow": "\u5220\u9664\u6a2a\u884c",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "\u4ece\u8ddf\u8e2a\u5217\u8868\u4e2d\u5220\u9664\u5bf9\u8c61",
     "Rename": "\u91cd\u547d\u540d",
     "Repeat": "\u91cd\u590d",

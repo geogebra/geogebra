@@ -2563,6 +2563,7 @@ __GGB__keysVar["sk"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Odst\xe1nenie zalomenia \u010diar",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Odstr\xe1ni\u0165 objekt zo zoznamu st\xf4p",
     "Rename": "Premenuj",
     "Repeat": "Opakova\u0165",

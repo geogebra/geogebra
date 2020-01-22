@@ -2563,6 +2563,7 @@ __GGB__keysVar["fi"].menu = {
     "RemoveLabel": "Poista nimi",
     "RemoveLineBreaks": "Poista rivinvaihdot",
     "RemoveRow": "Poista rivi",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Poista objekti j\xe4lkilistasta",
     "Rename": "Nime\xe4 uudelleen",
     "Repeat": "Toista",

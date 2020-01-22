@@ -2563,6 +2563,7 @@ __GGB__keysVar["sv"].menu = {
     "RemoveLabel": "Tag bort etikett",
     "RemoveLineBreaks": "Radera radslut",
     "RemoveRow": "Radera rad",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Tag bort objektet fr\xe5n sp\xe5rningslistan",
     "Rename": "Ge nytt namn",
     "Repeat": "Upprepa",

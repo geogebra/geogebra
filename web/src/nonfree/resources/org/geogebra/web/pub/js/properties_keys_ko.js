@@ -2563,6 +2563,7 @@ __GGB__keysVar["ko"].menu = {
     "RemoveLabel": "\ub808\uc774\ube14 \uc81c\uac70",
     "RemoveLineBreaks": "\uc904\ubc14\uafc8 \uc0ad\uc81c",
     "RemoveRow": "\ud589 \uc0ad\uc81c",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "\uc790\ucde8 \ub9ac\uc2a4\ud2b8\uc5d0\uc11c \ub300\uc0c1\uc744 \uc81c\uac70",
     "Rename": "\uc774\ub984 \ub2e4\uc2dc \ubd99\uc774\uae30",
     "Repeat": "\ubc18\ubcf5",

@@ -2563,6 +2563,7 @@ __GGB__keysVar["km"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "Rename",
     "Repeat": "Repeat",

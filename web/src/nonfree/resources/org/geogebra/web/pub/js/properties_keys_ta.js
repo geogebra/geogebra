@@ -2563,6 +2563,7 @@ __GGB__keysVar["ta"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveRow": "\u0ba8\u0bbf\u0bb0\u0bc8\u0baf\u0bbf\u0ba9\u0bc8 \u0ba8\u0bc0\u0b95\u0bcd\u0b95\u0bc1\u0b95",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "\u0bae\u0bc0\u0bb3\u0bcd\u0baa\u0bc6\u0baf\u0bb0\u0bbf\u0b9f\u0bc1\u0b95",
     "Repeat": "\u0bae\u0bc0\u0bb3\u0b9a\u0bcd\u0b9a\u0bc6\u0baf\u0bcd\u0b95",

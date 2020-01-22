@@ -2563,6 +2563,7 @@ __GGB__keysVar["gl"].menu = {
     "RemoveLabel": "Quitar etiqueta",
     "RemoveLineBreaks": "Suprime saltos de par\xe1grafo",
     "RemoveRow": "Eliminar fila",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Elimina obxecto da lista de rastrexo",
     "Rename": "Renomear",
     "Repeat": "Repetir",

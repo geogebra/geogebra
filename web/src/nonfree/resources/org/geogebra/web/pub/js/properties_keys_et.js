@@ -2563,6 +2563,7 @@ __GGB__keysVar["et"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Eemalda rea v\xf5i joone katkestused",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Eemalda objekt j\xe4lje loendist",
     "Rename": "Nimeta \xfcmber",
     "Repeat": "Korda",
