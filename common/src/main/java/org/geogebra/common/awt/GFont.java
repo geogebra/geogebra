@@ -14,7 +14,7 @@ public abstract class GFont {
 	/** italic font */
 	public static final int ITALIC = 2;
 	/** underline font */
-	public static final int UNDERLINE = 3;
+	public static final int UNDERLINE = 4;
 
 	/**
 	 * Returns the style of this <code>Font</code>. The style can be PLAIN,
