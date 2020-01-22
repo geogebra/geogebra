@@ -49,6 +49,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -3733,4 +3734,30 @@ public class ExpressionNode extends ValidExpression
 		resolve = null;
 	}
 
+	/**
+	 * @return true if the expression is just a number (or degree)
+	 */
+	public boolean isSimpleNumber() {
+		if (getOperation() == Operation.MULTIPLY) {
+			if (getLeft().unwrap() instanceof NumberValue
+					&& getRight().unwrap() instanceof MyDouble
+					&& MyDouble.exactEqual(getRight()
+					.evaluateDouble(), MyMath.DEG)) {
+				return true;
+			}
+		}
+		ExpressionValue unwrap = unwrap();
+		if (unwrap instanceof ExpressionNode) {
+			return false;
+		}
+		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
+			return false;
+		}
+		if (unwrap instanceof MySpecialDouble || unwrap instanceof GeoNumeric) {
+			double val = evaluateDouble();
+			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
+					&& !DoubleUtil.isEqual(val, Math.E);
+		}
+		return false;
+	}
 }

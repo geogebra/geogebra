@@ -16,13 +16,13 @@ import java.util.Collections;
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -908,9 +908,48 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testUndoRedoWorksWhenLabelIsHidden() {
 		LabelController labelController = new LabelController();
-		GeoElement element = (GeoElement) add("x")[0];
+		GeoElement element = add("x");
 		labelController.hideLabel(element);
 		app.setXML(app.getXML(), true);
+	}
+
+	@Test
+	public void testNumberCanBecomeSlider() {
+		GeoSymbolic element = add("1");
+		Assert.assertTrue(element.canBecomeSlider());
+	}
+
+	@Test
+	public void testRealNumberCanBecomeSlider() {
+		GeoSymbolic element = add("0.6");
+		Assert.assertTrue(element.canBecomeSlider());
+	}
+
+	@Test
+	public void testAngleCanBecomeSlider() {
+		GeoSymbolic element = add("45" + Unicode.DEGREE_STRING);
+		Assert.assertTrue(element.canBecomeSlider());
+	}
+
+	@Test
+	public void testUndefinedVariableCannotBecomeSlider() {
+		GeoSymbolic element = add("a");
+		Assert.assertFalse(element.canBecomeSlider());
+	}
+
+	@Test
+	public void testFunctionCannotBecomeSlider() {
+		GeoSymbolic element = add("x^2");
+		Assert.assertFalse(element.canBecomeSlider());
+	}
+
+	@Test
+	public void testAngleSetSlider() {
+		GeoSymbolic element = add("45" + Unicode.DEGREE_STRING);
+		element.setSlider(true);
+		GeoNumeric numeric = (GeoNumeric) element.getTwinGeo();
+		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMin(), 0));
+		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMax(), 2 * Math.PI));
 	}
 
 	private int numberOfSpecialPoints() {
@@ -925,9 +964,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				.updateSpecialPoints(app.getKernel().lookupLabel(string));
 	}
 
-	private GeoElementND[] add(String string) {
-		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
-				true);
+	private <T extends GeoElementND> T add(String string) {
+		return (T) app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
+				true)[0];
 	}
 
 	/**

@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
@@ -276,9 +277,14 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (twinUpToDate) {
 			return twinGeo;
 		}
-		GeoElementND newTwin = casOutputString == null ? null
+		ExpressionNode node = getDefinition();
+		String input = casOutputString;
+		if (node != null && node.isSimpleNumber()) {
+			input = node.toString(StringTemplate.defaultTemplate);
+		}
+		GeoElementND newTwin = input == null ? null
 				: kernel.getAlgebraProcessor()
-						.evaluateToGeoElement(this.casOutputString, false);
+						.evaluateToGeoElement(input, false);
 
 		if (newTwin instanceof EquationValue) {
 			((EquationValue) newTwin).setToUser();
@@ -617,6 +623,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 * @return true if the element can become slider.
 	 */
 	public boolean canBecomeSlider() {
-		return AlgebraItem.shouldShowSlider(getTwinGeo().toGeoElement());
+		return getTwinGeo() != null && AlgebraItem.shouldShowSlider(getTwinGeo().toGeoElement());
 	}
 }
