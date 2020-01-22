@@ -1,6 +1,5 @@
 package org.geogebra.common.move.operations;
 
-import org.geogebra.common.move.views.BaseView;
 import org.geogebra.common.move.views.BooleanRenderable;
 
 /**

@@ -3,6 +3,7 @@ package org.geogebra.desktop.move;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.operations.BaseOperation;
+import org.geogebra.common.move.views.BaseView;
 import org.geogebra.common.move.views.EventRenderable;
 
 /**
@@ -37,7 +38,7 @@ public class OpenFromGGTOperation extends BaseOperation<EventRenderable> {
 	 */
 	public OpenFromGGTOperation(App app) {
 		this.app = app;
-		setView(new BaseEventView());
+		setView(new BaseView<EventRenderable>());
 	}
 
 	/**
