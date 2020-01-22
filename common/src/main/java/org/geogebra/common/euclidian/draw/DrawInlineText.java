@@ -203,7 +203,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	public void setHeight(int newHeight) {
 		text.setHeight(newHeight);
 		if (textController != null) {
-			textController.setHeight(newHeight);
+			textController.setHeight(newHeight - 2 * PADDING);
 		}
 	}
 

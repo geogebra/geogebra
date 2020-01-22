@@ -100,7 +100,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void setHeight(int height) {
-		style.setProperty("minHeight", height, Style.Unit.PX);
+		style.setHeight(height, Style.Unit.PX);
 	}
 
 	@Override
