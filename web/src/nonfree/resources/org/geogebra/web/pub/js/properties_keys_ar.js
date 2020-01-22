@@ -2563,6 +2563,7 @@ __GGB__keysVar["ar"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "\u0625\u0632\u0627\u0644\u0629 \u0641\u0648\u0627\u0635\u0644 \u0627\u0644\u062e\u0637",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "\u0625\u0632\u0627\u0644\u0629 \u0627\u0644\u0639\u0646\u0635\u0631 \u0645\u0646 \u0642\u0627\u0626\u0645\u0629 \u0627\u0644\u0622\u062b\u0627\u0631",
     "Rename": "\u0625\u0639\u0627\u062f\u0629 \u062a\u0633\u0645\u064a\u0629",
     "Repeat": "\u0625\u0639\u0627\u062f\u0629",

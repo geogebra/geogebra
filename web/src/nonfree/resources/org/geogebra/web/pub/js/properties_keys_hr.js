@@ -2563,6 +2563,7 @@ __GGB__keysVar["hr"].menu = {
     "RemoveLabel": "Ukloni oznaku",
     "RemoveLineBreaks": "Ukloni prekide redaka",
     "RemoveRow": "Izbaci redak",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Ukloni objekt s liste za tragove",
     "Rename": "Preimenuj",
     "Repeat": "Ponavljanje",

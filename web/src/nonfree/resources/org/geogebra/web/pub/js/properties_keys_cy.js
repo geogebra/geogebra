@@ -2563,6 +2563,7 @@ __GGB__keysVar["cy"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Diddymu Toriadau Llinell",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Tynnu gwrthrych o'r rhestr olrhain",
     "Rename": "Ailenwi",
     "Repeat": "Ailadrodd",

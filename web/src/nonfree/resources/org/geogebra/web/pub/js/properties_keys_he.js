@@ -2563,6 +2563,7 @@ __GGB__keysVar["he"].menu = {
     "RemoveLabel": "\u05d4\u05e1\u05e8\u05ea \u05ea\u05d5\u05d5\u05d9\u05ea",
     "RemoveLineBreaks": "\u05d4\u05e1\u05e8\u05ea \u05e1\u05d5\u05e4\u05d9 \u05e9\u05d5\u05e8\u05d4",
     "RemoveRow": "\u05d4\u05e1\u05e8 \u05e9\u05d5\u05e8\u05d4",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "\u05d4\u05e1\u05e8\u05ea \u05e2\u05e6\u05dd \u05de\u05e8\u05e9\u05d9\u05de\u05ea \u05d4\u05e2\u05e7\u05d1\u05d5\u05ea",
     "Rename": "\u05e9\u05e0\u05d5\u05d9 \u05e9\u05dd",
     "Repeat": "\u05d7\u05d6\u05e8\u05d4",

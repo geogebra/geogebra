@@ -2563,6 +2563,7 @@ __GGB__keysVar["ms"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Singkir Pemisah-pemisah Garis",
     "RemoveRow": "Singkir Baris",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Singkir objek daripada senarai surih",
     "Rename": "Namakan semula",
     "Repeat": "Ulang",
