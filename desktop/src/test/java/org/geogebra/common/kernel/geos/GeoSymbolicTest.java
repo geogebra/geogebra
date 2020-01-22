@@ -952,6 +952,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMax(), 2 * Math.PI));
 	}
 
+	@Test
+	public void testSliderCommand() {
+		GeoSymbolic slider = add("Slider(1, 10)");
+		Assert.assertTrue(slider.isSlider());
+		Assert.assertTrue(slider.getTwinGeo().isGeoNumeric());
+		GeoNumeric numeric = (GeoNumeric) slider.getTwinGeo();
+		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMin(), 1));
+		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMax(), 10));
+	}
+
 	private int numberOfSpecialPoints() {
 		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
 			return 0;

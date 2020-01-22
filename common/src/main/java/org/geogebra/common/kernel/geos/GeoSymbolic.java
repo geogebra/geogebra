@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
@@ -178,6 +177,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
+		isSlider = casInput.getName().equals("Slider");
 
 		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
 				new MyArbitraryConstant(this), StringTemplate.prefixedDefault,
@@ -277,10 +277,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (twinUpToDate) {
 			return twinGeo;
 		}
-		ExpressionNode node = getDefinition();
 		String input = casOutputString;
-		if (node != null && node.isSimpleNumber()) {
-			input = node.toString(StringTemplate.defaultTemplate);
+		if (useDefinitionAsInput()) {
+			input = getDefinition().toString(StringTemplate.defaultTemplate);
 		}
 		GeoElementND newTwin = input == null ? null
 				: kernel.getAlgebraProcessor()
@@ -306,6 +305,18 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		twinUpToDate = true;
 
 		return twinGeo;
+	}
+
+	private boolean useDefinitionAsInput() {
+		ExpressionNode node = getDefinition();
+		if (node == null) {
+			return false;
+		}
+		if (node.isSimpleNumber()) {
+			return true;
+		}
+		return node.unwrap() instanceof Command
+				&& ((Command) node.unwrap()).getName().equals("Slider");
 	}
 
 	@Override
@@ -610,9 +621,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private void initNumericSlider() {
-		GeoElementND twin = getTwinGeo();
-		if (twin.isGeoNumeric()) {
-			GeoNumeric numeric = (GeoNumeric) twin;
+		GeoElementND element = getTwinGeo();
+		if (element.isGeoNumeric()) {
+			GeoNumeric numeric = (GeoNumeric) element;
 			boolean visible = numeric.isEuclidianVisible();
 			numeric.setEuclidianVisible(true);
 			numeric.setEuclidianVisible(visible);
