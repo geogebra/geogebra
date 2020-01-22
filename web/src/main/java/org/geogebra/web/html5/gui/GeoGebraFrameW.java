@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.Log;
@@ -63,7 +62,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static final int LOGO_HEIGHT = 120;
 
-	private static HashMap<String, AppW> articleMap = new HashMap<>();
 	/** Article element */
 	private ArticleElementInterface articleElement;
 
@@ -116,13 +114,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			lastDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
 			parentElement.appendChild(lastDummy);
 		}
-	}
-
-	/**
-	 * @return map article id -&gt; article
-	 */
-	public static HashMap<String, AppW> getArticleMap() {
-		return articleMap;
 	}
 
 	/**
