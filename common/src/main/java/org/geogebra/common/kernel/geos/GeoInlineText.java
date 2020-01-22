@@ -246,8 +246,8 @@ public class GeoInlineText extends GeoElement
 			boolean bold = drawable.getFormat("bold", false);
 			boolean italic = drawable.getFormat("italic", false);
 			boolean underline = drawable.getFormat("underline", false);
-			return ((bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0)) | (underline ?
-					GFont.UNDERLINE : 0);
+			return ((bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0)) | (underline
+					? GFont.UNDERLINE : 0);
 		} catch (RuntimeException e) {
 			Log.warn("No format for " + this);
 		}
