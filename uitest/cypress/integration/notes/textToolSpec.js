@@ -45,5 +45,23 @@ describe('Text tool test', () => {
                     expect(data.element.content[0]["$"].val).to.equal("[{\"text\":\"GeoGebra Rocks\",\"bold\":true}]");
                 });
             })
+    });
+
+    it("Underline button should  change text format", () => {
+           // text tool selected as first on media panel
+           selectors.mediaPanelButton.click();
+           // use mouse down+up to avoid "scroll to view" behavior of cy.click
+           selectors.euclidianView.get()
+                .mouseEvent('down', 100, 300)
+                .mouseEvent('up', 100, 300);
+           cy.get(".carotaTextArea textarea").type("Text element example");
+           cy.wait(500);
+           cy.get(".btnUnderline img").click();
+
+           cy.window().then((win) => {
+               parseString(win.ggbApplet.getXML("a"), (err, data) => {
+                   expect(data.element.content[0]["$"].val).to.equal("[{\"text\":\"Text element example\",\"underline\":true}]");
+               });
+           })
         });
 });

@@ -23,6 +23,7 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -47,6 +48,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	ListBox lbDecimalPlaces;
 	MyToggleButtonW btnBold;
 	MyToggleButtonW btnItalic;
+	MyToggleButtonW btnUnderline;
 	private GToggleButton btnLatex;
 
 	private FlowPanel secondLine;
@@ -150,6 +152,11 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 									.text_bold_black().getSafeUri(),
 							0, 0, 24, 24, false, false));
 			btnBold.addStyleName("btnBold");
+			if (app.isWhiteboardActive()) {
+				btnUnderline = new MyToggleButtonW(new NoDragImage(
+						MaterialDesignResources.INSTANCE.text_underline_black(), 24));
+				btnUnderline.addStyleName("btnUnderline");
+			}
 		} else {
 			btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
 			btnBold.addStyleName("btnBold");
@@ -174,12 +181,18 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 				model.applyFontStyle(btnBold.getValue(), btnItalic.getValue());
 				inlineFormat("bold", btnBold.getValue());
 				inlineFormat("italic", btnItalic.getValue());
+				if (btnUnderline != null) {
+					inlineFormat("underline", btnUnderline.getValue());
+				}
 				updatePreviewPanel();
 			}
 		};
 
 		btnBold.addClickHandler(styleClick);
 		btnItalic.addClickHandler(styleClick);
+		if (btnUnderline != null) {
+			btnUnderline.addClickHandler(styleClick);
+		}
 
 		btnLatex.addClickHandler(new ClickHandler() {
 
@@ -219,6 +232,9 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		firstLine.add(lbSize);
 		firstLine.add(btnBold);
 		firstLine.add(btnItalic);
+		if (btnUnderline != null) {
+			firstLine.add(btnUnderline);
+		}
 		firstLine.add(btnLatex);
 
 		// bold, italic

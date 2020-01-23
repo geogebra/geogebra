@@ -122,6 +122,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private MyToggleButtonW btnShowAxes;
 	private MyToggleButtonW btnBold;
 	private MyToggleButtonW btnItalic;
+	private MyToggleButtonW btnUnderline;
 
 	private MyToggleButtonW btnFixPosition;
 	private MyToggleButtonW btnFixObject;
@@ -534,6 +535,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		add(btnBold);
 		add(btnItalic);
+		add(btnUnderline);
 		if (!app.isUnbundledOrWhiteboard()) {
 			add(btnTextSize);
 		}
@@ -747,7 +749,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	protected MyToggleButtonW[] newToggleBtnList() {
 		return new MyToggleButtonW[] { getAxesOrGridToggleButton(), btnBold,
-				btnItalic, btnFixPosition, btnFixObject, btnDeleteSizes[0],
+				btnItalic, btnUnderline, btnFixPosition, btnFixObject, btnDeleteSizes[0],
 				btnDeleteSizes[1], btnDeleteSizes[2] };
 	}
 
@@ -782,6 +784,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createTextColorBtn();
 		createTextBoldBtn();
 		createTextItalicBtn();
+		createTextUnderlineBtn();
 		createFixPositionBtn();
 		createFixObjectBtn();
 		createTextSizeBtn();
@@ -1443,6 +1446,25 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnItalic.addValueChangeHandler(this);
 	}
 
+	private void createTextUnderlineBtn() {
+		btnUnderline = new MyToggleButtonW(new NoDragImage(
+			MaterialDesignResources.INSTANCE.text_underline_black(), 24)) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkTextNoInputBox(geos);
+				super.setVisible(geosOK);
+				if (geosOK) {
+					int style = getFontStyle(geos);
+					btnUnderline.setValue((style & GFont.UNDERLINE) != 0);
+				}
+			}
+		};
+
+		btnUnderline.addStyleName("btnUnderline");
+		btnUnderline.addValueChangeHandler(this);
+	}
+
 	private void createTextSizeBtn() {
 		// ========================================
 		// text size button
@@ -1628,6 +1650,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 			needUndo = applyFontStyle(targetGeos,
 					GFont.ITALIC,
 					btnItalic.isDown());
+		} else if (source == btnUnderline) {
+			needUndo = applyFontStyle(targetGeos,
+					GFont.UNDERLINE, btnUnderline.isDown());
 		} else if (source == btnTextSize) {
 			needUndo = applyTextSize(targetGeos,
 					btnTextSize.getSelectedIndex());
@@ -1670,7 +1695,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 			boolean add) {
 		boolean ret = EuclidianStyleBarStatic.applyFontStyle(targetGeos, mask,
 				add);
-		String property = mask == GFont.BOLD ? "bold" : "italic";
+		String property = mask == GFont.BOLD ? "bold" : (mask == GFont.ITALIC ? "italic"
+				: "underline");
 		return inlineFormatter.formatInlineText(targetGeos, property, add)
 				|| ret;
 	}
@@ -1981,7 +2007,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private static int getFontStyle(List<GeoElement> geos) {
-		int style = GFont.ITALIC | GFont.BOLD;
+		int style = GFont.ITALIC | GFont.BOLD | GFont.UNDERLINE;
 		for (GeoElement geo : geos) {
 			style &= ((TextStyle) geo.getGeoElementForPropertiesDialog()).getFontStyle();
 		}
