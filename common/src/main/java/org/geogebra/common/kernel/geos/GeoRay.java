@@ -63,6 +63,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	public GeoRay(Construction c) {
 		super(c);
 		setConstructionDefaults();
+		setModeIfEquationFormIsNotForced(toStringMode);
 	}
 
 	/**

@@ -26,11 +26,6 @@ public interface VendorSettings {
 	String getAppTitle(AppConfig config);
 
 	/**
-	 * @return view preferences
-	 */
-	ViewPreferences getViewPreferences();
-
-	/**
 	 * Gets helper for toggling emulated fullscreen when running in an iframe,
 	 * only available for specific cases.
 	 * 

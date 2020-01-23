@@ -785,17 +785,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public final native void copyBase64ToClipboardChromeWebAppCase(
-			String str) /*-{
-		// solution copied from CopyPasteCutW.copyToSystemClipboardChromeWebapp
-		// although it's strange that .contentEditable is not set to true
-		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
-		copyFrom.value = str;
-		copyFrom.select();
-		$doc.execCommand('copy');
-	}-*/;
-
-	@Override
 	public final boolean isSelectionRectangleAllowed() {
 		return this.showToolBar;
 	}

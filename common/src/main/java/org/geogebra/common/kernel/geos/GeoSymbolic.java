@@ -158,6 +158,12 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	@Override
+	public void resetDefinition() {
+		super.resetDefinition();
+		fVars.clear();
+	}
+
+	@Override
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.getCollector());
@@ -184,14 +190,13 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private void computeFunctionVariables() {
-		if (getDefinition() == null) {
+		if (getDefinition() == null || !fVars.isEmpty()) {
 			return;
 		}
 		ExpressionValue def = getDefinition().unwrap();
 		if (def instanceof FunctionNVar) {
 			setVariables(((FunctionNVar) def).getFunctionVariables());
 		} else if (getDefinition().containsFreeFunctionVariable(null)) {
-			fVars.clear();
 			FunctionVarCollector functionVarCollector = FunctionVarCollector
 					.getCollector();
 			getDefinition().traverse(functionVarCollector);
@@ -501,23 +506,23 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	@Override
-	protected void getExpressionXML(StringBuilder sb) {
-		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.append("<expression");
-			sb.append(" label=\"");
-			sb.append(label);
-			sb.append("\" exp=\"");
-			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
-			sb.append("\" />\n");
-		}
-	}
-
-	@Override
 	public void getXMLtags(StringBuilder builder) {
 		super.getXMLtags(builder);
+		getFVarsXML(builder);
 		getLineStyleXML(builder);
 		XMLBuilder.appendPointProperties(builder, this);
 		XMLBuilder.appendSymbolicMode(builder, this, true);
+	}
+
+	private void getFVarsXML(StringBuilder sb) {
+		String prefix = "";
+		sb.append("\t<variables val=\"");
+		for (FunctionVariable variable: fVars) {
+			sb.append(prefix);
+			sb.append(StringUtil.encodeXML(variable.getSetVarString()));
+			prefix = ",";
+		}
+		sb.append("\"/>\n");
 	}
 
 	@Override

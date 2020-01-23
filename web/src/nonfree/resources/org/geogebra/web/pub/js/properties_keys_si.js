@@ -2563,6 +2563,7 @@ __GGB__keysVar["si"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "\u0dba\u0dbd\u0dd2 \u0db1\u0db8\u0dca \u0d9a\u0dd2\u0dbb\u0dd3\u0db8",
     "Repeat": "\u0db1\u0dd0\u0dc0\u0dad \u0d9a\u0dd2\u0dbb\u0dd3\u0db8",

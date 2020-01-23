@@ -45,6 +45,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
@@ -119,7 +120,12 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(ArticleElementInterface article,
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
-		getArticleMap().put(article.getId(), application);
+
+		if (!app.isApplet()) {
+			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
+		} else {
+			CopyPasteW.installCutCopyPaste(application, getElement());
+		}
 
 		if (app != null) {
 			kbButtonSpace.addStyleName("kbButtonSpace");

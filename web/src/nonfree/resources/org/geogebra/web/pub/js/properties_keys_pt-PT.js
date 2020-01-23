@@ -2563,6 +2563,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "RemoveLabel": "Remover etiqueta",
     "RemoveLineBreaks": "Remover Quebras de Linha",
     "RemoveRow": "Remover Linha",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Remover objeto da lista",
     "Rename": "Renomear",
     "Repeat": "Repetir",
