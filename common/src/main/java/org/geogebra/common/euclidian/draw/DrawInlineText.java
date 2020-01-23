@@ -62,9 +62,14 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public void update() {
+		GPoint2D point = text.getLocation();
+
+		if (point == null) {
+			return;
+		}
+
 		updateTransforms();
 
-		GPoint2D point = text.getLocation();
 		double angle = text.getAngle();
 		double width = text.getWidth();
 		double height = text.getHeight();
@@ -146,6 +151,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	public TextBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
 			boundingBox = new TextBoundingBox();
+			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
 		}
 		boundingBox.updateFrom(geo);

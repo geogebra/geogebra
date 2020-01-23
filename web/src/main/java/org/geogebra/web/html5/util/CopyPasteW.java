@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -442,8 +441,13 @@ public class CopyPasteW extends CopyPaste {
 			ArrayList<GeoElement> shapes = new ArrayList<>();
 			for (GeoElement created : createdElements) {
 				if (created.isShape() || created instanceof GeoLocusStroke
-						|| created instanceof GeoWidget || created instanceof GeoText
-						|| created instanceof GeoImage) {
+						|| created instanceof GeoWidget || created instanceof GeoImage) {
+					shapes.add(created);
+				}
+
+				if (created instanceof GeoInlineText) {
+					DrawInlineText drawInlineText = (DrawInlineText) ev.getDrawableFor(created);
+					drawInlineText.updateContent();
 					shapes.add(created);
 				}
 			}

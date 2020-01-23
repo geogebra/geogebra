@@ -37,7 +37,7 @@ public class GeoInlineText extends GeoElement
 
 	private double minHeight;
 
-	private String content = "[]";
+	private String content;
 	private int contentDefaultSize;
 
 	/**
@@ -146,6 +146,9 @@ public class GeoInlineText extends GeoElement
 	}
 
 	/**
+	 * VERY IMPORTANT! If you are setting the content from the outside
+	 * (i.e. not from Carota) do not forget to call updateContent on
+	 * the Drawable
 	 * @param content
 	 *            JSON representation of the document (used by Carota)
 	 */
