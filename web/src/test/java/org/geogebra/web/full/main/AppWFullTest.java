@@ -28,4 +28,10 @@ public class AppWFullTest {
 		GeoOutputFilter outputFilter = AppMocker.mockGeometry(getClass()).getOutputFilter();
 		assertThat(outputFilter instanceof NoFilter, is(true));
 	}
+
+	@Test
+	public void casUsesNoFilter() {
+		GeoOutputFilter outputFilter = AppMocker.mockCas(getClass()).getOutputFilter();
+		assertThat(outputFilter instanceof NoFilter, is(true));
+	}
 }
