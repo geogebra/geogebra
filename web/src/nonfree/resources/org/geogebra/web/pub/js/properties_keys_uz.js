@@ -1904,6 +1904,7 @@ __GGB__keysVar["uz"].menu = {
     "GeneratePstricks": "Kodni genetatsiya qilish",
     "GeoGebra3DGrapher": "GeoGebra 3D Calculator",
     "GeoGebra3DGrapher.short": "3D Kalkulator",
+    "GeoGebraApps": "GeoGebra Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS Calculator",
     "GeoGebraForum": "GeoGebra Forumi",
     "GeoGebraGeometry": "GeoGebra Geometriya",

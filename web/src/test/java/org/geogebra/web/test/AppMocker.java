@@ -17,7 +17,6 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.core.client.impl.SchedulerImpl;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.user.client.ui.impl.PopupImpl;
 import com.google.gwtmockito.GwtMockito;
 import com.google.gwtmockito.fakes.FakeProvider;
@@ -80,14 +79,7 @@ public class AppMocker {
 
 	public static AppWsimple mockAppletSimple(ArticleElementInterface ae) {
 		useCommonFakeProviders();
-		GwtMockito.useProviderForType(SchedulerImpl.class,
-				new FakeProvider<SchedulerImpl>() {
-
-					@Override
-					public SchedulerImpl getFake(Class<?> type) {
-						return new QueueScheduler();
-					}
-				});
+		useProviderForSchedulerImpl();
 		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(ae);
 		AppWsimple app = new AppWSimpleMock(ae, frame, false);
 		setAppDefaults(app);
@@ -109,9 +101,19 @@ public class AppMocker {
 						};
 					}
 				});
-		GwtMockito.useProviderForType(ClientBundle.class, new CustomFakeClientBundleProvider());
 		Browser.mockWebGL();
 		FactoryProvider.setInstance(new MockFactoryProviderGWT());
 		setTestLogger();
+	}
+
+	public static void useProviderForSchedulerImpl() {
+		GwtMockito.useProviderForType(SchedulerImpl.class,
+				new FakeProvider<SchedulerImpl>() {
+
+					@Override
+					public SchedulerImpl getFake(Class<?> type) {
+						return new QueueScheduler();
+					}
+				});
 	}
 }

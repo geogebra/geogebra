@@ -29,8 +29,6 @@ import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * The <code>AffineTransform</code> class represents a 2D affine transform
  * that performs a linear mapping from 2D coordinates to other 2D
@@ -830,8 +828,6 @@ public class AffineTransform implements GAffineTransform {
      * they have not been cached.
      * @see #getType
      */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
     private void calculateType() {
         int ret = TYPE_IDENTITY;
         boolean sgn0, sgn1;
@@ -995,8 +991,6 @@ public class AffineTransform implements GAffineTransform {
      * @see #TYPE_UNIFORM_SCALE
      * @since 1.2
      */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
     public double getDeterminant() {
         switch (state) {
         default:
@@ -1602,8 +1596,6 @@ public class AffineTransform implements GAffineTransform {
      * @since 1.2
      */
     @Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void scale(double sx, double sy) {
 		int state1 = this.state;
 		switch (state1) {
@@ -2209,8 +2201,6 @@ public class AffineTransform implements GAffineTransform {
      * @since 1.2
      */
     @Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void concatenate(GAffineTransform Tx0) {
     	
     	AffineTransform Tx = (AffineTransform) Tx0;

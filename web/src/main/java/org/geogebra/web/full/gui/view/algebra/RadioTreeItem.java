@@ -1466,6 +1466,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return true;
 	}
 
+	@Override
+	public boolean hasFocus() {
+		return getMathField().hasFocus();
+	}
+
 	public boolean isForceControls() {
 		return forceControls;
 	}
