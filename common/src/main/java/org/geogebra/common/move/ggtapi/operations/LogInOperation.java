@@ -242,7 +242,12 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 */
 	public void onEvent(final BaseEvent event) {
 		if (model != null) {
-			model.onEvent(event);
+			if (event instanceof LoginEvent) {
+				model.onLogin((LoginEvent) event);
+			}
+			if (event instanceof LogOutEvent) {
+				model.onLogout();
+			}
 		}
 		dispatchEvent(event);
 	}

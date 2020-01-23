@@ -1,8 +1,5 @@
 package org.geogebra.common.move.ggtapi.models;
 
-import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.events.LogOutEvent;
-import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 
@@ -22,21 +19,28 @@ public abstract class AuthenticationModel {
 	private boolean stayLoggedOut;
 	private boolean loginStarted;
 
-	public void onEvent(BaseEvent event) {
-		if (event instanceof LoginEvent) {
-			this.loginStarted = false;
-			LoginEvent loginEvent = (LoginEvent) event;
-			if (loginEvent.isSuccessful()) {
-				onLoginSuccess(loginEvent.getUser(), loginEvent.getJSON());
-			} else {
-				onLoginError(loginEvent.getUser());
-			}
-		} else if (event instanceof LogOutEvent) {
-			clearLoginToken();
-			loggedInUser = null;
-		} else if (event instanceof LoginAttemptEvent) {
-			loginStarted = true;
+	/**
+	 * @param loginEvent login event
+	 */
+	public void onLogin(LoginEvent loginEvent) {
+		this.loginStarted = false;
+		if (loginEvent.isSuccessful()) {
+			onLoginSuccess(loginEvent.getUser(), loginEvent.getJSON());
+		} else {
+			onLoginError(loginEvent.getUser());
 		}
+	}
+
+	public void onLogout() {
+		clearLoginToken();
+		loggedInUser = null;
+	}
+
+	/**
+	 * Keep track of started passive login.
+	 */
+	public void setLoginStarted() {
+		this.loginStarted = true;
 	}
 
 	/**
@@ -64,7 +68,7 @@ public abstract class AuthenticationModel {
 	 *            from GGT Parses the response, and sets model dependent things
 	 *            (localStorage, etc).
 	 */
-	public void onLoginSuccess(GeoGebraTubeUser user, String json) {
+	private void onLoginSuccess(GeoGebraTubeUser user, String json) {
 		this.stayLoggedOut = false;
 		// Remember the logged in user
 		this.loggedInUser = user;
@@ -81,7 +85,7 @@ public abstract class AuthenticationModel {
 	 * @param user ggb tube user
 	 *            from GGT error happened, cleanup, etc
 	 */
-	public void onLoginError(GeoGebraTubeUser user) {
+	private void onLoginError(GeoGebraTubeUser user) {
 		this.stayLoggedOut = false;
 		if (getLoginToken() != null || user.isShibbolethAuth()) {
 			clearLoginTokenForLogginError();
@@ -187,6 +191,9 @@ public abstract class AuthenticationModel {
 		return !stayLoggedOut;
 	}
 
+	/**
+	 * @return whether login was initiated but not finished
+	 */
 	public boolean isLoginStarted() {
 		return loginStarted;
 	}

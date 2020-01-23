@@ -3,7 +3,6 @@ package org.geogebra.web.shared.ggtapi;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
@@ -157,7 +156,7 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	public void passiveLogin() {
-		model.onEvent(new LoginAttemptEvent());
+		model.setLoginStarted();
 		if (StringUtil.empty(app.getArticleElement().getParamLoginURL())) {
 			processCookie(true);
 			return;

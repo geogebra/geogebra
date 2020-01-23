@@ -10,7 +10,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.move.googledrive.events.GoogleDriveLoadedEvent;
-import org.geogebra.web.full.move.googledrive.events.GoogleLogOutEvent;
 import org.geogebra.web.full.move.googledrive.events.GoogleLoginEvent;
 import org.geogebra.web.full.move.googledrive.models.GoogleDriveModelW;
 import org.geogebra.web.full.util.SaveCallback;
@@ -258,10 +257,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 		if (event instanceof LoginEvent) {
 			if (((LoginEvent) event).isSuccessful()) {
-				if (app.getLoginOperation().getModel().getLoggedInUser()
+				if (!app.getLoginOperation().getModel().getLoggedInUser()
 				        .hasGoogleDrive()) {
-					// do nothing, see requestDriveLogin
-				} else {
 					getModel().setLoggedInFromGoogleDrive(false);
 				}
 			} else {
@@ -271,29 +268,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 		if (event instanceof LogOutEvent) {
 			logOut();
-		}
-	}
-
-	/**
-	 * Try to login, show dialog if needed
-	 */
-	public void requestDriveLogin() {
-		if (this.driveLoaded) {
-			this.login(true);
-			this.getModel().setLoggedInFromGoogleDrive(true);
-		} else {
-			getView().add(new EventRenderable() {
-
-				@Override
-				public void renderEvent(BaseEvent loadevent) {
-					if (loadevent instanceof GoogleDriveLoadedEvent) {
-						login(true);
-						GoogleDriveOperationW.this.getModel()
-						        .setLoggedInFromGoogleDrive(true);
-					}
-
-				}
-			});
 		}
 	}
 
@@ -417,7 +391,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 * interact with Google Drive)
 	 */
 	public void logOut() {
-		onEvent(new GoogleLogOutEvent());
 		getModel().setLoggedInFromGoogleDrive(false);
 	}
 
@@ -614,8 +587,17 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 	}
 
-	private void onEvent(BaseEvent event) {
-		model.onEvent(event);
+	/**
+	 * TODO merge relevant parts of renderEvent into this
+	 */
+	private void onEvent(GoogleLoginEvent event) {
+		dispatchEvent(event);
+	}
+
+	/**
+	 * TODO merge relevant parts of renderEvent into this
+	 */
+	private void onEvent(GoogleDriveLoadedEvent event) {
 		dispatchEvent(event);
 	}
 
