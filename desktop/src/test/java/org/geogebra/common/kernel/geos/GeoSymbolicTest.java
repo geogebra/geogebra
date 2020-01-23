@@ -988,6 +988,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		Assert.assertTrue(element.getXML().contains("isSlider val=\"true\""));
 	}
 
+	@Test
+	public void testUndoRedoKeepsSlider() {
+		GeoSymbolic element = add("5");
+		element.setSlider(true);
+		app.setXML(app.getXML(), true);
+		element = getSymbolic("a");
+		Assert.assertTrue(element.isSlider());
+	}
+
 	private int numberOfSpecialPoints() {
 		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
 			return 0;
