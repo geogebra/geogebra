@@ -120,6 +120,10 @@ public class TemplatePreviewCard extends FlowPanel
 
     @Override
     public void remove() {
+        if (getParent().getElement().getChildCount() == 7) {
+            // no border style if after remove we will have only 6 cards in the panel
+            getParent().removeStyleName("withBorder");
+        }
         removeFromParent();
     }
 

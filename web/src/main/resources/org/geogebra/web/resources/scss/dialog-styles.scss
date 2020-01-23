@@ -1599,18 +1599,21 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
    	    .templatesPanel {
    	        max-width: 649px;
-            height: 372px;
+            max-height: 372px;
             display: inline-block;
             overflow: auto;
-            padding-left: 15px;
+            padding-left: 16px;
             padding-right: 16px;
             margin-top: 12px;
+            padding-bottom: 12px;
 
             &.withBorder {
                 border-bottom: 1px solid $black-12;
                 height: 371px;
                 max-width: 665px;
                 padding-right: 0px;
+                padding-left: 15px;
+                padding-bottom: 0px;
             }
 
    	        .templateCard {
