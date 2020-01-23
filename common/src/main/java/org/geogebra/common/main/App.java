@@ -72,6 +72,9 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.output.GeoOutputFilter;
+import org.geogebra.common.kernel.geos.output.NoFilter;
+import org.geogebra.common.kernel.geos.output.ProtectiveOutputFilter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.MyError.Errors;
@@ -427,6 +430,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
 	}
+
+	private GeoOutputFilter outputFilter;
 
 	/**
 	 * Please call setPlatform right after this
@@ -5143,5 +5148,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public MaskWidgetList getMaskWidgets() {
 		return null;
+	}
+
+	public GeoOutputFilter getOutputFilter() {
+		if (outputFilter == null) {
+			if (getConfig().shouldHideEquations()) {
+				outputFilter = new ProtectiveOutputFilter();
+			} else {
+				outputFilter = new NoFilter();
+			}
+		}
+		return outputFilter;
 	}
 }
