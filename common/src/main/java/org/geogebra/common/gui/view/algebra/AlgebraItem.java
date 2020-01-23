@@ -586,13 +586,12 @@ public class AlgebraItem {
 			GeoElementND geoElement) {
 		boolean shouldHideEquations =
 				geoElement.getKernel().getApplication().getConfig().shouldHideEquations();
-		boolean hasEquation = geoElement instanceof EquationValue;
-		boolean hasSensitiveEquation =
-				geoElement instanceof GeoLine || geoElement instanceof GeoConic;
-		boolean shouldHideSensitiveEquation = hasSensitiveEquation && shouldHideEquations;
-		boolean hasGeneratedEquation = hasEquation && !isFunctionOrEquationFromUser(geoElement);
+		if (!shouldHideEquations) {
+			return false;
+		}
 
-		return hasGeneratedEquation && (!hasSensitiveEquation || shouldHideSensitiveEquation);
+		boolean hasEquation = geoElement instanceof EquationValue;
+		return hasEquation && !isFunctionOrEquationFromUser(geoElement);
 	}
 
 	/**
