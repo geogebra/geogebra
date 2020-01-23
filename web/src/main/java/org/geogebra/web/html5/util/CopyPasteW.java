@@ -351,9 +351,9 @@ public class CopyPasteW extends CopyPaste {
 
 	private static void pastePlainText(App app, String plainText) {
 		if (app.isWhiteboardActive()) {
-			EuclidianView ev = app.getActiveEuclidianView();
+			final EuclidianView ev = app.getActiveEuclidianView();
 
-			GeoInlineText txt = new GeoInlineText(app.getKernel().getConstruction(),
+			final GeoInlineText txt = new GeoInlineText(app.getKernel().getConstruction(),
 					new GPoint2D.Double(ev.toRealWorldCoordX(-defaultTextWidth), 0),
 					defaultTextWidth, GeoInlineText.DEFAULT_HEIGHT);
 			txt.setLabel(null);
@@ -370,7 +370,7 @@ public class CopyPasteW extends CopyPaste {
 
 			txt.setContent(array.toString());
 
-			DrawInlineText drawText = (DrawInlineText) app.getActiveEuclidianView()
+			final DrawInlineText drawText = (DrawInlineText) app.getActiveEuclidianView()
 					.getDrawableFor(txt);
 			drawText.update();
 			drawText.updateContent();
