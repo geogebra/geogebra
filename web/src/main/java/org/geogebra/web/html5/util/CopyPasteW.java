@@ -1,8 +1,5 @@
 package org.geogebra.web.html5.util;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.storage.client.Storage;
-import com.google.gwt.user.client.Timer;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -31,6 +28,10 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Timer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -349,7 +350,7 @@ public class CopyPasteW extends CopyPaste {
 		((AppW) app).urlDropHappened(encodedImage, null, null, null);
 	}
 
-	private static void pastePlainText(App app, String plainText) {
+	private static void pastePlainText(final App app, String plainText) {
 		if (app.isWhiteboardActive()) {
 			final EuclidianView ev = app.getActiveEuclidianView();
 
@@ -378,13 +379,16 @@ public class CopyPasteW extends CopyPaste {
 			new Timer() {
 				@Override
 				public void run() {
+					// rounding: prevent blurry initial position
+					int x = (ev.getWidth() - defaultTextWidth) / 2;
+					int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
 					txt.setLocation(new GPoint2D.Double(
-							ev.toRealWorldCoordX((ev.getWidth() - defaultTextWidth) / 2.0),
-							ev.toRealWorldCoordY((ev.getHeight() - txt.getHeight()) / 2.0)
+							ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
 					));
 					drawText.update();
 
 					ev.getEuclidianController().selectAndShowBoundingBox(txt);
+					app.storeUndoInfo();
 				}
 			}.schedule(100);
 		}
