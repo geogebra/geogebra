@@ -23,6 +23,7 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.gui.util.GToggleButton;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -152,9 +153,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 							0, 0, 24, 24, false, false));
 			btnBold.addStyleName("btnBold");
 			if (app.isWhiteboardActive()) {
-				btnUnderline = new MyToggleButtonW(new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.text_underline_black().getSafeUri(), 0,
-						0, 24, 24, false, false));
+				btnUnderline = new MyToggleButtonW(new NoDragImage(
+						MaterialDesignResources.INSTANCE.text_underline_black(), 24));
 				btnUnderline.addStyleName("btnUnderline");
 			}
 		} else {

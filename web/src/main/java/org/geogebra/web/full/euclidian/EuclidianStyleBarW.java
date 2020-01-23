@@ -1313,10 +1313,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					super.setVisible(geosOK);
 					if (geosOK) {
 						int style = getFontStyle(geos);
-						btnBold.setValue((style & GFont.BOLD) != 0
-								&& (style & (GFont.BOLD | GFont.ITALIC)) != 0
-								&& (style & (GFont.BOLD | GFont.UNDERLINE)) != 0
-								&& (style & (GFont.BOLD | GFont.ITALIC | GFont.UNDERLINE)) != 0);
+						btnBold.setValue((style & GFont.BOLD) != 0);
 					}
 				}
 			};
@@ -1392,10 +1389,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					super.setVisible(geosOK);
 					if (geosOK) {
 						int style = getFontStyle(geos);
-						btnItalic.setValue((style & GFont.ITALIC) != 0
-								&& (style & (GFont.ITALIC | GFont.BOLD)) != 0
-								&& (style & (GFont.ITALIC | GFont.UNDERLINE)) != 0
-								&& (style & (GFont.ITALIC | GFont.BOLD | GFont.UNDERLINE)) != 0);
+						btnItalic.setValue((style & GFont.ITALIC) != 0);
 					}
 				}
 			};
@@ -1430,10 +1424,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				super.setVisible(geosOK);
 				if (geosOK) {
 					int style = getFontStyle(geos);
-					btnUnderline.setValue((style & GFont.UNDERLINE) != 0
-							&& (style & (GFont.UNDERLINE | GFont.BOLD)) != 0
-							&& (style & (GFont.UNDERLINE | GFont.ITALIC)) != 0
-							&& (style & (GFont.UNDERLINE | GFont.BOLD | GFont.ITALIC)) != 0);
+					btnUnderline.setValue((style & GFont.UNDERLINE) != 0);
 				}
 			}
 		};
@@ -1662,8 +1653,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 			boolean add) {
 		boolean ret = EuclidianStyleBarStatic.applyFontStyle(targetGeos, mask,
 				add);
-		String property = mask == GFont.BOLD ? "bold" : mask == GFont.ITALIC ? "italic"
-				: "underline";
+		String property = mask == GFont.BOLD ? "bold" : (mask == GFont.ITALIC ? "italic"
+				: "underline");
 		return inlineFormatter.formatInlineText(targetGeos, property, add)
 				|| ret;
 	}
