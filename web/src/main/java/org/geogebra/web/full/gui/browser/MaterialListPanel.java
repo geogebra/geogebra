@@ -192,10 +192,17 @@ public class MaterialListPanel extends FlowPanel
 	}
 
 	private void addMaterials(List<Material> matList) {
-		List<Material> materials = filterByApplication(matList);
-		for (final Material mat : materials) {
+		for (final Material mat : filterMaterials(matList)) {
 			addMaterial(mat, true, false);
 		}
+	}
+
+	private List<Material> filterMaterials(List<Material> materials) {
+		return isFilterNeeded() ? filterByApplication(materials) : materials;
+	}
+
+	private boolean isFilterNeeded() {
+		return "notes".equalsIgnoreCase(app.getConfig().getAppCode());
 	}
 
 	private List<Material> filterByApplication(List<Material> materials) {
@@ -208,6 +215,7 @@ public class MaterialListPanel extends FlowPanel
 
 		return result;
 	}
+
 
 	private void addChapters(List<Material> matList, final ArrayList<Chapter> chapters) {
 		for (int i = 0; i < chapters.size(); i++) {
