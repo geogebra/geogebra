@@ -278,7 +278,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			return twinGeo;
 		}
 		String input = casOutputString;
-		if (useDefinitionAsInput()) {
+		if (definitionCanBeSlider()) {
 			input = getDefinition().toString(StringTemplate.defaultTemplate);
 		}
 		GeoElementND newTwin = input == null ? null
@@ -307,7 +307,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		return twinGeo;
 	}
 
-	private boolean useDefinitionAsInput() {
+	private boolean definitionCanBeSlider() {
 		ExpressionNode node = getDefinition();
 		if (node == null) {
 			return false;
@@ -637,6 +637,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 * @return true if the element can become slider.
 	 */
 	public boolean canBecomeSlider() {
-		return getTwinGeo() != null && AlgebraItem.shouldShowSlider(getTwinGeo().toGeoElement());
+		return definitionCanBeSlider() && getTwinGeo() != null
+				&& AlgebraItem.shouldShowSlider(getTwinGeo().toGeoElement());
 	}
 }

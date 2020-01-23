@@ -962,6 +962,24 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMax(), 10));
 	}
 
+	@Test
+	public void testExpressionCannotBecomeSlider() {
+		String[] expressions = {"1+2", "2*9", "1/4", "5^6"};
+		for (String expression: expressions) {
+			GeoSymbolic element = add(expression);
+			Assert.assertFalse(element.canBecomeSlider());
+		}
+	}
+
+	@Test
+	public void testCommandsCannotBecomeSlider() {
+		String[] expressions = {"Cross((1,2),(3,4))", "Dot((1,2),(3,4))", "Degree(x^2)"};
+		for (String expression: expressions) {
+			GeoSymbolic element = add(expression);
+			Assert.assertFalse(element.canBecomeSlider());
+		}
+	}
+
 	private int numberOfSpecialPoints() {
 		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
 			return 0;
