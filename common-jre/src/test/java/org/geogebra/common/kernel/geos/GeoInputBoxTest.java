@@ -120,11 +120,11 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void testInputBoxGetTextWithError() {
 		add("A = Point({1, 2})");
 		GeoInputBox box = (GeoInputBox) add("InputBox(A)");
-		Assert.assertEquals(box.getText(), "Point({1, 2})");
+		Assert.assertEquals("Point({1, 2})", box.getText());
 		box.updateLinkedGeo("Point({1, 2})+");
-		Assert.assertEquals(box.getText(), "Point({1, 2})+");
+		Assert.assertEquals("Point({1, 2})+", box.getText());
 		box.updateLinkedGeo("Point(1)");
-		Assert.assertEquals(box.getText(), "Point(1)");
+		Assert.assertEquals("Point(1)", box.getText());
 	}
 
 	@Test

@@ -95,9 +95,19 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void nonsymbolicShouldShowDefinition() {
+	public void nonsymbolicShouldShowDefinitionForFraction() {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
+		inputBox.setSymbolicMode(false, false);
+		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
+		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
+		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void nonsymbolicShouldShowDefinitionForDecimals() {
+		setupInput("l", "1 + 1 / 5");
+		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
@@ -170,6 +180,36 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertEquals("", inputBox.getText());
 		updateInput("c / 3");
 		Assert.assertEquals("c / 3", inputBox.getText());
+	}
+
+	@Test
+	public void independentVectorsMustBeColumnEditable() {
+		setupInput("l", "(1, 2, 3)");
+		Assert.assertEquals("{{1}, {2}, {3}}", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void symbolicShouldSupportVectorsWithVariables() {
+		add("a: 1");
+		setupInput("l", "(1, 2, a)");
+		Assert.assertEquals("(1, 2, a)", inputBox.getText());
+		Assert.assertEquals("{{1}, {2}, {a}}", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void compound2DVectorsMustBeFlatEditable() {
+		add("u: (1, 2)");
+		add("v: (3, 4)");
+		setupInput("l", "u + v");
+		Assert.assertEquals("u + v", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void compound3DVectorsMustBeFlatEditable() {
+		add("u: (1, 2, 3)");
+		add("v: (3, 4, 5)");
+		setupInput("l", "u + v");
+		Assert.assertEquals("u + v", inputBox.getTextForEditor());
 	}
 
 	@Test
