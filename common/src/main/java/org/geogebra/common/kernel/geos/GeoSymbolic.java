@@ -527,10 +527,17 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public void getXMLtags(StringBuilder builder) {
 		super.getXMLtags(builder);
+		getIsSliderXML(builder);
 		getFVarsXML(builder);
 		getLineStyleXML(builder);
 		XMLBuilder.appendPointProperties(builder, this);
 		XMLBuilder.appendSymbolicMode(builder, this, true);
+	}
+
+	private void getIsSliderXML(StringBuilder builder) {
+		if (isSlider) {
+			builder.append("\t<isSlider val=\"true\"/>\n");
+		}
 	}
 
 	private void getFVarsXML(StringBuilder sb) {
