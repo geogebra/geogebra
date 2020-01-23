@@ -337,6 +337,35 @@ public abstract class GeoElement extends ConstructionElement
 
 	};
 
+	/**
+	 * Creates new GeoElement for given construction
+	 *
+	 * @param c
+	 *            Construction
+	 */
+	public GeoElement(final Construction c) {
+		super(c);
+		c.addUsedType(this.getGeoClassType());
+		graphicsadapter = kernel.getApplication()
+				.newGeoElementGraphicsAdapter();
+
+		EuclidianViewInterfaceSlim ev;
+		if ((kernel.getApplication() != null)
+				&& ((ev = kernel.getApplication()
+				.getActiveEuclidianView()) != null)
+				&& (kernel.getApplication().getActiveEuclidianView()
+				.getViewID() != App.VIEW_EUCLIDIAN)) {
+			viewFlags = new ArrayList<>();
+			viewFlags.add(ev.getViewID());
+
+			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
+			// euclidian view
+			if (!(ev.isDefault2D())) {
+				viewFlags.add(App.VIEW_EUCLIDIAN);
+			}
+		}
+	}
+
 	@Override
 	public int getColorSpace() {
 		return colorSpace;
@@ -374,47 +403,6 @@ public abstract class GeoElement extends ConstructionElement
 	public void setDefaultGeoType(final int defaultGT) {
 		defaultGeoType = defaultGT;
 	}
-
-	/********************************************************/
-
-	/**
-	 * Creates new GeoElement for given construction
-	 * 
-	 * @param c
-	 *            Construction
-	 */
-	public GeoElement(final Construction c) {
-		super(c);
-		c.addUsedType(this.getGeoClassType());
-		graphicsadapter = kernel.getApplication()
-				.newGeoElementGraphicsAdapter();
-		// this.geoID = geoCounter++;
-
-		// moved to subclasses, see
-		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-		// setConstructionDefaults(); // init visual settings
-
-		// new elements become breakpoints if only breakpoints are shown
-		// isConsProtBreakpoint = cons.showOnlyBreakpoints();
-
-		EuclidianViewInterfaceSlim ev;
-		if ((kernel.getApplication() != null)
-				&& ((ev = kernel.getApplication()
-						.getActiveEuclidianView()) != null)
-				&& (kernel.getApplication().getActiveEuclidianView()
-						.getViewID() != App.VIEW_EUCLIDIAN)) {
-			viewFlags = new ArrayList<>();
-			viewFlags.add(ev.getViewID());
-
-			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
-			// euclidian view
-			if (!(ev.isDefault2D())) {
-				viewFlags.add(App.VIEW_EUCLIDIAN);
-			}
-		}
-	}
-
-	/* ****************************************************** */
 
 	@Override
 	public String getLabelSimple() {
