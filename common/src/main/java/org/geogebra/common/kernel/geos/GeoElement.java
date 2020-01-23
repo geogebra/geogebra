@@ -88,6 +88,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -138,7 +139,8 @@ public abstract class GeoElement extends ConstructionElement
 	/** maximal line width */
 	public static final int MAX_LINE_WIDTH = 13;
 
-	// private static int geoElementID = Integer.MIN_VALUE;
+	protected App app;
+	protected AppConfig appConfig;
 
 	private int tooltipMode = TOOLTIP_ALGEBRAVIEW_SHOWING;
 	/** should only be used directly in subclasses */
@@ -345,16 +347,15 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public GeoElement(final Construction c) {
 		super(c);
+		app = kernel.getApplication();
+		appConfig = app.getConfig();
 		c.addUsedType(this.getGeoClassType());
-		graphicsadapter = kernel.getApplication()
-				.newGeoElementGraphicsAdapter();
+		graphicsadapter = app.newGeoElementGraphicsAdapter();
 
 		EuclidianViewInterfaceSlim ev;
-		if ((kernel.getApplication() != null)
-				&& ((ev = kernel.getApplication()
-				.getActiveEuclidianView()) != null)
-				&& (kernel.getApplication().getActiveEuclidianView()
-				.getViewID() != App.VIEW_EUCLIDIAN)) {
+		if ((app != null)
+				&& ((ev = app.getActiveEuclidianView()) != null)
+				&& (app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN)) {
 			viewFlags = new ArrayList<>();
 			viewFlags.add(ev.getViewID());
 
@@ -1041,8 +1042,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *         because Show/Hide tool selected
 	 */
 	public boolean isHideShowGeo() {
-		return isSelected() && (kernel.getApplication()
-						.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+		return isSelected() && (app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 	}
 
 	/**
@@ -1331,8 +1331,8 @@ public abstract class GeoElement extends ConstructionElement
 
 		// style of equation, coordinates, ...
 		if (getGeoClassType() == geo.getGeoClassType()
-				&& (kernel.getApplication().getSettings() == null
-						|| kernel.getApplication().getSettings()
+				&& (app.getSettings() == null
+						|| app.getSettings()
 								.getCasSettings().isEnabled())) {
 			toStringMode = geo.toStringMode;
 		}
@@ -1625,7 +1625,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public void setFixed(boolean flag) {
 		if (!flag) {
-			fixed = kernel.getApplication().getConfig().isObjectDraggingRestricted()
+			fixed = appConfig.isObjectDraggingRestricted()
 					&& AlgebraItem.isFunctionOrEquationFromUser(this)
 					&& !this.isDefaultGeo();
 		} else if (isFixable()) {
@@ -1783,8 +1783,8 @@ public abstract class GeoElement extends ConstructionElement
 		switch (tooltipMode) {
 		default:
 			// case TOOLTIP_ALGEBRAVIEW_SHOWING:
-			if (!(kernel.getApplication().isUsingFullGui()
-					&& kernel.getApplication().showView(App.VIEW_ALGEBRA))) {
+			if (!(app.isUsingFullGui()
+					&& app.showView(App.VIEW_ALGEBRA))) {
 				return false;
 			}
 			return isAlgebraVisible(); // old behaviour
@@ -1816,7 +1816,7 @@ public abstract class GeoElement extends ConstructionElement
 		default:
 		case TOOLTIP_ALGEBRAVIEW_SHOWING:
 			if (!alwaysOn) {
-				if (!(kernel.getApplication().isUsingFullGui() && kernel
+				if (!(app.isUsingFullGui() && kernel
 						.getApplication().showView(App.VIEW_ALGEBRA))) {
 					return "";
 				}
@@ -1995,7 +1995,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public boolean isRedefineable() {
 		return !isProtected(EventType.UPDATE)
-				&& kernel.getApplication().letRedefine()
+				&& app.letRedefine()
 				&& !(this instanceof TextValue) && isAlgebraViewEditable()
 				&& (isChangeable() || // redefine changeable (independent and
 										// not fixed)
@@ -2508,10 +2508,10 @@ public abstract class GeoElement extends ConstructionElement
 
 		String newLabel = labelNew;
 		if (cons.isSuppressLabelsActive()) {
-			if (kernel.getApplication().getGuiManager() != null
-					&& kernel.getApplication().getGuiManager()
+			if (app.getGuiManager() != null
+					&& app.getGuiManager()
 					.hasSpreadsheetView()) {
-				kernel.getApplication().getGuiManager().getSpreadsheetView()
+				app.getGuiManager().getSpreadsheetView()
 						.scrollIfNeeded(this, labelNew);
 			}
 			return;
@@ -3154,7 +3154,7 @@ public abstract class GeoElement extends ConstructionElement
 		// remove from selection
 		if (isSelected()) {
 			// prevent update selection if construction will replace the geo
-			kernel.getApplication().getSelectionManager().removeSelectedGeo(
+			app.getSelectionManager().removeSelectedGeo(
 					this, false, !cons.isRemovingGeoToReplaceIt());
 		}
 
@@ -3170,17 +3170,6 @@ public abstract class GeoElement extends ConstructionElement
 			// JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			latexCache.remove();
 		}
-
-		// http://dev.geogebra.org/trac/changeset/39262
-		// reverted as causes infinite loop when Attach/Detach tool used
-		// to *drag* a Point onto eg a circle
-		// if (kernel.getApplication() != null
-		// && kernel.getApplication().getActiveEuclidianView() != null
-		// && kernel.getApplication().getActiveEuclidianView()
-		// .getEuclidianController() != null) {
-		// kernel.getApplication().getActiveEuclidianView()
-		// .getEuclidianController().clearSelections();
-		// }
 	}
 
 	/**
@@ -3343,8 +3332,8 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	private void maybeUpdateSpecialPoints() {
-		if (canHaveSpecialPoints() && kernel.getApplication().getConfig().hasPreviewPoints()) {
-			kernel.getApplication().getSpecialPointsManager().updateSpecialPoints(null);
+		if (canHaveSpecialPoints() && appConfig.hasPreviewPoints()) {
+			app.getSpecialPointsManager().updateSpecialPoints(null);
 		}
 	}
 
@@ -4945,8 +4934,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            string builder
 	 */
 	protected void getListenerTagsXML(StringBuilder sb) {
-		ScriptManager scriptManager = kernel.getApplication()
-				.getScriptManager();
+		ScriptManager scriptManager = app.getScriptManager();
 		// updateListenerMap
 		getListenerTagXML(sb, scriptManager.getUpdateListenerMap(),
 				"objectUpdate");
@@ -5685,8 +5673,7 @@ public abstract class GeoElement extends ConstructionElement
 	final public boolean doHighlighting() {
 		return (highlighted || selected)
 				&& (!isLocked() || isSelectionAllowed(null))
-				&& (kernel.getApplication()
-						.getMode() != EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+				&& (app.getMode() != EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 	}
 
 	/**
@@ -6150,8 +6137,8 @@ public abstract class GeoElement extends ConstructionElement
 	 * Called after mouse_release.
 	 */
 	public void resetTraceColumns() {
-		if (kernel.getApplication().isUsingFullGui()) {
-			kernel.getApplication().resetTraceColumn(this);
+		if (app.isUsingFullGui()) {
+			app.resetTraceColumn(this);
 		}
 	}
 
@@ -6267,7 +6254,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		// Make sure we're listening to events for this script
-		kernel.getApplication().startGeoScriptRunner();
+		app.startGeoScriptRunner();
 		Script oldScript = scripts[evt.ordinal()];
 		if (oldScript != null) {
 			oldScript.unbind(this, evt);
@@ -6299,7 +6286,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public void runClickScripts(final String arg) {
 		// "%0" is replaced in the script by "arg"
-		kernel.getApplication().dispatchEvent(
+		app.dispatchEvent(
 				new Event(EventType.CLICK, this, arg == null ? label : arg));
 	}
 
@@ -7371,7 +7358,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (getParentAlgorithm() != null
 				&& getParentAlgorithm().getOutputLength() > 1
 				&& getParentAlgorithm().hasSingleOutputType()
-				&& kernel.getApplication().getSettings().getAlgebra()
+				&& app.getSettings().getAlgebra()
 						.getTreeMode() == SortMode.ORDER) {
 			return getParentAlgorithm().getOutput(0) == this ? 0 : 1;
 		}
@@ -7605,7 +7592,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public void addAuralOperations(Localization loc, ScreenReaderBuilder sb) {
-		App app = kernel.getApplication();
 		if (getScript(EventType.CLICK) != null
 				&& getScript(EventType.CLICK).getText().length() > 0 && !sb.isMobile()) {
 			sb.append(loc.getMenuDefault("PressSpaceToRunScript", "Press space to run script"));
@@ -7719,15 +7705,15 @@ public abstract class GeoElement extends ConstructionElement
 		switch (i) {
 		case 1:
 			return isVisibleInView(App.VIEW_EUCLIDIAN)
-					&& kernel.getApplication().showView(App.VIEW_EUCLIDIAN);
+					&& app.showView(App.VIEW_EUCLIDIAN);
 
 		case 2:
 			return isVisibleInView(App.VIEW_EUCLIDIAN2)
-					&& kernel.getApplication().hasEuclidianView2(1);
+					&& app.hasEuclidianView2(1);
 
 		case 3:
 			return isVisibleInView3D()
-					&& kernel.getApplication().isEuclidianView3Dinited();
+					&& app.isEuclidianView3Dinited();
 		}
 		return false;
 	}
