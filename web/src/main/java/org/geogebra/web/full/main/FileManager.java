@@ -133,7 +133,7 @@ public abstract class FileManager extends MaterialsManager {
 	 */
 	@Override
 	public void getUsersMaterials() {
-		getFiles(MaterialFilter.getAppNameFilter(app.getConfig().getAppName()));
+		getFiles(MaterialFilter.getAppNameFilter(app.getConfig().getAppCode()));
 	}
 
 	@Override

@@ -1,8 +1,5 @@
 package org.geogebra.web.full.gui.browser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -23,6 +20,9 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * contains all available materials
@@ -208,14 +208,13 @@ public class MaterialListPanel extends FlowPanel
 	private List<Material> filterByApplication(List<Material> materials) {
 		List<Material> result = new ArrayList<>();
 		for (Material material: materials) {
-			if (app.getConfig().getAppName().equalsIgnoreCase(material.getAppName())) {
+			if (app.getConfig().getAppCode().equalsIgnoreCase(material.getAppName())) {
 				result.add(material);
 			}
 		}
 
 		return result;
 	}
-
 
 	private void addChapters(List<Material> matList, final ArrayList<Chapter> chapters) {
 		for (int i = 0; i < chapters.size(); i++) {
