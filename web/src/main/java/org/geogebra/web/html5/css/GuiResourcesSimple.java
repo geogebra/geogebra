@@ -22,7 +22,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/canvas2svg_min.js")
 	TextResource canvas2Svg();
 
-	@Source("org/geogebra/web/resources/js/canvas2pdf_min.js")
+	@Source("org/geogebra/web/resources/js/canvas2pdf.js")
 	TextResource canvas2Pdf();
 
 	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")

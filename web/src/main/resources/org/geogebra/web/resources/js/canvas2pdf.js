@@ -378,8 +378,9 @@
 	    };
 
 	    canvas2pdf.PdfContext.prototype.fillText = function(text, x, y) {
-
-	        this.doc.textAdd(x, y, text);
+            if (text && text.trim().length) {
+	            this.doc.textAdd(x, y, text);
+	        }
 
 	    };
 

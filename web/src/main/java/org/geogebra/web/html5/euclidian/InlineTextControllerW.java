@@ -1,14 +1,14 @@
 package org.geogebra.web.html5.euclidian;
 
-import com.google.gwt.dom.client.CanvasElement;
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineText;
-import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 
@@ -139,6 +139,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void draw(GGraphics2D g2, GAffineTransform transform) {
 		g2.saveTransform();
+
 		g2.transform(transform);
 
 		if (geo.getBackgroundColor() != null) {
@@ -146,11 +147,10 @@ public class InlineTextControllerW implements InlineTextController {
 			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
 		}
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
-			CanvasElement canvas = editor.getCanvasElement();
-			if (canvas.getWidth() > 0 && canvas.getHeight() > 0) {
-				((GGraphics2DW) g2).drawImage(canvas,
-						DrawInlineText.PADDING, DrawInlineText.PADDING);
-			}
+			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING, DrawInlineText.PADDING);
+			g2.transform(res);
+			g2.setColor(GColor.BLACK);
+			editor.draw(((GGraphics2DWI)g2).getContext());
 		}
 
 		g2.restoreTransform();
