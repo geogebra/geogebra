@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.gui;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -35,6 +33,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * The main frame containing every view / menu bar / .... This Panel (Frame is
  * resize able)
@@ -61,6 +62,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static final int LOGO_WIDTH = 427;
 
 	private static final int LOGO_HEIGHT = 120;
+	private static HashMap<String, AppW> articleMap = new HashMap<>();
 
 	/** Article element */
 	private ArticleElementInterface articleElement;
@@ -99,6 +101,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public GeoGebraFrameW(GLookAndFeelI laf, ArticleElementInterface articleElement) {
 		this(laf, ArticleElement.getDataParamFitToScreen(articleElement.getElement()));
 		this.articleElement = articleElement;
+	}
+
+	/**
+	 * @return map article id -&gt; article
+	 */
+	public static HashMap<String, AppW> getArticleMap() {
+		return articleMap;
 	}
 
 	/**

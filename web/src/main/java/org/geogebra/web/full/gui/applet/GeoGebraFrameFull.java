@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.applet;
 
-import java.util.ArrayList;
-
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -67,6 +65,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.ArrayList;
+
 /**
  * Frame for applets with GUI
  *
@@ -120,7 +120,7 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(ArticleElementInterface article,
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
-
+		getArticleMap().put(article.getId(), application);
 		if (!app.isApplet()) {
 			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
 		} else {
