@@ -15,7 +15,7 @@ public abstract class AuthenticationModel {
 	/**
 	 * token name for user logged in got back from GGT
 	 */
-	public static String GGB_TOKEN_KEY_NAME = "token";
+	protected static String GGB_TOKEN_KEY_NAME = "token";
 	private boolean stayLoggedOut;
 	private boolean loginStarted;
 
@@ -31,6 +31,9 @@ public abstract class AuthenticationModel {
 		}
 	}
 
+	/**
+	 * Update after logout
+	 */
 	public void onLogout() {
 		clearLoginToken();
 		loggedInUser = null;
