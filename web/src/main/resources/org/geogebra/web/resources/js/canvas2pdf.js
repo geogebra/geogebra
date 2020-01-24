@@ -8,7 +8,7 @@
  *  Author:
  *  Joshua Gould
  *
- *  Copyright (c) 2017 Joshua Gould
+ *  @license Copyright (c) 2017 Joshua Gould
  */
  (function(global) {
 	    'use strict';
@@ -453,7 +453,7 @@
 	    };
 	    
 	/*
-	MIT LICENSE
+	@license MIT LICENSE
 	Copyright (c) 2014 Devon Govett
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -587,41 +587,6 @@
 	};
 
 	PDFKitMini.prototype.linearGradient = function(x1, y1, x2, y2) {
-		
-		var m = this.currentPage._ctm;
-		
-		
-		var m0 = m[0];
-		var m1 = m[1];
-		var m2 = m[2];
-		var m3 = m[3];
-		var m4 = m[4];
-		var m5 = m[5];
-		
-		//console.log(m0,m1,m2,m3,m4,m5);
-		
-		
-		// inverse transformation
-		// needed????????????
-//		var m0t = m3 / ((m0 * m3) - (m1 * m2));
-//		var m1t = ((-m2)) / ((m0 * m3) - (m1 * m2));
-//		var m2t = ((m2 * m5) - (m3 * m4)) / ((m0 * m3) - (m1 * m2));
-//		var m3t = ((-m1)) / ((m0 * m3) - (m1 * m2));
-//		var m4t = m0 / ((m0 * m3) - (m1 * m2));
-//		var m5t = (((-m0) * m5) + (m1 * m4)) / ((m0 * m3) - (m1 * m2));
-//		console.log(m0t,m1t,m2t,m3t,m4t,m5t);
-//		console.log(x1,y1,x2,y2);
-//		
-//		
-//		// transform coords
-//		// needed?
-//		var x1t = m0t * x1 + m2t * y1 + m4t;
-//		var y1t = m1t * x1 + m3t * y1 + m5t;
-//		var x2t = m0t * x2 + m2t * y2 + m4t;
-//		var y2t = m1t * x2 + m3t * y2 + m5t;
-//		console.log(x1t,y1t,x2t,y2t);
-		
-
 	    var a = new PDFGradientFill(x1, y1, x2, y2, this.currentPage);
 	    this.add(a);
 	    this.currentPage.currentImageTile = a;
@@ -629,7 +594,6 @@
 	    this.addPatternToPage(a);
 	    
 	    return a;
-
 	};
 
 	PDFKitMini.prototype.doDrawImage = function(x, y, width, height) {

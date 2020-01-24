@@ -65,7 +65,22 @@ public interface InlineTextController {
 	 */
 	void updateContent();
 
+	/**
+	 * @param key
+	 *           format property name
+	 * @param fallback
+	 *           fomat value
+	 * @param <T>
+	 *           fallback if not set or multiple values
+	 * @return format value
+	 */
 	<T> T getFormat(String key, T fallback);
 
+	/**
+	 * @param g2
+	 * 	          graphics
+	 * @param transform
+	 *            transform w.r.t. top left corner, does not include padding
+	 */
 	void draw(GGraphics2D g2, GAffineTransform transform);
 }

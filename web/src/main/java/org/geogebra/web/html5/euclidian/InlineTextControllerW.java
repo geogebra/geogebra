@@ -147,10 +147,11 @@ public class InlineTextControllerW implements InlineTextController {
 			g2.fillRect(0, 0, (int) geo.getWidth(), (int) geo.getHeight());
 		}
 		if (editor.getWidget().getElement().hasClassName(INVISIBLE)) {
-			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING, DrawInlineText.PADDING);
+			GAffineTransform res = AwtFactory.getTranslateInstance(DrawInlineText.PADDING,
+					DrawInlineText.PADDING);
 			g2.transform(res);
 			g2.setColor(GColor.BLACK);
-			editor.draw(((GGraphics2DWI)g2).getContext());
+			editor.draw(((GGraphics2DWI) g2).getContext());
 		}
 
 		g2.restoreTransform();
