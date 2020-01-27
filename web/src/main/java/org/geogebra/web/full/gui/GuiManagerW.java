@@ -536,7 +536,7 @@ public class GuiManagerW extends GuiManager
 			getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 		}
 
-		layout.getDockManager().updateVoiceover();
+		getApp().updateVoiceover();
 		getApp().closePopups();
 
 		if (sidePanel != null) {

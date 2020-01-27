@@ -1394,9 +1394,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
 					.setRight(-1, Style.Unit.PX);
 			oldSplitLayoutPanel = null;
-			if (Browser.needsAccessibilityView()) {
-				getGuiManager().getLayout().getDockManager().updateVoiceover();
-			}
+			updateVoiceover();
 		}
 	}
 

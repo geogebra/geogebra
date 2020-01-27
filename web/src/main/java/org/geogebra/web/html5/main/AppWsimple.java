@@ -97,6 +97,7 @@ public class AppWsimple extends AppW {
 			                        .getWidth(),
 			                getSettings().getEuclidian(1).getPreferredSize()
 			                        .getHeight());
+			updateVoiceover();
 		}
 	}
 
