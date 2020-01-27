@@ -100,21 +100,10 @@ public class LayoutW extends Layout {
 		if (app.isApplet()) {
 			app.setCustomToolBar();
 
-			app.setShowToolBarNoUpdate(
-			/*
-			 * perspective.getShowToolBar() &&
-			 * app.getArticleElement().getDataParamShowToolBarDefaultTrue() ||
-			 */
-			app.getArticleElement().getDataParamShowToolBar(false));
-
-			app.setShowAlgebraInput(
-			/*
-			 * perspective.getShowInputPanel() &&
-			 * app.getArticleElement().getDataParamShowAlgebraInputDefaultTrue()
-			 * ||
-			 */
-			app.getArticleElement().getDataParamShowAlgebraInput(false), false);
-
+			app.setShowToolBarNoUpdate(app.getArticleElement()
+					.getDataParamShowToolBar(false));
+			app.setShowAlgebraInput(app.getArticleElement()
+					.getDataParamShowAlgebraInput(false), false);
 		}
 
 		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
