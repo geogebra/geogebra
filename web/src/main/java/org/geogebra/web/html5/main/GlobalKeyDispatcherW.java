@@ -1,9 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -39,6 +35,11 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Handles keyboard events.
@@ -123,12 +124,19 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				Element targetElement = Element.as(node);
 				ArticleElement targetArticle = getGGBArticle(targetElement);
 				if (targetArticle == null && app.isApplet()) {
-					Log.error("No target article: " + node);
+					// clicked outside of GGB
 					return;
 				}
 
-				boolean currentAppFocused = (targetArticle == ((AppW) app).getArticleElement())
-						|| !app.isApplet();
+				HashMap<String, AppW> articleMap = GeoGebraFrameW
+						.getArticleMap();
+				AppW targetApp = targetArticle != null
+						? articleMap.get(targetArticle.getId()) : (AppW) app;
+				if (targetApp == null) {
+					return;
+				}
+				boolean appFocused = targetApp.getGlobalKeyDispatcher().isFocused();
+
 				switch (event.getTypeInt()) {
 				default:
 					// do nothing
@@ -141,7 +149,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 						if (!app.getAccessibilityManager().isTabOverGeos()) {
 							return;
 						}
-						if (!currentAppFocused && targetArticle != null) {
+						if (!appFocused && targetArticle != null) {
 							event.cancel();
 							setHandlingTab(true);
 
@@ -169,17 +177,17 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 						nativeEvent.stopPropagation();
 					}
 
-					preventIfNotTabOrEnter(event, currentAppFocused);
+					preventIfNotTabOrEnter(event, appFocused);
 					break;
 				case Event.ONKEYPRESS:
-					if (Browser.isiOS() && isControlKeyDown(nativeEvent) && currentAppFocused) {
+					if (Browser.isiOS() && isControlKeyDown(nativeEvent) && appFocused) {
 						handleIosKeyboard((char) nativeEvent.getCharCode());
 					}
-					preventIfNotTabOrEnter(event, currentAppFocused);
+					preventIfNotTabOrEnter(event, appFocused);
 					break;
 				case Event.ONKEYUP:
 					// not TAB and not ENTER
-					preventIfNotTabOrEnter(event, currentAppFocused);
+					preventIfNotTabOrEnter(event, appFocused);
 				}
 			}
 
