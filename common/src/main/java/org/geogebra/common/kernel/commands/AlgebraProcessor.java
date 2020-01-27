@@ -3135,14 +3135,14 @@ public class AlgebraProcessor {
 		if (info.isFractions() && ret instanceof HasSymbolicMode) {
 			((HasSymbolicMode) ret).initSymbolicMode();
 		}
+		if (ret instanceof HasExtendedAV) {
+			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
+		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
 			ret.setLabel(label);
 		} else {
 			cons.removeFromConstructionList(ret);
-		}
-		if (ret instanceof HasExtendedAV) {
-			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
 		}
 
 		return array(ret);
