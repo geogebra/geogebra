@@ -477,15 +477,14 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (!app.getAccessibilityManager().isTabOverGeos()
 				&& kc == KeyCodes.TAB) {
-			event.stopPropagation();
 			if (app.getKernel().getConstruction().isEmpty()) {
-				event.preventDefault();
 				app.getAccessibilityManager().focusFirstElement();
-				return;
+			} else {
+				app.getAccessibilityManager().focusNext(null, -1);
 			}
-
-			app.getAccessibilityManager().focusNext(null, -1);
-
+			event.preventDefault();
+			event.stopPropagation();
+			return;
 		}
 
 		setDownKeys(event);
