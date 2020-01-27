@@ -368,14 +368,6 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
-	private void handleIsSlider(LinkedHashMap<String, String> attrs) {
-		try {
-			((GeoSymbolic) geo).setSlider(MyXMLHandler.parseBoolean(attrs.get("val")));
-		} catch (RuntimeException e) {
-			// Ignore
-		}
-	}
-
 	protected void init(LinkedHashMap<String, String> attrs) {
 		sliderTagProcessed = false;
 		fontTagProcessed = false;
@@ -2059,9 +2051,6 @@ public class ConsElementXMLHandler {
 				break;
 			case "isShape":
 				handleIsShape(attrs);
-				break;
-			case "isSlider":
-				handleIsSlider(attrs);
 				break;
 			case "centered":
 				handleCentered(attrs);

@@ -655,14 +655,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void constantShouldBeOneRow() {
 		t("1", "1");
-		GeoElement a = getSymbolic("a");
+		GeoElement a = app.getKernel().lookupLabel("a");
 		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
 	@Test
 	public void labeledConstantShouldBeOneRow() {
 		t("a=7", "7");
-		GeoElement a = getSymbolic("a");
+		GeoElement a = app.getKernel().lookupLabel("a");
 		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
 	}
 
@@ -915,20 +915,20 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testNumberCanBecomeSlider() {
-		GeoSymbolic element = add("1");
-		Assert.assertTrue(element.canBecomeSlider());
+		GeoElement element = add("1");
+		Assert.assertTrue(element instanceof HasExtendedAV);
 	}
 
 	@Test
 	public void testRealNumberCanBecomeSlider() {
-		GeoSymbolic element = add("0.6");
-		Assert.assertTrue(element.canBecomeSlider());
+		GeoElement element = add("0.6");
+		Assert.assertTrue(element instanceof HasExtendedAV);
 	}
 
 	@Test
 	public void testAngleCanBecomeSlider() {
-		GeoSymbolic element = add("45" + Unicode.DEGREE_STRING);
-		Assert.assertTrue(element.canBecomeSlider());
+		GeoElement element = add("45" + Unicode.DEGREE_STRING);
+		Assert.assertTrue(element instanceof HasExtendedAV);
 	}
 
 	@Test
@@ -945,21 +945,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testAngleSetSlider() {
-		GeoSymbolic element = add("45" + Unicode.DEGREE_STRING);
-		element.setSlider(true);
-		GeoNumeric numeric = (GeoNumeric) element.getTwinGeo();
-		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMin(), 0));
-		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMax(), 2 * Math.PI));
+		GeoNumeric element = add("45" + Unicode.DEGREE_STRING);
+		element.setShowExtendedAV(true);
+		element.initAlgebraSlider();
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 0));
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 2 * Math.PI));
 	}
 
 	@Test
 	public void testSliderCommand() {
-		GeoSymbolic slider = add("Slider(1, 10)");
-		Assert.assertTrue(slider.isSlider());
-		Assert.assertTrue(slider.getTwinGeo().isGeoNumeric());
-		GeoNumeric numeric = (GeoNumeric) slider.getTwinGeo();
-		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMin(), 1));
-		Assert.assertTrue(DoubleUtil.isEqual(numeric.getIntervalMax(), 10));
+		GeoNumeric element = add("Slider(1, 10)");
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 1));
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 10));
 	}
 
 	@Test
@@ -981,20 +978,24 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testIsSliderIsStoredInXML() {
-		GeoSymbolic element = add("5");
-		Assert.assertFalse(element.getXML().contains("isSlider"));
-		element.setSlider(true);
-		Assert.assertTrue(element.getXML().contains("isSlider val=\"true\""));
+	public void testShowAlgebraIsStoredInXML() {
+		GeoNumeric element = add("5");
+		element.setEuclidianVisible(true);
+		Assert.assertTrue(element.getXML().matches(
+				"[\\s\\S]*<slider [^>]* showAlgebra=\"false\"[\\s\\S]*"));
+		element.setShowExtendedAV(true);
+		Assert.assertTrue(element.getXML().matches(
+				"[\\s\\S]*<slider [^>]* showAlgebra=\"true\"[\\s\\S]*"));
 	}
 
 	@Test
-	public void testUndoRedoKeepsSlider() {
-		GeoSymbolic element = add("5");
-		element.setSlider(true);
+	public void testUndoRedoKeepsShowingExtendedAV() {
+		GeoNumeric element = add("5");
+		element.setEuclidianVisible(true);
+		element.setShowExtendedAV(true);
 		app.setXML(app.getXML(), true);
-		element = getSymbolic("a");
-		Assert.assertTrue(element.isSlider());
+		element = (GeoNumeric) app.getKernel().lookupLabel("a");
+		Assert.assertTrue(element.isShowingExtendedAV());
 	}
 
 	private int numberOfSpecialPoints() {

@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -45,7 +44,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private int pointStyle;
 	private int pointSize;
 	private boolean symbolicMode;
-	private boolean isSlider = false;
 
 	/**
 	 * @return output expression
@@ -177,8 +175,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
-		isSlider = casInput.getName().equals("Slider");
-
 		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
 				new MyArbitraryConstant(this), StringTemplate.prefixedDefault,
 				null, kernel);
@@ -277,13 +273,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (twinUpToDate) {
 			return twinGeo;
 		}
-		String input = casOutputString;
-		if (definitionCanBeSlider()) {
-			input = getDefinition().toString(StringTemplate.defaultTemplate);
-		}
-		GeoElementND newTwin = input == null ? null
+		GeoElementND newTwin = casOutputString == null ? null
 				: kernel.getAlgebraProcessor()
-						.evaluateToGeoElement(input, false);
+						.evaluateToGeoElement(casOutputString, false);
 
 		if (newTwin instanceof EquationValue) {
 			((EquationValue) newTwin).setToUser();
@@ -305,18 +297,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		twinUpToDate = true;
 
 		return twinGeo;
-	}
-
-	private boolean definitionCanBeSlider() {
-		ExpressionNode node = getDefinition();
-		if (node == null) {
-			return false;
-		}
-		if (node.isSimpleNumber()) {
-			return true;
-		}
-		return node.unwrap() instanceof Command
-				&& ((Command) node.unwrap()).getName().equals("Slider");
 	}
 
 	@Override
@@ -527,17 +507,10 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public void getXMLtags(StringBuilder builder) {
 		super.getXMLtags(builder);
-		getIsSliderXML(builder);
 		getFVarsXML(builder);
 		getLineStyleXML(builder);
 		XMLBuilder.appendPointProperties(builder, this);
 		XMLBuilder.appendSymbolicMode(builder, this, true);
-	}
-
-	private void getIsSliderXML(StringBuilder builder) {
-		if (isSlider) {
-			builder.append("\t<isSlider val=\"true\"/>\n");
-		}
 	}
 
 	private void getFVarsXML(StringBuilder sb) {
@@ -605,46 +578,5 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public GeoElementND unwrapSymbolic() {
 		return getTwinGeo();
-	}
-
-	/**
-	 * @return true if it can be displayed as a slider
-	 */
-	public boolean isSlider() {
-		return isSlider;
-	}
-
-	/**
-	 * Set whether this can be displayed as slider.
-	 * The setter only works if {@link GeoSymbolic#canBecomeSlider()} returns true.
-	 *
-	 * @param slider true to make it slider displayable
-	 */
-	public void setSlider(boolean slider) {
-		if (isSlider != slider) {
-			isSlider = slider && canBecomeSlider();
-			if (isSlider) {
-				initNumericSlider();
-			}
-			notifyUpdate();
-		}
-	}
-
-	private void initNumericSlider() {
-		GeoElementND element = getTwinGeo();
-		if (element.isGeoNumeric()) {
-			GeoNumeric numeric = (GeoNumeric) element;
-			boolean visible = numeric.isEuclidianVisible();
-			numeric.setEuclidianVisible(true);
-			numeric.setEuclidianVisible(visible);
-		}
-	}
-
-	/**
-	 * @return true if the element can become slider.
-	 */
-	public boolean canBecomeSlider() {
-		return definitionCanBeSlider() && getTwinGeo() != null
-				&& AlgebraItem.shouldShowSlider(getTwinGeo().toGeoElement());
 	}
 }

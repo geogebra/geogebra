@@ -3753,7 +3753,8 @@ public class ExpressionNode extends ValidExpression
 		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
 			return false;
 		}
-		if (unwrap instanceof MyDouble || unwrap instanceof GeoNumeric) {
+		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
+				|| unwrap instanceof GeoNumeric) {
 			double val = evaluateDouble();
 			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);
