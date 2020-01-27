@@ -304,7 +304,15 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * of discrete points, then convert the linear polynomials to a product
 		 * of circle definitions with zero radius.
 		 */
-		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; print(\"polys size=\"+size(polys)); ee:=eliminate(polys,revlist(elimvars)); print(ee); ll:=lvar(ee); print(ll); if (size(ee)>1) begin /*print(fsolve(ee,ll));*/ ff:=round(fsolve(ee,ll)*precision)/precision; /*print(ff);*/ gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); print(gg); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
+		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); print(ee); ll:=lvar(ee); print(ll); if (size(ee)>1) begin /*print(fsolve(ee,ll));*/ ff:=round(fsolve(ee,ll)*precision)/precision; /*print(ff);*/ gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); print(gg); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
+		/**
+		 * Decide if a polynomial, which is a sum internally in Giac, is linear or not.
+		 */
+		IS_LINEAR_SUM("isLinearSum", "isLinearSum(poly):=begin local degrees, vars, ii, ss; vars:=lvar(poly); ii:=1; ss:=size(poly); while (ii<ss) do degrees:=degree(poly[ii], vars); if (sum(degrees)>1) begin return false; end; ii:=ii+1; od; return true; end"),
+		/**
+		 * Decide if a polynomial is linear or not. The way it is done is hacky and incomplete. FIXME.
+		 */
+		IS_LINEAR("isLinear", "isLinear(poly):=begin if (sommet(poly)==\"+\") begin return isLinearSum(poly); end; return isLinearSum(poly+1234567); end;"),
 		/**
 		 * Help simplifying the input when computing the Jacobian matrix in the
 		 * Envelope command. Input: a list of polynomials and a list of
@@ -322,7 +330,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * Used internally.
 		 */
-		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); print(\"input: \"+size(polys)+\" eqs in \"+size(vars)+\" vars\"); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); ii:=-1; end; end; ii:=ii+1; od; vars:=lvar(polys); print(\"output: \"+size(polys)+\" eqs in \"+size(vars)+\" vars\");  return polys; end"),
+		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); print(\"input: \"+size(polys)+\" eqs in \"+size(vars)+\" vars\"); c:=1; while (c<size(lvar(polys))) do ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if ((sum(degrees)=c) and (isLinear(polys[ii]))) begin pos:=find(1,degrees);  if (size(pos)=c) begin linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); od; vars:=lvar(polys); ii:=-1; end; end; ii:=ii+1; od; c:=c+1; od; vars:=lvar(polys); print(\"output: \"+size(polys)+\" eqs in \"+size(vars)+\" vars\");  return polys; end"),
 		/**
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars. Used internally.
@@ -432,6 +440,8 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(LOCUS_EQU, IMPLICIT_CURVE_COEFFS);
 			setDependency(LOCUS_EQU, GEOM_ELIM);
 			setDependency(LOCUS_EQU, JACOBI_PREPARE);
+			setDependency(JACOBI_PREPARE, IS_LINEAR);
+			setDependency(IS_LINEAR, IS_LINEAR_SUM);
 			setDependency(ENVELOPE_EQU, LOCUS_EQU);
 			setDependency(ENVELOPE_EQU, JACOBI_PREPARE);
 			setDependency(ENVELOPE_EQU, JACOBI_DET);
