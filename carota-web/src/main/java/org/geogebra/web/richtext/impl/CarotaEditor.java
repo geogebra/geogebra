@@ -1,11 +1,10 @@
 package org.geogebra.web.richtext.impl;
 
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.Style;
 import org.geogebra.web.richtext.Editor;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,22 +14,17 @@ import com.google.gwt.user.client.ui.Widget;
 public class CarotaEditor implements Editor {
 
 	private Widget widget;
-	private JavaScriptObject editor;
+	private CarotaDocument editor;
 
-	private static native JavaScriptObject createEditorNative(Element div) /*-{
+	private static native CarotaDocument createEditorNative(Element div) /*-{
 		return $wnd.carota.editor.create(div);
 	}-*/;
 
-	private static native void focusNative(JavaScriptObject editor, int x, int y) /*-{
-		var ordinal = editor.byCoordinate(x, y).ordinal;
-		editor.select(ordinal, ordinal, true);
-	}-*/;
-
-	private native void setContentNative(JavaScriptObject editor, String content) /*-{
+	private native void setContentNative(CarotaDocument editor, String content) /*-{
 		editor.load(JSON.parse(content), false);
 	}-*/;
 
-	private native void addListenerNative(Widget widget, JavaScriptObject editor,
+	private native void addListenerNative(Widget widget, CarotaDocument editor,
 			EditorChangeListener listener) /*-{
 		var updateTimer = null;
 
@@ -74,7 +68,13 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void focus(final int x, final int y) {
-		focusNative(editor, x, y);
+		int ordinal = editor.byCoordinate(x, y).getOrdinal();
+		editor.select(ordinal, ordinal, true);
+	}
+
+	@Override
+	public void draw(Context2d canvasElement) {
+		editor.draw(canvasElement);
 	}
 
 	@Override
@@ -94,19 +94,15 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void deselect() {
-		deselectNative(editor);
+		editor.select(0, 0);
 	}
-
-	private static native void deselectNative(JavaScriptObject editor) /*-{
-		editor.select(0, 0, false);
-	}-*/;
 
 	@Override
 	public void format(String key, Object val) {
 		formatNative(editor, key, val);
 	}
 
-	private static native void formatNative(JavaScriptObject editor, String key, Object val) /*-{
+	private static native void formatNative(CarotaDocument editor, String key, Object val) /*-{
 		var selection = editor.selectedRange();
 		var range = selection.start === selection.end ? editor.documentRange()
 				: selection;
@@ -128,16 +124,11 @@ public class CarotaEditor implements Editor {
 		return getContentNative(editor);
 	}
 
-	@Override
-	public CanvasElement getCanvasElement() {
-		return widget.getElement().getElementsByTagName("canvas").getItem(0).cast();
-	}
-
-	private native String getContentNative(JavaScriptObject editor) /*-{
+	private native String getContentNative(CarotaDocument editor) /*-{
 		return JSON.stringify(editor.save());
 	}-*/;
 
-	private native <T> T getFormatNative(JavaScriptObject editorAPI, String key,
+	private native <T> T getFormatNative(CarotaDocument editorAPI, String key,
 			T fallback) /*-{
 		var format = editorAPI.selectedRange().getFormatting()[key];
 		if (typeof format == 'object') {
@@ -146,7 +137,7 @@ public class CarotaEditor implements Editor {
 		return format || fallback;
 	}-*/;
 
-	private native <T> T getDocumentFormatNative(JavaScriptObject editorAPI, String key,
+	private native <T> T getDocumentFormatNative(CarotaDocument editorAPI, String key,
 			T fallback) /*-{
 		var format = editorAPI.documentRange().getFormatting()[key];
 		if (typeof format == 'object') {

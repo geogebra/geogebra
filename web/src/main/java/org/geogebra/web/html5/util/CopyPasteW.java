@@ -337,6 +337,7 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}-*/;
 
+	@ExternalAccess
 	private static void pasteText(App app, String text) {
 		if (text.startsWith(pastePrefix)) {
 			pasteGeoGebraXML(app, GlobalFunctions.atob(text.substring(pastePrefix.length())));
