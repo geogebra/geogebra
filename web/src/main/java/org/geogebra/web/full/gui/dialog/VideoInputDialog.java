@@ -37,12 +37,12 @@ public class VideoInputDialog extends MediaDialog {
 		if (appW.getGuiManager() != null) {
 			String url = getUrlWithProtocol();
 			// inputField.getTextComponent().setText("https://www.youtube.com/watch?v=Kc2iLAubras");
-			inputField.getTextComponent().setText(url);
+			mediaInputPanel.inputField.getTextComponent().setText(url);
 			VideoURL videoURL = MediaURLParser.checkVideo(url);
 			if (videoURL.isValid()) {
 				addVideo(videoURL);
 			} else {
-				showError("InvalidInput");
+				mediaInputPanel.showError("InvalidInput");
 			}
 		}
 	}
@@ -54,7 +54,7 @@ public class VideoInputDialog extends MediaDialog {
 	 *            the validated URL of the video.
 	 */
 	private void addVideo(VideoURL videoURL) {
-		resetError();
+		mediaInputPanel.resetError();
 		GeoElement video = new MediaFactory(appW).addVideo(videoURL);
 		hide();
 		onMediaElementCreated(video);

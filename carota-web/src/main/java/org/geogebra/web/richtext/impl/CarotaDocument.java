@@ -6,6 +6,7 @@ import jsinterop.annotations.JsType;
 
 @JsType(isNative = true)
 public class CarotaDocument {
+
 	public native void draw(Context2d canvasElement);
 
 	public native void select(int start, int end);
@@ -13,4 +14,10 @@ public class CarotaDocument {
 	public native void select(int start, int end, boolean takeFocus);
 
 	public native CarotaNode byCoordinate(int x, int y);
+
+	public native CarotaRange selectedRange();
+
+	public native CarotaRange documentRange();
+
+	public native void insertHyperlink(String url, String text);
 }
