@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
 import com.himamis.retex.editor.share.util.Unicode;
-import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -591,17 +590,6 @@ public class AlgebraItem {
 
 		boolean hasEquation = geoElement instanceof EquationValue;
 		return hasEquation && !isFunctionOrEquationFromUser(geoElement);
-	}
-
-	/**
-	 * Create provider of texts for ANS button
-	 * 
-	 * @param app
-	 *            app
-	 * @return provider of last AV item
-	 */
-	public static HasLastItem getLastItemProvider(final App app) {
-		return new ConstructionItemProvider(app.getKernel().getConstruction());
 	}
 
 	/**
