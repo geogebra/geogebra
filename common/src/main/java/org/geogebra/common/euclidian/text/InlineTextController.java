@@ -76,6 +76,8 @@ public interface InlineTextController {
 	 */
 	<T> T getFormat(String key, T fallback);
 
+	String getSelectedText();
+
 	/**
 	 * @param g2
 	 * 	          graphics
@@ -83,4 +85,6 @@ public interface InlineTextController {
 	 *            transform w.r.t. top left corner, does not include padding
 	 */
 	void draw(GGraphics2D g2, GAffineTransform transform);
+
+	void insertHyperlink(String url, String text);
 }

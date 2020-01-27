@@ -137,6 +137,11 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public String getSelectedText() {
+		return editor.getSelectedText();
+	}
+
+	@Override
 	public void draw(GGraphics2D g2, GAffineTransform transform) {
 		g2.saveTransform();
 
@@ -155,5 +160,10 @@ public class InlineTextControllerW implements InlineTextController {
 		}
 
 		g2.restoreTransform();
+	}
+
+	@Override
+	public void insertHyperlink(String url, String text) {
+		editor.insertHyperlink(url, text);
 	}
 }

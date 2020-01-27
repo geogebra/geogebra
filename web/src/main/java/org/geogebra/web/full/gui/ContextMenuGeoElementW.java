@@ -3,9 +3,11 @@ package org.geogebra.web.full.gui;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -19,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -35,6 +38,7 @@ import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.html5.AttachedToDOM;
@@ -170,6 +174,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addPinForUnbundled();
 			addFixForUnbundledOrNotes();
 		} else if (app.isWhiteboardActive()) {
+			if (getGeo() instanceof GeoInlineText) {
+				addHyperlinkItems();
+				wrappedPopup.addSeparator();
+			}
+
 			addCutCopyPaste();
 			addFixForUnbundledOrNotes();
 		}
@@ -205,6 +214,27 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		// DELETE
 		addDeleteItem();
 		addPropertiesItem();
+	}
+
+	private void addHyperlinkItems() {
+		Command addHyperlinkCommand = new Command() {
+			@Override
+			public void execute() {
+				DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
+						.getDrawableFor(getGeo());
+
+				HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app, inlineText);
+				hyperlinkDialog.center();
+				hyperlinkDialog.show();
+			}
+		};
+
+		AriaMenuItem addHyperlinkItem = new AriaMenuItem(loc.getMenu("Link"), false,
+				addHyperlinkCommand);
+		addHyperlinkItem.getElement().getStyle()
+				.setPaddingLeft(18, Style.Unit.PX);
+
+		wrappedPopup.addItem(addHyperlinkItem);
 	}
 
 	private void addPropertiesItem() {

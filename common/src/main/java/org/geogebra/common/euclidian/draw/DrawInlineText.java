@@ -376,4 +376,24 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		}
 		return fallback;
 	}
+
+	/**
+	 * @return the plaintext representation of the current selection
+	 */
+	public String getSelectedText() {
+		if (textController != null) {
+			return textController.getSelectedText();
+		}
+
+		return "";
+	}
+
+	/**
+	 * Inserts formatted hyperlink at the current selection
+	 */
+	public void insertHyperlink(String url, String text) {
+		if (textController != null) {
+			textController.insertHyperlink(url, text);
+		}
+	}
 }
