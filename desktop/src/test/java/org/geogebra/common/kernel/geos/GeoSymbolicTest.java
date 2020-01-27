@@ -933,14 +933,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testUndefinedVariableCannotBecomeSlider() {
-		GeoSymbolic element = add("a");
-		Assert.assertFalse(element.canBecomeSlider());
+		GeoElement element = add("a");
+		Assert.assertFalse(element instanceof HasExtendedAV);
 	}
 
 	@Test
 	public void testFunctionCannotBecomeSlider() {
-		GeoSymbolic element = add("x^2");
-		Assert.assertFalse(element.canBecomeSlider());
+		GeoElement element = add("x^2");
+		Assert.assertFalse(element instanceof HasExtendedAV);
 	}
 
 	@Test
@@ -963,8 +963,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testExpressionCannotBecomeSlider() {
 		String[] expressions = {"1+2", "2*9", "1/4", "5^6"};
 		for (String expression: expressions) {
-			GeoSymbolic element = add(expression);
-			Assert.assertFalse(element.canBecomeSlider());
+			GeoElement element = add(expression);
+			Assert.assertFalse(element instanceof HasExtendedAV);
 		}
 	}
 
@@ -972,8 +972,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testCommandsCannotBecomeSlider() {
 		String[] expressions = {"Cross((1,2),(3,4))", "Dot((1,2),(3,4))", "Degree(x^2)"};
 		for (String expression: expressions) {
-			GeoSymbolic element = add(expression);
-			Assert.assertFalse(element.canBecomeSlider());
+			GeoElement element = add(expression);
+			Assert.assertFalse(element instanceof HasExtendedAV);
 		}
 	}
 
