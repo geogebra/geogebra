@@ -10,7 +10,7 @@ public class CarotaDocument {
 
 	public native void select(int start, int end);
 
-	public native void select(int start, int end, boolean foo);
+	public native void select(int start, int end, boolean takeFocus);
 
 	public native CarotaNode byCoordinate(int x, int y);
 }
