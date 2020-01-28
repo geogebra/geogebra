@@ -2563,6 +2563,7 @@ __GGB__keysVar["eo"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveRow": "Forigi linion",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "Alinomi",
     "Repeat": "Repeat",

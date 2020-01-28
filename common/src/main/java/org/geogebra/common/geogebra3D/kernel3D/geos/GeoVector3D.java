@@ -9,6 +9,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -18,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Transformable;
+import org.geogebra.common.kernel.geos.VectorToMatrix;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -54,6 +57,7 @@ public class GeoVector3D extends GeoVec4D
 	private StringBuilder sb;
 
 	private boolean trace;
+	private VectorToMatrix converter = null;
 
 	/**
 	 * simple constructor
@@ -275,9 +279,7 @@ public class GeoVector3D extends GeoVec4D
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
-
-		switch (tpl.getStringType()) {
-		case GIAC:
+		if (tpl.getStringType() == ExpressionNodeConstants.StringType.GIAC) {
 			sbBuildValueString.append("ggbvect[");
 			sbBuildValueString.append(kernel.format(getX(), tpl));
 			sbBuildValueString.append(',');
@@ -286,8 +288,6 @@ public class GeoVector3D extends GeoVec4D
 			sbBuildValueString.append(kernel.format(getZ(), tpl));
 			sbBuildValueString.append("]");
 			return sbBuildValueString;
-
-		default: // continue below
 		}
 
 		/*
@@ -328,23 +328,16 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	private void setCoordSep(StringTemplate tpl) {
-		switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
-		case Kernel.COORD_STYLE_AUSTRIAN:
+		if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
 			sbBuildValueString.append(" | ");
-			break;
-
-		default:
+		} else {
 			sbBuildValueString.append(", ");
 		}
 	}
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		if (sb == null) {
-			sb = new StringBuilder();
-		} else {
-			sb.setLength(0);
-		}
+		resetStringBuilder();
 
 		if (getToStringMode() == Kernel.COORD_CARTESIAN_3D) {
 			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(),
@@ -374,6 +367,14 @@ public class GeoVector3D extends GeoVec4D
 		return GeoVector.buildLatexString(kernel, sb, symbolic, tpl,
 				getToStringMode(), getX(), getY(), this);
 
+	}
+
+	private void resetStringBuilder() {
+		if (sb == null) {
+			sb = new StringBuilder();
+		} else {
+			sb.setLength(0);
+		}
 	}
 
 	/**
@@ -522,8 +523,7 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	public double[] getPointAsDouble() {
-		double[] ret = { v.getX(), v.getY(), v.getZ() };
-		return ret;
+		return new double[] { v.getX(), v.getY(), v.getZ() };
 	}
 
 	@Override
@@ -538,7 +538,6 @@ public class GeoVector3D extends GeoVec4D
 		Coords ret = new Coords(4);
 		ret.setValues(v, 4);
 		return ret;
-
 	}
 
 	@Override
@@ -613,17 +612,7 @@ public class GeoVector3D extends GeoVec4D
 	@Override
 	public String getTraceDialogAsValues() {
 		String name = getLabelTextOrHTML(false);
-
-		StringBuilder sb1 = new StringBuilder();
-		sb1.append("x(");
-		sb1.append(name);
-		sb1.append("), y(");
-		sb1.append(name);
-		sb1.append("), z(");
-		sb1.append(name);
-		sb1.append(")");
-
-		return sb1.toString();
+		return "x(" +	name +	"), y(" + name + "), z(" +	name +	")";
 	}
 
 	@Override
@@ -664,9 +653,7 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	final public void rotate(NumberValue phiValue, GeoPointND Q) {
-
 		rotate(phiValue);
-
 	}
 
 	@Override
@@ -750,12 +737,11 @@ public class GeoVector3D extends GeoVec4D
 
 	@Override
 	public void matrixTransform(double a, double b, double c, double d) {
-
 		double x = getX();
 		double y = getY();
 
-		Double x1 = a * x + b * y;
-		Double y1 = c * x + d * y;
+		double x1 = a * x + b * y;
+		double y1 = c * x + d * y;
 
 		setCoords(x1, y1, getZ(), getW());
 	}
@@ -833,7 +819,6 @@ public class GeoVector3D extends GeoVec4D
 		}
 
 		return movedGeo;
-
 	}
 
 	@Override
@@ -849,5 +834,31 @@ public class GeoVector3D extends GeoVec4D
 	@Override
 	public ValidExpression toValidExpression() {
 		return getVector();
+	}
+
+	@Override
+	public String toValueStringAsColumnVector(StringTemplate tpl) {
+		return buildColumnVectorValueString(tpl);
+	}
+
+	private String buildColumnVectorValueString(StringTemplate tpl) {
+		if (getToStringMode() != Kernel.COORD_CARTESIAN
+				&& getToStringMode() != Kernel.COORD_CARTESIAN_3D) {
+			return buildValueString(tpl).toString();
+		}
+		return getConverter().build(tpl, getDefinition(), getX(), getY(), getZ());
+	}
+
+	private VectorToMatrix getConverter() {
+		if (converter == null) {
+			converter = new VectorToMatrix(kernel);
+		}
+		return converter;
+	}
+
+	@Override
+	public boolean isColumnEditable() {
+		return isIndependent()
+				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 }

@@ -28,6 +28,7 @@ public class CalcEmbedElement extends EmbedElement {
 	public CalcEmbedElement(GeoGebraFrameFull widget, EmbedManagerW embedManager, int embedId) {
 		super(widget);
 		frame = widget;
+		frame.useDataParamBorder();
 		setupUndoRedo(embedId, embedManager);
 	}
 
@@ -53,8 +54,9 @@ public class CalcEmbedElement extends EmbedElement {
 	@Override
 	public void setSize(int contentWidth, int contentHeight) {
 		frame.getApp().getGgbApi().setSize(contentWidth, contentHeight);
-		frame.getElement().getStyle().setWidth(contentWidth, Unit.PX);
-		frame.getElement().getStyle().setHeight(contentHeight, Unit.PX);
+		// 1px border
+		frame.getElement().getStyle().setWidth(contentWidth - 2, Unit.PX);
+		frame.getElement().getStyle().setHeight(contentHeight - 2, Unit.PX);
 		frame.getApp().checkScaleContainer();
 	}
 

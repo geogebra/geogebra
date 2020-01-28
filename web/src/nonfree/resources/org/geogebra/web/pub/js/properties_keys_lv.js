@@ -2563,6 +2563,7 @@ __GGB__keysVar["lv"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "No\u0146emt rindstarpas",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Aizv\u0101kt objektu no tras\u0113\u0161anas saraksta",
     "Rename": "P\u0101rsaukt",
     "Repeat": "Atk\u0101rtot",

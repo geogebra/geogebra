@@ -23,11 +23,6 @@ public class DefaultUndoManager extends UndoManager {
     }
 
     @Override
-    public void storeUndoInfoAfterPasteOrAdd() {
-		// overridden in subclases
-    }
-
-    @Override
     public void storeUndoInfo(StringBuilder currentUndoXML, boolean refresh) {
         doStoreUndoInfo(currentUndoXML);
         if (refresh) {

@@ -47,7 +47,7 @@ class Drawer extends Timer {
 
 	private void startTouch() {
 		fpsProfiler.notifyTouchStart();
-		mouseTouchGestureController.onTouchStart(pointerEvent);
+		mouseTouchGestureController.onPointerEventStart(pointerEvent);
 	}
 
 	private void moveTouch() {

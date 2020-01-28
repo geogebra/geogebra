@@ -65,4 +65,9 @@ public class AppConfigSuite extends AppConfigGraphing {
 	public boolean shouldHideEquations() {
 		return false;
 	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return false;
+	}
 }

@@ -2412,12 +2412,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void updateHighlight(GeoElementND geo) {
-		if (!geo.toGeoElement().isSelected()) {
-			DrawableND drawableND = drawableMap.get(geo);
-			if (drawableND != null) {
-				drawableND.setPartialHitClip(null);
-			}
-		}
+		// nothing to do here
 	}
 
 	@Override

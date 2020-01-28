@@ -406,6 +406,7 @@ public abstract class GeoQuadricND extends GeoElement
 	public void setUndefined() {
 		defined = false;
 		empty();
+		resetDefinition();
 	}
 
 	/**

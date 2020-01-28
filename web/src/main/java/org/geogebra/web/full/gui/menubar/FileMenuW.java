@@ -94,7 +94,9 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		addFileNewItem();
 		addOpenFileItem();
 		addSaveItem();
-		addSeparator();
+		if (!getApp().isUnbundledOrWhiteboard()) {
+			addSeparator();
+		}
 		addExportImageItem();
 		addShareItem();
 		addDownloadAsItem();
