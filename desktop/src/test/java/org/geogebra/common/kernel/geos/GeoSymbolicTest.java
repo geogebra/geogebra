@@ -953,8 +953,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testSliderCommand() {
+	public void testSliderCommandCreatesSlider() {
 		GeoNumeric element = add("Slider(1, 10)");
+		Assert.assertTrue(element.isShowingExtendedAV());
 		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 1));
 		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 10));
 	}
