@@ -138,4 +138,8 @@ public class ScriptAreaProcessing implements KeyboardListener {
 		// not needed
 	}
 
+	@Override
+	public boolean requestsAns() {
+		return false;
+	}
 }

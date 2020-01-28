@@ -80,6 +80,9 @@ public class TabbedKeyboard extends FlowPanel
 	private ButtonRepeater repeater;
 	private boolean hasMoreButton;
 
+	private KeyboardSwitcher.SwitcherButton ansSwitcher;
+	private KeyboardSwitcher.SwitcherButton defaultSwitcher;
+
 	/**
 	 * @param appKeyboard
 	 *            {@link HasKeyboard}
@@ -135,11 +138,22 @@ public class TabbedKeyboard extends FlowPanel
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
-		switcher.addSwitch(keyboard, "123");
+		ansSwitcher = switcher.addSwitch(keyboard, "123");
+		ansSwitcher.setVisible(false);
+		setDataTest(ansSwitcher, "keyboard-123-ans");
+
+		keyboard = buildPanel(kbf.createDefaultKeyboard(), this);
+		tabs.add(keyboard);
+		keyboard.setVisible(false);
+		defaultSwitcher = switcher.addSwitch(keyboard, "123");
+		setDataTest(defaultSwitcher, "keyboard-123");
+
 		keyboard = buildPanel(kbf.createFunctionsKeyboard(), this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, "f(x)");
+		KeyboardSwitcher.SwitcherButton function = switcher.addSwitch(keyboard, "f(x)");
+		setDataTest(function, "keyboard-fx");
+
 		upperKeys = new HashMap<>();
 		String middleRow = locale.getKeyboardRow(2);
 		keyboard = buildPanel(kbf.createLettersKeyboard(
@@ -171,6 +185,10 @@ public class TabbedKeyboard extends FlowPanel
 			switcher.addSwitch(keyboard, "ABC");
 		}
 		layout();
+	}
+
+	private void setDataTest(Widget widget, String value) {
+		widget.getElement().setAttribute("data-test", value);
 	}
 
 	private void buildGUIScientific() {
@@ -745,6 +763,28 @@ public class TabbedKeyboard extends FlowPanel
 			}
 		}
 		this.processField = field;
+		updateKeyboard();
+	}
+
+	private void updateKeyboard() {
+		if (processField == null || ansSwitcher == null) {
+			return;
+		}
+		boolean requestsAns = processField.requestsAns();
+		ansSwitcher.setVisible(requestsAns);
+		defaultSwitcher.setVisible(!requestsAns);
+		if (requestsAns && switcher.isSelected(defaultSwitcher)) {
+			setSelected(ansSwitcher, true);
+			setSelected(defaultSwitcher, false);
+		} else if (!requestsAns && switcher.isSelected(ansSwitcher)) {
+			setSelected(ansSwitcher, false);
+			setSelected(defaultSwitcher, true);
+		}
+	}
+
+	private void setSelected(KeyboardSwitcher.SwitcherButton btn, boolean selected) {
+		btn.getKeyboard().setVisible(selected);
+		switcher.setSelected(btn, selected);
 	}
 
 	@Override
