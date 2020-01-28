@@ -407,6 +407,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	public void selectFontStyle(int style) {
 		btnBold.setValue((style & GFont.BOLD) != 0);
 		btnItalic.setValue((style & GFont.ITALIC) != 0);
+		btnUnderline.setValue((style & GFont.UNDERLINE) != 0);
 	}
 
 	@Override
