@@ -14,33 +14,33 @@ import java.util.Set;
 
 public interface AppConfig {
 
-    void adjust(DockPanelData dp);
+	void adjust(DockPanelData dp);
 
-    String getAVTitle();
+	String getAVTitle();
 
-    int getLineDisplayStyle();
+	int getLineDisplayStyle();
 
-    String getAppTitle();
+	String getAppTitle();
 
-    String getAppName();
+	String getAppName();
 
-    String getAppNameShort();
+	String getAppNameShort();
 
-    String getTutorialKey();
+	String getTutorialKey();
 
-    boolean showKeyboardHelpButton();
+	boolean showKeyboardHelpButton();
 
-    boolean isSimpleMaterialPicker();
+	boolean isSimpleMaterialPicker();
 
-    boolean hasPreviewPoints();
+	boolean hasPreviewPoints();
 
-    boolean allowsSuggestions();
+	boolean allowsSuggestions();
 
-    boolean shouldKeepRatioEuclidian();
+	boolean shouldKeepRatioEuclidian();
 
-    int getDefaultPrintDecimals();
+	int getDefaultPrintDecimals();
 
-    boolean hasSingleEuclidianViewWhichIs3D();
+	boolean hasSingleEuclidianViewWhichIs3D();
 
     /**
      * @return the decimal places that this app uses.
@@ -55,179 +55,187 @@ public interface AppConfig {
     /**
      * @return the array of characters that can be used for the angle labels.
      */
-    boolean isGreekAngleLabels();
+	boolean isGreekAngleLabels();
+
+	/**
+	 * @return whether to allow CAS commands in AV
+	 */
+	boolean isCASEnabled();
+
+	/**
+	 * @return suffix for preferences (in web)
+	 */
+	String getPreferencesKey();
+
+	/**
+	 * @return preferred perspective ID or null if user setting should be used
+	 */
+	String getForcedPerspective();
+
+	/**
+	 * @return whether to use scientific keyboard layout
+	 */
+	boolean hasScientificKeyboard();
+
+	/**
+	 * @return whether match structures (functions, equations, vectors) are
+	 *         enabled
+	 */
+	boolean isEnableStructures();
+
+	/**
+	 * 
+	 * @return the toolbar type of the current app.
+	 */
+	AppType getToolbarType();
 
     /**
-     * @return whether to allow CAS commands in AV
-     */
-    boolean isCASEnabled();
-
-    /**
-     * @return suffix for preferences (in web)
-     */
-    String getPreferencesKey();
-
-    /**
-     * @return preferred perspective ID or null if user setting should be used
-     */
-    String getForcedPerspective();
-
-    /**
-     * @return whether to use scientific keyboard layout
-     */
-    boolean hasScientificKeyboard();
-
-    /**
-     * @return whether match structures (functions, equations, vectors) are
-     * enabled
-     */
-    boolean isEnableStructures();
-
-    /**
-     * @return the toolbar type of the current app.
-     */
-    AppType getToolbarType();
-
-    /**
+     *
      * @return true if grid is shown at start on the active (main) euclidian view
      */
-    boolean showGridOnFileNew();
+	boolean showGridOnFileNew();
 
     /**
+     *
      * @return true if axes are shown at start on the active (main) euclidian view
      */
     boolean showAxesOnFileNew();
 
-    /**
-     * @return whether table view is available
-     */
-    boolean hasTableView();
+	/**
+	 * @return whether table view is available
+	 */
+	boolean hasTableView();
 
-    /**
-     * @return symbolic mode for algebra view
-     */
-    SymbolicMode getSymbolicMode();
+	/**
+	 * @return symbolic mode for algebra view
+	 */
+	SymbolicMode getSymbolicMode();
 
-    /**
-     * @return whether sliders in AV are allowed
-     */
-    boolean hasSlidersInAV();
+	/**
+	 * @return whether sliders in AV are allowed
+	 */
+	boolean hasSlidersInAV();
 
-    /**
-     * @return true if sliders are created automatically
-     */
-    boolean hasAutomaticSliders();
+	/**
+	 * @return true if sliders are created automatically
+	 */
+	boolean hasAutomaticSliders();
 
-    /**
-     * @return whether objects should be labeled a, b, ...
-     */
-    boolean hasAutomaticLabels();
+	/**
+	 * @return whether objects should be labeled a, b, ...
+	 */
+	boolean hasAutomaticLabels();
 
-    /**
-     * @return algebra style
-     */
-    int getDefaultAlgebraStyle();
+	/**
+	 * @return algebra style
+	 */
+	int getDefaultAlgebraStyle();
 
-    /**
-     * @return search tag for Open Material screen
-     */
-    String getDefaultSearchTag();
+	/**
+	 * @return search tag for Open Material screen
+	 */
+	String getDefaultSearchTag();
 
-    /**
-     * @return labeling style
-     */
-    int getDefaultLabelingStyle();
+	/**
+	 * @return labeling style
+	 */
+	int getDefaultLabelingStyle();
 
-    /**
-     * @return the Command filter for the app.
-     */
-    CommandFilter getCommandFilter();
+	/**
+	 * @return the Command filter for the app.
+	 */
+	CommandFilter getCommandFilter();
 
-    /**
-     * @return whether the app should show the tools panel or not
-     */
-    boolean showToolsPanel();
+	/**
+	 * @return whether the app should show the tools panel or not
+	 */
+	boolean showToolsPanel();
 
-    /**
-     * @return with the app code which is also used in the url, like graphing,cas,
-     * classic etc..
-     */
-    String getAppCode();
+	/**
+	 * @return with the app code which is also used in the url, like graphing,cas,
+	 * classic etc..
+	 */
+	String getAppCode();
 
-    /**
-     * @return creates a settings updater
-     */
-    SettingsUpdater createSettingsUpdater();
+	/**
+	 * @return creates a settings updater
+	 */
+	SettingsUpdater createSettingsUpdater();
 
-    /**
-     * Get the app version in enum.
-     *
-     * @return app version
-     */
-    GeoGebraConstants.Version getVersion();
+	/**
+	 * Get the app version in enum.
+	 * @return app version
+	 */
+	GeoGebraConstants.Version getVersion();
 
-    /**
-     * @return weather has exam or not (currently only graphing and cas)
-     */
-    boolean hasExam();
+	/**
+	 * @return weather has exam or not (currently only graphing and cas)
+	 */
+	boolean hasExam();
 
-    /**
-     * @return the ggbtranskey for the exam starting menu item in the MainMenu
-     */
-    String getExamMenuItemText();
+	/**
+	 * @return the ggbtranskey for the exam starting menu item in the MainMenu
+	 */
+	String getExamMenuItemText();
 
-    /**
-     * Whether it shows the error dialog for the input boxes.
-     *
-     * @return true iff it should show the error dialog
-     */
-    boolean isShowingErrorDialogForInputBox();
+	/**
+	 * Whether it shows the error dialog for the input boxes.
+	 *
+	 * @return true iff it should show the error dialog
+	 */
+	boolean isShowingErrorDialogForInputBox();
 
-    /**
-     * Create app specific operation argument filter.
-     * <code>null</code> is allowed.
-     *
-     * @return operation argument filter
-     */
-    OperationArgumentFilter createOperationArgumentFilter();
+	/**
+	 * Create app specific operation argument filter.
+	 * <code>null</code> is allowed.
+	 *
+	 * @return operation argument filter
+	 */
+	OperationArgumentFilter createOperationArgumentFilter();
 
-    /**
-     * @return creates app specific parser functions
-     */
-    ParserFunctions createParserFunctions();
+	/**
+	 * @return creates app specific parser functions
+	 */
+	ParserFunctions createParserFunctions();
 
-    /**
-     * Get the available fill types.
-     *
-     * @return fill types
-     */
-    Set<FillType> getAvailableFillTypes();
+	/**
+	 * @return true if it has 'ans' button in the AV.
+	 */
+	boolean hasAnsButtonInAv();
 
-    /**
-     * Returns an equation form constant declared in the GeoLine class,
-     * or -1 if it's not set
-     *
-     * @return equation form or -1
-     */
-    int getEnforcedLineEquationForm();
+	/**
+	 * Get the available fill types.
+	 *
+	 * @return fill types
+	 */
+	Set<FillType> getAvailableFillTypes();
 
-    /**
-     * Returns an equation form constant declared in the GeoConicND class,
-     * or -1 if it's not set
-     *
-     * @return equation form or -1
-     */
-    int getEnforcedConicEquationForm();
+	/**
+	 * Returns an equation form constant declared in the GeoLine class,
+	 * or -1 if it's not set
+	 *
+	 * @return equation form or -1
+	 */
+	int getEnforcedLineEquationForm();
 
-    /**
-     * Whether it shows the equation in AV.
-     *
-     * @return true if equation should be hidden in AV
-     */
-    boolean shouldHideEquations();
+	/**
+	 * Returns an equation form constant declared in the GeoConicND class,
+	 * or -1 if it's not set
+	 *
+	 * @return equation form or -1
+	 */
+	int getEnforcedConicEquationForm();
 
-    /**
-     * @return whether the apps uses restricted dragging for certain objects or not
-     */
-    boolean isObjectDraggingRestricted();
+	/**
+	 * Whether it shows the equation in AV.
+	 *
+	 * @return true if equation should be hidden in AV
+	 */
+	boolean shouldHideEquations();
+
+	/**
+	 * @return whether the apps uses restricted dragging for certain objects or not
+	 */
+	boolean isObjectDraggingRestricted();
 }
+

@@ -1,5 +1,11 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
+import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.KeyboardModelFactory;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
+
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.GEQ;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEQ;
@@ -12,17 +18,9 @@ import static org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil.addSec
 import static org.geogebra.keyboard.base.model.impl.factory.NumberKeyUtil.addThirdRow;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 
-import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.model.KeyboardModel;
-import org.geogebra.keyboard.base.model.KeyboardModelFactory;
-import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
-import org.geogebra.keyboard.base.model.impl.RowImpl;
-
-public class MathKeyboardFactory implements KeyboardModelFactory {
+public class DefaultKeyboardFactory implements KeyboardModelFactory {
 
     @Override
     public KeyboardModel createKeyboardModel(ButtonFactory buttonFactory) {
@@ -31,8 +29,8 @@ public class MathKeyboardFactory implements KeyboardModelFactory {
         RowImpl row = mathKeyboard.nextRow(9.2f);
         addInputButton(row, buttonFactory, "x");
         addInputButton(row, buttonFactory, "y");
+        addInputButton(row, buttonFactory, "z");
         addInputButton(row, buttonFactory, PI);
-        addInputButton(row, buttonFactory, "e", EULER);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addFirstRow(row, buttonFactory);
 
@@ -40,7 +38,7 @@ public class MathKeyboardFactory implements KeyboardModelFactory {
         addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
         addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
         addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
-        addConstantInputButton(row, buttonFactory, Resource.ABS, "|");
+        addInputButton(row, buttonFactory, "e", EULER);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addSecondRow(row, buttonFactory);
 
@@ -53,10 +51,10 @@ public class MathKeyboardFactory implements KeyboardModelFactory {
         addThirdRow(row, buttonFactory);
 
         row = mathKeyboard.nextRow(9.2f);
-        addCustomButton(row, buttonFactory, "ans", Action.ANS);
-        addInputButton(row, buttonFactory, ",");
         addInputButton(row, buttonFactory, "(");
         addInputButton(row, buttonFactory, ")");
+        addConstantInputButton(row, buttonFactory, Resource.ABS, "|");
+        addInputButton(row, buttonFactory, ",");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addFourthRow(row, buttonFactory);
 

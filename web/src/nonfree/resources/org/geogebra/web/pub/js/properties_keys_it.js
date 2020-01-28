@@ -2576,7 +2576,7 @@ __GGB__keysVar["it"].menu = {
     "ResizeAngle": "Ridimensiona l'angolo automaticamente",
     "ResolutionInDPI": "Risoluzione in dpi",
     "RestartLater": "Riavvia in seguito",
-    "RestoreSettings": "Ripristina le impostazioni",
+    "RestoreSettings": "Ripristina impostazioni",
     "Result": "Risultato",
     "Result.Exercise": "Risultato",
     "ResultsFor": "Risultati per %0",

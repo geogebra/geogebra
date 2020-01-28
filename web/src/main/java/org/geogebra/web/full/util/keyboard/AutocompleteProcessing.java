@@ -9,7 +9,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Event;
 
 /**
- * Connector for keyboartd and input boxes
+ * Connector for keyboard and input boxes
  */
 public class AutocompleteProcessing implements KeyboardListener {
 
@@ -123,5 +123,10 @@ public class AutocompleteProcessing implements KeyboardListener {
 	@Override
 	public void ansPressed() {
 		/// not needed
+	}
+
+	@Override
+	public boolean requestsAns() {
+		return false;
 	}
 }

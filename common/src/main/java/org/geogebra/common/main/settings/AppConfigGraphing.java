@@ -278,4 +278,9 @@ public class AppConfigGraphing implements AppConfig {
 	public boolean shouldHideEquations() {
 		return true;
 	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return true;
+	}
 }

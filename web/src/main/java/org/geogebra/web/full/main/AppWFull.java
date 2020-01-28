@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
@@ -87,6 +88,7 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.ConstructionItemProvider;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.activity.CASActivity;
@@ -2197,5 +2199,15 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public ScriptManager newScriptManager() {
 		return new ScriptManagerW(this, getActivity().getApiExporter());
+	}
+
+	@Override
+	public HasLastItem getLastItemProvider() {
+		if (!getConfig().hasAnsButtonInAv()
+				|| getActiveEuclidianView().getEuclidianController()
+				.isSymbolicEditorSelected()) {
+			return null;
+		}
+		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView());
 	}
 }
