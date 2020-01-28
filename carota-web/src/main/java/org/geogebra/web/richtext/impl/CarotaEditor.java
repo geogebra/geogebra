@@ -15,6 +15,7 @@ public class CarotaEditor implements Editor {
 
 	private Widget widget;
 	private CarotaDocument editor;
+	private EditorChangeListener listener;
 
 	private static native CarotaDocument createEditorNative(Element div) /*-{
 		return $wnd.carota.editor.create(div);
@@ -78,6 +79,12 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
+	public void setWidth(int width) {
+		editor.setWidth(width);
+		listener.onSizeChanged(editor.getFrame().getHeight());
+	}
+
+	@Override
 	public Widget getWidget() {
 		return widget;
 	}
@@ -88,7 +95,8 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
-	public void addListener(EditorChangeListener listener) {
+	public void setListener(EditorChangeListener listener) {
+		this.listener = listener;
 		addListenerNative(widget, editor, listener);
 	}
 
@@ -100,15 +108,11 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void format(String key, Object val) {
-		formatNative(editor, key, val);
-	}
-
-	private static native void formatNative(CarotaDocument editor, String key, Object val) /*-{
-		var selection = editor.selectedRange();
-		var range = selection.start === selection.end ? editor.documentRange()
+		CarotaRange selection = editor.selectedRange();
+		CarotaRange range = selection.getStart() == selection.getEnd() ? editor.documentRange()
 				: selection;
 		range.setFormatting(key, val);
-	}-*/;
+	}
 
 	@Override
 	public <T> T getFormat(String key, T fallback) {

@@ -52,7 +52,7 @@ public class InlineTextControllerW implements InlineTextController {
 		parent.appendChild(editor.getWidget().getElement());
 
 		updateContent();
-		editor.addListener(new Editor.EditorChangeListener() {
+		editor.setListener(new Editor.EditorChangeListener() {
 			@Override
 			public void onContentChanged(String content) {
 				if (!content.equals(geo.getContent())) {
@@ -96,6 +96,7 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void setWidth(int width) {
 		style.setWidth(width, Style.Unit.PX);
+		editor.setWidth(width);
 	}
 
 	@Override

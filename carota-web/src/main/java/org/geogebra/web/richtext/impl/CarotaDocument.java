@@ -2,6 +2,7 @@ package org.geogebra.web.richtext.impl;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true)
@@ -20,4 +21,9 @@ public class CarotaDocument {
 	public native CarotaRange documentRange();
 
 	public native void insertHyperlink(String url, String text);
+
+	public native void setWidth(int width);
+
+	@JsProperty
+	public native CarotaFrame getFrame();
 }

@@ -13,4 +13,6 @@ public class CarotaRange {
 
 	@JsProperty
 	public native int getEnd();
+
+	public native void setFormatting(String key, Object val);
 }

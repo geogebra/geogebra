@@ -6,8 +6,6 @@ import com.google.gwt.user.client.ui.Widget;
 /** The interface to the Carota editor */
 public interface Editor {
 
-	void draw(Context2d canvasElement);
-
 	interface EditorChangeListener {
 
 		/**
@@ -45,7 +43,7 @@ public interface Editor {
 	/**
 	 * Sets the editor change listener
 	 */
-	void addListener(EditorChangeListener listener);
+	void setListener(EditorChangeListener listener);
 
 	/**
 	 * Set the content of the editor
@@ -98,4 +96,8 @@ public interface Editor {
 	String getContent();
 
 	String getSelectedText();
+
+	void draw(Context2d canvasElement);
+
+	void setWidth(int width);
 }
