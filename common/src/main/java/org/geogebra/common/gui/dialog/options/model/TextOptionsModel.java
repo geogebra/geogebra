@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
 import org.geogebra.common.gui.menubar.OptionsMenu;
@@ -138,7 +139,7 @@ public class TextOptionsModel extends OptionsModel {
 			}
 		}
 
-		listener.selectFontStyle(textStyleGeo.getFontStyle());
+		listener.selectFontStyle(EuclidianStyleBarStatic.getFontStyle(getGeosAsList()));
 	}
 
 	public void applyFontSizeFromString(String percentStr0) {
@@ -185,9 +186,7 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	public String[] getFonts() {
-		String[] ret = { loc.getMenu("SansSerif"), loc.getMenu("Serif") };
-
-		return ret;
+		return new String[]{ loc.getMenu("SansSerif"), loc.getMenu("Serif") };
 	}
 
 	public String[] getFontSizes() {
@@ -235,16 +234,8 @@ public class TextOptionsModel extends OptionsModel {
 		return style;
 	}
 
-	public void applyFontStyle(boolean isBold, boolean isItalic) {
-		int style = getFontStyle(isBold, isItalic);
-
-		for (int i = 0; i < getGeosLength(); i++) {
-			TextProperties text = getTextPropertiesAt(i);
-			if (text != null) {
-				text.setFontStyle(style);
-				text.updateVisualStyleRepaint(GProperty.FONT);
-			}
-		}
+	public void applyFontStyle(int mask, boolean add) {
+		EuclidianStyleBarStatic.applyFontStyle(getGeosAsList(), mask, add);
 
 		listener.updatePreviewPanel();
 	}
@@ -282,7 +273,7 @@ public class TextOptionsModel extends OptionsModel {
 					public void callback(GeoElementND geo1) {
 						((GeoText) geo1).setSerifFont(isSerif);
 						((GeoText) geo1).setLaTeX(isLatex, true);
-						((GeoText) geo1).updateRepaint();
+						geo1.updateRepaint();
 						app.getSelectionManager().addSelectedGeo(geo1);
 						editGeo = null;
 					}

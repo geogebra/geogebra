@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -563,6 +564,20 @@ public class EuclidianStyleBarStatic {
 			}
 		}
 		return needUndo;
+	}
+
+	/**
+	 * @param geos geos
+	 * @return intersection of font styles of all the geos
+	 */
+	public static int getFontStyle(List<GeoElement> geos) {
+		int style = GFont.ITALIC | GFont.BOLD | GFont.UNDERLINE;
+		for (GeoElement geo : geos) {
+			if (geo.getGeoElementForPropertiesDialog() instanceof TextStyle) {
+				style &= ((TextStyle) geo.getGeoElementForPropertiesDialog()).getFontStyle();
+			}
+		}
+		return style;
 	}
 
 	/**

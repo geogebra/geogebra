@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.dialog.options;
 
 import java.util.ArrayList;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOptionsListener;
@@ -48,7 +50,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	ListBox lbDecimalPlaces;
 	MyToggleButtonW btnBold;
 	MyToggleButtonW btnItalic;
-	MyToggleButtonW btnUnderline;
+	@CheckForNull MyToggleButtonW btnUnderline;
 	private GToggleButton btnLatex;
 
 	private FlowPanel secondLine;
@@ -170,28 +172,10 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		btnLatex = new MyToggleButtonW("LaTeX");
 
-		// hack
-		// btnLatex.getElement().getStyle().setWidth(100, Unit.PX);
-
-		ClickHandler styleClick = new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				model.setEditGeoText(editor.getText());
-				model.applyFontStyle(btnBold.getValue(), btnItalic.getValue());
-				inlineFormat("bold", btnBold.getValue());
-				inlineFormat("italic", btnItalic.getValue());
-				if (btnUnderline != null) {
-					inlineFormat("underline", btnUnderline.getValue());
-				}
-				updatePreviewPanel();
-			}
-		};
-
-		btnBold.addClickHandler(styleClick);
-		btnItalic.addClickHandler(styleClick);
+		addStyleClickListener("bold", GFont.BOLD, btnBold);
+		addStyleClickListener("italic", GFont.ITALIC, btnItalic);
 		if (btnUnderline != null) {
-			btnUnderline.addClickHandler(styleClick);
+			addStyleClickListener("underline", GFont.UNDERLINE, btnUnderline);
 		}
 
 		btnLatex.addClickHandler(new ClickHandler() {
@@ -287,6 +271,20 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		setWidget(mainPanel);
 	}
 
+	private void addStyleClickListener(final String propertyName, final int mask,
+									   final MyToggleButtonW toggle) {
+		toggle.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				model.setEditGeoText(editor.getText());
+				model.applyFontStyle(mask, toggle.getValue());
+				inlineFormat(propertyName, toggle.getValue());
+				updatePreviewPanel();
+			}
+		});
+	}
+
 	protected void inlineFormat(String key, Object val) {
 		inlineFormatter.formatInlineText(model.getGeosAsList(), key, val);
 	}
@@ -363,8 +361,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		int selectedIndex = lbSize.getSelectedIndex();
 		lbSize.clear();
 
-		for (int i = 0; i < fontSizes.length; ++i) {
-			lbSize.addItem(fontSizes[i]);
+		for (String fontSize : fontSizes) {
+			lbSize.addItem(fontSize);
 		}
 		if (model.hasGeos() && !(model.getGeoAt(0) instanceof GeoInlineText)) {
 			lbSize.addItem(loc.getMenu("Custom") + Unicode.ELLIPSIS);
@@ -407,7 +405,9 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	public void selectFontStyle(int style) {
 		btnBold.setValue((style & GFont.BOLD) != 0);
 		btnItalic.setValue((style & GFont.ITALIC) != 0);
-		btnUnderline.setValue((style & GFont.UNDERLINE) != 0);
+		if (btnUnderline != null) {
+			btnUnderline.setValue((style & GFont.UNDERLINE) != 0);
+		}
 	}
 
 	@Override
