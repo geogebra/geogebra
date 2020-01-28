@@ -1281,7 +1281,6 @@ public class ConsElementXMLHandler {
 	private void handleEmbedSettings(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoEmbed) {
 			for (Map.Entry<String, String> entry: attrs.entrySet()) {
-				Log.error(entry.getKey()+":"+ entry.getValue());
 				((GeoEmbed) geo).attr(entry.getKey(), entry.getValue());
 			}
 		}

@@ -1221,9 +1221,6 @@ public class EuclidianViewW extends EuclidianView implements
 		        && this.preferredSize.equals(preferredSize)) {
 			return;
 		}
-		if(preferredSize!=null) {
-			Log.error(preferredSize.getHeight() + "height");
-		}
 		this.evPanel.reset();
 		this.preferredSize = preferredSize;
 		g2p.setPreferredSize(preferredSize);

@@ -25,7 +25,9 @@ public class MaterialRequest implements Request {
 
 		thumbnail, featured, likes, width, height, instructions_pre, instructions_post,
 
-		ggbBase64, toolbar, menubar, inputbar, stylebar, modified, visibility, favorite, is3d, spreadsheet,
+		ggbBase64, toolbar, menubar, inputbar, stylebar,
+
+		modified, visibility, favorite, is3d, spreadsheet,
 
 		cas, graphics2, constprot, propcalc, dataanalysis, funcinsp, macro, sharing_key,
 
