@@ -217,6 +217,20 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addHyperlinkItems() {
+		addHyperlinkItem();
+		addEditHyperlinkItem();
+		addRemoveHyperlinkItem();
+	}
+
+	private void addItem(String text, Command command) {
+		AriaMenuItem menuItem = new AriaMenuItem(loc.getMenu(text), false,
+				command);
+		menuItem.getElement().getStyle()
+				.setPaddingLeft(16, Style.Unit.PX);
+		wrappedPopup.addItem(menuItem);
+	}
+
+	private void addHyperlinkItem() {
 		Command addHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
@@ -229,12 +243,27 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 		};
 
-		AriaMenuItem addHyperlinkItem = new AriaMenuItem(loc.getMenu("Link"), false,
-				addHyperlinkCommand);
-		addHyperlinkItem.getElement().getStyle()
-				.setPaddingLeft(18, Style.Unit.PX);
+		addItem("Link",addHyperlinkCommand);
+	}
 
-		wrappedPopup.addItem(addHyperlinkItem);
+	private void addEditHyperlinkItem() {
+		Command addEditHyperlinkCommand = new Command() {
+			@Override
+			public void execute() {
+			}
+		};
+
+		addItem("editLink", addEditHyperlinkCommand);
+	}
+
+	private void addRemoveHyperlinkItem() {
+		Command addRemoveHyperlinkCommand = new Command() {
+			@Override
+			public void execute() {
+			}
+		};
+
+		addItem("removeLink", addRemoveHyperlinkCommand);
 	}
 
 	private void addPropertiesItem() {
@@ -548,7 +577,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					.getSafeUri().asString();
 			addSubmenuAction(MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Angle")),
 					loc.getMenu("Angle"), getAngleSubMenu());
-
 		}
 	}
 
