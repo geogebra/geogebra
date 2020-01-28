@@ -2563,6 +2563,7 @@ __GGB__keysVar["sr"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Ukloni prelome redova",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Ukloni objekat iz liste za pra\u0107enje",
     "Rename": "Preimenovanje",
     "Repeat": "Ponavljanje",

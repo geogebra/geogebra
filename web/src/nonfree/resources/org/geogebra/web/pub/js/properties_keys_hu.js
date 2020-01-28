@@ -2563,6 +2563,7 @@ __GGB__keysVar["hu"].menu = {
     "RemoveLabel": "C\xedmke elt\xe1vol\xedt\xe1sa",
     "RemoveLineBreaks": "Sort\xf6r\xe9s elt\xe1vol\xedt\xe1sa",
     "RemoveRow": "Sor t\xf6rl\xe9se",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "T\xf6rli az alakzatot a nyomvonalb\xf3l",
     "Rename": "\xc1tnevez\xe9s",
     "Repeat": "Ism\xe9tl\xe9s",

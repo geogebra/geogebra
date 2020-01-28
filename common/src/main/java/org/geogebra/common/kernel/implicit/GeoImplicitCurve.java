@@ -631,6 +631,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			// .deepCopy(kernel);
 			fromEquation(new Equation(kernel, lhs, new MyDouble(kernel, 0)),
 					((GeoImplicitCurve) geo).coeff);
+		} else {
+			setUndefined();
 		}
 	}
 

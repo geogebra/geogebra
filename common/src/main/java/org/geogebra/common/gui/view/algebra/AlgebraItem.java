@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
 import com.himamis.retex.editor.share.util.Unicode;
-import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -13,7 +12,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -587,24 +585,12 @@ public class AlgebraItem {
 			GeoElementND geoElement) {
 		boolean shouldHideEquations =
 				geoElement.getKernel().getApplication().getConfig().shouldHideEquations();
+		if (!shouldHideEquations) {
+			return false;
+		}
+
 		boolean hasEquation = geoElement instanceof EquationValue;
-		boolean hasSensitiveEquation =
-				geoElement instanceof GeoLine || geoElement instanceof GeoConic;
-		boolean shouldHideSensitiveEquation = hasSensitiveEquation && shouldHideEquations;
-		boolean hasGeneratedEquation = hasEquation && !isFunctionOrEquationFromUser(geoElement);
-
-		return hasGeneratedEquation && (!hasSensitiveEquation || shouldHideSensitiveEquation);
-	}
-
-	/**
-	 * Create provider of texts for ANS button
-	 * 
-	 * @param app
-	 *            app
-	 * @return provider of last AV item
-	 */
-	public static HasLastItem getLastItemProvider(final App app) {
-		return new ConstructionItemProvider(app.getKernel().getConstruction());
+		return hasEquation && !isFunctionOrEquationFromUser(geoElement);
 	}
 
 	/**

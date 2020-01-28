@@ -2563,6 +2563,7 @@ __GGB__keysVar["id"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Hilangkan Garis Pemutus (Line Breaks)",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Hilangkan objek dari daftar jejak",
     "Rename": "Namai Ulang",
     "Repeat": "Ulangi",

@@ -35,7 +35,6 @@ import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
-import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.font.FontCreator;
@@ -402,10 +401,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private boolean allowPopUps = false;
 
 	private Platform platform;
-	/**
-	 * static so that you can copy & paste between instances
-	 */
-	public static volatile CopyPaste copyPaste = null;
+
 	static final protected long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 100;
 
 	private ArrayList<String> mLastCommandsSelectedFromHelp;
@@ -4550,12 +4546,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return copy/paste utility
 	 */
 	public CopyPaste getCopyPaste() {
-		// return 2D version in AppD, AppW, AppWSimple
-		if (copyPaste == null) {
-			copyPaste = new CopyPaste3D();
-		}
-
-		return copyPaste;
+		return null;
 	}
 
 	/**

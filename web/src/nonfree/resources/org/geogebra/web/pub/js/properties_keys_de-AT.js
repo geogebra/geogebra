@@ -2563,6 +2563,7 @@ __GGB__keysVar["de-AT"].menu = {
     "RemoveLabel": "Beschriftung entfernen",
     "RemoveLineBreaks": "Zeilenumbr\xfcche entfernen",
     "RemoveRow": "Reihe entfernen",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Entfernt Objekt von Spurliste",
     "Rename": "Umbenennen",
     "Repeat": "Wiederholen",

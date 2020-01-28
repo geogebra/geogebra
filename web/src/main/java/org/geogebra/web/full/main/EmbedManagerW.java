@@ -75,6 +75,9 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void add(final DrawEmbed drawEmbed) {
+		if (widgets.get(drawEmbed) != null) {
+			return;
+		}
 		if ("extension".equals(drawEmbed.getGeoEmbed().getAppName())) {
 			addExtension(drawEmbed);
 			if (content.get(drawEmbed.getEmbedID()) != null) {
@@ -92,7 +95,7 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private CalcEmbedElement getCalcEmbed(DrawEmbed drawEmbed) {
-		CalcEmbedElement element = null;
+		CalcEmbedElement element;
 		if (cache.containsKey(drawEmbed.getEmbedID())) {
 			element = (CalcEmbedElement) cache.get(drawEmbed.getEmbedID());
 			element.setVisible(true);
@@ -114,7 +117,8 @@ public class EmbedManagerW implements EmbedManager {
 				.attr("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
 				.attr("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
 				.attr("appName", drawEmbed.getGeoEmbed().getAppName())
-				.attr("allowStyleBar", "true");
+				.attr("allowStyleBar", "true")
+				.attr("borderColor", "#CCC");
 		String currentBase64 = base64.get(drawEmbed.getEmbedID());
 		if (currentBase64 != null) {
 			parameters.attr("appName", "auto").attr("ggbBase64", currentBase64);
@@ -135,10 +139,23 @@ public class EmbedManagerW implements EmbedManager {
 			fr.getApp().registerOpenFileListener(
 					getListener(drawEmbed, parameters));
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
+			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
 			fr.getApp().getGgbApi().setFileJSON(
 					JSON.parse(content.get(drawEmbed.getEmbedID())));
+			if (oldWidget) {
+				drawEmbed.getGeoEmbed().setEmbedId(nextID());
+			}
 		}
 		return element;
+	}
+
+	private boolean hasWidgetWithId(int embedId) {
+		for (DrawEmbed drawable: widgets.keySet()) {
+			if (drawable.getEmbedID() == embedId) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void addToGraphics(FlowPanel scaler) {
@@ -158,10 +175,9 @@ public class EmbedManagerW implements EmbedManager {
 		scaler.setHeight("100%");
 		addToGraphics(scaler);
 
-		String url = drawEmbed.getGeoEmbed().getURL();
 		EmbedElement old = cache.get(drawEmbed.getEmbedID());
 		if (old == null) {
-			EmbedElement value = url.contains("graspablemath.com")
+			EmbedElement value = drawEmbed.getGeoEmbed().isGraspableMath()
 					? new GraspableEmbedElement(parentPanel, this)
 					: new EmbedElement(parentPanel);
 			widgets.put(drawEmbed, value);
@@ -173,7 +189,6 @@ public class EmbedManagerW implements EmbedManager {
 			// the cached widget is in correct state
 			content.remove(drawEmbed.getEmbedID());
 		}
-
 	}
 
 	private static Widget createParentPanel(DrawEmbed embed) {
@@ -212,14 +227,16 @@ public class EmbedManagerW implements EmbedManager {
 		Style style = embedElement.getGreatParent().getElement().getStyle();
 		style.setTop(drawEmbed.getTop(), Unit.PX);
 		style.setLeft(drawEmbed.getLeft(), Unit.PX);
-		embedElement.getGreatParent().setSize(
-				Math.abs(drawEmbed.getWidth()) + "px",
-				Math.abs(drawEmbed.getHeight()) + "px");
-		// above the oject canvas (50) and below MOW toolbar (51)
-		toggleBackground(embedElement, drawEmbed);
-		int contentWidth = (int) drawEmbed.getGeoEmbed().getContentWidth();
-		int contentHeight = (int) drawEmbed.getGeoEmbed().getContentHeight();
-		embedElement.setSize(contentWidth, contentHeight);
+		if (drawEmbed.getWidth() > 0) {
+			embedElement.getGreatParent().setSize(
+					drawEmbed.getWidth() + "px",
+					drawEmbed.getHeight() + "px");
+			// above the oject canvas (50) and below MOW toolbar (51)
+			toggleBackground(embedElement, drawEmbed);
+			int contentWidth = (int) drawEmbed.getGeoEmbed().getContentWidth();
+			int contentHeight = (int) drawEmbed.getGeoEmbed().getContentHeight();
+			embedElement.setSize(contentWidth, contentHeight);
+		}
 	}
 
 	private void toggleBackground(EmbedElement frame,
@@ -342,7 +359,7 @@ public class EmbedManagerW implements EmbedManager {
 		for (Entry<String, String> entry : ((GgbFile) archive).entrySet()) {
 			if (entry.getKey().startsWith("embed")) {
 				try {
-					int id = Integer.parseInt(entry.getKey().split("_|\\.")[1]);
+					int id = Integer.parseInt(entry.getKey().split("[_.]")[1]);
 					counter = Math.max(counter, id + 1);
 					content.put(id, entry.getValue());
 				} catch (RuntimeException e) {
