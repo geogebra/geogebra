@@ -58,9 +58,8 @@ public class ShareControllerW implements ShareController {
 				loginForShare();
 			} else {
 				// not saved, logged in
-				if (untitled ||
-					app.getSaveController().savedAsTemplate()) {
-						saveUntitledMaterial(shareCallback);
+				if (untitled || app.getSaveController().savedAsTemplate()) {
+				    saveUntitledMaterial(shareCallback);
 				} else {
 					autoSaveMaterial(shareCallback);
 				}
