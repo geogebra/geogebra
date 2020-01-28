@@ -1,6 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Class for "completing task" cursor

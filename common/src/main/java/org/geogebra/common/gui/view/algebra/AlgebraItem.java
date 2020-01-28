@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
-import org.geogebra.common.gui.inputfield.HasLastItem;
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -26,8 +26,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Utitlity class for AV items
@@ -575,7 +573,7 @@ public class AlgebraItem {
 	/**
 	 * Tells whether the output row should be visible for the given object. We
 	 * want to show only the definition for implicit equations, functions and
-	 * conics created by tool or command in Exam mode
+	 * conics created by tool or command
 	 *
 	 * @param geoElement
 	 *            geoElement
@@ -584,24 +582,14 @@ public class AlgebraItem {
 	 */
 	public static boolean shouldShowOnlyDefinitionForGeo(
 			GeoElementND geoElement) {
-		if (geoElement instanceof EquationValue
-				&& !(geoElement instanceof GeoLine)
-				&& geoElement.getKernel().getApplication().isExamStarted()) {
-
-			return !isFunctionOrEquationFromUser(geoElement);
+		boolean shouldHideEquations =
+				geoElement.getKernel().getApplication().getConfig().shouldHideEquations();
+		if (!shouldHideEquations) {
+			return false;
 		}
-		return false;
-	}
 
-	/**
-	 * Create provider of texts for ANS button
-	 * 
-	 * @param app
-	 *            app
-	 * @return provider of last AV item
-	 */
-	public static HasLastItem getLastItemProvider(final App app) {
-		return new ConstructionItemProvider(app.getKernel().getConstruction());
+		boolean hasEquation = geoElement instanceof EquationValue;
+		return hasEquation && !isFunctionOrEquationFromUser(geoElement);
 	}
 
 	/**

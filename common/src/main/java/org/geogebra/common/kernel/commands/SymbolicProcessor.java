@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -169,19 +170,46 @@ public class SymbolicProcessor {
 		String lhsName = extractLabel(equ, info);
 		if (lhsName != null) {
 			ExpressionNode rhs = equ.getRHS();
-			rhs.setLabel(lhsName);
-			return rhs;
+			FunctionNVar lhs = getRedefiningFunction(equ);
+
+			ValidExpression retVal = rhs;
+			if (lhs != null) {
+				retVal = new FunctionNVar(rhs, lhs.getFunctionVariables());
+			}
+			retVal.setLabel(lhsName);
+			return retVal;
 		}
 		return equ;
 	}
 
 	private String extractLabel(Equation equ, EvalInfo info) {
 		ExpressionNode lhs = equ.getLHS();
-		if (lhs.getOperation() == Operation.FUNCTION && lhs.getLeft() instanceof GeoSymbolic
-				&& lhs.getRight() instanceof FunctionVariable
-				&& !kernel.getConstruction().isFileLoading()) {
+		GeoSymbolic symbolic = getRedefinitionObject(equ);
+		if (symbolic != null && !kernel.getConstruction().isFileLoading()) {
 			String lhsName = ((GeoSymbolic) lhs.getLeft()).getLabelSimple();
 			return info.isLabelRedefinitionAllowedFor(lhsName) ? lhsName : null;
+		}
+		return null;
+	}
+
+	private GeoSymbolic getRedefinitionObject(Equation equation) {
+		ExpressionNode lhs = equation.getLHS();
+		if (lhs.getOperation() == Operation.FUNCTION
+				&& lhs.getLeft() instanceof GeoSymbolic
+				&& lhs.getRight() instanceof FunctionVariable) {
+			return (GeoSymbolic) lhs.getLeft();
+		}
+		return null;
+	}
+
+	private FunctionNVar getRedefiningFunction(Equation equation) {
+		GeoSymbolic symbolic = getRedefinitionObject(equation);
+		if (symbolic != null) {
+			ExpressionNode node = symbolic.getDefinition();
+			ExpressionValue value = node != null ? node.unwrap() : null;
+			if (value instanceof FunctionNVar) {
+				return (FunctionNVar) value;
+			}
 		}
 		return null;
 	}

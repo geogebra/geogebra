@@ -22,10 +22,16 @@ public class KeyboardSwitcher extends FlowPanel {
     private List<SwitcherButton> switches;
 	private GToggleButton moreButton;
 
-    private class SwitcherButton extends Button {
+    public class SwitcherButton extends Button {
 
         private KeyPanelBase keyboard;
 
+        /**
+         * Create a new SwitcherButton
+         *
+         * @param label label
+         * @param keyboard keyboard
+         */
         public SwitcherButton(String label, KeyPanelBase keyboard) {
             super(label);
             this.keyboard = keyboard;
@@ -39,6 +45,13 @@ public class KeyboardSwitcher extends FlowPanel {
             });
         }
 
+        public KeyPanelBase getKeyboard() {
+            return keyboard;
+        }
+
+        /**
+         * Makes the keyboard visible and selects the button.
+         */
         public void select() {
             tabbedkeyboard.hideTabs();
             unselectAll();
@@ -65,10 +78,11 @@ public class KeyboardSwitcher extends FlowPanel {
         switches = new ArrayList<>();
     }
 
-	protected void addSwitch(final KeyPanelBase keyboard, String string) {
+	protected SwitcherButton addSwitch(final KeyPanelBase keyboard, String string) {
         SwitcherButton btn = new SwitcherButton(string, keyboard);
         switches.add(btn);
         contents.add(btn);
+        return btn;
     }
 
 	protected void setSelected(Button btn, boolean value) {
@@ -79,7 +93,11 @@ public class KeyboardSwitcher extends FlowPanel {
         }
     }
 
-	protected void unselectAll() {
+    protected boolean isSelected(Button btn) {
+        return btn.getStyleName().contains("selected");
+    }
+
+    protected void unselectAll() {
         for (Widget btn : switches) {
             btn.removeStyleName("selected");
         }

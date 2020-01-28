@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.kernelND;
 
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * geos that have a direction (lines, vectors, planes, ...)

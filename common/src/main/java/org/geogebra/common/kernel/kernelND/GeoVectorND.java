@@ -1,8 +1,9 @@
 package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Simple common interface for GeoVector and GeoVector3D
@@ -96,4 +97,18 @@ public interface GeoVectorND
 	 */
 	public double getZ();
 
+	/**
+	 * Get string as column vector for editing.
+	 *
+	 * @param tpl
+	 * 		StringTemplate
+	 * @return the column vector that can be rendered by editor.
+	 */
+	String toValueStringAsColumnVector(StringTemplate tpl);
+
+	/**
+	 *
+	 * @return true if the vector is column-editable.
+	 */
+	boolean isColumnEditable();
 }

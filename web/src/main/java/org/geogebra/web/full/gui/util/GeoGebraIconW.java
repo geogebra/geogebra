@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.full.css.GuiResources;
@@ -37,11 +38,6 @@ public class GeoGebraIconW {
 			matIcons.line_dotted(), matIcons.line_dash_dot(),
 			matIcons.point_cross_diag() };
 
-	private static SVGResource[] fillStyleSVGIcons = {
-			matIcons.pattern_filled(), matIcons.pattern_hatching(),
-			matIcons.pattern_dots(), matIcons.pattern_cross_hatching(),
-			matIcons.pattern_honeycomb() };
-
 	/**
 	 * creates LineStyle icon
 	 * 
@@ -66,12 +62,29 @@ public class GeoGebraIconW {
     }
 	
 	/**
-	 * @param fillStyle
-	 *            fill style id
+	 * @param fillType
+	 *            fill type
 	 * @return {@link ImageOrText}
 	 */
-	public static ImageOrText createFillStyleIcon(int fillStyle) {
-		return new ImageOrText(fillStyleSVGIcons[fillStyle], 24);
+	public static ImageOrText createFillStyleIcon(FillType fillType) {
+		return new ImageOrText(getFillStyleResource(fillType), 24);
+	}
+
+	private static SVGResource getFillStyleResource(FillType fillType) {
+		switch (fillType) {
+			case STANDARD:
+				return matIcons.pattern_filled();
+			case HATCH:
+				return matIcons.pattern_hatching();
+			case DOTTED:
+				return matIcons.pattern_dots();
+			case CROSSHATCHED:
+				return matIcons.pattern_cross_hatching();
+			case HONEYCOMB:
+				return matIcons.pattern_honeycomb();
+			default:
+				return null;
+		}
 	}
 
 	/**

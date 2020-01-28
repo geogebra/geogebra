@@ -1,6 +1,10 @@
 package org.geogebra.common.main;
 
-import com.himamis.retex.editor.share.util.KeyCodes;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
@@ -13,7 +17,6 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
@@ -27,15 +30,13 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
+import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
  * Handles keyboard events. This class only dispatches
@@ -203,13 +204,13 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private boolean handleUpDownArrowsForDropdown(ArrayList<GeoElement> geos,
-			boolean down, boolean canOpenDropDown) {
+												  boolean down) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (dl == null || !((GeoList) geos.get(0)).drawAsComboBox()) {
 				return false;
 			}
-			if (canOpenDropDown && !dl.isOptionsVisible()) {
+			if (!dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			} else {
 				dl.moveSelectorVertical(down);
@@ -220,10 +221,10 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private boolean handleLeftRightArrowsForDropdown(ArrayList<GeoElement> geos,
-			boolean left, boolean canOpenDropDown) {
+													 boolean left) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
-			if (canOpenDropDown && !dl.isOptionsVisible()) {
+			if (!dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			}
 
@@ -233,8 +234,7 @@ public abstract class GlobalKeyDispatcher {
 					return true;
 				}
 			} else {
-				return handleUpDownArrowsForDropdown(geos, left,
-						canOpenDropDown);
+				return handleUpDownArrowsForDropdown(geos, left);
 			}
 
 		}
@@ -256,14 +256,14 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	public boolean handleArrowKeyMovement(List<GeoElement> geos,
 			double[] diff, double increment) {
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		GeoElement geo = geos.get(0);
 
 		boolean allSliders = true;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geoi = geos.get(i);
+		for (GeoElement geoi : geos) {
 			if (!geoi.isGeoNumeric() || !geoi.isChangeable()) {
 				allSliders = false;
-				continue;
+				break;
 			}
 		}
 
@@ -297,8 +297,8 @@ public abstract class GlobalKeyDispatcher {
 
 		// nothing moved
 		if (!moved) {
-			for (int i = 0; i < geos.size(); i++) {
-				geo = geos.get(i);
+			for (GeoElement geoElement : geos) {
+				geo = geoElement;
 				// toggle boolean value
 				if (geo.isChangeable() && geo.isGeoBoolean()) {
 					GeoBoolean bool = (GeoBoolean) geo;
@@ -358,8 +358,6 @@ public abstract class GlobalKeyDispatcher {
 				app.loseFocus();
 			} else {
 				app.setMoveMode();
-				app.getActiveEuclidianView().getEuclidianController()
-						.deletePastePreviewSelected();
 			}
 			consumed = true;
 			break;
@@ -837,16 +835,7 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case Y:
-			if (isShiftDown) {
-				// if (app.isUsingFullGui() && app.getGuiManager() != null)
-				// {
-				// app.getGuiManager().setShowView(
-				// !app.getGuiManager().showView(
-				// App.VIEW_PYTHON),
-				// App.VIEW_PYTHON);
-				// consumed = true;
-				// }
-			} else if (app.getGuiManager() != null) {
+			 if (!isShiftDown && app.getGuiManager() != null) {
 				// needed for detached views and MacOS
 				// Cmd + Y: Redo
 
@@ -961,7 +950,7 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	/**
-	 * Change algebra style value -&gt; desfinition -&gt; description ...
+	 * Change algebra style value -&gt; definition -&gt; description ...
 	 * 
 	 * @param app
 	 *            application
@@ -1015,13 +1004,10 @@ public abstract class GlobalKeyDispatcher {
 	protected abstract void showPrintPreview(App app2);
 
 	/**
-	 * Handles Ctrl+V; overridden in desktop Default implementation pastes from
-	 * XML and returns true
+	 * Handle Ctrl+V
 	 */
 	protected void handleCtrlV() {
-		app.setWaitCursor();
-		app.getCopyPaste().pasteFromXML(app, false);
-		app.setDefaultCursor();
+		// overridden in desktop, in web, we listen to paste events
 	}
 
 	/**
@@ -1032,20 +1018,13 @@ public abstract class GlobalKeyDispatcher {
 	protected abstract boolean handleCtrlShiftN(boolean isAltDown);
 
 	/**
-	 * overridden in desktop Default implementation copies into XML
-	 * 
+	 * Overridden in desktop, in web we listen to cut and copy events
+	 *
 	 * @param cut
 	 *            whether to cut (false = copy)
 	 */
 	protected void handleCopyCut(boolean cut) {
-		// Copy selected geos
-		app.setWaitCursor();
-		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(), false);
-		if (cut) {
-			app.deleteSelectedObjects(cut);
-		}
-		app.updateMenubar();
-		app.setDefaultCursor();
+		// overridden in desktop, in web, we listen to paste events
 	}
 
 	/**
@@ -1424,6 +1403,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 			// DELETE selected objects
 			if (!app.isApplet() || keyboardShortcutsEnabled()) {
+				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 				app.deleteSelectedObjects(false);
 				return true;
 			}
@@ -1467,7 +1447,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleUpDownArrowsForDropdown(geos, false, true)) {
+					&& handleUpDownArrowsForDropdown(geos, false)) {
 				return true;
 			}
 			changeValY = base;
@@ -1481,7 +1461,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleUpDownArrowsForDropdown(geos, true, true)) {
+					&& handleUpDownArrowsForDropdown(geos, true)) {
 				return true;
 			}
 			changeValY = -base;
@@ -1495,7 +1475,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleLeftRightArrowsForDropdown(geos, true, true)) {
+					&& handleLeftRightArrowsForDropdown(geos, true)) {
 				return true;
 			}
 			changeValX = base;
@@ -1509,7 +1489,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleLeftRightArrowsForDropdown(geos, false, true)) {
+					&& handleLeftRightArrowsForDropdown(geos, false)) {
 				return true;
 			}
 

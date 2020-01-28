@@ -31,13 +31,15 @@ public class ZoomController {
 	/**
 	 * is in fullscreen mode
 	 */
-	boolean fullScreenActive = false;
+	private boolean fullScreenActive = false;
 	private double cssScale = 0;
 	private GDimension oldSize;
 	/** after we leave fullscreen, we must reset container position */
 	private HashMap<String, String> containerProps = new HashMap<>();
 	private boolean homeShown;
 	private EuclidianView view;
+
+	private boolean emulated;
 
 	/**
 	 * @param app
@@ -165,7 +167,7 @@ public class ZoomController {
 			scale = LayoutUtilW.getDeviceScale(xscale, yscale, true);
 			Browser.scale(scaler, scale, 0, 0);
 			Browser.scale(elem, 1 / scale, 120, 100);
-			container.getStyle().setPosition(useEmulatedFullscreen(app)
+			container.getStyle().setPosition(emulated
 					? Position.FIXED : Position.ABSOLUTE);
 			double marginLeft = 0;
 			double marginTop = 0;
@@ -279,12 +281,12 @@ public class ZoomController {
 	 *            fullscreen button
 	 */
 	protected void onFullscreenPressed(final Element elem,
-			final StandardButton fullscreenBtn) {
+			final StandardButton fullscreenBtn, String eventType) {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
 		final Element container;
-		final boolean emulated = useEmulatedFullscreen(app);
+		emulated = useEmulatedFullscreen(app, eventType);
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			container = null;
 			if (!isFullScreenActive()) {
@@ -354,7 +356,7 @@ public class ZoomController {
 	}
 
 	private void handleIframeFullscreen(StandardButton fullscreenBtn) {
-		if (isRunningInIframe() && useEmulatedFullscreen(app)) {
+		if (isRunningInIframe() && emulated) {
 			FullScreenHandler fullScreenHandler = app.getVendorSettings().getFullscreenHandler();
 			if (fullScreenHandler != null) {
 				fullScreenHandler.toggleFullscreen();
@@ -384,9 +386,10 @@ public class ZoomController {
 	 * @return whether emulated fullscreen mode is needed (enforced by browser
 	 *         or applet parameter)
 	 */
-	public static boolean useEmulatedFullscreen(AppW app) {
-		return Browser.isiOS() || !StringUtil
-				.empty(app.getArticleElement().getParamFullscreenContainer());
+	public static boolean useEmulatedFullscreen(AppW app, String eventType) {
+		return Browser.isiOS()
+				|| Browser.isSafariByVendor() && eventType.startsWith("touch")
+				|| !StringUtil.empty(app.getArticleElement().getParamFullscreenContainer());
 	}
 
 	/**

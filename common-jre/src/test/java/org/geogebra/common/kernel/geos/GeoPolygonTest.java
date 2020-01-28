@@ -12,7 +12,7 @@ public class GeoPolygonTest extends BaseUnitTest {
 		add("B=(-1,-1)");
 		add("C=(1,-1)");
 		add("D=(1,1)");
-		GeoPolygon polygon = (GeoPolygon) add("Polygon(A,B,C,D)");
+		GeoPolygon polygon = add("Polygon(A,B,C,D)");
 
 		Assert.assertTrue(polygon.isFillable());
 		Assert.assertTrue(polygon.isTraceable());

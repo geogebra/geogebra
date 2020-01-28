@@ -6,8 +6,11 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+
+import java.util.Set;
 
 public interface AppConfig {
 
@@ -194,5 +197,45 @@ public interface AppConfig {
 	 * @return creates app specific parser functions
 	 */
 	ParserFunctions createParserFunctions();
+
+	/**
+	 * @return true if it has 'ans' button in the AV.
+	 */
+	boolean hasAnsButtonInAv();
+
+	/**
+	 * Get the available fill types.
+	 *
+	 * @return fill types
+	 */
+	Set<FillType> getAvailableFillTypes();
+
+	/**
+	 * Returns an equation form constant declared in the GeoLine class,
+	 * or -1 if it's not set
+	 *
+	 * @return equation form or -1
+	 */
+	int getEnforcedLineEquationForm();
+
+	/**
+	 * Returns an equation form constant declared in the GeoConicND class,
+	 * or -1 if it's not set
+	 *
+	 * @return equation form or -1
+	 */
+	int getEnforcedConicEquationForm();
+
+	/**
+	 * Whether it shows the equation in AV.
+	 *
+	 * @return true if equation should be hidden in AV
+	 */
+	boolean shouldHideEquations();
+
+	/**
+	 * @return whether the apps uses restricted dragging for certain objects or not
+	 */
+	boolean isObjectDraggingRestricted();
 }
 

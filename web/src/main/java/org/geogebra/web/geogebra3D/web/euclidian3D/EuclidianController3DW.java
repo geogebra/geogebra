@@ -356,13 +356,13 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	@Override
 	public void hideDynamicStylebar() {
-		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
+		if (getView().hasDynamicStyleBar()) {
 			getView().getDynamicStyleBar().setVisible(false);
 		}
 	}
 
 	@Override
-	protected void showDynamicStylebar() {
+	public void showDynamicStylebar() {
 		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
 			getView().getDynamicStyleBar().setVisible(true);
 			getView().getDynamicStyleBar().updateStyleBar();

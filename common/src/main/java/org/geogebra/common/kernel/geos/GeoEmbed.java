@@ -3,9 +3,9 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -15,7 +15,7 @@ import org.geogebra.common.util.StringUtil;
 public class GeoEmbed extends GeoWidget implements Translateable {
 
 	private boolean defined = true;
-	private int embedID;
+	private int embedID = -1;
 	private double contentWidth = 800;
 	private double contentHeight = 600;
 	private boolean background = true;
@@ -287,5 +287,9 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	@Override
 	public boolean isTranslateable() {
 		return true;
+	}
+
+	public boolean isGraspableMath() {
+		return url != null && url.contains("graspablemath.com");
 	}
 }

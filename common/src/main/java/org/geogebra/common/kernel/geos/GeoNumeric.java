@@ -427,6 +427,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
+		extendMinMax(geo.toGeoElement());
 		setValue(geo.evaluateDouble());
 		reuseDefinition(geo);
 	}
@@ -1896,6 +1897,15 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public ValidExpression toValidExpression() {
 		return getNumber();
+	}
+
+	@Override
+	public void initSymbolicMode() {
+		ExpressionNode definition = getDefinition();
+		boolean symbolicMode =
+				(definition == null)
+						|| (!definition.isSimpleFraction() && definition.isFractionNoPi());
+		setSymbolicMode(symbolicMode, false);
 	}
 
 	@Override

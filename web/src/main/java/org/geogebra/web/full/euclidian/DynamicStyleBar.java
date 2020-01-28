@@ -16,9 +16,9 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.html5.util.EventUtil;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.dom.client.Style.Unit;
-import org.geogebra.web.html5.util.TestHarness;
 
 /**
  * Dynamically positioned stylebar
@@ -134,7 +134,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		super.updateStyleBar();
 
 		if (activeGeoList == null || activeGeoList.size() == 0) {
-			this.setVisible(false);
+			setVisible(false);
 			return;
 		}
 

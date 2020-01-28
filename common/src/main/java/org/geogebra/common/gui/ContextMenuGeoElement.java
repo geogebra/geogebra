@@ -3,7 +3,6 @@ package org.geogebra.common.gui;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -312,13 +311,6 @@ public abstract class ContextMenuGeoElement {
 			if (i < geos2.size()) {
 				GeoElement geo1 = geos2.get(i);
 				// clear bounding box if geo if is there any
-				if (geo1.isShape()) {
-					Drawable d = (Drawable) app.getActiveEuclidianView()
-							.getDrawableFor(geo1);
-					if (d != null) {
-						d.getBoundingBox().resetBoundingBox();
-					}
-				}
 				if (removeParents) {
 					if (geo1.getParentAlgorithm() != null) {
 						for (GeoElement ge : geo1.getParentAlgorithm().input) {
@@ -466,14 +458,6 @@ public abstract class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			geo1.setEuclidianVisible(newVisibility);
-			// do not show bounding box if shape is not shown
-			if (!newVisibility && geo1.isShape()) {
-				Drawable d = (Drawable) app.getActiveEuclidianView()
-						.getDrawableFor(geo1);
-				if (d != null) {
-					d.getBoundingBox().resetBoundingBox();
-				}
-			}
 			geo1.updateRepaint();
 		}
 		app.storeUndoInfo();
@@ -520,6 +504,7 @@ public abstract class ContextMenuGeoElement {
 	 * Toggle tracing
 	 */
 	public void traceCmd() {
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 		// if there is at least 1 geo, which has no trace, all geo will have
 		// trace, otherwise, if all geo has trace, tracing will be set to false
@@ -726,12 +711,21 @@ public abstract class ContextMenuGeoElement {
 		this.geos = geos;
 	}
 
+	private void ensureGeoInSelection() {
+		if (app.getSelectionManager().getSelectedGeos().isEmpty()) {
+			app.getSelectionManager().addSelectedGeo(getGeo());
+		}
+	}
+
 	/**
 	 * Cuts selected elements
 	 */
 	public void cutCmd() {
+		ensureGeoInSelection();
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos(), false);
+				app.getSelectionManager().getSelectedGeos());
+		app.getActiveEuclidianView().setBoundingBox(null);
 		deleteCmd(true);
 	}
 
@@ -739,12 +733,33 @@ public abstract class ContextMenuGeoElement {
 	 * Duplicates selected elements
 	 */
 	public void duplicateCmd() {
-		if (app.getSelectionManager().getSelectedGeos().isEmpty()) {
-			app.getSelectionManager().addSelectedGeo(getGeo());
-		}
+		ensureGeoInSelection();
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
+		app.getCopyPaste().duplicate(app, app.getSelectionManager().getSelectedGeos());
+		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
+	}
+
+	/**
+	 * Copies selected elements
+	 */
+	public void copyCmd() {
+		ensureGeoInSelection();
+		ArrayList<GeoElement> selection
+				= new ArrayList<>(app.getSelectionManager().getSelectedGeos());
+
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
 		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos(), false);
-		app.getCopyPaste().pasteFromXML(app, false);
+				app.getSelectionManager().getSelectedGeos());
+		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
+
+		app.getSelectionManager().setSelectedGeos(selection);
+	}
+
+	/**
+	 * Pastes copied elements
+	 */
+	public void pasteCmd() {
+		app.getCopyPaste().pasteFromXML(app);
 	}
 
 	/**
