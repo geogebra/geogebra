@@ -7,6 +7,9 @@ import org.geogebra.common.kernel.geos.LabelManager;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION_VALUE;
 
+/**
+ * This class should be used by the apps that need output filtering.
+ */
 public class ProtectiveOutputFilter implements GeoOutputFilter {
 
 	@Override

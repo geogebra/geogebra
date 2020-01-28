@@ -29,6 +29,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
@@ -348,22 +350,29 @@ public abstract class GeoElement extends ConstructionElement
 	public GeoElement(final Construction c) {
 		super(c);
 		app = kernel.getApplication();
-		appConfig = app.getConfig();
 		c.addUsedType(this.getGeoClassType());
+		if (app != null) {
+			initWith(app);
+		}
+	}
+
+	private void initWith(@Nonnull App app) {
+		appConfig = app.getConfig();
 		graphicsadapter = app.newGeoElementGraphicsAdapter();
+		EuclidianViewInterfaceSlim ev  = app.getActiveEuclidianView();
+		if (ev != null && app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN) {
+			initWith(ev);
+		}
+	}
 
-		EuclidianViewInterfaceSlim ev;
-		if ((app != null)
-				&& ((ev = app.getActiveEuclidianView()) != null)
-				&& (app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN)) {
-			viewFlags = new ArrayList<>();
-			viewFlags.add(ev.getViewID());
+	private void initWith(@Nonnull EuclidianViewInterfaceSlim ev) {
+		viewFlags = new ArrayList<>();
+		viewFlags.add(ev.getViewID());
 
-			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
-			// euclidian view
-			if (!(ev.isDefault2D())) {
-				viewFlags.add(App.VIEW_EUCLIDIAN);
-			}
+		// if ev isn't Graphics or Graphics 2, then also add 1st 2D
+		// euclidian view
+		if (!(ev.isDefault2D())) {
+			viewFlags.add(App.VIEW_EUCLIDIAN);
 		}
 	}
 

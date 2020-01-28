@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.output.GeoOutputFilter;
-import org.geogebra.common.kernel.geos.output.ProtectiveOutputFilter;
 import org.geogebra.common.kernel.kernelND.ConicMatrix;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
