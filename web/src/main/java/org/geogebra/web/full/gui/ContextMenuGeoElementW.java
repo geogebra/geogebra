@@ -6,6 +6,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.gui.ContextMenuGeoElement;
@@ -45,6 +46,7 @@ import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.javax.swing.InlineTextToolsMenu;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -174,11 +176,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addPinForUnbundled();
 			addFixForUnbundledOrNotes();
 		} else if (app.isWhiteboardActive()) {
-			if (getGeo() instanceof GeoInlineText) {
-				addHyperlinkItems();
-				wrappedPopup.addSeparator();
-			}
-
+			addInlineTextItems();
 			addCutCopyPaste();
 			addFixForUnbundledOrNotes();
 		}
@@ -214,6 +212,24 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		// DELETE
 		addDeleteItem();
 		addPropertiesItem();
+	}
+
+	private void addInlineTextItems() {
+		if (!(getGeo() instanceof GeoInlineText)) {
+			return;
+		}
+
+		addInlineTextToolbar();
+		addHyperlinkItems();
+		wrappedPopup.addSeparator();
+
+	}
+
+	private void addInlineTextToolbar() {
+		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(getGeo());
+		InlineTextToolsMenu toolbar = new InlineTextToolsMenu(inlineText);
+		wrappedPopup.addItem(toolbar, false);
 	}
 
 	private void addHyperlinkItems() {

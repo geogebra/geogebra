@@ -134,6 +134,12 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_sort_black_24px.svg")
 	SVGResource sort_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/format_subscript.svg")
+	SVGResource format_subscript();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/format_superscript.svg")
+	SVGResource format_superscript();
+
 	// LINES
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_line_dash_dot.svg")

@@ -27,12 +27,29 @@ public class InlineTextFormatter {
 			String key, Object val) {
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
-			DrawableND draw = app.getActiveEuclidianView().getDrawableFor(geo);
-			if (draw instanceof DrawInlineText) {
-				((DrawInlineText) draw).format(key, val);
-				changed = true;
-			}
+			changed = formatInlineText(geo, key, val);
 		}
+
 		return changed;
 	}
+
+	/**
+	 * @param geo
+	 *            geo to be formatter)
+	 * @param key
+	 *            option name
+	 * @param val
+	 *            option value
+	 * @return whether format changed
+	 */
+	public boolean formatInlineText(GeoElement geo, String key, Object val) {
+		DrawableND draw = app.getActiveEuclidianView().getDrawableFor(geo);
+		if (draw instanceof DrawInlineText) {
+			((DrawInlineText) draw).format(key, val);
+			return true;
+		}
+
+		return false;
+	}
+
 }

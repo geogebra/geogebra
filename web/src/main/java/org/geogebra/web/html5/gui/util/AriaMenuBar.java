@@ -12,11 +12,10 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /** Accessible alternative to MenuBar */
-public class AriaMenuBar extends Widget {
-
+public class AriaMenuBar extends FlowPanel {
 	private AriaMenuItem selectedItem;
 	private ArrayList<AriaMenuItem> allItems = new ArrayList<>();
 	private ArrayList<AriaMenuBar> submenus = new ArrayList<>();
@@ -27,7 +26,7 @@ public class AriaMenuBar extends Widget {
 	 * Create new accessible menu
 	 */
 	public AriaMenuBar() {
-		setElement(Document.get().createULElement());
+		super("UL");
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
 				| Event.ONFOCUS | Event.ONKEYDOWN);
 		getElement().setAttribute("role", "menubar");
@@ -50,7 +49,7 @@ public class AriaMenuBar extends Widget {
 	 * @return the item
 	 */
 	public AriaMenuItem addItem(AriaMenuItem item) {
-		getElement().appendChild(item.getElement());
+		super.add(item);
 		allItems.add(item);
 		return item;
 	}
@@ -356,7 +355,7 @@ public class AriaMenuBar extends Widget {
 
 	private static void doItemAction(AriaMenuItem item) {
 		final ScheduledCommand cmd = item.getScheduledCommand();
-		if (!item.isEnabled()) {
+		if (!item.isEnabled() || cmd == null) {
 			return;
 		}
 		Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
