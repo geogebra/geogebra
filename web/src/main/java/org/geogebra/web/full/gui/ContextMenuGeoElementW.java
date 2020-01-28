@@ -217,7 +217,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addHyperlinkItems() {
-		addHyperlinkItem();
+		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(getGeo());
+		if ("".equals(inlineText.getFormat("url", ""))) {
+			addHyperlinkItem();
+		}
 		addEditHyperlinkItem();
 		addRemoveHyperlinkItem();
 	}
@@ -243,13 +247,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 		};
 
-		addItem("Link",addHyperlinkCommand);
+		addItem("Link", addHyperlinkCommand);
 	}
 
 	private void addEditHyperlinkItem() {
 		Command addEditHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
+				// add edit hyperlink back-end
 			}
 		};
 
@@ -260,6 +265,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		Command addRemoveHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
+				// add remove hyperlink back-end
 			}
 		};
 
