@@ -21,6 +21,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
@@ -226,8 +227,10 @@ class TextOptionsPanelD extends JPanel
 			model.applyFont(cbFont.getSelectedIndex() == 1);
 		} else if (source == cbDecimalPlaces) {
 			model.applyDecimalPlaces(cbDecimalPlaces.getSelectedIndex());
-		} else if (source == btBold || source == btItalic) {
-			model.applyFontStyle(btBold.isSelected(), btItalic.isSelected());
+		} else if (source == btBold)  {
+			model.applyFontStyle(GFont.BOLD, btBold.isSelected());
+		} else if (source == btItalic)  {
+			model.applyFontStyle(GFont.ITALIC, btItalic.isSelected());
 		}
 	}
 

@@ -3,8 +3,8 @@ package org.geogebra.web.full.euclidian;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
@@ -1342,12 +1342,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					MaterialDesignResources.INSTANCE.text_bold_black(), 24)) {
 				@Override
 				public void update(List<GeoElement> geos) {
-					boolean geosOK = checkTextNoInputBox(geos);
-					super.setVisible(geosOK);
-					if (geosOK) {
-						int style = getFontStyle(geos);
-						btnBold.setValue((style & GFont.BOLD) != 0);
-					}
+					updateFontToggle(btnBold, GFont.BOLD, geos);
 				}
 			};
 		} else {
@@ -1355,19 +1350,21 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				@Override
 				public void update(List<GeoElement> geos) {
-					boolean geosOK = checkTextNoInputBox(geos);
-					super.setVisible(geosOK);
-					if (geosOK) {
-						GeoElement geo = geos.get(0)
-								.getGeoElementForPropertiesDialog();
-						int style = ((TextStyle) geo).getFontStyle();
-						btnBold.setValue((style & GFont.BOLD) != 0);
-					}
+					updateFontToggle(btnBold, GFont.BOLD, geos);
 				}
 			};
 		}
 		btnBold.addStyleName("btnBold");
 		btnBold.addValueChangeHandler(this);
+	}
+
+	private void updateFontToggle(MyToggleButtonW btn, int mask, List<GeoElement> geos) {
+		boolean geosOK = checkTextNoInputBox(geos);
+		super.setVisible(geosOK);
+		if (geosOK) {
+			int style = EuclidianStyleBarStatic.getFontStyle(geos);
+			btn.setValue((style & mask) != 0);
+		}
 	}
 
 	private void createFixPositionBtn() {
@@ -1417,12 +1414,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				@Override
 				public void update(List<GeoElement> geos) {
-					boolean geosOK = checkTextNoInputBox(geos);
-					super.setVisible(geosOK);
-					if (geosOK) {
-						int style = getFontStyle(geos);
-						btnItalic.setValue((style & GFont.ITALIC) != 0);
-					}
+					updateFontToggle(btnItalic, GFont.ITALIC, geos);
 				}
 			};
 		} else {
@@ -1430,15 +1422,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 				@Override
 				public void update(List<GeoElement> geos) {
-
-					boolean geosOK = checkTextNoInputBox(geos);
-					super.setVisible(geosOK);
-					if (geosOK) {
-						GeoElement geo = geos.get(0)
-								.getGeoElementForPropertiesDialog();
-						int style = ((TextStyle) geo).getFontStyle();
-						btnItalic.setValue((style & GFont.ITALIC) != 0);
-					}
+					updateFontToggle(btnItalic, GFont.ITALIC, geos);
 				}
 			};
 		}
@@ -1452,12 +1436,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(List<GeoElement> geos) {
-				boolean geosOK = checkTextNoInputBox(geos);
-				super.setVisible(geosOK);
-				if (geosOK) {
-					int style = getFontStyle(geos);
-					btnUnderline.setValue((style & GFont.UNDERLINE) != 0);
-				}
+				updateFontToggle(btnUnderline, GFont.UNDERLINE, geos);
 			}
 		};
 
@@ -1907,10 +1886,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 				.convert(app.getLocalization().getFontSizeStrings()));
 
 		// set labels for buttons with text e.g. button "bold" or "italic"
-		this.btnBold.getDownFace().setText(loc.getMenu("Bold.Short"));
-		this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
-		this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
-		this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
+		if (!app.isUnbundledOrWhiteboard()) {
+			this.btnBold.getDownFace().setText(loc.getMenu("Bold.Short"));
+			this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
+			this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
+			this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
+		}
 		getLabelPopup().setLabels();
 		btnLineStyle.setLabels();
 		btnColor.setLabels();
@@ -2006,12 +1987,4 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return visible;
 	}
 
-	private static int getFontStyle(List<GeoElement> geos) {
-		int style = GFont.ITALIC | GFont.BOLD | GFont.UNDERLINE;
-		for (GeoElement geo : geos) {
-			style &= ((TextStyle) geo.getGeoElementForPropertiesDialog()).getFontStyle();
-		}
-
-		return style;
-	}
 }
