@@ -12,7 +12,8 @@ ext.getGeogebraVersion = { root = ".."->
 
 ext.gradleVersionGGB = "5.4.1"
 ext.joglVersion = '2.2.0'
-
+ext.junitVersion = '4.13'
+ext.mockitoVersion = '3.2.4'
 // This is automatically updated when there is a new version of Giac out:
 ext.javaGiacVersion = '69259'
 // Please don't change this line since the automatism looks for exact match.
