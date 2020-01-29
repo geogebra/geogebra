@@ -93,6 +93,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -2958,7 +2959,8 @@ public class AlgebraProcessor {
 	public final GeoElement[] processExpressionNode(ExpressionNode node,
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)
+				&& !willResultInSlider(node)) {
 			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command
@@ -3097,6 +3099,11 @@ public class AlgebraProcessor {
 		return ev.inspect(Inspecting.textFinder);
 	}
 
+	private boolean willResultInSlider(ExpressionNode node) {
+		return node.isSimpleNumber() || (node.unwrap() instanceof Command
+				&& ((Command) node.unwrap()).getName().equals("Slider"));
+	}
+
 	/**
 	 * Make function or nvar function from expression, using all function
 	 * variables it has
@@ -3146,6 +3153,9 @@ public class AlgebraProcessor {
 
 		if (info.isFractions() && ret instanceof HasSymbolicMode) {
 			((HasSymbolicMode) ret).initSymbolicMode();
+		}
+		if (ret instanceof HasExtendedAV) {
+			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
