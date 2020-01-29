@@ -221,9 +221,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				.getDrawableFor(getGeo());
 		if ("".equals(inlineText.getFormat("url", ""))) {
 			addHyperlinkItem();
+		} else {
+			addEditHyperlinkItem();
+			addRemoveHyperlinkItem();
 		}
-		addEditHyperlinkItem();
-		addRemoveHyperlinkItem();
 	}
 
 	private void addItem(String text, Command command) {
