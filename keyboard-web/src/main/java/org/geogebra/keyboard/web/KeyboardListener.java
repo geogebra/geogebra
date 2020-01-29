@@ -98,4 +98,11 @@ public interface KeyboardListener {
 	 * Ans key pressed
 	 */
 	void ansPressed();
+
+	/**
+	 * Requests the ans key.
+	 *
+	 * @return true if the listener requests the 'ans' key
+	 */
+	boolean requestsAns();
 }

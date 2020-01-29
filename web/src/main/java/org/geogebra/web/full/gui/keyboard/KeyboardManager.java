@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -224,7 +223,7 @@ public class KeyboardManager
 
 			keyboard.setProcessing(
 					GuiManagerW.makeKeyboardListener(
-							textField, AlgebraItem.getLastItemProvider(app)));
+							textField, app.getLastItemProvider()));
 		}
 	}
 

@@ -107,4 +107,9 @@ public class AppConfigCas extends AppConfigGraphing {
 	public ParserFunctions createParserFunctions() {
 		return ParserFunctionsFactory.createParserFunctions();
 	}
+
+	@Override
+	public boolean shouldHideEquations() {
+		return false;
+	}
 }
