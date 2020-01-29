@@ -40,9 +40,6 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		this.view = ev;
 		this.geo = geo;
 		this.geoEmbed = geo;
-		if (getEmbedManager() != null) {
-			getEmbedManager().add(this);
-		}
 		update();
 	}
 
@@ -52,6 +49,9 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	@Override
 	public void update() {
+		if (geoEmbed.getEmbedID() >= 0 && getEmbedManager() != null) {
+			getEmbedManager().add(this);
+		}
 		if (getEmbedManager() != null) {
 			getEmbedManager().update(this);
 		}

@@ -21,6 +21,7 @@ import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
@@ -159,6 +160,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.web.html5.util.CopyPasteW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -194,6 +196,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private SpreadsheetTableModelSimple tableModel;
 	private SoundManagerW soundManager;
 	private AsyncManager asyncManager;
+
+	private CopyPasteW copyPaste;
 
 	protected MaterialsManagerI fm;
 	private Material activeMaterial;
@@ -1338,14 +1342,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		reader.readAsDataURL(fileToHandle);
 		return true;
 	}-*/;
-
-	/**
-	 * @param str
-	 *            string to copy
-	 */
-	public void copyBase64ToClipboardChromeWebAppCase(String str) {
-		// This should do nothing in webSimple!
-	}
 
 	/**
 	 * @param id
@@ -3616,60 +3612,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return hiddenTextArea;
 	}-*/;
 
-	/**
-	 * https://jsfiddle.net/alvaroAV/a2pt16yq/ works in IE11, Chrome
-	 *
-	 * this method doesn't always work in Edge, Firefox as needs to be run from eg
-	 * button
-	 * 
-	 * IE11: asks user for permission
-	 *
-	 * @param value text to copy
-	 */
-	public static native void copyToSystemClipboardNative(String value) /*-{
-
-		// async Clipboard API
-		// doesn't work in Firefox either so might as well just use execCommand('copy')
-		//if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
-		//	// https://github.com/gwtproject/gwt/issues/9490
-		//	// .catch changed to ["catch"]
-		//	$wnd.navigator.clipboard.writeText(value).then(function() {
-		//		$wnd.console.log("Clipboard copy OK")
-		//	})["catch"](function(e) {
-		//		$wnd.console.log("Problem copying to clipboard")
-		//	});
-		//}
-
-		// currently seems to work in Chrome, IE11, Edge+Chromium
-		// doesn't seem to work in Edge, Firefox from GGB button
-		// document.execCommand('cut'/'copy') was denied because it was not called 
-		// from inside a short running user-generated event handler.
-		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
-		copyFrom.value = value;
-		copyFrom.select();
-		$doc.execCommand('copy');
-
-	}-*/;
-
 	@Override
 	public void copyTextToSystemClipboard(String text) {
 		Log.debug("copying to clipboard " + text);
-		copyToSystemClipboardNative(text);
-	}
-
-	/**
-	 * @param text
-	 *            text to copy
-	 * @param notify
-	 *            callback after copy is done
-	 */
-	public void copyTextToSystemClipboard(String text, Runnable notify) {
-		Log.debug("copying to clipboard " + text);
-		copyToSystemClipboardNative(text);
-
-		if (notify != null) {
-			notify.run();
-		}
+		CopyPasteW.writeToExternalClipboard(text);
 	}
 
 	private static void setLastActive(Element e) {
@@ -3973,6 +3919,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return new SettingsBuilderW(this);
 	}
 
+	@Override
+	public CopyPasteW getCopyPaste() {
+		if (copyPaste == null) {
+			copyPaste = new CopyPasteW();
+		}
+
+		return copyPaste;
+	}
+
 	/**
 	 *
 	 * @return then embedded calculator apis.
@@ -4019,6 +3974,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return manager for showing/hiding keyboard
 	 */
 	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
+		return null;
+	}
+
+	/**
+	 * Create provider of texts for ANS button.
+	 *
+	 * @return provider of last AV item
+	 */
+	public HasLastItem getLastItemProvider() {
 		return null;
 	}
 }

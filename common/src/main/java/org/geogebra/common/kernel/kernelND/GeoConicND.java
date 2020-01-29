@@ -1381,6 +1381,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param mode
 	 *            equation mode (one of EQUATION_* constants)
 	 */
+	@Override
 	public void setToStringMode(int mode) {
 		if (isEquationFormEnforced()) {
 			toStringMode = cons.getApplication().getConfig().getEnforcedConicEquationForm();

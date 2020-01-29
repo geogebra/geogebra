@@ -272,4 +272,9 @@ public class AppConfigDefault implements AppConfig {
 	public boolean shouldHideEquations() {
 		return false;
 	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return false;
+	}
 }

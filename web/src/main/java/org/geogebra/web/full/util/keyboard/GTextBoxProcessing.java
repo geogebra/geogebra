@@ -149,4 +149,9 @@ public class GTextBoxProcessing implements KeyboardListener {
 	public void ansPressed() {
 		// not needed
 	}
+
+	@Override
+	public boolean requestsAns() {
+		return false;
+	}
 }

@@ -49,12 +49,9 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 			buildGUI3DUnbundled();
 			return;
 		}
-		if (app.isUnbundledOrWhiteboard()) {
-			addPasteItem();
-		} else {
-			addAxesAndGridCheckBoxes();
-			addNavigationBar();
-		}
+
+		addAxesAndGridCheckBoxes();
+		addNavigationBar();
 		addZoomMenu();
 		addShowAllObjectsViewMenuItem();
 		addStandardViewMenuItem();

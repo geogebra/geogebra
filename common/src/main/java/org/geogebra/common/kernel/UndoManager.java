@@ -258,11 +258,6 @@ public abstract class UndoManager {
 	}
 
 	/**
-	 * Stores undo info after pasting or adding new objects
-	 */
-	public abstract void storeUndoInfoAfterPasteOrAdd();
-
-	/**
 	 * @param currentUndoXML
 	 *            construction XML
 	 * @param refresh
