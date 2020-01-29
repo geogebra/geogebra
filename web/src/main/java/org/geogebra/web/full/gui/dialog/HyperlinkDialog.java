@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.kernel.ModeSetter;
@@ -46,9 +47,17 @@ public class HyperlinkDialog extends OptionDialog {
 
 	@Override
 	protected void processInput() {
-		inlineText.insertHyperlink(linkInputPanel.getInput(),
+		inlineText.insertHyperlink(normalizeUrl(linkInputPanel.getInput()),
 				textInputPanel.inputField.getText());
 		hide();
+	}
+
+	private static String normalizeUrl(String url) {
+		if (url.startsWith(GeoGebraConstants.HTTP) || url.startsWith(GeoGebraConstants.HTTPS)) {
+			return url;
+		}
+
+		return GeoGebraConstants.HTTPS + url;
 	}
 
 	@Override

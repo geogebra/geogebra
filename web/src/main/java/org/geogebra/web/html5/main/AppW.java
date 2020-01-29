@@ -2348,9 +2348,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void showURLinBrowser(final String pageUrl) {
 		getFileManager().open(pageUrl);
-		Log.debug("opening: " + pageUrl);
-
-		// assume showURLinBrowserWaiterFixedDelay is called before
 	}
 
 	@Override

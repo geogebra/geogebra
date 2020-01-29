@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -15,13 +16,7 @@ import com.google.gwt.user.client.ui.Panel;
  */
 public abstract class MediaDialog extends OptionDialog {
 
-	/** http prefix */
-	private static final String HTTP = "http://";
-	/** https prefix */
-	private static final String HTTPS = "https://";
-
 	protected AppW appW;
-
 	protected MediaInputPanel mediaInputPanel;
 
 	/**
@@ -77,20 +72,12 @@ public abstract class MediaDialog extends OptionDialog {
 	 * @return URL including protocol
 	 */
 	protected static String addProtocol(String url) {
-		String value = isHTTPSOnly() ? url.replaceFirst(HTTP, "") : url;
+		String value = url.replaceFirst(GeoGebraConstants.HTTP, "");
 
-		if (!url.startsWith(HTTPS) && !url.startsWith("data:")) {
-			value = HTTPS + value;
+		if (!url.startsWith(GeoGebraConstants.HTTPS) && !url.startsWith("data:")) {
+			value = GeoGebraConstants.HTTPS + value;
 		}
 		return value;
-	}
-
-	/**
-	 *
-	 * @return if accepted URLs are HTTPS only or not.
-	 */
-	private static boolean isHTTPSOnly() {
-		return true;
 	}
 
 	@Override
