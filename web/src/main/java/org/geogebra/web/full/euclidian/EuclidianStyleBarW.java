@@ -1360,7 +1360,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private void updateFontToggle(MyToggleButtonW btn, int mask, List<GeoElement> geos) {
 		boolean geosOK = checkTextNoInputBox(geos);
-		super.setVisible(geosOK);
+		btn.setVisible(geosOK);
 		if (geosOK) {
 			int style = EuclidianStyleBarStatic.getFontStyle(geos);
 			btn.setValue((style & mask) != 0);
