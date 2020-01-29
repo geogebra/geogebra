@@ -31,7 +31,6 @@ publishing {
 
 dependencies {
 	api project(':renderer-base')
-	testImplementation 'junit:junit:4.11'
 }
 
 android {
