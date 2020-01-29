@@ -2563,6 +2563,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "RemoveLabel": "Label verwijderen",
     "RemoveLineBreaks": "Verwijder regelstops",
     "RemoveRow": "Verwijder rij",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Verwijder object uit spoorlijst",
     "Rename": "Naam wijzigen",
     "Repeat": "Herhaal",

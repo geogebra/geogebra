@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.commands;
 import java.util.TreeMap;
 
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.util.GPredicate;
 
 /**
@@ -22,8 +23,10 @@ public class EvalInfo {
 	private boolean forceUserEquation;
 	private boolean updateRandom = true;
 	private boolean copyingPlainVariables = false;
+	private boolean allowTypeChange = true;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private GPredicate<String> labelFilter;
+	private RedefinitionRule redefinitionRule;
 
 	/**
 	 * @param labelOut
@@ -140,6 +143,8 @@ public class EvalInfo {
 		ret.symbolicMode = this.symbolicMode;
 		ret.copyingPlainVariables = this.copyingPlainVariables;
 		ret.labelFilter = this.labelFilter;
+		ret.allowTypeChange = this.allowTypeChange;
+		ret.redefinitionRule = this.redefinitionRule;
 		return ret;
 	}
 
@@ -268,6 +273,13 @@ public class EvalInfo {
 	}
 
 	/**
+	 * @return whether type change is allowed during redefinition
+	 */
+	public boolean isPreventingTypeChange() {
+		return !allowTypeChange;
+	}
+
+	/**
 	 * 
 	 * @return whether random numbers should be updated on a redefinition
 	 */
@@ -351,5 +363,39 @@ public class EvalInfo {
 	 */
 	public boolean isLabelRedefinitionAllowedFor(String label) {
 		return labelFilter == null || labelFilter.test(label);
+	}
+
+	/**
+	 * Calling this prevents the AlgebraProcessor to change the type of the GeoElement.
+	 * It sets the element to undefined when trying to replace with a new type.
+	 *
+	 * @return a copy of the eval info which prevents type change.
+	 */
+	public EvalInfo withPreventingTypeChange() {
+		EvalInfo info = copy();
+		info.allowTypeChange = false;
+		return info;
+	}
+
+	/**
+	 * Eval info with a custom redefinition rule. This rule will be applied when the element
+	 * is being replaced by another element.
+	 *
+	 * @param rule redefinition rule
+	 * @return a copy of the eval info
+	 */
+	public EvalInfo withRedefinitionRule(RedefinitionRule rule) {
+		EvalInfo info = copy();
+		info.redefinitionRule = rule;
+		return info;
+	}
+
+	/**
+	 * Get the redefinition rule. This specifies the allowed redefinition types.
+	 *
+	 * @return redefinition rule
+	 */
+	public RedefinitionRule getRedefinitionRule() {
+		return redefinitionRule;
 	}
 }

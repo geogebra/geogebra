@@ -2563,6 +2563,7 @@ __GGB__keysVar["lt"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Pa\u0161alinti ties\u0117s tr\u016bkius",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Pa\u0161alinti objekt\u0105 i\u0161 p\u0117dsak\u0173 s\u0105ra\u0161o",
     "Rename": "Pervadinti",
     "Repeat": "Kartoti",

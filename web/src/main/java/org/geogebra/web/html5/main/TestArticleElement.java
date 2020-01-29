@@ -192,7 +192,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getDataParamBorder() {
-		return "";
+		return attributes.getOrDefault("borderColor", "");
 	}
 
 	@Override

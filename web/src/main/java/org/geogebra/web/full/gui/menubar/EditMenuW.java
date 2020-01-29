@@ -133,12 +133,9 @@ public class EditMenuW extends Submenu {
 
 					@Override
 					public void doExecute() {
-						if (!getApp().getCopyPaste().isEmpty()) {
-							getApp().setWaitCursor();
-							getApp().getCopyPaste().pasteFromXML(getApp(),
-									false);
-							getApp().setDefaultCursor();
-						}
+						getApp().setWaitCursor();
+						getApp().getCopyPaste().pasteFromXML(getApp());
+						getApp().setDefaultCursor();
 					}
 				});
 	}
@@ -252,7 +249,7 @@ public class EditMenuW extends Submenu {
 						if (!selection.getSelectedGeos().isEmpty()) {
 							getApp().setWaitCursor();
 							getApp().getCopyPaste().copyToXML(getApp(),
-									selection.getSelectedGeos(), false);
+									selection.getSelectedGeos());
 							initActions(); // getApp().updateMenubar(); - it's
 											// needn't to
 											// update the all menubar here

@@ -172,4 +172,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public boolean shouldHideEquations() {
 		return false;
 	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return false;
+	}
 }

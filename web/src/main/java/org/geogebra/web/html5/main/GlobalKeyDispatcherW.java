@@ -1,21 +1,19 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GlobalKeyDispatcher;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
@@ -37,6 +35,11 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Handles keyboard events.
@@ -113,23 +116,26 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 			@Override
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				EventTarget node = event.getNativeEvent().getEventTarget();
-				if (!Element.is(node)) {
+				NativeEvent nativeEvent = event.getNativeEvent();
+				EventTarget node = nativeEvent.getEventTarget();
+				if (!Element.is(node) || app == null) {
 					return;
 				}
 				Element targetElement = Element.as(node);
 				ArticleElement targetArticle = getGGBArticle(targetElement);
-				if (targetArticle == null) {
+				if (targetArticle == null && app.isApplet()) {
+					// clicked outside of GGB
 					return;
 				}
 
 				HashMap<String, AppW> articleMap = GeoGebraFrameW
 						.getArticleMap();
-				if (articleMap.get(targetArticle.getId()) == null) {
+				AppW targetApp = targetArticle != null
+						? articleMap.get(targetArticle.getId()) : (AppW) app;
+				if (targetApp == null) {
 					return;
 				}
-				boolean appfocused = articleMap.get(targetArticle.getId())
-						.getGlobalKeyDispatcher().isFocused();
+				boolean appFocused = targetApp.getGlobalKeyDispatcher().isFocused();
 
 				switch (event.getTypeInt()) {
 				default:
@@ -137,13 +143,13 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					break;
 				case Event.ONKEYDOWN:
 
-					if (event.getNativeEvent()
+					if (nativeEvent
 							.getKeyCode() == GWTKeycodes.KEY_TAB) { // TAB
 																	// pressed
 						if (!app.getAccessibilityManager().isTabOverGeos()) {
 							return;
 						}
-						if (!appfocused) {
+						if (!appFocused && targetArticle != null) {
 							event.cancel();
 							setHandlingTab(true);
 
@@ -154,11 +160,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 							ArticleElement nextArticle = getNextArticle(targetArticle);
 							focusArticle(nextArticle);
 						}
-					} else if (app != null
-							&& event.getNativeEvent()
+					} else if (nativeEvent
 									.getKeyCode() == GWTKeycodes.KEY_X
-							&& event.getNativeEvent().getCtrlKey()
-							&& event.getNativeEvent().getAltKey()) {
+							&& nativeEvent.getCtrlKey()
+							&& nativeEvent.getAltKey()) {
 						app.hideMenu();
 						app.closePopups();
 						if (app.getActiveEuclidianView() != null) {
@@ -168,16 +173,21 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 						}
 						app.getSelectionManager().clearSelectedGeos();
 						app.getAccessibilityManager().focusInput(true);
-						event.getNativeEvent().preventDefault();
-						event.getNativeEvent().stopPropagation();
+						nativeEvent.preventDefault();
+						nativeEvent.stopPropagation();
 					}
 
-					preventIfNotTabOrEnter(event, appfocused);
+					preventIfNotTabOrEnter(event, appFocused);
 					break;
 				case Event.ONKEYPRESS:
+					if (Browser.isiOS() && isControlKeyDown(nativeEvent) && appFocused) {
+						handleIosKeyboard((char) nativeEvent.getCharCode());
+					}
+					preventIfNotTabOrEnter(event, appFocused);
+					break;
 				case Event.ONKEYUP:
 					// not TAB and not ENTER
-					preventIfNotTabOrEnter(event, appfocused);
+					preventIfNotTabOrEnter(event, appFocused);
 				}
 			}
 
@@ -280,10 +290,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *            child
 	 * @return parent article element corresponding to applet
 	 */
-	ArticleElement getGGBArticle(Element el) {
+	private ArticleElement getGGBArticle(Element el) {
 		// if SVG clicked, getClassName returns non-string
-		if ((el.getClassName() + "")
-				.indexOf("geogebraweb-dummy-invisible") >= 0) {
+		if ((el.getClassName() + "").contains("geogebraweb-dummy-invisible")) {
 			return null;
 		}
 
@@ -351,7 +360,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		setDownKeys(event);
-		Log.debug("PRESS");
 		event.stopPropagation();
 		if (inFocus) {
 			// in theory, default action of TAB is not triggered here
@@ -361,9 +369,11 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			// TAB only fires in Firefox here, and it only has a keyCode!
 			KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeEvent()
 					.getKeyCode());
-			if (kc != KeyCodes.TAB) {
+			// Do not prevent default for the v key, otherwise paste events are not fired
+			if (kc != KeyCodes.TAB && event.getCharCode() != 'v'
+					&& event.getCharCode() != 'c' && event.getCharCode() != 'x') {
 				event.preventDefault();
-			} else if (keydownPreventsDefaultKeypressTAB) {
+			} else if (kc == KeyCodes.TAB && keydownPreventsDefaultKeypressTAB) {
 				// we only have to allow default action for TAB
 				// if the onKeyDown handler allowed it, so we
 				// have to check this boolean here, which is double
@@ -372,7 +382,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				event.preventDefault();
 			}
 		}
-
 		// this needs to be done in onKeyPress -- keyUp is not case sensitive
 		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.has(Feature.MOW_TEXT_TOOL)) {
 			this.renameStarted(event.getCharCode());
@@ -383,14 +392,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
 		if (inFocus) {
-			// KeyCodes kc =
-			// KeyCodes.translateGWTcode(event.getNativeKeyCode());
-			// if (kc != KeyCodes.TAB) {
-				// maybe need to check TAB in Firefox, or in onKeyPress
-			// but probably not, so this check is commented out
-				event.preventDefault();
-			// }
+			event.preventDefault();
 		}
+
 		event.stopPropagation();
 		// now it is private, but can be public, also it is void, but can return
 		// boolean as in desktop, if needed
@@ -406,26 +410,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		// do this only, if we really have focus
 
 		if (inFocus) {
-			handleKeyPressed(event);
+			handleGeneralKeys(event);
 		} else if (event.getNativeKeyCode() == com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER) {
 			setFocused(true);
 		}
-	}
-
-	private boolean handleKeyPressed(KeyUpEvent event) {
-		// GENERAL KEYS:
-		// handle ESC, function keys, zooming with Ctrl +, Ctrl -, etc.
-		if (handleGeneralKeys(event)) {
-			return true;
-		}
-
-		// SELECTED GEOS:
-		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		// if (handleSelectedGeosKeys(event,
-		// app.getSelectionManager().getSelectedGeos())) {
-		// return true;
-		// }
-		return false;
 	}
 
 	/**
@@ -434,10 +422,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 *
 	 * @param event
 	 *            event
-	 * @return whether event was consumed
 	 */
-	public boolean handleGeneralKeys(KeyUpEvent event) {
-
+	public void handleGeneralKeys(KeyUpEvent event) {
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB || kc == KeyCodes.ESCAPE) {
 			// the problem is that we want to prevent the default action
@@ -453,36 +439,34 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			// AlgebraInputW.onKeyUp, AutoCompleteTextFieldW.onKeyUp
 			event.stopPropagation();
 
-			return true;
+			return;
 		}
 
 		boolean handled = handleGeneralKeys(kc,
 				event.isShiftKeyDown(),
-				isControlKeyDown(event),
+				isControlKeyDown(event.getNativeEvent()),
 		        event.isAltKeyDown(), false, true);
 		if (handled) {
 			event.preventDefault();
 		}
-		return handled;
 	}
 
-	private static boolean isControlKeyDown(KeyUpEvent event) {
-		return event.isControlKeyDown()
-				|| Browser.isMacOS() && event.isMetaKeyDown();
+	private static boolean isControlKeyDown(NativeEvent event) {
+		return event.getCtrlKey()
+				|| (Browser.isMacOS() || Browser.isiOS()) && event.getMetaKey();
 	}
 
 	/**
 	 *
 	 * @param event
 	 *            native event
-	 * @return whether it was handled
 	 */
-	public boolean handleSelectedGeosKeysNative(NativeEvent event) {
-		return handleSelectedGeosKeys(
+	public void handleSelectedGeosKeysNative(NativeEvent event) {
+		handleSelectedGeosKeys(
 				KeyCodes.translateGWTcode(event
-		                .getKeyCode()), selection.getSelectedGeos(),
-		        event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
-		        false);
+						.getKeyCode()), selection.getSelectedGeos(),
+				event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
+				false);
 	}
 
 	@Override
@@ -493,15 +477,14 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (!app.getAccessibilityManager().isTabOverGeos()
 				&& kc == KeyCodes.TAB) {
-			event.stopPropagation();
 			if (app.getKernel().getConstruction().isEmpty()) {
-				event.preventDefault();
 				app.getAccessibilityManager().focusFirstElement();
-				return;
+			} else {
+				app.getAccessibilityManager().focusNext(null, -1);
 			}
-
-			app.getAccessibilityManager().focusNext(null, -1);
-
+			event.preventDefault();
+			event.stopPropagation();
+			return;
 		}
 
 		setDownKeys(event);
@@ -559,7 +542,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				&& event.isControlKeyDown()) {
 			event.preventDefault();
 		}
-
 		if (keydownPreventsDefaultKeypressTAB) {
 			event.preventDefault();
 		}
@@ -622,15 +604,12 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		}
 
 		if (app.getGuiManager() != null
-		        && ((GuiManagerInterfaceW) app.getGuiManager()).noMenusOpen()) {
+		        && app.getGuiManager().noMenusOpen()) {
 			if (app.showAlgebraInput()) {
-				// && !((GuiManagerW) app.getGuiManager()).getAlgebraInput()
-				// .hasFocus()) {
-
-				if (((GuiManagerInterfaceW) app.getGuiManager())
-						.getAlgebraInput() != null) {
-					((GuiManagerInterfaceW) app.getGuiManager())
-							.getAlgebraInput().requestFocus();
+				AlgebraInput algebraInput = ((GuiManagerInterfaceW) app.getGuiManager())
+						.getAlgebraInput();
+				if (algebraInput != null) {
+					algebraInput.requestFocus();
 					return true;
 				}
 			}
@@ -680,6 +659,23 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	protected KeyCodes translateKey(int i) {
 		return KeyCodes.translateGWTcode(i);
+	}
+
+	private void handleIosKeyboard(char code) {
+		switch (code) {
+			case 'v':
+				CopyPasteW.pasteInternal(app);
+				break;
+			case 'c':
+				CopyPaste.handleCutCopy(app, false);
+				break;
+			case 'x':
+				CopyPaste.handleCutCopy(app, true);
+				break;
+			default:
+				break;
+		}
+
 	}
 
 }

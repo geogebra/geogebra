@@ -2563,6 +2563,7 @@ __GGB__keysVar["sq"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Largo nderprerje drejtezash",
     "RemoveRow": "Remove Row",
+    "RemoveSlider": "Remove Slider",
     "RemoveTrace": "Largo objekt nga lista e gjurmes",
     "Rename": "Riemertoj",
     "Repeat": "Perserit",

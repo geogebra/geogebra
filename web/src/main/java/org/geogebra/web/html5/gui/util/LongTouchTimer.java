@@ -14,7 +14,6 @@ public class LongTouchTimer extends Timer {
 	private LongTouchHandler touchHandler;
 	private int mX;
 	private int mY;
-	private boolean longTouchHappened = false;
 
 	/**
 	 * Interface for handling long touches.
@@ -43,7 +42,6 @@ public class LongTouchTimer extends Timer {
 		this.touchHandler = handler;
 		this.mX = 0;
 		this.mY = 0;
-		longTouchHappened = false;
 	}
 
 	@Override
@@ -51,7 +49,6 @@ public class LongTouchTimer extends Timer {
 		if (touchHandler == null) {
 			return;
 		}
-		longTouchHappened = true;
 		touchHandler.handleLongTouch(mX, mY);
 	}
 
@@ -66,7 +63,6 @@ public class LongTouchTimer extends Timer {
 	 *            the y coordinate passed to the handler
 	 */
 	public void schedule(LongTouchHandler handler, int x, int y) {
-		longTouchHappened = false;
 		schedule(handler, x, y, SHOW_CONTEXT_MENU_DELAY);
 	}
 
@@ -87,7 +83,6 @@ public class LongTouchTimer extends Timer {
 		this.touchHandler = handler;
 		this.mX = x;
 		this.mY = y;
-		longTouchHappened = false;
 		schedule(delayMillis);
 	}
 
@@ -141,7 +136,6 @@ public class LongTouchTimer extends Timer {
 	public void rescheduleIfRunning(LongTouchHandler handler, int x, int y,
 			int delayMillis, boolean shouldCancel) {
 		if (isRunning()) {
-			longTouchHappened = false;
 			cancel();
 			if (!shouldCancel || pointWithinLimit(x, y)) {
 				schedule(handler, x, y, delayMillis);
@@ -156,20 +150,11 @@ public class LongTouchTimer extends Timer {
 		mX = 0;
 		mY = 0;
 		touchHandler = null;
-		longTouchHappened = false;
 		cancel();
 	}
 
 	private boolean pointWithinLimit(int nx, int ny) {
-		if (Math.abs(nx - mX) < MOVE_THRESHOLD
-				&& Math.abs(ny - mY) < MOVE_THRESHOLD) {
-			return true;
-		}
-		return false;
+		return Math.abs(nx - mX) < MOVE_THRESHOLD
+				&& Math.abs(ny - mY) < MOVE_THRESHOLD;
 	}
-
-	public boolean isLongTouchHappened() {
-		return longTouchHappened;
-	}
-
 }

@@ -69,6 +69,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -92,6 +93,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -1953,10 +1955,21 @@ public class AlgebraProcessor {
 			throws CircularDefinitionException {
 		// try to replace replaceable geo by ret[0]
 		if (replaceable != null && ret.length > 0) {
+			RedefinitionRule rule = info.getRedefinitionRule();
+			if (rule != null && !rule.allowed(replaceable.getGeoClassType(),
+					ret[0].getGeoClassType())) {
+				// Set undefined
+				ret[0] = replaceable;
+				replaceable.setUndefined();
+				replaceable.updateRepaint();
+				throw new MyError(loc, Errors.ReplaceFailed);
+			} else
 			// a changeable replaceable is not redefined:
 			// it gets the value of ret[0]
 			// (note: texts are always redefined)
-			if (!info.mayRedefineIndependent() && replaceable.isChangeable()
+			if (!info.mayRedefineIndependent()
+					&& ret[0].isIndependent()
+					&& replaceable.isChangeable()
 					&& !(replaceable.isGeoText())) {
 				try {
 					replaceable.set(ret[0]);
@@ -1996,7 +2009,9 @@ public class AlgebraProcessor {
 					}
 
 					// STANDARD CASE: REDFINED
-					else {
+					else if (!(info.isPreventingTypeChange())
+							|| compatibleTypes(replaceable.getGeoClassType(),
+							ret[0].getGeoClassType())) {
 						GeoElement newGeo = ret[0];
 						GeoCasCell cell = replaceable.getCorrespondingCasCell();
 						if (cell != null) {
@@ -2018,6 +2033,12 @@ public class AlgebraProcessor {
 								? newGeo.getLabelSimple()
 								: replaceable.getLabelSimple();
 						ret[0] = kernel.lookupLabel(newLabel);
+					} else {
+						// Set undefined
+						ret[0] = replaceable;
+						replaceable.setUndefined();
+						replaceable.updateRepaint();
+						throw new MyError(loc, Errors.ReplaceFailed);
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;
@@ -2030,7 +2051,6 @@ public class AlgebraProcessor {
 				}
 			}
 		}
-
 	}
 
 	private static boolean compatibleTypes(GeoClass type, GeoClass type2) {
@@ -2939,7 +2959,8 @@ public class AlgebraProcessor {
 	public final GeoElement[] processExpressionNode(ExpressionNode node,
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)
+				&& !willResultInSlider(node)) {
 			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command
@@ -3078,6 +3099,11 @@ public class AlgebraProcessor {
 		return ev.inspect(Inspecting.textFinder);
 	}
 
+	private boolean willResultInSlider(ExpressionNode node) {
+		return node.isSimpleNumber() || (node.unwrap() instanceof Command
+				&& ((Command) node.unwrap()).getName().equals("Slider"));
+	}
+
 	/**
 	 * Make function or nvar function from expression, using all function
 	 * variables it has
@@ -3127,6 +3153,9 @@ public class AlgebraProcessor {
 
 		if (info.isFractions() && ret instanceof HasSymbolicMode) {
 			((HasSymbolicMode) ret).initSymbolicMode();
+		}
+		if (ret instanceof HasExtendedAV) {
+			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
@@ -3321,7 +3350,7 @@ public class AlgebraProcessor {
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
 		boolean complex = p.getToStringMode() == Kernel.COORD_COMPLEX;
 
-		GeoVec3D[] ret = new GeoVec3D[1];
+		GeoElement[] ret = new GeoElement[1];
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 
 		// make point if complex parts are present, e.g. 3 + i
@@ -3340,31 +3369,33 @@ public class AlgebraProcessor {
 		}
 		boolean isVector = n.shouldEvaluateToGeoVector();
 
+		GeoVec3D vector;
 		if (isIndependent) {
 			// get coords
 			double x = p.getX();
 			double y = p.getY();
 			if (isVector) {
-				ret[0] = kernel.getAlgoDispatcher().vector(x, y);
+				vector = kernel.getAlgoDispatcher().vector(x, y);
 			} else {
-				ret[0] = kernel.getAlgoDispatcher().point(x, y, complex);
+				vector = kernel.getAlgoDispatcher().point(x, y, complex);
 			}
-			ret[0].setDefinition(n);
-			ret[0].setLabel(label);
+			vector.setDefinition(n);
+			vector.setLabel(label);
 		} else {
 			if (isVector) {
-				ret[0] = dependentVector(label, n);
+				vector = dependentVector(label, n);
 			} else {
-				ret[0] = dependentPoint(label, n, complex);
+				vector = dependentPoint(label, n, complex);
 			}
 		}
 		if (polar) {
-			ret[0].setMode(Kernel.COORD_POLAR);
-			ret[0].updateRepaint();
+			vector.setMode(Kernel.COORD_POLAR);
+			vector.updateRepaint();
 		} else if (complex) {
-			ret[0].setMode(Kernel.COORD_COMPLEX);
-			ret[0].updateRepaint();
+			vector.setMode(Kernel.COORD_COMPLEX);
+			vector.updateRepaint();
 		}
+		ret[0] = vector;
 		return ret;
 	}
 

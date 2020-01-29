@@ -476,6 +476,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
+		notifyUpdate();
 	}
 
 	@Override

@@ -106,6 +106,7 @@ public class BaseUnitTest {
 	 *            algebra input to be processed
 	 * @return resulting element
 	 */
+
 	protected <T extends GeoElement> T addAvInput(String command) {
 		App app = getApp();
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, false);
