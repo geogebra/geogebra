@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.util;
 
+import com.google.gwt.core.client.Scheduler;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -31,7 +32,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.storage.client.Storage;
-import com.google.gwt.user.client.Timer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -377,10 +377,9 @@ public class CopyPasteW extends CopyPaste {
 			drawText.update();
 			drawText.updateContent();
 
-			new Timer() {
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 				@Override
-				public void run() {
-					// rounding: prevent blurry initial position
+				public void execute() {
 					int x = (ev.getWidth() - defaultTextWidth) / 2;
 					int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
 					txt.setLocation(new GPoint2D.Double(
@@ -391,7 +390,7 @@ public class CopyPasteW extends CopyPaste {
 					ev.getEuclidianController().selectAndShowBoundingBox(txt);
 					app.storeUndoInfo();
 				}
-			}.schedule(100);
+			});
 		}
 	}
 
