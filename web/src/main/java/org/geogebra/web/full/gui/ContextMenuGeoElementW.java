@@ -217,6 +217,25 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addHyperlinkItems() {
+		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(getGeo());
+		if ("".equals(inlineText.getFormat("url", ""))) {
+			addHyperlinkItem();
+		} else {
+			addEditHyperlinkItem();
+			addRemoveHyperlinkItem();
+		}
+	}
+
+	private void addItem(String text, Command command) {
+		AriaMenuItem menuItem = new AriaMenuItem(loc.getMenu(text), false,
+				command);
+		menuItem.getElement().getStyle()
+				.setPaddingLeft(16, Style.Unit.PX);
+		wrappedPopup.addItem(menuItem);
+	}
+
+	private void addHyperlinkItem() {
 		Command addHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
@@ -229,12 +248,29 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 		};
 
-		AriaMenuItem addHyperlinkItem = new AriaMenuItem(loc.getMenu("Link"), false,
-				addHyperlinkCommand);
-		addHyperlinkItem.getElement().getStyle()
-				.setPaddingLeft(18, Style.Unit.PX);
+		addItem("Link", addHyperlinkCommand);
+	}
 
-		wrappedPopup.addItem(addHyperlinkItem);
+	private void addEditHyperlinkItem() {
+		Command addEditHyperlinkCommand = new Command() {
+			@Override
+			public void execute() {
+				// add edit hyperlink back-end
+			}
+		};
+
+		addItem("editLink", addEditHyperlinkCommand);
+	}
+
+	private void addRemoveHyperlinkItem() {
+		Command addRemoveHyperlinkCommand = new Command() {
+			@Override
+			public void execute() {
+				// add remove hyperlink back-end
+			}
+		};
+
+		addItem("removeLink", addRemoveHyperlinkCommand);
 	}
 
 	private void addPropertiesItem() {
@@ -548,7 +584,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					.getSafeUri().asString();
 			addSubmenuAction(MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Angle")),
 					loc.getMenu("Angle"), getAngleSubMenu());
-
 		}
 	}
 
