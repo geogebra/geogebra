@@ -1,5 +1,9 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -14,10 +18,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Class that handles drawing inline text elements.
@@ -378,23 +378,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		return fallback;
 	}
 
-	/**
-	 * @return the plaintext representation of the current selection
-	 */
-	public String getSelectedText() {
-		if (textController != null) {
-			return textController.getSelectedText();
-		}
-
-		return "";
-	}
-
-	/**
-	 * Inserts formatted hyperlink at the current selection
-	 */
-	public void insertHyperlink(String url, String text) {
-		if (textController != null) {
-			textController.insertHyperlink(url, text);
-		}
+	public InlineTextController getTextController() {
+		return textController;
 	}
 }

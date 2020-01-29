@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CarotaEditor implements Editor {
 
+	private static final String HYPERLINK_COLOR = "#1565C0";
 	private Widget widget;
 	private CarotaDocument editor;
 	private EditorChangeListener listener;
@@ -83,6 +84,30 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
+	public String getHyperlinkRangeText() {
+		return getHyperlinkRange().plainText();
+	}
+
+	private CarotaRange getHyperlinkRange() {
+		CarotaRange selection = editor.selectedRange();
+		return editor.hyperlinkRange(selection.getStart(), selection.getEnd());
+	}
+
+	@Override
+	public String getHyperlinkUrl() {
+		return getFormatNative(getHyperlinkRange(), "url", "");
+	}
+
+	@Override
+	public void setHyperlinkUrl(String url) {
+		getHyperlinkRange().setFormatting("url", url);
+		boolean isUnderline = getFormatNative(getHyperlinkRange(), "underline", true);
+		getHyperlinkRange().setFormatting("underline", isUnderline);
+		String color = getFormatNative(getHyperlinkRange(), "color", HYPERLINK_COLOR);
+		getHyperlinkRange().setFormatting("color", color);
+	}
+
+	@Override
 	public Widget getWidget() {
 		return widget;
 	}
@@ -114,20 +139,27 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public <T> T getFormat(String key, T fallback) {
-		return getFormatNative(editor, key, fallback);
+		return getFormatNative(editor.selectedRange(), key, fallback);
 	}
 
 	@Override
 	public <T> T getDocumentFormat(String key, T fallback) {
-		return getDocumentFormatNative(editor, key, fallback);
+		return getFormatNative(editor.documentRange(), key, fallback);
 	}
 
 	@Override
 	public void insertHyperlink(String url, String text) {
+		CarotaRange selectedRange = editor.selectedRange();
 		int newCaretPosition = (text.length() == 0 ? url.length() : text.length())
-				+ editor.selectedRange().getStart();
-
+				+ selectedRange.getStart();
+		CarotaRange hyperlinkRange = getHyperlinkRange();
+		if (hyperlinkRange.getEnd() > hyperlinkRange.getStart()) {
+			editor.select(hyperlinkRange.getStart(), hyperlinkRange.getEnd());
+		}
 		editor.insertHyperlink(url, text);
+		hyperlinkRange = getHyperlinkRange();
+		hyperlinkRange.setFormatting("color", HYPERLINK_COLOR);
+		hyperlinkRange.setFormatting("underline", true);
 		editor.select(newCaretPosition, newCaretPosition, true);
 	}
 
@@ -145,21 +177,16 @@ public class CarotaEditor implements Editor {
 		return JSON.stringify(editor.save());
 	}-*/;
 
-	private native <T> T getFormatNative(CarotaDocument editorAPI, String key,
+	private native <T> T getFormatNative(CarotaRange range, String key,
 			T fallback) /*-{
-		var format = editorAPI.selectedRange().getFormatting()[key];
+		var format = range.getFormatting()[key];
 		if (typeof format == 'object') {
 			return fallback;
+		}
+		if (fallback === true) {
+			return !!format;
 		}
 		return format || fallback;
 	}-*/;
 
-	private native <T> T getDocumentFormatNative(CarotaDocument editorAPI, String key,
-			T fallback) /*-{
-		var format = editorAPI.documentRange().getFormatting()[key];
-		if (typeof format == 'object') {
-			return fallback;
-		}
-		return format || fallback;
-	}-*/;
 }

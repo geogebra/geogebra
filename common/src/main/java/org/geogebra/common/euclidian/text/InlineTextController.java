@@ -76,7 +76,12 @@ public interface InlineTextController {
 	 */
 	<T> T getFormat(String key, T fallback);
 
+	/**
+	 * @return the plaintext representation of the current selection
+	 */
 	String getSelectedText();
+
+	String getHyperlinkRangeText();
 
 	/**
 	 * @param g2
@@ -86,5 +91,12 @@ public interface InlineTextController {
 	 */
 	void draw(GGraphics2D g2, GAffineTransform transform);
 
+	/**
+	 * Inserts formatted hyperlink at the current selection
+	 */
 	void insertHyperlink(String url, String text);
+
+	String getHyperlinkUrl();
+
+	void setHyperlinkUrl(String input);
 }

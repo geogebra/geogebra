@@ -255,23 +255,27 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		Command addHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
-				DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
-						.getDrawableFor(getGeo());
-
-				HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app, inlineText);
-				hyperlinkDialog.center();
-				hyperlinkDialog.show();
+				openHyperlinkDialog();
 			}
 		};
 
 		addItem("Link", addHyperlinkCommand);
 	}
 
+	private void  openHyperlinkDialog() {
+		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(getGeo());
+		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
+				inlineText.getTextController());
+		hyperlinkDialog.center();
+		hyperlinkDialog.show();
+	}
+
 	private void addEditHyperlinkItem() {
 		Command addEditHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
-				// add edit hyperlink back-end
+				openHyperlinkDialog();
 			}
 		};
 

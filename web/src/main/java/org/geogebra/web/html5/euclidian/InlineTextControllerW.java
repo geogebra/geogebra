@@ -145,6 +145,11 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public String getHyperlinkRangeText() {
+		return editor.getHyperlinkRangeText();
+	}
+
+	@Override
 	public void draw(GGraphics2D g2, GAffineTransform transform) {
 		g2.saveTransform();
 
@@ -168,5 +173,15 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public void insertHyperlink(String url, String text) {
 		editor.insertHyperlink(url, text);
+	}
+
+	@Override
+	public String getHyperlinkUrl() {
+		return editor.getHyperlinkUrl();
+	}
+
+	@Override
+	public void setHyperlinkUrl(String input) {
+		editor.setHyperlinkUrl(input);
 	}
 }
