@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos.output;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -49,7 +50,16 @@ public class ProtectiveOutputFilterTest extends BaseUnitTest {
 	@Test
 	public void filterCaption() {
 		GeoLine line = createLineWithCommand();
-		line.setLabelMode(GeoElementND.LABEL_VALUE);
-		assertThat(outputFilter.filterCaption(line), is("f"));
+
+		checkCaption(line, GeoElementND.LABEL_NAME, "f");
+		checkCaption(line, GeoElementND.LABEL_NAME_VALUE, "f: Line(A, B)");
+		checkCaption(line, GeoElementND.LABEL_VALUE, "Line(A, B)");
+		checkCaption(line, GeoElementND.LABEL_CAPTION, "f");
+		checkCaption(line, GeoElementND.LABEL_CAPTION_VALUE, "f: Line(A, B)");
+	}
+
+	private void checkCaption(GeoElement element, int labelMode, String expectedLabelText) {
+		element.setLabelMode(labelMode);
+		assertThat(outputFilter.filterCaption(element), is(expectedLabelText));
 	}
 }
