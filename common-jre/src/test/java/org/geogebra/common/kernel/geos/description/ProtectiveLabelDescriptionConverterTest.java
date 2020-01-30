@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +31,10 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 		GeoConic conicWithUserEquation = addAvInput("c: x^2 + y^2 = 1");
 		checkCaption(conicWithUserEquation, GeoElementND.LABEL_NAME_VALUE,
 				"c: x² + y² = 1");
+
+		String pointString = "A = (1, 2)";
+		GeoPoint point = addAvInput(pointString);
+		checkCaption(point, GeoElementND.LABEL_NAME_VALUE, pointString);
 	}
 
 	@Test

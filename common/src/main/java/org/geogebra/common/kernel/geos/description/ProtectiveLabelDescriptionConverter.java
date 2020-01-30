@@ -27,7 +27,7 @@ public class ProtectiveLabelDescriptionConverter implements ToStringConverter<Ge
 	}
 
 	private boolean shouldFilterCaption(GeoElement element) {
-		return !AlgebraItem.isFunctionOrEquationFromUser(element);
+		return AlgebraItem.isFunctionOrEquationFromToolOrCommand(element);
 	}
 
 	private String convertProtective(GeoElement element) {
