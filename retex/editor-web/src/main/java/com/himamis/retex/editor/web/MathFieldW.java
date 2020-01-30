@@ -81,7 +81,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 
-public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
+public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHandler {
 
 	public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
@@ -843,21 +843,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				public void onFocus(FocusEvent event) {
 					startBlink();
 					event.stopPropagation();
-
 				}
 			});
 
-			inputTextArea.addBlurHandler(new BlurHandler() {
-
-				@Override
-				public void onBlur(BlurEvent event) {
-					instances.remove(MathFieldW.this);
-					resetFlags();
-					event.stopPropagation();
-					runBlurCallback(event);
-
-				}
-			});
+			html.addBlurHandler(this);
+			inputTextArea.addBlurHandler(this);
 			clip.setWidget(inputTextArea);
 		}
 		if (parent != null) {
@@ -867,9 +857,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return inputTextArea.getElement();
 	}
 
-	// private native void logNative(String s) /*-{
-	// $wnd.console.log(s);
-	// }-*/;
+	@Override
+	public void onBlur(BlurEvent event) {
+		instances.remove(MathFieldW.this);
+		resetFlags();
+		event.stopPropagation();
+		runBlurCallback(event);
+	}
 
 	/**
 	 * Run blur callback.
