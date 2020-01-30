@@ -9401,7 +9401,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private boolean handleVideoEmbedReleased() {
-		if (draggingOccured || view.getHits().isEmpty()) {
+		if (mode == EuclidianConstants.MODE_PEN
+			|| draggingOccured || view.getHits().isEmpty()) {
 			return false;
 		}
 
