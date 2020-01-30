@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.gui.view.algebra.AlgebraController;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -447,22 +448,35 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-
 			RadioTreeItem item = RadioTreeItem.as(node);
-
-			item.updateOnNextRepaint();
-			repaintView();
-			/*
-			 * Cancel editing if the updated geo element has been edited, but
-			 * not otherwise because editing geos while animation is running
-			 * won't work then (ticket #151).
-			 */
-			if (isEditItem() && item.getController().isEditing()) {
-				item.cancelEditing();
+			repaint(item);
+			cancelEditingIfHasBeenEdited(item);
+			if (AlgebraItem.shouldShowSlider(geo)) {
+				updateItemFor(geo);
 			}
-
 		}
 		GeoGebraProfiler.addAlgebra(System.currentTimeMillis() - start);
+	}
+
+	private void repaint(RadioTreeItem item) {
+		item.updateOnNextRepaint();
+		repaintView();
+	}
+
+	private void cancelEditingIfHasBeenEdited(RadioTreeItem item) {
+		/*
+		 * Cancel editing if the updated geo element has been edited, but
+		 * not otherwise because editing geos while animation is running
+		 * won't work then (ticket #151).
+		 */
+		if (isEditItem() && item.getController().isEditing()) {
+			item.cancelEditing();
+		}
+	}
+
+	private void updateItemFor(GeoElement element) {
+		element.setEuclidianVisible(true);
+		element.setEuclidianVisible(false);
 	}
 
 	/**
