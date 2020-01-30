@@ -7,6 +7,7 @@ import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.action.AddLabelAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.action.CreateSliderAction;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.action.RemoveSliderAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Before;
@@ -33,10 +34,15 @@ public class AlgebraMenuItemCollectionCASTest {
 	public void testActionOrder() {
 		int indexOfAddLabel = indexOf(AddLabelAction.class);
 		int indexOfCreateSlider = indexOf(CreateSliderAction.class);
+		int indexOfRemoveSlider = indexOf(RemoveSliderAction.class);
 		int indexOfDuplicate = indexOf(DuplicateAction.class);
-		boolean isInOrder =
+
+		boolean isCreateSliderItemInPlace =
 				indexOfAddLabel < indexOfCreateSlider && indexOfCreateSlider < indexOfDuplicate;
-		assertThat(isInOrder, is(true));
+		boolean isRemoveSliderItemInPlace =
+				indexOfAddLabel < indexOfRemoveSlider && indexOfRemoveSlider < indexOfDuplicate;
+		boolean areSliderItemsInPlace = isCreateSliderItemInPlace && isRemoveSliderItemInPlace;
+		assertThat(areSliderItemsInPlace, is(true));
 	}
 
 	private int indexOf(Class clazz) {
