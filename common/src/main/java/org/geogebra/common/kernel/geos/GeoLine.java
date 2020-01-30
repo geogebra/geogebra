@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.output.GeoOutputFilter;
 import org.geogebra.common.kernel.geos.properties.TableProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
@@ -1980,6 +1981,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 			default:
 				toStringMode = EQUATION_IMPLICIT;
+		}
+	}
+
+	@Override
+	public String getLabelDescription() {
+		GeoOutputFilter outputFilter = app.getOutputFilter();
+		if (outputFilter.shouldFilterCaption(this)) {
+			return outputFilter.filterCaption(this);
+		} else {
+			return super.getLabelDescription();
 		}
 	}
 }

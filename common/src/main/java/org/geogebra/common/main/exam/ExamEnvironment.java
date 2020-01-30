@@ -10,13 +10,11 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
-import org.geogebra.common.main.exam.output.OutputFilter;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
@@ -43,7 +41,6 @@ public class ExamEnvironment {
 
 	private TimeFormatAdapter timeFormatter;
 	private CommandArgumentFilter nonExamCommandFilter;
-	private static OutputFilter outputFilter = new OutputFilter();
 	private static final CommandFilter noCASFilter = CommandFilterFactory
 			.createNoCasCommandFilter();
 
@@ -618,15 +615,6 @@ public class ExamEnvironment {
 	private void disableExamCommandFilter() {
 		app.getKernel().getAlgebraProcessor().getCommandDispatcher()
 				.setCommandArgumentFilter(nonExamCommandFilter);
-	}
-
-	/**
-	 * @param eqn
-	 *            equation
-	 * @return whether the equation should be hidden
-	 */
-	public static boolean isProtectedEquation(GeoElement eqn) {
-		return !outputFilter.isAllowed(eqn);
 	}
 
 	/**

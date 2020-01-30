@@ -46,6 +46,10 @@ public class AppMocker {
 		return mockApp("cas", testClass);
 	}
 
+	public static AppWFull mockGeometry(Class<?> testClass) {
+		return mockApp("geometry", testClass);
+	}
+
 	private static AppWFull mockApp(String appName, Class<?> testClass) {
 		testClass.getClassLoader().setDefaultAssertionStatus(false);
 		return mockApplet(new TestArticleElement("prerelease", appName));

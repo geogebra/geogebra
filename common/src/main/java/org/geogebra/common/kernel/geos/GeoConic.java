@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.geos.output.GeoOutputFilter;
 import org.geogebra.common.kernel.kernelND.ConicMatrix;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -738,5 +739,15 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	@Override
 	public boolean isPolynomialFunction(boolean forRoot) {
 		return true;
+	}
+
+	@Override
+	public String getLabelDescription() {
+		GeoOutputFilter outputFilter = app.getOutputFilter();
+		if (outputFilter.shouldFilterCaption(this)) {
+			return outputFilter.filterCaption(this);
+		} else {
+			return super.getLabelDescription();
+		}
 	}
 }
