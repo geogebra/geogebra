@@ -9914,6 +9914,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if ("".equals(hyperlinkURL) || draggingOccured) {
 				((DrawInlineText) view.getDrawableFor(topGeo)).toBackground();
 			} else {
+				showDynamicStylebar();
 				app.showURLinBrowser(hyperlinkURL);
 				return true;
 			}
