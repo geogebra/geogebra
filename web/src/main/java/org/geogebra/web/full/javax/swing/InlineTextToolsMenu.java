@@ -1,12 +1,9 @@
 package org.geogebra.web.full.javax.swing;
 
 import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.util.InlineTextFormatter;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -22,28 +19,28 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author laszlo
  */
-public class InlineTextToolsMenu extends AriaMenuItem implements ValueChangeHandler<Boolean>,
-		SetLabels {
+public class InlineTextToolsMenu extends AriaMenuItem implements ValueChangeHandler<Boolean> {
+
 	private final App app;
 	private final Localization localization;
+
+	private DrawInlineText drawInlineText;
+
 	private FlowPanel panel;
 	private MyToggleButtonW subScript;
 	private MyToggleButtonW superScript;
-	private GeoInlineText geoInlineText;
-	private InlineTextFormatter formatter;
-	private DrawInlineText drawInlineText;
 
 	/**
 	 * Constructor
 	 * @param drawInlineText the drawable.
 	 */
-	public InlineTextToolsMenu(DrawInlineText drawInlineText) {
+	public InlineTextToolsMenu(DrawInlineText drawInlineText, App app) {
 		super();
 		this.drawInlineText = drawInlineText;
-		this.geoInlineText = (GeoInlineText) drawInlineText.getGeoElement();
-		app = geoInlineText.getKernel().getApplication();
+		this.app = app;
+
 		localization = app.getLocalization();
-		formatter = new InlineTextFormatter(app);
+
 		addStyleName("mowMenuToolbar");
 		panel = new FlowPanel();
 		panel.addStyleName("content");
@@ -63,10 +60,6 @@ public class InlineTextToolsMenu extends AriaMenuItem implements ValueChangeHand
 		add(subScript);
 	}
 
-	private String getScriptFormat() {
-		return drawInlineText.getFormat("script", "normal");
-	}
-
 	private void createSuperscript() {
 		superScript = createButton(MaterialDesignResources.INSTANCE.format_superscript());
 		superScript.setSelected("super".equals(getScriptFormat()));
@@ -77,6 +70,10 @@ public class InlineTextToolsMenu extends AriaMenuItem implements ValueChangeHand
 		MyToggleButtonW button = new MyToggleButtonW(new NoDragImage(resource, 24));
 		button.addValueChangeHandler(this);
 		return button;
+	}
+
+	private String getScriptFormat() {
+		return drawInlineText.getFormat("script", "normal");
 	}
 
 	@Override
@@ -98,19 +95,18 @@ public class InlineTextToolsMenu extends AriaMenuItem implements ValueChangeHand
 		formatScript("sub", value);
 	}
 
-	protected void formatScript(String type, Boolean value) {
-		formatter.formatInlineText(geoInlineText, "script", value ? type : "none");
-		app.storeUndoInfo();
-	}
-
 	private void setSuperscript(Boolean value) {
 		subScript.setSelected(false);
 		formatScript("super", value);
 	}
 
-	@Override
-	public void setLabels() {
-		subScript.setToolTipText(localization.getMenuDefault("mow.subscript", "Subscript"));
-		superScript.setToolTipText(localization.getMenuDefault("mow.superscript", "Superscript"));
+	private void formatScript(String type, Boolean value) {
+		drawInlineText.format("script", value ? type : "none");
+		app.storeUndoInfo();
+	}
+
+	private void setLabels() {
+		subScript.setToolTipText(localization.getMenu("Subscript"));
+		superScript.setToolTipText(localization.getMenu("Superscript"));
 	}
 }

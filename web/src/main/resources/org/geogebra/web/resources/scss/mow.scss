@@ -557,11 +557,10 @@
 	}
 
 	.mowMenuToolbar {
-		padding-left: 16px !important;
-		height: 36px !important;
+		padding: 0 0 8px 10px !important;
+		height: 40px !important;
 		width: 100%;
 		list-style: none;
-		margin: 6px 0 6px auto;
 
 		&.selectedItem {
 			background: none;
@@ -570,6 +569,7 @@
 		.content {
 			>* {
 				display: inline-block;
+				margin-left: 6px !important;
 			}
 
 			img {

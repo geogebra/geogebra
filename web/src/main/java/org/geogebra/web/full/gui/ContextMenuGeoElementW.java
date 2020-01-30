@@ -228,7 +228,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addInlineTextToolbar() {
 		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
 				.getDrawableFor(getGeo());
-		InlineTextToolsMenu toolbar = new InlineTextToolsMenu(inlineText);
+		InlineTextToolsMenu toolbar = new InlineTextToolsMenu(inlineText, app);
 		wrappedPopup.addItem(toolbar, false);
 	}
 
