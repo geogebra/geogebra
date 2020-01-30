@@ -46,6 +46,8 @@ import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFac
 import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
+import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
+import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -5168,5 +5170,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			}
 		}
 		return outputFilter;
+	}
+
+
+	/**
+	 * Creates a converter that converts a GeoElement to string, used in Algebra View.
+	 *
+	 * @return GeoElement to String converter
+	 */
+	public ToStringConverter<GeoElement> createGeoElementValueConverter() {
+		if (getConfig().shouldHideEquations()) {
+			return new ProtectiveGeoElementValueConverter();
+		} else {
+			return new GeoElementValueConverter();
+		}
 	}
 }
