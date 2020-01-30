@@ -3321,6 +3321,8 @@ __GGB__keysVar["fi"].menu = {
     "mow.offlineMyFiles": "Avaa tiedosto koneeltasi",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.subscript": "Subscript",
+    "mow.superscript": "Superscript",
     "noColor": "Ei v\xe4ri\xe4",
     "notes_tutorials": "fp7bctpr",
     "of": "/",

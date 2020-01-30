@@ -3321,6 +3321,8 @@ __GGB__keysVar["zh-CN"].menu = {
     "mow.offlineMyFiles": "\u6253\u5f00\u79bb\u7ebf\u6587\u4ef6",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.subscript": "\u4e0b\u6807",
+    "mow.superscript": "\u4e0a\u6807",
     "noColor": "\u65e0\u989c\u8272",
     "notes_tutorials": "fp7bctpr",
     "of": "/",

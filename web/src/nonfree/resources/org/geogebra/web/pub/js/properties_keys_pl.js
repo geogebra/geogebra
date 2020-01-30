@@ -3321,6 +3321,8 @@ __GGB__keysVar["pl"].menu = {
     "mow.offlineMyFiles": "Otw\xf3rz plik w trybie offline",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.subscript": "Subscript",
+    "mow.superscript": "Superscript",
     "noColor": "No color",
     "notes_tutorials": "fp7bctpr",
     "of": "of",

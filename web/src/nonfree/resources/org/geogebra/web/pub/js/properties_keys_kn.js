@@ -3321,6 +3321,8 @@ __GGB__keysVar["kn"].menu = {
     "mow.offlineMyFiles": "\u0c86\u0caa\u0ccd\u200c\u0cb2\u0cc8\u0ca8\u0ccd\u200c \u0c95\u0ca1\u0ca4\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0ca4\u0cc6\u0cb0\u0cc6\u0caf\u0cbf\u0cb0\u0cbf",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.subscript": "Subscript",
+    "mow.superscript": "Superscript",
     "noColor": "No color",
     "notes_tutorials": "fp7bctpr",
     "of": "\u0c87\u0ca6\u0cb0",

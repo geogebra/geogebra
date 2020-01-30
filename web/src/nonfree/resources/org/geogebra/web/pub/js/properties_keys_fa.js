@@ -3321,6 +3321,8 @@ __GGB__keysVar["fa"].menu = {
     "mow.offlineMyFiles": "\u0628\u0627\u0632 \u06a9\u0631\u062f\u0646 \u0641\u0627\u06cc\u0644 \u0622\u0641\u0644\u0627\u06cc\u0646",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.subscript": "Subscript",
+    "mow.superscript": "Superscript",
     "noColor": "No color",
     "notes_tutorials": "fp7bctpr",
     "of": "\u0627\u0632",

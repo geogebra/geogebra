@@ -3321,6 +3321,8 @@ __GGB__keysVar["he"].menu = {
     "mow.offlineMyFiles": "\u05e4\u05ea\u05d9\u05d7\u05ea \u05e7\u05d5\u05d1\u05e5 \u05de\u05e7\u05d5\u05de\u05d9",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.subscript": "Subscript",
+    "mow.superscript": "Superscript",
     "noColor": "No color",
     "notes_tutorials": "fp7bctpr",
     "of": "\u05de\u05ea\u05d5\u05da",

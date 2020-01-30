@@ -3321,6 +3321,8 @@ __GGB__keysVar["it"].menu = {
     "mow.offlineMyFiles": "Apri file offline",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.subscript": "Subscript",
+    "mow.superscript": "Superscript",
     "noColor": "Nessun colore",
     "notes_tutorials": "f3theet4",
     "of": "di",

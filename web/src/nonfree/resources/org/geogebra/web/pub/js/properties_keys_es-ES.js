@@ -3321,6 +3321,8 @@ __GGB__keysVar["es-ES"].menu = {
     "mow.offlineMyFiles": "Abrir archivo sin conexi\xf3n",
     "mow.openFile": "Open File",
     "mow.openFileViewTitle": "My Files",
+    "mow.subscript": "Subscript",
+    "mow.superscript": "Superscript",
     "noColor": "No color",
     "notes_tutorials": "rqbdrgkw",
     "of": "de",

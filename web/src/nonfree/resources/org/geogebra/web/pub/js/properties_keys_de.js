@@ -3321,6 +3321,8 @@ __GGB__keysVar["de"].menu = {
     "mow.offlineMyFiles": "Offlinedatei \xf6ffnen",
     "mow.openFile": "Datei \xf6ffnen",
     "mow.openFileViewTitle": "Meine Dateien",
+    "mow.subscript": "Tiefstellen",
+    "mow.superscript": "Hochstellen",
     "noColor": "Keine Farbe",
     "notes_tutorials": "t8zr98tj",
     "of": "von",
