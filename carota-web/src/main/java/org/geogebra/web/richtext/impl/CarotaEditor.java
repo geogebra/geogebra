@@ -94,11 +94,6 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
-	public String getHyperlinkUrl() {
-		return getFormatNative(getHyperlinkRange(), "url", "");
-	}
-
-	@Override
 	public void setHyperlinkUrl(String url) {
 		getHyperlinkRange().setFormatting("url", url);
 		boolean isUnderline = getFormatNative(getHyperlinkRange(), "underline", true);
@@ -166,11 +161,6 @@ public class CarotaEditor implements Editor {
 	@Override
 	public String getContent() {
 		return getContentNative(editor);
-	}
-
-	@Override
-	public String getSelectedText() {
-		return editor.selectedRange().plainText();
 	}
 
 	private native String getContentNative(CarotaDocument editor) /*-{

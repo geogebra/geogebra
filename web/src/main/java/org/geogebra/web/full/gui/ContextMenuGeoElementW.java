@@ -236,9 +236,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
 				.getDrawableFor(getGeo());
 		if ("".equals(inlineText.getFormat("url", ""))) {
-			addHyperlinkItem();
+			addHyperlinkItem("Link");
 		} else {
-			addEditHyperlinkItem();
+			addHyperlinkItem("editLink");
 			addRemoveHyperlinkItem();
 		}
 	}
@@ -251,7 +251,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		wrappedPopup.addItem(menuItem);
 	}
 
-	private void addHyperlinkItem() {
+	private void addHyperlinkItem(String labelTransKey) {
 		Command addHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
@@ -259,7 +259,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 		};
 
-		addItem("Link", addHyperlinkCommand);
+		addItem(labelTransKey, addHyperlinkCommand);
 	}
 
 	private void  openHyperlinkDialog() {
@@ -269,17 +269,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				inlineText.getTextController());
 		hyperlinkDialog.center();
 		hyperlinkDialog.show();
-	}
-
-	private void addEditHyperlinkItem() {
-		Command addEditHyperlinkCommand = new Command() {
-			@Override
-			public void execute() {
-				openHyperlinkDialog();
-			}
-		};
-
-		addItem("editLink", addEditHyperlinkCommand);
 	}
 
 	private void addRemoveHyperlinkItem() {

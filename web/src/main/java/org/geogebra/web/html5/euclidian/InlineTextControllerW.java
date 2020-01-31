@@ -140,11 +140,6 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public String getSelectedText() {
-		return editor.getSelectedText();
-	}
-
-	@Override
 	public String getHyperlinkRangeText() {
 		return editor.getHyperlinkRangeText();
 	}
@@ -176,12 +171,7 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public String getHyperlinkUrl() {
-		return editor.getHyperlinkUrl();
-	}
-
-	@Override
-	public void setHyperlinkUrl(String input) {
-		editor.setHyperlinkUrl(input);
+	public void setHyperlinkUrl(String url) {
+		editor.setHyperlinkUrl(url);
 	}
 }

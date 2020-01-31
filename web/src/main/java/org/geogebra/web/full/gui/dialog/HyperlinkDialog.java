@@ -8,6 +8,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class HyperlinkDialog extends OptionDialog {
 
@@ -24,21 +25,15 @@ public class HyperlinkDialog extends OptionDialog {
 		super(app.getPanel(), app);
 		this.inlineText = inlineText;
 
-		textInputPanel = new MediaInputPanel(app, this,
-				app.getLocalization().getMenu("Text"), false);
-		linkInputPanel = new MediaInputPanel(app, this,
-				app.getLocalization().getMenu("Link"), true);
+		textInputPanel = new MediaInputPanel(app, this,	"Text", false);
+		linkInputPanel = new MediaInputPanel(app, this,"Link", true);
 
 		linkInputPanel.addPlaceholder(app.getLocalization().getMenu("pasteLink"));
 		updateButtonLabels("OK");
 
-		hyperlinkText = inlineText.getHyperlinkRangeText();
-		if (StringUtil.empty(hyperlinkText)) {
-			textInputPanel.setText(inlineText.getSelectedText());
-		} else {
-			textInputPanel.setText(hyperlinkText);
-		}
-		linkInputPanel.setText(inlineText.getHyperlinkUrl());
+		hyperlinkText = inlineText.getHyperlinkRangeText().replace('\n', Unicode.ZERO_WIDTH_SPACE);
+		textInputPanel.setText(hyperlinkText);
+		linkInputPanel.setText(getSelectionUrl());
 
 		FlowPanel mainPanel = new FlowPanel();
 		mainPanel.add(textInputPanel);
@@ -49,8 +44,11 @@ public class HyperlinkDialog extends OptionDialog {
 		addStyleName("GeoGebraPopup");
 		addStyleName("mediaDialog");
 		addStyleName("mebis");
-
 		linkInputPanel.focusDeferred();
+	}
+
+	private String getSelectionUrl() {
+		return inlineText.getFormat("url", "");
 	}
 
 	@Override
@@ -58,11 +56,10 @@ public class HyperlinkDialog extends OptionDialog {
 		String url = normalizeUrl(linkInputPanel.getInput());
 
 		String text = textInputPanel.inputField.getText();
-		if (text.equals(hyperlinkText)
-				&& !StringUtil.empty(inlineText.getHyperlinkUrl())) {
+		if (text.equals(hyperlinkText)	&& !StringUtil.empty(getSelectionUrl())) {
 			inlineText.setHyperlinkUrl(url);
 		} else {
-			inlineText.insertHyperlink(url,	text);
+			inlineText.insertHyperlink(url,	text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
 		}
 		hide();
 	}

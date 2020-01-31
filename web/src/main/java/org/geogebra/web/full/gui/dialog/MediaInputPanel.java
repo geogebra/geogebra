@@ -36,12 +36,12 @@ public class MediaInputPanel extends FlowPanel {
 	 *         application
 	 * @param parentDialog
 	 *         parent dialog
-	 * @param label
-	 *         label
+	 * @param labelTransKey
+	 *         label translation key
 	 * @param required
 	 *         whether nonempty string is expected
 	 */
-	public MediaInputPanel(AppW app, OptionDialog parentDialog, String label, boolean required) {
+	public MediaInputPanel(AppW app, OptionDialog parentDialog, String labelTransKey, boolean required) {
 		this.app = app;
 		this.parentDialog = parentDialog;
 		this.required = required;
@@ -52,7 +52,7 @@ public class MediaInputPanel extends FlowPanel {
 		inputField = new InputPanelW("", app, 1, 25, false);
 
 		FormLabel inputLabel = new FormLabel().setFor(inputField.getTextComponent());
-		inputLabel.setText(label);
+		inputLabel.setText(app.getLocalization().getMenu(labelTransKey));
 		inputLabel.addStyleName("inputLabel");
 		inputField.addStyleName("inputText");
 
@@ -89,8 +89,14 @@ public class MediaInputPanel extends FlowPanel {
 				.setAttribute("placeholder", placeholder);
 	}
 
+	/**
+	 * Set input text and update error state.
+	 * @param text
+	 *         input text
+	 */
 	public void setText(String text) {
 		inputField.getTextComponent().setText(text);
+		resetError();
 	}
 
 	/**
