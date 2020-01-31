@@ -52,23 +52,28 @@ public class InlineTextToolsMenu extends AriaMenuItem implements ValueChangeHand
 		createSubscript();
 		createSuperscript();
 		setWidget(panel);
+		updateState();
 	}
 
 	private void createSubscript() {
 		subScript = createButton(MaterialDesignResources.INSTANCE.format_subscript());
-		subScript.setSelected("sub".equals(getScriptFormat()));
 		add(subScript);
 	}
 
 	private void createSuperscript() {
 		superScript = createButton(MaterialDesignResources.INSTANCE.format_superscript());
-		superScript.setSelected("super".equals(getScriptFormat()));
 		add(superScript);
+	}
+
+	private void updateState() {
+		subScript.setSelected("sub".equals(getScriptFormat()));
+		superScript.setSelected("super".equals(getScriptFormat()));
 	}
 
 	private MyToggleButtonW createButton(SVGResource resource) {
 		MyToggleButtonW button = new MyToggleButtonW(new NoDragImage(resource, 24));
 		button.addValueChangeHandler(this);
+		button.addStyleName("mowToolButton");
 		return button;
 	}
 
@@ -88,6 +93,8 @@ public class InlineTextToolsMenu extends AriaMenuItem implements ValueChangeHand
 		} else if (event.getSource() == superScript) {
 			setSuperscript(event.getValue());
 		}
+
+		updateState();
 	}
 
 	private void setSubscript(Boolean value) {

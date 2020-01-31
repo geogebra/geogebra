@@ -70,6 +70,23 @@
 		border: none !important;
 	}
 
+    .mowToolButton {
+			border-radius: 2px !important;
+			margin: 0 4px 0 4px !important;
+
+			img {
+				opacity: 0.7 ;
+			}
+
+			&:hover, &:focus {
+				border: $mow_primary solid 1px !important;
+			}
+
+			&.gwt-ToggleButton-down {
+				border: $mow_primary solid 1px !important;
+			}
+		}
+
 /*****************
 *   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
 ******************/
@@ -96,7 +113,8 @@
 			}
 		}
 
-		.btnCrop,.btnBold,.btnItalic,.btnUnderline {
+		.btnCrop,.btnBold,.btnItalic,.btnUnderline,
+		 {
 			border-radius: 2px;
 			margin-left: 0px;
 			margin-right: 8px;
@@ -557,7 +575,9 @@
 	}
 
 	.mowMenuToolbar {
-		padding: 0 0 8px 10px !important;
+		@extend .mowDynStyleBar;
+
+		padding: 0 0 8px 12px !important;
 		height: 40px !important;
 		width: 100%;
 		list-style: none;
@@ -566,15 +586,20 @@
 			background: none;
 		}
 
-		.content {
-			>* {
-				display: inline-block;
-				margin-left: 6px !important;
-			}
+		.MyToggleButton {
+			@extend .mowToolButton;
 
 			img {
 				position: relative !important;
+				opacity: 0.7 !important;
 				margin-left: auto !important;
+				margin-right: auto !important;
+			}
+		}
+
+		.content {
+			>* {
+				display: inline-block;
 			}
 		}
 	}
