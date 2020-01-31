@@ -80,8 +80,8 @@ dependencies {
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
 
     testCompile project(':keyboard-base')
-    testCompile 'junit:junit:4.+'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.1.0'
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile project(':ggbjdk')
     testCompile project(':common-jre').sourceSets.test.output
 }

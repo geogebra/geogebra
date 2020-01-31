@@ -290,6 +290,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		ClickStartHandler.init(textField, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				storeTemporaryInput();
 				// set this text field to be edited by the keyboard
 				app.updateKeyBoardField(AutoCompleteTextFieldW.this);
 
@@ -311,6 +312,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (showSymbolButton) {
 			setupShowSymbolButton();
 		}
+	}
+
+	private void storeTemporaryInput() {
+		if (geoUsedForInputBox == null) {
+			return;
+		}
+		geoUsedForInputBox.setTempUserEvalInput(getText());
 	}
 
 	@Override
