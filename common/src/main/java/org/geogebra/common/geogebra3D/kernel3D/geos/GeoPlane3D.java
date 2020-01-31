@@ -440,6 +440,7 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public void setUndefined() {
 		coordsys.setUndefined();
+		setDefinition(null);
 	}
 
 	@Override
