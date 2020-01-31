@@ -475,8 +475,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private void updateItemFor(GeoElement element) {
-		element.setEuclidianVisible(true);
-		element.setEuclidianVisible(false);
+		if (!element.isSetEuclidianVisible()) {
+			element.setEuclidianVisible(true);
+			element.setEuclidianVisible(false);
+		}
 	}
 
 	/**
