@@ -846,7 +846,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				}
 			});
 
-			html.addBlurHandler(this);
+			if (html != null) {
+				html.addBlurHandler(this);
+			}
 			inputTextArea.addBlurHandler(this);
 			clip.setWidget(inputTextArea);
 		}
