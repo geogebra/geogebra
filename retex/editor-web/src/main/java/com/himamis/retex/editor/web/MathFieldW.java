@@ -859,7 +859,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		instances.remove(MathFieldW.this);
+		instances.remove(this);
 		resetFlags();
 		event.stopPropagation();
 		runBlurCallback(event);
