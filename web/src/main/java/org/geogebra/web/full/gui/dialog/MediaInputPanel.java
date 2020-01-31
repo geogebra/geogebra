@@ -41,7 +41,8 @@ public class MediaInputPanel extends FlowPanel {
 	 * @param required
 	 *         whether nonempty string is expected
 	 */
-	public MediaInputPanel(AppW app, OptionDialog parentDialog, String labelTransKey, boolean required) {
+	public MediaInputPanel(AppW app, OptionDialog parentDialog,
+						   String labelTransKey, boolean required) {
 		this.app = app;
 		this.parentDialog = parentDialog;
 		this.required = required;
