@@ -912,8 +912,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			hiddenTextArea.style.minHeight = 0;
 			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);
-			if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-					.test(window.navigator.userAgent)) {
+			if (@org.geogebra.web.html5.Browser::isMobile()()) {
 				hiddenTextArea.setAttribute("disabled", "true");
 			}
 		}
