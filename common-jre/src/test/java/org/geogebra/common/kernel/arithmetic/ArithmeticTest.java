@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -35,8 +34,7 @@ public class ArithmeticTest extends Assert {
 	}
 
 	private void t(String input, String expected) {
-		AlgebraTestHelper.testSyntaxSingle(input, new String[] { expected }, ap,
-				StringTemplate.xmlTemplate);
+		t(input, expected, StringTemplate.xmlTemplate);
 	}
 
 	private void t(String input, String expected, StringTemplate tpl) {
@@ -79,11 +77,6 @@ public class ArithmeticTest extends Assert {
 	@Test
 	public void logSyntaxTest() {
 		t("log_{2}2/(2)", "0.5");
-	}
-
-	private void setSymbolic(String label) {
-		((GeoNumeric) app.getKernel().lookupLabel(label)).setSymbolicMode(true,
-				false);
 	}
 
 	@Test
@@ -281,5 +274,15 @@ public class ArithmeticTest extends Assert {
 		app.getSettings().getCasSettings().setEnabled(true);
 		t("eq1:abs(x-3) = -2", "abs(x - 3) = -2");
 		t("eq2:abs(x-3) = 2", "x^2 - 6x = -5");
+	}
+
+	@Test
+	public void evaluationOfUndefinedFunctionShouldBeUndefined() {
+		t("f=Element({x y}, 2)", "?");
+		t("f(1, 1)", "NaN");
+		t("f((1, 1))", "NaN");
+		t("g=Element({x}, 2)", "?");
+		t("g(1)", "NaN");
+		t("g((1, 1))", "NaN");
 	}
 }
