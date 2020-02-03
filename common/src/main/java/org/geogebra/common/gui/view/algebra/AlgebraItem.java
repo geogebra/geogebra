@@ -571,6 +571,17 @@ public class AlgebraItem {
 	}
 
 	/**
+	 * Tells wether the equation is created by a command or a tool.
+	 *
+	 * @param element element to test
+	 * @return true if the equation is created by a command or a tool
+	 */
+	public static boolean isFunctionOrEquationFromToolOrCommand(GeoElementND element) {
+		boolean hasEquation = element instanceof EquationValue;
+		return hasEquation && !isFunctionOrEquationFromUser(element);
+	}
+
+	/**
 	 * Tells whether the output row should be visible for the given object. We
 	 * want to show only the definition for implicit equations, functions and
 	 * conics created by tool or command
@@ -587,9 +598,7 @@ public class AlgebraItem {
 		if (!shouldHideEquations) {
 			return false;
 		}
-
-		boolean hasEquation = geoElement instanceof EquationValue;
-		return hasEquation && !isFunctionOrEquationFromUser(geoElement);
+		return isFunctionOrEquationFromToolOrCommand(geoElement);
 	}
 
 	/**

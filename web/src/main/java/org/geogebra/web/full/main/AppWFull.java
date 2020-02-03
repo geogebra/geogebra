@@ -2210,6 +2210,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				.isSymbolicEditorSelected()) {
 			return null;
 		}
-		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView());
+		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView(),
+				createGeoElementValueConverter());
 	}
 }

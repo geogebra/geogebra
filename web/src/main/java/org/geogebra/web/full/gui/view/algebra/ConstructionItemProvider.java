@@ -2,9 +2,8 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.ToStringConverter;
 
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -16,14 +15,17 @@ public final class ConstructionItemProvider implements HasLastItem {
 
 	private final Construction cons;
 	private final AlgebraViewW algebraView;
+	private final ToStringConverter<GeoElement> converter;
 
 	/**
 	 * @param cons construction
 	 * @param algebraView Algebra view
 	 */
-	public ConstructionItemProvider(Construction cons, AlgebraViewW algebraView) {
+	public ConstructionItemProvider(Construction cons, AlgebraViewW algebraView,
+									ToStringConverter<GeoElement> converter) {
 		this.cons = cons;
 		this.algebraView = algebraView;
+		this.converter = converter;
 	}
 
 	@Override
@@ -39,11 +41,7 @@ public final class ConstructionItemProvider implements HasLastItem {
 
 	private String convertToString(GeoElement element) {
 		if (element != null) {
-			String text = element.toOutputValueString(StringTemplate.algebraTemplate);
-			if (StringUtil.isSimpleNumber(text) || element.isGeoText()) {
-				return text;
-			}
-			return "(" + text + ")";
+			return converter.convert(element);
 		}
 		return "";
 	}

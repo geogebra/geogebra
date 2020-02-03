@@ -1,25 +1,36 @@
-package org.geogebra.common.kernel.geos.output;
+package org.geogebra.common.kernel.geos.description;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.util.ToStringConverter;
 
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_NAME;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
 
 /**
- * This class should be used by the apps that need output filtering.
+ * Filters the label of
  */
-public class ProtectiveOutputFilter implements GeoOutputFilter {
+public class ProtectiveLabelDescriptionConverter implements ToStringConverter<GeoElement> {
+
+	private ToStringConverter<GeoElement> defaultConverter =
+			new DefaultLabelDescriptionConverter();
 
 	@Override
-	public boolean shouldFilterCaption(GeoElement element) {
-		return !AlgebraItem.isFunctionOrEquationFromUser(element);
+	public String convert(GeoElement element) {
+		if (shouldFilterCaption(element)) {
+			return convertProtective(element);
+		} else {
+			return defaultConverter.convert(element);
+		}
 	}
 
-	@Override
-	public String filterCaption(GeoElement element) {
+	private boolean shouldFilterCaption(GeoElement element) {
+		return AlgebraItem.isFunctionOrEquationFromToolOrCommand(element);
+	}
+
+	private String convertProtective(GeoElement element) {
 		String caption;
 		switch (element.getLabelMode()) {
 			case LABEL_NAME:

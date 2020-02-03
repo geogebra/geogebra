@@ -3,9 +3,10 @@ package org.geogebra.web.full.main;
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
-import org.geogebra.common.kernel.geos.output.GeoOutputFilter;
-import org.geogebra.common.kernel.geos.output.NoFilter;
-import org.geogebra.common.kernel.geos.output.ProtectiveOutputFilter;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
+import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
+import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,19 +20,22 @@ public class AppWFullTest {
 
 	@Test
 	public void graphingUsesProtectiveFilter() {
-		GeoOutputFilter outputFilter = AppMocker.mockGraphing(getClass()).getOutputFilter();
-		assertThat(outputFilter instanceof ProtectiveOutputFilter, is(true));
+		ToStringConverter<GeoElement> outputFilter =
+				AppMocker.mockGraphing(getClass()).getLabelDescriptionConverter();
+		assertThat(outputFilter instanceof ProtectiveLabelDescriptionConverter, is(true));
 	}
 
 	@Test
 	public void geometryUsesNoFilter() {
-		GeoOutputFilter outputFilter = AppMocker.mockGeometry(getClass()).getOutputFilter();
-		assertThat(outputFilter instanceof NoFilter, is(true));
+		ToStringConverter<GeoElement> outputFilter =
+				AppMocker.mockGeometry(getClass()).getLabelDescriptionConverter();
+		assertThat(outputFilter instanceof DefaultLabelDescriptionConverter, is(true));
 	}
 
 	@Test
 	public void casUsesNoFilter() {
-		GeoOutputFilter outputFilter = AppMocker.mockCas(getClass()).getOutputFilter();
-		assertThat(outputFilter instanceof NoFilter, is(true));
+		ToStringConverter<GeoElement> outputFilter =
+				AppMocker.mockCas(getClass()).getLabelDescriptionConverter();
+		assertThat(outputFilter instanceof DefaultLabelDescriptionConverter, is(true));
 	}
 }
