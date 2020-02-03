@@ -5172,7 +5172,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return outputFilter;
 	}
 
-
 	/**
 	 * Creates a converter that converts a GeoElement to string, used in Algebra View.
 	 *
