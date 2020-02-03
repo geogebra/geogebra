@@ -1,14 +1,10 @@
 package org.geogebra.web.full.gui;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Command;
+import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -53,7 +49,12 @@ import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
 
-import java.util.ArrayList;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.Command;
 
 /**
  * @author gabor
@@ -263,19 +264,22 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void  openHyperlinkDialog() {
+		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
+				getTextController());
+		hyperlinkDialog.center();
+	}
+
+	private InlineTextController getTextController() {
 		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
 				.getDrawableFor(getGeo());
-		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
-				inlineText.getTextController());
-		hyperlinkDialog.center();
-		hyperlinkDialog.show();
+		return inlineText.getTextController();
 	}
 
 	private void addRemoveHyperlinkItem() {
 		Command addRemoveHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
-				// add remove hyperlink back-end
+				getTextController().setHyperlinkUrl(null);
 			}
 		};
 

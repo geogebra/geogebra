@@ -95,10 +95,22 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void setHyperlinkUrl(String url) {
-		getHyperlinkRange().setFormatting("url", url);
-		boolean isUnderline = getFormatNative(getHyperlinkRange(), "underline", true);
-		getHyperlinkRange().setFormatting("underline", isUnderline);
 		String color = getFormatNative(getHyperlinkRange(), "color", HYPERLINK_COLOR);
+		if (url == null) {
+			if (HYPERLINK_COLOR.equals(color)) {
+				color = null;
+			}
+			updateLinkStyle(color, false);
+		} else {
+			boolean isUnderline = getFormatNative(getHyperlinkRange(),
+					"underline", true);
+			updateLinkStyle(color, isUnderline);
+		}
+		getHyperlinkRange().setFormatting("url", url);
+	}
+
+	private void updateLinkStyle(String color, boolean isUnderline) {
+		getHyperlinkRange().setFormatting("underline", isUnderline);
 		getHyperlinkRange().setFormatting("color", color);
 	}
 
