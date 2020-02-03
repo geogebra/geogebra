@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
-import static org.geogebra.common.euclidian.EuclidianConstants.isMoveOrSelectionMode;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -747,7 +745,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 		} else {
-			boolean clear = !isMoveOrSelectionMode(mode)
+			boolean clear = !moveMode(mode)
 					|| !EuclidianConstants.keepSelectionWhenSet(newMode);
 			if (!temporaryMode && clear) {
 				selection.clearSelectedGeos(false);
@@ -6344,8 +6342,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return hits;
 	}
 
-	protected boolean moveMode(int evMode) {
-		return isMoveOrSelectionMode(evMode);
+	private boolean moveMode(int evMode) {
+		return EuclidianConstants.isMoveOrSelectionMode(evMode);
 	}
 
 	protected boolean hitResetIcon() {
@@ -9403,7 +9401,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private boolean handleVideoEmbedReleased() {
-		if (!isMoveOrSelectionMode(mode)
+		if (!moveMode(mode)
 			|| draggingOccured || view.getHits().isEmpty()) {
 			return false;
 		}
@@ -9928,7 +9926,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void wrapMouseReleased(AbstractEvent event) {
 		if (getTextController() != null) {
 			GeoElement topText = view.getHits().getFirstHit(TestGeo.GEOTEXT);
-			if (isMoveOrSelectionMode(mode)) {
+			if (moveMode(mode)) {
 				if (getTextController().handleTextPressed((GeoText) topText,
 						event.getX(), event.getY(), draggingOccured)) {
 					// Fix weird multiselect bug. Even if you hit the resize dot
@@ -10019,7 +10017,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// after finished drag switch back mode
 		// also ignore drag start point
-		if (isMoveOrSelectionMode(mode) && shapeDragged) {
+		if (moveMode(mode) && shapeDragged) {
 			shapeDragged = false;
 			mode = oldShapeMode;
 			getShapeMode().setDragStartPointSet(false);
@@ -10586,7 +10584,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// prevent objects created by a script
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {
 				app.getGuiManager().mouseReleasedForPropertiesView(
-						!isMoveOrSelectionMode(mode)
+						!moveMode(mode)
 								&& mode != EuclidianConstants.MODE_MOVE_ROTATE);
 			}
 		}
@@ -10662,8 +10660,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		} else {
 			// there are hits
-			if (selection.selectedGeosSize() > 0
-					&& isMoveOrSelectionMode(mode)) {
+			if (selection.selectedGeosSize() > 0 && moveMode(mode)) {
 				// only for move mode
 				// right click on already selected geos -> show menu for them
 				// right click on object(s) not selected -> clear
@@ -11950,7 +11947,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// store undo info and state if we use the tool once again
 		int m = temporaryMode ? oldMode : mode;
 		app.storeUndoInfoAndStateForModeStarting(
-				!isMoveOrSelectionMode(m));
+				!moveMode(m));
 	}
 
 	protected GeoElement[] extremum(Hits hits, boolean selPreview) {
