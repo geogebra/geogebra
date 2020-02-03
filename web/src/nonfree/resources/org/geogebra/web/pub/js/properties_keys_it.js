@@ -3052,7 +3052,7 @@ __GGB__keysVar["it"].menu = {
     "UncollapseRows": "Decomprimi righe",
     "Undefined": "non definito",
     "UnderCertainConditionsA": "Sotto determinate condizioni: %0",
-    "Underline": "Underline",
+    "Underline": "Sottolineato",
     "Undo": "Annulla",
     "UngroupObjectes": "Separa oggetti",
     "UnitVectorOfA": "Versore di %0",
