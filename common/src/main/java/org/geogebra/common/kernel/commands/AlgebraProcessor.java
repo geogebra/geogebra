@@ -537,9 +537,9 @@ public class AlgebraProcessor {
 		 * cons.registerFunctionVariable(((GeoFunction) geo).getFunction()
 		 * .getVarString(StringTemplate.defaultTemplate)); }
 		 */
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
-			symbolicProcessor.updateLabel(newValue, info);
-		}
+        if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && symbolicProcessor != null) {
+            symbolicProcessor.updateLabel(newValue, info);
+        }
 
 		newLabel = newValue.getLabel();
 		if (!app.getConfig().hasAutomaticLabels()) {
