@@ -33,6 +33,7 @@ public class InlineTextFormatter {
 				changed = true;
 			}
 		}
+
 		return changed;
 	}
 }
