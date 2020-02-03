@@ -5,6 +5,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
+/**
+ * Removes the slider layout.
+ */
 public class RemoveSliderAction extends MenuAction<GeoElement> {
 
 	public RemoveSliderAction() {
