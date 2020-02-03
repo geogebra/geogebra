@@ -95,9 +95,11 @@ public interface Editor {
 	 */
 	String getContent();
 
-	String getSelectedText();
-
 	void draw(Context2d canvasElement);
 
 	void setWidth(int width);
+
+	String getHyperlinkRangeText();
+
+	void setHyperlinkUrl(String input);
 }

@@ -236,9 +236,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
 				.getDrawableFor(getGeo());
 		if ("".equals(inlineText.getFormat("url", ""))) {
-			addHyperlinkItem();
+			addHyperlinkItem("Link");
 		} else {
-			addEditHyperlinkItem();
+			addHyperlinkItem("editLink");
 			addRemoveHyperlinkItem();
 		}
 	}
@@ -251,31 +251,24 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		wrappedPopup.addItem(menuItem);
 	}
 
-	private void addHyperlinkItem() {
+	private void addHyperlinkItem(String labelTransKey) {
 		Command addHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
-				DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
-						.getDrawableFor(getGeo());
-
-				HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app, inlineText);
-				hyperlinkDialog.center();
-				hyperlinkDialog.show();
+				openHyperlinkDialog();
 			}
 		};
 
-		addItem("Link", addHyperlinkCommand);
+		addItem(labelTransKey, addHyperlinkCommand);
 	}
 
-	private void addEditHyperlinkItem() {
-		Command addEditHyperlinkCommand = new Command() {
-			@Override
-			public void execute() {
-				// add edit hyperlink back-end
-			}
-		};
-
-		addItem("editLink", addEditHyperlinkCommand);
+	private void  openHyperlinkDialog() {
+		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(getGeo());
+		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
+				inlineText.getTextController());
+		hyperlinkDialog.center();
+		hyperlinkDialog.show();
 	}
 
 	private void addRemoveHyperlinkItem() {

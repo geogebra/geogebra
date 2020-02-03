@@ -1,38 +1,41 @@
 package org.geogebra.web.full.gui.dialog;
 
-import com.google.gwt.user.client.ui.FlowPanel;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class HyperlinkDialog extends OptionDialog {
 
+	private final String hyperlinkText;
 	private MediaInputPanel textInputPanel;
 	private MediaInputPanel linkInputPanel;
 
-	private DrawInlineText inlineText;
+	private InlineTextController inlineText;
 
 	/**
 	 * Dialog for inserting hyperlink into an inline text
 	 */
-	public HyperlinkDialog(AppW app, DrawInlineText inlineText) {
+	public HyperlinkDialog(AppW app, InlineTextController inlineText) {
 		super(app.getPanel(), app);
 		this.inlineText = inlineText;
 
-		FlowPanel mainPanel = new FlowPanel();
-
-		textInputPanel = new MediaInputPanel(app, this,
-				app.getLocalization().getMenu("Text"), false);
-		linkInputPanel = new MediaInputPanel(app, this,
-				app.getLocalization().getMenu("Link"), true);
+		textInputPanel = new MediaInputPanel(app, this,	"Text", false);
+		linkInputPanel = new MediaInputPanel(app, this, "Link", true);
 
 		linkInputPanel.addPlaceholder(app.getLocalization().getMenu("pasteLink"));
 		updateButtonLabels("OK");
 
-		textInputPanel.setText(inlineText.getSelectedText());
+		hyperlinkText = inlineText.getHyperlinkRangeText().replace('\n', Unicode.ZERO_WIDTH_SPACE);
+		textInputPanel.setText(hyperlinkText);
+		linkInputPanel.setText(getSelectionUrl());
 
+		FlowPanel mainPanel = new FlowPanel();
 		mainPanel.add(textInputPanel);
 		mainPanel.add(linkInputPanel);
 		mainPanel.add(getButtonPanel());
@@ -41,14 +44,23 @@ public class HyperlinkDialog extends OptionDialog {
 		addStyleName("GeoGebraPopup");
 		addStyleName("mediaDialog");
 		addStyleName("mebis");
-
 		linkInputPanel.focusDeferred();
+	}
+
+	private String getSelectionUrl() {
+		return inlineText.getFormat("url", "");
 	}
 
 	@Override
 	protected void processInput() {
-		inlineText.insertHyperlink(normalizeUrl(linkInputPanel.getInput()),
-				textInputPanel.inputField.getText());
+		String url = normalizeUrl(linkInputPanel.getInput());
+
+		String text = textInputPanel.inputField.getText();
+		if (text.equals(hyperlinkText)	&& !StringUtil.empty(getSelectionUrl())) {
+			inlineText.setHyperlinkUrl(url);
+		} else {
+			inlineText.insertHyperlink(url,	text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
+		}
 		hide();
 	}
 
