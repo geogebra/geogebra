@@ -651,7 +651,11 @@ public class GeoNumeric extends GeoElement
 			return toValueString(tpl);
 		}
 
-		return label + " = " + toValueString(tpl);
+		if (LabelManager.isShowableLabel(label)) {
+			return label + " = " + toValueString(tpl);
+		} else {
+			return toValueString(tpl);
+		}
 	}
 
 	/**
