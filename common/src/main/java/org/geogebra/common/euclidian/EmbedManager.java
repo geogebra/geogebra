@@ -85,12 +85,12 @@ public interface EmbedManager {
 	public void remove(DrawEmbed drawEmbed);
 
 	/**
-	 * Add new embed.
+	 * Add new embedded applet and store undo info.
 	 * 
 	 * @param dataUrl
 	 *            base64 content
 	 */
-	public void embed(String dataUrl);
+	void embed(String dataUrl);
 
 	/**
 	 * @param drawEmbed
