@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.awt;
 
-import com.google.gwt.dom.client.CanvasElement;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -35,6 +34,7 @@ import com.google.gwt.canvas.dom.client.Context2d.Repetition;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
@@ -992,6 +992,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void restoreTransform() {
+		color = null; // restoreTransform changes color in context, cached color needs reset too
 		context.restoreTransform();
 	}
 

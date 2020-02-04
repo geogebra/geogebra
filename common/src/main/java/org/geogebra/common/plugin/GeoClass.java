@@ -172,7 +172,7 @@ public enum GeoClass {
 	SYMBOLIC("Symbolic", 0, false),
 
 	/** Inline text */
-	INLINE_TEXT("InlineText", 0, false);
+	INLINE_TEXT("InlineText", 150, false);
 
 	/**
 	 * name MUST be in ggbtrans/properties

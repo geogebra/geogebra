@@ -249,7 +249,7 @@ public class GeoInlineText extends GeoElement
 
 	@Override
 	public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
+		return HitType.ON_FILLING;
 	}
 
 	@Override

@@ -99,4 +99,6 @@ public interface InlineTextController {
 	 *         (absolute) link URL
 	 */
 	void setHyperlinkUrl(String url);
+
+	String urlByCoordinate(int x, int y);
 }

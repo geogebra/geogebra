@@ -102,4 +102,6 @@ public interface Editor {
 	String getHyperlinkRangeText();
 
 	void setHyperlinkUrl(String input);
+
+	String urlByCoordinate(int x, int y);
 }
