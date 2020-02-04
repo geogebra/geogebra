@@ -2082,7 +2082,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 					appName == null ? "" : appName);
 			String appCode = getConfig().getAppCode();
 
-			if ("classic".equals(appName) || StringUtil.empty(appName)) {
+			boolean isClassic = "classic".equals(appName) || StringUtil.empty(appName);
+			if (isClassic && !isApplet()) {
 				removeHeader();
 			}
 

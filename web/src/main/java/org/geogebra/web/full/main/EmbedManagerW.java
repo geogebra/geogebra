@@ -398,7 +398,8 @@ public class EmbedManagerW implements EmbedManager {
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
 		ge.setContentWidth(material.getWidth());
 		ge.setContentHeight(material.getHeight());
-		ge.attr("showToolBar", material.getShowToolbar());
+		ge.attr("showToolBar", material.getShowToolbar() || material.getShowMenu());
+		ge.attr("showMenuBar", material.getShowMenu());
 		ge.attr("allowStyleBar", material.getAllowStylebar());
 		ge.attr("showAlgebraInput", material.getShowInputbar());
 		ge.setEmbedId(id);
