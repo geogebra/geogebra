@@ -13,6 +13,9 @@ public class CreateSliderAction extends MenuAction<GeoElement> {
 
 	private LabelController labelController;
 
+	/**
+	 * Default constructor
+	 */
 	public CreateSliderAction() {
 		super("CreateSlider");
 		labelController = new LabelController();
