@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.algebra;
 import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
@@ -576,10 +577,28 @@ public class AlgebraItem {
 	 * @param element element to test
 	 * @return true if the equation is created by a command or a tool
 	 */
-	public static boolean isFunctionOrEquationFromToolOrCommand(GeoElementND element) {
-		boolean hasEquation = element instanceof EquationValue;
-		return hasEquation && !isFunctionOrEquationFromUser(element);
-	}
+    public static boolean isFunctionOrEquationFromToolOrCommand(GeoElementND element) {
+        boolean hasEquation = element instanceof EquationValue;
+        return hasEquation && (!isFunctionOrEquationFromUser(element)
+                || isFunctionOrEquationDependentCopy(element));
+    }
+
+
+    /**
+     *
+     * @param element to test
+     * @return true if the element is a copy of an equation which was created by a command or a tool
+     */
+    private static boolean isFunctionOrEquationDependentCopy(GeoElementND element) {
+        AlgoElement algoElement = element.getParentAlgorithm();
+
+        if (algoElement instanceof AlgoDependentGeoCopy) {
+            GeoElement originalGeo = ((AlgoDependentGeoCopy) algoElement).getOrigGeo();
+            return originalGeo != null && !isFunctionOrEquationFromUser(originalGeo);
+        }
+
+        return false;
+    }
 
 	/**
 	 * Tells whether the output row should be visible for the given object. We
