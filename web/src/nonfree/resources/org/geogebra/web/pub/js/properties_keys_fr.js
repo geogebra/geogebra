@@ -3021,7 +3021,7 @@ __GGB__keysVar["fr"].menu = {
     "Tutorial": "Tutoriel",
     "Tutorial3D": "aWhYSpvy",
     "TutorialClassic": "",
-    "TutorialGeometry": "hfhtds8a2",
+    "TutorialGeometry": "fhtds8a2",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
     "Tutorials": "Tutoriels",
