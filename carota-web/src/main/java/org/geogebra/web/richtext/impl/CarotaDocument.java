@@ -27,5 +27,7 @@ public class CarotaDocument {
 	@JsProperty
 	public native CarotaFrame getFrame();
 
+	public native String urlByCoordinate(int x, int y);
+
 	public native CarotaRange hyperlinkRange(int start, int end);
 }

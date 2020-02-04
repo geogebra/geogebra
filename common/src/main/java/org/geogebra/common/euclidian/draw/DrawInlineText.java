@@ -146,6 +146,22 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		}
 	}
 
+	/**
+	 * @param x x mouse coordinate in pixels
+	 * @param y y mouse coordinate in pixels
+	 * @return the url of the current coordinate, or null, if there is
+	 * nothing at (x, y), or it has no url set
+	 */
+	public String urlByCoordinate(int x, int y) {
+		if (textController != null) {
+			GPoint2D p = inverseTransform
+				.transform(new GPoint2D.Double(x - PADDING, y - PADDING), null);
+			return textController.urlByCoordinate((int) p.getX(), (int) p.getY());
+		}
+
+		return "";
+	}
+
 	@Override
 	public GRectangle getBounds() {
 		return AwtFactory.getPrototype().newRectangle(getLeft(), getTop(), getWidth(), getHeight());

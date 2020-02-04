@@ -9909,12 +9909,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		} else if (topGeo instanceof GeoInlineText) {
 			lastInlineText = (GeoInlineText) topGeo;
 			DrawInlineText drInlineText = ((DrawInlineText) view.getDrawableFor(lastInlineText));
-			drInlineText.toForeground(mouseLoc.x, mouseLoc.y);
-			String hyperlinkURL = drInlineText.getFormat("url", "");
-			if ("".equals(hyperlinkURL) || draggingOccured) {
-				((DrawInlineText) view.getDrawableFor(topGeo)).toBackground();
-			} else {
+			String hyperlinkURL = drInlineText.urlByCoordinate(mouseLoc.x, mouseLoc.y);
+			if (hyperlinkURL != null && !draggingOccured) {
 				showDynamicStylebar();
+				drInlineText.toForeground(mouseLoc.x, mouseLoc.y);
 				app.showURLinBrowser(hyperlinkURL);
 				return true;
 			}

@@ -174,4 +174,9 @@ public class InlineTextControllerW implements InlineTextController {
 	public void setHyperlinkUrl(String url) {
 		editor.setHyperlinkUrl(url);
 	}
+
+	@Override
+	public String urlByCoordinate(int x, int y) {
+		return editor.urlByCoordinate(x, y);
+	}
 }

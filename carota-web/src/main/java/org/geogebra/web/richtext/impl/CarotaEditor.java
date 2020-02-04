@@ -88,6 +88,11 @@ public class CarotaEditor implements Editor {
 		return getHyperlinkRange().plainText();
 	}
 
+	@Override
+	public String urlByCoordinate(int x, int y) {
+		return editor.urlByCoordinate(x, y);
+	}
+
 	private CarotaRange getHyperlinkRange() {
 		CarotaRange selection = editor.selectedRange();
 		return editor.hyperlinkRange(selection.getStart(), selection.getEnd());
