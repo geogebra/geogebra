@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -594,6 +595,9 @@ public class AlgebraItem {
 
         if (algoElement instanceof AlgoDependentGeoCopy) {
             GeoElement originalGeo = ((AlgoDependentGeoCopy) algoElement).getOrigGeo();
+            return originalGeo != null && !isFunctionOrEquationFromUser(originalGeo);
+        } else if(algoElement instanceof AlgoDependentImplicitPoly) {
+            GeoElement originalGeo = ((AlgoDependentImplicitPoly) algoElement).getOrigGeo();
             return originalGeo != null && !isFunctionOrEquationFromUser(originalGeo);
         }
 
