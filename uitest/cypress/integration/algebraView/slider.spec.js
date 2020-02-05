@@ -1,6 +1,4 @@
-import { selectors } from '@geogebra/web-test-harness/selectors'
-
-describe('Context menu test', () => {
+describe('Sliders test', () => {
     beforeEach(() => {
         cy.visit('graphing.html');
         cy.get("body.application");
@@ -8,9 +6,11 @@ describe('Context menu test', () => {
 
     afterEach(cy.setSaved);
 
-    it("Slider should be editable", () => {
-        // Enter x^2-2 in the input line
+    it("sliders should be editable", () => {
         cy.writeInAVInput("5{enter}");
-        cy.get(".avSliderValue").click().type("00{enter}");
+        cy.wait(200);
+        cy.get(".avSliderValue").click();
+        cy.focused().type("00{enter}");
+        cy.get(".avSliderValue").contains("a = 500").should('exist');
     });
 });
