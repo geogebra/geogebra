@@ -35,6 +35,10 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 		String pointString = "A = (1, 2)";
 		GeoPoint point = addAvInput(pointString);
 		checkCaption(point, GeoElementND.LABEL_NAME_VALUE, pointString);
+
+		String dependentCopyString = "eq1 = c";
+		GeoConic line = addAvInput(dependentCopyString);
+		checkCaption(line, GeoElementND.LABEL_NAME_VALUE, "eq1: x² + y² = 1");
 	}
 
 	@Test
@@ -46,6 +50,19 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 		checkCaption(line, GeoElementND.LABEL_VALUE, "Line(A, B)");
 		checkCaption(line, GeoElementND.LABEL_CAPTION, "f");
 		checkCaption(line, GeoElementND.LABEL_CAPTION_VALUE, "f: Line(A, B)");
+	}
+
+	@Test
+	public void testFiltersCaptionDependentCopy() {
+		GeoLine line = createLineWithCommand();
+		String dependentCopyString = "g:f";
+		GeoLine lineCopy = addAvInput(dependentCopyString);
+
+		checkCaption(lineCopy, GeoElementND.LABEL_NAME, "g");
+		checkCaption(lineCopy, GeoElementND.LABEL_NAME_VALUE, "g: f");
+		checkCaption(lineCopy, GeoElementND.LABEL_VALUE, "f");
+		checkCaption(lineCopy, GeoElementND.LABEL_CAPTION, "g");
+		checkCaption(lineCopy, GeoElementND.LABEL_CAPTION_VALUE, "g: f");
 	}
 
 	private GeoLine createLineWithCommand() {
