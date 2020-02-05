@@ -342,7 +342,7 @@ public class SaveControllerW implements SaveController {
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse, ArrayList<Chapter> meta) {
-				if (isWorksheet()) {
+				if (isWorksheet() || savedAsTemplate()) {
 					if (parseResponse.size() == 1) {
 						Material newMat = parseResponse.get(0);
 						newMat.setThumbnailBase64(

@@ -189,12 +189,15 @@ public class SaveDialogMow extends DialogBoxW
 			hide();
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
+			if (templateCheckbox.isSelected()) {
+				setSaveType(((AppW) app).getVendorSettings().getTemplateType());
+			} else {
+				((AppW) app).setActiveMaterial(new Material(0, MaterialType.ggs));
+			}
 			Material activeMaterial = ((AppW) app).getActiveMaterial();
 			MaterialVisibility visibility = activeMaterial != null
 					? MaterialVisibility.value(activeMaterial.getVisibility())
 					: MaterialVisibility.Private;
-            setSaveType(templateCheckbox.isSelected()
-                    ? ((AppW) app).getVendorSettings().getTemplateType() : MaterialType.ggs);
 			app.getKernel().getConstruction().setTitle(getInputText());
 			app.getSaveController().saveAs(getInputText(),
 					visibility, this);
@@ -245,6 +248,10 @@ public class SaveDialogMow extends DialogBoxW
 	 */
 	@Override
 	public void setTitle() {
+		if (((AppW) app).getActiveMaterial() != null && MaterialType.ggsTemplate
+				.equals(((AppW) app).getActiveMaterial().getType())) {
+			app.getKernel().getConstruction().setTitle("");
+		}
 		app.getSaveController()
 				.updateSaveTitle(getInputField().getTextComponent(), "");
 	}
