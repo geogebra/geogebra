@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.algebra;
 import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
@@ -20,7 +19,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
-import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -585,20 +583,25 @@ public class AlgebraItem {
     }
 
     /**
-     * @param element to test
-     * @return true if the element is a copy of an equation which was created by a command or a tool
+     * Tells whether geo's parent is an equation which was created by a command or a tool.
+     *
+     * @param element element to test
+     * @return true if the geo's parent is equation created by a command or a tool
      */
     private static boolean isFunctionOrEquationDependentCopy(GeoElementND element) {
         AlgoElement algoElement = element.getParentAlgorithm();
-        GeoElementND originalGeoElement = null;
 
-        if (algoElement instanceof AlgoDependentGeoCopy) {
-            originalGeoElement = ((AlgoDependentGeoCopy) algoElement).getOrigGeo();
-        } else if (algoElement instanceof AlgoDependentImplicitPoly) {
-            originalGeoElement = ((AlgoDependentImplicitPoly) algoElement).getOrigGeo();
+        if (algoElement != null) {
+            GeoElementND[] inputGeos = algoElement.getInput();
+            boolean createdByUser = true;
+            if (inputGeos != null) {
+                for (GeoElementND inputGeo : inputGeos) {
+                    createdByUser = createdByUser && isFunctionOrEquationFromUser(inputGeo);
+                }
+            }
+            return !createdByUser;
         }
-
-        return originalGeoElement != null && !isFunctionOrEquationFromUser(originalGeoElement);
+        return false;
     }
 
 	/**

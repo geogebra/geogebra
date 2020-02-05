@@ -29,7 +29,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 
 	private ExpressionValue[][] coeff; // input
 	private GeoElementND geoElement; // output (will be a implicitPoly, line or conic)
-    private GeoElement origGeo;
 
 	// private FunctionNVar[] dependentFromFunctions;
 	private Set<FunctionNVar> dependentFromFunctions;
@@ -52,7 +51,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	public AlgoDependentImplicitPoly(Construction c, Equation equ,
 			ExpressionNode definition, boolean simplify) {
 		super(c, false);
-		origGeo = (GeoElement) definition.evaluate(StringTemplate.defaultTemplate);
 		equation = equ;
 		if (equation.isFunctionDependent()) {
 			expandEquation();
@@ -387,8 +385,4 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		}
 		return rhs;
 	}
-
-    public GeoElement getOrigGeo() {
-        return origGeo;
-    }
 }
