@@ -584,24 +584,21 @@ public class AlgebraItem {
                 || isFunctionOrEquationDependentCopy(element));
     }
 
-
     /**
-     *
      * @param element to test
      * @return true if the element is a copy of an equation which was created by a command or a tool
      */
     private static boolean isFunctionOrEquationDependentCopy(GeoElementND element) {
         AlgoElement algoElement = element.getParentAlgorithm();
+        GeoElementND originalGeoElement = null;
 
         if (algoElement instanceof AlgoDependentGeoCopy) {
-            GeoElement originalGeo = ((AlgoDependentGeoCopy) algoElement).getOrigGeo();
-            return originalGeo != null && !isFunctionOrEquationFromUser(originalGeo);
-        } else if(algoElement instanceof AlgoDependentImplicitPoly) {
-            GeoElement originalGeo = ((AlgoDependentImplicitPoly) algoElement).getOrigGeo();
-            return originalGeo != null && !isFunctionOrEquationFromUser(originalGeo);
+            originalGeoElement = ((AlgoDependentGeoCopy) algoElement).getOrigGeo();
+        } else if (algoElement instanceof AlgoDependentImplicitPoly) {
+            originalGeoElement = ((AlgoDependentImplicitPoly) algoElement).getOrigGeo();
         }
 
-        return false;
+        return originalGeoElement != null && !isFunctionOrEquationFromUser(originalGeoElement);
     }
 
 	/**
