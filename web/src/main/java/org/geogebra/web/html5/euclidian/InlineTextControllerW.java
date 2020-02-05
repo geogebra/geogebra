@@ -179,4 +179,14 @@ public class InlineTextControllerW implements InlineTextController {
 	public String urlByCoordinate(int x, int y) {
 		return editor.urlByCoordinate(x, y);
 	}
+
+	@Override
+	public void switchListTo(String listType) {
+		editor.switchListTo(listType);
+	}
+
+	@Override
+	public String getListStyle() {
+		return editor.getListStyle();
+	}
 }

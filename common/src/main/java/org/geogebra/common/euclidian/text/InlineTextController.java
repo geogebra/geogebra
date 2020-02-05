@@ -100,5 +100,17 @@ public interface InlineTextController {
 	 */
 	void setHyperlinkUrl(String url);
 
+	/**
+	 * Changes selected text to bullet or numbered list
+	 * @param listType - either "bullet" or "number"
+	 */
+	void switchListTo(String listType);
+
+	/**
+	 * Returns the style of selected text
+	 * @return "number" or "bullet"
+	 */
+	String getListStyle();
+
 	String urlByCoordinate(int x, int y);
 }

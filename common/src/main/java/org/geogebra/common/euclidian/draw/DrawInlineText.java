@@ -394,6 +394,26 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		return fallback;
 	}
 
+	/**
+	 * Switch the list type of selected text
+	 * @param listType - numbered or bullet list
+	 */
+	public void switchListTo(String listType) {
+		if (textController != null) {
+			textController.switchListTo(listType);
+		}
+	}
+
+	/**
+	 * @return list style of selected text
+	 */
+	public String getListStyle() {
+		if (textController != null) {
+			return textController.getListStyle();
+		}
+		return "";
+	}
+
 	public InlineTextController getTextController() {
 		return textController;
 	}
