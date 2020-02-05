@@ -7304,16 +7304,8 @@ public abstract class GeoElement extends ConstructionElement
 		if (!isIndependent()) {
 			return false;
 		}
-		if (definition == null) {
+		if (definition == null || definition.isSimpleNumber()) {
 			return true;
-		}
-		if (definition.getOperation() == Operation.MULTIPLY) {
-			if (definition.getLeft().unwrap() instanceof NumberValue
-					&& definition.getRight().unwrap() instanceof MyDouble
-					&& MyDouble.exactEqual(definition.getRight()
-							.evaluateDouble(), MyMath.DEG)) {
-				return true;
-			}
 		}
 		ExpressionValue unwrap = definition.unwrap();
 		if (unwrap instanceof ExpressionNode) {
