@@ -13,6 +13,7 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /** Accessible alternative to MenuBar */
 public class AriaMenuBar extends FlowPanel {
@@ -141,13 +142,20 @@ public class AriaMenuBar extends FlowPanel {
 	 *            item to be selected
 	 */
 	public void selectItem(AriaMenuItem item) {
-		if (selectedItem != null) {
-			selectedItem.removeStyleName("selectedItem");
-		}
+		unselect();
 		this.selectedItem = item;
 		if (item != null) {
 			focus(item);
 			item.addStyleName("selectedItem");
+		}
+	}
+
+	/**
+	 * Removes selection from previously selected item.
+	 */
+	public void unselect() {
+		if (selectedItem != null) {
+			selectedItem.removeStyleName("selectedItem");
 		}
 	}
 
@@ -427,5 +435,13 @@ public class AriaMenuBar extends FlowPanel {
 	 */
 	public void selectLastItem() {
 		selectItem(allItems.get(allItems.size() - 1));
+	}
+
+	/**
+	 * Style popup menu appears
+	 * @param widget to style.
+	 */
+	public void stylePopup(Widget widget) {
+		// implement in subclasses if needed
 	}
 }

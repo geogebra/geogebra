@@ -557,6 +557,24 @@
 		margin: 6px 0 6px auto;
 	}
 
+	#fontSubMenu {
+		background-color: $white;
+		padding-top: 8px;
+		padding-bottom: 8px;
+		scrollbar-width: thin;
+		overflow-y: auto;
+
+		// max height is viewport height - header height
+		max-height: calc(100vh - 48px);
+
+		.listMenuItem {
+			  padding: 4px 16px 0px 16px;
+			  height: 32px;
+			  border-radius: 2px;
+			  cursor: pointer;
+		}
+	}
+
 	.inlineTextToolbar {
 		padding: 0 16px 6px 16px;
 

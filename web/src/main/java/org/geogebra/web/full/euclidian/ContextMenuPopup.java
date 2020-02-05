@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
@@ -20,13 +21,15 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import org.geogebra.web.resources.SVGResource;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 
 /**
  * context menu
  */
 public class ContextMenuPopup extends MyCJButton
-		implements CloseHandler<GPopupPanel>, MouseOverHandler {
+		implements CloseHandler<GPopupPanel>, MouseOverHandler, ResizeHandler {
 
 	private EuclidianController ec;
 	private GPoint location;
@@ -51,6 +54,16 @@ public class ContextMenuPopup extends MyCJButton
 		updateLocation();
 		createPopup();
 		addStyleName("MyCanvasButton-borderless");
+		Window.addResizeHandler(this);
+	}
+
+	@Override
+	public void onResize(ResizeEvent event) {
+		if (!popup.isMenuShown()) {
+			return;
+		}
+		updateLocation();
+		popup.show(location);
 	}
 
 	private void updateLocation() {
@@ -153,6 +166,7 @@ public class ContextMenuPopup extends MyCJButton
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
 		unselectButton();
+		popup.setMenuShown(false);
 	}
 	
 	/**

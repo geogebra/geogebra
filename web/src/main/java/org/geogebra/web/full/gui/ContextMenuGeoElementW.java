@@ -36,6 +36,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
+import org.geogebra.web.full.gui.fontmenu.FontMenuItem;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.html5.AttachedToDOM;
@@ -221,6 +222,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		addInlineTextToolbar();
+		addFontItem();
 		addHyperlinkItems();
 		wrappedPopup.addSeparator();
 
@@ -231,6 +233,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				.getDrawableFor(getGeo());
 		InlineTextToolbar toolbar = new InlineTextToolbar(inlineText, app);
 		wrappedPopup.addItem(toolbar, false);
+	}
+
+	private void addFontItem() {
+		wrappedPopup.addItem(new FontMenuItem((AppW) app, getTextController()));
 	}
 
 	private void addHyperlinkItems() {
