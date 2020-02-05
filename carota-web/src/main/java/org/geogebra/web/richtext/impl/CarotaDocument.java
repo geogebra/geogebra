@@ -30,4 +30,6 @@ public class CarotaDocument {
 	public native String urlByCoordinate(int x, int y);
 
 	public native CarotaRange hyperlinkRange(int start, int end);
+
+	public native void switchListTo(String listType);
 }
