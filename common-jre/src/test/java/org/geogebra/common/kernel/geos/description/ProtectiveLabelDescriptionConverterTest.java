@@ -65,6 +65,19 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 		checkCaption(lineCopy, GeoElementND.LABEL_CAPTION_VALUE, "g: f");
 	}
 
+	@Test
+	public void testFiltersCaptionDependentCopySecondLevel() {
+		createLineWithCommand();
+		addAvInput("g:f");
+		GeoLine lineSecondLevel = addAvInput("h:g");
+
+		checkCaption(lineSecondLevel, GeoElementND.LABEL_NAME, "h");
+		checkCaption(lineSecondLevel, GeoElementND.LABEL_NAME_VALUE, "h: g");
+		checkCaption(lineSecondLevel, GeoElementND.LABEL_VALUE, "g");
+		checkCaption(lineSecondLevel, GeoElementND.LABEL_CAPTION, "h");
+		checkCaption(lineSecondLevel, GeoElementND.LABEL_CAPTION_VALUE, "h: g");
+	}
+
 	private GeoLine createLineWithCommand() {
 		addAvInput("A = (1, 2)");
 		addAvInput("B = (2, 3)");
