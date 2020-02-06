@@ -104,7 +104,6 @@ public class EmbedInputDialog extends MediaDialog
 
 	private void embedGeoGebraAndHide(String base64) {
 		getApplication().getEmbedManager().embed(base64);
-		app.storeUndoInfo();
 		hide();
 	}
 
