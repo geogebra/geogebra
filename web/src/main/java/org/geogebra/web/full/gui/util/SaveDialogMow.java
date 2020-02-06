@@ -194,13 +194,7 @@ public class SaveDialogMow extends DialogBoxW
             } else {
                 ((AppW) app).setActiveMaterial(new Material(0, MaterialType.ggs));
             }
-			Material activeMaterial = ((AppW) app).getActiveMaterial();
-			MaterialVisibility visibility = activeMaterial != null
-					? MaterialVisibility.value(activeMaterial.getVisibility())
-					: MaterialVisibility.Private;
-			app.getKernel().getConstruction().setTitle(getInputText());
-			app.getSaveController().saveAs(getInputText(),
-					visibility, this);
+			app.getKernel().getConstruction().setTitle(getInputField().getText());
 			app.getSaveController().saveAs(getInputField().getText(),
 					getSaveVisibility(), this);
 		}
