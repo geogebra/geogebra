@@ -175,12 +175,18 @@ public class Function extends FunctionNVar
 	 */
 	@Override
 	public boolean initFunction(boolean simplifyInt) {
+		EvalInfo info = new EvalInfo(false).withSimplifying(simplifyInt);
+		return initFunction(info);
+	}
+
+	@Override
+	public boolean initFunction(EvalInfo info) {
 		if (fVars == null) {
 			// try function variable x
 			fVars = new FunctionVariable[] { new FunctionVariable(kernel) };
 		}
 
-		return super.initFunction(simplifyInt);
+		return super.initFunction(info);
 	}
 
 	/**

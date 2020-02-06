@@ -309,13 +309,25 @@ public class FunctionNVar extends ValidExpression
 	/**
 	 * Call this function to resolve variables and init the function. May throw
 	 * MyError (InvalidFunction).
-	 * 
+	 *
 	 * @param simplifyInt
 	 *            whether int nodes should be simplified
-	 * 
+	 *
 	 * @return whether this is a valid (numeric or boolean) function
 	 */
 	public boolean initFunction(boolean simplifyInt) {
+		EvalInfo info = new EvalInfo(false).withSimplifying(simplifyInt);
+		return initFunction(info);
+	}
+
+	/**
+	 * Call this function to resolve variables and init the function. May throw
+	 * MyError (InvalidFunction).
+	 *
+	 * @param info info
+	 * @return whether this is a valid (numeric or boolean) function
+	 */
+	public boolean initFunction(EvalInfo info) {
 
 		// replace function variables in tree
 		for (int i = 0; i < fVars.length; i++) {
@@ -331,7 +343,7 @@ public class FunctionNVar extends ValidExpression
 		}
 
 		// replace variable names by objects
-		expression.resolveVariables(new EvalInfo(false));
+		expression.resolveVariables(info);
 
 		// the idea here was to allow something like: Derivative[f] + 3x
 		// but wrapping the GeoFunction objects as ExpressionNodes of type
@@ -344,7 +356,7 @@ public class FunctionNVar extends ValidExpression
 		// by an instance of MyDouble
 
 		// simplify constant parts in expression
-		if (simplifyInt) {
+		if (info.isSimplifyingIntegers()) {
 			expression.simplifyConstantIntegers();
 		}
 

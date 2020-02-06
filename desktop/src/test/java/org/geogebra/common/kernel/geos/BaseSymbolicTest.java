@@ -10,17 +10,18 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 public class BaseSymbolicTest {
-    protected static AppCommon app;
-    protected static AlgebraProcessor ap;
+    protected AppCommon app;
+    protected AlgebraProcessor ap;
 
     /**
      * Create the app
      */
-    @BeforeClass
-    public static void setup() {
+    @Before
+    public void setup() {
         app = AlgebraTest.createApp();
         app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
         app.getKernel().getParser().setHighPrecisionParsing(true);
@@ -31,12 +32,12 @@ public class BaseSymbolicTest {
         app.setConfig(new AppConfigCas());
     }
 
-    public static void t(String input, String... expected) {
+    public void t(String input, String... expected) {
         AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
                 StringTemplate.testTemplate);
     }
 
-	public static void t(String input, EvalInfo info, String... expected) {
+	public void t(String input, EvalInfo info, String... expected) {
 		GeoElementND result = ap.processAlgebraCommandNoExceptionHandling(input,
 				false, TestErrorHandler.INSTANCE, info, null)[0];
 		AlgebraTestHelper.assertOneOf(result, expected,

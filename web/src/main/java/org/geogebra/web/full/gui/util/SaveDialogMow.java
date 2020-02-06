@@ -189,11 +189,11 @@ public class SaveDialogMow extends DialogBoxW
 			hide();
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
-			if (templateCheckbox.isSelected()) {
-				setSaveType(((AppW) app).getVendorSettings().getTemplateType());
-			} else {
-				((AppW) app).setActiveMaterial(new Material(0, MaterialType.ggs));
-			}
+            if (templateCheckbox.isSelected()) {
+                setSaveType(((AppW) app).getVendorSettings().getTemplateType());
+            } else {
+                ((AppW) app).setActiveMaterial(new Material(0, MaterialType.ggs));
+            }
 			Material activeMaterial = ((AppW) app).getActiveMaterial();
 			MaterialVisibility visibility = activeMaterial != null
 					? MaterialVisibility.value(activeMaterial.getVisibility())
@@ -201,11 +201,26 @@ public class SaveDialogMow extends DialogBoxW
 			app.getKernel().getConstruction().setTitle(getInputText());
 			app.getSaveController().saveAs(getInputText(),
 					visibility, this);
+			app.getSaveController().saveAs(getInputField().getText(),
+					getSaveVisibility(), this);
 		}
 	}
 
-	private String getInputText() {
-		return getInputField().getText();
+	private MaterialVisibility getSaveVisibility() {
+		Material activeMaterial = ((AppW) app).getActiveMaterial();
+		if (activeMaterial == null) {
+			return MaterialVisibility.Private;
+		}
+
+		MaterialVisibility visibility = MaterialVisibility.value(activeMaterial.getVisibility());
+		if (visibility == MaterialVisibility.Shared && hasNewName(activeMaterial)) {
+			return MaterialVisibility.Private;
+		}
+		return visibility;
+	}
+
+	private boolean hasNewName(Material material) {
+		return !material.getTitle().equals(getInputField().getText());
 	}
 
 	@Override

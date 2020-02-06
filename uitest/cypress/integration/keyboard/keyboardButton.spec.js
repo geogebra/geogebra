@@ -9,10 +9,8 @@ describe('Keyboard button visibility test', () => {
 
     afterEach(cy.setSaved);
 
-    it("Keyboard button should be shown when an input is focused and keyboard was closed before",
+    it("Keyboard button shouldn't be shown when an input lost the focus",
     () => {
-        // Test that first the keyboard button is not present and keyboard opens/closes
-        // according to the focus
         cy.writeInAVInput("f(x)=x");
         console.log(selectors)
         cy.keyboardShouldPresent();
@@ -22,27 +20,34 @@ describe('Keyboard button visibility test', () => {
 
         cy.keyboardShouldNotPresent();
         selectors.showKeyboardButton.get().should('not.be.visible');
+    });
 
-        // Test that keyboard button is not visible after the keyboard is closed with X
+    it("Keyboard button shouldn't be shown after the keyboard is closed with X",
+    () => {
         cy.writeInAVInput("g(x)=x");
 
         selectors.closeKeyboardButton.get().should('be.visible');
+        cy.wait(200); // wait for finishing keyboard up animation
         selectors.closeKeyboardButton.get().click()
         cy.keyboardShouldNotPresent();
         selectors.showKeyboardButton.get().should('not.be.visible');
+    });
+
+    it("Keyboard button should be visible when input gains focus and keyboard was closed earlier",
+    () => {
+        cy.writeInAVInput("g(x)=x");
+        cy.wait(200); // wait for finishing keyboard up animation
+        selectors.closeKeyboardButton.get().click()
 
         selectors.euclidianView.get()
-                    .mouseEvent('down', 100, 100)
-                    .mouseEvent('up', 100, 100);
+                       .mouseEvent('down', 100, 100)
+                       .mouseEvent('up', 100, 100);
 
-        // Test that keyboard button is shown when an input gets focus and it opens keyboard after
-        // user clicks on it
         cy.writeInAVInput("h(x)=x");
 
         cy.keyboardShouldNotPresent();
         selectors.showKeyboardButton.get().should('be.visible');
         selectors.showKeyboardButton.get().click();
         cy.keyboardShouldPresent();
-
     });
 })

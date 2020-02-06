@@ -18,7 +18,6 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -29,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -476,7 +476,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				forceLatex = true;
 			}
 
-			InputHelper.updateSymbolicMode(previewGeo);
+			updateSymbolicMode(previewGeo);
 			ariaPreview = previewGeo.getAuralExpression();
 
 			createDVPanels();
@@ -508,6 +508,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 		}
 		clearUndefinedVariables();
+	}
+
+	private void updateSymbolicMode(GeoElement geoElement) {
+		if (geoElement instanceof HasSymbolicMode) {
+			((HasSymbolicMode) geoElement).initSymbolicMode();
+		}
+		geoElement.updateRepaint();
 	}
 
 	protected void buildItemWithSingleRow() {

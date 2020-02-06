@@ -16,4 +16,7 @@ pipeline {
             }
         }
     }
+    post {
+        always { cleanAndNotify() }
+    }
 }

@@ -438,7 +438,9 @@ public class ExamEnvironment {
 
 	private void clearClipboard() {
 		CopyPaste copyPaste = app.getCopyPaste();
-		copyPaste.clearClipboard();
+		if (copyPaste != null) {
+			copyPaste.clearClipboard();
+		}
 		app.copyTextToSystemClipboard("");
 	}
 
@@ -471,7 +473,7 @@ public class ExamEnvironment {
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
-		return localization.getMenu(app.getConfig().getAppCode());
+		return localization.getMenu(app.getConfig().getAppNameShort());
 	}
 
 	/**

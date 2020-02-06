@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
@@ -39,6 +40,7 @@ import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
@@ -349,6 +351,21 @@ public class ConsElementXMLHandler {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private boolean handleVariables(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoSymbolic)) {
+			return false;
+		}
+		String variableString = attrs.get("val");
+		String[] variables = variableString.split(",");
+		FunctionVariable[] fVars = new FunctionVariable[variables.length];
+		for (int i = 0; i < variables.length; i++) {
+			fVars[i] = new FunctionVariable(xmlHandler.kernel, variables[i]);
+		}
+		GeoSymbolic symbolic = (GeoSymbolic) geo;
+		symbolic.setVariables(fVars);
+		return true;
 	}
 
 	protected void init(LinkedHashMap<String, String> attrs) {
@@ -2142,6 +2159,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "value":
 				handleValue(attrs, errors);
+				break;
+			case "variables":
+				handleVariables(attrs);
 				break;
 			case "video":
 				handleVideo(attrs);

@@ -7,60 +7,60 @@ import org.geogebra.common.util.AsyncOperation;
 
 class InputBoxErrorHandler implements ErrorHandler {
 
-    private GeoInputBox inputBox;
-    private ErrorHandler handler;
+	private GeoInputBox inputBox;
+	private ErrorHandler handler;
 
-    private String tempUserDisplayInput;
-    private String tempUserEvalInput;
+	private String tempUserDisplayInput;
+	private String tempUserEvalInput;
 
-    InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler,
-                         String tempUserDisplayInput, String tempUserEvalInput) {
-        this.inputBox = inputBox;
-        this.handler = handler;
-        this.tempUserDisplayInput = tempUserDisplayInput;
-        this.tempUserEvalInput = tempUserEvalInput;
-    }
+	InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler,
+						 String tempUserDisplayInput, String tempUserEvalInput) {
+		this.inputBox = inputBox;
+		this.handler = handler;
+		this.tempUserDisplayInput = tempUserDisplayInput;
+		this.tempUserEvalInput = tempUserEvalInput;
+	}
 
-    @Override
-    public void showError(String msg) {
-        handler.showError(msg);
-        handleError();
-    }
+	@Override
+	public void showError(String msg) {
+		handler.showError(msg);
+		handleError();
+	}
 
-    @Override
-    public void showCommandError(String command, String message) {
-        handler.showCommandError(command, message);
-        handleError();
-    }
+	@Override
+	public void showCommandError(String command, String message) {
+		handler.showCommandError(command, message);
+		handleError();
+	}
 
-    void handleError() {
-        setTempUserInput();
-        setLinkedGeoUndefined();
-    }
+	void handleError() {
+		setTempUserInput();
+		setLinkedGeoUndefined();
+	}
 
-    private void setTempUserInput() {
-        inputBox.setTempUserDisplayInput(tempUserDisplayInput);
-        inputBox.setTempUserEvalInput(tempUserEvalInput);
-    }
+	private void setTempUserInput() {
+		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+		inputBox.setTempUserEvalInput(tempUserEvalInput);
+	}
 
-    private void setLinkedGeoUndefined() {
-        GeoElementND geoElement = inputBox.getLinkedGeo();
-        geoElement.setUndefined();
-        geoElement.updateRepaint();
-    }
+	private void setLinkedGeoUndefined() {
+		GeoElementND geoElement = inputBox.getLinkedGeo();
+		geoElement.setUndefined();
+		geoElement.updateRepaint();
+	}
 
-    @Override
-    public String getCurrentCommand() {
-        return handler.getCurrentCommand();
-    }
+	@Override
+	public String getCurrentCommand() {
+		return handler.getCurrentCommand();
+	}
 
-    @Override
-    public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
-        return handler.onUndefinedVariables(string, callback);
-    }
+	@Override
+	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
+		return handler.onUndefinedVariables(string, callback);
+	}
 
-    @Override
-    public void resetError() {
-        handler.resetError();
-    }
+	@Override
+	public void resetError() {
+		handler.resetError();
+	}
 }

@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.applet;
 
-import java.util.ArrayList;
-
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -45,6 +43,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
@@ -65,6 +64,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import java.util.ArrayList;
 
 /**
  * Frame for applets with GUI
@@ -120,6 +121,11 @@ public class GeoGebraFrameFull
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
 		getArticleMap().put(article.getId(), application);
+		if (!app.isApplet()) {
+			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
+		} else {
+			CopyPasteW.installCutCopyPaste(application, getElement());
+		}
 
 		if (app != null) {
 			kbButtonSpace.addStyleName("kbButtonSpace");

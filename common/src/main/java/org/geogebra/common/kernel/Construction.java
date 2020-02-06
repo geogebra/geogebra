@@ -570,6 +570,22 @@ public class Construction {
 		return null;
 	}
 
+	/**
+	 * Returns the last Cas Evaluable GeoElement object in the construction list.
+	 *
+	 * @return the last Cas Evaluable GeoElement object in the construction list.
+	 */
+	public GeoElement getLastCasEvaluableGeoElement() {
+		Iterator<GeoElement> descending = geoSetWithCasCells.descendingIterator();
+		while (descending.hasNext()) {
+			GeoElement lastElement = descending.next();
+			if (lastElement.isCasEvaluableObject()) {
+				return lastElement;
+			}
+		}
+		return null;
+	}
+
 	/***
 	 * Returns the n-th GeoCasCell object (free or dependent) in the
 	 * construction list. This is the GeoCasCell in the n-th row of the CAS
