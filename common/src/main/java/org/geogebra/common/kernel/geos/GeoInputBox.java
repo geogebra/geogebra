@@ -42,6 +42,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private @Nonnull InputBoxProcessor inputBoxProcessor;
 	private @Nonnull InputBoxRenderer inputBoxRenderer;
 	private String tempUserDisplayInput;
+	private boolean hasChanged;
 
 	/**
 	 * Creates new text field
@@ -85,6 +86,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 *            new linked geo
 	 */
 	public void setLinkedGeo(GeoElementND geo) {
+		updateChangedState(geo);
 		if (geo == null) {
 			linkedGeo = new GeoText(cons, "");
 		} else {
@@ -93,6 +95,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		inputBoxRenderer.setLinkedGeo(geo);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
+	}
+
+	private void updateChangedState(GeoElementND elementToLink) {
+		if (elementToLink != linkedGeo) {
+			hasChanged = true;
+		}
 	}
 
 	/**
@@ -464,7 +472,17 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @param tempUserEvalInput temporary user eval input
 	 */
 	public void setTempUserEvalInput(String tempUserEvalInput) {
+		if (areDifferent(inputBoxRenderer.tempUserEvalInput, tempUserEvalInput)) {
+			hasChanged = true;
+		}
 		inputBoxRenderer.tempUserEvalInput = tempUserEvalInput;
+	}
+
+	private boolean areDifferent(String s1, String s2) {
+		boolean areNull = s1 == null && s2 == null;
+		boolean haveSameValue = s1 != null && s1.equals(s2);
+		boolean areEqual = areNull || haveSameValue;
+		return !areEqual;
 	}
 
 	/**
@@ -484,6 +502,9 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @param tempUserDisplayInput temporary user display input
 	 */
 	public void setTempUserDisplayInput(String tempUserDisplayInput) {
+		if (areDifferent(this.tempUserDisplayInput, tempUserDisplayInput)) {
+			hasChanged = true;
+		}
 		this.tempUserDisplayInput = tempUserDisplayInput;
 	}
 
@@ -493,5 +514,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public void clearTempUserInput() {
 		this.tempUserDisplayInput = null;
 		inputBoxRenderer.tempUserEvalInput = null;
+	}
+
+	public void storeUndoInfoIfChanged() {
+		if (hasChanged) {
+			getKernel().getApplication().storeUndoInfo();
+		}
+		hasChanged = false;
 	}
 }

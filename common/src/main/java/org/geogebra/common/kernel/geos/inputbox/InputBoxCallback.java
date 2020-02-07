@@ -50,6 +50,5 @@ class InputBoxCallback implements AsyncOperation<GeoElementND> {
 			}
 		}
 		inputBox.setLinkedGeo(obj);
-		app.storeUndoInfo();
 	}
 }
