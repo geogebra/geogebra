@@ -251,7 +251,7 @@ public class AlgoCompare extends AlgoElement {
         GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
         try {
             String elimSol = cas.getCurrentCAS().evaluateRaw(gc.toString());
-            if (!elimSol.equals("?")) {
+            if (!elimSol.equals("?") && !elimSol.equals("{}")) {
                 elimSol = elimSol.substring(1, elimSol.length() - 1);
                 String[] cases = elimSol.split(",");
                 String retval = "";
