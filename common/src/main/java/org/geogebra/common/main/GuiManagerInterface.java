@@ -371,6 +371,8 @@ public interface GuiManagerInterface {
 
 	String getReportBugUrl();
 
+	String getLicenseUrl();
+
 	void buildStepGui(SolutionStep steps);
 
 	void openMenuInAVFor(GeoElement geo);
