@@ -175,6 +175,8 @@ public interface GeoGebraConstants {
 	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "https://help.geogebra.org/bugs/?v=5.0";
 	/** web bug reports */
 	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://help.geogebra.org/bugs/?v=web";
+	/** bug reports 8 */
+	public final static String GEOGEBRA_REPORT_BUG = "https://help.geogebra.org/bugs/";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
