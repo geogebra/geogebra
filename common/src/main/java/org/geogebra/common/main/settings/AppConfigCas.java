@@ -59,11 +59,6 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public boolean hasSlidersInAV() {
-		return true;
-	}
-
-	@Override
 	public boolean hasAutomaticLabels() {
 		return false;
 	}

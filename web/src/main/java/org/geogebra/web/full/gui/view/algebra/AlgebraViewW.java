@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -475,9 +476,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private void updateItemFor(GeoElement element) {
-		if (!element.isSetEuclidianVisible()) {
-			element.setEuclidianVisible(true);
-			element.setEuclidianVisible(false);
+		if (element instanceof GeoNumeric && !element.isSetEuclidianVisible()) {
+			((GeoNumeric) element).initAlgebraSlider();
 		}
 	}
 

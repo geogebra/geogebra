@@ -6,12 +6,18 @@ import org.geogebra.common.scientific.LabelController;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
+/**
+ * Creates a slider.
+ */
 public class CreateSliderAction extends MenuAction<GeoElement> {
 
 	private LabelController labelController;
 
+	/**
+	 * Default constructor
+	 */
 	public CreateSliderAction() {
-		super("CreateSlider");
+		super("Suggestion.CreateSlider");
 		labelController = new LabelController();
 	}
 
