@@ -153,3 +153,10 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web' ]
 }
 
+// https://gist.github.com/jlmelville/2bfe9277e9e2c0ff79b6#gistcomment-2802097
+tasks.withType(CreateStartScripts).each { task ->
+    task.doLast {
+        task.windowsScript.write task.windowsScript.text.replaceFirst(/(set CLASSPATH=%APP_HOME%\\lib\\).*/, { "${it[1]}*" })
+        task.unixScript.write task.unixScript.text.replaceFirst(/(CLASSPATH=.APP_HOME\/lib\/).*/, { "CLASSPATH=\$(echo \$APP_HOME/lib/*.jar | tr ' ' ':')" })
+    }
+}
