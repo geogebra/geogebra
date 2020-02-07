@@ -3758,16 +3758,18 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private boolean hasSimpleNumbers() {
-		ExpressionValue left = getLeft().unwrap();
-		ExpressionValue right = getRight().unwrap();
-		boolean areLeftAndRightNumbers = left instanceof NumberValue && right instanceof MyDouble;
+		return areLeftAndRightNumbers() && isLeftOrRightSpecial();
+	}
 
+	private boolean areLeftAndRightNumbers() {
+		return getLeft().unwrap() instanceof NumberValue && getRight().unwrap() instanceof MyDouble;
+	}
+
+	private boolean isLeftOrRightSpecial() {
 		double evaluatedLeft = getLeft().evaluateDouble();
 		boolean isLeftMinusOne = MyDouble.exactEqual(evaluatedLeft, -1);
 		double evaluatedRight = getRight().evaluateDouble();
 		boolean isRightDeg = MyDouble.exactEqual(evaluatedRight, MyMath.DEG);
-		boolean isLeftOrRightSpecial = isLeftMinusOne || isRightDeg;
-
-		return areLeftAndRightNumbers && isLeftOrRightSpecial;
+		return isLeftMinusOne || isRightDeg;
 	}
 }
