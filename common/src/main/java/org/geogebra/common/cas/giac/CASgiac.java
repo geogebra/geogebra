@@ -354,7 +354,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * elimvars with given precision for the curve variables x and y. Used
 		 * publicly.
 		 */
-		LOCUS_EQU("locusEqu", "locusEqu(polys,elimvars,precision,curvevarx,curvevary):=implicitCurveCoeffs(subst(geomElim(jacobiPrepare(polys,[curvevarx,curvevary]),elimvars,precision),[curvevarx=x,curvevary=y]))"),
+		LOCUS_EQU("locusEqu", "locusEqu(polys,elimvars,precision,curvevarx,curvevary):=implicitCurveCoeffs(subst(geomElim(polys,elimvars,precision),[curvevarx=x,curvevary=y]))"),
 		/**
 		 * Compute coefficient matrix of the input polynomial. The output is a
 		 * flattened variant of the matrix: the elements are returned row by
