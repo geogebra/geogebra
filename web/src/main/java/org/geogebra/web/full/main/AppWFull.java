@@ -124,7 +124,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.Persistable;
@@ -260,7 +259,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		setupHeader();
 
-		if (!showMenuBar() && Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
+		if (!showMenuBar() && Browser.runningLocal() && ae.isEnableApiPing()) {
 			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
 					.checkAvailable(null);
 		}
@@ -301,7 +300,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private void initSignImEventFlow() {
 		initSignInEventFlow(
 				new LoginOperationW(this),
-				ArticleElement.isEnableUsageStats());
+				getArticleElement().isEnableApiPing());
 	}
 
 	@Override
@@ -866,7 +865,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		} else {
 			if (getLoginOperation() == null) {
 				this.initSignInEventFlow(new LoginOperationW(this),
-						ArticleElement.isEnableUsageStats());
+						getArticleElement().isEnableApiPing());
 			}
 			toOpen = id;
 			// not logged in to Mebis while opening shared link: show login

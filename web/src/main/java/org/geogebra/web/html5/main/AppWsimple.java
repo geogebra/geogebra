@@ -12,7 +12,6 @@ import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.dom.client.Element;
@@ -65,8 +64,8 @@ public class AppWsimple extends AppW {
 		setUndoActive(undoActive);
 		afterCoreObjectsInited();
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
-		if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
+		Browser.removeDefaultContextMenu(ae.getElement());
+		if (Browser.runningLocal() && ae.isEnableApiPing()) {
 			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
 			        .checkAvailable(null);
 		}

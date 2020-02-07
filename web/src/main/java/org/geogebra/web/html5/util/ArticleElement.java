@@ -5,12 +5,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
@@ -687,11 +685,9 @@ public final class ArticleElement extends Element implements ArticleElementInter
 		return getBoolDataParam("errorDialogsActive", true);
 	}
 
-	/**
-	 * @return whether startups stats are enabled
-	 */
-	public static boolean isEnableUsageStats() {
-		return ((CASFactory) GWT.create(CASFactory.class)).isEnabled();
+	@Override
+	public boolean isEnableApiPing() {
+		return true;
 	}
 
 	/* (non-Javadoc)
