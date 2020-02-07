@@ -3739,12 +3739,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public boolean isSimpleNumber() {
 		if (getOperation() == Operation.MULTIPLY) {
-			if (getLeft().unwrap() instanceof NumberValue
-					&& getRight().unwrap() instanceof MyDouble
-					&& MyDouble.exactEqual(getRight()
-					.evaluateDouble(), MyMath.DEG)) {
-				return true;
-			}
+			return hasSimpleNumbers();
 		}
 		ExpressionValue unwrap = unwrap();
 		if (unwrap instanceof ExpressionNode) {
@@ -3760,5 +3755,21 @@ public class ExpressionNode extends ValidExpression
 					&& !DoubleUtil.isEqual(val, Math.E);
 		}
 		return false;
+	}
+
+	private boolean hasSimpleNumbers() {
+		return areLeftAndRightNumbers() && isLeftOrRightSpecial();
+	}
+
+	private boolean areLeftAndRightNumbers() {
+		return getLeft().unwrap() instanceof NumberValue && getRight().unwrap() instanceof MyDouble;
+	}
+
+	private boolean isLeftOrRightSpecial() {
+		double evaluatedLeft = getLeft().evaluateDouble();
+		boolean isLeftMinusOne = MyDouble.exactEqual(evaluatedLeft, -1);
+		double evaluatedRight = getRight().evaluateDouble();
+		boolean isRightDeg = MyDouble.exactEqual(evaluatedRight, MyMath.DEG);
+		return isLeftMinusOne || isRightDeg;
 	}
 }
