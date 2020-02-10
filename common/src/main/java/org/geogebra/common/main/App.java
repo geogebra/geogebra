@@ -5149,6 +5149,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
+	/**
+	 * Creates an AlgebraOutputFilter based on the AppConfig if it doesn't exist yet and returns it.
+	 * @return AlgebraOutputFilter instance
+	 */
 	public AlgebraOutputFilter getAlgebraOutputFilter() {
 		if (algebraOutputFilter == null) {
 			if (getConfig().shouldHideEquations()) {

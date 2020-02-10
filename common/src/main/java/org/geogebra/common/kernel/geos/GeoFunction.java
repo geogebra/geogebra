@@ -64,7 +64,6 @@ import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.matrix.Coords3;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
