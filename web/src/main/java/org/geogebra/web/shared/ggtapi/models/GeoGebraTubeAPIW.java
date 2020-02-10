@@ -4,8 +4,10 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.operations.URLChecker;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -36,7 +38,13 @@ import com.google.gwt.user.client.Window.Location;
  * 
  */
 public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
+
 	private URLChecker urlChecker;
+
+	// We are delegating some functionality to the material api,
+	// delegation should be extended, until we can completely get rid
+	// of tube and this class.
+	private MaterialRestAPI delegateApi;
 
 	/**
 	 * @param beta
@@ -57,17 +65,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		} else {
 			urlChecker = new MarvlURLChecker();
 		}
-	}
 
-	// /**
-	// * Return a list of all Materials from the specified author
-	// * ! Should be the same search as for materials!
-	// * @param author
-	// */
-	// public void getAuthorsMaterials(String author, RequestCallback callback)
-	// {
-	// throw new UnsupportedOperationException();
-	// }
+		delegateApi = new MaterialRestAPI(articleElement.getParamBackendURL(), urlChecker);
+	}
 
 	/**
 	 * Copies the user data from the API response to this user.
@@ -292,5 +292,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	@Override
 	public URLChecker getURLChecker() {
 		return urlChecker;
+	}
+
+	@Override
+	public void getTemplateMaterials(MaterialCallbackI cb) {
+		delegateApi.getTemplateMaterials(cb);
 	}
 }

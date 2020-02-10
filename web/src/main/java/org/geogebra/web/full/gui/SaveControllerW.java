@@ -10,10 +10,10 @@ import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Chapter;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
-import org.geogebra.common.move.ggtapi.models.MowBAPI;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
@@ -28,7 +28,6 @@ import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -328,19 +327,10 @@ public class SaveControllerW implements SaveController {
 	 * @param materialCallback
 	 *            {@link MaterialCallback}
 	 */
-	void doUploadToGgt(String tubeID, String visibility, String base64,
+	private void doUploadToGgt(String tubeID, String visibility, String base64,
 			MaterialCallbackI materialCallback) {
-		if (app.isWhiteboardActive() && !"".equals(app.getVendorSettings().getAPIBaseUrl())
-				&& savedAsTemplate()) {
-			MowBAPI api = new MowBAPI(
-					app.getVendorSettings().getAPIBaseUrl(),
-					new MarvlURLChecker());
-			api.uploadMaterial(tubeID, visibility, fileName, base64,
-					materialCallback, this.saveType);
-		} else {
-			app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
+		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
 				fileName, base64, materialCallback, this.saveType);
-		}
 	}
 
 	@Override
@@ -550,7 +540,7 @@ public class SaveControllerW implements SaveController {
 			Material activeMaterial = app.getActiveMaterial();
 			if (activeMaterial != null && !app.getLoginOperation()
 					.owns(activeMaterial)) {
-				consTitle = MowBAPI.getCopyTitle(loc, consTitle);
+				consTitle = MaterialRestAPI.getCopyTitle(loc, consTitle);
 				title.setText(consTitle);
 				return true;
 			}

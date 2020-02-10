@@ -79,9 +79,4 @@ public interface VendorSettings {
 	 * @return material type for templates (ggb: notes-template, mow: ggs-template)
 	 */
 	Material.MaterialType getTemplateType();
-
-	/**
-	 * @return API base URL (MOWB for mebis, MARVL for notes)
-	 */
-	String getAPIBaseUrl();
 }

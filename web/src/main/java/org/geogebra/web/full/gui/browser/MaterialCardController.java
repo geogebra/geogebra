@@ -6,9 +6,9 @@ import java.util.List;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Chapter;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.ggtapi.models.MowBAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -234,7 +234,7 @@ public class MaterialCardController implements OpenFileListener {
 				&& onlineFile(getMaterial())) {
 
 			app.getLoginOperation().getGeoGebraTubeAPI().copy(getMaterial(),
-					MowBAPI.getCopyTitle(app.getLocalization(),
+					MaterialRestAPI.getCopyTitle(app.getLocalization(),
 							material.getTitle()),
 					new MaterialCallback() {
 						@Override
