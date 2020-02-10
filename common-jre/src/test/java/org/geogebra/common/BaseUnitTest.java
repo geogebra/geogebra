@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.junit.Before;
 
 /**
@@ -128,5 +128,11 @@ public class BaseUnitTest {
 	 */
 	protected GeoElement lookup(String label) {
 		return kernel.lookupLabel(label);
+	}
+
+	protected void setGraphingConfig() {
+		AppCommon app = getApp();
+		app.setConfig(new AppConfigGraphing());
+		app.resetAlgebraOutputFilter();
 	}
 }

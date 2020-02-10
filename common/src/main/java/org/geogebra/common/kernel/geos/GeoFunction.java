@@ -170,46 +170,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * @param autoLabel
-	 *            whether label was set by
-	 * @return whether function contains only valid variables
-	 */
-	public boolean validate(boolean autoLabel) {
-		return validate(autoLabel, cons.isSuppressLabelsActive());
-	}
-
-	/**
-	 * @param autoLabel
-	 *            whether label was set by
-	 * @param suppressLabel
-	 *            whether labels are suppressed (parsing command argument)
-	 * @return whether function contains only valid variables
-	 */
-	public boolean validate(boolean autoLabel, boolean suppressLabel) {
-		if (!cons.isFileLoading() && fun != null) {
-			if (getFunctionExpression().containsFreeFunctionVariableOtherThan(
-					getFunctionVariables())) {
-				return false;
-			}
-		}
-		// If labels are suppressed (processing command arguments) accept y and
-		// z as
-		// functions
-		if (suppressLabel || isBooleanFunction()) {
-			return true;
-		}
-		if ((this.isFunctionOfY()
-						// needed for GGB-1028
-						&& this.getCorrespondingCasCell() == null)
-				|| (autoLabel && this.isFunctionOfZ())) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Creates new function
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param f
@@ -233,13 +195,14 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		fun = f;
 		// setConstructionDefaults is called from initFunction
 		initFunction(simplifyInt);
+		algebraOutputFilter = getKernel().getApplication().getAlgebraOutputFilter();
 	}
 
 	// Currently, the composite function is only for internal use
 	// The expression is not correct but it is not to be shown anyway.
 	/**
 	 * Creates composite function iPoly(f(x), g(x))
-	 * 
+	 *
 	 * @param c
 	 *            construction
 	 * @param iPoly
@@ -250,7 +213,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            function for y
 	 */
 	public GeoFunction(Construction c, GeoImplicit iPoly, GeoFunction f,
-			GeoFunction g) {
+					   GeoFunction g) {
 		this(c);
 		this.iPoly = iPoly;
 
@@ -279,14 +242,14 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			 * g.getFunction().getFunctionVariable(); if (it.hasNext()) varX =
 			 * (ExpressionValue)it.next(); if (it.hasNext()) varY =
 			 * (ExpressionValue)it.next();
-			 * 
+			 *
 			 * if (vargX!= null && varX !=null && varY !=null) {
-			 * 
+			 *
 			 * ExpressionNode dummyX = new ExpressionNode(); gEN =
 			 * gEN.replaceAndWrap(g.getFunction().getFunctionVariable(),
 			 * dummyX); iPolyEN = iPolyEN.replaceAndWrap(varY, gEN); gEN =
 			 * gEN.replaceAndWrap(dummyX, vargX);
-			 * 
+			 *
 			 * }
 			 */
 
@@ -328,6 +291,44 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			fun.setExpression(new ExpressionNode(kernel, new GeoNumeric(c, 0)));
 
 		} // else: error
+	}
+
+	/**
+	 * @param autoLabel
+	 *            whether label was set by
+	 * @return whether function contains only valid variables
+	 */
+	public boolean validate(boolean autoLabel) {
+		return validate(autoLabel, cons.isSuppressLabelsActive());
+	}
+
+	/**
+	 * @param autoLabel
+	 *            whether label was set by
+	 * @param suppressLabel
+	 *            whether labels are suppressed (parsing command argument)
+	 * @return whether function contains only valid variables
+	 */
+	public boolean validate(boolean autoLabel, boolean suppressLabel) {
+		if (!cons.isFileLoading() && fun != null) {
+			if (getFunctionExpression().containsFreeFunctionVariableOtherThan(
+					getFunctionVariables())) {
+				return false;
+			}
+		}
+		// If labels are suppressed (processing command arguments) accept y and
+		// z as
+		// functions
+		if (suppressLabel || isBooleanFunction()) {
+			return true;
+		}
+		if ((this.isFunctionOfY()
+						// needed for GGB-1028
+						&& this.getCorrespondingCasCell() == null)
+				|| (autoLabel && this.isFunctionOfZ())) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

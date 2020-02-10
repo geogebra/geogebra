@@ -5159,4 +5159,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 		return algebraOutputFilter;
 	}
+
+	/**
+	 * Visible only for testing.
+	 */
+	public void resetAlgebraOutputFilter() {
+		algebraOutputFilter = null;
+	}
 }

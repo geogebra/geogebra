@@ -3,8 +3,10 @@ package org.geogebra.common.gui.view.algebra.fiter;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,8 +43,11 @@ public class ProtectiveAlgebraOutputFilter implements AlgebraOutputFilter {
 	 */
 	@Override
 	public boolean isAllowed(GeoElement geoElement) {
-        AlgoElement parentAlgorithm = geoElement.getParentAlgorithm();
-        return parentAlgorithm == null
+		AlgoElement parentAlgorithm = geoElement.getParentAlgorithm();
+		boolean isFunctionOrEquation =
+				geoElement instanceof EquationValue || geoElement instanceof GeoFunction;
+		return !isFunctionOrEquation
+				|| parentAlgorithm == null
 				|| getAllowedCommands().contains(parentAlgorithm.getClassName());
     }
 
