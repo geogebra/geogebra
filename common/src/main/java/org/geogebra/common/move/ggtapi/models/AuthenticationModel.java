@@ -193,4 +193,6 @@ public abstract class AuthenticationModel {
 	public boolean isLoginStarted() {
 		return loginStarted;
 	}
+
+	public abstract String getEncoded();
 }

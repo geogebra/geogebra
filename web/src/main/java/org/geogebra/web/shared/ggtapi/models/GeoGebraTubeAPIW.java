@@ -42,11 +42,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 	private URLChecker urlChecker;
 
-	// We are delegating some functionality to the material api,
-	// delegation should be extended, until we can completely get rid
-	// of tube and this class.
-	private MaterialRestAPI delegateApi;
-
 	/**
 	 * @param beta
 	 *            whether to use beta
@@ -66,9 +61,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		} else {
 			urlChecker = new MarvlURLChecker();
 		}
-
-		delegateApi = new MaterialRestAPI(articleElement.getParamBackendURL(),
-				urlChecker, new MarvlService());
 	}
 
 	/**
@@ -294,10 +286,5 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	@Override
 	public URLChecker getURLChecker() {
 		return urlChecker;
-	}
-
-	@Override
-	public void getTemplateMaterials(MaterialCallbackI cb) {
-		delegateApi.getTemplateMaterials(cb);
 	}
 }

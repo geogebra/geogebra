@@ -297,9 +297,12 @@ public class MaterialRestAPI implements BackendAPI {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
 
+		Log.debug("performing request " + baseURL);
+
 		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
+				Log.debug("success :)");
 				try {
 					userMaterialsCB.onLoaded(parseMaterials(responseStr), null);
 				} catch (Exception e) {
@@ -309,6 +312,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 			@Override
 			public void onError(String error) {
+				Log.debug("error :(");
 				userMaterialsCB.onError(new Exception(error));
 			}
 		});
