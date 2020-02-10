@@ -1,5 +1,9 @@
 package org.geogebra.common.main.settings;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -18,10 +22,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * App-specific behaviors of Geometry app

@@ -1,5 +1,9 @@
 package org.geogebra.common.main;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -8,14 +12,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
-import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Config for Classic and derived apps (MR)
