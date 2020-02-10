@@ -20,6 +20,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -140,6 +141,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private int tableViewColumn = -1;
 	private boolean pointsVisible = true;
 
+	private AlgebraOutputFilter algebraOutputFilter;
+
 	/**
 	 * Creates new function
 	 * 
@@ -163,7 +166,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			setConstructionDefaults(); // init visual settings
 		}
 		surfaceEvaluables = new TreeSet<>();
-
+		algebraOutputFilter = getKernel().getApplication().getAlgebraOutputFilter();
 	}
 
 	/**
@@ -860,7 +863,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (isLabelSet()) {
 			initStringBuilder(sbToString, tpl, label, this);
 		}
-		if (ExamEnvironment.isProtectedEquation(this)) {
+		if (!algebraOutputFilter.isAllowed(this)) {
 			sbToString.append(getParentAlgorithm().getDefinition(tpl));
 		} else {
 			sbToString.append(toValueString(tpl));
@@ -898,7 +901,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (ExamEnvironment.isProtectedEquation(this)) {
+		if (!algebraOutputFilter.isAllowed(this)) {
 			return getParentAlgorithm().getDefinition(tpl);
 		}
 		if (fun != null && isDefined()) {
@@ -918,7 +921,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (isLocalVariable()) {
 			return label;
 		}
-		if (ExamEnvironment.isProtectedEquation(this)) {
+		if (!algebraOutputFilter.isAllowed(this)) {
 			return getParentAlgorithm().getDefinition(tpl);
 		}
 		if (fun != null && isDefined()) {
@@ -939,7 +942,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		// make sure Freehand Functions have different entries in drop-down
 		// lists
-		if (ExamEnvironment.isProtectedEquation(this)) {
+		if (!algebraOutputFilter.isAllowed(this)) {
 			return getParentAlgorithm().getDefinition(tpl);
 		}
 		if (isFreehandFunction() && isLabelSet()) {
@@ -2581,7 +2584,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public String getFormulaString(StringTemplate tpl,
 			boolean substituteNumbers) {
-		if (ExamEnvironment.isProtectedEquation(this)) {
+		if (!algebraOutputFilter.isAllowed(this)) {
 			return getParentAlgorithm().getDefinition(tpl);
 		}
 		String ret = "";

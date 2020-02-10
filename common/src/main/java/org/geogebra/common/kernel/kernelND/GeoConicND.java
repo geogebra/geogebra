@@ -17,6 +17,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
@@ -54,7 +55,6 @@ import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -167,6 +167,39 @@ public abstract class GeoConicND extends GeoQuadricND
 	private Coords tmpCoords1;
 	private Coords tmpCoords2;
 
+	private AlgebraOutputFilter algebraOutputFilter;
+
+	/**
+	 * default constructor
+	 *
+	 * @param c
+	 *            construction
+	 * @param dimension
+	 *            dimension
+	 */
+	public GeoConicND(Construction c, int dimension) {
+		this(c, dimension, false, EQUATION_IMPLICIT);
+	}
+
+	/**
+	 * default constructor
+	 *
+	 * @param c
+	 *            construction
+	 * @param dimension
+	 *            dimension
+	 * @param isIntersection
+	 *            if this is an intersection curve
+	 * @param stringMode
+	 *            toStroingMode, one of EQUATION_* constants
+	 */
+	public GeoConicND(Construction c, int dimension, boolean isIntersection,
+					  int stringMode) {
+		super(c, dimension, isIntersection);
+		setToStringMode(stringMode);
+		algebraOutputFilter = getKernel().getApplication().getAlgebraOutputFilter();
+	}
+
 	/**
 	 * 
 	 * @param i
@@ -209,48 +242,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return the origin of lines in case of parallel lines
 	 */
 	abstract public Coords getOrigin3D(int i);
-
-	/*
-	 * private CoordMatrix eigenMatrix2D = new CoordMatrix(3,3);
-	 * 
-	 * /* update the 2D eigen matrix (should be called each
-	 *
-	 * public void updateEigenMatrix2D(){
-	 * 
-	 * eigenMatrix2D.setOrigin(getMidpoint());
-	 * eigenMatrix2D.setVx(getEigenvec(0)); eigenMatrix2D.setVy(getEigenvec(1));
-	 * }
-	 */
-
-	/**
-	 * default constructor
-	 * 
-	 * @param c
-	 *            construction
-	 * @param dimension
-	 *            dimension
-	 */
-	public GeoConicND(Construction c, int dimension) {
-		this(c, dimension, false, EQUATION_IMPLICIT);
-	}
-
-	/**
-	 * default constructor
-	 * 
-	 * @param c
-	 *            construction
-	 * @param dimension
-	 *            dimension
-	 * @param isIntersection
-	 *            if this is an intersection curve
-	 * @param stringMode
-	 *            toStroingMode, one of EQUATION_* constants
-	 */
-	public GeoConicND(Construction c, int dimension, boolean isIntersection,
-			int stringMode) {
-		super(c, dimension, isIntersection);
-		setToStringMode(stringMode);
-	}
 
 	/**
 	 * @return the matrix representation of the conic in its 2D sub space
@@ -1760,7 +1751,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append("=0");
 			return sb;
 		}
-		if (ExamEnvironment.isProtectedEquation(this)) {
+		if (!algebraOutputFilter.isAllowed(this)) {
 			return new StringBuilder(getParentAlgorithm().getDefinition(tpl));
 		}
 		if (getToStringMode() == GeoConicND.EQUATION_PARAMETRIC) {

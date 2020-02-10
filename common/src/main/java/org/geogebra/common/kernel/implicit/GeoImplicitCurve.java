@@ -10,6 +10,7 @@ import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
@@ -113,6 +114,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private double[] eval = new double[2];
 	private boolean calcPath = true;
 
+	private AlgebraOutputFilter algebraOutputFilter;
+
 	/**
 	 * Construct an empty Implicit Curve Object
 	 * 
@@ -126,6 +129,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		cons.removeFromConstructionList(locus);
 		c.registerEuclidianViewCE(this);
 		setConstructionDefaults();
+		algebraOutputFilter = getKernel().getApplication().getAlgebraOutputFilter();
 	}
 
 	/**
@@ -653,7 +657,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (ExamEnvironment.isProtectedEquation(this)) {
+		if (!algebraOutputFilter.isAllowed(this)) {
 			return getParentAlgorithm().getDefinition(tpl);
 		}
 		if (!isDefined()) {

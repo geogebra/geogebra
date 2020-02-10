@@ -4,14 +4,12 @@ import java.util.Date;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
-import org.geogebra.common.gui.view.algebra.fiter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
@@ -43,7 +41,6 @@ public class ExamEnvironment {
 
 	private TimeFormatAdapter timeFormatter;
 	private CommandArgumentFilter nonExamCommandFilter;
-	private static ProtectiveAlgebraOutputFilter outputFilter = new ProtectiveAlgebraOutputFilter();
 	private static final CommandFilter noCASFilter = CommandFilterFactory
 			.createNoCasCommandFilter();
 
@@ -618,15 +615,6 @@ public class ExamEnvironment {
 	private void disableExamCommandFilter() {
 		app.getKernel().getAlgebraProcessor().getCommandDispatcher()
 				.setCommandArgumentFilter(nonExamCommandFilter);
-	}
-
-	/**
-	 * @param eqn
-	 *            equation
-	 * @return whether the equation should be hidden
-	 */
-	public static boolean isProtectedEquation(GeoElement eqn) {
-		return !outputFilter.isAllowed(eqn);
 	}
 
 	/**
