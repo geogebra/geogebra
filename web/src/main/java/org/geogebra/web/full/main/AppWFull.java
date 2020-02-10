@@ -707,7 +707,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (!isWhiteboardActive()) {
 			return;
 		}
-		getActiveEuclidianView().getSettings().setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+		getActiveEuclidianView().getSettings()
+				.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
 		setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 	}
 
