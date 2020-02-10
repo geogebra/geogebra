@@ -599,7 +599,9 @@ public class AlgebraItem {
                     createdByUser = createdByUser && isFunctionOrEquationFromUser(inputGeo) &&
 							!isGeneratedFunctionOrEquationDependentCopy(inputGeo);
 
-                    if(!createdByUser) break;
+					if (!createdByUser) {
+						break;
+					}
                 }
             }
             return !createdByUser;
