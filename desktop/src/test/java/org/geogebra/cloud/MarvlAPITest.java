@@ -1,15 +1,5 @@
 package org.geogebra.cloud;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.move.events.BaseEvent;
@@ -34,6 +24,16 @@ import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 public class MarvlAPITest {
 
@@ -210,7 +210,7 @@ public class MarvlAPITest {
 
 		GeoGebraTubeUser user = new GeoGebraTubeUser("");
 		user.setUserId(5);
-		auth.onEvent(new LoginEvent(user, true, true, "{}"));
+		auth.onLogin(new LoginEvent(user, true, true, "{}"));
 		client.setModel(auth);
 		return client;
 	}
