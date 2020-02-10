@@ -579,7 +579,7 @@ public class AlgebraItem {
     public static boolean isFunctionOrEquationFromToolOrCommand(GeoElementND element) {
         boolean hasEquation = element instanceof EquationValue;
         return hasEquation && (!isFunctionOrEquationFromUser(element)
-                || isFunctionOrEquationDependentCopy(element));
+                || isGeneratedFunctionOrEquationDependentCopy(element));
     }
 
     /**
@@ -588,7 +588,7 @@ public class AlgebraItem {
      * @param element element to test
      * @return true if the geo's parent is equation created by a command or a tool
      */
-    private static boolean isFunctionOrEquationDependentCopy(GeoElementND element) {
+    private static boolean isGeneratedFunctionOrEquationDependentCopy(GeoElementND element) {
         AlgoElement algoElement = element.getParentAlgorithm();
 
         if (algoElement != null) {
@@ -597,7 +597,9 @@ public class AlgebraItem {
             if (inputGeos != null) {
                 for (GeoElementND inputGeo : inputGeos) {
                     createdByUser = createdByUser && isFunctionOrEquationFromUser(inputGeo) &&
-							!isFunctionOrEquationDependentCopy(inputGeo);
+							!isGeneratedFunctionOrEquationDependentCopy(inputGeo);
+
+                    if(!createdByUser) break;
                 }
             }
             return !createdByUser;
