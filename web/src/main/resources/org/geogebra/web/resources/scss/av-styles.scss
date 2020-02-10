@@ -335,6 +335,10 @@ $duration: 0.2s;
 			}
 		}
 
+		div[data-title="Input Help"]:hover:after {
+            top: 48px;
+        }
+
 		.scrollableTextBox,
 		.scrollableTextBox.avPreview,
 		.scrollableTextBox.noPreview, 

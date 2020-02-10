@@ -529,18 +529,9 @@ public class AlgebraProcessor {
 		GeoElementND[] result;
 
 		app.getCompanion().storeViewCreators();
-		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
-		// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F,
-		// G, H, I}, 22] to FitPoly[{A, B, C, D, E, F, G, H, I}, 2]
-		/*
-		 * if (geo instanceof GeoFunction && ((GeoFunction) geo).isDefined()) {
-		 * cons.registerFunctionVariable(((GeoFunction) geo).getFunction()
-		 * .getVarString(StringTemplate.defaultTemplate)); }
-		 */
-        if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && symbolicProcessor != null) {
-            symbolicProcessor.updateLabel(newValue, info);
-        }
 
+		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
+		updateLabelIfSymbolic(newValue, info);
 		newLabel = newValue.getLabel();
 		if (!app.getConfig().hasAutomaticLabels()) {
 			geo.setAlgebraLabelVisible(newLabel != null);
@@ -617,6 +608,12 @@ public class AlgebraProcessor {
 
 		cons.registerFunctionVariable(null);
 
+	}
+
+	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && symbolicProcessor != null) {
+			symbolicProcessor.updateLabel(expression, info);
+		}
 	}
 
 	private static boolean sameLabel(String newLabel, String oldLabel) {
