@@ -596,8 +596,8 @@ public class AlgebraItem {
             boolean createdByUser = true;
             if (inputGeos != null) {
                 for (GeoElementND inputGeo : inputGeos) {
-                    createdByUser = createdByUser && isFunctionOrEquationFromUser(inputGeo) &&
-							!isGeneratedFunctionOrEquationDependentCopy(inputGeo);
+                    createdByUser = createdByUser && isFunctionOrEquationFromUser(inputGeo)
+							&& !isGeneratedFunctionOrEquationDependentCopy(inputGeo);
 
 					if (!createdByUser) {
 						break;
