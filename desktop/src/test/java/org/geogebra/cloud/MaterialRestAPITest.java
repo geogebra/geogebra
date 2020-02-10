@@ -8,6 +8,8 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MarvlService;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
@@ -46,7 +48,7 @@ public class MaterialRestAPITest {
 		LoginOperationD loginOp = buildLoginOperation();
 		authorise(usr, loginOp);
 		Assert.assertEquals("GGBTest-Student", usr.getRealName());
-		Assert.assertTrue("GGBTest-Student", usr.getGroups().size() == 0);
+		Assert.assertEquals("GGBTest-Student", 0, usr.getGroups().size());
 	}
 
 	private LoginOperationD buildLoginOperation() {
@@ -79,15 +81,7 @@ public class MaterialRestAPITest {
 	}
 
 	private static MaterialRestAPI authAPI() {
-		MaterialRestAPI ret = new MaterialRestAPI(BASE_URL, null);
-		try {
-			ret.setBasicAuth(Base64.encodeToString(
-					System.getProperty("marvl.auth.basic").getBytes("utf-8"),
-					false));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return ret;
+		return new MaterialRestAPI(BASE_URL, null, new MarvlService());
 	}
 
 	@Test
@@ -100,7 +94,7 @@ public class MaterialRestAPITest {
 	@Test
 	public void testUploadLoggout() {
 		needsAuth();
-		MaterialRestAPI api = new MaterialRestAPI(BASE_URL, null);
+		MaterialRestAPI api = new MaterialRestAPI(BASE_URL, null, new MarvlService());
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		TestMaterialCallback t = new TestMaterialCallback();
 		api.uploadMaterial("", "S", "This should fail",

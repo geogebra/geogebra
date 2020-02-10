@@ -15,7 +15,7 @@ public abstract class AuthenticationModel {
 	/**
 	 * token name for user logged in got back from GGT
 	 */
-	protected static String GGB_TOKEN_KEY_NAME = "token";
+	protected static final String GGB_TOKEN_KEY_NAME = "token";
 	private boolean stayLoggedOut;
 	private boolean loginStarted;
 
@@ -91,15 +91,8 @@ public abstract class AuthenticationModel {
 	private void onLoginError(GeoGebraTubeUser user) {
 		this.stayLoggedOut = false;
 		if (getLoginToken() != null || user.isShibbolethAuth()) {
-			clearLoginTokenForLogginError();
+			clearLoginToken();
 		}
-	}
-
-	/**
-	 * override this method if another behaviour needed
-	 */
-	public void clearLoginTokenForLogginError() {
-		clearLoginToken();
 	}
 
 	/**

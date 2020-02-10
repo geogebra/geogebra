@@ -4,6 +4,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MarvlService;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.operations.URLChecker;
@@ -66,7 +67,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			urlChecker = new MarvlURLChecker();
 		}
 
-		delegateApi = new MaterialRestAPI(articleElement.getParamBackendURL(), urlChecker);
+		delegateApi = new MaterialRestAPI(articleElement.getParamBackendURL(),
+				urlChecker, new MarvlService());
 	}
 
 	/**

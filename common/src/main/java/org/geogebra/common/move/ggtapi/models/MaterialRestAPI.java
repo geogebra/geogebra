@@ -3,7 +3,6 @@ package org.geogebra.common.move.ggtapi.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -29,19 +28,21 @@ public class MaterialRestAPI implements BackendAPI {
 	/** whether API is available */
 	protected boolean available = true;
 	/** whether availability check request was sent */
-	protected boolean availabilityCheckDone = false;
+	private boolean availabilityCheckDone = false;
 	private String baseURL;
 	private AuthenticationModel model;
-	private String basicAuth = null; // for test only
 	private URLChecker urlChecker;
+
+	private Service service;
 
 	/**
 	 * @param baseURL
 	 *            URL of the API; endpoints append eg. "/materials" to it
 	 */
-	public MaterialRestAPI(String baseURL, URLChecker urlChecker) {
+	public MaterialRestAPI(String baseURL, URLChecker urlChecker, Service service) {
 		this.baseURL = baseURL;
 		this.urlChecker = urlChecker;
+		this.service = service;
 	}
 
 	@Override
@@ -102,7 +103,7 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void deleteMaterial(final Material mat, final MaterialCallbackI callback) {
 
-		HttpRequest request = makeRequest();
+		HttpRequest request = service.createRequest(model);
 		request.sendRequestPost("DELETE", baseURL + "/materials/" + mat.getSharingKeyOrId(), null,
 				new AjaxCallback() {
 					@Override
@@ -124,47 +125,36 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public final void authorizeUser(final GeoGebraTubeUser user, final LogInOperation op,
 			final boolean automatic) {
-		HttpRequest request = makeRequest();
-		request.sendRequestPost("GET",
-				baseURL + "/auth",
-				null, new AjaxCallback() {
-					@Override
-					public void onSuccess(String responseStr) {
-						try {
-							MaterialRestAPI.this.availabilityCheckDone = true;
 
-							MaterialRestAPI.this.available = true;
-							user.setShibbolethAuth(true);
-							// Parse the userdata from the response
-							if (!parseUserDataFromResponse(user, responseStr)) {
-								op.onEvent(new LoginEvent(user, false, automatic, responseStr));
-								return;
-							}
+		HttpRequest request = service.createRequest(model);
+		request.sendRequestPost("GET", baseURL + "/auth", null, new AjaxCallback() {
+			@Override
+			public void onSuccess(String responseStr) {
+				try {
+					MaterialRestAPI.this.availabilityCheckDone = true;
+					MaterialRestAPI.this.available = true;
 
-							op.onEvent(new LoginEvent(user, true, automatic, responseStr));
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
+					// Parse the userdata from the response
+					if (!parseUserDataFromResponse(user, responseStr)) {
+						op.onEvent(new LoginEvent(user, false, automatic, responseStr));
+						return;
 					}
 
-					@Override
-					public void onError(String error) {
-						Log.warn(error);
-						MaterialRestAPI.this.availabilityCheckDone = true;
-						MaterialRestAPI.this.available = false;
-						user.setShibbolethAuth(true);
-						op.onEvent(new LoginEvent(user, false, automatic, null));
-					}
-				});
-	}
+					op.onEvent(new LoginEvent(user, true, automatic, responseStr));
+				} catch (Exception e) {
+					Log.error(e.getMessage());
+				}
+			}
 
-	private HttpRequest makeRequest() {
-		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
-		if (this.basicAuth != null) {
-			request.setAuth(basicAuth);
-		}
-		return request;
+			@Override
+			public void onError(String error) {
+				Log.error(error);
+				MaterialRestAPI.this.availabilityCheckDone = true;
+				MaterialRestAPI.this.available = false;
+
+				op.onEvent(new LoginEvent(user, false, automatic, null));
+			}
+		});
 	}
 
 	@Override
@@ -235,7 +225,7 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @throws JSONException
 	 *             when structure of JSON is invalid
 	 */
-	protected List<Material> parseMaterials(String responseStr) throws JSONException {
+	private List<Material> parseMaterials(String responseStr) throws JSONException {
 		ArrayList<Material> ret = new ArrayList<>();
 		JSONTokener jst = new JSONTokener(responseStr);
 		Object parsed = jst.nextValue();
@@ -304,7 +294,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 	private void performRequest(final String method, String endpoint, String json,
 			final MaterialCallbackI userMaterialsCB) {
-		HttpRequest request = makeRequest();
+		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
 
 		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
@@ -322,7 +312,6 @@ public class MaterialRestAPI implements BackendAPI {
 				userMaterialsCB.onError(new Exception(error));
 			}
 		});
-
 	}
 
 	@Override
@@ -382,16 +371,6 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	/**
-	 * Set authentication for HTTP basic auth (used in tests).
-	 *
-	 * @param base64
-	 *            base64 encoded basic auth header
-	 */
-	public void setBasicAuth(String base64) {
-		this.basicAuth = base64;
-	}
-
-	/**
 	 * @param localization
 	 *            localization
 	 * @param title
@@ -419,7 +398,7 @@ public class MaterialRestAPI implements BackendAPI {
 	@Override
 	public void setShared(Material m, String groupID, boolean shared,
 			final AsyncOperation<Boolean> callback) {
-		HttpRequest request = makeRequest();
+		HttpRequest request = service.createRequest(model);
 		request.sendRequestPost(shared ? "POST" : "DELETE",
 				baseURL + "/materials/" + m.getSharingKeyOrId() + "/groups/" + groupID, null,
 				new AjaxCallback() {
@@ -437,7 +416,7 @@ public class MaterialRestAPI implements BackendAPI {
 
 	@Override
 	public void getGroups(String materialID, final AsyncOperation<List<String>> callback) {
-		HttpRequest request = makeRequest();
+		HttpRequest request = service.createRequest(model);
 		request.sendRequestPost("GET",
 				baseURL + "/materials/" + materialID + "/groups?type=isShared", null,
 				new AjaxCallback() {
