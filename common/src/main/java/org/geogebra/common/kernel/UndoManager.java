@@ -20,7 +20,7 @@ public abstract class UndoManager {
 	/**
 	 * maximum capacity of undo info list: you can undo MAX_CAPACITY - 1 steps
 	 */
-	private static final int MAX_CAPACITY = 1000;
+	private static final int MAX_CAPACITY = 100;
 
 	/** application */
 	public App app;
