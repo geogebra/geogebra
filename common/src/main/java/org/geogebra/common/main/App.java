@@ -46,6 +46,8 @@ import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFac
 import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
+import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.fiter.DefaultAlgebraOutputFilter;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -78,6 +80,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
+import org.geogebra.common.gui.view.algebra.fiter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -423,6 +426,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
+	private AlgebraOutputFilter algebraOutputFilter;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -5143,5 +5147,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public MaskWidgetList getMaskWidgets() {
 		return null;
+	}
+
+	public AlgebraOutputFilter getAlgebraOutputFilter() {
+		if (algebraOutputFilter == null) {
+			if (getConfig().shouldHideEquations()) {
+				algebraOutputFilter = new ProtectiveAlgebraOutputFilter();
+			} else {
+				algebraOutputFilter = new DefaultAlgebraOutputFilter();
+			}
+		}
+		return algebraOutputFilter;
 	}
 }

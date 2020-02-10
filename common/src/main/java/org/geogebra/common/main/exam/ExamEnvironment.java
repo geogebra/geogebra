@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.gui.view.algebra.fiter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
@@ -16,7 +17,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
-import org.geogebra.common.main.exam.output.OutputFilter;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
@@ -43,7 +43,7 @@ public class ExamEnvironment {
 
 	private TimeFormatAdapter timeFormatter;
 	private CommandArgumentFilter nonExamCommandFilter;
-	private static OutputFilter outputFilter = new OutputFilter();
+	private static ProtectiveAlgebraOutputFilter outputFilter = new ProtectiveAlgebraOutputFilter();
 	private static final CommandFilter noCASFilter = CommandFilterFactory
 			.createNoCasCommandFilter();
 

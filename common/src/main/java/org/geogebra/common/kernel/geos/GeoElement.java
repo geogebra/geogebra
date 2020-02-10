@@ -41,6 +41,7 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -327,6 +328,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	private TeXFormula teXFormula;
 	private TeXAtomSerializer texAtomSerializer;
+	private AlgebraOutputFilter algebraOutputFilter;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
@@ -336,6 +338,39 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 	};
+
+	/**
+	 * Creates new GeoElement for given construction
+	 *
+	 * @param c
+	 *            Construction
+	 */
+	public GeoElement(final Construction c) {
+		super(c);
+		c.addUsedType(this.getGeoClassType());
+		App app = kernel.getApplication();
+		if (app != null) {
+			graphicsadapter = app.newGeoElementGraphicsAdapter();
+			algebraOutputFilter = app.getAlgebraOutputFilter();
+			initViewFlagsIfEvAvailable(app);
+		}
+	}
+
+	private void initViewFlagsIfEvAvailable(App app) {
+		EuclidianViewInterfaceSlim ev = app.getActiveEuclidianView();
+		if ((ev != null)
+				&& (app.getActiveEuclidianView()
+				.getViewID() != App.VIEW_EUCLIDIAN)) {
+			viewFlags = new ArrayList<>();
+			viewFlags.add(ev.getViewID());
+
+			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
+			// euclidian view
+			if (!(ev.isDefault2D())) {
+				viewFlags.add(App.VIEW_EUCLIDIAN);
+			}
+		}
+	}
 
 	@Override
 	public int getColorSpace() {
@@ -374,47 +409,6 @@ public abstract class GeoElement extends ConstructionElement
 	public void setDefaultGeoType(final int defaultGT) {
 		defaultGeoType = defaultGT;
 	}
-
-	/********************************************************/
-
-	/**
-	 * Creates new GeoElement for given construction
-	 * 
-	 * @param c
-	 *            Construction
-	 */
-	public GeoElement(final Construction c) {
-		super(c);
-		c.addUsedType(this.getGeoClassType());
-		graphicsadapter = kernel.getApplication()
-				.newGeoElementGraphicsAdapter();
-		// this.geoID = geoCounter++;
-
-		// moved to subclasses, see
-		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-		// setConstructionDefaults(); // init visual settings
-
-		// new elements become breakpoints if only breakpoints are shown
-		// isConsProtBreakpoint = cons.showOnlyBreakpoints();
-
-		EuclidianViewInterfaceSlim ev;
-		if ((kernel.getApplication() != null)
-				&& ((ev = kernel.getApplication()
-						.getActiveEuclidianView()) != null)
-				&& (kernel.getApplication().getActiveEuclidianView()
-						.getViewID() != App.VIEW_EUCLIDIAN)) {
-			viewFlags = new ArrayList<>();
-			viewFlags.add(ev.getViewID());
-
-			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
-			// euclidian view
-			if (!(ev.isDefault2D())) {
-				viewFlags.add(App.VIEW_EUCLIDIAN);
-			}
-		}
-	}
-
-	/* ****************************************************** */
 
 	@Override
 	public String getLabelSimple() {
@@ -7356,7 +7350,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public DescriptionMode needToShowBothRowsInAV() {
-	    if (AlgebraItem.shouldShowOnlyDefinitionForGeo(this)) {
+	    if (!algebraOutputFilter.isAllowed(this)) {
 	        return DescriptionMode.DEFINITION;
         }
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
