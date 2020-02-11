@@ -13,7 +13,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.AsyncOperation;
@@ -31,7 +30,6 @@ public class MaterialRestAPI implements BackendAPI {
 	private boolean availabilityCheckDone = false;
 	private String baseURL;
 	private AuthenticationModel model;
-	private URLChecker urlChecker;
 
 	private Service service;
 
@@ -39,9 +37,8 @@ public class MaterialRestAPI implements BackendAPI {
 	 * @param baseURL
 	 *            URL of the API; endpoints append eg. "/materials" to it
 	 */
-	public MaterialRestAPI(String baseURL, URLChecker urlChecker, Service service) {
+	public MaterialRestAPI(String baseURL, Service service) {
 		this.baseURL = baseURL;
-		this.urlChecker = urlChecker;
 		this.service = service;
 	}
 
@@ -460,12 +457,6 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	@Override
-	public URLChecker getURLChecker() {
-		// implement me
-		return urlChecker;
-	}
-
-	@Override
 	public void getTemplateMaterials(final MaterialCallbackI templateMaterialsCB) {
 		if (model == null || !model.isLoggedIn()) {
 			templateMaterialsCB.onLoaded(new ArrayList<Material>(), null);
@@ -475,7 +466,7 @@ public class MaterialRestAPI implements BackendAPI {
 		performRequest("GET",
 				"/users/" + model.getUserId()
 						+ "/materials?filter="
-						+ "ggs-template",
+						+ "notes-template",
 				null, templateMaterialsCB);
 	}
 }

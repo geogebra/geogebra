@@ -11,7 +11,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.ShareRequest;
@@ -621,18 +620,13 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	@Override
-	public URLChecker getURLChecker() {
-		return null;
-	}
-
-	@Override
 	public void getTemplateMaterials(MaterialCallbackI cb) {
 		getDelegateApi().getTemplateMaterials(cb);
 	}
 
 	private MaterialRestAPI getDelegateApi() {
 		if (delegateApi == null) {
-			delegateApi = new MaterialRestAPI(urlMarvl, getURLChecker(), new MarvlService());
+			delegateApi = new MaterialRestAPI(urlMarvl, new MarvlService());
 		}
 
 		delegateApi.setClient(client);

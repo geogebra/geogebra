@@ -286,8 +286,6 @@ public interface BackendAPI {
 	 */
 	boolean anonymousOpen();
 
-	URLChecker getURLChecker();
-
 	/**
 	 * Get templates of current user
 	 *
