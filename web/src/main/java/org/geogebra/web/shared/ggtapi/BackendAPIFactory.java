@@ -2,6 +2,7 @@ package org.geogebra.web.shared.ggtapi;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
+import org.geogebra.common.move.ggtapi.models.MowService;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
@@ -52,7 +53,7 @@ public class BackendAPIFactory {
 	}
 
 	private BackendAPI newMowBAPI() {
-		return new MaterialRestAPI(backendURL, new MarvlURLChecker());
+		return new MaterialRestAPI(backendURL, new MowService());
 	}
 
 	private GeoGebraTubeAPIW newTubeAPI() {

@@ -466,7 +466,7 @@ public class MaterialRestAPI implements BackendAPI {
 		performRequest("GET",
 				"/users/" + model.getUserId()
 						+ "/materials?filter="
-						+ "notes-template",
+						+ "ggs-template",
 				null, templateMaterialsCB);
 	}
 }

@@ -442,7 +442,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	public void uploadMaterial(String tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
 			MaterialType type) {
-		if (type == MaterialType.ggsTemplate || type == MaterialType.notesTemplate) {
+		if (type == MaterialType.ggsTemplate) {
 			getDelegateApi().uploadMaterial(tubeID, visibility, filename, base64, cb, type);
 		} else {
 			uploadMaterial(tubeID, visibility, filename, base64, cb, type, null);

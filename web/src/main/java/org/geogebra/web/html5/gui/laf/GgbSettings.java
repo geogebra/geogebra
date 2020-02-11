@@ -70,9 +70,4 @@ public class GgbSettings implements VendorSettings {
 				FontFamily.TREBUCHET,
 				FontFamily.VERDANA);
 	}
-
-	@Override
-	public Material.MaterialType getTemplateType() {
-		return Material.MaterialType.notesTemplate;
-	}
 }
