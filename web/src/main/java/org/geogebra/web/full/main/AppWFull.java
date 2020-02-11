@@ -1699,22 +1699,36 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void updatePerspectiveForUnbundled(Perspective perspective) {
-		if (isPortrait()) {
+		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
+		DockPanelData[] dpDataArray = perspective.getDockPanelData();
+		for (DockPanelData panelData : dpDataArray) {
+			DockPanelW panel = dm.getPanel(panelData.getViewId());
+			if (panel instanceof ToolbarDockPanelW) {
+				updateToolbarPanelVisibility((ToolbarDockPanelW) panel, panelData.isVisible());
+			}
+			if (panel != null && !isPortrait()) {
+				updateDividerLocation(dm, panelData);
+			}
+		}
+		updateContentPane();
+	}
+
+	private void updateToolbarPanelVisibility(ToolbarDockPanelW toolbarDockPanel, boolean visible) {
+		ToolbarPanel toolbarPanel = toolbarDockPanel.getToolbar();
+		if (visible) {
+			toolbarPanel.open();
+		} else {
+			toolbarPanel.close();
+		}
+	}
+
+	private void updateDividerLocation(DockManagerW dockManager, DockPanelData panelData) {
+		if (!panelData.isVisible() || panelData.isOpenInFrame()) {
 			return;
 		}
 
-		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
-		DockPanelData[] dpData = perspective.getDockPanelData();
-		for (int i = 0; i < dpData.length; ++i) {
-			DockPanelW panel = dm.getPanel(dpData[i].getViewId());
-			if (!dpData[i].isVisible() || dpData[i].isOpenInFrame() || panel == null) {
-				continue;
-			}
-
-			int divLoc = dpData[i].getEmbeddedSize();
-			dm.getRoot().setDividerLocation(divLoc);
-		}
-		updateContentPane();
+		int divLoc = panelData.getEmbeddedSize();
+		dockManager.getRoot().setDividerLocation(divLoc);
 	}
 
 	private static boolean algebraVisible(Perspective p2) {
