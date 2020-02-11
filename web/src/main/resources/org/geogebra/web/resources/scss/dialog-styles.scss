@@ -1524,6 +1524,7 @@ $duration: 0.2s;
                	margin-right: 4px;
             }
             .link {
+                cursor: pointer;
                 @extend .subtitle1-link;
             }
    	    }
