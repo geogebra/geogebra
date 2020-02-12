@@ -103,7 +103,7 @@ public class InputBoxProcessor {
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,
-				new InputBoxCallback(kernel.getApplication(), this, inputBox), errorHandler);
+				new InputBoxCallback(this, inputBox), errorHandler);
 	}
 
 	private String  preprocess(String inputText, StringTemplate tpl) {
