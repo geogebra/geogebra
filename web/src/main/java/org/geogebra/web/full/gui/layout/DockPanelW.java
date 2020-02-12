@@ -975,10 +975,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @return The parent DockSplitPane or null.
 	 */
 	public DockSplitPaneW getParentSplitPane() {
-		if (isOpenInFrame()) {
-			return null;
-		}
-
 		Widget parent = getParent();
 
 		if (!(parent instanceof DockSplitPaneW)) {
@@ -1045,23 +1041,6 @@ public abstract class DockPanelW extends ResizeComposite
 		return new DockPanelData(id, getToolbarString(), visible, false,
 				showStyleBar, new Rectangle(frameBounds), embeddedDef,
 				embeddedSize);
-	}
-
-	/**
-	 * If this view should open in a frame. Has no immediate effect.
-	 * 
-	 * @param openInFrame
-	 *            whether this is in frame
-	 */
-	public void setOpenInFrame(boolean openInFrame) {
-		// this.openInFrame = openInFrame;
-	}
-
-	/**
-	 * @return Whether this view should open in frame.
-	 */
-	public final boolean isOpenInFrame() {
-		return false;
 	}
 
 	/**
@@ -1320,24 +1299,6 @@ public abstract class DockPanelW extends ResizeComposite
 	@Override
 	public String getDefaultToolbarString() {
 		return defaultToolbarString;
-	}
-
-	/**
-	 * @return dock panel information as string for debugging.
-	 */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[DockPanel,id=");
-		sb.append(getViewId());
-		sb.append(",toolbar=");
-		sb.append(getToolbarString());
-		sb.append(",visible=");
-		sb.append(isVisible());
-		sb.append(",inframe=");
-		sb.append(isOpenInFrame());
-		sb.append("]");
-		return sb.toString();
 	}
 
 	@Override

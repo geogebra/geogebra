@@ -15,7 +15,7 @@ public final class GeoGebraURLParser {
 	 */
 	public static boolean isGeoGebraURL(String url) {
 		String urlNoProtocol = removeProtocol(url);
-		if (StringUtil.empty(urlNoProtocol)){
+		if (StringUtil.empty(urlNoProtocol)) {
 			return false;
 		}
 		String host = urlNoProtocol.split("/")[0];
