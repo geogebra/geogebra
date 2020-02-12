@@ -1454,10 +1454,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.attachToolbar(this);
 		}
 
-		// we do not need keyboard in whiteboard
-		if (!isWhiteboardActive()) {
-			frame.attachKeyboardButton();
-		}
 		frame.attachGlass();
 	}
 
