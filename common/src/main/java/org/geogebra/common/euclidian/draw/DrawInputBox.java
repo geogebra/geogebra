@@ -132,7 +132,6 @@ public class DrawInputBox extends CanvasDrawable {
 		GeoInputBox inputBox = getGeoInputBox();
 		inputBox.textObjectUpdated(getTextField());
 		inputBox.textSubmitted();
-		inputBox.storeUndoInfoIfChanged();
 	}
 
 	/**

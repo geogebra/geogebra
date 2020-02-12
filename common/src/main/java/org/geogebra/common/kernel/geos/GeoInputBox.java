@@ -253,6 +253,14 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public void updateLinkedGeo(String inputText) {
 		inputBoxProcessor.updateLinkedGeo(inputText, tpl);
+		storeUndoInfoIfChanged();
+	}
+
+	private void storeUndoInfoIfChanged() {
+		if (hasChanged) {
+			getKernel().getApplication().storeUndoInfo();
+		}
+		hasChanged = false;
 	}
 
 	/**
@@ -514,12 +522,5 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public void clearTempUserInput() {
 		this.tempUserDisplayInput = null;
 		inputBoxRenderer.tempUserEvalInput = null;
-	}
-
-	public void storeUndoInfoIfChanged() {
-		if (hasChanged) {
-			getKernel().getApplication().storeUndoInfo();
-		}
-		hasChanged = false;
 	}
 }
