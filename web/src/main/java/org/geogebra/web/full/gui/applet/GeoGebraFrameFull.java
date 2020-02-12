@@ -1,8 +1,9 @@
 package org.geogebra.web.full.gui.applet;
 
+import java.util.ArrayList;
+
 import javax.annotation.Nonnull;
 
-import com.google.gwt.core.client.Scheduler;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
@@ -49,6 +50,7 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -64,8 +66,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.ArrayList;
 
 /**
  * Frame for applets with GUI
@@ -494,7 +494,7 @@ public class GeoGebraFrameFull
 	 * @param show
 	 *            whether to show keyboard button
 	 */
-	public void showKeyboardButton(boolean show) {
+	public void showKeyboardButton(final boolean show) {
 		if (showKeyboardButton == null) {
 			if (show) {
 				DockManagerW dm = getGuiManager().getLayout()
@@ -520,11 +520,9 @@ public class GeoGebraFrameFull
 	}
 
 	private void showKeyboardButton(MathKeyboardListener textField) {
-		if (!appNeedsKeyboard()) {
-			return;
+		if (appNeedsKeyboard()) {
+			showKeyboardButton(isButtonNeeded(textField));
 		}
-
-		showKeyboardButton(isButtonNeeded(textField));
 	}
 
 	private boolean isButtonNeeded(MathKeyboardListener textField) {
