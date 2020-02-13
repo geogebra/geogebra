@@ -1700,6 +1700,14 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private void handleOrdering(LinkedHashMap<String, String> attrs) {
+		try {
+			geo.setOrdering(Integer.parseInt(attrs.get("val")));
+		} catch (RuntimeException e) {
+			// no or incorrect ordering
+		}
+	}
+
 	private boolean handleObjColor(LinkedHashMap<String, String> attrs) {
 		GColor col = MyXMLHandler.handleColorAttrs(attrs);
 		if (col == null) {
@@ -2125,6 +2133,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "objColor":
 				handleObjColor(attrs);
+				break;
+			case "ordering":
+				handleOrdering(attrs);
 				break;
 			case "outlyingIntersections":
 				handleOutlyingIntersections(attrs);

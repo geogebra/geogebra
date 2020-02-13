@@ -107,6 +107,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -410,6 +411,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private GeoInlineText lastInlineText;
 
+	private GeoPriorityComparator priorityComparator;
+
 	/**
 	 * state for selection tool over press/release
 	 */
@@ -438,6 +441,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.app = app;
 		this.selection = app.getSelectionManager();
 		this.localization = app.getLocalization();
+		this.priorityComparator = app.getGeoPriorityComparator();
 		createCompanions();
 	}
 
@@ -1463,7 +1467,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			for (GeoElement geo : geos) {
 				// other not drawn before = other is on top
-				if (!geo.drawBefore(ret, true)) {
+				if (priorityComparator.compare(geo, ret, true) > 0) {
 					ret = geo;
 				}
 			}
@@ -9192,10 +9196,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (popupJustClosed) {
 			popupJustClosed = false;
 		} else if (penMode(mode)) {
-			setViewHits(event.getType());
-			hits = view.getHits();
-			hits.removeAllButImages();
-			getPen().handleMousePressedForPenMode(event, hits);
+			getPen().handleMousePressedForPenMode(event);
 			return;
 		}
 		// check if side of bounding box was hit

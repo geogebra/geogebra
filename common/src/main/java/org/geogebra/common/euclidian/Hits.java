@@ -498,13 +498,6 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	/**
-	 * Keeps only images; for 3D
-	 */
-	final public void removeAllButImages() {
-		// for 3D
-	}
-
-	/**
 	 * Removes images
 	 */
 	public void removeImages() {

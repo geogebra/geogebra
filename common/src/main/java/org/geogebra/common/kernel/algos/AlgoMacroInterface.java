@@ -36,5 +36,5 @@ public interface AlgoMacroInterface {
 	 *            second element
 	 * @return whether geoElement should be drawn before other
 	 */
-	public boolean drawBefore(GeoElement geoElement, GeoElement other);
+	public int drawBefore(GeoElement geoElement, GeoElement other);
 }

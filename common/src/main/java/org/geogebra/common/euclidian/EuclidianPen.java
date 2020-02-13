@@ -265,17 +265,14 @@ public class EuclidianPen implements GTimerListener {
 	/**
 	 * @param e
 	 *            event
-	 * @param hits
-	 *            hits
 	 */
-	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
+	public void handleMousePressedForPenMode(AbstractEvent e) {
 		if (!isErasingEvent(e)) {
-
 			timer.stop();
 
 			penPoints.clear();
 			addPointPenMode(e);
-			view.cacheLayers(app.getMaxLayerUsed());
+			view.cacheGraphics();
 		}
 	}
 

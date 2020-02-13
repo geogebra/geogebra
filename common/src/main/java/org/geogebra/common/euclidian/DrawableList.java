@@ -12,159 +12,47 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-
-import javax.annotation.Nonnull;
+import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 
 /**
  * List to store Drawable objects for fast drawing.
  */
-public class DrawableList implements Iterable<Drawable> {
-	/** first drawable in the list */
-	public Link head;
-	private Link tail;
-	private int size = 0;
+public class DrawableList extends ArrayList<Drawable> {
+
+	private Comparator<Drawable> comparator;
 
 	/**
-	 * Number of drawables in list
-	 * 
-	 * @return number of drawables in list
+	 * Create a DrawableList with the given GeoPriorityComparator
 	 */
-	public final int size() {
-		return size;
+	public DrawableList(final GeoPriorityComparator comparator) {
+		this.comparator = new Comparator<Drawable>() {
+			@Override
+			public int compare(Drawable a, Drawable b) {
+				return comparator.compare(a.geo, b.geo, false);
+			}
+		};
 	}
 
-	/**
-	 * Inserts d at the end of the list.
-	 * 
-	 * @param d
-	 *            Drawable to be inserted
-	 */
-	public final void add(Drawable d) {
+	@Override
+	public final boolean add(Drawable d) {
 		if (d == null) {
-			return;
+			return false;
 		}
 
-		if (head == null) {
-			head = new Link(d, null);
-			tail = head;
-		} else {
-
-			// add in the list according to when we want it drawn
-			GeoElement priority = d.getGeoElement();
-			Link cur = head;
-			Link last = head;
-			// cur.next test only relevant in concurrent scenarios
-			while ((cur.d.getGeoElement().drawBefore(priority, false))
-					&& !cur.equals(tail) && cur.next != null) {
-				last = cur;
-				cur = cur.next;
-			}
-
-			if (cur.equals(head)) {
-				if (cur.d.getGeoElement().drawBefore(priority, false)) {
-					// add at end (list size=1)
-					Link temp = new Link(d, null);
-					tail.next = temp;
-					tail = temp;
-				} else { // add at start of list
-					Link temp2 = head;
-					head = new Link(d, null);
-					head.next = temp2;
-				}
-			} else if (cur.equals(tail)) {
-				if ((cur.d.getGeoElement().drawBefore(priority, false))) {
-					// add at end
-					Link temp = new Link(d, null);
-					tail.next = temp;
-					tail = temp;
-				} else {
-					// add one from end
-					Link temp = new Link(d, null);
-					temp.next = last.next;
-					last.next = temp;
-				}
-			} else { // add in middle
-						// Application.debug("middle");
-						// Link temp = new Link(d, null);
-						// temp.next=cur.next;
-						// cur.next = temp;
-
-				Link temp = new Link(d, null);
-				temp.next = last.next;
-				last.next = temp;
-			}
-
+		int i = 0;
+		while (i < size() && comparator.compare(get(i), d) < 0) {
+			i++;
 		}
-		size++;
-	}
 
-	/**
-	 * Inserts d at the end of the list only if the list doesn't already contain
-	 * d.
-	 * 
-	 * @param d
-	 *            drawable to be added
-	 */
-	public final void addUnique(Drawable d) {
-		if (!contains(d)) {
-			add(d);
-		}
-	}
-
-	/**
-	 * Returns true iff d is in this list.
-	 * 
-	 * @param d
-	 *            Drawable to be looked for
-	 * @return true iff d is in this list.
-	 */
-	public final boolean contains(Drawable d) {
-		Link cur = head;
-		while (cur != null) {
-			if (cur.d == d) {
-				return true;
-			}
-			cur = cur.next;
-		}
-		return false;
-	}
-
-	/**
-	 * Removes d from list.
-	 * 
-	 * @param d
-	 *            Drawable to be removed
-	 */
-	public final void remove(Drawable d) {
-		Link prev = null;
-		Link cur = head;
-		while (cur != null) {
-			// found algo to remove
-			if (cur.d == d) {
-				if (prev == null) { // remove from head
-					head = cur.next;
-					if (head == null) {
-						tail = null;
-					}
-				} else { // standard case
-					prev.next = cur.next;
-					if (prev.next == null) {
-						tail = prev;
-					}
-				}
-				size--;
-				return;
-			}
-			// not yet found
-			prev = cur;
-			cur = cur.next;
-		}
+		add(i, d);
+		return true;
 	}
 
 	/**
@@ -173,19 +61,16 @@ public class DrawableList implements Iterable<Drawable> {
 	 * @param g2
 	 *            Graphic to be used
 	 */
-	public final void drawAll(GGraphics2D g2) {
-		Link cur = head;
-		while (cur != null) {
-			// defined check needed in case the GeoList changed its size
-			// don't draw GeoList as combos here
-			GeoElement geo = cur.d.getGeoElement();
+	public final void drawAll(GGraphics2D g2, Drawable maxCache) {
+		for (int i = indexOf(maxCache) + 1; i < size(); i++) {
+			Drawable d = get(i);
+			GeoElement geo = d.getGeoElement();
 			if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
 					&& !(geo.isGeoInputBox()) && !geo.isMask()) {
-				cur.d.updateIfNeeded();
-				cur.d.draw(g2);
+				d.updateIfNeeded();
+				d.draw(g2);
 			}
-			cur = cur.next;
 		}
 	}
 
@@ -193,89 +78,12 @@ public class DrawableList implements Iterable<Drawable> {
 	 * Updates all drawables in list
 	 */
 	public final void updateAll() {
-		Link cur = head;
-		while (cur != null) {
-			cur.d.update();
-			cur = cur.next;
+		for (Drawable d : this) {
+			d.update();
 		}
 	}
 
-	/**
-	 * Update all elements when view was updated
-	 */
-	public final void updateAllForView() {
-		Link cur = head;
-		while (cur != null) {
-			cur.d.updateForView();
-			cur = cur.next;
-		}
-	}
-
-	/**
-	 * Updates fot size for all drawables in list
-	 */
-	public final void updateFontSizeAll() {
-		Link cur = head;
-		while (cur != null) {
-			cur.d.updateFontSize();
-			cur = cur.next;
-		}
-	}
-
-	/**
-	 * Empties the list
-	 */
-	public void clear() {
-		head = null;
-		tail = null;
-		size = 0;
-	}
-
-	/**
-	 * Linked list of drawables
-	 */
-	public static class Link {
-		/** drawable */
-		public Drawable d;
-		/** next element */
-		public Link next;
-
-		/**
-		 * @param a
-		 *            drawable
-		 * @param n
-		 *            next
-		 */
-		Link(Drawable a, Link n) {
-			d = a;
-			next = n;
-		}
-	}
-
-	@Override
-	public @Nonnull Iterator<Drawable> iterator() {
-		return new Iterator<Drawable>() {
-			private Link it = head;
-
-			@Override
-			final public Drawable next() {
-				if (it == null) {
-					throw new NoSuchElementException();
-				}
-				Drawable ret = it.d;
-				it = it.next;
-				return ret;
-			}
-
-			@Override
-			final public boolean hasNext() {
-				return it != null;
-			}
-
-			@Override
-			final public void remove() {
-				// do nothing
-			}
-		};
+	public void sort() {
+		Collections.sort(this, comparator);
 	}
 }
