@@ -35,6 +35,7 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -326,6 +327,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	private TeXFormula teXFormula;
 	private TeXAtomSerializer texAtomSerializer;
+	private AlgebraOutputFilter algebraOutputFilter;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
@@ -348,6 +350,7 @@ public abstract class GeoElement extends ConstructionElement
 		App app = kernel.getApplication();
 		if (app != null) {
 			graphicsadapter = app.newGeoElementGraphicsAdapter();
+			algebraOutputFilter = app.getAlgebraOutputFilter();
 			initViewFlagsIfEvAvailable(app);
 		}
 	}
@@ -7346,6 +7349,9 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
+	    if (!algebraOutputFilter.isAllowed(this)) {
+	        return DescriptionMode.DEFINITION;
+        }
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
 		if ("".equals(def0)) {
 			return DescriptionMode.VALUE;
