@@ -7755,6 +7755,7 @@ public abstract class GeoElement extends ConstructionElement
 		return Collections.singletonList(this);
 	}
 
+	@Override
 	public App getApp() {
 		return getKernel().getApplication();
 	}
