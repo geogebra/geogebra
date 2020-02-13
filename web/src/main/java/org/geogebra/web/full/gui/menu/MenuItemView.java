@@ -15,9 +15,12 @@ public class MenuItemView extends HorizontalPanel {
 	private static final String MENU_ITEM_VIEW_STYLE = "menuItemView";
 	private static final String IMAGE_STYLE = "image";
 	private static final String LABEL_STYLE = "label";
-	private static final String LABEL_PARENT_STYLE = "labelParent";
+//	private static final String LABEL_PARENT_STYLE = "labelParent";
+
+	private MenuIconResource resource;
 
 	MenuItemView(MenuItem menuItem, Localization localization) {
+		resource = new MenuIconResource();
 		addStyleName(MENU_ITEM_VIEW_STYLE);
 		setVerticalAlignment(ALIGN_MIDDLE);
 		createIcon(menuItem.getIcon());
@@ -27,6 +30,7 @@ public class MenuItemView extends HorizontalPanel {
 	private void createIcon(Icon icon) {
 		Image image = new Image();
 		image.addStyleName(IMAGE_STYLE);
+		image.setUrl(resource.getImageResource(icon).getSafeUri());
 		add(image);
 	}
 
