@@ -5,8 +5,8 @@ import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -42,7 +42,7 @@ public class ProtectiveAlgebraOutputFilter implements AlgebraOutputFilter {
 	 * @return True if the geo element's output can be shown, otherwise false.
 	 */
 	@Override
-	public boolean isAllowed(GeoElement geoElement) {
+	public boolean isAllowed(GeoElementND geoElement) {
 		AlgoElement parentAlgorithm = geoElement.getParentAlgorithm();
 		boolean isFunctionOrEquation =
 				geoElement instanceof EquationValue || geoElement instanceof GeoFunction;

@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.view.algebra.fiter;
 
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Allows every kind of output row.
@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class DefaultAlgebraOutputFilter implements AlgebraOutputFilter {
 
 	@Override
-	public boolean isAllowed(GeoElement element) {
+	public boolean isAllowed(GeoElementND element) {
 		return true;
 	}
 }

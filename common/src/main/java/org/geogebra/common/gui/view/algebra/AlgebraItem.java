@@ -455,11 +455,16 @@ public class AlgebraItem {
 	 * @return true if both rows should be shown.
 	 */
 	public static boolean shouldShowBothRows(GeoElement element) {
-		return (element
-				.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
-				|| (AlgebraItem.isTextItem(element)
-						&& !element.isIndependent()))
+		return (hasDefinitionAndValueMode(element) || isDependentText(element))
 				&& shouldShowOutputRowForAlgebraStyle(element, getAlgebraStyle(element.getApp()));
+	}
+
+	private static boolean hasDefinitionAndValueMode(GeoElement element) {
+		return element.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE;
+	}
+
+	private static boolean isDependentText(GeoElement element) {
+		return AlgebraItem.isTextItem(element) && !element.isIndependent();
 	}
 
 	private static AlgebraStyle getAlgebraStyle(App app) {
@@ -585,12 +590,17 @@ public class AlgebraItem {
 			GeoElementND geoElement) {
 		boolean shouldHideEquations =
 				geoElement.getKernel().getApplication().getConfig().shouldHideEquations();
-		if (!shouldHideEquations) {
+		if (!shouldHideEquations || isAllowedByOutputFilter(geoElement)) {
 			return false;
 		}
+		if (geoElement instanceof EquationValue) {
+			return !isFunctionOrEquationFromUser(geoElement);
+		}
+		return true;
+	}
 
-		boolean hasEquation = geoElement instanceof EquationValue;
-		return hasEquation && !isFunctionOrEquationFromUser(geoElement);
+	private static boolean isAllowedByOutputFilter(GeoElementND element) {
+		return element.getApp().getAlgebraOutputFilter().isAllowed(element);
 	}
 
 	/**

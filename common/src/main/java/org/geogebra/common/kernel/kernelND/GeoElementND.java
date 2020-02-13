@@ -12,10 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.kernelND;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.MyImage;
@@ -39,12 +35,17 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.LaTeXCache;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Common interface for all interfaces that represent GeoElements
@@ -1591,4 +1592,9 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return the unwrapped geo
 	 */
 	GeoElementND unwrapSymbolic();
+
+	/**
+	 * @return app
+	 */
+	App getApp();
 }
