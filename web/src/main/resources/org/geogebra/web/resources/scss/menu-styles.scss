@@ -292,6 +292,47 @@ $classicToolbar: 50px;
 			}
 		}
 	}
+
+	.menuView {
+	    width: 100%;
+	    .menuItemGroupView {
+	        width: 100%;
+            .groupLabel {
+                color: $text-secondary;
+                font-size: 75%;
+                text-transform: uppercase;
+                margin: 8px 16px 8px 16px;
+            }
+	        .menuItemView {
+	            width: 100%;
+	            height: 48px;
+	            border-radius: 0px 24px 24px 0px;
+	            &:hover {
+	                cursor: pointer;
+	                background-color: #EEEEEE;
+                }
+	            .image {
+	                display: inline;
+	                width: 24px;
+	                height: 24px;
+	                margin: 0px 16px 0px 16px;
+	            }
+	            .labelParent {
+	                width: 100%;
+	            }
+	            .label {
+	                display: inline;
+                    font-size: 87%;
+                    color: $text-primary;
+	            }
+	        }
+	    }
+	    .divider {
+	        background-color: #E4E4E4;
+	        height: 1px;
+	        margin: 8px 0px 8px 56px;
+	    }
+	}
 }
 
 @keyframes animateIn {

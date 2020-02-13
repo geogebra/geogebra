@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.app;
 
+import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
+import org.geogebra.web.full.gui.menu.MenuView;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.main.AppWFull;
 
@@ -16,7 +18,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class GGWMenuBar extends Composite {
 
 	private FlowPanel ggbmenubarwrapper;
-	private MainMenu menubar;
+	private MenuView menubar;
 
 	/**
 	 * Create new menu wrapper
@@ -33,8 +35,12 @@ public class GGWMenuBar extends Composite {
 	 *            application to init menus
 	 */
 	public void init(AppWFull app) {
-		menubar = new MainMenu(app, app.getActivity().getMenuItemProvider(app));
-
+//		menubar = new MainMenu(app, app.getActivity().getMenuItemProvider(app));
+		menubar = new MenuView(app.getLocalization());
+		menubar.setMenuItemGroups(new DefaultDrawerMenuFactory(app.getPlatform(),
+				app.getConfig().getVersion(), null, true)
+				.createDrawerMenu()
+				.getMenuItemGroups());
 		ggbmenubarwrapper.add(menubar);
 	}
 
@@ -42,7 +48,7 @@ public class GGWMenuBar extends Composite {
 	 * @return wrapped menu
 	 */
 	public MainMenu getMenubar() {
-		return menubar;
+		return null;
 	}
 
 	/**
@@ -65,7 +71,7 @@ public class GGWMenuBar extends Composite {
 	 * Focus the menu
 	 */
 	public void focus() {
-		menubar.focusFirst();
+//		menubar.focusFirst();
 	}
 
 	/**
