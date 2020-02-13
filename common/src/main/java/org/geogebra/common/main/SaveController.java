@@ -11,13 +11,15 @@ import org.geogebra.common.util.TextObject;
  *
  */
 public interface SaveController {
+	void ensureNoTemplate();
+
 	/**
 	 * Listener interface to communicate with caller GUI.
 	 * 
 	 * @author laszlo
 	 *
 	 */
-	public interface SaveListener {
+	interface SaveListener {
 		/**
 		 * Hides listener GUI
 		 * (dialog)
@@ -106,5 +108,5 @@ public interface SaveController {
 	 *            fallback if title is empty
 	 * @return whether selection is needed
 	 */
-	public boolean updateSaveTitle(TextObject title, String fallback);
+	boolean updateSaveTitle(TextObject title, String fallback);
 }

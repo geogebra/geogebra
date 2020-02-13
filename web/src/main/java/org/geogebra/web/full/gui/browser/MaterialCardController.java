@@ -49,8 +49,13 @@ public class MaterialCardController {
 	 */
 	private void load() {
 		app.getViewW().processFileName(material.getFileName());
-		app.setActiveMaterial(material);
+		updateActiveMaterial();
 		app.getGuiManager().getBrowseView().close();
+	}
+
+	private void updateActiveMaterial() {
+		app.setActiveMaterial(material);
+		app.getSaveController().ensureNoTemplate();
 	}
 
 	/**
@@ -93,7 +98,7 @@ public class MaterialCardController {
 								app.getGgbApi()
 										.setBase64(getMaterial().getBase64());
 							}
-							app.setActiveMaterial(getMaterial());
+							updateActiveMaterial();
 						} else {
 							app.showError(Errors.LoadFileFailed);
 						}

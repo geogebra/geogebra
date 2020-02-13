@@ -81,12 +81,21 @@ public class SaveControllerW implements SaveController {
 
 	@Override
 	public void saveActiveMaterial(AsyncOperation<Boolean> autoSaveCB) {
-		if (!checkActiveMaterial()) {
-			return;
-		}
 		Material mat = app.getActiveMaterial();
-		this.autoSaveCallback = autoSaveCB;
-		saveAs(mat.getTitle(), MaterialVisibility.value(mat.getVisibility()), null);
+		if (mat != null) {
+			syncIdAndType(mat);
+			this.autoSaveCallback = autoSaveCB;
+			saveAs(mat.getTitle(), MaterialVisibility.value(mat.getVisibility()), null);
+		}
+	}
+
+	@Override
+	public void ensureNoTemplate() {
+		Material activeMaterial = app.getActiveMaterial();
+		if (activeMaterial != null
+				&& activeMaterial.getType() == Material.MaterialType.ggsTemplate) {
+			app.setActiveMaterial(null);
+		}
 	}
 
 	@Override
@@ -101,16 +110,18 @@ public class SaveControllerW implements SaveController {
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
 		} else {
-			if (app.getActiveMaterial() == null || isMacro()) {
-				app.setActiveMaterial(new Material(0, saveType));
+			Material activeMaterial = app.getActiveMaterial();
+			if (activeMaterial == null || isMacro()) {
+				activeMaterial = new Material(0, saveType);
+				app.setActiveMaterial(activeMaterial);
 			} else if (!app.getLoginOperation()
-					.owns(app.getActiveMaterial())) {
-				app.getActiveMaterial().setId(0);
-				app.getActiveMaterial().setSharingKey(null);
+					.owns(activeMaterial)) {
+				activeMaterial.setId(0);
+				activeMaterial.setSharingKey(null);
 			}
 
-			app.getActiveMaterial().setVisibility(visibility.getToken());
-			uploadToGgt(app.getActiveMaterial().getVisibility());
+			activeMaterial.setVisibility(visibility.getToken());
+			uploadToGgt(activeMaterial.getVisibility());
 		}
 	}
 
@@ -118,14 +129,9 @@ public class SaveControllerW implements SaveController {
 		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
 	}
 
-	private boolean checkActiveMaterial() {
-		Material mat = app.getActiveMaterial();
-		if (mat == null) {
-			return false;
-		}
+	private void syncIdAndType(Material mat) {
 		getAppW().setTubeId(mat.getSharingKeyOrId());
 		setSaveType(mat.getType());
-		return true;
 	}
 
 	/**
@@ -151,9 +157,9 @@ public class SaveControllerW implements SaveController {
 		if (this.saveType != MaterialType.ggt) {
 			app.getKernel().getConstruction().setTitle(fileName);
 		}
-
-		if (!titleChanged) {
-			checkActiveMaterial();
+		Material mat = app.getActiveMaterial();
+		if (!titleChanged && mat != null) {
+			syncIdAndType(mat);
 		}
 
 		final AsyncOperation<String> handler = new AsyncOperation<String>() {
@@ -396,7 +402,7 @@ public class SaveControllerW implements SaveController {
 				if (exception.getMessage().contains("auth")) {
 					getAppW().getLoginOperation().performTokenLogin();
 				}
-				((GuiManagerW) getAppW().getGuiManager()).exportGGB();
+				getAppW().getGuiManager().exportGGB();
 				saveLocalIfNeeded(
 						SaveControllerW.getCurrentTimestamp(getAppW()),
 						SaveState.ERROR);
@@ -495,13 +501,13 @@ public class SaveControllerW implements SaveController {
 	@Override
 	public boolean updateSaveTitle(TextObject title, String fallback) {
 		String consTitle = app.getKernel().getConstruction().getTitle();
-		if (consTitle != null && !"".equals(consTitle)
-				&& !app.getSaveController().isMacro()) {
+		if (!StringUtil.empty(consTitle) && !isMacro()) {
 			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);
 			}
-			if (!app.getLoginOperation()
-					.owns(app.getActiveMaterial())) {
+			Material activeMaterial = app.getActiveMaterial();
+			if (activeMaterial != null && !app.getLoginOperation()
+					.owns(activeMaterial)) {
 				consTitle = MowBAPI.getCopyTitle(loc, consTitle);
 				title.setText(consTitle);
 				return true;

@@ -447,8 +447,11 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void setConstructionTitleAsMaterial() {
-		app.getKernel().getConstruction().setTitle(
-				app.getActiveMaterial().getTitle());
+		Material activeMaterial = app.getActiveMaterial();
+		if (activeMaterial != null) {
+			app.getKernel().getConstruction().setTitle(
+					activeMaterial.getTitle());
+		}
 	}
 
 	private MaterialCallback getUserMaterialsCB(final int type) {
