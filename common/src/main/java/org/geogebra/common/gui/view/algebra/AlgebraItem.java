@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
@@ -401,29 +402,29 @@ public class AlgebraItem {
 	 * @return whether the output should be shown or not
 	 */
 	public static DescriptionMode getDescriptionModeForGeo(
-			GeoElement geoElement, int style) {
+			GeoElement geoElement, AlgebraStyle style) {
 		switch (style) {
-		case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-			return geoElement.needToShowBothRowsInAV();
+			case DefinitionAndValue:
+				return geoElement.needToShowBothRowsInAV();
 
-		case Kernel.ALGEBRA_STYLE_DESCRIPTION:
-			if (geoElement.getPackedIndex() == 0) {
-				return DescriptionMode.DEFINITION_VALUE;
-			}
-			if (geoElement.getPackedIndex() > 0) {
+			case Description:
+				if (geoElement.getPackedIndex() == 0) {
+					return DescriptionMode.DEFINITION_VALUE;
+				}
+				if (geoElement.getPackedIndex() > 0) {
+					return DescriptionMode.VALUE;
+				}
+				return geoElement instanceof GeoNumeric
+						&& (!geoElement.isIndependent() || (geoElement
+						.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+						&& geoElement.getParentAlgorithm() == null))
+						? DescriptionMode.DEFINITION_VALUE
+						: DescriptionMode.DEFINITION;
+			case Definition:
+				return DescriptionMode.DEFINITION;
+			case Value:
+			default:
 				return DescriptionMode.VALUE;
-			}
-			return geoElement instanceof GeoNumeric
-					&& (!geoElement.isIndependent() || (geoElement
-							.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
-							&& geoElement.getParentAlgorithm() == null))
-									? DescriptionMode.DEFINITION_VALUE
-									: DescriptionMode.DEFINITION;
-		case Kernel.ALGEBRA_STYLE_DEFINITION:
-			return DescriptionMode.DEFINITION;
-		default:
-		case Kernel.ALGEBRA_STYLE_VALUE:
-			return DescriptionMode.VALUE;
 		}
 	}
 
@@ -435,17 +436,15 @@ public class AlgebraItem {
 	 * @return whether the output should be shown or not
 	 */
 	public static boolean shouldShowOutputRowForAlgebraStyle(
-			GeoElement geoElement, int style) {
-		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
-			return getDescriptionModeForGeo(geoElement,
-					style) != DescriptionMode.DEFINITION;
-		} else if ((style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
-				|| style == Kernel.ALGEBRA_STYLE_VALUE)
+			GeoElement geoElement, AlgebraStyle style) {
+		if (style == AlgebraStyle.Description) {
+			return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
+		} else if ((style == AlgebraStyle.DefinitionAndValue
+				|| style == AlgebraStyle.Value)
 				&& shouldShowOnlyDefinitionForGeo(geoElement)) {
 			return false;
 		}
-		return style != Kernel.ALGEBRA_STYLE_VALUE
-				&& style != Kernel.ALGEBRA_STYLE_DEFINITION;
+		return style != AlgebraStyle.Value && style != AlgebraStyle.Definition;
 	}
 
 	/**
@@ -453,16 +452,18 @@ public class AlgebraItem {
 	 *
 	 * @param element
 	 *            the element
-	 * @param style
-	 *            the algebra style
 	 * @return true if both rows should be shown.
 	 */
-	public static boolean shouldShowBothRows(GeoElement element, int style) {
-		return ((element
+	public static boolean shouldShowBothRows(GeoElement element) {
+		return (element
 				.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
 				|| (AlgebraItem.isTextItem(element)
 						&& !element.isIndependent()))
-				&& shouldShowOutputRowForAlgebraStyle(element, style));
+				&& shouldShowOutputRowForAlgebraStyle(element, getAlgebraStyle(element.getApp()));
+	}
+
+	private static AlgebraStyle getAlgebraStyle(App app) {
+		return app.getSettings().getAlgebra().getStyle();
 	}
 
 	/**

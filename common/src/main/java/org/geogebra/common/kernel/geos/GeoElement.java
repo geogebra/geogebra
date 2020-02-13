@@ -7755,4 +7755,8 @@ public abstract class GeoElement extends ConstructionElement
 	public List<GeoElement> getPartialSelection(boolean removeOriginal) {
 		return Collections.singletonList(this);
 	}
+
+	public App getApp() {
+		return getKernel().getApplication();
+	}
 }
