@@ -1543,14 +1543,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void onUnhandledClick() {
 		updateAVStylebar();
-		if (euclidianController.isSymbolicEditorSelected()) {
-			return;
-		}
 
 		if (!isWhiteboardActive() && !CancelEventTimer.cancelKeyboardHide()) {
 			Timer timer = new Timer() {
 				@Override
 				public void run() {
+					getGuiManager().getKeyboardListener().setFocus(false, false);
 					getAppletFrame().keyBoardNeeded(false, null);
 				}
 			};

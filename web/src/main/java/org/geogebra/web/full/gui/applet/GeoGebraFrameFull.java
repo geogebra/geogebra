@@ -255,7 +255,6 @@ public class GeoGebraFrameFull
 			getKeyboardManager().onScreenEditingEnded();
 		}
 
-		// this.mainPanel.clear();
 		app.getEuclidianView1().setKeepCenter(false);
 		if (show) {
 			showZoomPanel(false);
@@ -448,6 +447,7 @@ public class GeoGebraFrameFull
 			doShowKeyBoard(show, textField);
 			return true;
 		}
+
 		return keyBoardNeeded(show && isKeyboardWantedFromCookie(), textField);
 	}
 
@@ -468,6 +468,7 @@ public class GeoGebraFrameFull
 						.isOpen()) {
 			return false;
 		}
+
 		if (app.getLAF().isTablet()
 				|| isKeyboardShowing()
 									// showing, we don't have
@@ -478,9 +479,9 @@ public class GeoGebraFrameFull
 			showKeyboardButton(textField);
 			return true;
 		}
+
 		showKeyboardButton(textField);
 		return false;
-
 	}
 
 	private boolean keyboardNeededForGraphicsTools() {
@@ -509,19 +510,19 @@ public class GeoGebraFrameFull
 		}
 
 		if (showKeyboardButton != null) {
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					add(showKeyboardButton);
-					showKeyboardButton.setVisible(show);
-				}
-			});
+			add(showKeyboardButton);
+			showKeyboardButton.setVisible(show);
 		}
 	}
 
 	private void showKeyboardButton(MathKeyboardListener textField) {
 		if (appNeedsKeyboard()) {
-			showKeyboardButton(isButtonNeeded(textField));
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				@Override
+				public void execute() {
+					showKeyboardButton(isButtonNeeded(textField));
+				}
+			});
 		}
 	}
 
@@ -586,16 +587,16 @@ public class GeoGebraFrameFull
 						}
 					});
 				} else {
-					this.showKeyboardButton(null);
+					showKeyboardButton(null);
 					getOnScreenKeyboard(null).showOnFocus();
 					app.adjustScreen(true);
 				}
 
 			} else if (app != null && app.isKeyboardNeeded()) {
 				if (!isKeyboardWantedFromCookie()) {
-					this.showKeyboardButton(null);
+					showKeyboardButton(null);
 				} else {
-					this.showKeyboardButton(true);
+					showKeyboardButton(true);
 				}
 			}
 		}
