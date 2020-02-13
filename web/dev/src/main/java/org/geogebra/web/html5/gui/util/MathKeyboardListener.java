@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.UIObject;
 
 public interface MathKeyboardListener {
 
-	void setFocus(boolean focus, boolean scheduled);
+	void setFocus(boolean focus);
 
 	void ensureEditing();
 

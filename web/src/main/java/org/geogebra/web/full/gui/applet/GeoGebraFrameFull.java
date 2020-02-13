@@ -359,7 +359,7 @@ public class GeoGebraFrameFull
 				}
 				if (!getApp().isWhiteboardActive()) {
 					if (textField != null) {
-						textField.setFocus(true, true);
+						textField.setFocus(true);
 					}
 				}
 			}
@@ -495,7 +495,7 @@ public class GeoGebraFrameFull
 	 * @param show
 	 *            whether to show keyboard button
 	 */
-	public void showKeyboardButton(final boolean show) {
+	public void showKeyboardButton(boolean show) {
 		if (showKeyboardButton == null) {
 			if (show) {
 				DockManagerW dm = getGuiManager().getLayout()
@@ -515,7 +515,7 @@ public class GeoGebraFrameFull
 		}
 	}
 
-	private void showKeyboardButton(MathKeyboardListener textField) {
+	private void showKeyboardButton(final MathKeyboardListener textField) {
 		if (appNeedsKeyboard()) {
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 				@Override
@@ -647,7 +647,7 @@ public class GeoGebraFrameFull
 		getKeyboardManager().setOnScreenKeyboardTextField(ml);
 
 		if (ml != null) {
-			ml.setFocus(true, true);
+			ml.setFocus(true);
 			ml.ensureEditing();
 		}
 	}

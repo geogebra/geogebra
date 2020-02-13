@@ -2182,7 +2182,7 @@ public class GuiManagerW extends GuiManager
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
 			input.autocomplete(string);
-			input.setFocus(true, true);
+			input.setFocus(true);
 			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().getTextField().autocomplete(string);
@@ -2199,7 +2199,7 @@ public class GuiManagerW extends GuiManager
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
 			input.setText(string);
-			input.setFocus(true, true);
+			input.setFocus(true);
 			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().setText(string);
