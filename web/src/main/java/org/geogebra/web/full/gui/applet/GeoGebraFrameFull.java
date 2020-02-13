@@ -581,9 +581,6 @@ public class GeoGebraFrameFull
 							}
 							getApp().persistWidthAndHeight();
 							addKeyboard(null, false);
-							getApp().getGuiManager()
-									.focusScheduled(false, false,
-									false);
 							ensureKeyboardDeferred();
 
 						}

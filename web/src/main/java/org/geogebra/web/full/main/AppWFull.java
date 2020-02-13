@@ -441,8 +441,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void updateKeyboard() {
-
-		getGuiManager().focusScheduled(false, false, false);
 		invokeLater(new Runnable() {
 
 			@Override

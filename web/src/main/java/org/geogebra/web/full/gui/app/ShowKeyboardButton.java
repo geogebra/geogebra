@@ -75,8 +75,6 @@ public class ShowKeyboardButton extends SimplePanel {
 					mathKeyboardListener.ensureEditing();
 					mathKeyboardListener.setFocus(true, true);
 				}
-
-				guiManagerW.focusScheduled(false, false, false);
 			}
 		});
 	}
