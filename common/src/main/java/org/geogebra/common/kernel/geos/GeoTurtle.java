@@ -939,7 +939,7 @@ public class GeoTurtle extends GeoPoint {
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		return DescriptionMode.DEFINITION;
 	}
 }

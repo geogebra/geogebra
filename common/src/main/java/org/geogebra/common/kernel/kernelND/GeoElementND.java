@@ -1143,7 +1143,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return true, only if AV should display 2 rows in 'Definition And Value'
 	 *         style.
 	 */
-	DescriptionMode needToShowBothRowsInAV();
+	DescriptionMode getDescriptionMode();
 
 	/**
 	 * Check that this is a GeoFunctionable representing a function R-&gt; R

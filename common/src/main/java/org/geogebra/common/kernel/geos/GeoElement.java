@@ -7345,7 +7345,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
 		if ("".equals(def0)) {
 			return DescriptionMode.VALUE;

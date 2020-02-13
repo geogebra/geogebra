@@ -405,7 +405,7 @@ public class AlgebraItem {
 			GeoElement geoElement, AlgebraStyle style) {
 		switch (style) {
 			case DefinitionAndValue:
-				return geoElement.needToShowBothRowsInAV();
+				return geoElement.getDescriptionMode();
 
 			case Description:
 				if (geoElement.getPackedIndex() == 0) {
@@ -416,7 +416,7 @@ public class AlgebraItem {
 				}
 				return geoElement instanceof GeoNumeric
 						&& (!geoElement.isIndependent() || (geoElement
-						.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+						.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
 						&& geoElement.getParentAlgorithm() == null))
 						? DescriptionMode.DEFINITION_VALUE
 						: DescriptionMode.DEFINITION;
@@ -460,7 +460,7 @@ public class AlgebraItem {
 	}
 
 	private static boolean hasDefinitionAndValueMode(GeoElement element) {
-		return element.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE;
+		return element.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE;
 	}
 
 	private static boolean isDependentText(GeoElement element) {
@@ -547,7 +547,7 @@ public class AlgebraItem {
 
 	private static String getLatexStringValue(GeoElement geo1, Integer limit) {
 		String text = geo1.getLaTeXAlgebraDescription(
-				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
+				geo1.getDescriptionMode() != DescriptionMode.DEFINITION,
 				StringTemplate.latexTemplate);
 
 		if ((text != null) && (limit == null || (text.length() < limit))) {

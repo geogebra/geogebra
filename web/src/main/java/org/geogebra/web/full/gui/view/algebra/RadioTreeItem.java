@@ -461,7 +461,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			return;
 		}
 		if ((previewGeo
-				.needToShowBothRowsInAV() != DescriptionMode.DEFINITION_VALUE
+				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
 				|| getController().isInputAsText())) {
 			clearPreview();
 
@@ -518,7 +518,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected void buildItemWithSingleRow() {
 		// LaTeX
 		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
-				geo.needToShowBothRowsInAV() != DescriptionMode.DEFINITION);
+				geo.getDescriptionMode() != DescriptionMode.DEFINITION);
 		latex = text != null;
 
 		if (latex) {
@@ -1087,7 +1087,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 */
 	protected int getWidthForEdit() {
 		if (isAlgebraStyleDefAndVal()
-				&& geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+				&& geo.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
 				&& definitionPanel != null
 				&& definitionPanel.getWidgetCount() > 0
 				&& definitionPanel.getWidget(0) != null) {

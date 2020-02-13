@@ -12,7 +12,7 @@ public class GeoLineTest extends BaseUnitTest {
 	public void toOutputValueString() {
 		setGraphingConfig();
 		GeoElement line = addAvInput("Line((0,0),(1,1))");
-		DescriptionMode descriptionMode = line.needToShowBothRowsInAV();
+		DescriptionMode descriptionMode = line.getDescriptionMode();
 		assertThat(descriptionMode, equalTo(DescriptionMode.DEFINITION));
 	}
 }

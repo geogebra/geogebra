@@ -2885,12 +2885,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (hideDefinitionInAlgebra(getFunctionExpression())) {
 			return DescriptionMode.VALUE;
 		}
 
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	@Override

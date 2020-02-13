@@ -2449,11 +2449,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (toStringMode == GeoLine.EQUATION_USER) {
 			return DescriptionMode.VALUE;
 		}
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	@Override
