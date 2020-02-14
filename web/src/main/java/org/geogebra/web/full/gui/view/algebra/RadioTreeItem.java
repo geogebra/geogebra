@@ -620,7 +620,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			content.remove(outputPanel);
 		}
 		if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
-				|| isAlgebraStyleDefAndVal()
+				|| isAlgebraStyleDefAndValue()
 				|| (geo != null && geo.getParentAlgorithm() instanceof AlgoFractionText)) {
 			String text = "";
 			if (geo != null) {
@@ -662,7 +662,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private void updateItemColor() {
-		if (isAlgebraStyleDefAndVal() && definitionPanel != null) {
+		if (isAlgebraStyleDefAndValue() && definitionPanel != null) {
 			definitionPanel.getElement().getStyle().setColor("black");
 		}
 	}
@@ -672,7 +672,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private void updateLaTeX(String text) {
-		if (!isAlgebraStyleDefAndVal()) {
+		if (!isAlgebraStyleDefAndValue()) {
 			content.clear();
 			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
 					getFontSize());
@@ -790,7 +790,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	}
 
-	protected boolean isAlgebraStyleDefAndVal() {
+	private boolean isAlgebraStyleDefAndValue() {
         AlgebraStyle algebraStyle = app.getSettings().getAlgebra().getStyle();
 		return algebraStyle == AlgebraStyle.DefinitionAndValue;
 	}
@@ -905,7 +905,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				return;
 			}
 		} else {
-			if (isAlgebraStyleDefAndVal()) {
+			if (isAlgebraStyleDefAndValue()) {
 				cancelDV();
 			}
 		}
@@ -1086,7 +1086,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return width in case editor is open
 	 */
 	protected int getWidthForEdit() {
-		if (isAlgebraStyleDefAndVal()
+		if (isAlgebraStyleDefAndValue()
 				&& geo.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
 				&& definitionPanel != null
 				&& definitionPanel.getWidgetCount() > 0
