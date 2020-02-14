@@ -200,9 +200,9 @@ public class CarotaEditor implements Editor {
 	@Override
 	public void switchListTo(String listType) {
 		if (getWidget().getElement().hasClassName(INVISIBLE)) {
-			editor.switchListTo(editor.documentRange(), listType);
+			editor.switchListTo(editor.documentRange(), listType, false);
 		} else {
-			editor.switchListTo(editor.selectedRange(), listType);
+			editor.switchListTo(editor.selectedRange(), listType, true);
 		}
 	}
 
