@@ -14,7 +14,7 @@ public class ProtectiveAlgebraOutputFilterTest extends BaseUnitTest {
 
 	@Before
 	public void setUp() {
-		setGraphingConfig();
+		getApp().setGraphingConfig();
 	}
 
 	@Test

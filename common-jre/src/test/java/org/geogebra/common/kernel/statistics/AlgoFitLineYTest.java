@@ -12,7 +12,7 @@ public class AlgoFitLineYTest extends BaseUnitTest {
 
 	@Test
 	public void testOutput() {
-		setGraphingConfig();
+		getApp().setGraphingConfig();
 		GeoElement fitLine = addAvInput("FitLine((0,0),(1,1),(2,2))");
 		String outputString = fitLine.toOutputValueString(StringTemplate.editorTemplate);
 		assertThat(outputString, equalTo("x - y = 0"));

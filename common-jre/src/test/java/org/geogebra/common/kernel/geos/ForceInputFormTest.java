@@ -48,7 +48,7 @@ public class ForceInputFormTest extends BaseUnitTest {
 
     @Test
     public void testHideOutputRowGraphing() {
-    	setGraphingConfig();
+    	getApp().setGraphingConfig();
         GeoRay ray = getElementFactory().createGeoRay();
 
         Assert.assertTrue(AlgebraItem.shouldShowOnlyDefinitionForGeo(ray));
