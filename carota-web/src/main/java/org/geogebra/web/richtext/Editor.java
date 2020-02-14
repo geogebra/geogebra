@@ -77,17 +77,6 @@ public interface Editor {
 	 */
 	<T> T getFormat(String key, T fallback);
 
-	/**
-	 * @param <T>
-	 *            parameter type (bool, string or double)
-	 * @param key
-	 *            property name
-	 * @param fallback
-	 *            fallback to use when format not found
-	 * @return format property value of the entire document
-	 */
-	<T> T getDocumentFormat(String key, T fallback);
-
 	void insertHyperlink(String url, String text);
 
 	/**

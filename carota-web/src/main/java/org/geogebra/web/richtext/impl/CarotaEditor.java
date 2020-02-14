@@ -13,7 +13,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CarotaEditor implements Editor {
 
+	private static final String INVISIBLE = "invisible";
 	private static final String HYPERLINK_COLOR = "#1565C0";
+
 	private Widget widget;
 	private CarotaDocument editor;
 	private EditorChangeListener listener;
@@ -151,12 +153,11 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public <T> T getFormat(String key, T fallback) {
-		return getFormatNative(editor.selectedRange(), key, fallback);
-	}
-
-	@Override
-	public <T> T getDocumentFormat(String key, T fallback) {
-		return getFormatNative(editor.documentRange(), key, fallback);
+		if (getWidget().getElement().hasClassName(INVISIBLE)) {
+			return getFormatNative(editor.documentRange(), key, fallback);
+		} else {
+			return getFormatNative(editor.selectedRange(), key, fallback);
+		}
 	}
 
 	@Override
@@ -198,12 +199,19 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void switchListTo(String listType) {
-		editor.switchListTo(listType);
+		if (getWidget().getElement().hasClassName(INVISIBLE)) {
+			editor.switchListTo(editor.documentRange(), listType);
+		} else {
+			editor.switchListTo(editor.selectedRange(), listType);
+		}
 	}
 
 	@Override
 	public String getListStyle() {
-		CarotaRange selection = editor.selectedRange();
-		return selection.getListStyle();
+		if (getWidget().getElement().hasClassName(INVISIBLE)) {
+			return editor.documentRange().getListStyle();
+		} else {
+			return editor.selectedRange().getListStyle();
+		}
 	}
 }
