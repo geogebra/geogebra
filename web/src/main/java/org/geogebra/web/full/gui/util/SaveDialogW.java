@@ -189,8 +189,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		saveButton.addStyleName("saveButton");
 		dontSaveButton.addStyleName("cancelBtn");
 		setAvailableProviders();
-		// ImageOrText[] data, Integer rows, Integer columns, GDimensionW
-		// iconSize, geogebra.common.gui.util.SelectionTable mode
 
 		saveButton.addFastClickHandler(new FastClickHandler() {
 

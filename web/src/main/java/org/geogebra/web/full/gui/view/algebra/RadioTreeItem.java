@@ -1812,7 +1812,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public void onKeyTyped() {
 		this.removeDummy();
 		inputControl.ensureInputMoreMenu();
-		app.closePerspectivesPopup();
 		updatePreview();
 		popupSuggestions();
 		onCursorMove();

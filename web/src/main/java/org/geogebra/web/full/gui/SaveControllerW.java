@@ -94,6 +94,7 @@ public class SaveControllerW implements SaveController {
 		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial != null
 				&& activeMaterial.getType() == Material.MaterialType.ggsTemplate) {
+			app.getKernel().getConstruction().setTitle(null);
 			app.setActiveMaterial(null);
 		}
 	}

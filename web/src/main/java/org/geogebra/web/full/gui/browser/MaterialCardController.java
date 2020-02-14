@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -20,7 +21,7 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 /**
  * Controller for material cards, common for new and old UI.
  */
-public class MaterialCardController {
+public class MaterialCardController implements OpenFileListener {
 	/** application */
 	protected AppW app;
 	private Material material;
@@ -56,6 +57,9 @@ public class MaterialCardController {
 	private void updateActiveMaterial() {
 		app.setActiveMaterial(material);
 		app.getSaveController().ensureNoTemplate();
+		if (material.getType() == MaterialType.ggsTemplate) {
+			app.registerOpenFileListener(this);
+		}
 	}
 
 	/**
@@ -260,4 +264,9 @@ public class MaterialCardController {
 
 	}
 
+	@Override
+	public boolean onOpenFile() {
+		app.getKernel().getConstruction().setTitle(null);
+		return true; // one time only
+	}
 }
