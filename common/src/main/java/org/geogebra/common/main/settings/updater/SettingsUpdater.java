@@ -34,7 +34,7 @@ public class SettingsUpdater {
 	protected void resetSettingsOnlyOnAppStart() {
 		kernel.setPrintDecimals(appConfig.getDefaultPrintDecimals());
 		labelSettingsUpdater.setLabelVisibility(LabelVisibility.PointsOnly);
-		settings.getAlgebra().setStyle(AlgebraStyle.DefinitionAndValue);
+		settings.getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
 	}
 
 	/**

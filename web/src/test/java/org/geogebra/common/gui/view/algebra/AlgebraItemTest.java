@@ -46,7 +46,7 @@ public class AlgebraItemTest {
 
     private void testShouldShowBothRowsInGeometry() {
         App app = AppMocker.mockGeometry(getClass());
-        app.getSettings().getAlgebra().setStyle(AlgebraStyle.DefinitionAndValue);
+        app.getSettings().getAlgebra().setStyle(AlgebraStyle.DEFINITION_AND_VALUE);
         av.setApp(app);
 
         checkShouldShowBothRowsForLine(true);

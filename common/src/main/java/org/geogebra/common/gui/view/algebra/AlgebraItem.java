@@ -401,13 +401,12 @@ public class AlgebraItem {
 	 *            current algebrastyle
 	 * @return whether the output should be shown or not
 	 */
-	public static DescriptionMode getDescriptionModeForGeo(
-			GeoElement geoElement, AlgebraStyle style) {
+	public static DescriptionMode getDescriptionModeForGeo(GeoElement geoElement, int style) {
 		switch (style) {
-			case DefinitionAndValue:
+			case AlgebraStyle.DEFINITION_AND_VALUE:
 				return geoElement.getDescriptionMode();
 
-			case Description:
+			case AlgebraStyle.DESCRIPTION:
 				if (geoElement.getPackedIndex() == 0) {
 					return DescriptionMode.DEFINITION_VALUE;
 				}
@@ -420,9 +419,9 @@ public class AlgebraItem {
 						&& geoElement.getParentAlgorithm() == null))
 						? DescriptionMode.DEFINITION_VALUE
 						: DescriptionMode.DEFINITION;
-			case Definition:
+			case AlgebraStyle.DEFINITION:
 				return DescriptionMode.DEFINITION;
-			case Value:
+			case AlgebraStyle.VALUE:
 			default:
 				return DescriptionMode.VALUE;
 		}
@@ -435,16 +434,15 @@ public class AlgebraItem {
 	 *            current algebrastyle
 	 * @return whether the output should be shown or not
 	 */
-	public static boolean shouldShowOutputRowForAlgebraStyle(
-			GeoElement geoElement, AlgebraStyle style) {
-		if (style == AlgebraStyle.Description) {
+	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
+		if (style == AlgebraStyle.DESCRIPTION) {
 			return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
-		} else if ((style == AlgebraStyle.DefinitionAndValue
-				|| style == AlgebraStyle.Value)
+		} else if ((style == AlgebraStyle.DEFINITION_AND_VALUE
+				|| style == AlgebraStyle.VALUE)
 				&& shouldShowOnlyDefinitionForGeo(geoElement)) {
 			return false;
 		}
-		return style != AlgebraStyle.Value && style != AlgebraStyle.Definition;
+		return style != AlgebraStyle.VALUE && style != AlgebraStyle.DEFINITION;
 	}
 
 	/**
@@ -467,7 +465,7 @@ public class AlgebraItem {
 		return AlgebraItem.isTextItem(element) && !element.isIndependent();
 	}
 
-	private static AlgebraStyle getAlgebraStyle(App app) {
+	private static int getAlgebraStyle(App app) {
 		return app.getSettings().getAlgebra().getStyle();
 	}
 

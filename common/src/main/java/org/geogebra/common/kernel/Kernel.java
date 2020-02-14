@@ -2968,7 +2968,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @deprecated AlgebraStyleSettings.setStyle should be used instead.
+	 * @deprecated AlgebraSettings.setStyle should be used instead.
 	 *
 	 * G.Sturr 2009-10-18
 	 * 
@@ -2977,9 +2977,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	@Deprecated
 	final public void setAlgebraStyle(int style) {
-		AlgebraSettings algebraSettings = getApplication().getSettings().getAlgebra();
-		AlgebraStyle algebraStyle = AlgebraStyle.values()[style];
-		algebraSettings.setStyle(algebraStyle);
+		getApplication().getSettings().getAlgebra().setStyle(style);
 	}
 
 	/**
@@ -3003,7 +3001,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	@Deprecated
 	final public int getAlgebraStyle() {
-		return getApplication().getSettings().getAlgebra().getStyle().ordinal();
+		return getApplication().getSettings().getAlgebra().getStyle();
 	}
 
 	/**

@@ -791,8 +791,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private boolean isAlgebraStyleDefAndValue() {
-        AlgebraStyle algebraStyle = app.getSettings().getAlgebra().getStyle();
-		return algebraStyle == AlgebraStyle.DefinitionAndValue;
+        int algebraStyle = app.getSettings().getAlgebra().getStyle();
+		return algebraStyle == AlgebraStyle.DEFINITION_AND_VALUE;
 	}
 
 	protected boolean mayNeedOutput() {
