@@ -9,10 +9,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class GeoLineTest extends BaseUnitTest {
 
 	@Test
-	public void toOutputValueString() {
+	public void getDescriptionMode() {
 		getApp().setGraphingConfig();
-		GeoElement line = addAvInput("Line((0,0),(1,1))");
-		DescriptionMode descriptionMode = line.getDescriptionMode();
-		assertThat(descriptionMode, equalTo(DescriptionMode.DEFINITION));
+		GeoLine line = addAvInput("Line((0,0),(1,1))");
+		assertThat(line.getDescriptionMode(), equalTo(DescriptionMode.DEFINITION));
 	}
 }
