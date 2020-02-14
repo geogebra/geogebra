@@ -130,6 +130,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private String sharingKey;
 	private int elemcntApplet;
 	private String fileName;
+	private String appName;
 
 	private long dateCreated;
 	private UserPublic creator;
@@ -172,6 +173,7 @@ public class Material implements Comparable<Material>, Serializable {
 		this.shiftDragZoom = true;
 		this.rightClick = true;
 		this.labelDrags = true;
+		this.appName = "";
 	}
 
 	public boolean isDeleted() {
@@ -268,6 +270,14 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getAppName() {
+		return appName;
 	}
 
 	public void setType(MaterialType type) {
@@ -522,6 +532,7 @@ public class Material implements Comparable<Material>, Serializable {
 		putBoolean(ret, "from_another_device", this.fromAnotherDevice);
 		putString(ret, "is3d", this.is3d ? "1" : "0");
 		putString(ret, "viewerID", viewerID + "");
+		putString(ret, "appnname", appName);
 		if (storeLocalValues) {
 			putString(ret, "localID", localID + "");
 			putString(ret, "autoSaveTimestamp", autoSaveTimestamp + "");

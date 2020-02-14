@@ -23,9 +23,9 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * API connector for the MARVL restful API
+ * API connector for the MowBAPI restful API
  */
-public class MarvlAPI implements BackendAPI {
+public class MowBAPI implements BackendAPI {
 	/** whether API is available */
 	protected boolean available = true;
 	/** whether availability check request was sent */
@@ -39,7 +39,7 @@ public class MarvlAPI implements BackendAPI {
 	 * @param baseURL
 	 *            URL of the API; endpoints append eg. "/materials" to it
 	 */
-	public MarvlAPI(String baseURL, URLChecker urlChecker) {
+	public MowBAPI(String baseURL, URLChecker urlChecker) {
 		this.baseURL = baseURL;
 		this.urlChecker = urlChecker;
 	}
@@ -131,9 +131,9 @@ public class MarvlAPI implements BackendAPI {
 					@Override
 					public void onSuccess(String responseStr) {
 						try {
-							MarvlAPI.this.availabilityCheckDone = true;
+							MowBAPI.this.availabilityCheckDone = true;
 
-							MarvlAPI.this.available = true;
+							MowBAPI.this.available = true;
 							user.setShibbolethAuth(true);
 							// Parse the userdata from the response
 							if (!parseUserDataFromResponse(user, responseStr)) {
@@ -153,8 +153,8 @@ public class MarvlAPI implements BackendAPI {
 					@Override
 					public void onError(String error) {
 						Log.warn(error);
-						MarvlAPI.this.availabilityCheckDone = true;
-						MarvlAPI.this.available = false;
+						MowBAPI.this.availabilityCheckDone = true;
+						MowBAPI.this.available = false;
 						user.setShibbolethAuth(true);
 						op.onEvent(new LoginEvent(user, false, automatic, null));
 					}

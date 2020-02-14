@@ -81,7 +81,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 
-public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
+public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHandler {
 
 	public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
@@ -843,21 +843,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				public void onFocus(FocusEvent event) {
 					startBlink();
 					event.stopPropagation();
-
 				}
 			});
 
-			inputTextArea.addBlurHandler(new BlurHandler() {
-
-				@Override
-				public void onBlur(BlurEvent event) {
-					instances.remove(MathFieldW.this);
-					resetFlags();
-					event.stopPropagation();
-					runBlurCallback(event);
-
-				}
-			});
+			if (html != null) {
+				html.addBlurHandler(this);
+			}
+			inputTextArea.addBlurHandler(this);
 			clip.setWidget(inputTextArea);
 		}
 		if (parent != null) {
@@ -867,9 +859,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return inputTextArea.getElement();
 	}
 
-	// private native void logNative(String s) /*-{
-	// $wnd.console.log(s);
-	// }-*/;
+	@Override
+	public void onBlur(BlurEvent event) {
+		instances.remove(this);
+		resetFlags();
+		event.stopPropagation();
+		runBlurCallback(event);
+	}
 
 	/**
 	 * Run blur callback.
@@ -916,8 +912,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			hiddenTextArea.style.minHeight = 0;
 			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);
-			if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-					.test(window.navigator.userAgent)) {
+			if (@org.geogebra.web.html5.Browser::isMobile()()) {
 				hiddenTextArea.setAttribute("disabled", "true");
 			}
 		}

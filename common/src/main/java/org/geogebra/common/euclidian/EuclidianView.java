@@ -533,6 +533,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private boolean showBackground = true;
 	private DrawBackground drawBg = null;
 	private final HitDetector hitDetector;
+	private boolean isResetIconSelected = false;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -6581,8 +6582,29 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * @return whether the reset icon is selected
+	 */
+	public boolean isResetIconSelected() {
+		return isResetIconSelected;
+	}
+
+	/**
+	 * Sets whether the reset icon should be selected.
+	 * It changes the reset icon appearance.
+	 *
+	 * @param selected true if the reset icon is selected
+	 */
+	protected void setResetIconSelected(boolean selected) {
+		if (isResetIconSelected != selected) {
+			isResetIconSelected = selected;
+			invalidateBackground();
+			repaint();
+		}
+	}
+
+	/**
 	 * Reset partial hits for all drawables
-	 * 
+	 *
 	 * @param x
 	 *            screen x-coord of pointer event
 	 * @param y

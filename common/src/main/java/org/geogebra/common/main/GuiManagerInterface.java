@@ -369,6 +369,8 @@ public interface GuiManagerInterface {
 
 	String getHelpURL(Help type, String pageName);
 
+	String getReportBugUrl();
+
 	void buildStepGui(SolutionStep steps);
 
 	void openMenuInAVFor(GeoElement geo);

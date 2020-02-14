@@ -46,7 +46,8 @@ public enum AsyncModule {
 	 * Prefetch the module so that actual fetch can load it from memory
 	 */
 	public void prefetch() {
-		if (!asyncCode.isLoaded()
+		// in dev mode split point is -1; avoid bogus network requests
+		if (!asyncCode.isLoaded() && asyncCode.getSplitPoint() > 0
 				&& Location.getProtocol().startsWith("http")) {
 			FragmentPrefetcher.prefetch(asyncCode.getSplitPoint());
 		}

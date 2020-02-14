@@ -393,8 +393,21 @@ public class EmbedManagerW implements EmbedManager {
 		base64.put(id, dataUrl);
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
 		ge.setEmbedId(id);
+		showAndSelect(ge);
+	}
+
+	private void showAndSelect(final GeoEmbed ge) {
 		ge.initPosition(app.getActiveEuclidianView());
 		ge.setLabel(null);
+		app.storeUndoInfo();
+		app.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				app.getActiveEuclidianView().getEuclidianController()
+						.selectAndShowBoundingBox(ge);
+			}
+		});
 	}
 
 	@Override
@@ -438,21 +451,11 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void openTool(String URL) {
-		final GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
 		ge.setUrl(URL);
 		ge.setAppName("extension");
-		ge.initPosition(app.getActiveEuclidianView());
-		ge.setEmbedId(app.getEmbedManager().nextID());
-		ge.setLabel(null);
-		app.storeUndoInfo();
-		app.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				app.getActiveEuclidianView().getEuclidianController()
-						.selectAndShowBoundingBox(ge);
-			}
-		});
+		ge.setEmbedId(nextID());
+		showAndSelect(ge);
 	}
 
 	/**

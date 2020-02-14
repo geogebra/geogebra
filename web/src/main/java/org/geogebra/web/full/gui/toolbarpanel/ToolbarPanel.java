@@ -381,6 +381,7 @@ public class ToolbarPanel extends FlowPanel
 		updateDraggerStyle(true);
 		updateSizes();
 		updateKeyboardVisibility();
+		updatePanelVisibility(isOpen);
 	}
 
 	/**
@@ -395,6 +396,7 @@ public class ToolbarPanel extends FlowPanel
 		updateSizes();
 		updateKeyboardVisibility();
 		dispatchEvent(EventType.SIDE_PANEL_CLOSED);
+		updatePanelVisibility(isOpen);
 	}
 
 	private void updateDraggerStyle(boolean close) {
@@ -1039,6 +1041,7 @@ public class ToolbarPanel extends FlowPanel
 		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager();
 		dm.closePortrait();
+		updatePanelVisibility(false);
 	}
 
 	/**
@@ -1129,5 +1132,9 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public TabContainer getTabContainer() {
 		return tabContainer;
+	}
+
+	private void updatePanelVisibility(boolean isVisible) {
+		app.getGuiManager().setShowView(isVisible, App.VIEW_ALGEBRA);
 	}
 }

@@ -57,8 +57,14 @@ public class Browser {
 	 * @return true if iOS (WebView or Safari browser)
 	 */
 	public static boolean isiOS() {
-		return doesUserAgentContainRegex("iphone|ipad|ipod");
+		return doesUserAgentContainRegex("iphone|ipad|ipod")
+				// only iPhones iPads and iPods support multitouch
+				|| ("MacIntel".equals(Navigator.getPlatform()) && getMaxPointTouch() > 1);
 	}
+
+	private static native int getMaxPointTouch() /*-{
+		return $wnd.navigator.maxTouchPoints;
+	}-*/;
 
 	/**
 	 * Check if browser is Safari. Note: user agent string contains Safari also
@@ -375,8 +381,8 @@ public class Browser {
 	 * @return whether app is running in a mobile browser
 	 */
 	public static boolean isMobile() {
-		String browsers = "android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini";
-		return doesUserAgentContainRegex(browsers);
+		String browsers = "android|webos|blackberry|iemobile|opera mini";
+		return doesUserAgentContainRegex(browsers) || isiOS();
 	}
 
 	/**

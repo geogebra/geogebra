@@ -1,40 +1,49 @@
 package org.geogebra.common.move.ggtapi.models;
 
-import java.util.ArrayList;
-
-import org.geogebra.common.move.events.BaseEvent;
-import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
-import org.geogebra.common.move.models.BaseModel;
+
+import java.util.ArrayList;
 
 /**
  * @author gabor Base class for login logout operations
  *
  */
-public abstract class AuthenticationModel extends BaseModel {
+public abstract class AuthenticationModel {
 	private GeoGebraTubeUser loggedInUser = null;
-
-	private boolean stayLoggedOut;
 
 	/**
 	 * token name for user logged in got back from GGT
 	 */
-	public static String GGB_TOKEN_KEY_NAME = "token";
+	protected static String GGB_TOKEN_KEY_NAME = "token";
+	private boolean stayLoggedOut;
+	private boolean loginStarted;
 
-	@Override
-	public void onEvent(BaseEvent event) {
-		if (event instanceof LoginEvent) {
-			LoginEvent loginEvent = (LoginEvent) event;
-			if (loginEvent.isSuccessful()) {
-				onLoginSuccess(loginEvent.getUser(), loginEvent.getJSON());
-			} else {
-				onLoginError(loginEvent.getUser());
-			}
-		} else if (event instanceof LogOutEvent) {
-			clearLoginToken();
-			loggedInUser = null;
+	/**
+	 * @param loginEvent login event
+	 */
+	public void onLogin(LoginEvent loginEvent) {
+		this.loginStarted = false;
+		if (loginEvent.isSuccessful()) {
+			onLoginSuccess(loginEvent.getUser(), loginEvent.getJSON());
+		} else {
+			onLoginError(loginEvent.getUser());
 		}
+	}
+
+	/**
+	 * Update after logout
+	 */
+	public void onLogout() {
+		clearLoginToken();
+		loggedInUser = null;
+	}
+
+	/**
+	 * Keep track of started passive login.
+	 */
+	public void setLoginStarted() {
+		this.loginStarted = true;
 	}
 
 	/**
@@ -62,7 +71,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 *            from GGT Parses the response, and sets model dependent things
 	 *            (localStorage, etc).
 	 */
-	public void onLoginSuccess(GeoGebraTubeUser user, String json) {
+	private void onLoginSuccess(GeoGebraTubeUser user, String json) {
 		this.stayLoggedOut = false;
 		// Remember the logged in user
 		this.loggedInUser = user;
@@ -79,7 +88,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 * @param user ggb tube user
 	 *            from GGT error happened, cleanup, etc
 	 */
-	public void onLoginError(GeoGebraTubeUser user) {
+	private void onLoginError(GeoGebraTubeUser user) {
 		this.stayLoggedOut = false;
 		if (getLoginToken() != null || user.isShibbolethAuth()) {
 			clearLoginTokenForLogginError();
@@ -147,10 +156,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 * @return true, if a user is currently logged in or false otherwise.
 	 */
 	public boolean isLoggedIn() {
-		if (loggedInUser == null) {
-			return false;
-		}
-		return true;
+		return loggedInUser != null;
 	}
 
 	/**
@@ -178,6 +184,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 */
 	public void stayLoggedOut() {
 		this.stayLoggedOut = true;
+		this.loginStarted = false;
 	}
 
 	/**
@@ -187,4 +194,10 @@ public abstract class AuthenticationModel extends BaseModel {
 		return !stayLoggedOut;
 	}
 
+	/**
+	 * @return whether login was initiated but not finished
+	 */
+	public boolean isLoginStarted() {
+		return loginStarted;
+	}
 }

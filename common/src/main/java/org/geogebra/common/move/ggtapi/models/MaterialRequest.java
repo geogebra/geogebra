@@ -29,18 +29,17 @@ public class MaterialRequest implements Request {
 
 		cas, graphics2, constprot, propcalc, dataanalysis, funcinsp, macro, sharing_key,
 
-		preview_url, elemcnt_applet;
+		preview_url, elemcnt_applet, appname;
 	}
 
 	public enum Filters {
 		id, title, search, type, description, timestamp, author, author_url, language, featured,
 
-		likes, inbook, inws, author_id;
+		likes, inbook, inws, author_id, appname;
 	}
 
 	public enum Order {
 		id, title, type, description, timestamp, author, language, featured, likes,
-
 		relevance, privacy, created;
 	}
 
@@ -55,7 +54,7 @@ public class MaterialRequest implements Request {
 			Fields.type, Fields.timestamp, Fields.author, Fields.author_id,
 			Fields.url, Fields.url_direct, Fields.thumbnail, Fields.featured,
 			Fields.likes, Fields.modified, Fields.visibility, Fields.favorite,
-			Fields.sharing_key };
+			Fields.sharing_key, Fields.appname };
 	public Filters[] filters = { Filters.search };
 	public Map<Filters, String> filterMap = new HashMap<>();
 	public Order by = Order.relevance;
@@ -99,14 +98,55 @@ public class MaterialRequest implements Request {
 	public MaterialRequest(String query, ClientInfo client) {
 		this(client);
 		this.filterMap.put(Filters.type, "ggb");
-		if (query != null && query.startsWith("#")) {
-			this.filters = new Filters[] { Filters.id };
-			this.filterMap.put(Filters.id, query.substring(1));
-			this.by = Order.timestamp;
+		if (isSearchForId(query)) {
+			searchById(client, query);
 		} else {
-			this.filters = new Filters[] { Filters.search };
-			this.filterMap.put(Filters.search, query);
+			searchByTerm(client, query);
 		}
+	}
+
+	private void searchById(ClientInfo client, String query) {
+		String id = query.substring(1);
+		if (isNotesApp(client.getAppName())) {
+			searchNotesById(id);
+		} else {
+			searchDefaultById(id);
+		}
+		this.by = Order.timestamp;
+	}
+
+	private void searchNotesById(String id) {
+		filters = new Filters[] {Filters.id, Filters.appname, Filters.author_id };
+		filterMap.put(Filters.id, id);
+		filterMap.put(Filters.appname, "notes");
+		filterMap.put(Filters.author_id, client.getModel().getUserId() + "");
+	}
+
+	private void searchDefaultById(String id) {
+		this.filters = new Filters[] { Filters.id };
+		this.filterMap.put(Filters.id, id);
+	}
+
+	private void searchByTerm(ClientInfo client, String query) {
+		if (isNotesApp(client.getAppName())) {
+			searchNodesByTerm(query);
+		} else {
+			searchDefaultByTerm(query);
+		}
+	}
+
+	private void searchDefaultByTerm(String query) {
+		filters = new Filters[] { Filters.search };
+		filterMap.put(Filters.search, query);
+	}
+
+	private void searchNodesByTerm(String query) {
+		filters = new Filters[] {Filters.search};
+		filterMap.put(Filters.search, query);
+	}
+
+	private boolean isSearchForId(String query) {
+		return query != null && query.startsWith("#");
 	}
 
 	/**
@@ -218,11 +258,34 @@ public class MaterialRequest implements Request {
 	 * @return request
 	 */
 	public static MaterialRequest forCurrentUser(ClientInfo client) {
+		MaterialRequest req = isNotesApp(client.getAppName())
+				? createNotesRequest(client)
+				: createTypeReqestForUser(client);
+		req.by = Order.relevance;
+		return req;
+	}
+
+	private static boolean isNotesApp(String appName) {
+		if (appName == null) {
+			return false;
+		}
+
+		return "notes".equals(appName.toLowerCase());
+	}
+
+	private static MaterialRequest createNotesRequest(ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
-		req.filters = new Filters[] { Filters.type };
+		req.filters = new Filters[] { Filters.appname, Filters.author_id };
+		req.filterMap.put(Filters.appname, "notes");
+		req.filterMap.put(Filters.author_id, client.getModel().getUserId() + "");
+		return req;
+	}
+
+	private static MaterialRequest createTypeReqestForUser(ClientInfo client) {
+		MaterialRequest req = new MaterialRequest(client);
+		req.filters = new Filters[]{Filters.type};
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
-		req.by = Order.relevance;
 		return req;
 	}
 
@@ -247,12 +310,19 @@ public class MaterialRequest implements Request {
 	 * @return request for featured materials
 	 */
 	public static MaterialRequest forFeatured(ClientInfo client) {
+		MaterialRequest req = isNotesApp(client.getAppName())
+				? createNotesRequest(client)
+				: createFeaturedRequest(client);
+		req.filterMap.put(Filters.featured, "true");
+		req.type = Type.desc;
+		return req;
+	}
+
+	private static MaterialRequest createFeaturedRequest(ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.featured, Filters.type };
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
-		req.filterMap.put(Filters.featured, "true");
-		req.type = Type.desc;
 		return req;
 	}
 
@@ -265,6 +335,20 @@ public class MaterialRequest implements Request {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.featured, Filters.type };
 		req.filterMap.put(Filters.type, "ggb");
+		req.filterMap.put(Filters.featured, "true");
+		req.type = Type.desc;
+		return req;
+	}
+
+	/**
+	 * @param client
+	 *            client info
+	 * @return request for featured materials, filter just ggs
+	 */
+	public static MaterialRequest forFeaturedGgs(ClientInfo client) {
+		MaterialRequest req = new MaterialRequest(client);
+		req.filters = new Filters[] { Filters.featured, Filters.type };
+		req.filterMap.put(Filters.type, "ggs");
 		req.filterMap.put(Filters.featured, "true");
 		req.type = Type.desc;
 		return req;
