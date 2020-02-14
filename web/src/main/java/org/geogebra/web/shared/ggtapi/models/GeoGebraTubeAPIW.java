@@ -36,7 +36,7 @@ import com.google.gwt.user.client.Window.Location;
  * 
  */
 public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
-	private URLChecker urlChecker = null;
+	private URLChecker urlChecker;
 
 	/**
 	 * @param beta
@@ -293,5 +293,4 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	public URLChecker getURLChecker() {
 		return urlChecker;
 	}
-
 }

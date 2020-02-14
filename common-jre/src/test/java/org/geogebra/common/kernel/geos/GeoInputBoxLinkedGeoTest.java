@@ -235,8 +235,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 		GeoInputBox inputBox = add("ib = InputBox(a)");
 		inputBox.updateLinkedGeo("20");
-		Assert.assertTrue(numeric.getIntervalMax() >= 20);
 		inputBox.updateLinkedGeo("-20");
+		Assert.assertTrue(numeric.getIntervalMax() >= 20);
 		Assert.assertTrue(numeric.getIntervalMin() <= -20);
 	}
 
