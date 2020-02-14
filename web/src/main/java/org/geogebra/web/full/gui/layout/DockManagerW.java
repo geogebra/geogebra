@@ -27,11 +27,8 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -84,7 +81,6 @@ public class DockManagerW extends DockManager {
 	private boolean panelsMoved;
 
 	private TreeSet<Integer> viewsInPerspective = new TreeSet<>();
-	private AccessibilityView accessibilityView;
 
 	/**
 	 * @param layout
@@ -405,7 +401,7 @@ public class DockManagerW extends DockManager {
 		panelsMoved = false;
 		// update all labels at once
 		setLabels();
-		updateVoiceover();
+		app.updateVoiceover();
 	}
 
 	private void updatePanelsForPerspective(DockPanelData[] dpData) {
@@ -2005,31 +2001,6 @@ public class DockManagerW extends DockManager {
 			if (dock.getViewId() != App.VIEW_ALGEBRA) {
 				dock.resetStylebar();
 			}
-		}
-	}
-
-	/**
-	 * @return accessibility view
-	 */
-	protected AccessibilityView getAccessibilityView() {
-		if (this.accessibilityView == null) {
-			accessibilityView = new AccessibilityView(app,
-					new BaseWidgetFactory());
-		}
-		return accessibilityView;
-	}
-
-	/**
-	 * Connect voiceover with the right panel
-	 */
-	public void updateVoiceover() {
-		if (Browser.needsAccessibilityView()) {
-			app.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					getAccessibilityView().rebuild();
-				}
-			});
 		}
 	}
 }

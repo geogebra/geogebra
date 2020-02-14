@@ -4038,13 +4038,21 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return true;
 	}
 
+	private boolean handleResetButton() {
+		if (!getActiveEuclidianView().isResetIconSelected()) {
+			return false;
+		}
+		reset();
+		return true;
+	}
+
 	/**
 	 * handle space key hitted
 	 *
 	 * @return true if key is consumed
 	 */
 	public boolean handleSpaceKey() {
-		if (handlePressAnimationButton()) {
+		if (handlePressAnimationButton() || handleResetButton()) {
 			return true;
 		}
 

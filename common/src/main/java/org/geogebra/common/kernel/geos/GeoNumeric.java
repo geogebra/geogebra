@@ -427,7 +427,6 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
-		extendMinMax(geo.toGeoElement());
 		setValue(geo.evaluateDouble());
 		reuseDefinition(geo);
 	}

@@ -142,8 +142,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void nextFromLastGeo() {
-		if (!focusZoomPanel(true, nextID(-1))) {
-			focusFirstElement();
+		int viewId = nextID(-1);
+		if (!focusPlay(viewId)) {
+			nextFromPlayButton(true);
 		}
 	}
 
@@ -153,6 +154,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return dp.focusSpeechRecBtn();
 		}
 		return false;
+	}
+
+	private boolean focusResetIcon(int viewId) {
+		EuclidianViewAccessibiliyAdapter dp = getEuclidianPanel(viewId);
+		return dp != null && dp.focusResetButton();
 	}
 
 	private boolean focusZoomPanel(boolean first, int viewID) {
@@ -377,13 +383,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return voiceover;
 	}
 
-	private void exitGeosFromPlayButton() {
-		int firstViewId = nextID(-1);
-		setPlaySelectedIfVisible(false, firstViewId);
-		focusZoomPanel(true, firstViewId);
-		tabOverGeos = false;
-	}
-
 	@Override
 	public void setPlaySelectedIfVisible(boolean b, int viewID) {
 		if (isPlayVisible(viewID)) {
@@ -398,17 +397,44 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 						.drawPlayButtonInThisView();
 	}
 
+	private void nextFromResetIcon(boolean forward) {
+		int viewId = app.getActiveEuclidianView().getViewID();
+		if (forward) {
+			if (!focusZoomPanel(true, viewId)) {
+				nextFromZoomPanel(viewId);
+			}
+			tabOverGeos = false;
+		} else {
+			if (!focusPlay(viewId)) {
+				nextFromPlayButton(forward);
+			}
+		}
+	}
+
+	private void nextFromPlayButton(boolean forward) {
+		int viewId = app.getActiveEuclidianView().getViewID();
+		if (forward) {
+			if (!focusResetIcon(viewId)) {
+				nextFromResetIcon(forward);
+			}
+			int firstViewId = nextID(-1);
+			setPlaySelectedIfVisible(false, firstViewId);
+		} else {
+			focusLastGeo();
+			this.activeButton = null;
+		}
+		setPlaySelectedIfVisible(false,
+				app.getActiveEuclidianView().getViewID());
+	}
+
 	@Override
 	public boolean tabEuclidianControl(boolean forward) {
+		if (app.getActiveEuclidianView().isResetIconSelected()) {
+			nextFromResetIcon(forward);
+			return true;
+		}
 		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
-			if (forward) {
-				exitGeosFromPlayButton();
-			} else {
-				focusLastGeo();
-				this.activeButton = null;
-			}
-			setPlaySelectedIfVisible(false,
-					app.getActiveEuclidianView().getViewID());
+			nextFromPlayButton(forward);
 			return true;
 		}
 		if (app.getActiveEuclidianView().getDimension() == 3 && forward
@@ -502,15 +528,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public boolean onSelectLastGeo(boolean forward) {
 		if (forward) {
-			if (focusPlay(app.getActiveEuclidianView().getViewID())) {
-				return true;
-			}
-			int viewID = nextID(-1);
-			focusPlay(viewID);
-			setTabOverGeos(false);
-			if (!focusZoomPanel(true, viewID)) {
-				nextFromZoomPanel(viewID);
-			}
+			nextFromLastGeo();
 			return true;
 		}
 		return handleTabExitGeos(false);
