@@ -284,7 +284,7 @@ public class SaveControllerW implements SaveController {
 			MaterialCallbackI materialCallback) {
 		if (app.isWhiteboardActive() && !"".equals(app.getVendorSettings().getAPIBaseUrl())
 				&& savedAsTemplate()) {
-			MarvlAPI api = new MarvlAPI(
+			MowBAPI api = new MowBAPI(
 					app.getVendorSettings().getAPIBaseUrl(),
 					new MarvlURLChecker());
 			api.uploadMaterial(tubeID, visibility, fileName, base64,
