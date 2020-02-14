@@ -507,4 +507,9 @@ public interface ArticleElementInterface {
 	 * @return value of data-param-evaluatorKeyboard (e.g. scientific), or def if not specified
 	 */
 	String getParamKeyboardType(String def);
+
+	/**
+	 * @return whether startups ping is enabled
+	 */
+	boolean isEnableApiPing();
 }

@@ -11,6 +11,7 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
@@ -321,14 +322,15 @@ public class OpenFileView extends MyHeaderPanel
 	public void loadAllMaterials() {
 		spinner.show();
 		clearMaterials();
-		if (this.app.getLoginOperation().isLoggedIn()) {
-			app.getLoginOperation().getGeoGebraTubeAPI()
+		LogInOperation loginOperation = app.getLoginOperation();
+		if (loginOperation.isLoggedIn()) {
+			loginOperation.getGeoGebraTubeAPI()
 					.getUsersOwnMaterials(this.userMaterialsCB,
 							order);
-			app.getLoginOperation().getGeoGebraTubeAPI()
+			loginOperation.getGeoGebraTubeAPI()
 					.getSharedMaterials(this.sharedMaterialsCB, order);
-		} else {
-			app.getLoginOperation().getGeoGebraTubeAPI()
+		} else if (!loginOperation.getModel().isLoginStarted()) {
+			loginOperation.getGeoGebraTubeAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
 		}
 	}
@@ -471,8 +473,8 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	protected void addUsersMaterials(final List<Material> matList, int type) {
 		materialListEmpty[type] = matList.isEmpty();
-		for (int i = 0; i < matList.size(); i++) {
-			addMaterial(matList.get(i));
+		for (Material material : matList) {
+			addMaterial(material);
 		}
 		spinner.hide();
 	}

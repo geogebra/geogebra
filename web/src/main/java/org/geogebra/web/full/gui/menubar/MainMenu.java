@@ -17,7 +17,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
@@ -95,7 +94,8 @@ public class MainMenu extends FlowPanel
 
 	private void init() {
 		if (app.getLoginOperation() == null) {
-			app.initSignInEventFlow(new LoginOperationW(app), ArticleElement.isEnableUsageStats());
+			app.initSignInEventFlow(new LoginOperationW(app),
+					app.getArticleElement().isEnableApiPing());
 		}
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = app.isExam();

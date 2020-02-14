@@ -124,7 +124,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.Persistable;
@@ -260,7 +259,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		setupHeader();
 
-		if (!showMenuBar() && Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
+		if (!showMenuBar() && Browser.runningLocal() && ae.isEnableApiPing()) {
 			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
 					.checkAvailable(null);
 		}
@@ -301,7 +300,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private void initSignImEventFlow() {
 		initSignInEventFlow(
 				new LoginOperationW(this),
-				ArticleElement.isEnableUsageStats());
+				getArticleElement().isEnableApiPing());
 	}
 
 	@Override
@@ -866,7 +865,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		} else {
 			if (getLoginOperation() == null) {
 				this.initSignInEventFlow(new LoginOperationW(this),
-						ArticleElement.isEnableUsageStats());
+						getArticleElement().isEnableApiPing());
 			}
 			toOpen = id;
 			// not logged in to Mebis while opening shared link: show login
@@ -1396,9 +1395,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
 					.setRight(-1, Style.Unit.PX);
 			oldSplitLayoutPanel = null;
-			if (Browser.needsAccessibilityView()) {
-				getGuiManager().getLayout().getDockManager().updateVoiceover();
-			}
+			updateVoiceover();
 		}
 	}
 
@@ -1702,22 +1699,36 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void updatePerspectiveForUnbundled(Perspective perspective) {
-		if (isPortrait()) {
+		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
+		DockPanelData[] dpDataArray = perspective.getDockPanelData();
+		for (DockPanelData panelData : dpDataArray) {
+			DockPanelW panel = dm.getPanel(panelData.getViewId());
+			if (panel instanceof ToolbarDockPanelW) {
+				updateToolbarPanelVisibility((ToolbarDockPanelW) panel, panelData.isVisible());
+			}
+			if (panel != null && !isPortrait()) {
+				updateDividerLocation(dm, panelData);
+			}
+		}
+		updateContentPane();
+	}
+
+	private void updateToolbarPanelVisibility(ToolbarDockPanelW toolbarDockPanel, boolean visible) {
+		ToolbarPanel toolbarPanel = toolbarDockPanel.getToolbar();
+		if (visible) {
+			toolbarPanel.open();
+		} else {
+			toolbarPanel.close();
+		}
+	}
+
+	private void updateDividerLocation(DockManagerW dockManager, DockPanelData panelData) {
+		if (!panelData.isVisible() || panelData.isOpenInFrame()) {
 			return;
 		}
 
-		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
-		DockPanelData[] dpData = perspective.getDockPanelData();
-		for (int i = 0; i < dpData.length; ++i) {
-			DockPanelW panel = dm.getPanel(dpData[i].getViewId());
-			if (!dpData[i].isVisible() || dpData[i].isOpenInFrame() || panel == null) {
-				continue;
-			}
-
-			int divLoc = dpData[i].getEmbeddedSize();
-			dm.getRoot().setDividerLocation(divLoc);
-		}
-		updateContentPane();
+		int divLoc = panelData.getEmbeddedSize();
+		dockManager.getRoot().setDividerLocation(divLoc);
 	}
 
 	private static boolean algebraVisible(Perspective p2) {

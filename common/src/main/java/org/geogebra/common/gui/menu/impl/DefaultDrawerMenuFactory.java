@@ -160,15 +160,15 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				"Geometry", Action.START_GEOMETRY);
 		ActionableItem graphing3d = new ActionableItemImpl(Icon.APP_GRAPHING3D,
 				"GeoGebra3DGrapher.short", Action.START_GRAPHING_3D);
-		ActionableItem scientific = new ActionableItemImpl(Icon.APP_SCIENTIFIC,
-				"ScientificCalculator", Action.START_SCIENTIFIC);
 		ActionableItem cas = platform == GeoGebraConstants.Platform.WEB ? null
 				: new ActionableItemImpl(Icon.APP_CAS_CALCULATOR,
 						"CASCalculator", Action.START_CAS_CALCULATOR);
+		ActionableItem scientific = new ActionableItemImpl(Icon.APP_SCIENTIFIC,
+				"ScientificCalculator", Action.START_SCIENTIFIC);
 		ActionableItem classic = isMobile() ? null : new ActionableItemImpl(Icon.APP_CLASSIC,
 				"Classic", Action.START_CLASSIC);
 		List<ActionableItem> retVal = removeNulls(graphing, geometry,
-				graphing3d, scientific, cas, classic);
+				graphing3d, cas, scientific, classic);
 		return retVal.toArray(new ActionableItem[0]);
 	}
 
@@ -202,7 +202,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		ActionableItem askQuestion = new ActionableItemImpl(Icon.QUESTION_ANSWER,
 				"AskAQuestion", Action.SHOW_FORUM);
 		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT,
-				"ReportBug", Action.REPORT_PROBLEM);
+				"ReportProblem", Action.REPORT_PROBLEM);
 		ActionableItem license = new ActionableItemImpl(Icon.INFO,
 				"AboutLicense", Action.SHOW_LICENSE);
 		return new SubmenuItemImpl(Icon.HELP, "HelpAndFeedback",

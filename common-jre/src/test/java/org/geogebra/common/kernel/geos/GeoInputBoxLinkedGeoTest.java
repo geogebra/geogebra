@@ -43,10 +43,10 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	@Test
 	public void enteringNewValueShouldKeepVectorType3D() {
-		setupAndCheckInput("v3", "(1, 3, 0)");
+		setupAndCheckInput("v3", "(1, 3, 6)");
 		updateInput("(1, 5)");
-		t("v3", "(1, 5)");
-		hasType("v3", GeoClass.VECTOR);
+		t("v3", "(1, 5, 0)");
+		hasType("v3", GeoClass.VECTOR3D);
 	}
 
 	@Test
@@ -55,15 +55,6 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		updateInput("x = y");
 		t("p", "x - y = 0");
 		hasType("p", GeoClass.PLANE3D);
-	}
-
-	@Test
-	public void enteringIncompatibleTypeShouldBeIgnored() {
-		setupAndCheckInput("n", "4");
-		getApp().storeUndoInfo();
-		updateInput("y");
-		t("n", "4");
-		hasType("n", GeoClass.NUMERIC);
 	}
 
 	@Test
@@ -155,6 +146,17 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void shouldBeEmptyAfterPlaneInputUndefined() {
+		setupInput("eq1", "4x + 3y + 2z = 1");
+		GeoElement ib2 = add("in2=InputBox(eq1)");
+		updateInput("?");
+		// both input boxes undefined, but first one remembers user input ...
+		Assert.assertEquals("?", inputBox.getText());
+		// ... and second one stays empty (APPS-1246)
+		Assert.assertEquals("", ((GeoInputBox) ib2).getText());
+	}
+
+	@Test
 	public void shouldBeEmptyAfterSettingComplexUndefined() {
 		setupInput("z1", "3 + i");
 		t("SetValue(z1, ?)");
@@ -173,7 +175,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void functionParameterShouldNotChangeToX() {
 		add("f(c) = c / ?");
-		inputBox = (GeoInputBox) add("ib=InputBox(f)");
+		inputBox = add("ib=InputBox(f)");
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("c / ?", inputBox.getText());
 		updateInput("?");
@@ -215,13 +217,27 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void twoVariableFunctionParameterShouldNotChangeToX() {
 		add("g(p, q) = p / ?");
-		inputBox = (GeoInputBox) add("ib=InputBox(g)");
+		inputBox = add("ib=InputBox(g)");
 		inputBox.setSymbolicMode(false, false);
 		Assert.assertEquals("p / ?", inputBox.getText());
 		updateInput("?");
 		Assert.assertEquals("", inputBox.getText());
 		updateInput("p / q");
 		Assert.assertEquals("p / q", inputBox.getText());
+	}
+
+	@Test
+	public void testGeoNumericExtendsMinMax() {
+		GeoNumeric numeric = add("a = 5");
+		numeric.initAlgebraSlider();
+		Assert.assertFalse(numeric.getIntervalMax() >= 20);
+		Assert.assertFalse(numeric.getIntervalMin() <= -20);
+
+		GeoInputBox inputBox = add("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("20");
+		inputBox.updateLinkedGeo("-20");
+		Assert.assertTrue(numeric.getIntervalMax() >= 20);
+		Assert.assertTrue(numeric.getIntervalMin() <= -20);
 	}
 
 	private void t(String input, String... expected) {
@@ -246,7 +262,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	private void setupInput(String label, String value) {
 		add(label + ":" + value);
-		inputBox = (GeoInputBox) add("ib=InputBox(" + label + ")");
+		inputBox = add("ib=InputBox(" + label + ")");
 	}
 
 	@Test
@@ -255,7 +271,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("B = (2,0)");
 		add("C = (2,2)");
 		add("p:Plane(A,B,C)");
-		GeoInputBox inputBox = (GeoInputBox) add("InputBox(p)");
+		GeoInputBox inputBox = add("InputBox(p)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
 	}
 }

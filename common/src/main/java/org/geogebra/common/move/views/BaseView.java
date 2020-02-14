@@ -1,5 +1,7 @@
 package org.geogebra.common.move.views;
 
+import org.geogebra.common.move.events.GenericEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
  *            type of handlers this view contains
  * 
  */
-public abstract class BaseView<T> {
+public class BaseView<T> {
 
 	/**
 	 * Views that need to be notified about events.
@@ -19,7 +21,7 @@ public abstract class BaseView<T> {
 	/**
 	 * Protected constructor.
 	 */
-	protected BaseView() {
+	public BaseView() {
 		viewComponents = new ArrayList<>();
 	}
 
@@ -42,6 +44,18 @@ public abstract class BaseView<T> {
 	public final void add(T view) {
 		if (!viewComponents.contains(view)) {
 			viewComponents.add(view);
+		}
+	}
+
+	/**
+	 * Notifies all view components of an event
+	 *
+	 * @param event
+	 *            The event that occured.
+	 */
+	public void onEvent(GenericEvent<T> event) {
+		for (T view : viewComponents) {
+			event.fire(view);
 		}
 	}
 }

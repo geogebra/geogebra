@@ -1,11 +1,13 @@
 package org.geogebra.common.move.events;
 
+import org.geogebra.common.move.views.EventRenderable;
+
 /**
  * Base of all Events
  * 
  * @author gabor
  */
-public abstract class BaseEvent {
+public abstract class BaseEvent implements GenericEvent<EventRenderable> {
 
 	/**
 	 * Needed for identify the event, otherwise it it will be like anonymous
@@ -27,6 +29,11 @@ public abstract class BaseEvent {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public void fire(EventRenderable view) {
+		view.renderEvent(this);
 	}
 
 }

@@ -86,7 +86,7 @@ public interface EmbedManager {
 	public void remove(DrawEmbed drawEmbed);
 
 	/**
-	 * Add new embed.
+	 * Add new embedded applet and store undo info.
 	 * 
 	 * @param material
 	 *            online material

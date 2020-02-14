@@ -36,4 +36,10 @@ public interface EuclidianViewAccessibiliyAdapter {
 	 */
 	boolean focusSettings();
 
+	/**
+	 * Focuses the reset button.
+	 *
+	 * @return if the reset button was focused
+	 */
+	boolean focusResetButton();
 }

@@ -1,9 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -69,7 +65,6 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
-import org.geogebra.common.move.views.OfflineView;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
@@ -103,12 +98,14 @@ import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
 import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
@@ -166,6 +163,10 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
@@ -249,6 +250,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private VendorSettings vendorSettings;
 	private DefaultSettings defaultSettings;
 	private FpsProfiler fpsProfiler;
+	private AccessibilityView accessibilityView;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -1377,8 +1379,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		BaseEventPool onlineEventPool = new BaseEventPool(networkOperation,
 				true);
 		NetworkW.attach("online", onlineEventPool);
-		OfflineView ov = new OfflineView();
-		networkOperation.setView(ov);
 	}
 
 	/**
@@ -3989,5 +3989,30 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public HasLastItem getLastItemProvider() {
 		return null;
+	}
+
+	/**
+	 * @return accessibility view
+	 */
+	public AccessibilityView getAccessibilityView() {
+		if (this.accessibilityView == null) {
+			accessibilityView = new AccessibilityView(this,
+					new BaseWidgetFactory());
+		}
+		return accessibilityView;
+	}
+
+	/**
+	 * Connect voiceover with the right panel
+	 */
+	public void updateVoiceover() {
+		if (Browser.needsAccessibilityView()) {
+			invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					getAccessibilityView().rebuild();
+				}
+			});
+		}
 	}
 }
