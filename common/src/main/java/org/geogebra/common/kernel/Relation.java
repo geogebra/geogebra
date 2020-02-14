@@ -190,9 +190,31 @@ public class Relation {
 					rel.setInfo(rel.getInfo() + relInfo + "<br><b>"
 							+ trueOnParts + "</b>");
 				} else if ("3".equals(ndgResult[0])) { // String output
-					rel.setInfo(rel.getInfo() + ndgResult[1] +
-							"<br>" + loc.getMenuDefault(
-							"AlwaysTrue", "(always true)"));
+					/*
+					 * A comparison based result can be true under some conditions that are not tracked
+					 * at the moment. The first four variables are fixed in GeoGebra/Giac (but which one?),
+					 * and also the first four variables are fixed in RealGeom/Mathematica (also, not completely
+					 * clear which ones). Instead of keeping track of this in both subsystems, we simply admit
+					 * that there is not enough information collected at this point, and therefore we omit
+					 * communicating more details than the condition is some kind of non-degeneracy.
+					 *
+					 * We should consider keeping track of this kind of information in both subsystems,
+					 * maybe by maintaining an NDGCondition object in AlgoCompare. Also, in RealGeom
+					 * we should be able to set a parameter to set the variables to be fixes, or even better,
+					 * those variables might be substituted before calling RealGeom.
+					 *
+					 * Actually, the theorems we obtain this way are usually always true. However, in a strict
+					 * mathematical sense we cannot claim this. It would be nice to find a counterexample
+					 * or to prove that all such theorems are indeed true. TODO.
+					 */
+					rel.setInfo(
+							rel.getInfo()
+									+ loc.getPlain("GenerallyTrueAcondB",
+									"<ul><li " + liStyle + ">" + ndgResult[1] + "</ul>",
+									"<ul><li " + liStyle + ">"
+											+ loc.getMenuDefault("ConstructionNotDegenerate",
+											"the construction is not degenerate")
+											+ "</ul>"));
 				} else {
 					// e.g. ProveDetails=={true,{"AreEqual(A,B)"}}
 					StringBuilder conds = new StringBuilder("<ul>");
