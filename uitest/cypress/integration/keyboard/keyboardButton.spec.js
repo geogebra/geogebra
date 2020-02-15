@@ -30,8 +30,9 @@ describe('Keyboard button visibility test', () => {
         cy.wait(200); // wait for finishing keyboard up animation
         selectors.closeKeyboardButton.get().click()
         cy.keyboardShouldNotPresent();
+        selectors.closeKeyboardButton.get().should('not.be.visible');
         // AV still has focus
-        selectors.closeKeyboardButton.get().should('be.visible');
+        selectors.showKeyboardButton.get().should('be.visible');
     });
 
     it("Keyboard button should be visible when input gains focus and keyboard was closed earlier",
