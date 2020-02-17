@@ -1209,7 +1209,6 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * @return Whether this view should open in frame.
 	 */
-	@Override
 	public boolean isOpenInFrame() {
 		return openInFrame;
 	}

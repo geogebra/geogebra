@@ -1751,9 +1751,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append("=0");
 			return sb;
 		}
-		if (!algebraOutputFilter.isAllowed(this)) {
-			return new StringBuilder(getParentAlgorithm().getDefinition(tpl));
-		}
 		if (getToStringMode() == GeoConicND.EQUATION_PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);
 		}

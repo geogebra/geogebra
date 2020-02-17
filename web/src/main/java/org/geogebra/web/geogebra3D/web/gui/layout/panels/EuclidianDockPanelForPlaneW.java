@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -57,8 +56,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		        'p');
 
 		this.app = (AppW) app;
-		this.setOpenInFrame(true);
-
 		this.setEmbeddedSize(DEFAULT_WIDTH);
 	}
 
@@ -152,7 +149,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 
 		final EuclidianSettings settings = app.getSettings()
 				.getEuclidianForPlane(
-						((GeoElement) view.getCompanion().getPlane())
+						view.getCompanion().getPlane()
 								.getLabelSimple());
 		settings.setPreferredSize(
 				AwtFactory.getPrototype()

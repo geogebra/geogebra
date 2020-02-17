@@ -656,9 +656,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (!algebraOutputFilter.isAllowed(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
-		}
 		if (!isDefined()) {
 			return "?";
 		}

@@ -3343,7 +3343,7 @@ __GGB__keysVar["de-AT"].menu = {
     "permission.camera.denied": "Zugriff auf die Kamera nicht m\xf6glich",
     "permission.photos": "GeoGebra ben\xf6tigt Zugriff auf deine Fotogalerie, um Bilder zu speichern.",
     "permission.photos.denied": "Kein Zugriff auf Fotos m\xf6glich",
-    "permission.photos.exam_screenshot": "GeoGebra ben\xf6tigt Zugriff auf die Foto-Gallerie, um am Ende der Pr\xfcfung das Pr\xfcfungsprotokoll als Screenshot speichern zu k\xf6nnen.",
+    "permission.photos.exam_screenshot": "GeoGebra ben\xf6tigt Zugriff auf die Fotogalerie, um am Ende der Pr\xfcfung das Pr\xfcfungsprotokoll als Screenshot speichern zu k\xf6nnen.",
     "permission.request": "Aktiviere den Zugriff in deinen Einstellungen.",
     "phone_change_visibility": "Sichtbarkeit \xe4ndern",
     "phone_change_visibility_text": "Wenn Sie dieses private Material teilen, wird die Sichtbarkeit auf \"Mit Link teilen\" gesetzt.",

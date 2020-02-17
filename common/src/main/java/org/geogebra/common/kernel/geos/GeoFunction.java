@@ -170,7 +170,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	/**
 	 * Creates new function
-	 *
+	 * 
 	 * @param c
 	 *            construction
 	 * @param f
@@ -201,7 +201,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	// The expression is not correct but it is not to be shown anyway.
 	/**
 	 * Creates composite function iPoly(f(x), g(x))
-	 *
+	 * 
 	 * @param c
 	 *            construction
 	 * @param iPoly
@@ -241,14 +241,14 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			 * g.getFunction().getFunctionVariable(); if (it.hasNext()) varX =
 			 * (ExpressionValue)it.next(); if (it.hasNext()) varY =
 			 * (ExpressionValue)it.next();
-			 *
+			 * 
 			 * if (vargX!= null && varX !=null && varY !=null) {
-			 *
+			 * 
 			 * ExpressionNode dummyX = new ExpressionNode(); gEN =
 			 * gEN.replaceAndWrap(g.getFunction().getFunctionVariable(),
 			 * dummyX); iPolyEN = iPolyEN.replaceAndWrap(varY, gEN); gEN =
 			 * gEN.replaceAndWrap(dummyX, vargX);
-			 *
+			 * 
 			 * }
 			 */
 
@@ -863,11 +863,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (isLabelSet()) {
 			initStringBuilder(sbToString, tpl, label, this);
 		}
-		if (!algebraOutputFilter.isAllowed(this)) {
-			sbToString.append(getParentAlgorithm().getDefinition(tpl));
-		} else {
-			sbToString.append(toValueString(tpl));
-		}
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 
@@ -901,9 +897,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (!algebraOutputFilter.isAllowed(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
-		}
 		if (fun != null && isDefined()) {
 			return fun.toValueString(tpl);
 		}
@@ -920,9 +913,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String toOutputValueString(StringTemplate tpl) {
 		if (isLocalVariable()) {
 			return label;
-		}
-		if (!algebraOutputFilter.isAllowed(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
 		}
 		if (fun != null && isDefined()) {
 			return fun.toOutputValueString(tpl);
@@ -942,9 +932,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		// make sure Freehand Functions have different entries in drop-down
 		// lists
-		if (!algebraOutputFilter.isAllowed(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
-		}
 		if (isFreehandFunction() && isLabelSet()) {
 			return getAssignmentLHS(tpl);
 		}
@@ -2584,9 +2571,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public String getFormulaString(StringTemplate tpl,
 			boolean substituteNumbers) {
-		if (!algebraOutputFilter.isAllowed(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
-		}
 		String ret = "";
 		if (getFunctionExpression() != null
 				&& getFunctionExpression().isConditional()) {

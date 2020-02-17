@@ -1,5 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -21,6 +25,7 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	private boolean background = true;
 	private String appName = "graphing";
 	private String url;
+	private Map<String, String> settings = new HashMap<>();
 
 	/**
 	 * @param c
@@ -112,6 +117,16 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 			sb.append(StringUtil.encodeXML(url));
 		}
 		sb.append("\"/>\n");
+		sb.append("<embedSettings");
+		for (Map.Entry<String, String> entry: getSettings()) {
+			sb.append(' ')
+				.append(entry.getKey())
+				.append("=\"")
+				.append(StringUtil.encodeXML(entry.getValue()))
+				.append('\"');
+
+		}
+		sb.append("/>");
 		XMLBuilder.dimension(sb, Double.toString(contentWidth), Double.toString(contentHeight));
 	}
 
@@ -277,9 +292,9 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 
 	@Override
 	public void translate(Coords v) {
-		for (int i = 0; i < corner.length; i++) {
-			if (corner[i] != null) {
-				corner[i].translate(v);
+		for (GeoPointND geoPointND : corner) {
+			if (geoPointND != null) {
+				geoPointND.translate(v);
 			}
 		}
 	}
@@ -291,5 +306,13 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 
 	public boolean isGraspableMath() {
 		return url != null && url.contains("graspablemath.com");
+	}
+
+	public Set<Map.Entry<String, String>> getSettings() {
+		return settings.entrySet();
+	}
+
+	public void attr(String key, Object value) {
+		settings.put(key, String.valueOf(value));
 	}
 }
