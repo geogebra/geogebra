@@ -470,11 +470,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else {
 			content.removeStyleName("noPreview");
 			content.addStyleName("avPreview");
-			boolean forceLatex = false;
-			if (previewGeo.isGeoFunction() || previewGeo.isGeoFunctionNVar()
-					|| previewGeo.isGeoFunctionBoolean()) {
-				forceLatex = true;
-			}
 
 			updateSymbolicMode(previewGeo);
 			ariaPreview = previewGeo.getAuralExpression();
