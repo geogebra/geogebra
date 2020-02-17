@@ -880,11 +880,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public double getMeasure() {
-		return getArea();
-	}
-
-	@Override
 	public Path getBoundary() {
 		boolean suppress = this.cons.isSuppressLabelsActive();
 		kernel.setSilentMode(true);
