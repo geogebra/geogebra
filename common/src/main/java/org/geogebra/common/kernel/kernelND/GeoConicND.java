@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.kernelND;
 import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
