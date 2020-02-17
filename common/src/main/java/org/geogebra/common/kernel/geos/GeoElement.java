@@ -33,7 +33,6 @@ import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.AnimationManager;
@@ -56,6 +55,7 @@ import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.TableAlgo;
@@ -1643,7 +1643,7 @@ public abstract class GeoElement extends ConstructionElement
 	public void setFixed(boolean flag) {
 		if (!flag) {
 			fixed = appConfig.isObjectDraggingRestricted()
-					&& AlgebraItem.isFunctionOrEquationFromUser(this)
+					&& isFunctionOrEquationFromUser()
 					&& !this.isDefaultGeo();
 		} else if (isFixable()) {
 			fixed = flag;
@@ -7475,7 +7475,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true if when AV has description mode, we want to show description instead of definition
 	 */
 	final public boolean mayShowDescriptionInsteadOfDefinition() {
-		if (AlgebraItem.shouldShowOnlyDefinitionForGeo(this)
+		if (!isAllowedToShowValue()
 				&& getKernel()
 						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			return false;
@@ -7723,5 +7723,24 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public App getApp() {
 		return getKernel().getApplication();
+	}
+
+	@Override
+	public boolean isAllowedToShowValue() {
+		return algebraOutputFilter.isAllowed(this);
+	}
+
+	@Override
+	public boolean isFunctionOrEquationFromUser() {
+		if (canBeFunctionOrEquationFromUser()) {
+			AlgoElement parentAlgorithm = getParentAlgorithm();
+			return parentAlgorithm == null
+					|| parentAlgorithm.getClassName().equals(Algos.Expression);
+		}
+		return false;
+	}
+
+	protected boolean canBeFunctionOrEquationFromUser() {
+		return this instanceof EquationValue;
 	}
 }

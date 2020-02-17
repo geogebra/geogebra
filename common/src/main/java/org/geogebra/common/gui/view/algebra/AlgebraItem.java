@@ -3,16 +3,13 @@ package org.geogebra.common.gui.view.algebra;
 import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -272,7 +269,7 @@ public class AlgebraItem {
 		}
 		switch (avStyle) {
 		case Kernel.ALGEBRA_STYLE_VALUE:
-			if (shouldShowOnlyDefinitionForGeo(geo1)) {
+			if (!geo1.isAllowedToShowValue()) {
 				buildDefinitionString(geo1, builder, stringTemplate);
 			} else {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
@@ -439,7 +436,7 @@ public class AlgebraItem {
 			return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
 		} else if ((style == AlgebraStyle.DEFINITION_AND_VALUE
 				|| style == AlgebraStyle.VALUE)
-				&& shouldShowOnlyDefinitionForGeo(geoElement)) {
+				&& !geoElement.isAllowedToShowValue()) {
 			return false;
 		}
 		return style != AlgebraStyle.VALUE && style != AlgebraStyle.DEFINITION;
@@ -553,91 +550,6 @@ public class AlgebraItem {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Tells whether the equation was typed directly from the user
-	 *
-	 * @param geoElement
-	 *            geoElement
-	 * @return true if the equation was typed by the user (and not created via
-	 *         command or tool)
-	 */
-	public static boolean isFunctionOrEquationFromUser(
-			GeoElementND geoElement) {
-		if (geoElement instanceof EquationValue
-				|| geoElement instanceof GeoFunction) {
-			AlgoElement parentAlgorithm = geoElement.getParentAlgorithm();
-			return parentAlgorithm == null
-					|| parentAlgorithm.getClassName().equals(Algos.Expression);
-		}
-		return false;
-	}
-
-	/**
-	 * Tells wether the equation is created by a command or a tool.
-	 *
-	 * @param element element to test
-	 * @return true if the equation is created by a command or a tool
-	 */
-    public static boolean isFunctionOrEquationFromToolOrCommand(GeoElementND element) {
-        boolean hasEquation = element instanceof EquationValue;
-        return hasEquation && (!isFunctionOrEquationFromUser(element)
-                || isGeneratedFunctionOrEquationDependentCopy(element));
-    }
-
-    /**
-     * Tells whether geo's parent is an equation which was created by a command or a tool.
-     *
-     * @param element element to test
-     * @return true if the geo's parent is equation created by a command or a tool
-     */
-    private static boolean isGeneratedFunctionOrEquationDependentCopy(GeoElementND element) {
-        AlgoElement algoElement = element.getParentAlgorithm();
-
-        if (algoElement != null) {
-            GeoElementND[] inputGeos = algoElement.getInput();
-            boolean createdByUser = true;
-            if (inputGeos != null) {
-                for (GeoElementND inputGeo : inputGeos) {
-                    createdByUser = createdByUser && isFunctionOrEquationFromUser(inputGeo)
-							&& !isGeneratedFunctionOrEquationDependentCopy(inputGeo);
-
-					if (!createdByUser) {
-						break;
-					}
-                }
-            }
-            return !createdByUser;
-        }
-        return false;
-    }
-
-	/**
-	 * Tells whether the output row should be visible for the given object. We
-	 * want to show only the definition for implicit equations, functions and
-	 * conics created by tool or command
-	 *
-	 * @param geoElement
-	 *            geoElement
-	 * @return true if we should only show the definition for the object but not
-	 *         output row
-	 */
-	public static boolean shouldShowOnlyDefinitionForGeo(
-			GeoElementND geoElement) {
-		boolean shouldHideEquations =
-				geoElement.getKernel().getApplication().getConfig().shouldHideEquations();
-		if (!shouldHideEquations || isAllowedByOutputFilter(geoElement)) {
-			return false;
-		}
-		if (geoElement instanceof EquationValue) {
-			return isFunctionOrEquationFromToolOrCommand(geoElement);
-		}
-		return true;
-	}
-
-	private static boolean isAllowedByOutputFilter(GeoElementND element) {
-		return element.getApp().getAlgebraOutputFilter().isAllowed(element);
 	}
 
 	/**

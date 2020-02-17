@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.geos;
 
 import com.himamis.retex.editor.share.util.Unicode;
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -3010,5 +3009,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public double getY() {
 		return -1;
+	}
+
+	@Override
+	protected boolean canBeFunctionOrEquationFromUser() {
+		return true;
 	}
 }

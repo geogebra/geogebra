@@ -1597,4 +1597,19 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return app
 	 */
 	App getApp();
+
+	/**
+	 * Recursively checks the algo parents to determine whether the element's value is safe to show
+	 * to the user.
+	 * @return True if it's allowed to show the element's value, otherwise false.
+	 */
+	boolean isAllowedToShowValue();
+
+	/**
+	 * Tells whether the equation was typed directly from the user
+	 *
+	 * @return true if the equation was typed by the user (and not created via
+	 *         command or tool)
+	 */
+	boolean isFunctionOrEquationFromUser();
 }

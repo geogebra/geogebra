@@ -51,7 +51,7 @@ public class ForceInputFormTest extends BaseUnitTest {
     	getApp().setGraphingConfig();
         GeoRay ray = getElementFactory().createGeoRay();
 
-        Assert.assertTrue(AlgebraItem.shouldShowOnlyDefinitionForGeo(ray));
+        Assert.assertFalse(ray.isAllowedToShowValue());
         Assert.assertEquals(DescriptionMode.DEFINITION, ray.getDescriptionMode());
     }
 
@@ -60,7 +60,7 @@ public class ForceInputFormTest extends BaseUnitTest {
         getApp().setConfig(new AppConfigGeometry());
 		GeoRay ray = getElementFactory().createGeoRay();
 
-        Assert.assertFalse(AlgebraItem.shouldShowOnlyDefinitionForGeo(ray));
+        Assert.assertTrue(ray.isAllowedToShowValue());
         Assert.assertEquals(ray.getDescriptionMode(), DescriptionMode.DEFINITION_VALUE);
     }
 
