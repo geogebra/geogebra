@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.Label;
 import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
+import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 
 public class MenuItemView extends FlowPanel {
 
@@ -13,19 +15,16 @@ public class MenuItemView extends FlowPanel {
 	private static final String IMAGE_STYLE = "image";
 	private static final String LABEL_STYLE = "label";
 
-	private MenuIconResource resource;
-
-	MenuItemView(MenuItem menuItem, Localization localization) {
-		resource = new MenuIconResource();
+	MenuItemView(MenuItem menuItem, Localization localization, MenuIconResource menuIconResource) {
 		addStyleName(MENU_ITEM_VIEW_STYLE);
-		createIcon(menuItem.getIcon());
+		createIcon(menuItem.getIcon(), menuIconResource);
 		createLabel(menuItem.getLabel(), localization);
 	}
 
-	private void createIcon(Icon icon) {
+	private void createIcon(Icon icon, MenuIconResource menuIconResource) {
 		Image image = new Image();
 		image.addStyleName(IMAGE_STYLE);
-		image.setUrl(resource.getImageResource(icon).getSafeUri());
+		image.setUrl(menuIconResource.getImageResource(icon).getSafeUri());
 		add(image);
 	}
 

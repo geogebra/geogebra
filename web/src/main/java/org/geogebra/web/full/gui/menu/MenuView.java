@@ -13,9 +13,11 @@ public class MenuView extends VerticalPanel {
 	private static final String DIVIDER_STYLE = "divider";
 
 	private Localization localization;
+	private MenuIconResource menuIconResource;
 
-	public MenuView(Localization localization) {
+	public MenuView(Localization localization, MenuIconResource menuIconResource) {
 		this.localization = localization;
+		this.menuIconResource = menuIconResource;
 		addStyleName(MENU_VIEW_STYLE);
 	}
 
@@ -31,7 +33,8 @@ public class MenuView extends VerticalPanel {
 	}
 
 	private void createMenuItemGroup(MenuItemGroup menuItemGroup) {
-		MenuItemGroupView view = new MenuItemGroupView(menuItemGroup, localization);
+		MenuItemGroupView view = new MenuItemGroupView(menuItemGroup, localization,
+				menuIconResource);
 		add(view);
 	}
 

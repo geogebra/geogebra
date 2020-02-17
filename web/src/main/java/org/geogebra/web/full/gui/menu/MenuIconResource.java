@@ -1,50 +1,69 @@
 package org.geogebra.web.full.gui.menu;
 
-import com.google.gwt.resources.client.ImageResource;
 import org.geogebra.common.gui.menu.Icon;
-import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.full.gui.menu.icons.MenuIconProvider;
 import org.geogebra.web.resources.SVGResource;
 
 public class MenuIconResource {
 
+	private MenuIconProvider menuIconProvider;
+
+	public MenuIconResource(MenuIconProvider menuIconProvider) {
+		this.menuIconProvider = menuIconProvider;
+	}
+
 	public SVGResource getImageResource(Icon icon) {
 		switch (icon) {
-			case CLEAR:
-				return MaterialDesignResources.INSTANCE.clear();
-			case SAVE:
-				return MaterialDesignResources.INSTANCE.save_black();
-			case SEARCH:
-				return MaterialDesignResources.INSTANCE.openFileMenu();
-			case SCHOOL:
-				return MaterialDesignResources.INSTANCE.tutorial_black();
-			case BUG_REPORT:
-				return MaterialDesignResources.INSTANCE.bug_report_black();
-			case APP_CAS_CALCULATOR:
-				return SvgPerspectiveResources.INSTANCE.menu_icon_cas();
 			case APP_CLASSIC:
-				return MaterialDesignResources.INSTANCE.geogebra_color();
-			case APP_GEOMETRY:
-				return SvgPerspectiveResources.INSTANCE.menu_icon_geometry_transparent();
+				return menuIconProvider.appClassic();
 			case APP_GRAPHING:
-				return SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent();
-			case APP_GRAPHING3D:
-				return SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D_transparent();
+				return menuIconProvider.appGraphing();
 			case APP_SCIENTIFIC:
-				return MaterialDesignResources.INSTANCE.scientific();
+				return menuIconProvider.appScientific();
+			case APP_GEOMETRY:
+				return menuIconProvider.appGeometry();
+			case APP_CAS_CALCULATOR:
+				return menuIconProvider.appCasCalculator();
+			case APP_GRAPHING3D:
+				return menuIconProvider.appGraphing3d();
+			case CLEAR:
+				return menuIconProvider.clear();
+			case SAVE:
+				return menuIconProvider.save();
+			case HOURGLASS_EMPTY:
+				return menuIconProvider.hourglassEmpty();
+			case GEOGEBRA:
+				return menuIconProvider.geogebra();
 			case SETTINGS:
-				return MaterialDesignResources.INSTANCE.gear();
-			case EXPORT_IMAGE:
-				return MaterialDesignResources.INSTANCE.export_image_black();
-			case EXPORT_FILE:
-				return MaterialDesignResources.INSTANCE.file_download_black();
-			case INFO:
-
+				return menuIconProvider.settings();
 			case HELP:
-//				MaterialDesignResources.INSTANCE.h
+				return menuIconProvider.help();
+			case PRINT:
+				return menuIconProvider.print();
+			case SEARCH:
+				return menuIconProvider.search();
+			case EXPORT_FILE:
+				return menuIconProvider.exportFile();
+			case EXPORT_IMAGE:
+				return menuIconProvider.exportImage();
+			case ASSIGNMENT:
+				return menuIconProvider.assignment();
+			case SCHOOL:
+				return menuIconProvider.school();
+			case QUESTION_ANSWER:
+				return menuIconProvider.questionAnswer();
+			case BUG_REPORT:
+				return menuIconProvider.bugReport();
+			case INFO:
+				return menuIconProvider.info();
+			case SIGN_IN:
+				return menuIconProvider.signIn();
+			case SIGN_OUT:
+				return menuIconProvider.signOut();
+			case USER_ICON:
 			default:
-				return MaterialDesignResources.INSTANCE.share_black();
+				return null;
+
 		}
 	}
 }

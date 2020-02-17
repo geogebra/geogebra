@@ -13,11 +13,12 @@ public class MenuItemGroupView extends VerticalPanel {
 	private static final String MENU_ITEM_GROUP_VIEW_STYLE = "menuItemGroupView";
 	private static final String GROUP_LABEL_STYLE = "groupLabel";
 
-	MenuItemGroupView(MenuItemGroup menuItemGroup, Localization localization) {
+	MenuItemGroupView(MenuItemGroup menuItemGroup, Localization localization,
+					  MenuIconResource menuIconResource) {
 		setStyleName(MENU_ITEM_GROUP_VIEW_STYLE);
 		setHorizontalAlignment(ALIGN_LOCALE_START);
 		createTitle(menuItemGroup.getTitle(), localization);
-		createMenuItems(menuItemGroup.getMenuItems(), localization);
+		createMenuItems(menuItemGroup.getMenuItems(), localization, menuIconResource);
 	}
 
 	private void createTitle(String title, Localization localization) {
@@ -27,14 +28,16 @@ public class MenuItemGroupView extends VerticalPanel {
 		add(label);
 	}
 
-	private void createMenuItems(List<MenuItem> menuItems, Localization localization) {
+	private void createMenuItems(List<MenuItem> menuItems, Localization localization,
+								 MenuIconResource menuIconResource) {
 		for (MenuItem menuItem : menuItems) {
-			createMenuItem(menuItem, localization);
+			createMenuItem(menuItem, localization, menuIconResource);
 		}
 	}
 
-	private void createMenuItem(MenuItem menuItem, Localization localization) {
-		MenuItemView view = new MenuItemView(menuItem, localization);
+	private void createMenuItem(MenuItem menuItem, Localization localization,
+								MenuIconResource menuIconResource) {
+		MenuItemView view = new MenuItemView(menuItem, localization, menuIconResource);
 		add(view);
 	}
 }

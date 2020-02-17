@@ -81,7 +81,10 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.menu.FloatingMenuView;
+import org.geogebra.web.full.gui.menu.MenuIconResource;
 import org.geogebra.web.full.gui.menu.MenuView;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
+import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
@@ -1548,7 +1551,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private Widget createMenu() {
-		MenuView menuView = new MenuView(getLocalization());
+		MenuIconResource resource = new MenuIconResource(isMebis() ?
+				MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
+		MenuView menuView = new MenuView(getLocalization(), resource);
 		menuView.setMenuItemGroups(new DefaultDrawerMenuFactory(getPlatform(),
 				getConfig().getVersion(), null, true)
 				.createDrawerMenu()
