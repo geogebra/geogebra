@@ -166,8 +166,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	private Coords tmpCoords1;
 	private Coords tmpCoords2;
 
-	private AlgebraOutputFilter algebraOutputFilter;
-
 	/**
 	 * default constructor
 	 *
@@ -196,7 +194,6 @@ public abstract class GeoConicND extends GeoQuadricND
 					  int stringMode) {
 		super(c, dimension, isIntersection);
 		setToStringMode(stringMode);
-		algebraOutputFilter = getKernel().getApplication().getAlgebraOutputFilter();
 	}
 
 	/**

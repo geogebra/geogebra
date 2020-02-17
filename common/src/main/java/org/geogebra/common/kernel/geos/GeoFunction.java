@@ -139,8 +139,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private int tableViewColumn = -1;
 	private boolean pointsVisible = true;
 
-	private AlgebraOutputFilter algebraOutputFilter;
-
 	/**
 	 * Creates new function
 	 * 
@@ -164,7 +162,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			setConstructionDefaults(); // init visual settings
 		}
 		surfaceEvaluables = new TreeSet<>();
-		algebraOutputFilter = getKernel().getApplication().getAlgebraOutputFilter();
 	}
 
 	/**
@@ -193,7 +190,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		fun = f;
 		// setConstructionDefaults is called from initFunction
 		initFunction(simplifyInt);
-		algebraOutputFilter = getKernel().getApplication().getAlgebraOutputFilter();
 	}
 
 	// Currently, the composite function is only for internal use

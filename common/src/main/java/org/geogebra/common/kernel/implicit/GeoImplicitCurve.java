@@ -112,8 +112,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private double[] eval = new double[2];
 	private boolean calcPath = true;
 
-	private AlgebraOutputFilter algebraOutputFilter;
-
 	/**
 	 * Construct an empty Implicit Curve Object
 	 * 
@@ -127,7 +125,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		cons.removeFromConstructionList(locus);
 		c.registerEuclidianViewCE(this);
 		setConstructionDefaults();
-		algebraOutputFilter = getKernel().getApplication().getAlgebraOutputFilter();
 	}
 
 	/**
