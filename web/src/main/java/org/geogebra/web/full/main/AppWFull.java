@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import com.google.gwt.user.client.ui.SimplePanel;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -18,6 +19,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
+import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
@@ -64,7 +66,6 @@ import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.WhatsNewDialog;
 import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWCommandLine;
-import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
@@ -79,6 +80,8 @@ import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.menu.FloatingMenuView;
+import org.geogebra.web.full.gui.menu.MenuView;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
@@ -125,7 +128,6 @@ import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
-import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
@@ -181,12 +183,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 																// technical
 	private int spWidth;
 	private int spHeight;
-	private boolean menuInited = false;
+	private boolean isClassicMenuInited = false;
 	// helper
 	// variable
 	private HorizontalPanel splitPanelWrapper = null;
-	/** floating menu */
-	FloatingMenuPanel floatingMenuPanel = null;
+	private FloatingMenuView floatingMenuView;
 
 	private EmbedManagerW embedManager;
 	private VideoManagerW videoManager;
@@ -1414,7 +1415,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard
-					|| (frame.getWidget(i) instanceof FloatingMenuPanel)
+					|| (frame.getWidget(i) instanceof FloatingMenuView)
 					|| (isUnbundledOrWhiteboard()
 							&& frame.getWidget(i) instanceof Persistable)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
@@ -1544,6 +1545,15 @@ public class AppWFull extends AppW implements HasKeyboard {
 						}
 					});
 		}
+	}
+
+	private Widget createMenu() {
+		MenuView menuView = new MenuView(getLocalization());
+		menuView.setMenuItemGroups(new DefaultDrawerMenuFactory(getPlatform(),
+				getConfig().getVersion(), null, true)
+				.createDrawerMenu()
+				.getMenuItemGroups());
+		return menuView;
 	}
 
 	@Override
@@ -1853,24 +1863,24 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void toggleMenu() {
-		if (!this.menuShowing) {
-			this.getAppletFrame().hidePanel(null);
-			this.menuShowing = true;
-			boolean needsUpdate = menuInited;
-			if (!menuInited) {
+		if (!menuShowing) {
+			getAppletFrame().hidePanel(null);
+			menuShowing = true;
+			boolean needsUpdate = isClassicMenuInited;
+			if (!isFloatingMenu() && !isClassicMenuInited) {
 				frame.getMenuBar(this).init(this);
-				this.menuInited = true;
-			}
-			if (isFloatingMenu()) {
-				toggleFloatingMenu(needsUpdate);
+				isClassicMenuInited = true;
+			} else if (isFloatingMenu()) {
+				maybeCreateFloatingMenuPanel();
 				updateMenuBtnStatus(true);
+				floatingMenuView.setVisible(true);
 				return;
 			}
-			this.splitPanelWrapper.add(frame.getMenuBar(this));
-			this.oldSplitLayoutPanel.setPixelSize(
-					this.oldSplitLayoutPanel.getOffsetWidth()
+			splitPanelWrapper.add(frame.getMenuBar(this));
+			oldSplitLayoutPanel.setPixelSize(
+					oldSplitLayoutPanel.getOffsetWidth()
 							- GLookAndFeel.MENUBAR_WIDTH,
-					this.oldSplitLayoutPanel.getOffsetHeight());
+					oldSplitLayoutPanel.getOffsetHeight());
 			updateMenuHeight();
 			if (needsUpdate) {
 				frame.getMenuBar(this).getMenubar().updateMenubar();
@@ -1881,12 +1891,20 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (isFloatingMenu()) {
-				removeFloatingMenu();
 				menuShowing = false;
+				floatingMenuView.setVisible(false);
 				updateMenuBtnStatus(false);
 			} else {
 				hideMenu();
 			}
+		}
+	}
+
+	private void maybeCreateFloatingMenuPanel() {
+		if (floatingMenuView == null) {
+			floatingMenuView = new FloatingMenuView();
+			floatingMenuView.setWidget(createMenu());
+			frame.add(floatingMenuView);
 		}
 	}
 
@@ -1900,74 +1918,74 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	private void removeFloatingMenu() {
-		// menu is floating: no need to resize views
-		// this.updateCenterPanelAndViews();
-		floatingMenuPanel.addStyleName("animateOut");
-		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-		CSSAnimation.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				floatingMenuPanel.setVisible(false);
-				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
-			}
-		}, floatingMenuPanel.getElement(), "animateOut");
+//	private void removeFloatingMenu() {
+//		// menu is floating: no need to resize views
+//		// this.updateCenterPanelAndViews();
+//		floatingMenuPanel.addStyleName("animateOut");
+//		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
+//		CSSAnimation.runOnAnimation(new Runnable() {
+//			@Override
+//			public void run() {
+//				floatingMenuPanel.setVisible(false);
+//				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
+//			}
+//		}, floatingMenuPanel.getElement(), "animateOut");
+//
+//	}
 
-	}
+//	private void addFloatingMenu() {
+//		// menu is floating: no need to resize views
+//		// this.updateCenterPanelAndViews();
+//		floatingMenuPanel.addStyleName("animateIn");
+//		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
+//		CSSAnimation.runOnAnimation(new Runnable() {
+//			@Override
+//			public void run() {
+//				floatingMenuPanel.setVisible(true);
+//				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
+//				floatingMenuPanel.focusDeferred();
+//			}
+//		}, floatingMenuPanel.getElement(), "animateIn");
+//	}
 
-	private void addFloatingMenu() {
-		// menu is floating: no need to resize views
-		// this.updateCenterPanelAndViews();
-		floatingMenuPanel.addStyleName("animateIn");
-		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-		CSSAnimation.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				floatingMenuPanel.setVisible(true);
-				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
-				floatingMenuPanel.focusDeferred();
-			}
-		}, floatingMenuPanel.getElement(), "animateIn");
-	}
-
-	private void toggleFloatingMenu(boolean needsUpdate) {
-		if (!isFloatingMenu()) {
-			return;
-		}
-		persistWidthAndHeight();
-		if (floatingMenuPanel == null) {
-			floatingMenuPanel = new FloatingMenuPanel(
-					getAppletFrame().getMenuBar(this));
-			if (!isUnbundledOrWhiteboard()) {
-				floatingMenuPanel.addStyleName("classic");
-			}
-			if (isWhiteboardActive()) {
-				floatingMenuPanel.addStyleName("mow");
-			}
-			frame.add(floatingMenuPanel);
-		}
-
-		if (needsUpdate) {
-			frame.getMenuBar(this).getMenubar().updateMenubar();
-		}
-		if (menuShowing) {
-			this.addFloatingMenu();
-			floatingMenuPanel.setVisible(true);
-			return;
-		}
-		final GGWMenuBar menubar = getAppletFrame().getMenuBar(this);
-
-		floatingMenuPanel.add(menubar);
-		floatingMenuPanel.setVisible(menuShowing);
-		if (menuShowing) {
-			menubar.focusDeferred();
-		}
-		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
-	}
+//	private void toggleFloatingMenu(boolean needsUpdate) {
+//		if (!isFloatingMenu()) {
+//			return;
+//		}
+//		persistWidthAndHeight();
+//		if (floatingMenuPanel == null) {
+//			floatingMenuPanel = new FloatingMenuPanel(
+//					getAppletFrame().getMenuBar(this));
+//			if (!isUnbundledOrWhiteboard()) {
+//				floatingMenuPanel.addStyleName("classic");
+//			}
+//			if (isWhiteboardActive()) {
+//				floatingMenuPanel.addStyleName("mow");
+//			}
+//			frame.add(floatingMenuPanel);
+//		}
+//
+//		if (needsUpdate) {
+//			frame.getMenuBar(this).getMenubar().updateMenubar();
+//		}
+//		if (menuShowing) {
+//			this.addFloatingMenu();
+//			floatingMenuPanel.setVisible(true);
+//			return;
+//		}
+//		final GGWMenuBar menubar = getAppletFrame().getMenuBar(this);
+//
+//		floatingMenuPanel.add(menubar);
+//		floatingMenuPanel.setVisible(menuShowing);
+//		if (menuShowing) {
+//			menubar.focusDeferred();
+//		}
+//		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
+//	}
 
 	@Override
 	public void hideMenu() {
-		if (!menuInited || !menuShowing) {
+		if (!isClassicMenuInited || !menuShowing) {
 			return;
 		}
 
