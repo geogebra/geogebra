@@ -571,6 +571,45 @@ public class AlgebraItem {
 	}
 
 	/**
+	 * Tells wether the equation is created by a command or a tool.
+	 *
+	 * @param element element to test
+	 * @return true if the equation is created by a command or a tool
+	 */
+    public static boolean isFunctionOrEquationFromToolOrCommand(GeoElementND element) {
+        boolean hasEquation = element instanceof EquationValue;
+        return hasEquation && (!isFunctionOrEquationFromUser(element)
+                || isGeneratedFunctionOrEquationDependentCopy(element));
+    }
+
+    /**
+     * Tells whether geo's parent is an equation which was created by a command or a tool.
+     *
+     * @param element element to test
+     * @return true if the geo's parent is equation created by a command or a tool
+     */
+    private static boolean isGeneratedFunctionOrEquationDependentCopy(GeoElementND element) {
+        AlgoElement algoElement = element.getParentAlgorithm();
+
+        if (algoElement != null) {
+            GeoElementND[] inputGeos = algoElement.getInput();
+            boolean createdByUser = true;
+            if (inputGeos != null) {
+                for (GeoElementND inputGeo : inputGeos) {
+                    createdByUser = createdByUser && isFunctionOrEquationFromUser(inputGeo)
+							&& !isGeneratedFunctionOrEquationDependentCopy(inputGeo);
+
+					if (!createdByUser) {
+						break;
+					}
+                }
+            }
+            return !createdByUser;
+        }
+        return false;
+    }
+
+	/**
 	 * Tells whether the output row should be visible for the given object. We
 	 * want to show only the definition for implicit equations, functions and
 	 * conics created by tool or command
@@ -587,9 +626,7 @@ public class AlgebraItem {
 		if (!shouldHideEquations) {
 			return false;
 		}
-
-		boolean hasEquation = geoElement instanceof EquationValue;
-		return hasEquation && !isFunctionOrEquationFromUser(geoElement);
+		return isFunctionOrEquationFromToolOrCommand(geoElement);
 	}
 
 	/**
