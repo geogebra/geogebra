@@ -12,9 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.kernelND;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
-
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
@@ -62,7 +60,8 @@ import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * Class for conic in any dimension.

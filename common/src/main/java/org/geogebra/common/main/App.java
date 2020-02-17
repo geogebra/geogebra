@@ -1,15 +1,6 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Vector;
-
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
@@ -50,6 +41,7 @@ import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
 import org.geogebra.common.gui.view.algebra.fiter.DefaultAlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.fiter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -84,7 +76,6 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.exam.ExamEnvironment;
-import org.geogebra.common.gui.view.algebra.fiter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -119,7 +110,15 @@ import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  * Represents an application window, gives access to views and system stuff
