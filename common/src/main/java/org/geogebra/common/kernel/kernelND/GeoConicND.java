@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -1759,9 +1758,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			// serialise to CAS as "...=0" so eg Coefficients(c) works
 			sb.append("=0");
 			return sb;
-		}
-		if (ExamEnvironment.isProtectedEquation(this)) {
-			return new StringBuilder(getParentAlgorithm().getDefinition(tpl));
 		}
 		if (getToStringMode() == GeoConicND.EQUATION_PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);

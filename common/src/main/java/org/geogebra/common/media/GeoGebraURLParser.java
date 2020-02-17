@@ -1,6 +1,6 @@
 package org.geogebra.common.media;
 
-import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -9,22 +9,18 @@ import org.geogebra.common.util.debug.Log;
 public final class GeoGebraURLParser {
 
 	/**
-	 * @param processedUrlString
+	 * @param url
 	 *            URL
 	 * @return whether URL belongs to GeoGebra
 	 */
-	public static boolean isGeoGebraURL(String processedUrlString) {
-		final String ggbTubeOld = "geogebratube.org/";
-		final String ggbTube = "tube.geogebra.org/";
-		final String ggbTubeBeta = "beta.geogebra.org/";
-		final String ggbTubeShort = "ggbtu.be/";
-		final String ggbMatShort = "ggbm.at/";
-		return processedUrlString.contains(GeoGebraConstants.GEOGEBRA_WEBSITE)
-				|| processedUrlString.contains(GeoGebraConstants.GEOGEBRA_WEBSITE_BETA)
-				|| processedUrlString.contains(ggbTube) || processedUrlString.contains(ggbTubeShort)
-				|| processedUrlString.contains(ggbMatShort)
-				|| processedUrlString.contains(ggbTubeBeta)
-				|| processedUrlString.contains(ggbTubeOld);
+	public static boolean isGeoGebraURL(String url) {
+		String urlNoProtocol = removeProtocol(url);
+		if (StringUtil.empty(urlNoProtocol)) {
+			return false;
+		}
+		String host = urlNoProtocol.split("/")[0];
+		return "geogebra.org".equals(host) || "ggbm.at".equals(host)
+				|| "ggbtu.be".equals(host) || host.endsWith(".geogebra.org");
 	}
 
 	/**
@@ -33,16 +29,11 @@ public final class GeoGebraURLParser {
 	 * @return material sharing key (or numeric ID)
 	 */
 	public static String getIDfromURL(String processedUrlString0) {
-		String processedUrlString = processedUrlString0;
+		String processedUrlString = removeProtocol(processedUrlString0);
 		final String material = "/material/show/id/";
-		// remove eg http:// if it's there
-		if (processedUrlString.contains("://")) {
-			processedUrlString = processedUrlString.substring(processedUrlString.indexOf("://") + 3,
-					processedUrlString.length());
-		}
+
 		// remove hostname
-		processedUrlString = processedUrlString.substring(processedUrlString.indexOf('/'),
-				processedUrlString.length());
+		processedUrlString = processedUrlString.substring(processedUrlString.indexOf('/'));
 
 		String id;
 
@@ -75,5 +66,15 @@ public final class GeoGebraURLParser {
 		// fetch ID
 		id = processedUrlString.substring(start, end);
 		return id;
+	}
+
+	/**
+	 * remove eg http:// if it's there
+	 */
+	private static String removeProtocol(String processedUrlString) {
+		if (processedUrlString.contains("://")) {
+			return processedUrlString.substring(processedUrlString.indexOf("://") + 3);
+		}
+		return processedUrlString;
 	}
 }

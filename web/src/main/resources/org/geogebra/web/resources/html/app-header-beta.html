@@ -3,22 +3,22 @@ defaultParams.marginTop = window.appOnline ? 64 : 0;
 if (appID == "calculator") {
 	defaultParams.marginTop = 112;
 }
-function getAppPickers(){
-	return document.getElementsByClassName("popdown-button-container");
+function getAppPicker() {
+	return document.getElementsByClassName("popdown-button-container")[0];
 }
-function toggleAppPicker(){
-	if(getAppPickers()){
-		var style = getAppPickers()[0].style;
+function toggleAppPicker() {
+	if (getAppPicker()) {
+		var style = getAppPicker().style;
 		var wasHidden = style.display == "none";
 		style.display = wasHidden ? "block" : "none";
 		selectAppPicker(wasHidden);
 	}
 }
-function selectAppPicker(selected){
+function selectAppPicker(selected) {
 	var btn = document.getElementsByClassName("appsBtn")[0];
 	btn.className = selected ? btn.className + " selected" : btn.className.replace(/selected/,"");
 }
-function hideAppPicker(e){
+function hideAppPicker(e) {
 	var src = (e && e.srcElement) ? e.srcElement : e;
 	while(src){
 		if(src.className && src.className.match(/appsBtn|popdown-button-container/)){
@@ -26,14 +26,14 @@ function hideAppPicker(e){
 		}
 		src = src.parentElement;
 	}
-	if(getAppPickers()){
-		getAppPickers()[0].style.display = "none";
+	if (getAppPicker()) {
+		getAppPicker().style.display = "none";
 		selectAppPicker(false);
 	}
 }
 document.body.addEventListener("mousedown", hideAppPicker);
-window.addEventListener("load", function(){
-	if(window.appOnline === false){
+window.addEventListener("load", function() {
+	if (window.appOnline === false) {
 		document.getElementById("headerID").parentElement.style.display = "none";
 	}
 });
