@@ -1548,7 +1548,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 			Timer timer = new Timer() {
 				@Override
 				public void run() {
-					getGuiManager().getKeyboardListener().setFocus(false);
+					if (getGuiManager().getKeyboardListener() != null) {
+						getGuiManager().getKeyboardListener().setFocus(false);
+					}
 					getAppletFrame().keyBoardNeeded(false, null);
 				}
 			};
