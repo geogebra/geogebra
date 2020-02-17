@@ -442,13 +442,12 @@ public class MyXMLHandler implements DocHandler {
 				app.setUniqueId(uniqueId);
 			}
 		}
-
 	}
 
 	private static String nomalizeApp(String string) {
 		if (string != null && string
 				.matches(
-						"graphing|geometry|classic|3d|3D|scientific|cas|notes")) {
+						"graphing|geometry|classic|3d|3D|scientific|suite|cas|notes")) {
 			return string;
 		}
 		return null;

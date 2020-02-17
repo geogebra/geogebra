@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -111,17 +112,20 @@ public class EmbedManagerW implements EmbedManager {
 				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
 				app.getDevice(), parameters);
 
-		parameters.attr("showToolBar", "true")
+		parameters
 				.attr("scaleContainerClass", "embedContainer")
-				.attr("allowUpscale", "true").attr("showAlgebraInput", "true")
+				.attr("allowUpscale", "true")
 				.attr("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
 				.attr("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
 				.attr("appName", drawEmbed.getGeoEmbed().getAppName())
-				.attr("allowStyleBar", "true")
 				.attr("borderColor", "#CCC");
+		for (Entry<String, String> entry: drawEmbed.getGeoEmbed().getSettings()) {
+			parameters.attr(entry.getKey(), entry.getValue());
+		}
 		String currentBase64 = base64.get(drawEmbed.getEmbedID());
 		if (currentBase64 != null) {
-			parameters.attr("appName", "auto").attr("ggbBase64", currentBase64);
+			parameters.attr("appName", "auto")
+					.attr("ggbBase64", currentBase64);
 		}
 		fr.setComputedWidth(parameters.getDataParamWidth()
 				- parameters.getBorderThickness());
@@ -388,10 +392,16 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	@Override
-	public void embed(String dataUrl) {
+	public void embed(Material material) {
 		int id = nextID();
-		base64.put(id, dataUrl);
+		base64.put(id, material.getBase64());
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		ge.setContentWidth(material.getWidth());
+		ge.setContentHeight(material.getHeight());
+		ge.attr("showToolBar", material.getShowToolbar() || material.getShowMenu());
+		ge.attr("showMenuBar", material.getShowMenu());
+		ge.attr("allowStyleBar", material.getAllowStylebar());
+		ge.attr("showAlgebraInput", material.getShowInputbar());
 		ge.setEmbedId(id);
 		showAndSelect(ge);
 	}
@@ -448,6 +458,14 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void openGraspableMTool() {
 		openTool("https://graspablemath.com");
+	}
+
+	@Override
+	public void initAppEmbed(GeoEmbed ge) {
+		ge.setEmbedId(nextID());
+		ge.attr("showToolBar", true);
+		ge.attr("showAlgebraInput", true);
+		ge.attr("allowStyleBar", true);
 	}
 
 	private void openTool(String URL) {
