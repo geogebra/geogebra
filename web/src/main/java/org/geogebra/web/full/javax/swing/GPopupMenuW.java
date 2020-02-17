@@ -311,37 +311,10 @@ public class GPopupMenuW implements AttachedToDOM {
 			itemCommand = new ScheduledCommand() {
 				@Override
 				public void execute() {
-					int xCord, yCoord;
-					if (subPopup != null) {
-						subPopup.removeFromDOM();
-					}
-					subPopup = new GPopupMenuW(subMenu, getApp());
-					subPopup.setVisible(true);
-					// Calculate the position of the "submenu", and show it
-					if (getApp().getLocalization()
-							.isRightToLeftReadingOrder()) {
-						xCord = getLeftSubPopupXCord();
-						if (xCord < 0) {
-							xCord = getRightSubPopupXCord();
-						}
-					} else {
-						xCord = getRightSubPopupXCord();
-						if (xCord + getSubPopupWidth() > Window
-								.getClientWidth()) {
-							xCord = getLeftSubPopupXCord();
-						}
-					}
-					yCoord = (int) Math.min(
-							(newItem.getAbsoluteTop()
-									- getApp().getPanel().getAbsoluteTop())
-									/ getScaleY(),
-							(Window.getClientHeight() + Window.getScrollTop()
-									- getApp().getPanel().getAbsoluteTop())
-									/ getScaleY() - getSubPopupHeight());
-					showSubPopup(xCord, yCoord);
-
+					createSubpopup(subMenu, newItem.getAbsoluteTop());
 				}
 			};
+
 			newItem.setScheduledCommand(itemCommand);
 
 			// adding arrow for the menuitem
@@ -356,6 +329,53 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 		popupMenuSize++;
 		item.addStyleName("gPopupMenu_item");
+	}
+
+	private void createSubpopup(AriaMenuBar subMenu, int top) {
+		removePreviousPopup();
+		subPopup = new GPopupMenuW(subMenu, getApp());
+		subPopup.setVisible(true);
+
+		// Calculate the position of the "submenu", and show it
+		int xCord = getApp().getLocalization()
+					.isRightToLeftReadingOrder()
+				? getPopupXCoordRTL()
+				: getPopupXCoord();
+
+		int yCoord = (int) Math.min(
+				(top
+						- getApp().getPanel().getAbsoluteTop())
+						/ getScaleY(),
+				(Window.getClientHeight() + Window.getScrollTop()
+						- getApp().getPanel().getAbsoluteTop())
+						/ getScaleY() - getSubPopupHeight());
+		showSubPopup(xCord, yCoord);
+
+	}
+
+	private void removePreviousPopup() {
+		if (subPopup == null) {
+			return;
+		}
+
+		subPopup.removeFromDOM();
+	}
+
+	private int getPopupXCoord() {
+		int xCord = getRightSubPopupXCord();
+		if (xCord + getSubPopupWidth() > Window
+				.getClientWidth()) {
+			xCord = getLeftSubPopupXCord();
+		}
+		return xCord;
+	}
+
+	private int getPopupXCoordRTL() {
+		int xCord = getLeftSubPopupXCord();
+		if (xCord < 0) {
+			xCord = getRightSubPopupXCord();
+		}
+		return xCord;
 	}
 
 	/**
