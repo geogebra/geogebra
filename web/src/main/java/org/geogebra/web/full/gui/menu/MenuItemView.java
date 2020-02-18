@@ -9,7 +9,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 
-public class MenuItemView extends FlowPanel {
+class MenuItemView extends FlowPanel {
 
 	private static final String MENU_ITEM_VIEW_STYLE = "menuItemView";
 	private static final String IMAGE_STYLE = "image";

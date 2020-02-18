@@ -8,7 +8,7 @@ import org.geogebra.common.main.Localization;
 
 import java.util.List;
 
-public class MenuItemGroupView extends VerticalPanel {
+class MenuItemGroupView extends VerticalPanel {
 
 	private static final String MENU_ITEM_GROUP_VIEW_STYLE = "menuItemGroupView";
 	private static final String GROUP_LABEL_STYLE = "groupLabel";
