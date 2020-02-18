@@ -938,7 +938,7 @@ __GGB__keysVar["ja"].command = {
     "SolveQuartic": "SolveQuartic",
     "SolveQuartic.SyntaxCAS": "[ <\uff14\u6b21\u591a\u9805\u5f0f> ]",
     "Sort": "Sort",
-    "Sort.Syntax": "[ <\u30ea\u30b9\u30c8> ]\n[ <Values>, <Keys> ]",
+    "Sort.Syntax": "[ <\u30ea\u30b9\u30c8> ]\n[ <\u5024>, <\u30ad\u30fc> ]",
     "Spearman": "Spearman",
     "Spearman.Syntax": "[ <\u70b9\u306e\u30ea\u30b9\u30c8> ]\n[ <\u6570\u5024\u306e\u30ea\u30b9\u30c8>, <\u6570\u5024\u306e\u30ea\u30b9\u30c8> ]",
     "Sphere": "Sphere",
