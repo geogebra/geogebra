@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.menu;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
@@ -9,6 +11,7 @@ import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandler;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.resources.SVGResource;
@@ -22,17 +25,23 @@ public class MenuViewController {
 
 	private Localization localization;
 	private MenuIconResource menuIconResource;
+	private MenuActionRouter menuActionRouter;
 
 	private DrawerMenuFactory defaultDrawerMenuFactory;
 	private DrawerMenuFactory examDrawerMenuFactory;
 
 	public MenuViewController(App app) {
+		createObjects(app);
+		createViews();
+		createFactories(app);
+		setDefaultMenu();
+	}
+
+	private void createObjects(App app) {
 		localization = app.getLocalization();
 		menuIconResource = new MenuIconResource(app.isMebis() ?
 				MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		createViews();
-		createDrawerMenuFactories(app);
-		setDefaultMenu();
+		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler());
 	}
 
 	private void createViews() {
@@ -43,7 +52,7 @@ public class MenuViewController {
 		floatingMenuView.add(menuView);
 	}
 
-	private void createDrawerMenuFactories(App app) {
+	private void createFactories(App app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = new DefaultDrawerMenuFactory(app.getPlatform(),
 				version, null, true);
@@ -83,10 +92,17 @@ public class MenuViewController {
 		menuView.add(view);
 	}
 
-	private void createMenuItem(MenuItem menuItem, MenuItemGroupView parent) {
+	private void createMenuItem(final MenuItem menuItem, MenuItemGroupView parent) {
 		SVGResource icon = menuIconResource.getImageResource(menuItem.getIcon());
 		String label = localization.getMenu(menuItem.getLabel());
 		MenuItemView view = new MenuItemView(icon, label);
+		view.addHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				setMenuVisible(false);
+				menuActionRouter.handleMenuItem(menuItem);
+			}
+		}, ClickEvent.getType());
 		parent.add(view);
 	}
 }
