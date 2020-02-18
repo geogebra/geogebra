@@ -4,13 +4,13 @@ import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.web.full.gui.menu.icons.MenuIconProvider;
 import org.geogebra.web.resources.SVGResource;
 
-public class MenuIconResource {
+class MenuIconResource {
 
 	private static final String FILL_COLOR = "rgba(0, 0, 0, 0.54)";
 
 	private MenuIconProvider menuIconProvider;
 
-	public MenuIconResource(MenuIconProvider menuIconProvider) {
+	MenuIconResource(MenuIconProvider menuIconProvider) {
 		this.menuIconProvider = menuIconProvider;
 	}
 

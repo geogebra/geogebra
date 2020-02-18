@@ -78,11 +78,7 @@ import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.full.gui.menu.FloatingMenuView;
-import org.geogebra.web.full.gui.menu.MenuIconResource;
-import org.geogebra.web.full.gui.menu.MenuView;
-import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
-import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
+import org.geogebra.web.full.gui.menu.MenuViewController;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
@@ -188,7 +184,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	// helper
 	// variable
 	private HorizontalPanel splitPanelWrapper = null;
-	private FloatingMenuView floatingMenuView;
+	private MenuViewController menuViewController;
 
 	private EmbedManagerW embedManager;
 	private VideoManagerW videoManager;
@@ -420,6 +416,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 		getGuiManager().setLayout(new LayoutW(this));
 		getGuiManager().initialize();
 		setDefaultCursor();
+		initMenu();
+	}
+
+	private void initMenu() {
+		menuViewController = new MenuViewController(this);
+		frame.add(menuViewController.getView());
 	}
 
 	/**
@@ -1416,7 +1418,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard
-					|| (frame.getWidget(i) instanceof FloatingMenuView)
+					|| (frame.getWidget(i) == menuViewController.getView())
 					|| (isUnbundledOrWhiteboard()
 							&& frame.getWidget(i) instanceof Persistable)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
@@ -1546,17 +1548,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 						}
 					});
 		}
-	}
-
-	private Widget createMenu() {
-		MenuIconResource resource = new MenuIconResource(isMebis() ?
-				MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		MenuView menuView = new MenuView(getLocalization(), resource);
-		menuView.setMenuItemGroups(new DefaultDrawerMenuFactory(getPlatform(),
-				getConfig().getVersion(), null, true)
-				.createDrawerMenu()
-				.getMenuItemGroups());
-		return menuView;
 	}
 
 	@Override
@@ -1874,18 +1865,19 @@ public class AppWFull extends AppW implements HasKeyboard {
 				frame.getMenuBar(this).init(this);
 				isClassicMenuInited = true;
 			} else if (isFloatingMenu()) {
-				boolean justCreated = maybeCreateFloatingMenuView();
+//				boolean justCreated = maybeCreateFloatingMenuView();
 				updateMenuBtnStatus(true);
-				if (justCreated) {
-					Timer t = new Timer() {
-						public void run() {
-							floatingMenuView.setVisible(true);
-						}
-					};
-					t.schedule(0);
-				} else {
-					floatingMenuView.setVisible(true);
-				}
+				menuViewController.setMenuVisible(true);
+//				if (justCreated) {
+//					Timer t = new Timer() {
+//						public void run() {
+//							floatingMenuView.setVisible(true);
+//						}
+//					};
+//					t.schedule(0);
+//				} else {
+//					floatingMenuView.setVisible(true);
+//				}
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));
@@ -1904,7 +1896,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		} else {
 			if (isFloatingMenu()) {
 				menuShowing = false;
-				floatingMenuView.setVisible(false);
+				menuViewController.setMenuVisible(false);
 				updateMenuBtnStatus(false);
 			} else {
 				hideMenu();
@@ -1912,16 +1904,16 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	private boolean maybeCreateFloatingMenuView() {
-		if (floatingMenuView == null) {
-			floatingMenuView = new FloatingMenuView();
-			floatingMenuView.setWidget(createMenu());
-			floatingMenuView.setVisible(false);
-			frame.add(floatingMenuView);
-			return true;
-		}
-		return false;
-	}
+//	private boolean maybeCreateFloatingMenuView() {
+//		if (floatingMenuView == null) {
+//			floatingMenuView = new FloatingMenuView();
+//			floatingMenuView.setWidget(createMenu());
+//			floatingMenuView.setVisible(false);
+//			frame.add(floatingMenuView);
+//			return true;
+//		}
+//		return false;
+//	}
 
 	private void updateMenuBtnStatus(boolean expanded) {
 		if (getGuiManager() != null) {
