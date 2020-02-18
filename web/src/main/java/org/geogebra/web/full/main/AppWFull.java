@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import com.google.gwt.user.client.ui.SimplePanel;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -64,7 +63,6 @@ import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.WhatsNewDialog;
-import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWCommandLine;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
@@ -1876,9 +1874,18 @@ public class AppWFull extends AppW implements HasKeyboard {
 				frame.getMenuBar(this).init(this);
 				isClassicMenuInited = true;
 			} else if (isFloatingMenu()) {
-				maybeCreateFloatingMenuPanel();
+				boolean justCreated = maybeCreateFloatingMenuView();
 				updateMenuBtnStatus(true);
-				floatingMenuView.setVisible(true);
+				if (justCreated) {
+					Timer t = new Timer() {
+						public void run() {
+							floatingMenuView.setVisible(true);
+						}
+					};
+					t.schedule(0);
+				} else {
+					floatingMenuView.setVisible(true);
+				}
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));
@@ -1905,12 +1912,15 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	private void maybeCreateFloatingMenuPanel() {
+	private boolean maybeCreateFloatingMenuView() {
 		if (floatingMenuView == null) {
 			floatingMenuView = new FloatingMenuView();
 			floatingMenuView.setWidget(createMenu());
+			floatingMenuView.setVisible(false);
 			frame.add(floatingMenuView);
+			return true;
 		}
+		return false;
 	}
 
 	private void updateMenuBtnStatus(boolean expanded) {
