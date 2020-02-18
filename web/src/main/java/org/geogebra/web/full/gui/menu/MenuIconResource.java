@@ -6,13 +6,20 @@ import org.geogebra.web.resources.SVGResource;
 
 public class MenuIconResource {
 
+	private static final String FILL_COLOR = "rgba(0, 0, 0, 0.54)";
+
 	private MenuIconProvider menuIconProvider;
 
 	public MenuIconResource(MenuIconProvider menuIconProvider) {
 		this.menuIconProvider = menuIconProvider;
 	}
 
-	public SVGResource getImageResource(Icon icon) {
+	SVGResource getImageResource(Icon icon) {
+		SVGResource resource = matchIconWithResource(icon);
+		return applyTint(resource, icon);
+	}
+
+	private SVGResource matchIconWithResource(Icon icon) {
 		switch (icon) {
 			case APP_CLASSIC:
 				return menuIconProvider.appClassic();
@@ -63,7 +70,20 @@ public class MenuIconResource {
 			case USER_ICON:
 			default:
 				return null;
+		}
+	}
 
+	private SVGResource applyTint(SVGResource resource, Icon icon) {
+		switch (icon) {
+			case APP_CAS_CALCULATOR:
+			case APP_GEOMETRY:
+			case APP_CLASSIC:
+			case APP_GRAPHING:
+			case APP_GRAPHING3D:
+			case APP_SCIENTIFIC:
+				return resource;
+			default:
+				return resource == null ? null : resource.withFill(FILL_COLOR);
 		}
 	}
 }
