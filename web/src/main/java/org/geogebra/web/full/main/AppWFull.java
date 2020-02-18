@@ -79,6 +79,7 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.menu.MenuViewController;
+import org.geogebra.web.full.gui.menu.MenuViewListener;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
@@ -152,7 +153,7 @@ import com.google.gwt.user.client.ui.Widget;
  * App with all the GUI
  *
  */
-public class AppWFull extends AppW implements HasKeyboard {
+public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
 	private final static int AUTO_SAVE_PERIOD = 2000;
@@ -421,6 +422,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	private void initMenu() {
 		menuViewController = new MenuViewController(this);
+		menuViewController.setMenuViewListener(this);
 		frame.add(menuViewController.getView());
 	}
 
@@ -1865,19 +1867,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				frame.getMenuBar(this).init(this);
 				isClassicMenuInited = true;
 			} else if (isFloatingMenu()) {
-//				boolean justCreated = maybeCreateFloatingMenuView();
-				updateMenuBtnStatus(true);
 				menuViewController.setMenuVisible(true);
-//				if (justCreated) {
-//					Timer t = new Timer() {
-//						public void run() {
-//							floatingMenuView.setVisible(true);
-//						}
-//					};
-//					t.schedule(0);
-//				} else {
-//					floatingMenuView.setVisible(true);
-//				}
 				return;
 			}
 			splitPanelWrapper.add(frame.getMenuBar(this));
@@ -1895,25 +1885,24 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (isFloatingMenu()) {
-				menuShowing = false;
 				menuViewController.setMenuVisible(false);
-				updateMenuBtnStatus(false);
 			} else {
 				hideMenu();
 			}
 		}
 	}
 
-//	private boolean maybeCreateFloatingMenuView() {
-//		if (floatingMenuView == null) {
-//			floatingMenuView = new FloatingMenuView();
-//			floatingMenuView.setWidget(createMenu());
-//			floatingMenuView.setVisible(false);
-//			frame.add(floatingMenuView);
-//			return true;
-//		}
-//		return false;
-//	}
+	@Override
+	public void onMenuOpened() {
+		menuShowing = true;
+		updateMenuBtnStatus(true);
+	}
+
+	@Override
+	public void onMenuClosed() {
+		menuShowing = false;
+		updateMenuBtnStatus(false);
+	}
 
 	private void updateMenuBtnStatus(boolean expanded) {
 		if (getGuiManager() != null) {

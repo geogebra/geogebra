@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.menu;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
@@ -14,11 +12,15 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandler;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
+import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import java.util.List;
 
 public class MenuViewController {
+
+	private MenuViewListener menuViewListener;
 
 	private FloatingMenuView floatingMenuView;
 	private MenuView menuView;
@@ -30,18 +32,18 @@ public class MenuViewController {
 	private DrawerMenuFactory defaultDrawerMenuFactory;
 	private DrawerMenuFactory examDrawerMenuFactory;
 
-	public MenuViewController(App app) {
+	public MenuViewController(AppW app) {
 		createObjects(app);
 		createViews();
 		createFactories(app);
 		setDefaultMenu();
 	}
 
-	private void createObjects(App app) {
+	private void createObjects(AppW app) {
 		localization = app.getLocalization();
 		menuIconResource = new MenuIconResource(app.isMebis() ?
 				MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler());
+		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app));
 	}
 
 	private void createViews() {
@@ -59,6 +61,10 @@ public class MenuViewController {
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
 	}
 
+	public void setMenuViewListener(MenuViewListener menuViewListener) {
+		this.menuViewListener = menuViewListener;
+	}
+
 	public Widget getView() {
 		return floatingMenuView;
 	}
@@ -73,6 +79,17 @@ public class MenuViewController {
 
 	public void setMenuVisible(boolean visible) {
 		floatingMenuView.setVisible(visible);
+		notifyMenuViewVisibilityChanged(visible);
+	}
+
+	private void notifyMenuViewVisibilityChanged(boolean visible) {
+		if (menuViewListener != null) {
+			if (visible) {
+				menuViewListener.onMenuOpened();
+			} else {
+				menuViewListener.onMenuClosed();
+			}
+		}
 	}
 
 	private void setMenuItemGroups(List<MenuItemGroup> menuItemGroups) {
@@ -96,13 +113,13 @@ public class MenuViewController {
 		SVGResource icon = menuIconResource.getImageResource(menuItem.getIcon());
 		String label = localization.getMenu(menuItem.getLabel());
 		MenuItemView view = new MenuItemView(icon, label);
-		view.addHandler(new ClickHandler() {
+		view.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(Widget source) {
 				setMenuVisible(false);
 				menuActionRouter.handleMenuItem(menuItem);
 			}
-		}, ClickEvent.getType());
+		});
 		parent.add(view);
 	}
 }

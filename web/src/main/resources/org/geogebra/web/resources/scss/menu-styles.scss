@@ -332,17 +332,16 @@ $classicToolbar: 50px;
 				height: 48px;
 				border-radius: 0px 24px 24px 0px;
 				&:hover {
-					cursor: pointer;
 					background-color: #EEEEEE;
 				}
-				.image {
+				.gwt-Image {
 					vertical-align: middle;
 					display: inline-block;
 					width: 24px;
 					height: 24px;
 					margin: 12px 16px 12px 16px;
 				}
-				.label {
+				.gwt-Label {
 					display: inline-block;
 					font-size: 87%;
 					color: $text-primary;

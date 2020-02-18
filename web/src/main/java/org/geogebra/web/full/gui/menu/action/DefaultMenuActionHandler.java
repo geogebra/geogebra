@@ -1,6 +1,14 @@
 package org.geogebra.web.full.gui.menu.action;
 
+import org.geogebra.web.html5.main.AppW;
+
 public class DefaultMenuActionHandler implements MenuActionHandler {
+
+	private AppW app;
+
+	public DefaultMenuActionHandler(AppW app) {
+		this.app = app;
+	}
 
 	@Override
 	public void startClassic() {
@@ -34,7 +42,16 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void clearConstruction() {
+		app.setWaitCursor();
+		app.fileNew();
+		app.setDefaultCursor();
 
+		if (!app.isUnbundledOrWhiteboard()) {
+			app.showPerspectivesPopup();
+		}
+		if (app.getPageController() != null) {
+			app.getPageController().resetPageControl();
+		}
 	}
 
 	@Override
