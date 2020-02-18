@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -194,6 +195,8 @@ public class Construction {
 	private boolean updateConstructionRunning;
 	private LabelManager labelManager;
 
+	private ArrayList<Group> groups;
+
 	/**
 	 * Creates a new Construction.
 	 * 
@@ -238,6 +241,7 @@ public class Construction {
 		setIgnoringNewTypes(false);
 		geoTable = new HashMap<>(200);
 		initGeoTables();
+		groups = new ArrayList<>();
 	}
 
 	/**
@@ -1312,9 +1316,17 @@ public class Construction {
 
 			getConstructionElementsXML(sb, getListenersToo);
 
+			getGroupsXML(sb);
+
 			sb.append("</construction>\n");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void getGroupsXML(StringBuilder sb) {
+		for (Group gr : getGroups()) {
+			gr.getXML(sb);
 		}
 	}
 
@@ -3655,5 +3667,22 @@ public class Construction {
 
 	public boolean requires3D() {
 		return has3DObjects() || hasInputBoxes();
+	}
+
+	public ArrayList<Group> getGroups() {
+		return groups;
+	}
+
+	public void addGroupToGroupList(Group group) {
+		groups.add(group);
+	}
+
+	/**
+	 * creates group of selected geos and adds it to the construction
+	 * @param geos - list of geos selected for grouping
+	 */
+	public void createGroup(ArrayList<GeoElement> geos) {
+		Group group = new Group(geos);
+		addGroupToGroupList(group);
 	}
 }

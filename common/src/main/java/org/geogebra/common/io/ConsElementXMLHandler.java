@@ -2537,6 +2537,22 @@ public class ConsElementXMLHandler {
 		} else {
 			docPointStyle = -1;
 		}
+	}
 
+	/**
+	 * parse list of geos in a group
+	 * @param attrs - labels of geos in the group
+	 */
+	public void handleGroup(LinkedHashMap<String, String> attrs) {
+		ArrayList<GeoElement> geosInGroup = new ArrayList<>();
+		for (String label : attrs.values()) {
+			GeoElement geo = xmlHandler.kernel.lookupLabel(label);
+			if (geo != null) {
+				geosInGroup.add(geo);
+			}
+		}
+		if (!geosInGroup.isEmpty()) {
+			app.getKernel().getConstruction().createGroup(geosInGroup);
+		}
 	}
 }
