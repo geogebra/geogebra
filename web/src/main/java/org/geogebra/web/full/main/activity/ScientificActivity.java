@@ -15,7 +15,7 @@ import org.geogebra.web.full.gui.menubar.ScientificMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionScientific;
 import org.geogebra.web.full.main.HeaderResizer;
@@ -83,7 +83,7 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	@Override
-	public MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
+	public MenuItemCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
 		return new AlgebraMenuItemCollectionScientific(view);
 	}
 

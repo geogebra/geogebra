@@ -1,6 +1,11 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DeleteItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.SettingsItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.SpecialPointsItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.TableOfValuesItem;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -17,13 +22,13 @@ public class AlgebraMenuItemCollection extends GeoElementMenuItemCollection {
 	public AlgebraMenuItemCollection(AlgebraViewW algebraView) {
 		AppW app = algebraView.getApp();
 		if (app.getConfig().hasTableView()) {
-			addActions(new TableOfValuesAction());
+			addItems(new TableOfValuesItem());
 		}
-		addActions(new SpecialPointsAction());
+		addItems(new SpecialPointsItem());
 		if (!app.getConfig().hasAutomaticLabels()) {
 			addLabelingActions();
 		}
-		addActions(new DuplicateAction(algebraView), new DeleteAction(), new SettingsAction());
+		addItems(new DuplicateItem(algebraView), new DeleteItem(), new SettingsItem());
 	}
 
 }

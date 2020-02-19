@@ -1,14 +1,26 @@
 package org.geogebra.web.full.gui.menu.action;
 
-import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
+import org.geogebra.web.full.gui.menubar.action.FileNewAction;
+import org.geogebra.web.full.gui.menubar.action.LicenseAction;
 import org.geogebra.web.full.main.AppWFull;
 
 public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	private AppWFull app;
+	private FileNewAction fileNewAction;
+	private ExitExamAction exitExamAction;
+	private LicenseAction licenseAction;
 
 	public DefaultMenuActionHandler(AppWFull app) {
 		this.app = app;
+		createActions();
+	}
+
+	private void createActions() {
+		fileNewAction = new FileNewAction(true);
+		exitExamAction = new ExitExamAction();
+		licenseAction = new LicenseAction();
 	}
 
 	@Override
@@ -43,22 +55,7 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void clearConstruction() {
-		app.getDialogManager().getSaveDialog().showIfNeeded(new AsyncOperation<Boolean>() {
-			@Override
-			public void callback(Boolean obj) {
-				// ignore active: don't save means we want new construction
-				app.setWaitCursor();
-				app.fileNew();
-				app.setDefaultCursor();
-
-				if (!app.isUnbundledOrWhiteboard()) {
-					app.showPerspectivesPopup();
-				}
-				if (app.getPageController() != null) {
-					app.getPageController().resetPageControl();
-				}
-			}
-		});
+		fileNewAction.execute(null, app);
 	}
 
 	@Override
@@ -98,7 +95,7 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void exitExamMode() {
-
+		exitExamAction.execute(null, app);
 	}
 
 	@Override
@@ -118,7 +115,7 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void showLicense() {
-
+		licenseAction.execute(null, app);
 	}
 
 	@Override

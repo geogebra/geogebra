@@ -9,9 +9,9 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
-import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
-import org.geogebra.web.full.gui.menubar.action.FileNewAction;
-import org.geogebra.web.full.gui.menubar.action.FileOpenActionMebis;
+import org.geogebra.web.full.gui.menubar.item.ExitExamItem;
+import org.geogebra.web.full.gui.menubar.item.FileNewItem;
+import org.geogebra.web.full.gui.menubar.item.FileOpenItemMebis;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
@@ -66,7 +66,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	private void initActions() {
 		// if (!app.has(Feature.NEW_START_SCREEN)) {
 		if (getApp().isExam()) {
-			addItem(new ExitExamAction(getApp()));
+			addItem(new ExitExamItem());
 			return;
 		}
 
@@ -200,7 +200,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void addFileNewItem() {
-		addItem(new FileNewAction(getApp()));
+		addItem(new FileNewItem(getApp()));
 	}
 
 	private void addShareItem() {
@@ -280,7 +280,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 
 	private void addOpenFileItemMebis() {
 		openFileItem =
-				addItem(new FileOpenActionMebis(getApp(), activity));
+				addItem(new FileOpenItemMebis(getApp(), activity));
 	}
 
 	private void addDownloadAsItem() {
