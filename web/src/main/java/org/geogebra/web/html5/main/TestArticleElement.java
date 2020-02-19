@@ -132,7 +132,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public InputPosition getAlgebraPosition(InputPosition def) {
-		return InputPosition.top;
+		return def;
 	}
 
 	@Override

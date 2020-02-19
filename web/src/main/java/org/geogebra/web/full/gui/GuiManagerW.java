@@ -657,12 +657,14 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void resize(final int width, final int height) {
 		final Element geogebraFrame = getApp().getFrameElement();
-
-		int widthChanged = width - geogebraFrame.getOffsetWidth();
-		int heightChanged = height - geogebraFrame.getOffsetHeight();
 		int borderThickness = getApp().getArticleElement()
 				.getBorderThickness();
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
+			if (geogebraFrame.getOffsetHeight() <= 0) {
+				return; // not in DOM yet => no reliable size
+			}
+			int widthChanged = width - geogebraFrame.getOffsetWidth();
+			int heightChanged = height - geogebraFrame.getOffsetHeight();
 			final DockSplitPaneW root = getLayout().getRootComponent();
 			root.setPixelSize(root.getOffsetWidth() + widthChanged,
 					root.getOffsetHeight() + heightChanged);

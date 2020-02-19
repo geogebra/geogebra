@@ -130,6 +130,7 @@ import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -162,7 +163,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.html5.util.CopyPasteW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -791,7 +791,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
 		if (!isggs && getEmbedManager() != null) {
-			getEmbedManager().embed(dataUrl);
+			Material mat = new Material(-1, Material.MaterialType.ggb);
+			mat.setBase64(dataUrl);
+			getEmbedManager().embed(mat);
 		} else {
 			view.processBase64String(dataUrl);
 		}

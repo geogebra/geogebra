@@ -17,7 +17,6 @@ import org.geogebra.web.full.cas.view.CASStylebarW;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -36,6 +35,8 @@ import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
@@ -56,7 +57,6 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.html5.util.TestHarness;
 
 /**
  * Every object which should be dragged needs to be of type DockPanel. A
@@ -92,7 +92,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * The title of this dock panel.
 	 */
-	private String title = " no title";
+	private final String title;
 
 	/**
 	 * If this panel is visible.
@@ -110,14 +110,9 @@ public abstract class DockPanelW extends ResizeComposite
 	protected Rectangle frameBounds = new Rectangle(50, 50, 500, 500);
 
 	/**
-	 * If this panel should be opened in a frame the next time it's visible.
-	 */
-	// final protected boolean openInFrame = false;
-
-	/**
 	 * If there is a style bar associated with this panel.
 	 */
-	private boolean hasStyleBar = false;
+	private final boolean hasStyleBar;
 
 	private int embeddedDimWidth;
 	private int embeddedDimHeight;
@@ -815,16 +810,6 @@ public abstract class DockPanelW extends ResizeComposite
 			}
 			super.add(w);
 		}
-
-	}
-
-	/**
-	 * Update all elements in the title bar.
-	 */
-	public void updateTitleBar() {
-		if (componentPanel == null) {
-			return;
-		}
 	}
 
 	/**
@@ -990,10 +975,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @return The parent DockSplitPane or null.
 	 */
 	public DockSplitPaneW getParentSplitPane() {
-		if (isOpenInFrame()) {
-			return null;
-		}
-
 		Widget parent = getParent();
 
 		if (!(parent instanceof DockSplitPaneW)) {
@@ -1014,7 +995,7 @@ public abstract class DockPanelW extends ResizeComposite
 		DockSplitPaneW parentDSP;
 
 		while (parent instanceof DockSplitPaneW) {
-			int defType = -1;
+			int defType;
 
 			parentDSP = (DockSplitPaneW) parent;
 
@@ -1063,28 +1044,6 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
-	 * If this view should open in a frame. Has no immediate effect.
-	 * 
-	 * @param openInFrame
-	 *            whether this is in frame
-	 */
-	public void setOpenInFrame(boolean openInFrame) {
-		// this.openInFrame = openInFrame;
-	}
-
-	/**
-	 * @return Whether this view should open in frame.
-	 */
-	@Override
-	public boolean isOpenInFrame() {
-		// TODO: return openInFrame;
-		// currently opening in an own frame is not implemented on web,
-		// so temporarily it will return false all time (see #3468)
-		return false;
-		// return openInFrame;
-	}
-
-	/**
 	 * If the stylebar of this view should be visible. Has no immediate effect.
 	 * 
 	 * @param showStyleBar
@@ -1108,10 +1067,7 @@ public abstract class DockPanelW extends ResizeComposite
 				return false;
 			}
 		}
-		return (showStyleBar /*
-								 * || !(theRealTitleBarPanel.isVisible() &&
-								 * theRealTitleBarPanel.isAttached())
-								 */);
+		return showStyleBar;
 	}
 
 	/**
@@ -1137,13 +1093,6 @@ public abstract class DockPanelW extends ResizeComposite
 	public Rectangle getFrameBounds() {
 		return this.frameBounds;
 	}
-
-	/**
-	 * @return return the Window
-	 */
-	/*
-	 * public Window getFrame() { return frame; }
-	 */
 
 	/**
 	 * @param embeddedDef
@@ -1222,23 +1171,10 @@ public abstract class DockPanelW extends ResizeComposite
 
 		this.hasFocus = hasFocus;
 
-		if (hasFocus) {
-			// request focus and change toolbar if necessary
-			if (isOpenInFrame()) {
-				// TODO frame.requestFocus();
-			} else {
-				/*
-				 * TODO if (!app.isApplet()) { JFrame frame = app.getFrame();
-				 * 
-				 * if (frame != null) { frame.toFront(); } }
-				 */
-
-				setActiveToolBar();
-			}
-		}
-
 		// call callback methods for focus changes
 		if (hasFocus) {
+			// request focus and change toolbar if necessary
+			setActiveToolBar();
 			focusGained();
 		} else {
 			focusLost();
@@ -1258,8 +1194,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	protected void setActiveToolBar() {
 		if (hasToolbar()) {
-			((GuiManagerW) app.getGuiManager())
-					.setActivePanelAndToolbar(getViewId());
+			app.getGuiManager().setActivePanelAndToolbar(getViewId());
 		}
 	}
 
@@ -1271,13 +1206,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * 
 	 */
 	protected void setTitleLabelFocus() {
-
-		if (titleIsBold()) {
-			titleBarPanel.addStyleName("TitleBarPanel-focus");
-		} else {
-			titleBarPanel.removeStyleName("TitleBarPanel-focus");
-		}
-
+		Dom.toggleClass(titleBarPanel, "TitleBarPanel-focus", titleIsBold());
 	}
 
 	/**
@@ -1370,24 +1299,6 @@ public abstract class DockPanelW extends ResizeComposite
 	@Override
 	public String getDefaultToolbarString() {
 		return defaultToolbarString;
-	}
-
-	/**
-	 * @return dock panel information as string for debugging.
-	 */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[DockPanel,id=");
-		sb.append(getViewId());
-		sb.append(",toolbar=");
-		sb.append(getToolbarString());
-		sb.append(",visible=");
-		sb.append(isVisible());
-		sb.append(",inframe=");
-		sb.append(isOpenInFrame());
-		sb.append("]");
-		return sb.toString();
 	}
 
 	@Override
@@ -1617,9 +1528,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 *            keyboard button
 	 */
 	public void addSouth(ShowKeyboardButton showKeyboardButton) {
-		if (this.kbButtonSpace == null) {
-			return;
-		}
 		this.kbButtonSpace.setWidget(showKeyboardButton);
 	}
 

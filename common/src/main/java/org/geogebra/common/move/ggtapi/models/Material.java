@@ -94,6 +94,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private String instructionsPost;
 	private boolean showMenu;
 	private boolean showToolbar;
+	private boolean allowStylebar;
 	private boolean showInputbar;
 	private boolean showResetIcon;
 	private boolean shiftDragZoom;
@@ -181,6 +182,10 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setShowToolbar(boolean showToolbar) {
 		this.showToolbar = showToolbar;
+	}
+
+	public void setAllowStylebar(boolean allowStylebar) {
+		this.allowStylebar = allowStylebar;
 	}
 
 	public void setShowInputbar(boolean showInputbar) {
@@ -837,5 +842,9 @@ public class Material implements Comparable<Material>, Serializable {
 	private void setCreatorAsAuthor() {
 		author = creator.getUsername();
 		authorID = creator.getId();
+	}
+
+	public boolean getAllowStylebar() {
+		return allowStylebar;
 	}
 }

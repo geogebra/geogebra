@@ -763,7 +763,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			ge.setAppName("cas");
 		}
 		ge.initPosition(view);
-		ge.setEmbedId(app.getEmbedManager().nextID());
+		app.getEmbedManager().initAppEmbed(ge);
 		ge.setLabel(null);
 		app.storeUndoInfo();
 		app.invokeLater(new Runnable() {

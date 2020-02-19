@@ -100,6 +100,7 @@ public class JSONParserGGT {
 		material.setInstructionsPost(getString(obj, "instructions_post"));
 		material.setInstructionsPre(getString(obj, "instructions_pre"));
 		material.setShowToolbar(getBoolean(obj, "toolbar", false));
+		material.setAllowStylebar(getBoolean(obj, "stylebar", false));
 		material.setShowMenu(getBoolean(obj, "menubar", false));
 		material.setShowInputbar(getBoolean(obj, "inputbar", false));
 		material.setFavorite(getBoolean(obj, "favorite", false));

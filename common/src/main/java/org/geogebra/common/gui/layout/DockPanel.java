@@ -8,8 +8,6 @@ public interface DockPanel {
 
 	String getToolbarString();
 
-	boolean isOpenInFrame();
-
 	String getDefaultToolbarString();
 
 	int getViewId();
