@@ -179,7 +179,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public void setFocus(boolean focus, boolean scheduled) {
+	public void setFocus(boolean focus) {
 		remove(focus ? dummy : mf);
 		if (focus) {
 			updateWidth();
@@ -196,7 +196,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		}
 		// got here by blur: do not use previous cell ref
 		if (!keepFocus && StringUtil.empty(getText())) {
-			this.setFocus(false, false);
+			this.setFocus(false);
 			return;
 		}
 		this.controller.handleEnterKey(false, false, app, keepFocus);
@@ -230,14 +230,14 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 				gui.setActivePanelAndToolbar(App.VIEW_CAS);
 			}
 		});
-		setFocus(true, false);
+		setFocus(true);
 	}
 
 	/**
 	 * Click start callback
 	 */
 	protected void doClickStart() {
-		setFocus(true, false);
+		setFocus(true);
 		app.showKeyboard(retexListener);
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)

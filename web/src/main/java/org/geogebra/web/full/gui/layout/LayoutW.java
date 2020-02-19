@@ -100,21 +100,10 @@ public class LayoutW extends Layout {
 		if (app.isApplet()) {
 			app.setCustomToolBar();
 
-			app.setShowToolBarNoUpdate(
-			/*
-			 * perspective.getShowToolBar() &&
-			 * app.getArticleElement().getDataParamShowToolBarDefaultTrue() ||
-			 */
-			app.getArticleElement().getDataParamShowToolBar(false));
-
-			app.setShowAlgebraInput(
-			/*
-			 * perspective.getShowInputPanel() &&
-			 * app.getArticleElement().getDataParamShowAlgebraInputDefaultTrue()
-			 * ||
-			 */
-			app.getArticleElement().getDataParamShowAlgebraInput(false), false);
-
+			app.setShowToolBarNoUpdate(app.getArticleElement()
+					.getDataParamShowToolBar(false));
+			app.setShowAlgebraInput(app.getArticleElement()
+					.getDataParamShowAlgebraInput(false), false);
 		}
 
 		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
@@ -312,7 +301,7 @@ public class LayoutW extends Layout {
 				// just the width of the panels isn't updated every time the
 				// panel
 				// is updated, so we have to take care of this by ourself
-				if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
+				if (panels[i].isVisible()) {
 					DockSplitPaneW parent = panels[i].getParentSplitPane();
 					if (parent != null && parent
 							.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {

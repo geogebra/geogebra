@@ -108,13 +108,6 @@ run {
 
 }
 test {
-    // forward command line properties to the test JVM
-    project.properties.each { prop, val ->
-        if(val instanceof String) {
-            systemProperty prop.trim(), val;
-        }
-    }
-
     systemProperty "ggb.prerelease", project.findProperty("prerelease") ?: "true";
 
     ignoreFailures = true

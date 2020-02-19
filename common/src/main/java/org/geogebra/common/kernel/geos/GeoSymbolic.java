@@ -425,7 +425,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		String def = getDefinition(StringTemplate.defaultTemplate);
 		String val;
 		GeoElementND twin = getTwinGeo();

@@ -233,9 +233,7 @@ public class DialogManagerW extends DialogManager
 		}
 		geo.setLabelVisible(true);
 		geo.updateRepaint();
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().clearInputbar();
-		}
+
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		InputDialogW id = new InputDialogW((AppW) app, app.getLocalization()

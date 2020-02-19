@@ -28,7 +28,7 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 	}
 
 	@Override
-	public void setFocus(boolean focus, boolean scheduled) {
+	public void setFocus(boolean focus) {
 		// canvas.setFocus(focus);
 		mf.setFocus(focus);
 	}

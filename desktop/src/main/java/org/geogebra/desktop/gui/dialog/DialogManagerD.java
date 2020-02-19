@@ -180,7 +180,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 				App.VIEW_PROPERTIES);
 		if (geos != null && geos.size() == 1 && geos.get(0).isEuclidianVisible()
 				&& geos.get(0) instanceof GeoNumeric) {
-			// AbstractApplication.debug("TODO : propPanel.showSliderTab()");
 			((GuiManagerD) app.getGuiManager()).showPropertiesViewSliderTab();
 		}
 	}
@@ -208,7 +207,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 		geo.setLabelVisible(true);
 		geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().clearInputbar();
+			((GuiManagerD) app.getGuiManager()).clearInputbar();
 		}
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 

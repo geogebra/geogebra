@@ -1488,11 +1488,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void setFocus(boolean focus, boolean sv) {
-		setFocus(focus);
-	}
-
-	@Override
 	public void setFocus(boolean focus) {
 		isFocused = focus;
 		textField.setFocus(focus);

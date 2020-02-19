@@ -3,16 +3,20 @@ package org.geogebra.web.html5.gui.util;
 import com.google.gwt.user.client.ui.UIObject;
 
 public interface MathKeyboardListener {
-	public void setFocus(boolean focus, boolean scheduled);
 
-	public void ensureEditing();
+	/**
+	 * @param focus
+	 *            set focus true or false
+	 */
+	void setFocus(boolean focus);
 
-	public UIObject asWidget();
+	void ensureEditing();
 
-	public String getText();
+	UIObject asWidget();
 
-	public boolean needsAutofocus();
+	String getText();
+
+	boolean needsAutofocus();
 
 	boolean hasFocus();
-
 }

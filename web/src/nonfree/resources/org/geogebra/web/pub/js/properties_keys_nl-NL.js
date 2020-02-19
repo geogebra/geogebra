@@ -3343,7 +3343,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "permission.camera.denied": "De camera is niet bereikbaar",
     "permission.photos": "Om een afbeelding op te slaan moet GeoGebra toegang hebben tot de fotobibliotheek.",
     "permission.photos.denied": "Foto's zijn niet toegankelijk",
-    "permission.photos.exam_screenshot": "GeoGebra heeft toegang nodig tot de fotobibliotheek om een schermafdruk van het logboek te bewaren op het einde van het examen.",
+    "permission.photos.exam_screenshot": "GeoGebra heeft toegang nodig tot de fotobibliotheek om een schermafdruk van de Examendetails te bewaren op het einde van het examen.",
     "permission.request": "Verleen toegang via je instellingen.",
     "phone_change_visibility": "Change Visibility",
     "phone_change_visibility_text": "If you share this private material, its visibility status will be changed to \"Shared with Link\".",

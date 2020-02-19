@@ -173,9 +173,6 @@ public class GuiManagerW extends GuiManager
 
 	private int activeViewID;
 
-	private boolean inputBarSetFocusScheduled = false;
-	private boolean inputBarSetFocusAllowed = true;
-
 	private GOptionPaneW optionPane;
 
 	private ColorPanel colorPanel;
@@ -457,23 +454,6 @@ public class GuiManagerW extends GuiManager
 		if (hasCasView()) {
 			((CASViewW) getCasView()).updateFonts();
 		}
-		/*
-		 * ((AppW)
-		 * app).getFrameElement().getStyle().setFontSize(app.getFontSize(),
-		 * Unit.PX);
-		 *
-		 * // if (((AppW) app).getObjectPool().getGgwMenubar() != null){ //
-		 * GeoGebraMenubarW menubar = ((AppW)
-		 * app).getObjectPool().getGgwMenubar().getMenubar(); // if (menubar !=
-		 * null) menubar.updateFonts(); // }
-		 *
-		 * updateFontSizeStyleElement();
-		 *
-		 * if(hasPropertiesView()){
-		 * ((PropertiesViewW)getPropertiesView()).updateFonts(); }
-		 *
-		 * if(hasSpreadsheetView()){ getSpreadsheetView().updateFonts(); }
-		 */
 	}
 
 	@Override
@@ -647,22 +627,20 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateSpreadsheetColumnWidths() {
-		// TODO Auto-generated method stub
-		Log.debug("unimplemented");
-		// if (spreadsheetView != null) {
-		// spreadsheetView.updateColumnWidths();
-		// }
+		// unimplemented in web
 	}
 
 	@Override
 	public void resize(final int width, final int height) {
 		final Element geogebraFrame = getApp().getFrameElement();
-
-		int widthChanged = width - geogebraFrame.getOffsetWidth();
-		int heightChanged = height - geogebraFrame.getOffsetHeight();
 		int borderThickness = getApp().getArticleElement()
 				.getBorderThickness();
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
+			if (geogebraFrame.getOffsetHeight() <= 0) {
+				return; // not in DOM yet => no reliable size
+			}
+			int widthChanged = width - geogebraFrame.getOffsetWidth();
+			int heightChanged = height - geogebraFrame.getOffsetHeight();
 			final DockSplitPaneW root = getLayout().getRootComponent();
 			root.setPixelSize(root.getOffsetWidth() + widthChanged,
 					root.getOffsetHeight() + heightChanged);
@@ -951,12 +929,7 @@ public class GuiManagerW extends GuiManager
 	public AlgebraViewW getAlgebraView() {
 		if (algebraView == null) {
 			initAlgebraController();
-			algebraView = newAlgebraView(algebraController);
-			// if (!app.isApplet()) {
-			// allow drag & drop of files on algebraView
-			// algebraView.setDropTarget(new DropTarget(algebraView,
-			// new FileDropTargetListener(app)));
-			// }
+			algebraView = new AlgebraViewW(algebraController);
 		}
 
 		return algebraView;
@@ -969,19 +942,6 @@ public class GuiManagerW extends GuiManager
 		if (algebraController == null) {
 			algebraController = new AlgebraControllerW(getApp().getKernel());
 		}
-	}
-
-	/**
-	 *
-	 * @param algc
-	 *            algebra controller
-	 * @return new algebra view
-	 */
-	protected AlgebraViewW newAlgebraView(final AlgebraControllerW algc) {
-		// if (USE_COMPRESSED_VIEW) {
-		// return new CompressedAlgebraView(algc, CV_UPDATES_PER_SECOND);
-		// }
-		return new AlgebraViewW(algc);
 	}
 
 	@Override
@@ -1107,18 +1067,12 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void showPropertiesViewSliderTab() {
-		Log.debug("unimplemented");
-	}
-
-	@Override
 	public void updateGUIafterLoadFile(final boolean success,
 			final boolean isMacroFile) {
 		if (success && !isMacroFile
 				&& !getApp().getSettings().getLayout().isIgnoringDocumentLayout()) {
 
 			getLayout().setPerspectives(getApp().getTmpPerspectives(), null);
-			// SwingUtilities.updateComponentTreeUI(getLayout().getRootComponent());
 
 			if (!getApp().isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
@@ -1141,10 +1095,6 @@ public class GuiManagerW extends GuiManager
 			getEuclidianView2(1).updateFonts();
 		}
 
-		// if (getApp().getEuclidianView3D() != null) {
-		// ((EuclidianView3DW) (getApp().getEuclidianView3D())).doRepaint2();
-		//
-		// }
 		// force JavaScript ggbOnInit(); to be called
 		if (!getApp().isApplet()) {
 			getApp().getScriptManager().ggbOnInit();
@@ -1161,7 +1111,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean noMenusOpen() {
-		Log.debug("unimplemented");
+		// unimplemented
 		return true;
 	}
 
@@ -1174,20 +1124,17 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showGraphicExport() {
-		Log.debug("unimplemented");
-
+		// unimplemented
 	}
 
 	@Override
 	public void showPSTricksExport() {
-		Log.debug("unimplemented");
-
+		// unimplemented
 	}
 
 	@Override
 	public void showWebpageExport() {
-		Log.debug("unimplemented");
-
+		// unimplemented
 	}
 
 	@Override
@@ -1317,7 +1264,6 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void attachDataAnalysisView() {
-		Log.debug("DAMODE attachDataAnalysisView");
 		getDataAnalysisView();
 		dataAnalysisView.attachView();
 	}
@@ -1393,16 +1339,6 @@ public class GuiManagerW extends GuiManager
 	public void showURLinBrowser(final String strURL) {
 		final PopupBlockAvoider popupBlockAvoider = new PopupBlockAvoider();
 		popupBlockAvoider.openURL(strURL);
-	}
-
-	@Override
-	public void clearInputbar() {
-		Log.debug("unimplemented");
-	}
-
-	@Override
-	public Object createFrame() {
-		return null;
 	}
 
 	@Override
@@ -1497,10 +1433,8 @@ public class GuiManagerW extends GuiManager
 		if (euclidianView2.get(idx) == null) {
 			final boolean[] showAxis = { true, true };
 			final boolean showGrid = false;
-			Log.debug("Creating 2nd Euclidian View");
 			final EuclidianViewW ev = newEuclidianView(showAxis, showGrid, 2);
 			euclidianView2.set(idx, ev);
-			// euclidianView2.setEuclidianViewNo(2);
 			ev.updateFonts();
 		}
 		return euclidianView2.get(idx);
@@ -1553,12 +1487,10 @@ public class GuiManagerW extends GuiManager
 		int width = size.getWidth();
 		int height = size.getHeight();
 		// check if frame fits on screen
-		Log.debug("Window resize: " + width + "," + height);
 
 		if (getApp().getDevice() != null) {
 			getApp().getDevice().resizeView(width, height);
 		}
-
 	}
 
 	@Override
@@ -1917,7 +1849,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void detachView(final int viewId) {
 		if (viewId == App.VIEW_FUNCTION_INSPECTOR) {
-			Log.debug("Detaching VIEW_FUNCTION_INSPECTOR");
 			getApp().getDialogManager().getFunctionInspector()
 			.setInspectorVisible(false);
 		} else {
@@ -2190,53 +2121,6 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	/**
-	 * This is just a method for implementing the logic in
-	 * InputTreeItem.setFocus, because it might not be accessible at early a
-	 * time... I tried to do everything in one method to spare
-	 *
-	 * Comment copied from there (as earlier):
-	 *
-	 * This method should tell the Input Bar that a focus is scheduled in a
-	 * timeout or invokelater or some other method, this is important because
-	 * any intentional blur should cancel the schedule (hopefully), so:
-	 *
-	 * - setFocus shall set setFocusScheduled to false AND call the focus, in
-	 * case setFocusAllowed was true but do not call it if setFocusAllowed was
-	 * false AND setFocusScheduled was true at the same time
-	 *
-	 * - any blur event shall set setFocusAllowed to false, in case
-	 * setFocusScheduled was true (at least, it can have effect only in this
-	 * case)
-	 */
-	@Override
-	public boolean focusScheduled(boolean setNotGet,
-			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed) {
-		if (setNotGet) {
-			inputBarSetFocusScheduled = setOrGetScheduledPrioritized;
-			inputBarSetFocusAllowed = setOrGetAllowed;
-
-			// shall not be used:
-			return true;
-		} else if (setOrGetScheduledPrioritized) {
-			return inputBarSetFocusScheduled;
-		} else if (setOrGetAllowed) {
-			return inputBarSetFocusAllowed;
-		} else {
-			// strange, but we need another option of just setting
-			// one of them at once, so that focusScheduled can be called
-			// many times after one another, with also onBlur being called
-			// meanwhile, where the inputBarSetFocusAllowed shall be
-			// collected and summed all along the way, while still being
-			// in the same scheduled mode! In theory, the allowed
-			// property is set to true when the previous setFocus returns
-			inputBarSetFocusScheduled = true;
-		}
-
-		// shall not be used:
-		return true;
-	}
-
 	@Override
 	public void setPixelRatio(double ratio) {
 		if (hasAlgebraView()) {
@@ -2300,7 +2184,7 @@ public class GuiManagerW extends GuiManager
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
 			input.autocomplete(string);
-			input.setFocus(true, true);
+			input.setFocus(true);
 			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().getTextField().autocomplete(string);
@@ -2317,7 +2201,7 @@ public class GuiManagerW extends GuiManager
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
 			input.setText(string);
-			input.setFocus(true, true);
+			input.setFocus(true);
 			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().setText(string);

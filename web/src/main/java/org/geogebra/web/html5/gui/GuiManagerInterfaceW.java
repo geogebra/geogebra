@@ -89,9 +89,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void listenToLogin();
 
-	boolean focusScheduled(boolean setNotGet,
-			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed);
-
 	void setPixelRatio(double ratio);
 
 	String getTooltipURL(int mode);
