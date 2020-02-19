@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
@@ -57,7 +58,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 * @param value
 	 *            output expression
 	 */
-	public void setValue(ExpressionValue value) {
+	private void setValue(ExpressionValue value) {
 		this.value = value;
 	}
 
@@ -274,9 +275,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (twinUpToDate) {
 			return twinGeo;
 		}
-		GeoElementND newTwin = casOutputString == null ? null
-				: kernel.getAlgebraProcessor()
-						.evaluateToGeoElement(this.casOutputString, false);
+
+		GeoElementND newTwin = createTwinGeo();
 
 		if (newTwin instanceof EquationValue) {
 			((EquationValue) newTwin).setToUser();
@@ -298,6 +298,23 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		twinUpToDate = true;
 
 		return twinGeo;
+	}
+
+	private GeoElementND createTwinGeo() {
+		if (value == null) {
+			return null;
+		}
+		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
+		try {
+			cons.setSuppressLabelCreation(true);
+			ValidExpression ve = kernel.getParser().parseGiac(casOutputString);
+			GeoElementND[] temp = kernel.getAlgebraProcessor().processValidExpression(ve);
+			return temp[0];
+		} catch (Throwable exception) {
+			return null;
+		} finally {
+			cons.setSuppressLabelCreation(isSuppressLabelsActive);
+		}
 	}
 
 	@Override
