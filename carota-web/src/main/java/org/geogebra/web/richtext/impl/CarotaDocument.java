@@ -31,5 +31,5 @@ public class CarotaDocument {
 
 	public native CarotaRange hyperlinkRange(int start, int end);
 
-	public native void switchListTo(String listType);
+	public native void switchListTo(CarotaRange range, String listType);
 }
