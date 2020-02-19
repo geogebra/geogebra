@@ -12,9 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.kernelND;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
-
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
@@ -61,7 +59,8 @@ import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * Class for conic in any dimension.
@@ -167,6 +166,36 @@ public abstract class GeoConicND extends GeoQuadricND
 	private Coords tmpCoords2;
 
 	/**
+	 * default constructor
+	 *
+	 * @param c
+	 *            construction
+	 * @param dimension
+	 *            dimension
+	 */
+	public GeoConicND(Construction c, int dimension) {
+		this(c, dimension, false, EQUATION_IMPLICIT);
+	}
+
+	/**
+	 * default constructor
+	 *
+	 * @param c
+	 *            construction
+	 * @param dimension
+	 *            dimension
+	 * @param isIntersection
+	 *            if this is an intersection curve
+	 * @param stringMode
+	 *            toStroingMode, one of EQUATION_* constants
+	 */
+	public GeoConicND(Construction c, int dimension, boolean isIntersection,
+					  int stringMode) {
+		super(c, dimension, isIntersection);
+		setToStringMode(stringMode);
+	}
+
+	/**
 	 * 
 	 * @param i
 	 *            index of eigenvector
@@ -208,48 +237,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return the origin of lines in case of parallel lines
 	 */
 	abstract public Coords getOrigin3D(int i);
-
-	/*
-	 * private CoordMatrix eigenMatrix2D = new CoordMatrix(3,3);
-	 * 
-	 * /* update the 2D eigen matrix (should be called each
-	 *
-	 * public void updateEigenMatrix2D(){
-	 * 
-	 * eigenMatrix2D.setOrigin(getMidpoint());
-	 * eigenMatrix2D.setVx(getEigenvec(0)); eigenMatrix2D.setVy(getEigenvec(1));
-	 * }
-	 */
-
-	/**
-	 * default constructor
-	 * 
-	 * @param c
-	 *            construction
-	 * @param dimension
-	 *            dimension
-	 */
-	public GeoConicND(Construction c, int dimension) {
-		this(c, dimension, false, EQUATION_IMPLICIT);
-	}
-
-	/**
-	 * default constructor
-	 * 
-	 * @param c
-	 *            construction
-	 * @param dimension
-	 *            dimension
-	 * @param isIntersection
-	 *            if this is an intersection curve
-	 * @param stringMode
-	 *            toStroingMode, one of EQUATION_* constants
-	 */
-	public GeoConicND(Construction c, int dimension, boolean isIntersection,
-			int stringMode) {
-		super(c, dimension, isIntersection);
-		setToStringMode(stringMode);
-	}
 
 	/**
 	 * @return the matrix representation of the conic in its 2D sub space

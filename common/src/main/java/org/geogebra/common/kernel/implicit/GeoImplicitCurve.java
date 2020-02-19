@@ -1,10 +1,6 @@
 package org.geogebra.common.kernel.implicit;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
+import com.himamis.retex.editor.share.util.Unicode;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DecompositionSolver;
@@ -55,7 +51,10 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * GeoElement representing an implicit curve.
@@ -2442,11 +2441,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (toStringMode == GeoLine.EQUATION_USER) {
 			return DescriptionMode.VALUE;
 		}
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	@Override

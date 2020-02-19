@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.commands.filter;
 
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -25,8 +24,7 @@ public class ExamCommandFilter implements CommandArgumentFilter {
 			return;
 		}
 		GeoElement firstArgument = arguments[0];
-		if (setFixed
-				&& AlgebraItem.isFunctionOrEquationFromUser(firstArgument)) {
+		if (setFixed && firstArgument.isFunctionOrEquationFromUser()) {
 			throw commandProcessor.argErr(command, firstArgument);
 		}
 		if (copyFree && (firstArgument instanceof EquationValue)) {

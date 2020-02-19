@@ -1,13 +1,6 @@
 package org.geogebra.common.kernel;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.TreeSet;
-
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -80,8 +73,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
-import org.geogebra.common.main.settings.AlgebraSettings;
-import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -97,7 +88,13 @@ import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Provides methods for computation
@@ -2968,7 +2965,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @deprecated AlgebraStyleSettings.setStyle should be used instead.
+	 * @deprecated AlgebraSettings.setStyle should be used instead.
 	 *
 	 * G.Sturr 2009-10-18
 	 * 
@@ -2977,9 +2974,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	@Deprecated
 	final public void setAlgebraStyle(int style) {
-		AlgebraSettings algebraSettings = getApplication().getSettings().getAlgebra();
-		AlgebraStyle algebraStyle = AlgebraStyle.values()[style];
-		algebraSettings.setStyle(algebraStyle);
+		getApplication().getSettings().getAlgebra().setStyle(style);
 	}
 
 	/**
@@ -3003,7 +2998,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	@Deprecated
 	final public int getAlgebraStyle() {
-		return getApplication().getSettings().getAlgebra().getStyle().ordinal();
+		return getApplication().getSettings().getAlgebra().getStyle();
 	}
 
 	/**
