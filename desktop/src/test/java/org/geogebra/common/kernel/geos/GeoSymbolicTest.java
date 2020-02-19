@@ -545,34 +545,38 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testDotProduct() {
+		t("Dot[Vector[(1,2)],Vector[(3,4)]]", "11");
+		t("Dot[Vector[(p,q)],Vector[(r,s)]]", "p * r + q * s");
+	}
+
+	@Test
+	public void testCrossProduct() {
+		t("Cross[Vector[(1,2)],Vector[(3,4)]]", "-2");
+		t("Cross[Vector[(p,q)], Vector[(r,s)]]", "p * s - q * r");
+	}
+
+	@Test
 	public void testVectors() {
 		// these should give Vector not point
 		t("u=(1,2)", "(1, 2)");
 		t("u=(1,2,3)", "(1, 2, 3)");
-
-		// wrong GGB-1025
-		// t("Length(Vector((3,4)))", "5");
-		// t("x(Vector((3,4)))", "3");
-		// t("y(Vector((3,4)))", "4");
-		// t("z(Vector((3,4)))", "0");
-		// t("x(Vector((3,4,5)))", "3");
-		// t("y(Vector((3,4,5)))", "4");
-		// t("z(Vector((3,4,5)))", "5");
-		// t("Dot[Vector[(1,2)],Vector[(3,4)]]", "11");
-		// t("Dot[Vector[(a,b)],Vector[(c,d)]]", "p * r + q * s");
-		// t("Cross[Vector[(1,2)], Vector[(3,4)]]", "");
-		// t("Cross[Vector[(p,q)], Vector[(r,s)]]", "");
-		// t("abs(Vector((1,2))", "sqrt(5)");
-		// t("UnitVector((1,2))", "");
-		// t("UnitVector((p,q))", "");
-		// t("UnitPerpendicularVector((1,2))", "");
-		// t("UnitPerpendicularVector((p,q))", "");
-		// t("PerpendicularVector((1,2))", "");
-		// t("PerpendicularVector((p,q))", "");
-
+		t("Length(Vector((3,4)))", "5");
+		t("x(Vector((3,4)))", "3");
+		t("y(Vector((3,4)))", "4");
+		t("z(Vector((3,4)))", "0");
+		t("x(Vector((3,4,5)))", "3");
+		t("y(Vector((3,4,5)))", "4");
+		t("z(Vector((3,4,5)))", "5");
+		t("abs(Vector((1,2)))", "sqrt(5)");
+		t("UnitVector((1,2))", "(1 / 5 * sqrt(5), 2 / 5 * sqrt(5))");
+		t("UnitVector((p,q))", "(p / sqrt(p^(2) + q^(2)), q / sqrt(p^(2) + q^(2)))");
+		t("UnitPerpendicularVector((1,2))", "((-2) / sqrt(5), 1 / sqrt(5))");
+		t("UnitPerpendicularVector((p,q))", "((-q) / sqrt(p^(2) + q^(2)), p / sqrt(p^(2) + q^(2)))");
+		t("PerpendicularVector((1,2))", "(-2, 1)");
+		t("PerpendicularVector((p,q))", "(-q, p)");
 		t("Dot((p,q),(r,s))", "p * r + q * s");
 		t("Dot((1,2),(3,4))", "11");
-
 	}
 
 	@Test
