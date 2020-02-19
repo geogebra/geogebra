@@ -185,7 +185,7 @@ public class CASViewW extends CASView implements PrintableW {
 			@Override
 			public void run() {
 				app1.showKeyboard(getEditor(), force);
-				getEditor().setFocus(true, true);
+				getEditor().setFocus(true);
 				getConsoleTable().startEditingRow(
 						getConsoleTable().getRowCount() - 1);
 
