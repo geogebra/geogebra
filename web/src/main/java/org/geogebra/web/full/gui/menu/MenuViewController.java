@@ -12,8 +12,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandler;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import java.util.List;
@@ -32,14 +32,14 @@ public class MenuViewController {
 	private DrawerMenuFactory defaultDrawerMenuFactory;
 	private DrawerMenuFactory examDrawerMenuFactory;
 
-	public MenuViewController(AppW app) {
+	public MenuViewController(AppWFull app) {
 		createObjects(app);
 		createViews();
 		createFactories(app);
 		setDefaultMenu();
 	}
 
-	private void createObjects(AppW app) {
+	private void createObjects(AppWFull app) {
 		localization = app.getLocalization();
 		menuIconResource = new MenuIconResource(app.isMebis() ?
 				MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);

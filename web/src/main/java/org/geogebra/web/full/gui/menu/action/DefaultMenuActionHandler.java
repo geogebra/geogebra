@@ -1,12 +1,13 @@
 package org.geogebra.web.full.gui.menu.action;
 
-import org.geogebra.web.html5.main.AppW;
+import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.main.AppWFull;
 
 public class DefaultMenuActionHandler implements MenuActionHandler {
 
-	private AppW app;
+	private AppWFull app;
 
-	public DefaultMenuActionHandler(AppW app) {
+	public DefaultMenuActionHandler(AppWFull app) {
 		this.app = app;
 	}
 
@@ -42,16 +43,22 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void clearConstruction() {
-		app.setWaitCursor();
-		app.fileNew();
-		app.setDefaultCursor();
+		app.getDialogManager().getSaveDialog().showIfNeeded(new AsyncOperation<Boolean>() {
+			@Override
+			public void callback(Boolean obj) {
+				// ignore active: don't save means we want new construction
+				app.setWaitCursor();
+				app.fileNew();
+				app.setDefaultCursor();
 
-		if (!app.isUnbundledOrWhiteboard()) {
-			app.showPerspectivesPopup();
-		}
-		if (app.getPageController() != null) {
-			app.getPageController().resetPageControl();
-		}
+				if (!app.isUnbundledOrWhiteboard()) {
+					app.showPerspectivesPopup();
+				}
+				if (app.getPageController() != null) {
+					app.getPageController().resetPageControl();
+				}
+			}
+		});
 	}
 
 	@Override
@@ -66,7 +73,7 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void showSearchView() {
-
+		app.openSearch(null);
 	}
 
 	@Override
