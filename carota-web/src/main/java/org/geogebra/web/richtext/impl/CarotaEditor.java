@@ -153,11 +153,7 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public <T> T getFormat(String key, T fallback) {
-		if (getWidget().getElement().hasClassName(INVISIBLE)) {
-			return getFormatNative(editor.documentRange(), key, fallback);
-		} else {
-			return getFormatNative(editor.selectedRange(), key, fallback);
-		}
+		return getFormatNative(getRange(), key, fallback);
 	}
 
 	@Override
@@ -199,19 +195,23 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void switchListTo(String listType) {
-		if (getWidget().getElement().hasClassName(INVISIBLE)) {
-			editor.switchListTo(editor.documentRange(), listType, false);
-		} else {
-			editor.switchListTo(editor.selectedRange(), listType, true);
-		}
+		editor.switchListTo(getRange(), listType);
 	}
 
 	@Override
 	public String getListStyle() {
-		if (getWidget().getElement().hasClassName(INVISIBLE)) {
-			return editor.documentRange().getListStyle();
+		return getRange().getListStyle();
+	}
+
+	private CarotaRange getRange() {
+		if (isEditing()) {
+			return editor.selectedRange();
 		} else {
-			return editor.selectedRange().getListStyle();
+			return editor.documentRange();
 		}
+	}
+
+	private boolean isEditing() {
+		return !getWidget().getElement().hasClassName(INVISIBLE);
 	}
 }
