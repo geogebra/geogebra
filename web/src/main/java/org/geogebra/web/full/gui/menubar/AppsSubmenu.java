@@ -64,9 +64,8 @@ public class AppsSubmenu extends Submenu {
 						if (app.isMenuShowing()) {
 							app.toggleMenu();
 						}
-						((DialogManagerW) app.getDialogManager())
-								.getSaveDialog()
-								.showIfNeeded(getExamCallback());
+						app.getSaveController()
+								.showDialogIfNeeded(getExamCallback());
 					}
 				});
 	}

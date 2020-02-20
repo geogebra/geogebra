@@ -7,7 +7,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
@@ -50,11 +49,11 @@ public class ShareControllerW implements ShareController {
 
 	@Override
 	public void share() {
-		app.getSaveController().ensureNoTemplate();
 		AsyncOperation<Boolean> shareCallback = getShareCallback();
 		// not saved as material yet
 		Material activeMaterial = app.getActiveMaterial();
-		boolean untitled = activeMaterial == null;
+		boolean untitled = activeMaterial == null
+				|| activeMaterial.getType() == Material.MaterialType.ggsTemplate;
 		if (untitled || "P".equals(activeMaterial.getVisibility())) {
 			if (!app.getLoginOperation().isLoggedIn()) {
 				// not saved, not logged in
@@ -85,8 +84,8 @@ public class ShareControllerW implements ShareController {
 	 * Create material and save online
 	 */
 	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
-		((DialogManagerW) app.getDialogManager()).getSaveDialog()
-				.showIfNeeded(shareCallback, true, anchor);
+		((SaveControllerW) app.getSaveController())
+				.showDialogIfNeeded(shareCallback, true, anchor);
 	}
 
 	private void autoSaveMaterial(AsyncOperation<Boolean> shareCallback) {

@@ -5,7 +5,6 @@ import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -189,11 +188,11 @@ public class SaveDialogMow extends DialogBoxW
 		} else if (source == saveBtn) {
 			if (templateCheckbox.isSelected()) {
 				setSaveType(((AppW) app).getVendorSettings().getTemplateType());
+				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
 			} else {
 				setSaveType(MaterialType.ggs);
-				app.getSaveController().ensureNoTemplate();
+				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 			}
-			app.getKernel().getConstruction().setTitle(getInputField().getText());
 			app.getSaveController().saveAs(getInputField().getText(),
 					getSaveVisibility(), this);
 		}
@@ -273,46 +272,19 @@ public class SaveDialogMow extends DialogBoxW
 		app.getSaveController().setSaveType(saveType);
 	}
 
-	/**
-	 * shows the {@link SaveDialogW} if there are unsaved changes before editing
-	 * another file or creating a new one
-	 * 
-	 * Never shown in embedded LAF (Mix, SMART)
-	 * 
-	 * @param runnable
-	 *			runs either after saved successfully or immediately if dialog
-	 *			not needed {@link Runnable}
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
-		showIfNeeded(runnable, !app.isSaved(), null);
+	public void setDiscardMode() {
 		setCaptionKey("DoYouWantToSaveYourChanges");
 		cancelBtn.setLabel(loc.getMenu("Discard"));
 	}
 
-	/**
-	 * @param runnable
-	 *			callback
-	 * @param needed
-	 *			whether it's needed to save (otherwise just run callback)
-	 * @param anchor
-	 *			relative element
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable, boolean needed,
-			Widget anchor) {
-		if (needed && !((AppW) app).getLAF().isEmbedded()) {
-			app.getSaveController().ensureNoTemplate();
-			app.getSaveController().setRunAfterSave(runnable);
-			if (anchor == null) {
-				center();
-			} else {
-				showRelativeTo(anchor);
-			}
-			templateCheckbox.setVisible(false);
+	public void showAndPosition(Widget anchor) {
+		if (anchor == null) {
+			center();
 		} else {
-			app.getSaveController().setRunAfterSave(null);
-			runnable.callback(true);
+			showRelativeTo(anchor);
 		}
+		templateCheckbox.setVisible(false);
 	}
 }

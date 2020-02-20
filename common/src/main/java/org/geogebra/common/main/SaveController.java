@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.TextObject;
@@ -11,7 +12,16 @@ import org.geogebra.common.util.TextObject;
  *
  */
 public interface SaveController {
-	void ensureNoTemplate();
+
+	/**
+	 * Replace current material with one of the appropriate type
+	 */
+	void ensureTypeOtherThan(Material.MaterialType type);
+
+	/**
+	 * @param saveCallback callback, gets a flag depending on whether material was saved or not
+	 */
+	void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback);
 
 	/**
 	 * Listener interface to communicate with caller GUI.
@@ -26,7 +36,7 @@ public interface SaveController {
 		 */
 		void hide();
 	}
-	
+
 	/**
 	 * Save material with a given name.
 	 * 

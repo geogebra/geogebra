@@ -19,6 +19,8 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.full.util.SaveCallback;
@@ -30,6 +32,7 @@ import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Class to handle material saving.
@@ -90,12 +93,50 @@ public class SaveControllerW implements SaveController {
 	}
 
 	@Override
-	public void ensureNoTemplate() {
+	public void ensureTypeOtherThan(MaterialType type) {
 		Material activeMaterial = app.getActiveMaterial();
 		if (activeMaterial != null
-				&& activeMaterial.getType() == Material.MaterialType.ggsTemplate) {
+				&& activeMaterial.getType() == type) {
 			app.getKernel().getConstruction().setTitle(null);
 			app.setActiveMaterial(null);
+		}
+	}
+
+	@Override
+	public void showDialogIfNeeded(AsyncOperation<Boolean> examCallback) {
+		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
+		showDialogIfNeeded(examCallback, !app.isSaved(), null);
+		saveDialog.setDiscardMode();
+	}
+
+	/**
+	 * @param runnable
+	 *         callback gets true if save happened
+	 * @param needed
+	 *         whether to show the dialog
+	 * @param anchor
+	 *         UI element to be used for positioning the save dialog
+	 */
+	public void showDialogIfNeeded(final AsyncOperation<Boolean> runnable, boolean needed,
+								   Widget anchor) {
+		if (needed && !app.getLAF().isEmbedded()) {
+			final Material oldActiveMaterial = app.getActiveMaterial();
+			final String oldTitle = app.getKernel().getConstruction().getTitle();
+			ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
+			setRunAfterSave(new AsyncOperation<Boolean>() {
+				@Override
+				public void callback(Boolean saved) {
+					if (!saved) {
+						app.setActiveMaterial(oldActiveMaterial);
+						app.getKernel().getConstruction().setTitle(oldTitle);
+					}
+					runnable.callback(saved);
+				}
+			});
+			((DialogManagerW) app.getDialogManager()).getSaveDialog().showAndPosition(anchor);
+		} else {
+			setRunAfterSave(null);
+			runnable.callback(true);
 		}
 	}
 

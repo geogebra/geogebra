@@ -56,7 +56,7 @@ public class MaterialCardController implements OpenFileListener {
 
 	private void updateActiveMaterial() {
 		app.setActiveMaterial(material);
-		app.getSaveController().ensureNoTemplate();
+		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
 		if (material.getType() == MaterialType.ggsTemplate) {
 			app.registerOpenFileListener(this);
 		}
