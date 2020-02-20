@@ -4653,8 +4653,8 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		// now handle non-GeoText prefixed with "="
-		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
-			if (includeLHS) {
+		else if (!geo.isGeoText()) {
+			if (includeLHS && algebraDesc.contains("=")) {
 				sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
