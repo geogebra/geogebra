@@ -187,10 +187,7 @@ public class CarotaEditor implements Editor {
 		if (typeof format == 'object') {
 			return fallback;
 		}
-		if (fallback === true) {
-			return !!format;
-		}
-		return format || fallback;
+		return format;
 	}-*/;
 
 	@Override

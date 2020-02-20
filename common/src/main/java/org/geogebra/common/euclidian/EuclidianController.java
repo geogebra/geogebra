@@ -155,6 +155,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.StringUtil;
 
 public abstract class EuclidianController implements SpecialPointsListener {
 
@@ -9910,7 +9911,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			lastInlineText = (GeoInlineText) topGeo;
 			DrawInlineText drInlineText = ((DrawInlineText) view.getDrawableFor(lastInlineText));
 			String hyperlinkURL = drInlineText.urlByCoordinate(mouseLoc.x, mouseLoc.y);
-			if (hyperlinkURL != null && !draggingOccured) {
+			if (!StringUtil.emptyOrZero(hyperlinkURL) && !draggingOccured) {
 				showDynamicStylebar();
 				drInlineText.toForeground(mouseLoc.x, mouseLoc.y);
 				app.showURLinBrowser(hyperlinkURL);
