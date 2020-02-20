@@ -3129,7 +3129,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Webcam.Notsupported.Caption": "\u4e0d\u652f\u6301\u6444\u50cf\u5934",
     "Webcam.Notsupported.Message": "\u4f60\u7684\u6d4f\u89c8\u5668\u4e0d\u652f\u6301\u6444\u50cf\u5934, \u8bf7\u8bd5\u4e00\u4e0b\u5176\u4ed6\u7684\u6d4f\u89c8\u5668.",
     "Webcam.Problem": "\u6444\u50cf\u5934\u6709\u95ee\u9898",
-    "Webcam.Problem.Message": "GeoGebra \u65e0\u6cd5\u8bbf\u95ee\u6444\u50cf\u5934. \u6ca1\u6709\u6b64\u8bbe\u5907, \u6444\u50cf\u5934\u5de5\u5177\u5c31\u4e0d\u80fd\u5de5\u4f5c.",
+    "Webcam.Problem.Message": "GeoGebra \u65e0\u6cd5\u8bbf\u95ee\u6444\u50cf\u5934. \u6ca1\u6709\u6444\u50cf\u5934, \u8be5\u5de5\u5177\u5c06\u65e0\u6cd5\u4f7f\u7528.",
     "Webcam.Problem.Message.Mebis": "Mebis is unable to access your camera. Without a camera the Camera Tool won\u2019t work.",
     "Webcam.Request": "\u5141\u8bb8\u7a0b\u5e8f GeoGebra \u4f7f\u7528\u6444\u50cf\u5934",
     "Webcam.Request.Mebis": "Allow mebis to use your camera",
