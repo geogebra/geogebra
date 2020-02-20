@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
@@ -308,6 +309,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		try {
 			cons.setSuppressLabelCreation(true);
 			ValidExpression ve = kernel.getParser().parseGiac(casOutputString);
+			ve.traverse(Traversing.GgbVectRemover.getInstance());
 			GeoElementND[] temp = kernel.getAlgebraProcessor().processValidExpression(ve);
 			return temp[0];
 		} catch (Throwable exception) {
