@@ -180,6 +180,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		} else if (app.isWhiteboardActive()) {
 			addInlineTextItems();
 			addCutCopyPaste();
+			addGroupItems();
 			addFixForUnbundledOrNotes();
 		}
 
@@ -290,6 +291,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		};
 
 		addItem("removeLink", addRemoveHyperlinkCommand);
+	}
+
+	private void addGroupItems() {
+		GroupItems items = new GroupItems(app);
+		items.addAvailable(wrappedPopup);
 	}
 
 	private void addPropertiesItem() {
