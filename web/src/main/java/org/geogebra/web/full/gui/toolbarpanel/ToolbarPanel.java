@@ -426,7 +426,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void updateKeyboardVisibility() {
-		showKeyboardButtonDeferred(isOpen() && getSelectedTabId() != TabIds.TOOLS);
+		getFrame().showKeyboardButton(isOpen() && getSelectedTabId() != TabIds.TOOLS);
 	}
 
 	/**
@@ -678,21 +678,6 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void markMenuAsExpanded(boolean expanded) {
 		header.markMenuAsExpanded(expanded);
-	}
-
-	/**
-	 * @param b
-	 *            To show or hide keyboard button.
-	 */
-	void showKeyboardButtonDeferred(final boolean b) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				getFrame().showKeyboardButton(b);
-
-			}
-		});
 	}
 
 	/**

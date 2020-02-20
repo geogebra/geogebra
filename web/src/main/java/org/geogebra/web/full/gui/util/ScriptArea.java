@@ -181,9 +181,9 @@ public class ScriptArea extends TextArea
 	}
 
 	@Override
-	public void setFocus(boolean focus, boolean scheduled) {
+	public void setFocus(boolean focus) {
+		super.setFocus(focus);
 		isFocused = focus;
-		setFocus(focus);
 	}
 
 	@Override

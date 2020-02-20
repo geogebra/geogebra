@@ -37,7 +37,7 @@ public class DuplicateAction extends MenuAction<GeoElement> {
 			currentNode.selectItem(false);
 		}
 		input.setText(dup);
-		input.setFocus(true, true);
+		input.setFocus(true);
 	}
 
 	@Override

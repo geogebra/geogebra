@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.geos.description;
 
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.fiter.FunctionAndEquationFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.util.ToStringConverter;
@@ -16,6 +16,7 @@ public class ProtectiveLabelDescriptionConverter implements ToStringConverter<Ge
 
 	private ToStringConverter<GeoElement> defaultConverter =
 			new DefaultLabelDescriptionConverter();
+	private FunctionAndEquationFilter functionAndEquationFilter = new FunctionAndEquationFilter();
 
 	@Override
 	public String convert(GeoElement element) {
@@ -27,7 +28,7 @@ public class ProtectiveLabelDescriptionConverter implements ToStringConverter<Ge
 	}
 
 	private boolean shouldFilterCaption(GeoElement element) {
-		return AlgebraItem.isFunctionOrEquationFromToolOrCommand(element);
+		return !functionAndEquationFilter.isAllowed(element);
 	}
 
 	private String convertProtective(GeoElement element) {

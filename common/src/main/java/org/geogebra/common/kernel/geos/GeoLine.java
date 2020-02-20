@@ -19,7 +19,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import com.himamis.retex.editor.share.util.Unicode;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -1869,13 +1868,13 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (toStringMode == GeoLine.EQUATION_USER
 				&& (isIndependent() || (getParentAlgorithm().getClassName() == Algos.Expression
-				&& !AlgebraItem.shouldShowOnlyDefinitionForGeo(this)))) {
+				&& isAllowedToShowValue()))) {
 			return DescriptionMode.VALUE;
 		}
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	@Override

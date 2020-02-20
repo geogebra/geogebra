@@ -338,6 +338,7 @@ javadoc {
 
 test {
     ignoreFailures = true
+    maxHeapSize = "1024m"
 }
 
 spotbugs {

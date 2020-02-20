@@ -1416,7 +1416,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
-			getGuiManager().clearInputbar();
+			((GuiManagerD) getGuiManager()).clearInputbar();
 		}
 
 		// reset spreadsheet columns, reset trace columns
@@ -2884,7 +2884,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public synchronized JFrame getFrame() {
 		if ((frame == null) && (getGuiManager() != null)) {
-			frame = (JFrame) getGuiManager().createFrame();
+			frame = ((GuiManagerD) getGuiManager()).createFrame();
 		}
 
 		return frame;

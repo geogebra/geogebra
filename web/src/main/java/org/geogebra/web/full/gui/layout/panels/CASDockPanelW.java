@@ -99,7 +99,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 				.hasFocus();
 		super.onResize();
 		if (oldFocus) {
-			casView.getEditor().setFocus(true, true);
+			casView.getEditor().setFocus(true);
 		}
 
 	}
