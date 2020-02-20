@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class FontSubMenu extends AriaMenuBar {
 
-	public static final String FALLBACK_FONT = "Arial";
 	private final List<FontFamily> fonts;
 	private InlineTextController textController;
 	private final AppW app;
@@ -50,7 +49,7 @@ public class FontSubMenu extends AriaMenuBar {
 	}
 
 	private void selectCurrent() {
-		String font = textController.getFormat("font", FALLBACK_FONT);
+		String font = textController.getFormat("font", "");
 		for (FontFamily family : fonts) {
 			if (font.equals(family.cssName())) {
 				selectItem(fonts.indexOf(family));

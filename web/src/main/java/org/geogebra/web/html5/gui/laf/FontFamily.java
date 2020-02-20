@@ -1,7 +1,8 @@
 package org.geogebra.web.html5.gui.laf;
 
 public enum FontFamily {
-	ARIAL("Arial", "arial, sans-serif"),
+
+	ARIAL("Arial", "Arial, sans-serif"),
 	CALIBRI("Calibri", "Calibri, sans-serif"),
 	CENTURY_GOTHIC("Century Gothic", "Century Gothic, sans-serif"),
 	COMIC_SANS("Comic Sans", "Comic Sans MS, sans-serif"),
@@ -19,6 +20,7 @@ public enum FontFamily {
 	TITILIUM("Titilium Web", "Titilium Web, sans-serif"),
 	TREBUCHET("Trebuchet", "Trebuchet MS, sans-serif"),
 	VERDANA("Verdana", "Verdana, sans-serif");
+
 	private String displayName;
 	private String cssName;
 
