@@ -33,6 +33,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
@@ -242,7 +243,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addHyperlinkItems() {
 		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
 				.getDrawableFor(getGeo());
-		if ("".equals(inlineText.getFormat("url", ""))) {
+		if (StringUtil.emptyOrZero(inlineText.getFormat("url", ""))) {
 			addHyperlinkItem("Link");
 		} else {
 			addHyperlinkItem("editLink");

@@ -139,7 +139,7 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void deselect() {
-		int end = editor.documentRange().getEnd();
+		int end = editor.documentRange().getEnd() - 1;
 		editor.select(end, end);
 	}
 
