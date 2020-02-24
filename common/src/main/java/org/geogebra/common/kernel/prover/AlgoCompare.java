@@ -43,6 +43,8 @@ public class AlgoCompare extends AlgoElement {
 
     private GeoText outputText; // output
 
+    private String cachedEqualityStatement = null;
+
     /**
      * Compares two objects
      *
@@ -134,6 +136,14 @@ public class AlgoCompare extends AlgoElement {
 
         String inp1 = "";
         String inp2 = "";
+
+        String currentEqualityStatement = p.getTextFormat(p.getStatement());
+        Log.error("currentEqualityStatement = " + currentEqualityStatement);
+        Log.error("cachedEqualityStatement = " + cachedEqualityStatement);
+        if (cachedEqualityStatement != null && currentEqualityStatement.equals(cachedEqualityStatement)) {
+            return;
+        }
+        cachedEqualityStatement = currentEqualityStatement;
 
         if (inputElement1 instanceof GeoSegment) {
             lhs_var = (processSegment((GeoSegment) inputElement1)).getName();
@@ -249,26 +259,30 @@ public class AlgoCompare extends AlgoElement {
         gc.append(varsubst).append("]),[");
         gc.append(vars).append("])[0],m)][1]");
         GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-        try {
-            String elimSol = cas.getCurrentCAS().evaluateRaw(gc.toString());
-            if (!elimSol.equals("?") && !elimSol.equals("{}")) {
-                elimSol = elimSol.substring(1, elimSol.length() - 1);
-                String[] cases = elimSol.split(",");
-                String retval = "";
-                for (String result : cases) {
-                    if (!"".equals(retval)) {
-                        retval += " " + or + " ";
+        boolean useGiac = true;
+
+        if (useGiac) {
+            try {
+                String elimSol = cas.getCurrentCAS().evaluateRaw(gc.toString());
+                if (!elimSol.equals("?") && !elimSol.equals("{}")) {
+                    elimSol = elimSol.substring(1, elimSol.length() - 1);
+                    String[] cases = elimSol.split(",");
+                    String retval = "";
+                    for (String result : cases) {
+                        if (!"".equals(retval)) {
+                            retval += " " + or + " ";
+                        }
+                        result = result.replace("m=", "");
+                        result = result.replace("*", "" + Unicode.CENTER_DOT);
+                        retval += inp2 + " = " + result + " " + Unicode.CENTER_DOT + " " + inp1;
                     }
-                    result = result.replace("m=", "");
-                    result = result.replace("*", "" + Unicode.CENTER_DOT);
-                    retval += inp2 + " = " + result + " " + Unicode.CENTER_DOT + " " + inp1;
+                    outputText.setTextString(retval);
+                    return;
                 }
-                outputText.setTextString(retval);
-                return;
+                // The result is not just a number. (Or a set of numbers.)
+            } catch (Throwable throwable) {
+                Log.debug("Error when trying elimination");
             }
-            // The result is not just a number. (Or a set of numbers.)
-        } catch (Throwable throwable) {
-            Log.debug("Error when trying elimination");
         }
         // End of direct Giac computation.
 
