@@ -7,13 +7,13 @@ import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandler;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import java.util.List;
@@ -54,11 +54,18 @@ public class MenuViewController {
 		floatingMenuView.add(menuView);
 	}
 
-	private void createFactories(App app) {
+	private void createFactories(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = new DefaultDrawerMenuFactory(app.getPlatform(),
-				version, null, true);
+				version, hasLoginButton(app) ? app.getLoginOperation() : null, app.isExam());
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
+	}
+
+	private boolean hasLoginButton(AppW app) {
+		return app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
+				&& (!app.isMebis())
+				&& app.enableFileFeatures()
+				&& app.getLAF().hasLoginButton();
 	}
 
 	public void setMenuViewListener(MenuViewListener menuViewListener) {

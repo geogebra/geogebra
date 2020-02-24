@@ -18,7 +18,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
-import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
@@ -291,12 +290,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void setupSignInButton(GlobalHeader header) {
 		if (getLoginOperation() == null) {
-			initSignImEventFlow();
+			initSignInEventFlow();
 		}
 		header.addSignIn(this);
 	}
 
-	private void initSignImEventFlow() {
+	private void initSignInEventFlow() {
 		initSignInEventFlow(
 				new LoginOperationW(this),
 				getArticleElement().isEnableApiPing());
@@ -421,6 +420,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void initMenu() {
+		initSignInEventFlow();
 		menuViewController = new MenuViewController(this);
 		menuViewController.setMenuViewListener(this);
 		frame.add(menuViewController.getView());
@@ -1913,71 +1913,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 		}
 	}
-
-//	private void removeFloatingMenu() {
-//		// menu is floating: no need to resize views
-//		// this.updateCenterPanelAndViews();
-//		floatingMenuPanel.addStyleName("animateOut");
-//		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-//		CSSAnimation.runOnAnimation(new Runnable() {
-//			@Override
-//			public void run() {
-//				floatingMenuPanel.setVisible(false);
-//				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
-//			}
-//		}, floatingMenuPanel.getElement(), "animateOut");
-//
-//	}
-
-//	private void addFloatingMenu() {
-//		// menu is floating: no need to resize views
-//		// this.updateCenterPanelAndViews();
-//		floatingMenuPanel.addStyleName("animateIn");
-//		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-//		CSSAnimation.runOnAnimation(new Runnable() {
-//			@Override
-//			public void run() {
-//				floatingMenuPanel.setVisible(true);
-//				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
-//				floatingMenuPanel.focusDeferred();
-//			}
-//		}, floatingMenuPanel.getElement(), "animateIn");
-//	}
-
-//	private void toggleFloatingMenu(boolean needsUpdate) {
-//		if (!isFloatingMenu()) {
-//			return;
-//		}
-//		persistWidthAndHeight();
-//		if (floatingMenuPanel == null) {
-//			floatingMenuPanel = new FloatingMenuPanel(
-//					getAppletFrame().getMenuBar(this));
-//			if (!isUnbundledOrWhiteboard()) {
-//				floatingMenuPanel.addStyleName("classic");
-//			}
-//			if (isWhiteboardActive()) {
-//				floatingMenuPanel.addStyleName("mow");
-//			}
-//			frame.add(floatingMenuPanel);
-//		}
-//
-//		if (needsUpdate) {
-//			frame.getMenuBar(this).getMenubar().updateMenubar();
-//		}
-//		if (menuShowing) {
-//			this.addFloatingMenu();
-//			floatingMenuPanel.setVisible(true);
-//			return;
-//		}
-//		final GGWMenuBar menubar = getAppletFrame().getMenuBar(this);
-//
-//		floatingMenuPanel.add(menubar);
-//		floatingMenuPanel.setVisible(menuShowing);
-//		if (menuShowing) {
-//			menubar.focusDeferred();
-//		}
-//		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
-//	}
 
 	@Override
 	public void hideMenu() {

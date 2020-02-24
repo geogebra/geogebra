@@ -37,7 +37,7 @@ public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider 
 	SVGResource clear();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_save_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
 	SVGResource save();
 
 	@Override
@@ -65,7 +65,7 @@ public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider 
 	SVGResource search();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_share_black_24px.svg")
 	SVGResource exportFile();
 
 	@Override
