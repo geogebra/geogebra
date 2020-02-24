@@ -1895,6 +1895,7 @@ __GGB__keysVar["az"].menu = {
     "Functionality": "Functionality",
     "GUIFontSize": "Men\xfc \u015frift \xf6l\xe7\xfcs\xfc",
     "General": "General",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "\xdcmumi al\u0259tl\u0259r",
     "GenerallyTrue": "(generally true)",

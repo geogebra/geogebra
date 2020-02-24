@@ -1895,6 +1895,7 @@ __GGB__keysVar["ru"].menu = {
     "Functionality": "\u0424\u0443\u043d\u043a\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u044c",
     "GUIFontSize": "\u0420\u0430\u0437\u043c\u0435\u0440 \u0448\u0440\u0438\u0444\u0442\u0430 \u043c\u0435\u043d\u044e",
     "General": "\u041e\u0431\u0449\u0438\u0435",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "\u041e\u0431\u0449\u0438\u0435",
     "GenerallyTrue": "(generally true)",

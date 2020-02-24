@@ -1895,6 +1895,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "Functionality": "\u0627\u0644\u0648\u0638\u064a\u0641\u064a\u0629",
     "GUIFontSize": "\u062d\u062c\u0645 \u062e\u0637 \u0627\u0644\u0642\u0627\u0626\u0645\u0629",
     "General": "\u0639\u0627\u0645",
+    "General.Font": "Font",
     "GeneralLineEquation": "\u0623 \u0633 + \u0628 \u0635 + \u062c\u0640 = 0",
     "GeneralTools": "\u0623\u062f\u0648\u0627\u062a \u0639\u0627\u0645\u0629",
     "GenerallyTrue": "(generally true)",

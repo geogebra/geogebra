@@ -1895,6 +1895,7 @@ __GGB__keysVar["sk"].menu = {
     "Functionality": "Funk\u010dnos\u0165",
     "GUIFontSize": "Ve\u013ekos\u0165 p\xedsma ponuky",
     "General": "V\u0161eobecn\xe1",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "V\u0161eobecn\xe9 N\xe1stroje",
     "GenerallyTrue": "(v\u0161eobecne pravdiv\xe9)",

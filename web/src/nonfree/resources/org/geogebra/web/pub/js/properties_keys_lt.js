@@ -1895,6 +1895,7 @@ __GGB__keysVar["lt"].menu = {
     "Functionality": "Funkcionalumas",
     "GUIFontSize": "Meniu \u0161rifto dydis",
     "General": "Bendras",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Pagrindiniai \u012frankiai",
     "GenerallyTrue": "(bendruoju atveju tiesa)",

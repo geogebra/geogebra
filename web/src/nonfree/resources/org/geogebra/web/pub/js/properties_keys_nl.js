@@ -1895,6 +1895,7 @@ __GGB__keysVar["nl"].menu = {
     "Functionality": "Functionaliteit",
     "GUIFontSize": "Menu lettergrootte",
     "General": "Algemeen",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Knoppen Layout",
     "GenerallyTrue": "(meestal waar)",

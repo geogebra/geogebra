@@ -1895,6 +1895,7 @@ __GGB__keysVar["xh"].menu = {
     "Functionality": "Ukusebenza",
     "GUIFontSize": "Ubukhulu beFont yeMenu",
     "General": "Jikelele",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "IiTools EzikhoyoJikelele",
     "GenerallyTrue": "(Ihlala injalo amaxesha amaninzi)",

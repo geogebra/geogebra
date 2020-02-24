@@ -1895,6 +1895,7 @@ __GGB__keysVar["fi"].menu = {
     "Functionality": "Toiminnallisuus",
     "GUIFontSize": "Valikoiden kirjainkoko",
     "General": "Yleinen",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Yleiset ty\xf6kalut",
     "GenerallyTrue": "(yleisesti tosi)",

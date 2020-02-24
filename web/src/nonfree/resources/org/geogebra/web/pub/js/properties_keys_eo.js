@@ -1895,6 +1895,7 @@ __GGB__keysVar["eo"].menu = {
     "Functionality": "Funkciaro",
     "GUIFontSize": "Tipara grando de la menuo",
     "General": "\u011cenerala",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "\u011ceneralaj iloj",
     "GenerallyTrue": "(generally true)",

@@ -1895,6 +1895,7 @@ __GGB__keysVar["sv"].menu = {
     "Functionality": "Funktionalitet",
     "GUIFontSize": "Menyfontens storlek",
     "General": "Allm\xe4nt",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Allm\xe4nna verktyg",
     "GenerallyTrue": "(generellt sant)",

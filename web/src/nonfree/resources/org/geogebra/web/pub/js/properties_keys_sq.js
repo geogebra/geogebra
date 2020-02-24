@@ -1895,6 +1895,7 @@ __GGB__keysVar["sq"].menu = {
     "Functionality": "Funksionalitet",
     "GUIFontSize": "Menu e Madhesise se Fytyrave te Karaktereve",
     "General": "i Pergjithshem",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Mjete te Pergjithshme",
     "GenerallyTrue": "(generally true)",

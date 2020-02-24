@@ -1895,6 +1895,7 @@ __GGB__keysVar["tr"].menu = {
     "Functionality": "\u0130\u015flevi",
     "GUIFontSize": "Men\xfc Font B\xfcy\xfckl\xfc\u011f\xfc",
     "General": "Genel",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Genel Ara\xe7lar",
     "GenerallyTrue": "(genellikle do\u011fru)",

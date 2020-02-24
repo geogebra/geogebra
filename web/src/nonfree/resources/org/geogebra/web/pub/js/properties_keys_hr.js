@@ -1895,6 +1895,7 @@ __GGB__keysVar["hr"].menu = {
     "Functionality": "Funkcionalnost",
     "GUIFontSize": "Veli\u010dina slova trake izbornika",
     "General": "Op\u0107enito",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Op\u0107i alati",
     "GenerallyTrue": "(op\u0107enito istina)",

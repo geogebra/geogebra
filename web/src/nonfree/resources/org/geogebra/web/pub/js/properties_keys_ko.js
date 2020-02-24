@@ -1895,6 +1895,7 @@ __GGB__keysVar["ko"].menu = {
     "Functionality": "\uae30\ub2a5",
     "GUIFontSize": "\uba54\ub274 \uae00\uc790 \ud06c\uae30",
     "General": "\uc77c\ubc18",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "\uc77c\ubc18 \ub3c4\uad6c",
     "GenerallyTrue": "(\uc77c\ubc18\uc801\uc73c\ub85c \ucc38)",
