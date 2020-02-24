@@ -220,7 +220,7 @@ public class MarblePanel extends FlowPanel
 
 				@Override
 				public void onFocus(FocusEvent event) {
-					item.setFocus(true, true);
+					item.setFocus(true);
 					event.preventDefault();
 					event.stopPropagation();
 
@@ -319,7 +319,7 @@ public class MarblePanel extends FlowPanel
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				item.setFocus(true, false);
+				item.setFocus(true);
 				item.setShowInputHelpPanel(true);
 				item.app.getGuiManager().getInputHelpPanel()
 						.focusCommand(item.getCommand());

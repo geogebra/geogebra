@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
@@ -21,7 +20,7 @@ public class FixObjectModel extends BooleanOptionModel {
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
 		return geo.isFixable() && (!app.getConfig().isObjectDraggingRestricted()
-				|| !AlgebraItem.isFunctionOrEquationFromUser(geo));
+				|| !geo.isFunctionOrEquationFromUser());
 	}
 
 	@Override

@@ -2711,8 +2711,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		frame.setTitle(sb.toString());
 	}
 
-	@Override
-	public Object createFrame() {
+	public JFrame createFrame() {
 		GeoGebraFrame wnd = new GeoGebraFrame();
 		wnd.setGlassPane(layout.getDockManager().getGlassPane());
 		wnd.setApplication(getApp());
@@ -3117,7 +3116,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		// 3D stuff
 	}
 
-	@Override
 	public void showPropertiesViewSliderTab() {
 		propertiesView.showSliderTab();
 	}
@@ -3148,7 +3146,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		d.setVisible(true);
 	}
 
-	@Override
 	public void clearInputbar() {
 		((AlgebraInputD) getAlgebraInput()).clear();
 	}

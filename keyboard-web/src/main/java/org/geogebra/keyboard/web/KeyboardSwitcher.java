@@ -111,8 +111,11 @@ public class KeyboardSwitcher extends FlowPanel {
                 .keyboard_close_purple().getSafeUri().asString());
         hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Close"));
 		GCustomButton closeButton = new GCustomButton() {
-            // it's abstract for some reason
-        };
+			@Override
+			public void setFocus(boolean focused) {
+				// Do not focus the button
+			}
+		};
         closeButton.getElement().setAttribute("aria-label",
                 tabbedkeyboard.locale.getMenu("Close"));
 

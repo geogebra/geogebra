@@ -441,8 +441,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void updateKeyboard() {
-
-		getGuiManager().focusScheduled(false, false, false);
 		invokeLater(new Runnable() {
 
 			@Override
@@ -454,7 +452,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				if (listener != null) {
 					// dp.getKeyboardListener().setFocus(true);
 					listener.ensureEditing();
-					listener.setFocus(true, true);
+					listener.setFocus(true);
 					if (isKeyboardNeeded() && (getExam() == null
 							|| getExam().getStart() > 0)) {
 						getAppletFrame().showKeyBoard(true, listener, true);
@@ -1454,10 +1452,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.attachToolbar(this);
 		}
 
-		// we do not need keyboard in whiteboard
-		if (!isWhiteboardActive()) {
-			frame.attachKeyboardButton();
-		}
 		frame.attachGlass();
 	}
 
@@ -1549,14 +1543,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void onUnhandledClick() {
 		updateAVStylebar();
-		if (euclidianController.isSymbolicEditorSelected()) {
-			return;
-		}
 
 		if (!isWhiteboardActive() && !CancelEventTimer.cancelKeyboardHide()) {
 			Timer timer = new Timer() {
 				@Override
 				public void run() {
+					if (getGuiManager().getKeyboardListener() != null) {
+						getGuiManager().getKeyboardListener().setFocus(false);
+					}
 					getAppletFrame().keyBoardNeeded(false, null);
 				}
 			};

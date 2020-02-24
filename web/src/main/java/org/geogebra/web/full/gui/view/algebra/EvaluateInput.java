@@ -112,7 +112,7 @@ public class EvaluateInput {
 				.processAlgebraCommandNoExceptionHandling(input, false, err,
 						info, cbEval);
 		if (!keepFocus) {
-			item.setFocus(false, false);
+			item.setFocus(false);
 		}
 	}
 
@@ -157,7 +157,7 @@ public class EvaluateInput {
 								if (keepFocus) {
 									ctrl.setFocus(true);
 								} else {
-									item.setFocus(false, true);
+									item.setFocus(false);
 								}
 							}
 						});

@@ -1,15 +1,6 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Vector;
-
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
@@ -48,6 +39,9 @@ import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFac
 import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
 import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
 import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
+import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.fiter.DefaultAlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.fiter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -116,7 +110,15 @@ import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -432,6 +434,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
+	private AlgebraOutputFilter algebraOutputFilter;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -5191,5 +5194,27 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		} else {
 			return new GeoElementValueConverter();
 		}
+	}
+
+	/**
+	 * Creates an AlgebraOutputFilter based on the AppConfig if it doesn't exist yet and returns it.
+	 * @return AlgebraOutputFilter instance
+	 */
+	public AlgebraOutputFilter getAlgebraOutputFilter() {
+		if (algebraOutputFilter == null) {
+			if (getConfig().shouldHideEquations()) {
+				algebraOutputFilter = new ProtectiveAlgebraOutputFilter();
+			} else {
+				algebraOutputFilter = new DefaultAlgebraOutputFilter();
+			}
+		}
+		return algebraOutputFilter;
+	}
+
+	/**
+	 * Visible only for testing.
+	 */
+	public void resetAlgebraOutputFilter() {
+		algebraOutputFilter = null;
 	}
 }
