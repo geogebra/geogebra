@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.draw.DrawEmbed;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 
 /**
@@ -87,10 +88,10 @@ public interface EmbedManager {
 	/**
 	 * Add new embedded applet and store undo info.
 	 * 
-	 * @param dataUrl
-	 *            base64 content
+	 * @param material
+	 *            online material
 	 */
-	void embed(String dataUrl);
+	void embed(Material material);
 
 	/**
 	 * @param drawEmbed
@@ -129,4 +130,6 @@ public interface EmbedManager {
 	 * opens the  Graspable math tool
 	 */
 	public void openGraspableMTool();
+
+	void initAppEmbed(GeoEmbed ge);
 }

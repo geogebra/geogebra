@@ -542,4 +542,8 @@
 	    height: 100px;
 	    transform-origin: left top;
 	}
+
+	.embedContainer .EuclidianPanel {
+	    z-index: 0;
+	}
 }

@@ -163,11 +163,6 @@ public interface GuiManagerInterface {
 
 	boolean save();
 
-	/**
-	 * tells the properties view to show slider tab
-	 */
-	void showPropertiesViewSliderTab();
-
 	boolean loadURL(String urlString);
 
 	boolean loadURL(String urlString, boolean suppressErrorMsg);
@@ -284,10 +279,6 @@ public interface GuiManagerInterface {
 	void applyAlgebraViewSettings();
 
 	void updateFrameSize();
-
-	void clearInputbar();
-
-	Object createFrame();
 
 	/**
 	 * 

@@ -441,8 +441,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void updateKeyboard() {
-
-		getGuiManager().focusScheduled(false, false, false);
 		invokeLater(new Runnable() {
 
 			@Override
@@ -454,7 +452,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				if (listener != null) {
 					// dp.getKeyboardListener().setFocus(true);
 					listener.ensureEditing();
-					listener.setFocus(true, true);
+					listener.setFocus(true);
 					if (isKeyboardNeeded() && (getExam() == null
 							|| getExam().getStart() > 0)) {
 						getAppletFrame().showKeyBoard(true, listener, true);
@@ -1454,10 +1452,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.attachToolbar(this);
 		}
 
-		// we do not need keyboard in whiteboard
-		if (!isWhiteboardActive()) {
-			frame.attachKeyboardButton();
-		}
 		frame.attachGlass();
 	}
 
@@ -1549,14 +1543,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void onUnhandledClick() {
 		updateAVStylebar();
-		if (euclidianController.isSymbolicEditorSelected()) {
-			return;
-		}
 
 		if (!isWhiteboardActive() && !CancelEventTimer.cancelKeyboardHide()) {
 			Timer timer = new Timer() {
 				@Override
 				public void run() {
+					if (getGuiManager().getKeyboardListener() != null) {
+						getGuiManager().getKeyboardListener().setFocus(false);
+					}
 					getAppletFrame().keyBoardNeeded(false, null);
 				}
 			};
@@ -1699,22 +1693,36 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void updatePerspectiveForUnbundled(Perspective perspective) {
-		if (isPortrait()) {
+		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
+		DockPanelData[] dpDataArray = perspective.getDockPanelData();
+		for (DockPanelData panelData : dpDataArray) {
+			DockPanelW panel = dm.getPanel(panelData.getViewId());
+			if (panel instanceof ToolbarDockPanelW) {
+				updateToolbarPanelVisibility((ToolbarDockPanelW) panel, panelData.isVisible());
+			}
+			if (panel != null && !isPortrait()) {
+				updateDividerLocation(dm, panelData);
+			}
+		}
+		updateContentPane();
+	}
+
+	private void updateToolbarPanelVisibility(ToolbarDockPanelW toolbarDockPanel, boolean visible) {
+		ToolbarPanel toolbarPanel = toolbarDockPanel.getToolbar();
+		if (visible) {
+			toolbarPanel.open();
+		} else {
+			toolbarPanel.close();
+		}
+	}
+
+	private void updateDividerLocation(DockManagerW dockManager, DockPanelData panelData) {
+		if (!panelData.isVisible() || panelData.isOpenInFrame()) {
 			return;
 		}
 
-		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
-		DockPanelData[] dpData = perspective.getDockPanelData();
-		for (int i = 0; i < dpData.length; ++i) {
-			DockPanelW panel = dm.getPanel(dpData[i].getViewId());
-			if (!dpData[i].isVisible() || dpData[i].isOpenInFrame() || panel == null) {
-				continue;
-			}
-
-			int divLoc = dpData[i].getEmbeddedSize();
-			dm.getRoot().setDividerLocation(divLoc);
-		}
-		updateContentPane();
+		int divLoc = panelData.getEmbeddedSize();
+		dockManager.getRoot().setDividerLocation(divLoc);
 	}
 
 	private static boolean algebraVisible(Perspective p2) {
@@ -2079,7 +2087,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 					appName == null ? "" : appName);
 			String appCode = getConfig().getAppCode();
 
-			if ("classic".equals(appName) || StringUtil.empty(appName)) {
+			boolean isClassic = "classic".equals(appName) || StringUtil.empty(appName);
+			if (isClassic && !isApplet()) {
 				removeHeader();
 			}
 
@@ -2207,6 +2216,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				.isSymbolicEditorSelected()) {
 			return null;
 		}
-		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView());
+		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView(),
+				createGeoElementValueConverter());
 	}
 }

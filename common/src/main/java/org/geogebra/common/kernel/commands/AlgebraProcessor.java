@@ -12,11 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.commands;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
-
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -126,9 +124,9 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * Processes algebra input as Strings and valid expressions into GeoElements
@@ -1954,6 +1952,9 @@ public class AlgebraProcessor {
 			throws CircularDefinitionException {
 		// try to replace replaceable geo by ret[0]
 		if (replaceable != null && ret.length > 0) {
+			if (replaceable instanceof GeoNumeric) {
+				((GeoNumeric) replaceable).extendMinMax(ret[0]);
+			}
 			RedefinitionRule rule = info.getRedefinitionRule();
 			if (rule != null && !rule.allowed(replaceable.getGeoClassType(),
 					ret[0].getGeoClassType())) {
@@ -1990,9 +1991,6 @@ public class AlgebraProcessor {
 					if (replaceable.isIndependent() && ret[0].isIndependent()
 							&& compatibleTypes(replaceable.getGeoClassType(),
 									ret[0].getGeoClassType())) {
-						if (replaceable instanceof GeoNumeric) {
-							((GeoNumeric) replaceable).extendMinMax(ret[0]);
-						}
 						// copy equation style
 						ret[0].setVisualStyle(replaceable);
 						replaceable.set(ret[0]);
@@ -2829,7 +2827,7 @@ public class AlgebraProcessor {
 			((EquationValue) line).setToUser();
 		}
 
-		if (AlgebraItem.isFunctionOrEquationFromUser(line)) {
+		if (line.isFunctionOrEquationFromUser()) {
 			line.setFixed(true);
 		}
 

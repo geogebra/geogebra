@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
@@ -740,7 +739,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return The string form of the GeoElement
 	 */
 	private static String getGeoString(GeoElement geoElement, StringTemplate tpl) {
-		return AlgebraItem.shouldShowOnlyDefinitionForGeo(geoElement)
+		return !geoElement.isAllowedToShowValue()
 				? geoElement.getDefinition(tpl)
 				: geoElement.toDefinedValueString(tpl);
 	}

@@ -41,10 +41,10 @@ public class AlgebraStyleTest extends Assert {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE, info, null);
 		assertEquals(DescriptionMode.values()[rows],
-				el[0].needToShowBothRowsInAV());
+				el[0].getDescriptionMode());
 		el[0].toString(StringTemplate.defaultTemplate);
 		assertEquals(DescriptionMode.values()[rows],
-				el[0].needToShowBothRowsInAV());
+				el[0].getDescriptionMode());
 	}
 
 	private static String checkEquation(String def, int mode, String check) {

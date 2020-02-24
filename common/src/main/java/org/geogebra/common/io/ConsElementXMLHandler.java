@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -1263,20 +1264,26 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
-	private boolean handleEmbed(LinkedHashMap<String, String> attrs) {
+	private void handleEmbed(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoEmbed) {
 			try {
 				((GeoEmbed) geo).setEmbedId(Integer.parseInt(attrs.get("id")));
 				((GeoEmbed) geo).setAppName(attrs.get("app"));
 				((GeoEmbed) geo).setUrl(attrs.get("url"));
 			} catch (RuntimeException e) {
-				return false;
+				Log.error("Problem parsing embed " + e.getMessage());
 			}
 		} else {
 			Log.error("wrong element type for <embed>: " + geo.getClass());
-			return false;
 		}
-		return true;
+	}
+
+	private void handleEmbedSettings(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoEmbed) {
+			for (Map.Entry<String, String> entry: attrs.entrySet()) {
+				((GeoEmbed) geo).attr(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 
 	private boolean handleSlider(LinkedHashMap<String, String> attrs) {
@@ -2021,6 +2028,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "embed":
 				handleEmbed(attrs);
+				break;
+			case "embedSettings":
+				handleEmbedSettings(attrs);
 				break;
 			case "fixed":
 				handleFixed(attrs);

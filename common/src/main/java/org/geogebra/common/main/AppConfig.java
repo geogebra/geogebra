@@ -20,10 +20,19 @@ public interface AppConfig {
 
 	int getLineDisplayStyle();
 
+	/**
+	 * @return translation key for short app name (Scientific Calculator)
+	 */
 	String getAppTitle();
 
+	/**
+	 * @return translation key for full app name (GeoGebra Scientific Calculator)
+	 */
 	String getAppName();
 
+	/**
+	 * @return translation key for short app name (Sci Calc)
+	 */
 	String getAppNameShort();
 
 	String getTutorialKey();
@@ -42,19 +51,19 @@ public interface AppConfig {
 
 	boolean hasSingleEuclidianViewWhichIs3D();
 
-    /**
-     * @return the decimal places that this app uses.
-     */
-    int[] getDecimalPlaces();
+	/**
+	 * @return the decimal places that this app uses.
+	 */
+	int[] getDecimalPlaces();
 
-    /**
-     * @return the significant places that this app uses.
-     */
-    int[] getSignificantFigures();
+	/**
+	 * @return the significant places that this app uses.
+	 */
+	int[] getSignificantFigures();
 
-    /**
-     * @return the array of characters that can be used for the angle labels.
-     */
+	/**
+	 * @return the array of characters that can be used for the angle labels.
+	 */
 	boolean isGreekAngleLabels();
 
 	/**

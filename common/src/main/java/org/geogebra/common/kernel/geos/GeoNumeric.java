@@ -427,7 +427,6 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
-		extendMinMax(geo.toGeoElement());
 		setValue(geo.evaluateDouble());
 		reuseDefinition(geo);
 	}
@@ -1919,7 +1918,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (getDefinition() != null && getDefinition().isFraction()) {
 			return DescriptionMode.DEFINITION_VALUE;
 		}
@@ -1927,7 +1926,7 @@ public class GeoNumeric extends GeoElement
 			// matters in scientific where we don't have AV sliders
 			return DescriptionMode.VALUE;
 		}
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	/**

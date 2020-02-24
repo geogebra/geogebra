@@ -1,9 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -69,7 +65,6 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
-import org.geogebra.common.move.views.OfflineView;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
@@ -135,6 +130,7 @@ import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -167,7 +163,10 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.html5.util.CopyPasteW;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
@@ -792,7 +791,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
 		if (!isggs && getEmbedManager() != null) {
-			getEmbedManager().embed(dataUrl);
+			Material mat = new Material(-1, Material.MaterialType.ggb);
+			mat.setBase64(dataUrl);
+			getEmbedManager().embed(mat);
 		} else {
 			view.processBase64String(dataUrl);
 		}
@@ -1378,8 +1379,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		BaseEventPool onlineEventPool = new BaseEventPool(networkOperation,
 				true);
 		NetworkW.attach("online", onlineEventPool);
-		OfflineView ov = new OfflineView();
-		networkOperation.setView(ov);
 	}
 
 	/**
