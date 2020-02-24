@@ -115,8 +115,19 @@ public class AlgoCompare extends AlgoElement {
     public final void compute() {
 
         if (inputElement1.getKernel().isSilentMode()) {
-            return;
+            // return;
         }
+
+        // setInputOutput();
+        do {
+            cons.removeFromAlgorithmList(this);
+        } while (cons.getAlgoList().contains(this));
+        // Adding this again:
+        cons.addToAlgorithmList(this);
+        cons.removeFromConstructionList(this);
+        // Adding this again:
+        cons.addToConstructionList(this, true);
+        // TODO: consider moving setInputOutput() out from compute()
 
         String lhs_var = "";
         String rhs_var = "";
@@ -133,13 +144,14 @@ public class AlgoCompare extends AlgoElement {
         as.removeThesis();
         ArrayList<String> extraPolys = new ArrayList<>();
         ArrayList<String> extraVars = new ArrayList<>();
+        aae.remove();
 
         String inp1 = "";
         String inp2 = "";
 
         String currentEqualityStatement = p.getTextFormat(p.getStatement());
-        Log.error("currentEqualityStatement = " + currentEqualityStatement);
-        Log.error("cachedEqualityStatement = " + cachedEqualityStatement);
+        Log.debug("currentEqualityStatement = " + currentEqualityStatement);
+        Log.debug("cachedEqualityStatement = " + cachedEqualityStatement);
         if (cachedEqualityStatement != null && currentEqualityStatement.equals(cachedEqualityStatement)) {
             return;
         }

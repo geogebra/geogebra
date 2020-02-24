@@ -315,6 +315,7 @@ public class Relation {
 			ret = new String[2];
 			ret[0] = "3";
 			ret[1] = out;
+			ac.remove();
 			return ret;
 		}
 
