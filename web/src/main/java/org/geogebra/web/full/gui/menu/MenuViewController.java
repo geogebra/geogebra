@@ -18,6 +18,9 @@ import org.geogebra.web.resources.SVGResource;
 
 import java.util.List;
 
+/**
+ * Controller for the main menu in the apps.
+ */
 public class MenuViewController {
 
 	private MenuViewListener menuViewListener;
@@ -32,6 +35,11 @@ public class MenuViewController {
 	private DrawerMenuFactory defaultDrawerMenuFactory;
 	private DrawerMenuFactory examDrawerMenuFactory;
 
+	/**
+	 * Creates a MenuViewController.
+	 *
+	 * @param app app
+	 */
 	public MenuViewController(AppWFull app) {
 		createObjects(app);
 		createViews();
@@ -41,8 +49,8 @@ public class MenuViewController {
 
 	private void createObjects(AppWFull app) {
 		localization = app.getLocalization();
-		menuIconResource = new MenuIconResource(app.isMebis() ?
-				MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
+		menuIconResource = new MenuIconResource(app.isMebis()
+				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
 		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app));
 	}
 
@@ -68,22 +76,43 @@ public class MenuViewController {
 				&& app.getLAF().hasLoginButton();
 	}
 
+	/**
+	 * Set the menu view listener.
+	 *
+	 * @param menuViewListener listener
+	 */
 	public void setMenuViewListener(MenuViewListener menuViewListener) {
 		this.menuViewListener = menuViewListener;
 	}
 
+	/**
+	 * Get the menu view.
+	 *
+	 * @return view
+	 */
 	public Widget getView() {
 		return floatingMenuView;
 	}
 
+	/**
+	 * Sets the menu to default.
+	 */
 	public void setDefaultMenu() {
 		setMenuItemGroups(defaultDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
 	}
 
+	/**
+	 * Sets the menu to exam.
+	 */
 	public void setExamMenu() {
 		setMenuItemGroups(examDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
 	}
 
+	/**
+	 * Sets the menu visibility.
+	 *
+	 * @param visible true to show the menu
+	 */
 	public void setMenuVisible(boolean visible) {
 		floatingMenuView.setVisible(visible);
 		notifyMenuViewVisibilityChanged(visible);

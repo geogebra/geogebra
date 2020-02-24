@@ -25,32 +25,32 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void startClassic() {
-
+		// TODO
 	}
 
 	@Override
 	public void startGraphing() {
-
+		// TODO
 	}
 
 	@Override
 	public void startScientific() {
-
+		// TODO
 	}
 
 	@Override
 	public void startGeometry() {
-
+		// TODO
 	}
 
 	@Override
 	public void startCasCalculator() {
-
+		// TODO
 	}
 
 	@Override
 	public void startGraphing3d() {
-
+		// TODO
 	}
 
 	@Override
@@ -60,12 +60,12 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void startExamMode() {
-
+		// TODO
 	}
 
 	@Override
 	public void showSettings() {
-
+		// TODO
 	}
 
 	@Override
@@ -75,22 +75,22 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void saveFile() {
-
+		// TODO
 	}
 
 	@Override
 	public void shareFile() {
-
+		// TODO
 	}
 
 	@Override
 	public void exportImage() {
-
+		// TODO
 	}
 
 	@Override
 	public void showExamLog() {
-
+		// TODO
 	}
 
 	@Override
@@ -100,17 +100,17 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void showTutorials() {
-
+		// TODO
 	}
 
 	@Override
 	public void showForum() {
-
+		// TODO
 	}
 
 	@Override
 	public void reportProblem() {
-
+		// TODO
 	}
 
 	@Override
@@ -120,66 +120,66 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void signIn() {
-
+		// TODO
 	}
 
 	@Override
 	public void signOut() {
-
+		// TODO
 	}
 
 	@Override
 	public void openProfilePage() {
-
+		// TODO
 	}
 
 	@Override
 	public void showDownloadAs() {
-
+		// TODO
 	}
 
 	@Override
 	public void downloadGgb() {
-
+		// TODO
 	}
 
 	@Override
 	public void downloadGgs() {
-
+		// TODO
 	}
 
 	@Override
 	public void downloadPng() {
-
+		// TODO
 	}
 
 	@Override
 	public void downloadSvg() {
-
+		// TODO
 	}
 
 	@Override
 	public void downloadPdf() {
-
+		// TODO
 	}
 
 	@Override
 	public void downloadStl() {
-
+		// TODO
 	}
 
 	@Override
 	public void downloadColladaDae() {
-
+		// TODO
 	}
 
 	@Override
 	public void downloadColladaHTML() {
-
+		// TODO
 	}
 
 	@Override
 	public void previewPrint() {
-
+		// TODO
 	}
 }
