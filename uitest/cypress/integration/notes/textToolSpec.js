@@ -42,7 +42,7 @@ describe('Text tool test', () => {
 
             cy.window().then((win) => {
                 parseString(win.ggbApplet.getXML("a"), (err, data) => {
-                    expect(data.element.content[0]["$"].val).to.equal("[{\"text\":\"GeoGebra Rocks\",\"bold\":true}]");
+                    expect(data.element.content[0]["$"].val).to.equal("[{\"text\":\"GeoGebra Rocks\\n\",\"bold\":true}]");
                 });
             })
     });
@@ -60,7 +60,7 @@ describe('Text tool test', () => {
 
            cy.window().then((win) => {
                parseString(win.ggbApplet.getXML("a"), (err, data) => {
-                   expect(data.element.content[0]["$"].val).to.equal("[{\"text\":\"Text element example\",\"underline\":true}]");
+                   expect(data.element.content[0]["$"].val).to.equal("[{\"text\":\"Text element example\\n\",\"underline\":true}]");
                });
            })
         });
