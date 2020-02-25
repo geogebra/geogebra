@@ -1895,6 +1895,7 @@ __GGB__keysVar["ta"].menu = {
     "Functionality": "\u0b9a\u0bbe\u0bb0\u0bcd\u0baa\u0bc1 \u0bae\u0bc1\u0bb1\u0bc8",
     "GUIFontSize": "Menu Font Size",
     "General": "\u0baa\u0bca\u0ba4\u0bc1\u0bb5\u0bbe\u0ba9",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "\u0baa\u0bca\u0ba4\u0bc1 \u0b95\u0bb0\u0bc1\u0bb5\u0bbf\u0b95\u0bb3\u0bcd",
     "GenerallyTrue": "(generally true)",

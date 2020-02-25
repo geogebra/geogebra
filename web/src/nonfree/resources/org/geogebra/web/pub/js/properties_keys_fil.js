@@ -1895,6 +1895,7 @@ __GGB__keysVar["fil"].menu = {
     "Functionality": "Functionality",
     "GUIFontSize": "Menu Font Size",
     "General": "Pangkalahatan",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "General Tools",
     "GenerallyTrue": "(generally true)",

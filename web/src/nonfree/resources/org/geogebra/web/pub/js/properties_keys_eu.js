@@ -1895,6 +1895,7 @@ __GGB__keysVar["eu"].menu = {
     "Functionality": "Funtzionalitatea",
     "GUIFontSize": "Menuaren Letra-tamaina",
     "General": "Orokorra",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Tresna Orokorrak",
     "GenerallyTrue": "(egia normalean)",

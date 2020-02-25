@@ -1895,6 +1895,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Functionality": "\u529f\u80fd",
     "GUIFontSize": "\u529f\u80fd\u8868\u5b57\u9ad4\u5927\u5c0f",
     "General": "\u4e00\u822c",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "\u4e00\u822c\u5de5\u5177",
     "GenerallyTrue": "(\u901a\u5e38\u70ba\u771f)",

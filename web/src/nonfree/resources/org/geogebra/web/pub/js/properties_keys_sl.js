@@ -1895,6 +1895,7 @@ __GGB__keysVar["sl"].menu = {
     "Functionality": "Delovanje",
     "GUIFontSize": "Velikost fonta v meniju",
     "General": "Splo\u0161no",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Splo\u0161na orodja",
     "GenerallyTrue": "(splo\u0161no res)",

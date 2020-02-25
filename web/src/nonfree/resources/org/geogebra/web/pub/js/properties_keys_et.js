@@ -1895,6 +1895,7 @@ __GGB__keysVar["et"].menu = {
     "Functionality": "Funktsionaalsus",
     "GUIFontSize": "Men\xfc\xfc kirja suurus",
     "General": "\xdcldine",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "\xdcldised t\xf6\xf6riistad",
     "GenerallyTrue": "(\xfcldjuhul t\xf5ene)",

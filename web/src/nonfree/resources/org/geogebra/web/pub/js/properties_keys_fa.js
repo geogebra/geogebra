@@ -1895,6 +1895,7 @@ __GGB__keysVar["fa"].menu = {
     "Functionality": "\u0639\u0645\u0644\u06a9\u0631\u062f",
     "GUIFontSize": "\u0645\u0646\u0648\u06cc \u0627\u0646\u062f\u0627\u0632\u0647 \u0642\u0644\u0645",
     "General": "\u0639\u0645\u0648\u0645\u06cc",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "\u0627\u0628\u0632\u0627\u0631\u0647\u0627\u06cc \u0639\u0645\u0648\u0645\u06cc",
     "GenerallyTrue": "(\u0628\u0647 \u0637\u0648\u0631 \u06a9\u0644\u06cc \u062f\u0631\u0633\u062a)",

@@ -3,16 +3,13 @@ package org.geogebra.common.gui.view.algebra;
 import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -23,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
@@ -271,7 +269,7 @@ public class AlgebraItem {
 		}
 		switch (avStyle) {
 		case Kernel.ALGEBRA_STYLE_VALUE:
-			if (shouldShowOnlyDefinitionForGeo(geo1)) {
+			if (!geo1.isAllowedToShowValue()) {
 				buildDefinitionString(geo1, builder, stringTemplate);
 			} else {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
@@ -400,30 +398,29 @@ public class AlgebraItem {
 	 *            current algebrastyle
 	 * @return whether the output should be shown or not
 	 */
-	public static DescriptionMode getDescriptionModeForGeo(
-			GeoElement geoElement, int style) {
+	public static DescriptionMode getDescriptionModeForGeo(GeoElement geoElement, int style) {
 		switch (style) {
-		case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-			return geoElement.needToShowBothRowsInAV();
+			case AlgebraStyle.DEFINITION_AND_VALUE:
+				return geoElement.getDescriptionMode();
 
-		case Kernel.ALGEBRA_STYLE_DESCRIPTION:
-			if (geoElement.getPackedIndex() == 0) {
-				return DescriptionMode.DEFINITION_VALUE;
-			}
-			if (geoElement.getPackedIndex() > 0) {
+			case AlgebraStyle.DESCRIPTION:
+				if (geoElement.getPackedIndex() == 0) {
+					return DescriptionMode.DEFINITION_VALUE;
+				}
+				if (geoElement.getPackedIndex() > 0) {
+					return DescriptionMode.VALUE;
+				}
+				return geoElement instanceof GeoNumeric
+						&& (!geoElement.isIndependent() || (geoElement
+						.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
+						&& geoElement.getParentAlgorithm() == null))
+						? DescriptionMode.DEFINITION_VALUE
+						: DescriptionMode.DEFINITION;
+			case AlgebraStyle.DEFINITION:
+				return DescriptionMode.DEFINITION;
+			case AlgebraStyle.VALUE:
+			default:
 				return DescriptionMode.VALUE;
-			}
-			return geoElement instanceof GeoNumeric
-					&& (!geoElement.isIndependent() || (geoElement
-							.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
-							&& geoElement.getParentAlgorithm() == null))
-									? DescriptionMode.DEFINITION_VALUE
-									: DescriptionMode.DEFINITION;
-		case Kernel.ALGEBRA_STYLE_DEFINITION:
-			return DescriptionMode.DEFINITION;
-		default:
-		case Kernel.ALGEBRA_STYLE_VALUE:
-			return DescriptionMode.VALUE;
 		}
 	}
 
@@ -434,18 +431,15 @@ public class AlgebraItem {
 	 *            current algebrastyle
 	 * @return whether the output should be shown or not
 	 */
-	public static boolean shouldShowOutputRowForAlgebraStyle(
-			GeoElement geoElement, int style) {
-		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
-			return getDescriptionModeForGeo(geoElement,
-					style) != DescriptionMode.DEFINITION;
-		} else if ((style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
-				|| style == Kernel.ALGEBRA_STYLE_VALUE)
-				&& shouldShowOnlyDefinitionForGeo(geoElement)) {
+	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
+		if (style == AlgebraStyle.DESCRIPTION) {
+			return getDescriptionModeForGeo(geoElement, style) != DescriptionMode.DEFINITION;
+		} else if ((style == AlgebraStyle.DEFINITION_AND_VALUE
+				|| style == AlgebraStyle.VALUE)
+				&& !geoElement.isAllowedToShowValue()) {
 			return false;
 		}
-		return style != Kernel.ALGEBRA_STYLE_VALUE
-				&& style != Kernel.ALGEBRA_STYLE_DEFINITION;
+		return style != AlgebraStyle.VALUE && style != AlgebraStyle.DEFINITION;
 	}
 
 	/**
@@ -453,16 +447,23 @@ public class AlgebraItem {
 	 *
 	 * @param element
 	 *            the element
-	 * @param style
-	 *            the algebra style
 	 * @return true if both rows should be shown.
 	 */
-	public static boolean shouldShowBothRows(GeoElement element, int style) {
-		return ((element
-				.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
-				|| (AlgebraItem.isTextItem(element)
-						&& !element.isIndependent()))
-				&& shouldShowOutputRowForAlgebraStyle(element, style));
+	public static boolean shouldShowBothRows(GeoElement element) {
+		return (hasDefinitionAndValueMode(element) || isDependentText(element))
+				&& shouldShowOutputRowForAlgebraStyle(element, getAlgebraStyle(element.getApp()));
+	}
+
+	private static boolean hasDefinitionAndValueMode(GeoElement element) {
+		return element.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE;
+	}
+
+	private static boolean isDependentText(GeoElement element) {
+		return AlgebraItem.isTextItem(element) && !element.isIndependent();
+	}
+
+	private static int getAlgebraStyle(App app) {
+		return app.getSettings().getAlgebra().getStyle();
 	}
 
 	/**
@@ -541,7 +542,7 @@ public class AlgebraItem {
 
 	private static String getLatexStringValue(GeoElement geo1, Integer limit) {
 		String text = geo1.getLaTeXAlgebraDescription(
-				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
+				geo1.getDescriptionMode() != DescriptionMode.DEFINITION,
 				StringTemplate.latexTemplate);
 
 		if ((text != null) && (limit == null || (text.length() < limit))) {
@@ -549,47 +550,6 @@ public class AlgebraItem {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Tells whether the equation was typed directly from the user
-	 *
-	 * @param geoElement
-	 *            geoElement
-	 * @return true if the equation was typed by the user (and not created via
-	 *         command or tool)
-	 */
-	public static boolean isFunctionOrEquationFromUser(
-			GeoElementND geoElement) {
-		if (geoElement instanceof EquationValue
-				|| geoElement instanceof GeoFunction) {
-			AlgoElement parentAlgorithm = geoElement.getParentAlgorithm();
-			return parentAlgorithm == null
-					|| parentAlgorithm.getClassName().equals(Algos.Expression);
-		}
-		return false;
-	}
-
-	/**
-	 * Tells whether the output row should be visible for the given object. We
-	 * want to show only the definition for implicit equations, functions and
-	 * conics created by tool or command
-	 *
-	 * @param geoElement
-	 *            geoElement
-	 * @return true if we should only show the definition for the object but not
-	 *         output row
-	 */
-	public static boolean shouldShowOnlyDefinitionForGeo(
-			GeoElementND geoElement) {
-		boolean shouldHideEquations =
-				geoElement.getKernel().getApplication().getConfig().shouldHideEquations();
-		if (!shouldHideEquations) {
-			return false;
-		}
-
-		boolean hasEquation = geoElement instanceof EquationValue;
-		return hasEquation && !isFunctionOrEquationFromUser(geoElement);
 	}
 
 	/**

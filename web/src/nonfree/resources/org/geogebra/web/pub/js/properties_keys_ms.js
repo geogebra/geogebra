@@ -1895,6 +1895,7 @@ __GGB__keysVar["ms"].menu = {
     "Functionality": "Kefungsian",
     "GUIFontSize": "Menu Saiz Fon",
     "General": "Umum",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Alatan Umum",
     "GenerallyTrue": "(benar secara umum)",

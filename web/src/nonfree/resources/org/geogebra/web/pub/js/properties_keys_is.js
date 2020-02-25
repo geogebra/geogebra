@@ -1895,6 +1895,7 @@ __GGB__keysVar["is"].menu = {
     "Functionality": "Virkni",
     "GUIFontSize": "St\xe6r\xf0 leturs \xed valmynd",
     "General": "Almennt",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Almenn verkf\xe6ri",
     "GenerallyTrue": "(gildir almennt)",

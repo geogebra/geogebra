@@ -468,6 +468,16 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
+	@Override
+	public boolean focusResetButton() {
+		if (app.showResetIcon() && getEuclidianView() instanceof EuclidianViewW) {
+			EuclidianViewW view = (EuclidianViewW) getEuclidianView();
+			view.focusResetIcon();
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Checks if zoom panel fit on Euclidian View with given height and
 	 * shows/hides it respectively.

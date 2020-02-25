@@ -1895,6 +1895,7 @@ __GGB__keysVar["vi"].menu = {
     "Functionality": "Theo ch\u1ee9c n\u0103ng",
     "GUIFontSize": "Th\u1ef1c \u0111\u01a1n k\xedch th\u01b0\u1edbc ch\u1eef",
     "General": "T\u1ed5ng quan",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "C\xf4ng c\u1ee5 chung",
     "GenerallyTrue": "(generally true)",

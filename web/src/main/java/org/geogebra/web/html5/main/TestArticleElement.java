@@ -132,7 +132,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public InputPosition getAlgebraPosition(InputPosition def) {
-		return InputPosition.top;
+		return def;
 	}
 
 	@Override
@@ -474,5 +474,10 @@ public class TestArticleElement implements ArticleElementInterface {
 	@Override
 	public String getParamKeyboardType(String def) {
 		return def;
+	}
+
+	@Override
+	public boolean isEnableApiPing() {
+		return false;
 	}
 }

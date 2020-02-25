@@ -1895,6 +1895,7 @@ __GGB__keysVar["uz"].menu = {
     "Functionality": "Functionality",
     "GUIFontSize": "Menu shrifti kattaligi",
     "General": "Umumiy",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Asosiy asboblar",
     "GenerallyTrue": "(umuman olganda rost)",

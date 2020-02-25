@@ -1895,6 +1895,7 @@ __GGB__keysVar["cy"].menu = {
     "Functionality": "Ffwythianoldeb",
     "GUIFontSize": "Maint Ffont y Fwydlen",
     "General": "Cyffredinol",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Offer cyffredinol",
     "GenerallyTrue": "(generally true)",

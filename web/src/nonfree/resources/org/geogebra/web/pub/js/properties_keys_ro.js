@@ -1895,6 +1895,7 @@ __GGB__keysVar["ro"].menu = {
     "Functionality": "Func\u0163ionalitate",
     "GUIFontSize": "Meniu Dimensiune Font",
     "General": "General",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x+b y+c=0",
     "GeneralTools": "Instrumente generale",
     "GenerallyTrue": "(\xeen general adev\u0103rat)",

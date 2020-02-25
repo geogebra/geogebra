@@ -1895,6 +1895,7 @@ __GGB__keysVar["fr"].menu = {
     "Functionality": "Fonctionnalit\xe9",
     "GUIFontSize": "Taille Caract\xe8res Menu",
     "General": "G\xe9n\xe9ral",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "G\xe9n\xe9raux",
     "GenerallyTrue": "(vrai en r\xe8gle g\xe9n\xe9rale)",

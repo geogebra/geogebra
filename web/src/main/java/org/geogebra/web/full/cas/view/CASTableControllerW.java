@@ -228,7 +228,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		boolean oldFocus = ((CASTableCellEditor) view.getEditor()).hasFocus();
 		app.closePopups();
 		if (oldFocus) {
-			view.getEditor().setFocus(true, false);
+			view.getEditor().setFocus(true);
 		}
 	}
 

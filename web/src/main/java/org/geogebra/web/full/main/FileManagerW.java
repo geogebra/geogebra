@@ -1,8 +1,5 @@
 package org.geogebra.web.full.main;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
-
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -22,6 +19,9 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
+
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * Manager for files from {@link Storage localStorage}
@@ -78,6 +78,7 @@ public class FileManagerW extends FileManager {
 		updateViewerId(mat);
 		mat.setLocalID(id);
 		try {
+			mat.setAppName(app.getConfig().getAppCode());
 			stockStore.setItem(key, mat.toJson().toString());
 			cb.onSaved(mat, true);
 		} catch (Exception e) {
@@ -221,6 +222,7 @@ public class FileManagerW extends FileManager {
 				final Material mat = createMaterial(s,
 				        System.currentTimeMillis() / 1000);
 				try {
+					mat.setAppName(app.getConfig().getAppCode());
 					stockStore.setItem(getAutosaveKey(),
 							mat.toJson().toString());
 				} catch (Exception e) {

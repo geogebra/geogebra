@@ -1895,6 +1895,7 @@ __GGB__keysVar["lv"].menu = {
     "Functionality": "Funkcionalit\u0101te",
     "GUIFontSize": "Izv\u0113les Burtu Lielums",
     "General": "Vispar\u012bgs",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "Visp\u0101r\u012bgie R\u012bki",
     "GenerallyTrue": "(generally true)",

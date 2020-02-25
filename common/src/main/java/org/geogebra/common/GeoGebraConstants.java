@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "04 February 2020";
+	public static final String BUILD_DATE = "19 February 2020";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.573.0";
+	public static final String VERSION_STRING = "5.0.574.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -180,6 +180,8 @@ public interface GeoGebraConstants {
 	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "https://help.geogebra.org/bugs/?v=5.0";
 	/** web bug reports */
 	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://help.geogebra.org/bugs/?v=web";
+	/** bug reports 8 */
+	public final static String GEOGEBRA_REPORT_BUG = "https://help.geogebra.org/bugs/";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 

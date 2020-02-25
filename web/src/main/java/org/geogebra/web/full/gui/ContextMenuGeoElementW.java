@@ -10,7 +10,6 @@ import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
@@ -639,7 +638,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		final GeoElement geo = getGeo();
 		// change back to old name-> Fix instead of Lock
 		if (geo.isFixable() && (!app.getConfig().isObjectDraggingRestricted()
-				|| !AlgebraItem.isFunctionOrEquationFromUser(geo))
+				|| !geo.isFunctionOrEquationFromUser())
 				&& app.getSelectionManager().getSelectedGeos().size() <= 1) {
 
 			String img = MaterialDesignResources.INSTANCE.lock_black().getSafeUri()

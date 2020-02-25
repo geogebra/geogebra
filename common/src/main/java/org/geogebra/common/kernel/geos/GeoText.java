@@ -1389,7 +1389,7 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		return DescriptionMode.VALUE;
 	}
 

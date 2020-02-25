@@ -16,7 +16,6 @@ import java.util.Collections;
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -103,7 +102,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	private String getLatex(String string) {
 		GeoElement geo1 = getSymbolic(string);
 		return geo1.getLaTeXAlgebraDescription(
-				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
+				geo1.getDescriptionMode() != DescriptionMode.DEFINITION,
 				StringTemplate.latexTemplate);
 	}
 
@@ -656,28 +655,28 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void constantShouldBeOneRow() {
 		t("1", "1");
 		GeoElement a = getSymbolic("a");
-		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	@Test
 	public void labeledConstantShouldBeOneRow() {
 		t("a=7", "7");
 		GeoElement a = getSymbolic("a");
-		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	@Test
 	public void simpleEquationShouldBeOneRow() {
 		t("eq1:x+y=1", "x + y = 1");
 		GeoElement a = getSymbolic("eq1");
-		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	@Test
 	public void simpleFracShouldBeTwoRows() {
 		t("1/2", "1 / 2");
 		GeoElement a = getSymbolic("a");
-		assertEquals(DescriptionMode.DEFINITION_VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.DEFINITION_VALUE, a.getDescriptionMode());
 	}
 
 	@Test
@@ -763,7 +762,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void powerShouldBeOneRow() {
 		t("(b+1)^3", "(b + 1)^(3)");
 		GeoElement a = getSymbolic("a");
-		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	/**

@@ -262,7 +262,6 @@ public class KeyboardManager
 	 */
 	public void onScreenEditingEnded() {
 		if (keyboard != null) {
-			keyboard.endEditing();
 			removeExtraSpaceForKeyboard();
 		}
 	}

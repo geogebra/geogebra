@@ -46,6 +46,10 @@ public class AppMocker {
 		return mockApp("cas", testClass);
 	}
 
+	public static AppWFull mockGeometry(Class<?> testClass) {
+		return mockApp("geometry", testClass);
+	}
+
 	private static AppWFull mockApp(String appName, Class<?> testClass) {
 		testClass.getClassLoader().setDefaultAssertionStatus(false);
 		return mockApplet(new TestArticleElement("prerelease", appName));
@@ -79,14 +83,7 @@ public class AppMocker {
 
 	public static AppWsimple mockAppletSimple(ArticleElementInterface ae) {
 		useCommonFakeProviders();
-		GwtMockito.useProviderForType(SchedulerImpl.class,
-				new FakeProvider<SchedulerImpl>() {
-
-					@Override
-					public SchedulerImpl getFake(Class<?> type) {
-						return new QueueScheduler();
-					}
-				});
+		useProviderForSchedulerImpl();
 		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(ae);
 		AppWsimple app = new AppWSimpleMock(ae, frame, false);
 		setAppDefaults(app);
@@ -111,5 +108,16 @@ public class AppMocker {
 		Browser.mockWebGL();
 		FactoryProvider.setInstance(new MockFactoryProviderGWT());
 		setTestLogger();
+	}
+
+	public static void useProviderForSchedulerImpl() {
+		GwtMockito.useProviderForType(SchedulerImpl.class,
+				new FakeProvider<SchedulerImpl>() {
+
+					@Override
+					public SchedulerImpl getFake(Class<?> type) {
+						return new QueueScheduler();
+					}
+				});
 	}
 }

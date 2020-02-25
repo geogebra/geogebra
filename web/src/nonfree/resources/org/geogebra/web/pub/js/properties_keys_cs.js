@@ -1895,6 +1895,7 @@ __GGB__keysVar["cs"].menu = {
     "Functionality": "Z\xe1vislost",
     "GUIFontSize": "Velikost p\xedsma v menu",
     "General": "Hlavn\xed",
+    "General.Font": "Font",
     "GeneralLineEquation": "a x + b y + c = 0",
     "GeneralTools": "V\u0161eobecn\xe9 n\xe1stroje",
     "GenerallyTrue": "(obecn\u011b pravda)",
