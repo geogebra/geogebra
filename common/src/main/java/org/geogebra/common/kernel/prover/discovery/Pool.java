@@ -13,6 +13,8 @@ public class Pool {
     public ArrayList<Line> lines = new ArrayList<>();
     public ArrayList<Circle> circles = new ArrayList<>();
     public ArrayList<ParallelLines> directions = new ArrayList<>();
+    public ArrayList<Segment> segments = new ArrayList<>();
+    public ArrayList<EqualLongSegments> equalLongSegments = new ArrayList<>();
 
     public Line getLine(GeoPoint p1, GeoPoint p2) {
         if (p1.equals(p2)) {
@@ -45,6 +47,20 @@ public class Pool {
         return null;
     }
 
+    public Segment getSegment(GeoPoint p1, GeoPoint p2) {
+        if (p1.equals(p2)) {
+            Log.error("getSegment() called with p1=p2=" + p1.getLabelSimple());
+            return null;
+        }
+        for (Segment s : segments) {
+            if ((p1.equals(s.getStartPoint()) && p2.equals(s.getEndPoint())) ||
+                    (p2.equals(s.getStartPoint()) && p1.equals(s.getEndPoint()))) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     public boolean lineExists(GeoPoint p1, GeoPoint p2) {
         if (getLine(p1, p2) == null) {
             return false;
@@ -54,6 +70,13 @@ public class Pool {
 
     public boolean circleExists(GeoPoint p1, GeoPoint p2, GeoPoint p3) {
         if (getCircle(p1, p2, p3) == null) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean segmentExists(GeoPoint p1, GeoPoint p2) {
+        if (getSegment(p1, p2) == null) {
             return false;
         }
         return true;
@@ -82,6 +105,19 @@ public class Pool {
         return c;
     }
 
+    public Segment addSegment(GeoPoint p1, GeoPoint p2) {
+        if (p1.equals(p2)) {
+            return null;
+        }
+        Segment s = getSegment(p1, p2);
+        if (s == null) {
+            Segment segment = new Segment(p1, p2);
+            segments.add(segment);
+            return segment;
+        }
+        return s;
+    }
+
     public ParallelLines addDirection(Line l) {
         ParallelLines pl = getDirection(l);
         if (pl == null) {
@@ -89,6 +125,15 @@ public class Pool {
             directions.add(parallelLine);
         }
         return pl;
+    }
+
+    public EqualLongSegments addEquality(Segment s) {
+        EqualLongSegments els = getEqualLongSegments(s);
+        if (els == null) {
+            EqualLongSegments equalLongSegment = new EqualLongSegments(s);
+            equalLongSegments.add(equalLongSegment);
+        }
+        return els;
     }
 
     private void setCollinear(Line l, GeoPoint p) {
@@ -237,6 +282,15 @@ public class Pool {
         for (ParallelLines pl : directions) {
             if (pl.getLines().contains(l)) {
                 return pl;
+            }
+        }
+        return null;
+    }
+
+    public EqualLongSegments getEqualLongSegments(Segment s) {
+        for (EqualLongSegments els : equalLongSegments) {
+            if (els.getSegments().contains(s)) {
+                return els;
             }
         }
         return null;
