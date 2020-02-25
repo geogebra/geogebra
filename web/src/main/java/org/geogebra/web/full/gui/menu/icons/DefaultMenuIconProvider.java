@@ -4,6 +4,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import org.geogebra.web.resources.SVGResource;
 
+/**
+ * Gives default access to menu icons.
+ */
 public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider {
 
 	DefaultMenuIconProvider INSTANCE = GWT.create(DefaultMenuIconProvider.class);
@@ -37,6 +40,10 @@ public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider 
 	SVGResource clear();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
+	SVGResource download();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_save_black_24px.svg")
 	SVGResource save();
 
@@ -65,7 +72,7 @@ public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider 
 	SVGResource search();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_share_black_24px.svg")
 	SVGResource exportFile();
 
 	@Override

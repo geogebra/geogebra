@@ -26,7 +26,7 @@ public class FileNewAction extends DefaultMenuAction<Void> implements AsyncOpera
 
 	@Override
 	public void callback(Boolean obj) {
-		// ignore active: don't save means we want new construction
+		// ignore obj: don't save means we want new construction
 		app.setWaitCursor();
 		app.fileNew();
 		app.setDefaultCursor();

@@ -35,6 +35,8 @@ class MenuIconResource {
 				return menuIconProvider.appGraphing3d();
 			case CLEAR:
 				return menuIconProvider.clear();
+			case DOWNLOAD:
+				return menuIconProvider.download();
 			case SAVE:
 				return menuIconProvider.save();
 			case HOURGLASS_EMPTY:

@@ -7,17 +7,20 @@ import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandler;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import java.util.List;
 
+/**
+ * Controller for the main menu in the apps.
+ */
 public class MenuViewController {
 
 	private MenuViewListener menuViewListener;
@@ -32,6 +35,11 @@ public class MenuViewController {
 	private DrawerMenuFactory defaultDrawerMenuFactory;
 	private DrawerMenuFactory examDrawerMenuFactory;
 
+	/**
+	 * Creates a MenuViewController.
+	 *
+	 * @param app app
+	 */
 	public MenuViewController(AppWFull app) {
 		createObjects(app);
 		createViews();
@@ -41,8 +49,8 @@ public class MenuViewController {
 
 	private void createObjects(AppWFull app) {
 		localization = app.getLocalization();
-		menuIconResource = new MenuIconResource(app.isMebis() ?
-				MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
+		menuIconResource = new MenuIconResource(app.isMebis()
+				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
 		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app));
 	}
 
@@ -54,29 +62,57 @@ public class MenuViewController {
 		floatingMenuView.add(menuView);
 	}
 
-	private void createFactories(App app) {
+	private void createFactories(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = new DefaultDrawerMenuFactory(app.getPlatform(),
-				version, null, true);
+				version, hasLoginButton(app) ? app.getLoginOperation() : null, app.isExam());
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
 	}
 
+	private boolean hasLoginButton(AppW app) {
+		return app.getConfig().getVersion() != GeoGebraConstants.Version.SCIENTIFIC
+				&& (!app.isMebis())
+				&& app.enableFileFeatures()
+				&& app.getLAF().hasLoginButton();
+	}
+
+	/**
+	 * Set the menu view listener.
+	 *
+	 * @param menuViewListener listener
+	 */
 	public void setMenuViewListener(MenuViewListener menuViewListener) {
 		this.menuViewListener = menuViewListener;
 	}
 
+	/**
+	 * Get the menu view.
+	 *
+	 * @return view
+	 */
 	public Widget getView() {
 		return floatingMenuView;
 	}
 
+	/**
+	 * Sets the menu to default.
+	 */
 	public void setDefaultMenu() {
 		setMenuItemGroups(defaultDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
 	}
 
+	/**
+	 * Sets the menu to exam.
+	 */
 	public void setExamMenu() {
 		setMenuItemGroups(examDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
 	}
 
+	/**
+	 * Sets the menu visibility.
+	 *
+	 * @param visible true to show the menu
+	 */
 	public void setMenuVisible(boolean visible) {
 		floatingMenuView.setVisible(visible);
 		notifyMenuViewVisibilityChanged(visible);

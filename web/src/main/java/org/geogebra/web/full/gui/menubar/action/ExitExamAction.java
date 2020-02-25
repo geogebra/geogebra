@@ -20,7 +20,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.main.AppW;
 
 public class ExitExamAction extends DefaultMenuAction<Void> {
 	/**
@@ -29,15 +28,18 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	protected static final int LINE_HEIGHT = 24;
 	private static final double PADDING = 24;
 
+	private AppWFull app;
+
 	@Override
 	public void execute(Void item, AppWFull app) {
-		showExamExitDialog(app);
+		this.app = app;
+		showExamExitDialog();
 	}
 
 	/**
 	 * Show exit exam dialog
 	 */
-	protected void showExamExitDialog(final AppW app) {
+	protected void showExamExitDialog() {
 		Localization loc = app.getLocalization();
 		// set Firefox dom.allow_scripts_to_close_windows in about:config to
 		// true to make this work
@@ -48,7 +50,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 				@Override
 				public void callback(String obj) {
 					if ("exit".equals(obj)) {
-						exitAndResetExamOffline(app);
+						exitAndResetExamOffline();
 					}
 				}
 			}).show();
@@ -61,7 +63,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 						@Override
 						public void callback(String[] obj) {
 							if ("1".equals(obj[0])) {
-								exitAndResetExam(app);
+								exitAndResetExam();
 							}
 						}
 					});
@@ -71,15 +73,15 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 	/**
 	 * Exit exam and restore normal mode
 	 */
-	protected void exitAndResetExam(final AppW app) {
+	protected void exitAndResetExam() {
 		app.getLAF().toggleFullscreen(false);
 		final Localization loc = app.getLocalization();
 		ExamEnvironment exam = app.getExam();
 		exam.exit();
 		boolean examFile = app.getArticleElement().hasDataParamEnableGraphing();
-		String buttonText = null;
-		AsyncOperation<String[]> handler = null;
-		AsyncOperation<String[]> welcomeHandler = null;
+		String buttonText;
+		AsyncOperation<String[]> handler;
+		AsyncOperation<String[]> welcomeHandler;
 		if (examFile && !app.isUnbundledGraphing()) {
 			handler = new AsyncOperation<String[]>() {
 				@Override
@@ -102,15 +104,15 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
 			boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();
 			if (!supports3D && supportsCAS) {
-				showFinalLog(app, loc.getMenu("ExamCAS"), buttonText, handler);
-			} else if (!supports3D && !supportsCAS) {
+				showFinalLog(loc.getMenu("ExamCAS"), buttonText, handler);
+			} else if (!supports3D) {
 				if (app.enableGraphing()) {
-					showFinalLog(app, loc.getMenu("ExamGraphingCalc.long"), buttonText, handler);
+					showFinalLog(loc.getMenu("ExamGraphingCalc.long"), buttonText, handler);
 				} else {
-					showFinalLog(app, loc.getMenu("ExamSimpleCalc.long"), buttonText, handler);
+					showFinalLog(loc.getMenu("ExamSimpleCalc.long"), buttonText, handler);
 				}
 			} else {
-				showFinalLog(app, loc.getMenu("exam_log_header") + " " + app.getVersionString(),
+				showFinalLog(loc.getMenu("exam_log_header") + " " + app.getVersionString(),
 						buttonText, welcomeHandler);
 			}
 		} else {
@@ -121,22 +123,22 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 				}
 			};
 			buttonText = loc.getMenu("OK");
-			showFinalLog(app, loc.getMenu("exam_log_header") + " " + app.getVersionString(),
+			showFinalLog(loc.getMenu("exam_log_header") + " " + app.getVersionString(),
 					buttonText, handler);
 		}
-		resetAfterExam(app);
+		resetAfterExam();
 	}
 
-	private void showFinalLog(AppW app, String menu, String buttonText,
+	private void showFinalLog(String menu, String buttonText,
 							  AsyncOperation<String[]> handler) {
 		app.fileNew();
 		HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), htmlBuilder);
 		app.showMessage(htmlBuilder.getHTML(), menu, buttonText, handler);
-		saveScreenshot(app, menu);
+		saveScreenshot(menu);
 	}
 
-	private void resetAfterExam(AppW app) {
+	private void resetAfterExam() {
 		app.setExam(null);
 		app.resetViewsEnabled();
 		LayoutW.resetPerspectives(app);
@@ -149,7 +151,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		app.setActivePerspective(0);
 	}
 
-	private void saveScreenshot(AppW app, String menu) {
+	private void saveScreenshot(String menu) {
 		final int header = 78;
 		Canvas canvas = Canvas.createIfSupported();
 		final GGraphics2DW g2 = new GGraphics2DW(canvas);
@@ -195,17 +197,16 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), canvasLogBuilder);
 		Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");
-
 	}
 
 	/**
 	 * Exit exam and restore normal mode
 	 */
-	protected void exitAndResetExamOffline(AppW app) {
+	protected void exitAndResetExamOffline() {
 		app.getLAF().toggleFullscreen(false);
-		saveScreenshot(app, app.getLocalization().getMenu((app.getConfig()
+		saveScreenshot(app.getLocalization().getMenu((app.getConfig()
 				.getAppName())));
 		app.fileNew();
-		resetAfterExam(app);
+		resetAfterExam();
 	}
 }

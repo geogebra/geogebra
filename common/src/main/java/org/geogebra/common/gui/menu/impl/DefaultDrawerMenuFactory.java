@@ -215,17 +215,17 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		ActionableItem pdf = new ActionableItemImpl(null, "PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
 			case NOTES:
-				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs",
+				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs",
 						createDownloadSlides(), png, svg, pdf);
 			case GRAPHING_3D:
 				ActionableItem dae = new ActionableItemImpl(
 						"ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
 				ActionableItem html = new ActionableItemImpl(
 						"ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
-				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(),
+				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
 						png, svg, pdf, createDownloadStl(), dae, html);
 			default:
-				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(),
+				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
 						png, svg, pdf, createDownloadStl());
 		}
 	}
