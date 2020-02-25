@@ -17,7 +17,7 @@ public class FontMenuItem extends AriaMenuItem {
 	 * @param textController to alter text with.
 	 */
 	public FontMenuItem(AppW app, InlineTextController textController) {
-		super(app.getLocalization().getMenu("Font"), false,
+		super(app.getLocalization().getMenu("General.Font"), false,
 				new FontSubMenu(app, textController));
 		addStyleName("no-image");
 	}
