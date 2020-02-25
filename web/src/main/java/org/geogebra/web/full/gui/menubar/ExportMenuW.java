@@ -73,7 +73,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), "png", "ExportAsPicture",
 								app);
-						dialogEvent(app, "exportPNG");
 					}
 				});
 
@@ -98,7 +97,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.getFileManager().showExportAsPictureDialog(svg,
 								app.getExportTitle(), "svg", "ExportAsPicture",
 								app);
-						dialogEvent(app, "exportSVG");
 					}
 				});
 		menu.addItem(app.isWhiteboardActive()
@@ -117,7 +115,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.getFileManager().showExportAsPictureDialog(pdf,
 								app.getExportTitle(), "pdf", "ExportAsPicture",
 								app);
-						dialogEvent(app, "exportPDF");
 					}
 				});
 		// TODO add gif back when ready
@@ -243,7 +240,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				String url = Browser.addTxtMarker(obj);
 				app.getFileManager().showExportAsPictureDialog(url,
 						app.getExportTitle(), "txt", "Export", app);
-				dialogEvent(app, "export" + string);
 			}
 		};
 	}

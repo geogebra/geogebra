@@ -2,8 +2,17 @@ package org.geogebra.web.full.gui.menu.action;
 
 import org.geogebra.web.full.gui.menubar.MenuAction;
 import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
+import org.geogebra.web.full.gui.menubar.action.ExportImageAction;
 import org.geogebra.web.full.gui.menubar.action.FileNewAction;
 import org.geogebra.web.full.gui.menubar.action.LicenseAction;
+import org.geogebra.web.full.gui.menubar.action.SignInAction;
+import org.geogebra.web.full.gui.menubar.action.SignOutAction;
+import org.geogebra.web.full.gui.menubar.action.ReportProblemAction;
+import org.geogebra.web.full.gui.menubar.action.SaveAction;
+import org.geogebra.web.full.gui.menubar.action.ShareAction;
+import org.geogebra.web.full.gui.menubar.action.ShowForumAction;
+import org.geogebra.web.full.gui.menubar.action.ShowSettingsAction;
+import org.geogebra.web.full.gui.menubar.action.ShowTutorialsAction;
 import org.geogebra.web.full.gui.menubar.action.StartAppAction;
 import org.geogebra.web.full.main.AppWFull;
 
@@ -16,6 +25,15 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 	private FileNewAction fileNewAction;
 	private ExitExamAction exitExamAction;
 	private LicenseAction licenseAction;
+	private MenuAction showSettingsAction;
+	private SaveAction saveAction;
+	private ShareAction shareAction;
+	private ExportImageAction exportImageAction;
+	private ShowTutorialsAction showTutorialsAction;
+	private ShowForumAction showForumAction;
+	private ReportProblemAction reportProblemAction;
+	private SignInAction signInAction;
+	private SignOutAction signOutAction;
 	private MenuAction startGraphingAction;
 	private MenuAction startGeometryAction;
 	private MenuAction start3dAction;
@@ -36,6 +54,15 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 		fileNewAction = new FileNewAction(true);
 		exitExamAction = new ExitExamAction();
 		licenseAction = new LicenseAction();
+		showSettingsAction = new ShowSettingsAction();
+		saveAction = new SaveAction();
+		shareAction = new ShareAction();
+		exportImageAction = new ExportImageAction();
+		showTutorialsAction = new ShowTutorialsAction();
+		showForumAction = new ShowForumAction();
+		reportProblemAction = new ReportProblemAction();
+		signInAction = new SignInAction();
+		signOutAction = new SignOutAction();
 		startGraphingAction = StartAppAction.create(app, "graphing");
 		startGeometryAction = StartAppAction.create(app, "geometry");
 		start3dAction = StartAppAction.create(app, "3d");
@@ -86,7 +113,7 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void showSettings() {
-		// TODO
+		showSettingsAction.execute(null, app);
 	}
 
 	@Override
@@ -96,17 +123,17 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void saveFile() {
-		// TODO
+		saveAction.execute(null, app);
 	}
 
 	@Override
 	public void shareFile() {
-		// TODO
+		shareAction.execute(null, app);
 	}
 
 	@Override
 	public void exportImage() {
-		// TODO
+		exportImageAction.execute(null, app);
 	}
 
 	@Override
@@ -121,17 +148,17 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void showTutorials() {
-		// TODO
+		showTutorialsAction.execute();
 	}
 
 	@Override
 	public void showForum() {
-		// TODO
+		showForumAction.execute();
 	}
 
 	@Override
 	public void reportProblem() {
-		// TODO
+		reportProblemAction.execute();
 	}
 
 	@Override
@@ -141,12 +168,12 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void signIn() {
-		// TODO
+		signInAction.execute(null, app);
 	}
 
 	@Override
 	public void signOut() {
-		// TODO
+		signOutAction.execute(null, app);
 	}
 
 	@Override

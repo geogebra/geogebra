@@ -364,6 +364,7 @@ public class FileManagerW extends FileManager {
 										"[\"" + extension2 + "\"]"));
 							}
 						}, loc.getMenu("Export"));
+		dialogEvent(app, "exportPNG");
 	}
 
 	@Override
@@ -377,6 +378,11 @@ public class FileManagerW extends FileManager {
 		if (stockStore != null) {
 			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());
 		}
+	}
+
+	private static void dialogEvent(AppW app, String string) {
+		app.dispatchEvent(new org.geogebra.common.plugin.Event(
+				EventType.OPEN_DIALOG, null, string));
 	}
 
 }
