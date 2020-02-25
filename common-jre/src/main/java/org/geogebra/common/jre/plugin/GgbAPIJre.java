@@ -22,6 +22,8 @@ public abstract class GgbAPIJre extends GgbAPI {
 	public GgbAPIJre(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
+		this.algebraprocessor = kernel.getAlgebraProcessor();
+		construction = kernel.getConstruction();
 	}
 
 	/**
