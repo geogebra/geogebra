@@ -278,6 +278,15 @@ public class Pool {
         return false;
     }
 
+    public boolean areEqualLong(Segment s1, Segment s2) {
+        EqualLongSegments els1 = getEqualLongSegments(s1);
+        EqualLongSegments els2 = getEqualLongSegments(s2);
+        if (els1 != null && els2 != null && els1.equals(els2)) {
+            return true;
+        }
+        return false;
+    }
+
     public ParallelLines getDirection(Line l) {
         for (ParallelLines pl : directions) {
             if (pl.getLines().contains(l)) {
@@ -328,6 +337,33 @@ public class Pool {
         }
         directions.remove(dir1);
         return dir2;
+    }
+
+    /* s1 != s2 */
+    public EqualLongSegments addEquality(Segment s1, Segment s2) {
+        if (s1.equals(s2)) {
+            return getEqualLongSegments(s1); // no action is needed
+        }
+        EqualLongSegments els1 = getEqualLongSegments(s1);
+        EqualLongSegments els2 = getEqualLongSegments(s2);
+        if (els1 == null && els2 == null) {
+            equalLongSegments.add(new EqualLongSegments(s1, s2));
+            return els1;
+        }
+        if (els1 != null && els2 == null) {
+            els1.equalLong(s2);
+            return els1;
+        }
+        if (els1 == null && els2 != null) {
+            els2.equalLong(s1);
+            return els1;
+        }
+        // Unifying the two sets as one:
+        for (Segment s : els1.getSegments()) {
+            els2.equalLong(s);
+        }
+        equalLongSegments.remove(els1);
+        return els2;
     }
 
     public void removePoint(GeoPoint p) {
