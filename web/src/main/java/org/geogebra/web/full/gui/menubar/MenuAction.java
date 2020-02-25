@@ -12,6 +12,13 @@ public interface MenuAction<T> {
 	boolean isAvailable(T item);
 
 	/**
+	 * Executes the action.
+	 */
+	void execute();
+
+	/**
+	 * Executes the action.
+	 *
 	 * @param item
 	 *            reference item
 	 * @param app

@@ -1,8 +1,10 @@
 package org.geogebra.web.full.gui.menu.action;
 
+import org.geogebra.web.full.gui.menubar.MenuAction;
 import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
 import org.geogebra.web.full.gui.menubar.action.FileNewAction;
 import org.geogebra.web.full.gui.menubar.action.LicenseAction;
+import org.geogebra.web.full.gui.menubar.action.StartAppAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
@@ -14,6 +16,12 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 	private FileNewAction fileNewAction;
 	private ExitExamAction exitExamAction;
 	private LicenseAction licenseAction;
+	private MenuAction startGraphingAction;
+	private MenuAction startGeometryAction;
+	private MenuAction start3dAction;
+	private MenuAction startScientificAction;
+	private MenuAction startClassicAction;
+	private MenuAction startCasAction;
 
 	/**
 	 * Create a DefaultMenuActionHandler
@@ -28,36 +36,42 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 		fileNewAction = new FileNewAction(true);
 		exitExamAction = new ExitExamAction();
 		licenseAction = new LicenseAction();
+		startGraphingAction = StartAppAction.create(app, "graphing");
+		startGeometryAction = StartAppAction.create(app, "geometry");
+		start3dAction = StartAppAction.create(app, "3d");
+		startScientificAction = StartAppAction.create(app, "calculator");
+		startClassicAction = StartAppAction.create(app, "classic");
+		startCasAction = StartAppAction.create(app, "cas");
 	}
 
 	@Override
 	public void startClassic() {
-		// TODO
+		startClassicAction.execute();
 	}
 
 	@Override
 	public void startGraphing() {
-		// TODO
+		startGraphingAction.execute();
 	}
 
 	@Override
 	public void startScientific() {
-		// TODO
+		startScientificAction.execute();
 	}
 
 	@Override
 	public void startGeometry() {
-		// TODO
+		startGeometryAction.execute();
 	}
 
 	@Override
 	public void startCasCalculator() {
-		// TODO
+		startCasAction.execute();
 	}
 
 	@Override
 	public void startGraphing3d() {
-		// TODO
+		start3dAction.execute();
 	}
 
 	@Override
