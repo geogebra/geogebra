@@ -2,6 +2,9 @@ package org.geogebra.web.full.gui.menu.icons;
 
 import org.geogebra.web.resources.SVGResource;
 
+/**
+ * Gives access to menu icons.
+ */
 public interface MenuIconProvider {
 
 	SVGResource appClassic();
@@ -17,6 +20,8 @@ public interface MenuIconProvider {
 	SVGResource appGraphing3d();
 
 	SVGResource clear();
+
+	SVGResource download();
 
 	SVGResource save();
 

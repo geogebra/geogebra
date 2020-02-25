@@ -10,6 +10,6 @@ public class MebisMenuActionHandler extends DefaultMenuActionHandler {
 
 	@Override
 	public void showSearchView() {
-
+		// TODO
 	}
 }

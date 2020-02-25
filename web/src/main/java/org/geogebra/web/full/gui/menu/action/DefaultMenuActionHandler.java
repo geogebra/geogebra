@@ -5,6 +5,9 @@ import org.geogebra.web.full.gui.menubar.action.FileNewAction;
 import org.geogebra.web.full.gui.menubar.action.LicenseAction;
 import org.geogebra.web.full.main.AppWFull;
 
+/**
+ * Implements handling of the menu actions.
+ */
 public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	private AppWFull app;
@@ -12,6 +15,10 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 	private ExitExamAction exitExamAction;
 	private LicenseAction licenseAction;
 
+	/**
+	 * Create a DefaultMenuActionHandler
+	 * @param app app
+	 */
 	public DefaultMenuActionHandler(AppWFull app) {
 		this.app = app;
 		createActions();

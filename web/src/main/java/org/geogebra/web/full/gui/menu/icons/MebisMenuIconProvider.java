@@ -3,6 +3,9 @@ package org.geogebra.web.full.gui.menu.icons;
 import com.google.gwt.core.client.GWT;
 import org.geogebra.web.resources.SVGResource;
 
+/**
+ * Gives access to Mebis menu icons.
+ */
 public interface MebisMenuIconProvider extends DefaultMenuIconProvider {
 
 	MebisMenuIconProvider INSTANCE = GWT.create(MebisMenuIconProvider.class);
