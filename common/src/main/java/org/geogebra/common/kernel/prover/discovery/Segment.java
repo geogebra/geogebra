@@ -13,7 +13,15 @@ public class Segment {
     }
 
     public String toString() {
-        return startPoint.getLabelSimple() + endPoint.getLabelSimple();
+        String p1 = startPoint.getLabelSimple();
+        String p2 = endPoint.getLabelSimple();
+        if (p1.compareTo(p2) > 0) {
+            // swap them if the alphabetic order is wrong
+            String p = p1;
+            p1 = p2;
+            p2 = p;
+        }
+        return p1 + p2;
     }
 
     public GeoSegment getGeoSegment() {
