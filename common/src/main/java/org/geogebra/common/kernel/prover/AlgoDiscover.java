@@ -453,7 +453,6 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 GeoSegment gs2 = ajps2.getSegment();
 
                 if (!discoveryPool.areEqualLong(s1, s2)) {
-                    // Add {p0,p1,p2} to the trivial pool if they are trivially parallel:
                     checkEquality(gs1, gs2);
                 }
                 gs1.remove();
@@ -644,6 +643,23 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
             items++;
         }
 
+        // Equal long segments
+        StringBuilder equalLongSegments = new StringBuilder("Congruent segments: <ul>");
+        if (!drawnSegments.isEmpty()) {
+            for (EqualLongSegments els : drawnSegments) {
+                GColor c = els.getColor();
+                equalLongSegments.append("<li " + liStyle + ">");
+                if (c != null) {
+                    String color = StringUtil.toHexString(c);
+                    equalLongSegments.append("<font color=\"" + color + "\">" + els.toString() + "</font>");
+                } else {
+                    equalLongSegments.append(els.toString());
+                }
+            }
+            equalLongSegments.append("</ul>");
+            items++;
+        }
+
         if (items == 0) {
             return; // no window is shown
         }
@@ -668,6 +684,13 @@ public class AlgoDiscover extends AlgoElement implements UsesCAS {
                 html.append("<p><p>");
             }
             html.append(directions);
+            // items++;
+        }
+        if (!drawnSegments.isEmpty()) {
+            if (items > 0) {
+                html.append("<p><p>");
+            }
+            html.append(equalLongSegments);
             // items++;
         }
         html.append("</html>");
