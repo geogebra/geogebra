@@ -46,11 +46,11 @@ insert into provers (name, engine, method, outsourcing, platform, ndg) values ('
 insert into provers (name, engine, method, outsourcing, platform, ndg) values ('OpenGeoProver_Area', 'OGP', 'Area', '', 'desktop', 0);
 insert into provers (name, engine, method, outsourcing, platform, ndg) values ('Web', 'GG', 'Auto', '', 'web', 1);
 
--- Using Jenkins' environment settings, assuming SVN being used,
+-- Using Jenkins' environment settings, assuming Git being used,
 -- see https://wiki.jenkins-ci.org/display/JENKINS/Building+a+software+project
 create table builds (
  build_number int not null primary key,
- svn_revision int,
+ git_revision int,
  build_url text,
  machine text);
 

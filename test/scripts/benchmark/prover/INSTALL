@@ -56,7 +56,7 @@ Configure Jenkins
 * Create a New Item "GeoGebra-provertest" (without quotes, make sure that you don't use spaces in the name)
   as a freestyle project, then
 
-  * Select Subversion as Version Control System and http://dev.geogebra.org/svn/trunk/geogebra as Repository URL
+  * Select Git as Version Control System and https://github.com/kovzol/geogebra as Repository URL
 
   * At Build Triggers -> Poll SCM choose a cron-formatted schedule scenario, maybe "0 10 * * *" (without quotes)
     to start building GeoGebra at 10:00 every day

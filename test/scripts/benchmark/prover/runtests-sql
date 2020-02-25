@@ -166,9 +166,9 @@ prereq unzip
 prereq zip
 prereq timeout
 
-REVISION=`svn info | grep ^Revision: | cut -f2 -d" "`
+REVISION=`git log --oneline | cut -f1 -d" "`
 if [ "$REVISION" != "" ]; then
- REVISION=" (r$REVISION)"
+ REVISION=" ($REVISION)"
  fi
 # public static final String VERSION_STRING = "5.0.122.0";
 VERSION=`cat $GEOGEBRADIR/common/src/main/java/org/geogebra/common/GeoGebraConstants.java |\
@@ -189,8 +189,8 @@ machine="$HOST, $INFO"
 if [ "$BUILD_NUMBER" = "" ]; then
  BUILD_NUMBER=`date +%Y%m%d%H%M%S`
  fi
-if [ "$SVN_REVISION" = "" ]; then
- SVN_REVISION=null
+if [ "$GIT_REVISION" = "" ]; then
+ GIT_REVISION=null
  fi
 if [ "$BUILD_URL" = "" ]; then
  BUILD_URL=null
@@ -199,8 +199,8 @@ if [ "$BUILD_URL" = "" ]; then
 cd $MYDIR
 test sqlite3db || ./createdb
 
-sqlite3 sqlite3db "insert into builds (build_number, svn_revision, build_url, machine)
-values ('$BUILD_NUMBER', '$SVN_REVISION', '$BUILD_URL', '$machine')"
+sqlite3 sqlite3db "insert into builds (build_number, git_revision, build_url, machine)
+values ('$BUILD_NUMBER', '$GIT_REVISION', '$BUILD_URL', '$machine')"
 
 # Header
 echo -n "Test file;"

@@ -161,9 +161,9 @@ prereq unzip
 prereq zip
 prereq timeout
 
-REVISION=`svn info | grep ^Revision: | cut -f2 -d" "`
+REVISION=`git log --oneline | cut -f1 -d" "`
 if [ "$REVISION" != "" ]; then
- REVISION=" (r$REVISION)"
+ REVISION=" ($REVISION)"
  fi
 # public static final String VERSION_STRING = "5.0.122.0";
 VERSION=`cat $GEOGEBRADIR/common/src/main/java/org/geogebra/common/GeoGebraConstants.java |\
