@@ -5,11 +5,13 @@ import org.geogebra.web.full.gui.menubar.action.LicenseAction;
 import org.geogebra.web.full.gui.view.algebra.MenuItem;
 
 /**
- * Clears construction and initializes a new one
- *
+ * License menu item.
  */
 public class LicenseItem extends MenuItem<Void> {
 
+	/**
+	 * Creates a new LicenseItem.
+	 */
 	public LicenseItem() {
 		super("AboutLicense",
 				MaterialDesignResources.INSTANCE.info_black(),
