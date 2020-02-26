@@ -10,5 +10,9 @@ public interface ProcessInput {
 	 * (paste or key event happened)
 	 */
 	void onInput();
+
+	/**
+	 * Runs on enter (or OK button click).
+	 */
 	void processInput();
 }
