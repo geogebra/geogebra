@@ -1517,6 +1517,8 @@ __GGB__keysVar["bs"].menu = {
     "ConstructionProtocolButton": "Dugme za opis konstrukcije",
     "ConstructionProtocolHelp": "<html><body><p><b>Opis konstrukcije</b></p><p><br><b>Tastatura</b></p><table border=\"1\"><tr><td>\u2191</td><td>Prethodni korak konstrukcije</td></tr><tr><td>\u2193</td><td>Sljede\u0107i korak konstrukcije</td></tr><tr><td>Home</td><td>Start konstrukcije</td></tr><tr><td>End</td><td>Kraj konstrukcije</td></tr><tr><td>Delete</td><td>Brisanje koraka konstrukcije</td></tr></table><p><b><br>Mi\u0161</b></p><table border=\"1\"><tr><td>Dvostruki klik na red</td><td>Izbor koraka konstrukcije</td></tr><tr><td>Dvostruki klik na naslov</td><td>Po\u010detak konstrukcije</td></tr><tr><td>Povla\u010denje i spu\u0161tanje reda</td><td>Pomjeranje reda konstrukcije</td></tr><tr><td>Desni klik na red</td><td>Izbornik</td></tr></table></body></html>",
     "ConstructionProtocolNavigation": "Traka za korake konstrukcije",
+    "ContextMenu.Group": "Group",
+    "ContextMenu.Ungroup": "Ungroup",
     "Continuity": "Neprekidnost",
     "Continuous": "Neprekidno",
     "Coordinates": "Koordinate",

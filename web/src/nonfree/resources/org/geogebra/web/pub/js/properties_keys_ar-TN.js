@@ -1517,6 +1517,8 @@ __GGB__keysVar["ar-TN"].menu = {
     "ConstructionProtocolButton": "\u0632\u0631 \u0645\u0631\u0627\u062d\u0644 \u0627\u0644\u0628\u0646\u0627\u0621",
     "ConstructionProtocolHelp": "<html><body><p><b>Utilisation du protocole de construction</b></p><p><br><b>Clavier</b></p><table border=\"1\"><tr><td>\u2191</td><td>\xe9tape de construction pr\xe9c\xe9dente</td></tr><tr><td>\u2193</td><td>\xe9tape de construction suivante</td></tr><tr><td>D\xe9but</td><td>d\xe9but de la construction</td></tr><tr><td>Fin</td><td>fin de la construction</td></tr><tr><td>Del</td><td>supprime l\'\xe9tape de construction</td></tr></table><p><b><br>Souris</b></p><table border=\"1\"><tr><td>Double-clic sur la ligne</td><td>s\xe9lectionne l\'\xe9tape de construction</td></tr><tr><td>Double-clic sur l\'en-t\xeate</td><td>d\xe9but de la construction</td></tr><tr><td>Glisser & d\xe9poser la ligne</td><td>d\xe9place l\'\xe9tape de construction</td></tr><tr><td>Clic droit sur la ligne</td><td>affiche le menu contextuel</td></tr></table></body></html>",
     "ConstructionProtocolNavigation": "\u0627\u0628\u062d\u0627\u0631 \u0641\u064a \u0645\u0631\u0627\u062d\u0644 \u0627\u0644\u0628\u0646\u0627\u0621",
+    "ContextMenu.Group": "Group",
+    "ContextMenu.Ungroup": "Ungroup",
     "Continuity": "\u0627\u0644\u0625\u0633\u062a\u0645\u0631\u0627\u0631\u064a\u0629",
     "Continuous": "\u0625\u0633\u062a\u0645\u0631\u0627\u0631\u064a\u0629",
     "Coordinates": "\u0627\u0644\u0625\u062d\u062f\u0627\u062b\u064a\u0627\u062a",

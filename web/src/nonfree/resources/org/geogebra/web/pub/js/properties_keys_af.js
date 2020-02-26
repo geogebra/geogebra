@@ -1517,6 +1517,8 @@ __GGB__keysVar["af"].menu = {
     "ConstructionProtocolButton": "Button to open construction protocol",
     "ConstructionProtocolHelp": "<html><body><p><b>Using the Construction Protocol</b></p><p><br><b>Keyboard</b></p><table border=\"1\"><tr><td>&#8593;</td><td>Previous construction step</td></tr><tr><td>&#8595;</td><td>Next construction step</td></tr><tr><td>Home</td><td>Start of construction</td></tr><tr><td>End</td><td>End of construction</td></tr><tr><td>Del</td><td>Delete construction step</td></tr></table><p><b><br>Mouse</b></p><table border=\"1\"><tr><td>Double click row</td><td>Choose construction step</td></tr><tr><td>Double click header</td><td>Start of construction</td></tr><tr><td>Drag &amp; drop row</td><td>Move construction step</td></tr><tr><td>Right click row</td><td>Context menu</td></tr></table></body></html>",
     "ConstructionProtocolNavigation": "Navigation Bar for Construction Steps",
+    "ContextMenu.Group": "Group",
+    "ContextMenu.Ungroup": "Ungroup",
     "Continuity": "Continuity",
     "Continuous": "Continuous",
     "Coordinates": "Coordinates",

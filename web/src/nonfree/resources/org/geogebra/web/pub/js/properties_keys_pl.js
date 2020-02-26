@@ -1517,6 +1517,8 @@ __GGB__keysVar["pl"].menu = {
     "ConstructionProtocolButton": "Przycisk otwarcia okna protoko\u0142u konstrukcji",
     "ConstructionProtocolHelp": "<html><body><p><b>Obs\u0142uga Protoko\u0142u Konstrukcji</b></p><p><br><b>Klawiatura</b></p><table border=\"1\"><tr><td>\u2191</td><td>Poprzedni krok konstrukcji</td></tr><tr><td>\u2193</td><td>Nast\u0119pny krok konstrukcji</td></tr><tr><td>Home</td><td>Pocz\u0105tek konstrukcji</td></tr><tr><td>End</td><td>Koniec konstrukcji</td></tr><tr><td>Del</td><td>Usu\u0144 etap konstrukcji</td></tr></tabela><p><b><br>Mysz</b></p><obramowanie tabeli=\"1\"><tr><td>Podw\xf3jne klikni\u0119cie wiersza</td><td>Wyb\xf3r etapu konstrukcji</td></tr><tr><td>Podw\xf3jne klikni\u0119cie nag\u0142\xf3wka</td><td>Pocz\u0105tek konstrukcji</td></tr><tr><td>Chwy\u0107 i upu\u015b\u0107 wiersz</td><td>Zmiana kolejno\u015bci</td></tr><tr><td>Kliknij prawym przyciskiem wiersz</td><td>Menu kontekstowe</td></tr></tabela></body></html>",
     "ConstructionProtocolNavigation": "Pasek nawigacji etap\xf3w konstrukcji",
+    "ContextMenu.Group": "Group",
+    "ContextMenu.Ungroup": "Ungroup",
     "Continuity": "Ci\u0105g\u0142o\u015b\u0107",
     "Continuous": "Ci\u0105g\u0142y",
     "Coordinates": "Wsp\xf3\u0142rz\u0119dne",

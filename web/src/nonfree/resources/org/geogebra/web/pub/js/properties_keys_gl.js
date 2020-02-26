@@ -1517,6 +1517,8 @@ __GGB__keysVar["gl"].menu = {
     "ConstructionProtocolButton": "Bot\xf3n para abrir o protocolo de construci\xf3n",
     "ConstructionProtocolHelp": "<html><body><p><b>Empregando o protocolo de construci\xf3n</b></p><p><br><b>Teclado</b></p><table border=\"1\"><tr><td>\u2191</td><td>Paso anterior da construci\xf3n</td></tr><tr><td>\u2193</td><td>Paso posterior da construci\xf3n</td></tr><tr><td>Inicio</td><td>Comezo da construci\xf3n</td></tr><tr><td>Fin</td><td>Remate da construci\xf3n</td></tr><tr><td>Supr</td><td>Borrar paso da construci\xf3n</td></tr></table><p><b><br>Rato</b></p><table border=\"1\"><tr><td>Dobre clic na fila </td><td>Escoller paso da construci\xf3n</td></tr><tr><td>Dobre clic na cabeceira</td><td>Comezo da construci\xf3n</td></tr><tr><td>Arrastrar e soltar fila</td><td>Mover paso da construci\xf3n</td></tr><tr><td>Clic dereito na fila</td><td>Men\xfa contextual</td></tr></table></body></html>",
     "ConstructionProtocolNavigation": "Barra de navegaci\xf3n dos pasos da construci\xf3n",
+    "ContextMenu.Group": "Group",
+    "ContextMenu.Ungroup": "Ungroup",
     "Continuity": "Continuidade",
     "Continuous": "Continuo",
     "Coordinates": "Coordenadas",

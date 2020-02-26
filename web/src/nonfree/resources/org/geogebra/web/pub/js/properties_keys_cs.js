@@ -1517,6 +1517,8 @@ __GGB__keysVar["cs"].menu = {
     "ConstructionProtocolButton": "Tla\u010d\xedtko z\xe1pisu konstrukce",
     "ConstructionProtocolHelp": "<html><body><p><b>U\u017eit\xed z\xe1pisu konstrukce</b></p><p><br><b>Kl\xe1vesnice</b></p><table border=\"1\"><tr><td>&#8593;</td><td>p\u0159edch\xe1zej\xedc\xed krok konstrukce</td></tr><tr><td>&#8595;</td><td>dal\u0161\xed krok konstrukce</td></tr><tr><td>Home</td><td>za\u010d\xe1tek konstruce</td></tr><tr><td>End</td><td>konec konstrukce</td></tr><tr><td>Del</td><td>zru\u0161it konstruk\u010dn\xed krok</td></tr></table><p><b><br>My\u0161</b></p><table border=\"1\"><tr><td>dvojit\xe9 kliknut\xed na \u0159\xe1dek</td><td>v\xfdb\u011br kroku konstrukce</td></tr><tr><td>dvojit\xe9 kliknut\xed na z\xe1hlav\xed</td><td>za\u010d\xe1tek konstrukce</td></tr><tr><td>uchop &amp; pus\u0165 \u0159\xe1dek</td><td>p\u0159esun konstruk\u010dn\xedho kroku</td></tr><tr><td>kliknout prav\xfdm tla\u010d\xedtkem na \u0159\xe1dek</td><td>m\xedstn\xed nab\xeddka</td></tr></table></body></html>",
     "ConstructionProtocolNavigation": "Naviga\u010dn\xed panel pro krokov\xe1n\xed konstrukce",
+    "ContextMenu.Group": "Group",
+    "ContextMenu.Ungroup": "Ungroup",
     "Continuity": "Spojitost",
     "Continuous": "Souvisl\xfd",
     "Coordinates": "Sou\u0159adnice",
