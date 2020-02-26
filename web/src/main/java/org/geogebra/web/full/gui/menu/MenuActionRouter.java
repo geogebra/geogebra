@@ -5,6 +5,7 @@ import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.ActionableItem;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.SubmenuItem;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandler;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -16,10 +17,14 @@ class MenuActionRouter {
 
 	private MenuActionHandler menuActionHandler;
 	private MenuViewController menuViewController;
+	private Localization localization;
 
-	public MenuActionRouter(MenuActionHandler menuActionHandler, MenuViewController menuViewController) {
+	public MenuActionRouter(MenuActionHandler menuActionHandler,
+							MenuViewController menuViewController,
+							Localization localization) {
 		this.menuActionHandler = menuActionHandler;
 		this.menuViewController = menuViewController;
+		this.localization = localization;
 	}
 
 	void handleMenuItem(MenuItem menuItem) {
@@ -138,7 +143,7 @@ class MenuActionRouter {
 		HeaderView headerView = new HeaderView();
 		headerView.setElevated(false);
 		headerView.setCompact(true);
-		headerView.setCaption(submenuItem.getLabel());
+		headerView.setCaption(localization.getMenu(submenuItem.getLabel()));
 		headerView.getBackButton().addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {

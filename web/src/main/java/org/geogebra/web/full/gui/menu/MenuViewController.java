@@ -52,7 +52,8 @@ public class MenuViewController {
 		localization = app.getLocalization();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app), this);
+		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app),
+				this, localization);
 	}
 
 	private void createViews() {
