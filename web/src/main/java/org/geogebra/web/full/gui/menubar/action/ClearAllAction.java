@@ -5,12 +5,18 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
-public class FileNewAction extends DefaultMenuAction<Void> implements AsyncOperation<Boolean> {
+/**
+ * Clears construction.
+ */
+public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOperation<Boolean> {
 
 	private boolean askForSave;
 	private AppW app;
 
-	public FileNewAction(boolean askForSave) {
+	/**
+	 * @param askForSave whether asks for save
+	 */
+	public ClearAllAction(boolean askForSave) {
 		this.askForSave = askForSave;
 	}
 

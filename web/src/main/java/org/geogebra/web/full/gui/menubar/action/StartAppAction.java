@@ -7,7 +7,7 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Starts a GeoGebra app
+ * Starts a GeoGebra app.
  */
 public class StartAppAction extends DefaultMenuAction<Void> {
 

@@ -3,8 +3,7 @@ package org.geogebra.web.full.gui.menubar;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.geogebra.web.full.gui.menubar.action.FileNewAction;
-import org.geogebra.web.full.gui.menubar.item.FileNewItem;
+import org.geogebra.web.full.gui.menubar.action.ClearAllAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.TestArticleElement;
@@ -42,7 +41,7 @@ public class FileMenuTest {
 		ListBox mockBox = mock(ListBox.class);
 		when(factory.newListBox()).thenReturn(mockBox);
 		app.getDialogManager().setWidgetFactory(factory);
-		FileNewAction action = new FileNewAction(true);
+		ClearAllAction action = new ClearAllAction(true);
 		addObject("x");
 		action.execute(null, app);
 		app.getSaveController().cancel();

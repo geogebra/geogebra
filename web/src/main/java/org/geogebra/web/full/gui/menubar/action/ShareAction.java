@@ -5,7 +5,7 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Shares the material
+ * Shares the material.
  */
 public class ShareAction extends DefaultMenuAction<Void> {
 

@@ -7,7 +7,10 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
-public class FileOpenActionMebis extends DefaultMenuAction<Void> implements EventRenderable {
+/**
+ * Opens file in Mebis Tafel.
+ */
+public class OpenFileActionMebis extends DefaultMenuAction<Void> implements EventRenderable {
 
 	private AppWFull app;
 

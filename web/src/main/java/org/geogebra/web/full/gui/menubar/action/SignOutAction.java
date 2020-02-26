@@ -4,7 +4,7 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Signs out
+ * Signs out.
  */
 public class SignOutAction extends DefaultMenuAction<Void> {
 

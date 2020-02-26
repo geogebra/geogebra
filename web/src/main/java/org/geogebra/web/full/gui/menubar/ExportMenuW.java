@@ -53,7 +53,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					@Override
 					public void doExecute() {
 						menu.hide();
-						dialogEvent(app, "exportGGB");
 						app.getFileManager().export(app);
 					}
 				});

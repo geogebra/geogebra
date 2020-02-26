@@ -4,7 +4,7 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Opens save dialog
+ * Opens save dialog.
  */
 public class SaveAction extends DefaultMenuAction<Void> {
 

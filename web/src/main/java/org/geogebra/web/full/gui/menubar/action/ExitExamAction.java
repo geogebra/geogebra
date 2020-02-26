@@ -21,6 +21,9 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
+/**
+ * Exits exam mode.
+ */
 public class ExitExamAction extends DefaultMenuAction<Void> {
 	/**
 	 * Canvas line height

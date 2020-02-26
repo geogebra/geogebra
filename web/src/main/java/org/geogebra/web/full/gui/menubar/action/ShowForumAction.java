@@ -6,7 +6,7 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Opens the forum
+ * Opens the forum.
  */
 public class ShowForumAction extends DefaultMenuAction<Void> {
 

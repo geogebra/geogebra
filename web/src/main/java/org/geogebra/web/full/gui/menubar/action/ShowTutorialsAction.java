@@ -5,7 +5,7 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Shows the tutorial
+ * Shows the tutorial.
  */
 public class ShowTutorialsAction extends DefaultMenuAction<Void> {
 

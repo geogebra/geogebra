@@ -6,7 +6,7 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Opens the bug report page
+ * Opens the bug report page.
  */
 public class ReportProblemAction extends DefaultMenuAction<Void> {
 

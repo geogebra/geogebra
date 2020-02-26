@@ -2,9 +2,16 @@ package org.geogebra.web.full.gui.menu.action;
 
 import org.geogebra.web.full.gui.menubar.MenuAction;
 import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
-import org.geogebra.web.full.gui.menubar.action.ExportImageAction;
-import org.geogebra.web.full.gui.menubar.action.FileNewAction;
-import org.geogebra.web.full.gui.menubar.action.LicenseAction;
+import org.geogebra.web.full.gui.menubar.action.ExportColladaDaeAction;
+import org.geogebra.web.full.gui.menubar.action.ExportColladaHtmlAction;
+import org.geogebra.web.full.gui.menubar.action.ExportDefaultFormatAction;
+import org.geogebra.web.full.gui.menubar.action.ExportPdfAction;
+import org.geogebra.web.full.gui.menubar.action.ExportPngAction;
+import org.geogebra.web.full.gui.menubar.action.ExportStlAction;
+import org.geogebra.web.full.gui.menubar.action.ExportSvgAction;
+import org.geogebra.web.full.gui.menubar.action.ClearAllAction;
+import org.geogebra.web.full.gui.menubar.action.ShowLicenseAction;
+import org.geogebra.web.full.gui.menubar.action.ShowPrintPreviewAction;
 import org.geogebra.web.full.gui.menubar.action.SignInAction;
 import org.geogebra.web.full.gui.menubar.action.SignOutAction;
 import org.geogebra.web.full.gui.menubar.action.ReportProblemAction;
@@ -22,18 +29,25 @@ import org.geogebra.web.full.main.AppWFull;
 public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	private AppWFull app;
-	private FileNewAction fileNewAction;
-	private ExitExamAction exitExamAction;
-	private LicenseAction licenseAction;
+	private MenuAction clearAllAction;
+	private MenuAction exitExamAction;
+	private MenuAction showLicenseAction;
 	private MenuAction showSettingsAction;
-	private SaveAction saveAction;
-	private ShareAction shareAction;
-	private ExportImageAction exportImageAction;
-	private ShowTutorialsAction showTutorialsAction;
-	private ShowForumAction showForumAction;
-	private ReportProblemAction reportProblemAction;
-	private SignInAction signInAction;
-	private SignOutAction signOutAction;
+	private MenuAction saveAction;
+	private MenuAction shareAction;
+	private MenuAction showTutorialsAction;
+	private MenuAction showForumAction;
+	private MenuAction reportProblemAction;
+	private MenuAction signInAction;
+	private MenuAction signOutAction;
+	private MenuAction exportPngAction;
+	private MenuAction exportDefaultFormatAction;
+	private MenuAction exportSvgAction;
+	private MenuAction exportPdfAction;
+	private MenuAction exportStlAction;
+	private MenuAction exportColladaDaeAction;
+	private MenuAction exportColladaHtmlAction;
+	private MenuAction showPrintPreviewAction;
 	private MenuAction startGraphingAction;
 	private MenuAction startGeometryAction;
 	private MenuAction start3dAction;
@@ -51,18 +65,25 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 	}
 
 	private void createActions() {
-		fileNewAction = new FileNewAction(true);
+		clearAllAction = new ClearAllAction(true);
 		exitExamAction = new ExitExamAction();
-		licenseAction = new LicenseAction();
+		showLicenseAction = new ShowLicenseAction();
 		showSettingsAction = new ShowSettingsAction();
 		saveAction = new SaveAction();
 		shareAction = new ShareAction();
-		exportImageAction = new ExportImageAction();
 		showTutorialsAction = new ShowTutorialsAction();
 		showForumAction = new ShowForumAction();
 		reportProblemAction = new ReportProblemAction();
 		signInAction = new SignInAction();
 		signOutAction = new SignOutAction();
+		exportDefaultFormatAction = new ExportDefaultFormatAction();
+		exportPngAction = new ExportPngAction(app);
+		exportSvgAction = new ExportSvgAction(app);
+		exportPdfAction = new ExportPdfAction(app);
+		exportStlAction = new ExportStlAction();
+		exportColladaDaeAction = new ExportColladaDaeAction();
+		exportColladaHtmlAction = new ExportColladaHtmlAction();
+		showPrintPreviewAction = new ShowPrintPreviewAction();
 		startGraphingAction = StartAppAction.create(app, "graphing");
 		startGeometryAction = StartAppAction.create(app, "geometry");
 		start3dAction = StartAppAction.create(app, "3d");
@@ -103,7 +124,7 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void clearConstruction() {
-		fileNewAction.execute(null, app);
+		clearAllAction.execute(null, app);
 	}
 
 	@Override
@@ -133,7 +154,7 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void exportImage() {
-		exportImageAction.execute(null, app);
+		exportPngAction.execute();
 	}
 
 	@Override
@@ -163,7 +184,7 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void showLicense() {
-		licenseAction.execute(null, app);
+		showLicenseAction.execute(null, app);
 	}
 
 	@Override
@@ -188,46 +209,46 @@ public class DefaultMenuActionHandler implements MenuActionHandler {
 
 	@Override
 	public void downloadGgb() {
-		// TODO
+		exportDefaultFormatAction.execute(null, app);
 	}
 
 	@Override
 	public void downloadGgs() {
-		// TODO
+		exportDefaultFormatAction.execute(null, app);
 	}
 
 	@Override
 	public void downloadPng() {
-		// TODO
+		exportPngAction.execute();
 	}
 
 	@Override
 	public void downloadSvg() {
-		// TODO
+		exportSvgAction.execute();
 	}
 
 	@Override
 	public void downloadPdf() {
-		// TODO
+		exportPdfAction.execute();
 	}
 
 	@Override
 	public void downloadStl() {
-		// TODO
+		exportStlAction.execute(null, app);
 	}
 
 	@Override
 	public void downloadColladaDae() {
-		// TODO
+		exportColladaDaeAction.execute(null, app);
 	}
 
 	@Override
 	public void downloadColladaHTML() {
-		// TODO
+		exportColladaHtmlAction.execute(null, app);
 	}
 
 	@Override
 	public void previewPrint() {
-		// TODO
+		showPrintPreviewAction.execute(null, app);
 	}
 }

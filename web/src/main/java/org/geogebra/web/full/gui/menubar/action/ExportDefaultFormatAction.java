@@ -4,12 +4,12 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Shows settings.
+ * Exports ggb or ggs format.
  */
-public class ShowSettingsAction extends DefaultMenuAction<Void> {
+public class ExportDefaultFormatAction extends DefaultMenuAction<Void> {
 
     @Override
     public void execute(Void item, AppWFull app) {
-        app.getActivity().showSettingsView(app);
+        app.getFileManager().export(app);
     }
 }
