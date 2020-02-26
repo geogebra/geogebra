@@ -118,8 +118,13 @@ public class MenuViewController {
 	 * @param visible true to show the menu
 	 */
 	public void setMenuVisible(boolean visible) {
-		floatingMenuView.setVisible(visible);
-		notifyMenuViewVisibilityChanged(visible);
+		if (visible != floatingMenuView.isVisible()) {
+			floatingMenuView.setVisible(visible);
+			notifyMenuViewVisibilityChanged(visible);
+			if (visible) {
+				hideSubmenu();
+			}
+		}
 	}
 
 	private void notifyMenuViewVisibilityChanged(boolean visible) {
@@ -140,13 +145,15 @@ public class MenuViewController {
 	}
 
 	void showSubmenu(HeaderedMenuView headeredSubmenu) {
-		headeredMenuView.removeFromParent();
+		floatingMenuView.clear();
 		floatingMenuView.add(headeredSubmenu);
 	}
 
 	void hideSubmenu() {
-		floatingMenuView.clear();
-		floatingMenuView.add(headeredMenuView);
+		if (headeredMenuView.getParent() == null) {
+			floatingMenuView.clear();
+			floatingMenuView.add(headeredMenuView);
+		}
 	}
 
 	private void createMenuItemGroup(MenuView menuView, MenuItemGroup menuItemGroup) {
@@ -160,7 +167,8 @@ public class MenuViewController {
 	}
 
 	private void createMenuItem(final MenuItem menuItem, MenuItemGroupView parent) {
-		SVGResource icon = menuIconResource.getImageResource(menuItem.getIcon());
+		SVGResource icon = menuItem.getIcon() != null
+				? menuIconResource.getImageResource(menuItem.getIcon()) : null;
 		String label = localization.getMenu(menuItem.getLabel());
 		MenuItemView view = new MenuItemView(icon, label);
 		view.addFastClickHandler(new FastClickHandler() {
