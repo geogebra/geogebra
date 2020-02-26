@@ -19,8 +19,8 @@ import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -308,15 +308,23 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
 		try {
 			cons.setSuppressLabelCreation(true);
-			ValidExpression ve = kernel.getParser().parseGiac(casOutputString);
-			ve.traverse(Traversing.GgbVectRemover.getInstance());
-			GeoElementND[] temp = kernel.getAlgebraProcessor().processValidExpression(ve);
-			return temp[0];
+			ExpressionNode expressionNode = kernel.getParser().parseGiac(casOutputString).wrap();
+			return process(expressionNode);
 		} catch (Throwable exception) {
 			return null;
 		} finally {
 			cons.setSuppressLabelCreation(isSuppressLabelsActive);
 		}
+	}
+
+	private GeoElement process(ExpressionNode expressionNode) throws Exception {
+		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
+		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
+		if (algebraProcessor.isVectorForced(getLabelSimple())) {
+			expressionNode.setForceVector();
+		}
+		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
+		return elements[0];
 	}
 
 	@Override

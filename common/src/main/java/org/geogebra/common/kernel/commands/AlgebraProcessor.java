@@ -3348,7 +3348,7 @@ public class AlgebraProcessor {
 		else if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
 				// MyXMLHandler
-				if (StringUtil.isLowerCase(label.charAt(0))) {
+				if (isVectorForced(label)) {
 					n.setForceVector();
 				} else {
 					n.setForcePoint();
@@ -3385,6 +3385,10 @@ public class AlgebraProcessor {
 		}
 		ret[0] = vector;
 		return ret;
+	}
+
+	public boolean isVectorForced(String label) {
+		return StringUtil.isLowerCase(label.charAt(0));
 	}
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,

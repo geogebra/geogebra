@@ -939,4 +939,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	private void reload() {
 		app.setXML(app.getXML(), true);
 	}
+
+	@Test
+	public void testCreationWithLabel() {
+		GeoElementND[] processResult = add("v=(1,1)");
+		GeoSymbolic vector = (GeoSymbolic) processResult[0];
+		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
+	}
 }

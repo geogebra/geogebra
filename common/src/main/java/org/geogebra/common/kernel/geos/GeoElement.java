@@ -1530,7 +1530,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	final public boolean isVisible() {
-		return isEuclidianVisible() || isAlgebraVisible();
+		return isAlgebraVisible() || isEuclidianVisible();
 	}
 
 	@Override
