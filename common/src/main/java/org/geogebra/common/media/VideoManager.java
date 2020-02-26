@@ -1,6 +1,7 @@
 package org.geogebra.common.media;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.util.AsyncOperation;
@@ -19,7 +20,7 @@ public interface VideoManager {
 	 * @param geo
 	 *            to load.
 	 */
-	void loadGeoVideo(GeoVideo geo);
+	void loadGeoVideo(DrawVideo geo);
 
 	/**
 	 * Adds a video player GUI.
@@ -27,7 +28,7 @@ public interface VideoManager {
 	 * @param video
 	 *            to add GUI for.
 	 */
-	void addPlayer(final GeoVideo video);
+	void addPlayer(final DrawVideo video);
 
 	/**
 	 * Removes the player specified by GeoVideo from GUI.
@@ -35,7 +36,7 @@ public interface VideoManager {
 	 * @param video
 	 *            to add GUI for.
 	 */
-	void removePlayer(final GeoVideo video);
+	void removePlayer(final DrawVideo video);
 
 	/**
 	 * Checks if there is a player already for video.
@@ -44,7 +45,7 @@ public interface VideoManager {
 	 *            to check.
 	 * @return if has player for the video specified.
 	 */
-	boolean hasPlayer(GeoVideo video);
+	boolean hasPlayer(DrawVideo video);
 
 	/**
 	 * Updates the player due to video.
@@ -52,7 +53,7 @@ public interface VideoManager {
 	 * @param video
 	 *            video
 	 */
-	void updatePlayer(GeoVideo video);
+	void updatePlayer(DrawVideo video);
 
 	/**
 	 * Plays/resumes GeoVideo object.
@@ -60,15 +61,7 @@ public interface VideoManager {
 	 * @param geo
 	 *            to play.
 	 */
-	void play(GeoVideo geo);
-
-	/**
-	 * Puts GeoVideo object on the background.
-	 * 
-	 * @param geo
-	 *            to send background.
-	 */
-	void background(GeoVideo geo);
+	void play(DrawVideo geo);
 
 	/**
 	 * Puts all GeoVideo objects on the background.
@@ -126,14 +119,6 @@ public interface VideoManager {
 	void removePlayers();
 
 	/**
-	 * 
-	 * @param video
-	 *            to check.
-	 * @return if videos are online.
-	 */
-	boolean isOnline(GeoVideo video);
-
-	/**
 	 * Creates the proper video object based on the url.
 	 * 
 	 * @param c
@@ -161,12 +146,12 @@ public interface VideoManager {
 	 * but is it online
 	 * @param video the video.
 	 */
-	void onError(GeoVideo video);
+	void onError(DrawVideo video);
 
 	/**
 	 *
 	 * @param video to check
 	 * @return if the player of the video is offline
 	 */
-	boolean isPlayerOffline(GeoVideo video);
+	boolean isPlayerOffline(DrawVideo video);
 }

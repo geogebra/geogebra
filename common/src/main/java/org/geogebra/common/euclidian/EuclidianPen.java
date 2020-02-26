@@ -203,13 +203,6 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * @return true if we need to repaint the preview line
-	 */
-	public boolean needsRepaint() {
-		return needsRepaint;
-	}
-
-	/**
 	 * use one point as first point of the created shape
 	 *
 	 * @param point
@@ -560,4 +553,13 @@ public class EuclidianPen implements GTimerListener {
 		return false;
 	}
 
+	/**
+	 * Paint on graphics if needed
+	 * @param g2 graphics
+	 */
+	public void repaintIfNeeded(GGraphics2D g2) {
+		if (needsRepaint) {
+			doRepaintPreviewLine(g2);
+		}
+	}
 }

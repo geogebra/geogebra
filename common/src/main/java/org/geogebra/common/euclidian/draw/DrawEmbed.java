@@ -72,6 +72,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (view.getApplication().getExportType() == ExportType.NONE) {
+			view.embed(g2, this);
 			return;
 		}
 		MyImage preview = view.getApplication().getEmbedManager().getPreview(this);
@@ -135,13 +136,21 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		return getView().toScreenCoordX(geoEmbed.getCorner(0).getInhomX());
 	}
 
-	/**
-	 * @return embed ID
-	 */
+	@Override
 	public int getEmbedID() {
 		return geoEmbed.getEmbedID();
 	}
-	
+
+	@Override
+	public boolean isBackground() {
+		return geoEmbed.isBackground();
+	}
+
+	@Override
+	public void setBackground(boolean b) {
+		geoEmbed.setBackground(b);
+	}
+
 	private void updateOriginalRatio() {
 		double width = getWidth();
 		double height = getHeight();

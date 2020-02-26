@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.video;
 
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.main.AppW;
@@ -28,12 +29,12 @@ public class VideoOffline extends AbstractVideoPlayer {
 	 * @param id
 	 *            The id of the player frame.
 	 */
-	VideoOffline(GeoVideo video, int id) {
-		super(video, id);
+	VideoOffline(DrawVideo video, int id) {
+		super(video);
 		VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
 		String errorId = vendorSettings.getMenuLocalizationKey("VideoAccessError");
 		errorPanel = new VideoErrorPanel(app.getLocalization(), errorId);
-		stylePlayer();
+		stylePlayer(id);
 	}
 
 	/**
@@ -43,14 +44,14 @@ public class VideoOffline extends AbstractVideoPlayer {
 	public void update() {
 		setDefaultSize();
 		Style style = asWidget().getElement().getStyle();
-		style.setLeft(video.getScreenLocX(app.getActiveEuclidianView()),
+		style.setLeft(getVideo().getScreenLocX(app.getActiveEuclidianView()),
 				Unit.PX);
-		style.setTop(video.getScreenLocY(app.getActiveEuclidianView()),
+		style.setTop(getVideo().getScreenLocY(app.getActiveEuclidianView()),
 				Unit.PX);
 		asWidget().setWidth(video.getWidth() + "px");
 		asWidget().setHeight(video.getHeight() + "px");
 
-		if (video.isBackground()) {
+		if (getVideo().isBackground()) {
 			asWidget().addStyleName("background");
 		} else {
 			asWidget().removeStyleName("background");
@@ -58,7 +59,7 @@ public class VideoOffline extends AbstractVideoPlayer {
 	}
 
 	private void setDefaultSize() {
-		if (video.hasSize()) {
+		if (getVideo().hasSize()) {
 			return;
 		}
 

@@ -930,7 +930,8 @@ public class Construction {
 		int pos = ceList.indexOf(ce);
 		if (pos == -1) {
 			return;
-		} else if (pos <= step) {
+		}
+		if (pos <= step) {
 			ceList.remove(ce);
 			ce.setConstructionIndex(-1);
 			--step;

@@ -61,13 +61,12 @@ public class DrawableList extends ArrayList<Drawable> {
 	 * @param g2
 	 *            Graphic to be used
 	 */
-	public final void drawAll(GGraphics2D g2, Drawable maxCache) {
-		for (int i = indexOf(maxCache) + 1; i < size(); i++) {
-			Drawable d = get(i);
+	public final void drawAll(GGraphics2D g2) {
+		for (Drawable d : this) {
 			GeoElement geo = d.getGeoElement();
 			if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
-					&& !(geo.isGeoInputBox()) && !geo.isMask()) {
+					&& !geo.isGeoInputBox() && !geo.isMask()) {
 				d.updateIfNeeded();
 				d.draw(g2);
 			}

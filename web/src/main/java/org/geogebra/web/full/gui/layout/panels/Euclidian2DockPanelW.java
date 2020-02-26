@@ -136,9 +136,4 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 		app.ggwGraphicsView2DimChanged(width, height);
 	}
 
-	@Override
-	public Canvas getBackgroundCanvas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

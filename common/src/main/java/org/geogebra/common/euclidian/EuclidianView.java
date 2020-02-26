@@ -38,6 +38,7 @@ import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
+import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
@@ -208,16 +209,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * fill color of shape (transparent)
 	 */
-	private GColor shapeFillCol = GColor.newColor(192,
+	private final GColor shapeFillCol = GColor.newColor(192,
 			192, 192, 0.0);
 	/**
 	 * object color of shape (black by default)
 	 */
-	private GColor shapeObjCol = GColor.BLACK;
+	private final GColor shapeObjCol = GColor.BLACK;
 	/**
 	 * stroke of shape
 	 */
-	private GBasicStroke shapeStroke = AwtFactory
+	private final GBasicStroke shapeStroke = AwtFactory
 			.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
 					GBasicStroke.JOIN_MITER);
 	private boolean isRounded = false;
@@ -311,8 +312,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean batchUpdate;
 	/** kernel */
 	protected Kernel kernel;
-	/** cache for bottom layers */
-	protected GGraphics2D cacheGraphics;
 
 	private final static int[] lineTypes = {
 			EuclidianStyleConstants.LINE_TYPE_FULL,
@@ -524,8 +523,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private DrawBackground drawBg = null;
 	private final HitDetector hitDetector;
 	private boolean isResetIconSelected = false;
-
-	private Drawable maxCachedDrawable;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -2838,49 +2835,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.shapePolygon = shapePolygon;
 	}
 
-	public GColor getShapeFillCol() {
-		return shapeFillCol;
-	}
-
-	public void setShapeFillCol(GColor shapeFillCol) {
-		this.shapeFillCol = shapeFillCol;
-	}
-
-	public GColor getShapeObjCol() {
-		return shapeObjCol;
-	}
-
-	public void setShapeObjCol(GColor shapeObjCol) {
-		this.shapeObjCol = shapeObjCol;
-	}
-
-	/**
-	 * @return stroke for shapes
-	 */
-	public GBasicStroke getShapeStroke() {
-		return shapeStroke;
-	}
-
-	/**
-	 * @param shapeStroke
-	 *            stroke for shapes
-	 */
-	public void setShapeStroke(GBasicStroke shapeStroke) {
-		this.shapeStroke = shapeStroke;
-	}
-
-	/**
-	 * reset style of shape, needed by new shape
-	 */
-	public void setDefaultShapeStyle() {
-		setShapeFillCol(GColor.newColor(192,
-				192, 192, 0.0));
-		setShapeObjCol(GColor.BLACK);
-		setShapeStroke(AwtFactory
-				.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
-						GBasicStroke.JOIN_MITER));
-	}
-
 	@Override
 	public double[] getAxesCross() {
 		return axisCross;
@@ -3489,7 +3443,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	final private void drawGeometricObjects(GGraphics2D g2) {
 		// only draw drawables we need
-		allDrawableList.drawAll(g2, maxCachedDrawable);
+		allDrawableList.drawAll(g2);
 
 		if (getEuclidianController().isMultiSelection()) {
 			getEuclidianController()
@@ -3504,9 +3458,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	public void drawObjects(GGraphics2D g2) {
-		if (maxCachedDrawable != null && getCacheGraphics() != null) {
-			g2.drawImage(getCacheGraphics(), 0, 0);
-		}
 		drawGeometricObjects(g2);
 		drawActionObjects(g2);
 
@@ -3544,7 +3495,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		// GGB-977
 		setBackgroundUpdating(true);
-		bgImageList.drawAll(g, null);
+		bgImageList.drawAll(g);
 		setBackgroundUpdating(false);
 
 		drawBackground(g, false);
@@ -3603,18 +3554,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	public void paint(GGraphics2D g2) {
-		paint(g2, null);
-	}
-
-	/**
-	 * Paints content of this view.
-	 * 
-	 * @param g2
-	 *            graphics
-	 * @param g3
-	 *            background
-	 */
-	public void paint(GGraphics2D g2, GGraphics2D g3) {
 		synchronized (kernel.getConcurrentModificationLock()) {
 			// synchronized means that no two Threads can simultaneously
 			// enter any blocks locked by the same lock object,
@@ -3622,10 +3561,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// these blocks... as there is only one lock object and
 			// these methods probably do not call other synchronized
 			// code blocks, it probably does not cause any problem
-			companion.paint(g2, g3);
-			if (getEuclidianController().getPen().needsRepaint()) {
-				getEuclidianController().getPen().doRepaintPreviewLine(g2);
-			}
+			companion.paint(g2);
+			getEuclidianController().getPen().repaintIfNeeded(g2);
 		}
 	}
 
@@ -3744,6 +3681,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					(int) Math.round(((GRectangle) shape).getY()),
 					(int) Math.round(((GRectangle) shape).getWidth()),
 					(int) Math.round(((GRectangle) shape).getHeight()), 20, 20);
+		}
+	}
+
+	protected void drawShape(GGraphics2D g2, GShape shape) {
+		if (shape != null) {
+			drawShape(g2, shapeFillCol, shapeObjCol,
+					shapeStroke, shape);
 		}
 	}
 
@@ -4275,32 +4219,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @return shapeRectangle
-	 */
-	public GRectangle getShapeRectangle() {
-		return shapeRectangle;
-	}
-
-	/**
 	 *
 	 * @return mask
 	 */
 	public GRectangle getMaskPreview() {
 		return maskPreview;
-	}
-
-	/**
-	 * @return shapeEllipse
-	 */
-	public GEllipse2DDouble getShapeEllipse() {
-		return shapeEllipse;
-	}
-
-	/**
-	 * @return shapeLine
-	 */
-	public GLine2D getShapeLine() {
-		return shapeLine;
 	}
 
 	/**
@@ -6310,19 +6233,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Invalidate cached graphics
 	 */
 	public void invalidateCache() {
-		maxCachedDrawable = null;
-		cacheGraphics = null;
+		// web only
 	}
 
 	/**
 	 * Cache all drawables
 	 */
 	public void cacheGraphics() {
-		if (getCacheGraphics() != null && allDrawableList.size() > 0) {
-			cacheGraphics = getCacheGraphics().createGraphics();
-			drawGeometricObjects(cacheGraphics);
-			maxCachedDrawable = allDrawableList.get(allDrawableList.size() - 1);
-		}
+		// web only
 	}
 
 	protected GBufferedImage getCacheGraphics() {
@@ -6335,7 +6253,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected void resetBackgroundAndCache() {
 		bgImage = null;
 		bgGraphics = null;
-		cacheGraphics = null;
+		invalidateCache();
 	}
 
 	/**
@@ -6457,13 +6375,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2 Graphics to draw to.
 	 */
 	void drawMaskPreview(GGraphics2D g2) {
-		if (maskPreview == null) {
-			return;
+		if (maskPreview != null) {
+			drawShape(g2, GeoGebraColorConstants.MEBIS_MASK,
+					GeoGebraColorConstants.MEBIS_MASK,
+					null, maskPreview);
 		}
-
-		drawShape(g2, GeoGebraColorConstants.MEBIS_MASK,
-				GeoGebraColorConstants.MEBIS_MASK,
-				null, maskPreview);
 	}
 
 	/**
@@ -6547,5 +6463,21 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				((DrawInlineText) dr).remove();
 			}
 		}
+	}
+
+	/**
+	 * Draw preview of the current shape
+	 * @param g2 graphics
+	 */
+	public void drawShapePreview(GGraphics2D g2) {
+		drawShape(g2, shapeRectangle);
+		drawMaskPreview(g2);
+		drawShape(g2, shapeEllipse);
+		drawShape(g2, shapeLine);
+		drawShape(g2, shapePolygon);
+	}
+
+	public void embed(GGraphics2D g2, DrawWidget drawEmbed) {
+		//web only
 	}
 }

@@ -11,6 +11,8 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
+import org.geogebra.common.euclidian.draw.DrawVideo;
+import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -39,6 +41,7 @@ import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -54,7 +57,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
-	private HashMap<DrawEmbed, EmbedElement> widgets = new HashMap<>();
+	private HashMap<DrawWidget, EmbedElement> widgets = new HashMap<>();
 	// cache for undo: index by embed ID, drawables will change on reload
 	private HashMap<Integer, EmbedElement> cache = new HashMap<>();
 
@@ -87,6 +90,19 @@ public class EmbedManagerW implements EmbedManager {
 			}
 		} else {
 			addCalcEmbed(drawEmbed);
+		}
+	}
+
+	@Override
+	public void setLayer(DrawWidget embed, int layer) {
+		Element element;
+		if (embed instanceof DrawVideo) {
+			element = app.getVideoManager().getElement((DrawVideo) embed);
+		} else {
+			element = widgets.get(embed).getGreatParent().getElement();
+		}
+		if (element.hasClassName("background")) {
+			element.getStyle().setZIndex(layer);
 		}
 	}
 
@@ -154,7 +170,7 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private boolean hasWidgetWithId(int embedId) {
-		for (DrawEmbed drawable: widgets.keySet()) {
+		for (DrawWidget drawable: widgets.keySet()) {
 			if (drawable.getEmbedID() == embedId) {
 				return true;
 			}
@@ -244,13 +260,13 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void toggleBackground(EmbedElement frame,
-			DrawEmbed drawEmbed) {
-		boolean background = drawEmbed.getGeoEmbed().isBackground();
+			DrawWidget drawEmbed) {
+		boolean background = drawEmbed.isBackground();
 		Dom.toggleClass(frame.getGreatParent(), "background",
 				background);
-
 		if (!background) {
 			app.getMaskWidgets().masksToForeground();
+			frame.getGreatParent().getElement().getStyle().clearZIndex();
 		}
 	}
 
@@ -264,7 +280,7 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void storeEmbeds() {
-		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			cache.put(entry.getKey().getEmbedID(),
 					entry.getValue());
 		}
@@ -329,7 +345,7 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void persist() {
-		for (Entry<DrawEmbed, EmbedElement> e : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> e : widgets.entrySet()) {
 			String embedContent = e.getValue().getContentSync();
 			if (embedContent != null) {
 				content.put(e.getKey().getEmbedID(), embedContent);
@@ -375,8 +391,8 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void backgroundAll() {
-		for (Entry<DrawEmbed, EmbedElement> e : widgets.entrySet()) {
-			e.getKey().getGeoEmbed().setBackground(true);
+		for (Entry<DrawWidget, EmbedElement> e : widgets.entrySet()) {
+			e.getKey().setBackground(true);
 			toggleBackground(e.getValue(), e.getKey());
 		}
 	}
@@ -440,7 +456,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void executeAction(EventType action, int embedId) {
 		restoreEmbeds();
-		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			if (entry.getKey().getEmbedID() == embedId) {
 				entry.getValue().executeAction(action);
 			}
@@ -450,7 +466,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void executeAction(EventType action) {
 		restoreEmbeds();
-		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			entry.getValue().executeAction(action);
 		}
 	}
@@ -490,7 +506,7 @@ public class EmbedManagerW implements EmbedManager {
 	JavaScriptObject getEmbeddedCalculators() {
 		JavaScriptObject jso = JavaScriptObject.createObject();
 
-		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			EmbedElement embedElement = entry.getValue();
 			if (embedElement instanceof CalcEmbedElement) {
 				JavaScriptObject api = ((CalcEmbedElement) embedElement)
