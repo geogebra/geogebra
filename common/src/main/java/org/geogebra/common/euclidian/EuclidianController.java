@@ -9893,7 +9893,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private boolean handleInlineTextHit() {
-		if (view.getHits().isEmpty()) {
+		if (!moveMode(mode) || view.getHits().isEmpty()) {
 			lastInlineText = null;
 			return false;
 		}
