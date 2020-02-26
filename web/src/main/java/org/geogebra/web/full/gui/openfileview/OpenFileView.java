@@ -20,7 +20,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
@@ -247,8 +246,7 @@ public class OpenFileView extends MyHeaderPanel
 			}
 		};
 		app.getArticleElement().attr("perspective", "");
-		((DialogManagerW) getApp().getDialogManager()).getSaveDialog()
-				.showIfNeeded(newConstruction);
+		app.getSaveController().showDialogIfNeeded(newConstruction);
 		close();
 	}
 
@@ -447,8 +445,11 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void setConstructionTitleAsMaterial() {
-		app.getKernel().getConstruction().setTitle(
-				app.getActiveMaterial().getTitle());
+		Material activeMaterial = app.getActiveMaterial();
+		if (activeMaterial != null) {
+			app.getKernel().getConstruction().setTitle(
+					activeMaterial.getTitle());
+		}
 	}
 
 	private MaterialCallback getUserMaterialsCB(final int type) {

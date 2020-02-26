@@ -1,12 +1,10 @@
 package org.geogebra.web.full.gui.util;
 
-import com.google.gwt.user.client.ui.Label;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController.SaveListener;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.FormLabel;
@@ -28,21 +26,20 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author csilla
  * 
- *         simplified save dialog with material design
+ *		 simplified save dialog with material design
  *
  */
 public class SaveDialogMow extends DialogBoxW
 		implements SetLabels, FastClickHandler, SaveListener, SaveDialogI {
-	private FlowPanel dialogContent;
 	private FlowPanel inputPanel;
 	private FormLabel titleLbl;
 	private InputPanelW titleField;
-	private FlowPanel buttonPanel;
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
 	private LocalizationW loc;
@@ -62,7 +59,6 @@ public class SaveDialogMow extends DialogBoxW
 	}
 
 	private void initGUI() {
-		dialogContent = new FlowPanel();
 		inputPanel = new FlowPanel();
 		inputPanel.setStyleName("mowInputPanelContent");
 		inputPanel.addStyleName("emptyState");
@@ -76,7 +72,7 @@ public class SaveDialogMow extends DialogBoxW
 		inputPanel.add(titleField);
 		templateTxt = new Label();
 		templateCheckbox = new ComponentCheckbox(false, templateTxt);
-		buttonPanel = new FlowPanel();
+		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
 		cancelBtn = new StandardButton("", app);
 		cancelBtn.addFastClickHandler(this);
@@ -84,6 +80,7 @@ public class SaveDialogMow extends DialogBoxW
 		saveBtn.addFastClickHandler(this);
 		buttonPanel.add(cancelBtn);
 		buttonPanel.add(saveBtn);
+		FlowPanel dialogContent = new FlowPanel();
 		dialogContent.add(inputPanel);
 		dialogContent.add(templateCheckbox);
 		dialogContent.add(buttonPanel);
@@ -189,12 +186,13 @@ public class SaveDialogMow extends DialogBoxW
 			hide();
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
-            if (templateCheckbox.isSelected()) {
-                setSaveType(((AppW) app).getVendorSettings().getTemplateType());
-            } else {
-                ((AppW) app).setActiveMaterial(new Material(0, MaterialType.ggs));
-            }
-			app.getKernel().getConstruction().setTitle(getInputField().getText());
+			if (templateCheckbox.isSelected()) {
+				setSaveType(((AppW) app).getVendorSettings().getTemplateType());
+				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
+			} else {
+				setSaveType(MaterialType.ggs);
+				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
+			}
 			app.getSaveController().saveAs(getInputField().getText(),
 					getSaveVisibility(), this);
 		}
@@ -243,7 +241,9 @@ public class SaveDialogMow extends DialogBoxW
 		super.show();
 		center();
 		setTitle();
-		templateCheckbox.setSelected(false);
+		Material activeMaterial = ((AppW) app).getActiveMaterial();
+		templateCheckbox.setSelected(activeMaterial != null && MaterialType.ggsTemplate
+				.equals(activeMaterial.getType()));
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -257,10 +257,6 @@ public class SaveDialogMow extends DialogBoxW
 	 */
 	@Override
 	public void setTitle() {
-		if (((AppW) app).getActiveMaterial() != null && MaterialType.ggsTemplate
-				.equals(((AppW) app).getActiveMaterial().getType())) {
-			app.getKernel().getConstruction().setTitle("");
-		}
 		app.getSaveController()
 				.updateSaveTitle(getInputField().getTextComponent(), "");
 	}
@@ -269,52 +265,26 @@ public class SaveDialogMow extends DialogBoxW
 	 * Sets material type to be saved.
 	 * 
 	 * @param saveType
-	 *            for the dialog.
+	 *			for the dialog.
 	 */
 	@Override
 	public void setSaveType(MaterialType saveType) {
 		app.getSaveController().setSaveType(saveType);
 	}
 
-	/**
-	 * shows the {@link SaveDialogW} if there are unsaved changes before editing
-	 * another file or creating a new one
-	 * 
-	 * Never shown in embedded LAF (Mix, SMART)
-	 * 
-	 * @param runnable
-	 *            runs either after saved successfully or immediately if dialog
-	 *            not needed {@link Runnable}
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
-		showIfNeeded(runnable, !app.isSaved(), null);
-		templateCheckbox.setVisible(false);
+	public void setDiscardMode() {
 		setCaptionKey("DoYouWantToSaveYourChanges");
 		cancelBtn.setLabel(loc.getMenu("Discard"));
 	}
 
-	/**
-	 * @param runnable
-	 *            callback
-	 * @param needed
-	 *            whether it's needed to save (otherwise just run callback)
-	 * @param anchor
-	 *            relative element
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable, boolean needed,
-			Widget anchor) {
-		if (needed && !((AppW) app).getLAF().isEmbedded()) {
-			app.getSaveController().setRunAfterSave(runnable);
-			if (anchor == null) {
-				center();
-			} else {
-				showRelativeTo(anchor);
-			}
+	public void showAndPosition(Widget anchor) {
+		if (anchor == null) {
+			center();
 		} else {
-			app.getSaveController().setRunAfterSave(null);
-			runnable.callback(true);
+			showRelativeTo(anchor);
 		}
+		templateCheckbox.setVisible(false);
 	}
 }

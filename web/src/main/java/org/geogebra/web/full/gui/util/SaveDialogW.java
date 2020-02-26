@@ -14,7 +14,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -189,8 +188,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		saveButton.addStyleName("saveButton");
 		dontSaveButton.addStyleName("cancelBtn");
 		setAvailableProviders();
-		// ImageOrText[] data, Integer rows, Integer columns, GDimensionW
-		// iconSize, geogebra.common.gui.util.SelectionTable mode
 
 		saveButton.addFastClickHandler(new FastClickHandler() {
 
@@ -336,44 +333,19 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		});
 	}
 
-	/**
-	 * shows the {@link SaveDialogW} if there are unsaved changes before editing
-	 * another file or creating a new one
-	 * 
-	 * Never shown in embedded LAF (Mix, SMART)
-	 * 
-	 * @param runnable
-	 *            runs either after saved successfully or immediately if dialog
-	 *            not needed {@link Runnable}
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
-		showIfNeeded(runnable, !appW.isSaved(), null);
+	public void setDiscardMode() {
+		// could be useful
 	}
 
-	/**
-	 * @param runnable
-	 *            callback
-	 * @param needed
-	 *            whether it's needed to save (otherwise just run callback)
-	 * @param anchor
-	 *            relative element
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable, boolean needed,
-			Widget anchor) {
-		if (needed && !appW.getLAF().isEmbedded()) {
-			appW.getSaveController().setRunAfterSave(runnable);
-			if (anchor == null) {
-				center();
-			} else {
-				showRelativeTo(anchor);
-			}
-			position();
+	public void showAndPosition(Widget anchor) {
+		if (anchor == null) {
+			center();
 		} else {
-			appW.getSaveController().setRunAfterSave(null);
-			runnable.callback(true);
+			showRelativeTo(anchor);
 		}
+		templateCheckbox.setVisible(false);
 	}
 
 	/**

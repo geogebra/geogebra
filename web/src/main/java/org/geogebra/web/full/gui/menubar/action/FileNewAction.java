@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.menubar.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
@@ -9,9 +12,6 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.view.algebra.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Clears construction and initializes a new one
@@ -73,6 +73,6 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 
 	@Override
 	public void execute(Void geo, AppWFull appW) {
-		appW.getDialogManager().getSaveDialog().showIfNeeded(this);
+		appW.getSaveController().showDialogIfNeeded(this);
 	}
 }
