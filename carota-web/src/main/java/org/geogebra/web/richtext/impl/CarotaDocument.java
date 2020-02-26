@@ -16,6 +16,8 @@ public class CarotaDocument {
 
 	public native CarotaNode byCoordinate(int x, int y);
 
+	public native CarotaRange range(int start, int end);
+
 	public native CarotaRange selectedRange();
 
 	public native CarotaRange documentRange();
