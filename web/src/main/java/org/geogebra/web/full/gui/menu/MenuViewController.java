@@ -26,6 +26,7 @@ public class MenuViewController {
 	private MenuViewListener menuViewListener;
 
 	private FloatingMenuView floatingMenuView;
+	private HeaderedMenuView headeredMenuView;
 	private MenuView menuView;
 
 	private Localization localization;
@@ -51,7 +52,7 @@ public class MenuViewController {
 		localization = app.getLocalization();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app));
+		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app), this);
 	}
 
 	private void createViews() {
@@ -59,7 +60,8 @@ public class MenuViewController {
 		floatingMenuView.setVisible(false);
 
 		menuView = new MenuView();
-		floatingMenuView.add(menuView);
+		headeredMenuView = new HeaderedMenuView(menuView);
+		floatingMenuView.add(headeredMenuView);
 	}
 
 	private void createFactories(AppW app) {
@@ -98,14 +100,16 @@ public class MenuViewController {
 	 * Sets the menu to default.
 	 */
 	public void setDefaultMenu() {
-		setMenuItemGroups(defaultDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
+		setMenuItemGroups(menuView,
+				defaultDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
 	}
 
 	/**
 	 * Sets the menu to exam.
 	 */
 	public void setExamMenu() {
-		setMenuItemGroups(examDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
+		setMenuItemGroups(menuView,
+				examDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
 	}
 
 	/**
@@ -128,14 +132,24 @@ public class MenuViewController {
 		}
 	}
 
-	private void setMenuItemGroups(List<MenuItemGroup> menuItemGroups) {
+	void setMenuItemGroups(MenuView menuView, List<MenuItemGroup> menuItemGroups) {
 		menuView.clear();
 		for (MenuItemGroup group : menuItemGroups) {
-			createMenuItemGroup(group);
+			createMenuItemGroup(menuView, group);
 		}
 	}
 
-	private void createMenuItemGroup(MenuItemGroup menuItemGroup) {
+	void showSubmenu(HeaderedMenuView headeredSubmenu) {
+		headeredMenuView.removeFromParent();
+		floatingMenuView.add(headeredSubmenu);
+	}
+
+	void hideSubmenu() {
+		floatingMenuView.clear();
+		floatingMenuView.add(headeredMenuView);
+	}
+
+	private void createMenuItemGroup(MenuView menuView, MenuItemGroup menuItemGroup) {
 		String titleKey = menuItemGroup.getTitle();
 		String title = titleKey == null ? null : localization.getMenu(titleKey);
 		MenuItemGroupView view = new MenuItemGroupView(title);
@@ -152,7 +166,6 @@ public class MenuViewController {
 		view.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				setMenuVisible(false);
 				menuActionRouter.handleMenuItem(menuItem);
 			}
 		});

@@ -60,6 +60,7 @@ $classicToolbar: 50px;
 		background-color: $white;
 		transition-property: left;
 		overflow: auto;
+
 		&.transitionIn {
 			transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
 			transition-duration: 0.25s;
@@ -111,6 +112,10 @@ $classicToolbar: 50px;
 			height: 1px;
 			margin: 8px 0px 8px 56px;
 		}
+	}
+
+	.headerDivider {
+	    border-bottom: solid #E4E4E4 1px;
 	}
 }
 
