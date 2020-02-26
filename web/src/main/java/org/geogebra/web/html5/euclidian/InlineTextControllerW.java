@@ -53,12 +53,22 @@ public class InlineTextControllerW implements InlineTextController {
 			for (int i = 0; i < words.length(); i++) {
 				JSONObject word = words.optJSONObject(i);
 				if (word.has("font")) {
-					FontLoader.loadFont(word.getString("font"), view.getKernel());
+					FontLoader.loadFont(word.getString("font"), getCallback());
 				}
 			}
 		} catch (JSONException | RuntimeException e) {
 			Log.debug("cannot parse fonts");
 		}
+	}
+
+	private Runnable getCallback() {
+		return new Runnable() {
+			@Override
+			public void run() {
+				editor.reload();
+				geo.getKernel().notifyRepaint();
+			}
+		};
 	}
 
 	@Override
@@ -149,7 +159,7 @@ public class InlineTextControllerW implements InlineTextController {
 		editor.format(key, val);
 		geo.setContent(editor.getContent());
 		if ("font".equals(key)) {
-			FontLoader.loadFont(String.valueOf(val), view.getKernel());
+			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}
 	}
 

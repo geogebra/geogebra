@@ -3,7 +3,6 @@ package org.geogebra.web.html5.euclidian;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.gui.laf.FontFamily;
 
 import com.google.gwt.core.client.GWT;
@@ -29,18 +28,18 @@ public final class FontLoader {
 
 	/**
 	 * @param familyName  font name
-	 * @param kernel kernel to be notified on font load
+	 * @param callback kernel to be notified on font load
 	 */
-	public static void loadFont(String familyName, final Kernel kernel) {
+	public static void loadFont(String familyName, final Runnable callback) {
 		for (FontFamily family: bundled) {
 			if (family.cssName().equals(familyName)) {
-				loadFontFile(familyName.split(",")[0], kernel);
+				loadFontFile(familyName.split(",")[0], callback);
 				return;
 			}
 		}
 	}
 
-	private static void loadFontFile(String familyName, final Kernel kernel) {
+	private static void loadFontFile(String familyName, final Runnable callback) {
 		if (!injected.containsKey(familyName)) {
 			String fileName = GWT.getModuleBaseURL() + "webfont/" + familyName;
 			String css = "@font-face {  font-family: \"" + familyName + "\";"
@@ -54,7 +53,7 @@ public final class FontLoader {
 				@Override
 				public void fontLoadeded(String activeFontName, String variation) {
 					injected.put(activeFontName, FontState.ACTIVE);
-					kernel.notifyRepaint();
+					callback.run();
 				}
 			});
 		}
