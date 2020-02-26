@@ -16,17 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GArea;
-import org.geogebra.common.awt.GEllipse2DDouble;
-import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.DrawableND;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
@@ -41,7 +35,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
@@ -59,9 +52,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
 
-	private BoundingBox<GEllipse2DDouble> boundingBox;
-	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
-			.newGeneralPath();
 	private boolean fillShape = false;
 
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
@@ -137,11 +127,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 					// view.updateBackground();
 				}
 			}
-
-		}
-		if (geo.isShape() && view
-				.getHitHandler() != EuclidianBoundingBoxHandler.ROTATION && getBounds() != null) {
-				getBoundingBox().setRectangle(getBounds());
 		}
 	}
 
@@ -222,7 +207,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 			// polygons (e.g. in GeoLists) that don't have labeled segments
 			// should also draw their border
-			else if (!poly.wasInitLabelsCalled()
+			if (!poly.wasInitLabelsCalled()
 					&& poly.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
@@ -301,10 +286,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 							double y1 = intersection.y / intersection.z;
 
 							double d = MyMath.length(x1 - xRW, y1 - yRW);
-							// Log.debug("angle = "+angle+"\nang2 =
-							// "+ang2+"\n("+x1+","+y1+")");//
-							// "+xRW+","+yRW);
-							// Application.debug(x1+","+y1);
 							if (d < dist) {
 								nearestX = x1;
 								nearestY = y1;
@@ -360,46 +341,30 @@ public class DrawPolygon extends Drawable implements Previewable {
 		// do nothing
 	}
 
-	/**
-	 * 
-	 * @return true if it has to check it's on filling
-	 */
-	protected boolean checkIsOnFilling() {
-		return geo.isFilled();
-	}
-
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		GShape t = geo.isInverseFill() ? getShape() : gp;
-		
-		// needed for MOW-114
-		GeoSegmentND[] segmentsOfPoly = poly.getSegments();
-		boolean wasSegmentHit = false;
+		if (geo.isShape()) {
+			boolean contains = gp.contains(x - hitThreshold,
+					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 
-		if (segmentsOfPoly != null) {
-			// check if one of sides was hit
-			for (GeoSegmentND geoSegmentND : segmentsOfPoly) {
-				DrawableND d = view.getDrawableFor(geoSegmentND);
-				if (d instanceof DrawSegment
-						&& ((DrawSegment) d).hit(x, y, hitThreshold)) {
-					wasSegmentHit = true;
-					break;
-				}
+			boolean intersects = gp.intersects(x - hitThreshold,
+					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+
+			if (geo.isFilled() && contains) {
+				poly.setLastHitType(HitType.ON_FILLING);
+				return true;
 			}
-		}
-		// no filling
-		if (!checkIsOnFilling()) {
-			// draggable only from sides of poly
-			// or from sides of boundingBox
-			if (wasSegmentHit) {
+
+			if (intersects && !contains) {
 				poly.setLastHitType(HitType.ON_BOUNDARY);
 				return true;
-			} 
+			}
+
 			poly.setLastHitType(HitType.NONE);
 			return false;
 		}
 
-		// also check for boundingBox is has filling
+		GShape t = geo.isInverseFill() ? getShape() : gp;
 		return (t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
 						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)));
@@ -437,68 +402,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	@Override
-	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
-		if (boundingBox == null) {
-			boundingBox = createBoundingBox(true);
-		}
-		boundingBox.updateFrom(geo);
-		return boundingBox;
-	}
-
-	/**
-	 * method to update points of poly after mouse release
-	 * 
-	 */
-	@Override
-	public void updateGeo() {
-		if (prewPolygon != null) {
-			updateRealPointsOfPolygon();
-			prewPolygon = null;
-		}
-		poly.updateCascade(true);
-		poly.getParentAlgorithm().update();
-		for (GeoSegmentND geoSeg : poly.getSegments()) {
-			geoSeg.getParentAlgorithm().update();
-		}
-		for (GeoPointND geoPoint : poly.getPoints()) {
-			geoPoint.update();
-		}
-		poly.setEuclidianVisible(true);
-		poly.updateRepaint();
-		this.update();
-		view.setShapePolygon(null);
-		view.setShapeRectangle(null);
-		view.repaintView();
-	}
-
-	@Override
 	public void fromPoints(ArrayList<GPoint2D> pts) {
-		if (prewPolygon == null) {
-			prewPolygon = AwtFactory.getPrototype().newGeneralPath();
-		}
-
-		// init poly
-		prewPolygon.reset();
-		// move to start point
-		prewPolygon.moveTo(pts.get(0).getX(), pts.get(0).getY());
-		// draw segments
-		for (int i = 1; i < pts.size(); i++) {
-			prewPolygon.lineTo(pts.get(i).getX(), pts.get(i).getY());
-		}
-		prewPolygon.closePath();
-		updateGeo();
-	}
-
-	private void updateRealPointsOfPolygon() {
-		double[] coordArr = new double[6];
-		GPathIterator it = prewPolygon.getPathIterator(null);
-		int i = poly.getPoints().length;
-		while (!it.isDone() && i > 0) {
-			i--;
-			it.currentSegment(coordArr);
-			poly.getPoint(i).setCoords(view.toRealWorldCoordX(coordArr[0]),
-					view.toRealWorldCoordY(coordArr[1]), 1);
-			it.next();
+		for (int i = 0; i < pts.size(); i++) {
+			poly.getPoint(i).setCoords(view.toRealWorldCoordX(pts.get(i).getX()),
+					view.toRealWorldCoordY(pts.get(i).getY()), 1);
 		}
 	}
 
