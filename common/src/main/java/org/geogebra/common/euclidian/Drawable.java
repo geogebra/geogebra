@@ -787,13 +787,6 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * method to update geoElement of drawable after resizing the boundingBox
-	 */
-	public void updateGeo() {
-		// do nothing here
-	}
-
-	/**
 	 * @param text
 	 *            text
 	 * @param font
