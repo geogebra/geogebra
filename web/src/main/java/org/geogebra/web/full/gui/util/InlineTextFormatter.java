@@ -25,6 +25,7 @@ public class InlineTextFormatter {
 	 */
 	public boolean formatInlineText(List<GeoElement> targetGeos,
 			String key, Object val) {
+
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
 			DrawableND draw = app.getActiveEuclidianView().getDrawableFor(geo);

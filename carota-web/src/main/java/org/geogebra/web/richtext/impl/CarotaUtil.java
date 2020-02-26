@@ -22,9 +22,9 @@ public class CarotaUtil {
 		setDefaultFontSize(fontSize);
 	}
 
-	public static native void setDefaultFontSize(double size) /*-{
-		if ($wnd.carota) {
-			$wnd.carota.runs.defaultFormatting.size = size;
+	public static void setDefaultFontSize(double fontSize) {
+		if (Carota.get() != null) {
+			Carota.get().getRuns().getDefaultFormatting().setSize(fontSize);
 		}
-	}-*/; 
+	}
 }

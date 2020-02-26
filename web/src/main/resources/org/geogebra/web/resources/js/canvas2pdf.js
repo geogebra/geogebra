@@ -152,7 +152,7 @@
 	                console.log("error parsing font " + _this.font);
 	                fontPart = regex.exec('10px Helvetica');
 	            }
-
+                fontPart[6] = fontPart[6].split(",")[0];
 	            // eg "geogebra-sans-serif, sans-serif";
 	            if (fontPart[6].indexOf("sans-serif") > -1) {
 	                fontPart[6] = "Helvetica";
@@ -185,9 +185,9 @@
 	                	console.log("TODO", _this.doc);
 	                } else {
 		                var color = fixColor(value);
-		                _this.doc.fillColor(color.c, color.a);	                	
+		                _this.doc.fillColor(color.c, color.a);
 	                }
-	                
+
 	            }
 	        });
 	        Object.defineProperty(this, 'strokeStyle', {
@@ -250,10 +250,10 @@
 	                return fontValue;
 	            },
 	            set: function(value) {
-	            	
+
 	            	// for measureText()
 	            	this.context.font = value;
-	            	
+
 	                fontValue = value;
 	                var parsedFont = parseFont(value);
 	                _this.doc.fontSize(parsedFont.size);
@@ -451,7 +451,7 @@
 	    canvas2pdf.PdfContext.prototype.arcTo = function(x1, y1, x2, y2, radius) {
 	        console.log('arcTo not implemented');
 	    };
-	    
+
 	/*
 	@license MIT LICENSE
 	Copyright (c) 2014 Devon Govett
@@ -476,7 +476,7 @@
 	    this.lineWidth = 1;
 	    this.lineEndType = 0;
 	    this.alpha = 1;
-		
+
 		// use pako to compress streams if available
 		// https://github.com/nodeca/pako (MIT)
 		canvas2pdf.usePako = false;//!!window.pako;
@@ -543,7 +543,6 @@
 	};
 
 	PDFKitMini.prototype.setFont = function(a) {
-
 	    var b = a.getFontName();
 	    if (null != b) {
 	        var c = null,
@@ -590,9 +589,9 @@
 	    var a = new PDFGradientFill(x1, y1, x2, y2, this.currentPage);
 	    this.add(a);
 	    this.currentPage.currentImageTile = a;
-	    
+
 	    this.addPatternToPage(a);
-	    
+
 	    return a;
 	};
 
@@ -760,7 +759,7 @@
 	PDFKitMini.prototype.getBase64Text = function() {
 	    return "data:application/pdf;base64," + btoa(this.getObject(this));
 	};
-	
+
 	function PDFCatalog() {}
 	PDFCatalog.prototype.setPages = function(a) {
 
@@ -783,13 +782,13 @@
 	    return a
 	};
 	PDFPages.prototype.getObject = function(a) {
-		
+
 		var refs = "[";
 		for (var i = 0 ; i < this.pages.length ; i++) {
 			refs += this.pages[i].id;
 			refs += " 0 R ";
 		}
-		
+
 		refs += "]";
 
 	    var props = {
@@ -973,7 +972,7 @@
 	    this.pdfStream.addText("Q ");
 	};
 	PDFPage.prototype.fill = function(rule) {
-		
+
 	    if (this.currentImageTile) {
 	        this.pdfStream.addText("/Pattern cs ");
 	        this.pdfStream.addText("/Pattern CS ");
@@ -1005,7 +1004,7 @@
 
 	    }
 	    this.setAlpha(this.alpha);
-	    
+
 	    this.pdfStream.addText(this.fillColor + " rg ");
 	    this.pdfStream.addText(this.strokeColor + " RG ");
 
@@ -1202,7 +1201,7 @@
 	    var props = {
 	        "Type": "Page"
 	    };
-	    
+
 	    props["Parent"] = new PDFReference(this.pagesID + " 0 R");
 
 	    props["MediaBox"] = [0, 0, this.width, this.height];
@@ -1291,18 +1290,19 @@
 	PDFFont.HELVETICA = ["Helvetica", "Helvetica-Oblique", "Helvetica-Bold", "Helvetica-BoldOblique"];
 
 	PDFFont.getPDFName = function(font, bold, italic) {
-
 	    var index = (bold ? 2 : 0) + (italic ? 1 : 0);
 
 	    if (font == "Helvetica") {
 	        return PDFFont.HELVETICA[index];
+	    } else if (font == "Times-Roman") {
+	       return PDFFont.TIMES[index];
 	    }
-
-	    return PDFFont.TIMES[index];
+        var suffix = ["", "-Italic", "-Bold", "-BoldItalic"];
+        // works fine for Arial, for Comic Sans it falls back to plain font style
+	    return font + suffix[index];
 	};
 
 	PDFFont.prototype.getObject = function(a) {
-
 	    var props = {
 	        "Subtype": "Type1",
 	        "Name": "F" + this.id,
@@ -1328,7 +1328,7 @@
 	    //S 	stroke path.
 	    //f 	fill path.
 	    //f* 	eofill Even/odd fill path.
-		
+
 		// for IE11
 		function endsWith(str, suffix) {
 		    return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -1352,35 +1352,35 @@
 	    this.stream = this.stream.replace(a, b)
 	};
 	PDFStream.prototype.getObject = function(a) {
-		
+
 		var stream = this.stream;
-		
+
 		if (canvas2pdf.usePako) {
-			
+
 			// if we need to pass options:
 			//var deflate = new pako.Deflate({ level: pako.Z_BEST_COMPRESSION});
 			//deflate.push(stream, true)
 			//stream = deflate.result;
-			
+
 			// simpler:
 			stream = pako.deflate(stream);
-			
+
 			var buffer = [];
 			for (var i = 0 ; i < stream.length ; i++) {
 				buffer.push(String.fromCharCode(stream[i]));
 			}
 			stream = buffer.join("");
-			
+
 		}
-		
+
 	    var props = {
 	        "Length": stream.length,
 	    };
-		
+
 		if (canvas2pdf.usePako) {
 			props["Filter"] = "FlateDecode";
 		}
-		
+
 	    return PDFObject.makeObject(props, this.id, stream);
 	};
 
@@ -1405,16 +1405,16 @@
 	            buffer[i++] = blue;
 	        }
 		}
-		
+
 		if (canvas2pdf.usePako) {
 			buffer = pako.deflate(buffer);
 		}
-		
+
 		var buffer2 = [];
 		for (var i = 0 ; i < buffer.length ; i++) {
 			buffer2.push(String.fromCharCode(buffer[i]));
 		}
-		
+
 	    this.stream = buffer2.join("");
 
 	}
@@ -1424,7 +1424,7 @@
 	};
 
 	PDFImage.prototype.getObject = function() {
-	
+
 	    var props = {
 	        "Type": "XObject",
 	        "Width": this.width,
@@ -1435,38 +1435,38 @@
 	        "Name": "Image" + this.id,
 	        "Length": this.stream.length
 	    }
-		
+
 		if (canvas2pdf.usePako) {
 			props["Filter"] = "FlateDecode";
 		}
 	    return PDFObject.makeObject(props, this.id, this.stream);
 	};
-	
+
 	function PDFGradientFill(x1, y1, x2, y2, currentPage) {
-		
+
 		this.page = currentPage;
-		
+
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		
+
 		this.cols = ["white", "black"];
 	}
-	
+
 	// n = 0 or 1
 	PDFGradientFill.prototype.addColorStop = function(n, col) {
 		if (n != 0 && n != 1) {
-			console.error("only 0 and 1 suppored for addColorStop", n);	
+			console.error("only 0 and 1 suppored for addColorStop", n);
 		}
 		this.cols[Math.round(n)] = col;
 	}
 
 	PDFGradientFill.prototype.getObject = function() {
-		
+
 		var col0 = fixColor(this.cols[0]).c.split(" ");
 		var col1 = fixColor(this.cols[1]).c.split(" ");
-		
+
 	    var props = {
 	        "Type": "Pattern",
 	        "PatternType": 2,
@@ -1616,8 +1616,6 @@
 	    };
 
 	    PDFObject.makeObject = function(props, id, stream) {
-
-
 	        var ret = (id + " 0 obj\n") + PDFObject.convert(props);
 
 	        if (stream) {
@@ -1627,7 +1625,6 @@
 	        ret += "endobj\n"
 
 	        return ret;
-
 	    }
 
 	    PDFObject.convert = function(object) {

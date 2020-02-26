@@ -8,16 +8,16 @@ public enum FontFamily {
 	COMIC_SANS("Comic Sans", "Comic Sans MS, sans-serif"),
 	COURIER("Courier", "Courier, monospace"),
 	GEORGIA("Georgia", "Georgia, serif"),
-	DYSLEXIC("Open dyslexic mit Fibel a", "Open dyslexic mit Fibel a"
+	DYSLEXIC("Open dyslexic mit Fibel a", "OpenDyslexicAlta"
 			+ ", sans-serif"),
 	PALATINO("Palatino", "Palatino Linotype, times"),
-	QUICKSAND("Qicksand", "Qicksand, sans-serif"),
+	QUICKSAND("Quicksand", "Quicksand, sans-serif"),
 	ROBOTO("Roboto", "Roboto, sans-serif"),
-	SCHULBUCH_BAYERN("Schulbuch Bayern", "Schulbuch Bayern, sans-serif"),
+	SCHULBUCH_BAYERN("Schulbuch Bayern", "SourceSansPro, sans-serif"),
 	SF_MONO("SF Mono", "SF Mono, monospace"),
 	SF_PRO("SF Pro", "SF Pro, sans-serif"),
 	TIMES("Times", "Times, serif"),
-	TITILIUM("Titilium Web", "Titilium Web, sans-serif"),
+	TITILLIUM("Titillium Web", "TitilliumWeb, sans-serif"),
 	TREBUCHET("Trebuchet", "Trebuchet MS, sans-serif"),
 	VERDANA("Verdana", "Verdana, sans-serif");
 

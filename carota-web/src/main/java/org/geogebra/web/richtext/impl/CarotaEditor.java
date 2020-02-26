@@ -3,8 +3,9 @@ package org.geogebra.web.richtext.impl;
 import org.geogebra.web.richtext.Editor;
 
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -20,42 +21,13 @@ public class CarotaEditor implements Editor {
 	private CarotaDocument editor;
 	private EditorChangeListener listener;
 
-	private static native CarotaDocument createEditorNative(Element div) /*-{
-		return $wnd.carota.editor.create(div);
-	}-*/;
-
-	private native void setContentNative(CarotaDocument editor, String content) /*-{
-		editor.load(JSON.parse(content), false);
-	}-*/;
-
-	private native void addListenerNative(Widget widget, CarotaDocument editor,
-			EditorChangeListener listener) /*-{
-		var updateTimer = null;
-
-		editor.contentChanged(function() {
-			listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSizeChanged(*)(editor.frame.height);
-
-			if (updateTimer !== null) {
-				clearTimeout(updateTimer);
-			}
-			updateTimer = setTimeout(function() {
-				updateTimer = null;
-				listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onContentChanged(*)(JSON.stringify(editor.save()));
-			}, 500);
-		});
-
-		editor.selectionChanged(function() {
-			listener.@org.geogebra.web.richtext.Editor.EditorChangeListener::onSelectionChanged()()
-		});
-	}-*/;
-
 	/**
 	 * Create a new instance of Carota editor.
 	 */
 	public CarotaEditor(int padding, double defaultFontSize) {
 		CarotaUtil.ensureInitialized(defaultFontSize);
 		widget = createWidget(padding);
-		editor = createEditorNative(widget.getElement());
+		editor = Carota.get().getEditor().create(widget.getElement());
 	}
 
 	private Widget createWidget(int padding) {
@@ -102,14 +74,15 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void setHyperlinkUrl(String url) {
-		String color = getFormatNative(getHyperlinkRange(), "color", HYPERLINK_COLOR);
+		CarotaFormatting format = getHyperlinkRange().getFormatting();
+		String color = getFormatNative(format, "color", HYPERLINK_COLOR);
 		if (url == null) {
 			if (HYPERLINK_COLOR.equals(color)) {
 				color = null;
 			}
 			updateLinkStyle(color, false);
 		} else {
-			boolean isUnderline = getFormatNative(getHyperlinkRange(),
+			boolean isUnderline = getFormatNative(format,
 					"underline", true);
 			updateLinkStyle(color, isUnderline);
 		}
@@ -122,19 +95,45 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
+	public void reload() {
+		if (Carota.get() != null) {
+			Carota.get().getText().getCache().clear();
+		}
+		editor.load(editor.save(), false);
+	}
+
+	@Override
 	public Widget getWidget() {
 		return widget;
 	}
 
 	@Override
 	public void setContent(String content) {
-		setContentNative(editor, content);
+		editor.load(parse(content), false);
 	}
 
 	@Override
-	public void setListener(EditorChangeListener listener) {
+	public void setListener(final EditorChangeListener listener) {
 		this.listener = listener;
-		addListenerNative(widget, editor, listener);
+		final Timer updateTimer = new Timer() {
+			@Override
+			public void run() {
+				listener.onContentChanged(getContent());
+			}
+		};
+		editor.contentChanged(new EditorCallback(){
+			@Override
+			public void call() {
+				listener.onSizeChanged(editor.getFrame().getHeight());
+				updateTimer.cancel();
+				updateTimer.schedule(500);
+			}
+		});
+		editor.selectionChanged(new EditorCallback() {
+			public void call() {
+				listener.onSelectionChanged();
+			}
+		});
 	}
 
 	@Override
@@ -154,8 +153,16 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public <T> T getFormat(String key, T fallback) {
-		return getFormatNative(getRange(), key, fallback);
+		return getFormatNative(getRange().getFormatting(), key, fallback);
 	}
+
+	protected native <T> T getFormatNative(CarotaFormatting formatting, String key, T fallback) /*-{
+		var format = formatting[key];
+		if (typeof format == 'object') {
+			return fallback;
+		}
+		return format;
+	}-*/;
 
 	@Override
 	public void insertHyperlink(String url, String text) {
@@ -175,20 +182,15 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public String getContent() {
-		return getContentNative(editor);
+		return stringify(editor.save());
 	}
 
-	private native String getContentNative(CarotaDocument editor) /*-{
-		return JSON.stringify(editor.save());
+	private native JavaScriptObject parse(String content) /*-{
+		return JSON.parse(content);
 	}-*/;
 
-	private native <T> T getFormatNative(CarotaRange range, String key,
-			T fallback) /*-{
-		var format = range.getFormatting()[key];
-		if (typeof format == 'object') {
-			return fallback;
-		}
-		return format;
+	private native String stringify(JavaScriptObject json) /*-{
+		return JSON.stringify(json);
 	}-*/;
 
 	@Override
