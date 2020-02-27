@@ -1517,6 +1517,8 @@ __GGB__keysVar["zh-CN"].menu = {
     "ConstructionProtocolButton": "\"\u4f5c\u56fe\u8fc7\u7a0b\"\u6309\u94ae",
     "ConstructionProtocolHelp": "<html><body><p><b>\u64cd\u4f5c\u300c\u4f5c\u56fe\u8fc7\u7a0b\u300d</b></p><p><br><b>\u952e\u76d8</b></p><table border=\"1\"><tr><td>\u2191</td><td>\u4e0a\u4e00\u6b65</td></tr><tr><td>\u2193</td><td>\u4e0b\u4e00\u6b65</td></tr><tr><td>\u8d77\u59cb</td><td>\u7b2c\u4e00\u6b65</td></tr><tr><td>\u7ed3\u675f</td><td>\u6700\u540e\u4e00\u6b65</td></tr><tr><td>\u5220\u9664</td><td>\u5220\u9664\u8be5\u6b65\u9aa4</td></tr></table><p><b><br>\u9f20\u6807</b></p><table border=\"1\"><tr><td>\u53cc\u51fb\u884c</td><td>\u9009\u53d6\u8be5\u6b65\u9aa4</td></tr><tr><td>\u53cc\u51fb\u300c\u6807\u5934\u5217\u300d</td><td>\u7b2c\u4e00\u6b65</td></tr><tr><td>\u62d6\u653e\u884c</td><td>\u6539\u53d8\u4f5c\u56fe\u987a\u5e8f</td></tr><tr><td>\u53f3\u952e\u5355\u51fb\u884c</td><td>\u9f20\u6807\u53f3\u952e\u529f\u80fd\u83dc\u5355</td></tr></table></body></html>",
     "ConstructionProtocolNavigation": "\u4f5c\u56fe\u6b65\u9aa4\u5bfc\u822a\u680f",
+    "ContextMenu.Group": "\u7ec4\u5408",
+    "ContextMenu.Ungroup": "\u53d6\u6d88\u7ec4\u5408",
     "Continuity": "\u8fde\u7eed\u6027",
     "Continuous": "\u8fde\u7eed",
     "Coordinates": "\u5750\u6807",

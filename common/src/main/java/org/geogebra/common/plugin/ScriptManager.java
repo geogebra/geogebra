@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -43,7 +45,7 @@ public abstract class ScriptManager implements EventListener {
 	 * @param app
 	 *            application
 	 */
-	public ScriptManager(App app) {
+	public ScriptManager(@Nonnull App app) {
 		this.app = app;
 		app.getEventDispatcher().addEventListener(this);
 	}
