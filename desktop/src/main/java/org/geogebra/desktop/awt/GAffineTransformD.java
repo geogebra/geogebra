@@ -98,11 +98,9 @@ public class GAffineTransformD implements GAffineTransform {
 		if (p2 != null) {
 			p2.setX(point2.getX());
 			p2.setY(point2.getY());
-		} else {
-			p2 = new GPoint2D(point2.getX(), point2.getY());
+			return p2;
 		}
-
-		return p2;
+		return new GPoint2D(point2.getX(), point2.getY());
 	}
 
 	@Override
