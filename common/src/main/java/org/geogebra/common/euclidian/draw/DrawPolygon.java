@@ -432,7 +432,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 * method to update points of poly after mouse release
 	 * 
 	 */
-	@Override
 	public void updateGeo() {
 		if (prewPolygon != null) {
 			updateRealPointsOfPolygon();
