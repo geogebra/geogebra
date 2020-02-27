@@ -23,16 +23,19 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 	@Override
 	public void callback(Boolean active) {
 		// ignore active: don't save means we want new construction
+
 		app.setWaitCursor();
 		app.fileNew();
 		app.setDefaultCursor();
+		showPerspectivesPopup();
+	}
 
-		if (!app.isUnbundledOrWhiteboard()) {
-			app.showPerspectivesPopup();
+	private void showPerspectivesPopup() {
+		if (app.isUnbundledOrWhiteboard()) {
+			return;
 		}
-		if (app.getPageController() != null) {
-			app.getPageController().resetPageControl();
-		}
+
+		app.showPerspectivesPopup();
 	}
 
 	@Override
