@@ -8,7 +8,4 @@ public class CarotaFrame {
 
 	@JsProperty
 	public native int getHeight();
-
-	@JsProperty
-	public native int getLength();
 }

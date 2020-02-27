@@ -138,15 +138,14 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void deselect() {
-		int end = editor.getFrame().getLength() - 1;
+		int end = editor.documentRange().getEnd() - 1;
 		editor.select(end, end);
 	}
 
 	@Override
 	public void format(String key, Object val) {
 		CarotaRange selection = editor.selectedRange();
-		CarotaRange range = selection.getStart() == selection.getEnd()
-				? editor.range(0, editor.getFrame().getLength() - 1)
+		CarotaRange range = selection.getStart() == selection.getEnd() ? editor.documentRange()
 				: selection;
 		range.setFormatting(key, val);
 	}
@@ -207,7 +206,7 @@ public class CarotaEditor implements Editor {
 		if (isEditing()) {
 			return editor.selectedRange();
 		} else {
-			return editor.range(0, editor.getFrame().getLength() - 1);
+			return editor.documentRange();
 		}
 	}
 
