@@ -3751,18 +3751,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (drawBg == null) {
 			drawBg = new DrawBackground(this, settings);
 		}
-		if (settings.getBackgroundType().isSVG()) {
-			createSVGBackgroundIfNeeded();
-		}
-
 		drawBg.draw(g2);
-	}
-
-	/**
-	 * create an SVG as background.
-	 */
-	protected void createSVGBackgroundIfNeeded() {
-		// implemented on web
 	}
 
 	/**
