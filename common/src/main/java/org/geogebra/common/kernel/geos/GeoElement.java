@@ -1530,7 +1530,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	final public boolean isVisible() {
-		return isAlgebraVisible() || isEuclidianVisible();
+		return isEuclidianVisible() || isAlgebraVisible();
 	}
 
 	@Override
@@ -2543,6 +2543,8 @@ public abstract class GeoElement extends ConstructionElement
 
 		// had no label: try to set it
 		if (!isLabelSet()) {
+			setLabelSimple(newLabel);
+
 			// to avoid wasting of labels, new elements must wait
 			// until they are shown in one of the views to get a label
 			if (isVisible()) {
@@ -2554,10 +2556,6 @@ public abstract class GeoElement extends ConstructionElement
 
 				// set newLabel for this geo
 				doSetLabel(getFreeLabel(newLabel));
-			} else {
-				// remember desired label
-				setLabelSimple(newLabel);
-
 			}
 		}
 		// try to rename

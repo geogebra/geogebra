@@ -3388,7 +3388,7 @@ public class AlgebraProcessor {
 	}
 
 	public boolean isVectorForced(String label) {
-		return StringUtil.isLowerCase(label.charAt(0));
+		return label != null && StringUtil.isLowerCase(label.charAt(0));
 	}
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,
