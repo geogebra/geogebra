@@ -17,6 +17,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -231,23 +232,47 @@ public class OpenFileView extends MyHeaderPanel
 
 			@Override
 			public void callback(Boolean active) {
-				app.setWaitCursor();
-				app.fileNew();
-				app.setDefaultCursor();
+				if (app.isWhiteboardActive() && app.getLoginOperation() != null) {
+					app.getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
+							new MaterialCallbackI() {
+								@Override
+								public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+									if (result.isEmpty()) {
+										onFileNew();
+									} else {
+										((GuiManagerW) app.getGuiManager()).getTemplateController()
+												.fillTemplates(app, result);
+										app.getDialogManager().showTemplateChooser();
+									}
+								}
 
-				if (!app.isUnbundledOrWhiteboard()) {
-					app.showPerspectivesPopup();
+								@Override
+								public void onError(Throwable exception) {
+									Log.error("Error on templates load");
+								}
+							});
+					return;
 				}
-				if (app.isWhiteboardActive()
-						&& app.getPageController() != null) {
-					app.getPageController().resetPageControl();
-				}
-
+				onFileNew();
 			}
 		};
 		app.getArticleElement().attr("perspective", "");
 		app.getSaveController().showDialogIfNeeded(newConstruction);
 		close();
+	}
+
+	public void onFileNew() {
+		app.setWaitCursor();
+		app.fileNew();
+		app.setDefaultCursor();
+
+		if (!app.isUnbundledOrWhiteboard()) {
+			app.showPerspectivesPopup();
+		}
+		if (app.isWhiteboardActive()
+				&& app.getPageController() != null) {
+			app.getPageController().resetPageControl();
+		}
 	}
 
 	@Override
