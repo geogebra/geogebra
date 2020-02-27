@@ -46,6 +46,7 @@ public class MyVecNode extends ValidExpression
 	private int mode = Kernel.COORD_CARTESIAN;
 	private Kernel kernel;
 	private boolean isCASVector = false;
+	private boolean isForceVector = false;
 
 	/**
 	 * Creates new MyVec2D
@@ -195,21 +196,35 @@ public class MyVecNode extends ValidExpression
 
 			} else {
 
-				sb.append(tpl.leftBracket());
+                if (isEditingVector(tpl)) {
+                    sb.append("{{");
+                } else {
+                    sb.append(tpl.leftBracket());
+                }
 				sb.append(print(x, values, tpl));
-				if (mode == Kernel.COORD_CARTESIAN) {
+                if (isEditingVector(tpl)) {
+                    sb.append("},{");
+                } else if (mode == Kernel.COORD_CARTESIAN) {
 					sb.append(", ");
 				} else {
 					sb.append("; ");
 				}
 				sb.append(print(y, values, tpl));
-				sb.append(tpl.rightBracket());
+                if (isEditingVector(tpl)) {
+                    sb.append("}}");
+                } else {
+                    sb.append(tpl.rightBracket());
+                }
 			}
 			break;
 		}
 
 		return sb.toString();
 	}
+
+    private boolean isEditingVector(StringTemplate tpl) {
+        return tpl == StringTemplate.editorTemplate && isForceVector();
+    }
 
 	private static void printReGiac(StringBuilder sb, ExpressionValue x2,
 			boolean values, StringTemplate tpl) {
@@ -416,4 +431,11 @@ public class MyVecNode extends ValidExpression
 		return null;
 	}
 
+    private boolean isForceVector() {
+        return isForceVector;
+    }
+
+    public void setForceVector(boolean forceVector) {
+        isForceVector = forceVector;
+    }
 }

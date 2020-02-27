@@ -555,6 +555,7 @@ public class AlgebraProcessor {
 				n.setForcePoint();
 			} else if (geo.isGeoVector()) {
 				n.setForceVector();
+                setupForceVector(n);
 			} else if (geo.isGeoFunction()) {
 				n.setForceFunction();
 			}
@@ -1864,6 +1865,7 @@ public class AlgebraProcessor {
 	public GeoElement[] processValidExpression(ValidExpression ve,
 			EvalInfo info) throws MyError, Exception {
 
+        ValidExpression expression = ve;
 		// check for existing labels
 		String[] labels = ve.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
@@ -1871,26 +1873,31 @@ public class AlgebraProcessor {
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (replaceable != null) {
-			cons.setSuppressLabelCreation(true);
-		}
+            cons.setSuppressLabelCreation(true);
+            if (replaceable.isGeoVector()) {
+                expression = expression.deepCopy(kernel);
+                expression = expression.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
+                expression.setLabels(labels);
+            }
+        }
 
 		// we have to make sure that the macro mode is
 		// set back at the end
 		try {
-			ret = doProcessValidExpression(ve, info);
+			ret = doProcessValidExpression(expression, info);
 
 			if (ret == null) { // eg (1,2,3) running in 2D
-				if (isFreehandFunction(ve)) {
+				if (isFreehandFunction(expression)) {
 					return kernel.lookupLabel(ve.getLabel()).asArray();
 				}
 				throw new MyError(loc,
-						loc.getInvalidInputError() + ":\n" + ve);
+						loc.getInvalidInputError() + ":\n" + expression);
 			}
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		processReplace(replaceable, ret, ve, info);
+		processReplace(replaceable, ret, expression, info);
 
 		return ret;
 	}
@@ -2060,7 +2067,14 @@ public class AlgebraProcessor {
 		if (type.equals(GeoClass.NUMERIC) && type2.equals(GeoClass.ANGLE)) {
 			return true;
 		}
-		return false;
+        if (type2.equals(GeoClass.LIST) && type.equals(GeoClass.VECTOR)) {
+            return true;
+        }
+        if (type.equals(GeoClass.LIST) && type2.equals(GeoClass.VECTOR)) {
+            return true;
+        }
+
+        return false;
 	}
 
 	/**
@@ -3384,8 +3398,17 @@ public class AlgebraProcessor {
 			vector.updateRepaint();
 		}
 		ret[0] = vector;
+
+        setupForceVector(n);
 		return ret;
 	}
+
+    private void setupForceVector(ExpressionNode node) {
+        ExpressionValue expression = node.unwrap();
+        if (expression instanceof MyVecNode) {
+            ((MyVecNode) expression).setForceVector(node.isForcedVector());
+        }
+    }
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,
 			ExpressionValue y) {
