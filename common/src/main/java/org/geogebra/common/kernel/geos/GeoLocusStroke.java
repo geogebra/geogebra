@@ -675,6 +675,7 @@ public class GeoLocusStroke extends GeoLocus
 						}
 					}
 				}
+
 				if (index < data.size()) {
 					ensureTrailingNaN(getPoints());
 				}
@@ -686,6 +687,7 @@ public class GeoLocusStroke extends GeoLocus
 				getPoints().add(new MyPoint(data.get(i).getX(), data.get(i).getY(),
 						i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 			}
+			ensureTrailingNaN(getPoints());
 		}
 
 		updateCascade();
