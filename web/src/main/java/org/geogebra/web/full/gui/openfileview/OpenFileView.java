@@ -17,11 +17,9 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
-import org.geogebra.web.full.gui.menubar.action.FileNewAction;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
@@ -233,11 +231,7 @@ public class OpenFileView extends MyHeaderPanel
 
 			@Override
 			public void callback(Boolean active) {
-				if (app.isWhiteboardActive() && app.getLoginOperation() != null) {
-					FileNewAction.tryLoadTemplates();
-				} else {
-					FileNewAction.onFileNew();
-				}
+				app.tryLoadTemplatesOnFileNew();
 			}
 		};
 		app.getArticleElement().attr("perspective", "");

@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javax.annotation.CheckForNull;
@@ -63,10 +64,12 @@ import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.move.events.BaseEventPool;
+import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.EventType;
@@ -84,6 +87,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -1187,6 +1191,52 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		clearInputBar();
 		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
+		}
+	}
+
+	/**
+	 * reset everything for new file
+	 */
+	public void resetOnFileNew() {
+		// ignore active: don't save means we want new construction
+		setWaitCursor();
+		fileNew();
+		setDefaultCursor();
+
+		if (!isUnbundledOrWhiteboard()) {
+			showPerspectivesPopup();
+		}
+		if (getPageController() != null) {
+			getPageController().resetPageControl();
+		}
+	}
+
+	/**
+	 * shows the template chooser if user is logged in and has templates,
+	 * otherwise resets the UI for file new
+	 */
+	public void tryLoadTemplatesOnFileNew() {
+		if (isWhiteboardActive() && getLoginOperation() != null) {
+			getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
+					new MaterialCallbackI() {
+						@Override
+						public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+							if (result.isEmpty()) {
+								resetOnFileNew();
+							} else {
+								((GuiManagerW) getGuiManager()).getTemplateController()
+										.fillTemplates(AppW.this, result);
+								getDialogManager().showTemplateChooser();
+							}
+						}
+
+						@Override
+						public void onError(Throwable exception) {
+							Log.error("Error on templates load");
+						}
+					});
+		} else {
+			resetOnFileNew();
 		}
 	}
 
