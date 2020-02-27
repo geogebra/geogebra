@@ -9,7 +9,7 @@ import org.geogebra.web.html5.main.AppW;
  * Clears construction and initializes a new one
  */
 public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Boolean> {
-	private static AppW app;
+	private AppW app;
 
 	/**
 	 * @param app application
