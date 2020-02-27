@@ -87,7 +87,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -1224,7 +1223,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 							if (result.isEmpty()) {
 								resetOnFileNew();
 							} else {
-								((GuiManagerW) getGuiManager()).getTemplateController()
+								getGuiManager().getTemplateController()
 										.fillTemplates(AppW.this, result);
 								getDialogManager().showTemplateChooser();
 							}
