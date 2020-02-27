@@ -2,12 +2,14 @@ package org.geogebra.web.full.gui.menu;
 
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandler;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
@@ -27,6 +29,7 @@ public class MenuViewController {
 
 	private FloatingMenuView floatingMenuView;
 	private HeaderedMenuView headeredMenuView;
+	private HeaderView headerView;
 	private MenuView menuView;
 
 	private Localization localization;
@@ -60,8 +63,12 @@ public class MenuViewController {
 		floatingMenuView = new FloatingMenuView();
 		floatingMenuView.setVisible(false);
 
+		headerView = createHeaderView();
+		headerView.getBackButton().removeFromParent();
 		menuView = new MenuView();
 		headeredMenuView = new HeaderedMenuView(menuView);
+		headeredMenuView.setHeaderView(headerView);
+		headeredMenuView.setTitleHeader(true);
 		floatingMenuView.add(headeredMenuView);
 	}
 
@@ -101,16 +108,20 @@ public class MenuViewController {
 	 * Sets the menu to default.
 	 */
 	public void setDefaultMenu() {
-		setMenuItemGroups(menuView,
-				defaultDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
+		setDrawerMenu(defaultDrawerMenuFactory.createDrawerMenu());
 	}
 
 	/**
 	 * Sets the menu to exam.
 	 */
 	public void setExamMenu() {
+		setDrawerMenu(examDrawerMenuFactory.createDrawerMenu());
+	}
+
+	private void setDrawerMenu(DrawerMenu drawerMenu) {
+		setHeaderCaption(drawerMenu.getTitle());
 		setMenuItemGroups(menuView,
-				examDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
+				drawerMenu.getMenuItemGroups());
 	}
 
 	/**
@@ -155,6 +166,18 @@ public class MenuViewController {
 			floatingMenuView.clear();
 			floatingMenuView.add(headeredMenuView);
 		}
+	}
+
+	HeaderView createHeaderView() {
+		HeaderView headerView = new HeaderView();
+		headerView.setElevated(false);
+		headerView.setCompact(true);
+		return headerView;
+	}
+
+	private void setHeaderCaption(String title) {
+		String localizedTitle = localization.getMenu(title);
+		headerView.setCaption(localizedTitle);
 	}
 
 	private void createMenuItemGroup(MenuView menuView, MenuItemGroup menuItemGroup) {

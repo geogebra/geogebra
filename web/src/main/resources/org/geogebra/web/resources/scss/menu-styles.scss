@@ -122,6 +122,12 @@ $classicToolbar: 50px;
 	.headerDivider {
 		border-bottom: solid #E4E4E4 1px;
 	}
+
+	.titleHeader {
+	    > div {
+	        color: $text-secondary !important;
+	    }
+	}
 }
 
 @keyframes animateIn {

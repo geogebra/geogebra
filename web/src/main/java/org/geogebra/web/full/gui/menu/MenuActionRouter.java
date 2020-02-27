@@ -10,7 +10,6 @@ import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandler;
 import org.geogebra.web.html5.gui.FastClickHandler;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 class MenuActionRouter {
@@ -140,9 +139,7 @@ class MenuActionRouter {
 		final MenuView menuView = new MenuView();
 		menuViewController.setMenuItemGroups(menuView,
 				Collections.singletonList(submenuItem.getGroup()));
-		HeaderView headerView = new HeaderView();
-		headerView.setElevated(false);
-		headerView.setCompact(true);
+		HeaderView headerView = menuViewController.createHeaderView();
 		headerView.setCaption(localization.getMenu(submenuItem.getLabel()));
 		headerView.getBackButton().addFastClickHandler(new FastClickHandler() {
 			@Override
