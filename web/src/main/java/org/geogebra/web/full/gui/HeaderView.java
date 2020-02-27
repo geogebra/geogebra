@@ -1,9 +1,7 @@
 package org.geogebra.web.full.gui;
 
-import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -15,37 +13,41 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class HeaderView extends FlowPanel {
 
+	private static final String HEADER_VIEW_STYLE_NAME = "headerView";
+	private static final String SMALL_HEADER_STYLE_NAME = "smallHeaderView";
+	private static final String BACK_BUTTON_STYLE_NAME = "headerBackButton";
+	private static final String CAPTION_STYLE_NAME = "headerCaption";
+	private static final String DROPPED_HEADER_STYLE_NAME = "droppedHeaderView";
+	private static final String COMPACT_HEADER_STYLE_NAME = "compactHeaderView";
+
 	private StandardButton backButton;
 	private Label caption;
 
 	/**
 	 * Create a HeaderView.
-	 * 
-	 * @param app
-	 *            application
 	 */
-	public HeaderView(App app) {
-		createView(app);
+	public HeaderView() {
+		addStyleName(HEADER_VIEW_STYLE_NAME);
+		createView();
 	}
 
-	private void createView(App app) {
-		addStyleName("headerView");
-		createButton(app);
+	private void createView() {
+		createButton();
 		createCaption();
 	}
 
-	private void createButton(App app) {
+	private void createButton() {
 		backButton = new StandardButton(
 				MaterialDesignResources.INSTANCE.mow_back_arrow(), null, 24,
-				app);
-		backButton.setStyleName("headerBackButton");
+				null);
+		backButton.setStyleName(BACK_BUTTON_STYLE_NAME);
 
 		add(backButton);
 	}
 
 	private void createCaption() {
 		caption = new Label();
-		caption.setStyleName("headerCaption");
+		caption.setStyleName(CAPTION_STYLE_NAME);
 
 		add(caption);
 	}
@@ -76,6 +78,24 @@ public class HeaderView extends FlowPanel {
 	 *            whether to use smallscreen design
 	 */
 	public void resizeTo(boolean smallScreen) {
-		Dom.toggleClass(this, "smallHeaderView", "headerView", smallScreen);
+		setStyleName(SMALL_HEADER_STYLE_NAME, smallScreen);
+	}
+
+	/**
+	 * Sets the header elevation.
+	 *
+	 * @param elevated true to show shadow
+	 */
+	public void setElevated(boolean elevated) {
+		setStyleName(DROPPED_HEADER_STYLE_NAME, !elevated);
+	}
+
+	/**
+	 * Sets the header to compact style.
+	 *
+	 * @param compact compact
+	 */
+	public void setCompact(boolean compact) {
+		setStyleName(COMPACT_HEADER_STYLE_NAME, compact);
 	}
 }
