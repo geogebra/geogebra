@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.discrete.tsp;
 
-import org.geogebra.common.kernel.discrete.tsp.impl.Point;
+import org.geogebra.common.kernel.MyPoint;
 
 public interface TSP {
-	double solve(Point[] points);
+	double solve(MyPoint[] points);
 }

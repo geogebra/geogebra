@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GLine2D;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -21,7 +20,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
-import org.geogebra.ggbjdk.java.awt.geom.Point2D;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
@@ -54,16 +52,6 @@ public abstract class AwtFactoryHeadless extends AwtFactory {
 	@Override
 	public GRectangle newRectangle() {
 		return new Rectangle();
-	}
-
-	@Override
-	public GPoint2D newPoint2D() {
-		return new Point2D.Double();
-	}
-
-	@Override
-	public GPoint2D newPoint2D(double x, double y) {
-		return new Point2D.Double(x, y);
 	}
 
 	@Override

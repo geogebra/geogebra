@@ -231,7 +231,7 @@ public class DrawParametricCurve extends Drawable {
 			if (y < 0 || y > view.getHeight()) {
 				continue;
 			}
-			GPoint2D pt = AwtFactory.getPrototype().newPoint2D(x, y);
+			GPoint2D pt = new GPoint2D(x, y);
 			if (points.size() > nPoints) {
 				points.set(nPoints, pt);
 			} else {

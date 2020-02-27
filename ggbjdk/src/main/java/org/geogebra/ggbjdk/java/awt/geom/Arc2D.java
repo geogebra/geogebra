@@ -471,7 +471,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
         double angle = Math.toRadians(-getAngleStart());
         double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
         double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
-        return new Point2D.Double(x, y);
+        return new GPoint2D(x, y);
     }
 
     /**
@@ -489,7 +489,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
         double angle = Math.toRadians(-getAngleStart() - getAngleExtent());
         double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
         double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
-        return new Point2D.Double(x, y);
+        return new GPoint2D(x, y);
     }
 
     /**
@@ -602,7 +602,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * @param radius The radius of the arc.
      * @since 1.2
      */
-    public void setArcByTangent(GPoint2D p1, Point2D p2, Point2D p3,
+    public void setArcByTangent(GPoint2D p1, GPoint2D p2, GPoint2D p3,
                                 double radius) {
         double ang1 = Math.atan2(p1.getY() - p2.getY(),
                                  p1.getX() - p2.getX());
@@ -667,7 +667,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * @see #getAngleStart
      * @since 1.2
      */
-    public void setAngleStart(Point2D p) {
+    public void setAngleStart(GPoint2D p) {
         // Bias the dx and dy by the height and width of the oval.
         double dx = getHeight() * (p.getX() - getCenterX());
         double dy = getWidth() * (p.getY() - getCenterY());
@@ -722,7 +722,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * ending point.
      * @since 1.2
      */
-    public void setAngles(Point2D p1, Point2D p2) {
+    public void setAngles(GPoint2D p1, GPoint2D p2) {
         setAngles(p1.getX(), p1.getY(), p2.getX(), p2.getY());
     }
 
