@@ -283,7 +283,10 @@ public class GeoInlineText extends GeoElement
 				.getActiveEuclidianView().getDrawableFor(this);
 	}
 
-	private JSONArray getFormat() {
+	/**
+	 * @return format of individual words
+	 */
+	public JSONArray getFormat() {
 		if (!StringUtil.empty(content)) {
 			try {
 				return new JSONArray(content);

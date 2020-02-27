@@ -55,8 +55,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		this(cons, labels, null, geoList);
 	}
 
-	public AlgoPolygon(Construction cons, String[] labels,
-			GeoPointND[] points) {
+	public AlgoPolygon(Construction cons, String[] labels, GeoPointND[] points) {
 		this(cons, labels, points, null);
 	}
 
@@ -102,14 +101,12 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 			setUpdateAfterAlgo(polyhedron.getParentAlgorithm());
 		}
 
-		// poly = new GeoPolygon(cons, points);
 		createPolygon(createSegments);
 
 		// compute polygon points
 		compute();
 
 		setInputOutput(); // for AlgoElement
-
 	}
 
 	/**
@@ -161,7 +158,8 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	 *            says if the polygon has to creates its edges (3D only)
 	 */
 	protected void createPolygon(boolean createSegments) {
-		poly = new GeoPolygon(this.cons, this.points);
+		poly = new GeoPolygon(this.cons, this.points, null,
+				createSegments && !cons.getApplication().isWhiteboardActive());
 	}
 
 	@Override

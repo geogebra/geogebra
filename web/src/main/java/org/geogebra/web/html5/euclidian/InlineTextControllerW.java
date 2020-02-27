@@ -9,6 +9,10 @@ import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 
@@ -40,6 +44,31 @@ public class InlineTextControllerW implements InlineTextController {
 		this.geo = geo;
 		this.parent = parent;
 		this.view = view;
+		checkFonts();
+	}
+
+	private void checkFonts() {
+		try {
+			JSONArray words = geo.getFormat();
+			for (int i = 0; i < words.length(); i++) {
+				JSONObject word = words.optJSONObject(i);
+				if (word.has("font")) {
+					FontLoader.loadFont(word.getString("font"), getCallback());
+				}
+			}
+		} catch (JSONException | RuntimeException e) {
+			Log.debug("cannot parse fonts");
+		}
+	}
+
+	private Runnable getCallback() {
+		return new Runnable() {
+			@Override
+			public void run() {
+				editor.reload();
+				geo.getKernel().notifyRepaint();
+			}
+		};
 	}
 
 	@Override
@@ -63,9 +92,10 @@ public class InlineTextControllerW implements InlineTextController {
 
 			@Override
 			public void onSizeChanged(int minHeight) {
-				if (geo.getMinHeight() != minHeight) {
-					geo.setHeight(Math.max(minHeight, geo.getHeight()));
-					geo.setMinHeight(minHeight);
+				int actualMinHeight = minHeight + 2 * DrawInlineText.PADDING;
+				if (geo.getMinHeight() != actualMinHeight) {
+					geo.setHeight(Math.max(actualMinHeight, geo.getHeight()));
+					geo.setMinHeight(actualMinHeight);
 					geo.updateRepaint();
 				}
 			}
@@ -128,6 +158,9 @@ public class InlineTextControllerW implements InlineTextController {
 	public void format(String key, Object val) {
 		editor.format(key, val);
 		geo.setContent(editor.getContent());
+		if ("font".equals(key)) {
+			FontLoader.loadFont(String.valueOf(val), getCallback());
+		}
 	}
 
 	@Override
@@ -185,4 +218,5 @@ public class InlineTextControllerW implements InlineTextController {
 	public String getListStyle() {
 		return editor.getListStyle();
 	}
+
 }

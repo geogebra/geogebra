@@ -17,4 +17,6 @@ public class CarotaRange {
 	public native void setFormatting(String key, Object val);
 
 	public native String getListStyle();
+
+	public native CarotaFormatting getFormatting();
 }

@@ -292,12 +292,6 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
 		if (isVisible) {
-			// double xRW = view.toRealWorldCoordX(mx);
-			// double yRW = view.toRealWorldCoordY(my);
-
-			int mx = view.toScreenCoordX(xRW);
-			int my = view.toScreenCoordY(yRW);
-
 			// round angle to nearest 15 degrees if alt pressed
 			if (view.getEuclidianController().isAltDown()) {
 				GeoPointND p = points.get(points.size() - 1);
@@ -313,8 +307,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				xRW = px + radius * Math.cos(angle * Math.PI / 180);
 				yRW = py + radius * Math.sin(angle * Math.PI / 180);
 
-				mx = view.toScreenCoordX(xRW);
-				my = view.toScreenCoordY(yRW);
+				int mx = view.toScreenCoordX(xRW);
+				int my = view.toScreenCoordY(yRW);
 
 				endPoint.setX(xRW);
 				endPoint.setY(yRW);

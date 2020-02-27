@@ -29,7 +29,7 @@ public class AriaMenuBar extends FlowPanel {
 	public AriaMenuBar() {
 		super("UL");
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
-				| Event.ONFOCUS | Event.ONKEYDOWN);
+				| Event.ONFOCUS | Event.ONKEYPRESS | Event.ONKEYDOWN);
 		getElement().setAttribute("role", "menubar");
 		getElement().setTabIndex(0);
 		addStyleName("gwt-MenuBar");
@@ -298,16 +298,13 @@ public class AriaMenuBar extends FlowPanel {
 			break;
 		}
 
+		case Event.ONKEYPRESS:
+			handleActionKey(event, item);
+			break;
+
 		case Event.ONKEYDOWN:
 			int keyCode = event.getKeyCode();
-			if (keyCode == KeyCodes.KEY_ENTER
-					|| keyCode == KeyCodes.KEY_SPACE) {
-				if (item != null) {
-					doItemAction(item);
-					eatEvent(event);
-				}
-			}
-			else if (keyCode == KeyCodes.KEY_UP && handleArrows) {
+			if (keyCode == KeyCodes.KEY_UP && handleArrows) {
 				moveSelectionUp();
 				eatEvent(event);
 				return;
@@ -321,6 +318,20 @@ public class AriaMenuBar extends FlowPanel {
 		} // end switch (DOM.eventGetType(event))
 
 		super.onBrowserEvent(event);
+	}
+
+	private void handleActionKey(Event event, AriaMenuItem item) {
+		if (!isActionKey(event.getKeyCode()) || item == null) {
+			return;
+		}
+
+		doItemAction(item);
+		eatEvent(event);
+	}
+
+	private boolean isActionKey(int keyCode) {
+		return keyCode == KeyCodes.KEY_ENTER
+				|| keyCode == KeyCodes.KEY_SPACE;
 	}
 
 	/**

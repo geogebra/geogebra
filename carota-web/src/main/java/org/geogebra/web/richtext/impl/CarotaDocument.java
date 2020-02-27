@@ -1,6 +1,7 @@
 package org.geogebra.web.richtext.impl;
 
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JavaScriptObject;
 
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -15,6 +16,8 @@ public class CarotaDocument {
 	public native void select(int start, int end, boolean takeFocus);
 
 	public native CarotaNode byCoordinate(int x, int y);
+
+	public native CarotaRange range(int start, int end);
 
 	public native CarotaRange selectedRange();
 
@@ -32,4 +35,13 @@ public class CarotaDocument {
 	public native CarotaRange hyperlinkRange(int start, int end);
 
 	public native void switchListTo(CarotaRange range, String listType);
+
+	public native void selectionChanged(EditorCallback editorCallback);
+
+	public native void contentChanged(EditorCallback editorCallback);
+
+	public native JavaScriptObject save();
+
+	public native void load(JavaScriptObject content, boolean focus);
+
 }

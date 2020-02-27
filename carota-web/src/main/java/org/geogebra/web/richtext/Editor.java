@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.Widget;
 /** The interface to the Carota editor */
 public interface Editor {
 
+	void reload();
+
 	interface EditorChangeListener {
 
 		/**
