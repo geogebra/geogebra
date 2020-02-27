@@ -884,6 +884,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private static GeoElementND computeWithGGB(Kernel kern, String name,
 			ArrayList<ExpressionNode> args) {
 		boolean silent = kern.isSilentMode();
+		boolean suppressLabels = kern.getConstruction().isSuppressLabelsActive();
 		try {
 			Commands c = Commands.valueOf(name);
 			if (c != null) {
@@ -918,15 +919,16 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				} catch (Exception e) {
 					// ignore
 				}
-				kern.setSilentMode(silent);
 				if (ggbResult != null && ggbResult.length > 0
 						&& ggbResult[0] != null) {
 					return ggbResult[0];
 				}
 			}
 		} catch (Exception e) {
-			kern.setSilentMode(silent);
 			Log.info(name + " not known command or function");
+		} finally {
+			kern.setSilentMode(silent);
+			kern.getConstruction().setSuppressLabelCreation(suppressLabels);
 		}
 		return null;
 	}
