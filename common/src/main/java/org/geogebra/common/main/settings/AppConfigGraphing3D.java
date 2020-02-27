@@ -25,7 +25,6 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	@Override
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
-			dp.makeVisible();
 			dp.setLocation("3");
 		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
 			dp.makeVisible();
@@ -170,6 +169,11 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 
 	@Override
 	public boolean shouldHideEquations() {
+		return false;
+	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
 		return false;
 	}
 }

@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.TextObject;
 
@@ -30,19 +31,16 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	private int printDecimals = -1;
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
-	private StringTemplate tpl = StringTemplate.defaultTemplate;
+	StringTemplate tpl = StringTemplate.defaultTemplate;
 
-	private boolean symbolicMode = false;
-
-	private StringTemplate stringTemplateForLaTeX;
+	protected boolean symbolicMode = false;
 
 	private TextAlignment textAlignment = TextAlignment.LEFT;
 
 	private @Nonnull GeoElementND linkedGeo;
-	private @Nonnull
-	InputBoxProcessor inputBoxProcessor;
 
-	private String tempUserEvalInput;
+	private @Nonnull InputBoxProcessor inputBoxProcessor;
+	private @Nonnull InputBoxRenderer inputBoxRenderer;
 	private String tempUserDisplayInput;
 
 	/**
@@ -54,6 +52,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public GeoInputBox(Construction cons) {
 		super(cons);
 		linkedGeo = new GeoText(cons, "");
+	 	inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
 	}
 
@@ -92,6 +91,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			linkedGeo = geo;
 		}
 
+		inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
 	}
 
@@ -100,8 +100,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return text to edit with the symbolic editor
 	 */
 	public String getTextForEditor() {
-		if (tempUserEvalInput != null) {
-			return tempUserEvalInput;
+		if (inputBoxRenderer.tempUserEvalInput != null) {
+			return inputBoxRenderer.tempUserEvalInput;
 		}
 
 		if (linkedGeo.isGeoText()) {
@@ -110,38 +110,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		String linkedGeoText = linkedGeo.getRedefineString(true, true);
 
-		if ("?".equals(linkedGeoText)) {
-			return "";
-		}
-
-		return linkedGeoText;
-	}
-
-	/**
-	 * Get the text to display and edit with the non symbolic editor
-	 *
-	 * @return the text
-	 */
-	public String getText() {
-		if (tempUserEvalInput != null) {
-			return tempUserEvalInput;
-		}
-		if (linkedGeo.isGeoText()) {
-			return ((GeoText) linkedGeo).getTextString();
-		}
-
-		String linkedGeoText;
-
-		if (isSymbolicMode()) {
-			linkedGeoText = toLaTex();
-		} else {
-			linkedGeoText = linkedGeo.getRedefineString(true, true);
+		if (hasLaTeXEditableVector()) {
+			linkedGeoText = getColumnMatrix((GeoVectorND) linkedGeo);
 		}
 
 		if ("?".equals(linkedGeoText)) {
 			return "";
 		}
-
 		return linkedGeoText;
 	}
 
@@ -151,32 +126,32 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return editor display string
 	 */
 	public String getDisplayText() {
-		return isSymbolicMode() && tempUserDisplayInput != null ? tempUserDisplayInput : getText();
+		return isSymbolicMode() && tempUserDisplayInput != null
+				? tempUserDisplayInput
+				: getText();
 	}
 
-	private String toLaTex() {
-		boolean flatEditableList = !hasEditableMatrix() && linkedGeo.isGeoList();
-
-		if (hasSymbolicFunction() || flatEditableList) {
-			return linkedGeo.getRedefineString(true, true,
-					getStringtemplateForLaTeX());
-		}
-		return linkedGeo.toLaTeXString(true, StringTemplate.latexTemplate);
+	private boolean hasLaTeXEditableVector() {
+		return linkedGeo instanceof GeoVectorND
+				&& ((GeoVectorND) linkedGeo).isColumnEditable();
 	}
 
-	private boolean hasEditableMatrix() {
-		if (!linkedGeo.isGeoList()) {
-			return false;
-		}
-
-		return ((GeoList) linkedGeo).isEditableMatrix();
+	/**
+	 * Get the text to display and edit with the non symbolic editor
+	 *
+	 * @return the text
+	 */
+	public String getText() {
+		return inputBoxRenderer.getText();
 	}
 
-	private StringTemplate getStringtemplateForLaTeX() {
-		if (stringTemplateForLaTeX == null) {
-			stringTemplateForLaTeX = StringTemplate.latexTemplate.makeStrTemplateForEditing();
-		}
-		return stringTemplateForLaTeX;
+	private String getColumnMatrix(GeoVectorND vector) {
+		return vector.toValueStringAsColumnVector(tpl);
+	}
+
+	@Override
+	public boolean isLaTeXTextCommand() {
+		return super.isLaTeXTextCommand();
 	}
 
 	/**
@@ -184,7 +159,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 *
 	 * @return linked geo
 	 */
-	public GeoElementND getLinkedGeo() {
+	public @Nonnull GeoElementND getLinkedGeo() {
 		return linkedGeo;
 	}
 
@@ -249,11 +224,12 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.append("\"/>\n");
 		}
 
-		if (tempUserDisplayInput != null && tempUserEvalInput != null) {
+		if (tempUserDisplayInput != null
+				&& inputBoxRenderer.tempUserEvalInput != null) {
 			sb.append("\t<tempUserInput display=\"");
 			sb.append(tempUserDisplayInput);
 			sb.append("\" eval=\"");
-			sb.append(tempUserEvalInput);
+			sb.append(inputBoxRenderer.tempUserEvalInput);
 			sb.append("\"/>\n");
 		}
 	}
@@ -387,7 +363,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		return DescriptionMode.DEFINITION;
 	}
 
@@ -440,7 +416,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 				|| linkedGeo.isGeoLine() || linkedGeo.isGeoPlane() || linkedGeo.isGeoList();
 	}
 
-	private boolean hasSymbolicFunction() {
+	boolean hasSymbolicFunction() {
 		return linkedGeo instanceof GeoFunction || linkedGeo instanceof GeoFunctionNVar;
 	}
 
@@ -478,7 +454,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return user eval input
 	 */
 	public String getTempUserEvalInput() {
-		return tempUserEvalInput;
+		return inputBoxRenderer.tempUserEvalInput;
 	}
 
 	/**
@@ -488,7 +464,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @param tempUserEvalInput temporary user eval input
 	 */
 	public void setTempUserEvalInput(String tempUserEvalInput) {
-		this.tempUserEvalInput = tempUserEvalInput;
+		inputBoxRenderer.tempUserEvalInput = tempUserEvalInput;
 	}
 
 	/**
@@ -498,7 +474,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 * @return temporary display user input
 	 */
 	public String getTempUserDisplayInput() {
-		return tempUserDisplayInput;
+		return this.tempUserDisplayInput;
 	}
 
 	/**
@@ -516,6 +492,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public void clearTempUserInput() {
 		this.tempUserDisplayInput = null;
-		this.tempUserEvalInput = null;
+		inputBoxRenderer.tempUserEvalInput = null;
 	}
 }

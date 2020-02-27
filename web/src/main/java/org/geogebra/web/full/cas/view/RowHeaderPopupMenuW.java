@@ -51,7 +51,6 @@ public class RowHeaderPopupMenuW extends
 					}
 				});
 		rowHeaderPopupMenu.addItem(miCopyInput);
-		miCopyInput.addStyleName("mi_no_image");
 
 		AriaMenuItem miPaste = new AriaMenuItem(loc.getMenu("Paste"), false,
 				new ScheduledCommand() {
@@ -62,7 +61,6 @@ public class RowHeaderPopupMenuW extends
 				});
 		rowHeaderPopupMenu.addItem(miPaste);
 		rowHeaderPopupMenu.addSeparator();
-		miPaste.addStyleName("mi_no_image");
 
 		AriaMenuItem miInsertAbove = new AriaMenuItem(
 				loc.getMenu("InsertAbove"),
@@ -74,7 +72,6 @@ public class RowHeaderPopupMenuW extends
 			        }
 		        });
 		rowHeaderPopupMenu.addItem(miInsertAbove);
-		miInsertAbove.addStyleName("mi_no_image");
 
 		// "Insert Below" menuitem
 		AriaMenuItem miInsertBelow = new AriaMenuItem(
@@ -86,7 +83,6 @@ public class RowHeaderPopupMenuW extends
 			        }
 		        });
 		rowHeaderPopupMenu.addItem(miInsertBelow);
-		miInsertBelow.addStyleName("mi_no_image");
 
 		int[] selRows = table.getSelectedRows();
 		String strRows = getDeleteString(selRows);
@@ -98,7 +94,6 @@ public class RowHeaderPopupMenuW extends
 			}
 		});
 		rowHeaderPopupMenu.addItem(miDelete);
-		miDelete.addStyleName("mi_no_image");
 
 		rowHeaderPopupMenu.addSeparator();
 
@@ -111,7 +106,6 @@ public class RowHeaderPopupMenuW extends
 			        }
 		        });
 		rowHeaderPopupMenu.addItem(miUseAsText);
-		miUseAsText.addStyleName("mi_no_image");
 
 		if (CopyPasteCutW.checkClipboardSupported()) {
 
@@ -123,7 +117,6 @@ public class RowHeaderPopupMenuW extends
 						}
 					});
 			rowHeaderPopupMenu.addItem(copyItem);
-			copyItem.addStyleName("mi_no_image");
 
 			AriaMenuItem latexItem = new AriaMenuItem(
 					loc.getMenu("CopyAsLaTeX"), false,
@@ -134,7 +127,6 @@ public class RowHeaderPopupMenuW extends
 						}
 					});
 			rowHeaderPopupMenu.addItem(latexItem);
-			latexItem.addStyleName("mi_no_image");
 		}
 	}
 

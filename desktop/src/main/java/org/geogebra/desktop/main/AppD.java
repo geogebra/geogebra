@@ -171,7 +171,6 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Charsets;
-import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
@@ -234,6 +233,7 @@ import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
+import org.geogebra.desktop.util.CopyPasteD;
 import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -371,6 +371,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	protected boolean isErrorDialogShowing = false;
 
 	public boolean macsandbox = false;
+
+	private CopyPasteD copyPaste;
 
 	/*************************************************************
 	 * Construct application within JFrame
@@ -1414,7 +1416,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
-			getGuiManager().clearInputbar();
+			((GuiManagerD) getGuiManager()).clearInputbar();
 		}
 
 		// reset spreadsheet columns, reset trace columns
@@ -2882,7 +2884,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public synchronized JFrame getFrame() {
 		if ((frame == null) && (getGuiManager() != null)) {
-			frame = (JFrame) getGuiManager().createFrame();
+			frame = ((GuiManagerD) getGuiManager()).createFrame();
 		}
 
 		return frame;
@@ -5158,10 +5160,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public CopyPaste getCopyPaste() {
+	public CopyPasteD getCopyPaste() {
 
 		if (copyPaste == null) {
-			copyPaste = new CopyPaste();
+			copyPaste = new CopyPasteD();
 		}
 
 		return copyPaste;

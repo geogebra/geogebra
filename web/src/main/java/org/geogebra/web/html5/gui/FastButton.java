@@ -219,7 +219,7 @@ public abstract class FastButton extends GCustomButton
 
 		if (!CancelEventTimer.cancelMouseEvent()) {
 			// Press not handled yet
-			fireFastClickEvent();
+			fireFastClickEvent(event.getType());
 		}
 
 		super.onBrowserEvent(event);
@@ -290,7 +290,7 @@ public abstract class FastButton extends GCustomButton
 	private void onTouchEnd(Event event) {
 		CancelEventTimer.touchEventOccured();
 		if (!this.touchMoved) {
-			fireFastClickEvent();
+			fireFastClickEvent(event.getType());
 			event.preventDefault();
 			onHoldPressOffStyle(); // Change back the style
 		}
@@ -299,9 +299,13 @@ public abstract class FastButton extends GCustomButton
 	/**
 	 * Notify all handlers
 	 */
-	protected void fireFastClickEvent() {
+	private void fireFastClickEvent(String eventType) {
 		for (FastClickHandler h : this.handlers) {
-			h.onClick(this);
+			if (h instanceof FastClickHandler.Typed) {
+				((FastClickHandler.Typed) h).onClick(eventType);
+			} else {
+				h.onClick(this);
+			}
 		}
 	}
 	

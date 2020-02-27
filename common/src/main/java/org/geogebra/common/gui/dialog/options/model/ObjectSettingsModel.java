@@ -1,18 +1,31 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.geos.*;
+import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a model for the object properties
@@ -645,7 +658,7 @@ abstract public class ObjectSettingsModel {
                 if (!(elementForProperties instanceof GeoFunction)) {
                     return false;
                 }
-			} else if (!AlgebraItem.isFunctionOrEquationFromUser(geo)) {
+			} else if (!geo.isFunctionOrEquationFromUser()) {
                 return false;
             }
         }

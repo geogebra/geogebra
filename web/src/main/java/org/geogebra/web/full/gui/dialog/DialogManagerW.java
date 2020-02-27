@@ -1,7 +1,5 @@
 package org.geogebra.web.full.gui.dialog;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -33,9 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.export.AnimationExportDialogW;
@@ -52,8 +48,6 @@ import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.full.main.GDevice;
-import org.geogebra.web.full.move.googledrive.events.GoogleLoginEvent;
-import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GDialogBox;
@@ -69,8 +63,10 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 
+import java.util.ArrayList;
+
 public class DialogManagerW extends DialogManager
-		implements EventRenderable, LoadingApplication {
+		implements LoadingApplication {
 
 	private FunctionInspectorW functionInspector;
 	protected SaveDialogI saveDialog = null;
@@ -90,10 +86,6 @@ public class DialogManagerW extends DialogManager
 	 */
 	public DialogManagerW(AppW app) {
 		super(app);
-		if (app.getGoogleDriveOperation() != null) {
-			((GoogleDriveOperationW) app.getGoogleDriveOperation()).getView()
-					.add(this);
-		}
 	}
 
 	@Override
@@ -241,9 +233,7 @@ public class DialogManagerW extends DialogManager
 		}
 		geo.setLabelVisible(true);
 		geo.updateRepaint();
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().clearInputbar();
-		}
+
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		InputDialogW id = new InputDialogW((AppW) app, app.getLocalization()
@@ -547,16 +537,6 @@ public class DialogManagerW extends DialogManager
 		((AppW) app).getGuiManager().getOptionPane().showConfirmDialog(
 				text, "", GOptionPane.OK_OPTION,
 				GOptionPane.INFORMATION_MESSAGE, null);
-	}
-
-	@Override
-	public void renderEvent(BaseEvent event) {
-		if (event instanceof GoogleLoginEvent) {
-			if (!((GoogleLoginEvent) event).isSuccessFull()) {
-				Log.debug("Login to Google failed");
-			}
-		}
-
 	}
 
 	/**

@@ -193,8 +193,6 @@ public class EuclidianControllerW extends EuclidianController implements
 					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN);
 		} else {
 			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
-			// app.setMode(EuclidianConstants.MODE_MOVE);
-			// app.getGuiManager().updateToolbar();
 		}
 		mtg.onTouchStart(event);
 	}
@@ -451,7 +449,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	protected void showDynamicStylebar() {
+	public void showDynamicStylebar() {
 		if (((AppW) app).allowStylebar()) {
 			getView().getDynamicStyleBar().setVisible(true);
 			getView().getDynamicStyleBar().updateStyleBar();

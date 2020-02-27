@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -18,11 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -66,7 +62,10 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Geometrical representation of line
@@ -1869,12 +1868,13 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (toStringMode == GeoLine.EQUATION_USER
-				&& (isIndependent() || getParentAlgorithm().getClassName() == Algos.Expression)) {
+				&& (isIndependent() || (getParentAlgorithm().getClassName() == Algos.Expression
+				&& isAllowedToShowValue()))) {
 			return DescriptionMode.VALUE;
 		}
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	@Override
@@ -1953,7 +1953,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return true;
 	}
 
-	private void setModeIfEquationFormIsNotForced(int mode) {
+	protected void setModeIfEquationFormIsNotForced(int mode) {
 		if (isEquationFormEnforced()) {
 			toStringMode = cons.getApplication().getConfig().getEnforcedLineEquationForm();
 		} else {

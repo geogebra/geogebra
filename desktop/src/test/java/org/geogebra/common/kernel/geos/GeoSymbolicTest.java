@@ -19,6 +19,7 @@ import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.TestErrorHandler;
@@ -34,13 +35,13 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoSymbolicTest extends BaseSymbolicTest {
 
-	private static void testValidResultCombinations(String input, String... validResults) {
+	private void testValidResultCombinations(String input, String... validResults) {
 		AlgebraTestHelper.testValidResultCombinations(
 				input, validResults,
 				ap, StringTemplate.testTemplate);
 	}
 
-	public static void t(String input, Matcher<String> expected) {
+	public void t(String input, Matcher<String> expected) {
 		AlgebraTestHelper.testSyntaxSingle(input, Collections.singletonList(expected), ap,
 				StringTemplate.testTemplate);
 	}
@@ -98,10 +99,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertEquals("a \\, = \\,2 \\; \\sqrt{2}", text);
 	}
 
-	private static String getLatex(String string) {
+	private String getLatex(String string) {
 		GeoElement geo1 = getSymbolic(string);
 		return geo1.getLaTeXAlgebraDescription(
-				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
+				geo1.getDescriptionMode() != DescriptionMode.DEFINITION,
 				StringTemplate.latexTemplate);
 	}
 
@@ -654,28 +655,28 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void constantShouldBeOneRow() {
 		t("1", "1");
 		GeoElement a = getSymbolic("a");
-		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	@Test
 	public void labeledConstantShouldBeOneRow() {
 		t("a=7", "7");
 		GeoElement a = getSymbolic("a");
-		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	@Test
 	public void simpleEquationShouldBeOneRow() {
 		t("eq1:x+y=1", "x + y = 1");
 		GeoElement a = getSymbolic("eq1");
-		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	@Test
 	public void simpleFracShouldBeTwoRows() {
 		t("1/2", "1 / 2");
 		GeoElement a = getSymbolic("a");
-		assertEquals(DescriptionMode.DEFINITION_VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.DEFINITION_VALUE, a.getDescriptionMode());
 	}
 
 	@Test
@@ -741,7 +742,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		checkInput("f'", "f'(x) = f'(x)");
 	}
 
-	private static GeoSymbolic getSymbolic(String label) {
+	private GeoSymbolic getSymbolic(String label) {
 		GeoElement geo = app.getKernel().lookupLabel(label);
 		assertThat(geo, CoreMatchers.instanceOf(GeoSymbolic.class));
 		return (GeoSymbolic) geo;
@@ -761,7 +762,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void powerShouldBeOneRow() {
 		t("(b+1)^3", "(b + 1)^(3)");
 		GeoElement a = getSymbolic("a");
-		assertEquals(DescriptionMode.VALUE, a.needToShowBothRowsInAV());
+		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	/**
@@ -846,11 +847,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(lastGeoElement, instanceOf(GeoText.class));
 	}
 
-	private static void shouldFail(String string, String errorMsg) {
+	private void shouldFail(String string, String errorMsg) {
 		AlgebraTestHelper.shouldFail(string, errorMsg, app);
 	}
 
-	private static String getObjectLHS(String label) {
+	private String getObjectLHS(String label) {
 		GeoElement geo = getSymbolic(label);
 		try {
 			return geo
@@ -896,34 +897,42 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testMultivariateFunction() {
 		add("f(x, a) = sqrt(x - a)");
 		String xml = app.getXML();
-		Assert.assertTrue(xml.contains("f(x, a)"));
+		Assert.assertTrue(xml.contains("x,a"));
 		app.setXML(xml, true);
 		GeoSymbolic symbolic = getSymbolic("f");
 		Assert.assertEquals("f(x, a) = sqrt(-a + x)",
 				symbolic.toString(StringTemplate.defaultTemplate));
 	}
 
-	private static int numberOfSpecialPoints() {
+	@Test
+	public void testUndoRedoWorksWhenLabelIsHidden() {
+		LabelController labelController = new LabelController();
+		GeoElement element = (GeoElement) add("x")[0];
+		labelController.hideLabel(element);
+		app.setXML(app.getXML(), true);
+	}
+
+	private int numberOfSpecialPoints() {
 		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
 			return 0;
 		}
 		return app.getSpecialPointsManager().getSelectedPreviewPoints().size();
 	}
 
-	private static void updateSpecialPoints(String string) {
+	private void updateSpecialPoints(String string) {
 		app.getSpecialPointsManager()
 				.updateSpecialPoints(app.getKernel().lookupLabel(string));
 	}
 
-	private static void add(String string) {
-		app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
+	private GeoElementND[] add(String string) {
+		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
 				true);
 	}
 
 	/**
 	 * Emulate file reload
 	 */
-	private static void reload() {
+	private void reload() {
 		app.setXML(app.getXML(), true);
 	}
 }

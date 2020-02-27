@@ -406,6 +406,7 @@ public abstract class GeoQuadricND extends GeoElement
 	public void setUndefined() {
 		defined = false;
 		empty();
+		resetDefinition();
 	}
 
 	/**
@@ -654,12 +655,12 @@ public abstract class GeoQuadricND extends GeoElement
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (toStringMode == GeoConicND.EQUATION_USER
 				&& (isIndependent() || getParentAlgorithm().getClassName() == Algos.Expression)) {
 			return DescriptionMode.VALUE;
 		}
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	/**

@@ -172,8 +172,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private Coords tmpCoordsForOrigin = new Coords(4);
 	private Coords tmpCoordsForDirection = new Coords(4);
 
-	protected double startPointZ;
-
 	private Hits3D goodHits;
 	/**
 	 * array list for intersection curves
@@ -3086,38 +3084,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	public void transformCoords() {
 		// TODO point capturing
-	}
-
-	// /////////////////////////////////////////
-	// PASTE PREVIEW
-
-	@Override
-	protected void updatePastePreviewPosition() {
-		GeoPoint3D p = view3D.getCursor3D();
-		if (translationVec3D == null) {
-			translationVec3D = new Coords(3);
-		}
-		translationVec3D.setX(p.getInhomX() - getStartPointX());
-		translationVec3D.setY(p.getInhomY() - getStartPointY());
-		translationVec3D.setZ(p.getInhomZ() - getStartPointZ());
-		setStartPointLocation(p.getInhomX(), p.getInhomY(), p.getInhomZ());
-		if (tmpCoordsL3 == null) {
-			tmpCoordsL3 = new Coords(3);
-		}
-		tmpCoordsL3.setX(p.getInhomX());
-		tmpCoordsL3.setY(p.getInhomY());
-		tmpCoordsL3.setZ(p.getInhomZ());
-		MoveGeos.moveObjects(pastePreviewSelected, translationVec3D,
-				tmpCoordsL3, view3D.getViewDirection(), view3D);
-	}
-
-	protected double getStartPointZ() {
-		return startPointZ;
-	}
-
-	protected void setStartPointLocation(double x, double y, double z) {
-		setStartPointLocation(x, y);
-		startPointZ = z;
 	}
 
 	// /////////////////////////////////////////

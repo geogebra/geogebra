@@ -27,7 +27,6 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -71,7 +70,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.app.getNetworkOperation().getView().add(this);
 		if (this.app.getLoginOperation() == null) {
 			this.app.initSignInEventFlow(new LoginOperationW(app),
-					!ArticleElement.isEnableUsageStats());
+					!app.getArticleElement().isEnableApiPing());
 		}
 		this.app.getLoginOperation().getView().add(this);
 		this.container = new HorizontalPanel();

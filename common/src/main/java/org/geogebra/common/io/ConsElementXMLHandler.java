@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -17,6 +18,7 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
@@ -39,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
@@ -349,6 +352,21 @@ public class ConsElementXMLHandler {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private boolean handleVariables(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoSymbolic)) {
+			return false;
+		}
+		String variableString = attrs.get("val");
+		String[] variables = variableString.split(",");
+		FunctionVariable[] fVars = new FunctionVariable[variables.length];
+		for (int i = 0; i < variables.length; i++) {
+			fVars[i] = new FunctionVariable(xmlHandler.kernel, variables[i]);
+		}
+		GeoSymbolic symbolic = (GeoSymbolic) geo;
+		symbolic.setVariables(fVars);
+		return true;
 	}
 
 	protected void init(LinkedHashMap<String, String> attrs) {
@@ -1246,20 +1264,26 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
-	private boolean handleEmbed(LinkedHashMap<String, String> attrs) {
+	private void handleEmbed(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoEmbed) {
 			try {
 				((GeoEmbed) geo).setEmbedId(Integer.parseInt(attrs.get("id")));
 				((GeoEmbed) geo).setAppName(attrs.get("app"));
 				((GeoEmbed) geo).setUrl(attrs.get("url"));
 			} catch (RuntimeException e) {
-				return false;
+				Log.error("Problem parsing embed " + e.getMessage());
 			}
 		} else {
 			Log.error("wrong element type for <embed>: " + geo.getClass());
-			return false;
 		}
-		return true;
+	}
+
+	private void handleEmbedSettings(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoEmbed) {
+			for (Map.Entry<String, String> entry: attrs.entrySet()) {
+				((GeoEmbed) geo).attr(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 
 	private boolean handleSlider(LinkedHashMap<String, String> attrs) {
@@ -2005,6 +2029,9 @@ public class ConsElementXMLHandler {
 			case "embed":
 				handleEmbed(attrs);
 				break;
+			case "embedSettings":
+				handleEmbedSettings(attrs);
+				break;
 			case "fixed":
 				handleFixed(attrs);
 				break;
@@ -2142,6 +2169,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "value":
 				handleValue(attrs, errors);
+				break;
+			case "variables":
+				handleVariables(attrs);
 				break;
 			case "video":
 				handleVideo(attrs);

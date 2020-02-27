@@ -273,7 +273,7 @@ public final class DrawImage extends Drawable {
 
 		if (geo.getKernel().getApplication().isWhiteboardActive()) {
 			if (geoImage.isCropped() && geoImage.getCropBoxRelative() != null) {
-				getBoundingBox().setRectangle(getCropBox().getBounds());
+				getBoundingBox().setRectangle(getCropBox());
 			} else if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
 			}
@@ -353,17 +353,20 @@ public final class DrawImage extends Drawable {
 				if (!geoImage.isCropped()) {
 					g3.drawImage(image, 0, 0);
 				} else {
-					GRectangle2D drawRectangle = geoImage.isCropped() ? getCropBox()
-							: getBoundingBox().getRectangle();
-
+					GRectangle2D drawRectangle = getCropBox();
 					GPoint2D ptDst = new GPoint2D();
-					GPoint2D ptScr = new GPoint2D(drawRectangle.getX(), drawRectangle.getY());
+					GPoint2D ptDst2 = new GPoint2D();
+					GPoint2D ptScr = new GPoint2D(
+							drawRectangle.getX(), drawRectangle.getY());
+					GPoint2D ptScr2 = new GPoint2D(
+							drawRectangle.getMaxX(), drawRectangle.getMaxY());
 					atInverse.transform(ptScr, ptDst);
-					GShape shape = atInverse.createTransformedShape(drawRectangle);
+					atInverse.transform(ptScr2, ptDst2);
 
-					int cropWidth = Math.min(image.getWidth(), (int) shape.getBounds().getWidth());
+					int cropWidth = Math.min(image.getWidth(),
+							(int) Math.abs(ptDst2.getX() - ptDst.getX()));
 					int cropHeight = Math.min(image.getHeight(),
-							(int) shape.getBounds().getHeight());
+							(int) Math.abs(ptDst2.getY() - ptDst.getY()));
 					if (ptDst.getX() < 0) {
 						ptDst.setX(0);
 					}
@@ -490,7 +493,7 @@ public final class DrawImage extends Drawable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return classicBoundingBox;
+		return classicBoundingBox.getBounds();
 	}
 
 	/**
@@ -614,15 +617,15 @@ public final class DrawImage extends Drawable {
 
 	private void updateImageCrop(GPoint2D p,
 			EuclidianBoundingBoxHandler handler) {
-		int eventX = (int) p.getX();
-		int eventY = (int) p.getY();
+		double eventX = p.getX();
+		double eventY = p.getY();
 		double newWidth = 1;
 		double newHeight = 1;
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
 		switch (handler) {
 		case BOTTOM:
-			eventY = (int) MyMath.clamp(eventY,
+			eventY = MyMath.clamp(eventY,
 					boundingBoxRectangle.getMinY()
 							+ Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
 					getBounds().getMaxY());
@@ -633,7 +636,7 @@ public final class DrawImage extends Drawable {
 			originalRatio = Double.NaN;
 			break;
 		case TOP:
-			eventY = (int) MyMath.clamp(eventY, getBounds().getMinY(),
+			eventY = MyMath.clamp(eventY, getBounds().getMinY(),
 					boundingBoxRectangle.getMaxY()
 							- Math.min(IMG_CROP_THRESHOLD, image.getHeight()));
 			rect.setRect(boundingBoxRectangle.getX(), eventY,
@@ -642,7 +645,7 @@ public final class DrawImage extends Drawable {
 			originalRatio = Double.NaN;
 			break;
 		case LEFT:
-			eventX = (int) MyMath.clamp(eventX,
+			eventX = MyMath.clamp(eventX,
 					getBounds().getMinX(),
 					boundingBoxRectangle.getMaxX()
 							- Math.min(IMG_CROP_THRESHOLD, image.getWidth()));
@@ -652,7 +655,7 @@ public final class DrawImage extends Drawable {
 			originalRatio = Double.NaN;
 			break;
 		case RIGHT:
-			eventX = (int) MyMath.clamp(eventX,
+			eventX = MyMath.clamp(eventX,
 					boundingBoxRectangle.getMinX()
 							+ Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
 					getBounds().getMaxX());
@@ -758,19 +761,19 @@ public final class DrawImage extends Drawable {
 				/ geoImage.getFillImage().getHeight();
 	}
 
-	private int getImageTop() {
+	private double getImageTop() {
 		if (geoImage.getCorner(2) != null) {
-			return view.toScreenCoordY(geoImage.getCorner(2).getY());
+			return view.toScreenCoordYd(geoImage.getCorner(2).getY());
 		} else if (geoImage.getCorner(0) != null) {
-			return view.toScreenCoordY(geoImage.getCorner(0).getY())
+			return view.toScreenCoordYd(geoImage.getCorner(0).getY())
 					- geoImage.getFillImage().getHeight();
 		}
 		return 0;
 	}
 
 	private void setCropBox(GRectangle2D rect) {
-		int locX = view.toScreenCoordX(geoImage.getRealWorldLocX());
-		int locY = getImageTop();
+		double locX = view.toScreenCoordXd(geoImage.getRealWorldLocX());
+		double locY = getImageTop();
 		GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
 		cb.setRect((rect.getMinX() - locX) / getOriginalRatioX(),
 				(rect.getMinY() - locY) / getOriginalRatioY(),
@@ -781,8 +784,8 @@ public final class DrawImage extends Drawable {
 
 	private GRectangle2D getCropBox() {
 		GRectangle2D rect = geoImage.getCropBoxRelative();
-		int locX = view.toScreenCoordX(geoImage.getRealWorldX(0));
-		int locY = getImageTop();
+		double locX = view.toScreenCoordXd(geoImage.getRealWorldX(0));
+		double locY = getImageTop();
 		GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
 		cb.setRect(rect.getMinX() * getOriginalRatioX() + locX,
 				rect.getMinY() * getOriginalRatioY() + locY,

@@ -1,9 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -25,6 +21,7 @@ import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
@@ -68,7 +65,6 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
-import org.geogebra.common.move.views.OfflineView;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
@@ -102,12 +98,14 @@ import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
 import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
@@ -132,6 +130,7 @@ import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -165,6 +164,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
@@ -195,6 +198,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private SpreadsheetTableModelSimple tableModel;
 	private SoundManagerW soundManager;
 	private AsyncManager asyncManager;
+
+	private CopyPasteW copyPaste;
 
 	protected MaterialsManagerI fm;
 	private Material activeMaterial;
@@ -245,6 +250,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private VendorSettings vendorSettings;
 	private DefaultSettings defaultSettings;
 	private FpsProfiler fpsProfiler;
+	private AccessibilityView accessibilityView;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -785,7 +791,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
 		if (!isggs && getEmbedManager() != null) {
-			getEmbedManager().embed(dataUrl);
+			Material mat = new Material(-1, Material.MaterialType.ggb);
+			mat.setBase64(dataUrl);
+			getEmbedManager().embed(mat);
 		} else {
 			view.processBase64String(dataUrl);
 		}
@@ -1158,6 +1166,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
 		resetUI();
+		resetPages();
+	}
+
+	private void resetPages() {
+		if (pageController == null) {
+			return;
+		}
+		pageController.resetPageControl();
 	}
 
 	/**
@@ -1341,14 +1357,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}-*/;
 
 	/**
-	 * @param str
-	 *            string to copy
-	 */
-	public void copyBase64ToClipboardChromeWebAppCase(String str) {
-		// This should do nothing in webSimple!
-	}
-
-	/**
 	 * @param id
 	 *            material ID
 	 * @param onError
@@ -1379,8 +1387,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		BaseEventPool onlineEventPool = new BaseEventPool(networkOperation,
 				true);
 		NetworkW.attach("online", onlineEventPool);
-		OfflineView ov = new OfflineView();
-		networkOperation.setView(ov);
 	}
 
 	/**
@@ -3619,60 +3625,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return hiddenTextArea;
 	}-*/;
 
-	/**
-	 * https://jsfiddle.net/alvaroAV/a2pt16yq/ works in IE11, Chrome
-	 *
-	 * this method doesn't always work in Edge, Firefox as needs to be run from eg
-	 * button
-	 * 
-	 * IE11: asks user for permission
-	 *
-	 * @param value text to copy
-	 */
-	public static native void copyToSystemClipboardNative(String value) /*-{
-
-		// async Clipboard API
-		// doesn't work in Firefox either so might as well just use execCommand('copy')
-		//if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
-		//	// https://github.com/gwtproject/gwt/issues/9490
-		//	// .catch changed to ["catch"]
-		//	$wnd.navigator.clipboard.writeText(value).then(function() {
-		//		$wnd.console.log("Clipboard copy OK")
-		//	})["catch"](function(e) {
-		//		$wnd.console.log("Problem copying to clipboard")
-		//	});
-		//}
-
-		// currently seems to work in Chrome, IE11, Edge+Chromium
-		// doesn't seem to work in Edge, Firefox from GGB button
-		// document.execCommand('cut'/'copy') was denied because it was not called 
-		// from inside a short running user-generated event handler.
-		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
-		copyFrom.value = value;
-		copyFrom.select();
-		$doc.execCommand('copy');
-
-	}-*/;
-
 	@Override
 	public void copyTextToSystemClipboard(String text) {
 		Log.debug("copying to clipboard " + text);
-		copyToSystemClipboardNative(text);
-	}
-
-	/**
-	 * @param text
-	 *            text to copy
-	 * @param notify
-	 *            callback after copy is done
-	 */
-	public void copyTextToSystemClipboard(String text, Runnable notify) {
-		Log.debug("copying to clipboard " + text);
-		copyToSystemClipboardNative(text);
-
-		if (notify != null) {
-			notify.run();
-		}
+		CopyPasteW.writeToExternalClipboard(text);
 	}
 
 	private static void setLastActive(Element e) {
@@ -3976,6 +3932,15 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return new SettingsBuilderW(this);
 	}
 
+	@Override
+	public CopyPasteW getCopyPaste() {
+		if (copyPaste == null) {
+			copyPaste = new CopyPasteW();
+		}
+
+		return copyPaste;
+	}
+
 	/**
 	 *
 	 * @return then embedded calculator apis.
@@ -4023,5 +3988,39 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
 		return null;
+	}
+
+	/**
+	 * Create provider of texts for ANS button.
+	 *
+	 * @return provider of last AV item
+	 */
+	public HasLastItem getLastItemProvider() {
+		return null;
+	}
+
+	/**
+	 * @return accessibility view
+	 */
+	public AccessibilityView getAccessibilityView() {
+		if (this.accessibilityView == null) {
+			accessibilityView = new AccessibilityView(this,
+					new BaseWidgetFactory());
+		}
+		return accessibilityView;
+	}
+
+	/**
+	 * Connect voiceover with the right panel
+	 */
+	public void updateVoiceover() {
+		if (Browser.needsAccessibilityView()) {
+			invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					getAccessibilityView().rebuild();
+				}
+			});
+		}
 	}
 }

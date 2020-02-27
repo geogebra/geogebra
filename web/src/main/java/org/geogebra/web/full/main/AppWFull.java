@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatColladaHTML;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
@@ -87,6 +88,7 @@ import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.ConstructionItemProvider;
 import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.activity.CASActivity;
@@ -122,7 +124,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.Persistable;
@@ -258,7 +259,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		setupHeader();
 
-		if (!showMenuBar() && Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
+		if (!showMenuBar() && Browser.runningLocal() && ae.isEnableApiPing()) {
 			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
 					.checkAvailable(null);
 		}
@@ -299,7 +300,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private void initSignImEventFlow() {
 		initSignInEventFlow(
 				new LoginOperationW(this),
-				ArticleElement.isEnableUsageStats());
+				getArticleElement().isEnableApiPing());
 	}
 
 	@Override
@@ -440,8 +441,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void updateKeyboard() {
-
-		getGuiManager().focusScheduled(false, false, false);
 		invokeLater(new Runnable() {
 
 			@Override
@@ -453,7 +452,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 				if (listener != null) {
 					// dp.getKeyboardListener().setFocus(true);
 					listener.ensureEditing();
-					listener.setFocus(true, true);
+					listener.setFocus(true);
 					if (isKeyboardNeeded() && (getExam() == null
 							|| getExam().getStart() > 0)) {
 						getAppletFrame().showKeyBoard(true, listener, true);
@@ -785,17 +784,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public final native void copyBase64ToClipboardChromeWebAppCase(
-			String str) /*-{
-		// solution copied from CopyPasteCutW.copyToSystemClipboardChromeWebapp
-		// although it's strange that .contentEditable is not set to true
-		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
-		copyFrom.value = str;
-		copyFrom.select();
-		$doc.execCommand('copy');
-	}-*/;
-
-	@Override
 	public final boolean isSelectionRectangleAllowed() {
 		return this.showToolBar;
 	}
@@ -875,7 +863,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		} else {
 			if (getLoginOperation() == null) {
 				this.initSignInEventFlow(new LoginOperationW(this),
-						ArticleElement.isEnableUsageStats());
+						getArticleElement().isEnableApiPing());
 			}
 			toOpen = id;
 			// not logged in to Mebis while opening shared link: show login
@@ -1405,9 +1393,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
 					.setRight(-1, Style.Unit.PX);
 			oldSplitLayoutPanel = null;
-			if (Browser.needsAccessibilityView()) {
-				getGuiManager().getLayout().getDockManager().updateVoiceover();
-			}
+			updateVoiceover();
 		}
 	}
 
@@ -1466,10 +1452,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.attachToolbar(this);
 		}
 
-		// we do not need keyboard in whiteboard
-		if (!isWhiteboardActive()) {
-			frame.attachKeyboardButton();
-		}
 		frame.attachGlass();
 	}
 
@@ -1561,14 +1543,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void onUnhandledClick() {
 		updateAVStylebar();
-		if (euclidianController.isSymbolicEditorSelected()) {
-			return;
-		}
 
 		if (!isWhiteboardActive() && !CancelEventTimer.cancelKeyboardHide()) {
 			Timer timer = new Timer() {
 				@Override
 				public void run() {
+					if (getGuiManager().getKeyboardListener() != null) {
+						getGuiManager().getKeyboardListener().setFocus(false);
+					}
 					getAppletFrame().keyBoardNeeded(false, null);
 				}
 			};
@@ -1711,22 +1693,36 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void updatePerspectiveForUnbundled(Perspective perspective) {
-		if (isPortrait()) {
+		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
+		DockPanelData[] dpDataArray = perspective.getDockPanelData();
+		for (DockPanelData panelData : dpDataArray) {
+			DockPanelW panel = dm.getPanel(panelData.getViewId());
+			if (panel instanceof ToolbarDockPanelW) {
+				updateToolbarPanelVisibility((ToolbarDockPanelW) panel, panelData.isVisible());
+			}
+			if (panel != null && !isPortrait()) {
+				updateDividerLocation(dm, panelData);
+			}
+		}
+		updateContentPane();
+	}
+
+	private void updateToolbarPanelVisibility(ToolbarDockPanelW toolbarDockPanel, boolean visible) {
+		ToolbarPanel toolbarPanel = toolbarDockPanel.getToolbar();
+		if (visible) {
+			toolbarPanel.open();
+		} else {
+			toolbarPanel.close();
+		}
+	}
+
+	private void updateDividerLocation(DockManagerW dockManager, DockPanelData panelData) {
+		if (!panelData.isVisible() || panelData.isOpenInFrame()) {
 			return;
 		}
 
-		DockManagerW dm = (getGuiManager().getLayout().getDockManager());
-		DockPanelData[] dpData = perspective.getDockPanelData();
-		for (int i = 0; i < dpData.length; ++i) {
-			DockPanelW panel = dm.getPanel(dpData[i].getViewId());
-			if (!dpData[i].isVisible() || dpData[i].isOpenInFrame() || panel == null) {
-				continue;
-			}
-
-			int divLoc = dpData[i].getEmbeddedSize();
-			dm.getRoot().setDividerLocation(divLoc);
-		}
-		updateContentPane();
+		int divLoc = panelData.getEmbeddedSize();
+		dockManager.getRoot().setDividerLocation(divLoc);
 	}
 
 	private static boolean algebraVisible(Perspective p2) {
@@ -2091,7 +2087,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 					appName == null ? "" : appName);
 			String appCode = getConfig().getAppCode();
 
-			if ("classic".equals(appName) || StringUtil.empty(appName)) {
+			boolean isClassic = "classic".equals(appName) || StringUtil.empty(appName);
+			if (isClassic && !isApplet()) {
 				removeHeader();
 			}
 
@@ -2210,5 +2207,16 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public ScriptManager newScriptManager() {
 		return new ScriptManagerW(this, getActivity().getApiExporter());
+	}
+
+	@Override
+	public HasLastItem getLastItemProvider() {
+		if (!getConfig().hasAnsButtonInAv()
+				|| getActiveEuclidianView().getEuclidianController()
+				.isSymbolicEditorSelected()) {
+			return null;
+		}
+		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView(),
+				createGeoElementValueConverter());
 	}
 }

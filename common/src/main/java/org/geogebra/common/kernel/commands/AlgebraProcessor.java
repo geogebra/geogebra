@@ -12,11 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.commands;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
-
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -61,7 +59,6 @@ import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
-import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
@@ -69,6 +66,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -125,9 +123,9 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * Processes algebra input as Strings and valid expressions into GeoElements
@@ -806,19 +804,17 @@ public class AlgebraProcessor {
 			}
 			return rett;
 		}
-		ValidExpression ve;
 		try {
-			ve = parser.parseGeoGebraExpression(cmd);
-			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd, ve);
+			GeoCasCell casEval = checkCasEval(cmd, "(:=?)|=|" + Unicode.ASSIGN_STRING);
 			if (casEval != null) {
 				if (callback0 != null) {
 					callback0.callback(array(casEval));
 				}
 				return new GeoElement[0];
 			}
+			ValidExpression ve = parser.parseGeoGebraExpression(cmd);
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
-					handler, callback0,
-					info);
+					handler, callback0,	info);
 
 		} catch (ParseException e) {
 			e.printStackTrace(System.out);
@@ -1065,61 +1061,46 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param label
-	 *            dollar label
 	 * @param input
 	 *            whole command including label
-	 * @param parsed
-	 *            parsed content of input
 	 * @return cell
 	 */
-	public GeoCasCell checkCasEval(String label, String input,
-			ValidExpression parsed) {
-		if (label != null && label.startsWith("$")) {
-			Integer row = -1;
-			try {
-				row = Integer.parseInt(label.substring(1)) - 1;
-			} catch (Exception e) {
-				// eg $A$1 label, do nothing
-			}
-			if (row < 0) {
+	public GeoCasCell checkCasEval(String input, String allowedAssignmentRegex) {
+		if (input != null && input.startsWith("$")) {
+			String[] result = input.split(allowedAssignmentRegex, 2);
+
+			if (result.length != 2 || result[1].startsWith("=")) {
 				return null;
 			}
-			if (app.getGuiManager() != null) {
-				app.getGuiManager().getCasView().cancelEditItem();
-			}
-			GeoCasCell cell = cons.getCasCell(row);
-			if (cell == null) {
-				cell = new GeoCasCell(cons);
-			}
-			String cmd = input == null
-					? parsed.toString(StringTemplate.defaultTemplate) : input;
-			if (parsed != null && parsed.unwrap() instanceof Command) {
-				Command c = (Command) parsed.unwrap();
-				if ("Rename".equals(c.getName())) {
-					cmd = "="
-							+ c.getArgument(1)
-									.traverse(CommandReplacer
-											.getReplacer(kernel, true))
-									.toString(StringTemplate.defaultTemplate)
-							+ ":=" + c.getArgument(0)
-									.toString(StringTemplate.defaultTemplate);
-				}
-			}
-			int colonPos = cmd.indexOf(':') + 1;
-			int eqPos = cmd.indexOf('=') + 1;
-			int prefixLength = eqPos > 0
-					? (colonPos > 0 ? Math.min(colonPos, eqPos) : eqPos)
-					: colonPos;
-			if (cmd.charAt(prefixLength) == '=') {
-				prefixLength++;
-			}
 
-			cell.setInput(cmd.substring(prefixLength));
-			this.processCasCell(cell, false);
-			return cell;
+			int row = cellNumber(result[0].substring(1));
+			if (row >= 0) {
+				return casEval(row, result[1]);
+			}
 		}
 		return null;
+	}
+
+	private GeoCasCell casEval(int row, String rhs) {
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getCasView().cancelEditItem();
+		}
+		GeoCasCell cell = cons.getCasCell(row);
+		if (cell == null) {
+			cell = new GeoCasCell(cons);
+		}
+		cell.setInput(rhs);
+		processCasCell(cell, false);
+		return cell;
+	}
+
+	private int cellNumber(String lhs) {
+		try {
+			return Integer.parseInt(lhs) - 1;
+		} catch (Exception e) {
+			// eg $A$1 label, do nothing
+		}
+		return -1;
 	}
 
 	private GeoElementND[] tryReplacingProducts(ValidExpression ve,
@@ -1953,10 +1934,24 @@ public class AlgebraProcessor {
 			throws CircularDefinitionException {
 		// try to replace replaceable geo by ret[0]
 		if (replaceable != null && ret.length > 0) {
+			if (replaceable instanceof GeoNumeric) {
+				((GeoNumeric) replaceable).extendMinMax(ret[0]);
+			}
+			RedefinitionRule rule = info.getRedefinitionRule();
+			if (rule != null && !rule.allowed(replaceable.getGeoClassType(),
+					ret[0].getGeoClassType())) {
+				// Set undefined
+				ret[0] = replaceable;
+				replaceable.setUndefined();
+				replaceable.updateRepaint();
+				throw new MyError(loc, Errors.ReplaceFailed);
+			} else
 			// a changeable replaceable is not redefined:
 			// it gets the value of ret[0]
 			// (note: texts are always redefined)
-			if (!info.mayRedefineIndependent() && replaceable.isChangeable()
+			if (!info.mayRedefineIndependent()
+					&& ret[0].isIndependent()
+					&& replaceable.isChangeable()
 					&& !(replaceable.isGeoText())) {
 				try {
 					replaceable.set(ret[0]);
@@ -1978,9 +1973,6 @@ public class AlgebraProcessor {
 					if (replaceable.isIndependent() && ret[0].isIndependent()
 							&& compatibleTypes(replaceable.getGeoClassType(),
 									ret[0].getGeoClassType())) {
-						if (replaceable instanceof GeoNumeric) {
-							((GeoNumeric) replaceable).extendMinMax(ret[0]);
-						}
 						// copy equation style
 						ret[0].setVisualStyle(replaceable);
 						replaceable.set(ret[0]);
@@ -1996,7 +1988,9 @@ public class AlgebraProcessor {
 					}
 
 					// STANDARD CASE: REDFINED
-					else {
+					else if (!(info.isPreventingTypeChange())
+							|| compatibleTypes(replaceable.getGeoClassType(),
+							ret[0].getGeoClassType())) {
 						GeoElement newGeo = ret[0];
 						GeoCasCell cell = replaceable.getCorrespondingCasCell();
 						if (cell != null) {
@@ -2018,6 +2012,12 @@ public class AlgebraProcessor {
 								? newGeo.getLabelSimple()
 								: replaceable.getLabelSimple();
 						ret[0] = kernel.lookupLabel(newLabel);
+					} else {
+						// Set undefined
+						ret[0] = replaceable;
+						replaceable.setUndefined();
+						replaceable.updateRepaint();
+						throw new MyError(loc, Errors.ReplaceFailed);
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;
@@ -2030,7 +2030,6 @@ public class AlgebraProcessor {
 				}
 			}
 		}
-
 	}
 
 	private static boolean compatibleTypes(GeoClass type, GeoClass type2) {
@@ -2557,6 +2556,7 @@ public class AlgebraProcessor {
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
 			return evalSymbolic(equ, info).asArray();
 		}
+
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable
@@ -2588,19 +2588,8 @@ public class AlgebraProcessor {
 				e.printStackTrace();
 			}
 		}
+
 		if (singleLeftVariable != null && equ.getLabel() == null) {
-
-			String varName;
-			if (lhs instanceof GeoDummyVariable) {
-				varName = ((GeoDummyVariable) lhs).getVarName();
-			} else {
-				varName = ((Variable) lhs).getName();
-			}
-
-			GeoCasCell c = this.checkCasEval(varName, null, equ);
-			if (c != null) {
-				return new GeoElement[0];
-			}
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
 				return processValidExpression(equ.getRHS());
@@ -2810,7 +2799,7 @@ public class AlgebraProcessor {
 			((EquationValue) line).setToUser();
 		}
 
-		if (AlgebraItem.isFunctionOrEquationFromUser(line)) {
+		if (line.isFunctionOrEquationFromUser()) {
 			line.setFixed(true);
 		}
 
@@ -3321,7 +3310,7 @@ public class AlgebraProcessor {
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
 		boolean complex = p.getToStringMode() == Kernel.COORD_COMPLEX;
 
-		GeoVec3D[] ret = new GeoVec3D[1];
+		GeoElement[] ret = new GeoElement[1];
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 
 		// make point if complex parts are present, e.g. 3 + i
@@ -3340,31 +3329,33 @@ public class AlgebraProcessor {
 		}
 		boolean isVector = n.shouldEvaluateToGeoVector();
 
+		GeoVec3D vector;
 		if (isIndependent) {
 			// get coords
 			double x = p.getX();
 			double y = p.getY();
 			if (isVector) {
-				ret[0] = kernel.getAlgoDispatcher().vector(x, y);
+				vector = kernel.getAlgoDispatcher().vector(x, y);
 			} else {
-				ret[0] = kernel.getAlgoDispatcher().point(x, y, complex);
+				vector = kernel.getAlgoDispatcher().point(x, y, complex);
 			}
-			ret[0].setDefinition(n);
-			ret[0].setLabel(label);
+			vector.setDefinition(n);
+			vector.setLabel(label);
 		} else {
 			if (isVector) {
-				ret[0] = dependentVector(label, n);
+				vector = dependentVector(label, n);
 			} else {
-				ret[0] = dependentPoint(label, n, complex);
+				vector = dependentPoint(label, n, complex);
 			}
 		}
 		if (polar) {
-			ret[0].setMode(Kernel.COORD_POLAR);
-			ret[0].updateRepaint();
+			vector.setMode(Kernel.COORD_POLAR);
+			vector.updateRepaint();
 		} else if (complex) {
-			ret[0].setMode(Kernel.COORD_COMPLEX);
-			ret[0].updateRepaint();
+			vector.setMode(Kernel.COORD_COMPLEX);
+			vector.updateRepaint();
 		}
+		ret[0] = vector;
 		return ret;
 	}
 

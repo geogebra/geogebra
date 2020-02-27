@@ -662,7 +662,7 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	public void setFocus(boolean b) {
-		item.setFocus(b, false);
+		item.setFocus(b);
 	}
 
 	public AppW getApp() {

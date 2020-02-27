@@ -29,12 +29,6 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 	int removeDummyCursor();
 
 	/**
-	 * @param b
-	 *            set focus true or false
-	 */
-	void setFocus(boolean b);
-
-	/**
 	 * @param readonly
 	 *            true if textfield is readonly
 	 */

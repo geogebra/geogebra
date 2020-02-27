@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.junit.Before;
 
@@ -106,6 +105,7 @@ public class BaseUnitTest {
 	 *            algebra input to be processed
 	 * @return resulting element
 	 */
+
 	protected <T extends GeoElement> T addAvInput(String command) {
 		App app = getApp();
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, false);

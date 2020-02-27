@@ -34,7 +34,6 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 				'F' // menu shortcut
 		);
 		this.app = app;
-		this.setOpenInFrame(true);
 		this.setEmbeddedSize(DEFAULT_WIDTH);
 	}
 
@@ -43,13 +42,6 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 		return ((DialogManagerW) app.getDialogManager()).getFunctionInspector().getWrappedPanel();
 	}
 
-//	@Override
-//	public void closePanel() {
-//		App.debug("AAAAAAAAAAAAAAAAA FunctionInspector closePanel");
-//		((DialogManagerW) app.getDialogManager()).getFunctionInspector().setInspectorVisible(false);
-//		super.closePanel();
-//	}
-	
 	@Override
 	protected Widget loadStyleBar() {
 		return null;

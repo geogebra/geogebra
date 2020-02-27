@@ -101,8 +101,8 @@ public class EmbedInputDialog extends MediaDialog
 		return ge;
 	}
 
-	private void embedGeoGebraAndHide(String base64) {
-		getApplication().getEmbedManager().embed(base64);
+	private void embedGeoGebraAndHide(Material material) {
+		getApplication().getEmbedManager().embed(material);
 		app.storeUndoInfo();
 		hide();
 	}
@@ -147,8 +147,7 @@ public class EmbedInputDialog extends MediaDialog
 		if (result.size() < 1) {
 			onError(null);
 		} else {
-			String base64 = result.get(0).getBase64();
-			embedGeoGebraAndHide(base64);
+			embedGeoGebraAndHide(result.get(0));
 		}
 	}
 

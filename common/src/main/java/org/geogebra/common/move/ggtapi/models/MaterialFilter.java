@@ -6,6 +6,22 @@ public abstract class MaterialFilter {
 	public abstract boolean check(Material m);
 
 	/**
+	 * @return filter that filters for app name
+	 */
+	public static MaterialFilter getAppNameFilter(final String appName) {
+		if ("".equals(appName)) {
+			return getUniversalFilter();
+		}
+
+		return new MaterialFilter() {
+			@Override
+			public boolean check(Material m) {
+				return m.getAppName().equals(appName);
+			}
+		};
+	}
+
+	/**
 	 * @return filter that keeps everything
 	 */
 	public static MaterialFilter getUniversalFilter() {
