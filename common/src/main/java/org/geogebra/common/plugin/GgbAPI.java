@@ -3,7 +3,6 @@ package org.geogebra.common.plugin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.TreeSet;
 
@@ -57,6 +56,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.ListBracketsAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
@@ -158,6 +158,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (!app.getSettings().getCasSettings().isEnabled()) {
 			return "?";
 		}
+		GeoCasCell assignment = algebraprocessor.checkCasEval(cmdString,
+				"(:=?)|" + Unicode.ASSIGN_STRING);
+		if (assignment != null) {
+			return getCasCellValue(assignment);
+		}
 		// default (undefined)
 		String ret = "?";
 
@@ -166,10 +171,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			// kernel.getConstruction().addToConstructionList(f, false);
 
 			f.setInput(cmdString);
-			if (f.getInputVE() != null && f.getInputVE().getLabel() != null) {
-				kernel.getAlgebraProcessor().checkCasEval(
-						f.getInputVE().getLabel(), cmdString, null);
-			}
 			f.computeOutput();
 
 			boolean includesNumericCommand = false;
@@ -187,14 +188,18 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				}
 			}
 
-			ret = f.getValue() != null
-					? f.getValue().toString(StringTemplate.numericDefault)
-					: f.getOutput(StringTemplate.testTemplate);
+			ret = getCasCellValue(f);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 
 		return ret;
+	}
+
+	private String getCasCellValue(GeoCasCell f) {
+		return f.getValue() != null
+				? f.getValue().toString(StringTemplate.numericDefault)
+				: f.getOutput(StringTemplate.testTemplate);
 	}
 
 	/**
@@ -235,8 +240,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				return null;
 			}
 
-			for (int i = 0; i < result.length; i++) {
-				ret.append(result[i].getLabelSimple());
+			for (GeoElementND geoElementND : result) {
+				ret.append(geoElementND.getLabelSimple());
 				ret.append(",");
 			}
 
@@ -250,13 +255,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 		String[] cmdStrings = cmdString.split("[\\n]+");
-		for (int i = 0; i < cmdStrings.length; i++) {
+		for (String string : cmdStrings) {
 			result = kernel.getAlgebraProcessor()
-					.processAlgebraCommand(cmdStrings[i], false);
+					.processAlgebraCommand(string, false);
 
 			if (result != null) {
-				for (int j = 0; j < result.length; j++) {
-					ret.append(result[j].getLabelSimple());
+				for (GeoElementND geoElementND : result) {
+					ret.append(geoElementND.getLabelSimple());
 					ret.append(",");
 				}
 			}
@@ -379,8 +384,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		String[] names = getAllObjectNames();
-		for (int i = 0; i < names.length; i++) {
-			GeoElement geo = kernel.lookupLabel(names[i]);
+		for (String name : names) {
+			GeoElement geo = kernel.lookupLabel(name);
 			if (geo != null) {
 				if (geo.getLayer() == layer) {
 					geo.setEuclidianVisible(visible);
@@ -400,9 +405,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		String[] objNames = new String[size];
 
 		int i = 0;
-		Iterator<GeoElement> it = geoSet.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : geoSet) {
 			objNames[i] = geo.getLabelSimple();
 			i++;
 		}
@@ -418,9 +421,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// build objNames array
 		ArrayList<String> objList = new ArrayList<>(size / 2);
 
-		Iterator<GeoElement> it = geoSet.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : geoSet) {
 			if (StringUtil.empty(type)
 					|| type.equalsIgnoreCase(geo.getTypeString())) {
 				objList.add(geo.getLabelSimple());

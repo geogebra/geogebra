@@ -9976,7 +9976,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (getResizedShape() != null) { // resize, single selection
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
-			getResizedShape().updateGeo();
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			if (!isDraggingOccuredBeyondThreshold()) {
 				showDynamicStylebar();
@@ -9985,9 +9984,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setResizedShape(null);
 		} else if (isMultiResize) { // resize, multi selection
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
-			for (GeoElement geo : selection.getSelectedGeos()) {
-				((Drawable) view.getDrawableFor(geo)).updateGeo();
-			}
 			storeUndoInfo();
 			isMultiResize = false;
 			setBoundingBoxFromList(selection.getSelectedGeos());

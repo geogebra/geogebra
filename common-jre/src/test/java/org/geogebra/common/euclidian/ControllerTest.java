@@ -708,7 +708,7 @@ public class ControllerTest extends BaseControllerTest {
 		setMode(EuclidianConstants.MODE_SHAPE_RECTANGLE);
 		dragStart(50, 50);
 		dragEnd(200, 150);
-		checkContent("q1 = 6", "f = 3", "g = 2", "h = 3", "i = 2");
+		checkContent("q1 = 6");
 		GeoElement rectangle = lookup("q1");
 		assertEquals(0, rectangle.getAlphaValue(), Kernel.MIN_PRECISION);
 	}
