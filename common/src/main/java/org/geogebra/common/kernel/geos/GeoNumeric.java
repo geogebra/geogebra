@@ -387,17 +387,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean showInEuclidianView() {
-		if (!isDrawable()) {
-			return false;
-		}
-
-		if (!isDefined()) {
-			return false;
-		}
-
-		// Double.isNaN(value) is tested in isDefined()
-
-		if (Double.isInfinite(value)) {
+		if (!showExtendedAV || !isDrawable() || !isDefined() || Double.isInfinite(value)) {
 			return false;
 		}
 
