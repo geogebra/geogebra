@@ -17,7 +17,7 @@ import org.geogebra.web.html5.main.AppW;
  * Clears construction and initializes a new one
  */
 public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Boolean> {
-	private AppW app;
+	private static AppW app;
 
 	/**
 	 * @param app application
@@ -31,33 +31,37 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 	@Override
 	public void callback(Boolean active) {
 		if (app.isWhiteboardActive() && app.getLoginOperation() != null) {
-			app.getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
-					new MaterialCallbackI() {
-						@Override
-						public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
-							if (result.isEmpty()) {
-								onFileNew();
-							} else {
-								((GuiManagerW) app.getGuiManager()).getTemplateController()
-										.fillTemplates(app, result);
-								app.getDialogManager().showTemplateChooser();
-							}
-						}
-
-						@Override
-						public void onError(Throwable exception) {
-							Log.error("Error on templates load");
-						}
-					});
-			return;
+			tryLoadTemplates();
+		} else {
+			onFileNew();
 		}
-		onFileNew();
+	}
+
+	public static void tryLoadTemplates() {
+		app.getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
+				new MaterialCallbackI() {
+					@Override
+					public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+						if (result.isEmpty()) {
+							onFileNew();
+						} else {
+							((GuiManagerW) app.getGuiManager()).getTemplateController()
+									.fillTemplates(app, result);
+							app.getDialogManager().showTemplateChooser();
+						}
+					}
+
+					@Override
+					public void onError(Throwable exception) {
+						Log.error("Error on templates load");
+					}
+				});
 	}
 
 	/**
 	 * reset everything for new file
 	 */
-	public void onFileNew() {
+	public static void onFileNew() {
 		// ignore active: don't save means we want new construction
 		app.setWaitCursor();
 		app.fileNew();
