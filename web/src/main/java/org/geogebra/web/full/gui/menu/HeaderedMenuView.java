@@ -14,7 +14,7 @@ class HeaderedMenuView extends FlowPanel {
 
 	private HeaderView headerView;
 
-	HeaderedMenuView(@Nonnull  MenuView menuView) {
+	HeaderedMenuView(@Nonnull MenuView menuView) {
 		setStyleName(HEADERED_MENU_STLYE);
 		add(menuView);
 	}

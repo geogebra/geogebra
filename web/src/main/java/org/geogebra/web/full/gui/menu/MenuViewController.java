@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.menu;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.DrawerMenu;
@@ -15,6 +18,7 @@ import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -23,7 +27,7 @@ import java.util.List;
 /**
  * Controller for the main menu in the apps.
  */
-public class MenuViewController {
+public class MenuViewController implements ResizeHandler {
 
 	private MenuViewListener menuViewListener;
 
@@ -33,6 +37,7 @@ public class MenuViewController {
 	private MenuView menuView;
 
 	private Localization localization;
+	private GeoGebraFrameW frame;
 	private MenuIconResource menuIconResource;
 	private MenuActionRouter menuActionRouter;
 
@@ -49,10 +54,13 @@ public class MenuViewController {
 		createViews();
 		createFactories(app);
 		setDefaultMenu();
+		addHandler();
+		onResize(null);
 	}
 
 	private void createObjects(AppWFull app) {
 		localization = app.getLocalization();
+		frame = app.getAppletFrame();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
 		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app),
@@ -69,7 +77,7 @@ public class MenuViewController {
 		headeredMenuView = new HeaderedMenuView(menuView);
 		headeredMenuView.setHeaderView(headerView);
 		headeredMenuView.setTitleHeader(true);
-		floatingMenuView.add(headeredMenuView);
+		floatingMenuView.setWidget(headeredMenuView);
 	}
 
 	private void createFactories(AppW app) {
@@ -84,6 +92,10 @@ public class MenuViewController {
 				&& (!app.isMebis())
 				&& app.enableFileFeatures()
 				&& app.getLAF().hasLoginButton();
+	}
+
+	private void addHandler() {
+		Window.addResizeHandler(this);
 	}
 
 	/**
@@ -202,5 +214,10 @@ public class MenuViewController {
 			}
 		});
 		parent.add(view);
+	}
+
+	@Override
+	public void onResize(ResizeEvent event) {
+		headerView.setVisible(frame.hasSmallWindowOrCompactHeader());
 	}
 }
