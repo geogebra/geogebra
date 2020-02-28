@@ -4,12 +4,12 @@ import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Exports ggb or ggs format.
+ * Exports collada DAE.
  */
-public class ExportDefaultFormatAction extends DefaultMenuAction<Void> {
+public class DownloadColladaDaeAction extends DefaultMenuAction<Void> {
 
     @Override
     public void execute(Void item, AppWFull app) {
-        app.getFileManager().export(app);
+        app.exportCollada(false);
     }
 }

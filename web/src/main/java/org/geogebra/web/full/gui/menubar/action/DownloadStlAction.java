@@ -1,15 +1,16 @@
 package org.geogebra.web.full.gui.menubar.action;
 
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatSTL;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Exports collada DAE.
+ * Exports STL.
  */
-public class ExportColladaDaeAction extends DefaultMenuAction<Void> {
+public class DownloadStlAction extends DefaultMenuAction<Void> {
 
     @Override
     public void execute(Void item, AppWFull app) {
-        app.exportCollada(false);
+        app.setExport3D(new FormatSTL());
     }
 }

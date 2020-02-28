@@ -8,7 +8,7 @@ import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandler;
+import org.geogebra.web.full.gui.menu.action.BaseMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
@@ -51,7 +51,8 @@ public class MenuViewController {
 		localization = app.getLocalization();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app));
+		BaseMenuActionHandlerFactory actionProviderFactory = new BaseMenuActionHandlerFactory(app);
+		menuActionRouter = new MenuActionRouter(actionProviderFactory.create());
 	}
 
 	private void createViews() {

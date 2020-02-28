@@ -1,12 +1,13 @@
 package org.geogebra.web.full.gui.menubar.action;
 
+import org.geogebra.web.full.gui.dialog.ExportImageDialog;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
- * Exports PDF.
+ * Exports PNG.
  */
-public class ExportPdfAction extends DefaultMenuAction<Void> {
+public class DownloadPngAction extends DefaultMenuAction<Void> {
 
     private AppWFull app;
     private ImageExporter imageExporter;
@@ -14,9 +15,9 @@ public class ExportPdfAction extends DefaultMenuAction<Void> {
     /**
      * @param app app
      */
-    public ExportPdfAction(AppWFull app) {
+    public DownloadPngAction(AppWFull app) {
         this.app = app;
-        imageExporter = new ImageExporter(app, "pdf");
+        imageExporter = new ImageExporter(app, "png");
     }
 
     @Override
@@ -25,6 +26,6 @@ public class ExportPdfAction extends DefaultMenuAction<Void> {
     }
 
     private String getUrl() {
-        return app.getGgbApi().exportPDF(1, null, null);
+        return ExportImageDialog.getExportDataURL(app);
     }
 }
