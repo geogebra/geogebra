@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.euclidian;
 
-import com.google.gwt.dom.client.Document;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
@@ -65,6 +64,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NodeList;
@@ -1845,8 +1845,7 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
-	@Override
-	public void createSVGBackgroundIfNeeded() {
+	private void createSVGBackgroundIfNeeded() {
 		SVGResource res = getSVGRulingResource();
 		if (res != null) {
 			String uri = ImgResourceHelper.safeURI(res);
@@ -1860,6 +1859,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public MyImage getSVGBackground() {
+		createSVGBackgroundIfNeeded();
 		return svgBackground;
 	}
 
