@@ -115,7 +115,7 @@ public class AlgoCompare extends AlgoElement {
     public final void compute() {
 
         if (inputElement1.getKernel().isSilentMode()) {
-            // return;
+            return;
         }
 
         // setInputOutput();
