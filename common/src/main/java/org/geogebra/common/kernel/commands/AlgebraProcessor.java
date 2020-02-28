@@ -1875,9 +1875,18 @@ public class AlgebraProcessor {
 		if (replaceable != null) {
             cons.setSuppressLabelCreation(true);
             if (replaceable.isGeoVector()) {
+                boolean isForceVector = expression.wrap().isForcedVector();
+                boolean isForcePoint = expression.wrap().isForcedPoint();
                 expression = expression.deepCopy(kernel);
                 expression = expression.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
                 expression.setLabels(labels);
+
+                if (isForceVector) {
+                    expression.wrap().setForceVector();
+                }
+                if (isForcePoint) {
+                    expression.wrap().setForceVector();
+                }
             }
         }
 
