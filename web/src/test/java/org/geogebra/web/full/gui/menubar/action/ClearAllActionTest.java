@@ -1,9 +1,8 @@
-package org.geogebra.web.full.gui.menubar;
+package org.geogebra.web.full.gui.menubar.action;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.geogebra.web.full.gui.menubar.action.ClearAllAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.TestArticleElement;
@@ -26,8 +25,17 @@ import com.google.gwtmockito.WithClassesToStub;
  */
 @RunWith(GwtMockitoTestRunner.class)
 @WithClassesToStub({ TextAreaElement.class })
-public class FileMenuTest {
+public class ClearAllActionTest {
+
 	private static AppWFull app;
+
+	/**
+	 * Make sure asserts don't kill the tests
+	 */
+	@Before
+	public void rootPanel() {
+		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
+	}
 
 	/**
 	 * Undo / redo with a single slide.
@@ -47,14 +55,6 @@ public class FileMenuTest {
 		app.getSaveController().cancel();
 		Assert.assertEquals(0, app.getKernel().getConstruction()
 				.getGeoSetConstructionOrder().size());
-	}
-
-	/**
-	 * Make sure asserts don't kill the tests
-	 */
-	@Before
-	public void rootPanel() {
-		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 	}
 
 	private static void addObject(String string) {
