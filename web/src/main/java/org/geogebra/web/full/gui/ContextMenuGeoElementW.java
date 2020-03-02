@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
@@ -35,8 +36,9 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
+import org.geogebra.web.full.gui.contextmenu.OrderSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
-import org.geogebra.web.full.gui.fontmenu.FontMenuItem;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.html5.AttachedToDOM;
@@ -180,6 +182,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		} else if (app.isWhiteboardActive()) {
 			addInlineTextItems();
 			addCutCopyPaste();
+			addLayerItem();
 			addFixForUnbundledOrNotes();
 		}
 
@@ -222,10 +225,29 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		addInlineTextToolbar();
-		addFontItem();
+		addSubmenuItem("ContextMenu.Font", new FontSubMenu((AppW) app, getTextController()));
 		addHyperlinkItems();
 		wrappedPopup.addSeparator();
 
+	}
+
+	private void addLayerItem() {
+		if (containsMask(getGeos())) {
+			return;
+		}
+
+		addSubmenuItem("General.Order", new OrderSubMenu(app, getGeos()));
+		wrappedPopup.addSeparator();
+	}
+
+	private static boolean containsMask(Collection<GeoElement> geos) {
+		for (GeoElement geo : geos) {
+			if (geo.isMask()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private void addInlineTextToolbar() {
@@ -235,8 +257,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		wrappedPopup.addItem(toolbar, false);
 	}
 
-	private void addFontItem() {
-		wrappedPopup.addItem(new FontMenuItem((AppW) app, getTextController()));
+	private void addSubmenuItem(String key, AriaMenuBar submenu) {
+		AriaMenuItem item = new AriaMenuItem(app.getLocalization().getMenu(key), false, submenu);
+		item.addStyleName("no-image");
+		wrappedPopup.addItem(item);
 	}
 
 	private void addHyperlinkItems() {

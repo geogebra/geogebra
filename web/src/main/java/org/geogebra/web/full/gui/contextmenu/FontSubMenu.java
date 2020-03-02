@@ -1,7 +1,8 @@
-package org.geogebra.web.full.gui.fontmenu;
+package org.geogebra.web.full.gui.contextmenu;
 
 import java.util.List;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.web.html5.gui.laf.FontFamily;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
@@ -31,21 +32,29 @@ public class FontSubMenu extends AriaMenuBar {
 		this.app = app;
 		this.fonts = app.getVendorSettings().getTextToolFonts();
 		this.textController = textController;
+
 		createItems();
+		addStyleName("notesContextSubMenu");
 	}
 
 	private void createItems() {
-		for (FontFamily font : fonts) {
-			AriaMenuItem item = new AriaMenuItem(font.displayName(),
-					false,
-					new FontCommand(app, textController, font.cssName()));
+		for (final FontFamily font : fonts) {
+			ScheduledCommand command = new ScheduledCommand() {
+				@Override
+				public void execute() {
+					textController.format("font", font.cssName());
+					app.storeUndoInfo();
+				}
+			};
+
+			AriaMenuItem item = new AriaMenuItem(font.displayName(), false, command);
+			item.getElement().setClassName("listMenuItem");
 			addItem(item);
 		}
 	}
 
 	@Override
 	public void stylePopup(Widget widget) {
-		widget.getElement().setId("fontSubMenu");
 		highlightCurrent();
 	}
 
