@@ -156,7 +156,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public GeoPolygon(Construction c, GeoPointND[] points, CoordSys cs,
 			boolean createSegments) {
 		this(c);
-		// Application.printStacktrace("poly");
 		this.createSegments = createSegments;
 		setPoints(points, cs, createSegments);
 		setLabelVisible(false);
@@ -299,31 +298,14 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * @param createSegments
 	 *            says if the polygon has to creates its edges
 	 */
-	public void setPoints(GeoPointND[] points, CoordSys cs,
-			boolean createSegments) {
+	public void setPoints(GeoPointND[] points, CoordSys cs, boolean createSegments) {
 		this.points = points;
 		setCoordSys(cs);
 
 		if (createSegments) {
 			updateSegments(cons);
 		}
-
-		// if (points != null) {
-		// Application.debug("*** " + this + " *****************");
-		// Application.debug("POINTS: " + points.length);
-		// for (int i=0; i < points.length; i++) {
-		// Application.debug(" " + i + ": " + points[i]);
-		// }
-		// Application.debug("SEGMENTS: " + segments.length);
-		// for (int i=0; i < segments.length; i++) {
-		// Application.debug(" " + i + ": " + segments[i]);
-		// }
-		// Application.debug("********************");
-		// }
 	}
-
-	// /////////////////////////////
-	// ggb3D 2009-03-08 - start
 
 	/**
 	 * return number for points
@@ -375,12 +357,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			return;
 		}
 		initLabelsCalled = true;
-		// Application.debug("INIT LABELS");
 
 		// label polygon
 		if (labels == null || labels.length == 0) {
-			// Application.debug("no labels given");
-
 			setLabel(null);
 			if (segments != null) {
 				defaultSegmentLabels();
@@ -421,8 +400,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			}
 
 			else {
-				// Application.debug("label for polygon (autoset segment
-				// labels)");
 				defaultSegmentLabels();
 			}
 		}
@@ -2860,5 +2837,18 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public void setShowLineProperties(boolean showLineProperties) {
 		this.showLineProperties = showLineProperties;
+	}
+
+	/**
+	 * Used for synchronizing polygons in old notes files with current
+	 * (no labeled edges) polygons
+	 */
+	public void hideSegments() {
+		if (getSegments() != null) {
+			for (GeoSegmentND segment : getSegments()) {
+				segment.setEuclidianVisible(false);
+			}
+		}
+		setInitLabelsCalled(false);
 	}
 }

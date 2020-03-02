@@ -3,7 +3,6 @@ package org.geogebra.web.full.main.mask;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.web.html5.Browser;
@@ -62,7 +61,7 @@ class MaskWidget extends FlowPanel {
 	}
 
 	private GPoint2D toScreenPoint(Coords source) {
-		return AwtFactory.getPrototype().newPoint2D(view.toScreenCoordXd(source.getX()),
+		return new GPoint2D(view.toScreenCoordXd(source.getX()),
 				view.toScreenCoordYd(source.getY()));
 	}
 }

@@ -18,7 +18,6 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.headless.EuclidianController3DNoGui;
 import org.geogebra.common.jre.headless.EuclidianView3DNoGui;
-import org.geogebra.common.jre.headless.EuclidianViewNoGui;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
@@ -30,7 +29,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GgbAPI;
-import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.FileExtensions;
@@ -187,76 +185,9 @@ public class AppDNoGui extends AppCommon implements AppDI {
 
 	@Override
 	public GgbAPI getGgbApi() {
-
 		if (ggbapi == null) {
-			ggbapi = new GgbAPIJre(this) {
-
-				@Override
-				public byte[] getGGBfile() {
-					// TODO Auto-generated method stub
-					return null;
-				}
-
-				@Override
-				public void setErrorDialogsActive(boolean flag) {
-					// TODO Auto-generated method stub
-				}
-
-				@Override
-				public void refreshViews() {
-					// TODO Auto-generated method stub
-				}
-
-				@Override
-				public void openFile(String strURL) {
-					try {
-						String lowerCase = StringUtil.toLowerCaseUS(strURL);
-						URL url = new URL(strURL);
-						GFileHandler.loadXML(AppDNoGui.this, url.openStream(),
-								lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL
-										.toString()));
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-
-				}
-
-				@Override
-				public boolean writePNGtoFile(String filename,
-						double exportScale, boolean transparent, double DPI,
-						boolean greyscale) {
-					// TODO Auto-generated method stub
-					return false;
-				}
-
-				@Override
-				protected void exportPNGClipboard(boolean transparent, int DPI,
-						double exportScale, EuclidianView ev) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				protected void exportPNGClipboardDPIisNaN(boolean transparent,
-						double exportScale, EuclidianView ev) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				protected String base64encodePNG(boolean transparent,
-						double DPI, double exportScale, EuclidianView ev) {
-					ev.updateBackground();
-					GBufferedImage img = ((EuclidianViewNoGui) ev)
-							.getExportImage(exportScale, transparent,
-									ExportType.PNG);
-					return GgbAPID.base64encode(
-							GBufferedImageD.getAwtBufferedImage(img), DPI);
-				}
-
-			};
+			ggbapi = new GgbAPIHeadless(this);
 		}
-
 		return ggbapi;
 	}
 
@@ -304,8 +235,7 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	@Override
 	public MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		MyImageJre im = ImageManagerD.getExternalImage(filename);
-		return im;
+		return ImageManagerD.getExternalImage(filename);
 	}
 
 	@Override
@@ -349,7 +279,73 @@ public class AppDNoGui extends AppCommon implements AppDI {
 		return true;
 	}
 
-	public void setScriptManager(ScriptManager scriptManager) {
-		this.scriptManager = scriptManager;
+	private static class GgbAPIHeadless extends GgbAPIJre {
+
+		public GgbAPIHeadless(App app) {
+			super(app);
+		}
+
+		@Override
+		public byte[] getGGBfile() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setErrorDialogsActive(boolean flag) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void refreshViews() {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void openFile(String strURL) {
+			try {
+				String lowerCase = StringUtil.toLowerCaseUS(strURL);
+				URL url = new URL(strURL);
+				GFileHandler.loadXML(getApplication(), url.openStream(),
+						lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL
+								.toString()));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		@Override
+		public boolean writePNGtoFile(String filename,
+				double exportScale, boolean transparent, double DPI,
+				boolean greyscale) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		protected void exportPNGClipboard(boolean transparent, int DPI,
+				double exportScale, EuclidianView ev) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		protected void exportPNGClipboardDPIisNaN(boolean transparent,
+				double exportScale, EuclidianView ev) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		protected String base64encodePNG(boolean transparent,
+				double DPI, double exportScale, EuclidianView ev) {
+			ev.updateBackground();
+			GBufferedImage img = ev
+					.getExportImage(exportScale, transparent,
+							ExportType.PNG);
+			return GgbAPID.base64encode(
+					GBufferedImageD.getAwtBufferedImage(img), DPI);
+		}
+
 	}
 }

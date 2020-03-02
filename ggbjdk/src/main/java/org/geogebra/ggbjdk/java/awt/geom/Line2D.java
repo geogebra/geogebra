@@ -140,8 +140,8 @@ public abstract class Line2D implements Shape, GLine2D {
          * @since 1.2
          */
         @Override
-		public Point2D getP1() {
-            return new Point2D.Double(x1, y1);
+		public GPoint2D getP1() {
+            return new GPoint2D(x1, y1);
         }
 
         /**
@@ -167,8 +167,8 @@ public abstract class Line2D implements Shape, GLine2D {
          * @since 1.2
          */
         @Override
-		public Point2D getP2() {
-            return new Point2D.Double(x2, y2);
+		public GPoint2D getP2() {
+            return new GPoint2D(x2, y2);
         }
 
         /**
@@ -252,7 +252,7 @@ public abstract class Line2D implements Shape, GLine2D {
      * @since 1.2
      */
     @Override
-	public abstract Point2D getP1();
+	public abstract GPoint2D getP1();
 
     /**
      * Returns the X coordinate of the end point in double precision.
@@ -278,7 +278,7 @@ public abstract class Line2D implements Shape, GLine2D {
      * @since 1.2
      */
     @Override
-	public abstract Point2D getP2();
+	public abstract GPoint2D getP2();
 
     /**
      * Sets the location of the end points of this <code>Line2D</code> to
@@ -637,7 +637,7 @@ public abstract class Line2D implements Shape, GLine2D {
      * @return a double value that is the square of the distance from the
      *                  specified <code>Point2D</code> to the current
      *                  line segment.
-     * @see #ptLineDistSq(Point2D)
+     * @see #ptLineDistSq(GPoint2D)
      * @since 1.2
      */
     public double ptSegDistSq(GPoint2D pt) {
@@ -677,7 +677,7 @@ public abstract class Line2D implements Shape, GLine2D {
      * @return a double value that is the distance from the specified
      *                          <code>Point2D</code> to the current line
      *                          segment.
-     * @see #ptLineDist(Point2D)
+     * @see #ptLineDist(GPoint2D)
      * @since 1.2
      */
     public double ptSegDist(GPoint2D pt) {
@@ -789,7 +789,7 @@ public abstract class Line2D implements Shape, GLine2D {
      * @return a double value that is the square of the distance from a
      *                  specified <code>Point2D</code> to the current
      *                  line.
-     * @see #ptSegDistSq(Point2D)
+     * @see #ptSegDistSq(GPoint2D)
      * @since 1.2
      */
     public double ptLineDistSq(GPoint2D pt) {
@@ -826,7 +826,7 @@ public abstract class Line2D implements Shape, GLine2D {
      * @param pt the specified <code>Point2D</code> being measured
      * @return a double value that is the distance from a specified
      *                  <code>Point2D</code> to the current line.
-     * @see #ptSegDist(Point2D)
+     * @see #ptSegDist(GPoint2D)
      * @since 1.2
      */
     public double ptLineDist(GPoint2D pt) {
