@@ -79,6 +79,12 @@ public interface Editor {
 	 */
 	<T> T getFormat(String key, T fallback);
 
+	/**
+	 * @return if part is selected, then hyperlink of selection,
+	 * 		otherwise hyperlink at the end of text
+	 */
+	String getHyperLinkURL();
+
 	void insertHyperlink(String url, String text);
 
 	/**

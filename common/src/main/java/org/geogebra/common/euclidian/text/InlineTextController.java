@@ -77,6 +77,11 @@ public interface InlineTextController {
 	<T> T getFormat(String key, T fallback);
 
 	/**
+	 * @return hyperlink url, if no url empty string
+	 */
+	String getHyperLinkURL();
+
+	/**
 	 * @return the plaintext representation of the hyperlink range
 	 */
 	String getHyperlinkRangeText();
