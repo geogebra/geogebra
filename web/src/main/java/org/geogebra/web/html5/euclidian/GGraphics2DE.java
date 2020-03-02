@@ -20,7 +20,7 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class GGraphics2DE implements GGraphics2DWI {
 
-	private com.google.gwt.user.client.Element element;
+	private Element element;
 
 	public GGraphics2DE() {
 		element = DOM.createElement("canvas");
@@ -249,7 +249,12 @@ public class GGraphics2DE implements GGraphics2DWI {
 
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
-			int dy) {
+			int dy, int dw, int dh) {
+		// not needed
+	}
+
+	@Override
+	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		// not needed
 	}
 

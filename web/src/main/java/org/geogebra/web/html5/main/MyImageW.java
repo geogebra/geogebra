@@ -64,14 +64,6 @@ public final class MyImageW implements MyImage {
 		return svg;
 	}
 
-	@Override
-	public void drawSubimage(int x, int y, int screenWidth, int screenHeight,
-			GGraphics2D g, int posX, int posY) {
-		((GGraphics2DW) g).getContext().drawImage(
-				getCanvas().getCanvasElement(), x, y, screenWidth, screenHeight,
-				posX, posY, screenWidth, screenHeight);
-	}
-
 	private Canvas getCanvas() {
 		if (canv == null) {
 			canv = Canvas.createIfSupported();

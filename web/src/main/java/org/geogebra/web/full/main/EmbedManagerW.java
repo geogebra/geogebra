@@ -23,6 +23,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -38,6 +39,7 @@ import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JSON;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
@@ -64,7 +66,6 @@ public class EmbedManagerW implements EmbedManager {
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
 	private HashMap<Integer, String> base64 = new HashMap<>();
-	private MyImage preview;
 
 	/**
 	 * @param app
@@ -73,8 +74,6 @@ public class EmbedManagerW implements EmbedManager {
 	EmbedManagerW(AppWFull app) {
 		this.app = app;
 		this.counter = 0;
-		preview = new MyImageW(ImageManagerW.getInternalImage(
-				SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent()), true);
 	}
 
 	@Override
@@ -438,7 +437,21 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public MyImage getPreview(DrawEmbed drawEmbed) {
-		return preview;
+		SVGResource resource = getSvgPlaceholder(drawEmbed);
+
+		return new MyImageW(ImageManagerW.getInternalImage(
+				resource), true);
+
+	}
+
+	private SVGResource getSvgPlaceholder(DrawEmbed drawEmbed) {
+		switch (drawEmbed.getGeoEmbed().getAppName()) {
+			case "graphing":
+				return SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent();
+			case "cas":
+				return SvgPerspectiveResources.INSTANCE.menu_icon_cas_transparent();
+			default: return ToolbarSvgResourcesSync.INSTANCE.mode_extension();
+		}
 	}
 
 	/**

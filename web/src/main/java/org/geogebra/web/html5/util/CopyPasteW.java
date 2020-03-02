@@ -1,8 +1,12 @@
 package org.geogebra.web.html5.util;
 
-import com.google.gwt.core.client.Scheduler;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.kernel.Construction;
@@ -30,12 +34,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.storage.client.Storage;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CopyPasteW extends CopyPaste {
 
@@ -210,8 +211,9 @@ public class CopyPasteW extends CopyPaste {
 		geostohide.addAll(addAlgosDependentFromInside(geoslocal));
 
 		Kernel kernel = app.getKernel();
-		if (app.getEmbedManager() != null) {
-			app.getEmbedManager().persist();
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.persist();
 		}
 		beforeSavingToXML(geoslocal, geostohide);
 

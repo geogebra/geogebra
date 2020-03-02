@@ -688,26 +688,29 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (ms == ModeSetter.TOOLBAR) {
+			EmbedManager embedManager = app.getEmbedManager();
 			if (app.getGuiManager() != null) {
 				switch (newMode) {
 				case EuclidianConstants.MODE_CAMERA:
 					app.getGuiManager().loadWebcam();
 					return;
-					
+
 				case EuclidianConstants.MODE_AUDIO:
 					getDialogManager().showAudioInputDialog();
 					break;
-					
+
 				case EuclidianConstants.MODE_VIDEO:
 					getDialogManager().showVideoInputDialog();
 					break;
-					
+
 				case EuclidianConstants.MODE_PDF:
 					getDialogManager().showPDFInputDialog();
 					break;
 
 				case EuclidianConstants.MODE_GRASPABLE_MATH:
-					app.getEmbedManager().openGraspableMTool();
+					if (embedManager != null) {
+						embedManager.openGraspableMTool();
+					}
 					break;
 
 				case EuclidianConstants.MODE_EXTENSION:
@@ -719,10 +722,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}	
 			}
 
-			if (app.getEmbedManager() != null
+			if (embedManager != null
 					&& (newMode == EuclidianConstants.MODE_GRAPHING
 					|| newMode == EuclidianConstants.MODE_CAS)) {
-					setUpEmbedManager(newMode);
+					setUpEmbedManager(embedManager, newMode);
 			}
 
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
@@ -764,13 +767,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		kernel.notifyRepaint();
 	}
 
-	private void setUpEmbedManager(int mode) {
+	private void setUpEmbedManager(EmbedManager embedManager, int mode) {
 		final GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
 		if (mode == EuclidianConstants.MODE_CAS) {
 			ge.setAppName("cas");
 		}
 		ge.initPosition(view);
-		app.getEmbedManager().initAppEmbed(ge);
+		embedManager.initAppEmbed(ge);
 		ge.setLabel(null);
 		app.storeUndoInfo();
 		app.invokeLater(new Runnable() {
@@ -7882,10 +7885,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void widgetsToBackground() {
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().backgroundAll();
-
 		}
-		if (app.getEmbedManager() != null) {
-			app.getEmbedManager().backgroundAll();
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.backgroundAll();
 			view.repaintView();
 		}
 		if (app.getMaskWidgets() != null) {
@@ -9393,10 +9396,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			app.getVideoManager().play(drawVideo);
 			return true;
 		}
-
-		if (topHit instanceof GeoEmbed) {
+		EmbedManager embedManager = app.getEmbedManager();
+		if (topHit instanceof GeoEmbed && embedManager != null) {
 			selectAndShowBoundingBox(topHit);
-			app.getEmbedManager().play((GeoEmbed) topHit);
+			embedManager.play((GeoEmbed) topHit);
 			return true;
 		}
 

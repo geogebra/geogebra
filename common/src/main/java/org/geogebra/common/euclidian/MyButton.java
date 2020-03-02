@@ -256,10 +256,9 @@ public class MyButton implements Observer {
 			if (im.isSVG()) {
 				drawSVG(im, g);
 			} else {
-
-				im.drawSubimage(startX, startY, imgWidth, imgHeight, g,
+				g.drawImage(im, startX, startY, imgWidth, imgHeight,
 						x + (getWidth() - imgWidth) / 2,
-						y + MARGIN_TOP + imgStart);
+						y + MARGIN_TOP + imgStart, imgWidth, imgHeight);
 			}
 		}
 

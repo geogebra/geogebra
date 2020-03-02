@@ -13,6 +13,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
+import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App.ExportType;
@@ -41,6 +42,7 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -620,11 +622,34 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	public String getCanvasBase64WithTypeString() {
 		((RendererWInterface) this.renderer).setBuffering(true);
 		this.doRepaint2();
-		String ret = EuclidianViewW.getCanvasBase64WithTypeString(
-				this.getWidth(), getHeight(), null,
-				(Canvas) renderer.getCanvas());
+		String ret = getCanvasBase64WithTypeString(
+				this.getWidth(), getHeight());
 		((RendererWInterface) this.renderer).setBuffering(false);
 		return ret;
+	}
+
+	private String getCanvasBase64WithTypeString(double width, double height) {
+		Canvas foreground = ((RendererWInterface) this.renderer).getCanvas();
+		double ratio = width / height;
+		double thx = MyXMLio.THUMBNAIL_PIXELS_X;
+		double thy = MyXMLio.THUMBNAIL_PIXELS_Y;
+		if (ratio < 1) {
+			thx *= ratio;
+		} else if (ratio > 1) {
+			thy /= ratio;
+		}
+
+		Canvas canv = Canvas.createIfSupported();
+		canv.setCoordinateSpaceHeight((int) thy);
+		canv.setCoordinateSpaceWidth((int) thx);
+		canv.setWidth((int) thx + "px");
+		canv.setHeight((int) thy + "px");
+		Context2d c2 = canv.getContext2d();
+
+		c2.drawImage(foreground.getCanvasElement(), 0, 0, (int) thx,
+				(int) thy);
+
+		return EuclidianViewW.dataURL(canv, null);
 	}
 
 	@Override

@@ -32,4 +32,7 @@ public interface ToolbarSvgResourcesSync extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_showhidelabel.svg")
 	SVGResource mode_showhidelabel_32();
 
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
+	SVGResource mode_extension();
+
 }

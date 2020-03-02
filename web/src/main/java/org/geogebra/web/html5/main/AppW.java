@@ -778,10 +778,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void loadGgbFileAsBase64Again(String dataUrl, boolean isggs) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
-		if (!isggs && getEmbedManager() != null) {
+		EmbedManager embedManager = getEmbedManager();
+		if (!isggs && embedManager != null) {
 			Material mat = new Material(-1, Material.MaterialType.ggb);
 			mat.setBase64(dataUrl);
-			getEmbedManager().embed(mat);
+			embedManager.embed(mat);
 		} else {
 			view.processBase64String(dataUrl);
 		}
@@ -853,8 +854,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				maybeProcessImage(key, entry.getValue(), toLoad);
 			}
 		}
-		if (getEmbedManager() != null) {
-			getEmbedManager().loadEmbeds(archive);
+		EmbedManager embedManager = getEmbedManager();
+		if (embedManager != null) {
+			embedManager.loadEmbeds(archive);
 		}
 		if (construction == null) {
 			if (macros != null) {
@@ -1161,19 +1163,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			return;
 		}
 		pageController.resetPageControl();
-	}
-
-	/**
-	 * Remove all widgets for videos and embeds.
-	 */
-	@Override
-	public void clearMedia() {
-		if (getVideoManager() != null) {
-			getVideoManager().removePlayers();
-		}
-		if (getEmbedManager() != null) {
-			getEmbedManager().removeAll();
-		}
 	}
 
 	/**

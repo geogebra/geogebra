@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.media.MediaFactory;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoURL;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -18,7 +19,7 @@ public class VideoInputDialog extends MediaDialog {
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public VideoInputDialog(AppW app) {
+	public VideoInputDialog(AppWFull app) {
 		super(app.getPanel(), app);
 	}
 

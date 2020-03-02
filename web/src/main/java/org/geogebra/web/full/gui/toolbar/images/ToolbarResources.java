@@ -287,8 +287,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_pdf_32();
 
-	ResourcePrototype mode_extension();
-
 	ResourcePrototype mode_pen();
 
 	ResourcePrototype mode_mask();
