@@ -51,7 +51,7 @@ page.onConsoleMessage = function(msg) {
             console.log("CAS loaded");
             page.evaluate(function() { return document.ggbApplet.reset(); });
         }
-        if ((casloaded == 1) && msg.search("Benchmarking") >= 0) {
+        if ((casloaded == 1) && msg.search("OUTPUT for Prove") >= 0) {
             console.log("Data found");
             page.render(output);
             phantom.exit(3);
