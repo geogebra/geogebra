@@ -76,7 +76,7 @@ $classicToolbar: 50px;
 
 	.menuView {
 		width: 100%;
-		padding-top: 8px;
+		padding: 8px 0px;
 		.menuItemGroupView {
 			width: 100%;
 			padding-right: 10px;
@@ -121,6 +121,12 @@ $classicToolbar: 50px;
 
 	.headerDivider {
 		border-bottom: solid #E4E4E4 1px;
+	}
+
+	.titleHeader {
+	    > div {
+	        color: $text-secondary !important;
+	    }
 	}
 }
 

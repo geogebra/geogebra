@@ -46,6 +46,9 @@ $button_hover_transition: background-color 0.15s;
         	color: $text-primary;
         	letter-spacing: 0.25px;
         }
+        > .headerCaption:first-child {
+            margin-left: 16px;
+        }
 	}
 
 	%compactHeaderViewShared {

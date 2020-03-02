@@ -6,26 +6,34 @@ import org.geogebra.web.full.gui.HeaderView;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class HeaderedMenuView extends FlowPanel {
+class HeaderedMenuView extends FlowPanel {
 
+	private static final String HEADERED_MENU_STLYE = "headeredMenuView";
 	private static final String HEADER_DIVIDER_STYLE = "headerDivider";
+	private static final String TITLE_HEADER_STYLE = "titleHeader";
 
 	private HeaderView headerView;
 
-	public HeaderedMenuView(@Nonnull  MenuView menuView) {
-		setStyleName("headeredMenuView");
+	HeaderedMenuView(@Nonnull MenuView menuView) {
+		setStyleName(HEADERED_MENU_STLYE);
 		add(menuView);
 	}
 
-	public HeaderView getHeaderView() {
+	HeaderView getHeaderView() {
 		return headerView;
 	}
 
-	public void setHeaderView(@Nullable HeaderView headerView) {
+	void setHeaderView(@Nullable HeaderView headerView) {
 		removeHeaderView();
 		this.headerView = headerView;
 		addHeaderView();
 		styleHeaderView();
+	}
+
+	void setTitleHeader(boolean titleHeader) {
+		if (headerView != null) {
+			headerView.setStyleName(TITLE_HEADER_STYLE, titleHeader);
+		}
 	}
 
 	private void removeHeaderView() {
