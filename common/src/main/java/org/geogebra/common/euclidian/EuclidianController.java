@@ -9892,8 +9892,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return draggingOccured && draggingBeyondThreshold;
 	}
 
-	private boolean handleInlineTextHit() {
-		if (!moveMode(mode) || view.getHits().isEmpty()) {
+	private boolean handleInlineTextHit(AbstractEvent event) {
+		if (!moveMode(mode) || app.isRightClick(event) || view.getHits().isEmpty()) {
 			lastInlineText = null;
 			return false;
 		}
@@ -9932,7 +9932,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
-		if (handleInlineTextHit()) {
+		if (handleInlineTextHit(event)) {
 			return;
 		}
 
