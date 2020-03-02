@@ -1329,7 +1329,7 @@ __GGB__keysVar["ja"].menu = {
     "AreaOfA": "%0 \u306e\u9762\u7a4d",
     "Ascending": "\u4e0a\u6607",
     "AskAQuestion": "\u8cea\u554f\u3092\u3057\u307e\u3059\u3002",
-    "Assignment.Edit": "\u30bf\u30b9\u30af\u3092\u7de8\u96c6",
+    "Assignment.Edit": "\u8ab2\u984c\u3092\u7de8\u96c6",
     "AsymptoteToA": "%0 \u306e\u6f38\u8fd1\u7dda",
     "Ath": "%0\u756a\u76ee",
     "AttachDetachPoint": "\u70b9\u3092\u4ed8\u3051\u308b\uff0f\u5916\u3059",
