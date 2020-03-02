@@ -29,6 +29,7 @@ import java.io.Serializable;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 
 /**
@@ -398,7 +399,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
     public abstract int outcode(double x, double y);
 
     /**
-     * Determines where the specified {@link Point2D} lies with
+     * Determines where the specified {@link GPoint2D} lies with
      * respect to this <code>Rectangle2D</code>.
      * This method computes a binary OR of the appropriate mask values
      * indicating, for each side of this <code>Rectangle2D</code>,
@@ -412,7 +413,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * @see #OUT_BOTTOM
      * @since 1.2
      */
-    public int outcode(Point2D p) {
+    public int outcode(GPoint2D p) {
         return outcode(p.getX(), p.getY());
     }
 
@@ -615,7 +616,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * <code>Rectangle2D</code>.
      * @since 1.2
      */
-    public void add(Point2D pt) {
+    public void add(GPoint2D pt) {
         add(pt.getX(), pt.getY());
     }
 

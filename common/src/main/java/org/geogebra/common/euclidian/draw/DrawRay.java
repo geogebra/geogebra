@@ -48,14 +48,13 @@ public class DrawRay extends SetDrawable implements Previewable {
 	private boolean isVisible;
 	private boolean labelVisible;
 	private ArrayList<GeoPointND> points;
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private GPoint2D endPoint = new GPoint2D();
 
 	private GLine2D line = AwtFactory.getPrototype().newLine2D();
 	private double[] a = new double[2];
 	private double[] v = new double[2];
 	private Coords tmpCoords2;
-	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
-			AwtFactory.getPrototype().newPoint2D() };
+	private GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 
 	/**
 	 * Creates new DrawRay

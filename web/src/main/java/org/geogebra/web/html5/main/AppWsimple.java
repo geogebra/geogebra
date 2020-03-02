@@ -140,16 +140,13 @@ public class AppWsimple extends AppW {
 
 	@Override
 	public void focusLost(View v, Element el) {
-		super.focusLost(v, el);
 		frame.useDataParamBorder();
 		this.getGlobalKeyDispatcher().setFocused(false);
 	}
 
 	@Override
 	public void focusGained(View v, Element el) {
-		super.focusGained(v, el);
 		frame.useFocusedBorder();
-		Log.debug("AppWsimple_focusGained");
 
 		// if focusLost sets this to false, it is probably
 		// right to set this to true again here! Otherwise

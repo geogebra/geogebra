@@ -1,20 +1,8 @@
 package org.geogebra.common.kernel;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Stack;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
+import com.himamis.retex.editor.share.input.Character;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
@@ -53,13 +41,23 @@ import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.himamis.retex.editor.share.input.Character;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Manages construction elements
@@ -1901,7 +1899,7 @@ public class Construction {
 		newGeo.setViewFlags(oldGeo.getViewSet());
 		newGeo.setScripting(oldGeo);
 		if (newGeo.getGeoClassType() != oldGeo.getGeoClassType() 
-				&& AlgebraItem.isFunctionOrEquationFromUser(newGeo)) {
+				&& newGeo.isFunctionOrEquationFromUser()) {
 			newGeo.setFixed(true);
 		}
 	}
@@ -2230,7 +2228,7 @@ public class Construction {
 		 * like "A$1" for the "A1" to deal with absolute references. Let's
 		 * remove all "$" signs from label and try again.
 		 */
-		if (label1.indexOf('$') > -1) {
+		if (label1.indexOf('$') > -1 && label1.length() > 1) {
 			StringBuilder labelWithoutDollar = new StringBuilder(
 					label1.length() - 1);
 			for (int i = 0; i < label1.length(); i++) {

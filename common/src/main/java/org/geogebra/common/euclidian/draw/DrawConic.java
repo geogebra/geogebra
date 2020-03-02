@@ -2111,11 +2111,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 		}
 	}
 
-	@Override
-	public void updateGeo() {
-		view.repaintView();
-	}
-
 	private void updateRealGeo(ArrayList<GPoint2D> pts) {
 		double startX = view.toRealWorldCoordX(pts.get(0).getX());
 		double startY = view.toRealWorldCoordY(pts.get(0).getY());

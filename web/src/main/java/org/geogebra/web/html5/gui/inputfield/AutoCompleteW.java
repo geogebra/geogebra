@@ -14,7 +14,7 @@ public interface AutoCompleteW {
 
 	List<String> getCompletions();
 
-	void setFocus(boolean focus, boolean scheduled);
+	void setFocus(boolean focus);
 
 	void insertString(String text);
 

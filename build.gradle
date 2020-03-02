@@ -35,6 +35,15 @@ subprojects {
 	tasks['eclipseJdt'].dependsOn(eclipseJdtPrepare)
 	tasks['cleanEclipse'].dependsOn(cleanEclipseJdtUi)
 	tasks['eclipse'].dependsOn(eclipseJdtPrepare, eclipseJdtUi, cleanEclipse)
+
+	test {
+		// forward command line properties to the test JVM
+		project.properties.each { prop, val ->
+			if (val instanceof String) {
+				systemProperty prop.trim(), val;
+			}
+		}
+	}
 }
 
 wrapper {

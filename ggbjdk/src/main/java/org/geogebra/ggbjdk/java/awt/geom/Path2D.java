@@ -128,7 +128,7 @@ public abstract class Path2D implements Shape {
 
     abstract double[] cloneCoordsDouble(GAffineTransform at);
     abstract void append(double x, double y);
-    abstract Point2D getPoint(int coordindex);
+    abstract GPoint2D getPoint(int coordindex);
     abstract void needRoom(boolean needMove, int newCoords);
     abstract int pointCrossings(double px, double py);
     abstract int rectCrossings(double rxmin, double rymin,
@@ -252,8 +252,8 @@ public abstract class Path2D implements Shape {
         }
 
         @Override
-		Point2D getPoint(int coordindex) {
-            return new Point2D.Double(doubleCoords[coordindex],
+		GPoint2D getPoint(int coordindex) {
+            return new GPoint2D(doubleCoords[coordindex],
                                       doubleCoords[coordindex+1]);
         }
 
@@ -878,13 +878,13 @@ public abstract class Path2D implements Shape {
 
     /**
      * Returns the coordinates most recently added to the end of the path
-     * as a {@link Point2D} object.
+     * as a {@link GPoint2D} object.
      *
-     * @return a {@code Point2D} object containing the ending coordinates of
+     * @return a {@code GPoint2D} object containing the ending coordinates of
      *         the path or {@code null} if there are no points in the path.
      * @since 1.6
      */
-    public final synchronized Point2D getCurrentPoint() {
+    public final synchronized GPoint2D getCurrentPoint() {
         int index = numCoords;
         if (numTypes < 1 || index < 1) {
             return null;
@@ -1008,12 +1008,12 @@ public abstract class Path2D implements Shape {
     }
 
     /**
-	 * Tests if the specified {@link Point2D} is inside the closed boundary of
+	 * Tests if the specified {@link GPoint2D} is inside the closed boundary of
 	 * the specified {@link GPathIterator}.
 	 * <p>
 	 * This method provides a basic facility for implementors of the
 	 * {@link Shape} interface to implement support for the
-	 * {@link Shape#contains(Point2D)} method.
+	 * {@link Shape#contains(GPoint2D)} method.
 	 *
 	 * @param pi
 	 *            the specified {@code GPathIterator}
@@ -1023,7 +1023,7 @@ public abstract class Path2D implements Shape {
 	 *         specified {@code GPathIterator}; {@code false} otherwise
 	 * @since 1.6
 	 */
-    public static boolean contains(GPathIterator pi, Point2D p) {
+    public static boolean contains(GPathIterator pi, GPoint2D p) {
         return contains(pi, p.getX(), p.getY());
     }
 

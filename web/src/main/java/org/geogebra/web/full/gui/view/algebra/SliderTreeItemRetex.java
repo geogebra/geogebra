@@ -243,7 +243,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	}
 
 	@Override
-	public void setFocus(boolean b, boolean sv) {
+	public void setFocus(boolean b) {
 		// ignore
 	}
 

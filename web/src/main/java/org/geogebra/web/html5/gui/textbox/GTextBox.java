@@ -95,9 +95,9 @@ public class GTextBox extends TextBox
 	}
 
 	@Override
-	public void setFocus(boolean b, boolean sv) {
+	public void setFocus(boolean b) {
+		super.setFocus(b);
 		isFocused = b;
-		this.setFocus(b);
 	}
 
 	@Override

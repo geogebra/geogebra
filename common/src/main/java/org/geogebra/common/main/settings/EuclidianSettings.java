@@ -197,14 +197,14 @@ public class EuclidianSettings extends AbstractSettings {
 		yminObject = null;
 		ymaxObject = null;
 
-		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_FULL);
-		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(GColor.BLACK);
-		setGridColor(GColor.LIGHT_GRAY);
-		setBackground(GColor.WHITE);
-		setBackgroundType(BackgroundType.NONE);
-		setBgRulerColor(GColor.MOW_RULER);
-		setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
+		gridLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
+		axesLineStyle = EuclidianStyleConstants.AXES_LINE_TYPE_ARROW;
+		axesColor = GColor.BLACK;
+		gridColor = GColor.LIGHT_GRAY;
+		backgroundColor = GColor.WHITE;
+		backgroundType = BackgroundType.NONE;
+		setBgRulerColorNoFire(GColor.MOW_RULER);
+		gridType = EuclidianView.GRID_CARTESIAN_WITH_SUBGRID;
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
@@ -1517,6 +1517,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setBackgroundType(BackgroundType backgroundType) {
 		this.backgroundType = backgroundType;
+		settingChanged();
 	}
 
 	/**
@@ -1560,9 +1561,13 @@ public class EuclidianSettings extends AbstractSettings {
 	 *            color of main lines.
 	 */
 	public void setBgRulerColor(GColor color) {
+		setBgRulerColorNoFire(color);
+		settingChanged();
+	}
+
+	private void setBgRulerColorNoFire(GColor color) {
 		this.bgRulerColor = color;
 		bgSubLineColor = GColor.getSubGridColor(color);
-		settingChanged();
 	}
 
 	/**
@@ -1611,7 +1616,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setRulerType(int rulerType) {
 		setBackgroundType(BackgroundType.fromInt(rulerType));
-		settingChanged();
 	}
 
 	/**

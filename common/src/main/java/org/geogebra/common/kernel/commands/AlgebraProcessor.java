@@ -12,11 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.commands;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
-
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -61,7 +59,6 @@ import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
-import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
@@ -126,9 +123,9 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * Processes algebra input as Strings and valid expressions into GeoElements
@@ -807,19 +804,17 @@ public class AlgebraProcessor {
 			}
 			return rett;
 		}
-		ValidExpression ve;
 		try {
-			ve = parser.parseGeoGebraExpression(cmd);
-			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd, ve);
+			GeoCasCell casEval = checkCasEval(cmd, "(:=?)|=|" + Unicode.ASSIGN_STRING);
 			if (casEval != null) {
 				if (callback0 != null) {
 					callback0.callback(array(casEval));
 				}
 				return new GeoElement[0];
 			}
+			ValidExpression ve = parser.parseGeoGebraExpression(cmd);
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
-					handler, callback0,
-					info);
+					handler, callback0,	info);
 
 		} catch (ParseException e) {
 			e.printStackTrace(System.out);
@@ -1066,61 +1061,46 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param label
-	 *            dollar label
 	 * @param input
 	 *            whole command including label
-	 * @param parsed
-	 *            parsed content of input
 	 * @return cell
 	 */
-	public GeoCasCell checkCasEval(String label, String input,
-			ValidExpression parsed) {
-		if (label != null && label.startsWith("$")) {
-			Integer row = -1;
-			try {
-				row = Integer.parseInt(label.substring(1)) - 1;
-			} catch (Exception e) {
-				// eg $A$1 label, do nothing
-			}
-			if (row < 0) {
+	public GeoCasCell checkCasEval(String input, String allowedAssignmentRegex) {
+		if (input != null && input.startsWith("$")) {
+			String[] result = input.split(allowedAssignmentRegex, 2);
+
+			if (result.length != 2 || result[1].startsWith("=")) {
 				return null;
 			}
-			if (app.getGuiManager() != null) {
-				app.getGuiManager().getCasView().cancelEditItem();
-			}
-			GeoCasCell cell = cons.getCasCell(row);
-			if (cell == null) {
-				cell = new GeoCasCell(cons);
-			}
-			String cmd = input == null
-					? parsed.toString(StringTemplate.defaultTemplate) : input;
-			if (parsed != null && parsed.unwrap() instanceof Command) {
-				Command c = (Command) parsed.unwrap();
-				if ("Rename".equals(c.getName())) {
-					cmd = "="
-							+ c.getArgument(1)
-									.traverse(CommandReplacer
-											.getReplacer(kernel, true))
-									.toString(StringTemplate.defaultTemplate)
-							+ ":=" + c.getArgument(0)
-									.toString(StringTemplate.defaultTemplate);
-				}
-			}
-			int colonPos = cmd.indexOf(':') + 1;
-			int eqPos = cmd.indexOf('=') + 1;
-			int prefixLength = eqPos > 0
-					? (colonPos > 0 ? Math.min(colonPos, eqPos) : eqPos)
-					: colonPos;
-			if (cmd.charAt(prefixLength) == '=') {
-				prefixLength++;
-			}
 
-			cell.setInput(cmd.substring(prefixLength));
-			this.processCasCell(cell, false);
-			return cell;
+			int row = cellNumber(result[0].substring(1));
+			if (row >= 0) {
+				return casEval(row, result[1]);
+			}
 		}
 		return null;
+	}
+
+	private GeoCasCell casEval(int row, String rhs) {
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getCasView().cancelEditItem();
+		}
+		GeoCasCell cell = cons.getCasCell(row);
+		if (cell == null) {
+			cell = new GeoCasCell(cons);
+		}
+		cell.setInput(rhs);
+		processCasCell(cell, false);
+		return cell;
+	}
+
+	private int cellNumber(String lhs) {
+		try {
+			return Integer.parseInt(lhs) - 1;
+		} catch (Exception e) {
+			// eg $A$1 label, do nothing
+		}
+		return -1;
 	}
 
 	private GeoElementND[] tryReplacingProducts(ValidExpression ve,
@@ -2576,6 +2556,7 @@ public class AlgebraProcessor {
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
 			return evalSymbolic(equ, info).asArray();
 		}
+
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable
@@ -2607,19 +2588,8 @@ public class AlgebraProcessor {
 				e.printStackTrace();
 			}
 		}
+
 		if (singleLeftVariable != null && equ.getLabel() == null) {
-
-			String varName;
-			if (lhs instanceof GeoDummyVariable) {
-				varName = ((GeoDummyVariable) lhs).getVarName();
-			} else {
-				varName = ((Variable) lhs).getName();
-			}
-
-			GeoCasCell c = this.checkCasEval(varName, null, equ);
-			if (c != null) {
-				return new GeoElement[0];
-			}
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
 				return processValidExpression(equ.getRHS());
@@ -2829,7 +2799,7 @@ public class AlgebraProcessor {
 			((EquationValue) line).setToUser();
 		}
 
-		if (AlgebraItem.isFunctionOrEquationFromUser(line)) {
+		if (line.isFunctionOrEquationFromUser()) {
 			line.setFixed(true);
 		}
 

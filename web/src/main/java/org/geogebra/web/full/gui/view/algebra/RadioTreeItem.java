@@ -36,6 +36,7 @@ import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FormatConverterImpl;
@@ -395,10 +396,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (controller.isEditing() || geo == null) {
 				return;
 			}
-			if ((AlgebraItem.getDescriptionModeForGeo(geo,
-					kernel.getAlgebraStyle()) == DescriptionMode.DEFINITION_VALUE
-					&& !isLatexTrivial())
-					|| lastTeX != null) {
+			if ((AlgebraItem.shouldShowBothRows(geo) && !isLatexTrivial()) || lastTeX != null) {
 				buildItemWithTwoRows();
 				updateItemColor();
 			} else {
@@ -463,7 +461,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			return;
 		}
 		if ((previewGeo
-				.needToShowBothRowsInAV() != DescriptionMode.DEFINITION_VALUE
+				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
 				|| getController().isInputAsText())) {
 			clearPreview();
 
@@ -520,7 +518,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected void buildItemWithSingleRow() {
 		// LaTeX
 		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
-				geo.needToShowBothRowsInAV() != DescriptionMode.DEFINITION);
+				geo.getDescriptionMode() != DescriptionMode.DEFINITION);
 		latex = text != null;
 
 		if (latex) {
@@ -622,7 +620,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			content.remove(outputPanel);
 		}
 		if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
-				|| isDefinitionAndValue()
+				|| isAlgebraStyleDefAndValue()
 				|| (geo != null && geo.getParentAlgorithm() instanceof AlgoFractionText)) {
 			String text = "";
 			if (geo != null) {
@@ -664,7 +662,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private void updateItemColor() {
-		if (isDefinitionAndValue() && definitionPanel != null) {
+		if (isAlgebraStyleDefAndValue() && definitionPanel != null) {
 			definitionPanel.getElement().getStyle().setColor("black");
 		}
 	}
@@ -674,7 +672,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private void updateLaTeX(String text) {
-		if (!isDefinitionAndValue()) {
+		if (!isAlgebraStyleDefAndValue()) {
 			content.clear();
 			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
 					getFontSize());
@@ -792,9 +790,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	}
 
-	protected boolean isDefinitionAndValue() {
-		return kernel
-				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
+	private boolean isAlgebraStyleDefAndValue() {
+        int algebraStyle = app.getSettings().getAlgebra().getStyle();
+		return algebraStyle == AlgebraStyle.DEFINITION_AND_VALUE;
 	}
 
 	protected boolean mayNeedOutput() {
@@ -907,7 +905,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				return;
 			}
 		} else {
-			if (isDefinitionAndValue()) {
+			if (isAlgebraStyleDefAndValue()) {
 				cancelDV();
 			}
 		}
@@ -1088,8 +1086,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @return width in case editor is open
 	 */
 	protected int getWidthForEdit() {
-		if (isDefinitionAndValue()
-				&& geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+		if (isAlgebraStyleDefAndValue()
+				&& geo.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
 				&& definitionPanel != null
 				&& definitionPanel.getWidgetCount() > 0
 				&& definitionPanel.getWidget(0) != null) {
@@ -1705,7 +1703,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	@Override
-	public void setFocus(boolean focus, boolean scheduled) {
+	public void setFocus(boolean focus) {
 		if (focus) {
 			if (app.isUnbundled() && app.isMenuShowing()) {
 				app.toggleMenu();

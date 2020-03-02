@@ -671,7 +671,7 @@ public class Browser {
 	 */
 	@Deprecated
 	public static boolean isTabletBrowser() {
-		return isAndroid() || isIPad();
+		return isAndroid() || isiOS();
 	}
 
 	public static void setWebWorkerSupported(boolean b) {

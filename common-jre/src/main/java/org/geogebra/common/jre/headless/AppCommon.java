@@ -43,6 +43,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
+import org.geogebra.common.main.settings.AppConfigGeometry;
+import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
@@ -297,7 +299,7 @@ public class AppCommon extends App {
 	}
 
     @Override
-    public void evalJavaScript(App app, String script, String arg) throws Exception {
+    public void evalJavaScript(App app, String script, String arg) {
 		// TODO delegate to scriptManager
     }
 
@@ -590,7 +592,7 @@ public class AppCommon extends App {
     }
 
     @Override
-    public boolean loadXML(String xml) throws Exception {
+    public boolean loadXML(String xml) {
         return false;
     }
 
@@ -731,5 +733,30 @@ public class AppCommon extends App {
 
 	public void setCASFactory(CASFactory casFactory) {
 		this.casFactory = casFactory;
+	}
+
+	/**
+	 * Sets Graphing config and reinitializes the app.
+	 */
+	public void setGraphingConfig() {
+		setConfig(new AppConfigGraphing());
+		reInit();
+	}
+
+	/**
+	 * Sets Geometry config and reinitializes the app.
+	 */
+	public void setGeometryConfig() {
+		setConfig(new AppConfigGeometry());
+		reInit();
+	}
+
+	private void reInit() {
+		resetAlgebraOutputFilter();
+		kernel.setAlgebraProcessor(null);
+	}
+
+	public void setScriptManager(ScriptManager scriptManager) {
+		this.scriptManager = scriptManager;
 	}
 }

@@ -147,9 +147,9 @@ public interface Shape extends GShape {
      * </p>
      * <p>
      * If a {@code point} is inside the {@code shape} according to the
-     * {@link #contains(Point2D p) contains(point)} method, then it must
+     * {@link #contains(GPoint2D p) contains(point)} method, then it must
      * be inside the returned {@code Rectangle2D} bounds object according
-     * to the {@link #contains(Point2D p) contains(point)} method of the
+     * to the {@link #contains(GPoint2D p) contains(point)} method of the
      * {@code bounds}. Specifically:
      * </p>
      * <p>
@@ -186,7 +186,7 @@ public interface Shape extends GShape {
 	public boolean contains(double x, double y);
 
     /**
-     * Tests if a specified {@link Point2D} is inside the boundary
+     * Tests if a specified {@link GPoint2D} is inside the boundary
      * of the <code>Shape</code>, as described by the
      * <a href="{@docRoot}/java/awt/Shape.html#def_insideness">
      * definition of insideness</a>.

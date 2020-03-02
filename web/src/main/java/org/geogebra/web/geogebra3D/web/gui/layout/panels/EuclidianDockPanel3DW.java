@@ -43,7 +43,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 				'3' // ctrl-shift-3
 		);
 		this.app = (AppW) app;
-		this.setOpenInFrame(true);
 		this.setEmbeddedSize(DEFAULT_WIDTH);
 	}
 
