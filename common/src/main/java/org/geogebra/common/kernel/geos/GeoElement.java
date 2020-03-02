@@ -18,12 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import com.google.j2objc.annotations.Weak;
-import com.himamis.retex.editor.share.util.Greek;
-import com.himamis.retex.editor.share.util.Unicode;
-import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -118,6 +112,12 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
+
+import com.google.j2objc.annotations.Weak;
+import com.himamis.retex.editor.share.util.Greek;
+import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * 
@@ -2463,7 +2463,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		// workaround for unintended feature of old Input Boxes
 		// &nbsp and &nbsp; both used to work
-		if (caption2.indexOf("&nbsp") > -1) {
+		if (caption2.contains("&nbsp")) {
 			caption2 = caption2.replaceAll("&nbsp;", Unicode.NBSP + "");
 			caption2 = caption2.replaceAll("&nbsp", Unicode.NBSP + "");
 		}
@@ -2696,7 +2696,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            second label
 	 * @return negative/0/positive as in {@link Comparable#compareTo(Object)}
 	 */
-	final public static int compareLabels(final String label1,
+	public static int compareLabels(final String label1,
 			final String label2) {
 		String prefix1 = trailingDigits(label1);
 		String prefix2 = trailingDigits(label2);
@@ -3341,7 +3341,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param updateCascadeAll
 	 *            true to update cascade over dependent geos as well
 	 */
-	final static public synchronized void updateCascade(
+	static public synchronized void updateCascade(
 			final ArrayList<? extends GeoElementND> geos,
 			final TreeSet<AlgoElement> tempSet1,
 			final boolean updateCascadeAll) {
@@ -3373,9 +3373,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		// now we have one nice algorithm set that we can update
 		if (tempSet1.size() > 0) {
-			final Iterator<AlgoElement> it = tempSet1.iterator();
-			while (it.hasNext()) {
-				final AlgoElement algo = it.next();
+			for (AlgoElement algo : tempSet1) {
 				algo.update();
 			}
 		}
@@ -3391,7 +3389,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param cons
 	 *            construction where update is done
 	 */
-	final static public synchronized void updateCascadeLocation(
+	static public synchronized void updateCascadeLocation(
 			final ArrayList<Locateable> geos, Construction cons) {
 		// build update set of all algorithms in construction element order
 		// clear temp set
@@ -3420,11 +3418,9 @@ public abstract class GeoElement extends ConstructionElement
 
 		// now we have one nice algorithm set that we can update
 		if (tempSet1.size() > 0) {
-			final Iterator<AlgoElement> it = tempSet1.iterator();
-			while (it.hasNext()) {
+			for (AlgoElement algoElement : tempSet1) {
 				try {
-					final AlgoElement algo = it.next();
-					algo.update();
+					algoElement.update();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -3852,10 +3848,9 @@ public abstract class GeoElement extends ConstructionElement
 			return getNameDescription();
 		}
 
-		return getNameDescription() +
-				// add dependency information
-				": " +
-				algoParent.toString(StringTemplate.defaultTemplate);
+		return getNameDescription()
+				+ ": " // add dependency information
+				+ algoParent.toString(StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -3973,7 +3968,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            true to override default
 	 * @return long description for all GeoElements in given array.
 	 */
-	final public static String getToolTipDescriptionHTML(
+	public static String getToolTipDescriptionHTML(
 			final ArrayList<GeoElement> geos, final boolean colored,
 			final boolean addHTMLtag, final boolean alwaysOn) {
 		if (geos == null) {
@@ -4349,17 +4344,17 @@ public abstract class GeoElement extends ConstructionElement
 			sb.append("} ");
 
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
-		} else if ((algebraDesc.indexOf(":") > -1) && !geo.isGeoText()) {
+		} else if (algebraDesc.contains(":") && !geo.isGeoText()) {
 			if (includeLHS) {
-				sb.append(algebraDesc.split(":")[0] + ": \\,");
+				sb.append(algebraDesc.split(":")[0]).append(": \\,");
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
 
 		// now handle non-GeoText prefixed with "="
-		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
+		else if (algebraDesc.contains("=") && !geo.isGeoText()) {
 			if (includeLHS) {
-				sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
+				sb.append(algebraDesc.split("=")[0]).append("\\, = \\,");
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		} else if (geo.isGeoVector()) {
@@ -4404,22 +4399,6 @@ public abstract class GeoElement extends ConstructionElement
 
 		return sb.toString();
 	}
-
-	/*
-	 * final public Image getAlgebraImage(Image tempImage) { Graphics2D g2 =
-	 * (Graphics2D) g; GraphicsConfiguration gc =
-	 * app.getGraphicsConfiguration(); if (gc != null) { bgImage =
-	 * gc.createCompatibleImage(width, height); Point p = drawIndexedString(g2,
-	 * labelDesc, xLabel, yLabel);
-	 * 
-	 * setSize(fontSize, p.x, fontSize + p.y); }
-	 */
-
-	/*
-	 * replaces all indices (_ and _{}) in str by <sub> tags, all and converts
-	 * all special characters in str to HTML examples: "a_1" becomes
-	 * "a<sub>1</sub>" "s_{AB}" becomes "s<sub>AB</sub>"
-	 */
 
 	/**
 	 * @return whether definition is valid (like isDefined with exception of
@@ -4635,7 +4614,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (map != null) {
 			JsScript objectListener = map.get(this);
 			if (objectListener != null) {
-				sb.append("\t<listener type=\"" + type + "\" val=\"");
+				sb.append("\t<listener type=\"").append(type).append("\" val=\"");
 				sb.append(objectListener.getText());
 				sb.append("\"/>\n");
 			}
@@ -4832,7 +4811,7 @@ public abstract class GeoElement extends ConstructionElement
 			sb.append(" speed=\"");
 			StringUtil.encodeXML(sb, animSpeed);
 			sb.append("\"");
-			sb.append(" type=\"" + animationType + "\"");
+			sb.append(" type=\"").append(animationType).append("\"");
 			sb.append(" playing=\"");
 			sb.append((isAnimating() ? "true" : "false"));
 			sb.append("\"");
@@ -4934,8 +4913,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	protected String regrFormat(final double number) {
 		if (Math.abs(number) < 0.000001) {
-			final Double numberD = new Double(number);
-			return numberD.toString();
+			return Double.toString(number);
 		}
 		// this constructors uses US locale, so we don't have to worry about ","
 		if (numberFormatter6 == null) {
@@ -5632,7 +5610,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param tempMoveObjectList1
 	 *            temporary list
 	 */
-	protected static final void addParentToUpdateList(final GeoElement number,
+	protected static void addParentToUpdateList(final GeoElement number,
 			final ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList1) {
 		if (updateGeos != null) {
@@ -6069,7 +6047,6 @@ public abstract class GeoElement extends ConstructionElement
 			viewFlags.clear();
 		}
 		viewFlags.addAll(flags);
-		// Collections.copy(list, viewFlags);
 	}
 
 	@Override
@@ -6077,10 +6054,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (viewFlags == null) {
 			return null;
 		}
-		final List<Integer> list = new ArrayList<>();
-		list.addAll(viewFlags);
-		// Collections.copy(list, viewFlags);
-		return list;
+		return new ArrayList<>(viewFlags);
 	}
 
 	@Override
