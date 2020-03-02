@@ -558,7 +558,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void focusGained(View v, Element el) {
-		super.focusGained(v, el);
 		if (getGuiManager() != null) {
 			// somehow the panel was not activated in case focus gain
 			// so it is good to do here, unless it makes an
@@ -1739,7 +1738,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void focusLost(View v, Element el) {
-		super.focusLost(v, el);
 		if (v != focusedView) {
 			return;
 		}
