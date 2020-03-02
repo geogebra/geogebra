@@ -6,14 +6,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 
 /**
  * Input handlers of a text field.
  * @author laszlo
  */
-public class MediaInputKeyHandler implements KeyPressHandler, KeyUpHandler {
+public class MediaInputKeyHandler implements KeyPressHandler {
 
 	private final ProcessInput input;
 
@@ -29,15 +27,13 @@ public class MediaInputKeyHandler implements KeyPressHandler, KeyUpHandler {
 	 * @param field to attach the handlers to.
 	 */
 	void attachTo(AutoCompleteTextFieldW field) {
-		field.getTextBox().addKeyUpHandler(this);
 		field.getTextBox().addKeyPressHandler(this);
-		addNativeInputHandler(field.getInputElement());
+		addNativeInputHandler(input, field.getInputElement());
 	}
 
-	private native void addNativeInputHandler(Element elem) /*-{
-		var that = this;
+	private native void addNativeInputHandler(ProcessInput input, Element elem) /*-{
 		elem.addEventListener("input", function () {
-			that.@org.geogebra.web.full.gui.dialog.MediaInputPanel::onInput()();
+			input.@org.geogebra.web.full.gui.dialog.ProcessInput::onInput()();
 		});
 	}-*/;
 
@@ -52,12 +48,4 @@ public class MediaInputKeyHandler implements KeyPressHandler, KeyUpHandler {
 		return key == KeyCodes.KEY_ENTER;
 	}
 
-	@Override
-	public void onKeyUp(KeyUpEvent event) {
-		if (isEnter(event.getNativeEvent().getKeyCode())) {
-			return;
-		}
-
-		input.onInput();
-	}
 }
