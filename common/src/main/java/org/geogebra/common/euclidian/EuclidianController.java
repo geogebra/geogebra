@@ -36,7 +36,6 @@ import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawSlider;
-import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -6297,7 +6296,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		inlineText.setLabel(null);
 		selectAndShowBoundingBox(inlineText);
-		((DrawInlineText) view.getDrawableFor(inlineText)).toForeground(0, 0);
+		((DrawInlineText) view.getDrawableFor(inlineText)).setCursor(0, 0);
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {
@@ -7896,7 +7895,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		for (Drawable dr : view.allDrawableList) {
 			if (dr instanceof DrawInlineText) {
-				((DrawInlineText) dr).toBackground();
+				((DrawInlineText) dr).setBackground(true);
 			}
 		}
 	}
@@ -9907,7 +9906,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (topGeo == lastInlineText && !draggingOccured) {
 			showDynamicStylebar();
-			((DrawInlineText) view.getDrawableFor(topGeo)).toForeground(mouseLoc.x, mouseLoc.y);
+			((DrawInlineText) view.getDrawableFor(topGeo)).setCursor(mouseLoc.x, mouseLoc.y);
 
 			// Fix weird multiselect bug.
 			setResizedShape(null);
@@ -9919,7 +9918,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			String hyperlinkURL = drInlineText.urlByCoordinate(mouseLoc.x, mouseLoc.y);
 			if (!StringUtil.emptyOrZero(hyperlinkURL) && !draggingOccured) {
 				showDynamicStylebar();
-				drInlineText.toForeground(mouseLoc.x, mouseLoc.y);
+				drInlineText.setCursor(mouseLoc.x, mouseLoc.y);
 				app.showURLinBrowser(hyperlinkURL);
 				return true;
 			}

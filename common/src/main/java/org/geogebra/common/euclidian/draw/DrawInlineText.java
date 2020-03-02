@@ -125,28 +125,6 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	}
 
 	/**
-	 * Send this to background
-	 */
-	public void toBackground() {
-		if (textController != null) {
-			textController.toBackground();
-		}
-	}
-
-	/**
-	 * Send this to foreground
-	 * @param x x mouse coordinates in pixels
-	 * @param y y mouse coordinates in pixels
-	 */
-	public void toForeground(int x, int y) {
-		if (textController != null) {
-			GPoint2D p = inverseTransform
-					.transform(new GPoint2D(x - PADDING, y - PADDING), null);
-			textController.toForeground((int) p.getX(), (int) p.getY());
-		}
-	}
-
-	/**
 	 * @param x x mouse coordinate in pixels
 	 * @param y y mouse coordinate in pixels
 	 * @return the url of the current coordinate, or null, if there is
@@ -288,6 +266,23 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	}
 
 	@Override
+	public int getEmbedID() {
+		return -1;
+	}
+
+	@Override
+	public boolean isBackground() {
+		return textController != null && textController.isBackground();
+	}
+
+	@Override
+	public void setBackground(boolean b) {
+		if (textController != null) {
+			textController.setBackground(b);
+		}
+	}
+
+	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		GPoint2D transformed = inverseTransform.transform(point, null);
 
@@ -366,6 +361,19 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	@Override
 	protected List<GPoint2D> toPoints() {
 		return Arrays.asList(corner0, corner1, corner3);
+	}
+
+	/**
+	 * Set cursor to the given position
+	 * @param x screen coordinate
+	 * @param y screen coordinate
+	 */
+	public void setCursor(int x, int y) {
+		if (textController != null) {
+			GPoint2D p = inverseTransform
+					.transform(new GPoint2D(x - PADDING, y - PADDING), null);
+			textController.setCursor((int) p.getX(), (int) p.getY());
+		}
 	}
 
 	/**

@@ -45,12 +45,14 @@ public interface InlineTextController {
 	/**
 	 * Put the editor behind the canvas
 	 */
-	void toBackground();
+	void setBackground(boolean b);
+
+	boolean isBackground();
 
 	/**
-	 * Bring the editor to the foreground and start editing
+	 * Set the cursor to the given position
 	 */
-	void toForeground(int x, int y);
+	void setCursor(int x, int y);
 
 	/**
 	 * @param key
