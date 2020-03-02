@@ -321,6 +321,11 @@ public class AlgoCompare extends AlgoElement {
 
         String rgResult = realgeomWS.directCommand(rgCommand, rgParameters.toString());
 
+        if ("$Aborted".equals(rgResult)) {
+            Log.debug("Timeout in RealGeom");
+            rgResult = "";
+        }
+
         String[] cases = rgResult.split("\\|\\|");
 
         String retval = "";

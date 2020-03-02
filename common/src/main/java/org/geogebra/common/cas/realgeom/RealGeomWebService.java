@@ -32,6 +32,7 @@ public class RealGeomWebService {
             throws Throwable {
         String url1 = wsHost; // + "/";
         String encodedParameters = "";
+        parameters += "&timelimit=" + timeout;
         if (parameters != null) {
             URLEncoder urle = UtilFactory.getPrototype().newURLEncoder();
             encodedParameters = urle.encode(parameters);
