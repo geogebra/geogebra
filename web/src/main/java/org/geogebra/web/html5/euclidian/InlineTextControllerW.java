@@ -169,6 +169,11 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
+	public String getHyperLinkURL() {
+		return editor.getHyperLinkURL();
+	}
+
+	@Override
 	public String getHyperlinkRangeText() {
 		return editor.getHyperlinkRangeText();
 	}

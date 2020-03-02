@@ -43,7 +43,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 		this.parentDialog = parentDialog;
 		this.required = required;
 
-		setStyleName("mowMediaDialogContent");
+		setStyleName("mowInputPanelContent");
 		addStyleName("emptyState");
 
 		inputField = new InputPanelW("", app, 1, 25, false);
@@ -73,6 +73,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 			@Override
 			public void execute() {
 				inputField.getTextComponent().setFocus(true);
+				inputField.getTextComponent().selectAll();
 			}
 		});
 	}
@@ -118,7 +119,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * @param msg error message to show
 	 */
 	public void showError(String msg) {
-		setStyleName("mowMediaDialogContent");
+		setStyleName("mowInputPanelContent");
 		addStyleName("errorState");
 		errorLabel.setText(app.getLocalization().getMenu("Error") + ": "
 				+ app.getLocalization().getError(msg));
@@ -136,7 +137,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * Remove error state from input panel
 	 */
 	public void resetError() {
-		setStyleName("mowMediaDialogContent");
+		setStyleName("mowInputPanelContent");
 		addStyleName("emptyState");
 		removeStyleName("errorState");
 		if (required) {
@@ -210,7 +211,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * sets the style of InputPanel to focus state
 	 */
 	private void setFocusState() {
-		setStyleName("mowMediaDialogContent");
+		setStyleName("mowInputPanelContent");
 		addStyleName("focusState");
 	}
 

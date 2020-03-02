@@ -48,7 +48,7 @@ public class HyperlinkDialog extends OptionDialog {
 	}
 
 	private String getSelectionUrl() {
-		return inlineText.getFormat("url", "");
+		return inlineText.getHyperLinkURL();
 	}
 
 	@Override

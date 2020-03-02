@@ -60,7 +60,7 @@ public class SaveDialogMow extends DialogBoxW
 	private void initGUI() {
 		dialogContent = new FlowPanel();
 		inputPanel = new FlowPanel();
-		inputPanel.setStyleName("mowMediaDialogContent");
+		inputPanel.setStyleName("mowInputPanelContent");
 		inputPanel.addStyleName("emptyState");
 		titleField = new InputPanelW("", app, 1, 25, false);
 		titleLbl = new FormLabel().setFor(titleField.getTextComponent());
@@ -142,7 +142,7 @@ public class SaveDialogMow extends DialogBoxW
 	 * sets the style of InputPanel to focus state
 	 */
 	protected void setFocusState() {
-		getInputPanel().setStyleName("mowMediaDialogContent");
+		getInputPanel().setStyleName("mowInputPanelContent");
 		getInputPanel().addStyleName("focusState");
 	}
 

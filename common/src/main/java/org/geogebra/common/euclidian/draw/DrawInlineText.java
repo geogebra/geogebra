@@ -395,6 +395,16 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	}
 
 	/**
+	 * @return hyperlink of selected part, or at the end of text element if no selection
+	 */
+	public String getHyperLinkURL() {
+		if (textController != null) {
+			return textController.getHyperLinkURL();
+		}
+		return "";
+	}
+
+	/**
 	 * Switch the list type of selected text
 	 * @param listType - numbered or bullet list
 	 */

@@ -59,7 +59,7 @@ import com.google.gwt.user.client.Command;
 
 /**
  * @author gabor
- * 
+ *
  *         ContextMenuGeoElement for Web
  *
  */
@@ -78,7 +78,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	/**
 	 * Creates new context menu
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -91,7 +91,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	/**
 	 * Creates new MyPopupMenu for GeoElement
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param geos
@@ -242,7 +242,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addHyperlinkItems() {
 		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
 				.getDrawableFor(getGeo());
-		if (StringUtil.emptyOrZero(inlineText.getFormat("url", ""))) {
+		if (StringUtil.emptyOrZero(inlineText.getHyperLinkURL())) {
 			addHyperlinkItem("Link");
 		} else {
 			addHyperlinkItem("editLink");
@@ -620,9 +620,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							loc.getMenu("PinToScreen")),
 					MaterialDesignResources.INSTANCE.check_black(),
 					pinned);
-			
+
 			Command cmdPin = new Command() {
-				
+
 				@Override
 				public void execute() {
 					pinCmd(pinned);
