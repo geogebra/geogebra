@@ -13,6 +13,7 @@ import org.geogebra.web.full.gui.menubar.action.DownloadSvgAction;
 import org.geogebra.web.full.gui.menubar.action.ReportProblemAction;
 import org.geogebra.web.full.gui.menubar.action.SaveAction;
 import org.geogebra.web.full.gui.menubar.action.ShareAction;
+import org.geogebra.web.full.gui.menubar.action.ShowExamLogAction;
 import org.geogebra.web.full.gui.menubar.action.ShowForumAction;
 import org.geogebra.web.full.gui.menubar.action.ShowLicenseAction;
 import org.geogebra.web.full.gui.menubar.action.ShowPrintPreviewAction;
@@ -21,6 +22,7 @@ import org.geogebra.web.full.gui.menubar.action.ShowTutorialsAction;
 import org.geogebra.web.full.gui.menubar.action.SignInAction;
 import org.geogebra.web.full.gui.menubar.action.SignOutAction;
 import org.geogebra.web.full.gui.menubar.action.StartAppAction;
+import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
@@ -41,7 +43,6 @@ public class BaseMenuActionHandlerFactory implements MenuActionHandlerFactory {
     public MenuActionHandler create() {
         DefaultMenuActionHandler actionProvider = new DefaultMenuActionHandler(app);
         actionProvider.setMenuAction(Action.CLEAR_CONSTRUCTION, new ClearAllAction(true));
-        actionProvider.setMenuAction(Action.EXIT_EXAM_MODE, new ExitExamAction());
         actionProvider.setMenuAction(Action.SHOW_LICENSE, new ShowLicenseAction());
         actionProvider.setMenuAction(Action.SHOW_SETTINGS, new ShowSettingsAction());
         actionProvider.setMenuAction(Action.SAVE_FILE, new SaveAction());
@@ -59,6 +60,9 @@ public class BaseMenuActionHandlerFactory implements MenuActionHandlerFactory {
         actionProvider.setMenuAction(Action.DOWNLOAD_COLLADA_DAE, new DownloadColladaDaeAction());
         actionProvider.setMenuAction(Action.DOWNLOAD_COLLADA_HTML, new DownloadColladaHtmlAction());
         actionProvider.setMenuAction(Action.PREVIEW_PRINT, new ShowPrintPreviewAction());
+        actionProvider.setMenuAction(Action.START_EXAM_MODE, new StartExamAction(app));
+        actionProvider.setMenuAction(Action.SHOW_EXAM_LOG, new ShowExamLogAction());
+        actionProvider.setMenuAction(Action.EXIT_EXAM_MODE, new ExitExamAction());
         actionProvider.setMenuAction(Action.START_GRAPHING, StartAppAction.create(app, "graphing"));
         actionProvider.setMenuAction(Action.START_GEOMETRY, StartAppAction.create(app, "geometry"));
         actionProvider.setMenuAction(Action.START_GRAPHING_3D, StartAppAction.create(app, "3d"));

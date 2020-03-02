@@ -65,9 +65,17 @@ public class MenuViewController {
 
 	private void createFactories(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
-		defaultDrawerMenuFactory = new DefaultDrawerMenuFactory(app.getPlatform(),
-				version, hasLoginButton(app) ? app.getLoginOperation() : null, app.isExam());
+		defaultDrawerMenuFactory =
+				new DefaultDrawerMenuFactory(
+						app.getPlatform(),
+						version,
+						hasLoginButton(app) ? app.getLoginOperation() : null,
+						shouldCreateExamEntry(app));
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
+	}
+
+	private boolean shouldCreateExamEntry(AppW app) {
+		return app.getConfig().hasExam() && !app.isExam() && app.getLAF().isOfflineExamSupported();
 	}
 
 	private boolean hasLoginButton(AppW app) {

@@ -150,6 +150,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		app.getGuiManager().updateToolbarActions();
 		app.getGuiManager()
 				.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, app));
+		app.getMenuViewController().setDefaultMenu();
 		app.getGuiManager().resetMenu();
 		app.setActivePerspective(0);
 	}

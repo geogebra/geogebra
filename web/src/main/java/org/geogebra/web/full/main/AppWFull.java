@@ -2172,4 +2172,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView());
 	}
+
+	public MenuViewController getMenuViewController() {
+		return menuViewController;
+	}
 }
