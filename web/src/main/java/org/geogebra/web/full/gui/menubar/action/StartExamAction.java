@@ -5,10 +5,16 @@ import org.geogebra.web.full.gui.exam.ExamStartDialog;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
+/**
+ * Starts exam.
+ */
 public class StartExamAction extends DefaultMenuAction<Void> {
 
     private AppWFull app;
 
+    /**
+     * @param app app
+     */
     public StartExamAction(AppWFull app) {
         this.app = app;
     }
