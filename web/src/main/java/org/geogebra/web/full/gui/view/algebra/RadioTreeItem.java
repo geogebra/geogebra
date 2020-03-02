@@ -55,6 +55,7 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
@@ -1054,10 +1055,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					}
 
 				});
-
-				if (marblePanel != null) {
-					helpPopup.setBtnHelpToggle(marblePanel.getBtnHelpToggle());
-				}
 			} else if (helpPopup.getWidget() == null) {
 				helpPanel = app.getGuiManager()
 						.getInputHelpPanel();
@@ -1322,24 +1319,21 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
-				Widget btn = marblePanel.getBtnHelpToggle() == null
-						? marblePanel.getBtnPlus()
-						: marblePanel.getBtnHelpToggle();
 				double scale = app.getArticleElement().getScaleX();
 				double renderScale = app.getArticleElement().getDataParamApp()
 						? scale : 1;
 				helpPopup.getElement().getStyle()
 						.setProperty("left",
-								(btn.getAbsoluteLeft() - app.getAbsLeft()
-										+ btn.getOffsetWidth()) * renderScale
+								(marblePanel.getAbsoluteLeft() - app.getAbsLeft()
+										+ marblePanel.getOffsetWidth()) * renderScale
 										+ "px");
 				int maxOffsetHeight;
 				int totalHeight = (int) app.getHeight();
-				int toggleButtonTop = (int) ((btn.getParent().getAbsoluteTop()
+				int toggleButtonTop = (int) ((marblePanel.getAbsoluteTop()
 						- (int) app.getAbsTop()) / scale);
 				if (toggleButtonTop < totalHeight / 2) {
 					int top = (toggleButtonTop
-							+ btn.getParent().getOffsetHeight());
+							+ marblePanel.getOffsetHeight());
 					maxOffsetHeight = totalHeight - top;
 					helpPopup.getElement().getStyle().setProperty("top",
 							top * renderScale + "px");
@@ -1576,6 +1570,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		if (marblePanel != null) {
 			marblePanel.updateIcons(error != null);
+			if (!Browser.isMobile()) {
+				marblePanel.setError(error == null ? "" : error);
+			}
 		}
 	}
 

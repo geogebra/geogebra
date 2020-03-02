@@ -1,10 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -27,7 +24,7 @@ public class MarblePanel extends FlowPanel
 	
 	private Marble marble;
 	/** warning triangle / help button */
-	private MyToggleButton btnHelpToggle;
+	private MyToggleButton btnWarning;
 	/** plus button (new expression / text, ...) */
 	MyToggleButton btnPlus;
 	/** av item */
@@ -35,9 +32,6 @@ public class MarblePanel extends FlowPanel
 	/** plus menu */
 	ContextMenuAVPlus cmPlus = null;
 
-	/** No PLUS menu */
-	boolean noPlus = false;
-	
 	/**
 	 * @param item
 	 *            AV item
@@ -100,10 +94,7 @@ public class MarblePanel extends FlowPanel
 	 */
 	@Override
 	public void updateIcons(boolean warning) {
-		MyToggleButton btn = null;
-		String tooltip = "";
 		boolean textInput = item.getController().isInputAsText();
-		noPlus = !StringUtil.emptyTrim(item.getText());
 		if (textInput && !item.isInputTreeItem()
 				&& item.getController().isEditing()) {
 			addStyleName("text");
@@ -111,119 +102,44 @@ public class MarblePanel extends FlowPanel
 			removeStyleName("text");
 		}
 
-		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
-		if (item.isInputTreeItem()) {
-			initPlus();
-			img = StringUtil.emptyTrim(item.getText())
-					? 
-					MaterialDesignResources.INSTANCE.add_black().getSafeUri()
-							.asString()
-				: AppResources.INSTANCE.empty().getSafeUri().asString();
-			btn = btnPlus;
-			if (warning) {
-				tooltip = "";
-			} else {
-				tooltip = noPlus ? " "
-						: item.app.getLocalization().getMenu("AddItem");
-			}
-		} else {
-			initHelpToggle();
-			btn = btnHelpToggle;
-			tooltip = warning ? ""
-					: item.app.getLocalization().getMenu("InputHelp");
-		}
-		
-		btn.setTitle(tooltip);
-		btn.setAltText(tooltip);
+		clear();
 		if (warning && !textInput) {
-			remove(marble);
-			add(btn);
+			initHelpToggle();
+			add(btnWarning);
 			addStyleName("error");
-			removeStyleName("help");
-		}
-		else if (item.getController().isEditing() || item.geo == null) {
-			remove(marble);
-			add(btn);
+		} else if (item.geo == null) {
+			initPlus();
+			add(btnPlus);
 			removeStyleName("error");
-			addStyleName("error");
-
 		} else {
 			add(marble);
 			marble.setEnabled(shouldShowMarble());
-			remove(btn);
 			removeStyleName("error");
 		}
 		AriaHelper.setLabel(marble,
 				item.loc.getMenu("ShowHideObject"));
-		if (!textInput) {
-			if (warning) {
-				NoDragImage warnIcon = new NoDragImage(
-						GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
-						.asString());
-				
-				btn.getUpFace().setImage(warnIcon);
-				btn.getUpHoveringFace().setImage(warnIcon);
-				btn.getDownFace().setImage(warnIcon);
-				btn.getDownHoveringFace().setImage(warnIcon);
-					
-			} else {
-				NoDragImage ndi = new NoDragImage(img, 24);
-				btn.getUpFace().setImage(ndi);
-				btn.getDownFace().setImage(ndi);
-				
-				if (btn == btnPlus && !noPlus) {
-					NoDragImage hover = new NoDragImage(
-							MaterialDesignResources.INSTANCE.add_purple()
-									.getSafeUri().asString(),
-							24);
-					btn.getUpHoveringFace().setImage(hover);
-					btn.getDownHoveringFace().setImage(hover);
-				} else {
-					btn.getUpHoveringFace().setImage(ndi);
-					btn.getDownHoveringFace().setImage(ndi);
-					
-				}
-			}
-		}
 	}
 
 	private void initHelpToggle() {
-		if (btnHelpToggle == null) {
-			btnHelpToggle = new MyToggleButton(item.app);
-			ClickStartHandler.init(btnHelpToggle,
-					new ClickStartHandler(true, true) {
+		if (btnWarning == null) {
+			btnWarning = new MyToggleButton(item.app);
+			NoDragImage warnIcon = new NoDragImage(
+					GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
+							.asString());
 
-						@Override
-						public void onClickStart(int x, int y,
-								PointerEventType type) {
-
-							if (checkError(item)) {
-								return;
-							}
-
-							getBtnHelpToggle()
-									.setDown(!getBtnHelpToggle().isDown());
-
-							if (getBtnHelpToggle().isDown()) {
-								item.app.hideKeyboard();
-								item.clearPreviewAndSuggestions();
-								showDeferred(item);
-							} else {
-								item.setShowInputHelpPanel(false);
-							}
-						}
-					});
-
+			btnWarning.getUpFace().setImage(warnIcon);
+			btnWarning.getUpHoveringFace().setImage(warnIcon);
+			btnWarning.getDownFace().setImage(warnIcon);
+			btnWarning.getDownHoveringFace().setImage(warnIcon);
 			// when clicked, this steals focus
 			// => we need to push focus to parent item
-			btnHelpToggle.addFocusHandler(new FocusHandler() {
+			btnWarning.addFocusHandler(new FocusHandler() {
 
 				@Override
 				public void onFocus(FocusEvent event) {
 					item.setFocus(true);
 					event.preventDefault();
 					event.stopPropagation();
-
 				}
 			});
 		}
@@ -235,7 +151,17 @@ public class MarblePanel extends FlowPanel
 	public void initPlus() {
 		if (btnPlus == null) {
 			btnPlus = new MyToggleButton(item.app);
-			btnPlus.setTitle(item.app.getLocalization().getMenu("AddItem"));
+			NoDragImage plus = new NoDragImage(MaterialDesignResources.INSTANCE.add_black().getSafeUri()
+					.asString(), 24);
+			NoDragImage hover = new NoDragImage(
+					MaterialDesignResources.INSTANCE.add_purple()
+							.getSafeUri().asString(),
+					24);
+			btnPlus.getUpHoveringFace().setImage(hover);
+			btnPlus.getDownHoveringFace().setImage(hover);
+			btnPlus.getUpFace().setImage(plus);
+			btnPlus.getDownFace().setImage(plus);
+
 			add(btnPlus);
 			if (item.app.isUnbundled()) {
 				btnPlus.addStyleName("flatButton");
@@ -249,30 +175,12 @@ public class MarblePanel extends FlowPanel
 				}
 			});
 		}
-		
-		btnPlus.getUpFace().setImage(new NoDragImage(
-				MaterialDesignResources.INSTANCE.add_black().getSafeUri()
-							.asString(),
-			24));
-
-		NoDragImage hoverImg = new NoDragImage(
-				MaterialDesignResources.INSTANCE.add_purple().getSafeUri()
-				.asString(), 24);
-		
-		btnPlus.getUpHoveringFace().setImage(hoverImg);
-		btnPlus.getDownHoveringFace().setImage(hoverImg);
+		String tooltip = item.app.getLocalization().getMenu("AddItem");
+		btnPlus.setTitle(tooltip);
+		btnPlus.setAltText(tooltip);
 		btnPlus.setIgnoreTab();
 		btnPlus.addKeyDownHandler(this);
-		btnPlus.setAltText(btnPlus.getTitle());
 		AriaHelper.setHidden(btnPlus, true);
-	}
-
-	/**
-	 * @return help button
-	 */
-	@Override
-	public MyToggleButton getBtnHelpToggle() {
-		return btnHelpToggle;
 	}
 
 	@Override
@@ -282,20 +190,8 @@ public class MarblePanel extends FlowPanel
 		}
 	}
 
-	/**
-	 * @return the Plus menu button.
-	 */
-	@Override
-	public MyToggleButton getBtnPlus() {
-		return btnPlus;
-	}
-
 	/** Plus button handler */
 	void onPlusPressed() {
-		if (noPlus) {
-			return;
-		}
-
 		if (cmPlus == null) {
 			cmPlus = new ContextMenuAVPlus(item);
 		}
@@ -356,5 +252,13 @@ public class MarblePanel extends FlowPanel
 	@Override
 	public void setIndex(int itemCount) {
 		// index not visible
+	}
+
+	@Override
+	public void setError(String title) {
+		if (btnWarning != null) {
+			btnWarning.setAltText(title);
+			btnWarning.setTitle(title);
+		}
 	}
 }

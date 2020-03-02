@@ -187,9 +187,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				} else {
 					Log.debug("existing geo: " + existingGeo);
 					kernel.notifyUpdatePreviewFromInputBar(null);
-					if (validation != null && validInput.equals(input)) {
-						validation.resetError();
-					}
+				}
+				if (validation != null && validInput.equals(input)) {
+					validation.resetError();
 				}
 			} else {
 				Log.debug("cas cell ");
