@@ -8,7 +8,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.shared.DialogBoxW;
-import org.geogebra.web.shared.GlobalHeader;
 
 /**
  * @author csilla
@@ -74,29 +73,11 @@ public class ExamStartDialog extends DialogBoxW
 	@Override
 	public void onClick(Widget source) {
 		if (source == startBtn) {
-			onStartBtnClick();
+			app.setNewExam();
+			app.startExam();
 		} else if (source == cancelBtn) {
 			((AppWFull) app).getLAF().toggleFullscreen(false);
 		}
 		hide();
-	}
-
-	private void onStartBtnClick() {
-		AppWFull app = (AppWFull) this.app;
-
-		// ensure fullscreen: we may have lost it when handling unsaved
-		// changes
-		app.getLAF().toggleFullscreen(true);
-		app.setNewExam();
-		app.startExam();
-		if (app.getGuiManager() != null
-				&& app.getGuiManager().getUnbundledToolbar() != null) {
-			app.getGuiManager().setUnbundledHeaderStyle("examOk");
-			app.getMenuViewController().setExamMenu();
-			app.getGuiManager().resetMenu();
-			GlobalHeader.INSTANCE.addExamTimer();
-			new ExamUtil(app).visibilityEventMain();
-			app.getGuiManager().initInfoBtnAction();
-		}
 	}
 }

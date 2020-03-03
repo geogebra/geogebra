@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.menubar.action;
 import com.google.gwt.canvas.client.Canvas;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.ExamEnvironment;
@@ -14,7 +13,6 @@ import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -129,7 +127,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 			showFinalLog(loc.getMenu("exam_log_header") + " " + app.getVersionString(),
 					buttonText, handler);
 		}
-		resetAfterExam();
+		app.endExam();
 	}
 
 	private void showFinalLog(String menu, String buttonText,
@@ -139,20 +137,6 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), htmlBuilder);
 		app.showMessage(htmlBuilder.getHTML(), menu, buttonText, handler);
 		saveScreenshot(menu);
-	}
-
-	private void resetAfterExam() {
-		app.setExam(null);
-		app.resetViewsEnabled();
-		LayoutW.resetPerspectives(app);
-		app.getLAF().addWindowClosingHandler(app);
-		app.fireViewsChangedEvent();
-		app.getGuiManager().updateToolbarActions();
-		app.getGuiManager()
-				.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, app));
-		app.getMenuViewController().setDefaultMenu();
-		app.getGuiManager().resetMenu();
-		app.setActivePerspective(0);
 	}
 
 	private void saveScreenshot(String menu) {
@@ -211,6 +195,6 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		saveScreenshot(app.getLocalization().getMenu((app.getConfig()
 				.getAppName())));
 		app.fileNew();
-		resetAfterExam();
+		app.endExam();
 	}
 }
