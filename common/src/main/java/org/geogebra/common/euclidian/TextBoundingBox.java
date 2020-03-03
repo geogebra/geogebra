@@ -88,7 +88,7 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	private void setHandlerTransformed(int i, double x, double y) {
-		corners[i] = transform.transform(new GPoint2D.Double(x, y), null);
+		corners[i] = transform.transform(new GPoint2D(x, y), null);
 		setHandlerFromCenter(i, corners[i].getX(), corners[i].getY());
 	}
 

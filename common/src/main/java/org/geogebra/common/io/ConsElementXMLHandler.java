@@ -1095,7 +1095,7 @@ public class ConsElementXMLHandler {
 				Log.error("Incorrect start point for GeoInlineText");
 			}
 
-			GPoint2D startPoint = AwtFactory.getPrototype().newPoint2D(x, y);
+			GPoint2D startPoint = new GPoint2D(x, y);
 
 			((GeoInlineText) geo).setLocation(startPoint);
 			return;

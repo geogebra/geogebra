@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -74,7 +73,7 @@ public class GeoInlineText extends GeoElement
 	public GeoInlineText(GeoText geoText) {
 		super(geoText.getConstruction());
 		this.contentDefaultSize = getCurrentFontSize();
-		location = new GPoint2D.Double(geoText.getStartPoint().getInhomX(),
+		location = new GPoint2D(geoText.getStartPoint().getInhomX(),
 				geoText.getStartPoint().getInhomY());
 		setContentFromText(geoText);
 	}
@@ -170,8 +169,7 @@ public class GeoInlineText extends GeoElement
 
 	@Override
 	public GeoElement copy() {
-		return new GeoInlineText(cons,
-				AwtFactory.getPrototype().newPoint2D(location.getX(), location.getY()));
+		return new GeoInlineText(cons, new GPoint2D(location.getX(), location.getY()));
 	}
 
 	@Override

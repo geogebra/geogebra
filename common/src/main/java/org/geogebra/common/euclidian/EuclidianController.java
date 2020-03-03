@@ -6273,8 +6273,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			int height = Math.max(GeoInlineText.DEFAULT_HEIGHT,
 					(int) textRectangleShape.getHeight());
 
-			GPoint2D initPoint = AwtFactory.getPrototype()
-					.newPoint2D(view.toRealWorldCoordX(textRectangleShape.getX()),
+			GPoint2D initPoint = new GPoint2D(view.toRealWorldCoordX(textRectangleShape.getX()),
 							view.toRealWorldCoordY(textRectangleShape.getY()));
 
 			inlineText = new GeoInlineText(kernel.getConstruction(), initPoint, width, height);
@@ -6283,7 +6282,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.setShapeRectangle(null);
 			view.repaintView();
 		} else {
-			GPoint2D initPoint = AwtFactory.getPrototype().newPoint2D(xRW, yRW);
+			GPoint2D initPoint = new GPoint2D(xRW, yRW);
 			inlineText = new GeoInlineText(kernel.getConstruction(), initPoint);
 		}
 

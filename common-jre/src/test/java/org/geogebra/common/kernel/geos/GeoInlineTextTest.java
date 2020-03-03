@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -39,7 +38,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 
 		Construction cons = getApp().getKernel().getConstruction();
 
-		GPoint2D startPoint = AwtFactory.getPrototype().newPoint2D(x, y);
+		GPoint2D startPoint = new GPoint2D(x, y);
 
 		GeoInlineText savedInlineText = new GeoInlineText(cons, startPoint, width, height);
 		savedInlineText.setLabel("testText");

@@ -113,10 +113,10 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 			Log.error(e.getMessage());
 		}
 
-		corner0 = directTransform.transform(new GPoint2D.Double(0, 0), null);
-		corner1 = directTransform.transform(new GPoint2D.Double(width, 0), null);
-		corner2 = directTransform.transform(new GPoint2D.Double(width, height), null);
-		corner3 = directTransform.transform(new GPoint2D.Double(0, height), null);
+		corner0 = directTransform.transform(new GPoint2D(0, 0), null);
+		corner1 = directTransform.transform(new GPoint2D(width, 0), null);
+		corner2 = directTransform.transform(new GPoint2D(width, height), null);
+		corner3 = directTransform.transform(new GPoint2D(0, height), null);
 
 		if (boundingBox != null) {
 			boundingBox.setRectangle(getBounds());
@@ -141,7 +141,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	public void toForeground(int x, int y) {
 		if (textController != null) {
 			GPoint2D p = inverseTransform
-					.transform(new GPoint2D.Double(x - PADDING, y - PADDING), null);
+					.transform(new GPoint2D(x - PADDING, y - PADDING), null);
 			textController.toForeground((int) p.getX(), (int) p.getY());
 		}
 	}
@@ -155,7 +155,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	public String urlByCoordinate(int x, int y) {
 		if (textController != null) {
 			GPoint2D p = inverseTransform
-				.transform(new GPoint2D.Double(x - PADDING, y - PADDING), null);
+				.transform(new GPoint2D(x - PADDING, y - PADDING), null);
 			return textController.urlByCoordinate((int) p.getX(), (int) p.getY());
 		}
 
@@ -201,7 +201,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		GPoint2D p = inverseTransform.transform(new GPoint2D.Double(x, y), null);
+		GPoint2D p = inverseTransform.transform(new GPoint2D(x, y), null);
 		return 0 < p.getX() && p.getX() < text.getWidth()
 				&& 0 < p.getY() && p.getY() < text.getHeight();
 	}
@@ -328,9 +328,9 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 			width = GeoInlineText.DEFAULT_WIDTH;
 		}
 
-		GPoint2D origin = directTransform.transform(new GPoint2D.Double(x, y), null);
+		GPoint2D origin = directTransform.transform(new GPoint2D(x, y), null);
 
-		text.setLocation(new GPoint2D.Double(view.toRealWorldCoordX(origin.getX()),
+		text.setLocation(new GPoint2D(view.toRealWorldCoordX(origin.getX()),
 				view.toRealWorldCoordY(origin.getY())));
 		text.setWidth(width);
 		text.setHeight(height);
@@ -356,8 +356,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		text.setWidth(newWidth);
 		text.setHeight(newHeight);
 		text.setAngle(newAngle);
-		text.setLocation(
-				AwtFactory.getPrototype().newPoint2D(
+		text.setLocation(new GPoint2D(
 						view.toRealWorldCoordX(points.get(0).getX()),
 						view.toRealWorldCoordY(points.get(0).getY())
 				)

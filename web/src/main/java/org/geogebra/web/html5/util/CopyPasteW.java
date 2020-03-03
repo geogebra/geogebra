@@ -356,7 +356,7 @@ public class CopyPasteW extends CopyPaste {
 			final EuclidianView ev = app.getActiveEuclidianView();
 
 			final GeoInlineText txt = new GeoInlineText(app.getKernel().getConstruction(),
-					new GPoint2D.Double(ev.toRealWorldCoordX(-defaultTextWidth), 0),
+					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0),
 					defaultTextWidth, GeoInlineText.DEFAULT_HEIGHT);
 			txt.setLabel(null);
 
@@ -382,7 +382,7 @@ public class CopyPasteW extends CopyPaste {
 				public void execute() {
 					int x = (ev.getWidth() - defaultTextWidth) / 2;
 					int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
-					txt.setLocation(new GPoint2D.Double(
+					txt.setLocation(new GPoint2D(
 							ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
 					));
 					drawText.update();
