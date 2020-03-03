@@ -1,9 +1,6 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2ES2;
-import javax.media.opengl.GL2GL3;
-import javax.media.opengl.fixedfunc.GLLightingFunc;
+
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
@@ -18,7 +15,12 @@ import org.geogebra.common.jre.openGL.GLBufferIndicesJre;
 import org.geogebra.common.jre.openGL.GLBufferJre;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import org.geogebra.desktop.main.AppD;
+
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2GL3;
+import com.jogamp.opengl.fixedfunc.GLLightingFunc;
 
 /**
  * Renderer using shaders
@@ -237,7 +239,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 	public void draw(Manager.Type type, int length) {
 
 		jogl.getGL2().glDrawElements(getGLType(type), length,
-				GL.GL_UNSIGNED_SHORT, 0);
+				GL2ES2.GL_UNSIGNED_SHORT, 0); 
 	}
 
 	@Override
