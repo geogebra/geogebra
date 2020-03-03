@@ -13,7 +13,7 @@ import jsinterop.annotations.JsFunction;
 public final class FontLoader {
 	private static Map<String, FontState> injected = new HashMap<>();
 	private static FontFamily[] bundled = new FontFamily[]{FontFamily.DYSLEXIC,
-			FontFamily.QUICKSAND, FontFamily.SCHULBUCH_BAYERN, FontFamily.TITILLIUM};
+			FontFamily.QUICKSAND, FontFamily.SOURCE_SANS_PRO, FontFamily.TITILLIUM};
 
 	private enum FontState { LOADING, ACTIVE }
 
