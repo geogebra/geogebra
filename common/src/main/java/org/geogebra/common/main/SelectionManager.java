@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -24,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys;
@@ -1238,6 +1240,20 @@ public class SelectionManager {
 
 	private AccessibilityManagerInterface getAccessibilityManager() {
 		return kernel.getApplication().getAccessibilityManager();
+	}
+
+	/**
+	 * Finds the groups os selected goes
+	 * @return groups of selected geos
+	 */
+	public HashSet<Group> getSelectedGroups() {
+		HashSet<Group> selectedGroups = new HashSet<>();
+		for (GeoElement geo : selectedGeos) {
+			if (geo.getParentGroup() != null) {
+				selectedGroups.add(geo.getParentGroup());
+			}
+		}
+		return selectedGroups;
 	}
 }
 

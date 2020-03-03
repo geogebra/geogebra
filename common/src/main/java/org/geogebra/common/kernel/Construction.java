@@ -3674,7 +3674,11 @@ public class Construction {
 	}
 
 	public void addGroupToGroupList(Group group) {
-		groups.add(group);
+		getGroups().add(group);
+	}
+
+	public void removeGroupFromGroupList(Group group) {
+		getGroups().remove(group);
 	}
 
 	/**

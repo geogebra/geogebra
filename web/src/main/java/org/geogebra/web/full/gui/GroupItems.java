@@ -2,10 +2,10 @@ package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
+
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 
@@ -13,54 +13,92 @@ import com.google.gwt.core.client.Scheduler;
 
 /**
  * Class to create group related menu items.
- *
- * @author laszlo
  */
 public class GroupItems {
-	private final Localization loc;
-	private Construction construction;
-	private ArrayList<GeoElement> geos;
 	private App app;
+	private ArrayList<GeoElement> geos;
 
 	/**
-	 *
-	 * @param app the Application
+	 * Constructor for adding Group/Ungroup menu items
 	 */
 	GroupItems(App app) {
-		this.loc = app.getLocalization();
-		this.construction = app.getKernel().getConstruction();
-		this.geos = app.getSelectionManager().getSelectedGeos();
 		this.app = app;
+		this.geos = app.getSelectionManager().getSelectedGeos();
 	}
 
 	/**
 	 * Add items that are available to currently selected geos.
 	 * @param popup the menu to add items to.
 	 */
-	void addAvailable(GPopupMenuW popup) {
-		addGroupItemIfNeeded(popup);
+	void addAvailableItems(GPopupMenuW popup) {
+		boolean groupAdded = addGroupItem(popup);
+		boolean ungroupAdded = addUngroupItem(popup);
+		if (groupAdded || ungroupAdded) {
+			popup.addSeparator();
+		}
 	}
 
-	private void addGroupItemIfNeeded(GPopupMenuW popup) {
-		if (geos.size() < 2) {
-			return;
+	private boolean addGroupItem(GPopupMenuW popup) {
+		if (geos.size() >= 2 && allGeosNotInSingleGroup()) {
+			popup.addItem(createGroupItem());
+			return true;
 		}
-		popup.addItem(createGroupItem());
+		return false;
+	}
+
+	private boolean allGeosNotInSingleGroup() {
+		for (GeoElement geo : geos) {
+			if (geo.getParentGroup() == null) {
+				return true;
+			}
+		}
+		return app.getSelectionManager().getSelectedGroups().size() > 1 ? true : false;
+	}
+
+	private boolean addUngroupItem(GPopupMenuW popup) {
+		if (!app.getSelectionManager().getSelectedGroups().isEmpty()) {
+			popup.addItem(createUngroupItem());
+			return true;
+		}
+		return false;
+	}
+
+	private AriaMenuItem createUngroupItem() {
+		return new AriaMenuItem(app.getLocalization().getMenu("ContextMenu.Ungroup"), false,
+				new Scheduler.ScheduledCommand() {
+					@Override
+					public void execute() {
+						ungroupGroups();
+						app.storeUndoInfo();
+					}
+				});
+	}
+
+	private void ungroupGroups() {
+		for (GeoElement geo : geos) {
+			Group groupOfGeo = geo.getParentGroup();
+			if (groupOfGeo != null) {
+				app.getKernel().getConstruction().removeGroupFromGroupList(groupOfGeo);
+				geo.setParentGroup(null);
+			}
+		}
 	}
 
 	private AriaMenuItem createGroupItem() {
-		return new AriaMenuItem(loc.getMenu("Group"), false, new Scheduler.ScheduledCommand() {
+		return new AriaMenuItem(app.getLocalization().getMenu("ContextMenu.Group"), false,
+				new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
 				createGroup();
+				app.storeUndoInfo();
 			}
 		});
 	}
 
 	private void createGroup() {
-		construction.createGroup(geos);
+		ungroupGroups();
+		app.getKernel().getConstruction().createGroup(geos);
 		unfixAll();
-		app.storeUndoInfo();
 	}
 
 	private void unfixAll() {
