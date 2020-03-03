@@ -3558,4 +3558,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public void setPrintMethodsWithParenthesis(boolean shouldPrintMethodsWithParenthesis) {
 		this.shouldPrintMethodsWithParenthesis = shouldPrintMethodsWithParenthesis;
 	}
+
+	public String getEqualsWithSpace() {
+		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
+	}
 }

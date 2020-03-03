@@ -65,9 +65,9 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 		getElement().getStyle().setColor("black");
 
-		content.add(getPlainTextItem());
+		content.add(getDefinitionValuePanel());
 
-		updateFont(getPlainTextItem());
+		updateFont(getDefinitionValuePanel());
 		createSliderGUI();
 		addControls();
 		styleContentPanel();

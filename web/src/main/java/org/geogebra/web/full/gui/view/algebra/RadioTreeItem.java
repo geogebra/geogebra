@@ -74,7 +74,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
@@ -97,15 +96,13 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 /**
  * main -> marblePanel content controls
  *
- * content -> plainTextitem | latexItem | c | (definitionPanel outputPanel)
+ * content -> (definitionValuePanel | latexItem | canvas) ariaLabel
  *
- * sliderContent -> [sliderPanel minmaxPanel]
- *
- * plaintextitem -> STRING | (definitionPanel, outputPanel)
+ * definitionValuePanel -> STRING | (definitionPanel outputPanel)
  *
  * outputPanel -> valuePanel
  *
- * definitionPanel -> c | STRING
+ * definitionPanel -> canvas | STRING
  */
 public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels {
@@ -149,7 +146,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected boolean latex = false;
 
 	private FlowPanel latexItem;
-	private FlowPanel plainTextItem;
+	private FlowPanel definitionValuePanel;
 
 	// GTextBox tb;
 	private boolean needsUpdate;
@@ -198,7 +195,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		av = app.getAlgebraView();
 		main = new FlowPanel();
 		content = new FlowPanel();
-		plainTextItem = new FlowPanel();
+		definitionValuePanel = new FlowPanel();
 		inputControl = createInputControl();
 		setWidget(main);
 		setController(createController());
@@ -223,16 +220,16 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		addMarble();
 
-		getPlainTextItem().addStyleName("avPlainText");
+		getDefinitionValuePanel().addStyleName("avPlainText");
 		getElement().getStyle().setColor("black");
 
-		updateFont(getPlainTextItem());
+		updateFont(getDefinitionValuePanel());
 
 		styleContent();
 
 		addControls();
 
-		content.add(getPlainTextItem());
+		content.add(definitionValuePanel);
 		rebuildContent();
 		// if enabled, render with LaTeX
 		String ltx = getLatexString(null, true);
@@ -311,7 +308,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private boolean buildPlainTextSimple() {
 		return AlgebraItem.buildPlainTextItemSimple(geo,
-				new DOMIndexHTMLBuilder(getPlainTextItem(), app));
+				new DOMIndexHTMLBuilder(getDefinitionValuePanel(), app));
 	}
 
 	protected void createDVPanels() {
@@ -423,17 +420,17 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		content.clear();
 		if (updateDefinitionPanel()) {
-			plainTextItem.clear();
-			plainTextItem.add(definitionPanel);
+			definitionValuePanel.clear();
+			definitionValuePanel.add(definitionPanel);
 		}
 
 		if (updateValuePanel(geo.getLaTeXDescriptionRHS(true,
 				StringTemplate.latexTemplate))) {
 			outputPanel.addValuePanel();
-			plainTextItem.add(outputPanel);
+			definitionValuePanel.add(outputPanel);
 		}
 
-		content.add(plainTextItem);
+		content.add(definitionValuePanel);
 	}
 
 	private void clearPreview() {
@@ -485,8 +482,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 			createDVPanels();
 			content.addStyleName("avPreview");
-			plainTextItem.clear();
-			plainTextItem.add(outputPanel);
+			definitionValuePanel.clear();
+			definitionValuePanel.add(outputPanel);
 			outputPanel.reset();
 
 			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
@@ -500,8 +497,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			outputPanel.addArrowPrefix(app.getActivity());
 			outputPanel.addValuePanel();
 
-			if (content.getWidgetIndex(plainTextItem) == -1) {
-				content.add(plainTextItem);
+			if (content.getWidgetIndex(definitionValuePanel) == -1) {
+				content.add(definitionValuePanel);
 			}
 		} else {
 			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
@@ -538,7 +535,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else {
 			if (!buildPlainTextSimple()) {
 				geo.getAlgebraDescriptionTextOrHTMLDefault(
-						new DOMIndexHTMLBuilder(getPlainTextItem(), app));
+						new DOMIndexHTMLBuilder(getDefinitionValuePanel(), app));
 			}
 			updateItemColor();
 			rebuildPlaintextContent();
@@ -547,8 +544,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private void rebuildPlaintextContent() {
 		content.clear();
-		content.add(getPlainTextItem());
-		adjustToPanel(plainTextItem);
+		content.add(definitionValuePanel);
+		adjustToPanel(definitionValuePanel);
 		if (geo != null && geo.getParentAlgorithm() != null
 				&& geo.getParentAlgorithm().getOutput(0) != geo
 				&& mayNeedOutput()) {
@@ -641,7 +638,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 			} else if (latexAfterEdit) {
 				// Edited text is latex now, but the original is not.
-				renderLatex(text, getPlainTextItem(), isInputTreeItem());
+				renderLatex(text, getDefinitionValuePanel(), isInputTreeItem());
 				latex = true;
 			}
 
@@ -656,7 +653,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				// original text was latex.
 				updateItemColor();
 				content.clear();
-				content.add(getPlainTextItem());
+				content.add(definitionValuePanel);
 				latex = false;
 			}
 		}
@@ -698,7 +695,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (getOffsetWidth() < width) {
 			getAV().setItemWidth(width);
 		}
-
 	}
 
 	/**
@@ -930,9 +926,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			}
 		}
 
-		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
+		if (!latex && !this.isInputTreeItem() && getDefinitionValuePanel() != null
 				&& content.getElement().isOrHasChild(latexItem.getElement())) {
-			LayoutUtilW.replace(content, getPlainTextItem(), latexItem);
+			LayoutUtilW.replace(content, getDefinitionValuePanel(), latexItem);
 
 		}
 		// maybe it's possible to enter something which is non-LaTeX
@@ -1271,8 +1267,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	/**
 	 * @return whether this is a plaintext item (eg A=(1,1))
 	 */
-	public FlowPanel getPlainTextItem() {
-		return plainTextItem;
+	public FlowPanel getDefinitionValuePanel() {
+		return definitionValuePanel;
 	}
 
 	private boolean isNeedsUpdate() {
@@ -1628,12 +1624,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		ensureCanvas();
 		appendCanvas();
-		if (outputPanel != null) {
-			FlowPanel outputWrapper = new FlowPanel();
-			outputWrapper.add(outputPanel);
-			outputWrapper.getElement().getStyle().setDisplay(Style.Display.BLOCK);
-			content.add(outputWrapper);
-		}
+
 		if (!content.isAttached()) {
 			main.add(content);
 		}
@@ -1939,7 +1930,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		doUpdateAfterRedefine(success);
 		if (ariaLabel != null) {
 			ariaLabel.getElement().focus();
-
 		}
 	}
 
@@ -2006,6 +1996,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		clearErrorLabel();
 		removeDummy();
 		renderLatex(text, true);
+		if (outputPanel != null && !isInputTreeItem()
+				&& app.getSettings().getAlgebra().getStyle() == AlgebraStyle.DEFINITION_AND_VALUE) {
+			definitionValuePanel.clear();
+			definitionValuePanel.add(outputPanel);
+			content.add(definitionValuePanel);
+		}
 	}
 
 	/**
@@ -2067,8 +2063,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			updateTextItems();
 		}
 
-		if (plainTextItem != null) {
-			updateFont(plainTextItem);
+		if (definitionValuePanel != null) {
+			updateFont(definitionValuePanel);
 		}
 	}
 
@@ -2158,6 +2154,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return inputControl.hasMoreMenu();
 	}
 
+	/**
+	 * @return Height of the editor
+	 */
 	public int getEditHeight() {
 		int outputHeight = outputPanel == null ? 0 : outputPanel.getOffsetHeight();
 		return getOffsetHeight() - outputHeight;

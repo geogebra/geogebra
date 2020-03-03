@@ -526,7 +526,7 @@ public class RadioTreeItemController implements ClickHandler,
 		markForEdit = false;
 		boolean enable = true;
 		if ((item.isSliderItem()
-				&& !isWidgetHit(item.getPlainTextItem(), wrappedEvent))) {
+				&& !isWidgetHit(item.getDefinitionValuePanel(), wrappedEvent))) {
 			enable = false;
 			if (active) {
 				stopEdit();

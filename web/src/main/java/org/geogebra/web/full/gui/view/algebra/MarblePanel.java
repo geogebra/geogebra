@@ -144,19 +144,17 @@ public class MarblePanel extends FlowPanel
 			});
 		}
 	}
-	
+
 	/**
 	 * Create plus button if it doesn't exist, update the image
 	 */
 	public void initPlus() {
 		if (btnPlus == null) {
 			btnPlus = new MyToggleButton(item.app);
-			NoDragImage plus = new NoDragImage(MaterialDesignResources.INSTANCE.add_black().getSafeUri()
-					.asString(), 24);
+			NoDragImage plus = new NoDragImage(
+					MaterialDesignResources.INSTANCE.add_black(), 24);
 			NoDragImage hover = new NoDragImage(
-					MaterialDesignResources.INSTANCE.add_purple()
-							.getSafeUri().asString(),
-					24);
+					MaterialDesignResources.INSTANCE.add_purple(), 24);
 			btnPlus.getUpHoveringFace().setImage(hover);
 			btnPlus.getDownHoveringFace().setImage(hover);
 			btnPlus.getUpFace().setImage(plus);
