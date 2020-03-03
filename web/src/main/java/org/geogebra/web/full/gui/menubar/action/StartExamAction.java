@@ -20,20 +20,15 @@ public class StartExamAction extends DefaultMenuAction<Void> {
     }
 
     @Override
-    public void execute() {
-        app.getDialogManager().getSaveDialog().showIfNeeded(getExamCallback());
-    }
-
-    @Override
     public void execute(Void item, AppWFull app) {
-        execute();
+        app.getDialogManager().getSaveDialog().showIfNeeded(createExamCallback());
     }
 
     /**
      * @return callback that shows the exam welcome message and prepares Exam
      *         (goes fullscreen)
      */
-    private AsyncOperation<Boolean> getExamCallback() {
+    private AsyncOperation<Boolean> createExamCallback() {
         return new AsyncOperation<Boolean>() {
 
             @Override

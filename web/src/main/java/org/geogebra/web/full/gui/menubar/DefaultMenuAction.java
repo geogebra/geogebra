@@ -6,9 +6,4 @@ public abstract class DefaultMenuAction<T> implements MenuAction<T> {
 	public boolean isAvailable(T item) {
 		return true;
 	}
-
-	@Override
-	public void execute() {
-		execute(null, null);
-	}
 }

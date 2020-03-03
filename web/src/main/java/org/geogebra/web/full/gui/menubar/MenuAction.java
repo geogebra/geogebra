@@ -13,11 +13,6 @@ public interface MenuAction<T> {
 
 	/**
 	 * Executes the action.
-	 */
-	void execute();
-
-	/**
-	 * Executes the action.
 	 *
 	 * @param item
 	 *            reference item
