@@ -21,6 +21,7 @@ public class FontSubMenu extends AriaMenuBar {
 	private final List<FontFamily> fonts;
 	private InlineTextController textController;
 	private final AppW app;
+	private AriaMenuItem highlighted;
 
 	/**
 	 * @param app the application
@@ -45,18 +46,30 @@ public class FontSubMenu extends AriaMenuBar {
 	@Override
 	public void stylePopup(Widget widget) {
 		widget.getElement().setId("fontSubMenu");
-		selectCurrent();
+		highlightCurrent();
 	}
 
-	private void selectCurrent() {
+	private void highlightCurrent() {
 		String font = textController.getFormat("font", "");
 		for (FontFamily family : fonts) {
 			if (font.equals(family.cssName())) {
-				selectItem(fonts.indexOf(family));
+				highlightItem(fonts.indexOf(family));
 				return;
 			}
 		}
 		unselect();
 	}
 
+	private void highlightItem(int index) {
+		if (highlighted != null) {
+			highlighted.removeStyleName("highlighted");
+		}
+
+		if (index < 0) {
+			return;
+		}
+
+		highlighted = getItemAt(index);
+		highlighted.addStyleName("highlighted");
+	}
 }

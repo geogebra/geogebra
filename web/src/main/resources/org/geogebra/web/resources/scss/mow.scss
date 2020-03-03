@@ -4,6 +4,8 @@
 	$pagecontrolpanelWidth: 269px;
 	$always_on_top: 60;
 
+	$highlighted-menuitem-background: $selected-menuitem-background;
+
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	$pagecontrol-transition: right 0.25s cubic-bezier(0.4, 0, 1, 1);
 	$floatingbtn-hover-transition: background-color 0.15s;
@@ -572,6 +574,10 @@
 			  height: 32px;
 			  border-radius: 2px;
 			  cursor: pointer;
+		}
+
+		.highlighted {
+			background-color: $highlighted-menuitem-background;
 		}
 	}
 
