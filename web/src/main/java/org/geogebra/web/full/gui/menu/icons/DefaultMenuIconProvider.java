@@ -96,7 +96,7 @@ public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider 
 	SVGResource bugReport();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_info_outline_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/info-24px.svg")
 	SVGResource info();
 
 	@Override

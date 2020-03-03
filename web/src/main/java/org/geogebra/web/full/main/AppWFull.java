@@ -181,7 +181,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 																// technical
 	private int spWidth;
 	private int spHeight;
-	private boolean isClassicMenuInited = false;
+	private boolean isMenuInited = false;
 	// helper
 	// variable
 	private HorizontalPanel splitPanelWrapper = null;
@@ -421,10 +421,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void initMenu() {
-		initSignInEventFlow();
-		menuViewController = new MenuViewController(this);
-		menuViewController.setMenuViewListener(this);
-		frame.add(menuViewController.getView());
+		if (isFloatingMenu()) {
+			initSignInEventFlow();
+			menuViewController = new MenuViewController(this);
+			menuViewController.setMenuViewListener(this);
+			frame.add(menuViewController.getView());
+			isMenuInited = true;
+		}
 	}
 
 	/**
@@ -1421,7 +1424,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard
-					|| (frame.getWidget(i) == menuViewController.getView())
+					|| (menuViewController != null
+					    && frame.getWidget(i) == menuViewController.getView())
 					|| (isUnbundledOrWhiteboard()
 							&& frame.getWidget(i) instanceof Persistable)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
@@ -1863,10 +1867,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!menuShowing) {
 			getAppletFrame().hidePanel(null);
 			menuShowing = true;
-			boolean needsUpdate = isClassicMenuInited;
-			if (!isFloatingMenu() && !isClassicMenuInited) {
+			boolean needsUpdate = isMenuInited;
+			if (!isFloatingMenu() && !isMenuInited) {
 				frame.getMenuBar(this).init(this);
-				isClassicMenuInited = true;
+				isMenuInited = true;
 			} else if (isFloatingMenu()) {
 				menuViewController.setMenuVisible(true);
 				return;
@@ -1917,7 +1921,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void hideMenu() {
-		if (!isClassicMenuInited || !menuShowing) {
+		if (!isMenuInited || !menuShowing) {
 			return;
 		}
 

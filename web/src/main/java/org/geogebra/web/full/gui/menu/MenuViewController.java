@@ -1,7 +1,11 @@
 package org.geogebra.web.full.gui.menu;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
@@ -9,10 +13,12 @@ import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.menu.action.BaseMenuActionHandlerFactory;
+import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -21,14 +27,17 @@ import java.util.List;
 /**
  * Controller for the main menu in the apps.
  */
-public class MenuViewController {
+public class MenuViewController implements ResizeHandler {
 
 	private MenuViewListener menuViewListener;
 
 	private FloatingMenuView floatingMenuView;
+	private HeaderedMenuView headeredMenuView;
+	private HeaderView headerView;
 	private MenuView menuView;
 
 	private Localization localization;
+	private GeoGebraFrameW frame;
 	private MenuIconResource menuIconResource;
 	private MenuActionRouter menuActionRouter;
 
@@ -45,22 +54,30 @@ public class MenuViewController {
 		createViews();
 		createFactories(app);
 		setDefaultMenu();
+		addHandler();
+		onResize(null);
 	}
 
 	private void createObjects(AppWFull app) {
 		localization = app.getLocalization();
+		frame = app.getAppletFrame();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		BaseMenuActionHandlerFactory actionProviderFactory = new BaseMenuActionHandlerFactory(app);
-		menuActionRouter = new MenuActionRouter(actionProviderFactory.create());
+        BaseMenuActionHandlerFactory actionProviderFactory = new BaseMenuActionHandlerFactory(app);
+		menuActionRouter = new MenuActionRouter(actionProviderFactory.create(), this, localization);
 	}
 
 	private void createViews() {
 		floatingMenuView = new FloatingMenuView();
 		floatingMenuView.setVisible(false);
 
+		headerView = createHeaderView();
+		headerView.getBackButton().removeFromParent();
 		menuView = new MenuView();
-		floatingMenuView.add(menuView);
+		headeredMenuView = new HeaderedMenuView(menuView);
+		headeredMenuView.setHeaderView(headerView);
+		headeredMenuView.setTitleHeader(true);
+		floatingMenuView.setWidget(headeredMenuView);
 	}
 
 	private void createFactories(AppW app) {
@@ -85,6 +102,10 @@ public class MenuViewController {
 				&& app.getLAF().hasLoginButton();
 	}
 
+	private void addHandler() {
+		Window.addResizeHandler(this);
+	}
+
 	/**
 	 * Set the menu view listener.
 	 *
@@ -107,14 +128,20 @@ public class MenuViewController {
 	 * Sets the menu to default.
 	 */
 	public void setDefaultMenu() {
-		setMenuItemGroups(defaultDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
+		setDrawerMenu(defaultDrawerMenuFactory.createDrawerMenu());
 	}
 
 	/**
 	 * Sets the menu to exam.
 	 */
 	public void setExamMenu() {
-		setMenuItemGroups(examDrawerMenuFactory.createDrawerMenu().getMenuItemGroups());
+		setDrawerMenu(examDrawerMenuFactory.createDrawerMenu());
+	}
+
+	private void setDrawerMenu(DrawerMenu drawerMenu) {
+		setHeaderCaption(drawerMenu.getTitle());
+		setMenuItemGroups(menuView,
+				drawerMenu.getMenuItemGroups());
 	}
 
 	/**
@@ -123,8 +150,13 @@ public class MenuViewController {
 	 * @param visible true to show the menu
 	 */
 	public void setMenuVisible(boolean visible) {
-		floatingMenuView.setVisible(visible);
-		notifyMenuViewVisibilityChanged(visible);
+		if (visible != floatingMenuView.isVisible()) {
+			floatingMenuView.setVisible(visible);
+			notifyMenuViewVisibilityChanged(visible);
+			if (visible) {
+				hideSubmenu();
+			}
+		}
 	}
 
 	private void notifyMenuViewVisibilityChanged(boolean visible) {
@@ -137,14 +169,38 @@ public class MenuViewController {
 		}
 	}
 
-	private void setMenuItemGroups(List<MenuItemGroup> menuItemGroups) {
+	void setMenuItemGroups(MenuView menuView, List<MenuItemGroup> menuItemGroups) {
 		menuView.clear();
 		for (MenuItemGroup group : menuItemGroups) {
-			createMenuItemGroup(group);
+			createMenuItemGroup(menuView, group);
 		}
 	}
 
-	private void createMenuItemGroup(MenuItemGroup menuItemGroup) {
+	void showSubmenu(HeaderedMenuView headeredSubmenu) {
+		floatingMenuView.clear();
+		floatingMenuView.add(headeredSubmenu);
+	}
+
+	void hideSubmenu() {
+		if (headeredMenuView.getParent() == null) {
+			floatingMenuView.clear();
+			floatingMenuView.add(headeredMenuView);
+		}
+	}
+
+	HeaderView createHeaderView() {
+		HeaderView headerView = new HeaderView();
+		headerView.setElevated(false);
+		headerView.setCompact(true);
+		return headerView;
+	}
+
+	private void setHeaderCaption(String title) {
+		String localizedTitle = localization.getMenu(title);
+		headerView.setCaption(localizedTitle);
+	}
+
+	private void createMenuItemGroup(MenuView menuView, MenuItemGroup menuItemGroup) {
 		String titleKey = menuItemGroup.getTitle();
 		String title = titleKey == null ? null : localization.getMenu(titleKey);
 		MenuItemGroupView view = new MenuItemGroupView(title);
@@ -155,16 +211,21 @@ public class MenuViewController {
 	}
 
 	private void createMenuItem(final MenuItem menuItem, MenuItemGroupView parent) {
-		SVGResource icon = menuIconResource.getImageResource(menuItem.getIcon());
+		SVGResource icon = menuItem.getIcon() != null
+				? menuIconResource.getImageResource(menuItem.getIcon()) : null;
 		String label = localization.getMenu(menuItem.getLabel());
 		MenuItemView view = new MenuItemView(icon, label);
 		view.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				setMenuVisible(false);
 				menuActionRouter.handleMenuItem(menuItem);
 			}
 		});
 		parent.add(view);
+	}
+
+	@Override
+	public void onResize(ResizeEvent event) {
+		headerView.setVisible(frame.hasSmallWindowOrCompactHeader());
 	}
 }
