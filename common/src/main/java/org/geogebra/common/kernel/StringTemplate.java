@@ -1887,10 +1887,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 						firstRight = rightStr.charAt(0);
 						// check if we need a multiplication sign, see #414
 						// digit-digit, e.g. 3 * 5
-						showMultiplicationSign = Character.isDigit(lastLeft)
+						showMultiplicationSign = (Character.isDigit(lastLeft) || lastLeft == ')')
 								&& (StringUtil.isDigit(firstRight)
 										// 3*E23AB can't be written 3E23AB
-										|| (rightStr.charAt(0) == 'E'));
+										|| (firstRight == 'E'));
 						// check if we need a multiplication space:
 						multiplicationSpaceNeeded = showMultiplicationSign;
 						if (!multiplicationSpaceNeeded) {

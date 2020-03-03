@@ -424,8 +424,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			definitionValuePanel.add(definitionPanel);
 		}
 
-		if (updateValuePanel(geo.getLaTeXDescriptionRHS(true,
-				StringTemplate.latexTemplate))) {
+		if (updateOutputValuePanel()) {
 			outputPanel.addValuePanel();
 			definitionValuePanel.add(outputPanel);
 		}
@@ -456,13 +455,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 *            preview from input bar
 	 */
 	public void previewValue(GeoElement previewGeo) {
-		String text = previewGeo
-				.getAlgebraDescription(StringTemplate.latexTemplate)
-				.replace("undefined", "").trim();
-		if (!StringUtil.empty(text)
-				&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
-			text = text.substring(1);
-		}
+
 		if ((previewGeo
 				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
 				|| getController().isInputAsText())) {
@@ -489,7 +482,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 			previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 			String plain = sb.toString();
-
+			String text = previewGeo
+					.getAlgebraDescription(StringTemplate.latexTemplate)
+					.replace("undefined", "").trim();
+			if (!StringUtil.empty(text)
+					&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
+				text = text.substring(1);
+			}
 			if (!plain.equals(text) || forceLatex) {
 				outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 			}
@@ -501,9 +500,16 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				content.add(definitionValuePanel);
 			}
 		} else {
-			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
+			if (updateOutputValuePanel()) {
+				outputPanel.addValuePanel();
+			}
 		}
 		clearUndefinedVariables();
+	}
+
+	private boolean updateOutputValuePanel() {
+		return updateValuePanel(geo.getLaTeXDescriptionRHS(true,
+				StringTemplate.latexTemplate));
 	}
 
 	private void updateSymbolicMode(GeoElement geoElement) {
