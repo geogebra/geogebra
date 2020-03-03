@@ -484,7 +484,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 		GeoElement geo = item.geo;
 		if (!isEditing()) {
-			setEditHeigth(item.getOffsetHeight());
+			setEditHeigth(item.getEditHeight());
 			getAV().startEditItem(geo);
 
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {

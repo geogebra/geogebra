@@ -74,6 +74,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
@@ -458,15 +459,19 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 *            preview from input bar
 	 */
 	public void previewValue(GeoElement previewGeo) {
-		if (getAV().getActiveTreeItem() != this) {
-			return;
+		String text = previewGeo
+				.getAlgebraDescription(StringTemplate.latexTemplate)
+				.replace("undefined", "").trim();
+		if (!StringUtil.empty(text)
+				&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
+			text = text.substring(1);
 		}
 		if ((previewGeo
 				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE
 				|| getController().isInputAsText())) {
 			clearPreview();
 
-		} else {
+		} else if (isInputTreeItem()) {
 			content.removeStyleName("noPreview");
 			content.addStyleName("avPreview");
 			boolean forceLatex = false;
@@ -488,13 +493,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 			String plain = sb.toString();
 
-			String text = previewGeo
-					.getAlgebraDescription(StringTemplate.latexTemplate)
-					.replace("undefined", "").trim();
-			if (!StringUtil.empty(text)
-					&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
-				text = text.substring(1);
-			}
 			if (!plain.equals(text) || forceLatex) {
 				outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 			}
@@ -505,6 +503,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (content.getWidgetIndex(plainTextItem) == -1) {
 				content.add(plainTextItem);
 			}
+		} else {
+			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 		}
 		clearUndefinedVariables();
 	}
@@ -1628,7 +1628,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		ensureCanvas();
 		appendCanvas();
-
+		if (outputPanel != null) {
+			FlowPanel outputWrapper = new FlowPanel();
+			outputWrapper.add(outputPanel);
+			outputWrapper.getElement().getStyle().setDisplay(Style.Display.BLOCK);
+			content.add(outputWrapper);
+		}
 		if (!content.isAttached()) {
 			main.add(content);
 		}
@@ -2153,4 +2158,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		return inputControl.hasMoreMenu();
 	}
 
+	public int getEditHeight() {
+		int outputHeight = outputPanel == null ? 0 : outputPanel.getOffsetHeight();
+		return getOffsetHeight() - outputHeight;
+	}
 }
