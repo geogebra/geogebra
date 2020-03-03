@@ -63,12 +63,18 @@ public class BaseMenuActionHandlerFactory implements MenuActionHandlerFactory {
         actionProvider.setMenuAction(Action.START_EXAM_MODE, new StartExamAction(app));
         actionProvider.setMenuAction(Action.SHOW_EXAM_LOG, new ShowExamLogAction());
         actionProvider.setMenuAction(Action.EXIT_EXAM_MODE, new ExitExamAction());
-        actionProvider.setMenuAction(Action.START_GRAPHING, StartAppAction.create(app, "graphing"));
-        actionProvider.setMenuAction(Action.START_GEOMETRY, StartAppAction.create(app, "geometry"));
-        actionProvider.setMenuAction(Action.START_GRAPHING_3D, StartAppAction.create(app, "3d"));
-        actionProvider.setMenuAction(Action.START_CAS_CALCULATOR, StartAppAction.create(app, "calculator"));
-        actionProvider.setMenuAction(Action.START_CLASSIC, StartAppAction.create(app, "classic"));
-        actionProvider.setMenuAction(Action.START_CAS_CALCULATOR, StartAppAction.create(app, "cas"));
+        actionProvider.setMenuAction(
+                Action.START_GRAPHING, StartAppAction.create(app, "graphing"));
+        actionProvider.setMenuAction(
+                Action.START_GEOMETRY, StartAppAction.create(app, "geometry"));
+        actionProvider.setMenuAction(
+                Action.START_GRAPHING_3D, StartAppAction.create(app, "3d"));
+        actionProvider.setMenuAction(
+                Action.START_CAS_CALCULATOR, StartAppAction.create(app, "calculator"));
+        actionProvider.setMenuAction(
+                Action.START_CLASSIC, StartAppAction.create(app, "classic"));
+        actionProvider.setMenuAction(
+                Action.START_CAS_CALCULATOR, StartAppAction.create(app, "cas"));
         return actionProvider;
     }
 }

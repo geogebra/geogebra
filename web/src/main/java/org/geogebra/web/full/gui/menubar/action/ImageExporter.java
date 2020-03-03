@@ -23,6 +23,11 @@ class ImageExporter {
         app.getSelectionManager().clearSelectedGeos();
         app
                 .getFileManager()
-                .showExportAsPictureDialog(url, app.getExportTitle(), extension, "ExportAsPicture", app);
+                .showExportAsPictureDialog(
+                        url,
+                        app.getExportTitle(),
+                        extension,
+                        "ExportAsPicture",
+                        app);
     }
 }

@@ -382,8 +382,7 @@ public class FileManagerW extends FileManager {
 	}
 
 	private static void dialogEvent(AppW app, String string) {
-		app.dispatchEvent(new org.geogebra.common.plugin.Event(
-				EventType.OPEN_DIALOG, null, string));
+		app.dispatchEvent(new Event(EventType.OPEN_DIALOG, null, string));
 	}
 
 }

@@ -12,7 +12,10 @@ public class ReportProblemAction extends DefaultMenuAction<Void> {
 
     @Override
     public void execute(Void item, AppWFull app) {
-        String url = GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang=" + app.getLocalization().getLanguage();
+        String url =
+                GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB
+                        + "&lang="
+                        + app.getLocalization().getLanguage();
         Window.open(url, "_blank", "");
     }
 }
