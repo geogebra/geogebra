@@ -320,7 +320,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private GeoElement process(ExpressionNode expressionNode) throws Exception {
 		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
-		if (algebraProcessor.isVectorForced(getLabelSimple())) {
+		if (algebraProcessor.hasVectorLabel(this)) {
 			expressionNode.setForceVector();
 		}
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
