@@ -3387,6 +3387,11 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * Determines whether the element should be a vector or not based on its label.
+	 * @param element element
+	 * @return true if the element's label starts with a lowercase character, otherwise false.
+	 */
 	public boolean hasVectorLabel(GeoElement element) {
 		String alreadySetLabel = element.getLabelSimple();
 		String label = alreadySetLabel != null ? alreadySetLabel : element.getDefinition().getLabel();
