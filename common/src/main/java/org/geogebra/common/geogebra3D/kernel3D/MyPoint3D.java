@@ -18,10 +18,9 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.MyMath;
 
 /**
- * Lightweight point with lineTo flag that can be easily transformed into
+ * Lightweight point with segmentType that can be easily transformed into
  * GeoPoint3D
  */
 public class MyPoint3D extends MyPoint {
@@ -55,22 +54,6 @@ public class MyPoint3D extends MyPoint {
 
 	/**
 	 * @param px
-	 *            x-coordinate
-	 * @param py
-	 *            y-coordinate
-	 * @param pz
-	 *            z-coordinate
-	 * @return euclidian distance to otherpoint squared
-	 */
-	public double distSqr(double px, double py, double pz) {
-		double vx = px - x;
-		double vy = py - y;
-		double vz = pz - z;
-		return vx * vx + vy * vy + vz * vz;
-	}
-
-	/**
-	 * @param px
 	 *            x-coord
 	 * @param py
 	 *            y-coord
@@ -88,31 +71,9 @@ public class MyPoint3D extends MyPoint {
 		return "(" + x + ", " + y + ", " + z + ")";
 	}
 
-	/**
-	 * @param p
-	 *            other point
-	 * @return euclidian distance from p
-	 */
-	public double distance(MyPoint3D p) {
-		return MyMath.length(p.x - x, p.y - y, p.z - z);
-	}
-
 	@Override
 	public double getZ() {
 		return z;
-	}
-
-	/**
-	 * @param x1
-	 *            x
-	 * @param y1
-	 *            y
-	 * @param z1
-	 *            z
-	 * @return distance from (x1,y1,z1)
-	 */
-	public double distance(double x1, double y1, double z1) {
-		return distSqr(x1, y1, z1);
 	}
 
 	/**
@@ -125,7 +86,15 @@ public class MyPoint3D extends MyPoint {
 
 	@Override
 	public double distance(GPoint2D q) {
-		return distance(q.getX(), q.getY(), 0);
+		return Math.sqrt(distanceSq(q));
+	}
+
+	@Override
+	public double distanceSq(GPoint2D to) {
+		double vx = to.getX() - x;
+		double vy = to.getY() - y;
+		double vz = to.getZ() - z;
+		return vx * vx + vy * vy + vz * vz;
 	}
 
 	/**

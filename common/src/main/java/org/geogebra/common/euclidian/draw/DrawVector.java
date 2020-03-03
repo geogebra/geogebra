@@ -60,9 +60,8 @@ public class DrawVector extends Drawable implements Previewable {
 	private boolean arrowheadVisible;
 	private boolean lineVisible;
 	private ArrayList<GeoPointND> points;
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
-	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
-			AwtFactory.getPrototype().newPoint2D() };
+	private GPoint2D endPoint = new GPoint2D();
+	private GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 
 	/**
 	 * Creates new DrawVector

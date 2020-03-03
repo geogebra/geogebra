@@ -29,6 +29,7 @@ import static java.lang.Math.max;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
@@ -179,8 +180,8 @@ public abstract class CubicCurve2D implements GShape  {
          * @since 1.2
          */
         @Override
-		public Point2D getP1() {
-            return new Point2D.Double(x1, y1);
+		public GPoint2D getP1() {
+            return new GPoint2D(x1, y1);
         }
 
         /**
@@ -206,8 +207,8 @@ public abstract class CubicCurve2D implements GShape  {
          * @since 1.2
          */
         @Override
-		public Point2D getCtrlP1() {
-            return new Point2D.Double(ctrlx1, ctrly1);
+		public GPoint2D getCtrlP1() {
+            return new GPoint2D(ctrlx1, ctrly1);
         }
 
         /**
@@ -233,8 +234,8 @@ public abstract class CubicCurve2D implements GShape  {
          * @since 1.2
          */
         @Override
-		public Point2D getCtrlP2() {
-            return new Point2D.Double(ctrlx2, ctrly2);
+		public GPoint2D getCtrlP2() {
+            return new GPoint2D(ctrlx2, ctrly2);
         }
 
         /**
@@ -260,8 +261,8 @@ public abstract class CubicCurve2D implements GShape  {
          * @since 1.2
          */
         @Override
-		public Point2D getP2() {
-            return new Point2D.Double(x2, y2);
+		public GPoint2D getP2() {
+            return new GPoint2D(x2, y2);
         }
 
         /**
@@ -334,11 +335,11 @@ public abstract class CubicCurve2D implements GShape  {
 
     /**
      * Returns the start point.
-     * @return a {@code Point2D} that is the start point of
+     * @return a {@code GPoint2D} that is the start point of
      *         the {@code CubicCurve2D}.
      * @since 1.2
      */
-    public abstract Point2D getP1();
+    public abstract GPoint2D getP1();
 
     /**
      * Returns the X coordinate of the first control point in double precision.
@@ -362,7 +363,7 @@ public abstract class CubicCurve2D implements GShape  {
      *         the {@code CubicCurve2D}.
      * @since 1.2
      */
-    public abstract Point2D getCtrlP1();
+    public abstract GPoint2D getCtrlP1();
 
     /**
      * Returns the X coordinate of the second control point
@@ -388,7 +389,7 @@ public abstract class CubicCurve2D implements GShape  {
      *         the {@code CubicCurve2D}.
      * @since 1.2
      */
-    public abstract Point2D getCtrlP2();
+    public abstract GPoint2D getCtrlP2();
 
     /**
      * Returns the X coordinate of the end point in double precision.
@@ -412,7 +413,7 @@ public abstract class CubicCurve2D implements GShape  {
      *         the {@code CubicCurve2D}.
      * @since 1.2
      */
-    public abstract Point2D getP2();
+    public abstract GPoint2D getP2();
 
     /**
      * Sets the location of the end points and control points of this curve
@@ -471,22 +472,22 @@ public abstract class CubicCurve2D implements GShape  {
      *          end point of this curve
      * @since 1.2
      */
-    public void setCurve(Point2D p1, Point2D cp1, Point2D cp2, Point2D p2) {
+    public void setCurve(GPoint2D p1, GPoint2D cp1, GPoint2D cp2, GPoint2D p2) {
         setCurve(p1.getX(), p1.getY(), cp1.getX(), cp1.getY(),
                  cp2.getX(), cp2.getY(), p2.getX(), p2.getY());
     }
 
     /**
      * Sets the location of the end points and control points of this curve
-     * to the coordinates of the <code>Point2D</code> objects at the specified
+     * to the coordinates of the <code>GPoint2D</code> objects at the specified
      * offset in the specified array.
-     * @param pts an array of <code>Point2D</code> objects
+     * @param pts an array of <code>GPoint2D</code> objects
      * @param offset  the index of <code>pts</code> from which to begin setting
      *          the end points and control points of this curve to the
      *          points contained in <code>pts</code>
      * @since 1.2
      */
-    public void setCurve(Point2D[] pts, int offset) {
+    public void setCurve(GPoint2D[] pts, int offset) {
         setCurve(pts[offset + 0].getX(), pts[offset + 0].getY(),
                  pts[offset + 1].getX(), pts[offset + 1].getY(),
                  pts[offset + 2].getX(), pts[offset + 2].getY(),
@@ -809,7 +810,7 @@ public abstract class CubicCurve2D implements GShape  {
      * {@inheritDoc}
      * @since 1.2
      */
-    public boolean contains(Point2D p) {
+    public boolean contains(GPoint2D p) {
         return contains(p.getX(), p.getY());
     }
 

@@ -67,7 +67,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 				GeoPointND p = (GeoPointND) geo;
 				p.getInhomCoords(inhom);
 
-				pointTree.add(new GPoint2D.Double(inhom[0], inhom[1]));
+				pointTree.add(new GPoint2D(inhom[0], inhom[1]));
 
 			}
 		}
@@ -132,9 +132,9 @@ public class AlgoVoronoi extends AlgoDiscrete {
 					if (voronoiCell != null) {
 						for (int i = 0; i < voronoiCell.length - 1; i++) {
 							tree.add(new MyLine(
-									new GPoint2D.Double(voronoiCell[i].x(),
+									new GPoint2D(voronoiCell[i].x(),
 											voronoiCell[i].y()),
-									new GPoint2D.Double(
+									new GPoint2D(
 											voronoiCell[(i + 1)
 													% voronoiCell.length].x(),
 											voronoiCell[(i + 1)

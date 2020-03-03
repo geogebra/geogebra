@@ -130,7 +130,7 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 		if (impl.getCurrentPoint() == null) {
 			return null;
 		}
-		return new GPoint2DD(impl.getCurrentPoint().getX(),
+		return new GPoint2D(impl.getCurrentPoint().getX(),
 				impl.getCurrentPoint().getY());
 	}
 

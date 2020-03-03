@@ -1444,5 +1444,4 @@ public class GgbAPIW extends GgbAPI {
 	public Element getFrame() {
 		return ((AppW) app).getFrameElement();
 	}
-
 }

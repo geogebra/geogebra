@@ -296,7 +296,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GPoint startLoc;
 	protected GPoint lastMouseLoc;
 	protected GPoint oldLoc = new GPoint();
-	protected GPoint2D.Double lineEndPoint = null;
+	protected GPoint2D lineEndPoint = null;
 	protected GPoint selectionStartPoint = new GPoint();
 	protected ArrayList<Double> tempDependentPointX;
 	protected ArrayList<Double> tempDependentPointY;
@@ -360,7 +360,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private double vertexY = Double.NaN;
 	private ModeDeleteLocus deleteMode;
 	private ModeShape shapeMode;
-	private GPoint2D.Double startPoint = new GPoint2D.Double();
+	private GPoint2D startPoint = new GPoint2D();
 	private boolean externalHandling;
 	private long lastMouseRelease;
 	private long lastTouchRelease;
@@ -7575,8 +7575,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// resize selected geo
 				if (getResizedShape().getGeoElement().isSelected()) {
 					dontClearSelection = true;
-					GPoint2D p = AwtFactory.getPrototype()
-							.newPoint2D(event.getX(), event.getY());
+					GPoint2D p = new GPoint2D(event.getX(), event.getY());
 					getResizedShape().updateByBoundingBoxResize(p,
 							view.getHitHandler());
 				}
@@ -7869,7 +7868,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		default:
 			break;
 		}
-		return AwtFactory.getPrototype().newPoint2D(distX, distY);
+		return new GPoint2D(distX, distY);
 	}
 
 	/**
@@ -10774,21 +10773,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						&& (app.hasFocus() || shiftOrMeta));
 	}
 
-	/**
-	 * Update preview line endpoint. FIXME duplicate method
-	 * 
-	 * @param p
-	 *            line endpoint
-	 */
-	public void setLineEndPoint(GPoint2D p) {
-		if (p == null) {
-			lineEndPoint = null;
-		} else {
-			lineEndPoint = new GPoint2D.Double(p.getX(), p.getY());
-		}
-		useLineEndPoint = true;
-	}
-
 	public Hits getHighlightedgeos() {
 		return highlightedGeos.cloneHits();
 	}
@@ -10830,7 +10814,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param point
 	 *            line endpoint
 	 */
-	public void setLineEndPoint(GPoint2D.Double point) {
+	public void setLineEndPoint(GPoint2D point) {
 		lineEndPoint = point;
 		useLineEndPoint = true;
 	}

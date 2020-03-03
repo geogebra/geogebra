@@ -99,4 +99,9 @@ class InputBoxRenderer {
 
 		return ((GeoList) linkedGeo).isEditableMatrix();
 	}
+
+	void setLinkedGeo(GeoElementND linkedGeo) {
+		this.linkedGeo = linkedGeo;
+	}
+
 }

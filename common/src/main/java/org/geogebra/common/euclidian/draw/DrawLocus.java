@@ -357,7 +357,7 @@ public class DrawLocus extends Drawable {
 	public void fromPoints(ArrayList<GPoint2D> points) {
 		int i = 0;
 		for (MyPoint pt : locus.getPoints()) {
-			pt.setCoords(view.toRealWorldCoordX(points.get(i).getX()),
+			pt.setLocation(view.toRealWorldCoordX(points.get(i).getX()),
 					view.toRealWorldCoordY(points.get(i).getY()));
 			i++;
 		}

@@ -52,7 +52,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	// list of single points created by pen
 	private ArrayList<GPoint2D> pointList = new ArrayList<>();
 	private boolean startPointAdded = false;
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private GPoint2D endPoint = new GPoint2D();
 
 	/**
 	 * @param view
@@ -398,7 +398,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		coords[0] = v.getX();
 		coords[1] = v.getY();
 		view.toScreenCoords(coords);
-		GPoint2D p = AwtFactory.getPrototype().newPoint2D();
+		GPoint2D p = new GPoint2D();
 		p.setLocation(coords[0], coords[1]);
 		return p;
 	}

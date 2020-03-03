@@ -185,7 +185,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Returns the point after it has been transformed by the transformation.
 	 */
 	protected GPoint2D transform(double x, double y) {
-		GPoint2D result = AwtFactory.getPrototype().newPoint2D(x, y);
+		GPoint2D result = new GPoint2D(x, y);
 		result = _transform.transform(result, result);
 		result.setLocation(result.getX(), -result.getY());
 		return result;
