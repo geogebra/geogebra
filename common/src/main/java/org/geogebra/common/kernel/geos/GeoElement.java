@@ -1567,7 +1567,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * Forces drawing this in EV
-	 * 
+	 *
 	 * @param visible
 	 *            true to force drawing this in EV
 	 */
@@ -1595,7 +1595,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * Returns the children of the parent algorithm or null.
-	 * 
+	 *
 	 * @return the children of the parent algorithm or null.
 	 */
 	public GeoElement[] getSiblings() {
@@ -1722,7 +1722,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * set auxiliary property
-	 * 
+	 *
 	 * @param flag
 	 *            flag
 	 */
@@ -1747,7 +1747,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @return value of labelVisible
 	 */
 	final public boolean getLabelVisible() {
@@ -1766,7 +1766,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * Returns whether the label can be shown in Euclidian view.
-	 * 
+	 *
 	 * @return true if label can be shown
 	 */
 	public boolean isLabelShowable() {
@@ -1778,7 +1778,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Returns whether the value (e.g. equation) should be shown as part of the
 	 * label description false for eg GeoLocus, Boolean, Button, TextField
-	 * 
+	 *
 	 * @return true if value should be in description
 	 */
 	public boolean isLabelValueShowable() {
@@ -2007,7 +2007,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * Returns whether this object may be redefined
-	 * 
+	 *
 	 * @return whether this object may be redefined
 	 */
 	public boolean isRedefineable() {
@@ -2036,7 +2036,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if we can move it with 6 degrees of freedom input device
 	 */
 	public boolean is6dofMoveable() {
@@ -2220,7 +2220,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Returns whether this GeoElement can be rotated in Euclidian View. Note:
 	 * this is needed for images
-	 * 
+	 *
 	 * @return whether this geo can be rotated
 	 */
 	public boolean isRotateMoveable() {
@@ -2230,7 +2230,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Returns whether this GeoElement has properties that can be edited in a
 	 * properties dialog.
-	 * 
+	 *
 	 * @return whether this element has editable properties
 	 */
 	final public boolean hasProperties() {
@@ -2286,7 +2286,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Returns the current animation speed of this slider. Note that the speed
 	 * can be negative which will change the direction of the animation.
-	 * 
+	 *
 	 * @return current animation speed
 	 */
 	public double getAnimationSpeed() {
@@ -2380,10 +2380,10 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * Sets the state of this object to animating on or off.
-	 * 
+	 *
 	 * @param flag
 	 *            true to make this animating
-	 * 
+	 *
 	 * @see Animatable interface
 	 */
 	public synchronized void setAnimating(final boolean flag) {
@@ -2410,7 +2410,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * over ridden by types that implement Animateable
-	 * 
+	 *
 	 * @return true if this can be animated
 	 */
 	public boolean isAnimatable() {
@@ -2425,7 +2425,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Returns a String that can be used to define geo in the currently used
 	 * CAS. For example, "f(x) := a*x^2", "a := 20", "g := 3x + 4y = 7"
-	 * 
+	 *
 	 * @param tpl
 	 *            StringType.Giac
 	 * @return String in the format of the current CAS.
@@ -2452,10 +2452,10 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Returns a representation of geo in currently used CAS syntax. For
 	 * example, "a*x^2"
-	 * 
+	 *
 	 * @param tpl
 	 *            string template
-	 * 
+	 *
 	 * @param symbolic
 	 *            true to keep variable names
 	 * @return representation of this geo for CAS
@@ -2543,7 +2543,6 @@ public abstract class GeoElement extends ConstructionElement
 
 		// had no label: try to set it
 		if (!isLabelSet()) {
-			setLabelSimple(newLabel);
 
 			// to avoid wasting of labels, new elements must wait
 			// until they are shown in one of the views to get a label
@@ -2556,6 +2555,10 @@ public abstract class GeoElement extends ConstructionElement
 
 				// set newLabel for this geo
 				doSetLabel(getFreeLabel(newLabel));
+			} else {
+				// remember desired label
+				setLabelSimple(newLabel);
+
 			}
 		}
 		// try to rename
