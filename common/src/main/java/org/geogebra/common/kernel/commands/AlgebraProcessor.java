@@ -3394,7 +3394,8 @@ public class AlgebraProcessor {
 	 */
 	public boolean hasVectorLabel(GeoElement element) {
 		String alreadySetLabel = element.getLabelSimple();
-		String label = alreadySetLabel != null ? alreadySetLabel : element.getDefinition().getLabel();
+		String label =
+				alreadySetLabel != null ? alreadySetLabel : element.getDefinition().getLabel();
 		return isVectorLabel(label);
 	}
 
