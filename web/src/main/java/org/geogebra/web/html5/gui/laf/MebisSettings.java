@@ -76,6 +76,7 @@ public class MebisSettings implements VendorSettings {
 				FontFamily.SCHULBUCH_BAYERN,
 				FontFamily.SF_MONO,
 				FontFamily.SF_PRO,
+				FontFamily.SOURCE_SANS_PRO,
 				FontFamily.TIMES,
 				FontFamily.TITILLIUM,
 				FontFamily.TREBUCHET,
