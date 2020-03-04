@@ -2,7 +2,6 @@ package org.geogebra.web.simple;
 
 import java.util.ArrayList;
 
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
@@ -19,8 +18,6 @@ public class WebSimple implements EntryPoint {
 	 */
 	@Override
 	public void onModuleLoad() {
-		Browser.checkFloat64();
-
 		exportGGBElementRenderer();
 
 		// instead, load it immediately
