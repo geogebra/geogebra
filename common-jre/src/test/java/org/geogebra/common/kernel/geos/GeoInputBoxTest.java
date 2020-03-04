@@ -1,6 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -10,10 +14,11 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.TextObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoInputBoxTest extends BaseUnitTest {
 
@@ -44,8 +49,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox1 = add("InputBox(f)");
 		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
-		Assert.assertEquals("x + 1", inputBox1.getText());
-		Assert.assertEquals("2f(x + 2) + 1", inputBox2.getTextForEditor());
+		assertEquals("x + 1", inputBox1.getText());
+		assertEquals("2f(x + 2) + 1", inputBox2.getTextForEditor());
 	}
 
 	@Test
@@ -55,9 +60,9 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox1 = add("InputBox(f)");
 		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
-		Assert.assertEquals("x y + 1", inputBox1.getText());
-		Assert.assertEquals("2f(x + 2, y) + 1", inputBox2.getTextForEditor());
-		Assert.assertEquals("2 \\; f\\left(x + 2, y \\right) + 1",
+		assertEquals("x y + 1", inputBox1.getText());
+		assertEquals("2f(x + 2, y) + 1", inputBox2.getTextForEditor());
+		assertEquals("2 \\; f\\left(x + 2, y \\right) + 1",
 				inputBox2.getText());
 	}
 
@@ -67,7 +72,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
         add("g = 2f(x + 1) + 2");
         GeoInputBox inputBox2 = add("InputBox(g)");
         inputBox2.setSymbolicMode(true, false);
-        Assert.assertEquals("2 \\; f\\left(x + 1 \\right) + 2", inputBox2.getText());
+        assertEquals("2 \\; f\\left(x + 1 \\right) + 2", inputBox2.getText());
     }
 
     @Test
@@ -75,7 +80,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
         add("m1 = {{1, 2, 3}, {4, 5, 6}}");
         GeoInputBox inputBox = add("InputBox(m1)");
         inputBox.setSymbolicMode(true, false);
-        Assert.assertEquals("\\left(\\begin{array}{rrr}1&2&3\\\\4&5&6\\\\ \\end{array}\\right)",
+        assertEquals("\\left(\\begin{array}{rrr}1&2&3\\\\4&5&6\\\\ \\end{array}\\right)",
 				inputBox.getText());
     }
 
@@ -84,27 +89,27 @@ public class GeoInputBoxTest extends BaseUnitTest {
         App app = getApp();
         add("A = (1,1)");
         GeoInputBox inputBox = add("B = Inputbox(A)");
-        Assert.assertEquals(TextAlignment.LEFT, inputBox.getAlignment());
+        assertEquals(TextAlignment.LEFT, inputBox.getAlignment());
         inputBox.setAlignment(TextAlignment.CENTER);
-        Assert.assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
+        assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
         String appXML = app.getXML();
         app.setXML(appXML, true);
         inputBox = (GeoInputBox) lookup("B");
-        Assert.assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
+        assertEquals(TextAlignment.CENTER, inputBox.getAlignment());
     }
 
 	@Test
 	public void testTempUserInputNotInXml() {
 		add("A = (1,1)");
-		GeoInputBox inputBox = add("B = Inputbox(A)");
+		GeoInputBox inputBox = add("B = InputBox(A)");
 		inputBox.updateLinkedGeo("(1,2)");
 
 		App app = getApp();
 		String appXML = app.getXML();
 		app.setXML(appXML, true);
 		inputBox = (GeoInputBox) lookup("B");
-		Assert.assertNull(inputBox.getTempUserDisplayInput());
-		Assert.assertNull(inputBox.getTempUserEvalInput());
+		assertNull(inputBox.getTempUserDisplayInput());
+		assertNull(inputBox.getTempUserEvalInput());
 	}
 
 	@Test
@@ -119,8 +124,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		String appXML = app.getXML();
 		app.setXML(appXML, true);
 		inputBox = (GeoInputBox) lookup("B");
-		Assert.assertEquals(wrongSyntax, inputBox.getTempUserEvalInput());
-		Assert.assertEquals(wrongSyntax, inputBox.getTempUserDisplayInput());
+		assertEquals(wrongSyntax, inputBox.getTempUserEvalInput());
+		assertEquals(wrongSyntax, inputBox.getTempUserDisplayInput());
 	}
 
 	@Test
@@ -131,29 +136,29 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.setTempUserDisplayInput(tempDisplayInput);
 		inputBox.updateLinkedGeo("5/");
 		inputBox.setSymbolicMode(true);
-		Assert.assertEquals(tempDisplayInput, inputBox.getDisplayText());
-		Assert.assertEquals("5/", inputBox.getText());
+		assertEquals(tempDisplayInput, inputBox.getDisplayText());
+		assertEquals("5/", inputBox.getText());
 	}
 
 	@Test
 	public void testInputBoxGetTextWithError() {
 		add("A = Point({1, 2})");
-		GeoInputBox box = (GeoInputBox) add("InputBox(A)");
-		Assert.assertEquals("Point({1, 2})", box.getText());
+		GeoInputBox box = add("InputBox(A)");
+		assertEquals("Point({1, 2})", box.getText());
 		box.updateLinkedGeo("Point({1, 2})+");
-		Assert.assertEquals("Point({1, 2})+", box.getText());
+		assertEquals("Point({1, 2})+", box.getText());
 		box.updateLinkedGeo("Point(1)");
-		Assert.assertEquals("Point(1)", box.getText());
+		assertEquals("Point(1)", box.getText());
 	}
 
 	@Test
 	public void testSymbolicInputBoxGetTextWithError() {
 		add("a = 1");
-		GeoInputBox box = (GeoInputBox) add("InputBox(a)");
+		GeoInputBox box = add("InputBox(a)");
 		box.setSymbolicMode(true, true);
-		Assert.assertEquals("1", box.getTextForEditor());
+		assertEquals("1", box.getTextForEditor());
 		box.updateLinkedGeo("1+/");
-		Assert.assertEquals("1+/", box.getTextForEditor());
+		assertEquals("1+/", box.getTextForEditor());
 	}
 
 	@Test
@@ -161,11 +166,11 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("a=?");
 		GeoInputBox inputBox = add("InputBox(a)");
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("", inputBox.getText());
-		Assert.assertEquals("", inputBox.getTextForEditor());
+		assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getText());
 
 	}
 
@@ -176,11 +181,11 @@ public class GeoInputBoxTest extends BaseUnitTest {
 
 		GeoInputBox inputBox = add("InputBox(b)");
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("? \\; a", inputBox.getText());
-		Assert.assertEquals("?a", inputBox.getTextForEditor());
+		assertEquals("? \\; a", inputBox.getText());
+		assertEquals("?a", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("?a", inputBox.getText());
+		assertEquals("?a", inputBox.getText());
 	}
 
 	@Test
@@ -193,12 +198,12 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		Mockito.when(textObject.getText()).thenReturn("");
 		inputBox.textObjectUpdated(textObject);
 
-		Assert.assertEquals("", inputBox.getText());
-		Assert.assertEquals("", inputBox.getTextForEditor());
+		assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
 
-		Assert.assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getText());
 	}
 
 	@Test
@@ -211,12 +216,12 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		Mockito.when(textObject.getText()).thenReturn("?");
 		inputBox.textObjectUpdated(textObject);
 
-		Assert.assertEquals("", inputBox.getText());
-		Assert.assertEquals("", inputBox.getTextForEditor());
+		assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
 
-		Assert.assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getText());
 	}
 
 	@Test
@@ -225,25 +230,25 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(text)");
 
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("?", inputBox.getText());
-		Assert.assertEquals("?", inputBox.getTextForEditor());
+		assertEquals("?", inputBox.getText());
+		assertEquals("?", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("?", inputBox.getText());
+		assertEquals("?", inputBox.getText());
 	}
 
 	@Test
 	public void testCanBeSymbolicForNVarFunction() {
 		add("f(x, y) = x + y");
 		GeoInputBox inputBox = add("InputBox(f)");
-		Assert.assertTrue(inputBox.canBeSymbolic());
+		assertTrue(inputBox.canBeSymbolic());
 	}
 
 	@Test
 	public void testCanBeSymbolicForBooleanFunction() {
 		add("f(x, y) = x == y");
 		GeoInputBox inputBox = add("InputBox(f)");
-		Assert.assertTrue(inputBox.canBeSymbolic());
+		assertTrue(inputBox.canBeSymbolic());
 	}
 
 	@Test
@@ -252,7 +257,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("B = (2,2)");
 		add("f:Line(A,B)");
 		GeoInputBox inputBox = add("InputBox(f)");
-		Assert.assertTrue(inputBox.canBeSymbolic());
+		assertTrue(inputBox.canBeSymbolic());
 	}
 
 	@Test
@@ -262,7 +267,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoText text = add("ib + \"\"");
 
 		inputBox.updateLinkedGeo("1+");
-		Assert.assertEquals("1+", text.getTextString());
+		assertEquals("1+", text.getTextString());
 	}
 
 	@Test
@@ -273,13 +278,13 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("box = InputBox(c)");
 		inputBox.updateLinkedGeo("7");
 
-		Assert.assertEquals("7", inputBox.getText());
-		Assert.assertTrue(inputBox.getLinkedGeo().isIndependent());
+		assertEquals("7", inputBox.getText());
+		assertTrue(inputBox.getLinkedGeo().isIndependent());
 
 		inputBox.updateLinkedGeo("a + b");
 
-		Assert.assertEquals("a + b", inputBox.getText());
-		Assert.assertFalse(inputBox.getLinkedGeo().isIndependent());
+		assertEquals("a + b", inputBox.getText());
+		assertFalse(inputBox.getLinkedGeo().isIndependent());
 	}
 
 	@Test
@@ -292,12 +297,12 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	private void testDoesNotChangeDisplayMode(String original, int type) {
 		GeoPoint point = add("A = " + original);
 		GeoInputBox inputBox = add("InputBox(A)");
-		Assert.assertEquals(point.getToStringMode(), type);
+		assertEquals(point.getToStringMode(), type);
 
 		String[] inputs = {"(1, 2)", "1 + i", "(2; 3)"};
 		for (String input: inputs) {
 			inputBox.updateLinkedGeo(input);
-			Assert.assertEquals(point.getToStringMode(), type);
+			assertEquals(point.getToStringMode(), type);
 		}
 		point.remove();
 	}
@@ -374,6 +379,32 @@ public class GeoInputBoxTest extends BaseUnitTest {
 				new String[] {NUMBER});
 	}
 
+	@Test
+	public void valueStringShouldBePlainText() {
+		add("num=1/2");
+		GeoInputBox box = add("b=InputBox(num)");
+		box.setSymbolicMode(true, true);
+		GeoText plain = add("b+\"\"");
+		assertEquals("1 / 2", plain.getTextString());
+	}
+
+	@Test
+	public void valueStringShouldBePlainTextForNumericBox() {
+		add("num=1/2");
+		add("b=InputBox(num)");
+		GeoText plain = add("b+\"\"");
+		assertEquals("0.5", plain.getTextString());
+	}
+
+	@Test
+	public void latexStringShouldBeLaTeX() {
+		add("num=1/2");
+		GeoInputBox box = add("b=InputBox(num)");
+		box.setSymbolicMode(true, true);
+		GeoText plain = add("LaTeX(b)");
+		assertEquals("\\frac{1}{2}", plain.getTextString());
+	}
+
 	private void testRedefinition(String label, String sign, String expression, GeoClass keepType,
 								  String[] refusedRedefinitions, String[] acceptedRedefinitions) {
 		for (String refused: refusedRedefinitions) {
@@ -393,8 +424,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo(redefinition);
 
 		GeoElementND element = inputBox.getLinkedGeo();
-		Assert.assertEquals(assertDefined, element.isDefined());
-		Assert.assertEquals(keepType, element.getGeoClassType());
+		assertEquals(assertDefined, element.isDefined());
+		assertEquals(keepType, element.getGeoClassType());
 		element.remove();
 	}
 }
