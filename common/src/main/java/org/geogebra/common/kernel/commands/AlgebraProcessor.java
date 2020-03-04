@@ -1852,7 +1852,7 @@ public class AlgebraProcessor {
 	/**
 	 * processes valid expression.
 	 *
-	 * @param ve
+	 * @param expression
 	 *            expression to process
 	 * @param info
 	 *            processing information
@@ -1862,32 +1862,18 @@ public class AlgebraProcessor {
 	 *             e.g. for circular definition
 	 * @return resulting geos
 	 */
-	public GeoElement[] processValidExpression(ValidExpression ve,
+	public GeoElement[] processValidExpression(ValidExpression expression,
 			EvalInfo info) throws MyError, Exception {
 
-        ValidExpression expression = ve;
 		// check for existing labels
-		String[] labels = ve.getLabels();
+		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
 
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (replaceable != null) {
             cons.setSuppressLabelCreation(true);
-            if (replaceable.isGeoVector()) {
-                boolean isForceVector = expression.wrap().isForcedVector();
-                boolean isForcePoint = expression.wrap().isForcedPoint();
-                expression = expression.deepCopy(kernel);
-                expression = expression.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
-                expression.setLabels(labels);
-
-                if (isForceVector) {
-                    expression.wrap().setForceVector();
-                }
-                if (isForcePoint) {
-                    expression.wrap().setForceVector();
-                }
-            }
+            handleIfVector(labels, replaceable, expression);
         }
 
 		// we have to make sure that the macro mode is
@@ -1897,7 +1883,7 @@ public class AlgebraProcessor {
 
 			if (ret == null) { // eg (1,2,3) running in 2D
 				if (isFreehandFunction(expression)) {
-					return kernel.lookupLabel(ve.getLabel()).asArray();
+					return kernel.lookupLabel(expression.getLabel()).asArray();
 				}
 				throw new MyError(loc,
 						loc.getInvalidInputError() + ":\n" + expression);
@@ -1909,6 +1895,27 @@ public class AlgebraProcessor {
 		processReplace(replaceable, ret, expression, info);
 
 		return ret;
+	}
+
+	private void handleIfVector(String[] labels,
+								GeoElement replaceable,
+								ValidExpression expression) {
+		if (!replaceable.isGeoVector()) {
+			return;
+		}
+
+		boolean isForceVector = expression.wrap().isForcedVector();
+		boolean isForcePoint = expression.wrap().isForcedPoint();
+		expression = expression.deepCopy(kernel);
+		expression = expression.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
+		expression.setLabels(labels);
+
+		if (isForceVector) {
+			expression.wrap().setForceVector();
+		}
+		if (isForcePoint) {
+			expression.wrap().setForcePoint();
+		}
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
