@@ -3414,8 +3414,8 @@ public class AlgebraProcessor {
 
     private void setupForceVector(ExpressionNode node) {
         ExpressionValue expression = node.unwrap();
-        if (expression instanceof MyVecNode) {
-            ((MyVecNode) expression).setForceVector(node.isForcedVector());
+        if (expression instanceof MyVecNode && node.isForcedVector()) {
+            ((MyVecNode) expression).setVectorPrintingMode();
         }
     }
 

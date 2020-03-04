@@ -22,7 +22,7 @@ import java.util.HashSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.arithmetic.printer.vector.VectorNodeStringifier;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
@@ -43,10 +43,11 @@ public class MyVecNode extends ValidExpression
 	 * y coordinate
 	 */
 	protected ExpressionValue y;
+
+	private VectorNodeStringifier stringifier;
 	private int mode = Kernel.COORD_CARTESIAN;
 	private Kernel kernel;
-	private boolean isCASVector = false;
-	private boolean isForceVector = false;
+	private boolean isCASVector;
 
 	/**
 	 * Creates new MyVec2D
@@ -56,6 +57,8 @@ public class MyVecNode extends ValidExpression
 	 */
 	public MyVecNode(Kernel kernel) {
 		this.kernel = kernel;
+		stringifier = new VectorNodeStringifier(this);
+		stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Cartesian);
 	}
 
 	/**
@@ -78,7 +81,7 @@ public class MyVecNode extends ValidExpression
 	public MyVecNode deepCopy(Kernel kernel1) {
 		MyVecNode ret = new MyVecNode(kernel1, x.deepCopy(kernel1),
 				y.deepCopy(kernel1));
-		ret.mode = mode;
+		ret.setMode(mode);
 		if (isCASVector()) {
 			ret.setCASVector();
 		}
@@ -115,7 +118,7 @@ public class MyVecNode extends ValidExpression
 	 */
 	public void setPolarCoords(ExpressionValue r, ExpressionValue phi) {
 		setCoords(r, phi);
-		mode = Kernel.COORD_POLAR;
+		setMode(Kernel.COORD_POLAR);
 	}
 
 	/**
@@ -158,73 +161,8 @@ public class MyVecNode extends ValidExpression
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return toString(tpl, false);
+		return stringifier.toString(tpl);
 	}
-
-	private String toString(StringTemplate tpl, boolean values) {
-		StringBuilder sb = new StringBuilder();
-		switch (tpl.getStringType()) {
-		case GIAC:
-			if (mode == Kernel.COORD_POLAR) {
-				sb.append("point((");
-				sb.append(print(x, values, tpl));
-				sb.append(")*cos(");
-				sb.append(print(y, values, tpl));
-				sb.append("),(");
-				sb.append(print(x, values, tpl));
-				sb.append(")*sin(");
-				sb.append(print(y, values, tpl));
-				sb.append("))");
-			} else {
-				sb.append(isCASVector() ? "ggbvect[" : "point(");
-				printReGiac(sb, x, values, tpl);
-				sb.append(",");
-				printReGiac(sb, y, values, tpl);
-				sb.append(isCASVector() ? "]" : ")");
-			}
-			break;
-
-		default: // continue below
-
-			if (isCASVector && tpl.getStringType().equals(StringType.LATEX)) {
-
-				sb.append(" \\binom{");
-				sb.append(print(x, values, tpl));
-				sb.append("}{");
-				sb.append(print(y, values, tpl));
-				sb.append("}");
-
-			} else {
-
-                if (isEditingVector(tpl)) {
-                    sb.append("{{");
-                } else {
-                    sb.append(tpl.leftBracket());
-                }
-				sb.append(print(x, values, tpl));
-                if (isEditingVector(tpl)) {
-                    sb.append("},{");
-                } else if (mode == Kernel.COORD_CARTESIAN) {
-					sb.append(", ");
-				} else {
-					sb.append("; ");
-				}
-				sb.append(print(y, values, tpl));
-                if (isEditingVector(tpl)) {
-                    sb.append("}}");
-                } else {
-                    sb.append(tpl.rightBracket());
-                }
-			}
-			break;
-		}
-
-		return sb.toString();
-	}
-
-    private boolean isEditingVector(StringTemplate tpl) {
-        return tpl == StringTemplate.editorTemplate && isForceVector();
-    }
 
 	private static void printReGiac(StringBuilder sb, ExpressionValue x2,
 			boolean values, StringTemplate tpl) {
@@ -240,12 +178,12 @@ public class MyVecNode extends ValidExpression
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return toString(tpl, true);
+		return stringifier.toValueString(tpl);
 	}
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		return toString(tpl, !symbolic);
+		return symbolic ? stringifier.toString(tpl) : stringifier.toValueString(tpl);
 	}
 
 	/**
@@ -292,6 +230,16 @@ public class MyVecNode extends ValidExpression
 	@Override
 	public void setMode(int mode) {
 		this.mode = mode;
+		switch (mode) {
+			case Kernel.COORD_CARTESIAN:
+				stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Cartesian);
+				break;
+			case Kernel.COORD_POLAR:
+				stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Polar);
+				break;
+			default:
+				stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Default);
+		}
 	}
 
 	// could be vector or point
@@ -431,11 +379,11 @@ public class MyVecNode extends ValidExpression
 		return null;
 	}
 
-    private boolean isForceVector() {
-        return isForceVector;
+    public void setVectorPrintingMode() {
+        stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Vector);
     }
 
-    public void setForceVector(boolean forceVector) {
-        isForceVector = forceVector;
-    }
+	public int getCoordinationSystem() {
+		return mode;
+	}
 }
