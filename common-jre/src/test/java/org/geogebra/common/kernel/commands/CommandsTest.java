@@ -1304,7 +1304,7 @@ public class CommandsTest {
 	public void cmdErlang() {
 		prob("Erlang", "2,1",
 				"If(x < 0, 0, (" + Unicode.EULER_STRING
-						+ "^(-(x 1)) x^(2 - 1) 1^2) / (2 - 1)!)",
+						+ "^(-(x 1)) x^(2 - 1) * 1^2) / (2 - 1)!)",
 				"If(x < 0, 0, gamma(2, 1x) / (2 - 1)!)");
 	}
 
@@ -1366,7 +1366,7 @@ public class CommandsTest {
 						+ "^(-((ln(x) - 2)^2 / (1^2 2))) / (abs(1) sqrt(2"
 						+ Unicode.pi + ") x))",
 				"If(x " + Unicode.LESS_EQUAL
-						+ " 0, 0, erf((ln(x) - 2) / (sqrt(2) abs(1))) 0.5 + 0.5)");
+						+ " 0, 0, erf((ln(x) - 2) / (sqrt(2) abs(1))) * 0.5 + 0.5)");
 	}
 
 	@Test
