@@ -300,9 +300,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
-		Log.debug("KEY pressed::"
-				+ KeyCodes.translateGWTcode(event.getNativeKeyCode()) + " in "
-				+ getActive());
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB) {
 			if (inFocus) {
