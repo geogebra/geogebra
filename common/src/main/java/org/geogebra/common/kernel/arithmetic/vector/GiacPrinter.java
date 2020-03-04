@@ -1,16 +1,17 @@
-package org.geogebra.common.kernel.arithmetic.printer.vector;
+package org.geogebra.common.kernel.arithmetic.vector;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.kernel.arithmetic.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.Printer;
 
-class GiacPrinter implements Printer {
+public class GiacPrinter implements Printer {
 
     private MyVecNDNode vector;
 
-    GiacPrinter(MyVecNDNode vector) {
+    public GiacPrinter(MyVecNDNode vector) {
         this.vector = vector;
     }
 

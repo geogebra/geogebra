@@ -1,7 +1,7 @@
-package org.geogebra.common.kernel.arithmetic.printer.vector;
+package org.geogebra.common.kernel.printing.printer;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 public interface Printer {
 

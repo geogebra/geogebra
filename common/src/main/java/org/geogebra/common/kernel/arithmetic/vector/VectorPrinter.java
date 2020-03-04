@@ -1,14 +1,15 @@
-package org.geogebra.common.kernel.arithmetic.printer.vector;
+package org.geogebra.common.kernel.arithmetic.vector;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.kernel.arithmetic.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.Printer;
 
-class CartesianPrinter implements Printer {
+public class VectorPrinter implements Printer {
 
     private MyVecNDNode vector;
 
-    CartesianPrinter(MyVecNDNode vector) {
+    public VectorPrinter(MyVecNDNode vector) {
         this.vector = vector;
     }
 
@@ -16,20 +17,20 @@ class CartesianPrinter implements Printer {
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
         return printLeftParenthesis(tpl)
                 + expressionPrinter.print(vector.getX(), tpl)
-                + printDelimiter()
+                + printDelimiter(tpl)
                 + expressionPrinter.print(vector.getY(), tpl)
                 + printRightParenthesis(tpl);
     }
 
     private String printLeftParenthesis(StringTemplate tpl) {
-        return tpl.leftBracket();
+        return tpl == StringTemplate.editorTemplate ? "{{" : tpl.leftBracket();
     }
 
     private String printRightParenthesis(StringTemplate tpl) {
-        return tpl.rightBracket();
+        return tpl == StringTemplate.editorTemplate ? "}}" : tpl.leftBracket();
     }
 
-    private String printDelimiter() {
-        return ", ";
+    private String printDelimiter(StringTemplate tpl) {
+        return tpl == StringTemplate.editorTemplate ? "}, {" : "; ";
     }
 }

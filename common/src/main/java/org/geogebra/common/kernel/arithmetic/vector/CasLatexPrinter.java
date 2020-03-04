@@ -1,14 +1,15 @@
-package org.geogebra.common.kernel.arithmetic.printer.vector;
+package org.geogebra.common.kernel.arithmetic.vector;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.kernel.arithmetic.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.Printer;
 
-class CasLatexPrinter implements Printer {
+public class CasLatexPrinter implements Printer {
 
     private MyVecNDNode vector;
 
-    CasLatexPrinter(MyVecNDNode vector) {
+    public CasLatexPrinter(MyVecNDNode vector) {
         this.vector = vector;
     }
 

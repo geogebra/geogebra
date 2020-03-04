@@ -1,14 +1,15 @@
-package org.geogebra.common.kernel.arithmetic.printer.vector;
+package org.geogebra.common.kernel.arithmetic.vector;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.kernel.arithmetic.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.Printer;
 
-class DefaultPrinter implements Printer {
+public class CartesianPrinter implements Printer {
 
     private MyVecNDNode vector;
 
-    DefaultPrinter(MyVecNDNode vector) {
+    public CartesianPrinter(MyVecNDNode vector) {
         this.vector = vector;
     }
 
@@ -30,6 +31,6 @@ class DefaultPrinter implements Printer {
     }
 
     private String printDelimiter() {
-        return "; ";
+        return ", ";
     }
 }

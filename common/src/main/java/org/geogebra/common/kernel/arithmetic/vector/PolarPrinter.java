@@ -1,14 +1,15 @@
-package org.geogebra.common.kernel.arithmetic.printer.vector;
+package org.geogebra.common.kernel.arithmetic.vector;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.kernel.arithmetic.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.Printer;
 
-class PolarPrinter implements Printer {
+public class PolarPrinter implements Printer {
 
     private MyVecNDNode vector;
 
-    PolarPrinter(MyVecNDNode vector) {
+    public PolarPrinter(MyVecNDNode vector) {
         this.vector = vector;
     }
 

@@ -1,12 +1,19 @@
-package org.geogebra.common.kernel.arithmetic.printer.vector;
+package org.geogebra.common.kernel.printing.printer.vector;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
-import org.geogebra.common.kernel.arithmetic.printer.expression.DefaultExpressionPrinter;
-import org.geogebra.common.kernel.arithmetic.printer.expression.ExpressionPrinter;
-import org.geogebra.common.kernel.arithmetic.printer.expression.ValueExpressionPrinter;
+import org.geogebra.common.kernel.arithmetic.vector.CartesianPrinter;
+import org.geogebra.common.kernel.arithmetic.vector.CasLatexPrinter;
+import org.geogebra.common.kernel.arithmetic.vector.DefaultPrinter;
+import org.geogebra.common.kernel.arithmetic.vector.GiacPrinter;
+import org.geogebra.common.kernel.arithmetic.vector.PolarPrinter;
+import org.geogebra.common.kernel.arithmetic.vector.VectorPrinter;
+import org.geogebra.common.kernel.printing.printer.Printer;
+import org.geogebra.common.kernel.printing.printer.expression.DefaultExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
+import org.geogebra.common.kernel.printing.printer.expression.ValueExpressionPrinter;
 
 import java.util.EnumMap;
 import java.util.Map;
