@@ -103,6 +103,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.kernel.parser.TokenMgrError;
+import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -555,7 +556,7 @@ public class AlgebraProcessor {
 				n.setForcePoint();
 			} else if (geo.isGeoVector()) {
 				n.setForceVector();
-                setupForceVector(n);
+                updatePrintingMode(n);
 			} else if (geo.isGeoFunction()) {
 				n.setForceFunction();
 			}
@@ -3413,14 +3414,14 @@ public class AlgebraProcessor {
 		}
 		ret[0] = vector;
 
-        setupForceVector(n);
+        updatePrintingMode(n);
 		return ret;
 	}
 
-    private void setupForceVector(ExpressionNode node) {
+    protected void updatePrintingMode(ExpressionNode node) {
         ExpressionValue expression = node.unwrap();
-        if (expression instanceof MyVecNode && node.isForcedVector()) {
-            ((MyVecNode) expression).setVectorPrintingMode();
+        if (expression instanceof PrintableVector && node.isForcedVector()) {
+            ((PrintableVector) expression).setVectorPrintingMode();
         }
     }
 

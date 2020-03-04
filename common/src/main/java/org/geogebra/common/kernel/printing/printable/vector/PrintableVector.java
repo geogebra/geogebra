@@ -8,7 +8,11 @@ public interface PrintableVector {
 
     ExpressionValue getY();
 
+    ExpressionValue getZ();
+
     boolean isCASVector();
 
-    int getCoordinationSystem();
+    int getCoordinateSystem();
+
+    void setVectorPrintingMode();
 }

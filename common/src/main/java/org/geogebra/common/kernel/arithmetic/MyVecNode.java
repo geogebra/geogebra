@@ -169,18 +169,6 @@ public class MyVecNode extends ValidExpression
 		return stringifier.toString(tpl);
 	}
 
-	private static void printReGiac(StringBuilder sb, ExpressionValue x2,
-			boolean values, StringTemplate tpl) {
-		if (x2.unwrap() instanceof Command) {
-			sb.append("re(");
-		}
-		sb.append(print(x2, values, tpl));
-		if (x2.unwrap() instanceof Command) {
-			sb.append(")");
-		}
-
-	}
-
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return stringifier.toValueString(tpl);
@@ -384,11 +372,13 @@ public class MyVecNode extends ValidExpression
 		return null;
 	}
 
+	@Override
     public void setVectorPrintingMode() {
         stringifier.setPrintingMode(VectorPrintingMode.Vector);
     }
 
-	public int getCoordinationSystem() {
+    @Override
+	public int getCoordinateSystem() {
 		return mode;
 	}
 }

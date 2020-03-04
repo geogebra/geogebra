@@ -23,7 +23,6 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
@@ -35,9 +34,14 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.arithmetic3D.vector.VectorPrinterMapBuilder3D;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
+import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
+import org.geogebra.common.kernel.printing.printer.vector.VectorNodeStringifier;
+import org.geogebra.common.kernel.printing.printer.vector.VectorPrinterMapBuilder;
+import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.GeoClass;
@@ -47,14 +51,15 @@ import org.geogebra.common.plugin.GeoClass;
  * @author Markus + ggb3D
  */
 public class MyVec3DNode extends ValidExpression
-		implements Vector3DValue, MyVecNDNode {
+		implements Vector3DValue, MyVecNDNode, PrintableVector {
 
 	private ExpressionValue x;
 	private ExpressionValue y;
 	private ExpressionValue z;
 	private Kernel kernel;
 	private int mode = Kernel.COORD_CARTESIAN_3D;
-	private boolean isCASVector = false;
+	private boolean isCASVector;
+	private VectorNodeStringifier stringifier;
 
 	/**
 	 * Creates new MyVec3D
@@ -65,6 +70,7 @@ public class MyVec3DNode extends ValidExpression
 	public MyVec3DNode(Kernel kernel) {
 		this.kernel = kernel;
 		kernel.getConstruction().addUsedType(GeoClass.POINT3D);
+		initStringifier();
 	}
 
 	/**
@@ -86,11 +92,17 @@ public class MyVec3DNode extends ValidExpression
 		setCoords(x, y, z);
 	}
 
+	private void initStringifier() {
+		VectorPrinterMapBuilder builder = new VectorPrinterMapBuilder3D();
+		stringifier = new VectorNodeStringifier(this, builder.build(this));
+		stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
+	}
+
 	@Override
 	public MyVec3DNode deepCopy(Kernel kernel1) {
 		MyVec3DNode ret = new MyVec3DNode(kernel1, x.deepCopy(kernel1),
 				y.deepCopy(kernel1), z.deepCopy(kernel1));
-		ret.mode = mode;
+		ret.setMode(mode);
 		if (isCASVector()) {
 			ret.setCASVector();
 		}
@@ -177,86 +189,17 @@ public class MyVec3DNode extends ValidExpression
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return toString(tpl, false);
-	}
-
-	private String toString(StringTemplate tpl, boolean values) {
-		StringBuilder sb = new StringBuilder();
-		switch (tpl.getStringType()) {
-		case GIAC:
-			switch (mode) {
-			case Kernel.COORD_SPHERICAL:
-				sb.append("point((");
-				sb.append(print(x, values, tpl));
-				sb.append(")*cos(");
-				sb.append(print(y, values, tpl));
-				sb.append(")*cos(");
-				sb.append(print(z, values, tpl));
-				sb.append("),(");
-				sb.append(print(x, values, tpl));
-				sb.append(")*sin(");
-				sb.append(print(y, values, tpl));
-				sb.append(")*cos(");
-				sb.append(print(z, values, tpl));
-				sb.append("),(");
-				sb.append(print(x, values, tpl));
-				sb.append(")*sin(");
-				sb.append(print(z, values, tpl));
-				sb.append("))");
-				break;
-
-			default:
-			case Kernel.COORD_CARTESIAN_3D:
-				sb.append(isCASVector() ? "ggbvect[" : "point(");
-				sb.append(print(x, values, tpl));
-				sb.append(',');
-				sb.append(print(y, values, tpl));
-				sb.append(',');
-				sb.append(print(z, values, tpl));
-				sb.append(isCASVector() ? "]" : ")");
-				break;
-
-			}
-			break;
-		default:
-			if (isCASVector && tpl.getStringType().equals(StringType.LATEX)) {
-				sb.append("\\left( \\begin{tabular}{r}");
-				sb.append(print(x, values, tpl));
-				sb.append("\\\\");
-				sb.append(print(y, values, tpl));
-				sb.append("\\\\ ");
-				sb.append(print(z, values, tpl));
-				sb.append("\\\\ \\end{tabular} \\right)	");
-
-			} else {
-				sb.append(tpl.leftBracket());
-				sb.append(print(x, values, tpl));
-				appendSeparator(sb);
-				sb.append(print(y, values, tpl));
-				appendSeparator(sb);
-				sb.append(print(z, values, tpl));
-				sb.append(tpl.rightBracket());
-			}
-		}
-		return sb.toString();
-	}
-
-	private void appendSeparator(StringBuilder sb) {
-		if (mode == Kernel.COORD_CARTESIAN_3D) {
-			sb.append(", ");
-		} else {
-			sb.append("; ");
-		}
+		return stringifier.toString(tpl);
 	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return toString(tpl, true);
+		return stringifier.toValueString(tpl);
 	}
 
 	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		return toString(tpl, !symbolic);
+		return symbolic ? stringifier.toString(tpl) : stringifier.toValueString(tpl);
 	}
 
 	/**
@@ -375,7 +318,7 @@ public class MyVec3DNode extends ValidExpression
 	public void setSphericalPolarCoords(ExpressionValue r,
 			ExpressionValue theta, ExpressionValue phi) {
 		setCoords(r, theta, phi);
-		mode = Kernel.COORD_SPHERICAL;
+		setMode(Kernel.COORD_SPHERICAL);
 	}
 
 	@Override
@@ -401,6 +344,11 @@ public class MyVec3DNode extends ValidExpression
 	}
 
 	@Override
+	public int getCoordinateSystem() {
+		return mode;
+	}
+
+	@Override
 	public int getDimension() {
 		return 3;
 	}
@@ -420,6 +368,16 @@ public class MyVec3DNode extends ValidExpression
 	public void setMode(int mode) {
 		this.mode = mode;
 
+		switch (mode) {
+			case Kernel.COORD_SPHERICAL:
+				stringifier.setPrintingMode(VectorPrintingMode.Spherical);
+				break;
+			case Kernel.COORD_CARTESIAN_3D:
+				stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
+				break;
+			default:
+				stringifier.setPrintingMode(VectorPrintingMode.Default);
+		}
 	}
 
 	@Override
@@ -471,4 +429,8 @@ public class MyVec3DNode extends ValidExpression
 		return super.evaluate(tpl);
 	}
 
+	@Override
+	public void setVectorPrintingMode() {
+		stringifier.setPrintingMode(VectorPrintingMode.Vector);
+	}
 }

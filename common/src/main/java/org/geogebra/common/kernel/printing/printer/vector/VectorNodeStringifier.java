@@ -48,7 +48,9 @@ public class VectorNodeStringifier {
 
     private String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
         if (tpl.getStringType() == ExpressionNodeConstants.StringType.GIAC) {
-            return vector.getCoordinationSystem() == Kernel.COORD_POLAR
+            int coordinateSystem = vector.getCoordinateSystem();
+            return coordinateSystem == Kernel.COORD_POLAR
+                    || coordinateSystem == Kernel.COORD_SPHERICAL
                     ? printerMap.get(VectorPrintingMode.Spherical).print(tpl, expressionPrinter)
                     : printerMap.get(VectorPrintingMode.Giac).print(tpl, expressionPrinter);
         } else {

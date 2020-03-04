@@ -116,6 +116,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			((GeoVec4D) ret[0]).setMode(Kernel.COORD_SPHERICAL);
 		}
 		ret[0].setLabel(label);
+		updatePrintingMode(n);
 		return ret;
 	}
 
