@@ -152,7 +152,7 @@
 	                console.log("error parsing font " + _this.font);
 	                fontPart = regex.exec('10px Helvetica');
 	            }
-                fontPart[6] = fontPart[6].split(",")[0];
+
 	            // eg "geogebra-sans-serif, sans-serif";
 	            if (fontPart[6].indexOf("sans-serif") > -1) {
 	                fontPart[6] = "Helvetica";
@@ -187,7 +187,6 @@
 		                var color = fixColor(value);
 		                _this.doc.fillColor(color.c, color.a);
 	                }
-
 	            }
 	        });
 	        Object.defineProperty(this, 'strokeStyle', {
@@ -1294,12 +1293,9 @@
 
 	    if (font == "Helvetica") {
 	        return PDFFont.HELVETICA[index];
-	    } else if (font == "Times-Roman") {
-	       return PDFFont.TIMES[index];
 	    }
-        var suffix = ["", "-Italic", "-Bold", "-BoldItalic"];
-        // works fine for Arial, for Comic Sans it falls back to plain font style
-	    return font + suffix[index];
+
+	    return PDFFont.TIMES[index];
 	};
 
 	PDFFont.prototype.getObject = function(a) {
