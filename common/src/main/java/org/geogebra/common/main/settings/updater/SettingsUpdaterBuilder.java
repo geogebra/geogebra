@@ -9,6 +9,7 @@ public class SettingsUpdaterBuilder {
 
 	private App app;
 	private FontSettingsUpdater fontSettingsUpdater;
+	SettingsUpdater prototype;
 
 	/**
 	 * @param app app
@@ -23,7 +24,9 @@ public class SettingsUpdaterBuilder {
 	 * or from a new SettingsUpdater instance.
 	 */
 	public SettingsUpdater newSettingsUpdater() {
-		SettingsUpdater prototype = new SettingsUpdater();
+		if (prototype == null) {
+			prototype = new SettingsUpdater();
+		}
 		prototype.setEuclidianHost(app);
 		prototype.setSettings(app.getSettings());
 		prototype.setAppConfig(app.getConfig());
@@ -40,6 +43,15 @@ public class SettingsUpdaterBuilder {
 
 	private LabelSettingsUpdater newLabelSettingsUpdater() {
 		return new LabelSettingsUpdater(app);
+	}
+
+	/**
+	 * Sets a prototype to override reset behaviors.
+	 * Used on Android.
+	 * @param prototype updater prototype
+	 */
+	public void setPrototype(SettingsUpdater prototype) {
+		this.prototype = prototype;
 	}
 
 	/**
