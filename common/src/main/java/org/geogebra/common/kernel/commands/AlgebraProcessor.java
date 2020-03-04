@@ -1873,7 +1873,9 @@ public class AlgebraProcessor {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (replaceable != null) {
             cons.setSuppressLabelCreation(true);
-            handleIfVector(labels, replaceable, expression);
+			if (replaceable.isGeoVector()) {
+				expression = getTraversedCopy(labels, expression);
+			}
         }
 
 		// we have to make sure that the macro mode is
@@ -1897,25 +1899,21 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
-	private void handleIfVector(String[] labels,
-								GeoElement replaceable,
-								ValidExpression expression) {
-		if (!replaceable.isGeoVector()) {
-			return;
-		}
-
+	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
 		boolean isForceVector = expression.wrap().isForcedVector();
 		boolean isForcePoint = expression.wrap().isForcedPoint();
-		expression = expression.deepCopy(kernel);
-		expression = expression.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
-		expression.setLabels(labels);
+		ValidExpression copy = expression.deepCopy(kernel);
+		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
+		copy.setLabels(labels);
 
 		if (isForceVector) {
-			expression.wrap().setForceVector();
+			copy.wrap().setForceVector();
 		}
 		if (isForcePoint) {
-			expression.wrap().setForcePoint();
+			copy.wrap().setForcePoint();
 		}
+
+		return copy;
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
