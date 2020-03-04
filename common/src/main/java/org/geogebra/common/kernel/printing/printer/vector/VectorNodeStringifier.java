@@ -3,49 +3,34 @@ package org.geogebra.common.kernel.printing.printer.vector;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import org.geogebra.common.kernel.arithmetic.MyVecNode;
-import org.geogebra.common.kernel.arithmetic.vector.CartesianPrinter;
-import org.geogebra.common.kernel.arithmetic.vector.CasLatexPrinter;
-import org.geogebra.common.kernel.arithmetic.vector.DefaultPrinter;
-import org.geogebra.common.kernel.arithmetic.vector.GiacPrinter;
-import org.geogebra.common.kernel.arithmetic.vector.PolarPrinter;
-import org.geogebra.common.kernel.arithmetic.vector.VectorPrinter;
+import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.kernel.printing.printer.expression.DefaultExpressionPrinter;
 import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 import org.geogebra.common.kernel.printing.printer.expression.ValueExpressionPrinter;
 
-import java.util.EnumMap;
 import java.util.Map;
 
 public class VectorNodeStringifier {
 
-    public enum PrintingMode {Default, Cartesian, Polar, Giac, CasLatex, Vector}
+    private PrintableVector vector;
 
-    private MyVecNode vector;
-
-    private Map<PrintingMode, Printer> printerMap;
+    private Map<VectorPrintingMode, ? extends Printer> printerMap;
     private Printer activePrinter;
 
     private ExpressionPrinter defaultExpressionPrinter;
     private ExpressionPrinter valueExpressionPrinter;
 
-    public VectorNodeStringifier(MyVecNode vector) {
+    public VectorNodeStringifier(PrintableVector vector,
+                                 Map<VectorPrintingMode, ? extends Printer> printerMap) {
         this.vector = vector;
-        initStructurePrinters();
+        this.printerMap = printerMap;
+        initPrinters();
         initExpressionPrinters();
     }
 
-    private void initStructurePrinters() {
-        printerMap = new EnumMap<>(PrintingMode.class);
-        printerMap.put(PrintingMode.Default, new DefaultPrinter(vector));
-        printerMap.put(PrintingMode.Cartesian, new CartesianPrinter(vector));
-        printerMap.put(PrintingMode.Vector, new VectorPrinter(vector));
-        printerMap.put(PrintingMode.Polar, new PolarPrinter(vector));
-        printerMap.put(PrintingMode.Giac, new GiacPrinter(vector));
-        printerMap.put(PrintingMode.CasLatex, new CasLatexPrinter(vector));
-
-        activePrinter = printerMap.get(PrintingMode.Default);
+    private void initPrinters() {
+        activePrinter = printerMap.get(VectorPrintingMode.Default);
     }
 
     private void initExpressionPrinters() {
@@ -64,17 +49,17 @@ public class VectorNodeStringifier {
     private String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
         if (tpl.getStringType() == ExpressionNodeConstants.StringType.GIAC) {
             return vector.getCoordinationSystem() == Kernel.COORD_POLAR
-                    ? printerMap.get(PrintingMode.Polar).print(tpl, expressionPrinter)
-                    : printerMap.get(PrintingMode.Giac).print(tpl, expressionPrinter);
+                    ? printerMap.get(VectorPrintingMode.Spherical).print(tpl, expressionPrinter)
+                    : printerMap.get(VectorPrintingMode.Giac).print(tpl, expressionPrinter);
         } else {
             return vector.isCASVector()
                     && tpl.getStringType() == ExpressionNodeConstants.StringType.LATEX
-                    ? printerMap.get(PrintingMode.CasLatex).print(tpl, expressionPrinter)
+                    ? printerMap.get(VectorPrintingMode.CasLatex).print(tpl, expressionPrinter)
                     : activePrinter.print(tpl, expressionPrinter);
         }
     }
 
-    public void setPrintingMode(PrintingMode printingMode) {
+    public void setPrintingMode(VectorPrintingMode printingMode) {
         activePrinter = printerMap.get(printingMode);
     }
 }

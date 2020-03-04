@@ -22,10 +22,14 @@ import java.util.HashSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.vector.VectorPrinterMapBuilder2D;
+import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.vector.VectorNodeStringifier;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.printing.printer.vector.VectorPrinterMapBuilder;
+import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -33,7 +37,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus
  */
 public class MyVecNode extends ValidExpression
-		implements VectorValue, MyVecNDNode {
+		implements VectorValue, MyVecNDNode, PrintableVector {
 
 	/**
 	 * x coordinate
@@ -57,8 +61,9 @@ public class MyVecNode extends ValidExpression
 	 */
 	public MyVecNode(Kernel kernel) {
 		this.kernel = kernel;
-		stringifier = new VectorNodeStringifier(this);
-		stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Cartesian);
+		VectorPrinterMapBuilder builder = new VectorPrinterMapBuilder2D();
+		stringifier = new VectorNodeStringifier(this, builder.build(this));
+		stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
 	}
 
 	/**
@@ -232,13 +237,13 @@ public class MyVecNode extends ValidExpression
 		this.mode = mode;
 		switch (mode) {
 			case Kernel.COORD_CARTESIAN:
-				stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Cartesian);
+				stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
 				break;
 			case Kernel.COORD_POLAR:
-				stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Polar);
+				stringifier.setPrintingMode(VectorPrintingMode.Spherical);
 				break;
 			default:
-				stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Default);
+				stringifier.setPrintingMode(VectorPrintingMode.Default);
 		}
 	}
 
@@ -380,7 +385,7 @@ public class MyVecNode extends ValidExpression
 	}
 
     public void setVectorPrintingMode() {
-        stringifier.setPrintingMode(VectorNodeStringifier.PrintingMode.Vector);
+        stringifier.setPrintingMode(VectorPrintingMode.Vector);
     }
 
 	public int getCoordinationSystem() {

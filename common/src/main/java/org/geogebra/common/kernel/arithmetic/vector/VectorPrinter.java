@@ -1,15 +1,15 @@
 package org.geogebra.common.kernel.arithmetic.vector;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 import org.geogebra.common.kernel.printing.printer.Printer;
 
-public class VectorPrinter implements Printer {
+class VectorPrinter implements Printer {
 
-    private MyVecNDNode vector;
+    private PrintableVector vector;
 
-    public VectorPrinter(MyVecNDNode vector) {
+    VectorPrinter(PrintableVector vector) {
         this.vector = vector;
     }
 
