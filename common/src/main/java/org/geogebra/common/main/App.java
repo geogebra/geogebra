@@ -3627,12 +3627,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public abstract CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel);
 
-	/**
-	 * Should lose focus on Web applets, implement only where appropriate
-	 */
 	public void loseFocus() {
-		Log.debug(
-				"Should lose focus on Web applets, implement (override) only where appropriate");
+		// Should lose focus on Web applets, implement (override) only where appropriate
 	}
 
 	/**

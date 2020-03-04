@@ -2657,29 +2657,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public abstract GeoGebraFrameW getAppletFrame();
 
-	/**
-	 * @return whether the focus was lost
-	 */
-	private static native Element nativeLoseFocus(Element element) /*-{
-		var active = $doc.activeElement;
-		var containsMask = $wnd.Node.DOCUMENT_POSITION_CONTAINS;
-		if (active
-				&& ((active === element) || (active
-						.compareDocumentPosition(element) & containsMask))) {
-			active.blur();
-			return active;
-		}
-		return null;
-	}-*/;
-
 	@Override
 	public void loseFocus() {
-		// probably this is called on ESC, so the reverse
-		// should happen on ENTER
-		Element ret = nativeLoseFocus(articleElement.getElement());
-		if (ret != null) {
-			getGlobalKeyDispatcher().setFocused(false);
-		}
+		getGlobalKeyDispatcher().setFocused(false);
 	}
 
 	@Override
@@ -3315,8 +3295,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
-				&& (!articleElement.preventFocus()
-						|| getGlobalKeyDispatcher().isFocused())) {
+				&& !articleElement.preventFocus()) {
 			if (readerTimer == null) {
 				readerTimer = new ReaderTimer();
 			}
@@ -3387,27 +3366,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * Focus this app
 	 */
 	public void addFocusToApp() {
-		if (!GlobalKeyDispatcherW.getIsHandlingTab()) {
-			getGlobalKeyDispatcher().setFocused(true);
-			return;
-		}
-
-		// add focus to AV if visible
-		AlgebraView av = getAlgebraView();
-		boolean visible = av != null && av.isShowing();
-		if (visible) {
-			((Widget) av).getElement().focus();
-			focusGained(av, ((Widget) av).getElement());
-			return;
-		}
-
-		// focus -> EV
-		EuclidianViewW ev = getEuclidianView1();
-		visible = ev != null && ev.isShowing();
-		if (visible) {
-			ev.getCanvasElement().focus();
-			ev.focusGained();
-		}
+		globalKeyDispatcher.setFocused(true);
 	}
 
 	/**

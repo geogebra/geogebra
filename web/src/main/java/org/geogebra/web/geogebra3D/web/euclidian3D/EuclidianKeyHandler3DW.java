@@ -21,7 +21,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
  *
  */
 public class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
-	private AccessibilityManagerInterface am;
+
 	private GlobalKeyDispatcherW gkd;
 
 	/**
@@ -31,8 +31,6 @@ public class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, Key
 	 *            {@link AppW}
 	 */
 	public EuclidianKeyHandler3DW(AppW app) {
-		am = app.getAccessibilityManager();
-		am.setTabOverGeos(true);
 		gkd = app.getGlobalKeyDispatcher();
 	}
 
@@ -46,33 +44,18 @@ public class EuclidianKeyHandler3DW implements KeyUpHandler, KeyDownHandler, Key
 		canvas.addKeyPressHandler(this);
 	}
 
-	private boolean isTabOverGui(KeyEvent<?> event) {
-		if (am.isTabOverGeos()) {
-			return false;
-		}
-
-		int key = event.getNativeEvent().getKeyCode();
-		return key == KeyCodes.KEY_TAB || key == KeyCodes.KEY_SPACE;
-	}
-
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
-		if (!isTabOverGui(event)) {
-			gkd.onKeyPress(event);
-		}
+		gkd.onKeyPress(event);
 	}
 
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
-		if (!isTabOverGui(event)) {
-			gkd.onKeyDown(event);
-		}
+		gkd.onKeyDown(event);
 	}
 
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
-		if (!isTabOverGui(event)) {
-			gkd.onKeyUp(event);
-		}
+		gkd.onKeyUp(event);
 	}
 }

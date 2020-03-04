@@ -30,18 +30,8 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public boolean isTabOverGeos() {
-		return true;
-	}
-
-	@Override
 	public boolean isCurrentTabExitGeos(boolean isShiftDown) {
 		return false;
-	}
-
-	@Override
-	public void setTabOverGeos(boolean b) {
-		// always true anyway
 	}
 
 	@Override

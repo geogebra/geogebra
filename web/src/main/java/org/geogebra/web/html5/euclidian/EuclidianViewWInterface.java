@@ -93,8 +93,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	void requestFocus();
 
-	void updateFirstAndLast(boolean attach, boolean anyway);
-
 	void setAltText();
 
 	String getExportSVG(double scale, boolean transparency);

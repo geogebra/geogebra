@@ -120,7 +120,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
     @Override
     public void focusGained(View v, Element el) {
-		this.getGlobalKeyDispatcher().setFocusedIfNotTab();
+	    this.getGlobalKeyDispatcher().setFocused(true);
     }
 
     @Override

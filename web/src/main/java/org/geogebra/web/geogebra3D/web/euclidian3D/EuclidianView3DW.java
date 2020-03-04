@@ -62,7 +62,6 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -95,8 +94,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private ReaderWidget screenReader;
 
 	private AppW appW = (AppW) super.app;
-
-	// private EuclidianKeyHandler3DW handler;
 
 	/**
 	 * constructor
@@ -143,21 +140,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		registerMouseTouchGestureHandlers(euclidianViewPanel,
 		        (EuclidianController3DW) euclidiancontroller);
 
-		updateFirstAndLast(true, true);
 		if (canvas != null) {
-			canvas.addAttachHandler(new AttachEvent.Handler() {
-				@Override
-				public void onAttachOrDetach(AttachEvent ae) {
-					// see attach handler of EuclidianViewW
-					updateFirstAndLast(ae.isAttached(), false);
-				}
-			});
-
 			canvas.addBlurHandler(new BlurHandler() {
 				@Override
 				public void onBlur(BlurEvent be) {
 					focusLost();
-					EuclidianViewW.cycle(EuclidianView3DW.this);
 				}
 			});
 
@@ -165,7 +152,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 				@Override
 				public void onFocus(FocusEvent fe) {
 					focusGained();
-					EuclidianViewW.selectNextGeoOnTab(EuclidianView3DW.this);
 				}
 			});
 		}
@@ -179,13 +165,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		Element elem = g2p.getElement();
 		elem.setAttribute("role", "figure");
 		elem.setAttribute("aria-label", "3D View");
-	}
-
-	@Override
-	public void updateFirstAndLast(boolean attach, boolean anyway) {
-		if (attach) {
-			EuclidianViewW.updateFirstAndLast(this, anyway);
-		}
 	}
 
 	private void setEvNo() {

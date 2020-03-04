@@ -106,13 +106,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	@Override
 	public void setVisible(boolean sv) {
 		super.setVisible(sv);
-		// if (getEuclidianView() != null) {// also included in:
-		if (getEuclidianView() instanceof EuclidianViewWInterface) {
-			((EuclidianViewWInterface) getEuclidianView()).updateFirstAndLast(
-					sv,
-						false);
-			}
-		// }
 	}
 
 	/**

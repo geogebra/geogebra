@@ -578,13 +578,13 @@ public class AppWFull extends AppW implements HasKeyboard {
 		case App.VIEW_ALGEBRA:
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
-			this.getGlobalKeyDispatcher().setFocusedIfNotTab();
+			this.getGlobalKeyDispatcher().setFocused(true);
 			break;
 		default:
 			if (App.isView3D(v.getViewID()) || ((v
 					.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START)
 					&& (v.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
-				this.getGlobalKeyDispatcher().setFocusedIfNotTab();
+				this.getGlobalKeyDispatcher().setFocused(true);
 			}
 		}
 	}

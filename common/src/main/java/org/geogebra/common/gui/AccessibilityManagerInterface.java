@@ -43,12 +43,6 @@ public interface AccessibilityManagerInterface {
 	public boolean focusInput(boolean force);
 
 	/**
-	 * 
-	 * @return true if tab is currently on EV geo elements.
-	 */
-	public boolean isTabOverGeos();
-
-	/**
 	 * Determines if current tab press should exit selecting geos and go to GUI
 	 * a element.
 	 * 
@@ -57,15 +51,6 @@ public interface AccessibilityManagerInterface {
 	 * @return true if tab should go to GUI.
 	 */
 	public boolean isCurrentTabExitGeos(boolean isShiftDown);
-
-	/**
-	 * Sets if tab is on geos currently.
-	 * 
-	 * @param b
-	 *            to set.
-	 * 
-	 */
-	public void setTabOverGeos(boolean b);
 
 	/**
 	 * Focus the geo specified.

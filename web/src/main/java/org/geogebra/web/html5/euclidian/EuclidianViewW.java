@@ -149,22 +149,6 @@ public class EuclidianViewW extends EuclidianView implements
 	protected EuclidianPanelWAbstract evPanel;
 	private PointerEventHandler pointerHandler;
 
-	// firstInstance is necessary for proper cycling
-	private static EuclidianViewWInterface firstInstance = null;
-
-	// lastInstance is necessary for knowing when to cycle
-	private static EuclidianViewWInterface lastInstance = null;
-
-	// tells whether recently TAB is pressed in some Graphics View
-	// in some applet, which SHOULD move focus to another Graphics View
-	// of another (or the same) applet... when this happens, the
-	// focus handler of the target applet runs, and sets this static
-	// variable false again, so this is just a technical solution
-	// for deciding, whether to select the first GeoElement in that
-	// applet or not (because we shall not change selection in case
-	// e.g. the spreadsheet view gives focus to Graphics view).
-	private static boolean tabPressed = false;
-
 	private GDimension preferredSize;
 
 	private GBufferedImage cacheImage;
@@ -833,44 +817,14 @@ public class EuclidianViewW extends EuclidianView implements
 		registerDragDropHandlers(euclidianViewPanel,
 				(EuclidianControllerW) euclidiancontroller);
 
-		updateFirstAndLast(true, true);
 		if (canvas == null) {
 			return;
 		}
-		canvas.addAttachHandler(new AttachEvent.Handler() {
-			@Override
-			public void onAttachOrDetach(AttachEvent ae) {
-				if (ae.isAttached()) {
-					// canvas just attached
-					// if (canvas.isVisible()) {
-						// if the canvas is set to visible,
-						// we're also going to call this
-					// but it seems the canvas is never
-					// made invisible now (otherwise
-					// we would need to override it maybe)
-
-					// ... it is a good question whether the
-					// respective methods of DockManagerW, i.e.
-					// show, hide, maximize and drop call this?
-					updateFirstAndLast(true, false);
-					// }
-				} else {
-					// canvas just detached
-					// here lazy update shall happen!
-					// i.e. focus handler shall update
-					// firstInstance and lastInstance
-					// BUT also we shall make them null now
-					updateFirstAndLast(false, false);
-				}
-			}
-		});
 
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent be) {
 				focusLost();
-				cycle(EuclidianViewW.this);
-
 			}
 		});
 
@@ -878,7 +832,6 @@ public class EuclidianViewW extends EuclidianView implements
 			@Override
 			public void onFocus(FocusEvent fe) {
 				focusGained();
-				EuclidianViewW.selectNextGeoOnTab(EuclidianViewW.this);
 			}
 		});
 
@@ -897,71 +850,6 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		addScreenReader();
-	}
-
-	/**
-	 * @param ev
-	 *            view
-	 * @param anyway
-	 *            whether to update even unattached view
-	 */
-	static final public void updateFirstAndLast(EuclidianViewWInterface ev,
-			boolean anyway) {
-		if (ev.getCanvasElement() == null) {
-			return;
-		}
-		ev.getCanvasElement()
-				.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
-		if (firstInstance == null) {
-			firstInstance = ev;
-		} else if (ev.isAttached()) {
-			if (compareDocumentPosition(ev.getCanvasElement(),
-					firstInstance.getCanvasElement())) {
-				firstInstance = ev;
-			}
-		} else if (anyway) {
-			// then compare to something equivalent!
-			// if we are in different applet;
-			// ... anything from this applet is right
-			// if we are in the same applet;
-			// ... does it matter? (yes, but just a little bit)
-			// TODO: to be fixed in a better way later,
-			// after it is seen whether this is really a little fix...
-			if (compareDocumentPosition(
-					((AppW) ev.getApplication()).getFrameElement(),
-					firstInstance
-							.getCanvasElement())) {
-				firstInstance = ev;
-			}
-		}
-
-		if (lastInstance == null) {
-			lastInstance = ev;
-		} else if (ev.isAttached()) {
-			if (compareDocumentPosition(lastInstance.getCanvasElement(),
-					ev.getCanvasElement())) {
-				lastInstance = ev;
-			}
-		} else if (anyway) {
-			if (compareDocumentPosition(lastInstance.getCanvasElement(),
-					((AppW) ev.getApplication()).getFrameElement())) {
-				lastInstance = ev;
-			}
-		}
-	}
-
-	@Override
-	public void updateFirstAndLast(boolean attach, boolean anyway) {
-		if (attach) {
-			if ((evNo == 1) || (evNo == 2) || isViewForPlane()) {
-				updateFirstAndLast(this, anyway);
-			} else {
-				// is this the best?
-				getCanvasElement()
-						.setTabIndex(
-						GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX - 1);
-			}
-		}
 	}
 
 	/**
@@ -1636,99 +1524,6 @@ public class EuclidianViewW extends EuclidianView implements
 			((AppW) app).getPanel().getElement().getParentElement()
 				.appendChild(screenReaderWidget.getElement());
 		}
-	}
-
-	/**
-	 * Focus next view on page.
-	 * 
-	 * @param from
-	 *            current view
-	 */
-	public static void cycle(EuclidianView from) {
-		if ((from == EuclidianViewW.lastInstance)
-				&& EuclidianViewW.tabPressed) {
-			// if this is the last to blur, and tabPressed
-			// is true, i.e. want to select another applet,
-			// let's go back to the first one!
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					// in theory, the tabPressed will not be set
-					// to false
-					// before this, because the element that
-					// naturally
-					// receives focus will not be an
-					// EuclidianView,
-					// for this is the last one, but why not
-					// make sure?
-					EuclidianViewW.tabPressed = true;
-
-					// probably we have to wait for the
-					// focus event that accompanies this
-					// blur first, and only request for
-					// new focus afterwards...
-					EuclidianViewW.firstInstance.requestFocus();
-				}
-			});
-		}
-
-	}
-
-	/**
-	 * 
-	 * @param success
-	 *            whether tab was handled internally
-	 * @return success || last applet left
-	 */
-	public static boolean checkTabPress(boolean success) {
-		if (!success) {
-			// should select first GeoElement in next applet
-			// this should work well except from last to first
-			// so there will be a blur handler there
-
-			// it would be too hard to select the first GeoElement
-			// from here, so this will be done in the focus handler
-			// of the other applet, depending on whether really
-			// this code called it, and it can be done by a static
-			// variable for the short term
-			EuclidianViewW.tabPressed = true;
-
-			// except EuclidianViewW.lastInstance, do not prevent:
-			if (EuclidianViewW.lastInstance.isInFocus()) {
-				EuclidianViewW.lastInstance.getCanvasElement().blur();
-				return true;
-			}
-			return false;
-		}
-		EuclidianViewW.tabPressed = false;
-		return true;
-	}
-
-	/**
-	 * Select next geo in given view when tab pressed
-	 * 
-	 * @param view
-	 *            view
-	 */
-	public static void selectNextGeoOnTab(EuclidianView view) {
-		if (EuclidianViewW.tabPressed) {
-			// if focus is moved here from another applet,
-			// select the first GeoElement of this Graphics view
-			EuclidianViewW.tabPressed = false;
-			view.getApplication().getSelectionManager().selectNextGeo(view);
-
-			// .setFirstGeoSelectedForPropertiesView(); might not be
-			// perfect,
-			// for that GeoElement might not be visible in all Graphics
-			// views
-		}
-	}
-
-	/**
-	 * Reset the tab flag
-	 */
-	public static void resetTab() {
-		tabPressed = false;
 	}
 
 	@Override

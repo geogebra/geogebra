@@ -24,12 +24,9 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Web implementation of AccessibilityManager.
  *
- * @author laszlo
- *
  */
 public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private AppW app;
-	private boolean tabOverGeos = false;
 	private SelectionManager selection;
 	private Widget anchor;
 	private SliderInput activeButton;
@@ -165,7 +162,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		EuclidianViewAccessibiliyAdapter ev = perspectiveAdapter
 				.getEVPanelWitZoomButtons(viewID);
 		if (ev != null) {
-			setTabOverGeos(false);
 			if (first) {
 				ev.focusNextGUIElement();
 			} else {
@@ -215,7 +211,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 		if (isPlayVisible(viewID)) {
 			setPlaySelectedIfVisible(true, viewID);
-			setTabOverGeos(true);
 			return;
 		}
 		int prevView = prevID(viewID);
@@ -256,7 +251,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	private boolean focusSettings(int viewID) {
 		if (getEuclidianPanel(viewID).focusSettings()) {
-			setTabOverGeos(false);
 			return true;
 		}
 		return false;
@@ -284,16 +278,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public boolean isTabOverGeos() {
-		return tabOverGeos;
-	}
-
-	@Override
-	public void setTabOverGeos(boolean tabOverGeos) {
-		this.tabOverGeos = tabOverGeos;
-	}
-
-	@Override
 	public boolean isCurrentTabExitGeos(boolean isShiftDown) {
 		if (selection.getSelectedGeos().size() != 1 || !app.isUnbundled()) {
 			return false;
@@ -318,7 +302,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public void focusGeo(GeoElement geo) {
 		if (geo != null) {
 			app.getSelectionManager().addSelectedGeoForEV(geo);
-			setTabOverGeos(true);
 			if (!geo.isGeoInputBox()) {
 				app.getActiveEuclidianView().requestFocus();
 			}
@@ -403,7 +386,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			if (!focusZoomPanel(true, viewId)) {
 				nextFromZoomPanel(viewId);
 			}
-			tabOverGeos = false;
 		} else {
 			if (!focusPlay(viewId)) {
 				nextFromPlayButton(forward);
