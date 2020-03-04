@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.arithmetic3D.vector;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
@@ -29,10 +30,16 @@ public class VectorPrinter implements Printer {
     }
 
     private String printRightParenthesis(StringTemplate tpl) {
-        return tpl == StringTemplate.editorTemplate ? "}}" : tpl.leftBracket();
+        return tpl == StringTemplate.editorTemplate ? "}}" : tpl.rightBracket();
     }
 
     private String printDelimiter(StringTemplate tpl) {
-        return tpl == StringTemplate.editorTemplate ? "}, {" : "; ";
+        if (tpl == StringTemplate.editorTemplate) {
+            return "}, {";
+        } else if (vector.getCoordinateSystem() == Kernel.COORD_CARTESIAN_3D) {
+            return ", ";
+        } else {
+            return "; ";
+        }
     }
 }
