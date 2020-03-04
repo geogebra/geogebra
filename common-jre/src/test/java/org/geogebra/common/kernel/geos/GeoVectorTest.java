@@ -12,13 +12,13 @@ public class GeoVectorTest extends BaseUnitTest {
 	public void testDefinitionForEdit() {
 		getApp().setGraphingConfig();
 		GeoVector vector = addAvInput("u=(1,2)");
-		assertThat(vector.getDefinitionForEditor(), equalTo("u = {{1},{2}}"));
+		assertThat(vector.getDefinitionForEditor(), equalTo("u = {{1}, {2}}"));
 	}
 
 	@Test
 	public void testDefinitionForDisplay() {
 		getApp().setGraphingConfig();
 		GeoVector vector = addAvInput("u=(1,2)");
-		assertThat(vector.getDefinitionForInputBar(), equalTo("u = {{1},{2}}"));
+		assertThat(vector.getDefinitionForInputBar(), equalTo("u = {{1}, {2}}"));
 	}
 }
