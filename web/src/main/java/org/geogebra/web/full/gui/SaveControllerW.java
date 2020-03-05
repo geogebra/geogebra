@@ -19,6 +19,8 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.full.util.SaveCallback;
@@ -26,9 +28,11 @@ import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Class to handle material saving.
@@ -80,12 +84,60 @@ public class SaveControllerW implements SaveController {
 
 	@Override
 	public void saveActiveMaterial(AsyncOperation<Boolean> autoSaveCB) {
-		if (!checkActiveMaterial()) {
-			return;
-		}
 		Material mat = app.getActiveMaterial();
-		this.autoSaveCallback = autoSaveCB;
-		saveAs(mat.getTitle(), MaterialVisibility.value(mat.getVisibility()), null);
+		if (mat != null) {
+			syncIdAndType(mat);
+			this.autoSaveCallback = autoSaveCB;
+			saveAs(mat.getTitle(), MaterialVisibility.value(mat.getVisibility()), null);
+		}
+	}
+
+	@Override
+	public void ensureTypeOtherThan(MaterialType type) {
+		Material activeMaterial = app.getActiveMaterial();
+		if (activeMaterial != null
+				&& activeMaterial.getType() == type) {
+			app.getKernel().getConstruction().setTitle(null);
+			app.setActiveMaterial(null);
+		}
+	}
+
+	@Override
+	public void showDialogIfNeeded(AsyncOperation<Boolean> examCallback) {
+		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
+		showDialogIfNeeded(examCallback, !app.isSaved(), null);
+		saveDialog.setDiscardMode();
+	}
+
+	/**
+	 * @param runnable
+	 *         callback gets true if save happened
+	 * @param needed
+	 *         whether to show the dialog
+	 * @param anchor
+	 *         UI element to be used for positioning the save dialog
+	 */
+	public void showDialogIfNeeded(final AsyncOperation<Boolean> runnable, boolean needed,
+								   Widget anchor) {
+		if (needed && !app.getLAF().isEmbedded()) {
+			final Material oldActiveMaterial = app.getActiveMaterial();
+			final String oldTitle = app.getKernel().getConstruction().getTitle();
+			ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
+			setRunAfterSave(new AsyncOperation<Boolean>() {
+				@Override
+				public void callback(Boolean saved) {
+					if (!saved) {
+						app.setActiveMaterial(oldActiveMaterial);
+						app.getKernel().getConstruction().setTitle(oldTitle);
+					}
+					runnable.callback(saved);
+				}
+			});
+			((DialogManagerW) app.getDialogManager()).getSaveDialog().showAndPosition(anchor);
+		} else {
+			setRunAfterSave(null);
+			runnable.callback(true);
+		}
 	}
 
 	@Override
@@ -100,16 +152,18 @@ public class SaveControllerW implements SaveController {
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
 		} else {
-			if (app.getActiveMaterial() == null || isMacro()) {
-				app.setActiveMaterial(new Material(0, saveType));
+			Material activeMaterial = app.getActiveMaterial();
+			if (activeMaterial == null || isMacro()) {
+				activeMaterial = new Material(0, saveType);
+				app.setActiveMaterial(activeMaterial);
 			} else if (!app.getLoginOperation()
-					.owns(app.getActiveMaterial())) {
-				app.getActiveMaterial().setId(0);
-				app.getActiveMaterial().setSharingKey(null);
+					.owns(activeMaterial)) {
+				activeMaterial.setId(0);
+				activeMaterial.setSharingKey(null);
 			}
 
-			app.getActiveMaterial().setVisibility(visibility.getToken());
-			uploadToGgt(app.getActiveMaterial().getVisibility());
+			activeMaterial.setVisibility(visibility.getToken());
+			uploadToGgt(activeMaterial.getVisibility());
 		}
 	}
 
@@ -117,14 +171,9 @@ public class SaveControllerW implements SaveController {
 		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
 	}
 
-	private boolean checkActiveMaterial() {
-		Material mat = app.getActiveMaterial();
-		if (mat == null) {
-			return false;
-		}
+	private void syncIdAndType(Material mat) {
 		getAppW().setTubeId(mat.getSharingKeyOrId());
 		setSaveType(mat.getType());
-		return true;
 	}
 
 	/**
@@ -150,15 +199,15 @@ public class SaveControllerW implements SaveController {
 		if (this.saveType != MaterialType.ggt) {
 			app.getKernel().getConstruction().setTitle(fileName);
 		}
-
-		if (!titleChanged) {
-			checkActiveMaterial();
+		Material mat = app.getActiveMaterial();
+		if (!titleChanged && mat != null) {
+			syncIdAndType(mat);
 		}
 
 		final AsyncOperation<String> handler = new AsyncOperation<String>() {
 			@Override
 			public void callback(String base64) {
-				if (titleChanged && isWorksheet()) {
+				if (titleChanged && (isWorksheet() || savedAsTemplate())) {
 					Log.debug("SAVE filename changed");
 					getAppW().updateMaterialURL(0, null, null);
 					doUploadToGgt(getAppW().getTubeId(), visibility, base64,
@@ -281,8 +330,17 @@ public class SaveControllerW implements SaveController {
 	 */
 	void doUploadToGgt(String tubeID, String visibility, String base64,
 			MaterialCallbackI materialCallback) {
-		app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
+		if (app.isWhiteboardActive() && !"".equals(app.getVendorSettings().getAPIBaseUrl())
+				&& savedAsTemplate()) {
+			MowBAPI api = new MowBAPI(
+					app.getVendorSettings().getAPIBaseUrl(),
+					new MarvlURLChecker());
+			api.uploadMaterial(tubeID, visibility, fileName, base64,
+					materialCallback, this.saveType);
+		} else {
+			app.getLoginOperation().getGeoGebraTubeAPI().uploadMaterial(tubeID, visibility,
 				fileName, base64, materialCallback, this.saveType);
+		}
 	}
 
 	@Override
@@ -310,6 +368,16 @@ public class SaveControllerW implements SaveController {
 		this.saveType = saveType;
 	}
 
+	@Override
+	public MaterialType getSaveType() {
+		return saveType;
+	}
+
+	@Override
+	public boolean savedAsTemplate() {
+		return MaterialType.ggsTemplate.equals(getSaveType());
+	}
+
 	/**
 	 * @param base64
 	 *            material base64
@@ -322,7 +390,7 @@ public class SaveControllerW implements SaveController {
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse, ArrayList<Chapter> meta) {
-				if (isWorksheet()) {
+				if (isWorksheet() || savedAsTemplate()) {
 					if (parseResponse.size() == 1) {
 						Material newMat = parseResponse.get(0);
 						newMat.setThumbnailBase64(
@@ -376,7 +444,7 @@ public class SaveControllerW implements SaveController {
 				if (exception.getMessage().contains("auth")) {
 					getAppW().getLoginOperation().performTokenLogin();
 				}
-				((GuiManagerW) getAppW().getGuiManager()).exportGGB();
+				getAppW().getGuiManager().exportGGB();
 				saveLocalIfNeeded(
 						SaveControllerW.getCurrentTimestamp(getAppW()),
 						SaveState.ERROR);
@@ -475,13 +543,13 @@ public class SaveControllerW implements SaveController {
 	@Override
 	public boolean updateSaveTitle(TextObject title, String fallback) {
 		String consTitle = app.getKernel().getConstruction().getTitle();
-		if (consTitle != null && !"".equals(consTitle)
-				&& !app.getSaveController().isMacro()) {
+		if (!StringUtil.empty(consTitle) && !isMacro()) {
 			if (consTitle.startsWith(MaterialsManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);
 			}
-			if (!app.getLoginOperation()
-					.owns(app.getActiveMaterial())) {
+			Material activeMaterial = app.getActiveMaterial();
+			if (activeMaterial != null && !app.getLoginOperation()
+					.owns(activeMaterial)) {
 				consTitle = MowBAPI.getCopyTitle(loc, consTitle);
 				title.setText(consTitle);
 				return true;

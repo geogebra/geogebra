@@ -11165,7 +11165,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public EuclidianPen getPen() {
 		if (pen == null) {
 			pen = new EuclidianPen(app, view);
-
 		}
 		return pen;
 	}

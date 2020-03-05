@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
@@ -51,10 +52,6 @@ public class PenSubMenu extends SubMenuPanel {
 	// yellow
 	private final static int[] HEX_COLORS = { 0x000000, 0x2E7D32, 0x00A8A8,
 			0x1565C0, 0x6557D2, 0xCC0099, 0xD32F2F, 0xDB6114, 0xFFCC00 };
-	private GColor lastSelectedPenColor = GColor.BLACK;
-	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
-	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
-	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
 
 	/**
 	 * 
@@ -172,10 +169,10 @@ public class PenSubMenu extends SubMenuPanel {
 			getPenGeo().setLineThickness((int) value);
 			if (app.getActiveEuclidianView()
 					.getMode() == EuclidianConstants.MODE_PEN) {
-				lastPenThickness = (int) value;
+				getSettings().setLastPenThickness((int) value);
 			} else if (app.getActiveEuclidianView()
 					.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
-				lastHighlighterThinckness = (int) value;
+				getSettings().setLastHighlighterThinckness((int) value);
 			}
 			updatePreview();
 		} else {
@@ -198,10 +195,10 @@ public class PenSubMenu extends SubMenuPanel {
 		pen.getElement().setAttribute("selected", "true");
 		pen.setSelected(true);
 		setColorsEnabled(true);
-		selectColor(lastSelectedPenColor);
+		selectColor(getSettings().getLastSelectedPenColor());
 		setSliderRange(true);
-		slider.setValue((double) lastPenThickness);
-		getPenGeo().setLineThickness(lastPenThickness);
+		slider.setValue((double) getSettings().getLastPenThickness());
+		getPenGeo().setLineThickness(getSettings().getLastPenThickness());
 		getPenGeo().setLineOpacity(255);
 		slider.getElement().setAttribute("disabled", "false");
 		slider.disableSlider(false);
@@ -213,10 +210,10 @@ public class PenSubMenu extends SubMenuPanel {
 		highlighter.getElement().setAttribute("selected", "true");
 		highlighter.setSelected(true);
 		setColorsEnabled(true);
-		selectColor(lastSelectedHighlighterColor);
+		selectColor(getSettings().getLastSelectedHighlighterColor());
 		setSliderRange(true);
-		slider.setValue((double) lastHighlighterThinckness);
-		getPenGeo().setLineThickness(lastHighlighterThinckness);
+		slider.setValue((double) getSettings().getLastHighlighterThinckness());
+		getPenGeo().setLineThickness(getSettings().getLastHighlighterThinckness());
 		getPenGeo()
 				.setLineOpacity(EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
 		slider.getElement().setAttribute("disabled", "false");
@@ -275,9 +272,9 @@ public class PenSubMenu extends SubMenuPanel {
 					if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
 						getPenGeo().setLineOpacity(
 								EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
-						lastSelectedHighlighterColor = penColor[i];
+						getSettings().setLastSelectedHighlighterColor(penColor[i]);
 					} else {
-						lastSelectedPenColor = penColor[i];
+						getSettings().setLastSelectedPenColor(penColor[i]);
 					}
 				}
 			} else {
@@ -298,11 +295,11 @@ public class PenSubMenu extends SubMenuPanel {
 			if (enable) {
 				btnColor[i].removeStyleName("disabled");
 				if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
-					if (penColor[i] == lastSelectedHighlighterColor) {
+					if (penColor[i] == getSettings().getLastSelectedHighlighterColor()) {
 						btnColor[i].addStyleName("mowColorButton-selected");
 					}
 				} else if (app.getMode() == EuclidianConstants.MODE_PEN) {
-					if (penColor[i] == lastSelectedPenColor) {
+					if (penColor[i] == getSettings().getLastSelectedPenColor()) {
 						btnColor[i].addStyleName("mowColorButton-selected");
 					}
 				}
@@ -324,6 +321,10 @@ public class PenSubMenu extends SubMenuPanel {
 				.getPen().defaultPenLine;
 	}
 
+	private EuclidianSettings getSettings() {
+		return app.getActiveEuclidianView().getSettings();
+	}
+
 	@Override
 	public void setMode(int mode) {
 		reset();
@@ -337,36 +338,6 @@ public class PenSubMenu extends SubMenuPanel {
 		} else if (mode == EuclidianConstants.MODE_HIGHLIGHTER) {
 			doSelectHighlighter();
 		}
-	}
-
-	/**
-	 * @return last selected pen color
-	 */
-	public GColor getLastSelectedPenColor() {
-		return lastSelectedPenColor;
-	}
-
-	/**
-	 * @param lastSelectedPenColor
-	 *            update last selected pen color
-	 */
-	public void setLastSelectedPenColor(GColor lastSelectedPenColor) {
-		this.lastSelectedPenColor = lastSelectedPenColor;
-	}
-
-	/**
-	 * @return last selected highlighter color
-	 */
-	public GColor getLastSelectedHighlighterColor() {
-		return lastSelectedHighlighterColor;
-	}
-
-	/**
-	 * @param lastSelectedHighlighterColor
-	 *            update last selected highlighter color
-	 */
-	public void setLastSelectedColor(GColor lastSelectedHighlighterColor) {
-		this.lastSelectedHighlighterColor = lastSelectedHighlighterColor;
 	}
 
 	/**
@@ -403,7 +374,7 @@ public class PenSubMenu extends SubMenuPanel {
 				public void onColorChange(GColor color) {
 					penGeo.setObjColor(color);
 					// setPenIconColor(color.toString());
-					setLastSelectedColor(color);
+					getSettings().setLastSelectedHighlighterColor(color);
 					penGeo.setLineOpacity(
 							app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER
 									? EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY
@@ -439,10 +410,10 @@ public class PenSubMenu extends SubMenuPanel {
 	 * reset size of pen (for pen and highlighter)
 	 */
 	public void resetPen() {
-		lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
-		lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
+		getSettings().setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+		getSettings().setLastHighlighterThinckness(EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE);
 		if (app.getMode() == EuclidianConstants.MODE_PEN) {
-			slider.setValue((double) lastPenThickness);
+			slider.setValue((double) getSettings().getLastPenThickness());
 		}
 	}
 

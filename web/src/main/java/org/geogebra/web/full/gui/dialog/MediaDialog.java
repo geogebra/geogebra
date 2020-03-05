@@ -65,7 +65,7 @@ public abstract class MediaDialog extends OptionDialog implements ErrorHandler {
 	private void initGui() {
 		mainPanel = new FlowPanel();
 		inputPanel = new FlowPanel();
-		inputPanel.setStyleName("mowMediaDialogContent");
+		inputPanel.setStyleName("mowInputPanelContent");
 		inputPanel.addStyleName("emptyState");
 		inputField = new InputPanelW("", appW, 1, 25, false);
 		inputLabel = new FormLabel().setFor(inputField.getTextComponent());
@@ -238,7 +238,7 @@ public abstract class MediaDialog extends OptionDialog implements ErrorHandler {
 
 	@Override
 	public void showError(String msg) {
-		inputPanel.setStyleName("mowMediaDialogContent");
+		inputPanel.setStyleName("mowInputPanelContent");
 		inputPanel.addStyleName("errorState");
 		errorLabel.setText(appW.getLocalization().getMenu("Error") + ": "
 				+ appW.getLocalization().getError(msg));
@@ -255,7 +255,7 @@ public abstract class MediaDialog extends OptionDialog implements ErrorHandler {
 
 	@Override
 	public void resetError() {
-		getInputPanel().setStyleName("mowMediaDialogContent");
+		getInputPanel().setStyleName("mowInputPanelContent");
 		getInputPanel().addStyleName("emptyState");
 		inputPanel.removeStyleName("errorState");
 		setPrimaryButtonEnabled(!"".equals(inputField.getText()));
@@ -265,7 +265,7 @@ public abstract class MediaDialog extends OptionDialog implements ErrorHandler {
 	 * sets the style of InputPanel to focus state
 	 */
 	protected void setFocusState() {
-		getInputPanel().setStyleName("mowMediaDialogContent");
+		getInputPanel().setStyleName("mowInputPanelContent");
 		getInputPanel().addStyleName("focusState");
 	}
 
