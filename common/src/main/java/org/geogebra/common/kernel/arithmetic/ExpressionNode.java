@@ -447,11 +447,6 @@ public class ExpressionNode extends ValidExpression
 		return kernel.getExpressionNodeEvaluator().evaluate(this, tpl);
 	}
 
-	/*
-	 * public ExpressionValue evaluate(boolean cache) { return
-	 * kernel.getExpressionNodeEvaluator().evaluate(this); }
-	 */
-
 	/**
 	 * look for Variable objects in the tree and replace them by their resolved
 	 * GeoElement
@@ -461,60 +456,6 @@ public class ExpressionNode extends ValidExpression
 		doResolveVariables(info);
 		simplifyAndEvalCommands(info);
 		simplifyLeafs();
-
-		// left instanceof NumberValue needed rather than left.isNumberValue()
-		// as left can be an
-		// ExpressionNode, eg Normal[0,1,x]
-		switch (operation) {
-		case POWER: // eg e^x
-			if ((left instanceof NumberValue)
-					&& MyDouble.exactEqual(left.evaluateDouble(), Math.E)) {
-				GeoElement geo = getEulerConst(info);
-				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
-
-					// replace e^x with exp(x)
-					// if e was autocreated
-					operation = Operation.EXP;
-					left = right;
-					kernel.getConstruction().removeLabel(geo);
-				}
-			}
-			break;
-		case MULTIPLY: // eg 1 * e or e * 1
-		case DIVIDE: // eg 1 / e or e / 1
-		case PLUS: // eg 1 + e or e + 1
-		case MINUS: // eg 1 - e or e - 1
-			if ((left instanceof NumberValue)
-					&& MyDouble.exactEqual(left.evaluateDouble(), Math.E)) {
-				GeoElement geo = getEulerConst(info);
-				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
-
-					// replace 'e' with exp(1)
-					// if e was autocreated
-					left = new ExpressionNode(kernel, new MyDouble(kernel, 1.0),
-							Operation.EXP, null);
-					kernel.getConstruction().removeLabel(geo);
-				}
-			} else if ((right instanceof NumberValue)
-					&& MyDouble.exactEqual(right.evaluateDouble(), Math.E)) {
-				GeoElement geo = getEulerConst(info);
-				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
-
-					// replace 'e' with exp(1)
-					// if e was autocreated
-					right = new ExpressionNode(kernel,
-							new MyDouble(kernel, 1.0), Operation.EXP, null);
-					kernel.getConstruction().removeLabel(geo);
-				}
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
-	private GeoElement getEulerConst(EvalInfo info) {
-		return kernel.lookupLabel("e", false, info.getSymbolicMode());
 	}
 
 	private void doResolveVariables(EvalInfo info) {
@@ -543,25 +484,6 @@ public class ExpressionNode extends ValidExpression
 			}
 		}
 	}
-
-	/**
-	 * look for GeoFunction objects in the tree and replace them by FUNCTION
-	 * ExpressionNodes. This makes operations like f + g possible by changing
-	 * this to f(x) + g(x)
-	 * 
-	 * public void wrapGeoFunctionsAsExpressionNode() { Polynomial polyX = new
-	 * Polynomial(kernel, "x");
-	 * 
-	 * // left wing if (left.isExpressionNode()) {
-	 * ((ExpressionNode)left).wrapGeoFunctionsAsExpressionNode(); } else if
-	 * (left instanceof GeoFunction) { left = new ExpressionNode(kernel, left,
-	 * ExpressionNode.FUNCTION, polyX); }
-	 * 
-	 * // resolve right wing if (right != null) { if (right.isExpressionNode())
-	 * { ((ExpressionNode)right).wrapGeoFunctionsAsExpressionNode(); } else if
-	 * (right instanceof GeoFunction) { right = new ExpressionNode(kernel,
-	 * right, ExpressionNode.FUNCTION, polyX); } } }
-	 */
 
 	/**
 	 * Returns whether this ExpressionNode should evaluate to a GeoVector. This

@@ -48,8 +48,7 @@ import org.geogebra.common.util.MyMath;
  */
 public class DrawSegment extends SetDrawable implements Previewable {
 
-	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
-			AwtFactory.getPrototype().newPoint2D() };
+	private GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 
 	private GeoLineND s;
 
@@ -65,7 +64,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	private GLine2D[] decoTicks;
 
 	private SegmentBoundingBox boundingBox;
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private GPoint2D endPoint = new GPoint2D();
 
 	/**
 	 * Creates new DrawSegment

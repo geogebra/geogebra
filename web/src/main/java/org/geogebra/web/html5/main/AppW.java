@@ -216,12 +216,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
-	// when losing focus, remembering it so that ENTER can give focus back
-	private static volatile Element lastActiveElement = null;
-	// but not in case of anything important in any app has focus,
-	// we shall set it to true in each of those cases, e.g. AV input bar too !!!
-	private static boolean anyAppHasFocus = true;
-
 	private ReaderTimer readerTimer;
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
@@ -1166,6 +1160,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
 		resetUI();
+		resetPages();
+	}
+
+	private void resetPages() {
+		if (pageController == null) {
+			return;
+		}
+		pageController.resetPageControl();
 	}
 
 	/**
@@ -1816,12 +1818,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean is3DViewEnabled() {
-
-		if (!getArticleElement().getDataParamEnable3D(true)) {
-			return false;
-		}
-
-		return super.is3DViewEnabled();
+		return getArticleElement().getDataParamEnable3D(true) && super.is3DViewEnabled();
 	}
 
 	private void setViewsEnabled() {
@@ -1902,7 +1899,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		RootPanel.get().removeStyleName("cursor_wait");
 	}
 
-	private void updateContentPane(boolean updateComponentTreeUI) {
+	/**
+	 * Updates the GUI of the main component.
+	 */
+	public void updateContentPane() {
 		if (initing) {
 			return;
 		}
@@ -1920,19 +1920,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		// update layout
-		if (updateComponentTreeUI) {
-			updateTreeUI();
-		}
+		updateTreeUI();
 
 		// reset mode and focus
 		set1rstMode();
-	}
-
-	/**
-	 * Updates the GUI of the main component.
-	 */
-	public void updateContentPane() {
-		updateContentPane(true);
 	}
 
 	/**
@@ -1981,7 +1972,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return null;
 	}
 
-	// methods used just from AppWapplet (and AppWsimple)
 	/**
 	 *
 	 * @param w
@@ -1989,13 +1979,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param el
 	 *            target element
 	 */
-	public void focusLost(View w, Element el) {
-		// other things are handled in subclasses of AppW
-		// anyAppHasFocus = false;
-		if (el != null) {
-			setLastActive(el);
-		}
-	}
+	public abstract void focusLost(View w, Element el);
 
 	/**
 	 *
@@ -2004,13 +1988,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param el
 	 *            target element
 	 */
-	public void focusGained(View w, Element el) {
-		// this is used through the super keyword
-		// anyAppHasFocus = true;
-		if (el != null) {
-			setLastActive(el);
-		}
-	}
+	public abstract void focusGained(View w, Element el);
 
 	/**
 	 * Update toolbar from custom definition
@@ -2621,15 +2599,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		Log.debug("updateApplicationLayout: Implementation needed...");
 	}
 
-	@Override
-	public void setShowToolBar(boolean toolbar, boolean help) {
-		if (toolbar) {
-			// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE
-			// .propertiesKeysJS());
-		}
-		super.setShowToolBar(toolbar, help);
-	}
-
 	/**
 	 * @return applet ID
 	 */
@@ -2663,79 +2632,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// should happen on ENTER
 		Element ret = nativeLoseFocus(articleElement.getElement());
 		if (ret != null) {
-			setLastActive(ret);
-			setAnyAppFocused(false);
 			getGlobalKeyDispatcher().setFocused(false);
-		}
-	}
-
-	private static void setAnyAppFocused(boolean b) {
-		anyAppHasFocus = b;
-	}
-
-	/**
-	 * @return whether we can focus on ENTER
-	 */
-	private static native boolean nativeGiveFocusBack() /*-{
-		var active = $doc.activeElement;
-		if (active && (active !== $doc.body)) {
-
-			//if SVG clicked, getClassName returns non-string
-
-			if (typeof active.className == "string"
-					&& active.className.match(/geogebraweb-dummy-invisible/)) {
-				// actually, ESC focuses this, does not blur!
-				return true;
-			}
-			// this shall execute the default ENTER action on
-			// that element, to be independent (e.g. click on links!)
-			// OR if it is part of GeoGebra, then we shall also not
-			// support selecting GeoGebra again by ENTER
-			//return false; // behold the other return false;
-
-			// not doing more checks, don't do any action, which is safe
-			return false;
-		}
-		// blurred, probably, so it's safe to focus on ENTER
-		return true;
-	}-*/;
-
-	/**
-	 * Let's say this is the pair of loseFocus, so that only loseFocus can lose
-	 * focus from ALL applets officially (i.e. "ESC"), and from each part of
-	 * each applet (e.g. input bar, Graphics view, etc), while only
-	 * giveFocusBack can give focus back to an applet removed by the loseFocus
-	 * method - to avoid hidden bugs.
-	 *
-	 * What if focus is received by some other method than ENTER (pair of ESC)?
-	 * I think let's allow it, but if ENTER comes next, then we should adjust
-	 * our knowledge about it (otherwise, it should have been watched in the
-	 * entire codebase, which is probably worse, for there are possibilities of
-	 * errors). This way just these two methods shall be checked.
-	 */
-	public static void giveFocusBack() {
-		if (anyAppHasFocus) {
-			// here we are sure that ENTER should not do anything
-			return;
-		}
-
-		// update for the variable in this case, must be made anyway
-		// just it is a question whether this shall also mean a focus?
-		// BUT only when nativeGiveFocusBack is changed, and this
-		// variable also filled perfectly
-		// anyAppHasFocus = true;
-
-		// here we could insert static aggregates of relevant
-		// variables like getGlobalKeyDispatcher().InFocus
-		// ... but what if e.g. the input bar has focus?
-
-		// then we can easily check for $doc.activeElement,
-		// whether it means blur=OK
-		if (nativeGiveFocusBack()) {
-			if (lastActiveElement != null) {
-				anyAppHasFocus = true;
-				lastActiveElement.focus();
-			}
 		}
 	}
 
@@ -3621,10 +3518,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void copyTextToSystemClipboard(String text) {
 		Log.debug("copying to clipboard " + text);
 		CopyPasteW.writeToExternalClipboard(text);
-	}
-
-	private static void setLastActive(Element e) {
-		lastActiveElement = e;
 	}
 
 	/**

@@ -153,8 +153,8 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
          * @since 1.2
          */
         @Override
-		public Point2D getP1() {
-            return new Point2D.Double(x1, y1);
+		public GPoint2D getP1() {
+            return new GPoint2D(x1, y1);
         }
 
         /**
@@ -180,8 +180,8 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
          * @since 1.2
          */
         @Override
-		public Point2D getCtrlPt() {
-            return new Point2D.Double(ctrlx, ctrly);
+		public GPoint2D getCtrlPt() {
+            return new GPoint2D(ctrlx, ctrly);
         }
 
         /**
@@ -207,8 +207,8 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
          * @since 1.2
          */
         @Override
-		public Point2D getP2() {
-            return new Point2D.Double(x2, y2);
+		public GPoint2D getP2() {
+            return new GPoint2D(x2, y2);
         }
 
         /**
@@ -285,7 +285,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
      *          <code>QuadCurve2D</code>.
      * @since 1.2
      */
-    public abstract Point2D getP1();
+    public abstract GPoint2D getP1();
 
     /**
      * Returns the X coordinate of the control point in
@@ -309,7 +309,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
      *          <code>Point2D</code>.
      * @since 1.2
      */
-    public abstract Point2D getCtrlPt();
+    public abstract GPoint2D getCtrlPt();
 
     /**
      * Returns the X coordinate of the end point in
@@ -333,7 +333,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
      *          of this <code>Point2D</code>.
      * @since 1.2
      */
-    public abstract Point2D getP2();
+    public abstract GPoint2D getP2();
 
     /**
      * Sets the location of the end points and control point of this curve

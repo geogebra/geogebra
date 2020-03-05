@@ -23,7 +23,7 @@ public class SliderBuilder {
 
 	private SliderData<String> input;
 	private SliderData<GeoNumberValue> processedData;
-	private GPoint2D.Double location;
+	private GPoint2D location;
 
 	/**
 	 * @param algebraProcessor algebra processor
@@ -72,7 +72,7 @@ public class SliderBuilder {
 	 * @return Itself
 	 */
 	public SliderBuilder withLocation(double x, double y) {
-		location = new GPoint2D.Double(x, y);
+		location = new GPoint2D(x, y);
 		return this;
 	}
 

@@ -104,11 +104,6 @@ public class AlgoCellRange extends AlgoElement {
 	}
 
 	private void clearGeoList() {
-		// remove this algorithm as cell range user to allow renaming again
-		for (int i = 0; i < geoList.size(); i++) {
-			geoList.get(i).removeCellRangeUser();
-		}
-
 		geoList.clear();
 	}
 
