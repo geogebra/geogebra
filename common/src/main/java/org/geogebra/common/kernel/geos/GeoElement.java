@@ -116,8 +116,6 @@ import org.geogebra.common.util.lang.Language;
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
-import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 /**
  * 
@@ -317,8 +315,8 @@ public abstract class GeoElement extends ConstructionElement
 	private NumberFormatAdapter numberFormatter6;
 	private static volatile TreeSet<AlgoElement> tempSet;
 
-	private TeXFormula teXFormula;
-	private TeXAtomSerializer texAtomSerializer;
+	private boolean descriptionNeedsUpdateInAV;
+
 	private AlgebraOutputFilter algebraOutputFilter;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
@@ -6944,6 +6942,24 @@ public abstract class GeoElement extends ConstructionElement
 		return -1;
 	}
 
+	/**
+	 * if AV update fails (e.g. if row not visible), we can set this to true to
+	 * force update later
+	 *
+	 * @param flag
+	 *            whether update is needed
+	 */
+	public void setDescriptionNeedsUpdateInAV(boolean flag) {
+		descriptionNeedsUpdateInAV = flag;
+	}
+
+	/**
+	 * @return whether AV update is needed
+	 */
+	public boolean descriptionNeedsUpdateInAV() {
+		return descriptionNeedsUpdateInAV;
+	}
+
 	@Override
 	public boolean isVisibleInputForMacro() {
 		return isLabelSet();
@@ -7068,7 +7084,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (!StringUtil.empty(getCaptionSimple())) {
 			String myCaption = getCaption(StringTemplate.defaultTemplate);
 			if (CanvasDrawable.isLatexString(myCaption)) {
-				getLaTeXAuralCaption(sb);
+				sb.appendLaTeX(caption);
 			} else {
 				sb.append(myCaption);
 			}
@@ -7076,26 +7092,6 @@ public abstract class GeoElement extends ConstructionElement
 			return true;
 		}
 		return false;
-	}
-
-	private void getLaTeXAuralCaption(ScreenReaderBuilder sb) {
-		teXFormula = getTexFormula();
-		teXFormula.setLaTeX(caption);
-		sb.append(getTexAtomSerializer().serialize(teXFormula.root));
-	}
-
-	private TeXAtomSerializer getTexAtomSerializer() {
-		if (texAtomSerializer == null) {
-			texAtomSerializer = new TeXAtomSerializer(null);
-		}
-		return texAtomSerializer;
-	}
-
-	private TeXFormula getTexFormula() {
-		if (teXFormula == null) {
-			teXFormula = new TeXFormula(caption);
-		}
-		return teXFormula;
 	}
 
 	@Override
