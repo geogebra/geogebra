@@ -535,7 +535,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		add(btnBold);
 		add(btnItalic);
-		add(btnUnderline);
+		if (app.isWhiteboardActive()) {
+			add(btnUnderline);
+		}
+
 		if (!app.isUnbundledOrWhiteboard()) {
 			add(btnTextSize);
 		}
