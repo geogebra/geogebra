@@ -53,7 +53,12 @@ public class HyperlinkDialog extends OptionDialog {
 
 	@Override
 	protected void processInput() {
-		String url = normalizeUrl(linkInputPanel.getInput());
+		String link = linkInputPanel.getInput();
+		if (StringUtil.empty(link)) {
+			return;
+		}
+
+		String url = normalizeUrl(link);
 
 		String text = textInputPanel.inputField.getText();
 		if (text.equals(hyperlinkText)	&& !StringUtil.empty(getSelectionUrl())) {
