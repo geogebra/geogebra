@@ -499,10 +499,10 @@
 		margin: 6px 0 6px auto;
 	}
 
-	.notesContextSubMenu {
+	.materialContextSubMenu {
 		background-color: $white;
-		padding-top: 8px;
-		padding-bottom: 8px;
+		padding-top: 4px;
+		padding-bottom: 4px;
 		scrollbar-width: thin;
 		overflow-y: auto;
 
@@ -515,6 +515,7 @@
 			border-radius: 2px;
 			line-height: 24px;
 			cursor: pointer;
+			white-space: nowrap;
 		}
 
 		.highlighted {

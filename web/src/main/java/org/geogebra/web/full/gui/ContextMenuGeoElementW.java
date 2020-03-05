@@ -237,7 +237,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		addSubmenuItem("General.Order", new OrderSubMenu(app, getGeos()));
-		wrappedPopup.addSeparator();
 	}
 
 	private static boolean containsMask(Collection<GeoElement> geos) {

@@ -34,7 +34,7 @@ public class FontSubMenu extends AriaMenuBar {
 		this.textController = textController;
 
 		createItems();
-		addStyleName("notesContextSubMenu");
+		addStyleName("materialContextSubMenu");
 	}
 
 	private void createItems() {

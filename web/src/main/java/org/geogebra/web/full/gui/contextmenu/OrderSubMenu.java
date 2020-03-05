@@ -4,7 +4,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 
@@ -14,12 +13,12 @@ public class OrderSubMenu extends AriaMenuBar {
 
 	private App app;
 	private LayerManager layerManager;
-	private Localization localization;
 
 	private ArrayList<GeoElement> geos;
 
 	/**
-	 * A submenu containing items for changing the drawing order in notes
+	 * A submenu containing items for changing the drawing order of
+	 * GeoElements on the graphics view
 	 * @param geos GeoElements to apply the order-changing operations on
 	 */
 	public OrderSubMenu(App app, ArrayList<GeoElement> geos) {
@@ -27,18 +26,18 @@ public class OrderSubMenu extends AriaMenuBar {
 
 		this.app = app;
 		this.layerManager = app.getKernel().getConstruction().getLayerManager();
-		this.localization = app.getLocalization();
 
 		addItem("ContextMenu.BringToFront", new BringToFrontCommand());
 		addItem("ContextMenu.BringForward", new BringForwardCommand());
 		addItem("ContextMenu.SendBackward", new SendBackwardCommand());
 		addItem("ContextMenu.SendToBack", new SendToBackCommand());
 
-		addStyleName("notesContextSubMenu");
+		addStyleName("materialContextSubMenu");
 	}
 
 	private void addItem(String key, ScheduledCommand command) {
-		AriaMenuItem item = new AriaMenuItem(localization.getMenu(key), false, wrap(command));
+		AriaMenuItem item = new AriaMenuItem(app.getLocalization().getMenu(key),
+				false, wrap(command));
 		item.getElement().setClassName("listMenuItem");
 		addItem(item);
 	}
