@@ -158,10 +158,6 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 
 	@Override
 	public void processInput() {
-		if (required && isInputEmpty()) {
-			return;
-		}
-
 		parentDialog.processInput();
 	}
 
