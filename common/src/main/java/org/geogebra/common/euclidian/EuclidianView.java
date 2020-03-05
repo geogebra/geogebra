@@ -3751,18 +3751,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (drawBg == null) {
 			drawBg = new DrawBackground(this, settings);
 		}
-		if (settings.getBackgroundType().isSVG()) {
-			createSVGBackgroundIfNeeded();
-		}
-
 		drawBg.draw(g2);
-	}
-
-	/**
-	 * create an SVG as background.
-	 */
-	protected void createSVGBackgroundIfNeeded() {
-		// implemented on web
 	}
 
 	/**
@@ -4138,8 +4127,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private GPoint2D[] getTmpClipPoints() {
 		if (tmpClipPoints == null) {
 			tmpClipPoints = new GPoint2D[2];
-			tmpClipPoints[0] = AwtFactory.getPrototype().newPoint2D();
-			tmpClipPoints[1] = AwtFactory.getPrototype().newPoint2D();
+			tmpClipPoints[0] = new GPoint2D();
+			tmpClipPoints[1] = new GPoint2D();
 		}
 
 		return tmpClipPoints;
@@ -4810,12 +4799,39 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// ruler color
 			GColor rulerColor = settings.getBgRulerColor();
 			if (!GColor.MOW_RULER.equals(rulerColor)) {
-				sbxml.append("\t<rulerColor r=\"");
-				sbxml.append(rulerColor.getRed());
-				sbxml.append("\" g=\"");
-				sbxml.append(rulerColor.getGreen());
-				sbxml.append("\" b=\"");
-				sbxml.append(rulerColor.getBlue());
+				sbxml.append("\t<rulerColor");
+				XMLBuilder.appendRGB(sbxml, rulerColor);
+				sbxml.append("/>\n");
+			}
+
+			if (app.getSaveController().savedAsTemplate()) {
+				// size of pen
+				sbxml.append("\t<penSize val=\"");
+				sbxml.append(settings.getLastPenThickness());
+				sbxml.append("\"/>\n");
+
+				// color of pen
+				sbxml.append("\t<penColor");
+				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedPenColor());
+				sbxml.append("/>\n");
+
+				// size of highlighter
+				sbxml.append("\t<highlighterSize val=\"");
+				sbxml.append(settings.getLastHighlighterThinckness());
+				sbxml.append("\"/>\n");
+
+				// highlighter of pen
+				sbxml.append("\t<highlighterColor");
+				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedHighlighterColor());
+				sbxml.append("/>\n");
+
+				// size of eraser
+				sbxml.append("\t<eraserSize val=\"");
+				sbxml.append(settings.getDeleteToolSize());
+				sbxml.append("\"/>\n");
+
+				sbxml.append("\t<language val=\"");
+				sbxml.append(app.getLocalization().getLocaleStr());
 				sbxml.append("\"/>\n");
 			}
 		}

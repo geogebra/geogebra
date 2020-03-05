@@ -2,7 +2,6 @@ package org.geogebra.desktop.awt;
 
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
-import java.awt.geom.Point2D;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
@@ -86,12 +85,12 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 	public GPoint2D getStartPoint() {
 		// impl.getStartPoint() return-type is java.awt.geom.Point2D
 		// but it returns with java.awt.geom.Point2D.Double
-		return new GPoint2DD((Point2D.Double) impl.getStartPoint());
+		return new GPoint2D(impl.getStartPoint().getX(), impl.getStartPoint().getY());
 	}
 
 	@Override
 	public GPoint2D getEndPoint() {
-		return new GPoint2DD((Point2D.Double) impl.getEndPoint());
+		return new GPoint2D(impl.getStartPoint().getX(), impl.getStartPoint().getY());
 	}
 
 	@Override

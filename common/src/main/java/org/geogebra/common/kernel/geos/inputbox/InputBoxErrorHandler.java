@@ -61,6 +61,7 @@ class InputBoxErrorHandler implements ErrorHandler {
 
 	@Override
 	public void resetError() {
+		inputBox.clearTempUserInput();
 		handler.resetError();
 	}
 }

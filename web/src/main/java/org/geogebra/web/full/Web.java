@@ -13,7 +13,6 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.laf.MebisLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
@@ -26,11 +25,8 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
- * @author apa
- *
- */
-/**
  * Entry point classes define <code>onModuleLoad()</code>.
+ * @author Arpad
  */
 public class Web implements EntryPoint {
 
@@ -45,7 +41,6 @@ public class Web implements EntryPoint {
 			// loading touch, ignore.
 			return;
 		}
-		Browser.checkFloat64();
 
 		SuperDevUncaughtExceptionHandler.register();
 		exportGGBElementRenderer();

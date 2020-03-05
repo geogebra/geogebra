@@ -33,7 +33,7 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.tableViewStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());
-		StyleInjector.inject(GuiResources.INSTANCE.componentStyles());
+		StyleInjector.inject(stylesProvider.componentStyles());
 		StyleInjector.inject(stylesProvider.dialogStylesScss());
 		StyleInjector.inject(stylesProvider.settingsStyleScss());
 

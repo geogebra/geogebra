@@ -413,6 +413,7 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/print.scss")
 	SassResource printStyle();
 
+	@Override
 	@Source("org/geogebra/web/resources/scss/component-styles.scss")
 	SassResource componentStyles();
 

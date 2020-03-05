@@ -5,6 +5,6 @@ public interface OpenFileListener {
 	/**
 	 * @return whether to unregister this afterwards
 	 */
-	public boolean onOpenFile();
+	boolean onOpenFile();
 
 }

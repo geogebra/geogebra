@@ -22,8 +22,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Mouse handlers for shape tools
@@ -201,8 +201,7 @@ public class ModeShape {
 	 *         anchor
 	 */
 	public static GPoint2D snapPoint(double x1, double y1, double x2, double y2) {
-		return AwtFactory.getPrototype().newPoint2D(snap(x2, x1, Math.abs(y1 - y2)),
-				snap(y2, y1, Math.abs(x1 - x2)));
+		return new GPoint2D(snap(x2, x1, Math.abs(y1 - y2)), snap(y2, y1, Math.abs(x1 - x2)));
 	}
 
 	private static double snap(double y2, double y1, double scale) {
@@ -390,23 +389,21 @@ public class ModeShape {
 
 	private static void createPolygon(AlgoPolygon algo) {
 		GeoPolygon poly = algo.getPoly();
-		// do not show segment labels
-		hideSegments(poly);
+		poly.setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS);
 		poly.setIsShape(true);
 		poly.setLabelVisible(false);
 		poly.setAlphaValue(0);
 		poly.setBackgroundColor(GColor.WHITE);
 		poly.setObjColor(GColor.BLACK);
-		poly.initLabels(null);
+		poly.setLabel(null);
 	}
 
 	private static void createMask(AlgoPolygon algo) {
 		GeoPolygon polygon = algo.getPoly();
-		hideSegments(polygon);
 		polygon.setIsMask(true);
 		polygon.setBackgroundColor(GeoGebraColorConstants.MEBIS_MASK);
 		polygon.setObjColor(GeoGebraColorConstants.MEBIS_MASK);
-		polygon.initLabels(null);
+		polygon.setLabel(null);
 	}
 
 	/**
@@ -438,13 +435,6 @@ public class ModeShape {
 				view.setShapePolygon(polygon);
 				view.repaintView();
 			}
-		}
-	}
-
-	private static void hideSegments(GeoPolygon poly) {
-		for (GeoSegmentND geoSeg : poly.getSegments()) {
-			geoSeg.setLabelVisible(false);
-			geoSeg.setSelectionAllowed(false);
 		}
 	}
 

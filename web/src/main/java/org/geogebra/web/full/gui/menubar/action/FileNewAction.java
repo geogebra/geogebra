@@ -22,21 +22,11 @@ public class FileNewAction extends MenuAction<Void> implements AsyncOperation<Bo
 
 	@Override
 	public void callback(Boolean active) {
-		// ignore active: don't save means we want new construction
-		app.setWaitCursor();
-		app.fileNew();
-		app.setDefaultCursor();
-
-		if (!app.isUnbundledOrWhiteboard()) {
-			app.showPerspectivesPopup();
-		}
-		if (app.getPageController() != null) {
-			app.getPageController().resetPageControl();
-		}
+		app.tryLoadTemplatesOnFileNew();
 	}
 
 	@Override
 	public void execute(Void geo, AppWFull appW) {
-		appW.getDialogManager().getSaveDialog().showIfNeeded(this);
+		appW.getSaveController().showDialogIfNeeded(this);
 	}
 }

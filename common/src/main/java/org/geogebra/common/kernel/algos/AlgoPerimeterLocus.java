@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -86,7 +85,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 		double length = 0;
 		for (int i = 1; i < points.size(); i++) {
 			MyPoint pt = points.get(i);
-			length = length + pt.distance((Point) lastPoint);
+			length = length + pt.distance(lastPoint);
 			lastPoint = pt;
 		}
 		circum.setValue(length);

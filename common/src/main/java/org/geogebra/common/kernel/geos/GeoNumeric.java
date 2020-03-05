@@ -1531,14 +1531,6 @@ public class GeoNumeric extends GeoElement
 		return comparator;
 	}
 
-	// protected void setRandomNumber(boolean flag) {
-	// isRandomNumber = flag;
-	// }
-
-	// public boolean isRandomNumber() {
-	// return isRandomNumber;
-	// }
-
 	@Override
 	final public void updateRandomGeo() {
 		// set random value (for numbers used in trees using random())
