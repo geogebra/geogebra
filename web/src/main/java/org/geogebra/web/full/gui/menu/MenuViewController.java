@@ -2,16 +2,25 @@ package org.geogebra.web.full.gui.menu;
 
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.events.LogOutEvent;
+import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandler;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
@@ -27,7 +36,7 @@ import java.util.List;
 /**
  * Controller for the main menu in the apps.
  */
-public class MenuViewController implements ResizeHandler {
+public class MenuViewController implements ResizeHandler, EventRenderable {
 
 	private MenuViewListener menuViewListener;
 
@@ -44,6 +53,8 @@ public class MenuViewController implements ResizeHandler {
 	private DrawerMenuFactory defaultDrawerMenuFactory;
 	private DrawerMenuFactory examDrawerMenuFactory;
 
+	private GeoGebraTubeUser user;
+
 	/**
 	 * Creates a MenuViewController.
 	 *
@@ -54,7 +65,7 @@ public class MenuViewController implements ResizeHandler {
 		createViews();
 		createFactories(app);
 		setDefaultMenu();
-		addHandler();
+		registerListeners(app);
 		onResize(null);
 	}
 
@@ -94,8 +105,9 @@ public class MenuViewController implements ResizeHandler {
 				&& app.getLAF().hasLoginButton();
 	}
 
-	private void addHandler() {
+	private void registerListeners(AppW app) {
 		Window.addResizeHandler(this);
+		app.getLoginOperation().getView().add(this);
 	}
 
 	/**
@@ -203,10 +215,7 @@ public class MenuViewController implements ResizeHandler {
 	}
 
 	private void createMenuItem(final MenuItem menuItem, MenuItemGroupView parent) {
-		SVGResource icon = menuItem.getIcon() != null
-				? menuIconResource.getImageResource(menuItem.getIcon()) : null;
-		String label = localization.getMenu(menuItem.getLabel());
-		MenuItemView view = new MenuItemView(icon, label);
+		MenuItemView view = createMenuItemView(menuItem);
 		view.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
@@ -216,8 +225,37 @@ public class MenuViewController implements ResizeHandler {
 		parent.add(view);
 	}
 
+	private MenuItemView createMenuItemView(MenuItem menuItem) {
+		if (menuItem.getIcon() == Icon.USER_ICON) {
+			return new MenuItemView(getUserImage(), menuItem.getLabel(), true);
+		} else {
+			SVGResource icon = menuItem.getIcon() != null
+					? menuIconResource.getImageResource(menuItem.getIcon()) : null;
+			String label = localization.getMenu(menuItem.getLabel());
+			return new MenuItemView(icon, label);
+		}
+	}
+
+	private ImageResource getUserImage() {
+		return new ImageResourcePrototype(user.getUserName(),
+				UriUtils.fromString(user.getImageURL()),
+				0, 0,	36, 36, false, false);
+	}
+
 	@Override
 	public void onResize(ResizeEvent event) {
 		headerView.setVisible(frame.hasSmallWindowOrCompactHeader());
+	}
+
+	@Override
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof LoginEvent) {
+			user = ((LoginEvent) event).getUser();
+		} else {
+			user = null;
+		}
+		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
+			setDefaultMenu();
+		}
 	}
 }

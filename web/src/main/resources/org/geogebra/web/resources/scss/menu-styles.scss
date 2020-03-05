@@ -91,6 +91,7 @@ $classicToolbar: 50px;
 				height: 48px;
 				line-height: 48px;
 				border-radius: 0px 24px 24px 0px;
+				white-space: nowrap;
 				&:hover {
 					background-color: #EEEEEE;
 				}
@@ -110,6 +111,18 @@ $classicToolbar: 50px;
 				.html-face {
 					padding-left: 16px;
 				}
+				&.userMenuItemView {
+					.gwt-Image {
+						margin: 2px 8px 6px 12px;
+						border-radius: 50%;
+						object-fit: cover;
+					}
+					.gwt-Label {
+						color: $text-secondary;
+						text-transform: uppercase;
+						font-size: 75%;
+					}
+				}
 			}
 		}
 		.divider {
@@ -124,9 +137,9 @@ $classicToolbar: 50px;
 	}
 
 	.titleHeader {
-	    > div {
-	        color: $text-secondary !important;
-	    }
+		> div {
+			color: $text-secondary !important;
+		}
 	}
 }
 
