@@ -71,16 +71,15 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 	/**
 	 * Opens color chooser dialog in MOW or properties view elsewhere.
-	 * 
+	 *
 	 * @param targetGeos
 	 *            The geos color needs to be set.
 	 */
-	protected void openColorChooser(ArrayList<GeoElement> targetGeos,
-			boolean background) {
+	protected void openColorChooser(ArrayList<GeoElement> targetGeos) {
 		if (app.isWhiteboardActive()) {
-			openColorDialogForWhiteboard(targetGeos, background);
+			openColorDialogForWhiteboard(targetGeos, false);
 		} else {
-			openPropertiesForColor(background);
+			openPropertiesForColor(false);
 		}
 	}
 
@@ -98,17 +97,18 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
-				openColorChooser(targetGeos, false);
+				openColorChooser(targetGeos);
 			} else {
 				double alpha = btnColor.getSliderValue() / 100.0;
 				needUndo = EuclidianStyleBarStatic.applyColor(color,
-						alpha, app);
+						alpha, app, targetGeos);
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
 				int selectedIndex = btnLineStyle.getSelectedIndex();
 				int lineSize = btnLineStyle.getSliderValue();
-				needUndo = EuclidianStyleBarStatic.applyLineStyle(selectedIndex, lineSize, app);
+				needUndo = EuclidianStyleBarStatic.applyLineStyle(selectedIndex,
+						lineSize, app, targetGeos);
 			}
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
@@ -206,7 +206,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	protected boolean applyColor(ArrayList<GeoElement> targetGeos, GColor color,
 			double alpha) {
 		boolean ret = EuclidianStyleBarStatic.applyColor(color,
-				alpha, app);
+				alpha, app, targetGeos);
 		String htmlColor = StringUtil.toHtmlColor(color);
 		return inlineFormatter.formatInlineText(targetGeos, "color", htmlColor)
 				|| ret;
