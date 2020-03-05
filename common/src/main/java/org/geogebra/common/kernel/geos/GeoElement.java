@@ -4146,6 +4146,14 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 *
+	 * @return algebraic representation for preview output
+	 */
+	final public String getAlgebraDescriptionForPreviewOutput() {
+		return getAlgebraDescriptionRHSLaTeX();
+	}
+
+	/**
 	 * Returns algebraic representation (e.g. coordinates, equation) of this
 	 * construction element. Default string template is used =&gt; caching can
 	 * be employed
