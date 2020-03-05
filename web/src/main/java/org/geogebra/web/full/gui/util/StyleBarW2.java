@@ -107,6 +107,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			if (btnLineStyle.getSelectedValue() != null) {
 				int selectedIndex = btnLineStyle.getSelectedIndex();
 				int lineSize = btnLineStyle.getSliderValue();
+				btnLineStyle.setSelectedIndex(selectedIndex);
 				needUndo = EuclidianStyleBarStatic.applyLineStyle(selectedIndex,
 						lineSize, app, targetGeos);
 			}
