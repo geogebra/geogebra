@@ -223,15 +223,11 @@ public class MyVecNode extends ValidExpression
 	@Override
 	public void setMode(int mode) {
 		this.mode = mode;
-		switch (mode) {
-			case Kernel.COORD_CARTESIAN:
-				stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
-				break;
-			case Kernel.COORD_POLAR:
-				stringifier.setPrintingMode(VectorPrintingMode.Spherical);
-				break;
-			default:
-				stringifier.setPrintingMode(VectorPrintingMode.Default);
+
+		if (mode == Kernel.COORD_CARTESIAN) {
+			stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
+		} else {
+			stringifier.setPrintingMode(VectorPrintingMode.Default);
 		}
 	}
 

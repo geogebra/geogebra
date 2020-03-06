@@ -368,15 +368,10 @@ public class MyVec3DNode extends ValidExpression
 	public void setMode(int mode) {
 		this.mode = mode;
 
-		switch (mode) {
-			case Kernel.COORD_SPHERICAL:
-				stringifier.setPrintingMode(VectorPrintingMode.Spherical);
-				break;
-			case Kernel.COORD_CARTESIAN_3D:
-				stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
-				break;
-			default:
-				stringifier.setPrintingMode(VectorPrintingMode.Default);
+		if (mode == Kernel.COORD_CARTESIAN_3D) {
+			stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
+		} else {
+			stringifier.setPrintingMode(VectorPrintingMode.Default);
 		}
 	}
 
