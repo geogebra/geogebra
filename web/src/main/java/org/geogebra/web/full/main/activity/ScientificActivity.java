@@ -10,6 +10,7 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.scientific.ScientificHeaderResizer;
+import org.geogebra.web.full.gui.menu.action.ScientificMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.ScientificMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
@@ -18,6 +19,7 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionScientific;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
@@ -49,12 +51,19 @@ public class ScientificActivity extends BaseActivity {
 		app.forceEnglishCommands();
 		app.setRightClickEnabledForAV(false);
 		app.getAppletFrame().updateArticleHeight();
+		if (app instanceof AppWFull) {
+			initMenu((AppWFull) app);
+		}
 	}
 
 	private static void initHeaderButtons(AppW app) {
 		app.getGuiManager().menuToGlobalHeader();
 		GlobalHeader.INSTANCE.initSettingButtonIfOnHeader();
 		GlobalHeader.INSTANCE.initUndoRedoButtonsIfOnHeader();
+	}
+
+	private void initMenu(AppWFull app) {
+		app.setDefaultActionHandlerFactory(new ScientificMenuActionHandlerFactory(app));
 	}
 
 	@Override

@@ -80,6 +80,7 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.menu.MenuViewController;
 import org.geogebra.web.full.gui.menu.MenuViewListener;
+import org.geogebra.web.full.gui.menu.action.MenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
@@ -2209,5 +2210,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		menuViewController.setDefaultMenu();
 		guiManager.resetMenu();
 		setActivePerspective(0);
+	}
+
+	public void setDefaultActionHandlerFactory(MenuActionHandlerFactory defaultActionHandlerFactory) {
+		menuViewController.setDefaultActionHandlerFactory(defaultActionHandlerFactory);
 	}
 }

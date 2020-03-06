@@ -12,8 +12,10 @@ import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.gui.menu.action.BaseMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.HeaderView;
+import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
+import org.geogebra.web.full.gui.menu.action.ExamMenuActionHandlerFactory;
+import org.geogebra.web.full.gui.menu.action.MenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
@@ -44,6 +46,9 @@ public class MenuViewController implements ResizeHandler {
 	private DrawerMenuFactory defaultDrawerMenuFactory;
 	private DrawerMenuFactory examDrawerMenuFactory;
 
+	private MenuActionHandlerFactory defaultActionHandlerFactory;
+	private MenuActionHandlerFactory examActionHandlerFactory;
+
 	/**
 	 * Creates a MenuViewController.
 	 *
@@ -63,8 +68,8 @@ public class MenuViewController implements ResizeHandler {
 		frame = app.getAppletFrame();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		BaseMenuActionHandlerFactory actionProviderFactory = new BaseMenuActionHandlerFactory(app);
-		menuActionRouter = new MenuActionRouter(actionProviderFactory.create(), this, localization);
+		defaultActionHandlerFactory = new DefaultMenuActionHandlerFactory(app);
+		examActionHandlerFactory = new ExamMenuActionHandlerFactory(app);
 	}
 
 	private void createViews() {
@@ -128,6 +133,8 @@ public class MenuViewController implements ResizeHandler {
 	 * Sets the menu to default.
 	 */
 	public void setDefaultMenu() {
+		menuActionRouter =
+				new MenuActionRouter(defaultActionHandlerFactory.create(), this, localization);
 		setDrawerMenu(defaultDrawerMenuFactory.createDrawerMenu());
 	}
 
@@ -135,6 +142,8 @@ public class MenuViewController implements ResizeHandler {
 	 * Sets the menu to exam.
 	 */
 	public void setExamMenu() {
+		menuActionRouter =
+				new MenuActionRouter(examActionHandlerFactory.create(), this, localization);
 		setDrawerMenu(examDrawerMenuFactory.createDrawerMenu());
 	}
 
@@ -227,5 +236,11 @@ public class MenuViewController implements ResizeHandler {
 	@Override
 	public void onResize(ResizeEvent event) {
 		headerView.setVisible(frame.hasSmallWindowOrCompactHeader());
+	}
+
+	public void setDefaultActionHandlerFactory(MenuActionHandlerFactory defaultActionHandlerFactory) {
+		this.defaultActionHandlerFactory = defaultActionHandlerFactory;
+		menuActionRouter =
+				new MenuActionRouter(defaultActionHandlerFactory.create(), this, localization);
 	}
 }
