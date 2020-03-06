@@ -31,4 +31,9 @@ public interface StylesProvider {
 	 * @return settingsStyles resources
 	 */
 	SassResource settingsStyleScss();
+
+	/**
+	 * @return componentStyles resources
+	 */
+	SassResource componentStyles();
 }

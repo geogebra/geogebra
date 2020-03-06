@@ -4786,12 +4786,39 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// ruler color
 			GColor rulerColor = settings.getBgRulerColor();
 			if (!GColor.MOW_RULER.equals(rulerColor)) {
-				sbxml.append("\t<rulerColor r=\"");
-				sbxml.append(rulerColor.getRed());
-				sbxml.append("\" g=\"");
-				sbxml.append(rulerColor.getGreen());
-				sbxml.append("\" b=\"");
-				sbxml.append(rulerColor.getBlue());
+				sbxml.append("\t<rulerColor");
+				XMLBuilder.appendRGB(sbxml, rulerColor);
+				sbxml.append("/>\n");
+			}
+
+			if (app.getSaveController().savedAsTemplate()) {
+				// size of pen
+				sbxml.append("\t<penSize val=\"");
+				sbxml.append(settings.getLastPenThickness());
+				sbxml.append("\"/>\n");
+
+				// color of pen
+				sbxml.append("\t<penColor");
+				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedPenColor());
+				sbxml.append("/>\n");
+
+				// size of highlighter
+				sbxml.append("\t<highlighterSize val=\"");
+				sbxml.append(settings.getLastHighlighterThinckness());
+				sbxml.append("\"/>\n");
+
+				// highlighter of pen
+				sbxml.append("\t<highlighterColor");
+				XMLBuilder.appendRGB(sbxml, settings.getLastSelectedHighlighterColor());
+				sbxml.append("/>\n");
+
+				// size of eraser
+				sbxml.append("\t<eraserSize val=\"");
+				sbxml.append(settings.getDeleteToolSize());
+				sbxml.append("\"/>\n");
+
+				sbxml.append("\t<language val=\"");
+				sbxml.append(app.getLocalization().getLocaleStr());
 				sbxml.append("\"/>\n");
 			}
 		}

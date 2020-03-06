@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
+
 /**
  * String builder wrapper for screen reader; avoids double spaces and dots.
  * 
@@ -8,6 +11,7 @@ package org.geogebra.common.kernel.geos;
 public class ScreenReaderBuilder {
 	private StringBuilder sb = new StringBuilder();
 	private boolean isMobile = false;
+	private TeXAtomSerializer texAtomSerializer;
 
 	/**
 	 * Default constructor
@@ -72,5 +76,21 @@ public class ScreenReaderBuilder {
 	 */
 	public boolean isMobile() {
 		return isMobile;
+	}
+
+	/**
+	 * @param root formula to append
+	 */
+	public void appendLaTeX(String root) {
+		TeXFormula texFormula = new TeXFormula();
+		texFormula.setLaTeX(root);
+		append(getTexAtomSerializer().serialize(texFormula.root));
+	}
+
+	private TeXAtomSerializer getTexAtomSerializer() {
+		if (texAtomSerializer == null) {
+			texAtomSerializer = new TeXAtomSerializer(null);
+		}
+		return texAtomSerializer;
 	}
 }

@@ -62,6 +62,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
+import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
@@ -182,6 +183,7 @@ public class GuiManagerW extends GuiManager
 	private GGWMenuBar mainMenuBar;
 
 	private AnimatingPanel sciSettingsView;
+	private TemplateChooserController templateController;
 
 	/**
 	 *
@@ -2229,6 +2231,14 @@ public class GuiManagerW extends GuiManager
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public TemplateChooserController getTemplateController() {
+		if (templateController == null) {
+			templateController = new TemplateChooserController();
+		}
+		return templateController;
 	}
 
 	@Override

@@ -367,5 +367,4 @@ public interface GuiManagerInterface {
 	void openMenuInAVFor(GeoElement geo);
 
 	void getViewsXML(StringBuilder sb, boolean asPreference);
-
 }

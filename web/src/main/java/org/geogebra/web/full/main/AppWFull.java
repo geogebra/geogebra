@@ -543,8 +543,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final void checkSaved(AsyncOperation<Boolean> runnable) {
-		getDialogManager().getSaveDialog()
-				.showIfNeeded(runnable);
+		getSaveController().showDialogIfNeeded(runnable);
 	}
 
 	@Override
@@ -691,11 +690,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (!isWhiteboardActive()) {
 			return;
 		}
-		setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
-		getEuclidianController().getPen().defaultPenLine
-				.setLineThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
 		getActiveEuclidianView().getSettings()
-				.setDeleteToolSize(EuclidianConstants.DEFAULT_ERASER_SIZE);
+				.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+		setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 	}
 
 	/**
@@ -729,10 +726,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public final void examWelcome() {
 		if (isExam() && getExam().getStart() < 0) {
-			this.closePerspectivesPopup();
-
 			resetViewsEnabled();
-
 			new ExamDialog(this).show();
 		}
 	}
@@ -1010,13 +1004,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 		removeSplash();
-	}
-
-	@Override
-	public final void closePerspectivesPopup() {
-		if (this.perspectivesPopup != null) {
-			// getPerspectivesPopup().closePerspectivesPopup();
-		}
 	}
 
 	@Override
@@ -1554,7 +1541,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 
-		closePerspectivesPopup();
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
@@ -1662,7 +1648,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			adjustViews(false, false);
 		}
 		kernel.notifyScreenChanged();
-		resetPenTool();
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}

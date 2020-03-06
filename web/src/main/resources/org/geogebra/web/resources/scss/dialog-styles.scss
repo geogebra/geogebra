@@ -1,6 +1,9 @@
 @import 'colors';
 @import 'text-styles';
 $duration: 0.2s;
+$shadow-card-default: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px
+ 5px 0px rgba(0,0,0,0.12);
+$shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
 
 
 .GeoGebraFrame {
@@ -118,6 +121,31 @@ $duration: 0.2s;
 			font-size: 95%;
 			margin-right: 16px;
 		}
+
+		.templatePanel {
+            display: flex;
+            width: fit-content;
+            cursor: pointer;
+
+            .checkbox {
+           	    margin: 2px 16px 0px 0px;
+
+           	    &.selected {
+           	        .background {
+           	            border-color: $teal-default;
+                        background-color: $teal-default;
+           	        }
+           	    }
+           	}
+
+            .templateTxt {
+                font-size: 100%;
+                height: 28px;
+                line-height: 28px;
+                color: $text-primary;
+            }
+        }
+
 		.buttonPanel {
    			height: 36px;
    			text-align: right;
@@ -131,8 +159,9 @@ $duration: 0.2s;
    			}
 
    			.visibility {
-   				top: 130px;
-   				left: 76px;
+   			    bottom: 6px;
+                left: 76px;
+                top: auto;
    			 }
 
    			.MyCanvasButton {
@@ -261,6 +290,10 @@ $duration: 0.2s;
    			box-shadow: none;
    			font-family: Roboto,sans-serif;
     		font-weight: 400 !important;
+
+    		.html-face {
+    		    text-align: center;
+    		}
 
     		&:hover {
     			background: $mow_card_background_hover !important;
@@ -514,7 +547,7 @@ $duration: 0.2s;
    		}
 
    		.DialogButtonPanel {
-   			padding-top: 8px !important;
+   			padding-top: 8px;
 
    			.button {
    				color: $mow_dark;
@@ -583,7 +616,7 @@ $duration: 0.2s;
    		}
 
 		.DialogButtonPanel {
-			padding-top: 8px !important;
+			padding-top: 8px;
 
 			.button-up-disabled {
 				opacity: 1;
@@ -1148,6 +1181,24 @@ $duration: 0.2s;
    					margin: 8px 16px 15px 0px !important;
    				}
    		}
+
+   		.templatePanel {
+   		    display: flex;
+   		    margin-bottom: 20px;
+   		    cursor: pointer;
+            width: fit-content;
+
+   		    .checkbox {
+   		        margin: 2px 16px 0px 0px;
+   		    }
+
+   		    .templateTxt {
+                font-size: 100%;
+                height: 28px;
+                line-height: 28px;
+                color: $text-primary;
+            }
+   		}
 	}
 
 /****************************************************
@@ -1535,6 +1586,117 @@ $duration: 0.2s;
    	.mowInputPanelContent  {
    	    .TextField::selection {
             background: rgba($mow_primary, 0.2)
+        }
+   	}
+
+   	.MaterialDialogBox.optionDialog.templateChooser {
+   	    padding-left: 0px;
+        padding-right: 0px;
+        max-width: 680px;
+        max-height: 486px;
+        overflow: auto;
+
+   	    .Caption {
+   	        height: 26px;
+   	        line-height: 26px;
+   	        margin-left: 24px;
+   	        margin-bottom: 0px;
+   	    }
+
+   	    .templatesPanel {
+   	        max-width: 649px;
+            max-height: 372px;
+            display: inline-block;
+            overflow: auto;
+            padding-left: 16px;
+            padding-right: 16px;
+            margin-top: 12px;
+            padding-bottom: 12px;
+
+            &.withBorder {
+                border-bottom: 1px solid $black-12;
+                height: 371px;
+                max-width: 665px;
+                padding-right: 0px;
+                padding-left: 15px;
+                padding-bottom: 0px;
+            }
+
+   	        .templateCard {
+   	            width: 200px;
+   	            border-radius: 2px;
+                background-color: #fff;
+                box-shadow: $shadow-card-default;
+                transition: box-shadow .25s;
+                position: relative;
+                display: inline-block;
+                margin: 8px 8px 8px 8px;
+                cursor: pointer;
+
+                &:hover {
+                    box-shadow: $shadow-card-hover;
+                }
+
+                &.selected {
+                    outline: 2px solid $mow_primary;
+                    box-shadow: $shadow-card-default;
+                    transition: box-shadow .25s;
+                }
+
+                &.selected:hover {
+                    box-shadow: $shadow-card-hover;
+                }
+
+                .cardImgPanel {
+                    width: 100%;
+                    height: 120px;
+                    background-position: center;
+                }
+
+                .cardInfoPanel {
+                    width: 100%;
+                    height: 44px;
+                    border-radius: 0 0 2px 2px;
+                    background-color: $mow_card_background;
+                    box-sizing: border-box;
+                    display: flex;
+
+                    .cardTitle {
+                        line-height: 28px;
+                        font-size: 100%;
+                        height: 28px;
+                        width: 154px;
+                        padding: 8px 30px 8px 16px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        display: block;
+                        color: $text-primary;
+                    }
+
+                    .mowMoreButton {
+                        width: 24px;
+                        height: 24px;
+                        padding: 10px 6px 10px 10px;
+                        position: relative;
+                        opacity: 0.54;
+                        cursor: pointer;
+
+                        &.gwt-ToggleButton-up-hovering {
+                            opacity: 1;
+                        }
+                    }
+                }
+   	         }
+   	    }
+
+        .DialogButtonPanel {
+            margin-right: 8px;
+            padding-top: 4px;
+
+            .button {
+                color: $mow_primary;
+             }
         }
    	}
 }

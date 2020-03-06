@@ -308,6 +308,7 @@ public class MowBAPI implements BackendAPI {
 			final MaterialCallbackI userMaterialsCB) {
 		HttpRequest request = makeRequest();
 		request.setContentTypeJson();
+
 		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
@@ -336,7 +337,7 @@ public class MowBAPI implements BackendAPI {
 			request.put("title", text);
 			request.put("file", base64);
 			if (StringUtil.emptyOrZero(tubeID)) {
-				request.put("type", type.name());
+				request.put("type", type.toString());
 			}
 		} catch (JSONException e) {
 			materialCallback.onError(e);
@@ -481,5 +482,19 @@ public class MowBAPI implements BackendAPI {
 	public URLChecker getURLChecker() {
 		// implement me
 		return urlChecker;
+	}
+
+	@Override
+	public void getTemplateMaterials(final MaterialCallbackI templateMaterialsCB) {
+		if (model == null || !model.isLoggedIn()) {
+			templateMaterialsCB.onLoaded(new ArrayList<Material>(), null);
+			return;
+		}
+
+		performRequest("GET",
+				"/users/" + model.getUserId()
+						+ "/materials?filter="
+						+ "ggs-template",
+				null, templateMaterialsCB);
 	}
 }
