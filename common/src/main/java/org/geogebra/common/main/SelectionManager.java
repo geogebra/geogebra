@@ -695,7 +695,8 @@ public class SelectionManager {
 			return false;
 		}
 
-		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
+		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
+
 		GeoElement next = tree.higher(lastSelected);
 
 		removeAllSelectedGeos();
@@ -709,6 +710,15 @@ public class SelectionManager {
 		return true;
 	}
 
+		private GeoElement getGroupLead(GeoElement geo) {
+		Group group = geo.getParentGroup();
+		if (group == null) {
+			return geo;
+		}
+
+		return group.getLead();
+	}
+
 	/**
 	 * Selects last geo in a particular order.
 	 *
@@ -717,7 +727,7 @@ public class SelectionManager {
 	 */
 	final public void selectLastGeo(EuclidianViewInterfaceCommon ev) {
 		boolean forceLast = false;
-		if (selectedGeos.size() != 1) {
+		if (selectedGeos.size() != 1 && !selectedGeos.get(0).hasGroup()) {
 			if (!getAccessibilityManager().handleTabExitGeos(false)) {
 				return;
 
@@ -727,12 +737,13 @@ public class SelectionManager {
 		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
 
 		int selectionSize = selectedGeos.size();
-		GeoElement last = tree.last();
+		GeoElement last = getGroupLead(tree.last());
 		if (forceLast) {
 			addSelectedGeoForEV(last);
 			return;
 		}
-		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
+
+		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
 		GeoElement prev = tree.lower(lastSelected);
 		removeAllSelectedGeos();
 
@@ -760,7 +771,7 @@ public class SelectionManager {
 	 *            construction element
 	 */
 	public void addSelectedGeoForEV(GeoElement geo) {
-		addSelectedGeo(geo);
+		addSelectedGeoWithGroup(geo);
 
 		checkInputBoxAndFocus(geo);
 		App app1 = geo.getKernel().getApplication();
@@ -822,7 +833,7 @@ public class SelectionManager {
 			boolean remove = false;
 			// selectionAllowed arg only matters for axes; axes are not in
 			// construction
-			if (!geo.isSelectionAllowed(null)) {
+			if (!geo.isSelectionAllowed(null) || !geo.isLead()) {
 				remove = true;
 			} else {
 				boolean visibleInView = (app.showView(App.VIEW_EUCLIDIAN3D)
@@ -1249,11 +1260,47 @@ public class SelectionManager {
 	public HashSet<Group> getSelectedGroups() {
 		HashSet<Group> selectedGroups = new HashSet<>();
 		for (GeoElement geo : selectedGeos) {
-			if (geo.getParentGroup() != null) {
+			if (geo.hasGroup()) {
 				selectedGroups.add(geo.getParentGroup());
 			}
 		}
 		return selectedGroups;
 	}
-}
 
+	/**
+	 * Adds all the geos of the group, that the given geo belongs.
+	 * If geo has no group, it is added to the selection.
+	 *
+	 * @param geo to add with its group
+	 */
+	public void addSelectedGeoWithGroup(GeoElement geo) {
+		Group group = geo.getParentGroup();
+		if (group == null) {
+			addSelectedGeo(geo, true, true);
+		} else {
+			addSelectedGeos(group.getGroupedGeos(), true);
+		}
+	}
+
+	/**
+	 * Removes or adds given geo and its group if any
+	 * to selection and repaints views
+	 *
+	 * @param geo
+	 *            geo to be added / removed
+	 */
+	final public void toggleSelectedGeoWithGroup(GeoElement geo) {
+		Group group = geo.getParentGroup();
+		if (group == null) {
+			toggleSelectedGeo(geo, true);
+		} else {
+			toggleSelectedGroup(group);
+		}
+	}
+
+	private void toggleSelectedGroup(Group group) {
+		for (GeoElement geo: group.getGroupedGeos()) {
+			toggleSelectedGeo(geo, true);
+		}
+	}
+}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.App;
-
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 
@@ -15,8 +14,8 @@ import com.google.gwt.core.client.Scheduler;
  * Class to create group related menu items.
  */
 public class GroupItems {
-	private App app;
 	private ArrayList<GeoElement> geos;
+	private App app;
 
 	/**
 	 * Constructor for adding Group/Ungroup menu items
@@ -39,20 +38,11 @@ public class GroupItems {
 	}
 
 	private boolean addGroupItem(GPopupMenuW popup) {
-		if (geos.size() >= 2 && allGeosNotInSingleGroup()) {
+		if (geos.size() >= 2 && !Group.isInSameGroup(geos)) {
 			popup.addItem(createGroupItem());
 			return true;
 		}
 		return false;
-	}
-
-	private boolean allGeosNotInSingleGroup() {
-		for (GeoElement geo : geos) {
-			if (geo.getParentGroup() == null) {
-				return true;
-			}
-		}
-		return app.getSelectionManager().getSelectedGroups().size() > 1 ? true : false;
 	}
 
 	private boolean addUngroupItem(GPopupMenuW popup) {

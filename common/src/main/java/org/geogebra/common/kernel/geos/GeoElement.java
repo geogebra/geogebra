@@ -6439,6 +6439,14 @@ public abstract class GeoElement extends ConstructionElement
 		return getLabelTextOrHTML(false); // columnHeadingsForTraceDialog.toString();
 	}
 
+	public boolean isLead() {
+		return parentGroup == null || parentGroup.isLead(this);
+	}
+
+	public boolean hasGroup() {
+		return parentGroup != null;
+	}
+
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	public enum TraceModesEnum {
 		/** no value for this geo, only copy */

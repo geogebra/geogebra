@@ -6562,7 +6562,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			selection.clearSelectedGeos();
 		} else {
 			if (ctrlDown) {
-				selection.toggleSelectedGeo(chooseGeo(geos, true));
+				selection.toggleSelectedGeoWithGroup(chooseGeo(geos, true));
 			} else {
 				Hits hits = new Hits();
 				hits.addAll(geos);
@@ -6573,7 +6573,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							previewPointHits = getPreviewSpecialPointHits(hits);
 						} else {
 							selection.clearSelectedGeos(false);
-							selection.addSelectedGeo(geo);
+							selection.addSelectedGeoWithGroup(geo);
 						}
 					}
 				} else {
@@ -8138,9 +8138,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						} else {
 							if (view.getSelectionRectangle() == null
 									&& !e.isRightClick()) {
-								selection.clearSelectedGeos(geo == null, false);
+								selection.clearSelectedGeos(false, false);
 								selection.updateSelection(false);
-								selection.addSelectedGeo(geo, true, true);
+								selection.addSelectedGeoWithGroup(geo);
 							}
 						}
 					}
@@ -9687,7 +9687,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					view.setSelectionRectangle(null);
 					// hit found
 					if (hits != null && hits.size() > 0) {
-						selection.setSelectedGeos(hits, true);
+						selection.addSelectedGeos(hits.getHitsGroupped(), true);
 						updateBoundingBoxFromSelection(false);
 					}
 				}
@@ -10169,8 +10169,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							&& !event.isRightClick()
 							&& lastSelectionToolGeoToRemove != null) {
 						selection.clearSelectedGeos(false, false);
-						selection.addSelectedGeo(lastSelectionToolGeoToRemove,
-								true, true);
+						selection.addSelectedGeoWithGroup(lastSelectionToolGeoToRemove);
 						view.setBoundingBox(((Drawable) view
 								.getDrawableFor(lastSelectionToolGeoToRemove))
 								.getBoundingBox());

@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *  model for group of selected geos
  */
 public class Group {
+    private GeoElement lead;
     private ArrayList<GeoElement> geosGroup = new ArrayList();
     private boolean isFixed;
 
@@ -20,6 +21,17 @@ public class Group {
         for (GeoElement geo : selectedGeos) {
             geosGroup.add(geo);
             geo.setParentGroup(this);
+        }
+
+        updateLead();
+    }
+
+    private void updateLead() {
+        lead = geosGroup.get(0);
+        for (GeoElement geo : geosGroup) {
+            if (geo.getConstructionIndex() < lead.getConstructionIndex()) {
+                lead = geo;
+            }
         }
     }
 
@@ -36,6 +48,7 @@ public class Group {
      */
     public void setGroupedGeos(ArrayList<GeoElement> geos) {
         geosGroup = geos;
+        updateLead();
     }
 
     public void setFixed(boolean fixed) {
@@ -60,5 +73,43 @@ public class Group {
             sb.append("\" ");
         }
         sb.append("/>\n");
+    }
+
+    /**
+     * The lead element of the group.
+     * Used to skip the others when tabbing through geos.
+     *
+     * @return lead element of the group
+     */
+    public GeoElement getLead() {
+        return lead;
+    }
+
+    /**
+     *
+     * @param geo to query
+     * @return if geo is the lead element of the group.
+     */
+    public boolean isLead(GeoElement geo) {
+        return geo == lead;
+    }
+
+    /**
+     *
+     * @param geos to check
+     * @return if all geos belongs to the same group
+     */
+    public static boolean isInSameGroup(ArrayList<GeoElement> geos) {
+        if (geos.size() == 0 || !geos.get(0).hasGroup()) {
+            return false;
+        }
+
+        Group group = geos.get(0).getParentGroup();
+        for (int i = 1; i < geos.size(); i++) {
+            if (geos.get(i).getParentGroup() != group) {
+                return false;
+            }
+        }
+        return true;
     }
 }
