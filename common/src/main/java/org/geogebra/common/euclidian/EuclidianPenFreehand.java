@@ -165,10 +165,6 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	@Override
 	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
 												 boolean isPinchZooming) {
-		if (right && !isFreehand()) {
-			return false;
-		}
-
 		penPoints.add(new GPoint(x, y));
 
 		GeoElement shape = checkExpectedShape();

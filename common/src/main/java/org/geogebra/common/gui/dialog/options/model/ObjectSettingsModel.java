@@ -376,7 +376,6 @@ abstract public class ObjectSettingsModel {
             if (LabelManager.isValidLabel(name, geo.getKernel(), geo)) {
                 geo.rename(name);
                 geo.setAlgebraLabelVisible(true);
-                geo.setDescriptionNeedsUpdateInAV(true);
                 geo.getKernel().notifyUpdate(geo);
                 geo.updateRepaint();
                 app.setPropertiesOccured();

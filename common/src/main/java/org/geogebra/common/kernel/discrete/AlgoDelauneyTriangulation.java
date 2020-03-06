@@ -89,20 +89,20 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 				TriangleDt triangle = it.next();
 
 				tree.add(new MyLine(
-						new GPoint2D.Double(triangle.p1().x(),
+						new GPoint2D(triangle.p1().x(),
 								triangle.p1().y()),
-						new GPoint2D.Double(triangle.p2().x(),
+						new GPoint2D(triangle.p2().x(),
 								triangle.p2().y())));
 				if (triangle.p3() != null) {
 					tree.add(new MyLine(
-							new GPoint2D.Double(triangle.p2().x(),
+							new GPoint2D(triangle.p2().x(),
 									triangle.p2().y()),
-							new GPoint2D.Double(triangle.p3().x(),
+							new GPoint2D(triangle.p3().x(),
 									triangle.p3().y())));
 					tree.add(new MyLine(
-							new GPoint2D.Double(triangle.p3().x(),
+							new GPoint2D(triangle.p3().x(),
 									triangle.p3().y()),
-							new GPoint2D.Double(triangle.p1().x(),
+							new GPoint2D(triangle.p1().x(),
 									triangle.p1().y())));
 				}
 

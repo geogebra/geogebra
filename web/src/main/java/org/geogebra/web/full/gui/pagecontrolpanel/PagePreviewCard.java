@@ -36,9 +36,6 @@ public class PagePreviewCard extends FlowPanel
 	private String image;
 	private FlowPanel titlePanel;
 	private Label titleLabel;
-	// private static final int LABELFONT_SIZE = 16;
-	// private AutoCompleteTextFieldW textField;
-	// private boolean isTitleSet = false;
 	private ContextMenuButtonPreviewCard contextMenu;
 	private int grabY; // where the user grabbed the card when dragging.
 	/**
@@ -102,41 +99,8 @@ public class PagePreviewCard extends FlowPanel
 		} else {
 			setPreviewImage(image);
 		}
-		// addTextField();
 		updateLabel();
 	}
-
-	/*
-	 * private void addTextField() { textField =
-	 * InputPanelW.newTextComponent(app); textField.setAutoComplete(false);
-	 * textField.addFocusListener(new FocusListenerW(this) {
-	 * 
-	 * @Override protected void wrapFocusLost() { rename(); } });
-	 * textField.addKeyHandler(new KeyHandler() {
-	 * 
-	 * @Override public void keyReleased(KeyEvent e) { if (e.isEnterKey()) {
-	 * rename(); } } }); titlePanel.add(textField); }
-	 */
-
-	/**
-	 * remember if title was renamed
-	 */
-	/*
-	 * protected void rename() { if
-	 * (textField.getText().equals(getDefaultLabel())) { isTitleSet = false; }
-	 * else { isTitleSet = true; } setTextFieldWidth();
-	 * textField.setFocus(false); }
-	 */
-
-	/**
-	 * using an approximate calculation for text field width.
-	 * 
-	 */
-	/*
-	 * private void setTextFieldWidth() { int length = LABELFONT_SIZE *
-	 * (textField.getText().length() + 2);
-	 * textField.setWidth(Math.max(Math.min(length, 178), 10)); }
-	 */
 
 	/**
 	 * @return ggb file associated to this card
@@ -170,17 +134,8 @@ public class PagePreviewCard extends FlowPanel
 				.getExportImageDataUrl(0.5, false, false));
 	}
 
-	/*
-	 * private String getDefaultLabel() { return loc.getMenu("page") + " " +
-	 * (pageIndex + 1); }
-	 */
-
 	private void updateLabel() {
 		titleLabel.setText(loc.getMenu("page") + " " + (pageIndex + 1));
-		/*
-		 * if (!isTitleSet) { textField.setText(getDefaultLabel());
-		 * setTextFieldWidth(); }
-		 */
 	}
 
 	/**

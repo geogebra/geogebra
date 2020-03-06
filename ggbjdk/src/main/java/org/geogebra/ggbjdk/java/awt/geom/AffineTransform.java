@@ -2840,7 +2840,7 @@ public class AffineTransform implements GAffineTransform {
     /**
      * Transforms the specified <code>ptSrc</code> and stores the result
      * in <code>ptDst</code>.
-     * If <code>ptDst</code> is <code>null</code>, a new {@link Point2D}
+     * If <code>ptDst</code> is <code>null</code>, a new {@link GPoint2D}
      * object is allocated and then the result of the transformation is
      * stored in this object.
      * In either case, <code>ptDst</code>, which contains the
@@ -2858,12 +2858,7 @@ public class AffineTransform implements GAffineTransform {
     @Override
 	public GPoint2D transform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {
-            if (ptSrc instanceof Point2D.Double) {
-                ptDst = new Point2D.Double();
-            } else {
-                //ptDst = new Point2D.Float();
-            	throw new RuntimeException("Point2D.Float not available");
-            }
+            ptDst = new GPoint2D();
         }
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();
@@ -2945,12 +2940,7 @@ public class AffineTransform implements GAffineTransform {
             double y = src.getY();
             GPoint2D dst = ptDst[dstOff++];
             if (dst == null) {
-                if (src instanceof Point2D.Double) {
-                    dst = new Point2D.Double();
-                } else {
-                    //dst = new Point2D.Float();
-                	throw new RuntimeException("Point2D.Float not available");
-                }
+                dst = new GPoint2D();
                 ptDst[dstOff - 1] = dst;
             }
             switch (state) {
@@ -3128,13 +3118,7 @@ public class AffineTransform implements GAffineTransform {
         throws NoninvertibleTransformException
     {
         if (ptDst == null) {
-            if (ptSrc instanceof Point2D.Double) {
-                ptDst = new Point2D.Double();
-            } else {
-                //ptDst = new Point2D.Float();
-            	throw new RuntimeException("Point2D.Float not available");
-
-            }
+        	ptDst = new GPoint2D();
         }
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();
@@ -3358,12 +3342,7 @@ public class AffineTransform implements GAffineTransform {
      */
     public GPoint2D deltaTransform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {
-            if (ptSrc instanceof Point2D.Double) {
-                ptDst = new Point2D.Double();
-            } else {
-                //ptDst = new Point2D.Float();
-            	throw new RuntimeException("Point2D.Float not available");
-            }
+            ptDst = new GPoint2D();
         }
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();

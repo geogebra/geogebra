@@ -2811,6 +2811,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * be used to create objects without any side effects, i.e. no labels are
 	 * created, algorithms are not added to the construction list and the views
 	 * are not notified about new objects.
+	 *
+	 * When calling this, make sure to store the suppressLabelCreation flag
+	 * of the construction to be able to restore it later.
 	 * 
 	 * @param silentMode
 	 *            silent mode

@@ -994,11 +994,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	@Override
-	public boolean hasValueStringChangeableRegardingView() {
-		return true;
-	}
-
-	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isInfinite()) {
 			return "?";
