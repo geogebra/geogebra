@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import java.util.Collections;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class SelectionManagerTest extends BaseUnitTest {
 	public void hasNextShouldSkipInvisibleGeos() {
 		createSampleGeos();
 		assertTrue(selectionManager.hasNext(lookup("firstVisible")));
-		Assert.assertFalse(selectionManager.hasNext(lookup("lastVisible")));
+		assertFalse(selectionManager.hasNext(lookup("lastVisible")));
 	}
 
 	private void createSampleGeos() {

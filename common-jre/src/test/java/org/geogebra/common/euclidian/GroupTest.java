@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -13,7 +14,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.groups.Group;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,13 +59,11 @@ public class GroupTest {
 		assertFalse(Group.isInSameGroup(geos1));
 	}
 
-
-
 	@Test
 	public void testGrouppedGeos() {
 		ArrayList<GeoElement> geos = withGivenNumberOfGeos(5);
 		Group group = new Group(geos);
 		List<GeoElement> result = group.getGroupedGeos();
-		Assert.assertEquals(geos, result);
+		assertEquals(geos, result);
 	}
 }
