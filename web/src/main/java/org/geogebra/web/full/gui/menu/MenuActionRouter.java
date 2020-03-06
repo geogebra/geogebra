@@ -18,9 +18,9 @@ class MenuActionRouter {
 	private MenuViewController menuViewController;
 	private Localization localization;
 
-	public MenuActionRouter(MenuActionHandler menuActionHandler,
-							MenuViewController menuViewController,
-							Localization localization) {
+	MenuActionRouter(MenuActionHandler menuActionHandler,
+	                 MenuViewController menuViewController,
+	                 Localization localization) {
 		this.menuActionHandler = menuActionHandler;
 		this.menuViewController = menuViewController;
 		this.localization = localization;
@@ -34,25 +34,25 @@ class MenuActionRouter {
 		}
 	}
 
-	void handleAction(Action action) {
+	private void handleAction(Action action) {
 		menuActionHandler.executeMenuAction(action);
-        menuViewController.setMenuVisible(false);
+		menuViewController.setMenuVisible(false);
 	}
 
-    private void handleSubmenu(SubmenuItem submenuItem) {
-        final MenuView menuView = new MenuView();
-        menuViewController.setMenuItemGroups(menuView,
-                Collections.singletonList(submenuItem.getGroup()));
-        HeaderView headerView = menuViewController.createHeaderView();
-        headerView.setCaption(localization.getMenu(submenuItem.getLabel()));
-        headerView.getBackButton().addFastClickHandler(new FastClickHandler() {
-            @Override
-            public void onClick(Widget source) {
-                menuViewController.hideSubmenu();
-            }
-        });
-        HeaderedMenuView submenu = new HeaderedMenuView(menuView);
-        submenu.setHeaderView(headerView);
-        menuViewController.showSubmenu(submenu);
-    }
+	private void handleSubmenu(SubmenuItem submenuItem) {
+		final MenuView menuView = new MenuView();
+		menuViewController.setMenuItemGroups(menuView,
+				Collections.singletonList(submenuItem.getGroup()));
+		HeaderView headerView = menuViewController.createHeaderView();
+		headerView.setCaption(localization.getMenu(submenuItem.getLabel()));
+		headerView.getBackButton().addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick(Widget source) {
+				menuViewController.hideSubmenu();
+			}
+		});
+		HeaderedMenuView submenu = new HeaderedMenuView(menuView);
+		submenu.setHeaderView(headerView);
+		menuViewController.showSubmenu(submenu);
+	}
 }

@@ -63,7 +63,7 @@ public class MenuViewController implements ResizeHandler {
 		frame = app.getAppletFrame();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-        BaseMenuActionHandlerFactory actionProviderFactory = new BaseMenuActionHandlerFactory(app);
+		BaseMenuActionHandlerFactory actionProviderFactory = new BaseMenuActionHandlerFactory(app);
 		menuActionRouter = new MenuActionRouter(actionProviderFactory.create(), this, localization);
 	}
 
