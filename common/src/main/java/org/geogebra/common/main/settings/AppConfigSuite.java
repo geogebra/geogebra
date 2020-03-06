@@ -2,6 +2,7 @@ package org.geogebra.common.main.settings;
 
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
@@ -33,6 +34,11 @@ public class AppConfigSuite extends AppConfigGraphing {
 
 	@Override
 	public CommandFilter getCommandFilter() {
+		return null;
+	}
+
+	@Override
+	public CommandArgumentFilter getCommandArgumentFilter() {
 		return null;
 	}
 
