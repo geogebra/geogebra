@@ -9,12 +9,15 @@ import org.geogebra.web.full.gui.menubar.action.DownloadPdfAction;
 import org.geogebra.web.full.gui.menubar.action.DownloadPngAction;
 import org.geogebra.web.full.gui.menubar.action.DownloadStlAction;
 import org.geogebra.web.full.gui.menubar.action.DownloadSvgAction;
+import org.geogebra.web.full.gui.menubar.action.ExportImage;
+import org.geogebra.web.full.gui.menubar.action.OpenProfilePage;
 import org.geogebra.web.full.gui.menubar.action.ReportProblemAction;
 import org.geogebra.web.full.gui.menubar.action.SaveAction;
 import org.geogebra.web.full.gui.menubar.action.ShareAction;
 import org.geogebra.web.full.gui.menubar.action.ShowForumAction;
 import org.geogebra.web.full.gui.menubar.action.ShowLicenseAction;
 import org.geogebra.web.full.gui.menubar.action.ShowPrintPreviewAction;
+import org.geogebra.web.full.gui.menubar.action.ShowSearchView;
 import org.geogebra.web.full.gui.menubar.action.ShowSettingsAction;
 import org.geogebra.web.full.gui.menubar.action.ShowTutorialsAction;
 import org.geogebra.web.full.gui.menubar.action.SignInAction;
@@ -41,6 +44,7 @@ public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory
     public DefaultMenuActionHandler create() {
         DefaultMenuActionHandler actionHandler = new DefaultMenuActionHandler(app);
         actionHandler.setMenuAction(Action.CLEAR_CONSTRUCTION, new ClearAllAction(true));
+        actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new ShowSearchView());
         actionHandler.setMenuAction(Action.SHOW_LICENSE, new ShowLicenseAction());
         actionHandler.setMenuAction(Action.SHOW_SETTINGS, new ShowSettingsAction());
         actionHandler.setMenuAction(Action.SAVE_FILE, new SaveAction());
@@ -50,6 +54,8 @@ public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory
         actionHandler.setMenuAction(Action.REPORT_PROBLEM, new ReportProblemAction());
         actionHandler.setMenuAction(Action.SIGN_IN, new SignInAction());
         actionHandler.setMenuAction(Action.SIGN_OUT, new SignOutAction());
+        actionHandler.setMenuAction(Action.OPEN_PROFILE_PAGE, new OpenProfilePage());
+        actionHandler.setMenuAction(Action.EXPORT_IMAGE, new ExportImage());
         actionHandler.setMenuAction(Action.DOWNLOAD_GGB, new DownloadDefaultFormatAction());
         actionHandler.setMenuAction(Action.DOWNLOAD_PNG, new DownloadPngAction(app));
         actionHandler.setMenuAction(Action.DOWNLOAD_SVG, new DownloadSvgAction(app));
@@ -66,7 +72,7 @@ public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory
         actionHandler.setMenuAction(
                 Action.START_GRAPHING_3D, StartAppAction.create(app, "3d"));
         actionHandler.setMenuAction(
-                Action.START_CAS_CALCULATOR, StartAppAction.create(app, "calculator"));
+                Action.START_SCIENTIFIC, StartAppAction.create(app, "calculator"));
         actionHandler.setMenuAction(
                 Action.START_CLASSIC, StartAppAction.create(app, "classic"));
         actionHandler.setMenuAction(
