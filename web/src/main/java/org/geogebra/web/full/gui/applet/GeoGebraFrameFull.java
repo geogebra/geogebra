@@ -159,17 +159,13 @@ public class GeoGebraFrameFull
 			AppletFactory factory, GLookAndFeel laf, GDevice device) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrameW inst = new GeoGebraFrameFull(factory, laf,
+			final GeoGebraFrameFull inst = new GeoGebraFrameFull(factory, laf,
 					device, articleElement);
 			LoggerW.startLogger(articleElement);
 			inst.createSplash();
+			inst.tackleLastDummy();
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
-		if (geoGebraMobileTags.isEmpty()) {
-			return;
-		}
-
-		tackleLastDummy(geoGebraMobileTags.get(geoGebraMobileTags.size() - 1));
 	}
 
 	/**
@@ -188,8 +184,6 @@ public class GeoGebraFrameFull
 		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameFull(
 				factory, laf, null, ArticleElement.as(el)),
 				clb);
-
-		GeoGebraFrameW.reCheckForDummies(el);
 	}
 
 	/**

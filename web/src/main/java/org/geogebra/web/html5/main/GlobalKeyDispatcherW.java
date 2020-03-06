@@ -129,8 +129,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					// do nothing
 					break;
 				case Event.ONKEYDOWN:
-					if (nativeEvent
-									.getKeyCode() == GWTKeycodes.KEY_X
+					if (nativeEvent.getKeyCode() == GWTKeycodes.KEY_X
 							&& nativeEvent.getCtrlKey()
 							&& nativeEvent.getAltKey()) {
 						app.hideMenu();
@@ -222,12 +221,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		return null;
 	}
 
-	/**
-	 * @param focus
-	 *            whether this applet has focus
-	 */
+	@Override
 	public void setFocused(boolean focus) {
 		Log.debug("Focused: " + focus);
+		((AppW) app).getAppletFrame().focusLastDummy();
 		inFocus = focus;
 	}
 

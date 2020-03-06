@@ -54,10 +54,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	private SplashDialog splash;
 
-	private static SpanElement firstDummy = null;
-	private static SpanElement lastDummy = null;
-	/** Tab index for graphics */
-	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
+	private SpanElement lastDummy = null;
 
 	private static final int LOGO_WIDTH = 427;
 
@@ -111,68 +108,18 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * Add a dummy element to the parent
-	 *
-	 * @param parentElement
-	 *            parent
+	 * Add a dummy element to the frame
 	 */
-	protected static void tackleLastDummy(Element parentElement) {
+	protected void tackleLastDummy() {
 		if (!Browser.needsAccessibilityView()) {
 			lastDummy = DOM.createSpan().cast();
 			lastDummy.addClassName("geogebraweb-dummy-invisible");
-			lastDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
-			parentElement.appendChild(lastDummy);
+			getElement().appendChild(lastDummy);
 		}
 	}
 
-	/**
-	 * @param el
-	 *            ArticleElement to be used as dummy parent, if it's the last
-	 *            one
-	 */
-	public static void reCheckForDummies(Element el) {
-
-		if ((firstDummy != null) && (lastDummy != null)) {
-			return;
-		}
-
-		NodeList<Element> nodes = Dom
-				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-
-		if (nodes.getLength() == 0) {
-			// it would be better for the article tags to always have
-			// GeoGebraConstants.GGM_CLASS_NAME, but in case they do not,
-			// then they are probably child elements of class name
-			// "applet_container"
-			nodes = Dom.getElementsByClassName("applet_scaler");
-			Log.debug(nodes.getLength() + " scalers found");
-			// so "nodes" is meaning something else here actually
-			if (nodes.getLength() > 0) {
-				// no need to get the first node with articleElement
-
-				checkForDummiesInScaler(nodes, el);
-
-			}
-		}
-	}
-
-	private static void checkForDummiesInScaler(NodeList<Element> nodes,
-			Element el) {
-		// get the last node that really contains an articleElement
-		for (int i = nodes.getLength() - 1; i >= 0; i--) {
-			Element ell = nodes.getItem(i);
-			for (int j = 0; j < ell.getChildCount(); j++) {
-				Node elChild = ell.getChild(j);
-				if (elChild != null
-						&& Element.as(elChild).hasTagName("ARTICLE")) {
-					// found!!
-					if (elChild == el && lastDummy == null) {
-						tackleLastDummy(el);
-					}
-					return;
-				}
-			}
-		}
+	public void focusLastDummy() {
+		lastDummy.focus();
 	}
 
 	/**

@@ -354,7 +354,7 @@ public abstract class GlobalKeyDispatcher {
 			// ESC: set move mode
 			handleEscForDropdown();
 			if (app.isApplet() && !app.showToolBar()) {
-				app.loseFocus();
+				setFocused(false);
 			} else {
 				app.setMoveMode();
 			}
@@ -445,19 +445,6 @@ public abstract class GlobalKeyDispatcher {
 			}
 			break;
 		}
-
-		/*
-		 * // make sure Ctrl-1/2/3 works on the Numeric Keypad even with Numlock
-		 * // off // **** NB if NumLock on, event.isShiftDown() always returns
-		 * false with // Numlock on!!! (Win 7) if (event.getKeyLocation() ==
-		 * KeyEvent.KEY_LOCATION_NUMPAD) { String keyText =
-		 * KeyEvent.getKeyText(keyCode); if ("End".equals(keyText)) { keyCode =
-		 * KeyEvent.VK_1; } else if ("Down".equals(keyText)) { keyCode =
-		 * KeyEvent.VK_2; } else if ("Page Down".equals(keyText)) { keyCode =
-		 * KeyEvent.VK_3; }
-		 * 
-		 * }
-		 */
 
 		// Ctrl key down (and not Alt, so that AltGr works for special
 		// characters)
@@ -1577,17 +1564,8 @@ public abstract class GlobalKeyDispatcher {
 			changeVal = -base;
 			index = 1;
 			break;
-		// case ESCAPE:
-		// if (!fromSpreadsheet) {
-		// handleEscForDropdown();
-		// }
-		// break;
 		}
-		/*
-		 * if (changeVal == 0) { char keyChar = event.getKeyChar(); if (keyChar
-		 * == '+') changeVal = base; else if (keyChar == '-') changeVal = -base;
-		 * }
-		 */
+
 		// change all geoelements
 		if (changeVal != 0) {
 
@@ -1726,5 +1704,9 @@ public abstract class GlobalKeyDispatcher {
 			}
 		}
 		return false;
+	}
+
+	public void setFocused(boolean b) {
+		// only in web
 	}
 }

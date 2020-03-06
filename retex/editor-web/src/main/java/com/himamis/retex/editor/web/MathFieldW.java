@@ -80,6 +80,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
+import jdk.internal.jline.internal.Log;
 
 public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHandler {
 
@@ -114,7 +115,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private ExpressionReader expressionReader;
 
-	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
+	private static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
