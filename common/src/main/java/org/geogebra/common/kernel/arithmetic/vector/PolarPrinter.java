@@ -17,8 +17,8 @@ class PolarPrinter implements Printer {
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
         return "point(("
                 + expressionPrinter.print(vector.getX(), tpl)
-                + ")*cos(" +
-                expressionPrinter.print(vector.getY(), tpl)
+                + ")*cos("
+                + expressionPrinter.print(vector.getY(), tpl)
                 + "),("
                 + expressionPrinter.print(vector.getX(), tpl)
                 + ")*sin("

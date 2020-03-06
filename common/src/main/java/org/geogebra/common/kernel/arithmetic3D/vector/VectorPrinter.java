@@ -16,13 +16,13 @@ public class VectorPrinter implements Printer {
 
     @Override
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
-        return printLeftParenthesis(tpl) +
-                expressionPrinter.print(vector.getX(), tpl) +
-                printDelimiter(tpl) +
-                expressionPrinter.print(vector.getY(), tpl) +
-                printDelimiter(tpl) +
-                expressionPrinter.print(vector.getZ(), tpl) +
-                printRightParenthesis(tpl);
+        return printLeftParenthesis(tpl)
+                + expressionPrinter.print(vector.getX(), tpl)
+                + printDelimiter(tpl)
+                + expressionPrinter.print(vector.getY(), tpl)
+                + printDelimiter(tpl)
+                + expressionPrinter.print(vector.getZ(), tpl)
+                + printRightParenthesis(tpl);
     }
 
     private String printLeftParenthesis(StringTemplate tpl) {

@@ -15,12 +15,12 @@ class DefaultPrinter implements Printer {
 
     @Override
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
-        return tpl.leftBracket() +
-                expressionPrinter.print(vector.getX(), tpl) +
-                "; " +
-                expressionPrinter.print(vector.getY(), tpl) +
-                "; " +
-                expressionPrinter.print(vector.getZ(), tpl) +
-                tpl.rightBracket();
+        return tpl.leftBracket()
+                + expressionPrinter.print(vector.getX(), tpl)
+                + "; "
+                + expressionPrinter.print(vector.getY(), tpl)
+                + "; "
+                + expressionPrinter.print(vector.getZ(), tpl)
+                + tpl.rightBracket();
     }
 }

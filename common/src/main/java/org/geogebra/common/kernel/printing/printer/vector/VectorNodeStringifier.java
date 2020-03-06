@@ -11,6 +11,9 @@ import org.geogebra.common.kernel.printing.printer.expression.ValueExpressionPri
 
 import java.util.Map;
 
+/**
+ * Delegate for printing the MyVecNode and MyVec3DNode objects.
+ */
 public class VectorNodeStringifier {
 
     private PrintableVector vector;
@@ -21,6 +24,10 @@ public class VectorNodeStringifier {
     private ExpressionPrinter defaultExpressionPrinter;
     private ExpressionPrinter valueExpressionPrinter;
 
+    /**
+     * @param vector vector
+     * @param printerMap map of the printers
+     */
     public VectorNodeStringifier(PrintableVector vector,
                                  Map<VectorPrintingMode, ? extends Printer> printerMap) {
         this.vector = vector;

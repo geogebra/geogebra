@@ -1853,7 +1853,7 @@ public class AlgebraProcessor {
 	/**
 	 * processes valid expression.
 	 *
-	 * @param expression
+	 * @param ve
 	 *            expression to process
 	 * @param info
 	 *            processing information
@@ -1863,9 +1863,10 @@ public class AlgebraProcessor {
 	 *             e.g. for circular definition
 	 * @return resulting geos
 	 */
-	public GeoElement[] processValidExpression(ValidExpression expression,
+	public GeoElement[] processValidExpression(ValidExpression ve,
 			EvalInfo info) throws MyError, Exception {
 
+		ValidExpression expression = ve;
 		// check for existing labels
 		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
