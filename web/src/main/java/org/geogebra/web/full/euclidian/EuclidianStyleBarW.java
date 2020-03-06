@@ -16,7 +16,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -85,8 +84,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private static PopupMenuButtonW currentPopupBtn = null;
 	private EuclidianController ec;
 	protected EuclidianView ev;
-	private Construction cons;
-
 	protected EuclidianStyleBarSelection selection;
 
 	// flags and constants
@@ -147,7 +144,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		isIniting = true;
 		this.ev = ev;
 		ec = ev.getEuclidianController();
-		cons = app.getKernel().getConstruction();
 		// init handling of default geos
 		selection = new EuclidianStyleBarSelection(app, ec);
 		createDefaultMap();
@@ -956,7 +952,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			@Override
 			public void update(List<GeoElement> geos) {
 				if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
-					setVisible(false);
+					super.setVisible(false);
 					Log.debug(
 							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
 				} else {

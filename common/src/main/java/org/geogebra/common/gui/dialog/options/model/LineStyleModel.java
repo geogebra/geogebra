@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.debug.Log;
 
 public class LineStyleModel extends OptionsModel {
 	private boolean lineTypeEnabled;
@@ -176,7 +175,6 @@ public class LineStyleModel extends OptionsModel {
 	}
 
 	public void applyLineTypeFromIndex(int index) {
-		Log.error("set");
 		applyLineType(lineStyleArray[index]);
 	}
 
