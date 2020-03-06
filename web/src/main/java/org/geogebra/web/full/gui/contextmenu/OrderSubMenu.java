@@ -31,15 +31,11 @@ public class OrderSubMenu extends AriaMenuBar {
 		addItem("ContextMenu.BringForward", new BringForwardCommand());
 		addItem("ContextMenu.SendBackward", new SendBackwardCommand());
 		addItem("ContextMenu.SendToBack", new SendToBackCommand());
-
-		addStyleName("materialContextSubMenu");
 	}
 
 	private void addItem(String key, ScheduledCommand command) {
-		AriaMenuItem item = new AriaMenuItem(app.getLocalization().getMenu(key),
-				false, wrap(command));
-		item.getElement().setClassName("listMenuItem");
-		addItem(item);
+		addItem(new AriaMenuItem(app.getLocalization().getMenu(key),
+				false, wrap(command)));
 	}
 
 	private ScheduledCommand wrap(final ScheduledCommand command) {
