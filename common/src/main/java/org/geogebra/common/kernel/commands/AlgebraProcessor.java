@@ -1024,8 +1024,8 @@ public class AlgebraProcessor {
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
-		sym.setLabel(label);
 		sym.getDefinition().setLabel(label);
+		sym.setLabel(label);
 		return sym;
 	}
 
@@ -3320,7 +3320,7 @@ public class AlgebraProcessor {
 		else if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
 				// MyXMLHandler
-				if (StringUtil.isLowerCase(label.charAt(0))) {
+				if (isVectorLabel(label)) {
 					n.setForceVector();
 				} else {
 					n.setForcePoint();
@@ -3357,6 +3357,22 @@ public class AlgebraProcessor {
 		}
 		ret[0] = vector;
 		return ret;
+	}
+
+	/**
+	 * Determines whether the element should be a vector or not based on its label.
+	 * @param element element
+	 * @return true if the element's label starts with a lowercase character, otherwise false.
+	 */
+	public boolean hasVectorLabel(GeoElement element) {
+		String alreadySetLabel = element.getLabelSimple();
+		String label =
+				alreadySetLabel != null ? alreadySetLabel : element.getDefinition().getLabel();
+		return isVectorLabel(label);
+	}
+
+	private boolean isVectorLabel(String label) {
+		return label != null && StringUtil.isLowerCase(label.charAt(0));
 	}
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,
