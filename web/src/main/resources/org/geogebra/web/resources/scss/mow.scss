@@ -4,8 +4,6 @@
 	$pagecontrolpanelWidth: 269px;
 	$always_on_top: 60;
 
-	$highlighted-menuitem-background: $selected-menuitem-background;
-
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	$pagecontrol-transition: right 0.25s cubic-bezier(0.4, 0, 1, 1);
 	$floatingbtn-hover-transition: background-color 0.15s;
@@ -497,28 +495,6 @@
 		width: calc(100% - 56px);
 		list-style: none;
 		margin: 6px 0 6px auto;
-	}
-
-	#fontSubMenu {
-		background-color: $white;
-		padding-top: 8px;
-		padding-bottom: 8px;
-		scrollbar-width: thin;
-		overflow-y: auto;
-
-		// max height is viewport height - header height
-		max-height: calc(100vh - 48px);
-
-		.listMenuItem {
-			  padding: 4px 16px 0px 16px;
-			  height: 32px;
-			  border-radius: 2px;
-			  cursor: pointer;
-		}
-
-		.highlighted {
-			background-color: $highlighted-menuitem-background;
-		}
 	}
 
 	.inlineTextToolbar {

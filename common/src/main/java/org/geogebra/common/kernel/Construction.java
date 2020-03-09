@@ -3665,4 +3665,8 @@ public class Construction {
 	public boolean requires3D() {
 		return has3DObjects() || hasInputBoxes();
 	}
+
+	public LayerManager getLayerManager() {
+		return layerManager;
+	}
 }
