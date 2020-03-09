@@ -19,7 +19,9 @@ public class GraphingCommandArgumentFilter implements CommandArgumentFilter {
         }
         GeoElement firstArgument = arguments[0];
         GeoElement secondArgument = arguments[1];
-        if (firstArgument.isGeoPoint() && secondArgument.isGeoLine()) {
+        Boolean secArgIsLineOrFunction =
+                secondArgument.isGeoLine() || secondArgument.isGeoFunction();
+        if (firstArgument.isGeoPoint() && secArgIsLineOrFunction) {
             throw commandProcessor.argErr(command, secondArgument);
         }
     }
