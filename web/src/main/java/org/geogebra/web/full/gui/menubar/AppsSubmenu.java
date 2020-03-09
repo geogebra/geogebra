@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.menubar;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamStartDialog;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
@@ -24,8 +23,8 @@ public class AppsSubmenu extends Submenu {
 	AppW app;
 
 	/**
-		 * @param app application
-		 */
+	 * @param app application
+	 */
 	public AppsSubmenu(AppW app) {
 		super("apps", app);
 		this.app = app;
@@ -64,9 +63,8 @@ public class AppsSubmenu extends Submenu {
 						if (app.isMenuShowing()) {
 							app.toggleMenu();
 						}
-						((DialogManagerW) app.getDialogManager())
-								.getSaveDialog()
-								.showIfNeeded(getExamCallback());
+						app.getSaveController()
+								.showDialogIfNeeded(getExamCallback());
 					}
 				});
 	}

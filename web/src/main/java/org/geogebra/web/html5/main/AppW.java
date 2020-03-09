@@ -1,5 +1,10 @@
 package org.geogebra.web.html5.main;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+
 import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -59,10 +64,12 @@ import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
 import org.geogebra.common.move.events.BaseEventPool;
+import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.EventType;
@@ -163,10 +170,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
@@ -1195,6 +1198,52 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
+	 * reset everything for new file
+	 */
+	public void resetOnFileNew() {
+		// ignore active: don't save means we want new construction
+		setWaitCursor();
+		fileNew();
+		setDefaultCursor();
+
+		if (!isUnbundledOrWhiteboard()) {
+			showPerspectivesPopup();
+		}
+		if (getPageController() != null) {
+			getPageController().resetPageControl();
+		}
+	}
+
+	/**
+	 * shows the template chooser if user is logged in and has templates,
+	 * otherwise resets the UI for file new
+	 */
+	public void tryLoadTemplatesOnFileNew() {
+		if (isWhiteboardActive() && getLoginOperation() != null) {
+			getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
+					new MaterialCallbackI() {
+						@Override
+						public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+							if (result.isEmpty()) {
+								resetOnFileNew();
+							} else {
+								getGuiManager().getTemplateController()
+										.fillTemplates(AppW.this, result);
+								getDialogManager().showTemplateChooser();
+							}
+						}
+
+						@Override
+						public void onError(Throwable exception) {
+							Log.error("Error on templates load");
+						}
+					});
+		} else {
+			resetOnFileNew();
+		}
+	}
+
+	/**
 	 * @param macro
 	 *            Macro need to be stored.
 	 * @param writeBack
@@ -2031,7 +2080,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return active material
 	 */
-	public Material getActiveMaterial() {
+	public @CheckForNull Material getActiveMaterial() {
 		return this.activeMaterial;
 	}
 
@@ -3290,7 +3339,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void updateMaterialURL(int id, String sharingKey, String title) {
 		setTubeId(id > 0 ? Integer.toString(id) : sharingKey);
 		if (articleElement.getDataParamApp() && sharingKey != null) {
-
 			Browser.changeUrl(getCurrentURL(sharingKey, false));
 			if (!StringUtil.empty(title)) {
 				Browser.changeMetaTitle(title);
@@ -3328,13 +3376,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void showPerspectivesPopup() {
 		// overridden in AppWFull
-	}
-
-	/**
-	 * Hide perspective picker
-	 */
-	public void closePerspectivesPopup() {
-		// only for GUI
 	}
 
 	/**
