@@ -4,7 +4,10 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 
-public class LicenseAction extends DefaultMenuAction<Void> {
+/**
+ * Shows license.
+ */
+public class ShowLicenseAction extends DefaultMenuAction<Void> {
 
 	/**
 	 * Settings for version/about window

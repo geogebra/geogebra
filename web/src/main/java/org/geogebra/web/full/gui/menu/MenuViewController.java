@@ -13,7 +13,10 @@ import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.HeaderView;
-import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandler;
+import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
+import org.geogebra.web.full.gui.menu.action.ExamMenuActionHandlerFactory;
+import org.geogebra.web.full.gui.menu.action.MenuActionHandlerFactory;
+import org.geogebra.web.full.gui.menu.action.ScientificMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
@@ -44,6 +47,9 @@ public class MenuViewController implements ResizeHandler {
 	private DrawerMenuFactory defaultDrawerMenuFactory;
 	private DrawerMenuFactory examDrawerMenuFactory;
 
+	private MenuActionHandlerFactory defaultActionHandlerFactory;
+	private MenuActionHandlerFactory examActionHandlerFactory;
+
 	/**
 	 * Creates a MenuViewController.
 	 *
@@ -63,8 +69,6 @@ public class MenuViewController implements ResizeHandler {
 		frame = app.getAppletFrame();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		menuActionRouter = new MenuActionRouter(new DefaultMenuActionHandler(app),
-				this, localization);
 	}
 
 	private void createViews() {
@@ -80,11 +84,34 @@ public class MenuViewController implements ResizeHandler {
 		floatingMenuView.setWidget(headeredMenuView);
 	}
 
-	private void createFactories(AppW app) {
+	private void createFactories(AppWFull app) {
+		createDrawerMenuFactories(app);
+		createActionHandlerFactories(app);
+	}
+
+	private void createDrawerMenuFactories(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
-		defaultDrawerMenuFactory = new DefaultDrawerMenuFactory(app.getPlatform(),
-				version, hasLoginButton(app) ? app.getLoginOperation() : null, app.isExam());
+		defaultDrawerMenuFactory =
+				new DefaultDrawerMenuFactory(
+						app.getPlatform(),
+						version,
+						hasLoginButton(app) ? app.getLoginOperation() : null,
+						shouldCreateExamEntry(app));
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
+	}
+
+	private void createActionHandlerFactories(AppWFull app) {
+		GeoGebraConstants.Version version = app.getConfig().getVersion();
+		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
+			defaultActionHandlerFactory = new ScientificMenuActionHandlerFactory(app);
+		} else {
+			defaultActionHandlerFactory = new DefaultMenuActionHandlerFactory(app);
+		}
+		examActionHandlerFactory = new ExamMenuActionHandlerFactory(app);
+	}
+
+	private boolean shouldCreateExamEntry(AppW app) {
+		return app.getConfig().hasExam() && !app.isExam() && app.getLAF().isOfflineExamSupported();
 	}
 
 	private boolean hasLoginButton(AppW app) {
@@ -120,6 +147,8 @@ public class MenuViewController implements ResizeHandler {
 	 * Sets the menu to default.
 	 */
 	public void setDefaultMenu() {
+		menuActionRouter =
+				new MenuActionRouter(defaultActionHandlerFactory.create(), this, localization);
 		setDrawerMenu(defaultDrawerMenuFactory.createDrawerMenu());
 	}
 
@@ -127,6 +156,8 @@ public class MenuViewController implements ResizeHandler {
 	 * Sets the menu to exam.
 	 */
 	public void setExamMenu() {
+		menuActionRouter =
+				new MenuActionRouter(examActionHandlerFactory.create(), this, localization);
 		setDrawerMenu(examDrawerMenuFactory.createDrawerMenu());
 	}
 

@@ -67,6 +67,7 @@ import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -2175,5 +2176,38 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return null;
 		}
 		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView());
+	}
+
+	@Override
+	public void startExam() {
+		super.startExam();
+
+		// ensure fullscreen: we may have lost it when handling unsaved
+		// changes
+		getLAF().toggleFullscreen(true);
+		if (guiManager != null && guiManager.getUnbundledToolbar() != null) {
+			guiManager.setUnbundledHeaderStyle("examOk");
+			menuViewController.setExamMenu();
+			guiManager.resetMenu();
+			GlobalHeader.INSTANCE.addExamTimer();
+			new ExamUtil(this).visibilityEventMain();
+			guiManager.initInfoBtnAction();
+		}
+	}
+
+	/**
+	 * Ends the exam mode, exits the exam view.
+	 */
+	public void endExam() {
+		setExam(null);
+		resetViewsEnabled();
+		LayoutW.resetPerspectives(this);
+		getLAF().addWindowClosingHandler(this);
+		fireViewsChangedEvent();
+		guiManager.updateToolbarActions();
+		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, this));
+		menuViewController.setDefaultMenu();
+		guiManager.resetMenu();
+		setActivePerspective(0);
 	}
 }
