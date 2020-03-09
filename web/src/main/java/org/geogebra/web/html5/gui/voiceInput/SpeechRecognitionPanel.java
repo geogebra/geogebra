@@ -41,7 +41,8 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 		speechBtn = new StandardButton(
 				GuiResourcesSimple.INSTANCE.record(), null, 24, app);
 		speechBtn.setStyleName("speechBtn");
-		speechBtn.setTabIndex(GUITabs.SPEECH_REC + app.getActiveEuclidianView().getViewID());
+		GUITabs.setTabIndex(speechBtn.getElement(),
+				GUITabs.SPEECH_REC + app.getActiveEuclidianView().getViewID());
 		speechBtn.addTabHandler(this);
 		speechBtn.setTitle(
 				"Speech recognition button.");

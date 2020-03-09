@@ -623,7 +623,7 @@ public abstract class DockPanelW extends ResizeComposite
 		graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
 				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
 		titleBarPanelContent.add(graphicsContextMenuBtn);
-		graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
+		GUITabs.setTabIndex(graphicsContextMenuBtn.getElement(), GUITabs.SETTINGS);
 		graphicsContextMenuBtn.addTabHandler(this);
 		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
 		if (toggleStyleBarButton != null) {

@@ -372,7 +372,7 @@ public class ZoomPanel extends FlowPanel
 		}
 		for (StandardButton btn : buttons) {
 			if (btn != null) {
-				btn.setTabIndex(tabIndex);
+				GUITabs.setTabIndex(btn.getElement(), tabIndex);
 				tabIndex++;
 			}
 		}

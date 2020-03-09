@@ -839,7 +839,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private static void tabIndex(GCustomButton btn, int index) {
 		if (btn != null) {
-			btn.setTabIndex(index);
+			GUITabs.setTabIndex(btn.getElement(), index);
 		}
 	}
 

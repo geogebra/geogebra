@@ -2100,7 +2100,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		getWidget().addStyleName("latexEditor");
 		content.addStyleName("noPreview");
 		renderLatex("", false);
-		content.getElement().setTabIndex(GUITabs.AV_INPUT);
+		GUITabs.setTabIndex(content.getElement(), GUITabs.AV_INPUT);
 		getHelpToggle().setIndex(1);
 		inputControl.addInputControls();
  		return this;
