@@ -184,7 +184,6 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	 * @param altText
 	 *            - alt text
 	 */
-	@Override
 	public void setAltText(String altText) {
 		if (btnImage != null) {
 			btnImage.setPresentation();

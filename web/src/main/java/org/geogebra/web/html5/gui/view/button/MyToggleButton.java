@@ -1,9 +1,6 @@
 package org.geogebra.web.html5.gui.view.button;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.gui.TabHandler;
-import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
-import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -17,12 +14,10 @@ import com.google.gwt.user.client.ui.Image;
  * @author csilla
  *
  */
-public class MyToggleButton extends GToggleButton
-		implements AccessibilityInterface {
+public class MyToggleButton extends GToggleButton {
 
 	private App app;
 	private Image image = null;
-	private AccessibilityButton acc;
 	private boolean mayFocus;
 
 	/**
@@ -35,7 +30,6 @@ public class MyToggleButton extends GToggleButton
 		super(image);
 		this.image = image;
 		this.app = app;
-		acc = new AccessibilityButton(this);
 	}
 
 	/**
@@ -45,7 +39,6 @@ public class MyToggleButton extends GToggleButton
 	public MyToggleButton(App app) {
 		super();
 		this.app = app;
-		acc = new AccessibilityButton(this);
 	}
 
 	/**
@@ -71,7 +64,6 @@ public class MyToggleButton extends GToggleButton
 	 * @param alt
 	 *            to set
 	 */
-	@Override
 	public void setAltText(String alt) {
 		if (image == null) {
 			return;
@@ -79,20 +71,9 @@ public class MyToggleButton extends GToggleButton
 		AriaHelper.setLabel(this, alt);
 		image.setAltText(alt);
 	}
-
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		if (acc != null) {
-			acc.correctTabIndex();
-		}
-	}
 	
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (acc != null && acc.handleBrowserEvent(event)) {
-			return;
-		}
 		this.mayFocus = false;
 		super.onBrowserEvent(event);
 		this.mayFocus = true;
@@ -105,15 +86,5 @@ public class MyToggleButton extends GToggleButton
 		} else {
 			((AppW) app).getArticleElement().getElement().focus();
 		}
-	}
-
-	@Override
-	public void addTabHandler(TabHandler handler) {
-		acc.addTabHandler(handler);
-	}
-	
-	@Override
-	public void setIgnoreTab() {
-		acc.setIgnoreTab();
 	}
 }

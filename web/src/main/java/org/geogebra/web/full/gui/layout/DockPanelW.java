@@ -29,7 +29,6 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -77,7 +76,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public abstract class DockPanelW extends ResizeComposite
-		implements DockPanel, DockComponent, TabHandler {
+		implements DockPanel, DockComponent {
 	/** Dock manager */
 	protected DockManagerW dockManager;
 	/** app */
@@ -624,7 +623,6 @@ public abstract class DockPanelW extends ResizeComposite
 				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
 		titleBarPanelContent.add(graphicsContextMenuBtn);
 		GUITabs.setTabIndex(graphicsContextMenuBtn.getElement(), GUITabs.SETTINGS);
-		graphicsContextMenuBtn.addTabHandler(this);
 		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
 		if (toggleStyleBarButton != null) {
 			toggleStyleBarButton.removeFromParent();
@@ -1617,17 +1615,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public void setToolMode(boolean toolMode) {
 		// do nothing by default
-	}
-
-	@Override
-	public boolean onTab(Widget source, boolean shiftDown) {
-		if (source == graphicsContextMenuBtn && !shiftDown) {
-			app.getAccessibilityManager()
-					.focusNext(AccessibilityGroup.SETTINGS_BUTTON, getViewId());
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

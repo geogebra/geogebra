@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -11,7 +10,6 @@ import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
@@ -43,7 +41,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  * header of toolbar
  *
  */
-class Header extends FlowPanel implements KeyDownHandler, TabHandler {
+class Header extends FlowPanel implements KeyDownHandler {
 	private MenuToggleButton btnMenu;
 	private MyToggleButton btnAlgebra;
 	private MyToggleButton btnTools;
@@ -158,7 +156,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		});
 		btnAlgebra.addKeyDownHandler(this);
 		AriaHelper.hide(btnAlgebra);
-		btnAlgebra.setIgnoreTab();
 	}
 
 	private void createToolsButton() {
@@ -180,7 +177,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		btnTools.addKeyDownHandler(this);
 		AriaHelper.hide(btnTools);
-		btnTools.setIgnoreTab();
 	}
 
 	private void createTableViewButton() {
@@ -201,7 +197,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		btnTableView.addKeyDownHandler(this);
 		AriaHelper.hide(btnTableView);
-		btnTableView.setIgnoreTab();
 	}
 
 	/**
@@ -480,7 +475,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		updateMenuPosition();
 		markMenuAsExpanded(false);
-		btnMenu.addTabHandler(this);
 	}
 
 	private void updateMenuPosition() {
@@ -900,16 +894,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				resize();
 			}
 		});
-	}
-
-	@Override
-	public boolean onTab(Widget source, boolean shiftDown) {
-		if (source == btnMenu && shiftDown) {
-			app.getAccessibilityManager().focusPrevious(
-					AccessibilityGroup.MENU, -1);
-			return true;
-		}
-		return false;
 	}
 
 	/**

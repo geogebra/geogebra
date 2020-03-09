@@ -30,11 +30,6 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public boolean isCurrentTabExitGeos(boolean isShiftDown) {
-		return false;
-	}
-
-	@Override
 	public void focusGeo(GeoElement geo) {
 		// only called from AV
 	}

@@ -337,7 +337,6 @@ public class ToolbarPanel extends FlowPanel
 		}
 		// moveMoveBtnDown style added for moveBtn to fix the position on tablet
 		// too
-		moveBtn.setIgnoreTab();
 		moveBtn.addStyleName("moveMoveBtnDown");
 		main.add(moveBtn);
 		hideMoveFloatingButton();

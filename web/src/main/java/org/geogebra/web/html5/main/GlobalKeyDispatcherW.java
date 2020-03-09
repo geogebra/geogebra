@@ -10,7 +10,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.CopyPaste;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -112,16 +111,12 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				}
 
 				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
-				Log.debug("Hearing key code " + kc);
 				if (kc == KeyCodes.TAB) {
 					Element activeElement = Dom.getActiveElement();
-					Log.debug(activeElement);
 					if (activeElement != ((AppW) app).getAppletFrame().getLastElement()) {
-						Log.debug("tabbing, should focus next element");
+						handleTab(controlDown, shiftDown);
 						event.preventDefault();
 						event.stopPropagation();
-					} else {
-						Log.debug("successful escape from Alcatraz");
 					}
 				} else if (kc == KeyCodes.ESCAPE) {
 					Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -130,6 +125,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 							((AppW) app).getAppletFrame().getLastElement().focus();
 						}
 					});
+					event.preventDefault();
+					event.stopPropagation();
 				}
 			}
 		}
@@ -230,29 +227,13 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 		app.getActiveEuclidianView().closeDropdowns();
 
-		if (am.isCurrentTabExitGeos(isShiftDown)) {
-			return true;
-		}
-
 		if (isShiftDown) {
-			if (!am.tabEuclidianControl(false)) {
-				selection.selectLastGeo(app.getActiveEuclidianView());
-			}
-
-			return true;
+			// am.focusPrevious();
+		} else {
+			// am.focusNext();
 		}
 
-		boolean forceRet = false;
-		if (selection.getSelectedGeos().size() == 0) {
-			forceRet = true;
-		}
-		if (am.tabEuclidianControl(true)) {
-			return true;
-		}
-
-		boolean hasNext = selection.selectNextGeo(app.getActiveEuclidianView());
-
-		return hasNext || forceRet;
+		return true;
 	}
 
 	@Override
@@ -326,6 +307,5 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			default:
 				break;
 		}
-
 	}
 }

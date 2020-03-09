@@ -43,16 +43,6 @@ public interface AccessibilityManagerInterface {
 	public boolean focusInput(boolean force);
 
 	/**
-	 * Determines if current tab press should exit selecting geos and go to GUI
-	 * a element.
-	 * 
-	 * @param isShiftDown
-	 *            Determines if shift key is pressed.
-	 * @return true if tab should go to GUI.
-	 */
-	public boolean isCurrentTabExitGeos(boolean isShiftDown);
-
-	/**
 	 * Focus the geo specified.
 	 * 
 	 * @param geo

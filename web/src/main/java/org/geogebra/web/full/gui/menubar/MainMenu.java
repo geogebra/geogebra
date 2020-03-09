@@ -12,7 +12,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -39,15 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class MainMenu extends FlowPanel
-		implements EventRenderable, BooleanRenderable, TabHandler, KeyDownHandler {
-
-	/**
-	 * Appw app
-	 */
-	/*
-	 * private MenuItem signIn; private SignedInMenuW signedIn; private MenuItem
-	 * signedInMenu;
-	 */
+		implements EventRenderable, BooleanRenderable, KeyDownHandler {
 
 	AppW app;
 
@@ -512,22 +503,6 @@ public class MainMenu extends FlowPanel
 		}
 	}
 
-	@Override
-	public boolean onTab(Widget source, boolean shiftDown) {
-		if (source instanceof Submenu) {
-			Submenu submenu = (Submenu) source;
-
-			if (shiftDown) {
-				selectPreviousItem(submenu);
-			} else if (!selectNextItem(submenu)) {
-				app.toggleMenu();
-				app.getAccessibilityManager().focusFirstElement();
-			}
-			return true;
-		}
-		return false;
-	}
-
 	private void focusStack(int index) {
 		if (menuPanel != null) {
 			menuPanel.focusHeader(index);
@@ -612,13 +587,7 @@ public class MainMenu extends FlowPanel
 		int key = event.getNativeKeyCode();
 		Submenu mi = getMenuAt(menuPanel.getLastSelectedIndex());
 
-		if (key == KeyCodes.KEY_TAB) {
-			if (mi != null) {
-				onTab(mi, event.isShiftKeyDown());
-				event.preventDefault();
-				event.stopPropagation();
-			}
-		} else if (key == KeyCodes.KEY_UP) {
+		if (key == KeyCodes.KEY_UP) {
 			selectPreviousItem(mi);
 		} else if (key == KeyCodes.KEY_DOWN) {
 			selectNextItem(mi);

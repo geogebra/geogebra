@@ -278,27 +278,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public boolean isCurrentTabExitGeos(boolean isShiftDown) {
-		if (selection.getSelectedGeos().size() != 1 || !app.isUnbundled()) {
-			return false;
-		}
-		boolean exitOnFirst = selection.isFirstGeoSelected() && isShiftDown;
-		boolean exitOnLast = selection.isLastGeoSelected() && !isShiftDown;
-		this.activeButton = null;
-		if (exitOnFirst) {
-			focusPrevious(AccessibilityGroup.GEO_ELEMENT, -1);
-		} else if (exitOnLast) {
-			focusNext(AccessibilityGroup.GEO_ELEMENT, -1);
-		}
-
-		if (exitOnFirst || exitOnLast) {
-			selection.clearSelectedGeos();
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public void focusGeo(GeoElement geo) {
 		if (geo != null) {
 			app.getSelectionManager().addSelectedGeoForEV(geo);

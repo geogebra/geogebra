@@ -8,14 +8,12 @@ import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -25,8 +23,6 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -36,8 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author zbynek, laszlo
  *
  */
-public class ZoomPanel extends FlowPanel
-		implements CoordSystemListener, TabHandler {
+public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	private StandardButton homeBtn;
 	private StandardButton zoomInBtn;
@@ -143,8 +138,6 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 
-		fullscreenBtn.addTabHandler(this);
-
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
 		Browser.addFullscreenListener(new AsyncOperation<String>() {
 
@@ -195,7 +188,6 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 		homeBtn.addFastClickHandler(handlerHome);
-		homeBtn.addTabHandler(this);
 		add(homeBtn);
 		if (!Browser.isMobile()) {
 			addZoomInButton();
@@ -224,7 +216,6 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
-		zoomOutBtn.addTabHandler(this);
 		add(zoomOutBtn);
 	}
 
@@ -241,7 +232,6 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
-		zoomInBtn.addTabHandler(this);
 		add(zoomInBtn);
 	}
 
@@ -376,20 +366,6 @@ public class ZoomPanel extends FlowPanel
 				tabIndex++;
 			}
 		}
-	}
-
-	@Override
-	public boolean onTab(Widget source, boolean shiftDown) {
-		if (source == getFirstButton() && shiftDown) {
-			app.getAccessibilityManager()
-					.focusPrevious(AccessibilityGroup.ZOOM_PANEL, getViewID());
-			return true;
-		} else if (source == getLastButton() && !shiftDown) {
-			app.getAccessibilityManager()
-					.focusNext(AccessibilityGroup.ZOOM_PANEL, getViewID());
-			return true;
-		}
-		return false;
 	}
 
 	/** Focus the first available button on zoom panel. */
