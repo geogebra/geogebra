@@ -1,11 +1,12 @@
 package org.geogebra.common.gui.menu;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * A model describing a drawer menu. Each menu consists of a title and groups of menu items.
  */
-public interface DrawerMenu {
+public interface DrawerMenu extends Serializable {
 
 	/**
 	 * Get the title of the drawer menu.

@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
@@ -50,4 +51,14 @@ public class GgbSettings implements VendorSettings {
 	public boolean isGraspableMathEnabled() {
 		return true;
 	}
+
+	@Override
+	public Material.MaterialType getTemplateType() {
+		return Material.MaterialType.notesTemplate;
+	}
+
+    @Override
+    public String getAPIBaseUrl() {
+        return "";
+    }
 }

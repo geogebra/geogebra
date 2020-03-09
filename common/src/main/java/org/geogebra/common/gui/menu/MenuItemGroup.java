@@ -1,13 +1,15 @@
 package org.geogebra.common.gui.menu;
 
 import javax.annotation.Nullable;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * A model describing a menu item group. Each group can have
  * an optional title, and has at least a single menu item.
  */
-public interface MenuItemGroup {
+public interface MenuItemGroup extends Serializable {
 
 	/**
 	 * Get the title of the menu item group.
