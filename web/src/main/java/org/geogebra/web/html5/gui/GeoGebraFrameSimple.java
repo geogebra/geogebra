@@ -31,9 +31,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	@Override
 	protected AppW createApplication(ArticleElementInterface article,
 			GLookAndFeelI laf) {
-		AppWsimple appSimple = new AppWsimple(article, this, false);
-		getArticleMap().put(article.getId(), appSimple);
-		return appSimple;
+		return new AppWsimple(article, this, false);
 	}
 
 	/**
@@ -47,8 +45,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 			final GeoGebraFrameW inst = new GeoGebraFrameSimple(articleElement);
 			LoggerW.startLogger(articleElement);
 			inst.createSplash();
-			inst.tackleLastDummy();
 			RootPanel.get(articleElement.getId()).add(inst);
+			inst.tackleLastDummy(articleElement);
 		}
 	}
 

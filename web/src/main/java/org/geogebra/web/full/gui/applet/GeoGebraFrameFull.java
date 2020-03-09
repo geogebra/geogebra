@@ -120,12 +120,14 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(ArticleElementInterface article,
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
-		getArticleMap().put(article.getId(), application);
 		if (!app.isApplet()) {
 			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
 		} else {
 			CopyPasteW.installCutCopyPaste(application, getElement());
 		}
+
+		Event.sinkEvents(article.getElement(), Event.ONKEYPRESS | Event.ONKEYDOWN);
+		Event.setEventListener(article.getElement(), app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
 
 		if (app != null) {
 			kbButtonSpace.addStyleName("kbButtonSpace");
@@ -163,8 +165,8 @@ public class GeoGebraFrameFull
 					device, articleElement);
 			LoggerW.startLogger(articleElement);
 			inst.createSplash();
-			inst.tackleLastDummy();
 			RootPanel.get(articleElement.getId()).add(inst);
+			inst.tackleLastDummy(articleElement);
 		}
 	}
 

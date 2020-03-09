@@ -273,12 +273,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 					event.preventDefault();
 					return;
 				}
-
-				// TODO: check this ----
-				break;
-			case KeyCodes.KEY_TAB:
-				event.preventDefault();
-				return;
 			}
 			break;
 		case Event.ONMOUSEDOWN:
@@ -360,7 +354,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		case GWTKeycodes.KEY_RIGHT:
 		case GWTKeycodes.KEY_UP:
 		case GWTKeycodes.KEY_DOWN:
-		case GWTKeycodes.KEY_TAB:
 			getActiveTreeItem().getMathField().getKeyListener()
 					.onKeyPressed(new KeyEvent(keyCode, 0,
 							(char) event.getCharCode()));

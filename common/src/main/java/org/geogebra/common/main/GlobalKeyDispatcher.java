@@ -353,9 +353,7 @@ public abstract class GlobalKeyDispatcher {
 
 			// ESC: set move mode
 			handleEscForDropdown();
-			if (app.isApplet() && !app.showToolBar()) {
-				setFocused(false);
-			} else {
+			if (!app.isApplet() || app.showToolBar()) {
 				app.setMoveMode();
 			}
 			consumed = true;
@@ -1704,9 +1702,5 @@ public abstract class GlobalKeyDispatcher {
 			}
 		}
 		return false;
-	}
-
-	public void setFocused(boolean b) {
-		// only in web
 	}
 }

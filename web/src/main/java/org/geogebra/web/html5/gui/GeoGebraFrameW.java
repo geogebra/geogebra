@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui;
 
-import org.geogebra.common.GeoGebraConstants;
+import com.google.gwt.dom.client.LinkElement;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -19,8 +19,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Node;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.OutlineStyle;
@@ -34,7 +32,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * The main frame containing every view / menu bar / .... This Panel (Frame is
@@ -54,12 +51,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	private SplashDialog splash;
 
-	private SpanElement lastDummy = null;
+	private LinkElement lastDummy = null;
 
 	private static final int LOGO_WIDTH = 427;
 
 	private static final int LOGO_HEIGHT = 120;
-	private static HashMap<String, AppW> articleMap = new HashMap<>();
 
 	/** Article element */
 	private ArticleElementInterface articleElement;
@@ -101,25 +97,19 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * @return map article id -&gt; article
-	 */
-	public static HashMap<String, AppW> getArticleMap() {
-		return articleMap;
-	}
-
-	/**
 	 * Add a dummy element to the frame
 	 */
-	protected void tackleLastDummy() {
+	protected void tackleLastDummy(Element element) {
 		if (!Browser.needsAccessibilityView()) {
-			lastDummy = DOM.createSpan().cast();
+			lastDummy = DOM.createElement("a").cast();
+			lastDummy.setHref("#");
 			lastDummy.addClassName("geogebraweb-dummy-invisible");
-			getElement().appendChild(lastDummy);
+			element.appendChild(lastDummy);
 		}
 	}
 
-	public void focusLastDummy() {
-		lastDummy.focus();
+	public Element getLastElement() {
+		return lastDummy;
 	}
 
 	/**

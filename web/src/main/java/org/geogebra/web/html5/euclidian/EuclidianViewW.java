@@ -885,9 +885,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private void registerKeyHandlers(Canvas canvas) {
 		if (canvas != null) {
-		canvas.addKeyDownHandler(this.appW.getGlobalKeyDispatcher());
-		canvas.addKeyUpHandler(this.appW.getGlobalKeyDispatcher());
-		canvas.addKeyPressHandler(this.appW.getGlobalKeyDispatcher());
+			canvas.addKeyDownHandler(this.appW.getGlobalKeyDispatcher());
+			canvas.addKeyUpHandler(this.appW.getGlobalKeyDispatcher());
+			canvas.addKeyPressHandler(this.appW.getGlobalKeyDispatcher());
 		}
 	}
 

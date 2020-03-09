@@ -1,5 +1,9 @@
 package org.geogebra.web.html5.main;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -9,16 +13,10 @@ import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.AlgebraInput;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CopyPasteW;
-import org.geogebra.web.html5.util.Dom;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -29,16 +27,11 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
+import org.geogebra.web.html5.util.Dom;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Handles keyboard events.
@@ -48,9 +41,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 
-	/**
-	 * Used if we need tab working properly
-	 */
 	private boolean inFocus = false;
 
 	/**
@@ -96,135 +86,67 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public GlobalKeyDispatcherW(App app) {
 		super(app);
-		initNativeKeyHandlers();
 	}
 
-	private void initNativeKeyHandlers() {
-		Event.addNativePreviewHandler(new NativePreviewHandler() {
+	private class GlobalShortcutHandler implements EventListener {
 
-			@Override
-			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				NativeEvent nativeEvent = event.getNativeEvent();
-				EventTarget node = nativeEvent.getEventTarget();
-				if (!Element.is(node) || app == null) {
-					return;
-				}
-				Element targetElement = Element.as(node);
-				ArticleElement targetArticle = getGGBArticle(targetElement);
-				if (targetArticle == null && app.isApplet()) {
-					// clicked outside of GGB
-					return;
-				}
-
-				HashMap<String, AppW> articleMap = GeoGebraFrameW
-						.getArticleMap();
-				AppW targetApp = targetArticle != null
-						? articleMap.get(targetArticle.getId()) : (AppW) app;
-				if (targetApp == null) {
-					return;
+		@Override
+		public void onBrowserEvent(Event event) {
+			if (event.getTypeInt() == Event.ONKEYDOWN) {
+				if (event.getKeyCode() == GWTKeycodes.KEY_X
+						&& event.getCtrlKey()
+						&& event.getAltKey()) {
+					app.hideMenu();
+					app.closePopups();
+					if (app.getActiveEuclidianView() != null) {
+						app.getActiveEuclidianView()
+								.getEuclidianController()
+								.hideDynamicStylebar();
+					}
+					app.getSelectionManager().clearSelectedGeos();
+					app.getAccessibilityManager().focusInput(true);
+					event.preventDefault();
+					event.stopPropagation();
 				}
 
-				switch (event.getTypeInt()) {
-				default:
-					// do nothing
-					break;
-				case Event.ONKEYDOWN:
-					if (nativeEvent.getKeyCode() == GWTKeycodes.KEY_X
-							&& nativeEvent.getCtrlKey()
-							&& nativeEvent.getAltKey()) {
-						app.hideMenu();
-						app.closePopups();
-						if (app.getActiveEuclidianView() != null) {
-							app.getActiveEuclidianView()
-									.getEuclidianController()
-									.hideDynamicStylebar();
+				if (Browser.isiOS() && isControlKeyDown(event) && inFocus) {
+					handleIosKeyboard((char) event.getCharCode());
+					event.preventDefault();
+					event.stopPropagation();
+				}
+
+				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
+				Log.debug("Hearing key code " + kc);
+				if (kc == KeyCodes.TAB) {
+					Element activeElement = Dom.getActiveElement();
+					Log.debug(activeElement);
+					if (activeElement != ((AppW) app).getAppletFrame().getLastElement()) {
+						Log.debug("tabbing, should focus next element");
+						event.preventDefault();
+						event.stopPropagation();
+					} else {
+						Log.debug("successful escape from Alcatraz");
+					}
+				} else if (kc == KeyCodes.ESCAPE) {
+					Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+						@Override
+						public void execute() {
+							((AppW) app).getAppletFrame().getLastElement().focus();
 						}
-						app.getSelectionManager().clearSelectedGeos();
-						app.getAccessibilityManager().focusInput(true);
-						nativeEvent.preventDefault();
-						nativeEvent.stopPropagation();
-					}
-
-					break;
-				case Event.ONKEYPRESS:
-					if (Browser.isiOS() && isControlKeyDown(nativeEvent) && inFocus) {
-						handleIosKeyboard((char) nativeEvent.getCharCode());
-					}
-					break;
+					});
+					setFocused(false);
 				}
 			}
-
-		});
+		}
 	}
 
-	/**
-	 * @param parent
-	 *            parent
-	 * @param childName
-	 *            class name of child
-	 * @return children with given class name
-	 */
-	public Element getChildElementByStyleName(Element parent,
-			String childName) {
-		NodeList<Element> elements = Dom.getElementsByClassName(childName);
-		for (int i = 0; i < elements.getLength(); i++) {
-			if (elements.getItem(i).getParentElement() == parent) {
-				return elements.getItem(i);
-			}
-		}
-		return null;
+	public EventListener getGlobalShortcutHandler() {
+		return new GlobalShortcutHandler();
 	}
 
-	/**
-	 * @param el
-	 *            child
-	 * @return parent article element corresponding to applet
-	 */
-	private ArticleElement getGGBArticle(Element el) {
-		// if SVG clicked, getClassName returns non-string
-		if ((el.getClassName() + "").contains("geogebraweb-dummy-invisible")) {
-			return null;
-		}
 
-		// TODO: sure ArticleElement?
-		Element ggwparent = getParentWithClassName(el, "geogebraweb");
-		// debug("ggwparent tagname: " + ggwparent.getTagName());
-		if (ggwparent != null && ggwparent.getTagName().equals("ARTICLE")) {
-			return ArticleElement.as(ggwparent);
-		}
-
-		ggwparent = getParentWithClassName(el, "applet_scaler");
-		if (ggwparent != null) {
-			NodeList<Element> articles = ggwparent
-					.getElementsByTagName("article");
-			if (articles.getLength() > 0) {
-				return ArticleElement.as(articles.getItem(0));
-			}
-		}
-		return null;
-	}
-
-	private static Element getParentWithClassName(Element child,
-			String className) {
-		Element el = child;
-		do {
-			List<String> classnames = Arrays
-					.asList((el.getClassName() + "")
-					.split(" "));
-			if (classnames.contains(className)) {
-				return el;
-			}
-			if (el.hasParentElement()) {
-				el = el.getParentElement();
-			}
-		} while (el.hasParentElement());
-		return null;
-	}
-
-	@Override
 	public void setFocused(boolean focus) {
 		Log.debug("Focused: " + focus);
-		((AppW) app).getAppletFrame().focusLastDummy();
 		inFocus = focus;
 	}
 
@@ -298,15 +220,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
-		if (kc == KeyCodes.TAB) {
-			if (inFocus) {
-				Log.debug("tabbing, should focus next element");
-				event.preventDefault();
-				event.stopPropagation();
-			}
-			return;
-		}
-
 		setDownKeys(event);
 		event.stopPropagation();
 
@@ -323,11 +236,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			event.preventDefault();
 		}
 	}
-
-	private native String getActive() /*-{
-		return $doc.activeElement ? $doc.activeElement.tagName + "."
-				+ $doc.activeElement.className : "?";
-	}-*/;
 
 	private static boolean preventBrowserCtrl(KeyCodes kc, boolean shift) {
 		return kc == KeyCodes.S || kc == KeyCodes.O
