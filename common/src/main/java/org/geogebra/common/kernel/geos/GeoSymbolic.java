@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
@@ -30,7 +31,7 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Symbolic geo for CAS computations in AV
- * 
+ *
  * @author Zbynek
  */
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
@@ -302,19 +303,42 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private GeoElementND createTwinGeo() {
-		if (value == null) {
+		if (getDefinition() == null) {
 			return null;
 		}
 		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
+		ExpressionNode node;
 		try {
 			cons.setSuppressLabelCreation(true);
-			ExpressionNode expressionNode = kernel.getParser().parseGiac(casOutputString).wrap();
-			return process(expressionNode);
+			node = getDefinition().deepCopy(kernel).traverse(createPrepareDefinition()).wrap();
+			node.setLabel(null);
+			return process(node);
 		} catch (Throwable exception) {
-			return null;
+			try {
+				node = getKernel().getParser().parseGiac(casOutputString).wrap();
+				return process(node);
+			} catch (Throwable t) {
+				return null;
+			}
 		} finally {
 			cons.setSuppressLabelCreation(isSuppressLabelsActive);
 		}
+	}
+
+	private Traversing createPrepareDefinition() {
+		return new Traversing() {
+			@Override
+			public ExpressionValue process(ExpressionValue ev) {
+				if (ev instanceof GeoSymbolic) {
+					GeoSymbolic symbolic = (GeoSymbolic) ev;
+					return symbolic.getValue();
+				} else if (ev instanceof GeoDummyVariable) {
+					GeoDummyVariable variable = (GeoDummyVariable) ev;
+					return new Variable(variable.getKernel(), variable.getVarName());
+				}
+				return ev;
+			}
+		};
 	}
 
 	private GeoElement process(ExpressionNode expressionNode) throws Exception {
