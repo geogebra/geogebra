@@ -51,19 +51,12 @@ public class ScientificActivity extends BaseActivity {
 		app.forceEnglishCommands();
 		app.setRightClickEnabledForAV(false);
 		app.getAppletFrame().updateArticleHeight();
-		if (app instanceof AppWFull) {
-			initMenu((AppWFull) app);
-		}
 	}
 
 	private static void initHeaderButtons(AppW app) {
 		app.getGuiManager().menuToGlobalHeader();
 		GlobalHeader.INSTANCE.initSettingButtonIfOnHeader();
 		GlobalHeader.INSTANCE.initUndoRedoButtonsIfOnHeader();
-	}
-
-	private void initMenu(AppWFull app) {
-		app.setDefaultActionHandlerFactory(new ScientificMenuActionHandlerFactory(app));
 	}
 
 	@Override

@@ -2211,8 +2211,4 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		guiManager.resetMenu();
 		setActivePerspective(0);
 	}
-
-	public void setDefaultActionHandlerFactory(MenuActionHandlerFactory defaultActionHandlerFactory) {
-		menuViewController.setDefaultActionHandlerFactory(defaultActionHandlerFactory);
-	}
 }

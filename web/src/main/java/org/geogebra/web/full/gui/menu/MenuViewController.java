@@ -16,6 +16,7 @@ import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.ExamMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandlerFactory;
+import org.geogebra.web.full.gui.menu.action.ScientificMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
 import org.geogebra.web.full.main.AppWFull;
@@ -68,8 +69,6 @@ public class MenuViewController implements ResizeHandler {
 		frame = app.getAppletFrame();
 		menuIconResource = new MenuIconResource(app.isMebis()
 				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
-		defaultActionHandlerFactory = new DefaultMenuActionHandlerFactory(app);
-		examActionHandlerFactory = new ExamMenuActionHandlerFactory(app);
 	}
 
 	private void createViews() {
@@ -85,7 +84,12 @@ public class MenuViewController implements ResizeHandler {
 		floatingMenuView.setWidget(headeredMenuView);
 	}
 
-	private void createFactories(AppW app) {
+	private void createFactories(AppWFull app) {
+		createDrawerMenuFactories(app);
+		createActionHandlerFactories(app);
+	}
+
+	private void createDrawerMenuFactories(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory =
 				new DefaultDrawerMenuFactory(
@@ -94,6 +98,16 @@ public class MenuViewController implements ResizeHandler {
 						hasLoginButton(app) ? app.getLoginOperation() : null,
 						shouldCreateExamEntry(app));
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
+	}
+
+	private void createActionHandlerFactories(AppWFull app) {
+		GeoGebraConstants.Version version = app.getConfig().getVersion();
+		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
+			defaultActionHandlerFactory = new ScientificMenuActionHandlerFactory(app);
+		} else {
+			defaultActionHandlerFactory = new DefaultMenuActionHandlerFactory(app);
+		}
+		examActionHandlerFactory = new ExamMenuActionHandlerFactory(app);
 	}
 
 	private boolean shouldCreateExamEntry(AppW app) {
@@ -236,11 +250,5 @@ public class MenuViewController implements ResizeHandler {
 	@Override
 	public void onResize(ResizeEvent event) {
 		headerView.setVisible(frame.hasSmallWindowOrCompactHeader());
-	}
-
-	public void setDefaultActionHandlerFactory(MenuActionHandlerFactory defaultActionHandlerFactory) {
-		this.defaultActionHandlerFactory = defaultActionHandlerFactory;
-		menuActionRouter =
-				new MenuActionRouter(defaultActionHandlerFactory.create(), this, localization);
 	}
 }
