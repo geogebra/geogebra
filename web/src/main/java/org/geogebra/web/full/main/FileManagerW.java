@@ -296,6 +296,7 @@ public class FileManagerW extends FileManager {
 	
 	@Override
 	public void export(App app1) {
+		dialogEvent(app, "exportGGB");
 		((AppW) app1).getGuiManager().exportGGB();
 	}
 
@@ -364,6 +365,7 @@ public class FileManagerW extends FileManager {
 										"[\"" + extension2 + "\"]"));
 							}
 						}, loc.getMenu("Export"));
+		dialogEvent(app, "exportPNG");
 	}
 
 	@Override
@@ -377,6 +379,10 @@ public class FileManagerW extends FileManager {
 		if (stockStore != null) {
 			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());
 		}
+	}
+
+	private static void dialogEvent(AppW app, String string) {
+		app.dispatchEvent(new Event(EventType.OPEN_DIALOG, null, string));
 	}
 
 }
