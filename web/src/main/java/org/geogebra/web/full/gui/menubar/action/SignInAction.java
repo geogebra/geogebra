@@ -9,15 +9,15 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class SignInAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        if (!app.getNetworkOperation().isOnline()) {
-            return;
-        }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		if (!app.getNetworkOperation().isOnline()) {
+			return;
+		}
 
-        LogInOperation logInOperation = app.getLoginOperation();
-        if (!logInOperation.isLoggedIn()) {
-            logInOperation.showLoginDialog();
-        }
-    }
+		LogInOperation logInOperation = app.getLoginOperation();
+		if (!logInOperation.isLoggedIn()) {
+			logInOperation.showLoginDialog();
+		}
+	}
 }

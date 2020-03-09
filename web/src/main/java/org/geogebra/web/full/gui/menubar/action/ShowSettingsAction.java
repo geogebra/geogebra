@@ -8,8 +8,8 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class ShowSettingsAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        app.getActivity().showSettingsView(app);
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		app.getActivity().showSettingsView(app);
+	}
 }

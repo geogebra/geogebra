@@ -9,23 +9,23 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class DownloadPngAction extends DefaultMenuAction<Void> {
 
-    private AppWFull app;
-    private ImageExporter imageExporter;
+	private AppWFull app;
+	private ImageExporter imageExporter;
 
-    /**
-     * @param app app
-     */
-    public DownloadPngAction(AppWFull app) {
-        this.app = app;
-        imageExporter = new ImageExporter(app, "png");
-    }
+	/**
+	 * @param app app
+	 */
+	public DownloadPngAction(AppWFull app) {
+		this.app = app;
+		imageExporter = new ImageExporter(app, "png");
+	}
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        imageExporter.export(getUrl());
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		imageExporter.export(getUrl());
+	}
 
-    private String getUrl() {
-        return ExportImageDialog.getExportDataURL(app);
-    }
+	private String getUrl() {
+		return ExportImageDialog.getExportDataURL(app);
+	}
 }

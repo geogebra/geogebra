@@ -5,9 +5,9 @@ package org.geogebra.web.full.gui.menu.action;
  */
 public class MebisMenuActionHandlerFactory implements MenuActionHandlerFactory {
 
-    @Override
-    public MenuActionHandler create() {
-        // TODO
-        return null;
-    }
+	@Override
+	public MenuActionHandler create() {
+		// TODO
+		return null;
+	}
 }

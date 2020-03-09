@@ -8,8 +8,8 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class SignOutAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        app.getLoginOperation().logOut();
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		app.getLoginOperation().logOut();
+	}
 }

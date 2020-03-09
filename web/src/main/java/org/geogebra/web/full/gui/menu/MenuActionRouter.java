@@ -19,8 +19,8 @@ class MenuActionRouter {
 	private Localization localization;
 
 	MenuActionRouter(MenuActionHandler menuActionHandler,
-	                 MenuViewController menuViewController,
-	                 Localization localization) {
+					 MenuViewController menuViewController,
+					 Localization localization) {
 		this.menuActionHandler = menuActionHandler;
 		this.menuViewController = menuViewController;
 		this.localization = localization;

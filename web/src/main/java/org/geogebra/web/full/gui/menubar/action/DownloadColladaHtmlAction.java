@@ -8,8 +8,8 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class DownloadColladaHtmlAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        app.exportCollada(true);
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		app.exportCollada(true);
+	}
 }

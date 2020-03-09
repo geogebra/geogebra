@@ -5,8 +5,8 @@ package org.geogebra.web.full.gui.menu.action;
  */
 public interface MenuActionHandlerFactory {
 
-    /**
-     * @return MenuActionHandler instance
-     */
-    MenuActionHandler create();
+	/**
+	 * @return MenuActionHandler instance
+	 */
+	MenuActionHandler create();
 }

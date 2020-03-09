@@ -10,8 +10,8 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class ShowForumAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        Window.open(GeoGebraConstants.FORUM_URL, "_blank", "");
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		Window.open(GeoGebraConstants.FORUM_URL, "_blank", "");
+	}
 }

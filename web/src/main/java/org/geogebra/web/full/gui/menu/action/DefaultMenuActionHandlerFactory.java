@@ -31,52 +31,52 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory {
 
-    private AppWFull app;
+	private AppWFull app;
 
-    /**
-     * @param app app
-     */
-    public DefaultMenuActionHandlerFactory(AppWFull app) {
-        this.app = app;
-    }
+	/**
+	 * @param app app
+	 */
+	public DefaultMenuActionHandlerFactory(AppWFull app) {
+		this.app = app;
+	}
 
-    @Override
-    public DefaultMenuActionHandler create() {
-        DefaultMenuActionHandler actionHandler = new DefaultMenuActionHandler(app);
-        actionHandler.setMenuAction(Action.CLEAR_CONSTRUCTION, new ClearAllAction(true));
-        actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new ShowSearchView());
-        actionHandler.setMenuAction(Action.SHOW_LICENSE, new ShowLicenseAction());
-        actionHandler.setMenuAction(Action.SHOW_SETTINGS, new ShowSettingsAction());
-        actionHandler.setMenuAction(Action.SAVE_FILE, new SaveAction());
-        actionHandler.setMenuAction(Action.SHARE_FILE, new ShareAction());
-        actionHandler.setMenuAction(Action.SHOW_TUTORIALS, new ShowTutorialsAction());
-        actionHandler.setMenuAction(Action.SHOW_FORUM, new ShowForumAction());
-        actionHandler.setMenuAction(Action.REPORT_PROBLEM, new ReportProblemAction());
-        actionHandler.setMenuAction(Action.SIGN_IN, new SignInAction());
-        actionHandler.setMenuAction(Action.SIGN_OUT, new SignOutAction());
-        actionHandler.setMenuAction(Action.OPEN_PROFILE_PAGE, new OpenProfilePage());
-        actionHandler.setMenuAction(Action.EXPORT_IMAGE, new ExportImage());
-        actionHandler.setMenuAction(Action.DOWNLOAD_GGB, new DownloadDefaultFormatAction());
-        actionHandler.setMenuAction(Action.DOWNLOAD_PNG, new DownloadPngAction(app));
-        actionHandler.setMenuAction(Action.DOWNLOAD_SVG, new DownloadSvgAction(app));
-        actionHandler.setMenuAction(Action.DOWNLOAD_PDF, new DownloadPdfAction(app));
-        actionHandler.setMenuAction(Action.DOWNLOAD_STL, new DownloadStlAction());
-        actionHandler.setMenuAction(Action.DOWNLOAD_COLLADA_DAE, new DownloadColladaDaeAction());
-        actionHandler.setMenuAction(Action.DOWNLOAD_COLLADA_HTML, new DownloadColladaHtmlAction());
-        actionHandler.setMenuAction(Action.PREVIEW_PRINT, new ShowPrintPreviewAction());
-        actionHandler.setMenuAction(Action.START_EXAM_MODE, new StartExamAction(app));
-        actionHandler.setMenuAction(
-                Action.START_GRAPHING, StartAppAction.create(app, "graphing"));
-        actionHandler.setMenuAction(
-                Action.START_GEOMETRY, StartAppAction.create(app, "geometry"));
-        actionHandler.setMenuAction(
-                Action.START_GRAPHING_3D, StartAppAction.create(app, "3d"));
-        actionHandler.setMenuAction(
-                Action.START_SCIENTIFIC, StartAppAction.create(app, "calculator"));
-        actionHandler.setMenuAction(
-                Action.START_CLASSIC, StartAppAction.create(app, "classic"));
-        actionHandler.setMenuAction(
-                Action.START_CAS_CALCULATOR, StartAppAction.create(app, "cas"));
-        return actionHandler;
-    }
+	@Override
+	public DefaultMenuActionHandler create() {
+		DefaultMenuActionHandler actionHandler = new DefaultMenuActionHandler(app);
+		actionHandler.setMenuAction(Action.CLEAR_CONSTRUCTION, new ClearAllAction(true));
+		actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new ShowSearchView());
+		actionHandler.setMenuAction(Action.SHOW_LICENSE, new ShowLicenseAction());
+		actionHandler.setMenuAction(Action.SHOW_SETTINGS, new ShowSettingsAction());
+		actionHandler.setMenuAction(Action.SAVE_FILE, new SaveAction());
+		actionHandler.setMenuAction(Action.SHARE_FILE, new ShareAction());
+		actionHandler.setMenuAction(Action.SHOW_TUTORIALS, new ShowTutorialsAction());
+		actionHandler.setMenuAction(Action.SHOW_FORUM, new ShowForumAction());
+		actionHandler.setMenuAction(Action.REPORT_PROBLEM, new ReportProblemAction());
+		actionHandler.setMenuAction(Action.SIGN_IN, new SignInAction());
+		actionHandler.setMenuAction(Action.SIGN_OUT, new SignOutAction());
+		actionHandler.setMenuAction(Action.OPEN_PROFILE_PAGE, new OpenProfilePage());
+		actionHandler.setMenuAction(Action.EXPORT_IMAGE, new ExportImage());
+		actionHandler.setMenuAction(Action.DOWNLOAD_GGB, new DownloadDefaultFormatAction());
+		actionHandler.setMenuAction(Action.DOWNLOAD_PNG, new DownloadPngAction(app));
+		actionHandler.setMenuAction(Action.DOWNLOAD_SVG, new DownloadSvgAction(app));
+		actionHandler.setMenuAction(Action.DOWNLOAD_PDF, new DownloadPdfAction(app));
+		actionHandler.setMenuAction(Action.DOWNLOAD_STL, new DownloadStlAction());
+		actionHandler.setMenuAction(Action.DOWNLOAD_COLLADA_DAE, new DownloadColladaDaeAction());
+		actionHandler.setMenuAction(Action.DOWNLOAD_COLLADA_HTML, new DownloadColladaHtmlAction());
+		actionHandler.setMenuAction(Action.PREVIEW_PRINT, new ShowPrintPreviewAction());
+		actionHandler.setMenuAction(Action.START_EXAM_MODE, new StartExamAction(app));
+		actionHandler.setMenuAction(
+				Action.START_GRAPHING, StartAppAction.create(app, "graphing"));
+		actionHandler.setMenuAction(
+				Action.START_GEOMETRY, StartAppAction.create(app, "geometry"));
+		actionHandler.setMenuAction(
+				Action.START_GRAPHING_3D, StartAppAction.create(app, "3d"));
+		actionHandler.setMenuAction(
+				Action.START_SCIENTIFIC, StartAppAction.create(app, "calculator"));
+		actionHandler.setMenuAction(
+				Action.START_CLASSIC, StartAppAction.create(app, "classic"));
+		actionHandler.setMenuAction(
+				Action.START_CAS_CALCULATOR, StartAppAction.create(app, "cas"));
+		return actionHandler;
+	}
 }

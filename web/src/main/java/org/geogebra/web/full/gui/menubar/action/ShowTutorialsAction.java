@@ -9,9 +9,9 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class ShowTutorialsAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        String url = app.getLocalization().getTutorialURL(app.getConfig());
-        Window.open(url, "_blank", "");
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		String url = app.getLocalization().getTutorialURL(app.getConfig());
+		Window.open(url, "_blank", "");
+	}
 }

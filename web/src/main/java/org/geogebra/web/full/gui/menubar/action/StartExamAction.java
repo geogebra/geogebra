@@ -10,35 +10,35 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class StartExamAction extends DefaultMenuAction<Void> {
 
-    private AppWFull app;
+	private AppWFull app;
 
-    /**
-     * @param app app
-     */
-    public StartExamAction(AppWFull app) {
-        this.app = app;
-    }
+	/**
+	 * @param app app
+	 */
+	public StartExamAction(AppWFull app) {
+		this.app = app;
+	}
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        app.getDialogManager().getSaveDialog().showIfNeeded(createExamCallback());
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		app.getDialogManager().getSaveDialog().showIfNeeded(createExamCallback());
+	}
 
-    /**
-     * @return callback that shows the exam welcome message and prepares Exam
-     *         (goes fullscreen)
-     */
-    private AsyncOperation<Boolean> createExamCallback() {
-        return new AsyncOperation<Boolean>() {
+	/**
+	 * @return callback that shows the exam welcome message and prepares Exam
+	 * (goes fullscreen)
+	 */
+	private AsyncOperation<Boolean> createExamCallback() {
+		return new AsyncOperation<Boolean>() {
 
-            @Override
-            public void callback(Boolean active) {
-                app.fileNew();
-                app.getLAF().toggleFullscreen(true);
-                ExamStartDialog examStartDialog = new ExamStartDialog(app);
-                examStartDialog.show();
-                examStartDialog.center();
-            }
-        };
-    }
+			@Override
+			public void callback(Boolean active) {
+				app.fileNew();
+				app.getLAF().toggleFullscreen(true);
+				ExamStartDialog examStartDialog = new ExamStartDialog(app);
+				examStartDialog.show();
+				examStartDialog.center();
+			}
+		};
+	}
 }

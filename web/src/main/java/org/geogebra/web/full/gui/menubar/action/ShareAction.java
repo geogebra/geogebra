@@ -9,20 +9,20 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class ShareAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        ShareControllerW shareController = (ShareControllerW) app.getShareController();
-        if (nativeShareSupported()) {
-            shareController.getBase64();
-        } else {
-            shareController.share();
-        }
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		ShareControllerW shareController = (ShareControllerW) app.getShareController();
+		if (nativeShareSupported()) {
+			shareController.getBase64();
+		} else {
+			shareController.share();
+		}
+	}
 
-    /**
-     * @return whether native JS function for sharing is present
-     */
-    public native static boolean nativeShareSupported()/*-{
+	/**
+	 * @return whether native JS function for sharing is present
+	 */
+	public native static boolean nativeShareSupported()/*-{
 		if ($wnd.android && $wnd.android.share) {
 			return true;
 		}

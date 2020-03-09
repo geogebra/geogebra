@@ -8,8 +8,8 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class ShowPrintPreviewAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        app.getDialogManager().showPrintPreview();
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		app.getDialogManager().showPrintPreview();
+	}
 }

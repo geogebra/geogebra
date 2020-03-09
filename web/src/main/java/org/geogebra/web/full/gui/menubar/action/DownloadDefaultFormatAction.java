@@ -8,8 +8,8 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class DownloadDefaultFormatAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        app.getFileManager().export(app);
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		app.getFileManager().export(app);
+	}
 }

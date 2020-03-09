@@ -11,9 +11,8 @@ import org.geogebra.web.shared.DialogBoxW;
 
 /**
  * @author csilla
- * 
- *         dialog to enter in graphing or cas calc exam mode
- *
+ * <p>
+ * dialog to enter in graphing or cas calc exam mode
  */
 public class ExamStartDialog extends DialogBoxW
 		implements SetLabels, FastClickHandler {
@@ -24,8 +23,7 @@ public class ExamStartDialog extends DialogBoxW
 	private StandardButton startBtn;
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app application
 	 */
 	public ExamStartDialog(AppWFull app) {
 		super(app.getPanel(), app);

@@ -8,8 +8,8 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class SaveAction extends DefaultMenuAction<Void> {
 
-    @Override
-    public void execute(Void item, AppWFull app) {
-        app.getGuiManager().save();
-    }
+	@Override
+	public void execute(Void item, AppWFull app) {
+		app.getGuiManager().save();
+	}
 }
