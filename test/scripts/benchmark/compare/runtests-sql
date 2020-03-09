@@ -8,10 +8,9 @@ MY_VERSION=2.2
 
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 DBDEBUG=0
-TIMEOUT=20
-PROVERS="Recio PureSymbolic Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
-SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
-PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
+TIMEOUT=5
+PROVERS="Auto Web"
+REALGEOMWSREMOTEURL="http\\://localhost\\:8765"
 
 GEOGEBRADIR=../../../../
 WEBCODEBASEDIR=$GEOGEBRADIR/web/war/web3d
@@ -32,26 +31,15 @@ usage() {
  echo "Usage:"
  echo " xvfb-run $0 [options]"
  echo "  where options can be as follows (defaults in parentheses):"
- echo "   -S <name>    run scenario: 'name' can be one of the following: jar-paper, giac-test, ndg"
- echo "   -D           rewrite Prove commands to ProveDetails"
  echo "   -d           put some debugging logs into tmp/"
  echo "   -b           save debugging information in the database"
  echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
  echo "   -p <list>    space separated list of prover engines to test ($PROVERS)"
- echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
- echo "   -r           run GeoGebra desktop version from the current sources"
+ echo "   -R <url>     use 'url' to use non-default RealGeomWS ($REALGEOMWSREMOTEURL)"
  echo "   -P <path>    use path to run PhantomJS ($PHANTOMJS)"
  echo "   -h           show this help, then exit"
  echo "   -v           print script version, then exit"
  echo "   -V           print available provers from the database, then exit"
- echo
- echo "Examples:"
- echo " xvfb-run $0 -S jar-paper -d    # creates an output like at http://ggb1.idm.jku.at/~kovzol/data/Prove-20141009/"
- echo " xvfb-run $0 -S giac-test -d    # compares Prove output for Botana and BotanaGiac"
- echo " xvfb-run $0 -S giac-test -D -d # compares ProveDetails output for Botana and BotanaGiac"
- echo " xvfb-run $0 -S ndg -d          # compares ProveDetails output for Botana, BotanaGiac and OpenGeoProver_Wu"
- echo " $0 -d -p Web -P \`pwd\`/phantomjs-2.0.0 # runs the Web test only (assuming PhantomJS is installed in '.')"
- echo "Note: You may want to use 'xvfb-run -a -s \"-screen 0 1024x768x24\" $0 ...' for 3D compatibility. Tested under Ubuntu 14.10."
  exit 0
  }
 
@@ -60,7 +48,7 @@ version() {
  exit 0
  }
 
-while getopts "t:p:P:S:dbDhvrV" OPT; do
+while getopts "t:p:R:P:dbhvV" OPT; do
  case $OPT in
   t)
    TIMEOUT="$OPTARG"
@@ -81,33 +69,11 @@ while getopts "t:p:P:S:dbDhvrV" OPT; do
   p)
    PROVERS="$OPTARG"
    ;;
-  S)
-   case "$OPTARG" in
-    jar-paper)
-     PROVERS="Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto"
-     ;;
-    giac-test)
-     PROVERS="Botana BotanaGiac"
-     ;;
-    ndg)
-     PROVERS="Botana BotanaGiac OpenGeoProver_Wu Auto"
-     PROVEDETAILS=1
-     ;;
-    prove)
-     PROVERS="Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto Web"
-     PROVEDETAILS=0
-     ;;
-    provedetails)
-     PROVERS="Botana BotanaGiac OpenGeoProver_Wu Auto Web"
-     PROVEDETAILS=1
-     ;;
-   esac # -S
+  g)
+   TESTGGBURLBASE_GGBDIR="$OPTARG"
    ;;
-  s)
-   SINGULARWSREMOTEURL="$OPTARG"
-   ;;
-  D)
-   PROVEDETAILS=1
+  R)
+   REALGEOMWSREMOTEURL="$OPTARG"
    ;;
   h)
    usage
@@ -120,18 +86,15 @@ while getopts "t:p:P:S:dbDhvrV" OPT; do
    echo "Provers are: $PROVERS"
    exit 0
    ;;
-  r)
-   RUNDIR=$GEOGEBRADIR/desktop/build/install/desktop/bin # run the "installDist" task in Gradle first
-   BINBASE=./desktop
-   # VERSION=`cd $RUNDIR; $BINBASE --v 2>&1 | head -1 | cut -f5 -d" "`
-
-   ;;
 
  esac
 done
 
 # Put name of the filters into $@
 shift $((OPTIND-1))
+
+RUNDIR=$GEOGEBRADIR/desktop/build/install/desktop/bin # run the "installDist" task in Gradle first
+BINBASE=./desktop
 
 PROVERSNO=`echo $PROVERS | wc -w`
 THISDIR=`dirname $0`
@@ -149,12 +112,6 @@ prereq () {
   }
  }
 
-if [ "$RUNDIR" = "" ]; then
- prereq geogebra "Try installing GeoGebra first."
- BIN=`which geogebra`
- RUNDIR=`dirname $BIN`
- BINBASE="geogebra --2"
- fi
 prereq unzip
 prereq zip
 prereq timeout
@@ -199,7 +156,7 @@ values ('$BUILD_NUMBER', '$GIT_REVISION', '$BUILD_URL', '$machine')"
 echo -n "Test file;"
 echo
 for j in $PROVERS; do
- rm -f $MYDIR/tmp/rinput-$j-$PROVEDETAILS
+ rm -f $MYDIR/tmp/rinput-$j
  done
 
 # Content
@@ -218,38 +175,12 @@ for i in `find -name '*.ggb' | sort`; do
  declare -A RESULTCLASSDATA
  declare -A CELLCOLORDATA
  declare -A TIMEDATA
- BESTTIME=""
- WORSTTIME=""
- BESTPROVER=""
- WORSTPROVER=""
-
- if [ "$PROVEDETAILS" = 1 ]; then
-  TMPDIR=tempdir
-  mkdir -p $TMPDIR
-  unzip $i -d $TMPDIR >/dev/null 2>&1
-  sed -i s/Prove/ProveDetails/ $TMPDIR/geogebra.xml
-  i=$i-ProveDetails
-  rm -f $i
-  zip -j -r $i $TMPDIR >/dev/null 2>&1
-  rm -fR $TMPDIR
-  fi
 
  for j in $PROVERS; do
   cd $MYDIR; cd $RUNDIR
   ENGINE=`echo $j | cut -f1 -d_`
   METHOD=""
-  if [ $ENGINE = OpenGeoProver ]; then
-   METHOD=`echo $j | cut -f2 -d_`
-   fi
-  unset SWSOPTS
-  unset EXTRAOPTS
-  if [ $ENGINE = BotanaGiac ]; then
-   ENGINE=Botana
-   SWSOPTS=",enable:false"
-   EXTRAOPTS=--giac
-  elif [ $ENGINE = Botana ]; then
-   SWSOPTS=",enable:true,caching:false"
-   fi
+  unset RWSOPTS
 
   # Testing:
   start_unixtime=`date +%s`
@@ -266,28 +197,18 @@ for i in `find -name '*.ggb' | sort`; do
    cat $MYDIR/$i | base64 -w0 >> $JSFILE
    echo "\";" >> $JSFILE
    echo "var html5codeBase = 'file://$ABSWEBDIR';" >> $JSFILE
-   timeout $((TIMEOUT+2)) $PHANTOMJS $MYDIR/testurl.js "file:///$MYDIR/jstest.html" $TIMEOUT > $MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+   timeout $((TIMEOUT+0)) $PHANTOMJS $MYDIR/testurl.js "file:///$MYDIR/jstest.html" $TIMEOUT > $MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
    RETVAL=$?
-   # 14:50:36.344 DEBUG: ?: Benchmarking: 1120 ms
-   # 14:50:36.345 DEBUG: ?: OUTPUT for Prove: proof = true
-   # 14:50:36.346 DEBUG: ?: all CAS up
    cat $MYDIR/tmp/.test.stdout | grep Benchmarking > $LOGFILE
-   grep --silent "OUTPUT for Prove:" $MYDIR/tmp/.test.stdout && \
-    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for Prove:" | head -1 | sed 's/\(.*\) = \(.*\)/OUTPUT for Prove or ProveDetails == null = \2/' > $REGRESSIONFILE
-   grep --silent "OUTPUT for ProveDetails:" $MYDIR/tmp/.test.stdout && \
-    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for ProveDetails:" | head -1 | perl -pe 's/(.*?) = (.*)/\2/' |\
-    sed s/{//g | sed s/}//g | awk '{printf "ProveDetails == null = %s", $0}' > $REGRESSIONFILE
-   grep --silent "STATEMENT IS UNKNOWN" $MYDIR/tmp/.test.stdout && echo "Prove or ProveDetails == null = undefined" > $REGRESSIONFILE
-   grep --silent ^SEVERE: $MYDIR/tmp/.test.stdout && echo "Prove or ProveDetails == null = undefined" > $REGRESSIONFILE
-   # List k = ProveDetails[j] == null = true "AreCollinear[D,E,A]", "AreEqual[f,k_1]", "AreEqual[f,l]", "AreParallel[d,e]", "AreParallel[f,g]", "AreParallel[h,i]"
-   RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/'`
+   grep --silent "COMPARISON RESULT IS " $MYDIR/tmp/.test.stdout && \
+    tac $MYDIR/tmp/.test.stdout | grep "COMPARISON RESULT IS " | head -1 > $REGRESSIONFILE
+   RESULT=`cat $REGRESSIONFILE | awk '{a=index($0, "COMPARISON"); print substr($0,a+21)}'`
   else
-   timeout $TIMEOUT $BINBASE \
-    --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
+   timeout $((TIMEOUT+5)) $BINBASE \
+    --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --realgeomws=remoteurl:${REALGEOMWSREMOTEURL},timeout:$TIMEOUT \
     --logFile=$LOGFILE \
-    --regressionFile=$REGRESSIONFILE --language=en $EXTRAOPTS $MYDIR/$i \
-    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
-   # --regressionFile is broken since 5.0.244.0, so we don't use its output
+    --language=en $EXTRAOPTS $MYDIR/$i \
+    --regressionFile=$REGRESSIONFILE >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
    RETVAL=$?
    RESULT=""
    fi
@@ -306,20 +227,16 @@ for i in `find -name '*.ggb' | sort`; do
    # --regressionFile is broken since 5.0.244.0, so we don't use its output:
    # in desktop $REGRESSIONFILE does not properly contain the output of the Prove* command. So, a workaround (mostly copied from "Web"):
    if [ "$RESULT" = "" -o "$RESULT" = "?" ]; then
-    grep --silent "OUTPUT for Prove:" $LOGFILE && \
-     RESULT=`tac $LOGFILE | grep "OUTPUT for Prove:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/'`
-    grep --silent "OUTPUT for ProveDetails:" $LOGFILE && \
-     RESULT=`tac $LOGFILE | grep "OUTPUT for ProveDetails:" | head -1 | perl -pe 's/(.*?) = (.*)/\2/' |\
-     sed s/{//g | sed s/}//g`
-    RESULT=`echo $RESULT | sed s/\"//g`
-    # FIXME in GeoGebra.
+    grep --silent "COMPARISON RESULT IS " $LOGFILE && \
+     RESULT=`tac $LOGFILE | grep "COMPARISON RESULT IS "` # org.geogebra.common.kernel.prover.AlgoCompare.debugElapsedTime[126]: COMPARISON RESULT IS 
+    RESULT=`echo $RESULT | awk '{print substr($0,111)}'`
     fi
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{s=s+$5; print s}' | tail -1` # collecting all entries
    if [ $DEBUG = 1 ]; then
-    cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j-$PROVEDETAILS
-    cp $LOGFILE $LOGFILE-$TEST-$j-$PROVEDETAILS
-    cp $MYDIR/tmp/.test.stdout $MYDIR/tmp/.test.stdout-$TEST-$j-$PROVEDETAILS
-    cp $MYDIR/tmp/.test.stderr $MYDIR/tmp/.test.stderr-$TEST-$j-$PROVEDETAILS
+    cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
+    cp $LOGFILE $LOGFILE-$TEST-$j
+    cp $MYDIR/tmp/.test.stdout $MYDIR/tmp/.test.stdout-$TEST-$j
+    cp $MYDIR/tmp/.test.stderr $MYDIR/tmp/.test.stderr-$TEST-$j
     fi
    fi # No timeout
   if [ "$TIME" = "" ]; then
@@ -336,13 +253,9 @@ for i in `find -name '*.ggb' | sort`; do
    if [ "$RESULT" = "undefined" -o "$RESULT" = "" -o "$RESULT" = "?" ]; then
     RESULTCLASS="undefined"
     accepted=null
-   else
-    RESULTCLASS="error"
-    accepted=0
-    errortype=2
     fi
   else
-   echo "$TIME" >> $MYDIR/tmp/rinput-$j-$PROVEDETAILS
+   echo "$TIME" >> $MYDIR/tmp/rinput-$j
    VARNAME=$`echo $j`
    VALUE=`eval echo $VARNAME`
    eval $j=`expr $VALUE + 1`
@@ -353,9 +266,9 @@ for i in `find -name '*.ggb' | sort`; do
   speed=null
   fi
 
-  echo -n "insert into tests (testcase, prover, ndg, build_number, start_unixtime, result,
+  echo -n "insert into tests (testcase, prover, build_number, start_unixtime, result,
   osresult, timeout_setting, accepted, errortype, speed, regressionfile, logfile, stdout, stderr) values
-  ('$TEST', '$j', $PROVEDETAILS, '$BUILD_NUMBER', $start_unixtime, '$RESULT',
+  ('$TEST', '$j', '$BUILD_NUMBER', $start_unixtime, '$RESULT',
   $RETVAL, $TIMEOUT, $accepted, $errortype, $speed, '" > $MYDIR/tmp/testcmd.sql
   if [ "$DBDEBUG" = 0 ]; then
    echo -n > $REGRESSIONFILE

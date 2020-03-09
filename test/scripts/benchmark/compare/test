@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Test all versions.
+
+set -e
+./runtests-sql -p "Auto Web" -d -R http\\://roadrunner.risc.jku.at\\:8765
+./report-sql -c "Auto Web"
+google-chrome html/all.html &

@@ -84,7 +84,7 @@ while getopts "t:p:c:P:dbhvrV" OPT; do
    PROVERS="$OPTARG"
    ;;
   s)
-   SINGULARWSREMOTEURL="$OPTARGS"
+   SINGULARWSREMOTEURL="$OPTARG"
    ;;
   h)
    usage
