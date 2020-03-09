@@ -263,7 +263,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			private void handleSelectedEvent(Event event) {
 				event.stopPropagation();
-				app.getGlobalKeyDispatcher().setFocused(true);
 			}
 		};
 
@@ -310,7 +309,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				requestFocus();
-				app.getGlobalKeyDispatcher().setFocused(true);
 			}
 		});
 

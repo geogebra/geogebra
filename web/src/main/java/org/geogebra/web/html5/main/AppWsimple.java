@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -141,32 +140,11 @@ public class AppWsimple extends AppW {
 	@Override
 	public void focusLost(View v, Element el) {
 		frame.useDataParamBorder();
-		this.getGlobalKeyDispatcher().setFocused(false);
 	}
 
 	@Override
 	public void focusGained(View v, Element el) {
 		frame.useFocusedBorder();
-
-		// if focusLost sets this to false, it is probably
-		// right to set this to true again here! Otherwise
-		// it would only be set to true in case of key ENTER,
-		// but of course, we also want to be able to focus by mouse
-		// Graphics views and Algebra views register GlobalKeyDispatcher,
-		// so in those cases, this is good, otherwise (?)
-		switch (v.getViewID()) {
-		case App.VIEW_ALGEBRA:
-		case App.VIEW_EUCLIDIAN:
-		case App.VIEW_EUCLIDIAN2:
-			this.getGlobalKeyDispatcher().setFocused(true);
-			break;
-		default:
-			if (App.isView3D(v.getViewID())
-					|| ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START) && (v
-							.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
-				this.getGlobalKeyDispatcher().setFocused(true);
-			}
-		}
 	}
 
 	@Override

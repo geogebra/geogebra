@@ -572,21 +572,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		focusedView = v;
 		frame.useFocusedBorder();
-
-		// we really need to set it to true
-		switch (v.getViewID()) {
-		case App.VIEW_ALGEBRA:
-		case App.VIEW_EUCLIDIAN:
-		case App.VIEW_EUCLIDIAN2:
-			this.getGlobalKeyDispatcher().setFocused(true);
-			break;
-		default:
-			if (App.isView3D(v.getViewID()) || ((v
-					.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START)
-					&& (v.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
-				this.getGlobalKeyDispatcher().setFocused(true);
-			}
-		}
 	}
 
 	@Override
@@ -1715,9 +1700,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		focusedView = null;
 		frame.useDataParamBorder();
-
-		// if it is there in focusGained, why not put it here?
-		this.getGlobalKeyDispatcher().setFocused(false);
 	}
 
 	@Override

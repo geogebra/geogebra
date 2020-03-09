@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ZoomPanel extends FlowPanel
-		implements CoordSystemListener, TabHandler, FocusHandler {
+		implements CoordSystemListener, TabHandler {
 
 	private StandardButton homeBtn;
 	private StandardButton zoomInBtn;
@@ -87,11 +87,7 @@ public class ZoomPanel extends FlowPanel
 		if (ZoomPanel.needsFullscreenButton(app) && rightBottom) {
 			addFullscreenButton();
 		}
-		for (StandardButton button : buttons) {
-			if (button != null) {
-				button.addFocusHandler(this);
-			}
-		}
+
 		setLabels();
 	}
 
@@ -518,10 +514,5 @@ public class ZoomPanel extends FlowPanel
 			fullscreenBtn.removeFromParent();
 			fullscreenBtn = null;
 		}
-	}
-
-	@Override
-	public void onFocus(FocusEvent event) {
-		app.getGlobalKeyDispatcher().setFocused(true);
 	}
 }

@@ -80,7 +80,6 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
-import jdk.internal.jline.internal.Log;
 
 public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHandler {
 
@@ -109,8 +108,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private double scale = 1.0;
 
-	private FocusHandler focusHandler;
-
 	private FormatConverter converter;
 
 	private ExpressionReader expressionReader;
@@ -126,7 +123,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int minHeight = 0;
 
 	/**
-	 * 
 	 * @param converter
 	 *            latex/mathml-&lt; ascii math converter (optional)
 	 * @param parent
@@ -138,12 +134,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param directFormulaBuilder
 	 *            whether to convert content into JLM atoms directly without
 	 *            reparsing
-	 * @param fh
-	 *            focus handler
 	 */
 	public MathFieldW(FormatConverter converter, Panel parent, Canvas canvas,
-			MathFieldListener listener, boolean directFormulaBuilder,
-			FocusHandler fh) {
+			MathFieldListener listener, boolean directFormulaBuilder) {
 
 		this.converter = converter;
 
@@ -188,8 +181,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 			}
 		}, MouseDownEvent.getType());
-
-		this.focusHandler = fh;
 
 		setKeyListener(inputTextArea, keyListener);
 	}
@@ -689,11 +680,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private void setFocus(boolean focus, final Runnable callback) {
 		if (focus) {
 			startBlink();
-			if (focusHandler != null) {
-				focusHandler.onFocus(new FocusEvent() {
-					// send non-null event here so that it's logged
-				});
-			}
 			focuser = new Timer() {
 
 				@Override
@@ -736,9 +722,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		// first focus canvas to get the scrolling right
 		html.getElement().focus();
 
-		if (focusHandler != null) {
-			focusHandler.onFocus(null);
-		}
 		// after set focus to the keyboard listening element
 		focusTextArea();
 		onTextfieldBlur = oldBlur;

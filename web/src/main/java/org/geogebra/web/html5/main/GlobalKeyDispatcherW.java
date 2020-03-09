@@ -17,8 +17,6 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.util.CopyPasteW;
 
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyEvent;
@@ -40,8 +38,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
-
-	private boolean inFocus = false;
 
 	/**
 	 * @return whether ctrl is pressed
@@ -109,7 +105,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					event.stopPropagation();
 				}
 
-				if (Browser.isiOS() && isControlKeyDown(event) && inFocus) {
+				if (Browser.isiOS() && isControlKeyDown(event)) {
 					handleIosKeyboard((char) event.getCharCode());
 					event.preventDefault();
 					event.stopPropagation();
@@ -134,7 +130,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 							((AppW) app).getAppletFrame().getLastElement().focus();
 						}
 					});
-					setFocused(false);
 				}
 			}
 		}
@@ -144,24 +139,16 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		return new GlobalShortcutHandler();
 	}
 
-
-	public void setFocused(boolean focus) {
-		Log.debug("Focused: " + focus);
-		inFocus = focus;
-	}
-
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		setDownKeys(event);
-		event.stopPropagation();
-		if (inFocus) {
-			KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeEvent()
-					.getKeyCode());
-			// Do not prevent default for the v key, otherwise paste events are not fired
-			if (kc != KeyCodes.TAB && event.getCharCode() != 'v'
-					&& event.getCharCode() != 'c' && event.getCharCode() != 'x') {
-				event.preventDefault();
-			}
+		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeEvent()
+				.getKeyCode());
+		// Do not prevent default for the v key, otherwise paste events are not fired
+		if (kc != KeyCodes.TAB && event.getCharCode() != 'v'
+				&& event.getCharCode() != 'c' && event.getCharCode() != 'x') {
+			event.preventDefault();
+			event.stopPropagation();
 		}
 		// this needs to be done in onKeyPress -- keyUp is not case sensitive
 		if (!event.isAltKeyDown() && !event.isControlKeyDown() && !app.has(Feature.MOW_TEXT_TOOL)) {
@@ -172,11 +159,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
-		if (inFocus) {
-			event.preventDefault();
-		}
-
-		event.stopPropagation();
 		handleGeneralKeys(event);
 	}
 
@@ -221,7 +203,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public void onKeyDown(KeyDownEvent event) {
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		setDownKeys(event);
-		event.stopPropagation();
 
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
@@ -231,9 +212,10 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		        event.isShiftKeyDown(), event.isControlKeyDown(),
 		        event.isAltKeyDown(), false);
 
-		if (inFocus && preventBrowserCtrl(kc, event.isShiftKeyDown())
+		if (preventBrowserCtrl(kc, event.isShiftKeyDown())
 				&& event.isControlKeyDown()) {
 			event.preventDefault();
+			event.stopPropagation();
 		}
 	}
 
@@ -323,19 +305,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public static boolean isBadKeyEvent(KeyEvent<? extends EventHandler> e) {
 		return e.isAltKeyDown() && !e.isControlKeyDown()
 				&& e.getNativeEvent().getCharCode() > 128;
-	}
-
-	/**
-	 * @return new focus handler that unblocks keyboard features in this applet
-	 */
-	public FocusHandler getFocusHandler() {
-		return new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
-				GlobalKeyDispatcherW.this.setFocused(true);
-
-			}
-		};
 	}
 
 	@Override

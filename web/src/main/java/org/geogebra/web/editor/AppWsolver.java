@@ -115,12 +115,10 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
     @Override
     public void focusLost(View v, Element el) {
-        this.getGlobalKeyDispatcher().setFocused(false);
     }
 
     @Override
     public void focusGained(View v, Element el) {
-	    this.getGlobalKeyDispatcher().setFocused(true);
     }
 
     @Override

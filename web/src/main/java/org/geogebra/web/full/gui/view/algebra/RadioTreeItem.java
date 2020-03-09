@@ -1667,9 +1667,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		FactoryProvider.setInstance(new FactoryProviderGWT());
 
 		mf = new MathFieldW(new FormatConverterImpl(kernel), latexItem, canvas,
-				getLatexController(),
-				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
-				app.getGlobalKeyDispatcher().getFocusHandler());
+				getLatexController(), app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		TestHarness.setAttr(mf.getInputTextArea(), "avInputTextArea");
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");
@@ -1976,7 +1974,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		inputControl.hideInputMoreButton();
 		prepareEdit(text);
 		getMathField().requestViewFocus();
-		app.getGlobalKeyDispatcher().setFocused(true);
 		// canvas.addBlurHandler(getLatexController());
 		CancelEventTimer.keyboardSetVisible();
 		ClickStartHandler.init(main, new ClickStartHandler(false, false) {

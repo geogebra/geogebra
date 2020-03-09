@@ -22,8 +22,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
@@ -38,7 +36,7 @@ import com.himamis.retex.editor.web.MathFieldW;
  * @author Laszlo
  */
 public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
-		ClickListener, BlurHandler, FocusHandler {
+		ClickListener, BlurHandler {
 
 	private static final int PADDING_LEFT = 2;
 	private static final int PADDING_TOP = 8;
@@ -75,9 +73,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
 		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
-				canvas, listener,
-				directFormulaConversion,
-				this);
+				canvas, listener, directFormulaConversion);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setClickListener(this);
 		mathField.setOnBlur(this);
@@ -119,7 +115,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * Focus the editor
 	 */
 	public void requestFocus() {
-		app.getGlobalKeyDispatcher().setFocused(true);
 		mathField.requestViewFocus(new Runnable() {
 			@Override
 			public void run() {
@@ -284,13 +279,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	public void updateAriaLabel() {
 		String fullDescription = label + " " + mathField.getDescription();
 		mathField.setAriaLabel(fullDescription.trim());
-	}
-
-	@Override
-	public void onFocus(FocusEvent event) {
-		if (event != null) {
-			ScreenReader.debug(mathField.getAriaLabel());
-		}
 	}
 
 	/**
