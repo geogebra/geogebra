@@ -10,8 +10,8 @@ HTML=html/all.html
 TEX=html/all.tex
 CSV=none
 # Don't use this, it is just an example:
-# COLUMNS="Recio PureSymbolic Botana,D BotanaGiac,D,p2 OpenGeoProver_Wu,p2 OpenGeoProver_Area Auto Web"
-COLUMNS="Recio Botana Botana,D BotanaGiac BotanaGiac,D OpenGeoProver_Wu OpenGeoProver_Wu,D OpenGeoProver_Area Auto Auto,D Web Web,D"
+# MYCOLUMNS="Recio PureSymbolic Botana,D BotanaGiac,D,p2 OpenGeoProver_Wu,p2 OpenGeoProver_Area Auto Web"
+MYCOLUMNS="Recio Botana Botana,D BotanaGiac BotanaGiac,D OpenGeoProver_Wu OpenGeoProver_Wu,D OpenGeoProver_Area Auto Auto,D Web Web,D"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
 GEOGEBRAWEB_URL1=https://www.geogebra.org/classic/?filename=https://dev.geogebra.org/trac/export
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/prover
@@ -49,7 +49,7 @@ usage() {
  echo "   -b <number>  use build number instead of the latest one for all columns"
  echo "   -o <file>    set name for output .html file ($HTML)"
  echo "   -T <file>    set name for output .tex file ($TEX)"
- echo "   -c <list>    space separated list of prover engines to show as columns ($COLUMNS)"
+ echo "   -c <list>    space separated list of prover engines to show as columns ($MYCOLUMNS)"
  echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
  echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
  echo "   -e           add introduction and use engine numbers in table headers"
@@ -94,19 +94,19 @@ while getopts "t:H:o:P:T:c:d:b:S:NeDGhv" OPT; do
    CSV="$OPTARG"
    ;;
   c)
-   COLUMNS="$OPTARG"
+   MYCOLUMNS="$OPTARG"
    ;;
   S)
    case "$OPTARG" in
     jar-paper)
-     COLUMNS="Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto"
+     MYCOLUMNS="Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto"
      USEENGINES=1
      ;;
     giac-test)
-     COLUMNS="Botana BotanaGiac"
+     MYCOLUMNS="Botana BotanaGiac"
      ;;
     ndg)
-     COLUMNS="Botana BotanaGiac OpenGeoProver_Wu Auto"
+     MYCOLUMNS="Botana BotanaGiac OpenGeoProver_Wu Auto"
      PROVEDETAILS=1
      ;;
    esac # -S
@@ -143,7 +143,7 @@ if [ "$BUILD_NUMBER" = "" ]; then
  BUILD_NUMBER=`sqlite3 sqlite3db "select max(build_number) from builds"`
  fi
 
-COLUMNSNO=`echo $COLUMNS | wc -w`
+COLUMNSNO=`echo $MYCOLUMNS | wc -w`
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
 mkdir -p $MYDIR/tmp $MYDIR/html
@@ -196,7 +196,7 @@ if [ "$CSV" != none ]; then
  echo -n $CSV_HEADER > $MYDIR/$CSV
  fi
 
-for c in $COLUMNS; do
+for c in $MYCOLUMNS; do
  j=`echo $c | cut -f1 -d,`
  r=`echo $c | cut -s -f2- -d,`
 
@@ -248,7 +248,7 @@ declare -A COL_R
 echo "library(sm); data = NULL; group = NULL;" > $R_PROG
 
 # Creating column header related data
-for c in $COLUMNS; do
+for c in $MYCOLUMNS; do
  rm -f tmp/rinput-$c
  echo "<th>Result</th><th>Speed</th>" >> $MYDIR/$HTML
  echo "&R.&S." >> $MYDIR/$TEX
@@ -328,7 +328,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
 
  # First run: collecting data for a row
  cn=0
- for c in $COLUMNS; do
+ for c in $MYCOLUMNS; do
   cn=$((cn+1))
   j=${COL_J[$cn]}
   ndg=${COL_NDG[$cn]}
@@ -464,7 +464,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
 
  # Second run: summarizing data in a row and generating HTML/LaTeX/R output
  cn=0
- for c in $COLUMNS; do
+ for c in $MYCOLUMNS; do
   cn=$((cn+1))
   j=${COL_J[$cn]}
   ndg=${COL_NDG[$cn]}
@@ -537,7 +537,7 @@ R_YMAX=`echo "scale=3; $COLUMNSNO/$ALLGOOD_NO" | bc -q` # FIXME
 R_XMAX=$((ALLGOOD_MEAN*2))
 
 cn=0
-for c in $COLUMNS; do
+for c in $MYCOLUMNS; do
  cn=$((cn+1))
  j=`echo $c | cut -f1 -d,`
  VALUE=${CORRECT[$cn]}

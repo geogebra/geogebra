@@ -10,7 +10,7 @@ HTML=html/all.html
 TEX=html/all.tex
 CSV=none
 # Don't use this, it is just an example:
-COLUMNS="DesktopInternal DesktopGrobcov Web Node Wasm"
+MYCOLUMNS="DesktopInternal DesktopGrobcov Web Node Wasm"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/art-plotter
 GEOGEBRAWEB_URL1=http://www.autgeo.online/geogebra-discovery/?filename=https://dev.geogebra.org/trac/export
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter
@@ -29,7 +29,7 @@ usage() {
  echo "   -b <number>  use build number instead of the latest one for all columns"
  echo "   -o <file>    set name for output .html file ($HTML)"
  echo "   -T <file>    set name for output .tex file ($TEX)"
- echo "   -c <list>    space separated list of prover engines to show as columns ($COLUMNS)"
+ echo "   -c <list>    space separated list of prover engines to show as columns ($MYCOLUMNS)"
  echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
  echo "   -d <length>  use dots in test names in LaTeX output if the name is longer than length ($DOTS)"
  echo "   -N           do not use nice HTML output (similarly to LaTeX)"
@@ -62,7 +62,7 @@ while getopts "H:o:T:c:g:d:b:Nhv" OPT; do
    TEX="$OPTARG"
    ;;
   c)
-   COLUMNS="$OPTARG"
+   MYCOLUMNS="$OPTARG"
    ;;
   g)
    TESTGGBURLBASE_GGBDIR="$OPTARG"
@@ -87,7 +87,7 @@ if [ "$BUILD_NUMBER" = "" ]; then
  BUILD_NUMBER=`sqlite3 sqlite3db "select max(build_number) from builds"`
  fi
 
-COLUMNSNO=`echo $COLUMNS | wc -w`
+COLUMNSNO=`echo $MYCOLUMNS | wc -w`
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
 mkdir -p $MYDIR/tmp $MYDIR/html
@@ -124,7 +124,7 @@ echo "\begin{longtable}{|l|*{$COLUMNSNO}{${RESULTCOLUMN}r|}}
 \hline
 {\multirow{2}{*}{\bf Test}}" >> $MYDIR/$TEX
 
-for c in $COLUMNS; do
+for c in $MYCOLUMNS; do
  j=`echo $c | cut -f1 -d,`
  r=`echo $c | cut -s -f2- -d,`
 
@@ -148,7 +148,7 @@ declare -A COL_J
 declare -A COL_R
 
 # Creating column header related data
-for c in $COLUMNS; do
+for c in $MYCOLUMNS; do
  echo "<th>deg</th><th>FPS</th>" >> $MYDIR/$HTML
  echo "&deg&FPS" >> $MYDIR/$TEX
  cn=$((cn+1))
@@ -206,7 +206,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
 
  # First run: collecting data for a row
  cn=0
- for c in $COLUMNS; do
+ for c in $MYCOLUMNS; do
   cn=$((cn+1))
   j=${COL_J[$cn]}
   build_number=${COL_BUILD_NUMBER[$cn]}
@@ -308,7 +308,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
 
  # Second run: summarizing data in a row and generating HTML/LaTeX/R output
  cn=0
- for c in $COLUMNS; do
+ for c in $MYCOLUMNS; do
   cn=$((cn+1))
   j=${COL_J[$cn]}
 
@@ -368,7 +368,7 @@ echo "{\bf Total (of $TESTS)}" >> $MYDIR/$TEX
 ALLGOOD_MEAN=$((ALLGOOD_SUM/ALLGOOD_NO))
 
 cn=0
-for c in $COLUMNS; do
+for c in $MYCOLUMNS; do
  cn=$((cn+1))
  j=`echo $c | cut -f1 -d,`
  VALUE=${CORRECT[$cn]}

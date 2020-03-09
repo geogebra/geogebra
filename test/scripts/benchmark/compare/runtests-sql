@@ -128,10 +128,15 @@ grep " VERSION_STRING =" | awk '{print $7}' | sed s/\"//g | sed s/";"//`
 DATE=`date "+%Y-%m-%d %H:%M"`
 HOST=`hostname`
 HWINFO=`which hwinfo 2>&1 >/dev/null`
-if [ "$HWINFO" = "" ]; then
- INFO=`lshw -quiet -class processor 2>/dev/null | grep product | cut -d: -f2`
+LSB_VERSION=`lsb_release -i | cut -f 2`
+if [ "$LSB_VERSION" = "Raspbian" ] ; then
+ INFO=`cat /sys/firmware/devicetree/base/model`
 else
- INFO=`hwinfo --short --cpu 2>&1 | grep CPU`
+ if [ "$HWINFO" = "" ]; then
+  INFO=`lshw -quiet -class processor 2>/dev/null | grep product | cut -d: -f2`
+ else
+  INFO=`hwinfo --short --cpu 2>&1 | grep CPU`
+  fi
  fi
 
 machine="$HOST, $INFO"
@@ -197,7 +202,7 @@ for i in `find -name '*.ggb' | sort`; do
    cat $MYDIR/$i | base64 -w0 >> $JSFILE
    echo "\";" >> $JSFILE
    echo "var html5codeBase = 'file://$ABSWEBDIR';" >> $JSFILE
-   timeout $((TIMEOUT+0)) $PHANTOMJS $MYDIR/testurl.js "file:///$MYDIR/jstest.html" $TIMEOUT > $MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+   timeout $((TIMEOUT)) $PHANTOMJS $MYDIR/testurl.js "file:///$MYDIR/jstest.html" $TIMEOUT > $MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
    RETVAL=$?
    cat $MYDIR/tmp/.test.stdout | grep Benchmarking > $LOGFILE
    grep --silent "COMPARISON RESULT IS " $MYDIR/tmp/.test.stdout && \

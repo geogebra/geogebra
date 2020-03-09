@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Test desktop version.
+
+set -e
+./runtests-sql -p "Auto" -d -t 10
+./report-sql -c "Auto"
+sensible-browser html/all.html &
