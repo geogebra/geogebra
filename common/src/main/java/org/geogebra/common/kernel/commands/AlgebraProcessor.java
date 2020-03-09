@@ -103,6 +103,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.kernel.parser.TokenMgrError;
+import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -555,6 +556,7 @@ public class AlgebraProcessor {
 				n.setForcePoint();
 			} else if (geo.isGeoVector()) {
 				n.setForceVector();
+                updatePrintingMode(n);
 			} else if (geo.isGeoFunction()) {
 				n.setForceFunction();
 			}
@@ -1864,35 +1866,56 @@ public class AlgebraProcessor {
 	public GeoElement[] processValidExpression(ValidExpression ve,
 			EvalInfo info) throws MyError, Exception {
 
+		ValidExpression expression = ve;
 		// check for existing labels
-		String[] labels = ve.getLabels();
+		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
 
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (replaceable != null) {
-			cons.setSuppressLabelCreation(true);
-		}
+            cons.setSuppressLabelCreation(true);
+			if (replaceable.isGeoVector()) {
+				expression = getTraversedCopy(labels, expression);
+			}
+        }
 
 		// we have to make sure that the macro mode is
 		// set back at the end
 		try {
-			ret = doProcessValidExpression(ve, info);
+			ret = doProcessValidExpression(expression, info);
 
 			if (ret == null) { // eg (1,2,3) running in 2D
-				if (isFreehandFunction(ve)) {
-					return kernel.lookupLabel(ve.getLabel()).asArray();
+				if (isFreehandFunction(expression)) {
+					return kernel.lookupLabel(expression.getLabel()).asArray();
 				}
 				throw new MyError(loc,
-						loc.getInvalidInputError() + ":\n" + ve);
+						loc.getInvalidInputError() + ":\n" + expression);
 			}
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		processReplace(replaceable, ret, ve, info);
+		processReplace(replaceable, ret, expression, info);
 
 		return ret;
+	}
+
+	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
+		boolean isForceVector = expression.wrap().isForcedVector();
+		boolean isForcePoint = expression.wrap().isForcedPoint();
+		ValidExpression copy = expression.deepCopy(kernel);
+		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
+		copy.setLabels(labels);
+
+		if (isForceVector) {
+			copy.wrap().setForceVector();
+		}
+		if (isForcePoint) {
+			copy.wrap().setForcePoint();
+		}
+
+		return copy;
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
@@ -2060,7 +2083,14 @@ public class AlgebraProcessor {
 		if (type.equals(GeoClass.NUMERIC) && type2.equals(GeoClass.ANGLE)) {
 			return true;
 		}
-		return false;
+        if (type2.equals(GeoClass.LIST) && type.equals(GeoClass.VECTOR)) {
+            return true;
+        }
+        if (type.equals(GeoClass.LIST) && type2.equals(GeoClass.VECTOR)) {
+            return true;
+        }
+
+        return false;
 	}
 
 	/**
@@ -3384,8 +3414,17 @@ public class AlgebraProcessor {
 			vector.updateRepaint();
 		}
 		ret[0] = vector;
+
+        updatePrintingMode(n);
 		return ret;
 	}
+
+    protected void updatePrintingMode(ExpressionNode node) {
+        ExpressionValue expression = node.unwrap();
+        if (expression instanceof PrintableVector && node.isForcedVector()) {
+            ((PrintableVector) expression).setVectorPrintingMode();
+        }
+    }
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,
 			ExpressionValue y) {

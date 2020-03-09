@@ -733,7 +733,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public String getDefinitionForInputBar() {
-		return getNameAndDefinition();
+        return getDefinitionForInputBar(StringTemplate.editorTemplate);
 	}
 
 	/**
@@ -747,7 +747,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return definition for LaTeX editor
 	 */
 	public String getDefinitionForEditor() {
-		return getNameAndDefinition();
+        return getDefinitionForInputBar(StringTemplate.editorTemplate);
 	}
 
 	/**
