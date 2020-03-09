@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.TextObject;
@@ -11,20 +12,31 @@ import org.geogebra.common.util.TextObject;
  *
  */
 public interface SaveController {
+
+	/**
+	 * Replace current material with one of the appropriate type
+	 */
+	void ensureTypeOtherThan(Material.MaterialType type);
+
+	/**
+	 * @param saveCallback callback, gets a flag depending on whether material was saved or not
+	 */
+	void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback);
+
 	/**
 	 * Listener interface to communicate with caller GUI.
 	 * 
 	 * @author laszlo
 	 *
 	 */
-	public interface SaveListener {
+	interface SaveListener {
 		/**
 		 * Hides listener GUI
 		 * (dialog)
 		 */
 		void hide();
 	}
-	
+
 	/**
 	 * Save material with a given name.
 	 * 
@@ -74,6 +86,16 @@ public interface SaveController {
 	void setSaveType(MaterialType saveType);
 
 	/**
+	 * @return type of material it should be saved (e.g. ggb/ggs/ggsTemplate)
+	 */
+	MaterialType getSaveType();
+
+	/**
+	 * @return true if the material is saved as template
+	 */
+	boolean savedAsTemplate();
+
+	/**
 	 * Sets the callback that needs to be run after saving material.
 	 * 
 	 * @param runAfterSave
@@ -96,5 +118,5 @@ public interface SaveController {
 	 *            fallback if title is empty
 	 * @return whether selection is needed
 	 */
-	public boolean updateSaveTitle(TextObject title, String fallback);
+	boolean updateSaveTitle(TextObject title, String fallback);
 }

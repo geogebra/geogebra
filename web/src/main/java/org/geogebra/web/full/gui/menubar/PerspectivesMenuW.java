@@ -6,7 +6,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -56,8 +55,7 @@ public class PerspectivesMenuW extends Submenu {
 
 							@Override
 							public void doExecute() {
-								((DialogManagerW) app.getDialogManager()).getSaveDialog()
-										.showIfNeeded(getExamCallback());
+								app.getSaveController().showDialogIfNeeded(getExamCallback());
 							}
 						});
 			}
