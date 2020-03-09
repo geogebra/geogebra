@@ -111,6 +111,21 @@ public class AlgoCompare extends AlgoElement {
     StringTemplate portableFormat = StringTemplate.casCopyTemplate;
     StringTemplate fancyFormat = StringTemplate.algebraTemplate;
 
+    private double startTime;
+    private String retval = "";
+
+    private void debugElapsedTime() {
+        int elapsedTime = (int) (UtilFactory.getPrototype().getMillisecondTime()
+                - startTime);
+
+        /*
+         * Don't remove this. It is needed for automated testing. (String match
+         * is assumed.)
+         */
+        Log.debug("Benchmarking: " + elapsedTime + " ms");
+        Log.debug("COMPARISON RESULT IS " + retval);
+    }
+
     @Override
     public final void compute() {
 
@@ -156,6 +171,9 @@ public class AlgoCompare extends AlgoElement {
             return;
         }
         cachedEqualityStatement = currentEqualityStatement;
+
+        // Adding benchmarking:
+        startTime = UtilFactory.getPrototype().getMillisecondTime();
 
         if (inputElement1 instanceof GeoSegment) {
             lhs_var = (processSegment((GeoSegment) inputElement1)).getName();
@@ -279,7 +297,7 @@ public class AlgoCompare extends AlgoElement {
                 if (!elimSol.equals("?") && !elimSol.equals("{}")) {
                     elimSol = elimSol.substring(1, elimSol.length() - 1);
                     String[] cases = elimSol.split(",");
-                    String retval = "";
+                    retval = "";
                     for (String result : cases) {
                         if (!"".equals(retval)) {
                             retval += " " + or + " ";
@@ -289,6 +307,7 @@ public class AlgoCompare extends AlgoElement {
                         retval += inp2 + " = " + result + " " + Unicode.CENTER_DOT + " " + inp1;
                     }
                     outputText.setTextString(retval);
+                    debugElapsedTime();
                     return;
                 }
                 // The result is not just a number. (Or a set of numbers.)
@@ -302,6 +321,7 @@ public class AlgoCompare extends AlgoElement {
             // outputText.setTextString("RealGeomWS is not available");
             Log.debug("RealGeomWS is not available");
             outputText.setTextString("");
+            debugElapsedTime();
             return;
         }
 
@@ -328,7 +348,7 @@ public class AlgoCompare extends AlgoElement {
 
         String[] cases = rgResult.split("\\|\\|");
 
-        String retval = "";
+        retval = "";
 
         for (String result : cases) {
 
@@ -387,6 +407,7 @@ public class AlgoCompare extends AlgoElement {
             retval += result;
         }
 
+        debugElapsedTime();
         outputText.setTextString(retval);
 
         aae.remove();
