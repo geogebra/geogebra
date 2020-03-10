@@ -331,7 +331,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			public ExpressionValue process(ExpressionValue ev) {
 				if (ev instanceof GeoSymbolic) {
 					GeoSymbolic symbolic = (GeoSymbolic) ev;
-					return symbolic.getValue();
+					ExpressionValue value = symbolic.getValue().deepCopy(kernel);
+					return value.traverse(this);
 				} else if (ev instanceof GeoDummyVariable) {
 					GeoDummyVariable variable = (GeoDummyVariable) ev;
 					return new Variable(variable.getKernel(), variable.getVarName());
