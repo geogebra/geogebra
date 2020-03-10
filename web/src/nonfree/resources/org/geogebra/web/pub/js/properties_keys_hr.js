@@ -1691,7 +1691,7 @@ __GGB__keysVar["hr"].menu = {
     "DontDeleteTool": "Ne bri\u0161i alat",
     "DontOverwrite": "Nemoj prebrisati",
     "DontRecordToSpreadsheet": "Ne spremaj u tablicu",
-    "DontSave": "Ne spremaj",
+    "DontSave": "Nemoj spremiti",
     "DotPlot": "To\u010dkasti dijagram",
     "DoubleClickToOpen": "Dvostruki klik otvara prozor programa",
     "DoubleLine": "Dvostruki pravac",
