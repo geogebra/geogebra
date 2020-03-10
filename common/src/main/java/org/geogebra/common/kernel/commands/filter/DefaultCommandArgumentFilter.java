@@ -3,9 +3,8 @@ package org.geogebra.common.kernel.commands.filter;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.main.MyError;
 
-public class DefaultCommandArgumentFilter implements CommandArgumentFilter {
+public abstract class DefaultCommandArgumentFilter implements CommandArgumentFilter {
 
     private Commands[] commands;
 
@@ -27,10 +26,5 @@ public class DefaultCommandArgumentFilter implements CommandArgumentFilter {
 
     static boolean isCommand(Command command, Commands cmdName) {
         return cmdName.name().equals(command.getName());
-    }
-
-    @Override
-    public void checkAllowed(Command command, CommandProcessor commandProcessor) throws MyError {
-
     }
 }
