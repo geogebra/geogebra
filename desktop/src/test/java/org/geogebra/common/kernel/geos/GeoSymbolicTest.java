@@ -19,6 +19,7 @@ import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.TestErrorHandler;
@@ -936,8 +937,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testCreationWithLabel() {
-		GeoElementND[] processResult = add("v=(1,1)");
-		GeoSymbolic vector = (GeoSymbolic) processResult[0];
+		GeoSymbolic vector = add("v=(1,1)");
 		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
 	}
 }
