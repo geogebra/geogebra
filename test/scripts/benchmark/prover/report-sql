@@ -309,7 +309,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   fi
 
  if [ `expr ${#TEST} '>' $DOTS` = 1 ]; then
-  TEST=${TEST:0:10}\$\\ldots\$${TEST:(-2)}
+  TEST=${TEST:0:${DOTS}}\$\\ldots\$${TEST:(-2)}
   fi
  echo "\cellcolor{blue!10}$TEST " | sed s/".ggb"// >> $MYDIR/$TEX
 
