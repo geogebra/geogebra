@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.commands;
 
-import com.sun.tools.javac.util.Assert;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
