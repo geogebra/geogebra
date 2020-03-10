@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -297,21 +298,22 @@ public class PenSubMenu extends SubMenuPanel {
 			return;
 		}
 
-		for (MOWToolbarColor color : colorMap.keySet()) {
-			if (color.getGColor().equals(selectedColor)) {
-				getPenGeo().setObjColor(color.getGColor());
+		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
+			if (colorBtnPair.getKey().getGColor().equals(selectedColor)) {
+				getPenGeo().setObjColor(colorBtnPair.getKey().getGColor());
 				if (colorsEnabled) {
-					colorMap.get(color).addStyleName("mowColorButton-selected");
+					colorBtnPair.getValue().addStyleName("mowColorButton-selected");
 					if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
 						getPenGeo().setLineOpacity(
 								EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
-						getSettings().setLastSelectedHighlighterColor(color.getGColor());
+						getSettings().setLastSelectedHighlighterColor(colorBtnPair.getKey()
+								.getGColor());
 					} else {
-						getSettings().setLastSelectedPenColor(color.getGColor());
+						getSettings().setLastSelectedPenColor(colorBtnPair.getKey().getGColor());
 					}
 				}
 			} else {
-				colorMap.get(color).removeStyleName("mowColorButton-selected");
+				colorBtnPair.getValue().removeStyleName("mowColorButton-selected");
 			}
 		}
 		updatePreview();
@@ -324,21 +326,23 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	private void setColorsEnabled(boolean enable) {
-		for (MOWToolbarColor color : colorMap.keySet()) {
+		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
 			if (enable) {
-				colorMap.get(color).removeStyleName("disabled");
+				colorBtnPair.getValue().removeStyleName("disabled");
 				if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
-					if (color.getGColor() == getSettings().getLastSelectedHighlighterColor()) {
-						colorMap.get(color).addStyleName("mowColorButton-selected");
+					if (colorBtnPair.getKey().getGColor() == getSettings()
+							.getLastSelectedHighlighterColor()) {
+						colorBtnPair.getValue().addStyleName("mowColorButton-selected");
 					}
 				} else if (app.getMode() == EuclidianConstants.MODE_PEN) {
-					if (color.getGColor() == getSettings().getLastSelectedPenColor()) {
-						colorMap.get(color).addStyleName("mowColorButton-selected");
+					if (colorBtnPair.getKey().getGColor() == getSettings()
+							.getLastSelectedPenColor()) {
+						colorBtnPair.getValue().addStyleName("mowColorButton-selected");
 					}
 				}
 			} else {
-				colorMap.get(color).addStyleName("disabled");
-				colorMap.get(color).removeStyleName("mowColorButton-selected");
+				colorBtnPair.getValue().addStyleName("disabled");
+				colorBtnPair.getValue().removeStyleName("mowColorButton-selected");
 			}
 		}
 		if (enable) {
@@ -464,9 +468,9 @@ public class PenSubMenu extends SubMenuPanel {
 		select.setLabel();
 		eraser.setLabel();
 		highlighter.setLabel();
-		for (MOWToolbarColor color : colorMap.keySet()) {
-			AriaHelper.setLabel(colorMap.get(color),
-					app.getLocalization().getMenu(color.getGgbTransKey()));
+		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
+			AriaHelper.setLabel(colorBtnPair.getValue(),
+					app.getLocalization().getMenu(colorBtnPair.getKey().getGgbTransKey()));
 		}
 		AriaHelper.setLabel(btnCustomColor, app.getLocalization().getMenu("ToolbarColor"
 				+ ".MoreColors"));

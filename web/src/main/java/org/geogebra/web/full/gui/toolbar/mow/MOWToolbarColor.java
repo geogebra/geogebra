@@ -20,7 +20,7 @@ public enum MOWToolbarColor {
 	MOWToolbarColor(GColor color, String ggbTransKey) {
 		this.color = color;
 		this.ggbTransKey = ggbTransKey;
-	};
+	}
 
 	private static GColor getGColFromHex(int colorHexCode) {
 		return GColor.newColorRGB(colorHexCode);
