@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
@@ -24,7 +25,6 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -504,7 +504,7 @@ public abstract class ContextMenuGeoElement {
 	 * Toggle tracing
 	 */
 	public void traceCmd() {
-		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+		getActiveEuclidianController().splitSelectedStrokes(true);
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 		// if there is at least 1 geo, which has no trace, all geo will have
 		// trace, otherwise, if all geo has trace, tracing will be set to false
@@ -722,7 +722,7 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void cutCmd() {
 		ensureGeoInSelection();
-		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+		getActiveEuclidianController().splitSelectedStrokes(true);
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos());
 		app.getActiveEuclidianView().setBoundingBox(null);
@@ -734,9 +734,9 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void duplicateCmd() {
 		ensureGeoInSelection();
-		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
+		getActiveEuclidianController().splitSelectedStrokes(false);
 		app.getCopyPaste().duplicate(app, app.getSelectionManager().getSelectedGeos());
-		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
+		getActiveEuclidianController().removeSplitParts();
 	}
 
 	/**
@@ -747,12 +747,16 @@ public abstract class ContextMenuGeoElement {
 		ArrayList<GeoElement> selection
 				= new ArrayList<>(app.getSelectionManager().getSelectedGeos());
 
-		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(false);
+		getActiveEuclidianController().splitSelectedStrokes(false);
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos());
-		app.getActiveEuclidianView().getEuclidianController().removeSplitParts();
+		getActiveEuclidianController().removeSplitParts();
 
 		app.getSelectionManager().setSelectedGeos(selection);
+	}
+
+	protected EuclidianController getActiveEuclidianController() {
+		return app.getActiveEuclidianView().getEuclidianController();
 	}
 
 	/**
@@ -770,15 +774,15 @@ public abstract class ContextMenuGeoElement {
 	public boolean needsInputFormItem(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)) {
 			if (geo.isGeoLine()) {
-				return ((GeoLine) geo)
+				return geo
 						.getToStringMode() != GeoLine.EQUATION_USER;
 			}
 			if (geo.isGeoPlane()) {
-				return ((GeoPlaneND) geo)
+				return geo
 						.getToStringMode() != GeoLine.EQUATION_USER;
 			}
 			if (geo.isGeoConic() || geo.isGeoQuadric()) {
-				return ((GeoQuadricND) geo)
+				return geo
 						.getToStringMode() != GeoConicND.EQUATION_USER;
 			}
 			if (geo instanceof GeoImplicit) {
