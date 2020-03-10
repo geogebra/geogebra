@@ -536,6 +536,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private DrawBackground drawBg = null;
 	private final HitDetector hitDetector;
 	private boolean isResetIconSelected = false;
+	private BoundingBox<? extends GShape> focusBoundingBox;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -1903,13 +1904,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				this.updateBackgroundOnNextRepaint = ((DrawImage) d)
 						.checkInBackground()
 						|| this.updateBackgroundOnNextRepaint;
-				return;
-			}
-			if (!needsSynchUpdate(geo, d.isTracing())) {
+			} else if (!needsSynchUpdate(geo, d.isTracing())) {
 				d.setNeedsUpdate(true);
-				return;
+			} else {
+				d.update();
 			}
-			d.update();
+			if (geo == app.getSelectionManager().getFocusedGroupElement()){
+				this.focusBoundingBox.setRectangle(d.getBoundsForStylebarPosition());
+			}
 		} else if (drawableNeeded(geo) && geosWaiting.contains(geo)) {
 			geosWaiting.remove(geo);
 			add(geo);
@@ -2839,6 +2841,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void setBoundingBox(BoundingBox<? extends GShape> boundingBox) {
 		this.boundingBox = boundingBox;
+	}
+
+	/**
+	 * Reset bounding box for both selection and focused selection.
+	 */
+	public void resetBoundingBox() {
+		this.focusBoundingBox = null;
+		this.boundingBox = null;
+	}
+
+	/**
+	 * @param boundingBox
+	 *            - bounding box for focused selection
+	 */
+	public void setFocusBoundingBox(BoundingBox<? extends GShape> boundingBox) {
+		this.focusBoundingBox = boundingBox;
 	}
 
 	/**
@@ -6625,5 +6643,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				((DrawInlineText) dr).remove();
 			}
 		}
+	}
+
+	public BoundingBox<? extends GShape> getFocusBoundingBox() {
+		return this.focusBoundingBox;
 	}
 }

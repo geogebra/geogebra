@@ -273,20 +273,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 		// MODE_MOVE case: load activeGeoList with all selected geos
 		// -----------------------------------------------------
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
-
-			boolean hasGeosInThisView = false;
 			SelectionManager selection = ev.getApplication()
 					.getSelectionManager();
-			hasGeosInThisView = hasVisibleGeos(selection.getSelectedGeos());
-			if (!hasGeosInThisView) {
-				for (GeoElement geo : ec.getJustCreatedGeos()) {
-					if (isVisibleInThisView(geo) && geo.isEuclidianVisible()) {
-						hasGeosInThisView = true;
-						break;
-					}
-				}
-			}
-			if (hasGeosInThisView) {
+
+			if (selection.getFocusedGroupElement() != null) {
+				activeGeoList.add(selection.getFocusedGroupElement());
+			} else if (hasVisibleGeos(selection.getSelectedGeos()) || hasVisibleGeos(ec.getJustCreatedGeos())) {
 				activeGeoList = selection.getSelectedGeos();
 				// we also update stylebars according to just created geos
 				activeGeoList.addAll(ec.getJustCreatedGeos());

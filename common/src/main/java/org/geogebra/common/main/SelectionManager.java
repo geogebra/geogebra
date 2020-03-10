@@ -88,6 +88,7 @@ public class SelectionManager {
 	private boolean geoToggled = false;
 
 	private ArrayList<GeoElement> tempMoveGeoList;
+	private GeoElement focusedGroupElement;
 
 	/**
 	 * @param kernel
@@ -170,6 +171,7 @@ public class SelectionManager {
 	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
 		int size = selectedGeos.size();
 		if (size > 0) {
+			focusedGroupElement = null;
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = selectedGeos.get(i);
 				boolean oldSelected = geo.isSelected();
@@ -1302,5 +1304,17 @@ public class SelectionManager {
 		for (GeoElement geo: group.getGroupedGeos()) {
 			toggleSelectedGeo(geo, true);
 		}
+	}
+
+	/**
+	 * @param geo single selection within group
+	 */
+	public void setFocusedGroupElement(GeoElement geo) {
+		this.focusedGroupElement = geo;
+		updateSelection();
+	}
+
+	public GeoElement getFocusedGroupElement(){
+		return focusedGroupElement;
 	}
 }

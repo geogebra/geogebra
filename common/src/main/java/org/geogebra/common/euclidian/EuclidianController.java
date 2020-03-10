@@ -3572,7 +3572,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private void clearSelectionsKeepLists(boolean repaint,
 			boolean updateSelection) {
-		view.setBoundingBox(null);
+		view.resetBoundingBox();
 		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
 
@@ -8308,7 +8308,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// preview shape for mow text tool
 		if (mode == EuclidianConstants.MODE_MEDIA_TEXT) {
-			view.setBoundingBox(null);
+			view.resetBoundingBox();
 			updateTextRectangle(event);
 			view.setShapeRectangle(textRectangleShape);
 			view.repaintView();
@@ -10172,9 +10172,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							&& lastSelectionToolGeoToRemove != null) {
 						selection.clearSelectedGeos(false, false);
 						selection.addSelectedGeoWithGroup(lastSelectionToolGeoToRemove);
-						view.setBoundingBox(((Drawable) view
-								.getDrawableFor(lastSelectionToolGeoToRemove))
-								.getBoundingBox());
+						if (lastSelectionToolGeoToRemove.hasGroup()) {
+							selection.setFocusedGroupElement(lastSelectionToolGeoToRemove);
+							SingleBoundingBox bb = new SingleBoundingBox();
+							view.setFocusBoundingBox(bb);
+							view.update(lastSelectionToolGeoToRemove);
+						}
+						//view.setBoundingBox(((Drawable) view
+						//		.getDrawableFor(lastSelectionToolGeoToRemove))
+						//		.getBoundingBox());
 						view.repaintView();
 						lastSelectionToolGeoToRemove = null;
 					}
