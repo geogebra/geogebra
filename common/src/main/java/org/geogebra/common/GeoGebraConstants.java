@@ -169,6 +169,11 @@ public interface GeoGebraConstants {
 	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0"
 			+ "\\thirdparty\\update";
 
+	/** http prefix */
+	public static final String HTTP = "http://";
+	/** https prefix */
+	public static final String HTTPS = "https://";
+
 	/** GeoGebra URL */
 	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
 	/** 4.2 desktop bug reports */

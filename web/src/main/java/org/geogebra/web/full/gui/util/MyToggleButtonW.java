@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,6 +13,8 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
+
+import java.util.List;
 
 /**
  * Extends GWT ToggleButton to support tooltips and Icon image data.
@@ -121,9 +124,9 @@ public class MyToggleButtonW extends GToggleButton
 	 * (e.g. visibility) based on a given array of GeoElements.
 	 * 
 	 * @param geos
-	 *            Array of GeoElements
+	 *            List of active GeoElements
 	 */
-	public void update(Object[] geos) {
+	public void update(List<GeoElement> geos) {
 		// do nothing
 	}
 
@@ -200,7 +203,6 @@ public class MyToggleButtonW extends GToggleButton
 		if (ignoreTab) {
 			setTabIndex(-1);
 		}
-
 	}
 
 	/**

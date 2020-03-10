@@ -21,6 +21,7 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
@@ -52,7 +53,6 @@ class TextOptionsPanelD extends JPanel
 	private JToggleButton btBold, btItalic;
 
 	private JPanel secondLine;
-	private boolean secondLineVisible = false;
 	private TextEditPanel editPanel;
 
 	public TextOptionsPanelD(PropertiesPanelD propertiesPanelD) {
@@ -104,7 +104,6 @@ class TextOptionsPanelD extends JPanel
 		setLayout(new BorderLayout(5, 5));
 		add(firstLine, BorderLayout.NORTH);
 		add(secondLine, BorderLayout.SOUTH);
-		secondLineVisible = true;
 	}
 
 	public void setEditPanel(TextEditPanel tep) {
@@ -133,15 +132,6 @@ class TextOptionsPanelD extends JPanel
 		btBold.setText(loc.getMenu("Bold").substring(0, 1));
 
 		decimalLabel.setText(loc.getMenu("Rounding") + ":");
-	}
-
-	@Override
-	public void setFontSizeVisibleOnly() {
-		cbSize.setVisible(true);
-		cbFont.setVisible(false);
-		btBold.setVisible(false);
-		btItalic.setVisible(false);
-		secondLine.setVisible(false);
 	}
 
 	static class ComboBoxRenderer extends JLabel implements ListCellRenderer {
@@ -237,8 +227,10 @@ class TextOptionsPanelD extends JPanel
 			model.applyFont(cbFont.getSelectedIndex() == 1);
 		} else if (source == cbDecimalPlaces) {
 			model.applyDecimalPlaces(cbDecimalPlaces.getSelectedIndex());
-		} else if (source == btBold || source == btItalic) {
-			model.applyFontStyle(btBold.isSelected(), btItalic.isSelected());
+		} else if (source == btBold)  {
+			model.applyFontStyle(GFont.BOLD, btBold.isSelected());
+		} else if (source == btItalic)  {
+			model.applyFontStyle(GFont.ITALIC, btItalic.isSelected());
 		}
 	}
 
@@ -270,34 +262,23 @@ class TextOptionsPanelD extends JPanel
 	}
 
 	@Override
-	public void setWidgetsVisible(boolean showFontDetails, boolean isButton) {
-		// hide most options for Textfields
-		cbFont.setVisible(showFontDetails);
-		btBold.setVisible(showFontDetails);
-		btItalic.setVisible(showFontDetails);
-		secondLine.setVisible(showFontDetails);
-		secondLineVisible = showFontDetails;
-
-		if (isButton) {
-			secondLine.setVisible(!showFontDetails);
-			secondLineVisible = !showFontDetails;
-		}
-
-		// removed, stops lists being set to Serif / Sans Serif
-		// cbFont.setVisible(model.isTextEditable());
-
+	public void updateWidgetVisibility() {
+		secondLine.setVisible(model.hasRounding());
+		// editPanel includes LaTeX toggle and OK + Cancel buttons
+		editPanel.setVisible(model.isTextEditable());
+		cbFont.setVisible(model.hasFontStyle());
+		btBold.setVisible(model.hasFontStyle());
+		btItalic.setVisible(model.hasFontStyle());
 	}
 
 	@Override
 	public void selectSize(int index) {
 		cbSize.setSelectedIndex(index);
-
 	}
 
 	@Override
 	public void selectFont(int index) {
 		cbFont.setSelectedIndex(index);
-
 	}
 
 	@Override
@@ -306,24 +287,7 @@ class TextOptionsPanelD extends JPanel
 	}
 
 	@Override
-	public void setSecondLineVisible(boolean noDecimals) {
-		if (noDecimals) {
-
-			if (secondLineVisible) {
-				secondLineVisible = false;
-			}
-		} else {
-			if (!secondLineVisible) {
-				secondLineVisible = true;
-			}
-
-			secondLine.setVisible(secondLineVisible);
-		}
-
-	}
-
-	@Override
-	public void updatePreview() {
+	public void updatePreviewPanel() {
 		if (this.propertiesPanelD.getTextPanel() != null) {
 			this.propertiesPanelD.getTextPanel().td.handleDocumentEvent();
 		}
@@ -341,18 +305,10 @@ class TextOptionsPanelD extends JPanel
 	@Override
 	public void setEditorText(ArrayList<DynamicTextElement> list) {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setEditorText(String text) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void reinitEditor() {
 		// only called in Web
-
 	}
 }

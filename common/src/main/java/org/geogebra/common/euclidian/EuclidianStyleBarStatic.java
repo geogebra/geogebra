@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -21,10 +22,10 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -368,21 +369,17 @@ public class EuclidianStyleBarStatic {
 	 *            geos
 	 * @return true if "label style" button applies on all geos
 	 */
-	final static public GeoElement checkGeosForCaptionStyle(Object[] geos,
-			int mode, App app) {
-		if (geos.length <= 0) {
+	public static GeoElement checkGeosForCaptionStyle(List<GeoElement> geos) {
+		if (geos.size() <= 0) {
 			return null;
 		}
 
-		GeoElement geo = null;
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement current = (GeoElement) geos[i];
+		for (GeoElement current : geos) {
 			if (current.isLabelShowable()
 					|| current.isGeoAngle()
 					|| (current.isGeoNumeric() && ((GeoNumeric) current)
-							.isSliderFixed())) {
-				geo = (GeoElement) geos[i];
-				return geo;
+					.isSliderFixed())) {
+				return current;
 			}
 		}
 
@@ -480,43 +477,32 @@ public class EuclidianStyleBarStatic {
 	 *            color
 	 * @param alpha
 	 *            opacity
-	 * @param app
-	 *            application
 	 * @return success
 	 */
-	public static boolean applyColor(GColor color,	double alpha, App app) {
+	public static boolean applyColor(GColor color, double alpha, App app) {
 		boolean needUndo = false;
 		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		List<GeoElement> geos = app.getSelectionManager().getSelectedGeos();
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			// apply object color to all other geos except images or text
-			// removed: see MOW-441
-			// if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoText))
-			// {
+			// apply object color to all other geos except images
+			// (includes texts since MOW-441)
 			if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
 				geo.setAlphaValue(alpha);
-			} else if ((geo.getObjectColor() != color
-					|| geo.getAlphaValue() != alpha
-					|| geo instanceof GeoPolyLine && geo.getKernel()
-							.getApplication()
-							.getMode() == EuclidianConstants.MODE_PEN)) {
+			} else if (geo.getObjectColor() != color
+					|| geo.getAlphaValue() != alpha) {
 				geo.setObjColor(color);
 				// if we change alpha for functions, hit won't work properly
 				if (geo.isFillable()) {
 					geo.setAlphaValue(alpha);
 				}
-				if (geo instanceof GeoPolyLine
-						&& geo.getKernel().getApplication()
-								.getMode() == EuclidianConstants.MODE_PEN) {
-					geo.setLineOpacity((int) Math.round(alpha * 255));
-				}
 			}
 			geo.updateVisualStyle(GProperty.COLOR);
 			needUndo = true;
 		}
-		// }
-		app.getKernel().notifyRepaint();
+		if (!geos.isEmpty()) {
+			geos.get(0).getKernel().notifyRepaint();
+		}
 		return needUndo;
 	}
 
@@ -537,36 +523,15 @@ public class EuclidianStyleBarStatic {
 			GeoElement geo = geos.get(i);
 
 			// if text geo, then apply background color
-			if (geo instanceof TextProperties) {
+			if (geo instanceof TextStyle) {
 				if (geo.getBackgroundColor() != color
 						|| geo.getAlphaValue() != alpha) {
-					geo.setBackgroundColor(color == null ? null : color);
+					geo.setBackgroundColor(color);
 					// TODO apply background alpha
 					// --------
 					geo.updateVisualStyleRepaint(GProperty.COLOR_BG);
 					needUndo = true;
 				}
-			}
-		}
-		return needUndo;
-	}
-
-	/**
-	 * @param geos
-	 *            elements
-	 * @param color
-	 *            text color
-	 * @return success
-	 */
-	public static boolean applyTextColor(List<GeoElement> geos, GColor color) {
-		boolean needUndo = false;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo.getGeoElementForPropertiesDialog() instanceof TextProperties
-					&& geo.getObjectColor() != color) {
-				geo.setObjColor(color);
-				geo.updateVisualStyleRepaint(GProperty.COLOR);
-				needUndo = true;
 			}
 		}
 		return needUndo;
@@ -582,15 +547,16 @@ public class EuclidianStyleBarStatic {
 	 * @return success
 	 */
 	public static boolean applyFontStyle(ArrayList<GeoElement> geos, int mask,
-			int add) {
+			boolean add) {
 		boolean needUndo = false;
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof TextProperties) {
 				TextProperties text = ((TextProperties) geo);
-				int newStyle = (text.getFontStyle() & mask) | add;
-				if (text.getFontStyle() != newStyle) {
+				int oldStyle = text.getFontStyle();
+				int newStyle = add ? (oldStyle | mask) : (oldStyle & ~mask);
+				if (oldStyle != newStyle) {
 					text.setFontStyle(newStyle);
 					text.updateVisualStyleRepaint(GProperty.FONT);
 					needUndo = true;
@@ -598,6 +564,20 @@ public class EuclidianStyleBarStatic {
 			}
 		}
 		return needUndo;
+	}
+
+	/**
+	 * @param geos geos
+	 * @return intersection of font styles of all the geos
+	 */
+	public static int getFontStyle(List<GeoElement> geos) {
+		int style = GFont.ITALIC | GFont.BOLD | GFont.UNDERLINE;
+		for (GeoElement geo : geos) {
+			if (geo.getGeoElementForPropertiesDialog() instanceof TextStyle) {
+				style &= ((TextStyle) geo.getGeoElementForPropertiesDialog()).getFontStyle();
+			}
+		}
+		return style;
 	}
 
 	/**
@@ -701,24 +681,24 @@ public class EuclidianStyleBarStatic {
 	 *            current app mode
 	 * @return table text
 	 */
-	public static AlgoTableText updateTableText(Object[] geos, int mode) {
+	public static AlgoTableText updateTableText(List<GeoElement> geos, int mode) {
 		AlgoTableText tableText = null;
-		if (geos == null || geos.length == 0 || EuclidianView.isPenMode(mode)) {
+		if (geos == null || geos.size() == 0 || EuclidianView.isPenMode(mode)) {
 			return tableText;
 		}
 
 		boolean geosOK = true;
 		AlgoElement algo;
 
-		for (int i = 0; i < geos.length; i++) {
-			algo = ((GeoElement) geos[i]).getParentAlgorithm();
+		for (int i = 0; i < geos.size(); i++) {
+			algo = geos.get(i).getParentAlgorithm();
 			if (!(algo instanceof AlgoTableText)) {
 				geosOK = false;
 			}
 		}
 
-		if (geosOK && geos[0] != null) {
-			algo = ((GeoElement) geos[0]).getParentAlgorithm();
+		if (geosOK && geos.get(0) != null) {
+			algo = geos.get(0).getParentAlgorithm();
 			tableText = (AlgoTableText) algo;
 		}
 
@@ -864,14 +844,12 @@ public class EuclidianStyleBarStatic {
 	 *            geos
 	 * @return true if "fix position" button applies on all geos
 	 */
-	final static public boolean checkGeosForFixPosition(Object[] geos) {
-		if (geos.length <= 0) {
+	public static boolean checkGeosForFixPosition(List<GeoElement> geos) {
+		if (geos.size() <= 0) {
 			return false;
 		}
 
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-
+		for (GeoElement geo : geos) {
 			if (!geo.isPinnable()) {
 				return false;
 			}
@@ -895,13 +873,12 @@ public class EuclidianStyleBarStatic {
 	 *            geos
 	 * @return true if "fix object" button applies on all geos
 	 */
-	final static public boolean checkGeosForFixObject(Object[] geos) {
-		if (geos.length <= 0) {
+	public static boolean checkGeosForFixObject(List<GeoElement> geos) {
+		if (geos.size() <= 0) {
 			return false;
 		}
 
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
+		for (GeoElement geo : geos) {
 			if (!geo.isFixable()) {
 				return false;
 			}
@@ -916,13 +893,12 @@ public class EuclidianStyleBarStatic {
 	 *            geos
 	 * @return true if "angle interval" button applies on all geos
 	 */
-	final static public GeoElement checkGeosForAngleInterval(Object[] geos) {
-		if (geos.length <= 0) {
+	public static GeoElement checkGeosForAngleInterval(List<GeoElement> geos) {
+		if (geos.size() <= 0) {
 			return null;
 		}
 
-		for (int i = 0; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
+		for (GeoElement geo : geos) {
 			if ((geo.isDefaultGeo() || !geo.isIndependent())
 					&& (geo instanceof AngleProperties) && !geo.isGeoList()
 					|| OptionsModel.isAngleList(geo)) {
@@ -947,12 +923,7 @@ public class EuclidianStyleBarStatic {
 			return locateable.isAbsoluteScreenLocActive();
 		}
 
-		if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView) {
-			return true;
-		}
-
-		return false;
-
+		return geo.getParentAlgorithm() instanceof AlgoAttachCopyToView;
 	}
 
 	/**

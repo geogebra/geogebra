@@ -35,7 +35,7 @@ public class AudioInputDialog extends MediaDialog {
 	protected void processInput() {
 		if (appW.getGuiManager() != null) {
 			String url = getUrlWithProtocol();
-			inputField.getTextComponent().setText(url);
+			mediaInputPanel.inputField.getTextComponent().setText(url);
 			app.getSoundManager().checkURL(url, new AsyncOperation<Boolean>() {
 
 				@Override
@@ -43,7 +43,7 @@ public class AudioInputDialog extends MediaDialog {
 					if (ok) {
 						addAudio();
 					} else {
-						showError("InvalidInput");
+						mediaInputPanel.showError("InvalidInput");
 					}
 				}
 			});
@@ -54,8 +54,8 @@ public class AudioInputDialog extends MediaDialog {
 	 * Adds the GeoAudio instance.
 	 */
 	void addAudio() {
-		resetError();
-		GeoElement audio = new MediaFactory(appW).addAudio(inputField.getText());
+		mediaInputPanel.resetError();
+		GeoElement audio = new MediaFactory(appW).addAudio(mediaInputPanel.getInput());
 		hide();
 		onMediaElementCreated(audio);
 	}

@@ -270,9 +270,7 @@ public class ToolbarMow extends FlowPanel
 		}
 		EuclidianController ec = appW.getActiveEuclidianView().getEuclidianController();
 		ec.widgetsToBackground();
-		if (ec.getTextController() != null) {
-			ec.getTextController().reset();
-		}
+
 		if (pageControlPanel == null) {
 			pageControlPanel = ((AppWFull) appW).getAppletFrame()
 					.getPageControlPanel();
