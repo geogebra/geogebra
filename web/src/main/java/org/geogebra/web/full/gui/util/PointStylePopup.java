@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -8,6 +9,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
@@ -107,8 +109,8 @@ public class PointStylePopup extends PopupMenuButtonW
 	}
 
 	@Override
-	public void update(Object[] geos) {
-		updatePanel(geos);
+	public void update(List<GeoElement> geos) {
+		updatePanel(geos.toArray());
 	}
 
 	@Override

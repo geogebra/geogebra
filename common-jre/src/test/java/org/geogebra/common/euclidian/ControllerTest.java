@@ -5,13 +5,16 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.test.TestEvent;
 import org.geogebra.test.TestStringUtil;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -779,6 +782,34 @@ public class ControllerTest extends BaseControllerTest {
 	@Test
 	public void cameraTool() {
 		setMode(EuclidianConstants.MODE_CAMERA); // TODO 118
+	}
+
+	@Test
+	public void inlineTextTool() {
+		setMode(EuclidianConstants.MODE_MEDIA_TEXT);
+		click(30, 40);
+		setMode(EuclidianConstants.MODE_MEDIA_TEXT);
+		dragStart(70, 80);
+		dragEnd(140, 220);
+		events.clear();
+
+		checkContent("a", "b");
+
+		Construction cons = getApp().getKernel().getConstruction();
+		GeoInlineText a = (GeoInlineText) cons.lookupLabel("a");
+		GeoInlineText b = (GeoInlineText) cons.lookupLabel("b");
+
+		Assert.assertEquals(a.getLocation().getX(), 0.6, Kernel.MAX_PRECISION);
+		Assert.assertEquals(a.getLocation().getY(), -0.8, Kernel.MAX_PRECISION);
+
+		Assert.assertEquals(b.getLocation().getX(), 1.4, Kernel.MAX_PRECISION);
+		Assert.assertEquals(b.getLocation().getY(), -1.6, Kernel.MAX_PRECISION);
+
+		Assert.assertEquals(100, a.getWidth(), Kernel.MAX_PRECISION);
+		Assert.assertEquals(30, a.getHeight(), Kernel.MAX_PRECISION);
+
+		Assert.assertEquals(100, b.getWidth(), Kernel.MAX_PRECISION);
+		Assert.assertEquals(140, b.getHeight(), Kernel.MAX_PRECISION);
 	}
 
 	@Override

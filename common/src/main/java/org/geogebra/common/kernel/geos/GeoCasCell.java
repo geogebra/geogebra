@@ -3595,11 +3595,6 @@ public class GeoCasCell extends GeoElement
 	}
 
 	@Override
-	public boolean justFontSize() {
-		return false;
-	}
-
-	@Override
 	public boolean isLaTeXTextCommand() {
 		return false;
 	}

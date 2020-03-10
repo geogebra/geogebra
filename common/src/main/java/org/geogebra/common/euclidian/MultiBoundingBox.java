@@ -6,7 +6,7 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.factories.AwtFactory;
 
 public class MultiBoundingBox extends BoundingBox<GEllipse2DDouble> {
-	private static final int ROTATION_HANDLER_DISTANCE = 25;
+
 	private final boolean hasRotationHandler;
 
 	public MultiBoundingBox(boolean hasRotationHandler) {

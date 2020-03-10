@@ -188,11 +188,6 @@ public class GeoButton extends GeoWidget
 	}
 
 	@Override
-	public boolean justFontSize() {
-		return true;
-	}
-
-	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 

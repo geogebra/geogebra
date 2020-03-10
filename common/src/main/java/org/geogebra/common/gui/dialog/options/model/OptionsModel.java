@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
@@ -59,17 +61,6 @@ public abstract class OptionsModel {
 		return geosOK;
 	}
 
-	public boolean hasPreview() {
-		boolean geosOK = true;
-		for (int i = 0; i < getGeosLength(); i++) {
-			if (!getGeoAt(i).isGeoText()) {
-				geosOK = false;
-				break;
-			}
-		}
-		return geosOK;
-	}
-
 	/**
 	 * Used for displaying angle properties only, if elements of a list are
 	 ** angles
@@ -98,5 +89,17 @@ public abstract class OptionsModel {
 			app.getKernel().getConstruction().getUndoManager()
 					.storeUndoInfo(false);
 		}
+	}
+
+	/**
+	 * @return list of geos
+	 */
+	public ArrayList<GeoElement> getGeosAsList() {
+		int size = getGeosLength();
+		ArrayList<GeoElement> geoList = new ArrayList<>();
+		for (int i = 0; i < size; i++) {
+			geoList.add(getGeoAt(i));
+		}
+		return geoList;
 	}
 }

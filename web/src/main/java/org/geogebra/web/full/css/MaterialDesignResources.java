@@ -27,6 +27,9 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	SVGResource arrow_drop_down();
 
 	// dynamic stylebar
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_color_reset-24px.svg")
+	SVGResource no_color();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/baseline-format_color_text-24px.svg")
 	SVGResource text_color();
 
@@ -50,6 +53,10 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_italic_black_24px.svg")
 	SVGResource text_italic_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_underlined-24px"
+			+ ".svg")
+	SVGResource text_underline_black();
 
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")
@@ -129,6 +136,18 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_sort_black_24px.svg")
 	SVGResource sort_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/format_subscript.svg")
+	SVGResource format_subscript();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/format_superscript.svg")
+	SVGResource format_superscript();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/format_list_bulleted-24px.svg")
+	SVGResource bulletList();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/format_list_numbered-24px.svg")
+	SVGResource numberedList();
 
 	// LINES
 
