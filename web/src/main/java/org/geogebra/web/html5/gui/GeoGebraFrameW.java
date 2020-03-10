@@ -101,8 +101,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	protected void tackleLastDummy(Element element) {
 		if (!Browser.needsAccessibilityView()) {
-			lastDummy = DOM.createElement("a").cast();
-			lastDummy.setHref("#");
+			lastDummy = DOM.createSpan().cast();
+			lastDummy.setTabIndex(0);
 			lastDummy.addClassName("geogebraweb-dummy-invisible");
 			element.appendChild(lastDummy);
 		}
@@ -474,28 +474,22 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * Splash screen callback
 	 */
 	public void runAsyncAfterSplash() {
-		final GeoGebraFrameW inst = this;
-
-		// GWT.runAsync(new RunAsyncCallback() {
-
-		// public void onSuccess() {
-		ResourcesInjector
-				.injectResources(articleElement);
+		ResourcesInjector.injectResources(articleElement);
 		ResourcesInjector.loadFont(articleElement.getDataParamFontsCssUrl());
-		// More testing is needed how can we use
-		// createApplicationSimple effectively
-		// if (articleElement.getDataParamGuiOff())
-		// inst.app = inst.createApplicationSimple(articleElement, inst);
-		// else
-		inst.app = inst.createApplication(articleElement, this.laf);
-		inst.app.setCustomToolBar();
+
+		app = createApplication(articleElement, this.laf);
+		app.setCustomToolBar();
+
+		Event.sinkEvents(articleElement.getElement(), Event.ONKEYPRESS | Event.ONKEYDOWN);
+		Event.setEventListener(articleElement.getElement(),
+				app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
 
 		if (app.isPerspectivesPopupVisible()) {
 			app.showPerspectivesPopup();
 		}
 		// need to call setLabels here
 		// to print DockPanels' titles
-		inst.app.setLabels();
+		app.setLabels();
 		fitSizeToScreen();
 	}
 

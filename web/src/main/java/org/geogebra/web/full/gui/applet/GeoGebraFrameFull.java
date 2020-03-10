@@ -126,9 +126,6 @@ public class GeoGebraFrameFull
 			CopyPasteW.installCutCopyPaste(application, getElement());
 		}
 
-		Event.sinkEvents(article.getElement(), Event.ONKEYPRESS | Event.ONKEYDOWN);
-		Event.setEventListener(article.getElement(), app.getGlobalKeyDispatcher().getGlobalShortcutHandler());
-
 		if (app != null) {
 			kbButtonSpace.addStyleName("kbButtonSpace");
 			this.add(kbButtonSpace);
