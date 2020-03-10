@@ -1,7 +1,8 @@
-package org.geogebra.web.full.gui.layout;
+package org.geogebra.web.html5.gui.accessibility;
+
+import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.dom.client.Element;
-import org.geogebra.web.html5.Browser;
 
 /**
  * 
