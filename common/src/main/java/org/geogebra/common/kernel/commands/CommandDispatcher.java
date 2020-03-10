@@ -208,9 +208,7 @@ public abstract class CommandDispatcher {
 	private void checkAllowedByArgumentFilter(Command command,
 			CommandProcessor commandProcessor) throws MyError {
 		for (CommandArgumentFilter filter : commandArgumentFilters) {
-			if (filter != null) {
-				filter.checkAllowed(command, commandProcessor);
-			}
+			filter.checkAllowed(command, commandProcessor);
 		}
 	}
 

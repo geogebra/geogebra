@@ -5,12 +5,16 @@ import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 
-public class GraphingCommandArgumentFilter implements CommandArgumentFilter {
+public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter {
+
+    public GraphingCommandArgumentFilter() {
+        super(Commands.Line);
+    }
+
     @Override
     public void checkAllowed(Command command,
                              CommandProcessor commandProcessor) {
-        boolean line = isCommand(command, Commands.Line);
-        if (!line || commandProcessor == null) {
+        if (!check(command, commandProcessor)) {
             return;
         }
         GeoElement[] arguments = commandProcessor.resArgs(command);
@@ -19,14 +23,10 @@ public class GraphingCommandArgumentFilter implements CommandArgumentFilter {
         }
         GeoElement firstArgument = arguments[0];
         GeoElement secondArgument = arguments[1];
-        Boolean secArgIsLineOrFunction =
+        boolean secArgIsLineOrFunction =
                 secondArgument.isGeoLine() || secondArgument.isGeoFunction();
         if (firstArgument.isGeoPoint() && secArgIsLineOrFunction) {
             throw commandProcessor.argErr(command, secondArgument);
         }
-    }
-
-    private static boolean isCommand(Command command, Commands cmdName) {
-        return cmdName.name().equals(command.getName());
     }
 }

@@ -6,7 +6,7 @@ import org.junit.Test;
 public class GraphingCommandArgumentFilterTest extends BaseUnitTest {
 
     @Test(expected = NullPointerException.class)
-    public void parallelLineWithPointandLine() {
+    public void testParallelLineWithPointAndLineIsFiltered() {
        getApp().setGraphingConfig();
        addAvInput("A = (1,1)");
        addAvInput("B = (2,2)");
@@ -16,7 +16,7 @@ public class GraphingCommandArgumentFilterTest extends BaseUnitTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void parallelLineWithPointandFunction() {
+    public void testParallelLineWithPointAndFunctionIsFiltered() {
         getApp().setGraphingConfig();
         addAvInput("A = (1,2)");
         addAvInput("f(x) = x");

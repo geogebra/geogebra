@@ -612,8 +612,6 @@ public class ExamEnvironment {
 	 * the CommandDispatcher
 	 */
 	private void disableExamCommandFilter() {
-		CommandDispatcher commandDispatcher =
-				app.getKernel().getAlgebraProcessor().getCommandDispatcher();
 		commandDispatcher.removeCommandArgumentFilter(examCommandFilter);
 	}
 
