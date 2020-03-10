@@ -485,13 +485,11 @@ public class EuclidianStyleBarStatic {
 	 *            opacity
 	 * @return success
 	 */
-	public static boolean applyColor(GColor color,	double alpha, App app, List<GeoElement> geos) {
+	public static boolean applyColor(GColor color, double alpha, App app, List<GeoElement> geos) {
 		boolean needUndo = false;
 		for (GeoElement geo : splitStrokes(geos, app)) {
-			// apply object color to all other geos except images or text
-			// removed: see MOW-441
-			// if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoText))
-			// {
+			// apply object color to all other geos except images
+			// (includes texts since MOW-441)
 			if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
 				geo.setAlphaValue(alpha);
 			} else if (geo.getObjectColor() != color

@@ -595,28 +595,20 @@ public class EuclidianStyleBarD extends JToolBar
 					if (geo.getMinimumLineThickness() == 1) {
 						maxMinimumThickness = 1;
 					}
-
-					if (geo.getMinimumLineThickness() == 1) {
-						maxMinimumThickness = 1;
-					}
 				}
 
 				this.setVisible(geosOK);
 
 				if (geosOK) {
-					// setFgColor(((GeoElement)geos[0]).getObjectColor());
+					removeThisActionListenerTo(this);
+					setFgColor(GColor.BLACK);
+					getMySlider().setMinimum(maxMinimumThickness);
+					setSliderValue(
+							((GeoElement) geos.get(0)).getLineThickness());
 
-
-						removeThisActionListenerTo(this);
-						setFgColor(GColor.BLACK);
-						getMySlider().setMinimum(maxMinimumThickness);
-						setSliderValue(
-								((GeoElement) geos.get(0)).getLineThickness());
-
-						setSelectedIndex(lineStyleMap
-								.get(((GeoElement) geos.get(0)).getLineType()));
-						addThisActionListenerTo(this);
-
+					setSelectedIndex(lineStyleMap
+							.get(((GeoElement) geos.get(0)).getLineType()));
+					addThisActionListenerTo(this);
 					this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 				}
 			}

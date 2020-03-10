@@ -75,11 +75,11 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	 * @param targetGeos
 	 *            The geos color needs to be set.
 	 */
-	protected void openColorChooser(ArrayList<GeoElement> targetGeos) {
+	protected void openColorChooser(ArrayList<GeoElement> targetGeos, boolean background) {
 		if (app.isWhiteboardActive()) {
-			openColorDialogForWhiteboard(targetGeos, false);
+			openColorDialogForWhiteboard(targetGeos, background);
 		} else {
-			openPropertiesForColor(false);
+			openPropertiesForColor(background);
 		}
 	}
 
@@ -97,7 +97,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
-				openColorChooser(targetGeos);
+				openColorChooser(targetGeos, false);
 			} else {
 				double alpha = btnColor.getSliderValue() / 100.0;
 				needUndo = EuclidianStyleBarStatic.applyColor(color,
