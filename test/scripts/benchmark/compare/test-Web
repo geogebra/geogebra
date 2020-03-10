@@ -8,4 +8,4 @@
 set -e
 ./runtests-sql -p Web -d
 ./report-sql -c Web
-google-chrome html/all.html &
+sensible-browser html/all.html &
