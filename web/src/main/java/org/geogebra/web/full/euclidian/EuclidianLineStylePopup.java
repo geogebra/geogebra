@@ -11,6 +11,8 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 
+import java.util.List;
+
 /**
  * Line style popup
  */
@@ -43,8 +45,8 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 	}
 
 	@Override
-	public void update(Object[] geos) {
-		updatePanel(geos);
+	public void update(List<GeoElement> geos) {
+		updatePanel(geos.toArray());
 	}
 
 	@Override

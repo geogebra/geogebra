@@ -754,8 +754,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')'
 				|| ch == ']')) {
-			// super.keyTyped(e);
-			Log.debug("super.keyTyped needed in AutocompleteTextField");
 			return;
 		}
 		clearSelection();
@@ -1485,11 +1483,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			return;
 		}
 		Dom.toggleClass(this, "SymbolCanBeShown", show);
-	}
-
-	@Override
-	public void setFocus(boolean focus, boolean sv) {
-		setFocus(focus);
 	}
 
 	@Override

@@ -41,7 +41,17 @@ public class JSONParserGGT {
 		Material.MaterialType type = MaterialType.ggb;
 		if (getString(obj, "type").length() > 0) {
 			try {
-				type = MaterialType.valueOf(getString(obj, "type"));
+				switch (getString(obj, "type")) {
+					case "ggs-template" :
+					    type = MaterialType.ggsTemplate;
+					    break;
+					case "notes-template" :
+					    type = MaterialType.notesTemplate;
+					    break;
+					default:
+					    type = MaterialType.valueOf(getString(obj, "type"));
+					    break;
+				}
 			} catch (Throwable t) {
 				Log.error("Unknown material type:" + getString(obj, "type"));
 			}
@@ -100,6 +110,7 @@ public class JSONParserGGT {
 		material.setInstructionsPost(getString(obj, "instructions_post"));
 		material.setInstructionsPre(getString(obj, "instructions_pre"));
 		material.setShowToolbar(getBoolean(obj, "toolbar", false));
+		material.setAllowStylebar(getBoolean(obj, "stylebar", false));
 		material.setShowMenu(getBoolean(obj, "menubar", false));
 		material.setShowInputbar(getBoolean(obj, "inputbar", false));
 		material.setFavorite(getBoolean(obj, "favorite", false));

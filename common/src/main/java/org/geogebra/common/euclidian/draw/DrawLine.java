@@ -104,7 +104,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	private GeoPointND startPoint;
 	private GeoPointND previewPoint2;
 
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private GPoint2D endPoint = new GPoint2D();
 	private final Coords coordsForMousePos = new Coords(4);
 
 	// clipping attributes

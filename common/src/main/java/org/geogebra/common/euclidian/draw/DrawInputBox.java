@@ -120,13 +120,18 @@ public class DrawInputBox extends CanvasDrawable {
 			// make sure (expensive) update doesn't happen unless needed
 			// also caused problems when Object Properties opened
 			if (!getTextField().getText().equals(initialText)) {
-				getGeoInputBox().textObjectUpdated(getTextField());
-				getGeoInputBox().textSubmitted();
+				updateModel();
 				draw(getView().getGraphicsForPen());
 			}
 
 			view.getViewTextField().setBoxVisible(false);
 		}
+	}
+
+	private void updateModel() {
+		GeoInputBox inputBox = getGeoInputBox();
+		inputBox.textObjectUpdated(getTextField());
+		inputBox.textSubmitted();
 	}
 
 	/**

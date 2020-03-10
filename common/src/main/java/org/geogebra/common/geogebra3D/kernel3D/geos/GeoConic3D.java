@@ -210,11 +210,6 @@ public class GeoConic3D extends GeoConicND
 	}
 
 	@Override
-	public boolean hasValueStringChangeableRegardingView() {
-		return true;
-	}
-
-	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 
 		return buildParametricValueString(tpl, 3);

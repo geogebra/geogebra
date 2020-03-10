@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.MaskWidgetList;
-import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
@@ -39,6 +38,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
@@ -86,6 +86,7 @@ import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -451,8 +452,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void updateKeyboard() {
-
-		getGuiManager().focusScheduled(false, false, false);
 		invokeLater(new Runnable() {
 
 			@Override
@@ -464,7 +463,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 				if (listener != null) {
 					// dp.getKeyboardListener().setFocus(true);
 					listener.ensureEditing();
-					listener.setFocus(true, true);
+					listener.setFocus(true);
 					if (isKeyboardNeeded() && (getExam() == null
 							|| getExam().getStart() > 0)) {
 						getAppletFrame().showKeyBoard(true, listener, true);
@@ -554,8 +553,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void checkSaved(AsyncOperation<Boolean> runnable) {
-		getDialogManager().getSaveDialog()
-				.showIfNeeded(runnable);
+		getSaveController().showDialogIfNeeded(runnable);
 	}
 
 	@Override
@@ -570,7 +568,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void focusGained(View v, Element el) {
-		super.focusGained(v, el);
 		if (getGuiManager() != null) {
 			// somehow the panel was not activated in case focus gain
 			// so it is good to do here, unless it makes an
@@ -669,8 +666,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		resetPenTool();
 
-		resetTextTool();
-
 		resetToolbarPanel();
 
 		if (getGuiManager() != null) {
@@ -682,17 +677,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						.getUnbundledToolbar() != null) {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
-		}
-	}
-
-	private void resetTextTool() {
-		if (!has(Feature.MOW_TEXT_TOOL)) {
-			return;
-		}
-
-		TextController ctrl = getEuclidianController().getTextController();
-		if (ctrl != null) {
-			ctrl.reset();
 		}
 	}
 
@@ -716,11 +700,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!isWhiteboardActive()) {
 			return;
 		}
-		setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
-		getEuclidianController().getPen().defaultPenLine
-				.setLineThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
 		getActiveEuclidianView().getSettings()
-				.setDeleteToolSize(EuclidianConstants.DEFAULT_ERASER_SIZE);
+				.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+		setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 	}
 
 	/**
@@ -754,10 +736,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final void examWelcome() {
 		if (isExam() && getExam().getStart() < 0) {
-			this.closePerspectivesPopup();
-
 			resetViewsEnabled();
-
 			new ExamDialog(this).show();
 		}
 	}
@@ -1035,13 +1014,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 		}
 		removeSplash();
-	}
-
-	@Override
-	public final void closePerspectivesPopup() {
-		if (this.perspectivesPopup != null) {
-			// getPerspectivesPopup().closePerspectivesPopup();
-		}
 	}
 
 	@Override
@@ -1465,10 +1437,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			frame.attachToolbar(this);
 		}
 
-		// we do not need keyboard in whiteboard
-		if (!isWhiteboardActive()) {
-			frame.attachKeyboardButton();
-		}
 		frame.attachGlass();
 	}
 
@@ -1560,14 +1528,14 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void onUnhandledClick() {
 		updateAVStylebar();
-		if (euclidianController.isSymbolicEditorSelected()) {
-			return;
-		}
 
 		if (!isWhiteboardActive() && !CancelEventTimer.cancelKeyboardHide()) {
 			Timer timer = new Timer() {
 				@Override
 				public void run() {
+					if (getGuiManager().getKeyboardListener() != null) {
+						getGuiManager().getKeyboardListener().setFocus(false);
+					}
 					getAppletFrame().keyBoardNeeded(false, null);
 				}
 			};
@@ -1584,7 +1552,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			}
 		}
 
-		closePerspectivesPopup();
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
@@ -1692,11 +1659,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			adjustViews(false, false);
 		}
 		kernel.notifyScreenChanged();
-		resetPenTool();
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
-		resetTextTool();
 	}
 
 	private void updatePerspective(Perspective p) {
@@ -1756,7 +1721,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void focusLost(View v, Element el) {
-		super.focusLost(v, el);
 		if (v != focusedView) {
 			return;
 		}
@@ -2047,7 +2011,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					appName == null ? "" : appName);
 			String appCode = getConfig().getAppCode();
 
-			if ("classic".equals(appName) || StringUtil.empty(appName)) {
+			boolean isClassic = "classic".equals(appName) || StringUtil.empty(appName);
+			if (isClassic && !isApplet()) {
 				removeHeader();
 			}
 
@@ -2169,13 +2134,20 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
+	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
+		return new SettingsUpdaterBuilder(this)
+				.withFontSettingsUpdater(new FontSettingsUpdaterW(this));
+	}
+
+	@Override
 	public HasLastItem getLastItemProvider() {
 		if (!getConfig().hasAnsButtonInAv()
 				|| getActiveEuclidianView().getEuclidianController()
 				.isSymbolicEditorSelected()) {
 			return null;
 		}
-		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView());
+		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView(),
+				createGeoElementValueConverter());
 	}
 
 	@Override

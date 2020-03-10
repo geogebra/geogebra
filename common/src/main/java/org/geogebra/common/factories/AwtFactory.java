@@ -16,7 +16,6 @@ import org.geogebra.common.awt.GGradientPaint;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -79,13 +78,9 @@ public abstract class AwtFactory {
 
 	public abstract GDimension newDimension(int width, int height);
 
-	public abstract GPoint2D newPoint2D();
-
 	public abstract GRectangle newRectangle(int w, int h);
 
 	public abstract GRectangle newRectangle();
-
-	public abstract GPoint2D newPoint2D(double x, double y);
 
 	public abstract GGeneralPath newGeneralPath();
 

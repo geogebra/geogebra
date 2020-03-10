@@ -75,7 +75,8 @@ public class DrawablesTest {
 					|| GeoClass.SURFACECARTESIAN == type
 					|| GeoClass.CAS_CELL == type || GeoClass.SPACE == type
 					|| GeoClass.DEFAULT == type
-					|| GeoClass.CLIPPINGCUBE3D == type);
+					|| GeoClass.CLIPPINGCUBE3D == type
+					|| GeoClass.INLINE_TEXT == type);
 		}
 
 	}

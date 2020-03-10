@@ -43,6 +43,7 @@ import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
 import org.geogebra.web.full.gui.util.SaveDialogW;
+import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
@@ -74,6 +75,7 @@ public class DialogManagerW extends DialogManager
 	protected WebcamInputDialog webcamInputDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
 	private AudioInputDialog audioInputDialog;
+	private TemplateChooser templateChooser;
 	private PDFInputDialog pdfInputDialog;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
@@ -233,9 +235,7 @@ public class DialogManagerW extends DialogManager
 		}
 		geo.setLabelVisible(true);
 		geo.updateRepaint();
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().clearInputbar();
-		}
+
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		InputDialogW id = new InputDialogW((AppW) app, app.getLocalization()
@@ -680,5 +680,17 @@ public class DialogManagerW extends DialogManager
 
 	public void setWidgetFactory(BaseWidgetFactory widgetFactory) {
 		this.widgetFactory = widgetFactory;
+	}
+
+	@Override
+	public void showTemplateChooser() {
+		templateChooser = new TemplateChooser((AppW) app,
+				((GuiManagerW) ((AppW) app).getGuiManager()).getTemplateController());
+		templateChooser.show();
+	}
+
+	@Override
+	public void closeTemplateChooser() {
+		templateChooser.hide();
 	}
 }

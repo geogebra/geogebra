@@ -226,7 +226,7 @@ import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.settings.DefaultSettingsD;
 import org.geogebra.desktop.main.settings.SettingsBuilderD;
-import org.geogebra.desktop.main.settings.updater.SettingsUpdaterBuilderD;
+import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
@@ -1416,7 +1416,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
-			getGuiManager().clearInputbar();
+			((GuiManagerD) getGuiManager()).clearInputbar();
 		}
 
 		// reset spreadsheet columns, reset trace columns
@@ -2884,7 +2884,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public synchronized JFrame getFrame() {
 		if ((frame == null) && (getGuiManager() != null)) {
-			frame = (JFrame) getGuiManager().createFrame();
+			frame = ((GuiManagerD) getGuiManager()).createFrame();
 		}
 
 		return frame;
@@ -5405,7 +5405,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilderD(this);
+		return new SettingsUpdaterBuilder(this)
+				.withFontSettingsUpdater(new FontSettingsUpdaterD(this));
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -111,8 +112,11 @@ public class KeyboardSwitcher extends FlowPanel {
                 .keyboard_close_purple().getSafeUri().asString());
         hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Close"));
 		GCustomButton closeButton = new GCustomButton() {
-            // it's abstract for some reason
-        };
+			@Override
+			public void setFocus(boolean focused) {
+				// Do not focus the button
+			}
+		};
         closeButton.getElement().setAttribute("aria-label",
                 tabbedkeyboard.locale.getMenu("Close"));
 
@@ -120,13 +124,14 @@ public class KeyboardSwitcher extends FlowPanel {
         closeButton.getUpHoveringFace().setImage(hoverImg);
         closeButton.addStyleName("closeTabbedKeyboardButton");
 		closeButton.getElement().setAttribute("data-test", "closeKeyboardButton");
-        ClickStartHandler.init(closeButton, new ClickStartHandler() {
+		ClickStartHandler.init(closeButton, new ClickStartHandler() {
 
-            @Override
-            public void onClickStart(int x, int y, PointerEventType type) {
-                tabbedkeyboard.closeButtonClicked();
-            }
-        });
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				tabbedkeyboard.closeButtonClicked();
+				DOM.setCapture(null); // reset capture from GCustomButton's mousedown handler
+			}
+		});
         add(closeButton);
     }
 

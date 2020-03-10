@@ -1940,11 +1940,6 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public boolean justFontSize() {
-		return false;
-	}
-
-	@Override
 	public boolean hasMoveableInputPoints(
 			final EuclidianViewInterfaceSlim view) {
 		// we don't want e.g. DotPlots to be dragged
@@ -3020,7 +3015,7 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (isMatrix() && isIndependent()) {
 			return DescriptionMode.VALUE;
 		}
@@ -3029,7 +3024,7 @@ public class GeoList extends GeoElement
 		}
 
 		for (GeoElement geo : elements) {
-			if (geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+			if (geo.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
 					&& !Equation.isAlgebraEquation(geo)) {
 				return DescriptionMode.DEFINITION_VALUE;
 			}

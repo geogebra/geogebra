@@ -38,12 +38,13 @@ public class EmbedInputDialog extends MediaDialog
 	EmbedInputDialog(AppW app, URLChecker urlChecker) {
 		super(app.getPanel(), app);
 		this.urlChecker = urlChecker;
+		mediaInputPanel.addInfoLabel();
 		updateInfo();
 	}
 
 	private void updateInfo() {
 		if (urlChecker != null && !urlChecker.hasFrameOptionCheck()) {
-			showInfo(app.getLocalization().getMenu("EmbedFrameWarning"));
+			mediaInputPanel.showInfo(app.getLocalization().getMenu("EmbedFrameWarning"));
 		}
 	}
 
@@ -61,7 +62,7 @@ public class EmbedInputDialog extends MediaDialog
 	@Override
 	protected void processInput() {
 		if (appW.getGuiManager() != null) {
-			String input = getInput();
+			String input = mediaInputPanel.getInput();
 			addEmbed(input);
 		}
 	}
@@ -73,10 +74,10 @@ public class EmbedInputDialog extends MediaDialog
 	 *            embed URL or code
 	 */
 	private void addEmbed(String input) {
-		resetError();
+		mediaInputPanel.resetError();
 		String url = extractURL(input);
 		if (!input.startsWith("<")) {
-			inputField.getTextComponent().setText(url);
+			mediaInputPanel.inputField.getTextComponent().setText(url);
 		}
 		if (GeoGebraURLParser.isGeoGebraURL(url)) {
 			getGeoGebraTubeAPI().getItem(GeoGebraURLParser.getIDfromURL(url), this);
@@ -101,8 +102,9 @@ public class EmbedInputDialog extends MediaDialog
 		return ge;
 	}
 
-	private void embedGeoGebraAndHide(String base64) {
-		getApplication().getEmbedManager().embed(base64);
+	private void embedGeoGebraAndHide(Material material) {
+		getApplication().getEmbedManager().embed(material);
+		app.storeUndoInfo();
 		hide();
 	}
 
@@ -137,7 +139,7 @@ public class EmbedInputDialog extends MediaDialog
 			hide();
 			onMediaElementCreated(geo);
 		} else {
-			showError(obj.getErrorKey());
+			mediaInputPanel.showError(obj.getErrorKey());
 		}
 	}
 
@@ -146,8 +148,7 @@ public class EmbedInputDialog extends MediaDialog
 		if (result.size() < 1) {
 			onError(null);
 		} else {
-			String base64 = result.get(0).getBase64();
-			embedGeoGebraAndHide(base64);
+			embedGeoGebraAndHide(result.get(0));
 		}
 	}
 

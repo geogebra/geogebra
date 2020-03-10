@@ -354,12 +354,11 @@ public final class DrawImage extends Drawable {
 					g3.drawImage(image, 0, 0);
 				} else {
 					GRectangle2D drawRectangle = getCropBox();
-
-					GPoint2D ptDst = AwtFactory.getPrototype().newPoint2D();
-					GPoint2D ptDst2 = AwtFactory.getPrototype().newPoint2D();
-					GPoint2D ptScr = AwtFactory.getPrototype().newPoint2D(
+					GPoint2D ptDst = new GPoint2D();
+					GPoint2D ptDst2 = new GPoint2D();
+					GPoint2D ptScr = new GPoint2D(
 							drawRectangle.getX(), drawRectangle.getY());
-					GPoint2D ptScr2 = AwtFactory.getPrototype().newPoint2D(
+					GPoint2D ptScr2 = new GPoint2D(
 							drawRectangle.getMaxX(), drawRectangle.getMaxY());
 					atInverse.transform(ptScr, ptDst);
 					atInverse.transform(ptScr2, ptDst2);
@@ -391,13 +390,13 @@ public final class DrawImage extends Drawable {
 					// g2.draw(labelRectangle);
 
 					// draw parallelogram around edge
-					GPoint2D corner1 = AwtFactory.getPrototype().newPoint2D(
+					GPoint2D corner1 = new GPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMinY());
-					GPoint2D corner2 = AwtFactory.getPrototype().newPoint2D(
+					GPoint2D corner2 = new GPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMaxY());
-					GPoint2D corner3 = AwtFactory.getPrototype().newPoint2D(
+					GPoint2D corner3 = new GPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMaxY());
-					GPoint2D corner4 = AwtFactory.getPrototype().newPoint2D(
+					GPoint2D corner4 = new GPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMinY());
 					at.transform(corner1, corner1);
 					at.transform(corner2, corner2);

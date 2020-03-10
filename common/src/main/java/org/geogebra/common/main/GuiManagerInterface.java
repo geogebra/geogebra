@@ -163,11 +163,6 @@ public interface GuiManagerInterface {
 
 	boolean save();
 
-	/**
-	 * tells the properties view to show slider tab
-	 */
-	void showPropertiesViewSliderTab();
-
 	boolean loadURL(String urlString);
 
 	boolean loadURL(String urlString, boolean suppressErrorMsg);
@@ -285,10 +280,6 @@ public interface GuiManagerInterface {
 
 	void updateFrameSize();
 
-	void clearInputbar();
-
-	Object createFrame();
-
 	/**
 	 * 
 	 * @return id of view which is setting the active toolbar
@@ -371,10 +362,11 @@ public interface GuiManagerInterface {
 
 	String getReportBugUrl();
 
+	String getLicenseUrl();
+
 	void buildStepGui(SolutionStep steps);
 
 	void openMenuInAVFor(GeoElement geo);
 
 	void getViewsXML(StringBuilder sb, boolean asPreference);
-
 }

@@ -21,7 +21,7 @@ public class StartExamAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		app.getDialogManager().getSaveDialog().showIfNeeded(createExamCallback());
+		app.getSaveController().showDialogIfNeeded(createExamCallback());
 	}
 
 	/**

@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "04 February 2020";
+	public static final String BUILD_DATE = "19 February 2020";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.573.0";
+	public static final String VERSION_STRING = "5.0.574.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -168,6 +168,11 @@ public interface GeoGebraConstants {
 	/** update directory, typically on Windows */
 	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0"
 			+ "\\thirdparty\\update";
+
+	/** http prefix */
+	public static final String HTTP = "http://";
+	/** https prefix */
+	public static final String HTTPS = "https://";
 
 	/** GeoGebra URL */
 	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";

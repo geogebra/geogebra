@@ -3,10 +3,13 @@ package org.geogebra.web.geogebra3D.web.euclidian3D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 
 import com.google.gwt.resources.client.ImageResource;
+
+import java.util.List;
 
 /**
  * Stylebar popup for 3D rotation
@@ -65,9 +68,9 @@ class RotateViewPopup extends PopupMenuButtonW {
 	}
 
 	@Override
-	public void update(Object[] geos) {
+	public void update(List<GeoElement> geos) {
 		this.setVisible(
-				geos.length == 0 && !EuclidianView.isPenMode(app.getMode())
+				geos.size() == 0 && !EuclidianView.isPenMode(app.getMode())
 						&& app.getMode() != EuclidianConstants.MODE_DELETE);
 	}
 }

@@ -333,9 +333,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/mow-toolbar.scss")
 	SassResource mowToolbarStyle();
 
-	@Source("org/geogebra/web/resources/scss/texttool.scss")
-	SassResource texttoolStyle();
-
 	@Source("org/geogebra/web/resources/css/web-styles.less")
 	LessResource modernStyle();
 
@@ -413,6 +410,7 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/print.scss")
 	SassResource printStyle();
 
+	@Override
 	@Source("org/geogebra/web/resources/scss/component-styles.scss")
 	SassResource componentStyles();
 
