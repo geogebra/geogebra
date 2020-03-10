@@ -11,10 +11,9 @@ TEX=html/all.tex
 CSV=none
 # Don't use this, it is just an example:
 MYMYCOLUMNS="Auto Web"
-TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/compare
-GEOGEBRAWEB_URL1=https://www.geogebra.org/classic/?filename=https://dev.geogebra.org/trac/export
-GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/pcompare
-DOTS=20
+TESTGGBURLBASE_GGBDIR=https://github.com/kovzol/geogebra/raw/master/test/scripts/benchmark/compare
+
+DOTS=40
 NICEHTML=1
 
 COMMANDLINE="$0 $*"
@@ -182,7 +181,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$TEST.png
  # TODO: change "latest" to current revision:
- echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"${GEOGEBRAWEB_URL1}/latest/${GEOGEBRAWEB_URL2}/$i#\"><img src=\"$TEST.png\" height=${IMGHEIGHT}></a></td>" >> $MYDIR/$HTML
+ echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" height=${IMGHEIGHT}></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
 
  if [ `expr ${#TEST} '>' $DOTS` = 1 ]; then
