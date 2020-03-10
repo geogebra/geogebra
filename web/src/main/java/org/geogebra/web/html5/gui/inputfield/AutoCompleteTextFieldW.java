@@ -20,7 +20,6 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -263,14 +262,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			private void handleSelectedEvent(Event event) {
 				event.stopPropagation();
-
-				Element element = textField.getValueBox().getElement();
-				if (geoUsedForInputBox.getLinkedGeo() instanceof GeoNumeric) {
-					element.setAttribute("type", "number");
-				} else  {
-					element.removeAttribute("type");
-				}
-
 				app.getGlobalKeyDispatcher().setFocused(true);
 			}
 		};

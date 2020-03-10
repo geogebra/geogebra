@@ -6,7 +6,7 @@ import org.geogebra.web.full.gui.view.algebra.contextmenu.action.RemoveSliderAct
 import org.geogebra.web.full.gui.view.algebra.contextmenu.action.SolveAction;
 
 /**
- * AV menu items for CAS-capable apps
+ * AV menu items for CAS
  */
 public class AlgebraMenuItemCollectionCAS extends AlgebraMenuItemCollection {
 

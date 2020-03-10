@@ -8,7 +8,7 @@ import org.geogebra.web.full.gui.menubar.ClassicMenuItemProvider;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionClassic;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.full.main.NullHeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -46,7 +46,7 @@ public class ClassicActivity extends BaseActivity {
 
 	@Override
 	public MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
-		return new AlgebraMenuItemCollectionCAS(view);
+		return new AlgebraMenuItemCollectionClassic(view);
 	}
 
 	@Override
