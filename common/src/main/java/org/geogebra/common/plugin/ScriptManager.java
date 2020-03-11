@@ -27,6 +27,7 @@ public abstract class ScriptManager implements EventListener {
 	protected ArrayList<JsScript> clickListeners = new ArrayList<>();
 	protected ArrayList<JsScript> clearListeners = new ArrayList<>();
 	protected ArrayList<JsScript> clientListeners = new ArrayList<>();
+	private boolean clearGlobalListeners = true;
 
 	private ArrayList[] listenerLists() {
 		return new ArrayList[] { addListeners, storeUndoListeners,
@@ -146,6 +147,10 @@ public abstract class ScriptManager implements EventListener {
 
 		// If undo clicked, mustn't clear the global listeners
 		if (!listenersEnabled) {
+			return;
+		}
+
+		if (!clearGlobalListeners) {
 			return;
 		}
 
@@ -527,6 +532,14 @@ public abstract class ScriptManager implements EventListener {
 			}
 		}
 		return false;
+	}
+
+	public void preventClearGlobalListeners() {
+		clearGlobalListeners = false;
+	}
+
+	public void allowClearGlobalListeners() {
+		clearGlobalListeners = true;
 	}
 
 }
