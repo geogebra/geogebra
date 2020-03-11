@@ -1747,7 +1747,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
-		updateRepaint();
+		notifyUpdate();
 	}
 
 	@Override
