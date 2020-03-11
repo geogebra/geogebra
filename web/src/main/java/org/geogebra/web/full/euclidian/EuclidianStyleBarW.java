@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
@@ -30,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -42,7 +44,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
+import org.geogebra.web.full.gui.color.BgColorPopup;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.full.gui.color.FillingStyleButton;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -54,7 +56,6 @@ import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.StyleBarW2;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -108,8 +109,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	// // buttons and lists of buttons
 	private ColorPopupMenuButton btnBgColor;
-	private ColorPopupMenuButton btnTextBgColor;
 	private ColorPopupMenuButton btnTextColor;
+	private BgColorPopup btnTextBgColor;
 	private PopupMenuButtonW btnTextSize;
 	private PopupMenuButtonW btnLabelStyle;
 	private PopupMenuButtonW btnAngleInterval;
@@ -119,8 +120,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected FillingStyleButton btnFilling;
 
 	private MyToggleButtonW btnShowAxes;
-	MyToggleButtonW btnBold;
-	MyToggleButtonW btnItalic;
+	private MyToggleButtonW btnBold;
+	private MyToggleButtonW btnItalic;
+	private MyToggleButtonW btnUnderline;
 
 	private MyToggleButtonW btnFixPosition;
 	private MyToggleButtonW btnFixObject;
@@ -133,7 +135,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
-	Localization loc;
+	private Localization loc;
 	private ContextMenuPopup btnContextMenu = null;
 	private StandardButton btnDelete;
 	private MyToggleButtonW btnCrop;
@@ -415,13 +417,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 			return;
 		}
 
-		Object[] geos;
+		ArrayList<GeoElement> geos;
 		if (app.isUnbundledOrWhiteboard()) {
 			if (!isDynamicStylebar()
 					&& (this.getView() instanceof EuclidianViewW)
 					&& app.isUnbundledOrWhiteboard()) {
 				// in view stylebar won't be appeared object stylebar
-				geos = new Object[0];
+				geos = new ArrayList<>();
 			} else if (!isDynamicStylebar()
 					&& (this.getView() instanceof EuclidianView3DInterface)
 					&& (!EuclidianConstants
@@ -430,7 +432,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					&& app.isUnbundledOrWhiteboard()) {
 				// show the object stylebar in 3D view, when the user selects a
 				// tool
-				geos = activeGeoList.toArray();
+				geos = activeGeoList;
 			} else {
 				ArrayList<GeoElement> geoList = new ArrayList<>();
 				for (GeoElement geo0 : activeGeoList) {
@@ -438,20 +440,20 @@ public class EuclidianStyleBarW extends StyleBarW2
 						geoList.add(geo0);
 					}
 				}
-				geos = geoList.toArray();
+				geos = geoList;
 			}
 		} else {
-			geos = activeGeoList.toArray();
+			geos = activeGeoList;
 		}
 
-		for (int i = 0; i < popupBtnList.length; i++) {
-			if (popupBtnList[i] != null) { // null pointer fix until necessary
-				popupBtnList[i].update(geos);
+		for (PopupMenuButtonW popupButton : popupBtnList) {
+			if (popupButton != null) { // null pointer fix until necessary
+				popupButton.update(geos);
 			}
 		}
-		for (int i = 0; i < toggleBtnList.length; i++) {
-			if (toggleBtnList[i] != null) { // null pointer fix until necessary
-				toggleBtnList[i].update(geos);
+		for (MyToggleButtonW toggleButton : toggleBtnList) {
+			if (toggleButton != null) { // null pointer fix until necessary
+				toggleButton.update(geos);
 			}
 		}
 	}
@@ -503,9 +505,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 		add(btnPointCapture);
 
 		// add color and style buttons
+		if (btnTextBgColor != null) {
+			add(btnTextBgColor);
+		}
 		add(btnColor);
 		add(btnBgColor);
-		add(btnTextBgColor);
 		add(btnTextColor);
 		if (btnFilling != null) {
 			add(btnFilling);
@@ -531,6 +535,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 		add(btnBold);
 		add(btnItalic);
+		if (app.isWhiteboardActive()) {
+			add(btnUnderline);
+		}
+
 		if (!app.isUnbundledOrWhiteboard()) {
 			add(btnTextSize);
 		}
@@ -594,28 +602,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 		if (!hasActiveGeos()) {
 			return;
 		}
+
 		btnContextMenu = new ContextMenuPopup(app);
-		// btnContextMenu.setIcon(new
-		// ImageOrText(AppResources.INSTANCE.dots()));
-		// btnContextMenu.addStyleName("MyCanvasButton-borderless");
-		// btnContextMenu.addClickHandler(new ClickHandler() {
-		//
-		// public void onClick(ClickEvent event) {
-		// if (ec.isObjectMenuActive()) {
-		// app.closePopups();
-		// btnContextMenu.setIcon(
-		// new ImageOrText(AppResources.INSTANCE.dots()));
-		//
-		// } else {
-		// btnContextMenu.setIcon(
-		// new ImageOrText(AppResources.INSTANCE.dots_active()));
-		// ec.showObjectContextMenu(0, 0);
-		// }
-		// }
-		// });
 	}
 
-	protected void addCropButton() {
+	private void addCropButton() {
 		btnCrop = new MyToggleButtonW(new NoDragImage(
 				MaterialDesignResources.INSTANCE.crop_black(), 24));
 		btnCrop.addStyleName("btnCrop");
@@ -632,7 +623,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		add(btnCrop);
 	}
 
-	protected void toggleCrop(boolean val) {
+	private void toggleCrop(boolean val) {
 		if (getBtncrop() != null) {
 			ev.getEuclidianController().updateBoundingBoxFromSelection(val);
 			ev.repaintView();
@@ -640,14 +631,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 	}
 
-	public MyToggleButtonW getBtncrop() {
+	private MyToggleButtonW getBtncrop() {
 		return btnCrop;
 	}
 
 	/**
 	 * add delete button to dynamic stylebar
 	 */
-	protected void addDeleteButton() {
+	private void addDeleteButton() {
 		btnDelete = new StandardButton(
 				MaterialDesignResources.INSTANCE.delete_black(), null, 24, app);
 		btnDelete.setStyleName("MyCanvasButton");
@@ -663,13 +654,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		add(btnDelete);
 	}
 
-	/**
-	 * @return the frame with casting.
-	 */
-	GeoGebraFrameFull getFrame() {
-		return (((AppWFull) app).getAppletFrame());
-	}
-
 	protected void closeLabelPopup() {
 		if (getLabelPopup().getMyPopup().isShowing()) {
 			getLabelPopup().getMyPopup().hide();
@@ -679,7 +663,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	// TODO instead of addViewButton() we need a new function addContextMenu()
 	// that uses the same icon (3 dots) as ViewButton but instead opens the
 	// context menu
-	protected void addContextMenuButton() {
+	private void addContextMenuButton() {
 		if (!isBackground() && app.isUnbundledOrWhiteboard()) {
 			if (btnContextMenu == null) {
 				createContextMenuButton();
@@ -707,7 +691,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 * Some style button removed from dynamic stylebar. Those will be shown in
 	 * the default stylebar yet.
 	 */
-	boolean showAllStyleButtons() {
+	private boolean showAllStyleButtons() {
 		return !app.isUnbundledOrWhiteboard() || (!isDynamicStylebar()
 				&& !(this.getView() instanceof EuclidianView3DInterface));
 	}
@@ -723,7 +707,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	/**
 	 * add axes, grid, ... buttons
 	 */
-	protected void addGraphicsDecorationsButtons() {
+	private void addGraphicsDecorationsButtons() {
 		addAxesAndGridButtons();
 		addChangeViewButtons();
 		addBtnRotateView();
@@ -743,11 +727,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 	/**
 	 * add standard view, show all objects, etc. buttons
 	 */
-	protected void addChangeViewButtons() {
+	private void addChangeViewButtons() {
 		add(btnChangeView);
 	}
 
-	protected void addCloseViewButton() {
+	private void addCloseViewButton() {
 		add(btnCloseView);
 	}
 
@@ -768,7 +752,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	protected MyToggleButtonW[] newToggleBtnList() {
 		return new MyToggleButtonW[] { getAxesOrGridToggleButton(), btnBold,
-				btnItalic, btnFixPosition, btnFixObject, btnDeleteSizes[0],
+				btnItalic, btnUnderline, btnFixPosition, btnFixObject, btnDeleteSizes[0],
 				btnDeleteSizes[1], btnDeleteSizes[2] };
 	}
 
@@ -794,17 +778,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createPointCaptureBtn();
 		createDeleteSiztBtn();
 
+		createColorBtn();
 		if (app.isWhiteboardActive()) {
-			createColorBtn();
 			createFillingBtn();
-		} else {
-			createColorBtn();
+			createTextBgColorBtn();
 		}
 		createBgColorBtn();
 		createTextColorBtn();
-		createTextBgColorBtn();
 		createTextBoldBtn();
 		createTextItalicBtn();
+		createTextUnderlineBtn();
 		createFixPositionBtn();
 		createFixObjectBtn();
 		createTextSizeBtn();
@@ -836,11 +819,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 
 		@Override
-		public void update(Object[] geos) {
+		public void update(List<GeoElement> geos) {
 			if (app.isUnbundledOrWhiteboard()) {
-				super.setVisible(geos.length == 0);
+				super.setVisible(geos.size() == 0);
 			} else {
-				super.setVisible(geos.length == 0
+				super.setVisible(geos.size() == 0
 						&& mode != EuclidianConstants.MODE_PEN);
 			}
 		}
@@ -888,7 +871,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			btnDeleteSizes[i] = new MyToggleButtonW(delBtns[i]) {
 
 				@Override
-				public void update(Object[] geos) {
+				public void update(List<GeoElement> geos) {
 					// always show this button unless in pen mode
 					super.setVisible(mode == EuclidianConstants.MODE_DELETE
 							|| mode == EuclidianConstants.MODE_ERASER);
@@ -906,13 +889,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 				SelectionTable.MODE_TEXT, false) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				if (app.isUnbundledOrWhiteboard()) {
-					super.setVisible(geos.length == 0);
+					super.setVisible(geos.size() == 0);
 				} else {
 					// same as axes
 					super.setVisible(
-							geos.length == 0 && !EuclidianView.isPenMode(mode)
+							geos.size() == 0 && !EuclidianView.isPenMode(mode)
 									&& mode != EuclidianConstants.MODE_DELETE
 									&& mode != EuclidianConstants.MODE_ERASER);
 				}
@@ -946,9 +929,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 				SelectionTable.MODE_TEXT, false) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				GeoElement geo = EuclidianStyleBarStatic
-						.checkGeosForCaptionStyle(geos, mode, app);
+						.checkGeosForCaptionStyle(geos);
 				boolean geosOK = geo != null && showAllStyleButtons();
 				super.setVisible(geosOK);
 				if (geosOK) {
@@ -985,7 +968,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				SelectionTable.MODE_TEXT, false) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				GeoElement geo = EuclidianStyleBarStatic
 						.checkGeosForAngleInterval(geos);
 				boolean geosOK = (geo != null
@@ -1036,7 +1019,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		});
 	}
 
-	protected void closeView() {
+	private void closeView() {
 		app.getGuiManager().setShowView(false, viewID);
 	}
 
@@ -1052,24 +1035,23 @@ public class EuclidianStyleBarW extends StyleBarW2
 				ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
 					Log.debug(
 							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
 				} else {
-					boolean geosOK = (geos.length > 0
+					boolean geosOK = (geos.size() > 0
 							|| EuclidianView.isPenMode(mode));
 					boolean hasOpacity = true;
-					for (int i = 0; i < geos.length; i++) {
-						GeoElement geo = ((GeoElement) geos[i])
+					for (GeoElement geoElement : geos) {
+						GeoElement geo = geoElement
 								.getGeoElementForPropertiesDialog();
-						if (geo instanceof GeoText || geo instanceof GeoButton
-								|| geo.isGeoAudio() || geo.isGeoVideo()
-								|| geo instanceof GeoEmbed) {
+						if (geo instanceof TextStyle || geo.isGeoAudio()
+								|| geo.isGeoVideo() || geo instanceof GeoEmbed) {
 							geosOK = false;
 							break;
 						}
-						if (geos[i] instanceof GeoLocusStroke) {
+						if (geoElement instanceof GeoLocusStroke) {
 							hasOpacity = false;
 						}
 					}
@@ -1078,24 +1060,24 @@ public class EuclidianStyleBarW extends StyleBarW2
 					if (geosOK) {
 						// get color from first geo
 						GColor geoColor;
-						geoColor = geos.length > 0
-								? ((GeoElement) geos[0]).getObjectColor()
+						geoColor = geos.size() > 0
+								? geos.get(0).getObjectColor()
 								: GColor.BLACK;
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha
 						// value
 						double alpha = 1.0;
 						boolean hasFillable = false;
-						for (int i = 0; i < geos.length; i++) {
-							if (((GeoElement) geos[i]).isFillable()) {
+						for (GeoElement geo : geos) {
+							if (geo.isFillable()) {
 								hasFillable = true;
-								alpha = ((GeoElement) geos[i]).getAlphaValue();
+								alpha = geo.getAlphaValue();
 								break;
 							}
-							if (geos[i] instanceof GeoPolyLine
+							if (geo instanceof GeoPolyLine
 									&& EuclidianView.isPenMode(mode)) {
 								hasFillable = true;
-								alpha = ((GeoElement) geos[i]).getLineOpacity();
+								alpha = geo.getLineOpacity();
 
 								break;
 							}
@@ -1104,7 +1086,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 						if (!app.isUnbundled()) {
 							if (hasFillable) {
 								if (app.isWhiteboardActive()
-										&& geos[0] instanceof GeoImage) {
+										&& geos.get(0) instanceof GeoImage) {
 									if (hasOpacity) {
 										setTitle(loc.getMenu("Opacity"));
 									} else {
@@ -1129,8 +1111,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 						}
 
 						updateColorTable();
-						setEnableTable(geos.length > 0
-								&& !(geos[0] instanceof GeoImage));
+						setEnableTable(geos.size() > 0
+								&& !(geos.get(0) instanceof GeoImage));
 						// find the geoColor in the table and select it
 						int index = this.getColorIndex(geoColor);
 						setSelectedIndex(index);
@@ -1169,17 +1151,17 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void createFillingBtn() {
 		btnFilling = new FillingStyleButton(app, getFillTypes()) {
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
 					Log.debug(
 							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
 				} else {
-					boolean geosOK = (geos.length > 0 || (EuclidianView
+					boolean geosOK = (geos.size() > 0 || (EuclidianView
 							.isPenMode(mode)
 							&& !app.isUnbundledOrWhiteboard()));
-					for (int i = 0; i < geos.length; i++) {
-						GeoElement geo = ((GeoElement) geos[i])
+					for (GeoElement geoElement : geos) {
+						GeoElement geo = geoElement
 								.getGeoElementForPropertiesDialog();
 						if (geo instanceof GeoText || geo instanceof GeoButton
 								|| geo instanceof GeoPoint
@@ -1201,8 +1183,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 						boolean hasFillable = false;
 						boolean alphaOnly = false;
 						FillType fillType = null;
-						for (int i = 0; i < geos.length; i++) {
-							GeoElement geo = (GeoElement) geos[i];
+						for (GeoElement geo : geos) {
 							if (geo.isFillable()) {
 								alphaOnly = geo.isAngle() || geo.isGeoImage();
 								hasFillable = true;
@@ -1210,7 +1191,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 								fillType = geo.getFillType();
 								break;
 							}
-							if (geos[i] instanceof GeoPolyLine
+							if (geo instanceof GeoPolyLine
 									&& EuclidianView.isPenMode(mode)) {
 								hasFillable = true;
 								// alpha = ((GeoElement)
@@ -1252,20 +1233,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 				ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
-				boolean geosOK = (geos.length > 0
-						&& !((GeoElement) geos[0]).isGeoAudio()
-						&& !((GeoElement) geos[0]).isGeoVideo());
-				for (int i = 0; i < geos.length; i++) {
-					GeoElement geo = ((GeoElement) geos[i])
+				boolean geosOK = geos.size() > 0;
+				for (GeoElement geoElement : geos) {
+					GeoElement geo = geoElement
 							.getGeoElementForPropertiesDialog();
-					if (!(geo instanceof GeoText) && !(geo instanceof GeoButton
-							|| geo.isGeoAudio() || geo.isGeoVideo())) {
+					if (!(geo instanceof TextProperties)) {
 						geosOK = false;
 						break;
 					}
-
 				}
 
 				super.setVisible(geosOK);
@@ -1273,18 +1250,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				if (geosOK) {
 					// get color from first geo
 					GColor geoColor;
-					geoColor = ((GeoElement) geos[0]).getBackgroundColor();
-
-					/*
-					 * // check if selection contains a fillable geo // if true,
-					 * then set slider to first fillable's alpha value float
-					 * alpha = 1.0f; boolean hasFillable = false; for (int i =
-					 * 0; i < geos.length; i++) { if (((GeoElement)
-					 * geos[i]).isFillable()) { hasFillable = true; alpha =
-					 * ((GeoElement) geos[i]).getAlphaValue(); break; } }
-					 * getMySlider().setVisible(hasFillable);
-					 * setSliderValue(Math.round(alpha * 100));
-					 */
+					geoColor = geos.get(0).getBackgroundColor();
 					double alpha = 1.0;
 					updateColorTable();
 
@@ -1296,7 +1262,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					// if nothing was selected, set the icon to show the
 					// non-standard color
 					if (index == -1) {
-						this.setIcon(GeoGebraIconW.createColorSwatchIcon(alpha,
+						setIcon(GeoGebraIconW.createColorSwatchIcon(alpha,
 								geoColor, null));
 					}
 				}
@@ -1304,25 +1270,40 @@ public class EuclidianStyleBarW extends StyleBarW2
 		};
 
 		btnBgColor.setEnableTable(true);
-		btnBgColor.setKeepVisible(app.isUnbundledOrWhiteboard() ? false : true);
+		btnBgColor.setKeepVisible(!app.isUnbundledOrWhiteboard());
 		btnBgColor.addPopupHandler(this);
+	}
+
+	private void createTextBgColorBtn() {
+		btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				super.setVisible(checkTextNoInputBox(geos));
+			}
+
+			@Override
+			public ImageOrText getButtonIcon() {
+				return new ImageOrText(
+						MaterialDesignResources.INSTANCE.color_black(), 24);
+			}
+		};
+		btnTextBgColor.setEnableTable(true);
+		btnTextBgColor.addPopupHandler(this);
 	}
 
 	private void createTextColorBtn() {
 		btnTextColor = new ColorPopupMenuButton(app,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
-			private GColor geoTextColor;
-
 			@Override
-			public void update(Object[] geos) {
-				boolean geosOK = checkTextNoMedia(geos);
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkGeoText(geos);
 				super.setVisible(geosOK);
-
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
-					geoTextColor = geo.getObjectColor();
+					GColor geoTextColor = geo.getObjectColor();
 					updateColorTable();
 
 					// find the geoColor in the table and select it
@@ -1348,58 +1329,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnTextColor.addPopupHandler(this);
 	}
 
-	protected boolean checkTextNoMedia(Object[] geos) {
+	private boolean checkTextNoInputBox(List<GeoElement> geos) {
 		boolean geosOK = checkGeoText(geos);
-		for (Object obj : geos) {
-			GeoElement geo0 = (GeoElement) obj;
-			if (geo0.isGeoInputBox() || geo0.isGeoAudio()
-					|| geo0.isGeoVideo()) {
+		for (GeoElement geo : geos) {
+			if (geo.isGeoInputBox()) {
 				return false;
 			}
 		}
 		return geosOK;
-	}
-
-	private void createTextBgColorBtn() {
-		btnTextBgColor = new ColorPopupMenuButton(app,
-				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
-
-			private GColor geoColor;
-
-			@Override
-			public void update(Object[] geos) {
-
-				boolean geosOK = !app.isUnbundledOrWhiteboard()
-						&& checkGeoText(geos);
-				super.setVisible(geosOK);
-
-				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
-							.getGeoElementForPropertiesDialog();
-					geoColor = geo.getObjectColor();
-					updateColorTable();
-
-					// find the geoColor in the table and select it
-					int index = this.getColorIndex(geoColor);
-					setSelectedIndex(index);
-
-					// if nothing was selected, set the icon to show the
-					// non-standard color
-					if (index == -1) {
-						this.setIcon(getButtonIcon());
-					}
-				}
-			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return GeoGebraIconW.createTextSymbolIcon("A",
-						getSelectedColor(), null);
-			}
-		};
-		btnTextBgColor.setEnableTable(true);
-		btnTextBgColor.addStyleName("btnTextColor");
-		btnTextBgColor.addPopupHandler(this);
 	}
 
 	private void createTextBoldBtn() {
@@ -1407,32 +1344,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 			btnBold = new MyToggleButtonW(new NoDragImage(
 					MaterialDesignResources.INSTANCE.text_bold_black(), 24)) {
 				@Override
-				public void update(Object[] geos) {
-					boolean geosOK = checkTextNoMedia(geos);
-					super.setVisible(geosOK);
-					if (geosOK) {
-						GeoElement geo = ((GeoElement) geos[0])
-								.getGeoElementForPropertiesDialog();
-						int style = ((TextProperties) geo).getFontStyle();
-						btnBold.setValue((style & GFont.BOLD) != 0);
-					}
+				public void update(List<GeoElement> geos) {
+					updateFontToggle(btnBold, GFont.BOLD, geos);
 				}
 			};
 		} else {
 			btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short")) {
 
 				@Override
-				public void update(Object[] geos) {
-
-					boolean geosOK = checkGeoText(geos)
-							&& !((GeoElement) geos[0]).isGeoInputBox();
-					super.setVisible(geosOK);
-					if (geosOK) {
-						GeoElement geo = ((GeoElement) geos[0])
-								.getGeoElementForPropertiesDialog();
-						int style = ((TextProperties) geo).getFontStyle();
-						btnBold.setValue((style & GFont.BOLD) != 0);
-					}
+				public void update(List<GeoElement> geos) {
+					updateFontToggle(btnBold, GFont.BOLD, geos);
 				}
 			};
 		}
@@ -1440,19 +1361,28 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnBold.addValueChangeHandler(this);
 	}
 
+	private void updateFontToggle(MyToggleButtonW btn, int mask, List<GeoElement> geos) {
+		boolean geosOK = checkTextNoInputBox(geos);
+		btn.setVisible(geosOK);
+		if (geosOK) {
+			int style = EuclidianStyleBarStatic.getFontStyle(geos);
+			btn.setValue((style & mask) != 0);
+		}
+	}
+
 	private void createFixPositionBtn() {
 		btnFixPosition = new MyToggleButtonW(
 				StyleBarResources.INSTANCE.fixPosition()) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = EuclidianStyleBarStatic
 						.checkGeosForFixPosition(geos) && showAllStyleButtons();
 				super.setVisible(geosOK);
 				if (geosOK) {
 					this.setValue(EuclidianStyleBarStatic
-							.checkSelectedFixPosition((GeoElement) geos[0]));
+							.checkSelectedFixPosition(geos.get(0)));
 				}
 			}
 		};
@@ -1466,14 +1396,14 @@ public class EuclidianStyleBarW extends StyleBarW2
 				StyleBarResources.INSTANCE.objectFixed()) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = EuclidianStyleBarStatic
 						.checkGeosForFixObject(geos) && showAllStyleButtons();
 				super.setVisible(geosOK);
 				if (geosOK) {
 					this.setValue(EuclidianStyleBarStatic
-							.checkSelectedFixObject((GeoElement) geos[0]));
+							.checkSelectedFixObject(geos.get(0)));
 				}
 			}
 		};
@@ -1486,37 +1416,35 @@ public class EuclidianStyleBarW extends StyleBarW2
 					MaterialDesignResources.INSTANCE.text_italic_black(), 24)) {
 
 				@Override
-				public void update(Object[] geos) {
-					boolean geosOK = checkTextNoMedia(geos);
-					super.setVisible(geosOK);
-					if (geosOK) {
-						GeoElement geo = ((GeoElement) geos[0])
-								.getGeoElementForPropertiesDialog();
-						int style = ((TextProperties) geo).getFontStyle();
-						btnItalic.setValue((style & GFont.ITALIC) != 0);
-					}
+				public void update(List<GeoElement> geos) {
+					updateFontToggle(btnItalic, GFont.ITALIC, geos);
 				}
 			};
 		} else {
 			btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short")) {
 
 				@Override
-				public void update(Object[] geos) {
-
-					boolean geosOK = checkGeoText(geos)
-							&& !((GeoElement) geos[0]).isGeoInputBox();
-					super.setVisible(geosOK);
-					if (geosOK) {
-						GeoElement geo = ((GeoElement) geos[0])
-								.getGeoElementForPropertiesDialog();
-						int style = ((TextProperties) geo).getFontStyle();
-						btnItalic.setValue((style & GFont.ITALIC) != 0);
-					}
+				public void update(List<GeoElement> geos) {
+					updateFontToggle(btnItalic, GFont.ITALIC, geos);
 				}
 			};
 		}
 		btnItalic.addStyleName("btnItalic");
 		btnItalic.addValueChangeHandler(this);
+	}
+
+	private void createTextUnderlineBtn() {
+		btnUnderline = new MyToggleButtonW(new NoDragImage(
+			MaterialDesignResources.INSTANCE.text_underline_black(), 24)) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				updateFontToggle(btnUnderline, GFont.UNDERLINE, geos);
+			}
+		};
+
+		btnUnderline.addStyleName("btnUnderline");
+		btnUnderline.addValueChangeHandler(this);
 	}
 
 	private void createTextSizeBtn() {
@@ -1529,23 +1457,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 				SelectionTable.MODE_TEXT, false) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
-				boolean geosOK = checkGeoText(geos)
-						&& !((GeoElement) geos[0]).isGeoAudio()
-						&& !((GeoElement) geos[0]).isGeoVideo();
+				boolean geosOK = checkGeoText(geos);
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
 					setSelectedIndex(GeoText.getFontSizeIndex(
-							((TextProperties) geo).getFontSizeMultiplier())); // font
-																				// size
-																				// ranges
-																				// from
-					// -4 to 4, transform
-					// this to 0,1,..,4
+							((TextStyle) geo).getFontSizeMultiplier()));
 				}
 			}
 		};
@@ -1615,11 +1536,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 	}
 
-	static boolean checkGeoText(Object[] geos) {
-		boolean geosOK = (geos.length > 0);
-		for (int i = 0; i < geos.length; i++) {
-			if (!(((GeoElement) geos[i])
-					.getGeoElementForPropertiesDialog() instanceof TextProperties)) {
+	private static boolean checkGeoText(List<GeoElement> geos) {
+		boolean geosOK = geos.size() > 0;
+		for (GeoElement geo : geos) {
+			if (!(geo.getGeoElementForPropertiesDialog() instanceof TextStyle)) {
 				geosOK = false;
 				break;
 			}
@@ -1675,11 +1595,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
 				if (color == null) {
-					if (app.isWhiteboardActive()) {
-						openColorDialog(targetGeos, true);
-					} else {
-						openPropertiesForColor(true);
-					}
+					openColorChooser(targetGeos, true);
 					return false;
 				}
 				double alpha = btnBgColor.getSliderValue() / 100.0;
@@ -1690,43 +1606,37 @@ public class EuclidianStyleBarW extends StyleBarW2
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
 				if (color == null) {
-					if (app.isWhiteboardActive()) {
-						openColorDialog(targetGeos, false);
-					} else {
-						openPropertiesForColor(false);
-					}
+					openColorChooser(targetGeos, false);
 					return false;
 				}
-				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
-						color);
+				needUndo = applyColor(targetGeos, color, 1);
 			}
 		} else if (source == btnTextBgColor) {
 			if (btnTextBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextBgColor.getSelectedColor();
 				if (color == null) {
-					if (app.isWhiteboardActive()) {
-						openColorDialog(targetGeos, false);
-					} else {
-						openPropertiesForColor(false);
-					}
+					openColorChooser(targetGeos, true);
 					return false;
 				}
-				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
-						color);
+				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
+						color, 1);
 			}
 		} else if (source == btnFilling) {
 			FillType fillType = btnFilling.getSelectedFillType();
 			EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
 
 		} else if (source == btnBold) {
-			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					GFont.ITALIC, btnBold.isDown() ? GFont.BOLD : GFont.PLAIN);
+			needUndo = applyFontStyle(targetGeos,
+					GFont.BOLD, btnBold.isDown());
 		} else if (source == btnItalic) {
-			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					GFont.BOLD,
-					btnItalic.isDown() ? GFont.ITALIC : GFont.PLAIN);
+			needUndo = applyFontStyle(targetGeos,
+					GFont.ITALIC,
+					btnItalic.isDown());
+		} else if (source == btnUnderline) {
+			needUndo = applyFontStyle(targetGeos,
+					GFont.UNDERLINE, btnUnderline.isDown());
 		} else if (source == btnTextSize) {
-			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos,
+			needUndo = applyTextSize(targetGeos,
 					btnTextSize.getSelectedIndex());
 		} else if (source == btnAngleInterval) {
 			needUndo = EuclidianStyleBarStatic.applyAngleInterval(targetGeos,
@@ -1740,7 +1650,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		} else if (source == btnFixObject) {
 			needUndo = EuclidianStyleBarStatic.applyFixObject(targetGeos,
 					btnFixObject.isSelected(), ev) != null;
-			btnFixObject.update(targetGeos.toArray());
+			btnFixObject.update(targetGeos);
 		} else if (!processSourceForAxesAndGrid(source)) {
 			for (int i = 0; i < 3; i++) {
 				if (source == btnDeleteSizes[i]) {
@@ -1751,6 +1661,26 @@ public class EuclidianStyleBarW extends StyleBarW2
 			return false;
 		}
 		return true;
+	}
+
+	private boolean applyTextSize(ArrayList<GeoElement> targetGeos,
+			int selectedIndex) {
+		boolean ret = EuclidianStyleBarStatic.applyTextSize(targetGeos,
+				selectedIndex);
+		double size = GeoText.getRelativeFontSize(selectedIndex)
+				* ev.getFontSize();
+		return inlineFormatter.formatInlineText(targetGeos, "size", size)
+				|| ret;
+	}
+
+	private boolean applyFontStyle(ArrayList<GeoElement> targetGeos, int mask,
+			boolean add) {
+		boolean ret = EuclidianStyleBarStatic.applyFontStyle(targetGeos, mask,
+				add);
+		String property = mask == GFont.BOLD ? "bold" : (mask == GFont.ITALIC ? "italic"
+				: "underline");
+		return inlineFormatter.formatInlineText(targetGeos, property, add)
+				|| ret;
 	}
 
 	/**
@@ -1771,7 +1701,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 * @param val
 	 *            grid type
 	 */
-	public static void setGridType(EuclidianView ev, int val) {
+	private static void setGridType(EuclidianView ev, int val) {
 		EuclidianSettings evs = ev.getSettings();
 		boolean gridChanged = false;
 		if (val == 0) {
@@ -1959,13 +1889,18 @@ public class EuclidianStyleBarW extends StyleBarW2
 				.convert(app.getLocalization().getFontSizeStrings()));
 
 		// set labels for buttons with text e.g. button "bold" or "italic"
-		this.btnBold.getDownFace().setText(loc.getMenu("Bold.Short"));
-		this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
-		this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
-		this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
+		if (!app.isUnbundledOrWhiteboard()) {
+			this.btnBold.getDownFace().setText(loc.getMenu("Bold.Short"));
+			this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
+			this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
+			this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
+		}
 		getLabelPopup().setLabels();
 		btnLineStyle.setLabels();
 		btnColor.setLabels();
+		if (btnTextBgColor != null) {
+			btnTextBgColor.setLabels();
+		}
 		if (btnCrop != null) {
 			btnCrop.setText(loc.getMenu("stylebar.Crop"));
 		}
@@ -1994,7 +1929,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTipText(btnLineStyle, "stylebar.LineStyle");
 		setToolTipText(btnPointStyle, "stylebar.PointStyle");
 		setToolTipText(btnFilling, "stylebar.Filling");
-		setToolTipText(btnTextBgColor, "stylebar.TextColor");
 		setToolTipText(btnTextSize, "stylebar.TextSize");
 		setToolTipText(btnBold, "stylebar.Bold");
 		setToolTipText(btnItalic, "stylebar.Italic");
@@ -2004,6 +1938,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTipText(btnFixPosition, "AbsoluteScreenLocation");
 		setToolTipText(btnFixObject, "FixObject");
 		setToolTipText(btnTextColor, "stylebar.Color");
+		if (btnTextBgColor != null) {
+			setToolTipText(btnTextBgColor, "stylebar.BgColor");
+		}
 	}
 
 	private void setToolTipText(MyCJButton btn, String key) {
@@ -2052,4 +1989,5 @@ public class EuclidianStyleBarW extends StyleBarW2
 	public boolean isVisible() {
 		return visible;
 	}
+
 }

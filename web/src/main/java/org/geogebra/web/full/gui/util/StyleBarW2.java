@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.color.ColorPopupMenuButton;
@@ -30,9 +31,17 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	protected PointStylePopup btnPointStyle;
 
 	protected boolean needUndo = false;
+	protected final InlineTextFormatter inlineFormatter;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param viewID
+	 *            parent view ID
+	 */
 	public StyleBarW2(AppW app, int viewID) {
 		super(app, viewID);
+		inlineFormatter = new InlineTextFormatter(app);
 	}
 
 	protected void createLineStyleBtn() {
@@ -58,7 +67,6 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnPointStyle.getMySlider().setTickSpacing(1);
 
 		btnPointStyle.addPopupHandler(this);
-
 	}
 
 	/**
@@ -70,7 +78,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	protected void openColorChooser(ArrayList<GeoElement> targetGeos,
 			boolean background) {
 		if (app.isWhiteboardActive()) {
-			openColorDialog(targetGeos, background);
+			openColorDialogForWhiteboard(targetGeos, background);
 		} else {
 			openPropertiesForColor(background);
 		}
@@ -131,17 +139,13 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		}
 	}
 
-	protected void openColorDialog(final ArrayList<GeoElement> targetGeos,
-			final boolean background) {
-		if (!app.isWhiteboardActive()) {
-			return;
-		}
-
+	protected void openColorDialogForWhiteboard(final ArrayList<GeoElement> targetGeos,
+												final boolean background) {
 		final GeoElement geo0 = targetGeos.get(0);
 		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
 
 		GColor originalColor;
-		if (app.isUnbundledOrWhiteboard() && background) {
+		if (background) {
 			originalColor = geo0.getBackgroundColor();
 		} else {
 			originalColor = geo0.getObjectColor();
@@ -151,45 +155,41 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 			@Override
 			public void onForegroundSelected() {
-				// TODO Auto-generated method stub
-
+				// no foreground/background switcher
 			}
 
 			@Override
 			public void onColorChange(GColor color) {
+				boolean changed;
 				if (background) {
-					if (app.isUnbundledOrWhiteboard()) {
-						EuclidianStyleBarStatic.applyBgColor(targetGeos, color,
+					changed = EuclidianStyleBarStatic.applyBgColor(targetGeos, color,
 								geo0.getAlphaValue());
-					}
-					return;
+				} else {
+					changed = applyColor(targetGeos, color, geo0.getAlphaValue());
 				}
-				EuclidianStyleBarStatic.applyColor(color,
-						geo0.getAlphaValue(), app);
+				if (changed) {
+					app.storeUndoInfo();
+				}
 			}
 
 			@Override
 			public void onClearBackground() {
-				// TODO Auto-generated method stub
-
+				// no clear background button
 			}
 
 			@Override
 			public void onBarSelected() {
-				// TODO Auto-generated method stub
-
+				// no bar chart support
 			}
 
 			@Override
 			public void onBackgroundSelected() {
-				// TODO Auto-generated method stub
-
+				// no foreground / background switcher
 			}
 
 			@Override
 			public void onAlphaChange() {
-				// TODO Auto-generated method stub
-
+				// no alpha slider
 			}
 		});
 	}
@@ -201,6 +201,15 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	@Override
 	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		handleEventHandlers(actionButton);
+	}
+
+	protected boolean applyColor(ArrayList<GeoElement> targetGeos, GColor color,
+			double alpha) {
+		boolean ret = EuclidianStyleBarStatic.applyColor(color,
+				alpha, app);
+		String htmlColor = StringUtil.toHtmlColor(color);
+		return inlineFormatter.formatInlineText(targetGeos, "color", htmlColor)
+				|| ret;
 	}
 
 	protected abstract void handleEventHandlers(Object source);

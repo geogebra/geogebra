@@ -8,7 +8,7 @@
  *  Author:
  *  Joshua Gould
  *
- *  Copyright (c) 2017 Joshua Gould
+ *  @license Copyright (c) 2017 Joshua Gould
  */
  (function(global) {
 	    'use strict';
@@ -185,9 +185,8 @@
 	                	console.log("TODO", _this.doc);
 	                } else {
 		                var color = fixColor(value);
-		                _this.doc.fillColor(color.c, color.a);	                	
+		                _this.doc.fillColor(color.c, color.a);
 	                }
-	                
 	            }
 	        });
 	        Object.defineProperty(this, 'strokeStyle', {
@@ -250,10 +249,10 @@
 	                return fontValue;
 	            },
 	            set: function(value) {
-	            	
+
 	            	// for measureText()
 	            	this.context.font = value;
-	            	
+
 	                fontValue = value;
 	                var parsedFont = parseFont(value);
 	                _this.doc.fontSize(parsedFont.size);
@@ -378,8 +377,9 @@
 	    };
 
 	    canvas2pdf.PdfContext.prototype.fillText = function(text, x, y) {
-
-	        this.doc.textAdd(x, y, text);
+            if (text && text.trim().length) {
+	            this.doc.textAdd(x, y, text);
+	        }
 
 	    };
 
@@ -450,9 +450,9 @@
 	    canvas2pdf.PdfContext.prototype.arcTo = function(x1, y1, x2, y2, radius) {
 	        console.log('arcTo not implemented');
 	    };
-	    
+
 	/*
-	MIT LICENSE
+	@license MIT LICENSE
 	Copyright (c) 2014 Devon Govett
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -475,7 +475,7 @@
 	    this.lineWidth = 1;
 	    this.lineEndType = 0;
 	    this.alpha = 1;
-		
+
 		// use pako to compress streams if available
 		// https://github.com/nodeca/pako (MIT)
 		canvas2pdf.usePako = false;//!!window.pako;
@@ -542,7 +542,6 @@
 	};
 
 	PDFKitMini.prototype.setFont = function(a) {
-
 	    var b = a.getFontName();
 	    if (null != b) {
 	        var c = null,
@@ -586,49 +585,13 @@
 	};
 
 	PDFKitMini.prototype.linearGradient = function(x1, y1, x2, y2) {
-		
-		var m = this.currentPage._ctm;
-		
-		
-		var m0 = m[0];
-		var m1 = m[1];
-		var m2 = m[2];
-		var m3 = m[3];
-		var m4 = m[4];
-		var m5 = m[5];
-		
-		//console.log(m0,m1,m2,m3,m4,m5);
-		
-		
-		// inverse transformation
-		// needed????????????
-//		var m0t = m3 / ((m0 * m3) - (m1 * m2));
-//		var m1t = ((-m2)) / ((m0 * m3) - (m1 * m2));
-//		var m2t = ((m2 * m5) - (m3 * m4)) / ((m0 * m3) - (m1 * m2));
-//		var m3t = ((-m1)) / ((m0 * m3) - (m1 * m2));
-//		var m4t = m0 / ((m0 * m3) - (m1 * m2));
-//		var m5t = (((-m0) * m5) + (m1 * m4)) / ((m0 * m3) - (m1 * m2));
-//		console.log(m0t,m1t,m2t,m3t,m4t,m5t);
-//		console.log(x1,y1,x2,y2);
-//		
-//		
-//		// transform coords
-//		// needed?
-//		var x1t = m0t * x1 + m2t * y1 + m4t;
-//		var y1t = m1t * x1 + m3t * y1 + m5t;
-//		var x2t = m0t * x2 + m2t * y2 + m4t;
-//		var y2t = m1t * x2 + m3t * y2 + m5t;
-//		console.log(x1t,y1t,x2t,y2t);
-		
-
 	    var a = new PDFGradientFill(x1, y1, x2, y2, this.currentPage);
 	    this.add(a);
 	    this.currentPage.currentImageTile = a;
-	    
-	    this.addPatternToPage(a);
-	    
-	    return a;
 
+	    this.addPatternToPage(a);
+
+	    return a;
 	};
 
 	PDFKitMini.prototype.doDrawImage = function(x, y, width, height) {
@@ -795,7 +758,7 @@
 	PDFKitMini.prototype.getBase64Text = function() {
 	    return "data:application/pdf;base64," + btoa(this.getObject(this));
 	};
-	
+
 	function PDFCatalog() {}
 	PDFCatalog.prototype.setPages = function(a) {
 
@@ -818,13 +781,13 @@
 	    return a
 	};
 	PDFPages.prototype.getObject = function(a) {
-		
+
 		var refs = "[";
 		for (var i = 0 ; i < this.pages.length ; i++) {
 			refs += this.pages[i].id;
 			refs += " 0 R ";
 		}
-		
+
 		refs += "]";
 
 	    var props = {
@@ -1008,7 +971,7 @@
 	    this.pdfStream.addText("Q ");
 	};
 	PDFPage.prototype.fill = function(rule) {
-		
+
 	    if (this.currentImageTile) {
 	        this.pdfStream.addText("/Pattern cs ");
 	        this.pdfStream.addText("/Pattern CS ");
@@ -1040,7 +1003,7 @@
 
 	    }
 	    this.setAlpha(this.alpha);
-	    
+
 	    this.pdfStream.addText(this.fillColor + " rg ");
 	    this.pdfStream.addText(this.strokeColor + " RG ");
 
@@ -1237,7 +1200,7 @@
 	    var props = {
 	        "Type": "Page"
 	    };
-	    
+
 	    props["Parent"] = new PDFReference(this.pagesID + " 0 R");
 
 	    props["MediaBox"] = [0, 0, this.width, this.height];
@@ -1326,7 +1289,6 @@
 	PDFFont.HELVETICA = ["Helvetica", "Helvetica-Oblique", "Helvetica-Bold", "Helvetica-BoldOblique"];
 
 	PDFFont.getPDFName = function(font, bold, italic) {
-
 	    var index = (bold ? 2 : 0) + (italic ? 1 : 0);
 
 	    if (font == "Helvetica") {
@@ -1337,7 +1299,6 @@
 	};
 
 	PDFFont.prototype.getObject = function(a) {
-
 	    var props = {
 	        "Subtype": "Type1",
 	        "Name": "F" + this.id,
@@ -1363,7 +1324,7 @@
 	    //S 	stroke path.
 	    //f 	fill path.
 	    //f* 	eofill Even/odd fill path.
-		
+
 		// for IE11
 		function endsWith(str, suffix) {
 		    return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -1387,35 +1348,35 @@
 	    this.stream = this.stream.replace(a, b)
 	};
 	PDFStream.prototype.getObject = function(a) {
-		
+
 		var stream = this.stream;
-		
+
 		if (canvas2pdf.usePako) {
-			
+
 			// if we need to pass options:
 			//var deflate = new pako.Deflate({ level: pako.Z_BEST_COMPRESSION});
 			//deflate.push(stream, true)
 			//stream = deflate.result;
-			
+
 			// simpler:
 			stream = pako.deflate(stream);
-			
+
 			var buffer = [];
 			for (var i = 0 ; i < stream.length ; i++) {
 				buffer.push(String.fromCharCode(stream[i]));
 			}
 			stream = buffer.join("");
-			
+
 		}
-		
+
 	    var props = {
 	        "Length": stream.length,
 	    };
-		
+
 		if (canvas2pdf.usePako) {
 			props["Filter"] = "FlateDecode";
 		}
-		
+
 	    return PDFObject.makeObject(props, this.id, stream);
 	};
 
@@ -1440,16 +1401,16 @@
 	            buffer[i++] = blue;
 	        }
 		}
-		
+
 		if (canvas2pdf.usePako) {
 			buffer = pako.deflate(buffer);
 		}
-		
+
 		var buffer2 = [];
 		for (var i = 0 ; i < buffer.length ; i++) {
 			buffer2.push(String.fromCharCode(buffer[i]));
 		}
-		
+
 	    this.stream = buffer2.join("");
 
 	}
@@ -1459,7 +1420,7 @@
 	};
 
 	PDFImage.prototype.getObject = function() {
-	
+
 	    var props = {
 	        "Type": "XObject",
 	        "Width": this.width,
@@ -1470,38 +1431,38 @@
 	        "Name": "Image" + this.id,
 	        "Length": this.stream.length
 	    }
-		
+
 		if (canvas2pdf.usePako) {
 			props["Filter"] = "FlateDecode";
 		}
 	    return PDFObject.makeObject(props, this.id, this.stream);
 	};
-	
+
 	function PDFGradientFill(x1, y1, x2, y2, currentPage) {
-		
+
 		this.page = currentPage;
-		
+
 		this.x1 = x1;
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		
+
 		this.cols = ["white", "black"];
 	}
-	
+
 	// n = 0 or 1
 	PDFGradientFill.prototype.addColorStop = function(n, col) {
 		if (n != 0 && n != 1) {
-			console.error("only 0 and 1 suppored for addColorStop", n);	
+			console.error("only 0 and 1 suppored for addColorStop", n);
 		}
 		this.cols[Math.round(n)] = col;
 	}
 
 	PDFGradientFill.prototype.getObject = function() {
-		
+
 		var col0 = fixColor(this.cols[0]).c.split(" ");
 		var col1 = fixColor(this.cols[1]).c.split(" ");
-		
+
 	    var props = {
 	        "Type": "Pattern",
 	        "PatternType": 2,
@@ -1651,8 +1612,6 @@
 	    };
 
 	    PDFObject.makeObject = function(props, id, stream) {
-
-
 	        var ret = (id + " 0 obj\n") + PDFObject.convert(props);
 
 	        if (stream) {
@@ -1662,7 +1621,6 @@
 	        ret += "endobj\n"
 
 	        return ret;
-
 	    }
 
 	    PDFObject.convert = function(object) {

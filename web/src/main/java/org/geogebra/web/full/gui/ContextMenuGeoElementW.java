@@ -1,11 +1,10 @@
 package org.geogebra.web.full.gui;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Command;
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -18,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -32,25 +32,34 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
+import org.geogebra.web.full.gui.fontmenu.FontMenuItem;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
 
-import java.util.ArrayList;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.Command;
 
 /**
  * @author gabor
- * 
+ *
  *         ContextMenuGeoElement for Web
  *
  */
@@ -69,7 +78,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	/**
 	 * Creates new context menu
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -82,7 +91,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	/**
 	 * Creates new MyPopupMenu for GeoElement
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param geos
@@ -169,6 +178,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addPinForUnbundled();
 			addFixForUnbundledOrNotes();
 		} else if (app.isWhiteboardActive()) {
+			addInlineTextItems();
 			addCutCopyPaste();
 			addFixForUnbundledOrNotes();
 		}
@@ -204,6 +214,82 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		// DELETE
 		addDeleteItem();
 		addPropertiesItem();
+	}
+
+	private void addInlineTextItems() {
+		if (!(getGeo() instanceof GeoInlineText)) {
+			return;
+		}
+
+		addInlineTextToolbar();
+		addFontItem();
+		addHyperlinkItems();
+		wrappedPopup.addSeparator();
+
+	}
+
+	private void addInlineTextToolbar() {
+		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(getGeo());
+		InlineTextToolbar toolbar = new InlineTextToolbar(inlineText, app);
+		wrappedPopup.addItem(toolbar, false);
+	}
+
+	private void addFontItem() {
+		wrappedPopup.addItem(new FontMenuItem((AppW) app, getTextController()));
+	}
+
+	private void addHyperlinkItems() {
+		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(getGeo());
+		if (StringUtil.emptyOrZero(inlineText.getHyperLinkURL())) {
+			addHyperlinkItem("Link");
+		} else {
+			addHyperlinkItem("editLink");
+			addRemoveHyperlinkItem();
+		}
+	}
+
+	private void addItem(String text, Command command) {
+		AriaMenuItem menuItem = new AriaMenuItem(loc.getMenu(text), false,
+				command);
+		menuItem.getElement().getStyle()
+				.setPaddingLeft(16, Style.Unit.PX);
+		wrappedPopup.addItem(menuItem);
+	}
+
+	private void addHyperlinkItem(String labelTransKey) {
+		Command addHyperlinkCommand = new Command() {
+			@Override
+			public void execute() {
+				openHyperlinkDialog();
+			}
+		};
+
+		addItem(labelTransKey, addHyperlinkCommand);
+	}
+
+	private void  openHyperlinkDialog() {
+		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
+				getTextController());
+		hyperlinkDialog.center();
+	}
+
+	private InlineTextController getTextController() {
+		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(getGeo());
+		return inlineText.getTextController();
+	}
+
+	private void addRemoveHyperlinkItem() {
+		Command addRemoveHyperlinkCommand = new Command() {
+			@Override
+			public void execute() {
+				getTextController().setHyperlinkUrl(null);
+			}
+		};
+
+		addItem("removeLink", addRemoveHyperlinkCommand);
 	}
 
 	private void addPropertiesItem() {
@@ -517,7 +603,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					.getSafeUri().asString();
 			addSubmenuAction(MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("Angle")),
 					loc.getMenu("Angle"), getAngleSubMenu());
-
 		}
 	}
 
@@ -535,9 +620,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							loc.getMenu("PinToScreen")),
 					MaterialDesignResources.INSTANCE.check_black(),
 					pinned);
-			
+
 			Command cmdPin = new Command() {
-				
+
 				@Override
 				public void execute() {
 					pinCmd(pinned);

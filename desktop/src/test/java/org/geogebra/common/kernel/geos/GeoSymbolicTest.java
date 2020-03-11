@@ -19,7 +19,6 @@ import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.DoubleUtil;
@@ -1009,11 +1008,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	private void updateSpecialPoints(String string) {
 		app.getSpecialPointsManager()
 				.updateSpecialPoints(app.getKernel().lookupLabel(string));
-	}
-
-	private <T extends GeoElementND> T add(String string) {
-		return (T) app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
-				true)[0];
 	}
 
 	/**

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
@@ -179,14 +180,14 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 		for (int i = 0; i < popupBtnList.length; i++) {
 			try {
-				popupBtnList[i].update(selectedRows.toArray());
+				popupBtnList[i].update(selectedRows);
 			} catch (Exception e) {
 				// TODO: find problem
 			}
 		}
 		for (int i = 0; i < toggleBtnList.length; i++) {
 			try {
-				toggleBtnList[i].update(selectedRows.toArray());
+				toggleBtnList[i].update(selectedRows);
 			} catch (Exception e) {
 				e.printStackTrace();
 				// TODO: find problem
@@ -317,13 +318,13 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	 *            list of selected cells
 	 * @return whether all given objects are cells in text mode
 	 */
-	static boolean checkGeoText(Object[] geos) {
-		boolean geosOK = (geos.length > 0);
-		for (int i = 0; i < geos.length; i++) {
-			if (!(geos[i] instanceof GeoCasCell)) {
+	private static boolean checkGeoText(List<GeoElement> geos) {
+		boolean geosOK = (geos.size() > 0);
+		for (int i = 0; i < geos.size(); i++) {
+			if (!(geos.get(i) instanceof GeoCasCell)) {
 				geosOK = false;
 				break;
-			} else if (!((GeoCasCell) geos[i]).isUseAsText()) {
+			} else if (!((GeoCasCell) geos.get(i)).isUseAsText()) {
 				geosOK = false;
 				break;
 			}
@@ -346,13 +347,13 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			private GColor geoColor;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = ((GeoElement) geos.get(0))
 							.getGeoElementForPropertiesDialog();
 					geoColor = ((GeoCasCell) geo).getFontColor();
 					updateColorTable();
@@ -393,7 +394,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				setVisible(true);
 				btnUseAsText.setSelected(checkGeoText(geos));
@@ -412,12 +413,12 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = ((GeoElement) geos.get(0))
 							.getGeoElementForPropertiesDialog();
 					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
 					btnBold.setSelected(style == Font.BOLD
@@ -437,13 +438,13 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 				this.setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = ((GeoElement) geos.get(0))
 							.getGeoElementForPropertiesDialog();
 					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
 					btnItalic.setSelected(style == Font.ITALIC
@@ -465,13 +466,13 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0]);
+					GeoElement geo = geos.get(0);
 					setSelectedIndex(GeoText.getFontSizeIndex(
 							((GeoCasCell) geo).getFontSizeMultiplier())); // font
 																			// size

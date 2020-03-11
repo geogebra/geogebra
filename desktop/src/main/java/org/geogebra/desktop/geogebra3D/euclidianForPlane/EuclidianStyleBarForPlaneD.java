@@ -1,6 +1,7 @@
 package org.geogebra.desktop.geogebra3D.euclidianForPlane;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -80,7 +81,7 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				// always show this button unless in pen mode
 				this.setVisible(mode != EuclidianConstants.MODE_PEN);
 			}
