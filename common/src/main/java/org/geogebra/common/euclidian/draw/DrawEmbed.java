@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -24,7 +23,7 @@ import org.geogebra.common.main.App.ExportType;
  * Drawable for embedded apps
  */
 public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
-	private BoundingBox<GEllipse2DDouble> boundingBox;
+
 	private GRectangle2D bounds;
 	private double originalRatio = Double.NaN;
 	private GeoEmbed geoEmbed;
@@ -55,16 +54,9 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		if (getEmbedManager() != null) {
 			getEmbedManager().update(this);
 		}
-		setMetrics();
-	}
 
-	private void setMetrics() {
 		bounds = AwtFactory.getPrototype().newRectangle2D();
-		bounds.setFrame(getLeft(), getTop(),
-				getWidth(), getHeight());
-		if (boundingBox != null) {
-			boundingBox.setRectangle(bounds);
-		}
+		bounds.setFrame(getLeft(), getTop(), getWidth(), getHeight());
 	}
 
 	@Override
@@ -131,16 +123,6 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	@Override
 	public GeoElement getGeoElement() {
 		return geo;
-	}
-
-	@Override
-	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
-		if (boundingBox == null) {
-			boundingBox = createBoundingBox(false);
-			setMetrics();
-		}
-		boundingBox.updateFrom(geo);
-		return boundingBox;
 	}
 
 	@Override
@@ -224,7 +206,7 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	/**
-	 * @return emvbeded applet as geo
+	 * @return embedded applet as geo
 	 */
 	public GeoEmbed getGeoEmbed() {
 		return geoEmbed;

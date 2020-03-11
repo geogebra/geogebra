@@ -4,4 +4,10 @@
     function ggbAppletOnLoad(){
         window.parent.postMessage("{\"action\":\"appletOnLoad\"}","*");
     }
+
+    function loadFontScript(basePath) {
+        var app = document.createElement("script");
+        app.setAttribute("src", basePath + "/js/webfont.js");
+        document.head.appendChild(app);
+    }
 </script>

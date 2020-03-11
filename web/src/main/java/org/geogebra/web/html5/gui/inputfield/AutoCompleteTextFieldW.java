@@ -754,8 +754,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')'
 				|| ch == ']')) {
-			// super.keyTyped(e);
-			Log.debug("super.keyTyped needed in AutocompleteTextField");
 			return;
 		}
 		clearSelection();

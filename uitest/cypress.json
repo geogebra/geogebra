@@ -5,6 +5,7 @@
     "defaultCommandTimeout" : 200000,
     "reporter": "junit",
     "reporterOptions": {
-        "mochaFile": "results/ui-tests.[hash].xml"
+        "mochaFile": "results/ui-tests.[hash].xml",
+        "jenkinsMode": true
      }
 }

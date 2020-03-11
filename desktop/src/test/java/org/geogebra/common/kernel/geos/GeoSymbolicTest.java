@@ -19,7 +19,6 @@ import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.test.TestErrorHandler;
@@ -907,7 +906,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testUndoRedoWorksWhenLabelIsHidden() {
 		LabelController labelController = new LabelController();
-		GeoElement element = (GeoElement) add("x")[0];
+		GeoElement element = add("x");
 		labelController.hideLabel(element);
 		app.setXML(app.getXML(), true);
 	}
@@ -922,11 +921,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	private void updateSpecialPoints(String string) {
 		app.getSpecialPointsManager()
 				.updateSpecialPoints(app.getKernel().lookupLabel(string));
-	}
-
-	private GeoElementND[] add(String string) {
-		return app.getKernel().getAlgebraProcessor().processAlgebraCommand(string,
-				true);
 	}
 
 	/**
