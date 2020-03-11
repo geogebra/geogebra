@@ -764,4 +764,8 @@ public class AppCommon extends App {
 		resetAlgebraOutputFilter();
 		kernel.setAlgebraProcessor(null);
 	}
+
+	public void setScriptManager(ScriptManager scriptManager) {
+		this.scriptManager = scriptManager;
+	}
 }

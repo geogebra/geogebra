@@ -26,6 +26,8 @@ include 'keyboard-base'
 include 'keyboard-scientific'
 include 'keyboard-web'
 
+include 'carota-web'
+
 rootProject.name = 'geogebra'
 rootProject.children.each { project ->
     String projectName = project.name

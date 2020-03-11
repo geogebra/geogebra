@@ -12,14 +12,14 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
-//import java.awt.Graphics2D;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+
+import javax.annotation.Nonnull;
 
 /**
  * List to store Drawable objects for fast drawing.
@@ -252,61 +252,30 @@ public class DrawableList implements Iterable<Drawable> {
 		}
 	}
 
-	/**
-	 * Returns iterator pointing to head of the list
-	 * 
-	 * @return iterator pointing to head of the list
-	 */
-	public DrawableIterator getIterator() {
-		return new DrawableIterator();
-	}
-
-	/**
-	 * Allows iteration over the list
-	 * 
-	 */
-	public class DrawableIterator implements Iterator<Drawable> {
-		private Link it;
-
-		/**
-		 * Creates new drawable iterator
-		 */
-		DrawableIterator() {
-			reset();
-		}
-
-		@Override
-		final public Drawable next() {
-			if (it == null) {
-				throw new NoSuchElementException();
-			}
-			Drawable ret = it.d;
-			it = it.next;
-			return ret;
-		}
-
-		@Override
-		final public boolean hasNext() {
-			return (it != null);
-		}
-
-		/**
-		 * Resets the iterator to the head of the list
-		 */
-		final public void reset() {
-			it = head;
-		}
-
-		@Override
-		final public void remove() {
-			// do nothing
-		}
-
-	}
-
 	@Override
-	public Iterator<Drawable> iterator() {
-		return getIterator();
-	}
+	public @Nonnull Iterator<Drawable> iterator() {
+		return new Iterator<Drawable>() {
+			private Link it = head;
 
+			@Override
+			final public Drawable next() {
+				if (it == null) {
+					throw new NoSuchElementException();
+				}
+				Drawable ret = it.d;
+				it = it.next;
+				return ret;
+			}
+
+			@Override
+			final public boolean hasNext() {
+				return it != null;
+			}
+
+			@Override
+			final public void remove() {
+				// do nothing
+			}
+		};
+	}
 }

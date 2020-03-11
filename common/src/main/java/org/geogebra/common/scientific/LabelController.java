@@ -47,7 +47,6 @@ public class LabelController {
 		if (definition != null) {
 			definition.setLabel(label);
 		}
-		element.setDescriptionNeedsUpdateInAV(true);
 		element.getKernel().notifyUpdate(element);
 	}
 

@@ -1,9 +1,13 @@
 package org.geogebra.web.html5.gui.laf;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
@@ -50,4 +54,30 @@ public class GgbSettings implements VendorSettings {
 	public boolean isGraspableMathEnabled() {
 		return true;
 	}
+
+	@Override
+	public List<FontFamily> getTextToolFonts() {
+		return Arrays.asList(FontFamily.ARIAL,
+				FontFamily.CALIBRI,
+				FontFamily.CENTURY_GOTHIC,
+				FontFamily.COMIC_SANS,
+				FontFamily.COURIER,
+				FontFamily.GEORGIA,
+				FontFamily.ROBOTO,
+				FontFamily.SF_MONO,
+				FontFamily.SF_PRO,
+				FontFamily.TIMES,
+				FontFamily.TREBUCHET,
+				FontFamily.VERDANA);
+	}
+
+	@Override
+	public Material.MaterialType getTemplateType() {
+		return Material.MaterialType.notesTemplate;
+	}
+
+    @Override
+    public String getAPIBaseUrl() {
+        return "";
+    }
 }

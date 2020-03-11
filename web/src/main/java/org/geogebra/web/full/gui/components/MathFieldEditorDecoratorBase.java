@@ -31,13 +31,9 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
 		GColor color = backgroundColor != null
 				? backgroundColor
 				: GColor.WHITE;
-		String cssColor = toCssColor(color);
+		String cssColor = StringUtil.toHtmlColor(color);
 		style.setBackgroundColor(cssColor);
 		mathField.setBackgroundCssColor(cssColor);
-	}
-
-	private static String toCssColor(GColor color) {
-		return "#" + StringUtil.toHexString(color);
 	}
 
 	/**
@@ -46,7 +42,8 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
 	 * @param foregroundColor {@link GColor}
 	 */
 	protected void setForegroundColor(GColor foregroundColor) {
-		mathField.setForegroundCssColor(toCssColor(foregroundColor));
+		mathField
+				.setForegroundCssColor(StringUtil.toHtmlColor(foregroundColor));
 	}
 
 	/**

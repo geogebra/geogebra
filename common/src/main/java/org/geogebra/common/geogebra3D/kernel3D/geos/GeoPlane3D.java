@@ -680,11 +680,6 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public double getMeasure() {
-		return Double.POSITIVE_INFINITY;
-	}
-
-	@Override
 	public double distance(GeoPointND P) {
 		return Math.abs(distanceWithSign(P));
 

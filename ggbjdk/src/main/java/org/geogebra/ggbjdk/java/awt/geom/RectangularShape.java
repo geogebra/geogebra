@@ -169,7 +169,7 @@ public abstract class RectangularShape implements Shape {
      * @return a <code>Rectangle2D</code>, specified in
      * <code>double</code> coordinates.
      * @see #setFrame(double, double, double, double)
-     * @see #setFrame(Point2D, Dimension2D)
+     * @see #setFrame(GPoint2D, Dimension2D)
      * @see #setFrame(Rectangle2D)
      * @since 1.2
      */
@@ -205,7 +205,7 @@ public abstract class RectangularShape implements Shape {
 
     /**
      * Sets the location and size of the framing rectangle of this
-     * <code>Shape</code> to the specified {@link Point2D} and
+     * <code>Shape</code> to the specified {@link GPoint2D} and
      * {@link Dimension2D}, respectively.  The framing rectangle is used
      * by the subclasses of <code>RectangularShape</code> to define
      * their geometry.

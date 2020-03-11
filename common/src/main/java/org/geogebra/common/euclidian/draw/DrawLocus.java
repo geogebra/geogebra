@@ -15,13 +15,10 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
@@ -32,7 +29,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.geos.Rotateable;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
@@ -54,9 +50,7 @@ public class DrawLocus extends Drawable {
 	private GeneralPathClippedForCurvePlotter gp;
 	private double[] labelPosition;
 	private CoordSys transformSys;
-	private BoundingBox boundingBox;
 	private GBufferedImage bitmap;
-	private AlgoElement algo;
 
 	private int bitmapShiftX;
 	private int bitmapShiftY;
@@ -90,7 +84,7 @@ public class DrawLocus extends Drawable {
 			return;
 		}
 
-		algo = geo.getParentAlgorithm();
+		AlgoElement algo = geo.getParentAlgorithm();
 		if (algo instanceof AlgoLocusEquation) {
 			AlgoLocusEquation ale = (AlgoLocusEquation) geo.getParentAlgorithm();
 			if (ale.resetFingerprint(geo.getKernel(), false)) {
@@ -150,11 +144,6 @@ public class DrawLocus extends Drawable {
 		if (geo.isInverseFill()) {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
-		}
-
-		if (geo.getKernel().getApplication().isWhiteboardActive()
-				&& geo.getGeoClassType() == GeoClass.PENSTROKE && getBounds() != null) {
-			getBoundingBox().setRectangle(getBounds2D());
 		}
 	}
 
@@ -335,28 +324,9 @@ public class DrawLocus extends Drawable {
 		return partialHitClip;
 	}
 
-	private GRectangle2D getBounds2D() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
-			return null;
-		}
-		return gp.getBounds2D();
-	}
-
 	@Override
 	public GRectangle getBoundsForStylebarPosition() {
 		return getBoundsClipped();
-	}
-
-	@Override
-	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
-		if (view.getApplication().isWhiteboardActive()) {
-			if (boundingBox == null) {
-				boundingBox = createBoundingBox(geo instanceof Rotateable);
-			}
-			boundingBox.updateFrom(geo);
-			return boundingBox;
-		}
-		return null;
 	}
 
 	@Override
@@ -374,11 +344,6 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
-	public boolean hasRotationHandler() {
-		return geo instanceof Rotateable;
-	}
-
-	@Override
 	public ArrayList<GPoint2D> toPoints() {
 		ArrayList<GPoint2D> points = new ArrayList<>();
 		for (MyPoint pt : locus.getPoints()) {
@@ -392,7 +357,7 @@ public class DrawLocus extends Drawable {
 	public void fromPoints(ArrayList<GPoint2D> points) {
 		int i = 0;
 		for (MyPoint pt : locus.getPoints()) {
-			pt.setCoords(view.toRealWorldCoordX(points.get(i).getX()),
+			pt.setLocation(view.toRealWorldCoordX(points.get(i).getX()),
 					view.toRealWorldCoordY(points.get(i).getY()));
 			i++;
 		}

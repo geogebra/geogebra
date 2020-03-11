@@ -91,7 +91,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			linkedGeo = geo;
 		}
 
-		inputBoxRenderer = new InputBoxRenderer(this);
+		inputBoxRenderer.setLinkedGeo(geo);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
 	}
 
@@ -245,6 +245,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public void updateLinkedGeo(String inputText) {
 		inputBoxProcessor.updateLinkedGeo(inputText, tpl);
+		getKernel().getApplication().storeUndoInfo();
 	}
 
 	/**

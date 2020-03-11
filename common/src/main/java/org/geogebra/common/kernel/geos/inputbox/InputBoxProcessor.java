@@ -62,17 +62,31 @@ public class InputBoxProcessor {
 			return;
 		}
 
-		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
-		InputBoxErrorHandler handler = new InputBoxErrorHandler(inputBox, errorHandler,
-				tempUserDisplayInput, inputText);
+		String tempUserDisplayInput = getTempUserDisplayInput(inputText);
+		InputBoxErrorHandler errorHandler =
+				new InputBoxErrorHandler(
+						inputBox,
+						this.errorHandler,
+						tempUserDisplayInput,
+						inputText);
+		updateLinkedGeo(inputText, tpl, errorHandler);
+	}
 
+	private String getTempUserDisplayInput(String inputText) {
+		String tempUserInput = inputBox.getTempUserDisplayInput();
+		return tempUserInput == null ? inputText : tempUserInput;
+	}
+
+	private void updateLinkedGeo(String inputText,
+								 StringTemplate tpl,
+								 InputBoxErrorHandler errorHandler) {
 		try {
-			updateLinkedGeoNoErrorHandling(inputText, tpl, handler);
+			updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
 		} catch (MyError error) {
-			handler.handleError();
+			errorHandler.handleError();
 			maybeShowError(error);
 		} catch (Throwable throwable) {
-			handler.handleError();
+			errorHandler.handleError();
 			Log.error(throwable.getMessage());
 			maybeShowError(MyError.Errors.InvalidInput);
 		}
@@ -89,15 +103,7 @@ public class InputBoxProcessor {
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,
-				new InputBoxCallback(kernel.getApplication(), this, inputBox), errorHandler);
-	}
-
-	private String getAndClearTempUserDisplayInput(String inputText) {
-		String tempUserInput = inputBox.getTempUserDisplayInput();
-		inputBox.setTempUserDisplayInput(null);
-		inputBox.setTempUserEvalInput(null);
-
-		return tempUserInput == null ? inputText : tempUserInput;
+				new InputBoxCallback(this, inputBox), errorHandler);
 	}
 
 	private String  preprocess(String inputText, StringTemplate tpl) {

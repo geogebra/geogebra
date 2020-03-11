@@ -1445,4 +1445,8 @@ public class GgbAPIW extends GgbAPI {
 		return ((AppW) app).getFrameElement();
 	}
 
+	@Override
+	public void newConstruction() {
+		((AppW) app).tryLoadTemplatesOnFileNew();
+	}
 }

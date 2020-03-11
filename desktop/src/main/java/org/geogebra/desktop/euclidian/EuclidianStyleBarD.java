@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -89,8 +90,8 @@ public class EuclidianStyleBarD extends JToolBar
 		}
 
 		@Override
-		public void update(Object[] geos) {
-			this.setVisible(geos.length == 0 && !EuclidianView.isPenMode(mode)
+		public void update(List<GeoElement> geos) {
+			this.setVisible(geos.size() == 0 && !EuclidianView.isPenMode(mode)
 					&& mode != EuclidianConstants.MODE_DELETE
 					&& mode != EuclidianConstants.MODE_ERASER);
 		}
@@ -427,13 +428,12 @@ public class EuclidianStyleBarD extends JToolBar
 		// update the buttons
 		// note: this must always be done, even when activeGeoList is empty
 		// -----------------------------------------------------
-		Object[] geos = activeGeoList.toArray();
-		tableText = EuclidianStyleBarStatic.updateTableText(geos, mode);
+		tableText = EuclidianStyleBarStatic.updateTableText(activeGeoList, mode);
 		for (int i = 0; i < popupBtnList.length; i++) {
-			popupBtnList[i].update(geos);
+			popupBtnList[i].update(activeGeoList);
 		}
 		for (int i = 0; i < toggleBtnList.length; i++) {
-			toggleBtnList[i].update(geos);
+			toggleBtnList[i].update(activeGeoList);
 		}
 
 	}
@@ -601,7 +601,7 @@ public class EuclidianStyleBarD extends JToolBar
 				private static final long serialVersionUID = 1L;
 
 				@Override
-				public void update(Object[] geos) {
+				public void update(List<GeoElement> geos) {
 					this.setVisible(mode == EuclidianConstants.MODE_DELETE
 							|| mode == EuclidianConstants.MODE_ERASER);
 				}
@@ -655,7 +655,7 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				if (EuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
@@ -664,10 +664,10 @@ public class EuclidianStyleBarD extends JToolBar
 					setSelectedIndex(
 							lineStyleMap.get(ec.getPen().getPenLineStyle()));
 				} else {
-					boolean geosOK = (geos.length > 0);
+					boolean geosOK = (geos.size() > 0);
 					int maxMinimumThickness = 0;
-					for (int i = 0; i < geos.length; i++) {
-						GeoElement geo = ((GeoElement) geos[i])
+					for (int i = 0; i < geos.size(); i++) {
+						GeoElement geo = ((GeoElement) geos.get(i))
 								.getGeoElementForPropertiesDialog();
 						if (!geo.showLineProperties()) {
 							geosOK = false;
@@ -687,10 +687,10 @@ public class EuclidianStyleBarD extends JToolBar
 						setFgColor(GColor.BLACK);
 						getMySlider().setMinimum(maxMinimumThickness);
 						setSliderValue(
-								((GeoElement) geos[0]).getLineThickness());
+								((GeoElement) geos.get(0)).getLineThickness());
 
 						setSelectedIndex(lineStyleMap
-								.get(((GeoElement) geos[0]).getLineType()));
+								.get(((GeoElement) geos.get(0)).getLineType()));
 						addThisActionListenerTo(this);
 
 						this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
@@ -746,12 +746,12 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				GeoElement geo;
-				boolean geosOK = (geos.length > 0);
+				boolean geosOK = (geos.size() > 0);
 				// btnPointStyle.getMyTable().setVisible(true);
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
+				for (int i = 0; i < geos.size(); i++) {
+					geo = (GeoElement) geos.get(i);
 					if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
 							&& (!(geo.isGeoList() && ((GeoList) geo)
 									.showPointProperties()))) {
@@ -766,7 +766,7 @@ public class EuclidianStyleBarD extends JToolBar
 					setFgColor(GColor.BLACK);
 
 					// if geo is a matrix, this will return a GeoNumeric...
-					geo = ((GeoElement) geos[0])
+					geo = ((GeoElement) geos.get(0))
 							.getGeoElementForPropertiesDialog();
 
 					// ... so need to check
@@ -828,7 +828,7 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				GeoElement geo = EuclidianStyleBarStatic
 						.checkGeosForAngleInterval(geos);
 				boolean geosOK = (geo != null);
@@ -871,9 +871,9 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				GeoElement geo = EuclidianStyleBarStatic
-						.checkGeosForCaptionStyle(geos, mode, app);
+						.checkGeosForCaptionStyle(geos);
 				boolean geosOK = geo != null;
 				this.setVisible(geosOK);
 
@@ -914,9 +914,9 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				this.setVisible(
-						geos.length == 0 && !EuclidianView.isPenMode(mode)
+						geos.size() == 0 && !EuclidianView.isPenMode(mode)
 								&& mode != EuclidianConstants.MODE_DELETE
 								&& mode != EuclidianConstants.MODE_ERASER);
 			}
@@ -944,18 +944,18 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeos(geos);
 
 				setVisible(geosOK);
 				if (geosOK) {
 					btnFixPosition.setSelected(EuclidianStyleBarStatic
-							.checkSelectedFixPosition((GeoElement) geos[0]));
+							.checkSelectedFixPosition(geos.get(0)));
 				}
 			}
 
-			private boolean checkGeos(Object[] geos) {
+			private boolean checkGeos(List<GeoElement> geos) {
 				return EuclidianStyleBarStatic.checkGeosForFixPosition(geos);
 			}
 
@@ -976,14 +976,14 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeos(geos);
 
 				setVisible(geosOK);
 				if (geosOK) {
 					boolean selected = EuclidianStyleBarStatic
-							.checkSelectedFixObject((GeoElement) geos[0]);
+							.checkSelectedFixObject(geos.get(0));
 					btnFixObject.setSelected(selected);
 					if (selected) {
 						btnFixObject.setIcon(app.getScaledIcon(
@@ -995,7 +995,7 @@ public class EuclidianStyleBarD extends JToolBar
 				}
 			}
 
-			private boolean checkGeos(Object[] geos) {
+			private boolean checkGeos(List<GeoElement> geos) {
 				return EuclidianStyleBarStatic.checkGeosForFixObject(geos);
 			}
 
@@ -1030,7 +1030,7 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				if (EuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
@@ -1041,10 +1041,10 @@ public class EuclidianStyleBarD extends JToolBar
 					getMySlider().setVisible(false);
 
 				} else {
-					boolean geosOK = (geos.length > 0
+					boolean geosOK = (geos.size() > 0
 							|| EuclidianView.isPenMode(mode));
-					for (int i = 0; i < geos.length; i++) {
-						GeoElement geo = ((GeoElement) geos[i])
+					for (int i = 0; i < geos.size(); i++) {
+						GeoElement geo = geos.get(i)
 								.getGeoElementForPropertiesDialog();
 						if (geo instanceof GeoImage || geo instanceof GeoText
 								|| geo instanceof GeoButton) {
@@ -1058,18 +1058,18 @@ public class EuclidianStyleBarD extends JToolBar
 					if (geosOK) {
 						// get color from first geo
 						GColor geoColor;
-						geoColor = ((GeoElement) geos[0]).getObjectColor();
+						geoColor = ((GeoElement) geos.get(0)).getObjectColor();
 
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha
 						// value
 						double alpha = 1.0;
 						boolean hasFillable = false;
-						for (int i = 0; i < geos.length; i++) {
-							if (((GeoElement) geos[i]).isFillable()) {
+						for (int i = 0; i < geos.size(); i++) {
+							if (geos.get(i).isFillable()) {
 								hasFillable = true;
 								// can be -1 for lists
-								alpha = ((GeoElement) geos[i]).getAlphaValue();
+								alpha = geos.get(i).getAlphaValue();
 								break;
 							}
 						}
@@ -1117,11 +1117,11 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
-				boolean geosOK = (geos.length > 0);
-				for (int i = 0; i < geos.length; i++) {
-					GeoElement geo = ((GeoElement) geos[i])
+				boolean geosOK = (geos.size() > 0);
+				for (int i = 0; i < geos.size(); i++) {
+					GeoElement geo = geos.get(i)
 							.getGeoElementForPropertiesDialog();
 					if (!(geo instanceof GeoText)
 							&& !(geo instanceof GeoButton)) {
@@ -1135,7 +1135,7 @@ public class EuclidianStyleBarD extends JToolBar
 				if (geosOK) {
 					// get color from first geo
 					GColor geoColor;
-					geoColor = ((GeoElement) geos[0]).getBackgroundColor();
+					geoColor = geos.get(0).getBackgroundColor();
 
 					/*
 					 * // check if selection contains a fillable geo // if true,
@@ -1180,10 +1180,10 @@ public class EuclidianStyleBarD extends JToolBar
 	// Text Format Buttons
 	// =====================================================
 
-	static boolean checkGeoText(Object[] geos) {
-		boolean geosOK = (geos.length > 0);
-		for (int i = 0; i < geos.length; i++) {
-			if (!(((GeoElement) geos[i])
+	static boolean checkGeoText(List<GeoElement> geos) {
+		boolean geosOK = (geos.size() > 0);
+		for (int i = 0; i < geos.size(); i++) {
+			if (!(geos.get(i)
 					.getGeoElementForPropertiesDialog() instanceof TextProperties)) {
 				geosOK = false;
 				break;
@@ -1207,13 +1207,13 @@ public class EuclidianStyleBarD extends JToolBar
 			private GColor geoColor;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = ((GeoElement) geos.get(0))
 							.getGeoElementForPropertiesDialog();
 					geoColor = geo.getObjectColor();
 					updateColorTable();
@@ -1260,13 +1260,13 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos)
-						&& !((GeoElement) geos[0]).isGeoInputBox();
+						&& !geos.get(0).isGeoInputBox();
 				setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = geos.get(0)
 							.getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
 					btnBold.setSelected(style == Font.BOLD
@@ -1291,14 +1291,14 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos)
-						&& !((GeoElement) geos[0]).isGeoInputBox();
+						&& !((GeoElement) geos.get(0)).isGeoInputBox();
 				setVisible(geosOK);
 				this.setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = ((GeoElement) geos.get(0))
 							.getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
 					btnItalic.setSelected(style == Font.ITALIC
@@ -1325,13 +1325,13 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = ((GeoElement) geos.get(0))
 							.getGeoElementForPropertiesDialog();
 					setSelectedIndex(GeoText.getFontSizeIndex(
 							((TextProperties) geo).getFontSizeMultiplier())); // font
@@ -1380,7 +1380,7 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				if (tableText != null) {
 					this.setVisible(true);
 					String justification = tableText.getJustification();
@@ -1429,7 +1429,7 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				if (tableText != null) {
 					this.setVisible(true);
 					String s = tableText.getOpenSymbol() + " "
@@ -1466,7 +1466,7 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				if (tableText != null) {
 					setVisible(true);
 					setSelected(tableText.isVerticalLines());
@@ -1490,7 +1490,7 @@ public class EuclidianStyleBarD extends JToolBar
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				if (tableText != null) {
 					setVisible(true);
 					setSelected(tableText.isHorizontalLines());
@@ -1591,8 +1591,6 @@ public class EuclidianStyleBarD extends JToolBar
 				float alpha = btnColor.getSliderValue() / 100.0f;
 				needUndo = EuclidianStyleBarStatic.applyColor(color,
 						alpha, app);
-				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
-				// btnPointStyle.setFgColor((Color)btnColor.getSelectedValue());
 			}
 		}
 
@@ -1608,11 +1606,8 @@ public class EuclidianStyleBarD extends JToolBar
 		else if (source == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
-				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
-						color);
-				// btnTextColor.setFgColor((Color)btnTextColor.getSelectedValue());
-				// btnItalic.setForeground((Color)btnTextColor.getSelectedValue());
-				// btnBold.setForeground((Color)btnTextColor.getSelectedValue());
+				needUndo = EuclidianStyleBarStatic.applyColor(
+						color, 1, app);
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
@@ -1636,12 +1631,12 @@ public class EuclidianStyleBarD extends JToolBar
 			}
 		} else if (source == btnBold) {
 			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					GFont.ITALIC,
-					btnBold.isSelected() ? GFont.BOLD : GFont.PLAIN);
+					GFont.BOLD,
+					btnBold.isSelected());
 		} else if (source == btnItalic) {
 			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
-					GFont.BOLD,
-					btnItalic.isSelected() ? GFont.ITALIC : GFont.PLAIN);
+					GFont.ITALIC,
+					btnItalic.isSelected());
 		} else if (source == btnTextSize) {
 			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos,
 					btnTextSize.getSelectedIndex());
@@ -1677,7 +1672,7 @@ public class EuclidianStyleBarD extends JToolBar
 		else if (source == btnFixObject) {
 			needUndo = EuclidianStyleBarStatic.applyFixObject(targetGeos,
 					btnFixObject.isSelected(), ev) != null;
-			btnFixObject.update(targetGeos.toArray());
+			btnFixObject.update(targetGeos);
 		}
 
 		else {

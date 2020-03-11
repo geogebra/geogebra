@@ -26,35 +26,6 @@ function addAppletPreview(tubeid){
 	document.body.appendChild(previewDiv);
 }
 
-function installWorker(){
-	window.GGBT_offlineRequestHandler = (function() {
-		"use strict";
-		function isServiceWorkerSupported() {
-			return 'serviceWorker' in navigator && location.protocol === "https:";
-		}
-		function registerServiceWorker() {
-			//TODO: will be cool for offline working. Not ready for push messages yet, too small browser support, too many quirks
-			if (navigator.serviceWorker.controller) {
-				console.log("service worker already controlling the page");
-			} else {
-				navigator.serviceWorker.register('/sworker.js', {
-					scope: '/'
-				});
-			}
-		}
-		function initServiceWorker() {
-			if (isServiceWorkerSupported()) {
-				registerServiceWorker();
-			} else {
-				console.log("service workers not supported");
-			}
-		}
-		return {
-			initServiceWorker : initServiceWorker,
-		};
-	})();
-	window.GGBT_offlineRequestHandler.initServiceWorker();
-}
 </script>
 <!-- Google Analytics (Start) -->
 	<script type="text/javascript">
