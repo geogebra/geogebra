@@ -1,6 +1,7 @@
 package org.geogebra.web.full.cas.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -82,7 +83,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnUseAsText = new MyToggleButtonW(loc.getMenu("Text").substring(0, 1)) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				setVisible(true);
 				btnUseAsText.setSelected(checkGeoText(geos));
 			}
@@ -94,13 +95,13 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = geos.get(0)
 					        .getGeoElementForPropertiesDialog();
 					GColor geoColor = ((GeoCasCell) geo).getFontColor();
 					updateColorTable();
@@ -129,11 +130,11 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short")) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = geos.get(0)
 					        .getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
 					btnBold.setValue(style == GFont.BOLD
@@ -147,11 +148,11 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short")) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
+					GeoElement geo = geos.get(0)
 					        .getGeoElementForPropertiesDialog();
 					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
 					btnItalic.setSelected(style == GFont.ITALIC
@@ -168,14 +169,13 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	 *            list of selected cells
 	 * @return whether all given objects are cells in text mode
 	 */
-	static boolean checkGeoText(Object[] geos) {
-		boolean geosOK = (geos.length > 0);
-		for (int i = 0; i < geos.length; i++) {
-			if (!(((GeoElement) geos[i])
-					.getGeoElementForPropertiesDialog() instanceof GeoCasCell)) {
+	private static boolean checkGeoText(List<GeoElement> geos) {
+		boolean geosOK = (geos.size() > 0);
+		for (GeoElement geo : geos) {
+			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoCasCell)) {
 				geosOK = false;
 				break;
-			} else if (!((GeoCasCell) geos[i]).isUseAsText()) {
+			} else if (!((GeoCasCell) geo).isUseAsText()) {
 				geosOK = false;
 				break;
 			}
@@ -257,14 +257,14 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	private void updateStyleBar() {
 		for (int i = 0; i < popupBtnList.length; i++) {
 			try {
-				popupBtnList[i].update(selectedRows.toArray());
+				popupBtnList[i].update(selectedRows);
 			} catch (Exception e) {
 				// TODO: find problem
 			}
 		}
 		for (int i = 0; i < toggleBtnList.length; i++) {
 			try {
-				toggleBtnList[i].update(selectedRows.toArray());
+				toggleBtnList[i].update(selectedRows);
 			} catch (Exception e) {
 				e.printStackTrace();
 				// TODO: find problem

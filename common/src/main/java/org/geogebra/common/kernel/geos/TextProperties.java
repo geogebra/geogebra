@@ -1,16 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-
 /**
  * Element with text properties
  */
-public interface TextProperties extends GeoElementND {
-	/**
-	 * 
-	 * @return font size (relative)
-	 */
-	public double getFontSizeMultiplier();
+public interface TextProperties extends TextStyle {
 
 	/**
 	 * 
@@ -18,12 +11,6 @@ public interface TextProperties extends GeoElementND {
 	 *            font size (relative)
 	 */
 	public void setFontSizeMultiplier(double size);
-
-	/**
-	 * 
-	 * @return font style
-	 */
-	public int getFontStyle();
 
 	/**
 	 * 
@@ -80,14 +67,6 @@ public interface TextProperties extends GeoElementND {
 	 * @return true iff significant figures should be used
 	 */
 	public boolean useSignificantFigures();
-
-	/**
-	 * For buttons
-	 * 
-	 * @return true if most of these properties are ignored and just size is
-	 *         taken into account
-	 */
-	public boolean justFontSize();
 
 	/**
 	 * @return whether this was created using a command with LaTeX output

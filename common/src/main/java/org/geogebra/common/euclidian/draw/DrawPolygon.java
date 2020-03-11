@@ -40,7 +40,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class DrawPolygon extends Drawable implements Previewable {
@@ -58,7 +58,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	/**
 	 * Creates new DrawPolygon
-	 * 
+	 *
 	 * @param view
 	 *            Euclidian view to be used
 	 * @param poly
@@ -74,7 +74,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	/**
 	 * Creates a new DrawPolygon for preview.
-	 * 
+	 *
 	 * @param view
 	 *            Euclidian view to be used
 	 * @param points
@@ -367,7 +367,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		GShape t = geo.isInverseFill() ? getShape() : gp;
 		return (t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
-						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)));
+				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)));
 	}
 
 	@Override
@@ -407,11 +407,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 			poly.getPoint(i).setCoords(view.toRealWorldCoordX(pts.get(i).getX()),
 					view.toRealWorldCoordY(pts.get(i).getY()), 1);
 		}
-	}
-
-	@Override
-	protected boolean hasRotationHandler() {
-		return true;
 	}
 
 	@Override

@@ -321,10 +321,9 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function insertScript(){
-		var app = document.createElement("script");
-		app.setAttribute("src",codebase+module+"/js/webfont.js");
-		document.head.appendChild(app);
-
+		if (window.loadFontScript) {
+			window.loadFontScript(codebase + module);
+		}
 		app = document.createElement("script");
 		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
 		window.setTimeout(function(){

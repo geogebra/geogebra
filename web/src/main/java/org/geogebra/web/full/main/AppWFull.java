@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.MaskWidgetList;
-import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
@@ -39,6 +38,7 @@ import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
+import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
@@ -85,6 +85,7 @@ import org.geogebra.web.full.gui.openfileview.OpenFileView;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.full.gui.util.FontSettingsUpdaterW;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -655,8 +656,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		resetPenTool();
 
-		resetTextTool();
-
 		resetToolbarPanel();
 
 		if (getGuiManager() != null) {
@@ -668,17 +667,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 						.getUnbundledToolbar() != null) {
 			getGuiManager().getUnbundledToolbar()
 					.updateContent();
-		}
-	}
-
-	private void resetTextTool() {
-		if (!has(Feature.MOW_TEXT_TOOL)) {
-			return;
-		}
-
-		TextController ctrl = getEuclidianController().getTextController();
-		if (ctrl != null) {
-			ctrl.reset();
 		}
 	}
 
@@ -1663,7 +1651,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (isWhiteboardActive()) {
 			AdjustScreen.adjustCoordSystem(getActiveEuclidianView());
 		}
-		resetTextTool();
 	}
 
 	private void updatePerspective(Perspective p) {
@@ -2190,6 +2177,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public ScriptManager newScriptManager() {
 		return new ScriptManagerW(this, getActivity().getApiExporter());
+	}
+
+	@Override
+	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
+		return new SettingsUpdaterBuilder(this)
+				.withFontSettingsUpdater(new FontSettingsUpdaterW(this));
 	}
 
 	@Override

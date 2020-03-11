@@ -1,9 +1,11 @@
 package org.geogebra.web.full.gui.util;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
@@ -598,11 +600,11 @@ public class PopupMenuButtonW extends MyCJButton
 	}
 
 	/**
-	 * @param array
-	 *            elements (usually GeoElements) whose state is displayed in
+	 * @param geos
+	 *            GeoElements whose state is displayed in
 	 *            this table
 	 */
-	public void update(Object[] array) {
+	public void update(List<GeoElement> geos) {
 		// will be overwritten from instances
 	}
 
