@@ -2991,6 +2991,7 @@ __GGB__keysVar["kk"].menu = {
     "ToolbarColor.Black": "Black",
     "ToolbarColor.Blue": "Blue",
     "ToolbarColor.Green": "Green",
+    "ToolbarColor.MoreColors": "More colors",
     "ToolbarColor.Orange": "Orange",
     "ToolbarColor.Pink": "Pink",
     "ToolbarColor.Purple": "Purple",
