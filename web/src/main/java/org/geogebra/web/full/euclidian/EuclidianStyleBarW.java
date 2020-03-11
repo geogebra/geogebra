@@ -278,7 +278,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			if (selection.getFocusedGroupElement() != null) {
 				activeGeoList.add(selection.getFocusedGroupElement());
-			} else if (hasVisibleGeos(selection.getSelectedGeos()) || hasVisibleGeos(ec.getJustCreatedGeos())) {
+			} else if (hasVisibleGeos(selection.getSelectedGeos())
+					|| hasVisibleGeos(ec.getJustCreatedGeos())) {
 				activeGeoList = selection.getSelectedGeos();
 				// we also update stylebars according to just created geos
 				activeGeoList.addAll(ec.getJustCreatedGeos());

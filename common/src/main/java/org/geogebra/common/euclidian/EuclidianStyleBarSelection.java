@@ -128,7 +128,7 @@ public class EuclidianStyleBarSelection {
 					targetGeos.add(geo);
 				}
 			}
-		} else if (app.getSelectionManager().getFocusedGroupElement()!=null) {
+		} else if (app.getSelectionManager().getFocusedGroupElement() != null) {
 			targetGeos.add(app.getSelectionManager().getFocusedGroupElement());
 		} else {
 			targetGeos.addAll(app.getSelectionManager().getSelectedGeos());

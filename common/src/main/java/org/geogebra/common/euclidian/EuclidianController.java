@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawAudio;
@@ -8119,10 +8120,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
 						&& mode == EuclidianConstants.MODE_SELECT) {
 					lastSelectionPressResult = SelectionToolPressResult.REMOVE;
-					lastSelectionToolGeoToRemove = geo;
+					this.lastSelectionToolGeoToRemove = geo;
 				} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
 					// actually it's a geo to select but with the same reason
-					lastSelectionToolGeoToRemove = geo;
+					this.lastSelectionToolGeoToRemove = geo;
 				}
 			} else {
 				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
@@ -8286,7 +8287,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.hideDynamicStylebar();
 		}
 
-		lastSelectionToolGeoToRemove = null;
+		this.lastSelectionToolGeoToRemove = null;
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			if (getResizedShape() == null) {
@@ -9902,8 +9903,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (topGeo == lastInlineText && !draggingOccured) {
 			showDynamicStylebar();
-			((DrawInlineText) view.getDrawableFor(topGeo)).toForeground(mouseLoc.x, mouseLoc.y);
-
+			DrawInlineText drawInlineText = (DrawInlineText) view.getDrawableFor(topGeo);
+			drawInlineText.toForeground(mouseLoc.x, mouseLoc.y);
+			view.setFocusBoundingBox(drawInlineText.getBoundingBox());
+			drawInlineText.getBoundingBox().setFixed(true);
 			// Fix weird multiselect bug.
 			setResizedShape(null);
 
@@ -9933,6 +9936,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
 		if (handleInlineTextHit(event)) {
+			lastSelectionToolGeoToRemove = null;
 			return;
 		}
 
@@ -10174,13 +10178,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						selection.addSelectedGeoWithGroup(lastSelectionToolGeoToRemove);
 						if (lastSelectionToolGeoToRemove.hasGroup()) {
 							selection.setFocusedGroupElement(lastSelectionToolGeoToRemove);
-							SingleBoundingBox bb = new SingleBoundingBox();
+							BoundingBox<? extends GShape> bb = ((Drawable) view
+									.getDrawableFor(lastSelectionToolGeoToRemove))
+									.getSelectionBoundingBox();
 							view.setFocusBoundingBox(bb);
 							view.update(lastSelectionToolGeoToRemove);
 						}
-						//view.setBoundingBox(((Drawable) view
-						//		.getDrawableFor(lastSelectionToolGeoToRemove))
-						//		.getBoundingBox());
 						view.repaintView();
 						lastSelectionToolGeoToRemove = null;
 					}

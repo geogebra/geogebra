@@ -44,11 +44,18 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 				g2.drawLine((int) corners[i].getX(), (int) corners[i].getY(),
 						(int) corners[(i + 1) % 4].getX(), (int) corners[(i + 1) % 4].getY());
 			}
-			g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
-					(int) corners[8].getX(), (int) corners[8].getY());
+			if (showHandlers()) {
+				g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
+						(int) corners[8].getX(), (int) corners[8].getY());
+			}
 		}
+		if (showHandlers()) {
+			drawHandlers(g2);
+		}
+	}
 
-		drawHandlers(g2);
+	private boolean showHandlers() {
+		return !this.text.hasGroup();
 	}
 
 	@Override
@@ -93,18 +100,20 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	private void updateHandlers() {
-		double width = text.getWidth();
-		double height = text.getHeight();
+		if (showHandlers()) {
+			double width = text.getWidth();
+			double height = text.getHeight();
 
-		setHandlerTransformed(0, 0, 0);
-		setHandlerTransformed(1, 0, height);
-		setHandlerTransformed(2, width, height);
-		setHandlerTransformed(3, width, 0);
-		setHandlerTransformed(4, width / 2, 0);
-		setHandlerTransformed(5, 0, height / 2);
-		setHandlerTransformed(6, width / 2, height);
-		setHandlerTransformed(7, width, height / 2);
-		setHandlerTransformed(8, width / 2, -ROTATION_HANDLER_DISTANCE);
+			setHandlerTransformed(0, 0, 0);
+			setHandlerTransformed(1, 0, height);
+			setHandlerTransformed(2, width, height);
+			setHandlerTransformed(3, width, 0);
+			setHandlerTransformed(4, width / 2, 0);
+			setHandlerTransformed(5, 0, height / 2);
+			setHandlerTransformed(6, width / 2, height);
+			setHandlerTransformed(7, width, height / 2);
+			setHandlerTransformed(8, width / 2, -ROTATION_HANDLER_DISTANCE);
+		}
 	}
 
 	/**

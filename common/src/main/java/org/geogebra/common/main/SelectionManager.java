@@ -1314,7 +1314,10 @@ public class SelectionManager {
 		updateSelection();
 	}
 
-	public GeoElement getFocusedGroupElement(){
+	/**
+	 * @return focused selection within group
+	 */
+	public GeoElement getFocusedGroupElement() {
 		return focusedGroupElement;
 	}
 }
