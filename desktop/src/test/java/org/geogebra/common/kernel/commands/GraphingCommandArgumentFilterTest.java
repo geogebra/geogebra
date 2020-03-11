@@ -34,6 +34,6 @@ public class GraphingCommandArgumentFilterTest extends BaseUnitTest {
         addAvInput("A = (1,2)");
         addAvInput("B = (3,4)");
         GeoLine element = addAvInput("g: Line(A, B)");
-        Assert.checkNonNull(element);
+        Assert.assertNotNull(element);
     }
 }
