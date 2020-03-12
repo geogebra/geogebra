@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
@@ -225,6 +226,9 @@ public class CopyPasteW extends CopyPaste {
 			if (geoslocal.contains(ce)) {
 				ce.getXML(false, copiedXml);
 			}
+		}
+		for (Group group : app.getSelectionManager().getSelectedGroups()) {
+			group.getXML(copiedXml);
 		}
 
 		kernel.setSaveScriptsToXML(saveScriptsToXML);

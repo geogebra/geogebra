@@ -691,8 +691,8 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return label and delimiter.
 	 */
-	public String getLabelDelimiterWithSpace() {
-		return getLabelDelimiter() == '=' ? " = " : getLabelDelimiter() + " ";
+	public String getLabelDelimiterWithSpace(StringTemplate tpl) {
+		return getLabelDelimiter() == '=' ? tpl.getEqualsWithSpace() : getLabelDelimiter() + " ";
 	}
 
 	@Override
@@ -739,7 +739,7 @@ public abstract class GeoElement extends ConstructionElement
 			// beware correct vars for f(t) = t + a
 			if (isAlgebraLabelVisible()) {
 				inputBarStr = getAssignmentLHS(stringTemplate)
-						+ getLabelDelimiterWithSpace() + inputBarStr;
+						+ getLabelDelimiterWithSpace(stringTemplate) + inputBarStr;
 			}
 
 		} else {
@@ -4286,7 +4286,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		if (ret != null && ret.length() > 0) {
 			ret = getAssignmentLHS(tpl)
-					+ getLabelDelimiterWithSpace() + ret;
+					+ getLabelDelimiterWithSpace(tpl) + ret;
 
 			return ret;
 		}
@@ -4356,7 +4356,7 @@ public abstract class GeoElement extends ConstructionElement
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
 		} else if (algebraDesc.contains(":") && !geo.isGeoText()) {
 			if (includeLHS) {
-				sb.append(algebraDesc.split(":")[0]).append(": \\,");
+				sb.append(getAssignmentLHS(tpl)).append(": \\,");
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
@@ -4364,13 +4364,13 @@ public abstract class GeoElement extends ConstructionElement
 		// now handle non-GeoText prefixed with "="
 		else if (algebraDesc.contains("=") && !geo.isGeoText()) {
 			if (includeLHS) {
-				sb.append(algebraDesc.split("=")[0]).append("\\, = \\,");
+				sb.append(getAssignmentLHS(tpl)).append(tpl.getEqualsWithSpace());
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		} else if (geo.isGeoVector()) {
 			if (includeLHS) {
 				sb.append(label);
-				sb.append("\\, = \\,");
+				sb.append(tpl.getEqualsWithSpace());
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
