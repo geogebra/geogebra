@@ -52,7 +52,7 @@ public class PenSubMenu extends SubMenuPanel {
 	boolean colorsEnabled;
 	// preset colors black, green, teal, blue, purple, magenta, red, carrot,
 	// yellow
-	private final static HashMap<MOWToolbarColor, Label> colorMap = new HashMap<>();
+	private final HashMap<MOWToolbarColor, Label> colorMap = new HashMap<>();
 
 	/**
 	 * 
@@ -92,7 +92,7 @@ public class PenSubMenu extends SubMenuPanel {
 		ImageOrText color = GeoGebraIconW.createColorSwatchIcon(1, null,
 				aColor);
 		Label label = new Label();
-		AriaHelper.setLabel(label, app.getLocalization().getMenu(ariaLabelTransKey));
+		AriaHelper.setLabel(label, app.getLocalization().getColor(ariaLabelTransKey));
 		label.getElement().setAttribute("role", "button");
 		color.applyToLabel(label);
 		label.addStyleName("mowColorButton");
@@ -470,7 +470,7 @@ public class PenSubMenu extends SubMenuPanel {
 		highlighter.setLabel();
 		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
 			AriaHelper.setLabel(colorBtnPair.getValue(),
-					app.getLocalization().getMenu(colorBtnPair.getKey().getGgbTransKey()));
+					app.getLocalization().getColor(colorBtnPair.getKey().getGgbTransKey()));
 		}
 		AriaHelper.setLabel(btnCustomColor, app.getLocalization().getMenu("ToolbarColor"
 				+ ".MoreColors"));
