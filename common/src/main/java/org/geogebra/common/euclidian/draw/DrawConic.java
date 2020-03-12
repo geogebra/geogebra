@@ -31,7 +31,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangularShape;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -149,14 +148,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/** first half-axis */
 	protected double a;
 	private double b;
-	private double tsq;
-	private double step;
-	private double t;
-	private double denom;
-	private double x;
 	private double y;
-	private int index0;
-	private int index1;
 	/** number of points used for hyperbola path */
 	protected int points = PLOT_POINTS;
 	private GeneralPathClipped hypLeft;
@@ -177,7 +169,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 	private boolean isPreview = false;
 	private boolean ignoreSingularities;
 
-	private BoundingBox<GEllipse2DDouble> boundingBox;
 	/** eigenvectors */
 	protected Coords[] ev;
 	private GeoLine diameter;
@@ -423,14 +414,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 		if (labelVisible) {
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
-		}
-
-		if (geo.isShape()) {
-			if (getBounds() != null) {
-				getBoundingBox().setRectangle(getBounds());
-			} else {
-				getBoundingBox().setRectangle(null);
-			}
 		}
 	}
 
@@ -1056,7 +1039,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 		}
 
 		// hyperbola is visible on screen
-		step = Math.sqrt((x0 - a) / (x0 + a)) / (points - 1);
+		double step = Math.sqrt((x0 - a) / (x0 + a)) / (points - 1);
 
 		// build Polyline of parametric hyperbola
 		// hyp(t) = 1/(1-t^2) {a(1+t^2), 2bt}, 0 <= t < 1
@@ -1067,15 +1050,15 @@ public class DrawConic extends SetDrawable implements Previewable {
 		 */
 		updateHyperbolaAddPoint(points - 1, a, 0);
 
-		t = step;
+		double t = step;
 		int i = 1;
-		index0 = points; // points ... 2*points - 2
-		index1 = points - 2; // points-2 ... 0
+		int index0 = points; // points ... 2*points - 2
+		int index1 = points - 2; // points-2 ... 0
 		while (index1 >= 0) {
-			tsq = t * t;
-			denom = 1.0 - tsq;
+			double tsq = t * t;
+			double denom = 1.0 - tsq;
 			// calc coords of first quadrant
-			x = (a * (1.0 + tsq) / denom);
+			double x = (a * (1.0 + tsq) / denom);
 			y = (2.0 * b * t / denom);
 
 			// first and second quadrants
@@ -1553,23 +1536,14 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	private GRectangle rectForRotatedEllipse() {
-		double angle = Math.abs(Math.asin(conic.eigenvec[1].getX()));
+		double sin = conic.eigenvec[1].getX();
+		double cos = conic.eigenvec[1].getY();
 
-		double tFactor = Math.atan(-conic.getHalfAxis(1) / 2 * Math.tan(angle)
-				/ (conic.getHalfAxis(0) / 2));
-		double width = conic.getHalfAxis(1) / 2 * Math.sin(angle)
-				* (Math.sin(tFactor + Math.PI) - Math.sin(tFactor))
-				+ conic.getHalfAxis(0) / 2 * Math.cos(angle)
-						* (Math.cos(tFactor) - Math.cos(tFactor + Math.PI));
-
-		tFactor = Math.atan(conic.getHalfAxis(1) / 2 * 1
-				/ Math.tan(angle) / (conic.getHalfAxis(0) / 2));
-		double height = conic.getHalfAxis(1) / 2 * Math.cos(angle)
-				* (Math.sin(tFactor) - Math.sin(tFactor + Math.PI))
-				+ conic.getHalfAxis(0) / 2 * Math.sin(angle)
-						* (Math.cos(tFactor) - Math.cos(tFactor + Math.PI));
-
-		return rectAroundMidpoint(width, height);
+		double halfWidth = Math.hypot(conic.getHalfAxis(1)  * sin,
+				conic.getHalfAxis(0)  * cos);
+		double halfHeight = Math.hypot(conic.getHalfAxis(1)  * cos,
+				conic.getHalfAxis(0)  * sin);
+		return rectAroundMidpoint(halfWidth, halfHeight);
 	}
 
 	private GRectangle rectAroundMidpoint(double focX, double focY) {
@@ -2053,24 +2027,14 @@ public class DrawConic extends SetDrawable implements Previewable {
 	 */
 	public void setIgnoreSingularities(boolean ignore) {
 		this.ignoreSingularities = ignore;
-
-	}
-
-	@Override
-	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
-		if (boundingBox == null) {
-			boundingBox = createBoundingBox(true);
-		}
-		boundingBox.updateFrom(geo);
-		return boundingBox;
 	}
 
 	/**
 	 * resizing by drag of side handler for rotated ellipses
 	 */
 	private void stretchEllipse(GPoint2D p0, GPoint2D p, GPoint2D tangent) {
-		double ratioX = (p.getX() - p0.getX()) / getBoundingBox().getRectangle().getWidth();
-		double ratioY = (p.getY() - p0.getY()) / getBoundingBox().getRectangle().getHeight();
+		double ratioX = (p.getX() - p0.getX()) / getBounds().getWidth();
+		double ratioY = (p.getY() - p0.getY()) / getBounds().getHeight();
 		boolean originalTangentIncreaseScreen = Math.abs(tangent.getY() - p.getY()) > Math
 				.abs(p0.getY() - tangent.getY());
 		boolean boxOrientationChanged = ratioX * ratioY < 0;
@@ -2089,7 +2053,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 			conic.translate(corner);
 
 			// update bounding box
-			getBoundingBox().setRectangle(rectForRotatedEllipse());
 			conic.updateRepaint();
 		}
 	}
@@ -2141,11 +2104,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 		return new double[] { overBsquared, overAsquared,
 				-1 + centerX * centerX * overBsquared + centerY * centerY * overAsquared, 0,
 				-centerX * overBsquared, -centerY * overAsquared };
-	}
-
-	@Override
-	protected boolean hasRotationHandler() {
-		return true;
 	}
 
 	@Override

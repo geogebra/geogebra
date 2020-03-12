@@ -612,7 +612,7 @@ public abstract class GCustomButton extends ButtonBase {
 	@Override
 	public void onBrowserEvent(Event event) {
 		// Should not act on button if disabled.
-		if (isEnabled() == false) {
+		if (!isEnabled()) {
 			// This can happen when events are bubbled up from non-disabled
 			// children
 			return;
@@ -632,6 +632,7 @@ public abstract class GCustomButton extends ButtonBase {
 		case Event.ONMOUSEDOWN:
 			if (event.getButton() == NativeEvent.BUTTON_LEFT) {
 				setFocus(true);
+				setHovering(true); // UI automation may click without hover
 				onClickStart();
 				DOM.setCapture(getElement());
 				isCapturing = true;

@@ -151,20 +151,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	// =====================================================
 
 	private void createGeoListBox() {
-		// If this flag is True, it sucks on iPad. If it is false, it still
-		// sucks on iPad.
 		geoPanel = new VerticalPanel();
 		geoPanel.setWidth("100%");
 		geoPanel.setHeight("100%");
 		geoPanel.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
-		//geoPanel.setVisibleItemCount(10);
-
-		/*geoPanel.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				String label = geoPanel.getItemText(geoPanel.getSelectedIndex());
-				editPanel.insertGeoElement(app.getKernel().lookupLabel(label));
-			}
-		});*/
 	}
 
 	/**
