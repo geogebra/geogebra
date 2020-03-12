@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.AnimationSpeedPanelW;
@@ -63,6 +64,7 @@ import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.ComboBoxW;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
+import org.geogebra.web.full.gui.util.InlineTextFormatter;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
@@ -365,12 +367,14 @@ public class OptionsTab extends FlowPanel {
 	/**
 	 * Panel for color settings
 	 */
-	public class ColorPanel extends OptionPanel implements IColorObjectListener {
+	public static class ColorPanel extends OptionPanel
+			implements IColorObjectListener {
 		private ColorObjectModel model;
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW;
 		private GColor selectedColor;
 		private CheckBox sequential;
+		private InlineTextFormatter inlineTextFormatter;
 
 		/**
 		 * @param model0
@@ -432,7 +436,7 @@ public class OptionsTab extends FlowPanel {
 				}
 			});
 			colorChooserW.setColorPreviewClickable();
-
+			inlineTextFormatter = new InlineTextFormatter(app);
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
 
@@ -441,15 +445,14 @@ public class OptionsTab extends FlowPanel {
 				mainPanel.add(sequential);
 				sequential.addClickHandler(new ClickHandler() {
 
-				@Override
-				public void onClick(ClickEvent event) {
-					// TODO we may need to update the GUI here
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO we may need to update the GUI here
 						getModel().setSequential(getSequential().getValue());
-				}
+					}
 				});
 			}
 			setWidget(mainPanel);
-
 		}
 
 		/**
@@ -464,6 +467,12 @@ public class OptionsTab extends FlowPanel {
 						alphaOnly ? null : color, alpha);
 			} else {
 				model.applyChanges(color, alpha, alphaOnly);
+			}
+			if (!alphaOnly) {
+				inlineTextFormatter.formatInlineText(
+						model.getGeosAsList(),
+						"color",
+						StringUtil.toHtmlColor(color));
 			}
 		}
 

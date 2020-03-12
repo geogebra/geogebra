@@ -51,7 +51,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
-import org.geogebra.desktop.geogebra3D.settings.updater.SettingsUpdaterBuilder3D;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.jre.openGL.GLFactoryJre;
 import org.geogebra.common.kernel.Kernel;
@@ -82,6 +81,7 @@ import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
 import org.geogebra.desktop.util.FrameCollector;
 
 public class App3D extends AppD {
@@ -834,6 +834,7 @@ public class App3D extends AppD {
 
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilder3D(this);
+		return new SettingsUpdaterBuilder(this)
+				.withFontSettingsUpdater(new FontSettingsUpdaterD(this));
 	}
 }

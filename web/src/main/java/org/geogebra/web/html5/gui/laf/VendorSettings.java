@@ -1,7 +1,10 @@
 package org.geogebra.web.html5.gui.laf;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 
 /**
@@ -65,4 +68,20 @@ public interface VendorSettings {
 	*   @return the graspable mode if it's enabled or not
 	 */
 	boolean isGraspableMathEnabled();
+
+	/**
+	 *
+	 * @return the list
+	 */
+	List<FontFamily> getTextToolFonts();
+
+	/**
+	 * @return material type for templates (ggb: notes-template, mow: ggs-template)
+	 */
+	Material.MaterialType getTemplateType();
+
+	/**
+	 * @return API base URL (MOWB for mebis, MARVL for notes)
+	 */
+	String getAPIBaseUrl();
 }

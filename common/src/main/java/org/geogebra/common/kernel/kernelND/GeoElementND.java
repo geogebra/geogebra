@@ -731,7 +731,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * Changes transparency of this geo
 	 * 
 	 * @param alpha
-	 *            new alpha value
+	 *            new alpha value between 0 and 1
 	 */
 	void setAlphaValue(double alpha);
 

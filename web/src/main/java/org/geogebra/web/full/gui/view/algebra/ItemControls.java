@@ -24,6 +24,7 @@ import org.geogebra.web.html5.util.TestHarness;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -128,6 +129,7 @@ public class ItemControls extends FlowPanel
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					openMoreMenu();
+					DOM.setCapture(null); // reset capture from GCustomButton's mousedown handler
 				}
 
 			});

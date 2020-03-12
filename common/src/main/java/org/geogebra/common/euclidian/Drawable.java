@@ -26,7 +26,6 @@ import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
@@ -118,6 +117,25 @@ public abstract class Drawable extends DrawableND {
 	 */
 	protected boolean firstCall = true;
 	private GeoElement geoForLabel;
+
+	/**
+	 * Create a default drawable. GeoElement and the view must be set
+	 * after creation in the constructor.
+	 */
+	public Drawable() {
+		this(null, null);
+	}
+
+	/**
+	 * Create a drawable.
+	 *
+	 * @param view euclidean view
+	 * @param geo geo element
+	 */
+	public Drawable(EuclidianView view, GeoElement geo) {
+		this.view = view;
+		this.geo = geo;
+	}
 
 	// boolean createdByDrawList = false;
 
@@ -875,13 +893,6 @@ public abstract class Drawable extends DrawableND {
 				|| handler == EuclidianBoundingBoxHandler.TOP_RIGHT;
 	}
 
-	/**
-	 * @return whether bounding box should have a rotation handler
-	 */
-	protected boolean hasRotationHandler() {
-		return false;
-	}
-
 	@Override
 	public DrawableND createDrawableND(GeoElement subGeo) {
 		return view.newDrawable(subGeo);
@@ -892,23 +903,6 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public boolean isHighlighted() {
 		return getTopLevelGeo().doHighlighting();
-	}
-
-	/**
-	 * Helper method for creating a BoundingBox object.
-	 * @param hasRotationHandler has rotation handler
-	 * @return bounding box
-	 */
-	protected BoundingBox<GEllipse2DDouble> createBoundingBox(boolean hasRotationHandler) {
-		MultiBoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
-		boundingBox.setColor(getActiveColor());
-
-		return boundingBox;
-	}
-
-	private GColor getActiveColor() {
-		App app = view.getApplication();
-		return app.getPrimaryColor();
 	}
 
 	@Override
@@ -960,13 +954,6 @@ public abstract class Drawable extends DrawableND {
 		ret.add(new MyPoint(bounds.getMinX(), bounds.getMinY()));
 		ret.add(new MyPoint(bounds.getMaxX(), bounds.getMaxY()));
 		return ret;
-	}
-
-	/**
-	 * @return width threshold for
-	 */
-	public double getDiagonalWidthThreshold() {
-		return getWidthThreshold();
 	}
 
 	/**

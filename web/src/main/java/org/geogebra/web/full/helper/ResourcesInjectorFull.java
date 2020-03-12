@@ -1,5 +1,6 @@
 package org.geogebra.web.full.helper;
 
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MebisResources;
@@ -9,6 +10,10 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
+
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.LinkElement;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Resource injector that includes UI styles.
@@ -33,14 +38,13 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.tableViewStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
 		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());
-		StyleInjector.inject(GuiResources.INSTANCE.componentStyles());
+		StyleInjector.inject(stylesProvider.componentStyles());
 		StyleInjector.inject(stylesProvider.dialogStylesScss());
 		StyleInjector.inject(stylesProvider.settingsStyleScss());
 
 		StyleInjector.inject(GuiResources.INSTANCE.perspectivesPopupScss());
 
 		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
-		StyleInjector.inject(GuiResources.INSTANCE.texttoolStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.scientificLayoutScss());
 		StyleInjector.inject(GuiResources.INSTANCE.evaluatorScss());
 		StyleInjector.inject(GuiResources.INSTANCE.headerScss());
@@ -81,17 +85,12 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 	}
 
 	@Override
-	public native void loadWebFont(String fontUrl) /*-{
-		$wnd.WebFontConfig = {
-			custom : {
-				families : [ "mathsans" ]
-			}
-		};
-		if (fontUrl) {
-			$wnd.WebFontConfig.custom.families = [ "mathsans",
-					"geogebra-serif", "geogebra-sanserif" ];
-			$wnd.WebFontConfig.custom.urls = [ fontUrl ];
+	public void loadWebFont(String fontUrl) {
+		if (!StringUtil.empty(fontUrl)) {
+			LinkElement link = Document.get().createLinkElement();
+			link.setHref(fontUrl);
+			link.setRel("stylesheet");
+			RootPanel.getBodyElement().appendChild(link);
 		}
-		$wnd.WebFont && $wnd.WebFont.load($wnd.WebFontConfig);
-	}-*/;
+	}
 }

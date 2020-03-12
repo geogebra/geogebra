@@ -14,7 +14,6 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -23,6 +22,7 @@ import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ComponentCheckbox;
 import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -67,6 +67,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<>();
 	private Localization loc;
 	private BaseWidgetFactory widgetFactory;
+	private ComponentCheckbox templateCheckbox;
+	private Label templateTxt;
 
 	/**
 	 * Creates a new GeoGebra save dialog.
@@ -89,6 +91,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.getCaption().setText(loc.getMenu("Save"));
 		VerticalPanel p = new VerticalPanel();
 		p.add(getTitelPanel());
+		if (app.isWhiteboardActive() && !"".equals(app.getVendorSettings().getAPIBaseUrl())) {
+			p.add(getCheckboxPanel());
+		}
 		p.add(getButtonPanel());
 		contentPanel.add(p);
 		addCancelButton();
@@ -160,7 +165,13 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		} else {
 			saveButton.setEnabled(true);
 		}
+	}
 
+	private FlowPanel getCheckboxPanel() {
+		templateTxt = new Label();
+		templateTxt.setText(loc.getMenu("saveTemplate"));
+		templateCheckbox = new ComponentCheckbox(false, templateTxt);
+		return templateCheckbox;
 	}
 
 	private FlowPanel getButtonPanel() {
@@ -177,8 +188,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		saveButton.addStyleName("saveButton");
 		dontSaveButton.addStyleName("cancelBtn");
 		setAvailableProviders();
-		// ImageOrText[] data, Integer rows, Integer columns, GDimensionW
-		// iconSize, geogebra.common.gui.util.SelectionTable mode
 
 		saveButton.addFastClickHandler(new FastClickHandler() {
 
@@ -259,6 +268,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * <li>material is new or was private, than link to GGT</li>
 	 */
 	public void onSave() {
+		if (templateCheckbox != null) {
+			setSaveType(templateCheckbox.isSelected()
+					? appW.getVendorSettings().getTemplateType() : MaterialType.ggs);
+		}
 		appW.getSaveController().saveAs(title.getText(),
 				getSelectedVisibility(), this);
 	}
@@ -309,6 +322,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.saveButton.setEnabled(false);
 		}
+		if (templateCheckbox != null) {
+			templateCheckbox.setSelected(false);
+		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -317,44 +333,19 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		});
 	}
 
-	/**
-	 * shows the {@link SaveDialogW} if there are unsaved changes before editing
-	 * another file or creating a new one
-	 * 
-	 * Never shown in embedded LAF (Mix, SMART)
-	 * 
-	 * @param runnable
-	 *            runs either after saved successfully or immediately if dialog
-	 *            not needed {@link Runnable}
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
-		showIfNeeded(runnable, !appW.isSaved(), null);
+	public void setDiscardMode() {
+		// could be useful
 	}
 
-	/**
-	 * @param runnable
-	 *            callback
-	 * @param needed
-	 *            whether it's needed to save (otherwise just run callback)
-	 * @param anchor
-	 *            relative element
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable, boolean needed,
-			Widget anchor) {
-		if (needed && !appW.getLAF().isEmbedded()) {
-			appW.getSaveController().setRunAfterSave(runnable);
-			if (anchor == null) {
-				center();
-			} else {
-				showRelativeTo(anchor);
-			}
-			position();
+	public void showAndPosition(Widget anchor) {
+		if (anchor == null) {
+			center();
 		} else {
-			appW.getSaveController().setRunAfterSave(null);
-			runnable.callback(true);
+			showRelativeTo(anchor);
 		}
+		templateCheckbox.setVisible(false);
 	}
 
 	/**
@@ -389,6 +380,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.titleLabel.setText(loc.getMenu("Title") + ": ");
 		this.dontSaveButton.setText(loc.getMenu("DontSave"));
 		this.saveButton.setText(loc.getMenu("Save"));
+        if (templateTxt != null) {
+            templateTxt.setText(loc.getMenu("saveTemplate"));
+        }
 		rebuildVisibilityList();
 	}
 

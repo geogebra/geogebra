@@ -80,19 +80,16 @@ abstract public class ObjectSettingsModel {
             return;
         }
 
-        if (!hasFurtherStyle()) {
-            EuclidianStyleBarStatic.applyTextColor(geoElementsList, color);
-        } else {
-            EuclidianStyleBarStatic.applyColor(color, geoElement.getAlphaValue(), app);
-        }
+		EuclidianStyleBarStatic.applyColor(color,
+					geoElement.getAlphaValue(), app);
 
         app.setPropertiesOccured();
     }
 
     /**
      * @return if the label of the geoElement is visible or not
-     */
-    public boolean isLabelShown() {
+      */
+	public boolean isLabelShown() {
         return geoElement != null && geoElement.isLabelVisible();
     }
 
@@ -502,9 +499,10 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
-     * @param alpha
-     *         alpha value to be set for the geoElement, it should be between 0 and 100
-     */
+	 * @param alpha
+	 *            alpha value to be set for the geoElement, it should be between
+	 *            0 and 1
+	 */
     public void setAlpha(float alpha) {
         if (geoElement == null) {
             return;
