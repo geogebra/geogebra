@@ -1304,6 +1304,7 @@ public abstract class GeoElement extends ConstructionElement
 		labelVisible = geo.getLabelVisible();
 		setLabelMode(geo.getLabelMode());
 		tooltipMode = geo.getTooltipMode();
+		selectionAllowed = geo.selectionAllowed;
 
 		// style of equation, coordinates, ...
 		if (getGeoClassType() == geo.getGeoClassType()
