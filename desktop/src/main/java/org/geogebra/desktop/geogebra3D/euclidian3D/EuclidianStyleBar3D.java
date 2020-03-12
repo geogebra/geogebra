@@ -48,12 +48,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 	@Override
 	protected void createDefaultMap() {
-
-		super.createDefaultMap();
-
-		EuclidianStyleBarStatic3D.addToDefaultMap(defaultGeoMap,
-				ev.getApplication());
-
+		EuclidianStyleBarStatic3D.addToDefaultMap(selection.getDefaultMap());
 	}
 
 	@Override

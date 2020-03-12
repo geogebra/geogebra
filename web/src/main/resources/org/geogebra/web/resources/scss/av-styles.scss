@@ -337,9 +337,7 @@ $duration: 0.2s;
 
 		.scrollableTextBox,
 		.scrollableTextBox.avPreview,
-		.scrollableTextBox.noPreview, 
-		.avItem .elemText,
-		.avItem .elemText.scrollableTextBox,
+		.scrollableTextBox.noPreview,
 		.avItemContent {
 			padding-top: 10px;
 			padding-left: 68px;
@@ -384,7 +382,11 @@ $duration: 0.2s;
 		}
 		.avItem .elemText {
 			padding-top: 14px;
-			padding-bottom: 4px;
+			padding-bottom: 0px;
+			padding-left: 68px;
+			&.noPreview:not(.scrollableTextBox) {
+				padding-bottom: 4px;
+			}
 		}
 
 		.avItem .gwt-CheckBox{

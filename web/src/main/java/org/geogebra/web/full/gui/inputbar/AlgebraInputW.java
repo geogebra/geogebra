@@ -96,40 +96,15 @@ public class AlgebraInputW extends FlowPanel
 		}
 
 		updateIcons(false);
-		// new
-		// Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
 		btnHelpToggle.addStyleName("inputHelp-toggleButton");
 
 		btnHelpToggle.addClickHandler(this);
-
-		// labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
-		// labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
-
-		// TODO: eastPanel should hold the command help button
-		// eastPanel = new FlowPanel();
-
-		// place all components in an inner panel
-		// innerPanel = new FlowPanel();
-		// innerPanel.setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
-		// innerPanel.setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
 		add(inputPanel);
-		// innerPanel.setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
-		// innerPanel.setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
-		// setCellVerticalAlignment(innerPanel, ALIGN_MIDDLE);
-
-		// add innerPanel to wrapper (this panel)
-		// setVerticalAlignment(ALIGN_MIDDLE);
-		// add(innerPanel);
-		// add(eastPanel);
-		// setCellVerticalAlignment(this, ALIGN_MIDDLE);
 		if (app.showInputHelpToggle()) {
 			add(btnHelpToggle);
 		}
 
 		setLabels();
-
-		// setInputFieldWidth();
-
 	}
 
 	private void updateIcons(boolean warning) {
@@ -174,7 +149,6 @@ public class AlgebraInputW extends FlowPanel
 		}
 
 		// hide the help popup
-		// btnHelpToggle.setValue(false);
 		setShowInputHelpPanel(false);
 	}
 
@@ -338,11 +312,9 @@ public class AlgebraInputW extends FlowPanel
 		} catch (Exception ee) {
 			storeError();
 			app.showGenericError(ee);
-			return;
 		} catch (MyError ee) {
 			storeError();
 			inputField.showError(ee);
-			return;
 		}
 	}
 
@@ -527,6 +499,8 @@ public class AlgebraInputW extends FlowPanel
 	@Override
 	public void setError(String msg) {
 		updateIcons(msg != null);
+		getHelpToggle().asWidget().getElement().setTitle(msg == null
+				? app.getLocalization().getMenu("InputHelp") : msg);
 	}
 
 	@Override

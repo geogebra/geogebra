@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -50,18 +49,6 @@ public class AVItemHeaderScientific extends SimplePanel
 	}
 
 	@Override
-	public MyToggleButton getBtnHelpToggle() {
-		// no help button
-		return null;
-	}
-
-	@Override
-	public MyToggleButton getBtnPlus() {
-		// no plus button
-		return null;
-	}
-
-	@Override
 	public boolean isHit(int x, int y) {
 		return false;
 	}
@@ -69,6 +56,11 @@ public class AVItemHeaderScientific extends SimplePanel
 	@Override
 	public void setIndex(int itemCount) {
 		number.setText(itemCount + ")");
+	}
+
+	@Override
+	public void setError(String s) {
+		// not implemented
 	}
 
 }
