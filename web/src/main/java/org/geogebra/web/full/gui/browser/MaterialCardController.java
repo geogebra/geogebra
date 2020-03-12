@@ -9,13 +9,14 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.BackendAPIFactory;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 /**
@@ -86,34 +87,33 @@ public class MaterialCardController implements OpenFileListener {
 			return;
 		}
 		final long synced = getMaterial().getSyncStamp();
-		app.getLoginOperation().getGeoGebraTubeAPI().getItem(
-				getMaterial().getSharingKeyOrId() + "", new MaterialCallback() {
+		BackendAPI delegateApi = new BackendAPIFactory(app).newMaterialRestAPI();
+		delegateApi.setClient(app.getClientInfo());
 
-					@Override
-					public void onLoaded(final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
-						if (parseResponse.size() == 1) {
-							setMaterial(parseResponse.get(0));
-							getMaterial().setSyncStamp(synced);
-							if (getMaterial().getType() == MaterialType.csv) {
-								app.openCSV(Browser.decodeBase64(
-										getMaterial().getBase64()));
-							} else {
-								app.getGgbApi()
-										.setBase64(getMaterial().getBase64());
-							}
-							updateActiveMaterial();
-						} else {
-							app.showError(Errors.LoadFileFailed);
-						}
-						app.getGuiManager().getBrowseView().close();
+		delegateApi.getItem(getMaterial().getSharingKeyOrId() + "", new MaterialCallback() {
+			@Override
+			public void onLoaded(final List<Material> parseResponse,
+								 ArrayList<Chapter> meta) {
+				if (parseResponse.size() == 1) {
+					setMaterial(parseResponse.get(0));
+					getMaterial().setSyncStamp(synced);
+					if (app.isMebis()) {
+						app.getViewW().processFileName(material.getFileName());
+					} else {
+						app.getViewW().processFileName(material.getURL());
 					}
+					updateActiveMaterial();
+				} else {
+					app.showError(Errors.LoadFileFailed);
+				}
+				app.getGuiManager().getBrowseView().close();
+			}
 
-					@Override
-					public void onError(Throwable error) {
-						app.showError(Errors.LoadFileFailed);
-					}
-				});
+			@Override
+			public void onError(Throwable error) {
+				app.showError(Errors.LoadFileFailed);
+			}
+		});
 	}
 
 	/**

@@ -27,7 +27,7 @@ public class BackendAPIFactory {
 	 *
 	 * @param app The application.
 	 */
-	BackendAPIFactory(AppW app) {
+	public BackendAPIFactory(AppW app) {
 		this.app = app;
 		articleElement = app.getArticleElement();
 	}
@@ -49,7 +49,7 @@ public class BackendAPIFactory {
 		api = app.isMebis() ? newMaterialRestAPI() : newTubeAPI();
 	}
 
-	private BackendAPI newMaterialRestAPI() {
+	public BackendAPI newMaterialRestAPI() {
 		String backendURL = articleElement.getParamBackendURL();
 
 		if (StringUtil.empty(backendURL)) {
