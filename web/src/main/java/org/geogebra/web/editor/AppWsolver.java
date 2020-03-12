@@ -115,10 +115,12 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
     @Override
     public void focusLost(View v, Element el) {
+		// not needed here
     }
 
     @Override
     public void focusGained(View v, Element el) {
+		// not needed here
     }
 
     @Override

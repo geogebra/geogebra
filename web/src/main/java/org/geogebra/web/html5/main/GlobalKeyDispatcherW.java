@@ -88,26 +88,18 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		@Override
 		public void onBrowserEvent(Event event) {
 			if (event.getTypeInt() == Event.ONKEYDOWN) {
+				boolean handled = false;
+
 				if (event.getKeyCode() == GWTKeycodes.KEY_X
 						&& event.getCtrlKey()
 						&& event.getAltKey()) {
-					app.hideMenu();
-					app.closePopups();
-					if (app.getActiveEuclidianView() != null) {
-						app.getActiveEuclidianView()
-								.getEuclidianController()
-								.hideDynamicStylebar();
-					}
-					app.getSelectionManager().clearSelectedGeos();
-					app.getAccessibilityManager().focusInput(true);
-					event.preventDefault();
-					event.stopPropagation();
+					handleCtrlAltX();
+					handled = true;
 				}
 
 				if (Browser.isiOS() && isControlKeyDown(event)) {
 					handleIosKeyboard((char) event.getCharCode());
-					event.preventDefault();
-					event.stopPropagation();
+					handled = true;
 				}
 
 				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
@@ -115,8 +107,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					Element activeElement = Dom.getActiveElement();
 					if (activeElement != ((AppW) app).getAppletFrame().getLastElement()) {
 						handleTab(controlDown, shiftDown);
-						event.preventDefault();
-						event.stopPropagation();
+						handled = true;
 					}
 				} else if (kc == KeyCodes.ESCAPE) {
 					Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -125,11 +116,27 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 							((AppW) app).getAppletFrame().getLastElement().focus();
 						}
 					});
+					handled = true;
+				}
+
+				if (handled) {
 					event.preventDefault();
 					event.stopPropagation();
 				}
 			}
 		}
+	}
+
+	private void handleCtrlAltX() {
+		app.hideMenu();
+		app.closePopups();
+		if (app.getActiveEuclidianView() != null) {
+			app.getActiveEuclidianView()
+					.getEuclidianController()
+					.hideDynamicStylebar();
+		}
+		app.getSelectionManager().clearSelectedGeos();
+		app.getAccessibilityManager().focusInput(true);
 	}
 
 	public EventListener getGlobalShortcutHandler() {
