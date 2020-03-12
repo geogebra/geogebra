@@ -101,7 +101,8 @@ public class AuthenticationModelW extends AuthenticationModel {
 	@Override
 	public String getEncoded() {
 		String secret = "ef1V8PNj";
-		String encrypted = MD5EncrypterGWTImpl.encrypt(getLoginToken() + "T" + "1581341456" + secret);
+		String encrypted = MD5EncrypterGWTImpl
+				.encrypt(getLoginToken() + "T" + "1581341456" + secret);
 		return GlobalFunctions.btoa(getLoginToken()) + "|T|" + "1581341456" + "|" + encrypted;
 	}
 }

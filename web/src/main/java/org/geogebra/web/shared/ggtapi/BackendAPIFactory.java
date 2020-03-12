@@ -49,6 +49,10 @@ public class BackendAPIFactory {
 		api = app.isMebis() ? newMaterialRestAPI() : newTubeAPI();
 	}
 
+	/**
+	 * Create and return a new correct MaterialRestApi object, based on
+	 * data-param-backendUrl
+	 */
 	public BackendAPI newMaterialRestAPI() {
 		String backendURL = articleElement.getParamBackendURL();
 

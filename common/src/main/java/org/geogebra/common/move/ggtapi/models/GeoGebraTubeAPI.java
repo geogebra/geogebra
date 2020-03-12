@@ -49,7 +49,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	private String loginURL;
 
-
 	/**
 	 * @param beta
 	 *            true if beta
@@ -626,5 +625,5 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	protected MaterialRestAPI getDelegateApi() {
 		// only in web for now
 		return null;
-	};
+	}
 }
