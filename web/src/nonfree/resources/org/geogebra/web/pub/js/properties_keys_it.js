@@ -2994,7 +2994,7 @@ __GGB__keysVar["it"].menu = {
     "ToolbarColor.MoreColors": "Altri colori",
     "ToolbarColor.Orange": "Arancione",
     "ToolbarColor.Pink": "Rosa",
-    "ToolbarColor.Purple": "Viola",
+    "ToolbarColor.Purple": "Porpora",
     "ToolbarColor.Red": "Rosso",
     "ToolbarColor.Teal": "Verde acqua",
     "ToolbarColor.Yellow": "Giallo",

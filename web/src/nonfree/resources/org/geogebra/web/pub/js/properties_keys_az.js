@@ -2997,7 +2997,7 @@ __GGB__keysVar["az"].menu = {
     "ToolbarColor.Purple": "Purple",
     "ToolbarColor.Red": "Red",
     "ToolbarColor.Teal": "Teal",
-    "ToolbarColor.Yellow": "Yellow",
+    "ToolbarColor.Yellow": "Sar\u0131",
     "ToolbarIcon": "Toolbar Icon",
     "ToolbarIconsConstructionProtocolExport": "Display Toolbar Icons",
     "Tools": "Tools",

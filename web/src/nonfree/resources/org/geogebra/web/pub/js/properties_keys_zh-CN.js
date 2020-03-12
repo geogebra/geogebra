@@ -2993,7 +2993,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "ToolbarColor.Green": "\u7eff\u8272",
     "ToolbarColor.MoreColors": "\u66f4\u591a\u989c\u8272",
     "ToolbarColor.Orange": "\u6a59\u8272",
-    "ToolbarColor.Pink": "\u7c89\u8272",
+    "ToolbarColor.Pink": "\u7c89\u7ea2",
     "ToolbarColor.Purple": "\u7d2b\u8272",
     "ToolbarColor.Red": "\u7ea2\u8272",
     "ToolbarColor.Teal": "\u9752\u8272",
