@@ -52,7 +52,7 @@ public class PenSubMenu extends SubMenuPanel {
 	boolean colorsEnabled;
 	// preset colors black, green, teal, blue, purple, magenta, red, carrot,
 	// yellow
-	private final HashMap<MOWToolbarColor, Label> colorMap = new HashMap<>();
+	private HashMap<MOWToolbarColor, Label> colorMap;
 
 	/**
 	 * 
@@ -110,6 +110,7 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	private void fillColorButtonMap() {
+		colorMap = new HashMap<>();
 		addToColorMap(MOWToolbarColor.BLACK);
 		addToColorMap(MOWToolbarColor.GREEN);
 		addToColorMap(MOWToolbarColor.TEAL);
