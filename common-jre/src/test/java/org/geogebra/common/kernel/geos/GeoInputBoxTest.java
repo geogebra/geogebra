@@ -6,7 +6,6 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -425,27 +424,36 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	@Test
 	public void testUndoRedoWithInvalidInput() {
 		App app = getApp();
-		Construction construction = app.getKernel().getConstruction();
-		UndoManager undoManager = construction.getUndoManager();
 		app.setUndoActive(true);
+
 		addAvInput("f(x) = x");
 		GeoInputBox inputBox = addAvInput("a = InputBox(f)");
 		app.storeUndoInfo();
 		inputBox.updateLinkedGeo("x+()");
-		undoManager.undo();
-		inputBox = (GeoInputBox) construction.lookupLabel("a");
+
+		inputBox = getAfterUndo("a");
 		assertThat(inputBox.getText(), equalTo("x"));
-		undoManager.redo();
-		inputBox = (GeoInputBox) construction.lookupLabel("a");
+
+		inputBox = getAfterRedo("a");
 		assertThat(inputBox.getText(), equalTo("x+()"));
+	}
+
+	private <T extends GeoElement> T getAfterUndo(String label) {
+		Construction construction = getApp().getKernel().getConstruction();
+		construction.getUndoManager().undo();
+		return (T) construction.lookupLabel(label);
+	}
+
+	private <T extends GeoElement> T getAfterRedo(String label) {
+		Construction construction = getApp().getKernel().getConstruction();
+		construction.getUndoManager().redo();
+		return (T) construction.lookupLabel(label);
 	}
 
 	@Test
 	public void testUndoRedoWithNonSimpleNumeric() {
 		App app = getApp();
-		Construction construction = app.getKernel().getConstruction();
 		app.setUndoActive(true);
-		UndoManager undoManager = construction.getUndoManager();
 
 		addAvInput("n = 1");
 		GeoInputBox inputBox = addAvInput("a = InputBox(n)");
@@ -456,16 +464,13 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		addAvInput("P = (1, 1)");
 		app.storeUndoInfo();
 
-		undoManager.undo();
-		inputBox = (GeoInputBox) construction.lookupLabel("a");
+		inputBox = getAfterUndo("a");
 		assertThat(inputBox.getText(), equalTo("1 + \\sqrt{2}"));
 
-		undoManager.undo();
-		inputBox = (GeoInputBox) construction.lookupLabel("a");
+		inputBox = getAfterUndo("a");
 		assertThat(inputBox.getText(), equalTo("1"));
 
-		undoManager.redo();
-		inputBox = (GeoInputBox) construction.lookupLabel("a");
+		inputBox = getAfterRedo("a");
 		assertThat(inputBox.getText(), equalTo("1 + \\sqrt{2}"));
 	}
 }
