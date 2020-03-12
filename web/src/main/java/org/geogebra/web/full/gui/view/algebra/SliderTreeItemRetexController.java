@@ -136,7 +136,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	protected boolean canEditStart(MouseEvent<?> event) {
 
 		return super.canEditStart(event)
-				&& isWidgetHit(item.getPlainTextItem(), event);
+				&& isWidgetHit(item.getDefinitionValuePanel(), event);
 	}
 
 	private static boolean isWidgetHit(Widget w, int x, int y) {

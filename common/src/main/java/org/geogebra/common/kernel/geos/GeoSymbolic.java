@@ -212,7 +212,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		}
 		StringBuilder sb = new StringBuilder();
 		appendAssignmentLHS(sb, tpl);
-		sb.append(getLabelDelimiterWithSpace());
+		sb.append(getLabelDelimiterWithSpace(tpl));
 		sb.append(value.toString(tpl));
 		return sb.toString();
 	}

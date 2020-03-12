@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -185,7 +187,7 @@ public abstract class CommandDispatcher {
 					.equals(app.getLocalization().getFunction("freehand"))) {
 				return null;
 			}
-			throw createUnknownCommandError(c);
+			throw new CommandNotFoundError(app.getLocalization(), c);
 		}
 		return process(cmdProc, c, info);
 	}
@@ -210,14 +212,7 @@ public abstract class CommandDispatcher {
 		}
 	}
 
-	private MyError createUnknownCommandError(Command command) {
-		throw new MyError(app.getLocalization(),
-				app.getLocalization().getError("UnknownCommand") + " : "
-						+ app.getLocalization().getCommand(command.getName()));
-	}
-
-	private GeoElement[] process(CommandProcessor cmdProc, Command c,
-			EvalInfo info) {
+	private GeoElement[] process(@CheckForNull CommandProcessor cmdProc, Command c, EvalInfo info) {
 		checkAllowedByArgumentFilter(c, cmdProc);
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
@@ -227,15 +222,15 @@ public abstract class CommandDispatcher {
 		}
 
 		try {
-
 			// disable preview for commands using CAS
-			// if CAS not loaded
+			// if CAS not loaded but enabled
 			if (info != null && !info.isUsingCAS() && !kernel.isGeoGebraCASready()
+					&& app.getSettings().getCasSettings().isEnabled()
 					&& cmdProc instanceof UsesCAS) {
-				return null;
+				return new GeoElement[0];
 			}
 			if (cmdProc == null) {
-				throw createUnknownCommandError(c);
+				throw new CommandNotFoundError(app.getLocalization(), c);
 			}
 			return cmdProc.process(c, info);
 		} catch (Exception e) {

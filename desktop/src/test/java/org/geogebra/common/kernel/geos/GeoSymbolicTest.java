@@ -95,7 +95,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void latex() {
 		t("a=sqrt(8)", "2 * sqrt(2)");
 		String text = getLatex("a");
-		assertEquals("a \\, = \\,2 \\; \\sqrt{2}", text);
+		assertEquals("a\\, = \\,2 \\; \\sqrt{2}", text);
 	}
 
 	private String getLatex(String string) {
@@ -108,7 +108,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void variables() {
 		t("f(x,y)=x+y", "x + y");
-		assertEquals("f\\left(x, y \\right) \\, = \\,x + y",
+		assertEquals("f\\left(x, y \\right)\\, = \\,x + y",
 				getLatex("f"));
 	}
 

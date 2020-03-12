@@ -6,8 +6,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.view.algebra.MarblePanel;
-import org.geogebra.web.html5.Browser;
 
 /**
  * Error handler for preview
@@ -33,14 +31,6 @@ public final class WarningErrorHandler implements ErrorHandler {
 	@Override
 	public void showError(String msg) {
 		input.setError(msg);
-		input.getHelpToggle().asWidget().getElement().setTitle(msg == null
-				? app2.getLocalization().getMenu("InputHelp") : msg);
-		if (app2.isUnbundledOrWhiteboard() && !Browser.isMobile()
-				&& input.getHelpToggle() instanceof MarblePanel) {
-			((MarblePanel) input.getHelpToggle())
-					.setTitle(msg == null ? app2.getLocalization()
-							.getMenu("InputHelp") : msg);
-		}
 	}
 
 	@Override
