@@ -1,6 +1,8 @@
 package org.geogebra.web.shared.ggtapi;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
+import org.geogebra.common.move.ggtapi.models.MarvlService;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.MowService;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
@@ -16,19 +18,18 @@ import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
  * @author laszlo
  */
 public class BackendAPIFactory {
+
 	private AppW app;
 	private ArticleElementInterface articleElement;
 	private BackendAPI api = null;
-	private String backendURL;
 
 	/**
 	 *
-	 * @param app The appication.
+	 * @param app The application.
 	 */
 	BackendAPIFactory(AppW app) {
 		this.app = app;
 		articleElement = app.getArticleElement();
-		backendURL = articleElement.getParamBackendURL();
 	}
 
 	/**
@@ -45,15 +46,17 @@ public class BackendAPIFactory {
 		if (api != null) {
 			return;
 		}
-		api = hasBackendURL() ? newMowBAPI() : newTubeAPI();
+		api = app.isMebis() ? newMaterialRestAPI() : newTubeAPI();
 	}
 
-	private boolean hasBackendURL() {
-		return !StringUtil.empty(backendURL);
-	}
+	private BackendAPI newMaterialRestAPI() {
+		String backendURL = articleElement.getParamBackendURL();
 
-	private BackendAPI newMowBAPI() {
-		return new MaterialRestAPI(backendURL, new MowService());
+		if (StringUtil.empty(backendURL)) {
+			return new MaterialRestAPI(GeoGebraTubeAPI.marvlUrl, new MarvlService());
+		} else {
+			return new MaterialRestAPI(backendURL, new MowService());
+		}
 	}
 
 	private GeoGebraTubeAPIW newTubeAPI() {

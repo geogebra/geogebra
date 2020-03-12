@@ -3,6 +3,9 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MarvlService;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
+import org.geogebra.common.move.ggtapi.models.MowService;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
@@ -18,6 +21,12 @@ import com.google.gwt.user.client.Window.Location;
  */
 public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
+	// We are delegating some functionality to the material api,
+	// delegation should be extended, until we can completely get rid
+	// of tube and this class.
+	private MaterialRestAPI delegateApi;
+	private ArticleElementInterface articleElement;
+
 	/**
 	 * @param beta
 	 *            whether to use the beta site
@@ -27,6 +36,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	public GeoGebraTubeAPIWSimple(boolean beta,
 			ArticleElementInterface articleElement) {
 		super(beta);
+		this.articleElement = articleElement;
 		if (!StringUtil.empty(articleElement.getMaterialsAPIurl())) {
 			setURL(articleElement.getMaterialsAPIurl());
 		}
@@ -66,4 +76,19 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		return "";
 	}
 
+	@Override
+	protected MaterialRestAPI getDelegateApi() {
+		if (delegateApi == null) {
+			String backendURL = articleElement.getParamBackendURL();
+
+			if (StringUtil.empty(backendURL)) {
+				delegateApi = new MaterialRestAPI(marvlUrl, new MarvlService());
+			} else {
+				delegateApi = new MaterialRestAPI(backendURL, new MowService());
+			}
+		}
+
+		delegateApi.setClient(client);
+		return delegateApi;
+	}
 }

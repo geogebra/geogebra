@@ -40,7 +40,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	/** Login for beta */
 	public static final String login_urlBeta = "https://accounts-beta.geogebra.org/api/index.php";
 
-	private static final String urlMarvl = "https://groot.geogebra.org:5000/v1.0";
+	public static final String marvlUrl = "https://groot.geogebra.org:5000/v1.0";
 
 	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
@@ -49,10 +49,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	private String loginURL;
 
-	// We are delegating some functionality to the material api,
-	// delegation should be extended, until we can completely get rid
-	// of tube and this class.
-	private MaterialRestAPI delegateApi;
 
 	/**
 	 * @param beta
@@ -349,9 +345,12 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	@Override
 	public void deleteMaterial(Material material, final MaterialCallbackI cb) {
-		performRequest(
-				DeleteRequest.getRequestElement(material).toJSONString(client),
-				cb);
+		if (material.getType() == MaterialType.ggsTemplate) {
+			getDelegateApi().deleteMaterial(material, cb);
+		} else {
+			performRequest(
+					DeleteRequest.getRequestElement(material).toJSONString(client), cb);
+		}
 	}
 
 	@Override
@@ -624,12 +623,8 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		getDelegateApi().getTemplateMaterials(cb);
 	}
 
-	private MaterialRestAPI getDelegateApi() {
-		if (delegateApi == null) {
-			delegateApi = new MaterialRestAPI(urlMarvl, new MarvlService());
-		}
-
-		delegateApi.setClient(client);
-		return delegateApi;
-	}
+	protected MaterialRestAPI getDelegateApi() {
+		// only in web for now
+		return null;
+	};
 }
