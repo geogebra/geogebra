@@ -29,7 +29,6 @@ public class DrawInputBoxAlignmentTest {
 		AwtFactoryCommon factoryCommon = new AwtFactoryCommon();
 		app = new AppCommon(new LocalizationCommon(2), factoryCommon);
 		EuclidianView ev = app.getActiveEuclidianView();
-		ev.initAxesValues();
 		ev.setViewTextField(new TextFieldCommonJre(ev));
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand("ZoomIn(-1,-1, 1,1) ", false);
 		app.getKernel().getAlgebraProcessor().processAlgebraCommand("f = \"123456\" ", false);

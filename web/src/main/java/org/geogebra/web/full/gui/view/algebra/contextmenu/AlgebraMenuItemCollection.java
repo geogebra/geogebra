@@ -1,6 +1,11 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DeleteAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.action.SettingsAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.action.SpecialPointsAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.action.TableOfValuesAction;
 import org.geogebra.web.html5.main.AppW;
 
 /**

@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.view.algebra.contextmenu;
+package org.geogebra.web.full.gui.view.algebra.contextmenu.action;
 
 import java.util.ArrayList;
 
