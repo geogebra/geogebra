@@ -18,7 +18,10 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -28,7 +31,7 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Symbolic geo for CAS computations in AV
- * 
+ *
  * @author Zbynek
  */
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
@@ -57,7 +60,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 * @param value
 	 *            output expression
 	 */
-	public void setValue(ExpressionValue value) {
+	private void setValue(ExpressionValue value) {
 		this.value = value;
 	}
 
@@ -274,9 +277,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (twinUpToDate) {
 			return twinGeo;
 		}
-		GeoElementND newTwin = casOutputString == null ? null
-				: kernel.getAlgebraProcessor()
-						.evaluateToGeoElement(this.casOutputString, false);
+
+		GeoElementND newTwin = createTwinGeo();
 
 		if (newTwin instanceof EquationValue) {
 			((EquationValue) newTwin).setToUser();
@@ -298,6 +300,56 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		twinUpToDate = true;
 
 		return twinGeo;
+	}
+
+	private GeoElementND createTwinGeo() {
+		if (getDefinition() == null) {
+			return null;
+		}
+		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
+		ExpressionNode node;
+		try {
+			cons.setSuppressLabelCreation(true);
+			node = getDefinition().deepCopy(kernel).traverse(createPrepareDefinition()).wrap();
+			node.setLabel(null);
+			return process(node);
+		} catch (Throwable exception) {
+			try {
+				node = getKernel().getParser().parseGiac(casOutputString).wrap();
+				return process(node);
+			} catch (Throwable t) {
+				return null;
+			}
+		} finally {
+			cons.setSuppressLabelCreation(isSuppressLabelsActive);
+		}
+	}
+
+	private Traversing createPrepareDefinition() {
+		return new Traversing() {
+			@Override
+			public ExpressionValue process(ExpressionValue ev) {
+				if (ev instanceof GeoSymbolic) {
+					GeoSymbolic symbolic = (GeoSymbolic) ev;
+					ExpressionValue value = symbolic.getValue().deepCopy(kernel);
+					return value.traverse(this);
+				} else if (ev instanceof GeoDummyVariable) {
+					GeoDummyVariable variable = (GeoDummyVariable) ev;
+					return new Variable(variable.getKernel(), variable.getVarName());
+				}
+				return ev;
+			}
+		};
+	}
+
+	private GeoElement process(ExpressionNode expressionNode) throws Exception {
+		expressionNode.traverse(Traversing.GgbVectRemover.getInstance());
+		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
+		if (algebraProcessor.hasVectorLabel(this)) {
+			expressionNode.setForceVector();
+		}
+		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
+		return elements[0];
 	}
 
 	@Override

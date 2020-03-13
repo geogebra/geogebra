@@ -110,7 +110,7 @@ public final class CommandFilterFactory {
 				Commands.PathParameter, Commands.RootList, Commands.Roots,
 				Commands.Spline,
 				// Vector And Matrix Commands
-				Commands.ApplyMatrix, Commands.Identity, Commands.Vector,
+				Commands.ApplyMatrix, Commands.Identity,
 				//Geometry Commands
 				Commands.Angle, Commands.Centroid, Commands.CircularArc,
 				Commands.CircleArc, Commands.CircularSector, Commands.CircleSector,
