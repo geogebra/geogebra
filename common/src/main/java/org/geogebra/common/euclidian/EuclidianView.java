@@ -536,7 +536,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private DrawBackground drawBg = null;
 	private final HitDetector hitDetector;
 	private boolean isResetIconSelected = false;
-	private BoundingBox<? extends GShape> focusBoundingBox;
+	private BoundingBox<? extends GShape> focusedGroupGeoBoundingBox;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -1910,7 +1910,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				d.update();
 			}
 			if (geo == app.getSelectionManager().getFocusedGroupElement()) {
-				focusBoundingBox.setRectangle(d.getBoundsForStylebarPosition());
+				focusedGroupGeoBoundingBox.setRectangle(d.getBoundsForStylebarPosition());
 			}
 		} else if (drawableNeeded(geo) && geosWaiting.contains(geo)) {
 			geosWaiting.remove(geo);
@@ -2844,19 +2844,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Reset bounding box for both selection and focused selection.
+	 * Reset bounding box for both the main selection and the focused group element selection.
 	 */
-	public void resetBoundingBox() {
-		this.focusBoundingBox = null;
+	public void resetBoundingBoxes() {
+		this.focusedGroupGeoBoundingBox = null;
 		this.boundingBox = null;
 	}
 
 	/**
 	 * @param boundingBox
-	 *            - bounding box for focused selection
+	 *            bounding box for focused group element selection
 	 */
-	public void setFocusBoundingBox(BoundingBox<? extends GShape> boundingBox) {
-		this.focusBoundingBox = boundingBox;
+	public void setFocusedGroupGeoBoundingBox(BoundingBox<? extends GShape> boundingBox) {
+		this.focusedGroupGeoBoundingBox = boundingBox;
 	}
 
 	/**
@@ -6645,7 +6645,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	public BoundingBox<? extends GShape> getFocusBoundingBox() {
-		return this.focusBoundingBox;
+	public BoundingBox<? extends GShape> getFocusedGroupGeoBoundingBox() {
+		return this.focusedGroupGeoBoundingBox;
 	}
 }

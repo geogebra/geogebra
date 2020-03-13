@@ -392,8 +392,8 @@ public class EuclidianViewCompanion {
 			view.getBoundingBox().draw(g2);
 		}
 
-		if (view.getFocusBoundingBox() != null) {
-			view.getFocusBoundingBox().draw(g2);
+		if (view.getFocusedGroupGeoBoundingBox() != null) {
+			view.getFocusedGroupGeoBoundingBox().draw(g2);
 		}
 
 		// draw shape preview for shape tools

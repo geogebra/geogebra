@@ -3,6 +3,9 @@ package org.geogebra.common.euclidian;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 
+/**
+ * Simple bounding box with no handlers.
+ */
 public class SingleBoundingBox extends BoundingBox<GEllipse2DDouble> {
 
 	@Override

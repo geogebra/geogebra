@@ -572,17 +572,17 @@ public class EuclidianStyleBarW extends StyleBarW2
 	// that uses the same icon (3 dots) as ViewButton but instead opens the
 	// context menu
 	private void addContextMenuButton() {
-		if (!isBackground() && app.isUnbundledOrWhiteboard()) {
+		if (isBackground()
+				|| app.getSelectionManager().getFocusedGroupElement() != null) {
+			return;
+		}
+		if (app.isUnbundledOrWhiteboard()) {
 			if (btnContextMenu == null) {
 				createContextMenuButton();
 			}
-			if (!app.isUnbundledOrWhiteboard()) {
-				btnContextMenu.addStyleName("dynStyleContextButton");
-			} else {
-				btnContextMenu.addStyleName("matDynStyleContextButton");
-			}
+			btnContextMenu.addStyleName("matDynStyleContextButton");
 			add(btnContextMenu);
-		} else if (!isBackground()) {
+		} else {
 			if (getViewButton() == null) {
 				addViewButton();
 			} else {

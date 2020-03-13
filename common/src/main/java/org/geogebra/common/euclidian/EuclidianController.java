@@ -3573,7 +3573,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private void clearSelectionsKeepLists(boolean repaint,
 			boolean updateSelection) {
-		view.resetBoundingBox();
+		view.resetBoundingBoxes();
 		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
 
@@ -8309,7 +8309,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// preview shape for mow text tool
 		if (mode == EuclidianConstants.MODE_MEDIA_TEXT) {
-			view.resetBoundingBox();
+			view.resetBoundingBoxes();
 			updateTextRectangle(event);
 			view.setShapeRectangle(textRectangleShape);
 			view.repaintView();
@@ -8412,7 +8412,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				this.animationButtonPressed = true;
 				return;
 			}
-
+			app.getSelectionManager().setFocusedGroupElement(null);
+			view.setFocusedGroupGeoBoundingBox(null);
 			if ((mode == EuclidianConstants.MODE_TRANSLATE_BY_VECTOR)
 					&& (selGeos() == 0)) {
 				translateHitsByVector(event.getType());
@@ -8513,23 +8514,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					dontClearSelection = true;
 
 					return;
-				}
-			}
-			// Slider can be moved too on whiteboard without using right mouse
-			// button or selecting slider tool.
-			else if (app.isWhiteboardActive()) {
-				setViewHits(event.getType());
-				Hits hits0 = view.getHits();
-				if (!hits0.isEmpty()) {
-					GeoElement geo0 = hits0.get(0);
-					if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()
-							&& viewHasHitsForMouseDragged()) {
-						setTempMode(EuclidianConstants.MODE_MOVE);
-						handleMousePressedForMoveMode(event, true);
-						// make sure that dragging doesn't deselect the geos
-						dontClearSelection = true;
-						return;
-					}
 				}
 			}
 
@@ -9905,7 +9889,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			showDynamicStylebar();
 			DrawInlineText drawInlineText = (DrawInlineText) view.getDrawableFor(topGeo);
 			drawInlineText.toForeground(mouseLoc.x, mouseLoc.y);
-			view.setFocusBoundingBox(drawInlineText.getBoundingBox());
+			view.setFocusedGroupGeoBoundingBox(drawInlineText.getBoundingBox());
 			drawInlineText.getBoundingBox().setFixed(true);
 			// Fix weird multiselect bug.
 			setResizedShape(null);
@@ -10181,7 +10165,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							BoundingBox<? extends GShape> bb = ((Drawable) view
 									.getDrawableFor(lastSelectionToolGeoToRemove))
 									.getSelectionBoundingBox();
-							view.setFocusBoundingBox(bb);
+							view.setFocusedGroupGeoBoundingBox(bb);
 							view.update(lastSelectionToolGeoToRemove);
 						}
 						view.repaintView();
