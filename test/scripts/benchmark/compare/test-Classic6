@@ -6,6 +6,6 @@
 # regression introduced.
 
 set -e
-./runtests-sql -p Web -d
-./report-sql -c Web
+./runtests-sql -p Classic6 -d
+./report-sql -c Classic6
 sensible-browser html/all.html &

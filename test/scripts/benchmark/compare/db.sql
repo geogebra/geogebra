@@ -8,7 +8,7 @@ create table methods (
  name text not null primary key,
  info text);
 
-insert into methods (name, info) values ('Auto', 'Default prover');
+insert into methods (name, info) values ('default', 'Default prover');
 
 create table platforms (
  name text not null primary key,
@@ -32,8 +32,8 @@ create table provers (
  platform text
 );
 
-insert into provers (name, engine, method, outsourcing, platform) values ('Auto', 'GG', 'Auto', '', 'desktop');
-insert into provers (name, engine, method, outsourcing, platform) values ('Web', 'GG', 'Auto', '', 'web');
+insert into provers (name, engine, method, outsourcing, platform) values ('Classic5', 'GG', 'Auto', '', 'desktop');
+insert into provers (name, engine, method, outsourcing, platform) values ('Classic6', 'GG', 'Auto', '', 'web');
 
 -- Using Jenkins' environment settings, assuming Git being used,
 -- see https://wiki.jenkins-ci.org/display/JENKINS/Building+a+software+project

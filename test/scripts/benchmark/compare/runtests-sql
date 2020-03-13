@@ -9,7 +9,7 @@ MY_VERSION=2.2
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 DBDEBUG=0
 TIMEOUT=5
-PROVERS="Auto Web"
+PROVERS="Classic5 Classic6"
 REALGEOMWSREMOTEURL="http\\://localhost\\:8765"
 
 GEOGEBRADIR=../../../../
@@ -189,7 +189,7 @@ for i in `find -name '*.ggb' | sort`; do
 
   # Testing:
   start_unixtime=`date +%s`
-  if [ "$ENGINE" = "Web" ]; then
+  if [ "$ENGINE" = "Classic6" ]; then
    which $PHANTOMJS >/dev/null || {
     echo "FATAL: PhantomJS is not found in $PHANTOMJS (>= 2.0.0 needed)"
     exit 1
