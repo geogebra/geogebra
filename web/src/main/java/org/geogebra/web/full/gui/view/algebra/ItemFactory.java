@@ -1,9 +1,8 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Helper methods for creating new AV items
@@ -12,15 +11,13 @@ public class ItemFactory {
 	private boolean slidersEnabled = true;
 
 	/**
-	 * 
+	 *
 	 * @param geo
 	 *            geo element
 	 * @return if geo matches to SliderTreeItem.
 	 */
 	public boolean matchSlider(GeoElement geo) {
-		return slidersEnabled && geo instanceof GeoNumeric
-				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
-				&& MyDouble.isFinite(((GeoNumeric) geo).value);
+		return slidersEnabled && AlgebraItem.shouldShowSlider(geo);
 	}
 
 	/**

@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -658,14 +659,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void constantShouldBeOneRow() {
 		t("1", "1");
-		GeoElement a = getSymbolic("a");
+		GeoElement a = app.getKernel().lookupLabel("a");
 		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	@Test
 	public void labeledConstantShouldBeOneRow() {
 		t("a=7", "7");
-		GeoElement a = getSymbolic("a");
+		GeoElement a = app.getKernel().lookupLabel("a");
 		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
@@ -914,6 +915,92 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoElement element = add("x");
 		labelController.hideLabel(element);
 		app.setXML(app.getXML(), true);
+	}
+
+	@Test
+	public void testNumberCanBecomeSlider() {
+		GeoElement element = add("1");
+		Assert.assertTrue(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testRealNumberCanBecomeSlider() {
+		GeoElement element = add("0.6");
+		Assert.assertTrue(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testAngleCanBecomeSlider() {
+		GeoElement element = add("45" + Unicode.DEGREE_STRING);
+		Assert.assertTrue(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testUndefinedVariableCannotBecomeSlider() {
+		GeoElement element = add("a");
+		Assert.assertFalse(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testFunctionCannotBecomeSlider() {
+		GeoElement element = add("x^2");
+		Assert.assertFalse(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testAngleSetSlider() {
+		GeoNumeric element = add("45" + Unicode.DEGREE_STRING);
+		element.setShowExtendedAV(true);
+		element.initAlgebraSlider();
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 0));
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 2 * Math.PI));
+	}
+
+	@Test
+	public void testSliderCommandCreatesSlider() {
+		GeoNumeric element = add("Slider(1, 10)");
+		Assert.assertTrue(element.isShowingExtendedAV());
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 1));
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 10));
+	}
+
+	@Test
+	public void testExpressionCannotBecomeSlider() {
+		String[] expressions = {"1+2", "2*9", "1/4", "5^6"};
+		for (String expression: expressions) {
+			GeoElement element = add(expression);
+			Assert.assertFalse(element instanceof HasExtendedAV);
+		}
+	}
+
+	@Test
+	public void testCommandsCannotBecomeSlider() {
+		String[] expressions = {"Cross((1,2),(3,4))", "Dot((1,2),(3,4))", "Degree(x^2)"};
+		for (String expression: expressions) {
+			GeoElement element = add(expression);
+			Assert.assertFalse(element instanceof HasExtendedAV);
+		}
+	}
+
+	@Test
+	public void testShowAlgebraIsStoredInXML() {
+		GeoNumeric element = add("5");
+		element.setEuclidianVisible(true);
+		Assert.assertTrue(element.getXML().matches(
+				"[\\s\\S]*<slider [^>]* showAlgebra=\"false\"[\\s\\S]*"));
+		element.setShowExtendedAV(true);
+		Assert.assertTrue(element.getXML().matches(
+				"[\\s\\S]*<slider [^>]* showAlgebra=\"true\"[\\s\\S]*"));
+	}
+
+	@Test
+	public void testUndoRedoKeepsShowingExtendedAV() {
+		GeoNumeric element = add("5");
+		element.setEuclidianVisible(true);
+		element.setShowExtendedAV(true);
+		app.setXML(app.getXML(), true);
+		element = (GeoNumeric) app.getKernel().lookupLabel("a");
+		Assert.assertTrue(element.isShowingExtendedAV());
 	}
 
 	private int numberOfSpecialPoints() {

@@ -464,11 +464,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else if (isInputTreeItem()) {
 			content.removeStyleName("noPreview");
 			content.addStyleName("avPreview");
-			boolean forceLatex = false;
-			if (previewGeo.isGeoFunction() || previewGeo.isGeoFunctionNVar()
-					|| previewGeo.isGeoFunctionBoolean()) {
-				forceLatex = true;
-			}
 
 			updateSymbolicMode(previewGeo);
 			ariaPreview = previewGeo.getAuralExpression();
@@ -481,7 +476,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 			previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
-			String plain = sb.toString();
+
 			String text = previewGeo
 					.getAlgebraDescription(StringTemplate.latexTemplate)
 					.replace("undefined", "").trim();
@@ -489,10 +484,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
 				text = text.substring(1);
 			}
-			if (!plain.equals(text) || forceLatex) {
-				outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
-			}
 
+			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 			outputPanel.addArrowPrefix(app.getActivity());
 			outputPanel.addValuePanel();
 

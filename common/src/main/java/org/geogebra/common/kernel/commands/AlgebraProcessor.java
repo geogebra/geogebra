@@ -90,6 +90,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -525,18 +526,9 @@ public class AlgebraProcessor {
 		GeoElementND[] result;
 
 		app.getCompanion().storeViewCreators();
-		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
-		// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F,
-		// G, H, I}, 22] to FitPoly[{A, B, C, D, E, F, G, H, I}, 2]
-		/*
-		 * if (geo instanceof GeoFunction && ((GeoFunction) geo).isDefined()) {
-		 * cons.registerFunctionVariable(((GeoFunction) geo).getFunction()
-		 * .getVarString(StringTemplate.defaultTemplate)); }
-		 */
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
-			symbolicProcessor.updateLabel(newValue, info);
-		}
 
+		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
+		updateLabelIfSymbolic(newValue, info);
 		newLabel = newValue.getLabel();
 		if (!app.getConfig().hasAutomaticLabels()) {
 			geo.setAlgebraLabelVisible(newLabel != null);
@@ -613,6 +605,12 @@ public class AlgebraProcessor {
 
 		cons.registerFunctionVariable(null);
 
+	}
+
+	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && symbolicProcessor != null) {
+			symbolicProcessor.updateLabel(expression, info);
+		}
 	}
 
 	private static boolean sameLabel(String newLabel, String oldLabel) {
@@ -2928,7 +2926,8 @@ public class AlgebraProcessor {
 	public final GeoElement[] processExpressionNode(ExpressionNode node,
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)
+				&& !willResultInSlider(node)) {
 			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command
@@ -3067,6 +3066,11 @@ public class AlgebraProcessor {
 		return ev.inspect(Inspecting.textFinder);
 	}
 
+	private boolean willResultInSlider(ExpressionNode node) {
+		return node.isSimpleNumber() || (node.unwrap() instanceof Command
+				&& ((Command) node.unwrap()).getName().equals("Slider"));
+	}
+
 	/**
 	 * Make function or nvar function from expression, using all function
 	 * variables it has
@@ -3116,6 +3120,9 @@ public class AlgebraProcessor {
 
 		if (info.isFractions() && ret instanceof HasSymbolicMode) {
 			((HasSymbolicMode) ret).initSymbolicMode();
+		}
+		if (ret instanceof HasExtendedAV) {
+			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
