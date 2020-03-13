@@ -1674,7 +1674,7 @@ public class Construction {
 
 		// 3) replace oldGeo by newGeo in XML
 		String oldXML = consXML.toString();
-		replaceInXML(consXML, oldGeo, newGeo);
+		doReplaceInXML(consXML, oldGeo, newGeo);
 		// moveDependencies(oldGeo,newGeo);
 
 		// 4) build new construction
@@ -1688,13 +1688,6 @@ public class Construction {
 
 		// recall views for plane
 		app.getCompanion().recallViewCreators();
-	}
-
-	private void replaceInXML(StringBuilder consXML, GeoElement oldGeo, GeoElement newGeo) {
-		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
-		scriptManager.preventClearGlobalListeners();
-		doReplaceInXML(consXML, oldGeo, newGeo);
-		scriptManager.allowClearGlobalListeners();
 	}
 
 	private void buildConstructionWithGlobalListeners(StringBuilder consXML, String oldXML, EvalInfo info)
@@ -1748,7 +1741,7 @@ public class Construction {
 			GeoElement newGeo = entry.getValue();
 
 			// 3) replace oldGeo by newGeo in XML
-			replaceInXML(consXML, oldGeo, newGeo);
+			doReplaceInXML(consXML, oldGeo, newGeo);
 		}
 
 		try {
