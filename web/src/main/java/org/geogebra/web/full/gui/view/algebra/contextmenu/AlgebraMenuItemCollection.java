@@ -30,5 +30,4 @@ public class AlgebraMenuItemCollection extends GeoElementMenuItemCollection {
 		}
 		addItems(new DuplicateItem(algebraView), new DeleteItem(), new SettingsItem());
 	}
-
 }

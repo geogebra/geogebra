@@ -20,5 +20,4 @@ public class GeoElementMenuItemCollection
 	public void addLabelingActions() {
 		addItems(new RemoveLabelItem(), new AddLabelItem());
 	}
-
 }

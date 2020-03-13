@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -29,16 +28,6 @@ public interface AlgebraItemHeader extends IsWidget, SetLabels {
 	void update();
 
 	/**
-	 * @return help button (or null)
-	 */
-	MyToggleButton getBtnHelpToggle();
-
-	/**
-	 * @return plus button (or null)
-	 */
-	MyToggleButton getBtnPlus();
-
-	/**
 	 * @param x
 	 *            pointer event x-coord
 	 * @param y
@@ -55,4 +44,11 @@ public interface AlgebraItemHeader extends IsWidget, SetLabels {
 	 */
 	void setIndex(int index);
 
+	void setError(String s);
+
+	int getOffsetHeight();
+
+	int getAbsoluteTop();
+
+	int getAbsoluteLeft();
 }

@@ -387,17 +387,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean showInEuclidianView() {
-		if (!isDrawable()) {
-			return false;
-		}
-
-		if (!isDefined()) {
-			return false;
-		}
-
-		// Double.isNaN(value) is tested in isDefined()
-
-		if (Double.isInfinite(value)) {
+		if (!showExtendedAV || !isDrawable() || !isDefined() || Double.isInfinite(value)) {
 			return false;
 		}
 
@@ -650,7 +640,11 @@ public class GeoNumeric extends GeoElement
 			return toValueString(tpl);
 		}
 
-		return label + " = " + toValueString(tpl);
+		if (LabelManager.isShowableLabel(label)) {
+			return label + " = " + toValueString(tpl);
+		} else {
+			return toValueString(tpl);
+		}
 	}
 
 	/**
@@ -1753,6 +1747,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
+		notifyUpdate();
 	}
 
 	@Override
@@ -2014,7 +2009,7 @@ public class GeoNumeric extends GeoElement
 	private void addAuralSliderValue(ScreenReaderBuilder sb) {
 		if (!addAuralCaption(sb)) {
 			sb.append(getLabelSimple());
-			sb.append(getLabelDelimiterWithSpace());
+			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
 			sb.append(toValueString(StringTemplate.defaultTemplate));
 		}
 	}

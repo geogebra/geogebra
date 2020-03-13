@@ -65,9 +65,9 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 		getElement().getStyle().setColor("black");
 
-		content.add(getPlainTextItem());
+		content.add(getDefinitionValuePanel());
 
-		updateFont(getPlainTextItem());
+		updateFont(getDefinitionValuePanel());
 		createSliderGUI();
 		addControls();
 		styleContentPanel();
@@ -94,8 +94,8 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 				&& num.getIntervalMaxObject() != null) {
 			boolean degree = geo.isGeoAngle()
 					&& kernel.degreesMode();
-			setSlider(new SliderPanelW(num.getIntervalMin(),
-					num.getIntervalMax(), app.getKernel(), degree));
+			slider = new SliderPanelW(num.getIntervalMin(),
+					num.getIntervalMax(), app.getKernel(), degree);
 
 			getSlider().setValue(num.getValue());
 
@@ -257,14 +257,6 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	 */
 	public SliderPanelW getSlider() {
 		return slider;
-	}
-
-	/**
-	 * @param slider
-	 *            slider
-	 */
-	public void setSlider(SliderPanelW slider) {
-		this.slider = slider;
 	}
 
 	/**

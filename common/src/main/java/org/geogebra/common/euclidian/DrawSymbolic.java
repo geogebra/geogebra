@@ -42,6 +42,7 @@ public class DrawSymbolic extends Drawable {
 			twinDrawable.update();
 		} else {
 			twinDrawable = view.newDrawable(symbolic.getTwinGeo());
+			twinGeo.setVisualStyle(symbolic);
 			if (twinDrawable instanceof Drawable) {
 				((Drawable) twinDrawable).setTopLevelGeo(symbolic);
 				twinDrawable.update();
