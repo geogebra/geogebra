@@ -53,7 +53,7 @@ __GGB__keysVar["zh-CN"].colors = {
     "purple": "\u7d2b\u8272",
     "red": "\u7ea2\u8272",
     "silver": "\u94f6\u7070",
-    "teal": "Teal",
+    "teal": "\u9752\u8272",
     "turquoise": "\u84dd\u7eff",
     "violet": "\u7d2b\u84dd",
     "white": "\u767d\u8272",

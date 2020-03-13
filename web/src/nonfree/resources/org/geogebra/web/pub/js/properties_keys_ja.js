@@ -53,7 +53,7 @@ __GGB__keysVar["ja"].colors = {
     "purple": "\u7d2b\u8272",
     "red": "\u8d64\u8272",
     "silver": "\u9280\u8272",
-    "teal": "Teal",
+    "teal": "\u9752\u7dd1\u8272",
     "turquoise": "\u9752\u7dd1\u8272",
     "violet": "\u30b9\u30df\u30ec\u8272",
     "white": "\u767d",
