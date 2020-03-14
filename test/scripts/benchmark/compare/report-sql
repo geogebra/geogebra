@@ -401,7 +401,7 @@ for c in $MYCOLUMNS; do
  if [ "${SCORE:0:1}" = "-" ]; then
   SCORE=error
   fi
- echo "<td class=\"summary\" colspan=\"2\"><b>$VALUE</b><br>$SCORE</td>" >> $MYDIR/$HTML
+ echo "<td class=\"summary\" colspan=\"2\"><b>$VALUE</b></td>" >> $MYDIR/$HTML
  echo "&\multicolumn{2}{c|}{\bf $VALUE}" >> $MYDIR/$TEX
 
  done
