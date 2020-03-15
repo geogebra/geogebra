@@ -340,7 +340,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			case "cas":
 				activity = new CASActivity();
 				break;
-			case "calculator":
+			case "scientific":
 				activity = new ScientificActivity();
 				break;
 			case "notes":
