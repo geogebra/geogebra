@@ -11,7 +11,6 @@ import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
 public class BaseSymbolicTest {
     protected AppCommon app;
@@ -42,5 +41,9 @@ public class BaseSymbolicTest {
 				false, TestErrorHandler.INSTANCE, info, null)[0];
 		AlgebraTestHelper.assertOneOf(result, expected,
 				StringTemplate.testTemplate);
+	}
+
+	protected<T extends GeoElement> T add(String text) {
+		return (T) ap.processAlgebraCommandNoExceptionHandling(text, false, null, false, null)[0];
 	}
 }

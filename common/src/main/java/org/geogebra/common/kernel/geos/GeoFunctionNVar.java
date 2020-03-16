@@ -478,7 +478,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public char getLabelDelimiter() {
-		return isBooleanFunction() ? ':' : '=';
+		return isBooleanFunction() || shortLHS != null ? ':' : '=';
 	}
 
 	/**

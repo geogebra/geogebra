@@ -1,14 +1,14 @@
 package org.geogebra.common.kernel.geos.description;
 
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.LabelManager;
-import org.geogebra.common.util.ToStringConverter;
-
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_CAPTION_VALUE;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_NAME_VALUE;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
+
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.util.ToStringConverter;
 
 /**
  * Default label description implementation for GeoElement.
@@ -43,7 +43,7 @@ public class DefaultLabelDescriptionConverter implements ToStringConverter<GeoEl
 		}
 
 		String retVal = element.getRawCaption();
-		retVal += element.getLabelDelimiterWithSpace();
+		retVal += element.getLabelDelimiterWithSpace(StringTemplate.defaultTemplate);
 		retVal += element.toValueString(StringTemplate.defaultTemplate);
 		return retVal;
 	}

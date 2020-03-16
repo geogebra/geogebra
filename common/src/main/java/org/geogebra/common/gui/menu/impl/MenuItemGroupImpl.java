@@ -5,16 +5,19 @@ import org.geogebra.common.gui.menu.MenuItem;
 import java.util.Arrays;
 import java.util.List;
 
-class MenuItemGroupImpl extends AbstractMenuItemGroup {
+/**
+ * Implementation of AbstractMenuItemGroup.
+ */
+public class MenuItemGroupImpl extends AbstractMenuItemGroup {
 
 	private List<MenuItem> menuItems;
 
-	MenuItemGroupImpl(MenuItem... menuItems) {
-		this(Arrays.asList(menuItems));
+	public MenuItemGroupImpl(List<MenuItem> menuItems) {
+		this(null, menuItems);
 	}
 
-	MenuItemGroupImpl(List<MenuItem> menuItems) {
-		this(null, menuItems);
+	MenuItemGroupImpl(MenuItem... menuItems) {
+		this(Arrays.asList(menuItems));
 	}
 
 	MenuItemGroupImpl(String title, MenuItem... menuItems) {

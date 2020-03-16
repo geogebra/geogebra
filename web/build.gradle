@@ -47,7 +47,8 @@ if(hasProperty("eclipse")){
 }
 
 dependencies {
-    compile project(':web:dev'), 
+    compile project(path: ':carota-web', configuration: 'gwt')
+    compile project(':web:dev'),
         project(':common'),
         project(':renderer-base'),
         project(':editor-base'),
@@ -240,7 +241,6 @@ task mergeDeploy(){
                           .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
       def parentRoot = project(":common").getBuildDir().getAbsolutePath() + "/../../"
       def currentVersion = getGeogebraVersion(parentRoot)
-      deployText += file("./build/gwt/out/web3d/js/webfont.js").text
       file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','')
       file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://www.geogebra.org/apps/latest/')
       file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://www.geogebra.org/apps/${currentVersion}/")

@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -123,13 +124,14 @@ public class KeyboardSwitcher extends FlowPanel {
         closeButton.getUpHoveringFace().setImage(hoverImg);
         closeButton.addStyleName("closeTabbedKeyboardButton");
 		closeButton.getElement().setAttribute("data-test", "closeKeyboardButton");
-        ClickStartHandler.init(closeButton, new ClickStartHandler() {
+		ClickStartHandler.init(closeButton, new ClickStartHandler() {
 
-            @Override
-            public void onClickStart(int x, int y, PointerEventType type) {
-                tabbedkeyboard.closeButtonClicked();
-            }
-        });
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				tabbedkeyboard.closeButtonClicked();
+				DOM.setCapture(null); // reset capture from GCustomButton's mousedown handler
+			}
+		});
         add(closeButton);
     }
 

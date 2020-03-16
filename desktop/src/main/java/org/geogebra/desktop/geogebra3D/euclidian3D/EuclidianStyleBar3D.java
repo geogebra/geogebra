@@ -2,6 +2,7 @@ package org.geogebra.desktop.geogebra3D.euclidian3D;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -47,12 +48,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 	@Override
 	protected void createDefaultMap() {
-
-		super.createDefaultMap();
-
-		EuclidianStyleBarStatic3D.addToDefaultMap(defaultGeoMap,
-				ev.getApplication());
-
+		EuclidianStyleBarStatic3D.addToDefaultMap(selection.getDefaultMap());
 	}
 
 	@Override
@@ -141,9 +137,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		}
 
 		@Override
-		public void update(Object[] geos) {
+		public void update(List<GeoElement> geos) {
 			this.setVisible(
-					geos.length == 0 && mode != EuclidianConstants.MODE_PEN);
+					geos.size() == 0 && mode != EuclidianConstants.MODE_PEN);
 		}
 
 		/*
@@ -240,9 +236,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		}
 
 		@Override
-		public void update(Object[] geos) {
+		public void update(List<GeoElement> geos) {
 			this.setVisible(
-					geos.length == 0 && mode != EuclidianConstants.MODE_PEN);
+					geos.size() == 0 && mode != EuclidianConstants.MODE_PEN);
 		}
 
 		/*

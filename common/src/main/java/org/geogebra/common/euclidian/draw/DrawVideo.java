@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -26,12 +25,12 @@ import org.geogebra.common.media.MediaFormat;
  *
  */
 public class DrawVideo extends Drawable implements DrawWidget {
+
 	private GeoVideo video;
 	private App app;
 	private GRectangle bounds;
 	private int left;
 	private int top;
-	private BoundingBox<GEllipse2DDouble> boundingBox;
 	private double originalRatio = Double.NaN;
 	private final static int VIDEO_SIZE_THRESHOLD = 100;
 
@@ -80,9 +79,6 @@ public class DrawVideo extends Drawable implements DrawWidget {
 		top = video.getScreenLocY(view);
 
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
-		if (boundingBox != null) {
-			boundingBox.setRectangle(bounds);
-		}
 	}
 
 	private boolean isPreviewNeeded() {
@@ -134,19 +130,6 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	@Override
 	public GeoElement getGeoElement() {
 		return video;
-	}
-
-	@Override
-	public BoundingBox<GEllipse2DDouble> getBoundingBox() {
-		if (video.isBackground()) {
-			if (boundingBox == null) {
-				boundingBox = createBoundingBox(false);
-				setMetrics();
-			}
-			boundingBox.updateFrom(geo);
-			return boundingBox;
-		}
-		return null;
 	}
 
 	private void updateOriginalRatio() {
