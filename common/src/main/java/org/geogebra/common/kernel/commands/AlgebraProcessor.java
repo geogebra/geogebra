@@ -547,7 +547,7 @@ public class AlgebraProcessor {
 				n.setForcePoint();
 			} else if (geo.isGeoVector()) {
 				n.setForceVector();
-                updatePrintingMode(n);
+				updatePrintingMode(n);
 			} else if (geo.isGeoFunction()) {
 				n.setForceFunction();
 			}
@@ -3376,9 +3376,11 @@ public class AlgebraProcessor {
 			} else {
 				vector = kernel.getAlgoDispatcher().point(x, y, complex);
 			}
+			updatePrintingMode(n);
 			vector.setDefinition(n);
 			vector.setLabel(label);
 		} else {
+			updatePrintingMode(n);
 			if (isVector) {
 				vector = dependentVector(label, n);
 			} else {
@@ -3394,7 +3396,6 @@ public class AlgebraProcessor {
 		}
 		ret[0] = vector;
 
-        updatePrintingMode(n);
 		return ret;
 	}
 
