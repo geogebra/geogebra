@@ -11,23 +11,13 @@ public interface AccessibilityManagerInterface {
 
 	/**
 	 * Focus next screen element
-	 * 
-	 * @param group
-	 *            The source element to focus from.
-	 * @param viewID
-	 *            view ID
 	 */
-	public void focusNext(AccessibilityGroup group, int viewID);
+	void focusNext();
 
 	/**
 	 * Focus previous screen element
-	 * 
-	 * @param group
-	 *            The source element to focus from.
-	 * @param viewID
-	 *            view ID
 	 */
-	public void focusPrevious(AccessibilityGroup group, int viewID);
+	void focusPrevious();
 
 	/** Focus first interactive element (widget or drawable) */
 	public void focusFirstElement();
@@ -122,26 +112,6 @@ public interface AccessibilityManagerInterface {
 	public void sliderChange(double step, SliderInput input);
 
 	/**
-	 * Called when first geo is selected from tabbing set.
-	 * 
-	 * @param forward
-	 *            if geo is selected by tab or shift+tab.
-	 * 
-	 * @return if selection is handled here.
-	 */
-	public boolean onSelectFirstGeo(boolean forward);
-
-	/**
-	 * Called when last geo is selected from tabbing set.
-	 * 
-	 * @param forward
-	 *            if geo is selected by tab or shift+tab.
-	 * 
-	 * @return if selection is handled here.
-	 */
-	public boolean onSelectLastGeo(boolean forward);
-
-	/**
 	 * Called when user press tab but construction is empty.
 	 *
 	 * @param forward
@@ -155,4 +125,8 @@ public interface AccessibilityManagerInterface {
 	 * @return action description (eg Run script)
 	 */
 	public String getAction(GeoElement geo);
+
+	void register(MayHaveFocus focusable);
+
+	void setTabOverGeos();
 }

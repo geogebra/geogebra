@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -11,6 +12,7 @@ import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
@@ -123,6 +125,8 @@ public class ToolbarMow extends FlowPanel
 		pageControlButton = new StandardButton(
 				MaterialDesignResources.INSTANCE.mow_page_control(), null, 24,
 				appW);
+		new FocusableWidget(pageControlButton, AccessibilityGroup.PAGE_LIST_OPEN, -1)
+				.attachTo(appW);
 		pageControlButton.setStyleName("mowFloatingButton");
 		showPageControlButton(true);
 

@@ -43,9 +43,7 @@
 
 		    .content {
 		    	height: $toolbarHeight;
-		    	.flatButton:focus {
-		    		outline: none;
-		    	}
+
 		    	.button {
 				    position: relative;
 				    &:hover img{
@@ -202,17 +200,21 @@
 								top: -2px;
 							}
 
+							input[type="range"]:focus {
+								outline: #212121 5px auto;
+							}
+
 							.gwt-Label {
 								display: none;
 							}
 
-					    	&[disabled = true]{
-					    		opacity: 0.3;
-					    		input[type=range]::-webkit-slider-thumb:hover {
+							&[disabled = true]{
+								opacity: 0.3;
+								input[type=range]::-webkit-slider-thumb:hover {
 									cursor: default !important;
 								}
-					    	}
-					    }
+							}
+						}
 					}
 				}
 
@@ -256,6 +258,10 @@
 		img {
 			padding: 8px 28px;
 		    opacity: 0.54;
+		}
+
+		&:focus {
+			outline: #212121 5px auto;
 		}
 
 		.gwt-Label {

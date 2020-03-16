@@ -10,12 +10,12 @@ public final class AccessibilityManagerNoGui
 		implements AccessibilityManagerInterface {
 
 	@Override
-	public void focusNext(AccessibilityGroup group, int viewID) {
+	public void focusNext() {
 		// only tab geos
 	}
 
 	@Override
-	public void focusPrevious(AccessibilityGroup group, int viewID) {
+	public void focusPrevious() {
 		// only tab geos
 	}
 
@@ -92,16 +92,6 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public boolean onSelectFirstGeo(boolean forward) {
-		return false;
-	}
-
-	@Override
-	public boolean onSelectLastGeo(boolean forward) {
-		return false;
-	}
-
-	@Override
 	public void onEmptyConstuction(boolean forward) {
 		// not used
 	}
@@ -109,5 +99,15 @@ public final class AccessibilityManagerNoGui
 	@Override
 	public String getAction(GeoElement geo) {
 		return "";
+	}
+
+	@Override
+	public void register(MayHaveFocus focusable) {
+		// nothing to do
+	}
+
+	@Override
+	public void setTabOverGeos() {
+
 	}
 }

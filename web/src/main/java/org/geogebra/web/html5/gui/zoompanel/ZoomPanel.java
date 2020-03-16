@@ -8,12 +8,13 @@ import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -23,6 +24,7 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -116,6 +118,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		fullscreenBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.fullscreen_black18(), null, 24,
 				app);
+		registerFocusable(fullscreenBtn, AccessibilityGroup.FULL_SCREEN);
 		NoDragImage exitFullscreenImage = new NoDragImage(ZoomPanelResources.INSTANCE
 				.fullscreen_exit_black18(), 24);
 		exitFullscreenImage.setPresentation();
@@ -189,9 +192,12 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		};
 		homeBtn.addFastClickHandler(handlerHome);
 		add(homeBtn);
+		registerFocusable(homeBtn, AccessibilityGroup.ZOOM_PANEL_HOME);
 		if (!Browser.isMobile()) {
 			addZoomInButton();
+			registerFocusable(zoomInBtn, AccessibilityGroup.ZOOM_PANEL_PLUS);
 			addZoomOutButton();
+			registerFocusable(zoomOutBtn, AccessibilityGroup.ZOOM_PANEL_MINUS);
 		}
 
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
@@ -201,6 +207,10 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				// to stopPropagation and preventDefault.
 			}
 		});
+	}
+
+	private void registerFocusable(StandardButton btn, AccessibilityGroup group) {
+		new FocusableWidget(btn, group, getViewID()).attachTo(app);
 	}
 
 	private void addZoomOutButton() {
@@ -454,7 +464,9 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			zoomOutBtn.setVisible(zoomButtonsVisible);
 		}
 		if (homeBtn != null) {
-			homeBtn.setVisible(zoomButtonsVisible);
+			// change style directly, aria-hidden + visibility should depend on zoom
+			Style.Display display = zoomButtonsVisible ? Style.Display.BLOCK : Style.Display.NONE;
+			homeBtn.getElement().getStyle().setDisplay(display);
 		}
 	}
 
@@ -491,4 +503,5 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			fullscreenBtn = null;
 		}
 	}
+
 }

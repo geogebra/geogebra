@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.common.main.Feature;
@@ -43,7 +45,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 */
 	ZoomPanel zoomPanel;
 	/** Zoom panel for MOW */
-	ZoomPanelMow mowZoomPanel;
+	@CheckForNull ZoomPanelMow mowZoomPanel;
 	/**
 	 * button panel for speech recognition
 	 */
@@ -327,7 +329,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			mowZoomPanel.removeFromParent();
 			mowZoomPanel = null;
 		}
-		if (allowZoomPanel()) {
+		if (allowZoomPanel() && app.isWhiteboardActive()) {
 			mowZoomPanel = new ZoomPanelMow(app);
 			((AppWFull) app).setMowZoomPanel(mowZoomPanel);
 		}

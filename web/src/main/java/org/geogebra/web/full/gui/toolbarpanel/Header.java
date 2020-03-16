@@ -2,20 +2,22 @@ package org.geogebra.web.full.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
-import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
@@ -824,10 +826,13 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	public void setTabIndexes() {
 		tabIndex(btnMenu, GUITabs.MENU);
+		new FocusableWidget(btnMenu, AccessibilityGroup.MENU, -1).attachTo(app);
 		tabIndex(btnClose, GUITabs.HEADER_CLOSE);
+		new FocusableWidget(btnClose, AccessibilityGroup.ALGEBRA_CLOSE, -1).attachTo(app);
 		tabIndex(btnUndo, GUITabs.UNDO);
+		new FocusableWidget(btnUndo, AccessibilityGroup.UNDO, -1).attachTo(app);
 		tabIndex(btnRedo, GUITabs.REDO);
-
+		new FocusableWidget(btnRedo, AccessibilityGroup.REDO, -1).attachTo(app);
 		setAltTexts();
 	}
 

@@ -700,11 +700,10 @@ public class SelectionManager {
 
 		if (next != null) {
 			addSelectedGeoForEV(next);
-		} else if (!getAccessibilityManager().onSelectLastGeo(true)) {
-			addSelectedGeoForEV(tree.first());
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -712,12 +711,13 @@ public class SelectionManager {
 	 *
 	 * @param ev
 	 *            The Euclidian View that has the geos to select.
+	 * @return whether selection was successful
 	 */
-	final public void selectLastGeo(EuclidianViewInterfaceCommon ev) {
+	final public boolean selectLastGeo(EuclidianViewInterfaceCommon ev) {
 		boolean forceLast = false;
 		if (selectedGeos.size() != 1) {
 			if (!getAccessibilityManager().handleTabExitGeos(false)) {
-				return;
+				return false;
 
 			}
 			forceLast = true;
@@ -728,7 +728,7 @@ public class SelectionManager {
 		GeoElement last = tree.last();
 		if (forceLast) {
 			addSelectedGeoForEV(last);
-			return;
+			return true;
 		}
 		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
 		GeoElement prev = tree.lower(lastSelected);
@@ -736,9 +736,9 @@ public class SelectionManager {
 
 		if (prev != null) {
 			addSelectedGeoForEV(prev);
-		} else if (!getAccessibilityManager().onSelectFirstGeo(false)) {
-			addSelectedGeoForEV(last);
+			return true;
 		}
+		return false;
 	}
 
 	/**

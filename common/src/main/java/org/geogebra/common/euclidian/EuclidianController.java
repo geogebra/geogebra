@@ -9108,7 +9108,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
-
+		app.getAccessibilityManager().setTabOverGeos();
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
 

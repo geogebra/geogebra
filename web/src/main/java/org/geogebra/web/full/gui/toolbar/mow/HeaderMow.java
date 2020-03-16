@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow.TabIds;
@@ -8,6 +9,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
@@ -79,6 +81,12 @@ public class HeaderMow extends FlowPanel
 				"ToolCategory.Media");
 		mediaPanelBtn.addStyleName("flatButton");
 		TestHarness.setAttr(mediaPanelBtn, "mediaPanelButton");
+		new FocusableWidget(penPanelBtn, AccessibilityGroup.NOTES_TOOLBAR_PEN, -1)
+				.attachTo(appW);
+		new FocusableWidget(toolsPanelBtn, AccessibilityGroup.NOTES_TOOLBAR_TOOLS, -1)
+				.attachTo(appW);
+		new FocusableWidget(mediaPanelBtn, AccessibilityGroup.NOTES_TOOLBAR_MEDIA, -1)
+				.attachTo(appW);
 		center.add(penPanelBtn);
 		center.add(toolsPanelBtn);
 		center.add(mediaPanelBtn);

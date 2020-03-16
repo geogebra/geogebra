@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.layout;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -33,6 +34,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
@@ -622,7 +624,12 @@ public abstract class DockPanelW extends ResizeComposite
 		graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
 				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
 		titleBarPanelContent.add(graphicsContextMenuBtn);
+		graphicsContextMenuBtn.getElement().setTabIndex(0);
 		GUITabs.setTabIndex(graphicsContextMenuBtn.getElement(), GUITabs.SETTINGS);
+		if (getViewId() == App.VIEW_EUCLIDIAN) {
+			new FocusableWidget(graphicsContextMenuBtn,
+					AccessibilityGroup.SETTINGS_BUTTON, getViewId()).attachTo(app);
+		}
 		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
 		if (toggleStyleBarButton != null) {
 			toggleStyleBarButton.removeFromParent();

@@ -1,17 +1,17 @@
 package org.geogebra.web.html5.gui.accessibility;
 
+import java.util.Comparator;
 import java.util.TreeSet;
 
-import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
+import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.gui.SliderInput;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
@@ -26,12 +26,23 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class AccessibilityManagerW implements AccessibilityManagerInterface {
+	private final GeoTabber geoTabber;
 	private AppW app;
 	private SelectionManager selection;
 	private Widget anchor;
 	private SliderInput activeButton;
 	private PerspectiveAccessibilityAdapter perspectiveAdapter;
 	private SideBarAccessibilityAdapter menuContainer;
+	private TreeSet<MayHaveFocus> components = new TreeSet<>(new Comparator<MayHaveFocus>() {
+		@Override
+		public int compare(MayHaveFocus o1, MayHaveFocus o2) {
+			int viewDiff = o1.getViewId() - o2.getViewId();
+			if (viewDiff != 0 && o1.getViewId() != -1) {
+				return viewDiff;
+			}
+			return o1.getAccessibilityGroup().ordinal() - o2.getAccessibilityGroup().ordinal();
+		}
+	});
 
 	/**
 	 * Constructor.
@@ -46,138 +57,87 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		this.app = app;
 		selection = app.getSelectionManager();
 		this.perspectiveAdapter = perspectiveAdapter;
+		this.geoTabber =  new GeoTabber(app);
+		components.add(geoTabber);
 	}
 
 	@Override
-	public void focusNext(AccessibilityGroup group, int viewID) {
-		if (group == null) {
-			focusFirstElement();
-		} else if (group == AccessibilityGroup.ALGEBRA_ITEM) {
-			nextFromInput();
-		} else if (group == AccessibilityGroup.ZOOM_PANEL) {
-			nextFromZoomPanel(viewID);
-		} else if (group == AccessibilityGroup.SPEECH) {
-			nextFromSpeechRecognitionPanel(viewID);
-		} else if (group == AccessibilityGroup.MENU
-				|| group == AccessibilityGroup.SETTINGS_BUTTON) {
-			nextFromWidget(group);
-		} else if (group == AccessibilityGroup.GEO_ELEMENT) {
-			nextFromLastGeo();
+	public void focusNext() {
+		for (MayHaveFocus entry: components) {
+			if (entry.hasFocus()) {
+				if (!entry.focusNext()) {
+					focusFirstVisible(findNext(entry));
+				}
+				return;
+			}
 		}
+
+		focusFirstVisible(components.first());
+	}
+
+	private void focusFirstVisible(MayHaveFocus entry) {
+		MayHaveFocus nextEntry = entry;
+		while (nextEntry != null) {
+			if (nextEntry.focusIfVisible()) {
+				return;
+			}
+			nextEntry = findNext(nextEntry);
+		}
+	}
+
+	private void focusLastVisible(MayHaveFocus entry) {
+		MayHaveFocus nextEntry = entry;
+		while (nextEntry != null) {
+			if (nextEntry.focusIfVisible()) {
+				return;
+			}
+			nextEntry = findPrevious(nextEntry);
+		}
+	}
+
+	private MayHaveFocus findNext(MayHaveFocus entry) {
+		MayHaveFocus nextEntry = components.higher(entry);
+		if (nextEntry == null) {
+			return components.first();
+		}
+		return nextEntry;
+	}
+
+	private MayHaveFocus findPrevious(MayHaveFocus entry) {
+		MayHaveFocus nextEntry = components.lower(entry);
+		if (nextEntry == null) {
+			return components.last();
+		}
+		return nextEntry;
 	}
 
 	@Override
-	public void focusPrevious(AccessibilityGroup group, int viewID) {
-		if (group == AccessibilityGroup.ALGEBRA_ITEM) {
-			previousFromInput();
-		} else if (group == AccessibilityGroup.ZOOM_PANEL) {
-			previousFromZoomPanel(viewID);
-		} else if (group == AccessibilityGroup.SPEECH) {
-			previousFromSpeechRecognition(viewID);
-		} else if (group == AccessibilityGroup.MENU
-				|| group == AccessibilityGroup.SETTINGS_BUTTON) {
-			previousFromWidget(group);
-		} else if (group == AccessibilityGroup.GEO_ELEMENT) {
-			previousFromFirstGeo();
-		}
-	}
-
-	private void previousFromInput() {
-		if (focusLastGeo()) {
-			return;
-		}
-		focusFirstElement();
-	}
-
-	private void previousFromSpeechRecognition(int viewID) {
-		EuclidianViewAccessibiliyAdapter dp = getEuclidianPanel(viewID);
-		if (dp != null) {
-			focusZoomPanel(false, viewID);
-		} else {
-			focusLastGeo();
-		}
-	}
-
-	private void previousFromFirstGeo() {
-		focusLastZoomOrSpeech(prevID(-1));
-	}
-
-	private void focusLastZoomOrSpeech(int prevID) {
-		if (app.has(Feature.SPEECH_RECOGNITION)) {
-			if (!focusSpeechRec(prevID)) {
-				focusLastGeo();
-			}
-		} else {
-			if (!focusZoomPanel(false, prevID)) {
-				focusLastGeo();
+	public void focusPrevious() {
+		for (MayHaveFocus entry: components) {
+			if (entry.hasFocus()) {
+				if (!entry.focusPrevious()) {
+					focusLastVisible(findPrevious(entry));
+				}
+				return;
 			}
 		}
+
+		focusLastVisible(components.last());
 	}
 
-	private void nextFromInput() {
-		if (!focusMenu()) {
-			focusFirstGeo();
-		}
+	@Override
+	public void register(MayHaveFocus focusable) {
+		components.add(focusable);
 	}
 
-	private void nextFromZoomPanel(int viewID) {
-		if (app.has(Feature.SPEECH_RECOGNITION) && focusSpeechRec(viewID)) {
-			return;
-		}
-
-		if (!focusZoomPanel(true, nextID(viewID))) {
-			focusFirstElement();
-		}
-	}
-
-	private void nextFromSpeechRecognitionPanel(int viewId) {
-		if (focusZoomPanel(true, nextID(viewId))) {
-			return;
-		}
-
-		focusFirstElement();
-	}
-
-	private void nextFromLastGeo() {
-		int viewId = nextID(-1);
-		if (!focusPlay(viewId)) {
-			nextFromPlayButton(true);
-		}
-	}
-
-	private boolean focusSpeechRec(int viewID) {
-		EuclidianViewAccessibiliyAdapter dp = getEuclidianPanel(viewID);
-		if (dp != null) {
-			return dp.focusSpeechRecBtn();
-		}
-		return false;
-	}
-
-	private boolean focusResetIcon(int viewId) {
-		EuclidianViewAccessibiliyAdapter dp = getEuclidianPanel(viewId);
-		return dp != null && dp.focusResetButton();
-	}
-
-	private boolean focusZoomPanel(boolean first, int viewID) {
-		EuclidianViewAccessibiliyAdapter ev = perspectiveAdapter
-				.getEVPanelWitZoomButtons(viewID);
-		if (ev != null) {
-			if (first) {
-				ev.focusNextGUIElement();
-			} else {
-				ev.focusLastZoomButton();
-			}
-			return true;
-		}
-
-		return false;
+	@Override
+	public void setTabOverGeos() {
+		geoTabber.setFocused(true);
 	}
 
 	@Override
 	public void focusFirstElement() {
-		if (!focusInput(false)) {
-			nextFromInput();
-		}
+		components.first().focusIfVisible();
 	}
 
 	@Override
@@ -188,99 +148,14 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
-	private boolean focusMenu() {
-		if (menuContainer != null) {
-			menuContainer.focusMenu();
-			return true;
-		}
-		return false;
-	}
-
-	private int nextID(int i) {
-		return perspectiveAdapter.nextID(i);
-	}
-
-	private int prevID(int i) {
-		return perspectiveAdapter.prevID(i);
-	}
-
-	private void previousFromZoomPanel(int viewID) {
-		if (focusSettings(viewID)) {
-			return;
-		}
-
-		if (isPlayVisible(viewID)) {
-			setPlaySelectedIfVisible(true, viewID);
-			return;
-		}
-		int prevView = prevID(viewID);
-		if (prevView == -1) {
-			focusLastGeo();
-		} else if (app.has(Feature.SPEECH_RECOGNITION)) {
-			focusSpeechRec(prevView);
-		} else {
-			focusZoomPanel(false, prevView);
-		}
-	}
-
-	private void nextFromWidget(AccessibilityGroup group) {
-		if (app.isMenuShowing()) {
-			return;
-		}
-
-		if (group == AccessibilityGroup.SETTINGS_BUTTON) {
-			focusZoomPanel(true, nextID(-1));
-		}
-	}
-
-	private void previousFromWidget(AccessibilityGroup group) {
-		if (app.isMenuShowing()) {
-			return;
-		}
-
-		if (group == AccessibilityGroup.MENU) {
-			if (!focusInput(false)) {
-				focusZoomPanel(false, prevID(-1));
-			}
-		}
-	}
-
 	private EuclidianViewAccessibiliyAdapter getEuclidianPanel(int viewId) {
 		return this.perspectiveAdapter.getEuclidianPanel(viewId);
-	}
-
-	private boolean focusSettings(int viewID) {
-		if (getEuclidianPanel(viewID).focusSettings()) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean focusFirstGeo() {
-		TreeSet<GeoElement> visibleGeos = app.getSelectionManager()
-				.getEVFilteredTabbingSet();
-		if (visibleGeos.isEmpty()) {
-			return false;
-		}
-		focusGeo(visibleGeos.first());
-		return true;
-	}
-
-	private boolean focusLastGeo() {
-		TreeSet<GeoElement> visibleGeos = app.getSelectionManager()
-				.getEVFilteredTabbingSet();
-		if (visibleGeos.isEmpty()) {
-			return false;
-		}
-		GeoElement last = visibleGeos.last();
-		focusGeo(last);
-		return true;
 	}
 
 	@Override
 	public void focusGeo(GeoElement geo) {
 		if (geo != null) {
-			app.getSelectionManager().addSelectedGeoForEV(geo);
+			selection.addSelectedGeoForEV(geo);
 			if (!geo.isGeoInputBox()) {
 				app.getActiveEuclidianView().requestFocus();
 			}
@@ -327,22 +202,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean handleTabExitGeos(boolean forward) {
-		int firstViewId = nextID(-1);
-		if (!forward && selection.isFirstGeoSelected()) {
-			focusLastZoomOrSpeech(firstViewId);
-		}
-		boolean voiceover = Browser.isiOS();
-		if (app.getKernel().needToShowAnimationButton()) {
-			this.activeButton = null;
-			setPlaySelectedIfVisible(true, firstViewId);
-			return true;
-		}
-		if (app.getActiveEuclidianView().getDimension() == 3 && voiceover
-				&& forward) {
-			this.activeButton = SliderInput.ROTATE_Z;
-			return true;
-		}
-		return voiceover;
+
+		return Browser.isiOS();
 	}
 
 	@Override
@@ -359,43 +220,14 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 						.drawPlayButtonInThisView();
 	}
 
-	private void nextFromResetIcon(boolean forward) {
-		int viewId = app.getActiveEuclidianView().getViewID();
-		if (forward) {
-			if (!focusZoomPanel(true, viewId)) {
-				nextFromZoomPanel(viewId);
-			}
-		} else {
-			if (!focusPlay(viewId)) {
-				nextFromPlayButton(forward);
-			}
-		}
-	}
-
-	private void nextFromPlayButton(boolean forward) {
-		int viewId = app.getActiveEuclidianView().getViewID();
-		if (forward) {
-			if (!focusResetIcon(viewId)) {
-				nextFromResetIcon(forward);
-			}
-			int firstViewId = nextID(-1);
-			setPlaySelectedIfVisible(false, firstViewId);
-		} else {
-			focusLastGeo();
-			this.activeButton = null;
-		}
-		setPlaySelectedIfVisible(false,
-				app.getActiveEuclidianView().getViewID());
-	}
-
 	@Override
 	public boolean tabEuclidianControl(boolean forward) {
 		if (app.getActiveEuclidianView().isResetIconSelected()) {
-			nextFromResetIcon(forward);
+		//	nextFromResetIcon(forward);
 			return true;
 		}
 		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
-			nextFromPlayButton(forward);
+			//nextFromPlayButton(forward);
 			return true;
 		}
 		if (app.getActiveEuclidianView().getDimension() == 3 && forward
@@ -463,36 +295,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void onEmptyConstuction(boolean forward) {
-		focusZoomPanel(forward, forward ? nextID(-1) : prevID(-1));
-	}
-
-	@Override
-	public boolean onSelectFirstGeo(boolean forward) {
-		if (!forward) {
-			int lastViewId = prevID(-1);
-			setPlaySelectedIfVisible(false, lastViewId);
-			focusLastZoomOrSpeech(lastViewId);
-			return true;
-		}
-
-		return handleTabExitGeos(true);
-	}
-
-	private boolean focusPlay(int viewID) {
-		if (isPlayVisible(viewID)) {
-			setPlaySelectedIfVisible(true, viewID);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean onSelectLastGeo(boolean forward) {
-		if (forward) {
-			nextFromLastGeo();
-			return true;
-		}
-		return handleTabExitGeos(false);
+		focusFirstElement();
 	}
 
 	/**

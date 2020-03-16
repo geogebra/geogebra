@@ -1,9 +1,7 @@
 package org.geogebra.web.html5.main;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.EventListener;
+import java.util.ArrayList;
+
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -14,7 +12,10 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.geogebra.web.html5.util.Dom;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -24,11 +25,10 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
-import org.geogebra.web.html5.util.Dom;
-
-import java.util.ArrayList;
 
 /**
  * Handles keyboard events.
@@ -106,7 +106,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				if (kc == KeyCodes.TAB) {
 					Element activeElement = Dom.getActiveElement();
 					if (activeElement != ((AppW) app).getAppletFrame().getLastElement()) {
-						handleTab(controlDown, shiftDown);
+						handleTab(event.getShiftKey());
 						handled = true;
 					}
 				} else if (kc == KeyCodes.ESCAPE) {
@@ -228,19 +228,19 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				|| (kc == KeyCodes.D && shift) || (kc == KeyCodes.C && shift);
 	}
 
-	@Override
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
+	/**
+	 * @param isShiftDown whether Shift+Tab was pressed
+	 */
+	public void handleTab(boolean isShiftDown) {
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
 
 		app.getActiveEuclidianView().closeDropdowns();
 
 		if (isShiftDown) {
-			// am.focusPrevious();
+			am.focusPrevious();
 		} else {
-			// am.focusNext();
+			am.focusNext();
 		}
-
-		return true;
 	}
 
 	@Override

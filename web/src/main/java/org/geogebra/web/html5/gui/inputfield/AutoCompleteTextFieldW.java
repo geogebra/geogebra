@@ -860,8 +860,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				tf.setVisible(false);
 			}
 
-			app.getGlobalKeyDispatcher().handleTab(e.isControlKeyDown(),
-					e.isShiftKeyDown());
+			app.getGlobalKeyDispatcher().handleTab(e.isShiftKeyDown());
 			ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
 			GeoElement next = selGeos.isEmpty() ? null : selGeos.get(0);
 			if (next instanceof GeoInputBox) {

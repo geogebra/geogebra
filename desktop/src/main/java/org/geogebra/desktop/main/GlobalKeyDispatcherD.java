@@ -12,6 +12,7 @@ import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -186,7 +187,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	}
 
 	@Override
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
+	public boolean handleTabDesktop(boolean isControlDown, boolean isShiftDown) {
 
 		app.getActiveEuclidianView().closeDropdowns();
 
@@ -200,8 +201,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 		}
 		boolean useTab = app.getActiveEuclidianView().hasFocus()
-				|| ((GuiManagerD) app.getGuiManager()).getAlgebraView()
-						.hasFocus();
+				|| app.getAlgebraView().hasFocus();
 
 		// make sure TAB works in Input Boxes but also in Spreadsheet, Input Bar
 		Component owner = ((AppD) app).getFrame().getFocusOwner();
@@ -211,7 +211,15 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		}
 
 		if (useTab) {
-			super.handleTab(isControlDown, isShiftDown);
+			EuclidianView ev = app.getActiveEuclidianView();
+
+			ev.closeDropdowns();
+
+			if (isShiftDown) {
+				selection.selectLastGeo(ev);
+			} else {
+				selection.selectNextGeo(ev);
+			}
 			return true;
 		}
 
