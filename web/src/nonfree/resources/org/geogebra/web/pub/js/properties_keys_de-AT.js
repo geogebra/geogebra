@@ -1938,7 +1938,7 @@ __GGB__keysVar["de-AT"].menu = {
     "GraphicsViewAsAsymptote": "Grafik-Ansicht als Asymptote",
     "GraphicsViewForPlaneA": "Ansicht von %0",
     "Graphing": "Grafikrechner",
-    "Graphing3D": "3D Grafikrechner",
+    "Graphing3D": "3D Rechner",
     "GraphingCalculator": "Grafikrechner",
     "GraphingCalculator.short": "Grafikrechner",
     "GraphingCalculator3D.Function3D": "z=f(x,y) Funktionen",
