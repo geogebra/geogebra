@@ -46,25 +46,25 @@ public class VectorNodeStringifier {
     }
 
     public String toString(StringTemplate tpl) {
-        return print(tpl, defaultExpressionPrinter);
+        return getPrinterFor(tpl).print(tpl, defaultExpressionPrinter);
     }
 
     public String toValueString(StringTemplate tpl) {
-        return print(tpl, valueExpressionPrinter);
+        return getPrinterFor(tpl).print(tpl, valueExpressionPrinter);
     }
 
-    private String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
+    private Printer getPrinterFor(StringTemplate tpl) {
         if (tpl.getStringType() == ExpressionNodeConstants.StringType.GIAC) {
             int coordinateSystem = vector.getCoordinateSystem();
             return coordinateSystem == Kernel.COORD_POLAR
                     || coordinateSystem == Kernel.COORD_SPHERICAL
-                    ? printerMap.get(VectorPrintingMode.Spherical).print(tpl, expressionPrinter)
-                    : printerMap.get(VectorPrintingMode.Giac).print(tpl, expressionPrinter);
+                    ? printerMap.get(VectorPrintingMode.Spherical)
+                    : printerMap.get(VectorPrintingMode.Giac);
         } else {
             return vector.isCASVector()
                     && tpl.getStringType() == ExpressionNodeConstants.StringType.LATEX
-                    ? printerMap.get(VectorPrintingMode.CasLatex).print(tpl, expressionPrinter)
-                    : activePrinter.print(tpl, expressionPrinter);
+                    ? printerMap.get(VectorPrintingMode.CasLatex)
+                    : activePrinter;
         }
     }
 

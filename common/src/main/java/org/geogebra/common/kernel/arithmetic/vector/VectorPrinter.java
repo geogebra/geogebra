@@ -1,43 +1,34 @@
 package org.geogebra.common.kernel.arithmetic.vector;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
-import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 import org.geogebra.common.kernel.printing.printer.Printer;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class VectorPrinter implements Printer {
 
-    private PrintableVector vector;
+    private Printer defaultPrinter;
+    private Printer editPrinter;
+    private Printer latexPrinter;
 
     VectorPrinter(PrintableVector vector) {
-        this.vector = vector;
+        defaultPrinter = new DefaultVectorPrinter(vector);
+        editPrinter = new EditVectorPrinter(vector);
+        latexPrinter = new LatexVectorPrinter(vector);
     }
 
     @Override
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
-        return printLeftParenthesis(tpl)
-                + expressionPrinter.print(vector.getX(), tpl)
-                + printDelimiter(tpl)
-                + expressionPrinter.print(vector.getY(), tpl)
-                + printRightParenthesis(tpl);
+        return getPrinterFor(tpl).print(tpl, expressionPrinter);
     }
 
-    private String printLeftParenthesis(StringTemplate tpl) {
-        return tpl == StringTemplate.editorTemplate ? "{{" : tpl.leftBracket();
-    }
-
-    private String printRightParenthesis(StringTemplate tpl) {
-        return tpl == StringTemplate.editorTemplate ? "}}" : tpl.rightBracket();
-    }
-
-    private String printDelimiter(StringTemplate tpl) {
+    private Printer getPrinterFor(StringTemplate tpl) {
         if (tpl == StringTemplate.editorTemplate) {
-            return "}, {";
-        } else if (vector.getCoordinateSystem() == Kernel.COORD_CARTESIAN) {
-            return ", ";
+            return editPrinter;
+        } else if (tpl.isLatex()) {
+            return latexPrinter;
         } else {
-            return "; ";
+            return defaultPrinter;
         }
     }
 }
