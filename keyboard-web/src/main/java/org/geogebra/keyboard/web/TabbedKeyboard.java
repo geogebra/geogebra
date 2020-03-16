@@ -924,17 +924,13 @@ public class TabbedKeyboard extends FlowPanel
 	 * show 3dot button on keyboard
 	 */
 	public void showMoreButton() {
-		if (hasMoreButton) {
-			switcher.showMoreButton();
-		}
+		switcher.showMoreButton();
 	}
 
 	/**
 	 * hide 3dot button on keyboard
 	 */
 	public void hideMoreButton() {
-		if (hasMoreButton) {
-			switcher.hideMoreButton();
-		}
+		switcher.hideMoreButton();
 	}
 }
