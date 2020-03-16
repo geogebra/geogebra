@@ -1461,14 +1461,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	final public void setPenColor(int red, int green, int blue) {
-		app.getActiveEuclidianView().getEuclidianController().getPen()
-				.setPenColor(GColor.newColor(red, green, blue));
+		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
+				.setObjColor(GColor.newColor(red, green, blue));
 	}
 
 	@Override
 	final public void setPenSize(int size) {
-		app.getActiveEuclidianView().getEuclidianController().getPen()
-				.setPenSize(size);
+		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
+				.setLineThickness(size);
 	}
 
 	@Override

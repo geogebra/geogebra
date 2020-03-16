@@ -229,6 +229,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void testGeoNumericExtendsMinMax() {
 		GeoNumeric numeric = add("a = 5");
+		numeric.setShowExtendedAV(true);
 		numeric.initAlgebraSlider();
 		Assert.assertFalse(numeric.getIntervalMax() >= 20);
 		Assert.assertFalse(numeric.getIntervalMin() <= -20);

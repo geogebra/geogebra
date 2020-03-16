@@ -10,6 +10,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 public class ExpressionNodeEvaluatorTest extends BaseUnitTest {
 
 	@Test
@@ -51,5 +55,12 @@ public class ExpressionNodeEvaluatorTest extends BaseUnitTest {
 
 	private Parser getParser() {
 		return getKernel().getParser();
+	}
+
+	@Test
+	public void testIsSimpleNumber() {
+		ExpressionNode minusOne = parseExpression("-1");
+		assertThat(minusOne, notNullValue());
+		assertThat(minusOne.isSimpleNumber(), is(true));
 	}
 }

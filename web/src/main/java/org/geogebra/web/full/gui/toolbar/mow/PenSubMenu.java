@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -12,6 +15,7 @@ import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PenPreview;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -41,17 +45,14 @@ public class PenSubMenu extends SubMenuPanel {
 	private FlowPanel penPanel;
 	private FlowPanel colorPanel;
 	private FlowPanel sizePanel;
-	private Label[] btnColor;
-	private GColor[] penColor;
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
 	private PenPreview preview;
 	/** whether colors are enabled */
 	boolean colorsEnabled;
-	// preset colors black, green, teal,blue, purple,magenta, red, carrot,
+	// preset colors black, green, teal, blue, purple, magenta, red, carrot,
 	// yellow
-	private final static int[] HEX_COLORS = { 0x000000, 0x2E7D32, 0x00A8A8,
-			0x1565C0, 0x6557D2, 0xCC0099, 0xD32F2F, 0xDB6114, 0xFFCC00 };
+	private HashMap<MOWToolbarColor, Label> colorMap;
 
 	/**
 	 * 
@@ -82,12 +83,17 @@ public class PenSubMenu extends SubMenuPanel {
 	 * 
 	 * @param aColor
 	 *            color
+	 * @param ariaLabelTransKey
+	 * 			  ggbtrans key for the aria-label
+	 *
 	 * @return button
 	 */
-	private Label createColorButton(GColor aColor, final int colorIndex) {
+	private Label createColorButton(final GColor aColor, String ariaLabelTransKey) {
 		ImageOrText color = GeoGebraIconW.createColorSwatchIcon(1, null,
 				aColor);
 		Label label = new Label();
+		AriaHelper.setLabel(label, app.getLocalization().getColor(ariaLabelTransKey));
+		label.getElement().setAttribute("role", "button");
 		color.applyToLabel(label);
 		label.addStyleName("mowColorButton");
 		ClickStartHandler.init(label, new ClickStartHandler() {
@@ -97,23 +103,35 @@ public class PenSubMenu extends SubMenuPanel {
 				if (!colorsEnabled) {
 					return;
 				}
-				selectColor(colorIndex);
+				setSelectedColor(aColor);
 			}
 		});
 		return label;
 	}
 
-	private void createColorPanel() {
-		colorPanel = new FlowPanel();
-		colorPanel.addStyleName("colorPanel");
-		btnColor = new Label[HEX_COLORS.length];
-		penColor = new GColor[HEX_COLORS.length];
-		for (int i = 0; i < HEX_COLORS.length; i++) {
-			penColor[i] = GColor.newColorRGB(HEX_COLORS[i]);
-			btnColor[i] = createColorButton(penColor[i], i);
-		}
+	private void fillColorButtonMap() {
+		colorMap = new HashMap<>();
+		addToColorMap(MOWToolbarColor.BLACK);
+		addToColorMap(MOWToolbarColor.GREEN);
+		addToColorMap(MOWToolbarColor.TEAL);
+		addToColorMap(MOWToolbarColor.BLUE);
+		addToColorMap(MOWToolbarColor.PURPLE);
+		addToColorMap(MOWToolbarColor.PINK);
+		addToColorMap(MOWToolbarColor.RED);
+		addToColorMap(MOWToolbarColor.ORANGE);
+		addToColorMap(MOWToolbarColor.YELLOW);
+	}
+
+	private void addToColorMap(MOWToolbarColor color) {
+		colorMap.put(color, createColorButton(color.getGColor(),
+				color.getGgbTransKey()));
+	}
+
+	private void createMoreColorButton() {
 		btnCustomColor = new StandardButton(
 				MaterialDesignResources.INSTANCE.add_black(), null, 24, app);
+		AriaHelper.setLabel(btnCustomColor, app.getLocalization().getMenu("ToolbarColor"
+				+ ".MoreColors"));
 		btnCustomColor.addStyleName("mowColorButton");
 		btnCustomColor.addStyleName("mowColorPlusButton");
 		btnCustomColor.addFastClickHandler(new FastClickHandler() {
@@ -122,9 +140,22 @@ public class PenSubMenu extends SubMenuPanel {
 				openColorDialog();
 			}
 		});
-		colorPanel.add(LayoutUtilW.panelRow(btnColor[0], btnColor[1],
-				btnColor[2], btnColor[3], btnColor[4], btnColor[5], btnColor[6],
-				btnColor[7], btnColor[8], btnCustomColor));
+	}
+
+	private void createColorPanel() {
+		colorPanel = new FlowPanel();
+		colorPanel.addStyleName("colorPanel");
+
+		fillColorButtonMap();
+		createMoreColorButton();
+
+		panelRow = new FlowPanel();
+		panelRow.setStyleName("panelRow");
+		for (Label btn : colorMap.values()) {
+			panelRow.add(btn);
+		}
+		panelRow.add(btnCustomColor);
+		colorPanel.add(panelRow);
 	}
 
 	/**
@@ -260,25 +291,30 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	/**
-	 * @param idx
-	 *            index
+	 * @param selectedColor
+	 *            color to select
 	 */
-	public void selectColor(int idx) {
-		for (int i = 0; i < btnColor.length; i++) {
-			if (idx == i) {
-				getPenGeo().setObjColor(penColor[i]);
+	public void setSelectedColor(GColor selectedColor) {
+		if (selectedColor == null) {
+			return;
+		}
+
+		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
+			if (colorBtnPair.getKey().getGColor().equals(selectedColor)) {
+				getPenGeo().setObjColor(colorBtnPair.getKey().getGColor());
 				if (colorsEnabled) {
-					btnColor[i].addStyleName("mowColorButton-selected");
+					colorBtnPair.getValue().addStyleName("mowColorButton-selected");
 					if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
 						getPenGeo().setLineOpacity(
 								EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY);
-						getSettings().setLastSelectedHighlighterColor(penColor[i]);
+						getSettings().setLastSelectedHighlighterColor(colorBtnPair.getKey()
+								.getGColor());
 					} else {
-						getSettings().setLastSelectedPenColor(penColor[i]);
+						getSettings().setLastSelectedPenColor(colorBtnPair.getKey().getGColor());
 					}
 				}
 			} else {
-				btnColor[i].removeStyleName("mowColorButton-selected");
+				colorBtnPair.getValue().removeStyleName("mowColorButton-selected");
 			}
 		}
 		updatePreview();
@@ -291,21 +327,23 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	private void setColorsEnabled(boolean enable) {
-		for (int i = 0; i < btnColor.length; i++) {
+		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
 			if (enable) {
-				btnColor[i].removeStyleName("disabled");
+				colorBtnPair.getValue().removeStyleName("disabled");
 				if (app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER) {
-					if (penColor[i] == getSettings().getLastSelectedHighlighterColor()) {
-						btnColor[i].addStyleName("mowColorButton-selected");
+					if (colorBtnPair.getKey().getGColor() == getSettings()
+							.getLastSelectedHighlighterColor()) {
+						colorBtnPair.getValue().addStyleName("mowColorButton-selected");
 					}
 				} else if (app.getMode() == EuclidianConstants.MODE_PEN) {
-					if (penColor[i] == getSettings().getLastSelectedPenColor()) {
-						btnColor[i].addStyleName("mowColorButton-selected");
+					if (colorBtnPair.getKey().getGColor() == getSettings()
+							.getLastSelectedPenColor()) {
+						colorBtnPair.getValue().addStyleName("mowColorButton-selected");
 					}
 				}
 			} else {
-				btnColor[i].addStyleName("disabled");
-				btnColor[i].removeStyleName("mowColorButton-selected");
+				colorBtnPair.getValue().addStyleName("disabled");
+				colorBtnPair.getValue().removeStyleName("mowColorButton-selected");
 			}
 		}
 		if (enable) {
@@ -379,7 +417,7 @@ public class PenSubMenu extends SubMenuPanel {
 							app.getMode() == EuclidianConstants.MODE_HIGHLIGHTER
 									? EuclidianConstants.DEFAULT_HIGHLIGHTER_OPACITY
 									: 255);
-					selectColor(-1);
+					setSelectedColor(null);
 					getPreview().update();
 				}
 
@@ -431,5 +469,11 @@ public class PenSubMenu extends SubMenuPanel {
 		select.setLabel();
 		eraser.setLabel();
 		highlighter.setLabel();
-	}
+		for (Map.Entry<MOWToolbarColor, Label> colorBtnPair : colorMap.entrySet()) {
+			AriaHelper.setLabel(colorBtnPair.getValue(),
+					app.getLocalization().getColor(colorBtnPair.getKey().getGgbTransKey()));
+		}
+		AriaHelper.setLabel(btnCustomColor, app.getLocalization().getMenu("ToolbarColor"
+				+ ".MoreColors"));
+ 	}
 }

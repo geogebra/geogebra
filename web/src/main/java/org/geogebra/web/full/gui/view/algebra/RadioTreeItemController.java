@@ -484,7 +484,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 		GeoElement geo = item.geo;
 		if (!isEditing()) {
-			setEditHeigth(item.getOffsetHeight());
+			setEditHeigth(item.getEditHeight());
 			getAV().startEditItem(geo);
 
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -526,7 +526,7 @@ public class RadioTreeItemController implements ClickHandler,
 		markForEdit = false;
 		boolean enable = true;
 		if ((item.isSliderItem()
-				&& !isWidgetHit(item.getPlainTextItem(), wrappedEvent))) {
+				&& !isWidgetHit(item.getDefinitionValuePanel(), wrappedEvent))) {
 			enable = false;
 			if (active) {
 				stopEdit();

@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.action.AddLabelAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.action.RemoveLabelAction;
 
 /**
  * Manu item collection for a GeoElement

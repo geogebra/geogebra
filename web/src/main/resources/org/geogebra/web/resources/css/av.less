@@ -224,10 +224,6 @@
 		-webkit-transform: translateY(15%);
  		-ms-transform: translateY(15%);
   		transform: translateY(15%);
-	}	
-			
-	.avValue {
-		/*min-height: 20px;*/
 	}
 
 	.avPreview > div {
@@ -274,9 +270,7 @@
 	
 	.avItem .elemText {
 		&.scrollableTextBox {
-			padding-left: 37px;	
-			padding-bottom: 0;
-			padding-top: 2px;
+			padding-top: 10px;
 		}
 		&.additionalRow{
 			display: inline-flex;
@@ -364,6 +358,10 @@
 	
 	.avPlainText {
 		line-height: 140%;
+	}
+
+	.scrollableTextBox .avPlainText {
+		display: block;
 	}
 	
 }
