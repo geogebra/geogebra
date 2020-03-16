@@ -3380,12 +3380,12 @@ public class AlgebraProcessor {
 			vector.setDefinition(n);
 			vector.setLabel(label);
 		} else {
+			updatePrintingMode(n);
 			if (isVector) {
 				vector = dependentVector(label, n);
 			} else {
 				vector = dependentPoint(label, n, complex);
 			}
-			updatePrintingMode(n);
 		}
 		if (polar) {
 			vector.setMode(Kernel.COORD_POLAR);
