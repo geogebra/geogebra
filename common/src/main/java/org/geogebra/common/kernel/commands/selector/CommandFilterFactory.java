@@ -102,7 +102,6 @@ public final class CommandFilterFactory {
 				Commands.Min, Commands.PerpendicularVector,
 				Commands.OrthogonalVector, Commands.Poisson,
 				Commands.UnitPerpendicularVector, Commands.UnitOrthogonalVector,
-				Commands.UnitVector,
 				// Function Commands
 				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
 				Commands.Function, Commands.ImplicitCurve, Commands.IterationList,
