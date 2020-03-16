@@ -37,15 +37,25 @@ public class CommandFilterFactoryTest {
 	@Test
 	public void testGraphingCommandFilter() {
 		CommandFilter filter = CommandFilterFactory.createGraphingCommandFilter();
-		for (Commands command: FILTERED) {
+		for (Commands command : FILTERED) {
 			Assert.assertFalse(filter.isCommandAllowed(command));
 		}
-		for (Commands command: Commands.values()) {
+		for (Commands command : Commands.values()) {
 			int table = command.getTable();
 			if (table == CommandsConstants.TABLE_TRANSFORMATION
 					|| table == CommandsConstants.TABLE_CONIC) {
 				Assert.assertFalse(filter.isCommandAllowed(command));
 			}
+		}
+	}
+
+	@Test
+	public void testCasCommandFilterForVectorCommands() {
+		Commands[] allowedVectorCommands = {Commands.PerpendicularVector,
+				Commands.UnitPerpendicularVector, Commands.UnitVector};
+		CommandFilter filter = CommandFilterFactory.createCasCommandFilter();
+		for (Commands command : allowedVectorCommands) {
+			Assert.assertTrue(filter.isCommandAllowed(command));
 		}
 	}
 }
