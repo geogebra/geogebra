@@ -56,7 +56,6 @@ import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.gui.CustomizeToolbarGUI;
-import org.geogebra.web.full.gui.DockManagerAccessibilityAdapter;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.SaveControllerW;
@@ -113,7 +112,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
-import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -1256,14 +1254,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		if (isPortrait() && toolbar != null && toolbar.isClosed()) {
 			toolbar.doCloseInPortrait();
 		}
-	}
-
-	/**
-	 * @return adapter for tabbing through views
-	 */
-	@Override
-	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
-		return new DockManagerAccessibilityAdapter(this);
 	}
 
 	/**

@@ -5,7 +5,6 @@ import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
 public class FocusableWidget implements MayHaveFocus {
@@ -26,7 +25,7 @@ public class FocusableWidget implements MayHaveFocus {
 	}
 
 	@Override
-	public boolean focusIfVisible() {
+	public boolean focusIfVisible(boolean reverse) {
 		if (btn.isVisible() && btn.isAttached()
 				&& !"true".equals(btn.getElement().getAttribute("aria-hidden"))
 				&& !btn.getElement().hasClassName("hideButton")) {
@@ -61,11 +60,9 @@ public class FocusableWidget implements MayHaveFocus {
 		app.getAccessibilityManager().register(this);
 	}
 
+	@Override
 	public int getViewId() {
 		return viewId;
 	}
 
-	public Element getElement() {
-		return btn.getElement();
-	}
 }

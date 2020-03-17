@@ -112,7 +112,6 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
-import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
 import org.geogebra.web.html5.gui.laf.MebisSettings;
@@ -3767,17 +3766,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final AccessibilityManagerInterface getAccessibilityManager() {
 		if (accessibilityManager == null) {
-			accessibilityManager = new AccessibilityManagerW(this,
-					createPerspectiveAccessibilityAdapter());
+			accessibilityManager = new AccessibilityManagerW(this);
 		}
 		return accessibilityManager;
-	}
-
-	/**
-	 * @return adapter for tabbing through views
-	 */
-	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
-		return new SinglePanelAccessibilityAdapter(this);
 	}
 
 	public ZoomPanel getZoomPanel() {

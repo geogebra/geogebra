@@ -12,14 +12,11 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Web implementation of AccessibilityManager.
@@ -27,17 +24,15 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private final GeoTabber geoTabber;
-	private AppW app;
+	private App app;
 	private SelectionManager selection;
-	private Widget anchor;
-	private SliderInput activeButton;
-	private PerspectiveAccessibilityAdapter perspectiveAdapter;
+	private MayHaveFocus anchor;
 	private SideBarAccessibilityAdapter menuContainer;
 	private TreeSet<MayHaveFocus> components = new TreeSet<>(new Comparator<MayHaveFocus>() {
 		@Override
 		public int compare(MayHaveFocus o1, MayHaveFocus o2) {
 			int viewDiff = o1.getViewId() - o2.getViewId();
-			if (viewDiff != 0 && o1.getViewId() != -1) {
+			if (viewDiff != 0 && o1.getViewId() != -1 && o2.getViewId() != -1) {
 				return viewDiff;
 			}
 			return o1.getAccessibilityGroup().ordinal() - o2.getAccessibilityGroup().ordinal();
@@ -49,16 +44,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	 *
 	 * @param app
 	 *            The application.
-	 * @param perspectiveAdapter
-	 *            adapter for tabbing through multiple views
 	 */
-	public AccessibilityManagerW(AppW app,
-			PerspectiveAccessibilityAdapter perspectiveAdapter) {
+	public AccessibilityManagerW(App app) {
 		this.app = app;
 		selection = app.getSelectionManager();
-		this.perspectiveAdapter = perspectiveAdapter;
 		this.geoTabber =  new GeoTabber(app);
 		components.add(geoTabber);
+		components.add(new PlayButtonTabber(app.getActiveEuclidianView()));
 	}
 
 	@Override
@@ -78,7 +70,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private void focusFirstVisible(MayHaveFocus entry) {
 		MayHaveFocus nextEntry = entry;
 		while (nextEntry != null) {
-			if (nextEntry.focusIfVisible()) {
+			if (nextEntry.focusIfVisible(false)) {
 				return;
 			}
 			nextEntry = findNext(nextEntry);
@@ -88,7 +80,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private void focusLastVisible(MayHaveFocus entry) {
 		MayHaveFocus nextEntry = entry;
 		while (nextEntry != null) {
-			if (nextEntry.focusIfVisible()) {
+			if (nextEntry.focusIfVisible(true)) {
 				return;
 			}
 			nextEntry = findPrevious(nextEntry);
@@ -137,7 +129,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusFirstElement() {
-		components.first().focusIfVisible();
+		components.first().focusIfVisible(false);
 	}
 
 	@Override
@@ -146,10 +138,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return menuContainer.focusInput(force);
 		}
 		return false;
-	}
-
-	private EuclidianViewAccessibiliyAdapter getEuclidianPanel(int viewId) {
-		return this.perspectiveAdapter.getEuclidianPanel(viewId);
 	}
 
 	@Override
@@ -167,12 +155,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public void setAnchor(Object anchor) {
-		this.anchor = anchor instanceof Widget ? (Widget) anchor : null;
+	public void setAnchor(MayHaveFocus anchor) {
+		this.anchor = anchor;
 	}
 
 	@Override
-	public Object getAnchor() {
+	public MayHaveFocus getAnchor() {
 		return anchor;
 	}
 
@@ -181,8 +169,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (anchor == null) {
 			return;
 		}
-		Element anchorElement = anchor.getElement();
-		anchorElement.focus();
+		anchor.focusIfVisible(false);
 		cancelAnchor();
 	}
 
@@ -202,61 +189,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public boolean handleTabExitGeos(boolean forward) {
-
 		return Browser.isiOS();
-	}
-
-	@Override
-	public void setPlaySelectedIfVisible(boolean b, int viewID) {
-		if (isPlayVisible(viewID)) {
-			app.getActiveEuclidianView().setAnimationButtonSelected(b);
-		}
-	}
-
-	private boolean isPlayVisible(int viewID) {
-		EuclidianViewAccessibiliyAdapter panel = getEuclidianPanel(viewID);
-		return app.getKernel().needToShowAnimationButton()
-				&& panel != null && panel.getEuclidianView()
-						.drawPlayButtonInThisView();
-	}
-
-	@Override
-	public boolean tabEuclidianControl(boolean forward) {
-		if (app.getActiveEuclidianView().isResetIconSelected()) {
-		//	nextFromResetIcon(forward);
-			return true;
-		}
-		if (app.getActiveEuclidianView().isAnimationButtonSelected()) {
-			//nextFromPlayButton(forward);
-			return true;
-		}
-		if (app.getActiveEuclidianView().getDimension() == 3 && forward
-				&& activeButton == SliderInput.ROTATE_Z) {
-			activeButton = SliderInput.TILT;
-			return true;
-		}
-		if (app.getActiveEuclidianView().getDimension() == 3 && !forward
-				&& activeButton == null && this.getSelectedGeo() == null) {
-			activeButton = SliderInput.TILT;
-			return true;
-		}
-		if (app.getActiveEuclidianView().getDimension() == 3 && !forward
-				&& activeButton == SliderInput.TILT) {
-			activeButton = SliderInput.ROTATE_Z;
-			return true;
-		}
-		if (app.getActiveEuclidianView().getDimension() == 3 && !forward
-				&& activeButton == SliderInput.ROTATE_Z) {
-			activeButton = null;
-			return false;
-		}
-		if (app.getActiveEuclidianView().getDimension() == 3 && forward
-				&& activeButton == SliderInput.TILT) {
-			activeButton = null;
-			return true; // tilt is the last => leave
-		}
-
-		return false;
 	}
 
 	@Override

@@ -15,16 +15,6 @@ public interface EuclidianViewAccessibiliyAdapter {
 	boolean focusSpeechRecBtn();
 
 	/**
-	 * Focus the next available element on GUI. after geos.
-	 */
-	void focusNextGUIElement();
-
-	/**
-	 * Focus the last zoom button available or settings button.
-	 */
-	void focusLastZoomButton();
-
-	/**
 	 * @return view in this dock panel
 	 */
 	EuclidianView getEuclidianView();

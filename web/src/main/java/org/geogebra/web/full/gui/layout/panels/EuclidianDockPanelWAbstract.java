@@ -422,13 +422,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	@Override
-	public void focusNextGUIElement() {
-		if (zoomPanel != null) {
-			zoomPanel.focusFirstButton();
-		}
-	}
-
-	@Override
 	public boolean focusSpeechRecBtn() {
 		if (speechRecPanel != null) {
 			speechRecPanel.focusSpeechRec();
@@ -451,15 +444,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void focusLastZoomButton() {
-		if (zoomPanel != null) {
-			zoomPanel.focusLastButton();
-		} else {
-			focusSettings();
-		}
 	}
 
 	@Override

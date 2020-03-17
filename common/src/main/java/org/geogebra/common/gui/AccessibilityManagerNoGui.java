@@ -35,12 +35,12 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public void setAnchor(Object anchor) {
+	public void setAnchor(MayHaveFocus anchor) {
 		// not needed
 	}
 
 	@Override
-	public Object getAnchor() {
+	public MayHaveFocus getAnchor() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -58,22 +58,11 @@ public final class AccessibilityManagerNoGui
 	@Override
 	public void focusAnchorOrMenu() {
 		// not needed
-
 	}
 
 	@Override
 	public boolean handleTabExitGeos(boolean forward) {
 		return false;
-	}
-
-	@Override
-	public boolean tabEuclidianControl(boolean forward) {
-		return false;
-	}
-
-	@Override
-	public void setPlaySelectedIfVisible(boolean b, int viewID) {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -108,6 +97,6 @@ public final class AccessibilityManagerNoGui
 
 	@Override
 	public void setTabOverGeos() {
-
+		// not used
 	}
 }

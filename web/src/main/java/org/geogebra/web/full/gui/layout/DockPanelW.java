@@ -610,11 +610,16 @@ public abstract class DockPanelW extends ResizeComposite
 				app);
 		graphicsContextMenuBtn
 				.setTitle(app.getLocalization().getMenu("Settings"));
+		final FocusableWidget focusableWidget = new FocusableWidget(graphicsContextMenuBtn,
+				AccessibilityGroup.SETTINGS_BUTTON, getViewId());
+		if (getViewId() == App.VIEW_EUCLIDIAN) {
+			focusableWidget.attachTo(app);
+		}
 		FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
 
 			@Override
 			public void onClick(Widget source) {
-				app.getAccessibilityManager().setAnchor(source);
+				app.getAccessibilityManager().setAnchor(focusableWidget);
 				onGraphicsSettingsPressed();
 			}
 
@@ -626,10 +631,6 @@ public abstract class DockPanelW extends ResizeComposite
 		titleBarPanelContent.add(graphicsContextMenuBtn);
 		graphicsContextMenuBtn.getElement().setTabIndex(0);
 		GUITabs.setTabIndex(graphicsContextMenuBtn.getElement(), GUITabs.SETTINGS);
-		if (getViewId() == App.VIEW_EUCLIDIAN) {
-			new FocusableWidget(graphicsContextMenuBtn,
-					AccessibilityGroup.SETTINGS_BUTTON, getViewId()).attachTo(app);
-		}
 		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
 		if (toggleStyleBarButton != null) {
 			toggleStyleBarButton.removeFromParent();

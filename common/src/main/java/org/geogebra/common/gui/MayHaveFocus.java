@@ -1,7 +1,7 @@
 package org.geogebra.common.gui;
 
 public interface MayHaveFocus {
-	boolean focusIfVisible();
+	boolean focusIfVisible(boolean reverse);
 
 	boolean hasFocus();
 

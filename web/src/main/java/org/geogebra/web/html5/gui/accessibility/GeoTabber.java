@@ -14,10 +14,14 @@ public class GeoTabber implements MayHaveFocus {
 	}
 
 	@Override
-	public boolean focusIfVisible() {
+	public boolean focusIfVisible(boolean reverse) {
 		this.selected = !app.getKernel().getConstruction().isEmpty();
 		app.getSelectionManager().clearSelectedGeos(false);
-		app.getSelectionManager().selectNextGeo(app.getActiveEuclidianView());
+		if (reverse) {
+			app.getSelectionManager().selectNextGeo();
+		} else {
+			app.getSelectionManager().selectLastGeo();
+		}
 		return selected;
 	}
 
@@ -28,13 +32,13 @@ public class GeoTabber implements MayHaveFocus {
 
 	@Override
 	public boolean focusNext() {
-		selected = app.getSelectionManager().selectNextGeo(app.getActiveEuclidianView());
+		selected = app.getSelectionManager().selectNextGeo();
 		return selected;
 	}
 
 	@Override
 	public boolean focusPrevious() {
-		selected = app.getSelectionManager().selectLastGeo(app.getActiveEuclidianView());
+		selected = app.getSelectionManager().selectLastGeo();
 		return selected;
 	}
 

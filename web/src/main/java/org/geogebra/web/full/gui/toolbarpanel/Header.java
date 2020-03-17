@@ -76,6 +76,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	final ToolbarPanel toolbarPanel;
 	private static final int PADDING = 12;
+	private FocusableWidget focusableMenuButton;
 
 	/**
 	 * @param toolbarPanel
@@ -311,7 +312,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 			app.toggleMenu();
 		}
 
-		app.getAccessibilityManager().setAnchor(btnMenu);
+		app.getAccessibilityManager().setAnchor(focusableMenuButton);
 		app.getGuiManager().redo();
 		app.getAccessibilityManager().cancelAnchor();
 	}
@@ -472,9 +473,8 @@ class Header extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void createMenuButton() {
-
 		btnMenu = new MenuToggleButton(app);
-
+		focusableMenuButton = new FocusableWidget(btnMenu, AccessibilityGroup.MENU, -1);
 		updateMenuPosition();
 		markMenuAsExpanded(false);
 	}
@@ -826,7 +826,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	public void setTabIndexes() {
 		tabIndex(btnMenu, GUITabs.MENU);
-		new FocusableWidget(btnMenu, AccessibilityGroup.MENU, -1).attachTo(app);
+		focusableMenuButton.attachTo(app);
 		tabIndex(btnClose, GUITabs.HEADER_CLOSE);
 		new FocusableWidget(btnClose, AccessibilityGroup.ALGEBRA_CLOSE, -1).attachTo(app);
 		tabIndex(btnUndo, GUITabs.UNDO);

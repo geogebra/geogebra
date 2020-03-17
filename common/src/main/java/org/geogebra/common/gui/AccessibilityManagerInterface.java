@@ -48,14 +48,14 @@ public interface AccessibilityManagerInterface {
 	 * @param anchor
 	 *            to give back the focus.
 	 */
-	public void setAnchor(Object anchor);
+	public void setAnchor(MayHaveFocus anchor);
 
 	/**
 	 * Get the anchor.
 	 * 
 	 * @return anchor to give back the focus.
 	 */
-	public Object getAnchor();
+	public MayHaveFocus getAnchor();
 
 	/**
 	 * Give back the focus to the anchor if set.
@@ -81,25 +81,6 @@ public interface AccessibilityManagerInterface {
 	 * @return true if the situation is handled here.
 	 */
 	boolean handleTabExitGeos(boolean forward);
-
-	/**
-	 * 
-	 * @param forward
-	 *            true for TAB, false for Shift+TAB
-	 * @return true if tab selection leaves EV controls (animation / rotate
-	 *         view).
-	 */
-	public boolean tabEuclidianControl(boolean forward);
-
-	/**
-	 * Selects/unselects EV play if available.
-	 * 
-	 * @param b
-	 *            to set.
-	 * @param viewID
-	 *            ID of the view with play button
-	 */
-	public void setPlaySelectedIfVisible(boolean b, int viewID);
 
 	/**
 	 * Handle slider change
