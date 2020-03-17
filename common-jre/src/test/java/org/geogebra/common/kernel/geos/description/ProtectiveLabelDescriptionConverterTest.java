@@ -39,6 +39,11 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 		String dependentCopyString = "eq1 = c";
 		GeoConic line = addAvInput(dependentCopyString);
 		checkCaption(line, GeoElementND.LABEL_NAME_VALUE, "eq1: x² + y² = 1");
+
+		String fitLineXString = "f : FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})";
+		GeoLine fitLineX = addAvInput(fitLineXString);
+		checkCaption(fitLineX, GeoElementND.LABEL_NAME_VALUE, "f: y = 0.57x + 1.67");
+
 	}
 
 	@Test
