@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
+import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.util.AutoCompleteDictionary;
@@ -219,5 +220,10 @@ public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 		for (KeyHandler listener : new ArrayList<>(keyHandlers)) {
 			listener.keyReleased(new KeyEventC(KeyCodes.ENTER));
 		}
+	}
+
+	@Override
+	public void setInputMode(InputMode type) {
+		// not needed
 	}
 }
