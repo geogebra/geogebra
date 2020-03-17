@@ -1478,6 +1478,13 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
+	public void hideSymbolicEditor() {
+		if (symbolicEditor != null) {
+			symbolicEditor.hide();
+		}
+	}
+
+	@Override
 	public boolean isSymbolicEditorClicked(GPoint mouseLoc) {
 		if (symbolicEditor == null) {
 			return false;
