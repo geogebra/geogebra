@@ -77,8 +77,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private boolean dragModeIsRightClick = false;
 	private LinkedList<PointerEvent> mousePool = new LinkedList<>();
 	private LinkedList<PointerEvent> touchPool = new LinkedList<>();
-	private boolean comboboxFocused;
-	private boolean euclidianOffsetsInited = false;
 
 	private DrawingEmulator drawingEmulator;
 	private DrawingRecorder drawingRecorder;
@@ -142,10 +140,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// the former solution doesn't update on scrolling
 		return ((EuclidianViewWInterface) ec.getView()).getAbsoluteTop()
 		        - Window.getScrollTop();
-	}
-
-	public boolean isOffsetsUpToDate() {
-		return euclidianOffsetsInited;
 	}
 
 	private Timer repaintTimer = new Timer() {
@@ -760,14 +754,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	@Override
 	public LinkedList<PointerEvent> getTouchEventPool() {
 		return touchPool;
-	}
-
-	public boolean isComboboxFocused() {
-		return this.comboboxFocused;
-	}
-
-	public void setComboboxFocused(boolean flag) {
-		this.comboboxFocused = flag;
 	}
 
 	@Override
