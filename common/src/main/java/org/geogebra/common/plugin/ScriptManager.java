@@ -137,6 +137,10 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	@Override
 	public void reset() {
+		if (!clearGlobalListeners) {
+			return;
+		}
+
 		if (updateListenerMap != null) {
 			updateListenerMap = null;
 		}
@@ -147,10 +151,6 @@ public abstract class ScriptManager implements EventListener {
 
 		// If undo clicked, mustn't clear the global listeners
 		if (!listenersEnabled) {
-			return;
-		}
-
-		if (!clearGlobalListeners) {
 			return;
 		}
 
@@ -540,6 +540,21 @@ public abstract class ScriptManager implements EventListener {
 
 	public void allowClearGlobalListeners() {
 		clearGlobalListeners = true;
+		rebuildListeners();
 	}
 
+	private void rebuildListeners() {
+		rebuildListeners(clickListenerMap, clearListeners);
+		rebuildListeners(updateListenerMap, updateListeners);
+	}
+
+	private void rebuildListeners(HashMap<GeoElement, JsScript> listenerMap, ArrayList<JsScript> listeners) {
+		if (listenerMap == null) {
+			return;
+		}
+
+		listeners.clear();
+		listeners.addAll(listenerMap.values());
+
+	}
 }
