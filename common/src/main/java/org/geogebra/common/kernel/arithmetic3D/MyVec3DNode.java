@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * 
@@ -425,7 +426,14 @@ public class MyVec3DNode extends ValidExpression
 	}
 
 	@Override
-	public void setVectorPrintingMode() {
-		stringifier.setPrintingMode(VectorPrintingMode.Vector);
+	public void setLabel(String label) {
+		super.setLabel(label);
+		if (isVectorLabel(label)) {
+			stringifier.setPrintingMode(VectorPrintingMode.Vector);
+		}
+	}
+
+	private boolean isVectorLabel(String label) {
+		return label != null && StringUtil.isLowerCase(label.charAt(0));
 	}
 }

@@ -13,6 +13,4 @@ public interface PrintableVector {
     boolean isCASVector();
 
     int getCoordinateSystem();
-
-    void setVectorPrintingMode();
 }

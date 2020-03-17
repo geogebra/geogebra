@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -1026,5 +1027,28 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testCreationWithLabel() {
 		GeoSymbolic vector = add("v=(1,1)");
 		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
+	}
+
+	@Test
+	public void testVectorDefinitionForIndependent() {
+		GeoSymbolic vector = add("v = (1, 2)");
+		assertThat(
+				vector.getDefinition(StringTemplate.editorTemplate),
+				is("{{1}, {2}}"));
+		assertThat(
+				vector.getDefinition(StringTemplate.latexTemplate),
+				is("\\left( \\begin{align}1 \\\\ 2 \\end{align} \\right)"));
+	}
+
+	@Test
+	public void testVectorDefinitionForDependent() {
+		add("a = 1");
+		GeoSymbolic vector = add("v = (a, 2)");
+		assertThat(
+				vector.getDefinition(StringTemplate.editorTemplate),
+				is("{{a}, {2}}"));
+		assertThat(
+				vector.getDefinition(StringTemplate.latexTemplate),
+				is("\\left( \\begin{align}a \\\\ 2 \\end{align} \\right)"));
 	}
 }

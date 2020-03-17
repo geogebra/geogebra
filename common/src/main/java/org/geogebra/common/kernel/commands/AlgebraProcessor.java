@@ -547,7 +547,6 @@ public class AlgebraProcessor {
 				n.setForcePoint();
 			} else if (geo.isGeoVector()) {
 				n.setForceVector();
-				updatePrintingMode(n);
 			} else if (geo.isGeoFunction()) {
 				n.setForceFunction();
 			}
@@ -1024,9 +1023,17 @@ public class AlgebraProcessor {
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
-		sym.getDefinition().setLabel(label);
+		setLabel(sym.getDefinition(), label);
 		sym.setLabel(label);
 		return sym;
+	}
+
+	private void setLabel(ExpressionNode node, String label) {
+		node.setLabel(label);
+		ExpressionValue unwrapped = node.unwrap();
+		if (unwrapped instanceof ValidExpression) {
+			((ValidExpression) unwrapped).setLabel(label);
+		}
 	}
 
 	/**
@@ -3376,11 +3383,9 @@ public class AlgebraProcessor {
 			} else {
 				vector = kernel.getAlgoDispatcher().point(x, y, complex);
 			}
-			updatePrintingMode(n);
 			vector.setDefinition(n);
 			vector.setLabel(label);
 		} else {
-			updatePrintingMode(n);
 			if (isVector) {
 				vector = dependentVector(label, n);
 			} else {
@@ -3414,13 +3419,6 @@ public class AlgebraProcessor {
 	private boolean isVectorLabel(String label) {
 		return label != null && StringUtil.isLowerCase(label.charAt(0));
 	}
-
-    protected void updatePrintingMode(ExpressionNode node) {
-        ExpressionValue expression = node.unwrap();
-        if (expression instanceof PrintableVector && node.isForcedVector()) {
-            ((PrintableVector) expression).setVectorPrintingMode();
-        }
-    }
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,
 			ExpressionValue y) {
