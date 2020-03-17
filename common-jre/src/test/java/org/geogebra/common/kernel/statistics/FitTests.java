@@ -1,5 +1,10 @@
 package org.geogebra.common.kernel.statistics;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+
+import java.util.ArrayList;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
@@ -8,15 +13,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.main.settings.AppConfigGeometry;
-import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
-
-import java.util.ArrayList;
 
 public class FitTests extends BaseUnitTest {
 
@@ -143,7 +141,7 @@ public class FitTests extends BaseUnitTest {
 
     @Test
     public void testEquationPropertyVisibilityGraphing() {
-        getApp().setConfig(new AppConfigGraphing());
+        getApp().setGraphingConfig();
         getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
 
         GeoElement[] geos = getFitLineGeoElements();
@@ -158,7 +156,7 @@ public class FitTests extends BaseUnitTest {
 
     @Test
     public void testEquationPropertyVisibilityGeometry() {
-        getApp().setConfig(new AppConfigGeometry());
+        getApp().setGeometryConfig();
         getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
 
         GeoElement[] geos = getFitLineGeoElements();
