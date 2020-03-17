@@ -27,7 +27,7 @@ public abstract class ScriptManager implements EventListener {
 	protected ArrayList<JsScript> clickListeners = new ArrayList<>();
 	protected ArrayList<JsScript> clearListeners = new ArrayList<>();
 	protected ArrayList<JsScript> clientListeners = new ArrayList<>();
-	private boolean clearGlobalListeners = true;
+	private boolean keepListenersOnReset = true;
 
 	private ArrayList[] listenerLists() {
 		return new ArrayList[] { addListeners, storeUndoListeners,
@@ -137,7 +137,7 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	@Override
 	public void reset() {
-		if (!clearGlobalListeners) {
+		if (keepListenersOnReset) {
 			return;
 		}
 
@@ -534,12 +534,12 @@ public abstract class ScriptManager implements EventListener {
 		return false;
 	}
 
-	public void preventClearGlobalListeners() {
-		clearGlobalListeners = false;
+	public void keepListenersOnReset() {
+		keepListenersOnReset = true;
 	}
 
-	public void allowClearGlobalListeners() {
-		clearGlobalListeners = true;
+	public void dropListenersOnReset() {
+		keepListenersOnReset = false;
 		rebuildListeners();
 	}
 
@@ -549,7 +549,7 @@ public abstract class ScriptManager implements EventListener {
 	}
 
 	private void rebuildListeners(HashMap<GeoElement, JsScript> listenerMap, ArrayList<JsScript> listeners) {
-		if (listenerMap == null) {
+		if (listenerMap == null || listenerMap.size() == 0) {
 			return;
 		}
 

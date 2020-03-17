@@ -1693,9 +1693,9 @@ public class Construction {
 	private void buildConstructionWithGlobalListeners(StringBuilder consXML, String oldXML, EvalInfo info)
 		throws Exception {
 		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
-		scriptManager.preventClearGlobalListeners();
+		scriptManager.keepListenersOnReset();
 		buildConstruction(consXML, oldXML, info);
-		scriptManager.allowClearGlobalListeners();
+		scriptManager.dropListenersOnReset();
 	}
 
 	/**
