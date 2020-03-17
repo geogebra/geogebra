@@ -540,21 +540,26 @@ public abstract class ScriptManager implements EventListener {
 
 	public void dropListenersOnReset() {
 		keepListenersOnReset = false;
-		rebuildListeners();
+		rebuildListenerMap();
 	}
 
-	private void rebuildListeners() {
-		rebuildListeners(clickListenerMap, clearListeners);
-		rebuildListeners(updateListenerMap, updateListeners);
+	private void rebuildListenerMap() {
+		clickListenerMap =  rebuildListenerMap(clickListenerMap);
+		updateListenerMap = rebuildListenerMap(updateListenerMap);
 	}
 
-	private void rebuildListeners(HashMap<GeoElement, JsScript> listenerMap, ArrayList<JsScript> listeners) {
-		if (listenerMap == null || listenerMap.size() == 0) {
-			return;
+	private HashMap<GeoElement, JsScript> rebuildListenerMap(HashMap<GeoElement, JsScript> listenerMap) {
+		if (listenerMap == null) {
+			return null;
 		}
 
-		listeners.clear();
-		listeners.addAll(listenerMap.values());
-
+		HashMap<GeoElement, JsScript> map = new HashMap<>();
+		for (GeoElement oldGeo: listenerMap.keySet()) {
+			GeoElement newGeo = app.getKernel().lookupLabel(oldGeo.getLabelSimple());
+			if (newGeo != null) {
+				map.put(newGeo, listenerMap.get(oldGeo));
+			}
+		}
+		return map;
 	}
 }
