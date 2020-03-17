@@ -1938,7 +1938,7 @@ __GGB__keysVar["pt"].menu = {
     "GraphicsViewAsAsymptote": "Janela de Visualiza\xe7\xe3o como Asymptote",
     "GraphicsViewForPlaneA": "Vista de %0",
     "Graphing": "Gr\xe1fico",
-    "Graphing3D": "3D Calculator",
+    "Graphing3D": "Calculadora 3D",
     "GraphingCalculator": "Calculadora Gr\xe1fica",
     "GraphingCalculator.short": "Calculadora Gr\xe1fica",
     "GraphingCalculator3D.Function3D": "fun\xe7\xf5es z=f(x,y)",

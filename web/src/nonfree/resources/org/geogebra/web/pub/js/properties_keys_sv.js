@@ -436,7 +436,7 @@ __GGB__keysVar["sv"].command = {
     "Insert": "MataIn",
     "Insert.Syntax": "[ <Lista>, <Lista>, <Position> ]\n[ <Objekt>, <Lista>, <Position> ]",
     "Integral": "Integral",
-    "Integral.Syntax": "[ <Funktion> ]\n[ <Funktion>, <Variabel> ]\n[ <Funktion>, <Fr\xe5n>, <Till> ]\n[ <Funktion>, <Funktion>, <Fr\xe5n>, <Till> ]",
+    "Integral.Syntax": "[ <Funktion> ]\n[ <Funktion>, <Variabel> ]\n[ <Funktion>, <Fr\xe5n>, <Till> ]\n[ <Funktion>, <Fr\xe5n x>, <Till x>, <true | false (ber\xe4kna v\xe4rde eller ej)> ]",
     "Integral.SyntaxCAS": "[ <Funktion> ]\n[ <Funktion>, <Variabel> ]\n[ <Funktion>, <Fr\xe5n x>, <Till x> ]\n[ <Funktion>, <Variabel>, <Fr\xe5n>, <Till> ]",
     "IntegralBetween": "IntegralMellan",
     "IntegralBetween.Syntax": "[ <Funktion>, <Funktion>, <Fr\xe5n>, <Till> ]\n[ <Funktion>, <Funktion>, <Fr\xe5n>, <Till>, <true | false (ber\xe4kna v\xe4rde eller ej)> ]",
