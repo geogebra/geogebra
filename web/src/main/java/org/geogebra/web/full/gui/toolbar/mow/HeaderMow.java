@@ -81,12 +81,8 @@ public class HeaderMow extends FlowPanel
 				"ToolCategory.Media");
 		mediaPanelBtn.addStyleName("flatButton");
 		TestHarness.setAttr(mediaPanelBtn, "mediaPanelButton");
-		new FocusableWidget(penPanelBtn, AccessibilityGroup.NOTES_TOOLBAR_PEN, -1)
-				.attachTo(appW);
-		new FocusableWidget(toolsPanelBtn, AccessibilityGroup.NOTES_TOOLBAR_TOOLS, -1)
-				.attachTo(appW);
-		new FocusableWidget(mediaPanelBtn, AccessibilityGroup.NOTES_TOOLBAR_MEDIA, -1)
-				.attachTo(appW);
+		new FocusableWidget(AccessibilityGroup.NOTES_TOOLBAR_HEADER, -1,
+				penPanelBtn, toolsPanelBtn, mediaPanelBtn).attachTo(appW);
 		center.add(penPanelBtn);
 		center.add(toolsPanelBtn);
 		center.add(mediaPanelBtn);

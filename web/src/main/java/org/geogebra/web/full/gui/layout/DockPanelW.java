@@ -610,8 +610,8 @@ public abstract class DockPanelW extends ResizeComposite
 				app);
 		graphicsContextMenuBtn
 				.setTitle(app.getLocalization().getMenu("Settings"));
-		final FocusableWidget focusableWidget = new FocusableWidget(graphicsContextMenuBtn,
-				AccessibilityGroup.SETTINGS_BUTTON, getViewId());
+		final FocusableWidget focusableWidget = new FocusableWidget(
+				AccessibilityGroup.SETTINGS_BUTTON,	getViewId(), graphicsContextMenuBtn);
 		if (getViewId() == App.VIEW_EUCLIDIAN) {
 			focusableWidget.attachTo(app);
 		}

@@ -78,11 +78,8 @@ public class PenSubMenu extends SubMenuPanel {
 		select = new ToolButton(EuclidianConstants.MODE_SELECT_MOW, app,
 				this);
 		penPanel.add(LayoutUtilW.panelRow(select, pen, eraser, highlighter));
-		new FocusableWidget(select, AccessibilityGroup.NOTES_TOOL_SELECT, -1).attachTo(app);
-		new FocusableWidget(pen, AccessibilityGroup.NOTES_TOOL_PEN, -1).attachTo(app);
-		new FocusableWidget(eraser, AccessibilityGroup.NOTES_TOOL_ERASER, -1).attachTo(app);
-		new FocusableWidget(highlighter,
-				AccessibilityGroup.NOTES_TOOL_HIGHLIGHTER, -1).attachTo(app);
+		new FocusableWidget(AccessibilityGroup.NOTES_TOOL_SELECT, -1,
+				select, pen, eraser, highlighter).attachTo(app);
 	}
 
 	/**
@@ -101,6 +98,7 @@ public class PenSubMenu extends SubMenuPanel {
 		Label label = new Label();
 		AriaHelper.setLabel(label, app.getLocalization().getColor(ariaLabelTransKey));
 		label.getElement().setAttribute("role", "button");
+		label.getElement().setTabIndex(0);
 		color.applyToLabel(label);
 		label.addStyleName("mowColorButton");
 		ClickStartHandler.init(label, new ClickStartHandler() {
@@ -127,6 +125,8 @@ public class PenSubMenu extends SubMenuPanel {
 		addToColorMap(MOWToolbarColor.RED);
 		addToColorMap(MOWToolbarColor.ORANGE);
 		addToColorMap(MOWToolbarColor.YELLOW);
+		new FocusableWidget(AccessibilityGroup.NOTES_COLOR_PANEL, -1,
+				colorMap.values().toArray(new Widget[0])).attachTo(app);
 	}
 
 	private void addToColorMap(MOWToolbarColor color) {
@@ -147,6 +147,8 @@ public class PenSubMenu extends SubMenuPanel {
 				openColorDialog();
 			}
 		});
+		new FocusableWidget(
+				AccessibilityGroup.NOTES_COLOR_CUSTOM, -1, btnCustomColor).attachTo(app);
 	}
 
 	private void createColorPanel() {
@@ -185,8 +187,8 @@ public class PenSubMenu extends SubMenuPanel {
 				sliderValueChanged(event.getValue());
 			}
 		});
-		new FocusableWidget(slider.getSlider(),
-				AccessibilityGroup.NOTES_PEN_THICKNESS_SLIDER, -1).attachTo(app);
+		new FocusableWidget(AccessibilityGroup.NOTES_PEN_THICKNESS_SLIDER,
+				-1, slider.getSlider()).attachTo(app);
 	}
 
 	private void setSliderRange(boolean isPen) {

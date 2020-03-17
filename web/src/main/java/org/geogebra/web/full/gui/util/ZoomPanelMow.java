@@ -112,8 +112,8 @@ public class ZoomPanelMow extends FlowPanel
 	}
 
 	private void registerFocusable(StandardButton dragPadBtn, AccessibilityGroup group) {
-		new FocusableWidget(dragPadBtn, group,
-				appW.getActiveEuclidianView().getViewID()).attachTo(appW);
+		new FocusableWidget(group, appW.getActiveEuclidianView().getViewID(),
+				dragPadBtn).attachTo(appW);
 	}
 
 	/**
@@ -171,8 +171,7 @@ public class ZoomPanelMow extends FlowPanel
 		zoomInBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24, appW);
 		zoomInBtn.setStyleName("zoomPanelBtn");
-		new FocusableWidget(zoomInBtn, AccessibilityGroup.ZOOM_NOTES_PLUS,
-				appW.getActiveEuclidianView().getViewID()).attachTo(appW);
+		registerFocusable(zoomInBtn, AccessibilityGroup.ZOOM_NOTES_PLUS);
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {

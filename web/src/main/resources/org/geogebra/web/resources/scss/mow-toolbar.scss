@@ -151,9 +151,13 @@
 							 margin: 6px;
 							 cursor: pointer;
 
-							 &:hover:not(.disabled) {
-							 	opacity: 0.65;
-							 }
+							&:hover:not(.disabled) {
+								opacity: 0.65;
+							}
+
+							&:focus {
+								outline: #212121 5px auto;
+							}
 
 							&.mowColorButton-selected {
 								width: 38px;

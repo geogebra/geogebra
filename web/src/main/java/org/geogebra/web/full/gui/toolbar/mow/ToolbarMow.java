@@ -125,7 +125,7 @@ public class ToolbarMow extends FlowPanel
 		pageControlButton = new StandardButton(
 				MaterialDesignResources.INSTANCE.mow_page_control(), null, 24,
 				appW);
-		new FocusableWidget(pageControlButton, AccessibilityGroup.PAGE_LIST_OPEN, -1)
+		new FocusableWidget(AccessibilityGroup.PAGE_LIST_OPEN, -1, pageControlButton)
 				.attachTo(appW);
 		pageControlButton.setStyleName("mowFloatingButton");
 		showPageControlButton(true);

@@ -210,7 +210,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	}
 
 	private void registerFocusable(StandardButton btn, AccessibilityGroup group) {
-		new FocusableWidget(btn, group, getViewID()).attachTo(app);
+		new FocusableWidget(group, getViewID(), btn).attachTo(app);
 	}
 
 	private void addZoomOutButton() {

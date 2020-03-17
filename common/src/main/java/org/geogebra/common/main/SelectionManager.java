@@ -709,10 +709,6 @@ public class SelectionManager {
 	final public boolean selectLastGeo() {
 		boolean forceLast = false;
 		if (selectedGeos.size() != 1) {
-			if (!getAccessibilityManager().handleTabExitGeos(false)) {
-				return false;
-
-			}
 			forceLast = true;
 		}
 		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();

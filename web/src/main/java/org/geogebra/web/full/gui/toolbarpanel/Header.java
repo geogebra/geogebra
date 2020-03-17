@@ -474,7 +474,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 
 	private void createMenuButton() {
 		btnMenu = new MenuToggleButton(app);
-		focusableMenuButton = new FocusableWidget(btnMenu, AccessibilityGroup.MENU, -1);
+		focusableMenuButton = new FocusableWidget(AccessibilityGroup.MENU, -1, btnMenu);
 		updateMenuPosition();
 		markMenuAsExpanded(false);
 	}
@@ -828,11 +828,11 @@ class Header extends FlowPanel implements KeyDownHandler {
 		tabIndex(btnMenu, GUITabs.MENU);
 		focusableMenuButton.attachTo(app);
 		tabIndex(btnClose, GUITabs.HEADER_CLOSE);
-		new FocusableWidget(btnClose, AccessibilityGroup.ALGEBRA_CLOSE, -1).attachTo(app);
+		new FocusableWidget(AccessibilityGroup.ALGEBRA_CLOSE, -1, btnClose).attachTo(app);
 		tabIndex(btnUndo, GUITabs.UNDO);
-		new FocusableWidget(btnUndo, AccessibilityGroup.UNDO, -1).attachTo(app);
+		new FocusableWidget(AccessibilityGroup.UNDO, -1, btnUndo).attachTo(app);
 		tabIndex(btnRedo, GUITabs.REDO);
-		new FocusableWidget(btnRedo, AccessibilityGroup.REDO, -1).attachTo(app);
+		new FocusableWidget(AccessibilityGroup.REDO, -1, btnRedo).attachTo(app);
 		setAltTexts();
 	}
 

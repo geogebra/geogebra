@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.accessibility;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class GeoTabber implements MayHaveFocus {
 
@@ -15,12 +16,15 @@ public class GeoTabber implements MayHaveFocus {
 
 	@Override
 	public boolean focusIfVisible(boolean reverse) {
-		this.selected = !app.getKernel().getConstruction().isEmpty();
 		app.getSelectionManager().clearSelectedGeos(false);
+		Log.error("deselect");
 		if (reverse) {
-			app.getSelectionManager().selectNextGeo();
+			selected = app.getSelectionManager().selectLastGeo();
 		} else {
-			app.getSelectionManager().selectLastGeo();
+			selected = app.getSelectionManager().selectNextGeo();
+		}
+		if (selected) {
+			app.getActiveEuclidianView().requestFocus();
 		}
 		return selected;
 	}
