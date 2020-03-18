@@ -1471,9 +1471,8 @@ public class EuclidianViewW extends EuclidianView implements
 		if (symbolicEditor == null) {
 			symbolicEditor = createSymbolicEditor();
 		}
-		if (symbolicEditor instanceof InputBoxWidget) {
-			((InputBoxWidget) symbolicEditor).attach(geoInputBox, bounds,
-					getAbsolutePanel());
+		if (symbolicEditor != null) {
+			symbolicEditor.attach(geoInputBox, bounds);
 		}
 	}
 
@@ -1892,8 +1891,8 @@ public class EuclidianViewW extends EuclidianView implements
 	 * @return keyboard listener for active symbolic editor
 	 */
 	public MathKeyboardListener getKeyboardListener() {
-		if (symbolicEditor instanceof InputBoxWidget) {
-			return ((InputBoxWidget) symbolicEditor).getKeyboardListener();
+		if (symbolicEditor instanceof HasMathKeyboardListener) {
+			return ((HasMathKeyboardListener) symbolicEditor).getKeyboardListener();
 		}
 		return null;
 	}

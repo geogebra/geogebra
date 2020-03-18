@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.euclidian.InputBoxWidget;
+import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -18,8 +18,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -31,8 +29,8 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
  *
  * @author Laszlo
  */
-public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
-		InputBoxWidget, BlurHandler, ChangeHandler {
+public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener,
+		HasMathKeyboardListener, BlurHandler, ChangeHandler {
 
 	private final App app;
 	private final EuclidianViewW view;
@@ -67,14 +65,13 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds,
-			AbsolutePanel parent) {
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
 		this.geoInputBox = geoInputBox;
 		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
 
 		this.bounds = bounds;
 		resetChanges();
-		editor.attach(parent);
+		editor.attach(view.getAbsolutePanel());
 	}
 
 	@Override
@@ -184,11 +181,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		hide();
 		app.getGlobalKeyDispatcher().handleTab(false, shiftDown);
 		app.getSelectionManager().nextFromInputBox();
-	}
-
-	@Override
-	public Widget asWidget() {
-		return editor.asWidget();
 	}
 
 	@Override
