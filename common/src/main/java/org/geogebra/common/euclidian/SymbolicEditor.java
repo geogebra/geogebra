@@ -1,7 +1,10 @@
 package org.geogebra.common.euclidian;
 
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -17,12 +20,29 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	protected final App app;
 	protected final EuclidianView view;
 
+	private TeXSerializer serializer;
+
 	protected GeoInputBox geoInputBox;
 	protected DrawInputBox drawInputBox;
+
+	protected MathFieldInternal mathFieldInternal;
 
 	protected SymbolicEditor(App app, EuclidianView view) {
 		this.app = app;
 		this.view = view;
+		this.serializer = new TeXSerializer();
+	}
+
+	protected void applyChanges() {
+		setTempUserDisplayInput();
+		String editedText = mathFieldInternal.getText();
+		geoInputBox.updateLinkedGeo(editedText);
+	}
+
+	protected void setTempUserDisplayInput() {
+		MathFormula formula = mathFieldInternal.getFormula();
+		String latex = serializer.serialize(formula);
+		geoInputBox.setTempUserDisplayInput(latex);
 	}
 
 	/**

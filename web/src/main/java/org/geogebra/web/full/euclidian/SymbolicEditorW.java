@@ -34,7 +34,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	private GRectangle bounds;
 	private MathFieldEditor editor;
 	private final SymbolicEditorDecorator decorator;
-	private TeXSerializer serializer;
 
 	/**
 	 * Constructor
@@ -53,7 +52,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 				.getFontSettings().getAppFontSize() + 3;
 
 		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
-		serializer = new TeXSerializer();
+		mathFieldInternal = editor.getMathField().getInternal();
 	}
 
 	@Override
@@ -118,19 +117,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	@Override
 	public void onEnter() {
 		applyChanges();
-	}
-
-	private void applyChanges() {
-		setTempUserDisplayInput();
-		String editedText = editor.getText();
-		geoInputBox.updateLinkedGeo(editedText);
-	}
-
-	private void setTempUserDisplayInput() {
-		MathFieldInternal mathFieldInternal = editor.getMathField().getInternal();
-		MathFormula formula = mathFieldInternal.getFormula();
-		String latex = serializer.serialize(formula);
-		geoInputBox.setTempUserDisplayInput(latex);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package org.geogebra.desktop.euclidian;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
+import com.himamis.retex.renderer.share.TeXFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -9,7 +10,6 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 
@@ -26,13 +26,18 @@ public class SymbolicEditorD extends SymbolicEditor {
 		box = Box.createHorizontalBox();
 
 		mathField = new MathFieldD();
+		mathFieldInternal = mathField.getInternal();
+
 		mathField.getInternal().setFieldListener(this);
 		mathField.setVisible(true);
+		mathField.getInternal().setType(TeXFont.SANSSERIF);
+
 		box.add(mathField);
 	}
 
 	@Override
 	public void hide() {
+		applyChanges();
 		drawInputBox.setEditing(false);
 		box.setVisible(false);
 	}
@@ -69,12 +74,12 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void onEnter() {
-
+		applyChanges();
 	}
 
 	@Override
 	public void onKeyTyped() {
-		Log.debug("key typed");
+
 	}
 
 	@Override
@@ -84,6 +89,6 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void onTab(boolean shiftDown) {
-
+		applyChanges();
 	}
 }

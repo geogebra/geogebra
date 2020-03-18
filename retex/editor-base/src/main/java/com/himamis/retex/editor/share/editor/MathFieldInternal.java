@@ -51,6 +51,7 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
@@ -786,5 +787,10 @@ public class MathFieldInternal
 			FactoryProvider.debugS("Problem parsing: " + text);
 			e.printStackTrace();
 		}
+	}
+
+	public String getText() {
+		GeoGebraSerializer s = new GeoGebraSerializer();
+		return s.serialize(getFormula());
 	}
 }

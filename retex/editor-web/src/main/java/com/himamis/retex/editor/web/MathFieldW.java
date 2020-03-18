@@ -1081,8 +1081,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @return text in GGB syntax
 	 */
 	public String getText() {
-		GeoGebraSerializer s = new GeoGebraSerializer();
-		return s.serialize(getFormula());
+		return mathFieldInternal.getText();
 	}
 
 	/**
