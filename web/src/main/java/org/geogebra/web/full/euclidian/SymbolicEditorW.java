@@ -19,9 +19,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 /**
@@ -29,8 +27,8 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
  *
  * @author Laszlo
  */
-public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener,
-		HasMathKeyboardListener, BlurHandler, ChangeHandler {
+public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardListener,
+		BlurHandler, ChangeHandler {
 
 	private final App app;
 	private final EuclidianViewW view;
@@ -142,31 +140,6 @@ public class SymbolicEditorW extends SymbolicEditor implements MathFieldListener
 		geoInputBox.update();
 		editor.scrollHorizontally();
 		editor.updateAriaLabel();
-	}
-
-	@Override
-	public void onCursorMove() {
-	 	// nothing to do.
-	}
-
-	@Override
-	public void onUpKeyPressed() {
-	 	// nothing to do.
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		// nothing to do.
-	}
-
-	@Override
-	public String serialize(MathSequence selectionText) {
-		return null;
-	}
-
-	@Override
-	public void onInsertString() {
-		// nothing to do.
 	}
 
 	@Override
