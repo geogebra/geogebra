@@ -826,7 +826,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	public void setTabIndexes() {
 		tabIndex(btnMenu, GUITabs.MENU);
-		focusableMenuButton.attachTo(app);
+		if (focusableMenuButton != null) {
+			focusableMenuButton.attachTo(app);
+		}
 		tabIndex(btnClose, GUITabs.HEADER_CLOSE);
 		new FocusableWidget(AccessibilityGroup.ALGEBRA_CLOSE, -1, btnClose).attachTo(app);
 		tabIndex(btnUndo, GUITabs.UNDO);
