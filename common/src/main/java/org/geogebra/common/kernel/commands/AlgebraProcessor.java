@@ -2767,7 +2767,7 @@ public class AlgebraProcessor {
 		}
 		line.setDefinition(def);
 		if (isExplicit) {
-			line.setToExplicit();
+			line.setMode(GeoLine.EQUATION_EXPLICIT);
 		}
 		line.showUndefinedInAlgebraView(true);
 		setEquationLabelAndVisualStyle(line, label, info);
