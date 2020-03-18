@@ -7,7 +7,6 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
@@ -172,7 +171,7 @@ public class SelectionManager {
 				GeoElement geo = selectedGeos.get(i);
 				boolean oldSelected = geo.isSelected();
 				geo.setSelected(false);
-				if (geo.getKernel().getApplication()
+				if (kernel.getApplication()
 						.isUnbundledOrWhiteboard()
 						&& oldSelected) {
 
@@ -192,7 +191,6 @@ public class SelectionManager {
 			kernel.getApplication().getEventDispatcher()
 					.dispatchEvent(EventType.DESELECT, null);
 		}
-
 	}
 
 	private void notifyListeners(GeoElement geo) {
@@ -201,7 +199,6 @@ public class SelectionManager {
 				sl.geoElementSelected(geo, false);
 			}
 		}
-
 	}
 
 	/**
@@ -230,7 +227,6 @@ public class SelectionManager {
 			if (repaint) {
 				kernel.notifyRepaint();
 			}
-
 		}
 	}
 
@@ -253,7 +249,6 @@ public class SelectionManager {
 		selectedGeos.clear();
 		updateSelection();
 		kernel.notifyRepaint();
-
 	}
 
 	/**
@@ -298,13 +293,11 @@ public class SelectionManager {
 				sl.geoElementSelected(geo, true);
 			}
 		}
-
 	}
 
 	private void dispatchSelected(GeoElement geo) {
 		kernel.getApplication().getEventDispatcher()
 				.dispatchEvent(EventType.SELECT, geo);
-
 	}
 
 	private void setGeoToggled(boolean flag) {
@@ -750,7 +743,7 @@ public class SelectionManager {
 		addSelectedGeo(geo);
 
 		checkInputBoxAndFocus(geo);
-		App app1 = geo.getKernel().getApplication();
+		App app1 = kernel.getApplication();
 
 		if (app1.isEuclidianView3Dinited()) {
 			EuclidianView3DInterface view3d = app1.getEuclidianView3D();
@@ -764,7 +757,7 @@ public class SelectionManager {
 		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
 				? geo.getViewSet().get(0)
 				: -1;
-		App app1 = geo.getKernel().getApplication();
+		App app1 = kernel.getApplication();
 		if (viewID == App.VIEW_EUCLIDIAN2) {
 			return app1.getEuclidianView2(1);
 		} else if (viewID == App.VIEW_EUCLIDIAN3D) {
@@ -827,7 +820,6 @@ public class SelectionManager {
 				tree.remove(geo);
 			}
 		}
-
 	}
 
 	private boolean algebraViewShowing() {
@@ -1223,10 +1215,6 @@ public class SelectionManager {
 		for (GeoElement geo : selectedGeos) {
 			kernel.notifyUpdateHightlight(geo);
 		}
-	}
-
-	private AccessibilityManagerInterface getAccessibilityManager() {
-		return kernel.getApplication().getAccessibilityManager();
 	}
 }
 
