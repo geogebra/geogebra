@@ -3,6 +3,6 @@
 # Test all versions.
 
 set -e
-./runtests-sql -p "Classic5" -d -R http\\://roadrunner.risc.jku.at\\:8765 -t 1200 # 20 minutes
-./report-sql -c "Classic5" -I "EulerInequality_IsoTriangle-CircumRadius_InRadius IsoTriangle-Perimeter_InRadius"
+./runtests-sql -p "Classic5" -d -R http\\://roadrunner.risc.jku.at\\:8765 # -t 1200 # 20 minutes
+./report-sql -c "Classic5" -I "EulerInequality_IsoTriangle-CircumRadius_InRadius IsoTriangle-Perimeter_InRadius" -o html/public.html
 # sensible-browser html/all.html &
