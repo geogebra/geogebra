@@ -12,6 +12,7 @@ CSV=none
 # Don't use this, it is just an example:
 MYCOLUMNS="Classic5 Classic6"
 TESTGGBURLBASE_GGBDIR=https://github.com/kovzol/geogebra/raw/master/test/scripts/benchmark/compare
+IGNORE=""
 
 DOTS=40
 NICEHTML=1
@@ -28,7 +29,7 @@ usage() {
  echo "   -o <file>    set name for output .html file ($HTML)"
  echo "   -T <file>    set name for output .tex file ($TEX)"
  echo "   -c <list>    space separated list of prover engines to show as MYCOLUMNS ($MYCOLUMNS)"
- echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
+ echo "   -I <list>    space separated list of test files to ignore (empty by default)"
  echo "   -d <length>  use dots in test names in LaTeX output if the name is longer than length ($DOTS)"
  echo "   -N           do not use nice HTML output (similarly to LaTeX)"
  echo "   -h           show this help"
@@ -42,13 +43,16 @@ version() {
  exit 0
  }
 
-while getopts "t:H:o:T:c:d:b:Nhv" OPT; do
+while getopts "I:H:o:T:c:d:b:Nhv" OPT; do
  case $OPT in
   H)
    IMGHEIGHT="$OPTARG"
    ;;
   N)
    NICEHTML=0
+   ;;
+  I)
+   IGNORE="$OPTARG"
    ;;
   o)
    HTML="$OPTARG"
@@ -173,6 +177,12 @@ TESTS=0
 ALLGOOD_NO=0
 ALLGOOD_SUM=0
 for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_number=$BUILD_NUMBER"`; do
+ for I in $IGNORE; do
+  if [ "$t" = "$I" ]; then
+   # echo "Skipping $t"
+   continue 2 # skip this test
+   fi
+  done
  echo -en "Processing test case $t...\033[K\015"
  ALLGOOD=1
  TESTS=`expr $TESTS + 1`
