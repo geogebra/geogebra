@@ -9630,8 +9630,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 
-			// Fit line makes sense only for more than 2 points (or one list)
-			if (hits.size() < 3) {
+			// Fit line is available from more than 1 point
+			if (hits.size() < 2) {
 				hits.clear();
 			} else {
 				removeParentPoints(hits);
