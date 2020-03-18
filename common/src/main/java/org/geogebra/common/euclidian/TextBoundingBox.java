@@ -100,20 +100,18 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	private void updateHandlers() {
-		if (showHandlers()) {
-			double width = text.getWidth();
-			double height = text.getHeight();
+		double width = text.getWidth();
+		double height = text.getHeight();
 
-			setHandlerTransformed(0, 0, 0);
-			setHandlerTransformed(1, 0, height);
-			setHandlerTransformed(2, width, height);
-			setHandlerTransformed(3, width, 0);
-			setHandlerTransformed(4, width / 2, 0);
-			setHandlerTransformed(5, 0, height / 2);
-			setHandlerTransformed(6, width / 2, height);
-			setHandlerTransformed(7, width, height / 2);
-			setHandlerTransformed(8, width / 2, -ROTATION_HANDLER_DISTANCE);
-		}
+		setHandlerTransformed(0, 0, 0);
+		setHandlerTransformed(1, 0, height);
+		setHandlerTransformed(2, width, height);
+		setHandlerTransformed(3, width, 0);
+		setHandlerTransformed(4, width / 2, 0);
+		setHandlerTransformed(5, 0, height / 2);
+		setHandlerTransformed(6, width / 2, height);
+		setHandlerTransformed(7, width, height / 2);
+		setHandlerTransformed(8, width / 2, -ROTATION_HANDLER_DISTANCE);
 	}
 
 	/**

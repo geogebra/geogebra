@@ -9136,9 +9136,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		DrawAudio da = getAudioHit();
 
-		if (!event.isRightClick() && da != null && !isMultiSelection()) {
+		if (!event.isRightClick() && da != null
+				&& selection.selectedGeosSize() < 2) {
 			clearSelections();
-			app.getSelectionManager().addSelectedGeo(da.geo);
 			if (da.onMouseDown(event.getX(), event.getY())) {
 				return;
 			}
@@ -9373,12 +9373,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 
 			selectAndShowBoundingBox(topHit);
+			maybeFocusGroupElement(topHit);
 			app.getVideoManager().play((GeoVideo) topHit);
 			return true;
 		}
 
 		if (topHit instanceof GeoEmbed) {
 			selectAndShowBoundingBox(topHit);
+			maybeFocusGroupElement(topHit);
 			app.getEmbedManager().play((GeoEmbed) topHit);
 			return true;
 		}
@@ -10160,14 +10162,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							&& lastSelectionToolGeoToRemove != null) {
 						selection.clearSelectedGeos(false, false);
 						selection.addSelectedGeoWithGroup(lastSelectionToolGeoToRemove);
-						if (lastSelectionToolGeoToRemove.hasGroup()) {
-							selection.setFocusedGroupElement(lastSelectionToolGeoToRemove);
-							BoundingBox<? extends GShape> bb = ((Drawable) view
-									.getDrawableFor(lastSelectionToolGeoToRemove))
-									.getSelectionBoundingBox();
-							view.setFocusedGroupGeoBoundingBox(bb);
-							view.update(lastSelectionToolGeoToRemove);
-						}
+						maybeFocusGroupElement(lastSelectionToolGeoToRemove);
 						view.repaintView();
 						lastSelectionToolGeoToRemove = null;
 					}
@@ -10387,6 +10382,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		draggingOccurredBeforeRelease = false;
 	}
 
+	private void maybeFocusGroupElement(GeoElement geo) {
+		if (geo.hasGroup()) {
+			selection.setFocusedGroupElement(geo);
+			BoundingBox<? extends GShape> bb = ((Drawable) view
+					.getDrawableFor(geo))
+					.getSelectionBoundingBox();
+			view.setFocusedGroupGeoBoundingBox(bb);
+			view.update(geo);
+		}
+	}
+
 	private boolean shouldClearSelectionForMove() {
 		List<GeoElement> selectedGeos = selection.getSelectedGeos();
 		return !(selectedGeos.size() == 1
@@ -10514,11 +10520,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected DrawAudio getAudioHit() {
 		Hits hits = view.getHits();
 		if (hits != null && hits.size() > 0) {
-			GeoAudio audio;
 			for (GeoElement geo : hits.getTopHits()) {
 				if (geo.isGeoAudio()) {
-					audio = (GeoAudio) geo;
-					return (DrawAudio) (view.getDrawable(audio));
+					return (DrawAudio) (view.getDrawable(geo));
 				}
 			}
 
@@ -12416,7 +12420,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void selectAndShowBoundingBox(GeoElement geoElement) {
 		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		clearSelections();
-		selection.addSelectedGeo(geoElement);
+		selection.addSelectedGeoWithGroup(geoElement);
 		updateBoundingBoxFromSelection(false);
 		showDynamicStylebar();
 	}

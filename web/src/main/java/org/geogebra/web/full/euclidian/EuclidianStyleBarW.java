@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -71,7 +73,6 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * StyleBar for euclidianView
  */
-@SuppressWarnings("javadoc")
 public class EuclidianStyleBarW extends StyleBarW2
 		implements org.geogebra.common.euclidian.EuclidianStyleBar,
 		ValueChangeHandler<Boolean> {
@@ -127,8 +128,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 	private Localization loc;
-	private ContextMenuPopup btnContextMenu = null;
-	private StandardButton btnDelete;
+	private @CheckForNull ContextMenuPopup btnContextMenu = null;
 	private MyToggleButtonW btnCrop;
 	private LabelSettingsPopup btnLabel;
 
@@ -353,16 +353,21 @@ public class EuclidianStyleBarW extends StyleBarW2
 		} else {
 			geos = activeGeoList;
 		}
-
+		boolean hasButtons = !isFocusedGroupElement(); // at least context menu
 		for (PopupMenuButtonW popupButton : popupBtnList) {
 			if (popupButton != null) { // null pointer fix until necessary
 				popupButton.update(geos);
+				hasButtons |= popupButton.isVisible();
 			}
 		}
 		for (MyToggleButtonW toggleButton : toggleBtnList) {
 			if (toggleButton != null) { // null pointer fix until necessary
 				toggleButton.update(geos);
+				hasButtons |= toggleButton.isVisible();
 			}
+		}
+		if (!hasButtons) {
+			setVisible(false);
 		}
 	}
 
@@ -481,15 +486,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 			add(getLabelPopup());
 		}
 
-		if (app.isUnbundledOrWhiteboard()) {
-			if (app.isWhiteboardActive() && isImageGeoSelected()
-					&& ev.getMode() != EuclidianConstants.MODE_SELECT) {
-				addCropButton();
-			}
-			addDeleteButton();
+		if (app.isWhiteboardActive() && isImageGeoSelected()
+				&& ev.getMode() != EuclidianConstants.MODE_SELECT) {
+			addCropButton();
 		}
-		if (app.isUnbundledOrWhiteboard() && hasActiveGeos()) {
-			addContextMenuButton();
+		if (app.isUnbundledOrWhiteboard() && !isFocusedGroupElement()) {
+			addDeleteButton();
+
+			if (hasActiveGeos() && !isBackground()) {
+				addContextMenuButton();
+			}
 		}
 	}
 
@@ -547,7 +553,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 * add delete button to dynamic stylebar
 	 */
 	private void addDeleteButton() {
-		btnDelete = new StandardButton(
+		StandardButton btnDelete = new StandardButton(
 				MaterialDesignResources.INSTANCE.delete_black(), null, 24, app);
 		btnDelete.setStyleName("MyCanvasButton");
 		FastClickHandler btnDelHandler = new FastClickHandler() {
@@ -568,30 +574,20 @@ public class EuclidianStyleBarW extends StyleBarW2
 		}
 	}
 
-	// TODO instead of addViewButton() we need a new function addContextMenu()
-	// that uses the same icon (3 dots) as ViewButton but instead opens the
-	// context menu
+	// For unbundled apps: three dot button instead of view dropdown
 	private void addContextMenuButton() {
-		if (isBackground()
-				|| app.getSelectionManager().getFocusedGroupElement() != null) {
-			return;
+		if (btnContextMenu == null) {
+			createContextMenuButton();
 		}
-		if (app.isUnbundledOrWhiteboard()) {
-			if (btnContextMenu == null) {
-				createContextMenuButton();
-			}
-			btnContextMenu.addStyleName("matDynStyleContextButton");
-			add(btnContextMenu);
-		} else {
-			if (getViewButton() == null) {
-				addViewButton();
-			} else {
-				add(getViewButton());
-			}
-		}
+		btnContextMenu.addStyleName("matDynStyleContextButton");
+		add(btnContextMenu);
 	}
 
-	protected ContextMenuPopup getContextMenuButton() {
+	private boolean isFocusedGroupElement() {
+		return app.getSelectionManager().getFocusedGroupElement() != null;
+	}
+
+	protected @CheckForNull ContextMenuPopup getContextMenuButton() {
 		return btnContextMenu;
 	}
 
@@ -1075,6 +1071,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 						if (geo instanceof GeoText || geo instanceof GeoButton
 								|| geo instanceof GeoPoint
 								|| geo instanceof GeoLocusStroke
+								|| geo instanceof GeoEmbed
 								|| geo instanceof GeoLine || geo.isGeoVideo()
 								|| geo.isGeoAudio() || geo.isGeoImage()) {
 							geosOK = false;
@@ -1599,7 +1596,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 */
 	private static void setGridType(EuclidianView ev, int val) {
 		EuclidianSettings evs = ev.getSettings();
-		boolean gridChanged = false;
+		boolean gridChanged;
 		if (val == 0) {
 			gridChanged = evs.showGrid(false);
 		} else {
@@ -1632,7 +1629,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 */
 	public static void setAxesLineType(EuclidianView ev, int val) {
 		EuclidianSettings evs = ev.getSettings();
-		boolean axesChanged = false;
+		boolean axesChanged;
 		if (val == 0) {
 			axesChanged = evs.setShowAxes(false);
 		} else {
