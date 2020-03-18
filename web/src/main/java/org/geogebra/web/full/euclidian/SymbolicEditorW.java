@@ -30,12 +30,6 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardListener,
 		BlurHandler, ChangeHandler {
 
-	private final App app;
-	private final EuclidianViewW view;
-
-	private GeoInputBox geoInputBox;
-	private DrawInputBox drawInputBox;
-
 	private GRectangle bounds;
 	private MathFieldEditor editor;
 	private final SymbolicEditorDecorator decorator;
@@ -48,8 +42,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	 *            The application.
 	 */
 	public SymbolicEditorW(App app, EuclidianViewW view) {
-		this.app = app;
-		this.view = view;
+		super(app, view);
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
@@ -69,7 +62,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 		this.bounds = bounds;
 		resetChanges();
-		editor.attach(view.getAbsolutePanel());
+		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
 	}
 
 	@Override
@@ -111,7 +104,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 				.requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				view.doRepaint2();
+				((EuclidianViewW) view).doRepaint2();
 			}
 		});
 	}
