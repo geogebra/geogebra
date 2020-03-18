@@ -28,7 +28,7 @@ public class ErrorHelper {
 		if (e instanceof ParseException) {
 			Log.error(e.getMessage());
 		} else {
-			e.printStackTrace();
+			Log.debug(e);
 		}
 		
 		if (handler == null) {
