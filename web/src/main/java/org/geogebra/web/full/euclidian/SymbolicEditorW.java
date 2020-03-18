@@ -1,6 +1,7 @@
 package org.geogebra.web.full.euclidian;
 
 import com.google.gwt.core.client.Scheduler;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
@@ -63,6 +64,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		this.bounds = bounds;
 		resetChanges();
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
+	}
+
+	@Override
+	public void repaintBox(GGraphics2D g2) {
+
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
@@ -71,4 +72,6 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	public void onInsertString() {
 		// nothing to do.
 	}
+
+	public abstract void repaintBox(GGraphics2D g2);
 }

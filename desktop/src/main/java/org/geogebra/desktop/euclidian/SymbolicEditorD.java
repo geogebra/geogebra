@@ -1,6 +1,7 @@
 package org.geogebra.desktop.euclidian;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -9,6 +10,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 
 import javax.swing.Box;
@@ -31,8 +33,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void hide() {
-		Log.debug("hide called");
-
+		drawInputBox.setEditing(false);
 		box.setVisible(false);
 	}
 
@@ -43,16 +44,27 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
-		Log.debug("attach called");
-
 		this.geoInputBox = geoInputBox;
 		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
 
-		//mathField.getInternal().parse(geoInputBox.getTextForEditor());
-		mathField.getInternal().parse("alma");
+		drawInputBox.setEditing(true);
+
+		mathField.getInternal().parse(geoInputBox.getTextForEditor());
 		mathField.setBounds(GRectangleD.getAWTRectangle(bounds));
+		mathField.getInternal().setSize(geoInputBox.getFontSizeMultiplier()
+				* (app.getSettings().getFontSettings().getAppFontSize() + 3));
+
+		box.setBounds(GRectangleD.getAWTRectangle(bounds));
 		((EuclidianViewD) view).add(box);
 		box.setVisible(true);
+		box.revalidate();
+	}
+
+	@Override
+	public void repaintBox(GGraphics2D g) {
+		g.translate(box.getBounds().getX(), box.getBounds().getY());
+		box.paint(GGraphics2DD.getAwtGraphics(g));
+		g.translate(-box.getBounds().getX(), -box.getBounds().getY());
 	}
 
 	@Override
@@ -62,7 +74,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void onKeyTyped() {
-
+		Log.debug("key typed");
 	}
 
 	@Override

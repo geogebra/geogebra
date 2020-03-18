@@ -444,15 +444,21 @@ public class DrawInputBox extends CanvasDrawable {
 				drawLabel(g2, getGeoInputBox(), labelDesc);
 			}
 
-			String text = getGeoInputBox().getText();
-			g2.setFont(textFont.deriveFont(GFont.PLAIN));
+			if (!editing) {
+				String text = getGeoInputBox().getText();
+				g2.setFont(textFont.deriveFont(GFont.PLAIN));
 
-			drawText(g2, text);
+				drawText(g2, text);
+			}
 		}
 
 		g2.setFont(font);
 		if (isSelectedForInput()) {
 			view.getViewTextField().repaintBox(g2);
+		}
+
+		if (editing && view.getSymbolicEditor() != null) {
+			view.getSymbolicEditor().repaintBox(g2);
 		}
 	}
 
