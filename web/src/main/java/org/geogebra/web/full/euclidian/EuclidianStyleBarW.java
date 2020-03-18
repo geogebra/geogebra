@@ -512,14 +512,6 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return !ev.getEuclidianController().getAppSelectedGeos().isEmpty();
 	}
 
-	private void createContextMenuButton() {
-		if (!hasActiveGeos()) {
-			return;
-		}
-
-		btnContextMenu = new ContextMenuPopup(app);
-	}
-
 	private void addCropButton() {
 		btnCrop = new MyToggleButtonW(new NoDragImage(
 				MaterialDesignResources.INSTANCE.crop_black(), 24));
@@ -577,7 +569,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	// For unbundled apps: three dot button instead of view dropdown
 	private void addContextMenuButton() {
 		if (btnContextMenu == null) {
-			createContextMenuButton();
+			btnContextMenu = new ContextMenuPopup(app);
 		}
 		btnContextMenu.addStyleName("matDynStyleContextButton");
 		add(btnContextMenu);
@@ -587,8 +579,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 		return app.getSelectionManager().getFocusedGroupElement() != null;
 	}
 
-	protected @CheckForNull ContextMenuPopup getContextMenuButton() {
-		return btnContextMenu;
+	protected int getContextMenuButtonWidth() {
+		return btnContextMenu == null ? 0 : btnContextMenu.getOffsetWidth();
 	}
 
 	/*
