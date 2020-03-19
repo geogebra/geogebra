@@ -2,6 +2,7 @@ package org.geogebra.desktop.euclidian;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.renderer.share.TeXFont;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -19,6 +20,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	private Box box;
 	private MathFieldD mathField;
+	private double baseline;
 
 	protected SymbolicEditorD(App app, EuclidianView view) {
 		super(app, view);
@@ -59,17 +61,34 @@ public class SymbolicEditorD extends SymbolicEditor {
 		mathField.getInternal().setSize(geoInputBox.getFontSizeMultiplier()
 				* (app.getSettings().getFontSettings().getAppFontSize() + 3));
 
+		baseline = bounds.getY() + bounds.getHeight() / 2;
+
 		box.setBounds(GRectangleD.getAWTRectangle(bounds));
 		((EuclidianViewD) view).add(box);
 		box.setVisible(true);
 		box.revalidate();
+
+		mathField.requestViewFocus();
 	}
 
 	@Override
 	public void repaintBox(GGraphics2D g) {
-		g.translate(box.getBounds().getX(), box.getBounds().getY());
+		GColor bgColor = geoInputBox.getBackgroundColor() != null
+				? geoInputBox.getBackgroundColor() : view.getBackgroundCommon();
+		String text = serializer.serialize(mathFieldInternal.getFormula());
+
+		double currentHeight = drawInputBox.getPreferredHeight(text);
+		box.setBounds(box.getX(), box.getY(), box.getWidth(), (int) currentHeight);
+		box.revalidate();
+
+		g.saveTransform();
+		g.translate(box.getX(), baseline - currentHeight / 2);
+		view.getTextField().drawBounds(g, bgColor, 0, 0, box.getWidth(), (int) currentHeight);
+
+		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL, 0);
 		box.paint(GGraphics2DD.getAwtGraphics(g));
-		g.translate(-box.getBounds().getX(), -box.getBounds().getY());
+
+		g.restoreTransform();
 	}
 
 	@Override
@@ -79,7 +98,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void onKeyTyped() {
-
+		view.repaintView();
 	}
 
 	@Override

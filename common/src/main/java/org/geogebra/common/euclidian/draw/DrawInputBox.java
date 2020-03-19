@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -45,7 +46,7 @@ public class DrawInputBox extends CanvasDrawable {
 	private static final double TF_HEIGHT_FACTOR = 1.22;
 	/** ratio of length and screen width */
 	private static final double TF_WIDTH_FACTOR = 0.81;
-	private static final int TF_MARGIN_VERTICAL = 10;
+	public static final int TF_MARGIN_VERTICAL = 10;
 	/** Padding of the field (plain text) */
 	public static final int TF_PADDING_HORIZONTAL = 2;
 	public static final int MIN_HEIGHT = 24;
@@ -259,8 +260,6 @@ public class DrawInputBox extends CanvasDrawable {
 
 		view.getViewTextField().revalidateBox();
 
-		// xLabel = geo.labelOffsetX;
-		// yLabel = geo.labelOffsetY;
 		xLabel = getGeoInputBox().getScreenLocX(view);
 		yLabel = getGeoInputBox().getScreenLocY(view);
 		labelRectangle.setBounds(xLabel, yLabel, getPreferredWidth(), getPreferredHeight());
@@ -331,10 +330,21 @@ public class DrawInputBox extends CanvasDrawable {
 
 	@Override
 	public int getPreferredHeight() {
-		int height = (int) Math.round(((getView().getApplication().getFontSize()
-				* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR)
-				+ TF_MARGIN_VERTICAL;
-		return Math.max(height, MIN_HEIGHT);
+		return getPreferredHeight(geoInputBox.getText());
+	}
+
+	public int getPreferredHeight(String text) {
+		int height;
+
+		if (geoInputBox.isSymbolicMode()) {
+			App app = view.getApplication();
+			height = app.getDrawEquation().measureEquation(app, null, text,
+					getTextFont(text), false).getHeight();
+		} else {
+			height = (int) Math.round(((getView().getApplication().getFontSize()
+					* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR);
+		}
+		return Math.max(height + TF_MARGIN_VERTICAL, MIN_HEIGHT);
 	}
 
 	@Override
@@ -431,11 +441,6 @@ public class DrawInputBox extends CanvasDrawable {
 				drawLabel(g2, getGeoInputBox(), labelDesc);
 			}
 		} else {
-			GColor bgColor = geo.getBackgroundColor() != null
-					? geo.getBackgroundColor() : view.getBackgroundCommon();
-			getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
-					boxHeight);
-
 			highlightLabel(g2, latexLabel);
 
 			g2.setPaint(geo.getObjectColor());
@@ -445,6 +450,11 @@ public class DrawInputBox extends CanvasDrawable {
 			}
 
 			if (!editing) {
+				GColor bgColor = geo.getBackgroundColor() != null
+					? geo.getBackgroundColor() : view.getBackgroundCommon();
+				getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
+						boxHeight);
+
 				String text = getGeoInputBox().getText();
 				g2.setFont(textFont.deriveFont(GFont.PLAIN));
 

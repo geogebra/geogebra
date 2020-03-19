@@ -9133,10 +9133,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.requestFocusInWindow();
 		}
 
-		if (isSymbolicEditorSelected()) {
-			resetSelectionFlags();
-			return;
-		}
+		view.hideSymbolicEditor();
 
 		altCopy = true;
 

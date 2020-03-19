@@ -20,7 +20,7 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	protected final App app;
 	protected final EuclidianView view;
 
-	private TeXSerializer serializer;
+	protected TeXSerializer serializer;
 
 	protected GeoInputBox geoInputBox;
 	protected DrawInputBox drawInputBox;
