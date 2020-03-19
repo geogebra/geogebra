@@ -10130,8 +10130,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void wrapMouseReleasedND(final AbstractEvent event,
 			boolean mayFocus) {
-		int x = event.getX();
-		int y = event.getY();
 		boolean right = app.isRightClick(event);
 		boolean control = app.isControlDown(event);
 		final boolean alt = event.isAltDown();
@@ -10195,6 +10193,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		} else {
 			this.lastTouchRelease = System.currentTimeMillis();
 		}
+		int x = event.getX();
+		int y = event.getY();
 		this.setLastMouseUpLoc(new GPoint(x, y));
 
 		app.storeUndoInfoIfSetCoordSystemOccured();
