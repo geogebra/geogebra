@@ -182,7 +182,7 @@ public class FitTests extends BaseUnitTest {
         addAvInput("B = (2,1)");
 
         Rectangle rectangle = new Rectangle();
-        rectangle.setRect(0,0, view.getWidth(), view.getHeight());
+        rectangle.setRect(0, 0, view.getWidth(), view.getHeight());
 
         controller.setMode(EuclidianConstants.MODE_FITLINE, null);
         view.setSelectionRectangle(rectangle);
