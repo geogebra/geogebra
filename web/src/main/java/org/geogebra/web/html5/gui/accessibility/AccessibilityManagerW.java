@@ -42,6 +42,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		this.geoTabber =  new GeoTabber(app);
 		components.add(geoTabber);
 		components.add(new PlayButtonTabber(app.getActiveEuclidianView()));
+		components.add(new ResetButtonTabber(app.getActiveEuclidianView()));
 	}
 
 	@Override

@@ -119,6 +119,7 @@ public class ToolbarMow extends FlowPanel
 		toolbarPanelContent.add(toolsPanel);
 		toolbarPanelContent.add(mediaPanel);
 		toolbarPanel.add(toolbarPanelContent);
+		updateAriaHidden();
 	}
 
 	private void createPageControlButton() {
@@ -243,10 +244,14 @@ public class ToolbarMow extends FlowPanel
 				break;
 			}
 			appW.setMode(getCurrentPanel().getFirstMode());
-			penPanel.setAriaHidden(tab != TabIds.PEN);
-			toolsPanel.setAriaHidden(tab != TabIds.TOOLS);
-			mediaPanel.setAriaHidden(tab != TabIds.MEDIA);
+			updateAriaHidden();
 		}
+	}
+
+	private void updateAriaHidden() {
+		penPanel.setAriaHidden(currentTab != TabIds.PEN);
+		toolsPanel.setAriaHidden(currentTab != TabIds.TOOLS);
+		mediaPanel.setAriaHidden(currentTab != TabIds.MEDIA);
 	}
 
 	@Override
