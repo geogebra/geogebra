@@ -1,7 +1,6 @@
 package org.geogebra.common.gui;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 
 /**
  * Accessibility manager for app with no UI (simple applets)
@@ -41,7 +40,6 @@ public final class AccessibilityManagerNoGui
 
 	@Override
 	public MayHaveFocus getAnchor() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -58,36 +56,6 @@ public final class AccessibilityManagerNoGui
 	@Override
 	public void focusAnchorOrMenu() {
 		// not needed
-	}
-
-	@Override
-	public boolean handleTabExitGeos(boolean forward) {
-		return false;
-	}
-
-	/**
-	 * @param app
-	 *            app
-	 * @return single selected geo
-	 */
-	public static GeoElement getSelectedGeo(App app) {
-		return app.getSelectionManager().getSelectedGeos().size() == 1
-				? app.getSelectionManager().getSelectedGeos().get(0) : null;
-	}
-
-	@Override
-	public void sliderChange(double step, SliderInput input) {
-		// no slider
-	}
-
-	@Override
-	public void onEmptyConstuction(boolean forward) {
-		// not used
-	}
-
-	@Override
-	public String getAction(GeoElement geo) {
-		return "";
 	}
 
 	@Override

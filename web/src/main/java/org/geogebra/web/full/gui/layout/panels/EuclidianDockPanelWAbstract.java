@@ -11,7 +11,6 @@ import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.accessibility.EuclidianViewAccessibiliyAdapter;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
@@ -34,12 +33,12 @@ import com.google.gwt.user.client.ui.Widget;
  * @author arpad (based on EuclidianDockPanelAbstract by Mathieu)
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
-		implements GetViewId, EuclidianViewAccessibiliyAdapter {
+		implements GetViewId {
 
 	private ConstructionProtocolNavigationW consProtNav;
 
 	private boolean hasEuclidianFocus;
-	private boolean mayHaveZoomButtons = false;
+	private boolean mayHaveZoomButtons;
 	/**
 	 * panel with home,+,-,fullscreen btns
 	 */
@@ -101,7 +100,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	/**
 	 * @return view in this dock panel
 	 */
-	@Override
 	abstract public EuclidianView getEuclidianView();
 
 	@Override
@@ -421,39 +419,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
-	@Override
-	public boolean focusSpeechRecBtn() {
-		if (speechRecPanel != null) {
-			speechRecPanel.focusSpeechRec();
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * @return if the EV panel has zoom or fullscreen buttons at all.
 	 */
 	public boolean hasZoomButtons() {
 		return zoomPanel != null && zoomPanel.hasButtons();
-	}
-
-	@Override
-	public boolean focusSettings() {
-		if (graphicsContextMenuBtn != null) {
-			graphicsContextMenuBtn.getElement().focus();
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean focusResetButton() {
-		if (app.showResetIcon() && getEuclidianView() instanceof EuclidianViewW) {
-			EuclidianViewW view = (EuclidianViewW) getEuclidianView();
-			view.focusResetIcon();
-			return true;
-		}
-		return false;
 	}
 
 	/**

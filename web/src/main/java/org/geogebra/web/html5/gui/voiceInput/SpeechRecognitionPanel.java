@@ -1,10 +1,12 @@
 package org.geogebra.web.html5.gui.voiceInput;
 
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.voiceInput.questResErr.QuestResErrConstants;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -40,7 +42,7 @@ public class SpeechRecognitionPanel extends FlowPanel {
 				GuiResourcesSimple.INSTANCE.record(), null, 24, app);
 		speechBtn.setStyleName("speechBtn");
 		GUITabs.setTabIndex(speechBtn.getElement(),
-				GUITabs.SPEECH_REC + app.getActiveEuclidianView().getViewID());
+				GUITabs.SPEECH_REC + viewID);
 		speechBtn.setTitle(
 				"Speech recognition button.");
 		speechBtn.setAltText(
@@ -56,6 +58,7 @@ public class SpeechRecognitionPanel extends FlowPanel {
 								QuestResErrConstants.COMMAND);
 			}
 		});
+		new FocusableWidget(AccessibilityGroup.SPEECH, viewID, speechBtn).attachTo(app);
 		this.add(speechBtn);
 	}
 
@@ -64,13 +67,6 @@ public class SpeechRecognitionPanel extends FlowPanel {
 	 */
 	public VoiceInputOutputController getController() {
 		return controller;
-	}
-
-	/** Sets focus to speech rec btn */
-	public void focusSpeechRec() {
-		if (speechBtn != null) {
-			speechBtn.getElement().focus();
-		}
 	}
 
 	/**

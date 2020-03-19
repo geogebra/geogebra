@@ -73,40 +73,6 @@ public interface AccessibilityManagerInterface {
 	 */
 	void focusAnchorOrMenu();
 
-	/**
-	 * Called if tab selection leaves the first or last geo.
-	 * 
-	 * @param forward
-	 *            true for TAB, false for Shift+TAB
-	 * @return true if the situation is handled here.
-	 */
-	boolean handleTabExitGeos(boolean forward);
-
-	/**
-	 * Handle slider change
-	 * 
-	 * @param step
-	 *            slider increment (may be negative)
-	 * @param input
-	 *            type of slider action
-	 */
-	public void sliderChange(double step, SliderInput input);
-
-	/**
-	 * Called when user press tab but construction is empty.
-	 *
-	 * @param forward
-	 *            if geo is selected by tab or shift+tab.
-	 */
-	public void onEmptyConstuction(boolean forward);
-
-	/**
-	 * @param geo
-	 *            element associated with the action
-	 * @return action description (eg Run script)
-	 */
-	public String getAction(GeoElement geo);
-
 	void register(MayHaveFocus focusable);
 
 	void setTabOverGeos();

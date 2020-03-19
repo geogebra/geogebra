@@ -4,19 +4,10 @@ import java.util.Comparator;
 import java.util.TreeSet;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
-import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.MayHaveFocus;
-import org.geogebra.common.gui.SliderInput;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.common.plugin.EventType;
-import org.geogebra.web.html5.Browser;
 
 /**
  * Web implementation of AccessibilityManager.
@@ -185,50 +176,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void cancelAnchor() {
 		anchor = null;
-	}
-
-	@Override
-	public boolean handleTabExitGeos(boolean forward) {
-		return Browser.isiOS();
-	}
-
-	@Override
-	public String getAction(GeoElement sel) {
-		if (sel instanceof GeoButton || sel instanceof GeoBoolean) {
-			return sel.getCaption(StringTemplate.screenReader);
-		}
-		if (sel != null && sel.getScript(EventType.CLICK) != null) {
-			return ScreenReader.getAuralText(sel, new ScreenReaderBuilder(Browser.isMobile()));
-		}
-
-		return null;
-	}
-
-	/**
-	 *
-	 * @return the geo that is currently selected.
-	 */
-	public GeoElement getSelectedGeo() {
-		return AccessibilityManagerNoGui.getSelectedGeo(app);
-	}
-
-	@Override
-	public void sliderChange(double step, SliderInput input) {
-		if (input == SliderInput.ROTATE_Z) {
-			app.getEuclidianView3D().rememberOrigins();
-			app.getEuclidianView3D().shiftRotAboutZ(step);
-			app.getEuclidianView3D().repaintView();
-		}
-		if (input == SliderInput.TILT) {
-			app.getEuclidianView3D().rememberOrigins();
-			app.getEuclidianView3D().shiftRotAboutY(step);
-			app.getEuclidianView3D().repaintView();
-		}
-	}
-
-	@Override
-	public void onEmptyConstuction(boolean forward) {
-		focusFirstElement();
 	}
 
 	/**

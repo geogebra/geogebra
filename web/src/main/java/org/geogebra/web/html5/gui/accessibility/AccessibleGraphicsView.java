@@ -63,7 +63,7 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 	@Override
 	public void onValueChange(int index, double value) {
 		SliderInput input = sliderTypes.get(index);
-		app.getAccessibilityManager().sliderChange(value - getInitialValue(input), input);
+		sliderChange(value - getInitialValue(input), input);
 		sliders.get(index).getElement().focus();
 		view.updateValueText(sliders.get(index), value, "degrees");
 	}
@@ -80,6 +80,19 @@ public class AccessibleGraphicsView implements AccessibleWidget, HasSliders {
 	public void setFocus(boolean focus) {
 		if (sliders.size() > 0) {
 			sliders.get(0).setFocus(focus);
+		}
+	}
+
+	private void sliderChange(double step, SliderInput input) {
+		if (input == SliderInput.ROTATE_Z) {
+			app.getEuclidianView3D().rememberOrigins();
+			app.getEuclidianView3D().shiftRotAboutZ(step);
+			app.getEuclidianView3D().repaintView();
+		}
+		if (input == SliderInput.TILT) {
+			app.getEuclidianView3D().rememberOrigins();
+			app.getEuclidianView3D().shiftRotAboutY(step);
+			app.getEuclidianView3D().repaintView();
 		}
 	}
 
