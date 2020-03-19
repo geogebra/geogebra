@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
+import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -539,6 +540,7 @@ public class DrawInputBox extends CanvasDrawable {
 		updateBoxPosition();
 		AutoCompleteTextField tf = getTextField();
 
+		tf.setInputMode(needsNumberInput() ? InputMode.DECIMAL : InputMode.TEXT);
 		tf.setDrawTextField(this);
 		tf.setUsedForInputBox(getGeoInputBox());
 		tf.setVisible(true);
@@ -556,8 +558,11 @@ public class DrawInputBox extends CanvasDrawable {
 		updateStyle(tf);
 
 		tf.showPopupSymbolButton(false);
-
 		tf.prepareShowSymbolButton(geoInputBox.needsSymbolButton());
+	}
+
+	private boolean needsNumberInput() {
+		return geoInputBox.getLinkedGeo().isGeoNumeric();
 	}
 
 	/**

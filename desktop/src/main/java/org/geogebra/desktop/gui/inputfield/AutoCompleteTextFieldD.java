@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1105,4 +1106,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 		}
 	}
 
+	@Override
+	public void setInputMode(InputMode type) {
+		// not needed
+	}
 }

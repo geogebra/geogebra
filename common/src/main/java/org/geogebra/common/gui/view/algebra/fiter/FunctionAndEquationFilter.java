@@ -54,9 +54,7 @@ public class FunctionAndEquationFilter {
     }
 
     private boolean isAllowedFunctionOrEquation(GeoElementND element) {
-        boolean hasEquation = element instanceof EquationValue;
-        return hasEquation
-                && isParentAlgorithmAllowedFor(element)
+        return isParentAlgorithmAllowedFor(element)
                 && areParentAlgoInputsAllowedFor(element);
     }
 

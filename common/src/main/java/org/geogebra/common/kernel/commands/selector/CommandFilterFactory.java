@@ -99,10 +99,7 @@ public final class CommandFilterFactory {
 		commandNameFilter.addCommands(
 				// CAS specific command
 				Commands.Delete, Commands.Max,
-				Commands.Min, Commands.PerpendicularVector,
-				Commands.OrthogonalVector, Commands.Poisson,
-				Commands.UnitPerpendicularVector, Commands.UnitOrthogonalVector,
-				Commands.UnitVector,
+				Commands.Min, Commands.Poisson,
 				// Function Commands
 				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
 				Commands.Function, Commands.ImplicitCurve, Commands.IterationList,
@@ -178,7 +175,7 @@ public final class CommandFilterFactory {
 				Commands.Cylinder, Commands.Dodecahedron, Commands.Ends,
 				Commands.Height, Commands.Icosahedron,
 				Commands.InfiniteCone, Commands.InfiniteCylinder, Commands.IntersectConic,
-				Commands.Net, Commands.Octahedron, Commands.PerpendicularPlane,
+				Commands.Net, Commands.Octahedron,
 				Commands.Plane, Commands.PlaneBisector, Commands.Prism,
 				Commands.Pyramid, Commands.Side, Commands.Sphere,
 				Commands.Surface, Commands.Tetrahedron, Commands.Top,

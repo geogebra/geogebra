@@ -17,6 +17,7 @@ import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -330,6 +331,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setAuralText(String text) {
 		textField.getElement().setAttribute("aria-label", text);
+	}
+
+	@Override
+	public void setInputMode(InputMode mode) {
+		Element element = textField.getElement();
+		element.setAttribute("inputmode", mode.name().toLowerCase());
 	}
 
 	private void setupShowSymbolButton() {
