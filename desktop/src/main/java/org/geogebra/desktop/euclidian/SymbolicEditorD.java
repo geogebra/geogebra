@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 
@@ -42,6 +43,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 		applyChanges();
 		drawInputBox.setEditing(false);
 		box.setVisible(false);
+
+		view.repaintView();
 	}
 
 	@Override
@@ -86,6 +89,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 		view.getTextField().drawBounds(g, bgColor, 0, 0, box.getWidth(), (int) currentHeight);
 
 		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL, 0);
+		mathField.setForeground(GColorD.getAwtColor(geoInputBox.getObjectColor()));
 		box.paint(GGraphics2DD.getAwtGraphics(g));
 
 		g.restoreTransform();

@@ -443,8 +443,6 @@ public class DrawInputBox extends CanvasDrawable {
 		} else {
 			highlightLabel(g2, latexLabel);
 
-			g2.setPaint(geo.getObjectColor());
-
 			if (geo.isLabelVisible()) {
 				drawLabel(g2, getGeoInputBox(), labelDesc);
 			}
@@ -457,6 +455,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 				String text = getGeoInputBox().getText();
 				g2.setFont(textFont.deriveFont(GFont.PLAIN));
+				g2.setPaint(geo.getObjectColor());
 
 				drawText(g2, text);
 			}
