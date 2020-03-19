@@ -109,11 +109,11 @@ public class BaseUnitTest {
 
 	protected <T extends GeoElement> T addAvInput(String command) {
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, false);
-		return addAvInput(command, info);
+		return add(command, info);
 	}
 
 	/**
-	 * Use this method when you want to test the commands as if those were inserted in AV.
+	 * Use this method when you want to test the commands with a specific EvalInfo.
 	 *
 	 * @param command
 	 * 			algebra input to be processed
@@ -122,8 +122,7 @@ public class BaseUnitTest {
 	 * 			method.
 	 * @return resulting element
 	 */
-	protected <T extends GeoElement> T addAvInput(String command, EvalInfo info) {
-		App app = getApp();
+	protected <T extends GeoElement> T add(String command, EvalInfo info) {
 		GeoElementND[] geoElements =
 				getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(

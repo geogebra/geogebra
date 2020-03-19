@@ -20,7 +20,7 @@ public class SliderTest extends BaseUnitTest {
 
 	@Test
 	public void setShowExtendedAV() {
-		GeoNumeric slider = addAvInput("a = 1", info);
+		GeoNumeric slider = add("a = 1", info);
 		slider.initAlgebraSlider();
 		slider.setShowExtendedAV(false);
 		assertThat(slider.showInEuclidianView(), is(true));
