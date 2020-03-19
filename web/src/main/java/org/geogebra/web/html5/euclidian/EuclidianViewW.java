@@ -850,37 +850,6 @@ public class EuclidianViewW extends EuclidianView implements
 		addScreenReader();
 	}
 
-	/**
-	 * Used for comparing position in DOM (Document Object Model)
-	 * 
-	 * @param firstElement
-	 *            it is right if this comes first
-	 * @param secondElement
-	 *            it is right if this comes second
-	 * @return whether firstElement is really before secondElement
-	 */
-	public static native boolean compareDocumentPosition(
-			Element firstElement,
-			Element secondElement) /*-{
-		if (firstElement) {
-			if (secondElement) {
-				if (firstElement === secondElement) {
-					// let's interpret it as false result
-					return false;
-				}
-				if (firstElement.compareDocumentPosition(secondElement)
-						& $wnd.Node.DOCUMENT_POSITION_FOLLOWING) {
-					return true;
-				}
-				// if any of them contain the other, let us interpret
-				// as false result, and anyway, this shall not happen!
-				// but probably this is DOCUMENT_POSITION_PRECEDING:
-				return false;
-			}
-		}
-		return false;
-	}-*/;
-
 	private void registerKeyHandlers(Canvas canvas) {
 		if (canvas != null) {
 			canvas.addKeyDownHandler(this.appW.getGlobalKeyDispatcher());
