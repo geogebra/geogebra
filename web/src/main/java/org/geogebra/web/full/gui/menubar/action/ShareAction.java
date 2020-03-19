@@ -15,6 +15,7 @@ public class ShareAction extends DefaultMenuAction<Void> {
 		if (nativeShareSupported()) {
 			shareController.getBase64();
 		} else {
+			shareController.setAnchor(null);
 			shareController.share();
 		}
 	}
