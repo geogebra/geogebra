@@ -58,6 +58,8 @@ public class HeaderMow extends FlowPanel
 		content.addStyleName("content");
 		createCenter();
 		createRight();
+		new FocusableWidget(AccessibilityGroup.NOTES_TOOLBAR_HEADER, -1,
+				penPanelBtn, toolsPanelBtn, mediaPanelBtn, openCloseBtn).attachTo(appW);
 		add(content);
 	}
 
@@ -81,8 +83,6 @@ public class HeaderMow extends FlowPanel
 				"ToolCategory.Media");
 		mediaPanelBtn.addStyleName("flatButton");
 		TestHarness.setAttr(mediaPanelBtn, "mediaPanelButton");
-		new FocusableWidget(AccessibilityGroup.NOTES_TOOLBAR_HEADER, -1,
-				penPanelBtn, toolsPanelBtn, mediaPanelBtn).attachTo(appW);
 		center.add(penPanelBtn);
 		center.add(toolsPanelBtn);
 		center.add(mediaPanelBtn);

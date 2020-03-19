@@ -188,15 +188,21 @@
 		    width: 24px;
 		    height: 24px;
 		}
-	}
-	.mowOpenMenuButton.button-up{
-		opacity: 0.54;
-	}
-	.mowOpenMenuButton.button-up-hovering{
-		img {
-		  opacity: 1;
-		 }
-		 background-color: $mow_card_background_hover;
+
+		&:focus {
+			outline: #212121 5px auto;
+		}
+
+		&.button-up {
+			opacity: 0.54;
+		}
+
+		&.button-up-hovering {
+			img {
+				opacity: 1;
+			}
+			background-color: $mow_card_background_hover;
+		}
 	}
 
 	.mowMenubar {

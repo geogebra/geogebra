@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -40,6 +41,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -744,13 +746,12 @@ public class GeoGebraFrameFull
 				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
 				24, app);
 
-		final GeoGebraFrameW frame = app.getAppletFrame();
-
 		openMenuButton.addFastClickHandler(this);
 		openMenuButton.addDomHandler(this, KeyUpEvent.getType());
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
-		frame.add(openMenuButton);
+		new FocusableWidget(AccessibilityGroup.MENU, -1, openMenuButton).attachTo(app);
+		add(openMenuButton);
 	}
 
 	@Override

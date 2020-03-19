@@ -243,6 +243,9 @@ public class ToolbarMow extends FlowPanel
 				break;
 			}
 			appW.setMode(getCurrentPanel().getFirstMode());
+			penPanel.setAriaHidden(tab != TabIds.PEN);
+			toolsPanel.setAriaHidden(tab != TabIds.TOOLS);
+			mediaPanel.setAriaHidden(tab != TabIds.MEDIA);
 		}
 	}
 
@@ -292,11 +295,13 @@ public class ToolbarMow extends FlowPanel
 				MaterialDesignResources.INSTANCE.undo_border(), null, 24, appW);
 		btnUndo.addStyleName("flatButton");
 		btnUndo.addFastClickHandler(this);
+		new FocusableWidget(AccessibilityGroup.UNDO, -1, btnUndo).attachTo(appW);
 		btnRedo = new StandardButton(
 				MaterialDesignResources.INSTANCE.redo_border(), null, 24, appW);
 		btnRedo.addFastClickHandler(this);
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
+		new FocusableWidget(AccessibilityGroup.REDO, -1, btnRedo).attachTo(appW);
 		undoRedoPanel.add(btnUndo);
 		undoRedoPanel.add(btnRedo);
 	}
