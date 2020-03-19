@@ -919,7 +919,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/** change equation mode to explicit */
 	@Override
 	final public void setToExplicit() {
-		setModeWithImplicitEquationAsDefault(EQUATION_EXPLICIT);
+		setMode(EQUATION_EXPLICIT);
 	}
 
 	/** set equation mode to implicit */
@@ -935,7 +935,20 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	final public void setMode(int mode) {
-		if (isEquationFormEnforced()) {
+		setMode(mode, false);
+	}
+
+	/**
+	 * Sets the coord style
+	 *
+	 * @param mode
+	 *            new coord style
+	 *
+	 * @param force
+	 *            mode is forced
+	 */
+	public void setMode(int mode, boolean force) {
+		if (!force && isEquationFormEnforced()) {
 			toStringMode = cons.getApplication().getConfig().getEnforcedLineEquationForm();
 		} else {
 			setModeWithImplicitEquationAsDefault(mode);
