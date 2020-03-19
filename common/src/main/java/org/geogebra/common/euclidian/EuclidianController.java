@@ -9995,6 +9995,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// handle video/audio/embeded/text release (mow)
 		if (!app.isRightClick(event) && handleVideoEmbedReleased()) {
+			lastSelectionToolGeoToRemove = null;
 			return;
 		}
 
@@ -10136,7 +10137,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		final boolean alt = event.isAltDown();
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		PointerEventType type = event.getType();
-
+		view.setFocusedGroupGeoBoundingBox(null);
 		if (isDraggingOccuredBeyondThreshold()) {
 			if (shouldClearSelectionAfterMove(right)) {
 				clearSelectionsKeepLists(true, true);
