@@ -345,7 +345,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	@Override
 	public void deleteMaterial(Material material, final MaterialCallbackI cb) {
 		if (material.getType() == MaterialType.ggsTemplate) {
-			getDelegateApi().deleteMaterial(material, cb);
+			getMaterialRestAPI().deleteMaterial(material, cb);
 		} else {
 			performRequest(
 					DeleteRequest.getRequestElement(material).toJSONString(client), cb);
@@ -441,7 +441,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 			final String filename, String base64, final MaterialCallbackI cb,
 			MaterialType type) {
 		if (type == MaterialType.ggsTemplate) {
-			getDelegateApi().uploadMaterial(tubeID, visibility, filename, base64, cb, type);
+			getMaterialRestAPI().uploadMaterial(tubeID, visibility, filename, base64, cb, type);
 		} else {
 			uploadMaterial(tubeID, visibility, filename, base64, cb, type, null);
 		}
@@ -619,10 +619,10 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	@Override
 	public void getTemplateMaterials(MaterialCallbackI cb) {
-		getDelegateApi().getTemplateMaterials(cb);
+		getMaterialRestAPI().getTemplateMaterials(cb);
 	}
 
-	protected MaterialRestAPI getDelegateApi() {
+	protected MaterialRestAPI getMaterialRestAPI() {
 		// only in web for now
 		return null;
 	}

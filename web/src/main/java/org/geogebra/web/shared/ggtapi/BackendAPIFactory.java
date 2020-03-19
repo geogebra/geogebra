@@ -24,7 +24,6 @@ public class BackendAPIFactory {
 	private BackendAPI api = null;
 
 	/**
-	 *
 	 * @param app The application.
 	 */
 	public BackendAPIFactory(AppW app) {
@@ -33,7 +32,6 @@ public class BackendAPIFactory {
 	}
 
 	/**
-	 *
 	 * @return the backend API suitable for the applicaion.
 	 */
 	public BackendAPI get() {
@@ -50,8 +48,8 @@ public class BackendAPIFactory {
 	}
 
 	/**
-	 * Create and return a new correct MaterialRestApi object, based on
-	 * data-param-backendUrl
+	 * Create an appropriate MaterialRestApi
+	 * @return a MaterialRestApi based on the backend-url data-param
 	 */
 	public BackendAPI newMaterialRestAPI() {
 		String backendURL = articleElement.getParamBackendURL();

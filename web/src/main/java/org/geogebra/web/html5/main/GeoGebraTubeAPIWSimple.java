@@ -24,7 +24,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	// We are delegating some functionality to the material api,
 	// delegation should be extended, until we can completely get rid
 	// of tube and this class.
-	private MaterialRestAPI delegateApi;
+	private MaterialRestAPI materialRestAPI;
 	private ArticleElementInterface articleElement;
 
 	/**
@@ -77,18 +77,18 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	}
 
 	@Override
-	protected MaterialRestAPI getDelegateApi() {
-		if (delegateApi == null) {
+	protected MaterialRestAPI getMaterialRestAPI() {
+		if (materialRestAPI == null) {
 			String backendURL = articleElement.getParamBackendURL();
 
 			if (StringUtil.empty(backendURL)) {
-				delegateApi = new MaterialRestAPI(marvlUrl, new MarvlService());
+				materialRestAPI = new MaterialRestAPI(marvlUrl, new MarvlService());
 			} else {
-				delegateApi = new MaterialRestAPI(backendURL, new MowService());
+				materialRestAPI = new MaterialRestAPI(backendURL, new MowService());
 			}
 		}
 
-		delegateApi.setClient(client);
-		return delegateApi;
+		materialRestAPI.setClient(client);
+		return materialRestAPI;
 	}
 }
