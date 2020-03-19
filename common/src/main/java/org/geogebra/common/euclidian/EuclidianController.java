@@ -9557,7 +9557,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		app.updateSelection(hits.size() > 0);
 	}
 
-	protected void processSelectionRectangle(boolean alt, boolean isControlDown,
+	public void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
 		GRectangle oldRectangle = view.getSelectionRectangle();
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
