@@ -333,6 +333,11 @@ public class DrawInputBox extends CanvasDrawable {
 		return getPreferredHeight(geoInputBox.getText());
 	}
 
+	/**
+	 * @param text String to measure
+	 * @return the height of the given text using the
+	 * font settings of the input box
+	 */
 	public int getPreferredHeight(String text) {
 		int height;
 
