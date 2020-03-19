@@ -29,7 +29,6 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	private Button button;
 	private GeoElement geo;
 	private Label label;
-	private App app;
 	private Widget activeWidget;
 
 	/**
@@ -47,7 +46,6 @@ public class AccessibleGeoElement implements AccessibleWidget {
 		this.geo = geo;
 		this.label = factory.newLabel();
 		this.button = factory.newButton();
-		this.app = app;
 		update();
 		button.addClickHandler(new ClickHandler() {
 
