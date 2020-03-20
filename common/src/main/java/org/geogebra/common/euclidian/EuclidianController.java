@@ -9891,7 +9891,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			showDynamicStylebar();
 			DrawInlineText drawInlineText = (DrawInlineText) view.getDrawableFor(topGeo);
 			drawInlineText.toForeground(mouseLoc.x, mouseLoc.y);
-			view.setFocusedGroupGeoBoundingBox(drawInlineText.getBoundingBox());
+			maybeFocusGroupElement(topGeo);
 			drawInlineText.getBoundingBox().setFixed(true);
 			// Fix weird multiselect bug.
 			setResizedShape(null);
@@ -10152,20 +10152,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					selection.clearSelectedGeos(true, true);
 				}
 			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
-				if (lastSelectionPressResult == SelectionToolPressResult.EMPTY) {
-					clearSelections();
-				} else {
-					// select the geo that was clicked and set boundingbox
-					if (isMultiSelection() && !wasBoundingBoxHit
-							&& !event.isRightClick()
-							&& lastSelectionToolGeoToRemove != null) {
-						selection.clearSelectedGeos(false, false);
-						selection.addSelectedGeoWithGroup(lastSelectionToolGeoToRemove);
-						maybeFocusGroupElement(lastSelectionToolGeoToRemove);
-						view.repaintView();
-						lastSelectionToolGeoToRemove = null;
-					}
-				}
+				handleMowSelectionRelease(event.isRightClick());
 			}
 		}
 
@@ -10381,6 +10368,25 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		endOfWrapMouseReleased(hits, event);
 
 		draggingOccurredBeforeRelease = false;
+	}
+
+	protected void handleMowSelectionRelease(boolean rightClick) {
+		if (lastSelectionPressResult == SelectionToolPressResult.EMPTY) {
+			clearSelections();
+		} else {
+			// select the geo that was clicked and set boundingbox
+			if (isMultiSelection() && !wasBoundingBoxHit
+					&& !rightClick
+					&& lastSelectionToolGeoToRemove != null) {
+				selection.clearSelectedGeos(false, false);
+				selection.addSelectedGeoWithGroup(lastSelectionToolGeoToRemove);
+				maybeFocusGroupElement(lastSelectionToolGeoToRemove);
+				view.repaintView();
+				lastSelectionToolGeoToRemove = null;
+			} else {
+				selection.setFocusedGroupElement(null);
+			}
+		}
 	}
 
 	private void maybeFocusGroupElement(GeoElement geo) {
