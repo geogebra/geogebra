@@ -385,7 +385,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean showInEuclidianView() {
-		return hasValidIntervals() && isDrawable() && isDefined() && !Double.isInfinite(value);
+		return isDrawable && isDefined() && !Double.isInfinite(value);
 	}
 
 	@Override
@@ -1839,7 +1839,7 @@ public class GeoNumeric extends GeoElement
 			return;
 		}
 		SliderPosition old = sliderPos;
-		setEuclidianVisible(true);
+		setDrawable(true);
 		setEuclidianVisible(false);
 		sliderPos = old;
 
@@ -2092,6 +2092,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void removeSlider() {
 		setShowExtendedAV(false);
+		setDrawable(false);
 		intervalMax = null;
 		intervalMin = null;
 	}
