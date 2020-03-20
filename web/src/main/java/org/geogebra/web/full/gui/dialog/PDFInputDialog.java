@@ -119,15 +119,12 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	private void initGui() {
 		mainPanel = new FlowPanel();
+		mainPanel.addStyleName("pdfDialogContent");
 		// panel for pdf
 		pdfContainerPanel = new FlowPanel();
 		pdfContainerPanel.setStyleName("pdfContainer");
-		addFolderImage();
+		addFolderImageText();
 		addDropHandler(pdfContainerPanel.getElement());
-		clickOrDragText = new Label();
-		clickOrDragText.addStyleName("pdfDialogText");
-		clickOrDragText.addStyleName("clickOrDragText");
-		pdfContainerPanel.add(clickOrDragText);
 		pageLbl = new Label();
 		ofPageLbl = new Label();
 		// panel for buttons
@@ -144,17 +141,27 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		// style
 		addStyleName("GeoGebraPopup");
 		addStyleName("pdfDialog");
+		getContainerElement().addClassName("pdfDialogMainPanel");
+		getContainerElement().getFirstChildElement()
+				.addClassName("pdfDialogTable");
 		setGlassEnabled(true);
 		// only for testing here TODO remove me from here
 		// buildPdfContainer();
 		setLabels();
 	}
 
-	private void addFolderImage() {
+	private void addFolderImageText() {
+		FlowPanel imgTextPanel = new FlowPanel();
 		NoDragImage folderImg = new NoDragImage(
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), 96);
 		folderImg.addStyleName("folderImg");
-		pdfContainerPanel.add(folderImg);
+		imgTextPanel.addStyleName("imgTextElement");
+		clickOrDragText = new Label();
+		clickOrDragText.addStyleName("pdfDialogText");
+		clickOrDragText.addStyleName("clickOrDragText");
+		imgTextPanel.add(folderImg);
+		imgTextPanel.add(clickOrDragText);
+		pdfContainerPanel.add(imgTextPanel);
 	}
 
 	private native void addDropHandler(
@@ -526,7 +533,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	void buildErrorPanel() {
 		pdfContainerPanel.clear();
 		pdfContainerPanel.removeStyleName("withPdf");
-		addFolderImage();
+		addFolderImageText();
 		if (errorText == null) {
 			errorText = new Label();
 			errorText.addStyleName("pdfDialogText");

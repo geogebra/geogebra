@@ -706,22 +706,57 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
    }
 
   	.pdfDialog {
+  	    max-width: 474px;
+        max-height: 522px;
+        width: 80%;
+        height: 100%;
+
+        .pdfDialogMainPanel {
+            height: 100%;
+        }
+
+        .pdfDialogTable {
+            height: 100%;
+            width: 100%;
+        }
+
+        .dialogMiddle {
+            height: 100%;
+        }
+
+        .dialogMiddleCenterInner.dialogContent {
+            height: 100%;
+        }
+
+         .pdfDialogContent {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+         }
+
   		.pdfContainer {
-   			width: 450px;
-    		height: 400px;
-    		margin-right: 16px;
-    		border: 4px dashed $mow_pdf_dialog_border;
+  		    margin-right: 16px;
+            border: 4px dashed $mow_pdf_dialog_border;
+            border-radius: 8px;
+            flex-grow: 1;
 
     		&.withPdf {
     			border-color: transparent;
     		}
 		}
 
+		.imgTextElement {
+            justify-content: center;
+            height: 100%;
+            align-items: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
 		.folderImg {
-    		display: block;
     		margin-left: auto;
     		margin-right: auto;
-    		margin-top: 100px;
     		opacity: 0.54;
     	}
 
@@ -729,8 +764,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
     		margin-top: 20px;
     		text-align: center;
     		max-width: 190px;
-    		margin-left: auto;
-    		margin-right: auto;
 		}
 
 		.clickOrDragText {
@@ -832,6 +865,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.DialogButtonPanel {
+		    min-width: unset;
+            max-width: unset;
 
    			.button {
    				color: $mow_dark;
