@@ -9,16 +9,21 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Filters out the commands that are not enabled in the exam mode
  */
-public class ExamCommandFilter implements CommandArgumentFilter {
+public class ExamCommandFilter extends DefaultCommandArgumentFilter {
+
+	public ExamCommandFilter() {
+		super(Commands.SetFixed, Commands.CopyFreeObject);
+	}
 
     @Override
 	public void checkAllowed(Command command,
 			CommandProcessor commandProcessor) {
-		boolean setFixed = isCommand(command, Commands.SetFixed);
-		boolean copyFree = isCommand(command, Commands.CopyFreeObject);
-		if ((!setFixed && !copyFree) || commandProcessor == null) {
+		if (!check(command, commandProcessor)) {
 			return;
 		}
+		boolean setFixed = isCommand(command, Commands.SetFixed);
+		boolean copyFree = isCommand(command, Commands.CopyFreeObject);
+
 		GeoElement[] arguments = commandProcessor.resArgs(command);
 		if (arguments.length < 1) {
 			return;
@@ -30,9 +35,5 @@ public class ExamCommandFilter implements CommandArgumentFilter {
 		if (copyFree && (firstArgument instanceof EquationValue)) {
 			throw commandProcessor.argErr(command, firstArgument);
 		}
-    }
-
-	private static boolean isCommand(Command command, Commands cmdName) {
-		return cmdName.name().equals(command.getName());
     }
 }

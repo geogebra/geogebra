@@ -40,7 +40,7 @@ public class ExamEnvironment {
 	private boolean hasGraph = false;
 
 	private TimeFormatAdapter timeFormatter;
-	private CommandArgumentFilter nonExamCommandFilter;
+	private CommandArgumentFilter examCommandFilter = new ExamCommandFilter();
 	private static final CommandFilter noCASFilter = CommandFilterFactory
 			.createNoCasCommandFilter();
 
@@ -588,8 +588,7 @@ public class ExamEnvironment {
 	 * sets the exam command filter for the duration of the exam mode.
 	 */
 	private void enableExamCommandFilter() {
-		nonExamCommandFilter = commandDispatcher.getCommandArgumentFilter();
-		commandDispatcher.setCommandArgumentFilter(new ExamCommandFilter());
+		commandDispatcher.addCommandArgumentFilter(examCommandFilter);
 	}
 
 	/**
@@ -613,8 +612,7 @@ public class ExamEnvironment {
 	 * the CommandDispatcher
 	 */
 	private void disableExamCommandFilter() {
-		app.getKernel().getAlgebraProcessor().getCommandDispatcher()
-				.setCommandArgumentFilter(nonExamCommandFilter);
+		commandDispatcher.removeCommandArgumentFilter(examCommandFilter);
 	}
 
 	/**

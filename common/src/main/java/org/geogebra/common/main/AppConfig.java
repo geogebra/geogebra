@@ -5,6 +5,7 @@ import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
@@ -154,6 +155,11 @@ public interface AppConfig {
 	 * @return the Command filter for the app.
 	 */
 	CommandFilter getCommandFilter();
+
+	/**
+	 * @return the Command Argument filter for the app.
+	 */
+	CommandArgumentFilter getCommandArgumentFilter();
 
 	/**
 	 * @return whether the app should show the tools panel or not
