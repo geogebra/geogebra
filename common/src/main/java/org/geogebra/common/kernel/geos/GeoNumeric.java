@@ -112,8 +112,6 @@ public class GeoNumeric extends GeoElement
 
 	private int slopeTriangleSize = 1;
 
-	private boolean shouldShowInEuclidianView;
-
 	// for slider
 	private NumberValue intervalMin;
 	private NumberValue intervalMax;
@@ -387,9 +385,6 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean showInEuclidianView() {
-		if (shouldShowInEuclidianView) {
-			return true;
-		}
 		return hasValidIntervals() && isDrawable() && isDefined() && !Double.isInfinite(value);
 	}
 
@@ -2099,12 +2094,5 @@ public class GeoNumeric extends GeoElement
 		setShowExtendedAV(false);
 		intervalMax = null;
 		intervalMin = null;
-	}
-
-	/**
-	 * Ensures visibility on the euclidian view.
-	 */
-	public void ensureVisibilityOnEuclidianView() {
-		this.shouldShowInEuclidianView = true;
 	}
 }

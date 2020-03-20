@@ -548,7 +548,6 @@ public class AlgoDispatcher {
 	final public GeoNumeric slope(String label, GeoLine g, GeoFunction f) {
 		AlgoSlope algo = new AlgoSlope(cons, g, f);
 		GeoNumeric slope = algo.getSlope();
-		slope.ensureVisibilityOnEuclidianView();
 		slope.setLabel(label);
 		return slope;
 	}
