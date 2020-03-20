@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrinterMapBuilder;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -368,13 +369,20 @@ public class MyVecNode extends ValidExpression
 		return null;
 	}
 
-	@Override
-    public void setVectorPrintingMode() {
-        stringifier.setPrintingMode(VectorPrintingMode.Vector);
-    }
-
     @Override
 	public int getCoordinateSystem() {
 		return mode;
+	}
+
+	@Override
+	public void setLabel(String label) {
+		super.setLabel(label);
+		if (isVectorLabel(label)) {
+			stringifier.setPrintingMode(VectorPrintingMode.Vector);
+		}
+	}
+
+	private boolean isVectorLabel(String label) {
+		return label != null && StringUtil.isLowerCase(label.charAt(0));
 	}
 }

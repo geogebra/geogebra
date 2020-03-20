@@ -3562,4 +3562,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public String getEqualsWithSpace() {
 		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
 	}
+
+	public boolean isLatex() {
+		return stringType.equals(StringType.LATEX);
+	}
 }

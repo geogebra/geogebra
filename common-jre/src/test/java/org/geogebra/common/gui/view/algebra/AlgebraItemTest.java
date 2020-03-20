@@ -2,13 +2,17 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AlgebraItemTest extends BaseUnitTest {
+
+    private static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
     @Test
     public void shouldShowBothRows() {
@@ -46,5 +50,14 @@ public class AlgebraItemTest extends BaseUnitTest {
     private void checkShouldShowBothRowsForCircle(boolean shouldShowBothRows) {
         GeoElement circle = addAvInput("Circle((0,0), (1,1))");
         assertThat(AlgebraItem.shouldShowBothRows(circle), is(shouldShowBothRows));
+    }
+
+    @Test
+    public void getLatexString() {
+        addAvInput("a = ?");
+        GeoVector vector = addAvInput("v = (a, 1)");
+        String latexString =
+                AlgebraItem.getLatexString(vector, LATEX_MAX_EDIT_LENGHT, false);
+        assertThat(latexString, equalTo("v\\, \\text{undefined} "));
     }
 }
