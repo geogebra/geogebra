@@ -9557,7 +9557,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		app.updateSelection(hits.size() > 0);
 	}
 
-	protected void processSelectionRectangle(boolean alt, boolean isControlDown,
+	/**
+	 * Process Selection with Rectangle
+	 *
+	 * @param alt
+	 *            pressed alt button
+	 * @param isControlDown
+	 *            control button is down
+	 * @param shift
+	 * 	          pressed shift button
+	 */
+	public void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
 		GRectangle oldRectangle = view.getSelectionRectangle();
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
@@ -9630,8 +9640,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 
-			// Fit line makes sense only for more than 2 points (or one list)
-			if (hits.size() < 3) {
+			// Fit line is available from more than 1 point
+			if (hits.size() < 2) {
 				hits.clear();
 			} else {
 				removeParentPoints(hits);
