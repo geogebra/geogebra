@@ -1,24 +1,32 @@
 package org.geogebra.common.kernel.statistics;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+
+import java.util.ArrayList;
+
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.GeoElementFactory;
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
+import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 public class FitTests extends BaseUnitTest {
 
     @Test
     public void testFitListOfPointsAndListOfFunction() {
         getApp().setGraphingConfig();
-        GeoFunction fitCommand =
-                        addAvInput("Fit({(-2, 3), (0, 1), (2, 1), (2, 3)}, {x^2, x})");
+        GeoElement fitCommand =
+                addAvInput("Fit({(-2, 3), (0, 1), (2, 1), (2, 3)}, {x^2, x})");
         String outputString = fitCommand.toOutputValueString(StringTemplate.editorTemplate);
         assertThat(outputString, equalTo("0.625x² - 0.25x"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitCommand.getDescriptionMode());
@@ -146,4 +154,70 @@ public class FitTests extends BaseUnitTest {
         Assert.assertEquals(GeoLine.EQUATION_IMPLICIT_NON_CANONICAL, fitSin.getToStringMode());
     }
 
+    @Test
+    public void testEquationPropertyVisibilityGraphing() {
+        getApp().setGraphingConfig();
+        getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
+
+        GeoElement[] geos = getFitLineGeoElements();
+
+        for (GeoElement geo : geos) {
+            ObjectSettingsModel objectSettingsModel = asList(geo);
+
+            Assert.assertFalse(objectSettingsModel.hasEquationModeSetting());
+            Assert.assertTrue(LineEqnModel.forceInputForm(getApp(), geo));
+        }
+    }
+
+    @Test
+    public void testEquationPropertyVisibilityGeometry() {
+        getApp().setGeometryConfig();
+        getApp().getSettings().getCasSettings().setEnabled(getApp().getConfig().isCASEnabled());
+
+        GeoElement[] geos = getFitLineGeoElements();
+
+        for (GeoElement geo : geos) {
+            ObjectSettingsModel objectSettingsModel = asList(geo);
+
+            Assert.assertTrue(objectSettingsModel.hasEquationModeSetting());
+            Assert.assertFalse(LineEqnModel.forceInputForm(getApp(), geo));
+        }
+    }
+
+    @Test
+    public void testFitLineRectangleSelectionForTwoPoints() {
+        EuclidianView view =  getApp().getActiveEuclidianView();
+        EuclidianController controller = view.getEuclidianController();
+
+        addAvInput("A = (1,1)");
+        addAvInput("B = (2,1)");
+
+        Rectangle rectangle = new Rectangle();
+        rectangle.setRect(0, 0, view.getWidth(), view.getHeight());
+
+        controller.setMode(EuclidianConstants.MODE_FITLINE, null);
+        view.setSelectionRectangle(rectangle);
+        controller.processSelectionRectangle(false, false, false);
+
+        GeoElement geo = getConstruction().getLastGeoElement();
+        Assert.assertTrue(geo instanceof GeoLine);
+    }
+
+    private GeoElement[] getFitLineGeoElements() {
+        GeoElementFactory factory = getElementFactory();
+        GeoLine fitLine = (GeoLine) factory.create("FitLine({(-1,-1),(0,1),(1,1),(2,5)})");
+        GeoLine fitLineX = (GeoLine) factory.create("FitLineX({(-1,3),(2,1),(3,4),(5,3),(6,5)})");
+
+        return new GeoElement[]{fitLine, fitLineX};
+    }
+
+    private ObjectSettingsModel asList(GeoElement f) {
+        ArrayList<GeoElement> list = new ArrayList<>();
+        list.add(f);
+        ObjectSettingsModel model = new ObjectSettingsModel(getApp()) {
+        };
+        model.setGeoElement(f);
+        model.setGeoElementsList(list);
+        return model;
+    }
 }
