@@ -1,6 +1,7 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfigDefault;
@@ -39,6 +40,11 @@ public class AppConfigEvaluator extends AppConfigDefault {
 	@Override
 	public CommandFilter getCommandFilter() {
 		return CommandFilterFactory.createNoCasCommandFilter();
+	}
+
+	@Override
+	public CommandArgumentFilter getCommandArgumentFilter() {
+		return null;
 	}
 
 	@Override
