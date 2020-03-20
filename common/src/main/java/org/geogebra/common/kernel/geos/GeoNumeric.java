@@ -258,6 +258,7 @@ public class GeoNumeric extends GeoElement
 		// number with given min and max
 		if (isIndependent()) {
 			if (visible) { // TODO: Remove cast from GeoNumeric
+				isDrawable = true;
 				GeoNumeric num = kernel.getAlgoDispatcher()
 						.getDefaultNumber(isAngle());
 				// make sure the slider value is not fixed
