@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -206,6 +207,11 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public CommandFilter getCommandFilter() {
 		return CommandFilterFactory.createNoCasCommandFilter();
+	}
+
+	@Override
+	public CommandArgumentFilter getCommandArgumentFilter() {
+		return null;
 	}
 
 	@Override

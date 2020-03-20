@@ -17,6 +17,7 @@ label {
 <script type="text/javascript">
 
 	var params = {
+		"module": ["select", "web3d", "webSimple"],
 		"appName" : [ "select", "classic", "graphing", "geometry", "3d", "calculator", "notes", "evaluator", "suite"],
 		"perspective" : "text",
 		"showToolBar" : "boolean",
@@ -42,7 +43,7 @@ label {
 		"enable3D" : [ "boolean", true ],
 		"enableCAS" : [ "boolean", true ],
 		"useBrowserForJS" : [ "boolean", true ],
-		"screenshotGenerator" : "boolean",		
+		"screenshotGenerator" : "boolean",
 		"prerelease" : "boolean",
 		"borderColor" : [ "text", "#D3D3D3" ],
 		"capturingThreshold" : "number",
@@ -108,6 +109,7 @@ label {
 
 	function updateParams(article) {
 		var url = location.protocol+"//"+location.host+location.pathname+"?"
+		var reloadNeeded = false;
 		for (param in params) {
 			var val = decode(document.getElementById("set" + param), param);
 			onParamChange(param, val, article);
@@ -116,8 +118,15 @@ label {
 			} else if (val) {
 				url += param + "=" + val+ "&";
 			}
+			if (param == "module" && !window[val]) {
+				reloadNeeded = true;
+			}
 		}
-		history.pushState("","",url);
+		if (reloadNeeded) {
+			location.href = url;
+		} else {
+			history.pushState("", "", url);
+		}
 		renderGGBElement(article);
 	}
 	window.addEventListener("load", function() {
@@ -161,11 +170,17 @@ label {
 		article.className = "geogebraweb";
 		document.getElementById("parent").appendChild(article);
 		settings = location.search.substring(1).split("&");
+		var module = "web3d";
+
 		for (i in settings) {
 			var parts = settings[i].split("=");
 			if (params[parts[0]]) {
 				var val = decodeURIComponent(parts[1] || "true");
-				onParamChange(parts[0], val, article);
+				if (parts[0] == "module") {
+					module = val;
+				} else {
+					onParamChange(parts[0], val, article);
+				}
 				if (parts[1]) {
 					document.getElementById("set" + parts[0]).value = val;
 				} else {
@@ -177,7 +192,7 @@ label {
 		article.setAttribute("data-param-showLogging", "true");
 
 		var w3d = document.createElement("script");
-		w3d.src = "web3d/web3d.nocache.js";
+		w3d.src = module + "/" + module + ".nocache.js";
 		document.body.appendChild(w3d);
 		var resizer = document.getElementById("resizer");
 		var glasspane = document.getElementById("glasspane");
@@ -204,7 +219,6 @@ label {
 		});
 	});
 </script>
-<script src="web3d/js/webfont.js?v=1.15"></script>
 </head>
 <body>
 	<div id="settings" style="position: absolute; right: 0; top: 0;max-height:100%;overflow-y:auto;z-index:1000;background-color:rgba(255,255,255,0.9)"></div>
