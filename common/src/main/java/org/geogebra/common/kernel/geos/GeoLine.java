@@ -80,9 +80,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	// modes
 	/** implicit equation */
-	public static final int EQUATION_IMPLICIT = 0;
+	public static final int EQUATION_IMPLICIT = 0; // a x + b y = c
 	/** explicit equation */
-	public static final int EQUATION_EXPLICIT = 1;
+	public static final int EQUATION_EXPLICIT = 1; // y = m x + b
 	/** parametric equation */
 	public static final int PARAMETRIC = 2;
 	/** non-canonical implicit equation */
@@ -935,7 +935,20 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	final public void setMode(int mode) {
-		if (isEquationFormEnforced()) {
+		setMode(mode, false);
+	}
+
+	/**
+	 * Sets the coord style
+	 *
+	 * @param mode
+	 *            new coord style
+	 *
+	 * @param force
+	 *            mode is forced
+	 */
+	public void setMode(int mode, boolean force) {
+		if (!force && isEquationFormEnforced()) {
 			toStringMode = cons.getApplication().getConfig().getEnforcedLineEquationForm();
 		} else {
 			setModeWithImplicitEquationAsDefault(mode);
