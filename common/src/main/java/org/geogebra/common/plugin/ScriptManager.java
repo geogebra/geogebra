@@ -567,7 +567,8 @@ public abstract class ScriptManager implements EventListener {
 			GeoElement oldGeo = entry.getKey();
 			GeoElement newGeo = app.getKernel().lookupLabel(oldGeo.getLabelSimple());
 			if (newGeo != null) {
-				map.put(newGeo, listenerMap.get(oldGeo));
+				map.remove(oldGeo);
+				map.put(newGeo, entry.getValue());
 			}
 		}
 		return map;
