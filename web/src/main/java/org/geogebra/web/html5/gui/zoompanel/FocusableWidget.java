@@ -30,7 +30,11 @@ public class FocusableWidget implements MayHaveFocus {
 		if (btn.isVisible() && btn.isAttached()
 				&& !"true".equals(btn.getElement().getAttribute("aria-hidden"))
 				&& !btn.getElement().hasClassName("hideButton")) {
-			btn.getElement().focus();
+			if (reverse) {
+				btns[btns.length -1].getElement().focus();
+			} else {
+				btn.getElement().focus();
+			}
 			return true;
 		}
 
