@@ -777,6 +777,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.loadText {
 			font-size: 12px;
+			margin-left: auto;
+            margin-right: auto;
 		}
 
 		.pdfPreview {
@@ -890,12 +892,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.progressBar {
-			margin-top: 192px;
 			margin-left: auto;
 			margin-right: auto;
 			background: $mow_light;
 			height: 4px;
-			width: 300px;
+			max-width: 300px;
+			width: 80%;
 
 			div {
 				background: $mow_dark;

@@ -519,6 +519,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private void buildLoadingPanel() {
 		pdfContainerPanel.clear();
 		pdfContainerPanel.removeStyleName("withPdf");
+		imgTextPanel = new FlowPanel();
+		imgTextPanel.addStyleName("imgTextElement");
 		progressBar = new ProgressBar();
 		pdfContainerPanel.add(progressBar);
 		if (loadText == null) {
@@ -527,7 +529,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 			loadText.addStyleName("loadText");
 			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
 		}
-		pdfContainerPanel.add(loadText);
+		imgTextPanel.add(progressBar);
+		imgTextPanel.add(loadText);
+		pdfContainerPanel.add(imgTextPanel);
 	}
 
 	/**
