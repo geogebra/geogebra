@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main.video;
 
-import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.euclidian.draw.DrawVideo;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -21,26 +21,16 @@ public abstract class VideoPlayer extends AbstractVideoPlayer {
 	 * @param id
 	 *            The id of the player frame.
 	 */
-	VideoPlayer(GeoVideo video, int id) {
-		super(video, id);
-		createPlayer();
-	}
-
-	private void createPlayer() {
+	VideoPlayer(DrawVideo video, int id) {
+		super(video);
 		createGUI();
-		stylePlayer();
-		initPlayerAPI();
+		stylePlayer(id);
 	}
 
 	/**
 	 * Build the GUI here
 	 */
 	protected abstract void createGUI();
-
-	/**
-	 * Init player specific stuff here.
-	 */
-	protected abstract void initPlayerAPI();
 
 	/**
 	 * Updates the player based on video object.
@@ -61,7 +51,7 @@ public abstract class VideoPlayer extends AbstractVideoPlayer {
 		} else {
 			asWidget().removeStyleName("background");
 		}
-		video.getKernel().getApplication().getActiveEuclidianView().repaintView();
+		video.getView().repaintView();
 	}
 
 	/**

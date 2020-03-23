@@ -55,11 +55,6 @@ public class AppWsimple extends AppW {
 		// TODO: EuclidianSimplePanelW
 		this.euclidianViewPanel = new EuclidianSimplePanelW(this);
 
-		this.canvas = this.euclidianViewPanel.getCanvas();
-		canvas.setWidth("1px");
-		canvas.setHeight("1px");
-		canvas.setCoordinateSpaceHeight(1);
-		canvas.setCoordinateSpaceWidth(1);
 		initCoreObjects();
 		setUndoActive(undoActive);
 		afterCoreObjectsInited();

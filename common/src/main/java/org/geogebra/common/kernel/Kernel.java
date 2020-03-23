@@ -1,8 +1,16 @@
 package org.geogebra.common.kernel;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.TreeSet;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -73,6 +81,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -88,13 +97,7 @@ import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.TreeSet;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Provides methods for computation
@@ -4433,11 +4436,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		clearJustCreatedGeosInViews();
 		getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().storeVideos();
+		VideoManager videoManager = getApplication().getVideoManager();
+		if (videoManager != null) {
+			videoManager.storeVideos();
 		}
-		if (getApplication().getEmbedManager() != null) {
-			getApplication().getEmbedManager().storeEmbeds();
+		EmbedManager embedManager = getApplication().getEmbedManager();
+		if (embedManager != null) {
+			embedManager.storeEmbeds();
 		}
 		app.getActiveEuclidianView().resetInlineTexts();
 	}

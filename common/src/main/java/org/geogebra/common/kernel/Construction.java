@@ -2,6 +2,7 @@ package org.geogebra.common.kernel;
 
 import com.himamis.retex.editor.share.input.Character;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
@@ -197,6 +198,8 @@ public class Construction {
 
 	private ArrayList<Group> groups;
 
+	private LayerManager layerManager;
+
 	/**
 	 * Creates a new Construction.
 	 * 
@@ -229,6 +232,8 @@ public class Construction {
 		geoSetLabelOrder = new TreeSet<>(new LabelComparator());
 		geoSetsTypeMap = new HashMap<>();
 		euclidianViewCE = new ArrayList<>();
+
+		layerManager = new LayerManager();
 
 		if (parentConstruction != null) {
 			consDefaults = parentConstruction.getConstructionDefaults();
@@ -929,7 +934,8 @@ public class Construction {
 		int pos = ceList.indexOf(ce);
 		if (pos == -1) {
 			return;
-		} else if (pos <= step) {
+		}
+		if (pos <= step) {
 			ceList.remove(ce);
 			ce.setConstructionIndex(-1);
 			--step;
@@ -2009,6 +2015,10 @@ public class Construction {
 		geoSetWithCasCells.add(geo);
 		geoSetLabelOrder.add(geo);
 
+		if (getApplication().isWhiteboardActive()) {
+			layerManager.addGeo(geo);
+		}
+
 		// get ordered type set
 		GeoClass type = geo.getGeoClassType();
 		TreeSet<GeoElement> typeSet = geoSetsTypeMap.get(type);
@@ -2062,19 +2072,16 @@ public class Construction {
 		geoSetWithCasCells.remove(geo);
 		geoSetLabelOrder.remove(geo);
 
+		if (getApplication().isWhiteboardActive()) {
+			layerManager.removeGeo(geo);
+		}
+
 		// set ordered type set
 		GeoClass type = geo.getGeoClassType();
 		TreeSet<GeoElement> typeSet = geoSetsTypeMap.get(type);
 		if (typeSet != null) {
 			typeSet.remove(geo);
 		}
-
-		/*
-		 * Application.debug("*** geoSet order (remove " + geo + ") ***");
-		 * Iterator it = geoSet.iterator(); int i = 0; while (it.hasNext()) {
-		 * GeoElement g = (GeoElement) it.next();
-		 * Application.debug(g.getConstructionIndex() + ": " + g); }
-		 */
 	}
 
 	/**
@@ -3051,6 +3058,8 @@ public class Construction {
 		geoSetWithCasCells.clear();
 		geoSetLabelOrder.clear();
 
+		layerManager.clear();
+
 		geoSetsTypeMap.clear();
 		euclidianViewCE.clear();
 
@@ -3688,5 +3697,9 @@ public class Construction {
 	public void createGroup(ArrayList<GeoElement> geos) {
 		Group group = new Group(geos);
 		addGroupToGroupList(group);
+	}
+
+	public LayerManager getLayerManager() {
+		return layerManager;
 	}
 }

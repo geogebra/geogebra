@@ -13,6 +13,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 
@@ -142,14 +143,17 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	@Override
-	public void toBackground() {
-		editor.deselect();
-		editor.getWidget().addStyleName(INVISIBLE);
-		geo.updateRepaint();
+	public void setBackground(boolean b) {
+		Dom.toggleClass(editor.getWidget(), INVISIBLE, b);
 	}
 
 	@Override
-	public void toForeground(int x, int y) {
+	public boolean isBackground() {
+		return editor.getWidget().getElement().hasClassName(INVISIBLE);
+	}
+
+	@Override
+	public void setCursor(int x, int y) {
 		editor.getWidget().removeStyleName(INVISIBLE);
 		editor.focus(x, y);
 	}

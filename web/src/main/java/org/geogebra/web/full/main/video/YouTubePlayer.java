@@ -1,12 +1,15 @@
 package org.geogebra.web.full.main.video;
 
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.html5.util.PersistableFrame;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Widget;
 
 public class YouTubePlayer extends VideoPlayer {
 
+	private static final String SCRIPT_ID = "youtube-iframe";
 	private PersistableFrame frame;
 
 	/**
@@ -17,24 +20,22 @@ public class YouTubePlayer extends VideoPlayer {
 	 * @param id
 	 *            The id of the player frame.
 	 */
-	YouTubePlayer(GeoVideo video, int id) {
+	YouTubePlayer(DrawVideo video, int id) {
 		super(video, id);
-	}
-
-	@Override
-	protected void initPlayerAPI() {
-		loadYouTubeApi();
+		if (DOM.getElementById(SCRIPT_ID) == null) {
+			loadYouTubeApi(SCRIPT_ID);
+		}
 	}
 
 	@Override
 	protected void createGUI() {
-		frame = new PersistableFrame(video.getEmbeddedUrl());
+		frame = new PersistableFrame(video.getVideo().getEmbeddedUrl());
 		frame.getElement().setAttribute("allowfullscreen", "1");
 	}
 
-	private static native void loadYouTubeApi() /*-{
+	private static native void loadYouTubeApi(String scriptId) /*-{
 		var tag = document.createElement('script');
-		tag.id = 'youtube-iframe';
+		tag.id = scriptId;
 		tag.src = 'https://www.youtube.com/iframe_api';
 		var firstScriptTag = $doc.getElementsByTagName('script')[0];
 		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);

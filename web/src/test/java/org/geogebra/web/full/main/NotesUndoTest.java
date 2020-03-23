@@ -368,6 +368,7 @@ public class NotesUndoTest {
 	}
 
 	private static void slideShouldHaveObjects(int slide, int expectedCount) {
+		app.getPageController().refreshSlide(slide);
 		String xml = app.getPageController().getSlide(slide)
 				.get("geogebra.xml");
 		int start = 0;

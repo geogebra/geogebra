@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -63,8 +65,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
-
-import java.util.ArrayList;
 
 public class DialogManagerW extends DialogManager
 		implements LoadingApplication {
@@ -306,14 +306,14 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showAudioInputDialog() {
-		this.audioInputDialog = new AudioInputDialog((AppW) app);
+		this.audioInputDialog = new AudioInputDialog((AppWFull) app);
 		audioInputDialog.center();
 		audioInputDialog.show();
 	}
 
 	@Override
 	public void showEmbedDialog() {
-		EmbedInputDialog embedDialog = new EmbedInputDialog((AppW) app,
+		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app,
 				app.getLoginOperation().getGeoGebraTubeAPI().getURLChecker());
 		embedDialog.center();
 		embedDialog.show();
@@ -335,7 +335,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showVideoInputDialog() {
-		VideoInputDialog videoInputDialog = new VideoInputDialog((AppW) app);
+		VideoInputDialog videoInputDialog = new VideoInputDialog((AppWFull) app);
 		videoInputDialog.center();
 		videoInputDialog.show();
 	}

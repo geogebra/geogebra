@@ -37,6 +37,7 @@ import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawSlider;
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
@@ -108,6 +109,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -411,6 +413,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private GeoInlineText lastInlineText;
 
+	private GeoPriorityComparator priorityComparator;
+
 	/**
 	 * state for selection tool over press/release
 	 */
@@ -439,6 +443,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		this.app = app;
 		this.selection = app.getSelectionManager();
 		this.localization = app.getLocalization();
+		this.priorityComparator = app.getGeoPriorityComparator();
 		createCompanions();
 	}
 
@@ -683,26 +688,29 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		if (ms == ModeSetter.TOOLBAR) {
+			EmbedManager embedManager = app.getEmbedManager();
 			if (app.getGuiManager() != null) {
 				switch (newMode) {
 				case EuclidianConstants.MODE_CAMERA:
 					app.getGuiManager().loadWebcam();
 					return;
-					
+
 				case EuclidianConstants.MODE_AUDIO:
 					getDialogManager().showAudioInputDialog();
 					break;
-					
+
 				case EuclidianConstants.MODE_VIDEO:
 					getDialogManager().showVideoInputDialog();
 					break;
-					
+
 				case EuclidianConstants.MODE_PDF:
 					getDialogManager().showPDFInputDialog();
 					break;
 
 				case EuclidianConstants.MODE_GRASPABLE_MATH:
-					app.getEmbedManager().openGraspableMTool();
+					if (embedManager != null) {
+						embedManager.openGraspableMTool();
+					}
 					break;
 
 				case EuclidianConstants.MODE_EXTENSION:
@@ -714,10 +722,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}	
 			}
 
-			if (app.getEmbedManager() != null
+			if (embedManager != null
 					&& (newMode == EuclidianConstants.MODE_GRAPHING
 					|| newMode == EuclidianConstants.MODE_CAS)) {
-					setUpEmbedManager(newMode);
+					setUpEmbedManager(embedManager, newMode);
 			}
 
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
@@ -759,13 +767,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		kernel.notifyRepaint();
 	}
 
-	private void setUpEmbedManager(int mode) {
+	private void setUpEmbedManager(EmbedManager embedManager, int mode) {
 		final GeoEmbed ge = new GeoEmbed(kernel.getConstruction());
 		if (mode == EuclidianConstants.MODE_CAS) {
 			ge.setAppName("cas");
 		}
 		ge.initPosition(view);
-		app.getEmbedManager().initAppEmbed(ge);
+		embedManager.initAppEmbed(ge);
 		ge.setLabel(null);
 		app.storeUndoInfo();
 		app.invokeLater(new Runnable() {
@@ -1464,7 +1472,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			for (GeoElement geo : geos) {
 				// other not drawn before = other is on top
-				if (!geo.drawBefore(ret, true)) {
+				if (priorityComparator.compare(geo, ret, true) > 0) {
 					ret = geo;
 				}
 			}
@@ -6289,7 +6297,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		inlineText.setLabel(null);
 		selectAndShowBoundingBox(inlineText);
-		((DrawInlineText) view.getDrawableFor(inlineText)).toForeground(0, 0);
+		((DrawInlineText) view.getDrawableFor(inlineText)).setCursor(0, 0);
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {
@@ -7880,15 +7888,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().backgroundAll();
 		}
-		if (app.getEmbedManager() != null) {
-			app.getEmbedManager().backgroundAll();
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.backgroundAll();
+			view.repaintView();
 		}
 		if (app.getMaskWidgets() != null) {
 			app.getMaskWidgets().clearMasks();
 		}
 		for (Drawable dr : view.allDrawableList) {
 			if (dr instanceof DrawInlineText) {
-				((DrawInlineText) dr).toBackground();
+				((DrawInlineText) dr).setBackground(true);
 			}
 		}
 	}
@@ -9179,10 +9189,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (popupJustClosed) {
 			popupJustClosed = false;
 		} else if (penMode(mode)) {
-			setViewHits(event.getType());
-			hits = view.getHits();
-			hits.removeAllButImages();
-			getPen().handleMousePressedForPenMode(event, hits);
+			getPen().handleMousePressedForPenMode(event);
 			return;
 		}
 		// check if side of bounding box was hit
@@ -9202,7 +9209,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// clear selection to be able to drag created shape with shape
 				// tool
 				selection.clearSelectedGeos();
-				view.setDefaultShapeStyle();
 				getShapeMode().handleMousePressedForShapeMode(event);
 			} else {
 				if (d != null && view.getBoundingBox() != null
@@ -9222,7 +9228,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						mode = EuclidianConstants.MODE_MOVE;
 					} else {
 						selection.clearSelectedGeos();
-						view.setDefaultShapeStyle();
 						getShapeMode().handleMousePressedForShapeMode(event);
 					}
 				} else if (selection.getSelectedGeos().size() == 1
@@ -9238,7 +9243,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				// shape hit but not selected
 				} else {
 					selection.clearSelectedGeos();
-					view.setDefaultShapeStyle();
 					getShapeMode().handleMousePressedForShapeMode(event);
 				}
 			}
@@ -9368,27 +9372,31 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GeoElement topHit = view.getHits().get(view.getHits().size() - 1);
 
 		if (topHit instanceof GeoVideo) {
-			if (videoHasError((GeoVideo) topHit)) {
+			DrawVideo drawVideo = (DrawVideo) view.getDrawableFor(topHit);
+			if (videoHasError(drawVideo)) {
 				return false;
 			}
 
 			selectAndShowBoundingBox(topHit);
 			maybeFocusGroupElement(topHit);
 			app.getVideoManager().play((GeoVideo) topHit);
+
+			app.getVideoManager().play(drawVideo);
 			return true;
 		}
-
-		if (topHit instanceof GeoEmbed) {
+		EmbedManager embedManager = app.getEmbedManager();
+		if (topHit instanceof GeoEmbed && embedManager != null) {
 			selectAndShowBoundingBox(topHit);
 			maybeFocusGroupElement(topHit);
 			app.getEmbedManager().play((GeoEmbed) topHit);
+			embedManager.play((GeoEmbed) topHit);
 			return true;
 		}
 
 		return false;
 	}
 
-	private boolean videoHasError(GeoVideo video) {
+	private boolean videoHasError(DrawVideo video) {
 		return app.getVideoManager().isPlayerOffline(video);
 	}
 
@@ -9893,6 +9901,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			drawInlineText.toForeground(mouseLoc.x, mouseLoc.y);
 			maybeFocusGroupElement(topGeo);
 			drawInlineText.getBoundingBox().setFixed(true);
+			((DrawInlineText) view.getDrawableFor(topGeo)).setCursor(mouseLoc.x, mouseLoc.y);
+
 			// Fix weird multiselect bug.
 			setResizedShape(null);
 
@@ -9903,7 +9913,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			String hyperlinkURL = drInlineText.urlByCoordinate(mouseLoc.x, mouseLoc.y);
 			if (!StringUtil.emptyOrZero(hyperlinkURL) && !draggingOccured) {
 				showDynamicStylebar();
-				drInlineText.toForeground(mouseLoc.x, mouseLoc.y);
+				drInlineText.setCursor(mouseLoc.x, mouseLoc.y);
 				app.showURLinBrowser(hyperlinkURL);
 				return true;
 			}

@@ -60,4 +60,9 @@ public interface GGraphics2DWI extends GGraphics2D {
 	 */
 	boolean isAttached();
 
+	int embed();
+
+	void resetLayer();
+
+	void setPreviewLayer();
 }

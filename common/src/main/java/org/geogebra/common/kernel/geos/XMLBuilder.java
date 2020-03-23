@@ -124,9 +124,14 @@ public class XMLBuilder {
 		// don't remove layer 0 information
 		// we always need it in case an earlier element has higher layer eg 1
 		if (isDrawable) {
-			sb.append("\t<layer ");
-			sb.append("val=\"" + geo.getLayer() + "\"");
-			sb.append("/>\n");
+			sb.append("\t<layer val=\"");
+			sb.append(geo.getLayer());
+			sb.append("\"/>\n");
+			if (geo.getOrdering() != 0) {
+				sb.append("\t<ordering val=\"");
+				sb.append(geo.getOrdering());
+				sb.append("\"/>\n");
+			}
 		}
 
 		if (geo.isDefaultGeo()) {

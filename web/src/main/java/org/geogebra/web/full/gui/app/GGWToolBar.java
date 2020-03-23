@@ -996,7 +996,7 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_graphing_32();
 
 		case EuclidianConstants.MODE_EXTENSION:
-			return resourceBundle.mode_extension();
+			return ToolbarSvgResourcesSync.INSTANCE.mode_extension();
 
 		case EuclidianConstants.MODE_PDF:
 			return resourceBundle.mode_pdf_32();

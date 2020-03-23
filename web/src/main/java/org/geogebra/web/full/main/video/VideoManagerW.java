@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
@@ -16,9 +17,9 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.MyImageW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ErrorEvent;
 import com.google.gwt.event.dom.client.ErrorHandler;
@@ -42,7 +43,7 @@ public class VideoManagerW implements VideoManager {
 	 */
 	private boolean previewOnly = false;
 
-	private Map<GeoVideo, AbstractVideoPlayer> players = new HashMap<>();
+	private Map<DrawVideo, AbstractVideoPlayer> players = new HashMap<>();
 	private ArrayList<AbstractVideoPlayer> cache = new ArrayList<>();
 
 	public VideoManagerW(AppWFull app) {
@@ -50,27 +51,19 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void loadGeoVideo(GeoVideo geo) {
+	public void loadGeoVideo(DrawVideo geo) {
 		addPlayer(geo);
 		updatePlayer(geo);
 	}
 
 	@Override
-	public void play(GeoVideo video) {
+	public void play(DrawVideo video) {
 		if (video == null) {
 			return;
 		}
 
 		playerOf(video).setBackground(false);
 		app.getMaskWidgets().masksToForeground();
-	}
-
-	@Override
-	public void background(GeoVideo video) {
-		if (video == null || !hasPlayer(video)) {
-			return;
-		}
-		playerOf(video).setBackground(true);
 	}
 
 	@Override
@@ -110,11 +103,11 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void addPlayer(final GeoVideo video) {
+	public void addPlayer(final DrawVideo video) {
 		// use int instead of iterator to prevent concurrent access
 		for (int i = 0; i < cache.size(); i++) {
 			AbstractVideoPlayer other = cache.get(i);
-			if (other.matches(video)) {
+			if (other.matches(video.getVideo())) {
 				players.put(video, other);
 				other.video = video;
 				other.asWidget().setVisible(true);
@@ -123,14 +116,14 @@ public class VideoManagerW implements VideoManager {
 			}
 		}
 
-		final AbstractVideoPlayer player = !video.isOnline()
+		final AbstractVideoPlayer player = !isOnline()
 				? createPlayerOffline(video, players.size())
 				: createPlayer(video, players.size()) ;
 
 		addPlayerToFrame(video, player);
 	}
 
-	private void addPlayerToFrame(GeoVideo video, AbstractVideoPlayer player) {
+	private void addPlayerToFrame(DrawVideo video, AbstractVideoPlayer player) {
 		if (player == null) {
 			return;
 		}
@@ -142,12 +135,12 @@ public class VideoManagerW implements VideoManager {
 		((EuclidianDockPanelW) panel).getEuclidianPanel().add(player);
 	}
 
-	private AbstractVideoPlayer createPlayerOffline(GeoVideo video, int id) {
+	private AbstractVideoPlayer createPlayerOffline(DrawVideo video, int id) {
 		return new VideoOffline(video, id);
 	}
 
-	private AbstractVideoPlayer createPlayer(GeoVideo video, int id) {
-		switch (video.getFormat()) {
+	private AbstractVideoPlayer createPlayer(DrawVideo video, int id) {
+		switch (video.getVideo().getFormat()) {
 		case VIDEO_YOUTUBE:
 			return new YouTubePlayer(video, id);
 		case VIDEO_HTML5:
@@ -162,7 +155,7 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void removePlayer(final GeoVideo video) {
+	public void removePlayer(final DrawVideo video) {
 		if (!hasPlayer(video)) {
 			return;
 		}
@@ -171,17 +164,17 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public boolean hasPlayer(GeoVideo video) {
+	public boolean hasPlayer(DrawVideo video) {
 		return players.containsKey(video);
 	}
 
-	private AbstractVideoPlayer playerOf(GeoVideo video) {
+	private AbstractVideoPlayer playerOf(DrawVideo video) {
 		return players.get(video);
 	}
 
 	@Override
-	public void updatePlayer(GeoVideo video) {
-		if (!hasPlayer(video) || !video.hasChanged()) {
+	public void updatePlayer(DrawVideo video) {
+		if (!hasPlayer(video) || !video.getVideo().hasChanged()) {
 			return;
 		}
 		playerOf(video).update();
@@ -212,26 +205,14 @@ public class VideoManagerW implements VideoManager {
 		players.clear();
 	}
 
-	@Override
-	public boolean isOnline(GeoVideo video) {
-		return ((AppW) video.getKernel().getApplication()).getNetworkOperation().isOnline();
+	public boolean isOnline() {
+		return app.getNetworkOperation().isOnline();
 	}
 
 	@Override
 	public void backgroundAll() {
-		if (players.isEmpty()) {
-			return;
-		}
-		App app = null;
 		for (AbstractVideoPlayer player : players.values()) {
-			background(player.getVideo());
-			if (app == null) {
-				app = player.getVideo().getKernel().getApplication();
-			}
-		}
-
-		if (app != null) {
-			app.getActiveEuclidianView().repaintView();
+			player.setBackground(true);
 		}
 	}
 
@@ -259,14 +240,18 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void onError(GeoVideo video) {
+	public void onError(DrawVideo video) {
 		removePlayer(video);
 		AbstractVideoPlayer offlinePlayer = createPlayerOffline(video, players.size() + 1);
 		addPlayerToFrame(video, offlinePlayer);
 	}
 
 	@Override
-	public boolean isPlayerOffline(GeoVideo video) {
+	public boolean isPlayerOffline(DrawVideo video) {
 		return playerOf(video).isOffline();
+	}
+
+	public Element getElement(DrawVideo drawable) {
+		return playerOf(drawable).asWidget().getElement();
 	}
 }
