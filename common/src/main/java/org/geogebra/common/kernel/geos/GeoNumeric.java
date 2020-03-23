@@ -258,6 +258,7 @@ public class GeoNumeric extends GeoElement
 		// number with given min and max
 		if (isIndependent()) {
 			if (visible) { // TODO: Remove cast from GeoNumeric
+				isDrawable = true;
 				GeoNumeric num = kernel.getAlgoDispatcher()
 						.getDefaultNumber(isAngle());
 				// make sure the slider value is not fixed
@@ -385,27 +386,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean showInEuclidianView() {
-		if (!showExtendedAV || !isDrawable() || !isDefined() || Double.isInfinite(value)) {
-			return false;
-		}
-
-		if (intervalMin == null) {
-			return true;
-		}
-
-		if (intervalMax == null) {
-			return true;
-		}
-
-		if (!isIntervalMinActive()) {
-			return false;
-		}
-
-		if (!isIntervalMaxActive()) {
-			return false;
-		}
-
-		return (getIntervalMin() < getIntervalMax());
+		return isDrawable && isDefined() && !Double.isInfinite(value);
 	}
 
 	@Override
@@ -786,7 +767,7 @@ public class GeoNumeric extends GeoElement
 	private boolean hasValidIntervals() {
 		return isIntervalMinActive()
 				&& isIntervalMaxActive()
-				&& getIntervalMin() <= getIntervalMax();
+				&& getIntervalMin() < getIntervalMax();
 	}
 
 	@Override
@@ -1859,7 +1840,7 @@ public class GeoNumeric extends GeoElement
 			return;
 		}
 		SliderPosition old = sliderPos;
-		setEuclidianVisible(true);
+		setDrawable(true);
 		setEuclidianVisible(false);
 		sliderPos = old;
 
@@ -2097,5 +2078,23 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public boolean showLineProperties() {
 		return isDrawable() && !isSlider();
+	}
+
+	/**
+	 * Creates slider.
+	 */
+	public void createSlider() {
+		setShowExtendedAV(true);
+		initAlgebraSlider();
+	}
+
+	/**
+	 * Removes the slider.
+	 */
+	public void removeSlider() {
+		setShowExtendedAV(false);
+		setDrawable(false);
+		intervalMax = null;
+		intervalMin = null;
 	}
 }
