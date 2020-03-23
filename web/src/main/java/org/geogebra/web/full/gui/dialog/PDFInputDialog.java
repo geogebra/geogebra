@@ -55,6 +55,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private FlowPanel mainPanel;
 	private FlowPanel pdfContainerPanel;
 	private FlowPanel pdfPreviewPanel;
+	private FlowPanel imgTextPanel;
 	private FlowPanel pdfPageTextPanel;
 	private Label clickOrDragText;
 	private Label loadText;
@@ -123,7 +124,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		// panel for pdf
 		pdfContainerPanel = new FlowPanel();
 		pdfContainerPanel.setStyleName("pdfContainer");
-		addFolderImageText();
+		addHelpToImgText();
 		addDropHandler(pdfContainerPanel.getElement());
 		pageLbl = new Label();
 		ofPageLbl = new Label();
@@ -145,21 +146,23 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		getContainerElement().getFirstChildElement()
 				.addClassName("pdfDialogTable");
 		setGlassEnabled(true);
-		// only for testing here TODO remove me from here
-		// buildPdfContainer();
 		setLabels();
 	}
 
-	private void addFolderImageText() {
-		FlowPanel imgTextPanel = new FlowPanel();
+	private void createFolderImg() {
+		imgTextPanel = new FlowPanel();
+		imgTextPanel.addStyleName("imgTextElement");
 		NoDragImage folderImg = new NoDragImage(
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), 96);
 		folderImg.addStyleName("folderImg");
-		imgTextPanel.addStyleName("imgTextElement");
+		imgTextPanel.add(folderImg);
+	}
+
+	private void addHelpToImgText() {
+		createFolderImg();
 		clickOrDragText = new Label();
 		clickOrDragText.addStyleName("pdfDialogText");
 		clickOrDragText.addStyleName("clickOrDragText");
-		imgTextPanel.add(folderImg);
 		imgTextPanel.add(clickOrDragText);
 		pdfContainerPanel.add(imgTextPanel);
 	}
@@ -533,14 +536,15 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	void buildErrorPanel() {
 		pdfContainerPanel.clear();
 		pdfContainerPanel.removeStyleName("withPdf");
-		addFolderImageText();
+		createFolderImg();
 		if (errorText == null) {
 			errorText = new Label();
 			errorText.addStyleName("pdfDialogText");
 			errorText.addStyleName("errorText");
 			errorText.setText(appW.getLocalization().getMenu("PdfErrorText"));
 		}
-		pdfContainerPanel.add(errorText);
+		imgTextPanel.add(errorText);
+		pdfContainerPanel.add(imgTextPanel);
 	}
 
 	@Override
