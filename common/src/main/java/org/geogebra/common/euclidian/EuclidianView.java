@@ -2163,6 +2163,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 
+		hideSymbolicEditor();
 		return false;
 	}
 
