@@ -16,6 +16,8 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 
 import javax.swing.Box;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class SymbolicEditorD extends SymbolicEditor {
 
@@ -35,16 +37,29 @@ public class SymbolicEditorD extends SymbolicEditor {
 		mathField.setVisible(true);
 		mathField.getInternal().setType(TeXFont.SANSSERIF);
 
+		mathField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent focusEvent) {
+				// do nothing
+			}
+
+			@Override
+			public void focusLost(FocusEvent focusEvent) {
+				hide();
+			}
+		});
+
 		box.add(mathField);
 	}
 
 	@Override
 	public void hide() {
-		applyChanges();
-		drawInputBox.setEditing(false);
-		box.setVisible(false);
-
-		view.repaintView();
+		if (drawInputBox.isEditing()) {
+			applyChanges();
+			drawInputBox.setEditing(false);
+			box.setVisible(false);
+			view.repaintView();
+		}
 	}
 
 	@Override

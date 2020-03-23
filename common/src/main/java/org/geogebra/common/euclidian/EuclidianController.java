@@ -9133,8 +9133,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.requestFocusInWindow();
 		}
 
-		view.hideSymbolicEditor();
-
 		altCopy = true;
 
 		DrawDropDownList dl = getComboBoxHit();
