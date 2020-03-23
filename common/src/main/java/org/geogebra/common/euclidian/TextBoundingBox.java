@@ -44,11 +44,18 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 				g2.drawLine((int) corners[i].getX(), (int) corners[i].getY(),
 						(int) corners[(i + 1) % 4].getX(), (int) corners[(i + 1) % 4].getY());
 			}
-			g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
-					(int) corners[8].getX(), (int) corners[8].getY());
+			if (showHandlers()) {
+				g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
+						(int) corners[8].getX(), (int) corners[8].getY());
+			}
 		}
+		if (showHandlers()) {
+			drawHandlers(g2);
+		}
+	}
 
-		drawHandlers(g2);
+	private boolean showHandlers() {
+		return !this.text.hasGroup();
 	}
 
 	@Override

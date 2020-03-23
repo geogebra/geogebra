@@ -965,4 +965,8 @@ public abstract class Drawable extends DrawableND {
 			update();
 		}
 	}
+
+	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
+		return new SingleBoundingBox(view.getApplication().getPrimaryColor());
+	}
 }
