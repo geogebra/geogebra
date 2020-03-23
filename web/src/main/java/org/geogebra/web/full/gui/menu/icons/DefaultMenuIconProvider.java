@@ -106,4 +106,8 @@ public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/logout.svg")
 	SVGResource signOut();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-folder_open-24px.svg")
+	SVGResource folder();
 }

@@ -17,8 +17,4 @@ public interface MebisMenuIconProvider extends DefaultMenuIconProvider {
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/folder-open.svg")
 	SVGResource search();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/arrow-alt-circle-down.svg")
-	SVGResource exportFile();
 }

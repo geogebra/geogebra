@@ -54,4 +54,6 @@ public interface MenuIconProvider {
 	SVGResource signIn();
 
 	SVGResource signOut();
+
+	SVGResource folder();
 }
