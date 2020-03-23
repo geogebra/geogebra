@@ -3,6 +3,7 @@ package org.geogebra.common.plugin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -534,10 +535,16 @@ public abstract class ScriptManager implements EventListener {
 		return false;
 	}
 
+	/**
+	 * Prevents listeners dropping on reset.
+	 */
 	public void keepListenersOnReset() {
 		keepListenersOnReset = true;
 	}
 
+	/**
+	 * Enables dropping listeners on reset.
+	 */
 	public void dropListenersOnReset() {
 		keepListenersOnReset = false;
 		rebuildListenerMap();
@@ -548,13 +555,16 @@ public abstract class ScriptManager implements EventListener {
 		updateListenerMap = rebuildListenerMap(updateListenerMap);
 	}
 
-	private HashMap<GeoElement, JsScript> rebuildListenerMap(HashMap<GeoElement, JsScript> listenerMap) {
+	private HashMap<GeoElement, JsScript> rebuildListenerMap(
+			HashMap<GeoElement, JsScript> listenerMap) {
+
 		if (listenerMap == null) {
 			return null;
 		}
 
 		HashMap<GeoElement, JsScript> map = new HashMap<>();
-		for (GeoElement oldGeo: listenerMap.keySet()) {
+		for (Map.Entry<GeoElement, JsScript> entry: listenerMap.entrySet()) {
+			GeoElement oldGeo = entry.getKey();
 			GeoElement newGeo = app.getKernel().lookupLabel(oldGeo.getLabelSimple());
 			if (newGeo != null) {
 				map.put(newGeo, listenerMap.get(oldGeo));

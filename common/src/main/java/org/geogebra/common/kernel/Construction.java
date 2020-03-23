@@ -1690,8 +1690,10 @@ public class Construction {
 		app.getCompanion().recallViewCreators();
 	}
 
-	private void buildConstructionWithGlobalListeners(StringBuilder consXML, String oldXML, EvalInfo info)
-		throws Exception {
+	private void buildConstructionWithGlobalListeners(
+			StringBuilder consXML, String oldXML,
+			EvalInfo info) throws Exception {
+
 		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
 		scriptManager.keepListenersOnReset();
 		buildConstruction(consXML, oldXML, info);
