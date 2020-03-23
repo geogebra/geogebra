@@ -9379,7 +9379,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 			selectAndShowBoundingBox(topHit);
 			maybeFocusGroupElement(topHit);
-			app.getVideoManager().play((GeoVideo) topHit);
 
 			app.getVideoManager().play(drawVideo);
 			return true;
@@ -9898,7 +9897,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (topGeo == lastInlineText && !draggingOccured) {
 			showDynamicStylebar();
 			DrawInlineText drawInlineText = (DrawInlineText) view.getDrawableFor(topGeo);
-			drawInlineText.toForeground(mouseLoc.x, mouseLoc.y);
+			drawInlineText.setCursor(mouseLoc.x, mouseLoc.y);
 			maybeFocusGroupElement(topGeo);
 			drawInlineText.getBoundingBox().setFixed(true);
 			((DrawInlineText) view.getDrawableFor(topGeo)).setCursor(mouseLoc.x, mouseLoc.y);
