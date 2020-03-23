@@ -252,7 +252,7 @@ public class AlgebraItem {
 	 *            index builder
 	 * @param stringTemplate
 	 *            string template
-	 * @return whether we did append something to the index builder
+	 * @return whether we need only one row
 	 */
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder, StringTemplate stringTemplate) {
@@ -284,7 +284,7 @@ public class AlgebraItem {
 				geo1.addLabelTextOrHTML(
 						geo1.getDefinitionDescription(stringTemplate), builder);
 			}
-			return true;
+			return false;
 
 		case Kernel.ALGEBRA_STYLE_DEFINITION:
 			buildDefinitionString(geo1, builder, stringTemplate);
