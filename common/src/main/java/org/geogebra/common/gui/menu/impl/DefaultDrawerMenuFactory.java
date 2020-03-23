@@ -211,8 +211,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	protected MenuItem showDownloadAs() {
 		ActionableItem png = new ActionableItemImpl(null, "PNGImage", Action.DOWNLOAD_PNG);
-		ActionableItem svg = new ActionableItemImpl(null, "SVGImage", Action.DOWNLOAD_SVG);
-		ActionableItem pdf = new ActionableItemImpl(null, "PDFDocument", Action.DOWNLOAD_PDF);
+		ActionableItem svg = new ActionableItemImpl(null, "svg", Action.DOWNLOAD_SVG);
+		ActionableItem pdf = new ActionableItemImpl(null, "pdf", Action.DOWNLOAD_PDF);
 		switch (version) {
 			case NOTES:
 				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs",
