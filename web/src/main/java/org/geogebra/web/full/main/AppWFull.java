@@ -62,13 +62,12 @@ import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.WhatsNewDialog;
-import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.app.GGWCommandLine;
-import org.geogebra.web.full.gui.app.GGWMenuBar;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.exam.ExamDialog;
+import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.keyboard.KeyboardManager;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockGlassPaneW;
@@ -79,6 +78,8 @@ import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.full.gui.menu.MenuViewController;
+import org.geogebra.web.full.gui.menu.MenuViewListener;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.full.gui.openfileview.OpenFileView;
@@ -126,7 +127,6 @@ import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
-import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
@@ -154,7 +154,7 @@ import com.google.gwt.user.client.ui.Widget;
  * App with all the GUI
  *
  */
-public class AppWFull extends AppW implements HasKeyboard {
+public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
 	private final static int AUTO_SAVE_PERIOD = 2000;
@@ -182,12 +182,11 @@ public class AppWFull extends AppW implements HasKeyboard {
 																// technical
 	private int spWidth;
 	private int spHeight;
-	private boolean menuInited = false;
+	private boolean isMenuInited = false;
 	// helper
 	// variable
 	private HorizontalPanel splitPanelWrapper = null;
-	/** floating menu */
-	FloatingMenuPanel floatingMenuPanel = null;
+	private MenuViewController menuViewController;
 
 	private EmbedManagerW embedManager;
 	private VideoManagerW videoManager;
@@ -293,12 +292,12 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	private void setupSignInButton(GlobalHeader header) {
 		if (getLoginOperation() == null) {
-			initSignImEventFlow();
+			initSignInEventFlow();
 		}
 		header.addSignIn(this);
 	}
 
-	private void initSignImEventFlow() {
+	private void initSignInEventFlow() {
 		initSignInEventFlow(
 				new LoginOperationW(this),
 				getArticleElement().isEnableApiPing());
@@ -419,6 +418,17 @@ public class AppWFull extends AppW implements HasKeyboard {
 		getGuiManager().setLayout(new LayoutW(this));
 		getGuiManager().initialize();
 		setDefaultCursor();
+		initMenu();
+	}
+
+	private void initMenu() {
+		if (isFloatingMenu()) {
+			initSignInEventFlow();
+			menuViewController = new MenuViewController(this);
+			menuViewController.setMenuViewListener(this);
+			frame.add(menuViewController.getView());
+			isMenuInited = true;
+		}
 	}
 
 	/**
@@ -1386,7 +1396,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard
-					|| (frame.getWidget(i) instanceof FloatingMenuPanel)
+					|| (menuViewController != null
+					    && frame.getWidget(i) == menuViewController.getView())
 					|| (isUnbundledOrWhiteboard()
 							&& frame.getWidget(i) instanceof Persistable)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
@@ -1817,24 +1828,22 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void toggleMenu() {
-		if (!this.menuShowing) {
-			this.getAppletFrame().hidePanel(null);
-			this.menuShowing = true;
-			boolean needsUpdate = menuInited;
-			if (!menuInited) {
+		if (!menuShowing) {
+			getAppletFrame().hidePanel(null);
+			menuShowing = true;
+			boolean needsUpdate = isMenuInited;
+			if (!isFloatingMenu() && !isMenuInited) {
 				frame.getMenuBar(this).init(this);
-				this.menuInited = true;
-			}
-			if (isFloatingMenu()) {
-				toggleFloatingMenu(needsUpdate);
-				updateMenuBtnStatus(true);
+				isMenuInited = true;
+			} else if (isFloatingMenu()) {
+				menuViewController.setMenuVisible(true);
 				return;
 			}
-			this.splitPanelWrapper.add(frame.getMenuBar(this));
-			this.oldSplitLayoutPanel.setPixelSize(
-					this.oldSplitLayoutPanel.getOffsetWidth()
+			splitPanelWrapper.add(frame.getMenuBar(this));
+			oldSplitLayoutPanel.setPixelSize(
+					oldSplitLayoutPanel.getOffsetWidth()
 							- GLookAndFeel.MENUBAR_WIDTH,
-					this.oldSplitLayoutPanel.getOffsetHeight());
+					oldSplitLayoutPanel.getOffsetHeight());
 			updateMenuHeight();
 			if (needsUpdate) {
 				frame.getMenuBar(this).getMenubar().updateMenubar();
@@ -1845,13 +1854,23 @@ public class AppWFull extends AppW implements HasKeyboard {
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (isFloatingMenu()) {
-				removeFloatingMenu();
-				menuShowing = false;
-				updateMenuBtnStatus(false);
+				menuViewController.setMenuVisible(false);
 			} else {
 				hideMenu();
 			}
 		}
+	}
+
+	@Override
+	public void onMenuOpened() {
+		menuShowing = true;
+		updateMenuBtnStatus(true);
+	}
+
+	@Override
+	public void onMenuClosed() {
+		menuShowing = false;
+		updateMenuBtnStatus(false);
 	}
 
 	private void updateMenuBtnStatus(boolean expanded) {
@@ -1864,74 +1883,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	private void removeFloatingMenu() {
-		// menu is floating: no need to resize views
-		// this.updateCenterPanelAndViews();
-		floatingMenuPanel.addStyleName("animateOut");
-		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-		CSSAnimation.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				floatingMenuPanel.setVisible(false);
-				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
-			}
-		}, floatingMenuPanel.getElement(), "animateOut");
-
-	}
-
-	private void addFloatingMenu() {
-		// menu is floating: no need to resize views
-		// this.updateCenterPanelAndViews();
-		floatingMenuPanel.addStyleName("animateIn");
-		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-		CSSAnimation.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				floatingMenuPanel.setVisible(true);
-				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
-				floatingMenuPanel.focusDeferred();
-			}
-		}, floatingMenuPanel.getElement(), "animateIn");
-	}
-
-	private void toggleFloatingMenu(boolean needsUpdate) {
-		if (!isFloatingMenu()) {
-			return;
-		}
-		persistWidthAndHeight();
-		if (floatingMenuPanel == null) {
-			floatingMenuPanel = new FloatingMenuPanel(
-					getAppletFrame().getMenuBar(this));
-			if (!isUnbundledOrWhiteboard()) {
-				floatingMenuPanel.addStyleName("classic");
-			}
-			if (isWhiteboardActive()) {
-				floatingMenuPanel.addStyleName("mow");
-			}
-			frame.add(floatingMenuPanel);
-		}
-
-		if (needsUpdate) {
-			frame.getMenuBar(this).getMenubar().updateMenubar();
-		}
-		if (menuShowing) {
-			this.addFloatingMenu();
-			floatingMenuPanel.setVisible(true);
-			return;
-		}
-		final GGWMenuBar menubar = getAppletFrame().getMenuBar(this);
-
-		floatingMenuPanel.add(menubar);
-		floatingMenuPanel.setVisible(menuShowing);
-		if (menuShowing) {
-			menubar.focusDeferred();
-		}
-		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
-	}
-
 	@Override
 	public void hideMenu() {
-		if (!menuInited || !menuShowing) {
+		if (!isMenuInited || !menuShowing) {
 			return;
 		}
 
@@ -2194,5 +2148,38 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		return new ConstructionItemProvider(getKernel().getConstruction(), getAlgebraView(),
 				createGeoElementValueConverter());
+	}
+
+	@Override
+	public void startExam() {
+		super.startExam();
+
+		// ensure fullscreen: we may have lost it when handling unsaved
+		// changes
+		getLAF().toggleFullscreen(true);
+		if (guiManager != null && guiManager.getUnbundledToolbar() != null) {
+			guiManager.setUnbundledHeaderStyle("examOk");
+			menuViewController.setExamMenu();
+			guiManager.resetMenu();
+			GlobalHeader.INSTANCE.addExamTimer();
+			new ExamUtil(this).visibilityEventMain();
+			guiManager.initInfoBtnAction();
+		}
+	}
+
+	/**
+	 * Ends the exam mode, exits the exam view.
+	 */
+	public void endExam() {
+		setExam(null);
+		resetViewsEnabled();
+		LayoutW.resetPerspectives(this);
+		getLAF().addWindowClosingHandler(this);
+		fireViewsChangedEvent();
+		guiManager.updateToolbarActions();
+		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, this));
+		menuViewController.setDefaultMenu();
+		guiManager.resetMenu();
+		setActivePerspective(0);
 	}
 }

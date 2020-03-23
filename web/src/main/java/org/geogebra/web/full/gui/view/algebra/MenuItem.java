@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.full.gui.menubar.MenuAction;
 import org.geogebra.web.resources.SVGResource;
 
 /**
@@ -11,10 +11,11 @@ import org.geogebra.web.resources.SVGResource;
  * @param <T>
  *            item context
  */
-public abstract class MenuAction<T> {
+public abstract class MenuItem<T> {
 
 	private String title;
 	private SVGResource image;
+	private MenuAction<T> action;
 
 	/**
 	 * @param title
@@ -22,9 +23,11 @@ public abstract class MenuAction<T> {
 	 * @param image
 	 *            image
 	 */
-	public MenuAction(String title, SVGResource image) {
+	public MenuItem(String title, SVGResource image, MenuAction<T> action) {
 		this.title = title;
 		this.image = image;
+		this.action = action;
+
 	}
 
 	/**
@@ -33,8 +36,9 @@ public abstract class MenuAction<T> {
 	 * @param title
 	 *            translation key
 	 */
-	public MenuAction(String title) {
+	public MenuItem(String title, MenuAction<T> action) {
 		this.title = title;
+		this.action = action;
 	}
 
 	/**
@@ -61,20 +65,9 @@ public abstract class MenuAction<T> {
 	}
 
 	/**
-	 * @param geo
-	 *            element used for context menu
-	 * @return whether action is active (grey out otherwise)
+	 * @return action
 	 */
-	public boolean isAvailable(T geo) {
-		return true;
+	public MenuAction<T> getAction() {
+		return action;
 	}
-
-	/**
-	 * @param geo
-	 *            element
-	 * @param app
-	 *            app
-	 */
-	public abstract void execute(T geo, AppWFull app);
-
 }

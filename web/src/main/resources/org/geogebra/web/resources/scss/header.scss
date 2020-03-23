@@ -11,7 +11,9 @@ $button_hover_transition: background-color 0.15s;
 
 .GeoGebraFrame {
 
-	%headerViewShared {
+	.headerView {
+	    height: $header_height;
+	    line-height: $header_height;
 	    position: relative;
 		top: 0px;
 		left: 0px;
@@ -26,44 +28,60 @@ $button_hover_transition: background-color 0.15s;
 			width: 24px;
 			height: 24px;
 			opacity: 0.54;
+			padding: 0px 12px;
+			margin: 0px 12px;
+			display: inline-block;
+			vertical-align: middle;
 			&:hover {
 				opacity: 0.87;
 			}
+			.gwt-Image {
+			    vertical-align: middle;
+			}
 		}
-		
 		.headerCaption {
-		    display: inline-block;
-			font-size: 125%;
-			color: $text-primary;
-			letter-spacing: 0.25px;
-		}
+            display: inline-block;
+        	font-size: 125%;
+        	vertical-align: middle;
+        	color: $text-primary;
+        	letter-spacing: 0.25px;
+        }
+        > .headerCaption:first-child {
+            margin-left: 16px;
+        }
 	}
-	
-	.headerView {
-		@extend %headerViewShared;
-		height: $header_height;
-		
-		.headerBackButton {
-			padding: 12px;
-			margin: 8px 12px 8px 12px;
-		}
-		
-		.headerCaption {
-			margin: 22px 0px;
-		}
-	}
-	
+
+	%compactHeaderViewShared {
+        .headerBackButton {
+            padding: 0px 8px;
+            margin: 0px 4px;
+        }
+        .headerCaption {
+            margin: 0px;
+        }
+    }
+
 	.smallHeaderView {
-		@extend %headerViewShared;
-		height: $small_header_height;
-		
-		.headerBackButton {
-			padding: 8px;
-			margin: 4px 24px 4px 8px;
-		}
-		
-		.headerCaption {
-			margin: 14px 0px;
-		}
-	}
+        @extend %compactHeaderViewShared;
+    	height: $small_header_height;
+        line-height: $small_header_height;
+        .headerBackButton {
+            margin-left: 8px;
+            margin-right: 24px;
+        }
+    }
+
+    .droppedHeaderView {
+        box-shadow: none;
+    }
+
+    .compactHeaderView {
+        @extend %compactHeaderViewShared;
+        .headerCaption {
+            font-size: 112.5%;
+        }
+        .headerBackButton {
+            margin: 0px 8px;
+        }
+    }
 }

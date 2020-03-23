@@ -1,9 +1,9 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.action.CreateSliderAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.action.RemoveSliderAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.action.SolveAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.CreateSliderItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.RemoveSliderItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.SolveItem;
 
 /**
  * AV menu items for CAS
@@ -16,9 +16,8 @@ public class AlgebraMenuItemCollectionCAS extends AlgebraMenuItemCollection {
 	 */
 	public AlgebraMenuItemCollectionCAS(AlgebraViewW algebraView) {
 		super(algebraView);
-		addAction(0, new SolveAction());
-		addAction(5, new CreateSliderAction());
-		addAction(5, new RemoveSliderAction());
+		addAction(0, new SolveItem());
+		addAction(5, new CreateSliderItem());
+		addAction(5, new RemoveSliderItem());
 	}
-
 }

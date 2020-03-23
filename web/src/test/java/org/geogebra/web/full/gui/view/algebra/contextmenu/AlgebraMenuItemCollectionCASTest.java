@@ -3,11 +3,11 @@ package org.geogebra.web.full.gui.view.algebra.contextmenu;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import org.geogebra.web.full.gui.view.algebra.MenuAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.action.AddLabelAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.action.CreateSliderAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.action.DuplicateAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.action.RemoveSliderAction;
+import org.geogebra.web.full.gui.view.algebra.MenuItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.AddLabelItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.CreateSliderItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.RemoveSliderItem;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Before;
@@ -32,10 +32,10 @@ public class AlgebraMenuItemCollectionCASTest {
 
 	@Test
 	public void testActionOrder() {
-		int indexOfAddLabel = indexOf(AddLabelAction.class);
-		int indexOfCreateSlider = indexOf(CreateSliderAction.class);
-		int indexOfRemoveSlider = indexOf(RemoveSliderAction.class);
-		int indexOfDuplicate = indexOf(DuplicateAction.class);
+		int indexOfAddLabel = indexOf(AddLabelItem.class);
+		int indexOfCreateSlider = indexOf(CreateSliderItem.class);
+		int indexOfRemoveSlider = indexOf(RemoveSliderItem.class);
+		int indexOfDuplicate = indexOf(DuplicateItem.class);
 
 		boolean isCreateSliderItemInPlace =
 				indexOfAddLabel < indexOfCreateSlider && indexOfCreateSlider < indexOfDuplicate;
@@ -47,7 +47,7 @@ public class AlgebraMenuItemCollectionCASTest {
 
 	private int indexOf(Class clazz) {
 		int i = 0;
-		for (MenuAction item : itemCollection) {
+		for (MenuItem item : itemCollection) {
 			if (clazz.isInstance(item)) {
 				return i;
 			}
