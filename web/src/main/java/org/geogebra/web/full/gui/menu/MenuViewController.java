@@ -65,8 +65,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	private GeoGebraTubeUser user;
 
-	private String menuTitle = null;
-
 	/**
 	 * Creates a MenuViewController.
 	 *
@@ -298,7 +296,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	@Override
 	public void onResize(ResizeEvent event) {
-		headerView.setVisible(frame.hasSmallWindowOrCompactHeader() && menuTitle != null);
+		headerView.setVisible(frame.hasSmallWindowOrCompactHeader() && activeMenu.getTitle() != null);
 	}
 
 	@Override
