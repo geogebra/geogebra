@@ -1916,7 +1916,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "GeoGebra3DGrapher.short": "3D \u8ba1\u7b97\u5668",
     "GeoGebraApps": "GeoGebra-\u5e94\u7528",
     "GeoGebraCASCalculator": "GeoGebra CAS \u8ba1\u7b97\u5668",
-    "GeoGebraCalculatorSuite": "GeoGebra Calculator Suite",
+    "GeoGebraCalculatorSuite": "GeoGebra \u8ba1\u7b97\u5668\u5957\u4ef6",
     "GeoGebraForum": "\u8bba\u575b",
     "GeoGebraGeometry": "GeoGebra \u51e0\u4f55",
     "GeoGebraGraphingCalculator": "GeoGebra \u56fe\u5f62\u8ba1\u7b97\u5668",
