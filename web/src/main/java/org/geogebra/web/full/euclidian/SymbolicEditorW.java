@@ -1,5 +1,6 @@
 package org.geogebra.web.full.euclidian;
 
+import com.google.gwt.core.client.Scheduler;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
@@ -40,7 +41,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private DrawInputBox drawInputBox;
 
 	private GRectangle bounds;
-	private String text;
 	private MathFieldEditor editor;
 	private final SymbolicEditorDecorator decorator;
 	private TeXSerializer serializer;
@@ -69,6 +69,11 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds,
 			AbsolutePanel parent) {
+		if (this.geoInputBox != null && this.geoInputBox != geoInputBox) {
+			applyChanges();
+			this.drawInputBox.setEditing(false);
+		}
+
 		this.geoInputBox = geoInputBox;
 		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
 
@@ -83,28 +88,18 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	private void resetChanges() {
-		boolean wasEditing = drawInputBox.isEditing();
 		this.drawInputBox.setEditing(true);
 		editor.setVisible(true);
 		decorator.update(bounds, geoInputBox);
-		editor.setKeyboardVisibility(true);
 
-		if (!wasEditing) {
-			updateText();
-			focus();
-		}
-
-		editor.setText(text);
+		editor.setText(geoInputBox.getTextForEditor());
 		editor.setLabel(geoInputBox.getAuralText());
-	}
-
-	private void updateText() {
-		text = geoInputBox.getTextForEditor().trim();
-		editor.setText(text);
-	}
-
-	private void focus() {
-		editor.focus();
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() {
+				editor.requestFocus();
+			}
+		});
 	}
 
 	@Override
@@ -120,13 +115,13 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 
 		applyChanges();
 		drawInputBox.setEditing(false);
+		editor.setVisible(false);
+
 		AnimationScheduler.get()
 				.requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
 				view.doRepaint2();
-				editor.setVisible(false);
-				editor.setKeyboardVisibility(false);
 			}
 		});
 	}
@@ -139,9 +134,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	private void applyChanges() {
 		setTempUserDisplayInput();
 		String editedText = editor.getText();
-		if (!editedText.trim().equals(text)) {
-			geoInputBox.updateLinkedGeo(editedText);
-		}
+		geoInputBox.updateLinkedGeo(editedText);
 	}
 
 	private void setTempUserDisplayInput() {
