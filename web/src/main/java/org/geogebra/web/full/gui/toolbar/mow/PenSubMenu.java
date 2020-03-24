@@ -36,8 +36,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class PenSubMenu extends SubMenuPanel {
-	private static final int MAX_ERASER_SIZE = 100;
-	private static final int ERASER_STEP = 20;
+	private static final int MAX_ERASER_SIZE = 201;
+	private static final int ERASER_STEP = 10;
 	private ToolButton pen;
 	private ToolButton eraser;
 	private ToolButton highlighter;
