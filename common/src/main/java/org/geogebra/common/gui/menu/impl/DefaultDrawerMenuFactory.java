@@ -210,9 +210,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	protected MenuItem showDownloadAs() {
-		ActionableItem png = new ActionableItemImpl(null, "PNGImage", Action.DOWNLOAD_PNG);
-		ActionableItem svg = new ActionableItemImpl(null, "svg", Action.DOWNLOAD_SVG);
-		ActionableItem pdf = new ActionableItemImpl(null, "pdf", Action.DOWNLOAD_PDF);
+		ActionableItem png = new ActionableItemImpl(null, "Download.PNGImage", Action.DOWNLOAD_PNG);
+		ActionableItem svg = new ActionableItemImpl(null, "Download.SVGImage", Action.DOWNLOAD_SVG);
+		ActionableItem pdf = new ActionableItemImpl(null, "Download.PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
 			case NOTES:
 				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs",
@@ -235,7 +235,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private static ActionableItem createDownloadSlides() {
-		return new ActionableItemImpl("SlidesGgs", Action.DOWNLOAD_GGS);
+		return new ActionableItemImpl("Download.SlidesGgs", Action.DOWNLOAD_GGS);
 	}
 
 	private static ActionableItem createDownloadStl() {
