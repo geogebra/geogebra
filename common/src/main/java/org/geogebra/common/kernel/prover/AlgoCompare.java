@@ -198,7 +198,6 @@ public class AlgoCompare extends AlgoElement {
             lhs_var = "w1";
             extraPolys.add("-w1+" + rewrite(inputElement1.getDefinition(portableFormat)));
             extraVars.add("w1");
-            inp1 = "(";
             if (htmlMode) {
                 inp1 += inputElement1.getColoredLabel();
             } else {
@@ -206,10 +205,9 @@ public class AlgoCompare extends AlgoElement {
                     inp1 += inputElement1.getLabelSimple();
                 }
                 else {
-                    inp1 += inputElement1.getDefinition(fancyFormat);
+                    inp1 += "(" + inputElement1.getDefinition(fancyFormat) + ")";
                 }
             }
-            inp1 += ")";
         }
 
         if (inputElement2 instanceof GeoNumeric) {
@@ -217,7 +215,6 @@ public class AlgoCompare extends AlgoElement {
             rhs_var = "w2";
             extraPolys.add("-w2+" + rewrite(inputElement2.getDefinition(portableFormat)));
             extraVars.add("w2");
-            inp2 = "(";
             if (htmlMode) {
                 inp2 += inputElement2.getColoredLabel();
             } else {
@@ -225,10 +222,9 @@ public class AlgoCompare extends AlgoElement {
                     inp2 += inputElement2.getLabelSimple();
                 }
                 else {
-                    inp2 += inputElement2.getDefinition(fancyFormat);
+                    inp2 += "(" + inputElement2.getDefinition(fancyFormat) + ")";
                 }
             }
-            inp2 += ")";
         }
 
         String rgCommand = "euclideansolver";
