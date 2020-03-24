@@ -109,7 +109,6 @@ public class AlgoCompare extends AlgoElement {
     AlgebraicStatement as;
     SortedMap<GeoSegment, PVariable> rewrites;
     StringTemplate portableFormat = StringTemplate.casCopyTemplate;
-    StringTemplate fancyFormat = StringTemplate.algebraTemplate;
 
     private double startTime;
     private String retval = "";
@@ -202,7 +201,7 @@ public class AlgoCompare extends AlgoElement {
             if (htmlMode) {
                 inp1 += inputElement1.getColoredLabel();
             } else {
-                inp1 += inputElement1.getDefinition(fancyFormat);
+                inp1 += inputElement1.getLabelSimple();
             }
             inp1 += ")";
         }
@@ -216,7 +215,7 @@ public class AlgoCompare extends AlgoElement {
             if (htmlMode) {
                 inp2 += inputElement2.getColoredLabel();
             } else {
-                inp2 += inputElement2.getDefinition(fancyFormat);
+                inp2 += inputElement2.getLabelSimple();
             }
             inp2 += ")";
         }
