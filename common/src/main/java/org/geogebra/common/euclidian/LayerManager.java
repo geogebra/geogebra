@@ -1,12 +1,12 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocusStroke;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 
 public class LayerManager {
 
@@ -158,12 +158,24 @@ public class LayerManager {
 
 	private void addSorted(List<GeoElement> to, List<GeoElement> from) {
 		List<GeoElement> copy = new ArrayList<>(from);
+		sortByOrder(copy);
+		to.addAll(copy);
+	}
+
+	private void sortByOrder(List<GeoElement> copy) {
 		Collections.sort(copy, new Comparator<GeoElement>() {
 			@Override
 			public int compare(GeoElement a, GeoElement b) {
 				return a.getOrdering() - b.getOrdering();
 			}
 		});
-		to.addAll(copy);
+	}
+
+	/**
+	 * Update the list from geos
+	 */
+	public void updateList() {
+		sortByOrder(drawingOrder);
+		updateOrdering(); // remove potential gaps
 	}
 }

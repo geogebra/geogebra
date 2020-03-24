@@ -3023,6 +3023,7 @@ public class MyXMLHandler implements DocHandler {
 			if ("construction".equals(eName)) {
 				// process start points at end of construction
 				this.geoHandler.processLists();
+				cons.getLayerManager().updateList();
 				processEvSizes();
 				// now called from MyXMLio.doParseXML()
 				// if (spreadsheetTraceNeeded) {

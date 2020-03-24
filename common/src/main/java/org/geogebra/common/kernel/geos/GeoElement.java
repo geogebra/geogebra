@@ -321,7 +321,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	private Group parentGroup;
 
-	private int ordering;
+	private int ordering = -1;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
