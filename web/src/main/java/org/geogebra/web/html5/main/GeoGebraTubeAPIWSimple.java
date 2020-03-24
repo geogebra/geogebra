@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.MarvlService;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.MowService;
+import org.geogebra.common.move.ggtapi.models.Service;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
@@ -79,13 +80,12 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	@Override
 	protected MaterialRestAPI getMaterialRestAPI() {
 		if (materialRestAPI == null) {
-			String backendURL = articleElement.getParamBackendURL();
+			String backendURL = articleElement.getParamBackendURL().isEmpty()
+					? MaterialRestAPI.marvlUrl : articleElement.getParamBackendURL();
+			Service service = "mebis".equals(articleElement.getParamVendor())
+					? new MowService() : new MarvlService();
 
-			if (StringUtil.empty(backendURL)) {
-				materialRestAPI = new MaterialRestAPI(marvlUrl, new MarvlService());
-			} else {
-				materialRestAPI = new MaterialRestAPI(backendURL, new MowService());
-			}
+			materialRestAPI = new MaterialRestAPI(backendURL, service);
 		}
 
 		materialRestAPI.setClient(client);

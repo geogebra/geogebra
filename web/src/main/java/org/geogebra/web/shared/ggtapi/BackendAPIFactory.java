@@ -1,12 +1,11 @@
 package org.geogebra.web.shared.ggtapi;
 
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.MarvlService;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.MowService;
+import org.geogebra.common.move.ggtapi.models.Service;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
@@ -51,14 +50,13 @@ public class BackendAPIFactory {
 	 * Create an appropriate MaterialRestApi
 	 * @return a MaterialRestApi based on the backend-url data-param
 	 */
-	public BackendAPI newMaterialRestAPI() {
-		String backendURL = articleElement.getParamBackendURL();
+	public MaterialRestAPI newMaterialRestAPI() {
+		String backendURL = articleElement.getParamBackendURL().isEmpty()
+				? MaterialRestAPI.marvlUrl : articleElement.getParamBackendURL();
+		Service service = "mebis".equals(articleElement.getParamVendor())
+				? new MowService() : new MarvlService();
 
-		if (StringUtil.empty(backendURL)) {
-			return new MaterialRestAPI(GeoGebraTubeAPI.marvlUrl, new MarvlService());
-		} else {
-			return new MaterialRestAPI(backendURL, new MowService());
-		}
+		return new MaterialRestAPI(backendURL, service);
 	}
 
 	private GeoGebraTubeAPIW newTubeAPI() {

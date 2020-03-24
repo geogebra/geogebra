@@ -33,6 +33,8 @@ public class MaterialRestAPI implements BackendAPI {
 
 	private Service service;
 
+	public static final String marvlUrl = "https://api.geogebra.org/v1.0";
+
 	/**
 	 * @param baseURL
 	 *            URL of the API; endpoints append eg. "/materials" to it

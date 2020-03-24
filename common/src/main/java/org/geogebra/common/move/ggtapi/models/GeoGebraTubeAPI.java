@@ -40,8 +40,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	/** Login for beta */
 	public static final String login_urlBeta = "https://accounts-beta.geogebra.org/api/index.php";
 
-	public static final String marvlUrl = "https://groot.geogebra.org:5000/v1.0";
-
 	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
 	protected ClientInfo client;
