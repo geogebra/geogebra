@@ -171,7 +171,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			.newColor(128, 0, 0);
 	protected static final GBasicStroke strokeDeletionSquare = AwtFactory
 			.getPrototype().newBasicStroke(1.0f);
-	protected GRectangle deletionRectangle;
+	protected GEllipse2DDouble deletionRectangle;
 
 	/** label outlines from 5.0.416.0 */
 	protected static int[] LABEL_OUTLINES_FROM = new int[] { 5, 0, 416, 0 };
@@ -3819,7 +3819,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            rectangle to draw
 	 */
 	protected void drawRect(GGraphics2D g2, GColor col, GBasicStroke stroke,
-			GRectangle rect) {
+			GEllipse2DDouble rect) {
 		g2.setColor(col);
 		g2.setStroke(stroke);
 		g2.draw(rect);
@@ -5676,7 +5676,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @return delete tool rectangle
 	 */
-	public GRectangle getDeletionRectangle() {
+	public GEllipse2DDouble getDeletionRectangle() {
 		return deletionRectangle;
 	}
 
@@ -5684,7 +5684,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param deletionRectangle
 	 *            delete tool rectangle
 	 */
-	public void setDeletionRectangle(GRectangle deletionRectangle) {
+	public void setDeletionRectangle(GEllipse2DDouble deletionRectangle) {
 		this.deletionRectangle = deletionRectangle;
 	}
 

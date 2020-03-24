@@ -188,7 +188,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 		context.stroke();
 	}
 
-	protected void doDrawShape(Shape shape) {
+	protected void doDrawShape(GShape shape) {
 		context.beginPath();
 		GPathIterator it = shape.getPathIterator(null);
 
@@ -637,9 +637,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 			resetClip();
 			return;
 		}
-		Shape shape2 = (Shape) shape;
-
-		doDrawShape(shape2);
+		doDrawShape(shape);
 		// quick hack to make sure this is called only from
 		// DrawPoint.drawClippedSection()
 		// TODO: add boolean parameter to setClip()
@@ -664,9 +662,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 			return;
 		}
 		if (shape instanceof GeneralPathClipped) {
-			doDrawShape((Shape) ((GeneralPathClipped) shape).getGeneralPath());
+			doDrawShape(((GeneralPathClipped) shape).getGeneralPath());
 		} else {
-			doDrawShape((Shape) shape);
+			doDrawShape(shape);
 		}
 		context.stroke();
 		if (debug) {

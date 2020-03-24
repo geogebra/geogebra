@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -48,6 +49,8 @@ public class DrawLocus extends Drawable {
 	private boolean isVisible;
 	private boolean labelVisible;
 	private GeneralPathClippedForCurvePlotter gp;
+	private GeneralPathClippedForCurvePlotter gpMask;
+
 	private double[] labelPosition;
 	private CoordSys transformSys;
 	private GBufferedImage bitmap;
@@ -182,6 +185,10 @@ public class DrawLocus extends Drawable {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		g2.draw(gp);
+		g2.setClip(AwtFactory.getPrototype().newBasicStroke(20, GBasicStroke.CAP_ROUND,
+				GBasicStroke.JOIN_MITER).createStrokedShape(gpMask, 2000));
+		g2.clearRect(0, 0, view.getWidth(), view.getHeight());
+		g2.resetClip();
 	}
 
 	private GBufferedImage makeImage(GGraphics2D g2p) {
@@ -193,12 +200,18 @@ public class DrawLocus extends Drawable {
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
+			gpMask = new GeneralPathClippedForCurvePlotter(view);
 		} else {
 			gp.reset();
+			gpMask.reset();
 		}
 
 		// Use the last plotted point for positioning the label:
 		labelPosition = CurvePlotter.draw(gp, pointList, transformSys);
+		if (locus instanceof GeoLocusStroke) {
+			GeoLocusStroke stroke = (GeoLocusStroke) locus;
+			CurvePlotter.draw(gpMask, stroke.mask, transformSys);
+		}
 		/*
 		 * Due to numerical instability of the curve plotter algorithm this
 		 * position may be changing too quickly which results in an annoying

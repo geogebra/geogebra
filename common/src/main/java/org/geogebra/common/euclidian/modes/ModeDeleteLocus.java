@@ -1,9 +1,10 @@
 package org.geogebra.common.euclidian.modes;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
@@ -11,6 +12,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
@@ -24,8 +26,7 @@ public class ModeDeleteLocus {
 	private EuclidianController ec;
 	private boolean objDeleteMode = false;
 	private boolean penDeleteMode = false;
-	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
-			100);
+	private GEllipse2DDouble ellipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 10, 10);
 
 	/**
 	 * @param view
@@ -49,12 +50,11 @@ public class ModeDeleteLocus {
 
 		int eventX = e.getX();
 		int eventY = e.getY();
-		rect.setBounds(eventX - ec.getDeleteToolSize() / 2,
-				eventY - ec.getDeleteToolSize() / 2,
-				ec.getDeleteToolSize(), ec.getDeleteToolSize());
+		double size = ec.getDeleteToolSize();
+		ellipse.setFrame(eventX - size / 2, eventY - size / 2, size, size);
 
-		view.setDeletionRectangle(rect);
-		view.getHitDetector().setIntersectionHits(rect);
+		view.setDeletionRectangle(ellipse);
+		view.getHitDetector().setIntersectionHits(ellipse.getBounds());
 		Hits h = view.getHits();
 		if (!this.objDeleteMode && !this.penDeleteMode) {
 			updatePenDeleteMode(h);
@@ -63,6 +63,8 @@ public class ModeDeleteLocus {
 
 		// hide cursor, the new "cursor" is the deletion rectangle
 		view.setCursor(EuclidianCursor.TRANSPARENT);
+
+		List<GeoLocusStroke> deletedStrokes = new ArrayList<>();
 
 		Iterator<GeoElement> it = h.iterator();
 		while (it.hasNext()) {
@@ -74,10 +76,12 @@ public class ModeDeleteLocus {
 					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			} else if (geo instanceof GeoLocusStroke) {
-				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geo);
+				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geo, eventX, eventY);
 
 				if (hasVisiblePart) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
+					geo.updateRepaint();
+					deletedStrokes.add((GeoLocusStroke) geo);
 				}
 			} else {
 				if (!this.penDeleteMode) {
@@ -91,6 +95,12 @@ public class ModeDeleteLocus {
 		// do not delete images using eraser
 		h.removeImages();
 		ec.deleteAll(h);
+
+		for (GeoElement geo : view.getKernel().getConstruction().getGeoSetConstructionOrder()) {
+			if (geo instanceof GeoLocusStroke && !deletedStrokes.contains(geo)) {
+				((GeoLocusStroke) geo).mask.add(new MyPoint(Double.NaN, Double.NaN));
+			}
+		}
 	}
 
 	/**
@@ -118,11 +128,9 @@ public class ModeDeleteLocus {
 
 				int eventX = ec.getMouseLoc().getX();
 				int eventY = ec.getMouseLoc().getY();
-				rect.setBounds(eventX - ec.getDeleteToolSize() / 2,
-						eventY - ec.getDeleteToolSize() / 2,
-						ec.getDeleteToolSize(), ec.getDeleteToolSize());
+				ellipse.setFrame(eventX, eventY, ec.getDeleteToolSize(), ec.getDeleteToolSize());
 
-				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geos[0]);
+				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geos[0], eventX, eventY);
 
 				if (!hasVisiblePart) { // still something visible, don't delete
 					// remove this Stroke
@@ -140,16 +148,11 @@ public class ModeDeleteLocus {
 		return false;
 	}
 
-	private boolean deletePartOfPenStroke(GeoLocusStroke gls) {
-		double x = view.toRealWorldCoordX(rect.getX());
-		double y = view.toRealWorldCoordY(rect.getY() + rect.getHeight());
-		double width = rect.getWidth() * view.getInvXscale();
-		double height = rect.getHeight() * view.getInvYscale();
+	private boolean deletePartOfPenStroke(GeoLocusStroke gls, int x1, int y1) {
+		double x = view.toRealWorldCoordX(x1);
+		double y = view.toRealWorldCoordY(y1);
 
-		GRectangle2D realRectangle = AwtFactory.getPrototype().newRectangle2D();
-		realRectangle.setRect(x, y, width, height);
-
-		return gls.deletePart(realRectangle);
+		return gls.deletePart(x, y);
 	}
 
 	private void updatePenDeleteMode(Hits h) {

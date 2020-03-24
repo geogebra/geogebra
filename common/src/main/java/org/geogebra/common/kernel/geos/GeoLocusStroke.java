@@ -42,6 +42,8 @@ public class GeoLocusStroke extends GeoLocus
 
 	private String splitParentLabel;
 
+	public ArrayList<MyPoint> mask;
+
 	/**
 	 * @param cons
 	 *            construction
@@ -49,6 +51,7 @@ public class GeoLocusStroke extends GeoLocus
 	public GeoLocusStroke(Construction cons) {
 		super(cons);
 		setVisibleInView3D(false);
+		mask = new ArrayList<>();
 	}
 
 	@Override
@@ -403,49 +406,11 @@ public class GeoLocusStroke extends GeoLocus
 
 	/**
 	 * Deletes part of the pen stroke
-	 * @param rectangle the real reactangle, the inside part of which
-	 * 		should be removed from the pen stroke
 	 * @return true, if the pen stroke still has points left after the deletion
 	 */
-	public boolean deletePart(GRectangle2D rectangle) {
-		ArrayList<MyPoint> outside = new ArrayList<>();
-
-		for (int i = 0; i < getPoints().size() - 1; i++) {
-			MyPoint currentPoint = getPoints().get(i);
-			if (currentPoint.getSegmentType() == SegmentType.CONTROL) {
-				continue;
-			}
-
-			if (!currentPoint.isDefined()) {
-				ensureTrailingNaN(outside);
-				continue;
-			}
-
-			boolean outsideF = !rectangle.contains(currentPoint.x, currentPoint.y);
-			if (outsideF) {
-				outside.add(currentPoint);
-			}
-
-			for (MyPoint intersection : getAllIntersectionPoints(i, rectangle)) {
-				outside.add(intersection);
-
-				if (outsideF) {
-					ensureTrailingNaN(outside);
-				}
-
-				outsideF = !outsideF;
-			}
-		}
-
-		MyPoint last = getPoints().get(getPointLength() - 1);
-		if (!rectangle.contains(last.x, last.y)) {
-			outside.add(last);
-		}
-
-		getPoints().clear();
-		appendPointArray(outside);
-
-		return !outside.isEmpty();
+	public boolean deletePart(double x, double y) {
+		mask.add(new MyPoint(x, y));
+		return true;
 	}
 
 	private void ensureTrailingNaN(List<MyPoint> data) {
@@ -604,25 +569,9 @@ public class GeoLocusStroke extends GeoLocus
 
 	private static boolean onSegmentCoord(double segStart, double interPoint,
 										  double segEnd) {
-		return (interPoint <= Math.max(segStart, segEnd)
-				&& interPoint >= Math.min(segStart, segEnd))
+		return (interPoint <= Math.max(segStart, segEnd) + Kernel.MAX_PRECISION
+				&& interPoint >= Math.min(segStart, segEnd) - Kernel.MAX_PRECISION)
 				|| (segStart == segEnd);
-	}
-
-	// data has to have at least 2 defined points after each other
-	private static boolean canBeBezierCurve(List<MyPoint> data) {
-		boolean firstDefFound = false;
-		for (MyPoint datum : data) {
-			if (datum.isDefined()) {
-				if (firstDefFound) {
-					return true;
-				}
-				firstDefFound = true;
-			} else {
-				firstDefFound = false;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -635,14 +584,7 @@ public class GeoLocusStroke extends GeoLocus
 		resetXMLPointBuilder();
 		setDefined(true);
 
-		// to use bezier curve we need at least 2 points
-		// stroke is: (A),(?),(A),(B) -> size 4
-		if (canBeBezierCurve(data)) {
-			addBezierCurve(data);
-		} else {
-			addNonBezierPoints(data);
-		}
-
+		addBezierCurve(data);
 		updateCascade();
 	}
 
@@ -693,16 +635,6 @@ public class GeoLocusStroke extends GeoLocus
 			} else {
 				addPointLineTo(endPoint);
 			}
-		}
-	}
-
-	private void addNonBezierPoints(ArrayList<MyPoint> data) {
-		if (data.size() > 0) {
-			addPointMoveTo(data.get(0));
-			for (int i = 1; i < data.size(); i++) {
-				addPointLineTo(data.get(i));
-			}
-			ensureTrailingNaN(getPoints());
 		}
 	}
 
