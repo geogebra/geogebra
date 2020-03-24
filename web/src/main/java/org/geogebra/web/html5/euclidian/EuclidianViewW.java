@@ -323,7 +323,6 @@ public class EuclidianViewW extends EuclidianView implements
 			updateBackgroundIfNecessary();
 			paint(g2p);
 		} else {
-			g2p.setPreviewLayer();
 			getEuclidianController().getPen().repaintIfNeeded(g2p);
 		}
 		// if we have pen tool in action
@@ -730,7 +729,7 @@ public class EuclidianViewW extends EuclidianView implements
 		this.evNo = newEvNo;
 
 		if (canvas != null) {
-			this.g2p = new LayeredGGraphicsW(canvas, euclidianViewPanel.getAbsolutePanel());
+			this.g2p = new LayeredGGraphicsW(canvas);
 			g2p.setDevicePixelRatio(appW.getPixelRatio());
 			if (appW.getArticleElement().isDebugGraphics()) {
 				g2p.startDebug();

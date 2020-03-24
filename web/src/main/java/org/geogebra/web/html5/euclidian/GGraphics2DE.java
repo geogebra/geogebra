@@ -368,10 +368,4 @@ public class GGraphics2DE implements GGraphics2DWI {
 	public void resetLayer() {
 		// no layers
 	}
-
-	@Override
-	public void setPreviewLayer() {
-		// no layers
-	}
-
 }
