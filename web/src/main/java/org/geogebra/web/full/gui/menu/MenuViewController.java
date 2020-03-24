@@ -17,7 +17,6 @@ import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.MebisDrawerMenuFactory;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -296,7 +295,8 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	@Override
 	public void onResize(ResizeEvent event) {
-		headerView.setVisible(frame.hasSmallWindowOrCompactHeader() && activeMenu.getTitle() != null);
+		headerView.setVisible(frame.hasSmallWindowOrCompactHeader()
+				&& activeMenu.getTitle() != null);
 	}
 
 	@Override
