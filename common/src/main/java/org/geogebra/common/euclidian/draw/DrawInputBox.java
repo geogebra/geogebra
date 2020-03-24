@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -296,7 +295,7 @@ public class DrawInputBox extends CanvasDrawable {
 		tf.setEditable(true);
 	}
 
-	private GFont getTextFont(String text) {
+	public GFont getTextFont(String text) {
 		GFont vFont = view.getFont();
 		return view.getApplication().getFontCanDisplay(text, false,
 				vFont.getStyle(), getLabelFontSize());
@@ -330,26 +329,9 @@ public class DrawInputBox extends CanvasDrawable {
 
 	@Override
 	public int getPreferredHeight() {
-		return getPreferredHeight(geoInputBox.getText());
-	}
-
-	/**
-	 * @param text String to measure
-	 * @return the height of the given text using the
-	 * font settings of the input box
-	 */
-	public int getPreferredHeight(String text) {
-		int height;
-
-		if (geoInputBox.isSymbolicMode()) {
-			App app = view.getApplication();
-			height = app.getDrawEquation().measureEquation(app, null, text,
-					getTextFont(text), false).getHeight();
-		} else {
-			height = (int) Math.round(((getView().getApplication().getFontSize()
-					* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR);
-		}
-		return Math.max(height + TF_MARGIN_VERTICAL, MIN_HEIGHT);
+		int height = (int) Math.round(((getView().getApplication().getFontSize()
+				* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR);
+		return Math.max(height, MIN_HEIGHT);
 	}
 
 	@Override
@@ -425,45 +407,19 @@ public class DrawInputBox extends CanvasDrawable {
 		boolean latexLabel = measureLabel(g2, getGeoInputBox(), labelDesc);
 
 		// TF Bounds
-		if (canSetWidgetPixelSize()) {
-			labelRectangle.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
+		labelRectangle.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
 
-		} else {
-			labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
-					boxHeight - 3);
-		}
 		if (isSelectedForInput()) {
 			view.getViewTextField().setBoxBounds(labelRectangle);
 		}
 
-		if (canSetWidgetPixelSize()) {
-			if (!editing) {
-				drawTextfieldOnCanvas(g2);
-			}
+		if (!editing) {
+			drawTextfieldOnCanvas(g2);
+		}
 
-			highlightLabel(g2, latexLabel);
-			if (geo.isLabelVisible()) {
-				drawLabel(g2, getGeoInputBox(), labelDesc);
-			}
-		} else {
-			highlightLabel(g2, latexLabel);
-
-			if (geo.isLabelVisible()) {
-				drawLabel(g2, getGeoInputBox(), labelDesc);
-			}
-
-			if (!editing) {
-				GColor bgColor = geo.getBackgroundColor() != null
-					? geo.getBackgroundColor() : view.getBackgroundCommon();
-				getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
-						boxHeight);
-
-				String text = getGeoInputBox().getText();
-				g2.setFont(textFont.deriveFont(GFont.PLAIN));
-				g2.setPaint(geo.getObjectColor());
-
-				drawText(g2, text);
-			}
+		highlightLabel(g2, latexLabel);
+		if (geo.isLabelVisible()) {
+			drawLabel(g2, getGeoInputBox(), labelDesc);
 		}
 
 		g2.setFont(font);

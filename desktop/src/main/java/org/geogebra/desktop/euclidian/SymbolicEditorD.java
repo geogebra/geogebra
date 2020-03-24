@@ -93,15 +93,10 @@ public class SymbolicEditorD extends SymbolicEditor {
 	public void repaintBox(GGraphics2D g) {
 		GColor bgColor = geoInputBox.getBackgroundColor() != null
 				? geoInputBox.getBackgroundColor() : view.getBackgroundCommon();
-		String text = serializer.serialize(mathFieldInternal.getFormula());
-
-		double currentHeight = drawInputBox.getPreferredHeight(text);
-		box.setBounds(box.getX(), box.getY(), box.getWidth(), (int) currentHeight);
-		box.revalidate();
 
 		g.saveTransform();
-		g.translate(box.getX(), baseline - currentHeight / 2);
-		view.getTextField().drawBounds(g, bgColor, 0, 0, box.getWidth(), (int) currentHeight);
+		g.translate(box.getX(), baseline - (double) (box.getHeight()) / 2);
+		view.getTextField().drawBounds(g, bgColor, 0, 0, box.getWidth(), box.getHeight());
 
 		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL, 0);
 		mathField.setForeground(GColorD.getAwtColor(geoInputBox.getObjectColor()));
@@ -117,6 +112,11 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void onKeyTyped() {
+		String text = serializer.serialize(mathFieldInternal.getFormula());
+		double currentHeight = app.getDrawEquation().measureEquation(app, null, text,
+				drawInputBox.getTextFont(text), false).getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
+		box.setBounds(box.getX(), box.getY(), box.getWidth(), (int) currentHeight);
+		box.revalidate();
 		view.repaintView();
 	}
 
