@@ -8,6 +8,7 @@ import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
 import org.geogebra.common.gui.menu.Icon;
@@ -15,7 +16,6 @@ import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -32,6 +32,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;
 
 import java.util.List;
@@ -39,7 +40,7 @@ import java.util.List;
 /**
  * Controller for the main menu in the apps.
  */
-public class MenuViewController implements ResizeHandler, EventRenderable {
+public class MenuViewController implements ResizeHandler, EventRenderable, SetLabels {
 
 	private MenuViewListener menuViewListener;
 
@@ -47,8 +48,9 @@ public class MenuViewController implements ResizeHandler, EventRenderable {
 	private HeaderedMenuView headeredMenuView;
 	private HeaderView headerView;
 	private MenuView menuView;
+	private DrawerMenu activeMenu;
 
-	private Localization localization;
+	private LocalizationW localization;
 	private GeoGebraFrameW frame;
 	private MenuIconResource menuIconResource;
 	private MenuActionRouter menuActionRouter;
@@ -135,6 +137,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable {
 	private void registerListeners(AppW app) {
 		Window.addResizeHandler(this);
 		app.getLoginOperation().getView().add(this);
+		localization.registerLocalizedUI(this);
 	}
 
 	/**
@@ -174,9 +177,13 @@ public class MenuViewController implements ResizeHandler, EventRenderable {
 	}
 
 	private void setDrawerMenu(DrawerMenu drawerMenu) {
-		setHeaderCaption(drawerMenu.getTitle());
-		setMenuItemGroups(menuView,
-				drawerMenu.getMenuItemGroups());
+		activeMenu = drawerMenu;
+		updateMenu();
+	}
+
+	private void updateMenu() {
+		updateHeaderCaption();
+		updateMenuItemGroups();
 	}
 
 	/**
@@ -202,6 +209,10 @@ public class MenuViewController implements ResizeHandler, EventRenderable {
 				menuViewListener.onMenuClosed();
 			}
 		}
+	}
+
+	private void updateMenuItemGroups() {
+		setMenuItemGroups(menuView, activeMenu.getMenuItemGroups());
 	}
 
 	void setMenuItemGroups(MenuView menuView, List<MenuItemGroup> menuItemGroups) {
@@ -230,8 +241,8 @@ public class MenuViewController implements ResizeHandler, EventRenderable {
 		return headerView;
 	}
 
-	private void setHeaderCaption(String title) {
-		String localizedTitle = localization.getMenu(title);
+	private void updateHeaderCaption() {
+		String localizedTitle = localization.getMenu(activeMenu.getTitle());
 		headerView.setCaption(localizedTitle);
 	}
 
@@ -270,7 +281,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable {
 	private ImageResource getUserImage() {
 		return new ImageResourcePrototype(user.getUserName(),
 				UriUtils.fromString(user.getImageURL()),
-				0, 0,	36, 36, false, false);
+				0, 0, 36, 36, false, false);
 	}
 
 	@Override
@@ -288,5 +299,10 @@ public class MenuViewController implements ResizeHandler, EventRenderable {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
 			setDefaultMenu();
 		}
+	}
+
+	@Override
+	public void setLabels() {
+		updateMenu();
 	}
 }
