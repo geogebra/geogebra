@@ -295,6 +295,11 @@ public class DrawInputBox extends CanvasDrawable {
 		tf.setEditable(true);
 	}
 
+	/**
+	 * @param text text to display
+	 * @return the font that has the correct size for the input box
+	 * and can display the given text
+	 */
 	public GFont getTextFont(String text) {
 		GFont vFont = view.getFont();
 		return view.getApplication().getFontCanDisplay(text, false,

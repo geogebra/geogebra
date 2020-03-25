@@ -67,7 +67,6 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;

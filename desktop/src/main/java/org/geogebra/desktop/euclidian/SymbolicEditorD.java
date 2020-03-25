@@ -1,6 +1,7 @@
 package org.geogebra.desktop.euclidian;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.renderer.share.TeXFont;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -31,7 +32,6 @@ public class SymbolicEditorD extends SymbolicEditor {
 		box = Box.createHorizontalBox();
 
 		mathField = new MathFieldD();
-		mathFieldInternal = mathField.getInternal();
 
 		mathField.getInternal().setFieldListener(this);
 		mathField.setVisible(true);
@@ -53,10 +53,15 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
+	protected MathFieldInternal getMathFieldInternal() {
+		return mathField.getInternal();
+	}
+
+	@Override
 	public void hide() {
-		if (drawInputBox.isEditing()) {
+		if (getDrawInputBox().isEditing()) {
 			applyChanges();
-			drawInputBox.setEditing(false);
+			getDrawInputBox().setEditing(false);
 			box.setVisible(false);
 			view.repaintView();
 		}
@@ -69,10 +74,8 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
-		this.geoInputBox = geoInputBox;
-		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
-
-		drawInputBox.setEditing(true);
+		super.attach(geoInputBox, bounds);
+		getDrawInputBox().setEditing(true);
 
 		mathField.getInternal().parse(geoInputBox.getTextForEditor());
 		mathField.setBounds(GRectangleD.getAWTRectangle(bounds));
@@ -91,15 +94,15 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void repaintBox(GGraphics2D g) {
-		GColor bgColor = geoInputBox.getBackgroundColor() != null
-				? geoInputBox.getBackgroundColor() : view.getBackgroundCommon();
+		GColor bgColor = getGeoInputBox().getBackgroundColor() != null
+				? getGeoInputBox().getBackgroundColor() : view.getBackgroundCommon();
 
 		g.saveTransform();
 		g.translate(box.getX(), baseline - (double) (box.getHeight()) / 2);
 		view.getTextField().drawBounds(g, bgColor, 0, 0, box.getWidth(), box.getHeight());
 
 		g.translate(DrawInputBox.TF_PADDING_HORIZONTAL, 0);
-		mathField.setForeground(GColorD.getAwtColor(geoInputBox.getObjectColor()));
+		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
 		box.paint(GGraphics2DD.getAwtGraphics(g));
 
 		g.restoreTransform();
@@ -112,9 +115,9 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void onKeyTyped() {
-		String text = serializer.serialize(mathFieldInternal.getFormula());
+		String text = serializer.serialize(getMathFieldInternal().getFormula());
 		double currentHeight = app.getDrawEquation().measureEquation(app, null, text,
-				drawInputBox.getTextFont(text), false).getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
+				getDrawInputBox().getTextFont(text), false).getHeight() + 2 * DrawInputBox.TF_MARGIN_VERTICAL;
 		box.setBounds(box.getX(), box.getY(), box.getWidth(), (int) currentHeight);
 		box.revalidate();
 		view.repaintView();

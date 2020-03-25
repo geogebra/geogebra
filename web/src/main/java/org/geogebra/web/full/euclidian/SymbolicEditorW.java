@@ -1,6 +1,7 @@
 package org.geogebra.web.full.euclidian;
 
 import com.google.gwt.core.client.Scheduler;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -49,13 +50,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 				.getFontSettings().getAppFontSize() + 3;
 
 		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
-		mathFieldInternal = editor.getMathField().getInternal();
 	}
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
-		this.geoInputBox = geoInputBox;
-		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
+		super.attach(geoInputBox, bounds);
 
 		this.bounds = bounds;
 		resetChanges();
@@ -73,12 +72,12 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	private void resetChanges() {
-		this.drawInputBox.setEditing(true);
+		getDrawInputBox().setEditing(true);
 		editor.setVisible(true);
-		decorator.update(bounds, geoInputBox);
+		decorator.update(bounds, getGeoInputBox());
 
-		editor.setText(geoInputBox.getTextForEditor());
-		editor.setLabel(geoInputBox.getAuralText());
+		editor.setText(getGeoInputBox().getTextForEditor());
+		editor.setLabel(getGeoInputBox().getAuralText());
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -89,17 +88,22 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	@Override
 	public boolean isClicked(GPoint point) {
-		return drawInputBox.isEditing() && bounds.contains(point.getX(), point.getY());
+		return getDrawInputBox().isEditing() && bounds.contains(point.getX(), point.getY());
+	}
+
+	@Override
+	protected MathFieldInternal getMathFieldInternal() {
+		return editor.getMathField().getInternal();
 	}
 
 	@Override
 	public void hide() {
-		if (!drawInputBox.isEditing()) {
+		if (!getDrawInputBox().isEditing()) {
 			return;
 		}
 
 		applyChanges();
-		drawInputBox.setEditing(false);
+		getDrawInputBox().setEditing(false);
 		editor.setVisible(false);
 
 		AnimationScheduler.get()
@@ -119,7 +123,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	@Override
 	public void onKeyTyped() {
 		decorator.update();
-		geoInputBox.update();
+		getGeoInputBox().update();
 		editor.scrollHorizontally();
 		editor.updateAriaLabel();
 	}

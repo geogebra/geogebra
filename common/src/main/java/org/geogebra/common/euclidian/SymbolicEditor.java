@@ -22,10 +22,8 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	protected TeXSerializer serializer;
 
-	protected GeoInputBox geoInputBox;
-	protected DrawInputBox drawInputBox;
-
-	protected MathFieldInternal mathFieldInternal;
+	private GeoInputBox geoInputBox;
+	private DrawInputBox drawInputBox;
 
 	protected SymbolicEditor(App app, EuclidianView view) {
 		this.app = app;
@@ -35,15 +33,17 @@ public abstract class SymbolicEditor implements MathFieldListener {
 
 	protected void applyChanges() {
 		setTempUserDisplayInput();
-		String editedText = mathFieldInternal.getText();
+		String editedText = getMathFieldInternal().getText();
 		geoInputBox.updateLinkedGeo(editedText);
 	}
 
 	protected void setTempUserDisplayInput() {
-		MathFormula formula = mathFieldInternal.getFormula();
+		MathFormula formula = getMathFieldInternal().getFormula();
 		String latex = serializer.serialize(formula);
 		geoInputBox.setTempUserDisplayInput(latex);
 	}
+
+	protected abstract MathFieldInternal getMathFieldInternal();
 
 	/**
 	 * Hide the editor if it was attached.
@@ -66,7 +66,10 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	 * @param bounds
 	 *            place to attach the editor to.
 	 */
-	public abstract void attach(GeoInputBox geoInputBox, GRectangle bounds);
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+		this.geoInputBox = geoInputBox;
+		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
+	}
 
 	@Override
 	public void onCursorMove() {
@@ -94,4 +97,12 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	}
 
 	public abstract void repaintBox(GGraphics2D g2);
+
+	public GeoInputBox getGeoInputBox() {
+		return geoInputBox;
+	}
+
+	public DrawInputBox getDrawInputBox() {
+		return drawInputBox;
+	}
 }

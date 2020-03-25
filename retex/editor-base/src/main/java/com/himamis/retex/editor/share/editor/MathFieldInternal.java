@@ -789,6 +789,9 @@ public class MathFieldInternal
 		}
 	}
 
+	/**
+	 * @return the contained formula serialized in the GeoGebra format
+	 */
 	public String getText() {
 		GeoGebraSerializer s = new GeoGebraSerializer();
 		return s.serialize(getFormula());
