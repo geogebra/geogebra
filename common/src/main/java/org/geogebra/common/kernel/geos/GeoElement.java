@@ -2544,7 +2544,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
-
 		if (addToConstr) {
 			notifyAdd();
 		}
@@ -2663,6 +2662,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		// UPDATE KERNEL
+		cons.getLayerManager().setRenameRunning(true);
 		cons.removeLabel(this); // remove old table entry
 		oldLabel = label; // remember old label (for applet to javascript
 							// rename)
@@ -2676,7 +2676,7 @@ public abstract class GeoElement extends ConstructionElement
 			correspondingCasCell.setInputFromTwinGeo(false, false);
 		}
 		cons.putLabel(this); // add new table entry
-
+		cons.getLayerManager().setRenameRunning(false);
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
 
@@ -7279,6 +7279,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	public void setOrdering(int ordering) {
+		// Log.printStacktrace(getLabelSimple()+":"+ordering);
 		this.ordering = ordering;
 	}
 }

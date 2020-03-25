@@ -50,6 +50,7 @@ import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
@@ -68,8 +69,9 @@ public class AppCommon extends App {
 	private SpreadsheetTableModel tableModel;
 	private AppConfig config = new AppConfigDefault();
 	private CASFactory casFactory = new CASFactoryDummy();
+	private CopyPaste copyPaste;
 
-    /**
+	/**
 	 * Construct an AppCommon.
 	 * 
 	 * @param loc

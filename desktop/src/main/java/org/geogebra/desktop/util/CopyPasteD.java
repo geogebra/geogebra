@@ -659,12 +659,6 @@ public class CopyPasteD extends CopyPaste {
 	}
 
 	@Override
-	public void duplicate(App app, List<GeoElement> selection) {
-		copyToXML(app, selection);
-		pasteFromXML(app);
-	}
-
-	@Override
 	public void clearClipboard() {
 		if (copiedXML != null) {
 			copiedXML.setLength(0);

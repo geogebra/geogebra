@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTraceManager;
+import org.geogebra.common.util.InternalClipboard;
 
 /**
  * @author gabor
@@ -735,7 +736,7 @@ public abstract class ContextMenuGeoElement {
 	public void duplicateCmd() {
 		ensureGeoInSelection();
 		getActiveEuclidianController().splitSelectedStrokes(false);
-		app.getCopyPaste().duplicate(app, app.getSelectionManager().getSelectedGeos());
+		InternalClipboard.duplicate(app, app.getSelectionManager().getSelectedGeos());
 		getActiveEuclidianController().removeSplitParts();
 	}
 

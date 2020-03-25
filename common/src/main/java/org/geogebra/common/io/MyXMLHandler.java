@@ -3025,11 +3025,6 @@ public class MyXMLHandler implements DocHandler {
 				this.geoHandler.processLists();
 				cons.getLayerManager().updateList();
 				processEvSizes();
-				// now called from MyXMLio.doParseXML()
-				// if (spreadsheetTraceNeeded) {
-				// // don't want to initialize trace manager unless necessary
-				// app.getTraceManager().loadTraceGeoCollection();
-				// }
 
 				if (kernel == origKernel) {
 					mode = MODE_GEOGEBRA;
