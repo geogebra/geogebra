@@ -7279,7 +7279,6 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	public void setOrdering(int ordering) {
-		// Log.printStacktrace(getLabelSimple()+":"+ordering);
 		this.ordering = ordering;
 	}
 }
