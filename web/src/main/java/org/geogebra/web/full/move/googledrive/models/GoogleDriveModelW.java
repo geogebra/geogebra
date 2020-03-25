@@ -33,11 +33,6 @@ public class GoogleDriveModelW extends AuthenticationModelW {
 		return false;
 	}
 
-	@Override
-	public String getEncoded() {
-		return null;
-	}
-
 	/**
 	 * Update info about goofgle login in local storage.
 	 * 

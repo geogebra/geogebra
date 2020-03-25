@@ -47,9 +47,4 @@ public class AuthenticationModelD extends AuthenticationModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public String getEncoded() {
-		return null;
-	}
 }
