@@ -182,8 +182,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		} else if (app.isWhiteboardActive()) {
 			addInlineTextItems();
 			addCutCopyPaste();
-			addGroupItems();
 			addLayerItem();
+			addGroupItems();
 			addFixForUnbundledOrNotes();
 		}
 
