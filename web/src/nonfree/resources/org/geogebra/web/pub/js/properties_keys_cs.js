@@ -2578,7 +2578,7 @@ __GGB__keysVar["cs"].menu = {
     "RemoveLabel": "Odstranit n\xe1zev",
     "RemoveLineBreaks": "Odstran\u011bn\xed \u0159\xe1dk\u016f",
     "RemoveRow": "Odstranit \u0159\xe1dek",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Odstranit objekt ze stopy seznamu",
     "Rename": "P\u0159ejmenovat",
     "Repeat": "Opakovat",

@@ -2578,7 +2578,7 @@ __GGB__keysVar["uz"].menu = {
     "RemoveLabel": "Belgini olib tashlash",
     "RemoveLineBreaks": "Remove Line Breaks",
     "RemoveRow": "Satrni ko'chirish",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Remove object from trace list",
     "Rename": "Qayta nomlash",
     "Repeat": "Takrorlash",

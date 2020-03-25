@@ -2578,7 +2578,7 @@ __GGB__keysVar["tr"].menu = {
     "RemoveLabel": "Etiketi kald\u0131r",
     "RemoveLineBreaks": "Sat\u0131r kesmelerini kald\u0131r",
     "RemoveRow": "Sat\u0131r Kald\u0131r",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Nesneyi izleme listesinden kald\u0131r",
     "Rename": "Ad de\u011fi\u015ftir",
     "Repeat": "Tekrar",

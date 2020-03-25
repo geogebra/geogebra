@@ -2578,7 +2578,7 @@ __GGB__keysVar["ca"].menu = {
     "RemoveLabel": "Treu l'etiqueta",
     "RemoveLineBreaks": "Elimina salts de l\xednia",
     "RemoveRow": "Elimina fila",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Elimina objecte de la llista seleccionada",
     "Rename": "Canvia de nom",
     "Repeat": "Repeteix",

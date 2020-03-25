@@ -2578,7 +2578,7 @@ __GGB__keysVar["xh"].menu = {
     "RemoveLabel": "Remove label",
     "RemoveLineBreaks": "Susa iiLine Breaks",
     "RemoveRow": "Susa iRowu",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Susa izinto kwitrace list",
     "Rename": "Nika ElinyeIgama",
     "Repeat": "Phinda",

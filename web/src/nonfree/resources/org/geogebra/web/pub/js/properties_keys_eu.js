@@ -2578,7 +2578,7 @@ __GGB__keysVar["eu"].menu = {
     "RemoveLabel": "Etiketa ezabatu",
     "RemoveLineBreaks": "Kendu Lerroen Ebakidurak",
     "RemoveRow": "Ezabatu Lerroa",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Kendu objektua arrasto-zerrendatik",
     "Rename": "Aldatu izena",
     "Repeat": "Errepikatu",

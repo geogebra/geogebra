@@ -2578,7 +2578,7 @@ __GGB__keysVar["pl"].menu = {
     "RemoveLabel": "Usu\u0144 etykiet\u0119",
     "RemoveLineBreaks": "Usu\u0144 podzia\u0142y wiersza",
     "RemoveRow": "Usu\u0144 Wiersz",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Usu\u0144 obiekt z listy \u015bledzenia",
     "Rename": "Zmie\u0144 nazw\u0119",
     "Repeat": "Powt\xf3rz",

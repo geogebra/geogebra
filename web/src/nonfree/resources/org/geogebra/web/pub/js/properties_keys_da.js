@@ -2578,7 +2578,7 @@ __GGB__keysVar["da"].menu = {
     "RemoveLabel": "Fjern m\xe6rkat",
     "RemoveLineBreaks": "Fjern afbrydelser i linje",
     "RemoveRow": "Fjern r\xe6kke",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Fjern objekt fra liste med spor",
     "Rename": "Omd\xf8b",
     "Repeat": "Gentag",

@@ -2578,7 +2578,7 @@ __GGB__keysVar["ro"].menu = {
     "RemoveLabel": "\xcendep\u0103rteaz\u0103 eticheta",
     "RemoveLineBreaks": "Elimin\u0103 rupturile dintre linii",
     "RemoveRow": "\u015eterge\u021bi r\xe2ndul",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Eliminare obiect din lista de urme",
     "Rename": "Redenumire",
     "Repeat": "Repet\u0103",

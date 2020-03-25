@@ -2578,7 +2578,7 @@ __GGB__keysVar["es-UY"].menu = {
     "RemoveLabel": "Quitar etiqueta",
     "RemoveLineBreaks": "Suprime saltos de p\xe1rrafo",
     "RemoveRow": "Eliminar Fila",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Elimina objeto de la lista de rastros",
     "Rename": "Renombrar",
     "Repeat": "Repite",

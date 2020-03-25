@@ -2578,7 +2578,7 @@ __GGB__keysVar["fr"].menu = {
     "RemoveLabel": "Supprimer le nom",
     "RemoveLineBreaks": "Supprimer les lignes d'arr\xeat",
     "RemoveRow": "Supprimer Ligne",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Retirer l'objet de la liste de suivi",
     "Rename": "Renommer",
     "Repeat": "R\xe9p\xe9ter",

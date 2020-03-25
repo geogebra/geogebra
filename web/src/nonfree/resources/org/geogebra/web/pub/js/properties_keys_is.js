@@ -2578,7 +2578,7 @@ __GGB__keysVar["is"].menu = {
     "RemoveLabel": "Fjarl\xe6gja merkingu",
     "RemoveLineBreaks": "Fjarl\xe6gja l\xednuskipti",
     "RemoveRow": "Fjarl\xe6gja l\xednu",
-    "RemoveSlider": "Remove Slider",
+    "RemoveSlider": "Remove slider",
     "RemoveTrace": "Fjarl\xe6gja hlut af sporlista",
     "Rename": "Endurnefna",
     "Repeat": "Endurtaka",
