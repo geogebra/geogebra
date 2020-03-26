@@ -1,15 +1,10 @@
 package org.geogebra.common.main.saveLoad.group;
 
-import static org.junit.Assert.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwtmockito.GwtMockitoTestRunner;
-import com.google.gwtmockito.WithClassesToStub;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
@@ -22,6 +17,11 @@ import org.geogebra.web.util.file.FileIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwtmockito.GwtMockitoTestRunner;
+import com.google.gwtmockito.WithClassesToStub;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 
 
@@ -53,7 +53,7 @@ public class GroupSaveTest {
         String fileContent = FileIO.load(pathString);
         StringBuilder consXMLStrBuilder = new StringBuilder();
         app.getKernel().getConstruction().getConstructionXML(consXMLStrBuilder, false);
-        assertEquals(consXMLStrBuilder.toString(), fileContent);
+        assertEquals(fileContent, consXMLStrBuilder.toString());
     }
 
     @Test
