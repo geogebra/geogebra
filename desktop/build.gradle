@@ -20,6 +20,15 @@ sourceSets {
             }
         }
     }
+    e2eTest {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output
+    }
+}
+
+configurations {
+    e2eTestCompile.extendsFrom testCompile
+    e2eTestCompile.extendsFrom testRuntime
 }
 
 eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
@@ -134,4 +143,10 @@ eclipse {
 checkstyle {
     configDir = file("config/checkstyle/")
     toolVersion = "8.8"
+}
+
+task e2eTest(type: Test) {
+    description 'Run end-to-end tests'
+    testClassesDirs = sourceSets.e2eTest.output.classesDirs
+    classpath = sourceSets.e2eTest.runtimeClasspath
 }
