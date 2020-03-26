@@ -61,9 +61,12 @@ public class InlineTextItems {
 		List<DrawInlineText> inlines = new ArrayList<>();
 		for (GeoElement geo: group.getGroupedGeos()) {
 			DrawInlineText drawInlineText = getDrawableInlineText(geo);
-			if (drawInlineText != null) {
-				inlines.add(drawInlineText);
+			if (drawInlineText == null) {
+				return Collections.emptyList();
 			}
+
+			inlines.add(drawInlineText);
+
 		}
 
 		return inlines;
