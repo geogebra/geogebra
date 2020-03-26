@@ -182,8 +182,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		} else if (app.isWhiteboardActive()) {
 			addInlineTextItems();
 			addCutCopyPaste();
-			addLayerItem();
-			addGroupItems();
+			boolean layerAdded = addLayerItem();
+			boolean groupsAdded = addGroupItems();
+			if (layerAdded || groupsAdded) {
+				getWrappedPopup().addSeparator();
+			}
 			addFixForUnbundledOrNotes();
 		}
 
@@ -232,12 +235,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	}
 
-	private void addLayerItem() {
+	private boolean addLayerItem() {
 		if (containsMask(getGeos())) {
-			return;
+			return false;
 		}
 
 		addOrderSubmenu();
+		return true;
 	}
 
 	private static boolean containsMask(Collection<GeoElement> geos) {
@@ -326,9 +330,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		addItem("removeLink", addRemoveHyperlinkCommand);
 	}
 
-	private void addGroupItems() {
+	private boolean addGroupItems() {
 		GroupItems items = new GroupItems(app);
-		items.addAvailableItems(wrappedPopup);
+		return items.addAvailableItems(wrappedPopup);
 	}
 
 	private void addPropertiesItem() {

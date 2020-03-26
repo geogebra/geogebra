@@ -28,13 +28,13 @@ public class GroupItems {
 	/**
 	 * Add items that are available to currently selected geos.
 	 * @param popup the menu to add items to.
+	 * @return if any groups item was added
 	 */
-	void addAvailableItems(GPopupMenuW popup) {
+	boolean addAvailableItems(GPopupMenuW popup) {
 		boolean groupAdded = addGroupItem(popup);
 		boolean ungroupAdded = addUngroupItem(popup);
-		if (groupAdded || ungroupAdded) {
-			popup.addSeparator();
-		}
+
+		return groupAdded || ungroupAdded;
 	}
 
 	private boolean addGroupItem(GPopupMenuW popup) {
