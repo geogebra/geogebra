@@ -13,7 +13,7 @@ pipeline {
         }
         stage('report') {
             steps {
-                junit '**/build/test-results/test/*.xml'
+                junit '**/build/test-results/e2eTest/*.xml'
             }
         }
     }
