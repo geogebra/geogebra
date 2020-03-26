@@ -8,21 +8,16 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
-import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.menubar.item.ExitExamItem;
 import org.geogebra.web.full.gui.menubar.item.FileNewItem;
 import org.geogebra.web.full.gui.menubar.item.FileOpenItemMebis;
+import org.geogebra.web.full.gui.menubar.item.OpenOfflineFileItem;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.activity.GeoGebraActivity;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -35,8 +30,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	private AriaMenuItem openFileItem;
 
 	private Localization loc;
-	/** file chooser */
-	private FileChooser fileChooser;
 	private VendorSettings vendorSettings;
 	private GeoGebraActivity activity;
 
@@ -121,31 +114,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		openFileItem.setHTML(MainMenu.getMenuBarHtmlClassic(
 				activity.getResourceIconProvider().openFileMenu().getSafeUri().asString(),
 				loc.getMenu(vendorSettings.getMenuLocalizationKey("Open"))));
-	}
-
-	private class FileChooser extends FileUpload implements ChangeHandler {
-		private BrowseGUI bg;
-
-		public FileChooser() {
-			super();
-			bg = new BrowseGUI(getApp(), this);
-			addChangeHandler(this);
-			getElement().setAttribute("accept", ".ggs");
-		}
-
-		public void open() {
-			click();
-		}
-
-		@Override
-		public void onChange(ChangeEvent event) {
-			bg.openFile(getSelectedFile());
-			this.removeFromParent();
-		}
-
-		private native JavaScriptObject getSelectedFile()/*-{
-			return $doc.querySelector('input[type=file]').files[0];
-		}-*/;
 	}
 
 	/**
@@ -246,22 +214,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	}
 
 	private void addOpenOfflineFilesItem() {
-		addItem(MainMenu.getMenuBarHtml(
-				MaterialDesignResources.INSTANCE
-						.mow_pdf_open_folder(),
-				loc.getMenu("mow.offlineMyFiles")),
-				true, new MenuCommand(getApp()) {
-
-					@Override
-					public void doExecute() {
-						if (fileChooser == null) {
-							fileChooser = new FileChooser();
-							fileChooser.addStyleName("hidden");
-						}
-						app.getPanel().add(fileChooser);
-						fileChooser.open();
-					}
-				});
+		addItem(new OpenOfflineFileItem(getApp()));
 	}
 
 	private void addOpenFileItem() {

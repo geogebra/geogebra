@@ -16,6 +16,7 @@ import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
 import org.geogebra.common.gui.menu.impl.ExamDrawerMenuFactory;
+import org.geogebra.common.gui.menu.impl.MebisDrawerMenuFactory;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -104,13 +105,21 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	private void createDrawerMenuFactories(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
-		defaultDrawerMenuFactory =
-				new DefaultDrawerMenuFactory(
-						app.getPlatform(),
-						version,
-						hasLoginButton(app) ? app.getLoginOperation() : null,
-						shouldCreateExamEntry(app));
+		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
 		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
+	}
+
+	private DrawerMenuFactory createDefaultMenuFactory(AppW app,
+													   GeoGebraConstants.Version version) {
+		if (app.isMebis()) {
+			return new MebisDrawerMenuFactory(app.getPlatform(), version, app.getLoginOperation());
+		} else {
+			return new DefaultDrawerMenuFactory(
+					app.getPlatform(),
+					version,
+					hasLoginButton(app) ? app.getLoginOperation() : null,
+					shouldCreateExamEntry(app));
+		}
 	}
 
 	private void createActionHandlerFactories(AppWFull app) {
@@ -286,7 +295,8 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	@Override
 	public void onResize(ResizeEvent event) {
-		headerView.setVisible(frame.hasSmallWindowOrCompactHeader());
+		headerView.setVisible(frame.hasSmallWindowOrCompactHeader()
+				&& activeMenu.getTitle() != null);
 	}
 
 	@Override

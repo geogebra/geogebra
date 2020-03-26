@@ -69,6 +69,8 @@ class MenuIconResource {
 				return menuIconProvider.signIn();
 			case SIGN_OUT:
 				return menuIconProvider.signOut();
+			case FOLDER:
+				return menuIconProvider.folder();
 			case USER_ICON:
 			default:
 				return null;
