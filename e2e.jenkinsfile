@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    stages {
+        stage('test e2e') {
+            steps {
+                withCredentials([string(credentialsId: 'materials.token', variable: 'TOKEN')]) {
+                    sh label: 'e2e-test', script: "./gradlew :desktop:test -Pmaterials.token=${TOKEN}"
+                }
+            }
+        }
+        stage('report') {
+            steps {
+                junit '**/build/test-results/test/*.xml'
+            }
+        }
+    }
+    post {
+        always {
+           cleanAndNotify()
+        }
+    }
+}
