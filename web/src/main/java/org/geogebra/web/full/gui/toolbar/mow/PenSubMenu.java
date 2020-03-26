@@ -36,7 +36,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class PenSubMenu extends SubMenuPanel {
-	private static final int MAX_ERASER_SIZE = 201;
+	private static final int MAX_ERASER_SIZE = 200;
+	private static final int MIN_ERASER_SIZE = 10;
 	private static final int ERASER_STEP = 10;
 	private ToolButton pen;
 	private ToolButton eraser;
@@ -182,7 +183,8 @@ public class PenSubMenu extends SubMenuPanel {
 
 	private void setSliderRange(boolean isPen) {
 		// same min for pen and highlighter
-		slider.setMinimum(EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE, false);
+		slider.setMinimum(isPen ? EuclidianConstants.MIN_PEN_HIGHLIGHTER_SIZE
+				: MIN_ERASER_SIZE, false);
 		slider.setMaximum(isPen ? EuclidianConstants.MAX_PEN_HIGHLIGHTER_SIZE
 				: MAX_ERASER_SIZE, false);
 		slider.setStep(
