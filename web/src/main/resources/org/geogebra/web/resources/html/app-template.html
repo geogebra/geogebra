@@ -401,9 +401,7 @@ var codebase = "<!--CODEBASE-->";
 
 	function loadApp(){
 		if(isLocalhost()) {
-			defaultParams.materialsApi = "https://alpha.geogebra.org/api/json.php";
-			defaultParams.loginApi = "https://alpha.geogebra.org/api/login.php";
-			defaultParams.backendApi = "https://groot.geogebra.org:5000/v1.0";
+			defaultParams.backendURL = "https://api-beta.geogebra.org/v1.0";
 		}
 
 		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
