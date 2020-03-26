@@ -227,15 +227,51 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addInlineTextItems() {
-		if (!(getGeo() instanceof GeoInlineText)) {
+		List<DrawInlineText> inlines = getInlineTexts();
+
+		if (inlines.isEmpty()) {
 			return;
 		}
 
-		addInlineTextToolbar();
-		addInlineTextSubmenu();
-		addHyperlinkItems();
+		addInlineTextToolbar(inlines);
+		addInlineTextSubmenu(inlines);
+		addHyperlinkItems(inlines);
+
 		wrappedPopup.addSeparator();
 
+	}
+	private void addInlineTextToolbar(List<DrawInlineText> inlines) {
+		InlineTextToolbar toolbar = new InlineTextToolbar(inlines, app);
+		wrappedPopup.addItem(toolbar, false);
+	}
+
+	private List<DrawInlineText> getInlineTexts() {
+		if (!getGeo().hasGroup()) {
+			return Collections.singletonList(getDrawableInlineText(getGeo()));
+		}
+
+		Group group = getGeo().getParentGroup();
+		List<DrawInlineText> inlines = new ArrayList<>();
+		for (GeoElement geo: group.getGroupedGeos()) {
+			DrawInlineText drawInlineText = getDrawableInlineText(geo);
+			if (drawInlineText != null) {
+				inlines.add(drawInlineText);
+			}
+		}
+
+		return inlines;
+	}
+
+	private DrawInlineText getDrawableInlineText(GeoElement geo) {
+		return geo instanceof GeoInlineText ? (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(geo) : null;
+	}
+
+	private void addInlineTextSubmenu(List<DrawInlineText> inlines) {
+		AriaMenuItem item = newSubMenuItem("ContextMenu.Font",
+				new FontSubMenu((AppW) app, getTextController()));
+		item.addStyleName("no-image");
+		wrappedPopup.addItem(item);
 	}
 
 	private boolean addLayerItem() {
@@ -257,38 +293,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		return false;
 	}
 
-	private void addInlineTextToolbar() {
-		InlineTextToolbar toolbar = new InlineTextToolbar(getInlineTexts(), app);
-		wrappedPopup.addItem(toolbar, false);
-	}
-
-	private List<DrawInlineText> getInlineTexts() {
-		if (!getGeo().hasGroup()) {
-			return Collections.singletonList(getDrawableInlineText(getGeo()));
-		}
-		Group group = getGeo().getParentGroup();
-		List<DrawInlineText> inlines = new ArrayList<>();
-		for (GeoElement geo: group.getGroupedGeos()) {
-			DrawInlineText drawInlineText = getDrawableInlineText(geo);
-			if (drawInlineText != null) {
-				inlines.add(drawInlineText);
-			}
-		}
-
-		return inlines;
-	}
-
-	private DrawInlineText getDrawableInlineText(GeoElement geo) {
-		return geo instanceof GeoInlineText ? (DrawInlineText) app.getActiveEuclidianView()
-				.getDrawableFor(geo) : null;
-	}
-
-	private void addInlineTextSubmenu() {
-		AriaMenuItem item = newSubMenuItem("ContextMenu.Font",
-				new FontSubMenu((AppW) app, getTextController()));
-		item.addStyleName("no-image");
-		wrappedPopup.addItem(item);
-	}
 
 	private void addOrderSubmenu() {
 		wrappedPopup.addItem(newSubMenuItem("General.Order",
@@ -299,10 +303,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		return new AriaMenuItem(app.getLocalization().getMenu(key), false, submenu);
 	}
 
-	private void addHyperlinkItems() {
-		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
-				.getDrawableFor(getGeo());
-		if (StringUtil.emptyOrZero(inlineText.getHyperLinkURL())) {
+	private void addHyperlinkItems(List<DrawInlineText> inlines) {
+		if (inlines.size() != 1) {
+			return;
+		}
+
+		if (StringUtil.emptyOrZero(inlines.get(0).getHyperLinkURL())) {
 			addHyperlinkItem("Link");
 		} else {
 			addHyperlinkItem("editLink");
