@@ -34,7 +34,6 @@ public class InlineTextItems {
 	private GeoElement geo;
 	private GPopupMenuW menu;
 	private List<DrawInlineText> inlines;
-	private InlineTextController controller;
 
 	/**
 	 * @param app the application
@@ -49,11 +48,10 @@ public class InlineTextItems {
 		this.geo = geo;
 		inlines = geo.hasGroup() ? getGroupAsDrawInlineTexts()
 				: Collections.singletonList(getDrawableInlineText(geo));
-		controller = inlines.isEmpty() ? null: firstDrawInlineText().getTextController();
 		this.menu = menu;
 	}
 
-	DrawInlineText firstDrawInlineText() {
+	private DrawInlineText firstDrawInlineText() {
 		return inlines.get(0);
 	}
 
@@ -97,7 +95,7 @@ public class InlineTextItems {
 	private void addFontSubmenu() {
 		AriaMenuItem item = new AriaMenuItem(loc.getMenu("ContextMenu.Font"),
 				false,
-				new FontSubMenu((AppW) app, controller));
+				new FontSubMenu((AppW) app, inlines));
 		item.addStyleName("no-image");
 		menu.addItem(item);
 	}
@@ -136,15 +134,19 @@ public class InlineTextItems {
 
 	private void  openHyperlinkDialog() {
 		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
-				controller);
+				getTextController());
 		hyperlinkDialog.center();
+	}
+
+	private InlineTextController getTextController() {
+		return inlines.get(0).getTextController();
 	}
 
 	private void addRemoveHyperlinkItem() {
 		Command addRemoveHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
-				controller.setHyperlinkUrl(null);
+				getTextController().setHyperlinkUrl(null);
 			}
 		};
 
