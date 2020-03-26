@@ -26,6 +26,7 @@ public interface GeoGebraConstants {
 		SCIENTIFIC,
 		MIXED_REALITY,
 		NOTES,
+		SUITE
 	}
 
 	public enum Platform {
