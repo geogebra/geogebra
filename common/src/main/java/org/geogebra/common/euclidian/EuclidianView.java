@@ -1721,11 +1721,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			this.needsAllDrawablesUpdate = true;
 			return;
 		}
+
 		for (Drawable d : allDrawableList) {
 			d.updateForView();
 		}
 		for (Drawable d : bgImageList) {
 			d.updateForView();
+		}
+		GeoElement focused = app.getSelectionManager().getFocusedGroupElement();
+		DrawableND focusedDrawable = getDrawableFor(focused);
+		if (focusedDrawable != null) {
+			focusedGroupGeoBoundingBox.setRectangle(focusedDrawable.getBoundsForStylebarPosition());
 		}
 		if (repaint) {
 			repaint();
