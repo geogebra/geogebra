@@ -69,11 +69,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds,
 			AbsolutePanel parent) {
-		if (this.geoInputBox != null && this.geoInputBox != geoInputBox) {
-			applyChanges();
-			this.drawInputBox.setEditing(false);
-		}
-
 		this.geoInputBox = geoInputBox;
 		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
 

@@ -2159,11 +2159,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				}
 
 				((CanvasDrawable) d).setWidgetVisible(false);
-
 			}
 		}
 
-		hideSymbolicEditor();
 		return false;
 	}
 

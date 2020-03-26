@@ -9160,6 +9160,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		widgetsToBackground();
+		view.hideSymbolicEditor();
 
 		lastMousePressedTime = System.currentTimeMillis();
 
