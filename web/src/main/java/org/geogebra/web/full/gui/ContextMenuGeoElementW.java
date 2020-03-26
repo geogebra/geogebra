@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -36,12 +35,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.contextmenu.OrderSubMenu;
-import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.html5.AttachedToDOM;
@@ -58,7 +54,6 @@ import org.geogebra.web.html5.util.CopyPasteW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 
@@ -227,16 +222,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addInlineTextItems() {
-		List<DrawInlineText> inlines = getInlineTexts();
-
-		if (inlines.isEmpty()) {
-			return;
-		}
-
-		addInlineTextToolbar(inlines);
-		addInlineTextSubmenu(inlines);
-		addHyperlinkItems(inlines);
-
+		InlineTextItems items = new InlineTextItems(app, getGeo(), wrappedPopup);
+		items.addItems();
 		wrappedPopup.addSeparator();
 
 	}
@@ -267,13 +254,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				.getDrawableFor(geo) : null;
 	}
 
-	private void addInlineTextSubmenu(List<DrawInlineText> inlines) {
-		AriaMenuItem item = newSubMenuItem("ContextMenu.Font",
-				new FontSubMenu((AppW) app, getTextController()));
-		item.addStyleName("no-image");
-		wrappedPopup.addItem(item);
-	}
-
 	private boolean addLayerItem() {
 		if (containsMask(getGeos())) {
 			return false;
@@ -301,61 +281,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private AriaMenuItem newSubMenuItem(String key, AriaMenuBar submenu) {
 		return new AriaMenuItem(app.getLocalization().getMenu(key), false, submenu);
-	}
-
-	private void addHyperlinkItems(List<DrawInlineText> inlines) {
-		if (inlines.size() != 1) {
-			return;
-		}
-
-		if (StringUtil.emptyOrZero(inlines.get(0).getHyperLinkURL())) {
-			addHyperlinkItem("Link");
-		} else {
-			addHyperlinkItem("editLink");
-			addRemoveHyperlinkItem();
-		}
-	}
-
-	private void addItem(String text, Command command) {
-		AriaMenuItem menuItem = new AriaMenuItem(loc.getMenu(text), false,
-				command);
-		menuItem.getElement().getStyle()
-				.setPaddingLeft(16, Style.Unit.PX);
-		wrappedPopup.addItem(menuItem);
-	}
-
-	private void addHyperlinkItem(String labelTransKey) {
-		Command addHyperlinkCommand = new Command() {
-			@Override
-			public void execute() {
-				openHyperlinkDialog();
-			}
-		};
-
-		addItem(labelTransKey, addHyperlinkCommand);
-	}
-
-	private void  openHyperlinkDialog() {
-		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
-				getTextController());
-		hyperlinkDialog.center();
-	}
-
-	private InlineTextController getTextController() {
-		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
-				.getDrawableFor(getGeo());
-		return inlineText.getTextController();
-	}
-
-	private void addRemoveHyperlinkItem() {
-		Command addRemoveHyperlinkCommand = new Command() {
-			@Override
-			public void execute() {
-				getTextController().setHyperlinkUrl(null);
-			}
-		};
-
-		addItem("removeLink", addRemoveHyperlinkCommand);
 	}
 
 	private boolean addGroupItems() {
