@@ -22,54 +22,71 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Command;
 
+/**
+ * Adds Inline Text related context menu items
+ * Like text toolbar, link and font items
+ *
+ * @author laszlo
+ */
 public class InlineTextItems {
 	private final Localization loc;
 	private App app;
 	private GeoElement geo;
-	private GPopupMenuW wrappedPopup;
+	private GPopupMenuW menu;
 	private List<DrawInlineText> inlines;
+	private InlineTextController controller;
 
-	public InlineTextItems(App app, GeoElement geo, GPopupMenuW wrappedPopup) {
+	/**
+	 * @param app the application
+	 * @param geo the element what items are for
+	 *            (and its group if any)
+	 *
+	 * @param menu to add the items to.
+	 */
+	public InlineTextItems(App app, GeoElement geo, GPopupMenuW menu) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.geo = geo;
-		this.wrappedPopup = wrappedPopup;
-		inlines = getInlineTexts();
+		inlines = geo.hasGroup() ? getGroupAsDrawInlineTexts()
+				: Collections.singletonList(getDrawableInlineText(geo));
+		controller = inlines.isEmpty() ? null: firstDrawInlineText().getTextController();
+		this.menu = menu;
 	}
 
-	void addItems() {
-		if (inlines.isEmpty()) {
-			return;
-		}
-
-		addInlineTextToolbar();
-		addInlineTextSubmenu();
-		addHyperlinkItems();
+	DrawInlineText firstDrawInlineText() {
+		return inlines.get(0);
 	}
 
-	private void addInlineTextToolbar() {
-		InlineTextToolbar toolbar = new InlineTextToolbar(inlines, app);
-		wrappedPopup.addItem(toolbar, false);
-	}
-
-	private List<DrawInlineText> getInlineTexts() {
-		if (!geo.hasGroup()) {
-			return Collections.singletonList(getDrawableInlineText(geo));
-		}
-
-		Group group = geo.getParentGroup();
+	private List<DrawInlineText> getGroupAsDrawInlineTexts() {
 		List<DrawInlineText> inlines = new ArrayList<>();
+		Group group = geo.getParentGroup();
 		for (GeoElement geo: group.getGroupedGeos()) {
 			DrawInlineText drawInlineText = getDrawableInlineText(geo);
 			if (drawInlineText == null) {
 				return Collections.emptyList();
 			}
-
 			inlines.add(drawInlineText);
+		}
+		return inlines;
+	}
 
+	/**
+	 * Add all text items that's available for the geo including
+	 * its group if any.
+	 */
+	void addItems() {
+		if (inlines.isEmpty()) {
+			return;
 		}
 
-		return inlines;
+		addToolbar();
+		addFontSubmenu();
+		addHyperlinkItems();
+	}
+
+	private void addToolbar() {
+		InlineTextToolbar toolbar = new InlineTextToolbar(inlines, app);
+		menu.addItem(toolbar, false);
 	}
 
 	private DrawInlineText getDrawableInlineText(GeoElement geo) {
@@ -77,12 +94,12 @@ public class InlineTextItems {
 				.getDrawableFor(geo) : null;
 	}
 
-	private void addInlineTextSubmenu() {
+	private void addFontSubmenu() {
 		AriaMenuItem item = new AriaMenuItem(loc.getMenu("ContextMenu.Font"),
 				false,
-				new FontSubMenu((AppW) app, getTextController()));
+				new FontSubMenu((AppW) app, controller));
 		item.addStyleName("no-image");
-		wrappedPopup.addItem(item);
+		menu.addItem(item);
 	}
 
 	private void addItem(String text, Command command) {
@@ -90,7 +107,7 @@ public class InlineTextItems {
 				command);
 		menuItem.getElement().getStyle()
 				.setPaddingLeft(16, Style.Unit.PX);
-		wrappedPopup.addItem(menuItem);
+		menu.addItem(menuItem);
 	}
 
 	private void addHyperlinkItems() {
@@ -98,14 +115,13 @@ public class InlineTextItems {
 			return;
 		}
 
-		if (StringUtil.emptyOrZero(inlines.get(0).getHyperLinkURL())) {
+		if (StringUtil.emptyOrZero(firstDrawInlineText().getHyperLinkURL())) {
 			addHyperlinkItem("Link");
 		} else {
 			addHyperlinkItem("editLink");
 			addRemoveHyperlinkItem();
 		}
 	}
-
 
 	private void addHyperlinkItem(String labelTransKey) {
 		Command addHyperlinkCommand = new Command() {
@@ -120,25 +136,18 @@ public class InlineTextItems {
 
 	private void  openHyperlinkDialog() {
 		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
-				getTextController());
+				controller);
 		hyperlinkDialog.center();
-	}
-
-	private InlineTextController getTextController() {
-		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
-				.getDrawableFor(geo);
-		return inlineText.getTextController();
 	}
 
 	private void addRemoveHyperlinkItem() {
 		Command addRemoveHyperlinkCommand = new Command() {
 			@Override
 			public void execute() {
-				getTextController().setHyperlinkUrl(null);
+				controller.setHyperlinkUrl(null);
 			}
 		};
 
 		addItem("removeLink", addRemoveHyperlinkCommand);
 	}
-
 }
