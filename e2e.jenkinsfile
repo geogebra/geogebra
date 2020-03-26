@@ -1,10 +1,13 @@
 pipeline {
     agent any
+    triggers {
+        cron('H H(19-21) * * 1-5')
+    }
     stages {
         stage('test e2e') {
             steps {
                 withCredentials([string(credentialsId: 'materials.token', variable: 'TOKEN')]) {
-                    sh label: 'e2e-test', script: "./gradlew :desktop:e2eTest -Pmaterials.token=${TOKEN}"
+                    sh label: 'e2e-test', script: "./gradlew :desktop:e2eTest -Pmaterials.token=${TOKEN} -Pprerelease=${env.BRANCH_NAME == \"master\"}"
                 }
             }
         }
