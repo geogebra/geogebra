@@ -1,5 +1,7 @@
 package org.geogebra.web.full.javax.swing;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -20,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandler<Boolean> {
 	private final App app;
-	private DrawInlineText drawInlineText;
+	private List<DrawInlineText> drawInlineTexts;
 	private FlowPanel panel;
 	private MyToggleButtonW subScriptBtn;
 	private MyToggleButtonW superScriptBtn;
@@ -30,11 +32,11 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 	/**
 	 * Constructor of special context menu item holding the
 	 * list and sub/superscript toggle buttons
-	 * @param drawInlineText the drawable.
+	 * @param drawInlineTexts the drawable.
 	 */
-	public InlineTextToolbar(DrawInlineText drawInlineText, App app) {
+	public InlineTextToolbar(List<DrawInlineText> drawInlineTexts, App app) {
 		super();
-		this.drawInlineText = drawInlineText;
+		this.drawInlineTexts = drawInlineTexts;
 		this.app = app;
 
 		createGui();
@@ -86,11 +88,39 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 	}
 
 	private String getScriptFormat() {
-		return drawInlineText.getFormat("script", "normal");
+		String format = drawInlineTexts.get(0).getFormat("script", "normal");
+		if (drawInlineTexts.size() == 1) {
+			return format;
+		}
+
+		for (DrawInlineText d: drawInlineTexts) {
+			if (!format.equals(d.getFormat("script", "normal"))) {
+				return "";
+			}
+		}
+
+		return format;
 	}
 
 	private String getListStyle() {
-		return drawInlineText.getListStyle();
+		String listStyle = getListStyle(drawInlineTexts.get(0));
+		if (drawInlineTexts.size() == 1) {
+			return listStyle;
+		}
+
+
+		for (DrawInlineText drawInlineText: drawInlineTexts) {
+			if (!listStyle.equals(getListStyle(drawInlineText))) {
+				return "";
+			}
+		}
+		return listStyle;
+	}
+
+	private String getListStyle(DrawInlineText drawInlineText) {
+		return drawInlineText.getListStyle() != null
+				? drawInlineText.getListStyle()
+				: "";
 	}
 
 	@Override
@@ -105,9 +135,9 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 		} else if (superScriptBtn.equals(event.getSource())) {
 			setSuperscript(event.getValue());
 		} else if (bulletListBtn.equals(event.getSource())) {
-			drawInlineText.switchListTo("bullet");
+			switchListTo("bullet");
 		} else if (numberedListBtn.equals(event.getSource())) {
-			drawInlineText.switchListTo("number");
+			switchListTo("number");
 		}
 
 		updateState();
@@ -122,7 +152,16 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 	}
 
 	private void formatScript(String type, Boolean value) {
-		drawInlineText.format("script", value ? type : "none");
+		for (DrawInlineText d: drawInlineTexts) {
+			d.format("script", value ? type : "none");
+		}
+		app.storeUndoInfo();
+	}
+
+	private void switchListTo(String listType) {
+		for (DrawInlineText d: drawInlineTexts) {
+			d.switchListTo(listType);
+		}
 		app.storeUndoInfo();
 	}
 

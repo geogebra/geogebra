@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
@@ -22,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -255,10 +258,29 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addInlineTextToolbar() {
-		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
-				.getDrawableFor(getGeo());
-		InlineTextToolbar toolbar = new InlineTextToolbar(inlineText, app);
+		InlineTextToolbar toolbar = new InlineTextToolbar(getInlineTexts(), app);
 		wrappedPopup.addItem(toolbar, false);
+	}
+
+	private List<DrawInlineText> getInlineTexts() {
+		if (!getGeo().hasGroup()) {
+			return Collections.singletonList(getDrawableInlineText(getGeo()));
+		}
+		Group group = getGeo().getParentGroup();
+		List<DrawInlineText> inlines = new ArrayList<>();
+		for (GeoElement geo: group.getGroupedGeos()) {
+			DrawInlineText drawInlineText = getDrawableInlineText(geo);
+			if (drawInlineText != null) {
+				inlines.add(drawInlineText);
+			}
+		}
+
+		return inlines;
+	}
+
+	private DrawInlineText getDrawableInlineText(GeoElement geo) {
+		return geo instanceof GeoInlineText ? (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(geo) : null;
 	}
 
 	private void addInlineTextSubmenu() {
