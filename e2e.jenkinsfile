@@ -4,7 +4,7 @@ pipeline {
         stage('test e2e') {
             steps {
                 withCredentials([string(credentialsId: 'materials.token', variable: 'TOKEN')]) {
-                    sh label: 'e2e-test', script: "./gradlew :desktop:test -Pmaterials.token=${TOKEN}"
+                    sh label: 'e2e-test', script: "./gradlew :desktop:e2eTest -Pmaterials.token=${TOKEN}"
                 }
             }
         }
