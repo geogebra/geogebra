@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -245,6 +246,9 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void onPointerEventStart(AbstractEvent event) {
+		if (temporaryMode) {
+			mtg.setComboboxFocused(false);
+		}
 		if ((app.getGuiManager() != null) && shouldSetToolbar()) {
 			// Probability calculator plot panel view should not set active
 			// toolbar ID
@@ -284,6 +288,43 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	protected boolean hitResetIcon() {
 		return mtg.hitResetIcon();
+	}
+
+	@Override
+	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
+		if (isComboboxFocused()) {
+
+			Log.error("isComboboxFocused!");
+			this.draggingOccured = false;
+			getView().setHits(mouseLoc, type);
+			Hits hits = getView().getHits().getTopHits();
+			if (!hits.isEmpty()) {
+				GeoElement hit = hits.get(0);
+				if (hit != null && !hit.isGeoButton() && !hit.isGeoInputBox()
+				        && !hit.isGeoBoolean()) {
+					GeoElement geo = chooseGeo(hits, true);
+					if (geo != null) {
+						runScriptsIfNeeded(geo);
+					}
+				}
+			}
+
+			return true;
+		}
+		return getView().textfieldClicked(x, y, type);
+	}
+
+	@Override
+	public boolean isComboboxFocused() {
+		return mtg.isComboboxFocused();
+	}
+
+	/**
+	 * @param flag
+	 *            whether a combobox has focus
+	 */
+	public void setComboboxFocused(boolean flag) {
+		mtg.setComboboxFocused(flag);
 	}
 
 	/**

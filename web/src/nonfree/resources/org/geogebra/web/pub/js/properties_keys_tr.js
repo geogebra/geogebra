@@ -1925,6 +1925,7 @@ __GGB__keysVar["tr"].menu = {
     "GeoGebraGeometry": "GeoGebra Geometri",
     "GeoGebraGraphingCalculator": "GeoGebra Grafik Hesap Makinesi",
     "GeoGebraMaterials": "GeoGebra Kaynaklar\u0131",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "GeoGebra \xd6zellikleri",
     "GeoGebraScientificCalculator": "GeoGebra BilimselHesapMakinesi",
     "GeogebraToAsymptoteExport": "GeoGebra'dan Asimtot Aktar\u0131ma",

@@ -578,11 +578,16 @@ public class DrawInputBox extends CanvasDrawable {
 	 * Hide the widget.
 	 */
 	protected void hideWidget() {
+		if (!isSelectedForInput()) {
+			return;
+		}
+
 		if (geoInputBox.isSymbolicMode()) {
 			hideSymbolicField();
-		} else if (isSelectedForInput()) {
+		} else {
 			hideTextField();
 		}
+
 	}
 
 	private void hideSymbolicField() {

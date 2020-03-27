@@ -1925,6 +1925,7 @@ __GGB__keysVar["uk"].menu = {
     "GeoGebraGeometry": "GeoGebra \u0413\u0435\u043e\u043c\u0435\u0442\u0440\u0456\u044f",
     "GeoGebraGraphingCalculator": "\u0413\u0440\u0430\u0444\u0456\u0447\u043d\u0438\u0439 \u041a\u0430\u043b\u044c\u043a\u0443\u043b\u044f\u0442\u043e\u0440 GeoGebra",
     "GeoGebraMaterials": "GeoGebra \u0420\u0435\u0441\u0443\u0440\u0441\u0438",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "\u041d\u0430\u043b\u0430\u0448\u0442\u0443\u0432\u0430\u043d\u043d\u044f",
     "GeoGebraScientificCalculator": "\u041d\u0430\u0443\u043a\u043e\u0432\u0438\u0439 \u041a\u0430\u043b\u044c\u043a\u0443\u043b\u044f\u0442\u043e\u0440 GeoGebra",
     "GeogebraToAsymptoteExport": "\u0415\u043a\u0441\u043f\u043e\u0440\u0442 GeoGebra \u0434\u043e Asymptote",

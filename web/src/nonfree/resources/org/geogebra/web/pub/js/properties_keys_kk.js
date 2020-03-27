@@ -1925,6 +1925,7 @@ __GGB__keysVar["kk"].menu = {
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra \u0433\u0440\u0430\u0444\u0438\u043a\u0430\u043b\u044b\u049b \u043a\u0430\u043b\u044c\u043a\u0443\u043b\u044f\u0442\u043e\u0440\u044b",
     "GeoGebraMaterials": "GeoGebra \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0434\u0430\u0440\u044b",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "GeoGebra \u049a\u0430\u0441\u0438\u0435\u0442\u0442\u0435\u0440\u0456",
     "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "\u0413\u0435\u043e\u0413\u0435\u0431\u0440\u0430\u043d\u044b \u0430\u0441\u0438\u043c\u043f\u0442\u043e\u0442\u0430\u0493\u0430 \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0442\u0430\u0443",

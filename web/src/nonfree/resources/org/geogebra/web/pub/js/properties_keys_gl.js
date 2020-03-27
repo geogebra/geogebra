@@ -1925,6 +1925,7 @@ __GGB__keysVar["gl"].menu = {
     "GeoGebraGeometry": "GeoGebra Xeometr\xeda",
     "GeoGebraGraphingCalculator": "Calculadora Gr\xe1fica GeoGebra",
     "GeoGebraMaterials": "Materiais GeoGebra",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "Propiedades de GeoGebra",
     "GeoGebraScientificCalculator": "Calculadora cient\xedf. GeoGebra",
     "GeogebraToAsymptoteExport": "Exporta GeoGebra a Asymptote",
