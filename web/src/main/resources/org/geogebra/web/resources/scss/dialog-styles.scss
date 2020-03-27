@@ -740,7 +740,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-right: 16px;
 			border: 4px dashed $mow_pdf_dialog_border;
 			border-radius: 8px;
-			flex-grow: 1;
+			height: 100%;
 
 			&.withPdf {
 				border-color: transparent;
@@ -749,9 +749,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.imgTextElement {
 			justify-content: center;
+			-webkit-justify-content: center;
 			height: 100%;
 			align-items: center;
-			position: relative;
+			-webkit-align-items: center;
 			display: flex;
 			display: -webkit-flex;
 			flex-direction: column;
@@ -759,8 +760,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.folderImg {
-			margin-left: auto;
-			margin-right: auto;
 			opacity: 0.54;
 		}
 
@@ -819,9 +818,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.previewImage {
 				position: absolute;
 				left: 63%;
-				max-width: 300px;
-				max-height: 360px;
-				height: 80%;
+				max-height: 80%;
+				height: auto;
 				transform: translateX(-50%);
 			}
 		}
