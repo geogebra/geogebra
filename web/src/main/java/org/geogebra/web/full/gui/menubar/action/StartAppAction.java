@@ -35,6 +35,6 @@ public final class StartAppAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		Window.Location.assign(url);
+		Window.open(url, "_blank", "");
 	}
 }
