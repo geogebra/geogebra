@@ -47,8 +47,15 @@ public class InlineTextItems {
 		this.loc = app.getLocalization();
 		this.geo = geo;
 		inlines = geo.hasGroup() ? getGroupAsDrawInlineTexts()
-				: Collections.singletonList(getDrawableInlineText(geo));
+				: getSingleList();
 		this.menu = menu;
+	}
+
+	private List<DrawInlineText> getSingleList() {
+		DrawInlineText drawInlineText = getDrawableInlineText(geo);
+		return drawInlineText != null
+				? Collections.singletonList(drawInlineText)
+				: Collections.<DrawInlineText>emptyList();
 	}
 
 	private DrawInlineText firstDrawInlineText() {

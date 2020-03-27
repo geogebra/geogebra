@@ -108,7 +108,6 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 			return listStyle;
 		}
 
-
 		for (DrawInlineText drawInlineText: drawInlineTexts) {
 			if (!listStyle.equals(getListStyle(drawInlineText))) {
 				return "";
