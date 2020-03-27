@@ -1925,6 +1925,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "GeoGebraGeometry": "GeoGebra Meetkunde",
     "GeoGebraGraphingCalculator": "GeoGebra grafische rekenmachine",
     "GeoGebraMaterials": "GeoGebra Materiaal",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "GeoGebra Eigenschappen",
     "GeoGebraScientificCalculator": "GeoGebra wetensch rekenmachine",
     "GeogebraToAsymptoteExport": "Exporteer GeoGebra naar Asymptote",
