@@ -1054,9 +1054,4 @@ public class GGraphics2DW implements GGraphics2DWI {
 		// no layers
 	}
 
-	@Override
-	public void setPreviewLayer() {
-		// no layers
-	}
-
 }

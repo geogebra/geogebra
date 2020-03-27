@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.contextmenu;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -42,9 +43,11 @@ public class OrderSubMenu extends AriaMenuBar {
 		return new ScheduledCommand() {
 			@Override
 			public void execute() {
-				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+				EuclidianView ev = app.getActiveEuclidianView();
+				ev.getEuclidianController().splitSelectedStrokes(true);
+				ev.getEuclidianController().widgetsToBackground();
 				command.execute();
-				app.getActiveEuclidianView().invalidateDrawableList();
+				ev.invalidateDrawableList();
 				app.getKernel().storeUndoInfo();
 			}
 		};

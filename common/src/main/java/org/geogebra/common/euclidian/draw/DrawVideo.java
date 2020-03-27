@@ -91,6 +91,7 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 	public void draw(GGraphics2D g2) {
 		if (view.getApplication().getExportType() == App.ExportType.NONE) {
 			view.embed(g2, this);
+			g2.clearRect(getLeft(), getTop(), getWidth(), getHeight());
 			return;
 		}
 		MyImage preview = video.getPreview();
