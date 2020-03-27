@@ -731,7 +731,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		 .pdfDialogContent {
 			height: 100%;
 			display: flex;
+			display: -webkit-flex;
 			flex-direction: column;
+			-webkit-flex-direction: column;
 		 }
 
 		.pdfContainer {
@@ -751,7 +753,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			align-items: center;
 			position: relative;
 			display: flex;
+			display: -webkit-flex;
 			flex-direction: column;
+			-webkit-flex-direction: column;
 		}
 
 		.folderImg {
@@ -783,6 +787,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.pdfPreview {
 			 display: inline-flex;
+			 display: -webkit-inline-flex;
              width: 80%;
              height: 100%;
              position: relative;
@@ -822,7 +827,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.pdfPageText {
 				display: flex;
+				display: -webkit-flex;
 				flex-direction: row;
+				-webkit-flex-direction: row;
 				width: fit-content;
 				height: fit-content;
 				position: relative;
