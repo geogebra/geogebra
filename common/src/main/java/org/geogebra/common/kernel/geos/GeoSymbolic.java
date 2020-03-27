@@ -198,7 +198,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		ExpressionValue def = getDefinition().unwrap();
 		if (def instanceof FunctionNVar) {
 			setVariables(((FunctionNVar) def).getFunctionVariables());
-		} else if (getDefinition().containsFreeFunctionVariable(null)) {
+		} else if (def instanceof Command || getDefinition().containsFreeFunctionVariable(null)) {
 			FunctionVarCollector functionVarCollector = FunctionVarCollector
 					.getCollector();
 			getDefinition().traverse(functionVarCollector);
@@ -259,6 +259,13 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		for (FunctionVariable fv : functionVariables) {
 			fVars.add(fv.deepCopy(kernel));
 		}
+	}
+
+	public void setVariables(Command[] commandVariables) {
+//		fVars.clear();
+//		for (FunctionVariable fv : functionVariables) {
+//			fVars.add(fv.deepCopy(kernel));
+//		}
 	}
 
 	/**
