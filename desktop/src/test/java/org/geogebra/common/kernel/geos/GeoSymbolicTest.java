@@ -1051,4 +1051,26 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				vector.getDefinition(StringTemplate.latexTemplate),
 				is("\\left( \\begin{align}a \\\\ 2 \\end{align} \\right)"));
 	}
+
+	@Test
+	public void getLaTeXDescriptionRHS() {
+		testMultiplicationDescription();
+		testCommandDescription();
+	}
+
+	private void testMultiplicationDescription() {
+		add("v = (1, 2)");
+		add("w = (3, 4)");
+		GeoSymbolic vector = add("v * w");
+		String rhsDescription =
+				vector.getLaTeXDescriptionRHS(false, StringTemplate.latexTemplate);
+		assertThat(rhsDescription, equalTo("v \\; w"));
+	}
+
+	private void testCommandDescription() {
+		GeoSymbolic vector = add("Vector((1,1))");
+		String rhsDescription =
+				vector.getLaTeXDescriptionRHS(false, StringTemplate.latexTemplate);
+		assertThat(rhsDescription, equalTo("Vector\\left(\\left(1, 1 \\right) \\right)"));
+	}
 }

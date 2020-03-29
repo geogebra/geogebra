@@ -4321,7 +4321,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            template
 	 * @return LaTeX description without LHS
 	 */
-	public final String getLaTeXDescriptionRHS(final boolean substituteNumbers,
+	public String getLaTeXDescriptionRHS(final boolean substituteNumbers,
 			StringTemplate tpl) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, false);
 	}

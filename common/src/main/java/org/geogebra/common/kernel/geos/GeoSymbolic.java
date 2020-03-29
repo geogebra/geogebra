@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -29,6 +30,8 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
+import javax.annotation.Nullable;
+
 /**
  * Symbolic geo for CAS computations in AV
  *
@@ -39,7 +42,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
-	private GeoElement twinGeo;
 	private boolean twinUpToDate = false;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
@@ -47,6 +49,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private int pointStyle;
 	private int pointSize;
 	private boolean symbolicMode;
+
+	@Nullable
+	private GeoElement twinGeo;
 
 	/**
 	 * @return output expression
@@ -289,11 +294,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 		if (twinGeo != null && newTwin != null) {
 			newTwin.setVisualStyle(this);
-			twinGeo = newTwin.toGeoElement();
+			updateTwin(newTwin.toGeoElement());
 		} else if (newTwin == null) {
-			twinGeo = null;
+			updateTwin(null);
 		} else {
-			twinGeo = newTwin.toGeoElement();
+			updateTwin(newTwin.toGeoElement());
 			setVisualStyle(twinGeo);
 		}
 		twinUpToDate = true;
@@ -349,6 +354,13 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		}
 		GeoElement[] elements = algebraProcessor.processValidExpression(expressionNode);
 		return elements[0];
+	}
+
+	private void updateTwin(GeoElement twinGeo) {
+		this.twinGeo = twinGeo;
+		if (twinGeo != null && algoParent != null) {
+			twinGeo.setParentAlgorithm(algoParent);
+		}
 	}
 
 	@Override
@@ -642,5 +654,20 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		return twinGeo != null
 				? twinGeo.toLaTeXString(symbolic, tpl)
 				: super.toLaTeXString(symbolic, tpl);
+	}
+
+	@Override
+	public String getLaTeXDescriptionRHS(boolean substituteNumbers, StringTemplate tpl) {
+		return twinGeo != null
+				? twinGeo.getLaTeXDescriptionRHS(substituteNumbers, tpl)
+				: super.getLaTeXDescriptionRHS(substituteNumbers, tpl);
+	}
+
+	@Override
+	public void setParentAlgorithm(AlgoElement algorithm) {
+		super.setParentAlgorithm(algorithm);
+		if (twinGeo != null && algorithm != null) {
+			twinGeo.setParentAlgorithm(algorithm);
+		}
 	}
 }

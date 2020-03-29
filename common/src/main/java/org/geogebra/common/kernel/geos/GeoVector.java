@@ -1101,4 +1101,13 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return isIndependent()
 				|| getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
+
+	@Override
+	public String getLaTeXDescriptionRHS(boolean substituteNumbers, StringTemplate tpl) {
+		if (substituteNumbers) {
+			return super.getLaTeXDescriptionRHS(true, tpl);
+		} else {
+			return getDefinition(tpl);
+		}
+	}
 }
