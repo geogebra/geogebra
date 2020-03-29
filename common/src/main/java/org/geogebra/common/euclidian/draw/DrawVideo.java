@@ -51,10 +51,6 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 		this.geo = geo;
 		this.app = geo.getKernel().getApplication();
 		setMetrics();
-		VideoManager videoManager = app.getVideoManager();
-		if (videoManager != null) {
-			videoManager.loadGeoVideo(this);
-		}
 	}
 
 	@Override

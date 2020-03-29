@@ -96,6 +96,9 @@ public class EmbedManagerW implements EmbedManager {
 	public void setLayer(DrawWidget embed, int layer) {
 		Element element;
 		if (embed instanceof DrawVideo) {
+			if (!app.getVideoManager().hasPlayer((DrawVideo) embed)) {
+				return;
+			}
 			element = app.getVideoManager().getElement((DrawVideo) embed);
 		} else {
 			element = widgets.get(embed).getGreatParent().getElement();

@@ -1,10 +1,8 @@
 package org.geogebra.common.media;
 
-import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Interface to manage video objects.
@@ -73,10 +71,8 @@ public interface VideoManager {
 	 * 
 	 * @param geo
 	 *            video
-	 * @param cb
-	 *            the preview callback.
 	 */
-	void createPreview(GeoVideo geo, AsyncOperation<MyImage> cb);
+	void createPreview(GeoVideo geo);
 
 	/**
 	 * Activates preview mode if only preview images are needed (i.e. for image
@@ -135,11 +131,6 @@ public interface VideoManager {
 	 * Cache video players temporarily
 	 */
 	void storeVideos();
-
-	/**
-	 * Remove unused videos from cache.
-	 */
-	void clearStoredVideos();
 
 	/**
 	 * Called when an error occurred playing the video
