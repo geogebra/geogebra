@@ -197,46 +197,4 @@ public class AlgoDependentCasCell extends AlgoElement
 
 		updateDependentGeos();
 	}
-
-	// /**
-	// * Initializes input and output dependencies of this algorithm.
-	// * This method can be called again after the GeoCasCell's input expression
-	// * has changed.
-	// */
-	// private void initAlgorithm() {
-	// // old and new predecessors of casCell
-	// TreeSet<GeoElement> oldPred = null;
-	//
-	// if (input != null) {
-	// // remember old predecessors of casCell
-	// // for updateConstructionOrder below
-	// oldPred = casCell.getAllPredecessors();
-	// }
-	//
-	// // input
-	// // m := c + 3 has input variable c
-	// TreeSet<GeoElement> geoVars = casCell.getGeoElementVariables();
-	// GeoElement [] geos = new GeoElement[geoVars.size()];
-	// input = geoVars.toArray(geos);
-	//
-	//
-	//
-	// // init output
-	// // twin geo that may be created as a side effect
-	// // e.g. the CAS cell m := c + 3 will create a GeoNumeric m
-	// GeoElement twinGeo = casCell.getTwinGeo();
-	//
-	// setOutputLength(twinGeo == null ? 1 : 2);
-	// setOutput(0, casCell);
-	// if (twinGeo != null)
-	// setOutput(1, twinGeo);
-	//
-	// // set dependencies
-	// setInputOutput();
-	//
-	// // Make sure that geoCasCell comes after all its predecessors
-	// // in the construction list.
-	// updateConstructionOrder(oldPred);
-	// }
-
 }

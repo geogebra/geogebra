@@ -694,7 +694,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		model.setLineThickness(7);
 		model.setLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		assertEquals(8, f.getLineThickness());
-		assertEquals(8, f.getTwinGeo().getLineThickness());
+		assertEquals(8, f.createAndGetTwinElement().getLineThickness());
 
 		assertEquals(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
 				f.getLineType());
@@ -711,10 +711,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		model.setPointSize(7);
 		model.setPointStyle(4);
 		assertEquals(8, pointA.getPointSize());
-		assertEquals(8, ((GeoPoint) pointA.getTwinGeo()).getPointSize());
+		assertEquals(8, ((GeoPoint) pointA.createAndGetTwinElement()).getPointSize());
 
 		assertEquals(4, pointA.getPointStyle());
-		assertEquals(4, ((GeoPoint) pointA.getTwinGeo()).getPointStyle());
+		assertEquals(4, ((GeoPoint) pointA.createAndGetTwinElement()).getPointStyle());
 	}
 
 	@Test
@@ -1026,7 +1026,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testCreationWithLabel() {
 		GeoSymbolic vector = add("v=(1,1)");
-		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
+		assertThat(vector.createAndGetTwinElement(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
 	}
 
 	@Test
