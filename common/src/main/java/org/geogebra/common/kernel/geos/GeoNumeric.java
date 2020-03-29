@@ -2092,8 +2092,8 @@ public class GeoNumeric extends GeoElement
 	 * Removes the slider.
 	 */
 	public void removeSlider() {
-		setShowExtendedAV(false);
 		setDrawable(false);
+		setShowExtendedAV(false);
 		intervalMax = null;
 		intervalMin = null;
 	}
