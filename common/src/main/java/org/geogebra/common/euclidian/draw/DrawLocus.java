@@ -186,7 +186,7 @@ public class DrawLocus extends Drawable {
 		g2.setStroke(objStroke);
 		g2.draw(gp);
 		g2.setClip(AwtFactory.getPrototype().newBasicStroke(20, GBasicStroke.CAP_ROUND,
-				GBasicStroke.JOIN_MITER).createStrokedShape(gpMask, 2000));
+				GBasicStroke.JOIN_ROUND).createStrokedShape(gpMask, 2000));
 		g2.clearRect(0, 0, view.getWidth(), view.getHeight());
 		g2.resetClip();
 	}
