@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.IteratorConcatenator;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
@@ -127,7 +129,7 @@ public class GeoLocusStroke extends GeoLocus
 	@Override
 	public void matrixTransform(double a00, double a01, double a10,
 			double a11) {
-		for (MyPoint pt : getPoints()) {
+		for (MyPoint pt : getTransformPoints()) {
 			double x = pt.x;
 			double y = pt.y;
 			pt.x = a00 * x + a01 * y;
@@ -138,7 +140,7 @@ public class GeoLocusStroke extends GeoLocus
 	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
-		for (MyPoint pt : getPoints()) {
+		for (MyPoint pt : getTransformPoints()) {
 			double x = pt.x;
 			double y = pt.y;
 			double z = a20 * x + a21 * y + a22;
@@ -152,7 +154,7 @@ public class GeoLocusStroke extends GeoLocus
 		double rval = r.getDouble();
 		double crval = 1 - rval;
 
-		for (MyPoint pt : getPoints()) {
+		for (MyPoint pt : getTransformPoints()) {
 			pt.x = rval * pt.x + crval * S.getX();
 			pt.y = rval * pt.y + crval * S.getY();
 		}
@@ -160,7 +162,7 @@ public class GeoLocusStroke extends GeoLocus
 
 	@Override
 	public void mirror(Coords Q) {
-		for (MyPoint pt : getPoints()) {
+		for (MyPoint pt : getTransformPoints()) {
 			pt.x = 2 * Q.getX() - pt.x;
 			pt.y = 2 * Q.getY() - pt.y;
 		}
@@ -190,7 +192,7 @@ public class GeoLocusStroke extends GeoLocus
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
 
-		for (MyPoint pt : getPoints()) {
+		for (MyPoint pt : getTransformPoints()) {
 			// translate -Q
 			pt.x -= qx;
 			pt.y -= qy;
@@ -216,7 +218,7 @@ public class GeoLocusStroke extends GeoLocus
 		double qx = Q.getX();
 		double qy = Q.getY();
 
-		for (MyPoint pt : getPoints()) {
+		for (MyPoint pt : getTransformPoints()) {
 			double x = pt.x;
 			double y = pt.y;
 
@@ -232,7 +234,7 @@ public class GeoLocusStroke extends GeoLocus
 		double cos = MyMath.cos(phi);
 		double sin = Math.sin(phi);
 
-		for (MyPoint pt : getPoints()) {
+		for (MyPoint pt : getTransformPoints()) {
 			double x = pt.x;
 			double y = pt.y;
 
@@ -249,12 +251,16 @@ public class GeoLocusStroke extends GeoLocus
 
 	@Override
 	public void translate(Coords v) {
-		for (MyPoint pt : getPoints()) {
+		for (MyPoint pt : getTransformPoints()) {
 			pt.x += v.getX();
 			pt.y += v.getY();
 		}
 
 		resetXMLPointBuilder();
+	}
+
+	private Iterable<MyPoint> getTransformPoints() {
+		return new IteratorConcatenator<>(Arrays.asList(getPoints(), mask));
 	}
 
 	@Override
