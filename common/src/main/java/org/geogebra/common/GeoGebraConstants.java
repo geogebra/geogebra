@@ -24,6 +24,7 @@ public interface GeoGebraConstants {
 		GRAPHING_3D,
 		GEOMETRY,
 		SCIENTIFIC,
+		SUITE,
 		MIXED_REALITY,
 		NOTES,
 	}
