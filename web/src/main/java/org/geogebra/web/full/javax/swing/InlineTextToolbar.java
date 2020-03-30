@@ -40,10 +40,13 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 		this.app = app;
 
 		createGui();
-		setLabels();
+		setTooltips();
 	}
 
-	private void createGui() {
+	/**
+	 * Creates the toolbar gui
+	 */
+	protected void createGui() {
 		setStyleName("inlineTextToolbar");
 		panel = new FlowPanel();
 		createSubscriptBtn();
@@ -87,7 +90,7 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 		return button;
 	}
 
-	private String getScriptFormat() {
+	protected String getScriptFormat() {
 		String format = drawInlineTexts.get(0).getFormat("script", "normal");
 		if (drawInlineTexts.size() == 1) {
 			return format;
@@ -102,7 +105,7 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 		return format;
 	}
 
-	private String getListStyle() {
+	protected String getListStyle() {
 		String listStyle = getListStyle(drawInlineTexts.get(0));
 		if (drawInlineTexts.size() == 1) {
 			return listStyle;
@@ -164,7 +167,10 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 		app.storeUndoInfo();
 	}
 
-	private void setLabels() {
+	/**
+	 * Sets the tooltips
+	 */
+	protected void setTooltips() {
 		subScriptBtn.setToolTipText(app.getLocalization().getMenu("Subscript"));
 		superScriptBtn.setToolTipText(app.getLocalization().getMenu("Superscript"));
 		bulletListBtn.setToolTipText(app.getLocalization().getMenu("bulletList"));

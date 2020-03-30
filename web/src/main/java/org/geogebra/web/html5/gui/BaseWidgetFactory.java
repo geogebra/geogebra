@@ -1,6 +1,11 @@
 package org.geogebra.web.html5.gui;
 
+import java.util.List;
+
+import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.main.App;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
@@ -42,8 +47,4 @@ public class BaseWidgetFactory {
 		return new SliderW(i, j);
 	}
 
-	/**
-	 * @return list box, to be mocked
-	 */
-	public GPopupMenuW newPopupMenu(AppW app) {return new GPopupMenuW(app);}
 }

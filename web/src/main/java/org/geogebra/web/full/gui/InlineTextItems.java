@@ -16,6 +16,7 @@ import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
+import org.geogebra.web.html5.gui.ContextMenuFactory;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
@@ -33,6 +34,7 @@ public class InlineTextItems {
 	private App app;
 	private GeoElement geo;
 	private GPopupMenuW menu;
+	private ContextMenuFactory factory;
 	private List<DrawInlineText> inlines;
 
 	/**
@@ -42,13 +44,15 @@ public class InlineTextItems {
 	 *
 	 * @param menu to add the items to.
 	 */
-	public InlineTextItems(App app, GeoElement geo, GPopupMenuW menu) {
+	public InlineTextItems(App app, GeoElement geo, GPopupMenuW menu,
+						   ContextMenuFactory factory) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.geo = geo;
 		inlines = geo.hasGroup() ? getGroupAsDrawInlineTexts()
 				: getSingleList();
 		this.menu = menu;
+		this.factory = factory;
 	}
 
 	private List<DrawInlineText> getSingleList() {
@@ -90,7 +94,7 @@ public class InlineTextItems {
 	}
 
 	private void addToolbar() {
-		InlineTextToolbar toolbar = new InlineTextToolbar(inlines, app);
+		InlineTextToolbar toolbar = factory.newInlineTextToolbar(inlines, app);
 		menu.addItem(toolbar, false);
 	}
 
@@ -115,7 +119,7 @@ public class InlineTextItems {
 		menu.addItem(menuItem);
 	}
 
-	private void addHyperlinkItems() {
+	protected void addHyperlinkItems() {
 		if (inlines.size() != 1) {
 			return;
 		}
