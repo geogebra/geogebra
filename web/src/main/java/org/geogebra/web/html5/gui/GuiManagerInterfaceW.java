@@ -88,6 +88,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void exportGGB();
 
+	void exportGGBDirectly();
+
 	void listenToLogin();
 
 	void setPixelRatio(double ratio);

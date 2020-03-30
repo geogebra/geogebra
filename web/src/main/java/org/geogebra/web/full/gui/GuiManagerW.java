@@ -1984,6 +1984,29 @@ public class GuiManagerW extends GuiManager
 				}, loc.getMenu("Save"));
 	}
 
+	@Override
+	public void exportGGBDirectly() {
+		final String extension = ((AppW) app).getFileExtension();
+		String filename = getApp().getExportTitle() + extension;
+
+		getApp().dispatchEvent(
+				new Event(EventType.EXPORT, null, "[\""
+						+ extension.substring(1) + "\"]"));
+		if (Browser.isXWALK()) {
+			getApp().getGgbApi().getBase64(true,
+					getStringCallback(filename));
+		} else {
+
+			if (Browser.isFirefox()) {
+				getApp().getGgbApi().getBase64(true,
+						getBase64DownloadCallback(filename));
+			} else {
+				getApp().getGgbApi().getGGBfile(true,
+						getDownloadCallback(filename));
+			}
+		}
+	}
+
 	/**
 	 * @param title
 	 *            construction title
