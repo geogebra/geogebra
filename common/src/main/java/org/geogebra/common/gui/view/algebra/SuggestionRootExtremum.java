@@ -103,8 +103,7 @@ public class SuggestionRootExtremum extends Suggestion {
 			algosMissing[1] = true;
 		}
 
-		if ((geo instanceof GeoSymbolic
-				&& isVerticalLine(((GeoSymbolic) geo).createAndGetTwinElement()))
+		if ((geo instanceof GeoSymbolic && isVerticalLine(((GeoSymbolic) geo).getTwinGeo()))
 				|| isVerticalLine(geo)) {
 			algosMissing[2] = false;
 		}

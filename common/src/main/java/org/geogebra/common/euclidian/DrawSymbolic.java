@@ -34,14 +34,14 @@ public class DrawSymbolic extends Drawable {
 
 	@Override
 	public void update() {
-		GeoElementND twinGeo = symbolic.createAndGetTwinElement();
+		GeoElementND twinGeo = symbolic.getTwinGeo();
 		if (twinGeo == null) {
 			twinDrawable = null;
 		} else if (twinDrawable != null
 				&& twinDrawable.getGeoElement() == twinGeo) {
 			twinDrawable.update();
 		} else {
-			twinDrawable = view.newDrawable(symbolic.createAndGetTwinElement());
+			twinDrawable = view.newDrawable(symbolic.getTwinGeo());
 			twinGeo.setVisualStyle(symbolic);
 			if (twinDrawable instanceof Drawable) {
 				((Drawable) twinDrawable).setTopLevelGeo(symbolic);

@@ -657,7 +657,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		model.setLineThickness(7);
 		model.setLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		assertEquals(8, f.getLineThickness());
-		assertEquals(8, f.createAndGetTwinElement().getLineThickness());
+		assertEquals(8, f.getTwinGeo().getLineThickness());
 
 		assertEquals(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
 				f.getLineType());
@@ -674,10 +674,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		model.setPointSize(7);
 		model.setPointStyle(4);
 		assertEquals(8, pointA.getPointSize());
-		assertEquals(8, ((GeoPoint) pointA.createAndGetTwinElement()).getPointSize());
+		assertEquals(8, ((GeoPoint) pointA.getTwinGeo()).getPointSize());
 
 		assertEquals(4, pointA.getPointStyle());
-		assertEquals(4, ((GeoPoint) pointA.createAndGetTwinElement()).getPointStyle());
+		assertEquals(4, ((GeoPoint) pointA.getTwinGeo()).getPointStyle());
 	}
 
 	@Test

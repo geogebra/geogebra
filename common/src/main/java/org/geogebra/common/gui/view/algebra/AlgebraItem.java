@@ -84,7 +84,7 @@ public class AlgebraItem {
 		}
 		if (geo instanceof GeoSymbolic) {
 			GeoSymbolic symbolic = (GeoSymbolic) geo;
-			if (!(symbolic.createAndGetTwinElement() instanceof HasSymbolicMode)) {
+			if (!(symbolic.getTwinGeo() instanceof HasSymbolicMode)) {
 				return false;
 			}
 		}
