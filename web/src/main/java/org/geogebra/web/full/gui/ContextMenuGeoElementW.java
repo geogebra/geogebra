@@ -43,6 +43,7 @@ import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -75,15 +76,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	/**
 	 * Creates new context menu
-	 *
-	 * @param app
+	 *  @param app
 	 *            application
+	 * @param factory
 	 */
-	ContextMenuGeoElementW(AppW app) {
+	ContextMenuGeoElementW(AppW app, BaseWidgetFactory factory) {
 		super(app);
 		this.app = app;
 		this.loc = app.getLocalization();
-		wrappedPopup = new GPopupMenuW(app);
+		wrappedPopup = factory.newPopupMenu(app);
 	}
 
 	/**
@@ -94,8 +95,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * @param geos
 	 *            selected elements
 	 */
-	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos) {
-		this(app);
+	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos,
+								  BaseWidgetFactory factory) {
+		this(app, factory);
 		initPopup(geos);
 	}
 
@@ -220,6 +222,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private void addInlineTextItems() {
 		InlineTextItems items = new InlineTextItems(app, getGeo(), wrappedPopup);
+		if (items.isEmpty()) {
+			return;
+		}
 		items.addItems();
 		wrappedPopup.addSeparator();
 

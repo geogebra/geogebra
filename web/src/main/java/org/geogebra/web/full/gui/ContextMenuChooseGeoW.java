@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -54,9 +55,9 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	 *            place to show
 	 */
 	public ContextMenuChooseGeoW(AppW app, EuclidianView view,
-	        ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
-			GPoint invokerLocation) {
-		super(app, selectedGeos);
+								 ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
+								 GPoint invokerLocation, BaseWidgetFactory factory) {
+		super(app, selectedGeos, factory);
 
 		// return if just one geo, or if first geos more than one
 		if (geos.size() < 2 || selectedGeos.size() > 1) {

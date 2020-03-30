@@ -20,6 +20,7 @@ import org.geogebra.web.full.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GCollapseMenuItem;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -47,7 +48,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 *            application
 	 */
 	protected ContextMenuGraphicsWindowW(AppW app) {
-		super(app);
+		super(app, new BaseWidgetFactory());
 		if (app.isUnbundledOrWhiteboard()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		}

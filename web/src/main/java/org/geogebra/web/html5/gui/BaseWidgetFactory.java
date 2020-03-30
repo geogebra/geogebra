@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui;
 
+import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
 import com.google.gwt.user.client.ui.Button;
@@ -39,4 +41,9 @@ public class BaseWidgetFactory {
 	public SliderW newSlider(int i, int j) {
 		return new SliderW(i, j);
 	}
+
+	/**
+	 * @return list box, to be mocked
+	 */
+	public GPopupMenuW newPopupMenu(AppW app) {return new GPopupMenuW(app);}
 }

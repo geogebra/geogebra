@@ -159,4 +159,12 @@ public class InlineTextItems {
 
 		addItem("removeLink", addRemoveHyperlinkCommand);
 	}
+
+	/**
+	 *
+	 * @return true if no text items for the geo(s)
+	 */
+	public boolean isEmpty() {
+		return inlines.isEmpty();
+	}
 }

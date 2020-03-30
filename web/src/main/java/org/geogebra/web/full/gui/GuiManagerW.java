@@ -112,6 +112,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -294,7 +295,8 @@ public class GuiManagerW extends GuiManager
 	public ContextMenuGeoElementW getPopupMenu(
 			final ArrayList<GeoElement> geos) {
 		removePopup();
-		currentPopup = new ContextMenuGeoElementW(getApp(), geos);
+		currentPopup = new ContextMenuGeoElementW(getApp(), geos,
+				new BaseWidgetFactory());
 		((ContextMenuGeoElementW) currentPopup).addOtherItems();
 		return (ContextMenuGeoElementW) currentPopup;
 	}
@@ -332,7 +334,7 @@ public class GuiManagerW extends GuiManager
 			final EuclidianView view, final ArrayList<GeoElement> selectedGeos,
 			final ArrayList<GeoElement> geos, final GPoint p) {
 		currentPopup = new ContextMenuChooseGeoW(getApp(), view,
-				selectedGeos, geos, p);
+				selectedGeos, geos, p, new BaseWidgetFactory());
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
