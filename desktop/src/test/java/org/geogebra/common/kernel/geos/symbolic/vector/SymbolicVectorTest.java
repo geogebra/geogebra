@@ -52,7 +52,7 @@ public class SymbolicVectorTest extends GeoSymbolicTest {
 	@Test
 	public void testCreationWithLabel() {
 		GeoSymbolic vector = add("v=(1,1)");
-		assertThat(vector.createAndGetTwinElement(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
+		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
 	}
 
 	@Test
