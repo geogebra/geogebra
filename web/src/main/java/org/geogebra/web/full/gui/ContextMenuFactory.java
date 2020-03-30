@@ -19,7 +19,9 @@ public class ContextMenuFactory {
 	/**
 	 * @return list box, to be mocked
 	 */
-	public GPopupMenuW newPopupMenu(AppW app) {return new GPopupMenuW(app);}
+	public GPopupMenuW newPopupMenu(AppW app) {
+		return new GPopupMenuW(app);
+	}
 
 	/**
 	 *
@@ -31,6 +33,12 @@ public class ContextMenuFactory {
 		return new InlineTextToolbar(inlines, app);
 	}
 
+	/**
+	 *
+	 * @param app the application
+	 * @param geo to get drawable for.
+	 * @return Drawable of geo if it is a GeoInlineText, null otherwise.
+	 */
 	public DrawInlineText getDrawableInlineText(App app, GeoElement geo) {
 		 DrawableND drawable = app.getActiveEuclidianView().getDrawableFor(geo);
 		 return drawable instanceof DrawInlineText ? (DrawInlineText) drawable : null;

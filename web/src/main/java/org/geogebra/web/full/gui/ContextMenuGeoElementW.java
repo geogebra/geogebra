@@ -2,10 +2,8 @@ package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -41,7 +39,6 @@ import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -230,11 +227,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		items.addItems();
 		wrappedPopup.addSeparator();
 
-	}
-
-	private void addInlineTextToolbar(List<DrawInlineText> inlines) {
-		InlineTextToolbar toolbar = new InlineTextToolbar(inlines, app);
-		wrappedPopup.addItem(toolbar, false);
 	}
 
 	private boolean addLayerItem() {

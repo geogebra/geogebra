@@ -1,12 +1,5 @@
 package org.geogebra.web.html5.gui;
 
-import java.util.List;
-
-import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.main.App;
-import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.full.javax.swing.InlineTextToolbar;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 
 import com.google.gwt.user.client.ui.Button;

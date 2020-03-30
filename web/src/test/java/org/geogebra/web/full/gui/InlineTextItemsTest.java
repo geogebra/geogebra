@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
@@ -38,7 +39,6 @@ public class InlineTextItemsTest {
 		app = AppMocker.mockNotes(getClass());
 		construction = app.getKernel().getConstruction();
 		point = new GPoint2D(0, 0);
-		factory = new MenuFactory(app);
 		enableSettingsItem();
 	}
 
@@ -51,15 +51,28 @@ public class InlineTextItemsTest {
 	public void testOneInlineText() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline());
+		factory = new MenuFactory(app, withDrawInlineTest());
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
 		List<String> expected = Arrays.asList(
-				"Link", "Cut", "Copy", "Paste", "SEPARATOR", "General.Order", "SEPARATOR",
-				"FixObject", "ShowTrace", "Settings"
+				"TEXTTOOLBAR", "ContextMenu.Font", "editLink", "removeLink",
+				"SEPARATOR", "Cut", "Copy", "Paste",
+				"SEPARATOR", "General.Order",
+				"SEPARATOR",
+				"FixObject", "Settings"
 		);
 
 		assertEquals(expected, menu.getTitles());
+	}
+
+	private DrawInlineText withDrawInlineTest() {
+		return new DrawInlineText(app.getActiveEuclidianView(), createTextInline()) {
+			@Override
+			public String getHyperLinkURL() {
+				return "www.foo.bar";
+			}
+		};
 	}
 
 	@Test
@@ -83,8 +96,7 @@ public class InlineTextItemsTest {
 		return poly;
 	}
 
-	private GeoElement createTextInline() {
-
+	private GeoInlineText createTextInline() {
 		GeoInlineText text = new GeoInlineText(construction, point);
 		text.setLabel("text1");
 		return text;
