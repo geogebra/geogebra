@@ -630,6 +630,36 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testFunctionVariableLabelInCommandsFunctions() {
+		GeoElement integral = add("f(x) = Integral(x^3)");
+		assert integral.toString().startsWith("f(x)");
+		clean();
+		GeoElement derivative = add("f(x) = Derivative(x^3 + x^2 + x)");
+		assert derivative.toString().startsWith("f(x)");
+		clean();
+		GeoElement trigSimplify = add("f(x) = TrigSimplify(1 - sin(x)^2)");
+		assert trigSimplify.toString().startsWith("f(x)");
+		clean();
+		GeoElement trigCombine = add("f(x) = TrigCombine(x)");
+		assert trigCombine.toString().startsWith("f(x)");
+		clean();
+		GeoElement trigExpand = add("f(x) = TrigExpand(x)");
+		assert trigExpand.toString().startsWith("f(x)");
+		clean();
+		GeoElement taylorPolynomial = add("f(x) = TaylorPolynomial(x,x-5,1)");
+		assert taylorPolynomial.toString().startsWith("f(x)");
+		clean();
+		GeoElement simplify = add("f(x) = Simplify(x + x + x)");
+		assert simplify.toString().startsWith("f(x)");
+		clean();
+		GeoElement partialFractions = add("f(x) = PartialFractions(x^2 / (x^2 - 2x + 1))");
+		assert partialFractions.toString().startsWith("f(x)");
+		clean();
+		GeoElement Factor = add("f(x) = Factor(x^2 + x - 6)");
+		assert Factor.toString().startsWith("f(x)");
+	}
+
+	@Test
 	public void defaultFunctionLabel() {
 		t("y=x", "y = x");
 		t("y=x+a", "y = a + x");
