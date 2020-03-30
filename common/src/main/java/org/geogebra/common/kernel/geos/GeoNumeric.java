@@ -2084,6 +2084,7 @@ public class GeoNumeric extends GeoElement
 	 * Creates slider.
 	 */
 	public void createSlider() {
+		isDrawable = true;
 		setShowExtendedAV(true);
 		initAlgebraSlider();
 	}
@@ -2092,7 +2093,7 @@ public class GeoNumeric extends GeoElement
 	 * Removes the slider.
 	 */
 	public void removeSlider() {
-		setDrawable(false);
+		isDrawable = false;
 		setShowExtendedAV(false);
 		intervalMax = null;
 		intervalMin = null;
