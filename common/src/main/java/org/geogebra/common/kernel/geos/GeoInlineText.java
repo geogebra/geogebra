@@ -280,7 +280,7 @@ public class GeoInlineText extends GeoElement
 	 *
 	 * @return the corresponding drawable.
 	 */
-	protected DrawInlineText getDrawable() {
+	public DrawInlineText getDrawable() {
 		return (DrawInlineText) kernel.getApplication()
 				.getActiveEuclidianView().getDrawableFor(this);
 	}

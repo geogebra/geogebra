@@ -7,7 +7,6 @@ import java.util.List;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -48,14 +47,14 @@ public class InlineTextItems {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.geo = geo;
+		this.factory = factory;
 		inlines = geo.hasGroup() ? getGroupAsDrawInlineTexts()
 				: getSingleList();
 		this.menu = menu;
-		this.factory = factory;
 	}
 
 	private List<DrawInlineText> getSingleList() {
-		DrawInlineText drawInlineText = getDrawableInlineText(geo);
+		DrawInlineText drawInlineText = factory.getDrawableInlineText(app, geo);
 		return drawInlineText != null
 				? Collections.singletonList(drawInlineText)
 				: Collections.<DrawInlineText>emptyList();
@@ -69,7 +68,7 @@ public class InlineTextItems {
 		List<DrawInlineText> inlines = new ArrayList<>();
 		Group group = geo.getParentGroup();
 		for (GeoElement geo: group.getGroupedGeos()) {
-			DrawInlineText drawInlineText = getDrawableInlineText(geo);
+			DrawInlineText drawInlineText = factory.getDrawableInlineText(app, geo);
 			if (drawInlineText == null) {
 				return Collections.emptyList();
 			}
@@ -95,11 +94,6 @@ public class InlineTextItems {
 	private void addToolbar() {
 		InlineTextToolbar toolbar = factory.newInlineTextToolbar(inlines, app);
 		menu.addItem(toolbar, false);
-	}
-
-	private DrawInlineText getDrawableInlineText(GeoElement geo) {
-		return geo instanceof GeoInlineText ? (DrawInlineText) app.getActiveEuclidianView()
-				.getDrawableFor(geo) : null;
 	}
 
 	private void addFontSubmenu() {

@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
@@ -85,23 +84,9 @@ public class InlineTextItemsTest {
 	}
 
 	private GeoElement createTextInline() {
-		GeoInlineText text = new GeoInlineText(construction, point) {
 
-		final DrawInlineText d = new DrawInlineText(app.getActiveEuclidianView(),
-				this) {
-			@Override
-			public String getHyperLinkURL() {
-				return "www.foo.bar";
-			}
-		};
-
-			@Override
-			protected DrawInlineText getDrawable() {
-				return d;
-			}
-		};
+		GeoInlineText text = new GeoInlineText(construction, point);
 		text.setLabel("text1");
-
 		return text;
 	}
 }
