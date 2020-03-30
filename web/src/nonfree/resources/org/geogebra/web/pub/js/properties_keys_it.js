@@ -1388,7 +1388,7 @@ __GGB__keysVar["it"].menu = {
     "CASTimedOut": "CAS fuori tempo massimo",
     "CASViewOnly": "Il comando \"%0\" \xe8 disponibile solo nella vista CAS",
     "Calculate": "Calcola",
-    "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite": "Suite Calcolatrici",
     "CalligraphicLetters": "Lettere calligrafiche",
     "Camera": "Fotocamera",
     "Cancel": "Annulla",
