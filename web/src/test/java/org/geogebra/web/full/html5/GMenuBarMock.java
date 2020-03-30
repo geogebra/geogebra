@@ -38,6 +38,7 @@ public class GMenuBarMock extends GMenuBar {
 	}
 
 
+
 	@Override
 	public void clearItems() {
 		items.clear();

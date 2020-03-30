@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui;
+package org.geogebra.web.full.gui;
 
 import java.util.List;
 

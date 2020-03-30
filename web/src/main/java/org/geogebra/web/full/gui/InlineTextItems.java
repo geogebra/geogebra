@@ -16,7 +16,6 @@ import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
-import org.geogebra.web.html5.gui.ContextMenuFactory;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 

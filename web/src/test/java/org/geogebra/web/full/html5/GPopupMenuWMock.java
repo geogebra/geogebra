@@ -44,6 +44,11 @@ public class GPopupMenuWMock extends GPopupMenuW {
 	}
 
 	@Override
+	public void addItem(AriaMenuItem item, boolean autoHide) {
+		addItem(item);
+	}
+
+	@Override
 	public void clearItems() {
 		menuBarMock.clearItems();
 	}

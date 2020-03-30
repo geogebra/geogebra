@@ -1,8 +1,6 @@
-package org.geogebra.web.full.html5;
+package org.geogebra.web.full.gui;
 
 import static junit.framework.TestCase.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,15 +12,13 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.web.full.gui.ContextMenuGeoElementW;
-import org.geogebra.web.html5.gui.ContextMenuFactory;
+import org.geogebra.web.full.html5.GMenuBarMock;
+import org.geogebra.web.full.html5.MenuFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwtmockito.GwtMockitoTestRunner;
@@ -53,6 +49,21 @@ public class InlineTextItemsTest {
 	}
 
 	@Test
+	public void testOneInlineText() {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(createTextInline());
+		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
+		contextMenu.addOtherItems();
+		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
+		List<String> expected = Arrays.asList(
+				"Link", "Cut", "Copy", "Paste", "SEPARATOR", "General.Order", "SEPARATOR",
+				"FixObject", "ShowTrace", "Settings"
+		);
+
+		assertEquals(expected, menu.getTitles());
+	}
+
+	@Test
 	public void testPolygon() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createPolygon());
@@ -74,22 +85,23 @@ public class InlineTextItemsTest {
 	}
 
 	private GeoElement createTextInline() {
-		GeoInlineText text = mock(GeoInlineText.class);
+		GeoInlineText text = new GeoInlineText(construction, point) {
+
 		final DrawInlineText d = new DrawInlineText(app.getActiveEuclidianView(),
-				text) {
+				this) {
 			@Override
 			public String getHyperLinkURL() {
 				return "www.foo.bar";
 			}
 		};
 
-		when(text.getDrawAlgorithm()).then(new Answer<DrawInlineText>() {
-
 			@Override
-			public DrawInlineText answer(InvocationOnMock invocation) throws Throwable {
+			protected DrawInlineText getDrawable() {
 				return d;
 			}
-		});
+		};
+		text.setLabel("text1");
+
 		return text;
 	}
 }

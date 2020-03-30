@@ -276,7 +276,11 @@ public class GeoInlineText extends GeoElement
 		return GFont.PLAIN;
 	}
 
-	private DrawInlineText getDrawable() {
+	/**
+	 *
+	 * @return the corresponding drawable.
+	 */
+	protected DrawInlineText getDrawable() {
 		return (DrawInlineText) kernel.getApplication()
 				.getActiveEuclidianView().getDrawableFor(this);
 	}
