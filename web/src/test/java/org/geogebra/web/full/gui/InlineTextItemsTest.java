@@ -48,10 +48,10 @@ public class InlineTextItemsTest {
 	}
 
 	@Test
-	public void testOneInlineText() {
+	public void testOneInlineTextContextMenu() {
+		factory = new MenuFactory(app, withDrawInlineTest());
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline());
-		factory = new MenuFactory(app, withDrawInlineTest());
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
@@ -76,9 +76,10 @@ public class InlineTextItemsTest {
 	}
 
 	@Test
-	public void testPolygon() {
+	public void testPolygonContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createPolygon());
+		factory = new MenuFactory(app, null);
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
