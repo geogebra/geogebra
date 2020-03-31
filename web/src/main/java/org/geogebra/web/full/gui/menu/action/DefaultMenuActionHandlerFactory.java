@@ -10,7 +10,6 @@ import org.geogebra.web.full.gui.menubar.action.DownloadPngAction;
 import org.geogebra.web.full.gui.menubar.action.DownloadStlAction;
 import org.geogebra.web.full.gui.menubar.action.DownloadSvgAction;
 import org.geogebra.web.full.gui.menubar.action.ExportImage;
-import org.geogebra.web.full.gui.menubar.action.OpenOfflineFileAction;
 import org.geogebra.web.full.gui.menubar.action.OpenProfilePage;
 import org.geogebra.web.full.gui.menubar.action.ReportProblemAction;
 import org.geogebra.web.full.gui.menubar.action.SaveAction;
