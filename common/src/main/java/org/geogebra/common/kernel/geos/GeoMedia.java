@@ -64,21 +64,6 @@ public abstract class GeoMedia extends GeoWidget implements Translateable {
 	}
 
 	/**
-	 * Sets the source of the media.
-	 * 
-	 * @param src
-	 *            to set.
-	 * @param fireChanged
-	 *            determines if handler should be called or not.
-	 */
-	public void setSrc(String src, boolean fireChanged) {
-		this.src = src;
-		if (fireChanged) {
-			onSourceChanged();
-		}
-	}
-
-	/**
 	 * Set the source and call changed handler.
 	 * 
 	 * @param src
@@ -88,7 +73,8 @@ public abstract class GeoMedia extends GeoWidget implements Translateable {
 	 */
 	public void setSrc(String src, MediaFormat format) {
 		this.format = format;
-		setSrc(src, true);
+		this.src = src;
+		onSourceChanged();
 	}
 
 	/**

@@ -12,7 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.media.VideoURL;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.main.AppWFull;
@@ -67,7 +66,7 @@ public class VideoManagerW implements VideoManager {
 	}
 
 	@Override
-	public void createPreview(GeoVideo geo, final AsyncOperation<MyImage> cb) {
+	public void createPreview(final GeoVideo geo) {
 		final Image img = new Image();
 		img.getElement().setAttribute("crossorigin", "anonymous");
 		img.setUrl(geo.getPreviewUrl());
@@ -77,8 +76,9 @@ public class VideoManagerW implements VideoManager {
 			public void onLoad(LoadEvent event) {
 				final MyImage prev = new MyImageW(
 						ImageElement.as(img.getElement()), false);
-				cb.callback(prev);
+				geo.setPreview(prev);
 				RootPanel.get().remove(img);
+				app.getActiveEuclidianView().updateAllDrawablesForView(true);
 			}
 		});
 		img.addErrorHandler(new ErrorHandler() {
@@ -87,6 +87,7 @@ public class VideoManagerW implements VideoManager {
 			public void onError(ErrorEvent event) {
 				img.setUrl(GuiResourcesSimple.INSTANCE.mow_video_player()
 						.getSafeUri());
+				app.getActiveEuclidianView().updateAllDrawablesForView(true);
 			}
 		});
 		RootPanel.get().add(img);
@@ -174,26 +175,25 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void updatePlayer(DrawVideo video) {
-		if (!hasPlayer(video) || !video.getVideo().hasChanged()) {
-			return;
+		if (!hasPlayer(video)) {
+			loadGeoVideo(video);
+		} else {
+			playerOf(video).update();
 		}
-		playerOf(video).update();
 	}
 
 	@Override
 	public void removePlayers() {
-		App app = null;
 		for (AbstractVideoPlayer player : players.values()) {
 			player.asWidget().removeFromParent();
-			if (app == null) {
-				app = player.getVideo().getKernel().getApplication();
-			}
+		}
+		for (AbstractVideoPlayer player : cache) {
+			player.asWidget().removeFromParent();
 		}
 
 		players.clear();
-		if (app != null) {
-			app.getActiveEuclidianView().getEuclidianController().clearSelectionAndRectangle();
-		}
+		cache.clear();
+		app.getActiveEuclidianView().getEuclidianController().clearSelectionAndRectangle();
 	}
 
 	@Override
@@ -229,14 +229,6 @@ public class VideoManagerW implements VideoManager {
 	@Override
 	public String getMebisId(String url) {
 		return MediaURLParser.getMebisId(url);
-	}
-
-	@Override
-	public void clearStoredVideos() {
-		for (AbstractVideoPlayer player : cache) {
-			player.asWidget().removeFromParent();
-		}
-		cache.clear();
 	}
 
 	@Override
