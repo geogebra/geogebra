@@ -48,10 +48,29 @@ public class InlineTextItemsTest {
 	}
 
 	@Test
-	public void testOneInlineTextContextMenu() {
+	public void testSingleInlineTextContextMenu() {
 		factory = new MenuFactory(app, withDrawInlineTest());
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		geos.add(createTextInline());
+		geos.add(createTextInline("text1"));
+		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
+		contextMenu.addOtherItems();
+		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
+		List<String> expected = Arrays.asList(
+				"TEXTTOOLBAR", "ContextMenu.Font", "Link",
+				"SEPARATOR", "Cut", "Copy", "Paste",
+				"SEPARATOR", "General.Order",
+				"SEPARATOR",
+				"FixObject", "Settings"
+		);
+
+		assertEquals(expected, menu.getTitles());
+	}
+
+	@Test
+	public void testSingleInlineTextWithLinkContextMenu() {
+		factory = new MenuFactory(app, withDrawInlineTest());
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(createTextInline("text1"));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
@@ -66,8 +85,53 @@ public class InlineTextItemsTest {
 		assertEquals(expected, menu.getTitles());
 	}
 
+	@Test
+	public void testGrouppedInlineTextContextMenu() {
+		factory = new MenuFactory(app, withDrawInlineTest());
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		ArrayList<GeoElement> members = new ArrayList<>();
+		members.add(createTextInline("text1"));
+		members.add(createTextInline("text2"));
+		construction.createGroup(members);
+		geos.add(members.get(0));
+		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
+		contextMenu.addOtherItems();
+		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
+		List<String> expected = Arrays.asList(
+				"TEXTTOOLBAR", "ContextMenu.Font",
+				"SEPARATOR", "Cut", "Copy", "Paste",
+				"SEPARATOR", "General.Order",
+				"SEPARATOR",
+				"FixObject", "Settings"
+		);
+
+		assertEquals(expected, menu.getTitles());
+	}
+
+	@Test
+	public void testGrouppedInlineTextAndPolygonContextMenu() {
+		factory = new MenuFactory(app, withDrawInlineTest());
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		ArrayList<GeoElement> members = new ArrayList<>();
+		members.add(createTextInline("text1"));
+		members.add(createPolygon("poly1"));
+		construction.createGroup(members);
+		geos.add(members.get(0));
+		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
+		contextMenu.addOtherItems();
+		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
+		List<String> expected = Arrays.asList(
+				"SEPARATOR", "Cut", "Copy", "Paste",
+				"SEPARATOR", "General.Order",
+				"SEPARATOR",
+				"FixObject", "Settings"
+		);
+
+		assertEquals(expected, menu.getTitles());
+	}
+
 	private DrawInlineText withDrawInlineTest() {
-		return new DrawInlineText(app.getActiveEuclidianView(), createTextInline()) {
+		return new DrawInlineText(app.getActiveEuclidianView(), createTextInline("dummy")) {
 			@Override
 			public String getHyperLinkURL() {
 				return "www.foo.bar";
@@ -78,7 +142,7 @@ public class InlineTextItemsTest {
 	@Test
 	public void testPolygonContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		geos.add(createPolygon());
+		geos.add(createPolygon("Poly1"));
 		factory = new MenuFactory(app, null);
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
@@ -91,15 +155,15 @@ public class InlineTextItemsTest {
 		assertEquals(expected, menu.getTitles());
 	}
 
-	private GeoElement createPolygon() {
+	private GeoElement createPolygon(String label) {
 		GeoPolygon poly = new GeoPolygon(construction);
-		poly.setLabel("poly1");
+		poly.setLabel(label);
 		return poly;
 	}
 
-	private GeoInlineText createTextInline() {
+	private GeoInlineText createTextInline(String label) {
 		GeoInlineText text = new GeoInlineText(construction, point);
-		text.setLabel("text1");
+		text.setLabel(label);
 		return text;
 	}
 }
