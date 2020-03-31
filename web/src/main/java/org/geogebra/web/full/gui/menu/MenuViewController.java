@@ -25,6 +25,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.DefaultMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.ExamMenuActionHandlerFactory;
+import org.geogebra.web.full.gui.menu.action.MebisMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.ScientificMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
@@ -126,6 +127,8 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			defaultActionHandlerFactory = new ScientificMenuActionHandlerFactory(app);
+		} else if (app.isMebis()) {
+			defaultActionHandlerFactory = new MebisMenuActionHandlerFactory(app);
 		} else {
 			defaultActionHandlerFactory = new DefaultMenuActionHandlerFactory(app);
 		}
