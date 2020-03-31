@@ -21,6 +21,7 @@ import org.geogebra.common.euclidian.draw.DrawIntegralFunctions;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawLocus;
+import org.geogebra.common.euclidian.draw.DrawPenStroke;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPointPlot;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
@@ -59,6 +60,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -141,14 +143,9 @@ public class EuclidianDraw {
 			break;
 
 		case PENSTROKE:
-			// TODO remove this when Feature.PEN_IS_LOCUS is removed
-			if (geo instanceof GeoLocusNDInterface) {
-				d = new DrawLocus(ev, ((GeoLocusNDInterface) geo).getLocus(),
-						CoordSys.XOY);
-			} else {
-				d = new DrawPolyLine(ev, (GeoPolyLine) geo);
-			}
+			d = new DrawPenStroke(ev, (GeoLocusStroke) geo);
 			break;
+
 		case POLYLINE:
 		case POLYLINE3D:
 			d = new DrawPolyLine(ev, (GeoPolyLine) geo);
