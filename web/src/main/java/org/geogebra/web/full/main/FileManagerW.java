@@ -291,13 +291,13 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public void saveLoggedOut(App app1) {
-		((AppW) app1).getGuiManager().exportGGB();
+		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 	
 	@Override
 	public void export(App app1) {
 		dialogEvent(app, "exportGGB");
-		((AppW) app1).getGuiManager().exportGGB();
+		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 
 	@Override
