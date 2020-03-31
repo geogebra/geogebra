@@ -254,7 +254,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private AriaMenuItem newSubMenuItem(String key, AriaMenuBar submenu) {
-		return new AriaMenuItem(app.getLocalization().getMenu(key), false, submenu);
+		return factory.newAriaMenuItem(app.getLocalization().getMenu(key), false, submenu);
 	}
 
 	private boolean addGroupItems() {
@@ -1060,7 +1060,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            text of menu item
 	 */
 	private void addAction(Command action, String text) {
-		AriaMenuItem mi = new AriaMenuItem(text, false, action);
+		AriaMenuItem mi = factory.newAriaMenuItem(text, false, action);
 		wrappedPopup.addItem(mi);
 	}
 
@@ -1072,7 +1072,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * @return new menu item
 	 */
 	private AriaMenuItem addHtmlAction(Command action, String html) {
-		AriaMenuItem mi = new AriaMenuItem(html, true, action);
+		AriaMenuItem mi = factory.newAriaMenuItem(html, true, action);
 		if (!app.isUnbundledOrWhiteboard()) {
 			mi.addStyleName("mi_with_image");
 		}
@@ -1093,12 +1093,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			AriaMenuBar subMenu) {
 		AriaMenuItem mi;
 		if (html != null) {
-			mi = new AriaMenuItem(html, true, subMenu);
+			mi = factory.newAriaMenuItem(html, true, subMenu);
 			if (!app.isUnbundledOrWhiteboard()) {
 				mi.addStyleName("mi_with_image"); // TEMP
 			}
 		} else {
-			mi = new AriaMenuItem(text, true, subMenu);
+			mi = factory.newAriaMenuItem(text, true, subMenu);
 		}
 
 		wrappedPopup.addItem(mi);
@@ -1109,7 +1109,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            title of menu (first menu item)
 	 */
 	protected void setTitle(String str) {
-		AriaMenuItem title = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
+		AriaMenuItem title = factory.newAriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 				true, new Command() {
 
@@ -1176,7 +1176,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		for (int i = 0; i < angleIntervals.length; i++) {
 			final int idx = i;
-			AriaMenuItem mi = new AriaMenuItem(
+			AriaMenuItem mi = factory.newAriaMenuItem(
 					MainMenu.getMenuBarHtmlClassic(AppResources.INSTANCE.empty()
 							.getSafeUri().asString(), angleIntervals[i]),
 					true, new Command() {

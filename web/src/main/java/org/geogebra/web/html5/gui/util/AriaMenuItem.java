@@ -12,7 +12,6 @@ public class AriaMenuItem extends SimplePanel {
 	private ScheduledCommand cmd;
 	private AriaMenuBar submenu;
 	private boolean enabled = true;
-	private String text;
 
 	/**
 	 * @param text
@@ -42,7 +41,7 @@ public class AriaMenuItem extends SimplePanel {
 		this.submenu = submenu;
 	}
 
-	protected AriaMenuItem() {
+	public AriaMenuItem() {
 		super(Document.get().createLIElement());
 		getElement().setClassName("gwt-MenuItem listMenuItem");
 		getElement().setAttribute("role", "menuitem");
@@ -56,7 +55,6 @@ public class AriaMenuItem extends SimplePanel {
 	 *            whether to parse it as HTML
 	 */
 	public void setContent(String text, boolean asHTML) {
-		this.text = text;
 		if (asHTML) {
 			getElement().setInnerHTML(text);
 		} else {
@@ -119,9 +117,5 @@ public class AriaMenuItem extends SimplePanel {
 	 */
 	public boolean isEnabled() {
 		return enabled;
-	}
-
-	public String getText() {
-		return text;
 	}
 }

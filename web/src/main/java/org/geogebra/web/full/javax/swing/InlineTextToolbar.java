@@ -13,6 +13,7 @@ import org.geogebra.web.resources.SVGResource;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -20,7 +21,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author laszlo
  */
-public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandler<Boolean> {
+public class InlineTextToolbar implements IsWidget, ValueChangeHandler<Boolean> {
+	private AriaMenuItem item;
 	private final App app;
 	private List<DrawInlineText> drawInlineTexts;
 	private FlowPanel panel;
@@ -33,10 +35,11 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 	 * Constructor of special context menu item holding the
 	 * list and sub/superscript toggle buttons
 	 * @param drawInlineTexts the drawable.
+	 *
 	 */
-	public InlineTextToolbar(List<DrawInlineText> drawInlineTexts, App app) {
-		super();
+	public InlineTextToolbar(List<DrawInlineText> drawInlineTexts, AriaMenuItem item, App app) {
 		this.drawInlineTexts = drawInlineTexts;
+		this.item = item;
 		this.app = app;
 
 		createGui();
@@ -47,16 +50,23 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 	 * Creates the toolbar gui
 	 */
 	protected void createGui() {
-		setStyleName("inlineTextToolbar");
+		item.setStyleName("inlineTextToolbar");
 		panel = new FlowPanel();
 		createSubscriptBtn();
 		createSuperscriptBtn();
 		createBulletListBtn();
 		createNumberedListBtn();
-		setWidget(panel);
+		item.setWidget(panel);
 		updateState();
 	}
 
+	/**
+	 * Set item content as text
+	 * @param text to set
+	 */
+	protected void setContent(String text) {
+		item.setContent(text, false);
+	}
 	private void createSubscriptBtn() {
 		subScriptBtn = createButton(MaterialDesignResources.INSTANCE.format_subscript());
 		add(subScriptBtn);
@@ -125,7 +135,6 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 				: "";
 	}
 
-	@Override
 	public void add(Widget widget) {
 		panel.add(widget);
 	}
@@ -175,5 +184,10 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 		superScriptBtn.setToolTipText(app.getLocalization().getMenu("Superscript"));
 		bulletListBtn.setToolTipText(app.getLocalization().getMenu("bulletList"));
 		numberedListBtn.setToolTipText(app.getLocalization().getMenu("numberedList"));
+	}
+
+	@Override
+	public Widget asWidget() {
+		return item;
 	}
 }

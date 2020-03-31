@@ -50,7 +50,7 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testSingleInlineTextContextMenu() {
-		factory = new MenuFactory(app, withDrawInlineTest(null));
+		factory = new MenuFactory(app, getTextWithLink(null));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1"));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
@@ -69,7 +69,7 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testSingleInlineTextWithLinkContextMenu() {
-		factory = new MenuFactory(app, withDrawInlineTest(LINK_URL));
+		factory = new MenuFactory(app, getTextWithLink(LINK_URL));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1"));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
@@ -88,7 +88,7 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testGrouppedInlineTextContextMenu() {
-		factory = new MenuFactory(app, withDrawInlineTest(LINK_URL));
+		factory = new MenuFactory(app, getTextWithLink(LINK_URL));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		ArrayList<GeoElement> members = new ArrayList<>();
 		members.add(createTextInline("text1"));
@@ -111,7 +111,7 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testGrouppedInlineTextAndPolygonContextMenu() {
-		factory = new MenuFactory(app, withDrawInlineTest(LINK_URL));
+		factory = new MenuFactory(app, getTextWithLink(LINK_URL));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		ArrayList<GeoElement> members = new ArrayList<>();
 		members.add(createTextInline("text1"));
@@ -131,7 +131,7 @@ public class InlineTextItemsTest {
 		assertEquals(expected, menu.getTitles());
 	}
 
-	private DrawInlineText withDrawInlineTest(final String link) {
+	private DrawInlineText getTextWithLink(final String link) {
 		return new DrawInlineText(app.getActiveEuclidianView(), createTextInline("dummy")) {
 			@Override
 			public String getHyperLinkURL() {

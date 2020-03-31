@@ -5,18 +5,20 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.gui.AriaMenuItemMock;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 
 public class InlineTextToolbarMock extends InlineTextToolbar {
 	public InlineTextToolbarMock(List<DrawInlineText> inlines, App app) {
-		super(Collections.<DrawInlineText>emptyList(), app);
+		super(Collections.<DrawInlineText>emptyList(),
+				new AriaMenuItemMock(), app);
 	}
 
 	@Override
 	protected void createGui() {
-		setContent("TEXTTOOLBAR", false);
+		setContent("TEXTTOOLBAR");
 	}
 
 	@Override

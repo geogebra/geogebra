@@ -39,5 +39,4 @@ public class BaseWidgetFactory {
 	public SliderW newSlider(int i, int j) {
 		return new SliderW(i, j);
 	}
-
 }

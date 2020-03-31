@@ -93,11 +93,11 @@ public class InlineTextItems {
 
 	private void addToolbar() {
 		InlineTextToolbar toolbar = factory.newInlineTextToolbar(inlines, app);
-		menu.addItem(toolbar, false);
+		menu.addItem((AriaMenuItem) toolbar.asWidget(), false);
 	}
 
 	private void addFontSubmenu() {
-		AriaMenuItem item = new AriaMenuItem(loc.getMenu("ContextMenu.Font"),
+		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.Font"),
 				false,
 				new FontSubMenu((AppW) app, inlines));
 		item.addStyleName("no-image");
@@ -105,7 +105,7 @@ public class InlineTextItems {
 	}
 
 	private void addItem(String text, Command command) {
-		AriaMenuItem menuItem = new AriaMenuItem(loc.getMenu(text), false,
+		AriaMenuItem menuItem = factory.newAriaMenuItem(loc.getMenu(text), false,
 				command);
 		menuItem.getElement().getStyle()
 				.setPaddingLeft(16, Style.Unit.PX);
