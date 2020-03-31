@@ -818,9 +818,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.previewImage {
 				position: absolute;
 				left: 63%;
+				top: 46%;
 				max-height: 90%;
 				max-width: 90%;
-				transform: translateX(-50%);
+				transform: translate(-50%, -50%);
 			}
 		}
 
