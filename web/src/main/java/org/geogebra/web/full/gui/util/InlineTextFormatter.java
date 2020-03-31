@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.util;
 import java.util.List;
 
 import org.geogebra.common.euclidian.DrawableND;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.HasFormat;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
@@ -29,8 +29,8 @@ public class InlineTextFormatter {
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
 			DrawableND draw = app.getActiveEuclidianView().getDrawableFor(geo);
-			if (draw instanceof DrawInlineText) {
-				((DrawInlineText) draw).format(key, val);
+			if (draw instanceof HasFormat) {
+				((HasFormat) draw).format(key, val);
 				changed = true;
 			}
 		}

@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 /**
  * Class that handles drawing inline text elements.
  */
-public class DrawInlineText extends Drawable implements DrawInline {
+public class DrawInlineText extends Drawable implements DrawInline, HasFormat {
 
 	public static final int PADDING = 8;
 
@@ -175,12 +175,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 		return rectangle.toPoints();
 	}
 
-	/**
-	 * @param key
-	 *            formatting option
-	 * @param val
-	 *            value (String, int or bool, depending on key)
-	 */
+	@Override
 	public void format(String key, Object val) {
 		if (textController != null) {
 			textController.format(key, val);

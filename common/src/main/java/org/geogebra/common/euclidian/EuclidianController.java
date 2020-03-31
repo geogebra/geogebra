@@ -100,6 +100,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -5257,6 +5258,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
+			table(selectionPreview);
+			break;
+
+		case EuclidianConstants.MODE_TABLE:
 			// TODO add here table back-end
 			break;
 
@@ -5406,6 +5411,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		return endOfSwitchModeForProcessMode(ret, changedKernel, callback,
 				selectionPreview);
+	}
+
+	protected void table(boolean selectionPreview) {
+		if (!selectionPreview) {
+			GeoInlineTable table = new GeoInlineTable(kernel.getConstruction());
+			table.ensureSize(2, 2);
+			table.setLabel(null);
+			selectAndShowBoundingBox(table);
+		}
 	}
 
 	public void showDynamicStylebar() {
