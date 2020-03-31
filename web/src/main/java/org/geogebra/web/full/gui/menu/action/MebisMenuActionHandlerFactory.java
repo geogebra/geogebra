@@ -9,18 +9,17 @@ import org.geogebra.web.full.main.AppWFull;
 /**
  * Builds MenuActionHandler instances for Mebis Tafel.
  */
-public class MebisMenuActionHandlerFactory extends DefaultMenuActionHandlerFactory
-		implements MenuActionHandlerFactory {
+public class MebisMenuActionHandlerFactory implements MenuActionHandlerFactory {
 
-	private AppWFull app;
+	private DefaultMenuActionHandlerFactory defaultMenuActionHandlerFactory;
 
 	public MebisMenuActionHandlerFactory(AppWFull app) {
-		super(app);
+		defaultMenuActionHandlerFactory = new DefaultMenuActionHandlerFactory(app);
 	}
 
 	@Override
 	public DefaultMenuActionHandler create() {
-		DefaultMenuActionHandler actionHandler = super.create();
+		DefaultMenuActionHandler actionHandler = defaultMenuActionHandlerFactory.create();
 		actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new OpenFileActionMebis());
 		actionHandler.setMenuAction(Action.DOWNLOAD_GGS, new DownloadDefaultFormatAction());
 		actionHandler.setMenuAction(Action.OPEN_OFFLINE_FILE, new OpenOfflineFileAction());
