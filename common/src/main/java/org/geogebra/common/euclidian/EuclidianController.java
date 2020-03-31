@@ -7593,15 +7593,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// disappear
 			return;
 		}
-		if (draggingBeyondThreshold && (mode == EuclidianConstants.MODE_DELETE
-				|| mode == EuclidianConstants.MODE_ERASER)) {
-
+		if (mode == EuclidianConstants.MODE_DELETE || mode == EuclidianConstants.MODE_ERASER) {
 			getDeleteMode().handleMouseDraggedForDelete(event, false);
-
 			kernel.notifyRepaint();
-
 			return;
 		}
+
 		altCopy = false;
 		// moveMode was set in mousePressed()
 		switch (moveMode) {
