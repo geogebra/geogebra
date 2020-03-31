@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
@@ -30,6 +31,6 @@ public class MenuFactory extends ContextMenuFactory {
 
 	@Override
 	public DrawInlineText getDrawableInlineText(App app, GeoElement geo) {
-		return drawInlineText;
+		return geo instanceof GeoInlineText ? drawInlineText : null;
 	}
 }

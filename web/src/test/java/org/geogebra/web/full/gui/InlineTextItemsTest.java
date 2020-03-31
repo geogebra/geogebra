@@ -28,6 +28,7 @@ import com.google.gwtmockito.WithClassesToStub;
 @WithClassesToStub({ TextAreaElement.class})
 public class InlineTextItemsTest {
 
+	public static final String LINK_URL = "www.foo.bar";
 	private ContextMenuGeoElementW contextMenu;
 	private Construction construction;
 	private AppW app;
@@ -49,7 +50,7 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testSingleInlineTextContextMenu() {
-		factory = new MenuFactory(app, withDrawInlineTest());
+		factory = new MenuFactory(app, withDrawInlineTest(null));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1"));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
@@ -68,7 +69,7 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testSingleInlineTextWithLinkContextMenu() {
-		factory = new MenuFactory(app, withDrawInlineTest());
+		factory = new MenuFactory(app, withDrawInlineTest(LINK_URL));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1"));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
@@ -87,7 +88,7 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testGrouppedInlineTextContextMenu() {
-		factory = new MenuFactory(app, withDrawInlineTest());
+		factory = new MenuFactory(app, withDrawInlineTest(LINK_URL));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		ArrayList<GeoElement> members = new ArrayList<>();
 		members.add(createTextInline("text1"));
@@ -110,7 +111,7 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testGrouppedInlineTextAndPolygonContextMenu() {
-		factory = new MenuFactory(app, withDrawInlineTest());
+		factory = new MenuFactory(app, withDrawInlineTest(LINK_URL));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		ArrayList<GeoElement> members = new ArrayList<>();
 		members.add(createTextInline("text1"));
@@ -121,7 +122,7 @@ public class InlineTextItemsTest {
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
 		List<String> expected = Arrays.asList(
-				"SEPARATOR", "Cut", "Copy", "Paste",
+				"Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",
 				"SEPARATOR",
 				"FixObject", "Settings"
@@ -130,11 +131,11 @@ public class InlineTextItemsTest {
 		assertEquals(expected, menu.getTitles());
 	}
 
-	private DrawInlineText withDrawInlineTest() {
+	private DrawInlineText withDrawInlineTest(final String link) {
 		return new DrawInlineText(app.getActiveEuclidianView(), createTextInline("dummy")) {
 			@Override
 			public String getHyperLinkURL() {
-				return "www.foo.bar";
+				return link;
 			}
 		};
 	}
