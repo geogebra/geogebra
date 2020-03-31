@@ -477,15 +477,14 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
+		GeoElementND twinGeo = getTwinGeo();
+
 		String def = getDefinition(StringTemplate.defaultTemplate);
-		String val;
-		GeoElementND twin = getTwinGeo();
-		if (twin != null) {
-			val = twin.getValueForInputBar();
-		} else {
-			val = getValueForInputBar();
-		}
-		if (def.equals(val)) {
+		String val = getValueForInputBar();
+		String twin = twinGeo != null
+				? twinGeo.toValueString(StringTemplate.defaultTemplate) : null;
+
+		if (def.equals(val) && (twin == null || twin.equals(val))) {
 			return DescriptionMode.VALUE;
 		} else {
 			return DescriptionMode.DEFINITION_VALUE;
@@ -568,7 +567,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private void getFVarsXML(StringBuilder sb) {
 		String prefix = "";
 		sb.append("\t<variables val=\"");
-		for (FunctionVariable variable: fVars) {
+		for (FunctionVariable variable : fVars) {
 			sb.append(prefix);
 			sb.append(StringUtil.encodeXML(variable.getSetVarString()));
 			prefix = ",";
