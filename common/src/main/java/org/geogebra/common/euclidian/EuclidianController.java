@@ -9387,7 +9387,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (topHit instanceof GeoEmbed && embedManager != null) {
 			selectAndShowBoundingBox(topHit);
 			maybeFocusGroupElement(topHit);
-			app.getEmbedManager().play((GeoEmbed) topHit);
 			embedManager.play((GeoEmbed) topHit);
 			return true;
 		}
