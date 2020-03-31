@@ -1318,6 +1318,7 @@ public class GeoNumeric extends GeoElement
 		boolean ok = (getIntervalMin() <= getIntervalMax());
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
+			isDrawable = true;
 		} else if (okMin && okMax) {
 			setUndefined();
 		}
