@@ -13,6 +13,7 @@
 	<show object="true" label="false"/>
 	<objColor r="21" g="101" b="192" alpha="0.0"/>
 	<layer val="0"/>
+	<ordering val="1"/>
 	<labelMode val="0"/>
 	<animation step="0.1" speed="1" type="1" playing="false"/>
 	<coords x="3.0" y="0.0" z="1.0"/>
@@ -23,6 +24,7 @@
 	<show object="true" label="false"/>
 	<objColor r="21" g="101" b="192" alpha="0.0"/>
 	<layer val="0"/>
+	<ordering val="2"/>
 	<labelMode val="0"/>
 	<animation step="0.1" speed="1" type="1" playing="false"/>
 	<coords x="3.0" y="3.0" z="1.0"/>
@@ -37,6 +39,7 @@
 	<show object="true" label="false"/>
 	<objColor r="0" g="0" b="0" alpha="0.0"/>
 	<layer val="0"/>
+	<ordering val="3"/>
 	<labelMode val="0"/>
 	<coords x="-3.0" y="0.0" z="9.0"/>
 	<lineStyle thickness="5" type="0" typeHidden="1" opacity="178"/>
