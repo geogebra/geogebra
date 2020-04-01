@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -16,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.matrix.CoordSys;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class DrawPenStroke extends Drawable {
 
@@ -31,6 +33,8 @@ public class DrawPenStroke extends Drawable {
 	private GBufferedImage bitmap;
 	private int bitmapShiftX;
 	private int bitmapShiftY;
+
+	GArea maskArea;
 
 	public DrawPenStroke(EuclidianView view, GeoLocusStroke stroke) {
 		super(view, stroke);
@@ -68,18 +72,23 @@ public class DrawPenStroke extends Drawable {
 			gpMask = new GeneralPathClippedForCurvePlotter(view);
 		} else {
 			gp.reset();
-			gpMask.reset();;
 		}
 
-		// Use the last plotted point for positioning the label:
 		CurvePlotter.draw(gp, stroke.getPoints(), CoordSys.XOY);
-		CurvePlotter.draw(gpMask, stroke.mask, CoordSys.XOY);
-
 		setShape(AwtFactory.getPrototype().newArea(objStroke
 				.createStrokedShape(gp, 2000)));
-		GArea maskArea = AwtFactory.getPrototype().newArea(AwtFactory.getPrototype()
-				.newBasicStroke(20, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND)
-				.createStrokedShape(gpMask, 2000));
+
+		maskArea = AwtFactory.getPrototype().newArea();
+
+		for (Map.Entry<Double, ArrayList<MyPoint>> entry : stroke.mask.entrySet()) {
+			gpMask.reset();
+			CurvePlotter.draw(gpMask, entry.getValue(), CoordSys.XOY);
+			GBasicStroke stroke = AwtFactory.getPrototype().newBasicStroke(entry.getKey() * view.getXscale(),
+					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
+			GArea area = AwtFactory.getPrototype().newArea(stroke.createStrokedShape(gpMask, 2000));
+			maskArea.add(area);
+		}
+
 		getShape().subtract(maskArea);
 	}
 
@@ -90,6 +99,8 @@ public class DrawPenStroke extends Drawable {
 
 		g2.setPaint(getObjectColor());
 		g2.fill(getShape());
+		g2.setPaint(GColor.CYAN);
+		g2.fill(maskArea);
 	}
 
 	private GBufferedImage makeImage(GGraphics2D g2p) {

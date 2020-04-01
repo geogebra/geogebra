@@ -66,7 +66,7 @@ public class ModeDeleteLocus {
 			GeoElement geo = it.next();
 
 			if (geo instanceof GeoLocusStroke) {
-				deletePartOfPenStroke((GeoLocusStroke) geo, eventX, eventY);
+				deletePartOfPenStroke((GeoLocusStroke) geo, eventX, eventY, size);
 				geo.updateRepaint();
 				it.remove();
 			} else {
@@ -110,7 +110,7 @@ public class ModeDeleteLocus {
 				int eventY = ec.getMouseLoc().getY();
 				ellipse.setFrame(eventX, eventY, ec.getDeleteToolSize(), ec.getDeleteToolSize());
 
-				deletePartOfPenStroke((GeoLocusStroke) geos[0], eventX, eventY);
+				deletePartOfPenStroke((GeoLocusStroke) geos[0], eventX, eventY, ec.getDeleteToolSize());
 				geos[0].updateRepaint();
 			}
 			// delete this object
@@ -124,10 +124,10 @@ public class ModeDeleteLocus {
 		return false;
 	}
 
-	private void deletePartOfPenStroke(GeoLocusStroke gls, int x1, int y1) {
+	private void deletePartOfPenStroke(GeoLocusStroke gls, int x1, int y1, double size) {
 		double x = view.toRealWorldCoordX(x1);
 		double y = view.toRealWorldCoordY(y1);
-		gls.deletePart(x, y);
+		gls.deletePart(x, y, size * view.getInvXscale());
 	}
 
 	private void updatePenDeleteMode(Hits h) {

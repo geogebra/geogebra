@@ -1,10 +1,11 @@
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -44,7 +45,7 @@ public class GeoLocusStroke extends GeoLocus
 
 	private String splitParentLabel;
 
-	public ArrayList<MyPoint> mask;
+	public Map<Double, ArrayList<MyPoint>> mask;
 
 	/**
 	 * @param cons
@@ -53,7 +54,7 @@ public class GeoLocusStroke extends GeoLocus
 	public GeoLocusStroke(Construction cons) {
 		super(cons);
 		setVisibleInView3D(false);
-		mask = new ArrayList<>();
+		mask = new HashMap<>();
 	}
 
 	@Override
@@ -260,7 +261,10 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	private Iterable<MyPoint> getTransformPoints() {
-		return new IteratorConcatenator<>(Arrays.asList(getPoints(), mask));
+		ArrayList<Iterable<MyPoint>> allPoints = new ArrayList<>();
+		allPoints.add(getPoints());
+		allPoints.addAll(mask.values());
+		return new IteratorConcatenator<>(allPoints);
 	}
 
 	@Override
@@ -413,8 +417,12 @@ public class GeoLocusStroke extends GeoLocus
 	/**
 	 * Deletes part of the pen stroke
 	 */
-	public void deletePart(double x, double y) {
-		mask.add(new MyPoint(x, y));
+	public void deletePart(double x, double y, double size) {
+		if (!mask.containsKey(size)) {
+			mask.put(size, new ArrayList<MyPoint>());
+		}
+
+		mask.get(size).add(new MyPoint(x, y));
 	}
 
 	private void ensureTrailingNaN(List<MyPoint> data) {
