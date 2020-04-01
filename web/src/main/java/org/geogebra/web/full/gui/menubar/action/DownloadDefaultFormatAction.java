@@ -10,6 +10,6 @@ public class DownloadDefaultFormatAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		app.getFileManager().export(app);
+		app.getGuiManager().exportGGB(false);
 	}
 }

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.menubar.action;
 
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.main.AppWFull;
 
 /**
@@ -21,13 +23,12 @@ class ImageExporter {
 
 	void export(String url) {
 		app.getSelectionManager().clearSelectedGeos();
-		app
-				.getFileManager()
-				.showExportAsPictureDialog(
-						url,
-						app.getExportTitle(),
-						extension,
-						"ExportAsPicture",
-						app);
+
+		String name = app.getExportTitle() + "." + extension;
+
+		app.getFileManager().exportImage(url, name, extension);
+		app.dispatchEvent(new Event(
+				EventType.EXPORT, null,
+				"[\"" + extension + "\"]"));
 	}
 }
