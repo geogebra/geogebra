@@ -412,11 +412,9 @@ public class GeoLocusStroke extends GeoLocus
 
 	/**
 	 * Deletes part of the pen stroke
-	 * @return true, if the pen stroke still has points left after the deletion
 	 */
-	public boolean deletePart(double x, double y) {
+	public void deletePart(double x, double y) {
 		mask.add(new MyPoint(x, y));
-		return true;
 	}
 
 	private void ensureTrailingNaN(List<MyPoint> data) {

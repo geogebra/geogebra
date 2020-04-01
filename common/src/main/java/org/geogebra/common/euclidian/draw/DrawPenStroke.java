@@ -32,8 +32,6 @@ public class DrawPenStroke extends Drawable {
 	private int bitmapShiftX;
 	private int bitmapShiftY;
 
-	private double[] labelPosition;
-
 	public DrawPenStroke(EuclidianView view, GeoLocusStroke stroke) {
 		super(view, stroke);
 		this.stroke = stroke;
@@ -42,8 +40,7 @@ public class DrawPenStroke extends Drawable {
 	@Override
 	public void update() {
 		bitmap = null;
-		updateStrokes(stroke);
-		buildGeneralPath(stroke.getPoints());
+		buildGeneralPath();
 	}
 
 	@Override
@@ -64,7 +61,8 @@ public class DrawPenStroke extends Drawable {
 		}
 	}
 
-	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
+	private void buildGeneralPath() {
+		updateStrokes(stroke);
 		if (gp == null) {
 			gp = new GeneralPathClippedForCurvePlotter(view);
 			gpMask = new GeneralPathClippedForCurvePlotter(view);
@@ -74,7 +72,7 @@ public class DrawPenStroke extends Drawable {
 		}
 
 		// Use the last plotted point for positioning the label:
-		labelPosition = CurvePlotter.draw(gp, pointList, CoordSys.XOY);
+		CurvePlotter.draw(gp, stroke.getPoints(), CoordSys.XOY);
 		CurvePlotter.draw(gpMask, stroke.mask, CoordSys.XOY);
 
 		setShape(AwtFactory.getPrototype().newArea(objStroke
@@ -86,6 +84,10 @@ public class DrawPenStroke extends Drawable {
 	}
 
 	private void drawPath(GGraphics2D g2) {
+		if (getShape() == null) {
+			buildGeneralPath();
+		}
+
 		g2.setPaint(getObjectColor());
 		g2.fill(getShape());
 	}
@@ -98,8 +100,9 @@ public class DrawPenStroke extends Drawable {
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		return getShape().intersects(x - hitThreshold, y - hitThreshold, 2 * hitThreshold,
-				2 * hitThreshold);
+		return getShape() != null &&
+				getShape().intersects(x - hitThreshold, y - hitThreshold,
+						2 * hitThreshold, 2 * hitThreshold);
 	}
 
 	@Override

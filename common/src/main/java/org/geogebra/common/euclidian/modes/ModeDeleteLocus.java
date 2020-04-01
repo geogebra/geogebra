@@ -1,8 +1,6 @@
 package org.geogebra.common.euclidian.modes;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -12,7 +10,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
@@ -64,25 +61,14 @@ public class ModeDeleteLocus {
 		// hide cursor, the new "cursor" is the deletion rectangle
 		view.setCursor(EuclidianCursor.TRANSPARENT);
 
-		List<GeoLocusStroke> deletedStrokes = new ArrayList<>();
-
 		Iterator<GeoElement> it = h.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			// delete tool should delete the object for dragging
-			// at whiteboard
-			// see MOW-97
-			if (view.getApplication().isWhiteboardActive()
-					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
-				geo.removeOrSetUndefinedIfHasFixedDescendent();
-			} else if (geo instanceof GeoLocusStroke) {
-				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geo, eventX, eventY);
 
-				if (hasVisiblePart) { // still something visible, don't delete
-					it.remove(); // remove this Stroke from hits
-					geo.updateRepaint();
-					deletedStrokes.add((GeoLocusStroke) geo);
-				}
+			if (geo instanceof GeoLocusStroke) {
+				deletePartOfPenStroke((GeoLocusStroke) geo, eventX, eventY);
+				geo.updateRepaint();
+				it.remove();
 			} else {
 				if (!this.penDeleteMode) {
 					this.objDeleteMode = true;
@@ -95,12 +81,6 @@ public class ModeDeleteLocus {
 		// do not delete images using eraser
 		h.removeImages();
 		ec.deleteAll(h);
-
-		for (GeoElement geo : view.getKernel().getConstruction().getGeoSetConstructionOrder()) {
-			if (geo instanceof GeoLocusStroke && !deletedStrokes.contains(geo)) {
-				((GeoLocusStroke) geo).mask.add(new MyPoint(Double.NaN, Double.NaN));
-			}
-		}
 	}
 
 	/**
@@ -130,12 +110,8 @@ public class ModeDeleteLocus {
 				int eventY = ec.getMouseLoc().getY();
 				ellipse.setFrame(eventX, eventY, ec.getDeleteToolSize(), ec.getDeleteToolSize());
 
-				boolean hasVisiblePart = deletePartOfPenStroke((GeoLocusStroke) geos[0], eventX, eventY);
-
-				if (!hasVisiblePart) { // still something visible, don't delete
-					// remove this Stroke
-					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
-				}
+				deletePartOfPenStroke((GeoLocusStroke) geos[0], eventX, eventY);
+				geos[0].updateRepaint();
 			}
 			// delete this object
 			else {
@@ -148,11 +124,10 @@ public class ModeDeleteLocus {
 		return false;
 	}
 
-	private boolean deletePartOfPenStroke(GeoLocusStroke gls, int x1, int y1) {
+	private void deletePartOfPenStroke(GeoLocusStroke gls, int x1, int y1) {
 		double x = view.toRealWorldCoordX(x1);
 		double y = view.toRealWorldCoordY(y1);
-
-		return gls.deletePart(x, y);
+		gls.deletePart(x, y);
 	}
 
 	private void updatePenDeleteMode(Hits h) {
