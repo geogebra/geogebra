@@ -10,23 +10,34 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GeoVectorTest extends BaseUnitTest {
 
 	@Test
-	public void testDefinitionForIndependent() {
+	public void testEditorDefinitionForIndependent() {
 		GeoVector vector = addAvInput("v = (1, 2)");
 		assertThat(
 				vector.getDefinition(StringTemplate.editorTemplate),
 				is("{{1}, {2}}"));
+	}
+
+	@Test
+	public void testLatexDefinitionForIndependent() {
+		GeoVector vector = addAvInput("v = (1, 2)");
 		assertThat(
 				vector.getDefinition(StringTemplate.latexTemplate),
 				is("\\left( \\begin{align}1 \\\\ 2 \\end{align} \\right)"));
 	}
 
 	@Test
-	public void testDefinitionForDependent() {
+	public void testEditorDefinitionForDependent() {
 		addAvInput("a = 1");
 		GeoVector vector = addAvInput("v = (a, 2)");
 		assertThat(
 				vector.getDefinition(StringTemplate.editorTemplate),
 				is("{{a}, {2}}"));
+	}
+
+	@Test
+	public void testLatexDefinitionForDependent() {
+		addAvInput("a = 1");
+		GeoVector vector = addAvInput("v = (a, 2)");
 		assertThat(
 				vector.getDefinition(StringTemplate.latexTemplate),
 				is("\\left( \\begin{align}a \\\\ 2 \\end{align} \\right)"));
