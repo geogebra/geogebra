@@ -1925,6 +1925,7 @@ __GGB__keysVar["yi"].menu = {
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Resources",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "GeoGebra\u05be\u05d0\u05d9\u05d9\u05d2\u05e0\u05e9\u05d0\u05b7\u05e4\u05bf\u05d8\u05df",
     "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "\u05e2\u05e7\u05e1\u05e4\u05bc\u05d0\u05b8\u05e8\u05d8 \u05e4\u05bf\u05d5\u05df GeoGebra \u05e6\u05d5 Asymptote",

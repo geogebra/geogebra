@@ -1925,6 +1925,7 @@ __GGB__keysVar["uz"].menu = {
     "GeoGebraGeometry": "GeoGebra Geometriya",
     "GeoGebraGraphingCalculator": "GeoGebra Grafik kalkulyatori",
     "GeoGebraMaterials": "GeoGebra Resurslari",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "GeoGebra xossalari",
     "GeoGebraScientificCalculator": "GeoGebraMuhandislikKalkulatori",
     "GeogebraToAsymptoteExport": "GeoGebra dan Asymptote ga Eksport",

@@ -1925,6 +1925,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "GeoGebraGeometry": "\u062c\u064a\u0648\u062c\u0628\u0631\u0627 - \u0647\u0646\u062f\u0633\u0629",
     "GeoGebraGraphingCalculator": "\u062c\u064a\u0648\u062c\u0628\u0631\u0627 - \u062d\u0627\u0633\u0628\u0629 \u0627\u0644\u0631\u0633\u0648\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a\u0629",
     "GeoGebraMaterials": "GeoGebra Resources",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "\u062e\u0635\u0627\u0626\u0635 \u062c\u064a\u0648\u062c\u0650\u0628\u0631\u0627",
     "GeoGebraScientificCalculator": "GeoGebra Scientific Calculator",
     "GeogebraToAsymptoteExport": "\u0625\u0646\u0634\u0627\u0621 \u062e\u0637 \u0645\u0642\u0627\u0631\u0628",

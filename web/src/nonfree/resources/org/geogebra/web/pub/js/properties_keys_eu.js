@@ -1925,6 +1925,7 @@ __GGB__keysVar["eu"].menu = {
     "GeoGebraGeometry": "GeoGebra Geometria",
     "GeoGebraGraphingCalculator": "GeoGebraren Kalkulagailu Grafikoa",
     "GeoGebraMaterials": "GeoGebra-baliabideak",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "GeoGebra propietateak",
     "GeoGebraScientificCalculator": "GGB Kalkulagailu Zientifikoa",
     "GeogebraToAsymptoteExport": "Esportatu GeoGebra Asymptote-ra",
