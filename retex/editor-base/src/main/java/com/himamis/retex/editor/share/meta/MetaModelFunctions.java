@@ -5,16 +5,9 @@ import java.util.List;
 
 class MetaModelFunctions {
 
-	private static MetaFunction createFunction(Tag name, String tex,
-			char key, MetaParameter[] parameters) {
-		return new MetaFunction(name, tex, key, parameters);
-    }
-
-	private static MetaFunction createFunction(Tag name, String tex,
-			MetaParameter[] parameters) {
-		char key = name.getKey();
-		return createFunction(name, tex, key, parameters);
-    }
+	private static MetaFunction createFunction(Tag name, String tex, MetaParameter[] parameters) {
+		return new MetaFunction(name, tex, parameters);
+	}
 
 	private static MetaFunction createFunction(Tag name) {
 		return createFunction(name, new MetaParameter[] { MetaParameter.BASIC });
