@@ -13,11 +13,14 @@ import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class DrawPenStroke extends Drawable {
@@ -46,6 +49,7 @@ public class DrawPenStroke extends Drawable {
 	public void update() {
 		bitmap = null;
 		buildGeneralPath();
+		cleanupStroke();
 	}
 
 	@Override
@@ -124,6 +128,90 @@ public class DrawPenStroke extends Drawable {
 				}
 			}
 			previous = current;
+		}
+
+		// second step: remove segments that are at least two steps from any visible point
+		GeneralPathClippedForCurvePlotter piecePlotter = new GeneralPathClippedForCurvePlotter(view);
+		List<Boolean> visible = new ArrayList<>();
+		List<MyPoint> points = stroke.getPoints();
+		for (int i = 0; i < points.size() - 1; i++) {
+			if (!points.get(i).isDefined() || !points.get(i + 1).isDefined()) {
+				visible.add(false);
+				continue;
+			}
+
+			piecePlotter.reset();
+			piecePlotter.moveTo(new double[] {points.get(i).x, points.get(i).y});
+			if (points.get(i + 1).getSegmentType() == SegmentType.CONTROL) {
+				MyPoint p1 = points.get(i + 1);
+				MyPoint p2 = points.get(i + 2);
+				MyPoint p3 = points.get(i + 3);
+				piecePlotter.drawTo(new double[] {p1.x, p1.y}, SegmentType.CONTROL);
+				piecePlotter.drawTo(new double[] {p2.x, p2.y}, SegmentType.CONTROL);
+				piecePlotter.drawTo(new double[] {p3.x, p3.y}, SegmentType.CURVE_TO);
+				i += 2;
+			} else {
+				piecePlotter.lineTo(new double[] {points.get(i + 1).x, points.get(i + 1).y});
+			}
+
+			GArea pieceShape = AwtFactory.getPrototype().newArea(objStroke
+					.createStrokedShape(piecePlotter, 10));
+			pieceShape.add(maskArea);
+			visible.add(!(pieceShape).equals(maskArea));
+			Log.debug(visible.get(visible.size() - 1));
+		}
+
+		int pointIndex = 0;
+		List<MyPoint> newPoints = new ArrayList<>();
+		for (int i = 0; i < visible.size(); i++) {
+			if (!points.get(pointIndex).isDefined()) {
+				ensureTrailingNaN(newPoints);
+				pointIndex++;
+				continue;
+			}
+
+			if ((i < 3 || !visible.get(i - 2) && !visible.get(i - 1))
+				&& !visible.get(i)
+				&& (i > visible.size() - 3 || !visible.get(i + 1) && !visible.get(i + 2))) {
+				if (points.get(pointIndex + 1).getSegmentType() == SegmentType.CONTROL) {
+					pointIndex += 3;
+				} else {
+					pointIndex++;
+				}
+				ensureTrailingNaN(newPoints);
+			} else {
+				if (points.get(pointIndex + 1).getSegmentType() == SegmentType.CONTROL) {
+					addPoint(newPoints, points.get(pointIndex));
+					newPoints.add(points.get(pointIndex + 1));
+					newPoints.add(points.get(pointIndex + 2));
+					newPoints.add(points.get(pointIndex + 3));
+					pointIndex += 3;
+				} else {
+					addPoint(newPoints, points.get(pointIndex));
+					newPoints.add(points.get(pointIndex + 1));
+					pointIndex++;
+				}
+			}
+		}
+
+		points.clear();
+		points.addAll(newPoints);
+		stroke.resetXMLPointBuilder();
+	}
+
+	private void ensureTrailingNaN(List<MyPoint> points) {
+		if (points.size() > 0 && points.get(points.size() - 1).isDefined()) {
+			points.add(new MyPoint(Double.NaN, Double.NaN));
+		}
+	}
+
+	private void addPoint(List<MyPoint> points, MyPoint newPoint) {
+		if (points.size() > 0 && points.get(points.size() - 1).isDefined()) {
+			if (!points.get(points.size() - 1).equals(newPoint)) {
+				points.add(newPoint);
+			}
+		} else {
+			points.add(newPoint.withType(SegmentType.MOVE_TO));
 		}
 	}
 

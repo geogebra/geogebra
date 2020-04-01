@@ -12,6 +12,8 @@ public interface GArea extends GShape {
 
 	boolean isEmpty();
 
+	boolean equals(GArea area);
+
 	@Override
 	public GPathIterator getPathIterator(GAffineTransform t);
 
