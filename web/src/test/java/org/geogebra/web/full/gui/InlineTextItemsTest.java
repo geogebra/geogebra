@@ -34,12 +34,15 @@ public class InlineTextItemsTest {
 	private AppW app;
 	private GPoint2D point;
 	private ContextMenuFactory factory;
+	private InlineTextControllerMock controllerMockWithLink;
 
 	@Before
 	public void setUp() {
 		app = AppMocker.mockNotes(getClass());
+		factory = new MenuFactory(app);
 		construction = app.getKernel().getConstruction();
 		point = new GPoint2D(0, 0);
+		controllerMockWithLink = new InlineTextControllerMock(LINK_URL);
 		enableSettingsItem();
 	}
 
@@ -50,9 +53,8 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testSingleInlineTextContextMenu() {
-		factory = new MenuFactory(app, getTextWithLink(null));
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		geos.add(createTextInline("text1"));
+		geos.add(createTextInline("text1", new InlineTextControllerMock()));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
@@ -69,9 +71,8 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testSingleInlineTextWithLinkContextMenu() {
-		factory = new MenuFactory(app, getTextWithLink(LINK_URL));
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		geos.add(createTextInline("text1"));
+		geos.add(createTextInline("text1", controllerMockWithLink));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
@@ -88,11 +89,10 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testGrouppedInlineTextContextMenu() {
-		factory = new MenuFactory(app, getTextWithLink(LINK_URL));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		ArrayList<GeoElement> members = new ArrayList<>();
-		members.add(createTextInline("text1"));
-		members.add(createTextInline("text2"));
+		members.add(createTextInline("text1", controllerMockWithLink));
+		members.add(createTextInline("text2", controllerMockWithLink));
 		construction.createGroup(members);
 		geos.add(members.get(0));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
@@ -111,10 +111,9 @@ public class InlineTextItemsTest {
 
 	@Test
 	public void testGrouppedInlineTextAndPolygonContextMenu() {
-		factory = new MenuFactory(app, getTextWithLink(LINK_URL));
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		ArrayList<GeoElement> members = new ArrayList<>();
-		members.add(createTextInline("text1"));
+		members.add(createTextInline("text1", new InlineTextControllerMock(LINK_URL)));
 		members.add(createPolygon("poly1"));
 		construction.createGroup(members);
 		geos.add(members.get(0));
@@ -131,20 +130,10 @@ public class InlineTextItemsTest {
 		assertEquals(expected, menu.getTitles());
 	}
 
-	private DrawInlineText getTextWithLink(final String link) {
-		return new DrawInlineText(app.getActiveEuclidianView(), createTextInline("dummy")) {
-			@Override
-			public String getHyperLinkURL() {
-				return link;
-			}
-		};
-	}
-
 	@Test
 	public void testPolygonContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createPolygon("Poly1"));
-		factory = new MenuFactory(app, null);
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
@@ -162,9 +151,12 @@ public class InlineTextItemsTest {
 		return poly;
 	}
 
-	private GeoInlineText createTextInline(String label) {
+	private GeoInlineText createTextInline(String label, InlineTextControllerMock inlineTextControllerMock) {
 		GeoInlineText text = new GeoInlineText(construction, point);
 		text.setLabel(label);
+		DrawInlineText drawInlineText = (DrawInlineText) app.getActiveEuclidianView()
+				.getDrawableFor(text);
+		drawInlineText.setTextController(inlineTextControllerMock);
 		return text;
 	}
 }

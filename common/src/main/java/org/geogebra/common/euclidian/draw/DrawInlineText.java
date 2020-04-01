@@ -441,4 +441,14 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	public InlineTextController getTextController() {
 		return textController;
 	}
+
+	/**
+	 * Setter to mock Carota.
+	 * Nicer solutions are welcome.
+	 *
+	 * @param textController to set.
+	 */
+	public void setTextController(InlineTextController textController) {
+		this.textController = textController;
+	}
 }

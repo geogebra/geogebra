@@ -41,6 +41,9 @@ public class AriaMenuItem extends SimplePanel {
 		this.submenu = submenu;
 	}
 
+	/**
+	 * Constructor
+	 */
 	public AriaMenuItem() {
 		super(Document.get().createLIElement());
 		getElement().setClassName("gwt-MenuItem listMenuItem");

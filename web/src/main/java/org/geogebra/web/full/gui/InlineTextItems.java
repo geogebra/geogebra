@@ -7,6 +7,7 @@ import java.util.List;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -54,10 +55,16 @@ public class InlineTextItems {
 	}
 
 	private List<DrawInlineText> getSingleList() {
-		DrawInlineText drawInlineText = factory.getDrawableInlineText(app, geo);
+		DrawInlineText drawInlineText = getDrawableInlineText(geo);
 		return drawInlineText != null
 				? Collections.singletonList(drawInlineText)
 				: Collections.<DrawInlineText>emptyList();
+	}
+
+	private DrawInlineText getDrawableInlineText(GeoElement geo) {
+		return geo instanceof GeoInlineText
+				? (DrawInlineText) app.getActiveEuclidianView().getDrawableFor(geo)
+				: null;
 	}
 
 	private DrawInlineText firstDrawInlineText() {
@@ -68,7 +75,7 @@ public class InlineTextItems {
 		List<DrawInlineText> inlines = new ArrayList<>();
 		Group group = geo.getParentGroup();
 		for (GeoElement geo: group.getGroupedGeos()) {
-			DrawInlineText drawInlineText = factory.getDrawableInlineText(app, geo);
+			DrawInlineText drawInlineText = getDrawableInlineText(geo);
 			if (drawInlineText == null) {
 				return Collections.emptyList();
 			}

@@ -67,6 +67,7 @@ public class InlineTextToolbar implements IsWidget, ValueChangeHandler<Boolean> 
 	protected void setContent(String text) {
 		item.setContent(text, false);
 	}
+
 	private void createSubscriptBtn() {
 		subScriptBtn = createButton(MaterialDesignResources.INSTANCE.format_subscript());
 		add(subScriptBtn);
