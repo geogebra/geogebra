@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.matrix.CoordSys;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 public class DrawPenStroke extends Drawable {
@@ -109,6 +110,23 @@ public class DrawPenStroke extends Drawable {
 				(int) this.getBounds().getHeight() + 2 * BITMAP_PADDING, g2p);
 	}
 
+	public void cleanupStroke() {
+		// first step: collapse masks that have a very similar width
+		Map.Entry<Double, ArrayList<MyPoint>> previous = null;
+		Iterator<Map.Entry<Double, ArrayList<MyPoint>>> it = stroke.mask.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<Double, ArrayList<MyPoint>> current = it.next();
+			if (previous != null) {
+				if (current.getKey() - previous.getKey() < 1) {
+					previous.getValue().addAll(current.getValue());
+					it.remove();
+					continue;
+				}
+			}
+			previous = current;
+		}
+	}
+
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
 		return getShape() != null &&
@@ -128,6 +146,10 @@ public class DrawPenStroke extends Drawable {
 
 	@Override
 	public GRectangle getBounds() {
+		if (getShape() == null) {
+			return null;
+		}
+
 		return getShape().getBounds();
 	}
 

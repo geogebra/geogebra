@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.euclidian.draw.DrawPenStroke;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -124,6 +125,36 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 		};
 
 		assertPointsEqual(dilatedPoints, stroke.getPoints());
+	}
+
+	@Test
+	public void cleanupLocusStrokeTest() {
+		GeoLocusStroke stroke = getInitialStroke();
+		stroke.mask.put(1d, new ArrayList<>(Arrays.asList(
+				new MyPoint(1, 2),
+				new MyPoint(2, 3)
+		)));
+		stroke.mask.put(1.5d, new ArrayList<>(Arrays.asList(
+				new MyPoint(8, 4)
+		)));
+		stroke.mask.put(1.8d, new ArrayList<>(Arrays.asList(
+				new MyPoint(9, 2)
+		)));
+		stroke.mask.put(2.2d, new ArrayList<>(Arrays.asList(
+				new MyPoint(4, 6)
+		)));
+
+		MyPoint[] oneWidthPoints = new MyPoint[] {
+				new MyPoint(1, 2),
+				new MyPoint(2, 3),
+				new MyPoint(8, 4),
+				new MyPoint(9, 2)
+		};
+
+		DrawPenStroke drawPenStroke = new DrawPenStroke(getApp().getActiveEuclidianView(), stroke);
+		drawPenStroke.cleanupStroke();
+
+		assertPointsEqual(oneWidthPoints, stroke.mask.get(1d));
 	}
 
 	private GeoLocusStroke getInitialStroke() {

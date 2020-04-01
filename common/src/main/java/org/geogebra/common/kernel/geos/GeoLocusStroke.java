@@ -3,9 +3,8 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -45,7 +44,7 @@ public class GeoLocusStroke extends GeoLocus
 
 	private String splitParentLabel;
 
-	public Map<Double, ArrayList<MyPoint>> mask;
+	public TreeMap<Double, ArrayList<MyPoint>> mask;
 
 	/**
 	 * @param cons
@@ -54,7 +53,7 @@ public class GeoLocusStroke extends GeoLocus
 	public GeoLocusStroke(Construction cons) {
 		super(cons);
 		setVisibleInView3D(false);
-		mask = new HashMap<>();
+		mask = new TreeMap<>();
 	}
 
 	@Override
