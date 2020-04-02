@@ -62,6 +62,10 @@ public class FontSubMenu extends AriaMenuBar {
 	}
 
 	private void highlightCurrent() {
+		if (inlines.isEmpty()) {
+			return;
+		}
+
 		String font = inlines.get(0).getFormat("font", "");
 		for (FontFamily family : fonts) {
 			if (font.equals(family.cssName())) {

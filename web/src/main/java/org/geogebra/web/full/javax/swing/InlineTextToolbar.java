@@ -102,7 +102,11 @@ public class InlineTextToolbar implements IsWidget, ValueChangeHandler<Boolean> 
 	}
 
 	protected String getScriptFormat() {
-		String format = drawInlineTexts.get(0).getFormat("script", "normal");
+		if (drawInlineTexts.isEmpty()) {
+			return "";
+		}
+
+			String format = drawInlineTexts.get(0).getFormat("script", "normal");
 		if (drawInlineTexts.size() == 1) {
 			return format;
 		}
@@ -117,6 +121,10 @@ public class InlineTextToolbar implements IsWidget, ValueChangeHandler<Boolean> 
 	}
 
 	protected String getListStyle() {
+		if (drawInlineTexts.isEmpty()) {
+			return "";
+		}
+
 		String listStyle = getListStyle(drawInlineTexts.get(0));
 		if (drawInlineTexts.size() == 1) {
 			return listStyle;
