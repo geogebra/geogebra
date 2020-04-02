@@ -18,13 +18,6 @@ class MetaModelSymbols {
 		return createSymbol(name, cas, tex, unicode, OPERATOR);
 	}
 
-	/*private static MetaSymbol createOperator(String name, String cas,
-			String tex, char unicode) {
-		char key = name.length() == 1 ? name.charAt(0) : 0;
-
-		return createOperator(name, cas, tex, key, unicode);
-	}*/
-
 	private static MetaSymbol createOperator(String name, String cas,
 			String tex) {
 		char key = name.length() == 1 ? name.charAt(0) : 0;
