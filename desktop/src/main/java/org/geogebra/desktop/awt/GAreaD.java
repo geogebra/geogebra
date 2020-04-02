@@ -135,4 +135,8 @@ public class GAreaD implements GArea, GShapeD {
 		return impl.isEmpty();
 	}
 
+	@Override
+	public boolean equals(GArea area) {
+		return impl.equals(getAWTArea(area));
+	}
 }

@@ -114,6 +114,22 @@ public class DrawPenStroke extends Drawable {
 	}
 
 	public void cleanupStroke() {
+		switch (stroke.getSimplificationState()) {
+		case 0:
+			collapseMasks();
+			break;
+		case 1:
+			removeInvisibleSegments();
+			break;
+		case 2:
+			removeNonCoveringMasks();
+			break;
+		}
+
+		stroke.increaseSimplificationState();
+	}
+
+	private void collapseMasks() {
 		// first step: collapse masks that have a very similar width
 		Map.Entry<Double, ArrayList<MyPoint>> previous = null;
 		Iterator<Map.Entry<Double, ArrayList<MyPoint>>> it = stroke.mask.entrySet().iterator();
@@ -128,7 +144,9 @@ public class DrawPenStroke extends Drawable {
 			}
 			previous = current;
 		}
+	}
 
+	private void removeInvisibleSegments() {
 		// second step: remove segments that are at least two steps from any visible point
 		GeneralPathClippedForCurvePlotter piecePlotter = new GeneralPathClippedForCurvePlotter(view);
 		List<Boolean> visible = new ArrayList<>();
@@ -169,8 +187,8 @@ public class DrawPenStroke extends Drawable {
 			}
 
 			if ((i < 3 || !visible.get(i - 2) && !visible.get(i - 1))
-				&& !visible.get(i)
-				&& (i > visible.size() - 3 || !visible.get(i + 1) && !visible.get(i + 2))) {
+					&& !visible.get(i)
+					&& (i > visible.size() - 3 || !visible.get(i + 1) && !visible.get(i + 2))) {
 				if (points.get(pointIndex + 1).getSegmentType() == SegmentType.CONTROL) {
 					pointIndex += 3;
 				} else {
@@ -195,6 +213,43 @@ public class DrawPenStroke extends Drawable {
 		points.clear();
 		points.addAll(newPoints);
 		stroke.resetXMLPointBuilder();
+	}
+
+	private void removeNonCoveringMasks() {
+		GArea strokeArea = AwtFactory.getPrototype().newArea(objStroke.createStrokedShape(gp, 2000));
+		GeneralPathClippedForCurvePlotter maskPiece = new GeneralPathClippedForCurvePlotter(view);
+		for (Map.Entry<Double, ArrayList<MyPoint>> entry : stroke.mask.entrySet()) {
+			GBasicStroke stroke = AwtFactory.getPrototype().newBasicStroke(
+					entry.getKey() * view.getXscale(),
+					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
+
+			ArrayList<MyPoint> current = entry.getValue();
+			ArrayList<MyPoint> result = new ArrayList<>();
+			for (int i = 0; i < current.size() - 1; i++) {
+				if (!current.get(i).isDefined() || !current.get(i + 1).isDefined()) {
+					ensureTrailingNaN(result);
+					continue;
+				}
+
+				maskPiece.reset();
+				maskPiece.moveTo(new double[] {current.get(i).x, current.get(i).y});
+				maskPiece.lineTo(new double[] {current.get(i + 1).x, current.get(i + 1).y});
+
+				GArea pieceShape = AwtFactory.getPrototype().newArea(stroke
+						.createStrokedShape(maskPiece, 10));
+				pieceShape.intersect(strokeArea);
+
+				if (pieceShape.isEmpty()) {
+					ensureTrailingNaN(result);
+				} else {
+					addPoint(result, current.get(i));
+					result.add(current.get(i + 1));
+				}
+			}
+
+			current.clear();
+			current.addAll(result);
+		}
 	}
 
 	private void ensureTrailingNaN(List<MyPoint> points) {
