@@ -1925,6 +1925,7 @@ __GGB__keysVar["sv"].menu = {
     "GeoGebraGeometry": "GeoGebra Geometri",
     "GeoGebraGraphingCalculator": "GeoGebras Grafr\xe4knare",
     "GeoGebraMaterials": "GeoGebra Resursbank",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "GeoGebra-egenskaper",
     "GeoGebraScientificCalculator": "GeoGebras funktionsr\xe4knare",
     "GeogebraToAsymptoteExport": "Exportera GeoGebra till Asymptote",

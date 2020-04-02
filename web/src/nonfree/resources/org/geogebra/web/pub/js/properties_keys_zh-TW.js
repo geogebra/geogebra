@@ -1925,6 +1925,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra \u7e6a\u5716\u8a08\u7b97\u6a5f",
     "GeoGebraMaterials": "GeoGebra \u8cc7\u6e90",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "GeoGebra \u5c6c\u6027",
     "GeoGebraScientificCalculator": "GeoGebra \u79d1\u5b78\u8a08\u7b97\u6a5f",
     "GeogebraToAsymptoteExport": "\u532f\u51fa\u81f3 Asymptote",
