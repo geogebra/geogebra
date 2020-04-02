@@ -508,4 +508,32 @@ public class DoubleUtil {
 		long bits = Double.doubleToLongBits(val);
 		return (int) (bits ^ (bits >>> 32));
 	}
+
+	/**
+	 * Create a range of doubles from min to max with the given step
+	 * @param max >= min
+	 * @param step > 0
+	 * @return {min} if min == max,
+	 * 		{min, min + step, min + 2*step, ..., min + i*step, max}
+	 * 		otherwise, where min + i*step is the greatest such number
+	 * 		that is smaller than max
+	 */
+	public static double[] range(double min, double max, double step) {
+		// To any future developer who wants to simplify this code:
+		// please double-triple check what you are doing, floating
+		// point numbers are _not_ easy to handle (APPS-158, APPS-1824)
+
+		int length = (int) ((max - min) / step);
+		if (min + length * step < max - Kernel.STANDARD_PRECISION) {
+			length++;
+		}
+
+		double[] result = new double[length + 1];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = min + i * step;
+		}
+		result[length] = max;
+
+		return result;
+	}
 }
