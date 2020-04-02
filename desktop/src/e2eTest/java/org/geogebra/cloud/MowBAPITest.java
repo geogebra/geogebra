@@ -105,7 +105,7 @@ public class MowBAPITest {
 		TestMaterialCallback t = new TestMaterialCallback();
 		api.uploadMaterial("", "S", "This should fail",
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
-						"src/test/resources/slides.ggs"), false),
+						"src/e2eTest/resources/slides.ggs"), false),
 				t, MaterialType.ggs);
 		t.await(5);
 		t.verifyError(".*401.*");
@@ -144,7 +144,7 @@ public class MowBAPITest {
 								 TestMaterialCallback testCallback) {
 		api.uploadMaterial("", "S", title,
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
-						"src/test/resources/slides.ggs"), false),
+						"src/e2eTest/resources/slides.ggs"), false),
 				testCallback, MaterialType.ggs);
 		testCallback.await(5);
 		testCallback.verify(title);
@@ -363,7 +363,7 @@ public class MowBAPITest {
 						"Test material",
 						Base64.encodeToString(
 								UtilD.loadFileIntoByteArray(
-										"src/test/resources/slides.ggs"),
+										"src/e2eTest/resources/slides.ggs"),
 								false),
 						reuploadCallback, MaterialType.ggs);
 				return true;
