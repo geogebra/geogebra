@@ -65,10 +65,6 @@ public class InlineTextItems {
 		}
 	}
 
-	private DrawInlineText firstDrawInlineText() {
-		return inlines.get(0);
-	}
-
 	/**
 	 * Add all text items that's available for the geo including
 	 * its group if any.
@@ -109,7 +105,7 @@ public class InlineTextItems {
 			return;
 		}
 
-		if (StringUtil.emptyOrZero(firstDrawInlineText().getHyperLinkURL())) {
+		if (StringUtil.emptyOrZero(inlines.get(0).getHyperLinkURL())) {
 			addHyperlinkItem("Link");
 		} else {
 			addHyperlinkItem("editLink");
