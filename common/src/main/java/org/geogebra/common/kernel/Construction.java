@@ -3080,6 +3080,8 @@ public class Construction {
 
 		usedMacros = null;
 		spreadsheetTraces = false;
+
+		groups.clear();
 	}
 
 	/**
