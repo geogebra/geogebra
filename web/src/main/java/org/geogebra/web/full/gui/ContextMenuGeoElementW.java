@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -18,7 +16,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -33,19 +30,15 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.contextmenu.OrderSubMenu;
-import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -55,7 +48,6 @@ import org.geogebra.web.html5.util.CopyPasteW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Command;
 
@@ -77,18 +69,21 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 */
 	protected Localization loc;
 	private LabelController labelController;
+	private ContextMenuFactory factory;
 
 	/**
 	 * Creates new context menu
-	 *
-	 * @param app
+	 *  @param app
 	 *            application
+	 * @param factory
+	 * 			widget factory
 	 */
-	ContextMenuGeoElementW(AppW app) {
+	ContextMenuGeoElementW(AppW app, ContextMenuFactory factory) {
 		super(app);
+		this.factory = factory;
 		this.app = app;
 		this.loc = app.getLocalization();
-		wrappedPopup = new GPopupMenuW(app);
+		wrappedPopup = factory.newPopupMenu(app);
 	}
 
 	/**
@@ -99,8 +94,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * @param geos
 	 *            selected elements
 	 */
-	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos) {
-		this(app);
+	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos,
+								  ContextMenuFactory factory) {
+		this(app, factory);
 		initPopup(geos);
 	}
 
@@ -224,13 +220,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addInlineTextItems() {
-		if (!(getGeo() instanceof GeoInlineText)) {
+		InlineTextItems items = new InlineTextItems(app, getGeos(), wrappedPopup, factory);
+		if (items.isEmpty()) {
 			return;
 		}
-
-		addInlineTextToolbar();
-		addInlineTextSubmenu();
-		addHyperlinkItems();
+		items.addItems();
 		wrappedPopup.addSeparator();
 
 	}
@@ -254,80 +248,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		return false;
 	}
 
-	private void addInlineTextToolbar() {
-		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
-				.getDrawableFor(getGeo());
-		InlineTextToolbar toolbar = new InlineTextToolbar(inlineText, app);
-		wrappedPopup.addItem(toolbar, false);
-	}
-
-	private void addInlineTextSubmenu() {
-		AriaMenuItem item = newSubMenuItem("ContextMenu.Font",
-				new FontSubMenu((AppW) app, getTextController()));
-		item.addStyleName("no-image");
-		wrappedPopup.addItem(item);
-	}
-
 	private void addOrderSubmenu() {
 		wrappedPopup.addItem(newSubMenuItem("General.Order",
 				new OrderSubMenu(app, getGeos())));
 	}
 
 	private AriaMenuItem newSubMenuItem(String key, AriaMenuBar submenu) {
-		return new AriaMenuItem(app.getLocalization().getMenu(key), false, submenu);
-	}
-
-	private void addHyperlinkItems() {
-		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
-				.getDrawableFor(getGeo());
-		if (StringUtil.emptyOrZero(inlineText.getHyperLinkURL())) {
-			addHyperlinkItem("Link");
-		} else {
-			addHyperlinkItem("editLink");
-			addRemoveHyperlinkItem();
-		}
-	}
-
-	private void addItem(String text, Command command) {
-		AriaMenuItem menuItem = new AriaMenuItem(loc.getMenu(text), false,
-				command);
-		menuItem.getElement().getStyle()
-				.setPaddingLeft(16, Style.Unit.PX);
-		wrappedPopup.addItem(menuItem);
-	}
-
-	private void addHyperlinkItem(String labelTransKey) {
-		Command addHyperlinkCommand = new Command() {
-			@Override
-			public void execute() {
-				openHyperlinkDialog();
-			}
-		};
-
-		addItem(labelTransKey, addHyperlinkCommand);
-	}
-
-	private void  openHyperlinkDialog() {
-		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
-				getTextController());
-		hyperlinkDialog.center();
-	}
-
-	private InlineTextController getTextController() {
-		DrawInlineText inlineText = (DrawInlineText) app.getActiveEuclidianView()
-				.getDrawableFor(getGeo());
-		return inlineText.getTextController();
-	}
-
-	private void addRemoveHyperlinkItem() {
-		Command addRemoveHyperlinkCommand = new Command() {
-			@Override
-			public void execute() {
-				getTextController().setHyperlinkUrl(null);
-			}
-		};
-
-		addItem("removeLink", addRemoveHyperlinkCommand);
+		return factory.newAriaMenuItem(app.getLocalization().getMenu(key), false, submenu);
 	}
 
 	private boolean addGroupItems() {
@@ -1133,7 +1060,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            text of menu item
 	 */
 	private void addAction(Command action, String text) {
-		AriaMenuItem mi = new AriaMenuItem(text, false, action);
+		AriaMenuItem mi = factory.newAriaMenuItem(text, false, action);
 		wrappedPopup.addItem(mi);
 	}
 
@@ -1145,7 +1072,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * @return new menu item
 	 */
 	private AriaMenuItem addHtmlAction(Command action, String html) {
-		AriaMenuItem mi = new AriaMenuItem(html, true, action);
+		AriaMenuItem mi = factory.newAriaMenuItem(html, true, action);
 		if (!app.isUnbundledOrWhiteboard()) {
 			mi.addStyleName("mi_with_image");
 		}
@@ -1166,12 +1093,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			AriaMenuBar subMenu) {
 		AriaMenuItem mi;
 		if (html != null) {
-			mi = new AriaMenuItem(html, true, subMenu);
+			mi = factory.newAriaMenuItem(html, true, subMenu);
 			if (!app.isUnbundledOrWhiteboard()) {
 				mi.addStyleName("mi_with_image"); // TEMP
 			}
 		} else {
-			mi = new AriaMenuItem(text, true, subMenu);
+			mi = factory.newAriaMenuItem(text, true, subMenu);
 		}
 
 		wrappedPopup.addItem(mi);
@@ -1182,7 +1109,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            title of menu (first menu item)
 	 */
 	protected void setTitle(String str) {
-		AriaMenuItem title = new AriaMenuItem(MainMenu.getMenuBarHtmlClassic(
+		AriaMenuItem title = factory.newAriaMenuItem(MainMenu.getMenuBarHtmlClassic(
 				AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 				true, new Command() {
 
@@ -1249,7 +1176,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		for (int i = 0; i < angleIntervals.length; i++) {
 			final int idx = i;
-			AriaMenuItem mi = new AriaMenuItem(
+			AriaMenuItem mi = factory.newAriaMenuItem(
 					MainMenu.getMenuBarHtmlClassic(AppResources.INSTANCE.empty()
 							.getSafeUri().asString(), angleIntervals[i]),
 					true, new Command() {
