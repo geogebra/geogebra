@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class GroupTest {
 		AwtFactoryCommon factoryCommon = new AwtFactoryCommon();
 		app = new AppCommon(new LocalizationCommon(2), factoryCommon) {
 			@Override
-			public boolean isWhiteboardActive(){
+			public boolean isWhiteboardActive() {
 				return true;
 			}
 		};
@@ -91,26 +92,22 @@ public class GroupTest {
 	@Test
 	public void testCopyPasteGroup() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		GeoPoint A = new GeoPoint(construction, "A", 0, 0, 1);
+		GeoElement A = new GeoPoint(construction, "A", 0, 0, 1);
 		GeoPoint B = new GeoPoint(construction, "B", 3, 0, 1);
 		geos.add(A);
 		geos.add(B);
 		construction.createGroup(geos);
 		app.getSelectionManager().setSelectedGeos(geos);
 		InternalClipboard.duplicate(app, app.getSelectionManager().getSelectedGeos());
-		String label1Group1Geo = construction.getGroups().get(0).getGroupedGeos().get(0).getLabelSimple();
-		String label2Group1Geo = construction.getGroups().get(1).getGroupedGeos().get(0).getLabelSimple();
-		String label1Group2Geo = construction.getGroups().get(0).getGroupedGeos().get(1).getLabelSimple();
-		String label2Group2Geo = construction.getGroups().get(1).getGroupedGeos().get(1).getLabelSimple();
 		assertThat(construction.getGroups().size(), equalTo(2));
-		assertThat(construction.getGroups().get(0).getGroupedGeos().size() , equalTo(2));
-		assertThat(construction.getGroups().get(1).getGroupedGeos().size() , equalTo(2));
-		assertThat(label2Group1Geo.substring(0, 1), equalTo(label1Group1Geo));
-		assertThat(label2Group2Geo.substring(0, 1), equalTo(label1Group2Geo));
+		assertThat(construction.getGroups().get(0).getGroupedGeos(),
+				equalTo(Arrays.asList(A, B)));
+		assertThat(construction.getGroups().get(1).getGroupedGeos(),
+				equalTo(Arrays.asList(lookup("A_1"), lookup("B_1"))));
 	}
 
 	@Test
-	public void copyGroupShouldMaintainLayers(){
+	public void copyGroupShouldMaintainLayers() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		GeoElement A = new GeoPoint(construction, "A", 0, 0, 1);
 		GeoPoint B = new GeoPoint(construction, "B", 3, 0, 1);

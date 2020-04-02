@@ -286,6 +286,9 @@ public class InternalClipboard {
 		}
 	}
 
+	/**
+	 * @return text for external clipboard as labels + newline + XML
+	 */
 	public static String getTextToSave() {
 		StringBuilder textToSave = new StringBuilder();
 		for (String label : copiedXmlLabels) {
@@ -296,6 +299,10 @@ public class InternalClipboard {
 		return textToSave.toString();
 	}
 
+	/**
+	 * @param app application
+	 * @param geos objects to duplicate
+	 */
 	public static void duplicate(App app, List<GeoElement> geos) {
 		copyToXMLInternal(app, geos);
 		pasteGeoGebraXMLInternal(app, copiedXmlLabels, copiedXml.toString());
