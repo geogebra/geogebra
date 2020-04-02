@@ -2985,6 +2985,10 @@ public abstract class GeoElement extends ConstructionElement
 			// JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			latexCache.remove();
 		}
+
+		if (getParentGroup() != null) {
+			cons.removeGroupFromGroupList(getParentGroup());
+		}
 	}
 
 	/**
