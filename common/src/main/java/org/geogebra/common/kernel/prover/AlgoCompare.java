@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.RealGeomWSSettings;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
 
@@ -295,7 +296,7 @@ public class AlgoCompare extends AlgoElement {
         gc.append(varsubst).append("]),[");
         gc.append(vars).append("])[0],m)][1]");
         GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-        boolean useGiac = true;
+        boolean useGiac = RealGeomWSSettings.isUseGiacElimination();
 
         if (useGiac) {
             try {

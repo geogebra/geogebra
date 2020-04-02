@@ -792,6 +792,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 							+ "   where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
 							+ "      enable:BOOLEAN\tuse RealGeom WebService when possible ["
 							+ RealGeomWSSettings.isUseRealGeomWebService() + "]\n"
+							+ "      elimination:BOOLEAN\tuse Giac and try elimination first ["
+							+ RealGeomWSSettings.isUseGiacElimination() + "]\n"
 							+ "      remoteURL:URL\tset the remote server URL ["
 							+ RealGeomWSSettings
 							.getRealGeomWebServiceRemoteURL()
@@ -1212,6 +1214,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
         if ("enable".equalsIgnoreCase(str[0])) {
 			RealGeomWSSettings.setUseRealGeomWebService(
+					Boolean.valueOf(str[1]).booleanValue());
+			return;
+		}
+		if ("elimination".equalsIgnoreCase(str[0])) {
+			RealGeomWSSettings.setUseGiacElimination(
 					Boolean.valueOf(str[1]).booleanValue());
 			return;
 		}

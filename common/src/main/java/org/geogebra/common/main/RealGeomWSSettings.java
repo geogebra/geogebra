@@ -10,6 +10,11 @@ public class RealGeomWSSettings {
      */
     private static volatile boolean useRealGeomWebService = true;
     /**
+     * Do we want to use Giac and elimination first and then RealGeom?
+     */
+    private static volatile boolean useGiacElimination = true;
+
+    /**
      * The remote machine to be used for outsourced computations.
      */
     private static volatile String realGeomWebServiceRemoteURL = "http://roadrunner.risc.jku.at:8765";
@@ -52,12 +57,25 @@ public class RealGeomWSSettings {
         return useRealGeomWebService;
     }
 
+    public static boolean isUseGiacElimination() {
+        return useGiacElimination;
+    }
+
     /**
      * @param b flag for using remote RealGeom
      */
     public static void setUseRealGeomWebService(boolean b) {
         synchronized (lock) {
             useRealGeomWebService = b;
+        }
+    }
+
+    /**
+     * @param b flag for using Giac and elimination before using RealGeom
+     */
+    public static void setUseGiacElimination(boolean b) {
+        synchronized (lock) {
+            useGiacElimination = b;
         }
     }
 
