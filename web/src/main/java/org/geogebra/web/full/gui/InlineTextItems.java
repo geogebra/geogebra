@@ -1,14 +1,12 @@
 package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInlineText;
-import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -31,57 +29,44 @@ import com.google.gwt.user.client.Command;
 public class InlineTextItems {
 	private final Localization loc;
 	private App app;
-	private GeoElement geo;
+	private final ArrayList<GeoElement> geos;
 	private GPopupMenuW menu;
 	private ContextMenuFactory factory;
 	private List<DrawInlineText> inlines;
 
 	/**
 	 * @param app the application
-	 * @param geo the element what items are for
-	 *            (and its group if any)
-	 *
-	 * @param menu to add the items to.
+	 * @param geos the elements what items are for
+	 *@param menu to add the items to.
 	 */
-	public InlineTextItems(App app, GeoElement geo, GPopupMenuW menu,
+	public InlineTextItems(App app, ArrayList<GeoElement> geos, GPopupMenuW menu,
 						   ContextMenuFactory factory) {
 		this.app = app;
 		this.loc = app.getLocalization();
-		this.geo = geo;
+		this.geos = geos;
 		this.factory = factory;
-		inlines = geo.hasGroup() ? getGroupAsDrawInlineTexts()
-				: getSingleList();
 		this.menu = menu;
+		createDrawInlineTexts();
 	}
 
-	private List<DrawInlineText> getSingleList() {
-		DrawInlineText drawInlineText = getDrawableInlineText(geo);
-		return drawInlineText != null
-				? Collections.singletonList(drawInlineText)
-				: Collections.<DrawInlineText>emptyList();
+	private void createDrawInlineTexts() {
+		inlines = new ArrayList<>();
+		for (GeoElement geo: geos) {
+			addToInlinesIfText(geo);
+		}
 	}
 
-	private DrawInlineText getDrawableInlineText(GeoElement geo) {
-		return geo instanceof GeoInlineText
-				? (DrawInlineText) app.getActiveEuclidianView().getDrawableFor(geo)
-				: null;
+	private void addToInlinesIfText(GeoElement geo) {
+		DrawableND drawable = app.getActiveEuclidianView()
+				.getDrawableFor(geo);
+
+		if (drawable instanceof DrawInlineText) {
+			inlines.add((DrawInlineText) drawable);
+		}
 	}
 
 	private DrawInlineText firstDrawInlineText() {
 		return inlines.get(0);
-	}
-
-	private List<DrawInlineText> getGroupAsDrawInlineTexts() {
-		List<DrawInlineText> inlines = new ArrayList<>();
-		Group group = geo.getParentGroup();
-		for (GeoElement geo: group.getGroupedGeos()) {
-			DrawInlineText drawInlineText = getDrawableInlineText(geo);
-			if (drawInlineText == null) {
-				return Collections.emptyList();
-			}
-			inlines.add(drawInlineText);
-		}
-		return inlines;
 	}
 
 	/**

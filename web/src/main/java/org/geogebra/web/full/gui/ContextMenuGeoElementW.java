@@ -220,7 +220,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addInlineTextItems() {
-		InlineTextItems items = new InlineTextItems(app, getGeo(), wrappedPopup, factory);
+		InlineTextItems items = new InlineTextItems(app, getGeos(), wrappedPopup, factory);
 		if (items.isEmpty()) {
 			return;
 		}
