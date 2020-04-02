@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.matrix.CoordSys;
-import org.geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -158,7 +157,6 @@ public class DrawPenStroke extends Drawable {
 					.createStrokedShape(piecePlotter, 10));
 			pieceShape.add(maskArea);
 			visible.add(!(pieceShape).equals(maskArea));
-			Log.debug(visible.get(visible.size() - 1));
 		}
 
 		int pointIndex = 0;
@@ -235,7 +233,7 @@ public class DrawPenStroke extends Drawable {
 	@Override
 	public GRectangle getBounds() {
 		if (getShape() == null) {
-			return null;
+			buildGeneralPath();
 		}
 
 		return getShape().getBounds();
@@ -276,7 +274,7 @@ public class DrawPenStroke extends Drawable {
 	@Override
 	public ArrayList<GPoint2D> toPoints() {
 		ArrayList<GPoint2D> points = new ArrayList<>();
-		for (MyPoint pt : stroke.getPoints()) {
+		for (MyPoint pt : stroke.getTransformPoints()) {
 			points.add(
 					new MyPoint(view.toScreenCoordXd(pt.getX()), view.toScreenCoordYd(pt.getY())));
 		}
@@ -286,7 +284,7 @@ public class DrawPenStroke extends Drawable {
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> points) {
 		int i = 0;
-		for (MyPoint pt : stroke.getPoints()) {
+		for (MyPoint pt : stroke.getTransformPoints()) {
 			pt.setLocation(view.toRealWorldCoordX(points.get(i).getX()),
 					view.toRealWorldCoordY(points.get(i).getY()));
 			i++;

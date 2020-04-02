@@ -259,7 +259,7 @@ public class GeoLocusStroke extends GeoLocus
 		resetXMLPointBuilder();
 	}
 
-	private Iterable<MyPoint> getTransformPoints() {
+	public Iterable<MyPoint> getTransformPoints() {
 		ArrayList<Iterable<MyPoint>> allPoints = new ArrayList<>();
 		allPoints.add(getPoints());
 		allPoints.addAll(mask.values());
