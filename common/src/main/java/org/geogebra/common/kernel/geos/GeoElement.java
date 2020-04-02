@@ -321,7 +321,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	private Group parentGroup;
 
-	private int ordering;
+	private int ordering = -1;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
@@ -2544,7 +2544,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
-
 		if (addToConstr) {
 			notifyAdd();
 		}
@@ -2663,6 +2662,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		// UPDATE KERNEL
+		cons.getLayerManager().setRenameRunning(true);
 		cons.removeLabel(this); // remove old table entry
 		oldLabel = label; // remember old label (for applet to javascript
 							// rename)
@@ -2676,7 +2676,7 @@ public abstract class GeoElement extends ConstructionElement
 			correspondingCasCell.setInputFromTwinGeo(false, false);
 		}
 		cons.putLabel(this); // add new table entry
-
+		cons.getLayerManager().setRenameRunning(false);
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
 

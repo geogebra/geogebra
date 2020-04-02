@@ -68,24 +68,4 @@ public class GroupSaveTest {
         assertThat(groupedGeos.get(1).getLabelSimple(), equalTo("g"));
     }
 
-    @Test
-    public void testCopyPasteGroup() {
-        ArrayList<GeoElement> geos = new ArrayList<>();
-        GeoPoint A = new GeoPoint(cons, "A", 0, 0, 1);
-        GeoPoint B = new GeoPoint(cons, "B", 3, 0, 1);
-        geos.add(A);
-        geos.add(B);
-        cons.createGroup(geos);
-        app.getSelectionManager().setSelectedGeos(geos);
-        app.getCopyPaste().duplicate(app, app.getSelectionManager().getSelectedGeos());
-        String label1Group1Geo = cons.getGroups().get(0).getGroupedGeos().get(0).getLabelSimple();
-        String label2Group1Geo = cons.getGroups().get(1).getGroupedGeos().get(0).getLabelSimple();
-        String label1Group2Geo = cons.getGroups().get(0).getGroupedGeos().get(1).getLabelSimple();
-        String label2Group2Geo = cons.getGroups().get(1).getGroupedGeos().get(1).getLabelSimple();
-        assertThat(cons.getGroups().size(), equalTo(2));
-        assertThat(cons.getGroups().get(0).getGroupedGeos().size() , equalTo(2));
-        assertThat(cons.getGroups().get(1).getGroupedGeos().size() , equalTo(2));
-        assertThat(label2Group1Geo.substring(0, 1), equalTo(label1Group1Geo));
-        assertThat(label2Group2Geo.substring(0, 1), equalTo(label1Group2Geo));
-    }
 }

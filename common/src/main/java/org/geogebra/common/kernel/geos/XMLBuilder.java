@@ -26,7 +26,7 @@ public class XMLBuilder {
 	 * @param withLabelOffset
 	 *            true to include label offsets
 	 */
-	protected static final void getXMLvisualTags(GeoElement geo,
+	protected static void getXMLvisualTags(GeoElement geo,
 			final StringBuilder sb, final boolean withLabelOffset) {
 		final boolean isDrawable = geo.isDrawable();
 
@@ -127,7 +127,7 @@ public class XMLBuilder {
 			sb.append("\t<layer val=\"");
 			sb.append(geo.getLayer());
 			sb.append("\"/>\n");
-			if (geo.getOrdering() != 0) {
+			if (geo.getOrdering() >= 0) {
 				sb.append("\t<ordering val=\"");
 				sb.append(geo.getOrdering());
 				sb.append("\"/>\n");
@@ -135,9 +135,9 @@ public class XMLBuilder {
 		}
 
 		if (geo.isDefaultGeo()) {
-			sb.append("\t<autocolor ");
-			sb.append("val=\"" + geo.isAutoColor() + "\"");
-			sb.append("/>\n");
+			sb.append("\t<autocolor val=\"");
+			sb.append(geo.isAutoColor());
+			sb.append("\"/>\n");
 		}
 
 		if (withLabelOffset
@@ -309,9 +309,9 @@ public class XMLBuilder {
 		sb.append("\"");
 
 		if (corners[number].isAbsoluteStartPoint()) {
-			sb.append(" x=\"" + corners[number].getInhomX() + "\"");
-			sb.append(" y=\"" + corners[number].getInhomY() + "\"");
-			sb.append(" z=\"1\"");
+			sb.append(" x=\"").append(corners[number].getInhomX());
+			sb.append("\" y=\"").append(corners[number].getInhomY());
+			sb.append("\" z=\"1\"");
 		} else {
 			sb.append(" exp=\"");
 			StringUtil.encodeXML(sb, corners[number].getLabel(StringTemplate.xmlTemplate));
@@ -331,8 +331,8 @@ public class XMLBuilder {
 	 *            height
 	 */
 	public static void dimension(StringBuilder sb, String width, String height) {
-		sb.append("\t<dimensions width=\"" + width + "\" height=\"" + height
-				+ "\" />\n");
+		sb.append("\t<dimensions width=\"").append(width)
+				.append("\" height=\"").append(height).append("\" />\n");
 	}
 
 	/**
@@ -403,9 +403,7 @@ public class XMLBuilder {
 		sb.append("\"/>\n");
 		if (!emphasizeRightAngle) {
 			// only store emphasizeRightAngle if "false"
-			sb.append("\t<emphasizeRightAngle val=\"");
-			sb.append(emphasizeRightAngle);
-			sb.append("\"/>\n");
+			sb.append("\t<emphasizeRightAngle val=\"false\"/>\n");
 		}
 	}
 }

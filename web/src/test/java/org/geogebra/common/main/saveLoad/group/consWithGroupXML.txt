@@ -3,6 +3,7 @@
 	<show object="true" label="false"/>
 	<objColor r="21" g="101" b="192" alpha="0.0"/>
 	<layer val="0"/>
+	<ordering val="0"/>
 	<labelMode val="0"/>
 	<animation step="0.1" speed="1" type="1" playing="false"/>
 	<coords x="0.0" y="0.0" z="1.0"/>
