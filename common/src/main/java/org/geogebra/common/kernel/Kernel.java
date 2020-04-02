@@ -4451,9 +4451,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(this);
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().clearStoredVideos();
-		}
 		getApplication().getActiveEuclidianView().restoreDynamicStylebar();
 	}
 
