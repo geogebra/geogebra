@@ -88,13 +88,10 @@ public class InlineTextItemsTest {
 	}
 
 	@Test
-	public void testGrouppedInlineTextContextMenu() {
+	public void testMultipleInlineTextContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		ArrayList<GeoElement> members = new ArrayList<>();
-		members.add(createTextInline("text1", controllerMockWithLink));
-		members.add(createTextInline("text2", controllerMockWithLink));
-		construction.createGroup(members);
-		geos.add(members.get(0));
+		geos.add(createTextInline("text1", controllerMockWithLink));
+		geos.add(createTextInline("text2", controllerMockWithLink));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
@@ -110,13 +107,10 @@ public class InlineTextItemsTest {
 	}
 
 	@Test
-	public void testGrouppedInlineTextAndPolygonContextMenu() {
+	public void testInlineTextAndPolygonContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		ArrayList<GeoElement> members = new ArrayList<>();
-		members.add(createTextInline("text1", new InlineTextControllerMock(LINK_URL)));
-		members.add(createPolygon("poly1"));
-		construction.createGroup(members);
-		geos.add(members.get(0));
+		geos.add(createTextInline("text1", new InlineTextControllerMock(LINK_URL)));
+		geos.add(createPolygon("poly1"));
 		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
 		contextMenu.addOtherItems();
 		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();

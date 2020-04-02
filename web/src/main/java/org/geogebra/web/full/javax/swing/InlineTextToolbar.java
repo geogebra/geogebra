@@ -13,7 +13,6 @@ import org.geogebra.web.resources.SVGResource;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -21,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author laszlo
  */
-public class InlineTextToolbar implements IsWidget, ValueChangeHandler<Boolean> {
+public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 	private AriaMenuItem item;
 	private final App app;
 	private List<DrawInlineText> drawInlineTexts;
@@ -195,8 +194,11 @@ public class InlineTextToolbar implements IsWidget, ValueChangeHandler<Boolean> 
 		numberedListBtn.setToolTipText(app.getLocalization().getMenu("numberedList"));
 	}
 
-	@Override
-	public Widget asWidget() {
+	/**
+	 *
+	 * @return the toolbar as a menu item
+	 */
+	public AriaMenuItem getItem() {
 		return item;
 	}
 }

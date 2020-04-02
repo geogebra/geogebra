@@ -3,10 +3,10 @@ package org.geogebra.web.full.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -46,22 +46,25 @@ public class InlineTextItems {
 		this.geos = geos;
 		this.factory = factory;
 		this.menu = menu;
-		createDrawInlineTexts();
-	}
-
-	private void createDrawInlineTexts() {
 		inlines = new ArrayList<>();
-		for (GeoElement geo: geos) {
-			addToInlinesIfText(geo);
+		if (allGeosAreText()) {
+			fillInlines();
 		}
 	}
 
-	private void addToInlinesIfText(GeoElement geo) {
-		DrawableND drawable = app.getActiveEuclidianView()
-				.getDrawableFor(geo);
+	private boolean allGeosAreText() {
+		for (GeoElement geo: geos) {
+			if (!(geo instanceof GeoInlineText)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-		if (drawable instanceof DrawInlineText) {
-			inlines.add((DrawInlineText) drawable);
+	private void fillInlines() {
+		for (GeoElement geo: geos) {
+			inlines.add((DrawInlineText) app.getActiveEuclidianView()
+					.getDrawableFor(geo));
 		}
 	}
 
@@ -81,7 +84,7 @@ public class InlineTextItems {
 
 	private void addToolbar() {
 		InlineTextToolbar toolbar = factory.newInlineTextToolbar(inlines, app);
-		menu.addItem((AriaMenuItem) toolbar.asWidget(), false);
+		menu.addItem(toolbar.getItem(), false);
 	}
 
 	private void addFontSubmenu() {
