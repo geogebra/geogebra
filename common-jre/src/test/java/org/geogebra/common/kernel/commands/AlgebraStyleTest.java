@@ -312,7 +312,7 @@ public class AlgebraStyleTest extends Assert {
 		assertEquals("gg: \\,z = y + x^{3} + a",
 				getGeo("gg").getLaTeXAlgebraDescription(false,
 						StringTemplate.latexTemplate));
-		assertEquals("hh\\left(x, y \\right) \\, = \\,y + x^{3} + a",
+		assertEquals("hh\\left(x, y \\right)\\, = \\,y + x^{3} + a",
 				getGeo("hh").getLaTeXAlgebraDescription(false,
 						StringTemplate.latexTemplate));
 	}
@@ -321,11 +321,11 @@ public class AlgebraStyleTest extends Assert {
 	public void oneLHSshouldBeDisplayedInLaTeX() {
 		t("a = 7");
 		t("h(x) = a*x");
-		assertEquals("h\\left(x \\right) = a \\; x",
+		assertEquals("h\\left(x \\right)\\, = \\,a \\; x",
 				getGeo("h").getLaTeXAlgebraDescriptionWithFallback(false,
 						StringTemplate.latexTemplateHideLHS, false));
 		t("hh(x,y) = a*x*y");
-		assertEquals("hh\\left(x, y \\right) = a \\; x \\; y",
+		assertEquals("hh\\left(x, y \\right)\\, = \\,a \\; x \\; y",
 				getGeo("hh").getLaTeXAlgebraDescriptionWithFallback(false,
 						StringTemplate.latexTemplateHideLHS, false));
 

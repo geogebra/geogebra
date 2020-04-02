@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
@@ -200,6 +201,11 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public CommandFilter getCommandFilter() {
+		return null;
+	}
+
+	@Override
+	public CommandArgumentFilter getCommandArgumentFilter() {
 		return null;
 	}
 

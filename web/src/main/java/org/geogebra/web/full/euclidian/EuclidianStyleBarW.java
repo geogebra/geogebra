@@ -2,7 +2,6 @@ package org.geogebra.web.full.euclidian;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,14 +10,12 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -34,7 +31,6 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
@@ -88,16 +84,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private static PopupMenuButtonW currentPopupBtn = null;
 	private EuclidianController ec;
 	protected EuclidianView ev;
-	private Construction cons;
-
-	protected HashMap<Integer, Integer> defaultGeoMap;
-	private ArrayList<GeoElement> defaultGeos;
-	private GeoElement oldDefaultGeo;
+	protected EuclidianStyleBarSelection selection;
 
 	// flags and constants
 	public int mode = -1;
 	private boolean isIniting;
-	private Integer oldDefaultMode;
 	private boolean modeChanged = true;
 	private boolean firstPaint = true;
 
@@ -153,10 +144,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		isIniting = true;
 		this.ev = ev;
 		ec = ev.getEuclidianController();
-		cons = app.getKernel().getConstruction();
 		// init handling of default geos
+		selection = new EuclidianStyleBarSelection(app, ec);
 		createDefaultMap();
-		defaultGeos = new ArrayList<>();
 
 		initGUI();
 		isIniting = false;
@@ -178,7 +168,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 * create default map between default geos and modes
 	 */
 	protected void createDefaultMap() {
-		defaultGeoMap = EuclidianStyleBarStatic.createDefaultMap();
+		// overridden in 3d
 	}
 
 	/**
@@ -230,10 +220,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	@Override
 	public void restoreDefaultGeo() {
-		if (oldDefaultGeo != null) {
-			oldDefaultGeo = cons.getConstructionDefaults()
-					.getDefaultGeo(oldDefaultMode);
-		}
+		selection.restoreDefaultGeoFromConstruction();
 	}
 
 	@Override
@@ -311,92 +298,20 @@ public class EuclidianStyleBarW extends StyleBarW2
 		// saved in EuclidianPen
 		// All other modes: load activeGeoList with current default geo
 		// -----------------------------------------------------
-		else if (defaultGeoMap.containsKey(mode)
-				|| mode == EuclidianConstants.MODE_PEN) {
+		else if (selection.getDefaultMap().containsKey(mode)
+				|| EuclidianView.isPenMode(mode)) {
 			// Save the current default geo state in oldDefaultGeo.
 			// Stylebar buttons can temporarily change a default geo, but this
 			// default
 			// geo is always restored to its previous state after a mode change.
-			if (oldDefaultGeo != null && modeChanged) {
-				// add oldDefaultGeo to the default map so that the old default
-				// is restored
-				cons.getConstructionDefaults().addDefaultGeo(oldDefaultMode,
-						oldDefaultGeo);
-				oldDefaultGeo = null;
-				oldDefaultMode = null;
-			}
-
-			// get the current default geo
-			ArrayList<GeoElement> justCreatedGeos = ec.getJustCreatedGeos();
-			Integer type = defaultGeoMap.get(mode);
-			if (mode == EuclidianConstants.MODE_PEN) {
-				GeoElement geo = ec.getPen().defaultPenLine;
-				if (geo != null) {
-					activeGeoList.add(geo);
-				}
-			} else {
-				if (type.equals(
-						ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX)
-						&& justCreatedGeos.size() == 1) {
-					GeoElement justCreated = justCreatedGeos.get(0);
-					if (justCreated.isGeoPoint()) {
-						// get default type regarding what type of point has
-						// been created
-						if (((GeoPointND) justCreated).isPointOnPath()) {
-							type = ConstructionDefaults.DEFAULT_POINT_ON_PATH;
-						} else if (((GeoPointND) justCreated).hasRegion()) {
-							type = ConstructionDefaults.DEFAULT_POINT_IN_REGION;
-						} else if (!((GeoPointND) justCreated)
-								.isIndependent()) {
-							type = ConstructionDefaults.DEFAULT_POINT_DEPENDENT;
-						} else {
-							type = ConstructionDefaults.DEFAULT_POINT_FREE;
-						}
-					}
-				}
-
-				if (type.equals(
-						ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX)) {
-					// add all non-complex default points
-					activeGeoList
-							.add(cons.getConstructionDefaults().getDefaultGeo(
-									ConstructionDefaults.DEFAULT_POINT_FREE));
-					activeGeoList
-							.add(cons.getConstructionDefaults().getDefaultGeo(
-									ConstructionDefaults.DEFAULT_POINT_ON_PATH));
-					activeGeoList
-							.add(cons.getConstructionDefaults().getDefaultGeo(
-									ConstructionDefaults.DEFAULT_POINT_IN_REGION));
-					activeGeoList
-							.add(cons.getConstructionDefaults().getDefaultGeo(
-									ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
-				} else {
-					GeoElement geo = cons.getConstructionDefaults()
-							.getDefaultGeo(type);
-					if (geo != null) {
-						activeGeoList.add(geo);
-					}
-				}
-
-				if (btnContextMenu != null) {
-					btnContextMenu.hideMenu();
-				}
-			}
-
-			// update the defaultGeos field (needed elsewhere for adjusting
-			// default geo state)
-			defaultGeos = activeGeoList;
-
-			// update oldDefaultGeo
 			if (modeChanged) {
-				if (defaultGeos.size() == 0) {
-					oldDefaultGeo = null;
-					oldDefaultMode = -1;
-				} else {
-					oldDefaultGeo = defaultGeos.get(0);
-					oldDefaultMode = type;
-				}
+				selection.restoreConstructionDefaults();
 			}
+			selection.updateDefaultsForMode(mode);
+			if (btnContextMenu != null) {
+				btnContextMenu.hideMenu();
+			}
+			activeGeoList = selection.getDefaultGeos();
 
 			// we also update stylebars according to just created geos
 			activeGeoList.addAll(ec.getJustCreatedGeos());
@@ -1037,6 +952,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 			@Override
 			public void update(List<GeoElement> geos) {
 				if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
+					super.setVisible(false);
 					Log.debug(
 							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
 				} else {
@@ -1513,20 +1429,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected void handleEventHandlers(Object source) {
 		needUndo = false;
 
-		ArrayList<GeoElement> targetGeos = new ArrayList<>();
-		targetGeos.addAll(ec.getJustCreatedGeos());
-		if (!EuclidianConstants.isMoveOrSelectionMode(mode)) {
-			targetGeos.addAll(defaultGeos);
-			Previewable p = ev.getPreviewDrawable();
-			if (p != null) {
-				GeoElement geo = p.getGeoElement();
-				if (geo != null) {
-					targetGeos.add(geo);
-				}
-			}
-		} else {
-			targetGeos.addAll(app.getSelectionManager().getSelectedGeos());
-		}
+		ArrayList<GeoElement> targetGeos = selection.getGeos();
 
 		processSource(source, targetGeos);
 

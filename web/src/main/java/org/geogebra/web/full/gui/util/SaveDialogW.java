@@ -345,7 +345,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		} else {
 			showRelativeTo(anchor);
 		}
-		templateCheckbox.setVisible(false);
+		if (templateCheckbox != null) {
+			templateCheckbox.setVisible(false);
+		}
 	}
 
 	/**

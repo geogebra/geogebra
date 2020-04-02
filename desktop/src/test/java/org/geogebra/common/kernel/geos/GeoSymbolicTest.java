@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -19,8 +20,10 @@ import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.scientific.LabelController;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -95,7 +98,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void latex() {
 		t("a=sqrt(8)", "2 * sqrt(2)");
 		String text = getLatex("a");
-		assertEquals("a \\, = \\,2 \\; \\sqrt{2}", text);
+		assertEquals("a\\, = \\,2 \\; \\sqrt{2}", text);
 	}
 
 	private String getLatex(String string) {
@@ -108,7 +111,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void variables() {
 		t("f(x,y)=x+y", "x + y");
-		assertEquals("f\\left(x, y \\right) \\, = \\,x + y",
+		assertEquals("f\\left(x, y \\right)\\, = \\,x + y",
 				getLatex("f"));
 	}
 
@@ -543,34 +546,38 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testDotProduct() {
+		t("Dot[Vector[(1,2)],Vector[(3,4)]]", "11");
+		t("Dot[Vector[(p,q)],Vector[(r,s)]]", "p * r + q * s");
+	}
+
+	@Test
+	public void testCrossProduct() {
+		t("Cross[Vector[(1,2)],Vector[(3,4)]]", "-2");
+		t("Cross[Vector[(p,q)], Vector[(r,s)]]", "p * s - q * r");
+	}
+
+	@Test
 	public void testVectors() {
 		// these should give Vector not point
 		t("u=(1,2)", "(1, 2)");
 		t("u=(1,2,3)", "(1, 2, 3)");
-
-		// wrong GGB-1025
-		// t("Length(Vector((3,4)))", "5");
-		// t("x(Vector((3,4)))", "3");
-		// t("y(Vector((3,4)))", "4");
-		// t("z(Vector((3,4)))", "0");
-		// t("x(Vector((3,4,5)))", "3");
-		// t("y(Vector((3,4,5)))", "4");
-		// t("z(Vector((3,4,5)))", "5");
-		// t("Dot[Vector[(1,2)],Vector[(3,4)]]", "11");
-		// t("Dot[Vector[(a,b)],Vector[(c,d)]]", "p * r + q * s");
-		// t("Cross[Vector[(1,2)], Vector[(3,4)]]", "");
-		// t("Cross[Vector[(p,q)], Vector[(r,s)]]", "");
-		// t("abs(Vector((1,2))", "sqrt(5)");
-		// t("UnitVector((1,2))", "");
-		// t("UnitVector((p,q))", "");
-		// t("UnitPerpendicularVector((1,2))", "");
-		// t("UnitPerpendicularVector((p,q))", "");
-		// t("PerpendicularVector((1,2))", "");
-		// t("PerpendicularVector((p,q))", "");
-
+		t("Length(Vector((3,4)))", "5");
+		t("x(Vector((3,4)))", "3");
+		t("y(Vector((3,4)))", "4");
+		t("z(Vector((3,4)))", "0");
+		t("x(Vector((3,4,5)))", "3");
+		t("y(Vector((3,4,5)))", "4");
+		t("z(Vector((3,4,5)))", "5");
+		t("abs(Vector((1,2)))", "sqrt(5)");
+		t("UnitVector((1,2))", "(1 / 5 * sqrt(5), 2 / 5 * sqrt(5))");
+		t("UnitVector((p,q))", "(p / sqrt(p^(2) + q^(2)), q / sqrt(p^(2) + q^(2)))");
+		t("UnitPerpendicularVector((1,2))", "((-2) / sqrt(5), 1 / sqrt(5))");
+		t("UnitPerpendicularVector((p,q))", "((-q) / sqrt(p^(2) + q^(2)), p / sqrt(p^(2) + q^(2)))");
+		t("PerpendicularVector((1,2))", "(-2, 1)");
+		t("PerpendicularVector((p,q))", "(-q, p)");
 		t("Dot((p,q),(r,s))", "p * r + q * s");
 		t("Dot((1,2),(3,4))", "11");
-
 	}
 
 	@Test
@@ -653,14 +660,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void constantShouldBeOneRow() {
 		t("1", "1");
-		GeoElement a = getSymbolic("a");
+		GeoElement a = app.getKernel().lookupLabel("a");
 		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
 	@Test
 	public void labeledConstantShouldBeOneRow() {
 		t("a=7", "7");
-		GeoElement a = getSymbolic("a");
+		GeoElement a = app.getKernel().lookupLabel("a");
 		assertEquals(DescriptionMode.VALUE, a.getDescriptionMode());
 	}
 
@@ -846,6 +853,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(lastGeoElement, instanceOf(GeoText.class));
 	}
 
+	@Test
+	public void testSimplificationShowsBothRows1() {
+		GeoSymbolic symbolic = add("x + x");
+		assertThat(symbolic.getDescriptionMode(), is(DescriptionMode.DEFINITION_VALUE));
+	}
+
+	@Test
+	public void testSimplificationShowsBothRows2() {
+		GeoSymbolic symbolic = add("(x + 1) * (x - 1)");
+		assertThat(symbolic.getDescriptionMode(), is(DescriptionMode.DEFINITION_VALUE));
+	}
+
 	private void shouldFail(String string, String errorMsg) {
 		AlgebraTestHelper.shouldFail(string, errorMsg, app);
 	}
@@ -911,6 +930,92 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		app.setXML(app.getXML(), true);
 	}
 
+	@Test
+	public void testNumberCanBecomeSlider() {
+		GeoElement element = add("1");
+		Assert.assertTrue(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testRealNumberCanBecomeSlider() {
+		GeoElement element = add("0.6");
+		Assert.assertTrue(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testAngleCanBecomeSlider() {
+		GeoElement element = add("45" + Unicode.DEGREE_STRING);
+		Assert.assertTrue(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testUndefinedVariableCannotBecomeSlider() {
+		GeoElement element = add("a");
+		Assert.assertFalse(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testFunctionCannotBecomeSlider() {
+		GeoElement element = add("x^2");
+		Assert.assertFalse(element instanceof HasExtendedAV);
+	}
+
+	@Test
+	public void testAngleSetSlider() {
+		GeoNumeric element = add("45" + Unicode.DEGREE_STRING);
+		element.setShowExtendedAV(true);
+		element.initAlgebraSlider();
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 0));
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 2 * Math.PI));
+	}
+
+	@Test
+	public void testSliderCommandCreatesSlider() {
+		GeoNumeric element = add("Slider(1, 10)");
+		Assert.assertTrue(element.isShowingExtendedAV());
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 1));
+		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 10));
+	}
+
+	@Test
+	public void testExpressionCannotBecomeSlider() {
+		String[] expressions = {"1+2", "2*9", "1/4", "5^6"};
+		for (String expression: expressions) {
+			GeoElement element = add(expression);
+			Assert.assertFalse(element instanceof HasExtendedAV);
+		}
+	}
+
+	@Test
+	public void testCommandsCannotBecomeSlider() {
+		String[] expressions = {"Cross((1,2),(3,4))", "Dot((1,2),(3,4))", "Degree(x^2)"};
+		for (String expression: expressions) {
+			GeoElement element = add(expression);
+			Assert.assertFalse(element instanceof HasExtendedAV);
+		}
+	}
+
+	@Test
+	public void testShowAlgebraIsStoredInXML() {
+		GeoNumeric element = add("5");
+		element.setEuclidianVisible(true);
+		Assert.assertTrue(element.getXML().matches(
+				"[\\s\\S]*<slider [^>]* showAlgebra=\"false\"[\\s\\S]*"));
+		element.setShowExtendedAV(true);
+		Assert.assertTrue(element.getXML().matches(
+				"[\\s\\S]*<slider [^>]* showAlgebra=\"true\"[\\s\\S]*"));
+	}
+
+	@Test
+	public void testUndoRedoKeepsShowingExtendedAV() {
+		GeoNumeric element = add("5");
+		element.setEuclidianVisible(true);
+		element.setShowExtendedAV(true);
+		app.setXML(app.getXML(), true);
+		element = (GeoNumeric) app.getKernel().lookupLabel("a");
+		Assert.assertTrue(element.isShowingExtendedAV());
+	}
+
 	private int numberOfSpecialPoints() {
 		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
 			return 0;
@@ -928,5 +1033,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	 */
 	private void reload() {
 		app.setXML(app.getXML(), true);
+	}
+
+	@Test
+	public void testCreationWithLabel() {
+		GeoSymbolic vector = add("v=(1,1)");
+		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
 	}
 }

@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.Construction;
@@ -23,9 +26,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class represents a model for the object properties
@@ -80,8 +80,8 @@ abstract public class ObjectSettingsModel {
             return;
         }
 
-		EuclidianStyleBarStatic.applyColor(color,
-					geoElement.getAlphaValue(), app);
+        EuclidianStyleBarStatic.applyColor(color, geoElement.getAlphaValue(),
+                    app, app.getSelectionManager().getSelectedGeos());
 
         app.setPropertiesOccured();
     }
@@ -508,7 +508,8 @@ abstract public class ObjectSettingsModel {
             return;
         }
 
-        EuclidianStyleBarStatic.applyColor(geoElement.getObjectColor(), alpha, app);
+        EuclidianStyleBarStatic.applyColor(geoElement.getObjectColor(), alpha,
+                app, app.getSelectionManager().getSelectedGeos());
 
         app.setPropertiesOccured();
     }

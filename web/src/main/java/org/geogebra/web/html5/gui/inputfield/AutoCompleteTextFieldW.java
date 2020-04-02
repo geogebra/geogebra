@@ -17,6 +17,7 @@ import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -224,9 +225,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			@Override
 			public void onBrowserEvent(Event event) {
-				super.onBrowserEvent(event);
-
 				int etype = event.getTypeInt();
+				if (isSelected(etype)) {
+					handleSelectedEvent(event);
+					return;
+				}
+				super.onBrowserEvent(event);
 
 				KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
 				if ((etype == Event.ONMOUSEDOWN || etype == Event.ONTOUCHSTART)
@@ -234,17 +238,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 						&& keyboardManager != null) {
 					keyboardManager.setOnScreenKeyboardTextField(
 							AutoCompleteTextFieldW.this);
-				}
-
-				if (etype == Event.ONMOUSEDOWN
-						|| etype == Event.ONMOUSEMOVE
-						|| etype == Event.ONMOUSEUP
-						|| etype == Event.ONTOUCHMOVE
-						|| etype == Event.ONTOUCHSTART
-						|| etype == Event.ONTOUCHEND) {
-					event.stopPropagation();
-					app.getGlobalKeyDispatcher().setFocused(true);
-					return;
 				}
 
 				// react on enter from system on screen keyboard or hardware
@@ -257,6 +250,20 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					event.stopPropagation();
 					endOnscreenKeyboardEditing();
 				}
+			}
+
+			private boolean isSelected(int eventType) {
+				return eventType == Event.ONMOUSEDOWN
+						|| eventType == Event.ONMOUSEMOVE
+						|| eventType == Event.ONMOUSEUP
+						|| eventType == Event.ONTOUCHMOVE
+						|| eventType == Event.ONTOUCHSTART
+						|| eventType == Event.ONTOUCHEND;
+			}
+
+			private void handleSelectedEvent(Event event) {
+				event.stopPropagation();
+				app.getGlobalKeyDispatcher().setFocused(true);
 			}
 		};
 
@@ -324,6 +331,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setAuralText(String text) {
 		textField.getElement().setAttribute("aria-label", text);
+	}
+
+	@Override
+	public void setInputMode(InputMode mode) {
+		Element element = textField.getElement();
+		element.setAttribute("inputmode", mode.name().toLowerCase());
 	}
 
 	private void setupShowSymbolButton() {

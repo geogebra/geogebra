@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.cas;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.commands.CommandNotFoundError;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -45,7 +46,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		if (c.getArgumentNumber() < 3
 				&& !app.getSettings().getCasSettings().isEnabled()) {
-			throw new MyError(kernel.getLocalization(), "UnknownCommand");
+			throw new CommandNotFoundError(app.getLocalization(), c);
 		}
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -87,8 +88,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						"NIntegral".equals(internalCommandName));
 
-				GeoElement[] ret = { algo.getIntegral() };
-				return ret;
+				return algo.getIntegral().asArray();
 			}
 			throw argErr(c, getBadArg(ok, arg));
 
@@ -108,9 +108,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 						((GeoFunctionable) arg[1]).getGeoFunction(),
 						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 
-				GeoElement[] ret = { algo.getIntegral() };
-				return ret;
-
+				return algo.getIntegral().asArray();
 			}
 			// single function integral with evaluate option
 			else if ((ok[0] = (arg[0].isRealValuedFunction()))
@@ -124,9 +122,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoBoolean) arg[3]);
 
-				GeoElement[] ret = { algo.getIntegral() };
-				return ret;
-
+				return  algo.getIntegral().asArray();
 			} else {
 				throw argErr(c, getBadArg(ok, arg));
 			}
@@ -147,8 +143,7 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
 						(GeoBoolean) arg[4]);
 
-				GeoElement[] ret = { algo.getIntegral() };
-				return ret;
+				return algo.getIntegral().asArray();
 			}
 			throw argErr(c, getBadArg(ok, arg));
 		default:
