@@ -158,10 +158,11 @@ public class Solver {
 		mathField.setPixelRatio(Browser.getPixelRatio());
 		mathField.repaint();
 		keyboard.onResize();
-
-		for (int i = 0; i < stepsPanel.getWidgetCount(); i++) {
-			if (stepsPanel.getWidget(i) instanceof StepInformation) {
-				((StepInformation) stepsPanel.getWidget(i)).resize();
+		if (stepsPanel != null) {
+			for (int i = 0; i < stepsPanel.getWidgetCount(); i++) {
+				if (stepsPanel.getWidget(i) instanceof StepInformation) {
+					((StepInformation) stepsPanel.getWidget(i)).resize();
+				}
 			}
 		}
 	}
