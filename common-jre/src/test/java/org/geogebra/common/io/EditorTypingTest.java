@@ -283,4 +283,9 @@ public class EditorTypingTest {
 		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
 				.checkAsciiMath("(8)/(2)");
 	}
+
+	@Test
+	public void typingPiShouldProduceUnicode() {
+		checker.type("sin(pix)").checkAsciiMath("sin(" + Unicode.PI_STRING + "x)");
+	}
 }
