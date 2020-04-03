@@ -284,7 +284,7 @@ public class AlgebraItem {
 				geo1.addLabelTextOrHTML(
 						geo1.getDefinitionDescription(stringTemplate), builder);
 			}
-			return false;
+			return true;
 
 		case Kernel.ALGEBRA_STYLE_DEFINITION:
 			buildDefinitionString(geo1, builder, stringTemplate);
