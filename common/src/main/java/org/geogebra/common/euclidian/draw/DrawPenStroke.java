@@ -37,7 +37,7 @@ public class DrawPenStroke extends Drawable {
 	private int bitmapShiftX;
 	private int bitmapShiftY;
 
-	GArea maskArea;
+	private GArea maskArea;
 
 	public DrawPenStroke(EuclidianView view, GeoLocusStroke stroke) {
 		super(view, stroke);
@@ -48,7 +48,6 @@ public class DrawPenStroke extends Drawable {
 	public void update() {
 		bitmap = null;
 		buildGeneralPath();
-		cleanupStroke();
 	}
 
 	@Override
@@ -120,6 +119,7 @@ public class DrawPenStroke extends Drawable {
 			break;
 		case 1:
 			removeInvisibleSegments();
+			buildGeneralPath();
 			break;
 		case 2:
 			removeNonCoveringMasks();
@@ -127,6 +127,15 @@ public class DrawPenStroke extends Drawable {
 		}
 
 		stroke.increaseSimplificationState();
+
+		if (stroke.getSimplificationState() < 3) {
+			view.getApplication().invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					cleanupStroke();
+				}
+			});
+		}
 	}
 
 	private void collapseMasks() {
@@ -173,8 +182,9 @@ public class DrawPenStroke extends Drawable {
 
 			GArea pieceShape = AwtFactory.getPrototype().newArea(objStroke
 					.createStrokedShape(piecePlotter, 10));
-			pieceShape.add(maskArea);
-			visible.add(!(pieceShape).equals(maskArea));
+			pieceShape.subtract(maskArea);
+			GRectangle bounds = pieceShape.getBounds();
+			visible.add(bounds.getWidth() * bounds.getHeight() > 10);
 		}
 
 		int pointIndex = 0;
@@ -224,31 +234,22 @@ public class DrawPenStroke extends Drawable {
 					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
 			ArrayList<MyPoint> current = entry.getValue();
-			ArrayList<MyPoint> result = new ArrayList<>();
-			for (int i = 0; i < current.size() - 1; i++) {
-				if (!current.get(i).isDefined() || !current.get(i + 1).isDefined()) {
-					ensureTrailingNaN(result);
-					continue;
-				}
-
+			for (int i = 0; i < current.size(); i += 3) {
 				maskPiece.reset();
 				maskPiece.moveTo(new double[] {current.get(i).x, current.get(i).y});
-				maskPiece.lineTo(new double[] {current.get(i + 1).x, current.get(i + 1).y});
+				maskPiece.lineTo(new double[] {current.get(i).x, current.get(i).y});
 
 				GArea pieceShape = AwtFactory.getPrototype().newArea(stroke
 						.createStrokedShape(maskPiece, 10));
 				pieceShape.intersect(strokeArea);
 
 				if (pieceShape.isEmpty()) {
-					ensureTrailingNaN(result);
-				} else {
-					addPoint(result, current.get(i));
-					result.add(current.get(i + 1));
+					current.remove(i);
+					current.remove(i);
+					current.remove(i);
+					i -= 3;
 				}
 			}
-
-			current.clear();
-			current.addAll(result);
 		}
 	}
 

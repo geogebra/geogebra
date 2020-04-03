@@ -419,11 +419,18 @@ public class GeoLocusStroke extends GeoLocus
 	 * Deletes part of the pen stroke
 	 */
 	public void deletePart(double x, double y, double size) {
-		if (!mask.containsKey(size)) {
+		if (mask.containsKey(size)) {
+			ArrayList<MyPoint> current = mask.get(size);
+			if (current.size() > 2 && current.get(current.size() - 2).distance(x, y) < size / 3) {
+				return;
+			}
+		} else {
 			mask.put(size, new ArrayList<MyPoint>());
 		}
 
-		mask.get(size).add(new MyPoint(x, y));
+		mask.get(size).add(new MyPoint(x, y, SegmentType.MOVE_TO));
+		mask.get(size).add(new MyPoint(x, y, SegmentType.LINE_TO));
+		mask.get(size).add(new MyPoint(Double.NaN, Double.NaN));
 		simplificationState = 0;
 	}
 

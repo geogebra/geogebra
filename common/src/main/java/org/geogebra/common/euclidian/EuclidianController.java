@@ -32,6 +32,7 @@ import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.DrawPenStroke;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -10238,6 +10239,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (!event.isRightClick() && this.textfieldJustFocused(x, y, type)) {
 			draggingOccured = false;
 			return;
+		}
+		if (mode == EuclidianConstants.MODE_ERASER) {
+			for (DrawableND d : view.allDrawableList) {
+				if (d instanceof DrawPenStroke) {
+					((DrawPenStroke) d).cleanupStroke();
+				}
+			}
 		}
 		// make sure we start the timer also for single point
 		if (!isPenDragged && penMode(mode)) {
