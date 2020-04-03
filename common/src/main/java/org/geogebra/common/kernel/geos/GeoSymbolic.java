@@ -29,6 +29,8 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
+import javax.annotation.Nullable;
+
 /**
  * Symbolic geo for CAS computations in AV
  *
@@ -39,7 +41,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
-	private GeoElement twinGeo;
 	private boolean twinUpToDate = false;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
@@ -47,6 +48,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private int pointStyle;
 	private int pointSize;
 	private boolean symbolicMode;
+
+	@Nullable
+	private GeoElement twinGeo;
 
 	/**
 	 * @return output expression
