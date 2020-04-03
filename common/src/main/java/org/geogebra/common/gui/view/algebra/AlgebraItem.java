@@ -252,7 +252,7 @@ public class AlgebraItem {
 	 *            index builder
 	 * @param stringTemplate
 	 *            string template
-	 * @return whether we need only one row
+	 * @return whether we did append something to the index builder
 	 */
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder, StringTemplate stringTemplate) {
