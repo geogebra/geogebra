@@ -4,6 +4,7 @@ import com.himamis.retex.editor.share.input.Character;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.classic.PerspectiveId;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.construction.CasGeoElementFactory;
+import org.geogebra.common.kernel.construction.ClassicCasGeoElementFactory;
 import org.geogebra.common.kernel.construction.DefaultGeoElementFactory;
 import org.geogebra.common.kernel.construction.GeoElementFactory;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -321,12 +323,16 @@ public class Construction {
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
-	final private ConstructionDefaults newConstructionDefaults() {
-		ConstructionDefaults constructionDefaults = companion.newConstructionDefaults();
+	private ConstructionDefaults newConstructionDefaults() {
 		GeoElementFactory geoElementFactory =
 				getApplication().getConfig().getVersion() == GeoGebraConstants.Version.CAS
 						? new CasGeoElementFactory(this)
 						: new DefaultGeoElementFactory(this);
+		return newConstructionDefaults(geoElementFactory);
+	}
+
+	private ConstructionDefaults newConstructionDefaults(GeoElementFactory geoElementFactory) {
+		ConstructionDefaults constructionDefaults = companion.newConstructionDefaults();
 		constructionDefaults.setGeoElementFactory(geoElementFactory);
 		return constructionDefaults;
 	}
@@ -3669,5 +3675,14 @@ public class Construction {
 
 	public boolean requires3D() {
 		return has3DObjects() || hasInputBoxes();
+	}
+
+	public void applyPerspective(int perspectiveId) {
+		GeoElementFactory geoElementFactory =
+				perspectiveId == PerspectiveId.CAS
+						? new ClassicCasGeoElementFactory(this)
+						: new DefaultGeoElementFactory(this);
+		consDefaults = newConstructionDefaults(geoElementFactory);
+		consDefaults.createDefaultGeoElements();
 	}
 }

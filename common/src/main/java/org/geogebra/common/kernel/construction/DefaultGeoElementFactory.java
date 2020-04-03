@@ -58,8 +58,6 @@ public class DefaultGeoElementFactory implements GeoElementFactory {
 		angle.setObjColor(colAngle());
 		propertyInitializer.setDefaultLineStyle(angle);
 		angle.setAlphaValue(DEFAULT_ANGLE_ALPHA);
-		angle.setDrawable(true, false);
-		angle.setDrawable(true, false);
 		angle.setAutoStep(true);
 		angle.setArcSize(propertyInitializer.getAngleSize());
 		/*
