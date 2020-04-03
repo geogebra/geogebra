@@ -10241,11 +10241,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 		if (mode == EuclidianConstants.MODE_ERASER) {
-			for (DrawableND d : view.allDrawableList) {
-				if (d instanceof DrawPenStroke) {
-					((DrawPenStroke) d).cleanupStroke();
-				}
-			}
+			DrawPenStroke.cleanupAllStrokes(app, view.allDrawableList);
 		}
 		// make sure we start the timer also for single point
 		if (!isPenDragged && penMode(mode)) {

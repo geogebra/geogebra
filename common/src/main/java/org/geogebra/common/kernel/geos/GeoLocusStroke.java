@@ -47,8 +47,6 @@ public class GeoLocusStroke extends GeoLocus
 
 	public TreeMap<Double, ArrayList<MyPoint>> mask;
 
-	private int simplificationState;
-
 	/**
 	 * @param cons
 	 *            construction
@@ -447,7 +445,6 @@ public class GeoLocusStroke extends GeoLocus
 		}
 
 		mask.get(size).add(new MyPoint(x, y));
-		simplificationState = 0;
 	}
 
 	private void ensureTrailingNaN(List<MyPoint> data) {
@@ -794,13 +791,5 @@ public class GeoLocusStroke extends GeoLocus
 
 	public void setSplitParentLabel(String string) {
 		this.splitParentLabel = string;
-	}
-
-	public int getSimplificationState() {
-		return simplificationState;
-	}
-
-	public void increaseSimplificationState() {
-		this.simplificationState++;
 	}
 }

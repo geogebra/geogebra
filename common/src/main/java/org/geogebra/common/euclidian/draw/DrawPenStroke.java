@@ -8,6 +8,8 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.DrawableList;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
@@ -16,6 +18,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -115,8 +118,32 @@ public class DrawPenStroke extends Drawable {
 				(int) this.getBounds().getHeight() + 2 * BITMAP_PADDING, g2p);
 	}
 
-	public void cleanupStroke() {
-		switch (stroke.getSimplificationState()) {
+	public static void cleanupAllStrokes(App app, DrawableList drawables) {
+		cleanupAllStrokes(app, drawables, 0);
+	}
+
+	private static void cleanupAllStrokes(final App app, final DrawableList drawables, final int step) {
+		if (step == 3) {
+			app.getKernel().storeUndoInfo();
+			return;
+		}
+
+		for (DrawableND d : drawables) {
+			if (d instanceof DrawPenStroke) {
+				((DrawPenStroke) d).cleanupStroke(step);
+			}
+		}
+
+		app.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				cleanupAllStrokes(app, drawables, step + 1);
+			}
+		});
+	}
+
+	private void cleanupStroke(int step) {
+		switch (step) {
 		case 0:
 			collapseMasks();
 			break;
@@ -127,17 +154,6 @@ public class DrawPenStroke extends Drawable {
 		case 2:
 			removeNonCoveringMasks();
 			break;
-		}
-
-		stroke.increaseSimplificationState();
-
-		if (stroke.getSimplificationState() < 3) {
-			view.getApplication().invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					cleanupStroke();
-				}
-			});
 		}
 	}
 
