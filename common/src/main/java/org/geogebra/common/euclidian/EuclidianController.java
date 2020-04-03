@@ -10221,17 +10221,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			pressedButton = null;
 		}
 
-		boolean isPenDragged = penMode(mode) && penDragged;
-		// remove deletion rectangle
-		if (view.getDeletionRectangle() != null) {
-			// ended deletion
-			view.setDeletionRectangle(null);
-			view.repaintView();
-			if (!isPenDragged) {
-				storeUndoInfo();
-			}
-		}
-
 		// reset
 		transformCoordsOffset[0] = 0;
 		transformCoordsOffset[1] = 0;
@@ -10240,11 +10229,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			draggingOccured = false;
 			return;
 		}
-		if (mode == EuclidianConstants.MODE_ERASER) {
+		if (mode == EuclidianConstants.MODE_ERASER || penMode(mode) && right) {
+			view.setDeletionRectangle(null);
 			DrawPenStroke.cleanupAllStrokes(app, view.allDrawableList);
+			view.repaintView();
 		}
 		// make sure we start the timer also for single point
-		if (!isPenDragged && penMode(mode)) {
+		if (penMode(mode) && !penDragged) {
 			getPen().startTimer();
 		}
 		if (penMode(mode)) {

@@ -152,7 +152,7 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 		};
 
 		DrawPenStroke drawPenStroke = new DrawPenStroke(getApp().getActiveEuclidianView(), stroke);
-		drawPenStroke.cleanupStroke();
+		drawPenStroke.collapseMasks();
 
 		assertPointsEqual(oneWidthPoints, stroke.mask.get(1d));
 	}

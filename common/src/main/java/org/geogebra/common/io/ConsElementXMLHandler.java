@@ -2036,6 +2036,9 @@ public class ConsElementXMLHandler {
 			case "decimals":
 				handleTextDecimals(attrs);
 				break;
+			case "deletion":
+				handleDeletion(attrs);
+				break;
 			case "dimensions":
 				handleDimensions(attrs);
 				break;
@@ -2208,11 +2211,24 @@ public class ConsElementXMLHandler {
 
 	}
 
+	private void handleDeletion(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoLocusStroke) {
+			GeoLocusStroke stroke = (GeoLocusStroke) geo;
+			double thickness = Double.parseDouble(attrs.get("thickness"));
+			String[] coords = attrs.get("coords").split(",");
+
+			for (int i = 0; i < coords.length; i += 2) {
+				double x = Double.parseDouble(coords[i]);
+				double y = Double.parseDouble(coords[i + 1]);
+				stroke.deletePart(x, y, thickness);
+			}
+		}
+	}
+
 	private void handleParentLabel(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoLocusStroke) {
 			((GeoLocusStroke) geo).setSplitParentLabel(attrs.get("val"));
 		}
-
 	}
 
 	protected void initDefault(LinkedHashMap<String, String> attrs) {

@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -437,7 +438,7 @@ public class GeoLocusStroke extends GeoLocus
 	public void deletePart(double x, double y, double size) {
 		if (mask.containsKey(size)) {
 			ArrayList<MyPoint> current = mask.get(size);
-			if (current.get(current.size() - 1).distance(x, y) < size / 3) {
+			if (current.size() > 0 && current.get(current.size() - 1).distance(x, y) < size / 3) {
 				return;
 			}
 		} else {
@@ -785,7 +786,20 @@ public class GeoLocusStroke extends GeoLocus
 		if (!StringUtil.empty(splitParentLabel)) {
 			sb.append("\t<parentLabel val=\"");
 			sb.append(StringUtil.encodeXML(splitParentLabel));
-			sb.append("\"/>");
+			sb.append("\"/>\n");
+		}
+		DecimalFormat df = new DecimalFormat("#.###");
+		for (Map.Entry<Double, ArrayList<MyPoint>> entry : mask.entrySet()) {
+			sb.append("\t<deletion thickness=\"");
+			sb.append(df.format(entry.getKey()));
+			sb.append("\" coords=\"");
+			for (MyPoint point : entry.getValue()) {
+				sb.append(df.format(point.x));
+				sb.append(",");
+				sb.append(df.format(point.y));
+				sb.append(",");
+			}
+			sb.append("\"/>\n");
 		}
 	}
 

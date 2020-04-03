@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -55,7 +54,7 @@ public class DrawPenStroke extends Drawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
+		if (!geo.getKernel().getApplication().isExporting()) {
 			if (bitmap == null) {
 				this.bitmap = makeImage(g2);
 				GGraphics2D g2bmp = bitmap.createGraphics();
@@ -82,7 +81,7 @@ public class DrawPenStroke extends Drawable {
 
 		CurvePlotter.draw(gp, stroke.getPoints(), CoordSys.XOY);
 		setShape(AwtFactory.getPrototype().newArea(objStroke
-				.createStrokedShape(gp, 2000)));
+				.createStrokedShape(gp, 1000)));
 
 		maskArea = AwtFactory.getPrototype().newArea();
 
@@ -94,11 +93,13 @@ public class DrawPenStroke extends Drawable {
 			}
 			GBasicStroke stroke = AwtFactory.getPrototype().newBasicStroke(entry.getKey() * view.getXscale(),
 					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
-			GArea area = AwtFactory.getPrototype().newArea(stroke.createStrokedShape(gpMask, 2000));
+			GArea area = AwtFactory.getPrototype().newArea(stroke.createStrokedShape(gpMask, 1000));
 			maskArea.add(area);
 		}
 
-		getShape().subtract(maskArea);
+		if (!maskArea.isEmpty()) {
+			getShape().subtract(maskArea);
+		}
 	}
 
 	private void drawPath(GGraphics2D g2) {
@@ -108,8 +109,6 @@ public class DrawPenStroke extends Drawable {
 
 		g2.setPaint(getObjectColor());
 		g2.fill(getShape());
-		g2.setPaint(GColor.CYAN);
-		g2.fill(maskArea);
 	}
 
 	private GBufferedImage makeImage(GGraphics2D g2p) {
@@ -143,6 +142,10 @@ public class DrawPenStroke extends Drawable {
 	}
 
 	private void cleanupStroke(int step) {
+		if (maskArea.isEmpty()) {
+			return;
+		}
+
 		switch (step) {
 		case 0:
 			collapseMasks();
@@ -154,17 +157,19 @@ public class DrawPenStroke extends Drawable {
 		case 2:
 			removeNonCoveringMasks();
 			break;
+		default:
+			break;
 		}
 	}
 
-	private void collapseMasks() {
+	public void collapseMasks() {
 		// first step: collapse masks that have a very similar width
 		Map.Entry<Double, ArrayList<MyPoint>> previous = null;
 		Iterator<Map.Entry<Double, ArrayList<MyPoint>>> it = stroke.mask.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry<Double, ArrayList<MyPoint>> current = it.next();
 			if (previous != null) {
-				if (current.getKey() - previous.getKey() < 1) {
+				if (current.getKey() - previous.getKey() < 0.1) {
 					previous.getValue().addAll(current.getValue());
 					it.remove();
 					continue;
@@ -175,8 +180,9 @@ public class DrawPenStroke extends Drawable {
 	}
 
 	private void removeInvisibleSegments() {
-		// second step: remove segments that are at least two steps from any visible point
+		// second step: remove segments that are at least one steps from any visible point
 		GeneralPathClippedForCurvePlotter piecePlotter = new GeneralPathClippedForCurvePlotter(view);
+		GRectangle maskBounds = maskArea.getBounds();
 		List<Boolean> visible = new ArrayList<>();
 		List<MyPoint> points = stroke.getPoints();
 		for (int i = 0; i < points.size() - 1; i++) {
@@ -201,9 +207,13 @@ public class DrawPenStroke extends Drawable {
 
 			GArea pieceShape = AwtFactory.getPrototype().newArea(objStroke
 					.createStrokedShape(piecePlotter, 10));
-			pieceShape.subtract(maskArea);
-			GRectangle bounds = pieceShape.getBounds();
-			visible.add(bounds.getWidth() * bounds.getHeight() > 10);
+			if (pieceShape.intersects(maskBounds)) {
+				pieceShape.subtract(maskArea);
+				GRectangle bounds = pieceShape.getBounds();
+				visible.add(bounds.getWidth() * bounds.getHeight() > 20);
+			} else {
+				visible.add(true);
+			}
 		}
 
 		int pointIndex = 0;
@@ -215,9 +225,9 @@ public class DrawPenStroke extends Drawable {
 				continue;
 			}
 
-			if ((i < 3 || !visible.get(i - 2) && !visible.get(i - 1))
+			if ((i == 0 || !visible.get(i - 1))
 					&& !visible.get(i)
-					&& (i > visible.size() - 3 || !visible.get(i + 1) && !visible.get(i + 2))) {
+					&& (i == visible.size() - 1 || !visible.get(i + 1))) {
 				if (points.get(pointIndex + 1).getSegmentType() == SegmentType.CONTROL) {
 					pointIndex += 3;
 				} else {
