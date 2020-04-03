@@ -33,8 +33,8 @@ class MetaModelFunctions {
 		return new MetaParameter(-1, down);
     }
 
-	ListMetaGroup createGeneralFunctionsGroup() {
-		List<MetaComponent> functions = new ArrayList<>();
+	ListMetaGroup<MetaFunction> createGeneralFunctionsGroup() {
+		List<MetaFunction> functions = new ArrayList<>();
 
 		functions.add(createFunction(Tag.SUBSCRIPT));
 		functions.add(createFunction(Tag.SUPERSCRIPT));
@@ -86,6 +86,6 @@ class MetaModelFunctions {
 		functions.add(createFunction(Tag.FLOOR));
 		functions.add(createFunction(Tag.CEIL));
 
-		return new ListMetaGroup(functions);
-    }
+		return new ListMetaGroup<>(functions);
+	}
 }

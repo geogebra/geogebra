@@ -79,6 +79,12 @@ public class MetaModel {
 		for (MetaSymbol operator : this.operatorGroup.getComponents()) {
 			mergeLookup.put(operator.getCasName(), operator);
 		}
+	}
+
+	/**
+	 * Enable automatic substitutions (e.g. pi -> unicode pi)
+	 */
+	public void enableSubstitutions() {
 		mergeLookup.put("pi", symbolGroup.getComponent(Unicode.PI_STRING));
 	}
 

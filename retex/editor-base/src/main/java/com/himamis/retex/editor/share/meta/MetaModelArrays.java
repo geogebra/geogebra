@@ -16,8 +16,8 @@ public class MetaModelArrays {
 		return createArrayComponent(cas, String.valueOf(cas));
 	}
 
-	ListMetaGroup createArraysGroup() {
-		List<MetaComponent> components = new ArrayList<>();
+	ListMetaGroup<MetaArray> createArraysGroup() {
+		List<MetaArray> components = new ArrayList<>();
 		MetaArray curly = new MetaArray(1, Tag.CURLY);
 		curly.setOpen(createArrayComponent('{', "\\left\\{"));
 		curly.setClose(createArrayComponent('}', "\\right\\}"));
