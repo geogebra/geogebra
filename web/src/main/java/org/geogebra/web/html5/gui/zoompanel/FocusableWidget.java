@@ -1,7 +1,9 @@
 package org.geogebra.web.html5.gui.zoompanel;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
@@ -14,12 +16,12 @@ public class FocusableWidget implements MayHaveFocus {
 	private final int viewId;
 
 	/**
-	 * @param btn button
+	 * @param btns button
 	 * @param accessibilityGroup accessibility group
 	 * @param viewId view ID
 	 */
-	public FocusableWidget(AccessibilityGroup accessibilityGroup, int viewId, Widget... btn) {
-		this.btns = btn;
+	public FocusableWidget(AccessibilityGroup accessibilityGroup, int viewId, Widget... btns) {
+		this.btns = btns;
 		this.accessibilityGroup = accessibilityGroup;
 		this.viewId = viewId;
 	}
@@ -31,14 +33,19 @@ public class FocusableWidget implements MayHaveFocus {
 				&& !"true".equals(btn.getElement().getAttribute("aria-hidden"))
 				&& !btn.getElement().hasClassName("hideButton")) {
 			if (reverse) {
-				btns[btns.length - 1].getElement().focus();
+				focus(btns[btns.length - 1]);
 			} else {
-				btn.getElement().focus();
+				focus(btn);
 			}
 			return true;
 		}
 
 		return false;
+	}
+
+	protected void focus(Widget btn) {
+		btn.getElement().focus();
+		btn.addStyleName("keyboardFocus");
 	}
 
 	@Override
@@ -54,7 +61,7 @@ public class FocusableWidget implements MayHaveFocus {
 	private boolean moveFocus(int offset) {
 		int index = findFocus() + offset;
 		if (index >= 0 && index < btns.length) {
-			btns[index].getElement().focus();
+			focus(btns[index]);
 			return true;
 		}
 		return false;
@@ -83,6 +90,15 @@ public class FocusableWidget implements MayHaveFocus {
 
 	public void attachTo(AppW app) {
 		app.getAccessibilityManager().register(this);
+		for (Widget btn: btns) {
+			final Widget current = btn;
+			ClickStartHandler.init(btn, new ClickStartHandler() {
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					current.removeStyleName("keyboardFocus");
+				}
+			});
+		}
 	}
 
 	@Override

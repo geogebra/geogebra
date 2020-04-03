@@ -88,7 +88,7 @@ public class ZoomPanelMow extends FlowPanel
 		registerFocusable(dragPadBtn, AccessibilityGroup.ZOOM_NOTES_DRAG_VIEW);
 		TestHarness.setAttr(dragPadBtn, "panViewTool");
 
-		FastClickHandler handlerHome = new FastClickHandler() {
+		FastClickHandler handlerDragPad = new FastClickHandler() {
 
 			@Override
 			public void onClick(Widget source) {
@@ -99,7 +99,7 @@ public class ZoomPanelMow extends FlowPanel
 				}
 			}
 		};
-		dragPadBtn.addFastClickHandler(handlerHome);
+		dragPadBtn.addFastClickHandler(handlerDragPad);
 		add(dragPadBtn);
 		// click handler
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {

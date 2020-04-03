@@ -247,7 +247,7 @@
 		&:hover {
 			background-color: $mow_primary_variant;
 		}
-		&:focus {
+		&.keyboardFocus:focus {
 			outline: #212121 5px auto;
 		}
 	}
