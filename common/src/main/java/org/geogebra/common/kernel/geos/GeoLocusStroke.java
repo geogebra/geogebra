@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.geogebra.common.awt.GRectangle;
@@ -365,21 +366,38 @@ public class GeoLocusStroke extends GeoLocus
 			outside.add(last);
 		}
 
-		ArrayList<GeoElement> result = new ArrayList<>();
-		if (inside.size() != 0) {
-			result.add(partialStroke(inside));
-		}
-		if (outside.size() != 0) {
-			result.add(partialStroke(outside));
+		GeoLocusStroke insideStroke = partialStroke(inside);
+		GeoLocusStroke outsideStroke = partialStroke(outside);
+
+		for (Map.Entry<Double, ArrayList<MyPoint>> entry : mask.entrySet()) {
+			ArrayList<MyPoint> current = entry.getValue();
+			for (MyPoint p : current) {
+				if (insideStroke != null && rectangle.contains(p.x, p.y)) {
+					insideStroke.deletePart(p.x, p.y, entry.getKey());
+				} else if (outsideStroke != null) {
+					outsideStroke.deletePart(p.x, p.y, entry.getKey());
+				}
+			}
 		}
 
+		ArrayList<GeoElement> result = new ArrayList<>();
+		if (insideStroke != null) {
+			result.add(insideStroke);
+		}
+		if (outsideStroke != null) {
+			result.add(outsideStroke);
+		}
 		return result;
 	}
 
-	private GeoElement partialStroke(ArrayList<MyPoint> inside) {
-		AlgoLocusStroke insideStroke = new AlgoLocusStroke(cons, inside);
-		insideStroke.getPenStroke().splitParentLabel = getLabelSimple();
-		return insideStroke.getPenStroke();
+	private GeoLocusStroke partialStroke(ArrayList<MyPoint> newPoints) {
+		if (newPoints.size() == 0) {
+			return null;
+		}
+
+		AlgoLocusStroke newStrokeAlgo = new AlgoLocusStroke(cons, newPoints);
+		newStrokeAlgo.getPenStroke().splitParentLabel = getLabelSimple();
+		return newStrokeAlgo.getPenStroke();
 	}
 
 	@Override
@@ -421,16 +439,14 @@ public class GeoLocusStroke extends GeoLocus
 	public void deletePart(double x, double y, double size) {
 		if (mask.containsKey(size)) {
 			ArrayList<MyPoint> current = mask.get(size);
-			if (current.size() > 2 && current.get(current.size() - 2).distance(x, y) < size / 3) {
+			if (current.get(current.size() - 1).distance(x, y) < size / 3) {
 				return;
 			}
 		} else {
 			mask.put(size, new ArrayList<MyPoint>());
 		}
 
-		mask.get(size).add(new MyPoint(x, y, SegmentType.MOVE_TO));
-		mask.get(size).add(new MyPoint(x, y, SegmentType.LINE_TO));
-		mask.get(size).add(new MyPoint(Double.NaN, Double.NaN));
+		mask.get(size).add(new MyPoint(x, y));
 		simplificationState = 0;
 	}
 

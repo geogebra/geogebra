@@ -85,7 +85,10 @@ public class DrawPenStroke extends Drawable {
 
 		for (Map.Entry<Double, ArrayList<MyPoint>> entry : stroke.mask.entrySet()) {
 			gpMask.reset();
-			CurvePlotter.draw(gpMask, entry.getValue(), CoordSys.XOY);
+			for (MyPoint p : entry.getValue()) {
+				gpMask.moveTo(new double[]{p.x, p.y});
+				gpMask.lineTo(new double[]{p.x, p.y});
+			}
 			GBasicStroke stroke = AwtFactory.getPrototype().newBasicStroke(entry.getKey() * view.getXscale(),
 					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 			GArea area = AwtFactory.getPrototype().newArea(stroke.createStrokedShape(gpMask, 2000));
@@ -220,9 +223,13 @@ public class DrawPenStroke extends Drawable {
 			}
 		}
 
-		points.clear();
-		points.addAll(newPoints);
-		stroke.resetXMLPointBuilder();
+		if (newPoints.isEmpty()) {
+			stroke.remove();
+		} else {
+			points.clear();
+			points.addAll(newPoints);
+			stroke.resetXMLPointBuilder();
+		}
 	}
 
 	private void removeNonCoveringMasks() {
@@ -234,7 +241,7 @@ public class DrawPenStroke extends Drawable {
 					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
 			ArrayList<MyPoint> current = entry.getValue();
-			for (int i = 0; i < current.size(); i += 3) {
+			for (int i = 0; i < current.size(); i++) {
 				maskPiece.reset();
 				maskPiece.moveTo(new double[] {current.get(i).x, current.get(i).y});
 				maskPiece.lineTo(new double[] {current.get(i).x, current.get(i).y});
@@ -245,9 +252,7 @@ public class DrawPenStroke extends Drawable {
 
 				if (pieceShape.isEmpty()) {
 					current.remove(i);
-					current.remove(i);
-					current.remove(i);
-					i -= 3;
+					i--;
 				}
 			}
 		}
