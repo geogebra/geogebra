@@ -52,7 +52,7 @@ public class AlgebraItemTest extends BaseUnitTest {
     }
 
     @Test
-    public void buildPlainTextItemSimple() {
+    public void testShouldShowBothRowsForAngle() {
         getApp().setGeometryConfig();
         getApp().getSettings().getAlgebra().setStyle(AlgebraStyle.DESCRIPTION);
 
@@ -60,11 +60,7 @@ public class AlgebraItemTest extends BaseUnitTest {
         addAvInput("B = (1, 1)");
         addAvInput("C = (1, -1)");
         GeoAngle angle = addAvInput("a = Angle(A, B, C)");
-        boolean hasOneRow =
-                AlgebraItem.buildPlainTextItemSimple(
-                        angle,
-                        new IndexHTMLBuilder(false),
-                        StringTemplate.defaultTemplate);
-        assertThat(hasOneRow, is(false));
+        boolean shouldShowOutputRow = AlgebraItem.shouldShowBothRows(angle);
+        assertThat(shouldShowOutputRow, is(true));
     }
 }
