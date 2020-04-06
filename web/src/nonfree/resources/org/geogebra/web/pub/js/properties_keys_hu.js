@@ -1925,6 +1925,7 @@ __GGB__keysVar["hu"].menu = {
     "GeoGebraGeometry": "GeoGebra geometria",
     "GeoGebraGraphingCalculator": "GeoGebra grafikus sz\xe1mol\xf3g\xe9p",
     "GeoGebraMaterials": "GeoGebra Resources",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "GeoGebra tulajdons\xe1gok",
     "GeoGebraScientificCalculator": "GeoGebra tudom\xe1nyos sz\xe1mol\xf3g\xe9p",
     "GeogebraToAsymptoteExport": "Export\xe1l\xe1s Asymptote k\xf3dba",
