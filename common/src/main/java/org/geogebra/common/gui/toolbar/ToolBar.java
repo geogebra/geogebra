@@ -334,14 +334,14 @@ public class ToolBar {
 	}
 
 	/**
-	 * @param app
-	 *            the application.
+	 * @param includeGraspableMath whether to include GraspableMath
 	 * @return definition for MOW media toolbar
 	 */
-	public static String getMOWMediaToolBarDefString(App app, boolean includeGraspableMath) {
+	public static String getMOWMediaToolBarDefString(boolean includeGraspableMath) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(app.has(Feature.MOW_TEXT_TOOL) ? EuclidianConstants.MODE_MEDIA_TEXT
-				: EuclidianConstants.MODE_TEXT);
+		sb.append(EuclidianConstants.MODE_MEDIA_TEXT);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_TABLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EQUATION);
 		sb.append(" ");
@@ -364,10 +364,6 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_AUDIO);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_EXTENSION);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_TABLE);
 		sb.append(" | ");
 		return sb.toString();
 	}

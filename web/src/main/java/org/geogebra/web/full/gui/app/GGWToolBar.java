@@ -638,8 +638,6 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_createpolyline_32();
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
-
-			case EuclidianConstants.MODE_TABLE:
 				return resourceBundle.mode_createtable_32();
 
 		case EuclidianConstants.MODE_DELETE:

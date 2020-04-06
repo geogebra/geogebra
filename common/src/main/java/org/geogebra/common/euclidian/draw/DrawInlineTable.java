@@ -20,7 +20,7 @@ public class DrawInlineTable extends Drawable implements RemoveNeeded, HasFormat
 	public DrawInlineTable(EuclidianView view, GeoInlineTable table) {
 		super(view, table);
 		update();
-		tableController = view.createTableController(table);
+		tableController = view.getApplication().createTableController(view, table);
 	}
 
 	@Override

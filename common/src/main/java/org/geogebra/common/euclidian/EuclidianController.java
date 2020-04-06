@@ -5261,10 +5261,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			table(selectionPreview);
 			break;
 
-		case EuclidianConstants.MODE_TABLE:
-			// TODO add here table back-end
-			break;
-
 		case EuclidianConstants.MODE_EQUATION:
 			createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
