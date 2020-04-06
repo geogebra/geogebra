@@ -8105,9 +8105,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		ArrayList<GeoElement> selGeos = getAppSelectedGeos();
 		removeAxes(selGeos);
 		// if object was chosen before, take it now!
-		if (((selGeos.size() == 1) && !topHits.isEmpty()
-				&& topHits.contains(selGeos.get(0)))
-				|| selGeos.size() == 1 && wasBoundingBoxHit) {
+		if (!app.isWhiteboardActive() && selGeos.size() == 1
+				&& !topHits.isEmpty() && topHits.contains(selGeos.get(0))) {
 			// object was chosen before: take it
 			geo = selGeos.get(0);
 		} else {
