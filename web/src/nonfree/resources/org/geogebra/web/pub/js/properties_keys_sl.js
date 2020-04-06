@@ -1925,6 +1925,7 @@ __GGB__keysVar["sl"].menu = {
     "GeoGebraGeometry": "Geometrija z GeoGebro",
     "GeoGebraGraphingCalculator": "Grafi\u010dno ra\u010dunalo z GeoGebro",
     "GeoGebraMaterials": "GeoGebra viri",
+    "GeoGebraNotes": "GeoGebra Notes",
     "GeoGebraProperties": "Lastnosti GeoGebre",
     "GeoGebraScientificCalculator": "GeoGebrino znanstveno ra\u010dunalo",
     "GeogebraToAsymptoteExport": "Izvoz",
