@@ -82,9 +82,4 @@ public class AppConfigSuite extends AppConfigGraphing {
 	public boolean hasAnsButtonInAv() {
 		return false;
 	}
-
-	@Override
-	public GeoGebraConstants.Version getVersion() {
-		return GeoGebraConstants.Version.SUITE;
-	}
 }
