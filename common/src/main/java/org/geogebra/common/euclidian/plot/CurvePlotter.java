@@ -20,26 +20,8 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class CurvePlotter {
+
 	private static final double MAX_JUMP = 5;
-	// low quality settings
-	// // maximum and minimum distance between two plot points in pixels
-	// private static final int MAX_PIXEL_DISTANCE = 16; // pixels
-	// private static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
-	//
-	// // maximum angle between two line segments
-	// private static final double MAX_ANGLE = 32; // degrees
-	// private static final double MAX_ANGLE_OFF_SCREEN = 70; // degrees
-	// private static final double MAX_BEND = Math.tan(MAX_ANGLE *
-	// Kernel.PI_180);
-	// private static final double MAX_BEND_OFF_SCREEN =
-	// Math.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
-	//
-	// // maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
-	// private static final int MAX_DEFINED_BISECTIONS = 8;
-	// private static final int MAX_PROBLEM_BISECTIONS = 4;
-	//
-	// // the curve is sampled at least at this many positions to plot it
-	// private static final int MIN_SAMPLE_POINTS = 5;
 
 	/** ways to overcome discontinuity */
 	public enum Gap {
@@ -91,19 +73,14 @@ public class CurvePlotter {
 		if (moveToAllowed == Gap.CORNER) {
 			gp.corner();
 		}
-		// System.out.println(" plot points: " + countPoints + ", evaluations: "
-		// + countEvaluations );
-		// System.out.println("*** END plot");
 
 		return labelPoint;
 	}
 
-	// private static int plotIntervals = 0;
-
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].
 	 * 
-	 * @param: max_param_step:
+	 * @param max_param_step:
 	 *             largest parameter step width allowed
 	 * @param gp
 	 *            generalpath that can be drawn afterwards
@@ -118,7 +95,6 @@ public class CurvePlotter {
 			double t2, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
-		// Log.debug(++plotIntervals);
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
 		// the interval and plot both intervals [left, (left + right)/2] and
@@ -144,7 +120,6 @@ public class CurvePlotter {
 		// evaluate for t1
 		curve.evaluateCurve(t1, eval);
 		if (isUndefined(eval)) {
-			// Application.debug("Curve undefined at t = " + t1);
 			return plotProblemInterval(curve, t1, t2, intervalDepth,
 					max_param_step, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
@@ -154,7 +129,6 @@ public class CurvePlotter {
 		// evaluate for t2
 		curve.evaluateCurve(t2, eval);
 		if (isUndefined(eval)) {
-			// Application.debug("Curve undefined at t = " + t2);
 			return plotProblemInterval(curve, t1, t2, intervalDepth,
 					max_param_step, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
@@ -171,8 +145,6 @@ public class CurvePlotter {
 		int[] dyadicStack = new int[length];
 		int[] depthStack = new int[length];
 		double[][] posStack = new double[length][];
-		// double xStack[] = new double[LENGTH];
-		// double yStack[] = new double[LENGTH];
 		boolean[] onScreenStack = new boolean[length];
 		double[] divisors = new double[length];
 		divisors[0] = t2 - t1;
@@ -245,7 +217,6 @@ public class CurvePlotter {
 
 					// split interval: f(t+eps) or f(t-eps) not defined
 					if (!singularity) {
-						// Application.debug("Curve undefined at t = " + t);
 						return plotProblemInterval(curve, left, t2,
 								intervalDepth, max_param_step, view, gp,
 								calcLabelPos, moveToAllowed, labelPoint);
@@ -587,18 +558,12 @@ public class CurvePlotter {
 
 			if (DoubleUtil.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) {
 				return true;
-			// System.out.println(" largest dist: " + dist + ", [" + t1 + ", "
-			// + t2 +"]");
 			}
 		}
 
 		// we managed to make the distance clearly smaller than the initial
 		// distance
-		boolean ret = dist <= eps;
-
-		// System.out.println("END isContinuous " + ret + ", eps: " + eps +
-		// ", dist: " + dist);
-		return ret;
+		return dist <= eps;
 	}
 
 	/**
