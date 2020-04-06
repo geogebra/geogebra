@@ -335,7 +335,8 @@ public class DrawInputBox extends CanvasDrawable {
 	@Override
 	public int getPreferredHeight() {
 		int height = (int) Math.round(((getView().getApplication().getFontSize()
-				* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR);
+				* getGeoInputBox().getFontSizeMultiplier())) * TF_HEIGHT_FACTOR)
+				+ TF_MARGIN_VERTICAL;
 		return Math.max(height, MIN_HEIGHT);
 	}
 
