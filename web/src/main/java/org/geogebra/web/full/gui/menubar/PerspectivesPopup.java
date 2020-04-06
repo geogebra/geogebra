@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.common.gui.Layout;
-import org.geogebra.common.gui.classic.PerspectiveId;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -69,17 +68,17 @@ public class PerspectivesPopup {
 	private void setLabels() {
 		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
 		contentPanel.clear();
-		addPerspective(PerspectiveId.GRAPHING, pr.menu_icon_algebra_transparent());
-		addPerspective(PerspectiveId.GEOMETRY, pr.menu_icon_geometry_transparent());
+		addPerspective(0, pr.menu_icon_algebra_transparent());
+		addPerspective(1, pr.menu_icon_geometry_transparent());
 		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
-			addPerspective(PerspectiveId.GRAPHING_3D, pr.menu_icon_graphics3D_transparent());
+			addPerspective(4, pr.menu_icon_graphics3D_transparent());
 		}
 		if (app.supportsView(App.VIEW_CAS)) {
-			addPerspective(PerspectiveId.CAS, pr.menu_icon_cas_transparent());
+			addPerspective(3, pr.menu_icon_cas_transparent());
 		}
 
-		addPerspective(PerspectiveId.SPREADSHEET, pr.menu_icon_spreadsheet_transparent());
-		addPerspective(PerspectiveId.PROBABILITY, pr.menu_icon_probability_transparent());
+		addPerspective(2, pr.menu_icon_spreadsheet_transparent());
+		addPerspective(5, pr.menu_icon_probability_transparent());
 
 		// add exam mode
 		if (app.getLAF().examSupported()) {

@@ -106,7 +106,6 @@ public class PerspectivesMenuW extends Submenu {
 	 *            perspective index
 	 */
 	static void setPerspective(AppW app, int index) {
-		app.getKernel().getConstruction().applyPerspective(index);
 		app.persistWidthAndHeight();
 		boolean changed = app.getGuiManager().getLayout()
 				.applyPerspective(Layout.getDefaultPerspectives(index));
