@@ -44,7 +44,7 @@
 		}
 	}
 
-	.flatButton:focus{
+	.flatButton.keyboardFocus:focus{
 		outline: $focus-black 5px auto;
 	}
 

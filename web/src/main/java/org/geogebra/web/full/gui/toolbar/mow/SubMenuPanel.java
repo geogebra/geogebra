@@ -89,7 +89,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	}
 
 	protected void makeButtonsAccessible(AccessibilityGroup group) {
-		new FocusableWidget(group, -1,
+		new FocusableWidget(group, null,
 				toolButtons.toArray(new ToolButton[0])).attachTo(app);
 	}
 

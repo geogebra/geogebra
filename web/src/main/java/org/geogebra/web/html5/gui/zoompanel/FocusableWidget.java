@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.zoompanel;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.MayHaveFocus;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -13,17 +14,25 @@ public class FocusableWidget implements MayHaveFocus {
 
 	private final Widget[] btns;
 	private final AccessibilityGroup accessibilityGroup;
-	private final int viewId;
+	private final AccessibilityGroup.ViewSubgroup subgroup;
 
 	/**
 	 * @param btns button
 	 * @param accessibilityGroup accessibility group
-	 * @param viewId view ID
+	 * @param subgroup subgroup
 	 */
-	public FocusableWidget(AccessibilityGroup accessibilityGroup, int viewId, Widget... btns) {
+	public FocusableWidget(AccessibilityGroup accessibilityGroup,
+						   AccessibilityGroup.ViewSubgroup subgroup, Widget... btns) {
 		this.btns = btns;
 		this.accessibilityGroup = accessibilityGroup;
-		this.viewId = viewId;
+		this.subgroup = subgroup;
+		if (Browser.isMobile()) {
+			int subgroupOrdinal = subgroup == null ? 0 : subgroup.ordinal();
+			int tabIndex = accessibilityGroup.ordinal() * 10 + subgroupOrdinal;
+			for (Widget btn: btns) {
+				btn.getElement().setTabIndex(tabIndex);
+			}
+		}
 	}
 
 	@Override
@@ -88,6 +97,10 @@ public class FocusableWidget implements MayHaveFocus {
 		return accessibilityGroup;
 	}
 
+	/**
+	 * Register this component to enable tabbing
+	 * @param app application
+	 */
 	public void attachTo(AppW app) {
 		app.getAccessibilityManager().register(this);
 		for (Widget btn: btns) {
@@ -102,8 +115,8 @@ public class FocusableWidget implements MayHaveFocus {
 	}
 
 	@Override
-	public int getViewId() {
-		return viewId;
+	public AccessibilityGroup.ViewSubgroup getSubgroup() {
+		return subgroup;
 	}
 
 }

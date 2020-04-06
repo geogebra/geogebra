@@ -17,7 +17,6 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
-import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
@@ -582,7 +581,6 @@ public class ToolbarPanel extends FlowPanel
 		}
 		moveBtn.addStyleName("showMoveBtn");
 		moveBtn.removeStyleName("hideMoveBtn");
-		moveBtn.setTabIndex(GUITabs.NO_TAB);
 	}
 
 	/**
@@ -594,7 +592,6 @@ public class ToolbarPanel extends FlowPanel
 		}
 		moveBtn.addStyleName("hideMoveBtn");
 		moveBtn.removeStyleName("showMoveBtn");
-		moveBtn.setTabIndex(GUITabs.NO_TAB);
 	}
 
 	/**

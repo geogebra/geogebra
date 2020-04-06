@@ -44,11 +44,11 @@ public class ResetButtonTabber implements MayHaveFocus {
 
 	@Override
 	public AccessibilityGroup getAccessibilityGroup() {
-		return AccessibilityGroup.RESET_BUTTON;
+		return AccessibilityGroup.getViewGroup(view.getViewID());
 	}
 
 	@Override
-	public int getViewId() {
-		return view.getViewID();
+	public AccessibilityGroup.ViewSubgroup getSubgroup() {
+		return AccessibilityGroup.ViewSubgroup.RESET_BUTTON;
 	}
 }

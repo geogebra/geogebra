@@ -99,8 +99,8 @@
 			overflow: hidden;
 
 			.keyboardFocus:focus {
-            	outline: #212121 5px auto;
-            }
+				outline: $focus-black 5px auto;
+			}
 
 			.mowSubmenuScrollPanel {
 				background-color: white;
@@ -260,8 +260,8 @@
 		    opacity: 0.54;
 		}
 
-		&:focus {
-			outline: #212121 5px auto;
+		&.keyboardFocus:focus {
+			outline: $focus-black 5px auto;
 		}
 
 		.gwt-Label {

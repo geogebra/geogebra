@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
@@ -50,7 +51,6 @@ import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
-import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
@@ -67,6 +67,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.TestHarness;
 
@@ -2100,7 +2101,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		getWidget().addStyleName("latexEditor");
 		content.addStyleName("noPreview");
 		renderLatex("", false);
-		GUITabs.setTabIndex(content.getElement(), GUITabs.AV_INPUT);
+		new FocusableWidget(AccessibilityGroup.ALGEBRA_ITEM, null, content) {
+			@Override
+			public void focus(Widget widget) {
+				setFocus(true);
+			}
+		}.attachTo(app);
 		getHelpToggle().setIndex(1);
 		inputControl.addInputControls();
  		return this;
