@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel;
 
 import com.himamis.retex.editor.share.input.Character;
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
@@ -22,9 +21,6 @@ import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.construction.CasGeoElementFactory;
-import org.geogebra.common.kernel.construction.DefaultGeoElementFactory;
-import org.geogebra.common.kernel.construction.GeoElementFactory;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -231,21 +227,17 @@ public class Construction {
 		geoSetsTypeMap = new HashMap<>();
 		euclidianViewCE = new ArrayList<>();
 
-		initConstructionDefaults(parentConstruction);
+		if (parentConstruction != null) {
+			consDefaults = parentConstruction.getConstructionDefaults();
+		} else {
+			newConstructionDefaults();
+		}
+		// consDefaults = new ConstructionDefaults(this);
 		setIgnoringNewTypes(true);
 		initAxis();
 		setIgnoringNewTypes(false);
 		geoTable = new HashMap<>(200);
 		initGeoTables();
-	}
-
-	private void initConstructionDefaults(Construction parentConstruction) {
-		if (parentConstruction != null) {
-			consDefaults = parentConstruction.getConstructionDefaults();
-		} else {
-			consDefaults = newConstructionDefaults();
-		}
-		consDefaults.createDefaultGeoElements();
 	}
 
 	/**
@@ -321,14 +313,8 @@ public class Construction {
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
-	final private ConstructionDefaults newConstructionDefaults() {
-		ConstructionDefaults constructionDefaults = companion.newConstructionDefaults();
-		GeoElementFactory geoElementFactory =
-				getApplication().getConfig().getVersion() == GeoGebraConstants.Version.CAS
-						? new CasGeoElementFactory(this)
-						: new DefaultGeoElementFactory(this);
-		constructionDefaults.setGeoElementFactory(geoElementFactory);
-		return constructionDefaults;
+	final private void newConstructionDefaults() {
+		consDefaults = companion.newConstructionDefaults();
 	}
 
 	/**

@@ -19,11 +19,12 @@ import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.kernel.construction.GeoElementFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -31,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -290,6 +292,7 @@ public class ConstructionDefaults {
 	private int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 	private int dependentPointSize;
+	private int angleSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 	private float filling = DEFAULT_POLYGON_ALPHA;
 
 	private boolean blackWhiteMode = false;
@@ -297,8 +300,6 @@ public class ConstructionDefaults {
 	protected String strFree = " (free)";
 	/** suffix for default dependent point name */
 	protected String strDependent = " (dependent)";
-
-	private GeoElementFactory geoElementFactory;
 
 	private final GColor getLineColor() {
 		return cons.getApplication().isUnbundledGeometry() ? colLineGeometry
@@ -308,6 +309,12 @@ public class ConstructionDefaults {
 	private final GColor getConicColor() {
 		return cons.getApplication().isUnbundledGeometry() ? colConicGeometry
 				: colConic;
+	}
+
+	/** default color for angles */
+	private final GColor colAngle() {
+		return cons.getApplication().isUnbundledOrWhiteboard() ? GColor.BLACK
+				: GeoGebraColorConstants.GGB_GREEN;
 	}
 
 	/**
@@ -329,6 +336,7 @@ public class ConstructionDefaults {
 		this.cons = cons2;
 
 		dependentPointSize = getDependentPointSize();
+		createDefaultGeoElements();
 	}
 
 	private int getDependentPointSize() {
@@ -344,6 +352,57 @@ public class ConstructionDefaults {
 	 */
 	public Set<Map.Entry<Integer, GeoElement>> getDefaultGeos() {
 		return defaultGeoElements.entrySet();
+	}
+
+	private void setDefaultLineStyle(GeoElement geo) {
+		if (geo instanceof GeoAngle
+				&& cons.getApplication().isUnbundledGeometry()) {
+			geo.setLineThickness(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS_ANGLE_GEOMETRY);
+		} else {
+			geo.setLineThickness(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS);
+		}
+		if (geo.hasLineOpacity()) {
+			if (cons.getApplication().isUnbundledOrWhiteboard()) {
+				setLineOpacity(geo);
+			} else {
+				geo.setLineOpacity(
+						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
+			}
+		}
+	}
+
+	private void setLineOpacity(GeoElement geo) {
+		if (geo instanceof GeoAngle) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_ANGLE);
+		} else if (geo instanceof GeoPolygon) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_POLYGON);
+		} else if (geo instanceof GeoConicPart) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR);
+		} else if (cons.getApplication().isUnbundledGeometry()
+				&& (geo instanceof GeoLine || geo instanceof GeoSegment
+						|| geo instanceof GeoRay || geo instanceof GeoVector
+						|| geo instanceof GeoPolyLine
+						|| geo instanceof GeoConic)) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_GEOMETRY);
+		} else if (cons.getApplication().isUnbundledGraphing()
+				&& (geo instanceof GeoFunction)) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_FUNCTION_GEOMETRY);
+		} else if (cons.getApplication().isUnbundledGraphing()
+				&& (geo instanceof GeoCurveCartesian)) {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_CURVE_GEOMETRY);
+		} else {
+			geo.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
+		}
+
 	}
 
 	/**
@@ -429,7 +488,7 @@ public class ConstructionDefaults {
 		// line.setLineThickness(getDefaultLineThickness());
 		line.setDefaultGeoType(DEFAULT_LINE);
 		line.setMode(GeoLine.EQUATION_IMPLICIT);
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(line);
+		setDefaultLineStyle(line);
 		defaultGeoElements.put(DEFAULT_LINE, line);
 
 		// curve: actually a function to allow opening .ggb in older version
@@ -438,7 +497,7 @@ public class ConstructionDefaults {
 		curve.setLocalVariableLabel("Curve");
 		curve.setObjColor(getLineColor());
 		curve.setDefaultGeoType(DEFAULT_CURVE_CARTESIAN);
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(curve);
+		setDefaultLineStyle(curve);
 		curve.setAutoColor(true);
 		defaultGeoElements.put(DEFAULT_CURVE_CARTESIAN, curve);
 
@@ -447,7 +506,7 @@ public class ConstructionDefaults {
 		seg.setLocalVariableLabel("Segment");
 		seg.setObjColor(getLineColor());
 		seg.setDefaultGeoType(DEFAULT_SEGMENT);
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(seg);
+		setDefaultLineStyle(seg);
 		defaultGeoElements.put(DEFAULT_SEGMENT, seg);
 
 		// segment
@@ -455,7 +514,7 @@ public class ConstructionDefaults {
 		ray.setLocalVariableLabel("Segment");
 		ray.setObjColor(getLineColor());
 		ray.setDefaultGeoType(DEFAULT_RAY);
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(ray);
+		setDefaultLineStyle(ray);
 		defaultGeoElements.put(DEFAULT_RAY, ray);
 
 		GeoFunctionNVar inequality = new GeoFunctionNVar(cons);
@@ -482,7 +541,7 @@ public class ConstructionDefaults {
 		vector.setLocalVariableLabel("Vector");
 		vector.setObjColor(getLineColor());
 		vector.setDefaultGeoType(DEFAULT_VECTOR);
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(vector);
+		setDefaultLineStyle(vector);
 		defaultGeoElements.put(DEFAULT_VECTOR, vector);
 
 		// polygon
@@ -490,7 +549,7 @@ public class ConstructionDefaults {
 		// polygon.setLocalVariableLabel(app.getPlain("Polygon"));
 		polygon.setLocalVariableLabel("Polygon");
 		polygon.setObjColor(getColPolygon());
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(polygon);
+		setDefaultLineStyle(polygon);
 		polygon.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		polygon.setDefaultGeoType(DEFAULT_POLYGON);
 		defaultGeoElements.put(DEFAULT_POLYGON, polygon);
@@ -499,7 +558,7 @@ public class ConstructionDefaults {
 		GeoPolyLine polyline = new GeoPolyLine(cons);
 		polyline.setLocalVariableLabel("Polyline");
 		polyline.setObjColor(getLineColor());
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(polyline);
+		setDefaultLineStyle(polyline);
 		polyline.setDefaultGeoType(DEFAULT_POLYLINE);
 		defaultGeoElements.put(DEFAULT_POLYLINE, polyline);
 
@@ -508,7 +567,7 @@ public class ConstructionDefaults {
 		// conic.setLocalVariableLabel(app.getPlain("Conic"));
 		conic.setLocalVariableLabel("Conic");
 		conic.setObjColor(getConicColor());
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(conic);
+		setDefaultLineStyle(conic);
 		conic.setAlphaValue(DEFAULT_CONIC_ALPHA);
 		conic.setDefaultGeoType(DEFAULT_CONIC);
 		// don't set this to true: color incrementing will be done twice
@@ -521,14 +580,70 @@ public class ConstructionDefaults {
 		// conicSector.setLocalVariableLabel(app.getPlain("Sector"));
 		conicSector.setLocalVariableLabel("Sector");
 		conicSector.setObjColor(getColPolygon());
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(conicSector);
+		setDefaultLineStyle(conicSector);
 		conicSector.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		conicSector.setDefaultGeoType(DEFAULT_CONIC_SECTOR);
 		defaultGeoElements.put(DEFAULT_CONIC_SECTOR, conicSector);
 
-		defaultGeoElements.put(DEFAULT_NUMBER, geoElementFactory.createNumeric());
+		// number
+		GeoNumeric number = new GeoNumeric(cons);
+		// number.setLocalVariableLabel(app.getPlain("Numeric"));
+		number.setLocalVariableLabel("Numeric");
 
-		defaultGeoElements.put(DEFAULT_ANGLE, geoElementFactory.createAngle());
+		/*
+		 * we have to set min/max/increment/speed here because
+		 * SetEuclideanVisible takes these from default geo
+		 */
+		number.setIntervalMax(GeoNumeric.DEFAULT_SLIDER_MAX);
+		number.setIntervalMin(GeoNumeric.DEFAULT_SLIDER_MIN);
+		number.setAnimationStep(GeoNumeric.DEFAULT_SLIDER_INCREMENT);
+		number.setAutoStep(true);
+
+		number.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
+		number.setAlphaValue(DEFAULT_NUMBER_ALPHA);
+		number.setDefaultGeoType(DEFAULT_NUMBER);
+		number.setLineThickness(
+				number.isSlider() ? GeoNumeric.DEFAULT_SLIDER_THICKNESS
+						: GeoNumeric.DEFAULT_THICKNESS);
+		number.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL, true);
+		number.setSliderBlobSize(GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
+		number.setSliderFixed(false);
+		number.setDrawable(false);
+		defaultGeoElements.put(DEFAULT_NUMBER, number);
+
+		// angle
+		GeoAngle angle = new GeoAngle(cons);
+		// angle.setLocalVariableLabel(app.getPlain("Angle"));
+		angle.setLocalVariableLabel("Angle");
+		angle.setSliderFixed(true);
+		angle.setObjColor(colAngle());
+		setDefaultLineStyle(angle);
+		angle.setAlphaValue(DEFAULT_ANGLE_ALPHA);
+		angle.setDrawable(true, false);
+		angle.setDrawable(true, false);
+		angle.setAutoStep(true);
+		angle.setArcSize(angleSize);
+		/*
+		 * we have to set min/max/increment/speed here because
+		 * SetEuclideanVisible takes these from default geo
+		 */
+		angle.setIntervalMax(GeoAngle.DEFAULT_SLIDER_MAX_ANGLE);
+		angle.setIntervalMin(GeoAngle.DEFAULT_SLIDER_MIN_ANGLE);
+		angle.setAnimationStep(GeoAngle.DEFAULT_SLIDER_INCREMENT_ANGLE);
+		angle.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
+		angle.setDrawable(false);
+		angle.setDefaultGeoType(DEFAULT_ANGLE);
+		// can't do this here for sliders as it affects Angle[A,B,C] too
+		// see GeoNumeric.setSliderFromDefault()
+		// angle.setLineThickness(GeoNumeric.DEFAULT_THICKNESS);
+		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE, true);
+		angle.setLineTypeHidden(
+				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
+		if (cons.getApplication().isUnbundledGeometry()) {
+			angle.labelMode = GeoElementND.LABEL_VALUE;
+			angle.setAngleStyle(AngleStyle.NOTREFLEX);
+		}
+		defaultGeoElements.put(DEFAULT_ANGLE, angle);
 
 		// function
 		GeoFunction function = new GeoFunction(cons);
@@ -536,7 +651,7 @@ public class ConstructionDefaults {
 		function.setLocalVariableLabel("Function");
 		function.setObjColor(colFunction);
 		function.setDefaultGeoType(DEFAULT_FUNCTION);
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(function);
+		setDefaultLineStyle(function);
 		function.remove();
 		function.setAutoColor(true);
 		function.setFixed(true);
@@ -549,7 +664,7 @@ public class ConstructionDefaults {
 		locus.setLocalVariableLabel("Locus");
 		locus.setObjColor(colLocus);
 		locus.setLabelVisible(false);
-		geoElementFactory.getPropertyInitializer().setDefaultLineStyle(locus);
+		setDefaultLineStyle(locus);
 		locus.setDefaultGeoType(DEFAULT_LOCUS);
 		defaultGeoElements.put(DEFAULT_LOCUS, locus);
 
@@ -917,13 +1032,12 @@ public class ConstructionDefaults {
 		lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 		pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 		dependentPointSize = getDependentPointSize();
-		geoElementFactory.getPropertyInitializer().setAngleSize(
-				EuclidianStyleConstants.DEFAULT_ANGLE_SIZE);
+		angleSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 		filling = DEFAULT_POLYGON_ALPHA;
 
 		setDefaultLineThickness(lineThickness);
 		setDefaultPointSize(pointSize, dependentPointSize);
-		setDefaultAngleSize(geoElementFactory.getPropertyInitializer().getAngleSize());
+		setDefaultAngleSize(angleSize);
 		setDefaultFilling(filling);
 	}
 
@@ -956,7 +1070,7 @@ public class ConstructionDefaults {
 	 * @return current default angle size
 	 */
 	public int getDefaultAngleSize() {
-		return geoElementFactory.getPropertyInitializer().getAngleSize();
+		return angleSize;
 	}
 
 	/**
@@ -965,15 +1079,14 @@ public class ConstructionDefaults {
 	 */
 	public void setDefaultAngleSize(int angleSize0) {
 
-		geoElementFactory.getPropertyInitializer().setAngleSize(Math.max(angleSize0, 1));
+		this.angleSize = Math.max(angleSize0, 1);
 
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 
 			if (GeoClass.ANGLE.equals(geo.getGeoClassType())) {
-				((GeoAngle) geo).setArcSize(
-						geoElementFactory.getPropertyInitializer().getAngleSize());
+				((GeoAngle) geo).setArcSize(this.angleSize);
 			}
 		}
 	}
@@ -1152,7 +1265,4 @@ public class ConstructionDefaults {
 		}
 	}
 
-	public void setGeoElementFactory(GeoElementFactory geoElementFactory) {
-		this.geoElementFactory = geoElementFactory;
-	}
 }
