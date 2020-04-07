@@ -8,6 +8,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -47,7 +48,7 @@ public class DrawablesTest {
 				"Surface[(u,v,u+v),u,0,1,v,0,1]", "x^3=z^3",
 				"Cone[(0,0,0),(0,0,1),1]", "Side[Cone[(0,0,0),(0,0,1),1]]",
 				"IntersectRegion(x+y+0z=0,Cone[(0,0,0),(0,0,1),1])", "toolPic",
-				"audio", "video", "embed", "symbolic" };
+				"audio", "video", "embed", "symbolic", "formula" };
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("toolPic=ToolImage[2]", false);
 		GeoAudio au = new GeoAudio(app.getKernel().getConstruction());
@@ -56,6 +57,8 @@ public class DrawablesTest {
 		video.setLabel("video");
 		GeoEmbed embed = new GeoEmbed(app.getKernel().getConstruction());
 		embed.setLabel("embed");
+		GeoFormula formula = new GeoFormula(app.getKernel().getConstruction(), null);
+		formula.setLabel("formula");
 		GeoSymbolic symbolic = new GeoSymbolic(
 				app.getKernel().getConstruction());
 		symbolic.setLabel("symbolic");

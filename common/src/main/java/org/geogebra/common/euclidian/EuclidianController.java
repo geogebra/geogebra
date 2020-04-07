@@ -32,6 +32,7 @@ import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.DrawMedia;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -92,10 +93,12 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -5232,7 +5235,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
-			inlineText(selectionPreview);
+			inlineText(selectionPreview, new GeoInlineFactory() {
+				@Override
+				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
+					return new GeoInlineText(cons, location);
+				}
+			});
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
@@ -5240,7 +5248,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_EQUATION:
-			// TODO add here equation back-end
+			inlineText(selectionPreview, new GeoInlineFactory() {
+				@Override
+				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
+					return new GeoFormula(cons, location);
+				}
+			});
 			break;
 
 		// new image
@@ -6264,12 +6277,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return changedKernel;
 	}
 
-	private void inlineText(boolean selPreview) {
+	private void inlineText(boolean selPreview, GeoInlineFactory factory) {
 		if (selPreview) {
 			return;
 		}
 
-		GeoInlineText inlineText;
+		GeoInline inlineText;
 
 		if (textRectangleShape != null) {
 			int width = Math.max(GeoInlineText.DEFAULT_WIDTH,
@@ -6281,19 +6294,24 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GPoint2D initPoint = new GPoint2D(view.toRealWorldCoordX(textRectangleShape.getX()),
 							view.toRealWorldCoordY(textRectangleShape.getY()));
 
-			inlineText = new GeoInlineText(kernel.getConstruction(), initPoint, width, height);
+			inlineText = factory.newInlineObject(kernel.getConstruction(), initPoint);
+			inlineText.setWidth(width);
+			inlineText.setHeight(height);
 
 			textRectangleShape = null;
 			view.setShapeRectangle(null);
 			view.repaintView();
 		} else {
 			GPoint2D initPoint = new GPoint2D(xRW, yRW);
-			inlineText = new GeoInlineText(kernel.getConstruction(), initPoint);
+			inlineText = factory.newInlineObject(kernel.getConstruction(), initPoint);
 		}
 
 		inlineText.setLabel(null);
 		selectAndShowBoundingBox(inlineText);
-		((DrawInlineText) view.getDrawableFor(inlineText)).toForeground(0, 0);
+		DrawableND drawable = view.getDrawableFor(inlineText);
+		if (drawable instanceof DrawMedia) {
+			((DrawMedia) drawable).toForeground(0, 0);
+		}
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {
@@ -7150,7 +7168,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			tempFunction.set(movedGeoFunction);
 		} else if (movedGeoElement instanceof GeoLocusStroke
-				|| movedGeoElement instanceof GeoInlineText) {
+				|| movedGeoElement instanceof GeoInlineText
+				|| movedGeoElement instanceof GeoFormula) {
 			if (translationVec == null) {
 				translationVec = new Coords(2);
 			}
@@ -8312,7 +8331,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// preview shape for mow text tool
-		if (mode == EuclidianConstants.MODE_MEDIA_TEXT) {
+		if (mode == EuclidianConstants.MODE_MEDIA_TEXT
+				|| mode == EuclidianConstants.MODE_EQUATION) {
 			view.setBoundingBox(null);
 			updateTextRectangle(event);
 			view.setShapeRectangle(textRectangleShape);
@@ -9755,6 +9775,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement geoElement = selectedGeos.get(0);
 			return geoElement.isGeoSegment()
 					|| geoElement instanceof GeoInlineText
+					|| geoElement instanceof GeoFormula
 					|| (geoElement.isGeoImage() && !geoElement.isLocked() && crop);
 		}
 		return false;
@@ -12422,7 +12443,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *
 	 * @param geoElement geoElement to select
 	 */
-	public void selectAndShowBoundingBox(GeoElement geoElement) {
+	public void selectAndShowBoundingBox(GeoElementND geoElement) {
 		app.setMode(EuclidianConstants.MODE_SELECT_MOW, ModeSetter.DOCK_PANEL);
 		clearSelections();
 		selection.addSelectedGeo(geoElement);
