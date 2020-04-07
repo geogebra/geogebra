@@ -14,7 +14,7 @@ public class FocusableWidget implements MayHaveFocus {
 
 	private final Widget[] btns;
 	private final AccessibilityGroup accessibilityGroup;
-	private final AccessibilityGroup.ViewSubgroup subgroup;
+	private final AccessibilityGroup.ViewControlId subgroup;
 
 	/**
 	 * @param btns button
@@ -22,7 +22,7 @@ public class FocusableWidget implements MayHaveFocus {
 	 * @param subgroup subgroup
 	 */
 	public FocusableWidget(AccessibilityGroup accessibilityGroup,
-						   AccessibilityGroup.ViewSubgroup subgroup, Widget... btns) {
+						   AccessibilityGroup.ViewControlId subgroup, Widget... btns) {
 		this.btns = btns;
 		this.accessibilityGroup = accessibilityGroup;
 		this.subgroup = subgroup;
@@ -115,7 +115,7 @@ public class FocusableWidget implements MayHaveFocus {
 	}
 
 	@Override
-	public AccessibilityGroup.ViewSubgroup getSubgroup() {
+	public AccessibilityGroup.ViewControlId getViewControlId() {
 		return subgroup;
 	}
 

@@ -27,8 +27,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			if (viewDiff != 0) {
 				return viewDiff;
 			}
-			if (o1.getSubgroup() != null && o2.getSubgroup() != null) {
-				return o1.getSubgroup().ordinal() - o2.getSubgroup().ordinal();
+			if (o1.getViewControlId() != null && o2.getViewControlId() != null) {
+				return o1.getViewControlId().ordinal() - o2.getViewControlId().ordinal();
 			}
 			return 0;
 		}

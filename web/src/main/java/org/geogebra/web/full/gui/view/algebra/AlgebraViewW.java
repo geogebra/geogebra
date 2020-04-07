@@ -231,9 +231,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		getElement().addClassName("algebraView");
 
-		// needed to have an element with tabindex > 0 with focus to catch
-		// keyboard events
-		// GUITabs.setTabIndex(getElement(), GUITabs.AV_TREE);
+		// needed to have tabindex >= 0 with focus to catch keyboard events
+		getElement().setTabIndex(0);
 		addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 		addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		addKeyPressHandler(this.app.getGlobalKeyDispatcher());

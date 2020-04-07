@@ -56,7 +56,7 @@ public class SpeechRecognitionPanel extends FlowPanel {
 			}
 		});
 		new FocusableWidget(AccessibilityGroup.getViewGroup(getViewID()),
-				AccessibilityGroup.ViewSubgroup.SPEECH,  speechBtn).attachTo(app);
+				AccessibilityGroup.ViewControlId.SPEECH,  speechBtn).attachTo(app);
 		this.add(speechBtn);
 	}
 

@@ -248,7 +248,7 @@
 			background-color: $mow_primary_variant;
 		}
 		&.keyboardFocus:focus {
-			outline: #212121 5px auto;
+			outline: $focus-black 5px auto;
 		}
 	}
 

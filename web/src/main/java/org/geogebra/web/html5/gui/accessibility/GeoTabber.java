@@ -50,7 +50,7 @@ public class GeoTabber implements MayHaveFocus {
 	}
 
 	@Override
-	public AccessibilityGroup.ViewSubgroup getSubgroup() {
+	public AccessibilityGroup.ViewControlId getViewControlId() {
 		return null;
 	}
 

@@ -48,7 +48,7 @@ public class PlayButtonTabber implements MayHaveFocus {
 	}
 
 	@Override
-	public AccessibilityGroup.ViewSubgroup getSubgroup() {
-		return AccessibilityGroup.ViewSubgroup.PLAY_BUTTON;
+	public AccessibilityGroup.ViewControlId getViewControlId() {
+		return AccessibilityGroup.ViewControlId.PLAY_BUTTON;
 	}
 }

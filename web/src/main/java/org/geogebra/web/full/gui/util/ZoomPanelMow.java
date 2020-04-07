@@ -85,7 +85,7 @@ public class ZoomPanelMow extends FlowPanel
 		dragPadBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.move_canvas(), null, 24, appW);
 		dragPadBtn.setStyleName("zoomPanelBtn");
-		registerFocusable(dragPadBtn, AccessibilityGroup.ViewSubgroup.ZOOM_NOTES_DRAG_VIEW);
+		registerFocusable(dragPadBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_DRAG_VIEW);
 		TestHarness.setAttr(dragPadBtn, "panViewTool");
 
 		FastClickHandler handlerDragPad = new FastClickHandler() {
@@ -112,7 +112,7 @@ public class ZoomPanelMow extends FlowPanel
 	}
 
 	private void registerFocusable(StandardButton dragPadBtn,
-			AccessibilityGroup.ViewSubgroup group) {
+			AccessibilityGroup.ViewControlId group) {
 		new FocusableWidget(AccessibilityGroup.getViewGroup(getViewId()), group,
 				dragPadBtn).attachTo(appW);
 	}
@@ -132,7 +132,7 @@ public class ZoomPanelMow extends FlowPanel
 		homeBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.home_zoom_black18(), null, 20,
 				appW);
-		registerFocusable(homeBtn, AccessibilityGroup.ViewSubgroup.ZOOM_NOTES_HOME);
+		registerFocusable(homeBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_HOME);
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
 		getZoomController().hideHomeButton(homeBtn);
@@ -160,7 +160,7 @@ public class ZoomPanelMow extends FlowPanel
 		zoomOutBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24, appW);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
-		registerFocusable(zoomOutBtn, AccessibilityGroup.ViewSubgroup.ZOOM_NOTES_MINUS);
+		registerFocusable(zoomOutBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_MINUS);
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
@@ -176,7 +176,7 @@ public class ZoomPanelMow extends FlowPanel
 		zoomInBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24, appW);
 		zoomInBtn.setStyleName("zoomPanelBtn");
-		registerFocusable(zoomInBtn, AccessibilityGroup.ViewSubgroup.ZOOM_NOTES_PLUS);
+		registerFocusable(zoomInBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_PLUS);
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
