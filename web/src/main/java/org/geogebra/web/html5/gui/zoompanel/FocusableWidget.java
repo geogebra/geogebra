@@ -28,7 +28,8 @@ public class FocusableWidget implements MayHaveFocus {
 		this.subgroup = subgroup;
 		if (Browser.isMobile()) {
 			int subgroupOrdinal = subgroup == null ? 0 : subgroup.ordinal();
-			int tabIndex = accessibilityGroup.ordinal() * 10 + subgroupOrdinal;
+			int maxGroupSize = AccessibilityGroup.ViewControlId.values().length;
+			int tabIndex = 1 + accessibilityGroup.ordinal() * maxGroupSize + subgroupOrdinal;
 			for (Widget btn: btns) {
 				btn.getElement().setTabIndex(tabIndex);
 			}
