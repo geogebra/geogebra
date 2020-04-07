@@ -3,7 +3,7 @@
 # Create the publicly available files.
 
 set -e
-./runtests-sql -p "Classic5 Classic6" -d -R http\\://roadrunner.risc.jku.at\\:8765 -t 1200 # 20 minutes
-./report-sql -c "Classic5" -I "EulerInequality_IsoTriangle-CircumRadius_InRadius IsoTriangle-Perimeter_InRadius" -o html/public.html
-./report-sql -c "Classic5 Classic6"
+./runtests-sql -p "Classic5 Classic5-rg Classic6" -d -R http\\://roadrunner.risc.jku.at\\:8765 -t 1200 # 20 minutes
+./report-sql -c "Classic5-rg" -I "EulerInequality_IsoTriangle-CircumRadius_InRadius IsoTriangle-Perimeter_InRadius" -o html/public.html
+./report-sql -c "Classic5 Classic5-rg Classic6"
 # sensible-browser html/all.html &
