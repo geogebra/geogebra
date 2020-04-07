@@ -9,7 +9,7 @@ MY_VERSION=2.2
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 DBDEBUG=0
 TIMEOUT=5
-PROVERS="Classic5 Classic6"
+PROVERS="Classic5 Classic5-rg Classic6"
 REALGEOMWSREMOTEURL="http\\://localhost\\:8765"
 
 GEOGEBRADIR=../../../../
@@ -209,8 +209,13 @@ for i in `find -name '*.ggb' | sort`; do
     tac $MYDIR/tmp/.test.stdout | grep "COMPARISON RESULT IS " | head -1 > $REGRESSIONFILE
    RESULT=`cat $REGRESSIONFILE | awk '{a=index($0, "COMPARISON"); print substr($0,a+21)}'`
   else
+   if [ "$ENGINE" = "Classic5-rg" ]; then
+    ELIM=false
+   else
+    ELIM=true
+    fi
    timeout $((TIMEOUT+5)) $BINBASE \
-    --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --realgeomws=remoteurl:${REALGEOMWSREMOTEURL},timeout:$TIMEOUT \
+    --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --realgeomws=remoteurl:${REALGEOMWSREMOTEURL},timeout:$TIMEOUT,elimination:$ELIM \
     --logFile=$LOGFILE \
     --language=en $EXTRAOPTS $MYDIR/$i \
     --regressionFile=$REGRESSIONFILE >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr

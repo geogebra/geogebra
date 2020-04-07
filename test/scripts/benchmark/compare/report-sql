@@ -10,7 +10,7 @@ HTML=html/all.html
 TEX=html/all.tex
 CSV=none
 # Don't use this, it is just an example:
-MYCOLUMNS="Classic5 Classic6"
+MYCOLUMNS="Classic5 Classic5-rg Classic6"
 TESTGGBURLBASE_GGBDIR=https://github.com/kovzol/geogebra/raw/master/test/scripts/benchmark/compare
 IGNORE=""
 
