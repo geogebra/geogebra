@@ -209,7 +209,7 @@ for i in `find -name '*.ggb' | sort`; do
     tac $MYDIR/tmp/.test.stdout | grep "COMPARISON RESULT IS " | head -1 > $REGRESSIONFILE
    RESULT=`cat $REGRESSIONFILE | awk '{a=index($0, "COMPARISON"); print substr($0,a+21)}'`
   else
-   if[ "$ENGINE" = "Classic5-rg" ]; then
+   if [ "$ENGINE" = "Classic5-rg" ]; then
     ELIM=false
    else
     ELIM=true
