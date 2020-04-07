@@ -261,13 +261,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		}
 	}
 
-	public void setVariables(Command[] commandVariables) {
-//		fVars.clear();
-//		for (FunctionVariable fv : functionVariables) {
-//			fVars.add(fv.deepCopy(kernel));
-//		}
-	}
-
 	/**
 	 * @return function variables
 	 */
