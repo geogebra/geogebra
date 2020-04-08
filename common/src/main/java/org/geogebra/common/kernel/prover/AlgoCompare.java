@@ -358,7 +358,7 @@ public class AlgoCompare extends AlgoElement {
             rgResult = "";
         }
 
-        if (!rgResult.equals("")) {
+        if (rgResult != null && !rgResult.equals("")) {
             // If there was some useful result in RealGeom, then use it and forget the previous results from Giac.
             retval = "";
             String[] cases = rgResult.split("\\|\\|");
