@@ -102,7 +102,8 @@ public class DrawParametricCurve extends Drawable {
 		FunctionVariable oldFV = function.getFunction().getFunctionVariable();
 		FunctionVariable y = new FunctionVariable(view.getKernel(), "y");
 
-		ExpressionNode inverse = AlgoFunctionInvert.invert(function.getFunctionExpression(), oldFV, y, view.getKernel());
+		ExpressionNode inverse = AlgoFunctionInvert.invert(function.getFunctionExpression(),
+				oldFV, y, view.getKernel());
 
 		if (inverse == null) {
 			return function;

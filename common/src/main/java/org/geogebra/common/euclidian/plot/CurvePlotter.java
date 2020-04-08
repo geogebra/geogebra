@@ -102,7 +102,7 @@ public class CurvePlotter {
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].
 	 * 
-	 * @param max_param_step:
+	 * @param max_param_step
 	 *             largest parameter step width allowed
 	 * @param gp
 	 *            generalpath that can be drawn afterwards
