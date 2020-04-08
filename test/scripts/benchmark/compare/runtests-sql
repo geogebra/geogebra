@@ -238,7 +238,7 @@ for i in `find -name '*.ggb' | sort`; do
    # in desktop $REGRESSIONFILE does not properly contain the output of the Prove* command. So, a workaround (mostly copied from "Web"):
    if [ "$RESULT" = "" -o "$RESULT" = "?" ]; then
     grep --silent "COMPARISON RESULT IS " $LOGFILE && \
-     RESULT=`tac $LOGFILE | grep "COMPARISON RESULT IS "` # org.geogebra.common.kernel.prover.AlgoCompare.debugElapsedTime[126]: COMPARISON RESULT IS 
+     RESULT=`tac $LOGFILE | grep "COMPARISON RESULT IS " | head -1` # org.geogebra.common.kernel.prover.AlgoCompare.debugElapsedTime[126]: COMPARISON RESULT IS 
     RESULT=`echo $RESULT | awk '{a=index($0, "COMPARISON"); print substr($0,a+21)}'`
     fi
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{s=s+$5; print s}' | tail -1` # collecting all entries
