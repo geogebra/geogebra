@@ -943,12 +943,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public final boolean showInAlgebraView() {
-		// return defined;
-		return true;
-	}
-
-	@Override
 	public boolean hasLineOpacity() {
 		return true;
 	}

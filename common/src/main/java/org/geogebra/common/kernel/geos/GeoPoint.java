@@ -2762,11 +2762,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
-	}
-
-	@Override
 	public ValueType getValueType() {
 		return getToStringMode() == Kernel.COORD_COMPLEX ? ValueType.COMPLEX
 				: ValueType.NONCOMPLEX2D;
