@@ -273,7 +273,7 @@ public class AlgoCompare extends AlgoElement {
         for (String po : extraPolys) {
             gc.append(",").append(po);
         }
-        gc.append(",").append(lhs_var).append("*m-(").append(rhs_var).append(")],[");
+        gc.append(",").append(rhs_var).append("*m-(").append(lhs_var).append(")],[");
 
         StringBuilder varsubst = new StringBuilder();
         int i = 0;
@@ -297,6 +297,7 @@ public class AlgoCompare extends AlgoElement {
         gc.append(vars).append("])[0],m)][1]");
         GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
         boolean useGiac = RealGeomWSSettings.isUseGiacElimination();
+        boolean useRealGeom = false;
 
         if (useGiac) {
             try {
@@ -304,18 +305,21 @@ public class AlgoCompare extends AlgoElement {
                 if (!elimSol.equals("?") && !elimSol.equals("{}")) {
                     elimSol = elimSol.substring(1, elimSol.length() - 1);
                     String[] cases = elimSol.split(",");
-                    retval = "";
                     for (String result : cases) {
                         if (!"".equals(retval)) {
                             retval += " " + or + " ";
+                            // Multiple results found, so let the situation be clarified via RealGeom
+                            useRealGeom = true;
                         }
                         result = result.replace("m=", "");
                         result = result.replace("*", "" + Unicode.CENTER_DOT);
-                        retval += inp2 + " = " + result + " " + Unicode.CENTER_DOT + " " + inp1;
+                        retval += inp1 + " = " + result + " " + Unicode.CENTER_DOT + " " + inp2;
                     }
                     outputText.setTextString(retval);
                     debugElapsedTime();
-                    return;
+                    if (!useRealGeom) {
+                        return;
+                    }
                 }
                 // The result is not just a number. (Or a set of numbers.)
             } catch (Throwable throwable) {
@@ -353,65 +357,67 @@ public class AlgoCompare extends AlgoElement {
             rgResult = "";
         }
 
-        String[] cases = rgResult.split("\\|\\|");
+        if (!rgResult.equals("")) {
+            // If there was some useful result in RealGeom, then use it and forget the previous results from Giac.
+            retval = "";
+            String[] cases = rgResult.split("\\|\\|");
 
-        retval = "";
+            for (String result : cases) {
 
-        for (String result : cases) {
+                if ("m > 0".equals(result)) {
+                    continue;
+                }
 
-            if ("m > 0".equals(result)) {
-                continue;
+                if (!"".equals(retval)) {
+                    retval += " " + or + " ";
+                }
+
+                result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
+                // Inequality[0, Less, m, LessEqual, 2]
+                result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
+                        "($1) " + Unicode.CENTER_DOT + " " + inp2 +
+                                " $2 " + inp1 + " $3 ($4) " + Unicode.CENTER_DOT + " " + inp2);
+                // Remove "(0)*inp2 Less" from the beginning (it's trivial)
+                result = result.replaceAll("^\\(0\\) " + Unicode.CENTER_DOT + " .*? Less ", "");
+                // m >= 1/2
+                result = result.replaceAll("m >= (.*)",
+                        inp1 + " GreaterEqual ($1) " + Unicode.CENTER_DOT + " " + inp2);
+                // m >= 1/2
+                result = result.replaceAll("m > (.*)",
+                        inp1 + " Greater ($1) " + Unicode.CENTER_DOT + " " + inp2);
+                // m == 1
+                result = result.replaceAll("m == (.*)",
+                        inp1 + " = ($1) " + Unicode.CENTER_DOT + " " + inp2);
+
+                // remove spaces at parentheses
+                result = result.replaceAll("\\(\\s", "(");
+                result = result.replaceAll("\\s\\)", ")");
+
+                // Simplify (1)*... to ...
+                result = result.replaceAll("\\(1\\)(\\s)" + Unicode.CENTER_DOT + "\\s", "");            // Use math symbols instead of Mathematica notation
+                result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
+                String repl = "<";
+                if (htmlMode) {
+                    repl = "&lt;";
+                }
+                result = result.replace("Less", repl);
+                result = result.replace("GreaterEqual", String.valueOf(Unicode.GREATER_EQUAL));
+                repl = ">";
+                if (htmlMode) {
+                    repl = "&gt;";
+                }
+                result = result.replace("Greater", repl);
+                // result = result.replace("==", "=");
+                result = result.replace("&& m > 0", "");
+                result = result.replace("m > 0", "");
+                result = result.replace("*", "" + Unicode.CENTER_DOT);
+
+                // Root[1 - #1 - 2*#1^2 + #1^3 & , 2, 0]
+                result = result.replaceAll("Root\\[(.*?) \\& , (.*?), 0\\]", "$2. root of $1");
+                result = result.replaceAll("[^\\&]#1", "x");
+
+                retval += result;
             }
-
-            if (!"".equals(retval)) {
-                retval += " " + or + " ";
-            }
-
-            result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
-            // Inequality[0, Less, m, LessEqual, 2]
-            result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
-                    "($1) " + Unicode.CENTER_DOT + " " + inp2 +
-                            " $2 " + inp1 + " $3 ($4) " + Unicode.CENTER_DOT + " " + inp2);
-            // Remove "(0)*inp2 Less" from the beginning (it's trivial)
-            result = result.replaceAll("^\\(0\\) " + Unicode.CENTER_DOT + " .*? Less ", "");
-            // m >= 1/2
-            result = result.replaceAll("m >= (.*)",
-                    inp1 + " GreaterEqual ($1) " + Unicode.CENTER_DOT + " " + inp2);
-            // m >= 1/2
-            result = result.replaceAll("m > (.*)",
-                    inp1 + " Greater ($1) " + Unicode.CENTER_DOT + " " + inp2);
-            // m == 1
-            result = result.replaceAll("m == (.*)",
-                    inp1 + " = ($1) " + Unicode.CENTER_DOT + " " + inp2);
-
-            // remove spaces at parentheses
-            result = result.replaceAll("\\(\\s", "(");
-            result = result.replaceAll("\\s\\)", ")");
-
-            // Simplify (1)*... to ...
-            result = result.replaceAll("\\(1\\)(\\s)" + Unicode.CENTER_DOT + "\\s", "");            // Use math symbols instead of Mathematica notation
-            result = result.replace("LessEqual", String.valueOf(Unicode.LESS_EQUAL));
-            String repl = "<";
-            if (htmlMode) {
-                repl = "&lt;";
-            }
-            result = result.replace("Less", repl);
-            result = result.replace("GreaterEqual", String.valueOf(Unicode.GREATER_EQUAL));
-            repl = ">";
-            if (htmlMode) {
-                repl = "&gt;";
-            }
-            result = result.replace("Greater", repl);
-            // result = result.replace("==", "=");
-            result = result.replace("&& m > 0", "");
-            result = result.replace("m > 0", "");
-            result = result.replace("*", "" + Unicode.CENTER_DOT);
-
-            // Root[1 - #1 - 2*#1^2 + #1^3 & , 2, 0]
-            result = result.replaceAll("Root\\[(.*?) \\& , (.*?), 0\\]", "$2. root of $1");
-            result = result.replaceAll("[^\\&]#1", "x");
-
-            retval += result;
         }
 
         debugElapsedTime();
