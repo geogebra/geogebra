@@ -134,10 +134,10 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 				new MyPoint(1, 2),
 				new MyPoint(2, 3)
 		)));
-		stroke.mask.put(1.5d, new ArrayList<>(Arrays.asList(
+		stroke.mask.put(1.05d, new ArrayList<>(Arrays.asList(
 				new MyPoint(8, 4)
 		)));
-		stroke.mask.put(1.8d, new ArrayList<>(Arrays.asList(
+		stroke.mask.put(1.08d, new ArrayList<>(Arrays.asList(
 				new MyPoint(9, 2)
 		)));
 		stroke.mask.put(2.2d, new ArrayList<>(Arrays.asList(

@@ -87,9 +87,16 @@ public class DrawPenStroke extends Drawable {
 
 		for (Map.Entry<Double, ArrayList<MyPoint>> entry : stroke.mask.entrySet()) {
 			gpMask.reset();
+			boolean moveTo = true;
 			for (MyPoint p : entry.getValue()) {
-				gpMask.moveTo(new double[]{p.x, p.y});
-				gpMask.lineTo(new double[]{p.x, p.y});
+				if (!p.isDefined()) {
+					moveTo = true;
+				} else if (moveTo) {
+					gpMask.moveTo(new double[]{p.x, p.y});
+					moveTo = false;
+				} else {
+					gpMask.lineTo(new double[]{p.x, p.y});
+				}
 			}
 			GBasicStroke stroke = AwtFactory.getPrototype().newBasicStroke(entry.getKey() * view.getXscale(),
 					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);

@@ -40,6 +40,7 @@ public class GeoLocusStroke extends GeoLocus
 		PointRotateable, Dilateable {
 
 	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
+	private static final double MIN_DELETION_ANGLE = Math.PI / 15;
 
 	/** cache the part of XML that follows after expression label="stroke1" */
 	private StringBuilder xmlPoints;
@@ -436,16 +437,37 @@ public class GeoLocusStroke extends GeoLocus
 	 * Deletes part of the pen stroke
 	 */
 	public void deletePart(double x, double y, double size) {
-		if (mask.containsKey(size)) {
-			ArrayList<MyPoint> current = mask.get(size);
-			if (current.size() > 0 && current.get(current.size() - 1).distance(x, y) < size / 3) {
-				return;
-			}
-		} else {
+		if (!mask.containsKey(size)) {
 			mask.put(size, new ArrayList<MyPoint>());
 		}
 
-		mask.get(size).add(new MyPoint(x, y));
+		MyPoint newPoint = new MyPoint(x, y);
+		ArrayList<MyPoint> current = mask.get(size);
+		int length = current.size();
+
+		if (length > 1) {
+			double distance = current.get(length - 2).distance(x, y);
+
+			if (length > 2 && current.get(length - 3).isDefined()) {
+				double angle = angle(current.get(length - 3), current.get(length - 2), newPoint);
+				double prevDistance = current.get(length - 2).distance(current.get(length - 3));
+
+				if (prevDistance < 3 * size
+						&& (distance < size / 6 || distance < size / 2 && angle < MIN_DELETION_ANGLE)) {
+					current.get(length - 2).x = x;
+					current.get(length - 2).y = y;
+					return;
+				}
+			}
+
+			if (distance < size / 2) {
+				current.add(length - 2, newPoint);
+				return;
+			}
+		}
+
+		current.add(newPoint);
+		ensureTrailingNaN(current);
 	}
 
 	private void ensureTrailingNaN(List<MyPoint> data) {
