@@ -11,7 +11,7 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.shared.ComponentCheckbox;
+import org.geogebra.web.shared.components.ComponentCheckbox;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.DialogUtil;
 

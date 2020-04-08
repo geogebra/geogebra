@@ -1,4 +1,4 @@
-package org.geogebra.web.shared;
+package org.geogebra.web.shared.components;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.AsyncOperation;
