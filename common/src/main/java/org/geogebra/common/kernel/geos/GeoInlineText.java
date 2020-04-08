@@ -241,11 +241,6 @@ public class GeoInlineText extends GeoElement
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
-		return false;
-	}
-
-	@Override
 	public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}

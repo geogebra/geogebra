@@ -409,11 +409,6 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public final boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	public void set(GeoElementND geo) {
 		setValue(geo.evaluateDouble());
 		reuseDefinition(geo);
@@ -1722,11 +1717,6 @@ public class GeoNumeric extends GeoElement
 		num.setDrawable(false, false);
 		num.update();
 		return num;
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override
