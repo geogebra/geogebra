@@ -196,7 +196,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 			if (app.is3D()) {
 				menu.addItem(menuText(app.getLocalization()
-						.getMenu("Download.ColladaDao")), true, new MenuCommand(app) {
+						.getMenu("Download.ColladaDae")), true, new MenuCommand(app) {
 					@Override
 					public void doExecute() {
 						menu.hide();
