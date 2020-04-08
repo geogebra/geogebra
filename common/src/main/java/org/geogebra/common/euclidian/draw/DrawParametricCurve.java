@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.advanced.AlgoFunctionInvert;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ListValue;
@@ -59,6 +60,8 @@ public class DrawParametricCurve extends Drawable {
 	private boolean isVisible;
 	private boolean labelVisible;
 	private boolean fillCurve;
+	private boolean inverted;
+
 	private StringBuilder labelSB = new StringBuilder();
 	private int nPoints = 0;
 	private ArrayList<GPoint2D> points;
@@ -78,9 +81,40 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	public DrawParametricCurve(EuclidianView view, CurveEvaluable curve) {
 		this.view = view;
-		this.curve = curve;
+
+		if (curve instanceof GeoFunction) {
+			GeoFunction function = (GeoFunction) curve;
+
+			if (function.getFunction().inspect(checkForLog())) {
+				this.curve = flipInput(function);
+			} else {
+				this.curve = curve;
+			}
+		} else {
+			this.curve = curve;
+		}
+
 		geo = curve.toGeoElement();
 		update();
+	}
+
+	private GeoFunction flipInput(GeoFunction function) {
+		FunctionVariable oldFV = function.getFunction().getFunctionVariable();
+		FunctionVariable y = new FunctionVariable(view.getKernel(), "y");
+
+		ExpressionNode inverse = AlgoFunctionInvert.invert(function.getFunctionExpression(), oldFV, y, view.getKernel());
+
+		if (inverse == null) {
+			return function;
+		}
+
+		Function func = new Function(inverse, y);
+		GeoFunction result = new GeoFunction(view.getKernel().getConstruction(), func);
+		result.swapEval();
+
+		inverted = true;
+
+		return result;
 	}
 
 	@Override
@@ -110,9 +144,22 @@ public class DrawParametricCurve extends Drawable {
 
 		double min = curve.getMinParameter();
 		double max = curve.getMaxParameter();
+
 		if (curve.toGeoElement().isGeoFunction()) {
-			double minView = view.getXmin();
-			double maxView = view.getXmax();
+			GeoFunction function = (GeoFunction) curve.toGeoElement();
+			double minView, maxView;
+
+			if (inverted) {
+				min = function.hasInterval() ? function.getIntervalMin() : Double.NEGATIVE_INFINITY;
+				max = function.hasInterval() ? function.getIntervalMax() : Double.POSITIVE_INFINITY;
+
+				minView = view.getYmin();
+				maxView = view.getYmax();
+			} else {
+				minView = view.getXmin();
+				maxView = view.getXmax();
+			}
+
 			if (min < minView || Double.isInfinite(min)) {
 				min = minView;
 			}
@@ -247,19 +294,28 @@ public class DrawParametricCurve extends Drawable {
 
 			@Override
 			public boolean check(ExpressionValue v) {
-				/*
-				 * if (v.isExpressionNode() && ((ExpressionNode)
-				 * v).getOperation() == Operation.FUNCTION) {
-				 * if(((ExpressionNode) v).getLeft() instanceof GeoFunction &&
-				 * ((GeoFunction)((ExpressionNode)
-				 * v).getLeft()).getFunctionExpression().inspect(this)){ return
-				 * true; } }
-				 */
 				if (v.isExpressionNode() && ((ExpressionNode) v)
 						.getOperation() == Operation.DATA) {
 
 					return updateDataExpression((ExpressionNode) v);
 				}
+				return false;
+			}
+		};
+	}
+
+	private Inspecting checkForLog() {
+		return new Inspecting() {
+			@Override
+			public boolean check(ExpressionValue v) {
+				if (v instanceof ExpressionNode) {
+					ExpressionNode en = (ExpressionNode) v;
+					Operation op = en.getOperation();
+
+					return op == Operation.LOG || op == Operation.LOG2
+							|| op == Operation.LOG10 || op == Operation.LOGB;
+				}
+
 				return false;
 			}
 		};
