@@ -161,6 +161,7 @@ public class AlgoCompare extends AlgoElement {
         ArrayList<String> extraPolys = new ArrayList<>();
         ArrayList<String> extraVars = new ArrayList<>();
         aae.remove();
+        gb.remove();
 
         String inp1 = "";
         String inp2 = "";
@@ -298,6 +299,7 @@ public class AlgoCompare extends AlgoElement {
         GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
         boolean useGiac = RealGeomWSSettings.isUseGiacElimination();
         boolean useRealGeom = false;
+        outputText.setTextString(retval); // retval == "" here
 
         if (useGiac) {
             try {
@@ -331,7 +333,6 @@ public class AlgoCompare extends AlgoElement {
         if (realgeomWS == null || (!realgeomWS.isAvailable())) {
             // outputText.setTextString("RealGeomWS is not available");
             Log.debug("RealGeomWS is not available");
-            outputText.setTextString("");
             debugElapsedTime();
             return;
         }
@@ -357,7 +358,7 @@ public class AlgoCompare extends AlgoElement {
             rgResult = "";
         }
 
-        if (!rgResult.equals("")) {
+        if (rgResult != null && !rgResult.equals("")) {
             // If there was some useful result in RealGeom, then use it and forget the previous results from Giac.
             retval = "";
             String[] cases = rgResult.split("\\|\\|");
@@ -422,9 +423,6 @@ public class AlgoCompare extends AlgoElement {
 
         debugElapsedTime();
         outputText.setTextString(retval);
-
-        aae.remove();
-        gb.remove();
     }
 
     private PVariable processSegment(GeoSegment s) {
