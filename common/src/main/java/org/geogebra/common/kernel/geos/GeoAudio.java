@@ -77,11 +77,6 @@ public class GeoAudio extends GeoMedia {
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return false;
-	}
-
-	@Override
 	protected void onSourceChanged() {
 		if (!hasSoundManager()) {
 			return;
