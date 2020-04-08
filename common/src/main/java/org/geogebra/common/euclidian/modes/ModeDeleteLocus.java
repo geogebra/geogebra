@@ -2,12 +2,14 @@ package org.geogebra.common.euclidian.modes;
 
 import java.util.Iterator;
 
+import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.draw.DrawPenStroke;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -24,6 +26,7 @@ public class ModeDeleteLocus {
 	private boolean objDeleteMode = false;
 	private boolean penDeleteMode = false;
 	private GEllipse2DDouble ellipse = AwtFactory.getPrototype().newEllipse2DDouble(0, 0, 10, 10);
+	private GArea ellipseArea;
 
 	/**
 	 * @param view
@@ -49,6 +52,7 @@ public class ModeDeleteLocus {
 		int eventY = e.getY();
 		double size = ec.getDeleteToolSize();
 		ellipse.setFrame(eventX - size / 2, eventY - size / 2, size, size);
+		ellipseArea = AwtFactory.getPrototype().newArea(ellipse);
 
 		view.setDeletionRectangle(ellipse);
 		view.getHitDetector().setIntersectionHits(ellipse.getBounds());
@@ -67,7 +71,6 @@ public class ModeDeleteLocus {
 
 			if (geo instanceof GeoLocusStroke) {
 				deletePartOfPenStroke((GeoLocusStroke) geo, eventX, eventY, size);
-				geo.updateRepaint();
 				it.remove();
 			} else {
 				if (!this.penDeleteMode) {
@@ -109,9 +112,9 @@ public class ModeDeleteLocus {
 				int eventX = ec.getMouseLoc().getX();
 				int eventY = ec.getMouseLoc().getY();
 				ellipse.setFrame(eventX, eventY, ec.getDeleteToolSize(), ec.getDeleteToolSize());
+				ellipseArea = AwtFactory.getPrototype().newArea(ellipse);
 
 				deletePartOfPenStroke((GeoLocusStroke) geos[0], eventX, eventY, ec.getDeleteToolSize());
-				geos[0].updateRepaint();
 			}
 			// delete this object
 			else {
@@ -128,6 +131,8 @@ public class ModeDeleteLocus {
 		double x = view.toRealWorldCoordX(x1);
 		double y = view.toRealWorldCoordY(y1);
 		gls.deletePart(x, y, size * view.getInvXscale());
+		((DrawPenStroke) view.getDrawableFor(gls)).clear(ellipseArea);
+		view.repaintView();
 	}
 
 	private void updatePenDeleteMode(Hits h) {

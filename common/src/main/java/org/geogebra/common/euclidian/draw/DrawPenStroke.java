@@ -87,17 +87,7 @@ public class DrawPenStroke extends Drawable {
 
 		for (Map.Entry<Double, ArrayList<MyPoint>> entry : stroke.mask.entrySet()) {
 			gpMask.reset();
-			boolean moveTo = true;
-			for (MyPoint p : entry.getValue()) {
-				if (!p.isDefined()) {
-					moveTo = true;
-				} else if (moveTo) {
-					gpMask.moveTo(new double[]{p.x, p.y});
-					moveTo = false;
-				} else {
-					gpMask.lineTo(new double[]{p.x, p.y});
-				}
-			}
+			CurvePlotter.draw(gpMask, entry.getValue(), CoordSys.XOY);
 			GBasicStroke stroke = AwtFactory.getPrototype().newBasicStroke(entry.getKey() * view.getXscale(),
 					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 			GArea area = AwtFactory.getPrototype().newArea(stroke.createStrokedShape(gpMask, 1000));
@@ -116,6 +106,16 @@ public class DrawPenStroke extends Drawable {
 
 		g2.setPaint(getObjectColor());
 		g2.fill(getShape());
+	}
+
+	public void clear(GArea shape) {
+		maskArea.add(shape);
+
+		GGraphics2D graphics = bitmap.createGraphics();
+
+		graphics.setClip(shape);
+		graphics.clearRect(0, 0, view.getWidth(), view.getHeight());
+		graphics.resetClip();
 	}
 
 	private GBufferedImage makeImage(GGraphics2D g2p) {
@@ -274,20 +274,31 @@ public class DrawPenStroke extends Drawable {
 					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
 			ArrayList<MyPoint> current = entry.getValue();
-			for (int i = 0; i < current.size(); i++) {
+			ArrayList<MyPoint> result = new ArrayList<>();
+			for (int i = 0; i < current.size() - 1; i++) {
+				if (!current.get(i).isDefined() || !current.get(i + 1).isDefined()) {
+					ensureTrailingNaN(result);
+					continue;
+				}
+
 				maskPiece.reset();
 				maskPiece.moveTo(new double[] {current.get(i).x, current.get(i).y});
-				maskPiece.lineTo(new double[] {current.get(i).x, current.get(i).y});
+				maskPiece.lineTo(new double[] {current.get(i + 1).x, current.get(i + 1).y});
 
 				GArea pieceShape = AwtFactory.getPrototype().newArea(stroke
 						.createStrokedShape(maskPiece, 10));
 				pieceShape.intersect(strokeArea);
 
 				if (pieceShape.isEmpty()) {
-					current.remove(i);
-					i--;
+					ensureTrailingNaN(result);
+				} else {
+					addPoint(result, current.get(i));
+					result.add(current.get(i + 1));
 				}
 			}
+
+			current.clear();
+			current.addAll(result);
 		}
 	}
 

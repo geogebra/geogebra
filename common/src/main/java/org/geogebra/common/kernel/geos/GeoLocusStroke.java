@@ -40,7 +40,7 @@ public class GeoLocusStroke extends GeoLocus
 		PointRotateable, Dilateable {
 
 	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
-	private static final double MIN_DELETION_ANGLE = Math.PI / 15;
+	private static final double MIN_DELETION_ANGLE = Math.PI / 20;
 
 	/** cache the part of XML that follows after expression label="stroke1" */
 	private StringBuilder xmlPoints;
@@ -372,6 +372,10 @@ public class GeoLocusStroke extends GeoLocus
 		for (Map.Entry<Double, ArrayList<MyPoint>> entry : mask.entrySet()) {
 			ArrayList<MyPoint> current = entry.getValue();
 			for (MyPoint p : current) {
+				if (!p.isDefined()) {
+					continue;
+				}
+
 				if (insideStroke != null && rectangle.contains(p.x, p.y)) {
 					insideStroke.deletePart(p.x, p.y, entry.getKey());
 				} else if (outsideStroke != null) {
@@ -452,7 +456,7 @@ public class GeoLocusStroke extends GeoLocus
 				double angle = angle(current.get(length - 3), current.get(length - 2), newPoint);
 				double prevDistance = current.get(length - 2).distance(current.get(length - 3));
 
-				if (prevDistance < 3 * size
+				if (prevDistance < size
 						&& (distance < size / 6 || distance < size / 2 && angle < MIN_DELETION_ANGLE)) {
 					current.get(length - 2).x = x;
 					current.get(length - 2).y = y;

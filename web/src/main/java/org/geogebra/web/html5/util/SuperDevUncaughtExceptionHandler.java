@@ -28,6 +28,6 @@ public class SuperDevUncaughtExceptionHandler
 	}
 	
 	private static native void log(Object t) /*-{
-		console && console.log && console.log(t);
+		console && console.log && console.log(t["backingJsObject_1_g$"] || t);
 	}-*/;
 }
