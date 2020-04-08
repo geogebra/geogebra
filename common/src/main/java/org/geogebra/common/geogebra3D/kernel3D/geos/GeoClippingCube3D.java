@@ -84,11 +84,6 @@ public class GeoClippingCube3D extends GeoElement3D {
 		return true;
 	}
 
-	@Override
-	public boolean isEqual(GeoElementND geo) {
-		return geo == this;
-	}
-
 	/**
 	 * sets the reduction of the cube
 	 * 

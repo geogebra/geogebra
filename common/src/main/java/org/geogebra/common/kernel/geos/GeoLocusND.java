@@ -132,11 +132,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.LOCUS;
 	}

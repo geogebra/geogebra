@@ -1861,7 +1861,9 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return whether this is shown in AV
 	 */
-	public abstract boolean showInAlgebraView();
+	public boolean showInAlgebraView() {
+		return true;
+	}
 
 	/**
 	 * @return whether this is shown in EV
@@ -5673,7 +5675,9 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public abstract boolean isEqual(GeoElementND geo);
+	public boolean isEqual(GeoElementND geo) {
+		return this == geo;
+	}
 
 	/**
 	 * Returns whether this - f gives 0 in the CAS.
@@ -6777,7 +6781,9 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return last hit type
 	 */
-	abstract public HitType getLastHitType();
+	public HitType getLastHitType() {
+		return HitType.ON_BOUNDARY;
+	}
 
 	/**
 	 * @return whether this evaluates to angle

@@ -255,12 +255,6 @@ final public class GeoSegment extends GeoLine
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		// return defined;
-		return true;
-	}
-
-	@Override
 	public boolean showInEuclidianView() {
 		// segments of polygons can have thickness 0
 		return defined && getLineThickness() != 0;

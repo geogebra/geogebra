@@ -837,11 +837,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		if (fun != null && isInequality == null && isBooleanFunction()) {
 			getIneqs();
@@ -2772,11 +2767,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public double distanceMax(double[] p1, double[] p2) {
 		return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

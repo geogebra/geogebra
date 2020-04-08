@@ -212,12 +212,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		// TODO Auto-generated method stub
 		return true;
@@ -617,11 +611,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	@Override
 	protected GeoCurveCartesianND newGeoCurveCartesian(Construction cons1) {
 		return new GeoCurveCartesian3D(cons1);
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override
