@@ -6,6 +6,8 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
@@ -44,8 +46,15 @@ import java.util.List;
  */
 public class MenuViewController implements ResizeHandler, EventRenderable, SetLabels {
 
+	private static final String MENU_PANEL_CONTAINER_STYLE = "menuPanelContainer";
+	private static final String MAIN_MENU_STYLE = "mainMenu";
+	private static final String SUB_MENU_STYLE = "subMenu";
+	private static final String TRANSITION_IN_STYLE = "transitionIn";
+	private static final String TRANSITION_OUT_STYLE = "transitionOut";
+
 	private MenuViewListener menuViewListener;
 
+	private SimplePanel submenuContainer;
 	private FloatingMenuView floatingMenuView;
 	private HeaderedMenuView headeredMenuView;
 	private HeaderView headerView;
@@ -90,13 +99,22 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		floatingMenuView = new FloatingMenuView();
 		floatingMenuView.setVisible(false);
 
+		submenuContainer = new SimplePanel();
 		headerView = createHeaderView();
 		headerView.getBackButton().removeFromParent();
 		menuView = new MenuView();
 		headeredMenuView = new HeaderedMenuView(menuView);
 		headeredMenuView.setHeaderView(headerView);
 		headeredMenuView.setTitleHeader(true);
-		floatingMenuView.setWidget(headeredMenuView);
+		headeredMenuView.addStyleName(MAIN_MENU_STYLE);
+		submenuContainer.addStyleName(SUB_MENU_STYLE);
+
+		AbsolutePanel menuPanelContainer = new AbsolutePanel();
+		menuPanelContainer.addStyleName(MENU_PANEL_CONTAINER_STYLE);
+		menuPanelContainer.add(headeredMenuView, 0, 0);
+		menuPanelContainer.add(submenuContainer, 320, 0);
+
+		floatingMenuView.add(menuPanelContainer);
 	}
 
 	private void createFactories(AppWFull app) {
@@ -235,15 +253,21 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	}
 
 	void showSubmenu(HeaderedMenuView headeredSubmenu) {
-		floatingMenuView.clear();
-		floatingMenuView.add(headeredSubmenu);
+		submenuContainer.setWidget(headeredSubmenu);
+		setMenuTransition(submenuContainer, true);
+		setMenuTransition(headeredMenuView, false);
 	}
 
 	void hideSubmenu() {
-		if (headeredMenuView.getParent() == null) {
-			floatingMenuView.clear();
-			floatingMenuView.add(headeredMenuView);
+		if (submenuContainer.getWidget() != null) {
+			setMenuTransition(submenuContainer, false);
+			setMenuTransition(headeredMenuView, true);
 		}
+	}
+
+	private void setMenuTransition(Widget widget, boolean transitionIn) {
+		widget.setStyleName(TRANSITION_IN_STYLE, transitionIn);
+		widget.setStyleName(TRANSITION_OUT_STYLE, !transitionIn);
 	}
 
 	HeaderView createHeaderView() {
