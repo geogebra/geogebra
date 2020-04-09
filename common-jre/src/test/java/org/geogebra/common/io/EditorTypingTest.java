@@ -47,16 +47,26 @@ public class EditorTypingTest {
 		checker.checkEditorInsert("12345", "12345");
 		checker.checkEditorInsert("1/2/3/4", "1/2/3/4");
 		checker.checkEditorInsert("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
+	}
 
+	@Test
+	public void absShouldBePrefixedBySpace() {
 		// typing second | starts another abs() clause
-		checker.checkEditorInsert("3|x", "3*abs(x)");
-		checker.checkEditorInsert("3 |x", "3 *abs(x)");
+		checker.checkEditorInsert("3|x", "3 abs(x)");
+		checker.checkEditorInsert("3 |x", "3 abs(x)");
 		checker.checkEditorInsert("3*|x", "3*abs(x)");
-		checker.checkEditorInsert("x|xx", "x*abs(xx)");
-		checker.checkEditorInsert("x |x x", "x *abs(x x)");
+		checker.checkEditorInsert("x|xx", "x abs(xx)");
+		checker.checkEditorInsert("x |x x", "x abs(x x)");
 		checker.checkEditorInsert("x*|x*x", "x*abs(x*x)");
 		checker.checkEditorInsert("x sqrt(x)", "x sqrt(x)");
-		checker.checkEditorInsert("x" + Unicode.SQUARE_ROOT + "x+1", "x*sqrt(x+1)");
+		checker.checkEditorInsert("x" + Unicode.SQUARE_ROOT + "x+1", "x sqrt(x+1)");
+		checker.checkEditorInsert("ln|x+6", "ln abs(x+6)");
+		checker.checkEditorInsert("ln|x+6", "ln abs(x+6)");
+	}
+
+	@Test
+	public void testLnAbs() {
+		checker.type("ln|x+6").checkGGBMath("ln(abs(x + 6))");
 	}
 
 	@Test

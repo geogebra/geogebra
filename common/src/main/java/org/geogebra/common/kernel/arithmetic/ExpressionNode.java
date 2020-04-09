@@ -2125,12 +2125,9 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of multiply
 	 */
 	public ExpressionNode multiply(double d) {
-		if (d == 0 || isConstantDouble(this, 0)) {
-			// don't use Kernel.isZero() to check == 0
-			// as can lose leading coefficient of polynomial
-			return new ExpressionNode(kernel, 0);
-		} else if (DoubleUtil.isEqual(1, d)) {
-			return this;
+		ExpressionNode specialCase = multiplyOneOrZero(d);
+		if (specialCase != null) {
+			return specialCase;
 		}
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY,
 				new MyDouble(kernel, d));
@@ -2142,15 +2139,25 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of multiply
 	 */
 	public ExpressionNode multiplyR(double d) {
+		ExpressionNode specialCase = multiplyOneOrZero(d);
+		if (specialCase != null) {
+			return specialCase;
+		}
+		return new ExpressionNode(kernel, new MyDouble(kernel, d),
+				Operation.MULTIPLY, this);
+	}
+
+	private ExpressionNode multiplyOneOrZero(double d) {
 		if (d == 0) {
 			// don't use Kernel.isZero() to check == 0
 			// as can lose leading coefficient of polynomial
 			return new ExpressionNode(kernel, 0);
-		} else if (DoubleUtil.isEqual(1, d)) {
+		} else if (1 == d) {
 			return this;
+		} else if (isConstantDouble(this, 1)) {
+			return new ExpressionNode(kernel, d);
 		}
-		return new ExpressionNode(kernel, new MyDouble(kernel, d),
-				Operation.MULTIPLY, this);
+		return null;
 	}
 
 	/**

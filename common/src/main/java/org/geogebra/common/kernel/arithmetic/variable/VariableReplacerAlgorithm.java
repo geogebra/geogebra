@@ -115,7 +115,7 @@ public class VariableReplacerAlgorithm {
 		}
 
 		if (MyDouble.isFinite(mult)) {
-			ret = ret.multiply(mult);
+			ret = ret.multiplyR(mult);
 		}
 
 		return ret;
@@ -124,33 +124,19 @@ public class VariableReplacerAlgorithm {
 	private ExpressionValue processInReverse() {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
 
-			if (!isCharVariableOrConstantName()) {
-				break;
-			}
-
-			increaseExponents();
-
-			nameNoX = expressionString.substring(0, charIndex);
-			geo = kernel.lookupLabel(nameNoX);
-			if (geo == null && "i".equals(nameNoX)) {
-				geo = kernel.getImaginaryUnit();
-			}
 			Operation op = kernel.getApplication().getParserFunctions()
-					.get(nameNoX, 1);
+					.get(nameNoX.substring(0, charIndex), 1);
 			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
 					&& op != Operation.ZCOORD) {
-				return productCreator.getXyzPiDegPower(exponents, degPower).apply(op);
-			}
-
-			if (geo == null) {
-				geo = productCreator.getProduct(nameNoX);
-			}
-			if (geo != null) {
-				break;
+				ExpressionValue arg = new VariableReplacerAlgorithm(kernel)
+						.replace(nameNoX.substring(charIndex));
+				if (arg != null) {
+					return arg.wrap().apply(op);
+				}
 			}
 		}
 
-		return null;
+		return processProductReverse();
 	}
 
 	private void processPi() {
@@ -169,6 +155,32 @@ public class VariableReplacerAlgorithm {
 				break;
 			}
 		}
+	}
+
+	private ExpressionValue processProductReverse() {
+		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
+
+			if (!isCharVariableOrConstantName()) {
+				break;
+			}
+
+			increaseExponents();
+
+			nameNoX = expressionString.substring(0, charIndex);
+			geo = kernel.lookupLabel(nameNoX);
+			if (geo == null && "i".equals(nameNoX)) {
+				geo = kernel.getImaginaryUnit();
+			}
+
+			if (geo == null) {
+				geo = productCreator.getProduct(nameNoX);
+			}
+			if (geo != null) {
+				break;
+			}
+		}
+
+		return null;
 	}
 
 	private void increaseExponents() {

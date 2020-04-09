@@ -20,6 +20,7 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -108,6 +109,7 @@ public class ParserTest {
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
+			v1.resolveVariables(new EvalInfo(false));
 			v1.wrap().replaceXYZnodes(xVar, yVar, zVar,
 					new ArrayList<ExpressionNode>());
 			reparse1 = v1.toString(tpl);
@@ -185,6 +187,40 @@ public class ParserTest {
 				"log(" + Unicode.EULER_STRING + ", x)");
 		shouldReparseAs("log_{" + Unicode.EULER_STRING + "}(x)",
 				"log(" + Unicode.EULER_STRING + ", x)");
+	}
+
+	@Test
+	public void multiplicationByTrigShouldChangeToApplication() {
+		shouldReparseAs("cos x", "cos(x)");
+		// shouldReparseAs("cos 9x", "cos(9 x)"); TODO
+
+		shouldReparseAs("cos7t/t", "cos(7t) / t");
+		shouldReparseAs("cos3x", "cos(3x)");
+		shouldReparseAs("x*cos3x", "x cos(3x)");
+		shouldReparseAs("3x*cosx", "3x cos(x)");
+		shouldReparseAs("3x*cos3x", "3x cos(3x)");
+		shouldReparseAs("ln3", "ln(3)");
+		// ln|y+6| not supported in parser; AV editor prduces ln abs(y+6) anyway
+		shouldReparseAs("ln abs(y+6)", "ln(abs(y + 6))");
+	}
+
+	@Test
+	public void multiplicationByTrigPowerShouldChangeToApplication() {
+		String sinCubedX = "sin" + Unicode.SUPERSCRIPT_3 + "(x)";
+		shouldReparseAs("sin" + Unicode.SUPERSCRIPT_3 + "(x)", sinCubedX);
+		shouldReparseAs("sin^3(x)", sinCubedX);
+		shouldReparseAs("sin" + Unicode.SUPERSCRIPT_3 + " x", sinCubedX);
+		shouldReparseAs("sin^3 x", sinCubedX);
+		shouldReparseAs("e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "cost",
+			Unicode.EULER_STRING + "^(-t) * 9sin" + Unicode.SUPERSCRIPT_8 + "(cos(t))");
+	}
+
+	@Test
+	@Ignore // TODO for WLY-60
+	public void multiplicationShouldResolvedToChainedTrig() {
+		shouldReparseAs("e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
+				Unicode.EULER_STRING + "^(-t) * 9sin"
+				+ Unicode.SUPERSCRIPT_8 + "(t * cos(t))");
 	}
 
 	@Test
