@@ -60,7 +60,6 @@ public class DrawParametricCurve extends Drawable {
 	private boolean isVisible;
 	private boolean labelVisible;
 	private boolean fillCurve;
-	private boolean inverted;
 
 	private StringBuilder labelSB = new StringBuilder();
 	private int nPoints = 0;
@@ -70,6 +69,20 @@ public class DrawParametricCurve extends Drawable {
 	private ExpressionNode dataExpression;
 	private FunctionVariable invFV;
 	private ExpressionNode invert;
+
+	private static final Inspecting containsLog = new Inspecting() {
+		@Override
+		public boolean check(ExpressionValue v) {
+			if (v instanceof ExpressionNode) {
+				Operation op = ((ExpressionNode) v).getOperation();
+
+				return op == Operation.LOG || op == Operation.LOG2
+						|| op == Operation.LOG10 || op == Operation.LOGB;
+			}
+
+			return false;
+		}
+	};
 
 	/**
 	 * Creates graphical representation of the curve
@@ -81,41 +94,9 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	public DrawParametricCurve(EuclidianView view, CurveEvaluable curve) {
 		this.view = view;
-
-		if (curve instanceof GeoFunction) {
-			GeoFunction function = (GeoFunction) curve;
-
-			if (function.getFunction().inspect(checkForLog())) {
-				this.curve = flipInput(function);
-			} else {
-				this.curve = curve;
-			}
-		} else {
-			this.curve = curve;
-		}
-
+		this.curve = curve;
 		geo = curve.toGeoElement();
 		update();
-	}
-
-	private GeoFunction flipInput(GeoFunction function) {
-		FunctionVariable oldFV = function.getFunction().getFunctionVariable();
-		FunctionVariable y = new FunctionVariable(view.getKernel(), "y");
-
-		ExpressionNode inverse = AlgoFunctionInvert.invert(function.getFunctionExpression(),
-				oldFV, y, view.getKernel());
-
-		if (inverse == null) {
-			return function;
-		}
-
-		Function func = new Function(inverse, y);
-		GeoFunction result = new GeoFunction(view.getKernel().getConstruction(), func);
-		result.swapEval();
-
-		inverted = true;
-
-		return result;
 	}
 
 	@Override
@@ -146,11 +127,18 @@ public class DrawParametricCurve extends Drawable {
 		double min = curve.getMinParameter();
 		double max = curve.getMaxParameter();
 
+		CurveEvaluable toPlot = curve;
+
 		if (curve.toGeoElement().isGeoFunction()) {
 			GeoFunction function = (GeoFunction) curve.toGeoElement();
 			double minView, maxView;
 
-			if (inverted) {
+			GeoFunction inverted;
+			if (function.getFunction().inspect(containsLog)
+					&& canInvert(function.getFunction().getExpression())
+					&& (inverted = invertFunction(function)) != null) {
+				toPlot = inverted;
+
 				min = function.hasInterval() ? function.getIntervalMin() : Double.NEGATIVE_INFINITY;
 				max = function.hasInterval() ? function.getIntervalMax() : Double.POSITIVE_INFINITY;
 
@@ -175,7 +163,7 @@ public class DrawParametricCurve extends Drawable {
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
-			labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp,
+			labelPoint = CurvePlotter.plotCurve(toPlot, min, max, view, gp,
 					labelVisible, fillCurve ? CurvePlotter.Gap.CORNER
 							: CurvePlotter.Gap.MOVE_TO);
 		}
@@ -305,21 +293,40 @@ public class DrawParametricCurve extends Drawable {
 		};
 	}
 
-	private Inspecting checkForLog() {
-		return new Inspecting() {
-			@Override
-			public boolean check(ExpressionValue v) {
-				if (v instanceof ExpressionNode) {
-					ExpressionNode en = (ExpressionNode) v;
-					Operation op = en.getOperation();
+	private boolean canInvert(ExpressionValue ev) {
+		if (ev instanceof ExpressionNode) {
+			ExpressionNode en = (ExpressionNode) ev;
+			Operation op = en.getOperation();
 
-					return op == Operation.LOG || op == Operation.LOG2
-							|| op == Operation.LOG10 || op == Operation.LOGB;
-				}
-
+			if (op != Operation.LOG && op != Operation.LOG2
+					&& op != Operation.LOG10 && op != Operation.LOGB
+					&& op != Operation.PLUS && op != Operation.MINUS
+					&& op != Operation.MULTIPLY && op != Operation.DIVIDE) {
 				return false;
 			}
-		};
+
+			return canInvert(en.getLeft()) && canInvert(en.getRight());
+		}
+
+		return ev instanceof MyDouble;
+	}
+
+	private GeoFunction invertFunction(GeoFunction function) {
+		FunctionVariable oldFV = function.getFunction().getFunctionVariable();
+		FunctionVariable newFV = new FunctionVariable(view.getKernel(), "y");
+
+		ExpressionNode inverse = AlgoFunctionInvert.invert(function.getFunctionExpression(),
+				oldFV, newFV, view.getKernel());
+
+		if (inverse == null) {
+			return null;
+		}
+
+		Function func = new Function(inverse, newFV);
+		GeoFunction result = new GeoFunction(view.getKernel().getConstruction(), func);
+		result.swapEval();
+
+		return result;
 	}
 
 	/**
