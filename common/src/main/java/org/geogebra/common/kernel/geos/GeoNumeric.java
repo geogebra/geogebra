@@ -1841,7 +1841,7 @@ public class GeoNumeric extends GeoElement
 			return;
 		}
 		SliderPosition old = sliderPos;
-		setDrawable(true);
+		setEuclidianVisible(true);
 		setEuclidianVisible(false);
 		sliderPos = old;
 
