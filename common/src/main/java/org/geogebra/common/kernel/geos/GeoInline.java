@@ -61,6 +61,11 @@ public interface GeoInline extends GeoElementND {
 	void setContent(String content);
 
 	/**
+	 * @return min width in pixels, depends on content
+	 */
+	double getMinWidth();
+
+	/**
 	 * @return min height in pixels, depends on content
 	 */
 	double getMinHeight();

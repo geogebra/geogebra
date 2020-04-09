@@ -15,7 +15,6 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -267,7 +266,11 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	}
 
 	public void setVisible(boolean visible) {
-		Dom.toggleClass(main, "hidden", !visible);
+		main.setVisible(visible);
+	}
+
+	public boolean isVisible() {
+		return main.isVisible();
 	}
 
 	/**

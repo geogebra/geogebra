@@ -27,9 +27,9 @@ public class GeoFormulaTest extends BaseUnitTest {
 		GeoFormula savedFormula = new GeoFormula(cons, startPoint);
 		savedFormula.setWidth(width);
 		savedFormula.setHeight(height);
-		savedFormula.setLabel("testFormula");
 		savedFormula.setAngle(angle);
 		savedFormula.setContent(content);
+		savedFormula.setLabel("testFormula");
 
 		String appXML = getApp().getXML();
 		XmlTestUtil.testCurrentXML(getApp());

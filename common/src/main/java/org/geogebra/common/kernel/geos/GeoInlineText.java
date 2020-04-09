@@ -103,6 +103,11 @@ public class GeoInlineText extends GeoElement
 	}
 
 	@Override
+	public double getMinWidth() {
+		return DEFAULT_WIDTH;
+	}
+
+	@Override
 	public double getMinHeight() {
 		return Math.max(minHeight, DEFAULT_HEIGHT);
 	}

@@ -8,7 +8,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.euclidian.draw.DrawMedia;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -454,7 +454,7 @@ public class CopyPasteW extends CopyPaste {
 				}
 
 				if (created instanceof GeoInline) {
-					DrawMedia drawInlineText = (DrawMedia) ev.getDrawableFor(created);
+					DrawInline drawInlineText = (DrawInline) ev.getDrawableFor(created);
 					drawInlineText.updateContent();
 					shapes.add(created);
 				}

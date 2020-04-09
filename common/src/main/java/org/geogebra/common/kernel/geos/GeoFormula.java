@@ -15,32 +15,39 @@ import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoFormula extends GeoElement implements GeoInline, Translateable, PointRotateable {
-	private static final String[] STRINGS = {"e^(" + Unicode.PI_STRING + " i)+1=0", "E=mc^2",
-			"nroot(3,3)>nroot(5,5)"};
-	private static Parser parser = new Parser(new MetaModel());
-	private static TeXSerializer texSerializer = new TeXSerializer();
+
+	public static final int DEFAULT_WIDTH = 250;
+	public static final int DEFAULT_HEIGHT = 48;
+
+	private static final Parser parser = new Parser(new MetaModel());
+	private static final TeXSerializer texSerializer = new TeXSerializer();
 
 	private GPoint2D position;
 	private boolean defined = true;
 	private String formula;
-	private double width = 250;
-	private double height = 48;
+
+	private double width;
+	private double height;
+
+	private double minWidth;
+	private double minHeight;
+
 	private double angle = 0;
-	private String latex;
+	private String latex = "";
 
 	/**
 	 * Creates new GeoElement for given construction
 	 *
 	 * @param c Construction
-	 * @param initPoint initial location in RW coordinates
+	 * @param location initial location in RW coordinates
 	 */
-	public GeoFormula(Construction c, GPoint2D initPoint) {
+	public GeoFormula(Construction c, GPoint2D location) {
 		super(c);
-		setContent(STRINGS[(int) (Math.random() * STRINGS.length)]);
-		this.position = initPoint;
+		this.position = location;
+		this.width = DEFAULT_WIDTH;
+		this.height = DEFAULT_HEIGHT;
 	}
 
 	@Override
@@ -88,6 +95,11 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	@Override
 	protected boolean showInEuclidianView() {
 		return true;
+	}
+
+	@Override
+	public HitType getLastHitType() {
+		return HitType.ON_FILLING;
 	}
 
 	@Override
@@ -150,8 +162,21 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	}
 
 	@Override
+	public double getMinWidth() {
+		return Math.max(minWidth, DEFAULT_WIDTH);
+	}
+
+	@Override
 	public double getMinHeight() {
-		return 50;
+		return Math.max(minHeight, DEFAULT_HEIGHT);
+	}
+
+	public void setMinWidth(double minWidth) {
+		this.minWidth = minWidth;
+	}
+
+	public void setMinHeight(double minHeight) {
+		this.minHeight = minHeight;
 	}
 
 	@Override

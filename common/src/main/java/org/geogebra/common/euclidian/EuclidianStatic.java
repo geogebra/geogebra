@@ -210,8 +210,7 @@ public class EuclidianStatic {
 			if (isLaTeX) {
 				// save the height of this element by drawing it to a temporary
 				// buffer
-				GDimension dim = AwtFactory.getPrototype().newDimension(0, 0);
-				dim = app.getDrawEquation().drawEquation(app, geo, tempGraphics,
+				GDimension dim = app.getDrawEquation().drawEquation(app, geo, tempGraphics,
 						0, 0, elements[i], font, serif,
 						fgColor, bgColor, false, false, callback);
 

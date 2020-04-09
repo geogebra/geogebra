@@ -9,23 +9,22 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.RotatableBoundingBox;
-import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 
 /**
  * Class that handles drawing inline text elements.
  */
-public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget, DrawMedia {
+public class DrawInlineText extends Drawable implements DrawInline {
 
 	public static final int PADDING = 8;
 
 	private GeoInlineText text;
-	private InlineTextController textController;
+	private final InlineTextController textController;
 
-	private TransformableRectangle rectangle;
+	private final TransformableRectangle rectangle;
 
 	/**
 	 * Create a new DrawInlineText instance.
@@ -37,7 +36,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		super(view, text);
 		rectangle = new TransformableRectangle(view, text);
 		this.text = text;
-		this.textController = view.createInlineTextController(text);
+		this.textController = view.getApplication().createInlineTextController(view, text);
 		createEditor();
 		update();
 	}
@@ -50,15 +49,14 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 
 	@Override
 	public void update() {
-		GPoint2D point = text.getLocation();
-
 		rectangle.updateSelfAndBoundingBox();
 
-		double angle = text.getAngle();
-		double width = text.getWidth();
-		double height = text.getHeight();
-
+		GPoint2D point = text.getLocation();
 		if (textController != null && point != null) {
+			double angle = text.getAngle();
+			double width = text.getWidth();
+			double height = text.getHeight();
+
 			textController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
 			textController.setHeight((int) (height - 2 * PADDING));
@@ -77,9 +75,7 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		}
 	}
 
-	/**
-	 * Send this to background
-	 */
+	@Override
 	public void toBackground() {
 		if (textController != null) {
 			textController.toBackground();
@@ -163,93 +159,18 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 	}
 
 	@Override
-	public void setWidth(int newWidth) {
-		text.setWidth(newWidth);
-		if (textController != null) {
-			textController.setWidth(newWidth);
-		}
-	}
-
-	@Override
-	public void setHeight(int newHeight) {
-		text.setHeight(newHeight);
-		if (textController != null) {
-			textController.setHeight(newHeight - 2 * PADDING);
-		}
-	}
-
-	@Override
-	public int getLeft() {
-		return rectangle.getLeft();
-	}
-
-	@Override
-	public int getTop() {
-		return rectangle.getTop();
-	}
-
-	@Override
-	public void setAbsoluteScreenLoc(int x, int y) {
-		// Not implemented
-	}
-
-	@Override
-	public double getOriginalRatio() {
-		return 0;
-	}
-
-	@Override
-	public int getWidth() {
-		return rectangle.getWidth();
-	}
-
-	@Override
-	public int getHeight() {
-		return rectangle.getHeight();
-	}
-
-	@Override
-	public void resetRatio() {
-		// Not implemented
-	}
-
-	@Override
-	public boolean isFixedRatio() {
-		return false;
-	}
-
-	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		rectangle.updateByBoundingBoxResize(point, handler);
 	}
 
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> points) {
-		double newAngle = Math.atan2(points.get(1).getY() - points.get(0).getY(),
-				points.get(1).getX() - points.get(0).getX());
-
-		double newWidth = Math.max(GeoInlineText.DEFAULT_WIDTH,
-				points.get(1).distance(points.get(0)));
-
-		double newHeight = points.get(2).distance(points.get(0));
-
-		if (newHeight < text.getMinHeight()) {
-			return;
-		}
-
-		text.setWidth(newWidth);
-		text.setHeight(newHeight);
-		text.setAngle(newAngle);
-		text.setLocation(new GPoint2D(
-						view.toRealWorldCoordX(points.get(0).getX()),
-						view.toRealWorldCoordY(points.get(0).getY())
-				)
-		);
+		rectangle.fromPoints(points);
 	}
 
 	@Override
 	protected List<GPoint2D> toPoints() {
-		return rectangle.getCorners();
+		return rectangle.toPoints();
 	}
 
 	/**

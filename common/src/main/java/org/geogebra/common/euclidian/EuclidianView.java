@@ -28,7 +28,7 @@ import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
@@ -39,7 +39,6 @@ import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
@@ -56,7 +55,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -6625,25 +6623,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Create an inline text controller iff the view supports inline text
-	 * editing.
-	 *
-	 * @param geo
-	 *            inline text
-	 *
-	 * @return an implementation of the text controller.
-	 */
-	public InlineTextController createInlineTextController(GeoInlineText geo) {
-		return null;
-	}
-
-	/**
 	 * Remove all widgets for inline texts
 	 */
-	public void resetInlineTexts() {
+	public void resetInlineObjects() {
 		for (Drawable dr : allDrawableList) {
-			if (dr instanceof DrawInlineText) {
-				((DrawInlineText) dr).remove();
+			if (dr instanceof DrawInline) {
+				((DrawInline) dr).remove();
 			}
 		}
 	}

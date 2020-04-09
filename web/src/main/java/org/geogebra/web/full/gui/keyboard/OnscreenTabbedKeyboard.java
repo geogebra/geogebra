@@ -107,7 +107,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	@Override
 	public void remove(final Runnable runnable) {
-		hasKeyboard.updateCenterPanelAndViews();
+		hasKeyboard.updateViewSizes();
 		this.addStyleName("animatingOut");
 		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override

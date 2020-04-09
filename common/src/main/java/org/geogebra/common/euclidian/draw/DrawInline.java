@@ -1,6 +1,8 @@
 package org.geogebra.common.euclidian.draw;
 
-public interface DrawMedia {
+import org.geogebra.common.euclidian.RemoveNeeded;
+
+public interface DrawInline extends RemoveNeeded {
 	/**
 	 * Update editor from geo
 	 */
@@ -12,4 +14,9 @@ public interface DrawMedia {
 	 * @param y y mouse coordinates in pixels
 	 */
 	void toForeground(int x, int y);
+
+	/**
+	 * Send this to background
+	 */
+	void toBackground();
 }

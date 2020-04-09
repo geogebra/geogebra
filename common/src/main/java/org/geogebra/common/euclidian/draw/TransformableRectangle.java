@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -100,8 +101,36 @@ public class TransformableRectangle {
 				Math.min(corner2.getY(), corner3.getY()));
 	}
 
-	public List<GPoint2D> getCorners() {
+	public List<GPoint2D> toPoints() {
 		return Arrays.asList(corner0, corner1, corner3);
+	}
+
+	/**
+	 * Transform the drawable based on the transformed points
+	 * @param points
+	 *            list of points defining the drawable
+	 */
+	public void fromPoints(ArrayList<GPoint2D> points) {
+		double newAngle = Math.atan2(points.get(1).getY() - points.get(0).getY(),
+				points.get(1).getX() - points.get(0).getX());
+
+		double newWidth = Math.max(GeoInlineText.DEFAULT_WIDTH,
+				points.get(1).distance(points.get(0)));
+
+		double newHeight = points.get(2).distance(points.get(0));
+
+		if (newHeight < geo.getMinHeight()) {
+			return;
+		}
+
+		geo.setWidth(newWidth);
+		geo.setHeight(newHeight);
+		geo.setAngle(newAngle);
+		geo.setLocation(new GPoint2D(
+						view.toRealWorldCoordX(points.get(0).getX()),
+						view.toRealWorldCoordY(points.get(0).getY())
+				)
+		);
 	}
 
 	/**
@@ -159,11 +188,11 @@ public class TransformableRectangle {
 			height = geo.getMinHeight();
 		}
 
-		if (width < GeoInlineText.DEFAULT_WIDTH) {
+		if (width < geo.getMinWidth()) {
 			if (x != 0) {
-				x = geo.getWidth() - GeoInlineText.DEFAULT_WIDTH;
+				x = geo.getWidth() - geo.getMinWidth();
 			}
-			width = GeoInlineText.DEFAULT_WIDTH;
+			width = geo.getMinWidth();
 		}
 
 		GPoint2D origin = directTransform.transform(new GPoint2D(x, y), null);
@@ -192,10 +221,8 @@ public class TransformableRectangle {
 			return;
 		}
 		update();
-		if (boundingBox != null) {
-			boundingBox.setRectangle(getBounds());
-			boundingBox.setTransform(getDirectTransform());
-		}
+		getBoundingBox().setRectangle(getBounds());
+		getBoundingBox().setTransform(getDirectTransform());
 	}
 
 	/**

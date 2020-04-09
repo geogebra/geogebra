@@ -4439,7 +4439,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (getApplication().getEmbedManager() != null) {
 			getApplication().getEmbedManager().storeEmbeds();
 		}
-		app.getActiveEuclidianView().resetInlineTexts();
+		app.getActiveEuclidianView().resetInlineObjects();
 	}
 
 	private void restoreAfterReload() {
