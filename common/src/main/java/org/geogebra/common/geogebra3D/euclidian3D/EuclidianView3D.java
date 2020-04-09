@@ -4253,6 +4253,20 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
+    /**
+     * Updates the objects before showing all objects
+     */
+    public void showAllObjectsKeepRatioUpdate() {
+        // add drawables to lists
+        update();
+        // update own drawables to get correct clipping
+        updateOwnDrawablesNow();
+        // update drawables to compute bounds
+        updateDrawables();
+        // show all objects, no step
+        setViewShowAllObjects(false, true, 0);
+    }
+
 	@Override
 	public final void setViewShowAllObjects(boolean storeUndo,
 			boolean keepRatio) {
