@@ -373,7 +373,14 @@ public class AlgoCompare extends AlgoElement {
                     retval += " " + or + " ";
                 }
 
-                result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
+                String oldResult = "";
+                while (!oldResult.equals(result)) {
+                    oldResult = result;
+                    // This is just a workaround. E.g. "m == Sqrt[40 - 6*Sqrt[3]/3]" is converted to
+                    // "m == √(40 - 6*Sqrt[3)/3]" which is syntactically wrong, and also incomplete.
+                    // So we repeat this step as many times as it is required.
+                    result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
+                }
                 // Inequality[0, Less, m, LessEqual, 2]
                 result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
                         "($1) " + Unicode.CENTER_DOT + " " + inp2 +
