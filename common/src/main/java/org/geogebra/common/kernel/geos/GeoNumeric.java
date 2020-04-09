@@ -2098,5 +2098,6 @@ public class GeoNumeric extends GeoElement
 		setShowExtendedAV(false);
 		intervalMax = null;
 		intervalMin = null;
+		setEuclidianVisible(false);
 	}
 }

@@ -63,4 +63,24 @@ public class SliderTest extends BaseUnitTest {
 		slider = undoRedo.getAfterRedo("a");
 		assertThat(slider.isEuclidianVisible(), is(true));
 	}
+
+	@Test
+	public void removeSlider() {
+		App app = getApp();
+		UndoRedoTester undoRedo = new UndoRedoTester(app);
+		undoRedo.setupUndoRedo();
+
+		GeoNumeric slider = add("a = 1", info);
+		app.storeUndoInfo();
+		slider.createSlider();
+		app.storeUndoInfo();
+		slider.setEuclidianVisible(true);
+		app.storeUndoInfo();
+		slider.removeSlider();
+		app.storeUndoInfo();
+		assertThat(slider.isSetEuclidianVisible(), is(false));
+
+		slider = undoRedo.getAfterUndo("a");
+		assertThat(slider.isEuclidianVisible(), is(true));
+	}
 }
