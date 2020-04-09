@@ -629,99 +629,94 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertEquals("eq2", app.getGgbApi().getObjectName(1));
 	}
 
-    @SuppressWarnings("AssertWithSideEffects")
-    @Test
+	@Test
 	public void testFunctionVariableLabelInCommandsMultiVariableFunction() {
 		GeoSymbolic integral = createGeoWithHiddenLabel("Integral(x³+3x y, x)");
 		showLabel(integral);
-        assert integral.getAlgebraDescriptionDefault().startsWith("a(x, y)");
-		clean();
+		assertTrue(integral.getAlgebraDescriptionDefault().startsWith("a(x, y)"));
 	}
 
-	@SuppressWarnings("AssertWithSideEffects")
-    @Test
-	public void testFunctionsWithApostrof() {
-		GeoSymbolic derivate = createGeoWithHiddenLabel("Derivative(x^2)");
-		showLabel(derivate);
-		GeoSymbolic varWithApostrof = createGeoWithHiddenLabel("f(2)");
-		assert varWithApostrof.getAlgebraDescriptionDefault().equals("4");
-		clean();
-
+	@Test
+	public void testFunctionsWithApostrophe() {
 		GeoSymbolic integral = createGeoWithHiddenLabel("Integral(x)");
 		showLabel(integral);
-		GeoSymbolic varWithApostrof3 = createGeoWithHiddenLabel("f'");
-		assert varWithApostrof3.getAlgebraDescriptionDefault().startsWith("x");
+		GeoSymbolic varWithApostrophe = createGeoWithHiddenLabel("f'");
+		assertTrue(varWithApostrophe.getAlgebraDescriptionDefault().startsWith("x"));
 		clean();
 
 		GeoSymbolic taylorPolynomial = createGeoWithHiddenLabel("TaylorPolynomial(x^2, 3, 1)");
 		showLabel(taylorPolynomial);
-		GeoSymbolic varWithApostrof2 = createGeoWithHiddenLabel("f'");
-		assert varWithApostrof2.getAlgebraDescriptionDefault().startsWith("6");
-		clean();
+		GeoSymbolic varWithApostrophe2 = createGeoWithHiddenLabel("f'");
+		assertTrue(varWithApostrophe2.getAlgebraDescriptionDefault().startsWith("6"));
 	}
 
-//    @SuppressWarnings("AssertWithSideEffects")
-    @Test
+	@Test
 	public void testFunctionVariableLabelInCommandsFunctions() {
-		GeoSymbolic derivate1 = createGeoWithHiddenLabel("Derivate(x)");
-		showLabel(derivate1);
-		assert derivate1.getAlgebraDescriptionDefault().startsWith("a(x)");
+		GeoSymbolic derivative = createGeoWithHiddenLabel("Derivate(x)");
+		showLabel(derivative);
+		assertTrue(derivative.getAlgebraDescriptionDefault().startsWith("a(x)"));
+
+		GeoSymbolic derivative1 = createGeoWithHiddenLabel("Derivative(x^2)");
+		showLabel(derivative1);
+		GeoSymbolic var = createGeoWithHiddenLabel("f(2)");
+		assertEquals("4", var.getAlgebraDescriptionDefault());
+		clean();
+
+		GeoSymbolic derivative2 = createGeoWithHiddenLabel("f(x) = Derivative(x^3 + x^2 + x)");
+		assertTrue(derivative2.getTwinGeo() instanceof GeoFunction);
+		showLabel(derivative2);
+		assertTrue(derivative2.getAlgebraDescriptionDefault().startsWith("f(x)"));
+		clean();
 
 		GeoSymbolic integral = createGeoWithHiddenLabel("Integral(x^3)");
 		assertTrue(integral.getTwinGeo() instanceof GeoFunction);
 		showLabel(integral);
-		assert integral.getAlgebraDescriptionDefault().startsWith("f(x)");
-		clean();
-
-		GeoSymbolic derivative = createGeoWithHiddenLabel("f(x) = Derivative(x^3 + x^2 + x)");
-		assertTrue(derivative.getTwinGeo() instanceof GeoFunction);
-		showLabel(derivative);
-		assert derivative.getAlgebraDescriptionDefault().startsWith("f(x)");
+		assertTrue(integral.getAlgebraDescriptionDefault().startsWith("f(x)"));
 		clean();
 
 		GeoSymbolic trigSimplify =
 				createGeoWithHiddenLabel("f(x) = TrigSimplify(1 - sin(x)^2)");
 		showLabel(trigSimplify);
 		assertTrue(trigSimplify.getTwinGeo() instanceof GeoFunction);
-		assert trigSimplify.getAlgebraDescriptionDefault().startsWith("f(x)");
+		assertTrue(trigSimplify.getAlgebraDescriptionDefault().startsWith("f(x)"));
 		clean();
 
 		GeoSymbolic trigCombine = createGeoWithHiddenLabel("f(x) = TrigCombine(x)");
 		showLabel(trigCombine);
 		assertTrue(trigCombine.getTwinGeo() instanceof GeoFunction);
-		assert trigCombine.getAlgebraDescriptionDefault().startsWith("f(x)");
+		assertTrue(trigCombine.getAlgebraDescriptionDefault().startsWith("f(x)"));
 		clean();
 
 		GeoSymbolic trigExpand = createGeoWithHiddenLabel("f(x) = TrigExpand(x)");
 		showLabel(trigExpand);
 		assertTrue(trigExpand.getTwinGeo() instanceof GeoFunction);
-		assert trigExpand.getAlgebraDescriptionDefault().startsWith("f(x)");
+		assertTrue(trigExpand.getAlgebraDescriptionDefault().startsWith("f(x)"));
 		clean();
 
 		GeoSymbolic taylorPolynomial =
 				createGeoWithHiddenLabel("f(x) = TaylorPolynomial(x,x-5,1)");
 		showLabel(taylorPolynomial);
 		assertTrue(taylorPolynomial.getTwinGeo() instanceof GeoFunction);
-		assert taylorPolynomial.getAlgebraDescriptionDefault().startsWith("f(x)");
+		assertTrue(taylorPolynomial.getAlgebraDescriptionDefault().startsWith("f(x)"));
 		clean();
 
 		GeoSymbolic simplify = createGeoWithHiddenLabel("f(x) = Simplify(x + x + x)");
 		showLabel(simplify);
 		assertTrue(simplify.getTwinGeo() instanceof GeoFunction);
-		assert simplify.getAlgebraDescriptionDefault().startsWith("f(x)");
+		assertTrue(simplify.getAlgebraDescriptionDefault().startsWith("f(x)"));
 		clean();
 
 		GeoSymbolic partialFractions =
 				createGeoWithHiddenLabel("f(x) = PartialFractions(x^2 / (x^2 - 2x + 1))");
 		showLabel(partialFractions);
 		assertTrue(partialFractions.getTwinGeo() instanceof GeoFunction);
-		assert partialFractions.getAlgebraDescriptionDefault().startsWith("f(x)");
+		assertTrue(partialFractions.getAlgebraDescriptionDefault().startsWith("f(x)"));
 		clean();
 
 		GeoSymbolic factor = createGeoWithHiddenLabel("f(x) = Factor(x^2 + x - 6)");
 		showLabel(factor);
 		assertTrue(factor.getTwinGeo() instanceof GeoFunction);
-		assert factor.getAlgebraDescriptionDefault().startsWith("f(x)");
+		assertTrue(factor.getAlgebraDescriptionDefault().startsWith("f(x)"));
 	}
 
 	private GeoSymbolic createGeoWithHiddenLabel(String text) {
@@ -978,7 +973,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		Assert.assertNotNull(SuggestionRootExtremum.get(line));
 		SuggestionRootExtremum.get(line).execute(line);
 		Assert.assertNull(SuggestionRootExtremum.get(line));
-		Object[] list =  app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
+		Object[] list = app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
 		((GeoElement) list[list.length - 1]).remove();
 		Assert.assertNotNull(SuggestionRootExtremum.get(line));
 	}
