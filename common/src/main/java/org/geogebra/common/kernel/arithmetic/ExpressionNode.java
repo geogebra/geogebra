@@ -3291,10 +3291,8 @@ public class ExpressionNode extends ValidExpression
 		// sin x in GGB is function application if "sin" is not a variable
 		if (left instanceof Variable) {
 			leftImg = left.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().get(leftImg, 1);
-			if (op != null && kernel.lookupLabel(leftImg) == null
-					&& !"x".equals(leftImg) && !"y".equals(leftImg)
-					&& !"z".equals(leftImg)) {
+			Operation op = app.getParserFunctions().getSimpleOp(leftImg);
+			if (op != null) {
 				return new ExpressionNode(kernel, right, op, null);
 
 			}
@@ -3314,10 +3312,8 @@ public class ExpressionNode extends ValidExpression
 				&& ((ExpressionNode) left).getLeft() instanceof Variable) {
 			leftImg = ((ExpressionNode) left).getLeft()
 					.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().get(leftImg, 1);
-			if (op != null && kernel.lookupLabel(leftImg) == null
-					&& !"x".equals(leftImg) && !"y".equals(leftImg)
-					&& !"z".equals(leftImg)) {
+			Operation op = app.getParserFunctions().getSimpleOp(leftImg);
+			if (op != null) {
 				ExpressionValue exponent = ((ExpressionNode) left).getRight()
 						.unwrap();
 				if (exponent.isConstant()

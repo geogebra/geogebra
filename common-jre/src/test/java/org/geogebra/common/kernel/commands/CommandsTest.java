@@ -607,7 +607,8 @@ public class CommandsTest {
 		t("f(t)=sin t", "sin(t)");
 		t("f(t)=sint", "sin(t)");
 		t("x" + PI_STRING, "(" + PI_STRING + " * x)");
-		t("sinxdeg", "sin((1*" + DEGREE_STRING + " * x))");
+		t("xdeg", "x" + DEGREE_STRING);
+		t("sinxdeg", "sin(x" + DEGREE_STRING + ")");
 	}
 
 	@Test

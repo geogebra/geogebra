@@ -139,4 +139,13 @@ class ParserFunctionsImpl implements ParserFunctions {
 	public void setInverseTrig(boolean inverseTrig) {
 		this.inverseTrig = inverseTrig;
 	}
+
+	@Override
+	public Operation getSimpleOp(String leftImg) {
+		Operation op = get(leftImg, 1);
+		if (op == Operation.XCOORD || op == Operation.YCOORD || op == Operation.ZCOORD) {
+			return null;
+		}
+		return op;
+	}
 }

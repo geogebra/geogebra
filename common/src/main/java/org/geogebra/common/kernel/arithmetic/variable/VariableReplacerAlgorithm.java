@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.variable.power.Base;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.parser.FunctionParser;
@@ -27,7 +26,6 @@ public class VariableReplacerAlgorithm {
 	private String nameNoX;
 	private Exponents exponents;
 	private ExpressionValue geo;
-	private int degPower;
 	private int charIndex;
 
 	/**
@@ -67,7 +65,7 @@ public class VariableReplacerAlgorithm {
 			return geo;
 		}
 		nameNoX = expressionString;
-		degPower = 0;
+		int degPower = 0;
 		while (nameNoX.length() > 0 && (geo == null)
 				&& nameNoX.endsWith("deg")) {
 			int length = nameNoX.length();
@@ -102,17 +100,11 @@ public class VariableReplacerAlgorithm {
 				return new Variable(kernel, nameNoX);
 			}
 		}
-		ExpressionNode powers = productCreator.getXyzPowers(exponents);
-		ExpressionNode ret;
-		if (geo == null) {
-			ret = exponents.get(Base.pi) == 0 && degPower == 0 ? powers
-					: powers.multiply(productCreator.piDegPowers(exponents.get(Base.pi), degPower));
-		} else {
-			ret = exponents.get(Base.pi) == 0 && degPower == 0
-					? powers.multiply(geo)
-				: powers.multiply(geo)
-				.multiply(productCreator.piDegPowers(exponents.get(Base.pi), degPower));
+		ExpressionNode ret = productCreator.getXyzPowers(exponents).wrap();
+		if (geo != null) {
+			ret = ret.multiply(geo);
 		}
+		ret = productCreator.piDegPowers(ret, exponents.get(Unicode.PI_STRING), degPower);
 
 		if (MyDouble.isFinite(mult)) {
 			ret = ret.multiplyR(mult);
@@ -125,11 +117,10 @@ public class VariableReplacerAlgorithm {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
 
 			Operation op = kernel.getApplication().getParserFunctions()
-					.get(nameNoX.substring(0, charIndex), 1);
-			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
-					&& op != Operation.ZCOORD) {
+					.getSimpleOp(nameNoX.substring(0, charIndex));
+			if (op != null) {
 				ExpressionValue arg = new VariableReplacerAlgorithm(kernel)
-						.replace(nameNoX.substring(charIndex));
+						.replace(expressionString.substring(charIndex));
 				if (arg != null) {
 					return arg.wrap().apply(op);
 				}
@@ -143,7 +134,7 @@ public class VariableReplacerAlgorithm {
 		while (nameNoX.length() > 0 && geo == null && (nameNoX.startsWith("pi")
 				|| nameNoX.charAt(0) == Unicode.pi)) {
 			int chop = nameNoX.charAt(0) == Unicode.pi ? 1 : 2;
-			exponents.increase(Base.pi);
+			exponents.increase(Unicode.PI_STRING);
 			nameNoX = nameNoX.substring(chop);
 			if (charIndex + 1 >= chop) {
 				geo = kernel.lookupLabel(nameNoX);
@@ -160,11 +151,12 @@ public class VariableReplacerAlgorithm {
 	private ExpressionValue processProductReverse() {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
 
-			if (!isCharVariableOrConstantName()) {
+			char charAtIndex = expressionString.charAt(charIndex);
+			if (!isCharVariableOrConstantName(charAtIndex)) {
 				break;
 			}
 
-			increaseExponents();
+			exponents.increase(String.valueOf(charAtIndex));
 
 			nameNoX = expressionString.substring(0, charIndex);
 			geo = kernel.lookupLabel(nameNoX);
@@ -183,26 +175,7 @@ public class VariableReplacerAlgorithm {
 		return null;
 	}
 
-	private void increaseExponents() {
-		char charAtIndex = expressionString.charAt(charIndex);
-
-		if (charAtIndex == Unicode.pi) {
-			exponents.increase(Base.pi);
-		} else if (charAtIndex == Unicode.theta) {
-			exponents.increase(Base.theta);
-		} else if (charAtIndex == 'x') {
-			exponents.increase(Base.x);
-		} else if (charAtIndex == 'y') {
-			exponents.increase(Base.y);
-		} else if (charAtIndex == 'z') {
-			exponents.increase(Base.z);
-		} else if (charAtIndex == 't') {
-			exponents.increase(Base.t);
-		}
-	}
-
-	private boolean isCharVariableOrConstantName() {
-		char charAtIndex = expressionString.charAt(charIndex);
+	private boolean isCharVariableOrConstantName(char charAtIndex) {
 		boolean isPi = charAtIndex == Unicode.pi;
 		boolean isTheta = charAtIndex == Unicode.theta;
 		boolean isT = charAtIndex == 't';

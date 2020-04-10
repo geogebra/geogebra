@@ -72,4 +72,6 @@ public interface ParserFunctions {
 	 *            variants
 	 */
 	void setInverseTrig(boolean inverseTrig);
+
+	Operation getSimpleOp(String leftImg);
 }
