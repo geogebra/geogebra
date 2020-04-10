@@ -630,6 +630,7 @@ public abstract class GCustomButton extends ButtonBase {
 			}
 			break;
 		case Event.ONMOUSEDOWN:
+		case Event.ONTOUCHSTART:
 			if (event.getButton() == NativeEvent.BUTTON_LEFT) {
 				setFocus(true);
 				setHovering(true); // UI automation may click without hover
@@ -641,6 +642,7 @@ public abstract class GCustomButton extends ButtonBase {
 			}
 			break;
 		case Event.ONMOUSEUP:
+		case Event.ONTOUCHEND:
 			if (isCapturing) {
 				isCapturing = false;
 				DOM.releaseCapture(getElement());
