@@ -7594,6 +7594,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// disappear
 			return;
 		}
+		setViewHits(event.getType());
 		if (mode == EuclidianConstants.MODE_DELETE || mode == EuclidianConstants.MODE_ERASER) {
 			getDeleteMode().handleMouseDraggedForDelete(event, false);
 			kernel.notifyRepaint();

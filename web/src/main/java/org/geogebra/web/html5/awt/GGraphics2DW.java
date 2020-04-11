@@ -596,10 +596,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void clearRect(int x, int y, int w, int h) {
-		context.saveTransform();
-		context.setTransform2(1, 0, 0, 1, 0, 0);
 		context.clearRect(x, y, w, h);
-		context.restoreTransform();
 	}
 
 	@Override

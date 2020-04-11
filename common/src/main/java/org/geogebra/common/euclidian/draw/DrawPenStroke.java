@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableList;
 import org.geogebra.common.euclidian.DrawableND;
@@ -39,7 +40,7 @@ public class DrawPenStroke extends Drawable {
 	private int bitmapShiftX;
 	private int bitmapShiftY;
 
-	private GArea maskArea;
+	private ArrayList<GShape> maskShapes = new ArrayList<>();
 
 	public DrawPenStroke(EuclidianView view, GeoLocusStroke stroke) {
 		super(view, stroke);
@@ -80,37 +81,33 @@ public class DrawPenStroke extends Drawable {
 		}
 
 		CurvePlotter.draw(gp, stroke.getPoints(), CoordSys.XOY);
-		setShape(AwtFactory.getPrototype().newArea(objStroke
-				.createStrokedShape(gp, 1000)));
 
-		maskArea = AwtFactory.getPrototype().newArea();
-
+		maskShapes.clear();
 		for (Map.Entry<Double, ArrayList<MyPoint>> entry : stroke.mask.entrySet()) {
 			gpMask.reset();
 			CurvePlotter.draw(gpMask, entry.getValue(), CoordSys.XOY);
 			GBasicStroke stroke = AwtFactory.getPrototype().newBasicStroke(entry.getKey() * view.getXscale(),
 					GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
-			GArea area = AwtFactory.getPrototype().newArea(stroke.createStrokedShape(gpMask, 1000));
-			maskArea.add(area);
+			maskShapes.add(stroke.createStrokedShape(gpMask, 1000));
 		}
 
-		if (!maskArea.isEmpty()) {
-			getShape().subtract(maskArea);
-		}
+		setShape(AwtFactory.getPrototype().newArea(objStroke.createStrokedShape(gp, 1000)));
 	}
 
 	private void drawPath(GGraphics2D g2) {
-		if (getShape() == null) {
-			buildGeneralPath();
-		}
-
 		g2.setPaint(getObjectColor());
-		g2.fill(getShape());
+		g2.setStroke(objStroke);
+		g2.draw(gp);
+
+		for (GShape maskShape : maskShapes) {
+			GRectangle bounds = maskShape.getBounds();
+			g2.setClip(maskShape);
+			g2.clearRect((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
+			g2.resetClip();
+		}
 	}
 
-	public void clear(GArea shape) {
-		maskArea.add(shape);
-
+	public void clear(GShape shape) {
 		GGraphics2D graphics = bitmap.createGraphics();
 
 		graphics.setClip(shape);
@@ -149,7 +146,7 @@ public class DrawPenStroke extends Drawable {
 	}
 
 	private void cleanupStroke(int step) {
-		if (maskArea.isEmpty()) {
+		if (stroke.mask.isEmpty()) {
 			return;
 		}
 
@@ -158,10 +155,11 @@ public class DrawPenStroke extends Drawable {
 			collapseMasks();
 			break;
 		case 1:
-			removeInvisibleSegments();
 			buildGeneralPath();
+			removeInvisibleSegments();
 			break;
 		case 2:
+			buildGeneralPath();
 			removeNonCoveringMasks();
 			break;
 		default:
@@ -189,6 +187,12 @@ public class DrawPenStroke extends Drawable {
 	private void removeInvisibleSegments() {
 		// second step: remove segments that are at least one steps from any visible point
 		GeneralPathClippedForCurvePlotter piecePlotter = new GeneralPathClippedForCurvePlotter(view);
+
+		GArea maskArea = AwtFactory.getPrototype().newArea();
+		for (GShape shape : maskShapes) {
+			maskArea.add(AwtFactory.getPrototype().newArea(shape));
+		}
+
 		GRectangle maskBounds = maskArea.getBounds();
 		List<Boolean> visible = new ArrayList<>();
 		List<MyPoint> points = stroke.getPoints();
@@ -266,7 +270,6 @@ public class DrawPenStroke extends Drawable {
 	}
 
 	private void removeNonCoveringMasks() {
-		GArea strokeArea = AwtFactory.getPrototype().newArea(objStroke.createStrokedShape(gp, 2000));
 		GeneralPathClippedForCurvePlotter maskPiece = new GeneralPathClippedForCurvePlotter(view);
 		for (Map.Entry<Double, ArrayList<MyPoint>> entry : stroke.mask.entrySet()) {
 			GBasicStroke stroke = AwtFactory.getPrototype().newBasicStroke(
@@ -287,7 +290,7 @@ public class DrawPenStroke extends Drawable {
 
 				GArea pieceShape = AwtFactory.getPrototype().newArea(stroke
 						.createStrokedShape(maskPiece, 10));
-				pieceShape.intersect(strokeArea);
+				pieceShape.intersect(getShape());
 
 				if (pieceShape.isEmpty()) {
 					ensureTrailingNaN(result);
