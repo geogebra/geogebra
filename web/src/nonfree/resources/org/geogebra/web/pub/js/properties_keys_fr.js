@@ -3040,7 +3040,7 @@ __GGB__keysVar["fr"].menu = {
     "TrueOnPartsFalseOnParts": "(parfois vrai, parfois faux)",
     "Turtle": "Tortue",
     "Tutorial": "Tutoriel",
-    "Tutorial3D": "aWhYSpvy",
+    "Tutorial3D": "st75mevp",
     "TutorialClassic": "",
     "TutorialGeometry": "fhtds8a2",
     "TutorialGraphing": "vd6UC685",
