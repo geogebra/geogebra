@@ -4360,8 +4360,8 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		// now handle non-GeoText prefixed with "="
-		else if (!geo.isGeoText()) {
-			if (includeLHS && algebraDesc.contains("=")) {
+		else if (algebraDesc.contains("=") && !geo.isGeoText()) {
+			if (includeLHS) {
 				sb.append(getAssignmentLHS(tpl)).append(tpl.getEqualsWithSpace());
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
@@ -4397,6 +4397,12 @@ public abstract class GeoElement extends ConstructionElement
 					sb.append("}");
 				}
 			}
+		}
+		else if (!geo.isGeoText()) {
+			if (includeLHS) {
+				sb.append(getAssignmentLHS(tpl)).append(tpl.getEqualsWithSpace());
+			}
+			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
 
 		// handle regular GeoText (and anything else we may have missed)
