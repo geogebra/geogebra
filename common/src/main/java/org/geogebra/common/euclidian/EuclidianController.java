@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawAudio;
@@ -9739,7 +9740,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		List<GeoElement> sel = selection.getSelectedGeos();
 		if (specialBoundingBoxNeeded(crop)) {
 			Drawable dr = ((Drawable) view.getDrawableFor(sel.get(0)));
-			BoundingBox boundingBox = dr.getBoundingBox();
+			BoundingBox<? extends GShape> boundingBox = dr.getBoundingBox();
 			view.setBoundingBox(boundingBox);
 			view.repaintView();
 		} else { // multi-selection
@@ -10164,20 +10165,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
 				if (lastSelectionPressResult == SelectionToolPressResult.EMPTY) {
 					clearSelections();
-				} else {
-					// select the geo that was clicked and set boundingbox
-					if (isMultiSelection() && !wasBoundingBoxHit
-							&& !event.isRightClick()
-							&& lastSelectionToolGeoToRemove != null) {
-						selection.clearSelectedGeos(false, false);
-						selection.addSelectedGeo(lastSelectionToolGeoToRemove,
-								true, true);
-						view.setBoundingBox(((Drawable) view
-								.getDrawableFor(lastSelectionToolGeoToRemove))
-								.getBoundingBox());
-						view.repaintView();
-						lastSelectionToolGeoToRemove = null;
-					}
 				}
 			}
 		}
