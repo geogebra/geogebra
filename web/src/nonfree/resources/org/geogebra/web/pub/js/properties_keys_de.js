@@ -1924,7 +1924,7 @@ __GGB__keysVar["de"].menu = {
     "GeoGebra3DGrapher.short": "3D Rechner",
     "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS Rechner",
-    "GeoGebraCalculatorSuite": "GeoGebra Calculator Suite",
+    "GeoGebraCalculatorSuite": "GeoGebra Rechner Suite",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Geometrie",
     "GeoGebraGraphingCalculator": "GeoGebra Grafikrechner",
