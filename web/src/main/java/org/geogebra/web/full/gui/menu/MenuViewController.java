@@ -6,7 +6,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import org.geogebra.common.GeoGebraConstants;
@@ -109,12 +109,13 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		headeredMenuView.addStyleName(MAIN_MENU_STYLE);
 		submenuContainer.addStyleName(SUB_MENU_STYLE);
 
-		AbsolutePanel menuPanelContainer = new AbsolutePanel();
+		FlowPanel menuPanelContainer = new FlowPanel();
 		menuPanelContainer.addStyleName(MENU_PANEL_CONTAINER_STYLE);
-		menuPanelContainer.add(headeredMenuView, 0, 0);
-		menuPanelContainer.add(submenuContainer, 320, 0);
+		menuPanelContainer.add(headeredMenuView);
+		menuPanelContainer.add(submenuContainer);
 
 		floatingMenuView.add(menuPanelContainer);
+		setSubmenuVisibility(false);
 	}
 
 	private void createFactories(AppWFull app) {
@@ -252,15 +253,18 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	void showSubmenu(HeaderedMenuView headeredSubmenu) {
 		submenuContainer.setWidget(headeredSubmenu);
-		setMenuTransition(submenuContainer, true);
-		setMenuTransition(headeredMenuView, false);
+		setSubmenuVisibility(true);
 	}
 
 	void hideSubmenu() {
 		if (submenuContainer.getWidget() != null) {
-			setMenuTransition(submenuContainer, false);
-			setMenuTransition(headeredMenuView, true);
+			setSubmenuVisibility(false);
 		}
+	}
+
+	private void setSubmenuVisibility(boolean visible) {
+		setMenuTransition(submenuContainer, visible);
+		setMenuTransition(headeredMenuView, !visible);
 	}
 
 	private void setMenuTransition(Widget widget, boolean transitionIn) {

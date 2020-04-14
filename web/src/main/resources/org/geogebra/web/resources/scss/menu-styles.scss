@@ -58,7 +58,7 @@ $menuWidth: 320px;
 		position: absolute;
 		top: 0px;
 		box-shadow: 0 6px 16px rgba(0,0,0,0.28);
-		z-index: 101;
+		z-index: 200;
 		height: 100%;
 		width: $menuWidth;
 		background-color: $white;
@@ -157,31 +157,36 @@ $menuWidth: 320px;
 	}
 
 	.mainMenu {
+		position: absolute;
 		&.transitionIn {
 			transition-timing-function: $submenuTimingFunction;
 			transition-duration: $submenuTransitionDuration;
-			left: 0px !important;
+			left: 0px;
 		}
 		&.transitionOut {
+		    overflow: hidden;
 			transition-timing-function: $submenuTimingFunction;
 			transition-duration: $submenuTransitionDuration;
-			left: -100px !important;
+			left: -100px;
 		}
 	}
 
 	.subMenu {
+		position: absolute;
 		height: 100%;
 		width: 100%;
 		&.transitionIn {
+		    overflow: auto;
+		    z-index: 200;
 			transition-timing-function: $submenuTimingFunction;
 			transition-duration: $submenuTransitionDuration;
 			box-shadow: -2px 0px 20px 0px $black-30;
-			left: 0px !important;
+			left: 0px;
 		}
 		&.transitionOut {
 			transition-timing-function: $submenuTimingFunction;
 			transition-duration: $submenuTransitionDuration;
-			left: $menuWidth !important;
+			left: $menuWidth;
 		}
 	}
 
