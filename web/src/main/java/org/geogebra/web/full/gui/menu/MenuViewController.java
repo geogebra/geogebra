@@ -225,9 +225,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		if (visible != floatingMenuView.isVisible()) {
 			floatingMenuView.setVisible(visible);
 			notifyMenuViewVisibilityChanged(visible);
-			if (visible) {
-				hideSubmenu();
-			}
+			hideSubmenu();
 		}
 	}
 
