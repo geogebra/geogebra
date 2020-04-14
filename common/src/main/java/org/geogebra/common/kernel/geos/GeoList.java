@@ -632,11 +632,6 @@ public class GeoList extends GeoElement
 		return isDrawable || drawAsComboBox();
 	}
 
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
 	/**
 	 * Clear the list
 	 */
