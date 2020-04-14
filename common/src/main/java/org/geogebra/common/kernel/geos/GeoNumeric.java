@@ -576,8 +576,8 @@ public class GeoNumeric extends GeoElement
 	 *            visibility again
 	 */
 	public synchronized void setValue(double x, boolean changeAnimationValue) {
-		setDefinition(null);
 		if (Double.isNaN(x)) {
+			setDefinition(null);
 			value = Double.NaN;
 		} else if (isIntervalMinActive() && x < getIntervalMin()) {
 			value = getIntervalMin();

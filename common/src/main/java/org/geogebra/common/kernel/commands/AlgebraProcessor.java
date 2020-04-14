@@ -3139,7 +3139,10 @@ public class AlgebraProcessor {
 		numeric.setShowExtendedAV(info.isAutocreateSliders());
 		if (app.getConfig().hasAutomaticSliders()
 				&& !numeric.isEuclidianVisible()
-				&& AlgebraItem.shouldShowSlider(numeric)) {
+				&& AlgebraItem.shouldShowSlider(numeric)
+				&& numeric.isVisible()
+				&& numeric.showInAlgebraView()
+				&& numeric.isSetAlgebraVisible()) {
 			numeric.setEuclidianVisible(true);
 			numeric.setEuclidianVisible(false);
 		}
