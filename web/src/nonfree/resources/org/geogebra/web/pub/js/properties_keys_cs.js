@@ -3043,7 +3043,7 @@ __GGB__keysVar["cs"].menu = {
     "Tutorial3D": "aWhYSpvy",
     "TutorialClassic": "XUv5mXTm",
     "TutorialGeometry": "DmVNbn2V",
-    "TutorialGraphing": "vd6UC685",
+    "TutorialGraphing": "grwxgqmx",
     "TutorialScientific": "uptfaefh",
     "Tutorials": "Tutori\xe1ly",
     "TwoVarStats": "Regresn\xed anal\xfdza dvojrozm\u011brn\xfdch dat",
