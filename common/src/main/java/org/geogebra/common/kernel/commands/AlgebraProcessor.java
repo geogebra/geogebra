@@ -3123,7 +3123,10 @@ public class AlgebraProcessor {
 			((HasSymbolicMode) ret).initSymbolicMode();
 		}
 		if (ret instanceof HasExtendedAV) {
-			setupSlider((GeoNumeric) ret, info);
+			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
+			if (ret instanceof GeoNumeric) {
+				setupSlider((GeoNumeric) ret);
+			}
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
@@ -3135,8 +3138,7 @@ public class AlgebraProcessor {
 		return array(ret);
 	}
 
-	private void setupSlider(GeoNumeric numeric, EvalInfo info) {
-		numeric.setShowExtendedAV(info.isAutocreateSliders());
+	private void setupSlider(GeoNumeric numeric) {
 		if (app.getConfig().hasAutomaticSliders()
 				&& !numeric.isEuclidianVisible()
 				&& AlgebraItem.shouldShowSlider(numeric)
