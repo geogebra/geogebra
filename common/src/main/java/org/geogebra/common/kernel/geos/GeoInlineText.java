@@ -202,6 +202,11 @@ public class GeoInlineText extends GeoElement
 	}
 
 	@Override
+	public boolean isAlgebraViewEditable() {
+		return false;
+	}
+
+	@Override
 	public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}

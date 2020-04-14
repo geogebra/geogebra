@@ -2,6 +2,7 @@ package org.geogebra.web.full.euclidian;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -23,6 +24,14 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	private final AbsolutePanel widget;
 	private final Style style;
+
+	private final Timer saveTimer = new Timer() {
+		@Override
+		public void run() {
+			formula.setContent(mathFieldEditor.getMathField().getText());
+			formula.getKernel().storeUndoInfo();
+		}
+	};
 
 	/**
 	 * Controller (communicates with MathFieldEditor) for the inline formula editor
@@ -89,13 +98,13 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public void toBackground() {
-		if (widget.isVisible()
-				&& !mathFieldEditor.getMathField().getText().equals(formula.getContent())) {
-			formula.setContent(mathFieldEditor.getMathField().getText());
-			formula.updateRepaint();
-			formula.getKernel().storeUndoInfo();
+		if (widget.isVisible() && !mathFieldEditor.getMathField()
+				.getText().equals(formula.getContent())) {
+			saveTimer.cancel();
+			saveTimer.run();
 		}
 
+		formula.updateRepaint();
 		widget.setVisible(false);
 		mathFieldEditor.setKeyboardVisibility(false);
 	}
@@ -142,6 +151,12 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 				@Override
 				public void execute() {
+					if (saveTimer.isRunning()) {
+						saveTimer.cancel();
+					}
+
+					saveTimer.schedule(500);
+
 					int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth()
 							- DrawFormula.PADDING;
 					int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();

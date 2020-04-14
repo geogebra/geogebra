@@ -88,6 +88,11 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	}
 
 	@Override
+	public boolean showInAlgebraView() {
+		return false;
+	}
+
+	@Override
 	public ValueType getValueType() {
 		return ValueType.TEXT;
 	}
@@ -95,6 +100,11 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	@Override
 	protected boolean showInEuclidianView() {
 		return true;
+	}
+
+	@Override
+	public boolean isAlgebraViewEditable() {
+		return false;
 	}
 
 	@Override
