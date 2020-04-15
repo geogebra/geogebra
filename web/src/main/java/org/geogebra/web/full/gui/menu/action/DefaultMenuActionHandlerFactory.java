@@ -57,6 +57,7 @@ public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory
 		actionHandler.setMenuAction(Action.OPEN_PROFILE_PAGE, new OpenProfilePage());
 		actionHandler.setMenuAction(Action.EXPORT_IMAGE, new ExportImage());
 		actionHandler.setMenuAction(Action.DOWNLOAD_GGB, new DownloadDefaultFormatAction());
+		actionHandler.setMenuAction(Action.DOWNLOAD_GGS, new DownloadDefaultFormatAction());
 		actionHandler.setMenuAction(Action.DOWNLOAD_PNG, new DownloadPngAction(app));
 		actionHandler.setMenuAction(Action.DOWNLOAD_SVG, new DownloadSvgAction(app));
 		actionHandler.setMenuAction(Action.DOWNLOAD_PDF, new DownloadPdfAction(app));

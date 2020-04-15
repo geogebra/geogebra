@@ -21,7 +21,6 @@ public class MebisMenuActionHandlerFactory implements MenuActionHandlerFactory {
 	public DefaultMenuActionHandler create() {
 		DefaultMenuActionHandler actionHandler = defaultMenuActionHandlerFactory.create();
 		actionHandler.setMenuAction(Action.SHOW_SEARCH_VIEW, new OpenFileActionMebis());
-		actionHandler.setMenuAction(Action.DOWNLOAD_GGS, new DownloadDefaultFormatAction());
 		actionHandler.setMenuAction(Action.OPEN_OFFLINE_FILE, new OpenOfflineFileAction());
 
 		return actionHandler;
