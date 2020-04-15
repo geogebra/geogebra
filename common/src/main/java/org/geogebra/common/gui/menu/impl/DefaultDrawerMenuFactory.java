@@ -224,7 +224,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				ActionableItem html = new ActionableItemImpl(
 						"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
 				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
-						png, svg, pdf, createDownloadStl(), dae, html);
+						png, createDownloadStl(), dae, html);
 			default:
 				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
 						png, svg, pdf, createDownloadStl());
