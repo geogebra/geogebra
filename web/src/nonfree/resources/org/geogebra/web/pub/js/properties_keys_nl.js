@@ -1924,7 +1924,7 @@ __GGB__keysVar["nl"].menu = {
     "GeoGebra3DGrapher.short": "3D rekenmachine",
     "GeoGebraApps": "GeoGebra-Apps",
     "GeoGebraCASCalculator": "GeoGebra CAS rekenmachine",
-    "GeoGebraCalculatorSuite": "GeoGebra rekenmachine suite",
+    "GeoGebraCalculatorSuite": "GeoGebra Rekenmachine suite",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGeometry": "GeoGebra Meetkunde",
     "GeoGebraGraphingCalculator": "GeoGebra grafische rekenmachine",

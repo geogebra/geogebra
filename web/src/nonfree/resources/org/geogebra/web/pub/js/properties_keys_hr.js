@@ -2176,7 +2176,7 @@ __GGB__keysVar["hr"].menu = {
     "LowerLimit": "Donja granica",
     "LowerQuartile.short": "Q1",
     "MagneticField": "Magnetsko polje",
-    "ManagePerspectives": "Upravljanje izgledima",
+    "ManagePerspectives": "Upravljanje prikazima",
     "Manual": "Priru\u010dnik",
     "MarginOfError": "Margina gre\u0161ke",
     "MarginOfError.short": "MG",
