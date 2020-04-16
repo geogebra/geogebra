@@ -1,9 +1,11 @@
 package org.geogebra.common.kernel.arithmetic.variable;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.parser.FunctionParser;
@@ -89,13 +91,14 @@ public class VariableReplacerAlgorithm {
 
 		processPi();
 
-		double mult = Double.NaN;
+		MySpecialDouble mult = null;
 
 		if (nameNoX.length() > 0 && geo == null) {
 
 			// eg pi8 (with Unicode pi)
 			if (StringUtil.isNumber(nameNoX)) {
-				mult = MyDouble.parseDouble(kernel.getLocalization(), nameNoX);
+				double value = MyDouble.parseDouble(kernel.getLocalization(), nameNoX);
+				mult = new MySpecialDouble(kernel, value, nameNoX);
 			} else {
 				return new Variable(kernel, nameNoX);
 			}
@@ -106,8 +109,8 @@ public class VariableReplacerAlgorithm {
 		}
 		ret = productCreator.piDegPowers(ret, exponents.get(Unicode.PI_STRING), degPower);
 
-		if (MyDouble.isFinite(mult)) {
-			ret = ret.multiplyR(mult);
+		if (mult != null) {
+			ret = ret.multiply(mult);
 		}
 
 		return ret;
@@ -118,11 +121,13 @@ public class VariableReplacerAlgorithm {
 
 			Operation op = kernel.getApplication().getParserFunctions()
 					.getSimpleOp(nameNoX.substring(0, charIndex));
+			op = ArcTrigReplacer.getDegreeInverseTrigOp(op);
 			if (op != null) {
 				ExpressionValue arg = new VariableReplacerAlgorithm(kernel)
 						.replace(expressionString.substring(charIndex));
 				if (arg != null) {
-					return arg.wrap().apply(op);
+					return arg.wrap().apply(op).traverse(
+							ArcTrigReplacer.getReplacer());
 				}
 			}
 		}

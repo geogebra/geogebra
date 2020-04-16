@@ -32,7 +32,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("sin2", "sin(2)");
 		shouldReplaceAs("cos3x", "cos(3 * x)");
 		shouldReplaceAs("asinsinpix",
-				TestStringUtil.unicode("sin^-1(sin(" + Unicode.PI_STRING + " * x))"));
+				TestStringUtil.unicode("asind(sin(" + Unicode.PI_STRING + " * x))"));
 	}
 
 	@Test

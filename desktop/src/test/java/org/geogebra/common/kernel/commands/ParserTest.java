@@ -205,6 +205,11 @@ public class ParserTest {
 	}
 
 	@Test
+	public void inverseTrigShouldUseDegrees() {
+		shouldReparseAs("atanx", "atand(x)");
+	}
+
+	@Test
 	public void multiplicationByTrigPowerShouldChangeToApplication() {
 		String sinCubedX = "sin" + Unicode.SUPERSCRIPT_3 + "(x)";
 		shouldReparseAs("sin" + Unicode.SUPERSCRIPT_3 + "(x)", sinCubedX);
