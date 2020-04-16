@@ -189,7 +189,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	private void checkCASVector(ExpressionValue value) {
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
-		if (algebraProcessor.hasVectorLabel(this) && value.unwrap() instanceof MyVecNDNode) {
+		if (value.unwrap() instanceof MyVecNDNode && algebraProcessor.hasVectorLabel(this)) {
 			((MyVecNDNode) value.unwrap()).setCASVector();
 		}
 	}
@@ -325,6 +325,12 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		} finally {
 			cons.setSuppressLabelCreation(isSuppressLabelsActive);
 		}
+	}
+
+	@Override
+	public void setLabelSimple(String lab) {
+		super.setLabelSimple(lab);
+		checkCASVector(value);
 	}
 
 	private Traversing createPrepareDefinition() {
