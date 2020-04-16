@@ -49,6 +49,7 @@ public class GroupTest {
 		for (int i = 0; i < count; i++) {
 			GeoPolygon polygon = new GeoPolygon(construction);
 			polygon.setLabel("label" + i);
+			polygon.setOrdering(i + 1);
 			geos.add(polygon);
 		}
 		return geos;
@@ -77,6 +78,15 @@ public class GroupTest {
 		Group group = new Group(geos);
 		List<GeoElement> result = group.getGroupedGeos();
 		assertEquals(geos, result);
+	}
+
+	@Test
+	public void testGroupElementsOrdering() {
+		ArrayList<GeoElement> geos = withGivenNumberOfGeos(10);
+		construction.createGroup(geos);
+		Group group = geos.get(0).getParentGroup();
+		assertEquals(geos.get(0), group.getMinByOrder());
+		assertEquals(geos.get(9), group.getMaxByOrder());
 	}
 
 	@Test

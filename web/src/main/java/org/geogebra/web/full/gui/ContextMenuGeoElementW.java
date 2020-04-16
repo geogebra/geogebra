@@ -163,22 +163,39 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (wrappedPopup.getComponentCount() > 2 && !app.isWhiteboardActive()) {
 			wrappedPopup.addSeparator();
 		}
-		addForAllItems();
+
+		if (getFocusedGroupElement() != null) {
+			addItemsForFocusedInGroup();
+		} else {
+			addForAllItems();
+		}
+	}
+
+	private GeoElement getFocusedGroupElement() {
+		return app.getSelectionManager().getFocusedGroupElement();
+	}
+
+	private void addItemsForFocusedInGroup() {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(getFocusedGroupElement());
+		addInlineTextItems(geos);
+		addLayerItem(geos);
 	}
 
 	private void addForAllItems() {
 		if (getGeo() == null) {
 			return;
 		}
+
 		if (app.isUnbundled()) {
 			addDuplicate();
 			addAnglePropertiesForUnbundled();
 			addPinForUnbundled();
 			addFixForUnbundledOrNotes();
 		} else if (app.isWhiteboardActive()) {
-			addInlineTextItems();
+			addInlineTextItems(getGeos());
 			addCutCopyPaste();
-			boolean layerAdded = addLayerItem();
+			boolean layerAdded = addLayerItem(getGeos());
 			boolean groupsAdded = addGroupItems();
 			if (layerAdded || groupsAdded) {
 				getWrappedPopup().addSeparator();
@@ -219,8 +236,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		addPropertiesItem();
 	}
 
-	private void addInlineTextItems() {
-		InlineTextItems items = new InlineTextItems(app, getGeos(), wrappedPopup, factory);
+	private void addInlineTextItems(ArrayList<GeoElement> geos) {
+		InlineTextItems items = new InlineTextItems(app, geos, wrappedPopup, factory);
 		if (items.isEmpty()) {
 			return;
 		}
@@ -229,12 +246,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	}
 
-	private boolean addLayerItem() {
-		if (containsMask(getGeos())) {
+	private boolean addLayerItem(ArrayList<GeoElement> geos) {
+		if (containsMask(geos)) {
 			return false;
 		}
 
-		addOrderSubmenu();
+		wrappedPopup.addItem(newSubMenuItem("General.Order",
+				new OrderSubMenu(app, geos, factory)));
 		return true;
 	}
 
@@ -246,11 +264,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		return false;
-	}
-
-	private void addOrderSubmenu() {
-		wrappedPopup.addItem(newSubMenuItem("General.Order",
-				new OrderSubMenu(app, getGeos())));
 	}
 
 	private AriaMenuItem newSubMenuItem(String key, AriaMenuBar submenu) {

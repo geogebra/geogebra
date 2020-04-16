@@ -4,6 +4,7 @@ import static junit.framework.TestCase.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint2D;
@@ -29,7 +30,6 @@ import com.google.gwtmockito.WithClassesToStub;
 public class InlineTextItemsTest {
 
 	public static final String LINK_URL = "www.foo.bar";
-	private ContextMenuGeoElementW contextMenu;
 	private Construction construction;
 	private AppW app;
 	private GPoint2D point;
@@ -55,9 +55,6 @@ public class InlineTextItemsTest {
 	public void testSingleInlineTextContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1", new InlineTextControllerMock()));
-		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
-		contextMenu.addOtherItems();
-		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
 		List<String> expected = Arrays.asList(
 				"TEXTTOOLBAR", "ContextMenu.Font", "Link",
 				"SEPARATOR", "Cut", "Copy", "Paste",
@@ -66,16 +63,20 @@ public class InlineTextItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, menu.getTitles());
+		assertEquals(expected, getMenuEntriesFor(geos));
+	}
+
+	private List<String> getMenuEntriesFor(ArrayList<GeoElement> geos) {
+		ContextMenuGeoElementW contextMenu = new ContextMenuGeoElementW(app, geos, factory);
+		contextMenu.addOtherItems();
+		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
+		return menu.getTitles();
 	}
 
 	@Test
 	public void testSingleInlineTextWithLinkContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1", controllerMockWithLink));
-		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
-		contextMenu.addOtherItems();
-		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
 		List<String> expected = Arrays.asList(
 				"TEXTTOOLBAR", "ContextMenu.Font", "editLink", "removeLink",
 				"SEPARATOR", "Cut", "Copy", "Paste",
@@ -84,7 +85,7 @@ public class InlineTextItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, menu.getTitles());
+		assertEquals(expected, getMenuEntriesFor(geos));
 	}
 
 	@Test
@@ -92,9 +93,6 @@ public class InlineTextItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1", controllerMockWithLink));
 		geos.add(createTextInline("text2", controllerMockWithLink));
-		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
-		contextMenu.addOtherItems();
-		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
 		List<String> expected = Arrays.asList(
 				"TEXTTOOLBAR", "ContextMenu.Font",
 				"SEPARATOR", "Cut", "Copy", "Paste",
@@ -103,7 +101,7 @@ public class InlineTextItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, menu.getTitles());
+		assertEquals(expected, getMenuEntriesFor(geos));
 	}
 
 	@Test
@@ -111,9 +109,6 @@ public class InlineTextItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1", new InlineTextControllerMock(LINK_URL)));
 		geos.add(createPolygon("poly1"));
-		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
-		contextMenu.addOtherItems();
-		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
 		List<String> expected = Arrays.asList(
 				"Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",
@@ -121,22 +116,37 @@ public class InlineTextItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, menu.getTitles());
+		assertEquals(expected, getMenuEntriesFor(geos));
 	}
 
 	@Test
 	public void testPolygonContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createPolygon("Poly1"));
-		contextMenu = new ContextMenuGeoElementW(app, geos, factory);
-		contextMenu.addOtherItems();
-		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
 		List<String> expected = Arrays.asList(
 				"Cut", "Copy", "Paste", "SEPARATOR", "General.Order", "SEPARATOR",
 				"FixObject", "ShowTrace", "Settings"
 		);
 
-		assertEquals(expected, menu.getTitles());
+		assertEquals(expected, getMenuEntriesFor(geos));
+	}
+
+	@Test
+	public void testMaskContextMenu() {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(createMask());
+		List<String> expected = Arrays.asList(
+				"Cut", "Copy", "Paste", "SEPARATOR",
+				"FixObject", "Settings"
+		);
+
+		assertEquals(expected, getMenuEntriesFor(geos));
+	}
+
+	private GeoElement createMask() {
+		GeoPolygon polygon = (GeoPolygon) createPolygon("mask1");
+		polygon.setIsMask(true);
+		return polygon;
 	}
 
 	private GeoElement createPolygon(String label) {
@@ -153,4 +163,34 @@ public class InlineTextItemsTest {
 		drawInlineText.setTextController(inlineTextControllerMock);
 		return text;
 	}
+
+	@Test
+	public void testGroupMultipleTextSingleSelectContextMenu() {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(createTextInline("text1", controllerMockWithLink));
+		geos.add(createTextInline("text2", controllerMockWithLink));
+		construction.createGroup(geos);
+		app.getSelectionManager().setFocusedGroupElement(geos.get(0));
+		List<String> expected = Arrays.asList(
+				"TEXTTOOLBAR", "ContextMenu.Font",
+				"editLink", "removeLink",
+				"SEPARATOR", "General.Order"
+		);
+
+		assertEquals(expected, getMenuEntriesFor(geos));
+	}
+
+	@Test
+	public void testGroupTextAndPolygonSingleSelectContextMenu() {
+		ArrayList<GeoElement> geos = new ArrayList<>();
+		geos.add(createTextInline("text1", new InlineTextControllerMock(LINK_URL)));
+		geos.add(createPolygon("poly1"));
+		app.getSelectionManager().setFocusedGroupElement(geos.get(1));
+		construction.createGroup(geos);
+		List<String> expected = Collections.singletonList("General.Order");
+
+		assertEquals(expected, getMenuEntriesFor(geos));
+	}
+
+
 }

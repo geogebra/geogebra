@@ -490,7 +490,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 				&& ev.getMode() != EuclidianConstants.MODE_SELECT) {
 			addCropButton();
 		}
-		if (app.isUnbundledOrWhiteboard() && !isFocusedGroupElement()) {
+
+		if (app.isUnbundledOrWhiteboard()) {
 			addDeleteButton();
 
 			if (hasActiveGeos() && !isBackground()) {
@@ -545,6 +546,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 * add delete button to dynamic stylebar
 	 */
 	private void addDeleteButton() {
+		if (isFocusedGroupElement()) {
+			return;
+		}
+
 		StandardButton btnDelete = new StandardButton(
 				MaterialDesignResources.INSTANCE.delete_black(), null, 24, app);
 		btnDelete.setStyleName("MyCanvasButton");

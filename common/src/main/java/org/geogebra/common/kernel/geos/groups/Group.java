@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.geos.groups;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -8,8 +10,16 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *  model for group of selected geos
  */
 public class Group {
+
+    private static final Comparator<GeoElement> orderComparator = new Comparator<GeoElement>() {
+        @Override
+        public int compare(GeoElement o1, GeoElement o2) {
+            return Integer.compare(o1.getOrdering(), o2.getOrdering());
+        }
+    };
+
     private GeoElement lead;
-    private ArrayList<GeoElement> geosGroup = new ArrayList();
+    private ArrayList<GeoElement> geosGroup = new ArrayList<>();
     private boolean isFixed;
 
     /**
@@ -24,6 +34,14 @@ public class Group {
         }
 
         updateLead();
+    }
+
+    public GeoElement getMinByOrder() {
+        return Collections.min(geosGroup, orderComparator);
+    }
+
+    public GeoElement getMaxByOrder() {
+        return Collections.max(geosGroup, orderComparator);
     }
 
     private void updateLead() {

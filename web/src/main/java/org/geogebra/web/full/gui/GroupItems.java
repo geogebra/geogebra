@@ -89,6 +89,8 @@ public class GroupItems {
 		ungroupGroups();
 		app.getKernel().getConstruction().createGroup(geos);
 		unfixAll();
+		app.getKernel().getConstruction().getLayerManager().groupObjects(geos);
+		app.getActiveEuclidianView().invalidateDrawableList();
 	}
 
 	private void unfixAll() {

@@ -1,18 +1,19 @@
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.mockito.Mockito.mock;
 
 public class LayerManagerTest {
 
@@ -21,12 +22,27 @@ public class LayerManagerTest {
 
 	@Before
 	public void setup() {
+		AwtFactoryCommon factoryCommon = new AwtFactoryCommon();
+		AppCommon app = new AppCommon(new LocalizationCommon(2), factoryCommon);
+		Construction construction = app.getKernel().getConstruction();
 		layerManager = new LayerManager();
 		geos = new GeoElement[10];
 		for (int i = 0; i < geos.length; i++) {
-			geos[i] = getDummyGeo();
+			geos[i] = createDummyGeo(construction, i);
 			layerManager.addGeo(geos[i]);
 		}
+	}
+
+	/**
+	 *
+	 * @param construction the construction.
+	 * @param number the number for the label.
+	 * @return the geo labeled as number.
+	 */
+	static GeoElement createDummyGeo(Construction construction, int number) {
+		GeoElement geo = new GeoPolygon(construction);
+		geo.setLabel(number + "");
+		return geo;
 	}
 
 	@Test
@@ -66,32 +82,20 @@ public class LayerManagerTest {
 	}
 
 	private void assertOrdering(int... newOrder) {
+		assertOrdering(geos, newOrder);
+	}
+
+	static void assertOrdering(GeoElement[] geos, int... newOrder) {
 		Assert.assertEquals(geos.length, newOrder.length);
+		List<Integer> actual = new ArrayList<>();
+		List<Integer> expected = new ArrayList<>();
 		for (int i = 0; i < geos.length; i++) {
-			Assert.assertEquals(i, geos[newOrder[i]].getOrdering());
+			actual.add(geos[newOrder[i]].getOrdering());
+			expected.add(i);
 		}
+
+		// assert once to have nice output when failing.
+		Assert.assertEquals(expected, actual);
 	}
 
-	private static GeoElement getDummyGeo() {
-		final int[] ordering = {0};
-
-		GeoElement geo = mock(GeoElement.class);
-
-		Mockito.when(geo.getOrdering()).then(new Answer<Integer>() {
-			@Override
-			public Integer answer(InvocationOnMock invocation) {
-				return ordering[0];
-			}
-		});
-
-		Mockito.doAnswer(new Answer() {
-			@Override
-			public Object answer(InvocationOnMock invocation) {
-				ordering[0] = invocation.getArgument(0, Integer.class);
-				return null;
-			}
-		}).when(geo).setOrdering(ArgumentMatchers.anyInt());
-
-		return geo;
-	}
 }

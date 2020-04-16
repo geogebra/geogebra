@@ -13,10 +13,12 @@ public class AriaMenuItemMock extends AriaMenuItem {
 
 	public AriaMenuItemMock(String text, boolean asHtml, AriaMenuBar submenu) {
 		super(text, asHtml, submenu);
+		setContent(text, false);
 	}
 
 	public AriaMenuItemMock(String text, boolean asHTML, Scheduler.ScheduledCommand cmd) {
 		super(text, asHTML, cmd);
+		setContent(text, false);
 	}
 
 	@Override
