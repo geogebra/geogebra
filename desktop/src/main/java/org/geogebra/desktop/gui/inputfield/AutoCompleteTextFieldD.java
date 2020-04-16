@@ -1051,7 +1051,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		g2.fillRect(left - 1, top - 1, width - 1, height - 2);
 
 		// TF Rectangle
-		g2.setPaint(GColor.LIGHT_GRAY);
+		g2.setPaint(GColor.TEXT_PRIMARY);
 
 		g2.drawRect(left - 1, top - 1, width - 1, height - 2);
 

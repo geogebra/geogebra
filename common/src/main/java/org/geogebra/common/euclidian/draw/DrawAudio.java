@@ -37,9 +37,9 @@ public class DrawAudio extends Drawable {
 	private static final int SLIDER_MARGIN = 8;
 	private static final int SLIDER_THICKNESS = 4;
 	private static final GColor BACKGROUND_COLOR = GColor.MOW_WIDGET_BACKGROUND;
-	private static final GColor PLAY_COLOR = GColor.MOW_TEXT_PRIMARY;
-	private static final GColor TIME_COLOR = GColor.MOW_TEXT_PRIMARY;
-	private static final GColor SLIDER_STROKE_COLOR = GColor.MOW_TEXT_PRIMARY;
+	private static final GColor PLAY_COLOR = GColor.TEXT_PRIMARY;
+	private static final GColor TIME_COLOR = GColor.TEXT_PRIMARY;
+	private static final GColor SLIDER_STROKE_COLOR = GColor.TEXT_PRIMARY;
 	private static final GBasicStroke SLIDER_STROKE = EuclidianStatic.getStroke(SLIDER_THICKNESS,
 			EuclidianStyleConstants.LINE_TYPE_FULL);
 	private final GeoAudio geoAudio;
