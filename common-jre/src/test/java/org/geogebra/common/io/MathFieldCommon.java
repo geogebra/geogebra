@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import org.geogebra.common.util.SyntaxAdapterImpl;
+
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -132,4 +134,7 @@ public class MathFieldCommon implements MathField {
 		internal.update();
 	}
 
+	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
+		internal.getInputController().setFormatConverter(formatConverter);
+	}
 }

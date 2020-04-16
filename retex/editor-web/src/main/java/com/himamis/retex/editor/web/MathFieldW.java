@@ -55,7 +55,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
-import com.himamis.retex.editor.share.editor.FormatConverter;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldAsync;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -110,7 +110,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private FocusHandler focusHandler;
 
-	private FormatConverter converter;
+	private SyntaxAdapter converter;
 
 	private ExpressionReader expressionReader;
 
@@ -140,9 +140,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param fh
 	 *            focus handler
 	 */
-	public MathFieldW(FormatConverter converter, Panel parent, Canvas canvas,
-			MathFieldListener listener, boolean directFormulaBuilder,
-			FocusHandler fh) {
+	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
+					  MathFieldListener listener, boolean directFormulaBuilder,
+					  FocusHandler fh) {
 
 		this.converter = converter;
 
@@ -153,6 +153,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		bottomOffset = 10;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this, directFormulaBuilder);
+		mathFieldInternal.getInputController().setFormatConverter(converter);
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);
@@ -160,7 +161,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			this.ctx = canvas.getContext2d();
 		}
 		SelectionBox.touchSelection = false;
-
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setType(TeXFont.SANSSERIF);

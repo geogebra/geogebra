@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.junit.Assert;
 
 import com.himamis.retex.editor.share.controller.CursorController;
@@ -107,5 +108,9 @@ class EditorChecker {
 
 	public ExpressionNode parse(String exp) throws ParseException {
 		return app.getKernel().getParser().parseExpression(exp);
+	}
+
+	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
+		mathField.setFormatConverter(formatConverter);
 	}
 }

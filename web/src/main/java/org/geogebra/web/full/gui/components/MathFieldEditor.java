@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
-import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
@@ -74,7 +74,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	private void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
-		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
+		mathField = new MathFieldW(new SyntaxAdapterImpl(kernel), main,
 				canvas, listener,
 				directFormulaConversion,
 				this);
