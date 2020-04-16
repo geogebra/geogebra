@@ -1,9 +1,13 @@
 package org.geogebra.web.full.html5;
 
+/**
+ * Sandbox privileges for iframe.
+ */
 public enum Sandbox {
 	SCRIPTS("allow-scripts"),
 	SAME_ORIGIN("allow-same-origin"),
-	;
+	POPUPS("allow-popups"),
+	FORMS("allow-forms");
 
 	private String privilege;
 
@@ -16,7 +20,23 @@ public enum Sandbox {
 		return privilege;
 	}
 
-	public static String toList(Sandbox... privileges) {
+	/**
+	 *
+	 * @return default privileges.
+	 */
+	public static String defaults() {
+		return toList(SCRIPTS, POPUPS, SAME_ORIGIN);
+	}
+
+	/**
+	 *
+	 * @return privileges with form support.
+	 */
+	public static String forms() {
+		return defaults() + " " + FORMS;
+	}
+
+	private static String toList(Sandbox... privileges) {
 		StringBuilder result = new StringBuilder();
 		String delimiter = "";
 		for (Sandbox privilege: privileges) {

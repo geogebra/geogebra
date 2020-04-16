@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class YouTubePlayer extends VideoPlayer {
 
-	private static final String YOUTUBE_PRIVILEGES = Sandbox.toList(Sandbox.SCRIPTS, Sandbox.SAME_ORIGIN);
 	private PersistableFrame frame;
 
 	/**
@@ -33,11 +32,10 @@ public class YouTubePlayer extends VideoPlayer {
 	protected void createGUI() {
 		frame = new PersistableFrame(video.getEmbeddedUrl());
 		frame.getElement().setAttribute("allowfullscreen", "1");
-		sandbox(frame.getElement());
+		frame.getElement().setAttribute("sandbox", Sandbox.defaults());
 	}
 
 	private void sandbox(Element element) {
-		element.setAttribute("sandbox", YOUTUBE_PRIVILEGES);
 	}
 
 	private static native void loadYouTubeApi() /*-{
@@ -63,4 +61,3 @@ public class YouTubePlayer extends VideoPlayer {
 		return video2.getEmbeddedUrl().equals(video2.getEmbeddedUrl());
 	}
 }
-
