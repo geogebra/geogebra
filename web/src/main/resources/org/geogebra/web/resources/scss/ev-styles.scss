@@ -381,25 +381,23 @@
     			}
     		}
     	
-    		&:focus {
+    		&.keyboardFocus:focus {
     			img {
     				opacity: 1;
-    				outline: $focus-black 5px auto;	
-    			}	
+    				outline: $focus-black 5px auto;
+    			}
     		}
     	}
 		.zoomPanelBtnSmall img { 
  	        padding: 8px; 
  	    } 
 		.zoomPanelHomeIn {
-			@extend .zoomPanelBtn;
 			opacity: 1;
 			visibility: visible;
 			transition: all 0.2s ease;
 			}
 	
 		.zoomPanelHomeOut {
-			@extend .zoomPanelBtn;
 			cursor: default;
 			opacity: 0;	
 			visibility: hidden;
@@ -465,14 +463,12 @@
 		  	}
 		}
 		.zoomPanelHomeIn {
-			@extend .zoomPanelBtn;
 			opacity: 1;
 			visibility: visible;	 
 			transition: all 0.2s ease;
 		}
 	
 		.zoomPanelHomeOut {
-			@extend .zoomPanelBtn;
 			cursor: default;
 			opacity: 0;	
 			visibility: hidden;	 

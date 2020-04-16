@@ -1,9 +1,5 @@
 package org.geogebra.web.html5.gui.zoompanel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -47,7 +43,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	private AppW app;
 	private final EuclidianView view;
 
-	private List<StandardButton> buttons;
 	private ZoomController zoomController;
 	private boolean zoomButtonsVisible;
 	private LocalizationW loc;
@@ -78,8 +73,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		if (ZoomPanel.needsZoomButtons(app) && zoomable) {
 			addZoomButtons();
 		}
-		buttons = new ArrayList<>();
-		buttons.addAll(Arrays.asList(homeBtn, zoomInBtn, zoomOutBtn));
+
 		if (ZoomPanel.needsFullscreenButton(app) && rightBottom) {
 			addFullscreenButton();
 		}
@@ -151,7 +145,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			}
 		});
 		add(fullscreenBtn);
-		buttons.add(fullscreenBtn);
 	}
 
 	/**
