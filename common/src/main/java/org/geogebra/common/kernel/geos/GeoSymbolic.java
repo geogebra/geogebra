@@ -188,7 +188,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private void checkCASVector(ExpressionValue value) {
-		if (value.unwrap() instanceof MyVecNDNode) {
+		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
+		if (algebraProcessor.hasVectorLabel(this) && value.unwrap() instanceof MyVecNDNode) {
 			((MyVecNDNode) value.unwrap()).setCASVector();
 		}
 	}
