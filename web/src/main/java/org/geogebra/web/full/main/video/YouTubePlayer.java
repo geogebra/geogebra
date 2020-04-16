@@ -1,12 +1,15 @@
 package org.geogebra.web.full.main.video;
 
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.web.full.html5.Sandbox;
 import org.geogebra.web.html5.util.PersistableFrame;
 
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
 public class YouTubePlayer extends VideoPlayer {
 
+	private static final String YOUTUBE_PRIVILEGES = Sandbox.toList(Sandbox.SCRIPTS, Sandbox.SAME_ORIGIN);
 	private PersistableFrame frame;
 
 	/**
@@ -30,6 +33,11 @@ public class YouTubePlayer extends VideoPlayer {
 	protected void createGUI() {
 		frame = new PersistableFrame(video.getEmbeddedUrl());
 		frame.getElement().setAttribute("allowfullscreen", "1");
+		sandbox(frame.getElement());
+	}
+
+	private void sandbox(Element element) {
+		element.setAttribute("sandbox", YOUTUBE_PRIVILEGES);
 	}
 
 	private static native void loadYouTubeApi() /*-{
