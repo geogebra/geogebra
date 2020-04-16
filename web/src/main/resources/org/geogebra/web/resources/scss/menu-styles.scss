@@ -2,6 +2,10 @@
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 $classicToolbar: 50px;
+// Copied from Flutter CupertinoPageTransition
+$submenuTimingFunction: cubic-bezier(.35, .91, .33, .97);
+$submenuTransitionDuration: 0.25s;
+$menuWidth: 320px;
 
 .GeoGebraFrame {
 	.floatingSubMenu {
@@ -54,12 +58,13 @@ $classicToolbar: 50px;
 		position: absolute;
 		top: 0px;
 		box-shadow: 0 6px 16px rgba(0,0,0,0.28);
-		z-index: 101;
+		z-index: 200;
 		height: 100%;
-		width: 320px;
+		width: $menuWidth;
 		background-color: $white;
 		transition-property: left;
 		overflow: auto;
+		overflow-x: hidden;
 
 		&.transitionIn {
 			transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
@@ -69,8 +74,12 @@ $classicToolbar: 50px;
 		&.transitionOut {
 			transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
 			transition-duration: 0.2s;
-			left: -320px;
+			left: -$menuWidth;
 			box-shadow: none;
+		}
+		.headerCaption {
+			font-weight: 500;
+			letter-spacing: -0.65px;
 		}
 	}
 
@@ -141,6 +150,51 @@ $classicToolbar: 50px;
 			color: $text-secondary !important;
 		}
 	}
+
+	.headeredMenuView {
+		background-color: white;
+		width: 100%;
+		height: 100%;
+	}
+
+	.mainMenu {
+		position: absolute;
+		&.transitionIn {
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			left: 0px;
+		}
+		&.transitionOut {
+		    overflow: hidden;
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			left: -100px;
+		}
+	}
+
+	.subMenu {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		&.transitionIn {
+		    overflow: auto;
+		    z-index: 200;
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			box-shadow: -2px 0px 20px 0px $black-30;
+			left: 0px;
+		}
+		&.transitionOut {
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			left: $menuWidth;
+		}
+	}
+
+	.menuPanelContainer {
+		width: 100%;
+		height: 100%;
+	}
 }
 
 @keyframes animateIn {
@@ -166,4 +220,3 @@ $classicToolbar: 50px;
 	50% {right: -220; top: $classicToolbar;}
 	100% {right: -320px; top: $classicToolbar;}
 }
-
