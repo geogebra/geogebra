@@ -220,11 +220,11 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 						createDownloadSlides(), png, svg, pdf);
 			case GRAPHING_3D:
 				ActionableItem dae = new ActionableItemImpl(
-						"ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
+						"Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
 				ActionableItem html = new ActionableItemImpl(
-						"ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
+						"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
 				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
-						png, svg, pdf, createDownloadStl(), dae, html);
+						png, createDownloadStl(), dae, html);
 			default:
 				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
 						png, svg, pdf, createDownloadStl());
@@ -232,7 +232,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private static ActionableItem createDownloadGgb() {
-		return new ActionableItemImpl("GeoGebraFile", Action.DOWNLOAD_GGB);
+		return new ActionableItemImpl("Download.GeoGebraFile", Action.DOWNLOAD_GGB);
 	}
 
 	private static ActionableItem createDownloadSlides() {
@@ -240,7 +240,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private static ActionableItem createDownloadStl() {
-		return new ActionableItemImpl("3DPrint", Action.DOWNLOAD_STL);
+		return new ActionableItemImpl("Download.3DPrint", Action.DOWNLOAD_STL);
 	}
 
 	public LogInOperation getLogInOperation() {
