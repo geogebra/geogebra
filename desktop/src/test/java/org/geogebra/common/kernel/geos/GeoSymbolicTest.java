@@ -639,8 +639,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testFunctionsWithApostrophe() {
 		testOutputLabelOfFunctionsWithApostrophe("Integral(x)", "x");
-		clean();
-
 		testOutputLabelOfFunctionsWithApostrophe("TaylorPolynomial(x^2, 3, 1)", "6");
 	}
 
@@ -655,31 +653,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic geo = createGeoWithHiddenLabel("Derivate(x)");
 		showLabel(geo);
 		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("a(x)"));
+		clean();
 
 		testOutputLabel("f(x) = Derivative(x^3 + x^2 + x)","f(x)");
-		clean();
-
 		testOutputLabel("Integral(x^3)", "f(x)");
-		clean();
-
 		testOutputLabel("f(x) = TrigSimplify(1 - sin(x)^2)", "f(x)");
-		clean();
-
 		testOutputLabel("f(x) = TrigCombine(x)", "f(x)");
-		clean();
-
 		testOutputLabel("f(x) = TrigExpand(x)", "f(x)");
-		clean();
-
 		testOutputLabel("f(x) = TaylorPolynomial(x,x-5,1)", "f(x)");
-		clean();
-
 		testOutputLabel("f(x) = Simplify(x + x + x)", "f(x)");
-		clean();
-
 		testOutputLabel("f(x) = PartialFractions(x^2 / (x^2 - 2x + 1))", "f(x)");
-		clean();
-
 		testOutputLabel("f(x) = Factor(x^2 + x - 6)", "f(x)");
 	}
 
@@ -688,6 +671,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertTrue(geo.getTwinGeo() instanceof GeoFunction);
 		showLabel(geo);
 		assertTrue(geo.getAlgebraDescriptionDefault().startsWith(outputStartsWith));
+		clean();
 	}
 
 	private void testOutputLabelOfFunctionsWithApostrophe(String input,
@@ -697,6 +681,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		showLabel(firstGeo);
 		GeoSymbolic secondGeo = createGeoWithHiddenLabel("f'");
 		assertTrue(secondGeo.getAlgebraDescriptionDefault().startsWith(outputStartsWith));
+		clean();
 	}
 
 	private GeoSymbolic createGeoWithHiddenLabel(String text) {
