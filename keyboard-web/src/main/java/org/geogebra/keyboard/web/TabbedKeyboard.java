@@ -11,6 +11,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Background;
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.KeyboardType;
@@ -381,7 +382,11 @@ public class TabbedKeyboard extends FlowPanel
 				// eg "inverse sine"
 				altText = locale.getAltText(wb.getAltText());
 			}
-
+			if (wb.getBackground() == Background.FUNCTIONAL
+					&& name.equals(Action.SWITCH_TO_ABC.name())) {
+				return new KeyBoardButtonFunctionalBase(locale.getMenu(wb.getResourceName()),
+						b, Action.SWITCH_TO_ABC);
+			}
 			return new KeyBoardButtonBase(locale.getFunction(name), altText,
 					name, b);
 		case TRANSLATION_COMMAND_KEY:

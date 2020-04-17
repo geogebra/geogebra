@@ -6,7 +6,9 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.GAMMA;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomTranslateButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
@@ -23,8 +25,10 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	public static final int ACTION_GREEK_LETTERS = 0;
 	/** Action that turns caps lock on */
 	public static final int ACTION_SHIFT = 1;
+	/** Action that switches back to the ABC keyboard */
+	public static final int ACTION_ABC_LETTERS = 2;
 
-	private static final String DEFAULT_CONTROL = ",'";
+	protected static final String DEFAULT_CONTROL = ",'";
 	private static final double MIN_PADDING_WEIGHT = 1.e-4;
 	private static final float LARGE_ACTION_WEIGHT = 1.2f;
 	private static final int MAX_CONTROL_ROW_LENGTH = 5;
@@ -192,6 +196,9 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 					GAMMA;
 			addCustomButton(rowImpl, buttonFactory, label,
 					Action.SWITCH_TO_GREEK_CHARACTERS);
+		} else if (action == ACTION_ABC_LETTERS) {
+			addCustomTranslateButton(rowImpl, buttonFactory, "Keyboard.ABC",
+					Action.SWITCH_TO_ABC, 1.0f);
 		}
 	}
 

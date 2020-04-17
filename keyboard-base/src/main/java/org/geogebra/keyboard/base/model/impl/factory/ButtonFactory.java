@@ -153,19 +153,36 @@ public class ButtonFactory {
 				modifiers, weight);
 	}
 
-    /**
-     * Creates a button that has a custom resource and custom action.
-     * See {@link Action} and {@link Resource}
-     *
-     * @param resource name of the resource
-     * @param action the action of the key
-     * @param weight weight of the button
-     *
-     * @return a button
-     */
-	public WeightedButton createCustomConstantButton(String resource, String action,
-			float weight) {
+	/**
+	 * Creates a button that has a custom resource and custom action.
+	 * See {@link Action} and {@link Resource}
+	 *
+	 * @param resource name of the resource
+	 * @param action the action of the key
+	 * @param weight weight of the button
+	 *
+	 * @return a button
+	 */
+	public WeightedButton createCustomConstantButton(
+			String resource, String action, float weight) {
 		return new WeightedButtonImpl(resource, ResourceType.DEFINED_CONSTANT,
+				action, ActionType.CUSTOM, Background.FUNCTIONAL, modifiers,
+				weight);
+	}
+
+	/**
+	 * Creates a button that has a translated resource and custom action.
+	 * See {@link Action}
+	 *
+	 * @param translationKey the key of the translation
+	 * @param action the action of the key
+	 * @param weight weight of the button
+	 *
+	 * @return a button
+	 */
+	public WeightedButton createCustomTranslateButton(
+			String translationKey, String action, float weight) {
+		return new WeightedButtonImpl(translationKey, ResourceType.TRANSLATION_MENU_KEY,
 				action, ActionType.CUSTOM, Background.FUNCTIONAL, modifiers,
 				weight);
 	}

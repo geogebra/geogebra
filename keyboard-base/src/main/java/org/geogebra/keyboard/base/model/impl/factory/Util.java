@@ -214,6 +214,17 @@ public class Util {
 
 	/**
 	 * Adds a button to the row created by
+	 * {@link ButtonFactory#createCustomTranslateButton(String, String, float)}.
+	 */
+	public static void addCustomTranslateButton(RowImpl row,
+			ButtonFactory buttonFactory, String translateName,
+			Action action, float weight) {
+		row.addButton(buttonFactory.createCustomTranslateButton(
+				translateName, action.name(), weight));
+	}
+
+	/**
+	 * Adds a button to the row created by
 	 * {@link ButtonFactory#createInputTranslateButton(String, String, float)}.
 	 */
 	public static void addInputCommandButton(RowImpl row, ButtonFactory buttonFactory,
