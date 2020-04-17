@@ -1117,7 +1117,7 @@ public class AlgebraProcessor {
 					String lt = ((ExpressionNode) ev).getLeft()
 							.toString(StringTemplate.defaultTemplate)
 							.replace(" ", "");
-					Operation op = app.getParserFunctions().getSimpleOp(lt);
+					Operation op = app.getParserFunctions().getSingleArgumentOp(lt);
 					if (op != null) {
 						return new ExpressionNode(kernel,
 								((ExpressionNode) ev).getRight().traverse(this),

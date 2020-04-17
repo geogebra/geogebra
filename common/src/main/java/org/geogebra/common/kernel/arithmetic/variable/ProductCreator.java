@@ -53,7 +53,7 @@ class ProductCreator {
 		return null;
 	}
 
-	ValidExpression getXyzPowers(Exponents exponents) {
+	ValidExpression getFunctionVariablePowers(Exponents exponents) {
 		return variablePower("x", exponents)
 				.multiplyR(variablePower("y", exponents))
 				.multiplyR(variablePower("z", exponents))

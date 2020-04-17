@@ -131,7 +131,7 @@ class ParserFunctionsImpl implements ParserFunctions {
 	}
 
 	@Override
-	public Operation getSimpleOp(String leftImg) {
+	public Operation getSingleArgumentOp(String leftImg) {
 		Operation op = get(leftImg, 1);
 		if (op == Operation.XCOORD || op == Operation.YCOORD || op == Operation.ZCOORD) {
 			return null;

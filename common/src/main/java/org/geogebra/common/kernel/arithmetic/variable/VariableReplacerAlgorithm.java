@@ -57,7 +57,6 @@ public class VariableReplacerAlgorithm {
 			if (ret != null) {
 				return ret;
 			}
-
 		}
 
 		exponents.initWithZero();
@@ -103,7 +102,7 @@ public class VariableReplacerAlgorithm {
 				return new Variable(kernel, nameNoX);
 			}
 		}
-		ExpressionNode ret = productCreator.getXyzPowers(exponents).wrap();
+		ExpressionNode ret = productCreator.getFunctionVariablePowers(exponents).wrap();
 		if (geo != null) {
 			ret = ret.multiply(geo);
 		}
@@ -120,7 +119,7 @@ public class VariableReplacerAlgorithm {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
 
 			Operation op = kernel.getApplication().getParserFunctions()
-					.getSimpleOp(nameNoX.substring(0, charIndex));
+					.getSingleArgumentOp(nameNoX.substring(0, charIndex));
 			op = ArcTrigReplacer.getDegreeInverseTrigOp(op);
 			if (op != null) {
 				ExpressionValue arg = new VariableReplacerAlgorithm(kernel)
@@ -142,15 +141,26 @@ public class VariableReplacerAlgorithm {
 			exponents.increase(Unicode.PI_STRING);
 			nameNoX = nameNoX.substring(chop);
 			if (charIndex + 1 >= chop) {
-				geo = kernel.lookupLabel(nameNoX);
-				if (geo == null) {
-					geo = productCreator.getProduct(nameNoX);
-				}
+				geo = lookupOrProduct(nameNoX);
 			}
 			if (geo != null) {
 				break;
 			}
 		}
+	}
+
+	private ExpressionValue lookupOrProduct(String nameNoX) {
+		ExpressionValue ret = kernel.lookupLabel(nameNoX);
+		if (ret == null && "i".equals(nameNoX)) {
+			ret = kernel.getImaginaryUnit();
+		}
+		if (ret == null && "e".equals(nameNoX)) {
+			ret = kernel.getEulerNumber();
+		}
+		if (ret == null) {
+			ret = productCreator.getProduct(nameNoX);
+		}
+		return ret;
 	}
 
 	private ExpressionValue processProductReverse() {
@@ -164,14 +174,8 @@ public class VariableReplacerAlgorithm {
 			exponents.increase(String.valueOf(charAtIndex));
 
 			nameNoX = expressionString.substring(0, charIndex);
-			geo = kernel.lookupLabel(nameNoX);
-			if (geo == null && "i".equals(nameNoX)) {
-				geo = kernel.getImaginaryUnit();
-			}
+			geo = lookupOrProduct(nameNoX);
 
-			if (geo == null) {
-				geo = productCreator.getProduct(nameNoX);
-			}
 			if (geo != null) {
 				break;
 			}
