@@ -122,7 +122,7 @@ cat intro.html >> $MYDIR/$HTML
 TIMEOUT=`sqlite3 sqlite3db "select distinct timeout_setting from tests where build_number=$BUILD_NUMBER"`
 echo "<p>Timeout was set to $TIMEOUT seconds.</p>" >> $MYDIR/$HTML
 
-echo "<table><tr><th rowspan=\"2\" colspan=\"2\">Test file</th>" >> $MYDIR/$HTML
+echo "<table><tr><th rowspan=\"2\" colspan=\"3\">Test file</th>" >> $MYDIR/$HTML
 RESULTCOLUMN="m{1cm}"
 echo "\begin{longtable}{|l|*{$MYCOLUMNSNO}{${RESULTCOLUMN}r|}}
 \hline
@@ -197,7 +197,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$TEST.png
  # TODO: change "latest" to current revision:
- echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" height=${IMGHEIGHT}></a></td>" >> $MYDIR/$HTML
+ echo "<tr><td class=\"ex\">$TESTS.</tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" height=${IMGHEIGHT}></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
 
  if [ `expr ${#TEST} '>' $DOTS` = 1 ]; then
@@ -393,7 +393,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  done # All tests done
 
 # Summary
-echo "<tr><td class=\"summary\" colspan=\"2\"><b>Summary (of $TESTS)</b></td>" >> $MYDIR/$HTML
+echo "<tr><td class=\"summary\" colspan=\"3\"><b>Summary (of $TESTS)</b></td>" >> $MYDIR/$HTML
 echo "{\bf Total (of $TESTS)}" >> $MYDIR/$TEX
 ALLGOOD_MEAN=$((ALLGOOD_SUM/ALLGOOD_NO))
 R_YMAX=`echo "scale=3; $MYCOLUMNSNO/$ALLGOOD_NO" | bc -q` # FIXME
