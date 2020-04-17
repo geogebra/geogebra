@@ -138,20 +138,21 @@ public class TabbedKeyboard extends FlowPanel
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
-		ansSwitcher = switcher.addSwitch(keyboard, "123");
+		ansSwitcher = switcher.addSwitch(keyboard, KeyboardType.NUMBERS, "123");
 		ansSwitcher.setVisible(false);
 		setDataTest(ansSwitcher, "keyboard-123-ans");
 
 		keyboard = buildPanel(kbf.createDefaultKeyboard(), this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		defaultSwitcher = switcher.addSwitch(keyboard, "123");
+		defaultSwitcher = switcher.addSwitch(keyboard, KeyboardType.NUMBERS_DEFAULT, "123");
 		setDataTest(defaultSwitcher, "keyboard-123");
 
 		keyboard = buildPanel(kbf.createFunctionsKeyboard(), this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		KeyboardSwitcher.SwitcherButton function = switcher.addSwitch(keyboard, "f(x)");
+		KeyboardSwitcher.SwitcherButton function = switcher.addSwitch(keyboard,
+				KeyboardType.OPERATORS, "f(x)");
 		setDataTest(function, "keyboard-fx");
 
 		upperKeys = new HashMap<>();
@@ -162,12 +163,12 @@ public class TabbedKeyboard extends FlowPanel
 				this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard,
+		switcher.addSwitch(keyboard, KeyboardType.ABC,
 				locale.getMenuDefault("Keyboard.ABC", "ABC"));
 		keyboard = buildPanel(kbf.createGreekKeyboard(), this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, Unicode.ALPHA_BETA_GAMMA);
+		switcher.addSwitch(keyboard, KeyboardType.GREEK, Unicode.ALPHA_BETA_GAMMA);
 		switcher.select(KeyboardType.NUMBERS);
 		// add special char tab
 		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(),
@@ -182,7 +183,7 @@ public class TabbedKeyboard extends FlowPanel
 					rows[2], latinProvider.getUpperKeys()), this);
 			tabs.add(keyboard);
 			keyboard.setVisible(false);
-			switcher.addSwitch(keyboard, "ABC");
+			switcher.addSwitch(keyboard, KeyboardType.LATIN, "ABC");
 		}
 		layout();
 	}
@@ -199,13 +200,13 @@ public class TabbedKeyboard extends FlowPanel
 				kbf.getImpl(new ScientificKeyboardFactory()), this);
 		tabs.add(keyboard);
 		//skip more button
-		switcher.addSwitch(keyboard, "123");
+		switcher.addSwitch(keyboard, KeyboardType.NUMBERS, "123");
 		
 		keyboard = buildPanel(
 				kbf.getImpl(new ScientificFunctionKeyboardFactory()), this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, "f(x)");
+		switcher.addSwitch(keyboard, KeyboardType.OPERATORS, "f(x)");
 		upperKeys = new HashMap<>();
 		ScientificLettersKeyboardFactory letterFactory = new ScientificLettersKeyboardFactory();
 		letterFactory.setKeyboardDefinition(filter(locale.getKeyboardRow(1).replace("'", "")),
@@ -217,7 +218,7 @@ public class TabbedKeyboard extends FlowPanel
 				this);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, "ABC");
+		switcher.addSwitch(keyboard, KeyboardType.ABC, "ABC");
 
 		layout();
 	}
