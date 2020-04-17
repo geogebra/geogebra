@@ -46,6 +46,7 @@ import java.util.List;
  */
 public class MenuViewController implements ResizeHandler, EventRenderable, SetLabels {
 
+	private static final String MENU_PANEL_GLASS = "menuPanelGlass";
 	private static final String MENU_PANEL_CONTAINER_STYLE = "menuPanelContainer";
 	private static final String MAIN_MENU_STYLE = "mainMenu";
 	private static final String SUB_MENU_STYLE = "subMenu";
@@ -54,6 +55,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	private MenuViewListener menuViewListener;
 
+	private SimplePanel menuPanelGlass;
 	private SimplePanel submenuContainer;
 	private FloatingMenuView floatingMenuView;
 	private HeaderedMenuView headeredMenuView;
@@ -96,6 +98,8 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	}
 
 	private void createViews() {
+		menuPanelGlass = new SimplePanel();
+		menuPanelGlass.addStyleName(MENU_PANEL_GLASS);
 		floatingMenuView = new FloatingMenuView();
 		floatingMenuView.setVisible(false);
 
@@ -115,6 +119,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 		menuPanelContainer.add(submenuContainer);
 
 		floatingMenuView.add(menuPanelContainer);
+		menuPanelGlass.add(floatingMenuView);
 		setSubmenuVisibility(false);
 	}
 
@@ -186,7 +191,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	 * @return view
 	 */
 	public Widget getView() {
-		return floatingMenuView;
+		return menuPanelGlass;
 	}
 
 	/**
