@@ -207,7 +207,7 @@ public class EmbedManagerW implements EmbedManager {
 		}
 		Frame frame = new Frame();
 		frame.setUrl(url);
-		frame.getElement().setAttribute("sandbox", Sandbox.forms());
+		frame.getElement().setAttribute("sandbox", Sandbox.embeds());
 		return frame;
 	}
 

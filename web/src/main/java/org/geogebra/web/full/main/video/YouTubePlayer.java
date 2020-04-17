@@ -32,7 +32,7 @@ public class YouTubePlayer extends VideoPlayer {
 	protected void createGUI() {
 		frame = new PersistableFrame(video.getEmbeddedUrl());
 		frame.getElement().setAttribute("allowfullscreen", "1");
-		frame.getElement().setAttribute("sandbox", Sandbox.defaults());
+		frame.getElement().setAttribute("sandbox", Sandbox.videos());
 	}
 
 	private void sandbox(Element element) {

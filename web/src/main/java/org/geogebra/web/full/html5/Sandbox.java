@@ -22,18 +22,18 @@ public enum Sandbox {
 
 	/**
 	 *
-	 * @return default privileges.
+	 * @return video privileges.
 	 */
-	public static String defaults() {
-		return toList(SCRIPTS, POPUPS, SAME_ORIGIN);
+	public static String videos() {
+		return toList(SCRIPTS, SAME_ORIGIN);
 	}
 
 	/**
 	 *
-	 * @return privileges with form support.
+	 * @return privileges for web embeds.
 	 */
-	public static String forms() {
-		return defaults() + " " + FORMS;
+	public static String embeds() {
+		return toList(SCRIPTS, SAME_ORIGIN, POPUPS, FORMS);
 	}
 
 	private static String toList(Sandbox... privileges) {
