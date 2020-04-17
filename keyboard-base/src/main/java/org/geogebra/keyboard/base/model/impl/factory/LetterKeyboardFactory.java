@@ -187,10 +187,10 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 			addConstantCustomButton(rowImpl, buttonFactory, Resource.CAPS_LOCK,
 					Action.CAPS_LOCK, actionButtonSize);
 		} else if (action == ACTION_GREEK_LETTERS) {
-			String builder = String.valueOf(ALPHA) +
+			String label = String.valueOf(ALPHA) +
 					BETA +
 					GAMMA;
-			addCustomButton(rowImpl, buttonFactory, builder,
+			addCustomButton(rowImpl, buttonFactory, label,
 					Action.SWITCH_TO_GREEK_CHARACTERS);
 		}
 	}
