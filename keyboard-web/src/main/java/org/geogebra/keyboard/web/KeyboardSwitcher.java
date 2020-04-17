@@ -171,7 +171,7 @@ public class KeyboardSwitcher extends FlowPanel {
 	 *            keyboard type
 	 */
 	protected void select(KeyboardType keyboardType) {
-		if (keyboardType == KeyboardType.SPECIAL) {
+		if (keyboardType == KeyboardType.GREEK) {
 			tabbedkeyboard.hideKeyboards();
 			tabbedkeyboard.getKeyboard(keyboardType).setVisible(true);
 		} else {

@@ -436,6 +436,7 @@ public class TabbedKeyboard extends FlowPanel
 			return new KeyBoardButtonBase("e", Unicode.EULER_STRING, b);
 		}
 		if (name.equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())
+				|| name.equals(Action.SWITCH_TO_GREEK_CHARACTERS.name())
 				|| name.equals(Action.SWITCH_TO_ABC.name())
 				|| name.equals(Action.ANS.name())) {
 			return functionButton(wb, this);
@@ -602,6 +603,11 @@ public class TabbedKeyboard extends FlowPanel
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS, bh,
 					Action.SWITCH_TO_SPECIAL_SYMBOLS);
+		}
+		if (KeyboardConstants.SWITCH_TO_GREEK_CHARACTERS.equals(resourceName)) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardConstants.SWITCH_TO_GREEK_CHARACTERS, bh,
+					Action.SWITCH_TO_GREEK_CHARACTERS);
 		}
 		if ("ABC".equals(resourceName)) {
 			return new KeyBoardButtonFunctionalBase("ABC", bh,
@@ -869,6 +875,9 @@ public class TabbedKeyboard extends FlowPanel
 			break;
 		case SWITCH_TO_SPECIAL_SYMBOLS:
 			selectTab(KeyboardType.SPECIAL);
+			break;
+		case SWITCH_TO_GREEK_CHARACTERS:
+			selectTab(KeyboardType.GREEK);
 			break;
 		case SWITCH_TO_ABC:
 			selectTab(KeyboardType.ABC);
