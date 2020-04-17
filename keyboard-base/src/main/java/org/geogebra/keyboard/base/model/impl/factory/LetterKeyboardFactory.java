@@ -40,9 +40,6 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * Calls
 	 * {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, boolean)}
 	 * with parameter {@code withSpecialSymbols = true}.
-	 *
-	 * @deprecated use {@link LetterKeyboardFactory#setKeyboardDefinition(String, String,
-	 *   String, String, Integer, Integer)}
 	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow) {
 		setKeyboardDefinition(topRow, middleRow, bottomRow, true);
@@ -52,9 +49,6 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * Calls
 	 * {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, String, boolean)}
 	 * with parameter {@code controlRow = ",'"}.
-	 *
-	 * @deprecated use {@link LetterKeyboardFactory#setKeyboardDefinition(String, String,
-	 *   String, String, Integer, Integer)}
 	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, boolean
 			withSpecialSymbols) {
@@ -68,9 +62,6 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * @param middleRow a string containing the characters for the middle row
 	 * @param bottomRow a string containing the characters for the bottom row
 	 * @param withSpecialSymbols true iff special symbols should be included
-	 *
-	 * @deprecated use {@link LetterKeyboardFactory#setKeyboardDefinition(String, String,
-	 *   String, String, Integer, Integer)}
 	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, String
 			controlRow, boolean withSpecialSymbols) {
