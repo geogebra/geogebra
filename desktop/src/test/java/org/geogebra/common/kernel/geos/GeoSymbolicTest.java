@@ -655,7 +655,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("a(x)"));
 		clean();
 
-		testOutputLabel("f(x) = Derivative(x^3 + x^2 + x)","f(x)");
+		testOutputLabel("f(x) = Derivative(x^3 + x^2 + x)", "f(x)");
 		testOutputLabel("Integral(x^3)", "f(x)");
 		testOutputLabel("f(x) = TrigSimplify(1 - sin(x)^2)", "f(x)");
 		testOutputLabel("f(x) = TrigCombine(x)", "f(x)");
