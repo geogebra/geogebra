@@ -287,11 +287,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("eq2:(x-1)^2+y^2=s^2", "y^(2) + (x - 1)^(2) = s^(2)");
 		t("c:Intersect(eq1, eq2)",
 				"{(1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1) / 2), (1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)}");
-		t("d=Element(c,1)",
+		t("D=Element(c,1)",
 				"((r^(2) - s^(2) + 1) / 2, sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1) / 2)");
-		t("e=Element(c,2)",
+		t("E=Element(c,2)",
 				"((r^(2) - s^(2) + 1) / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)");
-		t("Line(d,e)", "x = 1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2");
+		t("Line(D,E)", "x = 1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2");
 	}
 
 	/**
@@ -543,41 +543,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Intersect((x+8)^2+(y-4)^2=13,(x+4)^2+(y-4)^2=2)",
 				"{((-37) / 8, (sqrt(103) + 32) / 8), ((-37) / 8, (-sqrt(103) + 32) / 8)}");
 		// t("Intersect((x+1)^2+(y+1)^2=9-4sqrt(2), y^2+(x-2)^2=10)", "");
-	}
-
-	@Test
-	public void testDotProduct() {
-		t("Dot[Vector[(1,2)],Vector[(3,4)]]", "11");
-		t("Dot[Vector[(p,q)],Vector[(r,s)]]", "p * r + q * s");
-	}
-
-	@Test
-	public void testCrossProduct() {
-		t("Cross[Vector[(1,2)],Vector[(3,4)]]", "-2");
-		t("Cross[Vector[(p,q)], Vector[(r,s)]]", "p * s - q * r");
-	}
-
-	@Test
-	public void testVectors() {
-		// these should give Vector not point
-		t("u=(1,2)", "(1, 2)");
-		t("u=(1,2,3)", "(1, 2, 3)");
-		t("Length(Vector((3,4)))", "5");
-		t("x(Vector((3,4)))", "3");
-		t("y(Vector((3,4)))", "4");
-		t("z(Vector((3,4)))", "0");
-		t("x(Vector((3,4,5)))", "3");
-		t("y(Vector((3,4,5)))", "4");
-		t("z(Vector((3,4,5)))", "5");
-		t("abs(Vector((1,2)))", "sqrt(5)");
-		t("UnitVector((1,2))", "(1 / 5 * sqrt(5), 2 / 5 * sqrt(5))");
-		t("UnitVector((p,q))", "(p / sqrt(p^(2) + q^(2)), q / sqrt(p^(2) + q^(2)))");
-		t("UnitPerpendicularVector((1,2))", "((-2) / sqrt(5), 1 / sqrt(5))");
-		t("UnitPerpendicularVector((p,q))", "((-q) / sqrt(p^(2) + q^(2)), p / sqrt(p^(2) + q^(2)))");
-		t("PerpendicularVector((1,2))", "(-2, 1)");
-		t("PerpendicularVector((p,q))", "(-q, p)");
-		t("Dot((p,q),(r,s))", "p * r + q * s");
-		t("Dot((1,2),(3,4))", "11");
 	}
 
 	@Test
