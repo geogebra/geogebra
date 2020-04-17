@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.full.html5.Sandbox;
 import org.geogebra.web.html5.util.PersistableFrame;
 
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
 public class YouTubePlayer extends VideoPlayer {
@@ -33,9 +32,6 @@ public class YouTubePlayer extends VideoPlayer {
 		frame = new PersistableFrame(video.getEmbeddedUrl());
 		frame.getElement().setAttribute("allowfullscreen", "1");
 		frame.getElement().setAttribute("sandbox", Sandbox.videos());
-	}
-
-	private void sandbox(Element element) {
 	}
 
 	private static native void loadYouTubeApi() /*-{
