@@ -863,7 +863,6 @@ public class TabbedKeyboard extends FlowPanel
 			break;
 		case ANS:
 			processField.ansPressed();
-		case SWITCH_KEYBOARD:
 		}
 	}
 
