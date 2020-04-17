@@ -54,7 +54,7 @@ public class KeyboardSwitcher extends FlowPanel {
 		 * Makes the keyboard visible and selects the button.
 		 */
 		public void select() {
-			tabbedkeyboard.hideTabs();
+			tabbedkeyboard.hideKeyboards();
 			unselectAll();
 			keyboard.setVisible(true);
 			setSelected(this, true);
@@ -172,9 +172,8 @@ public class KeyboardSwitcher extends FlowPanel {
 	 */
 	protected void select(KeyboardType keyboardType) {
 		if (keyboardType == KeyboardType.SPECIAL) {
-			tabbedkeyboard.hideTabs();
-			tabbedkeyboard.getTabs().getWidget(keyboardType.getIndex())
-					.setVisible(true);
+			tabbedkeyboard.hideKeyboards();
+			tabbedkeyboard.getKeyboard(keyboardType).setVisible(true);
 		} else {
 			switches.get(keyboardType).select();
 		}
