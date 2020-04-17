@@ -95,7 +95,6 @@ public class BaseUnitTest {
 		return getApp().getKernel().getAlgebraProcessor();
 	}
 
-	@SuppressWarnings("unchecked")
 	private <T extends GeoElementND> T getFirstElement(GeoElementND[] geoElements) {
 		return geoElements.length == 0 ? null : (T) geoElements[0];
 	}
@@ -109,8 +108,21 @@ public class BaseUnitTest {
 	 */
 
 	protected <T extends GeoElement> T addAvInput(String command) {
-		App app = getApp();
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, false);
+		return add(command, info);
+	}
+
+	/**
+	 * Use this method when you want to test the commands with a specific EvalInfo.
+	 *
+	 * @param command
+	 * 			algebra input to be processed
+	 * @param info
+	 * 			EvalInfo to pass to the AlgebraProcessor.processAlgebraCommandNoExceptionHandling
+	 * 			method.
+	 * @return resulting element
+	 */
+	protected <T extends GeoElement> T add(String command, EvalInfo info) {
 		GeoElementND[] geoElements =
 				getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(

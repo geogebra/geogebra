@@ -95,7 +95,6 @@ public class GeoScriptAction extends GeoElement {
 
 	@Override
 	public boolean showInAlgebraView() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

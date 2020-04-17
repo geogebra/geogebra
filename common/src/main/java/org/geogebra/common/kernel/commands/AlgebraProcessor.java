@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -37,6 +38,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoDependentVector;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLaTeX;
+import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -58,7 +60,6 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
@@ -3128,6 +3129,9 @@ public class AlgebraProcessor {
 		}
 		if (ret instanceof HasExtendedAV) {
 			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
+			if (ret instanceof GeoNumeric) {
+				setupSlider((GeoNumeric) ret);
+			}
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
@@ -3137,6 +3141,18 @@ public class AlgebraProcessor {
 		}
 
 		return array(ret);
+	}
+
+	private void setupSlider(GeoNumeric numeric) {
+		if (app.getConfig().hasAutomaticSliders()
+				&& !numeric.isEuclidianVisible()
+				&& AlgebraItem.shouldShowSlider(numeric)
+				&& numeric.isVisible()
+				&& numeric.showInAlgebraView()
+				&& numeric.isSetAlgebraVisible()) {
+			numeric.setEuclidianVisible(true);
+			numeric.setEuclidianVisible(false);
+		}
 	}
 
 	/**
