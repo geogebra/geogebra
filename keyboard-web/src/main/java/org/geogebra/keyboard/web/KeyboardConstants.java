@@ -15,8 +15,8 @@ public class KeyboardConstants {
 	/** hashtag and not*/
 	public static final String SWITCH_TO_SPECIAL_SYMBOLS = "#&" + Unicode.NOT;
 	/** greek letters */
-	public static final String SWITCH_TO_GREEK_CHARACTERS =
-			String.valueOf(Characters.ALPHA) + Characters.BETA + Characters.GAMMA;
+	public static final String SWITCH_TO_GREEK_CHARACTERS = ""
+			+ Characters.ALPHA + Characters.BETA + Characters.GAMMA;
 	/** left floor x right floor */
 	public static final String FLOOR = "" + Unicode.LFLOOR + "x" + Unicode.RFLOOR;
 	/** left ceil x right ceil */
