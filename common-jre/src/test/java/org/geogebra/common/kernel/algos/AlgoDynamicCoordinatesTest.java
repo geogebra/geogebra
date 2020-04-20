@@ -1,25 +1,25 @@
-package org.geogebra.common.kernel.geos;
+package org.geogebra.common.kernel.algos;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
-import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
-import org.geogebra.common.kernel.algos.AlgoJoinPointsRay;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.desktop.headless.AppDNoGui;
-import org.geogebra.desktop.main.LocalizationD;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AlgoDynamicCoordinatesTest {
 
-	static AppDNoGui app;
+	static AppCommon app;
 	static Construction cons;
 
 	@BeforeClass
 	public static void setup() {
-		app = new AppDNoGui(new LocalizationD(3), false);
+		app = AppCommonFactory.create();
 		cons = app.getKernel().getConstruction();
 	}
 
@@ -34,12 +34,10 @@ public class AlgoDynamicCoordinatesTest {
 		GeoPoint K = (GeoPoint) intersectionAlgo.getOutput(0);
 		K.setLabel("K");
 		GeoElementND[] dynCoords = cons.getKernel().getAlgebraProcessor().processAlgebraCommand(
-				"DynamicCoordinates(J,"
-				+ " x"
-				+ "(K), y(K))", false);
+				"DynamicCoordinates(J, x(K), y(K))", false);
 		I.setCoords(10, -6, 1);
 		cons.updateConstruction(false);
-		assertEquals(true, J.isDefined());
-		assertEquals(false, dynCoords[0].isDefined());
+		assertTrue(J.isDefined());
+		assertFalse(dynCoords[0].isDefined());
 	}
 }
