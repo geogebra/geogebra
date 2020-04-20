@@ -8,7 +8,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCust
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomTranslateButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
@@ -191,9 +190,10 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 			addConstantCustomButton(rowImpl, buttonFactory, Resource.CAPS_LOCK,
 					Action.CAPS_LOCK, actionButtonSize);
 		} else if (action == ACTION_GREEK_LETTERS) {
-			String label = String.valueOf(ALPHA) +
-					BETA +
-					GAMMA;
+			String label = ""
+					+ ALPHA
+					+ BETA
+					+ GAMMA;
 			addCustomButton(rowImpl, buttonFactory, label,
 					Action.SWITCH_TO_GREEK_CHARACTERS);
 		} else if (action == ACTION_ABC_LETTERS) {

@@ -27,10 +27,8 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_SQU
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SECONDS;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF_OR_EQUAL_TO;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputCommandButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 

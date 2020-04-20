@@ -11,33 +11,36 @@ public class GreekKeyboardFactory extends LetterKeyboardFactory {
 	}
 
 	private void initializeDefinition() {
-		String bottomRow = String.valueOf(Characters.ZETA) +
-				Characters.CHI +
-				Characters.PSI +
-				Characters.OMEGA +
-				Characters.BETA +
-				Characters.NU +
-				Characters.MU;
-		String middleRow = String.valueOf(Characters.ALPHA) +
-				Characters.SIGMA +
-				Characters.DELTA +
-				Characters.PHI_VARIATION +
-				Characters.GAMMA +
-				Characters.ETA +
-				Characters.XI +
-				Characters.KAPPA +
-				Characters.LAMBDA;
-		String topRow = String.valueOf(Characters.PHI) +
-				Characters.SIGMA_SPECIAL +
-				Characters.EPSILON +
-				Characters.RHO +
-				Characters.TAU +
-				Characters.UPSILON +
-				Characters.THETA +
-				Characters.IOTA +
-				Characters.OMICRON +
-				Characters.PI;
+		String bottomRow = ""
+				+ Characters.ZETA
+				+ Characters.CHI
+				+ Characters.PSI
+				+ Characters.OMEGA
+				+ Characters.BETA
+				+ Characters.NU
+				+ Characters.MU;
+		String middleRow = ""
+				+ Characters.ALPHA
+				+ Characters.SIGMA
+				+ Characters.DELTA
+				+ Characters.PHI_VARIATION
+				+ Characters.GAMMA
+				+ Characters.ETA
+				+ Characters.XI
+				+ Characters.KAPPA
+				+ Characters.LAMBDA;
+		String topRow = ""
+				+ Characters.PHI
+				+ Characters.SIGMA_SPECIAL
+				+ Characters.EPSILON
+				+ Characters.RHO
+				+ Characters.TAU
+				+ Characters.UPSILON
+				+ Characters.THETA
+				+ Characters.IOTA
+				+ Characters.OMICRON
+				+ Characters.PI;
 		setKeyboardDefinition(topRow, middleRow, bottomRow, DEFAULT_CONTROL,
 				ACTION_SHIFT, ACTION_ABC_LETTERS);
-    }
+	}
 }
