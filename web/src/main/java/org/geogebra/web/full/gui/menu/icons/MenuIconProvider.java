@@ -7,18 +7,6 @@ import org.geogebra.web.resources.SVGResource;
  */
 public interface MenuIconProvider {
 
-	SVGResource appClassic();
-
-	SVGResource appGraphing();
-
-	SVGResource appScientific();
-
-	SVGResource appGeometry();
-
-	SVGResource appCasCalculator();
-
-	SVGResource appGraphing3d();
-
 	SVGResource clear();
 
 	SVGResource download();
