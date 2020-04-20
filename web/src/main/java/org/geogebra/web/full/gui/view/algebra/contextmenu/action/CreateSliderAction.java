@@ -26,7 +26,7 @@ public class CreateSliderAction extends DefaultMenuAction<GeoElement> {
 			return;
 		}
 		labelController.ensureHasLabel(geo);
-		((GeoNumeric) geo).setShowExtendedAV(true);
+		((GeoNumeric) geo).createSlider();
 		geo.getKernel().storeUndoInfo();
 	}
 
