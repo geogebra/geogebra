@@ -392,7 +392,9 @@ public final class CharMapping {
 		putForm('\u00EA', "\\^e");
 		putForm('\u00EB', "\\\"e");
 		putForm('\u00EC', "\\`\\i");
-		putForm('\u00ED', "\\'\\i");
+		// Hotfix to prevent showing iacute with a starting space and an italic style:
+		putForm('\u00ED', "\\!\\textrm{\\'\\i}");
+		// putForm('\u00ED', "\\'\\i");
 		putForm('\u00EE', "\\^\\i");
 		putForm('\u00EF', "\\\"\\i");
 		putForm('\u00F1', "\\~n");
