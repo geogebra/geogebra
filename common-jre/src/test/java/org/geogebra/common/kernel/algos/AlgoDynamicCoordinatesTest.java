@@ -17,6 +17,9 @@ public class AlgoDynamicCoordinatesTest {
 	static AppCommon app;
 	static Construction cons;
 
+	/**
+	 * Setup the app
+	 */
 	@BeforeClass
 	public static void setup() {
 		app = AppCommonFactory.create();
