@@ -620,4 +620,18 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	public GeoElementND unwrapSymbolic() {
 		return getTwinGeo();
 	}
+
+	@Override
+	public boolean isMatrix() {
+		return twinGeo != null
+				? twinGeo.isMatrix()
+				: super.isMatrix();
+	}
+
+	@Override
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+		return twinGeo != null
+				? twinGeo.toLaTeXString(symbolic, tpl)
+				: super.toLaTeXString(symbolic, tpl);
+	}
 }
