@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -33,7 +35,6 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.StringTemplate;
-
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -61,8 +62,6 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
-
-import javax.annotation.CheckForNull;
 
 /**
  *
@@ -378,11 +377,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	@Override
 	protected boolean showInEuclidianView() {
 		return isDefined() && !isInfinite();
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
 	}
 
 	/**
@@ -1063,11 +1057,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	public void updateLocation() {
 		updateGeo(false);
 		kernel.notifyUpdateLocation(this);
-	}
-
-	@Override
-	public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

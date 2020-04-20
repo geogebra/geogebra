@@ -398,11 +398,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 	 */
 
 	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
-	}
-
-	@Override
 	public boolean isParametric() {
 		return true;
 	}
