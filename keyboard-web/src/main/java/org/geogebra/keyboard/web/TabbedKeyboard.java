@@ -142,7 +142,7 @@ public class TabbedKeyboard extends FlowPanel
 		createAnsMathKeyboard(factory);
 		createDefaultKeyboard(factory);
 		createFunctionsKeyboard(factory);
-		if (isLocalizedKeyboardLatin()) {
+		if (locale.isLatinKeyboard()) {
 			createLocalizedAbcKeyboard(factory, true);
 		} else {
 			createLatinKeyboard(factory);
@@ -785,12 +785,6 @@ public class TabbedKeyboard extends FlowPanel
 		for (int i = 0; i < tabs.getWidgetCount(); i++) {
 			tabs.getWidget(i).setVisible(false);
 		}
-	}
-
-	private boolean isLocalizedKeyboardLatin() {
-		String middleRow = locale.getKeyboardRow(2);
-		int first = middleRow.codePointAt(0);
-		return !(first < 0 || first > 0x00FF);
 	}
 
 	/**

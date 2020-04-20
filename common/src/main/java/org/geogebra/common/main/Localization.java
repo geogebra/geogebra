@@ -1298,6 +1298,12 @@ public abstract class Localization {
 		return getMenu("Keyboard.row" + row);
 	}
 
+	public boolean isLatinKeyboard() {
+		String middleRow = getKeyboardRow(2);
+		int first = middleRow.codePointAt(0);
+		return !(first < 0 || first > 0x00FF);
+	}
+
 	abstract protected ArrayList<Locale> getSupportedLocales();
 
 	/**
