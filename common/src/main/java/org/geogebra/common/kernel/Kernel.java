@@ -1,6 +1,13 @@
 package org.geogebra.common.kernel;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.TreeSet;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -88,13 +95,7 @@ import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.TreeSet;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Provides methods for computation
@@ -649,12 +650,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		return ret;
 	}
 
-	// This is a temporary place for abstract adapter methods which will go into
-	// factories later
-	// Arpad Fekete, 2011-12-01
-	// public abstract ColorAdapter getColorAdapter(int red, int green, int
-	// blue);
-
 	/**
 	 * If the data-param-showAnimationButton parameter for applet is false, be
 	 * sure not to show the animation button. In this case the value of
@@ -962,117 +957,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public boolean moveInConstructionList(int from, int to) {
 		return cons.moveInConstructionList(from, to);
-	}
-
-	/**
-	 * Find geos with caption ending %style=... in this kernel, and set their
-	 * visual styles to those geos in the otherKernel which have the same
-	 * %style=... caption ending; as well as set %style=defaultStyle for all
-	 * geos
-	 * 
-	 * @param otherKernel
-	 *            other kernel
-	 */
-	public void setVisualStyles(Kernel otherKernel) {
-		TreeSet<GeoElement> okts = otherKernel.getConstruction()
-				.getGeoSetWithCasCellsConstructionOrder();
-		ArrayList<GeoElement> selected = getApplication().getSelectionManager()
-				.getSelectedGeos();
-
-		// maybe it's efficient to pre-filter this set to only contain
-		// elements that have "%style=" styling
-
-		Iterator<GeoElement> okit = okts.iterator();
-		GeoElement okactual;
-		String okcapt;
-		int okpos;
-		while (okit.hasNext()) {
-			okactual = okit.next();
-			okcapt = okactual.getCaptionSimple();
-			if (okcapt == null) {
-				okpos = -1;
-			} else {
-				okpos = okcapt.indexOf("%style=");
-			}
-			if (okpos < 0) {
-				// not having "%style=" setting, can be removed
-				// lucky that iterator has this method
-				okit.remove();
-			}
-		}
-
-		// okts is ready, now to the main loop
-
-		Iterator<GeoElement> it;
-		if (selected.isEmpty()) {
-			it = cons.getGeoSetWithCasCellsConstructionOrder().iterator();
-		} else {
-			it = selected.iterator();
-		}
-
-		GeoElement actual;
-		String capt;
-		int pos;
-		while (it.hasNext()) {
-			actual = it.next();
-
-			// at first, apply default styles!
-			// these are applied anyway, caption is not needed;
-			// however, Geo type is needed!
-			GeoClass gc = actual.getGeoClassType();
-
-			okit = okts.iterator();
-			while (okit.hasNext()) {
-				okactual = okit.next();
-				okcapt = okactual.getCaptionSimple();
-				// as okts is pre-filtered, okcapt is not null
-				okpos = okcapt.indexOf("%style=defaultStyle");
-				if (okpos > -1 && okactual.getGeoClassType() == gc) {
-					// match!
-					actual.setVisualStyle(okactual);
-				}
-			}
-			// now, okit, okactual, okcapt, okpos can be redefined...
-
-			capt = actual.getCaptionSimple();
-			if (capt == null) {
-				pos = -1;
-			} else {
-				pos = capt.indexOf("%style=");
-			}
-			if (pos > -1) {
-				// capt will not be needed until the next iteration
-				capt = capt.substring(pos);
-				// now, it's time to search for geos in otherKernel,
-				// whether any of them has the same style ending
-				okit = okts.iterator();
-				while (okit.hasNext()) {
-					okactual = okit.next();
-					okcapt = okactual.getCaptionSimple();
-					// as okts is pre-filtered, okcapt is not null
-					okpos = okcapt.indexOf("%style=");
-					// as okts is pre-filtered, okpos is not -1
-					// although we could double-check, it's not important
-
-					// okcapt will not be needed until the next iteration
-					okcapt = okcapt.substring(okpos);
-					if (capt.equals(okcapt)) {
-						// match!
-						actual.setVisualStyle(okactual);
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param otherKernel
-	 *            other kernel
-	 */
-	public void setConstructionDefaults(Kernel otherKernel) {
-		getConstruction().getConstructionDefaults().setConstructionDefaults(
-				otherKernel.getConstruction().getConstructionDefaults());
-
 	}
 
 	/**
@@ -1773,24 +1657,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * compares double arrays:
-	 * 
-	 * @param a
-	 *            first array
-	 * @param b
-	 *            second array
-	 * @return true if (isEqual(a[i], b[i]) == true) for all i
-	 */
-	final static boolean isEqual(double[] a, double[] b) {
-		for (int i = 0; i < a.length; ++i) {
-			if (!DoubleUtil.isEqual(a[i], b[i])) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * @param numbers
 	 *            coefficients
 	 * @param vars
@@ -1987,9 +1853,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 		return temp;
 	}
-
-	// private final StringBuilder sbBuildImplicitVarPart = new
-	// StringBuilder(80);
 
 	/**
 	 * 
@@ -2283,9 +2146,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/** doesn't show 1 or -1 */
-	private final String formatCoeff(double x, StringTemplate tpl) { // TODO
-																		// make
-																		// private
+	private String formatCoeff(double x, StringTemplate tpl) {
 		if (Math.abs(x) == 1.0) {
 			if (x > 0.0) {
 				return "";
@@ -4696,9 +4557,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 
 		// strip off eg "sin" at start, "(" at end
-		MyDouble md = new MyDouble(this, str.substring(i, str.length() - 1));
-
-		return md;
+		return new MyDouble(this, str.substring(i, str.length() - 1));
 	}
 
 	/*----------------------------------
