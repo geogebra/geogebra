@@ -3,6 +3,6 @@
 # Test desktop version.
 
 set -e
-./runtests-sql -p Classic5 -d -t 10
+./runtests-sql -p Classic5 -d -t 30
 ./report-sql -c Classic5
 sensible-browser html/all.html &
