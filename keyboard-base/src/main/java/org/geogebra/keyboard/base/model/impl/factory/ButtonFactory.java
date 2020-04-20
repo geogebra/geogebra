@@ -170,23 +170,6 @@ public class ButtonFactory {
 				weight);
 	}
 
-	/**
-	 * Creates a button that has a translated resource and custom action.
-	 * See {@link Action}
-	 *
-	 * @param translationKey the key of the translation
-	 * @param action the action of the key
-	 * @param weight weight of the button
-	 *
-	 * @return a button
-	 */
-	public WeightedButton createCustomTranslateButton(
-			String translationKey, String action, float weight) {
-		return new WeightedButtonImpl(translationKey, ResourceType.TRANSLATION_MENU_KEY,
-				action, ActionType.CUSTOM, Background.FUNCTIONAL, modifiers,
-				weight);
-	}
-
     /**
      * Creates a button that has a custom resource and translated input.
      * See {@link Resource}.

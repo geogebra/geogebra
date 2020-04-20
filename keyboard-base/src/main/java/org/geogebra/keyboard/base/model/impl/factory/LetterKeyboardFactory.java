@@ -194,11 +194,9 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 					+ ALPHA
 					+ BETA
 					+ GAMMA;
-			addCustomButton(rowImpl, buttonFactory, label,
-					Action.SWITCH_TO_GREEK_CHARACTERS);
+			addCustomButton(rowImpl, buttonFactory, label, Action.SWITCH_TO_GREEK_CHARACTERS);
 		} else if (action == ACTION_ABC_LETTERS) {
-			addCustomTranslateButton(rowImpl, buttonFactory, "Keyboard.ABC",
-					Action.SWITCH_TO_ABC, 1.0f);
+			addCustomButton(rowImpl, buttonFactory, "ABC", Action.SWITCH_TO_ABC);
 		}
 	}
 
