@@ -143,13 +143,15 @@ public class TabbedKeyboard extends FlowPanel
 		createAnsMathKeyboard(factory);
 		createDefaultKeyboard(factory);
 		createFunctionsKeyboard(factory);
-		createLocalizedAbcKeyboard(factory);
+		if (isLocalizedKeyboardLatin()) {
+			createLocalizedAbcKeyboard(factory, true);
+		} else {
+			createLatinKeyboard(factory, true);
+			createLocalizedAbcKeyboard(factory, false);
+		}
 		createSpecialSymbolsKeyboard(factory);
 		createGreekKeyboard(factory);
 
-		if (isLocalizedKeyboardNonLatin()) {
-			createLatinKeyboard(factory);
-		}
 		switcher.select(KeyboardType.NUMBERS);
 		layout();
 	}
@@ -179,7 +181,7 @@ public class TabbedKeyboard extends FlowPanel
 		setDataTest(defaultSwitcher, "keyboard-123");
 	}
 
-	private void createLocalizedAbcKeyboard(KeyboardFactory factory) {
+	private void createLocalizedAbcKeyboard(KeyboardFactory factory, boolean withGreek) {
 		upperKeys = new HashMap<>();
 		String firstRow = locale.getKeyboardRow(1);
 		String middleRow = locale.getKeyboardRow(2);
@@ -187,7 +189,7 @@ public class TabbedKeyboard extends FlowPanel
 		KeyPanelBase keyboard = buildPanel(factory.createLettersKeyboard(
 				filter(firstRow.replace("'", "")),
 				filter(middleRow),
-				filter(lastRow), upperKeys),
+				filter(lastRow), upperKeys, withGreek),
 				this);
 		addTab(keyboard, KeyboardType.ABC);
 		keyboard.setVisible(false);
@@ -210,12 +212,13 @@ public class TabbedKeyboard extends FlowPanel
 		addTab(keyboard, KeyboardType.GREEK);
 	}
 
-	private void createLatinKeyboard(KeyboardFactory factory) {
+	private void createLatinKeyboard(KeyboardFactory factory, boolean withGreek) {
 		KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(
 				locale);
 		String[] rows = latinProvider.getDefaultLowerKeys();
-		KeyPanelBase keyboard = buildPanel(factory.createLettersKeyboard(rows[0], rows[1],
-				rows[2], latinProvider.getUpperKeys()), this);
+		Keyboard keyboardModel = factory.createLettersKeyboard(rows[0], rows[1],
+				rows[2], latinProvider.getUpperKeys(), withGreek);
+		KeyPanelBase keyboard = buildPanel(keyboardModel, this);
 		addTab(keyboard, KeyboardType.LATIN);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.LATIN, "ABC");
@@ -790,10 +793,10 @@ public class TabbedKeyboard extends FlowPanel
 		}
 	}
 
-	private boolean isLocalizedKeyboardNonLatin() {
+	private boolean isLocalizedKeyboardLatin() {
 		String middleRow = locale.getKeyboardRow(2);
 		int first = middleRow.codePointAt(0);
-		return first < 0 || first > 0x00FF;
+		return !(first < 0 || first > 0x00FF);
 	}
 
 	/**
@@ -915,10 +918,18 @@ public class TabbedKeyboard extends FlowPanel
 			selectTab(KeyboardType.GREEK);
 			break;
 		case SWITCH_TO_ABC:
-			selectTab(KeyboardType.ABC);
+			selectTab(getSwitchToAbcSource());
 			break;
 		case ANS:
 			processField.ansPressed();
+		}
+	}
+
+	private KeyboardType getSwitchToAbcSource() {
+		if (isLocalizedKeyboardLatin()) {
+			return KeyboardType.ABC;
+		} else {
+			return KeyboardType.LATIN;
 		}
 	}
 
