@@ -70,10 +70,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	public DrawerMenu createDrawerMenu() {
 		MenuItemGroup main = createMainMenuItemGroup();
 		MenuItemGroup secondary = createSecondaryMenuItemGroup();
-		MenuItemGroup appsGroup = createAppsGroup();
 		MenuItemGroup userGroup = createUserGroup();
 		String title = getMenuTitle();
-		return new DrawerMenuImpl(title, removeNulls(main, appsGroup, secondary, userGroup));
+		return new DrawerMenuImpl(title, removeNulls(main, secondary, userGroup));
 	}
 
 	@SafeVarargs
@@ -102,16 +101,9 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	private MenuItemGroup createSecondaryMenuItemGroup() {
 		if (isMobile()) {
-			return new MenuItemGroupImpl(showAppPicker(), showSettings(), showHelpAndFeedback());
+			return new MenuItemGroupImpl(showSettings(), showHelpAndFeedback());
 		}
 		return new MenuItemGroupImpl(showSettings(), showHelpAndFeedback());
-	}
-
-	private MenuItemGroup createAppsGroup() {
-		if (!isMobile()) {
-			return new MenuItemGroupImpl("GeoGebraApps", startAppItems());
-		}
-		return null;
 	}
 
 	private MenuItemGroup createUserGroup() {
@@ -147,29 +139,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private static MenuItem startExamMode() {
 		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY,
 				"exam_menu_entry", Action.START_EXAM_MODE);
-	}
-
-	private MenuItem showAppPicker() {
-		return new SubmenuItemImpl(Icon.GEOGEBRA, "GeoGebraApps", startAppItems());
-	}
-
-	private ActionableItem[] startAppItems() {
-		ActionableItem graphing = new ActionableItemImpl(Icon.APP_GRAPHING,
-				"GraphingCalculator", Action.START_GRAPHING);
-		ActionableItem geometry = new ActionableItemImpl(Icon.APP_GEOMETRY,
-				"Geometry", Action.START_GEOMETRY);
-		ActionableItem graphing3d = new ActionableItemImpl(Icon.APP_GRAPHING3D,
-				"GeoGebra3DGrapher.short", Action.START_GRAPHING_3D);
-		ActionableItem cas = platform == GeoGebraConstants.Platform.WEB ? null
-				: new ActionableItemImpl(Icon.APP_CAS_CALCULATOR,
-						"CASCalculator", Action.START_CAS_CALCULATOR);
-		ActionableItem scientific = new ActionableItemImpl(Icon.APP_SCIENTIFIC,
-				"ScientificCalculator", Action.START_SCIENTIFIC);
-		ActionableItem classic = isMobile() ? null : new ActionableItemImpl(Icon.APP_CLASSIC,
-				"Classic", Action.START_CLASSIC);
-		List<ActionableItem> retVal = removeNulls(graphing, geometry,
-				graphing3d, cas, scientific, classic);
-		return retVal.toArray(new ActionableItem[0]);
 	}
 
 	private static MenuItem openFile() {
