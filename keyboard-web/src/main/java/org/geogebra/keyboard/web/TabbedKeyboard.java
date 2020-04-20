@@ -169,16 +169,18 @@ public class TabbedKeyboard extends FlowPanel
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.ABC,
 				locale.getMenuDefault("Keyboard.ABC", "ABC"));
-		keyboard = buildPanel(kbf.createGreekKeyboard(), this);
-		addTab(keyboard, KeyboardType.GREEK);
+
+		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(), this);
+		addTab(keyboard, KeyboardType.SPECIAL);
 		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, KeyboardType.GREEK, Unicode.ALPHA_BETA_GAMMA);
+		switcher.addSwitch(keyboard, KeyboardType.SPECIAL,
+				KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS);
 		switcher.select(KeyboardType.NUMBERS);
 		// add special char tab
-		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(),
+		keyboard = buildPanel(kbf.createGreekKeyboard(),
 				this);
 		keyboard.setVisible(false);
-		addTab(keyboard, KeyboardType.SPECIAL);
+		addTab(keyboard, KeyboardType.GREEK);
 		if (shouldHaveLatinExtension(middleRow)) {
 			KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(
 					locale);
