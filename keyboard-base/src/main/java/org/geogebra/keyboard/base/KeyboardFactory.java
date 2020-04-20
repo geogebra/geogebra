@@ -170,17 +170,39 @@ public class KeyboardFactory {
 	 * @param upperKeys
 	 *            a map relating each character from the rows to an uppercase
 	 *            character.
+	 * @param withGreekSwitch
+	 *            if switch to greek layout should be included
 	 * @return letter keyboard
 	 */
 	public Keyboard createLettersKeyboard(String topRow, String middleRow,
-			String bottomRow, Map<String, String> upperKeys) {
+			String bottomRow, Map<String, String> upperKeys, boolean withGreekSwitch) {
 		AccentModifier accentModifier = new AccentModifier();
 		CapsLockModifier capsLockModifier = new CapsLockModifier(upperKeys);
 		ButtonFactory buttonFactory = new ButtonFactory(
 				new KeyModifier[] { accentModifier, capsLockModifier });
-		letterKeyboardFactory.setKeyboardDefinition(topRow, middleRow, bottomRow);
+		letterKeyboardFactory.setKeyboardDefinition(topRow, middleRow, bottomRow, withGreekSwitch);
 		KeyboardModel model = letterKeyboardFactory.createKeyboardModel(buttonFactory);
 		return new KeyboardImpl(model, capsLockModifier, accentModifier);
+	}
+
+	/**
+	 * Calls {@link #createLettersKeyboard(String, String, String, Map, boolean)} with true to
+	 * include greek keyboard.
+	 *
+	 * @param topRow
+	 *            a list of characters that will be the buttons of the top row
+	 * @param middleRow
+	 *            a list of characters that will the buttons of the middle row
+	 * @param bottomRow
+	 *            a list of characters that will be the buttons of the last row
+	 * @param upperKeys
+	 *            a map relating each character from the rows to an uppercase
+	 *            character.
+	 * @return letter keyboard
+	 */
+	public Keyboard createLettersKeyboard(String topRow, String middleRow,
+			String bottomRow, Map<String, String> upperKeys) {
+		return createLettersKeyboard(topRow, middleRow, bottomRow, upperKeys, true);
 	}
 
 	/**
