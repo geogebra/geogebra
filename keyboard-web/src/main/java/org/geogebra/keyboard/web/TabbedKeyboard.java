@@ -133,65 +133,92 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private void buildGUIGraphing() {
-		KeyboardFactory kbf = new KeyboardFactory();
-		this.tabs = new FlowPanel();
-		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(),
-				this);
-		addTab(keyboard, KeyboardType.NUMBERS);
 		// more button must be first because of float (Firefox)
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
+		tabs = new FlowPanel();
+
+		KeyboardFactory factory = new KeyboardFactory();
+		createAnsMathKeyboard(factory);
+		createDefaultKeyboard(factory);
+		createFunctionsKeyboard(factory);
+		createLocalizedAbcKeyboard(factory);
+		createSpecialSymbolsKeyboard(factory);
+		createGreekKeyboard(factory);
+
+		if (isLocalizedKeyboardNonLatin()) {
+			createLatinKeyboard(factory);
+		}
+		switcher.select(KeyboardType.NUMBERS);
+		layout();
+	}
+
+	private void createAnsMathKeyboard(KeyboardFactory factory) {
+		KeyPanelBase keyboard = buildPanel(factory.createMathKeyboard(), this);
+		addTab(keyboard, KeyboardType.NUMBERS);
 		ansSwitcher = switcher.addSwitch(keyboard, KeyboardType.NUMBERS, "123");
 		ansSwitcher.setVisible(false);
 		setDataTest(ansSwitcher, "keyboard-123-ans");
+	}
 
-		keyboard = buildPanel(kbf.createDefaultKeyboard(), this);
-		addTab(keyboard, KeyboardType.NUMBERS_DEFAULT);
-		keyboard.setVisible(false);
-		defaultSwitcher = switcher.addSwitch(keyboard, KeyboardType.NUMBERS_DEFAULT, "123");
-		setDataTest(defaultSwitcher, "keyboard-123");
-
-		keyboard = buildPanel(kbf.createFunctionsKeyboard(), this);
-		addTab(keyboard, KeyboardType.OPERATORS);
-		keyboard.setVisible(false);
-		KeyboardSwitcher.SwitcherButton function = switcher.addSwitch(keyboard,
+	private void createFunctionsKeyboard(KeyboardFactory factory) {
+		KeyPanelBase functionKeyboard = buildPanel(factory.createFunctionsKeyboard(), this);
+		addTab(functionKeyboard, KeyboardType.OPERATORS);
+		functionKeyboard.setVisible(false);
+		KeyboardSwitcher.SwitcherButton function = switcher.addSwitch(functionKeyboard,
 				KeyboardType.OPERATORS, "f(x)");
 		setDataTest(function, "keyboard-fx");
+	}
 
+	private void createDefaultKeyboard(KeyboardFactory factory) {
+		KeyPanelBase defaultKeyboard = buildPanel(factory.createDefaultKeyboard(), this);
+		addTab(defaultKeyboard, KeyboardType.NUMBERS_DEFAULT);
+		defaultKeyboard.setVisible(false);
+		defaultSwitcher = switcher.addSwitch(defaultKeyboard, KeyboardType.NUMBERS_DEFAULT, "123");
+		setDataTest(defaultSwitcher, "keyboard-123");
+	}
+
+	private void createLocalizedAbcKeyboard(KeyboardFactory factory) {
 		upperKeys = new HashMap<>();
+		String firstRow = locale.getKeyboardRow(1);
 		String middleRow = locale.getKeyboardRow(2);
-		keyboard = buildPanel(kbf.createLettersKeyboard(
-				filter(locale.getKeyboardRow(1).replace("'", "")),
-				filter(middleRow), filter(locale.getKeyboardRow(3)), upperKeys),
+		String lastRow = locale.getKeyboardRow(3);
+		KeyPanelBase keyboard = buildPanel(factory.createLettersKeyboard(
+				filter(firstRow.replace("'", "")),
+				filter(middleRow),
+				filter(lastRow), upperKeys),
 				this);
 		addTab(keyboard, KeyboardType.ABC);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.ABC,
 				locale.getMenuDefault("Keyboard.ABC", "ABC"));
+	}
 
-		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(), this);
+	private void createSpecialSymbolsKeyboard(KeyboardFactory factory) {
+		KeyPanelBase keyboard = buildPanel(factory.createSpecialSymbolsKeyboard(), this);
 		addTab(keyboard, KeyboardType.SPECIAL);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, KeyboardType.SPECIAL,
 				KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS);
-		switcher.select(KeyboardType.NUMBERS);
-		// add special char tab
-		keyboard = buildPanel(kbf.createGreekKeyboard(),
+	}
+
+	private void createGreekKeyboard(KeyboardFactory factory) {
+		KeyPanelBase keyboard = buildPanel(factory.createGreekKeyboard(),
 				this);
 		keyboard.setVisible(false);
 		addTab(keyboard, KeyboardType.GREEK);
-		if (shouldHaveLatinExtension(middleRow)) {
-			KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(
-					locale);
-			String[] rows = latinProvider.getDefaultLowerKeys();
-			keyboard = buildPanel(kbf.createLettersKeyboard(rows[0], rows[1],
-					rows[2], latinProvider.getUpperKeys()), this);
-			addTab(keyboard, KeyboardType.LATIN);
-			keyboard.setVisible(false);
-			switcher.addSwitch(keyboard, KeyboardType.LATIN, "ABC");
-		}
-		layout();
+	}
+
+	private void createLatinKeyboard(KeyboardFactory factory) {
+		KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(
+				locale);
+		String[] rows = latinProvider.getDefaultLowerKeys();
+		KeyPanelBase keyboard = buildPanel(factory.createLettersKeyboard(rows[0], rows[1],
+				rows[2], latinProvider.getUpperKeys()), this);
+		addTab(keyboard, KeyboardType.LATIN);
+		keyboard.setVisible(false);
+		switcher.addSwitch(keyboard, KeyboardType.LATIN, "ABC");
 	}
 
 	private void addTab(KeyPanelBase keyboardPanel, KeyboardType keyboardType) {
@@ -763,7 +790,8 @@ public class TabbedKeyboard extends FlowPanel
 		}
 	}
 
-	private static boolean shouldHaveLatinExtension(String middleRow) {
+	private boolean isLocalizedKeyboardNonLatin() {
+		String middleRow = locale.getKeyboardRow(2);
 		int first = middleRow.codePointAt(0);
 		return first < 0 || first > 0x00FF;
 	}
