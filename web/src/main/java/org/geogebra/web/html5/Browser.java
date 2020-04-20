@@ -171,7 +171,7 @@ public class Browser {
 		if (usePen && $wnd.PointerEvent) {
 			return true;
 		}
-		return $wnd.navigator.msPointerEnabled ? true : false;
+		return $wnd.navigator.msPointerEnabled;
 	}-*/;
 
 	private static boolean isHTTP() {

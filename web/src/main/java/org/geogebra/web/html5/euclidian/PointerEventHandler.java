@@ -38,8 +38,8 @@ public class PointerEventHandler {
 
 		public PointerState(NativePointerEvent e) {
 			id = e.getPointerId();
-			x = e.getX();
-			y = e.getY();
+			x = e.getClientX();
+			y = e.getClientY();
 		}
 	}
 
@@ -129,12 +129,12 @@ public class PointerEventHandler {
 	private void onPointerMove(NativePointerEvent e) {
 		if (first != null && second != null) {
 			if (second.id == e.getPointerId()) {
-				second.x = e.getX();
-				second.y = e.getY();
+				second.x = e.getClientX();
+				second.y = e.getClientY();
 				twoPointersMove(first, second);
 			} else {
-				first.x = e.getX();
-				first.y = e.getY();
+				first.x = e.getClientX();
+				first.y = e.getClientY();
 			}
 		} else {
 			this.tc.onPointerEventMove(convertEvent(e));
@@ -172,8 +172,8 @@ public class PointerEventHandler {
 	}
 
 	private PointerEvent convertEvent(NativePointerEvent e) {
-		PointerEvent ex = new PointerEvent(e.getX(), e.getY(), types(e.getPointerType()), off,
-				false);
+		PointerEvent ex = new PointerEvent(e.getClientX(), e.getClientY(),
+				types(e.getPointerType()), off, false);
 		adjust(ex, e);
 		return ex;
 	}
