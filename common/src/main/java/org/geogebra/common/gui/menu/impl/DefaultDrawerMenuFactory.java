@@ -76,7 +76,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	@SafeVarargs
-	private final <T> List<T> removeNulls(T... groups) {
+	protected final <T> List<T> removeNulls(T... groups) {
 		ArrayList<T> list = new ArrayList<>();
 		for (T group: groups) {
 			if (group != null) {
@@ -145,7 +145,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return new ActionableItemImpl(Icon.SEARCH, "Load", Action.SHOW_SEARCH_VIEW);
 	}
 
-	private static MenuItem share() {
+	protected static MenuItem share() {
 		return new ActionableItemImpl(Icon.EXPORT_FILE, "Share", Action.SHARE_FILE);
 	}
 
@@ -153,15 +153,15 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		return new ActionableItemImpl(Icon.EXPORT_IMAGE, "exportImage", Action.EXPORT_IMAGE);
 	}
 
-	private static MenuItem showSettings() {
+	protected static MenuItem showSettings() {
 		return new ActionableItemImpl(Icon.SETTINGS, "Settings", Action.SHOW_SETTINGS);
 	}
 
-	private static MenuItem saveFile() {
+	protected static MenuItem saveFile() {
 		return new ActionableItemImpl(Icon.SAVE, "Save", Action.SAVE_FILE);
 	}
 
-	private static MenuItem previewPrint() {
+	protected static MenuItem previewPrint() {
 		return new ActionableItemImpl(Icon.PRINT, "PrintPreview", Action.PREVIEW_PRINT);
 	}
 
@@ -178,36 +178,41 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 				tutorials, askQuestion, reportProblem, license);
 	}
 
-	private MenuItem showDownloadAs() {
-		ActionableItem png = new ActionableItemImpl(null, "PNGImage", Action.DOWNLOAD_PNG);
-		ActionableItem svg = new ActionableItemImpl(null, "SVGImage", Action.DOWNLOAD_SVG);
-		ActionableItem pdf = new ActionableItemImpl(null, "PDFDocument", Action.DOWNLOAD_PDF);
+	protected MenuItem showDownloadAs() {
+		ActionableItem png = new ActionableItemImpl(null, "Download.PNGImage", Action.DOWNLOAD_PNG);
+		ActionableItem svg = new ActionableItemImpl(null, "Download.SVGImage", Action.DOWNLOAD_SVG);
+		ActionableItem pdf = new ActionableItemImpl(null,
+				"Download.PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
 			case NOTES:
-				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs",
+				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs",
 						createDownloadSlides(), png, svg, pdf);
 			case GRAPHING_3D:
 				ActionableItem dae = new ActionableItemImpl(
-						"ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
+						"Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
 				ActionableItem html = new ActionableItemImpl(
-						"ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
-				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(),
-						png, svg, pdf, createDownloadStl(), dae, html);
+						"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
+				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
+						png, createDownloadStl(), dae, html);
 			default:
-				return new SubmenuItemImpl(Icon.SAVE, "DownloadAs", createDownloadGgb(),
+				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
 						png, svg, pdf, createDownloadStl());
 		}
 	}
 
 	private static ActionableItem createDownloadGgb() {
-		return new ActionableItemImpl("GeoGebraFile", Action.DOWNLOAD_GGB);
+		return new ActionableItemImpl("Download.GeoGebraFile", Action.DOWNLOAD_GGB);
 	}
 
 	private static ActionableItem createDownloadSlides() {
-		return new ActionableItemImpl("SlidesGgs", Action.DOWNLOAD_GGS);
+		return new ActionableItemImpl("Download.SlidesGgs", Action.DOWNLOAD_GGS);
 	}
 
 	private static ActionableItem createDownloadStl() {
-		return new ActionableItemImpl("3DPrint", Action.DOWNLOAD_STL);
+		return new ActionableItemImpl("Download.3DPrint", Action.DOWNLOAD_STL);
+	}
+
+	public LogInOperation getLogInOperation() {
+		return logInOperation;
 	}
 }

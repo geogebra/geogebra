@@ -8,7 +8,7 @@ import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionCAS;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -36,7 +36,7 @@ public class CASActivity extends BaseActivity {
 	}
 
 	@Override
-	public MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
+	public MenuItemCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
 		return new AlgebraMenuItemCollectionCAS(view);
 	}
 

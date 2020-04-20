@@ -12,7 +12,7 @@ public class AriaHelper {
 	/**
 	 * Avoid setting title (so that screen reader only reads the image alt) Set
 	 * aria-label for desktop screen reader and data-title for visual tooltips.
-	 * 
+	 *
 	 * @param ui
 	 *            UI element
 	 * @param title
@@ -21,7 +21,22 @@ public class AriaHelper {
 	 *            for feature flag
 	 */
 	public static void setTitle(UIObject ui, String title, App app) {
-		if (app.isUnbundledOrWhiteboard() && !Browser.isMobile()) {
+		setTitle(ui, title, app.isUnbundledOrWhiteboard());
+	}
+
+	/**
+	 * Avoid setting title (so that screen reader only reads the image alt) Set
+	 * aria-label for desktop screen reader and data-title for visual tooltips.
+	 *
+	 * @param ui
+	 *            UI element
+	 * @param title
+	 *            title
+	 * @param isUnbundledOrWhiteboard
+	 *            feature flag
+	 */
+	public static void setTitle(UIObject ui, String title, boolean isUnbundledOrWhiteboard) {
+		if (isUnbundledOrWhiteboard && !Browser.isMobile()) {
 			ui.getElement().setAttribute("data-title", title);
 		}
 		ui.getElement().removeAttribute("title");

@@ -177,7 +177,7 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 
 	@Override
 	public void setTitle(String title) {
-		AriaHelper.setTitle(this, title, app);
+		AriaHelper.setTitle(this, title, app == null || app.isUnbundledOrWhiteboard());
 	}
 
 	/**
