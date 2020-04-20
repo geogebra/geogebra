@@ -6,7 +6,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.GAMMA;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
-import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomTranslateButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 
 import org.geogebra.keyboard.base.Accents;
