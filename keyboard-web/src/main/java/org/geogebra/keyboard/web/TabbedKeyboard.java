@@ -414,11 +414,6 @@ public class TabbedKeyboard extends FlowPanel
 				// eg "inverse sine"
 				altText = locale.getAltText(wb.getAltText());
 			}
-			if (wb.getBackground() == Background.FUNCTIONAL
-					&& name.equals(Action.SWITCH_TO_ABC.name())) {
-				return new KeyBoardButtonFunctionalBase(locale.getMenu(wb.getResourceName()),
-						b, Action.SWITCH_TO_ABC);
-			}
 			return new KeyBoardButtonBase(locale.getFunction(name), altText,
 					name, b);
 		case TRANSLATION_COMMAND_KEY:
