@@ -146,7 +146,7 @@ public class TabbedKeyboard extends FlowPanel
 		if (isLocalizedKeyboardLatin()) {
 			createLocalizedAbcKeyboard(factory, true);
 		} else {
-			createLatinKeyboard(factory, true);
+			createLatinKeyboard(factory);
 			createLocalizedAbcKeyboard(factory, false);
 		}
 		createSpecialSymbolsKeyboard(factory);
@@ -212,12 +212,12 @@ public class TabbedKeyboard extends FlowPanel
 		addTab(keyboard, KeyboardType.GREEK);
 	}
 
-	private void createLatinKeyboard(KeyboardFactory factory, boolean withGreek) {
+	private void createLatinKeyboard(KeyboardFactory factory) {
 		KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(
 				locale);
 		String[] rows = latinProvider.getDefaultLowerKeys();
 		Keyboard keyboardModel = factory.createLettersKeyboard(rows[0], rows[1],
-				rows[2], latinProvider.getUpperKeys(), withGreek);
+				rows[2], latinProvider.getUpperKeys());
 		KeyPanelBase keyboard = buildPanel(keyboardModel, this);
 		addTab(keyboard, KeyboardType.LATIN);
 		keyboard.setVisible(false);
