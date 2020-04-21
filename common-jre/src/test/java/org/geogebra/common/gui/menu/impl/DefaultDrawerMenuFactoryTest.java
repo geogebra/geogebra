@@ -33,7 +33,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.GRAPHING, logInOperation);
-		assertBasicProperties(factory, 4, 7, 5, 2, 1);
+		assertBasicProperties(factory, 3, 7, 2, 1);
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.GRAPHING, logInOperation);
-		assertBasicProperties(factory, 4, 7, 5, 2, 2);
+		assertBasicProperties(factory, 3, 7, 2, 2);
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
 				GeoGebraConstants.Version.SCIENTIFIC, null, true);
-		assertBasicProperties(factory, 2, 2, 3);
+		assertBasicProperties(factory, 2, 2, 2);
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
 				GeoGebraConstants.Version.GRAPHING, null, true);
-		assertBasicProperties(factory, 2, 5, 3);
+		assertBasicProperties(factory, 2, 5, 2);
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.ANDROID,
 				GeoGebraConstants.Version.GRAPHING, logInOperation, true);
-		assertBasicProperties(factory, 3, 6, 3, 1);
+		assertBasicProperties(factory, 3, 6, 2, 1);
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.SCIENTIFIC, null);
-		assertBasicProperties(factory, 3, 1, 5, 2);
+		assertBasicProperties(factory, 2, 1, 2);
 	}
 
 	private void assertBasicProperties(DrawerMenuFactory factory, int numberOfGroups,
