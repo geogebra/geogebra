@@ -914,7 +914,7 @@ public class TabbedKeyboard extends FlowPanel
 	}
 
 	private KeyboardType getSwitchToAbcSource() {
-		if (isLocalizedKeyboardLatin()) {
+		if (locale.isLatinKeyboard()) {
 			return KeyboardType.ABC;
 		} else {
 			return KeyboardType.LATIN;
