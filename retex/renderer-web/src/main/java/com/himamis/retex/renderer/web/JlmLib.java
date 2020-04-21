@@ -121,12 +121,7 @@ public class JlmLib {
 		}
 
 		// set the callback
-		g2.setDrawingFinishedCallback(new DrawingFinishedCallback() {
-			@Override
-			public void onDrawingFinished(boolean async) {
-				callJavascriptCallback(callback, async);
-			}
-		});
+		g2.setDrawingFinishedCallback(async -> callJavascriptCallback(callback, async));
 
 		// paint the icon
 
