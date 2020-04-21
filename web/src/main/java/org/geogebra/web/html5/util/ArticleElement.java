@@ -536,8 +536,8 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	 */
 	@Override
 	public String getDataParamAppName() {
-		return getStringDataParam("appName", "classic").replace("whiteboard", "notes")
-				.replace("scientific", "calculator").toLowerCase(Locale.US);
+		return getStringDataParam("appName", "classic")
+				.replace("whiteboard", "notes").toLowerCase(Locale.US);
 	}
 
 	/* (non-Javadoc)
