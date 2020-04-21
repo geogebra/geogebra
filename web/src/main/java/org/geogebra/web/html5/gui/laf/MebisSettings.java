@@ -6,7 +6,6 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
 import org.geogebra.web.html5.gui.zoompanel.MebisFullscreenHandler;
 
@@ -82,15 +81,5 @@ public class MebisSettings implements VendorSettings {
 				FontFamily.TITILLIUM,
 				FontFamily.TREBUCHET,
 				FontFamily.VERDANA);
-	}
-
-	@Override
-	public Material.MaterialType getTemplateType() {
-		return Material.MaterialType.ggsTemplate;
-	}
-
-	@Override
-	public String getAPIBaseUrl() {
-		return "http://tafel.dlb-dev01.alp-dlg.net/api";
 	}
 }
