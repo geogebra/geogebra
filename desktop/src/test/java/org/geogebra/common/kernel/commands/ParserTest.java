@@ -1,8 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.geogebra.test.TestStringUtil.unicode;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -14,6 +17,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
@@ -109,13 +113,15 @@ public class ParserTest {
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
+			Log.error(v1.getDebugString());
 			v1.resolveVariables(new EvalInfo(false));
+			Log.error(v1.getDebugString());
 			v1.wrap().replaceXYZnodes(xVar, yVar, zVar,
 					new ArrayList<ExpressionNode>());
 			reparse1 = v1.toString(tpl);
-		} catch (Throwable e) {
+		} catch (ParseException e) {
 			e.printStackTrace();
-			Assert.fail(e.getMessage());
+			fail(e.getMessage());
 		}
 		return reparse1;
 	}
@@ -191,11 +197,20 @@ public class ParserTest {
 
 	@Test
 	public void multiplicationByTrigShouldChangeToApplication() {
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand("a=1", false);
 		shouldReparseAs("cos x", "cos(x)");
 		// shouldReparseAs("cos 9x", "cos(9 x)"); TODO
 
 		shouldReparseAs("cos7t/t", "cos(7t) / t");
 		shouldReparseAs("cos3x", "cos(3x)");
+		shouldReparseAs("cos3a", "cos(3a)");
+		// not fully defined: return the smallest undefined part
+		try {
+			reparse("cos3n", StringTemplate.defaultTemplate);
+			fail("Variable resolution should fail");
+		} catch (MyError e) {
+			assertEquals("UndefinedVariable", e.getMessage());
+		}
 		shouldReparseAs("x*cos3x", "x cos(3x)");
 		shouldReparseAs("3x*cosx", "3x cos(x)");
 		shouldReparseAs("3x*cos3x", "3x cos(3x)");
@@ -218,6 +233,13 @@ public class ParserTest {
 		shouldReparseAs("sin^3 x", sinCubedX);
 		shouldReparseAs("e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "cost",
 			Unicode.EULER_STRING + "^(-t) * 9sin" + Unicode.SUPERSCRIPT_8 + "(cos(t))");
+	}
+
+	@Test
+	public void powerShouldHavePrecedence() {
+		shouldReparseAs("sin 2^2", unicode("sin(2^2)"));
+		shouldReparseAs("sin2^2", unicode("sin(2^2)"));
+		shouldReparseAs("sin3x^2", unicode("sin(3x^2)"));
 	}
 
 	@Test
@@ -306,7 +328,7 @@ public class ParserTest {
 			Assert.assertEquals(left.getOperation(), ve.getOperation());
 
 		} catch (ParseException e) {
-			Assert.fail(str);
+			fail(str);
 		}
 	}
 

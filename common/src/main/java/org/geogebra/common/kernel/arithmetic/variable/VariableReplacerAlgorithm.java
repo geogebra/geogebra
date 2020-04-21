@@ -61,7 +61,7 @@ public class VariableReplacerAlgorithm {
 
 		exponents.initWithZero();
 
-		geo = productCreator.getProduct(expressionString);
+		geo = lookupOrProduct(expressionString);
 		if (geo != null) {
 			return geo;
 		}
@@ -89,18 +89,10 @@ public class VariableReplacerAlgorithm {
 		}
 
 		processPi();
-
-		MySpecialDouble mult = null;
+		MySpecialDouble mult = consumeConstant(nameNoX);
 
 		if (nameNoX.length() > 0 && geo == null) {
-
-			// eg pi8 (with Unicode pi)
-			if (StringUtil.isNumber(nameNoX)) {
-				double value = MyDouble.parseDouble(kernel.getLocalization(), nameNoX);
-				mult = new MySpecialDouble(kernel, value, nameNoX);
-			} else {
-				return new Variable(kernel, nameNoX);
-			}
+			return new Variable(kernel, nameNoX);
 		}
 		ExpressionNode ret = productCreator.getFunctionVariablePowers(exponents).wrap();
 		if (geo != null) {
@@ -124,6 +116,9 @@ public class VariableReplacerAlgorithm {
 			if (op != null) {
 				ExpressionValue arg = new VariableReplacerAlgorithm(kernel)
 						.replace(expressionString.substring(charIndex));
+				if (arg instanceof Variable) {
+					return arg;
+				}
 				if (arg != null) {
 					return arg.wrap().apply(op).traverse(
 							ArcTrigReplacer.getReplacer());
@@ -132,6 +127,22 @@ public class VariableReplacerAlgorithm {
 		}
 
 		return processProductReverse();
+	}
+
+	private MySpecialDouble consumeConstant(String expressionString) {
+		int numbberLength = 0;
+		while (numbberLength < expressionString.length()
+				&& StringUtil.isDigit(expressionString.charAt(numbberLength))) {
+			numbberLength++;
+		}
+		if (numbberLength != 0) {
+			String num = nameNoX.substring(0, numbberLength);
+			double value = MyDouble.parseDouble(kernel.getLocalization(), num);
+			nameNoX = nameNoX.substring(numbberLength);
+			geo = lookupOrProduct(nameNoX);
+			return new MySpecialDouble(kernel, value, num);
+		}
+		return null;
 	}
 
 	private void processPi() {
