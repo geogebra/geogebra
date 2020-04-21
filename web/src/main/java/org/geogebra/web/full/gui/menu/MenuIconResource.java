@@ -16,23 +16,11 @@ class MenuIconResource {
 
 	SVGResource getImageResource(Icon icon) {
 		SVGResource resource = matchIconWithResource(icon);
-		return applyTint(resource, icon);
+		return applyTint(resource);
 	}
 
 	private SVGResource matchIconWithResource(Icon icon) {
 		switch (icon) {
-			case APP_CLASSIC:
-				return menuIconProvider.appClassic();
-			case APP_GRAPHING:
-				return menuIconProvider.appGraphing();
-			case APP_SCIENTIFIC:
-				return menuIconProvider.appScientific();
-			case APP_GEOMETRY:
-				return menuIconProvider.appGeometry();
-			case APP_CAS_CALCULATOR:
-				return menuIconProvider.appCasCalculator();
-			case APP_GRAPHING3D:
-				return menuIconProvider.appGraphing3d();
 			case CLEAR:
 				return menuIconProvider.clear();
 			case DOWNLOAD:
@@ -77,17 +65,7 @@ class MenuIconResource {
 		}
 	}
 
-	private SVGResource applyTint(SVGResource resource, Icon icon) {
-		switch (icon) {
-			case APP_CAS_CALCULATOR:
-			case APP_GEOMETRY:
-			case APP_CLASSIC:
-			case APP_GRAPHING:
-			case APP_GRAPHING3D:
-			case APP_SCIENTIFIC:
-				return resource;
-			default:
-				return resource == null ? null : resource.withFill(FILL_COLOR);
-		}
+	private SVGResource applyTint(SVGResource resource) {
+		return resource == null ? null : resource.withFill(FILL_COLOR);
 	}
 }

@@ -12,30 +12,6 @@ public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider 
 	DefaultMenuIconProvider INSTANCE = GWT.create(DefaultMenuIconProvider.class);
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/geogebra_color.svg")
-	SVGResource appClassic();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_algebra.svg")
-	SVGResource appGraphing();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/scientific.svg")
-	SVGResource appScientific();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_graphics.svg")
-	SVGResource appGeometry();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_cas.svg")
-	SVGResource appCasCalculator();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_3d.svg")
-	SVGResource appGraphing3d();
-
-	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-clear-24px.svg")
 	SVGResource clear();
 

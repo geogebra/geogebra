@@ -11,7 +11,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.ShareRequest;
@@ -343,9 +342,12 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 
 	@Override
 	public void deleteMaterial(Material material, final MaterialCallbackI cb) {
-		performRequest(
-				DeleteRequest.getRequestElement(material).toJSONString(client),
-				cb);
+		if (material.getType() == MaterialType.ggsTemplate) {
+			getMaterialRestAPI().deleteMaterial(material, cb);
+		} else {
+			performRequest(
+					DeleteRequest.getRequestElement(material).toJSONString(client), cb);
+		}
 	}
 
 	@Override
@@ -429,16 +431,18 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	 *            callback
 	 */
 	public void getWorksheetItems(int id, MaterialCallbackI cb) {
-		performRequest(
-				MaterialRequest.forWorksheet(id, client).toJSONString(client),
-				cb);
+		performRequest(MaterialRequest.forWorksheet(id, client).toJSONString(client), cb);
 	}
 
 	@Override
 	public void uploadMaterial(String tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,
 			MaterialType type) {
-		uploadMaterial(tubeID, visibility, filename, base64, cb, type, null);
+		if (type == MaterialType.ggsTemplate) {
+			getMaterialRestAPI().uploadMaterial(tubeID, visibility, filename, base64, cb, type);
+		} else {
+			uploadMaterial(tubeID, visibility, filename, base64, cb, type, null);
+		}
 	}
 
 	/**
@@ -488,17 +492,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		performRequest(MaterialRequest.forFeatured(client).toJSONString(client),
 				callback);
 	}
-
-	// /**
-	// * Returns a String-Array of popular tags fetched from the GGT API
-	// *
-	// */
-	// public String[] getPopularTags()
-	// {
-	// // TODO fetch popular tags from the API
-	// return new String[] { "algebra", "dment", "pythagorean", "circle",
-	// "triangle", "functions", "jerzy", "geometry", "trigonometry", "3d" };
-	// }
 
 	@Override
 	public void getItem(String id, MaterialCallbackI callback) {
@@ -623,13 +616,12 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	@Override
-	public URLChecker getURLChecker() {
-		return null;
+	public void getTemplateMaterials(MaterialCallbackI cb) {
+		getMaterialRestAPI().getTemplateMaterials(cb);
 	}
 
-	@Override
-	public void getTemplateMaterials(MaterialCallbackI cb) {
-		// TODO use here the right api
-		cb.onLoaded(new ArrayList<Material>(), null);
+	protected MaterialRestAPI getMaterialRestAPI() {
+		// only in web for now
+		return null;
 	}
 }

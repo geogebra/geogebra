@@ -22,7 +22,6 @@ import org.geogebra.web.full.gui.menubar.action.ShowSettingsAction;
 import org.geogebra.web.full.gui.menubar.action.ShowTutorialsAction;
 import org.geogebra.web.full.gui.menubar.action.SignInAction;
 import org.geogebra.web.full.gui.menubar.action.SignOutAction;
-import org.geogebra.web.full.gui.menubar.action.StartAppAction;
 import org.geogebra.web.full.gui.menubar.action.StartExamAction;
 import org.geogebra.web.full.main.AppWFull;
 
@@ -66,18 +65,6 @@ public class DefaultMenuActionHandlerFactory implements MenuActionHandlerFactory
 		actionHandler.setMenuAction(Action.DOWNLOAD_COLLADA_HTML, new DownloadColladaHtmlAction());
 		actionHandler.setMenuAction(Action.PREVIEW_PRINT, new ShowPrintPreviewAction());
 		actionHandler.setMenuAction(Action.START_EXAM_MODE, new StartExamAction(app));
-		actionHandler.setMenuAction(
-				Action.START_GRAPHING, StartAppAction.create(app, "graphing"));
-		actionHandler.setMenuAction(
-				Action.START_GEOMETRY, StartAppAction.create(app, "geometry"));
-		actionHandler.setMenuAction(
-				Action.START_GRAPHING_3D, StartAppAction.create(app, "3d"));
-		actionHandler.setMenuAction(
-				Action.START_SCIENTIFIC, StartAppAction.create(app, "calculator"));
-		actionHandler.setMenuAction(
-				Action.START_CLASSIC, StartAppAction.create(app, "classic"));
-		actionHandler.setMenuAction(
-				Action.START_CAS_CALCULATOR, StartAppAction.create(app, "cas"));
 		return actionHandler;
 	}
 }
