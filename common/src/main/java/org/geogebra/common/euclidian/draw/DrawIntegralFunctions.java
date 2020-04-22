@@ -100,7 +100,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 		if (!isVisible) {
 			return;
 		}
-		labelVisible = geo.isLabelVisible();
+		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(n);
 
 		if (n.isAlgoMacroOutput() || isCasObject) {
