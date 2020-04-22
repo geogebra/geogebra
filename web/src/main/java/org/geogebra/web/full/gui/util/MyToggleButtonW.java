@@ -6,8 +6,6 @@ import org.geogebra.web.html5.gui.util.GToggleButton;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -21,7 +19,7 @@ import java.util.List;
  * 
  */
 public class MyToggleButtonW extends GToggleButton
-		implements MouseDownHandler, TouchEndHandler {
+		implements MouseDownHandler {
 
 	private HandlerRegistration actionListener;
 	private boolean ignoreTab = false;
@@ -115,8 +113,6 @@ public class MyToggleButtonW extends GToggleButton
 		setDown(false);
 		addStyleName("MyToggleButton");
 		addMouseDownHandler(this);
-		// fix for touch
-		addBitlessDomHandler(this, TouchEndEvent.getType());
 	}
 
 	/**
@@ -187,13 +183,6 @@ public class MyToggleButtonW extends GToggleButton
 		// DOM => internal state of button is lost (hovering + capturing flag in
 		// ToggleButton), mouseUp will have no effect e.g. with axis button in
 		// EV
-		event.stopPropagation();
-	}
-
-	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		setDown(!isDown());
-		ValueChangeEvent.fire(this, isDown());
 		event.stopPropagation();
 	}
 

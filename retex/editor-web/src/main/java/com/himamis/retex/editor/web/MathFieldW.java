@@ -67,7 +67,6 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -409,7 +408,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				int code = convertToJavaKeyCode(event.getNativeEvent());
 				boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
 						getModifiers(event), getChar(event.getNativeEvent())));
-				FactoryProvider.debugS("down:" + code);
 				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 				if (code == JavaKeyCodes.VK_LEFT
 						|| code == JavaKeyCodes.VK_RIGHT) {
@@ -1102,8 +1100,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @return text in GGB syntax
 	 */
 	public String getText() {
-		GeoGebraSerializer s = new GeoGebraSerializer();
-		return s.serialize(getFormula());
+		return mathFieldInternal.getText();
 	}
 
 	/**

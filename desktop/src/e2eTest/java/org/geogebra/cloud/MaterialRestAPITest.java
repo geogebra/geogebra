@@ -8,10 +8,12 @@ import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import org.geogebra.common.move.ggtapi.models.MarvlService;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
-import org.geogebra.common.move.ggtapi.models.MowBAPI;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.desktop.factories.UtilFactoryD;
@@ -35,7 +37,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MowBAPITest {
+public class MaterialRestAPITest {
 
 	private static final String BASE_URL = "http://tafel.dlb-dev01.alp-dlg.net/api";
 
@@ -46,7 +48,7 @@ public class MowBAPITest {
 		LoginOperationD loginOp = buildLoginOperation();
 		authorise(usr, loginOp);
 		Assert.assertEquals("GGBTest-Student", usr.getRealName());
-		Assert.assertTrue("GGBTest-Student", usr.getGroups().size() == 0);
+		Assert.assertEquals("GGBTest-Student", 0, usr.getGroups().size());
 	}
 
 	private LoginOperationD buildLoginOperation() {
@@ -55,7 +57,7 @@ public class MowBAPITest {
 
 	private static void authorise(GeoGebraTubeUser usr,
 			LoginOperationD loginOp) {
-		MowBAPI api = authAPI();
+		MaterialRestAPI api = authAPI();
 		final TestAsyncOperation<Boolean> callback = new TestAsyncOperation<>();
 		loginOp.getView().add(new EventRenderable() {
 
@@ -78,29 +80,21 @@ public class MowBAPITest {
 		}
 	}
 
-	private static MowBAPI authAPI() {
-		MowBAPI ret = new MowBAPI(BASE_URL, null);
-		try {
-			ret.setBasicAuth(Base64.encodeToString(
-					System.getProperty("marvl.auth.basic").getBytes("utf-8"),
-					false));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return ret;
+	private static MaterialRestAPI authAPI() {
+		return new MaterialRestAPI(BASE_URL, new MarvlService());
 	}
 
 	@Test
 	public void testUpload() {
 		needsAuth();
-		MowBAPI api = authAPI();
+		MaterialRestAPI api = authAPI();
 		doUpload(api, "Test material", new TestMaterialCallback());
 	}
 
 	@Test
 	public void testUploadLoggout() {
 		needsAuth();
-		MowBAPI api = new MowBAPI(BASE_URL, null);
+		MaterialRestAPI api = new MaterialRestAPI(BASE_URL, new MarvlService());
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		TestMaterialCallback t = new TestMaterialCallback();
 		api.uploadMaterial("", "S", "This should fail",
@@ -118,7 +112,7 @@ public class MowBAPITest {
 	@Ignore
 	public void testmaterialGroup() {
 		needsAuth();
-		final MowBAPI api = authAPI();
+		final MaterialRestAPI api = authAPI();
 		final String[] success = new String[1];
 		final TestAsyncOperation<List<String>> groupCallback = new TestAsyncOperation<List<String>>() {
 
@@ -140,8 +134,8 @@ public class MowBAPITest {
 		Assert.assertEquals("0", success[0]);
 	}
 
-	private static void doUpload(MowBAPI api, String title,
-								 TestMaterialCallback testCallback) {
+	private static void doUpload(MaterialRestAPI api, String title,
+			TestMaterialCallback testCallback) {
 		api.uploadMaterial("", "S", title,
 				Base64.encodeToString(UtilD.loadFileIntoByteArray(
 						"src/test/resources/slides.ggs"), false),
@@ -153,7 +147,7 @@ public class MowBAPITest {
 	@Test
 	public void testOpen() {
 		needsAuth();
-		final MowBAPI api = authAPI();
+		final MaterialRestAPI api = authAPI();
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
 		api.setClient(getClient(appd));
 		deleteAll(api);
@@ -180,7 +174,7 @@ public class MowBAPITest {
 		getCallback.verify(title);
 	}
 
-	private static void deleteAll(final MowBAPI api) {
+	private static void deleteAll(final MaterialRestAPI api) {
 		final TestMaterialCallback deleteCallback = new TestMaterialCallback();
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
 
@@ -219,14 +213,14 @@ public class MowBAPITest {
 	public void testCopy() {
 		needsAuth();
 		allowMethods("PATCH");
-		final MowBAPI api = authAPI();
+		final MaterialRestAPI api = authAPI();
 		final LocalizationD loc = new LocalizationD(3);
 		final TestMaterialCallback copyCallback = new TestMaterialCallback();
 		TestMaterialCallback uploadCallback = new TestMaterialCallback() {
 
 			@Override
 			public boolean handleMaterial(Material mat) {
-				api.copy(mat, MowBAPI.getCopyTitle(loc, mat.getTitle()),
+				api.copy(mat, MaterialRestAPI.getCopyTitle(loc, mat.getTitle()),
 						copyCallback);
 				return true;
 			}
@@ -240,7 +234,7 @@ public class MowBAPITest {
 	public void testDelete() {
 		needsAuth();
 		allowMethods("PATCH");
-		final MowBAPI api = authAPI();
+		final MaterialRestAPI api = authAPI();
 
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
 		api.setClient(getClient(appd));
@@ -264,7 +258,7 @@ public class MowBAPITest {
 		materialCountShouldBe(api, 0);
 	}
 
-	private static void materialCountShouldBe(MowBAPI api, int i) {
+	private static void materialCountShouldBe(MaterialRestAPI api, int i) {
 		final StringBuilder count = new StringBuilder();
 
 		// check that no materials are on server
@@ -312,17 +306,17 @@ public class MowBAPITest {
 	@Test
 	public void copyTitles() {
 		LocalizationD loc = new LocalizationD(3);
-		Assert.assertEquals("Copy of A", MowBAPI.getCopyTitle(loc, "A"));
+		Assert.assertEquals("Copy of A", MaterialRestAPI.getCopyTitle(loc, "A"));
 		Assert.assertEquals("Copy of A (2)",
-				MowBAPI.getCopyTitle(loc, "Copy of A"));
+				MaterialRestAPI.getCopyTitle(loc, "Copy of A"));
 		Assert.assertEquals("Copy of A (3)",
-				MowBAPI.getCopyTitle(loc, "Copy of A (2)"));
+				MaterialRestAPI.getCopyTitle(loc, "Copy of A (2)"));
 	}
 
 	@Test
 	public void testRename() {
 		needsAuth();
-		final MowBAPI api = authAPI();
+		final MaterialRestAPI api = authAPI();
 		final TestMaterialCallback renameCallback = new TestMaterialCallback();
 		TestMaterialCallback uploadCallback = new TestMaterialCallback() {
 
@@ -342,7 +336,7 @@ public class MowBAPITest {
 	public void testReupload() {
 		needsAuth();
 		final AppDNoGui appd = new AppDNoGui(new LocalizationD(3), false);
-		final MowBAPI api = authAPI();
+		final MaterialRestAPI api = authAPI();
 		api.setClient(getClient(appd));
 		deleteAll(api);
 		final String[] filenames = new String[2];

@@ -145,18 +145,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	/**
-	 * TODO say if this is to be shown in algebra view
-	 * 
-	 * @return if this is to be shown in algebra view
-	 * 
-	 */
-	@Override
-	public boolean showInAlgebraView() {
-
-		return true;
-	}
-
-	/**
 	 * TODO say if this is to be shown in (3D) euclidian view
 	 * 
 	 * @return if this is to be shown in (3D) euclidian view
@@ -550,11 +538,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 				endPoint1, GeoClass.SEGMENT3D);
 
 		return algo.getOutput(0);
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override
