@@ -99,10 +99,7 @@ public final class CommandFilterFactory {
 		commandNameFilter.addCommands(
 				// CAS specific command
 				Commands.Delete, Commands.Max,
-				Commands.Min, Commands.PerpendicularVector,
-				Commands.OrthogonalVector, Commands.Poisson,
-				Commands.UnitPerpendicularVector, Commands.UnitOrthogonalVector,
-				Commands.UnitVector,
+				Commands.Min, Commands.Poisson,
 				// Function Commands
 				Commands.Asymptote, Commands.CurvatureVector, Commands.DataFunction,
 				Commands.Function, Commands.ImplicitCurve, Commands.IterationList,
@@ -110,7 +107,7 @@ public final class CommandFilterFactory {
 				Commands.PathParameter, Commands.RootList, Commands.Roots,
 				Commands.Spline,
 				// Vector And Matrix Commands
-				Commands.ApplyMatrix, Commands.Identity, Commands.Vector,
+				Commands.ApplyMatrix, Commands.Identity,
 				//Geometry Commands
 				Commands.Angle, Commands.Centroid, Commands.CircularArc,
 				Commands.CircleArc, Commands.CircularSector, Commands.CircleSector,
@@ -168,7 +165,7 @@ public final class CommandFilterFactory {
 				Commands.SetLineThickness, Commands.SetPerspective, Commands.SetPointStyle,
 				Commands.SetSeed, Commands.SetSpinSpeed, Commands.SetTooltipMode,
 				Commands.SetTrace, Commands.SetValue, Commands.SetViewDirection,
-				Commands.SetVisibleInView, Commands.ShowLabel, Commands.Slider,
+				Commands.SetVisibleInView, Commands.ShowLabel,
 				Commands.StartLogging, Commands.StartRecord, Commands.StopLogging,
 				Commands.Turtle, Commands.TurtleBack, Commands.TurtleDown,
 				Commands.TurtleForward, Commands.TurtleLeft, Commands.TurtleRight,
@@ -178,7 +175,7 @@ public final class CommandFilterFactory {
 				Commands.Cylinder, Commands.Dodecahedron, Commands.Ends,
 				Commands.Height, Commands.Icosahedron,
 				Commands.InfiniteCone, Commands.InfiniteCylinder, Commands.IntersectConic,
-				Commands.Net, Commands.Octahedron, Commands.PerpendicularPlane,
+				Commands.Net, Commands.Octahedron,
 				Commands.Plane, Commands.PlaneBisector, Commands.Prism,
 				Commands.Pyramid, Commands.Side, Commands.Sphere,
 				Commands.Surface, Commands.Tetrahedron, Commands.Top,

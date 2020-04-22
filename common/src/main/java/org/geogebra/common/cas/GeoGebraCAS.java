@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -1196,9 +1197,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public ValidExpression parseOutput(String inValue, GeoSymbolicI geoCasCell,
 			Kernel kernel) {
 		try {
-			return (kernel.getGeoGebraCAS()).getCASparser()
+			ValidExpression expression = (kernel.getGeoGebraCAS()).getCASparser()
 					.parseGeoGebraCASInputAndResolveDummyVars(inValue, kernel,
 							geoCasCell);
+			expression.traverse(Traversing.GgbVectRemover.getInstance());
+			return expression;
 		} catch (CASException c) {
 			geoCasCell.setError(c.getKey());
 			return null;

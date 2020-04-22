@@ -74,12 +74,12 @@ public abstract class CommandDispatcher {
 
 	private CommandDispatcherBasic basicDispatcher = null;
 
-	private CommandArgumentFilter commandArgumentFilter;
-
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
 	private boolean enabled = true;
 	private List<CommandFilter> commandFilters;
+	private List<CommandArgumentFilter> commandArgumentFilters;
+
 	/** number of visible tables */
 	public static final int tableCount = 20;
 
@@ -150,7 +150,9 @@ public abstract class CommandDispatcher {
 		this.kernel = kernel;
 		app = kernel.getApplication();
 		commandFilters = new ArrayList<>();
+		commandArgumentFilters = new ArrayList<>();
 		addCommandFilter(app.getConfig().getCommandFilter());
+		addCommandArgumentFilter(app.getConfig().getCommandArgumentFilter());
 	}
 
 	/**
@@ -207,8 +209,8 @@ public abstract class CommandDispatcher {
 
 	private void checkAllowedByArgumentFilter(Command command,
 			CommandProcessor commandProcessor) throws MyError {
-		if (commandArgumentFilter != null) {
-			commandArgumentFilter.checkAllowed(command, commandProcessor);
+		for (CommandArgumentFilter filter : commandArgumentFilters) {
+			filter.checkAllowed(command, commandProcessor);
 		}
 	}
 
@@ -969,7 +971,7 @@ public abstract class CommandDispatcher {
 
 	/**
 	 * Add a new CommandFilter.
-	 * 
+	 *
 	 * @param filter
 	 *            to add. only the commands that are allowed by all
 	 *            commandFilters will be added to the command table
@@ -981,8 +983,8 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
-	 * remove command filter
-	 * 
+	 * remove CommandArgumentFilter
+	 *
 	 * @param filter
 	 *            to remove.
 	 */
@@ -991,21 +993,25 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
-	 * Sets the CommandArgumentFilter
-	 * 
+	 * Add a new CommandArgumentFilter.
+	 *
 	 * @param filter
-	 *            only the commands that are allowed by the
-	 *            commandArgumentFilter will be allowed
+	 *            to add.
 	 */
-	public void setCommandArgumentFilter(CommandArgumentFilter filter) {
-		this.commandArgumentFilter = filter;
+	public void addCommandArgumentFilter(CommandArgumentFilter filter) {
+		if (filter != null) {
+			commandArgumentFilters.add(filter);
+		}
 	}
 
 	/**
-	 * @return command filter
+	 * remove command argument filter
+	 *
+	 * @param filter
+	 *            to remove.
 	 */
-	public CommandArgumentFilter getCommandArgumentFilter() {
-		return commandArgumentFilter;
+	public void removeCommandArgumentFilter(CommandArgumentFilter filter) {
+		commandArgumentFilters.remove(filter);
 	}
 
 	/**

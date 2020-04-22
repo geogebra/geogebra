@@ -154,11 +154,6 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 	}
 
 	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
-	}
-
-	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC3D;
 	}

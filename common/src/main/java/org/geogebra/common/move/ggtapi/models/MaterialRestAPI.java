@@ -3,7 +3,6 @@ package org.geogebra.common.move.ggtapi.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -14,7 +13,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.AsyncOperation;
@@ -23,25 +21,27 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * API connector for the MowBAPI restful API
+ * API connector for the MARVL restful API
  */
-public class MowBAPI implements BackendAPI {
+public class MaterialRestAPI implements BackendAPI {
 	/** whether API is available */
 	protected boolean available = true;
 	/** whether availability check request was sent */
-	protected boolean availabilityCheckDone = false;
+	private boolean availabilityCheckDone = false;
 	private String baseURL;
 	private AuthenticationModel model;
-	private String basicAuth = null; // for test only
-	private URLChecker urlChecker;
+
+	private Service service;
+
+	public static final String marvlUrl = "https://api.geogebra.org/v1.0";
 
 	/**
 	 * @param baseURL
 	 *            URL of the API; endpoints append eg. "/materials" to it
 	 */
-	public MowBAPI(String baseURL, URLChecker urlChecker) {
+	public MaterialRestAPI(String baseURL, Service service) {
 		this.baseURL = baseURL;
-		this.urlChecker = urlChecker;
+		this.service = service;
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class MowBAPI implements BackendAPI {
 	 * @throws JSONException
 	 *             if array contains objects other than strings
 	 */
-	static ArrayList<String> stringList(JSONArray classList) throws JSONException {
+	private static ArrayList<String> stringList(JSONArray classList) throws JSONException {
 		ArrayList<String> groups = new ArrayList<>();
 		for (int i = 0; i < classList.length(); i++) {
 			groups.add(classList.getString(i));
@@ -102,7 +102,7 @@ public class MowBAPI implements BackendAPI {
 	@Override
 	public void deleteMaterial(final Material mat, final MaterialCallbackI callback) {
 
-		HttpRequest request = makeRequest();
+		HttpRequest request = service.createRequest(model);
 		request.sendRequestPost("DELETE", baseURL + "/materials/" + mat.getSharingKeyOrId(), null,
 				new AjaxCallback() {
 					@Override
@@ -124,49 +124,36 @@ public class MowBAPI implements BackendAPI {
 	@Override
 	public final void authorizeUser(final GeoGebraTubeUser user, final LogInOperation op,
 			final boolean automatic) {
-		HttpRequest request = makeRequest();
-		request.sendRequestPost("GET",
-				baseURL + "/auth",
-				null, new AjaxCallback() {
-					@Override
-					public void onSuccess(String responseStr) {
-						try {
-							MowBAPI.this.availabilityCheckDone = true;
 
-							MowBAPI.this.available = true;
-							user.setShibbolethAuth(true);
-							// Parse the userdata from the response
-							if (!parseUserDataFromResponse(user, responseStr)) {
-								op.onEvent(new LoginEvent(user, false, automatic, responseStr));
-								return;
-							}
+		HttpRequest request = service.createRequest(model);
+		request.sendRequestPost("GET", baseURL + "/auth", null, new AjaxCallback() {
+			@Override
+			public void onSuccess(String responseStr) {
+				try {
+					MaterialRestAPI.this.availabilityCheckDone = true;
+					MaterialRestAPI.this.available = true;
 
-							op.onEvent(new LoginEvent(user, true, automatic, responseStr));
-
-							// GeoGebraTubeAPID.this.available = false;
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
+					// Parse the userdata from the response
+					if (!parseUserDataFromResponse(user, responseStr)) {
+						op.onEvent(new LoginEvent(user, false, automatic, responseStr));
+						return;
 					}
 
-					@Override
-					public void onError(String error) {
-						Log.warn(error);
-						MowBAPI.this.availabilityCheckDone = true;
-						MowBAPI.this.available = false;
-						user.setShibbolethAuth(true);
-						op.onEvent(new LoginEvent(user, false, automatic, null));
-					}
-				});
-	}
+					op.onEvent(new LoginEvent(user, true, automatic, responseStr));
+				} catch (Exception e) {
+					Log.error(e.getMessage());
+				}
+			}
 
-	private HttpRequest makeRequest() {
-		HttpRequest request = UtilFactory.getPrototype().newHttpRequest();
-		if (this.basicAuth != null) {
-			request.setAuth(basicAuth);
-		}
-		return request;
+			@Override
+			public void onError(String error) {
+				Log.error(error);
+				MaterialRestAPI.this.availabilityCheckDone = true;
+				MaterialRestAPI.this.available = false;
+
+				op.onEvent(new LoginEvent(user, false, automatic, null));
+			}
+		});
 	}
 
 	@Override
@@ -237,7 +224,7 @@ public class MowBAPI implements BackendAPI {
 	 * @throws JSONException
 	 *             when structure of JSON is invalid
 	 */
-	protected List<Material> parseMaterials(String responseStr) throws JSONException {
+	private List<Material> parseMaterials(String responseStr) throws JSONException {
 		ArrayList<Material> ret = new ArrayList<>();
 		JSONTokener jst = new JSONTokener(responseStr);
 		Object parsed = jst.nextValue();
@@ -306,7 +293,7 @@ public class MowBAPI implements BackendAPI {
 
 	private void performRequest(final String method, String endpoint, String json,
 			final MaterialCallbackI userMaterialsCB) {
-		HttpRequest request = makeRequest();
+		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
 
 		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
@@ -324,7 +311,6 @@ public class MowBAPI implements BackendAPI {
 				userMaterialsCB.onError(new Exception(error));
 			}
 		});
-
 	}
 
 	@Override
@@ -384,16 +370,6 @@ public class MowBAPI implements BackendAPI {
 	}
 
 	/**
-	 * Set authentication for HTTP basic auth (used in tests).
-	 *
-	 * @param base64
-	 *            base64 encoded basic auth header
-	 */
-	public void setBasicAuth(String base64) {
-		this.basicAuth = base64;
-	}
-
-	/**
 	 * @param localization
 	 *            localization
 	 * @param title
@@ -421,7 +397,7 @@ public class MowBAPI implements BackendAPI {
 	@Override
 	public void setShared(Material m, String groupID, boolean shared,
 			final AsyncOperation<Boolean> callback) {
-		HttpRequest request = makeRequest();
+		HttpRequest request = service.createRequest(model);
 		request.sendRequestPost(shared ? "POST" : "DELETE",
 				baseURL + "/materials/" + m.getSharingKeyOrId() + "/groups/" + groupID, null,
 				new AjaxCallback() {
@@ -439,7 +415,7 @@ public class MowBAPI implements BackendAPI {
 
 	@Override
 	public void getGroups(String materialID, final AsyncOperation<List<String>> callback) {
-		HttpRequest request = makeRequest();
+		HttpRequest request = service.createRequest(model);
 		request.sendRequestPost("GET",
 				baseURL + "/materials/" + materialID + "/groups?type=isShared", null,
 				new AjaxCallback() {
@@ -476,12 +452,6 @@ public class MowBAPI implements BackendAPI {
 	@Override
 	public boolean anonymousOpen() {
 		return false;
-	}
-
-	@Override
-	public URLChecker getURLChecker() {
-		// implement me
-		return urlChecker;
 	}
 
 	@Override

@@ -525,6 +525,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private boolean isResetIconSelected = false;
 	private BoundingBox<? extends GShape> focusedGroupGeoBoundingBox;
 
+	protected SymbolicEditor symbolicEditor = null;
+
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
 		Integer[] ret = new Integer[lineTypes.length];
@@ -2151,6 +2153,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (getEuclidianController().isDraggingBeyondThreshold()) {
 			return false;
 		}
+
 		for (Drawable d : allDrawableList) {
 			if ((d.isCanvasDrawable())
 					&& (d.hit(x, y, app.getCapturingThreshold(type))
@@ -2165,7 +2168,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				}
 
 				((CanvasDrawable) d).setWidgetVisible(false);
-
 			}
 		}
 
@@ -6375,14 +6377,30 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * 			where the editor should be attached to.
 	 */
 	public void attachSymbolicEditor(GeoInputBox geoInputBox, GRectangle bounds) {
-		// overridden in Web
+		if (symbolicEditor == null) {
+			symbolicEditor = createSymbolicEditor();
+		}
+		if (symbolicEditor != null) {
+			symbolicEditor.attach(geoInputBox, bounds);
+		}
+	}
+
+	public SymbolicEditor getSymbolicEditor() {
+		return symbolicEditor;
 	}
 
 	/**
 	 * Hides the symbolic editor of EV input fields
 	 */
 	public void hideSymbolicEditor() {
-		// implementation not needed here
+		if (symbolicEditor != null) {
+			symbolicEditor.hide();
+		}
+	}
+
+	protected SymbolicEditor createSymbolicEditor() {
+		// overridden in web and desktop
+		return null;
 	}
 
 	/**
@@ -6391,7 +6409,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return whether symbolic editor was clicked
 	 */
 	public boolean isSymbolicEditorClicked(GPoint mouseLoc) {
-		return false;
+		if (symbolicEditor == null) {
+			return false;
+		}
+		return symbolicEditor.isClicked(mouseLoc);
 	}
 
 	/**

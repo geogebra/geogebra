@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -573,4 +574,15 @@ public class AlgebraItem {
 		}
 	}
 
+	/**
+	 * Checks if the Algebra View should show a slider for this geo.
+	 *
+	 * @param geo geo element to test
+	 * @return if Algebra View should show a slider for this geo
+	 */
+	public static boolean shouldShowSlider(GeoElement geo) {
+		return geo instanceof GeoNumeric
+				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
+				&& MyDouble.isFinite(((GeoNumeric) geo).value);
+	}
 }

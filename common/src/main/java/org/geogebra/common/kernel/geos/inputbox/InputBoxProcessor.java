@@ -62,7 +62,7 @@ public class InputBoxProcessor {
 			return;
 		}
 
-		String tempUserDisplayInput = getTempUserDisplayInput(inputText);
+		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
 		InputBoxErrorHandler errorHandler =
 				new InputBoxErrorHandler(
 						inputBox,
@@ -72,8 +72,9 @@ public class InputBoxProcessor {
 		updateLinkedGeo(inputText, tpl, errorHandler);
 	}
 
-	private String getTempUserDisplayInput(String inputText) {
+	private String getAndClearTempUserDisplayInput(String inputText) {
 		String tempUserInput = inputBox.getTempUserDisplayInput();
+		inputBox.clearTempUserInput();
 		return tempUserInput == null ? inputText : tempUserInput;
 	}
 

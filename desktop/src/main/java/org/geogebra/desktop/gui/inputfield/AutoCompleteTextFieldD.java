@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1045,15 +1046,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-
 		g2.setPaint(bgColor);
-		g2.fillRect(left - 1, top - 1, width - 1, height - 2);
+		g2.fillRect(left, top, width, height);
 
 		// TF Rectangle
 		g2.setPaint(GColor.LIGHT_GRAY);
-
-		g2.drawRect(left - 1, top - 1, width - 1, height - 2);
-
+		g2.drawRect(left, top, width, height);
 	}
 
 	/**
@@ -1105,4 +1103,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 		}
 	}
 
+	@Override
+	public void setInputMode(InputMode type) {
+		// not needed
+	}
 }

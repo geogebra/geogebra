@@ -313,8 +313,7 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void showEmbedDialog() {
-		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app,
-				app.getLoginOperation().getGeoGebraTubeAPI().getURLChecker());
+		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app);
 		embedDialog.center();
 		embedDialog.show();
 	}

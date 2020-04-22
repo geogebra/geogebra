@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.junit.Before;
 
@@ -84,9 +85,9 @@ public class BaseUnitTest {
 	 *            algebra input to be processed
 	 * @return resulting element
 	 */
-	protected <T extends GeoElement> T add(String command) {
-		T[] geoElements =
-				(T[]) getAlgebraProcessor().processAlgebraCommand(command, false);
+	protected <T extends GeoElementND> T add(String command) {
+		GeoElementND[] geoElements =
+				getAlgebraProcessor().processAlgebraCommand(command, false);
 		return getFirstElement(geoElements);
 	}
 
@@ -94,8 +95,8 @@ public class BaseUnitTest {
 		return getApp().getKernel().getAlgebraProcessor();
 	}
 
-	private <T extends GeoElement> T getFirstElement(T[] geoElements) {
-		return geoElements.length == 0 ? null : (T) geoElements[0].toGeoElement();
+	private <T extends GeoElementND> T getFirstElement(GeoElementND[] geoElements) {
+		return geoElements.length == 0 ? null : (T) geoElements[0];
 	}
 
 	/**
@@ -107,10 +108,23 @@ public class BaseUnitTest {
 	 */
 
 	protected <T extends GeoElement> T addAvInput(String command) {
-		App app = getApp();
 		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, false);
-		T[] geoElements =
-				(T[]) getAlgebraProcessor()
+		return add(command, info);
+	}
+
+	/**
+	 * Use this method when you want to test the commands with a specific EvalInfo.
+	 *
+	 * @param command
+	 * 			algebra input to be processed
+	 * @param info
+	 * 			EvalInfo to pass to the AlgebraProcessor.processAlgebraCommandNoExceptionHandling
+	 * 			method.
+	 * @return resulting element
+	 */
+	protected <T extends GeoElement> T add(String command, EvalInfo info) {
+		GeoElementND[] geoElements =
+				getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(
 								command,
 								false,

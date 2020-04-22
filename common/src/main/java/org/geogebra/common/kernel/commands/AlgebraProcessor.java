@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.commands;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -90,6 +91,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -525,18 +527,9 @@ public class AlgebraProcessor {
 		GeoElementND[] result;
 
 		app.getCompanion().storeViewCreators();
-		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
-		// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F,
-		// G, H, I}, 22] to FitPoly[{A, B, C, D, E, F, G, H, I}, 2]
-		/*
-		 * if (geo instanceof GeoFunction && ((GeoFunction) geo).isDefined()) {
-		 * cons.registerFunctionVariable(((GeoFunction) geo).getFunction()
-		 * .getVarString(StringTemplate.defaultTemplate)); }
-		 */
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
-			symbolicProcessor.updateLabel(newValue, info);
-		}
 
+		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
+		updateLabelIfSymbolic(newValue, info);
 		newLabel = newValue.getLabel();
 		if (!app.getConfig().hasAutomaticLabels()) {
 			geo.setAlgebraLabelVisible(newLabel != null);
@@ -613,6 +606,12 @@ public class AlgebraProcessor {
 
 		cons.registerFunctionVariable(null);
 
+	}
+
+	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && symbolicProcessor != null) {
+			symbolicProcessor.updateLabel(expression, info);
+		}
 	}
 
 	private static boolean sameLabel(String newLabel, String oldLabel) {
@@ -1024,8 +1023,8 @@ public class AlgebraProcessor {
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
-		sym.setLabel(label);
 		sym.getDefinition().setLabel(label);
+		sym.setLabel(label);
 		return sym;
 	}
 
@@ -2928,7 +2927,8 @@ public class AlgebraProcessor {
 	public final GeoElement[] processExpressionNode(ExpressionNode node,
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)
+				&& !willResultInSlider(node)) {
 			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command
@@ -3067,6 +3067,11 @@ public class AlgebraProcessor {
 		return ev.inspect(Inspecting.textFinder);
 	}
 
+	private boolean willResultInSlider(ExpressionNode node) {
+		return node.isSimpleNumber() || (node.unwrap() instanceof Command
+				&& ((Command) node.unwrap()).getName().equals("Slider"));
+	}
+
 	/**
 	 * Make function or nvar function from expression, using all function
 	 * variables it has
@@ -3117,6 +3122,12 @@ public class AlgebraProcessor {
 		if (info.isFractions() && ret instanceof HasSymbolicMode) {
 			((HasSymbolicMode) ret).initSymbolicMode();
 		}
+		if (ret instanceof HasExtendedAV) {
+			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
+			if (ret instanceof GeoNumeric) {
+				setupSlider((GeoNumeric) ret);
+			}
+		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
 			ret.setLabel(label);
@@ -3125,6 +3136,18 @@ public class AlgebraProcessor {
 		}
 
 		return array(ret);
+	}
+
+	private void setupSlider(GeoNumeric numeric) {
+		if (app.getConfig().hasAutomaticSliders()
+				&& !numeric.isEuclidianVisible()
+				&& AlgebraItem.shouldShowSlider(numeric)
+				&& numeric.isVisible()
+				&& numeric.showInAlgebraView()
+				&& numeric.isSetAlgebraVisible()) {
+			numeric.setEuclidianVisible(true);
+			numeric.setEuclidianVisible(false);
+		}
 	}
 
 	/**
@@ -3320,7 +3343,7 @@ public class AlgebraProcessor {
 		else if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
 				// MyXMLHandler
-				if (StringUtil.isLowerCase(label.charAt(0))) {
+				if (isVectorLabel(label)) {
 					n.setForceVector();
 				} else {
 					n.setForcePoint();
@@ -3357,6 +3380,22 @@ public class AlgebraProcessor {
 		}
 		ret[0] = vector;
 		return ret;
+	}
+
+	/**
+	 * Determines whether the element should be a vector or not based on its label.
+	 * @param element element
+	 * @return true if the element's label starts with a lowercase character, otherwise false.
+	 */
+	public boolean hasVectorLabel(GeoElement element) {
+		String alreadySetLabel = element.getLabelSimple();
+		String label =
+				alreadySetLabel != null ? alreadySetLabel : element.getDefinition().getLabel();
+		return isVectorLabel(label);
+	}
+
+	private boolean isVectorLabel(String label) {
+		return label != null && StringUtil.isLowerCase(label.charAt(0));
 	}
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,

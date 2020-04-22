@@ -49,6 +49,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -3655,4 +3656,42 @@ public class ExpressionNode extends ValidExpression
 		resolve = null;
 	}
 
+	/**
+	 * @return true if the expression is just a number (or degree)
+	 */
+	public boolean isSimpleNumber() {
+		if (getOperation() == Operation.MULTIPLY) {
+			return hasSimpleNumbers();
+		}
+		ExpressionValue unwrap = unwrap();
+		if (unwrap instanceof ExpressionNode) {
+			return false;
+		}
+		if (unwrap instanceof MyDoubleDegreesMinutesSeconds) {
+			return false;
+		}
+		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
+				|| unwrap instanceof GeoNumeric) {
+			double val = evaluateDouble();
+			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
+					&& !DoubleUtil.isEqual(val, Math.E);
+		}
+		return false;
+	}
+
+	private boolean hasSimpleNumbers() {
+		return areLeftAndRightNumbers() && isLeftOrRightSpecial();
+	}
+
+	private boolean areLeftAndRightNumbers() {
+		return getLeft().unwrap() instanceof NumberValue && getRight().unwrap() instanceof MyDouble;
+	}
+
+	private boolean isLeftOrRightSpecial() {
+		double evaluatedLeft = getLeft().evaluateDouble();
+		boolean isLeftMinusOne = MyDouble.exactEqual(evaluatedLeft, -1);
+		double evaluatedRight = getRight().evaluateDouble();
+		boolean isRightDeg = MyDouble.exactEqual(evaluatedRight, MyMath.DEG);
+		return isLeftMinusOne || isRightDeg;
+	}
 }
