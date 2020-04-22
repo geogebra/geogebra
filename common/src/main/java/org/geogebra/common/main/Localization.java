@@ -1298,7 +1298,7 @@ public abstract class Localization {
 		return getMenu("Keyboard.row" + row);
 	}
 
-	/** Returns true if the localized keyboard has latin characters. */
+	/** @return true if the localized keyboard has latin characters. */
 	public boolean isLatinKeyboard() {
 		String middleRow = getKeyboardRow(2);
 		int first = middleRow.codePointAt(0);
