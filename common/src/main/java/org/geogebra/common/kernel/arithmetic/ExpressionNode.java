@@ -471,6 +471,9 @@ public class ExpressionNode extends ValidExpression
 			if (operation == Operation.SQRT_SHORT) {
 				fixSqrtShort(Operation.MULTIPLY);
 			}
+			if (operation == Operation.MULTIPLY &&  isConstantDouble(right, Kernel.PI_180)) {
+				fixMultiplyDeg();
+			}
 		} else {
 			left.resolveVariables(info);
 		}
@@ -803,9 +806,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private void fixPowerFactorialTrig() {
-		if (left.isExpressionNode()
-				&& Operation.isSimpleFunction(((ExpressionNode) left).operation)
-				&& !((ExpressionNode) left).hasBrackets()) {
+		if (isSingleArgumentFunction(left)) {
 			ExpressionValue trigArg = ((ExpressionNode) this.left).getLeft();
 			Operation leftOperation = ((ExpressionNode) left).operation;
 			// sinxyz^2 is parsed as sin(x y z)^2, change to sin(x y z^2)
@@ -819,6 +820,21 @@ public class ExpressionNode extends ValidExpression
 			}
 			unsetRight();
 			operation = leftOperation;
+		}
+	}
+
+	private boolean isSingleArgumentFunction(ExpressionValue left) {
+		return left.isExpressionNode()
+				&& Operation.isSimpleFunction(((ExpressionNode) left).operation)
+				&& !((ExpressionNode) left).hasBrackets();
+	}
+
+	private void fixMultiplyDeg() {
+		if (isSingleArgumentFunction(left)) {
+			operation = ((ExpressionNode) left).getOperation();
+			left = new ExpressionNode(kernel, ((ExpressionNode) left).getLeft(),
+					Operation.MULTIPLY, right);
+			unsetRight();
 		}
 	}
 

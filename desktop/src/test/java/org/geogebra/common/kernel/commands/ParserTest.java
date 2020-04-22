@@ -216,6 +216,10 @@ public class ParserTest {
 		shouldReparseAs("ln3", "ln(3)");
 		// ln|y+6| not supported in parser; AV editor prduces ln abs(y+6) anyway
 		shouldReparseAs("ln abs(y+6)", "ln(abs(y + 6))");
+		shouldReparseAs("cos33" + Unicode.DEGREE_STRING,
+				"cos(33" + Unicode.DEGREE_STRING + ")");
+		shouldReparseAs("3cos33" + Unicode.DEGREE_STRING,
+				"3cos(33" + Unicode.DEGREE_STRING + ")");
 	}
 
 	@Test
