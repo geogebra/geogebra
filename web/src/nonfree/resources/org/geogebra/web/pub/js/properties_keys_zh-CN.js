@@ -171,7 +171,7 @@ __GGB__keysVar["zh-CN"].command = {
     "CircumcircleArc.Syntax": "[ <\u70b91>, <\u70b92>, <\u70b93> ]",
     "CircumcircleSector": "\u4e09\u70b9\u6247\u5f62",
     "CircumcircleSector.Syntax": "[ <\u70b91>, <\u70b92>, <\u70b93> ]",
-    "Circumference": "\u5468\u957f",
+    "Circumference": "\u5706\u5468\u957f",
     "Circumference.Syntax": "[ <\u5706\u9525\u66f2\u7ebf> ]",
     "Classes": "\u7ec4\u9650",
     "Classes.Syntax": "[ <\u6570\u636e\u5217\u8868>, <\u7ec4\u7684\u6570\u91cf> ]\n[ <\u6570\u636e\u5217\u8868>, <\u8d77\u70b9>, <\u7ec4\u7684\u5bbd\u5ea6> ]",
