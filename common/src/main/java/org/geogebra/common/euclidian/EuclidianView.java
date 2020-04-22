@@ -2570,7 +2570,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void changeLayer(GeoElement geo, int oldlayer, int newlayer) {
-		invalidateDrawableList();
+		if (drawableMap.containsKey(geo)) {
+			invalidateDrawableList();
+		}
 	}
 
 	/**
