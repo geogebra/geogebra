@@ -113,11 +113,10 @@ public class ParserTest {
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
-			Log.error(v1.getDebugString());
 			v1.resolveVariables(new EvalInfo(false));
-			Log.error(v1.getDebugString());
 			v1.wrap().replaceXYZnodes(xVar, yVar, zVar,
 					new ArrayList<ExpressionNode>());
+			app.getKernel().getConstruction().registerFunctionVariable(null);
 			reparse1 = v1.toString(tpl);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -204,7 +203,7 @@ public class ParserTest {
 		shouldReparseAs("cos7t/t", "cos(7t) / t");
 		shouldReparseAs("cos3x", "cos(3x)");
 		shouldReparseAs("cos3a", "cos(3a)");
-		// not fully defined: return the smallest undefined part
+		shouldReparseAs("f(n)=cos3n", "cos(3n)");
 		try {
 			reparse("cos3n", StringTemplate.defaultTemplate);
 			fail("Variable resolution should fail");
@@ -314,7 +313,6 @@ public class ParserTest {
 		String str = null;
 		try {
 			str = left.toString(StringTemplate.editTemplate);
-			// Log.debug(str);
 			ExpressionNode ve = (ExpressionNode) parseExpression(str);
 			String combo = left.getOperation() + "," + ve.getOperation();
 

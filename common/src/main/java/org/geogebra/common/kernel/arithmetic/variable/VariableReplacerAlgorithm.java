@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
@@ -161,7 +162,11 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionValue lookupOrProduct(String nameNoX) {
+		if (kernel.getConstruction().isRegistredFunctionVariable(nameNoX)) {
+			return new FunctionVariable(kernel, nameNoX);
+		}
 		ExpressionValue ret = kernel.lookupLabel(nameNoX);
+
 		if (ret == null && "i".equals(nameNoX)) {
 			ret = kernel.getImaginaryUnit();
 		}
