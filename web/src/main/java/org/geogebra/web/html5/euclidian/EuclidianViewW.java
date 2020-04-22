@@ -1005,7 +1005,7 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianControllerW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
 		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		if (!Browser.supportsPointerEvents(true)) {
+		if (!Browser.supportsPointerEvents()) {
 			absPanel.addDomHandler(euclidiancontroller,
 					MouseMoveEvent.getType());
 			absPanel.addDomHandler(euclidiancontroller,
@@ -1018,7 +1018,7 @@ public class EuclidianViewW extends EuclidianView implements
 			}
 		}
 
-		if (Browser.supportsPointerEvents(true)) {
+		if (Browser.supportsPointerEvents()) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
 			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);

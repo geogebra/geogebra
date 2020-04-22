@@ -14,7 +14,7 @@ import org.geogebra.web.html5.event.PointerEvent;
 import com.google.gwt.dom.client.Element;
 
 /**
- * Handles pointer events in Euclidian view(or MSPointer events in case of IE10)
+ * Handles pointer events in Euclidian view
  * 
  * @author Zbynek
  *
@@ -179,8 +179,8 @@ public class PointerEventHandler {
 	}
 
 	@ExternalAccess
-	private void onMouseUpOrOut(NativePointerEvent event, Element element, boolean out) {
-		if (pointerCapture != element && !out) {
+	private void onPointerUp(NativePointerEvent event, Element element) {
+		if (pointerCapture != element) {
 			return;
 		}
 		if (first != null && first.id == event.getPointerId()) {
@@ -188,11 +188,19 @@ public class PointerEventHandler {
 		} else {
 			second = null;
 		}
-		if (!out && second == null && first == null) {
+		if (second == null && first == null) {
 			setCapture(null);
 		}
-		if (!out) {
-			singleUp(convertEvent(event));
+		singleUp(convertEvent(event));
+		setPointerType(event.getPointerType(), false);
+	}
+
+	@ExternalAccess
+	private void onPointerOut(NativePointerEvent event) {
+		if (first != null && first.id == event.getPointerId()) {
+			first = null;
+		} else {
+			second = null;
 		}
 		setPointerType(event.getPointerType(), false);
 	}
@@ -210,31 +218,21 @@ public class PointerEventHandler {
 
 	public static native void attachToNative(Element element,
 			PointerEventHandler zoomer) /*-{
-		var fix = function(name) {
-			return $wnd.PointerEvent ? name.toLowerCase() : "MS" + name;
-		};
+		element.addEventListener("pointermove", function(e) {
+				zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerMove(*)(e);
+		});
 
-		element
-				.addEventListener(
-						fix("PointerMove"),
-						function(e) {
-							zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerMove(*)(e);
-						});
+		element.addEventListener("pointerdown", function(e) {
+				zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerDown(*)(e, element);
+		});
 
-		element
-				.addEventListener(
-						fix("PointerDown"),
-						function(e) {
-							zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerDown(*)(e, element);
-						});
-		function removePointer(out){
-			return function(e) {
-				zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onMouseUpOrOut(*)(e, element, out);
-			};
-		}
+		element.addEventListener("pointerout", function(e) {
+            zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerOut(*)(e);
+        });
 
-		element.addEventListener(fix("PointerOut"), removePointer(true));
-		$wnd.addEventListener(fix("PointerUp"), removePointer(false));
+		$wnd.addEventListener("pointerup", function(e) {
+            zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerUp(*)(e, element);
+        });
 	}-*/;
 
 	public static void startCapture(EuclidianViewW view) {
