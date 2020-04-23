@@ -433,7 +433,7 @@ public class EmbedManagerW implements EmbedManager {
 			@Override
 			public void run() {
 				app.getActiveEuclidianView().getEuclidianController()
-						.selectAndShowBoundingBox(ge);
+						.selectAndShowSelectionUI(ge);
 			}
 		});
 	}
