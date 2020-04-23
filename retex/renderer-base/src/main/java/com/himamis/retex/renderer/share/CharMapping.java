@@ -391,12 +391,11 @@ public final class CharMapping {
 		putForm('\u00E9', "\\'e");
 		putForm('\u00EA', "\\^e");
 		putForm('\u00EB', "\\\"e");
-		putForm('\u00EC', "\\`\\i");
 		// Hotfix to prevent showing iacute with a starting space and an italic style:
+		putForm('\u00EC', "\\!\\textrm{\\`\\i}");
 		putForm('\u00ED', "\\!\\textrm{\\'\\i}");
-		// putForm('\u00ED', "\\'\\i");
-		putForm('\u00EE', "\\^\\i");
-		putForm('\u00EF', "\\\"\\i");
+		putForm('\u00EE', "\\!\\textrm{\\^\\i}");
+		putForm('\u00EF', "\\!\\textrm{\\\"\\i}");
 		putForm('\u00F1', "\\~n");
 		putForm('\u00F2', "\\`o");
 		putForm('\u00F3', "\\'o");
@@ -450,11 +449,11 @@ public final class CharMapping {
 		putForm('\u0126', "\\Hstrok");
 		putForm('\u0127', "\\hstrok");
 		putForm('\u0128', "\\~I");
-		putForm('\u0129', "\\~\\i");
+		putForm('\u0129', "\\!\\textrm{\\~\\i}");
 		putForm('\u012A', "\\=I");
-		putForm('\u012B', "\\=\\i");
+		putForm('\u012B', "\\!\\textrm{\\=\\i}");
 		putForm('\u012C', "\\u{I}");
-		putForm('\u012D', "\\u{\\i}");
+		putForm('\u012D', "\\!\\textrm{\\u\\i}");
 		putForm('\u012E', "\\k{I}");
 		putForm('\u012F', "\\k{i}");
 		putForm('\u0130', "\\.I");
