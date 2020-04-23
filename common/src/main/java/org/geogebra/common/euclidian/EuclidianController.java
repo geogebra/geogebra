@@ -253,7 +253,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GeoFunction movedGeoFunction;
 	protected GeoNumeric movedGeoNumeric;
 	protected GeoBoolean movedGeoBoolean;
-	private GeoWidget movedGeoWidget;
+	private AbsoluteScreenLocateable movedObject;
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
 	protected Drawable resizedShape = null;
@@ -5888,14 +5888,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final void moveWidget(boolean repaint) {
 		// part of snap to grid code
-		movedGeoWidget.setAbsoluteScreenLoc(
+		movedObject.setAbsoluteScreenLoc(
 				view.toScreenCoordX(xRW - getStartPointX()),
 				view.toScreenCoordY(yRW - getStartPointY()));
 
 		if (repaint) {
-			movedGeoWidget.updateRepaint();
+			movedObject.updateRepaint();
 		} else {
-			movedGeoWidget.updateCascade();
+			movedObject.updateCascade();
 		}
 	}
 
@@ -6005,7 +6005,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final void moveAudioSlider(boolean repaint) {
-		GeoAudio audio = (GeoAudio) movedGeoWidget;
+		GeoAudio audio = (GeoAudio) movedObject;
 		setAudioTimeValue(audio);
 		audio.updateRepaint();
 	}
@@ -7259,9 +7259,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 
 				// ie Button Mode is really selected
-				movedGeoWidget = (GeoWidget) movedGeoElement;
+				movedObject = (AbsoluteScreenLocateable) movedGeoElement;
 				// move button
-				moveAbsoluteLocatable(movedGeoWidget);
+				moveAbsoluteLocatable(movedObject);
 
 			} else {
 				// need to trigger scripts
@@ -7272,14 +7272,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		} else if (movedGeoElement instanceof GeoWidget) {
-			movedGeoWidget = (GeoWidget) movedGeoElement;
-			if (movedGeoWidget.isGeoAudio()
+			movedObject = (GeoWidget) movedGeoElement;
+			if (movedObject.isGeoAudio()
 					&& !isMoveAudioExpected(app.getCapturingThreshold(type))) {
 				moveMode = MOVE_AUDIO_SLIDER;
 				moveAudioSlider(true);
 				return;
 			}
-			moveAbsoluteLocatable(movedGeoWidget);
+			moveAbsoluteLocatable(movedObject);
 		}
 
 		// image
@@ -7374,7 +7374,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean isMoveAudioExpected(int hitThreshold) {
-		DrawAudio da = (DrawAudio) view.getDrawableFor(movedGeoWidget);
+		DrawAudio da = (DrawAudio) view.getDrawableFor(movedObject);
 		boolean hitSlider = da.isSliderHit(mouseLoc.x, mouseLoc.y, hitThreshold);
 		return (tempRightClick()) || !hitSlider;
 	}
