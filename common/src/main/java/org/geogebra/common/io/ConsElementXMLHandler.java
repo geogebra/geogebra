@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -66,6 +67,8 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.prover.AlgoProve;
+import org.geogebra.common.kernel.statistics.AlgoFitLineX;
+import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -1269,7 +1272,14 @@ public class ConsElementXMLHandler {
 		String parameter = attrs.get("parameter");
 		if (geo instanceof EquationValue) {
 			// GeoConic handled here
-			if (!((EquationValue) geo).setTypeFromXML(style, parameter)) {
+			AlgoElement AlgorithmParent = geo.getParentAlgorithm();
+			boolean forceEquationForm = false;
+			if (AlgorithmParent != null)  {
+				boolean parentAlgorithmFitLineX = geo.getParentAlgorithm() instanceof AlgoFitLineX;
+				boolean parentAlgorithmFitLineY = geo.getParentAlgorithm() instanceof AlgoFitLineY;
+				forceEquationForm = parentAlgorithmFitLineX || parentAlgorithmFitLineY;
+			}
+			if (!((EquationValue) geo).setTypeFromXML(style, parameter, forceEquationForm)) {
 				Log.error("unknown style for conic in <eqnStyle>: " + style);
 			}
 		} else if (geo instanceof GeoLineND && "parametric".equals(style)) {

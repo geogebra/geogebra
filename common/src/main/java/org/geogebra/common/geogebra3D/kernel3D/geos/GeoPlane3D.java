@@ -923,7 +923,7 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter) {
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
 		if ("implicit".equals(style)) {
 			toStringMode = GeoLine.EQUATION_IMPLICIT;
 		} else if ("user".equals(style)) {
