@@ -89,6 +89,17 @@ public class FitTests extends BaseUnitTest {
     }
 
     @Test
+    public void testFitLineYLoadFromXML() {
+        getApp().setGraphingConfig();
+        GeoElement fitLine = addAvInput("FitLine((0,0),(1,1),(2,2))");
+        String outputString = fitLine.toOutputValueString(StringTemplate.editorTemplate);
+        getApp().setXML(getApp().getXML(), true);
+        assertThat(outputString, equalTo("y = x"));
+        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLine.getDescriptionMode());
+        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, fitLine.getToStringMode());
+    }
+
+    @Test
     public void testFitLineX() {
         getApp().setGraphingConfig();
         GeoElement fitLineX =
@@ -97,6 +108,20 @@ public class FitTests extends BaseUnitTest {
         assertThat(outputString, equalTo("y = 0.56667x + 1.66667"));
         Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLineX.getDescriptionMode());
         Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, fitLineX.getToStringMode());
+    }
+
+    @Test
+    public void testFitLineXLoadFromXML() {
+        getApp().setGraphingConfig();
+        GeoElement fitLineX =
+                addAvInput("FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
+        String outputString = fitLineX.toOutputValueString(StringTemplate.editorTemplate);
+        getApp().setXML(getApp().getXML(), true);
+
+        assertThat(outputString, equalTo("y = 0.56667x + 1.66667"));
+        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLineX.getDescriptionMode());
+        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, fitLineX.getToStringMode());
+        getApp().setXML(getApp().getXML(), true);
     }
 
     @Test
