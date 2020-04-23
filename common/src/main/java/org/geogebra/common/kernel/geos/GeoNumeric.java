@@ -386,7 +386,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean showInEuclidianView() {
-		return isDrawable() && isDefined() && !Double.isInfinite(value);
+		return isDrawable && isDefined() && !Double.isInfinite(value);
 	}
 
 	@Override
@@ -1711,7 +1711,6 @@ public class GeoNumeric extends GeoElement
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth(), true);
 		num.setRandom(defaultNum.isRandom());
 		num.setLineThickness(DEFAULT_SLIDER_THICKNESS);
-		num.setDrawable(false, false);
 		num.update();
 		return num;
 	}
