@@ -620,4 +620,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	public GeoElementND unwrapSymbolic() {
 		return getTwinGeo();
 	}
+
+	@Override
+	public boolean isDrawable() {
+		return twinGeo != null ? twinGeo.isDrawable() : super.isDrawable();
+	}
 }
