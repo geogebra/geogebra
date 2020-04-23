@@ -176,9 +176,9 @@ $menuWidth: 320px;
 		position: absolute;
 		height: 100%;
 		width: 100%;
+		z-index: 200;
 		&.transitionIn {
 		    overflow: auto;
-		    z-index: 200;
 			transition-timing-function: $submenuTimingFunction;
 			transition-duration: $submenuTransitionDuration;
 			box-shadow: -2px 0px 20px 0px $black-30;
