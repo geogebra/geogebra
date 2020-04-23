@@ -32,16 +32,6 @@ public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOper
 
 	@Override
 	public void callback(Boolean obj) {
-		// ignore obj: don't save means we want new construction
-		app.setWaitCursor();
-		app.fileNew();
-		app.setDefaultCursor();
-
-		if (!app.isUnbundledOrWhiteboard()) {
-			app.showPerspectivesPopup();
-		}
-		if (app.getPageController() != null) {
-			app.getPageController().resetPageControl();
-		}
+		app.tryLoadTemplatesOnFileNew();
 	}
 }
