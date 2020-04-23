@@ -44,11 +44,11 @@ public class PlayButtonTabber implements MayHaveFocus {
 
 	@Override
 	public AccessibilityGroup getAccessibilityGroup() {
-		return AccessibilityGroup.PLAY_BUTTON;
+		return AccessibilityGroup.getViewGroup(view.getViewID());
 	}
 
 	@Override
-	public int getViewId() {
-		return view.getViewID();
+	public AccessibilityGroup.ViewControlId getViewControlId() {
+		return AccessibilityGroup.ViewControlId.PLAY_BUTTON;
 	}
 }

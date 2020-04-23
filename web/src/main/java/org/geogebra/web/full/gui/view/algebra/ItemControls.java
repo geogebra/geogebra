@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -61,9 +60,7 @@ public class ItemControls extends FlowPanel
 		buildGUI();
 		if (!radioTreeItem.isInputTreeItem() && hasMoreMenu()) {
 			add(getMoreButton());
-			btnMore.setTabIndex(GUITabs.NO_TAB);
 		}
-		getElement().setTabIndex(GUITabs.NO_TAB);
 		setLabels();
 	}
 

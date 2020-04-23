@@ -190,7 +190,7 @@
 		}
 
 		&:focus {
-			outline: #212121 5px auto;
+			outline: $focus-black 5px auto;
 		}
 
 		&.button-up img {
@@ -247,8 +247,8 @@
 		&:hover {
 			background-color: $mow_primary_variant;
 		}
-		&:focus {
-			outline: #212121 5px auto;
+		&.keyboardFocus:focus {
+			outline: $focus-black 5px auto;
 		}
 	}
 

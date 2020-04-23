@@ -667,11 +667,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		return true;
 	}
@@ -818,11 +813,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

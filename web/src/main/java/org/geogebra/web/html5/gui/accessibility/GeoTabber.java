@@ -50,8 +50,8 @@ public class GeoTabber implements MayHaveFocus {
 	}
 
 	@Override
-	public int getViewId() {
-		return -1;
+	public AccessibilityGroup.ViewControlId getViewControlId() {
+		return null;
 	}
 
 	public void setFocused(boolean b) {

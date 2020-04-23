@@ -1738,11 +1738,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
-	}
-
-	@Override
 	public boolean isParametric() {
 		return getToStringMode() == GeoLine.PARAMETRIC;
 	}

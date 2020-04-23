@@ -29,7 +29,6 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -611,7 +610,8 @@ public abstract class DockPanelW extends ResizeComposite
 		graphicsContextMenuBtn
 				.setTitle(app.getLocalization().getMenu("Settings"));
 		final FocusableWidget focusableWidget = new FocusableWidget(
-				AccessibilityGroup.SETTINGS_BUTTON,	getViewId(), graphicsContextMenuBtn);
+				AccessibilityGroup.getViewGroup(getViewId()),
+				AccessibilityGroup.ViewControlId.SETTINGS_BUTTON,  graphicsContextMenuBtn);
 		if (getViewId() == App.VIEW_EUCLIDIAN) {
 			focusableWidget.attachTo(app);
 		}
@@ -630,7 +630,6 @@ public abstract class DockPanelW extends ResizeComposite
 				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
 		titleBarPanelContent.add(graphicsContextMenuBtn);
 		graphicsContextMenuBtn.getElement().setTabIndex(0);
-		GUITabs.setTabIndex(graphicsContextMenuBtn.getElement(), GUITabs.SETTINGS);
 		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
 		if (toggleStyleBarButton != null) {
 			toggleStyleBarButton.removeFromParent();

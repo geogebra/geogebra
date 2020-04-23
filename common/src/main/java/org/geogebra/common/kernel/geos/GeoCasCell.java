@@ -2966,11 +2966,6 @@ public class GeoCasCell extends GeoElement
 		return false;
 	}
 
-	@Override
-	public boolean isEqual(final GeoElementND geo) {
-		return geo == this;
-	}
-
 	/**
 	 * Returns assignment variable, e.g. "a" for "a := 5" or row reference, e.g.
 	 * "$5$". Note that kernel.getCASPrintForm() is taken into account, e.g. row

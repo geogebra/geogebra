@@ -607,12 +607,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 			super.set(geo);
 		}
-
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
 	}
 
 	@Override

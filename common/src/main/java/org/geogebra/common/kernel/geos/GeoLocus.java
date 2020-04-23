@@ -127,11 +127,6 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 	}
 
 	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
-	}
-
-	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC2D;
 	}

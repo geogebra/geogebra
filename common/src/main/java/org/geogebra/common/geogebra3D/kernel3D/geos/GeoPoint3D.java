@@ -1362,7 +1362,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public final boolean showInAlgebraView() {
-		return (isDefined || showUndefinedInAlgebraView);
+		return isDefined || showUndefinedInAlgebraView;
 	}
 
 	@Override
@@ -1901,11 +1901,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				false);
 
 		updateCoords();
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

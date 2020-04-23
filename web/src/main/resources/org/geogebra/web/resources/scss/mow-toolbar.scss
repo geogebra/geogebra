@@ -98,6 +98,10 @@
 		.toolbarMowPanel {
 			overflow: hidden;
 
+			.keyboardFocus:focus {
+				outline: $focus-black 5px auto;
+			}
+
 			.mowSubmenuScrollPanel {
 				background-color: white;
 				height: 156px;
@@ -155,10 +159,6 @@
 								opacity: 0.65;
 							}
 
-							&:focus {
-								outline: #212121 5px auto;
-							}
-
 							&.mowColorButton-selected {
 								width: 38px;
 								height: 38px;
@@ -202,10 +202,6 @@
 								display: inline-block;
 								padding-left: 30px;
 								top: -2px;
-							}
-
-							input[type="range"]:focus {
-								outline: #212121 5px auto;
 							}
 
 							.gwt-Label {
@@ -264,8 +260,8 @@
 		    opacity: 0.54;
 		}
 
-		&:focus {
-			outline: #212121 5px auto;
+		&.keyboardFocus:focus {
+			outline: $focus-black 5px auto;
 		}
 
 		.gwt-Label {

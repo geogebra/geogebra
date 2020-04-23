@@ -608,6 +608,7 @@ public class ConstructionDefaults {
 		number.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL, true);
 		number.setSliderBlobSize(GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
 		number.setSliderFixed(false);
+		number.setDrawable(false);
 		defaultGeoElements.put(DEFAULT_NUMBER, number);
 
 		// angle
@@ -630,6 +631,7 @@ public class ConstructionDefaults {
 		angle.setIntervalMin(GeoAngle.DEFAULT_SLIDER_MIN_ANGLE);
 		angle.setAnimationStep(GeoAngle.DEFAULT_SLIDER_INCREMENT_ANGLE);
 		angle.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
+		angle.setDrawable(false);
 		angle.setDefaultGeoType(DEFAULT_ANGLE);
 		// can't do this here for sliders as it affects Angle[A,B,C] too
 		// see GeoNumeric.setSliderFromDefault()

@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.voiceInput;
 
 import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -41,8 +40,6 @@ public class SpeechRecognitionPanel extends FlowPanel {
 		speechBtn = new StandardButton(
 				GuiResourcesSimple.INSTANCE.record(), null, 24, app);
 		speechBtn.setStyleName("speechBtn");
-		GUITabs.setTabIndex(speechBtn.getElement(),
-				GUITabs.SPEECH_REC + viewID);
 		speechBtn.setTitle(
 				"Speech recognition button.");
 		speechBtn.setAltText(
@@ -58,7 +55,8 @@ public class SpeechRecognitionPanel extends FlowPanel {
 								QuestResErrConstants.COMMAND);
 			}
 		});
-		new FocusableWidget(AccessibilityGroup.SPEECH, viewID, speechBtn).attachTo(app);
+		new FocusableWidget(AccessibilityGroup.getViewGroup(getViewID()),
+				AccessibilityGroup.ViewControlId.SPEECH,  speechBtn).attachTo(app);
 		this.add(speechBtn);
 	}
 

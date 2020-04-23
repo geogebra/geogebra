@@ -191,12 +191,12 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	/**
-	 *
+	 * handle function keys, arrow keys, +/- keys for selected geos, etc.
 	 * @param event
 	 *            native event
 	 */
-	public void handleSelectedGeosKeysNative(NativeEvent event) {
-		handleSelectedGeosKeys(
+	public boolean handleSelectedGeosKeys(NativeEvent event) {
+		return handleSelectedGeosKeys(
 				KeyCodes.translateGWTcode(event
 						.getKeyCode()), selection.getSelectedGeos(),
 				event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
@@ -208,15 +208,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		setDownKeys(event);
 
-		// SELECTED GEOS:
-		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		handleSelectedGeosKeys(
-		        KeyCodes.translateGWTcode(event.getNativeKeyCode()), app
-		                .getSelectionManager().getSelectedGeos(),
-		        event.isShiftKeyDown(), event.isControlKeyDown(),
-		        event.isAltKeyDown(), false);
+		boolean handled = handleSelectedGeosKeys(event.getNativeEvent());
 
-		if (preventBrowserCtrl(kc, event.isShiftKeyDown())
+		if (handled || preventBrowserCtrl(kc, event.isShiftKeyDown())
 				&& event.isControlKeyDown()) {
 			event.preventDefault();
 			event.stopPropagation();

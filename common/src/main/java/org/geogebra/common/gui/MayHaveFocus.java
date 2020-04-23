@@ -11,5 +11,5 @@ public interface MayHaveFocus {
 
 	AccessibilityGroup getAccessibilityGroup();
 
-	int getViewId();
+	AccessibilityGroup.ViewControlId getViewControlId();
 }

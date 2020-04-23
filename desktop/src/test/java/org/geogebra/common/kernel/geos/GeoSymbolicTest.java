@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -850,6 +851,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertEquals("p + \" is a prime\"",
 				lastGeoElement.getDefinitionForEditor());
 		assertThat(lastGeoElement, instanceOf(GeoText.class));
+	}
+
+	@Test
+	public void testSimplificationShowsBothRows1() {
+		GeoSymbolic symbolic = add("x + x");
+		assertThat(symbolic.getDescriptionMode(), is(DescriptionMode.DEFINITION_VALUE));
+	}
+
+	@Test
+	public void testSimplificationShowsBothRows2() {
+		GeoSymbolic symbolic = add("(x + 1) * (x - 1)");
+		assertThat(symbolic.getDescriptionMode(), is(DescriptionMode.DEFINITION_VALUE));
 	}
 
 	private void shouldFail(String string, String errorMsg) {

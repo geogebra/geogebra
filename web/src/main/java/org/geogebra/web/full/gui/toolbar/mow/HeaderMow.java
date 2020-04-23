@@ -58,7 +58,7 @@ public class HeaderMow extends FlowPanel
 		content.addStyleName("content");
 		createCenter();
 		createRight();
-		new FocusableWidget(AccessibilityGroup.NOTES_TOOLBAR_HEADER, -1,
+		new FocusableWidget(AccessibilityGroup.NOTES_TOOLBAR_HEADER, null,
 				penPanelBtn, toolsPanelBtn, mediaPanelBtn, openCloseBtn).attachTo(appW);
 		add(content);
 	}

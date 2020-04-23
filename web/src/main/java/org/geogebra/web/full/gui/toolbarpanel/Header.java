@@ -10,7 +10,6 @@ import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.accessibility.GUITabs;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
@@ -474,7 +473,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 
 	private void createMenuButton() {
 		btnMenu = new MenuToggleButton(app);
-		focusableMenuButton = new FocusableWidget(AccessibilityGroup.MENU, -1, btnMenu);
+		focusableMenuButton = new FocusableWidget(AccessibilityGroup.MENU, null, btnMenu);
 		updateMenuPosition();
 		markMenuAsExpanded(false);
 	}
@@ -825,22 +824,20 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Sets tab order for header buttons.
 	 */
 	public void setTabIndexes() {
-		tabIndex(btnMenu, GUITabs.MENU);
+		tabIndex(btnMenu, AccessibilityGroup.MENU);
 		if (focusableMenuButton != null) {
 			focusableMenuButton.attachTo(app);
 		}
-		tabIndex(btnClose, GUITabs.HEADER_CLOSE);
-		new FocusableWidget(AccessibilityGroup.ALGEBRA_CLOSE, -1, btnClose).attachTo(app);
-		tabIndex(btnUndo, GUITabs.UNDO);
-		new FocusableWidget(AccessibilityGroup.UNDO, -1, btnUndo).attachTo(app);
-		tabIndex(btnRedo, GUITabs.REDO);
-		new FocusableWidget(AccessibilityGroup.REDO, -1, btnRedo).attachTo(app);
+		tabIndex(btnClose, AccessibilityGroup.ALGEBRA_CLOSE);
+
+		tabIndex(btnUndo, AccessibilityGroup.UNDO);
+		tabIndex(btnRedo, AccessibilityGroup.REDO);
 		setAltTexts();
 	}
 
-	private static void tabIndex(GCustomButton btn, int index) {
+	private void tabIndex(GCustomButton btn, AccessibilityGroup group) {
 		if (btn != null) {
-			GUITabs.setTabIndex(btn.getElement(), index);
+			new FocusableWidget(group, null, btn).attachTo(app);
 		}
 	}
 

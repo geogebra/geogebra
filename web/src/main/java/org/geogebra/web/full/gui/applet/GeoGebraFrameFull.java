@@ -750,7 +750,7 @@ public class GeoGebraFrameFull
 		openMenuButton.addDomHandler(this, KeyUpEvent.getType());
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
-		new FocusableWidget(AccessibilityGroup.MENU, -1, openMenuButton).attachTo(app);
+		new FocusableWidget(AccessibilityGroup.MENU, null, openMenuButton).attachTo(app);
 		add(openMenuButton);
 	}
 

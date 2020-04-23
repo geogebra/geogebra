@@ -126,7 +126,7 @@ public class ToolbarMow extends FlowPanel
 		pageControlButton = new StandardButton(
 				MaterialDesignResources.INSTANCE.mow_page_control(), null, 24,
 				appW);
-		new FocusableWidget(AccessibilityGroup.PAGE_LIST_OPEN, -1, pageControlButton)
+		new FocusableWidget(AccessibilityGroup.PAGE_LIST_OPEN, null, pageControlButton)
 				.attachTo(appW);
 		pageControlButton.setStyleName("mowFloatingButton");
 		showPageControlButton(true);
@@ -300,13 +300,13 @@ public class ToolbarMow extends FlowPanel
 				MaterialDesignResources.INSTANCE.undo_border(), null, 24, appW);
 		btnUndo.addStyleName("flatButton");
 		btnUndo.addFastClickHandler(this);
-		new FocusableWidget(AccessibilityGroup.UNDO, -1, btnUndo).attachTo(appW);
+		new FocusableWidget(AccessibilityGroup.UNDO, null, btnUndo).attachTo(appW);
 		btnRedo = new StandardButton(
 				MaterialDesignResources.INSTANCE.redo_border(), null, 24, appW);
 		btnRedo.addFastClickHandler(this);
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
-		new FocusableWidget(AccessibilityGroup.REDO, -1, btnRedo).attachTo(appW);
+		new FocusableWidget(AccessibilityGroup.REDO, null, btnRedo).attachTo(appW);
 		undoRedoPanel.add(btnUndo);
 		undoRedoPanel.add(btnRedo);
 	}
