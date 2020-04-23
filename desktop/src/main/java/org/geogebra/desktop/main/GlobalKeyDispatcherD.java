@@ -31,6 +31,7 @@ import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.OOMLConverter;
 import org.geogebra.desktop.util.UtilD;
 
+import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
@@ -63,7 +64,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		// text areas)
 		// or key events coming from popups (source class = JRootPane)
 		if (event.isConsumed() || event.getSource() instanceof JTextComponent
-				|| event.getSource() instanceof JRootPane) {
+				|| event.getSource() instanceof JRootPane
+				|| event.getSource() instanceof MathFieldD) {
 			return false;
 		}
 

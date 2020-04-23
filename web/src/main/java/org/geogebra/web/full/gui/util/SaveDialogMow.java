@@ -187,7 +187,7 @@ public class SaveDialogMow extends DialogBoxW
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
 			if (templateCheckbox.isSelected()) {
-				setSaveType(((AppW) app).getVendorSettings().getTemplateType());
+				setSaveType(MaterialType.ggsTemplate);
 				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
 			} else {
 				setSaveType(MaterialType.ggs);

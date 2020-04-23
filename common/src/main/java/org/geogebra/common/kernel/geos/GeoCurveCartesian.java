@@ -419,11 +419,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		return isDefined();
 	}
@@ -821,11 +816,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	@Override
 	protected GeoCurveCartesianND newGeoCurveCartesian(Construction cons1) {
 		return new GeoCurveCartesian(cons1);
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

@@ -96,13 +96,6 @@ public abstract class GeoVec3D extends GeoElement
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		// return true;
-		// return isDefined();
-		return true;
-	}
-
-	@Override
 	public void set(GeoElementND geo) {
 		if (geo instanceof GeoVec3D) {
 			GeoVec3D v = (GeoVec3D) geo;
