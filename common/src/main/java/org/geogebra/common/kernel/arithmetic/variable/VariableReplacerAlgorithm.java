@@ -162,7 +162,8 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionValue lookupOrProduct(String nameNoX) {
-		if (kernel.getConstruction().isRegistredFunctionVariable(nameNoX)) {
+		if (kernel.getConstruction().isRegistredFunctionVariable(nameNoX)
+				&& !isCharVariableOrConstantName(nameNoX)) {
 			return new FunctionVariable(kernel, nameNoX);
 		}
 		ExpressionValue ret = kernel.lookupLabel(nameNoX);
@@ -182,12 +183,12 @@ public class VariableReplacerAlgorithm {
 	private ExpressionValue processProductReverse() {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
 
-			char charAtIndex = expressionString.charAt(charIndex);
-			if (!isCharVariableOrConstantName(charAtIndex)) {
+			String lastChar = expressionString.substring(charIndex, charIndex + 1);
+			if (!isCharVariableOrConstantName(lastChar)) {
 				break;
 			}
 
-			exponents.increase(String.valueOf(charAtIndex));
+			exponents.increase(lastChar);
 
 			nameNoX = expressionString.substring(0, charIndex);
 			geo = lookupOrProduct(nameNoX);
@@ -200,7 +201,11 @@ public class VariableReplacerAlgorithm {
 		return null;
 	}
 
-	private boolean isCharVariableOrConstantName(char charAtIndex) {
+	private boolean isCharVariableOrConstantName(String token) {
+		if (token.length() != 1) {
+			return false;
+		}
+		char charAtIndex = token.charAt(0);
 		boolean isPi = charAtIndex == Unicode.pi;
 		boolean isTheta = charAtIndex == Unicode.theta;
 		boolean isT = charAtIndex == 't';
