@@ -815,7 +815,7 @@ public class ExpressionNode extends ValidExpression
 				ExpressionNode trigArgExpr = (ExpressionNode) trigArg;
 				left = trigArgExpr.getRight().wrap()
 						.apply(operation, right).multiply(trigArgExpr.getLeft());
-			} else { // sinx^2 is parsed as sin(x)^2, change to sin(x y z^2)
+			} else { // sinx^2 is parsed as sin(x)^2, change to sin(x^2)
 				this.left = new ExpressionNode(kernel, trigArg, operation, right);
 			}
 			unsetRight();

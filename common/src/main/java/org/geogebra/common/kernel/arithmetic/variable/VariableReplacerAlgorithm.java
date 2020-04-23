@@ -131,15 +131,15 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private MySpecialDouble consumeConstant(String expressionString) {
-		int numbberLength = 0;
-		while (numbberLength < expressionString.length()
-				&& StringUtil.isDigit(expressionString.charAt(numbberLength))) {
-			numbberLength++;
+		int numberLength = 0;
+		while (numberLength < expressionString.length()
+				&& StringUtil.isDigit(expressionString.charAt(numberLength))) {
+			numberLength++;
 		}
-		if (numbberLength != 0) {
-			String num = nameNoX.substring(0, numbberLength);
+		if (numberLength != 0) {
+			String num = nameNoX.substring(0, numberLength);
 			double value = MyDouble.parseDouble(kernel.getLocalization(), num);
-			nameNoX = nameNoX.substring(numbberLength);
+			nameNoX = nameNoX.substring(numberLength);
 			geo = lookupOrProduct(nameNoX);
 			return new MySpecialDouble(kernel, value, num);
 		}
