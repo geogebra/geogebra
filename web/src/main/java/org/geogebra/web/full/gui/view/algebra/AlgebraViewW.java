@@ -266,7 +266,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				// onkeypress
 				if (!(editItem || Browser.isTabletBrowser())) {
 					app.getGlobalKeyDispatcher()
-							.handleSelectedGeosKeysNative(event);
+							.handleSelectedGeosKeys(event);
 					event.stopPropagation();
 					event.preventDefault();
 					return;
