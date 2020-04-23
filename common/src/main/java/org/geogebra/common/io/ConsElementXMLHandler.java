@@ -2344,21 +2344,26 @@ public class ConsElementXMLHandler {
 				// into defined
 				// this is intentional, but when loading a file we must override
 				// it for 3.2 compatibility
-				boolean wasDefined = pair.getGeo().isDefined();
+				GeoElement geoElement = pair.getGeo();
+				boolean wasDefined = geoElement.isDefined();
+				boolean isDrawable = geoElement.isDrawable();
 				if (pair.min != null) {
 					NumberValue num = algProc.evaluateToNumeric(pair.min,
 							xmlHandler.handler);
-					((GeoNumeric) pair.getGeo()).setIntervalMin(num);
+					((GeoNumeric) geoElement).setIntervalMin(num);
 				}
 
 				if (pair.max != null) {
 					NumberValue num2 = algProc.evaluateToNumeric(pair.max,
 							xmlHandler.handler);
-					((GeoNumeric) pair.getGeo()).setIntervalMax(num2);
+					((GeoNumeric) geoElement).setIntervalMax(num2);
 				}
 
 				if (!wasDefined) {
-					pair.getGeo().setUndefined();
+					geoElement.setUndefined();
+				}
+				if (!isDrawable && geoElement instanceof GeoNumeric) {
+					((GeoNumeric) geoElement).setDrawable(false);
 				}
 			}
 		} catch (RuntimeException e) {
