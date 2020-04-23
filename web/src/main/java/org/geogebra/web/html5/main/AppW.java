@@ -1215,6 +1215,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 						@Override
 						public void onError(Throwable exception) {
 							Log.error("Error on templates load");
+							resetOnFileNew();
 						}
 					});
 		} else {
