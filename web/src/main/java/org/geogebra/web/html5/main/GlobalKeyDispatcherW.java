@@ -194,6 +194,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * handle function keys, arrow keys, +/- keys for selected geos, etc.
 	 * @param event
 	 *            native event
+	 * @return if key was consumed
 	 */
 	public boolean handleSelectedGeosKeys(NativeEvent event) {
 		return handleSelectedGeosKeys(
