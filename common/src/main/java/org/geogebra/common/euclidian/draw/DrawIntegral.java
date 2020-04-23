@@ -152,7 +152,7 @@ public class DrawIntegral extends DrawFunctionArea {
 		if (labelVisible) {
 			xLabel = (int) Math.round((ax + bx) / 2) - 6;
 			yLabel = (int) view.getYZero() - view.getFontSize();
-			labelDesc = geo.getLabelDescription();
+			labelDesc = getTopLevelGeo().getLabelDescription();
 			addLabelOffset();
 		}
 	}
