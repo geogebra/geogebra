@@ -37,11 +37,6 @@ public class VideoManagerW implements VideoManager {
 
 	private AppWFull app;
 
-	/**
-	 * true if only preview images are needed (i.e. for image export)
-	 */
-	private boolean previewOnly = false;
-
 	private Map<DrawVideo, AbstractVideoPlayer> players = new HashMap<>();
 	private ArrayList<AbstractVideoPlayer> cache = new ArrayList<>();
 
@@ -91,16 +86,6 @@ public class VideoManagerW implements VideoManager {
 			}
 		});
 		RootPanel.get().add(img);
-	}
-
-	@Override
-	public void setPreviewOnly(boolean preview) {
-		previewOnly = preview;
-	}
-
-	@Override
-	public boolean isPreviewOnly() {
-		return previewOnly;
 	}
 
 	@Override

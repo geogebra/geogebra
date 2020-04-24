@@ -75,20 +75,6 @@ public interface VideoManager {
 	void createPreview(GeoVideo geo);
 
 	/**
-	 * Activates preview mode if only preview images are needed (i.e. for image
-	 * export)
-	 * 
-	 * @param preview
-	 *            true to activate preview mode, false to deactivate
-	 */
-	void setPreviewOnly(boolean preview);
-
-	/**
-	 * @return true if preview mode is active
-	 */
-	boolean isPreviewOnly();
-
-	/**
 	 * Gets the ID of the YouTube video
 	 * ie from https://www.youtube.com/watch?v=E4uvbaTR7mw
 	 * gets 'E4uvbaTR7mw'.

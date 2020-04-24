@@ -444,12 +444,8 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency,
 			ExportType format, boolean greyscale) {
-		appW.getVideoManager().setPreviewOnly(true);
-		String dataUrl = dataURL(
-				getExportImageCanvas(scale, transparency, greyscale),
+		return dataURL(getExportImageCanvas(scale, transparency, greyscale),
 				format);
-		appW.getVideoManager().setPreviewOnly(false);
-		return dataUrl;
 	}
 
 	/**
@@ -526,7 +522,6 @@ public class EuclidianViewW extends EuclidianView implements
 		this.appW.setExporting(ExportType.PDF_HTML5, scale);
 
 		exportPaintPre(g4copy, scale, false);
-		appW.getVideoManager().setPreviewOnly(true);
 		drawObjects(g4copy);
 
 		// include view 2 as 2nd page
@@ -535,7 +530,6 @@ public class EuclidianViewW extends EuclidianView implements
 			view2.exportPaintPre(g4copy, scale, false);
 			view2.drawObjects(g4copy);
 		}
-		appW.getVideoManager().setPreviewOnly(false);
 
 		this.appW.setExporting(ExportType.NONE, 1);
 		return PDFEncoderW.getPDF(ctx);
