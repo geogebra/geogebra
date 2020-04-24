@@ -9,6 +9,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 
+import javax.annotation.Nonnull;
+
 /**
  * Web implementation of AccessibilityManager.
  *
@@ -63,24 +65,24 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		focusFirstVisible(components.first());
 	}
 
-	private void focusFirstVisible(MayHaveFocus entry) {
+	private void focusFirstVisible(@Nonnull MayHaveFocus entry) {
 		MayHaveFocus nextEntry = entry;
-		while (nextEntry != null) {
+		do {
 			if (nextEntry.focusIfVisible(false)) {
 				return;
 			}
 			nextEntry = findNext(nextEntry);
-		}
+		} while (nextEntry != entry);
 	}
 
-	private void focusLastVisible(MayHaveFocus entry) {
+	private void focusLastVisible(@Nonnull MayHaveFocus entry) {
 		MayHaveFocus nextEntry = entry;
-		while (nextEntry != null) {
+		do {
 			if (nextEntry.focusIfVisible(true)) {
 				return;
 			}
 			nextEntry = findPrevious(nextEntry);
-		}
+		} while (nextEntry != entry);
 	}
 
 	private MayHaveFocus findNext(MayHaveFocus entry) {
