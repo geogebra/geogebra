@@ -4,10 +4,10 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.web.full.main.AppWFull;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import org.geogebra.web.full.main.AppWFull;
 
 /**
  * Audio / video dialog.
@@ -88,6 +88,6 @@ public abstract class MediaDialog extends OptionDialog {
 
 	protected void onMediaElementCreated(GeoElement geoElement) {
 		getApplication().getActiveEuclidianView()
-				.getEuclidianController().selectAndShowBoundingBox(geoElement);
+				.getEuclidianController().selectAndShowSelectionUI(geoElement);
 	}
 }
