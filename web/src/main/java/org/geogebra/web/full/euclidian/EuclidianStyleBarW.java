@@ -501,8 +501,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private boolean isMaskSelectedInGroup() {
-		return isFocusedGroupElement() &&
-				app.getSelectionManager().getFocusedGroupElement().isMask();
+		return isFocusedGroupElement()
+				&& app.getSelectionManager().getFocusedGroupElement().isMask();
 	}
 
 	private GeoElementND getFirstGeo() {
