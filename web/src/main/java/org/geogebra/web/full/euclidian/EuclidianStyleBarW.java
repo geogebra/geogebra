@@ -494,10 +494,15 @@ public class EuclidianStyleBarW extends StyleBarW2
 		if (app.isUnbundledOrWhiteboard()) {
 			addDeleteButton();
 
-			if (hasActiveGeos() && !isBackground()) {
+			if (hasActiveGeos() && !isBackground() && !isMaskSelectedInGroup()) {
 				addContextMenuButton();
 			}
 		}
+	}
+
+	private boolean isMaskSelectedInGroup() {
+		return isFocusedGroupElement()
+				&& app.getSelectionManager().getFocusedGroupElement().isMask();
 	}
 
 	private GeoElementND getFirstGeo() {
