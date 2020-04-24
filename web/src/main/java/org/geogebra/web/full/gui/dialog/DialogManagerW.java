@@ -660,7 +660,9 @@ public class DialogManagerW extends DialogManager
 				|| app.getGuiManager().showView(App.VIEW_ALGEBRA)
 				|| app.getGuiManager()
 						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-			new PrintPreviewW((AppW) app).show();
+			new SessionExpireNotifyDialog((AppW) app).show();
+
+			//new PrintPreviewW((AppW) app).show();
 		}
 	}
 
