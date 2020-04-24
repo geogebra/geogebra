@@ -3380,6 +3380,7 @@ __GGB__keysVar["fi"].menu = {
     "resetConstruction": "Aloita piirros alusta",
     "saveTemplate": "Tallenna ty\xf6pohjana",
     "search_geogebra_materials": "Hae GeoGebra Materiaaleista",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Jaa linkill\xe4",
     "shareGroupHelpText": "Valitse yksi tai useampi ryhm\xe4",
     "share_message": "Message",

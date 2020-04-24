@@ -3380,6 +3380,7 @@ __GGB__keysVar["sl"].menu = {
     "resetConstruction": "Ponovno za\u010dni konstrukcijo",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Prei\u0161\u010di GeoGebra vire",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Deljeno s povezavo",
     "shareGroupHelpText": "Izbira ene ali ve\u010d skupin",
     "share_message": "Message",

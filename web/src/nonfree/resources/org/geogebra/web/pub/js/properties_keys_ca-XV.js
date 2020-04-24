@@ -3380,6 +3380,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "resetConstruction": "Reinicia la construcci\xf3",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Recerca de materials de GeoGebra",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Comparteix amb un enlla\xe7",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

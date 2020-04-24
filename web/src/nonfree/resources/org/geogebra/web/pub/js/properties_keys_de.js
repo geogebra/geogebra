@@ -3380,6 +3380,7 @@ __GGB__keysVar["de"].menu = {
     "resetConstruction": "Konstruktion zur\xfccksetzen",
     "saveTemplate": "Als Vorlage speichern",
     "search_geogebra_materials": "GeoGebra Materialien suchen",
+    "sessionExpireNotify": "Ihre Sitzung l\xe4uft bald ab. Bitte speichern Sie Ihr Tafelbild, um angemeldet zu bleiben.",
     "shareByLink": "Teilen mit Link",
     "shareGroupHelpText": "W\xe4hle eine oder mehrere Gruppen aus",
     "share_message": "Nachricht",

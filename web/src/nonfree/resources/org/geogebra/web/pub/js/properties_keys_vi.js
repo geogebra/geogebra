@@ -3380,6 +3380,7 @@ __GGB__keysVar["vi"].menu = {
     "resetConstruction": "x\xe1c l\u1eadp l\u1ea1i c\xe1ch d\u1ef1ng h\xecnh",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

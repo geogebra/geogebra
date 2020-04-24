@@ -3380,6 +3380,7 @@ __GGB__keysVar["fr"].menu = {
     "resetConstruction": "R\xe9initialiser la construction",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Chercher des ressources GeoGebra",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Partag\xe9 avec un lien",
     "shareGroupHelpText": "Choisissez un ou plusieurs groupe(s)",
     "share_message": "Message",

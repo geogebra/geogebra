@@ -3380,6 +3380,7 @@ __GGB__keysVar["tr"].menu = {
     "resetConstruction": "\u0130n\u015fay\u0131 s\u0131f\u0131rla",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra Kaynaklar\u0131n\u0131 Tara",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Bir veya daha fazla grup se\xe7in",
     "share_message": "Message",

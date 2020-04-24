@@ -3380,6 +3380,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "resetConstruction": "\u91cd\u65b0\u958b\u59cb",
     "saveTemplate": "\u5132\u5b58\u70ba\u7bc4\u672c",
     "search_geogebra_materials": "\u641c\u5c0b\u5716\u6a94",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "\u9078\u64c7\u4e00\u500b\u4ee5\u4e0a\u7684\u793e\u7fa4",
     "share_message": "Message",

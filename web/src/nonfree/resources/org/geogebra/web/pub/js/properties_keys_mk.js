@@ -3380,6 +3380,7 @@ __GGB__keysVar["mk"].menu = {
     "resetConstruction": "\u041e\u0431\u043d\u043e\u0432\u0438 \u0458\u0430 \u043a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u0458\u0430\u0442\u0430",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

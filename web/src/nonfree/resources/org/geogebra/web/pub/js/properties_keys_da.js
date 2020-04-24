@@ -3380,6 +3380,7 @@ __GGB__keysVar["da"].menu = {
     "resetConstruction": "nulstil konstruktionen",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "S\xf8g blandt GeoGebra Materialer",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Delt med link",
     "shareGroupHelpText": "V\xe6lg en eller flere grupper",
     "share_message": "Message",

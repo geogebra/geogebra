@@ -3380,6 +3380,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "resetConstruction": "Constructie herbeginnen",
     "saveTemplate": "Sla op als sjabloon",
     "search_geogebra_materials": "Zoek naar GeoGebra bestanden",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Delen via link",
     "shareGroupHelpText": "Selecteer een of meer groepen",
     "share_message": "Message",

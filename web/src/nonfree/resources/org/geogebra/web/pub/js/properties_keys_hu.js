@@ -3380,6 +3380,7 @@ __GGB__keysVar["hu"].menu = {
     "resetConstruction": "Szerkeszt\xe9s t\xf6rl\xe9se",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra anyagok keres\xe9se",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

@@ -3380,6 +3380,7 @@ __GGB__keysVar["uz"].menu = {
     "resetConstruction": "Reset construction",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra Resurslarini izlash",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Havola bo'yicha ulashish",
     "shareGroupHelpText": "Guruh(lar)ni tanlang",
     "share_message": "Message",

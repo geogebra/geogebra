@@ -3380,6 +3380,7 @@ __GGB__keysVar["sr"].menu = {
     "resetConstruction": "resetuj konstrukciju",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra Materijale",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

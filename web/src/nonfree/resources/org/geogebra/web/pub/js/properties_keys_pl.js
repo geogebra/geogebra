@@ -3380,6 +3380,7 @@ __GGB__keysVar["pl"].menu = {
     "resetConstruction": "Reset konstrukcji",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Szukaj materia\u0142\xf3w GeoGebra",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Udost\u0119pnij przez link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

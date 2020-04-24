@@ -3380,6 +3380,7 @@ __GGB__keysVar["ko"].menu = {
     "resetConstruction": "\uad6c\uc131 \uc7ac\uc124\uc815",
     "saveTemplate": "\uc591\uc2dd\uc73c\ub85c \uc800\uc7a5\ud558\uae30",
     "search_geogebra_materials": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uc790\ub8cc \uac80\uc0c9",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "\ub9c1\ud06c\ub85c \uacf5\uc720\ud558\uae30",
     "shareGroupHelpText": "\uadf8\ub8f9\uc744 \ud558\ub098 \uc774\uc0c1 \uc120\ud0dd\ud558\uc138\uc694.",
     "share_message": "Message",

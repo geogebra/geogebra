@@ -3380,6 +3380,7 @@ __GGB__keysVar["eu"].menu = {
     "resetConstruction": "Hasi eraikuntza berriro",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Behatu GeoGebra-baliabideak",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Esteka bidez partekatu",
     "shareGroupHelpText": "Aukeratu talde bat edo gehiago",
     "share_message": "Message",

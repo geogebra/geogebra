@@ -3380,6 +3380,7 @@ __GGB__keysVar["lv"].menu = {
     "resetConstruction": "p\u0101rl\u0101d\u0113t konstrukcijas",
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Search GeoGebra Resources",
+    "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",
