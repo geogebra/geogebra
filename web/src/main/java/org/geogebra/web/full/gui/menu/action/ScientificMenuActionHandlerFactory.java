@@ -10,15 +10,15 @@ import org.geogebra.web.full.main.AppWFull;
  */
 public class ScientificMenuActionHandlerFactory implements MenuActionHandlerFactory {
 
-	private AppWFull app;
+	private final DefaultMenuActionHandlerFactory factory;
 
 	public ScientificMenuActionHandlerFactory(AppWFull app) {
-		this.app = app;
+		factory = new DefaultMenuActionHandlerFactory(app);
 	}
 
 	@Override
 	public MenuActionHandler create() {
-		DefaultMenuActionHandler actionHandler = new DefaultMenuActionHandler(app);
+		DefaultMenuActionHandler actionHandler = factory.create();
 		actionHandler.setMenuAction(Action.CLEAR_CONSTRUCTION, new ClearAllAction(false));
 		actionHandler.setMenuAction(Action.SHOW_SETTINGS, new ShowSettingsAction());
 		return actionHandler;
