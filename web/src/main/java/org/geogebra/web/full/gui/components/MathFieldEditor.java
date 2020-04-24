@@ -129,6 +129,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 		setKeyboardVisibility(true);
 	}
 
+	public void focus() {
+		mathField.setFocus(true);
+	}
+
 	/**
 	 * Scroll content horizontally if needed.
 	 */
@@ -146,14 +150,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	@Override
 	public Widget asWidget() {
 		return main;
-	}
-
-	/**
-	 *
-	 * @return the text of the editor.
-	 */
-	public String getText() {
-		return mathField.getText();
 	}
 
 	/**

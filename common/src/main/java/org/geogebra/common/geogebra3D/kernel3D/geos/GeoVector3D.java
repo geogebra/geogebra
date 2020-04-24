@@ -215,11 +215,6 @@ public class GeoVector3D extends GeoVec4D
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		return isDefined() && !isInfinite();
 	}
@@ -785,11 +780,6 @@ public class GeoVector3D extends GeoVec4D
 	@Override
 	public void setComplex() {
 		setMode(Kernel.COORD_COMPLEX);
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

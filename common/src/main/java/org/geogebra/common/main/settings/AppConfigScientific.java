@@ -91,7 +91,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 
 	@Override
 	public String getAppCode() {
-		return "calculator";
+		return "scientific";
 	}
 
 	@Override

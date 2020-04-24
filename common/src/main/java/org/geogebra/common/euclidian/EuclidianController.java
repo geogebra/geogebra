@@ -253,7 +253,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GeoFunction movedGeoFunction;
 	protected GeoNumeric movedGeoNumeric;
 	protected GeoBoolean movedGeoBoolean;
-	private GeoWidget movedGeoWidget;
+	private AbsoluteScreenLocateable movedObject;
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
 	protected Drawable resizedShape = null;
@@ -5888,14 +5888,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final void moveWidget(boolean repaint) {
 		// part of snap to grid code
-		movedGeoWidget.setAbsoluteScreenLoc(
+		movedObject.setAbsoluteScreenLoc(
 				view.toScreenCoordX(xRW - getStartPointX()),
 				view.toScreenCoordY(yRW - getStartPointY()));
 
 		if (repaint) {
-			movedGeoWidget.updateRepaint();
+			movedObject.updateRepaint();
 		} else {
-			movedGeoWidget.updateCascade();
+			movedObject.updateCascade();
 		}
 	}
 
@@ -6005,7 +6005,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final void moveAudioSlider(boolean repaint) {
-		GeoAudio audio = (GeoAudio) movedGeoWidget;
+		GeoAudio audio = (GeoAudio) movedObject;
 		setAudioTimeValue(audio);
 		audio.updateRepaint();
 	}
@@ -7259,9 +7259,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 
 				// ie Button Mode is really selected
-				movedGeoWidget = (GeoWidget) movedGeoElement;
+				movedObject = (AbsoluteScreenLocateable) movedGeoElement;
 				// move button
-				moveAbsoluteLocatable(movedGeoWidget);
+				moveAbsoluteLocatable(movedObject);
 
 			} else {
 				// need to trigger scripts
@@ -7272,14 +7272,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		} else if (movedGeoElement instanceof GeoWidget) {
-			movedGeoWidget = (GeoWidget) movedGeoElement;
-			if (movedGeoWidget.isGeoAudio()
+			movedObject = (GeoWidget) movedGeoElement;
+			if (movedObject.isGeoAudio()
 					&& !isMoveAudioExpected(app.getCapturingThreshold(type))) {
 				moveMode = MOVE_AUDIO_SLIDER;
 				moveAudioSlider(true);
 				return;
 			}
-			moveAbsoluteLocatable(movedGeoWidget);
+			moveAbsoluteLocatable(movedObject);
 		}
 
 		// image
@@ -7374,7 +7374,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean isMoveAudioExpected(int hitThreshold) {
-		DrawAudio da = (DrawAudio) view.getDrawableFor(movedGeoWidget);
+		DrawAudio da = (DrawAudio) view.getDrawableFor(movedObject);
 		boolean hitSlider = da.isSliderHit(mouseLoc.x, mouseLoc.y, hitThreshold);
 		return (tempRightClick()) || !hitSlider;
 	}
@@ -9133,11 +9133,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.requestFocusInWindow();
 		}
 
-		if (isSymbolicEditorSelected()) {
-			resetSelectionFlags();
-			return;
-		}
-
 		altCopy = true;
 
 		DrawDropDownList dl = getComboBoxHit();
@@ -9160,6 +9155,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		widgetsToBackground();
+		view.hideSymbolicEditor();
 
 		lastMousePressedTime = System.currentTimeMillis();
 
@@ -9180,7 +9176,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			}
 		} else if (app.isHTML5Applet()) {
-			if (!textfieldHasFocus) {
+			if (!isComboboxFocused() && !textfieldHasFocus) {
 				view.requestFocus();
 			}
 		}
@@ -11858,6 +11854,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return movedGeoElement;
 	}
 
+	/**
+	 * necessary for webSimple, to exclude new focus
+	 *
+	 * @return whether dropdown list is focused
+	 */
+	public boolean isComboboxFocused() {
+		return false;
+	}
+
 	protected void switchModeForMousePressed(AbstractEvent e) {
 		startPosition = new GPoint(e.getX(), e.getY());
 
@@ -12325,7 +12330,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		for (GeoElement geo : geos) {
 			Drawable dr = ((Drawable) view.getDrawableFor(geo));
 			if (dr != null) {
-				if (!(geo instanceof PointRotateable)) {
+				if (geo instanceof GeoImage || !(geo instanceof PointRotateable)) {
 					hasRotationHandler = false;
 				}
 				GRectangle2D bounds = dr.getBoundsClipped();

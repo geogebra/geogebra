@@ -98,6 +98,7 @@ public class CmdSlider extends CommandProcessor {
 		slider.setLabelVisible(true);
 		slider.setEuclidianVisible(true);
 		slider.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+		slider.setDrawable(true);
 		slider.setLabel(c.getLabel());
 		return new GeoElement[] { slider };
 
