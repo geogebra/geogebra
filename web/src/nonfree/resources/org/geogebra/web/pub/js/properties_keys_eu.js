@@ -2883,6 +2883,7 @@ __GGB__keysVar["eu"].menu = {
     "Superscript": "Superscript",
     "Surface": "Gainazala",
     "SurfaceOfRevolution": "Biraketa-gainazala",
+    "SurfaceOfRevolution.Help": "Drag curve around axis",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",

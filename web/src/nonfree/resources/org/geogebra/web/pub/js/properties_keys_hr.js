@@ -2883,6 +2883,7 @@ __GGB__keysVar["hr"].menu = {
     "Superscript": "Eksponent",
     "Surface": "Ploha",
     "SurfaceOfRevolution": "Rotacijska ploha",
+    "SurfaceOfRevolution.Help": "Drag curve around axis",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",

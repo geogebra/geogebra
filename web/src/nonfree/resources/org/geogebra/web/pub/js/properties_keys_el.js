@@ -2883,6 +2883,7 @@ __GGB__keysVar["el"].menu = {
     "Superscript": "\u0395\u03ba\u03b8\u03ad\u03c4\u03b7\u03c2",
     "Surface": "\u0395\u03c0\u03b9\u03c6\u03ac\u03bd\u03b5\u03b9\u03b1",
     "SurfaceOfRevolution": "Surface of Revolution",
+    "SurfaceOfRevolution.Help": "Drag curve around axis",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",

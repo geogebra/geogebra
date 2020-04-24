@@ -2883,6 +2883,7 @@ __GGB__keysVar["fi"].menu = {
     "Superscript": "Yl\xe4indeksi",
     "Surface": "Pinta",
     "SurfaceOfRevolution": "Py\xf6r\xe4hdyspinta",
+    "SurfaceOfRevolution.Help": "Drag curve around axis",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",
