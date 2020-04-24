@@ -922,6 +922,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		setMode(EQUATION_EXPLICIT);
 	}
 
+	private void setToExplicit(boolean force) {
+		setMode(EQUATION_EXPLICIT, force);
+	}
+
 	/** set equation mode to implicit */
 	@Override
 	final public void setToImplicit() {
@@ -1891,11 +1895,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter) {
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
 		if ("implicit".equals(style)) {
 			setToImplicit();
 		} else if ("explicit".equals(style)) {
-			setToExplicit();
+			setToExplicit(force);
 		} else if ("parametric".equals(style)) {
 			setToParametric(parameter);
 		} else if ("user".equals(style)) {
