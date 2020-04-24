@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.scientific.LabelController;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.junit.Assert;
 import org.junit.Test;
@@ -80,23 +81,27 @@ public class FitTests extends BaseUnitTest {
 
     @Test
     public void testFitLineY() {
-        getApp().setGraphingConfig();
-        GeoElement fitLine = addAvInput("FitLine((0,0),(1,1),(2,2))");
-        String outputString = fitLine.toOutputValueString(StringTemplate.editorTemplate);
+        GeoElement fitLineY = addAvInput("FitLine((0,0),(1,1),(2,2))");
+        String outputString = fitLineY.toOutputValueString(StringTemplate.editorTemplate);
         assertThat(outputString, equalTo("y = x"));
-        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLine.getDescriptionMode());
-        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, fitLine.getToStringMode());
+        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLineY.getDescriptionMode());
+        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, fitLineY.getToStringMode());
     }
 
     @Test
     public void testFitLineYLoadFromXML() {
         getApp().setGraphingConfig();
-        GeoElement fitLine = addAvInput("FitLine((0,0),(1,1),(2,2))");
-        String outputString = fitLine.toOutputValueString(StringTemplate.editorTemplate);
+        GeoElement fitLineY = addAvInput("FitLine((0,0),(1,1),(2,2))");
+        new LabelController().showLabel(fitLineY);
+        fitLineY.setLabel("f");
+
         getApp().setXML(getApp().getXML(), true);
+        GeoElement loadedFitLine = (getApp().getKernel().lookupLabel("f"));
+
+        String outputString = loadedFitLine.toOutputValueString(StringTemplate.editorTemplate);
         assertThat(outputString, equalTo("y = x"));
-        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLine.getDescriptionMode());
-        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, fitLine.getToStringMode());
+        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, loadedFitLine.getDescriptionMode());
+        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, loadedFitLine.getToStringMode());
     }
 
     @Test
@@ -115,13 +120,16 @@ public class FitTests extends BaseUnitTest {
         getApp().setGraphingConfig();
         GeoElement fitLineX =
                 addAvInput("FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})");
-        String outputString = fitLineX.toOutputValueString(StringTemplate.editorTemplate);
-        getApp().setXML(getApp().getXML(), true);
+        new LabelController().showLabel(fitLineX);
+        fitLineX.setLabel("f");
 
-        assertThat(outputString, equalTo("y = 0.56667x + 1.66667"));
-        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, fitLineX.getDescriptionMode());
-        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, fitLineX.getToStringMode());
         getApp().setXML(getApp().getXML(), true);
+        GeoElement loadedFitLine = (getApp().getKernel().lookupLabel("f"));
+
+        String outputString = loadedFitLine.toOutputValueString(StringTemplate.editorTemplate);
+        assertThat(outputString, equalTo("y = 0.56667x + 1.66667"));
+        Assert.assertEquals(DescriptionMode.DEFINITION_VALUE, loadedFitLine.getDescriptionMode());
+        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, loadedFitLine.getToStringMode());
     }
 
     @Test
