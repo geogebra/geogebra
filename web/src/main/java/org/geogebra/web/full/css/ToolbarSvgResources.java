@@ -503,6 +503,10 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_orthogonalthreed_32();
 
+	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_surface_of_revolution.svg")
+	@Override
+	SVGResource mode_surface_of_revolution();
+
 	/** Whiteboard icons */
 
 	@Override

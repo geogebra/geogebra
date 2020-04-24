@@ -249,6 +249,8 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_orthogonalthreed_32();
 
+	ResourcePrototype mode_surface_of_revolution();
+
 	// Whiteboard
 
 	ResourcePrototype mode_shape_line_32();
