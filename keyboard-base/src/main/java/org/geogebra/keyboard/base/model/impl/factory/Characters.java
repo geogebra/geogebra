@@ -65,6 +65,8 @@ public class Characters {
 	public static final char RIGHT_SQUARE_BRACKET = ']';
 	public static final char COLON = ':';
 	public static final char QUOTATION_MARK = '\"';
+	public static final char APOSTROPHE = '\'';
+	public static final char COMMA = ',';
 	// public static final char LEFT_GUILLEMET = '\u00AB';
 	// public static final char RIGHT_GUILLEMET = '\u00BB';
 	public static final char MINUTES = '\u2032';
