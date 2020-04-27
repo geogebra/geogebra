@@ -1,4 +1,4 @@
-package org.geogebra.web.shared;
+package org.geogebra.web.shared.components;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

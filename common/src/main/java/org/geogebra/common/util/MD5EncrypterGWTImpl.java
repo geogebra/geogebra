@@ -40,7 +40,7 @@ public class MD5EncrypterGWTImpl {
 	 *            text
 	 * @return encoded text
 	 */
-	public String encrypt(String string0) {
+	public static String encrypt(String string0) {
 
 		int[] x;
 		int k, AA, BB, CC, DD, a, b, c, d;
@@ -143,7 +143,7 @@ public class MD5EncrypterGWTImpl {
 	 *            input text
 	 * @return UTF encoded text
 	 */
-	public String utf8Encode(String string0) {
+	public static String utf8Encode(String string0) {
 		String string = string0.replaceAll("\r\n", "\n");
 		StringBuilder utftext = new StringBuilder();
 
@@ -193,7 +193,7 @@ public class MD5EncrypterGWTImpl {
 		return lWordArray;
 	}
 
-	public int rotateLeft(int lValue, int iShiftBits) {
+	public static int rotateLeft(int lValue, int iShiftBits) {
 		return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 	}
 
@@ -232,22 +232,22 @@ public class MD5EncrypterGWTImpl {
 		return (y ^ (x | (~z)));
 	}
 
-	private int ff(int a, int b, int c, int d, int x, int s, int ac) {
+	private static int ff(int a, int b, int c, int d, int x, int s, int ac) {
 		int a1 = addUnsigned(a, addUnsigned(addUnsigned(rf(b, c, d), x), ac));
 		return addUnsigned(rotateLeft(a1, s), b);
 	}
 
-	private int gg(int a, int b, int c, int d, int x, int s, int ac) {
+	private static int gg(int a, int b, int c, int d, int x, int s, int ac) {
 		int a1 = addUnsigned(a, addUnsigned(addUnsigned(rg(b, c, d), x), ac));
 		return addUnsigned(rotateLeft(a1, s), b);
 	}
 
-	private int hh(int a, int b, int c, int d, int x, int s, int ac) {
+	private static int hh(int a, int b, int c, int d, int x, int s, int ac) {
 		int a1 = addUnsigned(a, addUnsigned(addUnsigned(rh(b, c, d), x), ac));
 		return addUnsigned(rotateLeft(a1, s), b);
 	}
 
-	private int ii(int a, int b, int c, int d, int x, int s, int ac) {
+	private static int ii(int a, int b, int c, int d, int x, int s, int ac) {
 		int a1 = addUnsigned(a, addUnsigned(addUnsigned(ri(b, c, d), x), ac));
 		return addUnsigned(rotateLeft(a1, s), b);
 	}

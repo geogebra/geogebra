@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawAudio;
@@ -253,7 +254,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected GeoFunction movedGeoFunction;
 	protected GeoNumeric movedGeoNumeric;
 	protected GeoBoolean movedGeoBoolean;
-	private GeoWidget movedGeoWidget;
+	private AbsoluteScreenLocateable movedObject;
 	protected GeoElement movedLabelGeoElement;
 	protected GeoElement movedGeoElement;
 	protected Drawable resizedShape = null;
@@ -5888,14 +5889,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private final void moveWidget(boolean repaint) {
 		// part of snap to grid code
-		movedGeoWidget.setAbsoluteScreenLoc(
+		movedObject.setAbsoluteScreenLoc(
 				view.toScreenCoordX(xRW - getStartPointX()),
 				view.toScreenCoordY(yRW - getStartPointY()));
 
 		if (repaint) {
-			movedGeoWidget.updateRepaint();
+			movedObject.updateRepaint();
 		} else {
-			movedGeoWidget.updateCascade();
+			movedObject.updateCascade();
 		}
 	}
 
@@ -6005,7 +6006,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final void moveAudioSlider(boolean repaint) {
-		GeoAudio audio = (GeoAudio) movedGeoWidget;
+		GeoAudio audio = (GeoAudio) movedObject;
 		setAudioTimeValue(audio);
 		audio.updateRepaint();
 	}
@@ -7259,9 +7260,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 
 				// ie Button Mode is really selected
-				movedGeoWidget = (GeoWidget) movedGeoElement;
+				movedObject = (AbsoluteScreenLocateable) movedGeoElement;
 				// move button
-				moveAbsoluteLocatable(movedGeoWidget);
+				moveAbsoluteLocatable(movedObject);
 
 			} else {
 				// need to trigger scripts
@@ -7272,14 +7273,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 		} else if (movedGeoElement instanceof GeoWidget) {
-			movedGeoWidget = (GeoWidget) movedGeoElement;
-			if (movedGeoWidget.isGeoAudio()
+			movedObject = (GeoWidget) movedGeoElement;
+			if (movedObject.isGeoAudio()
 					&& !isMoveAudioExpected(app.getCapturingThreshold(type))) {
 				moveMode = MOVE_AUDIO_SLIDER;
 				moveAudioSlider(true);
 				return;
 			}
-			moveAbsoluteLocatable(movedGeoWidget);
+			moveAbsoluteLocatable(movedObject);
 		}
 
 		// image
@@ -7374,7 +7375,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected boolean isMoveAudioExpected(int hitThreshold) {
-		DrawAudio da = (DrawAudio) view.getDrawableFor(movedGeoWidget);
+		DrawAudio da = (DrawAudio) view.getDrawableFor(movedObject);
 		boolean hitSlider = da.isSliderHit(mouseLoc.x, mouseLoc.y, hitThreshold);
 		return (tempRightClick()) || !hitSlider;
 	}
@@ -8105,9 +8106,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		ArrayList<GeoElement> selGeos = getAppSelectedGeos();
 		removeAxes(selGeos);
 		// if object was chosen before, take it now!
-		if (((selGeos.size() == 1) && !topHits.isEmpty()
-				&& topHits.contains(selGeos.get(0)))
-				|| selGeos.size() == 1 && wasBoundingBoxHit) {
+		if (!app.isWhiteboardActive() && selGeos.size() == 1
+				&& !topHits.isEmpty() && topHits.contains(selGeos.get(0))) {
 			// object was chosen before: take it
 			geo = selGeos.get(0);
 		} else {
@@ -9133,11 +9133,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			view.requestFocusInWindow();
 		}
 
-		if (isSymbolicEditorSelected()) {
-			resetSelectionFlags();
-			return;
-		}
-
 		altCopy = true;
 
 		DrawDropDownList dl = getComboBoxHit();
@@ -9160,6 +9155,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		widgetsToBackground();
+		view.hideSymbolicEditor();
 
 		lastMousePressedTime = System.currentTimeMillis();
 
@@ -9557,7 +9553,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		app.updateSelection(hits.size() > 0);
 	}
 
-	protected void processSelectionRectangle(boolean alt, boolean isControlDown,
+	/**
+	 * Process Selection with Rectangle
+	 *
+	 * @param alt
+	 *            pressed alt button
+	 * @param isControlDown
+	 *            control button is down
+	 * @param shift
+	 * 	          pressed shift button
+	 */
+	public void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
 		GRectangle oldRectangle = view.getSelectionRectangle();
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
@@ -9630,8 +9636,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 
-			// Fit line makes sense only for more than 2 points (or one list)
-			if (hits.size() < 3) {
+			// Fit line is available from more than 1 point
+			if (hits.size() < 2) {
 				hits.clear();
 			} else {
 				removeParentPoints(hits);
@@ -9740,7 +9746,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		List<GeoElement> sel = selection.getSelectedGeos();
 		if (specialBoundingBoxNeeded(crop)) {
 			Drawable dr = ((Drawable) view.getDrawableFor(sel.get(0)));
-			BoundingBox boundingBox = dr.getBoundingBox();
+			BoundingBox<? extends GShape> boundingBox = dr.getBoundingBox();
 			view.setBoundingBox(boundingBox);
 			view.repaintView();
 		} else { // multi-selection
@@ -10165,20 +10171,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
 				if (lastSelectionPressResult == SelectionToolPressResult.EMPTY) {
 					clearSelections();
-				} else {
-					// select the geo that was clicked and set boundingbox
-					if (isMultiSelection() && !wasBoundingBoxHit
-							&& !event.isRightClick()
-							&& lastSelectionToolGeoToRemove != null) {
-						selection.clearSelectedGeos(false, false);
-						selection.addSelectedGeo(lastSelectionToolGeoToRemove,
-								true, true);
-						view.setBoundingBox(((Drawable) view
-								.getDrawableFor(lastSelectionToolGeoToRemove))
-								.getBoundingBox());
-						view.repaintView();
-						lastSelectionToolGeoToRemove = null;
-					}
 				}
 			}
 		}

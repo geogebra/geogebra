@@ -574,13 +574,7 @@ public class GeoNumeric extends GeoElement
 		setDefinition(null);
 		if (Double.isNaN(x)) {
 			value = Double.NaN;
-		} else {
-			setNumericValue(x, changeAnimationValue);
-		}
-	}
-
-	private synchronized void setNumericValue(double x, boolean changeAnimationValue) {
-		if (isIntervalMinActive() && x < getIntervalMin()) {
+		} else if (isIntervalMinActive() && x < getIntervalMin()) {
 			value = getIntervalMin();
 			if (getCorrespondingCasCell() != null) {
 				getCorrespondingCasCell().setInputFromTwinGeo(true, false);
@@ -601,15 +595,6 @@ public class GeoNumeric extends GeoElement
 
 		if (isLabelSet() && isSliderable() && isSelected()) {
 			kernel.getApplication().readLater(this);
-		}
-	}
-
-	private synchronized void setSliderValue(double value) {
-		if (Double.isNaN(value)) {
-			setDefinition(null);
-			this.value = Double.NaN;
-		} else {
-			setNumericValue(value, true);
 		}
 	}
 
@@ -1327,7 +1312,7 @@ public class GeoNumeric extends GeoElement
 		boolean okMax = isIntervalMaxActive();
 		boolean ok = (getIntervalMin() <= getIntervalMax());
 		if (ok && okMin && okMax) {
-			setSliderValue(isDefined() ? value : 1.0);
+			setValue(isDefined() ? value : 1.0);
 			isDrawable = true;
 		} else if (okMin && okMax) {
 			setUndefined();
@@ -1711,7 +1696,6 @@ public class GeoNumeric extends GeoElement
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth(), true);
 		num.setRandom(defaultNum.isRandom());
 		num.setLineThickness(DEFAULT_SLIDER_THICKNESS);
-		num.setDrawable(false, false);
 		num.update();
 		return num;
 	}

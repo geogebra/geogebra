@@ -1,7 +1,7 @@
 package org.geogebra.keyboard.web;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.keyboard.base.KeyboardType;
@@ -20,7 +20,7 @@ public class KeyboardSwitcher extends FlowPanel {
 	private TabbedKeyboard tabbedkeyboard;
 
 	private FlowPanel contents;
-	private List<SwitcherButton> switches;
+	private Map<KeyboardType, SwitcherButton> switches;
 	private GToggleButton moreButton;
 
 	public class SwitcherButton extends Button {
@@ -54,7 +54,7 @@ public class KeyboardSwitcher extends FlowPanel {
 		 * Makes the keyboard visible and selects the button.
 		 */
 		public void select() {
-			tabbedkeyboard.hideTabs();
+			tabbedkeyboard.hideKeyboards();
 			unselectAll();
 			keyboard.setVisible(true);
 			setSelected(this, true);
@@ -76,12 +76,12 @@ public class KeyboardSwitcher extends FlowPanel {
 		contents = new FlowPanel();
 		contents.addStyleName("switcherContents");
 		add(contents);
-		switches = new ArrayList<>();
+		switches = new HashMap<>();
 	}
 
-	protected SwitcherButton addSwitch(final KeyPanelBase keyboard, String string) {
+	protected SwitcherButton addSwitch(KeyPanelBase keyboard, KeyboardType type, String string) {
 		SwitcherButton btn = new SwitcherButton(string, keyboard);
-		switches.add(btn);
+		switches.put(type, btn);
 		contents.add(btn);
 		return btn;
 	}
@@ -99,7 +99,7 @@ public class KeyboardSwitcher extends FlowPanel {
 	}
 
 	protected void unselectAll() {
-		for (Widget btn : switches) {
+		for (Widget btn : switches.values()) {
 			btn.removeStyleName("selected");
 		}
 	}
@@ -171,12 +171,11 @@ public class KeyboardSwitcher extends FlowPanel {
 	 *            keyboard type
 	 */
 	protected void select(KeyboardType keyboardType) {
-		if (keyboardType == KeyboardType.SPECIAL) {
-			tabbedkeyboard.hideTabs();
-			tabbedkeyboard.getTabs().getWidget(keyboardType.getIndex())
-					.setVisible(true);
+		if (keyboardType == KeyboardType.GREEK) {
+			tabbedkeyboard.hideKeyboards();
+			tabbedkeyboard.getKeyboard(keyboardType).setVisible(true);
 		} else {
-			switches.get(keyboardType.getIndex()).select();
+			switches.get(keyboardType).select();
 		}
 	}
 

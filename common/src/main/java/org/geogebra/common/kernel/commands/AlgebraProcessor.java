@@ -3129,9 +3129,6 @@ public class AlgebraProcessor {
 		}
 		if (ret instanceof HasExtendedAV) {
 			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
-			if (ret instanceof GeoNumeric) {
-				setupSlider((GeoNumeric) ret);
-			}
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
@@ -3141,18 +3138,6 @@ public class AlgebraProcessor {
 		}
 
 		return array(ret);
-	}
-
-	private void setupSlider(GeoNumeric numeric) {
-		if (app.getConfig().hasAutomaticSliders()
-				&& !numeric.isEuclidianVisible()
-				&& AlgebraItem.shouldShowSlider(numeric)
-				&& numeric.isVisible()
-				&& numeric.showInAlgebraView()
-				&& numeric.isSetAlgebraVisible()) {
-			numeric.setEuclidianVisible(true);
-			numeric.setEuclidianVisible(false);
-		}
 	}
 
 	/**

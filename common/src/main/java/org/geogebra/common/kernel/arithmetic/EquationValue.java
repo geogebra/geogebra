@@ -27,9 +27,11 @@ public interface EquationValue {
 	 *            type from XML
 	 * @param parameter
 	 *            parameter name
+	 * @param force
+	 *            force equation form
 	 * @return whether style is valid for this objecttype
 	 */
-	public boolean setTypeFromXML(String style, String parameter);
+	public boolean setTypeFromXML(String style, String parameter, boolean force);
 
 	/**
 	 * Implicit (expanded) equation

@@ -67,6 +67,7 @@ public class MathFieldD extends JLabel implements MathField {
 	
 	static {
 		metaModel = new MetaModel();
+		metaModel.enableSubstitutions();
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -80,8 +81,6 @@ public class MathFieldD extends JLabel implements MathField {
 		mathFieldInternal = new MathFieldInternal(this, false);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 		mathFieldInternal.setSelectionMode(true);
-		mathFieldInternal.setType(TeXFont.SANSSERIF);
-		mathFieldInternal.setSize(36);
 		this.setVerticalAlignment(SwingConstants.TOP);
 		Timer t = new Timer(500, new ActionListener() {
 
@@ -168,11 +167,6 @@ public class MathFieldD extends JLabel implements MathField {
 
 	@Override
 	public void scroll(int dx, int dy) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void hideCopyButton() {
 		// TODO Auto-generated method stub
 
 	}
