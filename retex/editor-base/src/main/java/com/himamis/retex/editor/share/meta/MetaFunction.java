@@ -43,14 +43,12 @@ public class MetaFunction extends MetaComponent {
 	 *            function trype
 	 * @param texName
 	 *            tex name
-	 * @param key
-	 *            keyboar dshortcut
 	 * @param parameters
 	 *            parameters
 	 */
-	public MetaFunction(Tag name, String texName, char key,
+	public MetaFunction(Tag name, String texName,
 			MetaParameter[] parameters) {
-		super(name, texName, key, key);
+		super(name, texName);
         this.arguments = parameters != null ? parameters : new MetaParameter[0];
         insertIndex = 0;
     }
@@ -124,5 +122,5 @@ public class MetaFunction extends MetaComponent {
 	 */
 	public String getClosingBracket() {
 		return getName() == Tag.APPLY_SQUARE ? "]" : ")";
-    }
+	}
 }
