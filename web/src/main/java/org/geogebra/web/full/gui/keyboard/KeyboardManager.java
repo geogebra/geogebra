@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.Timer;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -41,7 +40,7 @@ public class KeyboardManager
 	private VirtualKeyboardGUI keyboard;
 
 	private String originalBodyPadding;
-	private Style bodyStyle;
+	private final Style bodyStyle;
 
 	/**
 	 * Constructor
@@ -220,7 +219,7 @@ public class KeyboardManager
 	@Override
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
 		if (keyboard != null) {
-			if  (textField != null) {
+			if (textField != null) {
 				addExtraSpaceForKeyboard();
 			} else {
 				removeExtraSpaceForKeyboard();
@@ -235,13 +234,13 @@ public class KeyboardManager
 	private void addExtraSpaceForKeyboard() {
 		if (extraSpaceNeededForKeyboard()) {
 			originalBodyPadding = bodyStyle.getPaddingBottom();
-			setBodyPaddingBottom(estimateKeyboardHeight() + "px");
+			bodyStyle.setProperty("paddingBottom", estimateKeyboardHeight() + "px");
 		}
 	}
 
 	private void removeExtraSpaceForKeyboard() {
 		if (!Objects.equals(originalBodyPadding, bodyStyle.getPaddingBottom())) {
-			setBodyPaddingBottom(originalBodyPadding);
+			bodyStyle.setProperty("paddingBottom", originalBodyPadding);
 		}
 	}
 
@@ -252,17 +251,6 @@ public class KeyboardManager
 		}
 
 		return false;
-	}
-
-	private void setBodyPaddingBottom(String value) {
-		bodyStyle.setProperty("transition", "padding-bottom 0.2s linear");
-		bodyStyle.setProperty("paddingBottom", value);
-		new Timer() {
-			@Override
-			public void run() {
-				bodyStyle.clearProperty("transition");
-			}
-		}.schedule(200);
 	}
 
 	/**
