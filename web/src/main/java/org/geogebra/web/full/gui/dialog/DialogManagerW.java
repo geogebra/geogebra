@@ -454,6 +454,10 @@ public class DialogManagerW extends DialogManager
 		return saveDialog;
 	}
 
+	public void showSessionExpireDialog() {
+		new SessionExpireNotifyDialog((AppW) app).show();
+	}
+
 	/**
 	 * shows the {@link SaveDialogW} centered on the screen
 	 */
@@ -660,8 +664,7 @@ public class DialogManagerW extends DialogManager
 				|| app.getGuiManager().showView(App.VIEW_ALGEBRA)
 				|| app.getGuiManager()
 						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-			new SessionExpireNotifyDialog((AppW) app).show();
-
+			showSessionExpireDialog();
 			//new PrintPreviewW((AppW) app).show();
 		}
 	}

@@ -7,6 +7,7 @@ public class MowService implements Service {
 
 	@Override
 	public HttpRequest createRequest(AuthenticationModel model) {
+		model.getSessionExpireTimer().startRepeat();
 		return UtilFactory.getPrototype().newHttpRequest();
 	}
 }

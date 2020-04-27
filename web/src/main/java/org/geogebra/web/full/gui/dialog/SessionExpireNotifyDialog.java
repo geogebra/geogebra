@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -12,7 +13,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickHandler, ResizeHandler {
+public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickHandler,
+		ResizeHandler, GTimerListener {
 
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
@@ -66,15 +68,26 @@ public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickH
 	public void show() {
 		super.show();
 		super.center();
+		startLogOutTimer();
 	}
 
 	@Override
 	public void onClick(Widget source) {
 		if (source.equals(saveBtn)) {
 			hide();
-			((DialogManagerW) app.getDialogManager()).getSaveDialog();
+			((DialogManagerW) app.getDialogManager()).showSaveDialog();
 		} else if (source.equals(cancelBtn)) {
 			hide();
 		}
+	}
+
+	private void startLogOutTimer() {
+		GTimer logOutTimer = app.newTimer(this, 60000 /*30000*/);
+		logOutTimer.start();
+	}
+
+	@Override
+	public void onRun() {
+		app.getLoginOperation().performLogOut();
 	}
 }

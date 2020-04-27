@@ -2,6 +2,8 @@ package org.geogebra.common.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 
 import java.util.ArrayList;
 
@@ -9,8 +11,9 @@ import java.util.ArrayList;
  * @author gabor Base class for login logout operations
  *
  */
-public abstract class AuthenticationModel {
+public abstract class AuthenticationModel implements GTimerListener {
 	private GeoGebraTubeUser loggedInUser = null;
+	private GTimer sessionExpireTimer;
 
 	/**
 	 * token name for user logged in got back from GGT
@@ -80,6 +83,7 @@ public abstract class AuthenticationModel {
 		if (!user.getLoginToken().equals(this.getLoginToken())) {
 			storeLoginToken(user.getLoginToken());
 		}
+		getSessionExpireTimer().start();
 	}
 
 	protected abstract void storeLastUser(String s);
@@ -196,5 +200,17 @@ public abstract class AuthenticationModel {
 
 	public String getEncoded() {
 		return null;
+	}
+
+	/**
+	 * timer for session life
+	 * @return session timer
+	 */
+	public GTimer getSessionExpireTimer() {
+		return sessionExpireTimer;
+	}
+
+	public void setSessionExpireTimer(GTimer timer) {
+		sessionExpireTimer = timer;
 	}
 }

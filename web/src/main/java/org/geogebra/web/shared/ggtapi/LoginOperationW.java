@@ -50,6 +50,7 @@ public class LoginOperationW extends LogInOperation {
 		this.app = appWeb;
 		getView().add(new LanguageLoginCallback());
 		setModel(new AuthenticationModelW(appWeb));
+		getModel().setSessionExpireTimer(app.newTimer(getModel(), 60000));
 
 		iniNativeEvents();
 		apiFactory = new BackendAPIFactory(app);

@@ -31,7 +31,6 @@ public class MaterialRestAPI implements BackendAPI {
 	private boolean availabilityCheckDone = false;
 	private String baseURL;
 	private AuthenticationModel model;
-	private GTimer sessionTimer;
 
 	private Service service;
 
