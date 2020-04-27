@@ -1,15 +1,18 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickHandler {
+public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickHandler, ResizeHandler {
 
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
@@ -52,6 +55,14 @@ public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickH
 	}
 
 	@Override
+	public void onResize(ResizeEvent resizeEvent) {
+		if (isShowing()) {
+			super.center();
+		}
+	}
+
+
+	@Override
 	public void show() {
 		super.show();
 		super.center();
@@ -61,6 +72,7 @@ public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickH
 	public void onClick(Widget source) {
 		if (source.equals(saveBtn)) {
 			hide();
+			((DialogManagerW) app.getDialogManager()).getSaveDialog();
 		} else if (source.equals(cancelBtn)) {
 			hide();
 		}
