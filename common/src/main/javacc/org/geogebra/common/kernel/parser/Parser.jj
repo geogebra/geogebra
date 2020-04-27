@@ -1126,6 +1126,7 @@ ExpressionValue listopnode():
 
 /**
  * multterm =   divterm * divterm
+ * "a b c" is interpreted as "(a b) c" unless c is the degree symbol
  */
 ExpressionValue multterm():
 {
@@ -1150,7 +1151,14 @@ ExpressionValue multterm():
         {
             ExpressionValue special = ExpressionNode.multiplySpecial(ret, f, kernel, GiacParsing);
             if (special == null) {
-                ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
+                if (ExpressionNode.isConstantDouble(f, Kernel.PI_180)
+                        && ret instanceof ExpressionNode
+                        && ((ExpressionNode) ret).getOperation() == Operation.MULTIPLY) {
+                    ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
+                        ((ExpressionNode) ret).getRight(), Operation.MULTIPLY, f));
+                } else {
+                    ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
+                }
             } else {
                 ret = special;
             }
