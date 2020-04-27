@@ -9,27 +9,20 @@ import com.himamis.retex.editor.share.util.Unicode;
 class MetaModelSymbols {
 
 	private static MetaSymbol createSymbol(String name, String cas,
-			String tex, char key, char unicode, int type) {
-		return new MetaSymbol(name, cas, tex, key, unicode, type);
+			String tex, char unicode, int type) {
+		return new MetaSymbol(name, cas, tex, unicode, type);
 	}
 
 	private static MetaSymbol createOperator(String name, String cas,
-			String tex, char key, char unicode) {
-		return createSymbol(name, cas, tex, key, unicode, OPERATOR);
-	}
-
-	private static MetaSymbol createOperator(String name, String cas,
-			String tex, char unicode) {
-		char key = name.length() == 1 ? name.charAt(0) : 0;
-
-		return createOperator(name, cas, tex, key, unicode);
+			String tex,  char unicode) {
+		return createSymbol(name, cas, tex, unicode, OPERATOR);
 	}
 
 	private static MetaSymbol createOperator(String name, String cas,
 			String tex) {
 		char key = name.length() == 1 ? name.charAt(0) : 0;
 
-		return createOperator(name, cas, tex, key, key);
+		return createOperator(name, cas, tex, key);
 	}
 
 	private static MetaSymbol createOperator(String name, String tex,
@@ -43,19 +36,12 @@ class MetaModelSymbols {
 
 	private static MetaSymbol createSymbol(String name, String cas,
 			String tex, char unicode) {
-		char key = name.length() == 1 ? name.charAt(0) : 0;
-
-		return createSymbol(name, cas, tex, key, unicode, SYMBOL);
+		return createSymbol(name, cas, tex, unicode, SYMBOL);
 	}
 
 	private static MetaSymbol createSymbol(String name, String tex,
 			char unicode) {
 		return createSymbol(name, name, tex, unicode);
-	}
-
-	private static MetaSymbol createSymbol(String name, String cas,
-			String tex) {
-		return createSymbol(name, cas, tex, '\0');
 	}
 
 	MapMetaGroup createOperators() {
@@ -225,7 +211,7 @@ class MetaModelSymbols {
 		collection
 				.addComponent(createSymbol("ddagger", "\\ddagger{}", '\u2021'));
 		collection.addComponent(
-				createSymbol("paragraph", "paragraph", "\\paragraph{}"));
+				createSymbol("paragraph", "paragraph", "\\paragraph{}", '\0'));
 
 		collection.addComponent(
 				createSymbol("degree", "\\degree{}", Unicode.DEGREE_CHAR));

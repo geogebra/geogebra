@@ -25,7 +25,7 @@ public class InputController {
 	public static final char FUNCTION_CLOSE_KEY = ')';
 	public static final char DELIMITER_KEY = ';';
 
-	private MetaModel metaModel;
+	private final MetaModel metaModel;
 
 	@Weak
 	private MathField mathField;

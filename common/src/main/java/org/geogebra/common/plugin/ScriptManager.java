@@ -3,6 +3,7 @@ package org.geogebra.common.plugin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -27,6 +28,7 @@ public abstract class ScriptManager implements EventListener {
 	protected ArrayList<JsScript> clickListeners = new ArrayList<>();
 	protected ArrayList<JsScript> clearListeners = new ArrayList<>();
 	protected ArrayList<JsScript> clientListeners = new ArrayList<>();
+	private boolean keepListenersOnReset = true;
 
 	private ArrayList[] listenerLists() {
 		return new ArrayList[] { addListeners, storeUndoListeners,
@@ -136,6 +138,10 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	@Override
 	public void reset() {
+		if (keepListenersOnReset) {
+			return;
+		}
+
 		if (updateListenerMap != null) {
 			updateListenerMap = null;
 		}
@@ -529,4 +535,42 @@ public abstract class ScriptManager implements EventListener {
 		return false;
 	}
 
+	/**
+	 * Prevents listeners dropping on reset.
+	 */
+	public void keepListenersOnReset() {
+		keepListenersOnReset = true;
+	}
+
+	/**
+	 * Enables dropping listeners on reset.
+	 */
+	public void dropListenersOnReset() {
+		keepListenersOnReset = false;
+		rebuildListenerMap();
+	}
+
+	private void rebuildListenerMap() {
+		clickListenerMap =  rebuildListenerMap(clickListenerMap);
+		updateListenerMap = rebuildListenerMap(updateListenerMap);
+	}
+
+	private HashMap<GeoElement, JsScript> rebuildListenerMap(
+			HashMap<GeoElement, JsScript> listenerMap) {
+
+		if (listenerMap == null) {
+			return null;
+		}
+
+		HashMap<GeoElement, JsScript> map = new HashMap<>();
+		for (Map.Entry<GeoElement, JsScript> entry: listenerMap.entrySet()) {
+			GeoElement oldGeo = entry.getKey();
+			GeoElement newGeo = app.getKernel().lookupLabel(oldGeo.getLabelSimple());
+			if (newGeo != null) {
+				map.remove(oldGeo);
+				map.put(newGeo, entry.getValue());
+			}
+		}
+		return map;
+	}
 }
