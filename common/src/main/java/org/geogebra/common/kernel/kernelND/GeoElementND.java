@@ -19,6 +19,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.GeoElementConvertable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -53,7 +54,7 @@ import java.util.TreeSet;
  * @author Zbynek
  *
  */
-public interface GeoElementND extends ExpressionValue {
+public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 
 	/** label mode: name */
 	public static final int LABEL_NAME = 0;

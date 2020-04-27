@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
 import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawAudio;
@@ -8105,9 +8106,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		ArrayList<GeoElement> selGeos = getAppSelectedGeos();
 		removeAxes(selGeos);
 		// if object was chosen before, take it now!
-		if (((selGeos.size() == 1) && !topHits.isEmpty()
-				&& topHits.contains(selGeos.get(0)))
-				|| selGeos.size() == 1 && wasBoundingBoxHit) {
+		if (!app.isWhiteboardActive() && selGeos.size() == 1
+				&& !topHits.isEmpty() && topHits.contains(selGeos.get(0))) {
 			// object was chosen before: take it
 			geo = selGeos.get(0);
 		} else {
@@ -9553,7 +9553,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		app.updateSelection(hits.size() > 0);
 	}
 
-	protected void processSelectionRectangle(boolean alt, boolean isControlDown,
+	/**
+	 * Process Selection with Rectangle
+	 *
+	 * @param alt
+	 *            pressed alt button
+	 * @param isControlDown
+	 *            control button is down
+	 * @param shift
+	 * 	          pressed shift button
+	 */
+	public void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
 		GRectangle oldRectangle = view.getSelectionRectangle();
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
@@ -9626,8 +9636,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 
-			// Fit line makes sense only for more than 2 points (or one list)
-			if (hits.size() < 3) {
+			// Fit line is available from more than 1 point
+			if (hits.size() < 2) {
 				hits.clear();
 			} else {
 				removeParentPoints(hits);
@@ -9736,7 +9746,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		List<GeoElement> sel = selection.getSelectedGeos();
 		if (specialBoundingBoxNeeded(crop)) {
 			Drawable dr = ((Drawable) view.getDrawableFor(sel.get(0)));
-			BoundingBox boundingBox = dr.getBoundingBox();
+			BoundingBox<? extends GShape> boundingBox = dr.getBoundingBox();
 			view.setBoundingBox(boundingBox);
 			view.repaintView();
 		} else { // multi-selection
@@ -10161,20 +10171,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			} else if (mode == EuclidianConstants.MODE_SELECT_MOW) {
 				if (lastSelectionPressResult == SelectionToolPressResult.EMPTY) {
 					clearSelections();
-				} else {
-					// select the geo that was clicked and set boundingbox
-					if (isMultiSelection() && !wasBoundingBoxHit
-							&& !event.isRightClick()
-							&& lastSelectionToolGeoToRemove != null) {
-						selection.clearSelectedGeos(false, false);
-						selection.addSelectedGeo(lastSelectionToolGeoToRemove,
-								true, true);
-						view.setBoundingBox(((Drawable) view
-								.getDrawableFor(lastSelectionToolGeoToRemove))
-								.getBoundingBox());
-						view.repaintView();
-						lastSelectionToolGeoToRemove = null;
-					}
 				}
 			}
 		}

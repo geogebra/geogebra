@@ -55,6 +55,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private FlowPanel mainPanel;
 	private FlowPanel pdfContainerPanel;
 	private FlowPanel pdfPreviewPanel;
+	private FlowPanel imgTextPanel;
 	private FlowPanel pdfPageTextPanel;
 	private Label clickOrDragText;
 	private Label loadText;
@@ -119,15 +120,12 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	private void initGui() {
 		mainPanel = new FlowPanel();
+		mainPanel.addStyleName("pdfDialogContent");
 		// panel for pdf
 		pdfContainerPanel = new FlowPanel();
 		pdfContainerPanel.setStyleName("pdfContainer");
-		addFolderImage();
+		addHelpToImgText();
 		addDropHandler(pdfContainerPanel.getElement());
-		clickOrDragText = new Label();
-		clickOrDragText.addStyleName("pdfDialogText");
-		clickOrDragText.addStyleName("clickOrDragText");
-		pdfContainerPanel.add(clickOrDragText);
 		pageLbl = new Label();
 		ofPageLbl = new Label();
 		// panel for buttons
@@ -144,17 +142,29 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		// style
 		addStyleName("GeoGebraPopup");
 		addStyleName("pdfDialog");
+		getContainerElement().addClassName("pdfDialogMainPanel");
+		getContainerElement().getFirstChildElement()
+				.addClassName("pdfDialogTable");
 		setGlassEnabled(true);
-		// only for testing here TODO remove me from here
-		// buildPdfContainer();
 		setLabels();
 	}
 
-	private void addFolderImage() {
+	private void createFolderImg() {
+		imgTextPanel = new FlowPanel();
+		imgTextPanel.addStyleName("imgTextElement");
 		NoDragImage folderImg = new NoDragImage(
 				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(), 96);
 		folderImg.addStyleName("folderImg");
-		pdfContainerPanel.add(folderImg);
+		imgTextPanel.add(folderImg);
+	}
+
+	private void addHelpToImgText() {
+		createFolderImg();
+		clickOrDragText = new Label();
+		clickOrDragText.addStyleName("pdfDialogText");
+		clickOrDragText.addStyleName("clickOrDragText");
+		imgTextPanel.add(clickOrDragText);
+		pdfContainerPanel.add(imgTextPanel);
 	}
 
 	private native void addDropHandler(
@@ -509,6 +519,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private void buildLoadingPanel() {
 		pdfContainerPanel.clear();
 		pdfContainerPanel.removeStyleName("withPdf");
+		imgTextPanel = new FlowPanel();
+		imgTextPanel.addStyleName("imgTextElement");
 		progressBar = new ProgressBar();
 		pdfContainerPanel.add(progressBar);
 		if (loadText == null) {
@@ -517,7 +529,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 			loadText.addStyleName("loadText");
 			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
 		}
-		pdfContainerPanel.add(loadText);
+		imgTextPanel.add(progressBar);
+		imgTextPanel.add(loadText);
+		pdfContainerPanel.add(imgTextPanel);
 	}
 
 	/**
@@ -526,14 +540,15 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	void buildErrorPanel() {
 		pdfContainerPanel.clear();
 		pdfContainerPanel.removeStyleName("withPdf");
-		addFolderImage();
+		createFolderImg();
 		if (errorText == null) {
 			errorText = new Label();
 			errorText.addStyleName("pdfDialogText");
 			errorText.addStyleName("errorText");
 			errorText.setText(appW.getLocalization().getMenu("PdfErrorText"));
 		}
-		pdfContainerPanel.add(errorText);
+		imgTextPanel.add(errorText);
+		pdfContainerPanel.add(imgTextPanel);
 	}
 
 	@Override

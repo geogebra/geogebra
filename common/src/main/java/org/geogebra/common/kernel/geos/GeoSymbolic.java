@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -176,13 +177,27 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 				new MyArbitraryConstant(this), StringTemplate.prefixedDefault,
 				null, kernel);
 		this.casOutputString = s;
-		ExpressionValue casOutput = kernel.getGeoGebraCAS().parseOutput(s, this,
-				kernel);
+		ExpressionValue casOutput = parseOutputString(s);
 
 		computeFunctionVariables();
 		setValue(casOutput);
 
 		twinUpToDate = false;
+	}
+
+	private ExpressionValue parseOutputString(String output) {
+		ExpressionValue value = kernel.getGeoGebraCAS().parseOutput(output, this, kernel);
+		checkCASVector(value);
+		return value;
+	}
+
+	private void checkCASVector(ExpressionValue value) {
+		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
+		if (value != null
+				&& value.unwrap() instanceof MyVecNDNode
+				&& algebraProcessor.hasVectorLabel(this)) {
+			((MyVecNDNode) value.unwrap()).setCASVector();
+		}
 	}
 
 	private void computeFunctionVariables() {
@@ -316,6 +331,12 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		} finally {
 			cons.setSuppressLabelCreation(isSuppressLabelsActive);
 		}
+	}
+
+	@Override
+	public void setLabelSimple(String lab) {
+		super.setLabelSimple(lab);
+		checkCASVector(value);
 	}
 
 	private Traversing createPrepareDefinition() {

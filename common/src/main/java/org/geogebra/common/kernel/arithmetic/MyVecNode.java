@@ -288,9 +288,7 @@ public class MyVecNode extends ValidExpression
 		return true;
 	}
 
-	/**
-	 * LaTeX form needs to be different in CAS
-	 */
+	@Override
 	public void setCASVector() {
 		isCASVector = true;
 	}

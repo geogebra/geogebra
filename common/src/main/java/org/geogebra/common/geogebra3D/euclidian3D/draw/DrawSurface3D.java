@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
@@ -221,8 +222,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	}
 
 	private void setTolerances() {
-
-		maxRWPixelDistance = getView3D().getMaxPixelDistance();
+		maxRWPixelDistance = CurvePlotter.MAX_PIXEL_DISTANCE;
 
 		// set sizes
 		switch (levelOfDetail) {
@@ -234,7 +234,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		case QUALITY:
 			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
 			maxRWDistance = 2 * maxRWPixelDistance;
-			maxBend = getView3D().getMaxBend();
+			maxBend = CurvePlotter.MAX_BEND;
 			break;
 		}
 

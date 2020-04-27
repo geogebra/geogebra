@@ -143,8 +143,8 @@ public class EditorState {
 		currentSelEnd = cursorField;
 		// special case: start is inside end -> select single component
 		if (currentSelEnd == commonParent
-				|| commonParent instanceof MathFunction && "\\frac"
-						.equals(((MathFunction) commonParent).getTexName())) {
+				|| commonParent instanceof MathFunction
+					&& ((MathFunction) commonParent).getName() == Tag.FRAC) {
 			currentSelStart = commonParent;
 			currentSelEnd = commonParent;
 			return;

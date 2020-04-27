@@ -193,6 +193,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		saveButton.addStyleName("saveButton");
 		dontSaveButton.addStyleName("cancelBtn");
+		listBox = widgetFactory.newListBox();
+		listBox.addStyleName("visibility");
 		setAvailableProviders();
 
 		saveButton.addFastClickHandler(new FastClickHandler() {
@@ -243,8 +245,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				appW.isUnbundledOrWhiteboard());
 		this.providerPopup.getMyPopup().addStyleName("providersPopup");
 
-		listBox = widgetFactory.newListBox();
-		listBox.addStyleName("visibility");
 		if (appW.getLAF().supportsGoogleDrive()) {
 			providerPopup.addPopupHandler(this);
 			providerPopup.setSelectedIndex(appW.getFileManager()

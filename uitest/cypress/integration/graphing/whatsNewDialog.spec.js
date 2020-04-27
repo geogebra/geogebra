@@ -1,4 +1,4 @@
-describe('Whats new dialog', () => {
+describe.skip('Whats new dialog', () => {
     beforeEach(() => {
         cy.clearCookies();
         cy.visit("graphing.html");

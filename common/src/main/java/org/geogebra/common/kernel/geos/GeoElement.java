@@ -6971,11 +6971,7 @@ public abstract class GeoElement extends ConstructionElement
 		return isLabelSet();
 	}
 
-	/**
-	 * @param cons1
-	 *            construction
-	 * @return reference to this
-	 */
+	@Override
 	public GeoElement toGeoElement(Construction cons1) {
 		return this;
 	}

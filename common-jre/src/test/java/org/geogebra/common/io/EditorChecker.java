@@ -12,17 +12,23 @@ import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.io.latex.Parser;
+import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 
 class EditorChecker {
-	private MathFieldCommon mathField = new MathFieldCommon();
+	private MathFieldCommon mathField;
 	private EditorTyper typer;
 	private App app;
 
 	protected EditorChecker(App app) {
+		this(app, new MetaModel());
+	}
+
+	protected EditorChecker(App app, MetaModel model) {
 		this.app = app;
+		mathField = new MathFieldCommon(model);
 		typer = new EditorTyper(mathField);
 	}
 

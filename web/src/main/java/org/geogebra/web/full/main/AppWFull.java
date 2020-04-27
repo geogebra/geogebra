@@ -157,6 +157,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class AppWFull extends AppW implements HasKeyboard {
 
 	private static final String RECENT_CHANGES_KEY = "RecentChangesInfo.Graphing";
+	private static final boolean ALLOW_RECENT_CHANGES_DIALOG = false;
 	private final static int AUTO_SAVE_PERIOD = 2000;
 
 	private DataCollection dataCollection;
@@ -1135,7 +1136,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void maybeShowRecentChangesDialog() {
-		if (shouldShowRecentChangesDialog(RECENT_CHANGES_KEY) && isUnbundledGraphing()) {
+		if (ALLOW_RECENT_CHANGES_DIALOG
+				&& shouldShowRecentChangesDialog(RECENT_CHANGES_KEY)
+				&& isUnbundledGraphing()) {
 			LocalizationW localization = getLocalization();
 			String message = localization.getMenu(RECENT_CHANGES_KEY);
 			String readMore = localization.getMenu("tutorial_apps_comparison");
