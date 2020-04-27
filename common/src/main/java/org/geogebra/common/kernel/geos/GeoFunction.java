@@ -12,7 +12,13 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -63,12 +69,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Explicit function in one variable ("x"). This is actually a wrapper class for
@@ -833,11 +834,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public void setUndefined() {
 		isDefined = false;
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
 	}
 
 	@Override
@@ -2771,11 +2767,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public double distanceMax(double[] p1, double[] p2) {
 		return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

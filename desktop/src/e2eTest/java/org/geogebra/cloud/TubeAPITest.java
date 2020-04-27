@@ -33,7 +33,7 @@ import java.util.List;
 
 public class TubeAPITest extends Assert {
 	public static final String circleBase64 = Base64.encodeToString(
-			UtilD.loadFileIntoByteArray("src/test/resources/circles.ggb"),
+			UtilD.loadFileIntoByteArray("src/e2eTest/resources/circles.ggb"),
 			false);
 	private AppDNoGui app;
 

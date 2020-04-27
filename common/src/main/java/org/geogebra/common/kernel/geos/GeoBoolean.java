@@ -180,11 +180,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public final boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	public boolean isFixable() {
 		// visible checkbox should not be fixable
 		return isIndependent() && !isSetEuclidianVisible()
@@ -476,6 +471,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
+		notifyUpdate();
 	}
 
 	@Override

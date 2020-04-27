@@ -76,7 +76,6 @@ public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates {
 
 	@Override
 	public final void compute() {
-
 		double xCoord = x.getDouble();
 		double yCoord = y.getDouble();
 		double zCoord = z.getDouble();
@@ -84,7 +83,7 @@ public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates {
 		if (Double.isNaN(xCoord) || Double.isInfinite(xCoord)
 				|| Double.isNaN(yCoord) || Double.isInfinite(yCoord)
 				|| Double.isNaN(zCoord) || Double.isInfinite(zCoord)) {
-			P.setUndefined();
+			M.setUndefined();
 			return;
 		}
 

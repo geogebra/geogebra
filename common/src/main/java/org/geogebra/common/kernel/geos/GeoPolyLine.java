@@ -107,7 +107,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
-
 	}
 
 	@Override
@@ -193,13 +192,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		defined = false;
 	}
 
-	@Override
-	public final boolean showInAlgebraView() {
-		// return defined;
-		return true;
-	}
-
-	// Michael Borcherds 2008-04-30
 	/**
 	 * Yields true if the points of this polyline is equal to the points of
 	 * polyline p.
@@ -621,11 +613,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	@Override
 	public Path getBoundary() {
 		return this;
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

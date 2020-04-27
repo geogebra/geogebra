@@ -97,7 +97,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
@@ -688,8 +687,8 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return label and delimiter.
 	 */
-	public String getLabelDelimiterWithSpace() {
-		return getLabelDelimiter() == '=' ? " = " : getLabelDelimiter() + " ";
+	public String getLabelDelimiterWithSpace(StringTemplate tpl) {
+		return getLabelDelimiter() == '=' ? tpl.getEqualsWithSpace() : getLabelDelimiter() + " ";
 	}
 
 	@Override
@@ -736,7 +735,7 @@ public abstract class GeoElement extends ConstructionElement
 			// beware correct vars for f(t) = t + a
 			if (isAlgebraLabelVisible()) {
 				inputBarStr = getAssignmentLHS(stringTemplate)
-						+ getLabelDelimiterWithSpace() + inputBarStr;
+						+ getLabelDelimiterWithSpace(stringTemplate) + inputBarStr;
 			}
 
 		} else {
@@ -1304,6 +1303,7 @@ public abstract class GeoElement extends ConstructionElement
 		labelVisible = geo.getLabelVisible();
 		setLabelMode(geo.getLabelMode());
 		tooltipMode = geo.getTooltipMode();
+		selectionAllowed = geo.selectionAllowed;
 
 		// style of equation, coordinates, ...
 		if (getGeoClassType() == geo.getGeoClassType()
@@ -1861,7 +1861,9 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return whether this is shown in AV
 	 */
-	public abstract boolean showInAlgebraView();
+	public boolean showInAlgebraView() {
+		return true;
+	}
 
 	/**
 	 * @return whether this is shown in EV
@@ -4282,7 +4284,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		if (ret != null && ret.length() > 0) {
 			ret = getAssignmentLHS(tpl)
-					+ getLabelDelimiterWithSpace() + ret;
+					+ getLabelDelimiterWithSpace(tpl) + ret;
 
 			return ret;
 		}
@@ -4352,21 +4354,21 @@ public abstract class GeoElement extends ConstructionElement
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
 		} else if (algebraDesc.contains(":") && !geo.isGeoText()) {
 			if (includeLHS) {
-				sb.append(algebraDesc.split(":")[0]).append(": \\,");
+				sb.append(getAssignmentLHS(tpl)).append(": \\,");
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
 
 		// now handle non-GeoText prefixed with "="
-		else if (algebraDesc.contains("=") && !geo.isGeoText()) {
-			if (includeLHS) {
-				sb.append(algebraDesc.split("=")[0]).append("\\, = \\,");
+		else if (!geo.isGeoText()) {
+			if (includeLHS && algebraDesc.contains("=")) {
+				sb.append(getAssignmentLHS(tpl)).append(tpl.getEqualsWithSpace());
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		} else if (geo.isGeoVector()) {
 			if (includeLHS) {
 				sb.append(label);
-				sb.append("\\, = \\,");
+				sb.append(tpl.getEqualsWithSpace());
 			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
@@ -5673,7 +5675,9 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public abstract boolean isEqual(GeoElementND geo);
+	public boolean isEqual(GeoElementND geo) {
+		return this == geo;
+	}
 
 	/**
 	 * Returns whether this - f gives 0 in the CAS.
@@ -6777,7 +6781,9 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return last hit type
 	 */
-	abstract public HitType getLastHitType();
+	public HitType getLastHitType() {
+		return HitType.ON_BOUNDARY;
+	}
 
 	/**
 	 * @return whether this evaluates to angle
@@ -6864,16 +6870,8 @@ public abstract class GeoElement extends ConstructionElement
 		if (!isIndependent()) {
 			return false;
 		}
-		if (definition == null) {
+		if (definition == null || definition.isSimpleNumber()) {
 			return true;
-		}
-		if (definition.getOperation() == Operation.MULTIPLY) {
-			if (definition.getLeft().unwrap() instanceof NumberValue
-					&& definition.getRight().unwrap() instanceof MyDouble
-					&& MyDouble.exactEqual(definition.getRight()
-							.evaluateDouble(), MyMath.DEG)) {
-				return true;
-			}
 		}
 		ExpressionValue unwrap = definition.unwrap();
 		if (unwrap instanceof ExpressionNode) {

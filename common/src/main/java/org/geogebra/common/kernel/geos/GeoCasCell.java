@@ -1558,9 +1558,7 @@ public class GeoCasCell extends GeoElement
 									.equals("NSolve"))) {
 				parsed = removeComplexResults(parsed);
 			}
-			outputVE = parsed == null ? null
-					: (ValidExpression) parsed
-							.traverse(Traversing.GgbVectRemover.getInstance());
+			outputVE = parsed;
 			// needed for GGB-810
 			// replace geoDummys with constants
 			if (arbconst != null) {
@@ -2966,11 +2964,6 @@ public class GeoCasCell extends GeoElement
 	@Override
 	protected boolean showInEuclidianView() {
 		return false;
-	}
-
-	@Override
-	public boolean isEqual(final GeoElementND geo) {
-		return geo == this;
 	}
 
 	/**

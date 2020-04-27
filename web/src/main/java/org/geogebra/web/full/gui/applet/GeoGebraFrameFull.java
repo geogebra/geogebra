@@ -723,6 +723,7 @@ public class GeoGebraFrameFull
 			} else {
 				attachMowMainMenu(app1);
 			}
+			app1.getGuiManager().initShareActionInGlobalHeader();
 			initPageControlPanel(app1);
 			return;
 		}

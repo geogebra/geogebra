@@ -83,7 +83,7 @@ ext.appSpecs = [
     [id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976'],
     [id:'cas', title:'CAS Calculator', transKey:'CASCalculator',
         exe:'GeoGebraCAS', pkg:'GeoGebra_CAS',  releases: 'Releases-cas', icon: 'CAS.ico', appStoreId:'1436278267'],
-    [id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator',
+    [id:'scientific', title:'Scientific Calculator', transKey:'ScientificCalculator',
         partials:["undo-redo"], appStoreId:'1412748754'],
     [id:'geometry', title:'Geometry', transKey:'Geometry',
         exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', appStoreId:'1232591335'],
