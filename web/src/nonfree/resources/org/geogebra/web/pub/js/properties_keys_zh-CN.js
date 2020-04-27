@@ -3238,6 +3238,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "bulletList": "\u65e0\u5e8f\u5217\u8868",
     "cartesian": "\u76f4\u89d2\u5750\u6807",
     "cas_tutorials": "b2akckus",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "\u987a\u65f6\u9488",
     "counterClockwise": "\u9006\u65f6\u9488",
     "dependent": "\u76f8\u5173",

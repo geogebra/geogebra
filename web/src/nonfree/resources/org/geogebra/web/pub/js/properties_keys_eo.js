@@ -3238,6 +3238,7 @@ __GGB__keysVar["eo"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "Kartezia",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "dekstrume",
     "counterClockwise": "maldekstrume",
     "dependent": "dependa",

@@ -3238,6 +3238,7 @@ __GGB__keysVar["az"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "Cartesian",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "saat \u0259qr\u0259bi istiqam\u0259tind\u0259",
     "counterClockwise": "saat \u0259qr\u0259bi istiqam\u0259tinin \u0259ksin\u0259",
     "dependent": "dependent",

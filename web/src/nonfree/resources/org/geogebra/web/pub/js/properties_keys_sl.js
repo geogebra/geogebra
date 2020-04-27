@@ -3238,6 +3238,7 @@ __GGB__keysVar["sl"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "kartezi\u010dni",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "negativna smer (gibanje urinega kazalca)",
     "counterClockwise": "pozitivna smer (nasprotna smer gibanja urinega kazalca)",
     "dependent": "odvisno",

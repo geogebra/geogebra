@@ -3238,6 +3238,7 @@ __GGB__keysVar["lv"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "Dekarta",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "pulkste\u0146r\u0101d\u012bt\u0101jvierziens",
     "counterClockwise": "pret\u0113ji pulkste\u0146r\u0101d\u012bt\u0101ja virzienam",
     "dependent": "atkar\u012bgs",
