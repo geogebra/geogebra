@@ -381,6 +381,11 @@ public class AlgoCompare extends AlgoElement {
                     // So we repeat this step as many times as it is required.
                     result = result.replaceAll("Sqrt\\[(.*?)\\]", Unicode.SQUARE_ROOT + "$1");
                 }
+
+                // Root[1 - #1 - 2*#1^2 + #1^3 & , 2, 0]
+                result = result.replaceAll("Root\\[(.*?) \\& , (.*?), 0\\]", "$2. root of $1");
+                result = result.replaceAll("[^\\&]#1", "x");
+
                 // Inequality[0, Less, m, LessEqual, 2]
                 result = result.replaceAll("Inequality\\[(.*?), (.*?), m, (.*?), (.*?)\\]",
                         "($1) " + Unicode.CENTER_DOT + " " + inp2 +
@@ -419,10 +424,6 @@ public class AlgoCompare extends AlgoElement {
                 result = result.replace("&& m > 0", "");
                 result = result.replace("m > 0", "");
                 result = result.replace("*", "" + Unicode.CENTER_DOT);
-
-                // Root[1 - #1 - 2*#1^2 + #1^3 & , 2, 0]
-                result = result.replaceAll("Root\\[(.*?) \\& , (.*?), 0\\]", "$2. root of $1");
-                result = result.replaceAll("[^\\&]#1", "x");
 
                 retval += result;
             }
