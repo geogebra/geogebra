@@ -3,7 +3,10 @@ package org.geogebra.web.full.gui.keyboard;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.Timer;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -37,6 +40,9 @@ public class KeyboardManager
 	private RootPanel keyboardRoot;
 	private VirtualKeyboardGUI keyboard;
 
+	private String originalBodyPadding;
+	private Style bodyStyle;
+
 	/**
 	 * Constructor
 	 *
@@ -45,6 +51,7 @@ public class KeyboardManager
 	 */
 	public KeyboardManager(AppW appWFull) {
 		this.app = appWFull;
+		this.bodyStyle = RootPanel.getBodyElement().getStyle();
 	}
 
 	/**
@@ -137,8 +144,6 @@ public class KeyboardManager
 		detachedKeyboardParent.setClassName("GeoGebraFrame");
 		Element container = getAppletContainer();
 		container.appendChild(detachedKeyboardParent);
-		container.getStyle().setProperty("paddingBottom",
-				estimateKeyboardHeight() + "px");
 		String keyboardParentId = app.getAppletId() + "keyboard";
 		detachedKeyboardParent.setId(keyboardParentId);
 		Window.addResizeHandler(this);
@@ -228,33 +233,36 @@ public class KeyboardManager
 	}
 
 	private void addExtraSpaceForKeyboard() {
-		if (noExtraSpaceNeededForKeyboard()) {
-			return;
+		if (extraSpaceNeededForKeyboard()) {
+			originalBodyPadding = bodyStyle.getPaddingBottom();
+			setBodyPaddingBottom(estimateKeyboardHeight() + "px");
 		}
-
-		clearAppletContainerTransition();
-		setAppletContainerPaddingBottom(estimateKeyboardHeight() + "px");
-	}
-
-	private boolean noExtraSpaceNeededForKeyboard() {
-		return !shouldDetach() || getAppletContainer() == null;
-	}
-
-	private void clearAppletContainerTransition() {
-		getAppletContainer().getStyle().clearProperty("transition");
 	}
 
 	private void removeExtraSpaceForKeyboard() {
-		if (noExtraSpaceNeededForKeyboard()) {
-			return;
+		if (!Objects.equals(originalBodyPadding, bodyStyle.getPaddingBottom())) {
+			setBodyPaddingBottom(originalBodyPadding);
 		}
-
-		getAppletContainer().getStyle().setProperty("transition", "padding-bottom 0.2s linear");
-		setAppletContainerPaddingBottom("0");
 	}
 
-	private void setAppletContainerPaddingBottom(String value) {
-		getAppletContainer().getStyle().setProperty("paddingBottom", value);
+	private boolean extraSpaceNeededForKeyboard() {
+		if (shouldDetach()) {
+			double appletBottom = app.getFrameElement().getAbsoluteBottom();
+			return Window.getClientHeight() - appletBottom < estimateKeyboardHeight();
+		}
+
+		return false;
+	}
+
+	private void setBodyPaddingBottom(String value) {
+		bodyStyle.setProperty("transition", "padding-bottom 0.2s linear");
+		bodyStyle.setProperty("paddingBottom", value);
+		new Timer() {
+			@Override
+			public void run() {
+				bodyStyle.clearProperty("transition");
+			}
+		}.schedule(200);
 	}
 
 	/**
