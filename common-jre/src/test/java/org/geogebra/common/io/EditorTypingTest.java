@@ -1,6 +1,7 @@
 package org.geogebra.common.io;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -287,6 +288,12 @@ public class EditorTypingTest {
 		checker.type("8" + Unicode.DIVIDE).typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type(Unicode.DIVIDE + "2")
 				.checkAsciiMath("8/2");
+	}
+
+	@Test
+	public void spaceAfterTrigShouldAddBrackets() {
+		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
+		checker.type("sin 9x").checkAsciiMath("sin(9x)");
 	}
 
 	@Test

@@ -3,6 +3,7 @@ package com.himamis.retex.editor.share.controller;
 import java.util.ArrayList;
 
 import com.google.j2objc.annotations.Weak;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
@@ -30,6 +31,7 @@ public class InputController {
 	private MathField mathField;
 
 	private boolean createFrac = true;
+	private SyntaxAdapter formatConverter;
 
 	public InputController(MetaModel metaModel) {
 		this.metaModel = metaModel;
@@ -49,6 +51,10 @@ public class InputController {
 
 	public void setCreateFrac(boolean createFrac) {
 		this.createFrac = createFrac;
+	}
+
+	public void setFormatConverter(SyntaxAdapter formatConverter) {
+		this.formatConverter = formatConverter;
 	}
 
 	final static private char getLetter(MathComponent component)
@@ -187,33 +193,43 @@ public class InputController {
 			editorState.cursorToSelectionStart();
 		}
 
+		FunctionPower power = getFunctionPower(editorState);
+
+		newBraces(editorState, power, ch);
+	}
+
+	private FunctionPower getFunctionPower(EditorState editorState) {
+		FunctionPower power = new FunctionPower();
 		int initialOffset = editorState.getCurrentOffset();
 		MathComponent last = editorState.getCurrentField()
 				.getArgument(initialOffset - 1);
-		MathFunction script = MathFunction.isScript(last) ? (MathFunction) last
-						: null;
-		if (script != null) {
+		power.script = MathFunction.isScript(last) ? (MathFunction) last
+				: null;
+		if (power.script != null) {
 			initialOffset--;
 		}
-		String casName = ArgumentHelper.readCharacters(editorState,
+		power.name = ArgumentHelper.readCharacters(editorState,
 				initialOffset);
+		return power;
+	}
 
-		Tag tag = Tag.lookup(casName);
+	private void newBraces(EditorState editorState, FunctionPower power, char ch) {
+		Tag tag = Tag.lookup(power.name);
 
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
-			if (script != null) {
+			if (power.script != null) {
 				bkspCharacter(editorState);
 			}
-			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName, false,
-					script);
+			delCharacters(editorState, power.name.length());
+			newFunction(editorState, power.name, false,
+					power.script);
 		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
-				&& metaModel.isFunction(casName)) {
-			if (script != null) {
+				&& metaModel.isFunction(power.name)) {
+			if (power.script != null) {
 				bkspCharacter(editorState);
 			}
-			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName, ch == '[', script);
+			delCharacters(editorState, power.name.length());
+			newFunction(editorState, power.name, ch == '[', power.script);
 
 		} else {
 			String selText = editorState.getSelectedText().trim();
@@ -504,6 +520,13 @@ public class InputController {
 				editorState.getCurrentField().setArgument(
 						editorState.getCurrentOffset() - 1,
 						new MathCharacter(merge));
+				return;
+			}
+		}
+		if (meta.getUnicode() == ' ') {
+			FunctionPower power = getFunctionPower(editorState);
+			if (formatConverter != null && formatConverter.isFunction(power.name)) {
+				newBraces(editorState, power, '(');
 				return;
 			}
 		}
@@ -1412,4 +1435,9 @@ public class InputController {
 		return null;
 	}
 
+	private static class FunctionPower {
+		/** subscript or superscript*/
+		public MathFunction script;
+		public String name;
+	}
 }
