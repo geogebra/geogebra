@@ -4,6 +4,7 @@ import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -1004,5 +1005,23 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testCreationWithLabel() {
 		GeoSymbolic vector = add("v=(1,1)");
 		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
+	}
+
+	@Test
+	public void testShorthandIfAccepted() {
+		kernel.setUndoActive(true);
+		kernel.initUndoInfo();
+		add("f(x)=x^2,x<5");
+		kernel.storeUndoInfo();
+		undoRedo();
+		GeoElement element = lookup("f");
+		assertThat(element.toString(StringTemplate.defaultTemplate),
+				equalTo("f(x) = If(5 > x,x²)"));
+	}
+
+	@Test
+	public void testIfArgumentFiltered() {
+		GeoSymbolic element = add("If(x>5, x^2, x<5, x)");
+		assertThat(element.getTwinGeo(), is(nullValue()));
 	}
 }
