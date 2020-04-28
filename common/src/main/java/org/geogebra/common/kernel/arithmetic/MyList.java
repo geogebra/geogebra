@@ -771,10 +771,10 @@ public class MyList extends ValidExpression
 	 */
 	public String toString(StringTemplate tpl, boolean valueMode,
 			boolean printBrackets) {
-		if (!tpl.toString().equals(StringTemplate.latexTemplate.toString())) {
-			return toFlatString(tpl, valueMode, printBrackets);
+		if (tpl.getStringType() == ExpressionNodeConstants.StringType.LATEX && isMatrix()) {
+			return toMatrixString(tpl);
 		} else {
-			return toLatexString(tpl);
+			return toFlatString(tpl, valueMode, printBrackets);
 		}
 	}
 
@@ -806,7 +806,7 @@ public class MyList extends ValidExpression
 		return sb.toString();
 	}
 
-	private String toLatexString(StringTemplate tpl) {
+	private String toMatrixString(StringTemplate tpl) {
 		ExpressionValue e0 = listElements.get(0).unwrap();
 		final int cols = e0 instanceof MyList ? ((MyList) e0).size() : 1;
 
