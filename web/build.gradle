@@ -181,21 +181,23 @@ task copyHtml {
 
 task copyHandlebars {
     doLast {
+        def handlebarsDir = project.getProperty("handlebarsDir")
         appSpecs.each { app ->
             def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
-            def templatePath = project.getProperty("handlebarsDir") + "/${app.id}-template.handlebars"
+
+            def templatePath =  "${handlebarsDir}/${app.id}-template.handlebars"
             file(templatePath).text = handlebars(replaceHtml(app, false))
         }
+        String solver = solverHtml()
+        def solverPath = "${handlebarsDir}/solver-template.handlebars"
+        file(solverPath).text = handlebars(solver.replace("<!--APP TYPE-->", "solver"));
     }
 }
 
 task createSolverHtml {
     doLast {
         String solver = solverHtml()
-        // for server rendering
-        file("war/solver-template.html").text = solver.replace("<!--APP TYPE-->", "solver")
-        file("war/practice-template.html").text = solver.replace("<!--APP TYPE-->", "practice")
         // for localhost and autotest
         file("war/solver.html").text = solver
             .replace("<!--APP NAME-->", "Math Solver")
