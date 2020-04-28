@@ -276,8 +276,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		case Event.ONMOUSEDOWN:
 		case Event.ONTOUCHSTART:
 			app.closePopups();
-			// see this.setFocus(true) and this.addKeyDownHandler...
-			app.focusGained(this, this.getElement());
 		}
 
 		if (Browser.isTabletBrowser()) {

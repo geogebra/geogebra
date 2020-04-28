@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.UndoManager;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -2007,24 +2006,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public ToolBarInterface getToolbar() {
 		return null;
 	}
-
-	/**
-	 *
-	 * @param w
-	 *            last selected view
-	 * @param el
-	 *            target element
-	 */
-	public abstract void focusLost(View w, Element el);
-
-	/**
-	 *
-	 * @param w
-	 *            selected view
-	 * @param el
-	 *            target element
-	 */
-	public abstract void focusGained(View w, Element el);
 
 	/**
 	 * Update toolbar from custom definition

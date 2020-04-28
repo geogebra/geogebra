@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * resize able)
  */
 public abstract class GeoGebraFrameW extends FlowPanel implements
-        HasAppletProperties {
+		HasAppletProperties {
 	private static final String APPLET_FOCUSED_CLASSNAME = "applet-focused";
 	private static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
@@ -89,7 +89,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public GeoGebraFrameW(GLookAndFeelI laf, ArticleElementInterface articleElement) {
 		this(laf, ArticleElement.getDataParamFitToScreen(articleElement.getElement()));
 		this.articleElement = articleElement;
+
+		getElement().setTabIndex(0);
+		addFocusHandlers(getElement());
 	}
+
+	private native void addFocusHandlers(Element e) /*-{
+		var that = this;
+		e.addEventListener('focusin', function() {
+			that.@org.geogebra.web.html5.gui.GeoGebraFrameW::useFocusedBorder()();
+		});
+		e.addEventListener('focusout', function() {
+			that.@org.geogebra.web.html5.gui.GeoGebraFrameW::useDataParamBorder()();
+		});
+	}-*/;
 
 	/**
 	 * The application loading continues in the splashDialog onLoad handler
@@ -131,13 +144,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			// Styleshet not loaded yet, add CSS directly
 			splash.getElement().getStyle().setPosition(Position.RELATIVE);
 			splash.getElement().getStyle()
-			        .setTop((height / 2) - (splashHeight / 2), Unit.PX);
+					.setTop((height / 2) - (splashHeight / 2), Unit.PX);
 			if (!articleElement.isRTL()) {
 				splash.getElement().getStyle()
-				        .setLeft((width / 2) - (splashWidth / 2), Unit.PX);
+						.setLeft((width / 2) - (splashWidth / 2), Unit.PX);
 			} else {
 				splash.getElement().getStyle()
-				        .setRight((width / 2) - (splashWidth / 2), Unit.PX);
+						.setRight((width / 2) - (splashWidth / 2), Unit.PX);
 			}
 			useDataParamBorder();
 		}
@@ -595,7 +608,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *
 	 */
 	public static void renderArticleElementWithFrame(final Element element,
-	        GeoGebraFrameW frame, JavaScriptObject onLoadCallback) {
+			GeoGebraFrameW frame, JavaScriptObject onLoadCallback) {
 
 		final ArticleElement article = ArticleElement.as(element);
 		if (Log.getLogger() == null) {
@@ -629,9 +642,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public void remove() {
 		removeFromParent();
 		// this does not do anything!
-		GeoGebraFrameW.getInstances()
-				.remove(
-		        GeoGebraFrameW.getInstances().indexOf(this));
+		GeoGebraFrameW.getInstances().remove(this);
 		articleElement.getElement().removeFromParent();
 		articleElement = null;
 		app = null;

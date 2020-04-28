@@ -2,7 +2,6 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
@@ -135,16 +134,6 @@ public class AppWsimple extends AppW {
 	private void updateEuclidianView(EuclidianViewW view) {
 		view.updateBounds(true, true);
 		view.doRepaint2();
-	}
-
-	@Override
-	public void focusLost(View v, Element el) {
-		frame.useDataParamBorder();
-	}
-
-	@Override
-	public void focusGained(View v, Element el) {
-		frame.useFocusedBorder();
 	}
 
 	@Override

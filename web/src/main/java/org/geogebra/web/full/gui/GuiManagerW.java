@@ -172,8 +172,6 @@ public class GuiManagerW extends GuiManager
 	private DataCollectionView dataCollectionView;
 	private GeoGebraFrameFull frame;
 
-	private int activeViewID;
-
 	private GOptionPaneW optionPane;
 
 	private ColorPanel colorPanel;
@@ -1797,20 +1795,10 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void setActiveView(final int evID) {
-		this.activeViewID = evID;
 		if (layout == null || layout.getDockManager() == null) {
 			return;
 		}
 		layout.getDockManager().setFocusedPanel(evID);
-	}
-
-	/**
-	 *
-	 * @return ID of the active view
-	 * @see #setActiveView(int)
-	 */
-	public int getActiveViewID() {
-		return this.activeViewID;
 	}
 
 	@Override

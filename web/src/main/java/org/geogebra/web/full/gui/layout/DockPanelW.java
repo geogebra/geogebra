@@ -1137,11 +1137,6 @@ public abstract class DockPanelW extends ResizeComposite
 		return visible;
 	}
 
-	/** @return Whether this has focus */
-	public boolean hasFocus() {
-		return hasFocus;
-	}
-
 	/**
 	 * Mark this panel as focused. When gaining focus the panel will
 	 * automatically request focus for its parent frame.

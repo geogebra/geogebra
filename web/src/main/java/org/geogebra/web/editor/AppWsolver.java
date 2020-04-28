@@ -2,7 +2,6 @@ package org.geogebra.web.editor;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
@@ -111,16 +110,6 @@ public class AppWsolver extends AppW implements HasKeyboard {
     @Override
     public void afterLoadFileAppOrNot(boolean asSlide) {
 		// no file loading
-    }
-
-    @Override
-    public void focusLost(View v, Element el) {
-		// not needed here
-    }
-
-    @Override
-    public void focusGained(View v, Element el) {
-		// not needed here
     }
 
     @Override

@@ -28,8 +28,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	Hits getHits();
 
-	boolean isInFocus();
-
 	boolean hasStyleBar();
 
 	EuclidianStyleBar getStyleBar();

@@ -68,11 +68,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureStartEvent;
@@ -131,7 +127,6 @@ public class EuclidianViewW extends EuclidianView implements
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 
 	private long lastRepaint;
-	private boolean inFocus = false;
 	/** application **/
 	AppW appW = (AppW) super.app;
 
@@ -816,20 +811,6 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		}
 
-		canvas.addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent be) {
-				focusLost();
-			}
-		});
-
-		canvas.addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent fe) {
-				focusGained();
-			}
-		});
-
 		EuclidianSettings es = null;
 		if (settings != null) {
 			es = settings;
@@ -988,33 +969,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public boolean requestFocusInWindow() {
 		getCanvasElement().focus();
-		focusGained();
 		return true;
-	}
-
-	/**
-	 * Mark as not focused
-	 */
-	public void focusLost() {
-		this.inFocus = false;
-	}
-
-	/**
-	 * Mark as focused and notify app.
-	 */
-	public void focusGained() {
-		if (!inFocus) {
-			this.inFocus = true;
-			if (getCanvasElement() != null) {
-				this.appW.focusGained(this, getCanvasElement());
-				resetTextField();
-			}
-		}
-	}
-
-	@Override
-	public boolean isInFocus() {
-		return inFocus;
 	}
 
 	/**
