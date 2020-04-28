@@ -3238,6 +3238,7 @@ __GGB__keysVar["fi"].menu = {
     "bulletList": "Luettelomerkki",
     "cartesian": "Suorakulmainen",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "my\xf6t\xe4p\xe4iv\xe4\xe4n",
     "counterClockwise": "vastap\xe4iv\xe4\xe4n",
     "dependent": "riippuva",

@@ -1,10 +1,14 @@
 package org.geogebra.web.html5.util;
 
-import com.google.gwt.core.client.Scheduler;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -13,6 +17,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoWidget;
@@ -30,12 +35,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.storage.client.Storage;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class CopyPasteW extends CopyPaste {
 
@@ -272,7 +274,8 @@ public class CopyPasteW extends CopyPaste {
 
 	private static void saveToClipboard(String toSave) {
 		if (!Browser.isiOS()) {
-			String encoded = pastePrefix + GlobalFunctions.btoa(toSave);
+			String escapedContent = GlobalFunctions.escape(toSave);
+			String encoded = pastePrefix + GlobalFunctions.btoa(escapedContent);
 			writeToExternalClipboard(encoded);
 		}
 		Storage.getLocalStorageIfSupported().setItem(pastePrefix, toSave);
@@ -340,7 +343,8 @@ public class CopyPasteW extends CopyPaste {
 	@ExternalAccess
 	private static void pasteText(App app, String text) {
 		if (text.startsWith(pastePrefix)) {
-			pasteGeoGebraXML(app, GlobalFunctions.atob(text.substring(pastePrefix.length())));
+			String escapedContent = GlobalFunctions.atob(text.substring(pastePrefix.length()));
+			pasteGeoGebraXML(app, GlobalFunctions.unescape(escapedContent));
 		} else {
 			pastePlainText(app, text);
 		}
@@ -356,8 +360,8 @@ public class CopyPasteW extends CopyPaste {
 			final EuclidianView ev = app.getActiveEuclidianView();
 
 			final GeoInlineText txt = new GeoInlineText(app.getKernel().getConstruction(),
-					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0),
-					defaultTextWidth, GeoInlineText.DEFAULT_HEIGHT);
+					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
+			txt.setWidth(defaultTextWidth);
 			txt.setLabel(null);
 
 			JSONArray array = new JSONArray();
@@ -449,8 +453,8 @@ public class CopyPasteW extends CopyPaste {
 					shapes.add(created);
 				}
 
-				if (created instanceof GeoInlineText) {
-					DrawInlineText drawInlineText = (DrawInlineText) ev.getDrawableFor(created);
+				if (created instanceof GeoInline) {
+					DrawInline drawInlineText = (DrawInline) ev.getDrawableFor(created);
 					drawInlineText.updateContent();
 					shapes.add(created);
 				}

@@ -871,7 +871,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter) {
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
 		return false;
 	}
 

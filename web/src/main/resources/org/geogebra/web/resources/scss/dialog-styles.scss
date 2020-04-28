@@ -705,165 +705,212 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
    		}
    }
 
-  	.pdfDialog {
-  		.pdfContainer {
-   			width: 450px;
-    		height: 400px;
-    		margin-right: 16px;
-    		border: 4px dashed $mow_pdf_dialog_border;
+	.pdfDialog {
+		max-width: 474px;
+		max-height: 522px;
+		width: 80%;
+		height: 94%;
 
-    		&.withPdf {
-    			border-color: transparent;
-    		}
+		.pdfDialogMainPanel {
+			height: 100%;
+		}
+
+		.pdfDialogTable {
+			height: 100%;
+			width: 100%;
+		}
+
+		.dialogMiddle {
+			height: 100%;
+		}
+
+		.dialogMiddleCenterInner.dialogContent {
+			height: 100%;
+		}
+
+		 .pdfDialogContent {
+			height: 100%;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			-webkit-flex-direction: column;
+		 }
+
+		.pdfContainer {
+			margin-right: 16px;
+			border: 4px dashed $mow_pdf_dialog_border;
+			border-radius: 8px;
+			height: 100%;
+
+			&.withPdf {
+				border-color: transparent;
+			}
+		}
+
+		.imgTextElement {
+			justify-content: center;
+			-webkit-justify-content: center;
+			height: 100%;
+			align-items: center;
+			-webkit-align-items: center;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			-webkit-flex-direction: column;
 		}
 
 		.folderImg {
-    		display: block;
-    		margin-left: auto;
-    		margin-right: auto;
-    		margin-top: 100px;
-    		opacity: 0.54;
-    	}
+			opacity: 0.54;
+		}
 
 		.pdfDialogText {
-    		margin-top: 20px;
-    		text-align: center;
-    		max-width: 190px;
-    		margin-left: auto;
-    		margin-right: auto;
+			margin-top: 20px;
+			text-align: center;
+			max-width: 190px;
 		}
 
 		.clickOrDragText {
-    		font-size: 100% !important;
-    	}
+			font-size: 100% !important;
+		}
 
-    	.errorText {
-    		font-size: 12px;
+		.errorText {
+			font-size: 12px;
 			color: $red-A400;
 		}
 
-    	.loadText {
-    		font-size: 12px;
+		.loadText {
+			font-size: 12px;
+			margin-left: auto;
+            margin-right: auto;
 		}
 
-    	.pdfPreview {
-    		 display: flex;
+		.pdfPreview {
+			 display: inline-flex;
+			 display: -webkit-inline-flex;
+             width: 80%;
+             height: 100%;
+             position: relative;
 
-    		.leftBtn,.rightBtn {
-    			width: 24px;
-    			height: 24px;
-    			padding: 12px;
-    			opacity: 0.54;
-    			border-radius: 24px;
-    			margin-top: 150px;
-    		}
+			.leftBtn,.rightBtn {
+				width: 24px;
+				height: 24px;
+				padding: 12px;
+				opacity: 0.54;
+				border-radius: 24px;
+				top: 40%;
+				position: absolute;
+			}
 
-    		.rightBtn {
-    			right: 60px;
-    			position: absolute;
+			.rightBtn {
+				right: -25%;
 			}
 
 			.leftBtn {
-				left: 60px;
-    			position: absolute;
+				left: 0%;
+				z-index: 1;
 			}
 
-    		.leftBtn:hover, .rightBtn:hover {
-    			background: $mow_pdf_left_right_hover;
-    			opacity: 1;
-    		}
+			.leftBtn:hover, .rightBtn:hover {
+				background: $mow_pdf_left_right_hover;
+				opacity: 1;
+			}
 
-    		.previewImage {
-    			position: absolute;
-			    left: 50%;
-			    max-width: 300px;
-			    max-height: 360px;
-			    transform: translateX(-50%);
-    		}
-    	}
+			.previewImage {
+				position: absolute;
+				left: 63%;
+				top: 46%;
+				max-height: 90%;
+				max-width: 90%;
+				transform: translate(-50%, -50%);
+			}
+		}
 
-    	.pdfPageText {
-    			display: flex;
-   				width: fit-content;
-   				height: fit-content;
-    			position: relative;
-    			margin-left: auto;
-    			margin-right: auto;
-    			margin-top: 20px;
-    			top: 356px;
+		.pdfPageText {
+				display: flex;
+				display: -webkit-flex;
+				flex-direction: row;
+				-webkit-flex-direction: row;
+				width: fit-content;
+				height: fit-content;
+				position: relative;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 20px;
+				bottom: 10%;
 
-    			.gwt-Label {
-    				margin: 0px;
-    				font-size: 100%;
-   					height: fit-content;
-					font-family: Roboto Regular;
-    			}
+				.gwt-Label {
+					margin: 0px;
+					font-size: 100%;
+					height: fit-content;
+				}
 
-    			.curPageField {
-    				margin-left: 16px;
-   		 			margin-bottom: 0px;
-   		 			border-bottom-color: $black-42;
+				.curPageField {
+					margin-left: 16px;
+					margin-bottom: 0px;
+					border-bottom-color: $black-42;
 
-   		 			.TextField {
-   		 				margin: 0px;
-   		 				text-align: center;
-   		 				font-size: 100%;
-   		 				padding: 0px;
-   		 				border-radius: 0px;
-   		 				font-family: Roboto Regular;
-   		 			}
+					.TextField {
+						margin: 0px;
+						text-align: center;
+						font-size: 100%;
+						padding: 0px;
+						border-radius: 0px;
+					}
 
-   		 			&.default {
- 						border-bottom: 1px solid $black-42;
- 					}
+					&.default {
+						border-bottom: 1px solid $black-42;
+					}
 
-   		 			&.hover {
-   	 					border-bottom: 2px solid $black-87;
-   		 			}
+					&.hover {
+						border-bottom: 2px solid $black-87;
+					}
 
-   		 			&.focus, &.focus:hover {
-   	 					border-bottom: 2px solid $mow_dark_87;
-   		 			}
-    			}
+					&.focus, &.focus:hover {
+						border-bottom: 2px solid $mow_dark_87;
+					}
+				}
 
-    			&.hidden {
-   	 				visibility: hidden;
-    			}
+				&.hidden {
+					visibility: hidden;
+				}
 		}
 
 		.DialogButtonPanel {
+			min-width: unset;
+			max-width: unset;
 
-   			.button {
-   				color: $mow_dark;
-   				&:hover {
-   					color: $mow_dark;
-   				}
-   			}
+			.button {
+				color: $mow_dark;
+				&:hover {
+					color: $mow_dark;
+				}
+			}
 
-   			.insertBtn.button-up-disabled {
-   				opacity: 1;
-   				color: $mow_dark_26;
+			.insertBtn.button-up-disabled {
+				opacity: 1;
+				color: $mow_dark_26;
 
-   				&:hover {
-   					background: none !important;
-   				}
-   			}
-   		}
+				&:hover {
+					background: none !important;
+				}
+			}
+		}
 
-   		.progressBar {
-   			margin-top: 192px;
-   			margin-left: auto;
-   			margin-right: auto;
-   			background: $mow_light;
-   			height: 4px;
-   			width: 300px;
+		.progressBar {
+			margin-left: auto;
+			margin-right: auto;
+			background: $mow_light;
+			height: 4px;
+			max-width: 300px;
+			width: 80%;
 
-   			div {
-   				background: $mow_dark;
-   				height: 100%;
-   			}
-   		}
+			div {
+				background: $mow_dark;
+				height: 100%;
+			}
+		}
 	}
+
 	.MaterialDialogBox.shareLink {
 		padding-bottom: 24px;
 		padding-right: 24px;

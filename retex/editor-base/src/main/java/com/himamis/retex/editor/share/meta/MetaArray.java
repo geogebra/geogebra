@@ -30,27 +30,19 @@ package com.himamis.retex.editor.share.meta;
 
 public class MetaArray extends MetaComponent {
 
-    /* Array and matrix elements. */
-    static final String OPEN = "Open";
-    static final String CLOSE = "Close";
-    static final String FIELD = "Field";
-    static final String ROW = "Row";
+    private MetaArrayComponent open;
 
-    static final String MATRIX = "Matrix";
-
-    private MetaComponent open;
-
-	private MetaComponent close;
-    private MetaComponent field;
-    private MetaComponent row;
+	private MetaArrayComponent close;
+    private MetaArrayComponent field;
+    private MetaArrayComponent row;
 	private int dimension;
 
 	MetaArray(int dimension, Tag name) {
-		super(name, name + "", (char) 0, (char) 0);
+		super(name, name + "");
 		this.dimension = dimension;
 	}
 
-    public MetaComponent getOpen() {
+    public MetaArrayComponent getOpen() {
         return open;
     }
 
@@ -58,7 +50,7 @@ public class MetaArray extends MetaComponent {
         return open.getKey();
     }
 
-    public MetaComponent getClose() {
+    public MetaArrayComponent getClose() {
         return close;
     }
 
@@ -66,7 +58,7 @@ public class MetaArray extends MetaComponent {
         return close.getKey();
     }
 
-    public MetaComponent getField() {
+    public MetaArrayComponent getField() {
         return field;
     }
 
@@ -74,7 +66,7 @@ public class MetaArray extends MetaComponent {
         return field.getKey();
     }
 
-    public MetaComponent getRow() {
+    public MetaArrayComponent getRow() {
         return row;
     }
 
@@ -90,19 +82,19 @@ public class MetaArray extends MetaComponent {
 		return dimension == 2;
     }
 
-	public void setOpen(MetaComponent open) {
+	public void setOpen(MetaArrayComponent open) {
 		this.open = open;
 	}
 
-	public void setClose(MetaComponent close) {
+	public void setClose(MetaArrayComponent close) {
 		this.close = close;
 	}
 
-	public void setField(MetaComponent field) {
+	public void setField(MetaArrayComponent field) {
 		this.field = field;
 	}
 
-	public void setRow(MetaComponent row) {
+	public void setRow(MetaArrayComponent row) {
 		this.row = row;
 	}
 

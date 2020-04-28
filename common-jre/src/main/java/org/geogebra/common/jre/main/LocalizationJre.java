@@ -471,7 +471,7 @@ public abstract class LocalizationJre extends Localization {
 	 * @return converted locale
 	 */
 	public Locale convertToLocale(Language language) {
-		String lang = language.localeISO6391;
+		String lang = language.localeISO6391.replace("nl_BE", "nl");
 		String country = "";
 		if (language.getLocaleGWT().length() == 5) {
 			country = language.getLocaleGWT().substring(3);

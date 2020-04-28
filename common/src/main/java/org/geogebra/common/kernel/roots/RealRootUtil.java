@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
  */
 public class RealRootUtil {
 
-	private static int ITER_MAX = 100; // maximum number of iterations allowed
+	private static final int ITER_MAX = 100; // maximum number of iterations allowed
 
 	/**
 	 * Returns an interval within [a, b] where f(x) is defined.
@@ -133,31 +133,6 @@ public class RealRootUtil {
 		}
 		return right;
 	}
-
-	/**
-	 * Tries to find a value x0 in [a, b] where f(x0) is defined. If no such
-	 * value can be found Double.NaN is returned.
-	 * 
-	 * private static double getAnyDefinedValue(UnivariateFunction f, double a,
-	 * double b) { // we are desperately looking for some defined position of
-	 * this function double left = a, right = b; boolean leftDef = false,
-	 * rightDef;
-	 * 
-	 * int iter=0; while (iter < ITER_MAX && Math.abs(right - left) > EPSILON) {
-	 * double fleft = f.evaluate(left); double fright = f.evaluate(right);
-	 * leftDef = !(Double.isNaN(fleft) || Double.isInfinite(fleft)); rightDef =
-	 * !(Double.isNaN(fright) || Double.isInfinite(fright));
-	 * 
-	 * // both borders are defined if (leftDef && rightDef) return Double.NaN;
-	 * else { // make next step using midpoint of interval iter++; double m =
-	 * (left + right) * 0.5; double fm = f.evaluate(m); boolean mDef =
-	 * !(Double.isNaN(fm) || Double.isInfinite(fm)); // set next interval by
-	 * preserving the definition change if (mDef == leftDef) left = m; else //
-	 * mDef == rightDef right = m; } }
-	 * 
-	 * // return last defined border if (leftDef) return left; else return
-	 * right; }
-	 */
 
 	/**
 	 * updates the interval within [a, b] where f(x) is defined.

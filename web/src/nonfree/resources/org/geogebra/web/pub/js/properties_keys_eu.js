@@ -3238,6 +3238,7 @@ __GGB__keysVar["eu"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "Kartesiarra",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "erloju-orratzen noranzkoan",
     "counterClockwise": "erloju-orratzen aurka",
     "dependent": "mendekoa",

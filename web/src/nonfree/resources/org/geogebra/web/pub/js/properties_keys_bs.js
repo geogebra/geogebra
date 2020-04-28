@@ -3238,6 +3238,7 @@ __GGB__keysVar["bs"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "Descartes",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "u smjeru kazaljke na satu",
     "counterClockwise": "suprotno smjeru kazaljke na satu",
     "dependent": "zavisno",

@@ -1,4 +1,4 @@
-package org.geogebra.common.euclidian.text;
+package org.geogebra.common.euclidian.inline;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;

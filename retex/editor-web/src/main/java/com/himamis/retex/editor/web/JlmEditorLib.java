@@ -64,7 +64,7 @@ public class JlmEditorLib extends JlmLib {
 					public void onTab(boolean shiftDown) {
 						// TODO Auto-generated method stub
 					}
-				}, false, null);
+				}, false);
 		fld.requestViewFocus();
 	}
 

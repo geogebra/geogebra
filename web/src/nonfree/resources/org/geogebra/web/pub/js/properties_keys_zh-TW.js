@@ -3238,6 +3238,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "\u76f4\u89d2\u5ea7\u6a19",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "\u9806\u6642\u91dd",
     "counterClockwise": "\u9006\u6642\u91dd",
     "dependent": "\u76f8\u4f9d",

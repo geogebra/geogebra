@@ -28,7 +28,7 @@ import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
@@ -39,7 +39,6 @@ import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
@@ -56,7 +55,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -481,27 +479,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected org.geogebra.common.euclidian.EuclidianStyleBar styleBar;
 	private DrawGrid drawGrid;
 	private DrawAxis da;
-
-	private static final int MAX_PIXEL_DISTANCE = 10; // pixels
-	private static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
-
-	// maximum angle between two line segments
-	private static final double MAX_ANGLE = 10; // degrees
-	private static final double MAX_ANGLE_OFF_SCREEN = 45; // degrees
-	private static final double MAX_BEND = Math.tan(MAX_ANGLE * Kernel.PI_180);
-	private static final double MAX_BEND_OFF_SCREEN = Math
-			.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
-
-	// maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
-	private static final int MAX_DEFINED_BISECTIONS = 16;
-	private static final int MAX_PROBLEM_BISECTIONS = 8;
-
-	// maximum number of times to loop when xDiff, yDiff are both zero
-	// eg Curve[0sin(t), 0t, t, 0, 6]
-	private static final int MAX_ZERO_COUNT = 1000;
-
-	// the curve is sampled at least at this many positions to plot it
-	private static final int MIN_SAMPLE_POINTS = 80;
 
 	// Counts of sliders that need to be adjusted, to omit overlaps.
 	// See GGB-334, Feature.ADJUST.
@@ -1781,7 +1758,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void calcPrintingScale() {
 		double unitPerCM = PRINTER_PIXEL_PER_CM / getXscale();
-		int exp = (int) Math.round(Math.log(unitPerCM) / Math.log(10));
+		int exp = (int) Math.round(Math.log10(unitPerCM));
 		printingScale = Math.pow(10, -exp);
 	}
 
@@ -1796,11 +1773,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected void setAxesIntervals(double scale, int axis) {
 		double maxPix = 100; // only one tick is allowed per maxPix pixels
 		double units = maxPix / scale;
-		int exp = (int) Math.floor(Math.log(units) / Math.log(10));
-
-		// if (logAxes[axis]) {
-		// exp = (int) Math.log10(exp);
-		// }
+		int exp = (int) Math.floor(Math.log10(units));
 
 		int maxFractionDigits = Math.max(-exp, kernel.getPrintDecimals());
 		
@@ -5737,43 +5710,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return 70;
 	}
 
-	/**
-	 * @return min sample points for curve plotting
-	 */
-	public double getMinSamplePoints() {
-		// test-case pan https://www.geogebra.org/m/EMNRrnxF left & right
-		return Math.max(MIN_SAMPLE_POINTS, getWidth() / 6);
-	}
-
-	public double getMaxBendOfScreen() {
-		return MAX_BEND_OFF_SCREEN;
-	}
-
-	public double getMaxBend() {
-		return MAX_BEND;
-	}
-
-	public int getMaxDefinedBisections() {
-		return MAX_DEFINED_BISECTIONS;
-	}
-
-	@Override
-	public double getMinPixelDistance() {
-		return MIN_PIXEL_DISTANCE;
-	}
-
-	public int getMaxZeroCount() {
-		return MAX_ZERO_COUNT;
-	}
-
-	public double getMaxPixelDistance() {
-		return MAX_PIXEL_DISTANCE;
-	}
-
-	public int getMaxProblemBisections() {
-		return MAX_PROBLEM_BISECTIONS;
-	}
-
 	public int getAbsoluteTop() {
 		return -1;
 	}
@@ -6625,25 +6561,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * Create an inline text controller iff the view supports inline text
-	 * editing.
-	 *
-	 * @param geo
-	 *            inline text
-	 *
-	 * @return an implementation of the text controller.
-	 */
-	public InlineTextController createInlineTextController(GeoInlineText geo) {
-		return null;
-	}
-
-	/**
 	 * Remove all widgets for inline texts
 	 */
-	public void resetInlineTexts() {
+	public void resetInlineObjects() {
 		for (Drawable dr : allDrawableList) {
-			if (dr instanceof DrawInlineText) {
-				((DrawInlineText) dr).remove();
+			if (dr instanceof DrawInline) {
+				((DrawInline) dr).remove();
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.web;
 
 import com.himamis.retex.editor.share.util.Unicode;
+import org.geogebra.keyboard.base.model.impl.factory.Characters;
 
 /**
  * Contains Strings which are used for the {@link KeyBoardButtonBase buttons} of
@@ -13,6 +14,9 @@ public class KeyboardConstants {
 	public static final String A_POWER_X = "a^x";
 	/** hashtag and not*/
 	public static final String SWITCH_TO_SPECIAL_SYMBOLS = "#&" + Unicode.NOT;
+	/** greek letters */
+	public static final String SWITCH_TO_GREEK_CHARACTERS = ""
+			+ Characters.ALPHA + Characters.BETA + Characters.GAMMA;
 	/** left floor x right floor */
 	public static final String FLOOR = "" + Unicode.LFLOOR + "x" + Unicode.RFLOOR;
 	/** left ceil x right ceil */

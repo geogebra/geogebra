@@ -3238,6 +3238,7 @@ __GGB__keysVar["ar"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "\u062f\u064a\u0643\u0627\u0631\u062a\u064a",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "\u0625\u062a\u062c\u0627\u0647 \u0639\u0642\u0627\u0631\u0628 \u0627\u0644\u0633\u0627\u0639\u0629",
     "counterClockwise": "\u0639\u0643\u0633 \u0625\u062a\u062c\u0627\u0647 \u0639\u0642\u0627\u0631\u0628 \u0627\u0644\u0633\u0627\u0639\u0629",
     "dependent": "\u062a\u0627\u0628\u0639\u0629",

@@ -19,12 +19,10 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -357,7 +355,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void clearView() {
-		resetInlineTexts();
+		resetInlineObjects();
 		resetLists();
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
@@ -1872,11 +1870,5 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public AppW getApplication() {
 		return (AppW) super.getApplication();
-	}
-
-	@Override
-	public InlineTextController createInlineTextController(GeoInlineText geo) {
-		Element parentElement = getAbsolutePanel().getParent().getElement();
-		return new InlineTextControllerW(geo, parentElement, this);
 	}
 }
