@@ -4,6 +4,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
+import org.geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 
@@ -83,6 +84,7 @@ public abstract class AuthenticationModel implements GTimerListener {
 		if (!user.getLoginToken().equals(this.getLoginToken())) {
 			storeLoginToken(user.getLoginToken());
 		}
+		Log.debug("LOGGED IN START SESSION TIMER");
 		getSessionExpireTimer().start();
 	}
 

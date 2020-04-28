@@ -5,6 +5,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.SessionExpireNotifyDialog;
 import org.geogebra.web.html5.main.AppW;
 
@@ -110,6 +111,7 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 
 	@Override
 	public void onRun() {
+		Log.debug("SESSION TIMER UP SHOW SAVE DIALOG");
 		getSessionExpireTimer().stop();
 		new SessionExpireNotifyDialog(app).show();
 	}
