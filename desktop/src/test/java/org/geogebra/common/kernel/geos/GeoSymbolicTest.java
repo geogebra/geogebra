@@ -509,7 +509,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testTrigCommands() {
 		t("TrigExpand(tan(aaa+bbb))",
 				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
-		t("TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+		t("f(x) = TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+		t("TrigExpand(x)", "x");
 		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
 	}
 
