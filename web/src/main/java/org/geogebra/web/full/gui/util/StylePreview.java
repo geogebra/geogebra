@@ -53,7 +53,7 @@ public abstract class StylePreview extends Composite {
 	 * Clears the preview.
 	 */
 	public void clear() {
-		g2.clearRect(0, 0, getOffsetWidth(), getOffsetHeight());
+		g2.clearAll();
 	}
 
 	public int getMarginX() {

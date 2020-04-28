@@ -1768,12 +1768,13 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void embed(GGraphics2D g2, DrawWidget e) {
+	public void embed(GGraphics2D g2, DrawWidget widget) {
 		int layer = ((GGraphics2DWI) g2).embed();
 		EmbedManager embedManager = getApplication().getEmbedManager();
 		if (embedManager != null) {
-			embedManager.setLayer(e, layer);
+			embedManager.setLayer(widget, layer);
 		}
+		g2.clearRect(widget.getLeft(), widget.getTop(), widget.getWidth(), widget.getHeight());
 	}
 
 	@Override

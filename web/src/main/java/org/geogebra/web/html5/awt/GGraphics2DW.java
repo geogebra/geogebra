@@ -595,10 +595,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void clearRect(int x, int y, int w, int h) {
-		context.saveTransform();
-		context.setTransform2(1, 0, 0, 1, 0, 0);
 		context.clearRect(x, y, w, h);
-		context.restoreTransform();
 	}
 
 	@Override
@@ -872,7 +869,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public void clearAll() {
 		double scale = getScale();
-		clearRect(0, 0, (int) (scale * getOffsetWidth()), (int) (scale * getOffsetHeight()));
+		context.saveTransform();
+		context.setTransform2(scale, 0, 0, scale, 0, 0);
+		clearRect(0, 0, getOffsetWidth(), getOffsetHeight());
+		context.restoreTransform();
 	}
 
 	public double getScale() {

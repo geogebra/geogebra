@@ -75,8 +75,6 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 	private void setMetrics() {
 		int width = video.getWidth();
 		int height = video.getHeight();
-		left = video.getAbsoluteScreenLocX();
-		top = video.getAbsoluteScreenLocY();
 		left = video.getScreenLocX(view);
 		top = video.getScreenLocY(view);
 
@@ -87,7 +85,6 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 	public void draw(GGraphics2D g2) {
 		if (view.getApplication().getExportType() == App.ExportType.NONE) {
 			view.embed(g2, this);
-			g2.clearRect(getLeft(), getTop(), getWidth(), getHeight());
 			return;
 		}
 		MyImage preview = video.getPreview();
