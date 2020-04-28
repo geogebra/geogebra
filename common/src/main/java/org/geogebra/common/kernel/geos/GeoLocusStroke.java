@@ -37,6 +37,7 @@ public class GeoLocusStroke extends GeoLocus
 		PointRotateable, Dilateable {
 
 	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
+	private static final int MAX_SEGMENT_LENGTH = 50;
 
 	/** cache the part of XML that follows after expression label="stroke1" */
 	private StringBuilder xmlPoints;
@@ -331,7 +332,7 @@ public class GeoLocusStroke extends GeoLocus
 				outside.add(getPoints().get(i));
 			}
 
-			for (MyPoint intersection : getAllIntersectionPoints(i, rectangle, false)) {
+			for (MyPoint intersection : getAllIntersectionPoints(i, rectangle)) {
 				inside.add(intersection);
 				outside.add(new MyPoint(intersection.getX(), intersection.getY()));
 
@@ -426,11 +427,11 @@ public class GeoLocusStroke extends GeoLocus
 				continue;
 			}
 			boolean nextInside = rectangle.contains(nextPoint.x, nextPoint.y);
-			List<MyPoint> intersections = getAllIntersectionPoints(i, rectangle, false);
+			List<MyPoint> intersections = getAllIntersectionPoints(i, rectangle);
 			if (inside && nextInside) {
 				// both points inside
 				if (intersections.size() == 2) {
-					getAllIntersectionPoints(i, rectangle, true);
+					getAllIntersectionPoints(i, rectangle);
 					ensureTrailingNaN(outside);
 					outside.addAll(intersections);
 					ensureTrailingNaN(outside);
@@ -465,18 +466,22 @@ public class GeoLocusStroke extends GeoLocus
 		return !outside.isEmpty();
 	}
 
+	/**
+	 * Check for bezier segments longer than MAX_SEGMENT_LENGTH and split them (using linetos)
+	 */
 	private void increaseDensity() {
 		ArrayList<MyPoint> densePoints = new ArrayList<>();
 		int parts = 5;
 		int i = 1;
+		double rwLength = app.getActiveEuclidianView().getInvXscale() * MAX_SEGMENT_LENGTH;
 		densePoints.add(getPoints().get(0));
-		while ( i < getPoints().size()) {
+		while (i < getPoints().size()) {
 			MyPoint pt0 = getPoints().get(i - 1);
-			MyPoint pt1= getPoints().get(i);
+			MyPoint pt1 = getPoints().get(i);
 			if (pt1.getSegmentType() == SegmentType.CONTROL) {
 				MyPoint pt2 = getPoints().get(i + 1);
 				MyPoint pt3 = getPoints().get(i + 2);
-				if (pt3.distance(pt0) > 1.0) {
+				if (pt3.distance(pt0) > rwLength) {
 					double[] xCoeff = bezierCoeffs(pt0.x, pt1.x, pt2.x, pt3.x);
 					double[] yCoeff = bezierCoeffs(pt0.y, pt1.y, pt2.y, pt3.y);
 					for (int sub = 1; sub < parts; sub++) {
@@ -485,10 +490,11 @@ public class GeoLocusStroke extends GeoLocus
 						densePoints.add(subPoint);
 					}
 					pt3.setLineTo(true);
-					i+=1;
 				} else {
 					densePoints.add(pt1);
+					densePoints.add(pt2);
 				}
+				i += 1;
 			} else {
 				densePoints.add(pt1);
 			}
@@ -510,7 +516,7 @@ public class GeoLocusStroke extends GeoLocus
 		}
 	}
 
-	private ArrayList<MyPoint> getAllIntersectionPoints(final int index, GRectangle2D rectangle, boolean debug) {
+	private ArrayList<MyPoint> getAllIntersectionPoints(final int index, GRectangle2D rectangle) {
 		double x = rectangle.getX();
 		double y = rectangle.getY();
 		double width = rectangle.getWidth();
