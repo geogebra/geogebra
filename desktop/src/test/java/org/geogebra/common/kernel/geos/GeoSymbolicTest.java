@@ -547,10 +547,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testAngleCommand() {
-		t("Angle((1,2),(3,4))", "cos\u207B\u00B9(11 * sqrt(5) / 25)");
-		// not working
-		// t("Angle[(a,b,c),(d,e,f),(g,h,i)]", "");
+	public void testAngleCommandFiltered() {
+		GeoSymbolic symbolic = add("Angle((1,2),(3,4))");
+		assertThat(symbolic, is(nullValue()));
 	}
 
 	@Test

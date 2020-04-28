@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -50,7 +51,9 @@ public class BaseSymbolicTest {
     }
 
     protected<T extends GeoElement> T add(String text) {
-        return (T) ap.processAlgebraCommandNoExceptionHandling(text, false, null, false, null)[0];
+        GeoElementND[] geos = ap.processAlgebraCommandNoExceptionHandling(text, false,
+                ErrorHelper.silent(), false, null);
+        return geos != null && geos.length > 0 ? (T) geos[0] : null;
     }
 
     protected void undoRedo() {
