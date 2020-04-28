@@ -83,6 +83,7 @@ import org.geogebra.web.full.gui.layout.panels.PropertiesDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
+import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
@@ -2335,6 +2336,20 @@ public class GuiManagerW extends GuiManager
 			btn.setExternal(true);
 			btn.addToGlobalHeader();
 		}
+	}
+
+	@Override
+	public void initShareActionInGlobalHeader() {
+		GlobalHeader.INSTANCE.initShareButton(new AsyncOperation<Widget>() {
+
+			@Override
+			public void callback(Widget share) {
+				if (getApp().isMenuShowing()) {
+					getApp().toggleMenu();
+				}
+				FileMenuW.share(getApp(), share);
+			}
+		});
 	}
 
 	@Override

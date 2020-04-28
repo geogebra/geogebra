@@ -11,7 +11,7 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.shared.ComponentCheckbox;
+import org.geogebra.web.shared.components.ComponentCheckbox;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.DialogUtil;
 
@@ -187,7 +187,7 @@ public class SaveDialogMow extends DialogBoxW
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
 			if (templateCheckbox.isSelected()) {
-				setSaveType(((AppW) app).getVendorSettings().getTemplateType());
+				setSaveType(MaterialType.ggsTemplate);
 				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
 			} else {
 				setSaveType(MaterialType.ggs);
@@ -205,14 +205,15 @@ public class SaveDialogMow extends DialogBoxW
 		}
 
 		MaterialVisibility visibility = MaterialVisibility.value(activeMaterial.getVisibility());
-		if (visibility == MaterialVisibility.Shared && hasNewName(activeMaterial)) {
+		if (visibility == MaterialVisibility.Shared && !sameMaterial(activeMaterial)) {
 			return MaterialVisibility.Private;
 		}
 		return visibility;
 	}
 
-	private boolean hasNewName(Material material) {
-		return !material.getTitle().equals(getInputField().getText());
+	private boolean sameMaterial(Material material) {
+		return app.getLoginOperation().owns(material)
+				&& material.getTitle().equals(getInputField().getText());
 	}
 
 	@Override

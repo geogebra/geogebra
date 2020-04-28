@@ -318,19 +318,13 @@ public class DoubleUtil {
 	 *         is less than this kernel's minimal precision
 	 */
 	
-	final public static double checkDecimalFraction(double x,
-			double precision) {
-	
-		double prec = precision;
-		// Application.debug(precision+" ");
-		prec = Math.pow(10,
-				Math.floor(Math.log(Math.abs(prec)) / Math.log(10)));
+	final public static double checkDecimalFraction(double x, double precision) {
+		double prec = Math.pow(10,
+				Math.floor(Math.log(Math.abs(precision)) / Math.log(10)));
 	
 		double fracVal = x * Kernel.INV_MIN_PRECISION;
 		double roundVal = Math.round(fracVal);
-		// Application.debug(precision+" "+x+" "+fracVal+" "+roundVal+"
-		// "+isEqual(fracVal,
-		// roundVal, precision)+" "+roundVal / INV_MIN_PRECISION);
+
 		if (isEqual(fracVal, roundVal, Kernel.STANDARD_PRECISION * prec)) {
 			return roundVal / Kernel.INV_MIN_PRECISION;
 		}
@@ -343,7 +337,13 @@ public class DoubleUtil {
 	 * @return close decimal fraction or x if there is not one
 	 */
 	final public static double checkDecimalFraction(double x) {
-		return checkDecimalFraction(x, 1);
+		double fracVal = x * Kernel.INV_MIN_PRECISION;
+		double roundVal = Math.round(fracVal);
+
+		if (isEqual(fracVal, roundVal, Kernel.STANDARD_PRECISION)) {
+			return roundVal / Kernel.INV_MIN_PRECISION;
+		}
+		return x;
 	}
 
 	/**
@@ -507,5 +507,33 @@ public class DoubleUtil {
 	public static int hashCode(double val) {
 		long bits = Double.doubleToLongBits(val);
 		return (int) (bits ^ (bits >>> 32));
+	}
+
+	/**
+	 * Create a range of doubles from min to max with the given step
+	 * @param max >= min
+	 * @param step > 0
+	 * @return {min} if min == max,
+	 * 		{min, min + step, min + 2*step, ..., min + i*step, max}
+	 * 		otherwise, where min + i*step is the greatest such number
+	 * 		that is smaller than max
+	 */
+	public static double[] range(double min, double max, double step) {
+		// To any future developer who wants to simplify this code:
+		// please double-triple check what you are doing, floating
+		// point numbers are _not_ easy to handle (APPS-158, APPS-1824)
+
+		int length = (int) ((max - min) / step);
+		if (min + length * step < max - Kernel.STANDARD_PRECISION) {
+			length++;
+		}
+
+		double[] result = new double[length + 1];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = checkDecimalFraction(min + i * step);
+		}
+		result[length] = max;
+
+		return result;
 	}
 }

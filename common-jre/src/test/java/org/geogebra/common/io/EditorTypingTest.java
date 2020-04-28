@@ -1,11 +1,13 @@
 package org.geogebra.common.io;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -47,16 +49,26 @@ public class EditorTypingTest {
 		checker.checkEditorInsert("12345", "12345");
 		checker.checkEditorInsert("1/2/3/4", "1/2/3/4");
 		checker.checkEditorInsert("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
+	}
 
+	@Test
+	public void absShouldBePrefixedBySpace() {
 		// typing second | starts another abs() clause
-		checker.checkEditorInsert("3|x", "3*abs(x)");
-		checker.checkEditorInsert("3 |x", "3 *abs(x)");
+		checker.checkEditorInsert("3|x", "3 abs(x)");
+		checker.checkEditorInsert("3 |x", "3 abs(x)");
 		checker.checkEditorInsert("3*|x", "3*abs(x)");
-		checker.checkEditorInsert("x|xx", "x*abs(xx)");
-		checker.checkEditorInsert("x |x x", "x *abs(x x)");
+		checker.checkEditorInsert("x|xx", "x abs(xx)");
+		checker.checkEditorInsert("x |x x", "x abs(x x)");
 		checker.checkEditorInsert("x*|x*x", "x*abs(x*x)");
 		checker.checkEditorInsert("x sqrt(x)", "x sqrt(x)");
-		checker.checkEditorInsert("x" + Unicode.SQUARE_ROOT + "x+1", "x*sqrt(x+1)");
+		checker.checkEditorInsert("x" + Unicode.SQUARE_ROOT + "x+1", "x sqrt(x+1)");
+		checker.checkEditorInsert("ln|x+6", "ln abs(x+6)");
+		checker.checkEditorInsert("ln|x+6", "ln abs(x+6)");
+	}
+
+	@Test
+	public void testLnAbs() {
+		checker.type("ln|x+6").checkGGBMath("ln(abs(x + 6))");
 	}
 
 	@Test
@@ -279,8 +291,22 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void spaceAfterTrigShouldAddBrackets() {
+		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
+		checker.type("sin 9x").checkAsciiMath("sin(9x)");
+	}
+
+	@Test
 	public void testBackspaceWithBrakets() {
 		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
 				.checkAsciiMath("(8)/(2)");
+	}
+
+	@Test
+	public void typingPiShouldProduceUnicode() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("sin(pix)").checkAsciiMath("sin(" + Unicode.PI_STRING + "x)");
 	}
 }

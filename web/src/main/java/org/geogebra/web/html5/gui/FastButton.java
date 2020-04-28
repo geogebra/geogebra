@@ -176,16 +176,11 @@ public abstract class FastButton extends GCustomButton
 		}
 		case Event.ONMOUSEUP: {
 			onClick(event);
-			Log.debug("touch up");
-			// because Event.ONCLICK always came twice on desktop browsers oO
 			event.stopPropagation();
 			break;
 		}
 		case Event.ONMOUSEDOWN: {
 			event.stopPropagation();
-			if (!this.handlers.isEmpty()) {
-				event.preventDefault();
-			}
 			break;
 		}
 

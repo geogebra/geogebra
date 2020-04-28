@@ -33,7 +33,7 @@ final class SharedFileOpenCallback
 					|| loginEvent.isSuccessful()) {
 				app.checkOpen(onError, this);
 			} else {
-				app.getLAF().getSignInController(app).loginFromApp();
+				app.getSignInController().loginFromApp();
 			}
 		}
 	}

@@ -10,6 +10,8 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.meta.MetaModel;
+
 /**
  * Tests for the EvaluatorAPI
  */
@@ -20,7 +22,7 @@ public class EvaluatorAPITest extends BaseUnitTest {
 
 	@Before
 	public void setupTest() {
-		MathFieldCommon mathField = new MathFieldCommon();
+		MathFieldCommon mathField = new MathFieldCommon(new MetaModel());
 		api = new EvaluatorAPI(getKernel(), mathField.getInternal());
 		typer = new EditorTyper(mathField);
 	}

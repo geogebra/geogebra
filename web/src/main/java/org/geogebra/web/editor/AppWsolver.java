@@ -10,12 +10,14 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.FontManagerW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ShareLinkDialog;
+import org.geogebra.web.shared.SignInController;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
@@ -196,5 +198,10 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	@Override
 	public AlgebraView getAlgebraView() {
 		return null;
+	}
+
+	@Override
+	public SignInControllerI getSignInController() {
+		return new SignInController(this, 0, null);
 	}
 }

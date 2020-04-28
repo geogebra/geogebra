@@ -111,8 +111,6 @@ public class CaptionBuilder {
 					}
 					break;
 
-				// Can't use %s as %style is used for something else
-				case 's':
 				default:
 					captionSB.append('%');
 					captionSB.append(ch);

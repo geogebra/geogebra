@@ -400,6 +400,10 @@ var codebase = "<!--CODEBASE-->";
 	}
 
 	function loadApp(){
+		if(isLocalhost()) {
+			defaultParams.backendURL = "https://api-beta.geogebra.org/v1.0";
+		}
+
 		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
 		var tubeid = getURLparam("id");
 		var checkId = getParametersFromPath();

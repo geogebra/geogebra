@@ -55,7 +55,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
-import com.himamis.retex.editor.share.editor.FormatConverter;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldAsync;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -67,7 +67,6 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -85,6 +84,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
+	private MetaModel metaModel;
 
 	private MathFieldInternal mathFieldInternal;
 	private Canvas html;
@@ -110,7 +110,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private FocusHandler focusHandler;
 
-	private FormatConverter converter;
+	private SyntaxAdapter converter;
 
 	private ExpressionReader expressionReader;
 
@@ -125,6 +125,25 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int minHeight = 0;
 
 	/**
+	 *
+	 * @param converter
+	 *            latex/mathml-&lt; ascii math converter (optional)
+	 * @param parent
+	 *            parent element
+	 * @param canvas
+	 *            drawing context
+	 * @param listener
+	 *            listener for special events
+	 * @param directFormulaBuilder
+	 *            whether to convert content into JLM atoms directly without
+	 *            reparsing
+	 */
+	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
+					  MathFieldListener listener, boolean directFormulaBuilder) {
+		this(converter, parent, canvas, listener, directFormulaBuilder, sMetaModel);
+	}
+
+	/**
 	 * 
 	 * @param converter
 	 *            latex/mathml-&lt; ascii math converter (optional)
@@ -137,15 +156,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @param directFormulaBuilder
 	 *            whether to convert content into JLM atoms directly without
 	 *            reparsing
-	 * @param fh
-	 *            focus handler
+	 * @param metaModel
+	 *            model
 	 */
-	public MathFieldW(FormatConverter converter, Panel parent, Canvas canvas,
-			MathFieldListener listener, boolean directFormulaBuilder,
-			FocusHandler fh) {
+	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
+			MathFieldListener listener, boolean directFormulaBuilder, MetaModel metaModel) {
 
 		this.converter = converter;
-
+		this.metaModel = metaModel;
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
@@ -153,6 +171,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		bottomOffset = 10;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this, directFormulaBuilder);
+		mathFieldInternal.getInputController().setFormatConverter(converter);
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);
@@ -160,7 +179,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			this.ctx = canvas.getContext2d();
 		}
 		SelectionBox.touchSelection = false;
-
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setType(TeXFont.SANSSERIF);
@@ -187,8 +205,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 			}
 		}, MouseDownEvent.getType());
-
-		this.focusHandler = fh;
 
 		setKeyListener(inputTextArea, keyListener);
 	}
@@ -392,7 +408,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				int code = convertToJavaKeyCode(event.getNativeEvent());
 				boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
 						getModifiers(event), getChar(event.getNativeEvent())));
-				FactoryProvider.debugS("down:" + code);
 				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 				if (code == JavaKeyCodes.VK_LEFT
 						|| code == JavaKeyCodes.VK_RIGHT) {
@@ -558,7 +573,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	@Override
 	public MetaModel getMetaModel() {
-		return sMetaModel;
+		return metaModel;
+	}
+
+	public void setMetaModel(MetaModel model) {
+		this.metaModel = model;
 	}
 
 	@Override
@@ -579,11 +598,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 		final double height = computeHeight(lastIcon);
 		final double width = roundUp(lastIcon.getIconWidth() + 30);
-		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
+		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
-		ctx.setFillStyle(backgroundCssColor);
-		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
 		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),
 				backgroundCssColor, null, ratio);
 	}
@@ -1081,8 +1098,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * @return text in GGB syntax
 	 */
 	public String getText() {
-		GeoGebraSerializer s = new GeoGebraSerializer();
-		return s.serialize(getFormula());
+		return mathFieldInternal.getText();
 	}
 
 	/**
@@ -1172,5 +1188,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setMinHeight(int minHeight) {
 		this.minHeight = minHeight;
+	}
+
+	public void setFocusHandler(FocusHandler focusHandler) {
+		this.focusHandler = focusHandler;
 	}
 }
