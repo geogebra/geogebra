@@ -24,11 +24,6 @@ public class AppConfigSuite extends AppConfigGraphing {
 	}
 
 	@Override
-	public GeoGebraConstants.Version getVersion() {
-		return GeoGebraConstants.Version.SUITE;
-	}
-
-	@Override
 	public Set<FillType> getAvailableFillTypes() {
 		return new HashSet<>(Arrays.asList(FillType.values()));
 	}
@@ -81,5 +76,10 @@ public class AppConfigSuite extends AppConfigGraphing {
 	@Override
 	public boolean hasAnsButtonInAv() {
 		return false;
+	}
+
+	@Override
+	public GeoGebraConstants.Version getVersion() {
+		return GeoGebraConstants.Version.SUITE;
 	}
 }
