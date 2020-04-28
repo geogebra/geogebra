@@ -501,7 +501,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testSimplifyCommand() {
-		t("Simplify(aaa+bbb+aaa+x+y+x+y)", "2 * aaa + bbb + 2 * x + 2 * y");
+		t("f = Simplify(aaa+bbb+aaa+x+y+x+y)", "2 * aaa + bbb + 2 * x + 2 * y");
+		t("Simplify(x+x)", "2 * x");
 	}
 
 	@Test
