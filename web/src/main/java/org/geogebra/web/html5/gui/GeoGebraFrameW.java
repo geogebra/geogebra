@@ -1,8 +1,6 @@
 package org.geogebra.web.html5.gui;
 
-import com.google.gwt.dom.client.LinkElement;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
@@ -50,8 +48,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	private SplashDialog splash;
 
-	private LinkElement lastDummy = null;
-
 	private static final int LOGO_WIDTH = 427;
 
 	private static final int LOGO_HEIGHT = 120;
@@ -93,22 +89,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public GeoGebraFrameW(GLookAndFeelI laf, ArticleElementInterface articleElement) {
 		this(laf, ArticleElement.getDataParamFitToScreen(articleElement.getElement()));
 		this.articleElement = articleElement;
-	}
-
-	/**
-	 * Add a dummy element to the frame
-	 */
-	protected void tackleLastDummy(Element element) {
-		if (!Browser.needsAccessibilityView()) {
-			lastDummy = DOM.createSpan().cast();
-			lastDummy.setTabIndex(0);
-			lastDummy.addClassName("geogebraweb-dummy-invisible");
-			element.appendChild(lastDummy);
-		}
-	}
-
-	public Element getLastElement() {
-		return lastDummy;
 	}
 
 	/**
@@ -396,7 +376,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * or leaves it invisible if "none" was set.
 	 */
 	public void useDataParamBorder() {
-		// Log.debug("useDataParamBorder - " + articleElement.getClassName());
 		String dpBorder = articleElement.getDataParamBorder();
 		int thickness = articleElement.getBorderThickness() / 2;
 		if (dpBorder != null) {
@@ -414,58 +393,18 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * @param ae
-	 *            article element
-	 * @param gfE
-	 *            app frame element
-	 */
-	public static void useDataParamBorder(ArticleElement ae, Element gfE) {
-		// Log.debug("useDataParamBorder - " + ae.getClassName());
-		String dpBorder = ae.getDataParamBorder();
-		int thickness = ae.getBorderThickness() / 2;
-		if (dpBorder != null) {
-			if ("none".equals(dpBorder)) {
-				setBorder(ae, gfE, "transparent", thickness);
-			} else {
-				setBorder(ae, gfE, dpBorder, thickness);
-			}
-		}
-		gfE.removeClassName(APPLET_FOCUSED_CLASSNAME);
-		gfE.addClassName(APPLET_UNFOCUSED_CLASSNAME);
-	}
-
-	/**
 	 * Sets the border around the canvas to be highlighted. At the moment we use
 	 * "#9999ff" for this purpose.
 	 */
 	public void useFocusedBorder() {
-		// Log.debug("useFocusedBorder - " + articleElement.getClassName());
 		String dpBorder = articleElement.getDataParamBorder();
 		getElement().removeClassName(
 				APPLET_UNFOCUSED_CLASSNAME);
 		getElement()
 				.addClassName(APPLET_FOCUSED_CLASSNAME);
 		int thickness = articleElement.getBorderThickness() / 2;
-		if (dpBorder != null && "none".equals(dpBorder)) {
+		if ("none".equals(dpBorder)) {
 			setBorder("transparent", thickness);
-		}
-	}
-
-	/**
-	 * @param ae
-	 *            article element
-	 * @param gfE
-	 *            app frame element
-	 */
-	public static void useFocusedBorder(ArticleElement ae, Element gfE) {
-		// Log.debug("useFocusedBorder - " + articleElement.getClassName());
-		String dpBorder = ae.getDataParamBorder();
-		gfE.removeClassName(APPLET_UNFOCUSED_CLASSNAME);
-		gfE.addClassName(APPLET_FOCUSED_CLASSNAME);
-		int thickness = ae.getBorderThickness() / 2;
-		if (dpBorder != null && "none".equals(dpBorder)) {
-			setBorder(ae, gfE, "transparent", thickness);
-			return;
 		}
 	}
 

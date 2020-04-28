@@ -46,7 +46,6 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 			LoggerW.startLogger(articleElement);
 			inst.createSplash();
 			RootPanel.get(articleElement.getId()).add(inst);
-			inst.tackleLastDummy(articleElement);
 		}
 	}
 

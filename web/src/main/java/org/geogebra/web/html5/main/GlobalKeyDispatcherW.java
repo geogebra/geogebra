@@ -17,6 +17,7 @@ import org.geogebra.web.html5.util.Dom;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyEvent;
@@ -25,6 +26,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -35,8 +37,11 @@ import com.himamis.retex.editor.share.util.KeyCodes;
  */
 public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 		implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
+
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
+
+	private SpanElement focusDummy = null;
 
 	/**
 	 * @return whether ctrl is pressed
@@ -79,8 +84,21 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 * @param app
 	 *            application
 	 */
-	public GlobalKeyDispatcherW(App app) {
+	public GlobalKeyDispatcherW(AppW app) {
 		super(app);
+		addFocusDummy(app.getArticleElement().getElement());
+	}
+
+	/**
+	 * Add a dummy element to the frame
+	 */
+	protected void addFocusDummy(Element element) {
+		if (!Browser.needsAccessibilityView()) {
+			focusDummy = DOM.createSpan().cast();
+			focusDummy.setTabIndex(0);
+			focusDummy.addClassName("geogebraweb-dummy-invisible");
+			element.appendChild(focusDummy);
+		}
 	}
 
 	private class GlobalShortcutHandler implements EventListener {
@@ -105,7 +123,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
 				if (kc == KeyCodes.TAB) {
 					Element activeElement = Dom.getActiveElement();
-					if (activeElement != ((AppW) app).getAppletFrame().getLastElement()) {
+					if (activeElement != focusDummy) {
 						handleTab(event.getShiftKey());
 						handled = true;
 					}
@@ -113,7 +131,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 						@Override
 						public void execute() {
-							((AppW) app).getAppletFrame().getLastElement().focus();
+							focusDummy.focus();
 						}
 					});
 					handled = true;
