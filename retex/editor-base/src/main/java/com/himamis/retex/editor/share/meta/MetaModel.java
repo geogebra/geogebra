@@ -30,6 +30,8 @@ package com.himamis.retex.editor.share.meta;
 
 import java.util.HashMap;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Distinction between operators, core functions and functions is based on
  * visual aspects of math elements rather than based on mathematical analogy.
@@ -77,7 +79,14 @@ public class MetaModel {
 		for (MetaSymbol operator : this.operatorGroup.getComponents()) {
 			mergeLookup.put(operator.getCasName(), operator);
 		}
-    }
+	}
+
+	/**
+	 * Enable automatic substitutions (e.g. pi -> unicode pi)
+	 */
+	public void enableSubstitutions() {
+		mergeLookup.put("pi", symbolGroup.getComponent(Unicode.PI_STRING));
+	}
 
 	/**
 	 * @param name

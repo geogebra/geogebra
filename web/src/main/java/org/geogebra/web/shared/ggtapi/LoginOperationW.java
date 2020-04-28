@@ -132,7 +132,7 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	public void showLoginDialog() {
-		app.getLAF().getSignInController(app).login();
+		app.getSignInController().login();
 	}
 
 	@Override

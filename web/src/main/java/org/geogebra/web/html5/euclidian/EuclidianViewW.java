@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.Drawable;
@@ -20,13 +19,10 @@ import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInlineText;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -124,7 +120,6 @@ public class EuclidianViewW extends EuclidianView implements
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private String svgBackgroundUri = null;
 	private MyImageW svgBackground = null;
-	private SymbolicEditor symbolicEditor = null;
 
 	private AnimationCallback repaintCallback = new AnimationCallback() {
 		@Override
@@ -360,7 +355,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void clearView() {
-		resetInlineTexts();
+		resetInlineObjects();
 		resetLists();
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
@@ -1466,26 +1461,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void attachSymbolicEditor(GeoInputBox geoInputBox,
-			GRectangle bounds) {
-		if (symbolicEditor == null) {
-			symbolicEditor = createSymbolicEditor();
-		}
-		if (symbolicEditor instanceof InputBoxWidget) {
-			((InputBoxWidget) symbolicEditor).attach(geoInputBox, bounds,
-					getAbsolutePanel());
-		}
-	}
-
-	@Override
-	public boolean isSymbolicEditorClicked(GPoint mouseLoc) {
-		if (symbolicEditor == null) {
-			return false;
-		}
-		return symbolicEditor.isClicked(mouseLoc);
-	}
-
-	private SymbolicEditor createSymbolicEditor() {
+	protected SymbolicEditor createSymbolicEditor() {
 		GuiManagerInterfaceW gm = ((AppW) app).getGuiManager();
 		if (gm == null) {
 			return null;
@@ -1885,8 +1861,8 @@ public class EuclidianViewW extends EuclidianView implements
 	 * @return keyboard listener for active symbolic editor
 	 */
 	public MathKeyboardListener getKeyboardListener() {
-		if (symbolicEditor instanceof InputBoxWidget) {
-			return ((InputBoxWidget) symbolicEditor).getKeyboardListener();
+		if (symbolicEditor instanceof HasMathKeyboardListener) {
+			return ((HasMathKeyboardListener) symbolicEditor).getKeyboardListener();
 		}
 		return null;
 	}
@@ -1894,11 +1870,5 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public AppW getApplication() {
 		return (AppW) super.getApplication();
-	}
-
-	@Override
-	public InlineTextController createInlineTextController(GeoInlineText geo) {
-		Element parentElement = getAbsolutePanel().getParent().getElement();
-		return new InlineTextControllerW(geo, parentElement, this);
 	}
 }

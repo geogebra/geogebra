@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.HttpRequest;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * Implements HTTP requests and responses for web.
@@ -21,7 +22,10 @@ public class HttpRequestW extends HttpRequest {
 		}
 		// text/plain needed for SMART, hopefully no problem for others
 		request.setRequestHeader("Content-type", getType());
-		// request.setTimeOut(timeout * 1000);
+		if (!StringUtil.emptyOrZero(getAuth())) {
+			request.setRequestHeader("Authorization", "Bearer " + getAuth());
+		}
+
 		request.onLoad(callback);
 		request.send(post);
 	}

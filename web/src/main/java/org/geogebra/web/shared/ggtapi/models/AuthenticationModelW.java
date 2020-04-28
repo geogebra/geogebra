@@ -3,9 +3,11 @@ package org.geogebra.web.shared.ggtapi.models;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
+import org.geogebra.web.html5.util.GlobalFunctions;
 
 /**
  * @author gabor
@@ -57,10 +59,6 @@ public class AuthenticationModelW extends AuthenticationModel {
 
 	@Override
 	public void clearLoginToken() {
-		doClearToken();
-	}
-
-	private void doClearToken() {
 		app.getLoginOperation().getGeoGebraTubeAPI().logout(this.authToken);
 
 		this.authToken = null;
@@ -72,11 +70,6 @@ public class AuthenticationModelW extends AuthenticationModel {
 		}
 		storage.removeItem(GGB_TOKEN_KEY_NAME);
 		storage.removeItem(GGB_LAST_USER);
-	}
-
-	@Override
-	public void clearLoginTokenForLogginError() {
-		doClearToken();
 	}
 
 	private void ensureInited() {
@@ -103,5 +96,13 @@ public class AuthenticationModelW extends AuthenticationModel {
 			return null;
 		}
 		return storage.getItem(GGB_LAST_USER);
+	}
+
+	@Override
+	public String getEncoded() {
+		String secret = "ef1V8PNj";
+		String encrypted = MD5EncrypterGWTImpl
+				.encrypt(getLoginToken() + "T" + "1581341456" + secret);
+		return GlobalFunctions.btoa(getLoginToken()) + "|T|" + "1581341456" + "|" + encrypted;
 	}
 }

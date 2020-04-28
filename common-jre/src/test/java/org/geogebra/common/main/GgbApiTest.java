@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.times;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,10 @@ import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.jre.plugin.ScriptManagerJre;
+import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GgbAPI;
@@ -24,8 +29,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 public class GgbApiTest {
-	private static AppCommon app;
-	private static GgbAPI api;
+	private AppCommon app;
+	private GgbAPI api;
 
 	/**
 	 * Initialize app.
@@ -114,7 +119,7 @@ public class GgbApiTest {
 
 		ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
 
-		Mockito.verify(scriptManager, Mockito.times(1))
+		Mockito.verify(scriptManager, times(1))
 				.sendEvent(eventCaptor.capture());
 
 		List<Event> capturedEvents = eventCaptor.getAllValues();
@@ -130,13 +135,52 @@ public class GgbApiTest {
 		assertEquals(6d, jsonArgument.get("yscale"));
 	}
 
-	private ScriptManager prepareScriptManager() {
-		ScriptManager scriptManager = Mockito.spy(new ScriptManagerJre(app) {
-			@Override
-			protected void evalJavaScript(String jsFunction) {
+	@Test
+	public void objectListenerShouldSurviveRedefine() {
+		MockScriptManager scriptManager = prepareScriptManager();
 
-			}
-		});
+		api.evalCommand("C=1");
+		api.evalCommand("ans = ?");
+		api.evalCommand("input = InputBox(ans)");
+		api.evalCommand("correct = ans == 2*C");
+		GeoInputBox input = (GeoInputBox) lookup("input");
+		scriptManager.registerObjectUpdateListener("correct", "onUpdate");
+
+		input.updateLinkedGeo("2");
+		Mockito.verify(scriptManager, times(1))
+				.evalJavaScript("onUpdate(\"correct\");");
+
+		input.updateLinkedGeo("2 + C");
+		Mockito.verify(scriptManager, times(2))
+				.evalJavaScript("onUpdate(\"correct\");");
+	}
+
+	private GeoElement lookup(String input) {
+		return app.getKernel().lookupLabel(input);
+	}
+
+	@Test
+	public void globalListenerShouldSurviveAttach() {
+		MockScriptManager scriptManager = prepareScriptManager();
+
+		api.evalCommand("A=(0,0)");
+		api.evalCommand("C=(1,1)");
+		api.evalCommand("Circle(C,1)");
+		api.evalCommand("l: x = y");
+		scriptManager.registerObjectUpdateListener("A", "onUpdate");
+		scriptManager.registerUpdateListener("onUpdateGlobal");
+
+		app.getKernel().getAlgoDispatcher().attach((GeoPointND) lookup("C"),
+				(Path) lookup("l"), app.getActiveEuclidianView(), null);
+		lookup("A").notifyUpdate();
+		Mockito.verify(scriptManager, times(1))
+				.evalJavaScript("onUpdate(\"A\");");
+		Mockito.verify(scriptManager, times(1))
+				.evalJavaScript("onUpdateGlobal(\"A\");");
+	}
+
+	private MockScriptManager prepareScriptManager() {
+		MockScriptManager scriptManager = Mockito.spy(new MockScriptManager());
 		app.getEventDispatcher().addEventListener(scriptManager);
 		app.setScriptManager(scriptManager);
 		return scriptManager;
@@ -154,7 +198,7 @@ public class GgbApiTest {
 
 		ArgumentCaptor<Event> eventCaptor = ArgumentCaptor.forClass(Event.class);
 
-		Mockito.verify(scriptManager, Mockito.times(2))
+		Mockito.verify(scriptManager, times(2))
 				.sendEvent(eventCaptor.capture());
 
 		List<Event> capturedEvents = eventCaptor.getAllValues();
@@ -205,4 +249,14 @@ public class GgbApiTest {
 		assertEquals(1, dragEndEvents);
 	}
 
+	private class MockScriptManager extends ScriptManagerJre {
+		public MockScriptManager() {
+			super(GgbApiTest.this.app);
+		}
+
+		@Override
+		protected void evalJavaScript(String jsFunction) {
+
+		}
+	}
 }

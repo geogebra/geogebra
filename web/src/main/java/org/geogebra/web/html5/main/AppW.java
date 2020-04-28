@@ -117,6 +117,7 @@ import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
 import org.geogebra.web.html5.gui.laf.MebisSettings;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -1236,6 +1237,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 						@Override
 						public void onError(Throwable exception) {
 							Log.error("Error on templates load");
+							resetOnFileNew();
 						}
 					});
 		} else {
@@ -3945,5 +3947,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				}
 			});
 		}
+	}
+
+	public SignInControllerI getSignInController() {
+		return getLAF().getSignInController(this);
 	}
 }

@@ -19,7 +19,7 @@ public class RemoveSliderAction extends MenuAction<GeoElement> {
 		if (!(geo instanceof GeoNumeric)) {
 			return;
 		}
-		((GeoNumeric) geo).setShowExtendedAV(false);
+		((GeoNumeric) geo).removeSlider();
 		geo.getKernel().notifyRepaint();
 		geo.getKernel().storeUndoInfo();
 	}

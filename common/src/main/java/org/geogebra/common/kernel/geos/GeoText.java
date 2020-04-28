@@ -461,11 +461,6 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		return isDefined();
 	}

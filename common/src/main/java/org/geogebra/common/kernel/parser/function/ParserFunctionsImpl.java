@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
@@ -87,18 +88,7 @@ class ParserFunctionsImpl implements ParserFunctions {
 		if (!inverseTrig || operation == null) {
 			return operation;
 		}
-		switch (operation) {
-			case ARCSIN:
-				return Operation.ARCSIND;
-			case ARCTAN:
-				return Operation.ARCTAND;
-			case ARCCOS:
-				return Operation.ARCCOSD;
-			case ARCTAN2:
-				return Operation.ARCTAN2D;
-			default:
-				return operation;
-		}
+		return ArcTrigReplacer.getDegreeInverseTrigOp(operation);
 	}
 
 	@Override
@@ -138,5 +128,14 @@ class ParserFunctionsImpl implements ParserFunctions {
 	@Override
 	public void setInverseTrig(boolean inverseTrig) {
 		this.inverseTrig = inverseTrig;
+	}
+
+	@Override
+	public Operation getSingleArgumentOp(String leftImg) {
+		Operation op = get(leftImg, 1);
+		if (op == Operation.XCOORD || op == Operation.YCOORD || op == Operation.ZCOORD) {
+			return null;
+		}
+		return op;
 	}
 }

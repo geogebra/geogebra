@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
@@ -89,6 +90,8 @@ public class GeoFactory {
 			return new GeoCasCell(cons1);
 		case "embed":
 			return new GeoEmbed(cons1);
+		case "formula":
+			return new GeoFormula(cons1, null);
 		case "function":
 		case "functionconditional":
 			return new GeoFunction(cons1);
