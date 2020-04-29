@@ -12,39 +12,6 @@ public class InputTokenizer {
 		this.input = input;
 	}
 
-	public String next() {
-		String token = getToken();
-		input = input.substring(token.length());
-		return token;
-	}
-
-	public String getToken() {
-		if (input == null || input.length() == 0) {
-			return "";
-		}
-
-		char ch = input.charAt(0);
-		if (input.length() == 1) {
-			return String.valueOf(ch);
-		}
-
-		char next = input.charAt(1);
-		if (StringUtil.isLetter(next)) {
-			return String.valueOf(ch);
-		}
-
-		if (next == '\'') {
-			return ch + "'";
-		}
-		if ("_{".equals(input.substring(1, 3))) {
-			int idxClose = input.indexOf("}");
-			if (idxClose != -1) {
-				return input.substring(0, idxClose + 1);
-			}
-		}
-		return "";
-	}
-
 	public List<String> getTokens() {
 		ArrayList<String> tokens = new ArrayList<>();
 		while (!"".equals(input)) {
@@ -52,5 +19,52 @@ public class InputTokenizer {
 		}
 
 		return tokens;
+	}
+
+	public String next() {
+		String token = getToken();
+		input = input.substring(token.length());
+		return token;
+	}
+
+	private String getToken() {
+		if (noInputLeft()) {
+			return "";
+		}
+
+		if (isSingleCharOrLetterNext()) {
+			return String.valueOf(input.charAt(0));
+		}
+
+		if (isQuoteMarkNext()) {
+			return input.charAt(0) + "'";
+		}
+
+		if (isIndexNext()) {
+			return getTokenWithIndex();
+		}
+
+		return "";
+	}
+
+	private boolean isQuoteMarkNext() {
+		return input.charAt(1) == '\'';
+	}
+
+	private boolean isSingleCharOrLetterNext() {
+		return input.length() == 1 || StringUtil.isLetter(input.charAt(1));
+	}
+
+	private String getTokenWithIndex() {
+		int idxClose = input.indexOf("}");
+		return idxClose != -1 ? input.substring(0, idxClose + 1) : "";
+	}
+
+	private boolean isIndexNext() {
+		return "_{".equals(input.substring(1, 3));
+	}
+
+	private boolean noInputLeft() {
+		return input == null || input.length() == 0;
 	}
 }
