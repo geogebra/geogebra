@@ -666,6 +666,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		testOutputLabel("f(x) = Factor(x^2 + x - 6)", "f(x)");
 	}
 
+
+	@Test
+	public void testDerivativeLabelHasFunctionVar() {
+		add("b(x) = x");
+		GeoSymbolic geo = createGeoWithHiddenLabel("Derivative(b)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("f(x)"));
+	}
+
 	private void testOutputLabel(String input, String outputStartsWith) {
 		GeoSymbolic geo = createGeoWithHiddenLabel(input);
 		assertTrue(geo.getTwinGeo() instanceof GeoFunction);
