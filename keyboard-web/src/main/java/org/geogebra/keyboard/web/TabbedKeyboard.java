@@ -849,7 +849,8 @@ public class TabbedKeyboard extends FlowPanel
 
 				// translate commands and functions as appropriate
 				if ("Integral".equals(text) || "Derivative".equals(text)) {
-					text = hasKeyboard.getLocalization().getCommand(text);
+					text = /*hasKeyboard.getLocalization().getCommand(text);
+					*/String.valueOf(Unicode.INTEGRAL);
 				} else
 				// matches sin, cos, tan, asin, acos, atan
 				if ((text.length() == 3 || text.length() == 4)
