@@ -410,7 +410,6 @@ public class GeoLocusStroke extends GeoLocus
 	 * @return true, if the pen stroke still has points left after the deletion
 	 */
 	public boolean deletePart(GRectangle2D rectangle) {
-		increaseDensity();
 		ArrayList<MyPoint> outside = new ArrayList<>();
 		for (int i = 0; i < getPoints().size(); i++) {
 			MyPoint currentPoint = getPoints().get(i);
@@ -431,7 +430,6 @@ public class GeoLocusStroke extends GeoLocus
 			if (inside && nextInside) {
 				// both points inside
 				if (intersections.size() == 2) {
-					getAllIntersectionPoints(i, rectangle);
 					ensureTrailingNaN(outside);
 					outside.addAll(intersections);
 					ensureTrailingNaN(outside);
@@ -461,15 +459,18 @@ public class GeoLocusStroke extends GeoLocus
 				}
 			}
 		}
+		clearPoints();
 		getPoints().clear();
-		appendPointArray(outside);
+		resetXMLPointBuilder();
+		doAppendPointArray(outside);
+		updateCascade();
 		return !outside.isEmpty();
 	}
 
 	/**
 	 * Check for bezier segments longer than MAX_SEGMENT_LENGTH and split them (using linetos)
 	 */
-	private void increaseDensity() {
+	private ArrayList<MyPoint> increaseDensity() {
 		ArrayList<MyPoint> densePoints = new ArrayList<>();
 		int parts = 5;
 		int i = 1;
@@ -490,9 +491,6 @@ public class GeoLocusStroke extends GeoLocus
 						densePoints.add(subPoint);
 					}
 					pt3.setLineTo(true);
-				} else {
-					densePoints.add(pt1);
-					densePoints.add(pt2);
 				}
 				i += 1;
 			} else {
@@ -500,7 +498,7 @@ public class GeoLocusStroke extends GeoLocus
 			}
 			i++;
 		}
-		setPoints(densePoints);
+		return densePoints;
 	}
 
 	private MyPoint getNextPoint(int i) {
@@ -589,8 +587,8 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	private static void getIntersectionPoints(ArrayList<MyPoint> interPointList,
-			  MyPoint point1, MyPoint control1, MyPoint control2, MyPoint point2,
-			  double x1, double y1, double x2, double y2) {
+				MyPoint point1, MyPoint control1, MyPoint control2, MyPoint point2,
+				double x1, double y1, double x2, double y2) {
 		double A = y2 - y1;
 		double B = x1 - x2;
 		double C = x1 * (y1 - y2) + y1 * (x2 - x1);
@@ -610,7 +608,7 @@ public class GeoLocusStroke extends GeoLocus
 
 		for (int i = 0; i < roots; i++) {
 			double t = r[i];
-			if (t < 0 || t > 1) {
+			if (t < Kernel.MAX_PRECISION || t > 1 - Kernel.MAX_PRECISION) {
 				continue;
 			}
 			double x = evalCubic(bx, t);
@@ -698,6 +696,17 @@ public class GeoLocusStroke extends GeoLocus
 		resetXMLPointBuilder();
 		setDefined(true);
 
+		doAppendPointArray(data);
+		ArrayList<MyPoint> densePoints = increaseDensity();
+		if (densePoints.size() > data.size()) {
+			clearPoints();
+			doAppendPointArray(densePoints);
+		}
+
+		updateCascade();
+	}
+
+	private void doAppendPointArray(ArrayList<MyPoint> data) {
 		// to use bezier curve we need at least 2 points
 		// stroke is: (A),(?),(A),(B) -> size 4
 		if (canBeBezierCurve(data)) {
@@ -705,8 +714,6 @@ public class GeoLocusStroke extends GeoLocus
 		} else {
 			addNonBezierPoints(data);
 		}
-
-		updateCascade();
 	}
 
 	private void addBezierCurve(ArrayList<MyPoint> data) {
