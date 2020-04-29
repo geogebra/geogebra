@@ -4,7 +4,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 
@@ -14,7 +13,12 @@ import java.util.ArrayList;
  */
 public abstract class AuthenticationModel implements GTimerListener {
 	private GeoGebraTubeUser loggedInUser = null;
+	// session time 115 min
+	public static final int SESSION_TIME = 6900000;
+	// log out timer 5 min
+	public static final int LOG_OUT_TIME = 300000;
 	private GTimer sessionExpireTimer;
+	private GTimer logOutTimer;
 
 	/**
 	 * token name for user logged in got back from GGT
@@ -84,8 +88,13 @@ public abstract class AuthenticationModel implements GTimerListener {
 		if (!user.getLoginToken().equals(this.getLoginToken())) {
 			storeLoginToken(user.getLoginToken());
 		}
-		Log.debug("LOGGED IN START SESSION TIMER");
-		getSessionExpireTimer().start();
+		startSessionTimer();
+	}
+
+	private void startSessionTimer() {
+		if (getSessionExpireTimer() != null) {
+			getSessionExpireTimer().start();
+		}
 	}
 
 	protected abstract void storeLastUser(String s);
@@ -214,5 +223,35 @@ public abstract class AuthenticationModel implements GTimerListener {
 
 	public void setSessionExpireTimer(GTimer timer) {
 		sessionExpireTimer = timer;
+	}
+
+	public GTimer getLogOutTimer() {
+		return logOutTimer;
+	}
+
+	public void setLogOutTimer(GTimer timer) {
+		logOutTimer = timer;
+	}
+
+	public void restartSession() {
+		if (getLogOutTimer() != null) {
+			getLogOutTimer().stop();
+		}
+		if (getSessionExpireTimer() != null && isLoggedIn()) {
+			resetTimer(getSessionExpireTimer(), SESSION_TIME);
+			getSessionExpireTimer().start();
+		}
+	}
+
+	private void resetTimer(GTimer timer, int delay) {
+		if (timer != null) {
+			timer.stop();
+			timer.setDelay(delay);
+		}
+	}
+
+	public void discardTimers() {
+		resetTimer(getSessionExpireTimer(), SESSION_TIME);
+		resetTimer(getLogOutTimer(), LOG_OUT_TIME);
 	}
 }

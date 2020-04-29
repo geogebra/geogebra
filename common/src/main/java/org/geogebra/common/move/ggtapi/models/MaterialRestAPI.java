@@ -16,7 +16,6 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -297,7 +296,7 @@ public class MaterialRestAPI implements BackendAPI {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
 
-		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
+		request.sendRequestPost(method, baseURL + endpoint,  json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
 				try {

@@ -69,4 +69,9 @@ public class GgbSettings implements VendorSettings {
 				FontFamily.TREBUCHET,
 				FontFamily.VERDANA);
 	}
+
+	@Override
+	public boolean canSessionExpire() {
+		return false;
+	}
 }

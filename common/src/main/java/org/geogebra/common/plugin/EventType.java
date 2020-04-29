@@ -53,6 +53,9 @@ public enum EventType {
 	/** LOGIN */
 	LOGIN("login"),
 
+	/** LOGOUT */
+	LOGOUT("logout"),
+
 	/** SET_MODE */
 	SET_MODE("setMode"),
 

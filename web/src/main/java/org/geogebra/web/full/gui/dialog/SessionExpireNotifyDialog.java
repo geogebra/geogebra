@@ -1,8 +1,10 @@
 package org.geogebra.web.full.gui.dialog;
 
+import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
@@ -30,7 +32,8 @@ public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickH
 	private void buildGUI() {
 		FlowPanel dialoContent = new FlowPanel();
 
-		Label sessionExpireNotifyTxt = new Label("sessionExpireNotify");
+		Label sessionExpireNotifyTxt = new Label();
+		sessionExpireNotifyTxt.setText(app.getLocalization().getMenu("sessionExpireNotify"));
 		sessionExpireNotifyTxt.addStyleName("sessionExpireTxt");
 		dialoContent.add(sessionExpireNotifyTxt);
 
@@ -82,14 +85,14 @@ public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickH
 	}
 
 	private void startLogOutTimer() {
-		Log.debug("LOG OUT TIMER STARTED");
-		GTimer logOutTimer = app.newTimer(this, 180000 /*300000*/);
+		GTimer logOutTimer = app.newTimer(this, AuthenticationModel.LOG_OUT_TIME);
+		app.getLoginOperation().getModel().setLogOutTimer(logOutTimer);
 		logOutTimer.start();
 	}
 
 	@Override
 	public void onRun() {
-		Log.debug("PERFORM LOG OUT TIMER UP");
-		app.getLoginOperation().performLogOut();
+		// send logout event, mow-front takes care of logout and UI update
+		app.dispatchEvent(new Event(EventType.LOGOUT, null, null));
 	}
 }
