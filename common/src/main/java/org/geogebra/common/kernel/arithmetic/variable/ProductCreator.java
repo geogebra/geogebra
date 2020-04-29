@@ -40,28 +40,15 @@ class ProductCreator {
 					label.charAt(1) + "");
 
 		} else if (length > 5) {
-			return getIndexedProduct(label);
+			InputTokenizer tokenizer = new InputTokenizer(label);
+			String left = tokenizer.next();
+			String right = tokenizer.next();
+			return product(left, right);
 
 		}
 		return null;
 	}
 
-	private ExpressionNode getIndexedProduct(String label) {
-		int indexOpen = label.indexOf("_{");
-		if (indexOpen == -1) {
-			return null;
-		}
-
-		int indexClose = label.indexOf("}");
-
-		if (indexClose == label.length() - 1) {
-			String p1 = label.substring(indexOpen - 1, indexClose + 1);
-			return product(label.charAt(0) + "", p1);
-		} else {
-			String p1 = label.substring(indexOpen - 1, indexClose + 1);
-			return product(p1,label.substring(indexClose + 1));
-		}
-	}
 
 	private ExpressionNode product(String string, String string2) {
 		GeoElement el1 = kernel.lookupLabel(string);

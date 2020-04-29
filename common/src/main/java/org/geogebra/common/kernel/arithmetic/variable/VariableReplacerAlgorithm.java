@@ -178,7 +178,7 @@ public class VariableReplacerAlgorithm {
 			ret = productCreator.getProduct(nameNoX);
 		}
 		return ret;
-	}
+}
 
 	private ExpressionValue processProductReverse() {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
