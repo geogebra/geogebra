@@ -88,7 +88,7 @@ public class ContextMenuPopup extends MyCJButton
 				} else {
 					showMenu();
 				}
-
+				app.hideKeyboard();
 			}
 		});
 		ClickEndHandler.init(this, new ClickEndHandler(false, true) {
