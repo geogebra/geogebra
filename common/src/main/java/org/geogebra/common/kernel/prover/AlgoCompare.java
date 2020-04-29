@@ -239,20 +239,10 @@ public class AlgoCompare extends AlgoElement {
             rgParameters.append(",").append(po);
         }
 
-        String freeVars = as.getFreeVars();
-        String elimVars = as.getElimVars();
+        String freeVars = as.getFreeVarsWithoutAlmostFree();
+        String elimVars = as.getElimVarsWithAlmostFree();
         Log.debug("freevars=" + freeVars);
         Log.debug("elimvars=" + elimVars);
-
-        /*
-        Set<Set<PPolynomial>> eliminationIdeal;
-        eliminationIdeal = PPolynomial.eliminate(
-                as.getPolynomials()
-                        .toArray(new PPolynomial[as.getPolynomials()
-                                .size()]),
-                as.substitutions, kernel, 0, true, false,
-                as.freeVariables);
-        */
 
         String vars = freeVars;
         if (!"".equals(elimVars)) {

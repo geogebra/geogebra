@@ -320,6 +320,15 @@ public class ProverBotanasMethod {
 		 */
 		Set<PVariable> freeVariables = new HashSet<>();
 		/**
+		 * The set of "almost free" variables. They are free in most cases, but we
+		 * should avoid the assumption that they are free. So, if other variables
+		 * can be chosen for substitution, then they are preferred. E.g. a coordinate
+		 * of a point on a path is almost free, because in most cases we can
+		 * set one of the coordinates freely. But in some degenerate cases, it is not so,
+		 * e.g. for vertical or horizontal lines.
+		 */
+		Set<PVariable> almostFreeVariables = new HashSet<>();
+		/**
 		 * Should the "false" result be interpreted as undefined?
 		 */
 		boolean interpretFalseAsUndefined = false;
@@ -330,7 +339,7 @@ public class ProverBotanasMethod {
 
 		private boolean disallowFixSecondPoint = false;
 
-		private String polys, elimVars, freeVars;
+		private String polys, elimVars, freeVars, freeVarsWithoutAlmostFree, elimVarsWithAlmostFree;
 
 		private PPolynomial[] thesisFactors;
 		private HashMap<GeoElement, PPolynomial[]> geoPolys = new HashMap<>();
@@ -388,6 +397,15 @@ public class ProverBotanasMethod {
 		}
 
 		/**
+		 * Retrieve free variables.
+		 *
+		 * @return the set of free variables
+		 */
+		public Set<PVariable> getAlmostFreeVariables() {
+			return almostFreeVariables;
+		}
+
+		/**
 		 * Add algebraic representation of a geometric object to the polynomial
 		 * system. It may contain one or more polynomials.
 		 *
@@ -432,6 +450,17 @@ public class ProverBotanasMethod {
 		}
 
 		/**
+		 * Return the elimination variables plus the almost free variables
+		 * of the algebraic structure as a String.
+		 * Use computeStrings() before using this method.
+		 *
+		 * @return elimination variables in String format
+		 */
+		public String getElimVarsWithAlmostFree() {
+			return elimVarsWithAlmostFree;
+		}
+
+		/**
 		 * Return the free variables of the algebraic structure as a String. Use
 		 * computeStrings() before using this method.
 		 *
@@ -439,6 +468,17 @@ public class ProverBotanasMethod {
 		 */
 		public String getFreeVars() {
 			return freeVars;
+		}
+
+		/**
+		 * Return the free variables of the algebraic structure as a String. Use
+		 * computeStrings() before using this method. This method does not return
+		 * those variables that are almost free.
+		 *
+		 * @return free variables in String format
+		 */
+		public String getFreeVarsWithoutAlmostFree() {
+			return freeVarsWithoutAlmostFree;
 		}
 
 		/**
@@ -523,6 +563,7 @@ public class ProverBotanasMethod {
 		 */
 		public void computeStrings() {
 			TreeSet<PVariable> dependentVariables = new TreeSet<>();
+			TreeSet<PVariable> dependentVariablesWithAlmostFree = new TreeSet<>();
 
 			PPolynomial[] eqSystem = this.getPolynomials()
 					.toArray(new PPolynomial[this.getPolynomials().size()]);
@@ -533,7 +574,11 @@ public class ProverBotanasMethod {
 			while (variablesIterator.hasNext()) {
 				PVariable variable = variablesIterator.next();
 				if (!freeVariables.contains(variable)) {
+					dependentVariablesWithAlmostFree.add(variable);
 					dependentVariables.add(variable);
+				}
+				if (almostFreeVariables.contains(variable)) {
+					dependentVariablesWithAlmostFree.add(variable);
 				}
 			}
 
@@ -559,6 +604,11 @@ public class ProverBotanasMethod {
 					eqSystemSubstituted, null, false, freeVariables);
 			this.freeVars = PPolynomial.getVarsAsCommaSeparatedString(
 					eqSystemSubstituted, null, true, freeVariables);
+			this.elimVarsWithAlmostFree = PPolynomial.getVarsAsCommaSeparatedString(
+					eqSystemSubstituted, null, true, dependentVariablesWithAlmostFree);
+			this.freeVarsWithoutAlmostFree = PPolynomial.getVarsAsCommaSeparatedString(
+					eqSystemSubstituted, null, false, dependentVariablesWithAlmostFree);
+
 			Log.trace("gbt polys = " + polys);
 			Log.trace("gbt vars = " + elimVars + "," + freeVars);
 		}
@@ -730,6 +780,7 @@ public class ProverBotanasMethod {
 							if (algo instanceof AlgoPointOnPath
 									|| geo instanceof GeoNumeric) {
 								freeVariables.add(geoVariables[0]);
+								almostFreeVariables.add(geoVariables[0]);
 							} else if (algo instanceof AlgoDynamicCoordinates
 									|| (geo instanceof GeoLine
 									&& ((GeoLine) geo).hasFixedSlope())
