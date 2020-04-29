@@ -296,7 +296,7 @@ public class MaterialRestAPI implements BackendAPI {
 		HttpRequest request = service.createRequest(model);
 		request.setContentTypeJson();
 
-		request.sendRequestPost(method, baseURL + endpoint,  json, new AjaxCallback() {
+		request.sendRequestPost(method, baseURL + endpoint, json, new AjaxCallback() {
 			@Override
 			public void onSuccess(String responseStr) {
 				try {

@@ -214,25 +214,40 @@ public abstract class AuthenticationModel implements GTimerListener {
 	}
 
 	/**
-	 * timer for session life
+	 * timer for session life until notify user that will be logged out
 	 * @return session timer
 	 */
 	public GTimer getSessionExpireTimer() {
 		return sessionExpireTimer;
 	}
 
+	/**
+	 *	initialize timer
+	 * @param timer new session timer
+	 */
 	public void setSessionExpireTimer(GTimer timer) {
 		sessionExpireTimer = timer;
 	}
 
+	/**
+	 * timer for logg user out after got notified
+	 * @return time left until user will be logged out after notification
+	 */
 	public GTimer getLogOutTimer() {
 		return logOutTimer;
 	}
 
+	/**
+	 *  initialize timer
+	 * @param timer new logout timer
+	 */
 	public void setLogOutTimer(GTimer timer) {
 		logOutTimer = timer;
 	}
 
+	/**
+	 * if back-end touched: restart session timer and stop logout timer
+	 */
 	public void restartSession() {
 		if (getLogOutTimer() != null) {
 			getLogOutTimer().stop();
@@ -243,6 +258,11 @@ public abstract class AuthenticationModel implements GTimerListener {
 		}
 	}
 
+	/**
+	 * reset a timer
+	 * @param timer timer
+	 * @param delay timer length
+	 */
 	private void resetTimer(GTimer timer, int delay) {
 		if (timer != null) {
 			timer.stop();
@@ -250,6 +270,9 @@ public abstract class AuthenticationModel implements GTimerListener {
 		}
 	}
 
+	/**
+	 * reset both session and logout timers
+	 */
 	public void discardTimers() {
 		resetTimer(getSessionExpireTimer(), SESSION_TIME);
 		resetTimer(getLogOutTimer(), LOG_OUT_TIME);
