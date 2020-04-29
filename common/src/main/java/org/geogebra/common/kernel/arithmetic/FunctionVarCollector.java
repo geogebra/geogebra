@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -32,6 +33,11 @@ public class FunctionVarCollector implements Traversing {
 
 				checkFunctional(en.getLeft());
 				checkFunctional(en.getRight());
+			}
+		}
+		if (ev instanceof GeoSymbolic && ((GeoSymbolic) ev).getFunctionVariables().length > 0) {
+			for(FunctionVariable var : ((GeoSymbolic) ev).getFunctionVariables()) {
+				variableNames.add(var.getSetVarString());
 			}
 		}
 		return ev;
