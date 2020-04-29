@@ -2,6 +2,7 @@ package org.geogebra.web.shared.ggtapi;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -51,7 +52,7 @@ public class LoginOperationW extends LogInOperation {
 		getView().add(new LanguageLoginCallback());
 		setModel(new AuthenticationModelW(appWeb));
 		if (app.getVendorSettings().canSessionExpire()) {
-			getModel().setSessionExpireTimer(app.newTimer(getModel(), getModel().SESSION_TIME));
+			getModel().setSessionExpireTimer(app.newTimer(getModel(), AuthenticationModel.SESSION_TIME));
 		}
 
 		iniNativeEvents();

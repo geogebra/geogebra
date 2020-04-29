@@ -22,6 +22,10 @@ public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickH
 	private StandardButton cancelBtn;
 	private StandardButton saveBtn;
 
+	/**
+	 * constructor
+	 * @param app see {@link AppW}
+	 */
 	public SessionExpireNotifyDialog(AppW app) {
 		super(app.getPanel(), app);
 		setGlassEnabled(true);
