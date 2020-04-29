@@ -91,7 +91,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		this.articleElement = articleElement;
 
 		getElement().setTabIndex(0);
-		addFocusHandlers(getElement());
+		addFocusHandlers(articleElement.getElement());
 	}
 
 	private native void addFocusHandlers(Element e) /*-{
