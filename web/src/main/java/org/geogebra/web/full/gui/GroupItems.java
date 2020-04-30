@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.main.App;
@@ -14,15 +16,14 @@ import com.google.gwt.core.client.Scheduler;
  * Class to create group related menu items.
  */
 public class GroupItems {
-	private ArrayList<GeoElement> geos;
-	private App app;
+
+	private final App app;
 
 	/**
 	 * Constructor for adding Group/Ungroup menu items
 	 */
 	GroupItems(App app) {
 		this.app = app;
-		this.geos = app.getSelectionManager().getSelectedGeos();
 	}
 
 	/**
@@ -38,7 +39,7 @@ public class GroupItems {
 	}
 
 	private boolean addGroupItem(GPopupMenuW popup) {
-		if (geos.size() >= 2 && !Group.isInSameGroup(geos)) {
+		if (getGeos().size() >= 2 && !Group.isInSameGroup(getGeos())) {
 			popup.addItem(createGroupItem());
 			return true;
 		}
@@ -65,7 +66,7 @@ public class GroupItems {
 	}
 
 	private void ungroupGroups() {
-		for (GeoElement geo : geos) {
+		for (GeoElement geo : getGeos()) {
 			Group groupOfGeo = geo.getParentGroup();
 			if (groupOfGeo != null) {
 				app.getKernel().getConstruction().removeGroupFromGroupList(groupOfGeo);
@@ -86,16 +87,25 @@ public class GroupItems {
 	}
 
 	private void createGroup() {
+		EuclidianView ev = app.getActiveEuclidianView();
+		Construction cons = app.getKernel().getConstruction();
+
 		ungroupGroups();
-		app.getKernel().getConstruction().createGroup(geos);
 		unfixAll();
-		app.getKernel().getConstruction().getLayerManager().groupObjects(geos);
-		app.getActiveEuclidianView().invalidateDrawableList();
+		ev.getEuclidianController().splitSelectedStrokes(true);
+
+		cons.createGroup(getGeos());
+		cons.getLayerManager().groupObjects(getGeos());
+		ev.invalidateDrawableList();
 	}
 
 	private void unfixAll() {
-		for (GeoElement geo: geos) {
+		for (GeoElement geo : getGeos()) {
 			geo.setFixed(false);
 		}
+	}
+
+	private ArrayList<GeoElement> getGeos() {
+		return app.getSelectionManager().getSelectedGeos();
 	}
 }
