@@ -460,15 +460,14 @@ public class GeoLocusStroke extends GeoLocus
 			}
 		}
 		clearPoints();
-		getPoints().clear();
-		resetXMLPointBuilder();
 		doAppendPointArray(outside);
 		updateCascade();
 		return !outside.isEmpty();
 	}
 
 	/**
-	 * Check for bezier segments longer than MAX_SEGMENT_LENGTH and split them (using linetos)
+	 * Check for bezier segments longer than MAX_SEGMENT_LENGTH and split them
+	 * Returns the stroke points only, no control points.
 	 */
 	private ArrayList<MyPoint> increaseDensity() {
 		ArrayList<MyPoint> densePoints = new ArrayList<>();
@@ -490,13 +489,12 @@ public class GeoLocusStroke extends GeoLocus
 						MyPoint subPoint = new MyPoint(evalCubic(xCoeff, t), evalCubic(yCoeff, t));
 						densePoints.add(subPoint);
 					}
-					pt3.setLineTo(true);
 				}
-				i += 1;
+				i += 2;
 			} else {
 				densePoints.add(pt1);
+				i++;
 			}
-			i++;
 		}
 		return densePoints;
 	}
@@ -693,9 +691,6 @@ public class GeoLocusStroke extends GeoLocus
 	 *            points
 	 */
 	public void appendPointArray(ArrayList<MyPoint> data) {
-		resetXMLPointBuilder();
-		setDefined(true);
-
 		doAppendPointArray(data);
 		ArrayList<MyPoint> densePoints = increaseDensity();
 		if (densePoints.size() > data.size()) {
@@ -707,6 +702,8 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	private void doAppendPointArray(ArrayList<MyPoint> data) {
+		resetXMLPointBuilder();
+		setDefined(true);
 		// to use bezier curve we need at least 2 points
 		// stroke is: (A),(?),(A),(B) -> size 4
 		if (canBeBezierCurve(data)) {
