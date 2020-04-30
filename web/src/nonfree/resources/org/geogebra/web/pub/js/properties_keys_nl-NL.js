@@ -3238,7 +3238,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "bulletList": "Ongenummerde lijst",
     "cartesian": "Cartesisch",
     "cas_tutorials": "mpyqh7fe",
-    "classroom_tutorial": "hncrgruu",
+    "classroom_tutorial": "jnxyzjy7",
     "clockwise": "wijzerzin",
     "counterClockwise": "tegenwijzerzin",
     "dependent": "afhankelijk",
