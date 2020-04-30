@@ -666,7 +666,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		testOutputLabel("f(x) = Factor(x^2 + x - 6)", "f(x)");
 	}
 
-
 	@Test
 	public void testDerivativeLabelHasFunctionVar() {
 		add("b(x) = x");
