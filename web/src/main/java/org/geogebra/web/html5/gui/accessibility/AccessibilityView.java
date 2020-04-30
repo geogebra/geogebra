@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -85,7 +86,9 @@ public class AccessibilityView implements View {
 			control = new AccessibleCheckbox((GeoBoolean) geo, this);
 		} else if (geo instanceof GeoPointND) {
 			control = new AccessiblePoint((GeoPointND) geo, sliderFactory, this);
-		} else {
+		} else if (geo instanceof GeoInputBox) {
+			control = new AccessibleInputBox((GeoInputBox) geo, app, this);
+		} else  {
 			control = new AccessibleGeoElement(geo, app, this, sliderFactory);
 		}
 		return control;
@@ -93,7 +96,7 @@ public class AccessibilityView implements View {
 
 	private AccessibleWidget getPreviousWidget(GeoElement geo) {
 		GeoElement prevGeo = geo;
-		AccessibleWidget prevWidget = null;
+		AccessibleWidget prevWidget;
 		TreeSet<GeoElement> tabbingSet = app.getSelectionManager().getEVFilteredTabbingSet();
 		do {
 			prevGeo = tabbingSet.lower(prevGeo);
@@ -275,5 +278,9 @@ public class AccessibilityView implements View {
 	public void updateValueText(SliderW range, double value, String unit) {
 		range.getElement().setAttribute("aria-valuetext",
 				app.getKernel().format(value, StringTemplate.screenReader) + " " + unit);
+	}
+
+	public void show() {
+		controls.removeStyleName("accessibilityView");
 	}
 }
