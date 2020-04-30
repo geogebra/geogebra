@@ -888,11 +888,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	}
 
 	@Override
-	public final boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	public void set(GeoElementND geo) {
 		GeoSurfaceCartesianND geoSurface = (GeoSurfaceCartesianND) geo;
 		int dim = this.isGeoElement3D() ? 3 : 2;

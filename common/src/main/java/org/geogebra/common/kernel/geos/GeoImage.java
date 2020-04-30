@@ -533,11 +533,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		return getGraphicsAdapter().getImageOnly() != null && isDefined();
 	}

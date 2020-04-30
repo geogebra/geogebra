@@ -4035,7 +4035,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected final void processSelectionRectangle(boolean alt,
+	public final void processSelectionRectangle(boolean alt,
 			boolean isControlDown, boolean shift) {
 		// TODO implement this
 	}

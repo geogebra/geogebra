@@ -1,4 +1,4 @@
-package org.geogebra.web.shared;
+package org.geogebra.web.shared.components;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -58,7 +58,7 @@ public class ComponentLinkBox extends TextBox
 	/**
 	 * focus textBox and select text
 	 */
-	protected void focus() {
+	public void focus() {
 		setFocus(true);
 		setSelectionRange(0, 0);
 		selectAll();

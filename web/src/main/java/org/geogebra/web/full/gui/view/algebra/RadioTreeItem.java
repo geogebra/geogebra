@@ -39,7 +39,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -230,7 +230,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		addControls();
 
 		content.add(definitionValuePanel);
-		rebuildContent();
+		doUpdate();
 		// if enabled, render with LaTeX
 		String ltx = getLatexString(null, true);
 		if (ltx != null) {
@@ -1666,10 +1666,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		FactoryProvider.setInstance(new FactoryProviderGWT());
 
-		mf = new MathFieldW(new FormatConverterImpl(kernel), latexItem, canvas,
+		mf = new MathFieldW(new SyntaxAdapterImpl(kernel), latexItem, canvas,
 				getLatexController(),
-				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
-				app.getGlobalKeyDispatcher().getFocusHandler());
+				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
+		mf.setFocusHandler(app.getGlobalKeyDispatcher().getFocusHandler());
 		TestHarness.setAttr(mf.getInputTextArea(), "avInputTextArea");
 		mf.setExpressionReader(ScreenReader.getExpressionReader(app));
 		updateEditorAriaLabel("");

@@ -3,22 +3,23 @@ package com.himamis.retex.editor.share.event;
 import com.himamis.retex.editor.share.model.MathSequence;
 
 public interface MathFieldListener {
-	public void onEnter();
 
-	public void onKeyTyped();
+	void onEnter();
 
-	public void onCursorMove();
+	void onKeyTyped();
 
-	public void onUpKeyPressed();
+	void onCursorMove();
+
+	void onUpKeyPressed();
 	
-	public void onDownKeyPressed();
+	void onDownKeyPressed();
 	
-	public String serialize(MathSequence selectionText);
+	String serialize(MathSequence selectionText);
 
-	public void onInsertString();
+	void onInsertString();
 
-	public boolean onEscape();
+	boolean onEscape();
 
-	public void onTab(boolean shiftDown);
+	void onTab(boolean shiftDown);
 	
 }

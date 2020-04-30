@@ -386,11 +386,6 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		return true;
 	}
@@ -966,7 +961,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter) {
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
 		return false;
 	}
 

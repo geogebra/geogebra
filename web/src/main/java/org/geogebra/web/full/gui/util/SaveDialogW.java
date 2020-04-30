@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.util;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
@@ -16,13 +18,14 @@ import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.ComponentCheckbox;
+import org.geogebra.web.shared.components.ComponentCheckbox;
 import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -43,6 +46,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.geogebra.web.shared.SharedResources;
 
 /**
  * Dialog for online saving (tube/drive)
@@ -57,6 +61,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	protected GTextBox title;
 	private StandardButton dontSaveButton;
 	private StandardButton saveButton;
+	private FastButton cancelButton;
+
 	private Label titleLabel;
 	private final static int MIN_TITLE_LENGTH = 1;
 	// SaveCallback saveCallback;
@@ -91,7 +97,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.getCaption().setText(loc.getMenu("Save"));
 		VerticalPanel p = new VerticalPanel();
 		p.add(getTitelPanel());
-		if (app.isWhiteboardActive() && !"".equals(app.getVendorSettings().getAPIBaseUrl())) {
+		if (app.isWhiteboardActive()) {
 			p.add(getCheckboxPanel());
 		}
 		p.add(getButtonPanel());
@@ -187,6 +193,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		saveButton.addStyleName("saveButton");
 		dontSaveButton.addStyleName("cancelBtn");
+		listBox = widgetFactory.newListBox();
+		listBox.addStyleName("visibility");
 		setAvailableProviders();
 
 		saveButton.addFastClickHandler(new FastClickHandler() {
@@ -237,8 +245,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				appW.isUnbundledOrWhiteboard());
 		this.providerPopup.getMyPopup().addStyleName("providersPopup");
 
-		listBox = widgetFactory.newListBox();
-		listBox.addStyleName("visibility");
 		if (appW.getLAF().supportsGoogleDrive()) {
 			providerPopup.addPopupHandler(this);
 			providerPopup.setSelectedIndex(appW.getFileManager()
@@ -251,10 +257,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerPopup.getElement().getStyle()
 		        .setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
-		if (!appW.isMebis()) {
-			buttonPanel.add(providerPopup);
-			buttonPanel.add(listBox);
-		}
+		buttonPanel.add(providerPopup);
+		buttonPanel.add(listBox);
 	}
 
 	/**
@@ -270,7 +274,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	public void onSave() {
 		if (templateCheckbox != null) {
 			setSaveType(templateCheckbox.isSelected()
-					? appW.getVendorSettings().getTemplateType() : MaterialType.ggs);
+					? MaterialType.ggsTemplate : MaterialType.ggs);
 		}
 		appW.getSaveController().saveAs(title.getText(),
 				getSelectedVisibility(), this);
@@ -323,7 +327,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			this.saveButton.setEnabled(false);
 		}
 		if (templateCheckbox != null) {
-			templateCheckbox.setSelected(false);
+			templateCheckbox.setVisible(true);
+			Material activeMaterial = ((AppW) app).getActiveMaterial();
+			templateCheckbox.setSelected(activeMaterial != null && MaterialType.ggsTemplate
+					.equals(activeMaterial.getType()));
 		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
@@ -434,5 +441,33 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	@Override
 	public void setSaveType(MaterialType saveType) {
 		appW.getSaveController().setSaveType(saveType);
+	}
+
+	/**
+	 * Adds a little cross to cancel the dialog if there is already a panel
+	 * attached to the Dialogbox. If the first child of the Dialogbox is not a
+	 * Panel this will do nothing!
+	 *
+	 * Pulled up from SaveDialogW
+	 */
+	private void addCancelButton() {
+		if (getWidget() instanceof Panel
+				&& !(getWidget() instanceof SimplePanel)) {
+			SimplePanel cancel = new SimplePanel();
+			this.cancelButton = new StandardButton(
+					SharedResources.INSTANCE.dialog_cancel(), app);
+			this.cancelButton.addStyleName("cancelSaveButton");
+			this.cancelButton.addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick(Widget source) {
+					onCancel();
+					app.getSaveController().cancel();
+				}
+			});
+
+			cancel.add(this.cancelButton);
+
+			((Panel) getWidget()).add(cancel);
+		}
 	}
 }

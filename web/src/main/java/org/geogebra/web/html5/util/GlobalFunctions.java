@@ -25,7 +25,13 @@ public class GlobalFunctions {
 
 	/**
 	 * @param str input string
-	 * @return string without escaped sequances
+	 * @return string without escaped sequences
 	 */
 	public static native String unescape(String str);
+
+	/**
+	 * @param str input string
+	 * @return string with escaped sequences
+	 */
+	public static native String escape(String str);
 }

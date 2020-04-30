@@ -53,6 +53,7 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.main.App.ExportType;
@@ -986,6 +987,11 @@ public class EuclidianViewD extends EuclidianView
 	@Override
 	public ScreenReaderAdapter getScreenReader() {
 		return screenReader;
+	}
+
+	@Override
+	protected SymbolicEditor createSymbolicEditor() {
+		return new SymbolicEditorD(app, this);
 	}
 
 	@Override

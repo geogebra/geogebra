@@ -40,14 +40,15 @@ public abstract class HttpRequest {
 	}
 
 	/**
-	 * Opens and URL and sends some POST parameters
-	 * 
+	 * Sends a `method` type HTTP request to the `url` address with `content`
+	 * and calls `callback`
+	 *
 	 * @param url
 	 *            full URL to be opened
-	 * @param post
-	 *            POST parameters (already encoded)
+	 * @param content
+	 *            already encoded HTTP request content
 	 */
-	public abstract void sendRequestPost(String method, String url, String post,
+	public abstract void sendRequestPost(String method, String url, String content,
 			AjaxCallback callback);
 
 	/**

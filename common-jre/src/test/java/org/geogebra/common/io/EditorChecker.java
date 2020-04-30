@@ -6,23 +6,30 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.junit.Assert;
 
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.io.latex.Parser;
+import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 
 class EditorChecker {
-	private MathFieldCommon mathField = new MathFieldCommon();
+	private MathFieldCommon mathField;
 	private EditorTyper typer;
 	private App app;
 
 	protected EditorChecker(App app) {
+		this(app, new MetaModel());
+	}
+
+	protected EditorChecker(App app, MetaModel model) {
 		this.app = app;
+		mathField = new MathFieldCommon(model);
 		typer = new EditorTyper(mathField);
 	}
 
@@ -107,5 +114,9 @@ class EditorChecker {
 
 	public ExpressionNode parse(String exp) throws ParseException {
 		return app.getKernel().getParser().parseExpression(exp);
+	}
+
+	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
+		mathField.setFormatConverter(formatConverter);
 	}
 }
