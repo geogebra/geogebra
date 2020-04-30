@@ -37,6 +37,9 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testFunctionProducts() {
+		add("s=5");
+		add("i=5");
+		add("n=5");
 		add("a=5");
 		add("b=3");
 		shouldReplaceAs("sinab", "sin(a * b)");
