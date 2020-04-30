@@ -87,7 +87,7 @@ ext.appSpecs = [
         partials:["undo-redo"], appStoreId:'1412748754'],
     [id:'geometry', title:'Geometry', transKey:'Geometry',
         exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', appStoreId:'1232591335'],
-    [id:'suite', title:'Graphing Calculator', transKey:'GraphingCalculator'],
+    [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite'],
     [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
     [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
 
