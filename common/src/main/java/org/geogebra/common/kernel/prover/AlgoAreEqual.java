@@ -135,24 +135,20 @@ public class AlgoAreEqual extends AlgoElement
 		}
 	}
 
-	private boolean compareInputBoxContent(GeoElementND geo1, GeoElementND geo2) {
-		if (!geo1.isDefined()) {
+	private boolean compareInputBoxContent(GeoElementND actual, GeoElementND expected) {
+		if (!actual.isDefined() || actual.getDefinition() == null) {
 			return false;
 		}
 
-		double value1 = geo1.evaluateDouble();
-		double value2 = geo2.evaluateDouble();
+		double value1 = actual.evaluateDouble();
+		double value2 = expected.evaluateDouble();
 
 		if (!DoubleUtil.isEqual(value1, value2, Kernel.MAX_PRECISION)) {
 			return false;
 		}
 
-		if (geo1.getDefinition() == null) {
-			return true;
-		}
-
-		return geo1.getDefinition().isConstant()
-				&& !geo1.getDefinition().inspect(new Inspecting() {
+		return actual.getDefinition().isConstant()
+				&& !actual.getDefinition().inspect(new Inspecting() {
 			@Override
 			public boolean check(ExpressionValue v) {
 				if (v instanceof MyDouble) {
