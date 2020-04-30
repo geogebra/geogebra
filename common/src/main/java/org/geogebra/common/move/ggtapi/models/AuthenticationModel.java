@@ -11,12 +11,12 @@ import java.util.ArrayList;
  * @author gabor Base class for login logout operations
  *
  */
-public abstract class AuthenticationModel implements GTimerListener {
+public abstract class AuthenticationModel {
 	private GeoGebraTubeUser loggedInUser = null;
 	// session time 115 min
-	public static final int SESSION_TIME = 6900000;
+	public static final int SESSION_TIME = /*6900000*/ 3000;
 	// log out timer 5 min
-	public static final int LOG_OUT_TIME = 300000;
+	public static final int LOG_OUT_TIME = /*300000*/ 3000;
 	private GTimer sessionExpireTimer;
 	private GTimer logOutTimer;
 
@@ -92,8 +92,8 @@ public abstract class AuthenticationModel implements GTimerListener {
 	}
 
 	private void startSessionTimer() {
-		if (getSessionExpireTimer() != null) {
-			getSessionExpireTimer().start();
+		if (sessionExpireTimer != null) {
+			sessionExpireTimer.start();
 		}
 	}
 
@@ -214,27 +214,11 @@ public abstract class AuthenticationModel implements GTimerListener {
 	}
 
 	/**
-	 * timer for session life until notify user that will be logged out
-	 * @return session timer
-	 */
-	public GTimer getSessionExpireTimer() {
-		return sessionExpireTimer;
-	}
-
-	/**
 	 *	initialize timer
 	 * @param timer new session timer
 	 */
 	public void setSessionExpireTimer(GTimer timer) {
 		sessionExpireTimer = timer;
-	}
-
-	/**
-	 * timer for logging user out after got notified
-	 * @return time left until user will be logged out after notification
-	 */
-	public GTimer getLogOutTimer() {
-		return logOutTimer;
 	}
 
 	/**
@@ -249,24 +233,20 @@ public abstract class AuthenticationModel implements GTimerListener {
 	 * if back-end touched: restart session timer and stop logout timer
 	 */
 	public void restartSession() {
-		if (getLogOutTimer() != null) {
-			getLogOutTimer().stop();
-		}
-		if (getSessionExpireTimer() != null && isLoggedIn()) {
-			resetTimer(getSessionExpireTimer(), SESSION_TIME);
-			getSessionExpireTimer().start();
+		resetTimer(logOutTimer);
+		if (sessionExpireTimer != null && isLoggedIn()) {
+			resetTimer(sessionExpireTimer);
+			sessionExpireTimer.start();
 		}
 	}
 
 	/**
 	 * reset a timer
 	 * @param timer timer
-	 * @param delay timer length
 	 */
-	private void resetTimer(GTimer timer, int delay) {
+	private void resetTimer(GTimer timer) {
 		if (timer != null) {
 			timer.stop();
-			timer.setDelay(delay);
 		}
 	}
 
@@ -274,7 +254,7 @@ public abstract class AuthenticationModel implements GTimerListener {
 	 * reset both session and logout timers
 	 */
 	public void discardTimers() {
-		resetTimer(getSessionExpireTimer(), SESSION_TIME);
-		resetTimer(getLogOutTimer(), LOG_OUT_TIME);
+		resetTimer(sessionExpireTimer);
+		resetTimer(logOutTimer);
 	}
 }

@@ -110,7 +110,6 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 
 	@Override
 	public void onRun() {
-		getSessionExpireTimer().stop();
 		new SessionExpireNotifyDialog(app).show();
 	}
 }

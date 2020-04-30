@@ -97,6 +97,6 @@ public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickH
 	@Override
 	public void onRun() {
 		// send logout event, mow-front takes care of logout and UI update
-		app.dispatchEvent(new Event(EventType.LOGOUT, null, null));
+		app.dispatchEvent(new Event(EventType.SESSION_EXPIRED, null, null));
 	}
 }

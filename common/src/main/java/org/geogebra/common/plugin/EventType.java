@@ -53,8 +53,8 @@ public enum EventType {
 	/** LOGIN */
 	LOGIN("login"),
 
-	/** LOGOUT */
-	LOGOUT("logout"),
+	/** SESSION_EXPIRED */
+	SESSION_EXPIRED("sessionExpired"),
 
 	/** SET_MODE */
 	SET_MODE("setMode"),

@@ -47,9 +47,4 @@ public class AuthenticationModelD extends AuthenticationModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void onRun() {
-		// nothing to do here
-	}
 }
