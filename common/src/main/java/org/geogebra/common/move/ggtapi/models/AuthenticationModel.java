@@ -3,7 +3,6 @@ package org.geogebra.common.move.ggtapi.models;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 
 import java.util.ArrayList;
 
