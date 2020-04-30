@@ -1,7 +1,5 @@
 package org.geogebra.web.full.euclidian;
 
-import com.google.gwt.core.client.Scheduler;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -16,10 +14,12 @@ import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 /**
  * MathField-capable editor for EV, Web implementation.
@@ -71,7 +71,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		return editor.getKeyboardListener();
 	}
 
-	private void resetChanges() {
+	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
 		editor.setVisible(true);
 		decorator.update(bounds, getGeoInputBox());
@@ -113,11 +113,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 				((EuclidianViewW) view).doRepaint2();
 			}
 		});
-	}
-
-	@Override
-	public void onEnter() {
-		applyChanges();
 	}
 
 	@Override
