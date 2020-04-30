@@ -12,6 +12,6 @@ public class GeoLineTest extends BaseUnitTest {
 	public void getDescriptionMode() {
 		getApp().setGraphingConfig();
 		GeoLine line = addAvInput("Line((0,0),(1,1))");
-		assertThat(line.getDescriptionMode(), equalTo(DescriptionMode.DEFINITION));
+		assertThat(line.getDescriptionMode(), equalTo(DescriptionMode.DEFINITION_VALUE));
 	}
 }
