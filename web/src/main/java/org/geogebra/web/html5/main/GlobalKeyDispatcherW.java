@@ -17,7 +17,6 @@ import org.geogebra.web.html5.util.Dom;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyEvent;
@@ -41,7 +40,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 
-	private SpanElement focusDummy = null;
+	private Element focusDummy = null;
 
 	/**
 	 * @return whether ctrl is pressed
@@ -94,7 +93,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	protected void addFocusDummy(Element element) {
 		if (!Browser.needsAccessibilityView()) {
-			focusDummy = DOM.createSpan().cast();
+			focusDummy = DOM.createSpan();
 			focusDummy.setTabIndex(0);
 			focusDummy.addClassName("geogebraweb-dummy-invisible");
 			element.appendChild(focusDummy);
