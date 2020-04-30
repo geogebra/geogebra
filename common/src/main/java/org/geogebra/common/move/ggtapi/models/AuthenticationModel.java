@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public abstract class AuthenticationModel {
 	private GeoGebraTubeUser loggedInUser = null;
 	// session time 115 min
-	public static final int SESSION_TIME = /*6900000*/ 3000;
+	public static final int SESSION_TIME = 6900000;
 	// log out timer 5 min
-	public static final int LOG_OUT_TIME = /*300000*/ 3000;
+	public static final int LOG_OUT_TIME = 300000;
 	private GTimer sessionExpireTimer;
 	private GTimer logOutTimer;
 
