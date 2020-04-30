@@ -117,8 +117,8 @@ public class ExpressionNode extends ValidExpression
 		setLeft(left);
 		if (right != null) {
 			setRight(right);
-		} else { // set dummy value
-			setRight(new MyDouble(kernel, Double.NaN));
+		} else {
+			unsetRight();
 		}
 	}
 
@@ -466,9 +466,13 @@ public class ExpressionNode extends ValidExpression
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
+				fixPowerFactorialTrig();
 			}
 			if (operation == Operation.SQRT_SHORT) {
 				fixSqrtShort(Operation.MULTIPLY);
+			}
+			if (operation == Operation.MULTIPLY &&  isConstantDouble(right, Kernel.PI_180)) {
+				fixMultiplyDeg();
 			}
 		} else {
 			left.resolveVariables(info);
@@ -798,6 +802,39 @@ public class ExpressionNode extends ValidExpression
 					((ExpressionNode) left).getRight(), operation, right);
 			left = ((ExpressionNode) left).getLeft();
 			operation = Operation.MULTIPLY;
+		}
+	}
+
+	private void fixPowerFactorialTrig() {
+		if (isSingleArgumentFunction(left)) {
+			ExpressionValue trigArg = ((ExpressionNode) this.left).getLeft();
+			Operation leftOperation = ((ExpressionNode) left).operation;
+			// sinxyz^2 is parsed as sin(x y z)^2, change to sin(x y z^2)
+			if (trigArg.isExpressionNode()
+					&& ((ExpressionNode) trigArg).getOperation() == Operation.MULTIPLY) {
+				ExpressionNode trigArgExpr = (ExpressionNode) trigArg;
+				left = trigArgExpr.getRight().wrap()
+						.apply(operation, right).multiply(trigArgExpr.getLeft());
+			} else { // sinx^2 is parsed as sin(x)^2, change to sin(x^2)
+				this.left = new ExpressionNode(kernel, trigArg, operation, right);
+			}
+			unsetRight();
+			operation = leftOperation;
+		}
+	}
+
+	private boolean isSingleArgumentFunction(ExpressionValue left) {
+		return left.isExpressionNode()
+				&& Operation.isSimpleFunction(((ExpressionNode) left).operation)
+				&& !((ExpressionNode) left).hasBrackets();
+	}
+
+	private void fixMultiplyDeg() {
+		if (isSingleArgumentFunction(left)) {
+			operation = ((ExpressionNode) left).getOperation();
+			left = new ExpressionNode(kernel, ((ExpressionNode) left).getLeft(),
+					Operation.MULTIPLY, right);
+			unsetRight();
 		}
 	}
 
@@ -2125,12 +2162,9 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of multiply
 	 */
 	public ExpressionNode multiply(double d) {
-		if (d == 0 || isConstantDouble(this, 0)) {
-			// don't use Kernel.isZero() to check == 0
-			// as can lose leading coefficient of polynomial
-			return new ExpressionNode(kernel, 0);
-		} else if (DoubleUtil.isEqual(1, d)) {
-			return this;
+		ExpressionNode specialCase = multiplyOneOrZero(d);
+		if (specialCase != null) {
+			return specialCase;
 		}
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY,
 				new MyDouble(kernel, d));
@@ -2142,15 +2176,25 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of multiply
 	 */
 	public ExpressionNode multiplyR(double d) {
+		ExpressionNode specialCase = multiplyOneOrZero(d);
+		if (specialCase != null) {
+			return specialCase;
+		}
+		return new ExpressionNode(kernel, new MyDouble(kernel, d),
+				Operation.MULTIPLY, this);
+	}
+
+	private ExpressionNode multiplyOneOrZero(double d) {
 		if (d == 0) {
 			// don't use Kernel.isZero() to check == 0
 			// as can lose leading coefficient of polynomial
 			return new ExpressionNode(kernel, 0);
-		} else if (DoubleUtil.isEqual(1, d)) {
+		} else if (1 == d) {
 			return this;
+		} else if (isConstantDouble(this, 1)) {
+			return new ExpressionNode(kernel, d);
 		}
-		return new ExpressionNode(kernel, new MyDouble(kernel, d),
-				Operation.MULTIPLY, this);
+		return null;
 	}
 
 	/**
@@ -2368,7 +2412,7 @@ public class ExpressionNode extends ValidExpression
 							.toString(StringTemplate.defaultTemplate)
 							.equals("1")) {
 						if (operation != Operation.NROOT) {
-							setRight(new MyDouble(kernel, Double.NaN));
+							unsetRight();
 						}
 					} else { // to parse x^(c/2) to sqrt(x^c)
 						double c = 1;
@@ -2416,6 +2460,10 @@ public class ExpressionNode extends ValidExpression
 		}
 
 		return didReplacement;
+	}
+
+	private void unsetRight() {
+		setRight(new MyDouble(kernel, Double.NaN));
 	}
 
 	/**
@@ -3284,10 +3332,8 @@ public class ExpressionNode extends ValidExpression
 		// sin x in GGB is function application if "sin" is not a variable
 		if (left instanceof Variable) {
 			leftImg = left.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().get(leftImg, 1);
-			if (op != null && kernel.lookupLabel(leftImg) == null
-					&& !"x".equals(leftImg) && !"y".equals(leftImg)
-					&& !"z".equals(leftImg)) {
+			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
+			if (op != null) {
 				return new ExpressionNode(kernel, right, op, null);
 
 			}
@@ -3307,10 +3353,8 @@ public class ExpressionNode extends ValidExpression
 				&& ((ExpressionNode) left).getLeft() instanceof Variable) {
 			leftImg = ((ExpressionNode) left).getLeft()
 					.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().get(leftImg, 1);
-			if (op != null && kernel.lookupLabel(leftImg) == null
-					&& !"x".equals(leftImg) && !"y".equals(leftImg)
-					&& !"z".equals(leftImg)) {
+			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
+			if (op != null) {
 				ExpressionValue exponent = ((ExpressionNode) left).getRight()
 						.unwrap();
 				if (exponent.isConstant()

@@ -31,7 +31,7 @@ package com.himamis.retex.editor.share.model;
 import java.util.ArrayList;
 
 import com.himamis.retex.editor.share.meta.MetaArray;
-import com.himamis.retex.editor.share.meta.MetaComponent;
+import com.himamis.retex.editor.share.meta.MetaArrayComponent;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.Tag;
 
@@ -155,7 +155,7 @@ public class MathArray extends MathContainer {
 		return getArgument(i * columns + j);
 	}
 
-	public MetaComponent getOpen() {
+	public MetaArrayComponent getOpen() {
 		return meta.getOpen();
 	}
 
@@ -169,7 +169,7 @@ public class MathArray extends MathContainer {
 	/**
 	 * @return close meta component
 	 */
-	public MetaComponent getClose() {
+	public MetaArrayComponent getClose() {
 		return meta.getClose();
 	}
 
@@ -180,7 +180,7 @@ public class MathArray extends MathContainer {
 		return meta.getCloseKey();
 	}
 
-	public MetaComponent getField() {
+	public MetaArrayComponent getField() {
 		return meta.getField();
 	}
 
@@ -188,7 +188,7 @@ public class MathArray extends MathContainer {
 		return meta.getFieldKey();
 	}
 
-	public MetaComponent getRow() {
+	public MetaArrayComponent getRow() {
 		return meta.getRow();
 	}
 

@@ -12,10 +12,10 @@ public class FunctionGroup implements MetaGroup {
 
 	private static MetaParameter[] defaultParameters = new MetaParameter[] {
 			MetaParameter.BASIC, MetaParameter.BASIC };
-	private MetaFunction apply = new MetaFunction(Tag.APPLY, null, (char) 0,
+	private MetaFunction apply = new MetaFunction(Tag.APPLY, null,
 			defaultParameters);
 	private MetaFunction applySquare = new MetaFunction(Tag.APPLY_SQUARE, null,
-			(char) 0, defaultParameters);
+			defaultParameters);
 
 	@Override
 	public MetaComponent getComponent(Tag tag) {

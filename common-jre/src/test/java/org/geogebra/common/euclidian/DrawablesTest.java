@@ -8,6 +8,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -29,7 +30,7 @@ public class DrawablesTest {
 
 	@Test
 	public void checkDrawables() {
-		String[] def = new String[] { "(1,1)", "Angle[x^2=y^2]", "true",
+		final String[] def = new String[] { "(1,1)", "Angle[x^2=y^2]", "true",
 				"Button[]", "InputBox[]", "x^2+y^2/3=1",
 				"Semicircle[(0,0),(1,1)]", "xx", "1<x<2", "x=y", "{(1,1)}",
 				"ConvexHull[(0,0),(0,1),(1,0)]", "7",
@@ -47,7 +48,7 @@ public class DrawablesTest {
 				"Surface[(u,v,u+v),u,0,1,v,0,1]", "x^3=z^3",
 				"Cone[(0,0,0),(0,0,1),1]", "Side[Cone[(0,0,0),(0,0,1),1]]",
 				"IntersectRegion(x+y+0z=0,Cone[(0,0,0),(0,0,1),1])", "toolPic",
-				"audio", "video", "embed", "symbolic" };
+				"audio", "video", "embed", "symbolic", "formula" };
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("toolPic=ToolImage[2]", false);
 		GeoAudio au = new GeoAudio(app.getKernel().getConstruction());
@@ -56,6 +57,9 @@ public class DrawablesTest {
 		video.setLabel("video");
 		GeoEmbed embed = new GeoEmbed(app.getKernel().getConstruction());
 		embed.setLabel("embed");
+		GeoFormula formula = new GeoFormula(app.getKernel().getConstruction(), null);
+		formula.setContent("\\frac{a}{b}");
+		formula.setLabel("formula");
 		GeoSymbolic symbolic = new GeoSymbolic(
 				app.getKernel().getConstruction());
 		symbolic.setLabel("symbolic");

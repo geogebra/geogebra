@@ -292,4 +292,9 @@ public interface ToolbarResources {
 	ResourcePrototype mode_pen();
 
 	ResourcePrototype mode_mask();
+
+	ResourcePrototype mode_equation();
+
+	ResourcePrototype mode_table();
+
 }

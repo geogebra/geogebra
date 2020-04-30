@@ -1,6 +1,17 @@
 package org.geogebra.common.kernel;
 
-import com.himamis.retex.editor.share.input.Character;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
@@ -44,20 +55,13 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Stack;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.List;
+
+import com.himamis.retex.editor.share.input.Character;
 
 /**
  * Manages construction elements
@@ -125,6 +129,10 @@ public class Construction {
 
 	/** Table for (label, GeoElement) pairs, contains global variables */
 	protected HashMap<String, GeoElement> geoTable;
+
+	// List of GeoElements to store strong references to
+	// Used in the iOS app
+	private List<ConstructionElement> tempList;
 
 	// list of algorithms that need to be updated when EuclidianView changes
 	private ArrayList<EuclidianViewCE> euclidianViewCE;
@@ -226,6 +234,7 @@ public class Construction {
 		geoSetLabelOrder = new TreeSet<>(new LabelComparator());
 		geoSetsTypeMap = new HashMap<>();
 		euclidianViewCE = new ArrayList<>();
+		tempList = new ArrayList<>();
 
 		if (parentConstruction != null) {
 			consDefaults = parentConstruction.getConstructionDefaults();
@@ -905,6 +914,7 @@ public class Construction {
 	public void addToConstructionList(ConstructionElement ce,
 			boolean checkContains) {
 		if (supressLabelCreation) {
+			tempList.add(ce);
 			return;
 		}
 		if (checkContains && ce.isInConstructionList()) {
@@ -1676,7 +1686,7 @@ public class Construction {
 		// moveDependencies(oldGeo,newGeo);
 
 		// 4) build new construction
-		buildConstruction(consXML, oldXML, info);
+		buildConstructionWithGlobalListeners(consXML, oldXML, info);
 		if (moveMode) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			selection.addSelectedGeo(selGeo, false, true);
@@ -1686,6 +1696,16 @@ public class Construction {
 
 		// recall views for plane
 		app.getCompanion().recallViewCreators();
+	}
+
+	private void buildConstructionWithGlobalListeners(
+			StringBuilder consXML, String oldXML,
+			EvalInfo info) throws Exception {
+
+		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
+		scriptManager.keepListenersOnReset();
+		buildConstruction(consXML, oldXML, info);
+		scriptManager.dropListenersOnReset();
 	}
 
 	/**
@@ -1736,7 +1756,7 @@ public class Construction {
 
 		try {
 			// 4) build new construction for all changes at once
-			buildConstruction(consXML, oldXML);
+			buildConstructionWithGlobalListeners(consXML, oldXML, null);
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -3034,6 +3054,7 @@ public class Construction {
 		intsM.clear();
 		ceList.clear();
 		algoList.clear();
+		tempList.clear();
 
 		geoSetConsOrder.clear();
 		geoSetWithCasCells.clear();

@@ -44,17 +44,11 @@ public class MetaComponent implements Serializable {
 	
 	private Tag name;
     private String texName;
-    private char key;
-    private char unicode;
-    private String unicodeString;
 
-	MetaComponent(Tag name, String texName, char key, char unicode) {
+	MetaComponent(Tag name, String texName) {
 		this.name = name;
-        this.texName = texName;
-        this.key = key;
-        this.unicode = unicode;
-        this.unicodeString = Character.toString(unicode);
-    }
+		this.texName = texName;
+	}
 
 	/**
 	 * @return Uid name.
@@ -66,30 +60,7 @@ public class MetaComponent implements Serializable {
 	/**
 	 * @return TeX name.
 	 */
-    public String getTexName() {
-        return texName;
-    }
-
-    /**
-	 * @return Input Key.
-	 */
-    public char getKey() {
-        return key;
-    }
-
-    /**
-	 * @return Unicode char.
-	 */
-    public char getUnicode() {
-        return unicode;
-    }
-
-    /**
-	 * Unicode value in String format.
-	 * 
-	 * @return unicode string
-	 */
-    public String getUnicodeString() {
-        return unicodeString;
-    }
+	public String getTexName() {
+		return texName;
+	}
 }

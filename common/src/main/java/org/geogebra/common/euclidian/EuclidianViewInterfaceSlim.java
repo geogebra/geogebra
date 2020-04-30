@@ -218,11 +218,6 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	public int getSliderOffsetY();
 
 	/**
-	 * @return minimal x-distance (maximal x-resolution) for function plotting
-	 */
-	public double getMinPixelDistance();
-
-	/**
 	 * @return settings
 	 */
 	public EuclidianSettings getSettings();

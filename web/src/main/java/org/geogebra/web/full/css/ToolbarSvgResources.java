@@ -591,4 +591,13 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mask.svg")
 	SVGResource mode_mask();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_equation.svg")
+	SVGResource mode_equation();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_table.svg")
+	SVGResource mode_table();
+
 }

@@ -73,8 +73,6 @@ public class DrawVideo extends Drawable implements DrawWidget {
 	private void setMetrics() {
 		int width = video.getWidth();
 		int height = video.getHeight();
-		left = video.getAbsoluteScreenLocX();
-		top = video.getAbsoluteScreenLocY();
 		left = video.getScreenLocX(view);
 		top = video.getScreenLocY(view);
 

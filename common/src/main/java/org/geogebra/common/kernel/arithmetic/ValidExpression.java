@@ -592,4 +592,5 @@ public abstract class ValidExpression
 	public boolean isTopLevelCommand(String string) {
 		return false;
 	}
+
 }
