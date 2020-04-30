@@ -230,7 +230,7 @@ public abstract class AuthenticationModel implements GTimerListener {
 	}
 
 	/**
-	 * timer for logg user out after got notified
+	 * timer for logging user out after got notified
 	 * @return time left until user will be logged out after notification
 	 */
 	public GTimer getLogOutTimer() {
