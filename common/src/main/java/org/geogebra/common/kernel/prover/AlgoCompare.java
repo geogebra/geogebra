@@ -476,7 +476,7 @@ public class AlgoCompare extends AlgoElement {
         }
     }
 
-    /* To handle substring replacments correctly we need to use our own comparator
+    /* To handle substring replacements correctly we need to use our own comparator
      * that puts longer labels on the substitution list first.
      */
     Comparator<GeoSegment> lengthComparator = new Comparator<GeoSegment>() {
