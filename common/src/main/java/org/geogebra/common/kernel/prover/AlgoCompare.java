@@ -4,6 +4,7 @@ import static org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicSta
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
@@ -109,6 +110,8 @@ public class AlgoCompare extends AlgoElement {
 
     AlgebraicStatement as;
     SortedMap<GeoSegment, PVariable> rewrites;
+    SortedMap<GeoSegment, PVariable> rewritesSorted;
+
     StringTemplate portableFormat = StringTemplate.casCopyTemplate;
     StringTemplate fancyFormat = StringTemplate.algebraTemplate;
 
@@ -148,6 +151,7 @@ public class AlgoCompare extends AlgoElement {
         String lhs_var = "";
         String rhs_var = "";
         rewrites = new TreeMap<>(Collections.reverseOrder());
+        rewritesSorted = new TreeMap<>(lengthComparator);
 
         RealGeomWebService realgeomWS = cons.getApplication().getRealGeomWS();
 
@@ -454,6 +458,7 @@ public class AlgoCompare extends AlgoElement {
             return null;
         }
         rewrites.put(s, var);
+        rewritesSorted.put(s, var);
         return var;
     }
 
@@ -471,9 +476,21 @@ public class AlgoCompare extends AlgoElement {
         }
     }
 
+    /* To handle substring replacments correctly we need to use our own comparator
+     * that puts longer labels on the substitution list first.
+     */
+    Comparator<GeoSegment> lengthComparator = new Comparator<GeoSegment>() {
+        @Override public int compare(GeoSegment gs1, GeoSegment gs2) {
+            if (gs1.getLabelSimple().length() > gs2.getLabelSimple().length()) {
+                return -1;
+            }
+            return gs1.getLabelSimple().compareTo(gs2.getLabelSimple());
+        }
+    };
+
     private String rewrite(String exp) {
         // https://stackoverflow.com/questions/1326682/java-replacing-multiple-different-substring-in-a-string-at-once-or-in-the-most
-        Iterator it = rewrites.entrySet().iterator();
+        Iterator it = rewritesSorted.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry me = (Map.Entry) it.next();
             GeoSegment s = (GeoSegment) me.getKey();
