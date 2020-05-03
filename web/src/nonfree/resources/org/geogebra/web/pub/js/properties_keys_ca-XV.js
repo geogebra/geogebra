@@ -1710,7 +1710,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "Download.SlidesGgs": "Slides (.ggs)",
     "DownloadAs": "Descarregueu com a",
     "DownloadAsGgbFile": "Baixeu com a fitxer .ggb",
-    "DownloadAsStl": "3D print (stl)",
+    "DownloadAsStl": "Impressi\xf3 3D (stl)",
     "DrawAsDropDownList": "Mostra com a llista desplegable",
     "DrawingPad": "La finestra gr\xe0fica",
     "DrawingPad2": "Segona finestra gr\xe0fica",
