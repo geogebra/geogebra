@@ -685,11 +685,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 		return getBoolDataParam("errorDialogsActive", true);
 	}
 
-	@Override
-	public boolean isEnableApiPing() {
-		return true;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getMaterialsAPIurl()
 	 */

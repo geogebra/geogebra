@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
@@ -130,7 +129,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
@@ -269,10 +267,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		setupHeader();
 
-		if (!showMenuBar() && Browser.runningLocal() && ae.isEnableApiPing()) {
-			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
-					.checkAvailable(null);
-		}
 		startActivity();
 	}
 
@@ -302,15 +296,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	private void setupSignInButton(GlobalHeader header) {
 		if (getLoginOperation() == null) {
-			initSignImEventFlow();
+			initSignInEventFlow(new LoginOperationW(this));
 		}
 		header.addSignIn(this);
-	}
-
-	private void initSignImEventFlow() {
-		initSignInEventFlow(
-				new LoginOperationW(this),
-				getArticleElement().isEnableApiPing());
 	}
 
 	@Override
@@ -852,8 +840,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			doOpenMaterial(id, onError);
 		} else {
 			if (getLoginOperation() == null) {
-				this.initSignInEventFlow(new LoginOperationW(this),
-						getArticleElement().isEnableApiPing());
+				this.initSignInEventFlow(new LoginOperationW(this));
 			}
 			toOpen = id;
 			// not logged in to Mebis while opening shared link: show login

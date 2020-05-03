@@ -91,8 +91,7 @@ public class OpenFileView extends MyHeaderPanel
 		this.app = app;
 		this.openFileBtn = openFileButton;
 		if (this.app.getLoginOperation() == null) {
-			this.app.initSignInEventFlow(new LoginOperationW(app),
-					true);
+			this.app.initSignInEventFlow(new LoginOperationW(app));
 		}
 		this.app.getLoginOperation().getView().add(this);
 		app.registerOpenFileListener(this);
