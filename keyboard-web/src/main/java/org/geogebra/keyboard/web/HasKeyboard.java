@@ -32,7 +32,7 @@ public interface HasKeyboard {
 	void updateViewSizes();
 
 	/**
-	 * true if in whiteboard, where keyboard is used for equation editor
+	 * @return true if in whiteboard, where keyboard is used for equation editor
 	 */
 	boolean attachedToEqEditor();
 }
