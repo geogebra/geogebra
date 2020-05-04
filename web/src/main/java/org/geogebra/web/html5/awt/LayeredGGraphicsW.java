@@ -13,7 +13,7 @@ public class LayeredGGraphicsW extends GGraphics2DW {
 	public LayeredGGraphicsW(Canvas canvas) {
 		super(canvas);
 		Style style = canvas.getCanvasElement().getStyle();
-		style.setPosition(Style.Position.ABSOLUTE);
+		style.setPosition(Style.Position.RELATIVE);
 	}
 
 	/**
