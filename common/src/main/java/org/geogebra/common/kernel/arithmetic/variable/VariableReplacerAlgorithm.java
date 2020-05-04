@@ -50,14 +50,9 @@ public class VariableReplacerAlgorithm {
 	public ExpressionValue replace(String expressionString) {
 		this.expressionString = expressionString;
 
-		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
-		if (expressionString.endsWith("'")
-				&& kernel.getAlgebraProcessor().enableStructures()) {
-
-			ExpressionValue ret = derivativeCreator.getDerivative(expressionString);
-			if (ret != null) {
-				return ret;
-			}
+		ExpressionValue derivative = getDerivative(expressionString);
+		if (derivative != null) {
+			return derivative;
 		}
 
 		exponents.initWithZero();
@@ -66,6 +61,7 @@ public class VariableReplacerAlgorithm {
 		if (geo != null) {
 			return geo;
 		}
+
 		nameNoX = expressionString;
 		int degPower = 0;
 		while (nameNoX.length() > 0 && (geo == null)
@@ -106,6 +102,14 @@ public class VariableReplacerAlgorithm {
 		}
 
 		return ret;
+	}
+
+	private ExpressionValue getDerivative(String expressionString) {
+		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
+		return expressionString.endsWith("'")
+				&& kernel.getAlgebraProcessor().enableStructures()
+				? derivativeCreator.getDerivative(expressionString)
+				: null;
 	}
 
 	private ExpressionValue processInReverse() {
