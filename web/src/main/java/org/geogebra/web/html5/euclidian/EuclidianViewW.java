@@ -65,6 +65,7 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
@@ -172,7 +173,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype()
 			.newBasicStroke(3, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_BEVEL);
 	/** cache for bottom layers */
-	private boolean cacheGraphics;
+	private ImageData cacheGraphics;
 
 	/**
 	 * @param euclidianViewPanel
@@ -315,11 +316,12 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	public final void doRepaint2() {
 		long time = System.currentTimeMillis();
-		if (!cacheGraphics) {
+		if (cacheGraphics == null) {
 			g2p.resetLayer();
 			updateBackgroundIfNecessary();
 			paint(g2p);
 		} else {
+			g2p.getContext().putImageData(cacheGraphics, 0, 0);
 			getEuclidianController().getPen().repaintIfNeeded(g2p);
 		}
 		// if we have pen tool in action
@@ -1779,7 +1781,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void invalidateCache() {
-		cacheGraphics = false;
+		cacheGraphics = null;
 	}
 
 	/**
@@ -1787,7 +1789,6 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public void cacheGraphics() {
-		cacheGraphics = true;
+		cacheGraphics = g2p.getContext().getImageData(0, 0, getWidth(), getHeight());
 	}
-
 }
