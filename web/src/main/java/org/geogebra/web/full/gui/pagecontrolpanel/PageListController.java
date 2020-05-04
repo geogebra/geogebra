@@ -150,7 +150,6 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	@Override
 	public String exportPDF() {
-
 		// export scale
 		double scale = 1;
 
@@ -159,6 +158,9 @@ public class PageListController implements PageListControllerInterface,
 		// assume height/width same for all slides
 		int width = (int) Math.floor(ev.getExportWidth() * scale);
 		int height = (int) Math.floor(ev.getExportHeight() * scale);
+
+		int currentIndex = selectedCard.getPageIndex();
+		savePreviewCard(selectedCard);
 
 		Context2d ctx = PDFEncoderW.getContext(width, height);
 
@@ -176,7 +178,7 @@ public class PageListController implements PageListControllerInterface,
 		for (int i = 0; i < n; i++) {
 
 			try {
-				loadPage(i);
+				loadSlide(i);
 
 				ev = app.getEuclidianView1();
 
@@ -193,8 +195,9 @@ public class PageListController implements PageListControllerInterface,
 		}
 
 		app.setExporting(ExportType.NONE, 1);
-		return PDFEncoderW.getPDF(ctx);
+		loadSlide(currentIndex);
 
+		return PDFEncoderW.getPDF(ctx);
 	}
 
 	/**
