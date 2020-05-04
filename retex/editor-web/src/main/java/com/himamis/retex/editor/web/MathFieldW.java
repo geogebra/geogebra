@@ -54,6 +54,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
+import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.editor.MathField;
@@ -843,6 +844,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void insertString(String text) {
 		KeyboardInputAdapter.insertString(mathFieldInternal, text);
+	}
+
+	/**
+	 * add derivative and move cursor back before /
+	 * @param text - d/dx
+	 */
+	public void handleDerivative(String text) {
+		insertString(text);
+		EditorState editorState = mathFieldInternal.getEditorState();
+		editorState.setCurrentOffset(editorState.getCurrentOffset() - 3);
 	}
 
 	private Element getHiddenTextArea() {
