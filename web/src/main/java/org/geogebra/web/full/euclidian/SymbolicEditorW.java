@@ -71,6 +71,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		return editor.getKeyboardListener();
 	}
 
+	@Override
 	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
 		editor.setVisible(true);
