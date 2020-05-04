@@ -196,6 +196,11 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	}
 
 	@Override
+	public boolean attachedToEqEditor() {
+		return false;
+	}
+
+	@Override
 	public AlgebraView getAlgebraView() {
 		return null;
 	}
