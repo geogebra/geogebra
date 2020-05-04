@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrinterMapBuilder;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -89,7 +88,7 @@ public class MyVecNode extends ValidExpression
 				y.deepCopy(kernel1));
 		ret.setMode(mode);
 		if (isCASVector()) {
-			ret.setCASVector();
+			ret.setupCASVector();
 		}
 		return ret;
 	}
@@ -289,8 +288,9 @@ public class MyVecNode extends ValidExpression
 	}
 
 	@Override
-	public void setCASVector() {
+	public void setupCASVector() {
 		isCASVector = true;
+		setVectorPrintingMode();
 	}
 
 	@Override
@@ -373,14 +373,7 @@ public class MyVecNode extends ValidExpression
 	}
 
 	@Override
-	public void setLabel(String label) {
-		super.setLabel(label);
-		if (isVectorLabel(label)) {
-			stringifier.setPrintingMode(VectorPrintingMode.Vector);
-		}
-	}
-
-	private boolean isVectorLabel(String label) {
-		return label != null && StringUtil.isLowerCase(label.charAt(0));
+	public void setVectorPrintingMode() {
+		stringifier.setPrintingMode(VectorPrintingMode.Vector);
 	}
 }

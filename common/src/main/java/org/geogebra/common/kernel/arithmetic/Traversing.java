@@ -339,11 +339,11 @@ public interface Traversing {
 					ExpressionValue unwrapped = en.unwrap();
 					if (unwrapped instanceof MyVecNode) {
 						MyVecNode vecNode = (MyVecNode) unwrapped;
-						vecNode.setCASVector();
+						vecNode.setupCASVector();
 						return vecNode;
 					} else if (unwrapped instanceof MyVec3DNode) {
 						MyVec3DNode vec3DNode = (MyVec3DNode) unwrapped;
-						vec3DNode.setCASVector();
+						vec3DNode.setupCASVector();
 						return vec3DNode;
 					}
 				}

@@ -196,7 +196,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (value != null
 				&& value.unwrap() instanceof MyVecNDNode
 				&& algebraProcessor.hasVectorLabel(this)) {
-			((MyVecNDNode) value.unwrap()).setCASVector();
+			((MyVecNDNode) value.unwrap()).setupCASVector();
 		}
 	}
 
@@ -648,13 +648,15 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	@Override
 	public boolean isGeoVector() {
-		return twinGeo != null && twinGeo.isGeoVector();
+		return twinGeo != null
+				? twinGeo.isGeoVector()
+				: getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return twinGeo != null
 				? twinGeo.toLaTeXString(symbolic, tpl)
-				: super.toLaTeXString(symbolic, tpl);
+				: symbolic ? getDefinition(tpl) : toValueString(tpl);
 	}
 }
