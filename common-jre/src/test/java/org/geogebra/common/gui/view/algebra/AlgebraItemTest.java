@@ -24,7 +24,7 @@ public class AlgebraItemTest extends BaseUnitTest {
     private void testShouldShowBothRowsInGraphing() {
         getApp().setGraphingConfig();
 
-        checkShouldShowBothRowsForLine(false);
+        checkShouldShowBothRowsForLine(true);
         checkShouldShowBothRowsForFitLine(true);
     }
 

@@ -12,12 +12,16 @@ public class ProtectiveGeoElementValueConverterTest extends BaseUnitTest {
 
 	@Test
 	public void testHidesCommandInput() {
-		assertConverts("f=Line((1,2), (3,4))", "(Line((1, 2), (3, 4)))");
 		assertConverts("c=Circle((0,0), 2)", "(Circle((0, 0), 2))");
-		assertConverts("g=f", "(f)");
-		assertConverts("h=g", "(g)");
 		assertConverts("j=c", "(c)");
 		assertConverts("k=j", "(j)");
+	}
+
+	@Test
+	public void testShowCommandInput() {
+		assertConverts("f=Line((1,2), (3,4))", "(-x + y = 1)");
+		assertConverts("g=f", "(-x + y = 1)");
+		assertConverts("h=g", "(-x + y = 1)");
 	}
 
 	private void assertConverts(String input, String expected) {
