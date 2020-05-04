@@ -3238,6 +3238,7 @@ __GGB__keysVar["lt"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "Dekarto",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "pagal laikrod\u017eio rodykl\u0119",
     "counterClockwise": "prie\u0161 laikrod\u017eio rodykl\u0119",
     "dependent": "priklausomas",

@@ -1,6 +1,7 @@
 package org.geogebra.common.io;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -48,16 +49,26 @@ public class EditorTypingTest {
 		checker.checkEditorInsert("12345", "12345");
 		checker.checkEditorInsert("1/2/3/4", "1/2/3/4");
 		checker.checkEditorInsert("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
+	}
 
+	@Test
+	public void absShouldBePrefixedBySpace() {
 		// typing second | starts another abs() clause
-		checker.checkEditorInsert("3|x", "3*abs(x)");
-		checker.checkEditorInsert("3 |x", "3 *abs(x)");
+		checker.checkEditorInsert("3|x", "3 abs(x)");
+		checker.checkEditorInsert("3 |x", "3 abs(x)");
 		checker.checkEditorInsert("3*|x", "3*abs(x)");
-		checker.checkEditorInsert("x|xx", "x*abs(xx)");
-		checker.checkEditorInsert("x |x x", "x *abs(x x)");
+		checker.checkEditorInsert("x|xx", "x abs(xx)");
+		checker.checkEditorInsert("x |x x", "x abs(x x)");
 		checker.checkEditorInsert("x*|x*x", "x*abs(x*x)");
 		checker.checkEditorInsert("x sqrt(x)", "x sqrt(x)");
-		checker.checkEditorInsert("x" + Unicode.SQUARE_ROOT + "x+1", "x*sqrt(x+1)");
+		checker.checkEditorInsert("x" + Unicode.SQUARE_ROOT + "x+1", "x sqrt(x+1)");
+		checker.checkEditorInsert("ln|x+6", "ln abs(x+6)");
+		checker.checkEditorInsert("ln|x+6", "ln abs(x+6)");
+	}
+
+	@Test
+	public void testLnAbs() {
+		checker.type("ln|x+6").checkGGBMath("ln(abs(x + 6))");
 	}
 
 	@Test
@@ -277,6 +288,12 @@ public class EditorTypingTest {
 		checker.type("8" + Unicode.DIVIDE).typeKey(JavaKeyCodes.VK_BACK_SPACE)
 				.type(Unicode.DIVIDE + "2")
 				.checkAsciiMath("8/2");
+	}
+
+	@Test
+	public void spaceAfterTrigShouldAddBrackets() {
+		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
+		checker.type("sin 9x").checkAsciiMath("sin(9x)");
 	}
 
 	@Test

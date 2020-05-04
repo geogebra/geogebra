@@ -3238,6 +3238,7 @@ __GGB__keysVar["es-ES"].menu = {
     "bulletList": "Lista de vi\xf1etas",
     "cartesian": "Cartesiano",
     "cas_tutorials": "ceggwppn",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "sentido horario",
     "counterClockwise": "sentido antihorario",
     "dependent": "dependiente",

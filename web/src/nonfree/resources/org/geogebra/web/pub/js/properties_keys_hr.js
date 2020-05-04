@@ -3238,6 +3238,7 @@ __GGB__keysVar["hr"].menu = {
     "bulletList": "Popis s grafi\u010dkim oznakama",
     "cartesian": "Kartezijev",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "u smjeru kazaljke na satu",
     "counterClockwise": "suprotno smjeru kazaljke na satu",
     "dependent": "zavisna",

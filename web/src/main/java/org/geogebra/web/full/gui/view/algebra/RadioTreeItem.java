@@ -39,7 +39,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1668,7 +1668,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		FactoryProvider.setInstance(new FactoryProviderGWT());
 
-		mf = new MathFieldW(new FormatConverterImpl(kernel), latexItem, canvas,
+		mf = new MathFieldW(new SyntaxAdapterImpl(kernel), latexItem, canvas,
 				getLatexController(),
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		mf.setFocusHandler(app.getGlobalKeyDispatcher().getFocusHandler());

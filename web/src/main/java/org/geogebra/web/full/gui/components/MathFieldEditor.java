@@ -8,14 +8,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
-import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -75,9 +74,10 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	private void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
+
 		MetaModel model = new MetaModel();
 		model.enableSubstitutions();
-		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
+		mathField = new MathFieldW(new SyntaxAdapterImpl(kernel), main,
 				canvas, listener,
 				directFormulaConversion, model);
 		mathField.setFocusHandler(this);
@@ -270,7 +270,11 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	}
 
 	public void setVisible(boolean visible) {
-		Dom.toggleClass(main, "hidden", !visible);
+		main.setVisible(visible);
+	}
+
+	public boolean isVisible() {
+		return main.isVisible();
 	}
 
 	/**

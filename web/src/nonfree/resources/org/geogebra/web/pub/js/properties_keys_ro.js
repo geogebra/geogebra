@@ -3238,6 +3238,7 @@ __GGB__keysVar["ro"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "Cartezian",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "sensul acelor de ceasornic",
     "counterClockwise": "Contor sensul acelor de ceasornic",
     "dependent": "dependent",

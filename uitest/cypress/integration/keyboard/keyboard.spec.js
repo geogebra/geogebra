@@ -4,9 +4,6 @@ import {selectors} from '@geogebra/web-test-harness/selectors'
 describe('Keyboard ANS button test', () => {
     beforeEach(() => {
         cy.visit('graphing.html');
-        cy.window().then((win) => {
-             win.PointerEvent = null;
-        });
         cy.get("body.application");
     });
 

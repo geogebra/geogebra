@@ -236,51 +236,6 @@ public interface Traversing {
 	}
 
 	/**
-	 * Replaces asin(0.5) with asind(0.5)
-	 *
-	 */
-	public class ArcTrigReplacer implements Traversing {
-
-		private static ArcTrigReplacer replacer = new ArcTrigReplacer();
-
-		@Override
-		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ev;
-				Operation op = en.getOperation();
-				Operation newOp = null;
-
-				switch (op) {
-				default:
-					// do nothing
-					break;
-				case ARCSIN:
-					newOp = Operation.ARCSIND;
-					break;
-				case ARCCOS:
-					newOp = Operation.ARCCOSD;
-					break;
-				case ARCTAN:
-					newOp = Operation.ARCTAND;
-					break;
-				}
-
-				if (newOp != null) {
-					en.setOperation(newOp);
-				}
-			}
-			return ev;
-		}
-
-		/**
-		 * @return replacer
-		 */
-		public static ArcTrigReplacer getReplacer() {
-			return replacer;
-		}
-	}
-
-	/**
 	 * Replaces sin(x) with sin(x deg) GGB-2183 eg Solve(sin(x)=1/2)
 	 *
 	 */

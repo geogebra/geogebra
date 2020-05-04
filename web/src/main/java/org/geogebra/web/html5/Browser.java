@@ -166,12 +166,8 @@ public class Browser {
 		return !iOS && !!$wnd.WebAssembly;
 	}-*/;
 
-	public static native boolean supportsPointerEvents(boolean usePen)/*-{
-		//$wnd.console.log("PEN SUPPORT" + usePen + "," + (!!$wnd.PointerEvent));
-		if (usePen && $wnd.PointerEvent) {
-			return true;
-		}
-		return $wnd.navigator.msPointerEnabled ? true : false;
+	public static native boolean supportsPointerEvents() /*-{
+		return !!$wnd.PointerEvent;
 	}-*/;
 
 	private static boolean isHTTP() {

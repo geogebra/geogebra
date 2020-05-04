@@ -2,8 +2,9 @@ package org.geogebra.common.util;
 
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.plugin.Operation;
 
-import com.himamis.retex.editor.share.editor.FormatConverter;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
@@ -17,7 +18,7 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  * @author michael
  *
  */
-public class FormatConverterImpl implements FormatConverter {
+public class SyntaxAdapterImpl implements SyntaxAdapter {
 
 	private Kernel kernel;
 
@@ -25,7 +26,7 @@ public class FormatConverterImpl implements FormatConverter {
 	 * @param kernel
 	 *            Kernel
 	 */
-	public FormatConverterImpl(Kernel kernel) {
+	public SyntaxAdapterImpl(Kernel kernel) {
 		this.kernel = kernel;
 	}
 
@@ -71,6 +72,12 @@ public class FormatConverterImpl implements FormatConverter {
 		}
 
 		return exp;
+	}
+
+	@Override
+	public boolean isFunction(String casName) {
+		Operation operation = kernel.getApplication().getParserFunctions().get(casName, 1);
+		return operation != null && casName.length() > 1;
 	}
 
 }

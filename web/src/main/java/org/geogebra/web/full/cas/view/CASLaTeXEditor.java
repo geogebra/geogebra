@@ -6,7 +6,7 @@ import java.util.List;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.GuiManagerW;
@@ -70,7 +70,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		this.app = (AppWFull) app;
 		this.controller = controller;
 		canvas = Canvas.createIfSupported();
-		mf = new MathFieldW(new FormatConverterImpl(app.getKernel()), this,
+		mf = new MathFieldW(new SyntaxAdapterImpl(app.getKernel()), this,
 				canvas, this,
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		mf.setFocusHandler(app.getGlobalKeyDispatcher().getFocusHandler());

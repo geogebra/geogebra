@@ -3238,6 +3238,7 @@ __GGB__keysVar["it"].menu = {
     "bulletList": "Elenco puntato",
     "cartesian": "Cartesiane",
     "cas_tutorials": "qdcjtns3",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "orario",
     "counterClockwise": "antiorario",
     "dependent": "dipendente",

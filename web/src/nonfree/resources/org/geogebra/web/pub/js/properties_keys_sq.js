@@ -3238,6 +3238,7 @@ __GGB__keysVar["sq"].menu = {
     "bulletList": "Bullet list",
     "cartesian": "Kartezian",
     "cas_tutorials": "mxtyvd22",
+    "classroom_tutorial": "hncrgruu",
     "clockwise": "Orar",
     "counterClockwise": "Kunder-Orar",
     "dependent": "i Varur",
