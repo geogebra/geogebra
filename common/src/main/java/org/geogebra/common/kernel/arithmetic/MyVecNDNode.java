@@ -12,6 +12,11 @@ public interface MyVecNDNode extends ExpressionValue, ReplaceChildrenByValues {
 	public boolean isCASVector();
 
 	/**
+	 * Set this vector to CAS
+	 */
+	public void setCASVector();
+
+	/**
 	 * @return 2 or 3
 	 */
 	public int getDimension();

@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.fontmenu;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.web.html5.gui.laf.FontFamily;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;

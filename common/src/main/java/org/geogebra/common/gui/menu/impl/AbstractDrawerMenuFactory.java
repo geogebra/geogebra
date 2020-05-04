@@ -28,6 +28,8 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 				return "GeoGebraGeometry";
 			case NOTES:
 				return "GeoGebraNotes";
+			case SUITE:
+				return "GeoGebraCalculatorSuite";
 			default:
 				return null;
 		}

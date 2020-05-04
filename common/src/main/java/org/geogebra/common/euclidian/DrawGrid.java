@@ -50,21 +50,17 @@ public class DrawGrid {
 		}
 	}
 
-	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
-			double yCrossPix1, boolean subGrid) {
-
-		double xCrossPix = xCrossPix1;
-		double yCrossPix = yCrossPix1;
+	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix,
+			double yCrossPix, boolean subGrid) {
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getYZero() % tickStepY;
- 		double smallStep;
 		int topSubGrids = 0;
 
 		// number of parts splitted by subgrids
 		int n = 1;
 		if (subGrid) {
 			n = 5;
-			smallStep = tickStepY / n;
+			double smallStep = tickStepY / n;
 			//start of subgrids
 			start = view.getYZero() % smallStep;
 			//start of grids
@@ -145,36 +141,23 @@ public class DrawGrid {
 	}
 
 	private void drawVerticalGridLinear(GGraphics2D g2, double xCrossPix,
-			double yCrossPix1, boolean subGrid) {
-
-		double yCrossPix = yCrossPix1;
-
+			double yCrossPix, boolean subGrid) {
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
-		double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
-				? xCrossPix + (((view.getXZero() - xCrossPix) % tickStepX)
-						+ tickStepX) % tickStepX
-				: (view.getXZero() % tickStepX);
-
-		double smallStep;
+		double xAxisStartMajor = getFirstVisibleVerticalLineX(xCrossPix, tickStepX);
+		double xAxisStart = xAxisStartMajor;
 		int leftSubGrids = 0;
 
 		// number of parts splitted by subgrids
 		int n = 1;
 		if (subGrid) {
 			n = 5;
-			smallStep = tickStepX / n;
+			double smallStep = tickStepX / n;
 			// start of subgrids
-			xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
-					? xCrossPix + (((view.getXZero() - xCrossPix) % smallStep)
-							+ smallStep) % smallStep
-					: (view.getXZero() % smallStep);
-			// start of grids
-			double start2 = view.getXZero() % tickStepX;
+			xAxisStart = getFirstVisibleVerticalLineX(xCrossPix, smallStep);
 			// number of subgrids on the left
-			leftSubGrids = view.positiveAxes[0] ? 0
-					: Math
-					.round((float) ((start2 - xAxisStart) / smallStep));
+			leftSubGrids = Math
+					.round((float) ((xAxisStartMajor - xAxisStart) / smallStep));
 		}
 
 		final double yAxisEnd = (view.positiveAxes[1]
@@ -206,6 +189,13 @@ public class DrawGrid {
 			pix = xAxisStart + (i * tickStepX / n);
 		}
 		g2.endAndDrawGeneralPath();
+	}
+
+	private double getFirstVisibleVerticalLineX(double xCrossPix, double stepX) {
+		return (view.positiveAxes[0] && xCrossPix > 0)
+				? xCrossPix + (((view.getXZero() - xCrossPix) % stepX)
+				+ stepX) % stepX
+				: (view.getXZero() % stepX);
 	}
 
 	private void drawVerticalGridLine(GGraphics2D g2, double pix, double bottom,

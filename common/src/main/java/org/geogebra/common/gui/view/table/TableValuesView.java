@@ -154,26 +154,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void updateModelValues() {
-		double[] values = calculateValues();
-		model.setValues(values);
-	}
-
-	private double[] calculateValues() {
-		double[] values;
-		if (getValuesMin() == getValuesMax()) {
-			values = new double[] { getValuesMin() };
-		} else {
-			double stepsDouble = (getValuesMax() - getValuesMin())
-					/ getValuesStep();
-			int stepsInt = (int) stepsDouble;
-			int steps = DoubleUtil.isInteger(stepsDouble) ? stepsInt : stepsInt + 1;
-			values = new double[steps + 1];
-			values[steps] = getValuesMax();
-			for (int i = 0; i < steps; i++) {
-				values[i] = getValuesMin() + i * getValuesStep();
-			}
-		}
-		return values;
+		model.setValues(DoubleUtil.range(getValuesMin(), getValuesMax(), getValuesStep()));
 	}
 
 	@Override

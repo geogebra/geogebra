@@ -18,9 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
-import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.GeoElementConvertable;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Interface for elements with numeric value (numerics, segments, polygons, ...)
@@ -28,7 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * @author Markus
  */
-public interface NumberValue extends ExpressionValue {
+public interface NumberValue extends ExpressionValue, GeoElementConvertable {
 	/**
 	 * @return MyDouble whose value equals #getDouble()
 	 */
@@ -58,11 +57,4 @@ public interface NumberValue extends ExpressionValue {
 	 */
 	public String getLabel(StringTemplate tpl);
 
-	/**
-	 * 
-	 * @param cons
-	 *            construction for the new GeoNumeric
-	 * @return GeoNumeric for MyDoubles, self otherwise
-	 */
-	public GeoElement toGeoElement(Construction cons);
 }

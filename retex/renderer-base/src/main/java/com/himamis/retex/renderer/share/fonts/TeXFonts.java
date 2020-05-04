@@ -130,7 +130,7 @@ public final class TeXFonts {
 		cmssbx10.setDependencies(null, cmbx10, null, cmtt10, cmbxti10);
 		cmssi10.setDependencies(cmssbx10, cmti10, null, cmtt10, null);
 		cmsy10.setDependencies(cmbsy10, null, null, null, null);
-		cmti10.setDependencies(cmbxti10, cmr10, cmssi10, cmtt10, null);
+		cmti10.setDependencies(cmbxti10, cmr10, cmss10, cmtt10, null);
 		cmti10_unchanged.setDependencies(cmbxti10, null, null, null, null);
 		cmtt10.setDependencies(null, null, null, null, null);
 		dsrom10.setDependencies(null, null, null, null, null);

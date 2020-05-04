@@ -11,10 +11,10 @@ import jsinterop.annotations.JsType;
 @JsType
 class NativePointerEvent {
 	@JsProperty
-	public native double getX();
+	public native double getClientX();
 
 	@JsProperty
-	public native double getY();
+	public native double getClientY();
 
 	@JsProperty
 	public native double getPointerId();

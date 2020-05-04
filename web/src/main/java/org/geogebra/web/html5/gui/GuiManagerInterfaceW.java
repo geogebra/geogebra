@@ -165,6 +165,11 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void menuToGlobalHeader();
 
 	/**
+	 * Initializes the share button in the global header.
+	 */
+	void initShareActionInGlobalHeader();
+
+	/**
 	 * Creates and adds a symbolic editor to the panel.
 	 *
 	 * @return the editor

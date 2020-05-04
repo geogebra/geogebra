@@ -47,7 +47,7 @@ public class AlgoFitLineX extends AlgoElement {
 		g = new GeoLine(cons);
 		// ignore default (implicit)
 		// for FitXXX we always want "y=..."
-		g.setToExplicit();
+		g.setMode(GeoLine.EQUATION_EXPLICIT, true);
 
 		setInputOutput(); // for AlgoElement
 

@@ -12,10 +12,10 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.commands;
 
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
-import com.himamis.retex.editor.share.util.Unicode;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
+
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoDependentVector;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLaTeX;
+import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -58,7 +59,6 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.Traversing.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
@@ -125,9 +125,9 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Processes algebra input as Strings and valid expressions into GeoElements
@@ -1102,6 +1102,10 @@ public class AlgebraProcessor {
 		return -1;
 	}
 
+	/**
+	 * Changes "s i n x" to "sin(x)" (needed for evalMathml) and processes the expression.
+	 * @return processed expression
+	 */
 	private GeoElementND[] tryReplacingProducts(ValidExpression ve,
 			ErrorHandler eh, EvalInfo info) {
 		ValidExpression ve2 = (ValidExpression) ve.traverse(new Traversing() {
@@ -1113,7 +1117,7 @@ public class AlgebraProcessor {
 					String lt = ((ExpressionNode) ev).getLeft()
 							.toString(StringTemplate.defaultTemplate)
 							.replace(" ", "");
-					Operation op = app.getParserFunctions().get(lt, 1);
+					Operation op = app.getParserFunctions().getSingleArgumentOp(lt);
 					if (op != null) {
 						return new ExpressionNode(kernel,
 								((ExpressionNode) ev).getRight().traverse(this),
@@ -3124,9 +3128,6 @@ public class AlgebraProcessor {
 		}
 		if (ret instanceof HasExtendedAV) {
 			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
-			if (ret instanceof GeoNumeric) {
-				setupSlider((GeoNumeric) ret);
-			}
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
@@ -3136,18 +3137,6 @@ public class AlgebraProcessor {
 		}
 
 		return array(ret);
-	}
-
-	private void setupSlider(GeoNumeric numeric) {
-		if (app.getConfig().hasAutomaticSliders()
-				&& !numeric.isEuclidianVisible()
-				&& AlgebraItem.shouldShowSlider(numeric)
-				&& numeric.isVisible()
-				&& numeric.showInAlgebraView()
-				&& numeric.isSetAlgebraVisible()) {
-			numeric.setEuclidianVisible(true);
-			numeric.setEuclidianVisible(false);
-		}
 	}
 
 	/**

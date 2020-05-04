@@ -142,6 +142,7 @@ import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
+import org.geogebra.common.jre.main.TemplateHelper;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -4892,12 +4893,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		AppD ad = newAppForTemplateOrInsertFile();
 
 		// now, we have to load the file into AppD
-		ad.getGuiManager().loadFile(file, false);
+		ad.loadFile(file, false);
 
-		setLabelingStyle(ad.getLabelingStyle());
-		getKernel().setConstructionDefaults(ad.getKernel());
-		getKernel().setVisualStyles(ad.getKernel());
-		getKernel().updateConstruction(true);
+		new TemplateHelper(this).applyTemplate(ad);
 
 		// almost forgotten something important!
 		// ad should be closed!

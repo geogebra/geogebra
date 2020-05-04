@@ -83,7 +83,7 @@ ext.appSpecs = [
     [id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976'],
     [id:'cas', title:'CAS Calculator', transKey:'CASCalculator',
         exe:'GeoGebraCAS', pkg:'GeoGebra_CAS',  releases: 'Releases-cas', icon: 'CAS.ico', appStoreId:'1436278267'],
-    [id:'calculator', title:'Scientific Calculator', transKey:'ScientificCalculator',
+    [id:'scientific', title:'Scientific Calculator', transKey:'ScientificCalculator',
         partials:["undo-redo"], appStoreId:'1412748754'],
     [id:'geometry', title:'Geometry', transKey:'Geometry',
         exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', appStoreId:'1232591335'],
@@ -181,21 +181,23 @@ task copyHtml {
 
 task copyHandlebars {
     doLast {
+        def handlebarsDir = project.getProperty("handlebarsDir")
         appSpecs.each { app ->
             def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
-            def templatePath = project.getProperty("handlebarsDir") + "/${app.id}-template.handlebars"
+
+            def templatePath =  "${handlebarsDir}/${app.id}-template.handlebars"
             file(templatePath).text = handlebars(replaceHtml(app, false))
         }
+        String solver = solverHtml()
+        def solverPath = "${handlebarsDir}/solver-template.handlebars"
+        file(solverPath).text = handlebars(solver.replace("<!--APP TYPE-->", "solver"));
     }
 }
 
 task createSolverHtml {
     doLast {
         String solver = solverHtml()
-        // for server rendering
-        file("war/solver-template.html").text = solver.replace("<!--APP TYPE-->", "solver")
-        file("war/practice-template.html").text = solver.replace("<!--APP TYPE-->", "practice")
         // for localhost and autotest
         file("war/solver.html").text = solver
             .replace("<!--APP NAME-->", "Math Solver")

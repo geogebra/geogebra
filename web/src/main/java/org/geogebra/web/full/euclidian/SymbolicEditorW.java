@@ -1,5 +1,8 @@
 package org.geogebra.web.full.euclidian;
 
+import com.google.gwt.core.client.Scheduler;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
@@ -9,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.euclidian.InputBoxWidget;
+import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -17,33 +20,18 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
 /**
  * MathField-capable editor for EV, Web implementation.
  *
  * @author Laszlo
  */
-public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
-		InputBoxWidget, BlurHandler, ChangeHandler {
-
-	private final App app;
-	private final EuclidianViewW view;
-
-	private GeoInputBox geoInputBox;
-	private DrawInputBox drawInputBox;
+public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardListener,
+		BlurHandler, ChangeHandler {
 
 	private GRectangle bounds;
-	private String text;
 	private MathFieldEditor editor;
 	private final SymbolicEditorDecorator decorator;
-	private TeXSerializer serializer;
 
 	/**
 	 * Constructor
@@ -52,8 +40,7 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	 *            The application.
 	 */
 	public SymbolicEditorW(App app, EuclidianViewW view) {
-		this.app = app;
-		this.view = view;
+		super(app, view);
 		editor = new MathFieldEditor(app, this);
 		editor.addBlurHandler(this);
 		editor.getMathField().setChangeListener(this);
@@ -63,18 +50,20 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 				.getFontSettings().getAppFontSize() + 3;
 
 		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
-		serializer = new TeXSerializer();
 	}
 
 	@Override
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds,
-			AbsolutePanel parent) {
-		this.geoInputBox = geoInputBox;
-		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+		super.attach(geoInputBox, bounds);
 
 		this.bounds = bounds;
 		resetChanges();
-		editor.attach(parent);
+		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
+	}
+
+	@Override
+	public void repaintBox(GGraphics2D g2) {
+		// only in desktop
 	}
 
 	@Override
@@ -83,50 +72,45 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 	}
 
 	private void resetChanges() {
-		boolean wasEditing = drawInputBox.isEditing();
-		this.drawInputBox.setEditing(true);
+		getDrawInputBox().setEditing(true);
 		editor.setVisible(true);
-		decorator.update(bounds, geoInputBox);
-		editor.setKeyboardVisibility(true);
+		decorator.update(bounds, getGeoInputBox());
 
-		if (!wasEditing) {
-			updateText();
-			focus();
-		}
-
-		editor.setText(text);
-		editor.setLabel(geoInputBox.getAuralText());
-	}
-
-	private void updateText() {
-		text = geoInputBox.getTextForEditor().trim();
-		editor.setText(text);
-	}
-
-	private void focus() {
-		editor.focus();
+		editor.setText(getGeoInputBox().getTextForEditor());
+		editor.setLabel(getGeoInputBox().getAuralText());
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() {
+				editor.requestFocus();
+			}
+		});
 	}
 
 	@Override
 	public boolean isClicked(GPoint point) {
-		return drawInputBox.isEditing() && bounds.contains(point.getX(), point.getY());
+		return getDrawInputBox().isEditing() && bounds.contains(point.getX(), point.getY());
+	}
+
+	@Override
+	protected MathFieldInternal getMathFieldInternal() {
+		return editor.getMathField().getInternal();
 	}
 
 	@Override
 	public void hide() {
-		if (!drawInputBox.isEditing()) {
+		if (!getDrawInputBox().isEditing()) {
 			return;
 		}
 
 		applyChanges();
-		drawInputBox.setEditing(false);
+		getDrawInputBox().setEditing(false);
+		editor.setVisible(false);
+
 		AnimationScheduler.get()
 				.requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				view.doRepaint2();
-				editor.setVisible(false);
-				editor.setKeyboardVisibility(false);
+				((EuclidianViewW) view).doRepaint2();
 			}
 		});
 	}
@@ -136,52 +120,12 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		applyChanges();
 	}
 
-	private void applyChanges() {
-		setTempUserDisplayInput();
-		String editedText = editor.getText();
-		if (!editedText.trim().equals(text)) {
-			geoInputBox.updateLinkedGeo(editedText);
-		}
-	}
-
-	private void setTempUserDisplayInput() {
-		MathFieldInternal mathFieldInternal = editor.getMathField().getInternal();
-		MathFormula formula = mathFieldInternal.getFormula();
-		String latex = serializer.serialize(formula);
-		geoInputBox.setTempUserDisplayInput(latex);
-	}
-
 	@Override
 	public void onKeyTyped() {
 		decorator.update();
-		geoInputBox.update();
+		getGeoInputBox().update();
 		editor.scrollHorizontally();
 		editor.updateAriaLabel();
-	}
-
-	@Override
-	public void onCursorMove() {
-	 	// nothing to do.
-	}
-
-	@Override
-	public void onUpKeyPressed() {
-	 	// nothing to do.
-	}
-
-	@Override
-	public void onDownKeyPressed() {
-		// nothing to do.
-	}
-
-	@Override
-	public String serialize(MathSequence selectionText) {
-		return null;
-	}
-
-	@Override
-	public void onInsertString() {
-		// nothing to do.
 	}
 
 	@Override
@@ -196,11 +140,6 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 		hide();
 		app.getGlobalKeyDispatcher().handleTab(false, shiftDown);
 		app.getSelectionManager().nextFromInputBox();
-	}
-
-	@Override
-	public Widget asWidget() {
-		return editor.asWidget();
 	}
 
 	@Override

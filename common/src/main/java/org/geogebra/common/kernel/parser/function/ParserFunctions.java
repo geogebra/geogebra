@@ -72,4 +72,10 @@ public interface ParserFunctions {
 	 *            variants
 	 */
 	void setInverseTrig(boolean inverseTrig);
+
+	/**
+	 * @param leftImg function name
+	 * @return single argument operation other than x,y,z
+	 */
+	Operation getSingleArgumentOp(String leftImg);
 }

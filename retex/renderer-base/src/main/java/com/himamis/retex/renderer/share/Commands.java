@@ -1083,6 +1083,9 @@ public class Commands {
 			} else if (ch == 'C') {
 				// Chi
 				ch = 'X';
+			} else if (ch == 'R') {
+				// Rho
+				ch = 'P';
 			}
 			return "\\mathord{\\mathrm{" + ch + "}}";
 

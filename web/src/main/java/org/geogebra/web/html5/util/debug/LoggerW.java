@@ -121,7 +121,7 @@ public class LoggerW extends Log {
 	@Override
 	protected native void doPrintStacktrace(Throwable t)/*-{
 		if ($wnd.console && $wnd.console.trace) {
-			$wnd.console.trace(t);
+			$wnd.console.log(t["backingJsObject_1_g$"] || t);
 		}
 	}-*/;
 

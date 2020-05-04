@@ -42,7 +42,7 @@ public class AppsSubmenu extends Submenu {
 				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D_transparent());
 		addMenuItem("cas", "CASCalculator",
 				SvgPerspectiveResources.INSTANCE.menu_icon_cas_transparent());
-		addMenuItem("calculator", "ScientificCalculator",
+		addMenuItem("scientific", "ScientificCalculator",
 				MaterialDesignResources.INSTANCE.scientific());
 		addMenuItem("notes", "Notes",
 				SvgPerspectiveResources.INSTANCE.menu_icon_whiteboard_transparent());
