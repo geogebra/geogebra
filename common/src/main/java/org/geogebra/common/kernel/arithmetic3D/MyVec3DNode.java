@@ -105,7 +105,7 @@ public class MyVec3DNode extends ValidExpression
 				y.deepCopy(kernel1), z.deepCopy(kernel1));
 		ret.setMode(mode);
 		if (isCASVector()) {
-			ret.setCASVector();
+			ret.setupCASVector();
 		}
 
 		return ret;
@@ -328,8 +328,9 @@ public class MyVec3DNode extends ValidExpression
 	}
 
 	@Override
-	public void setCASVector() {
+	public void setupCASVector() {
 		isCASVector = true;
+		setVectorPrintingMode();
 	}
 
 	@Override
@@ -433,5 +434,10 @@ public class MyVec3DNode extends ValidExpression
 
 	private boolean isVectorLabel(String label) {
 		return label != null && StringUtil.isLowerCase(label.charAt(0));
+	}
+
+	@Override
+	public void setVectorPrintingMode() {
+		stringifier.setPrintingMode(VectorPrintingMode.Vector);
 	}
 }

@@ -87,6 +87,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -1023,16 +1024,31 @@ public class AlgebraProcessor {
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
-		setLabel(sym.getDefinition(), label);
-		sym.setLabel(label);
+		setLabel(sym, label);
 		return sym;
 	}
 
-	private void setLabel(ExpressionNode node, String label) {
-		node.setLabel(label);
-		ExpressionValue unwrapped = node.unwrap();
-		if (unwrapped instanceof ValidExpression) {
-			((ValidExpression) unwrapped).setLabel(label);
+	private void setLabel(GeoElement element, String label) {
+		ExpressionNode definition = element.getDefinition();
+		definition.setLabel(label);
+		element.setLabel(label);
+		ExpressionValue unwrappedDefinition = definition.unwrap();
+		if (unwrappedDefinition instanceof ValidExpression) {
+			((ValidExpression) unwrappedDefinition).setLabel(label);
+		}
+		if (element instanceof GeoSymbolic && isVectorLabel(label)) {
+			setVectorPrintingModeFor((GeoSymbolic) element);
+		}
+	}
+
+	private void setVectorPrintingModeFor(GeoSymbolic element) {
+		ExpressionValue unwrappedDefinition = element.getDefinition().unwrap();
+		if (unwrappedDefinition instanceof MyVecNode) {
+			((MyVecNode) unwrappedDefinition).setupCASVector();
+		}
+		ExpressionValue unwrappedValue = element.getValue().unwrap();
+		if (unwrappedValue instanceof MyVecNode) {
+			((MyVecNode) unwrappedValue).setupCASVector();
 		}
 	}
 

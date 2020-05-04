@@ -61,10 +61,7 @@ public class VectorNodeStringifier {
                     ? printerMap.get(VectorPrintingMode.Spherical)
                     : printerMap.get(VectorPrintingMode.Giac);
         } else {
-            return vector.isCASVector()
-                    && tpl.getStringType() == ExpressionNodeConstants.StringType.LATEX
-                    ? printerMap.get(VectorPrintingMode.CasLatex)
-                    : activePrinter;
+            return activePrinter;
         }
     }
 
