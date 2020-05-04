@@ -88,7 +88,8 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	public void cmdIntegralInfinite() {
 		t("f=Normal(50,3,x,false)",
-				"exp(((-(x - 50)^(2))) / ((3^(2) * 2))) / ((abs(3) * sqrt((3.141592653589793 * 2))))");
+				"exp(((-(x - 50)^(2))) / ((3^(2) * 2))) / ((abs(3) * sqrt((2 * "
+						+ Unicode.PI_STRING + "))))");
 		tRound("norm:=Integral[f,-inf,50 ]", "0.5");
 		tRound("nnorm:=Integral[f,50,inf ]", "0.5");
 	}

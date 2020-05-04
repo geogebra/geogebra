@@ -18,6 +18,11 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeSet;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
@@ -38,11 +43,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
 
 /**
  * AlgoElement is the superclass of all algorithms.
@@ -1249,7 +1249,8 @@ public abstract class AlgoElement extends ConstructionElement
 			sbAE.append(getInput(0).getLabel(tpl));
 		}
 		for (int i = 1; i < length; ++i) {
-			sbAE.append(", ");
+			sbAE.append(",");
+			tpl.appendOptionalSpace(sbAE);
 			appendCheckVector(sbAE, getInput(i), tpl);
 		}
 
@@ -1713,7 +1714,13 @@ public abstract class AlgoElement extends ConstructionElement
 		return isPrintedInXML;
 	}
 
-	@Override
+	/**
+	 * Returns string representation of this element
+	 *
+	 * @param tpl
+	 *            string template
+	 * @return e.g. "A=(1,2)"
+	 */
 	public String toString(StringTemplate tpl) {
 		return getDefinition(tpl);
 	}

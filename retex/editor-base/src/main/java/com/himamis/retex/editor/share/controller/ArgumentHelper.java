@@ -99,7 +99,8 @@ public class ArgumentHelper {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(currentOffset - 1);
-			if (character.isOperator() || character.isSeparator()) {
+			if (character.isOperator() || character.isSeparator()
+					|| ' ' == character.getUnicode()) {
 				break;
 			}
 			currentField.delArgument(currentOffset - 1);

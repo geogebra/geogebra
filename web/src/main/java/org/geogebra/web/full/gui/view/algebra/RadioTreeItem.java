@@ -1953,14 +1953,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public boolean onEditStart() {
 		String text;
 		if (geo == null) {
-			if (!getText().isEmpty()) {
-				text = getText();
-			} else {
-				text = "";
-			}
+			text = getText();
 		} else if (AlgebraItem.needsPacking(geo)) {
 			text = geo.getLaTeXDescriptionRHS(false,
-					StringTemplate.editTemplate);
+					StringTemplate.editorTemplate);
 		} else {
 			text = geo.getDefinitionForEditor();
 		}

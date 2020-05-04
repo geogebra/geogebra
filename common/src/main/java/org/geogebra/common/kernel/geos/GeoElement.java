@@ -693,21 +693,14 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public String getDefinitionForInputBar() {
-		return getNameAndDefinition();
-	}
-
-	/**
-	 * @return name and definition separated by colon
-	 */
-	public String getNameAndDefinition() {
-		return getDefinitionForInputBar(StringTemplate.editTemplate);
+		return getNameAndDefinition(StringTemplate.editTemplate);
 	}
 
 	/**
 	 * @return definition for LaTeX editor
 	 */
 	public String getDefinitionForEditor() {
-		return getNameAndDefinition();
+		return getNameAndDefinition(StringTemplate.editorTemplate);
 	}
 
 	/**
@@ -723,14 +716,17 @@ public abstract class GeoElement extends ConstructionElement
 		return ret;
 	}
 
-	private String getDefinitionForInputBar(StringTemplate stringTemplate) {
+	/**
+	 * @param stringTemplate template
+	 * @return name + assignment delimiter + definition
+	 */
+	public String getNameAndDefinition(StringTemplate stringTemplate) {
 		// for expressions like "3 = 2 A2 - A1"
 		// getAlgebraDescription() returns "3 = 5"
 		// so we need to use getCommandDescription() in those cases
 
 		String inputBarStr = getDefinition(stringTemplate);
 		if (!"".equals(inputBarStr)) {
-
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
 			// beware correct vars for f(t) = t + a
 			if (isAlgebraLabelVisible()) {
@@ -4144,7 +4140,7 @@ public abstract class GeoElement extends ConstructionElement
 			return toString(tpl);
 		}
 
-		return getAssignmentLHS(tpl) + " = ?";
+		return getAssignmentLHS(tpl) + tpl.getEqualsWithSpace() + "?";
 	}
 
 	/**

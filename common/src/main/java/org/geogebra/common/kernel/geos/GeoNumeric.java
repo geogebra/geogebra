@@ -615,7 +615,7 @@ public class GeoNumeric extends GeoElement
 		}
 
 		if (LabelManager.isShowableLabel(label)) {
-			return label + " = " + toValueString(tpl);
+			return label + tpl.getEqualsWithSpace() + toValueString(tpl);
 		} else {
 			return toValueString(tpl);
 		}
