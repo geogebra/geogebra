@@ -883,7 +883,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
 			return "ShapeRoundedRectangle";
 		case EuclidianConstants.MODE_SHAPE_POLYGON:
-			return "ShapePolygon";
+			return "Pentagon";
 		case EuclidianConstants.MODE_SHAPE_FREEFORM:
 			return "ShapeFreeform";
 		case EuclidianConstants.MODE_SHAPE_CIRCLE:
