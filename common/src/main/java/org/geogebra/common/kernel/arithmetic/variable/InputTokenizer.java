@@ -29,7 +29,7 @@ public class InputTokenizer {
 
 	private String getToken() {
 		if (noInputLeft()) {
-			return "";
+			return null;
 		}
 
 		if (isSingleCharOrLetterNext()) {
@@ -66,5 +66,9 @@ public class InputTokenizer {
 
 	private boolean noInputLeft() {
 		return input == null || input.length() == 0;
+	}
+
+	public String getInputRemaining() {
+		return input;
 	}
 }

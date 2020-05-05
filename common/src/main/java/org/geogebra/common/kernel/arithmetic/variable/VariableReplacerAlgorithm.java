@@ -48,6 +48,25 @@ public class VariableReplacerAlgorithm {
 	 */
 	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
+		ExpressionValue v = replace0(expressionString);
+		if (!(v instanceof Variable)) {
+			return v;
+		}
+		InputTokenizer tokenizer = new InputTokenizer(expressionString);
+		String next = tokenizer.next();
+		while (next != null) {
+			ExpressionValue v1 = replace0(next);
+			ExpressionValue v2 = replace0(tokenizer.getInputRemaining());
+			if (v1 != null && v2 != null && v1.isNumberValue()
+					&& v2.isNumberValue()) {
+				return v1.wrap().multiplyR(v2);
+			}
+			next = tokenizer.next();
+		}
+		return replace0(expressionString);
+	}
+
+	public ExpressionValue replace0(String expressionString) {
 		this.expressionString = expressionString;
 
 		ExpressionValue derivative = getDerivative(expressionString);
