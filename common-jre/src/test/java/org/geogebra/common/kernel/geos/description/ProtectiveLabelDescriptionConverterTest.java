@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +25,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
 	@Test
 	public void testDoesNotFilterCaption() {
+	    getApp().setConfig(new AppConfigGraphing());
 		String functionString = "g(x) = x";
 		GeoFunction function = addAvInput(functionString);
 		checkCaption(function, GeoElementND.LABEL_NAME_VALUE, functionString);
@@ -38,7 +40,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
 		String lineString = "line : Line((-2, 1), (1, 2))";
 		GeoLine geoLine = addAvInput(lineString);
-		checkCaption(geoLine, GeoElementND.LABEL_NAME_VALUE, "line: -x + 3y = 5");
+		checkCaption(geoLine, GeoElementND.LABEL_NAME_VALUE, "line: y = 0.33x + 1.67");
 
 		String dependentCopyString = "eq1 = c";
 		GeoConic line = addAvInput(dependentCopyString);

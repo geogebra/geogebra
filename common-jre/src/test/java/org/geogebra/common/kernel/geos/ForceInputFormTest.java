@@ -24,7 +24,7 @@ public class ForceInputFormTest extends BaseUnitTest {
         GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
         GeoRay geoRay = factory.createGeoRay();
 
-        Assert.assertEquals(GeoLine.EQUATION_USER, geoLine.getToStringMode());
+        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, geoLine.getToStringMode());
         Assert.assertEquals(GeoConic.EQUATION_USER, parabola.getToStringMode());
         Assert.assertEquals(GeoConic.EQUATION_USER, hyperbola.getToStringMode());
         Assert.assertEquals(GeoRay.EQUATION_USER, geoRay.getToStringMode());
