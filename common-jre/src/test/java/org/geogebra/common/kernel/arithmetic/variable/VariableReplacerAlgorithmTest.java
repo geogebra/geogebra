@@ -47,7 +47,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testFunctionProductsMul() {
-		shouldReplaceAs("xlnx", "x * log(x)");
+		shouldReplaceAs("xlnx", "x * log(x)");	
 		shouldReplaceAs("xsinx", "x * sin(x)");
 	}
 
