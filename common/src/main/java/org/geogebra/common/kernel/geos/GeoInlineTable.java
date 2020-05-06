@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -10,18 +11,33 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
-public class GeoInlineTable extends GeoElement implements TextStyle {
+public class GeoInlineTable extends GeoElement implements TextStyle, GeoInline {
 
 	private ArrayList<ArrayList<String>> contents = new ArrayList<>();
 	private boolean defined = true;
+
+	public static final int DEFAULT_WIDTH = 200;
+	public static final int DEFAULT_HEIGHT = 72;
+
+	private GPoint2D location;
+	private double width;
+	private double height;
+
+	private double minHeight;
 
 	/**
 	 * Creates new GeoElement for given construction
 	 *
 	 * @param c Construction
+	 *
+	 * @param location on-screen location
 	 */
-	public GeoInlineTable(Construction c) {
+	public GeoInlineTable(Construction c, GPoint2D location) {
 		super(c);
+		this.location = location;
+		this.width = DEFAULT_WIDTH;
+		this.height = DEFAULT_HEIGHT;
+		ensureSize(2, 2);
 	}
 
 	@Override
@@ -31,7 +47,7 @@ public class GeoInlineTable extends GeoElement implements TextStyle {
 
 	@Override
 	public GeoElement copy() {
-		GeoInlineTable copy = new GeoInlineTable(cons);
+		GeoInlineTable copy = new GeoInlineTable(cons,  new GPoint2D(location.getX(), location.getY()));
 		copy.set(this);
 		return copy;
 	}
@@ -107,6 +123,7 @@ public class GeoInlineTable extends GeoElement implements TextStyle {
 	@Override
 	public void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
+
 		sb.append("\t<table columns=\"");
 		sb.append(getColumns());
 		int counter = 0;
@@ -117,7 +134,9 @@ public class GeoInlineTable extends GeoElement implements TextStyle {
 				counter++;
 			}
 		}
-		sb.append("\"/>");
+		sb.append("\"/>\n");
+
+		XMLBuilder.appendPosition(sb, this);
 	}
 
 	/**
@@ -143,5 +162,60 @@ public class GeoInlineTable extends GeoElement implements TextStyle {
 	@Override
 	public double getFontSizeMultiplier() {
 		return GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
+	}
+
+	@Override
+	public double getHeight() {
+		return height;
+	}
+
+	@Override
+	public double getWidth() {
+		return width;
+	}
+
+	@Override
+	public double getAngle() {
+		return 0;
+	}
+
+	@Override
+	public GPoint2D getLocation() {
+		return location;
+	}
+
+	@Override
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	@Override
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+	@Override
+	public void setAngle(double angle) {
+		// nothing for now
+	}
+
+	@Override
+	public void setLocation(GPoint2D location) {
+		this.location = location;
+	}
+
+	@Override
+	public void setContent(String content) {
+		// nothing for now
+	}
+
+	@Override
+	public double getMinWidth() {
+		return DEFAULT_WIDTH;
+	}
+
+	@Override
+	public double getMinHeight() {
+		return Math.max(minHeight, DEFAULT_HEIGHT);
 	}
 }

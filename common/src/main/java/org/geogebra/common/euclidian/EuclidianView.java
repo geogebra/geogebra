@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -6409,9 +6408,5 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void embed(GGraphics2D g2, DrawWidget drawEmbed) {
 		//web only
-	}
-
-	public TableController createTableController(GeoInlineTable table) {
-		return null;
 	}
 }

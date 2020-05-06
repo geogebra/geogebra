@@ -69,7 +69,7 @@ public class DrawablesTest {
 		symbolic.setLabel("symbolic");
 		GeoInlineText text = new GeoInlineText(construction, new GPoint2D());
 		text.setLabel("inlinetext");
-		GeoInlineTable table = new GeoInlineTable(construction);
+		GeoInlineTable table = new GeoInlineTable(construction, new GPoint2D());
 		table.setLabel("table");
 		TreeSet<GeoClass> types = new TreeSet<>();
 		for (int i = 0; i < def.length; i++) {

@@ -5258,7 +5258,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
-			table(selectionPreview);
+			createInlineObject(selectionPreview, new GeoInlineFactory() {
+				@Override
+				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
+					return new GeoInlineTable(cons, location);
+				}
+			});
 			break;
 
 		case EuclidianConstants.MODE_EQUATION:
@@ -5407,15 +5412,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		return endOfSwitchModeForProcessMode(ret, changedKernel, callback,
 				selectionPreview);
-	}
-
-	protected void table(boolean selectionPreview) {
-		if (!selectionPreview) {
-			GeoInlineTable table = new GeoInlineTable(kernel.getConstruction());
-			table.ensureSize(2, 2);
-			table.setLabel(null);
-			selectAndShowBoundingBox(table);
-		}
 	}
 
 	public void showDynamicStylebar() {

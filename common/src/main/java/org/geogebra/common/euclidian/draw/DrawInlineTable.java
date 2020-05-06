@@ -1,17 +1,18 @@
 package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.TableController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 
-public class DrawInlineTable extends Drawable implements RemoveNeeded, HasFormat {
+public class DrawInlineTable extends Drawable implements DrawInline {
 
 	private final TableController tableController;
+	private GeoInlineTable table;
 
 	/**
 	 * @param view view
@@ -19,13 +20,25 @@ public class DrawInlineTable extends Drawable implements RemoveNeeded, HasFormat
 	 */
 	public DrawInlineTable(EuclidianView view, GeoInlineTable table) {
 		super(view, table);
-		update();
+		this.table = table;
 		tableController = view.getApplication().createTableController(view, table);
+		update();
 	}
 
 	@Override
 	public void update() {
-		// TODO
+		GPoint2D point = table.getLocation();
+		if (tableController != null && point != null) {
+			double angle = table.getAngle();
+			double width = table.getWidth();
+			double height = table.getHeight();
+
+			tableController.setLocation(view.toScreenCoordX(point.getX()),
+					view.toScreenCoordY(point.getY()));
+			tableController.setHeight((int) (height));
+			tableController.setWidth((int) (width));
+			tableController.setAngle(angle);
+		}
 	}
 
 	@Override
@@ -53,8 +66,28 @@ public class DrawInlineTable extends Drawable implements RemoveNeeded, HasFormat
 		tableController.removeFromDom();
 	}
 
-	@Override
+	/**
+	 * @param key
+	 *            formatting option
+	 * @param val
+	 *            value (String, int or bool, depending on key)
+	 */
 	public void format(String key, Object val) {
 		tableController.format(key, val);
+	}
+
+	@Override
+	public void updateContent() {
+
+	}
+
+	@Override
+	public void toForeground(int x, int y) {
+
+	}
+
+	@Override
+	public void toBackground() {
+
 	}
 }

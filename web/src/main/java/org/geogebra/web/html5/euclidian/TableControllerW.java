@@ -2,6 +2,7 @@ package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.TableController;
+import org.geogebra.common.kernel.commands.CmdEllipseHyperbola;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -30,6 +31,10 @@ public class TableControllerW implements TableController {
 	private Element elemE;
 	private CarotaDocument exampleRenderer;
 	private CarotaDocument editor;
+	private Style style;
+
+	private static final int CELL_HEIGHT = 36;
+	private static final int CELL_WIDTH = 100;
 
 	/**
 	 *
@@ -64,17 +69,37 @@ public class TableControllerW implements TableController {
 		range.setFormatting(key, val);
 	}
 
+	@Override
+	public void setLocation(int x, int y) {
+		// nothing for now
+	}
+
+	@Override
+	public void setWidth(int width) {
+		// nothing for now
+	}
+
+	@Override
+	public void setHeight(int height) {
+		// nothing for now
+	}
+
+	@Override
+	public void setAngle(double angle) {
+		// nothing for now
+	}
+
 	private void prepareCarota() {
 		this.elemR = DOM.createDiv();
 		RootPanel.getBodyElement().appendChild(elemR);
-		elemR.getStyle().setWidth(200, Style.Unit.PX);
-		elemR.getStyle().setHeight(200, Style.Unit.PX);
+		elemR.getStyle().setWidth(CELL_WIDTH, Style.Unit.PX);
+		elemR.getStyle().setHeight(CELL_HEIGHT, Style.Unit.PX);
 		elemR.getStyle().setVisibility(Style.Visibility.HIDDEN);
 		this.exampleRenderer = Carota.get().getEditor().create(elemR);
 
 		elemE = DOM.createDiv();
-		elemE.getStyle().setWidth(200, Style.Unit.PX);
-		elemE.getStyle().setHeight(200, Style.Unit.PX);
+		elemE.getStyle().setWidth(CELL_WIDTH, Style.Unit.PX);
+		elemE.getStyle().setHeight(CELL_HEIGHT, Style.Unit.PX);
 		this.editor = Carota.get().getEditor().create(elemE);
 	}
 
@@ -122,12 +147,13 @@ public class TableControllerW implements TableController {
 	}
 
 	private void toFront() {
-		Style s = DOM.getElementById("hypergrid").getStyle();
-		s.setPosition(Style.Position.ABSOLUTE);
-		s.setTop(150, Style.Unit.PX);
-		s.setLeft(50, Style.Unit.PX);
-		s.setZIndex(51);
-		s.setWidth(400, Style.Unit.PX);
+		style = DOM.getElementById("hypergrid").getStyle();
+		style.setPosition(Style.Position.ABSOLUTE);
+		style.setLeft(view.toScreenCoordX(table.getLocation().x), Style.Unit.PX);
+		style.setTop(view.toScreenCoordY(table.getLocation().y), Style.Unit.PX);
+		style.setZIndex(51);
+		style.setWidth(2*CELL_WIDTH, Style.Unit.PX);
+		style.setHeight(2* CELL_HEIGHT, Style.Unit.PX);
 	}
 
 	private native void initTable(JsArrayMixed data,
@@ -140,10 +166,10 @@ public class TableControllerW implements TableController {
 		grid.properties.rowHeaderCheckboxes=false;
 		grid.setData(data);
 		for (var row = 0; row < data.length; row++) {
-			grid.setRowHeight(row, 100)
+			grid.setRowHeight(row, 36)
 		}
 		for (var row = 0; row < data[0].length; row++) {
-			grid.setColumnWidth(row, 200)
+			grid.setColumnWidth(row, 100)
 		}
 
 		var richtextRenderer = grid.cellRenderers.BaseClass.extend({
