@@ -291,6 +291,11 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
+	public String getDataParamButtonBorderColor() {
+		return attributes.get("buttonBorderColor");
+	}
+
+	@Override
 	public void resetScale(double scale1) {
 		this.scale = scale1;
 	}
