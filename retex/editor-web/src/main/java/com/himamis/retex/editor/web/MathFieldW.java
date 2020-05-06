@@ -848,12 +848,15 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	/**
 	 * add derivative and move cursor back before /
-	 * @param text - d/dx
 	 */
 	public void handleDerivative(String text) {
-		insertString(text);
-		EditorState editorState = mathFieldInternal.getEditorState();
-		editorState.setCurrentOffset(editorState.getCurrentOffset() - 3);
+		String[] parts = text.split("/");
+		insertString(parts[0]);
+		insertFunction("frac");
+		insertString(parts[1]);
+		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
 	}
 
 	private Element getHiddenTextArea() {
