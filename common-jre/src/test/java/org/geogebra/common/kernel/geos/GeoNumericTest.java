@@ -62,7 +62,7 @@ public class GeoNumericTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void copy() {
+	public void testCopy() {
 		GeoNumeric numeric = addAvInput("1");
 		numeric.setDrawable(true, false);
 		GeoNumeric copy = numeric.copy();
