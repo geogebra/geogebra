@@ -14,7 +14,7 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
 
-var latestVersion="5.0.502.0";
+var latestVersion="5.0.580.0";
 var module = "web3d";
 var defaultParams = {"vendor":"<!--VENDOR-->", "preloadModules":""};
 var prerelease = false;
@@ -422,9 +422,6 @@ var codebase = "<!--CODEBASE-->";
 		window.addEventListener && window.addEventListener("resize", resizeStart);
 		if (e("ggw")) {
 			updateAppletParams();
-			if (isLocalhost()) {
-				codebase = "./";
-			}
 		}
 		
 		if (tubeid) {
