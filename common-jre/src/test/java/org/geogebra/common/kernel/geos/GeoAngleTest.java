@@ -9,7 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GeoAngleTest extends BaseUnitTest {
 
 	@Test
-	public void copy() {
+	public void testCopy() {
 		GeoAngle angle = addAvInput("90°");
 		angle.setDrawable(true, false);
 		GeoAngle copy = angle.copy();
