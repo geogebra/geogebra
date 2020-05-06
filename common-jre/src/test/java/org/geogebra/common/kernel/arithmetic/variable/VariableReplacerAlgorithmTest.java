@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -25,7 +26,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 				Unicode.PI_STRING + " * x^(2) * y^(3)");
 	}
 
-	@Test
+		@Test
 	public void testIndexProduct() {
 		add("a_{1} = 4");
 		add("b = 2");
@@ -52,9 +53,34 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("xsinx", "x * sin(x)");
 	}
 
+	@Ignore
 	@Test
 	public void testConstantMultiplier() {
-		shouldReplaceAs("3xcosx", "3 * x * cos(x)");
+		shouldReplaceAs("8sqrt(x)", "8 * sqrt(x)");
+	}
+
+	@Ignore
+	@Test
+	public void testConstantMultiplierWithBrackets() {
+		shouldReplaceAs("4xsin(4x)", "4 * x * sin(4 * x)");
+	}
+
+	@Test
+	public void testEmbeddedTrigs() {
+		shouldReplaceAs("4coscoscosx", "4 * cos(cos(cos(x)))");
+	}
+
+	@Test
+	public void testArctan() {
+		shouldReplaceAs("21arctan2x", "21 * atand(2 * x)");
+	}
+
+	@Test
+	public void testRr() {
+		add("a = 1");
+		add("r = 1");
+		shouldReplaceAs("ar^(2)", "a * r^(2)");
+		shouldReplaceAs("2pir^(2)", "2 * " + Unicode.PI_STRING + " * r^(2)");
 	}
 
 	@Test

@@ -49,23 +49,27 @@ public class VariableReplacerAlgorithm {
 	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
 		ExpressionValue v1 = replaceToken(expressionString);
+
 		if (notAVariable(v1)) {
 			return v1;
 		}
+
 		InputTokenizer tokenizer = new InputTokenizer(expressionString);
-		String next = tokenizer.next();
-		while (next != null) {
+		String next = expressionString;
+		while (tokenizer.hasToken()) {
+			next = tokenizer.next();
 			v1 = replaceToken(next);
-			ExpressionValue v2 = replace(tokenizer.getInputRemaining());
+			ExpressionValue v2 = tokenizer.noInputLeft()
+					? null
+				: replace(tokenizer.getInputRemaining());
 
 			if (v1 != null && v2 != null && v1.isNumberValue()
-					&& v2.isNumberValue()) {
+					&& (v2.isNumberValue() || v2.isVariable())) {
 				return v1.wrap().multiplyR(v2);
 			}
-
-			next = tokenizer.next();
 		}
-		return replaceToken(expressionString);
+
+		return replaceToken(next);
 	}
 
 	private boolean notAVariable(ExpressionValue v1) {
@@ -116,6 +120,7 @@ public class VariableReplacerAlgorithm {
 		if (nameNoX.length() > 0 && geo == null) {
 			return new Variable(kernel, nameNoX);
 		}
+
 		ExpressionNode ret = productCreator.getFunctionVariablePowers(exponents).wrap();
 		if (geo != null) {
 			ret = ret.multiply(geo);
