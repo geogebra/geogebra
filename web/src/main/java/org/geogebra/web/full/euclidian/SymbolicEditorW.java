@@ -57,8 +57,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		super.attach(geoInputBox, bounds);
 
 		this.bounds = bounds;
-		resetChanges();
+		// add to DOM, but hidden => getHeight works, but widget is not shown in wrong position
+		editor.setVisible(false);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
+		// update size and show
+		resetChanges();
 	}
 
 	@Override
@@ -74,9 +77,9 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	@Override
 	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
-		editor.setVisible(true);
-		decorator.update(bounds, getGeoInputBox());
 
+		decorator.update(bounds, getGeoInputBox());
+		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());
 		editor.setLabel(getGeoInputBox().getAuralText());
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
