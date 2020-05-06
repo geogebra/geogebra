@@ -752,7 +752,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		if (controls != null) {
-			controls.update(true);
+			controls.update();
 		}
 
 		controller.setEditing(true);
