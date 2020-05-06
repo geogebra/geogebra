@@ -54,7 +54,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
-import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
 import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.editor.MathField;
