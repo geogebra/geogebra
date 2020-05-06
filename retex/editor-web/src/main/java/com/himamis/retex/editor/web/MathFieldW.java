@@ -848,6 +848,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	/**
 	 * add derivative and move cursor back before /
+	 * @param text - d/dx
 	 */
 	public void handleDerivative(String text) {
 		String[] parts = text.split("/");
