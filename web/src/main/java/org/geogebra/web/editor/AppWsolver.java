@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -13,7 +12,6 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.FontManagerW;
-import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ShareLinkDialog;
@@ -61,12 +59,10 @@ public class AppWsolver extends AppW implements HasKeyboard {
         initCoreObjects();
 
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-        Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
-        if (Browser.runningLocal() && getArticleElement().isEnableApiPing()) {
-            new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
-                    .checkAvailable(null);
-        }
-		initSignInEventFlow(new LoginOperationW(this), true);
+		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
+
+		initSignInEventFlow(new LoginOperationW(this));
+
 		GlobalHeader.INSTANCE.addSignIn(this);
 		addShareButton();
 		frame.setApplication(this);

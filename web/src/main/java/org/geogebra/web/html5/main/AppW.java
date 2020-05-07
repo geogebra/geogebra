@@ -1760,21 +1760,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Initializes the user authentication
-	 *
-	 * @param op
+	 *  @param op
 	 *            login operation
-	 * @param mayLogIn
-	 *            whether login dialog may be opened
+	 *
 	 */
-	public void initSignInEventFlow(LogInOperation op, boolean mayLogIn) {
-
+	public void initSignInEventFlow(LogInOperation op) {
 		// Initialize the signIn operation
 		loginOperation = op;
 		if (getNetworkOperation().isOnline()) {
-			if (this.getLAF() != null && this.getLAF().supportsGoogleDrive()) {
+			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
 				initGoogleDriveEventFlow();
 			}
-			if (mayLogIn) {
+			if (getArticleElement().getDataParamEnableFileFeatures()) {
 				loginOperation.performTokenLogin();
 			}
 		} else {
@@ -3139,18 +3136,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} else if ("true".equals(prereleaseStr)) {
 			this.prerelease = true;
 		}
-	}
-
-	/**
-	 * @param el
-	 *            article element
-	 * @return true if prerelease
-	 *
-	 *         Remove this function if GGB-2051 released. Used only in GGB-2051
-	 */
-	public static boolean isPrerelease(ArticleElement el) {
-		String p = el.getDataParamPrerelease();
-		return "true".equals(p) || "canary".equals(p);
 	}
 
 	@Override

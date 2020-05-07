@@ -475,9 +475,4 @@ public class TestArticleElement implements ArticleElementInterface {
 	public String getParamKeyboardType(String def) {
 		return def;
 	}
-
-	@Override
-	public boolean isEnableApiPing() {
-		return false;
-	}
 }
