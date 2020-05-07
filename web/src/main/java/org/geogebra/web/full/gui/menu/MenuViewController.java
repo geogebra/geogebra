@@ -143,7 +143,8 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 					app.getPlatform(),
 					version,
 					hasLoginButton(app) ? app.getLoginOperation() : null,
-					shouldCreateExamEntry(app));
+					shouldCreateExamEntry(app),
+					app.enableFileFeatures());
 		}
 	}
 
