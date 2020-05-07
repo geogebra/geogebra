@@ -1,7 +1,8 @@
-package org.geogebra.common.euclidian;
+package org.geogebra.common.euclidian.inline;
 
-public interface TableController {
-	void removeFromDom();
+import org.geogebra.common.awt.GGraphics2D;
+
+public interface InlineTableController {
 
 	void format(String key, Object val);
 
@@ -28,4 +29,14 @@ public interface TableController {
 	void setHeight(int height);
 
 	void setAngle(double angle);
+
+	void removeFromDom();
+
+	void update();
+
+	void draw(GGraphics2D g2);
+
+	void toForeground(int x, int y);
+
+	void toBackground();
 }

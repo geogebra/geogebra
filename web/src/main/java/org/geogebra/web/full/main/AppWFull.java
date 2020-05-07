@@ -10,9 +10,9 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MaskWidgetList;
-import org.geogebra.common.euclidian.TableController;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
@@ -58,8 +58,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
-import org.geogebra.web.full.euclidian.InlineFormulaControllerW;
-import org.geogebra.web.full.euclidian.InlineTextControllerW;
+import org.geogebra.web.full.euclidian.inline.InlineFormulaControllerW;
+import org.geogebra.web.full.euclidian.inline.InlineTableControllerW;
+import org.geogebra.web.full.euclidian.inline.InlineTextControllerW;
 import org.geogebra.web.full.gui.CustomizeToolbarGUI;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -114,7 +115,6 @@ import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.euclidian.TableControllerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
@@ -2111,7 +2111,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public InlineTextController createInlineTextController(EuclidianView view, GeoInlineText geo) {
 		Element parentElement = ((EuclidianViewW) view).getAbsolutePanel().getParent().getElement();
-		return new InlineTextControllerW(geo, parentElement, view);
+		return new InlineTextControllerW(geo, view, parentElement);
 	}
 
 	@Override
@@ -2123,7 +2123,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public TableController createTableController(EuclidianView view, GeoInlineTable geo) {
-		return new TableControllerW(view, geo);
+	public InlineTableController createTableController(EuclidianView view, GeoInlineTable geo) {
+		Element parentElement = ((EuclidianViewW) view).getAbsolutePanel().getParent().getElement();
+		return new InlineTableControllerW(geo, view, parentElement);
 	}
 }

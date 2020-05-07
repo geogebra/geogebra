@@ -47,7 +47,8 @@ public class GeoInlineTable extends GeoElement implements TextStyle, GeoInline {
 
 	@Override
 	public GeoElement copy() {
-		GeoInlineTable copy = new GeoInlineTable(cons,  new GPoint2D(location.getX(), location.getY()));
+		GeoInlineTable copy = new GeoInlineTable(cons,
+				new GPoint2D(location.getX(), location.getY()));
 		copy.set(this);
 		return copy;
 	}

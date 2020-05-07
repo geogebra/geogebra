@@ -1,4 +1,4 @@
-package org.geogebra.web.full.euclidian;
+package org.geogebra.web.full.euclidian.inline;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
@@ -41,8 +41,7 @@ public class InlineTextControllerW implements InlineTextController {
 	 * @param parent
 	 *            parent div
 	 */
-	public InlineTextControllerW(GeoInlineText geo, Element parent,
-			EuclidianView view) {
+	public InlineTextControllerW(GeoInlineText geo, EuclidianView view, Element parent) {
 		this.geo = geo;
 		this.parent = parent;
 		this.view = view;

@@ -181,6 +181,7 @@ public class DrawInlineText extends Drawable implements DrawInline, HasFormat {
 	 * @param val
 	 *            value (String, int or bool, depending on key)
 	 */
+	@Override
 	public void format(String key, Object val) {
 		if (textController != null) {
 			textController.format(key, val);

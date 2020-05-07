@@ -5,14 +5,16 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.TableController;
+import org.geogebra.common.euclidian.RotatableBoundingBox;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 
 public class DrawInlineTable extends Drawable implements DrawInline {
 
-	private final TableController tableController;
-	private GeoInlineTable table;
+	private final InlineTableController tableController;
+
+	private final TransformableRectangle rectangle;
 
 	/**
 	 * @param view view
@@ -20,40 +22,45 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	 */
 	public DrawInlineTable(EuclidianView view, GeoInlineTable table) {
 		super(view, table);
-		this.table = table;
 		tableController = view.getApplication().createTableController(view, table);
+		rectangle = new TransformableRectangle(view, table);
 		update();
 	}
 
 	@Override
 	public void update() {
-		GPoint2D point = table.getLocation();
-		if (tableController != null && point != null) {
-			double angle = table.getAngle();
-			double width = table.getWidth();
-			double height = table.getHeight();
+		rectangle.updateSelfAndBoundingBox();
 
-			tableController.setLocation(view.toScreenCoordX(point.getX()),
-					view.toScreenCoordY(point.getY()));
-			tableController.setHeight((int) (height));
-			tableController.setWidth((int) (width));
-			tableController.setAngle(angle);
+		if (tableController != null) {
+			tableController.update();
 		}
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		// TODO
+		if (tableController != null) {
+			tableController.draw(g2);
+		}
 	}
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		return false;
+		return rectangle.hit(x, y);
 	}
 
 	@Override
 	public boolean isInside(GRectangle rect) {
-		return false;
+		return rect.contains(getBounds());
+	}
+
+	@Override
+	public GRectangle getBounds() {
+		return rectangle.getBounds();
+	}
+
+	@Override
+	public RotatableBoundingBox getBoundingBox() {
+		return rectangle.getBoundingBox();
 	}
 
 	@Override
@@ -78,16 +85,21 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 
 	@Override
 	public void updateContent() {
-
-	}
-
-	@Override
-	public void toForeground(int x, int y) {
-
+		// not yet implemented
 	}
 
 	@Override
 	public void toBackground() {
+		if (tableController != null) {
+			tableController.toBackground();
+		}
+	}
 
+	@Override
+	public void toForeground(int x, int y) {
+		if (tableController != null) {
+			GPoint2D p = rectangle.getInversePoint(x, y);
+			tableController.toForeground((int) p.getX(), (int) p.getY());
+		}
 	}
 }

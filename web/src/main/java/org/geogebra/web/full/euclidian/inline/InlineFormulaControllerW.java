@@ -1,4 +1,4 @@
-package org.geogebra.web.full.euclidian;
+package org.geogebra.web.full.euclidian.inline;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawFormula;
