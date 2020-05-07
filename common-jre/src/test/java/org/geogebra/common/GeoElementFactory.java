@@ -44,6 +44,7 @@ public class GeoElementFactory {
     public GeoLine createGeoLineWithCommand() {
         return (GeoLine) create("Line((1,1),(2,2))");
     }
+
 	/**
 	 * Create a GeoRay.
 	 *

@@ -55,7 +55,6 @@ public class AlgoJoinPoints extends AlgoElement
 			GeoPoint Q) {
 		this(cons, P, Q);
 		g.setLabel(label);
-		g.setMode(cons.getApplication().getConfig().getLineDisplayStyle(), true);
 	}
 
 	/**
@@ -79,6 +78,7 @@ public class AlgoJoinPoints extends AlgoElement
 		// compute line through P, Q
 		compute();
 		addIncidence();
+        g.setMode(cons.getApplication().getConfig().getLineDisplayStyle(), true);
 	}
 
 	/**
