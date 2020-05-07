@@ -4,49 +4,60 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
+import org.geogebra.common.BaseUnitTest;
 import org.junit.Test;
 
-public class InputTokenizerTest {
+public class InputTokenizerTest extends BaseUnitTest {
+
 
 	@Test
 	public void testAB() {
-		InputTokenizer tokenizer = new InputTokenizer("ab");
-		assertEquals(Arrays.asList("a", "b"), tokenizer.getTokens());
+		shouldBeSplitTo("ab","a", "b");
 	}
 
 	@Test
 	public void testAIndexedB() {
-		InputTokenizer tokenizer = new InputTokenizer("a_{1}b");
-		assertEquals(Arrays.asList("a_{1}", "b"), tokenizer.getTokens());
+		shouldBeSplitTo("a_{1}b","a_{1}", "b");
 	}
 
 	@Test
 	public void testAIndexedBIndexed() {
-		InputTokenizer tokenizer = new InputTokenizer("a_{1}b_{242}");
-		assertEquals(Arrays.asList("a_{1}", "b_{242}"), tokenizer.getTokens());
+		shouldBeSplitTo("a_{1}b_{242}","a_{1}", "b_{242}");
 	}
 
 	@Test
 	public void testConstantAndVariable() {
-		InputTokenizer tokenizer = new InputTokenizer("21ab");
-		assertEquals(Arrays.asList("21", "a", "b"), tokenizer.getTokens());
+		shouldBeSplitTo("21ab", "21", "a", "b");
 	}
 
 	@Test
 	public void testMoreVariables() {
-		InputTokenizer tokenizer = new InputTokenizer("a_{1}bcd_{3}4fdx");
-		assertEquals(Arrays.asList("a_{1}", "b", "c", "d_{3}", "4", "f", "d", "x"), tokenizer.getTokens());
+		shouldBeSplitTo("a_{1}bcd_{3}4fdx","a_{1}", "b", "c", "d_{3}", "4", "f", "d", "x");
 	}
 
 	@Test
 	public void testExponential() {
-		InputTokenizer tokenizer = new InputTokenizer("ar^(2)");
-		assertEquals(Arrays.asList("a", "r^(2)"), tokenizer.getTokens());
+		shouldBeSplitTo("ar^(2)","a", "r^(2)");
 	}
 
 	@Test
 	public void testPi() {
-		InputTokenizer tokenizer = new InputTokenizer("api");
-		assertEquals(Arrays.asList("a", "pi"), tokenizer.getTokens());
+		shouldBeSplitTo("api","a", "pi");
+	}
+
+	@Test
+	public void testBrackets() {
+		shouldBeSplitTo("8sqrt(x)","8", "s", "q", "r", "t", "x" );
+	}
+
+	@Test
+	public void testAvarb() {
+		add("var=5");
+		shouldBeSplitTo("avarb","a", "var", "b");
+	}
+
+	private void shouldBeSplitTo(String input, String... tokens) {
+		InputTokenizer tokenizer = new InputTokenizer(getKernel(), input);
+		assertEquals(Arrays.asList(tokens), tokenizer.getTokens());
 	}
 }

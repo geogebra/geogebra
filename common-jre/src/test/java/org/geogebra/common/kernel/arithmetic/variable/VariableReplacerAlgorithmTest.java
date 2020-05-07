@@ -53,10 +53,21 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("xsinx", "x * sin(x)");
 	}
 
-	@Ignore
 	@Test
 	public void testConstantMultiplier() {
-		shouldReplaceAs("8sqrt(x)", "8 * sqrt(x)");
+//		shouldReplaceAs("8sqrt(x)", "8 * sqrt(x)");
+//		shouldReplaceAs("isqrt3", "i * sqrt(3)");
+		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING
+			+ " * sqrt(5)");
+	}
+
+	@Test
+	public void testAvarb() {
+		add("a=1");
+		add("var=1");
+		add("r=1");
+		add("b=1");
+		shouldReplaceAs("avarb", "a * var * b");
 	}
 
 	@Ignore
@@ -78,7 +89,6 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Test
 	public void testRr() {
 		add("a = 1");
-		add("r = 1");
 		shouldReplaceAs("ar^(2)", "a * r^(2)");
 		shouldReplaceAs("2pir^(2)", "2 * " + Unicode.PI_STRING + " * r^(2)");
 	}

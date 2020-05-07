@@ -49,12 +49,11 @@ public class VariableReplacerAlgorithm {
 	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
 		ExpressionValue v1 = replaceToken(expressionString);
-
 		if (notAVariable(v1)) {
 			return v1;
 		}
 
-		InputTokenizer tokenizer = new InputTokenizer(expressionString);
+		InputTokenizer tokenizer = new InputTokenizer(kernel, expressionString);
 		String next = expressionString;
 		while (tokenizer.hasToken()) {
 			next = tokenizer.next();
