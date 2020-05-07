@@ -1,12 +1,12 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.Vector;
+import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.gui.toolcategorization.ToolCategory;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.KeyboardType;
@@ -77,16 +77,14 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	private boolean toolbarHasImageMode() {
-		Vector<ToolbarItem> toolbarItems =
-				ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
+		ToolCollection toolCollection =
+				app.createToolCollectionFactory().createToolCollection();
 
-		for (ToolbarItem toolbarItem : toolbarItems) {
-			if (toolbarItem.getMode() == null) {
-				if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
-					return true;
-				}
-			} else {
-				if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
+		List<ToolCategory> categories = toolCollection.getCategories();
+
+		for (int i = 0; i < categories.size(); i++) {
+			for (int j = 0; j < toolCollection.getTools(i).size(); j++) {
+				if (toolCollection.getTools(i).get(j) == EuclidianConstants.MODE_IMAGE) {
 					return true;
 				}
 			}
