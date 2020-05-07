@@ -1732,6 +1732,9 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
+	/**
+	 * Store undo point if some objects were moved.
+	 */
 	public void storeUndoInfoIfChanged() {
 		if (hasUnsavedGeoChanges) {
 			app.storeUndoInfo();

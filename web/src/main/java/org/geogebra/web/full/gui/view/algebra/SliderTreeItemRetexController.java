@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -176,7 +175,6 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 
 		GeoNumeric numeric = slider.getNum();
 		numeric.setValue(event.getValue());
-		Log.error(event.getValue()+"");
 		numeric.updateCascade();
 		hasUnsavedChanges = true;
 		if (!numeric.isAnimating()) {
