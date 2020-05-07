@@ -2700,7 +2700,6 @@ __GGB__keysVar["hy"].menu = {
     "Settings.Save": "\u054a\u0561\u0570\u0565\u0574",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",

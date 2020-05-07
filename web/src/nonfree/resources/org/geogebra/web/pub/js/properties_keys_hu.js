@@ -2700,7 +2700,6 @@ __GGB__keysVar["hu"].menu = {
     "Settings.Save": "Be\xe1ll\xedt\xe1sok ment\xe9se",
     "SeveralVersionsOfA": "T\xf6bb verzi\xf3 is l\xe9tezik %0-b\xf3l",
     "ShapeFreeform": "Szabad alakzat",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "T\xe9glalap",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",

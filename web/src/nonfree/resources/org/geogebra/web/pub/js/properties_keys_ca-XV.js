@@ -2700,7 +2700,6 @@ __GGB__keysVar["ca-XV"].menu = {
     "Settings.Save": "Guarda la configuraci\xf3",
     "SeveralVersionsOfA": "Tingueu en compte que hi ha diferents versions de: %0",
     "ShapeFreeform": "Forma lliure",
-    "ShapePolygon": "Pol\xedgon Regular",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Quadrat",

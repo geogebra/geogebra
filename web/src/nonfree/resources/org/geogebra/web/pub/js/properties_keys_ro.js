@@ -2700,7 +2700,6 @@ __GGB__keysVar["ro"].menu = {
     "Settings.Save": "Salvare set\u0103ri",
     "SeveralVersionsOfA": "Aten\u0163ie, sunt mai multe versiuni pentru: %0",
     "ShapeFreeform": "Figur\u0103 liber\u0103",
-    "ShapePolygon": "Poligon regulat",
     "ShapeRectangle": "Dreptunghi",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "P\u0103trat",

@@ -2700,7 +2700,6 @@ __GGB__keysVar["hr"].menu = {
     "Settings.Save": "Spremi postavke",
     "SeveralVersionsOfA": "Nekoliko je ina\u010dica od: %0",
     "ShapeFreeform": "Slobodan oblik",
-    "ShapePolygon": "Pravilni mnogokut",
     "ShapeRectangle": "Pravokutnik",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Kvadrat",

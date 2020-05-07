@@ -2700,7 +2700,6 @@ __GGB__keysVar["nn"].menu = {
     "Settings.Save": "Lagre innstillingar",
     "SeveralVersionsOfA": "Merk at der er fleire versjonar av: %0",
     "ShapeFreeform": "Friform",
-    "ShapePolygon": "Regul\xe6r mangekant",
     "ShapeRectangle": "Rektangel",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Kvadrat",

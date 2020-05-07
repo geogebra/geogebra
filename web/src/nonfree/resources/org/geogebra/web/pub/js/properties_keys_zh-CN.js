@@ -2700,7 +2700,6 @@ __GGB__keysVar["zh-CN"].menu = {
     "Settings.Save": "\u4fdd\u5b58\u8bbe\u7f6e",
     "SeveralVersionsOfA": "\u8bf7\u6ce8\u610f, \u6709\u51e0\u4e2a\u7248\u672c: %0",
     "ShapeFreeform": "\u4efb\u610f\u591a\u8fb9\u5f62",
-    "ShapePolygon": "\u6b63\u591a\u8fb9\u5f62",
     "ShapeRectangle": "\u77e9\u5f62",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "\u6b63\u65b9\u5f62",

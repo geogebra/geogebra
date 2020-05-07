@@ -2700,7 +2700,6 @@ __GGB__keysVar["ko"].menu = {
     "Settings.Save": "\uc124\uc815\uc0ac\ud56d \uc800\uc7a5",
     "SeveralVersionsOfA": "\ub2e4\ub978 \ubc84\uc804 \ucc38\uc870: %0",
     "ShapeFreeform": "\uc790\uc720\ud615\ud0dc",
-    "ShapePolygon": "\uc815\ub2e4\uac01\ud615",
     "ShapeRectangle": "\uc9c1\uc0ac\uac01\ud615",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "\uc815\uc0ac\uac01\ud615",

@@ -2700,7 +2700,6 @@ __GGB__keysVar["cy"].menu = {
     "Settings.Save": "Cadw'r gosodiadau",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",

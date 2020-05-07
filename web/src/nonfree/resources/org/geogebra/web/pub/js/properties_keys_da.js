@@ -2700,7 +2700,6 @@ __GGB__keysVar["da"].menu = {
     "Settings.Save": "Gem indstillinger",
     "SeveralVersionsOfA": "V\xe6r opm\xe6rksom p\xe5 at der er flere versioner af: %0",
     "ShapeFreeform": "Fri",
-    "ShapePolygon": "Regul\xe6r Polygon",
     "ShapeRectangle": "Rektangel",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Kvadrat",

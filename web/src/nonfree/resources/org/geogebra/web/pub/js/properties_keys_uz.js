@@ -2700,7 +2700,6 @@ __GGB__keysVar["uz"].menu = {
     "Settings.Save": "Sozlamalarni saqlash",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "ShapeFreeform": "Ixtiyoriy shakl",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "To'g'ri to'rtburchak",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Kvadrat",
