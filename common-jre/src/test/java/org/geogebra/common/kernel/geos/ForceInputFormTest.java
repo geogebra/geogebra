@@ -20,11 +20,13 @@ public class ForceInputFormTest extends BaseUnitTest {
 
         GeoElementFactory factory = getElementFactory();
         GeoLine geoLine = factory.createGeoLine();
+        GeoLine geoLineWithCommand = factory.createGeoLineWithCommand();
         GeoConic parabola = (GeoConic) factory.create("y=xx");
         GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
         GeoRay geoRay = factory.createGeoRay();
 
-        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, geoLine.getToStringMode());
+        Assert.assertEquals(GeoLine.EQUATION_USER, geoLine.getToStringMode());
+        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, geoLineWithCommand.getToStringMode());
         Assert.assertEquals(GeoConic.EQUATION_USER, parabola.getToStringMode());
         Assert.assertEquals(GeoConic.EQUATION_USER, hyperbola.getToStringMode());
         Assert.assertEquals(GeoRay.EQUATION_USER, geoRay.getToStringMode());
