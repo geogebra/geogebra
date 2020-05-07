@@ -21,6 +21,7 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIf;
@@ -5012,12 +5013,14 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		ArrayList<GeoElement> geosToUpdate = new ArrayList<>();
 		for (GeoElement geo : cons.getGeoSetWithCasCellsConstructionOrder()) {
+			AlgoElement parent = geo.getParentAlgorithm();
 			if (geo instanceof CasEvaluableFunction) {
 				((CasEvaluableFunction) geo).clearCasEvalMap();
-				if (geo.getParentAlgorithm() instanceof AlgoDependentFunction) {
+				if (parent instanceof AlgoDependentFunction
+					|| parent instanceof AlgoDependentFunctionNVar) {
 					geosToUpdate.add(geo);
 				}
-			} else if (geo instanceof GeoSymbolicI && geo.getParentAlgorithm() == null) {
+			} else if (geo instanceof GeoSymbolicI && parent == null) {
 				((GeoSymbolicI) geo).computeOutput();
 			}
 		}
