@@ -255,6 +255,11 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
+	public String getDefaultAngleUnit() {
+		return Kernel.ANGLE_DEGREE_XML_NAME;
+	}
+
+	@Override
 	public boolean isShowingErrorDialogForInputBox() {
 		return true;
 	}

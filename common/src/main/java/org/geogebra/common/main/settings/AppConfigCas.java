@@ -1,6 +1,7 @@
 package org.geogebra.common.main.settings;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
@@ -117,5 +118,10 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public boolean shouldHideEquations() {
 		return false;
+	}
+
+	@Override
+	public String getDefaultAngleUnit() {
+		return Kernel.ANGLE_RADIANT_XML_NAME;
 	}
 }

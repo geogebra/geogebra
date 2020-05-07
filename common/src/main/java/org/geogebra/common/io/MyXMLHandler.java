@@ -1814,11 +1814,11 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 
-		if ("degree".equals(angleUnit)) {
+		if (Kernel.ANGLE_DEGREE_XML_NAME.equals(angleUnit)) {
 			kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
-		} else if ("radiant".equals(angleUnit)) {
+		} else if (Kernel.ANGLE_RADIANT_XML_NAME.equals(angleUnit)) {
 			kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
-		} else if ("degreesMinutesSeconds".equals(angleUnit)) {
+		} else if (Kernel.ANGLE_DEGREES_MINUTES_SECONDS_XML_NAME.equals(angleUnit)) {
                 kernel.setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
 		} else {
 			return false;

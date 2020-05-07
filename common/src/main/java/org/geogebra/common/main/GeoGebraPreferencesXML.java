@@ -97,7 +97,10 @@ public class GeoGebraPreferencesXML {
 				+ "<decimals val=\""
 				+ app.getConfig().getDefaultPrintDecimals()
 				+ "\"/>"
-				+ "<angleUnit val=\"degree\"/>"
+
+				+ "<angleUnit val=\""
+				+ app.getConfig().getDefaultAngleUnit()
+				+ "\"/>"
 
 				+ "<algebraStyle val=\""
 
