@@ -1,18 +1,55 @@
 package org.geogebra.common.kernel.arithmetic.variable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.util.StringUtil;
 
 public class InputTokenizer {
+	private final List<String> varStrings;
 	private Kernel kernel;
 	private String input;
+
+	public InputTokenizer(String input) {
+		this.input = input;
+		varStrings = Collections.emptyList();
+	}
 
 	public InputTokenizer(Kernel kernel, String input) {
 		this.kernel = kernel;
 		this.input = input;
+		varStrings = getVarStrings();
+	}
+
+	private List<String> getVarStrings() {
+		if (kernel == null || kernel.getConstruction() == null ||
+				kernel.getConstruction().getGeoSetConstructionOrder() == null) {
+			return Collections.emptyList();
+		}
+
+		ArrayList<String> list = new ArrayList<>();
+		for (GeoElement geo: kernel.getConstruction().getGeoSetConstructionOrder()) {
+			for (FunctionVariable variable: getFunctionVariables(geo)) {
+				list.add(variable.getSetVarString());
+			}
+		}
+		return list;
+	}
+
+	private FunctionVariable[] getFunctionVariables(GeoElement geo) {
+		if (geo.isGeoFunction()) {
+			return ((GeoFunction) geo).getFunctionVariables();
+		}
+		if (geo.isGeoFunctionNVar()) {
+			return ((GeoFunctionNVar)geo).getFunctionVariables();
+		}
+		return new FunctionVariable[0];
 	}
 
 	public List<String> getTokens() {
@@ -41,6 +78,7 @@ public class InputTokenizer {
 		if (noInputLeft()) {
 			return null;
 		}
+
 		String variable = getVariable();
 		if (!"".equals(variable)) {
 			return variable;
@@ -82,19 +120,11 @@ public class InputTokenizer {
 	}
 
 	private String getVariable() {
-		if (kernel == null) {
-			return "";
-		}
-		String var="";
-		for (int i = 0; i < input.length(); i++) {
-			if (StringUtil.isLetterOrDigitOrUnderscore(input.charAt(i))) {
-				var += input.charAt(i);
-				if (kernel.lookupLabel(var) != null) {
-					return var;
-				}
+		for (String var: varStrings) {
+			if (input.startsWith(var)) {
+				return var;
 			}
 		}
-
 		return "";
 	}
 	private String getNumberToken() {

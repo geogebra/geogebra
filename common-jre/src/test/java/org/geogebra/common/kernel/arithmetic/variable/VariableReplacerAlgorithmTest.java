@@ -26,7 +26,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 				Unicode.PI_STRING + " * x^(2) * y^(3)");
 	}
 
-		@Test
+	@Test
 	public void testIndexProduct() {
 		add("a_{1} = 4");
 		add("b = 2");
@@ -64,10 +64,11 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Test
 	public void testAvarb() {
 		add("a=1");
-		add("var=1");
-		add("r=1");
 		add("b=1");
+		add("f(var)=?");
+		add("t(mul, var)=?");
 		shouldReplaceAs("avarb", "a * var * b");
+		shouldReplaceAs("amulvarb", "a * mul * var * b");
 	}
 
 	@Ignore
@@ -87,7 +88,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testRr() {
+	public void testPiRSquare() {
 		add("a = 1");
 		shouldReplaceAs("ar^(2)", "a * r^(2)");
 		shouldReplaceAs("2pir^(2)", "2 * " + Unicode.PI_STRING + " * r^(2)");

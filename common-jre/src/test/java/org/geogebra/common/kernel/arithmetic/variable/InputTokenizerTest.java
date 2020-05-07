@@ -51,9 +51,15 @@ public class InputTokenizerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testAvarb() {
-		add("var=5");
+	public void testFunctionVar() {
+		add("f(var)=?");
 		shouldBeSplitTo("avarb","a", "var", "b");
+	}
+
+	@Test
+	public void testMutliFunctionVars() {
+		add("t(mul, var)=?");
+		shouldBeSplitTo("amulvarb","a", "mul", "var", "b");
 	}
 
 	private void shouldBeSplitTo(String input, String... tokens) {

@@ -66,13 +66,18 @@ public class VariableReplacerAlgorithm {
 					? null
 				: replace(tokenizer.getInputRemaining());
 
-			if (v1 != null && v2 != null && v1.isNumberValue()
-					&& (v2.isNumberValue() || v2.isVariable())) {
+			if (isProductFactor(v1) && isProductFactor(v2)) {
 				return v1.wrap().multiplyR(v2);
 			}
 		}
 
 		return replaceToken(next);
+	}
+
+	private boolean isProductFactor(ExpressionValue value) {
+		return value != null && (value.isNumberValue() || value.isVariable()
+			|| value.wrap().hasOperations()
+		);
 	}
 
 	public ExpressionValue replaceToken(String expressionString) {
