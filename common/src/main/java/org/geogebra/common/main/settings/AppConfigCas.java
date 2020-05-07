@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.settings.updater.CasSettingsUpdater;
+import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
 /**
  * Config for CAS Calculator app
@@ -128,5 +130,10 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public boolean isAngleUnitSettingEnabled() {
 		return false;
+	}
+
+	@Override
+	public SettingsUpdater createSettingsUpdater() {
+		return new CasSettingsUpdater();
 	}
 }
