@@ -506,7 +506,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
 		case EuclidianConstants.MODE_SHAPE_FREEFORM:
 		case EuclidianConstants.MODE_SHAPE_LINE:
-		case EuclidianConstants.MODE_SHAPE_POLYGON:
+		case EuclidianConstants.MODE_SHAPE_PENTAGON:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 		case EuclidianConstants.MODE_MASK:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
