@@ -39,6 +39,21 @@ public class AppConfigSuite extends AppConfigGraphing {
 	}
 
 	@Override
+	public String getAppTitle() {
+		return "CalculatorSuite";
+	}
+
+	@Override
+	public String getAppName() {
+		return "GeoGebraCalculatorSuite";
+	}
+
+	@Override
+	public String getAppNameShort() {
+		return "CalculatorSuite.short";
+	}
+
+	@Override
 	public CommandArgumentFilter getCommandArgumentFilter() {
 		return null;
 	}
