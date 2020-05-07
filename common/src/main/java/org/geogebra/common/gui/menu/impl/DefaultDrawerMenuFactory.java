@@ -21,6 +21,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private GeoGebraConstants.Platform platform;
 	private LogInOperation logInOperation;
 	private boolean createExamEntry;
+	private boolean enableFileFeatures;
 
 	/**
 	 * Create a new DrawerMenuFactory.
@@ -60,10 +61,29 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 									GeoGebraConstants.Version version,
 									LogInOperation logInOperation,
 									boolean createExamEntry) {
+		this(platform, version, logInOperation, createExamEntry, true);
+	}
+
+	/**
+	 * Create a new DrawerMenuFactory.
+	 *
+	 * @param platform platform
+	 * @param version version
+	 * @param logInOperation if loginOperation is not null, it creates menu options that require
+	 *                       login based on the {@link LogInOperation#isLoggedIn()} method.
+	 * @param createExamEntry whether the factory should create the start exam button
+	 * @param enableFileFeatures wether to show sign-in related file features
+	 */
+	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
+									GeoGebraConstants.Version version,
+									LogInOperation logInOperation,
+									boolean createExamEntry,
+									boolean enableFileFeatures) {
 		super(version);
 		this.platform = platform;
 		this.logInOperation = logInOperation;
 		this.createExamEntry = createExamEntry;
+		this.enableFileFeatures = enableFileFeatures;
 	}
 
 	@Override
@@ -87,15 +107,17 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private MenuItemGroup createMainMenuItemGroup() {
-		MenuItem clearConstruction = clearConstruction();
-		MenuItem save = logInOperation == null ? null : saveFile();
+		MenuItem clearConstruction = enableFileFeatures ? clearConstruction() : null;
+		MenuItem openFile = enableFileFeatures ? openFile() : null;
+		MenuItem save = enableFileFeatures && logInOperation != null ? saveFile() : null;
+		MenuItem share = enableFileFeatures ? share() : null;
 		MenuItem downloadAs = isDesktop() ? showDownloadAs() : null;
 		MenuItem printPreview = isDesktop() ? previewPrint() : null;
 		MenuItem startExamMode = createExamEntry ? startExamMode() : null;
 		if (version == GeoGebraConstants.Version.SCIENTIFIC) {
 			return new MenuItemGroupImpl(removeNulls(clearConstruction, startExamMode));
 		}
-		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile(), save, share(),
+		return new MenuItemGroupImpl(removeNulls(clearConstruction, openFile, save, share,
 				exportImage(), downloadAs, printPreview, startExamMode));
 	}
 
@@ -107,7 +129,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private MenuItemGroup createUserGroup() {
-		if (logInOperation != null) {
+		if (enableFileFeatures && logInOperation != null) {
 			return createUserGroup(logInOperation);
 		}
 		return null;
