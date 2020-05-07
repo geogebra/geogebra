@@ -51,6 +51,7 @@ public abstract class GlobalKeyDispatcher {
 
 	private TreeSet<AlgoElement> tempSet;
 	private Coords tempVec;
+	private boolean hasUnsavedGeoChanges;
 
 	/**
 	 * @param app2
@@ -1507,6 +1508,7 @@ public abstract class GlobalKeyDispatcher {
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
 			double[] diff = new double[] { changeValX, changeValY, changeValZ };
 			moved = handleArrowKeyMovement(geos, diff, getIncrement(geos));
+			hasUnsavedGeoChanges = true;
 		}
 
 		if (moved) {
@@ -1638,6 +1640,7 @@ public abstract class GlobalKeyDispatcher {
 						}
 
 						num.setValue(newValue);
+						hasUnsavedGeoChanges = true;
 					}
 
 					// update point on path
@@ -1648,6 +1651,7 @@ public abstract class GlobalKeyDispatcher {
 									changeVal * p.getAnimationStep());
 							ScreenReader.readGeoMoved((GeoElement) p);
 						}
+						hasUnsavedGeoChanges = true;
 					}
 				}
 
@@ -1726,5 +1730,12 @@ public abstract class GlobalKeyDispatcher {
 			}
 		}
 		return false;
+	}
+
+	public void storeUndoInfoIfChanged() {
+		if (hasUnsavedGeoChanges) {
+			app.storeUndoInfo();
+			hasUnsavedGeoChanges = false;
+		}
 	}
 }

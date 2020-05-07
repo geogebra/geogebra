@@ -1,5 +1,10 @@
 package org.geogebra.web.html5.main;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -35,11 +40,6 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Handles keyboard events.
@@ -186,6 +186,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 					preventIfNotTabOrEnter(event, appFocused);
 					break;
 				case Event.ONKEYUP:
+					storeUndoInfoIfChanged();
 					// not TAB and not ENTER
 					preventIfNotTabOrEnter(event, appFocused);
 				}
