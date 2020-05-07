@@ -256,7 +256,7 @@ public interface AppConfig {
 	/**
 	 * @return default angle unit
 	 */
-	String getDefaultAngleUnit();
+	int getDefaultAngleUnit();
 
 	/**
 	 * @return true if the angle unit setting is enabled

@@ -211,12 +211,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	final public static int ANGLE_RADIANT = 1;
 	/** Angle unit: degrees */
 	final public static int ANGLE_DEGREE = 2;
-	/** Angle unit: radians */
-	final public static String ANGLE_RADIANT_XML_NAME = "radiant";
-	/** Angle unit: degrees */
-	final public static String ANGLE_DEGREE_XML_NAME = "degree";
-	/** Angle unit: degrees, minutes, seconds */
-	final public static String ANGLE_DEGREES_MINUTES_SECONDS_XML_NAME = "degreesMinutesSeconds";
 	/** Coord system: cartesian */
 	final public static int COORD_CARTESIAN = 3;
 	/** Coord system: polar */

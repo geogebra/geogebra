@@ -255,8 +255,8 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public String getDefaultAngleUnit() {
-		return Kernel.ANGLE_DEGREE_XML_NAME;
+	public int getDefaultAngleUnit() {
+		return Kernel.ANGLE_DEGREE;
 	}
 
 	@Override
