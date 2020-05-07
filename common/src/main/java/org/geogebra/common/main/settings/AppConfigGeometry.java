@@ -260,6 +260,11 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
+	public boolean isAngleUnitSettingEnabled() {
+		return true;
+	}
+
+	@Override
 	public boolean isShowingErrorDialogForInputBox() {
 		return true;
 	}

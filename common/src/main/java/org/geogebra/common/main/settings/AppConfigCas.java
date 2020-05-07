@@ -124,4 +124,9 @@ public class AppConfigCas extends AppConfigGraphing {
 	public String getDefaultAngleUnit() {
 		return Kernel.ANGLE_RADIANT_XML_NAME;
 	}
+
+	@Override
+	public boolean isAngleUnitSettingEnabled() {
+		return false;
+	}
 }
