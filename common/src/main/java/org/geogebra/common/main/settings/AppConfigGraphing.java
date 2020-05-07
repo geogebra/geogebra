@@ -256,6 +256,16 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
+	public int getDefaultAngleUnit() {
+		return Kernel.ANGLE_DEGREE;
+	}
+
+	@Override
+	public boolean isAngleUnitSettingEnabled() {
+		return true;
+	}
+
+	@Override
 	public boolean isShowingErrorDialogForInputBox() {
 		return true;
 	}
