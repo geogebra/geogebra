@@ -1082,7 +1082,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean clearConstruction() {
-		// if (isSaved() || saveCurrentFile()) {
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -1091,9 +1090,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setMoveMode();
 
 		return true;
-
-		// }
-		// return false;
 	}
 
 	@Override
@@ -1149,12 +1145,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public final void fileNew() {
-		// clear all
-		// triggers the "do you want to save" dialog
-		// so must be called first
-		if (!clearConstruction()) {
-			return;
-		}
 		clearMedia();
 		resetUniqueId();
 		setLocalID(-1);
@@ -1163,8 +1153,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
+		if (getPageController() != null) {
+			getPageController().resetPageControl();
+		}
+
 		resetUI();
 		resetPages();
+		clearConstruction();
 	}
 
 	private void resetPages() {
@@ -1209,9 +1204,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if (!isUnbundledOrWhiteboard()) {
 			showPerspectivesPopup();
-		}
-		if (getPageController() != null) {
-			getPageController().resetPageControl();
 		}
 	}
 
