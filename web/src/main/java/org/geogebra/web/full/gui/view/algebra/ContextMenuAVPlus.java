@@ -1,14 +1,18 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.List;
+import java.util.Vector;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.StyleBarResources;
@@ -77,15 +81,34 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	private boolean toolbarHasImageMode() {
-		ToolCollection toolCollection =
-				app.createToolCollectionFactory().createToolCollection();
+		if ("classic".equals(app.getConfig().getAppCode())) {
+			Vector<ToolbarItem> toolbarItems =
+					ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
 
-		List<ToolCategory> categories = toolCollection.getCategories();
+			for (ToolbarItem toolbarItem : toolbarItems) {
+				if (toolbarItem.getMode() == null) {
+					if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
+						return true;
+					}
+				} else {
+					if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
+						return true;
+					}
+				}
+			}
+		} else {
+			ToolCollection toolCollection =
+					app.createToolCollectionFactory().createToolCollection();
 
-		for (int i = 0; i < categories.size(); i++) {
-			for (int j = 0; j < toolCollection.getTools(i).size(); j++) {
-				if (toolCollection.getTools(i).get(j) == EuclidianConstants.MODE_IMAGE) {
-					return true;
+			List<ToolCategory> categories = toolCollection.getCategories();
+
+			for (int i = 0; i < categories.size(); i++) {
+				Log.debug("CATEGORY: " + categories.get(i));
+				for (int j = 0; j < toolCollection.getTools(i).size(); j++) {
+					Log.debug("TOOL: " + toolCollection.getTools(i).get(j));
+					if (toolCollection.getTools(i).get(j) == EuclidianConstants.MODE_IMAGE) {
+						return true;
+					}
 				}
 			}
 		}
