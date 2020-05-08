@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import java.util.List;
 import java.util.Vector;
 
 import org.geogebra.common.awt.GPoint;
@@ -8,9 +7,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
-import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
-import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.KeyboardType;
@@ -99,20 +96,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		} else {
 			ToolCollection toolCollection =
 					app.createToolCollectionFactory().createToolCollection();
-
-			for (ToolsetLevel level : toolCollection.getLevels()) {
-				toolCollection.setLevel(level);
-				List<ToolCategory> categories = toolCollection.getCategories();
-
-				for (int category = 0; category < categories.size(); category++) {
-					for (int tool = 0; tool < toolCollection.getTools(category).size(); tool++) {
-						if (toolCollection.getTools(category).get(tool)
-								== EuclidianConstants.MODE_IMAGE) {
-							return true;
-						}
-					}
-				}
-			}
+			return toolCollection.contains(EuclidianConstants.MODE_IMAGE);
 		}
 
 		return false;
