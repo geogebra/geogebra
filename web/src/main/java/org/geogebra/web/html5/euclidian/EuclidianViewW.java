@@ -109,6 +109,8 @@ public class EuclidianViewW extends EuclidianView implements
 	 * For filtering events if they happen too often
 	 */
 	final public static int DELAY_BETWEEN_MOVE_EVENTS = 15;
+	/** CSS class of the absolute panel*/
+	public static final String ABSOLUTE_PANEL_CLASS = "EuclidianPanel";
 
 	private static final int OUTER_GLOW_WIDTH = 5;
 	private static final int OUTER_GLOW_ALPHA = 48;
@@ -1066,7 +1068,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (cursorElement != null
 				&& !cursorElement.hasClassName(className)) {
 			this.appW.resetCursor();
-			cursorElement.setClassName("");
+			cursorElement.setClassName(ABSOLUTE_PANEL_CLASS);
 			cursorElement.addClassName(className);
 		}
 	}

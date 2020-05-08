@@ -134,7 +134,6 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -1348,16 +1347,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 							.getHeight());
 			euclidianDockPanel.updatePanel(false);
 
-			// FIXME: temporary hack until it is found what causes
-			// the 1px difference
-			// getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setLeft(1,
-			// Style.Unit.PX);
-			// getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setTop(1,
-			// Style.Unit.PX);
-			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
-					.setBottom(-1, Style.Unit.PX);
-			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
-					.setRight(-1, Style.Unit.PX);
 			oldSplitLayoutPanel = null;
 			updateVoiceover();
 		}
