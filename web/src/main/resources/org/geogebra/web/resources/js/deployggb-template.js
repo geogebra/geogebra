@@ -303,20 +303,21 @@ var GGBApplet = function() {
     var getDefaultApiUrl = function() {
         var host = location.host;
         if (host.match(/alpha.geogebra.org/) || host.match(/groot.geogebra.org/)) {
-            return "https://groot.geogebra.org:5000/v1.0";
+            return 'https://groot.geogebra.org:5000';
         }
         if (host.match(/beta.geogebra.org/)) {
-            return "https://api-beta.geogebra.org/v1.0";
+            return 'https://api-beta.geogebra.org';
         }
         if (host.match(/stage.geogebra.org/)) {
-            return "https://api-stage.geogebra.org/v1.0";
+            return 'https://api-stage.geogebra.org';
         }
 
-        return "https://api.geogebra.org/v1.0";
+        return 'https://api.geogebra.org';
     };
 
     var fetchParametersFromApi = function(successCallback, materialsApiUrl) {
         var apiUrl = materialsApiUrl || getDefaultApiUrl();
+        var apiVersion = parameters.apiVersion || '1.0';
 
         var onSuccess = function(text) {
             var jsonData= JSON.parse(text); //retrieve result as an JSON object
@@ -331,25 +332,26 @@ var GGBApplet = function() {
             views.is3D = true;
 
             // user setting of preview URL has precedence
-            var imageDir = "https://www.geogebra.org/images/";
+            var imageDir = 'https://www.geogebra.org/images/';
             applet.setPreviewImage(previewImagePath || item.previewUrl,
-                imageDir + "GeoGebra_loading.png", imageDir + "applet_play.png");
+                imageDir + 'GeoGebra_loading.png', imageDir + 'applet_play.png');
 
             successCallback();
         };
 
-        var url = apiUrl + "/materials/" + parameters.material_id + "?scope=basic";
+        var url = apiUrl + '/v' + apiVersion + '/materials/'
+                     + parameters.material_id + '?scope=basic';
         var onError = function() {
             parameters.onError && parameters.onError();
-            log("Error: The request for fetching material_id " + parameters.material_id + " from tube was not successful.");
+            log('Error: Fetching material (id ' + parameters.material_id + ') failed.');
         };
         sendCorsRequest(url, onSuccess, onError);
     };
 
     function updateAppletSettings(settings) {
-        var parameterNames = ["width", "height", "showToolBar", "showMenuBar",
-            "showAlgebraInput", "allowStyleBar", "showResetIcon", "enableLabelDrags",
-            "enableShiftDragZoom", "enableRightClick", "appName"];
+        var parameterNames = ['width', 'height', 'showToolBar', 'showMenuBar',
+            'showAlgebraInput', 'allowStyleBar', 'showResetIcon', 'enableLabelDrags',
+            'enableShiftDragZoom', 'enableRightClick', 'appName'];
         parameterNames.forEach(function(name) {
              if (parameters[name] === undefined) {
                 parameters[name] = settings[name];
@@ -376,13 +378,6 @@ var GGBApplet = function() {
      * @returns boolean Whether the system is capable of showing the GeoGebra HTML5 applet
      */
     applet.isHTML5Installed = function() {
-        if (isInternetExplorer()) {
-            if ((views.is3D || html5CodebaseScript === "web3d.nocache.js") && getIEVersion() < 11) { // WebGL is supported since IE 11
-                return false;
-            } else if (getIEVersion() < 10) {
-                return false;
-            }
-        }
         return true;
     };
 
@@ -1030,20 +1025,6 @@ var GGBApplet = function() {
 
         return "html5";
     };
-
-    var getIEVersion = function() {
-        var a=navigator.appVersion;
-        if (a.indexOf("Trident/7.0") > 0) {
-            return 11;
-        } else {
-            return a.indexOf('MSIE')+1?parseFloat(a.split('MSIE')[1]):999;
-        }
-    };
-
-    var isInternetExplorer = function() {
-        return (getIEVersion() !== 999);
-    };
-
 
     var modules = ["web", "webSimple", "web3d", "tablet", "tablet3d", "phone"];
     /**
