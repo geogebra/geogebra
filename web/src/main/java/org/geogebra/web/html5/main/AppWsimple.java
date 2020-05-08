@@ -3,7 +3,6 @@ package org.geogebra.web.html5.main;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
@@ -63,17 +62,10 @@ public class AppWsimple extends AppW {
 		afterCoreObjectsInited();
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
 		Browser.removeDefaultContextMenu(ae.getElement());
-		if (Browser.runningLocal() && ae.isEnableApiPing()) {
-			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
-			        .checkAvailable(null);
-		}
 	}
 
 	private void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
-
-		// initGuiManager();// TODO: comment it out
-
 		GeoGebraFrameW.handleLoadFile(articleElement, this);
 		initing = false;
 		if (ZoomPanel.neededFor(this)) {

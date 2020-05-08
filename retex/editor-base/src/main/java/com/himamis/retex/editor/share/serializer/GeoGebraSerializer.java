@@ -208,12 +208,13 @@ public class GeoGebraSerializer implements Serializer {
 			if (mathComponent instanceof MathCharacter) {
 				MathCharacter mathCharacter = (MathCharacter) mathComponent;
 				if (mathCharacter.isCharacter() && mathCharacter
-						.getUnicode() != Unicode.ZERO_WIDTH_SPACE) {
-					stringBuilder.append("*");
+						.getUnicode() != Unicode.ZERO_WIDTH_SPACE
+						&& mathCharacter.getUnicode() != ' ') {
+					stringBuilder.append(" ");
 				}
 			}
 			if (mathComponent != null && mathComponent.hasTag(Tag.SUBSCRIPT)) {
-				stringBuilder.append("*");
+				stringBuilder.append(" ");
 			}
 		}
 	}

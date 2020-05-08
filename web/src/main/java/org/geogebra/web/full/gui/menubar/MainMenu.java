@@ -85,8 +85,7 @@ public class MainMenu extends FlowPanel
 
 	private void init() {
 		if (app.getLoginOperation() == null) {
-			app.initSignInEventFlow(new LoginOperationW(app),
-					app.getArticleElement().isEnableApiPing());
+			app.initSignInEventFlow(new LoginOperationW(app));
 		}
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = app.isExam();

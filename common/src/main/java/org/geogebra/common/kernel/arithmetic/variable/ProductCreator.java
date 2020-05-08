@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
-import org.geogebra.common.kernel.arithmetic.variable.power.Base;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.MyMath;
@@ -53,43 +53,30 @@ class ProductCreator {
 		return null;
 	}
 
-	ExpressionNode getXyzPiDegPower(Exponents exponents,
-	                                     int degPower) {
-		if (exponents.get(Base.pi) == 0 && degPower == 0) {
-			return getXyzPowers(exponents);
-		}
-		return getXyzPowers(exponents)
-				.multiply(piDegPowers(exponents.get(Base.pi), degPower));
+	ValidExpression getFunctionVariablePowers(Exponents exponents) {
+		return variablePower("x", exponents)
+				.multiplyR(variablePower("y", exponents))
+				.multiplyR(variablePower("z", exponents))
+				.multiplyR(variablePower("t", exponents))
+				.multiplyR(variablePower(Unicode.theta_STRING, exponents));
 	}
 
-	ExpressionNode getXyzPowers(Exponents exponents) {
-		return new ExpressionNode(kernel, new FunctionVariable(kernel, "x"))
-				.power(new MyDouble(kernel, exponents.get(Base.x)))
-				.multiplyR(new ExpressionNode(kernel,
-						new FunctionVariable(kernel, "y"))
-								.power(new MyDouble(kernel,
-										exponents.get(Base.y))))
-				.multiplyR(new ExpressionNode(kernel,
-						new FunctionVariable(kernel, "z"))
-								.power(new MyDouble(kernel,
-										exponents.get(Base.z))))
-				.multiplyR(new ExpressionNode(kernel,
-						new FunctionVariable(kernel, "t"))
-								.power(new MyDouble(kernel, exponents.get(Base.t))))
-				.multiplyR(new ExpressionNode(kernel,
-						new FunctionVariable(kernel, Unicode.theta_STRING))
-								.power(new MyDouble(kernel,
-										exponents.get(Base.theta))));
+	private ExpressionNode variablePower(String name, Exponents exponents) {
+		return new FunctionVariable(kernel, name)
+				.wrap().power(exponents.get(name));
 	}
 
-	ExpressionNode piDegPowers(int piPower, int degPower) {
-		ExpressionNode piExp = piPower > 0
+	ExpressionNode piDegPowers(ExpressionNode base, int piPower, int degPower) {
+		ExpressionNode piExpTimesBase = piPower > 0
 				? new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING)
-				.wrap().power(piPower)
-				: null;
-		ExpressionNode degExp = degPower > 0 ? new MyDouble(kernel, MyMath.DEG)
-				.setAngle().wrap().power(degPower) : null;
-		return degExp == null ? piExp
-				: (piExp == null ? degExp : piExp.multiply(degExp));
+				.wrap().power(piPower).multiplyR(base)
+				: base;
+		if (degPower == 0) {
+			return piExpTimesBase;
+		}
+		MyDouble degree = new MySpecialDouble(kernel, MyMath.DEG, Unicode.DEGREE_STRING)
+				.setAngle();
+		ValidExpression degExp = degree.wrap().power(degPower);
+		return piExpTimesBase.multiplyR(degExp);
 	}
 }

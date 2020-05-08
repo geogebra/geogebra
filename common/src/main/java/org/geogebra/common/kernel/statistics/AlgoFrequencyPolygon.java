@@ -195,7 +195,7 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		// create points and load the point array
 
 		if (doCumulative) {
-			points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
+			points[0] = new GeoPoint(cons, leftBorder[0], 0.0, 1.0);
 			for (int i = 0; i < yValue.length - 1; i++) {
 				points[i + 1] = new GeoPoint(cons, leftBorder[i + 1],
 						yValue[i], 1.0);
@@ -203,7 +203,7 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 		} else {
 			double midpoint = leftBorder[0]
 					- 0.5 * (leftBorder[1] - leftBorder[0]);
-			points[0] = new GeoPoint(cons, null, midpoint, 0.0, 1.0);
+			points[0] = new GeoPoint(cons, midpoint, 0.0, 1.0);
 			for (int i = 0; i < yValue.length - 1; i++) {
 				midpoint = 0.5 * (leftBorder[i + 1] + leftBorder[i]);
 				points[i + 1] = new GeoPoint(cons, midpoint, yValue[i],

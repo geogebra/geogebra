@@ -26,6 +26,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.full.html5.Sandbox;
 import org.geogebra.web.full.main.embed.CalcEmbedElement;
 import org.geogebra.web.full.main.embed.EmbedElement;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
@@ -206,6 +207,7 @@ public class EmbedManagerW implements EmbedManager {
 		}
 		Frame frame = new Frame();
 		frame.setUrl(url);
+		frame.getElement().setAttribute("sandbox", Sandbox.embeds());
 		return frame;
 	}
 

@@ -27,6 +27,16 @@ public class SuiteToolCollectionFactory extends AbstractToolCollectionFactory {
         impl.addLevel(ToolsetLevel.STANDARD);
 
         impl.extendCategory(ToolCategory.BASIC,
+                EuclidianConstants.MODE_MOVE,
+                EuclidianConstants.MODE_POINT,
+                EuclidianConstants.MODE_SLIDER,
+                EuclidianConstants.MODE_INTERSECT,
+                EuclidianConstants.MODE_EXTREMUM,
+                EuclidianConstants.MODE_ROOTS,
+                EuclidianConstants.MODE_FITLINE);
+
+        impl.extendCategory(ToolCategory.EDIT,
+                EuclidianConstants.MODE_SELECT,
                 EuclidianConstants.MODE_TRANSLATEVIEW,
                 EuclidianConstants.MODE_DELETE,
                 EuclidianConstants.MODE_SHOW_HIDE_LABEL,

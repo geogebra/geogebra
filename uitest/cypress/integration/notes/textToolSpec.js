@@ -4,9 +4,6 @@ import {parseString} from 'xml2js'
 describe('Text tool test', () => {
     beforeEach(() => {
         cy.visit('notes.html');
-        cy.window().then((win) => {
-            win.PointerEvent = null;
-        });
         cy.get("body.application");
     });
 

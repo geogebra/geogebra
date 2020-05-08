@@ -13,7 +13,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -211,34 +210,33 @@ public class EuclidianStatic {
 			if (isLaTeX) {
 				// save the height of this element by drawing it to a temporary
 				// buffer
-				GDimension dim = AwtFactory.getPrototype().newDimension(0, 0);
-				dim = app.getDrawEquation().drawEquation(app, geo, tempGraphics,
-						0, 0, elements[i], font, ((GeoText) geo).isSerifFont(),
+				GDimension dim = app.getDrawEquation().drawEquation(app, geo, tempGraphics,
+						0, 0, elements[i], font, serif,
 						fgColor, bgColor, false, false, callback);
 
 				int height = dim.getHeight();
 
 				// depth += dim.depth;
 
-				elementHeights.add(Integer.valueOf(height));
+				elementHeights.add(height);
 
 				// check if this element is taller than every else in the line
-				if (height > (lineHeights.get(currentLine)).intValue()) {
-					lineHeights.set(currentLine, Integer.valueOf(height));
+				if (height > lineHeights.get(currentLine)) {
+					lineHeights.set(currentLine, height);
 				}
 			} else {
 				elements[i] = elements[i].replaceAll("\\\\\\$", "\\$");
 				String[] lines = elements[i].split("\\n", -1);
 
 				for (int j = 0; j < lines.length; ++j) {
-					elementHeights.add(Integer.valueOf(lineSpread));
+					elementHeights.add(lineSpread);
 
 					// create a new line
 					if (j + 1 < lines.length) {
 						++currentLine;
 
 						lineHeights
-								.add(Integer.valueOf(lineSpread + lineSpace));
+								.add(lineSpread + lineSpace);
 					}
 				}
 			}
@@ -271,7 +269,7 @@ public class EuclidianStatic {
 				// draw the equation and save the x offset
 				xOffset += de.drawEquation(app, geo, g2, xLabel + xOffset,
 						(yLabel + height) + yOffset, elements[i], font,
-						((GeoText) geo).isSerifFont(), fgColor, bgColor, true,
+						serif, fgColor, bgColor, true,
 						false, callback).getWidth();
 
 				++currentElement;

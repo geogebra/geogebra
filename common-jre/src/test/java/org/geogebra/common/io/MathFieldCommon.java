@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import org.geogebra.common.util.SyntaxAdapterImpl;
+
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -12,10 +14,16 @@ import com.himamis.retex.renderer.share.TeXIcon;
 
 public class MathFieldCommon implements MathField {
 
-	private MathFieldInternal internal = new MathFieldInternal(this);
+	private final MetaModel model;
+	private MathFieldInternal internal;
 
-	public MathFieldCommon() {
-		internal.setFormula(MathFormula.newFormula(new MetaModel()));
+	/**
+	 * @param model formula meta-model
+	 */
+	public MathFieldCommon(MetaModel model) {
+		this.model = model;
+		internal = new MathFieldInternal(this);
+		internal.setFormula(MathFormula.newFormula(model));
 	}
 
 	@Override
@@ -77,8 +85,7 @@ public class MathFieldCommon implements MathField {
 
 	@Override
 	public MetaModel getMetaModel() {
-		// stub
-		return new MetaModel();
+		return model;
 	}
 
 	@Override
@@ -132,4 +139,7 @@ public class MathFieldCommon implements MathField {
 		internal.update();
 	}
 
+	public void setFormatConverter(SyntaxAdapterImpl formatConverter) {
+		internal.getInputController().setFormatConverter(formatConverter);
+	}
 }

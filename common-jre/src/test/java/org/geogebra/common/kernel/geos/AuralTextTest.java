@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -25,10 +27,10 @@ public class AuralTextTest {
 		Log.debug("aural = " + aural);
 		String[] sentences = aural.split("\\.");
 		Assert.assertTrue(aural.endsWith("."));
-		Assert.assertEquals(out.length, sentences.length);
+		assertEquals(out.length, sentences.length);
 		for (int i = 0; i < out.length; i++) {
 			if (!sentences[i].matches(".*" + out[i] + ".*")) {
-				Assert.assertEquals(out[i], sentences[i]);
+				assertEquals(out[i], sentences[i]);
 			}
 		}
 	}
@@ -54,7 +56,7 @@ public class AuralTextTest {
 	public void numberAural() {
 		aural("sl=Slider(-5,5)", "Slider", "start animation", "increase",
 				"decrease", "edit");
-		Assert.assertEquals("sl = 0",
+		assertEquals("sl = 0",
 				((GeoNumeric) get("sl")).getAuralCurrentValue());
 		aural("4", "Number");
 	}
@@ -69,7 +71,7 @@ public class AuralTextTest {
 		add("SetCaption(vec,\"Vector v = %v\")");
 		aural("vec", "Vector v = 0", "start animation", "increase",
 				"decrease", "edit");
-		Assert.assertEquals("Vector v = 0",
+		assertEquals("Vector v = 0",
 				((GeoNumeric) get("vec")).getAuralCurrentValue());
 	}
 
@@ -126,6 +128,25 @@ public class AuralTextTest {
 		GeoElementND[] pointB = add("B = (2,2)");
 		pointB[0].setCaption(" $ \\text{this is my nice caption}$");
 		auralWhichContainsTheOutput("B", "this is my nice caption");
+	}
+
+	@Test
+	public void inputBoxShouldReadCaptionOrLabel() {
+		GeoInputBox box = (GeoInputBox) add("myBox=InputBox()")[0];
+		assertEquals("Input Box myBox", box.getAuralText().trim());
+		box.setCaption("$\\frac{1}{2}$");
+		assertEquals("Input Box (1)/(2)", box.getAuralText().trim());
+		box.setCaption("plainText");
+		assertEquals("Input Box plainText", box.getAuralText().trim());
+	}
+
+	@Test
+	public void inputBoxShouldNotReadHiddenLabel() {
+		GeoInputBox box = (GeoInputBox) add("myBox=InputBox()")[0];
+		box.setLabelVisible(false);
+		assertEquals("Input Box", box.getAuralText().trim());
+		box.setCaption("$\\frac{1}{2}$");
+		assertEquals("Input Box (1)/(2)", box.getAuralText().trim());
 	}
 
 	private static void auralWhichContainsTheOutput(String in, String... out) {

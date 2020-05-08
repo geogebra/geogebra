@@ -201,8 +201,6 @@ public class Tools extends FlowPanel implements SetLabels {
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
 			toolButtonList = new ArrayList<>();
-			ToolBar.parseToolbarString(
-					app.getGuiManager().getToolbarDefinition());
 			for (Integer tool : tools) {
 				addToolButton(tool);
 			}

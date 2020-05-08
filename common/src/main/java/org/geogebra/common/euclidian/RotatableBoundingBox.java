@@ -7,11 +7,14 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.kernel.geos.GeoInline;
 
-public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
+/**
+ * Bounding box for a single element that rotates together with the geo.
+ */
+public class RotatableBoundingBox extends BoundingBox<GEllipse2DDouble> {
 
-	private GeoInlineText text;
+	private GeoInline geo;
 
 	private GPoint2D[] corners = new GPoint2D[9];
 
@@ -30,7 +33,7 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	@Override
 	public void updateFrom(GeoElement geo) {
 		super.updateFrom(geo);
-		text = (GeoInlineText) geo;
+		this.geo = (GeoInline) geo;
 	}
 
 	@Override
@@ -64,7 +67,7 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 
 		// evil hackery to get closest rotation handler
 		int cursorIndex = (int) Math.round(4 * (Math.atan2(handler.getDx(), handler.getDy())
-				- text.getAngle()) / Math.PI) % 4;
+				- geo.getAngle()) / Math.PI) % 4;
 
 		// I'd need a proper number theoretic remainder, but I have to make do with
 		// Computer Science modulo (there is Math.floorMod in java8)
@@ -93,8 +96,8 @@ public class TextBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	}
 
 	private void updateHandlers() {
-		double width = text.getWidth();
-		double height = text.getHeight();
+		double width = geo.getWidth();
+		double height = geo.getHeight();
 
 		setHandlerTransformed(0, 0, 0);
 		setHandlerTransformed(1, 0, height);

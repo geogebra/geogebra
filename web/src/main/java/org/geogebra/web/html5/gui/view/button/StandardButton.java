@@ -93,6 +93,8 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		this.label = label;
 		if (image != null) {
 			btnImage = new NoDragImage(image, width, height);
+			btnImage.getElement().setTabIndex(-1);
+
 			if (label == null) {
 				getUpFace().setImage(btnImage);
 			} else {

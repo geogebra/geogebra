@@ -114,6 +114,7 @@ import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
 import org.geogebra.web.html5.gui.laf.MebisSettings;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -1744,21 +1745,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Initializes the user authentication
-	 *
-	 * @param op
+	 *  @param op
 	 *            login operation
-	 * @param mayLogIn
-	 *            whether login dialog may be opened
+	 *
 	 */
-	public void initSignInEventFlow(LogInOperation op, boolean mayLogIn) {
-
+	public void initSignInEventFlow(LogInOperation op) {
 		// Initialize the signIn operation
 		loginOperation = op;
 		if (getNetworkOperation().isOnline()) {
-			if (this.getLAF() != null && this.getLAF().supportsGoogleDrive()) {
+			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
 				initGoogleDriveEventFlow();
 			}
-			if (mayLogIn) {
+			if (getArticleElement().getDataParamEnableFileFeatures()) {
 				loginOperation.performTokenLogin();
 			}
 		} else {
@@ -3082,18 +3080,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	/**
-	 * @param el
-	 *            article element
-	 * @return true if prerelease
-	 *
-	 *         Remove this function if GGB-2051 released. Used only in GGB-2051
-	 */
-	public static boolean isPrerelease(ArticleElement el) {
-		String p = el.getDataParamPrerelease();
-		return "true".equals(p) || "canary".equals(p);
-	}
-
 	@Override
 	public void hideMenu() {
 		// for applets with menubar
@@ -3852,5 +3838,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				}
 			});
 		}
+	}
+
+	public SignInControllerI getSignInController() {
+		return getLAF().getSignInController(this);
 	}
 }
