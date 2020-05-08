@@ -320,15 +320,16 @@ var GGBApplet = function() {
         var apiVersion = parameters.apiVersion || '1.0';
 
         var onSuccess = function(text) {
-            var jsonData= JSON.parse(text); //retrieve result as an JSON object
-            var item = jsonData.elements && jsonData.elements[0];
-            if (!item) {
+            var jsonData= JSON.parse(text);
+            // handle either worksheet or single element format
+            var item = jsonData.elements ? jsonData.elements[0] : jsonData;
+            if (!item || !item.url) {
                 onError();
                 return;
             }
 
             parameters.fileName = item.url;
-            updateAppletSettings(item.settings);
+            updateAppletSettings(item.settings || {});
             views.is3D = true;
 
             // user setting of preview URL has precedence
@@ -353,7 +354,7 @@ var GGBApplet = function() {
             'showAlgebraInput', 'allowStyleBar', 'showResetIcon', 'enableLabelDrags',
             'enableShiftDragZoom', 'enableRightClick', 'appName'];
         parameterNames.forEach(function(name) {
-             if (parameters[name] === undefined) {
+             if (parameters[name] === undefined && settings[name] !== undefined) {
                 parameters[name] = settings[name];
              }
         });
