@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -50,9 +51,12 @@ public class VariableReplacerAlgorithm {
 	public ExpressionValue replace(String expressionString) {
 		ExpressionValue value = replaceToken(expressionString);
 		if (value instanceof Variable) {
-			return tokenize(expressionString);
+			ExpressionValue tokenize = tokenize(expressionString);
+			Log.debug("t: " + tokenize.wrap().getDebugString());
+			return tokenize;
 		}
 
+		Log.debug("v: " + value.wrap().getDebugString());
 		return value;
 	}
 
@@ -67,6 +71,10 @@ public class VariableReplacerAlgorithm {
 				: replace(tokenizer.getInputRemaining());
 
 			if (isProductFactor(v1) && isProductFactor(v2)) {
+				if (v2.wrap().getOperation() == Operation.MULTIPLY){
+					return v1.wrap().multiplyR(v2.wrap().getLeft()).multiplyR(v2.wrap().getRight());
+				}
+
 				return v1.wrap().multiplyR(v2);
 			}
 		}
@@ -75,9 +83,7 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private boolean isProductFactor(ExpressionValue value) {
-		return value != null && (value.isNumberValue() || value.isVariable()
-			|| value.wrap().hasOperations()
-		);
+		return value != null && (value.isNumberValue());
 	}
 
 	public ExpressionValue replaceToken(String expressionString) {

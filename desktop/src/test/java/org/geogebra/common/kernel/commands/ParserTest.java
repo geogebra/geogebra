@@ -339,4 +339,14 @@ public class ParserTest {
 		return app.getKernel().getParser().parseGeoGebraExpression(string);
 	}
 
+	@Test
+	public void testPiRSquare() {
+//		shouldReparseAs("zpadx^(2)", "z p a d x" + Unicode.SUPERSCRIPT_2);
+		shouldReparseAs("zpix^(2)", "z " + Unicode.PI_STRING + " x" + Unicode.SUPERSCRIPT_2);
+	}
+
+	@Test
+	public void testConstantMultiplierWithBrackets() {
+		shouldReparseAs("4xsin(4x)", 	"4 x sin(4 x)");
+	}
 }

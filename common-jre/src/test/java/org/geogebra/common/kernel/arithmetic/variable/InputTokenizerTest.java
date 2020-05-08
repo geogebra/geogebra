@@ -36,18 +36,14 @@ public class InputTokenizerTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testExponential() {
-		shouldBeSplitTo("ar^(2)","a", "r^(2)");
-	}
-
-	@Test
 	public void testPi() {
 		shouldBeSplitTo("api","a", "pi");
 	}
 
 	@Test
-	public void testBrackets() {
-		shouldBeSplitTo("8sqrt(x)","8", "s", "q", "r", "t", "x" );
+	public void testFunctionVarPlus() {
+		add("f(var)=?");
+		shouldBeSplitTo("var+ab","var", "+", "a", "b");
 	}
 
 	@Test

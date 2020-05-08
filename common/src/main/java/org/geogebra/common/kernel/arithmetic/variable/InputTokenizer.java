@@ -56,16 +56,10 @@ public class InputTokenizer {
 		ArrayList<String> tokens = new ArrayList<>();
 		while (!"".equals(input)) {
 			String nextToken = next();
-			if (!isBracket(nextToken)) {
-				tokens.add(nextToken);
-			}
+			tokens.add(nextToken);
 		}
 
 		return tokens;
-	}
-
-	private boolean isBracket(String nextToken) {
-		return nextToken.length() == 1 && isBracket(nextToken.charAt(0));
 	}
 
 	public String next() {
