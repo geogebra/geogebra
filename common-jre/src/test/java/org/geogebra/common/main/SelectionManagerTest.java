@@ -1,8 +1,11 @@
 package org.geogebra.common.main;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,8 +21,8 @@ public class SelectionManagerTest extends BaseUnitTest {
 	@Test
 	public void hasNextShouldSkipInvisibleGeos() {
 		createSampleGeos();
-		Assert.assertTrue(selectionManager.hasNext(lookup("firstVisible")));
-		Assert.assertFalse(selectionManager.hasNext(lookup("lastVisible")));
+		assertTrue(selectionManager.hasNext(lookup("firstVisible")));
+		assertFalse(selectionManager.hasNext(lookup("lastVisible")));
 	}
 
 	private void createSampleGeos() {
@@ -41,10 +44,10 @@ public class SelectionManagerTest extends BaseUnitTest {
 		GeoElement firstVisible = lookup("firstVisible");
 		selectionManager.addSelectedGeo(firstVisible);
 		// next jumps to second
-		selectionManager.selectNextGeo(getApp().getEuclidianView1());
-		Assert.assertTrue(lookup("lastVisible").isSelected());
-		// next jumps bacck to first
-		selectionManager.selectNextGeo(getApp().getEuclidianView1());
-		Assert.assertTrue(firstVisible.isSelected());
+		selectionManager.selectNextGeo();
+		assertTrue(lookup("lastVisible").isSelected());
+		// next does not select anything
+		assertFalse(selectionManager.selectNextGeo());
+		assertEquals(0, selectionManager.selectedGeosSize());
 	}
 }

@@ -1,19 +1,14 @@
 package org.geogebra.web.full.gui.menubar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 
 /**
  * Menubar with some extra functionality (popups, event logging)
@@ -23,7 +18,6 @@ public class GMenuBar extends AriaMenuBar {
 	private int separators = 0;
 	private String menuTitle;
 	private AppW app;
-	private List<TabHandler> tabHandlers;
 
 	/**
 	 * @param menuTitle
@@ -35,18 +29,7 @@ public class GMenuBar extends AriaMenuBar {
 		super();
 		this.menuTitle = menuTitle;
 		this.app = app;
-		tabHandlers = new ArrayList<>();
 		setHandleArrows(false);
-	}
-
-	/**
-	 * Adds a handler for TAB key.
-	 * 
-	 * @param handler
-	 *            to add.
-	 */
-	public void addTabHandler(TabHandler handler) {
-		tabHandlers.add(handler);
 	}
 
 	/**
@@ -197,29 +180,6 @@ public class GMenuBar extends AriaMenuBar {
 	@Override
 	protected AppW getApp() {
 		return app;
-	}
-
-	@Override
-	public void onBrowserEvent(Event event) {
-		int eventGetType = DOM.eventGetType(event);
-		if (eventGetType == Event.ONKEYDOWN) {
-			int keyCode = event.getKeyCode();
-			if (keyCode == KeyCodes.KEY_TAB && hasTabHandlers()) {
-				event.preventDefault();
-				event.stopPropagation();
-				for (TabHandler handler : tabHandlers) {
-					handler.onTab(this, event.getShiftKey());
-				}
-				return;
-			}
-		}
-		if (eventGetType != Event.ONFOCUS) {
-			super.onBrowserEvent(event);
-		}
-	}
-
-	private boolean hasTabHandlers() {
-		return !tabHandlers.isEmpty();
 	}
 
 	/**

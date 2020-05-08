@@ -15,6 +15,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Panel containing a slider.
@@ -164,5 +165,9 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 		double w = width - minLabel.getOffsetWidth()
 				- maxLabel.getOffsetWidth();
 		slider.asWidget().getElement().getStyle().setWidth(w, Unit.PX);
+	}
+
+	public Widget getSlider() {
+		return slider.asWidget();
 	}
 }

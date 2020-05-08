@@ -3,9 +3,13 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.Collections;
 import java.util.List;
 
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
@@ -25,7 +29,6 @@ public class AccessibleGeoElement implements AccessibleWidget {
 	private Button button;
 	private GeoElement geo;
 	private Label label;
-	private App app;
 	private Widget activeWidget;
 
 	/**
@@ -43,7 +46,6 @@ public class AccessibleGeoElement implements AccessibleWidget {
 		this.geo = geo;
 		this.label = factory.newLabel();
 		this.button = factory.newButton();
-		this.app = app;
 		update();
 		button.addClickHandler(new ClickHandler() {
 
@@ -58,7 +60,7 @@ public class AccessibleGeoElement implements AccessibleWidget {
 
 	@Override
 	public void update() {
-		button.setText(app.getAccessibilityManager().getAction(geo));
+		button.setText(getAction(geo));
 		label.setText(geo.getAuralText(new ScreenReaderBuilder(Browser.isMobile())));
 		activeWidget = geo.getScript(EventType.CLICK) == null ? label : button;
 	}
@@ -73,6 +75,22 @@ public class AccessibleGeoElement implements AccessibleWidget {
 		if (activeWidget == button) {
 			button.setFocus(focus);
 		}
+	}
+
+	/**
+	 * @param sel
+	 *            selected element associated with the action
+	 * @return action description (eg Run script)
+	 */
+	private String getAction(GeoElement sel) {
+		if (sel instanceof GeoButton || sel instanceof GeoBoolean) {
+			return sel.getCaption(StringTemplate.screenReader);
+		}
+		if (sel != null && sel.getScript(EventType.CLICK) != null) {
+			return ScreenReader.getAuralText(sel, new ScreenReaderBuilder(Browser.isMobile()));
+		}
+
+		return null;
 	}
 
 }

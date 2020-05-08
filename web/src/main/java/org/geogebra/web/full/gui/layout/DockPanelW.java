@@ -29,11 +29,11 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
@@ -77,7 +77,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public abstract class DockPanelW extends ResizeComposite
-		implements DockPanel, DockComponent, TabHandler {
+		implements DockPanel, DockComponent {
 	/** Dock manager */
 	protected DockManagerW dockManager;
 	/** app */
@@ -609,11 +609,17 @@ public abstract class DockPanelW extends ResizeComposite
 				app);
 		graphicsContextMenuBtn
 				.setTitle(app.getLocalization().getMenu("Settings"));
+		final FocusableWidget focusableWidget = new FocusableWidget(
+				AccessibilityGroup.getViewGroup(getViewId()),
+				AccessibilityGroup.ViewControlId.SETTINGS_BUTTON,  graphicsContextMenuBtn);
+		if (getViewId() == App.VIEW_EUCLIDIAN) {
+			focusableWidget.attachTo(app);
+		}
 		FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
 
 			@Override
 			public void onClick(Widget source) {
-				app.getAccessibilityManager().setAnchor(source);
+				app.getAccessibilityManager().setAnchor(focusableWidget);
 				onGraphicsSettingsPressed();
 			}
 
@@ -623,8 +629,7 @@ public abstract class DockPanelW extends ResizeComposite
 		graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
 				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
 		titleBarPanelContent.add(graphicsContextMenuBtn);
-		graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
-		graphicsContextMenuBtn.addTabHandler(this);
+		graphicsContextMenuBtn.getElement().setTabIndex(0);
 		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
 		if (toggleStyleBarButton != null) {
 			toggleStyleBarButton.removeFromParent();
@@ -1132,11 +1137,6 @@ public abstract class DockPanelW extends ResizeComposite
 		return visible;
 	}
 
-	/** @return Whether this has focus */
-	public boolean hasFocus() {
-		return hasFocus;
-	}
-
 	/**
 	 * Mark this panel as focused. When gaining focus the panel will
 	 * automatically request focus for its parent frame.
@@ -1617,17 +1617,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public void setToolMode(boolean toolMode) {
 		// do nothing by default
-	}
-
-	@Override
-	public boolean onTab(Widget source, boolean shiftDown) {
-		if (source == graphicsContextMenuBtn && !shiftDown) {
-			app.getAccessibilityManager()
-					.focusNext(AccessibilityGroup.SETTINGS_BUTTON, getViewId());
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

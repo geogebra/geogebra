@@ -125,14 +125,6 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	}
 
 	@Override
-	public void setVisible(boolean sv) {
-		super.setVisible(sv);
-		if (getEuclidianView() != null) {
-			((EuclidianViewW) getEuclidianView()).updateFirstAndLast(sv, false);
-		}
-	}
-
-	@Override
 	public Canvas getBackgroundCanvas() {
 		// TODO Auto-generated method stub
 		return null;
