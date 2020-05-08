@@ -100,7 +100,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 		if (!isVisible) {
 			return;
 		}
-		labelVisible = geo.isLabelVisible();
+		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(n);
 
 		if (n.isAlgoMacroOutput() || isCasObject) {
@@ -159,7 +159,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 			aRW = view.toRealWorldCoordX(xLabel);
 			double y = (f.value(aRW) + g.value(aRW)) / 2;
 			yLabel = view.toClippedScreenCoordY(y);
-			labelDesc = geo.getLabelDescription();
+			labelDesc = getTopLevelGeo().getLabelDescription();
 			addLabelOffset();
 		}
 	}
