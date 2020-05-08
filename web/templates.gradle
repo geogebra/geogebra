@@ -13,7 +13,7 @@ String splash = template("classic-splash.html")
 }
 
 def headerPartials = { header, appPartials ->
-    def partials = appPartials ?: ["share-button", "signin-button"]
+    def partials = appPartials ?: ["share-button", "signin-button", "firebase"]
     partials.each({
         header = header.replace("<!--${it.toUpperCase()}-->", template("partials/${it}.html"));
     })
@@ -60,6 +60,7 @@ ext.appHtml = { app, prerelease, offline = false ->
     def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
             "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
     def splashContent = template("${app.id}-splash.html")
+    def firebaseAppId = app.firebaseAppId ?: ""
     return replaceVendor(html, vendor)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
@@ -68,6 +69,7 @@ ext.appHtml = { app, prerelease, offline = false ->
             .replace("<!--APP ID-->", appID)
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
+            .replace("<!--FIREBASE APP ID-->", firebaseAppId)
             .replace("\r\n", "\n") // generate the same on Win and Unix
 }
 

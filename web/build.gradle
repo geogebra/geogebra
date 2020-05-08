@@ -77,19 +77,33 @@ dependencies {
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 
 ext.appSpecs = [
-    [id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0', releases: 'Releases', icon: 'ggb.ico'],
+    [id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0',
+        releases: 'Releases', icon: 'ggb.ico',
+        firebaseAppId: '1:895270214636:web:1c3511921f2be04584fec9'],
     [id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator',
-        exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon: 'Graphing.ico', appStoreId:'1146717204'],
-    [id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976'],
+        exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing',
+        icon: 'Graphing.ico', appStoreId:'1146717204',
+        firebaseAppId: '1:895270214636:web:f4b7643402b8dba084fec9'],
+    [id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976',
+        firebaseAppId: '1:895270214636:web:0ce5d75e004b9bec84fec9'],
     [id:'cas', title:'CAS Calculator', transKey:'CASCalculator',
-        exe:'GeoGebraCAS', pkg:'GeoGebra_CAS',  releases: 'Releases-cas', icon: 'CAS.ico', appStoreId:'1436278267'],
+        exe:'GeoGebraCAS', pkg:'GeoGebra_CAS',  releases: 'Releases-cas',
+        icon: 'CAS.ico', appStoreId:'1436278267',
+        firebaseAppId: '1:895270214636:web:92ec98a72e95ca2584fec9'],
     [id:'scientific', title:'Scientific Calculator', transKey:'ScientificCalculator',
-        partials:["undo-redo"], appStoreId:'1412748754'],
+        partials:["undo-redo"], appStoreId:'1412748754',
+        firebaseAppId: '1:895270214636:web:bfd6eded13d2f30e84fec9'],
     [id:'geometry', title:'Geometry', transKey:'Geometry',
-        exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', appStoreId:'1232591335'],
-    [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite'],
-    [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
-    [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
+        exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry',
+        icon: 'Geometry.ico', appStoreId:'1232591335',
+        firebaseAppId: '1:895270214636:web:bf946aaf34c3099b84fec9'],
+    [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite',
+         firebaseAppId: '1:895270214636:web:44a77dd7c522cb2284fec9'],
+    [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes', pkg:'GeoGebra_Notes',
+         releases: 'Releases-notes', icon: 'notes.ico',
+         firebaseAppId: '1:895270214636:web:17df56fac43bbbed84fec9'],
+    [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel', pkg:'Mebis_Tafel',
+         icon: 'notes.ico', vendor: "Mebis"]]
 
 gwt {
     gwtVersion = gwtCompilerVersion
