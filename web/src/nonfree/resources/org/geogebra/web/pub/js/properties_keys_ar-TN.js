@@ -2700,7 +2700,6 @@ __GGB__keysVar["ar-TN"].menu = {
     "Settings.Save": "\u062d\u0641\u0638 \u0627\u0644\u0625\u0639\u062f\u0627\u062f\u0627\u062a",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "\u0645\u0633\u062a\u0637\u064a\u0644",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",

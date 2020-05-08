@@ -501,14 +501,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testSimplifyCommand() {
-		t("Simplify(aaa+bbb+aaa+x+y+x+y)", "2 * aaa + bbb + 2 * x + 2 * y");
+		t("f = Simplify(aaa+bbb+aaa+x+y+x+y)", "2 * aaa + bbb + 2 * x + 2 * y");
+		t("Simplify(x+x)", "2 * x");
 	}
 
 	@Test
 	public void testTrigCommands() {
 		t("TrigExpand(tan(aaa+bbb))",
 				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
-		t("TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+		t("f(x) = TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+		t("TrigExpand(x)", "x");
 		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
 	}
 
@@ -593,6 +595,79 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("x=y+a", "x = a + y");
 		assertEquals("eq1", app.getGgbApi().getObjectName(0));
 		assertEquals("eq2", app.getGgbApi().getObjectName(1));
+	}
+
+	@Test
+	public void testFunctionVariableLabelInCommandsMultiVariableFunction() {
+		GeoSymbolic geo = createGeoWithHiddenLabel("Integral(x³+3x y, x)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("a(x, y)"));
+	}
+
+	@Test
+	public void testFunctionsWithApostrophe() {
+		testOutputLabelOfFunctionsWithApostrophe("Integral(x)", "x");
+		testOutputLabelOfFunctionsWithApostrophe("TaylorPolynomial(x^2, 3, 1)", "6");
+	}
+
+	@Test
+	public void testFunctionVariableLabelInCommandsFunctions() {
+		GeoSymbolic derivative1 = createGeoWithHiddenLabel("Derivative(x^2)");
+		showLabel(derivative1);
+		GeoSymbolic var = createGeoWithHiddenLabel("f(2)");
+		assertEquals("4", var.getAlgebraDescriptionDefault());
+		clean();
+
+		GeoSymbolic geo = createGeoWithHiddenLabel("Derivate(x)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("a(x)"));
+		clean();
+
+		testOutputLabel("f(x) = Derivative(x^3 + x^2 + x)", "f(x)");
+		testOutputLabel("Integral(x^3)", "f(x)");
+		testOutputLabel("f(x) = TrigSimplify(1 - sin(x)^2)", "f(x)");
+		testOutputLabel("f(x) = TrigCombine(x)", "f(x)");
+		testOutputLabel("f(x) = TrigExpand(x)", "f(x)");
+		testOutputLabel("f(x) = TaylorPolynomial(x,x-5,1)", "f(x)");
+		testOutputLabel("f(x) = Simplify(x + x + x)", "f(x)");
+		testOutputLabel("f(x) = PartialFractions(x^2 / (x^2 - 2x + 1))", "f(x)");
+		testOutputLabel("f(x) = Factor(x^2 + x - 6)", "f(x)");
+	}
+
+	@Test
+	public void testDerivativeLabelHasFunctionVar() {
+		add("b(x) = x");
+		GeoSymbolic geo = createGeoWithHiddenLabel("Derivative(b)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("f(x)"));
+	}
+
+	private void testOutputLabel(String input, String outputStartsWith) {
+		GeoSymbolic geo = createGeoWithHiddenLabel(input);
+		assertTrue(geo.getTwinGeo() instanceof GeoFunction);
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith(outputStartsWith));
+		clean();
+	}
+
+	private void testOutputLabelOfFunctionsWithApostrophe(String input,
+							   String outputStartsWith) {
+		GeoSymbolic firstGeo = createGeoWithHiddenLabel(input);
+		assertTrue(firstGeo.getTwinGeo() instanceof GeoFunction);
+		showLabel(firstGeo);
+		GeoSymbolic secondGeo = createGeoWithHiddenLabel("f'");
+		assertTrue(secondGeo.getAlgebraDescriptionDefault().startsWith(outputStartsWith));
+		clean();
+	}
+
+	private GeoSymbolic createGeoWithHiddenLabel(String text) {
+		GeoSymbolic geoElement = add(text);
+		new LabelController().hideLabel(geoElement);
+		return geoElement;
+	}
+
+	private void showLabel(GeoSymbolic geoSymbolic) {
+		new LabelController().showLabel(geoSymbolic);
 	}
 
 	@Test
@@ -851,7 +926,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		Assert.assertNotNull(SuggestionRootExtremum.get(line));
 		SuggestionRootExtremum.get(line).execute(line);
 		Assert.assertNull(SuggestionRootExtremum.get(line));
-		Object[] list =  app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
+		Object[] list = app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
 		((GeoElement) list[list.length - 1]).remove();
 		Assert.assertNotNull(SuggestionRootExtremum.get(line));
 	}

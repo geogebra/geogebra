@@ -30,14 +30,12 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
@@ -63,7 +61,6 @@ import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.full.euclidian.InlineFormulaControllerW;
 import org.geogebra.web.full.euclidian.InlineTextControllerW;
 import org.geogebra.web.full.gui.CustomizeToolbarGUI;
-import org.geogebra.web.full.gui.DockManagerAccessibilityAdapter;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
 import org.geogebra.web.full.gui.SaveControllerW;
@@ -121,7 +118,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
-import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -130,11 +126,11 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
@@ -172,8 +168,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private GuiManagerW guiManager = null;
 
 	private CustomizeToolbarGUI ct;
-	/** flag to prevent infinite recursion in focusGained */
-	boolean focusGainedRunning = false;
+
 	private ArrayList<Runnable> waitingForLocalization;
 	private boolean localizationLoaded;
 	/** browser / tablet / win store device */
@@ -186,7 +181,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	private boolean menuShowing = false;
 	private final GeoGebraFrameFull frame;
-	private View focusedView;
 	private DockSplitPaneW oldSplitLayoutPanel = null; // just a
 																// technical
 	private int spWidth;
@@ -269,10 +263,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		setupHeader();
 
-		if (!showMenuBar() && Browser.runningLocal() && ae.isEnableApiPing()) {
-			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
-					.checkAvailable(null);
-		}
 		startActivity();
 	}
 
@@ -302,15 +292,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 	private void setupSignInButton(GlobalHeader header) {
 		if (getLoginOperation() == null) {
-			initSignImEventFlow();
+			initSignInEventFlow(new LoginOperationW(this));
 		}
 		header.addSignIn(this);
-	}
-
-	private void initSignImEventFlow() {
-		initSignInEventFlow(
-				new LoginOperationW(this),
-				getArticleElement().isEnableApiPing());
 	}
 
 	@Override
@@ -563,39 +547,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		cpc.pasteExternal(data, 0, 0, data.length > 0 ? data[0].length - 1 : 0,
 				data.length);
 		onOpenFile();
-	}
-
-	@Override
-	public final void focusGained(View v, Element el) {
-		if (getGuiManager() != null) {
-			// somehow the panel was not activated in case focus gain
-			// so it is good to do here, unless it makes an
-			// infinite loop... my code inspection did not find
-			// infinite loop, but it is good to try to exclude that
-			// anyway, e.g. for future changes in the code
-			if (!focusGainedRunning) {
-				focusGainedRunning = true;
-				getGuiManager().setActiveView(v.getViewID());
-				focusGainedRunning = false;
-			}
-		}
-		focusedView = v;
-		frame.useFocusedBorder();
-
-		// we really need to set it to true
-		switch (v.getViewID()) {
-		case App.VIEW_ALGEBRA:
-		case App.VIEW_EUCLIDIAN:
-		case App.VIEW_EUCLIDIAN2:
-			this.getGlobalKeyDispatcher().setFocusedIfNotTab();
-			break;
-		default:
-			if (App.isView3D(v.getViewID()) || ((v
-					.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START)
-					&& (v.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
-				this.getGlobalKeyDispatcher().setFocusedIfNotTab();
-			}
-		}
 	}
 
 	@Override
@@ -852,8 +803,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 			doOpenMaterial(id, onError);
 		} else {
 			if (getLoginOperation() == null) {
-				this.initSignInEventFlow(new LoginOperationW(this),
-						getArticleElement().isEnableApiPing());
+				this.initSignInEventFlow(new LoginOperationW(this));
 			}
 			toOpen = id;
 			// not logged in to Mebis while opening shared link: show login
@@ -1285,14 +1235,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	/**
-	 * @return adapter for tabbing through views
-	 */
-	@Override
-	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
-		return new DockManagerAccessibilityAdapter(this);
-	}
-
-	/**
 	 * Closes the page control panel
 	 *
 	 * @return whether it was closed
@@ -1720,20 +1662,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public void focusLost(View v, Element el) {
-		if (v != focusedView) {
-			return;
-		}
-		focusedView = null;
-		frame.useDataParamBorder();
-
-		// if it is there in focusGained, why not put it here?
-		this.getGlobalKeyDispatcher().setFocused(false);
-	}
-
-	@Override
 	public boolean hasFocus() {
-		return focusedView != null;
+		return frame.getElement().isOrHasChild(Dom.getActiveElement());
 	}
 
 	@Override

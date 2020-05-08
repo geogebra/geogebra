@@ -2700,7 +2700,6 @@ __GGB__keysVar["am"].menu = {
     "Settings.Save": "\u12cd\u1245\u122d \u121d\u122d\u132b\u12ce\u127d \u12a0\u1235\u1240\u121d\u1325",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "\u1240\u1324 \u130e\u1290 \u12a0\u122b\u1275",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "\u12a0\u122b\u1271\u121d \u130e\u1295 \u12a5\u12a9\u120d \u12e8\u1206\u1290",

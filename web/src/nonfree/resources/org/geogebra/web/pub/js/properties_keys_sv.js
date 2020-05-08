@@ -2700,7 +2700,6 @@ __GGB__keysVar["sv"].menu = {
     "Settings.Save": "Spara inst\xe4llningar",
     "SeveralVersionsOfA": "Notera att det finns flera versioner av: %0",
     "ShapeFreeform": "Friformsverktyg",
-    "ShapePolygon": "Regelbunden polygon",
     "ShapeRectangle": "Rektangel",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Kvadrat",

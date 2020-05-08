@@ -2700,7 +2700,6 @@ __GGB__keysVar["ms"].menu = {
     "Settings.Save": "Simpan Setting",
     "SeveralVersionsOfA": "Ambil perhatian bahawa terdapat beberapa versi: %0",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",

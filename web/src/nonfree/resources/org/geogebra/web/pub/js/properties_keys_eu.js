@@ -2700,7 +2700,6 @@ __GGB__keysVar["eu"].menu = {
     "Settings.Save": "Gorde Ezarpenak",
     "SeveralVersionsOfA": "Ohartu %0-(r)en hainbat bertsio dauela",
     "ShapeFreeform": "Forma Librea",
-    "ShapePolygon": "Poligono Erregularra",
     "ShapeRectangle": "Laukizuzena",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Karratua",

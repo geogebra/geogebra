@@ -2700,7 +2700,6 @@ __GGB__keysVar["sl"].menu = {
     "Settings.Save": "Shrani nastavitve",
     "SeveralVersionsOfA": "Pazi, obstaja ve\u010d verzij: %0",
     "ShapeFreeform": "Prostoro\u010dno",
-    "ShapePolygon": "Pravilni mnogokotnik",
     "ShapeRectangle": "Pravokotnik",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Kvadrat",

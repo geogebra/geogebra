@@ -2700,7 +2700,6 @@ __GGB__keysVar["lv"].menu = {
     "Settings.Save": "Saglab\u0101t iestat\u012bjumus",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",

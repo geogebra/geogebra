@@ -2700,7 +2700,6 @@ __GGB__keysVar["xh"].menu = {
     "Settings.Save": "Gcina iiSettings",
     "SeveralVersionsOfA": "Qaphela ukuba kunembono ezininzi ze: %0",
     "ShapeFreeform": "iFreeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "uXande",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Iskweri",

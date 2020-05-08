@@ -12,6 +12,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.dom.client.Element;
@@ -411,18 +412,13 @@ public class ZoomController {
 		fullscreenBtn.getElement().focus();
 	}
 
-	/**
-	 * @param homeBtn
-	 *            shows home button
-	 */
-	void showHomeButton(StandardButton homeBtn) {
+	private void setHomeButtonVisible(StandardButton homeBtn, boolean visible) {
 		if (homeBtn == null) {
 			return;
 		}
-		homeShown = true;
-		homeBtn.addStyleName("zoomPanelHomeIn");
-		homeBtn.removeStyleName("zoomPanelHomeOut");
-		AriaHelper.setHidden(homeBtn, false);
+		homeShown = visible;
+		Dom.toggleClass(homeBtn, "zoomPanelHomeIn", "zoomPanelHomeOut", visible);
+		AriaHelper.setHidden(homeBtn, !visible);
 	}
 
 	/**
@@ -430,13 +426,7 @@ public class ZoomController {
 	 *            hides home button
 	 */
 	public void hideHomeButton(StandardButton homeBtn) {
-		if (homeBtn == null) {
-			return;
-		}
-		homeShown = false;
-		homeBtn.addStyleName("zoomPanelHomeOut");
-		homeBtn.removeStyleName("zoomPanelHomeIn");
-		AriaHelper.setHidden(homeBtn, true);
+		setHomeButtonVisible(homeBtn, false);
 	}
 
 	/**
@@ -450,10 +440,6 @@ public class ZoomController {
 		if (view.isCoordSystemTranslatedByAnimation()) {
 			return;
 		}
-		if (view.isStandardView()) {
-			hideHomeButton(homeBtn);
-		} else {
-			showHomeButton(homeBtn);
-		}
+		setHomeButtonVisible(homeBtn, !view.isStandardView());
 	}
 }

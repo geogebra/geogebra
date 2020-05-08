@@ -2700,7 +2700,6 @@ __GGB__keysVar["cs"].menu = {
     "Settings.Save": "Ulo\u017eit nastaven\xed",
     "SeveralVersionsOfA": "Nalezeno v\xedce verz\xed konstrukce %0",
     "ShapeFreeform": "Voln\xfd tvar",
-    "ShapePolygon": "Pravideln\xfd mnoho\xfaheln\xedk",
     "ShapeRectangle": "Obd\xe9ln\xedk",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "\u010ctverec",
