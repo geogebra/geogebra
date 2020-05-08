@@ -23,6 +23,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * App-specific behaviors of Geometry app
@@ -262,6 +264,11 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public boolean isAngleUnitSettingEnabled() {
 		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new BasePropertiesFactory();
 	}
 
 	@Override

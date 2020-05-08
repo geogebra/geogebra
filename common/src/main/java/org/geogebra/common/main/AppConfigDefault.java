@@ -17,6 +17,8 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * Config for Classic and derived apps (MR)
@@ -267,6 +269,11 @@ public class AppConfigDefault implements AppConfig {
 	@Override
 	public boolean isAngleUnitSettingEnabled() {
 		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new BasePropertiesFactory();
 	}
 
 	@Override
