@@ -501,14 +501,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testSimplifyCommand() {
-		t("Simplify(aaa+bbb+aaa+x+y+x+y)", "2 * aaa + bbb + 2 * x + 2 * y");
+		t("f = Simplify(aaa+bbb+aaa+x+y+x+y)", "2 * aaa + bbb + 2 * x + 2 * y");
+		t("Simplify(x+x)", "2 * x");
 	}
 
 	@Test
 	public void testTrigCommands() {
 		t("TrigExpand(tan(aaa+bbb))",
 				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
-		t("TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+		t("f(x) = TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+		t("TrigExpand(x)", "x");
 		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
 	}
 
