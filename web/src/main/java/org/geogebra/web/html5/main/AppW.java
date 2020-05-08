@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.Commands;
@@ -1153,20 +1154,28 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
-		if (getPageController() != null) {
-			getPageController().resetPageControl();
-		}
 
 		resetUI();
 		resetPages();
 		clearConstruction();
+		resetPenTool();
 	}
 
 	private void resetPages() {
-		if (pageController == null) {
-			return;
+		if (pageController != null) {
+			pageController.resetPageControl();
 		}
-		pageController.resetPageControl();
+	}
+
+	/**
+	 * Selects Pen tool in whiteboard
+	 */
+	protected final void resetPenTool() {
+		if (isWhiteboardActive()) {
+			getActiveEuclidianView().getSettings()
+					.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
+		}
 	}
 
 	/**

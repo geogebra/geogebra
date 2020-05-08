@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EmbedManager;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MaskWidgetList;
@@ -29,7 +28,6 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.AppState;
-import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
@@ -663,8 +661,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		resetAllToolbars();
 
-		resetPenTool();
-
 		resetToolbarPanel();
 
 		if (getGuiManager() != null) {
@@ -690,18 +686,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 		}
 		gm.setToolBarDefinition(gm.getDefaultToolbarString());
 
-	}
-
-	/**
-	 * Selects Pen tool in whiteboard
-	 */
-	protected final void resetPenTool() {
-		if (!isWhiteboardActive()) {
-			return;
-		}
-		getActiveEuclidianView().getSettings()
-				.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
-		setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 	}
 
 	/**
@@ -1312,8 +1296,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		kernel.clearConstruction(true);
 		resetMaxLayerUsed();
 		setCurrentFile(null);
-		setMoveMode();
 		resetUI();
+		resetPenTool();
 		clearMedia();
 	}
 
