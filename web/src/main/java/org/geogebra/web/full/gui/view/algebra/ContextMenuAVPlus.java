@@ -10,9 +10,9 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.base.KeyboardType;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.images.StyleBarResources;
@@ -100,14 +100,15 @@ public class ContextMenuAVPlus implements SetLabels {
 			ToolCollection toolCollection =
 					app.createToolCollectionFactory().createToolCollection();
 
-			List<ToolCategory> categories = toolCollection.getCategories();
+			for (ToolsetLevel level : toolCollection.getLevels()) {
+				toolCollection.setLevel(level);
+				List<ToolCategory> categories = toolCollection.getCategories();
 
-			for (int i = 0; i < categories.size(); i++) {
-				Log.debug("CATEGORY: " + categories.get(i));
-				for (int j = 0; j < toolCollection.getTools(i).size(); j++) {
-					Log.debug("TOOL: " + toolCollection.getTools(i).get(j));
-					if (toolCollection.getTools(i).get(j) == EuclidianConstants.MODE_IMAGE) {
-						return true;
+				for (int category = 0; category < categories.size(); category++) {
+					for (int tool = 0; tool < toolCollection.getTools(category).size(); tool++) {
+						if (toolCollection.getTools(category).get(tool) == EuclidianConstants.MODE_IMAGE) {
+							return true;
+						}
 					}
 				}
 			}
