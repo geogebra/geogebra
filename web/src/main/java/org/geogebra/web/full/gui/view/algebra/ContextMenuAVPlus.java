@@ -106,7 +106,8 @@ public class ContextMenuAVPlus implements SetLabels {
 
 				for (int category = 0; category < categories.size(); category++) {
 					for (int tool = 0; tool < toolCollection.getTools(category).size(); tool++) {
-						if (toolCollection.getTools(category).get(tool) == EuclidianConstants.MODE_IMAGE) {
+						if (toolCollection.getTools(category).get(tool)
+								== EuclidianConstants.MODE_IMAGE) {
 							return true;
 						}
 					}
