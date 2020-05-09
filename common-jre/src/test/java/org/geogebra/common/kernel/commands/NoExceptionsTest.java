@@ -2186,17 +2186,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdStartLogging() {
-		t("StartLogging[ ]"); // technically correct
-		t("StartLogging[\"Ax\",alog]");
-	}
-
-	@Test
-	public void cmdStopLogging() {
-		t("StopLogging[]");
-	}
-
-	@Test
 	public void cmdRemove() {
 		t("Remove[{1,2,2},{2}]");
 	}

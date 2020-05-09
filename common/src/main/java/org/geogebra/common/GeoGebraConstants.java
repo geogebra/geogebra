@@ -249,10 +249,6 @@ public interface GeoGebraConstants {
 
 	public static final String FORUM_URL = "https://help.geogebra.org/";
 
-	public static final String DATA_LOGGING_WEBSOCKET_URL = "//data-logger.geogebra.org";
-	public static final String DATA_LOGGING_WEBSOCKET_PORT = "80";
-	public static final String DATA_LOGGING_WEBSOCKET_SECURE_PORT = "443";
-
 	public static final String WIDGET_URL = "https://www.geogebra.org/widgetprovider/index/widgettype/";
 
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
