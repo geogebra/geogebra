@@ -2396,7 +2396,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				break;
 
 			case LATEX:
-				sbFormatAngle.append("\\;rad");
+				sbFormatAngle.append(" \\; rad");
 				break;
 
 			case GEOGEBRA_XML:
