@@ -168,7 +168,7 @@ public abstract class CanvasDrawable extends Drawable {
 	 *            whether the caption is latex
 	 */
 	protected void calculateBoxBounds(boolean latex) {
-		if (labelSize == null) {
+		if (!hasLabelSize()) {
 			return;
 		}
 		boxLeft = xLabel + labelSize.x + 2;
@@ -177,6 +177,10 @@ public abstract class CanvasDrawable extends Drawable {
 				: yLabel;
 		boxWidth = getPreferredWidth();
 		boxHeight = getPreferredHeight();
+	}
+
+	private boolean hasLabelSize() {
+		return labelSize != null && (labelSize.x != 0 || labelSize.y != 0);
 	}
 
 	/**
