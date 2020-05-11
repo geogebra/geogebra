@@ -868,18 +868,7 @@ public class TabbedKeyboard extends FlowPanel
 			selectTab(KeyboardType.NUMBERS);
 		}
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				Scheduler.get()
-						.scheduleDeferred(new Scheduler.ScheduledCommand() {
-							@Override
-							public void execute() {
-								scrollCursorIntoView();
-							}
-						});
-			}
-		});
+		Scheduler.get().scheduleDeferred(this::scrollCursorIntoView);
 	}
 
 	private void process(Action action) {
