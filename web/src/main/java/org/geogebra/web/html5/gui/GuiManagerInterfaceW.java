@@ -86,7 +86,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void recalculateEnvironments();
 
-	void exportGGB();
+	void exportGGB(boolean showDialog);
 
 	void listenToLogin();
 

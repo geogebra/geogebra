@@ -52,7 +52,7 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 	}
 
 	private void createHeader() {
-		headerView = new HeaderView(app);
+		headerView = new HeaderView();
 		headerView.setCaption(localization.getMenu("Settings"));
 		StandardButton backButton = headerView.getBackButton();
 		backButton.addFastClickHandler(this);
