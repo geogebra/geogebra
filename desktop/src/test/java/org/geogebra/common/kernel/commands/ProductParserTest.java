@@ -36,6 +36,12 @@ public class ProductParserTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testVarVar() {
+		add("f(var)=?");
+		shouldReparseAs("varvar", "var var");
+	}
+
+	@Test
 	public void testPix() {
 		shouldReparseAs("pix^(2)", Unicode.PI_STRING + " x" + Unicode.SUPERSCRIPT_2);
 	}
