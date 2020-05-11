@@ -547,7 +547,7 @@ public final class GColor implements GPaint {
 			}
 
 			if (length == 8) {
-				blue = Integer.parseInt(colorString.substring(7, 9), 16);
+				alpha = Integer.parseInt(colorString.substring(7, 9), 16);
 			}
 
 			return newColor(red, green, blue, alpha);
