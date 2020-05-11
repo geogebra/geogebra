@@ -68,7 +68,9 @@ public abstract class SymbolicEditor implements MathFieldListener {
 	 * @param bounds
 	 *            place to attach the editor to.
 	 */
-	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+	public abstract void attach(GeoInputBox geoInputBox, GRectangle bounds);
+
+	protected void setInputBox(GeoInputBox geoInputBox) {
 		this.geoInputBox = geoInputBox;
 		this.drawInputBox = (DrawInputBox) view.getDrawableFor(geoInputBox);
 	}
