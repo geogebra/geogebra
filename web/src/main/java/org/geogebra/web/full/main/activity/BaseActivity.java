@@ -15,7 +15,7 @@ import org.geogebra.web.full.gui.view.algebra.AVErrorHandler;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MarblePanel;
-import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection;
 import org.geogebra.web.full.main.HeaderResizer;
@@ -78,7 +78,7 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
+	public MenuItemCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
 		return new AlgebraMenuItemCollection(view);
 	}
 

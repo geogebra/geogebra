@@ -176,7 +176,6 @@ public class MarblePanel extends FlowPanel
 		String tooltip = item.app.getLocalization().getMenu("AddItem");
 		btnPlus.setTitle(tooltip);
 		btnPlus.setAltText(tooltip);
-		btnPlus.setIgnoreTab();
 		btnPlus.addKeyDownHandler(this);
 		AriaHelper.setHidden(btnPlus, true);
 	}

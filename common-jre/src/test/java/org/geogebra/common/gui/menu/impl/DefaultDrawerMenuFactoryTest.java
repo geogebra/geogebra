@@ -1,12 +1,20 @@
 package org.geogebra.common.gui.menu.impl;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.in;
+
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +41,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.GRAPHING, logInOperation);
-		assertBasicProperties(factory, 4, 7, 5, 2, 1);
+		assertBasicProperties(factory, 3, 7, 2, 1);
 	}
 
 	@Test
@@ -42,7 +50,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.GRAPHING, logInOperation);
-		assertBasicProperties(factory, 4, 7, 5, 2, 2);
+		assertBasicProperties(factory, 3, 7, 2, 2);
 	}
 
 	@Test
@@ -50,7 +58,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
 				GeoGebraConstants.Version.SCIENTIFIC, null, true);
-		assertBasicProperties(factory, 2, 2, 3);
+		assertBasicProperties(factory, 2, 2, 2);
 	}
 
 	@Test
@@ -58,7 +66,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DefaultDrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
 				GeoGebraConstants.Version.GRAPHING, null, true);
-		assertBasicProperties(factory, 2, 5, 3);
+		assertBasicProperties(factory, 2, 5, 2);
 	}
 
 	@Test
@@ -67,7 +75,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.ANDROID,
 				GeoGebraConstants.Version.GRAPHING, logInOperation, true);
-		assertBasicProperties(factory, 3, 6, 3, 1);
+		assertBasicProperties(factory, 3, 6, 2, 1);
 	}
 
 	@Test
@@ -75,7 +83,7 @@ public class DefaultDrawerMenuFactoryTest {
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.WEB,
 				GeoGebraConstants.Version.SCIENTIFIC, null);
-		assertBasicProperties(factory, 3, 1, 5, 2);
+		assertBasicProperties(factory, 2, 1, 2);
 	}
 
 	private void assertBasicProperties(DrawerMenuFactory factory, int numberOfGroups,
@@ -92,6 +100,23 @@ public class DefaultDrawerMenuFactoryTest {
 				Assert.assertNotNull(menuItem.getIcon());
 				Assert.assertNotNull(menuItem.getLabel());
 			}
+		}
+	}
+
+	@Test
+	public void testEnableFileFeatureDisabled() {
+		Action[] fileFeatureEnabledActions = {
+				Action.CLEAR_CONSTRUCTION, Action.SHOW_SEARCH_VIEW,
+				Action.SAVE_FILE, Action.SHARE_FILE, Action.SIGN_IN, Action.SIGN_OUT};
+		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
+				GeoGebraConstants.Platform.WEB,
+				GeoGebraConstants.Version.GRAPHING, null, false, false);
+		DrawerMenu menu = factory.createDrawerMenu();
+
+		for (MenuItemGroup menuItemGroup : menu.getMenuItemGroups()) {
+			List<MenuItem> menuItems = menuItemGroup.getMenuItems();
+			assertThat(menuItems, not(CoreMatchers.<MenuItem>hasItem(
+					hasProperty("action", is(in(fileFeatureEnabledActions))))));
 		}
 	}
 }

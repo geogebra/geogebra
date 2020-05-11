@@ -110,6 +110,14 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	}
 
 	/**
+	 * Log out
+	 */
+	public void logOut() {
+		showLogoutUI();
+		performLogOut();
+	}
+
+	/**
 	 * Handle the logout
 	 */
 	public void performLogOut() {

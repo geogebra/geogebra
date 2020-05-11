@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
@@ -26,6 +27,7 @@ public class MediaSubMenu extends SubMenuPanel {
 		super.createContentPanel();
 		boolean isEnabled = app.getVendorSettings().isGraspableMathEnabled();
 		super.createPanelRow(ToolBar.getMOWMediaToolBarDefString(app, isEnabled));
+		makeButtonsAccessible(AccessibilityGroup.NOTES_TOOL_MEDIA);
 	}
 
 	@Override

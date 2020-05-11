@@ -1,5 +1,6 @@
 package org.geogebra.web.test;
 
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcherCommands3D;
 import org.geogebra.common.kernel.Kernel;
@@ -54,5 +55,10 @@ public class AppWapplet3DTest extends AppWapplet3D {
 			view = new ViewWMock(this);
 		}
 		return view;
+	}
+
+	@Override
+	public void setExport3D(Format format) {
+		// no-op
 	}
 }

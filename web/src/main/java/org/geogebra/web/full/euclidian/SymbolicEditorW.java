@@ -14,6 +14,7 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -138,7 +139,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	public void onTab(boolean shiftDown) {
 		applyChanges();
 		hide();
-		app.getGlobalKeyDispatcher().handleTab(false, shiftDown);
+		((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
 		app.getSelectionManager().nextFromInputBox();
 	}
 

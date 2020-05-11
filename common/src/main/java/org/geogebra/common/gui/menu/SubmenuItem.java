@@ -1,16 +1,14 @@
 package org.geogebra.common.gui.menu;
 
-import java.util.List;
-
 /**
  * A menu item that contains a list of menu items as submenu.
  */
 public interface SubmenuItem extends MenuItem {
 
 	/**
-	 * Get the submenu items.
+	 * Get the submenu item group.
 	 *
-	 * @return items
+	 * @return group
 	 */
-	List<ActionableItem> getItems();
+	MenuItemGroup getGroup();
 }

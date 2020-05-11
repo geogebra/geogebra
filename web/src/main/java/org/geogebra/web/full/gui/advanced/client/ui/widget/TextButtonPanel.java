@@ -187,16 +187,6 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	}
 
 	/**
-	 * This method sets a tab index for this component.
-	 *
-	 * @param index
-	 *            is a tab order number.
-	 */
-	public void setTabIndex(int index) {
-		// getSelectedValue().setTabIndex(index);
-	}
-
-	/**
 	 * Enables or disables the controls inside the panel.
 	 *
 	 * @param enabled

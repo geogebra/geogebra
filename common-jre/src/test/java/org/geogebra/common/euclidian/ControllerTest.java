@@ -740,11 +740,6 @@ public class ControllerTest extends BaseControllerTest {
 	}
 
 	@Test
-	public void eraserTool() {
-		setMode(EuclidianConstants.MODE_ERASER); // TODO 110
-	}
-
-	@Test
 	public void highlighterTool() {
 		setMode(EuclidianConstants.MODE_HIGHLIGHTER); // TODO 111
 	}

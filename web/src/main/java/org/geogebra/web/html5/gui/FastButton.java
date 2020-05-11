@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
-import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.GCustomButton;
 
@@ -46,8 +44,7 @@ import com.google.gwt.user.client.Event;
  * @author ashton with changes from Matthias Meisinger
  * 
  */
-public abstract class FastButton extends GCustomButton
-		implements AccessibilityInterface {
+public abstract class FastButton extends GCustomButton {
 
 	// in case the same touch reaches different Buttons (f.e. TouchStart +
 	// TouchEnd open the StyleBar and MouseUp reaches the first Button on the
@@ -57,7 +54,6 @@ public abstract class FastButton extends GCustomButton
 	private int touchId;
 	private boolean active;
 	private final List<FastClickHandler> handlers;
-	private AccessibilityButton acc;
 
 	/**
 	 * New fast button
@@ -74,7 +70,6 @@ public abstract class FastButton extends GCustomButton
 		                                               // Cancel, Change)
 
 		this.handlers = new ArrayList<>();
-		acc = new AccessibilityButton(this);
 	}
 
 	/**
@@ -148,18 +143,14 @@ public abstract class FastButton extends GCustomButton
 
 	@Override
 	public void onBrowserEvent(Event event) {
-
 		if (!this.isEnabled()) {
 			event.stopPropagation();
 			return;
 		}
 		
-		if (acc.handleBrowserEvent(event)) {
-			return;
-		}
-		
 		switch (DOM.eventGetType(event)) {
 		case Event.ONTOUCHSTART: {
+			removeStyleName("keyboardFocus");
 			onTouchStart(event);
 			event.stopPropagation();
 			break;
@@ -180,6 +171,7 @@ public abstract class FastButton extends GCustomButton
 			break;
 		}
 		case Event.ONMOUSEDOWN: {
+			removeStyleName("keyboardFocus");
 			event.stopPropagation();
 			break;
 		}
@@ -301,24 +293,6 @@ public abstract class FastButton extends GCustomButton
 			} else {
 				h.onClick(this);
 			}
-		}
-	}
-	
-	@Override
-	public void addTabHandler(TabHandler handler) {
-		acc.addTabHandler(handler);
-	}
-	
-	@Override
-	public void setIgnoreTab() {
-		acc.setIgnoreTab();
-	}
-
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		if (acc != null) {
-			acc.correctTabIndex();
 		}
 	}
 }

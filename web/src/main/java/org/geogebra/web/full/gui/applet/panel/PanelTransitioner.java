@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.applet.panel;
 import javax.annotation.Nullable;
 
 import org.geogebra.web.full.gui.MyHeaderPanel;
-import org.geogebra.web.full.gui.app.FloatingMenuPanel;
 import org.geogebra.web.full.gui.applet.FrameWithHeaderAndKeyboard;
 import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -72,10 +71,7 @@ public class PanelTransitioner {
 	private void hideFrameElements() {
 		final int childCount = mainFrame.getWidgetCount();
 		for (int i = 0; i < childCount; i++) {
-			// MOW-531 don't interfere with menu animation
-			if (!(mainFrame.getWidget(i) instanceof FloatingMenuPanel)) {
-				mainFrame.getWidget(i).addStyleName("temporarilyHidden");
-			}
+			mainFrame.getWidget(i).addStyleName("temporarilyHidden");
 		}
 	}
 
@@ -125,10 +121,7 @@ public class PanelTransitioner {
 	private void showFrameElements() {
 		final int childCount = mainFrame.getWidgetCount();
 		for (int i = 0; i < childCount; i++) {
-			// MOW-531 don't interfere with menu animation
-			if (!(mainFrame.getWidget(i) instanceof FloatingMenuPanel)) {
-				mainFrame.getWidget(i).removeStyleName("temporarilyHidden");
-			}
+			mainFrame.getWidget(i).removeStyleName("temporarilyHidden");
 		}
 	}
 }

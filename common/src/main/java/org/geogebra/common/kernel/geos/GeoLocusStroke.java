@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
@@ -36,6 +37,7 @@ public class GeoLocusStroke extends GeoLocus
 		PointRotateable, Dilateable {
 
 	private static final double MIN_CURVE_ANGLE = Math.PI / 60; // 3degrees
+	private static final int MAX_SEGMENT_LENGTH = 50;
 
 	/** cache the part of XML that follows after expression label="stroke1" */
 	private StringBuilder xmlPoints;
@@ -409,43 +411,99 @@ public class GeoLocusStroke extends GeoLocus
 	 */
 	public boolean deletePart(GRectangle2D rectangle) {
 		ArrayList<MyPoint> outside = new ArrayList<>();
-
-		for (int i = 0; i < getPoints().size() - 1; i++) {
+		for (int i = 0; i < getPoints().size(); i++) {
 			MyPoint currentPoint = getPoints().get(i);
-			if (currentPoint.getSegmentType() == SegmentType.CONTROL) {
+			if (!currentPoint.isDefined() || currentPoint.getSegmentType() == SegmentType.CONTROL) {
 				continue;
 			}
-
-			if (!currentPoint.isDefined()) {
+			boolean inside = rectangle.contains(currentPoint.x, currentPoint.y);
+			if (!inside) {
+				outside.add(currentPoint);
+			}
+			MyPoint nextPoint = getNextPoint(i);
+			if (!nextPoint.isDefined()) {
 				ensureTrailingNaN(outside);
 				continue;
 			}
-
-			boolean outsideF = !rectangle.contains(currentPoint.x, currentPoint.y);
-			if (outsideF) {
-				outside.add(currentPoint);
-			}
-
-			for (MyPoint intersection : getAllIntersectionPoints(i, rectangle)) {
-				outside.add(intersection);
-
-				if (outsideF) {
+			boolean nextInside = rectangle.contains(nextPoint.x, nextPoint.y);
+			List<MyPoint> intersections = getAllIntersectionPoints(i, rectangle);
+			if (inside && nextInside) {
+				// both points inside
+				if (intersections.size() == 2) {
+					ensureTrailingNaN(outside);
+					outside.addAll(intersections);
 					ensureTrailingNaN(outside);
 				}
-
-				outsideF = !outsideF;
+			} else if (inside) {
+				// going from inside to outside
+				if (intersections.size() == 0) {
+					outside.add(currentPoint);
+				} else {
+					ensureTrailingNaN(outside);
+					outside.add(intersections.get(0));
+				}
+			} else if (nextInside) {
+				// going from outside to inside
+				if (intersections.size() == 0) {
+					outside.add(nextPoint);
+				} else {
+					outside.add(intersections.get(0));
+					ensureTrailingNaN(outside);
+				}
+			} else {
+				// both points outside
+				if (intersections.size() == 2) {
+					outside.add(intersections.get(0));
+					ensureTrailingNaN(outside);
+					outside.add(intersections.get(1));
+				}
 			}
 		}
-
-		MyPoint last = getPoints().get(getPointLength() - 1);
-		if (!rectangle.contains(last.x, last.y)) {
-			outside.add(last);
-		}
-
-		getPoints().clear();
-		appendPointArray(outside);
-
+		clearPoints();
+		doAppendPointArray(outside);
+		updateCascade();
 		return !outside.isEmpty();
+	}
+
+	/**
+	 * Check for bezier segments longer than MAX_SEGMENT_LENGTH and split them
+	 * Returns the stroke points only, no control points.
+	 */
+	private ArrayList<MyPoint> increaseDensity() {
+		ArrayList<MyPoint> densePoints = new ArrayList<>();
+		int parts = 5;
+		int i = 1;
+		double rwLength = app.getActiveEuclidianView().getInvXscale() * MAX_SEGMENT_LENGTH;
+		densePoints.add(getPoints().get(0));
+		while (i < getPoints().size()) {
+			MyPoint pt0 = getPoints().get(i - 1);
+			MyPoint pt1 = getPoints().get(i);
+			if (pt1.getSegmentType() == SegmentType.CONTROL) {
+				MyPoint pt2 = getPoints().get(i + 1);
+				MyPoint pt3 = getPoints().get(i + 2);
+				if (pt3.distance(pt0) > rwLength) {
+					double[] xCoeff = bezierCoeffs(pt0.x, pt1.x, pt2.x, pt3.x);
+					double[] yCoeff = bezierCoeffs(pt0.y, pt1.y, pt2.y, pt3.y);
+					for (int sub = 1; sub < parts; sub++) {
+						double t = sub / (double) parts;
+						MyPoint subPoint = new MyPoint(evalCubic(xCoeff, t), evalCubic(yCoeff, t));
+						densePoints.add(subPoint);
+					}
+				}
+				i += 2;
+			} else {
+				densePoints.add(pt1);
+				i++;
+			}
+		}
+		return densePoints;
+	}
+
+	private MyPoint getNextPoint(int i) {
+		if (getPoints().get(i + 1).getSegmentType() == SegmentType.CONTROL) {
+			return getPoints().get(i + 3);
+		}
+		return getPoints().get(i + 1);
 	}
 
 	private void ensureTrailingNaN(List<MyPoint> data) {
@@ -490,7 +548,6 @@ public class GeoLocusStroke extends GeoLocus
 			double y1 = point1.getY();
 			double x2 = point2.getX();
 			double y2 = point2.getY();
-
 			// Top line
 			MyPoint topInter = getIntersectionPoint(x1, y1, x2, y2,
 					x, y, x + width, y);
@@ -524,13 +581,12 @@ public class GeoLocusStroke extends GeoLocus
 				return Double.compare(p.distanceSq(p1), p.distanceSq(p2));
 			}
 		});
-
 		return interPointList;
 	}
 
 	private static void getIntersectionPoints(ArrayList<MyPoint> interPointList,
-			  MyPoint point1, MyPoint control1, MyPoint control2, MyPoint point2,
-			  double x1, double y1, double x2, double y2) {
+				MyPoint point1, MyPoint control1, MyPoint control2, MyPoint point2,
+				double x1, double y1, double x2, double y2) {
 		double A = y2 - y1;
 		double B = x1 - x2;
 		double C = x1 * (y1 - y2) + y1 * (x2 - x1);
@@ -550,17 +606,20 @@ public class GeoLocusStroke extends GeoLocus
 
 		for (int i = 0; i < roots; i++) {
 			double t = r[i];
-			if (t < 0 || t > 1) {
+			if (t < Kernel.MAX_PRECISION || t > 1 - Kernel.MAX_PRECISION) {
 				continue;
 			}
-
-			double x = bx[0] * t * t * t + bx[1] * t * t + bx[2] * t + bx[3];
-			double y = by[0] * t * t * t + by[1] * t * t + by[2] * t + by[3];
+			double x = evalCubic(bx, t);
+			double y = evalCubic(by, t);
 
 			if (onSegment(x1, y1, x, y, x2, y2)) {
 				interPointList.add(new MyPoint(x, y));
 			}
 		}
+	}
+
+	private static double evalCubic(double[] bx, double t) {
+		return bx[0] * t * t * t + bx[1] * t * t + bx[2] * t + bx[3];
 	}
 
 	private static double[] bezierCoeffs(double P0, double P1, double P2, double P3) {
@@ -606,7 +665,7 @@ public class GeoLocusStroke extends GeoLocus
 										  double segEnd) {
 		return (interPoint <= Math.max(segStart, segEnd)
 				&& interPoint >= Math.min(segStart, segEnd))
-				|| (segStart == segEnd);
+				|| DoubleUtil.isEqual(segStart, segEnd);
 	}
 
 	// data has to have at least 2 defined points after each other
@@ -632,9 +691,19 @@ public class GeoLocusStroke extends GeoLocus
 	 *            points
 	 */
 	public void appendPointArray(ArrayList<MyPoint> data) {
+		doAppendPointArray(data);
+		ArrayList<MyPoint> densePoints = increaseDensity();
+		if (densePoints.size() > data.size()) {
+			clearPoints();
+			doAppendPointArray(densePoints);
+		}
+
+		updateCascade();
+	}
+
+	private void doAppendPointArray(ArrayList<MyPoint> data) {
 		resetXMLPointBuilder();
 		setDefined(true);
-
 		// to use bezier curve we need at least 2 points
 		// stroke is: (A),(?),(A),(B) -> size 4
 		if (canBeBezierCurve(data)) {
@@ -642,8 +711,6 @@ public class GeoLocusStroke extends GeoLocus
 		} else {
 			addNonBezierPoints(data);
 		}
-
-		updateCascade();
 	}
 
 	private void addBezierCurve(ArrayList<MyPoint> data) {

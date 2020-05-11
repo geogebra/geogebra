@@ -20,6 +20,7 @@ dependencies {
     testCompile project(':ggbjdk')
 
     testCompile "junit:junit:$junitVersion"
+    testCompile "org.hamcrest:hamcrest:$hamcrestVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
 }
 
