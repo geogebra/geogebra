@@ -5060,18 +5060,4 @@ public abstract class EuclidianView3D extends EuclidianView
     public float dipToPx(float value) {
         return value;
     }
-
-	/**
-	 * @return arRatioIsShown
-	 */
-    public boolean isARRatioShown() {
-    	return arRatioIsShown;
-	}
-
-	/**
-	 * set arRatioIsShown
-	 */
-	public void setARRatioIsShown(boolean arRatioIsShown) {
-    	this.arRatioIsShown = arRatioIsShown;
-	}
 }

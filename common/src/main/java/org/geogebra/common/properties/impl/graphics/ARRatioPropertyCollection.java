@@ -28,7 +28,8 @@ public class ARRatioPropertyCollection extends AbstractProperty implements Prope
         EuclidianView3D euclidianView3D = (EuclidianView3D) app.getActiveEuclidianView();
         ArrayList<Property> properties = new ArrayList<>();
         properties.add(new ARRatioProperty(localization, euclidianView3D));
-        properties.add(new RatioUnitProperty(localization, euclidianView3D));
+        properties.add(new RatioUnitProperty(localization,
+                euclidianView3D.getRenderer().getARManager()));
 
         collection = new PropertiesList(properties);
     }

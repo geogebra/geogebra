@@ -37,6 +37,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private String units = "cm";        // current units used for Ratio snack bar and ratio settings
     private String arRatioText = "1";   // current ratio used for Ratio snack bar and ratio settings
     private int ratioMetricSystem = EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS;
+    private boolean ratioIsShown = true;
 
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -236,7 +237,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
 
         /* update ratio */
-        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO) && mView.isARRatioShown()) {
+        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO) && ratioIsShown) {
             showSnackbar();
         }
     }
@@ -397,7 +398,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         updateSettingsScale(arScaleFactor);
 
         if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)
-                 && mView.isARRatioShown()) {
+                 && ratioIsShown) {
             showSnackbar();
         }
     }
@@ -551,7 +552,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public void setARRatioMetricSystem(int metricSystem) {
         ratioMetricSystem = metricSystem;
-        if (objectIsRendered && mView.isARRatioShown()) {
+        if (objectIsRendered && ratioIsShown) {
             showSnackbar();
         }
     }
@@ -562,5 +563,18 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         } else {
             return 1;
         }
+    }
+
+    public void setRatioIsShown(boolean ratioIsShown) {
+        this.ratioIsShown = ratioIsShown;
+        if (ratioIsShown) {
+            showSnackbar();
+        } else {
+            mArSnackBarManagerInterface.hideRatio();
+        }
+    }
+
+    public boolean isRatioShown() {
+        return ratioIsShown;
     }
 }

@@ -24,11 +24,11 @@ public class ARRatioProperty extends AbstractProperty implements BooleanProperty
 
     @Override
     public boolean getValue() {
-        return view3D.isARRatioShown();
+        return view3D.getRenderer().getARManager().isRatioShown();
     }
 
     @Override
     public void setValue(boolean value) {
-        view3D.setARRatioIsShown(value);
+        view3D.getRenderer().getARManager().setRatioIsShown(value);
     }
 }

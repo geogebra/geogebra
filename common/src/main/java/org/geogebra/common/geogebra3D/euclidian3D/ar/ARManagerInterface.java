@@ -77,4 +77,8 @@ public interface ARManagerInterface<T> {
 
     void setARRatioMetricSystem(int metricSystem);
 
+    void setRatioIsShown(boolean ratioIsShown);
+
+    boolean isRatioShown();
+
     }
