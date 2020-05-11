@@ -39,12 +39,6 @@ class ProductCreator {
 			return product(label.charAt(0) + "",
 					label.charAt(1) + "");
 
-		} else if (length > 5) {
-			InputTokenizer tokenizer = new InputTokenizer(label);
-			String left = tokenizer.next();
-			String right = tokenizer.next();
-			return product(left, right);
-
 		}
 		return null;
 	}

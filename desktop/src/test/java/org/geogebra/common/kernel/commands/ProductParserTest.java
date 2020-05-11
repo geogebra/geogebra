@@ -1,16 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Before;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class ProductParserTest extends BaseUnitTest {
-	@Before
-	public void setUp() throws Exception {
-		ParserTest.setupCas();
-	}
 
 	@Test
 	public void testPiRSquare() {
@@ -65,8 +60,7 @@ public class ProductParserTest extends BaseUnitTest {
 
 	@Test
 	public void testABX() {
-		add("a=1");
-		add("b=1");
+		withVariables("a", "b");
 		shouldReparseAs("xab", "x a b");
 		shouldReparseAs("x + ab", "x + a b");
 		shouldReparseAs("xxxxxxxxxx", "x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
@@ -76,14 +70,23 @@ public class ProductParserTest extends BaseUnitTest {
 
 	@Test
 	public void testAkka() {
-		add("a=1");
-		add("k=1");
 		shouldReparseAs("kk", "k k");
 		shouldReparseAs("kkk", "k k k");
 		shouldReparseAs("kkkk", "k k k k");
-//		shouldReparseAs("akakak", "a k a k a k");
+		shouldReparseAs("akakak", "a k a k a k");
 		shouldReparseAs("akka", "a k k a");
-//		shouldReparseAs("aakkaa", "a a k k a a");
+		shouldReparseAs("aakkaa", "a a k k a a");
+	}
+
+	private void withVariables(String... variables) {
+		for (String variable : variables) {
+			add(variable + "=1");
+		}
+	}
+
+	@Test
+	public void testArctanIntegral() {
+		shouldReparseAs("21xarctanx", "21 x atand(x)");
 	}
 
 	private void shouldReparseAs(String original, String parsed) {
