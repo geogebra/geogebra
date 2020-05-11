@@ -1,11 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -107,9 +104,13 @@ public class ParserTest {
 	}
 
 	private static String reparse(String string, StringTemplate tpl) {
+		return reparse(app, string, tpl);
+	}
+
+	private static String reparse(App app, String string, StringTemplate tpl) {
 		String reparse1 = "";
 		try {
-			ValidExpression v1 = parseExpression(string);
+			ValidExpression v1 = parseExpression(app, string);
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
@@ -289,6 +290,11 @@ public class ParserTest {
 		shouldReparseAs("(1,2) + 1,4", "(1, 2) + 1.4");
 	}
 
+	static void shouldReparseAs(App app, String string, String expected) {
+		Assert.assertEquals(expected,
+				reparse(app, string, StringTemplate.editTemplate));
+	}
+
 	private static void shouldReparseAs(String string, String expected) {
 		Assert.assertEquals(expected,
 				reparse(string, StringTemplate.editTemplate));
@@ -336,17 +342,11 @@ public class ParserTest {
 
 	private static ValidExpression parseExpression(String string)
 			throws ParseException {
+		return parseExpression(app, string);
+	}
+
+	private static ValidExpression parseExpression(App app, String string)
+			throws ParseException {
 		return app.getKernel().getParser().parseGeoGebraExpression(string);
-	}
-
-	@Test
-	public void testPiRSquare() {
-//		shouldReparseAs("zpadx^(2)", "z p a d x" + Unicode.SUPERSCRIPT_2);
-		shouldReparseAs("zpix^(2)", "z " + Unicode.PI_STRING + " x" + Unicode.SUPERSCRIPT_2);
-	}
-
-	@Test
-	public void testConstantMultiplierWithBrackets() {
-		shouldReparseAs("4xsin(4x)", 	"4 x sin(4 x)");
 	}
 }

@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -59,20 +58,6 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 //		shouldReplaceAs("isqrt3", "i * sqrt(3)");
 		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING
 			+ " * sqrt(5)");
-	}
-
-	@Ignore
-	@Test
-	public void testMultiplyWithFunctionVars() {
-		add("a=1");
-		add("b=1");
-		add("f(var)=?");
-		add("t(mul, var)=?");
-		shouldReplaceAs("var+ab", "var + a * b");
-//		shouldReplaceAs("var+abbbbab", "var + a * b * b * b * b * a * b");
-//		shouldReplaceAs("avarb", "a * var * b");
-//		shouldReplaceAs("varvar", "var * var");
-//		shouldReplaceAs("varabc", "var * a * b * c");
 	}
 
 	@Test
