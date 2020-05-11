@@ -1,6 +1,7 @@
 package org.geogebra.common.properties;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -38,7 +39,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 	 * @param localization
 	 *            localization
 	 */
-    public GraphicsPropertiesList(App app, Localization localization) {
+	GraphicsPropertiesList(App app, Localization localization) {
 		super(getProperties(app, localization));
         mApp = app;
         mLocalization = localization;
@@ -76,6 +77,7 @@ public class GraphicsPropertiesList extends PropertiesList {
         propertyList.add(new PointCapturingProperty(app, localization));
 
 		propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
+
 		propertyList.add(
 				new LabelsPropertyCollection(localization, euclidianSettings));
 
@@ -91,13 +93,10 @@ public class GraphicsPropertiesList extends PropertiesList {
     public Property[] getPropertiesList() {
         if (mApp.getActiveEuclidianView().isAREnabled()) {
             if (propertiesArrayARView == null) {
-				ArrayList<Property> propertiesListARView = new ArrayList<>();
-				for (Property prop : mProperties) {
-					propertiesListARView.add(prop);
-				}
-				if (mApp.has(Feature.G3D_AR_RATIO_SETTINGS)) {
-                    propertiesListARView.add(1,
-                            new ARRatioPropertyCollection(mApp, mLocalization));
+				ArrayList<Property> propertiesListARView =
+						new ArrayList<>(Arrays.asList(mProperties));
+				propertiesListARView.add(1, new ARRatioPropertyCollection(mApp, mLocalization));
+				if (mApp.has(Feature.G3D_AR_BACKGROUND_PROPERTY)) {
 					propertiesListARView.add(2,
 							new BackgroundProperty(mApp, mLocalization));
 					this.propertiesArrayARView = propertiesListARView
@@ -113,5 +112,4 @@ public class GraphicsPropertiesList extends PropertiesList {
         }
         return mProperties;
     }
-
 }

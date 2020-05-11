@@ -3912,15 +3912,15 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** G3D-345 */
 		case G3D_AR_SHOW_RATIO:
-			return false;
+			return true;
 
 		/** G3D-343 */
 		case G3D_SELECT_META:
 			return false;
 
-		/** G3D-372 */
-		case G3D_AR_RATIO_SETTINGS:
-			return false;
+		/** G3D-8 */
+		case G3D_AR_BACKGROUND_PROPERTY:
+			return true;
 
 		// **********************************************************************
         // G3D END

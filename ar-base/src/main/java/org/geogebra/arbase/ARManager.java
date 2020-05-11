@@ -236,7 +236,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
 
         /* update ratio */
-        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO) && mView.isARRatioShown()) {
             showSnackbar();
         }
     }
@@ -396,7 +396,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         arScaleFactor = arScaleAtStart / arScale;
         updateSettingsScale(arScaleFactor);
 
-        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
+        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)
+                 && mView.isARRatioShown()) {
             showSnackbar();
         }
     }
@@ -463,8 +464,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             ratio = arRatioAtStart;
         }
         String text;
-        if (mView.getApplication().has(Feature.G3D_AR_RATIO_SETTINGS) &&
-                ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
+        if (ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
             ratio = (double) Math.round(ratio * 100d) / 100d;
             units = "inch";
         } else {
@@ -551,12 +551,13 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public void setARRatioMetricSystem(int metricSystem) {
         ratioMetricSystem = metricSystem;
-        showSnackbar();
+        if (objectIsRendered && mView.isARRatioShown()) {
+            showSnackbar();
+        }
     }
 
     private float getUnitConversion() {
-        if (mView.getApplication().has(Feature.G3D_AR_RATIO_SETTINGS) &&
-                ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
+        if (ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
             return EuclidianView3D.FROM_CM_TO_INCH;
         } else {
             return 1;
