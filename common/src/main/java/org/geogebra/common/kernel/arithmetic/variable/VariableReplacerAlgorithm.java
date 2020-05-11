@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -51,12 +50,9 @@ public class VariableReplacerAlgorithm {
 	public ExpressionValue replace(String expressionString) {
 		ExpressionValue value = replaceToken(expressionString);
 		if (value instanceof Variable) {
-			ExpressionValue tokenize = tokenize(expressionString);
-			Log.debug("t: " + tokenize.wrap().getDebugString());
-			return tokenize;
+			return tokenize(expressionString);
 		}
 
-		Log.debug("v: " + value.wrap().getDebugString());
 		return value;
 	}
 

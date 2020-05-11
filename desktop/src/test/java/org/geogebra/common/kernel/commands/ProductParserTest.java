@@ -36,14 +36,54 @@ public class ProductParserTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testVarVar() {
+	public void testFunctionalVarVar() {
 		add("f(var)=?");
 		shouldReparseAs("varvar", "var var");
 	}
 
 	@Test
-	public void testPix() {
-		shouldReparseAs("pix^(2)", Unicode.PI_STRING + " x" + Unicode.SUPERSCRIPT_2);
+	public void testNFunctionalUV() {
+		add("f(u, v)=?");
+		shouldReparseAs("uv", "u v");
+		shouldReparseAs("vu", "v u");
+	}
+
+	@Test
+	public void testPir() {
+		add("r=2");
+		shouldReparseAs("pir^(2)", Unicode.PI_STRING + " r" + Unicode.SUPERSCRIPT_2);
+	}
+
+	@Test
+	public void testXPlusBs() {
+		add("b=1");
+		shouldReparseAs("x+bb", "x + b b");
+		shouldReparseAs("x+bbb", "x + b b b");
+		shouldReparseAs("x+bbbb", "x + b b b b");
+//		shouldReparseAs("x+bbbbbx", "x + b b b b b x");
+	}
+
+	@Test
+	public void testABX() {
+		add("a=1");
+		add("b=1");
+		shouldReparseAs("xab", "x a b");
+		shouldReparseAs("x + ab", "x + a b");
+		shouldReparseAs("xxxxxxxxxx", "x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
+		shouldReparseAs("axxxxxxxxxx", "a x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
+		shouldReparseAs("axaxaxaxax", "a x a x a x a x a x");
+	}
+
+	@Test
+	public void testAkka() {
+		add("a=1");
+		add("k=1");
+		shouldReparseAs("kk", "k k");
+		shouldReparseAs("kkk", "k k k");
+		shouldReparseAs("kkkk", "k k k k");
+//		shouldReparseAs("akakak", "a k a k a k");
+		shouldReparseAs("akka", "a k k a");
+//		shouldReparseAs("aakkaa", "a a k k a a");
 	}
 
 	private void shouldReparseAs(String original, String parsed) {
