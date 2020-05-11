@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class GColorTest {
 
 	@Test
-	public void colorParserShouldAcceptRGB(){
+	public void colorParserShouldAcceptRGB() {
 		GColor color = GColor.parseHexColor("#123");
 		assertEquals(16, color.getRed());
 		assertEquals(32, color.getGreen());
@@ -17,7 +17,7 @@ public class GColorTest {
 	}
 
 	@Test
-	public void colorParserShouldAcceptRGBA(){
+	public void colorParserShouldAcceptRGBA() {
 		GColor color = GColor.parseHexColor("#1234");
 		assertEquals(16, color.getRed());
 		assertEquals(32, color.getGreen());
@@ -26,7 +26,7 @@ public class GColorTest {
 	}
 
 	@Test
-	public void colorParserShouldAcceptRRGGBB(){
+	public void colorParserShouldAcceptRRGGBB() {
 		GColor color = GColor.parseHexColor("#010203");
 		assertEquals(1, color.getRed());
 		assertEquals(2, color.getGreen());
@@ -35,7 +35,7 @@ public class GColorTest {
 	}
 
 	@Test
-	public void colorParserShouldAcceptRRGGBBAA(){
+	public void colorParserShouldAcceptRRGGBBAA() {
 		GColor color = GColor.parseHexColor("#01020304");
 		assertEquals(1, color.getRed());
 		assertEquals(2, color.getGreen());
