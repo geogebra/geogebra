@@ -2700,7 +2700,6 @@ __GGB__keysVar["lt"].menu = {
     "Settings.Save": "I\u0161saugoti nuostatas",
     "SeveralVersionsOfA": "Atkreipkite d\u0117mes\u012f \u012f tai, kad yra kelios %0 versijos",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",

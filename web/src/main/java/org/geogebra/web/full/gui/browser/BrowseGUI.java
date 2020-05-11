@@ -69,8 +69,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.app = app;
 		this.app.getNetworkOperation().getView().add(this);
 		if (this.app.getLoginOperation() == null) {
-			this.app.initSignInEventFlow(new LoginOperationW(app),
-					!app.getArticleElement().isEnableApiPing());
+			this.app.initSignInEventFlow(new LoginOperationW(app));
 		}
 		this.app.getLoginOperation().getView().add(this);
 		this.container = new HorizontalPanel();

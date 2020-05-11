@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.test.TestEvent;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -100,7 +99,6 @@ public class BaseControllerTest {
 		app.getActiveEuclidianView().getSettings()
 				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_OFF);
 		app.getSettings().endBatch();
-		Log.debug(app.getActiveEuclidianView().getXmin());
 		ec.setLastMouseUpLoc(null);
 	}
 

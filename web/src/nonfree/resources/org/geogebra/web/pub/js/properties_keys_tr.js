@@ -2700,7 +2700,6 @@ __GGB__keysVar["tr"].menu = {
     "Settings.Save": "Ayarlar\u0131 kaydet",
     "SeveralVersionsOfA": "Bir\xe7ok s\xfcr\xfcm\xfc oldu\u011funa dikkat ediniz:%0",
     "ShapeFreeform": "Taslak \u015eekil",
-    "ShapePolygon": "D\xfczg\xfcn \xc7okgen",
     "ShapeRectangle": "Dikd\xf6rtgen",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Kare",

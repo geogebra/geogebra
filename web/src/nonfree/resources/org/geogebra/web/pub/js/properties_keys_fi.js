@@ -2700,7 +2700,6 @@ __GGB__keysVar["fi"].menu = {
     "Settings.Save": "Tallenna asetukset",
     "SeveralVersionsOfA": "Huomaa, ett\xe4 on useita versioita kohteesta: %0",
     "ShapeFreeform": "Vapaa muoto",
-    "ShapePolygon": "S\xe4\xe4nn\xf6llinen monikulmio",
     "ShapeRectangle": "Suorakulmio",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Neli\xf6",

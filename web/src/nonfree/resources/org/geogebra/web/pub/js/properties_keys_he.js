@@ -2700,7 +2700,6 @@ __GGB__keysVar["he"].menu = {
     "Settings.Save": "\u05e9\u05de\u05d9\u05e8\u05ea \u05d4\u05d2\u05d3\u05e8\u05d5\u05ea",
     "SeveralVersionsOfA": "\u05e9\u05d9\u05de\u05d9 \u05dc\u05d1 \u05e9\u05d9\u05e9 \u05de\u05e1\u05e4\u05e8 \u05d2\u05e8\u05e1\u05d0\u05d5\u05ea \u05e9\u05dc: \u200f\u200e%0",
     "ShapeFreeform": "\u05e6\u05d5\u05e8\u05d4 \u05d7\u05d5\u05e4\u05e9\u05d9\u05ea",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "\u05de\u05dc\u05d1\u05df",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "\u05e8\u05d9\u05d1\u05d5\u05e2",

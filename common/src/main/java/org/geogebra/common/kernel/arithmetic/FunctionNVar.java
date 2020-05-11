@@ -18,6 +18,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -644,8 +645,11 @@ public class FunctionNVar extends ValidExpression
 			// result);
 
 			// parse CAS result back into GeoGebra
+			String tmpLabel = kernel.getConstruction().getConstructionDefaults()
+					.getDefaultGeo(ConstructionDefaults.DEFAULT_FUNCTION_NVAR).getFreeLabel("f");
 			sb.setLength(0);
-			sb.append("f("); // this name is never used, just needed for parsing
+			sb.append(tmpLabel); // this name is never used, just needed for parsing
+			sb.append("(");
 			sb.append(getVarString(StringTemplate.defaultTemplate));
 			sb.append(") = ");
 			sb.append(result);

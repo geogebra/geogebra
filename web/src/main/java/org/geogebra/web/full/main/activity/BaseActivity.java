@@ -100,7 +100,7 @@ public class BaseActivity implements GeoGebraActivity {
 
 	@Override
 	public SVGResource getIcon() {
-		// default implementation: never used
+		// default implementation: classic and suite
 		return MaterialDesignResources.INSTANCE.geogebra_color();
 	}
 

@@ -2700,7 +2700,6 @@ __GGB__keysVar["pl"].menu = {
     "Settings.Save": "Zapisz ustawienia",
     "SeveralVersionsOfA": "Nale\u017cy pami\u0119ta\u0107, \u017ce istnieje kilka wersji: %0",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "Prostok\u0105t",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Kwadrat",

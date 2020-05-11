@@ -2700,7 +2700,6 @@ __GGB__keysVar["is"].menu = {
     "Settings.Save": "Vista stillingar",
     "SeveralVersionsOfA": "Athugi\xf0 a\xf0 til eru mismunandi \xfatg\xe1fur af: %0",
     "ShapeFreeform": "Fr\xedhendis teikning",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "R\xe9tthyrningur",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Ferningur",

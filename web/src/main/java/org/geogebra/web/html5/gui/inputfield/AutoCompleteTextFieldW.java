@@ -263,7 +263,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			private void handleSelectedEvent(Event event) {
 				event.stopPropagation();
-				app.getGlobalKeyDispatcher().setFocused(true);
 			}
 		};
 
@@ -310,7 +309,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				requestFocus();
-				app.getGlobalKeyDispatcher().setFocused(true);
 			}
 		});
 
@@ -862,15 +860,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				tf.setVisible(false);
 			}
 
-			app.getGlobalKeyDispatcher().handleTab(e.isControlKeyDown(),
-					e.isShiftKeyDown());
-			ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
-			GeoElement next = selGeos.isEmpty() ? null : selGeos.get(0);
-			if (next instanceof GeoInputBox) {
-				app.getActiveEuclidianView().focusTextField((GeoInputBox) next);
-			} else {
-				app.getActiveEuclidianView().requestFocus();
-			}
+			app.getGlobalKeyDispatcher().handleTab(e.isShiftKeyDown());
+			e.stopPropagation(); // avoid conflict with GeoTabber
 		}
 		handleTabletKeyboard(e);
 	}

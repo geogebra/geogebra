@@ -2700,7 +2700,6 @@ __GGB__keysVar["eo"].menu = {
     "Settings.Save": "Konservi agordojn",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",

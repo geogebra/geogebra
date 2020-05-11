@@ -2700,7 +2700,6 @@ __GGB__keysVar["nl"].menu = {
     "Settings.Save": "Instellingen opslaan",
     "SeveralVersionsOfA": "Merk op dat er verscheidene versie van : %0 zijn",
     "ShapeFreeform": "Vrijevorm",
-    "ShapePolygon": "Regelmatige veelhoek",
     "ShapeRectangle": "Rechthoek",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Vierkant",

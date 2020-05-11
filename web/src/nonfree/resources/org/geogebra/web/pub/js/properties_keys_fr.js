@@ -2700,7 +2700,6 @@ __GGB__keysVar["fr"].menu = {
     "Settings.Save": "Sauvegarder la configuration",
     "SeveralVersionsOfA": "Noter qu'il y a plusieurs versions de : %0",
     "ShapeFreeform": "Polygone",
-    "ShapePolygon": "Polygone r\xe9gulier",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Carr\xe9",

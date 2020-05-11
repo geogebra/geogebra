@@ -2700,7 +2700,6 @@ __GGB__keysVar["et"].menu = {
     "Settings.Save": "Salvesta s\xe4tted",
     "SeveralVersionsOfA": "Eksisteerib mitu %0 versiooni",
     "ShapeFreeform": "Freeform",
-    "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
     "ShapeSquare": "Square",

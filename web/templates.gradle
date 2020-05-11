@@ -24,12 +24,12 @@ def replaceVendor = { htmlContent, vendor ->
     return htmlContent.replace("<!--VENDOR-->", vendor)
             .replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-${vendor.toLowerCase()}.html"))
             .replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
-            .replace("<!--CODEBASE-->", vendor == "Mebis" ? "/" : "https://www.geogebra.org/apps/latest/")
 }
 
 ext.english = { raw, appName ->
     return raw.replace("<!--SIGN IN-->", "Sign in")
             .replace("<!--APP NAME-->", appName)
+            .replace("<!--CODEBASE-->", "")
             .replace("<!--LANG-->", "en")
 }
 
@@ -37,6 +37,7 @@ ext.handlebars = { raw ->
     return raw.replace("<!--SIGN IN-->", "{{signIn}}")
             .replace("<!--APP NAME-->", "{{appName}}")
             .replace("<!--LANG-->", "{{lang}}")
+            .replace("<!--CODEBASE-->", "{{codebase}}")
             .replace("<!--LANGUAGE LINKS-->", "{{{languageLinks}}}")
 }
 
