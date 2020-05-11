@@ -82,7 +82,6 @@ PARSER_END(Parser)
 	   [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3","\u207a"] >
 	| < SUBSCRIPT : "_" >
 	| < FRACTION : "/" >
-	| < FRACTION_DIVIDER : "\u200b" >
 	| < PARANTHESES_OPEN : "(" >
 	| < PARANTHESES_CLOSE : ")" >
 	| < SQUARE_BRACKETS_OPEN : "[" >

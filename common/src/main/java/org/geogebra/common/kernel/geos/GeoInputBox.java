@@ -108,7 +108,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			return ((GeoText) linkedGeo).getTextString();
 		}
 
-		String linkedGeoText = linkedGeo.getRedefineString(true, true);
+		String linkedGeoText = linkedGeo.getRedefineString(true, true,
+				StringTemplate.editorTemplate);
 
 		if (hasLaTeXEditableVector()) {
 			linkedGeoText = getColumnMatrix((GeoVectorND) linkedGeo);
