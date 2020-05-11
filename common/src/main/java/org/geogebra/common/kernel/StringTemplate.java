@@ -34,6 +34,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	// rounding hack, see Kernel.format()
 	private static final double ROUND_HALF_UP_FACTOR = 1.0 + 1E-15;
 
+	private static final String RAD = "rad";
+
 	private final String name;
 
 	private StringType stringType;
@@ -1765,6 +1767,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// check for 1 at left
 			if (ExpressionNode.isEqualString(left, 1, !valueForm)
 					&& !Unicode.DEGREE_STRING.equals(rightStr)
+					&& !RAD.equals(rightStr)
 					&& stringType != StringType.SCREEN_READER) {
 				append(sb, rightStr, right, operation);
 				break;
@@ -1904,8 +1907,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 							// check if we need a multiplication space:
 							// all cases except number * character, e.g. 3x
 							// pi*x DOES need a multiply
-							multiplicationSpaceNeeded = !(leftIsNumber
-											&& !Character.isDigit(firstRight));
+							multiplicationSpaceNeeded =
+									!leftIsNumber
+											|| Character.isDigit(firstRight)
+											|| rightStr.equals(RAD);
 						}
 					}
 
@@ -3561,5 +3566,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public String getEqualsWithSpace() {
 		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
+	}
+
+	public boolean isRad(ExpressionValue value) {
+		return value.toString(this).equals(RAD);
 	}
 }
