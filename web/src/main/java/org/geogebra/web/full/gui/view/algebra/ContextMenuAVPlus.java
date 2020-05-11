@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -78,7 +79,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	private boolean toolbarHasImageMode() {
-		if ("classic".equals(app.getConfig().getAppCode())) {
+		if (app.getConfig().getToolbarType().equals(AppType.CLASSIC)) {
 			Vector<ToolbarItem> toolbarItems =
 					ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
 
