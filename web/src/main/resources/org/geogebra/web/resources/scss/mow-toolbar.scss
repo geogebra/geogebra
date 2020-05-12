@@ -43,9 +43,7 @@
 
 		    .content {
 		    	height: $toolbarHeight;
-		    	.flatButton:focus {
-		    		outline: none;
-		    	}
+
 		    	.button {
 				    position: relative;
 				    &:hover img{
@@ -100,6 +98,10 @@
 		.toolbarMowPanel {
 			overflow: hidden;
 
+			.keyboardFocus:focus {
+				outline: $focus-black 5px auto;
+			}
+
 			.mowSubmenuScrollPanel {
 				background-color: white;
 				height: 156px;
@@ -153,9 +155,9 @@
 							 margin: 6px;
 							 cursor: pointer;
 
-							 &:hover:not(.disabled) {
-							 	opacity: 0.65;
-							 }
+							&:hover:not(.disabled) {
+								opacity: 0.65;
+							}
 
 							&.mowColorButton-selected {
 								width: 38px;
@@ -206,13 +208,13 @@
 								display: none;
 							}
 
-					    	&[disabled = true]{
-					    		opacity: 0.3;
-					    		input[type=range]::-webkit-slider-thumb:hover {
+							&[disabled = true]{
+								opacity: 0.3;
+								input[type=range]::-webkit-slider-thumb:hover {
 									cursor: default !important;
 								}
-					    	}
-					    }
+							}
+						}
 					}
 				}
 
@@ -229,7 +231,7 @@
 					    .toolButton {
 					    	display: inline-block;
 					    	vertical-align: bottom;
-						    margin: 0px 12px !important;
+						    margin: 0px 10px !important;
 						 }
 					}
 			 	}
@@ -256,6 +258,10 @@
 		img {
 			padding: 8px 28px;
 		    opacity: 0.54;
+		}
+
+		&.keyboardFocus:focus {
+			outline: $focus-black 5px auto;
 		}
 
 		.gwt-Label {

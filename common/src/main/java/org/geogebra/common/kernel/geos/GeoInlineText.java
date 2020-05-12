@@ -23,7 +23,7 @@ import org.geogebra.common.util.debug.Log;
  * Inline Geo Text element.
  */
 public class GeoInlineText extends GeoElement
-		implements Translateable, TextStyle, PointRotateable {
+		implements Translateable, TextStyle, PointRotateable, GeoInline {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
@@ -48,21 +48,10 @@ public class GeoInlineText extends GeoElement
 	 *            on-screen location
 	 */
 	public GeoInlineText(Construction c, GPoint2D location) {
-		this(c, location, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-	}
-
-	/**
-	 * Creates new GeoInlineText instance.
-	 * @param c construction
-	 * @param location location
-	 * @param width width
-	 * @param height height
-	 */
-	public GeoInlineText(Construction c, GPoint2D location, int width, int height) {
 		super(c);
 		this.location = location;
-		this.width = width;
-		this.height = height;
+		this.width = DEFAULT_WIDTH;
+		this.height = DEFAULT_HEIGHT;
 		this.contentDefaultSize = getCurrentFontSize();
 	}
 
@@ -83,59 +72,42 @@ public class GeoInlineText extends GeoElement
 				.getAppFontSize();
 	}
 
-	/**
-	 * Get the location of the text.
-	 *
-	 * @return location
-	 */
+	@Override
 	public GPoint2D getLocation() {
 		return location;
 	}
 
-	/**
-	 * @param location
-	 *            on-screen location
-	 */
+	@Override
 	public void setLocation(GPoint2D location) {
 		this.location = location;
 	}
 
-	/**
-	 * Get the widht of the element.
-	 *
-	 * @return width
-	 */
+	@Override
 	public double getWidth() {
 		return width;
 	}
 
-	/**
-	 * Get the height of the element.
-	 *
-	 * @return height
-	 */
+	@Override
 	public double getHeight() {
 		return height;
 	}
 
-	/**
-	 * Set the width of the element.
-	 *
-	 * @param width element width in pixels
-	 */
+	@Override
 	public void setWidth(double width) {
 		this.width = width;
 	}
 
-	/**
-	 * Set the height of the element.
-	 *
-	 * @param height height in pixels
-	 */
+	@Override
 	public void setHeight(double height) {
 		this.height = height;
 	}
 
+	@Override
+	public double getMinWidth() {
+		return DEFAULT_WIDTH;
+	}
+
+	@Override
 	public double getMinHeight() {
 		return Math.max(minHeight, DEFAULT_HEIGHT);
 	}
@@ -151,6 +123,7 @@ public class GeoInlineText extends GeoElement
 	 * @param content
 	 *            JSON representation of the document (used by Carota)
 	 */
+	@Override
 	public void setContent(String content) {
 		this.content = content;
 	}
@@ -195,19 +168,7 @@ public class GeoInlineText extends GeoElement
 		StringUtil.encodeXML(sb, content);
 		sb.append("\"/>\n");
 
-		sb.append("\t<startPoint x=\"");
-		sb.append(location.getX());
-		sb.append("\" y=\"");
-		sb.append(location.getY());
-		sb.append("\"/>\n");
-
-		sb.append("\t<dimensions width=\"");
-		sb.append(width);
-		sb.append("\" height=\"");
-		sb.append(height);
-		sb.append("\" angle=\"");
-		sb.append(angle);
-		sb.append("\"/>\n");
+		XMLBuilder.appendPosition(sb, this);
 	}
 
 	@Override
@@ -238,6 +199,11 @@ public class GeoInlineText extends GeoElement
 	@Override
 	protected boolean showInEuclidianView() {
 		return true;
+	}
+
+	@Override
+	public boolean isAlgebraViewEditable() {
+		return false;
 	}
 
 	@Override
@@ -343,7 +309,10 @@ public class GeoInlineText extends GeoElement
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		angle -= r.getDouble();
+		rotate(location, r, S);
+	}
 
+	protected static void rotate(GPoint2D location, NumberValue r, GeoPointND S) {
 		double phi = r.getDouble();
 		double cos = MyMath.cos(phi);
 		double sin = Math.sin(phi);
@@ -357,10 +326,12 @@ public class GeoInlineText extends GeoElement
 				(x - qx) * sin + (y - qy) * cos + qy);
 	}
 
+	@Override
 	public double getAngle() {
 		return angle;
 	}
 
+	@Override
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}

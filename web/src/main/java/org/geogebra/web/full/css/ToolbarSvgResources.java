@@ -526,8 +526,8 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_shape_rectangle_round_edges_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_polygon_black.svg")
-	SVGResource mode_shape_polygon_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_pentagon_black.svg")
+	SVGResource mode_shape_pentagon_32();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_freeform_black.svg")
@@ -587,4 +587,13 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mask.svg")
 	SVGResource mode_mask();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_equation.svg")
+	SVGResource mode_equation();
+
+	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_table.svg")
+	SVGResource mode_table();
+
 }

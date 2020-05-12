@@ -1,7 +1,5 @@
 package org.geogebra.web.full.euclidian;
 
-import com.google.gwt.core.client.Scheduler;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -14,12 +12,15 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 /**
  * MathField-capable editor for EV, Web implementation.
@@ -57,8 +58,11 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		super.attach(geoInputBox, bounds);
 
 		this.bounds = bounds;
-		resetChanges();
+		// add to DOM, but hidden => getHeight works, but widget is not shown in wrong position
+		editor.setVisible(false);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
+		// update size and show
+		resetChanges();
 	}
 
 	@Override
@@ -71,11 +75,12 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		return editor.getKeyboardListener();
 	}
 
-	private void resetChanges() {
+	@Override
+	protected void resetChanges() {
 		getDrawInputBox().setEditing(true);
-		editor.setVisible(true);
-		decorator.update(bounds, getGeoInputBox());
 
+		decorator.update(bounds, getGeoInputBox());
+		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());
 		editor.setLabel(getGeoInputBox().getAuralText());
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -116,11 +121,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	}
 
 	@Override
-	public void onEnter() {
-		applyChanges();
-	}
-
-	@Override
 	public void onKeyTyped() {
 		decorator.update();
 		getGeoInputBox().update();
@@ -138,7 +138,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 	public void onTab(boolean shiftDown) {
 		applyChanges();
 		hide();
-		app.getGlobalKeyDispatcher().handleTab(false, shiftDown);
+		((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
 		app.getSelectionManager().nextFromInputBox();
 	}
 

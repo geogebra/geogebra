@@ -28,9 +28,9 @@ Cypress.Commands.add("snapshotEditor", {}, () => {
 });
 
 Cypress.Commands.add("keyboardShouldPresent", {}, () => {
-     cy.get(".TabbedKeyBoard").should('exist');
+     cy.get(".TabbedKeyBoard").should('be.visible');
 });
 
 Cypress.Commands.add("keyboardShouldNotPresent", {}, () => {
-     cy.get(".TabbedKeyBoard").should('not.exist');
+     cy.get(".TabbedKeyBoard").should('not.be.visible');
 });

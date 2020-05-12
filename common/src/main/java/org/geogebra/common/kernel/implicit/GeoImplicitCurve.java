@@ -2439,7 +2439,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter) {
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
 		return false;
 	}
 

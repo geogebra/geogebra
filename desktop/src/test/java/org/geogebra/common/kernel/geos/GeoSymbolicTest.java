@@ -4,6 +4,7 @@ import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -287,11 +288,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("eq2:(x-1)^2+y^2=s^2", "y^(2) + (x - 1)^(2) = s^(2)");
 		t("c:Intersect(eq1, eq2)",
 				"{(1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1) / 2), (1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)}");
-		t("d=Element(c,1)",
+		t("D=Element(c,1)",
 				"((r^(2) - s^(2) + 1) / 2, sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1) / 2)");
-		t("e=Element(c,2)",
+		t("E=Element(c,2)",
 				"((r^(2) - s^(2) + 1) / 2, (-sqrt(-r^(4) + 2 * r^(2) * s^(2) + 2 * r^(2) - s^(4) + 2 * s^(2) - 1)) / 2)");
-		t("Line(d,e)", "x = 1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2");
+		t("Line(D,E)", "x = 1 / 2 * r^(2) - 1 / 2 * s^(2) + 1 / 2");
 	}
 
 	/**
@@ -501,14 +502,16 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testSimplifyCommand() {
-		t("Simplify(aaa+bbb+aaa+x+y+x+y)", "2 * aaa + bbb + 2 * x + 2 * y");
+		t("f = Simplify(aaa+bbb+aaa+x+y+x+y)", "2 * aaa + bbb + 2 * x + 2 * y");
+		t("Simplify(x+x)", "2 * x");
 	}
 
 	@Test
 	public void testTrigCommands() {
 		t("TrigExpand(tan(aaa+bbb))",
 				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
-		t("TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+		t("f(x) = TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+		t("TrigExpand(x)", "x");
 		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
 	}
 
@@ -546,45 +549,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testDotProduct() {
-		t("Dot[Vector[(1,2)],Vector[(3,4)]]", "11");
-		t("Dot[Vector[(p,q)],Vector[(r,s)]]", "p * r + q * s");
-	}
-
-	@Test
-	public void testCrossProduct() {
-		t("Cross[Vector[(1,2)],Vector[(3,4)]]", "-2");
-		t("Cross[Vector[(p,q)], Vector[(r,s)]]", "p * s - q * r");
-	}
-
-	@Test
-	public void testVectors() {
-		// these should give Vector not point
-		t("u=(1,2)", "(1, 2)");
-		t("u=(1,2,3)", "(1, 2, 3)");
-		t("Length(Vector((3,4)))", "5");
-		t("x(Vector((3,4)))", "3");
-		t("y(Vector((3,4)))", "4");
-		t("z(Vector((3,4)))", "0");
-		t("x(Vector((3,4,5)))", "3");
-		t("y(Vector((3,4,5)))", "4");
-		t("z(Vector((3,4,5)))", "5");
-		t("abs(Vector((1,2)))", "sqrt(5)");
-		t("UnitVector((1,2))", "(1 / 5 * sqrt(5), 2 / 5 * sqrt(5))");
-		t("UnitVector((p,q))", "(p / sqrt(p^(2) + q^(2)), q / sqrt(p^(2) + q^(2)))");
-		t("UnitPerpendicularVector((1,2))", "((-2) / sqrt(5), 1 / sqrt(5))");
-		t("UnitPerpendicularVector((p,q))", "((-q) / sqrt(p^(2) + q^(2)), p / sqrt(p^(2) + q^(2)))");
-		t("PerpendicularVector((1,2))", "(-2, 1)");
-		t("PerpendicularVector((p,q))", "(-q, p)");
-		t("Dot((p,q),(r,s))", "p * r + q * s");
-		t("Dot((1,2),(3,4))", "11");
-	}
-
-	@Test
-	public void testAngleCommand() {
-		t("Angle((1,2),(3,4))", "cos\u207B\u00B9(11 * sqrt(5) / 25)");
-		// not working
-		// t("Angle[(a,b,c),(d,e,f),(g,h,i)]", "");
+	public void testAngleCommandFiltered() {
+		GeoSymbolic symbolic = add("Angle((1,2),(3,4))");
+		assertThat(symbolic, is(nullValue()));
 	}
 
 	@Test
@@ -628,6 +595,79 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("x=y+a", "x = a + y");
 		assertEquals("eq1", app.getGgbApi().getObjectName(0));
 		assertEquals("eq2", app.getGgbApi().getObjectName(1));
+	}
+
+	@Test
+	public void testFunctionVariableLabelInCommandsMultiVariableFunction() {
+		GeoSymbolic geo = createGeoWithHiddenLabel("Integral(x³+3x y, x)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("a(x, y)"));
+	}
+
+	@Test
+	public void testFunctionsWithApostrophe() {
+		testOutputLabelOfFunctionsWithApostrophe("Integral(x)", "x");
+		testOutputLabelOfFunctionsWithApostrophe("TaylorPolynomial(x^2, 3, 1)", "6");
+	}
+
+	@Test
+	public void testFunctionVariableLabelInCommandsFunctions() {
+		GeoSymbolic derivative1 = createGeoWithHiddenLabel("Derivative(x^2)");
+		showLabel(derivative1);
+		GeoSymbolic var = createGeoWithHiddenLabel("f(2)");
+		assertEquals("4", var.getAlgebraDescriptionDefault());
+		clean();
+
+		GeoSymbolic geo = createGeoWithHiddenLabel("Derivate(x)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("a(x)"));
+		clean();
+
+		testOutputLabel("f(x) = Derivative(x^3 + x^2 + x)", "f(x)");
+		testOutputLabel("Integral(x^3)", "f(x)");
+		testOutputLabel("f(x) = TrigSimplify(1 - sin(x)^2)", "f(x)");
+		testOutputLabel("f(x) = TrigCombine(x)", "f(x)");
+		testOutputLabel("f(x) = TrigExpand(x)", "f(x)");
+		testOutputLabel("f(x) = TaylorPolynomial(x,x-5,1)", "f(x)");
+		testOutputLabel("f(x) = Simplify(x + x + x)", "f(x)");
+		testOutputLabel("f(x) = PartialFractions(x^2 / (x^2 - 2x + 1))", "f(x)");
+		testOutputLabel("f(x) = Factor(x^2 + x - 6)", "f(x)");
+	}
+
+	@Test
+	public void testDerivativeLabelHasFunctionVar() {
+		add("b(x) = x");
+		GeoSymbolic geo = createGeoWithHiddenLabel("Derivative(b)");
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith("f(x)"));
+	}
+
+	private void testOutputLabel(String input, String outputStartsWith) {
+		GeoSymbolic geo = createGeoWithHiddenLabel(input);
+		assertTrue(geo.getTwinGeo() instanceof GeoFunction);
+		showLabel(geo);
+		assertTrue(geo.getAlgebraDescriptionDefault().startsWith(outputStartsWith));
+		clean();
+	}
+
+	private void testOutputLabelOfFunctionsWithApostrophe(String input,
+							   String outputStartsWith) {
+		GeoSymbolic firstGeo = createGeoWithHiddenLabel(input);
+		assertTrue(firstGeo.getTwinGeo() instanceof GeoFunction);
+		showLabel(firstGeo);
+		GeoSymbolic secondGeo = createGeoWithHiddenLabel("f'");
+		assertTrue(secondGeo.getAlgebraDescriptionDefault().startsWith(outputStartsWith));
+		clean();
+	}
+
+	private GeoSymbolic createGeoWithHiddenLabel(String text) {
+		GeoSymbolic geoElement = add(text);
+		new LabelController().hideLabel(geoElement);
+		return geoElement;
+	}
+
+	private void showLabel(GeoSymbolic geoSymbolic) {
+		new LabelController().showLabel(geoSymbolic);
 	}
 
 	@Test
@@ -886,7 +926,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		Assert.assertNotNull(SuggestionRootExtremum.get(line));
 		SuggestionRootExtremum.get(line).execute(line);
 		Assert.assertNull(SuggestionRootExtremum.get(line));
-		Object[] list =  app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
+		Object[] list = app.getKernel().getConstruction().getGeoSetConstructionOrder().toArray();
 		((GeoElement) list[list.length - 1]).remove();
 		Assert.assertNotNull(SuggestionRootExtremum.get(line));
 	}
@@ -1039,5 +1079,23 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testCreationWithLabel() {
 		GeoSymbolic vector = add("v=(1,1)");
 		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
+	}
+
+	@Test
+	public void testShorthandIfAccepted() {
+		kernel.setUndoActive(true);
+		kernel.initUndoInfo();
+		add("f(x)=x^2,x<5");
+		kernel.storeUndoInfo();
+		undoRedo();
+		GeoElement element = lookup("f");
+		assertThat(element.toString(StringTemplate.defaultTemplate),
+				equalTo("f(x) = If(5 > x,x²)"));
+	}
+
+	@Test
+	public void testIfArgumentFiltered() {
+		GeoSymbolic element = add("If(x>5, x^2, x<5, x)");
+		assertThat(element.getTwinGeo(), is(nullValue()));
 	}
 }

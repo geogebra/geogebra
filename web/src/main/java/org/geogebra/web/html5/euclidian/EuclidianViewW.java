@@ -21,12 +21,10 @@ import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.text.InlineTextController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -45,7 +43,6 @@ import org.geogebra.web.html5.awt.LayeredGGraphicsW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -73,11 +70,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureStartEvent;
@@ -91,7 +84,6 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
@@ -138,7 +130,6 @@ public class EuclidianViewW extends EuclidianView implements
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 
 	private long lastRepaint;
-	private boolean inFocus = false;
 	/** application **/
 	AppW appW = (AppW) super.app;
 
@@ -150,22 +141,6 @@ public class EuclidianViewW extends EuclidianView implements
 	/** parent panel */
 	protected EuclidianPanelWAbstract evPanel;
 	private PointerEventHandler pointerHandler;
-
-	// firstInstance is necessary for proper cycling
-	private static EuclidianViewWInterface firstInstance = null;
-
-	// lastInstance is necessary for knowing when to cycle
-	private static EuclidianViewWInterface lastInstance = null;
-
-	// tells whether recently TAB is pressed in some Graphics View
-	// in some applet, which SHOULD move focus to another Graphics View
-	// of another (or the same) applet... when this happens, the
-	// focus handler of the target applet runs, and sets this static
-	// variable false again, so this is just a technical solution
-	// for deciding, whether to select the first GeoElement in that
-	// applet or not (because we shall not change selection in case
-	// e.g. the spreadsheet view gives focus to Graphics view).
-	private static boolean tabPressed = false;
 
 	private GDimension preferredSize;
 
@@ -357,7 +332,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void clearView() {
-		resetInlineTexts();
+		resetInlineObjects();
 		resetLists();
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
@@ -747,36 +722,9 @@ public class EuclidianViewW extends EuclidianView implements
 		registerDragDropHandlers(euclidianViewPanel,
 				(EuclidianControllerW) euclidiancontroller);
 
-		updateFirstAndLast(true);
 		if (canvas == null) {
 			return;
 		}
-		canvas.addAttachHandler(new AttachEvent.Handler() {
-			@Override
-			public void onAttachOrDetach(AttachEvent ae) {
-				if (ae.isAttached()) {
-					// canvas just attached
-					updateFirstAndLast(false);
-				}
-			}
-		});
-
-		canvas.addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent be) {
-				focusLost();
-				cycle(EuclidianViewW.this);
-
-			}
-		});
-
-		canvas.addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent fe) {
-				focusGained();
-				EuclidianViewW.selectNextGeoOnTab(EuclidianViewW.this);
-			}
-		});
 
 		EuclidianSettings es = null;
 		if (settings != null) {
@@ -795,105 +743,11 @@ public class EuclidianViewW extends EuclidianView implements
 		addScreenReader();
 	}
 
-	/**
-	 * @param ev
-	 *            view
-	 * @param anyway
-	 *            whether to update even unattached view
-	 */
-	static public void updateFirstAndLast(EuclidianViewWInterface ev,
-			boolean anyway) {
-		if (ev.getCanvasElement() == null) {
-			return;
-		}
-		ev.getCanvasElement()
-				.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
-		if (firstInstance == null) {
-			firstInstance = ev;
-		} else if (ev.isAttached()) {
-			if (compareDocumentPosition(ev.getCanvasElement(),
-					firstInstance.getCanvasElement())) {
-				firstInstance = ev;
-			}
-		} else if (anyway) {
-			// then compare to something equivalent!
-			// if we are in different applet;
-			// ... anything from this applet is right
-			// if we are in the same applet;
-			// ... does it matter? (yes, but just a little bit)
-			// TODO: to be fixed in a better way later,
-			// after it is seen whether this is really a little fix...
-			if (compareDocumentPosition(
-					((AppW) ev.getApplication()).getFrameElement(),
-					firstInstance
-							.getCanvasElement())) {
-				firstInstance = ev;
-			}
-		}
-
-		if (lastInstance == null) {
-			lastInstance = ev;
-		} else if (ev.isAttached()) {
-			if (compareDocumentPosition(lastInstance.getCanvasElement(),
-					ev.getCanvasElement())) {
-				lastInstance = ev;
-			}
-		} else if (anyway) {
-			if (compareDocumentPosition(lastInstance.getCanvasElement(),
-					((AppW) ev.getApplication()).getFrameElement())) {
-				lastInstance = ev;
-			}
-		}
-	}
-
-	@Override
-	public void updateFirstAndLast(boolean anyway) {
-		if ((evNo == 1) || (evNo == 2) || isViewForPlane()) {
-			updateFirstAndLast(this, anyway);
-		} else {
-			// is this the best?
-			getCanvasElement()
-					.setTabIndex(
-					GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX - 1);
-		}
-	}
-
-	/**
-	 * Used for comparing position in DOM (Document Object Model)
-	 * 
-	 * @param firstElement
-	 *            it is right if this comes first
-	 * @param secondElement
-	 *            it is right if this comes second
-	 * @return whether firstElement is really before secondElement
-	 */
-	public static native boolean compareDocumentPosition(
-			Element firstElement,
-			Element secondElement) /*-{
-		if (firstElement) {
-			if (secondElement) {
-				if (firstElement === secondElement) {
-					// let's interpret it as false result
-					return false;
-				}
-				if (firstElement.compareDocumentPosition(secondElement)
-						& $wnd.Node.DOCUMENT_POSITION_FOLLOWING) {
-					return true;
-				}
-				// if any of them contain the other, let us interpret
-				// as false result, and anyway, this shall not happen!
-				// but probably this is DOCUMENT_POSITION_PRECEDING:
-				return false;
-			}
-		}
-		return false;
-	}-*/;
-
 	private void registerKeyHandlers(Canvas canvas) {
 		if (canvas != null) {
-		canvas.addKeyDownHandler(this.appW.getGlobalKeyDispatcher());
-		canvas.addKeyUpHandler(this.appW.getGlobalKeyDispatcher());
-		canvas.addKeyPressHandler(this.appW.getGlobalKeyDispatcher());
+			canvas.addKeyDownHandler(this.appW.getGlobalKeyDispatcher());
+			canvas.addKeyUpHandler(this.appW.getGlobalKeyDispatcher());
+			canvas.addKeyPressHandler(this.appW.getGlobalKeyDispatcher());
 		}
 	}
 
@@ -902,7 +756,7 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianControllerW euclidiancontroller) {
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
 		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		if (Browser.supportsPointerEvents(true)) {
+		if (Browser.supportsPointerEvents()) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
 			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
@@ -1025,33 +879,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public boolean requestFocusInWindow() {
 		getCanvasElement().focus();
-		focusGained();
 		return true;
-	}
-
-	/**
-	 * Mark as not focused
-	 */
-	public void focusLost() {
-		this.inFocus = false;
-	}
-
-	/**
-	 * Mark as focused and notify app.
-	 */
-	public void focusGained() {
-		if (!inFocus) {
-			this.inFocus = true;
-			if (getCanvasElement() != null) {
-				this.appW.focusGained(this, getCanvasElement());
-				resetTextField();
-			}
-		}
-	}
-
-	@Override
-	public boolean isInFocus() {
-		return inFocus;
 	}
 
 	/**
@@ -1507,99 +1335,6 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
-	/**
-	 * Focus next view on page.
-	 *
-	 * @param from
-	 *            current view
-	 */
-	public static void cycle(EuclidianView from) {
-		if ((from == EuclidianViewW.lastInstance)
-				&& EuclidianViewW.tabPressed) {
-			// if this is the last to blur, and tabPressed
-			// is true, i.e. want to select another applet,
-			// let's go back to the first one!
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					// in theory, the tabPressed will not be set
-					// to false
-					// before this, because the element that
-					// naturally
-					// receives focus will not be an
-					// EuclidianView,
-					// for this is the last one, but why not
-					// make sure?
-					EuclidianViewW.tabPressed = true;
-
-					// probably we have to wait for the
-					// focus event that accompanies this
-					// blur first, and only request for
-					// new focus afterwards...
-					EuclidianViewW.firstInstance.requestFocus();
-				}
-			});
-		}
-
-	}
-
-	/**
-	 * 
-	 * @param success
-	 *            whether tab was handled internally
-	 * @return success || last applet left
-	 */
-	public static boolean checkTabPress(boolean success) {
-		if (!success) {
-			// should select first GeoElement in next applet
-			// this should work well except from last to first
-			// so there will be a blur handler there
-
-			// it would be too hard to select the first GeoElement
-			// from here, so this will be done in the focus handler
-			// of the other applet, depending on whether really
-			// this code called it, and it can be done by a static
-			// variable for the short term
-			EuclidianViewW.tabPressed = true;
-
-			// except EuclidianViewW.lastInstance, do not prevent:
-			if (EuclidianViewW.lastInstance.isInFocus()) {
-				EuclidianViewW.lastInstance.getCanvasElement().blur();
-				return true;
-			}
-			return false;
-		}
-		EuclidianViewW.tabPressed = false;
-		return true;
-	}
-
-	/**
-	 * Select next geo in given view when tab pressed
-	 * 
-	 * @param view
-	 *            view
-	 */
-	public static void selectNextGeoOnTab(EuclidianView view) {
-		if (EuclidianViewW.tabPressed) {
-			// if focus is moved here from another applet,
-			// select the first GeoElement of this Graphics view
-			EuclidianViewW.tabPressed = false;
-			view.getApplication().getSelectionManager().selectNextGeo(view);
-
-			// .setFirstGeoSelectedForPropertiesView(); might not be
-			// perfect,
-			// for that GeoElement might not be visible in all Graphics
-			// views
-		}
-	}
-
-	/**
-	 * Reset the tab flag
-	 */
-	public static void resetTab() {
-		tabPressed = false;
-	}
-
 	@Override
 	public void drawStringWithOutline(GGraphics2D g2c, String text, double x,
 			double y, GColor col) {
@@ -1763,12 +1498,6 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public AppW getApplication() {
 		return (AppW) super.getApplication();
-	}
-
-	@Override
-	public InlineTextController createInlineTextController(GeoInlineText geo) {
-		Element parentElement = getAbsolutePanel().getParent().getElement();
-		return new InlineTextControllerW(geo, parentElement, this);
 	}
 
 	@Override

@@ -80,9 +80,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	// modes
 	/** implicit equation */
-	public static final int EQUATION_IMPLICIT = 0;
+	public static final int EQUATION_IMPLICIT = 0; // a x + b y = c
 	/** explicit equation */
-	public static final int EQUATION_EXPLICIT = 1;
+	public static final int EQUATION_EXPLICIT = 1; // y = m x + b
 	/** parametric equation */
 	public static final int PARAMETRIC = 2;
 	/** non-canonical implicit equation */
@@ -922,6 +922,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		setMode(EQUATION_EXPLICIT);
 	}
 
+	private void setToExplicit(boolean force) {
+		setMode(EQUATION_EXPLICIT, force);
+	}
+
 	/** set equation mode to implicit */
 	@Override
 	final public void setToImplicit() {
@@ -935,7 +939,20 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	final public void setMode(int mode) {
-		if (isEquationFormEnforced()) {
+		setMode(mode, false);
+	}
+
+	/**
+	 * Sets the coord style
+	 *
+	 * @param mode
+	 *            new coord style
+	 *
+	 * @param force
+	 *            mode is forced
+	 */
+	public void setMode(int mode, boolean force) {
+		if (!force && isEquationFormEnforced()) {
 			toStringMode = cons.getApplication().getConfig().getEnforcedLineEquationForm();
 		} else {
 			setModeWithImplicitEquationAsDefault(mode);
@@ -1873,11 +1890,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter) {
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
 		if ("implicit".equals(style)) {
 			setToImplicit();
 		} else if ("explicit".equals(style)) {
-			setToExplicit();
+			setToExplicit(force);
 		} else if ("parametric".equals(style)) {
 			setToParametric(parameter);
 		} else if ("user".equals(style)) {

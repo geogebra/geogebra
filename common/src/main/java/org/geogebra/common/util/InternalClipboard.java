@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
@@ -132,7 +132,7 @@ public class InternalClipboard {
 					shapes.add(created);
 				}
 
-				if (created instanceof GeoInlineText) {
+				if (created instanceof GeoInline) {
 					DrawInlineText drawInlineText = (DrawInlineText) ev.getDrawableFor(created);
 					drawInlineText.updateContent();
 					shapes.add(created);
@@ -264,8 +264,7 @@ public class InternalClipboard {
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null && label.length() >= CopyPaste.labelPrefix.length()) {
-					if (label.substring(0, CopyPaste.labelPrefix.length())
-							.equals(CopyPaste.labelPrefix)) {
+					if (label.startsWith(CopyPaste.labelPrefix)) {
 						try {
 							((GeoElement) geo).setLabelSimple(
 									label.substring(CopyPaste.labelPrefix.length()));

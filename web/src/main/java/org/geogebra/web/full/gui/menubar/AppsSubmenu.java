@@ -79,7 +79,7 @@ public class AppsSubmenu extends Submenu {
 			public void callback(Boolean active) {
 				app.fileNew();
 				app.getLAF().toggleFullscreen(true);
-				ExamStartDialog examStartDialog = new ExamStartDialog(getApp());
+				ExamStartDialog examStartDialog = new ExamStartDialog((AppWFull) getApp());
 				examStartDialog.show();
 				examStartDialog.center();
 			}

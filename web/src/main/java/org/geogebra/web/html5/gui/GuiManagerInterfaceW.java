@@ -86,7 +86,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void recalculateEnvironments();
 
-	void exportGGB();
+	void exportGGB(boolean showDialog);
 
 	void listenToLogin();
 
@@ -163,6 +163,11 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * Adds the main menu button to the global header.
 	 */
 	void menuToGlobalHeader();
+
+	/**
+	 * Initializes the share button in the global header.
+	 */
+	void initShareActionInGlobalHeader();
 
 	/**
 	 * Creates and adds a symbolic editor to the panel.

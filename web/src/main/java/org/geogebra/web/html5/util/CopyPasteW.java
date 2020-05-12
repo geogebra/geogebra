@@ -77,7 +77,8 @@ public class CopyPasteW extends CopyPaste {
 
 	private static void saveToClipboard(String toSave) {
 		if (!Browser.isiOS()) {
-			String encoded = pastePrefix + GlobalFunctions.btoa(toSave);
+			String escapedContent = GlobalFunctions.escape(toSave);
+			String encoded = pastePrefix + GlobalFunctions.btoa(escapedContent);
 			writeToExternalClipboard(encoded);
 		}
 		Storage.getLocalStorageIfSupported().setItem(pastePrefix, toSave);
@@ -145,7 +146,8 @@ public class CopyPasteW extends CopyPaste {
 	@ExternalAccess
 	private static void pasteText(App app, String text) {
 		if (text.startsWith(pastePrefix)) {
-			pasteGeoGebraXML(app, GlobalFunctions.atob(text.substring(pastePrefix.length())));
+			String escapedContent = GlobalFunctions.atob(text.substring(pastePrefix.length()));
+			pasteGeoGebraXML(app, GlobalFunctions.unescape(escapedContent));
 		} else {
 			pastePlainText(app, text);
 		}
@@ -161,8 +163,8 @@ public class CopyPasteW extends CopyPaste {
 			final EuclidianView ev = app.getActiveEuclidianView();
 
 			final GeoInlineText txt = new GeoInlineText(app.getKernel().getConstruction(),
-					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0),
-					defaultTextWidth, GeoInlineText.DEFAULT_HEIGHT);
+					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
+			txt.setWidth(defaultTextWidth);
 			txt.setLabel(null);
 
 			JSONArray array = new JSONArray();

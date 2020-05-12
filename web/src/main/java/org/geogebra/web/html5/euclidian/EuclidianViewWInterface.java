@@ -28,8 +28,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	Hits getHits();
 
-	boolean isInFocus();
-
 	boolean hasStyleBar();
 
 	EuclidianStyleBar getStyleBar();
@@ -92,8 +90,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	String getCanvasBase64WithTypeString();
 
 	void requestFocus();
-
-	void updateFirstAndLast(boolean anyway);
 
 	void setAltText();
 

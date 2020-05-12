@@ -27,7 +27,6 @@ import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
@@ -37,8 +36,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UndoManager;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -113,10 +112,10 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
-import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
 import org.geogebra.web.html5.gui.laf.MebisSettings;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -282,8 +281,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = articleElement;
-		NativeFocusHandler.addNativeFocusHandler(articleElement.getElement(),
-				this);
 		this.laf = laf;
 
 		getTimerSystem();
@@ -551,19 +548,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	final public GlobalKeyDispatcherW getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
-			globalKeyDispatcher = newGlobalKeyDispatcher();
-			if (articleElement != null && articleElement.getDataParamApp()) {
-				globalKeyDispatcher.setFocused(true);
-			}
+			globalKeyDispatcher = new GlobalKeyDispatcherW(this);
 		}
 		return globalKeyDispatcher;
-	}
-
-	/**
-	 * @return a new instance of {@link GlobalKeyDispatcherW}
-	 */
-	private GlobalKeyDispatcherW newGlobalKeyDispatcher() {
-		return new GlobalKeyDispatcherW(this);
 	}
 
 	@Override
@@ -1073,7 +1060,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean clearConstruction() {
-		// if (isSaved() || saveCurrentFile()) {
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -1082,9 +1068,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setMoveMode();
 
 		return true;
-
-		// }
-		// return false;
 	}
 
 	@Override
@@ -1140,12 +1123,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public final void fileNew() {
-		// clear all
-		// triggers the "do you want to save" dialog
-		// so must be called first
-		if (!clearConstruction()) {
-			return;
-		}
 		clearMedia();
 		resetUniqueId();
 		setLocalID(-1);
@@ -1154,15 +1131,28 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
+
 		resetUI();
 		resetPages();
+		clearConstruction();
+		resetPenTool();
 	}
 
 	private void resetPages() {
-		if (pageController == null) {
-			return;
+		if (pageController != null) {
+			pageController.resetPageControl();
 		}
-		pageController.resetPageControl();
+	}
+
+	/**
+	 * Selects Pen tool in whiteboard
+	 */
+	protected final void resetPenTool() {
+		if (isWhiteboardActive()) {
+			getActiveEuclidianView().getSettings()
+					.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
+		}
 	}
 
 	/**
@@ -1187,9 +1177,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if (!isUnbundledOrWhiteboard()) {
 			showPerspectivesPopup();
-		}
-		if (getPageController() != null) {
-			getPageController().resetPageControl();
 		}
 	}
 
@@ -1738,21 +1725,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Initializes the user authentication
-	 *
-	 * @param op
+	 *  @param op
 	 *            login operation
-	 * @param mayLogIn
-	 *            whether login dialog may be opened
+	 *
 	 */
-	public void initSignInEventFlow(LogInOperation op, boolean mayLogIn) {
-
+	public void initSignInEventFlow(LogInOperation op) {
 		// Initialize the signIn operation
 		loginOperation = op;
 		if (getNetworkOperation().isOnline()) {
-			if (this.getLAF() != null && this.getLAF().supportsGoogleDrive()) {
+			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
 				initGoogleDriveEventFlow();
 			}
-			if (mayLogIn) {
+			if (getArticleElement().getDataParamEnableFileFeatures()) {
 				loginOperation.performTokenLogin();
 			}
 		} else {
@@ -2000,24 +1984,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public ToolBarInterface getToolbar() {
 		return null;
 	}
-
-	/**
-	 *
-	 * @param w
-	 *            last selected view
-	 * @param el
-	 *            target element
-	 */
-	public abstract void focusLost(View w, Element el);
-
-	/**
-	 *
-	 * @param w
-	 *            selected view
-	 * @param el
-	 *            target element
-	 */
-	public abstract void focusGained(View w, Element el);
 
 	/**
 	 * Update toolbar from custom definition
@@ -2637,31 +2603,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public abstract GeoGebraFrameW getAppletFrame();
 
-	/**
-	 * @return whether the focus was lost
-	 */
-	private static native Element nativeLoseFocus(Element element) /*-{
-		var active = $doc.activeElement;
-		var containsMask = $wnd.Node.DOCUMENT_POSITION_CONTAINS;
-		if (active
-				&& ((active === element) || (active
-						.compareDocumentPosition(element) & containsMask))) {
-			active.blur();
-			return active;
-		}
-		return null;
-	}-*/;
-
-	@Override
-	public void loseFocus() {
-		// probably this is called on ESC, so the reverse
-		// should happen on ENTER
-		Element ret = nativeLoseFocus(articleElement.getElement());
-		if (ret != null) {
-			getGlobalKeyDispatcher().setFocused(false);
-		}
-	}
-
 	@Override
 	public boolean isScreenshotGenerator() {
 		return this.articleElement.getDataParamScreenshotGenerator();
@@ -3119,18 +3060,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	/**
-	 * @param el
-	 *            article element
-	 * @return true if prerelease
-	 *
-	 *         Remove this function if GGB-2051 released. Used only in GGB-2051
-	 */
-	public static boolean isPrerelease(ArticleElement el) {
-		String p = el.getDataParamPrerelease();
-		return "true".equals(p) || "canary".equals(p);
-	}
-
 	@Override
 	public void hideMenu() {
 		// for applets with menubar
@@ -3295,8 +3224,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
-				&& (!articleElement.preventFocus()
-						|| getGlobalKeyDispatcher().isFocused())) {
+				&& !articleElement.preventFocus()) {
 			if (readerTimer == null) {
 				readerTimer = new ReaderTimer();
 			}
@@ -3361,33 +3289,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void setActivePerspective(int index) {
 		// only for GUI
-	}
-
-	/**
-	 * Focus this app
-	 */
-	public void addFocusToApp() {
-		if (!GlobalKeyDispatcherW.getIsHandlingTab()) {
-			getGlobalKeyDispatcher().setFocused(true);
-			return;
-		}
-
-		// add focus to AV if visible
-		AlgebraView av = getAlgebraView();
-		boolean visible = av != null && av.isShowing();
-		if (visible) {
-			((Widget) av).getElement().focus();
-			focusGained(av, ((Widget) av).getElement());
-			return;
-		}
-
-		// focus -> EV
-		EuclidianViewW ev = getEuclidianView1();
-		visible = ev != null && ev.isShowing();
-		if (visible) {
-			ev.getCanvasElement().focus();
-			ev.focusGained();
-		}
 	}
 
 	/**
@@ -3813,17 +3714,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final AccessibilityManagerInterface getAccessibilityManager() {
 		if (accessibilityManager == null) {
-			accessibilityManager = new AccessibilityManagerW(this,
-					createPerspectiveAccessibilityAdapter());
+			accessibilityManager = new AccessibilityManagerW(this);
 		}
 		return accessibilityManager;
-	}
-
-	/**
-	 * @return adapter for tabbing through views
-	 */
-	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
-		return new SinglePanelAccessibilityAdapter(this);
 	}
 
 	public ZoomPanel getZoomPanel() {
@@ -3925,5 +3818,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				}
 			});
 		}
+	}
+
+	public SignInControllerI getSignInController() {
+		return getLAF().getSignInController(this);
 	}
 }

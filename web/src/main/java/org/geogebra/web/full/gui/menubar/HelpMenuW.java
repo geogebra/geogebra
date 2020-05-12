@@ -6,7 +6,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.menubar.action.LicenseAction;
+import org.geogebra.web.full.gui.menubar.item.LicenseItem;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -51,14 +51,14 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 		addSeparator();
 		addReportBugItem(app, loc);
 		addSeparator();
-		addAboutItem(app);
+		addAboutItem();
 	}
 
 	private void buildMenuNotes(final AppW app, Localization loc) {
 		addTutorialItem(app, loc);
 		addForumItem(app, loc);
 		addReportBugItem(app, loc);
-		addAboutItem(app);
+		addAboutItem();
 	}
 
 	private void addTutorialItem(final AppW app, Localization loc) {
@@ -123,8 +123,8 @@ public class HelpMenuW extends Submenu implements BooleanRenderable {
 				});
 	}
 
-	private void addAboutItem(final AppW app) {
-		about = addItem(new LicenseAction(app));
+	private void addAboutItem() {
+		about = addItem(new LicenseItem());
 	}
 
 	@Override

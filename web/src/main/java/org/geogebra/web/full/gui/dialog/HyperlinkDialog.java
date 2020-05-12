@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;

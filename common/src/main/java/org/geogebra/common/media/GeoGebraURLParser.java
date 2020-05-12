@@ -24,47 +24,45 @@ public final class GeoGebraURLParser {
 	}
 
 	/**
-	 * @param processedUrlString0
+	 * @param url
 	 *            GeoGebra URL
 	 * @return material sharing key (or numeric ID)
 	 */
-	public static String getIDfromURL(String processedUrlString0) {
-		String processedUrlString = removeProtocol(processedUrlString0);
+	public static String getIDfromURL(String url) {
+		String urlNoProtocol = removeProtocol(url);
 		final String material = "/material/show/id/";
 
 		// remove hostname
-		processedUrlString = processedUrlString.substring(processedUrlString.indexOf('/'));
+		String pathAndQuery = urlNoProtocol.substring(urlNoProtocol.indexOf('/'));
 
 		String id;
 
 		// determine the start position of ID in the URL
-		int start;
-		if (processedUrlString.startsWith(material)) {
+		int start = -1;
+		if (pathAndQuery.startsWith(material)) {
 			start = material.length();
-		} else if (processedUrlString.startsWith("/m/")) {
+		} else if (pathAndQuery.startsWith("/m/")) {
 			start = "/m/".length();
-		} else {
-			start = processedUrlString.lastIndexOf("/m") + 2;
+		} else if (!url.contains("geogebra.org") || pathAndQuery.contains("/m")) {
+			// support short URLs but be a bit picky with geogebra.org
+			start = pathAndQuery.lastIndexOf("/m") + 2;
 		}
 
 		// no valid URL?
 		if (start == -1) {
-			Log.debug("problem parsing: " + processedUrlString);
+			Log.debug("problem parsing: " + pathAndQuery);
 			return null;
 		}
 
 		// the end position is either before the next slash or at the
 		// end of the string
-		int end = -1;
-		if (start > -1) {
-			end = processedUrlString.indexOf('/', start);
-		}
+		int end = pathAndQuery.indexOf('/', start);
 
 		if (end == -1) {
-			end = processedUrlString.length();
+			end = pathAndQuery.length();
 		}
 		// fetch ID
-		id = processedUrlString.substring(start, end);
+		id = pathAndQuery.substring(start, end);
 		return id;
 	}
 

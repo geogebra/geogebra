@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos.description;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -9,9 +12,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
@@ -39,6 +39,26 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 		String dependentCopyString = "eq1 = c";
 		GeoConic line = addAvInput(dependentCopyString);
 		checkCaption(line, GeoElementND.LABEL_NAME_VALUE, "eq1: x² + y² = 1");
+
+		String fitLineXString = "f : FitLineX({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})";
+		GeoLine fitLineX = addAvInput(fitLineXString);
+		checkCaption(fitLineX, GeoElementND.LABEL_NAME_VALUE, "f: y = 0.57x + 1.67");
+
+		String fitLineString = "h : FitLine({(-2, 1), (1, 2), (2, 4), (4, 3), (5, 4)})";
+		GeoLine fitLine = addAvInput(fitLineString);
+		checkCaption(fitLine, GeoElementND.LABEL_NAME_VALUE, "h: y = 0.4x + 2");
+
+		String fitPolyString = "i(x)=FitPoly({(-1,-1),(0,1),(1,1),(2,5)},3)";
+		GeoFunction fitPoly = addAvInput(fitPolyString);
+		checkCaption(fitPoly, GeoElementND.LABEL_NAME_VALUE, "i(x) = x³ - x² + 0x + 1");
+
+		String fitLogString = "j(x)=FitLog({(ℯ,1),(ℯ^(2),4)})";
+		GeoFunction fitLog = addAvInput(fitLogString);
+		checkCaption(fitLog, GeoElementND.LABEL_NAME_VALUE, "j(x) = -2 + 3ln(x)");
+
+		String fitPowString = "k(x)=FitPow({(1,1),(3,2),(7,4)})";
+		GeoFunction fitPow = addAvInput(fitPowString);
+		checkCaption(fitPow, GeoElementND.LABEL_NAME_VALUE, "k(x) = 0.97x^0.71");
 	}
 
 	@Test

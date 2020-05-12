@@ -317,7 +317,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
 		sb.append(" ");
@@ -343,13 +343,7 @@ public class ToolBar {
 		sb.append(app.has(Feature.MOW_TEXT_TOOL) ? EuclidianConstants.MODE_MEDIA_TEXT
 				: EuclidianConstants.MODE_TEXT);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_IMAGE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CAMERA);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_VIDEO);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_AUDIO);
+		sb.append(EuclidianConstants.MODE_EQUATION);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_GRAPHING);
 		sb.append(" ");
@@ -359,9 +353,17 @@ public class ToolBar {
 			sb.append(EuclidianConstants.MODE_GRASPABLE_MATH);
 		}
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_PDF);
-		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EXTENSION);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_IMAGE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CAMERA);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_VIDEO);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_AUDIO);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_PDF);
 		sb.append(" | ");
 		return sb.toString();
 	}
@@ -380,7 +382,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
 		sb.append(" ");

@@ -201,7 +201,9 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public GeoNumeric copy() {
-		return new GeoNumeric(cons, value);
+		GeoNumeric copy = new GeoNumeric(cons, value);
+		copy.setDrawable(isDrawable, false);
+		return copy;
 	}
 
 	@Override
@@ -1696,7 +1698,6 @@ public class GeoNumeric extends GeoElement
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth(), true);
 		num.setRandom(defaultNum.isRandom());
 		num.setLineThickness(DEFAULT_SLIDER_THICKNESS);
-		num.setDrawable(false, false);
 		num.update();
 		return num;
 	}

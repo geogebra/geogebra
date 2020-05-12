@@ -83,6 +83,7 @@ import org.geogebra.web.full.gui.layout.panels.PropertiesDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
+import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
@@ -171,8 +172,6 @@ public class GuiManagerW extends GuiManager
 	private ToolBarW toolbarForUpdate = null;
 	private DataCollectionView dataCollectionView;
 	private GeoGebraFrameFull frame;
-
-	private int activeViewID;
 
 	private GOptionPaneW optionPane;
 
@@ -1798,20 +1797,10 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void setActiveView(final int evID) {
-		this.activeViewID = evID;
 		if (layout == null || layout.getDockManager() == null) {
 			return;
 		}
 		layout.getDockManager().setFocusedPanel(evID);
-	}
-
-	/**
-	 *
-	 * @return ID of the active view
-	 * @see #setActiveView(int)
-	 */
-	public int getActiveViewID() {
-		return this.activeViewID;
 	}
 
 	@Override
@@ -1946,45 +1935,59 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * shows the downloadDialog
+	 *
+	 * @param showDialog whether the download dialog should be shown or is it downloading directly
 	 */
 	@Override
-	public void exportGGB() {
+	public void exportGGB(boolean showDialog) {
 		final String extension = ((AppW) app).getFileExtension();
-		getOptionPane().showSaveDialog(loc.getMenu("Save"),
-				getApp().getExportTitle() + extension, null,
-				new AsyncOperation<String[]>() {
 
-					@Override
-					public void callback(String[] obj) {
-						getApp().dispatchEvent(
-								new Event(EventType.EXPORT, null, "[\""
-										+ extension.substring(1) + "\"]"));
-						if (Browser.isXWALK()) {
-							getApp().getGgbApi().getBase64(true,
-									getStringCallback(obj[1]));
-						} else if (Integer.parseInt(obj[0]) == 0) {
+		if (showDialog) {
+			getOptionPane().showSaveDialog(loc.getMenu("Save"),
+					getApp().getExportTitle() + extension, null,
+					new AsyncOperation<String[]>() {
 
-							String filename = obj[1];
+						@Override
+						public void callback(String[] obj) {
+							if (Integer.parseInt(obj[0]) == 0) {
 
-							if (filename == null || filename.trim().isEmpty()) {
-								filename = getApp().getExportTitle();
-							}
+								String filename = obj[1];
 
-							// in case user removes extension
-							if (!filename.endsWith(extension)) {
-								filename += extension;
-							}
-							if (Browser.isFirefox()) {
-								getApp().getGgbApi().getBase64(true,
-										getBase64DownloadCallback(filename));
-							} else {
-								getApp().getGgbApi().getGGBfile(true,
-									getDownloadCallback(filename));
+								if (filename == null || filename.trim().isEmpty()) {
+									filename = getApp().getExportTitle();
+								}
+
+								// in case user removes extension
+								if (!filename.endsWith(extension)) {
+									filename += extension;
+								}
+								exportGgb(filename, extension);
 							}
 						}
-					}
-				}, loc.getMenu("Save"));
+					}, loc.getMenu("Save"));
+		} else {
+			exportGGBDirectly();
+		}
+	}
+
+	private void exportGGBDirectly() {
+		String extension = ((AppW) app).getFileExtension();
+		String filename = getApp().getExportTitle() + extension;
+		exportGgb(filename, extension);
+	}
+
+	private void exportGgb(String filename, String extension) {
+		getApp().dispatchEvent(
+				new Event(EventType.EXPORT, null, "[\""
+						+ extension.substring(1) + "\"]"));
+
+		if (Browser.isFirefox()) {
+			getApp().getGgbApi().getBase64(true,
+					getBase64DownloadCallback(filename));
+		} else {
+			getApp().getGgbApi().getGGBfile(true,
+					getDownloadCallback(filename));
+		}
 	}
 
 	/**
@@ -2338,6 +2341,20 @@ public class GuiManagerW extends GuiManager
 			btn.setExternal(true);
 			btn.addToGlobalHeader();
 		}
+	}
+
+	@Override
+	public void initShareActionInGlobalHeader() {
+		GlobalHeader.INSTANCE.initShareButton(new AsyncOperation<Widget>() {
+
+			@Override
+			public void callback(Widget share) {
+				if (getApp().isMenuShowing()) {
+					getApp().toggleMenu();
+				}
+				FileMenuW.share(getApp(), share);
+			}
+		});
 	}
 
 	@Override

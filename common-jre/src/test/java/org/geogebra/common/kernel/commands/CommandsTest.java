@@ -599,6 +599,10 @@ public class CommandsTest {
 	public void parsePower() {
 		t("a=4", "4");
 		t("pia", "12.566370614359172");
+		t("pi1", "3.141592653589793");
+		t("pi1a", "12.566370614359172");
+		t("pie", "8.539734222673566");
+		t("pii", "0 + 3.141592653589793ί");
 		t("pix", "(" + PI_STRING + " * x)");
 		t("sinx", "sin(x)");
 		t("sin x", "sin(x)");
@@ -607,7 +611,8 @@ public class CommandsTest {
 		t("f(t)=sin t", "sin(t)");
 		t("f(t)=sint", "sin(t)");
 		t("x" + PI_STRING, "(" + PI_STRING + " * x)");
-		t("sinxdeg", "sin((1*" + DEGREE_STRING + " * x))");
+		t("xdeg", "x" + DEGREE_STRING);
+		t("sinxdeg", "sin(x" + DEGREE_STRING + ")");
 	}
 
 	@Test

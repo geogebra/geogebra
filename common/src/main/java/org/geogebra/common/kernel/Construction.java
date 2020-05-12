@@ -1,11 +1,21 @@
 package org.geogebra.common.kernel;
 
-import com.himamis.retex.editor.share.input.Character;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Stack;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -18,8 +28,6 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
-import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
-import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -46,20 +54,13 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Stack;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.List;
+
+import com.himamis.retex.editor.share.input.Character;
 
 /**
  * Manages construction elements
@@ -128,6 +129,10 @@ public class Construction {
 	/** Table for (label, GeoElement) pairs, contains global variables */
 	protected HashMap<String, GeoElement> geoTable;
 
+	// List of GeoElements to store strong references to
+	// Used in the iOS app
+	private List<ConstructionElement> tempList;
+
 	// list of algorithms that need to be updated when EuclidianView changes
 	private ArrayList<EuclidianViewCE> euclidianViewCE;
 	private ArrayList<EuclidianViewCE> corner5Algos;
@@ -151,8 +156,6 @@ public class Construction {
 	private AlgorithmSet algoSetCurrentlyUpdated;
 
 	private final TreeSet<String> casDummies = new TreeSet<>();
-
-	private ArrayList<AlgoElement> casAlgos = new ArrayList<>();
 
 	/**
 	 * Table for (label, GeoCasCell) pairs, contains global variables used in
@@ -232,6 +235,7 @@ public class Construction {
 		geoSetLabelOrder = new TreeSet<>(new LabelComparator());
 		geoSetsTypeMap = new HashMap<>();
 		euclidianViewCE = new ArrayList<>();
+		tempList = new ArrayList<>();
 
 		layerManager = new LayerManager();
 
@@ -914,6 +918,7 @@ public class Construction {
 	public void addToConstructionList(ConstructionElement ce,
 			boolean checkContains) {
 		if (supressLabelCreation) {
+			tempList.add(ce);
 			return;
 		}
 		if (checkContains && ce.isInConstructionList()) {
@@ -1694,7 +1699,7 @@ public class Construction {
 		// moveDependencies(oldGeo,newGeo);
 
 		// 4) build new construction
-		buildConstruction(consXML, oldXML, info);
+		buildConstructionWithGlobalListeners(consXML, oldXML, info);
 		if (moveMode) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			selection.addSelectedGeo(selGeo, false, true);
@@ -1704,6 +1709,16 @@ public class Construction {
 
 		// recall views for plane
 		app.getCompanion().recallViewCreators();
+	}
+
+	private void buildConstructionWithGlobalListeners(
+			StringBuilder consXML, String oldXML,
+			EvalInfo info) throws Exception {
+
+		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
+		scriptManager.keepListenersOnReset();
+		buildConstruction(consXML, oldXML, info);
+		scriptManager.dropListenersOnReset();
 	}
 
 	/**
@@ -1754,7 +1769,7 @@ public class Construction {
 
 		try {
 			// 4) build new construction for all changes at once
-			buildConstruction(consXML, oldXML);
+			buildConstructionWithGlobalListeners(consXML, oldXML, null);
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -3053,6 +3068,7 @@ public class Construction {
 		intsM.clear();
 		ceList.clear();
 		algoList.clear();
+		tempList.clear();
 
 		geoSetConsOrder.clear();
 		geoSetWithCasCells.clear();
@@ -3424,40 +3440,6 @@ public class Construction {
 	 */
 	public boolean isAllowUnboundedAngles() {
 		return this.allowUnboundedAngles;
-	}
-
-	/**
-	 * Add algo to a list of algos that need update after CAS load
-	 * 
-	 * @param casAlgo
-	 *            algo using CAS
-	 */
-	public void addCASAlgo(AlgoElement casAlgo) {
-		casAlgos.add(casAlgo);
-	}
-
-	/**
-	 * Recompute all algos using CASS and dependent CAS cells
-	 */
-	public void recomputeCASalgos() {
-		for (AlgoElement algo : casAlgos) {
-			if (algo.getOutput() != null && !algo.getOutput(0).isLabelSet()) {
-				if (algo instanceof AlgoCasBase) {
-					((AlgoCasBase) algo).clearCasEvalMap("");
-					algo.compute();
-				} else if (algo instanceof AlgoUsingTempCASalgo) {
-					((AlgoUsingTempCASalgo) algo).refreshCASResults();
-					algo.compute();
-				} else if (algo instanceof UsesCAS
-						|| algo instanceof AlgoCasCellInterface) {
-					// eg Limit, LimitAbove, LimitBelow, SolveODE
-					// AlgoCasCellInterface: eg Solve[x^2]
-					algo.compute();
-				}
-				algo.getOutput(0).updateCascade();
-			}
-		}
-		casAlgos.clear();
 	}
 
 	/**

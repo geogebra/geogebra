@@ -45,10 +45,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureStartEvent;
@@ -62,7 +58,6 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -77,8 +72,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		EuclidianViewWInterface {
 
 	private EuclidianPanelWAbstract evPanel;
-
-	private boolean isInFocus = false;
 
 	/** graphics */
 	private GGraphics2DWI g2p = null;
@@ -131,34 +124,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		registerMouseTouchGestureHandlers(euclidianViewPanel,
 		        (EuclidianController3DW) euclidiancontroller);
 
-		updateFirstAndLast(true);
-		if (canvas != null) {
-			canvas.addAttachHandler(new AttachEvent.Handler() {
-				@Override
-				public void onAttachOrDetach(AttachEvent ae) {
-					// see attach handler of EuclidianViewW
-					if (ae.isAttached()) {
-						updateFirstAndLast(false);
-					}
-				}
-			});
-
-			canvas.addBlurHandler(new BlurHandler() {
-				@Override
-				public void onBlur(BlurEvent be) {
-					focusLost();
-					EuclidianViewW.cycle(EuclidianView3DW.this);
-				}
-			});
-
-			canvas.addFocusHandler(new FocusHandler() {
-				@Override
-				public void onFocus(FocusEvent fe) {
-					focusGained();
-					EuclidianViewW.selectNextGeoOnTab(EuclidianView3DW.this);
-				}
-			});
-		}
 		EuclidianSettings es = this.app.getSettings().getEuclidian(3);
 		settingsChanged(es);
 		es.addListener(this);
@@ -171,11 +136,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			elem.setAttribute("role", "figure");
 			elem.setAttribute("aria-label", "3D View");
 		}
-	}
-
-	@Override
-	public void updateFirstAndLast(boolean anyway) {
-		EuclidianViewW.updateFirstAndLast(this, anyway);
 	}
 
 	private void setEvNo() {
@@ -202,7 +162,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
 		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
 
-		if (Browser.supportsPointerEvents(true)) {
+		if (Browser.supportsPointerEvents()) {
 			PointerEventHandler pointerHandler = new PointerEventHandler(
 					(IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
@@ -227,35 +187,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
 			absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
 		}
-	}
-
-	/**
-	 * Callback for blur event
-	 */
-	public void focusLost() {
-		if (isInFocus) {
-			this.isInFocus = false;
-			if (getCanvasElement() != null) {
-				((AppW) this.app).focusLost(this, getCanvasElement());
-			}
-		}
-	}
-
-	/**
-	 * Callback for focus event
-	 */
-	public void focusGained() {
-		if (!isInFocus) {
-			this.isInFocus = true;
-			if (getCanvasElement() != null) {
-				((AppW) this.app).focusGained(this, getCanvasElement());
-			}
-		}
-	}
-
-	@Override
-	public boolean isInFocus() {
-		return isInFocus;
 	}
 
 	/**
@@ -418,7 +349,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	public boolean requestFocusInWindow() {
 		g2p.getElement().focus();
-		focusGained();
 		return true;
 	}
 

@@ -100,13 +100,12 @@ public class AlgoDynamicCoordinates extends AlgoElement
 
 	@Override
 	public void compute() {
-
 		double xCoord = x.getDouble();
 		double yCoord = y.getDouble();
 
 		if (Double.isNaN(xCoord) || Double.isInfinite(xCoord)
 				|| Double.isNaN(yCoord) || Double.isInfinite(yCoord)) {
-			P.setUndefined();
+			M.setUndefined();
 			return;
 		}
 

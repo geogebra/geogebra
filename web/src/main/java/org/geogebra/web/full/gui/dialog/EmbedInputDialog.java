@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.media.GeoGebraURLParser;
+import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -17,6 +18,7 @@ import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
@@ -90,11 +92,19 @@ public class EmbedInputDialog extends MediaDialog
 		if (!input.startsWith("<")) {
 			mediaInputPanel.inputField.getTextComponent().setText(url);
 		}
-		if (GeoGebraURLParser.isGeoGebraURL(url)) {
-			getGeoGebraTubeAPI().getItem(GeoGebraURLParser.getIDfromURL(url), this);
+		String materialId = getGeoGebraMaterialId(url);
+		if (!StringUtil.empty(materialId)) {
+			getGeoGebraTubeAPI().getItem(materialId, this);
 		} else {
-			urlChecker.check(url.replace("+", "%2B"), this);
+			urlChecker.check(MediaURLParser.toEmbeddableUrl(url), this);
 		}
+	}
+
+	private String getGeoGebraMaterialId(String url) {
+		if (GeoGebraURLParser.isGeoGebraURL(url)) {
+			return GeoGebraURLParser.getIDfromURL(url);
+		}
+		return null;
 	}
 
 	private void showEmptyEmbeddedElement() {

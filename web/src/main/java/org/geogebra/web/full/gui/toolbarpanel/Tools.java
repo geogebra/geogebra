@@ -201,8 +201,6 @@ public class Tools extends FlowPanel implements SetLabels {
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
 			toolButtonList = new ArrayList<>();
-			ToolBar.parseToolbarString(
-					app.getGuiManager().getToolbarDefinition());
 			for (Integer tool : tools) {
 				addToolButton(tool);
 			}
@@ -216,7 +214,6 @@ public class Tools extends FlowPanel implements SetLabels {
 		private ToolButton getToolButton(final int mode) {
 			final ToolButton btn = new ToolButton(mode, getApp());
 			AriaHelper.hide(btn);
-			btn.setIgnoreTab();
 			btn.addFastClickHandler(new FastClickHandler() {
 
 				@Override

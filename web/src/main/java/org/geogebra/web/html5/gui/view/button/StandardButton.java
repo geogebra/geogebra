@@ -93,6 +93,8 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		this.label = label;
 		if (image != null) {
 			btnImage = new NoDragImage(image, width, height);
+			btnImage.getElement().setTabIndex(-1);
+
 			if (label == null) {
 				getUpFace().setImage(btnImage);
 			} else {
@@ -177,14 +179,13 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 
 	@Override
 	public void setTitle(String title) {
-		AriaHelper.setTitle(this, title, app);
+		AriaHelper.setTitle(this, title, app == null || app.isUnbundledOrWhiteboard());
 	}
 
 	/**
 	 * @param altText
 	 *            - alt text
 	 */
-	@Override
 	public void setAltText(String altText) {
 		if (btnImage != null) {
 			btnImage.setPresentation();

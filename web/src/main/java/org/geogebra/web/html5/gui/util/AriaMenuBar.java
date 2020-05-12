@@ -280,7 +280,7 @@ public class AriaMenuBar extends FlowPanel {
 				doItemAction(item);
 			}
 			break;
-
+		case Event.ONTOUCHSTART:
 		case Event.ONMOUSEOVER:
 			if (item != null) {
 				itemOver(item);

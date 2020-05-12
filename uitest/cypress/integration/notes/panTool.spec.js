@@ -3,9 +3,6 @@ import {selectors} from '@geogebra/web-test-harness/selectors'
 describe('Pan tool test', () => {
     beforeEach(() => {
         cy.visit('notes.html');
-        cy.window().then((win) => {
-            win.PointerEvent = null;
-        });
         cy.get("body.application");
     });
 

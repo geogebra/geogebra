@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;

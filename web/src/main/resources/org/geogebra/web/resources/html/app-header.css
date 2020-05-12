@@ -84,6 +84,7 @@
 	opacity: 0.54;	
 }
 
+.GeoGebraFrame .flatButtonHeader:focus,
 .GeoGebraFrame .flatButtonHeader:hover, .GeoGebraFrame .flatButtonHeader.selected {
 	background-color: #e5e5e5;	
 }

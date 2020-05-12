@@ -29,5 +29,5 @@ public interface HasKeyboard {
 	/**
 	 * update on keyboard close
 	 */
-	void updateCenterPanelAndViews();
+	void updateViewSizes();
 }

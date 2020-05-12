@@ -5,16 +5,9 @@ import java.util.List;
 
 class MetaModelFunctions {
 
-	private static MetaFunction createFunction(Tag name, String tex,
-			char key, MetaParameter[] parameters) {
-		return new MetaFunction(name, tex, key, parameters);
-    }
-
-	private static MetaFunction createFunction(Tag name, String tex,
-			MetaParameter[] parameters) {
-		char key = name.getKey();
-		return createFunction(name, tex, key, parameters);
-    }
+	private static MetaFunction createFunction(Tag name, String tex, MetaParameter[] parameters) {
+		return new MetaFunction(name, tex, parameters);
+	}
 
 	private static MetaFunction createFunction(Tag name) {
 		return createFunction(name, new MetaParameter[] { MetaParameter.BASIC });
@@ -40,8 +33,8 @@ class MetaModelFunctions {
 		return new MetaParameter(-1, down);
     }
 
-	ListMetaGroup createGeneralFunctionsGroup() {
-		List<MetaComponent> functions = new ArrayList<>();
+	ListMetaGroup<MetaFunction> createGeneralFunctionsGroup() {
+		List<MetaFunction> functions = new ArrayList<>();
 
 		functions.add(createFunction(Tag.SUBSCRIPT));
 		functions.add(createFunction(Tag.SUPERSCRIPT));
@@ -93,6 +86,6 @@ class MetaModelFunctions {
 		functions.add(createFunction(Tag.FLOOR));
 		functions.add(createFunction(Tag.CEIL));
 
-		return new ListMetaGroup(functions);
-    }
+		return new ListMetaGroup<>(functions);
+	}
 }

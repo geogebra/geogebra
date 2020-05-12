@@ -27,7 +27,9 @@ public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
 	}
 
 	private void updateSize() {
-		setTop(baseline - getHeight() / 2);
+		if (getHeight() > 0) {
+			setTop(baseline - getHeight() / 2);
+		}
 	}
 
 	/**

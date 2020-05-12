@@ -8,27 +8,25 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.ScreenReader;
-import org.geogebra.common.util.FormatConverterImpl;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.web.MathFieldScroller;
 import com.himamis.retex.editor.web.MathFieldW;
 
@@ -38,7 +36,7 @@ import com.himamis.retex.editor.web.MathFieldW;
  * @author Laszlo
  */
 public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
-		ClickListener, BlurHandler, FocusHandler {
+		ClickListener, BlurHandler {
 
 	private static final int PADDING_LEFT = 2;
 	private static final int PADDING_TOP = 8;
@@ -74,10 +72,11 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	private void createMathField(MathFieldListener listener, boolean directFormulaConversion) {
 		main = new KeyboardFlowPanel();
 		Canvas canvas = Canvas.createIfSupported();
-		mathField = new MathFieldW(new FormatConverterImpl(kernel), main,
-				canvas, listener,
-				directFormulaConversion,
-				this);
+
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		mathField = new MathFieldW(new SyntaxAdapterImpl(kernel), main,
+				canvas, listener, directFormulaConversion, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		mathField.setClickListener(this);
 		mathField.setOnBlur(this);
@@ -119,7 +118,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 * Focus the editor
 	 */
 	public void requestFocus() {
-		app.getGlobalKeyDispatcher().setFocused(true);
 		mathField.requestViewFocus(new Runnable() {
 			@Override
 			public void run() {
@@ -267,7 +265,11 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	}
 
 	public void setVisible(boolean visible) {
-		Dom.toggleClass(main, "hidden", !visible);
+		main.setVisible(visible);
+	}
+
+	public boolean isVisible() {
+		return main.isVisible();
 	}
 
 	/**
@@ -276,13 +278,6 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	public void updateAriaLabel() {
 		String fullDescription = label + " " + mathField.getDescription();
 		mathField.setAriaLabel(fullDescription.trim());
-	}
-
-	@Override
-	public void onFocus(FocusEvent event) {
-		if (event != null) {
-			ScreenReader.debug(mathField.getAriaLabel());
-		}
 	}
 
 	/**

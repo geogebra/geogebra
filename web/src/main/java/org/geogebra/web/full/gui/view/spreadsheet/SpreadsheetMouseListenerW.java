@@ -167,22 +167,14 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	@Override
 	public void onMouseDown(MouseDownEvent mouseDownEvent) {
-		focusKeyDispatcher();
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
 		handlePointerDown(mouseDownEvent);
 	}
 
-	private void focusKeyDispatcher() {
-		if (app != null) {
-			app.getGlobalKeyDispatcher().setFocused(true);
-		}
-	}
-
 	@Override
 	public void onTouchStart(TouchStartEvent touchStartEvent) {
-		focusKeyDispatcher();
 		numberOfTouches = touchStartEvent.getTouches().length();
 		if (numberOfTouches == 1) {
 			updateTableIsOverDot(touchStartEvent);

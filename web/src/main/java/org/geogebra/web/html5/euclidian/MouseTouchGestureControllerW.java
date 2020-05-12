@@ -772,24 +772,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public int touchEventX(int clientX) {
-		if (((AppW) app).getLAF() != null && ((AppW) app).getLAF().isSmart()) {
-			return mouseEventX(clientX - style.getxOffset());
-		}
-		// IE touch events are mouse events
-		return Browser.supportsPointerEvents(false)
-				? mouseEventX(clientX)
-		        : mouseEventX(clientX - style.getxOffset());
+		return mouseEventX(clientX - style.getxOffset());
 	}
 
 	@Override
 	public int touchEventY(int clientY) {
-		if (((AppW) app).getLAF() != null && ((AppW) app).getLAF().isSmart()) {
-			return mouseEventY(clientY - style.getyOffset());
-		}
-		// IE touch events are mouse events
-		return Browser.supportsPointerEvents(false)
-				? mouseEventY(clientY)
-		        : mouseEventY(clientY - style.getyOffset());
+		return mouseEventY(clientY - style.getyOffset());
 	}
 
 	/**

@@ -1,8 +1,8 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.AMPERSAND;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.HASHTAG;
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_SIGN;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.ALPHA;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.BETA;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.GAMMA;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
@@ -20,11 +20,13 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 public class LetterKeyboardFactory implements KeyboardModelFactory {
 
 	/** Action that switches to another keyboard */
-	public static final int ACTION_SPECIAL_SYMBOLS = 0;
+	public static final int ACTION_GREEK_LETTERS = 0;
 	/** Action that turns caps lock on */
 	public static final int ACTION_SHIFT = 1;
+	/** Action that switches back to the ABC keyboard */
+	public static final int ACTION_ABC_LETTERS = 2;
 
-	private static final String DEFAULT_CONTROL = ",'";
+	protected static final String DEFAULT_CONTROL = ",'";
 	private static final double MIN_PADDING_WEIGHT = 1.e-4;
 	private static final float LARGE_ACTION_WEIGHT = 1.2f;
 	private static final int MAX_CONTROL_ROW_LENGTH = 5;
@@ -34,15 +36,12 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	private String bottomRow;
 	private String controlRow;
 	private Integer bottomActionLeft = ACTION_SHIFT;
-	private Integer controlActionLeft = ACTION_SPECIAL_SYMBOLS;
+	private Integer controlActionLeft = ACTION_GREEK_LETTERS;
 
 	/**
 	 * Calls
 	 * {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, boolean)}
-	 * with parameter {@code withSpecialSymbols = true}.
-	 *
-	 * @deprecated use {@link LetterKeyboardFactory#setKeyboardDefinition(String, String,
-	 *   String, String, Integer, Integer)}
+	 * with parameter {@code withGreekLetters = true}.
 	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow) {
 		setKeyboardDefinition(topRow, middleRow, bottomRow, true);
@@ -52,13 +51,10 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * Calls
 	 * {@link LetterKeyboardFactory#setKeyboardDefinition(String, String, String, String, boolean)}
 	 * with parameter {@code controlRow = ",'"}.
-	 *
-	 * @deprecated use {@link LetterKeyboardFactory#setKeyboardDefinition(String, String,
-	 *   String, String, Integer, Integer)}
 	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, boolean
-			withSpecialSymbols) {
-		setKeyboardDefinition(topRow, middleRow, bottomRow, DEFAULT_CONTROL, withSpecialSymbols);
+			withGreekLetters) {
+		setKeyboardDefinition(topRow, middleRow, bottomRow, DEFAULT_CONTROL, withGreekLetters);
 	}
 
 	/**
@@ -67,14 +63,11 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 	 * @param topRow a string containing the characters for the top row
 	 * @param middleRow a string containing the characters for the middle row
 	 * @param bottomRow a string containing the characters for the bottom row
-	 * @param withSpecialSymbols true iff special symbols should be included
-	 *
-	 * @deprecated use {@link LetterKeyboardFactory#setKeyboardDefinition(String, String,
-	 *   String, String, Integer, Integer)}
+	 * @param withGreekLetters true iff greek letters should be included
 	 */
 	public void setKeyboardDefinition(String topRow, String middleRow, String bottomRow, String
-			controlRow, boolean withSpecialSymbols) {
-		Integer controlAction = withSpecialSymbols ? ACTION_SPECIAL_SYMBOLS : null;
+			controlRow, boolean withGreekLetters) {
+		Integer controlAction = withGreekLetters ? ACTION_GREEK_LETTERS : null;
 		setKeyboardDefinition(topRow, middleRow, bottomRow, controlRow,
 				ACTION_SHIFT, controlAction);
 	}
@@ -195,13 +188,14 @@ public class LetterKeyboardFactory implements KeyboardModelFactory {
 		if (action == ACTION_SHIFT) {
 			addConstantCustomButton(rowImpl, buttonFactory, Resource.CAPS_LOCK,
 					Action.CAPS_LOCK, actionButtonSize);
-		} else if (action == ACTION_SPECIAL_SYMBOLS) {
-			StringBuilder builder = new StringBuilder();
-			builder.append(HASHTAG);
-			builder.append(AMPERSAND);
-			builder.append(NOT_SIGN);
-			addCustomButton(rowImpl, buttonFactory, builder.toString(),
-					Action.SWITCH_TO_SPECIAL_SYMBOLS);
+		} else if (action == ACTION_GREEK_LETTERS) {
+			String label = ""
+					+ ALPHA
+					+ BETA
+					+ GAMMA;
+			addCustomButton(rowImpl, buttonFactory, label, Action.SWITCH_TO_GREEK_CHARACTERS);
+		} else if (action == ACTION_ABC_LETTERS) {
+			addCustomButton(rowImpl, buttonFactory, "ABC", Action.SWITCH_TO_ABC);
 		}
 	}
 

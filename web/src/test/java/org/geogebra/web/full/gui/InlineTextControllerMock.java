@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.euclidian.inline.InlineTextController;
 
 public class InlineTextControllerMock implements InlineTextController {
 	private String url;
@@ -45,17 +45,12 @@ public class InlineTextControllerMock implements InlineTextController {
 	}
 
 	@Override
-	public void setBackground(boolean b) {
+	public void toForeground(int x, int y) {
 
 	}
 
 	@Override
-	public boolean isBackground() {
-		return false;
-	}
-
-	@Override
-	public void setCursor(int x, int y) {
+	public void toBackground() {
 
 	}
 

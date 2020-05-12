@@ -48,11 +48,11 @@ public class SelectionManagerTest extends BaseUnitTest {
 		GeoElement firstVisible = lookup("firstVisible");
 		selectionManager.addSelectedGeo(firstVisible);
 		// next jumps to second
-		selectionManager.selectNextGeo(getApp().getEuclidianView1());
+		selectionManager.selectNextGeo();
 		assertTrue(lookup("lastVisible").isSelected());
-		// next jumps bacck to first
-		selectionManager.selectNextGeo(getApp().getEuclidianView1());
-		assertTrue(firstVisible.isSelected());
+		// next does not select anything
+		assertFalse(selectionManager.selectNextGeo());
+		assertEquals(0, selectionManager.selectedGeosSize());
 	}
 
 	@Test
