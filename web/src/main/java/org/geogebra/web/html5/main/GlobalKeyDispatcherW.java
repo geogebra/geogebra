@@ -181,6 +181,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
 		handleGeneralKeys(event);
+		storeUndoInfoIfChanged();
 	}
 
 	/**
