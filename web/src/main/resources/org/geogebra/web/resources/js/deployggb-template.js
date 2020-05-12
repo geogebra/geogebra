@@ -322,7 +322,8 @@ var GGBApplet = function() {
         var onSuccess = function(text) {
             var jsonData= JSON.parse(text);
             // handle either worksheet or single element format
-            var item = jsonData.elements ? jsonData.elements[0] : jsonData;
+            var isGeoGebra = function(element) {return element.type == 'G'};
+            var item = jsonData.elements ? jsonData.elements.filter(isGeoGebra)[0] : jsonData;
             if (!item || !item.url) {
                 onError();
                 return;
