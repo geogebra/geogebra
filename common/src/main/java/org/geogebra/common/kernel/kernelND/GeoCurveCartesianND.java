@@ -366,10 +366,10 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	}
 
 	@Override
-	public void clearCasEvalMap(String key) {
+	public void clearCasEvalMap() {
 		for (int k = 0; k < getDimension(); k++) {
 			if (getFun(k) != null) {
-				getFun(k).clearCasEvalMap(key);
+				getFun(k).clearCasEvalMap();
 			}
 		}
 	}

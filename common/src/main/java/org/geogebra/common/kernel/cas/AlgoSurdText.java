@@ -79,9 +79,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 */
 	AlgoSurdText(Construction cons, GeoNumberValue num, GeoList list) {
 		super(cons);
-		if (list != null) {
-			cons.addCASAlgo(this);
-		}
 		this.num = num;
 		this.list = list;
 

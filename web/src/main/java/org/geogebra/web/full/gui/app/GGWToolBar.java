@@ -965,8 +965,8 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
 			return resourceBundle.mode_shape_rectangle_round_edges_32();
 
-		case EuclidianConstants.MODE_SHAPE_POLYGON:
-			return resourceBundle.mode_shape_polygon_32();
+		case EuclidianConstants.MODE_SHAPE_PENTAGON:
+			return resourceBundle.mode_shape_pentagon_32();
 
 		case EuclidianConstants.MODE_SHAPE_FREEFORM:
 			return resourceBundle.mode_shape_freeform_32();

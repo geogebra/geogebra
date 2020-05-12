@@ -737,11 +737,8 @@ public class FunctionNVar extends ValidExpression
 
 	/**
 	 * Clears the cache (needed in Web when the CAS loads)
-	 * 
-	 * @param label
-	 *            not used
 	 */
-	public void clearCasEvalMap(String label) {
+	public void clearCasEvalMap() {
 		if (casEvalMap == null) {
 			return;
 		}

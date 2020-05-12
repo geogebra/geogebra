@@ -74,7 +74,6 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 		f.updateCASEvalMap(info.getCASMap());
 		this.f = f;
 		this.cmd = cmd;
-		cons.addCASAlgo(this);
 		g = (CasEvaluableFunction) f.toGeoElement().copyInternal(cons);
 	}
 
@@ -122,12 +121,8 @@ public abstract class AlgoCasBase extends AlgoElement implements UsesCAS {
 
 	/**
 	 * Clears the cache (needed in Web when the CAS loads)
-	 * 
-	 * @param label
-	 *            not used
 	 */
-	public final void clearCasEvalMap(String label) {
-		f.clearCasEvalMap(label);
+	public final void clearCasEvalMap() {
+		f.clearCasEvalMap();
 	}
-
 }
