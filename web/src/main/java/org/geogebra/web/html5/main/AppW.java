@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1067,7 +1068,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean clearConstruction() {
-		// if (isSaved() || saveCurrentFile()) {
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -1076,9 +1076,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setMoveMode();
 
 		return true;
-
-		// }
-		// return false;
 	}
 
 	@Override
@@ -1134,12 +1131,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public final void fileNew() {
-		// clear all
-		// triggers the "do you want to save" dialog
-		// so must be called first
-		if (!clearConstruction()) {
-			return;
-		}
 		clearMedia();
 		resetUniqueId();
 		setLocalID(-1);
@@ -1148,15 +1139,28 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
+
 		resetUI();
 		resetPages();
+		clearConstruction();
+		resetPenTool();
 	}
 
 	private void resetPages() {
-		if (pageController == null) {
-			return;
+		if (pageController != null) {
+			pageController.resetPageControl();
 		}
-		pageController.resetPageControl();
+	}
+
+	/**
+	 * Selects Pen tool in whiteboard
+	 */
+	protected final void resetPenTool() {
+		if (isWhiteboardActive()) {
+			getActiveEuclidianView().getSettings()
+					.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
+		}
 	}
 
 	/**
@@ -1194,9 +1198,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if (!isUnbundledOrWhiteboard()) {
 			showPerspectivesPopup();
-		}
-		if (getPageController() != null) {
-			getPageController().resetPageControl();
 		}
 	}
 
