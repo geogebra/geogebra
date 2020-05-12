@@ -61,6 +61,7 @@ ext.appHtml = { app, prerelease, offline = false ->
             "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
     def splashContent = template("${app.id}-splash.html")
     def firebaseAppId = app.firebaseAppId ?: ""
+    def measurementId = app.measurementId ?: ""
     return replaceVendor(html, vendor)
             .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
             .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
@@ -70,6 +71,7 @@ ext.appHtml = { app, prerelease, offline = false ->
             .replace("<!--APP TRANSKEY-->", appTransKey)
             .replace("<!--APPSTORE BANNER-->", appStoreBanner)
             .replace("<!--FIREBASE APP ID-->", firebaseAppId)
+            .replace("<!--MEASUREMENT ID-->", measurementId)
             .replace("\r\n", "\n") // generate the same on Win and Unix
 }
 

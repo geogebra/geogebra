@@ -1,4 +1,5 @@
 <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-analytics.js"></script>
 
 <script>
 var firebaseConfig = {
@@ -8,9 +9,11 @@ var firebaseConfig = {
     projectId: "geogebra-ggb",
     storageBucket: "geogebra-ggb.appspot.com",
     messagingSenderId: "895270214636",
-    appId: "<!--FIREBASE APP ID-->"
+    appId: "<!--FIREBASE APP ID-->",
+    measurementId: "<!--MEASUREMENT ID-->"
 };
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+firebase.analytics();
 </script>
