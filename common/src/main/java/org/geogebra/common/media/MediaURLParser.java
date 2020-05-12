@@ -3,6 +3,9 @@ package org.geogebra.common.media;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.regexp.shared.RegExp;
+
 /**
  * Helper class for parsing video URLs.
  */
@@ -118,6 +121,21 @@ public class MediaURLParser {
 			return url;
 		}
 		return null;
+	}
+
+	/**
+	 * @param rawUrl input URL
+	 * @return embeddable URL
+	 */
+	public static String toEmbeddableUrl(String rawUrl) {
+		String url = rawUrl.replace("+", "%2B");
+		RegExp regex = RegExp.compile("^https://(bavarikon.de|www.bavarikon.de)/object/");
+		MatchResult result = regex.exec(url);
+		if (result != null) {
+			String separator = url.contains("?") ? "&" : "?";
+			return url + separator + "mebisembedding=true";
+		}
+		return url;
 	}
 
 	/**
