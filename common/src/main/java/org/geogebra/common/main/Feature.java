@@ -72,9 +72,6 @@ public enum Feature {
 	/** STUD-17 */
 	SURFACE_OF_REVOLUTION_TOOL,
 
-	/** G3D-8 */
-	G3D_AR_BACKGROUND_PROPERTY,
-
 	/** APPS-1035 */
 	SYMBOLIC_INPUTFIELDS;
 }

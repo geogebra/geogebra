@@ -96,17 +96,8 @@ public class GraphicsPropertiesList extends PropertiesList {
 				ArrayList<Property> propertiesListARView =
 						new ArrayList<>(Arrays.asList(mProperties));
 				propertiesListARView.add(1, new ARRatioPropertyCollection(mApp, mLocalization));
-				if (mApp.has(Feature.G3D_AR_BACKGROUND_PROPERTY)) {
-					propertiesListARView.add(2,
-							new BackgroundProperty(mApp, mLocalization));
-					this.propertiesArrayARView = propertiesListARView
-							.toArray(new Property[0]);
-				} else {
-					propertiesListARView.add(1,
-							new BackgroundProperty(mApp, mLocalization));
-					this.propertiesArrayARView = propertiesListARView
-							.toArray(new Property[0]);
-				}
+				propertiesListARView.add(2, new BackgroundProperty(mApp, mLocalization));
+				this.propertiesArrayARView = propertiesListARView.toArray(new Property[0]);
 			}
 			return propertiesArrayARView;
         }
