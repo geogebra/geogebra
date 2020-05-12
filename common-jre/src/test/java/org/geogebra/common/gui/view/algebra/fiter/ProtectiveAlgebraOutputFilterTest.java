@@ -23,6 +23,9 @@ public class ProtectiveAlgebraOutputFilterTest extends BaseUnitTest {
 		assertThat(filter.isAllowed(fitLine), is(true));
 
 		GeoElement line = addAvInput("Line((0,0),(1,1))");
-		assertThat(filter.isAllowed(line), is(false));
+		assertThat(filter.isAllowed(line), is(true));
+
+		GeoElement ray = addAvInput("Ray((0,0),(1,1))");
+		assertThat(filter.isAllowed(ray), is(false));
 	}
 }

@@ -37,6 +37,15 @@ public class GeoElementFactory {
 	}
 
 	/**
+	 * Create a GeoLine with Command
+	 *
+	 * @return line
+	 */
+	public GeoLine createGeoLineWithCommand() {
+		return (GeoLine) create("Line((1,1),(2,2))");
+	}
+
+	/**
 	 * Create a GeoRay.
 	 *
 	 * @return ray
