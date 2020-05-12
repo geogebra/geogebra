@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractProperty;
@@ -25,11 +26,11 @@ public class ARRatioPropertyCollection extends AbstractProperty implements Prope
     public ARRatioPropertyCollection(App app, Localization localization) {
         super(localization, "AR Ratio");
 
-        EuclidianView3D euclidianView3D = (EuclidianView3D) app.getActiveEuclidianView();
+        ARManagerInterface arManager =
+                ((EuclidianView3D) app.getActiveEuclidianView()).getRenderer().getARManager();
         ArrayList<Property> properties = new ArrayList<>();
-        properties.add(new ARRatioProperty(localization, euclidianView3D));
-        properties.add(new RatioUnitProperty(localization,
-                euclidianView3D.getRenderer().getARManager()));
+        properties.add(new ARRatioProperty(localization, arManager));
+        properties.add(new RatioUnitProperty(localization, arManager));
 
         collection = new PropertiesList(properties);
     }

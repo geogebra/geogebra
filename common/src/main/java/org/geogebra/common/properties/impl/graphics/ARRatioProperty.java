@@ -1,34 +1,34 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.BooleanProperty;
 
 public class ARRatioProperty extends AbstractProperty implements BooleanProperty {
 
-    private EuclidianView3D view3D;
+    private ARManagerInterface arManager;
 
     /**
      * Constructs an AR Ratio property.
      *
      * @param localization
      *            localization for the title
-     * @param view3D
-     *            euclidianView3D
+     * @param arManager
+     *            AR Manager
      */
-    ARRatioProperty(Localization localization, EuclidianView3D view3D) {
+    ARRatioProperty(Localization localization, ARManagerInterface arManager) {
         super(localization, "Show");
-        this.view3D = view3D;
+        this.arManager = arManager;
     }
 
     @Override
     public boolean getValue() {
-        return view3D.getRenderer().getARManager().isRatioShown();
+        return arManager.isRatioShown();
     }
 
     @Override
     public void setValue(boolean value) {
-        view3D.getRenderer().getARManager().setRatioIsShown(value);
+        arManager.setRatioIsShown(value);
     }
 }
