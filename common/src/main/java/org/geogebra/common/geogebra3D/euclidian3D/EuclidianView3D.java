@@ -234,7 +234,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double translationZzeroForAR = 0;
 	private double arFloorZ = 0;
 	private double arZZeroAtStart;
-	private boolean arRatioIsShown = true;
 
 	/**
 	 * direction of view
