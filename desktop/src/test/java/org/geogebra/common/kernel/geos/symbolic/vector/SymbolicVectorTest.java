@@ -3,8 +3,8 @@ package org.geogebra.common.kernel.geos.symbolic.vector;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
-import org.geogebra.common.kernel.geos.GeoSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.hamcrest.CoreMatchers;
@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-public class SymbolicVectorTest extends GeoSymbolicTest {
+public class SymbolicVectorTest extends BaseSymbolicTest {
 
 	@Test
 	public void testDotProduct() {
