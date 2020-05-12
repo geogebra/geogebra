@@ -92,7 +92,7 @@ ext.appSpecs = [
         icon: 'CAS.ico', appStoreId:'1436278267', measurementId: 'G-N3Z7S82FZ6',
         firebaseAppId: '1:895270214636:web:87b00b628121939d84fec9'],
     [id:'scientific', title:'Scientific Calculator', transKey:'ScientificCalculator',
-        partials:["undo-redo", "firebase"], appStoreId:'1412748754', measurementId: 'G-YJ1QVF1SFK',
+        partials:["undo-redo"], appStoreId:'1412748754', measurementId: 'G-YJ1QVF1SFK',
         firebaseAppId: '1:895270214636:web:540b533d4b47a7bb84fec9'],
     [id:'geometry', title:'Geometry', transKey:'Geometry',
         exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry',
