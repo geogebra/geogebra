@@ -322,7 +322,8 @@ var GGBApplet = function() {
         var onSuccess = function(text) {
             var jsonData= JSON.parse(text);
             // handle either worksheet or single element format
-            var item = jsonData.elements ? jsonData.elements[0] : jsonData;
+            var isGeoGebra = function(element) {return element.type == 'G'};
+            var item = jsonData.elements ? jsonData.elements.filter(isGeoGebra)[0] : jsonData;
             if (!item || !item.url) {
                 onError();
                 return;
@@ -921,10 +922,10 @@ var GGBApplet = function() {
                 '   width: 100%;' +
                 '   height: 100%;box-sizing: border-box;position: absolute;z-index: 1001;cursor: pointer;border-width: 0px;' +
                 '   background-color: transparent;background-repeat: no-repeat;left: 0;top: 0;background-position: center center;' +
-                '   background-image: url("'+getTubeURL()+'/images/worksheet/icon-start-applet.png");' +
+                '   background-image: url("https://www.geogebra.org/images/worksheet/icon-start-applet.png");' +
                 '}' +
                 '.icon-applet-play:hover {' +
-                        'background-image: url("'+getTubeURL()+'/images/worksheet/icon-start-applet-hover.png");' +
+                        'background-image: url("https://www.geogebra.org/images/worksheet/icon-start-applet-hover.png");' +
                 '}';
             var style = document.createElement('style');
 
