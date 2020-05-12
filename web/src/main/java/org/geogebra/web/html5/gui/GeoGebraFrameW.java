@@ -422,6 +422,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if ("none".equals(dpBorder)) {
 			setBorder("transparent", thickness);
 		}
+		getApp().getGlobalKeyDispatcher().setEscPressed(false);
 	}
 
 	/**
