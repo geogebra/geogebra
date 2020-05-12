@@ -1,5 +1,6 @@
 package org.geogebra.common.media;
 
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -59,7 +60,10 @@ public class MediaFactory {
 				video.setAbsoluteScreenLoc(
 						(ev.getWidth() - video.getWidth()) / 2,
 						(ev.getHeight() - video.getHeight()) / 2);
-
+				 Drawable dr = (Drawable) app.getActiveEuclidianView().getDrawableFor(video);
+				 if (dr != null) {
+				 	dr.update();
+				 }
 			}
 		});
 

@@ -65,6 +65,7 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 		}
 		getVideo().update();
 		update();
+		app.getActiveEuclidianView().getEuclidianController().selectAndShowBoundingBox(getVideo());
 	}
 
 	@Override

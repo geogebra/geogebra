@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.media.MediaFactory;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoURL;
@@ -57,7 +58,9 @@ public class VideoInputDialog extends MediaDialog {
 		mediaInputPanel.resetError();
 		GeoElement video = new MediaFactory(appW).addVideo(videoURL);
 		hide();
-		onMediaElementCreated(video);
+		if (((GeoVideo) video).hasSize()) {
+			onMediaElementCreated(video);
+		}
 	}
 
 	@Override
