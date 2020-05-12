@@ -519,8 +519,7 @@ public class AlgebraItem {
 	public static String getLatexString(GeoElement geo1, Integer limit,
 			boolean output) {
 		Kernel kernel = geo1.getKernel();
-		if (!geo1.isDefinitionValid()
-				|| (output && !geo1.isLaTeXDrawableGeo())) {
+		if (output && !geo1.isLaTeXDrawableGeo()) {
 			return null;
 		}
 		if (geo1.getParentAlgorithm() instanceof AlgoFractionText) {

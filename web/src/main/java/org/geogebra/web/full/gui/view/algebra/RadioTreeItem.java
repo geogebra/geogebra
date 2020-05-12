@@ -777,8 +777,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
-		if (AlgebraItem.needsPacking(geo) || !geo.isAlgebraLabelVisible()) {
+		if (AlgebraItem.needsPacking(geo)) {
 			return geo.getLaTeXDescriptionRHS(substituteNumbers, tpl);
+		} else if (!geo.isAlgebraLabelVisible()) {
+			return geo.getDefinition(tpl);
 		}
 		return geo.getLaTeXAlgebraDescriptionWithFallback(
 				substituteNumbers
