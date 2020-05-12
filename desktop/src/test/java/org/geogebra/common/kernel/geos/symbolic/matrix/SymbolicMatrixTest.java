@@ -1,18 +1,18 @@
 package org.geogebra.common.kernel.geos.symbolic.matrix;
 
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoSymbolic;
-import org.geogebra.common.kernel.geos.GeoSymbolicTest;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.hamcrest.CoreMatchers;
-import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-public class SymbolicMatrixTest extends GeoSymbolicTest {
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.BaseSymbolicTest;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.hamcrest.CoreMatchers;
+import org.junit.Test;
+
+public class SymbolicMatrixTest extends BaseSymbolicTest {
 
 	@Test
 	public void testCreationWithLabel() {
@@ -24,7 +24,7 @@ public class SymbolicMatrixTest extends GeoSymbolicTest {
 	public void testMatrixDefinitionForIndependent() {
 		GeoSymbolic matrix = add("m={{1,2},{3,4}}");
 		assertThat(
-				matrix.getDefinition(StringTemplate.editorTemplate),
+				matrix.getDefinition(StringTemplate.editTemplate),
 				equalTo("{{1, 2}, {3, 4}}"));
 		assertThat(
 				matrix.getDefinition(StringTemplate.latexTemplate),
@@ -36,7 +36,7 @@ public class SymbolicMatrixTest extends GeoSymbolicTest {
 		add("a = 1");
 		GeoSymbolic matrix = add("m={{a,2},{3,4}}");
 		assertThat(
-				matrix.getDefinition(StringTemplate.editorTemplate),
+				matrix.getDefinition(StringTemplate.editTemplate),
 				equalTo("{{a, 2}, {3, 4}}"));
 		assertThat(
 				matrix.getDefinition(StringTemplate.latexTemplate),
