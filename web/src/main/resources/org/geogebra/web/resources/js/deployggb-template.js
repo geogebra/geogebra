@@ -322,7 +322,7 @@ var GGBApplet = function() {
         var onSuccess = function(text) {
             var jsonData= JSON.parse(text);
             // handle either worksheet or single element format
-            var isGeoGebra = function(element) {return element.type == 'G'};
+            var isGeoGebra = function(element) {return element.type == 'G' || element.type == 'E'};
             var item = jsonData.elements ? jsonData.elements.filter(isGeoGebra)[0] : jsonData;
             if (!item || !item.url) {
                 onError();
@@ -428,7 +428,7 @@ var GGBApplet = function() {
         var appName = parameters.id !== undefined ? parameters.id : removedID;
         var app = window[appName];
 
-        if (typeof app === "object" && typeof app.getBase64 === "function") { // Check if the variable is a GeoGebra Applet and remove it
+        if (app && typeof app.getBase64 === "function") { // Check if the variable is a GeoGebra Applet and remove it
             app.remove();
             window[appName] = null;
         }
