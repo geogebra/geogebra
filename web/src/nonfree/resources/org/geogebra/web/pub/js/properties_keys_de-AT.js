@@ -1388,7 +1388,7 @@ __GGB__keysVar["de-AT"].menu = {
     "CASTimedOut": "CAS Zeit\xfcberschreitung",
     "CASViewOnly": "Der Befehl \"%0\" ist nur in der CAS-Ansicht verf\xfcgbar",
     "Calculate": "Berechne",
-    "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite": "Rechner Suite",
     "CalligraphicLetters": "Kalligraphisch",
     "Camera": "Kamera",
     "Cancel": "Abbrechen",
