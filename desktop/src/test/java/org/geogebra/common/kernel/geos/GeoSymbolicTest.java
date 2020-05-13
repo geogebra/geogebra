@@ -246,7 +246,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"(-1) / 2 + 8 / (15 * 1 / nroot(" + EULER_STRING + "^(23),5) + 1)");
 		t("b=a/(7-0.6)",
 				"5 / 32 * ((-1) / 2 + 8 / (15 / nroot(" + EULER_STRING + "^(23),5) + 1))");
-		t("Solve(h''(t)=0)", "{t = 50 / 23 * log(15)}");
+		t("Solve(h''(t)=0)", "{t = 50 / 23 * ln(15)}");
 		testValidResultCombinations(
 				"h'(5.8871)",
 				"276 * " + EULER_STRING + "^((-1354033) / 500000) / (1125 * (" + EULER_STRING
@@ -272,7 +272,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"-21000000 * " + EULER_STRING + "^((-9) / 50 * t) + 21000000");
 		t("b=(f(8)-f(7))/f(7)", "(1 / nroot(" + EULER_STRING + "^(36),25) - 1 / nroot("
 				+ EULER_STRING + "^(63),50)) / (1 / nroot(" + EULER_STRING + "^(63),50) - 1)");
-		t("Solve(f(t)=20*10^6)", "{t = 50 / 9 * log(21)}");
+		t("Solve(f(t)=20*10^6)", "{t = 50 / 9 * ln(21)}");
 	}
 
 	@Test
@@ -315,7 +315,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(2x^2-x=15)", "{x = (-5) / 2, x = 3}");
 		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
 		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
-		t("Solve(12exp(x)=150)", "{x = log(25 / 2)}");
+		t("Solve(12exp(x)=150)", "{x = ln(25 / 2)}");
 		t("Solve(cos(x)=sin(x))", "{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}");
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
@@ -832,9 +832,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void equationWithFunction() {
-		t("f(x,a,b)=-a log(b*x)", "-a * log(b * x)");
+		t("f(x,a,b)=-a ln(b*x)", "-a * ln(b * x)");
 		t("eq1:a/(-1)=1", "-a = 1");
-		t("f(1, a,b)=1", "-a * log(b) = 1"); // autolabeling here
+		t("f(1, a,b)=1", "-a * ln(b) = 1"); // autolabeling here
 		t("Solve({eq1,eq2},{a,b})",
 				"{{a = -1, b = " + Unicode.EULER_STRING + "}}");
 	}

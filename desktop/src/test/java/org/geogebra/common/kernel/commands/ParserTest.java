@@ -187,11 +187,18 @@ public class ParserTest {
 		shouldReparseAs("ln(x)", "ln(x)");
 		shouldReparseAs("ld(x)", "ld(x)");
 		shouldReparseAs("lg(x)", "lg(x)");
-		shouldReparseAs("log(x)", "ln(x)");
+		shouldReparseAs("log(x)", "lg(x)");
 		shouldReparseAs("log_" + Unicode.EULER_STRING + "(x)",
 				"log(" + Unicode.EULER_STRING + ", x)");
 		shouldReparseAs("log_{" + Unicode.EULER_STRING + "}(x)",
 				"log(" + Unicode.EULER_STRING + ", x)");
+	}
+
+	@Test
+	public void testLogFunctionFromFile() {
+		app.getKernel().setLoadingMode(true);
+		shouldReparseAs("log(x)", "ln(x)");
+		app.getKernel().setLoadingMode(false);
 	}
 
 	@Test

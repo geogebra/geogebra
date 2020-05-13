@@ -288,10 +288,10 @@ public class CommandsTest {
 		t("h5(x):=If(x>=2,x^2, x<2, 1/x)",
 				"If[x " + Unicode.GREATER_EQUAL + " 2, x^(2), x < 2, 1 / x]");
 		for (String cmd : new String[] { "Integral", "NIntegral" }) {
-			tRound(cmd + "(h(x),1,3)", eval("-log(2) + log(3) + 7 / 3"));
-			tRound(cmd + "(h2(x),1,3)", eval("-log(2) + log(3) + 7 / 3"));
-			tRound(cmd + "(h3(x),1,3)", eval("-log(2) + log(3) + 7 / 3"));
-			tRound(cmd + "(h4(x),1,3)", eval("-log(2) + log(3) + 7 / 3"));
+			tRound(cmd + "(h(x),1,3)", eval("-ln(2) + ln(3) + 7 / 3"));
+			tRound(cmd + "(h2(x),1,3)", eval("-ln(2) + ln(3) + 7 / 3"));
+			tRound(cmd + "(h3(x),1,3)", eval("-ln(2) + ln(3) + 7 / 3"));
+			tRound(cmd + "(h4(x),1,3)", eval("-ln(2) + ln(3) + 7 / 3"));
 			tRound(cmd + "(h5(x),1,3)", "7.02648");
 		}
 		t("Integral(If(x^2>1,1,x>7,0,0),-1,1)", "0");

@@ -1,8 +1,9 @@
 package org.geogebra.common.kernel.parser.function;
 
-import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Creates ParserFunctions.
@@ -165,7 +166,6 @@ public class ParserFunctionsFactory {
 		put(pf, 1, "LambertW", Operation.LAMBERTW);
 		put(pf, 2, "LambertW", Operation.LAMBERTW);
 
-		put(pf, 1, "log", Operation.LOG);
 		put2(pf, 1, "ln", Operation.LOG);
 
 		put(pf, 2, "log", Operation.LOGB, "( <b> , <x> )");
@@ -174,6 +174,7 @@ public class ParserFunctionsFactory {
 		put(pf, 1, "ld", Operation.LOG2);
 		put(pf, 1, "log2", Operation.LOG2);
 
+		put(pf, 1, "log", Operation.LOG10);
 		put(pf, 1, "lg", Operation.LOG10);
 		put(pf, 1, "log10", Operation.LOG10);
 
@@ -282,7 +283,7 @@ public class ParserFunctionsFactory {
 
 	private static void addTranslatable(ParserFunctionsImpl pf) {
 		for (String fn: TRANSLATABLE_1_VAR) {
-			pf.addTranslatable(fn, 1, SINGLE_ARG, pf.get(fn ,1));
+			pf.addTranslatable(fn, SINGLE_ARG);
 		}
 		pf.addTranslatable("nroot", 2, "( <x>, <n> )", Operation.NROOT);
 		pf.addTranslatable("nPr", 2, "( <n>, <r> )", Operation.NPR);

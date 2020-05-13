@@ -37,8 +37,8 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testLog() {
-		shouldReplaceAs("lnpi", "log(" + Unicode.PI_STRING + ")");
-		shouldReplaceAs("ln" + Unicode.PI_STRING, "log(" + Unicode.PI_STRING + ")");
+		shouldReplaceAs("lnpi", "ln(" + Unicode.PI_STRING + ")");
+		shouldReplaceAs("ln" + Unicode.PI_STRING, "ln(" + Unicode.PI_STRING + ")");
 		shouldReplaceAs("log_{2}2", "log(2, 2)");
 		shouldReplaceAs("log_22", "log(2, 2)");
 		shouldReplaceAs("log_{2}xx", "log(2, x^(2))");

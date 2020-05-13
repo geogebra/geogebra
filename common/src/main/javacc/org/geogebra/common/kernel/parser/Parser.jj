@@ -1764,7 +1764,7 @@ ExpressionNode numberFunction():
                 || Unicode.SUPERSCRIPT_MINUS==c.image.charAt(pos))) {
             pos--;
         }
-        ExpressionNode ret = kernel.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
+        ExpressionNode ret = functionParser.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
         if (ret.getOperation() == Operation.MULTIPLY_OR_FUNCTION) {
             undecided.add(ret);
         }

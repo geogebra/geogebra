@@ -664,22 +664,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			} else {
 				switch (stringType) {
 				case LATEX:
-					sb.append("\\ln \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("ln left ( ");
+					sb.append("\\ln");
 					break;
 				case GIAC:
-				case GEOGEBRA_XML:
-					sb.append("log(");
+					sb.append("log");
 					break;
-
-				case PSTRICKS:
-				case PGF:
 				default:
-					sb.append("ln(");
+					sb.append("ln");
 					break;
 				}
+				sb.append(tpl.leftBracket());
 				sb.append(leftStr);
 				sb.append(tpl.rightBracket());
 			}
