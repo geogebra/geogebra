@@ -854,8 +854,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		insertString(parts[0]);
 		insertFunction("frac");
 		insertString(parts[1]);
-		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
-		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+		pressKeyLeft();
+		pressKeyLeft();
+		pressKeyLeft();
+	}
+
+	private void pressKeyLeft() {
 		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
 	}
 
