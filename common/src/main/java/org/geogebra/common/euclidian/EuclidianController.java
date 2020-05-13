@@ -9928,16 +9928,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (topGeo == lastInline && !draggingOccured && !wasBoundingBoxHit
 				&& view.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED) {
 			showDynamicStylebar();
-			DrawInlineText drawInlineText = (DrawInlineText) view.getDrawableFor(topGeo);
+			DrawInline drawInline = (DrawInline) view.getDrawableFor(topGeo);
 			maybeFocusGroupElement(topGeo);
-			drawInlineText.getBoundingBox().setFixed(true);
-			((DrawInline) view.getDrawableFor(topGeo)).toForeground(mouseLoc.x, mouseLoc.y);
+			drawInline.getBoundingBox().setFixed(true);
+			drawInline.toForeground(mouseLoc.x, mouseLoc.y);
 
 			// Fix weird multiselect bug.
 			setResizedShape(null);
 
 			return true;
-		} else if (topGeo instanceof GeoInlineText) {
+		}
+
+		if (topGeo instanceof GeoInlineText) {
 			lastInline = (GeoInline) topGeo;
 
 			DrawInlineText drInlineText = ((DrawInlineText) view.getDrawableFor(lastInline));
@@ -9947,11 +9949,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				drInlineText.toForeground(mouseLoc.x, mouseLoc.y);
 				app.showURLinBrowser(hyperlinkURL);
 				return true;
-			} else if (!topGeo.hasGroup() && isMultiSelection()) {
+			}
+		}
+
+		if (topGeo instanceof GeoInline) {
+			lastInline = (GeoInline) topGeo;
+			if (!topGeo.hasGroup() && isMultiSelection()) {
 				selectAndShowBoundingBox(topGeo);
 			}
-		} else if (topGeo instanceof GeoInline) {
-			lastInline = (GeoInline) topGeo;
 		} else {
 			lastInline = null;
 		}
