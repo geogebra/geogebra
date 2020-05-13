@@ -56,11 +56,8 @@ public class VideoInputDialog extends MediaDialog {
 	 */
 	private void addVideo(VideoURL videoURL) {
 		mediaInputPanel.resetError();
-		GeoElement video = new MediaFactory(appW).addVideo(videoURL);
 		hide();
-		if (((GeoVideo) video).hasSize()) {
-			onMediaElementCreated(video);
-		}
+		new MediaFactory(appW).addVideo(videoURL);
 	}
 
 	@Override
