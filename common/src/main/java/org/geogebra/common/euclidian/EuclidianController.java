@@ -152,6 +152,7 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -413,7 +414,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private SnapController snapController = new SnapController();
 	private ArrayList<GeoElement> splitPartsToRemove = new ArrayList<>();
 
-	private GeoInline lastInline;
+	private GeoElement lastMowHit;
 
 	private GeoPriorityComparator priorityComparator;
 
@@ -9384,37 +9385,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return view.isSymbolicEditorClicked(mouseLoc);
 	}
 
-	private boolean handleVideoEmbedReleased() {
-		if (!moveMode(mode)
-			|| draggingOccured || view.getHits().isEmpty()) {
-			return false;
-		}
-
-		GeoElement topHit = view.getHits().get(view.getHits().size() - 1);
-
-		if (topHit instanceof GeoVideo) {
-			DrawVideo drawVideo = (DrawVideo) view.getDrawableFor(topHit);
-			if (videoHasError(drawVideo)) {
-				return false;
-			}
-
-			selectAndShowSelectionUI(topHit);
-			maybeFocusGroupElement(topHit);
-
-			app.getVideoManager().play(drawVideo);
-			return true;
-		}
-		EmbedManager embedManager = app.getEmbedManager();
-		if (topHit instanceof GeoEmbed && embedManager != null) {
-			selectAndShowSelectionUI(topHit);
-			maybeFocusGroupElement(topHit);
-			embedManager.play((GeoEmbed) topHit);
-			return true;
-		}
-
-		return false;
-	}
-
 	private boolean videoHasError(DrawVideo video) {
 		return app.getVideoManager().isPlayerOffline(video);
 	}
@@ -9916,52 +9886,68 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return draggingOccured && draggingBeyondThreshold;
 	}
 
-	private boolean handleInlineHit(AbstractEvent event) {
-		if (!moveMode(mode) || app.isRightClick(event) || view.getHits().isEmpty()
-				|| event.isControlDown()) {
-			lastInline = null;
-			return false;
+	private void handleMowSelectionRelease() {
+		GeoElement topHit;
+		if (!view.getHits().isEmpty()) {
+			topHit = view.getHits().get(view.getHits().size() - 1);
+		} else {
+			topHit = null;
 		}
 
-		GeoElement topGeo = view.getHits().get(view.getHits().size() - 1);
+		if (topHit instanceof GeoVideo) {
+			handleVideoHit(topHit);
+		}
 
-		if (topGeo == lastInline && !draggingOccured && !wasBoundingBoxHit
+		if (topHit instanceof GeoEmbed) {
+			handleEmbedHit(topHit);
+		}
+
+		if (topHit instanceof GeoInline) {
+			handleInlineHit(topHit);
+		}
+
+		lastMowHit = topHit;
+	}
+
+	private void handleVideoHit(GeoElement topHit) {
+		VideoManager videoManager = app.getVideoManager();
+		if (!draggingOccured && videoManager != null) {
+			DrawVideo drawVideo = (DrawVideo) view.getDrawableFor(topHit);
+			if (videoHasError(drawVideo)) {
+				return;
+			}
+
+			videoManager.play(drawVideo);
+		}
+	}
+
+	private void handleEmbedHit(GeoElement topHit) {
+		EmbedManager embedManager = app.getEmbedManager();
+		if (!draggingOccured && embedManager != null) {
+			embedManager.play((GeoEmbed) topHit);
+		}
+	}
+
+	private void handleInlineHit(GeoElement topHit) {
+		if (topHit == lastMowHit && !draggingOccured && !wasBoundingBoxHit
 				&& view.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED) {
-			showDynamicStylebar();
-			DrawInline drawInline = (DrawInline) view.getDrawableFor(topGeo);
-			maybeFocusGroupElement(topGeo);
-			drawInline.getBoundingBox().setFixed(true);
+			DrawInline drawInline = (DrawInline) view.getDrawableFor(topHit);
 			drawInline.toForeground(mouseLoc.x, mouseLoc.y);
 
 			// Fix weird multiselect bug.
 			setResizedShape(null);
 
-			return true;
+			return;
 		}
 
-		if (topGeo instanceof GeoInlineText) {
-			lastInline = (GeoInline) topGeo;
-
-			DrawInlineText drInlineText = ((DrawInlineText) view.getDrawableFor(lastInline));
+		if (topHit instanceof GeoInlineText) {
+			DrawInlineText drInlineText = ((DrawInlineText) view.getDrawableFor(topHit));
 			String hyperlinkURL = drInlineText.urlByCoordinate(mouseLoc.x, mouseLoc.y);
 			if (!StringUtil.emptyOrZero(hyperlinkURL) && !draggingOccured) {
-				showDynamicStylebar();
 				drInlineText.toForeground(mouseLoc.x, mouseLoc.y);
 				app.showURLinBrowser(hyperlinkURL);
-				return true;
 			}
 		}
-
-		if (topGeo instanceof GeoInline) {
-			lastInline = (GeoInline) topGeo;
-			if (!topGeo.hasGroup() && isMultiSelection()) {
-				selectAndShowBoundingBox(topGeo);
-			}
-		} else {
-			lastInline = null;
-		}
-
-		return false;
 	}
 
 	/**
@@ -9971,11 +9957,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
-		if (handleInlineHit(event)) {
-			lastSelectionToolGeoToRemove = null;
-			return;
-		}
-
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
 
@@ -10038,8 +10019,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// handle video/audio/embeded/text release (mow)
-		if (!app.isRightClick(event) && handleVideoEmbedReleased()) {
-			lastSelectionToolGeoToRemove = null;
+		if (mode == EuclidianConstants.MODE_SELECT_MOW && !app.isRightClick(event)
+				&& !event.isControlDown()) {
+			handleMowSelectionRelease();
 			return;
 		}
 
@@ -12400,7 +12382,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle(
 				(int) Math.round(minX), (int) Math.round(minY),
 				(int) Math.round(maxX - minX), (int) Math.round(maxY - minY));
-		BoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
+		MultiBoundingBox boundingBox = new MultiBoundingBox(hasRotationHandler);
 		boundingBox.setRectangle(rect);
 		boundingBox.setFixed(fixed);
 		boundingBox.setColor(app.getPrimaryColor());
