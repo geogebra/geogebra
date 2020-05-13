@@ -54,7 +54,7 @@ public class InputTokenizer {
 
 	public List<String> getTokens() {
 		ArrayList<String> tokens = new ArrayList<>();
-		while (!"".equals(input)) {
+		while (!StringUtil.empty(input)) {
 			String nextToken = next();
 			tokens.add(nextToken);
 		}
@@ -64,7 +64,7 @@ public class InputTokenizer {
 
 	public String next() {
 		String token = getToken();
-		input = token != null ? input.substring(token.length()) : null;
+		input = !StringUtil.empty(token)  ? input.substring(token.length()) : null;
 		return token;
 	}
 
@@ -73,14 +73,21 @@ public class InputTokenizer {
 			return null;
 		}
 
+		if (isDigitNext()) {
+			return getNumberToken(0);
+		}
+
+		String geoLabel = getGeoLabel();
+		if (!StringUtil.empty(geoLabel)) {
+			return geoLabel;
+		}
+
+
 		String variable = getVariable();
 		if (!"".equals(variable)) {
 			return variable;
 		}
 
-		if (isDigitNext()) {
-			return getNumberToken();
-		}
 
 		if (isPiNext()) {
 			return "pi";
@@ -105,6 +112,21 @@ public class InputTokenizer {
 		return "";
 	}
 
+	private String getGeoLabel() {
+		if (input.length() == 1) {
+			return input;
+		}
+
+		String label = "";
+		for (int i=0; i < input.length(); i++) {
+			if (kernel.lookupLabel(label) != null) {
+				return label;
+			}
+			label += input.charAt(i);
+		}
+		return null;
+	}
+
 	private boolean isPiNext() {
 		if (input.length() < 2) {
 			return false;
@@ -121,14 +143,14 @@ public class InputTokenizer {
 		}
 		return "";
 	}
-	private String getNumberToken() {
+	private String getNumberToken(int from) {
 		if (noInputLeft()) {
 			return "";
 		}
 
 		StringBuilder result = new StringBuilder();
-		int i = 0;
-		while (StringUtil.isDigit(input.charAt(i)) && i < input.length()) {
+		int i = from;
+		while (StringUtil.isDigit(input.charAt(i))) {
 			result.append(input.charAt(i));
 			i++;
 		}
@@ -137,16 +159,20 @@ public class InputTokenizer {
 	}
 
 	private boolean isDigitNext() {
-		return input.length() > 1 && StringUtil.isDigit(input.charAt(1));
+		return input.length() > 1 && StringUtil.isDigit(nextChar());
+	}
+
+	private char nextChar() {
+		return input.charAt(1);
 	}
 
 	private boolean isQuoteMarkNext() {
-		return input.charAt(1) == '\'';
+		return nextChar() == '\'';
 	}
 
 	private boolean isSingleCharOrLetterNext() {
-		return input.length() == 1 || StringUtil.isLetter(input.charAt(1))
-				|| isBracket(input.charAt(1));
+		return input.length() == 1 || StringUtil.isLetter(nextChar())
+				|| isBracket(nextChar());
 	}
 
 	private boolean isBracket(char ch) {
@@ -154,12 +180,24 @@ public class InputTokenizer {
 	}
 
 	private String getTokenWithIndex() {
+		if ("_{".equals(input.substring(1, 3))) {
+			return tokenWithCurlyBracketIndex();
+		}
+		return tokenWithUnderscoreIndex();
+	}
+
+	private String tokenWithUnderscoreIndex() {
+		String token = input.substring(0, 2);
+		return token + getNumberToken(2);
+	}
+
+	private String tokenWithCurlyBracketIndex() {
 		int idxClose = input.indexOf("}");
 		return idxClose != -1 ? input.substring(0, idxClose + 1) : "";
 	}
 
 	private boolean isIndexNext() {
-		return "_{".equals(input.substring(1, 3));
+		return nextChar() == '_';
 	}
 
 	private boolean isExponentialNext() {

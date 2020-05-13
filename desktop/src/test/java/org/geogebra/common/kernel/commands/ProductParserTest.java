@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.BaseUnitTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -55,12 +56,11 @@ public class ProductParserTest extends BaseUnitTest {
 		shouldReparseAs("x+bb", "x + b b");
 		shouldReparseAs("x+bbb", "x + b b b");
 		shouldReparseAs("x+bbbb", "x + b b b b");
-//		shouldReparseAs("x+bbbbbx", "x + b b b b b x");
+		shouldReparseAs("x+bbbbbx", "x + b b b b b x");
 	}
 
 	@Test
 	public void testABX() {
-		withVariables("a", "b");
 		shouldReparseAs("xab", "x a b");
 		shouldReparseAs("x + ab", "x + a b");
 		shouldReparseAs("xxxxxxxxxx", "x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
@@ -78,15 +78,58 @@ public class ProductParserTest extends BaseUnitTest {
 		shouldReparseAs("aakkaa", "a a k k a a");
 	}
 
-	private void withVariables(String... variables) {
-		for (String variable : variables) {
-			add(variable + "=1");
-		}
+	@Test
+	public void testArctanIntegral() {
+		shouldReparseAs("21xarctanx", "21x atand(x)");
+	}
+
+	@Ignore
+	@Test
+	public void testCost7() {
+		shouldReparseAs("-tcost7t/7", "-t cos 7t 7");
 	}
 
 	@Test
-	public void testArctanIntegral() {
-		shouldReparseAs("21xarctanx", "21 x atand(x)");
+	public void testNpi7() {
+		shouldReparseAs("npi/7", "n " + Unicode.PI_STRING + " / 7");
+	}
+
+	@Test
+	public void testLnX() {
+		shouldReparseAs("xlnx", "x ln(x)");
+		shouldReparseAs("xln2x", "x ln(2x)");
+		shouldReparseAs("xln2xabc", "x ln(2x a b c)");
+	}
+
+ 	@Test
+	public void testC_2Index() {
+		shouldReparseAs("c_2e^(7x)","c_2 e^(7x)");
+	}
+
+ 	@Test
+	public void testAkakakaaa() {
+		withGeos("a", "k", "aa(x)=?");
+		shouldReparseAs("akakakaaa","a k a k a k aa a");
+	}
+
+	private void withGeos(String... geos) {
+		for (String string: geos) {
+			add(string);
+		}
+	}
+	@Test
+	public void testIndex() {
+		shouldReparseAs("B_{0}e^(2)", "B_{0} " + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);
+	}
+
+	@Test
+	public void testTangent() {
+		shouldReparseAs("2xtan8x", "2x tan(8x)");
+	}
+
+	@Test
+	public void testFcosThetaSum() {
+		shouldReparseAs("Fcosθx+Fsinθy", "F cos(x θ) + F sin(y θ)");
 	}
 
 	private void shouldReparseAs(String original, String parsed) {

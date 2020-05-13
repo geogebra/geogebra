@@ -47,15 +47,13 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testFunctionProductsMul() {
-		shouldReplaceAs("xlnx", "x * log(x)");
-		shouldReplaceAs("xln2x", "x * log(2 * x)");
+//		shouldReplaceAs("xlnx", "x * log(x)");
+//		shouldReplaceAs("xln2x", "x * log(2 * x)");
 		shouldReplaceAs("xsinx", "x * sin(x)");
 	}
 
 	@Test
 	public void testConstantMultiplier() {
-//		shouldReplaceAs("8sqrt(x)", "8 * sqrt(x)");
-//		shouldReplaceAs("isqrt3", "i * sqrt(3)");
 		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING
 			+ " * sqrt(5)");
 	}
@@ -63,11 +61,6 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Test
 	public void testEmbeddedTrigs() {
 		shouldReplaceAs("4coscoscosx", "4 * cos(cos(cos(x)))");
-	}
-
-	@Test
-	public void testArctan() {
-		shouldReplaceAs("21arctan2x", "21 * atand(2 * x)");
 	}
 
 	@Test

@@ -12,21 +12,25 @@ public class InputTokenizerTest extends BaseUnitTest {
 
 	@Test
 	public void testAB() {
+		withGeos("a", "b");
 		shouldBeSplitTo("ab","a", "b");
 	}
 
 	@Test
 	public void testAIndexedB() {
+		withGeos("a_{1}", "b");
 		shouldBeSplitTo("a_{1}b","a_{1}", "b");
 	}
 
 	@Test
 	public void testAIndexedBIndexed() {
+		withGeos("a_{1}", "b_{242}");
 		shouldBeSplitTo("a_{1}b_{242}","a_{1}", "b_{242}");
 	}
 
 	@Test
 	public void testConstantAndVariable() {
+		withGeos("a", "b");
 		shouldBeSplitTo("21ab", "21", "a", "b");
 	}
 
@@ -42,7 +46,7 @@ public class InputTokenizerTest extends BaseUnitTest {
 
 	@Test
 	public void testFunctionVarPlus() {
-		add("f(var)=?");
+		withGeos("f(var)", "a", "b");
 		shouldBeSplitTo("var+ab","var", "+", "a", "b");
 	}
 
@@ -50,6 +54,25 @@ public class InputTokenizerTest extends BaseUnitTest {
 	public void testFunctionVar() {
 		add("f(var)=?");
 		shouldBeSplitTo("avarb","a", "var", "b");
+	}
+
+	@Test
+	public void testC_2e() {
+		shouldBeSplitTo("c_2e^(7x)", "c_2", "e^(7x)");
+	}
+
+	@Test
+	public void testAkakakaaa() {
+		withGeos("a", "k", "vv(x)");
+		shouldBeSplitTo("akakakvva" ,"a", "k", "a", "k", "a",
+				"k", "vv", "a");
+	}
+
+
+	private void withGeos(String... labels) {
+		for (String label: labels) {
+			add(label + "=?");
+		}
 	}
 
 	@Test
