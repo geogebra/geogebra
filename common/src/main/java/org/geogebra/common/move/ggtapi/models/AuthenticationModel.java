@@ -2,6 +2,7 @@ package org.geogebra.common.move.ggtapi.models;
 
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
+import org.geogebra.common.util.GTimer;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,12 @@ import java.util.ArrayList;
  */
 public abstract class AuthenticationModel {
 	private GeoGebraTubeUser loggedInUser = null;
+	// session time 115 min
+	public static final int SESSION_TIME = 6900000;
+	// log out timer 5 min
+	public static final int LOG_OUT_TIME = 300000;
+	private GTimer sessionExpireTimer;
+	private GTimer logOutTimer;
 
 	/**
 	 * token name for user logged in got back from GGT
@@ -79,6 +86,13 @@ public abstract class AuthenticationModel {
 		// Store the token in the storage
 		if (!user.getLoginToken().equals(this.getLoginToken())) {
 			storeLoginToken(user.getLoginToken());
+		}
+		startSessionTimer();
+	}
+
+	private void startSessionTimer() {
+		if (sessionExpireTimer != null) {
+			sessionExpireTimer.start();
 		}
 	}
 
@@ -196,5 +210,50 @@ public abstract class AuthenticationModel {
 
 	public String getEncoded() {
 		return null;
+	}
+
+	/**
+	 *	initialize timer
+	 * @param timer new session timer
+	 */
+	public void setSessionExpireTimer(GTimer timer) {
+		sessionExpireTimer = timer;
+	}
+
+	/**
+	 *  initialize timer
+	 * @param timer new logout timer
+	 */
+	public void setLogOutTimer(GTimer timer) {
+		logOutTimer = timer;
+	}
+
+	/**
+	 * if back-end touched: restart session timer and stop logout timer
+	 */
+	public void restartSession() {
+		resetTimer(logOutTimer);
+		if (sessionExpireTimer != null && isLoggedIn()) {
+			resetTimer(sessionExpireTimer);
+			sessionExpireTimer.start();
+		}
+	}
+
+	/**
+	 * reset a timer
+	 * @param timer timer
+	 */
+	private void resetTimer(GTimer timer) {
+		if (timer != null) {
+			timer.stop();
+		}
+	}
+
+	/**
+	 * reset both session and logout timers
+	 */
+	public void discardTimers() {
+		resetTimer(sessionExpireTimer);
+		resetTimer(logOutTimer);
 	}
 }

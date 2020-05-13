@@ -88,6 +88,7 @@ public class FunctionAndEquationFilter {
             allowedCommands = new HashSet<>();
             allowedCommands.add(Algos.Expression);
             allowedCommands.add(Commands.Point);
+            allowedCommands.add(Commands.Line);
             allowedCommands.addAll(fitCommands);
         }
         return allowedCommands;

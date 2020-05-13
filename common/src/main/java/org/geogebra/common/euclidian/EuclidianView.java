@@ -6252,14 +6252,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return axesNumberFormat[i];
 	}
 
-	protected void resetTextField() {
-		if (viewTextField == null) {
-			return;
-		}
-
-		viewTextField.reset();
-	}
-
 	/**
 	 * @return standard screen x-coord of origin
 	 */
@@ -6416,6 +6408,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (value) {
 			ScreenReader.readEVPlay(app);
 		}
+		repaintView();
 	}
 
 	/**
@@ -6521,7 +6514,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *
 	 * @param selected true if the reset icon is selected
 	 */
-	protected void setResetIconSelected(boolean selected) {
+	public void setResetIconSelected(boolean selected) {
 		if (isResetIconSelected != selected) {
 			isResetIconSelected = selected;
 			invalidateBackground();

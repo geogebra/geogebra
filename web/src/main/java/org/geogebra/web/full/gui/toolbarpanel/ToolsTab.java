@@ -88,8 +88,6 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		AriaHelper.hide(lessBtn);
 		lessBtn.addStyleName("moreLessBtn");
 		lessBtn.removeStyleName("button");
-		moreBtn.setIgnoreTab();
-		lessBtn.setIgnoreTab();
 		moreBtn.addFastClickHandler(new FastClickHandler() {
 
 			@Override

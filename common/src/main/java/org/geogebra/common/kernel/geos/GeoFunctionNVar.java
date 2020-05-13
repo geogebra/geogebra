@@ -1242,9 +1242,9 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public void clearCasEvalMap(String key) {
+	public void clearCasEvalMap() {
 		if (fun != null) {
-			fun.clearCasEvalMap(key);
+			fun.clearCasEvalMap();
 		}
 	}
 

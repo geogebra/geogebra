@@ -1891,6 +1891,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean setTypeFromXML(String style, String parameter, boolean force) {
+		if (isEquationFormEnforced()) {
+			ignoreLineModeFromXML(style);
+			return true;
+		}
+
 		if ("implicit".equals(style)) {
 			setToImplicit();
 		} else if ("explicit".equals(style)) {
@@ -1905,6 +1910,14 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return false;
 		}
 		return true;
+	}
+
+	private void ignoreLineModeFromXML(String style) {
+		if ("user".equals(style)) {
+			setToUser();
+		} else {
+			setToExplicit(true);
+		}
 	}
 
 	@Override

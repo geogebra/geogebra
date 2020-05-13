@@ -317,7 +317,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
 		sb.append(" ");
@@ -382,7 +382,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
 		sb.append(" ");

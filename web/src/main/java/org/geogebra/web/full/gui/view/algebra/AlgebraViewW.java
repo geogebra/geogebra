@@ -33,7 +33,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
-import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.html5.Browser;
@@ -232,9 +231,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		getElement().addClassName("algebraView");
 
-		// needed to have an element with tabindex > 0 with focus to catch
-		// keyboard events
-		getElement().setTabIndex(GUITabs.AV_TREE);
+		// needed to have tabindex >= 0 with focus to catch keyboard events
+		getElement().setTabIndex(0);
 		addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 		addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		addKeyPressHandler(this.app.getGlobalKeyDispatcher());
@@ -268,24 +266,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				// onkeypress
 				if (!(editItem || Browser.isTabletBrowser())) {
 					app.getGlobalKeyDispatcher()
-							.handleSelectedGeosKeysNative(event);
+							.handleSelectedGeosKeys(event);
 					event.stopPropagation();
 					event.preventDefault();
 					return;
 				}
-
-				// TODO: check this ----
-				break;
-			case KeyCodes.KEY_TAB:
-				event.preventDefault();
-				return;
 			}
 			break;
 		case Event.ONMOUSEDOWN:
 		case Event.ONTOUCHSTART:
 			app.closePopups();
-			// see this.setFocus(true) and this.addKeyDownHandler...
-			app.focusGained(this, this.getElement());
 		}
 
 		if (Browser.isTabletBrowser()) {
@@ -360,7 +350,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		case GWTKeycodes.KEY_RIGHT:
 		case GWTKeycodes.KEY_UP:
 		case GWTKeycodes.KEY_DOWN:
-		case GWTKeycodes.KEY_TAB:
 			getActiveTreeItem().getMathField().getKeyListener()
 					.onKeyPressed(new KeyEvent(keyCode, 0,
 							(char) event.getCharCode()));

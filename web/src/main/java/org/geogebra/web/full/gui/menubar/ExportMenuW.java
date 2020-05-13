@@ -45,23 +45,19 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	protected static void initActions(final MenuBarI menu, final AppW app) {
 
 		menu.addItem(app.isWhiteboardActive()
-				? menuText(app.getLocalization().getMenu("Slides") + " ("
-						+ app.getFileExtension().substring(1) + ")")
-				: menuText(app.getFileExtension().substring(1)), true,
+				? menuText(app.getLocalization().getMenu("Download.SlidesGgs"))
+				: menuText(app.getLocalization().getMenu("Download.GeoGebraFile")), true,
 				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
 						menu.hide();
-						dialogEvent(app, "exportGGB");
 						app.getFileManager().export(app);
 					}
 				});
 
-		menu.addItem(app.isWhiteboardActive()
-				? menuText(app.getLocalization().getMenu("Image") + " (png)")
-				: menuText("png"), true, new MenuCommand(app) {
-
+		menu.addItem(menuText(app.getLocalization().getMenu("Download.PNGImage")),
+				true, new MenuCommand(app) {
 					@Override
 					public void execute() {
 						menu.hide();
@@ -73,15 +69,10 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), "png", "ExportAsPicture",
 								app);
-						dialogEvent(app, "exportPNG");
 					}
 				});
 
-		menu.addItem(
-				app.isWhiteboardActive() ? menuText(
-						app.getLocalization().getMenu("VectorGraphics")
-								+ " (svg)")
-						: menuText("svg"),
+		menu.addItem(menuText(app.getLocalization().getMenu("Download.SVGImage")),
 				true, new MenuCommand(app) {
 
 					@Override
@@ -98,13 +89,10 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.getFileManager().showExportAsPictureDialog(svg,
 								app.getExportTitle(), "svg", "ExportAsPicture",
 								app);
-						dialogEvent(app, "exportSVG");
 					}
 				});
-		menu.addItem(app.isWhiteboardActive()
-				? menuText(app.getLocalization().getMenu("pdf"))
-				: menuText("pdf"), true, new MenuCommand(app) {
-
+		menu.addItem(menuText(app.getLocalization().getMenu("Download.PDFDocument")),
+				true, new MenuCommand(app) {
 					@Override
 					public void execute() {
 
@@ -117,7 +105,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						app.getFileManager().showExportAsPictureDialog(pdf,
 								app.getExportTitle(), "pdf", "ExportAsPicture",
 								app);
-						dialogEvent(app, "exportPDF");
 					}
 				});
 		// TODO add gif back when ready
@@ -135,7 +122,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 		// });
 		// }
 		if (!app.isWhiteboardActive()) {
-			menu.addItem(menuText("PSTricks"), true, new MenuCommand(app) {
+			menu.addItem(menuText("PSTricks (.txt)"), true, new MenuCommand(app) {
 
 				@Override
 				public void execute() {
@@ -148,7 +135,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				}
 			});
 
-			menu.addItem(menuText("PGF/TikZ"), true, new MenuCommand(app) {
+			menu.addItem(menuText("PGF/TikZ (.txt)"), true, new MenuCommand(app) {
 
 				@Override
 				public void execute() {
@@ -161,7 +148,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 			menu.addItem(
 					menuText(app.getLocalization()
-							.getMenu("ConstructionProtocol") + " ("
+							.getMenu("ConstructionProtocol") + " (."
 							+ FileExtensions.HTML + ")"),
 					true, new MenuCommand(app) {
 						@Override
@@ -175,7 +162,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 			menu.addItem(
 					menuText(app.getLocalization()
-							.getMenu("DynamicWorksheetAsWebpage") + " ("
+							.getMenu("DynamicWorksheetAsWebpage") + " (."
 							+ FileExtensions.HTML + ")"),
 					true, new MenuCommand(app) {
 						@Override
@@ -186,7 +173,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 						}
 					});
 
-			menu.addItem(menuText("Asymptote"), true, new MenuCommand(app) {
+			menu.addItem(menuText("Asymptote (.txt)"), true, new MenuCommand(app) {
 
 				@Override
 				public void execute() {
@@ -198,7 +185,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				}
 			});
 
-			menu.addItem(menuText("STL"), true, new MenuCommand(app) {
+			menu.addItem(menuText(app.getLocalization()
+					.getMenu("Download.3DPrint")), true, new MenuCommand(app) {
 				@Override
 				public void doExecute() {
 					menu.hide();
@@ -207,7 +195,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 			});
 
 			if (app.is3D()) {
-				menu.addItem(menuText("Collada"), true, new MenuCommand(app) {
+				menu.addItem(menuText(app.getLocalization()
+						.getMenu("Download.ColladaDae")), true, new MenuCommand(app) {
 					@Override
 					public void doExecute() {
 						menu.hide();
@@ -215,7 +204,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 					}
 				});
 
-				menu.addItem(menuText("Collada (html)"), true,
+				menu.addItem(menuText(app.getLocalization()
+								.getMenu("Download.ColladaHtml")), true,
 						new MenuCommand(app) {
 							@Override
 							public void doExecute() {
@@ -243,7 +233,6 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				String url = Browser.addTxtMarker(obj);
 				app.getFileManager().showExportAsPictureDialog(url,
 						app.getExportTitle(), "txt", "Export", app);
-				dialogEvent(app, "export" + string);
 			}
 		};
 	}

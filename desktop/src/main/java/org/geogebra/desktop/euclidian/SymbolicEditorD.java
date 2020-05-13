@@ -1,8 +1,11 @@
 package org.geogebra.desktop.euclidian;
 
-import com.himamis.retex.editor.desktop.MathFieldD;
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-import com.himamis.retex.renderer.share.TeXFont;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
+import javax.swing.Box;
+import javax.swing.SwingUtilities;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
@@ -16,9 +19,9 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 
-import javax.swing.Box;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import com.himamis.retex.editor.desktop.MathFieldD;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.renderer.share.TeXFont;
 
 public class SymbolicEditorD extends SymbolicEditor {
 
@@ -53,6 +56,20 @@ public class SymbolicEditorD extends SymbolicEditor {
 	}
 
 	@Override
+	public void resetChanges() {
+		mathField.getInternal().parse(getGeoInputBox().getTextForEditor());
+	}
+
+	protected void showRedefinedBox(final DrawInputBox drawable) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				drawable.setWidgetVisible(true);
+			}
+		});
+	}
+
+	@Override
 	protected MathFieldInternal getMathFieldInternal() {
 		return mathField.getInternal();
 	}
@@ -77,7 +94,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 		super.attach(geoInputBox, bounds);
 		getDrawInputBox().setEditing(true);
 
-		mathField.getInternal().parse(geoInputBox.getTextForEditor());
+		mathField.getInternal().parse(getGeoInputBox().getTextForEditor());
 		mathField.setBounds(GRectangleD.getAWTRectangle(bounds));
 		mathField.getInternal().setSize(geoInputBox.getFontSizeMultiplier()
 				* (app.getSettings().getFontSettings().getAppFontSize() + 3));
@@ -106,11 +123,6 @@ public class SymbolicEditorD extends SymbolicEditor {
 		box.paint(GGraphics2DD.getAwtGraphics(g));
 
 		g.restoreTransform();
-	}
-
-	@Override
-	public void onEnter() {
-		applyChanges();
 	}
 
 	@Override

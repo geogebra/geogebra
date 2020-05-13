@@ -25,8 +25,8 @@ ext.gwtCompilerVersion = project(':renderer-web').gwtCompilerVersion
 
 apply plugin: 'gwt-compiler'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 sourceSets {
     nonfree
@@ -87,7 +87,7 @@ ext.appSpecs = [
         partials:["undo-redo"], appStoreId:'1412748754'],
     [id:'geometry', title:'Geometry', transKey:'Geometry',
         exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', appStoreId:'1232591335'],
-    [id:'suite', title:'Graphing Calculator', transKey:'GraphingCalculator'],
+    [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite'],
     [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
     [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
 
@@ -172,9 +172,11 @@ task copyHtml {
         appSpecs.each { app ->
             def appID = app.id.split("-")[0]
             def replaceHtml = app.id == "classic" ? classicHtml : appHtml
-            file("war/${app.id}-template.html").text = replaceHtml(app, false)
             file("war/${app.id}-offline.html").text = english(replaceHtml(app, false, true), app.title)
             file("war/${app.id}.html").text = english(replaceHtml(app, true), app.title)
+            if (app.vendor == "Mebis") {
+                file("war/${app.id}-template.html").text = replaceHtml(app, false).replace("<!--CODEBASE-->", "/")
+            }
         }
     }
 }

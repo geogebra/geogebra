@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +25,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
 	@Test
 	public void testDoesNotFilterCaption() {
+		getApp().setConfig(new AppConfigGraphing());
 		String functionString = "g(x) = x";
 		GeoFunction function = addAvInput(functionString);
 		checkCaption(function, GeoElementND.LABEL_NAME_VALUE, functionString);
@@ -35,6 +37,10 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 		String pointString = "A = (1, 2)";
 		GeoPoint point = addAvInput(pointString);
 		checkCaption(point, GeoElementND.LABEL_NAME_VALUE, pointString);
+
+		String lineString = "line : Line((-2, 1), (1, 2))";
+		GeoLine geoLine = addAvInput(lineString);
+		checkCaption(geoLine, GeoElementND.LABEL_NAME_VALUE, "line: y = 0.33x + 1.67");
 
 		String dependentCopyString = "eq1 = c";
 		GeoConic line = addAvInput(dependentCopyString);
@@ -63,18 +69,18 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
 	@Test
 	public void testFiltersCaption() {
-		GeoLine line = createLineWithCommand();
+		GeoLine line = createRayWithCommand();
 
 		checkCaption(line, GeoElementND.LABEL_NAME, "f");
-		checkCaption(line, GeoElementND.LABEL_NAME_VALUE, "f: Line(A, B)");
-		checkCaption(line, GeoElementND.LABEL_VALUE, "Line(A, B)");
+		checkCaption(line, GeoElementND.LABEL_NAME_VALUE, "f: Ray(A, B)");
+		checkCaption(line, GeoElementND.LABEL_VALUE, "Ray(A, B)");
 		checkCaption(line, GeoElementND.LABEL_CAPTION, "f");
-		checkCaption(line, GeoElementND.LABEL_CAPTION_VALUE, "f: Line(A, B)");
+		checkCaption(line, GeoElementND.LABEL_CAPTION_VALUE, "f: Ray(A, B)");
 	}
 
 	@Test
 	public void testFiltersCaptionDependentCopy() {
-		GeoLine line = createLineWithCommand();
+		GeoLine line = createRayWithCommand();
 		String dependentCopyString = "g:f";
 		GeoLine lineCopy = addAvInput(dependentCopyString);
 
@@ -87,7 +93,7 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 
 	@Test
 	public void testFiltersCaptionDependentCopySecondLevel() {
-		createLineWithCommand();
+		createRayWithCommand();
 		addAvInput("g:f");
 		GeoLine lineSecondLevel = addAvInput("h:g");
 
@@ -98,10 +104,10 @@ public class ProtectiveLabelDescriptionConverterTest extends BaseUnitTest {
 		checkCaption(lineSecondLevel, GeoElementND.LABEL_CAPTION_VALUE, "h: g");
 	}
 
-	private GeoLine createLineWithCommand() {
+	private GeoLine createRayWithCommand() {
 		addAvInput("A = (1, 2)");
 		addAvInput("B = (2, 3)");
-		return addAvInput("f = Line(A, B)");
+		return addAvInput("f = Ray(A, B)");
 	}
 
 	private void checkCaption(GeoElement element, int labelMode, String expectedLabelText) {

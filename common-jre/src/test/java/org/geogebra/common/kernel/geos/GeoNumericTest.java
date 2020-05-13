@@ -60,4 +60,12 @@ public class GeoNumericTest extends BaseUnitTest {
 						false, StringTemplate.latexTemplate);
 		assertThat(description, equalTo("a\\, = \\,\\frac{1}{2}"));
 	}
+
+	@Test
+	public void testCopy() {
+		GeoNumeric numeric = addAvInput("1");
+		numeric.setDrawable(true, false);
+		GeoNumeric copy = numeric.copy();
+		assertThat(copy.isDrawable, is(true));
+	}
 }

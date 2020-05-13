@@ -47,7 +47,7 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
 		StyleInjector.inject(GuiResources.INSTANCE.scientificLayoutScss());
 		StyleInjector.inject(GuiResources.INSTANCE.evaluatorScss());
-		StyleInjector.inject(GuiResources.INSTANCE.headerScss());
+		//StyleInjector.inject(GuiResources.INSTANCE.headerScss());
 		StyleInjector.inject(TextStyles.INSTANCE.textStyles());
 
 		injectLTRstyles();

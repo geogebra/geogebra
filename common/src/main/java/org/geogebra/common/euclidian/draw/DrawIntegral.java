@@ -93,7 +93,7 @@ public class DrawIntegral extends DrawFunctionArea {
 		if (!isVisible) {
 			return;
 		}
-		labelVisible = geo.isLabelVisible();
+		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(n);
 		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())
 				|| isCasObject) {
@@ -152,7 +152,7 @@ public class DrawIntegral extends DrawFunctionArea {
 		if (labelVisible) {
 			xLabel = (int) Math.round((ax + bx) / 2) - 6;
 			yLabel = (int) view.getYZero() - view.getFontSize();
-			labelDesc = geo.getLabelDescription();
+			labelDesc = getTopLevelGeo().getLabelDescription();
 			addLabelOffset();
 		}
 	}

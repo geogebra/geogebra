@@ -44,7 +44,6 @@ import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
@@ -506,7 +505,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
 		case EuclidianConstants.MODE_SHAPE_FREEFORM:
 		case EuclidianConstants.MODE_SHAPE_LINE:
-		case EuclidianConstants.MODE_SHAPE_POLYGON:
+		case EuclidianConstants.MODE_SHAPE_PENTAGON:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 		case EuclidianConstants.MODE_MASK:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
@@ -9137,8 +9136,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
-
-		app.getAccessibilityManager().setTabOverGeos(true);
+		app.getAccessibilityManager().setTabOverGeos();
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
 
@@ -9972,12 +9970,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void wrapMouseReleased(AbstractEvent event) {
 		if (handleInlineHit(event)) {
 			return;
-		}
-
-		// will be reset in wrapMouseReleased
-		AccessibilityManagerInterface am = app.getAccessibilityManager();
-		if (am != null && !app.getKernel().getConstruction().isEmpty()) {
-			am.setTabOverGeos(true);
 		}
 
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)

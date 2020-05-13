@@ -148,7 +148,7 @@ public final class CommandFilterFactory {
 				Commands.FractionText, Commands.SurdText, Commands.TableText,
 				Commands.Text, Commands.UnicodeToLetter,
 				// Logical Commands
-				Commands.If, Commands.IsDefined, Commands.Defined,
+				Commands.IsDefined, Commands.Defined,
 				Commands.Relation,
 				// Optimization Command
 				Commands.Maximize, Commands.Minimize,
