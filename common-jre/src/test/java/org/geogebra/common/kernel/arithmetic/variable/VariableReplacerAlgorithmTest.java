@@ -74,6 +74,11 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testImaginary() {
+		shouldReplaceAs("isqrt3", String.valueOf(Unicode.IMAGINARY) + " * sqrt(3)");
+	}
+
+	@Test
 	public void testLog() {
 		shouldReplaceAs("lnpi", "log(" + Unicode.PI_STRING + ")");
 		shouldReplaceAs("ln" + Unicode.PI_STRING, "log(" + Unicode.PI_STRING + ")");

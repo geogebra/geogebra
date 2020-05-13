@@ -112,6 +112,21 @@ public class ProductParserTest extends BaseUnitTest {
 		shouldReparseAs("akakakaaa","a k a k a k aa a");
 	}
 
+	@Test
+	public void testImaginaryProduct() {
+		shouldReparseAs("i1", Unicode.IMAGINARY + " 1");
+	}
+
+	@Test
+	public void testPiSqrt() {
+		shouldReparseAs("18pisqrt5", "18" + Unicode.PI_STRING + " sqrt(5)");
+	}
+
+	@Test
+	public void testiSqrt() {
+		shouldReparseAs("isqrt5", Unicode.IMAGINARY + " sqrt(5)");
+	}
+
 	private void withGeos(String... geos) {
 		for (String string: geos) {
 			add(string);

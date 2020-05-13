@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.util.StringUtil;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class InputTokenizer {
 	private final List<String> varStrings;
 	private Kernel kernel;
@@ -73,6 +75,10 @@ public class InputTokenizer {
 			return null;
 		}
 
+		if (isImaginaryNext()) {
+			return String.valueOf(Unicode.IMAGINARY);
+		}
+
 		if (isDigitNext()) {
 			return getNumberToken(0);
 		}
@@ -110,6 +116,10 @@ public class InputTokenizer {
 		}
 
 		return "";
+	}
+
+	private boolean isImaginaryNext() {
+		return input.charAt(0) == 'i';
 	}
 
 	private String getGeoLabel() {

@@ -7,6 +7,8 @@ import java.util.Arrays;
 import org.geogebra.common.BaseUnitTest;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class InputTokenizerTest extends BaseUnitTest {
 
 
@@ -63,11 +65,15 @@ public class InputTokenizerTest extends BaseUnitTest {
 
 	@Test
 	public void testAkakakaaa() {
-		withGeos("a", "k", "vv(x)");
-		shouldBeSplitTo("akakakvva" ,"a", "k", "a", "k", "a",
-				"k", "vv", "a");
+		withGeos("a", "k", "aa(x)");
+		shouldBeSplitTo("akakakaaa" ,"a", "k", "a", "k", "a",
+				"k", "a", "a", "a");
 	}
 
+	@Test
+	public void testImaginary() {
+		shouldBeSplitTo("i1", String.valueOf(Unicode.IMAGINARY), "1");
+	}
 
 	private void withGeos(String... labels) {
 		for (String label: labels) {
