@@ -43,7 +43,6 @@ class ProductCreator {
 		return null;
 	}
 
-
 	private ExpressionNode product(String string, String string2) {
 		GeoElement el1 = kernel.lookupLabel(string);
 		GeoElement el2 = kernel.lookupLabel(string2);

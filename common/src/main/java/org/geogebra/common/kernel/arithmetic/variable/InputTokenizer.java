@@ -13,6 +13,11 @@ import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Tokenizer for algebra input string
+ *
+ * @author Laszlo
+ */
 public class InputTokenizer {
 	private final List<String> varStrings;
 	private Kernel kernel;
@@ -23,6 +28,11 @@ public class InputTokenizer {
 		varStrings = Collections.emptyList();
 	}
 
+	/**
+	 *
+	 * @param kernel the kernel.
+	 * @param input to split to tokens
+	 */
 	public InputTokenizer(Kernel kernel, String input) {
 		this.kernel = kernel;
 		this.input = input;
@@ -30,14 +40,14 @@ public class InputTokenizer {
 	}
 
 	private List<String> getVarStrings() {
-		if (kernel == null || kernel.getConstruction() == null ||
-				kernel.getConstruction().getGeoSetConstructionOrder() == null) {
+		if (kernel == null || kernel.getConstruction() == null
+				||	kernel.getConstruction().getGeoSetConstructionOrder() == null) {
 			return Collections.emptyList();
 		}
 
 		ArrayList<String> list = new ArrayList<>();
-		for (GeoElement geo: kernel.getConstruction().getGeoSetConstructionOrder()) {
-			for (FunctionVariable variable: getFunctionVariables(geo)) {
+		for (GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
+			for (FunctionVariable variable : getFunctionVariables(geo)) {
 				list.add(variable.getSetVarString());
 			}
 		}
@@ -49,11 +59,15 @@ public class InputTokenizer {
 			return ((GeoFunction) geo).getFunctionVariables();
 		}
 		if (geo.isGeoFunctionNVar()) {
-			return ((GeoFunctionNVar)geo).getFunctionVariables();
+			return ((GeoFunctionNVar) geo) .getFunctionVariables();
 		}
 		return new FunctionVariable[0];
 	}
 
+	/**
+	 *
+	 * @return all the tokens input was split to.
+	 */
 	public List<String> getTokens() {
 		ArrayList<String> tokens = new ArrayList<>();
 		while (!StringUtil.empty(input)) {
@@ -64,9 +78,13 @@ public class InputTokenizer {
 		return tokens;
 	}
 
+	/**
+	 *
+	 * @return the next token processed from input
+	 */
 	public String next() {
 		String token = getToken();
-		input = !StringUtil.empty(token)  ? input.substring(token.length()) : null;
+		input = !StringUtil.empty(token) ? input.substring(token.length()) : null;
 		return token;
 	}
 
@@ -88,12 +106,10 @@ public class InputTokenizer {
 			return geoLabel;
 		}
 
-
 		String variable = getVariable();
 		if (!"".equals(variable)) {
 			return variable;
 		}
-
 
 		if (isPiNext()) {
 			return "pi";
@@ -127,12 +143,13 @@ public class InputTokenizer {
 			return input;
 		}
 
-		String label = "";
-		for (int i=0; i < input.length(); i++) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < input.length(); i++) {
+			String label = sb.toString();
 			if (kernel.lookupLabel(label) != null) {
 				return label;
 			}
-			label += input.charAt(i);
+			sb.append(input.charAt(i));
 		}
 		return null;
 	}
@@ -146,13 +163,14 @@ public class InputTokenizer {
 	}
 
 	private String getVariable() {
-		for (String var: varStrings) {
+		for (String var : varStrings) {
 			if (input.startsWith(var)) {
 				return var;
 			}
 		}
 		return "";
 	}
+
 	private String getNumberToken(int from) {
 		if (noInputLeft()) {
 			return "";
@@ -223,10 +241,16 @@ public class InputTokenizer {
 		return input == null || input.length() == 0;
 	}
 
+	/**
+	 * @return the unprocessed input.
+	 */
 	public String getInputRemaining() {
 		return input;
 	}
 
+	/**
+	 * @return if there are tokens to process.
+	 */
 	public boolean hasToken() {
 		return !(input == null || "".equals(input));
 

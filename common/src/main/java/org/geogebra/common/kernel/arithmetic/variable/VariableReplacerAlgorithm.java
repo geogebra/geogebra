@@ -67,7 +67,7 @@ public class VariableReplacerAlgorithm {
 				: replace(tokenizer.getInputRemaining());
 
 			if (isProductFactor(v1) && isProductFactor(v2)) {
-				if (isProduct(v2)){
+				if (isProduct(v2)) {
 					return v1.wrap().multiplyR(v2.wrap().getLeft()).multiplyR(v2.wrap().getRight());
 				}
 
@@ -91,7 +91,7 @@ public class VariableReplacerAlgorithm {
 		return value.wrap().getOperation() == Operation.MULTIPLY;
 	}
 
-	public ExpressionValue replaceToken(String expressionString) {
+	private ExpressionValue replaceToken(String expressionString) {
 		this.expressionString = expressionString;
 
 		ExpressionValue derivative = getDerivative(expressionString);
