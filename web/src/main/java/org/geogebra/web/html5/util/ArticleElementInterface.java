@@ -310,7 +310,7 @@ public interface ArticleElementInterface {
 	double getDataParamScale();
 
 	/**
-	 * @return whether focus prevented (use in multiple applets)
+	 * @return whether to add shadows to buttons
 	 */
 	boolean getDataParamButtonShadows();
 
@@ -319,6 +319,11 @@ public interface ArticleElementInterface {
 	 *         are (0-1)
 	 */
 	double getDataParamButtonRounding();
+
+	/**
+	 * @return data-param-buttonBorderColor: the parameter for
+	 */
+	String getDataParamButtonBorderColor();
 
 	/**
 	 * Remove cached scale values

@@ -60,7 +60,6 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -429,8 +428,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	final static public long CE_ID_COUNTER_START = 1;
 	private long ceIDcounter = CE_ID_COUNTER_START;
 	private int nextVariableID = 1;
-	private boolean buttonShadows = false;
-	private double buttonRounding = 0.2;
 	private SpecialPointsManager specialPointsManager;
 
 	private boolean areCommands3DEnabled = true;
@@ -4789,52 +4786,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 
 		return accessibilityManager;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @param b
-	 *            set whether buttons have shadows
-	 */
-	public void setButtonShadows(boolean b) {
-		this.buttonShadows = b;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @param percent
-	 *            set how rounded buttons are
-	 */
-	public void setButtonRounding(double percent) {
-		if (!MyDouble.isFinite(percent)) {
-			this.buttonRounding = 0.2;
-		} else if (percent < 0) {
-			this.buttonRounding = 0;
-		} else if (percent > 0.9) {
-			this.buttonRounding = 0.9;
-		} else {
-			this.buttonRounding = percent;
-		}
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @return how rounded buttons are
-	 */
-	public double getButtonRouding() {
-		return buttonRounding;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @return whether buttons have shadows
-	 */
-	public boolean getButtonShadows() {
-		return buttonShadows;
 	}
 
 	/**
