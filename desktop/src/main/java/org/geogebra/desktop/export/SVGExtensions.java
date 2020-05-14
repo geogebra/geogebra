@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.DrawableList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.DoubleUtil;
