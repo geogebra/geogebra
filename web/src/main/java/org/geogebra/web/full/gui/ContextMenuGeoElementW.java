@@ -1198,8 +1198,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		AriaMenuBar mnu = new AriaMenuBar();
-		// mnu.addStyleName("gwt-PopupPanel");
-		// mnu.addStyleName("contextMenuSubmenu");
 		GeoElement[] geos = { getGeo() };
 		final ReflexAngleModel model = new ReflexAngleModel(app, false);
 		model.setGeos(geos);
