@@ -2127,9 +2127,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 						.chainedBooleanOp(ev.wrap().getOperation()))) {
 			sb.append(str);
 		} else {
-			sb.append(leftBracket());
-			sb.append(str);
-			sb.append(rightBracket());
+			appendWithBrackets(sb, str);
 		}
 	}
 
