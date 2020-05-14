@@ -45,7 +45,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// just stop propagation
-
 			}
 		});
 	}
@@ -112,10 +111,10 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
-				removeFromParent();
+				setVisible(false);
 				runnable.run();
 			}
-		}, getElement(), "animating");
+		}, getElement(), "animatingOut");
 	}
 
 	@Override

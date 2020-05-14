@@ -121,19 +121,14 @@ public class CarotaEditor implements Editor {
 				listener.onContentChanged(getContent());
 			}
 		};
-		editor.contentChanged(new EditorCallback(){
-			@Override
-			public void call() {
-				listener.onSizeChanged(editor.getFrame().getHeight());
-				updateTimer.cancel();
-				updateTimer.schedule(500);
-			}
+
+		editor.contentChanged(() -> {
+			listener.onSizeChanged(editor.getFrame().getHeight());
+			updateTimer.cancel();
+			updateTimer.schedule(500);
 		});
-		editor.selectionChanged(new EditorCallback() {
-			public void call() {
-				listener.onSelectionChanged();
-			}
-		});
+
+		editor.selectionChanged(listener::onSelectionChanged);
 	}
 
 	@Override

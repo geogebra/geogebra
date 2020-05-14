@@ -6,7 +6,9 @@
 
 package org.mozilla.javascript;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 

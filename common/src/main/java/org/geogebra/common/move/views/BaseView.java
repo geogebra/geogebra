@@ -1,9 +1,9 @@
 package org.geogebra.common.move.views;
 
-import org.geogebra.common.move.events.GenericEvent;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.geogebra.common.move.events.GenericEvent;
 
 /**
  * @author gabor Base of all views

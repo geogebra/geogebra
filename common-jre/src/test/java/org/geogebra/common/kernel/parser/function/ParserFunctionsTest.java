@@ -1,8 +1,7 @@
 package org.geogebra.common.kernel.parser.function;
 
-import com.himamis.retex.editor.share.util.Unicode;
-import org.geogebra.common.kernel.parser.function.ParserFunctions;
-import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import java.util.List;
+
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 import org.junit.Assert;
@@ -11,7 +10,7 @@ import org.junit.Test;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
 
-import java.util.List;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class ParserFunctionsTest {
 

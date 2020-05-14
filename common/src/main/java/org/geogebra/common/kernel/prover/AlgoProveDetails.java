@@ -64,7 +64,6 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	public AlgoProveDetails(Construction cons, GeoElement root,
 			boolean relationTool) {
 		super(cons);
-		cons.addCASAlgo(this);
 		this.root = root;
 		this.relTool = relationTool;
 

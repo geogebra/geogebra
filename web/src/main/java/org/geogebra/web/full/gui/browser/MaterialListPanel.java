@@ -1,5 +1,8 @@
 package org.geogebra.web.full.gui.browser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.main.MaterialsManager;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -20,9 +23,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * contains all available materials

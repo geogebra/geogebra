@@ -1,5 +1,8 @@
 package org.geogebra.common.main.settings.updater;
 
+import java.util.Map;
+import java.util.Set;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -8,9 +11,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.LabelSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Updates the label settings.

@@ -10,8 +10,8 @@ apply plugin: 'eclipse'
 apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 evaluationDependsOn ':renderer-web'
 evaluationDependsOn ':editor-base'

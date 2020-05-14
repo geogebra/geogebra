@@ -148,7 +148,7 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public AppType getToolbarType() {
-		return AppType.GRAPHING_CALCULATOR;
+		return AppType.CLASSIC;
 	}
 
     @Override

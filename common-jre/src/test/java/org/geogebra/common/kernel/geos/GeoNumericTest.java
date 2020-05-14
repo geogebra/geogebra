@@ -1,13 +1,13 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.settings.AppConfigCas;
 import org.junit.Test;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 public class GeoNumericTest extends BaseUnitTest {
 
@@ -59,5 +59,13 @@ public class GeoNumericTest extends BaseUnitTest {
 				numeric.getLaTeXAlgebraDescription(
 						false, StringTemplate.latexTemplate);
 		assertThat(description, equalTo("a\\, = \\,\\frac{1}{2}"));
+	}
+
+	@Test
+	public void testCopy() {
+		GeoNumeric numeric = addAvInput("1");
+		numeric.setDrawable(true, false);
+		GeoNumeric copy = numeric.copy();
+		assertThat(copy.isDrawable, is(true));
 	}
 }

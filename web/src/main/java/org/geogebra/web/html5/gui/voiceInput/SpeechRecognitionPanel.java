@@ -1,12 +1,11 @@
 package org.geogebra.web.html5.gui.voiceInput;
 
 import org.geogebra.common.gui.AccessibilityGroup;
-import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.voiceInput.questResErr.QuestResErrConstants;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -18,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
+public class SpeechRecognitionPanel extends FlowPanel {
 
 	private VoiceInputOutputController controller;
 	private StandardButton speechBtn;
@@ -41,8 +40,6 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 		speechBtn = new StandardButton(
 				GuiResourcesSimple.INSTANCE.record(), null, 24, app);
 		speechBtn.setStyleName("speechBtn");
-		speechBtn.setTabIndex(GUITabs.SPEECH_REC + app.getActiveEuclidianView().getViewID());
-		speechBtn.addTabHandler(this);
 		speechBtn.setTitle(
 				"Speech recognition button.");
 		speechBtn.setAltText(
@@ -58,6 +55,8 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 								QuestResErrConstants.COMMAND);
 			}
 		});
+		new FocusableWidget(AccessibilityGroup.getViewGroup(getViewID()),
+				AccessibilityGroup.ViewControlId.SPEECH,  speechBtn).attachTo(app);
 		this.add(speechBtn);
 	}
 
@@ -66,25 +65,6 @@ public class SpeechRecognitionPanel extends FlowPanel implements TabHandler {
 	 */
 	public VoiceInputOutputController getController() {
 		return controller;
-	}
-
-	/** Sets focus to speech rec btn */
-	public void focusSpeechRec() {
-		if (speechBtn != null) {
-			speechBtn.getElement().focus();
-		}
-	}
-
-	@Override
-	public boolean onTab(Widget source, boolean shiftDown) {
-		if (shiftDown) {
-			controller.getAppW().getAccessibilityManager()
-					.focusPrevious(AccessibilityGroup.SPEECH, getViewID());
-			return true;
-		}
-		controller.getAppW().getAccessibilityManager()
-				.focusNext(AccessibilityGroup.SPEECH, getViewID());
-		return true;
 	}
 
 	/**

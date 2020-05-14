@@ -570,7 +570,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public void clearCasEvalMap(String string) {
+	public void clearCasEvalMap() {
 		// TODO Auto-generated method stub
 
 	}

@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import org.geogebra.common.main.Localization;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.geogebra.common.main.Localization;
 
 public class StepSet extends StepLogical implements Iterable<StepExpression> {
 

@@ -11,9 +11,9 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.shared.components.ComponentCheckbox;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.DialogUtil;
+import org.geogebra.web.shared.components.ComponentCheckbox;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;

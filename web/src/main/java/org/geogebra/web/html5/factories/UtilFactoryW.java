@@ -1,12 +1,12 @@
 package org.geogebra.web.html5.factories;
 
 import org.geogebra.common.factories.UtilFactory;
-import org.geogebra.common.util.HttpRequest;
-import org.geogebra.common.util.Prover;
-import org.geogebra.common.util.URLEncoder;
-import org.geogebra.common.util.Reflection;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
+import org.geogebra.common.util.HttpRequest;
+import org.geogebra.common.util.Prover;
+import org.geogebra.common.util.Reflection;
+import org.geogebra.common.util.URLEncoder;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.profiler.FpsProfilerW;
 import org.geogebra.web.html5.sound.GTimerW;

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 
@@ -11,8 +13,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
-
-import java.util.List;
 
 /**
  * Extends GWT ToggleButton to support tooltips and Icon image data.

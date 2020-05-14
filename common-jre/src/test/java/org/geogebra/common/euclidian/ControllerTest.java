@@ -721,7 +721,7 @@ public class ControllerTest extends BaseControllerTest {
 
 	@Test
 	public void shapePolygonTool() {
-		setMode(EuclidianConstants.MODE_SHAPE_POLYGON); // TODO 106
+		setMode(EuclidianConstants.MODE_SHAPE_PENTAGON); // TODO 106
 	}
 
 	@Test
@@ -737,11 +737,6 @@ public class ControllerTest extends BaseControllerTest {
 	@Test
 	public void ellipseTool() {
 		setMode(EuclidianConstants.MODE_SHAPE_ELLIPSE); // TODO 109
-	}
-
-	@Test
-	public void eraserTool() {
-		setMode(EuclidianConstants.MODE_ERASER); // TODO 110
 	}
 
 	@Test

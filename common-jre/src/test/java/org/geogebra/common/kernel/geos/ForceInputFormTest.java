@@ -6,7 +6,6 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.junit.Assert;
@@ -20,14 +19,38 @@ public class ForceInputFormTest extends BaseUnitTest {
 
         GeoElementFactory factory = getElementFactory();
         GeoLine geoLine = factory.createGeoLine();
+        GeoLine geoLineWithCommand = factory.createGeoLineWithCommand();
         GeoConic parabola = (GeoConic) factory.create("y=xx");
         GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
         GeoRay geoRay = factory.createGeoRay();
 
         Assert.assertEquals(GeoLine.EQUATION_USER, geoLine.getToStringMode());
+        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, geoLineWithCommand.getToStringMode());
         Assert.assertEquals(GeoConic.EQUATION_USER, parabola.getToStringMode());
         Assert.assertEquals(GeoConic.EQUATION_USER, hyperbola.getToStringMode());
         Assert.assertEquals(GeoRay.EQUATION_USER, geoRay.getToStringMode());
+    }
+
+    @Test
+    public void testLinesLoadedFromXMLGraphing() {
+        getApp().setConfig(new AppConfigGraphing());
+
+        GeoElementFactory factory = getElementFactory();
+        GeoLine geoLine = factory.createGeoLine();
+        geoLine.setLabel("line");
+
+        GeoLine geoLineWithCommand = factory.createGeoLineWithCommand();
+        geoLineWithCommand.setLabel("lineCmd");
+        geoLineWithCommand.setMode(GeoLine.PARAMETRIC, true);
+        Assert.assertEquals(GeoLine.PARAMETRIC, geoLineWithCommand.getToStringMode());
+
+        getApp().setXML(getApp().getXML(), true);
+
+        GeoElement loadedLine = lookup("line");
+        GeoElement loadedLineWithCommand = lookup("lineCmd");
+
+        Assert.assertEquals(GeoLine.EQUATION_USER, loadedLine.getToStringMode());
+        Assert.assertEquals(GeoLine.EQUATION_EXPLICIT, loadedLineWithCommand.getToStringMode());
     }
 
     @Test

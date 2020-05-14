@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -15,7 +16,6 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -28,8 +28,6 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
-import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
-import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -58,8 +56,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.List;
 
 import com.himamis.retex.editor.share.input.Character;
 
@@ -157,8 +153,6 @@ public class Construction {
 	private AlgorithmSet algoSetCurrentlyUpdated;
 
 	private final TreeSet<String> casDummies = new TreeSet<>();
-
-	private ArrayList<AlgoElement> casAlgos = new ArrayList<>();
 
 	/**
 	 * Table for (label, GeoCasCell) pairs, contains global variables used in
@@ -3422,40 +3416,6 @@ public class Construction {
 	 */
 	public boolean isAllowUnboundedAngles() {
 		return this.allowUnboundedAngles;
-	}
-
-	/**
-	 * Add algo to a list of algos that need update after CAS load
-	 * 
-	 * @param casAlgo
-	 *            algo using CAS
-	 */
-	public void addCASAlgo(AlgoElement casAlgo) {
-		casAlgos.add(casAlgo);
-	}
-
-	/**
-	 * Recompute all algos using CASS and dependent CAS cells
-	 */
-	public void recomputeCASalgos() {
-		for (AlgoElement algo : casAlgos) {
-			if (algo.getOutput() != null && !algo.getOutput(0).isLabelSet()) {
-				if (algo instanceof AlgoCasBase) {
-					((AlgoCasBase) algo).clearCasEvalMap("");
-					algo.compute();
-				} else if (algo instanceof AlgoUsingTempCASalgo) {
-					((AlgoUsingTempCASalgo) algo).refreshCASResults();
-					algo.compute();
-				} else if (algo instanceof UsesCAS
-						|| algo instanceof AlgoCasCellInterface) {
-					// eg Limit, LimitAbove, LimitBelow, SolveODE
-					// AlgoCasCellInterface: eg Solve[x^2]
-					algo.compute();
-				}
-				algo.getOutput(0).updateCascade();
-			}
-		}
-		casAlgos.clear();
 	}
 
 	/**

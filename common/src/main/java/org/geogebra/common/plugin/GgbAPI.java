@@ -1674,8 +1674,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public void logout() {
 		if (app.getLoginOperation() != null
 				&& app.getLoginOperation().getModel() != null) {
-
 			app.getLoginOperation().performLogOut();
+			app.getLoginOperation().getModel().discardTimers();
 		}
 	}
 

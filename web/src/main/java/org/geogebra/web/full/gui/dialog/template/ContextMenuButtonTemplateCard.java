@@ -1,10 +1,11 @@
 package org.geogebra.web.full.gui.dialog.template;
 
-import com.google.gwt.user.client.Command;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.user.client.Command;
 
 public class ContextMenuButtonTemplateCard extends ContextMenuButtonCard {
     private  TemplatePreviewCard templateCard;

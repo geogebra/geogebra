@@ -22,5 +22,9 @@ public enum AppType {
 	/**
 	 * Suite
 	 */
-	SUITE
+	SUITE,
+	/**
+	 * classic 6
+	 */
+	CLASSIC
 }
