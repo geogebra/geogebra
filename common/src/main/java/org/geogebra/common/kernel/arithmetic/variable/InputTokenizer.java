@@ -23,6 +23,10 @@ public class InputTokenizer {
 	private Kernel kernel;
 	private String input;
 
+	/**
+	 *
+	 * @param input to tokenize.
+	 */
 	public InputTokenizer(String input) {
 		this.input = input;
 		varStrings = Collections.emptyList();

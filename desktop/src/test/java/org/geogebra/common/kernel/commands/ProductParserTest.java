@@ -70,12 +70,15 @@ public class ProductParserTest extends BaseUnitTest {
 
 	@Test
 	public void testAkka() {
+		add("a=?");
+		add("k=?");
+		add("aa(x,y)=?");
 		shouldReparseAs("kk", "k k");
 		shouldReparseAs("kkk", "k k k");
 		shouldReparseAs("kkkk", "k k k k");
 		shouldReparseAs("akakak", "a k a k a k");
 		shouldReparseAs("akka", "a k k a");
-		shouldReparseAs("aakkaa", "a a k k a a");
+		shouldReparseAs("kkaa", "k k aa");
 	}
 
 	@Test
@@ -103,18 +106,18 @@ public class ProductParserTest extends BaseUnitTest {
 
  	@Test
 	public void testC_2Index() {
-		shouldReparseAs("c_2e^(7x)","c_2 e^(7x)");
+		shouldReparseAs("c_2e^(7x)","c_2 " + Unicode.EULER_STRING +"^(7x)");
 	}
 
  	@Test
 	public void testAkakakaaa() {
-		withGeos("a", "k", "aa(x)=?");
-		shouldReparseAs("akakakaaa","a k a k a k aa a");
+		withGeos("a", "k", "aa(x)");
+		shouldReparseAs("akakakaaa","a k a k a k a aa");
 	}
 
 	@Test
 	public void testImaginaryProduct() {
-		shouldReparseAs("i1", Unicode.IMAGINARY + " 1");
+ 		shouldReparseAs("i1", String.valueOf(Unicode.IMAGINARY));
 	}
 
 	@Test
@@ -129,7 +132,7 @@ public class ProductParserTest extends BaseUnitTest {
 
 	private void withGeos(String... geos) {
 		for (String string: geos) {
-			add(string);
+			add(string + "=?");
 		}
 	}
 	@Test

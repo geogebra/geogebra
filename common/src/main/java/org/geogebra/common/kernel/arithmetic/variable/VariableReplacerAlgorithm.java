@@ -84,7 +84,7 @@ public class VariableReplacerAlgorithm {
 		}
 
 		return value.isNumberValue() || value.isVariable()
-				|| isProduct(value);
+				|| isProduct(value) || value.isGeoElement();
 	}
 
 	private boolean isProduct(ExpressionValue value) {
