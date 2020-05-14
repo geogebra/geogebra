@@ -56,7 +56,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private Coords previousTranslationOffset = new Coords(3);
     private Coords mPosXY = new Coords(2);
 
-    protected boolean objectIsRendered = false;
+    protected boolean objectIsPlaced = false;
     protected boolean mDrawing = false;
     protected boolean mARIsRendering = false;
 
@@ -236,9 +236,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
 
         /* update ratio */
-        if (ratioIsShown) {
-            calculateAndShowRatio();
-        }
+        calculateAndShowRatio();
     }
 
     protected void clearAnchors() {
@@ -396,9 +394,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         arScaleFactor = arScaleAtStart / arScale;
         updateSettingsScale(arScaleFactor);
 
-        if (ratioIsShown) {
-            calculateAndShowRatio();
-        }
+        calculateAndShowRatio();
     }
 
     private float getARScaleParameter() {
@@ -454,7 +450,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return viewModelMatrix;
     }
 
-    private void calculateAndShowRatio() {
+    protected void calculateAndShowRatio() {
+        if (!ratioIsShown || !objectIsPlaced) {
+            return;
+        }
+
         double ratio;
         if (arGestureManager != null) {
             ratio = arRatioAtStart * arGestureManager.getScaleFactor() * ratioChange
@@ -550,9 +550,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public void setARRatioMetricSystem(int metricSystem) {
         ratioMetricSystem = metricSystem;
-        if (objectIsRendered && ratioIsShown) {
-            calculateAndShowRatio();
-        }
+        calculateAndShowRatio();
     }
 
     private float getUnitConversion() {
