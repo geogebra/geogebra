@@ -1479,8 +1479,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// TODO: image file name should be reset after the file data is
 		// available
 
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zipDirectory = md5e.encrypt(url);
+		String zipDirectory = MD5EncrypterGWTImpl.encrypt(url);
 
 		// with dummy extension, maybe gif or jpg in real
 		String imgFileName = zipDirectory + ".png";
