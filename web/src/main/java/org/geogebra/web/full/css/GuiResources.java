@@ -349,9 +349,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/css/definitions.less")
 	LessReference lessDefinitions();
 
-	@Source("org/geogebra/web/resources/css/functions.less")
-	LessReference lessFunctions();
-
 	@Source("org/geogebra/web/resources/css/general.ltr.less")
 	LessResource generalStyleLTR();
 

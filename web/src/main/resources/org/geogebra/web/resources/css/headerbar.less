@@ -21,9 +21,9 @@
 	.toolbarPanel {
 		position:relative;
 		background-color: @color-lightgrey;
-		.box-shadow(@shadow);
+		box-shadow: @shadow;
 		padding: 5px;
-		.box-sizing(border-box);
+		box-sizing: border-box;
 		z-index: 100;
 		
 		.toolBPanelMobile {
@@ -106,7 +106,7 @@
 			}
 			
 			.toolbar_button {
-				.border-radius(5px);
+				border-radius: 5px;
 				border: 1px solid @color-bordergrey;
 				background-color: @color-white;
 				padding: 3px;
@@ -155,11 +155,11 @@
 					position: absolute;
 						
 					z-index: 250;
-					.border-radius(10px);
+					border-radius: 10px;
 					padding-top: 3px !important;
 					background-color: @color-white-transparent-90-IE;
 					background-color: @color-white-transparent-90;
-					.box-shadow(@shadow-dark);
+					box-shadow: @shadow-dark;
 					overflow-y: auto;
 					overflow-x: hidden;
 					-webkit-overflow-scrolling: touch;
@@ -231,7 +231,7 @@
 			margin: 0;
 		
 			.submenu_button {
-					.border-radius(5px);
+					border-radius: 5px;
 					border: 1px solid @color-bordergrey;
 					background-color: @color-white;
 					padding: 3px;
@@ -378,7 +378,7 @@
 	.subMenuLeftSidePopup {
 		box-shadow: none;
 		padding: 0px;
-		.border-radius(0px);
+		border-radius: 0px;
 
 		.GeoGebraMenuBar.subMenuLeftSide {
 			right: 280px;
@@ -386,10 +386,10 @@
 			top: -5px;
 			position: absolute;
 			z-index: 600;
-			.border-radius(10px);
+			border-radius: 10px;
 			padding: 5px;
 			background-color: @color-white-transparent-90;
-			.box-shadow(@shadow-dark);
+			box-shadow: @shadow-dark;
 
 			.arrowSubmenu {
 				position: absolute;
