@@ -1,5 +1,6 @@
 <script>
-defaultParams.marginTop = window.appOnline ? 64 : 0;
+var showHeader = window.appOnline === true && !(window.isEmbed && window.isEmbed());
+defaultParams.marginTop = showHeader ? 64 : 0;
 if (appID == "scientific") {
 	defaultParams.marginTop = 112;
 }
@@ -33,7 +34,7 @@ function hideAppPicker(e) {
 }
 document.body.addEventListener("mousedown", hideAppPicker);
 window.addEventListener("load", function() {
-	if (window.appOnline === false) {
+	if (!showHeader) {
 		document.getElementById("headerID").parentElement.style.display = "none";
 	}
 });

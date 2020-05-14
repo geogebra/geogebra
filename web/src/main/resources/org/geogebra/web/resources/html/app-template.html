@@ -42,6 +42,10 @@ var codebase = "<!--CODEBASE-->";
 		}
 	}
 
+	function isEmbed() {
+		return location.search.split(/[?&]/).indexOf("embed") >=0;
+	}
+
 	function changeMetaTitle(titleBase){
 		var title = titleBase.match(/<!--VENDOR-->/) ? titleBase : titleBase + " - <!--VENDOR-->";
 		var tag = document.querySelector("meta[property='og:title']");
@@ -379,6 +383,9 @@ var codebase = "<!--CODEBASE-->";
 	function updateAppletParams(){
 		for (var key in defaultParams) {
 			e("ggw").setAttribute("data-param-" + key, defaultParams[key]);
+		}
+		if (isEmbed()) {
+			e("ggw").setAttribute("data-param-enableFileFeatures", false);
 		}
 		if (location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease) {
 			setPrerelease(prerelease || "true");
