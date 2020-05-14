@@ -53,6 +53,9 @@ public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter 
             if (!argIsListOrTextOrLocus) {
                 throw commandProcessor.argErr(command, argument);
             }
+        } else if (arguments.length > 1) {
+            GeoElement secondArgument = arguments[1];
+            throw commandProcessor.argErr(command, secondArgument);
         }
     }
 }
