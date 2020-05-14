@@ -222,7 +222,9 @@ public class FunctionParser {
 	}
 
 	private Operation getOperation(String funcName, int size) {
-		if ("log".equals(funcName) && kernel.getLoadingMode()) {
+		// Compatibility mode for file opening, see https://jira.geogebra.org/browse/WLY-13
+		// Files saved after that ticket was implemented contain ln and lg explicitly.
+		if (size == 1 && "log".equals(funcName) && kernel.getLoadingMode()) {
 			return Operation.LOG;
 		}
 		return app.getParserFunctions().get(funcName, size);

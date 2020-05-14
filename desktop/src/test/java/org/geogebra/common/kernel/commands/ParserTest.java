@@ -198,6 +198,7 @@ public class ParserTest {
 	public void testLogFunctionFromFile() {
 		app.getKernel().setLoadingMode(true);
 		shouldReparseAs("log(x)", "ln(x)");
+		shouldReparseAs("log(5,x)", "log(5, x)");
 		app.getKernel().setLoadingMode(false);
 	}
 
