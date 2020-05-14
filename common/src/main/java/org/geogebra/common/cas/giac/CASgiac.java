@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.ArbconstReplacer;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -784,9 +785,10 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *             Throws if the underlying CAS produces an error
 	 */
 	final public synchronized String toGeoGebraString(String giacString,
-			MyArbitraryConstant arbconst, StringTemplate tpl,
-			final Kernel kernel)
-			throws CASException {
+													  MyArbitraryConstant arbconst,
+													  final StringTemplate tpl,
+													  final Kernel kernel) throws CASException {
+
 		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString),
 				arbconst, kernel);
 		// replace rational exponents by roots or vice versa
@@ -804,8 +806,24 @@ public abstract class CASgiac implements CASGenericInterface {
 				return ev;
 			}
 		});
-		return casParser.toGeoGebraString(ve, tpl);
 
+		ve = ve.traverse(new Traversing() {
+
+			@Override
+			public ExpressionValue process(ExpressionValue ev) {
+				if (ev instanceof ExpressionNode) {
+					ExpressionNode node = (ExpressionNode) ev;
+					if (node.isLeaf() && tpl.isRad(node.unwrap())) {
+						node.setOperation(Operation.MULTIPLY);
+						node.setRight(node.getLeft());
+						node.setLeft(new MyDouble(kernel, 1));
+					}
+				}
+				return ev;
+			}
+		});
+
+		return casParser.toGeoGebraString(ve, tpl);
 	}
 
 	private static ExpressionValue replaceRoots(ExpressionValue ve0,

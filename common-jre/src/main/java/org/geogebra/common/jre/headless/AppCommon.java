@@ -43,6 +43,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
+import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
 import org.geogebra.common.main.settings.DefaultSettings;
@@ -748,6 +749,22 @@ public class AppCommon extends App {
 	 */
 	public void setGeometryConfig() {
 		setConfig(new AppConfigGeometry());
+		reInit();
+	}
+
+	/**
+	 * Sets Geometry config and reinitializes the app.
+	 */
+	public void setCasConfig() {
+		setConfig(new AppConfigCas());
+		reInit();
+	}
+
+	/**
+	 * Sets Geometry config and reinitializes the app.
+	 */
+	public void setDefaultConfig() {
+		setConfig(new AppConfigDefault());
 		reInit();
 	}
 

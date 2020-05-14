@@ -51,6 +51,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Before
 	public void clean() {
 		app.getKernel().clearConstruction(true);
+		app.setCasConfig();
+		app.getKernel().setAngleUnit(app.getConfig().getDefaultAngleUnit());
 	}
 
 	@Test
@@ -547,6 +549,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testAngleCommand() {
+		app.setDefaultConfig();
 		t("Angle((1,2),(3,4))", "cos\u207B\u00B9(11 * sqrt(5) / 25)");
 		// not working
 		// t("Angle[(a,b,c),(d,e,f),(g,h,i)]", "");
@@ -1004,5 +1007,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testCreationWithLabel() {
 		GeoSymbolic vector = add("v=(1,1)");
 		assertThat(vector.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoVector.class));
+	}
+
+	@Test
+	public void testRadians() {
+		GeoSymbolic angle = add("1 rad");
+		assertThat(
+				angle.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("1 rad"));
+		assertThat(
+				angle.getValueForInputBar(),
+				equalTo("1 rad"));
+		assertThat(
+				angle.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				equalTo("1 rad"));
 	}
 }
