@@ -8180,14 +8180,18 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		if (mode == EuclidianConstants.MODE_SELECT_MOW && !wasBoundingBoxHit) {
+		if (mode == EuclidianConstants.MODE_SELECT_MOW) {
 			if (view.getHits().isEmpty()) {
 				geo = null;
-				clearSelections();
 			} else {
 				geo = viewHits.get(viewHits.size() - 1);
 			}
+		}
 
+		if (mode == EuclidianConstants.MODE_SELECT_MOW && !wasBoundingBoxHit) {
+			if (geo == null) {
+				clearSelections();
+			}
 			if (geo != null && !selGeos.contains(geo)
 					&& view.getSelectionRectangle() == null && !e.isRightClick()) {
 				selection.clearSelectedGeos(false, false);
@@ -8195,10 +8199,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				selection.addSelectedGeoWithGroup(geo);
 				updateBoundingBoxFromSelection(
 						view.getBoundingBox() != null && view.getBoundingBox().isCropBox());
-				view.setFocusedGroupGeoBoundingBox(null);
 			}
+		}
 
-			view.repaintView();
+		if (geo != selection.getFocusedGroupElement()) {
+			selection.setFocusedGroupElement(null);
+			view.setFocusedGroupGeoBoundingBox(null);
 		}
 
 		Hits th = viewHits.getTopHits();
@@ -8320,24 +8326,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.hideDynamicStylebar();
 		}
 
-		this.lastSelectionToolGeoToRemove = null;
+		lastMowHit = null;
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
-			if (getResizedShape() == null) {
-				Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, null);
-				if (d != null && view
-						.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
-					if (view.getBoundingBox() != null
-							&& view.getBoundingBox().equals(d.getBoundingBox())) {
-						setBoundingBoxCursor();
-						setResizedShape(d);
-					}
-				} else {
-					setMouseLocation(event);
-					getShapeMode().handleMouseDraggedForShapeMode(event);
-					return;
-				}
-			}
+			setMouseLocation(event);
+			getShapeMode().handleMouseDraggedForShapeMode(event);
+			return;
 		}
 
 		// preview shape for mow text tool
@@ -9897,9 +9891,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			selection.addSelectedGeoWithGroup(topHit);
 			updateBoundingBoxFromSelection(false);
 
-			if (lastMowHit != null
-					&& topHit.getParentGroup() == lastMowHit.getParentGroup()) {
-				maybeFocusGroupElement(topHit);
+			if (shouldEnterFocusedSelection(topHit)) {
+				focusGroupElement(topHit);
 			}
 
 			// TODO: this will be simplified when I refactor embeds and videos to
@@ -9921,6 +9914,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		view.repaintView();
 		lastMowHit = topHit;
+	}
+
+	private boolean shouldEnterFocusedSelection(GeoElement topHit) {
+		return lastMowHit != null && topHit.getParentGroup() != null
+				&& lastMowHit.getParentGroup() == topHit.getParentGroup();
 	}
 
 	private void handleVideoHit(GeoElement topHit) {
@@ -10409,15 +10407,13 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		draggingOccurredBeforeRelease = false;
 	}
 
-	private void maybeFocusGroupElement(GeoElement geo) {
-		if (geo.hasGroup()) {
-			selection.setFocusedGroupElement(geo);
-			BoundingBox<? extends GShape> bb = ((Drawable) view
-					.getDrawableFor(geo))
-					.getSelectionBoundingBox();
-			view.setFocusedGroupGeoBoundingBox(bb);
-			view.update(geo);
-		}
+	private void focusGroupElement(GeoElement geo) {
+		selection.setFocusedGroupElement(geo);
+		BoundingBox<? extends GShape> bb = ((Drawable) view
+				.getDrawableFor(geo))
+				.getSelectionBoundingBox();
+		view.setFocusedGroupGeoBoundingBox(bb);
+		view.update(geo);
 	}
 
 	private boolean shouldClearSelectionForMove() {

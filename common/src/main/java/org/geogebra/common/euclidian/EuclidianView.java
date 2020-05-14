@@ -1889,7 +1889,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			} else {
 				d.update();
 			}
-			if (geo == app.getSelectionManager().getFocusedGroupElement()) {
+			if (geo == app.getSelectionManager().getFocusedGroupElement()
+					&& focusedGroupGeoBoundingBox != null) {
 				focusedGroupGeoBoundingBox.setRectangle(d.getBoundsForStylebarPosition());
 			}
 		} else if (drawableNeeded(geo) && geosWaiting.contains(geo)) {
