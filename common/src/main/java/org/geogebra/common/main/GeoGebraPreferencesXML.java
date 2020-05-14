@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Kernel;
 
 /**
  * @author michael
@@ -15,6 +16,13 @@ public class GeoGebraPreferencesXML {
 	private static int defaultFontSize = 16;
 	private static int defaultWindowX = 800;
 	private static int defaultWindowY = 600;
+
+	/** Angle unit: radians */
+	public final static String ANGLE_RADIANT_XML_NAME = "radiant";
+	/** Angle unit: degrees */
+	public final static String ANGLE_DEGREE_XML_NAME = "degree";
+	/** Angle unit: degrees, minutes, seconds */
+	public final static String ANGLE_DEGREES_MINUTES_SECONDS_XML_NAME = "degreesMinutesSeconds";
 
 	/**
 	 * @param app
@@ -97,7 +105,10 @@ public class GeoGebraPreferencesXML {
 				+ "<decimals val=\""
 				+ app.getConfig().getDefaultPrintDecimals()
 				+ "\"/>"
-				+ "<angleUnit val=\"degree\"/>"
+
+				+ "<angleUnit val=\""
+				+ getDefaultAngleUnit(app)
+				+ "\"/>"
 
 				+ "<algebraStyle val=\""
 
@@ -114,6 +125,18 @@ public class GeoGebraPreferencesXML {
 				+ "</kernel>"
 				+ "<algebraView><mode val=\"3\"/></algebraView>"
 				+ "<scripting blocked=\"false\"/>" + "</geogebra>";
+	}
+
+	private static String getDefaultAngleUnit(App app) {
+		switch (app.getConfig().getDefaultAngleUnit()) {
+			case Kernel.ANGLE_RADIANT:
+				return ANGLE_RADIANT_XML_NAME;
+			case Kernel.ANGLE_DEGREES_MINUTES_SECONDS:
+				return ANGLE_DEGREES_MINUTES_SECONDS_XML_NAME;
+			case Kernel.ANGLE_DEGREE:
+			default:
+				return ANGLE_DEGREE_XML_NAME;
+		}
 	}
 
 	/**

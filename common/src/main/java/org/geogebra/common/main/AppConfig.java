@@ -252,5 +252,15 @@ public interface AppConfig {
 	 * @return whether the apps uses restricted dragging for certain objects or not
 	 */
 	boolean isObjectDraggingRestricted();
+
+	/**
+	 * @return default angle unit
+	 */
+	int getDefaultAngleUnit();
+
+	/**
+	 * @return true if the angle unit setting is enabled
+	 */
+	boolean isAngleUnitSettingEnabled();
 }
 
