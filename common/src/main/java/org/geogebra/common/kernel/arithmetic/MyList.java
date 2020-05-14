@@ -785,7 +785,7 @@ public class MyList extends ValidExpression
 				sb.append(valueMode ? exp.toOutputValueString(tpl)
 						: exp.toString(tpl)); // .toOutputValueString());
 				sb.append(kernel.getLocalization().getComma());
-				sb.append(" ");
+				tpl.appendOptionalSpace(sb);
 			}
 
 			// last element

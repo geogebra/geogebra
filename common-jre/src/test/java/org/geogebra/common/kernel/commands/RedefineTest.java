@@ -130,7 +130,7 @@ public class RedefineTest extends Assert {
 		t("poly1=Polygon[A,B,C,D]", new String[] { "1", "1", "1", "1", "1" });
 		Kernel kernel = app.getKernel();
 		assertEquals("a_1 = Segment(A, B, poly1)",
-				kernel.lookupLabel("a_1").getDefinitionForEditor());
+				kernel.lookupLabel("a_1").getDefinitionForInputBar());
 		t("a_{1} = Segment(A, B, poly1)", new String[0]);
 		kernel.getAlgebraProcessor().changeGeoElement(kernel.lookupLabel("a_1"),
 				"a_{1} = Segment(A, B, poly1)", true, true,

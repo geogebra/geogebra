@@ -80,29 +80,19 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
+		Assert.assertEquals("1+1/5", inputBox.getTextForEditor());
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
+		Assert.assertEquals("1+1/5", inputBox.getTextForEditor());
 	}
 
 	@Test
 	public void nonsymbolicShouldShowDefinitionForFraction() {
 		setupInput("l", "1 + 1 / 5");
-		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
+		((GeoNumeric) lookup("l")).setSymbolicMode(true, true);
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
-		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
-	}
-
-	@Test
-	public void nonsymbolicShouldShowDefinitionForDecimals() {
-		setupInput("l", "1 + 1 / 5");
-		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
-		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
+		Assert.assertEquals("6 / 5", inputBox.getText());
+		((GeoNumeric) lookup("l")).setSymbolicMode(false, true);
+		Assert.assertEquals("1.2", inputBox.getText());
 	}
 
 	@Test
@@ -203,7 +193,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("u: (1, 2)");
 		add("v: (3, 4)");
 		setupInput("l", "u + v");
-		Assert.assertEquals("u + v", inputBox.getTextForEditor());
+		Assert.assertEquals("u+v", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -211,7 +201,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("u: (1, 2, 3)");
 		add("v: (3, 4, 5)");
 		setupInput("l", "u + v");
-		Assert.assertEquals("u + v", inputBox.getTextForEditor());
+		Assert.assertEquals("u+v", inputBox.getTextForEditor());
 	}
 
 	@Test

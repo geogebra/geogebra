@@ -1309,7 +1309,7 @@ public class CommandsTest {
 	public void cmdErlang() {
 		prob("Erlang", "2,1",
 				"If(x < 0, 0, (" + Unicode.EULER_STRING
-						+ "^(-(x 1)) x^(2 - 1) * 1^2) / (2 - 1)!)",
+						+ "^(-(1x)) x^(2 - 1) * 1^2) / (2 - 1)!)",
 				"If(x < 0, 0, gamma(2, 1x) / (2 - 1)!)");
 	}
 
@@ -1317,8 +1317,8 @@ public class CommandsTest {
 	public void cmdNormal() {
 		prob("Normal", "2,1",
 				Unicode.EULER_STRING
-						+ "^((-(x - 2)^2) / (1^2 2)) / (abs(1) sqrt("
-						+ Unicode.pi + " 2))",
+						+ "^((-(x - 2)^2) / (1^2 * 2)) / (abs(1) sqrt(2"
+						+ Unicode.pi + "))",
 				"(erf((x - 2) / (abs(1) sqrt(2))) + 1) / 2");
 	}
 
@@ -1368,7 +1368,7 @@ public class CommandsTest {
 	public void cmdLogNormal() {
 		prob("LogNormal", "2,1",
 				"If(x " + Unicode.LESS_EQUAL + " 0, 0, " + Unicode.EULER_STRING
-						+ "^(-((ln(x) - 2)^2 / (1^2 2))) / (abs(1) sqrt(2"
+						+ "^(-((ln(x) - 2)^2 / (1^2 * 2))) / (abs(1) sqrt(2"
 						+ Unicode.pi + ") x))",
 				"If(x " + Unicode.LESS_EQUAL
 						+ " 0, 0, erf((ln(x) - 2) / (sqrt(2) abs(1))) * 0.5 + 0.5)");
@@ -1445,11 +1445,11 @@ public class CommandsTest {
 		tpm("xpm(pm2)", "{x + 2, x + 2}");
 		t("mul=4", "4");
 		tpm("prod=pm mul 3", "{12, -12}");
-		Assert.assertEquals("(" + Unicode.PLUSMINUS + "mul) 3",
-				get("prod").getDefinition(StringTemplate.editorTemplate));
+		Assert.assertEquals("(" + Unicode.PLUSMINUS + "mul) * 3",
+				get("prod").getDefinition(StringTemplate.editTemplate));
 		tpm("prod2=pm sqrt 4", "{2, -2}");
 		Assert.assertEquals(Unicode.PLUSMINUS + "sqrt(4)",
-				get("prod2").getDefinition(StringTemplate.editorTemplate));
+				get("prod2").getDefinition(StringTemplate.editTemplate));
 	}
 
 	@Test

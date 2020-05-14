@@ -70,7 +70,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	private void checkInput(String label, String expectedInput) {
 		assertEquals(expectedInput,
-				getSymbolic(label).getDefinitionForEditor());
+				getSymbolic(label).getDefinitionForInputBar());
 	}
 
 	@Test
@@ -888,7 +888,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"p is a prime", "7 is a prime");
 		GeoElement lastGeoElement = app.getKernel().getConstruction().getLastGeoElement();
 		new LabelController().hideLabel(lastGeoElement);
-		assertEquals("p + \" is a prime\"",
+		assertEquals("p+\" is a prime\"",
 				lastGeoElement.getDefinitionForEditor());
 		assertThat(lastGeoElement, instanceOf(GeoText.class));
 	}

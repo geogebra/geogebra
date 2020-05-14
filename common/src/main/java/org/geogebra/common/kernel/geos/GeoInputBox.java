@@ -96,10 +96,13 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	}
 
 	/**
-	 *
 	 * @return text to edit with the symbolic editor
 	 */
 	public String getTextForEditor() {
+		return getTextForEditor(StringTemplate.editorTemplate);
+	}
+
+	private String getTextForEditor(StringTemplate tpl) {
 		if (inputBoxRenderer.tempUserEvalInput != null) {
 			return inputBoxRenderer.tempUserEvalInput;
 		}
@@ -108,7 +111,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			return ((GeoText) linkedGeo).getTextString();
 		}
 
-		String linkedGeoText = linkedGeo.getRedefineString(true, true);
+		String linkedGeoText = linkedGeo.getRedefineString(true, true,
+				tpl);
 
 		if (hasLaTeXEditableVector()) {
 			linkedGeoText = getColumnMatrix((GeoVectorND) linkedGeo);
@@ -166,7 +170,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	@Override
 	public String toValueString(StringTemplate tpl1) {
 		if (isSymbolicMode() && tpl1.getStringType() != StringType.LATEX) {
-			return getTextForEditor();
+			return getTextForEditor(StringTemplate.editTemplate);
 		}
 		return getText();
 	}

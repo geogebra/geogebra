@@ -715,7 +715,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			default:
 				sb.append("log(");
 				sb.append(leftStr);
-				sb.append(", ");
+				sb.append(",");
+				tpl.appendOptionalSpace(sb);
 				sb.append(rightStr);
 				sb.append(')');
 				break;
@@ -2028,9 +2029,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * @param left
-	 *            left expression (might need context-aware serialization for
-	 *            GIAC)
+	 * @param leftStr
+	 *            argument
+	 * @param sb output string builder
 	 */
 	private static void trig(String leftStr, StringBuilder sb, String mathml, String latex,
 			String psTricks, String key, String libreOffice, String giac, StringTemplate tpl,
