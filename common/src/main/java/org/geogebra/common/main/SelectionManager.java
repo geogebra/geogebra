@@ -776,18 +776,6 @@ public class SelectionManager {
 		}
 	}
 
-	/**
-	 * move selection from input box
-	 */
-	public void nextFromInputBox() {
-		if (selectedGeos.isEmpty()) {
-			kernel.getApplication()
-					.getActiveEuclidianView().requestFocus();
-		} else {
-			checkInputBoxAndFocus(selectedGeos.get(0));
-		}
-	}
-
 	private void filterGeosForView(TreeSet<GeoElement> tree) {
 
 		App app = kernel.getApplication();
