@@ -236,9 +236,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
 
         /* update ratio */
-        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-            showSnackbar();
-        }
+        calculateAndShowRatio();
     }
 
     protected void clearAnchors() {
@@ -387,18 +385,16 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             ratio = 10f;
         }
         ratio = ratio * pot;
-        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-            int mToCm = 100;
-            arRatioAtStart = ratio * mToCm;
-        }
+
+        int mToCm = 100;
+        arRatioAtStart = ratio * mToCm;
+
         arScaleAtStart = (float) (ggbToRw * ratio); // arScaleAtStart ~= thicknessMin
         arScale = (float) thicknessMin;
         arScaleFactor = arScaleAtStart / arScale;
         updateSettingsScale(arScaleFactor);
 
-        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-            showSnackbar();
-        }
+        calculateAndShowRatio();
     }
 
     private float getARScaleParameter() {
@@ -454,7 +450,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return viewModelMatrix;
     }
 
-    private void showSnackbar() {
+    private void calculateAndShowRatio() {
         double ratio;
         if (arGestureManager != null) {
             ratio = arRatioAtStart * arGestureManager.getScaleFactor() * ratioChange
@@ -538,7 +534,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         }
         arGestureManager.resetScaleFactor();
         fitThickness();
-        showSnackbar();
+        calculateAndShowRatio();
     }
 
     public String getUnits() {
@@ -551,7 +547,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public void setARRatioMetricSystem(int metricSystem) {
         ratioMetricSystem = metricSystem;
-        showSnackbar();
+        calculateAndShowRatio();
     }
 
     private float getUnitConversion() {
