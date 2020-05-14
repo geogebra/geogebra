@@ -12,9 +12,11 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
@@ -102,6 +104,12 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 			getSlider().setStep(num.getAnimationStep());
 
 			getSlider().addValueChangeHandler(getSliderController());
+			ClickEndHandler.init(getSlider(), new ClickEndHandler() {
+				@Override
+				public void onClickEnd(int x, int y, PointerEventType type) {
+					getSliderController().storeUndoInfoIfChanged();
+				}
+			});
 
 			createMinMaxPanel();
 

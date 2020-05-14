@@ -43,7 +43,6 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 	 */
 	public AlgoDegree(Construction cons, String label, GeoFunction f) {
 		super(cons);
-		cons.addCASAlgo(this);
 		this.f = f;
 
 		num = new GeoNumeric(cons);

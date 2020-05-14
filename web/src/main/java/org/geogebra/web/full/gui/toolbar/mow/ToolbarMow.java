@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -11,6 +12,7 @@ import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
@@ -117,12 +119,15 @@ public class ToolbarMow extends FlowPanel
 		toolbarPanelContent.add(toolsPanel);
 		toolbarPanelContent.add(mediaPanel);
 		toolbarPanel.add(toolbarPanelContent);
+		updateAriaHidden();
 	}
 
 	private void createPageControlButton() {
 		pageControlButton = new StandardButton(
 				MaterialDesignResources.INSTANCE.mow_page_control(), null, 24,
 				appW);
+		new FocusableWidget(AccessibilityGroup.PAGE_LIST_OPEN, null, pageControlButton)
+				.attachTo(appW);
 		pageControlButton.setStyleName("mowFloatingButton");
 		showPageControlButton(true);
 
@@ -239,7 +244,14 @@ public class ToolbarMow extends FlowPanel
 				break;
 			}
 			appW.setMode(getCurrentPanel().getFirstMode());
+			updateAriaHidden();
 		}
+	}
+
+	private void updateAriaHidden() {
+		penPanel.setAriaHidden(currentTab != TabIds.PEN);
+		toolsPanel.setAriaHidden(currentTab != TabIds.TOOLS);
+		mediaPanel.setAriaHidden(currentTab != TabIds.MEDIA);
 	}
 
 	@Override
@@ -288,11 +300,13 @@ public class ToolbarMow extends FlowPanel
 				MaterialDesignResources.INSTANCE.undo_border(), null, 24, appW);
 		btnUndo.addStyleName("flatButton");
 		btnUndo.addFastClickHandler(this);
+		new FocusableWidget(AccessibilityGroup.UNDO, null, btnUndo).attachTo(appW);
 		btnRedo = new StandardButton(
 				MaterialDesignResources.INSTANCE.redo_border(), null, 24, appW);
 		btnRedo.addFastClickHandler(this);
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
+		new FocusableWidget(AccessibilityGroup.REDO, null, btnRedo).attachTo(appW);
 		undoRedoPanel.add(btnUndo);
 		undoRedoPanel.add(btnRedo);
 	}

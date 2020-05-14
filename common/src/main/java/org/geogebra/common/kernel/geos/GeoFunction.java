@@ -2646,11 +2646,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public void clearCasEvalMap(String key) {
+	public void clearCasEvalMap() {
 		if (fun != null) {
-			fun.clearCasEvalMap(key);
+			fun.clearCasEvalMap();
 		}
-
 	}
 
 	/**

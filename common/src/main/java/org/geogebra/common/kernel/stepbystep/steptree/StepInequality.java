@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.parser.Parser;
@@ -7,8 +9,6 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
-
-import java.util.List;
 
 public class StepInequality extends StepSolvable {
 

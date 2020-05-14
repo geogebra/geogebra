@@ -1,7 +1,8 @@
 package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.menubar.action.FileNewAction;
+import org.geogebra.web.full.gui.menubar.action.ClearAllAction;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -10,7 +11,8 @@ import org.geogebra.web.resources.SVGResource;
  */
 public class ClearAllMenuitem extends Submenu {
 
-	private FileNewAction action;
+	private ClearAllAction action;
+	private AppWFull app;
 
 	/**
 	 * @param app
@@ -18,7 +20,8 @@ public class ClearAllMenuitem extends Submenu {
 	 */
 	public ClearAllMenuitem(AppW app) {
 		super("clear", app);
-		action = new FileNewAction(app);
+		this.app = (AppWFull) app;
+		action = new ClearAllAction(false);
 	}
 
 	@Override
@@ -34,7 +37,6 @@ public class ClearAllMenuitem extends Submenu {
 	@Override
 	public void handleHeaderClick() {
 		// no "Do you want to save?" for now in scientific
-		action.callback(true);
+		action.execute(null, app);
 	}
-
 }

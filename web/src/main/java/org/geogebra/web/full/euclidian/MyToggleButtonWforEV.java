@@ -1,13 +1,13 @@
 package org.geogebra.web.full.euclidian;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 
 import com.google.gwt.resources.client.ImageResource;
-
-import java.util.List;
 
 /**
  * Toggle button that should be visible if no geos are selected or to be

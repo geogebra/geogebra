@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+</head>
+<body>
+<div id="ggbApplet"></div>
+<div id = "validate">
+    <button onclick='ggbApplet.evalCommand("UpdateConstruction()");'>New Question</button>
+    <button onclick='ggbApplet.setValue("validate",  true);'>validate = true</button>
+    <button onclick='ggbApplet.setValue("validate", false);'>validate = false</button>
+</div>
+<div id = "showanswer">
+    <button onclick='ggbApplet.setValue("showanswer",  true);'>showanswer = true</button>
+    <button onclick='ggbApplet.setValue("showanswer", false);'>showanswer = false</button>
+</div>
+<div id = "showsolution">
+    <button onclick='ggbApplet.setValue("showsolution",  true);'>showsolution = true</button>
+    <button onclick='ggbApplet.setValue("showsolution", false);'>showsolution = false</button>
+</div>
+<div id = "correct">correct = ?</div>
+<div id = "version">version = ?</div>
+
+
+<script>
+
+    var width = 800, height = 600, id = "gebkyk2c", beta = false, seed = 1;
+
+    var getVars = [];
+    var locvartemp = ( window.location.href.indexOf( "?" ) + 1 ) ? window.location.href.substr( window.location.href.indexOf( "?" ) + 1 ) : "";
+    locvartemp=unescape(locvartemp);
+    locvartemp = locvartemp.split( "&" );
+    for( var x = 0; x < locvartemp.length; x++ ) {
+        var lvTempVar = locvartemp[x].split( "=" );
+        getVars[ unescape( lvTempVar[0] ) ] = unescape( lvTempVar[1] );
+        try {
+            console.log(locvartemp[x]);
+            eval(locvartemp[x]);
+        }
+        catch (err) {
+            console.log(err);
+            // eg cb="deploy50"
+            eval(lvTempVar[0] + "='" + lvTempVar[1] + "'");
+        }
+    }
+
+    if (id === undefined) {
+        id = prompt("Enter material id eg KdK6yXrU");
+    }
+    if (width === undefined) {
+        width = prompt("Enter width eg 1050");
+    }
+    if (height === undefined) {
+        height = prompt("Enter height eg 411");
+    }
+
+    function correctListener() {
+        console.log("correctListener " + ggbApplet.getValue("correct"));
+        document.getElementById("correct").innerHTML="correct = " + ((ggbApplet.getValue("correct")==0)?"false":"true");
+    }
+
+    var parameters = {
+        "id": "ggbApplet",
+        "width":width || 1050,
+        "height":height || 411,
+        "randomSeed":seed || 1,
+        "prerelease":beta,
+        "showMenuBar":false,
+        "showAlgebraInput":false,
+        "showToolBar":false,
+        "showToolBarHelp":false,
+        "showResetIcon":false,
+        "enableLabelDrags":false,
+        "enableShiftDragZoom":false,
+        "enableRightClick":false,
+        "errorDialogsActive":false,
+        "useBrowserForJS":false,
+        "allowStyleBar":false,
+        "preventFocus":false,
+        "showZoomButtons":false,
+        "capturingThreshold":3,
+        "showLogging": true,
+
+        // add code here to run when the applet starts
+        "appletOnLoad":function(api){
+            document.getElementById("version").innerHTML="GeoGebra version = " + api.getVersion();
+
+            api.registerObjectUpdateListener("correct", "correctListener");
+
+            if (ggbApplet.getObjectType("validate") != "boolean") {
+                document.getElementById("validate").style.display = "none";
+            }
+            if (ggbApplet.getObjectType("showanswer") != "boolean") {
+                document.getElementById("showanswer").style.display = "none";
+            }
+            if (ggbApplet.getObjectType("showsolution") != "boolean") {
+                document.getElementById("showsolution").style.display = "none";
+            }
+        },
+
+        "showFullscreenButton":false,
+        "scale":1,
+        "disableAutoScale":false,
+        "allowUpscale":false,
+        "clickToLoad":false,
+        "appName":"classic",
+        "showSuggestionButtons":true,
+        "language":"en",
+        "material_id":id || "KdK6yXrU",
+    };
+    // is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator DA=Data Analysis, FI=Function Inspector, macro=Macros
+    var views = {'is3D': 0,'AV': 1,'SV': 0,'CV': 0,'EV2': 0,'CP': 0,'PC': 0,'DA': 0,'FI': 0,'macro': 0};
+    var applet = new GGBApplet(parameters, '5.0', views);
+
+    // 1 pixel preview + GeoGebra logo
+    applet.setPreviewImage("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAADElEQVR4nGP4//8/AAX+Av4N70a4AAAAAElFTkSuQmCC","https://www.geogebra.org/images/GeoGebra_loading.png");
+    applet.setHTML5Codebase("./web3d/");
+    window.onload = function() {applet.inject('ggbApplet')};
+</script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -8,8 +10,6 @@ import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 
 import com.google.gwt.resources.client.ImageResource;
-
-import java.util.List;
 
 /**
  * Stylebar popup for 3D rotation

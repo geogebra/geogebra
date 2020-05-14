@@ -1,12 +1,12 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import java.util.Iterator;
+import java.util.TreeSet;
+
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.ToStringConverter;
-
-import java.util.Iterator;
-import java.util.TreeSet;
 
 /**
  * Serializes construction items for keyboard input.

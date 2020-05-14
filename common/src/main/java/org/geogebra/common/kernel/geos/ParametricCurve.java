@@ -12,12 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
-import org.apache.commons.math3.analysis.UnivariateFunction;
 
 /**
  * Curve in parametric form (f(t),g(t))

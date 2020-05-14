@@ -2,7 +2,6 @@ package org.geogebra.web.editor;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -112,16 +111,6 @@ public class AppWsolver extends AppW implements HasKeyboard {
     }
 
     @Override
-    public void focusLost(View v, Element el) {
-        this.getGlobalKeyDispatcher().setFocused(false);
-    }
-
-    @Override
-    public void focusGained(View v, Element el) {
-		this.getGlobalKeyDispatcher().setFocusedIfNotTab();
-    }
-
-    @Override
     public Element getFrameElement() {
         return frame.getElement();
     }
@@ -189,6 +178,11 @@ public class AppWsolver extends AppW implements HasKeyboard {
 		} else {
 			return width;
 		}
+	}
+
+	@Override
+	public boolean attachedToEqEditor() {
+		return false;
 	}
 
 	@Override

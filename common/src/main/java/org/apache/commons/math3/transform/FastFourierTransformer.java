@@ -17,7 +17,6 @@
 package org.apache.commons.math3.transform;
 
 import java.io.Serializable;
-//import java.lang.reflect.Array;
 
 import org.apache.commons.math3.analysis.FunctionUtils;
 import org.apache.commons.math3.analysis.UnivariateFunction;
@@ -29,6 +28,8 @@ import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.ArithmeticUtils;
 import org.apache.commons.math3.util.Cloner;
 import org.apache.commons.math3.util.MathArrays;
+
+//import java.lang.reflect.Array;
 
 /**
  * Implements the Fast Fourier Transform for transformation of one-dimensional

@@ -52,4 +52,11 @@ public interface ToolCollection {
      * @param filter filter
      */
     void filter(ToolCollectionFilter filter);
+
+    /**
+     *  Look for the given mode in the tools categorization
+     * @param mode - tool mode
+     * @return true if found mode in the categorization, false otherwise
+     */
+    boolean contains(int mode);
 }

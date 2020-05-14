@@ -1,10 +1,10 @@
 package org.geogebra.common.gui.menu.impl;
 
-import org.geogebra.common.gui.menu.DrawerMenu;
-import org.geogebra.common.gui.menu.MenuItemGroup;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.geogebra.common.gui.menu.DrawerMenu;
+import org.geogebra.common.gui.menu.MenuItemGroup;
 
 class DrawerMenuImpl implements DrawerMenu {
 

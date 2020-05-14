@@ -45,7 +45,6 @@ package com.himamis.retex.renderer.web.font;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
 
 public interface FontWrapper {
 

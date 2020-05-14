@@ -3,7 +3,6 @@ package org.geogebra.web.html5.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.annotation.CheckForNull;
 
@@ -27,7 +26,6 @@ import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
@@ -37,8 +35,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UndoManager;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -77,7 +75,6 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
@@ -113,7 +110,6 @@ import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
-import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
 import org.geogebra.web.html5.gui.laf.MebisSettings;
@@ -134,6 +130,7 @@ import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.settings.DefaultSettingsW;
 import org.geogebra.web.html5.main.settings.SettingsBuilderW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
+import org.geogebra.web.html5.safeimage.SafeImageLoader;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -285,8 +282,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = articleElement;
-		NativeFocusHandler.addNativeFocusHandler(articleElement.getElement(),
-				this);
 		this.laf = laf;
 
 		getTimerSystem();
@@ -561,19 +556,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	final public GlobalKeyDispatcherW getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
-			globalKeyDispatcher = newGlobalKeyDispatcher();
-			if (articleElement != null && articleElement.getDataParamApp()) {
-				globalKeyDispatcher.setFocused(true);
-			}
+			globalKeyDispatcher = new GlobalKeyDispatcherW(this);
 		}
 		return globalKeyDispatcher;
-	}
-
-	/**
-	 * @return a new instance of {@link GlobalKeyDispatcherW}
-	 */
-	private GlobalKeyDispatcherW newGlobalKeyDispatcher() {
-		return new GlobalKeyDispatcherW(this);
 	}
 
 	@Override
@@ -828,23 +813,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		beforeLoadFile(asSlide);
 
 		GgbFile archive = archiveContent.duplicate("tmp");
-
+		final GgbArchive def = new GgbArchive(archive, is3D());
 		// Handling of construction and macro file
-		final String construction = archive.remove(MyXMLio.XML_FILE);
-		final String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
-		final String defaults2d = archive.remove(MyXMLio.XML_FILE_DEFAULTS_2D);
-		final String defaults3d = is3D()
-				? archive.remove(MyXMLio.XML_FILE_DEFAULTS_3D) : null;
 
 		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 		// Construction (required)
-		if (construction == null && macros == null) {
+		if (def.isInvalid()) {
 			throw new ConstructionException(
 					"File is corrupt: No GeoGebra data found");
 		}
 
-		if (construction != null) {
+		if (def.hasConstruction()) {
 			// ggb file: remove all macros from kernel before processing
 			kernel.removeAllMacros();
 		}
@@ -855,21 +835,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} else {
 			kernel.setLibraryJavaScript(libraryJS);
 		}
-		HashMap<String, String> toLoad = new HashMap<>();
-		for (Entry<String, String> entry : archive.entrySet()) {
 
-			String key = entry.getKey();
-
-			if (getImageManager().getExternalImage(key, this, false) == null) {
-				maybeProcessImage(key, entry.getValue(), toLoad);
-			}
-		}
 		if (getEmbedManager() != null) {
 			getEmbedManager().loadEmbeds(archive);
 		}
-		if (construction == null) {
-			if (macros != null) {
-				getXMLio().processXMLString(macros, true, true);
+
+		if (!def.hasConstruction()) {
+			if (def.hasMacros()) {
+				getXMLio().processXMLString(def.getMacros(), true, true);
 			}
 
 			setCurrentFile(archiveContent);
@@ -879,49 +852,46 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 			getGuiManager().updateToolbar();
 			return;
+
 		}
-		Runnable afterImages = new Runnable() {
 
-			@Override
-			public void run() {
-				try {
-					setHideConstructionProtocolNavigation();
-					Log.debug("images loaded");
-					// Macros (optional)
-					if (macros != null) {
-						// macros = DataUtil.utf8Decode(macros);
-						// //DataUtil.utf8Decode(macros);
-						getXMLio().processXMLString(macros, true, true);
+		SafeImageLoader imageLoader = new SafeImageLoader(this, archive,
+				new Runnable() {
+					@Override
+					public void run() {
+						runAfterLoadImages(def, asSlide);
 					}
-					int seed = getArticleElement().getParamRandomSeed();
-					if (seed != -1) {
-						setRandomSeed(seed);
-					}
-					getXMLio().processXMLString(construction, true, false,
-							true);
-					// defaults (optional)
-					if (defaults2d != null) {
-						getXMLio().processXMLString(defaults2d, false, true);
-					}
-					if (defaults3d != null) {
-						getXMLio().processXMLString(defaults3d, false, true);
-					}
-					afterLoadFileAppOrNot(asSlide);
+				});
+		imageLoader.load();
+	}
 
-				} catch (Exception e) {
-					Log.debug(e);
-				}
+	private void runAfterLoadImages(GgbArchive def, boolean asSlide) {
+		try {
+			setHideConstructionProtocolNavigation();
+			Log.debug("images loaded");
+			// Macros (optional)
+			if (def.hasMacros()) {
+				// macros = DataUtil.utf8Decode(macros);
+				// //DataUtil.utf8Decode(macros);
+				getXMLio().processXMLString(def.getMacros(), true, true);
 			}
+			int seed = getArticleElement().getParamRandomSeed();
+			if (seed != -1) {
+				setRandomSeed(seed);
+			}
+			getXMLio().processXMLString(def.getConstruction(), true, false,
+					true);
+			// defaults (optional)
+			if (def.hasDefaults2d()) {
+				getXMLio().processXMLString(def.getDefaults2d(), false, true);
+			}
+			if (def.hasDefaults3d()) {
+				getXMLio().processXMLString(def.getDefaults3d(), false, true);
+			}
+			afterLoadFileAppOrNot(asSlide);
 
-		};
-		if (toLoad.isEmpty()) {
-			afterImages.run();
-			setCurrentFile(archiveContent);
-			// getKernel().setNotifyViewsActive(true);
-		} else {
-			// on images do nothing here: wait for callback when images loaded.
-			getImageManager().triggerImageLoading(this, afterImages, toLoad);
-			setCurrentFile(archiveContent);
+		} catch (Exception e) {
+			Log.debug(e);
 		}
 	}
 
@@ -1014,44 +984,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 	}
 
-	private boolean maybeProcessImage(String filename0, String content,
-			HashMap<String, String> toLoad) {
-		String fn = filename0.toLowerCase();
-		if (fn.equals(MyXMLio.XML_FILE_THUMBNAIL)) {
-			return false; // Ignore thumbnail
-		}
-
-		FileExtensions ext = StringUtil.getFileExtension(fn);
-
-		// Ignore non image files
-		if (!ext.isImage()) {
-			return false;
-		}
-		String filename = filename0;
-		// bug in old versions (PNG saved with wrong extension)
-		// change BMP, TIFF, TIF -> PNG
-		if (!ext.isAllowedImage()) {
-			filename = StringUtil.changeFileExtension(filename,
-					FileExtensions.PNG);
-		}
-
-		// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
-		// Log.debug("filename2 = " + filename);
-		// Log.debug("ext2 = " + ext);
-
-		if (ext.equals(FileExtensions.SVG)) {
-			// IE11/Edge needs SVG to be base64 encoded
-			String fixedContent =
-					Browser.encodeSVG(ImageManager.fixSVG(content));
-			getImageManager().addExternalImage(filename, fixedContent);
-			toLoad.put(filename, fixedContent);
-		} else {
-			getImageManager().addExternalImage(filename, content);
-			toLoad.put(filename, content);
-		}
-		return true;
-	}
-
 	@Override
 	public final ImageManagerW getImageManager() {
 		return imageManager;
@@ -1082,7 +1014,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean clearConstruction() {
-		// if (isSaved() || saveCurrentFile()) {
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -1091,9 +1022,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setMoveMode();
 
 		return true;
-
-		// }
-		// return false;
 	}
 
 	@Override
@@ -1149,12 +1077,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public final void fileNew() {
-		// clear all
-		// triggers the "do you want to save" dialog
-		// so must be called first
-		if (!clearConstruction()) {
-			return;
-		}
 		clearMedia();
 		resetUniqueId();
 		setLocalID(-1);
@@ -1163,15 +1085,28 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
+
 		resetUI();
 		resetPages();
+		clearConstruction();
+		resetPenTool();
 	}
 
 	private void resetPages() {
-		if (pageController == null) {
-			return;
+		if (pageController != null) {
+			pageController.resetPageControl();
 		}
-		pageController.resetPageControl();
+	}
+
+	/**
+	 * Selects Pen tool in whiteboard
+	 */
+	protected final void resetPenTool() {
+		if (isWhiteboardActive()) {
+			getActiveEuclidianView().getSettings()
+					.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
+		}
 	}
 
 	/**
@@ -1209,9 +1144,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if (!isUnbundledOrWhiteboard()) {
 			showPerspectivesPopup();
-		}
-		if (getPageController() != null) {
-			getPageController().resetPageControl();
 		}
 	}
 
@@ -2021,24 +1953,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 *
-	 * @param w
-	 *            last selected view
-	 * @param el
-	 *            target element
-	 */
-	public abstract void focusLost(View w, Element el);
-
-	/**
-	 *
-	 * @param w
-	 *            selected view
-	 * @param el
-	 *            target element
-	 */
-	public abstract void focusGained(View w, Element el);
-
-	/**
 	 * Update toolbar from custom definition
 	 */
 	public void setCustomToolBar() {
@@ -2655,31 +2569,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return frame widget
 	 */
 	public abstract GeoGebraFrameW getAppletFrame();
-
-	/**
-	 * @return whether the focus was lost
-	 */
-	private static native Element nativeLoseFocus(Element element) /*-{
-		var active = $doc.activeElement;
-		var containsMask = $wnd.Node.DOCUMENT_POSITION_CONTAINS;
-		if (active
-				&& ((active === element) || (active
-						.compareDocumentPosition(element) & containsMask))) {
-			active.blur();
-			return active;
-		}
-		return null;
-	}-*/;
-
-	@Override
-	public void loseFocus() {
-		// probably this is called on ESC, so the reverse
-		// should happen on ENTER
-		Element ret = nativeLoseFocus(articleElement.getElement());
-		if (ret != null) {
-			getGlobalKeyDispatcher().setFocused(false);
-		}
-	}
 
 	@Override
 	public boolean isScreenshotGenerator() {
@@ -3302,8 +3191,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
-				&& (!articleElement.preventFocus()
-						|| getGlobalKeyDispatcher().isFocused())) {
+				&& !articleElement.preventFocus()) {
 			if (readerTimer == null) {
 				readerTimer = new ReaderTimer();
 			}
@@ -3368,33 +3256,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void setActivePerspective(int index) {
 		// only for GUI
-	}
-
-	/**
-	 * Focus this app
-	 */
-	public void addFocusToApp() {
-		if (!GlobalKeyDispatcherW.getIsHandlingTab()) {
-			getGlobalKeyDispatcher().setFocused(true);
-			return;
-		}
-
-		// add focus to AV if visible
-		AlgebraView av = getAlgebraView();
-		boolean visible = av != null && av.isShowing();
-		if (visible) {
-			((Widget) av).getElement().focus();
-			focusGained(av, ((Widget) av).getElement());
-			return;
-		}
-
-		// focus -> EV
-		EuclidianViewW ev = getEuclidianView1();
-		visible = ev != null && ev.isShowing();
-		if (visible) {
-			ev.getCanvasElement().focus();
-			ev.focusGained();
-		}
 	}
 
 	/**
@@ -3820,17 +3681,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final AccessibilityManagerInterface getAccessibilityManager() {
 		if (accessibilityManager == null) {
-			accessibilityManager = new AccessibilityManagerW(this,
-					createPerspectiveAccessibilityAdapter());
+			accessibilityManager = new AccessibilityManagerW(this);
 		}
 		return accessibilityManager;
-	}
-
-	/**
-	 * @return adapter for tabbing through views
-	 */
-	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
-		return new SinglePanelAccessibilityAdapter(this);
 	}
 
 	public ZoomPanel getZoomPanel() {

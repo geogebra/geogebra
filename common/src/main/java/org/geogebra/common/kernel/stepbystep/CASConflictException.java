@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.stepbystep;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
-
-import java.util.List;
 
 @SuppressWarnings("serial")
 public class CASConflictException extends RuntimeException {
