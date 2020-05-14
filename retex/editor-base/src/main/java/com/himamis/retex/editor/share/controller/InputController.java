@@ -3,8 +3,8 @@ package com.himamis.retex.editor.share.controller;
 import java.util.ArrayList;
 
 import com.google.j2objc.annotations.Weak;
-import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.editor.MathField;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaFunction;

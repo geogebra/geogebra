@@ -1,7 +1,5 @@
 package org.geogebra.common.jre.headless;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
-import com.himamis.retex.renderer.share.platform.graphics.Image;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -10,6 +8,9 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+
+import com.himamis.retex.renderer.share.platform.graphics.Color;
+import com.himamis.retex.renderer.share.platform.graphics.Image;
 
 public class DrawEquationStub extends DrawEquation {
 

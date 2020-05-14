@@ -18,13 +18,13 @@
 package org.apache.commons.math3.ode.sampling;
 
 //import java.io.ObjectOutput;
+
 import java.util.Arrays;
 
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.util.Cloner;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements an interpolator for integrators using Nordsieck representation.

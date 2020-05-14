@@ -1,12 +1,12 @@
 package org.geogebra.web.full.euclidian;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
-
-import java.util.List;
 
 /**
  * Grid style popup

@@ -17,9 +17,6 @@
 
 package org.apache.commons.math3.ode.nonstiff;
 
-import org.apache.commons.math3.util.FastMath;
-
-
 /**
  * This class implements the 8(5,3) Dormand-Prince integrator for Ordinary
  * Differential Equations.

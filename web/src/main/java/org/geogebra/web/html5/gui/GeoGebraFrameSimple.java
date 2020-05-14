@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui;
 
+import java.util.ArrayList;
+
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
@@ -10,8 +12,6 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
-
-import java.util.ArrayList;
 
 /**
  * Frame for simple applets (only EV showing)

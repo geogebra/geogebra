@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -7,9 +10,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.test.UndoRedoTester;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SliderTest extends BaseUnitTest {
 

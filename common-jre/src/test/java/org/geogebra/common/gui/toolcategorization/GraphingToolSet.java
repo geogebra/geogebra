@@ -1,9 +1,9 @@
 package org.geogebra.common.gui.toolcategorization;
 
-import org.geogebra.common.euclidian.EuclidianConstants;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.geogebra.common.euclidian.EuclidianConstants;
 
 /**
  * Utility class for Graphing ToolSet tests.

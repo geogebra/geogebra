@@ -28,7 +28,6 @@ import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.ode.EquationsMapper;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
-import org.apache.commons.math3.util.FastMath;
 
 /** This class handles the state for one {@link EventHandler
  * event handler} during integration steps.

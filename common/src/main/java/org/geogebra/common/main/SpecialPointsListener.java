@@ -1,8 +1,8 @@
 package org.geogebra.common.main;
 
-import org.geogebra.common.kernel.geos.GeoElement;
-
 import java.util.List;
+
+import org.geogebra.common.kernel.geos.GeoElement;
 
 public interface SpecialPointsListener {
 

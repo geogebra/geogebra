@@ -1,18 +1,19 @@
 package org.geogebra.web.html5.main;
 
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwtmockito.GwtMockitoTestRunner;
-import com.google.gwtmockito.WithClassesToStub;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
-
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwtmockito.GwtMockitoTestRunner;
+import com.google.gwtmockito.WithClassesToStub;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 
 @RunWith(GwtMockitoTestRunner.class)
