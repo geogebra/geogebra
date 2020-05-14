@@ -1,6 +1,7 @@
 package org.geogebra.web.html5;
 
-import com.google.gwt.http.client.URL;
+import java.util.Locale;
+
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -12,10 +13,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.Window.Navigator;
-
-import java.util.Locale;
 
 public class Browser {
 	private static boolean webWorkerSupported = false;

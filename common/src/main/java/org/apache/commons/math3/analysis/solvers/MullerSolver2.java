@@ -19,7 +19,6 @@ package org.apache.commons.math3.analysis.solvers;
 import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements the <a href="http://mathworld.wolfram.com/MullersMethod.html">

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
+import java.util.Collection;
+
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
@@ -13,8 +15,6 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.Collection;
 
 /**
  * tab of tools

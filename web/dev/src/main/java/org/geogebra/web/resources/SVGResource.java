@@ -23,8 +23,9 @@ import org.geogebra.web.generator.SVGResourceGenerator;
 import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.ext.DefaultExtensions;
 import com.google.gwt.resources.ext.ResourceGeneratorType;
-//import org.vectomatic.dom.svg.OMSVGSVGElement;
 import com.google.gwt.safehtml.shared.SafeUri;
+
+//import org.vectomatic.dom.svg.OMSVGSVGElement;
 
 /**
  * A resource that contains SVG that should be incorporated into the compiled output. 

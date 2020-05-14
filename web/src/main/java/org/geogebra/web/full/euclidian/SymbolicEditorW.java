@@ -55,7 +55,10 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
-		super.attach(geoInputBox, bounds);
+		if (getDrawInputBox() != null && getDrawInputBox().getGeoElement() != geoInputBox) {
+			getDrawInputBox().setEditing(false);
+		}
+		setInputBox(geoInputBox);
 
 		this.bounds = bounds;
 		// add to DOM, but hidden => getHeight works, but widget is not shown in wrong position
@@ -139,7 +142,6 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		applyChanges();
 		hide();
 		((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
-		app.getSelectionManager().nextFromInputBox();
 	}
 
 	@Override

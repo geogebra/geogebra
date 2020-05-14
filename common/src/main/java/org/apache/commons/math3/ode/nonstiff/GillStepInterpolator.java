@@ -18,7 +18,6 @@
 package org.apache.commons.math3.ode.nonstiff;
 
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements a step interpolator for the Gill fourth

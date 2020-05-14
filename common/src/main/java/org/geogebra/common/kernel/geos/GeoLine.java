@@ -18,7 +18,11 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -62,10 +66,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Geometrical representation of line
@@ -1891,6 +1892,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean setTypeFromXML(String style, String parameter, boolean force) {
+		if (isEquationFormEnforced()) {
+			ignoreLineModeFromXML(style);
+			return true;
+		}
+
 		if ("implicit".equals(style)) {
 			setToImplicit();
 		} else if ("explicit".equals(style)) {
@@ -1905,6 +1911,14 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return false;
 		}
 		return true;
+	}
+
+	private void ignoreLineModeFromXML(String style) {
+		if ("user".equals(style)) {
+			setToUser();
+		} else {
+			setToExplicit(true);
+		}
 	}
 
 	@Override

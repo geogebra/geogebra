@@ -1,7 +1,8 @@
 package org.geogebra.web.full.gui.menu.icons;
 
-import com.google.gwt.core.client.GWT;
 import org.geogebra.web.resources.SVGResource;
+
+import com.google.gwt.core.client.GWT;
 
 /**
  * Gives access to Mebis menu icons.

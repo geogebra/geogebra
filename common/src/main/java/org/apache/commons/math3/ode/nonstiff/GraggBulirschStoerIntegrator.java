@@ -27,7 +27,6 @@ import org.apache.commons.math3.ode.events.EventHandler;
 import org.apache.commons.math3.ode.sampling.AbstractStepInterpolator;
 import org.apache.commons.math3.ode.sampling.StepHandler;
 import org.apache.commons.math3.util.Cloner;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements a Gragg-Bulirsch-Stoer integrator for

@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -11,8 +13,6 @@ import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.IntegerProperty;
 import org.geogebra.common.properties.util.GeoListPropertyHelper;
 import org.geogebra.common.properties.util.GeoPropertyDelegate;
-
-import java.util.List;
 
 /**
  * Property for triangle size of the Slope() command output

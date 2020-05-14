@@ -1,10 +1,10 @@
 package org.geogebra.web.full.evaluator;
 
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;

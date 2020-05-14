@@ -91,7 +91,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 
 	@Override
 	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
-		super.attach(geoInputBox, bounds);
+		setInputBox(geoInputBox);
 		getDrawInputBox().setEditing(true);
 
 		mathField.getInternal().parse(getGeoInputBox().getTextForEditor());

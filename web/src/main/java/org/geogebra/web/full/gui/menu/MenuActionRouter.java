@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.menu;
 
-import com.google.gwt.user.client.ui.Widget;
+import java.util.Collections;
+
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.ActionableItem;
 import org.geogebra.common.gui.menu.MenuItem;
@@ -10,7 +11,7 @@ import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.menu.action.MenuActionHandler;
 import org.geogebra.web.html5.gui.FastClickHandler;
 
-import java.util.Collections;
+import com.google.gwt.user.client.ui.Widget;
 
 class MenuActionRouter {
 

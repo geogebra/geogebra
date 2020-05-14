@@ -1,5 +1,11 @@
 package org.geogebra.common.gui.view.algebra.fiter;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -7,12 +13,6 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Filters the value of functions and equations that are not safe to show to the user.
@@ -88,6 +88,7 @@ public class FunctionAndEquationFilter {
             allowedCommands = new HashSet<>();
             allowedCommands.add(Algos.Expression);
             allowedCommands.add(Commands.Point);
+            allowedCommands.add(Commands.Line);
             allowedCommands.addAll(fitCommands);
         }
         return allowedCommands;

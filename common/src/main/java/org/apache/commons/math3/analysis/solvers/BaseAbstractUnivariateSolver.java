@@ -20,9 +20,9 @@ package org.apache.commons.math3.analysis.solvers;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.apache.commons.math3.exception.MaxCountExceededException;
 import org.apache.commons.math3.exception.NoBracketingException;
-import org.apache.commons.math3.exception.TooManyEvaluationsException;
-import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
 import org.apache.commons.math3.util.IntegerSequence;
 import org.apache.commons.math3.util.MathUtils;
 

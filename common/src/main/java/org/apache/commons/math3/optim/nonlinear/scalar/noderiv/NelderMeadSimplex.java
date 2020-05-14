@@ -18,8 +18,8 @@ package org.apache.commons.math3.optim.nonlinear.scalar.noderiv;
 
 import java.util.Comparator;
 
-import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math3.optim.PointValuePair;
 
 /**
  * This class implements the Nelder-Mead simplex algorithm.

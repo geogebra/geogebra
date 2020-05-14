@@ -45,7 +45,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// just stop propagation
-
 			}
 		});
 	}

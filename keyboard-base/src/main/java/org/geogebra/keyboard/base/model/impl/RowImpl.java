@@ -1,10 +1,10 @@
 package org.geogebra.keyboard.base.model.impl;
 
-import org.geogebra.keyboard.base.model.Row;
-import org.geogebra.keyboard.base.model.WeightedButton;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.geogebra.keyboard.base.model.Row;
+import org.geogebra.keyboard.base.model.WeightedButton;
 
 public class RowImpl implements Row {
 

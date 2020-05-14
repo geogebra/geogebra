@@ -104,6 +104,10 @@ public class MathFieldProcessing implements KeyboardListener {
 			mf.getKeyListener()
 					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, 0, '\0'));
 		} else {
+			if ("d/dx".equals(text)) {
+				mf.handleDerivative(text);
+				return;
+			}
 			if (text.contains("/") || text.contains("^")) {
 				mf.insertString(text);
 				return;

@@ -52,6 +52,8 @@ public class Settings {
 
 	private LabelSettings labelSettings;
 
+	private StyleSettings styleSettings;
+
 	/**
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
@@ -158,6 +160,7 @@ public class Settings {
 		}
 
 		tableSettings = new TableSettings();
+		styleSettings = new StyleSettings();
 
 		for (Resetable setting : resetableSettings) {
 			setting.resetDefaults();
@@ -297,6 +300,13 @@ public class Settings {
 	 */
 	public final TableSettings getTable() {
 		return this.tableSettings;
+	}
+
+	/**
+	 * @return style settings (e.g. for buttons)
+	 */
+	public StyleSettings getStyle() {
+		return styleSettings;
 	}
 
 	/**

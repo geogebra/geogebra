@@ -1,7 +1,5 @@
 package org.geogebra.desktop.gui.util;
 
-import org.geogebra.common.kernel.geos.GeoElement;
-
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,6 +7,8 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Custom toggle button for use in stylebars

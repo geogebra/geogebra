@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.menubar;
 
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.html5.main.AppW;
+
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

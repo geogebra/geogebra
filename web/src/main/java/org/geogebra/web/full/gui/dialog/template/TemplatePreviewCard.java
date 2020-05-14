@@ -1,11 +1,5 @@
 package org.geogebra.web.full.gui.dialog.template;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
@@ -16,6 +10,13 @@ import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
 public class TemplatePreviewCard extends FlowPanel
         implements SetLabels, MaterialCardI {

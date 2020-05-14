@@ -1,11 +1,11 @@
 package org.geogebra.web.full.gui.menu.action;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.web.full.gui.menubar.MenuAction;
 import org.geogebra.web.full.main.AppWFull;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Implements handling of the menu actions.

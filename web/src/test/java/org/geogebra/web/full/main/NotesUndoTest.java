@@ -195,7 +195,6 @@ public class NotesUndoTest {
 		slideShouldHaveObjects(0, 0);
 	}
 
-
 	/**
 	 * Make sure asserts don't kill the tests
 	 */

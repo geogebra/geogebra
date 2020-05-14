@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.commands.selector;
 
-import org.geogebra.common.kernel.commands.Commands;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.geogebra.common.kernel.commands.Commands;
 
 /**
  * Makes a composition of CommandFilters. If any of the instances

@@ -17,7 +17,6 @@
 
 package org.apache.commons.math3.ode.events;
 
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Precision;
 
 

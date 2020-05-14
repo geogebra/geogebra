@@ -16,10 +16,10 @@
  */
 package org.apache.commons.math3.optim.linear;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.commons.math3.optim.OptimizationData;
 

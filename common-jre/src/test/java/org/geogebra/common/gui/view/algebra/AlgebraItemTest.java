@@ -1,15 +1,13 @@
 package org.geogebra.common.gui.view.algebra;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AlgebraStyle;
-import org.geogebra.common.util.IndexHTMLBuilder;
 import org.junit.Test;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AlgebraItemTest extends BaseUnitTest {
 
@@ -24,7 +22,7 @@ public class AlgebraItemTest extends BaseUnitTest {
     private void testShouldShowBothRowsInGraphing() {
         getApp().setGraphingConfig();
 
-        checkShouldShowBothRowsForLine(false);
+        checkShouldShowBothRowsForLine(true);
         checkShouldShowBothRowsForFitLine(true);
     }
 

@@ -7,9 +7,9 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.web.full.gui.dialog.SessionExpireNotifyDialog;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.GlobalFunctions;
 
 import com.google.gwt.storage.client.Storage;
-import org.geogebra.web.html5.util.GlobalFunctions;
 
 /**
  * @author gabor
