@@ -60,9 +60,6 @@ public enum Feature {
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
-	/** G3D-345 */
-	G3D_AR_SHOW_RATIO,
-
 	/** G3D-343 */
 	G3D_SELECT_META,
 

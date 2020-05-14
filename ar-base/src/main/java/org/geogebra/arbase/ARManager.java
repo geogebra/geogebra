@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -237,8 +236,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
 
         /* update ratio */
-        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO) && ratioIsShown) {
-            showSnackbar();
+        if (ratioIsShown) {
+            calculateAndShowRatio();
         }
     }
 
@@ -388,18 +387,17 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             ratio = 10f;
         }
         ratio = ratio * pot;
-        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)) {
-            int mToCm = 100;
-            arRatioAtStart = ratio * mToCm;
-        }
+
+        int mToCm = 100;
+        arRatioAtStart = ratio * mToCm;
+
         arScaleAtStart = (float) (ggbToRw * ratio); // arScaleAtStart ~= thicknessMin
         arScale = (float) thicknessMin;
         arScaleFactor = arScaleAtStart / arScale;
         updateSettingsScale(arScaleFactor);
 
-        if (mView.getApplication().has(Feature.G3D_AR_SHOW_RATIO)
-                 && ratioIsShown) {
-            showSnackbar();
+        if (ratioIsShown) {
+            calculateAndShowRatio();
         }
     }
 
@@ -456,7 +454,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return viewModelMatrix;
     }
 
-    private void showSnackbar() {
+    private void calculateAndShowRatio() {
         double ratio;
         if (arGestureManager != null) {
             ratio = arRatioAtStart * arGestureManager.getScaleFactor() * ratioChange
@@ -539,7 +537,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         }
         arGestureManager.resetScaleFactor();
         fitThickness();
-        showSnackbar();
+        calculateAndShowRatio();
     }
 
     public String getUnits() {
@@ -553,7 +551,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     public void setARRatioMetricSystem(int metricSystem) {
         ratioMetricSystem = metricSystem;
         if (objectIsRendered && ratioIsShown) {
-            showSnackbar();
+            calculateAndShowRatio();
         }
     }
 
@@ -568,7 +566,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     public void setRatioIsShown(boolean ratioIsShown) {
         this.ratioIsShown = ratioIsShown;
         if (ratioIsShown) {
-            showSnackbar();
+            calculateAndShowRatio();
         } else {
             mArSnackBarManagerInterface.hideRatio();
         }
