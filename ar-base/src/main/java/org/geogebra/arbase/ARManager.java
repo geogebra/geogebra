@@ -36,7 +36,6 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private String units = "cm";        // current units used for Ratio snack bar and ratio settings
     private String arRatioText = "1";   // current ratio used for Ratio snack bar and ratio settings
     private int ratioMetricSystem = EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS;
-    private boolean ratioIsShown = true;
 
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -451,7 +450,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     protected void calculateAndShowRatio() {
-        if (!ratioIsShown || !objectIsPlaced) {
+        if (!mView.isARRatioShown() || !objectIsPlaced) {
             return;
         }
 
@@ -562,15 +561,10 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setRatioIsShown(boolean ratioIsShown) {
-        this.ratioIsShown = ratioIsShown;
         if (ratioIsShown) {
             calculateAndShowRatio();
         } else {
             mArSnackBarManagerInterface.hideRatio();
         }
-    }
-
-    public boolean isRatioShown() {
-        return ratioIsShown;
     }
 }

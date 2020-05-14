@@ -79,6 +79,4 @@ public interface ARManagerInterface<T> {
 
     void setRatioIsShown(boolean ratioIsShown);
 
-    boolean isRatioShown();
-
-    }
+}

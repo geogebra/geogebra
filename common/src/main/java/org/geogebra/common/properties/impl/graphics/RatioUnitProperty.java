@@ -7,17 +7,17 @@ import org.geogebra.common.properties.AbstractEnumerableProperty;
 
 public class RatioUnitProperty extends AbstractEnumerableProperty {
 
-    private ARManagerInterface arManager;
+    private EuclidianView3D view3D;
 
     /**
      * Constructs an ratio unit property.
      *
-     * @param arManager      AR Manager
+     * @param view3D      EuclidianView3D
      * @param localization  localization
      */
-    RatioUnitProperty(Localization localization, ARManagerInterface arManager) {
+    RatioUnitProperty(Localization localization, EuclidianView3D view3D) {
         super(localization, "Unit");
-        this.arManager = arManager;
+        this.view3D = view3D;
         setValuesAndLocalize(new String[]{"cm", "inch"});
 
     }
@@ -34,12 +34,12 @@ public class RatioUnitProperty extends AbstractEnumerableProperty {
                 lengthUnit = EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS;
                 break;
         }
-        arManager.setARRatioMetricSystem(lengthUnit);
+        view3D.getRenderer().getARManager().setARRatioMetricSystem(lengthUnit);
     }
 
     @Override
     public int getIndex() {
-        switch (arManager.getARRatioMetricSystem()) {
+        switch (view3D.getRenderer().getARManager().getARRatioMetricSystem()) {
             case EuclidianView3D.RATIO_UNIT_INCHES:
                 return 1;
             case EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS:
@@ -50,6 +50,6 @@ public class RatioUnitProperty extends AbstractEnumerableProperty {
 
     @Override
     public boolean isEnabled() {
-        return arManager.isRatioShown();
+        return view3D.isARRatioShown();
     }
 }
