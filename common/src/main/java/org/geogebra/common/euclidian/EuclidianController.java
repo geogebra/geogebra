@@ -9902,6 +9902,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				maybeFocusGroupElement(topHit);
 			}
 
+			// TODO: this will be simplified when I refactor embeds and videos to
+			// 	act more like inlines (probably in the media rotation ticket)
 			if (topHit instanceof GeoVideo) {
 				handleVideoHit(topHit);
 			}
@@ -9923,7 +9925,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private void handleVideoHit(GeoElement topHit) {
 		VideoManager videoManager = app.getVideoManager();
-		if (videoManager != null) {
+		if (topHit == lastMowHit && videoManager != null) {
 			DrawVideo drawVideo = (DrawVideo) view.getDrawableFor(topHit);
 			if (videoHasError(drawVideo)) {
 				return;
@@ -9935,7 +9937,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private void handleEmbedHit(GeoElement topHit) {
 		EmbedManager embedManager = app.getEmbedManager();
-		if (embedManager != null) {
+		if (topHit == lastMowHit && embedManager != null) {
 			embedManager.play((GeoEmbed) topHit);
 		}
 	}
