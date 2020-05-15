@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,20 +14,20 @@ public class GraphingCommandArgumentFilterTest extends BaseUnitTest {
         getApp().setGraphingConfig();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testParallelLineWithPointAndLineIsFiltered() {
        addAvInput("A = (1,1)");
        addAvInput("B = (2,2)");
        addAvInput("C = (3,2)");
        addAvInput("f:Line(B,C)");
-       addAvInput("g:Line(A,f)");
+       assertGeoIsNull("g:Line(A,f)");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testParallelLineWithPointAndFunctionIsFiltered() {
         addAvInput("A = (1,2)");
         addAvInput("f(x) = x");
-        addAvInput("g:Line(A,f)");
+        assertGeoIsNull("g:Line(A,f)");
     }
 
     @Test
@@ -49,39 +50,36 @@ public class GraphingCommandArgumentFilterTest extends BaseUnitTest {
         addAvInput("Length(text)");
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testLengthOfLocusAllowed() {
-        addAvInput("f(x) = x^2 - 2x - 1");
-        addAvInput("A = (0,-1)");
-        addAvInput("Locus = (x(A), f'(x(A)))");
-        addAvInput("Length(Locus)");
-    }
-
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testLengthOfVectorIsFiltered() {
         addAvInput("vector = (1,2)");
-        addAvInput("Length(vector)");
+        assertGeoIsNull("Length(vector)");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testLengthFunctionStartXValueEndXValueIsFiltered() {
-        addAvInput("a = Length(2 x, 0, 1)");
+        assertGeoIsNull("a = Length(2 x, 0, 1)");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testLengthFunctionStartPointEndPointIsFiltered() {
-        addAvInput("a = Length(2 x, (0,0), (1,1))");
+        assertGeoIsNull("a = Length(2 x, (0,0), (1,1))");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testLengthCurveStartTValueEndTValueIsFiltered() {
         addAvInput("curve = Curve(2 cos(t), 2 sin(t), t, 0, 2π)");
-        addAvInput("Length(curve, 1, 7)");
+        assertGeoIsNull("Length(curve, 1, 7)");
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testLengthCurveStartPointEndPointIsFiltered() {
         addAvInput("curve = Curve(2 cos(t), 2 sin(t), t, 0, 2π)");
-        addAvInput("Length(curve, (2,0), (0,-2))");
+        assertGeoIsNull("Length(curve, (2,0), (0,-2))");
+    }
+
+    private void assertGeoIsNull(String command) {
+        GeoElement length = addAvInput(command);
+        Assert.assertNull(length);
     }
 }
