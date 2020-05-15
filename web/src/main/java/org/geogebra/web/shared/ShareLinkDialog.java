@@ -63,7 +63,6 @@ public class ShareLinkDialog extends DialogBoxW {
 				anchor.removeStyleName("selected");
 			}
 		});
-		FlowPanel mainPanel = new FlowPanel();
 		// panel with link text field
 		FlowPanel linkPanel = new FlowPanel();
 		linkPanel.setStyleName("linkPanel");
@@ -78,6 +77,7 @@ public class ShareLinkDialog extends DialogBoxW {
 		copyBtn = new StandardButton(localize("Copy"),
 				app);
 		copyBtn.setStyleName("copyButton");
+		FlowPanel mainPanel = new FlowPanel();
 		mainPanel.add(linkLabel);
 		linkPanel.add(linkBox);
 		linkPanel.add(copyBtn);
@@ -109,9 +109,9 @@ public class ShareLinkDialog extends DialogBoxW {
 		});
 
 		exportImgBtn = roundButton(
-				SharedResources.INSTANCE.file_download_white(),"exportImage");
+				SharedResources.INSTANCE.file_download_white(), "exportImage");
 		exportImgBtn.setStyleName("roundButton");
-		exportImgBtn.addFastClickHandler(source ->{
+		exportImgBtn.addFastClickHandler(source -> {
 			app.getDialogManager().showExportImageDialog(null);
 			hide();
 		});
@@ -167,13 +167,12 @@ public class ShareLinkDialog extends DialogBoxW {
 	}
 
 	private void copyEmbedCode() {
-		Material m = ((AppW)app).getActiveMaterial();
+		Material m = ((AppW) app).getActiveMaterial();
 		if (m != null) {
 			String url = ((AppW) app).getCurrentURL(m.getSharingKeyOrId(), true) + "?embed";
 			String code =
-					"<iframe src=\""
-					+ url
-					+ " width=\"800px\" height=\"600px\""
+					"<iframe src=\"" + url + "\""
+					+ " width=\"800\" height=\"600\" allowfullscreen"
 					+ " style=\"border: 1px solid #e4e4e4;border-radius: 4px;\""
 					+ " frameborder=\"0\"></iframe>";
 			app.copyTextToSystemClipboard(code);
