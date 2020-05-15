@@ -316,7 +316,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	private void handleIosKeyboard(char code) {
 		switch (code) {
 			case 'v':
-				CopyPasteW.pasteInternal(app);
+				CopyPasteW.pasteInternal((AppW) app);
 				break;
 			case 'c':
 				CopyPaste.handleCutCopy(app, false);

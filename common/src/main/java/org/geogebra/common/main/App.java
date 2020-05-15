@@ -433,7 +433,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	private boolean areCommands3DEnabled = true;
 	protected AccessibilityManagerInterface accessibilityManager;
-	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
 	private AlgebraOutputFilter algebraOutputFilter;
@@ -4945,17 +4944,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public String md5Encrypt(String s) {
-		return getMD5EncrypterStatic().encrypt(s);
-	}
-
-	/**
-	 * @return MD5 encrypter that can be used in GWT
-	 */
-	public static synchronized MD5EncrypterGWTImpl getMD5EncrypterStatic() {
-		if (md5Encrypter == null) {
-			md5Encrypter = new MD5EncrypterGWTImpl();
-		}
-		return md5Encrypter;
+		return MD5EncrypterGWTImpl.encrypt(s);
 	}
 
 	public EmbedManager getEmbedManager() {
