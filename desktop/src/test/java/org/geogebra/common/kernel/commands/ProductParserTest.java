@@ -106,13 +106,13 @@ public class ProductParserTest extends BaseUnitTest {
 
  	@Test
 	public void testC_2Index() {
-		shouldReparseAs("c_2e^(7x)","c_2 " + Unicode.EULER_STRING +"^(7x)");
+		shouldReparseAs("c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7x)");
 	}
 
- 	@Test
+	@Test
 	public void testAkakakaaa() {
 		withGeos("a", "k", "aa(x)");
-		shouldReparseAs("akakakaaa","a k a k a k a aa");
+		shouldReparseAs("akakakaaa", "a k a k a k a a a");
 	}
 
 	@Test
@@ -135,6 +135,7 @@ public class ProductParserTest extends BaseUnitTest {
 			add(string + "=?");
 		}
 	}
+
 	@Test
 	public void testIndex() {
 		shouldReparseAs("B_{0}e^(2)", "B_{0} " + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);

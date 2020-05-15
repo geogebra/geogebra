@@ -1,9 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.*;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
@@ -20,12 +19,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.himamis.retex.editor.share.util.Unicode;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GeoInputBoxTest extends BaseUnitTest {
 
@@ -442,6 +435,16 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = addAvInput("a = InputBox(f)");
 		inputBox.updateLinkedGeo("xx");
 		assertThat(inputBox.getTempUserEvalInput(), is(nullValue()));
+	}
+
+	@Test
+	public void testUserInputAakkaa() {
+		add("aa(x) = ?");
+		addAvInput("a = 2");
+		addAvInput("g(k) = ?");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
+		inputBox.updateLinkedGeo("aakkaa");
+		assertEquals("a a k k a a", inputBox.getText());
 	}
 
 	@Test

@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
@@ -224,7 +225,7 @@ public class VariableReplacerAlgorithm {
 		if (ret == null && "e".equals(nameNoX)) {
 			ret = kernel.getEulerNumber();
 		}
-		if (ret == null) {
+		if (ret == null || ret instanceof GeoFunction) {
 			ret = productCreator.getProduct(nameNoX);
 		}
 		return ret;

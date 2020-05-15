@@ -72,7 +72,7 @@ public class InputTokenizerTest extends BaseUnitTest {
 	@Test
 	public void testAakkaa() {
 		withGeos("aa(x)", "k", "a");
-		shouldBeSplitTo("aakkaa", "a", "a", "k", "k", "a", "a");
+		shouldBeSplitTo("aakkaaa", "a", "a", "k", "k", "a", "a", "a");
 	}
 
 	@Test

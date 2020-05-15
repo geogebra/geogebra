@@ -150,7 +150,8 @@ public class InputTokenizer {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < input.length(); i++) {
 			String label = sb.toString();
-			if (kernel.lookupLabel(label) != null) {
+			GeoElement geo = kernel.lookupLabel(label);
+			if (geo != null) {
 				return label;
 			}
 			sb.append(input.charAt(i));
