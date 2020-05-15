@@ -47,10 +47,9 @@ public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter 
         }
         if (arguments.length == 1) {
             GeoElement argument = arguments[0];
-            boolean argIsListOrTextOrLocus = argument.isGeoList() || argument.isGeoText()
-                    || argument.isGeoLocus();
+            boolean argIsListOrText = argument.isGeoList() || argument.isGeoText();
 
-            if (!argIsListOrTextOrLocus) {
+            if (!argIsListOrText) {
                 throw commandProcessor.argErr(command, argument);
             }
         } else if (arguments.length > 1) {
