@@ -1924,7 +1924,7 @@ __GGB__keysVar["ja"].menu = {
     "GeoGebra3DGrapher.short": "\u7a7a\u9593\u56f3\u5f62",
     "GeoGebraApps": "GeoGebra\u30a2\u30d7\u30ea",
     "GeoGebraCASCalculator": "GeoGebra \u6570\u5f0f\u51e6\u7406(CAS)",
-    "GeoGebraCalculatorSuite": "GeoGebra\u96fb\u5353\u30a2\u30d7\u30ea\u4e00\u5f0f",
+    "GeoGebraCalculatorSuite": "GeoGebra\u8a08\u7b97\u6a5f\u30b9\u30a4\u30fc\u30c8",
     "GeoGebraForum": "GeoGebra \u30d5\u30a9\u30fc\u30e9\u30e0",
     "GeoGebraGeometry": "GeoGebra \u5e7e\u4f55",
     "GeoGebraGraphingCalculator": "GeoGebra \u95a2\u6570\u30b0\u30e9\u30d5",
