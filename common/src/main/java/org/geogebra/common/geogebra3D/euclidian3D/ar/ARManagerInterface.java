@@ -71,12 +71,6 @@ public interface ARManagerInterface<T> {
 
     void setARRatio(double ratio);
 
-    String getUnits();
-
-    int getARRatioMetricSystem();
-
-    void setARRatioMetricSystem(int metricSystem);
-
     void setRatioIsShown(boolean ratioIsShown);
 
 }

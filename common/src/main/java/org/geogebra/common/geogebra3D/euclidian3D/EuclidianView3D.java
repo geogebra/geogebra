@@ -313,6 +313,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	final public static float FROM_INCH_TO_CM = 2.54f;
 	final public static float FROM_CM_TO_INCH = 0.393700787f;
 	private boolean arRatioIsShown = true;
+	private String arRatioUnit = "cm";    // current units used for Ratio snack bar and ratio settings
+	private int arRatioMetricSystem = EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS;
+
 
 	/**
 	 * common constructor
@@ -5078,5 +5081,33 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public boolean isARRatioShown() {
 		return arRatioIsShown;
+	}
+
+	/**
+	 * set AR Ratio Unit
+	 */
+	public void setArRatioUnit(String arRatioUnit) {
+		this.arRatioUnit = arRatioUnit;
+	}
+
+	/**
+	 * @return AR Ratio Unit
+	 */
+	public String getArRatioUnit() {
+		return arRatioUnit;
+	}
+
+	/**
+	 * set AR Ratio Metric System
+	 */
+	public void setARRatioMetricSystem(int arRatioMetricSystem) {
+		this.arRatioMetricSystem = arRatioMetricSystem;
+	}
+
+	/**
+	 * @return AR Ratio Metric System
+	 */
+	public int getARRatioMetricSystem() {
+		return arRatioMetricSystem;
 	}
 }
