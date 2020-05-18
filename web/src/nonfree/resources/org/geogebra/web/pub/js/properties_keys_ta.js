@@ -1529,6 +1529,7 @@ __GGB__keysVar["ta"].menu = {
     "Continuity": "\u0ba4\u0bca\u0b9f\u0bb0\u0bcd\u0b9a\u0bcd\u0b9a\u0bbf",
     "Continuous": "\u0ba4\u0bca\u0b9f\u0bb0\u0bcd",
     "Coordinates": "\u0b86\u0bb3\u0bcd\u0b95\u0bc2\u0bb1\u0bc1\u0b95\u0bb3\u0bcd",
+    "CopiedToClipboard": "Copied to clipboard",
     "Copy": "\u0ba8\u0b95\u0bb2\u0bcd",
     "CopyAsImage": "\u0baa\u0b9f\u0bbf\u0bae\u0bae\u0bbe\u0b95 \u0baa\u0bbf\u0bb0\u0ba4\u0bbf\u0baf\u0bc6\u0b9f\u0bc1",
     "CopyAsLaTeX": "LaTeX-\u0b86\u0b95 \u0baa\u0bbf\u0bb0\u0ba4\u0bbf\u0baf\u0bc6\u0b9f\u0bc1",

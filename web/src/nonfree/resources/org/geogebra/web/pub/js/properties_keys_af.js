@@ -1529,6 +1529,7 @@ __GGB__keysVar["af"].menu = {
     "Continuity": "Continuity",
     "Continuous": "Continuous",
     "Coordinates": "Coordinates",
+    "CopiedToClipboard": "Copied to clipboard",
     "Copy": "Copy",
     "CopyAsImage": "Copy as Image",
     "CopyAsLaTeX": "Copy as LaTeX",

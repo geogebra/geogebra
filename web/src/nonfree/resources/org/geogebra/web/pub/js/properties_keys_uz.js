@@ -1529,6 +1529,7 @@ __GGB__keysVar["uz"].menu = {
     "Continuity": "Uzluksizlik",
     "Continuous": "Uzluksiz",
     "Coordinates": "Koordinatalar",
+    "CopiedToClipboard": "Copied to clipboard",
     "Copy": "Nusxa olish",
     "CopyAsImage": "Tasvir nusxasini olish",
     "CopyAsLaTeX": "LaTeX ga nusxa olish",

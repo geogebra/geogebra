@@ -1529,6 +1529,7 @@ __GGB__keysVar["cy"].menu = {
     "Continuity": "Parhad",
     "Continuous": "Di-d\xf4r",
     "Coordinates": "Cyfesurynnau",
+    "CopiedToClipboard": "Copied to clipboard",
     "Copy": "Cop\xefo",
     "CopyAsImage": "Copio fel darlun",
     "CopyAsLaTeX": "Copio fel LaTeX",

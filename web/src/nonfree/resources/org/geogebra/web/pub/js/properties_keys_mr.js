@@ -1529,6 +1529,7 @@ __GGB__keysVar["mr"].menu = {
     "Continuity": "\u0905\u0916\u0902\u0921\u0924\u093e (Continuity)",
     "Continuous": "Continuous",
     "Coordinates": "\u0928\u093f\u0930\u094d\u0926\u0947\u0936\u0915 (coordinates)",
+    "CopiedToClipboard": "Copied to clipboard",
     "Copy": "\u092a\u094d\u0930\u0924 \u0915\u0930\u093e",
     "CopyAsImage": "Copy as Image",
     "CopyAsLaTeX": "Copy as LaTeX",

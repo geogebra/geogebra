@@ -1529,6 +1529,7 @@ __GGB__keysVar["eo"].menu = {
     "Continuity": "Kontinueco",
     "Continuous": "Kontinua",
     "Coordinates": "Koordinatoj",
+    "CopiedToClipboard": "Copied to clipboard",
     "Copy": "Kopii",
     "CopyAsImage": "Kopii kiel bildo",
     "CopyAsLaTeX": "Kopii kiel LaTeX",

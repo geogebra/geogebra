@@ -1529,6 +1529,7 @@ __GGB__keysVar["fil"].menu = {
     "Continuity": "Continuity",
     "Continuous": "Continuous",
     "Coordinates": "Mga koordineyt",
+    "CopiedToClipboard": "Copied to clipboard",
     "Copy": "Copy",
     "CopyAsImage": "Copy as Image",
     "CopyAsLaTeX": "Copy as LaTeX",

@@ -1529,6 +1529,7 @@ __GGB__keysVar["is"].menu = {
     "Continuity": "Samfelldni",
     "Continuous": "Samfellt",
     "Coordinates": "Hnit",
+    "CopiedToClipboard": "Copied to clipboard",
     "Copy": "Afrita",
     "CopyAsImage": "Afrita sem mynd",
     "CopyAsLaTeX": "Afrita sem LaTeX",
