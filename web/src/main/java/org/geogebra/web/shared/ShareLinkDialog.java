@@ -2,6 +2,7 @@ package org.geogebra.web.shared;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
@@ -22,8 +23,6 @@ public class ShareLinkDialog extends DialogBoxW {
 	private Label linkLabel;
 	/** textbox providing share url */
 	protected TextBox linkBox;
-	/** true if linkBox is focused */
-	protected boolean linkBoxFocused = true;
 	private StandardButton copyBtn;
 	private Label shareHelp;
 	private StandardButton printBtn;
@@ -131,9 +130,7 @@ public class ShareLinkDialog extends DialogBoxW {
 		setLabels();
 
 		copyBtn.addFastClickHandler(source -> {
-			linkBoxFocused = false;
 			app.copyTextToSystemClipboard(linkBox.getText());
-			focusLinkBox();
 			hide();
 		});
 	}
@@ -146,14 +143,8 @@ public class ShareLinkDialog extends DialogBoxW {
 	}
 
 	private void addLinkBoxHandlers() {
+		// prevent manual deselection
 		linkBox.addClickHandler(event -> focusLinkBox());
-		linkBox.addBlurHandler(event -> {
-			if (linkBoxFocused) {
-				linkBox.setFocus(true);
-				linkBox.setSelectionRange(0, 0);
-			}
-			linkBoxFocused = false;
-		});
 	}
 
 	/**
@@ -163,19 +154,20 @@ public class ShareLinkDialog extends DialogBoxW {
 		linkBox.setFocus(true);
 		linkBox.setSelectionRange(0, 0);
 		linkBox.selectAll();
-		linkBoxFocused = true;
 	}
 
 	private void copyEmbedCode() {
-		Material m = ((AppW) app).getActiveMaterial();
+		AppW appW = (AppW) this.app;
+		Material m = appW.getActiveMaterial();
 		if (m != null) {
-			String url = ((AppW) app).getCurrentURL(m.getSharingKeyOrId(), true) + "?embed";
+			String url = appW.getCurrentURL(m.getSharingKeyOrId(), true) + "?embed";
 			String code =
 					"<iframe src=\"" + url + "\""
 					+ " width=\"800\" height=\"600\" allowfullscreen"
 					+ " style=\"border: 1px solid #e4e4e4;border-radius: 4px;\""
 					+ " frameborder=\"0\"></iframe>";
-			app.copyTextToSystemClipboard(code);
+			this.app.copyTextToSystemClipboard(code);
+			ToolTipManagerW.sharedInstance().showBottomMessage("CopiedToClipboard", true, appW);
 		}
 	}
 
@@ -217,10 +209,7 @@ public class ShareLinkDialog extends DialogBoxW {
 		if (anchor != null) {
 			anchor.addStyleName("selected");
 		}
-		Scheduler.get().scheduleDeferred(() -> {
-			linkBox.selectAll();
-			linkBox.setFocus(true);
-		});
+		Scheduler.get().scheduleDeferred(this::focusLinkBox);
 	}
 
 	@Override
