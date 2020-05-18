@@ -448,6 +448,15 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testUserInputSinx() {
+		addAvInput("a=7");
+		addAvInput("g(x) = ?");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
+		inputBox.updateLinkedGeo("a sinx");
+		assertEquals("a sin(x)", inputBox.getText());
+	}
+
+	@Test
 	public void testUserInputNonNullAfterUpdatingLinkedGeoToInvalidInput() {
 		addAvInput("f(x) = x");
 		GeoInputBox inputBox = addAvInput("a = InputBox(f)");

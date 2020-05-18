@@ -139,10 +139,12 @@ public class Variable extends ValidExpression {
 	 * @param mode
 	 *            symbolic mode
 	 * 
+	 * @param allowTokenizer
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 *         wrapping spreadsheet reference
 	 */
-	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode) {
+	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode, boolean allowTokenizer) {
+		variableReplacerAlgorithm.setTokenizerAllowed(allowTokenizer);
 		GeoElement geo = resolve(false, mode);
 		if (geo == null) {
 			if (kernel.getConstruction().isRegistredFunctionVariable(name)) {

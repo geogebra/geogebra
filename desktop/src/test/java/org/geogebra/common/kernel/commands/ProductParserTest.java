@@ -1,12 +1,17 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.BaseUnitTest;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class ProductParserTest extends BaseUnitTest {
+	@Before
+	public void setUp() throws Exception {
+
+	}
 
 	@Test
 	public void testPiRSquare() {

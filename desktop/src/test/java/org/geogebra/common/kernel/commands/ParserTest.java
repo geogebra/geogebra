@@ -104,17 +104,20 @@ public class ParserTest {
 	}
 
 	private static String reparse(String string, StringTemplate tpl) {
-		return reparse(app, string, tpl);
+		return reparse(app, string, tpl, false);
 	}
 
-	private static String reparse(App app, String string, StringTemplate tpl) {
+	private static String reparse(App app, String string, StringTemplate tpl,
+								  boolean simplifiedMultiplication) {
 		String reparse1 = "";
 		try {
 			ValidExpression v1 = parseExpression(app, string);
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
-			v1.resolveVariables(new EvalInfo(false));
+			EvalInfo info = new EvalInfo(false).withSimplifiedMultiplication();
+
+			v1.resolveVariables(info);
 			v1.wrap().replaceXYZnodes(xVar, yVar, zVar,
 					new ArrayList<ExpressionNode>());
 			app.getKernel().getConstruction().registerFunctionVariable(null);
@@ -292,7 +295,7 @@ public class ParserTest {
 
 	static void shouldReparseAs(App app, String string, String expected) {
 		Assert.assertEquals(expected,
-				reparse(app, string, StringTemplate.editTemplate));
+				reparse(app, string, StringTemplate.editTemplate, true));
 	}
 
 	private static void shouldReparseAs(String string, String expected) {

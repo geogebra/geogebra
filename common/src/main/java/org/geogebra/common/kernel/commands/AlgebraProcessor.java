@@ -959,7 +959,7 @@ public class AlgebraProcessor {
 							// insertStarIfNeeded(undefinedVariables,
 							// ve2, fvX2);
 							replaceUndefinedVariables(ve2,
-									new TreeSet<GeoNumeric>(), null);
+									new TreeSet<GeoNumeric>(), null, info.isSimplifiedMultiplication());
 						}
 						try {
 							geos = processValidExpression(storeUndo, handler,
@@ -992,7 +992,8 @@ public class AlgebraProcessor {
 			// ==========================
 			// step5: replace undefined variables
 			// ==========================
-			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null);
+			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null,
+					info.isSimplifiedMultiplication());
 
 			// Do not copy plain variables, as
 			// they might have been just created now
@@ -1232,9 +1233,10 @@ public class AlgebraProcessor {
 	 *            replace everything
 	 */
 	public void replaceUndefinedVariables(ValidExpression ve,
-			TreeSet<GeoNumeric> undefined, String[] except) {
+			TreeSet<GeoNumeric> undefined, String[] except, boolean multiplication) {
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
 				this.kernel, undefined, except);
+		replacer.setSimplifyMultiplication(multiplication);
 		ve.traverse(replacer);
 
 	}

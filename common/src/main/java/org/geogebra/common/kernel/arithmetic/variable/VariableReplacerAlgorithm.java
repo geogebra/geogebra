@@ -31,7 +31,7 @@ public class VariableReplacerAlgorithm {
 	private Exponents exponents;
 	private ExpressionValue geo;
 	private int charIndex;
-	private boolean trigInProgress;
+	private boolean tokenizerAllowed=false;
 
 	/**
 	 * @param kernel The kernel.
@@ -50,6 +50,10 @@ public class VariableReplacerAlgorithm {
 	 */
 	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
+		if (!tokenizerAllowed) {
+			return replaceToken(expressionString);
+		}
+
 		ExpressionValue value = replaceToken(expressionString);
 		if (value instanceof Variable) {
 			return tokenize(expressionString);
@@ -106,8 +110,13 @@ public class VariableReplacerAlgorithm {
 
 		geo = lookupOrProduct(expressionString);
 		if (geo != null ) {
-			String label = getLabel(geo);
-			return isAtomicLabel(label) ? geo : tokenize(label);
+			if (tokenizerAllowed) {
+				String label = getLabel(geo);
+				return isAtomicLabel(label) ? geo : tokenize(label);
+			} else {
+				return geo;
+			}
+
 		}
 
 		nameNoX = expressionString;
@@ -176,14 +185,12 @@ public class VariableReplacerAlgorithm {
 					.getSingleArgumentOp(nameNoX.substring(0, charIndex));
 			op = ArcTrigReplacer.getDegreeInverseTrigOp(op);
 			if (op != null) {
-				trigInProgress = true;
 				ExpressionValue arg = new VariableReplacerAlgorithm(kernel)
 						.replaceToken(expressionString.substring(charIndex));
 				if (arg instanceof Variable) {
 					return arg;
 				}
 				if (arg != null) {
-					trigInProgress = false;
 					return arg.wrap().apply(op).traverse(
 							ArcTrigReplacer.getReplacer());
 				}
@@ -332,5 +339,9 @@ public class VariableReplacerAlgorithm {
 	// For tests only.
 	Exponents getExponents() {
 		return exponents;
+	}
+
+	public void setTokenizerAllowed(boolean value) {
+		tokenizerAllowed = value;
 	}
 }

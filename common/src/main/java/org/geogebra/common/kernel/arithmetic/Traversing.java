@@ -772,6 +772,10 @@ public interface Traversing {
 			variableReplacerAlgorithm = new VariableReplacerAlgorithm(kernel);
 		}
 
+		public void setSimplifyMultiplication(boolean value) {
+			variableReplacerAlgorithm.setTokenizerAllowed(value);
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 
