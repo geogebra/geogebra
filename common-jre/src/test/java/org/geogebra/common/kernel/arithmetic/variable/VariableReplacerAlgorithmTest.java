@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -35,13 +36,9 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("a_{1}b_{1}", "a_{1} * b_{1}");
 	}
 
+	@Ignore
 	@Test
 	public void testFunctionProducts() {
-		add("s=5");
-		add("i=5");
-		add("n=5");
-		add("a=5");
-		add("b=3");
 		shouldReplaceAs("sina", "sin(a)");
 	}
 

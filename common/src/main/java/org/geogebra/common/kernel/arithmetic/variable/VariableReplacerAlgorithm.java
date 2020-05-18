@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
@@ -31,6 +31,7 @@ public class VariableReplacerAlgorithm {
 	private Exponents exponents;
 	private ExpressionValue geo;
 	private int charIndex;
+	private boolean trigInProgress;
 
 	/**
 	 * @param kernel The kernel.
@@ -58,13 +59,14 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionValue tokenize(String expressionString) {
+
 		InputTokenizer tokenizer = new InputTokenizer(kernel, expressionString);
 		String next = expressionString;
 		while (tokenizer.hasToken()) {
 			next = tokenizer.next();
 			ExpressionValue v1 = replaceToken(next);
 			ExpressionValue v2 = tokenizer.noInputLeft()
-					? null
+						? null
 				: replace(tokenizer.getInputRemaining());
 
 			if (isProductFactor(v1) && isProductFactor(v2)) {
@@ -103,8 +105,9 @@ public class VariableReplacerAlgorithm {
 		exponents.initWithZero();
 
 		geo = lookupOrProduct(expressionString);
-		if (geo != null) {
-			return geo;
+		if (geo != null ) {
+			String label = getLabel(geo);
+			return isAtomicLabel(label) ? geo : tokenize(label);
 		}
 
 		nameNoX = expressionString;
@@ -151,6 +154,14 @@ public class VariableReplacerAlgorithm {
 		return ret;
 	}
 
+	private boolean isAtomicLabel(String label) {
+		return label.length() < 2 || label.charAt(1) == '_';
+	}
+
+	private String getLabel(ExpressionValue geo) {
+		return geo instanceof GeoElement ? ((GeoElement)geo).getLabelSimple() : "";
+	}
+
 	private ExpressionValue getDerivative(String expressionString) {
 		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
 		return expressionString.endsWith("'")
@@ -161,17 +172,18 @@ public class VariableReplacerAlgorithm {
 
 	private ExpressionValue processInReverse() {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
-
 			Operation op = kernel.getApplication().getParserFunctions()
 					.getSingleArgumentOp(nameNoX.substring(0, charIndex));
 			op = ArcTrigReplacer.getDegreeInverseTrigOp(op);
 			if (op != null) {
+				trigInProgress = true;
 				ExpressionValue arg = new VariableReplacerAlgorithm(kernel)
-						.replace(expressionString.substring(charIndex));
+						.replaceToken(expressionString.substring(charIndex));
 				if (arg instanceof Variable) {
 					return arg;
 				}
 				if (arg != null) {
+					trigInProgress = false;
 					return arg.wrap().apply(op).traverse(
 							ArcTrigReplacer.getReplacer());
 				}
@@ -217,6 +229,7 @@ public class VariableReplacerAlgorithm {
 				&& !isCharVariableOrConstantName(nameNoX)) {
 			return new FunctionVariable(kernel, nameNoX);
 		}
+
 		ExpressionValue ret = kernel.lookupLabel(nameNoX);
 
 		if (ret == null && "i".equals(nameNoX)) {
@@ -225,8 +238,9 @@ public class VariableReplacerAlgorithm {
 		if (ret == null && "e".equals(nameNoX)) {
 			ret = kernel.getEulerNumber();
 		}
-		if (ret == null || ret instanceof GeoFunction) {
-			ret = productCreator.getProduct(nameNoX);
+
+		if (ret == null) {
+			ret =  productCreator.getProduct(nameNoX);
 		}
 		return ret;
 }

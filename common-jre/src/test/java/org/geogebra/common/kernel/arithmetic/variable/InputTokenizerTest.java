@@ -87,6 +87,16 @@ public class InputTokenizerTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void textX4() {
+		shouldBeSplitTo("x4", "x", "4");
+	}
+
+	@Test
+	public void textK4() {
+		shouldBeSplitTo("k4", "k", "4");
+	}
+
+	@Test
 	public void testMutliFunctionVars() {
 		add("t(mul, var)=?");
 		shouldBeSplitTo("amulvarb", "a", "mul", "var", "b");

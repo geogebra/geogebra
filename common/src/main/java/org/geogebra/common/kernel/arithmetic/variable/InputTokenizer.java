@@ -102,6 +102,9 @@ public class InputTokenizer {
 		}
 
 		if (isDigitNext()) {
+			if (StringUtil.isLetter(input.charAt(0))) {
+				return String.valueOf(input.charAt(0));
+			}
 			return getNumberToken(0);
 		}
 

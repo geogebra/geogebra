@@ -78,7 +78,7 @@ public class ProductParserTest extends BaseUnitTest {
 		shouldReparseAs("kkkk", "k k k k");
 		shouldReparseAs("akakak", "a k a k a k");
 		shouldReparseAs("akka", "a k k a");
-		shouldReparseAs("kkaa", "k k aa");
+		shouldReparseAs("kkaa", "k k a a");
 	}
 
 	@Test
@@ -101,12 +101,29 @@ public class ProductParserTest extends BaseUnitTest {
 	public void testLnX() {
 		shouldReparseAs("xlnx", "x ln(x)");
 		shouldReparseAs("xln2x", "x ln(2x)");
-		shouldReparseAs("xln2xabc", "x ln(2x a b c)");
+//		shouldReparseAs("xln2xabc", "x ln(2x a b c)");
 	}
+
 
  	@Test
 	public void testC_2Index() {
 		shouldReparseAs("c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7x)");
+	}
+
+	@Ignore
+	@Test
+	public void testsina() {
+		shouldReparseAs("sina", "sin(a)");
+	}
+
+	@Test
+	public void testx4() {
+		shouldReparseAs("x4", "x 4");
+	}
+
+	@Test
+	public void testk4() {
+		shouldReparseAs("k4", "k 4");
 	}
 
 	@Test
