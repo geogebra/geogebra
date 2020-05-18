@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -27,8 +29,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-
-import java.util.ArrayList;
 
 /**
  * The main frame containing every view / menu bar / .... This Panel (Frame is

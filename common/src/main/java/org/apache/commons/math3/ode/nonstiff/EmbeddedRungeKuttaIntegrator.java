@@ -23,7 +23,6 @@ import org.apache.commons.math3.exception.NoBracketingException;
 import org.apache.commons.math3.exception.NumberIsTooSmallException;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.util.Cloner;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements the common part of all embedded Runge-Kutta

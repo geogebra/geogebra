@@ -3,7 +3,6 @@ package org.geogebra.web.html5.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.annotation.CheckForNull;
 
@@ -76,7 +75,6 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
@@ -132,6 +130,7 @@ import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.settings.DefaultSettingsW;
 import org.geogebra.web.html5.main.settings.SettingsBuilderW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
+import org.geogebra.web.html5.safeimage.SafeImageLoader;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -814,23 +813,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		beforeLoadFile(asSlide);
 
 		GgbFile archive = archiveContent.duplicate("tmp");
-
+		final GgbArchive def = new GgbArchive(archive, is3D());
 		// Handling of construction and macro file
-		final String construction = archive.remove(MyXMLio.XML_FILE);
-		final String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
-		final String defaults2d = archive.remove(MyXMLio.XML_FILE_DEFAULTS_2D);
-		final String defaults3d = is3D()
-				? archive.remove(MyXMLio.XML_FILE_DEFAULTS_3D) : null;
 
 		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 		// Construction (required)
-		if (construction == null && macros == null) {
+		if (def.isInvalid()) {
 			throw new ConstructionException(
 					"File is corrupt: No GeoGebra data found");
 		}
 
-		if (construction != null) {
+		if (def.hasConstruction()) {
 			// ggb file: remove all macros from kernel before processing
 			kernel.removeAllMacros();
 		}
@@ -841,21 +835,14 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} else {
 			kernel.setLibraryJavaScript(libraryJS);
 		}
-		HashMap<String, String> toLoad = new HashMap<>();
-		for (Entry<String, String> entry : archive.entrySet()) {
 
-			String key = entry.getKey();
-
-			if (getImageManager().getExternalImage(key, this, false) == null) {
-				maybeProcessImage(key, entry.getValue(), toLoad);
-			}
-		}
 		if (getEmbedManager() != null) {
 			getEmbedManager().loadEmbeds(archive);
 		}
-		if (construction == null) {
-			if (macros != null) {
-				getXMLio().processXMLString(macros, true, true);
+
+		if (!def.hasConstruction()) {
+			if (def.hasMacros()) {
+				getXMLio().processXMLString(def.getMacros(), true, true);
 			}
 
 			setCurrentFile(archiveContent);
@@ -865,49 +852,46 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			}
 			getGuiManager().updateToolbar();
 			return;
+
 		}
-		Runnable afterImages = new Runnable() {
 
-			@Override
-			public void run() {
-				try {
-					setHideConstructionProtocolNavigation();
-					Log.debug("images loaded");
-					// Macros (optional)
-					if (macros != null) {
-						// macros = DataUtil.utf8Decode(macros);
-						// //DataUtil.utf8Decode(macros);
-						getXMLio().processXMLString(macros, true, true);
+		SafeImageLoader imageLoader = new SafeImageLoader(this, archive,
+				new Runnable() {
+					@Override
+					public void run() {
+						runAfterLoadImages(def, asSlide);
 					}
-					int seed = getArticleElement().getParamRandomSeed();
-					if (seed != -1) {
-						setRandomSeed(seed);
-					}
-					getXMLio().processXMLString(construction, true, false,
-							true);
-					// defaults (optional)
-					if (defaults2d != null) {
-						getXMLio().processXMLString(defaults2d, false, true);
-					}
-					if (defaults3d != null) {
-						getXMLio().processXMLString(defaults3d, false, true);
-					}
-					afterLoadFileAppOrNot(asSlide);
+				});
+		imageLoader.load();
+	}
 
-				} catch (Exception e) {
-					Log.debug(e);
-				}
+	private void runAfterLoadImages(GgbArchive def, boolean asSlide) {
+		try {
+			setHideConstructionProtocolNavigation();
+			Log.debug("images loaded");
+			// Macros (optional)
+			if (def.hasMacros()) {
+				// macros = DataUtil.utf8Decode(macros);
+				// //DataUtil.utf8Decode(macros);
+				getXMLio().processXMLString(def.getMacros(), true, true);
 			}
+			int seed = getArticleElement().getParamRandomSeed();
+			if (seed != -1) {
+				setRandomSeed(seed);
+			}
+			getXMLio().processXMLString(def.getConstruction(), true, false,
+					true);
+			// defaults (optional)
+			if (def.hasDefaults2d()) {
+				getXMLio().processXMLString(def.getDefaults2d(), false, true);
+			}
+			if (def.hasDefaults3d()) {
+				getXMLio().processXMLString(def.getDefaults3d(), false, true);
+			}
+			afterLoadFileAppOrNot(asSlide);
 
-		};
-		if (toLoad.isEmpty()) {
-			afterImages.run();
-			setCurrentFile(archiveContent);
-			// getKernel().setNotifyViewsActive(true);
-		} else {
-			// on images do nothing here: wait for callback when images loaded.
-			getImageManager().triggerImageLoading(this, afterImages, toLoad);
-			setCurrentFile(archiveContent);
+		} catch (Exception e) {
+			Log.debug(e);
 		}
 	}
 
@@ -998,44 +982,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} else {
 			clearConstruction();
 		}
-	}
-
-	private boolean maybeProcessImage(String filename0, String content,
-			HashMap<String, String> toLoad) {
-		String fn = filename0.toLowerCase();
-		if (fn.equals(MyXMLio.XML_FILE_THUMBNAIL)) {
-			return false; // Ignore thumbnail
-		}
-
-		FileExtensions ext = StringUtil.getFileExtension(fn);
-
-		// Ignore non image files
-		if (!ext.isImage()) {
-			return false;
-		}
-		String filename = filename0;
-		// bug in old versions (PNG saved with wrong extension)
-		// change BMP, TIFF, TIF -> PNG
-		if (!ext.isAllowedImage()) {
-			filename = StringUtil.changeFileExtension(filename,
-					FileExtensions.PNG);
-		}
-
-		// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
-		// Log.debug("filename2 = " + filename);
-		// Log.debug("ext2 = " + ext);
-
-		if (ext.equals(FileExtensions.SVG)) {
-			// IE11/Edge needs SVG to be base64 encoded
-			String fixedContent =
-					Browser.encodeSVG(ImageManager.fixSVG(content));
-			getImageManager().addExternalImage(filename, fixedContent);
-			toLoad.put(filename, fixedContent);
-		} else {
-			getImageManager().addExternalImage(filename, content);
-			toLoad.put(filename, content);
-		}
-		return true;
 	}
 
 	@Override
@@ -1533,8 +1479,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// TODO: image file name should be reset after the file data is
 		// available
 
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zipDirectory = md5e.encrypt(url);
+		String zipDirectory = MD5EncrypterGWTImpl.encrypt(url);
 
 		// with dummy extension, maybe gif or jpg in real
 		String imgFileName = zipDirectory + ".png";

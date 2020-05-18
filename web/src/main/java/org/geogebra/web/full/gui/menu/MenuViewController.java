@@ -1,14 +1,7 @@
 package org.geogebra.web.full.gui.menu;
 
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
-import com.google.gwt.safehtml.shared.UriUtils;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.List;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menu.DrawerMenu;
@@ -39,7 +32,15 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.resources.SVGResource;
 
-import java.util.List;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.safehtml.shared.UriUtils;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Controller for the main menu in the apps.

@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -37,7 +38,6 @@ public class LoadFilePresenter {
 	public void onPageLoad(final ArticleElementInterface view, final AppW app,
 			ViewW vv) {
 
-		// ViewW view = getView();
 		String base64String;
 		String filename;
 		app.checkScaleContainer();
@@ -69,12 +69,6 @@ public class LoadFilePresenter {
 			}
 		}
 
-		// app.setChooserPopupsEnabled(enableChooserPopups);
-		// app.setErrorDialogsActive(errorDialogsActive);
-		// if (customToolBar != null && customToolBar.length() > 0 &&
-		// showToolBar)
-		// app.getGuiManager().setToolBarDefinition(customToolBar);
-		// app.setMaxIconSize(maxIconSize);
 		boolean fullApp = !app.isApplet();
 		boolean showToolBar = view.getDataParamShowToolBar(fullApp);
 		boolean showMenuBar = view.getDataParamShowMenuBar(fullApp);
@@ -116,9 +110,12 @@ public class LoadFilePresenter {
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
 		        || view.getDataParamApp());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
-		app.setButtonShadows(view.getDataParamButtonShadows());
-		app.setButtonRounding(view.getDataParamButtonRounding());
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
+
+		StyleSettings styleSettings = app.getSettings().getStyle();
+		styleSettings.setButtonShadows(view.getDataParamButtonShadows());
+		styleSettings.setButtonRounding(view.getDataParamButtonRounding());
+		styleSettings.setButtonBorderColor(view.getDataParamButtonBorderColor());
 
 		if (!fileOpened) {
 			if (!openEmptyApp(app, view)) {

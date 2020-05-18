@@ -1,8 +1,8 @@
 package org.geogebra.common.gui.menu.impl;
 
-import org.geogebra.common.gui.menu.MenuItemGroup;
-
 import javax.annotation.Nullable;
+
+import org.geogebra.common.gui.menu.MenuItemGroup;
 
 abstract class AbstractMenuItemGroup implements MenuItemGroup {
 

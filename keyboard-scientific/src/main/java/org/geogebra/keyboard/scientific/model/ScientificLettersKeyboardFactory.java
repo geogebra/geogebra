@@ -1,9 +1,9 @@
 package org.geogebra.keyboard.scientific.model;
 
+import java.util.Arrays;
+
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
-
-import java.util.Arrays;
 
 public class ScientificLettersKeyboardFactory extends LetterKeyboardFactory {
 

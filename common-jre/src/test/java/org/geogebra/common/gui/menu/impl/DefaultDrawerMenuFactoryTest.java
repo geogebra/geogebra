@@ -6,6 +6,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.in;
 
+import java.util.List;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.DrawerMenu;
@@ -20,8 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.Mockito;
-
-import java.util.List;
 
 public class DefaultDrawerMenuFactoryTest {
 

@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.BaseUnitTest;
-import org.junit.Test;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+
+import org.geogebra.common.BaseUnitTest;
+import org.junit.Test;
 
 public class GeoLineTest extends BaseUnitTest {
 

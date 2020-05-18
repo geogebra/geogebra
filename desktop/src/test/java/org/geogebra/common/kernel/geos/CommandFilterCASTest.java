@@ -1,13 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.AlgebraTest;
-import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CommandFilterCASTest extends BaseSymbolicTest {

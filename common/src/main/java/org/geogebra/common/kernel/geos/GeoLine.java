@@ -18,7 +18,11 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -62,10 +66,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Geometrical representation of line

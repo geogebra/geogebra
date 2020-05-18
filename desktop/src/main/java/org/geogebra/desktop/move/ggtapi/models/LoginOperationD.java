@@ -1,6 +1,6 @@
 package org.geogebra.desktop.move.ggtapi.models;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;

@@ -32,7 +32,6 @@ import org.apache.commons.math3.stat.descriptive.summary.SumOfLogs;
 import org.apache.commons.math3.stat.descriptive.summary.SumOfSquares;
 import org.apache.commons.math3.util.MathUtils;
 import org.apache.commons.math3.util.Precision;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * <p>

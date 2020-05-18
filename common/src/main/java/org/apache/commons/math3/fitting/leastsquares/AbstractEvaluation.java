@@ -22,7 +22,6 @@ import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.QRDecomposition;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * An implementation of {@link Evaluation} that is designed for extension. All of the

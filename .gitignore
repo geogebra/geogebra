@@ -5,7 +5,10 @@ web/war
 /.gradle/
 
 # InteliJ specific
-.idea
+!.idea/
+.idea/*
+# Share code styles between members
+!.idea/codeStyles
 *.iml
 **/out
 

@@ -1,5 +1,9 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
@@ -9,10 +13,6 @@ import org.geogebra.common.plugin.Operation;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ExpressionNodeEvaluatorTest extends BaseUnitTest {
 
