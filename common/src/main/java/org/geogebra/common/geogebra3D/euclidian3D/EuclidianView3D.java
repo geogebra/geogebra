@@ -5086,14 +5086,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * set AR Ratio Unit
 	 */
-	public void setArRatioUnit(String arRatioUnit) {
+	public void setARRatioUnit(String arRatioUnit) {
 		this.arRatioUnit = arRatioUnit;
 	}
 
 	/**
 	 * @return AR Ratio Unit
 	 */
-	public String getArRatioUnit() {
+	public String getARRatioUnit() {
 		return arRatioUnit;
 	}
 
