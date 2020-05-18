@@ -44,7 +44,9 @@ public class PropertiesFactory {
             LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
 
-        return new PropertiesList(new RoundingProperty(app, localization),
+        return new PropertiesList(
+                "",
+                new RoundingProperty(app, localization),
                 new AngleUnitProperty(kernel, localization),
                 new LabelingProperty(app, localization),
                 new CoordinatesProperty(kernel, localization),
@@ -65,6 +67,7 @@ public class PropertiesFactory {
         Kernel kernel = app.getKernel();
 
         return new PropertiesList(
+                "",
                 new AngleUnitProperty(kernel, localization),
                 new RoundingProperty(app, localization),
                 new FontSizeProperty(app, localization),
@@ -83,12 +86,14 @@ public class PropertiesFactory {
         Kernel kernel = app.getKernel();
         if (app.has(Feature.MOB_PROPERTY_SORT_BY)) {
 			return new PropertiesList(
+			        "",
 					new AlgebraDescriptionProperty(kernel, localization),
 					new SortByProperty(algebraView, localization),
 					new ShowAuxiliaryProperty(app, localization)
 			);
 		} else {
 			return new PropertiesList(
+			        "",
 					new AlgebraDescriptionProperty(kernel, localization),
 					new ShowAuxiliaryProperty(app, localization));
 		}

@@ -32,7 +32,9 @@ public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implemen
         propertyHelper = new GeoListPropertyHelper<>(app, this);
     }
 
-    @Override
+    /**
+     * @param geoElements geoElements
+     */
     public void setGeoElements(List<GeoElementND> geoElements) {
         propertyHelper.setGeoElements(geoElements);
     }

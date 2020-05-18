@@ -39,7 +39,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 	 *            localization
 	 */
     public GraphicsPropertiesList(App app, Localization localization) {
-		super(getProperties(app, localization));
+		super("", getProperties(app, localization));
         mApp = app;
         mLocalization = localization;
 	}
@@ -88,11 +88,11 @@ public class GraphicsPropertiesList extends PropertiesList {
     }
 
     @Override
-    public Property[] getPropertiesList() {
+    public Property[] getProperties() {
         if (mApp.getActiveEuclidianView().isAREnabled()) {
             if (propertiesArrayARView == null) {
 				ArrayList<Property> propertiesListARView = new ArrayList<>();
-				for (Property prop : mProperties) {
+				for (Property prop : getProperties()) {
 					propertiesListARView.add(prop);
 				}
 				if (mApp.has(Feature.G3D_AR_RATIO_SETTINGS)) {
@@ -111,7 +111,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 			}
 			return propertiesArrayARView;
         }
-        return mProperties;
+        return getProperties();
     }
 
 }

@@ -100,6 +100,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.properties.PropertyCollection;
+import org.geogebra.common.properties.factory.PropertiesOwner;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.IndexHTMLBuilder;
@@ -122,8 +124,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @version 2011-12-02
  */
 
-public abstract class GeoElement extends ConstructionElement
-		implements GeoElementND {
+public abstract class GeoElement
+		extends ConstructionElement
+		implements GeoElementND, PropertiesOwner {
 
 	/**
 	 * Column headings for spreadsheet trace
@@ -326,6 +329,8 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 	};
+
+	private List<PropertyCollection> properties;
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -7314,5 +7319,17 @@ public abstract class GeoElement extends ConstructionElement
 
 	protected boolean canBeFunctionOrEquationFromUser() {
 		return this instanceof EquationValue;
+	}
+
+	@Override
+	public List<PropertyCollection> getProperties() {
+		if (properties == null) {
+			properties = createProperties();
+		}
+		return properties;
+	}
+
+	protected List<PropertyCollection> createProperties() {
+		return new ArrayList<>();
 	}
 }
