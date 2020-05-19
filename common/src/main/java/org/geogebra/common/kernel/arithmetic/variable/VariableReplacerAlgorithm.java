@@ -90,7 +90,8 @@ public class VariableReplacerAlgorithm {
 			return false;
 		}
 
-		return value.isNumberValue() || value.isVariable()
+		return value.isNumberValue() || value.isConstant()
+				|| value.isVariable()
 				|| isProduct(value) || value.isGeoElement();
 	}
 
