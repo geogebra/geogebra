@@ -860,6 +860,15 @@ public interface Traversing {
 
 		private TreeSet<String> tree = new TreeSet<>();
 		private TreeSet<String> localTree = new TreeSet<>();
+		private boolean simplifiedMultiplication;
+
+		public CollectUndefinedVariables() {
+			this(false);
+		}
+
+		public CollectUndefinedVariables(boolean simplifiedMultiplication) {
+			this.simplifiedMultiplication = simplifiedMultiplication;
+		}
 
 		/**
 		 * 
@@ -885,6 +894,7 @@ public interface Traversing {
 				if (expressionFromVariableName == null) {
 					VariableReplacerAlgorithm variableReplacerAlgorithm =
 							new VariableReplacerAlgorithm(variable.getKernel());
+					variableReplacerAlgorithm.setTokenizerAllowed(simplifiedMultiplication);
 					expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
 				}
 
