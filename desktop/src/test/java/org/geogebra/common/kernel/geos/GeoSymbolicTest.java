@@ -1103,15 +1103,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testRadians() {
-		GeoSymbolic angle = add("1 rad");
+		GeoSymbolic angle = add("1rad");
 		assertThat(
 				angle.getDefinition(StringTemplate.defaultTemplate),
-				equalTo("1 rad"));
+				equalTo("1rad"));
 		assertThat(
 				angle.getValueForInputBar(),
-				equalTo("1 rad"));
+				equalTo("1rad"));
 		assertThat(
 				angle.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
-				equalTo("1 rad"));
+				equalTo("1rad"));
 	}
 }
