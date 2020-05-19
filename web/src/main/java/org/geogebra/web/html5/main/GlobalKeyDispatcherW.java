@@ -12,10 +12,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.util.CopyPasteW;
-import org.geogebra.web.html5.util.Dom;
-
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -25,7 +21,6 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -40,7 +35,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 
-	private Element focusDummy = null;
+	private boolean escPressed = false;
 
 	/**
 	 * @return whether ctrl is pressed
@@ -85,19 +80,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	 */
 	public GlobalKeyDispatcherW(AppW app) {
 		super(app);
-		addFocusDummy(app.getArticleElement().getElement());
-	}
-
-	/**
-	 * Add a dummy element to the frame
-	 */
-	protected void addFocusDummy(Element element) {
-		if (!Browser.needsAccessibilityView()) {
-			focusDummy = DOM.createSpan();
-			focusDummy.setTabIndex(0);
-			focusDummy.addClassName("geogebraweb-dummy-invisible");
-			element.appendChild(focusDummy);
-		}
 	}
 
 	private class GlobalShortcutHandler implements EventListener {
@@ -121,18 +103,12 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
 				if (kc == KeyCodes.TAB) {
-					Element activeElement = Dom.getActiveElement();
-					if (activeElement != focusDummy) {
+					if (!escPressed) {
 						handleTab(event.getShiftKey());
 						handled = true;
 					}
 				} else if (kc == KeyCodes.ESCAPE) {
-					Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-						@Override
-						public void execute() {
-							focusDummy.focus();
-						}
-					});
+					escPressed = true;
 					handled = true;
 				}
 
@@ -327,5 +303,9 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			default:
 				break;
 		}
+	}
+
+	public void setEscPressed(boolean escPressed) {
+		this.escPressed = escPressed;
 	}
 }
