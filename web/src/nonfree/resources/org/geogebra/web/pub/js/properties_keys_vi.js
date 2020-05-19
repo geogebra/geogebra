@@ -3442,6 +3442,7 @@ __GGB__keysVar["vi"].menu = {
     "stylebar.ViewXZ": "View towards xOz plane",
     "stylebar.ViewYZ": "View towards yOz plane",
     "stylebar.xOyPlane": "Show or hide xOy plane",
+    "suite_tutorial": "etg2rk8j",
     "svg": "\u0110\u1ed3 th\u1ecb v\xe9c t\u01a1 v\xf4 h\u01b0\u1edbng",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

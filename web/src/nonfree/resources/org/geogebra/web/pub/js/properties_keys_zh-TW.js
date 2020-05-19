@@ -3442,6 +3442,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "stylebar.ViewXZ": "\u9762\u5411 xz \u5e73\u9762",
     "stylebar.ViewYZ": "\u9762\u5411 yz \u5e73\u9762",
     "stylebar.xOyPlane": "\u986f\u793a xy \u5e73\u9762",
+    "suite_tutorial": "etg2rk8j",
     "svg": "SVG",
     "takepicture": "\u622a\u5716",
     "tutorial_apps_comparison": "shfwqcpr",

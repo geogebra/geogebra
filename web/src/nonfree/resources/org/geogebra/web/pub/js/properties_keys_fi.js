@@ -3442,6 +3442,7 @@ __GGB__keysVar["fi"].menu = {
     "stylebar.ViewXZ": "Katsele kohti xz-tasoa",
     "stylebar.ViewYZ": "Katsele kohti yz-tasoa",
     "stylebar.xOyPlane": "N\xe4yt\xe4 tai piilota xy-taso",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Ota kuva",
     "tutorial_apps_comparison": "shfwqcpr",

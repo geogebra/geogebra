@@ -3442,6 +3442,7 @@ __GGB__keysVar["nb"].menu = {
     "stylebar.ViewXZ": "Utsikt mot xOz plan",
     "stylebar.ViewYZ": "Utsikt mot yOz plan",
     "stylebar.xOyPlane": "Vis eller skjul xOy plan",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Ta bilde",
     "tutorial_apps_comparison": "shfwqcpr",

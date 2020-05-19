@@ -3442,6 +3442,7 @@ __GGB__keysVar["sk"].menu = {
     "stylebar.ViewXZ": "Poh\u013ead roviny xOz",
     "stylebar.ViewYZ": "Poh\u013ead roviny yOz",
     "stylebar.xOyPlane": "Uk\xe1za\u0165 alebo skry\u0165 rovinu xOy",
+    "suite_tutorial": "etg2rk8j",
     "svg": "\u0160k\xe1lova\u0165eln\xe1 vektorov\xe1 grafika (svg)",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

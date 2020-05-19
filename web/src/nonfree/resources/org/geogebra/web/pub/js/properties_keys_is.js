@@ -3442,6 +3442,7 @@ __GGB__keysVar["is"].menu = {
     "stylebar.ViewXZ": "S\xfdn m\xf3ti xOz plani",
     "stylebar.ViewYZ": "S\xfdn \xed \xe1tt a\xf0 yOz sl\xe9ttu",
     "stylebar.xOyPlane": "S\xfdna e\xf0a fela xOy plan",
+    "suite_tutorial": "etg2rk8j",
     "svg": "St\xe6kkanlegar vigurmyndir",
     "takepicture": "Taka mynd",
     "tutorial_apps_comparison": "shfwqcpr",

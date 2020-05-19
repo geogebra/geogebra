@@ -3442,6 +3442,7 @@ __GGB__keysVar["uz"].menu = {
     "stylebar.ViewXZ": "xOz tekislik yo'nalishida ko'rinish",
     "stylebar.ViewYZ": "yOz tekislik bo'yicha ko'rinish",
     "stylebar.xOyPlane": "xOy tekislikni ko'rsatish yoki yashirish",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

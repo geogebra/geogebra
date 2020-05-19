@@ -3442,6 +3442,7 @@ __GGB__keysVar["cs"].menu = {
     "stylebar.ViewXZ": "Pohled sm\u011brem na rovinu xOz",
     "stylebar.ViewYZ": "Pohled sm\u011brem na rovinu yOz",
     "stylebar.xOyPlane": "Zobrazit nebo skr\xfdt rovinu xOy",
+    "suite_tutorial": "etg2rk8j",
     "svg": "\u0160k\xe1lovat grafick\xfd vektor",
     "takepicture": "Ud\u011blat sn\xedmek",
     "tutorial_apps_comparison": "shfwqcpr",

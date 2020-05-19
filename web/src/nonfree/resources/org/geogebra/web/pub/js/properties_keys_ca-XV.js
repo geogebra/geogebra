@@ -3442,6 +3442,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "stylebar.ViewXZ": "Vista en direcci\xf3 al pla xOz",
     "stylebar.ViewYZ": "Vista en direcci\xf3 al pla yOz",
     "stylebar.xOyPlane": "Mostra o amaga el pla xOy",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Gr\xe0fics vectorials escalables",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

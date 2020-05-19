@@ -3442,6 +3442,7 @@ __GGB__keysVar["sv"].menu = {
     "stylebar.ViewXZ": "Vy mot xOz-planet",
     "stylebar.ViewYZ": "Vy mot yOz-planet",
     "stylebar.xOyPlane": "Visa eller d\xf6lj xOy-planet",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Ta foto",
     "tutorial_apps_comparison": "shfwqcpr",

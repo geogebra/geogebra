@@ -3442,6 +3442,7 @@ __GGB__keysVar["tr"].menu = {
     "stylebar.ViewXZ": "xOz D\xfczlemine do\u011fru G\xf6r\xfcn\xfcm",
     "stylebar.ViewYZ": "yOz D\xfczlemine do\u011fru G\xf6r\xfcn\xfcm",
     "stylebar.xOyPlane": "xOy D\xfczlemini G\xf6ster veya Sakla",
+    "suite_tutorial": "etg2rk8j",
     "svg": "\xd6l\xe7eklenebilir Vekt\xf6r Grafi\u011fi",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

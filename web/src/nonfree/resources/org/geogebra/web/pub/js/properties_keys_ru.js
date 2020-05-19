@@ -3442,6 +3442,7 @@ __GGB__keysVar["ru"].menu = {
     "stylebar.ViewXZ": "\u0412\u0438\u0434 \u043d\u0430 \u043f\u043b\u043e\u0441\u043a\u043e\u0441\u0442\u044c xOz",
     "stylebar.ViewYZ": "\u0412\u0438\u0434 \u043d\u0430 \u043f\u043b\u043e\u0441\u043a\u043e\u0441\u0442\u044c yOz",
     "stylebar.xOyPlane": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0438\u043b\u0438 \u0441\u043f\u0440\u044f\u0442\u0430\u0442\u044c \u043f\u043b\u043e\u0441\u043a\u043e\u0441\u0442\u044c xOy",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

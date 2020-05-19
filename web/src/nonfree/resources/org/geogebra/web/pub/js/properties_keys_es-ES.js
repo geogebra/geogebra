@@ -3442,6 +3442,7 @@ __GGB__keysVar["es-ES"].menu = {
     "stylebar.ViewXZ": "Vista frontal del plano XZ",
     "stylebar.ViewYZ": "Vista frontal del plano YZ",
     "stylebar.xOyPlane": "Mostrar/ocultar el plano XY",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Imagen vectorial SVG",
     "takepicture": "Tomar foto",
     "tutorial_apps_comparison": "shfwqcpr",

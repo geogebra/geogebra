@@ -3442,6 +3442,7 @@ __GGB__keysVar["et"].menu = {
     "stylebar.ViewXZ": "Vaade xz-tasandi suhtes",
     "stylebar.ViewYZ": "Vaade yz-tasandi suhtes",
     "stylebar.xOyPlane": "N\xe4ita v\xf5i peida xOy tasand",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Skaleeritav vektorgraafika",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

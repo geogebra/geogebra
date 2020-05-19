@@ -3442,6 +3442,7 @@ __GGB__keysVar["ro"].menu = {
     "stylebar.ViewXZ": "Vezi spre planul xOz",
     "stylebar.ViewYZ": "Vezi spre planul yOz",
     "stylebar.xOyPlane": "Afi\u0219eaz\u0103 sau ascunde planul xOy",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Grafic\u0103 Vectorial\u0103 Scalabil\u0103 (gvs)",
     "takepicture": "Face\u021bi o fotografie",
     "tutorial_apps_comparison": "shfwqcpr",

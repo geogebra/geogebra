@@ -3442,6 +3442,7 @@ __GGB__keysVar["da"].menu = {
     "stylebar.ViewXZ": "Kig mod xOz planet",
     "stylebar.ViewYZ": "Kig mod yOz planet",
     "stylebar.xOyPlane": "Vis eller skjul xOy planet",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Skalerbar vektor grafik",
     "takepicture": "Tag et billede",
     "tutorial_apps_comparison": "shfwqcpr",

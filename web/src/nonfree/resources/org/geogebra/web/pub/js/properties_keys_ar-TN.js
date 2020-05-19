@@ -3442,6 +3442,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "stylebar.ViewXZ": "\u0641\u064a \u0627\u0644\u0648\u062c\u0647\u0629 xOz \u0627\u0644\u0645\u0633\u062a\u0648\u064a",
     "stylebar.ViewYZ": "\u0641\u064a \u0627\u0644\u0648\u062c\u0647\u0629 yOz \u0627\u0644\u0645\u0633\u062a\u0648\u064a",
     "stylebar.xOyPlane": "xOy \u0625\u0638\u0647\u0627\u0631 \u0623\u0648 \u0625\u062e\u0641\u0627\u0621 \u0627\u0644\u0645\u0633\u062a\u0648\u064a",
+    "suite_tutorial": "etg2rk8j",
     "svg": "SVG",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

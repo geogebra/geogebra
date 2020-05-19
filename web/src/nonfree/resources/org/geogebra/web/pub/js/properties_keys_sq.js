@@ -3442,6 +3442,7 @@ __GGB__keysVar["sq"].menu = {
     "stylebar.ViewXZ": "View towards xOz plane",
     "stylebar.ViewYZ": "View towards yOz plane",
     "stylebar.xOyPlane": "Show or hide xOy plane",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Grafike Vektoriale te Shkallezueshem",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

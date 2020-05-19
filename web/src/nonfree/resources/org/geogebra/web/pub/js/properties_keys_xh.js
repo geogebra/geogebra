@@ -3442,6 +3442,7 @@ __GGB__keysVar["xh"].menu = {
     "stylebar.ViewXZ": "Jonga ngakwi xOz plane",
     "stylebar.ViewYZ": "Jonga ngakwi yOz plane",
     "stylebar.xOyPlane": "Bonisa okanye Fihla ixOy plane",
+    "suite_tutorial": "etg2rk8j",
     "svg": "iScalable Vector Graphics",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

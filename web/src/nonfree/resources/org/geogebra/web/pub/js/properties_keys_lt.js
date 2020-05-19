@@ -3442,6 +3442,7 @@ __GGB__keysVar["lt"].menu = {
     "stylebar.ViewXZ": "xOz plok\u0161tumos vaizdas",
     "stylebar.ViewYZ": "yOz plok\u0161tumos vaizdas",
     "stylebar.xOyPlane": "Rodyti arba spl\u0117ti xOy plok\u0161tum\u0105",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Kei\u010diamo dyd\u017eio vektorin\u0117 grafika",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

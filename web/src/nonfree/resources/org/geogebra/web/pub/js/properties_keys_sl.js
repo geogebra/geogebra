@@ -3442,6 +3442,7 @@ __GGB__keysVar["sl"].menu = {
     "stylebar.ViewXZ": "led proti ravnini xOz",
     "stylebar.ViewYZ": "Pogled proti ravnini yOz",
     "stylebar.xOyPlane": "Poka\u017ei ali skrij ravnino xOy",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Spremenljiva vektorska grafika (SVG)",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

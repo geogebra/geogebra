@@ -3442,6 +3442,7 @@ __GGB__keysVar["hr"].menu = {
     "stylebar.ViewXZ": "Pogled prema xOz ravnini",
     "stylebar.ViewYZ": "Pogled prema yOz ravnini",
     "stylebar.xOyPlane": "Poka\u017ei ili sakrij xOy ravninu",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Snimi fotografiju",
     "tutorial_apps_comparison": "fm3sz2mu",

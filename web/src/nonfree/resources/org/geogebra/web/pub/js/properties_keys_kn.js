@@ -3442,6 +3442,7 @@ __GGB__keysVar["kn"].menu = {
     "stylebar.ViewXZ": "xOz \u0cb8\u0cae\u0ca4\u0cb2\u0ca6 \u0c95\u0ca1\u0cc6\u0c97\u0cc6 \u0cb5\u0cc0\u0c95\u0ccd\u0cb7\u0cbf\u0cb8\u0cbf",
     "stylebar.ViewYZ": "YOz \u0c85\u0c95\u0ccd\u0cb7\u0ca6 \u0c95\u0ca1\u0cc6\u0c97\u0cc6 \u0cb5\u0cc0\u0c95\u0ccd\u0cb7\u0cbf\u0cb8\u0cbf",
     "stylebar.xOyPlane": "xOy \u0cb8\u0cae\u0ca4\u0cb2\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0ca4\u0ccb\u0cb0\u0cbf\u0cb8\u0cbf \u0c85\u0ca5\u0cb5\u0cbe \u0cae\u0cb0\u0cc6\u0cae\u0cbe\u0ca1\u0cbf",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

@@ -3442,6 +3442,7 @@ __GGB__keysVar["pl"].menu = {
     "stylebar.ViewXZ": "Widok w kierunku p\u0142aszczyzny xOz",
     "stylebar.ViewYZ": "Widok w kierunku p\u0142aszczyzny yOz",
     "stylebar.xOyPlane": "Poka\u017c lub ukryj p\u0142aszczyzn\u0119 xOy",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scaleable Vector Graphics",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

@@ -3442,6 +3442,7 @@ __GGB__keysVar["eu"].menu = {
     "stylebar.ViewXZ": "VxOz planorantz begiratu",
     "stylebar.ViewYZ": "yOz planorantz begiratu",
     "stylebar.xOyPlane": "xOy planoa erakutsi edo ezkutatu",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Irudi Bektorial Eskalagarriak",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

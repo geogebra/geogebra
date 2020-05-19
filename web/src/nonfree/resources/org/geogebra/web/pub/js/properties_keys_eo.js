@@ -3442,6 +3442,7 @@ __GGB__keysVar["eo"].menu = {
     "stylebar.ViewXZ": "View towards xOz plane",
     "stylebar.ViewYZ": "View towards yOz plane",
     "stylebar.xOyPlane": "Montri a\u016d ka\u015di ebenon xOy",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Streka Vari-skala Grafiko",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

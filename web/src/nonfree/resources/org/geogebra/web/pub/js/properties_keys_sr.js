@@ -3442,6 +3442,7 @@ __GGB__keysVar["sr"].menu = {
     "stylebar.ViewXZ": "Prikaz ka xOz ravni",
     "stylebar.ViewYZ": "Prikaz ka yOz ravni",
     "stylebar.xOyPlane": "Prika\u017ei ili sakrij xOy ravan",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

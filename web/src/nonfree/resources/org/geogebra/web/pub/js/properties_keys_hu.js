@@ -3442,6 +3442,7 @@ __GGB__keysVar["hu"].menu = {
     "stylebar.ViewXZ": "N\xe9zet xz s\xedk fel\xe9",
     "stylebar.ViewYZ": "N\xe9zet yz s\xedk fel\xe9",
     "stylebar.xOyPlane": "xy s\xedk mutat\xe1sa / elrejt\xe9se",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

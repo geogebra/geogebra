@@ -3442,6 +3442,7 @@ __GGB__keysVar["de-AT"].menu = {
     "stylebar.ViewXZ": "Ansicht in Richtung xz-Ebene",
     "stylebar.ViewYZ": "Ansicht in Richtung yz-Ebene",
     "stylebar.xOyPlane": "xy-Ebene anzeigen oder verbergen",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Skalierbare Vektorgrafiken",
     "takepicture": "Bild aufnehmen",
     "tutorial_apps_comparison": "vwh7kv4s",

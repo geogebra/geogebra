@@ -3442,6 +3442,7 @@ __GGB__keysVar["ms"].menu = {
     "stylebar.ViewXZ": "Paparan ke arah satah xOz",
     "stylebar.ViewYZ": "Paparan ke arah satah yOz",
     "stylebar.xOyPlane": "Tunjuk atau sembunyi satah xOy",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Grafik Vektor Boleh Skala",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

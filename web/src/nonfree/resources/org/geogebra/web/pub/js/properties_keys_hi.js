@@ -3442,6 +3442,7 @@ __GGB__keysVar["hi"].menu = {
     "stylebar.ViewXZ": "xOz \u0924\u0932 \u0915\u0940 \u0926\u093f\u0936\u093e \u092e\u0947\u0902 \u0926\u0947\u0916\u0947\u0902",
     "stylebar.ViewYZ": "yOz \u0924\u0932 \u0915\u0940 \u0926\u093f\u0936\u093e \u092e\u0947\u0902 \u0926\u0947\u0916\u0947\u0902",
     "stylebar.xOyPlane": "xOy \u0924\u0932 \u0926\u093f\u0916\u093e\u0928\u093e \u092f\u093e \u091b\u0941\u092a\u093e\u0928\u093e",
+    "suite_tutorial": "etg2rk8j",
     "svg": "\u0938\u094d\u0915\u0947\u0932\u0947\u092c\u0932 \u0935\u0947\u0915\u094d\u091f\u0930 \u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",

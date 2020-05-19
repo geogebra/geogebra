@@ -3442,6 +3442,7 @@ __GGB__keysVar["hy"].menu = {
     "stylebar.ViewXZ": "\u054f\u0565\u057d\u0584\u0568 xOz \u0570\u0561\u0580\u0569\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0578\u0582\u0574",
     "stylebar.ViewYZ": "\u054f\u0565\u057d\u0584\u0568 yOz \u0570\u0561\u0580\u0569\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0578\u0582\u0574",
     "stylebar.xOyPlane": "Show or hide xOy plane",
+    "suite_tutorial": "etg2rk8j",
     "svg": "Scalable Vector Graphics",
     "takepicture": "Take Picture",
     "tutorial_apps_comparison": "shfwqcpr",
