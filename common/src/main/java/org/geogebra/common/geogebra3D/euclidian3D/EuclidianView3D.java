@@ -5101,6 +5101,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public void setARRatioMetricSystem(int arRatioMetricSystem) {
 		this.arRatioMetricSystem = arRatioMetricSystem;
+		ARManagerInterface arManager = renderer.getARManager();
+		if (arManager != null) {
+			arManager.calculateAndShowRatio();
+		}
 	}
 
 	/**

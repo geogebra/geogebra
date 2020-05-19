@@ -447,7 +447,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return viewModelMatrix;
     }
 
-    protected void calculateAndShowRatio() {
+    public void calculateAndShowRatio() {
         if (!mView.isARRatioShown() || !objectIsPlaced) {
             return;
         }
