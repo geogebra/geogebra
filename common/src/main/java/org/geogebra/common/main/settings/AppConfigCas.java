@@ -15,6 +15,10 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.settings.updater.CasSettingsUpdater;
+import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.CasPropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * Config for CAS Calculator app
@@ -129,5 +133,15 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public boolean isAngleUnitSettingEnabled() {
 		return false;
+	}
+
+	@Override
+	public SettingsUpdater createSettingsUpdater() {
+		return new CasSettingsUpdater();
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new CasPropertiesFactory();
 	}
 }

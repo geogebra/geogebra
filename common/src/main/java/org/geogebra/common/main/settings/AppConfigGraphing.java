@@ -26,6 +26,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * Config for Graphing Calculator app
@@ -263,6 +265,11 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public boolean isAngleUnitSettingEnabled() {
 		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new BasePropertiesFactory();
 	}
 
 	@Override
