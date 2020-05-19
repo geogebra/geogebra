@@ -1452,7 +1452,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return label
-				+ getEqualSign(getToStringMode(), tpl.getCoordStyle(kernel.getCoordStyle()))
+				+ getEqualSign(getToStringMode(), tpl.getCoordStyle(kernel.getCoordStyle()), tpl)
 				+ toValueString(tpl);
 	}
 
@@ -1480,9 +1480,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            point coord style
 	 * @return the correct equals sign
 	 */
-	public static String getEqualSign(int toStringMode, int coordStyle) {
+	public static String getEqualSign(int toStringMode, int coordStyle, StringTemplate tpl) {
 		if (toStringMode == Kernel.COORD_COMPLEX) {
-			return " = ";
+			return tpl.getEqualsWithSpace();
 		} else {
 			switch (coordStyle) {
 			case Kernel.COORD_STYLE_FRENCH:
@@ -1494,7 +1494,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				return "";
 
 			default:
-				return " = ";
+				return tpl.getEqualsWithSpace();
 			}
 		}
 	}
@@ -1560,37 +1560,37 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            y-coord
 	 * @param z
 	 *            z-coord
-	 * @param sbBuildValueString
+	 * @param sb
 	 *            string builder
 	 */
 	public static final void buildValueStringCoordCartesian3D(Kernel kernel,
 			StringTemplate tpl, double x, double y, double z,
-			StringBuilder sbBuildValueString) {
+			StringBuilder sb) {
 		if (tpl.hasCASType()) {
 
-			sbBuildValueString.append("point(");
-			sbBuildValueString.append(kernel.format(x, tpl));
-			sbBuildValueString.append(',');
-			sbBuildValueString.append(kernel.format(y, tpl));
-			sbBuildValueString.append(',');
-			sbBuildValueString.append(kernel.format(z, tpl));
-			sbBuildValueString.append(")");
+			sb.append("point(");
+			sb.append(kernel.format(x, tpl));
+			sb.append(',');
+			sb.append(kernel.format(y, tpl));
+			sb.append(',');
+			sb.append(kernel.format(z, tpl));
+			sb.append(")");
 
 			return;
 		}
-		sbBuildValueString.append('(');
-		sbBuildValueString.append(kernel.format(x, tpl));
+		sb.append('(');
+		sb.append(kernel.format(x, tpl));
 		String separator = buildValueStringSeparator(kernel, tpl);
 
-		sbBuildValueString.append(separator);
-		sbBuildValueString.append(" ");
-		sbBuildValueString.append(kernel.format(y, tpl));
+		sb.append(separator);
+		tpl.appendOptionalSpace(sb);
+		sb.append(kernel.format(y, tpl));
 
-		sbBuildValueString.append(separator);
-		sbBuildValueString.append(" ");
-		sbBuildValueString.append(kernel.format(z, tpl));
+		sb.append(separator);
+		tpl.appendOptionalSpace(sb);
+		sb.append(kernel.format(z, tpl));
 
-		sbBuildValueString.append(')');
+		sb.append(')');
 	}
 
 	/**
@@ -1672,7 +1672,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		case Kernel.COORD_POLAR:
 			sbBuildValueString.append('(');
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
-			sbBuildValueString.append("; ");
+			sbBuildValueString.append(";");
+			tpl.appendOptionalSpace(sbBuildValueString);
 			sbBuildValueString
 					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 			sbBuildValueString.append(')');
@@ -1680,7 +1681,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		case Kernel.COORD_COMPLEX:
 			sbBuildValueString.append(kernel.format(x, tpl));
-			sbBuildValueString.append(" ");
+			tpl.appendOptionalSpace(sbBuildValueString);
 			kernel.formatSignedCoefficient(y, sbBuildValueString, tpl);
 			sbBuildValueString.append(tpl.getImaginary());
 			break;
@@ -1690,15 +1691,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
-				// spaces -> multiply in editor
-				sbBuildValueString.append(
-						tpl == StringTemplate.editorTemplate ? "|" : " | ");
+				tpl.appendOptionalSpace(sbBuildValueString);
+				sbBuildValueString.append("|");
+				tpl.appendOptionalSpace(sbBuildValueString);
 				break;
 
 			default:
 				sbBuildValueString
 						.append(kernel.getLocalization().getComma());
-				sbBuildValueString.append(" ");
+				tpl.appendOptionalSpace(sbBuildValueString);
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
 			sbBuildValueString.append(tpl.rightBracket());

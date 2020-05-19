@@ -246,7 +246,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		StringBuilder sbToString = new StringBuilder();
 		sbToString.setLength(0);
 		sbToString.append(label);
-		sbToString.append(" = ");
+		sbToString.append(tpl.getEqualsWithSpace());
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}

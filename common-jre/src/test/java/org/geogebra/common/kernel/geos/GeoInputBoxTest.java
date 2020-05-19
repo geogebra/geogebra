@@ -56,7 +56,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
 		assertEquals("x + 1", inputBox1.getText());
-		assertEquals("2f(x + 2) + 1", inputBox2.getTextForEditor());
+		assertEquals("2 f(x+2)+1", inputBox2.getTextForEditor());
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
 		assertEquals("x y + 1", inputBox1.getText());
-		assertEquals("2f(x + 2, y) + 1", inputBox2.getTextForEditor());
+		assertEquals("2 f(x+2,y)+1", inputBox2.getTextForEditor());
 		assertEquals("2 \\; f\\left(x + 2, y \\right) + 1",
 				inputBox2.getText());
 	}
@@ -188,7 +188,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(b)");
 		inputBox.setSymbolicMode(true, false);
 		assertEquals("? \\; a", inputBox.getText());
-		assertEquals("?a", inputBox.getTextForEditor());
+		assertEquals("? a", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
 		assertEquals("?a", inputBox.getText());
