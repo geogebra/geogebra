@@ -42,7 +42,8 @@ public class DrawSurfaceOfRevolution extends Drawable3DSurfaces
 
 	@Override
 	public void updatePreview() {
-		if (previewSurface == null && selectedFunctions.size() == 1 && !(selectedFunctions.get(0) instanceof GeoAxisND)) {
+		if (previewSurface == null && selectedFunctions.size() == 1
+				&& !(selectedFunctions.get(0) instanceof GeoAxisND)) {
 			Kernel3D kernel = getView3D().getKernel();
 			angle = createAngle(0);
 			boolean oldSilent = kernel.isSilentMode();
