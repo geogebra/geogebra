@@ -31,7 +31,7 @@ public class VariableReplacerAlgorithm {
 	private Exponents exponents;
 	private ExpressionValue geo;
 	private int charIndex;
-	private boolean tokenizerAllowed=false;
+	private boolean tokenizerAllowed = false;
 
 	/**
 	 * @param kernel The kernel.
@@ -109,7 +109,7 @@ public class VariableReplacerAlgorithm {
 		exponents.initWithZero();
 
 		geo = lookupOrProduct(expressionString);
-		if (geo != null ) {
+		if (geo != null) {
 			if (tokenizerAllowed) {
 				String label = getLabel(geo);
 				return isAtomicLabel(label) ? geo : tokenize(label);
@@ -168,7 +168,7 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private String getLabel(ExpressionValue geo) {
-		return geo instanceof GeoElement ? ((GeoElement)geo).getLabelSimple() : "";
+		return geo instanceof GeoElement ? ((GeoElement) geo).getLabelSimple() : "";
 	}
 
 	private ExpressionValue getDerivative(String expressionString) {
