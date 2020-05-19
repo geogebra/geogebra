@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -34,9 +33,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     // Ratio
     private double arRatioAtStart;
     private float ratioChange = 1;      // change of ratio when ratio is set from menu
-    private String units = "cm";        // current units used for Ratio snack bar and ratio settings
     private String arRatioText = "1";   // current ratio used for Ratio snack bar and ratio settings
-    private int ratioMetricSystem = EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS;
 
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
@@ -56,7 +53,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private Coords previousTranslationOffset = new Coords(3);
     private Coords mPosXY = new Coords(2);
 
-    protected boolean objectIsRendered = false;
+    protected boolean objectIsPlaced = false;
     protected boolean mDrawing = false;
     protected boolean mARIsRendering = false;
 
@@ -450,7 +447,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return viewModelMatrix;
     }
 
-    private void calculateAndShowRatio() {
+    public void calculateAndShowRatio() {
+        if (!mView.isARRatioShown() || !objectIsPlaced) {
+            return;
+        }
+
         double ratio;
         if (arGestureManager != null) {
             ratio = arRatioAtStart * arGestureManager.getScaleFactor() * ratioChange
@@ -459,23 +460,22 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             ratio = arRatioAtStart;
         }
         String text;
-        if (mView.getApplication().has(Feature.G3D_AR_RATIO_SETTINGS) &&
-                ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
+        if (mView.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
             ratio = (double) Math.round(ratio * 100d) / 100d;
-            units = "inch";
+            mView.setARRatioUnit("inch");
         } else {
             if (ratio >= 100) {
                 // round double for precision 3 in m
                 ratio = (double) Math.round(ratio) / 100d;
-                units = "m";
+                mView.setARRatioUnit("m");
             } else if (ratio < 0.5 ) {
                 // round double for precision 3 in mm
                 ratio = (double) Math.round(ratio * 1000d) / 100d;
-                units = "mm";
+                mView.setARRatioUnit("mm");
             } else {
                 // round double for precision 3 in cm
                 ratio = (double) Math.round(ratio * 100d) / 100d;
-                units = "cm";
+                mView.setARRatioUnit("cm");
             }
         }
         text = getRatioMessage(ratio);
@@ -488,7 +488,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         } else {
             arRatioText = String.format("%.4s", ratio);
         }
-        return String.format("1 : %s %s", arRatioText, units);
+        return String.format("1 : %s %s", arRatioText, mView.getARRatioUnit());
     }
 
     public void fitThickness() {
@@ -527,7 +527,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setARRatio(double ratio) {
-        if (ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
+        if (mView.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
             ratioChange = (float) ((ratio * EuclidianView3D.FROM_INCH_TO_CM) / arRatioAtStart);
         } else {
             ratioChange = (float) ((ratio) / arRatioAtStart);
@@ -537,25 +537,19 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         calculateAndShowRatio();
     }
 
-    public String getUnits() {
-        return units;
-    }
-
-    public int getARRatioMetricSystem() {
-        return ratioMetricSystem;
-    }
-
-    public void setARRatioMetricSystem(int metricSystem) {
-        ratioMetricSystem = metricSystem;
-        calculateAndShowRatio();
-    }
-
     private float getUnitConversion() {
-        if (mView.getApplication().has(Feature.G3D_AR_RATIO_SETTINGS) &&
-                ratioMetricSystem == EuclidianView3D.RATIO_UNIT_INCHES) {
+        if (mView.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
             return EuclidianView3D.FROM_CM_TO_INCH;
         } else {
             return 1;
+        }
+    }
+
+    public void setRatioIsShown(boolean ratioIsShown) {
+        if (ratioIsShown) {
+            calculateAndShowRatio();
+        } else {
+            mArSnackBarManagerInterface.hideRatio();
         }
     }
 }
