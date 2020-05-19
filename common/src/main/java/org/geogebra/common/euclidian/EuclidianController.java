@@ -9891,17 +9891,19 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			selection.addSelectedGeoWithGroup(topHit);
 			updateBoundingBoxFromSelection(false);
 
+			boolean needsFocus = topHit.getParentGroup() != null;
 			if (shouldEnterFocusedSelection(topHit)) {
 				focusGroupElement(topHit);
+				needsFocus = false;
 			}
 
 			// TODO: this will be simplified when I refactor embeds and videos to
 			// 	act more like inlines (probably in the media rotation ticket)
-			if (topHit instanceof GeoVideo) {
+			if (!needsFocus && topHit instanceof GeoVideo) {
 				handleVideoHit(topHit);
 			}
 
-			if (topHit instanceof GeoEmbed) {
+			if (!needsFocus && topHit instanceof GeoEmbed) {
 				handleEmbedHit(topHit);
 			}
 
@@ -9923,7 +9925,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private void handleVideoHit(GeoElement topHit) {
 		VideoManager videoManager = app.getVideoManager();
-		if (topHit == lastMowHit && videoManager != null) {
+		if (videoManager != null) {
 			DrawVideo drawVideo = (DrawVideo) view.getDrawableFor(topHit);
 			if (videoHasError(drawVideo)) {
 				return;
@@ -9935,7 +9937,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private void handleEmbedHit(GeoElement topHit) {
 		EmbedManager embedManager = app.getEmbedManager();
-		if (topHit == lastMowHit && embedManager != null) {
+		if (embedManager != null) {
 			embedManager.play((GeoEmbed) topHit);
 		}
 	}
