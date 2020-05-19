@@ -465,13 +465,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals("k " + Unicode.IMAGINARY, inputBox.getText());
 	}
 
-	@Test
-	public void testMultiVarProduct() {
-		addAvInput("f(u, v)=?");
-		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
-		inputBox.updateLinkedGeo("uv");
-		assertEquals("u v", inputBox.getText());
-	}
 
 	@Test
 	public void testUserInputNonNullAfterUpdatingLinkedGeoToInvalidInput() {
