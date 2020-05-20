@@ -20,7 +20,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -30,8 +30,8 @@ public class ParserTest {
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
 
-	@BeforeClass
-	public static void setupCas() {
+	@Before
+	public void setupCas() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 		app.setLanguage(Locale.US);
 	}
@@ -115,7 +115,9 @@ public class ParserTest {
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
-			EvalInfo info = new EvalInfo(false).withSimplifiedMultiplication();
+			EvalInfo info = simplifiedMultiplication ?
+					  new EvalInfo(false).withSimplifiedMultiplication()
+					: new EvalInfo(false);
 
 			v1.resolveVariables(info);
 			v1.wrap().replaceXYZnodes(xVar, yVar, zVar,

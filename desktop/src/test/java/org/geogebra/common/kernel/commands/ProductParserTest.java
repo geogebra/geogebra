@@ -109,7 +109,6 @@ public class ProductParserTest extends BaseUnitTest {
 //		shouldReparseAs("xln2xabc", "x ln(2x a b c)");
 	}
 
-
  	@Test
 	public void testC_2Index() {
 		shouldReparseAs("c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7x)");
