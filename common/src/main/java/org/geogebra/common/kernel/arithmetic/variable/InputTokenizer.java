@@ -19,6 +19,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author Laszlo
  */
 public class InputTokenizer {
+	public static final String IMAGINARY_STRING = Unicode.IMAGINARY + "";
 	private final List<String> varStrings;
 	private Kernel kernel;
 	private String input;
@@ -262,5 +263,9 @@ public class InputTokenizer {
 	public boolean hasToken() {
 		return !(input == null || "".equals(input));
 
+	}
+
+	public static boolean isImaginaryUnit(String input) {
+		return IMAGINARY_STRING.equals(input);
 	}
 }

@@ -147,12 +147,11 @@ public class VariableReplacerAlgorithm {
 		processPi();
 		MySpecialDouble mult = consumeConstant(nameNoX);
 
+		if (InputTokenizer.isImaginaryUnit(nameNoX)) {
+			return getImaginaryUnit();
+		}
+
 		if (nameNoX.length() > 0 && geo == null) {
-			if (nameNoX.equals(String.valueOf(Unicode.IMAGINARY))) {
-				GeoVec2D imaginary = new GeoVec2D(kernel, 0, 1);
-				imaginary.setMode(Kernel.COORD_COMPLEX);
-				return imaginary;
-			}
 			return new Variable(kernel, nameNoX);
 		}
 
@@ -168,6 +167,12 @@ public class VariableReplacerAlgorithm {
 		}
 
 		return ret;
+	}
+
+	private GeoVec2D getImaginaryUnit() {
+		GeoVec2D imaginary = new GeoVec2D(kernel, 0, 1);
+		imaginary.setMode(Kernel.COORD_COMPLEX);
+		return imaginary;
 	}
 
 	private boolean isAtomicLabel(String label) {

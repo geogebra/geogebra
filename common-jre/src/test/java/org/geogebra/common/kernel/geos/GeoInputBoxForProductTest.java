@@ -80,7 +80,6 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		shouldBeUpdatedAs("f", "21xarctanx", "21x atand(x)");
 	}
 
- 	@Ignore
 	@Test
 	public void testCost7() {
 		add("g(t)=?");
