@@ -9,10 +9,9 @@ import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.javax.swing.RelationPane.RelationRow;
 import org.geogebra.common.kernel.RelationNumerical.Report;
 import org.geogebra.common.kernel.RelationNumerical.Report.RelationCommand;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -20,7 +19,17 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.prover.AlgoAreCollinear;
+import org.geogebra.common.kernel.prover.AlgoAreConcurrent;
+import org.geogebra.common.kernel.prover.AlgoAreConcyclic;
+import org.geogebra.common.kernel.prover.AlgoAreCongruent;
+import org.geogebra.common.kernel.prover.AlgoAreEqual;
+import org.geogebra.common.kernel.prover.AlgoAreParallel;
+import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
 import org.geogebra.common.kernel.prover.AlgoCompare;
+import org.geogebra.common.kernel.prover.AlgoIsOnPath;
+import org.geogebra.common.kernel.prover.AlgoIsTangent;
+import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Event;
@@ -144,7 +153,7 @@ public class Relation {
 		rel.setInfo("<html>");
 
 		// Computing symbolic data:
-		String[] ndgResult = getNDGConditions(relAlgo);
+		String[] ndgResult = getNDGConditions(relAlgo, ra, rb, rc, rd);
 		app.setDefaultCursor();
 		// This style is defined in the CSS. It is harmless in
 		// desktop but
@@ -253,42 +262,56 @@ public class Relation {
 	 * @author Zoltan Kovacs
 	 *
 	 */
-	final public String[] getNDGConditions(RelationCommand command) {
-		Construction cons = ra.getConstruction();
+	final public static String[] getNDGConditions(RelationCommand command,
+			GeoElement g1, GeoElement g2, GeoElement g3, GeoElement g4) {
+		Construction cons = g1.getConstruction();
+		GeoElement root = new GeoBoolean(cons);
+		AlgoElement ae = null;
 
-		Command ae = new Command(kernel, command.name(), false);
 		String[] ret;
 		try {
 			switch (command) {
 				case AreCongruent:
+					ae = new AlgoAreCongruent(cons, g1, g2);
+					break;
 				case AreEqual:
+					ae = new AlgoAreEqual(cons, g1, g2);
+					break;
 				case AreParallel:
+					ae = new AlgoAreParallel(cons, g1, g2);
+					break;
 				case ArePerpendicular:
-					addArguments(ae, ra, rb);
+					ae = new AlgoArePerpendicular(cons, g1, g2);
 					break;
 				case IsOnPath:
-					if ((ra instanceof GeoPoint) && (rb instanceof Path)) {
-						addArguments(ae, ra, rb);
-					} else if ((rb instanceof GeoPoint) && (ra instanceof Path)) {
-						addArguments(ae, rb, ra);
+					if ((g1 instanceof GeoPoint) && (g2 instanceof Path)) {
+						ae = new AlgoIsOnPath(cons, (GeoPoint) g1, (Path) g2);
+						}
+					else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
+						ae = new AlgoIsOnPath(cons, (GeoPoint) g2, (Path) g1);
 					}
 					break;
 				case AreConcyclic:
-					addArguments(ae, ra, rb, rc, rd);
+					ae = new AlgoAreConcyclic(cons, (GeoPoint) g1, (GeoPoint) g2,
+							(GeoPoint) g3, (GeoPoint) g4);
 					break;
 				case AreCollinear:
+					ae = new AlgoAreCollinear(cons, (GeoPoint) g1, (GeoPoint) g2,
+							(GeoPoint) g3);
+					break;
 				case AreConcurrent:
-					addArguments(ae, ra, rb, rc);
+					ae = new AlgoAreConcurrent(cons, (GeoLine) g1, (GeoLine) g2,
+							(GeoLine) g3);
 					break;
 				case IsTangent:
-					if ((ra instanceof GeoLine) && (rb instanceof GeoConic)) {
-						addArguments(ae, ra, rb);
-					} else if ((ra instanceof GeoConic) && (rb instanceof GeoLine)) {
-						addArguments(ae, rb, ra);
+					if ((g1 instanceof GeoLine) && (g2 instanceof GeoConic)) {
+						ae = new AlgoIsTangent(cons, (GeoLine) g1, (GeoConic) g2);
+					} else if ((g1 instanceof GeoConic)	&& (g2 instanceof GeoLine)) {
+						ae = new AlgoIsTangent(cons, (GeoLine) g2, (GeoConic) g1);
 					}
 					break;
 				case Compare:
-					addArguments(ae, ra, rb);
+					ae = new AlgoCompare(cons, g1, g2, true);
 					break;
 			}
 		} catch (RuntimeException ex) {
@@ -296,7 +319,7 @@ public class Relation {
 			ret[0] = ""; // on error: undefined (UNKNOWN)
 			return ret;
 		}
-		if (ae.getArgumentNumber() == 0) {
+		if (ae == null) {
 			ret = new String[1];
 			ret[0] = ""; // undefined (UNKNOWN)
 			return ret;
@@ -304,8 +327,7 @@ public class Relation {
 
 		// RealGeom based comparison is a special case because it returns a String
 		if (command == Compare) {
-			AlgoCompare ac = new AlgoCompare(cons, ra, rb, true);
-			GeoElement[] o = ac.getOutput();
+			GeoElement[] o = ae.getOutput();
 			String out = ((GeoText) o[0]).getTextString();
 			if ("".equals(out)) {
 				ret = new String[1];
@@ -315,17 +337,16 @@ public class Relation {
 			ret = new String[2];
 			ret[0] = "3";
 			ret[1] = out;
-			ac.remove();
+			ae.remove();
 			return ret;
 		}
 
-		Command proveCommand = new Command(kernel, Commands.ProveDetails.name(), false);
-		addArguments(proveCommand, ae, new GeoBoolean(cons, true));
-		GeoElement[] proveResult = kernel.getAlgebraProcessor().processCommand(proveCommand,
-				new EvalInfo(false));
+		root.setParentAlgorithm(ae);
+		AlgoProveDetails ap = new AlgoProveDetails(cons, root, true);
+		ap.compute();
+		GeoElement[] o = ap.getOutput();
 
-		GeoList list = (GeoList) proveResult[0];
-
+		GeoList list = ((GeoList) o[0]);
 
 		// Turning the output of ProveDetails into an array:
 		if (list.size() >= 2 && list.get(1).isGeoList()) {
@@ -363,7 +384,8 @@ public class Relation {
 				}
 			}
 		}
-		proveResult[0].remove();
+		root.remove();
+		o[0].remove();
 		return ret;
 	}
 
