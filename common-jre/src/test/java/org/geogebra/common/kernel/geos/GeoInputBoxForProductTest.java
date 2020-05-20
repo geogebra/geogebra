@@ -80,11 +80,11 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		shouldBeUpdatedAs("f", "21xarctanx", "21x atand(x)");
 	}
 
-	@Ignore
+ 	@Ignore
 	@Test
 	public void testCost7() {
 		add("g(t)=?");
-		shouldBeUpdatedAs("g", "-tcost7t/7", "-t cos 7t 7");
+		shouldBeUpdatedAs("g", "-tcost7t/7", "-t cos 7t / 7");
 	}
 
 	@Test
@@ -101,18 +101,18 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		shouldBeUpdatedAs("f", "xln2x", "x ln(2x)");
 	}
 
-	@Ignore
 	@Test
 	public void testC_2Index() {
+		add("c_2=3");
 		add("f(x)=?");
 		shouldBeUpdatedAs("f", "c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7x)");
 	}
 
-	@Ignore
 	@Test
 	public void testsina() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "sina", "sin(a)");
+		add("a=4");
+		shouldBeUpdatedAs("f", "sinax", "sin(a x)");
 	}
 
 	@Test
@@ -134,11 +134,10 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		shouldBeUpdatedAs("g", "akakakaaa", "a k a k a k a a a");
 	}
 
-	@Ignore
 	@Test
 	public void testImaginaryProduct() {
-		add("a=?");
-		shouldBeUpdatedAs("a","i1", String.valueOf(Unicode.IMAGINARY));
+		add("a=4");
+		shouldBeUpdatedAs("a", "i1", String.valueOf(Unicode.IMAGINARY));
 	}
 
 	@Test
@@ -150,14 +149,14 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Ignore
 	@Test
 	public void testiSqrt() {
-		add("f(x)=?");
-		shouldBeUpdatedAs("f","isqrt5", Unicode.IMAGINARY + " sqrt(5)");
+		add("a=?");
+		shouldBeUpdatedAs("a","isqrt5", Unicode.IMAGINARY + " sqrt(5)");
 	}
 
-	@Ignore
 	@Test
 	public void testIndex() {
 		add("f(x)=?");
+		add("B_{0}=7");
 		shouldBeUpdatedAs("f","B_{0}e^(2)", "B_{0} " + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);
 	}
 
@@ -167,11 +166,12 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		shouldBeUpdatedAs("f","2xtan8x", "2x tan(8x)");
 	}
 
-	@Ignore
 	@Test
 	public void testFcosThetaSum() {
-		add("f(x)=?");
-		shouldBeUpdatedAs("f","Fcosθx+Fsinθy", "F cos(x θ) + F sin(y θ)");
+		add("θ=45");
+		add("F=5");
+		add("f(x, y)=?");
+		shouldBeUpdatedAs("f","Fcosθx+Fsinθy", "F cos(θ x) + F sin(θ y)");
 	}
 
 	private void shouldBeUpdatedAs(String linkedGeo, String updatedText, String expected) {

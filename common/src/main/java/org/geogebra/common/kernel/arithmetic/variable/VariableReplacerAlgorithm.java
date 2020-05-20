@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
@@ -147,6 +148,11 @@ public class VariableReplacerAlgorithm {
 		MySpecialDouble mult = consumeConstant(nameNoX);
 
 		if (nameNoX.length() > 0 && geo == null) {
+			if (nameNoX.equals(String.valueOf(Unicode.IMAGINARY))) {
+				GeoVec2D imaginary = new GeoVec2D(kernel, 0, 1);
+				imaginary.setMode(Kernel.COORD_COMPLEX);
+				return imaginary;
+			}
 			return new Variable(kernel, nameNoX);
 		}
 

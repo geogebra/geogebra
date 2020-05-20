@@ -91,10 +91,10 @@ public class ProductParserTest extends BaseUnitTest {
 		shouldReparseAs("21xarctanx", "21x atand(x)");
 	}
 
-	@Ignore
+//	@Ignore
 	@Test
 	public void testCost7() {
-		shouldReparseAs("-tcost7t/7", "-t cos 7t 7");
+		shouldReparseAs("tcost7t/7", "t cos 7t / 7");
 	}
 
 	@Test
