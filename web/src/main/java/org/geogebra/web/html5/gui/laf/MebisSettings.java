@@ -82,4 +82,9 @@ public class MebisSettings implements VendorSettings {
 				FontFamily.TREBUCHET,
 				FontFamily.VERDANA);
 	}
+
+	@Override
+	public boolean canSessionExpire() {
+		return true;
+	}
 }

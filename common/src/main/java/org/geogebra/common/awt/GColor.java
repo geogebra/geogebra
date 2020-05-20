@@ -2,6 +2,8 @@ package org.geogebra.common.awt;
 
 import java.util.HashMap;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * @author michael
  * 
@@ -60,7 +62,7 @@ public final class GColor implements GPaint {
 	/** MOW MEBIS TEAL with alpha */
 	public static final GColor MOW_MEBIS_TEAL_50 = newColor(0, 168, 213, 128);
 	/** MOW TEXT PRIMARY */
-	public static final GColor MOW_TEXT_PRIMARY = newColor(0, 0, 0, 138);
+	public static final GColor TEXT_PRIMARY = newColor(0, 0, 0, 138);
 	/** MOW WIDGET BACKGROUND */
 	public static final GColor MOW_WIDGET_BACKGROUND = newColor(245, 245, 245);
 	/** MOW GREEN */
@@ -121,12 +123,6 @@ public final class GColor implements GPaint {
 		return ret;
 
 	}
-	// private void log() {
-	// Log.debug("storing " + getColorString(this));
-	// Log.error("map length = " + map.size());
-	//
-	// // Log.printStacktrace("");
-	// }
 
 	private static int getRed(int rgba) {
 		return (rgba >> 16) & 0xFF;
@@ -268,35 +264,6 @@ public final class GColor implements GPaint {
 
 		return diff_brightness > 125 && diff_hue > 500;
 	}
-
-	// public int compareTo(GColor c) {
-	// if (getRed() < c.getRed()) {
-	// return -1;
-	// }
-	// if (getRed() > c.getRed()) {
-	// return 1;
-	// }
-	// if (getGreen() < c.getGreen()) {
-	// return -1;
-	// }
-	// if (getGreen() > c.getGreen()) {
-	// return 1;
-	// }
-	// if (getBlue() < c.getBlue()) {
-	// return -1;
-	// }
-	// if (getBlue() > c.getBlue()) {
-	// return 1;
-	// }
-	// if (getAlpha() < c.getAlpha()) {
-	// return -1;
-	// }
-	// if (getAlpha() > c.getAlpha()) {
-	// return 1;
-	// }
-	//
-	// return 0;
-	// }
 
 	/**
 	 * 
@@ -543,5 +510,50 @@ public final class GColor implements GPaint {
 	 */
 	public static GColor getSubGridColor(GColor orig) {
 		return GColor.newColor(orig.getRed(), orig.getGreen(), orig.getBlue(), 60);
+	}
+
+	/**
+	 * Convert a html color string to GColor
+	 * @param colorString #RGB, #RGBA, #RRGGBB or #RRGGBBAA in hexadecimal
+	 * @return GColor represented by the string, or null, if bad parameter
+	 */
+	public static GColor parseHexColor(String colorString) {
+		if (colorString == null || !colorString.startsWith("#")) {
+			return null;
+		}
+
+		try {
+			int length = colorString.length() - 1;
+
+			int red = 0;
+			int green = 0;
+			int blue = 0;
+			int alpha = 255;
+
+			if (length == 3 || length == 4) {
+				red = 16 * Integer.parseInt(colorString.substring(1, 2), 16);
+				green = 16 * Integer.parseInt(colorString.substring(2, 3), 16);
+				blue = 16 * Integer.parseInt(colorString.substring(3, 4), 16);
+			}
+
+			if (length == 4) {
+				alpha = 16 * Integer.parseInt(colorString.substring(4, 5), 16);
+			}
+
+			if (length == 6 || length == 8) {
+				red = Integer.parseInt(colorString.substring(1, 3), 16);
+				green = Integer.parseInt(colorString.substring(3, 5), 16);
+				blue = Integer.parseInt(colorString.substring(5, 7), 16);
+			}
+
+			if (length == 8) {
+				alpha = Integer.parseInt(colorString.substring(7, 9), 16);
+			}
+
+			return newColor(red, green, blue, alpha);
+		} catch (NumberFormatException e) {
+			Log.error("Invalid color code");
+			return null;
+		}
 	}
 }

@@ -1,6 +1,15 @@
 package org.geogebra.common.main;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Vector;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
@@ -19,6 +28,8 @@ import org.geogebra.common.euclidian.MaskWidgetList;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -58,13 +69,14 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -110,15 +122,7 @@ import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Vector;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -425,13 +429,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	final static public long CE_ID_COUNTER_START = 1;
 	private long ceIDcounter = CE_ID_COUNTER_START;
 	private int nextVariableID = 1;
-	private boolean buttonShadows = false;
-	private double buttonRounding = 0.2;
 	private SpecialPointsManager specialPointsManager;
 
 	private boolean areCommands3DEnabled = true;
 	protected AccessibilityManagerInterface accessibilityManager;
-	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
 	private AlgebraOutputFilter algebraOutputFilter;
@@ -1022,6 +1023,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.NONE) {
 			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.MAY_SET_COORD_SYSTEM;
 		}
+	}
+
+	/**
+	 * Resets the coord system change flag
+	 */
+	public void resetCoordSystemChanged() {
+		storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.NONE;
 	}
 
 	public void setPropertiesOccured() {
@@ -3628,14 +3636,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public abstract CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel);
 
 	/**
-	 * Should lose focus on Web applets, implement only where appropriate
-	 */
-	public void loseFocus() {
-		Log.debug(
-				"Should lose focus on Web applets, implement (override) only where appropriate");
-	}
-
-	/**
 	 * Whether the app is running just to create a screenshot, some
 	 * recomputations can be avoided in such case
 	 *
@@ -4796,52 +4796,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * GGB-2171
-	 *
-	 * @param b
-	 *            set whether buttons have shadows
-	 */
-	public void setButtonShadows(boolean b) {
-		this.buttonShadows = b;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @param percent
-	 *            set how rounded buttons are
-	 */
-	public void setButtonRounding(double percent) {
-		if (!MyDouble.isFinite(percent)) {
-			this.buttonRounding = 0.2;
-		} else if (percent < 0) {
-			this.buttonRounding = 0;
-		} else if (percent > 0.9) {
-			this.buttonRounding = 0.9;
-		} else {
-			this.buttonRounding = percent;
-		}
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @return how rounded buttons are
-	 */
-	public double getButtonRouding() {
-		return buttonRounding;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @return whether buttons have shadows
-	 */
-	public boolean getButtonShadows() {
-		return buttonShadows;
-	}
-
-	/**
 	 * check is view is 3D WITHOUT creating 3D View
 	 *
 	 * @param view
@@ -4997,17 +4951,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public String md5Encrypt(String s) {
-		return getMD5EncrypterStatic().encrypt(s);
-	}
-
-	/**
-	 * @return MD5 encrypter that can be used in GWT
-	 */
-	public static synchronized MD5EncrypterGWTImpl getMD5EncrypterStatic() {
-		if (md5Encrypter == null) {
-			md5Encrypter = new MD5EncrypterGWTImpl();
-		}
-		return md5Encrypter;
+		return MD5EncrypterGWTImpl.encrypt(s);
 	}
 
 	public EmbedManager getEmbedManager() {
@@ -5216,5 +5160,24 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public void resetAlgebraOutputFilter() {
 		algebraOutputFilter = null;
+	}
+
+	/**
+	 * Create an inline text controller iff the view supports inline text
+	 * editing.
+	 *
+	 * @param geo
+	 *            inline text
+	 *
+	 * @return an implementation of the text controller.
+	 */
+	public InlineTextController createInlineTextController(EuclidianView view,
+		   GeoInlineText geo) {
+		return null;
+	}
+
+	public InlineFormulaController createInlineFormulaController(EuclidianView view,
+			GeoFormula geo) {
+		return null;
 	}
 }

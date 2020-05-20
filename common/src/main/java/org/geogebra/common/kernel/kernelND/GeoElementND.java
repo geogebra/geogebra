@@ -12,6 +12,10 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.kernelND;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.MyImage;
@@ -43,10 +47,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.LaTeXCache;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
 
 /**
  * Common interface for all interfaces that represent GeoElements

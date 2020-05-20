@@ -9,12 +9,10 @@ import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.view.algebra.AnimPanel.AnimPanelListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
@@ -36,8 +34,6 @@ public class ItemControls extends FlowPanel
 
 	private final RadioTreeItem radioTreeItem;
 	private final LatexTreeItemController ctrl;
-	/** Deletes the whole item */
-	private GPushButton btnDelete;
 
 	/** opens context menu */
 	private MyToggleButton btnMore;
@@ -61,45 +57,8 @@ public class ItemControls extends FlowPanel
 		buildGUI();
 		if (!radioTreeItem.isInputTreeItem() && hasMoreMenu()) {
 			add(getMoreButton());
-			btnMore.setTabIndex(GUITabs.NO_TAB);
 		}
-		getElement().setTabIndex(GUITabs.NO_TAB);
 		setLabels();
-	}
-
-	/**
-	 * Gets (and creates if there is not yet) the delete button which geo item
-	 * can be removed with from AV.
-	 *
-	 * @return The "X" button.
-	 */
-	public GPushButton getDeleteButton() {
-		if (btnDelete == null) {
-			btnDelete = new GPushButton(
-					new NoDragImage(MaterialDesignResources.INSTANCE.clear(), 24));
-			btnDelete.addStyleName("XButton");
-			btnDelete.addStyleName("shown");
-			ClickStartHandler.init(btnDelete,
-					new ClickStartHandler(false, true) {
-
-						@Override
-						public boolean onClickStart(int x, int y,
-								PointerEventType type, boolean right) {
-							if (!right) {
-								getController().removeGeo();
-							}
-							return true;
-						}
-
-						@Override
-						public void onClickStart(int x, int y,
-								PointerEventType type) {
-							onClickStart(x, y, type, false);
-						}
-			});
-		}
-
-		return btnDelete;
 	}
 
 	/**
@@ -113,8 +72,6 @@ public class ItemControls extends FlowPanel
 							MaterialDesignResources.INSTANCE.more_vert_black(),
 							24),
 					radioTreeItem.app);
-
-			btnMore.setIgnoreTab();
 
 			btnMore.getUpHoveringFace()
 					.setImage(new NoDragImage(
@@ -231,7 +188,7 @@ public class ItemControls extends FlowPanel
 			return;
 		}
 
-		MenuActionCollection<GeoElement> avMenuItems = radioTreeItem.getApplication()
+		MenuItemCollection<GeoElement> avMenuItems = radioTreeItem.getApplication()
 				.getActivity().getAVMenuItems(radioTreeItem.getAV());
 		cmMore = new ContextMenuAVItemMore(radioTreeItem, avMenuItems);
 	}
@@ -250,11 +207,6 @@ public class ItemControls extends FlowPanel
 		radioTreeItem.setFirst(radioTreeItem.first);
 		clear();
 		buildAnimPanel();
-
-		if (!hasMoreMenu() && (radioTreeItem.app.isRightClickEnabled()
-				|| radioTreeItem.app.showAlgebraInput())) {
-			add(getDeleteButton());
-		}
 	}
 
 	private void buildAnimPanel() {
@@ -321,11 +273,9 @@ public class ItemControls extends FlowPanel
 	}
 
 	/**
-	 * @param showX
-	 *            whether to show x button
 	 * @return whether this is shown (when single geo selected)
 	 */
-	public boolean update(boolean showX) {
+	public boolean update() {
 		radioTreeItem.setFirst(radioTreeItem.first);
 
 		if (radioTreeItem.geo == null) {
@@ -345,8 +295,8 @@ public class ItemControls extends FlowPanel
 				add(animPanel);
 			}
 
-			if (showX) {
-				add(hasMoreMenu() ? getMoreButton() : getDeleteButton());
+			if (hasMoreMenu()) {
+				add(getMoreButton());
 			}
 
 			setVisible(true);

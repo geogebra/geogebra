@@ -1,11 +1,11 @@
 package org.geogebra.common.gui.view.algebra.fiter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.junit.Test;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 
 public class FunctionAndEquationFilterTest extends BaseUnitTest {
 

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
+import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.GMenuBar;
@@ -539,10 +540,10 @@ public class GPopupMenuW implements AttachedToDOM {
 
 		AccessibilityManagerInterface am = getApp()
 				.getAccessibilityManager();
-		Object anchor = am.getAnchor();
+		MayHaveFocus anchor = am.getAnchor();
 		popupPanel.hide();
-		if (anchor instanceof Widget) {
-			((Widget) anchor).getElement().focus();
+		if (anchor != null) {
+			anchor.focusIfVisible(true);
 		}
 	}
 

@@ -1,9 +1,15 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.steptree.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryInteger;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
+import org.geogebra.common.kernel.stepbystep.steptree.StepLogical;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 
 public class SolveTracker {
 

@@ -73,4 +73,10 @@ public interface VendorSettings {
 	 * @return the list
 	 */
 	List<FontFamily> getTextToolFonts();
+
+	/**
+	 * after session expired user will be logged out
+	 * @return if the user session can expire (only mebis)
+	 */
+	boolean canSessionExpire();
 }

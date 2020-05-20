@@ -1,5 +1,8 @@
 package org.geogebra.web.full.main;
 
+import java.util.ArrayList;
+import java.util.TreeSet;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -19,9 +22,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
-
-import java.util.ArrayList;
-import java.util.TreeSet;
 
 /**
  * Manager for files from {@link Storage localStorage}
@@ -291,12 +291,13 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public void saveLoggedOut(App app1) {
-		((AppW) app1).getGuiManager().exportGGB();
+		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 	
 	@Override
 	public void export(App app1) {
-		((AppW) app1).getGuiManager().exportGGB();
+		dialogEvent(app, "exportGGB");
+		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 
 	@Override
@@ -364,6 +365,7 @@ public class FileManagerW extends FileManager {
 										"[\"" + extension2 + "\"]"));
 							}
 						}, loc.getMenu("Export"));
+		dialogEvent(app, "exportPNG");
 	}
 
 	@Override
@@ -377,6 +379,10 @@ public class FileManagerW extends FileManager {
 		if (stockStore != null) {
 			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());
 		}
+	}
+
+	private static void dialogEvent(AppW app, String string) {
+		app.dispatchEvent(new Event(EventType.OPEN_DIALOG, null, string));
 	}
 
 }

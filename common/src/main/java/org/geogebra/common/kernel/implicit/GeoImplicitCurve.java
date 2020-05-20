@@ -1,6 +1,10 @@
 package org.geogebra.common.kernel.implicit;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.DecompositionSolver;
@@ -51,10 +55,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * GeoElement representing an implicit curve.

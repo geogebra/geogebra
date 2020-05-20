@@ -53,7 +53,7 @@ public class BackendAPIFactory {
 	public MaterialRestAPI newMaterialRestAPI() {
 		String backendURL = articleElement.getParamBackendURL().isEmpty()
 				? MaterialRestAPI.marvlUrl : articleElement.getParamBackendURL();
-		Service service = "mebis".equals(articleElement.getParamVendor())
+		Service service = app.isMebis()
 				? new MowService() : new MarvlService();
 
 		return new MaterialRestAPI(backendURL, service);

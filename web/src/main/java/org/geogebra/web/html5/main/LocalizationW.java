@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
@@ -211,18 +210,12 @@ public final class LocalizationW extends Localization {
 		String str = StringUtil.removeSpaces(StringUtil.toLowerCaseUS(locColor));
 
 		try {
-
-			// Dictionary colorKeysDict =
-			// Dictionary.getDictionary("__GGB__colors_"+language);
-			MyDictionary colorKeysDict = MyDictionary.getDictionary("colors",
-					localeStr);
-			Iterator<String> colorKeysIterator = colorKeysDict.keySet()
-			        .iterator();
-			while (colorKeysIterator != null && colorKeysIterator.hasNext()) {
-				String key = colorKeysIterator.next();
+			MyDictionary colorKeysDict = MyDictionary
+					.getDictionary("colors", localeStr);
+			for (String key : colorKeysDict.keySet()) {
 				if (key != null
-				        && str.equals(StringUtil.removeSpaces(StringUtil
-				                .toLowerCaseUS(this.getColor(key))))) {
+						&& str.equals(StringUtil.removeSpaces(StringUtil
+						.toLowerCaseUS(this.getColor(key))))) {
 					return key;
 				}
 			}

@@ -43,7 +43,7 @@ You can also run `./gradlew :desktop:tasks` to list other options.
 
 * Open IntelliJ. If you don't have IntelliJ on your computer yet 
 then you can download and install it from [here](https://www.jetbrains.com/idea/download)
-* In the menu select File / New / Project from Version Control / Subversion
+* In the menu select File / New / Project from Version Control / Git
 * In the new window add the following path: `https://git.geogebra.org/ggb/geogebra.git`
 * Click on ‘Checkout’, select your preferred destination folder, select Java 1.8 as the SDK, 
 click on OK and wait…
@@ -52,6 +52,6 @@ open the Run Anything tool (Double ^ on Mac) and run the following command:
 `./gradlew :web:runSuperdev`
 * After a minute or two the GWT UI will appear
 * After the Startup URLs are loaded on the UI, select the app that you wish start. For example, 
-if you select graphing-canary.html and click on Launch Default Browser 
+if you select `graphing.html` and click on Launch Default Browser 
 then the Graphing Calculator app with the newest features 
 will load and start in your default browser 

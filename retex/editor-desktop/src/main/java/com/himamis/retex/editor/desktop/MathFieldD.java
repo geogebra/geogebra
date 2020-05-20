@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the ReTeX library - https://github.com/himamis/ReTeX
  *
  * Copyright (C) 2015 Balazs Bencze
@@ -58,7 +58,6 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.IconHelper;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
-import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXIcon;
 
 public class MathFieldD extends JLabel implements MathField {
@@ -192,11 +191,7 @@ public class MathFieldD extends JLabel implements MathField {
 		Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
 			insertString(clip.getData(DataFlavor.stringFlavor).toString());
-		} catch (UnsupportedFlavorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (UnsupportedFlavorException | IOException e) {
 			e.printStackTrace();
 		}
 

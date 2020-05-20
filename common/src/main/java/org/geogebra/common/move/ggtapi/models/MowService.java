@@ -7,6 +7,7 @@ public class MowService implements Service {
 
 	@Override
 	public HttpRequest createRequest(AuthenticationModel model) {
+		model.restartSession();
 		return UtilFactory.getPrototype().newHttpRequest();
 	}
 }

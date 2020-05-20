@@ -291,6 +291,11 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
+	public String getDataParamButtonBorderColor() {
+		return attributes.get("buttonBorderColor");
+	}
+
+	@Override
 	public void resetScale(double scale1) {
 		this.scale = scale1;
 	}
@@ -474,10 +479,5 @@ public class TestArticleElement implements ArticleElementInterface {
 	@Override
 	public String getParamKeyboardType(String def) {
 		return def;
-	}
-
-	@Override
-	public boolean isEnableApiPing() {
-		return false;
 	}
 }

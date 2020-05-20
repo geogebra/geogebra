@@ -989,7 +989,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	final public String toString(StringTemplate tpl) {
 		return label
 				+ GeoPoint.getEqualSign(getToStringMode(),
-				tpl.getCoordStyle(kernel.getCoordStyle()))
+				tpl.getCoordStyle(kernel.getCoordStyle()), tpl)
 				+ toValueString(tpl);
 	}
 

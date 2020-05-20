@@ -67,10 +67,9 @@ public interface CasEvaluableFunction
 	public FunctionVariable[] getFunctionVariables();
 
 	/**
-	 * @param string
-	 *            key for which value should be deleted
+	 * clear cached CAS evaluations
 	 */
-	public void clearCasEvalMap(String string);
+	public void clearCasEvalMap();
 
 	/**
 	 * Prins CAS cache to XML

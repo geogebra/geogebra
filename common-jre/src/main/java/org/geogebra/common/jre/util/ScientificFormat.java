@@ -159,12 +159,12 @@ public class ScientificFormat extends Format
 		}
 
 		int ePos = preliminaryResult.indexOf('E');
-		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1))
-				+ 1;
-		if (exponent > maxWidth) {
+		if (ePos < 0) {
 			return preliminaryResult;
 		}
-		if (exponent < -maxWidth + sigDig + 1) {
+		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1))
+				+ 1;
+		if (exponent > maxWidth || exponent < -maxWidth + sigDig + 1) {
 			return preliminaryResult;
 		}
 

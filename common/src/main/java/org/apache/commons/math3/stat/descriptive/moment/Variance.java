@@ -21,8 +21,8 @@ import java.io.Serializable;
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math3.stat.descriptive.AbstractStorelessUnivariateStatistic;
+import org.apache.commons.math3.stat.descriptive.WeightedEvaluation;
 import org.apache.commons.math3.util.MathUtils;
 
 /**

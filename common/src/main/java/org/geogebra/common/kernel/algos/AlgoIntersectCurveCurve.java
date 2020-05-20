@@ -64,7 +64,6 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 			GeoCurveCartesian c1, GeoCurveCartesian c2) {
 
 		super(c);
-		cons.addCASAlgo(this);
 
 		outputPoints = createOutputPoints();
 
@@ -99,7 +98,6 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 			GeoNumberValue t2) {
 
 		super(c);
-		cons.addCASAlgo(this);
 		outputPoints = createOutputPoints();
 
 		this.curve = c1;

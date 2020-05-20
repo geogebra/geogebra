@@ -3,13 +3,13 @@ package org.geogebra.web.full.gui.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.Window;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.media.GeoGebraURLParser;
+import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -25,6 +25,7 @@ import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author csilla
@@ -93,7 +94,7 @@ public class EmbedInputDialog extends MediaDialog
 		if (!StringUtil.empty(materialId)) {
 			getGeoGebraTubeAPI().getItem(materialId, this);
 		} else {
-			urlChecker.check(url.replace("+", "%2B"), this);
+			urlChecker.check(MediaURLParser.toEmbeddableUrl(url), this);
 		}
 	}
 

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.euclidian;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
@@ -11,8 +13,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-
-import java.util.List;
 
 /**
  * Line style popup

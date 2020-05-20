@@ -1,8 +1,8 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu.action;
 
-import com.google.gwt.dom.client.TextAreaElement;
-import com.google.gwtmockito.GwtMockitoTestRunner;
-import com.google.gwtmockito.WithClassesToStub;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -13,8 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.google.gwt.dom.client.TextAreaElement;
+import com.google.gwtmockito.GwtMockitoTestRunner;
+import com.google.gwtmockito.WithClassesToStub;
 
 @RunWith(GwtMockitoTestRunner.class)
 @WithClassesToStub({ TextAreaElement.class })

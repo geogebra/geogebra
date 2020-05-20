@@ -1,15 +1,15 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.junit.Test;
-
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.junit.Test;
 
 public class GeoSymbolicVectorTest extends BaseSymbolicTest {
 

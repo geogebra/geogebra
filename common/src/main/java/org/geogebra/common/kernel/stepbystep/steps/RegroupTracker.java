@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 
 public class RegroupTracker {
 

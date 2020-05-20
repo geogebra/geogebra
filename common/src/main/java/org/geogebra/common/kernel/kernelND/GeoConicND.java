@@ -4524,34 +4524,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		this.isShape = isShape;
 	}
 
-	/**
-	 * @param style
-	 *            equation type
-	 * @param parameter
-	 *            parameter (for parametric form)
-	 * @return whether it was successful
-	 */
-	public boolean setTypeFromXML(String style, String parameter, boolean force) {
-		if ("implicit".equals(style)) {
-			setToImplicit();
-		} else if ("specific".equals(style)) {
-			setToSpecific();
-		} else if ("explicit".equals(style)) {
-			setToExplicit();
-		} else if ("parametric".equals(style)) {
-			setToParametric(parameter);
-		} else if ("user".equals(style)) {
-			setToUser();
-		} else if ("vertex".equals(style)) {
-			setToVertexform();
-		} else if ("conic".equals(style)) {
-			setToConicform();
-		} else {			
-			return false;
-		}
-		return true;
-	}
-
 	private void setModeIfEquationFormIsNotForced(int mode) {
 		if (isEquationFormEnforced()) {
 			toStringMode = cons.getApplication().getConfig().getEnforcedConicEquationForm();

@@ -11,8 +11,8 @@ plugins {
 
 apply plugin: 'gwt-base'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 gwt {
     gwtVersion=gwtCompilerVersion

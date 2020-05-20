@@ -1,11 +1,16 @@
 package org.geogebra.web.html5.util;
 
-import com.google.gwt.core.client.Scheduler;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoInputBox;
@@ -13,6 +18,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoWidget;
@@ -30,21 +36,24 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.storage.client.Storage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
 
 public class CopyPasteW extends CopyPaste {
 
 	private static final String pastePrefix = "ggbpastedata";
+	private static final String imagePrefix = "ggbimagedata";
 
 	private static final int defaultTextWidth = 300;
 
-	private static ArrayList<String> copiedXmlLabels = new ArrayList<>();
-	private static StringBuilder copiedXml = new StringBuilder();
+	private static final ArrayList<String> copiedXmlLabels = new ArrayList<>();
+	private static final StringBuilder copiedXml = new StringBuilder();
+	private static final Map<String, String> copiedImages = new HashMap<>();
 
 	/**
 	 * copyToXML - Add the algos which belong to our selected geos Also
@@ -146,12 +155,10 @@ public class CopyPasteW extends CopyPaste {
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null && label.length() >= labelPrefix.length()) {
-					if (label.substring(0, labelPrefix.length())
-							.equals(labelPrefix)) {
+					if (label.startsWith(labelPrefix)) {
 						try {
 							((GeoElement) geo).setLabelSimple(
 									label.substring(labelPrefix.length()));
-
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -177,6 +184,16 @@ public class CopyPasteW extends CopyPaste {
 			textToSave.append(label).append(" ");
 		}
 		textToSave.append("\n");
+
+		for (Map.Entry<String, String> image : copiedImages.entrySet()) {
+			textToSave.append(imagePrefix);
+			textToSave.append(" ");
+			textToSave.append(image.getKey());
+			textToSave.append(" ");
+			textToSave.append(image.getValue());
+			textToSave.append("\n");
+		}
+
 		textToSave.append(copiedXml);
 
 		saveToClipboard(textToSave.toString());
@@ -219,11 +236,16 @@ public class CopyPasteW extends CopyPaste {
 		kernel.setSaveScriptsToXML(false);
 
 		copiedXml.setLength(0);
-		Construction cons = app.getKernel().getConstruction();
-		for (int i = 0; i < cons.steps(); ++i) {
-			ConstructionElement ce = cons.getConstructionElement(i);
-			if (geoslocal.contains(ce)) {
-				ce.getXML(false, copiedXml);
+		copiedImages.clear();
+
+		for (ConstructionElement ce : geoslocal) {
+			ce.getXML(false, copiedXml);
+
+			if (ce instanceof GeoImage) {
+				GeoImage image = (GeoImage) ce;
+				String name = image.getImageFileName();
+				ImageManagerW imageManager = ((ImageManagerW) app.getImageManager());
+				copiedImages.put(name, imageManager.getExternalImageSrc(name));
 			}
 		}
 
@@ -272,10 +294,15 @@ public class CopyPasteW extends CopyPaste {
 
 	private static void saveToClipboard(String toSave) {
 		if (!Browser.isiOS()) {
-			String encoded = pastePrefix + GlobalFunctions.btoa(toSave);
+			String escapedContent = Global.escape(toSave);
+			String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
 			writeToExternalClipboard(encoded);
 		}
-		Storage.getLocalStorageIfSupported().setItem(pastePrefix, toSave);
+		try {
+			Storage.getLocalStorageIfSupported().setItem(pastePrefix, toSave);
+		} catch (Throwable t) {
+			Log.debug("Quota exceeded");
+		}
 	}
 
 	@Override
@@ -338,9 +365,10 @@ public class CopyPasteW extends CopyPaste {
 	}-*/;
 
 	@ExternalAccess
-	private static void pasteText(App app, String text) {
+	private static void pasteText(AppW app, String text) {
 		if (text.startsWith(pastePrefix)) {
-			pasteGeoGebraXML(app, GlobalFunctions.atob(text.substring(pastePrefix.length())));
+			String escapedContent = DomGlobal.atob(text.substring(pastePrefix.length()));
+			pasteGeoGebraXML(app, Global.unescape(escapedContent));
 		} else {
 			pastePlainText(app, text);
 		}
@@ -356,8 +384,8 @@ public class CopyPasteW extends CopyPaste {
 			final EuclidianView ev = app.getActiveEuclidianView();
 
 			final GeoInlineText txt = new GeoInlineText(app.getKernel().getConstruction(),
-					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0),
-					defaultTextWidth, GeoInlineText.DEFAULT_HEIGHT);
+					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
+			txt.setWidth(defaultTextWidth);
 			txt.setLabel(null);
 
 			JSONArray array = new JSONArray();
@@ -394,20 +422,36 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
-	private static ArrayList<String> separateXMLLabels(String clipboardContent) {
-		return new ArrayList<>(Arrays.asList(clipboardContent.split("\n")[0].split(" ")));
-	}
-
-	private static String separateCopiedXML(String clipboardContent) {
-		return clipboardContent.substring(clipboardContent.indexOf('\n'));
+	private static ArrayList<String> separateXMLLabels(String clipboardContent, int endline) {
+		return new ArrayList<>(Arrays.asList(clipboardContent.substring(0, endline).split(" ")));
 	}
 
 	@ExternalAccess
-	private static void pasteGeoGebraXML(App app, String clipboardContent) {
-		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent);
-		String copiedXML = separateCopiedXML(clipboardContent);
+	private static void pasteGeoGebraXML(AppW app, String clipboardContent) {
+		int endline = clipboardContent.indexOf('\n');
 
-		pasteGeoGebraXMLInternal(app, copiedXMLlabels, copiedXML);
+		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent, endline);
+
+		endline++;
+		while (clipboardContent.startsWith(imagePrefix, endline)) {
+			int nextEndline = clipboardContent.indexOf('\n', endline);
+			String line = clipboardContent
+					.substring(endline + imagePrefix.length() + 1, nextEndline);
+
+			String[] image = line.split(" ");
+
+			ImageManagerW imageManager = app.getImageManager();
+			imageManager.addExternalImage(image[0], image[1]);
+			ImageElement img = imageManager.getExternalImage(image[0], app, true);
+			img.setSrc(image[1]);
+
+			endline = nextEndline + 1;
+		}
+
+		String copiedXML = clipboardContent.substring(endline);
+
+		Scheduler.get().scheduleDeferred(
+				() -> pasteGeoGebraXMLInternal(app, copiedXMLlabels, copiedXML));
 	}
 
 	private static void pasteGeoGebraXMLInternal(App app,
@@ -449,8 +493,8 @@ public class CopyPasteW extends CopyPaste {
 					shapes.add(created);
 				}
 
-				if (created instanceof GeoInlineText) {
-					DrawInlineText drawInlineText = (DrawInlineText) ev.getDrawableFor(created);
+				if (created instanceof GeoInline) {
+					DrawInline drawInlineText = (DrawInline) ev.getDrawableFor(created);
 					drawInlineText.updateContent();
 					shapes.add(created);
 				}
@@ -493,7 +537,7 @@ public class CopyPasteW extends CopyPaste {
 			@org.geogebra.web.html5.util.CopyPasteW::pastePrefix, '');
 	}-*/;
 
-	public static native void installCutCopyPaste(App app, Element target) /*-{
+	public static native void installCutCopyPaste(AppW app, Element target) /*-{
 		function incorrectTarget(target) {
 			return target.tagName.toUpperCase() === 'INPUT'
 				|| target.tagName.toUpperCase() === 'TEXTAREA'
@@ -540,12 +584,12 @@ public class CopyPasteW extends CopyPaste {
 
 	/**
 	 * Paste from internal keyboard
-	 * @param appX application
+	 * @param app application
 	 */
-	public static void pasteInternal(App appX) {
+	public static void pasteInternal(AppW app) {
 		String stored = Storage.getLocalStorageIfSupported().getItem(pastePrefix);
 		if (!StringUtil.empty(stored)) {
-			pasteGeoGebraXML(appX, stored);
+			pasteGeoGebraXML(app, stored);
 		}
 	}
 

@@ -1,5 +1,7 @@
 package org.geogebra.common.properties.impl.graphics;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Kernel;
@@ -9,8 +11,6 @@ import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
-
-import java.util.ArrayList;
 
 public class ARRatioPropertyCollection extends AbstractProperty
         implements PropertyCollection {

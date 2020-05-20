@@ -28,7 +28,6 @@ import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.stat.StatUtils;
 import org.apache.commons.math3.stat.descriptive.StatisticalSummary;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * An implementation for Student's t-tests.

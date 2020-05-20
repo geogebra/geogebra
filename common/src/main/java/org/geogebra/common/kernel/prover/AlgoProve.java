@@ -48,7 +48,6 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 	 */
 	public AlgoProve(Construction cons, String label, GeoElement root) {
 		super(cons);
-		cons.addCASAlgo(this);
 		this.root = root;
 
 		bool = new GeoBoolean(cons);

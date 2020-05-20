@@ -1,11 +1,12 @@
 package org.geogebra.web.solver;
 
+import java.util.List;
+
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
-
-import java.util.List;
 
 public class StepElem extends VerticalPanel {
 

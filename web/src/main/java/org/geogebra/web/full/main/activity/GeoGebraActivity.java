@@ -8,7 +8,7 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -69,7 +69,7 @@ public interface GeoGebraActivity {
 	 *            algebra view
 	 * @return actions for the row
 	 */
-	MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW algebraView);
+	MenuItemCollection<GeoElement> getAVMenuItems(AlgebraViewW algebraView);
 
 	/**
 	 * @param radioTreeItem parent item

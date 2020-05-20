@@ -1,9 +1,8 @@
 package org.geogebra.resources;
 
 import java.net.URL;
-import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.util.StringUtil;
@@ -61,6 +60,8 @@ public class ResourceAvailability {
 			case EuclidianConstants.MODE_AUDIO:
 			case EuclidianConstants.MODE_GRAPHING:
 			case EuclidianConstants.MODE_EXTENSION:
+			case EuclidianConstants.MODE_TABLE:
+			case EuclidianConstants.MODE_EQUATION:
 			case EuclidianConstants.MODE_CAMERA:
 			case EuclidianConstants.MODE_PDF:
 			case EuclidianConstants.MODE_GRASPABLE_MATH:

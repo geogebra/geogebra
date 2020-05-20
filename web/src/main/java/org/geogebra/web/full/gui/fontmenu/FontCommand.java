@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.fontmenu;
 
-import org.geogebra.common.euclidian.text.InlineTextController;
+import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.main.App;
 
 import com.google.gwt.core.client.Scheduler;

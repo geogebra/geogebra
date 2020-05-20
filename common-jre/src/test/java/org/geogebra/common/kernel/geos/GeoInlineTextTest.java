@@ -1,13 +1,13 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class GeoInlineTextTest extends BaseUnitTest {
 
@@ -40,7 +40,9 @@ public class GeoInlineTextTest extends BaseUnitTest {
 
 		GPoint2D startPoint = new GPoint2D(x, y);
 
-		GeoInlineText savedInlineText = new GeoInlineText(cons, startPoint, width, height);
+		GeoInlineText savedInlineText = new GeoInlineText(cons, startPoint);
+		savedInlineText.setWidth(width);
+		savedInlineText.setHeight(height);
 		savedInlineText.setLabel("testText");
 		savedInlineText.setAngle(angle);
 		savedInlineText.setContent(content);
