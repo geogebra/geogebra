@@ -115,8 +115,8 @@ public class ParserTest {
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
-			EvalInfo info = simplifiedMultiplication ?
-					  new EvalInfo(false).withSimplifiedMultiplication()
+			EvalInfo info = simplifiedMultiplication
+					? new EvalInfo(false).withSimplifiedMultiplication()
 					: new EvalInfo(false);
 
 			v1.resolveVariables(info);
