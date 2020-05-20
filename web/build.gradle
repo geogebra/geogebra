@@ -155,7 +155,6 @@ tasks.withType(org.wisepersist.gradle.plugins.gwt.AbstractGwtActionTask) {
 }
 
 def warDirRel = 'war'
-def warDirAbs = file(warDirRel).toURI()
 def outputs = ['web', 'web3d', 'webSimple', 'solver', 'tablet3d','tabletWin']
 
 task cleanWar(type: Delete) {
@@ -267,54 +266,11 @@ task mergeDeploy(){
    }
 }
 
-task symlinkIntoWar(dependsOn: ['copyHtml']) {
-    description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
-    doLast {
-        outputs.each { folder ->
-            ant.symlink(resource: "../build/gwt/out/$folder", link: file("war/$folder"), overwrite: true)
-        }
-    }
-}
-
-task draftSymlinkIntoWar(dependsOn: ['copyHtml']) {
-    description 'Creates a symbolic link to the GWT draft compilation directory (web3d) in the war directory.'
-    doLast {
-        outputs.each { folder ->
-            ant.symlink(resource: "../build/gwt/draftOut/$folder", link: file("war/$folder"), overwrite: true)
-        }
-    }
-}
-
-task draftDeployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
-    description 'Copies/updates the GWT draft compilation directory (web3d) to the war directory.'
-    from draftCompileGwt
-    into warDirRel
-}
-
-def appHtmlRel = 'app.html'
-def appHtmlAbs = file("${warDirAbs}/${appHtmlRel}").toURI()
-
-task run(dependsOn: 'deployIntoWar') {
-    group 'application'
-    description 'Runs GeoGebraWeb in the default web browser'
-    doLast {
-        java.awt.Desktop.desktop.browse appHtmlAbs
-    }
-}
-
-task draftRun(dependsOn: 'draftDeployIntoWar') {
-    group 'application'
-    description 'Runs GeoGebraWeb draft in the default web browser'
-    doLast {
-        java.awt.Desktop.desktop.browse appHtmlAbs
-    }
-}
-
 def gwtGlobalCache = file('build/gwt/devModeCache');
 // As now this task doesn't finish until the java process exits.
 // This causes some problems as the IDE cannot run any other tasks.
 // https://issues.gradle.org/browse/GRADLE-1254
-task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
+task run(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
     description 'Starts a codeserver, and a simple webserver for development'
     doFirst {
         delete {
