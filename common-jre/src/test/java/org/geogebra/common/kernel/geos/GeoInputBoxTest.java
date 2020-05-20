@@ -457,15 +457,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSimpleProduct() {
-		addAvInput("k=1");
-		addAvInput("g=1");
-		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
-		inputBox.updateLinkedGeo("ki");
-		assertEquals("k " + Unicode.IMAGINARY, inputBox.getText());
-	}
-
-	@Test
 	public void testUserInputNonNullAfterUpdatingLinkedGeoToInvalidInput() {
 		addAvInput("f(x) = x");
 		GeoInputBox inputBox = addAvInput("a = InputBox(f)");
