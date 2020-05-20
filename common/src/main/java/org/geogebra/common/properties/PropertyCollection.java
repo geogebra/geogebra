@@ -7,11 +7,6 @@ package org.geogebra.common.properties;
 public interface PropertyCollection extends Property {
 
     /**
-     * @return name
-     */
-    String getName();
-
-    /**
      * Returns the properties that belong to this property group.
      *
      * @return a list of properties.
