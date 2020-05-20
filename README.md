@@ -17,14 +17,14 @@ steps) please visit https://dev.geogebra.org/.
 To start the web version from command line, run
 
 ```
-./gradlew :web:runSuperdev
+./gradlew :web:run
 ```
 
 This will start a development server on your machine where you can test the app. 
 If you need to access the server from other devices, you can specify a binding address
 
 ```
-./gradlew :web:runSuperdev -Pgbind=A.B.C.D
+./gradlew :web:run -Pgbind=A.B.C.D
 ```
 
 where `A.B.C.D` is your IP address. 
@@ -49,7 +49,7 @@ then you can download and install it from [here](https://www.jetbrains.com/idea/
 click on OK and wait…
 * After the project is checked out, select the root folder of the project, 
 open the Run Anything tool (Double ^ on Mac) and run the following command: 
-`./gradlew :web:runSuperdev`
+`./gradlew :web:run`
 * After a minute or two the GWT UI will appear
 * After the Startup URLs are loaded on the UI, select the app that you wish start. For example, 
 if you select `graphing.html` and click on Launch Default Browser 
