@@ -1895,7 +1895,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "Function.csc": "csc",
     "Function.csch": "csch",
     "Function.fractionalPart": "fractionalPart",
-    "Function.freehand": "\u667a\u80fd\u7ed8\u56fe",
+    "Function.freehand": "freehand",
     "Function.imaginary": "imaginary",
     "Function.nPr": "\u6392\u5217\u6570",
     "Function.nroot": "nroot",
