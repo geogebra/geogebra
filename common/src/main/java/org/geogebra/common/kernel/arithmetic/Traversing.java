@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.variable.InputTokenizer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic.variable.VariableReplacerAlgorithm;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -899,7 +900,7 @@ public interface Traversing {
 				}
 
 				if (expressionFromVariableName.wrap().isImaginaryUnit()) {
-					tree.add(Unicode.IMAGINARY+"");
+					tree.add(InputTokenizer.IMAGINARY_STRING);
 				}
 				if (expressionFromVariableName instanceof Variable
 						&& !variable

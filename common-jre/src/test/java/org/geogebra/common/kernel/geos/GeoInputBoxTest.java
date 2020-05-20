@@ -465,7 +465,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertEquals("k " + Unicode.IMAGINARY, inputBox.getText());
 	}
 
-
 	@Test
 	public void testUserInputNonNullAfterUpdatingLinkedGeoToInvalidInput() {
 		addAvInput("f(x) = x");

@@ -3,19 +3,17 @@ package org.geogebra.common.kernel.geos;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoInputBoxForProductTest extends BaseUnitTest {
 
-
 	@Test
 	public void testPiRSquare() {
 		add("g = ?");
 		add("r = ?");
-		shouldBeUpdatedAs( "g", "pir^(2)", Unicode.PI_STRING + " r" + Unicode.SUPERSCRIPT_2);
+		shouldBeUpdatedAs("g", "pir^(2)", Unicode.PI_STRING + " r" + Unicode.SUPERSCRIPT_2);
 	}
 
 	@Test
@@ -57,7 +55,8 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		shouldBeUpdatedAs("f", "xab", "x a b");
 		shouldBeUpdatedAs("f", "x + ab", "x + a b");
 		shouldBeUpdatedAs("f", "xxxxxxxxxx", "x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
-		shouldBeUpdatedAs("f", "axxxxxxxxxx", "a x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
+		shouldBeUpdatedAs("f", "axxxxxxxxxx",
+				"a x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
 		shouldBeUpdatedAs("f", "axaxaxaxax", "a x a x a x a x a x");
 	}
 
@@ -83,7 +82,7 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	public void testCost7() {
 		add("g(t)=?");
-		shouldBeUpdatedAs("g", "-tcost7t/7", "-t cos 7t / 7");
+		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t cos(7t))) / 7");
 	}
 
 	@Test
@@ -142,27 +141,21 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	public void testPiSqrt() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f","18pisqrt5", "18" + Unicode.PI_STRING + " sqrt(5)");
-	}
-
-	@Ignore
-	@Test
-	public void testiSqrt() {
-		add("a=?");
-		shouldBeUpdatedAs("a","isqrt5", Unicode.IMAGINARY + " sqrt(5)");
+		shouldBeUpdatedAs("f", "18pisqrt5", "18" + Unicode.PI_STRING + " sqrt(5)");
 	}
 
 	@Test
 	public void testIndex() {
 		add("f(x)=?");
 		add("B_{0}=7");
-		shouldBeUpdatedAs("f","B_{0}e^(2)", "B_{0} " + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);
+		shouldBeUpdatedAs("f", "B_{0}e^(2)",
+				"B_{0} " + Unicode.EULER_STRING + Unicode.SUPERSCRIPT_2);
 	}
 
 	@Test
 	public void testTangent() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f","2xtan8x", "2x tan(8x)");
+		shouldBeUpdatedAs("f", "2xtan8x", "2x tan(8x)");
 	}
 
 	@Test
@@ -170,7 +163,7 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("θ=45");
 		add("F=5");
 		add("f(x, y)=?");
-		shouldBeUpdatedAs("f","Fcosθx+Fsinθy", "F cos(θ x) + F sin(θ y)");
+		shouldBeUpdatedAs("f", "Fcosθx+Fsinθy", "F cos(θ x) + F sin(θ y)");
 	}
 
 	private void shouldBeUpdatedAs(String linkedGeo, String updatedText, String expected) {

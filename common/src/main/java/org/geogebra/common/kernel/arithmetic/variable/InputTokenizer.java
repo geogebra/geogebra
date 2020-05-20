@@ -99,7 +99,7 @@ public class InputTokenizer {
 		}
 
 		if (isImaginaryNext()) {
-			return String.valueOf(Unicode.IMAGINARY);
+			return IMAGINARY_STRING;
 		}
 
 		if (isDigitNext()) {

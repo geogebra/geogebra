@@ -854,7 +854,8 @@ public class AlgebraProcessor {
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
 		// collect undefined variables
-		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(info.isSimplifiedMultiplication());
+		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
+				info.isSimplifiedMultiplication());
 		ve.traverse(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 
@@ -959,7 +960,8 @@ public class AlgebraProcessor {
 							// insertStarIfNeeded(undefinedVariables,
 							// ve2, fvX2);
 							replaceUndefinedVariables(ve2,
-									new TreeSet<GeoNumeric>(), null, info.isSimplifiedMultiplication());
+									new TreeSet<GeoNumeric>(), null,
+									info.isSimplifiedMultiplication());
 						}
 						try {
 							geos = processValidExpression(storeUndo, handler,

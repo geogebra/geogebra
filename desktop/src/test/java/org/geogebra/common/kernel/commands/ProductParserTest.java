@@ -94,7 +94,7 @@ public class ProductParserTest extends BaseUnitTest {
 //	@Ignore
 	@Test
 	public void testCost7() {
-		shouldReparseAs("tcost7t/7", "t cos 7t / 7");
+		shouldReparseAs("-tcos7t/7", "(-(t cos(7t))) / 7");
 	}
 
 	@Test
