@@ -97,4 +97,9 @@ public class AppConfigSuite extends AppConfigGraphing {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.SUITE;
 	}
+
+	@Override
+	public String getTutorialKey() {
+		return "suite_tutorial";
+	}
 }
