@@ -92,7 +92,7 @@ public class GraphicsPropertiesList extends PropertiesList {
         if (mApp.getActiveEuclidianView().isAREnabled()) {
             if (propertiesArrayARView == null) {
 				ArrayList<Property> propertiesListARView = new ArrayList<>();
-				for (Property prop : getProperties()) {
+				for (Property prop : getPropertyCollection()) {
 					propertiesListARView.add(prop);
 				}
 				if (mApp.has(Feature.G3D_AR_RATIO_SETTINGS)) {
@@ -111,7 +111,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 			}
 			return propertiesArrayARView;
         }
-        return getProperties();
+        return getPropertyCollection().toArray(EMPTY_ARRAY);
     }
 
 }

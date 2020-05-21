@@ -8,7 +8,7 @@ import java.util.Collection;
  */
 public abstract class AbstractPropertyCollection implements PropertyCollection {
 
-    private static final Property[] EMPTY_ARRAY = new Property[0];
+    static final Property[] EMPTY_ARRAY = new Property[0];
 
     private String name;
     private Collection<Property> properties;
@@ -36,5 +36,9 @@ public abstract class AbstractPropertyCollection implements PropertyCollection {
     @Override
     public Property[] getProperties() {
         return properties.toArray(EMPTY_ARRAY);
+    }
+
+    Collection<Property> getPropertyCollection() {
+        return properties;
     }
 }
