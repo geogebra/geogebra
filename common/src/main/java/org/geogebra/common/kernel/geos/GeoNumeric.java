@@ -19,7 +19,6 @@
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -55,17 +54,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.PropertiesList;
-import org.geogebra.common.properties.PropertyCollection;
-import org.geogebra.common.properties.impl.objects.CaptionStyle;
-import org.geogebra.common.properties.impl.objects.ColorProperty;
-import org.geogebra.common.properties.impl.objects.LineOpacity;
-import org.geogebra.common.properties.impl.objects.Max;
-import org.geogebra.common.properties.impl.objects.Min;
-import org.geogebra.common.properties.impl.objects.Name;
-import org.geogebra.common.properties.impl.objects.ShowInAV;
-import org.geogebra.common.properties.impl.objects.ShowObject;
-import org.geogebra.common.properties.impl.objects.Step;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
@@ -2102,22 +2090,5 @@ public class GeoNumeric extends GeoElement
 		intervalMax = null;
 		intervalMin = null;
 		setEuclidianVisible(false);
-	}
-
-	@Override
-	protected List<PropertyCollection> createProperties() {
-		PropertyCollection collection = new PropertiesList(
-				"",
-				new Name(this),
-				new Min(this),
-				new Max(this),
-				new Step(this),
-				new ShowObject(this),
-				new ColorProperty(this),
-				new LineOpacity(this),
-				new CaptionStyle(this),
-				new ShowInAV(this)
-		);
-		return Arrays.asList(collection);
 	}
 }

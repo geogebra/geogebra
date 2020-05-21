@@ -20,10 +20,8 @@ package org.geogebra.common.kernel.geos;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -64,18 +62,6 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.PropertiesList;
-import org.geogebra.common.properties.PropertyCollection;
-import org.geogebra.common.properties.impl.objects.CaptionStyle;
-import org.geogebra.common.properties.impl.objects.ColorProperty;
-import org.geogebra.common.properties.impl.objects.EquationForm;
-import org.geogebra.common.properties.impl.objects.FixObject;
-import org.geogebra.common.properties.impl.objects.LineStyle;
-import org.geogebra.common.properties.impl.objects.Name;
-import org.geogebra.common.properties.impl.objects.ShowInAV;
-import org.geogebra.common.properties.impl.objects.ShowObject;
-import org.geogebra.common.properties.impl.objects.ShowTrace;
-import org.geogebra.common.properties.impl.objects.Thickness;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
@@ -2022,23 +2008,5 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			default:
 				toStringMode = EQUATION_IMPLICIT;
 		}
-	}
-
-	@Override
-	protected List<PropertyCollection> createProperties() {
-		PropertyCollection collection = new PropertiesList(
-				"",
-				new Name(this),
-				new ShowObject(this),
-				new ColorProperty(this),
-				new LineStyle(this),
-				new Thickness(this),
-				new EquationForm(this),
-				new CaptionStyle(this),
-				new ShowTrace(this),
-				new FixObject(this),
-				new ShowInAV(this)
-		);
-		return Arrays.asList(collection);
 	}
 }

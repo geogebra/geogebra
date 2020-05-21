@@ -22,11 +22,9 @@ package org.geogebra.common.kernel.geos;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -79,17 +77,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.properties.PropertiesList;
-import org.geogebra.common.properties.PropertyCollection;
-import org.geogebra.common.properties.impl.objects.CaptionStyle;
-import org.geogebra.common.properties.impl.objects.ColorProperty;
-import org.geogebra.common.properties.impl.objects.FixObject;
-import org.geogebra.common.properties.impl.objects.Name;
-import org.geogebra.common.properties.impl.objects.PointSize;
-import org.geogebra.common.properties.impl.objects.PointStyle;
-import org.geogebra.common.properties.impl.objects.ShowInAV;
-import org.geogebra.common.properties.impl.objects.ShowObject;
-import org.geogebra.common.properties.impl.objects.ShowTrace;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
@@ -2937,22 +2924,5 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		setCoords2D(resx, resy, resz);
 		updateCoordsFrom2D(false);
 		pp.t = param;
-	}
-
-	@Override
-	protected List<PropertyCollection> createProperties() {
-		PropertyCollection collection = new PropertiesList(
-				"",
-				new Name(this),
-				new ShowObject(this),
-				new ColorProperty(this),
-				new PointStyle(this),
-				new PointSize(this),
-				new CaptionStyle(this),
-				new ShowTrace(this),
-				new FixObject(this),
-				new ShowInAV(this)
-		);
-		return Arrays.asList(collection);
 	}
 }
