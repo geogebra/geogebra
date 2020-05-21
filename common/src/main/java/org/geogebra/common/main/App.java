@@ -1,6 +1,15 @@
 package org.geogebra.common.main;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Vector;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
@@ -113,15 +122,7 @@ import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Vector;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -432,7 +433,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	private boolean areCommands3DEnabled = true;
 	protected AccessibilityManagerInterface accessibilityManager;
-	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
 	private AlgebraOutputFilter algebraOutputFilter;
@@ -1023,6 +1023,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.NONE) {
 			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.MAY_SET_COORD_SYSTEM;
 		}
+	}
+
+	/**
+	 * Resets the coord system change flag
+	 */
+	public void resetCoordSystemChanged() {
+		storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.NONE;
 	}
 
 	public void setPropertiesOccured() {
@@ -4944,17 +4951,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public String md5Encrypt(String s) {
-		return getMD5EncrypterStatic().encrypt(s);
-	}
-
-	/**
-	 * @return MD5 encrypter that can be used in GWT
-	 */
-	public static synchronized MD5EncrypterGWTImpl getMD5EncrypterStatic() {
-		if (md5Encrypter == null) {
-			md5Encrypter = new MD5EncrypterGWTImpl();
-		}
-		return md5Encrypter;
+		return MD5EncrypterGWTImpl.encrypt(s);
 	}
 
 	public EmbedManager getEmbedManager() {

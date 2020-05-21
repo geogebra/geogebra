@@ -1,9 +1,9 @@
 package com.himamis.retex.editor.share.input.adapter;
 
-import com.himamis.retex.editor.share.editor.MathFieldInternal;
-
 import java.util.Arrays;
 import java.util.List;
+
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 public class FunctionsAdapter extends StringInput {
 

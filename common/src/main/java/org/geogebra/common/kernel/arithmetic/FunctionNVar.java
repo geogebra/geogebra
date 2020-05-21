@@ -294,7 +294,8 @@ public class FunctionNVar extends ValidExpression
 			final StringTemplate tpl) {
 		for (int i = 0; i < fVars.length - 1; i++) {
 			sb.append(fVars[i].toString(tpl));
-			sb.append(", ");
+			sb.append(",");
+			tpl.appendOptionalSpace(sb);
 		}
 		sb.append(fVars[fVars.length - 1].toString(tpl));
 		return sb;

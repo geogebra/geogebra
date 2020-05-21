@@ -15,11 +15,11 @@ package org.geogebra.common.euclidian;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-
-import javax.annotation.Nonnull;
 
 /**
  * List to store Drawable objects for fast drawing.

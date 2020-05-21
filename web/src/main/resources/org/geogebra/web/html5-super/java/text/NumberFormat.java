@@ -18,7 +18,6 @@
 package java.text;
 
 import java.io.Serializable;
-import java.text.ParseException;
 
 public class NumberFormat implements Serializable
 {

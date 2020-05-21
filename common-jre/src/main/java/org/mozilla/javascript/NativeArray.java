@@ -6,8 +6,6 @@
 
 package org.mozilla.javascript;
 
-import org.mozilla.javascript.regexp.NativeRegExp;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;

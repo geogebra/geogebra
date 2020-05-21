@@ -1,5 +1,8 @@
 package org.geogebra.common.jre.plugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -7,9 +10,6 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class ScriptManagerJre extends ScriptManager {
 

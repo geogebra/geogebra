@@ -1,10 +1,11 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.SystemSteps;
 import org.geogebra.common.main.Localization;
-
-import java.util.*;
 
 public class StepEquationSystem extends StepNode {
 

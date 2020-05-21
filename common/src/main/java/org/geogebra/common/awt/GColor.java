@@ -1,8 +1,8 @@
 package org.geogebra.common.awt;
 
-import org.geogebra.common.util.debug.Log;
-
 import java.util.HashMap;
+
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author michael

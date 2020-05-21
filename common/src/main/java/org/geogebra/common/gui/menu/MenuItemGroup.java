@@ -1,9 +1,9 @@
 package org.geogebra.common.gui.menu;
 
-import javax.annotation.Nullable;
-
 import java.io.Serializable;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * A model describing a menu item group. Each group can have

@@ -231,9 +231,9 @@ public class MyVec3DNode extends ValidExpression
 			} else {
 				sb.append(tpl.leftBracket());
 				sb.append(print(x, values, tpl));
-				appendSeparator(sb);
+				appendSeparator(sb, tpl);
 				sb.append(print(y, values, tpl));
-				appendSeparator(sb);
+				appendSeparator(sb, tpl);
 				sb.append(print(z, values, tpl));
 				sb.append(tpl.rightBracket());
 			}
@@ -241,12 +241,13 @@ public class MyVec3DNode extends ValidExpression
 		return sb.toString();
 	}
 
-	private void appendSeparator(StringBuilder sb) {
+	private void appendSeparator(StringBuilder sb, StringTemplate tpl) {
 		if (mode == Kernel.COORD_CARTESIAN_3D) {
-			sb.append(", ");
+			sb.append(",");
 		} else {
-			sb.append("; ");
+			sb.append(";");
 		}
+		tpl.appendOptionalSpace(sb);
 	}
 
 	@Override

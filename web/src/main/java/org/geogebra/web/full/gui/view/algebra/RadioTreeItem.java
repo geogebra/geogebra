@@ -40,9 +40,9 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
@@ -1953,14 +1953,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public boolean onEditStart() {
 		String text;
 		if (geo == null) {
-			if (!getText().isEmpty()) {
-				text = getText();
-			} else {
-				text = "";
-			}
+			text = getText();
 		} else if (AlgebraItem.needsPacking(geo)) {
 			text = geo.getLaTeXDescriptionRHS(false,
-					StringTemplate.editTemplate);
+					StringTemplate.editorTemplate);
 		} else {
 			text = geo.getDefinitionForEditor();
 		}

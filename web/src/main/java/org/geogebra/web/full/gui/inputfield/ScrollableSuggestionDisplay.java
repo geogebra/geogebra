@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.inputfield;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GPopupPanel;
-//import org.geogebra.web.cas.latex.EquationEditor;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox.DefaultSuggestionDisplay;
@@ -12,6 +11,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.Widget;
+
+//import org.geogebra.web.cas.latex.EquationEditor;
 
 public final class ScrollableSuggestionDisplay extends
         DefaultSuggestionDisplay {

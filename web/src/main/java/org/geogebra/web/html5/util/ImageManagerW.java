@@ -2,7 +2,6 @@ package org.geogebra.web.html5.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
@@ -12,7 +11,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
@@ -189,19 +187,11 @@ public class ImageManagerW extends ImageManager {
 	public void triggerImageLoading(final AppW app,
 			final Runnable run, final Map<String, String> toLoad) {
 		this.imagesLoaded = 0;
-		if (toLoad.entrySet() != null) {
-			for (Entry<String, String> imgSrc : toLoad.entrySet()) {
-				ImageElement el = getExternalImage(imgSrc.getKey(), app, true);
-				ImageWrapper img = new ImageWrapper(el);
-				img.attachNativeLoadHandler(this, new ImageLoadCallback() {
-
-					@Override
-					public void onLoad() {
-						checkIfAllLoaded(app, run, toLoad);
-					}
-				});
-				img.getElement().setSrc(imgSrc.getValue());
-			}
+		for (Entry<String, String> imgSrc : toLoad.entrySet()) {
+			ImageElement el = getExternalImage(imgSrc.getKey(), app, true);
+			ImageWrapper img = new ImageWrapper(el);
+			img.attachNativeLoadHandler(this, () -> checkIfAllLoaded(app, run, toLoad));
+			img.getElement().setSrc(imgSrc.getValue());
 		}
 	}
 
@@ -273,9 +263,7 @@ public class ImageManagerW extends ImageManager {
 			return;
 		}
 
-		Iterator<GeoElement> it = geos.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : geos) {
 			String fileName = geo.getImageFileName();
 			// for some reason we sometimes get null and sometimes "" if there
 			// is no image used
@@ -297,8 +285,7 @@ public class ImageManagerW extends ImageManager {
 	 * @return filename with MD5 hash as directory
 	 */
 	public static String getMD5FileName(String imgFileName, String fileStr) {
-		MD5EncrypterGWTImpl md5e = App.getMD5EncrypterStatic();
-		String zipDirectory = md5e.encrypt(fileStr);
+		String zipDirectory = MD5EncrypterGWTImpl.encrypt(fileStr);
 
 		String fn = imgFileName;
 		int index = imgFileName.lastIndexOf('/');
@@ -324,26 +311,18 @@ public class ImageManagerW extends ImageManager {
 	 */
 	public void writeConstructionImages(Construction cons, String filePath,
 			GgbFile archive) {
-		// save all GeoImage images
-		// TreeSet images =
-		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
 		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
 		if (geos == null) {
 			return;
 		}
 
-		Iterator<GeoElement> it = geos.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : geos) {
 			String fileName = geo.getImageFileName();
 			if (!"".equals(fileName)) {
 				String url = getExternalImageSrc(fileName);
 				FileExtensions ext = StringUtil.getFileExtension(fileName);
 
 				MyImageW img = (MyImageW) geo.getFillImage();
-
-				Log.debug("filename = " + fileName);
-				Log.debug("ext = " + ext);
 				addImageToArchive(filePath, fileName, url, ext, img, archive);
 			}
 		}
@@ -438,9 +417,8 @@ public class ImageManagerW extends ImageManager {
 			return;
 		}
 
-		for (int i = 0; i < macros.size(); i++) {
+		for (Macro macro : macros) {
 			// save all images in macro construction
-			Macro macro = macros.get(i);
 			// macro may contain images GGB-1865
 			writeConstructionImages(macro.getMacroConstruction(), "", archive);
 			String fileName = macro.getIconFileName();

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
@@ -7,8 +9,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import java.util.List;
 
 /**
  * Line style button with preview

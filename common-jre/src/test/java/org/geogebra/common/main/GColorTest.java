@@ -1,9 +1,9 @@
 package org.geogebra.common.main;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.awt.GColor;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class GColorTest {
 

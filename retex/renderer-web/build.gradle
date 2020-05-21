@@ -1,10 +1,10 @@
 buildscript {
     dependencies {
-        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.13'
     }
 }
 
-ext.gwtCompilerVersion = '2.8.2'
+ext.gwtCompilerVersion = '2.9.0'
 
 apply plugin: 'gwt'
 apply plugin: 'java'
@@ -27,6 +27,9 @@ gwt {
 evaluationDependsOn ':renderer-base'
 
 dependencies {
+	compile group: 'com.google.elemental2', name: 'elemental2-core', version: '1.0.0'
+	compile group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.0.0'
+
 	compile project(':renderer-base')
 	compile files(project(':renderer-base').sourceSets.main.java.srcDirs)
 	compile "com.google.gwt:gwt-dev:$gwtCompilerVersion"

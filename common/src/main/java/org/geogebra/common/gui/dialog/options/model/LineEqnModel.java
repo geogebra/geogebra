@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -8,9 +11,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class LineEqnModel extends MultipleOptionsModel {
 

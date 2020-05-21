@@ -198,7 +198,8 @@ public class MyVecNode extends ValidExpression
 				sb.append(tpl.leftBracket());
 				sb.append(print(x, values, tpl));
 				if (mode == Kernel.COORD_CARTESIAN) {
-					sb.append(", ");
+					sb.append(",");
+					tpl.appendOptionalSpace(sb);
 				} else {
 					sb.append("; ");
 				}

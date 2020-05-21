@@ -18,7 +18,11 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -62,10 +66,7 @@ import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Geometrical representation of line
@@ -1019,7 +1020,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (!coefficientsDefined() || (DoubleUtil.isZero(x) && DoubleUtil.isZero(y)
 				&& getToStringMode() != EQUATION_USER)) {
 			if (getToStringMode() == PARAMETRIC) {
-				return "X = (?, ?)";
+				return "X" + tpl.getEqualsWithSpace() + "(?, ?)";
 			} else {
 				// eg list = {x = ?}
 				return  "?";
@@ -1038,7 +1039,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			StringBuilder sbBuildValueStr = getSbToString();
 			GeoCasCell casCell = getCorrespondingCasCell();
 			if (casCell == null || !casCell.isAssignmentVariableDefined()) {
-				sbBuildValueStr.append("X = ");
+				sbBuildValueStr.append("X");
+				sbBuildValueStr.append(tpl.getEqualsWithSpace());
 			}
 			sbBuildValueStr.append("(");
 			sbBuildValueStr.append(kernel.format(P[0], tpl));

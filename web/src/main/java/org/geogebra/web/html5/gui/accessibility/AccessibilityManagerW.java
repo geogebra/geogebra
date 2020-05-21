@@ -3,13 +3,13 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.Comparator;
 import java.util.TreeSet;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
-
-import javax.annotation.Nonnull;
 
 /**
  * Web implementation of AccessibilityManager.
