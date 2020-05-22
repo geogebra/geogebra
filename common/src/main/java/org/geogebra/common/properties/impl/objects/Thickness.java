@@ -52,4 +52,15 @@ public class Thickness extends AbstractGeoElementProperty implements RangeProper
     public Integer getStep() {
         return 1;
     }
+
+    @Override
+    public boolean isApplicableTo(GeoElement element) {
+        if (isTextOrInput(element)) {
+            return false;
+        }
+        if (element instanceof GeoList) {
+            return isApplicableTo(element);
+        }
+        return element.showLineProperties();
+    }
 }

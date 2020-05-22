@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.properties.EnumerableProperty;
 
 /**
@@ -29,5 +30,16 @@ public class LineStyle extends AbstractGeoElementProperty implements EnumerableP
         element.setLineType(style);
         element.updateVisualStyleRepaint(GProperty.LINE_STYLE);
         element.getApp().setPropertiesOccured();
+    }
+
+    @Override
+    public boolean isApplicableTo(GeoElement element) {
+        if (isTextOrInput(element)) {
+            return false;
+        }
+        if (element instanceof GeoList) {
+            return isApplicableTo(element);
+        }
+        return element.showLineProperties();
     }
 }

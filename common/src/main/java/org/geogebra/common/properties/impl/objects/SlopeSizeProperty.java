@@ -5,6 +5,8 @@ import java.util.List;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -20,7 +22,26 @@ import org.geogebra.common.properties.util.GeoPropertyDelegate;
 public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implements IntegerProperty,
         GeoElementProperty, GeoPropertyDelegate<Integer> {
 
+    private static class GeoElementSlopeSizeProperty extends AbstractGeoElementProperty {
+
+        GeoElementSlopeSizeProperty(GeoElement geoElement) {
+            super("Size", geoElement);
+        }
+
+        @Override
+        public boolean isApplicableTo(GeoElement element) {
+            if (isTextOrInput(element)) {
+                return false;
+            }
+            if (element instanceof GeoList) {
+                return isApplicableTo(element);
+            }
+            return true;
+        }
+    }
+
     private GeoListPropertyHelper<Integer> propertyHelper;
+    private GeoElementSlopeSizeProperty geoElementSlopeSizeProperty;
 
     /**
      * Creates a new slope size property.
@@ -78,5 +99,17 @@ public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implemen
     @Override
     public boolean hasProperty(GeoElementND element) {
         return Algos.isUsedFor(Commands.Slope, element);
+    }
+
+    @Override
+    public boolean isApplicableTo(GeoElement element) {
+        return isEnabled() && getGeoElementSlopeSizeProperty(element).isApplicableTo(element);
+    }
+
+    private GeoElementSlopeSizeProperty getGeoElementSlopeSizeProperty(GeoElement element) {
+        if (geoElementSlopeSizeProperty == null) {
+            geoElementSlopeSizeProperty = new GeoElementSlopeSizeProperty(element);
+        }
+        return geoElementSlopeSizeProperty;
     }
 }

@@ -40,4 +40,9 @@ public class CaptionStyle extends AbstractGeoElementProperty implements Enumerab
         element.updateRepaint();
         element.getApp().setPropertiesOccured();
     }
+
+    @Override
+    public boolean isApplicableTo(GeoElement element) {
+        return !isTextOrInput(element);
+    }
 }

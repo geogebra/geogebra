@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.properties.RangeProperty;
 
@@ -43,5 +44,16 @@ public class LineOpacity extends AbstractGeoElementProperty implements RangeProp
     @Override
     public Integer getStep() {
         return 5;
+    }
+
+    @Override
+    public boolean isApplicableTo(GeoElement element) {
+        if (isTextOrInput(element)) {
+            return false;
+        }
+        if (element instanceof GeoList) {
+            return isApplicableTo(element);
+        }
+        return element.isFillable();
     }
 }

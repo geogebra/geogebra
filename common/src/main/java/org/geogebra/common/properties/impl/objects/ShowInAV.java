@@ -28,4 +28,9 @@ public class ShowInAV extends AbstractGeoElementProperty implements BooleanPrope
         app.setPropertiesOccured();
         app.updateGuiForShowAuxiliaryObjects();
     }
+
+    @Override
+    public boolean isApplicableTo(GeoElement element) {
+        return true;
+    }
 }

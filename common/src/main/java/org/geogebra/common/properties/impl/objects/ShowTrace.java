@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.properties.BooleanProperty;
 
@@ -24,5 +25,16 @@ public class ShowTrace extends AbstractGeoElementProperty implements BooleanProp
         if (element.isTraceable()) {
             ((Traceable) element).setTrace(trace);
         }
+    }
+
+    @Override
+    public boolean isApplicableTo(GeoElement element) {
+        if (isTextOrInput(element)) {
+            return false;
+        }
+        if (element instanceof GeoList) {
+            return isApplicableTo(element);
+        }
+        return true;
     }
 }

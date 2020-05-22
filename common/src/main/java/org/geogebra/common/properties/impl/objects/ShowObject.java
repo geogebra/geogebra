@@ -24,4 +24,9 @@ public class ShowObject extends AbstractGeoElementProperty implements BooleanPro
         element.updateRepaint();
         element.getApp().setPropertiesOccured();
     }
+
+    @Override
+    public boolean isApplicableTo(GeoElement element) {
+        return true;
+    }
 }

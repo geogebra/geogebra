@@ -31,4 +31,9 @@ public class ColorProperty extends AbstractGeoElementProperty {
                 color, element.getAlphaValue(), app, app.getSelectionManager().getSelectedGeos());
         app.setPropertiesOccured();
     }
+
+    @Override
+    public boolean isApplicableTo(GeoElement element) {
+        return true;
+    }
 }
