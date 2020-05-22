@@ -9,13 +9,21 @@ import org.geogebra.common.properties.EnumerableProperty;
  */
 public class EquationForm extends AbstractGeoElementProperty implements EnumerableProperty {
 
+    private static final String[] equationFormNames = {
+            "ImplicitLineEquation",
+            "ExplicitLineEquation",
+            "ParametricForm",
+            "GeneralLineEquation",
+            "InputForm"
+    };
+
     public EquationForm(GeoElement geoElement) {
         super("Equation", geoElement);
     }
 
     @Override
     public String[] getValues() {
-        return new String[0];
+        return equationFormNames;
     }
 
     @Override
