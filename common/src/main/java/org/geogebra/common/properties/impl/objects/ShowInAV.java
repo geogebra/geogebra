@@ -30,7 +30,7 @@ public class ShowInAV extends AbstractGeoElementProperty implements BooleanPrope
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         return true;
     }
 }

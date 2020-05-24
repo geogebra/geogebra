@@ -29,7 +29,7 @@ public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implemen
         }
 
         @Override
-        public boolean isApplicableTo(GeoElement element) {
+        boolean isApplicableTo(GeoElement element) {
             if (isTextOrInput(element)) {
                 return false;
             }
@@ -51,6 +51,13 @@ public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implemen
     public SlopeSizeProperty(App app) {
         super(app.getLocalization(), "Size");
         propertyHelper = new GeoListPropertyHelper<>(app, this);
+    }
+
+    public SlopeSizeProperty(GeoElement geoElement) {
+        this(geoElement.getApp());
+        if (!isApplicableTo(geoElement)) {
+            throw new NotApplicablePropertyException(geoElement, this);
+        }
     }
 
     /**
@@ -101,8 +108,7 @@ public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implemen
         return Algos.isUsedFor(Commands.Slope, element);
     }
 
-    @Override
-    public boolean isApplicableTo(GeoElement element) {
+    private boolean isApplicableTo(GeoElement element) {
         return isEnabled() && getGeoElementSlopeSizeProperty(element).isApplicableTo(element);
     }
 

@@ -54,7 +54,7 @@ public class Thickness extends AbstractGeoElementProperty implements RangeProper
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         if (isTextOrInput(element)) {
             return false;
         }

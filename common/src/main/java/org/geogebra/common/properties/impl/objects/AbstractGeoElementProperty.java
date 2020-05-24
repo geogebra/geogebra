@@ -15,9 +15,18 @@ public abstract class AbstractGeoElementProperty implements GeoElementProperty {
 	private GeoElement geoElement;
 
 	protected AbstractGeoElementProperty(String name, GeoElement geoElement) {
+		if (!isApplicableTo(geoElement)) {
+			throw new NotApplicablePropertyException(geoElement, this);
+		}
 		this.name = name;
 		this.geoElement = geoElement;
 	}
+
+	/**
+	 * @param element Element with properties.
+	 * @return True if the element has the property.
+	 */
+	abstract boolean isApplicableTo(GeoElement element);
 
 	@Override
 	public String getName() {

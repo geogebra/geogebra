@@ -42,7 +42,7 @@ public class CaptionStyle extends AbstractGeoElementProperty implements Enumerab
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         return !isTextOrInput(element);
     }
 }

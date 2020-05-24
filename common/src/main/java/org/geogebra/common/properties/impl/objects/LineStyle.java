@@ -33,7 +33,7 @@ public class LineStyle extends AbstractGeoElementProperty implements EnumerableP
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         if (isTextOrInput(element)) {
             return false;
         }

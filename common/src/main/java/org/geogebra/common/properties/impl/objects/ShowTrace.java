@@ -28,7 +28,7 @@ public class ShowTrace extends AbstractGeoElementProperty implements BooleanProp
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         if (isTextOrInput(element)) {
             return false;
         }

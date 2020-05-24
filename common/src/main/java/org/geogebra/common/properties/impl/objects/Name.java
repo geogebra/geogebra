@@ -47,7 +47,7 @@ public class Name extends AbstractGeoElementProperty implements StringProperty {
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         String label = element.isAlgebraLabelVisible() ? element.getLabelSimple() : "";
         return label != null;
     }

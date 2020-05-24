@@ -33,7 +33,7 @@ public class ColorProperty extends AbstractGeoElementProperty {
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         return true;
     }
 }

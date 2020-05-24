@@ -45,7 +45,7 @@ public class EquationForm extends AbstractGeoElementProperty implements Enumerab
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         if (isTextOrInput(element)) {
             return false;
         }

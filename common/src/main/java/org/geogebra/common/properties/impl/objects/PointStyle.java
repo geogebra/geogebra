@@ -40,7 +40,7 @@ public class PointStyle extends AbstractGeoElementProperty implements Enumerable
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         if (isTextOrInput(element)) {
             return false;
         }

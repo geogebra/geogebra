@@ -26,7 +26,7 @@ public class ShowObject extends AbstractGeoElementProperty implements BooleanPro
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         return true;
     }
 }

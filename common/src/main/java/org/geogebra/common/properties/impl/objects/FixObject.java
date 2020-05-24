@@ -28,7 +28,7 @@ public class FixObject extends AbstractGeoElementProperty implements BooleanProp
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         if (element instanceof GeoList) {
             return isApplicableTo((GeoList) element);
         }

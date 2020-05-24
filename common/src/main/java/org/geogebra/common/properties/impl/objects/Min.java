@@ -28,7 +28,7 @@ public class Min extends RangelessDecimalProperty {
     }
 
     @Override
-    public boolean isApplicableTo(GeoElement element) {
+    boolean isApplicableTo(GeoElement element) {
         return delegate.isSlider(element);
     }
 }
