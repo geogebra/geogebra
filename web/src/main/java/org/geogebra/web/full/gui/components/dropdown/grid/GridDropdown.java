@@ -1,5 +1,11 @@
 package org.geogebra.web.full.gui.components.dropdown.grid;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.main.AppW;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
@@ -11,11 +17,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.main.AppW;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Dropdown which opens a grid of images and text.

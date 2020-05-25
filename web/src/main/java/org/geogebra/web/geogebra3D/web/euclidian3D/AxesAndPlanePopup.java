@@ -1,5 +1,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -8,8 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.euclidian.PopupMenuButtonWithDefault;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
-
-import java.util.List;
 
 /**
  * Popup for axes and coordinate plane

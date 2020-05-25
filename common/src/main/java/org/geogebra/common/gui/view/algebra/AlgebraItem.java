@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.algebra;
 
-import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -25,6 +24,8 @@ import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Utitlity class for AV items

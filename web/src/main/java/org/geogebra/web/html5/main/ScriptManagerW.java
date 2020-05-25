@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.gwt.core.client.JsArrayString;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -16,6 +15,7 @@ import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayString;
 
 /**
  * Provides JavaScript scripting for objects and initializes the public API.

@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.menubar.action;
 
-import com.google.gwt.canvas.client.Canvas;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.javax.swing.GOptionPane;
@@ -18,6 +17,8 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
+
+import com.google.gwt.canvas.client.Canvas;
 
 /**
  * Exits exam mode.

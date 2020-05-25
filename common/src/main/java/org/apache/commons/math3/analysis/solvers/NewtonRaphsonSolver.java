@@ -19,7 +19,6 @@ package org.apache.commons.math3.analysis.solvers;
 
 import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
 
 /**

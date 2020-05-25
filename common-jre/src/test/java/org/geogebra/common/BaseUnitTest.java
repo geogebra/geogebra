@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.junit.Before;
 
 /**
@@ -96,7 +95,11 @@ public class BaseUnitTest {
 	}
 
 	private <T extends GeoElementND> T getFirstElement(GeoElementND[] geoElements) {
-		return geoElements.length == 0 ? null : (T) geoElements[0];
+		if (geoElements != null) {
+			return geoElements.length == 0 ? null : (T) geoElements[0];
+		} else {
+			return null;
+		}
 	}
 
 	/**

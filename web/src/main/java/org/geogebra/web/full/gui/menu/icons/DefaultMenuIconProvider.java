@@ -1,8 +1,9 @@
 package org.geogebra.web.full.gui.menu.icons;
 
+import org.geogebra.web.resources.SVGResource;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import org.geogebra.web.resources.SVGResource;
 
 /**
  * Gives default access to menu icons.

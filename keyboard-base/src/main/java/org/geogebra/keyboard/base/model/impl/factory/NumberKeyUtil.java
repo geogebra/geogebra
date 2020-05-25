@@ -1,13 +1,13 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.model.impl.RowImpl;
-
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.DIVISION;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.MULTIPLICATION;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
+
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 public class NumberKeyUtil {
 

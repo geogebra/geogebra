@@ -1,12 +1,5 @@
 package org.geogebra.web.full.euclidian;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawFormula;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -16,6 +9,14 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Panel;
+import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathSequence;
 
 public class InlineFormulaControllerW implements InlineFormulaController {
 

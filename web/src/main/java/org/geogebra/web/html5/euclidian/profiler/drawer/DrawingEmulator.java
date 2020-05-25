@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.euclidian.profiler.drawer;
 
 import java.util.List;
+
 import javax.annotation.Nullable;
 
 import org.geogebra.common.move.ggtapi.models.json.JSONException;

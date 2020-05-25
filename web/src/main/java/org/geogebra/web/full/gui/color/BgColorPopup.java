@@ -1,9 +1,5 @@
 package org.geogebra.web.full.gui.color;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
@@ -12,6 +8,11 @@ import org.geogebra.web.full.gui.util.ButtonPopupMenu;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class BgColorPopup extends ColorPopupMenuButton implements SetLabels {
 	private FormLabel noColLbl;

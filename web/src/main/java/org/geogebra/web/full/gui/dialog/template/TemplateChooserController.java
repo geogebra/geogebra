@@ -1,13 +1,13 @@
 package org.geogebra.web.full.gui.dialog.template;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TemplateChooserControllerI;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TemplateChooserController implements TemplateChooserControllerI {
     private ArrayList<TemplatePreviewCard> templates;

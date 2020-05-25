@@ -37,7 +37,6 @@
 package com.kitfox.svg.xml;
 
 import java.awt.Toolkit;
-//import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,6 +53,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
 import com.kitfox.svg.SVGConst;
+
+//import java.lang.reflect.Array;
 
 /**
  * @author Mark McKay

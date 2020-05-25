@@ -1,9 +1,9 @@
 package org.geogebra.common.gui.menu.impl;
 
-import org.geogebra.common.gui.menu.MenuItem;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.geogebra.common.gui.menu.MenuItem;
 
 /**
  * Implementation of AbstractMenuItemGroup.

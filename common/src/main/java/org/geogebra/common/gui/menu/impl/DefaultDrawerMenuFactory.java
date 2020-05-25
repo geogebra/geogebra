@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.menu.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.ActionableItem;
@@ -9,9 +12,6 @@ import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Menu factory creating the default menus for all app versions and platforms.

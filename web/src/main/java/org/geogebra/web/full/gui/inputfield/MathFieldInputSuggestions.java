@@ -2,6 +2,8 @@ package org.geogebra.web.full.gui.inputfield;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.inputfield.InputSuggestions;
@@ -13,8 +15,6 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Response;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.himamis.retex.editor.share.model.Korean;
-
-import javax.annotation.Nonnull;
 
 public class MathFieldInputSuggestions extends InputSuggestions
 		implements HasSuggestions {

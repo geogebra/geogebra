@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.parser.function;
 
-import org.geogebra.common.plugin.Operation;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.geogebra.common.plugin.Operation;
 
 class FunctionReferences {
 

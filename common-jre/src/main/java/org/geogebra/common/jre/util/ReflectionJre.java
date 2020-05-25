@@ -1,10 +1,10 @@
 package org.geogebra.common.jre.util;
 
-import org.geogebra.common.util.Reflection;
-
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.geogebra.common.util.Reflection;
 
 /**
  * Implements general reflection utilities.
