@@ -100,7 +100,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
-import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.IndexHTMLBuilder;
@@ -326,8 +325,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 	};
-
-	private List<PropertyCollection> properties;
 
 	/**
 	 * Creates new GeoElement for given construction
