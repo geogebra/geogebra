@@ -94,6 +94,11 @@ class MetaModelFunctions {
 								MetaParameter.BASIC
 		}));
 
+		functions.add(createFunctionInsert(Tag.PROD_EQ, "\\prod", 2,
+				new MetaParameter[] {
+						createParameterUp(1), createParameterDown(0)
+		}));
+
 		functions.add(createFunction(Tag.ABS));
 		functions.add(createFunction(Tag.FLOOR));
 		functions.add(createFunction(Tag.CEIL));

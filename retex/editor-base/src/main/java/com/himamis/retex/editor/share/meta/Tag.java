@@ -39,6 +39,8 @@ public enum Tag {
 
 	LIM_EQ("$limeq"),
 
+	PROD_EQ("$prodeq"),
+
 	APPLY,
 
 	ABS("abs"),

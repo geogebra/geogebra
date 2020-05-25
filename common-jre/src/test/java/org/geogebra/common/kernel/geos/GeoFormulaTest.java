@@ -66,4 +66,11 @@ public class GeoFormulaTest extends BaseUnitTest {
 		assertEquals("\\lim_{x\\rightarrow{}\\infty{}} x^{2}",
 				equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
+
+	@Test
+	public void product() {
+		equationEditor.setContent("$prodeq(i=1,10)x_{i}");
+		assertEquals("\\prod\\nolimits_{i\\,=\\,1}^{10}{}x_{i}",
+				equationEditor.toValueString(StringTemplate.latexTemplate));
+	}
 }

@@ -99,6 +99,7 @@ PARSER_END(Parser)
 	| < LOG : "log" >
 	| < LIM_EQ : "$limeq" >
 	| < ABS : "abs" >
+	| < PROD_EQ : "$prodeq" >
 	| < COMMA : "," >
 	| < SPACE : " " >
 	| < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
@@ -134,6 +135,8 @@ void mathContainer(MathContainer currentField) : {}
 		limeq(currentField)
 	|
 		abs(currentField)
+	|
+		prodeq(currentField)
 	|
 		arrayParantheses(currentField)
 	|
@@ -342,6 +345,21 @@ void abs(MathContainer currentField) : { }
 		mathContainer(param1);
 		abs.setArgument(0, param1);
 		currentField.addArgument(abs);
+	} <PARANTHESES_CLOSE>
+}
+
+void prodeq(MathContainer currentField) : { }
+{
+	<PROD_EQ> <PARANTHESES_OPEN> {
+		 MathFunction prodeq = new MathFunction(metaModel.getGeneral(Tag.PROD_EQ));
+		 MathSequence param0 = new MathSequence();
+		 mathContainer(param0);
+	} <COMMA> {
+		 MathSequence param1 = new MathSequence();
+		 mathContainer(param1);
+		 prodeq.setArgument(0, param0);
+		 prodeq.setArgument(1, param1);
+		 currentField.addArgument(prodeq);
 	} <PARANTHESES_CLOSE>
 }
 

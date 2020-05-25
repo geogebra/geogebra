@@ -201,7 +201,6 @@ public class TeXSerializer extends SerializerAdapter {
 			break;
 		case SUM:
 		case PROD:
-
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append("_{");
 			serialize(function.getArgument(0), stringBuilder);
@@ -259,6 +258,16 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\lim_{");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("} ");
+			break;
+		case PROD_EQ:
+			stringBuilder.append(function.getTexName());
+			// this will force the limits to appear on the side
+			stringBuilder.append("\\nolimits");
+			stringBuilder.append('_');
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append('^');
+			serialize(function.getArgument(1), stringBuilder);
+			stringBuilder.append("{}");
 			break;
 		case ABS:
 			stringBuilder.append("\\left|");
