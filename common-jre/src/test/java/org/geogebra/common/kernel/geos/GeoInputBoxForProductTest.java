@@ -116,13 +116,13 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	public void testx4() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "x4", "x 4");
+		shouldBeUpdatedAs("f", "x4", "x * 4");
 	}
 
 	@Test
 	public void testk4() {
 		add("g(k)=?");
-		shouldBeUpdatedAs("g", "k4", "k 4");
+		shouldBeUpdatedAs("g", "k4", "k * 4");
 	}
 
 	@Test

@@ -104,12 +104,12 @@ public class ProductParserTest extends TokenizerBaseTest {
 
 	@Test
 	public void testx4() {
-		shouldReparseAs("x4", "x 4");
+		shouldReparseAs("x4", "x * 4");
 	}
 
 	@Test
 	public void testk4() {
-		shouldReparseAs("k4", "k 4");
+		shouldReparseAs("k4", "k * 4");
 	}
 
 	@Test
