@@ -39,9 +39,7 @@ public class InputTokenizer {
 			return Collections.emptyList();
 		}
 
-		String[] variables =
-				kernel.getConstruction().getRegisteredFunctionVariables();
-		return variables != null ? Arrays.asList(variables) : Collections.<String>emptyList();
+		return Arrays.asList(kernel.getConstruction().getRegisteredFunctionVariables());
 	}
 
 	/**
@@ -206,11 +204,6 @@ public class InputTokenizer {
 
 	private boolean isIndexNext() {
 		return nextChar() == '_';
-	}
-
-	private String getTokenWithExponential() {
-		int idxClose = input.indexOf(")");
-		return idxClose != -1 ? input.substring(0, idxClose + 1) : "";
 	}
 
 	public boolean noInputLeft() {
