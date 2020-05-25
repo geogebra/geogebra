@@ -52,7 +52,6 @@ public abstract class FastButton extends GCustomButton {
 
 	private boolean touchMoved = false;
 	private int touchId;
-	private boolean active;
 	private final List<FastClickHandler> handlers;
 
 	/**
@@ -73,26 +72,6 @@ public abstract class FastButton extends GCustomButton {
 	}
 
 	/**
-	 * @param active
-	 *            whether it's enabled
-	 */
-	public void setActive(boolean active) {
-		if (active) {
-			onEnablePressStyle();
-		} else {
-			onDisablePressStyle();
-		}
-		this.active = active;
-	}
-
-	/**
-	 * @return whether it's enabled
-	 */
-	public boolean isActive() {
-		return this.active;
-	}
-
-	/**
 	 * Use this method in the same way you would use addClickHandler or
 	 * addDomHandler
 	 * 
@@ -103,43 +82,6 @@ public abstract class FastButton extends GCustomButton {
 	public void addFastClickHandler(FastClickHandler handler) {
 		this.handlers.add(handler);
 	}
-
-	/**
-	 * Implement the handler for pressing but NOT releasing the button. Normally
-	 * you just want to show some CSS style change to alert the user the element
-	 * is active but not yet pressed
-	 * 
-	 * ONLY FOR STYLE CHANGE - Will briefly be called onClick
-	 * 
-	 * TIP: Don't make a dramatic style change. Take note that if a user is just
-	 * trying to scroll, and start on the element and then scrolls off, we may
-	 * not want to distract them too much. If a user does scroll off the
-	 * element,
-	 * 
-	 */
-	public abstract void onHoldPressDownStyle();
-
-	/**
-	 * Implement the handler for release of press. This should just be some CSS
-	 * or Style change.
-	 * 
-	 * ONLY FOR STYLE CHANGE - Will briefly be called onClick
-	 * 
-	 * TIP: This should just go back to the normal style.
-	 */
-	public abstract void onHoldPressOffStyle();
-
-	/**
-	 * Change styling to disabled
-	 */
-	public abstract void onDisablePressStyle();
-
-	/**
-	 * Change styling to enabled
-	 * 
-	 * TIP:
-	 */
-	public abstract void onEnablePressStyle();
 
 	@Override
 	public void onBrowserEvent(Event event) {
@@ -213,9 +155,6 @@ public abstract class FastButton extends GCustomButton {
 	}
 
 	private void onTouchStart(Event event) {
-
-		onHoldPressDownStyle(); // Show style change
-
 		// Stop the event from bubbling up
 		event.stopPropagation();
 
@@ -266,10 +205,7 @@ public abstract class FastButton extends GCustomButton {
 				boolean xRight = (this.getAbsoluteLeft() + this
 				        .getOffsetWidth()) < xCord; // x to the right
 
-				if (yTop || yBottom || xLeft || xRight) {
-					this.touchMoved = true;
-					onHoldPressOffStyle(); // Go back to normal style
-				}
+				this.touchMoved = yTop || yBottom || xLeft || xRight;
 			}
 		}
 	}
@@ -279,7 +215,6 @@ public abstract class FastButton extends GCustomButton {
 		if (!this.touchMoved) {
 			fireFastClickEvent(event.getType());
 			event.preventDefault();
-			onHoldPressOffStyle(); // Change back the style
 		}
 	}
 
