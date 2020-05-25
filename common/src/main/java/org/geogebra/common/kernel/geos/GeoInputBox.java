@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.inputbox.InputBoxProcessor;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
@@ -423,7 +424,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public boolean canBeSymbolic() {
 		return hasSymbolicNumber() || hasSymbolicFunction()
 				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()
-				|| linkedGeo.isGeoLine() || linkedGeo.isGeoPlane() || linkedGeo.isGeoList();
+				|| (linkedGeo instanceof EquationValue && !linkedGeo.isGeoConicPart())
+				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine();
 	}
 
 	boolean hasSymbolicFunction() {
