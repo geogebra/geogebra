@@ -95,7 +95,11 @@ public class BaseUnitTest {
 	}
 
 	private <T extends GeoElementND> T getFirstElement(GeoElementND[] geoElements) {
-		return geoElements.length == 0 ? null : (T) geoElements[0];
+		if (geoElements != null) {
+			return geoElements.length == 0 ? null : (T) geoElements[0];
+		} else {
+			return null;
+		}
 	}
 
 	/**

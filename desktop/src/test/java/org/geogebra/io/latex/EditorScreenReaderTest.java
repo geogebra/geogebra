@@ -131,7 +131,7 @@ public class EditorScreenReaderTest {
 
 	@Test
 	public void testNroot() {
-		checkReader("nroot(x, 4)", "start of formula start 4th root x end root",
+		checkReader("nroot(x,4)", "start of formula start 4th root x end root",
 				"start of index before 4", "end of index after 4",
 				"start of radicand before x", "end of radicand after x",
 				"end of formula start 4th root x end root");
@@ -139,7 +139,7 @@ public class EditorScreenReaderTest {
 
 	@Test
 	public void testNrootIncomplete() {
-		checkReader("nroot(x+, 4)",
+		checkReader("nroot(x+,4)",
 				"start of formula start 4th root x plus end root",
 				"start of index before 4", "end of index after 4",
 				"start of radicand before x", "after x before plus",

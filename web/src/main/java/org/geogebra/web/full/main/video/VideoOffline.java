@@ -34,6 +34,7 @@ public class VideoOffline extends AbstractVideoPlayer {
 		String errorId = vendorSettings.getMenuLocalizationKey("VideoAccessError");
 		errorPanel = new VideoErrorPanel(app.getLocalization(), errorId);
 		stylePlayer();
+		update();
 	}
 
 	/**

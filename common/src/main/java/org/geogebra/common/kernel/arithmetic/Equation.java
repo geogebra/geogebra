@@ -519,6 +519,17 @@ public class Equation extends ValidExpression implements EquationValue {
 			sb.append('0');
 		}
 
+		appendEqualSign(sb, tpl);
+
+		if (rhs != null) {
+			sb.append(rhs.toValueString(tpl));
+		} else {
+			sb.append('0');
+		}
+		return sb.toString();
+	}
+
+	private void appendEqualSign(StringBuilder sb, StringTemplate tpl) {
 		if (tpl.getStringType().isGiac()) {
 			if (lhs.evaluatesToList() || rhs.evaluatesToList()) {
 				// %= stops {1,2}={3,4} being turned into {1=3,2=4}
@@ -528,15 +539,8 @@ public class Equation extends ValidExpression implements EquationValue {
 			}
 		} else {
 			// equal sign
-			sb.append(" = ");
+			sb.append(tpl.getEqualsWithSpace());
 		}
-
-		if (rhs != null) {
-			sb.append(rhs.toValueString(tpl));
-		} else {
-			sb.append('0');
-		}
-		return sb.toString();
 	}
 
 	@Override
@@ -563,17 +567,7 @@ public class Equation extends ValidExpression implements EquationValue {
 			sb.append('0');
 		}
 
-		if (tpl.getStringType().isGiac()) {
-			if (lhs1.evaluatesToList() || rhs.evaluatesToList()) {
-				// %= stops {1,2}={3,4} being turned into {1=3,2=4}
-				sb.append("%=");
-			} else {
-				sb.append("=");
-			}
-		} else {
-			// equal sign
-			sb.append(" = ");
-		}
+		appendEqualSign(sb, tpl);
 
 		// right hand side
 		if (rhs != null) {

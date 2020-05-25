@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -645,5 +646,27 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public boolean isDrawable() {
 		return twinGeo != null ? twinGeo.isDrawable() : super.isDrawable();
+	}
+
+	@Override
+	public boolean isMatrix() {
+		return twinGeo != null ? twinGeo.isMatrix() : hasMatrixDefinition();
+	}
+
+	private boolean hasMatrixDefinition() {
+		ExpressionNode definition = getDefinition();
+		if (definition == null) {
+			return false;
+		} else {
+			ExpressionValue unwrapped = getDefinition().unwrap();
+			return unwrapped instanceof MyList && ((MyList) unwrapped).isMatrix();
+		}
+	}
+
+	@Override
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+		return twinGeo != null
+				? twinGeo.toLaTeXString(symbolic, tpl)
+				: symbolic ? getDefinition(tpl) : toValueString(tpl);
 	}
 }

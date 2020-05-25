@@ -43,6 +43,7 @@ public class DrawSymbolic extends Drawable {
 		} else {
 			twinDrawable = view.newDrawable(symbolic.getTwinGeo());
 			twinGeo.setVisualStyle(symbolic);
+			twinGeo.setEuclidianVisible(symbolic.isEuclidianVisible());
 			if (twinDrawable instanceof Drawable) {
 				((Drawable) twinDrawable).setTopLevelGeo(symbolic);
 				twinDrawable.update();
