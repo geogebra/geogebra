@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
+import org.geogebra.common.euclidian.EuclidianView;
 
 public class MyZoomerD extends CoordSystemAnimation implements ActionListener {
 	protected Timer timer; // for animation

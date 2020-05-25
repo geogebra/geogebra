@@ -1,8 +1,8 @@
 package org.geogebra.common.properties;
 
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-
 import java.util.List;
+
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Property interface for properties that are related to GeoElements.

@@ -1,13 +1,13 @@
 package org.geogebra.common.kernel.stepbystep;
 
+import java.util.List;
+
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.TextElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.test.util.ReportBuilder;
-
-import java.util.List;
 
 /**
  * Builds step-by step report for multiple testcases, separated by headings into

@@ -509,7 +509,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public int maxCachedLayer;
 	private NumberFormatAdapter[] axesNumberFormatsNormal = new NumberFormatAdapter[16];
 	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
-	private boolean showBackground = true;
+
 	private DrawBackground drawBg = null;
 	private final HitDetector hitDetector;
 	private boolean isResetIconSelected = false;
@@ -3695,7 +3695,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		} else {
 			paintBackground(g2);
-			paintMOWBackround(g2);
 		}
 	}
 
@@ -3715,8 +3714,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            {@link GGraphics2D}
 	 */
 	public void paintMOWBackround(GGraphics2D g2) {
-		if (!(app.isWhiteboardActive() && isShowBackground()
-				&& settings != null)) {
+		if (!(app.isWhiteboardActive() && settings != null)) {
 			return;
 		}
 
@@ -3880,6 +3878,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (showGrid) {
 			drawGrid(g);
 		}
+		paintMOWBackround(g);
 
 		// this will fill axesLabelsBounds with the rectangles where the axes
 		// labels are
@@ -3893,7 +3892,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (showResetIcon()) {
 			drawResetIcon(g);
 		}
-		paintMOWBackround(g);
 	}
 
 	boolean showResetIcon() {
@@ -6252,14 +6250,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return axesNumberFormat[i];
 	}
 
-	protected void resetTextField() {
-		if (viewTextField == null) {
-			return;
-		}
-
-		viewTextField.reset();
-	}
-
 	/**
 	 * @return standard screen x-coord of origin
 	 */
@@ -6367,14 +6357,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
-	public boolean isShowBackground() {
-		return showBackground;
-	}
-
-	public void setShowBackground(boolean showBackground) {
-		this.showBackground = showBackground;
-	}
-
     /**
      *
      * @return true if stylebar needs to check selected geo still in hit
@@ -6416,6 +6398,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (value) {
 			ScreenReader.readEVPlay(app);
 		}
+		repaintView();
 	}
 
 	/**
@@ -6521,7 +6504,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *
 	 * @param selected true if the reset icon is selected
 	 */
-	protected void setResetIconSelected(boolean selected) {
+	public void setResetIconSelected(boolean selected) {
 		if (isResetIconSelected != selected) {
 			isResetIconSelected = selected;
 			invalidateBackground();

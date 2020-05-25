@@ -1,5 +1,9 @@
 package org.geogebra.cloud;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -26,10 +30,6 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class TubeAPITest extends Assert {
 	public static final String circleBase64 = Base64.encodeToString(

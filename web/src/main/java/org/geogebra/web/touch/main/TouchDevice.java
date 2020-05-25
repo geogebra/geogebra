@@ -16,16 +16,6 @@ import com.googlecode.gwtphonegap.client.connection.Connection;
  */
 public abstract class TouchDevice implements GDevice {
 
-	/**
-	 * @param base64
-	 *            base64
-	 * @param title
-	 *            construction title
-	 */
-	protected native void nativeShare(String base64, String title)/*-{
-		
-	}-*/;
-
 	@Override
 	public boolean isOffline(AppW app) {
 		return PhoneGapManager.getPhoneGap().getConnection().getType()

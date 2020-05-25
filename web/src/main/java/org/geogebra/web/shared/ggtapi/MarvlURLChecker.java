@@ -6,26 +6,22 @@ import org.geogebra.common.util.AsyncOperation;
 
 public class MarvlURLChecker implements URLChecker {
 
+	private final URLValidator validator;
+
+	public MarvlURLChecker() {
+		validator = new URLValidator();
+	}
+
 	@Override
 	public void check(String url, AsyncOperation<URLStatus> callback) {
 		URLStatus status = new URLStatus();
-		if (isUrl(url)) {
+		if (validator.isValid(url)) {
 			status.withUrl(url);
 		} else {
 			status.setErrorKey("InvalidInput");
 		}
 		callback.callback(status);
 	}
-
-	private native boolean isUrl(String url) /*-{
-		var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-		'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-		'((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-		'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-		'(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-		'(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
-		return pattern.test(url);
-	}-*/;
 
 	@Override
 	public boolean hasFrameOptionCheck() {

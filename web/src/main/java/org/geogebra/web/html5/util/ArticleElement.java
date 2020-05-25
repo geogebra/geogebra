@@ -586,6 +586,11 @@ public final class ArticleElement extends Element implements ArticleElementInter
 
 	}
 
+	@Override
+	public String getDataParamButtonBorderColor() {
+		return getStringDataParam("buttonBorderColor", null);
+	}
+
 	/* (non-Javadoc)
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#resetScale()
 	 */
@@ -683,11 +688,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	@Override
 	public boolean getDataParamErrorDialogsActive() {
 		return getBoolDataParam("errorDialogsActive", true);
-	}
-
-	@Override
-	public boolean isEnableApiPing() {
-		return true;
 	}
 
 	/* (non-Javadoc)

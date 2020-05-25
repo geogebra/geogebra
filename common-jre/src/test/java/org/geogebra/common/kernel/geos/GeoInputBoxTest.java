@@ -1,5 +1,10 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -20,12 +25,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.himamis.retex.editor.share.util.Unicode;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GeoInputBoxTest extends BaseUnitTest {
 
@@ -57,7 +56,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
 		assertEquals("x + 1", inputBox1.getText());
-		assertEquals("2f(x + 2) + 1", inputBox2.getTextForEditor());
+		assertEquals("2 f(x+2)+1", inputBox2.getTextForEditor());
 	}
 
 	@Test
@@ -68,7 +67,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox2 = add("InputBox(g)");
 		inputBox2.setSymbolicMode(true, false);
 		assertEquals("x y + 1", inputBox1.getText());
-		assertEquals("2f(x + 2, y) + 1", inputBox2.getTextForEditor());
+		assertEquals("2 f(x+2,y)+1", inputBox2.getTextForEditor());
 		assertEquals("2 \\; f\\left(x + 2, y \\right) + 1",
 				inputBox2.getText());
 	}
@@ -189,7 +188,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(b)");
 		inputBox.setSymbolicMode(true, false);
 		assertEquals("? \\; a", inputBox.getText());
-		assertEquals("?a", inputBox.getTextForEditor());
+		assertEquals("? a", inputBox.getTextForEditor());
 
 		inputBox.setSymbolicMode(false, false);
 		assertEquals("?a", inputBox.getText());

@@ -37,8 +37,6 @@ import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -55,10 +53,10 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
-import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldAsync;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
@@ -108,13 +106,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private double scale = 1.0;
 
-	private FocusHandler focusHandler;
-
 	private SyntaxAdapter converter;
 
 	private ExpressionReader expressionReader;
 
-	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
+	private static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
@@ -125,7 +121,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int minHeight = 0;
 
 	/**
-	 *
 	 * @param converter
 	 *            latex/mathml-&lt; ascii math converter (optional)
 	 * @param parent
@@ -144,7 +139,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	/**
-	 * 
+	 *
 	 * @param converter
 	 *            latex/mathml-&lt; ascii math converter (optional)
 	 * @param parent
@@ -705,11 +700,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private void setFocus(boolean focus, final Runnable callback) {
 		if (focus) {
 			startBlink();
-			if (focusHandler != null) {
-				focusHandler.onFocus(new FocusEvent() {
-					// send non-null event here so that it's logged
-				});
-			}
 			focuser = new Timer() {
 
 				@Override
@@ -752,9 +742,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		// first focus canvas to get the scrolling right
 		html.getElement().focus();
 
-		if (focusHandler != null) {
-			focusHandler.onFocus(null);
-		}
 		// after set focus to the keyboard listening element
 		focusTextArea();
 		onTextfieldBlur = oldBlur;
@@ -845,6 +832,24 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		KeyboardInputAdapter.insertString(mathFieldInternal, text);
 	}
 
+	/**
+	 * add derivative and move cursor back before /
+	 * @param text - d/dx
+	 */
+	public void handleDerivative(String text) {
+		String[] parts = text.split("/");
+		insertString(parts[0]);
+		insertFunction("frac");
+		insertString(parts[1]);
+		pressKeyLeft();
+		pressKeyLeft();
+		pressKeyLeft();
+	}
+
+	private void pressKeyLeft() {
+		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+	}
+
 	private Element getHiddenTextArea() {
 		if (clip == null) {
 			clip = new SimplePanel();
@@ -854,13 +859,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			inputTextArea.addCompositionUpdateHandler(
 					new EditorCompositionHandler(this));
 
-			inputTextArea.addFocusHandler(new FocusHandler() {
-
-				@Override
-				public void onFocus(FocusEvent event) {
-					startBlink();
-					event.stopPropagation();
-				}
+			inputTextArea.addFocusHandler(event -> {
+				startBlink();
+				event.stopPropagation();
 			});
 
 			if (html != null) {
@@ -1188,9 +1189,5 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setMinHeight(int minHeight) {
 		this.minHeight = minHeight;
-	}
-
-	public void setFocusHandler(FocusHandler focusHandler) {
-		this.focusHandler = focusHandler;
 	}
 }

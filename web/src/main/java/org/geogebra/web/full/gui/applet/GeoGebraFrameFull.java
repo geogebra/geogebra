@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.annotation.Nonnull;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -40,6 +41,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -120,7 +122,6 @@ public class GeoGebraFrameFull
 	protected AppW createApplication(ArticleElementInterface article,
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
-		getArticleMap().put(article.getId(), application);
 		if (!app.isApplet()) {
 			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
 		} else {
@@ -159,17 +160,12 @@ public class GeoGebraFrameFull
 			AppletFactory factory, GLookAndFeel laf, GDevice device) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrameW inst = new GeoGebraFrameFull(factory, laf,
+			final GeoGebraFrameFull inst = new GeoGebraFrameFull(factory, laf,
 					device, articleElement);
 			LoggerW.startLogger(articleElement);
 			inst.createSplash();
 			RootPanel.get(articleElement.getId()).add(inst);
 		}
-		if (geoGebraMobileTags.isEmpty()) {
-			return;
-		}
-
-		tackleLastDummy(geoGebraMobileTags.get(geoGebraMobileTags.size() - 1));
 	}
 
 	/**
@@ -188,8 +184,6 @@ public class GeoGebraFrameFull
 		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameFull(
 				factory, laf, null, ArticleElement.as(el)),
 				clb);
-
-		GeoGebraFrameW.reCheckForDummies(el);
 	}
 
 	/**
@@ -304,10 +298,8 @@ public class GeoGebraFrameFull
 		keyBoard.remove(new Runnable() {
 			@Override
 			public void run() {
-
 				keyBoard.resetKeyboardState();
 				getApp().centerAndResizeViews();
-
 			}
 		});
 	}
@@ -751,13 +743,12 @@ public class GeoGebraFrameFull
 				MaterialDesignResources.INSTANCE.menu_black_whiteBorder(), null,
 				24, app);
 
-		final GeoGebraFrameW frame = app.getAppletFrame();
-
 		openMenuButton.addFastClickHandler(this);
 		openMenuButton.addDomHandler(this, KeyUpEvent.getType());
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
-		frame.add(openMenuButton);
+		new FocusableWidget(AccessibilityGroup.MENU, null, openMenuButton).attachTo(app);
+		add(openMenuButton);
 	}
 
 	@Override

@@ -7,17 +7,16 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
-import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
@@ -43,7 +42,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  * header of toolbar
  *
  */
-class Header extends FlowPanel implements KeyDownHandler, TabHandler {
+class Header extends FlowPanel implements KeyDownHandler {
 	private MenuToggleButton btnMenu;
 	private MyToggleButton btnAlgebra;
 	private MyToggleButton btnTools;
@@ -76,6 +75,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 */
 	final ToolbarPanel toolbarPanel;
 	private static final int PADDING = 12;
+	private FocusableWidget focusableMenuButton;
 
 	/**
 	 * @param toolbarPanel
@@ -158,7 +158,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		});
 		btnAlgebra.addKeyDownHandler(this);
 		AriaHelper.hide(btnAlgebra);
-		btnAlgebra.setIgnoreTab();
 	}
 
 	private void createToolsButton() {
@@ -180,7 +179,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		btnTools.addKeyDownHandler(this);
 		AriaHelper.hide(btnTools);
-		btnTools.setIgnoreTab();
 	}
 
 	private void createTableViewButton() {
@@ -201,7 +199,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		btnTableView.addKeyDownHandler(this);
 		AriaHelper.hide(btnTableView);
-		btnTableView.setIgnoreTab();
 	}
 
 	/**
@@ -314,7 +311,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			app.toggleMenu();
 		}
 
-		app.getAccessibilityManager().setAnchor(btnMenu);
+		app.getAccessibilityManager().setAnchor(focusableMenuButton);
 		app.getGuiManager().redo();
 		app.getAccessibilityManager().cancelAnchor();
 	}
@@ -475,12 +472,10 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void createMenuButton() {
-
 		btnMenu = new MenuToggleButton(app);
-
+		focusableMenuButton = new FocusableWidget(AccessibilityGroup.MENU, null, btnMenu);
 		updateMenuPosition();
 		markMenuAsExpanded(false);
-		btnMenu.addTabHandler(this);
 	}
 
 	private void updateMenuPosition() {
@@ -829,17 +824,20 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * Sets tab order for header buttons.
 	 */
 	public void setTabIndexes() {
-		tabIndex(btnMenu, GUITabs.MENU);
-		tabIndex(btnClose, GUITabs.HEADER_CLOSE);
-		tabIndex(btnUndo, GUITabs.UNDO);
-		tabIndex(btnRedo, GUITabs.REDO);
+		tabIndex(btnMenu, AccessibilityGroup.MENU);
+		if (focusableMenuButton != null) {
+			focusableMenuButton.attachTo(app);
+		}
+		tabIndex(btnClose, AccessibilityGroup.ALGEBRA_CLOSE);
 
+		tabIndex(btnUndo, AccessibilityGroup.UNDO);
+		tabIndex(btnRedo, AccessibilityGroup.REDO);
 		setAltTexts();
 	}
 
-	private static void tabIndex(GCustomButton btn, int index) {
+	private void tabIndex(GCustomButton btn, AccessibilityGroup group) {
 		if (btn != null) {
-			btn.setTabIndex(index);
+			new FocusableWidget(group, null, btn).attachTo(app);
 		}
 	}
 
@@ -900,16 +898,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				resize();
 			}
 		});
-	}
-
-	@Override
-	public boolean onTab(Widget source, boolean shiftDown) {
-		if (source == btnMenu && shiftDown) {
-			app.getAccessibilityManager().focusPrevious(
-					AccessibilityGroup.MENU, -1);
-			return true;
-		}
-		return false;
 	}
 
 	/**

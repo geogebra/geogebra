@@ -10,7 +10,6 @@
   <inherits name="com.himamis.retex.editor.JLMEditorDev" />
   <inherits name='org.geogebra.web.Carota'/>
 
-
   <!-- Specify the paths for translatable code                    -->
   <source path='html5'/>
   <source path='resources'/>

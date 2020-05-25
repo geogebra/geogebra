@@ -32,8 +32,8 @@ import org.geogebra.common.euclidian.draw.DrawBoolean;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.draw.DrawInline;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -44,7 +44,6 @@ import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeMacro;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
@@ -506,7 +505,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
 		case EuclidianConstants.MODE_SHAPE_FREEFORM:
 		case EuclidianConstants.MODE_SHAPE_LINE:
-		case EuclidianConstants.MODE_SHAPE_POLYGON:
+		case EuclidianConstants.MODE_SHAPE_PENTAGON:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
 		case EuclidianConstants.MODE_MASK:
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
@@ -8017,17 +8016,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected boolean allowSelectionRectangle() {
 		switch (mode) {
-		case EuclidianConstants.MODE_ZOOM_IN:
-			return true;
 		// move objects
 		case EuclidianConstants.MODE_MOVE:
 			return moveMode == MOVE_NONE && isAltDown();
 
 		case EuclidianConstants.MODE_SELECT_MOW:
 			return moveMode == MOVE_NONE;
-
-		case EuclidianConstants.MODE_SELECT:
-			return true;
 
 		// move rotate objects
 		case EuclidianConstants.MODE_MOVE_ROTATE:
@@ -8041,6 +8035,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			return allowSelectionRectangleForTranslateByVector;
 
+		case EuclidianConstants.MODE_ZOOM_IN:
+		case EuclidianConstants.MODE_SELECT:
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
@@ -8050,9 +8046,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_CREATE_LIST:
 		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
 		case EuclidianConstants.MODE_RELATION:
-			return true;
-
-		// checkbox, button
 		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
 		case EuclidianConstants.MODE_BUTTON_ACTION:
 		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
@@ -9137,8 +9130,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (shouldHideDynamicStyleBar(event)) {
 			this.hideDynamicStylebar();
 		}
-
-		app.getAccessibilityManager().setTabOverGeos(true);
+		app.getAccessibilityManager().setTabOverGeos();
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
 
@@ -9618,15 +9610,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
 		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
-			processSelectionRectangleForTransformations(hits,
-					TestGeo.TRANSFORMABLE);
-			break;
-
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			processSelectionRectangleForTransformations(hits,
-					TestGeo.TRANSFORMABLE);
-			break;
-
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			processSelectionRectangleForTransformations(hits,
 					TestGeo.TRANSFORMABLE);
@@ -9645,37 +9629,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_FITLINE:
-			// check for list first
-			if (hits.size() == 1) {
-				if (hits.get(0).isGeoList()) {
-					getSelectedGeoList().addAll(hits);
-					setAppSelectedGeos(hits);
-					changedKernel = processMode(hits, isControlDown, null);
-					view.setSelectionRectangle(null);
-					break;
-				}
-			}
-
-			// remove non-Points
-			for (int i = 0; i < hits.size(); i++) {
-				GeoElement geo = hits.get(i);
-				if (!(TestGeo.GEOPOINT.check(geo))) {
-					hits.remove(i);
-				}
-			}
-
-			// Fit line is available from more than 1 point
-			if (hits.size() < 2) {
-				hits.clear();
-			} else {
-				removeParentPoints(hits);
-				getSelectedGeoList().addAll(hits);
-				setAppSelectedGeos(hits);
-				changedKernel = processMode(hits, isControlDown, null);
-				view.setSelectionRectangle(null);
-			}
-			break;
-
 		case EuclidianConstants.MODE_RELATION:
 			// check for list first
 			if (hits.size() == 1) {
@@ -9696,7 +9649,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 
-			// Fit line makes sense only for more than 1 point (or one list)
+			// Fit line is available from more than 1 point
 			if (hits.size() < 2) {
 				hits.clear();
 			} else {
@@ -9802,15 +9755,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
 		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
-			processSelectionRectangleForTransformations(hits,
-					TestGeo.TRANSFORMABLE);
-			break;
-
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			processSelectionRectangleForTransformations(hits,
-					TestGeo.TRANSFORMABLE);
-			break;
-
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			processSelectionRectangleForTransformations(hits,
 					TestGeo.TRANSFORMABLE);
@@ -9972,12 +9917,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	public void wrapMouseReleased(AbstractEvent event) {
 		if (handleInlineHit(event)) {
 			return;
-		}
-
-		// will be reset in wrapMouseReleased
-		AccessibilityManagerInterface am = app.getAccessibilityManager();
-		if (am != null && !app.getKernel().getConstruction().isEmpty()) {
-			am.setTabOverGeos(true);
 		}
 
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
@@ -10892,11 +10831,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					.createPreviewPerpendicularBisector(getSelectedPointList());
 			break;
 
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-			previewDrawable = view.createPreviewConic(mode1,
-					getSelectedPointList());
-			break;
-
 		case EuclidianConstants.MODE_JOIN: // line through two points
 			useLineEndPoint = false;
 			previewDrawable = view.createPreviewLine(getSelectedPointList());
@@ -10913,6 +10847,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_VECTOR:
+		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			useLineEndPoint = false;
 			previewDrawable = view.createPreviewVector(getSelectedPointList());
 			break;
@@ -10932,6 +10867,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
 			previewDrawable = view.createPreviewConic(mode1,
 					getSelectedPointList());
 			break;
@@ -10954,11 +10890,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
 			previewDrawable = new DrawConicPart(view, mode1,
 					getSelectedPointList());
-			break;
-
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			useLineEndPoint = false;
-			previewDrawable = view.createPreviewVector(getSelectedPointList());
 			break;
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:

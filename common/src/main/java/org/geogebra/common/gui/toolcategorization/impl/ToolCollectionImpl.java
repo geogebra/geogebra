@@ -111,4 +111,16 @@ class ToolCollectionImpl implements ToolCollection {
             }
         }
     }
+
+    @Override
+    public boolean contains(int mode) {
+        for (ToolsCollection level: levels.values()) {
+            for (List<Integer> tools : level.tools) {
+                if (tools.contains(mode)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

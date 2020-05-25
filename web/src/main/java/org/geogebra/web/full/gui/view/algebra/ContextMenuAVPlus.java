@@ -7,6 +7,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.gui.toolcategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.KeyboardType;
@@ -77,19 +79,25 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	private boolean toolbarHasImageMode() {
-		Vector<ToolbarItem> toolbarItems =
-				ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
+		if (app.getConfig().getToolbarType().equals(AppType.CLASSIC)) {
+			Vector<ToolbarItem> toolbarItems =
+					ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
 
-		for (ToolbarItem toolbarItem : toolbarItems) {
-			if (toolbarItem.getMode() == null) {
-				if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
-					return true;
-				}
-			} else {
-				if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
-					return true;
+			for (ToolbarItem toolbarItem : toolbarItems) {
+				if (toolbarItem.getMode() == null) {
+					if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
+						return true;
+					}
+				} else {
+					if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
+						return true;
+					}
 				}
 			}
+		} else {
+			ToolCollection toolCollection =
+					app.createToolCollectionFactory().createToolCollection();
+			return toolCollection.contains(EuclidianConstants.MODE_IMAGE);
 		}
 
 		return false;

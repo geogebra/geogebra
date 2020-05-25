@@ -51,6 +51,7 @@ public abstract class GlobalKeyDispatcher {
 
 	private TreeSet<AlgoElement> tempSet;
 	private Coords tempVec;
+	private boolean hasUnsavedGeoChanges;
 
 	/**
 	 * @param app2
@@ -353,9 +354,7 @@ public abstract class GlobalKeyDispatcher {
 
 			// ESC: set move mode
 			handleEscForDropdown();
-			if (app.isApplet() && !app.showToolBar()) {
-				app.loseFocus();
-			} else {
+			if (!app.isApplet() || app.showToolBar()) {
 				app.setMoveMode();
 			}
 			consumed = true;
@@ -383,7 +382,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case TAB:
 			if (app.isDesktop()) {
-				consumed = handleTab(isControlDown, isShiftDown);
+				consumed = handleTabDesktop(isControlDown, isShiftDown);
 			}
 
 			break;
@@ -446,19 +445,6 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 
-		/*
-		 * // make sure Ctrl-1/2/3 works on the Numeric Keypad even with Numlock
-		 * // off // **** NB if NumLock on, event.isShiftDown() always returns
-		 * false with // Numlock on!!! (Win 7) if (event.getKeyLocation() ==
-		 * KeyEvent.KEY_LOCATION_NUMPAD) { String keyText =
-		 * KeyEvent.getKeyText(keyCode); if ("End".equals(keyText)) { keyCode =
-		 * KeyEvent.VK_1; } else if ("Down".equals(keyText)) { keyCode =
-		 * KeyEvent.VK_2; } else if ("Page Down".equals(keyText)) { keyCode =
-		 * KeyEvent.VK_3; }
-		 * 
-		 * }
-		 */
-
 		// Ctrl key down (and not Alt, so that AltGr works for special
 		// characters)
 		if (isControlDown && !isAltDown) {
@@ -470,47 +456,8 @@ public abstract class GlobalKeyDispatcher {
 		return consumed;
 	}
 
-	/**
-	 * Handler for common shortcuts
-	 * 
-	 * @param key
-	 *            translated keycode of the event
-	 * @param isControlDown
-	 *            is control button down
-	 * @param isAltDown
-	 *            is alt button down
-	 * @return true if the event handled
-	 */
-	public boolean handleCommonKeys(KeyCodes key, boolean isControlDown,
-			boolean isAltDown) {
-		if (app != null && key == KeyCodes.X && isControlDown && isAltDown) {
-			app.hideMenu();
-			app.closePopups();
-			if (app.getActiveEuclidianView() != null) {
-				app.getActiveEuclidianView().getEuclidianController()
-						.hideDynamicStylebar();
-			}
-			app.getSelectionManager().clearSelectedGeos();
-			app.getAccessibilityManager().focusInput(true);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Handler for common shortcuts
-	 * 
-	 * @param i
-	 *            event keycode
-	 * @param isControlDown
-	 *            is control button down
-	 * @param isAltDown
-	 *            alt button button down
-	 * @return true if the event handled
-	 */
-	public boolean handleCommonKeys(int i, boolean isControlDown,
-			boolean isAltDown) {
-		return handleCommonKeys(translateKey(i), isControlDown, isAltDown);
+	protected boolean handleTabDesktop(boolean isControlDown, boolean isShiftDown) {
+		return false; // overridden in desktop
 	}
 
 	/**
@@ -1027,28 +974,6 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	/**
-	 * @param isControlDown
-	 *            whether control is down
-	 * @param isShiftDown
-	 *            whether shift is down
-	 * @return whether key was consumed
-	 */
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
-
-		EuclidianView ev = app.getActiveEuclidianView();
-
-		ev.closeDropdowns();
-
-		if (isShiftDown) {
-			selection.selectLastGeo(ev);
-		} else {
-			selection.selectNextGeo(ev);
-		}
-
-		return true;
-	}
-
-	/**
 	 * Changes the font size of the user interface and construction element
 	 * styles (thickness, size) for a given fontSize.
 	 * 
@@ -1507,6 +1432,7 @@ public abstract class GlobalKeyDispatcher {
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
 			double[] diff = new double[] { changeValX, changeValY, changeValZ };
 			moved = handleArrowKeyMovement(geos, diff, getIncrement(geos));
+			hasUnsavedGeoChanges = true;
 		}
 
 		if (moved) {
@@ -1577,17 +1503,8 @@ public abstract class GlobalKeyDispatcher {
 			changeVal = -base;
 			index = 1;
 			break;
-		// case ESCAPE:
-		// if (!fromSpreadsheet) {
-		// handleEscForDropdown();
-		// }
-		// break;
 		}
-		/*
-		 * if (changeVal == 0) { char keyChar = event.getKeyChar(); if (keyChar
-		 * == '+') changeVal = base; else if (keyChar == '-') changeVal = -base;
-		 * }
-		 */
+
 		// change all geoelements
 		if (changeVal != 0) {
 
@@ -1638,6 +1555,7 @@ public abstract class GlobalKeyDispatcher {
 						}
 
 						num.setValue(newValue);
+						hasUnsavedGeoChanges = true;
 					}
 
 					// update point on path
@@ -1648,6 +1566,7 @@ public abstract class GlobalKeyDispatcher {
 									changeVal * p.getAnimationStep());
 							ScreenReader.readGeoMoved((GeoElement) p);
 						}
+						hasUnsavedGeoChanges = true;
 					}
 				}
 
@@ -1726,5 +1645,15 @@ public abstract class GlobalKeyDispatcher {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Store undo point if some objects were moved.
+	 */
+	public void storeUndoInfoIfChanged() {
+		if (hasUnsavedGeoChanges) {
+			app.storeUndoInfo();
+			hasUnsavedGeoChanges = false;
+		}
 	}
 }

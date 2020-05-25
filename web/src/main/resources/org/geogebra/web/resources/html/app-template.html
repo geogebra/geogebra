@@ -14,7 +14,7 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
 
-var latestVersion="5.0.502.0";
+var latestVersion="5.0.580.0";
 var module = "web3d";
 var defaultParams = {"vendor":"<!--VENDOR-->", "preloadModules":""};
 var prerelease = false;
@@ -209,14 +209,17 @@ var codebase = "<!--CODEBASE-->";
 
 	function showInLang(lang){
 		var props = __GGB__keysVar[lang];
-		if(window.appID === "graphing" || window.appID == "suite"){
+		if (window.appID === "suite") {
+			changeMetaTitle(props.menu["CalculatorSuite"] || "Calculator Suite")
+		}
+		if(window.appID === "graphing"){
 			changeMetaTitle(props.menu["GraphingCalculator"] || "Graphing Calculator");
 		}
 		if(window.appID === "geometry"){
 			changeMetaTitle(props.menu["Geometry"]  || "Geometry");
 		}
 		if(window.appID === "CAS"){
-			changeMetaTitle(props.menu["CASCalcultor"]  || "CAS Calculator"); //TODO ggbtrans
+			changeMetaTitle(props.menu["CASCalcultor"]  || "CAS Calculator");
 		}
 		if(window.appID === "3D"){
 			changeMetaTitle(props.menu["Graphing3D"]  || "3D Graphing Calculator");
@@ -419,9 +422,6 @@ var codebase = "<!--CODEBASE-->";
 		window.addEventListener && window.addEventListener("resize", resizeStart);
 		if (e("ggw")) {
 			updateAppletParams();
-			if (isLocalhost()) {
-				codebase = "./";
-			}
 		}
 		
 		if (tubeid) {
@@ -502,5 +502,6 @@ document.isChromeWebapp = function isChromeWebapp() {
     data-param-useBrowserForJS="false"
     data-param-app="true" data-param-showAppsPicker="true" ></article>
 </body>
+<!--FIREBASE-->
 </html>
 

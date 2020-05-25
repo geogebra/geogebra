@@ -1,6 +1,12 @@
 package org.geogebra.desktop.gui.util;
 
 import java.awt.Desktop;
+import java.lang.reflect.Method;
+import java.net.URI;
+
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.main.AppD;
+
 /////////////////////////////////////////////////////////
 // Bare Bones Browser Launch                          //
 // Version 1.5                                        //
@@ -11,11 +17,6 @@ import java.awt.Desktop;
 //  BareBonesBrowserLaunch.openURL(url);            //
 // Public Domain Software -- Free to Use as You Like  //
 /////////////////////////////////////////////////////////
-import java.lang.reflect.Method;
-import java.net.URI;
-
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.main.AppD;
 
 /**
  * Utility for launching browser

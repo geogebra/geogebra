@@ -201,7 +201,9 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public GeoNumeric copy() {
-		return new GeoNumeric(cons, value);
+		GeoNumeric copy = new GeoNumeric(cons, value);
+		copy.setDrawable(isDrawable, false);
+		return copy;
 	}
 
 	@Override
@@ -615,7 +617,7 @@ public class GeoNumeric extends GeoElement
 		}
 
 		if (LabelManager.isShowableLabel(label)) {
-			return label + " = " + toValueString(tpl);
+			return label + tpl.getEqualsWithSpace() + toValueString(tpl);
 		} else {
 			return toValueString(tpl);
 		}

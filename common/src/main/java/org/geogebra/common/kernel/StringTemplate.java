@@ -64,6 +64,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean niceQuotes = false;
 
 	private boolean shouldPrintMethodsWithParenthesis;
+	private boolean useOperatorWhitespace = true;
 
 	/**
 	 * Default template, but do not localize commands
@@ -344,6 +345,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		initForEditing(editTemplate);
 		editTemplate.changeArcTrig = false;
 		initForEditing(editorTemplate);
+		editorTemplate.useOperatorWhitespace = false;
 	}
 
 	/**
@@ -1303,7 +1305,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 						&& isInsertLineBreaks()) {
 					sb.append(" \\-+ ");
 				} else {
-					sb.append(getPlus(loc));
+					getPlus(sb, loc);
 				}
 				appendWithBrackets(sb, rightStr);
 			} else {
@@ -1312,7 +1314,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
-						sb.append(getMinus(loc));
+						getMinus(sb, loc);
 					}
 					sb.append(rightStr.substring(1));
 				} else if (rightStr
@@ -1326,7 +1328,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
-						sb.append(getMinus(loc));
+						getMinus(sb, loc);
 					}
 					append(sb, rightStr.substring(3), right, Operation.PLUS);
 				} else {
@@ -1334,7 +1336,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
 					} else {
-						sb.append(getPlus(loc));
+						getPlus(sb, loc);
 					}
 					append(sb, rightStr, right, Operation.PLUS);
 				}
@@ -1345,18 +1347,24 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
-	private String getPlus(Localization loc) {
+	private void getPlus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER) {
-			return ScreenReader.getPlus(loc);
+			sb.append(ScreenReader.getPlus(loc));
+		} else {
+			appendOptionalSpace(sb);
+			sb.append('+');
+			appendOptionalSpace(sb);
 		}
-		return " + ";
 	}
 
-	private String getMinus(Localization loc) {
+	private void getMinus(StringBuilder sb, Localization loc) {
 		if (stringType == StringType.SCREEN_READER) {
-			return ScreenReader.getMinus(loc);
+			sb.append(ScreenReader.getMinus(loc));
+		} else {
+			appendOptionalSpace(sb);
+			sb.append("-");
+			appendOptionalSpace(sb);
 		}
-		return " - ";
 	}
 
 	/**
@@ -1691,7 +1699,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
 					} else {
-						sb.append(" + ");
+						getPlus(sb, loc);
 					}
 					sb.append(rightStr.substring(1));
 				} else if (rightStr
@@ -1705,7 +1713,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-+ ");
 					} else {
-						sb.append(" + ");
+						getPlus(sb, loc);
 					}
 					sb.append(rightStr.substring(3));
 				} else {
@@ -1713,7 +1721,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							&& isInsertLineBreaks()) {
 						sb.append(" \\-- ");
 					} else {
-						sb.append(minus(loc));
+						getMinus(sb, loc);
 					}
 					sb.append(rightStr);
 				}
@@ -1723,17 +1731,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 						&& isInsertLineBreaks()) {
 					sb.append(" \\-- ");
 				} else {
-					sb.append(minus(loc));
+					getMinus(sb, loc);
 				}
 				appendWithBrackets(sb, rightStr);
 			}
 			break;
 		}
 		return sb.toString();
-	}
-
-	private String minus(Localization loc) {
-		return stringType == StringType.SCREEN_READER ? ScreenReader.getMinus(loc) : " - ";
 	}
 
 	/**
@@ -1755,55 +1759,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 			String leftStr, String rightStr, boolean valueForm,
 			Localization loc) {
 		StringBuilder sb = new StringBuilder();
-		Operation operation = Operation.MULTIPLY;
 		switch (stringType) {
 
 		case CONTENT_MATHML:
 			MathmlTemplate.mathml(sb, "<times/>", leftStr, rightStr);
 			break;
+		case GIAC:
+			appendGiacMultiplication(sb, left, right, leftStr, rightStr, valueForm);
+			break;
 		default:
-			// check for 1 at left
-			if (ExpressionNode.isEqualString(left, 1, !valueForm)
-					&& !Unicode.DEGREE_STRING.equals(rightStr)
-					&& stringType != StringType.SCREEN_READER) {
-				append(sb, rightStr, right, operation);
-				break;
-			}
-			// check for 1 at right
-			else if (ExpressionNode.isEqualString(right, 1, !valueForm)) {
-				append(sb, leftStr, left, operation);
-				break;
-			}
-			// no chceck for 0: we need 0x + 1 to be a function, not number
-
-			// check for degree sign or 1degree or degree1 (eg for Arabic)
-			else if ((rightStr.length() == 2
-					&& ((rightStr.charAt(0) == Unicode.DEGREE_CHAR
-							&& rightStr.charAt(1) == (loc.getZero() + 1))
-							|| (rightStr.charAt(1) == Unicode.DEGREE_CHAR
-									&& rightStr.charAt(0) == loc.getZero()
-											+ 1)))
-
-					|| rightStr.equals(Unicode.DEGREE_STRING)) {
-
-				boolean rtl = loc.isRightToLeftDigits(this);
-
-				if (rtl) {
-					sb.append(Unicode.DEGREE_STRING);
-				}
-
-				if (!left.isLeaf()) {
-					sb.append('('); // needed for eg (a+b)\u00b0
-				}
-				sb.append(leftStr);
-				if (!left.isLeaf()) {
-					sb.append(')'); // needed for eg (a+b)\u00b0
-				}
-
-				if (!rtl) {
-					sb.append(Unicode.DEGREE_STRING);
-				}
-
+			appendMultiplySpecial(sb, leftStr, rightStr, left, right, valueForm, loc);
+			if (sb.length() > 0) {
 				break;
 			}
 
@@ -1877,9 +1843,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 												|| lastLeft == '}')
 												&& rightStr
 														.startsWith("\\frac");
-						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble
-								&& Unicode.DEGREE_STRING.equals(
-										right.toString(defaultTemplate)));
+						multiplicationSpaceNeeded = !isDegree(right);
 						break;
 
 					default: // GeoGebra syntax
@@ -1890,7 +1854,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 						showMultiplicationSign = (Character.isDigit(lastLeft) || lastLeft == ')')
 								&& (StringUtil.isDigit(firstRight)
 										// 3*E23AB can't be written 3E23AB
-										|| (firstRight == 'E'));
+										|| (firstRight == 'E')) || StringUtil.isDigit(firstRight);
 						// check if we need a multiplication space:
 						multiplicationSpaceNeeded = showMultiplicationSign;
 						if (!multiplicationSpaceNeeded) {
@@ -1905,7 +1869,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 							// all cases except number * character, e.g. 3x
 							// pi*x DOES need a multiply
 							multiplicationSpaceNeeded = !(leftIsNumber
-											&& !Character.isDigit(firstRight));
+											&& !Character.isDigit(firstRight))
+									|| (!useOperatorWhitespace && !isDegree(right));
 						}
 					}
 
@@ -1971,67 +1936,115 @@ public class StringTemplate implements ExpressionNodeConstants {
 			}
 
 			break;
-
-		case GIAC:
-
-			// Log.debug(left.getClass()+" "+right.getClass());
-			// Log.debug(leftStr+" "+rightStr);
-
-			if (right instanceof ExpressionNode
-					&& ((ExpressionNode) right).getOperation().isInequality()
-					&& left.evaluatesToNumber(false)) {
-				// eg 3(x<4)
-				// MySpecialDouble shouldn't be negative, but just in case:
-				boolean reverse = left.evaluateDouble() < 0;
-
-				sb.append('(');
-				sb.append(leftStr);
-				sb.append(")*(");
-				sb.append(expToString(((ExpressionNode) right).getLeft(),
-						valueForm));
-				sb.append(')');
-				sb.append(op((ExpressionNode) right, reverse));
-				sb.append('(');
-				sb.append(leftStr);
-				sb.append(")*(");
-				sb.append(expToString(((ExpressionNode) right).getRight(),
-						valueForm));
-				sb.append(')');
-			} else if (left instanceof ExpressionNode
-					&& ((ExpressionNode) left).getOperation().isInequality()
-					&& right.evaluatesToNumber(false)) {
-				// eg 3(x<4)
-				// MySpecialDouble shouldn't be negative, but just in case:
-				boolean reverse = right.evaluateDouble() < 0;
-
-				sb.append('(');
-				sb.append(rightStr);
-				sb.append(")*(");
-				sb.append(expToString(((ExpressionNode) left).getLeft(),
-						valueForm));
-				sb.append(')');
-				sb.append(op((ExpressionNode) left, reverse));
-				sb.append('(');
-				sb.append(rightStr);
-				sb.append(")*(");
-				sb.append(expToString(((ExpressionNode) left).getRight(),
-						valueForm));
-				sb.append(')');
-			} else if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
-				sb.append("-(");
-				sb.append(rightStr);
-				sb.append(')');
-			} else {
-				sb.append("(");
-				sb.append(leftStr);
-				sb.append(")*(");
-				sb.append(rightStr);
-				sb.append(")");
-				break;
-			}
-			break;
 		}
 		return sb.toString();
+	}
+
+	private boolean isDegree(ExpressionValue right) {
+		return right instanceof MySpecialDouble
+				&& Unicode.DEGREE_STRING.equals(
+				right.toString(defaultTemplate));
+	}
+
+	private void appendGiacMultiplication(StringBuilder sb, ExpressionValue left,
+				ExpressionValue right, String leftStr, String rightStr, boolean valueForm) {
+		if (right instanceof ExpressionNode
+				&& ((ExpressionNode) right).getOperation().isInequality()
+				&& left.evaluatesToNumber(false)) {
+			// eg 3(x<4)
+			// MySpecialDouble shouldn't be negative, but just in case:
+			boolean reverse = left.evaluateDouble() < 0;
+
+			sb.append('(');
+			sb.append(leftStr);
+			sb.append(")*(");
+			sb.append(expToString(((ExpressionNode) right).getLeft(),
+					valueForm));
+			sb.append(')');
+			sb.append(op((ExpressionNode) right, reverse));
+			sb.append('(');
+			sb.append(leftStr);
+			sb.append(")*(");
+			sb.append(expToString(((ExpressionNode) right).getRight(),
+					valueForm));
+			sb.append(')');
+		} else if (left instanceof ExpressionNode
+				&& ((ExpressionNode) left).getOperation().isInequality()
+				&& right.evaluatesToNumber(false)) {
+			// eg 3(x<4)
+			// MySpecialDouble shouldn't be negative, but just in case:
+			boolean reverse = right.evaluateDouble() < 0;
+
+			sb.append('(');
+			sb.append(rightStr);
+			sb.append(")*(");
+			sb.append(expToString(((ExpressionNode) left).getLeft(),
+					valueForm));
+			sb.append(')');
+			sb.append(op((ExpressionNode) left, reverse));
+			sb.append('(');
+			sb.append(rightStr);
+			sb.append(")*(");
+			sb.append(expToString(((ExpressionNode) left).getRight(),
+					valueForm));
+			sb.append(')');
+		} else if (ExpressionNode.isEqualString(left, -1, !valueForm)) {
+			sb.append("-(");
+			sb.append(rightStr);
+			sb.append(')');
+		} else {
+			sb.append("(");
+			sb.append(leftStr);
+			sb.append(")*(");
+			sb.append(rightStr);
+			sb.append(")");
+		}
+	}
+
+	private void appendMultiplySpecial(StringBuilder sb, String leftStr, String rightStr,
+					ExpressionValue left, ExpressionValue right, boolean valueForm,
+					Localization loc) {
+		Operation operation = Operation.MULTIPLY;
+		// check for 1 at left
+		if (ExpressionNode.isEqualString(left, 1, !valueForm)
+				&& !Unicode.DEGREE_STRING.equals(rightStr)
+				&& stringType != StringType.SCREEN_READER) {
+			append(sb, rightStr, right, operation);
+		}
+		// check for 1 at right
+		else if (ExpressionNode.isEqualString(right, 1, !valueForm)) {
+			append(sb, leftStr, left, operation);
+		}
+		// no chceck for 0: we need 0x + 1 to be a function, not number
+
+		// check for degree sign or 1degree or degree1 (eg for Arabic)
+		else if ((rightStr.length() == 2
+				&& ((rightStr.charAt(0) == Unicode.DEGREE_CHAR
+				&& rightStr.charAt(1) == (loc.getZero() + 1))
+				|| (rightStr.charAt(1) == Unicode.DEGREE_CHAR
+				&& rightStr.charAt(0) == loc.getZero()
+				+ 1)))
+
+				|| rightStr.equals(Unicode.DEGREE_STRING)) {
+
+			boolean rtl = loc.isRightToLeftDigits(this);
+
+			if (rtl) {
+				sb.append(Unicode.DEGREE_STRING);
+			}
+
+			if (!left.isLeaf()) {
+				sb.append('('); // needed for eg (a+b)\u00b0
+			}
+			sb.append(leftStr);
+			if (!left.isLeaf()) {
+				sb.append(')'); // needed for eg (a+b)\u00b0
+			}
+
+			if (!rtl) {
+				sb.append(Unicode.DEGREE_STRING);
+			}
+		}
 	}
 
 	/**
@@ -2085,13 +2098,24 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return " cdot ";
 
 		case GEOGEBRA:
-			return " * "; // space for multiplication
+			// space for multiplication
+			return useOperatorWhitespace ? " * " : "*";
 
 		case SCREEN_READER:
 			return ScreenReader.getTimes(loc);
 
 		default:
 			return " * ";
+		}
+	}
+
+	/**
+	 * Appends space to string builder if needed (for operators)
+	 * @param sb string builder
+	 */
+	public void appendOptionalSpace(StringBuilder sb) {
+		if (useOperatorWhitespace) {
+			sb.append(" ");
 		}
 	}
 
@@ -2227,8 +2251,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			} else {
 				append(sb, leftStr, left, Operation.DIVIDE);
 			}
-			sb.append(" / ");
-
+			appendOptionalSpace(sb);
+			sb.append("/");
+			appendOptionalSpace(sb);
 			// right wing
 			append(sb, rightStr, right, Operation.POWER); // not
 
@@ -2590,9 +2615,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 			String rightStr, String operationString) {
 
 		append(sb, leftStr, left, operation);
-		sb.append(' ');
+		appendOptionalSpace(sb);
 		sb.append(operationString);
-		sb.append(' ');
+		appendOptionalSpace(sb);
 		append(sb, rightStr, right, operation);
 	}
 
@@ -2622,7 +2647,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		if (right.isExpressionNode()) {
 			sb.append(left.wrap().getCASstring(this, !valueForm));
-			sb.append(' ');
+			appendOptionalSpace(sb);
 			switch (((ExpressionNode) right).getOperation()) {
 			case LESS:
 				sb.append(lessSign());
@@ -2658,7 +2683,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				Log.debug(((ExpressionNode) right).getOperation()
 						+ " invalid in chain");
 			}
-			sb.append(' ');
+			appendOptionalSpace(sb);
 			sb.append(((ExpressionNode) right).getRightTree().getCASstring(this,
 					!valueForm));
 			return sb.toString();
@@ -3559,7 +3584,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 		this.shouldPrintMethodsWithParenthesis = shouldPrintMethodsWithParenthesis;
 	}
 
+	/**
+	 * @return equal sign with appropriate whitespace symbols
+	 */
 	public String getEqualsWithSpace() {
+		if (!useOperatorWhitespace) {
+			return "=";
+		}
 		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
 	}
 }

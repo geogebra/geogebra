@@ -376,7 +376,14 @@ public class CAStestJSON {
 
 	@Test
 	public void testIntegral() {
-		testCat("Integral");
+		testCat("Integral.1");
+		testCat("Integral.2");
+	}
+
+	@Test
+	public void testIntegralFinite() {
+		testCat("Integral.3");
+		testCat("Integral.4");
 	}
 
 	@Test
@@ -742,6 +749,10 @@ public class CAStestJSON {
 	@Test
 	public void testNormal() {
 		testCat("Normal");
+	}
+
+	@Test
+	public void testInverseNormal() {
 		testCat("InverseNormal.3");
 	}
 
