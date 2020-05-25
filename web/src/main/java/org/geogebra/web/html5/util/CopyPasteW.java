@@ -344,6 +344,7 @@ public class CopyPasteW extends CopyPaste {
 									data[i].getType(data[i].types[j]).then(function(item) {
 										@org.geogebra.web.html5.util.CopyPasteW::readBlob(*)(item, app);
 									});
+									return;
 								}
 							}
 						}
