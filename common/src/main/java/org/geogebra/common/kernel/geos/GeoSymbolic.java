@@ -31,6 +31,8 @@ import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
+import javax.annotation.Nullable;
+
 /**
  * Symbolic geo for CAS computations in AV
  *
@@ -41,7 +43,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
-	private GeoElement twinGeo;
 	private boolean twinUpToDate = false;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
@@ -49,6 +50,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private int pointStyle;
 	private int pointSize;
 	private boolean symbolicMode;
+
+	@Nullable
+	private GeoElement twinGeo;
 
 	/**
 	 * @return output expression
@@ -193,7 +197,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (value != null
 				&& value.unwrap() instanceof MyVecNDNode
 				&& algebraProcessor.hasVectorLabel(this)) {
-			((MyVecNDNode) value.unwrap()).setCASVector();
+			((MyVecNDNode) value.unwrap()).setupCASVector();
 		}
 	}
 
@@ -668,5 +672,12 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		return twinGeo != null
 				? twinGeo.toLaTeXString(symbolic, tpl)
 				: symbolic ? getDefinition(tpl) : toValueString(tpl);
+	}
+
+	@Override
+	public boolean isGeoVector() {
+		return twinGeo != null
+				? twinGeo.isGeoVector()
+				: getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 }

@@ -14,7 +14,7 @@ public interface MyVecNDNode extends ExpressionValue, ReplaceChildrenByValues {
 	/**
 	 * Set this vector to CAS
 	 */
-	public void setCASVector();
+	public void setupCASVector();
 
 	/**
 	 * @return 2 or 3
@@ -39,4 +39,8 @@ public interface MyVecNDNode extends ExpressionValue, ReplaceChildrenByValues {
 	 */
 	public ExpressionValue getZ();
 
+	/**
+	 * Sets the printing mode to vector printing
+	 */
+	void setVectorPrintingMode();
 }
