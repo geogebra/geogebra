@@ -35,10 +35,14 @@ public class SafeImage {
 	 * Pre-process image.
 	 */
 	public void process() {
-		for (ImagePreprocessor preprocessor: preprocessors) {
+		for (ImagePreprocessor preprocessor : preprocessors) {
 			if (preprocessor.match(imageFile.getExtension())) {
 				preprocessor.process(imageFile, provider);
+				return;
 			}
 		}
+
+		// If it is not PNG, JPG, or SVG we just pass it back
+		provider.onReady(imageFile);
 	}
 }
