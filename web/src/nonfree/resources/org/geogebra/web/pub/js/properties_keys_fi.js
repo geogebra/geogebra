@@ -1529,7 +1529,7 @@ __GGB__keysVar["fi"].menu = {
     "Continuity": "Jatkuvuus",
     "Continuous": "Jatkuva",
     "Coordinates": "Koordinaatit",
-    "CopiedToClipboard": "Copied to clipboard",
+    "CopiedToClipboard": "Kopioitu leikep\xf6yd\xe4lle",
     "Copy": "Kopioi",
     "CopyAsImage": "Kopioi kuvaksi",
     "CopyAsLaTeX": "Kopioi LaTeX-muodossa",

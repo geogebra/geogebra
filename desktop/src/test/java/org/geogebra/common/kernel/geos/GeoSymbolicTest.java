@@ -1056,6 +1056,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		Assert.assertTrue(element.isShowingExtendedAV());
 	}
 
+	@Test
+	public void testUndoRedoKeepsShowingIntegralArea() {
+		GeoSymbolic integralArea = add("a(x)=Integral(xx,2,3)");
+		Assert.assertTrue(integralArea.isEuclidianVisible());
+		Assert.assertTrue(integralArea.getTwinGeo().isEuclidianVisible());
+
+		app.setXML(app.getXML(), true);
+		integralArea = (GeoSymbolic) app.getKernel().lookupLabel("a");
+
+		Assert.assertTrue(integralArea.isEuclidianVisible());
+		Assert.assertTrue(integralArea.getTwinGeo().isEuclidianVisible());
+	}
+
 	private int numberOfSpecialPoints() {
 		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
 			return 0;

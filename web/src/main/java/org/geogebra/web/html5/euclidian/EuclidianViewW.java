@@ -281,7 +281,8 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
-		        || kernel.needToShowAnimationButton()) {
+		        || kernel.needToShowAnimationButton()
+				|| getSettings().getBackgroundType() != BackgroundType.NONE) {
 			g2w.drawImage(bgImage, 0, 0);
 		} else {
 			g2w.fillWith(getBackgroundCommon());

@@ -265,4 +265,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox = add("InputBox(p)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
 	}
+
+	@Test
+	public void testCanBeSymbolicForEquation() {
+		add("eq1:x^3+y^3=1");
+		GeoInputBox inputBox1 = add("InputBox(eq1)");
+		add("eq2:x^2+y^2+z^2=1");
+		GeoInputBox inputBox2 = add("InputBox(eq2)");
+		Assert.assertTrue(inputBox1.canBeSymbolic());
+		Assert.assertTrue(inputBox2.canBeSymbolic());
+	}
 }
