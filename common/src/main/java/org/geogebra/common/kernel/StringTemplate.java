@@ -1908,9 +1908,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							// all cases except number * character, e.g. 3x
 							// pi*x DOES need a multiply
 							multiplicationSpaceNeeded =
-									!leftIsNumber
-											|| Character.isDigit(firstRight)
-											|| rightStr.equals(RAD);
+									!leftIsNumber || Character.isDigit(firstRight);
 						}
 					}
 
