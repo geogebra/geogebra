@@ -134,11 +134,7 @@ void mathContainer(MathContainer currentField) : {}
 	|
 		defintSumProduct(currentField)
 	|
-		limeq(currentField)
-	|
-		vec(currentField)
-	|
-		abs(currentField)
+		absVecLimeq(currentField)
 	|
 		arrayParantheses(currentField)
 	|
@@ -183,7 +179,7 @@ void mathAtomOrPower(MathContainer currentField) : {
 	|
 		log(currentField)
 	|
-		abs(currentField)
+		absVecLimeq(currentField)
 	|
 		arrayParantheses(currentField)
 	|
@@ -311,6 +307,20 @@ void defintSumProduct(MathContainer currentField) : {
 	} <PARANTHESES_CLOSE>
 }
 
+void absVecLimeq(MathContainer currentField) : {
+	Token symbol;
+}
+{
+	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ>) <PARANTHESES_OPEN> {
+		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+		vec.setArgument(0, param1);
+		currentField.addArgument(vec);
+	} <PARANTHESES_CLOSE>
+}
+
+
 void log(MathContainer currentField) : { }
 {
 	<LOG> <PARANTHESES_OPEN> {
@@ -328,39 +338,6 @@ void log(MathContainer currentField) : { }
 	{
 	  currentField.addArgument(nroot);
 	}
-}
-
-void limeq(MathContainer currentField) : {}
-{
-	<LIM_EQ> <PARANTHESES_OPEN> {
-		MathFunction limeq = new MathFunction(metaModel.getGeneral(Tag.LIM_EQ));
-		MathSequence param0 = new MathSequence();
-		mathContainer(param0);
-		limeq.setArgument(0, param0);
-		currentField.addArgument(limeq);
-	} <PARANTHESES_CLOSE>
-}
-
-void abs(MathContainer currentField) : { }
-{
-	<ABS> <PARANTHESES_OPEN> {
-		MathFunction abs = new MathFunction(metaModel.getGeneral(Tag.ABS));
-		MathSequence param1 = new MathSequence();
-		mathContainer(param1);
-		abs.setArgument(0, param1);
-		currentField.addArgument(abs);
-	} <PARANTHESES_CLOSE>
-}
-
-void vec(MathContainer currentField) : { }
-{
-	<VEC> <PARANTHESES_OPEN> {
-		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.VEC));
-		MathSequence param1 = new MathSequence();
-		mathContainer(param1);
-		vec.setArgument(0, param1);
-		currentField.addArgument(vec);
-	} <PARANTHESES_CLOSE>
 }
 
 void arrayParantheses(MathContainer currentField) :
