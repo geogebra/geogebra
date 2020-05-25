@@ -6,9 +6,9 @@ import org.geogebra.common.properties.BooleanProperty;
 /**
  * Fix object
  */
-public class FixObject extends AbstractGeoElementProperty implements BooleanProperty {
+public class FixObjectProperty extends AbstractGeoElementProperty implements BooleanProperty {
 
-    public FixObject(GeoElement geoElement) {
+    public FixObjectProperty(GeoElement geoElement) {
         super("fixed", geoElement);
     }
 

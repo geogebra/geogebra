@@ -7,7 +7,7 @@ import org.geogebra.common.properties.EnumerableProperty;
 /**
  * Equation form
  */
-public class EquationForm extends AbstractGeoElementProperty implements EnumerableProperty {
+public class EquationFormProperty extends AbstractGeoElementProperty implements EnumerableProperty {
 
     private static final String[] equationFormNames = {
             "ImplicitLineEquation",
@@ -17,7 +17,7 @@ public class EquationForm extends AbstractGeoElementProperty implements Enumerab
             "InputForm"
     };
 
-    public EquationForm(GeoElement geoElement) {
+    public EquationFormProperty(GeoElement geoElement) {
         super("Equation", geoElement);
     }
 

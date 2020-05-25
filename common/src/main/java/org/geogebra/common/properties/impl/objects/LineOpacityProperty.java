@@ -8,9 +8,9 @@ import org.geogebra.common.properties.RangeProperty;
 /**
  * Line opacity
  */
-public class LineOpacity extends AbstractGeoElementProperty implements RangeProperty<Integer> {
+public class LineOpacityProperty extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
-    public LineOpacity(GeoElement geoElement) {
+    public LineOpacityProperty(GeoElement geoElement) {
         super("Opacity", geoElement);
     }
 

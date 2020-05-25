@@ -5,9 +5,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * Min
  */
-public class Min extends RangelessDecimalProperty {
+public class MinProperty extends RangelessDecimalProperty {
 
-    public Min(GeoNumeric numeric) {
+    public MinProperty(GeoNumeric numeric) {
         super("Minimum.short", numeric);
     }
 

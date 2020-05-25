@@ -6,7 +6,7 @@ import org.geogebra.common.properties.EnumerableProperty;
 /**
  * Caption style
  */
-public class CaptionStyle extends AbstractGeoElementProperty implements EnumerableProperty {
+public class CaptionStyleProperty extends AbstractGeoElementProperty implements EnumerableProperty {
 
     private static final int LABEL_HIDDEN = 0;
 
@@ -18,7 +18,7 @@ public class CaptionStyle extends AbstractGeoElementProperty implements Enumerab
             "Caption"
     };
 
-    public CaptionStyle(GeoElement geoElement) {
+    public CaptionStyleProperty(GeoElement geoElement) {
         super("stylebar.Caption", geoElement);
     }
 

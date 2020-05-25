@@ -6,9 +6,9 @@ import org.geogebra.common.properties.BooleanProperty;
 /**
  * Show object
  */
-public class ShowObject extends AbstractGeoElementProperty implements BooleanProperty {
+public class ShowObjectProperty extends AbstractGeoElementProperty implements BooleanProperty {
 
-    public ShowObject(GeoElement geoElement) {
+    public ShowObjectProperty(GeoElement geoElement) {
         super("Show", geoElement);
     }
 

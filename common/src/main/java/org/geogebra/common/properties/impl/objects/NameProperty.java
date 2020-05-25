@@ -9,9 +9,9 @@ import org.geogebra.common.properties.StringProperty;
 /**
  * Name
  */
-public class Name extends AbstractGeoElementProperty implements StringProperty {
+public class NameProperty extends AbstractGeoElementProperty implements StringProperty {
 
-    public Name(GeoElement geoElement) {
+    public NameProperty(GeoElement geoElement) {
         super(geoElement.translatedTypeString(), geoElement);
     }
 

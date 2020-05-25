@@ -7,9 +7,9 @@ import org.geogebra.common.properties.EnumerableProperty;
 /**
  * Line style
  */
-public class LineStyle extends AbstractGeoElementProperty implements EnumerableProperty {
+public class LineStyleProperty extends AbstractGeoElementProperty implements EnumerableProperty {
 
-    public LineStyle(GeoElement geoElement) {
+    public LineStyleProperty(GeoElement geoElement) {
         super("Properties.Style", geoElement);
     }
 

@@ -9,11 +9,11 @@ import org.geogebra.common.properties.EnumerableProperty;
 /**
  * Point style
  */
-public class PointStyle extends AbstractGeoElementProperty implements EnumerableProperty {
+public class PointStyleProperty extends AbstractGeoElementProperty implements EnumerableProperty {
 
     private static final String[] styles = new String[0];
 
-    public PointStyle(GeoElement geoElement) {
+    public PointStyleProperty(GeoElement geoElement) {
         super("Properties.Style", geoElement);
     }
 

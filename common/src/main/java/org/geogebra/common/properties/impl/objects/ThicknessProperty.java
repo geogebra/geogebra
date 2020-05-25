@@ -1,23 +1,22 @@
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.properties.RangeProperty;
 
 /**
- * Point size
+ * Line thickness
  */
-public class PointSize extends AbstractGeoElementProperty implements RangeProperty<Integer> {
+public class ThicknessProperty extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
-    public PointSize(GeoElement geoElement) {
-        super("Size", geoElement);
+    public ThicknessProperty(GeoElement geoElement) {
+        super("Thickness", geoElement);
     }
 
     @Override
     public Integer getMin() {
-        return 1;
+        return getElement().getMinimumLineThickness();
     }
 
     @Override
@@ -27,28 +26,25 @@ public class PointSize extends AbstractGeoElementProperty implements RangeProper
 
     @Override
     public Integer getValue() {
-        if (getElement() instanceof PointProperties) {
-            return ((PointProperties) getElement()).getPointSize();
-        }
-        return EuclidianStyleConstants.DEFAULT_POINT_SIZE;
+        return getElement().getLineThickness();
     }
 
     @Override
     public void setValue(Integer size) {
         GeoElement element = getElement();
-        setSize(element, size);
+        setThickness(element, size);
         element.updateRepaint();
         element.getApp().setPropertiesOccured();
     }
 
-    private void setSize(GeoElement element, int size) {
+    private void setThickness(GeoElement element, int size) {
         if (element instanceof GeoList) {
             GeoList list = (GeoList) element;
             for (int i = 0; i < list.size(); i++) {
-                setSize(list.get(i), size);
+                setThickness(list.get(i), size);
             }
-        } else if (element instanceof PointProperties) {
-            ((PointProperties) element).setPointSize(size);
+        } else if (LineStyleModel.match(element)) {
+            element.setLineThickness(size);
         }
     }
 

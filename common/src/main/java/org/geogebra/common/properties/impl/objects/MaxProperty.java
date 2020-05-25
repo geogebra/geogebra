@@ -3,23 +3,23 @@ package org.geogebra.common.properties.impl.objects;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * Step
+ * Max
  */
-public class Step extends RangelessDecimalProperty {
+public class MaxProperty extends RangelessDecimalProperty {
 
-    public Step(GeoNumeric numeric) {
-        super("AnimationStep", numeric);
+    public MaxProperty(GeoNumeric numeric) {
+        super("Maximum.short", numeric);
     }
 
     @Override
     public Double getValue() {
-        return getElement().getAnimationStep();
+        return getElement().getIntervalMax();
     }
 
     @Override
     public void setValue(Double value) {
         GeoNumeric numeric = getElement();
-        numeric.setAnimationStep(value);
+        numeric.setIntervalMax(value);
         numeric.getApp().setPropertiesOccured();
     }
 }

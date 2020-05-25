@@ -7,9 +7,9 @@ import org.geogebra.common.properties.BooleanProperty;
 /**
  * Show in AV
  */
-public class ShowInAV extends AbstractGeoElementProperty implements BooleanProperty {
+public class ShowInAVProperty extends AbstractGeoElementProperty implements BooleanProperty {
 
-    public ShowInAV(GeoElement geoElement) {
+    public ShowInAVProperty(GeoElement geoElement) {
         super("ShowInAlgebraView", geoElement);
     }
 
