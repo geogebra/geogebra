@@ -4,12 +4,11 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
-import org.geogebra.common.BaseUnitTest;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class InputTokenizerTest extends BaseUnitTest {
+public class InputTokenizerTest extends TokenizerBaseTest {
 
 	@Test
 	public void testAB() {
@@ -53,13 +52,8 @@ public class InputTokenizerTest extends BaseUnitTest {
 
 	@Test
 	public void testFunctionVar() {
-		add("f(var)=?");
+		withGeos("f(var)");
 		shouldBeSplitTo("avarb", "a", "var", "b");
-	}
-
-	@Test
-	public void testC_2e() {
-		shouldBeSplitTo("c_2e^(7x)", "c_2", "e^(7x)");
 	}
 
 	@Test
@@ -80,12 +74,6 @@ public class InputTokenizerTest extends BaseUnitTest {
 		shouldBeSplitTo("i1", String.valueOf(Unicode.IMAGINARY), "1");
 	}
 
-	private void withGeos(String... labels) {
-		for (String label: labels) {
-			add(label + "=?");
-		}
-	}
-
 	@Test
 	public void textX4() {
 		shouldBeSplitTo("x4", "x", "4");
@@ -98,7 +86,7 @@ public class InputTokenizerTest extends BaseUnitTest {
 
 	@Test
 	public void testMutliFunctionVars() {
-		add("t(mul, var)=?");
+		withGeos("t(mul, var)");
 		shouldBeSplitTo("amulvarb", "a", "mul", "var", "b");
 	}
 

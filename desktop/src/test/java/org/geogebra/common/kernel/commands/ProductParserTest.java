@@ -1,17 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
-import org.geogebra.common.BaseUnitTest;
-import org.junit.Before;
-import org.junit.Ignore;
+import org.geogebra.common.kernel.arithmetic.variable.TokenizerBaseTest;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class ProductParserTest extends BaseUnitTest {
-	@Before
-	public void setUp() throws Exception {
-
-	}
+public class ProductParserTest extends TokenizerBaseTest {
 
 	@Test
 	public void testPiRSquare() {
@@ -30,34 +24,32 @@ public class ProductParserTest extends BaseUnitTest {
 
 	@Test
 	public void testAvarb() {
-		add("a=1");
-		add("f(var)=?");
-		add("b=2");
+		withGeos("a", "f(var)", "b");
 		shouldReparseAs("avarb", "a var b");
 	}
 
 	@Test
 	public void testFunctionalVarVar() {
-		add("f(var)=?");
+		withGeos("f(var)");
 		shouldReparseAs("varvar", "var var");
 	}
 
 	@Test
 	public void testNFunctionalUV() {
-		add("f(u, v)=?");
+		withGeos("f(u, v)");
 		shouldReparseAs("uv", "u v");
 		shouldReparseAs("vu", "v u");
 	}
 
 	@Test
 	public void testPir() {
-		add("r=2");
+		withGeos("r");
 		shouldReparseAs("pir^(2)", Unicode.PI_STRING + " r" + Unicode.SUPERSCRIPT_2);
 	}
 
 	@Test
 	public void testXPlusBs() {
-		add("b=1");
+		withGeos("b");
 		shouldReparseAs("x+bb", "x + b b");
 		shouldReparseAs("x+bbb", "x + b b b");
 		shouldReparseAs("x+bbbb", "x + b b b b");
@@ -75,9 +67,7 @@ public class ProductParserTest extends BaseUnitTest {
 
 	@Test
 	public void testAkka() {
-		add("a=?");
-		add("k=?");
-		add("aa(x,y)=?");
+		withGeos("a", "k", "aa(x, y)");
 		shouldReparseAs("kk", "k k");
 		shouldReparseAs("kkk", "k k k");
 		shouldReparseAs("kkkk", "k k k k");
@@ -91,7 +81,6 @@ public class ProductParserTest extends BaseUnitTest {
 		shouldReparseAs("21xarctanx", "21x atand(x)");
 	}
 
-//	@Ignore
 	@Test
 	public void testCost7() {
 		shouldReparseAs("-tcos7t/7", "(-(t cos(7t))) / 7");
@@ -106,18 +95,11 @@ public class ProductParserTest extends BaseUnitTest {
 	public void testLnX() {
 		shouldReparseAs("xlnx", "x ln(x)");
 		shouldReparseAs("xln2x", "x ln(2x)");
-//		shouldReparseAs("xln2xabc", "x ln(2x a b c)");
 	}
 
  	@Test
 	public void testC_2Index() {
 		shouldReparseAs("c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7x)");
-	}
-
-	@Ignore
-	@Test
-	public void testsina() {
-		shouldReparseAs("sina", "sin(a)");
 	}
 
 	@Test
@@ -149,12 +131,6 @@ public class ProductParserTest extends BaseUnitTest {
 	@Test
 	public void testiSqrt() {
 		shouldReparseAs("isqrt5", Unicode.IMAGINARY + " sqrt(5)");
-	}
-
-	private void withGeos(String... geos) {
-		for (String string: geos) {
-			add(string + "=?");
-		}
 	}
 
 	@Test

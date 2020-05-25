@@ -826,7 +826,7 @@ public class AlgebraProcessor {
 		} catch (TokenMgrError e) {
 			// Sometimes TokenManagerError comes from parser
 			ErrorHelper.handleException(new Exception(e), app, handler);
-		}
+ 		}
 		if (callback0 != null) {
 			callback0.callback(null);
 		}

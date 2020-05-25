@@ -259,7 +259,7 @@ public class VariableReplacerAlgorithm {
 		}
 
 		if (ret == null) {
-			ret =  productCreator.getProduct(nameNoX);
+			ret = productCreator.getProduct(nameNoX);
 		}
 		return ret;
 }

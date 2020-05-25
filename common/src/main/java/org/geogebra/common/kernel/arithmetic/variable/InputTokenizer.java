@@ -1,14 +1,12 @@
 package org.geogebra.common.kernel.arithmetic.variable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -21,17 +19,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class InputTokenizer {
 	public static final String IMAGINARY_STRING = Unicode.IMAGINARY + "";
 	private final List<String> varStrings;
-	private Kernel kernel;
+	private final Kernel kernel;
 	private String input;
-
-	/**
-	 *
-	 * @param input to tokenize.
-	 */
-	public InputTokenizer(String input) {
-		this.input = input;
-		varStrings = Collections.emptyList();
-	}
 
 	/**
 	 *
@@ -45,28 +34,14 @@ public class InputTokenizer {
 	}
 
 	private List<String> getVarStrings() {
-		if (kernel == null || kernel.getConstruction() == null
-				||	kernel.getConstruction().getGeoSetConstructionOrder() == null) {
+
+		if (kernel == null || kernel.getConstruction() == null) {
 			return Collections.emptyList();
 		}
 
-		ArrayList<String> list = new ArrayList<>();
-		for (GeoElement geo : kernel.getConstruction().getGeoSetConstructionOrder()) {
-			for (FunctionVariable variable : getFunctionVariables(geo)) {
-				list.add(variable.getSetVarString());
-			}
-		}
-		return list;
-	}
-
-	private FunctionVariable[] getFunctionVariables(GeoElement geo) {
-		if (geo.isGeoFunction()) {
-			return ((GeoFunction) geo).getFunctionVariables();
-		}
-		if (geo.isGeoFunctionNVar()) {
-			return ((GeoFunctionNVar) geo) .getFunctionVariables();
-		}
-		return new FunctionVariable[0];
+		String[] variables =
+				kernel.getConstruction().getRegisteredFunctionVariables();
+		return variables != null ? Arrays.asList(variables) : Collections.<String>emptyList();
 	}
 
 	/**
@@ -133,10 +108,6 @@ public class InputTokenizer {
 
 		if (isIndexNext()) {
 			return getTokenWithIndex();
-		}
-
-		if (isExponentialNext()) {
-			return getTokenWithExponential();
 		}
 
 		return "";
@@ -235,10 +206,6 @@ public class InputTokenizer {
 
 	private boolean isIndexNext() {
 		return nextChar() == '_';
-	}
-
-	private boolean isExponentialNext() {
-		return "^(".equals(input.substring(1, 3));
 	}
 
 	private String getTokenWithExponential() {

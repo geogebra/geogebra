@@ -35,7 +35,7 @@ class ProductCreator {
 			return product(label.charAt(0) + "'",
 					label.charAt(2) + "'");
 
-		}  else if (length == 2) {
+		} else if (length == 2) {
 			return product(label.charAt(0) + "",
 					label.charAt(1) + "");
 
