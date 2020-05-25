@@ -34,7 +34,6 @@ public class InputTokenizer {
 	}
 
 	private List<String> getVarStrings() {
-
 		if (kernel == null || kernel.getConstruction() == null) {
 			return Collections.emptyList();
 		}
