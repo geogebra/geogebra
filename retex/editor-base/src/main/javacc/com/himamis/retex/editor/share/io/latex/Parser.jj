@@ -100,6 +100,7 @@ PARSER_END(Parser)
 	| < LIM_EQ : "$limeq" >
 	| < ABS : "abs" >
 	| < PROD_EQ : "$prodeq" >
+	| < SUM_EQ : "$sumeq" >
 	| < COMMA : "," >
 	| < SPACE : " " >
 	| < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
@@ -128,15 +129,13 @@ void mathContainer(MathContainer currentField) : {}
 	|
 		nroot(currentField)
 	|
-		defint(currentField)
+		defintSumProduct(currentField)
 	|
 		log(currentField)
 	|
 		limeq(currentField)
 	|
 		abs(currentField)
-	|
-		prodeq(currentField)
 	|
 		arrayParantheses(currentField)
 	|
@@ -292,10 +291,12 @@ void nroot(MathContainer currentField) : {}
 	} <PARANTHESES_CLOSE>
 }
 
-void defint(MathContainer currentField) : {}
+void defintSumProduct(MathContainer currentField) : {
+	Token symbol;
+}
 {
-	<DEF_INT> <PARANTHESES_OPEN> {
-		MathFunction defint = new MathFunction(metaModel.getGeneral(Tag.DEF_INT));
+	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ>) <PARANTHESES_OPEN> {
+		MathFunction defint = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
 		MathSequence param0 = new MathSequence();
 		mathContainer(param0);
 	} <COMMA> {
@@ -345,21 +346,6 @@ void abs(MathContainer currentField) : { }
 		mathContainer(param1);
 		abs.setArgument(0, param1);
 		currentField.addArgument(abs);
-	} <PARANTHESES_CLOSE>
-}
-
-void prodeq(MathContainer currentField) : { }
-{
-	<PROD_EQ> <PARANTHESES_OPEN> {
-		 MathFunction prodeq = new MathFunction(metaModel.getGeneral(Tag.PROD_EQ));
-		 MathSequence param0 = new MathSequence();
-		 mathContainer(param0);
-	} <COMMA> {
-		 MathSequence param1 = new MathSequence();
-		 mathContainer(param1);
-		 prodeq.setArgument(0, param0);
-		 prodeq.setArgument(1, param1);
-		 currentField.addArgument(prodeq);
 	} <PARANTHESES_CLOSE>
 }
 

@@ -93,7 +93,7 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addConstantInputCommandButton(row, buttonFactory, Resource.DEFINITE_INTEGRAL,
 				"$defint", 1.0f);
 		addConstantInputCommandButton(row, buttonFactory, Resource.SUM,
-				"Sum", 1.0f);
+				"$sumeq", 1.0f);
 		addConstantInputCommandButton(row, buttonFactory, Resource.PRODUCT,
 				"$prodeq", 1.0f);
 		addConstantInputCommandButton(row, buttonFactory, Resource.LIM,

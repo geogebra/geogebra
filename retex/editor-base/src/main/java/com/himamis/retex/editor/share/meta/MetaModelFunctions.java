@@ -99,6 +99,11 @@ class MetaModelFunctions {
 						createParameterUp(1), createParameterDown(0)
 		}));
 
+		functions.add(createFunctionInsert(Tag.SUM_EQ, "\\sum", 2,
+				new MetaParameter[] {
+						createParameterUp(1), createParameterDown(0)
+		}));
+
 		functions.add(createFunction(Tag.ABS));
 		functions.add(createFunction(Tag.FLOOR));
 		functions.add(createFunction(Tag.CEIL));

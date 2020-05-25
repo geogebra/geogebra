@@ -57,7 +57,8 @@ public class GeoFormulaTest extends BaseUnitTest {
 	@Test
 	public void definiteIntegral() {
 		equationEditor.setContent("$defint(0,1)xdx");
-		assertEquals("\\int_0^1{}xdx", equationEditor.toValueString(StringTemplate.latexTemplate));
+		assertEquals("\\int_0^1{}xdx",
+				equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 
 	@Test
@@ -71,6 +72,13 @@ public class GeoFormulaTest extends BaseUnitTest {
 	public void product() {
 		equationEditor.setContent("$prodeq(i=1,10)x_{i}");
 		assertEquals("\\prod\\nolimits_{i\\,=\\,1}^{10}{}x_{i}",
+				equationEditor.toValueString(StringTemplate.latexTemplate));
+	}
+
+	@Test
+	public void sum() {
+		equationEditor.setContent("$sumeq(i=0,10)i");
+		assertEquals("\\sum\\nolimits_{i\\,=\\,0}^{10}{}i",
 				equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 }
