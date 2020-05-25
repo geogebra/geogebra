@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 
@@ -139,11 +140,6 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public boolean hasScientificKeyboard() {
-		return false;
-	}
-
-	@Override
 	public boolean isEnableStructures() {
 		return true;
 	}
@@ -253,6 +249,11 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public boolean isObjectDraggingRestricted() {
 		return true;
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.GRAPHING;
 	}
 
 	@Override

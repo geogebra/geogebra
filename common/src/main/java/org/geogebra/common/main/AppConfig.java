@@ -83,11 +83,6 @@ public interface AppConfig {
 	String getForcedPerspective();
 
 	/**
-	 * @return whether to use scientific keyboard layout
-	 */
-	boolean hasScientificKeyboard();
-
-	/**
 	 * @return whether match structures (functions, equations, vectors) are
 	 *         enabled
 	 */
@@ -252,5 +247,10 @@ public interface AppConfig {
 	 * @return whether the apps uses restricted dragging for certain objects or not
 	 */
 	boolean isObjectDraggingRestricted();
+
+	/**
+	 * @return type of keyboard based on the app
+	 */
+	AppKeyboardType getKeyboardType();
 }
 
