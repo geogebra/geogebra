@@ -7,9 +7,20 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.junit.Before;
 import org.junit.Test;
 
 public class GeoFormulaTest extends BaseUnitTest {
+
+	private Construction cons;
+	private GeoFormula equationEditor;
+
+	@Before
+	public void setupTest() {
+		cons = getApp().getKernel().getConstruction();
+		equationEditor = new GeoFormula(cons, null);
+	}
 
 	@Test
 	public void formulaCorrectlySavedAndLoaded() {
@@ -19,8 +30,6 @@ public class GeoFormulaTest extends BaseUnitTest {
 		final int height = 1956;
 		final double angle = 2.7182;
 		final String content = "e^(i*pi)+1=1";
-
-		Construction cons = getApp().getKernel().getConstruction();
 
 		GPoint2D startPoint = new GPoint2D(x, y);
 
@@ -43,5 +52,11 @@ public class GeoFormulaTest extends BaseUnitTest {
 		assertEquals(height, loadedFormula.getHeight(), Kernel.MAX_PRECISION);
 		assertEquals(angle, loadedFormula.getAngle(), Kernel.MAX_PRECISION);
 		assertEquals(content, loadedFormula.getContent());
+	}
+
+	@Test
+	public void definiteIntegral() {
+		equationEditor.setContent("$defint(0,1)xdx");
+		assertEquals("\\int_0^1{}xdx", equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
 }

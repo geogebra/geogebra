@@ -69,7 +69,7 @@ public class Parser {
 PARSER_END(Parser)
 
 <DEFAULT> SKIP : {
-     "\r"
+	 "\r"
    | "\t"
    | "\n"
 }
@@ -95,6 +95,7 @@ PARSER_END(Parser)
 	| < QUOTE_START : "\""> : IN_QUOTE
 	| < SQRT : "sqrt" >
 	| < NROOT : "nroot" >
+	| < DEF_INT : "$defint" >
 	| < LOG : "log" >
 	| < ABS : "abs" >
 	| < COMMA : "," >
@@ -124,6 +125,8 @@ void mathContainer(MathContainer currentField) : {}
 		sqrt(currentField)
 	|
 		nroot(currentField)
+	|
+		defint(currentField)
 	|
 		log(currentField)
 	|
@@ -280,6 +283,21 @@ void nroot(MathContainer currentField) : {}
 		nroot.setArgument(1, param1);
 		nroot.setArgument(0, param2);
 		currentField.addArgument(nroot);
+	} <PARANTHESES_CLOSE>
+}
+
+void defint(MathContainer currentField) : {}
+{
+	<DEF_INT> <PARANTHESES_OPEN> {
+		MathFunction defint = new MathFunction(metaModel.getGeneral(Tag.DEF_INT));
+		MathSequence param0 = new MathSequence();
+		mathContainer(param0);
+	} <COMMA> {
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+		defint.setArgument(0, param0);
+		defint.setArgument(1, param1);
+		currentField.addArgument(defint);
 	} <PARANTHESES_CLOSE>
 }
 

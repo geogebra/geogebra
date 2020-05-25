@@ -33,6 +33,8 @@ public enum Tag {
 
 	INT("int"),
 
+	DEF_INT("$defint"),
+
 	LIM("lim"),
 
 	APPLY,

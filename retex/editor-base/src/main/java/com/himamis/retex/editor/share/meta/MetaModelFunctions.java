@@ -76,6 +76,12 @@ class MetaModelFunctions {
 								MetaParameter.BASIC, MetaParameter.BASIC
         }));
 
+		functions.add(
+				createFunctionInsert(Tag.DEF_INT, "\\int", 2,
+						new MetaParameter[] {
+								createParameterUp(1), createParameterDown(0)
+		}));
+
 		functions
 				.add(createFunctionInsert(Tag.LIM, "\\lim", 2,
 						new MetaParameter[] {

@@ -233,6 +233,14 @@ public class TeXSerializer extends SerializerAdapter {
 			}
 			stringBuilder.append('}');
 			break;
+		case DEF_INT:
+			stringBuilder.append(function.getTexName());
+			stringBuilder.append('_');
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append('^');
+			serialize(function.getArgument(1), stringBuilder);
+			stringBuilder.append("{}");
+			break;
 		case LIM:
 			// lim not implemented in jmathtex
 			stringBuilder.append("\\lim_{");
