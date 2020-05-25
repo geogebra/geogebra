@@ -95,12 +95,13 @@ PARSER_END(Parser)
 	| < QUOTE_START : "\""> : IN_QUOTE
 	| < SQRT : "sqrt" >
 	| < NROOT : "nroot" >
-	| < DEF_INT : "$defint" >
 	| < LOG : "log" >
-	| < LIM_EQ : "$limeq" >
 	| < ABS : "abs" >
+	| < DEF_INT : "$defint" >
 	| < PROD_EQ : "$prodeq" >
 	| < SUM_EQ : "$sumeq" >
+	| < LIM_EQ : "$limeq" >
+	| < VEC : "$vec" >
 	| < COMMA : "," >
 	| < SPACE : " " >
 	| < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
@@ -129,11 +130,13 @@ void mathContainer(MathContainer currentField) : {}
 	|
 		nroot(currentField)
 	|
-		defintSumProduct(currentField)
-	|
 		log(currentField)
 	|
+		defintSumProduct(currentField)
+	|
 		limeq(currentField)
+	|
+		vec(currentField)
 	|
 		abs(currentField)
 	|
@@ -346,6 +349,17 @@ void abs(MathContainer currentField) : { }
 		mathContainer(param1);
 		abs.setArgument(0, param1);
 		currentField.addArgument(abs);
+	} <PARANTHESES_CLOSE>
+}
+
+void vec(MathContainer currentField) : { }
+{
+	<VEC> <PARANTHESES_OPEN> {
+		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.VEC));
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+		vec.setArgument(0, param1);
+		currentField.addArgument(vec);
 	} <PARANTHESES_CLOSE>
 }
 

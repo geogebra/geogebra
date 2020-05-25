@@ -292,6 +292,11 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("}");
 			serializeArguments(stringBuilder, function, 1);
 			break;
+		case VEC:
+			stringBuilder.append("\\overrightarrow{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("}");
+			break;
 		default:
 			stringBuilder.append("{\\mathrm{");
 			stringBuilder.append(function.getTexName());

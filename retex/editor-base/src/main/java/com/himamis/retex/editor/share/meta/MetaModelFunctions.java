@@ -104,6 +104,10 @@ class MetaModelFunctions {
 						createParameterUp(1), createParameterDown(0)
 		}));
 
+		functions.add(createFunction(Tag.VEC, "\\vec", new MetaParameter[] {
+				MetaParameter.BASIC
+		}));
+
 		functions.add(createFunction(Tag.ABS));
 		functions.add(createFunction(Tag.FLOOR));
 		functions.add(createFunction(Tag.CEIL));

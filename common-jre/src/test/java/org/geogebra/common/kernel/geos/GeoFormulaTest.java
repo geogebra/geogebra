@@ -81,4 +81,11 @@ public class GeoFormulaTest extends BaseUnitTest {
 		assertEquals("\\sum\\nolimits_{i\\,=\\,0}^{10}{}i",
 				equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
+
+	@Test
+	public void vector() {
+		equationEditor.setContent("$vec(AB)=b-a");
+		assertEquals("\\overrightarrow{AB}\\,=\\,b-a",
+				equationEditor.toValueString(StringTemplate.latexTemplate));
+	}
 }

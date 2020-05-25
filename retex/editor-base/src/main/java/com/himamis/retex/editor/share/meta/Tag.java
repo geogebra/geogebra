@@ -33,15 +33,17 @@ public enum Tag {
 
 	INT("int"),
 
-	DEF_INT("$defint"),
-
 	LIM("lim"),
+
+	DEF_INT("$defint"),
 
 	LIM_EQ("$limeq"),
 
 	PROD_EQ("$prodeq"),
 
 	SUM_EQ("$sumeq"),
+
+	VEC("$vec"),
 
 	APPLY,
 
