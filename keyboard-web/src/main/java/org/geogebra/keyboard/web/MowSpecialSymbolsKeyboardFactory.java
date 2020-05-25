@@ -97,7 +97,7 @@ public class MowSpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 		addConstantInputCommandButton(row, buttonFactory, Resource.PRODUCT,
 				"Product", 1.0f);
 		addConstantInputCommandButton(row, buttonFactory, Resource.LIM,
-				"Limit", 1.0f);
+				"$limeq", 1.0f);
 		addConstantInputCommandButton(row, buttonFactory, Resource.VECTOR,
 				"Vector", 1.0f);
 		addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW,

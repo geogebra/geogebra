@@ -59,4 +59,11 @@ public class GeoFormulaTest extends BaseUnitTest {
 		equationEditor.setContent("$defint(0,1)xdx");
 		assertEquals("\\int_0^1{}xdx", equationEditor.toValueString(StringTemplate.latexTemplate));
 	}
+
+	@Test
+	public void limes() {
+		equationEditor.setContent("$limeq(x→∞)x^(2)");
+		assertEquals("\\lim_{x\\rightarrow{}\\infty{}} x^{2}",
+				equationEditor.toValueString(StringTemplate.latexTemplate));
+	}
 }

@@ -37,6 +37,8 @@ public enum Tag {
 
 	LIM("lim"),
 
+	LIM_EQ("$limeq"),
+
 	APPLY,
 
 	ABS("abs"),

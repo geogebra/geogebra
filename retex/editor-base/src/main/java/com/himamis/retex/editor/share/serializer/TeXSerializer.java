@@ -255,6 +255,11 @@ public class TeXSerializer extends SerializerAdapter {
 					addBraces);
 			stringBuilder.append('}');
 			break;
+		case LIM_EQ:
+			stringBuilder.append("\\lim_{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("} ");
+			break;
 		case ABS:
 			stringBuilder.append("\\left|");
 			serialize(function.getArgument(0), stringBuilder);
