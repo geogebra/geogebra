@@ -59,6 +59,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -158,43 +159,47 @@ public class DialogManagerW extends DialogManager
 	 * @param json
 	 *            stored JSON
 	 */
-	public void showRecoverAutoSavedDialog(AppWFull app2, String json) {
-		if (this.autoSavedDialog == null) {
-			this.autoSavedDialog = new RecoverAutoSavedDialog(app2);
+	public void showRecoverAutoSavedDialog(AppWFull appW, String json) {
+		if (autoSavedDialog == null) {
+			DialogData data = new DialogData("RecoverUnsaved", "Delete", "Recover");
+			autoSavedDialog = new RecoverAutoSavedDialog(appW, data);
+			autoSavedDialog.setOnNegativeAction(() -> {
+				appW.getFileManager().deleteAutoSavedFile();
+				appW.startAutoSave();
+			});
+			autoSavedDialog.setOnPositiveAction(() -> {
+				appW.getFileManager().restoreAutoSavedFile(json);
+				appW.getFileManager().deleteAutoSavedFile();
+				appW.startAutoSave();
+			});
 		}
-		this.autoSavedDialog.setJSON(json);
-		this.autoSavedDialog.show();
+		autoSavedDialog.show();
 	}
 
 	@Override
 	public void showNumberInputDialogRegularPolygon(String title,
 			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2,
 			GeoCoordSys2D direction) {
-
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		InputDialogW id = new InputDialogRegularPolygonW(((AppW) app), ec,
 				title, handler, geoPoint1, geoPoint2, direction);
 		id.setVisible(true);
-
 	}
 
 	@Override
 	public void showNumberInputDialogCirclePointRadius(String title,
 			GeoPointND geoPoint1, EuclidianView view) {
-
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		InputDialogW id = new InputDialogCirclePointRadiusW(((AppW) app), title,
 				handler, (GeoPoint) geoPoint1, app.getKernel());
 		id.setVisible(true);
-
 	}
 
 	@Override
 	public void showAngleInputDialog(String title, String message,
 			String initText, AsyncOperation<GeoNumberValue> callback) {
-
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
@@ -217,8 +222,7 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void closeAll() {
-		// TODO Auto-generated method stub
-
+		// do nothing
 	}
 
 	@Override
@@ -574,10 +578,6 @@ public class DialogManagerW extends DialogManager
 	 * Update labels in the GUI.
 	 */
 	public void setLabels() {
-
-		// if (functionInspector != null)
-		// functionInspector.setLabels();
-
 		if (textInputDialog != null) {
 			((TextInputDialogW) textInputDialog).setLabels();
 		}
@@ -589,16 +589,6 @@ public class DialogManagerW extends DialogManager
 		if (imageDialog != null) {
 			imageDialog.setLabels();
 		}
-
-		if (this.autoSavedDialog != null) {
-			this.autoSavedDialog.setLabels();
-		}
-		// if (fileChooser != null)
-		// updateJavaUILanguage();
-
-		// if (dataSourceDialog != null)
-		// dataSourceDialog.setLabels();
-
 	}
 
 	/**

@@ -7,7 +7,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -87,12 +86,7 @@ public class WhatsNewDialog extends DialogBoxW implements FastClickHandler {
 		Anchor link = new Anchor();
 		link.setText(localization.getMenu("ReadMore"));
 		link.addStyleName(LINK_STYLE_NAME);
-		link.addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				app.showURLinBrowser(readMoreLink);
-			}
-		}, ClickEvent.getType());
+		link.addDomHandler(event -> app.showURLinBrowser(readMoreLink), ClickEvent.getType());
 
 		return link;
 	}
