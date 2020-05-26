@@ -23,20 +23,30 @@ public class AlgoHolesPolynomial extends AlgoElement {
 	private GeoFunction f; // input
 	private GeoList res;
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private boolean indcludesInfinite;
 
 	/**
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            output label
-	 * @param f
-	 *            function
+	 * @param cons construction
+	 * @param label output label
+	 * @param f function
 	 */
 	public AlgoHolesPolynomial(Construction cons, String label, GeoFunction f) {
+		this(cons, label, f, true);
+	}
+
+	/**
+	 * @param cons construction
+	 * @param label output label
+	 * @param f function
+	 * @param indcludesInfinite include infinite values
+	 */
+	public AlgoHolesPolynomial(Construction cons, String label,
+			GeoFunction f, boolean indcludesInfinite) {
 		super(cons);
 
 		this.f = f;
 		this.res = new GeoList(cons);
+		this.indcludesInfinite = indcludesInfinite;
 
 		setInputOutput();
 		compute();
@@ -85,7 +95,6 @@ public class AlgoHolesPolynomial extends AlgoElement {
 	}
 
 	private void solveDivision(ExpressionValue exp) {
-
 		StringBuilder sb = new StringBuilder("solve(");
 		sb.append(exp.toString(StringTemplate.prefixedDefault));
 		sb.append(" = 0)");
@@ -106,15 +115,18 @@ public class AlgoHolesPolynomial extends AlgoElement {
 				double below = limit(x, -1);
 
 				if (above == below) {
-					res.add(new GeoPoint(cons, x, above,
-							1.0));
+					add(x, above);
 				} else {
-					res.add(new GeoPoint(cons, x, below,
-							1.0));
-					res.add(new GeoPoint(cons, x, above,
-							1.0));
+					add(x, below);
+					add(x, above);
 				}
 			}
+		}
+	}
+
+	private void add(double x, double y) {
+		if (indcludesInfinite || !Double.isInfinite(y)) {
+			res.add(new GeoPoint(cons, x, y, 1.0));
 		}
 	}
 
@@ -138,6 +150,5 @@ public class AlgoHolesPolynomial extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlainDefault("HolesOfA", "Holes of %0",
 				f.getLabel(tpl));
-
 	}
 }
