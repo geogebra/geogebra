@@ -1629,11 +1629,10 @@ public abstract class GeoElement extends ConstructionElement
 			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
-		} else {
+		} else if (!(app.isApplet() && isLocked())) {
 			remove();
 			kernel.notifyRemoveGroup();
 		}
-
 	}
 
 	@Override
