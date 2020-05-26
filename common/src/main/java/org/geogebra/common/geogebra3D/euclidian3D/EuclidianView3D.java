@@ -314,7 +314,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	final public static float FROM_CM_TO_INCH = 0.393700787f;
 	private boolean arRatioIsShown = true;
 	private String arRatioUnit = "cm";
-	private int arRatioMetricSystem = EuclidianView3D.RATIO_UNIT_METERS_CENTIMETERS_MILLIMETERS;
+	private int arRatioMetricSystem;
 
 	/**
 	 * common constructor
