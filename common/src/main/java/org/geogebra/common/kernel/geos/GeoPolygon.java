@@ -565,10 +565,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public GeoSegmentND createSegment(Construction cons1, GeoPointND startPoint,
 			GeoPointND endPoint, boolean euclidianVisible) {
 
+		return createSegmentOwnDimension(cons1,startPoint,endPoint,euclidianVisible);
+	}
+
+	public GeoSegmentND createSegmentOwnDimension(Construction cons1, GeoPointND startPoint,
+			GeoPointND endPoint, boolean euclidianVisible) {
 		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons1,
 				(GeoPoint) startPoint, (GeoPoint) endPoint, this, false);
-		// cons.removeFromConstructionList(algoSegment);
-
 		return createSegment(algoSegment.getSegment(), euclidianVisible);
 	}
 

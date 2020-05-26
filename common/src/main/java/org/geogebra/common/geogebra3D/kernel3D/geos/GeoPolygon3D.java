@@ -162,10 +162,16 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		// if start and end points are both 2D, then use super method
 		if (!((GeoElement) startPoint).isGeoElement3D()
 				&& !((GeoElement) endPoint).isGeoElement3D()) {
-			return super.createSegment(cons1, startPoint, endPoint,
+			return super.createSegmentOwnDimension(cons1, startPoint, endPoint,
 					euclidianVisible);
 		}
 
+		return createSegmentOwnDimension(cons1,startPoint,endPoint,euclidianVisible);
+	}
+
+	@Override
+	public GeoSegmentND createSegmentOwnDimension(Construction cons1, GeoPointND startPoint,
+			GeoPointND endPoint, boolean euclidianVisible) {
 		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
 		cons.removeFromConstructionList(algoSegment);
