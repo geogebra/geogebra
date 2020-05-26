@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -160,13 +159,11 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			GeoPointND endPoint, boolean euclidianVisible) {
 
 		// if start and end points are both 2D, then use super method
-		if (!((GeoElement) startPoint).isGeoElement3D()
-				&& !((GeoElement) endPoint).isGeoElement3D()) {
+		if (!startPoint.isGeoElement3D() && !endPoint.isGeoElement3D()) {
 			return super.createSegmentOwnDimension(cons1, startPoint, endPoint,
 					euclidianVisible);
 		}
-
-		return createSegmentOwnDimension(cons1,startPoint,endPoint,euclidianVisible);
+		return createSegmentOwnDimension(cons1, startPoint, endPoint, euclidianVisible);
 	}
 
 	@Override
