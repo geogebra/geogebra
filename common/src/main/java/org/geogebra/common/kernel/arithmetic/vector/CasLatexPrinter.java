@@ -2,8 +2,8 @@ package org.geogebra.common.kernel.arithmetic.vector;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
-import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 import org.geogebra.common.kernel.printing.printer.Printer;
+import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
 class CasLatexPrinter implements Printer {
 

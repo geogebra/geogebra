@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.arithmetic.vector;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrinterMapBuilder;
 import org.geogebra.common.kernel.printing.printer.vector.VectorPrintingMode;
-
-import java.util.EnumMap;
-import java.util.Map;
 
 public class VectorPrinterMapBuilder2D implements VectorPrinterMapBuilder {
 

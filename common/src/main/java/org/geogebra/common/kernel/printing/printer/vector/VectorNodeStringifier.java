@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.printing.printer.vector;
 
+import java.util.Map;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -8,8 +10,6 @@ import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.kernel.printing.printer.expression.DefaultExpressionPrinter;
 import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 import org.geogebra.common.kernel.printing.printer.expression.ValueExpressionPrinter;
-
-import java.util.Map;
 
 /**
  * Delegate for printing the MyVecNode and MyVec3DNode objects.
