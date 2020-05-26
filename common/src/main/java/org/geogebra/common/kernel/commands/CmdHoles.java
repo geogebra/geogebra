@@ -32,8 +32,7 @@ public class CmdHoles extends CommandProcessor {
 			arg = resArgs(c);
 			ok[0] = arg[0].isGeoFunction();
 			if (ok[0]) {
-				return new GeoElement[] {
-						holes(c, (GeoFunction) arg[0]).toGeoElement() };
+				return holes((GeoFunction) arg[0]);
 			}
 			throw argErr(c, arg[0]);
 		default:
@@ -41,11 +40,8 @@ public class CmdHoles extends CommandProcessor {
 		}
 	}
 
-	final private GeoList holes(Command c, GeoFunction gf) {
-
-		AlgoHolesPolynomial algo = new AlgoHolesPolynomial(cons, c.getLabel(),
-				gf);
-		GeoList g = algo.getHolePoints();
-		return g;
+	private GeoElement[] holes(GeoFunction gf) {
+		AlgoHolesPolynomial algo = new AlgoHolesPolynomial(cons, gf);
+		return algo.getOutput();
 	}
 }

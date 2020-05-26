@@ -1,11 +1,15 @@
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -18,40 +22,35 @@ import org.geogebra.common.plugin.Operation;
 /**
  * Created by kh on 18.01.2018.
  */
-public class AlgoHolesPolynomial extends AlgoElement {
+public class AlgoHolesPolynomial extends AlgoElement implements UsesCAS {
 
 	private GeoFunction f; // input
-	private GeoList res;
+	private GeoPoint[] output;
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	private boolean indcludesInfinite;
 
 	/**
 	 * @param cons construction
-	 * @param label output label
 	 * @param f function
 	 */
-	public AlgoHolesPolynomial(Construction cons, String label, GeoFunction f) {
-		this(cons, label, f, true);
+	public AlgoHolesPolynomial(Construction cons, GeoFunction f) {
+		this(cons, f, true);
 	}
 
 	/**
 	 * @param cons construction
-	 * @param label output label
 	 * @param f function
 	 * @param indcludesInfinite include infinite values
 	 */
-	public AlgoHolesPolynomial(Construction cons, String label,
-			GeoFunction f, boolean indcludesInfinite) {
+	public AlgoHolesPolynomial(Construction cons, GeoFunction f, boolean indcludesInfinite) {
 		super(cons);
 
 		this.f = f;
-		this.res = new GeoList(cons);
 		this.indcludesInfinite = indcludesInfinite;
+		output = new GeoPoint[0];
 
 		setInputOutput();
 		compute();
-		res.setLabel(label);
-		res.setEuclidianVisible(true);
 	}
 
 	@Override
@@ -64,37 +63,34 @@ public class AlgoHolesPolynomial extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = f.toGeoElement();
-
-		setOnlyOutput(res);
+		setOutput(output);
 		setDependencies(); // done by AlgoElement
-	}
-
-	public GeoList getHolePoints() {
-		return res;
 	}
 
 	@Override
 	public void compute() {
 		Function fun = f.getFunction();
-		res.clear();
-		solveExpr(fun.getExpression());
+		List<GeoPoint> result = new ArrayList<>();
+		solveExpr(fun.getExpression(), result);
+		output = result.toArray(output);
+		setOutput(output);
 	}
 
-	private void solveExpr(ExpressionValue expr) {
+	private void solveExpr(ExpressionValue expr, List<GeoPoint> result) {
 		if (expr == null || expr.isConstant()) {
 			return;
 		}
 		if (expr.isExpressionNode()) {
 			ExpressionNode node = expr.wrap();
 			if (node.getOperation() == Operation.DIVIDE) {
-				solveDivision(node.getRight());
+				solveDivision(node.getRight(), result);
 			}
-			solveExpr(node.getLeft());
-			solveExpr(node.getRight());
+			solveExpr(node.getLeft(), result);
+			solveExpr(node.getRight(), result);
 		}
 	}
 
-	private void solveDivision(ExpressionValue exp) {
+	private void solveDivision(ExpressionValue exp, List<GeoPoint> result) {
 		StringBuilder sb = new StringBuilder("solve(");
 		sb.append(exp.toString(StringTemplate.prefixedDefault));
 		sb.append(" = 0)");
@@ -115,18 +111,20 @@ public class AlgoHolesPolynomial extends AlgoElement {
 				double below = limit(x, -1);
 
 				if (above == below) {
-					add(x, above);
+					add(x, above, result);
 				} else {
-					add(x, below);
-					add(x, above);
+					add(x, below, result);
+					add(x, above, result);
 				}
 			}
 		}
 	}
 
-	private void add(double x, double y) {
+	private void add(double x, double y, List<GeoPoint> result) {
 		if (indcludesInfinite || !Double.isInfinite(y)) {
-			res.add(new GeoPoint(cons, x, y, 1.0));
+			GeoPoint point = new GeoPoint(cons, x, y, 1.0);
+			point.setParentAlgorithm(this);
+			result.add(point);
 		}
 	}
 

@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.algos.AlgoRemovableDiscontinuity;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 public class CmdRemovableDiscontinuity extends CommandProcessor {
@@ -26,7 +25,7 @@ public class CmdRemovableDiscontinuity extends CommandProcessor {
 			GeoElement[] arg = resArgs(c);
 			GeoElement element = arg[0];
 			if (element.isGeoFunction()) {
-				return new GeoElement[]{removableDiscontinuity(c, (GeoFunction) element)};
+				return removableDiscontinuity((GeoFunction) element);
 			}
 			throw argErr(c, element);
 		default:
@@ -34,9 +33,8 @@ public class CmdRemovableDiscontinuity extends CommandProcessor {
 		}
 	}
 
-	private GeoList removableDiscontinuity(Command command, GeoFunction function) {
-		AlgoHolesPolynomial algo =
-				new AlgoRemovableDiscontinuity(cons, command.getLabel(), function);
-		return algo.getHolePoints();
+	private GeoElement[] removableDiscontinuity(GeoFunction function) {
+		AlgoHolesPolynomial algo = new AlgoRemovableDiscontinuity(cons, function);
+		return algo.getOutput();
 	}
 }
