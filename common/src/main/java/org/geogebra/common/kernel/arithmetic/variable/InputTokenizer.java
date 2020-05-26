@@ -155,7 +155,7 @@ public class InputTokenizer {
 
 		StringBuilder result = new StringBuilder();
 		int i = from;
-		while (StringUtil.isDigit(input.charAt(i))) {
+		while (i < input.length() && StringUtil.isDigit(input.charAt(i))) {
 			result.append(input.charAt(i));
 			i++;
 		}
@@ -225,6 +225,6 @@ public class InputTokenizer {
 	}
 
 	public static boolean isImaginaryUnit(String input) {
-		return IMAGINARY_STRING.equals(input);
+		return input.length() == 1 && input.charAt(0) == Unicode.IMAGINARY;
 	}
 }

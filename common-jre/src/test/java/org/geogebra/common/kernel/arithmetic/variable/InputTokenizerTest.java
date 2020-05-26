@@ -85,6 +85,14 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 	}
 
 	@Test
+	public void testVariableConstant() {
+		withGeos("a");
+		shouldBeSplitTo("aa21", "a", "a", "21");
+		shouldBeSplitTo("aa2", "a", "a", "2");
+		shouldBeSplitTo("a2", "a",  "2");
+	}
+
+	@Test
 	public void testMutliFunctionVars() {
 		withGeos("t(mul, var)");
 		shouldBeSplitTo("amulvarb", "a", "mul", "var", "b");
