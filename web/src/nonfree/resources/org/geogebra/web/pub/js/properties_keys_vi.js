@@ -756,6 +756,8 @@ __GGB__keysVar["vi"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Ma tr\u1eadn> ]",
     "Relation": "QuanH\u1ec7",
     "Relation.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <\u0110\u1ed1i t\u01b0\u1ee3ng> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "B\u1ecfRa",
     "Remove.Syntax": "[ <D\xe3y s\u1ed1>, <D\xe3y s\u1ed1> ]",
     "RemoveUndefined": "Xo\xe1\u0110\u1ed1iT\u01b0\u1ee3ngCh\u01b0a\u0110\u1ecbnhNgh\u0129a",

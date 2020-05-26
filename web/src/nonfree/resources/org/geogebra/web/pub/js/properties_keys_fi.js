@@ -756,6 +756,8 @@ __GGB__keysVar["fi"].command = {
     "ReducedRowEchelonForm.Syntax": "[ Matriisi ]",
     "Relation": "Suhde",
     "Relation.Syntax": "[ <Lista> ]\n[ <Objekti>, <Objekti> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Poista",
     "Remove.Syntax": "[ <Lista>, <Lista> ]",
     "RemoveUndefined": "PoistaM\xe4\xe4rittelem\xe4t\xf6n",

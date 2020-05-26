@@ -756,6 +756,8 @@ __GGB__keysVar["id"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matriks> ]",
     "Relation": "Relasi",
     "Relation.Syntax": "[ <Objek>, <Objek> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Hilangkan",
     "Remove.Syntax": "[ <Daftar>, <Daftar> ]",
     "RemoveUndefined": "HapusTakTerdefinisi",

@@ -756,6 +756,8 @@ __GGB__keysVar["gl"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matriz> ]",
     "Relation": "Relaci\xf3n",
     "Relation.Syntax": "[ <Lista> ]\n[ <Obxecto>, <Obxecto> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Borrar",
     "Remove.Syntax": "[ <Lista>, <Lista> ]",
     "RemoveUndefined": "EliminaIndefinidos",
