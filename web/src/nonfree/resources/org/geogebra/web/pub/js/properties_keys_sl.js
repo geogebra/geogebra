@@ -756,6 +756,8 @@ __GGB__keysVar["sl"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <matrika> ]",
     "Relation": "Relacija",
     "Relation.Syntax": "[ <seznam> ]\n[ <objekt>, <objekt> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Odstrani",
     "Remove.Syntax": "[ <seznam>, <seznam> ]",
     "RemoveUndefined": "OdstraniNedefinirane",

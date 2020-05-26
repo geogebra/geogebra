@@ -756,6 +756,8 @@ __GGB__keysVar["cs"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matice> ]",
     "Relation": "Vztah",
     "Relation.Syntax": "[ <Seznam> ]\n[ <Objekt>, <Objekt> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Odstranit",
     "Remove.Syntax": "[ <Seznam>, <Seznam> ]",
     "RemoveUndefined": "OdstranitNedefinovane",

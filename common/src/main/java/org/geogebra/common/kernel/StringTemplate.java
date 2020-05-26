@@ -2123,6 +2123,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	public String getOptionalSpace() {
+		return useOperatorWhitespace ? " " : "";
+	}
+
 	/**
 	 * @return space denoting multiplication
 	 */
@@ -3596,6 +3600,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "=";
 		}
 		return stringType == StringType.LATEX ? "\\, = \\," : " = ";
+	}
+
+	public boolean isLatex() {
+		return stringType.equals(StringType.LATEX);
 	}
 
 	public boolean isRad(ExpressionValue value) {

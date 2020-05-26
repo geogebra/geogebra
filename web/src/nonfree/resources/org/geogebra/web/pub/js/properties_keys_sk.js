@@ -756,6 +756,8 @@ __GGB__keysVar["sk"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matica> ]",
     "Relation": "Vz\u0165ah",
     "Relation.Syntax": "[ <Zoznam> ]\n[ <Objekt>, <Objekt> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "odstr\xe1ni\u0165",
     "Remove.Syntax": "[ <Zoznam>, <Zoznam> ]",
     "RemoveUndefined": "Odstr\xe1ni\u0165Nedefinovan\xe9",

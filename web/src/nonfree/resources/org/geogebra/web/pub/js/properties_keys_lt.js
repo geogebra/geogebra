@@ -756,6 +756,8 @@ __GGB__keysVar["lt"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matrica> ]",
     "Relation": "Santykis",
     "Relation.Syntax": "[ <Objektas>, <Objektas> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "I\u0161trinti",
     "Remove.Syntax": "[ <S\u0105ra\u0161as>, <S\u0105ra\u0161as> ]",
     "RemoveUndefined": "I\u0161trintiNeapibr\u0117\u017etus",

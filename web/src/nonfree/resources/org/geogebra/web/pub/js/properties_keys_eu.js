@@ -756,6 +756,8 @@ __GGB__keysVar["eu"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matrizea> ]",
     "Relation": "Erlazioa",
     "Relation.Syntax": "[ <Zerrenda> ]\n[ <Objektua>, <Objektua> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Kendu",
     "Remove.Syntax": "[ <Zerrenda>, <Zerrenda> ]",
     "RemoveUndefined": "KenduDefinitugabea",

@@ -1602,10 +1602,10 @@ public class GeoCasCell extends GeoElement
 				ExpressionValue ve = outputVE.unwrap();
 				if (ve instanceof MyVecNode) {
 					MyVecNode node = (MyVecNode) ve;
-					node.setCASVector();
+					node.setupCASVector();
 				} else if (ve instanceof MyVec3DNode) {
 					MyVec3DNode node3d = (MyVec3DNode) ve;
-					node3d.setCASVector();
+					node3d.setupCASVector();
 				}
 			}
 		}

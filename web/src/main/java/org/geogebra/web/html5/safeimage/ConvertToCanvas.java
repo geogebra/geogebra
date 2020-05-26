@@ -18,8 +18,9 @@ public class ConvertToCanvas implements ImagePreprocessor {
 
 	@Override
 	public boolean match(FileExtensions extension) {
-		return extension.isAllowedImage()
-				&& !extension.equals(FileExtensions.SVG);
+		return FileExtensions.PNG.equals(extension)
+				|| FileExtensions.JPG.equals(extension)
+				|| FileExtensions.JPEG.equals(extension);
 	}
 
 	@Override

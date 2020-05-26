@@ -46,6 +46,7 @@ import org.geogebra.common.main.SpreadsheetTableModelSimple;
 import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.main.settings.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
@@ -749,6 +750,14 @@ public class AppCommon extends App {
 	 */
 	public void setGeometryConfig() {
 		setConfig(new AppConfigGeometry());
+		reInit();
+	}
+
+	/**
+	 * Sets 3D config and reinitializes the app.
+	 */
+	public void set3dConfig() {
+		setConfig(new AppConfigGraphing3D());
 		reInit();
 	}
 
