@@ -183,7 +183,11 @@ public class MathFieldProcessing implements KeyboardListener {
 	@Override
 	public void ansPressed() {
 		if (lastItemProvider != null) {
-			insertString(lastItemProvider.getLastItem());
+			String lastItem =
+					getField().getText().isEmpty()
+							? lastItemProvider.getLastItem()
+							: lastItemProvider.getLastItemWithBrackets();
+			insertString(lastItem);
 		}
 	}
 

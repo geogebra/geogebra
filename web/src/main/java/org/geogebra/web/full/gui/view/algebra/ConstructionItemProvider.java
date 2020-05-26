@@ -39,6 +39,11 @@ public final class ConstructionItemProvider implements HasLastItem {
 		return convertToString(element);
 	}
 
+	@Override
+	public String getLastItemWithBrackets() {
+		return "(" + getLastItem() + ")";
+	}
+
 	private String convertToString(GeoElement element) {
 		if (element != null) {
 			return converter.convert(element);

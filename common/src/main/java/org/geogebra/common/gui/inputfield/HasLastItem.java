@@ -7,4 +7,9 @@ public interface HasLastItem {
 	 */
 	String getLastItem();
 
+	/**
+	 * @return last output between brackets as string
+	 */
+	String getLastItemWithBrackets();
+
 }
