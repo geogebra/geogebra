@@ -1,6 +1,5 @@
 package org.geogebra.web.shared.components;
 
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -14,7 +13,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Base dialog material design component
@@ -87,17 +85,10 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 			return;
 		}
 
-		StandardButton negButton = new StandardButton(negTransKey, getApplication());
+		StandardButton negButton = new StandardButton(app.getLocalization().getMenu(negTransKey), getApplication());
 		negButton.setStyleName("dialogTextButton");
 
-		FastClickHandler negBtnClickHandler = new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				onNegativeAction();
-			}
-		};
-
-		negButton.addFastClickHandler(negBtnClickHandler);
+		negButton.addFastClickHandler( source -> onNegativeAction());
 		dialogButtonPanel.add(negButton);
 	}
 
@@ -106,17 +97,11 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 			return;
 		}
 
-		StandardButton posButton = new StandardButton(posTransKey, getApplication());
+		StandardButton posButton = new StandardButton(app.getLocalization().getMenu(posTransKey),
+				getApplication());
 		posButton.setStyleName("dialogContainedButton");
 
-		FastClickHandler posBtnClickHandler = new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				onPositiveAction();
-			}
-		};
-
-		posButton.addFastClickHandler(posBtnClickHandler);
+		posButton.addFastClickHandler( source -> onPositiveAction());
 		dialogButtonPanel.add(posButton);
 	}
 
