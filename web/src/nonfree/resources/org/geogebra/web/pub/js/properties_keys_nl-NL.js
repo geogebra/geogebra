@@ -756,6 +756,8 @@ __GGB__keysVar["nl-NL"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matrix> ]",
     "Relation": "Relatie",
     "Relation.Syntax": "[ <Object>, <Object> ]",
+    "RemovableDiscontinuity": "OphefbareContinu\xefteit",
+    "RemovableDiscontinuity.Syntax": "[ <Functie> ]",
     "Remove": "Schrap",
     "Remove.Syntax": "[ <Lijst>, <Lijst> ]",
     "RemoveUndefined": "VerwijderOngedefini\xeberd",

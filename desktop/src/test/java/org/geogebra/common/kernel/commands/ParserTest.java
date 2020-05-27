@@ -1,11 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -17,13 +13,14 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -33,8 +30,8 @@ public class ParserTest {
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
 
-	@BeforeClass
-	public static void setupCas() {
+	@Before
+	public void setupCas() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 		app.setLanguage(Locale.US);
 	}
@@ -107,13 +104,22 @@ public class ParserTest {
 	}
 
 	private static String reparse(String string, StringTemplate tpl) {
+		return reparse(app, string, tpl, false);
+	}
+
+	private static String reparse(App app, String string, StringTemplate tpl,
+								  boolean simplifiedMultiplication) {
 		String reparse1 = "";
 		try {
-			ValidExpression v1 = parseExpression(string);
+			ValidExpression v1 = parseExpression(app, string);
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
-			v1.resolveVariables(new EvalInfo(false));
+			EvalInfo info = simplifiedMultiplication
+					? new EvalInfo(false).withSimplifiedMultiplication()
+					: new EvalInfo(false);
+
+			v1.resolveVariables(info);
 			v1.wrap().replaceXYZnodes(xVar, yVar, zVar,
 					new ArrayList<ExpressionNode>());
 			app.getKernel().getConstruction().registerFunctionVariable(null);
@@ -289,6 +295,11 @@ public class ParserTest {
 		shouldReparseAs("(1,2) + 1,4", "(1, 2) + 1.4");
 	}
 
+	static void shouldReparseAs(App app, String string, String expected) {
+		Assert.assertEquals(expected,
+				reparse(app, string, StringTemplate.editTemplate, true));
+	}
+
 	private static void shouldReparseAs(String string, String expected) {
 		Assert.assertEquals(expected,
 				reparse(string, StringTemplate.editTemplate));
@@ -336,7 +347,11 @@ public class ParserTest {
 
 	private static ValidExpression parseExpression(String string)
 			throws ParseException {
-		return app.getKernel().getParser().parseGeoGebraExpression(string);
+		return parseExpression(app, string);
 	}
 
+	private static ValidExpression parseExpression(App app, String string)
+			throws ParseException {
+		return app.getKernel().getParser().parseGeoGebraExpression(string);
+	}
 }

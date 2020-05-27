@@ -756,6 +756,8 @@ __GGB__keysVar["hi"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <\u0906\u0935\u094d\u092f\u0941\u0939> ]",
     "Relation": "\u0938\u0902\u092c\u0902\u0927",
     "Relation.Syntax": "[ <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f\u094d>, <\u0911\u092c\u094d\u091c\u0947\u0915\u094d\u091f\u094d> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "\u0930\u093f\u092e\u0942\u0935",
     "Remove.Syntax": "[ <\u0938\u0942\u091a\u093f>, <\u0938\u0942\u091a\u093f> ]",
     "RemoveUndefined": "\u0905\u092a\u0930\u093f\u092d\u093e\u0937\u093f\u0924\u0928\u093f\u0915\u093e\u0932\u0947\u0902",

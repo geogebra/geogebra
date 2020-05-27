@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
@@ -7,9 +10,6 @@ import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.StringTemplate;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GeoVector3DTest extends BaseUnitTest {
 

@@ -756,6 +756,8 @@ __GGB__keysVar["sq"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matrice> ]",
     "Relation": "Marredhenie",
     "Relation.Syntax": "[ <Objekt>, <Objekt> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Remove",
     "Remove.Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "LargotePapercaktuaren",
