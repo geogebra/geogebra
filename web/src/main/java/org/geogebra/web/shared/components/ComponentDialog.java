@@ -25,7 +25,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	private Runnable negativeAction;
 
 	/**
-	 * based dialog constructor
+	 * base dialog constructor
 	 * @param app - see {@link AppW}
 	 * @param dialogData - contains trans keys for title and buttons
 	 * @param autoHide - if the dialog should be closed on click outside
