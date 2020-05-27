@@ -5,6 +5,7 @@ import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_NAME;
 import static org.geogebra.common.kernel.kernelND.GeoElementND.LABEL_VALUE;
 
 import org.geogebra.common.gui.view.algebra.fiter.FunctionAndEquationFilter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.util.ToStringConverter;
@@ -42,7 +43,7 @@ public class ProtectiveLabelDescriptionConverter implements ToStringConverter<Ge
 				caption = element.getDefinition(element.getLabelStringTemplate());
 				break;
 			default:
-				caption = element.getNameAndDefinition();
+				caption = element.getNameAndDefinition(StringTemplate.editTemplate);
 		}
 		return caption.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : caption;
 	}

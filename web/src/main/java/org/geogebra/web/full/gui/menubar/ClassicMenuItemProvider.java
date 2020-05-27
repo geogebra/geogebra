@@ -7,7 +7,7 @@ import org.geogebra.web.html5.main.AppW;
 /**
  * Menu item provider for Classic
  */
-public class ClassicMenuItemProvider implements MainMenuItemProvider {
+public class ClassicMenuItemProvider {
 
 	private AppW app;
 
@@ -19,7 +19,9 @@ public class ClassicMenuItemProvider implements MainMenuItemProvider {
 		this.app = app;
 	}
 
-	@Override
+	/**
+	 * @param menus list of menus
+	 */
 	public void addMenus(ArrayList<Submenu> menus) {
 		boolean exam = app.isExam();
 		if (app.enableFileFeatures()) {
@@ -37,10 +39,4 @@ public class ClassicMenuItemProvider implements MainMenuItemProvider {
 			menus.add(new HelpMenuW(app));
 		}
 	}
-
-	@Override
-	public boolean hasSigninMenu() {
-		return true;
-	}
-
 }

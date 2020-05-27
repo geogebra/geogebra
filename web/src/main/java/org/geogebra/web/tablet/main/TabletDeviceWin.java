@@ -44,13 +44,6 @@ public class TabletDeviceWin extends TouchDevice {
 		return bg;
 	}
 
-	@Override
-	protected native void nativeShare(String base64, String title)/*-{
-		if ($wnd.android) {
-			$wnd.android.share(base64, title, 'png');
-		}
-	}-*/;
-
 	/**
 	 * @param bg
 	 *            browse GUI

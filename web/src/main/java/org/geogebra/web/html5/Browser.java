@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.util.GlobalFunctions;
 import org.geogebra.web.html5.webcam.WebCamAPI;
 
 import com.google.gwt.core.client.GWT;
@@ -16,6 +15,9 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.Window.Navigator;
+
+import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
 
 public class Browser {
 	private static boolean webWorkerSupported = false;
@@ -390,8 +392,8 @@ public class Browser {
 	public static String encodeSVG(String svg) {
 		// can't use data:image/svg+xml;utf8 in IE11 / Edge
 		// so encode as Base64
-		return StringUtil.svgMarker + GlobalFunctions.btoa(
-				GlobalFunctions.unescape(URL.encodePathSegment(svg)));
+		return StringUtil.svgMarker + DomGlobal.btoa(
+				Global.unescape(URL.encodePathSegment(svg)));
 	}
 
 	public static native String encodeURIComponent(String txt) /*-{

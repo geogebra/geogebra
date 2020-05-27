@@ -1249,7 +1249,8 @@ public abstract class AlgoElement extends ConstructionElement
 			sbAE.append(getInput(0).getLabel(tpl));
 		}
 		for (int i = 1; i < length; ++i) {
-			sbAE.append(", ");
+			sbAE.append(",");
+			tpl.appendOptionalSpace(sbAE);
 			appendCheckVector(sbAE, getInput(i), tpl);
 		}
 
@@ -1713,7 +1714,13 @@ public abstract class AlgoElement extends ConstructionElement
 		return isPrintedInXML;
 	}
 
-	@Override
+	/**
+	 * Returns string representation of this element
+	 *
+	 * @param tpl
+	 *            string template
+	 * @return e.g. "A=(1,2)"
+	 */
 	public String toString(StringTemplate tpl) {
 		return getDefinition(tpl);
 	}

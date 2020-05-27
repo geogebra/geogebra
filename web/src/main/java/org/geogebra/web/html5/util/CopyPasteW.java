@@ -41,6 +41,11 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.storage.client.Storage;
 
+import elemental2.core.Global;
+import elemental2.dom.Blob;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.FileReader;
+
 public class CopyPasteW extends CopyPaste {
 
 	private static final String pastePrefix = "ggbpastedata";
@@ -290,9 +295,9 @@ public class CopyPasteW extends CopyPaste {
 	}-*/;
 
 	private static void saveToClipboard(String toSave) {
-		if (!Browser.isiOS()) {
-			String escapedContent = GlobalFunctions.escape(toSave);
-			String encoded = pastePrefix + GlobalFunctions.btoa(escapedContent);
+		if (!Browser.isiOS() || copyToExternalSupported()) {
+			String escapedContent = Global.escape(toSave);
+			String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
 			writeToExternalClipboard(encoded);
 		}
 		try {
@@ -301,6 +306,10 @@ public class CopyPasteW extends CopyPaste {
 			Log.debug("Quota exceeded");
 		}
 	}
+
+	private static native boolean copyToExternalSupported() /*-{
+		return !!($wnd.navigator.clipboard && $wnd.navigator.clipboard.write);
+	}-*/;
 
 	@Override
 	public native void pasteFromXML(App app)  /*-{
@@ -330,12 +339,12 @@ public class CopyPasteW extends CopyPaste {
 									data[i].getType('image/png').then(function(item) {
 										reader.readAsDataURL(item);
 									});
-								} else if (data[i].types[j] === 'text/plain') {
-									data[i].getType('text/plain').then(function(item) {
-										item.text().then(function(text) {
-											@org.geogebra.web.html5.util.CopyPasteW::pasteText(*)(app, text);
-										});
+								} else if (data[i].types[j] === 'text/plain'
+										|| data[i].types[j] === 'text/uri-list') {
+									data[i].getType(data[i].types[j]).then(function(item) {
+										@org.geogebra.web.html5.util.CopyPasteW::readBlob(*)(item, app);
 									});
+									return;
 								}
 							}
 						}
@@ -364,8 +373,8 @@ public class CopyPasteW extends CopyPaste {
 	@ExternalAccess
 	private static void pasteText(AppW app, String text) {
 		if (text.startsWith(pastePrefix)) {
-			String escapedContent = GlobalFunctions.atob(text.substring(pastePrefix.length()));
-			pasteGeoGebraXML(app, GlobalFunctions.unescape(escapedContent));
+			String escapedContent = DomGlobal.atob(text.substring(pastePrefix.length()));
+			pasteGeoGebraXML(app, Global.unescape(escapedContent));
 		} else {
 			pastePlainText(app, text);
 		}
@@ -590,38 +599,58 @@ public class CopyPasteW extends CopyPaste {
 		}
 	}
 
+	@ExternalAccess
+	private static void readBlob(Blob blob, AppW app) {
+		// in Chrome one could use blob.text().then(callback)
+		// but the FileReader code is also compatible with Safari 13.1
+		FileReader reader = new FileReader();
+		reader.addEventListener("loadend", evt -> {
+			if (reader.result != null) {
+				pasteText(app, reader.result.asString());
+			}
+		});
+		reader.readAsText(blob);
+	}
+
 	/**
 	 * Check if there is any readable content in the system clipboard (if supported),
 	 * or the internal clipboard (if not)
 	 */
 	public static native void checkClipboard(AsyncOperation<Boolean> callback) /*-{
-		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.readText) {
-			$wnd.navigator.permissions.query({
-				name: 'clipboard-read'
-			}).then(function(result) {
-				if (result.state === "granted") {
-					$wnd.navigator.clipboard.read().then(function(data) {
-						if (data.length === 0 || data[0].types.length === 0) {
-							callback.@org.geogebra.common.util.AsyncOperation::callback(*)(false);
-							return
-						}
+		if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.read) {
+			var onPermission = function() {
+				$wnd.navigator.clipboard.read().then(function(data) {
+					if (data.length === 0 || data[0].types.length === 0) {
+						callback.@org.geogebra.common.util.AsyncOperation::callback(*)(false);
+						return
+					}
 
-						if (data[0].types[0] === 'image/png') {
-							callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
-						} else if (data[0].types[0] === 'text/plain') {
-							data[0].getType('text/plain').then(function(item) {
-								item.text().then(function(text) {
-									callback.@org.geogebra.common.util.AsyncOperation::callback(*)(text !== "");
-								});
-							});
-						}
-					}, function() {
+					if (data[0].types[0] === 'image/png') {
 						callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
-					})
-				} else {
+					} else if (data[0].types[0] === 'text/plain') {
+						data[0].getType('text/plain').then(function(item) {
+							callback.@org.geogebra.common.util.AsyncOperation::callback(*)(item.size > 0);
+						});
+					}
+				}, function() {
 					callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
-				}
-			});
+				})
+			}
+			if ($wnd.navigator.permissions) {
+				$wnd.navigator.permissions.query({
+					name: 'clipboard-read'
+				}).then(function(result) {
+					if (result.state === "granted") {
+						onPermission();
+					} else {
+						callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
+					}
+				});
+			} else {
+				// Safari doesn't have navigator.permissions, checking content
+				// directly triggers an extra popup on Mac -> just assume we can paste
+				callback.@org.geogebra.common.util.AsyncOperation::callback(*)(true);
+			}
 		} else {
 			var pastePrefix = @org.geogebra.web.html5.util.CopyPasteW::pastePrefix;
 			var stored = $wnd.localStorage.getItem(pastePrefix);
