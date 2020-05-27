@@ -892,9 +892,19 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox.shareLink {
+	.dialogComponent.shareLink {
 		padding-bottom: 24px;
-		padding-right: 24px;
+		max-width: 510px;
+		max-height: 164px;
+
+        .dialogMainPanel {
+            height: calc(100% - 20px);
+        }
+
+        .dialogContent {
+            // no button panel
+            height: calc(100% - 40px);
+        }
 
 		>div>table {
 			padding-right: 0px;
@@ -910,7 +920,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.linkBox {
 				padding: 8px 0 8px 0;
 				margin: 0;
-			    border-bottom: 2px solid $teal-default !important;
+				border: none;
+				box-shadow: none;
+			    border-bottom: 2px solid $teal-default;
 			    border-radius: 0;
 			}
 			.linkBox::selection {
@@ -958,8 +970,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 				.gwt-Label {
 					color: $text-primary;
 					font-size: 100%;
-					margin-left: 12px;
-					margin-right: auto;
+					margin: 10px auto 0px 12px;
 					cursor: pointer;
 				}
 				&:hover {
@@ -1165,7 +1176,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox.shareLinkMebis {
+	.dialogComponent.shareLinkMebis {
 		@extend .shareLink;
 
 		padding: 24px 8px 0px 24px;
@@ -1174,7 +1185,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-right: 16px;
 
 			.linkBox {
-			    border-bottom: 2px solid $mow_dark !important;
+			    border-bottom: 2px solid $mow_dark;
 			}
 			.linkBox::selection {
   				background: rgba($mow_primary, 0.2)
@@ -1419,7 +1430,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					padding: 8px 0 8px 0;
 					margin: 0;
 					border-radius: 0;
-				    border-bottom: 2px solid $mow_dark !important;
+				    border-bottom: 2px solid $mow_dark;
 				}
 				.linkBox::selection {
 	  				background: rgba($mow_primary, 0.2);

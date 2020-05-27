@@ -10,6 +10,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -126,10 +127,12 @@ public class ShareControllerW implements ShareController {
 							null);
 					shareDialogMow.show();
 				} else {
-					shareDialog = new ShareLinkDialog(getAppW(),
+					DialogData data = new DialogData(app.isMebis() ? "shareByLink" : "Share",
+							null, null);
+					shareDialog = new ShareLinkDialog(getAppW(), data,
 							getAppW().getCurrentURL(sharingKey, true),
 							getAnchor());
-					shareDialog.setVisible(true);
+					shareDialog.show();
 					shareDialog.center();
 				}
 			}
