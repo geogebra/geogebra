@@ -100,7 +100,8 @@ public class InputBoxProcessor {
 		EvalInfo info = new EvalInfo(!kernel.getConstruction().isSuppressLabelsActive(),
 				false, false).withSliders(false)
 				.withNoRedefinitionAllowed().withPreventingTypeChange()
-				.withRedefinitionRule(createRedefinitionRule());
+				.withRedefinitionRule(createRedefinitionRule())
+				.withSimplifiedMultiplication();
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,

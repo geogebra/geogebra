@@ -756,6 +756,8 @@ __GGB__keysVar["eo"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matrico> ]",
     "Relation": "Rilato",
     "Relation.Syntax": "[ <Objekto>, <Objekto> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Remove",
     "Remove.Syntax": "[ <Listo>, <Listo> ]",
     "RemoveUndefined": "RemoveUndefined",

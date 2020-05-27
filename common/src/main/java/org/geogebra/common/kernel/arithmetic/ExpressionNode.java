@@ -462,7 +462,7 @@ public class ExpressionNode extends ValidExpression
 		// resolve left wing
 		if (left.isVariable()) {
 			left = ((Variable) left).resolveAsExpressionValue(
-					info.getSymbolicMode());
+					info.getSymbolicMode(), info.isSimplifiedMultiplication());
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
@@ -482,7 +482,7 @@ public class ExpressionNode extends ValidExpression
 		if (right != null) {
 			if (right.isVariable()) {
 				right = ((Variable) right).resolveAsExpressionValue(
-						info.getSymbolicMode());
+						info.getSymbolicMode(), info.isSimplifiedMultiplication());
 			} else {
 				right.resolveVariables(info);
 			}
@@ -1169,6 +1169,10 @@ public class ExpressionNode extends ValidExpression
 	public void setForceVector() {
 		// this expression should be considered as a vector, not a point
 		forceVector = true;
+		ExpressionValue value = unwrap();
+		if (value instanceof MyVecNDNode) {
+			((MyVecNDNode) value).setVectorPrintingMode();
+		}
 	}
 
 	/**

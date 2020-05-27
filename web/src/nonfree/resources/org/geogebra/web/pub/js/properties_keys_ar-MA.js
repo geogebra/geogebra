@@ -756,6 +756,8 @@ __GGB__keysVar["ar-MA"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <\u0645\u0635\u0641\u0648\u0641\u0629> ]",
     "Relation": "\u0639\u0644\u0627\u0642\u0629",
     "Relation.Syntax": "[ <\u0643\u0627\u0626\u0646>, <\u0643\u0627\u0626\u0646> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Remove",
     "Remove.Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "\u0623\u0632\u0644_\u0627\u0644\u063a\u064a\u0631_\u0645\u0639\u0631\u0641",

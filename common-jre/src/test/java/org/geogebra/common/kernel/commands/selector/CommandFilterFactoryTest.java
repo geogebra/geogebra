@@ -16,7 +16,7 @@ public class CommandFilterFactoryTest {
 			Commands.Ellipse, Commands.Focus, Commands.Hyperbola, Commands.Incircle,
 			Commands.LinearEccentricity, Commands.MajorAxis, Commands.MinorAxis,
 			Commands.Parabola, Commands.Parameter, Commands.Polar, Commands.SemiMajorAxisLength,
-			Commands.SemiMinorAxisLength, Commands.Semicircle, Commands.Length, Commands.Relation,
+			Commands.SemiMinorAxisLength, Commands.Semicircle, Commands.Relation,
 			Commands.AffineRatio, Commands.Arc, Commands.AreCollinear, Commands.AreConcurrent,
 			Commands.AreConcyclic, Commands.AreCongruent, Commands.AreEqual, Commands.AreParallel,
 			Commands.ArePerpendicular, Commands.Area, Commands.Barycenter, Commands.Centroid,

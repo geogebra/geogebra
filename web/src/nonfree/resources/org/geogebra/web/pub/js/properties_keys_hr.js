@@ -756,6 +756,8 @@ __GGB__keysVar["hr"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <matrica> ]",
     "Relation": "Veza",
     "Relation.Syntax": "[ <lista> ]\n[ <objekt>, <objekt> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Ukloni",
     "Remove.Syntax": "[ <lista>, <lista> ]",
     "RemoveUndefined": "UkloniNedefinirano",

@@ -756,6 +756,8 @@ __GGB__keysVar["fa"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matrix> ]",
     "Relation": "Relation",
     "Relation.Syntax": "[ <\u0644\u06cc\u0633\u062a> ]\n[ <\u0634\u06cc\u0621>, <\u0634\u06cc\u0621> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Remove",
     "Remove.Syntax": "[ <\u0644\u06cc\u0633\u062a>, <\u0644\u06cc\u0633\u062a> ]",
     "RemoveUndefined": "RemoveUndefined",

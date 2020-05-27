@@ -756,6 +756,8 @@ __GGB__keysVar["is"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Fylki> ]",
     "Relation": "Tengsl",
     "Relation.Syntax": "[ <Listi> ]\n[ <Hlutur>, <Hlutur> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Fjarl\xe6gja",
     "Remove.Syntax": "[ <Listi>, <Listi> ]",
     "RemoveUndefined": "Fjarl\xe6gja\xd3skilgreint",

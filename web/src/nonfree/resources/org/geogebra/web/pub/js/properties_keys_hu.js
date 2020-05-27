@@ -756,6 +756,8 @@ __GGB__keysVar["hu"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <M\xe1trix> ]",
     "Relation": "Kapcsolat",
     "Relation.Syntax": "[ <Lista> ]\n[ <Alakzat>, <Alakzat> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Elt\xe1vol\xedt\xe1s",
     "Remove.Syntax": "[ <Lista>, <Lista> ]",
     "RemoveUndefined": "NemDefini\xe1ltT\xf6rl\xe9se",

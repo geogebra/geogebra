@@ -756,6 +756,8 @@ __GGB__keysVar["cy"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matrics> ]",
     "Relation": "Perthynas",
     "Relation.Syntax": "[ <Gwrthrych>, <Gwrthrych> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Remove",
     "Remove.Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "Diddymu'rAnniffiniedig",
