@@ -13,7 +13,11 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("z_1", "sqrt(-1)", "sqrt("
 				+ Unicode.IMAGINARY + ")");
+		shouldBeUpdatedAs("z_1", "sqrt(11)", "sqrt(11)");
+		shouldBeUpdatedAs("z_1", "sqrt(   -1)", "sqrt("
+				+ Unicode.IMAGINARY + ")");
 	}
+
 
 	private void shouldBeUpdatedAs(String linkedGeo, String updatedText, String expected) {
 		GeoInputBox inputBox = addAvInput("ib = InputBox(" + linkedGeo + ")");

@@ -448,7 +448,9 @@ public class AlgebraProcessor {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
 			}
+
 			replaceDerivative(ve, geo);
+			replaceSqrtMinusOne(ve, geo);
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
@@ -466,6 +468,17 @@ public class AlgebraProcessor {
 			handler.showError(
 					loc.getInvalidInputError() + ":\n"
 							+ newValue);
+		}
+	}
+
+	private void replaceSqrtMinusOne(ValidExpression ve, GeoElementND geo) {
+		ExpressionNode node = ve.wrap();
+		ExpressionValue left = node.getLeft();
+		if (node.getOperation() == Operation.SQRT &&
+				left.isNumberValue() && left.isConstant()) {
+			if (left.evaluateDouble() == -1) {
+				node.setLeft(kernel.getImaginaryUnit());
+			}
 		}
 	}
 
