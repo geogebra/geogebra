@@ -36,7 +36,6 @@ public class ExportImageDialog extends ComponentDialog {
 	 */
 	public ExportImageDialog(AppW app, DialogData data, String base64Image) {
 		super(app, data, true, true);
-		addStyleName("GeoGebraPopup");
 		addStyleName("exportImgDialog");
 		if (base64Image != null) {
 			setPreviewImage(base64Image);
