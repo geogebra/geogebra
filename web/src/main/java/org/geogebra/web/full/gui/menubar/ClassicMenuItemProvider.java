@@ -19,6 +19,9 @@ public class ClassicMenuItemProvider {
 		this.app = app;
 	}
 
+	/**
+	 * @param menus list of menus
+	 */
 	public void addMenus(ArrayList<Submenu> menus) {
 		boolean exam = app.isExam();
 		if (app.enableFileFeatures()) {
