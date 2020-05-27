@@ -113,7 +113,6 @@ import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -140,8 +139,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
@@ -1132,7 +1129,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (autosavedMaterial != null && !isStartedWithFile() && getExam() == null) {
 			afterLocalizationLoaded(() -> {
 				getDialogManager().showRecoverAutoSavedDialog(
-						AppWFull.this, autosavedMaterial);
+						this, autosavedMaterial);
 				autosavedMaterial = null;
 			});
 		} else {
