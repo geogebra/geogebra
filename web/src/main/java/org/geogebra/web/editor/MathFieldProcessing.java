@@ -186,7 +186,7 @@ public class MathFieldProcessing implements KeyboardListener {
 			String lastItem =
 					getField().getText().isEmpty()
 							? lastItemProvider.getLastItem()
-							: lastItemProvider.getLastItemWithBrackets();
+							: lastItemProvider.getLastItemWithOptionalBrackets();
 			insertString(lastItem);
 		}
 	}
