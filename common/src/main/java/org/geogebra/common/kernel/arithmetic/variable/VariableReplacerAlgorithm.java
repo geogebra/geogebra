@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -101,6 +102,7 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionValue replaceToken(String expressionString) {
+		Log.error(expressionString);
 		this.expressionString = expressionString;
 
 		ExpressionValue derivative = getDerivative(expressionString);
@@ -215,7 +217,7 @@ public class VariableReplacerAlgorithm {
 	private MySpecialDouble consumeConstant(String expressionString) {
 		int numberLength = 0;
 		while (numberLength < expressionString.length()
-				&& StringUtil.isDigit(expressionString.charAt(numberLength))) {
+				&& isDigitOrDot(expressionString.charAt(numberLength))) {
 			numberLength++;
 		}
 		if (numberLength != 0) {
@@ -226,6 +228,10 @@ public class VariableReplacerAlgorithm {
 			return new MySpecialDouble(kernel, value, num);
 		}
 		return null;
+	}
+
+	static boolean isDigitOrDot(char charAt) {
+		return StringUtil.isDigit(charAt) || '.' == charAt;
 	}
 
 	private void processPi() {

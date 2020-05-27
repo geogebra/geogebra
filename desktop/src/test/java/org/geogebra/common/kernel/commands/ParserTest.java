@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -28,11 +29,12 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class ParserTest {
 	static AppDNoGui app;
-	static AlgebraProcessor ap;
+	private static Parser parser;
 
 	@Before
 	public void setupCas() {
 		app = new AppDNoGui(new LocalizationD(3), false);
+		parser = app.getKernel().getParser();
 		app.setLanguage(Locale.US);
 	}
 
@@ -295,6 +297,21 @@ public class ParserTest {
 		shouldReparseAs("(1,2) + 1,4", "(1, 2) + 1.4");
 	}
 
+	@Test
+	public void checkValidLabels() {
+		assertValidLabel("aa");
+		assertValidLabel("aa8");
+		assertValidLabel("aa8.1");
+	}
+
+	private void assertValidLabel(String s) {
+		try {
+			assertEquals(s, parser.parseLabel(s));
+		} catch (ParseException e) {
+			fail("Unexpected parser exception " + e);
+		}
+	}
+
 	static void shouldReparseAs(App app, String string, String expected) {
 		Assert.assertEquals(expected,
 				reparse(app, string, StringTemplate.editTemplate, true));
@@ -352,6 +369,6 @@ public class ParserTest {
 
 	private static ValidExpression parseExpression(App app, String string)
 			throws ParseException {
-		return app.getKernel().getParser().parseGeoGebraExpression(string);
+		return parser.parseGeoGebraExpression(string);
 	}
 }
