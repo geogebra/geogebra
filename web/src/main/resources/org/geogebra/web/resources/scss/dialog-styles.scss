@@ -126,7 +126,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	/* recover dialog*/
 	.MaterialDialogBox.GeoGebraFileChooser {
 		.infotext {
 			font-size: 95%;
@@ -657,14 +656,20 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-   .exportImgDialog {
-   		.expImgContent {
-   			margin-right: 16px;
-   		}
+   .dialogComponent.exportImgDialog {
+        max-width: unset;
+        max-height: unset;
+        height: unset;
+        width: unset;
 
-   		.rightClickHelpText {
-   			margin: 0px;
+        .expImgContent {
+            margin-bottom: 20px;
+        }
+
+   	    .rightClickHelpText {
+   	        font-size: 80%;
    			margin-bottom: 20px;
+   			color: $text-secondary;
    		}
 
    		.prevImg {
@@ -675,44 +680,9 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			cursor: pointer;
    		}
 
-   		.DialogButtonPanel.withCopyToClip {
-   			height: 96px;
-   			padding-top: 24px;
-   			/*display: grid;*/
-    		float: right;
-
-   			.button {
-   				height: 48px;
-   				line-height: 48px;
-   				position: absolute;
-   				right: 8px;
-   				bottom: 8px;
-
-   				&.copyToClipBtn {
-   					bottom: 56px;
-   					min-width: 148px;
-   					line-height: 48px;
-   				}
-   			}
-
-   			&.classic {
-   				height: 56px;
-
-   				.button {
-   					min-width: 116px;
-   					max-height: 24px;
-   					line-height: 16px;
-
-   					&.copyToClipBtn {
-   						bottom: 50px;
-   					}
-
-   					.html-face {
-   						text-align: center;
-   						padding: 4px 0px;
-   					}
-   				}
-   			}
+   		.dialogBtnPanel {
+   		    position: relative;
+   		    float: right;
    		}
    }
 
