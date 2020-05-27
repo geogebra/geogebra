@@ -288,18 +288,6 @@ var GGBApplet = function() {
         return false;
     };
 
-    function pluginEnabled(name) {
-        var plugins = navigator.plugins,
-            i = plugins.length,
-            regExp = new RegExp(name, 'i');
-        while (i--) {
-            if (regExp.test(plugins[i].name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     var getDefaultApiUrl = function() {
         var host = location.host;
         if (host.match(/alpha.geogebra.org/) || host.match(/groot.geogebra.org/)) {
@@ -1061,10 +1049,10 @@ var GGBApplet = function() {
         } else if(index === 0) {
             codebase = protocol + html5CodebaseVersion;
         } else {
-            codebase = "https://www.geogebra.org/apps/latest/";
+            codebase = "%MODULE_BASE%";
         }
 
-        for(var key in modules){
+        for (var key in modules) {
             if (html5CodebaseVersion.slice(modules[key].length*-1) === modules[key] ||
                 html5CodebaseVersion.slice((modules[key].length+1)*-1) === modules[key]+"/") {
                 setHTML5CodebaseInternal(codebase, false);
@@ -1224,21 +1212,11 @@ var GGBAppletUtils = (function() {
                 // Using mywith instead of innerWidth because after rotating a mobile device the innerWidth is sometimes wrong (e.g. on Galaxy Note III)
                 // windowWidth = window.innerWidth
                 windowWidth = myWidth;
-            } else if (typeof( window.innerWidth ) === 'number') {
+            } else {
                 //Non-IE
                 myWidth = window.innerWidth;
                 myHeight = window.innerHeight;
                 windowWidth = window.innerWidth;
-            } else if (document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight )) {
-                //IE 6+ in 'standards compliant mode'
-                myWidth = document.documentElement.clientWidth;
-                myHeight = document.documentElement.clientHeight;
-                windowWidth = document.documentElement.clientWidth;
-            } else if (document.body && ( document.body.clientWidth || document.body.clientHeight )) {
-                //IE 4 compatible
-                myWidth = document.body.clientWidth;
-                myHeight = document.body.clientHeight;
-                windowWidth = document.documentElement.clientWidth;
             }
 
             if (appletElem) {

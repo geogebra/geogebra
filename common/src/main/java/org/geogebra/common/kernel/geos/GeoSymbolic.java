@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
@@ -18,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -40,7 +43,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
-	private GeoElement twinGeo;
 	private boolean twinUpToDate = false;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
@@ -48,6 +50,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private int pointStyle;
 	private int pointSize;
 	private boolean symbolicMode;
+
+	@Nullable
+	private GeoElement twinGeo;
 
 	/**
 	 * @return output expression
@@ -192,7 +197,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (value != null
 				&& value.unwrap() instanceof MyVecNDNode
 				&& algebraProcessor.hasVectorLabel(this)) {
-			((MyVecNDNode) value.unwrap()).setCASVector();
+			((MyVecNDNode) value.unwrap()).setupCASVector();
 		}
 	}
 
@@ -645,5 +650,34 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public boolean isDrawable() {
 		return twinGeo != null ? twinGeo.isDrawable() : super.isDrawable();
+	}
+
+	@Override
+	public boolean isMatrix() {
+		return twinGeo != null ? twinGeo.isMatrix() : hasMatrixDefinition();
+	}
+
+	private boolean hasMatrixDefinition() {
+		ExpressionNode definition = getDefinition();
+		if (definition == null) {
+			return false;
+		} else {
+			ExpressionValue unwrapped = getDefinition().unwrap();
+			return unwrapped instanceof MyList && ((MyList) unwrapped).isMatrix();
+		}
+	}
+
+	@Override
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+		return twinGeo != null
+				? twinGeo.toLaTeXString(symbolic, tpl)
+				: symbolic ? getDefinition(tpl) : toValueString(tpl);
+	}
+
+	@Override
+	public boolean isGeoVector() {
+		return twinGeo != null
+				? twinGeo.isGeoVector()
+				: getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
 }

@@ -49,7 +49,7 @@ public final class CommandFilterFactory {
 				Commands.Diameter, Commands.LinearEccentricity, Commands.Excentricity,
 				Commands.MajorAxis, Commands.FirstAxis, Commands.MinorAxis, Commands.SecondAxis,
 				Commands.SemiMajorAxisLength, Commands.FirstAxisLength,
-				Commands.SemiMinorAxisLength, Commands.SecondAxisLength, Commands.Length,
+				Commands.SemiMinorAxisLength, Commands.SecondAxisLength,
 				Commands.Relation, Commands.AffineRatio, Commands.Arc, Commands.AreCollinear,
 				Commands.AreConcurrent, Commands.AreConcyclic, Commands.AreCongruent,
 				Commands.AreEqual, Commands.AreParallel, Commands.ArePerpendicular, Commands.Area,
@@ -107,7 +107,7 @@ public final class CommandFilterFactory {
 				Commands.PathParameter, Commands.RootList, Commands.Roots,
 				Commands.Spline,
 				// Vector And Matrix Commands
-				Commands.ApplyMatrix, Commands.Identity,
+				Commands.ApplyMatrix,
 				//Geometry Commands
 				Commands.Angle, Commands.Centroid, Commands.CircularArc,
 				Commands.CircleArc, Commands.CircularSector, Commands.CircleSector,

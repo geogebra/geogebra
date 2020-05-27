@@ -138,7 +138,7 @@ public class AlgoErlangDF extends AlgoElement {
 		} else {
 
 			en = lEn.power(k).multiply(fvEn.power(kEn.subtract(1)))
-					.multiply(lEn.multiply(fv).reverseSign().exp())
+					.multiply(lEn.multiplyR(fv).reverseSign().exp())
 					.divide(kEn.subtract(1).factorial());
 
 			// old hack:

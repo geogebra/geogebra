@@ -14,9 +14,10 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.RootPanel;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * The web version of the login operation. uses an own AuthenticationModel and
@@ -144,7 +145,7 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	public void showLogoutUI() {
 		if (!StringUtil.empty(app.getArticleElement().getParamLogoutURL())) {
-			Window.open(app.getArticleElement().getParamLogoutURL(), "_blank",
+			DomGlobal.window.open(app.getArticleElement().getParamLogoutURL(), "_blank",
 					"menubar=off,width=450,height=350");
 		}
 	}

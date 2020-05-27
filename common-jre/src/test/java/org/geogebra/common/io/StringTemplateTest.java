@@ -132,7 +132,7 @@ public class StringTemplateTest {
 	@Test
 	public void editorTemplateShouldRetainPrecision() {
 		GeoElementND f = add("f:0.33333x");
-		Assert.assertEquals("f(x) = 0.33333x",
+		Assert.assertEquals("f(x)=0.33333 x",
 				f.toString(StringTemplate.editorTemplate));
 		Assert.assertEquals("f(x) = 0.33333x",
 				f.toString(StringTemplate.editTemplate));

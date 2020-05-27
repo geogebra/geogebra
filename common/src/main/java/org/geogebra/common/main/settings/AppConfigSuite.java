@@ -97,4 +97,14 @@ public class AppConfigSuite extends AppConfigGraphing {
 	public GeoGebraConstants.Version getVersion() {
 		return GeoGebraConstants.Version.SUITE;
 	}
+
+	@Override
+	public boolean isCASEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getTutorialKey() {
+		return "suite_tutorial";
+	}
 }

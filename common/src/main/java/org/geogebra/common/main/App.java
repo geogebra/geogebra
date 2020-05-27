@@ -1025,6 +1025,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
+	/**
+	 * Resets the coord system change flag
+	 */
+	public void resetCoordSystemChanged() {
+		storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.NONE;
+	}
+
 	public void setPropertiesOccured() {
 		getKernel().getConstruction().getUndoManager().setPropertiesOccured();
 	}
