@@ -18,7 +18,7 @@ public class RecoverAutoSavedDialog extends ComponentDialog {
 	 * @param data dialog transkeys
 	 */
 	public RecoverAutoSavedDialog(AppWFull app, DialogData data) {
-		super(app, data, false, false);
+		super(app, data, false, true);
 		addStyleName("RecoverAutoSavedDialog");
 		buildContent();
 	}

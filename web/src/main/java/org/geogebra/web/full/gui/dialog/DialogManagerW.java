@@ -154,7 +154,7 @@ public class DialogManagerW extends DialogManager
 	/**
 	 * shows the {@link RecoverAutoSavedDialog}
 	 *
-	 * @param app2
+	 * @param appW
 	 *            {@link AppWFull}
 	 * @param json
 	 *            stored JSON

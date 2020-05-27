@@ -117,17 +117,17 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent.RecoverAutoSavedDialog {
 	    max-width: 450px;
-	    max-height: 170px;
+	    max-height: 174px;
 
-        .infotext {
-			font-size: 95%;
+        .infoText {
+			font-size: 100%;
 			margin-bottom: 24px;
 			color: $text-secondary;
 		}
 	}
 
 	/* recover dialog*/
-	.MaterialDialogBox.RecoverAutoSavedDialog, .MaterialDialogBox.GeoGebraFileChooser {
+	.MaterialDialogBox.GeoGebraFileChooser {
 		.infotext {
 			font-size: 95%;
 			margin-right: 16px;
