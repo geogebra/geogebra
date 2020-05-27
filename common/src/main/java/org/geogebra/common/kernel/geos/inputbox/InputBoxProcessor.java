@@ -116,7 +116,8 @@ public class InputBoxProcessor {
 
 			// make sure user can enter regular "i"
 			defineText = defineText.replace('i', Unicode.IMAGINARY);
-
+			defineText = defineText.replace("sqrt(-1)", "sqrt("
+					+ Unicode.IMAGINARY + ")");
 		}
 		if (linkedGeo instanceof FunctionalNVar) {
 			// string like f(x,y)=x^2
