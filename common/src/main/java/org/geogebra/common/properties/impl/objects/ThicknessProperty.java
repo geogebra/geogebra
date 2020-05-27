@@ -8,7 +8,8 @@ import org.geogebra.common.properties.RangeProperty;
 /**
  * Line thickness
  */
-public class ThicknessProperty extends AbstractGeoElementProperty implements RangeProperty<Integer> {
+public class ThicknessProperty
+        extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
     public ThicknessProperty(GeoElement geoElement) {
         super("Thickness", geoElement);

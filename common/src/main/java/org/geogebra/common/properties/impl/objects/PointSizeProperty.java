@@ -9,7 +9,8 @@ import org.geogebra.common.properties.RangeProperty;
 /**
  * Point size
  */
-public class PointSizeProperty extends AbstractGeoElementProperty implements RangeProperty<Integer> {
+public class PointSizeProperty
+        extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
     public PointSizeProperty(GeoElement geoElement) {
         super("Size", geoElement);
