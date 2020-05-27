@@ -85,10 +85,11 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 			return;
 		}
 
-		StandardButton negButton = new StandardButton(app.getLocalization().getMenu(negTransKey), getApplication());
+		StandardButton negButton = new StandardButton(app.getLocalization()
+				.getMenu(negTransKey), getApplication());
 		negButton.setStyleName("dialogTextButton");
 
-		negButton.addFastClickHandler( source -> onNegativeAction());
+		negButton.addFastClickHandler(source -> onNegativeAction());
 		dialogButtonPanel.add(negButton);
 	}
 
@@ -97,11 +98,11 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 			return;
 		}
 
-		StandardButton posButton = new StandardButton(app.getLocalization().getMenu(posTransKey),
-				getApplication());
+		StandardButton posButton = new StandardButton(app.getLocalization()
+				.getMenu(posTransKey), getApplication());
 		posButton.setStyleName("dialogContainedButton");
 
-		posButton.addFastClickHandler( source -> onPositiveAction());
+		posButton.addFastClickHandler(source -> onPositiveAction());
 		dialogButtonPanel.add(posButton);
 	}
 
