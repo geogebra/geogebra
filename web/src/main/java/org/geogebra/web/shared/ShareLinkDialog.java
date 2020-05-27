@@ -19,18 +19,15 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ShareLinkDialog extends ComponentDialog implements FastClickHandler {
 	private FlowPanel contentPanel;
-	private FlowPanel linkPanel;
 	/** textbox providing share url */
 	protected TextBox linkBox;
 	/** true if linkBox is focused */
 	protected boolean linkBoxFocused = true;
 	private StandardButton copyBtn;
 
-	private FlowPanel buttonPanel;
 	private StandardButton printBtn;
 	private StandardButton exportImgBtn;
 
-	private String shareURL;
 	/** parent widget */
 	protected Widget anchor;
 
@@ -43,14 +40,13 @@ public class ShareLinkDialog extends ComponentDialog implements FastClickHandler
 	public ShareLinkDialog(AppW app, DialogData data, String shareURL, Widget anchor) {
 		super(app, data, true, false);
 		this.app = app;
-		this.shareURL = shareURL;
 		this.anchor = anchor;
 		addStyleName(app.getVendorSettings().getStyleName("shareLink"));
-		buildContent();
+		buildContent(shareURL);
 		DialogUtil.hideOnLogout(app, this);
 	}
 
-	private void buildContent() {
+	private void buildContent(String shareURL) {
 		addCloseHandler(event -> {
 			if (anchor != null) {
 				anchor.removeStyleName("selected");
@@ -59,13 +55,13 @@ public class ShareLinkDialog extends ComponentDialog implements FastClickHandler
 
 		contentPanel = new FlowPanel();
 
-		linkPanel = new FlowPanel();
+		FlowPanel linkPanel = new FlowPanel();
 		linkPanel.setStyleName("linkPanel");
 		Label linkLabel = new Label(localize("Link"));
 		linkLabel.setStyleName("linkLabel");
 		linkBox = new TextBox();
 		linkBox.setReadOnly(true);
-		linkBox.setText(this.shareURL);
+		linkBox.setText(shareURL);
 		linkBox.setStyleName("linkBox");
 		addLinkBoxHandlers();
 
@@ -83,7 +79,7 @@ public class ShareLinkDialog extends ComponentDialog implements FastClickHandler
 				.getMenuLocalizationKey("SharedLinkHelpTxt")));
 		shareHelp.addStyleName("shareHelpTxt");
 
-		buttonPanel = new FlowPanel();
+		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 		printBtn = new StandardButton(
 				SharedResources.INSTANCE.print_white(),
