@@ -10049,7 +10049,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (geos.size() == 1 && geos.get(0).hasPreviewPopup()) {
 					showSpecialPointPopup(geos);
 				} else {
-					if (!draggingBeyondThreshold) {
+					if (!draggingBeyondThreshold || selection.getSelectedGeos().size() > 1) {
 						showDynamicStylebar();
 					}
 				}
