@@ -106,7 +106,8 @@ public class ParametricProcessor {
 
 		TreeSet<GeoNumeric> num = new TreeSet<>();
 		// Iteration[a+1, a, {1},4]
-		ap.replaceUndefinedVariables(ve, num, new String[] { varName, "X" });
+		ap.replaceUndefinedVariables(ve, num, new String[] {varName, "X" },
+				info.isSimplifiedMultiplication());
 		for (GeoNumeric slider : num) {
 			undefinedVariables.remove(slider.getLabelSimple());
 		}

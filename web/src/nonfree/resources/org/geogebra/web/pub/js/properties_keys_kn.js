@@ -756,6 +756,8 @@ __GGB__keysVar["kn"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matrix> ]",
     "Relation": "\u0cb8\u0c82\u0cac\u0c82\u0ca7",
     "Relation.Syntax": "[ <List> ]\n[ <Object>, <Object> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "\u0ca4\u0cc6\u0c97\u0cc6\u0caf\u0cbf\u0cb0\u0cbf",
     "Remove.Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "RemoveUndefined",

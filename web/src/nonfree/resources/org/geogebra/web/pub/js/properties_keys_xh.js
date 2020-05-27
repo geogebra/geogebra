@@ -756,6 +756,8 @@ __GGB__keysVar["xh"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <iMatrix> ]",
     "Relation": "iRelation",
     "Relation.Syntax": "[ <uluhlu> ]\n[ <iObject>, <iObject> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Susakwaphela",
     "Remove.Syntax": "[ <Luhlu>, <Luhlu> ]",
     "RemoveUndefined": "SusaeUndefined",

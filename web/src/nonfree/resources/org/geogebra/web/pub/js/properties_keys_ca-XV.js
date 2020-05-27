@@ -756,6 +756,8 @@ __GGB__keysVar["ca-XV"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matriu> ]",
     "Relation": "Relaci\xf3",
     "Relation.Syntax": "[ <Objecte>, <Objecte> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Suprimix",
     "Remove.Syntax": "[ <Llista>, <Llista> ]",
     "RemoveUndefined": "EliminaNoDefinits",

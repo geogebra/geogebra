@@ -756,6 +756,8 @@ __GGB__keysVar["et"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Maatriks> ]",
     "Relation": "V\xf5rdlus",
     "Relation.Syntax": "[ <Objekt>, <Objekt> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Eemalda",
     "Remove.Syntax": "[ <Loend>, <Loend> ]",
     "RemoveUndefined": "EemaldaMittedefineeritudObjektid",

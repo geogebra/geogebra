@@ -756,6 +756,8 @@ __GGB__keysVar["ko"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <\ud589\ub82c> ]",
     "Relation": "\uad00\uacc4",
     "Relation.Syntax": "[ <\ub9ac\uc2a4\ud2b8> ]\n[ <\ub300\uc0c1>, <\ub300\uc0c1> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "\uc81c\uac70",
     "Remove.Syntax": "[ <\ub9ac\uc2a4\ud2b8>, <\ub9ac\uc2a4\ud2b8> ]",
     "RemoveUndefined": "\ubbf8\uc815\uc758\uc0ad\uc81c",

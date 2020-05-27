@@ -756,6 +756,8 @@ __GGB__keysVar["tg"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matrix> ]",
     "Relation": "Relation",
     "Relation.Syntax": "[ <List> ]\n[ <Object>, <Object> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Remove",
     "Remove.Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "RemoveUndefined",

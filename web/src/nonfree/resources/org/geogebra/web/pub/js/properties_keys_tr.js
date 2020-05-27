@@ -756,6 +756,8 @@ __GGB__keysVar["tr"].command = {
     "ReducedRowEchelonForm.Syntax": "[ <Matris> ]",
     "Relation": "Ba\u011f\u0131nt\u0131",
     "Relation.Syntax": "[ <Liste> ]\n[ <Nesne>, <Nesne> ]",
+    "RemovableDiscontinuity": "RemovableDiscontinuity",
+    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
     "Remove": "Kald\u0131r",
     "Remove.Syntax": "[ <Liste>, <Liste> ]",
     "RemoveUndefined": "Tan\u0131ms\u0131zsaKald\u0131r",
