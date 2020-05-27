@@ -49,11 +49,11 @@ public class DistancePropertyCollection extends AbstractProperty implements Prop
                             "zAxis", 2));
         }
 
-		collection = new PropertiesList(properties);
+		collection = new PropertiesList("Distance", properties);
     }
 
     @Override
-    public PropertiesList getProperties() {
-        return collection;
+    public Property[] getProperties() {
+        return collection.getProperties();
     }
 }

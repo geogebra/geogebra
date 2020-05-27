@@ -38,11 +38,11 @@ public class LabelsPropertyCollection extends AbstractProperty
 					euclidianSettings, "zAxis", 2));
 		}
 
-		collection = new PropertiesList(properties);
+		collection = new PropertiesList("Labels", properties);
 	}
 
 	@Override
-	public PropertiesList getProperties() {
-		return collection;
+	public Property[] getProperties() {
+		return collection.getProperties();
 	}
 }

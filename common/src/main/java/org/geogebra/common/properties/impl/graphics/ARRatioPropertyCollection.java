@@ -35,11 +35,11 @@ public class ARRatioPropertyCollection extends AbstractProperty
         properties.add(new RatioUnitProperty((EuclidianView3D) app.getActiveEuclidianView(),
                 localization));
 
-        collection = new PropertiesList(properties);
+        collection = new PropertiesList("AR Ratio", properties);
     }
 
     @Override
-    public PropertiesList getProperties() {
-        return collection;
+    public Property[] getProperties() {
+        return collection.getProperties();
     }
 }
