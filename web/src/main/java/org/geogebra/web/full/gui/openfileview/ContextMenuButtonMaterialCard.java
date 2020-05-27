@@ -13,14 +13,12 @@ import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.user.client.Command;
 
 /**
  * Context Menu of Material Cards
- * 
- * @author Alicia
- *
  */
 public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 
@@ -59,49 +57,30 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 
 	private void addShareItem() {
 		addItem(MaterialDesignResources.INSTANCE.share_black(),
-				loc.getMenu("Share"), new Command() {
-					@Override
-					public void execute() {
-						onShare();
-					}
-				});
+				loc.getMenu("Share"), (Command) () -> onShare());
 	}
 
 	private void addRenameItem() {
 		addItem(MaterialDesignResources.INSTANCE.mow_rename(),
-				loc.getMenu("Rename"), new Command() {
-					@Override
-					public void execute() {
-						onRename();
-					}
-				});
+				loc.getMenu("Rename"), (Command) () -> onRename());
 	}
 
 	private void addCopyItem() {
 		addItem(MaterialDesignResources.INSTANCE.copy_black(),
-				loc.getMenu("makeACopy"), new Command() {
-					@Override
-					public void execute() {
-						onCopy();
-					}
-				});
+				loc.getMenu("makeACopy"), (Command) () -> onCopy());
 	}
 
 	private void addDeleteItem() {
 		addItem(MaterialDesignResources.INSTANCE.delete_black(),
-				loc.getMenu("Delete"), new Command() {
-					@Override
-					public void execute() {
-						onDelete();
-					}
-				});
+				loc.getMenu("Delete"), (Command) () -> onDelete());
 	}
 
 	/**
 	 * execute share action
 	 */
 	protected void onShare() {
-		ShareDialogMow dialog = new ShareDialogMow(app,
+		DialogData data = new DialogData("Share", "Cancel", "Save");
+		ShareDialogMow dialog = new ShareDialogMow(app, data,
 				app.getCurrentURL(material.getSharingKey(), true), material);
 		dialog.setCallback(new MaterialCallbackI() {
 

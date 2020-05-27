@@ -1324,14 +1324,27 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.shareDialogMow {
-		padding-right: 0px !important;
-		padding-left: 0px !important;
+	.dialogComponent.shareDialogMow {
+		max-width: 522px;
+		max-height: unset;
+		height: unset;
 
-		.Caption {
-			padding-left: 24px !important;
-			margin-bottom: 0px !important;
+		.dialogTitle {
+			margin-left: 24px;
 		}
+
+        .dialogMainPanel {
+            padding-left: 0px;
+        }
+
+        .dialogBtnPanel {
+            position: relative;
+            float: right;
+        }
+
+        .dialogContent {
+            margin-bottom: 24px;
+        }
 
 		.selGrLbl {
 			font-size: 100%;
@@ -1345,7 +1358,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			border-bottom: 1px solid $black-12;
 			max-height: 200px;
 		    overflow: auto;
-		    width: 494px;
+		    max-width: 502px;
+		    width: 101%;
     		padding: 16px 0px 0px 20px;
 		}
 
@@ -1391,7 +1405,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
 		.shareByLink {
-		    width: 474px;
+		    max-width: 474px;
+		    width: 100%;
 		    margin: 16px 8px 0px 24px;
 
 		    .linkImg {
@@ -1401,7 +1416,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		    .textPanel {
 			    position: relative;
-			    width: 356px;
+			    max-width: 356px;
+			    width: 90%;
 			    display: inline-block;
 
 			    .linkShareOnOff {
@@ -1430,6 +1446,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 					padding: 8px 0 8px 0;
 					margin: 0;
 					border-radius: 0;
+					box-shadow: none;
+					border: none;
 				    border-bottom: 2px solid $mow_dark;
 				}
 				.linkBox::selection {
@@ -1459,7 +1477,8 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 
         .shareLinkAvailableInfo {
-            width: 474px;
+            max-width: 474px;
+            width: 90%;
             margin: 14px 24px 0px 24px;
             font-size: 87%;
         }

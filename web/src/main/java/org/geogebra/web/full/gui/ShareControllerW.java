@@ -122,12 +122,13 @@ public class ShareControllerW implements ShareController {
 					sharingKey = activeMaterial.getSharingKey();
 				}
 				if (getAppW().isMebis()) {
-					shareDialogMow = new ShareDialogMow(getAppW(),
+					DialogData data = new DialogData("Share", "Cancel", "Save");
+					shareDialogMow = new ShareDialogMow(getAppW(), data,
 							getAppW().getCurrentURL(sharingKey, true),
 							null);
 					shareDialogMow.show();
 				} else {
-					DialogData data = new DialogData(app.isMebis() ? "shareByLink" : "Share",
+					DialogData data = new DialogData("Share",
 							null, null);
 					shareDialog = new ShareLinkDialog(getAppW(), data,
 							getAppW().getCurrentURL(sharingKey, true),
