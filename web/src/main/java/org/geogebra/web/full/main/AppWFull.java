@@ -1130,13 +1130,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return;
 		}
 		if (autosavedMaterial != null && !isStartedWithFile() && getExam() == null) {
-			afterLocalizationLoaded(new Runnable() {
-				@Override
-				public void run() {
-					getDialogManager().showRecoverAutoSavedDialog(
-							AppWFull.this, autosavedMaterial);
-					autosavedMaterial = null;
-				}
+			afterLocalizationLoaded(() -> {
+				getDialogManager().showRecoverAutoSavedDialog(
+						AppWFull.this, autosavedMaterial);
+				autosavedMaterial = null;
 			});
 		} else {
 			startAutoSave();
@@ -1146,12 +1143,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void showRecentChangesDialog(String message, String link,
 										 final Runnable closingCallback) {
 		final WhatsNewDialog dialog = new WhatsNewDialog(this, message, link);
-		dialog.addCloseHandler(new CloseHandler<GPopupPanel>() {
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> closeEvent) {
-				closingCallback.run();
-			}
-		});
+		dialog.addCloseHandler(closeEvent -> closingCallback.run());
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
@@ -1934,7 +1926,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void setFileVersion(String version, String appName) {
 		super.setFileVersion(version, appName);
-		
+
 		if (!"auto".equals(appName)
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
 			getArticleElement().attr("appName",
