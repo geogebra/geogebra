@@ -1,7 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -22,17 +26,16 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class ParserTest {
-	static AppDNoGui app;
-	private static Parser parser;
+	private AppDNoGui app;
+	private Parser parser;
 
 	@Before
-	public void setupCas() {
+	public void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);
 		parser = app.getKernel().getParser();
 		app.setLanguage(Locale.US);
@@ -100,12 +103,12 @@ public class ParserTest {
 
 	}
 
-	private static void checkSameStructure(String string, String string2) {
+	private void checkSameStructure(String string, String string2) {
 		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));
 	}
 
-	private static String reparse(String string, StringTemplate tpl) {
+	private String reparse(String string, StringTemplate tpl) {
 		return reparse(app, string, tpl, false);
 	}
 
@@ -133,7 +136,7 @@ public class ParserTest {
 		return reparse1;
 	}
 
-	private static void shouldBeException(String string,
+	private void shouldBeException(String string,
 			String exceptionClass) {
 		Throwable p = null;
 		try {
@@ -254,11 +257,11 @@ public class ParserTest {
 	}
 
 	@Test
-	@Ignore // TODO for WLY-60
 	public void multiplicationShouldResolvedToChainedTrig() {
-		shouldReparseAs("e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
+		app.getKernel().getConstruction().registerFunctionVariable("t");
+		shouldReparseAs(app,"e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
 				Unicode.EULER_STRING + "^(-t) * 9sin"
-				+ Unicode.SUPERSCRIPT_8 + "(t * cos(t))");
+				+ Unicode.SUPERSCRIPT_8 + "(t cos(t))");
 	}
 
 	@Test
@@ -317,7 +320,7 @@ public class ParserTest {
 				reparse(app, string, StringTemplate.editTemplate, true));
 	}
 
-	private static void shouldReparseAs(String string, String expected) {
+	private void shouldReparseAs(String string, String expected) {
 		Assert.assertEquals(expected,
 				reparse(string, StringTemplate.editTemplate));
 	}
@@ -341,7 +344,7 @@ public class ParserTest {
 				&& op != Operation.INVERSE_NORMAL;
 	}
 
-	private static void checkStable(ExpressionNode left) {
+	private void checkStable(ExpressionNode left) {
 		String str = null;
 		try {
 			str = left.toString(StringTemplate.editTemplate);
@@ -362,13 +365,13 @@ public class ParserTest {
 		}
 	}
 
-	private static ValidExpression parseExpression(String string)
+	private ValidExpression parseExpression(String string)
 			throws ParseException {
 		return parseExpression(app, string);
 	}
 
 	private static ValidExpression parseExpression(App app, String string)
 			throws ParseException {
-		return parser.parseGeoGebraExpression(string);
+		return app.getKernel().getParser().parseGeoGebraExpression(string);
 	}
 }
