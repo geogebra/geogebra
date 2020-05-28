@@ -15,11 +15,6 @@ import com.google.gwt.user.client.ui.Widget;
  * A Dialog that describes what has changed recently in the app.
  */
 public class WhatsNewDialog extends ComponentDialog {
-	private static final String DIALOG_STYLE_NAME = "whatsNewDialog";
-	private static final String MESSAGE_PANEL_STYLE_NAME = "messagePanel";
-	private static final String MESSAGE_STYLE_NAME = "message";
-	private static final String LINK_STYLE_NAME = "link";
-
 	/**
 	 * Create a new WhatsNewDialog.
 	 * @param app the app
@@ -34,9 +29,9 @@ public class WhatsNewDialog extends ComponentDialog {
 
 	private void buildContent(Localization localization, String whatsNewMessage,
 						   String readMoreLink) {
-		addStyleName(DIALOG_STYLE_NAME);
+		addStyleName("whatsNewDialog");
 		FlowPanel contentPanel = new FlowPanel();
-		contentPanel.addStyleName(MESSAGE_PANEL_STYLE_NAME);
+		contentPanel.addStyleName("messagePanel");
 		Widget message = createMessage(whatsNewMessage);
 		Widget readMore = createReadMore(localization, readMoreLink);
 		contentPanel.add(message);
@@ -47,14 +42,14 @@ public class WhatsNewDialog extends ComponentDialog {
 	private Widget createMessage(String whatsNewMessage) {
 		InlineLabel message = new InlineLabel();
 		message.setText(whatsNewMessage);
-		message.addStyleName(MESSAGE_STYLE_NAME);
+		message.addStyleName("message");
 		return message;
 	}
 
 	private Widget createReadMore(Localization localization, final String readMoreLink) {
 		Anchor link = new Anchor();
 		link.setText(localization.getMenu("ReadMore"));
-		link.addStyleName(LINK_STYLE_NAME);
+		link.addStyleName("link");
 		link.addDomHandler(event -> app.showURLinBrowser(readMoreLink), ClickEvent.getType());
 		return link;
 	}
