@@ -96,10 +96,10 @@ public class ParserTest {
 		shouldReparseAs("2" + Unicode.PI_STRING + "8",
 				"2 * 8" + Unicode.PI_STRING);
 		// APPS-804
-		 shouldReparseAs(Unicode.PI_STRING + "8.1",
-		 "8.1"+Unicode.PI_STRING);
-		 shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
-		 "2 * 8.1" + Unicode.PI_STRING);
+		shouldReparseAs(Unicode.PI_STRING + "8.1",
+				"8.1" + Unicode.PI_STRING);
+		shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
+				 "2 * 8.1" + Unicode.PI_STRING);
 
 	}
 
@@ -306,7 +306,7 @@ public class ParserTest {
 		assertValidLabel("aa8");
 		assertValidLabel("aa_7");
 		assertValidLabel("aa_{72}''");
-		assertValidLabel(Unicode.PI_STRING+8);
+		assertValidLabel(Unicode.PI_STRING + 8);
 	}
 
 	private void assertValidLabel(String s) {
