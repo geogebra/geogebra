@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -174,6 +176,7 @@ public class KeyboardManager
 	 *            open/close listener
 	 * @return keyboard
 	 */
+	@Nonnull
 	public VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField, UpdateKeyBoardListener listener) {
 		ensureKeyboardExists();
