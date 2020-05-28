@@ -22,7 +22,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.background.DrawBackground;
-import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
@@ -2122,19 +2121,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		for (Drawable d : allDrawableList) {
-			if ((d.isCanvasDrawable())
+			if (d instanceof DrawInputBox
 					&& (d.hit(x, y, app.getCapturingThreshold(type))
 					|| d.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible() && geo.isSelectionAllowed(this)) {
-					if (geo instanceof GeoInputBox) {
-						focusTextField((GeoInputBox) geo);
-					}
-					((CanvasDrawable) d).setWidgetVisible(true);
+					focusTextField((GeoInputBox) geo);
+					((DrawInputBox) d).setWidgetVisible(true);
 					return true;
 				}
 
-				((CanvasDrawable) d).setWidgetVisible(false);
+				((DrawInputBox) d).setWidgetVisible(false);
 			}
 		}
 
@@ -4142,7 +4139,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawDropDownList selected = null;
 		DrawDropDownList opened = null;
 		for (Drawable d : allDrawableList) {
-			if (d instanceof DrawDropDownList && d.isCanvasDrawable()) {
+			if (d instanceof DrawDropDownList) {
 				DrawDropDownList dl = (DrawDropDownList) d;
 				if (dl.needsUpdate()) {
 					dl.setNeedsUpdate(false);
@@ -6061,7 +6058,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		for (Drawable d : allDrawableList) {
 			boolean repaintNeeded = false;
 
-			if (d instanceof DrawDropDownList && d.isCanvasDrawable()) {
+			if (d instanceof DrawDropDownList) {
 				DrawDropDownList dl = (DrawDropDownList) d;
 				if (!(dl.isControlHit(x, y) || dl.isOptionsHit(x, y))) {
 					repaintNeeded = repaintNeeded || dl.closeOptions();
