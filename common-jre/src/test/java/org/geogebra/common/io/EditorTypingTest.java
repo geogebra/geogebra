@@ -325,12 +325,4 @@ public class EditorTypingTest {
 		// for constant no multiplication space added => we have to check the raw string
 		checker.type("8sqrt(x").checkRaw("MathSequence[8, FnSQRT[MathSequence[x]]]");
 	}
-
-	@Test
-	public void typingSqrtNegativeOneShouldProduceSqrtImaginary() {
-		MetaModel model = new MetaModel();
-		model.enableSubstitutions();
-		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
-		inputBoxChecker.type("sqrt(-1)").checkAsciiMath("sqrt(" + Unicode.IMAGINARY + ")");
-	}
 }
