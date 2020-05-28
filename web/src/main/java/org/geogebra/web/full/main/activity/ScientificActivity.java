@@ -10,8 +10,6 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.scientific.ScientificHeaderResizer;
-import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
-import org.geogebra.web.full.gui.menubar.ScientificMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
@@ -91,11 +89,6 @@ public class ScientificActivity extends BaseActivity {
 	public ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
 			boolean allowSliders, boolean withSliders) {
 		return ErrorHelper.silent();
-	}
-
-	@Override
-	public MainMenuItemProvider getMenuItemProvider(AppW app) {
-		return new ScientificMenuItemProvider(app);
 	}
 
 	@Override

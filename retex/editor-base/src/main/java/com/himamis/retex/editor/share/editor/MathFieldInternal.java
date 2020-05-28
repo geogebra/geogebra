@@ -141,6 +141,17 @@ public class MathFieldInternal
 	}
 
 	/**
+	 * Update font size and update UI if needed
+	 * @param size font size in pixels
+	 */
+	public void setSizeAndUpdate(double size) {
+		if (size != mathFieldController.getFontSize()) {
+			mathFieldController.setSize(size);
+			update();
+		}
+	}
+
+	/**
 	 * @param type
 	 *            font type
 	 */

@@ -421,12 +421,12 @@ public class CommandDispatcherGiac {
 
 					vec = new MyVecNode(kernel, args.getItem(0),
 							args.getItem(1));
-					((MyVecNode) vec).setCASVector();
+					((MyVecNode) vec).setupCASVector();
 					break;
 				case 3:
 					vec = new MyVec3DNode(kernel, args.getItem(0),
 							args.getItem(1), args.getItem(2));
-					((MyVec3DNode) vec).setCASVector();
+					((MyVec3DNode) vec).setupCASVector();
 					break;
 
 				default:
