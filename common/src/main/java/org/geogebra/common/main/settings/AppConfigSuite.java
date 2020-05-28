@@ -102,4 +102,9 @@ public class AppConfigSuite extends AppConfigGraphing {
 	public boolean isCASEnabled() {
 		return true;
 	}
+
+	@Override
+	public String getTutorialKey() {
+		return "suite_tutorial";
+	}
 }

@@ -827,7 +827,7 @@ public class AlgebraProcessor {
 		} catch (TokenMgrError e) {
 			// Sometimes TokenManagerError comes from parser
 			ErrorHelper.handleException(new Exception(e), app, handler);
-		}
+ 		}
 		if (callback0 != null) {
 			callback0.callback(null);
 		}
@@ -855,7 +855,8 @@ public class AlgebraProcessor {
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
 		// collect undefined variables
-		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
+		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
+				info.isSimplifiedMultiplication());
 		ve.traverse(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 
@@ -960,7 +961,8 @@ public class AlgebraProcessor {
 							// insertStarIfNeeded(undefinedVariables,
 							// ve2, fvX2);
 							replaceUndefinedVariables(ve2,
-									new TreeSet<GeoNumeric>(), null);
+									new TreeSet<GeoNumeric>(), null,
+									info.isSimplifiedMultiplication());
 						}
 						try {
 							geos = processValidExpression(storeUndo, handler,
@@ -993,7 +995,8 @@ public class AlgebraProcessor {
 			// ==========================
 			// step5: replace undefined variables
 			// ==========================
-			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null);
+			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null,
+					info.isSimplifiedMultiplication());
 
 			// Do not copy plain variables, as
 			// they might have been just created now
@@ -1256,9 +1259,10 @@ public class AlgebraProcessor {
 	 *            replace everything
 	 */
 	public void replaceUndefinedVariables(ValidExpression ve,
-			TreeSet<GeoNumeric> undefined, String[] except) {
+			TreeSet<GeoNumeric> undefined, String[] except, boolean multiplication) {
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
 				this.kernel, undefined, except);
+		replacer.setSimplifyMultiplication(multiplication);
 		ve.traverse(replacer);
 
 	}
@@ -2546,7 +2550,7 @@ public class AlgebraProcessor {
 		if (!enableStructures()) {
 			throw new MyError(loc, Errors.InvalidInput);
 		}
-		if (!fun.initFunction(info.isSimplifyingIntegers())) {
+		if (!fun.initFunction(info)) {
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
 					fun.getExpression()

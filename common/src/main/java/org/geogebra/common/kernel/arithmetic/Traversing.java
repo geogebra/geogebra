@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.variable.InputTokenizer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic.variable.VariableReplacerAlgorithm;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -772,6 +773,10 @@ public interface Traversing {
 			variableReplacerAlgorithm = new VariableReplacerAlgorithm(kernel);
 		}
 
+		public void setSimplifyMultiplication(boolean value) {
+			variableReplacerAlgorithm.setTokenizerAllowed(value);
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 
@@ -856,6 +861,15 @@ public interface Traversing {
 
 		private TreeSet<String> tree = new TreeSet<>();
 		private TreeSet<String> localTree = new TreeSet<>();
+		private boolean simplifiedMultiplication;
+
+		public CollectUndefinedVariables() {
+			this(false);
+		}
+
+		public CollectUndefinedVariables(boolean simplifiedMultiplication) {
+			this.simplifiedMultiplication = simplifiedMultiplication;
+		}
 
 		/**
 		 * 
@@ -881,9 +895,13 @@ public interface Traversing {
 				if (expressionFromVariableName == null) {
 					VariableReplacerAlgorithm variableReplacerAlgorithm =
 							new VariableReplacerAlgorithm(variable.getKernel());
+					variableReplacerAlgorithm.setTokenizerAllowed(simplifiedMultiplication);
 					expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
 				}
 
+				if (expressionFromVariableName.wrap().isImaginaryUnit()) {
+					tree.add(InputTokenizer.IMAGINARY_STRING);
+				}
 				if (expressionFromVariableName instanceof Variable
 						&& !variable
                             .getKernel()
