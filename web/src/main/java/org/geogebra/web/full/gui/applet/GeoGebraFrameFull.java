@@ -314,9 +314,6 @@ public class GeoGebraFrameFull
 	 */
 	private void addKeyboard(final MathKeyboardListener textField, boolean animated) {
 		final VirtualKeyboardGUI keyboard = getOnScreenKeyboard(textField);
-		if (keyboard == null) {
-			return;
-		}
 
 		this.setKeyboardShowing(true);
 
