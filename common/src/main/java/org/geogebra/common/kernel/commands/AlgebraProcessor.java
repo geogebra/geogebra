@@ -451,7 +451,7 @@ public class AlgebraProcessor {
 			}
 
 			replaceDerivative(ve, geo);
-			replaceSqrtMinusOne(ve, geo);
+			replaceSqrtMinusOne(ve);
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
@@ -472,11 +472,11 @@ public class AlgebraProcessor {
 		}
 	}
 
-	private void replaceSqrtMinusOne(ValidExpression ve, final GeoElementND geo) {
+	private void replaceSqrtMinusOne(ValidExpression ve) {
 		ExpressionNode node = ve.wrap();
 		ExpressionValue left = node.getLeft();
-		if (node.getOperation() == Operation.SQRT &&
-				left.isNumberValue() && left.isConstant()) {
+		if (node.getOperation() == Operation.SQRT
+				&& left.isNumberValue() && left.isConstant()) {
 			if (left.evaluateDouble() == -1) {
 				node.setLeft(kernel.getImaginaryUnit());
 				node.setOperation(Operation.NO_OPERATION);
@@ -485,11 +485,10 @@ public class AlgebraProcessor {
 	}
 
 	boolean isComplexNumber(GeoElementND geo) {
-		return (geo.isGeoPoint()
-				&& ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX)
-				|| (geo instanceof VectorNDValue
-				&& ((VectorNDValue) geo).getToStringMode() == Kernel.COORD_COMPLEX);
+		return geo instanceof VectorNDValue
+				&& ((VectorNDValue) geo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
+
 	/**
 	 * Replace f' by ExNode(f, Operation.Derivative, 1) in new definition of f'.
 	 *
