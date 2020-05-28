@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.ToStringConverter;
 
 /**
@@ -30,13 +31,7 @@ public final class ConstructionItemProvider implements HasLastItem {
 
 	@Override
 	public String getLastItem() {
-		TreeSet<GeoElement> elements = cons.getGeoSetWithCasCellsConstructionOrder();
-		Iterator<GeoElement> iterator = elements.descendingIterator();
-		GeoElement element = iterator.next();
-		while (algebraView.getNode(element) == null && iterator.hasNext()) {
-			element = iterator.next();
-		}
-		return convertToString(element);
+		return convertToString(getLastGeoElement());
 	}
 
 	private String convertToString(GeoElement element) {
@@ -44,5 +39,28 @@ public final class ConstructionItemProvider implements HasLastItem {
 			return converter.convert(element);
 		}
 		return "";
+	}
+
+	private GeoElement getLastGeoElement() {
+		TreeSet<GeoElement> elements = cons.getGeoSetWithCasCellsConstructionOrder();
+		Iterator<GeoElement> iterator = elements.descendingIterator();
+		GeoElement element = iterator.next();
+		while (algebraView.getNode(element) == null && iterator.hasNext()) {
+			element = iterator.next();
+		}
+		return element;
+	}
+
+	@Override
+	public String getLastItemWithOptionalBrackets() {
+		GeoElement element = getLastGeoElement();
+		if (element == null) {
+			return "";
+		}
+		String lastItemString = convertToString(element);
+		if (StringUtil.isSimpleNumber(lastItemString) || element.isGeoText()) {
+			return lastItemString;
+		}
+		return "(" + lastItemString + ")";
 	}
 }
