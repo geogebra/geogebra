@@ -138,9 +138,8 @@ public class ShareLinkDialog extends ComponentDialog implements FastClickHandler
 		if (anchor == null) {
 			super.onResize(resizeEvent);
 		} else {
-			setPopupPosition(anchor.getAbsoluteLeft() -
-					(this.getOffsetWidth() - anchor.getOffsetWidth()),
-					anchor.getAbsoluteTop() - 27);
+			setPopupPosition(anchor.getAbsoluteLeft() - (this.getOffsetWidth()
+							- anchor.getOffsetWidth()), anchor.getAbsoluteTop() - 27);
 		}
 	}
 
@@ -164,9 +163,8 @@ public class ShareLinkDialog extends ComponentDialog implements FastClickHandler
 	public void center() {
 		super.center();
 		if (anchor != null) {
-			setPopupPosition(anchor.getAbsoluteLeft() -
-							(this.getOffsetWidth() - anchor.getOffsetWidth()),
-					anchor.getAbsoluteTop() - 27);
+			setPopupPosition(anchor.getAbsoluteLeft() - (this.getOffsetWidth()
+					- anchor.getOffsetWidth()), anchor.getAbsoluteTop() - 27);
 		}
 	}
 

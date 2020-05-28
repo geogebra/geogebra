@@ -328,7 +328,7 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showExportImageDialog(String base64Image) {
 		DialogData data = new DialogData("exportImage", ((AppW) app)
-				.isCopyImageToClipboardAvailable() ? "CopyToClipboard" : null,"Download");
+			.isCopyImageToClipboardAvailable() ? "CopyToClipboard" : null, "Download"); 
 		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app, data,
 				base64Image);
 		expImgDialog.show();
