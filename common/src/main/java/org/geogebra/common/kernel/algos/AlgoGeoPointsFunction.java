@@ -28,10 +28,8 @@ import org.geogebra.common.kernel.geos.LabelManager;
  * on functions, where the command returns a varying number of GeoPoints. This
  * is to avoid a lot of duplicated label-updating code. Most of the code is
  * copied from AlgoRootsPolynomial. (Where it might be eliminated later...)
- *
  * @author Hans-Petter Ulven
  * @version 06.03.11
- *
  */
 public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	private static final int PIXELS_BETWEEN_SAMPLES = 5; // Open for empirical
@@ -58,13 +56,9 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 	/**
 	 * Computes all roots of f
-	 *
-	 * @param cons
-	 *            construction
-	 * @param labels
-	 *            output labels
-	 * @param setLabels
-	 *            whether to set labels
+	 * @param cons construction
+	 * @param labels output labels
+	 * @param setLabels whether to set labels
 	 */
 	public AlgoGeoPointsFunction(Construction cons, String[] labels,
 			boolean setLabels) {
@@ -99,8 +93,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	}
 
 	/**
-	 * @param cons
-	 *            construction
+	 * @param cons construction
 	 */
 	public AlgoGeoPointsFunction(Construction cons) {
 		super(cons);
@@ -144,7 +137,8 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		} // for
 	}
 
-	protected final void setPoints(UnivariateFunction evaluatable, double[] curXValues, int number) {
+	protected final void setPoints(UnivariateFunction evaluatable, double[] curXValues,
+			int number) {
 		setPoints(curXValues, getYs(evaluatable, curXValues), number);
 	}
 
@@ -285,10 +279,8 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	}
 
 	/**
-	 * @param l
-	 *            left bound
-	 * @param r
-	 *            right bound
+	 * @param l left bound
+	 * @param r right bound
 	 * @return number of samples based on zoom
 	 */
 	public final int findNumberOfSamples(double l, double r) {

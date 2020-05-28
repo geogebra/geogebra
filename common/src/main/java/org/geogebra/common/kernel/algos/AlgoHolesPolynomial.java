@@ -41,7 +41,8 @@ public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCA
 	 * @param f function
 	 * @param indcludesInfinite include infinite values
 	 */
-	public AlgoHolesPolynomial(Construction cons, GeoFunction f, String[] labels, boolean indcludesInfinite) {
+	public AlgoHolesPolynomial(Construction cons, GeoFunction f, String[] labels,
+			boolean indcludesInfinite) {
 		super(cons, labels, true);
 
 		this.f = f;
