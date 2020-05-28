@@ -1610,16 +1610,6 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void cmdHoles() {
-		if (app.has(Feature.COMMAND_HOLES)) {
-			t("Holes(x/x)", "{(0, 1)}");
-			t("Holes((x^2 - 4)/(x - 2))", "{(2, 4)}");
-			t("Holes(x + x/x)", "{(0, 1)}");
-			t("Holes(2^(x + x/x))", "{(0, 2)}");
-		}
-	}
-
-	@Test
 	public void cmdSetLevelOfDetail() {
 		t("a:x+y", "x + y");
 		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),

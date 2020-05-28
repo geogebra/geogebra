@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -15,17 +16,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.Operation;
 
 /**
  * Created by kh on 18.01.2018.
  */
-public class AlgoHolesPolynomial extends AlgoElement implements UsesCAS {
+public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCAS {
 
 	private GeoFunction f; // input
-	private GeoPoint[] output;
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	private boolean indcludesInfinite;
 
@@ -33,8 +32,8 @@ public class AlgoHolesPolynomial extends AlgoElement implements UsesCAS {
 	 * @param cons construction
 	 * @param f function
 	 */
-	public AlgoHolesPolynomial(Construction cons, GeoFunction f) {
-		this(cons, f, true);
+	public AlgoHolesPolynomial(Construction cons, GeoFunction f, String[] labels) {
+		this(cons, f, labels, true);
 	}
 
 	/**
@@ -42,12 +41,11 @@ public class AlgoHolesPolynomial extends AlgoElement implements UsesCAS {
 	 * @param f function
 	 * @param indcludesInfinite include infinite values
 	 */
-	public AlgoHolesPolynomial(Construction cons, GeoFunction f, boolean indcludesInfinite) {
-		super(cons);
+	public AlgoHolesPolynomial(Construction cons, GeoFunction f, String[] labels, boolean indcludesInfinite) {
+		super(cons, labels, true);
 
 		this.f = f;
 		this.indcludesInfinite = indcludesInfinite;
-		output = new GeoPoint[0];
 
 		setInputOutput();
 		compute();
@@ -63,20 +61,28 @@ public class AlgoHolesPolynomial extends AlgoElement implements UsesCAS {
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = f.toGeoElement();
-		setOutput(output);
+		setOutput(getPoints());
 		setDependencies(); // done by AlgoElement
 	}
 
 	@Override
 	public void compute() {
 		Function fun = f.getFunction();
-		List<GeoPoint> result = new ArrayList<>();
+		List<MyPoint> result = new ArrayList<>();
 		solveExpr(fun.getExpression(), result);
-		output = result.toArray(output);
-		setOutput(output);
+
+		double[] xs = new double[result.size()];
+		double[] ys = new double[result.size()];
+		for (int i = 0; i < result.size(); i++) {
+			MyPoint point = result.get(i);
+			xs[i] = point.x;
+			ys[i] = point.y;
+		}
+		setPoints(xs, ys, xs.length);
+
 	}
 
-	private void solveExpr(ExpressionValue expr, List<GeoPoint> result) {
+	private void solveExpr(ExpressionValue expr, List<MyPoint> result) {
 		if (expr == null || expr.isConstant()) {
 			return;
 		}
@@ -90,16 +96,14 @@ public class AlgoHolesPolynomial extends AlgoElement implements UsesCAS {
 		}
 	}
 
-	private void solveDivision(ExpressionValue exp, List<GeoPoint> result) {
-		StringBuilder sb = new StringBuilder("solve(");
-		sb.append(exp.toString(StringTemplate.prefixedDefault));
-		sb.append(" = 0)");
-
+	private void solveDivision(ExpressionValue exp, List<MyPoint> result) {
 		arbconst.startBlocking();
-		String solns = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
-				arbconst);
+		String input = "solve(" + exp.toString(StringTemplate.prefixedDefault) + " = 0)";
+		String solns = kernel.evaluateCachedGeoGebraCAS(input, arbconst);
 		GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
-
+		if (raw == null) {
+			return;
+		}
 		for (int i = 0; i < raw.size(); i++) {
 			GeoElement element = raw.get(i);
 			if (element instanceof GeoLine) {
@@ -120,10 +124,9 @@ public class AlgoHolesPolynomial extends AlgoElement implements UsesCAS {
 		}
 	}
 
-	private void add(double x, double y, List<GeoPoint> result) {
+	private void add(double x, double y, List<MyPoint> result) {
 		if (indcludesInfinite || !Double.isInfinite(y)) {
-			GeoPoint point = new GeoPoint(cons, x, y, 1.0);
-			point.setParentAlgorithm(this);
+			MyPoint point = new MyPoint(x, y);
 			result.add(point);
 		}
 	}

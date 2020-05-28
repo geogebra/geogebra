@@ -6,8 +6,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 
 public class AlgoRemovableDiscontinuity extends AlgoHolesPolynomial {
 
-	public AlgoRemovableDiscontinuity(Construction cons, GeoFunction f) {
-		super(cons, f, false);
+	public AlgoRemovableDiscontinuity(Construction cons, GeoFunction f, String[] labels) {
+		super(cons, f, labels, false);
 	}
 
 	@Override
