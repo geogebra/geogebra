@@ -9919,6 +9919,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
+		boolean newSelection = getAppSelectedGeos() == null || getAppSelectedGeos().isEmpty();
+
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
 
@@ -10049,7 +10051,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (geos.size() == 1 && geos.get(0).hasPreviewPopup()) {
 					showSpecialPointPopup(geos);
 				} else {
-					if (!draggingBeyondThreshold || selection.getSelectedGeos().size() > 1) {
+					if (!draggingBeyondThreshold || view.getSelectionRectangle() != null
+							|| (view.getBoundingBox() != null && !getAppSelectedGeos().isEmpty()
+							&& newSelection)) {
 						showDynamicStylebar();
 					}
 				}
