@@ -12,7 +12,6 @@ public class MinProperty extends RangelessDecimalProperty {
 
     public MinProperty(GeoNumeric numeric) {
         super("Minimum.short", numeric);
-        delegate = new SliderPropertyDelegate(this);
     }
 
     @Override
@@ -29,6 +28,13 @@ public class MinProperty extends RangelessDecimalProperty {
 
     @Override
     boolean isApplicableTo(GeoElement element) {
-        return delegate.isSlider(element);
+        return getDelegate().isSlider(element);
+    }
+
+    private SliderPropertyDelegate getDelegate() {
+        if (delegate == null) {
+            delegate = new SliderPropertyDelegate(this);
+        }
+        return delegate;
     }
 }

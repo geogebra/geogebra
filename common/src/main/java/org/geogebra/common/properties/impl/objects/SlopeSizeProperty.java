@@ -1,5 +1,6 @@
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.algos.Algos;
@@ -53,11 +54,21 @@ public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implemen
         propertyHelper = new GeoListPropertyHelper<>(app, this);
     }
 
-    public SlopeSizeProperty(GeoElement geoElement) {
-        this(geoElement.getApp());
-        if (!isApplicableTo(geoElement)) {
-            throw new NotApplicablePropertyException(geoElement, this);
+    /**
+     * @param slope slope
+     */
+    public SlopeSizeProperty(GeoNumeric slope) {
+        this(slope.getApp());
+        setSlope(slope);
+        if (!isApplicableTo(slope)) {
+            throw new NotApplicablePropertyException(slope, this);
         }
+    }
+
+    private void setSlope(GeoNumeric element) {
+        List<GeoElementND> list = new ArrayList<>();
+        list.add(element);
+        propertyHelper.setGeoElements(list);
     }
 
     /**
