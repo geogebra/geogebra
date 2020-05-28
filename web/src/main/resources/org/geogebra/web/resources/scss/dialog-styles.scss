@@ -1607,13 +1607,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
    	}
 
-   	.MaterialDialogBox.whatsNewDialog {
-   	    width: 560px;
-   	    .title {
-   	        @extend .headline6;
-   	        margin-top: 0px;
-            margin-bottom: 20px;
-   	    }
+   	.dialogComponent.whatsNewDialog {
+   	    max-width: 592px;
+   	    max-height: 424px;
+   	    height: auto;
+
    	    .messagePanel {
    	        padding-right: 16px;
    	        .message {
@@ -1625,9 +1623,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
                 @extend .subtitle1-link;
             }
    	    }
-        .DialogButtonPanel {
-            padding-top: 28px;
-        }
+
+   	    .dialogBtnPanel {
+   	        position: relative;
+   	        float: right;
+   	    }
    	}
 
    	.mowInputPanelContent  {

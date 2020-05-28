@@ -131,6 +131,7 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -1081,12 +1082,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void startDialogChain() {
 		autosavedMaterial = getFileManager().getAutosaveJSON();
-		afterLocalizationLoaded(new Runnable() {
-			@Override
-			public void run() {
-				maybeShowRecentChangesDialog();
-			}
-		});
+		afterLocalizationLoaded(() -> maybeShowRecentChangesDialog());
 	}
 
 	private void maybeShowRecentChangesDialog() {
@@ -1097,12 +1093,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String message = localization.getMenu(RECENT_CHANGES_KEY);
 			String readMore = localization.getMenu("tutorial_apps_comparison");
 			String link = "https://www.geogebra.org/m/" + readMore;
-			showRecentChangesDialog(message, link, new Runnable() {
-				@Override
-				public void run() {
-					maybeStartAutosave();
-				}
-			});
+			showRecentChangesDialog(message, link, () -> maybeStartAutosave());
 			setHideRecentChanges(RECENT_CHANGES_KEY);
 		} else {
 			maybeStartAutosave();
@@ -1139,13 +1130,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void showRecentChangesDialog(String message, String link,
 										 final Runnable closingCallback) {
-		final WhatsNewDialog dialog = new WhatsNewDialog(this, message, link);
+		DialogData data = new DialogData("WhatsNew", null, "OK");
+		final WhatsNewDialog dialog = new WhatsNewDialog(this, data, message, link);
 		dialog.addCloseHandler(closeEvent -> closingCallback.run());
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
 				dialog.show();
-				dialog.center();
 			}
 		};
 		timer.schedule(0);
