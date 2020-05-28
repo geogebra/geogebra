@@ -55,28 +55,14 @@ public class InputBoxProcessor {
 		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
 		updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
 
-		if (errorHandler.errorOccured) {
-			handleError(inputText);
-		} else {
-			inputBox.clearTempUserInput();
-		}
-	}
-
-	private void handleError(String inputText) {
-		setTempUserInput(inputText);
-		setLinkedGeoUndefined();
-	}
-
-	private void setTempUserInput(String inputText) {
 		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
-		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
-		inputBox.setTempUserEvalInput(inputText);
-	}
 
-	private void setLinkedGeoUndefined() {
-		GeoElementND geoElement = inputBox.getLinkedGeo();
-		geoElement.setUndefined();
-		geoElement.updateRepaint();
+		if (errorHandler.errorOccured) {
+			inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+			inputBox.setTempUserEvalInput(inputText);
+			linkedGeo.setUndefined();
+			linkedGeo.updateRepaint();
+		}
 	}
 
 	private String getAndClearTempUserDisplayInput(String inputText) {

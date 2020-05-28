@@ -19,8 +19,7 @@ class InputBoxErrorHandler implements ErrorHandler {
 
 	@Override
 	public String getCurrentCommand() {
-		errorOccured = true;
-		return "";
+		return null;
 	}
 
 	@Override
