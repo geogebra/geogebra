@@ -9,10 +9,11 @@ public class NotApplicablePropertyException extends RuntimeException {
 
     NotApplicablePropertyException(GeoElement element, GeoElementProperty property) {
         message =
-                "The GeoElement with label "
+                "The GeoElement with label \""
                         + element.getLabelSimple()
-                        + " has no property named "
-                        + property.getName();
+                        + "\" has no property named \""
+                        + property.getName()
+                        + "\"";
     }
 
     @Override

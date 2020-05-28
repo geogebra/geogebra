@@ -15,11 +15,11 @@ public abstract class AbstractGeoElementProperty implements GeoElementProperty {
 	private GeoElement geoElement;
 
 	protected AbstractGeoElementProperty(String name, GeoElement geoElement) {
+		this.name = name;
+		this.geoElement = geoElement;
 		if (!isApplicableTo(geoElement)) {
 			throw new NotApplicablePropertyException(geoElement, this);
 		}
-		this.name = name;
-		this.geoElement = geoElement;
 	}
 
 	/**
