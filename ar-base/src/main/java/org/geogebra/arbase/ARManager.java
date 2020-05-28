@@ -465,18 +465,16 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             mView.setARRatioUnit("inch");
         } else {
             if (ratio >= 100) {
-                // round double for precision 3 in m
-                ratio = (double) Math.round(ratio) / 100d;
-                mView.setARRatioUnit("m");
-            } else if (ratio < 0.5 ) {
-                // round double for precision 3 in mm
-                ratio = (double) Math.round(ratio * 1000d) / 100d;
-                mView.setARRatioUnit("mm");
+                // round to 0 decimal places.
+                ratio = (double) Math.round(ratio);
+            } else if (ratio < 10 ) {
+                // round to 2 decimal places.
+                ratio = (double) Math.round(ratio * 100) / 100d;
             } else {
-                // round double for precision 3 in cm
-                ratio = (double) Math.round(ratio * 100d) / 100d;
-                mView.setARRatioUnit("cm");
+                // round to 1 decimal places.
+                ratio = (double) Math.round(ratio * 10) / 10d;
             }
+            mView.setARRatioUnit("cm");
         }
         text = getRatioMessage(ratio);
         mArSnackBarManagerInterface.showRatio(text);
