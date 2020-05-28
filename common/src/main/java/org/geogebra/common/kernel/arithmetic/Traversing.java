@@ -899,7 +899,7 @@ public interface Traversing {
 					expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
 				}
 
-				if (expressionFromVariableName.wrap().isImaginaryUnit()) {
+				if (ExpressionNode.isImaginaryUnit(expressionFromVariableName)) {
 					tree.add(InputTokenizer.IMAGINARY_STRING);
 				}
 				if (expressionFromVariableName instanceof Variable

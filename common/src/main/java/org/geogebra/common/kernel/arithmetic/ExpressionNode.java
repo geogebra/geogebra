@@ -1290,18 +1290,11 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * @return true if this is leaf containing only Variable
-	 */
-	public boolean isSingleVariable() {
-		return (isLeaf() && (left instanceof Variable));
-	}
-
-	/**
 	 * @return true if this is leaf containing only imaginary unit
 	 */
-	public boolean isImaginaryUnit() {
-		return (isLeaf() && (left instanceof GeoVec2D)
-				&& ((GeoVec2D) left).isImaginaryUnit());
+	public static boolean isImaginaryUnit(ExpressionValue left) {
+		return (left instanceof GeoVec2D)
+				&& ((GeoVec2D) left).isImaginaryUnit();
 	}
 
 	/**

@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -102,7 +101,6 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionValue replaceToken(String expressionString) {
-		Log.error(expressionString);
 		this.expressionString = expressionString;
 
 		ExpressionValue derivative = getDerivative(expressionString);

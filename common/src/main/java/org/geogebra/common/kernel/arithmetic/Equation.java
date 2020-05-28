@@ -739,27 +739,28 @@ public class Equation extends ValidExpression implements EquationValue {
 	 *         e=x are equations).
 	 */
 	public ValidExpression equationOrAssignment() {
-		if (!lhs.unwrap().isExpressionNode()
+		ExpressionValue lhsUnwrapped = lhs.unwrap();
+		if (!lhsUnwrapped.isExpressionNode()
 				&& (!rhs.containsFreeFunctionVariable(null) || rhsHasLists())) {
 			// assignment, e.g. z = 23
-			if (lhs.isSingleVariable()) {
-				rhs.setLabel(((Variable) lhs
-						.evaluate(StringTemplate.defaultTemplate))
-								.getName(StringTemplate.defaultTemplate));
+			if (lhsUnwrapped instanceof Variable) {
+				String name = ((Variable) lhsUnwrapped)
+						.getName(StringTemplate.defaultTemplate);
+				rhs.setLabel(name);
 				return rhs;
 			}
 
 			// special case: e = 2 should be an assignment
 			// but an undefined "e" has been read as the Euler constant already
 			else if (Unicode.EULER_STRING
-					.equals(lhs.toString(StringTemplate.defaultTemplate))) {
+					.equals(lhsUnwrapped.toString(StringTemplate.defaultTemplate))) {
 				rhs.setLabel("e");
 				return rhs;
 			}
 
 			// special case: i = 2 should be an assignment
 			// but an undefined "i" has been read as the imaginary unit already
-			else if (lhs.isImaginaryUnit()) {
+			else if (ExpressionNode.isImaginaryUnit(lhsUnwrapped)) {
 				rhs.setLabel("i");
 				return rhs;
 			}
@@ -767,7 +768,7 @@ public class Equation extends ValidExpression implements EquationValue {
 			// special case: z = 2 should be an assignment when 3D view is not
 			// present
 			else if (kernel.isZvarAllowed() && "z"
-					.equals(lhs.toString(StringTemplate.defaultTemplate))) {
+					.equals(lhsUnwrapped.toString(StringTemplate.defaultTemplate))) {
 				rhs.setLabel("z");
 				return rhs;
 			}

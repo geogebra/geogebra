@@ -96,10 +96,10 @@ public class ParserTest {
 		shouldReparseAs("2" + Unicode.PI_STRING + "8",
 				"2 * 8" + Unicode.PI_STRING);
 		// APPS-804
-		// shouldReparseAs(Unicode.PI_STRING + "8.1",
-		// Unicode.PI_STRING + "8.1");
-		// shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
-		// "2" + Unicode.PI_STRING + "8.1");
+		 shouldReparseAs(Unicode.PI_STRING + "8.1",
+		 "8.1"+Unicode.PI_STRING);
+		 shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
+		 "2 * 8.1" + Unicode.PI_STRING);
 
 	}
 
@@ -259,7 +259,7 @@ public class ParserTest {
 	@Test
 	public void multiplicationShouldResolvedToChainedTrig() {
 		app.getKernel().getConstruction().registerFunctionVariable("t");
-		shouldReparseAs(app,"e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
+		shouldReparseAs(app, "e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
 				Unicode.EULER_STRING + "^(-t) * 9sin"
 				+ Unicode.SUPERSCRIPT_8 + "(t cos(t))");
 	}
@@ -304,7 +304,9 @@ public class ParserTest {
 	public void checkValidLabels() {
 		assertValidLabel("aa");
 		assertValidLabel("aa8");
-		assertValidLabel("aa8.1");
+		assertValidLabel("aa_7");
+		assertValidLabel("aa_{72}''");
+		assertValidLabel(Unicode.PI_STRING+8);
 	}
 
 	private void assertValidLabel(String s) {
