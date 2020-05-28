@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -53,30 +52,37 @@ public class InputBoxProcessor {
 			return;
 		}
 
+		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
+		updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
+
+		if (errorHandler.errorOccured) {
+			handleError(inputText);
+		} else {
+			inputBox.clearTempUserInput();
+		}
+	}
+
+	private void handleError(String inputText) {
+		setTempUserInput(inputText);
+		setLinkedGeoUndefined();
+	}
+
+	private void setTempUserInput(String inputText) {
 		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
-		InputBoxErrorHandler errorHandler =
-				new InputBoxErrorHandler(
-						inputBox,
-						tempUserDisplayInput,
-						inputText);
-		updateLinkedGeo(inputText, tpl, errorHandler);
+		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+		inputBox.setTempUserEvalInput(inputText);
+	}
+
+	private void setLinkedGeoUndefined() {
+		GeoElementND geoElement = inputBox.getLinkedGeo();
+		geoElement.setUndefined();
+		geoElement.updateRepaint();
 	}
 
 	private String getAndClearTempUserDisplayInput(String inputText) {
 		String tempUserInput = inputBox.getTempUserDisplayInput();
 		inputBox.clearTempUserInput();
 		return tempUserInput == null ? inputText : tempUserInput;
-	}
-
-	private void updateLinkedGeo(String inputText,
-								 StringTemplate tpl,
-								 InputBoxErrorHandler errorHandler) {
-		try {
-			updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
-		} catch (Throwable throwable) {
-			errorHandler.handleError();
-			Log.error(throwable.getMessage());
-		}
 	}
 
 	private void updateLinkedGeoNoErrorHandling(String inputText,
