@@ -126,11 +126,13 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox.GeoGebraFileChooser {
-		.infotext {
-			font-size: 95%;
-			margin-right: 16px;
-		}
+	.dialogComponent.GeoGebraFileChooser {
+	    max-width: 530px;
+	    max-height: 210px;
+
+	    .titlePanel .coloredLabel {
+	        font-size: 80%;
+	    }
 
 		.templatePanel {
             display: flex;
@@ -156,20 +158,11 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
             }
         }
 
-		.buttonPanel {
-   			height: 36px;
-   			text-align: right;
-    		padding-top: 32px;
-    		padding-right: 0px;
-    		padding-bottom: 8px;
-    		padding-left: 0px;
-
-    		.gwt-Button,.button {
-    			@extend .flatDialogBtn;
-   			}
-
+		.visibilityPanel {
    			.visibility {
+   			    position: absolute;
    			    bottom: 6px;
+   			    width: 131px;
                 left: 76px;
                 top: auto;
    			 }
@@ -179,10 +172,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
    				bottom: 15px;
    				left: 24px !important;
    			}
-
-   			input.gwt-TextBox {
-    			opacity: 0.7;
-			}
    		}
 	}
 

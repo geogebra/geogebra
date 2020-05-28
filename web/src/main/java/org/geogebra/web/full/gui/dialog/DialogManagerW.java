@@ -106,7 +106,7 @@ public class DialogManagerW extends DialogManager
 			}
 
 			// show the view
-			((GuiManagerW) app.getGuiManager()).setShowView(true,
+			app.getGuiManager().setShowView(true,
 					App.VIEW_FUNCTION_INSPECTOR);
 			functionInspector.setInspectorVisible(true);
 
@@ -328,7 +328,7 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showExportImageDialog(String base64Image) {
 		DialogData data = new DialogData("exportImage", ((AppW) app)
-			.isCopyImageToClipboardAvailable() ? "CopyToClipboard" : null, "Download"); 
+			.isCopyImageToClipboardAvailable() ? "CopyToClipboard" : null, "Download");
 		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app, data,
 				base64Image);
 		expImgDialog.show();
@@ -374,7 +374,6 @@ public class DialogManagerW extends DialogManager
 				((AppW) app), message, title, initText, handler, changingSign,
 				checkBoxText);
 		id.setVisible(true);
-
 	}
 
 	/**
@@ -390,68 +389,62 @@ public class DialogManagerW extends DialogManager
 		sliderDialog.center();
 
 		app.setDefaultCursor();
-
 		return true;
 	}
 
 	@Override
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
-
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		InputDialogRotateW id = new InputDialogRotatePointW(((AppW) app), title,
 				handler, polys, points, selGeos, ec);
 		id.setVisible(true);
-
 	}
 
 	@Override
 	public void showNumberInputDialogAngleFixed(String title,
 			GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos,
 			EuclidianController ec) {
-
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		InputDialogAngleFixedW id = new InputDialogAngleFixedW(((AppW) app),
 				title, handler, segments, points, app.getKernel(), ec);
 		id.setVisible(true);
-
 	}
 
 	@Override
 	public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
-
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		InputDialogW id = new InputDialogDilateW(((AppW) app), title, handler,
 				points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
-
 	}
 
 	@Override
 	public void showNumberInputDialogSegmentFixed(String title,
 			GeoPointND geoPoint1) {
-
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		InputDialogW id = new InputDialogSegmentFixedW(((AppW) app), title,
 				handler, geoPoint1, app.getKernel());
 		id.setVisible(true);
-
 	}
 
 	/**
-	 *
 	 * @return {@link SaveDialogI}
 	 */
 	public SaveDialogI getSaveDialog() {
 		if (saveDialog == null) {
-			saveDialog = app.isMebis()
-					? new SaveDialogMow((AppW) app)
-					: new SaveDialogW((AppW) app, widgetFactory);
+			DialogData data;
+			if (app.isMebis()) {
+				saveDialog = new SaveDialogMow((AppW) app);
+			} else {
+				data = new DialogData("Save", "Cancel", "Save");
+				saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
+			}
 		}
 		// set default saveType
 		saveDialog.setSaveType(
@@ -469,7 +462,7 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showPropertiesDialog(OptionType type,
 			ArrayList<GeoElement> geos) {
-		if (!((AppW) app).letShowPropertiesDialog()
+		if (!app.letShowPropertiesDialog()
 				|| app.getGuiManager() == null) {
 			return;
 		}
@@ -502,11 +495,10 @@ public class DialogManagerW extends DialogManager
 		if (app.isUnbundledOrWhiteboard()) {
 			((PropertiesViewW) pv).open();
 		} else {
-			((GuiManagerW) app.getGuiManager()).setShowView(true,
+			app.getGuiManager().setShowView(true,
 					App.VIEW_PROPERTIES);
 
 		}
-
 	}
 
 	@Override
@@ -581,10 +573,6 @@ public class DialogManagerW extends DialogManager
 	public void setLabels() {
 		if (textInputDialog != null) {
 			((TextInputDialogW) textInputDialog).setLabels();
-		}
-
-		if (saveDialog != null) {
-			saveDialog.setLabels();
 		}
 
 		if (imageDialog != null) {
