@@ -1391,6 +1391,7 @@ __GGB__keysVar["vi"].menu = {
     "CASViewOnly": "C\xe2u l\u1ec7nh \"%0\" ch\u1ec9 c\xf3 s\u1eb5n trong c\u1eeda s\u1ed5 \u0111\u1ea1i s\u1ed1",
     "Calculate": "T\xednh to\xe1n",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "C\xe1c k\xed t\u1ef1 th\u01b0 ph\xe1p",
     "Camera": "Camera",
     "Cancel": "H\u1ee7y",

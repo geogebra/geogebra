@@ -1391,6 +1391,7 @@ __GGB__keysVar["eo"].menu = {
     "CASViewOnly": "Komando \u201c%0\u201d nur haveblas en KAS-vido",
     "Calculate": "Kalkuli",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kaligrafiaj literoj",
     "Camera": "Camera",
     "Cancel": "Nuligi",

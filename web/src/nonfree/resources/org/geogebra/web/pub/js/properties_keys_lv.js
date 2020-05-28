@@ -1391,6 +1391,7 @@ __GGB__keysVar["lv"].menu = {
     "CASViewOnly": "Comanda \"%0\" ir pieejama tikai CAS skat\u0101",
     "Calculate": "Apr\u0113\u0137in\u0101t",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kaligr\u0101fiski burti",
     "Camera": "Camera",
     "Cancel": "Atcelt",

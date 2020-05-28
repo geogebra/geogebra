@@ -1391,6 +1391,7 @@ __GGB__keysVar["fil"].menu = {
     "CASViewOnly": "Ang command na \"%0\" ay pwede lamang sa CAS view",
     "Calculate": "Bilangin",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Calligraphic Letters",
     "Camera": "Camera",
     "Cancel": "Cancel",

@@ -1391,6 +1391,7 @@ __GGB__keysVar["tr"].menu = {
     "CASViewOnly": "Komut \"%0\" sadece CAS g\xf6r\xfcn\xfcm\xfcnde mevcuttur",
     "Calculate": "Hesapla",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Talik Harfler",
     "Camera": "Kamera",
     "Cancel": "\u0130ptal",

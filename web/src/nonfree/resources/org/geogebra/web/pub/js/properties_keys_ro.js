@@ -1391,6 +1391,7 @@ __GGB__keysVar["ro"].menu = {
     "CASViewOnly": "Comanda \"%0\" este disponibil\u0103 doar \xeen modul de prezentare CAS",
     "Calculate": "Calculeaz\u0103",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Litere caligrafice",
     "Camera": "Camer\u0103",
     "Cancel": "Anulare",

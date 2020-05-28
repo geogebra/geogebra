@@ -1391,6 +1391,7 @@ __GGB__keysVar["hr"].menu = {
     "CASViewOnly": "Naredba \"%0\" je dostupna samo u CAS pogledu",
     "Calculate": "Izra\u010dunaj",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Krasopisna slova",
     "Camera": "Kamera",
     "Cancel": "Odustani",

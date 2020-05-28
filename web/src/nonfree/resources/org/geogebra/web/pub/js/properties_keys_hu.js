@@ -1391,6 +1391,7 @@ __GGB__keysVar["hu"].menu = {
     "CASViewOnly": "\"%0\" parancs csak CAS n\xe9zetben haszn\xe1lhat\xf3",
     "Calculate": "Kisz\xe1mol",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kalligrafikus karakterek",
     "Camera": "Camera",
     "Cancel": "M\xe9gse",

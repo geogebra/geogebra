@@ -1391,6 +1391,7 @@ __GGB__keysVar["nb"].menu = {
     "CASViewOnly": "Kommandoen \"%0\" er bare tilgjengelig i CAS-delen",
     "Calculate": "Regn ut",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kalligrafiske bokstaver",
     "Camera": "Kamera",
     "Cancel": "Avbryt",

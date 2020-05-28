@@ -1391,6 +1391,7 @@ __GGB__keysVar["id"].menu = {
     "CASViewOnly": "Perintah \"%0\" tersedia hanya pada tampilan CAS",
     "Calculate": "Hitung",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Huruf Kaligrafi",
     "Camera": "Camera",
     "Cancel": "Batal",

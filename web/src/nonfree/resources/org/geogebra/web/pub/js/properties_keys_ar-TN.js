@@ -1391,6 +1391,7 @@ __GGB__keysVar["ar-TN"].menu = {
     "CASViewOnly": "\u0627\u0644\u0623\u0645\u0631 \"%0\" \u0645\u064f\u062a\u0648\u0641\u0631 \u0641\u064a \u0645\u0638\u0647\u0631 \u0646\u0638\u0627\u0645 \u0627\u0644\u062d\u0633\u0627\u0628 \u0627\u0644\u062c\u0628\u0631\u064a \u0641\u0642\u0637",
     "Calculate": "\u0623\u062d\u0633\u0628",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "\u062d\u0631\u0648\u0641 \u0643\u0627\u0644\u064a\u0643\u0631\u0627\u0641\u064a",
     "Camera": "Camera",
     "Cancel": "\u0625\u0644\u063a\u0627\u0621",

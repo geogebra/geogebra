@@ -1391,6 +1391,7 @@ __GGB__keysVar["et"].menu = {
     "CASViewOnly": "K\xe4sk \"%0\" on k\xe4ttesaadaval ainult CAS-i vaates",
     "Calculate": "Arvuta",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Galligraafilised t\xe4hed",
     "Camera": "Camera",
     "Cancel": "T\xfchista",

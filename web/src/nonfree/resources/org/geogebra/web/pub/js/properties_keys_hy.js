@@ -1391,6 +1391,7 @@ __GGB__keysVar["hy"].menu = {
     "CASViewOnly": "\"%0\" \u0570\u0580\u0561\u0574\u0561\u0576\u0568 \u056f\u056b\u0580\u0561\u057c\u0565\u056c\u056b \u0567 \u0574\u056b\u0561\u0575\u0576 CAS-\u0578\u0582\u0574",
     "Calculate": "\u0540\u0561\u0577\u057e\u0565\u0574",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "\u0541\u0565\u057c\u0561\u0563\u056b\u0580 \u057f\u0561\u057c\u0565\u0580",
     "Camera": "Camera",
     "Cancel": "\u0532\u0561\u0576 \u0579\u0561\u0576\u0565\u0574",

@@ -1391,6 +1391,7 @@ __GGB__keysVar["pt"].menu = {
     "CASViewOnly": "O Comando \"%0\" est\xe1 dispon\xedvel apenas na Janela CAS",
     "Calculate": "Calcular",
     "CalculatorSuite": "Pot\xeancia",
+    "CalculatorSuite.short": "Pot\xeancia",
     "CalligraphicLetters": "Letras Caligr\xe1ficas",
     "Camera": "C\xe2mera",
     "Cancel": "Cancelar",

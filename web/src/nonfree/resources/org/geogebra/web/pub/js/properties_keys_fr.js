@@ -1391,6 +1391,7 @@ __GGB__keysVar["fr"].menu = {
     "CASViewOnly": "La commande \"%0\" n\'est utilisable que dans Calcul Formel.",
     "Calculate": "Calculer",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Lettres Calligraphi\xe9es",
     "Camera": "Cam\xe9ra",
     "Cancel": "Annuler",

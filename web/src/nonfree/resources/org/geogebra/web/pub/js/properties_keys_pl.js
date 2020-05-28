@@ -1391,6 +1391,7 @@ __GGB__keysVar["pl"].menu = {
     "CASViewOnly": "Polecenia \"%0\" jest dost\u0119pne tylko w widoku CAS",
     "Calculate": "Oblicz",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Czcionka Calligraphic",
     "Camera": "Aparat",
     "Cancel": "Anuluj",

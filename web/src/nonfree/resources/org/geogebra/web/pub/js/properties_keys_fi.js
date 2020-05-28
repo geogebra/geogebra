@@ -1391,6 +1391,7 @@ __GGB__keysVar["fi"].menu = {
     "CASViewOnly": "Komento \"%0\" on k\xe4yt\xf6ss\xe4 vain CAS tilassa",
     "Calculate": "Laske",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kalligrafinen merkist\xf6",
     "Camera": "Kamera",
     "Cancel": "Peruuta",

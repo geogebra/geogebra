@@ -1391,6 +1391,7 @@ __GGB__keysVar["sk"].menu = {
     "CASViewOnly": "Pr\xedkaz \"%0\" je dostupn\xe9 len v CAS vzh\u013eade",
     "Calculate": "Vypo\u010d\xedta\u0165",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kaligrafick\xe9 p\xedsmen\xe1",
     "Camera": "Camera",
     "Cancel": "Zru\u0161i\u0165",

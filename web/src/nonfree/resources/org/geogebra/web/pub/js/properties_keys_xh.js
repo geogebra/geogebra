@@ -1391,6 +1391,7 @@ __GGB__keysVar["xh"].menu = {
     "CASViewOnly": "Umyalelo \"%0\" ufumaneka kuphela kwiCAS view",
     "Calculate": "Khaltyulata",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Oonobumba beCalligraphic",
     "Camera": "Camera",
     "Cancel": "Cima",

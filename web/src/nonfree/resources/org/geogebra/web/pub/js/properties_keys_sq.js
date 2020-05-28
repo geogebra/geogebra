@@ -1391,6 +1391,7 @@ __GGB__keysVar["sq"].menu = {
     "CASViewOnly": "Komanda \"%0\" eshte ne perdorim vetem ne  CAS pamje",
     "Calculate": "Kalkulo",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Shkronja Kaligrafike",
     "Camera": "Camera",
     "Cancel": "Anulloj",

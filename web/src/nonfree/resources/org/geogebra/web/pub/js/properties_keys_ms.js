@@ -1391,6 +1391,7 @@ __GGB__keysVar["ms"].menu = {
     "CASViewOnly": "Perintah \"%0\" hanya terdapat pada paparan CAS",
     "Calculate": "Kira",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Huruf-huruf Seni Khat",
     "Camera": "Camera",
     "Cancel": "Batal",

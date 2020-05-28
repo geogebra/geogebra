@@ -1391,6 +1391,7 @@ __GGB__keysVar["es-ES"].menu = {
     "CASViewOnly": "\"%0\" es un comando exclusivo de la vista CAS",
     "Calculate": "Calcula",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Letras caligr\xe1ficas",
     "Camera": "C\xe1mara",
     "Cancel": "Cancela",

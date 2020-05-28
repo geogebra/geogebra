@@ -1391,6 +1391,7 @@ __GGB__keysVar["am"].menu = {
     "CASViewOnly": "Command \"%0\" is available only in the CAS view",
     "Calculate": "\u121b\u1235\u120b\u1275",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "\u12e8\u1241\u121d \u1225\u1290 \u133d\u1211\u134d",
     "Camera": "Camera",
     "Cancel": "\u1270\u12c8\u12cd",

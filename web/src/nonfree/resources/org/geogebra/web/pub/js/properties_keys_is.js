@@ -1391,6 +1391,7 @@ __GGB__keysVar["is"].menu = {
     "CASViewOnly": "Skipunina \"%0\" er bara h\xe6gt a\xf0 nota \xed CAS glugga",
     "Calculate": "Reikna",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Skrautskrift",
     "Camera": "Myndav\xe9l",
     "Cancel": "H\xe6tta vi\xf0",

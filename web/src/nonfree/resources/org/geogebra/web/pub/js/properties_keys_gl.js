@@ -1391,6 +1391,7 @@ __GGB__keysVar["gl"].menu = {
     "CASViewOnly": "O comando \"%0\" s\xf3 est\xe1 dispo\xf1ible na Vista CAS",
     "Calculate": "Calcula",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Letras caligr\xe1ficas",
     "Camera": "C\xe1mara",
     "Cancel": "Cancelar",

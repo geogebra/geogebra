@@ -1391,6 +1391,7 @@ __GGB__keysVar["sv"].menu = {
     "CASViewOnly": "Kommandot \"%0\" \xe4r bara tillg\xe4ngligt i CAS-f\xf6nstret",
     "Calculate": "Ber\xe4kna",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kalligrafi",
     "Camera": "Kamera",
     "Cancel": "Avbryt",

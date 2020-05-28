@@ -1391,6 +1391,7 @@ __GGB__keysVar["lt"].menu = {
     "CASViewOnly": "\"%0\" komanda galima tik CAS lauke",
     "Calculate": "Skai\u010diuoti",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kaligrafin\u0117s raid\u0117s",
     "Camera": "Camera",
     "Cancel": "At\u0161aukti",

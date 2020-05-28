@@ -1391,6 +1391,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "CASViewOnly": "%0 \u6307\u4ee4\u53ea\u80fd\u7528\u65bc\u300c\u904b\u7b97\u5340\u300d",
     "Calculate": "\u8a08\u7b97",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "\u66f8\u6cd5\u9ad4\u5b57\u6bcd",
     "Camera": "Camera",
     "Cancel": "\u53d6\u6d88",

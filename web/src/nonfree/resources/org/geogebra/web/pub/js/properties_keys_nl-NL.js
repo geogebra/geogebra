@@ -1391,6 +1391,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "CASViewOnly": "Commando \"%0\" is enkel beschikbaar in CAS",
     "Calculate": "Bereken",
     "CalculatorSuite": "Rekenmachine suite",
+    "CalculatorSuite.short": "Rekenmachine suite",
     "CalligraphicLetters": "Calligrafische letters",
     "Camera": "Camera",
     "Cancel": "Annuleren",

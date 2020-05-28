@@ -1391,6 +1391,7 @@ __GGB__keysVar["da"].menu = {
     "CASViewOnly": "N\xf8gleordet \"%0\" er kun tilg\xe6ngeligt i CAS vinduet",
     "Calculate": "Beregning",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Calligrafiske bogstaver",
     "Camera": "Kamera",
     "Cancel": "Fortryd",

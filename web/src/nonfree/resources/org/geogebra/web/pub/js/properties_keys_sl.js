@@ -1391,6 +1391,7 @@ __GGB__keysVar["sl"].menu = {
     "CASViewOnly": "Ukaz \"%0\" je na voljo le v pogledu SSR",
     "Calculate": "Izra\u010dunaj",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kaligrafske \u010drke",
     "Camera": "Kamera",
     "Cancel": "Prekini",

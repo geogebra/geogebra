@@ -1391,6 +1391,7 @@ __GGB__keysVar["eu"].menu = {
     "CASViewOnly": "\"%0\" agindua erabilgarri dago soilik CAS ikuspegian",
     "Calculate": "Kalkulatu",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Letra Kaligrafikoak",
     "Camera": "Kamera",
     "Cancel": "Utzi",

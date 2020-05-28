@@ -1391,6 +1391,7 @@ __GGB__keysVar["uz"].menu = {
     "CASViewOnly": "\"%0\" buyrug\'i faqat CAS ko\'rinishda ishlaydi",
     "Calculate": "Hisoblash",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Kalligrafik harflar",
     "Camera": "Kamera",
     "Cancel": "Cancel",

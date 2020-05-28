@@ -1391,6 +1391,7 @@ __GGB__keysVar["cy"].menu = {
     "CASViewOnly": "Command \"%0\" is available only in the CAS view",
     "Calculate": "Cyfrifwch",
     "CalculatorSuite": "Calculator Suite",
+    "CalculatorSuite.short": "Calculator Suite",
     "CalligraphicLetters": "Llythrennau Llawysgrifen",
     "Camera": "Camera",
     "Cancel": "Canslo",
