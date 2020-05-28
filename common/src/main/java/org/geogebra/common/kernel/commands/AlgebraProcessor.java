@@ -64,6 +64,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -471,17 +472,24 @@ public class AlgebraProcessor {
 		}
 	}
 
-	private void replaceSqrtMinusOne(ValidExpression ve, GeoElementND geo) {
+	private void replaceSqrtMinusOne(ValidExpression ve, final GeoElementND geo) {
 		ExpressionNode node = ve.wrap();
 		ExpressionValue left = node.getLeft();
 		if (node.getOperation() == Operation.SQRT &&
 				left.isNumberValue() && left.isConstant()) {
 			if (left.evaluateDouble() == -1) {
 				node.setLeft(kernel.getImaginaryUnit());
+				node.setOperation(Operation.NO_OPERATION);
 			}
 		}
 	}
 
+	boolean isComplexNumber(GeoElementND geo) {
+		return (geo.isGeoPoint()
+				&& ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX)
+				|| (geo instanceof VectorNDValue
+				&& ((VectorNDValue) geo).getToStringMode() == Kernel.COORD_COMPLEX);
+	}
 	/**
 	 * Replace f' by ExNode(f, Operation.Derivative, 1) in new definition of f'.
 	 *

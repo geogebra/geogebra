@@ -8,14 +8,20 @@ import org.junit.Test;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoInputBoxForComplexTest extends BaseUnitTest {
+
 	@Test
-	public void testSqrtNegativeOne() {
+	public void rootOfMinusOneShouldBeImaginaryWithComplexNumber() {
 		add("z_1 = 3 + 2i");
-		shouldBeUpdatedAs("z_1", "sqrt(-1)", "sqrt("
-				+ Unicode.IMAGINARY + ")");
-		shouldBeUpdatedAs("z_1", "sqrt(11)", "sqrt(11)");
-		shouldBeUpdatedAs("z_1", "sqrt(   -1)", "sqrt("
-				+ Unicode.IMAGINARY + ")");
+		shouldBeUpdatedAs("z_1", "sqrt(-1)", Unicode.IMAGINARY + "");
+//		shouldBeUpdatedAs("z_1", "sqrt(11)", "sqrt(11)");
+//		shouldBeUpdatedAs("z_1", "sqrt(   -1)", Unicode.IMAGINARY + "");
+	}
+
+	@Test
+	public void rootOfMinusOneShouldBeImaginaryComplexWithVector() {
+		add("u = (3, 2i)");
+		shouldBeUpdatedAs("u", "(1, sqrt(-1))", "(1, sqrt("
+				+ Unicode.IMAGINARY + "))");
 	}
 
 
