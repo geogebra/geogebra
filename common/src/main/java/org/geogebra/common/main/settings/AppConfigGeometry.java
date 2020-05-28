@@ -255,11 +255,6 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public boolean isShowingErrorDialogForInputBox() {
-		return true;
-	}
-
-	@Override
 	public OperationArgumentFilter createOperationArgumentFilter() {
 		return null;
 	}

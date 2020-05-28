@@ -256,11 +256,6 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public boolean isShowingErrorDialogForInputBox() {
-		return true;
-	}
-
-	@Override
 	public OperationArgumentFilter createOperationArgumentFilter() {
 		return new GraphingOperationArgumentFilter();
 	}

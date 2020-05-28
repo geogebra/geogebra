@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos.inputbox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 
 class InputBoxErrorHandler implements ErrorHandler {
@@ -13,10 +14,10 @@ class InputBoxErrorHandler implements ErrorHandler {
 	private String tempUserDisplayInput;
 	private String tempUserEvalInput;
 
-	InputBoxErrorHandler(GeoInputBox inputBox, ErrorHandler handler,
-						 String tempUserDisplayInput, String tempUserEvalInput) {
+	InputBoxErrorHandler(GeoInputBox inputBox, String tempUserDisplayInput,
+			String tempUserEvalInput) {
 		this.inputBox = inputBox;
-		this.handler = handler;
+		this.handler = ErrorHelper.silent();
 		this.tempUserDisplayInput = tempUserDisplayInput;
 		this.tempUserEvalInput = tempUserEvalInput;
 	}
