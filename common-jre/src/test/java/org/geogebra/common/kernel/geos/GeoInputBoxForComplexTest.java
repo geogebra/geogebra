@@ -9,24 +9,24 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoInputBoxForComplexTest extends BaseUnitTest {
 
+	public static final String IMAGINARY_UNIT = String.valueOf(Unicode.IMAGINARY);
+
 	@Test
 	public void rootOfMinusOneShouldBeImaginaryWithComplexNumber() {
 		add("z_1 = 3 + 2i");
-		shouldBeUpdatedAs("z_1", "sqrt(-1)", Unicode.IMAGINARY + "");
-//		shouldBeUpdatedAs("z_1", "sqrt(11)", "sqrt(11)");
-//		shouldBeUpdatedAs("z_1", "sqrt(   -1)", Unicode.IMAGINARY + "");
+		shouldBeUpdatedAs("sqrt(-1)", IMAGINARY_UNIT);
+		shouldBeUpdatedAs("sqrt(11)", "sqrt(11)");
+		shouldBeUpdatedAs("sqrt(   -1)", IMAGINARY_UNIT);
 	}
 
 	@Test
-	public void rootOfMinusOneShouldBeImaginaryComplexWithVector() {
-		add("u = (3, 2i)");
-		shouldBeUpdatedAs("u", "(1, sqrt(-1))", "(1, sqrt("
-				+ Unicode.IMAGINARY + "))");
+	public void sinShouldBeTyped() {
+		add("z_1 = 3+2i");
+		shouldBeUpdatedAs("sin45", "sin(45)");
 	}
 
-
-	private void shouldBeUpdatedAs(String linkedGeo, String updatedText, String expected) {
-		GeoInputBox inputBox = addAvInput("ib = InputBox(" + linkedGeo + ")");
+	private void shouldBeUpdatedAs(String updatedText, String expected) {
+		GeoInputBox inputBox = addAvInput("ib = InputBox(z_1)");
 		inputBox.updateLinkedGeo(updatedText);
 		assertEquals(expected, inputBox.getText());
 	}

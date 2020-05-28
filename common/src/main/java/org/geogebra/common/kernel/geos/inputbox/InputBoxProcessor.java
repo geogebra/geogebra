@@ -127,7 +127,9 @@ public class InputBoxProcessor {
 				GeoClass.POINT3D, GeoClass.POINT);
 		RedefinitionRule vector = RedefinitionRules.oneWayRule(
 				GeoClass.VECTOR3D, GeoClass.VECTOR);
-		return RedefinitionRules.anyRule(same, point, vector);
+		RedefinitionRule complex = RedefinitionRules.oneWayRule(
+				GeoClass.POINT, GeoClass.NUMERIC);
+		return RedefinitionRules.anyRule(same, point, vector, complex);
 	}
 
 	boolean isComplexNumber() {
