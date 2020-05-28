@@ -1020,7 +1020,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (!coefficientsDefined() || (DoubleUtil.isZero(x) && DoubleUtil.isZero(y)
 				&& getToStringMode() != EQUATION_USER)) {
 			if (getToStringMode() == PARAMETRIC) {
-				return "X = (?, ?)";
+				return "X" + tpl.getEqualsWithSpace() + "(?, ?)";
 			} else {
 				// eg list = {x = ?}
 				return  "?";
@@ -1039,7 +1039,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			StringBuilder sbBuildValueStr = getSbToString();
 			GeoCasCell casCell = getCorrespondingCasCell();
 			if (casCell == null || !casCell.isAssignmentVariableDefined()) {
-				sbBuildValueStr.append("X = ");
+				sbBuildValueStr.append("X");
+				sbBuildValueStr.append(tpl.getEqualsWithSpace());
 			}
 			sbBuildValueStr.append("(");
 			sbBuildValueStr.append(kernel.format(P[0], tpl));

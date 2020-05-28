@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.view.button;
 import org.geogebra.common.gui.view.ActionView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.FastButton;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -14,7 +13,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author csilla
@@ -118,26 +116,6 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		setIconAndLabel(this.icon, text, this.width, this.height);
 	}
 
-	@Override
-	public void onHoldPressDownStyle() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onHoldPressOffStyle() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onDisablePressStyle() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onEnablePressStyle() {
-		// TODO Auto-generated method stub
-	}
-
 	/**
 	 * @return text of button
 	 */
@@ -202,12 +180,7 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	@Override
 	public void setAction(final Runnable action) {
 		if (action != null) {
-			addFastClickHandler(new FastClickHandler() {
-				@Override
-				public void onClick(Widget source) {
-					action.run();
-				}
-			});
+			addFastClickHandler(source -> action.run());
 		}
 	}
 }

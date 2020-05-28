@@ -280,7 +280,8 @@ public class EuclidianViewW extends EuclidianView implements
 	public final void paintBackground(GGraphics2D g2) {
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
-		        || kernel.needToShowAnimationButton()) {
+		        || kernel.needToShowAnimationButton()
+				|| getSettings().getBackgroundType() != BackgroundType.NONE) {
 			g2.drawImage(bgImage, 0, 0);
 		} else {
 			((GGraphics2DWI) g2).fillWith(getBackgroundCommon());

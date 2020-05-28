@@ -33,6 +33,48 @@ public class AlgebraStyleTest extends Assert {
 	static AppCommon app;
 	static AlgebraProcessor ap;
 
+	private static class ExpressionChecker {
+		private final String def;
+
+		private ExpressionChecker(String def) {
+			this.def = def;
+		}
+
+		private ExpressionChecker checkEditAndVal(String expectDef) {
+			checkVal(expectDef);
+			return checkEdit(expectDef);
+		}
+
+		private ExpressionChecker checkVal(String expectVal) {
+			return check(def, expectVal, StringTemplate.editTemplate, true);
+		}
+
+		private ExpressionChecker checkEdit(String expectVal) {
+			return checkEdit(expectVal, expectVal);
+		}
+
+		private ExpressionChecker checkEdit(String expectVal, String expectEditor) {
+			check(def, expectEditor.replace(" * ", "*"),
+					StringTemplate.editorTemplate, false);
+			return check(def, expectVal, StringTemplate.editTemplate, false);
+		}
+
+		private void checkGiac(String s) {
+			check(def, s, StringTemplate.giacTemplate, true);
+		}
+
+		private ExpressionChecker check(String def, String expect, StringTemplate tpl,
+										boolean val) {
+			GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
+					false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
+					null);
+			String res = val ? geo[0].toValueString(tpl)
+					: geo[0].toGeoElement().getLaTeXDescriptionRHS(false, tpl);
+			Assert.assertEquals(expect.replace("%p", Unicode.PI_STRING), res);
+			return this;
+		}
+	}
+
 	private static void checkRows(String def, int rows) {
 		checkRows(def, rows, new EvalInfo(true));
 	}
@@ -269,9 +311,9 @@ public class AlgebraStyleTest extends Assert {
 		t("SetValue[b,?]");
 		assertEquals("b = ?",
 				getGeo("b").toString(StringTemplate.editTemplate));
-		assertEquals("b = ?", app.getKernel().lookupLabel("b")
+		assertEquals("b=?", app.getKernel().lookupLabel("b")
 				.toString(StringTemplate.editorTemplate));
-		assertEquals("b = ?",
+		assertEquals("b=?",
 				app.getKernel().lookupLabel("b").getDefinitionForEditor());
 	}
 
@@ -291,17 +333,17 @@ public class AlgebraStyleTest extends Assert {
 				getGeo("f").getLaTeXAlgebraDescription(true,
 						StringTemplate.defaultTemplate));
 		assertEquals(TestStringUtil.unicode("f: y = x^3"),
-				getGeo("f").getDefinitionForEditor());
+				getGeo("f").getDefinitionForInputBar());
 		assertEquals(TestStringUtil.unicode("g: \\,y = x^3 + a"),
 				getGeo("g").getLaTeXAlgebraDescription(false,
 						StringTemplate.defaultTemplate));
 		// TODO missing y =
 		assertEquals(TestStringUtil.unicode("g: x^3 + a"),
-				getGeo("g").getDefinitionForEditor());
+				getGeo("g").getDefinitionForInputBar());
 
 		t("in:x>a");
 		assertEquals(TestStringUtil.unicode("in: x > a"),
-				getGeo("in").getDefinitionForEditor());
+				getGeo("in").getDefinitionForInputBar());
 
 		t("ff: z = y + x^3");
 		t("gg: z = y +x^3 + a");
@@ -338,19 +380,19 @@ public class AlgebraStyleTest extends Assert {
 				TestStringUtil.unicode(
 						"f(x) = If(3 < x " + Unicode.LESS_EQUAL + " 5, x^2)"),
 
-				getGeo("f").getDefinitionForEditor());
+				getGeo("f").getDefinitionForInputBar());
 	}
 
 	@Test
 	public void listShouldKeepDefinition() {
 		t("list1 = {x+x=y}");
 		assertEquals("list1 = {x + x = y}",
-				getGeo("list1").getDefinitionForEditor());
+				getGeo("list1").getDefinitionForInputBar());
 		assertEquals("x + x = y", ((GeoList) getGeo("list1")).get(0)
 				.getDefinition(StringTemplate.editTemplate));
 		t("list2 = Flatten[{x=y}]");
 		assertEquals("list2 = Flatten({x = y})",
-				((GeoList) getGeo("list2")).getDefinitionForEditor());
+				((GeoList) getGeo("list2")).getDefinitionForInputBar());
 
 	}
 
@@ -403,10 +445,10 @@ public class AlgebraStyleTest extends Assert {
 	public void definitionShouldContainCommand() {
 		t("text1=TableText[{{1}}]");
 		assertEquals("text1 = TableText({{1}})",
-				getGeo("text1").getDefinitionForEditor());
+				getGeo("text1").getDefinitionForInputBar());
 		t("text2=FormulaText[sqrt(x)]");
 		assertEquals("text2 = FormulaText(sqrt(x))",
-				getGeo("text2").getDefinitionForEditor());
+				getGeo("text2").getDefinitionForInputBar());
 	}
 
 	private void t(String def) {
@@ -580,7 +622,7 @@ public class AlgebraStyleTest extends Assert {
 		t("c=Cone[(0,0,0),(0,0,1),5]");
 		String rhs = getGeo("c").getLaTeXDescriptionRHS(false,
 				StringTemplate.editorTemplate);
-		assertEquals("Cone((0, 0, 0), (0, 0, 1), 5)", rhs);
+		assertEquals("Cone((0,0,0),(0,0,1),5)", rhs);
 	}
 
 	private static void deg(String def, String expect) {
@@ -714,47 +756,25 @@ public class AlgebraStyleTest extends Assert {
 
 	@Test
 	public void multiplicationShouldNotHaveExtraBrackets() {
-		mult("3x*5x", "3x 5x", "(((3)*(x))*(5))*(x)");
-		mult("pi*x", Unicode.pi + " x", "(pi)*(x)");
-		mult("3*4*x", "12x", "(12)*(x)");
-		mult("3*(4*x)", "3 * 4x", "3 * 4x", "12x", "(3)*((4)*(x))");
-		mult("3*4", "3 * 4", "12", "(3)*(4)");
+		new ExpressionChecker("3x*5x").checkEdit("3x * 5x", "3 x * 5 x")
+				.checkVal("3x * 5x").checkGiac("(((3)*(x))*(5))*(x)");
+		new ExpressionChecker("pi*x").checkEditAndVal(Unicode.pi + " x")
+				.checkGiac("(pi)*(x)");
+		new ExpressionChecker("3*4*x").checkEdit("12x", "12 x")
+				.checkVal("12x").checkGiac("(12)*(x)");
+		new ExpressionChecker("3*(4*x)").checkEdit("3 * 4x", "3 * 4 x")
+				.checkVal("3 * 4x").checkGiac("(3)*((4)*(x))");
+		new ExpressionChecker("3*4").checkEdit("3 * 4").checkVal("12").checkGiac("(3)*(4)");
 		t("a1=7");
-		mult("3a1*x", "3a1 x", "3 * 7 x", "((3)*(7))*(x)");
-		mult("a1*a1*a1*x", "a1 a1 a1 x", "7 * 7 * 7 x", "(((7)*(7))*(7))*(x)");
+		new ExpressionChecker("3a1*x").checkEdit("3a1 x", "3 a1 x")
+				.checkVal("3 * 7 x").checkGiac("((3)*(7))*(x)");
+		new ExpressionChecker("a1*a1*a1*x").checkEdit("a1 a1 a1 x")
+				.checkVal("7 * 7 * 7 x").checkGiac("(((7)*(7))*(7))*(x)");
 		t("a1=pi");
-		mult("3a1*x", "3a1 x", "3%p x", "((3)*(pi))*(x)");
-		mult("a1*a1*a1*x", "a1 a1 a1 x", "%p %p %p x",
-				"(((pi)*(pi))*(pi))*(x)");
-	}
-
-	private static void mult(String def, String expect, String expectGiac) {
-		mult(def, expect, expect, expectGiac);
-	}
-
-	private static void mult(String def, String expect, String expectVal,
-			String expectGiac) {
-		mult(def, expect, expectVal, expectVal, expectGiac);
-	}
-
-	private static void mult(String def, String expectDef, String expectVal,
-			String expectSimple, String expectGiac) {
-		mult(def, expectVal, StringTemplate.editTemplate, true);
-		mult(def, expectVal, StringTemplate.editorTemplate, true);
-		mult(def, expectDef, StringTemplate.editorTemplate, false);
-		mult(expectDef, expectSimple, StringTemplate.editTemplate, true);
-		mult(def, expectGiac, StringTemplate.giacTemplate, true);
-	}
-
-	private static void mult(String def, String expect, StringTemplate tpl,
-			boolean val) {
-		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
-				false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
-				null);
-		String res = val ? geo[0].toValueString(tpl)
-				: geo[0].toGeoElement().getLaTeXDescriptionRHS(false, tpl);
-		Assert.assertEquals(expect.replace("%p", Unicode.PI_STRING), res);
-
+		new ExpressionChecker("3a1*x").checkEdit("3a1 x", "3 a1 x")
+				.checkVal("3%p x").checkGiac("((3)*(pi))*(x)");
+		new ExpressionChecker("a1*a1*a1*x").checkEdit("a1 a1 a1 x")
+				.checkVal("%p %p %p x").checkGiac("(((pi)*(pi))*(pi))*(x)");
 	}
 
 	@Test

@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.variable.InputTokenizer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic.variable.VariableReplacerAlgorithm;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -339,11 +340,11 @@ public interface Traversing {
 					ExpressionValue unwrapped = en.unwrap();
 					if (unwrapped instanceof MyVecNode) {
 						MyVecNode vecNode = (MyVecNode) unwrapped;
-						vecNode.setCASVector();
+						vecNode.setupCASVector();
 						return vecNode;
 					} else if (unwrapped instanceof MyVec3DNode) {
 						MyVec3DNode vec3DNode = (MyVec3DNode) unwrapped;
-						vec3DNode.setCASVector();
+						vec3DNode.setupCASVector();
 						return vec3DNode;
 					}
 				}
@@ -772,6 +773,10 @@ public interface Traversing {
 			variableReplacerAlgorithm = new VariableReplacerAlgorithm(kernel);
 		}
 
+		public void setSimplifyMultiplication(boolean value) {
+			variableReplacerAlgorithm.setTokenizerAllowed(value);
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 
@@ -856,6 +861,15 @@ public interface Traversing {
 
 		private TreeSet<String> tree = new TreeSet<>();
 		private TreeSet<String> localTree = new TreeSet<>();
+		private boolean simplifiedMultiplication;
+
+		public CollectUndefinedVariables() {
+			this(false);
+		}
+
+		public CollectUndefinedVariables(boolean simplifiedMultiplication) {
+			this.simplifiedMultiplication = simplifiedMultiplication;
+		}
 
 		/**
 		 * 
@@ -881,9 +895,13 @@ public interface Traversing {
 				if (expressionFromVariableName == null) {
 					VariableReplacerAlgorithm variableReplacerAlgorithm =
 							new VariableReplacerAlgorithm(variable.getKernel());
+					variableReplacerAlgorithm.setTokenizerAllowed(simplifiedMultiplication);
 					expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
 				}
 
+				if (expressionFromVariableName.wrap().isImaginaryUnit()) {
+					tree.add(InputTokenizer.IMAGINARY_STRING);
+				}
 				if (expressionFromVariableName instanceof Variable
 						&& !variable
                             .getKernel()
@@ -1492,4 +1510,44 @@ public interface Traversing {
 		}
 
 	}
+
+    class ListVectorReplacer implements Traversing {
+
+        Kernel kernel;
+
+        public ListVectorReplacer(Kernel kernel) {
+            this.kernel = kernel;
+        }
+
+        @Override
+        public ExpressionValue process(ExpressionValue ev) {
+            if (ev instanceof MyList) {
+                MyList list = (MyList) ev;
+                if (isVector(list)) {
+                    if (list.getMatrixRows() == 2) {
+                        return new MyVecNode(kernel,
+                                getElement(list, 0),
+                                getElement(list, 1));
+                    } else {
+                        return new MyVec3DNode(kernel,
+                                getElement(list, 0),
+                                getElement(list, 1),
+                                getElement(list, 2));
+                    }
+                }
+            }
+            return ev;
+        }
+
+        private ExpressionValue getElement(MyList list, int index) {
+            MyList row = (MyList) list.getItem(index).unwrap();
+            return row.getItem(0);
+        }
+
+        private boolean isVector(MyList list) {
+            int cols = list.getMatrixCols();
+            int rows = list.getMatrixRows();
+            return list.isMatrix() && cols == 1 && (rows == 2 || rows == 3);
+        }
+    }
 }

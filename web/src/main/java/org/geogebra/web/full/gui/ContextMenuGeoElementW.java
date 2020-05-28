@@ -29,7 +29,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.contextmenu.OrderSubMenu;
@@ -703,25 +702,16 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	protected void addPasteItem() {
 		ResourcePrototype img = MaterialDesignResources.INSTANCE.paste_black();
 
-		Command pasteCommand = new Command() {
-			@Override
-			public void execute() {
-				app.setWaitCursor();
-				pasteCmd();
-				app.setDefaultCursor();
-			}
+		Command pasteCommand = () -> {
+			app.setWaitCursor();
+			pasteCmd();
+			app.setDefaultCursor();
 		};
 
-		final AriaMenuItem mnuPaste = addHtmlAction(pasteCommand, MainMenu.getMenuBarHtml(img,
+		final AriaMenuItem menuPaste = addHtmlAction(pasteCommand, MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Paste")));
 
-		CopyPasteW.checkClipboard(new AsyncOperation<Boolean>() {
-
-			@Override
-			public void callback(Boolean hasContent) {
-				mnuPaste.setEnabled(hasContent);
-			}
-		});
+		CopyPasteW.checkClipboard(menuPaste::setEnabled);
 	}
 
 	private void addPinForClassic() {
