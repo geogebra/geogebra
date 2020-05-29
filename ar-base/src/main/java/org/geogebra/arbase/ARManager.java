@@ -34,6 +34,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private double arRatioAtStart;
     private float ratioChange = 1;      // change of ratio when ratio is set from menu
     private String arRatioText = "1";   // current ratio used for Ratio snack bar and ratio settings
+    protected static final String AR_RATIO_SETTINGS = "arRatioSettings";
+    protected static final String RATIO_UNIT_KEY = "arUnit";
 
     protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
