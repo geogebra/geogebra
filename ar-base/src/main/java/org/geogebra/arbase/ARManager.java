@@ -11,7 +11,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.matrix.CoordMatrix;
 import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 abstract public class ARManager<TouchEventType> implements ARManagerInterface<TouchEventType> {
@@ -172,8 +171,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                         wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
                     } else {
                         // force a drag (device may have moved)
-                        arMotionEvent = getARMotionEventMove(view3D.getWidth() / 2,
-                                view3D.getHeight() / 2);
+                        arMotionEvent = getARMotionEventMove((float) view3D.getWidth() / 2,
+                                (float) view3D.getHeight() / 2);
                         setHittingOriginAndDirectionFromScreenCenter();
                     }
                 } else {
@@ -240,7 +239,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         hittingTrackable = null;
     }
 
-    protected void updateModelMatrix(App app) {
+    protected void updateModelMatrix() {
         modelMatrix.set(anchorMatrix);
         /* translating */
         Coords modelOrigin = modelMatrix.getOrigin();
