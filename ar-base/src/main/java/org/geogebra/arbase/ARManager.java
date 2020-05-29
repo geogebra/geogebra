@@ -20,8 +20,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     protected CoordMatrix4x4 viewMatrix = new CoordMatrix4x4();
     protected CoordMatrix4x4 projectMatrix = new CoordMatrix4x4();
-    protected CoordMatrix4x4 mModelMatrix = new CoordMatrix4x4();
-    protected CoordMatrix4x4 mAnchorMatrix = new CoordMatrix4x4();
+    protected CoordMatrix4x4 modelMatrix = new CoordMatrix4x4();
+    protected CoordMatrix4x4 anchorMatrix = new CoordMatrix4x4();
     private CoordMatrix4x4 undoRotationMatrix = new CoordMatrix4x4();
     private CoordMatrix4x4 viewModelMatrix = new CoordMatrix4x4();
     private CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4();
@@ -53,11 +53,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected Coords rayEndOrigin = new Coords(3);
     private Coords translationOffset = new Coords(3);
     private Coords previousTranslationOffset = new Coords(3);
-    private Coords mPosXY = new Coords(2);
+    private Coords positionXY = new Coords(2);
 
     protected boolean objectIsPlaced = false;
-    protected boolean mDrawing = false;
-    protected boolean mARIsRendering = false;
+    protected boolean drawing = false;
+    protected boolean arIsRendering = false;
 
     protected CoordMatrix4x4 cHitMatrix = new CoordMatrix4x4();
     private Coords rayOrigin = new Coords(4);
@@ -66,11 +66,11 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     protected ARGestureManager arGestureManager;
 
-    protected EuclidianView3D mView;
+    protected EuclidianView3D view3D;
 
     private ARMotionEvent lastARMotionEvent;
 
-    protected ARSnackBarManagerInterface mArSnackBarManagerInterface;
+    protected ARSnackBarManagerInterface arSnackBarManagerInterface;
 
     abstract public void onSurfaceCreated();
 
@@ -147,7 +147,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     abstract public void setHittingOriginAndDirectionFromScreenCenter();
 
     private void wrapMouseMoved(int x, int y) {
-        mView.getEuclidianController().wrapMouseMoved(mView.getEuclidianController()
+        view3D.getEuclidianController().wrapMouseMoved(view3D.getEuclidianController()
                 .createTouchEvent(x,y));
     }
 
@@ -158,10 +158,10 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void onDrawFrame() {
-        Renderer renderer = mView.getRenderer();
+        Renderer renderer = view3D.getRenderer();
         renderer.getRendererImpl().glViewPort();
         proceedARLogic(); // Feature.G3D_AR_REGULAR_TOOLS: pass the touch event
-        viewModelMatrix.setMul(viewMatrix, mModelMatrix);
+        viewModelMatrix.setMul(viewMatrix, modelMatrix);
         ARMotionEvent arMotionEvent = null;
         arMotionEvent = mouseTouchGestureQueueHelper.poll();
         // to update hitting o&d
@@ -177,8 +177,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                         wrapMouseMoved(renderer.getWidth() / 2, renderer.getHeight() / 2);
                     } else {
                         // force a drag (device may have moved)
-                        arMotionEvent = getARMotionEventMove(mView.getWidth() / 2,
-                                mView.getHeight() / 2);
+                        arMotionEvent = getARMotionEventMove(view3D.getWidth() / 2,
+                                view3D.getHeight() / 2);
                         setHittingOriginAndDirectionFromScreenCenter();
                     }
                 } else {
@@ -246,10 +246,10 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     protected void updateModelMatrix(App app) {
-        mModelMatrix.set(mAnchorMatrix);
+        modelMatrix.set(anchorMatrix);
         /* translating */
-        Coords modelOrigin = mModelMatrix.getOrigin();
-        Coords anchorOrigin = mAnchorMatrix.getOrigin();
+        Coords modelOrigin = modelMatrix.getOrigin();
+        Coords anchorOrigin = anchorMatrix.getOrigin();
         modelOrigin.setX(anchorOrigin.getX() + translationOffset.getX() +
                 previousTranslationOffset.getX());
         modelOrigin.setY(anchorOrigin.getY());
@@ -260,16 +260,16 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected Coords setRay() {
         viewMatrix.solve(Coords.O, rayOrigin);
         rayDirection.setSub3(cHitMatrix.getOrigin(), rayOrigin);
-        rayOrigin.projectPlane(mModelMatrix.getVx(), mModelMatrix.getVz(), rayDirection,
-                mModelMatrix.getOrigin(), projection);
+        rayOrigin.projectPlane(modelMatrix.getVx(), modelMatrix.getVz(), rayDirection,
+                modelMatrix.getOrigin(), projection);
         return projection;
     }
 
     protected void updateTranslationIfNeeded() {
         if (arGestureManager != null && arGestureManager.getUpdateOriginIsWanted()) {
             arGestureManager.setUpdateOriginIsWanted(false);
-            Coords modelOrigin = mModelMatrix.getOrigin();
-            Coords anchorOrigin = mAnchorMatrix.getOrigin();
+            Coords modelOrigin = modelMatrix.getOrigin();
+            Coords anchorOrigin = anchorMatrix.getOrigin();
             previousTranslationOffset.setSub3(modelOrigin, anchorOrigin);
 
             lastHitOrigin.set3(rayEndOrigin);
@@ -310,16 +310,16 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     protected void copyPosFromGestureManager() {
         if (arGestureManager != null) {
-            arGestureManager.copyXYPosition(mPosXY);
+            arGestureManager.copyXYPosition(positionXY);
         }
     }
 
     protected float getPosX() {
-        return (float) mPosXY.getX();
+        return (float) positionXY.getX();
     }
 
     protected float getPosY() {
-        return (float) mPosXY.getY();
+        return (float) positionXY.getY();
     }
 
     protected void resetTranslationOffsetAndScaleMatrix() {
@@ -349,7 +349,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private double getThicknessMin(double distance) {
-        return mView.dipToPx(THICKNESS_MIN_FACTOR) * distance / projectMatrix.get(1 ,1);
+        return view3D.dipToPx(THICKNESS_MIN_FACTOR) * distance / projectMatrix.get(1 ,1);
     }
 
     public void setARScaleAtStart() {
@@ -360,7 +360,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             mDistance = (float) DESK_DISTANCE_AVERAGE;
         }
         // 1 ggb unit ==  1 meter
-        double ggbToRw = 1.0 / mView.getXscale();
+        double ggbToRw = 1.0 / view3D.getXscale();
         // ratio
         double ratio;
         double projectFactor = projectMatrix.get(1, 1);
@@ -370,7 +370,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         projectFactor = Math.round(projectFactor / precision) * precision;
         float fittingScreenScale = (float) (DrawClippingCube3D.REDUCTION_ENLARGE
                 * (mDistance / projectFactor)
-                / mView.getRenderer().getWidth());
+                / view3D.getRenderer().getWidth());
         ratio = fittingScreenScale / ggbToRw; // fittingScreenScale = ggbToRw * ratio
         double pot = DoubleUtil.getPowerOfTen(ratio);
         ratio = ratio / pot;
@@ -403,13 +403,13 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     public void fromARCoordsToGGBCoords(Coords coords, Coords ret) {
         // undo model matrix
-        mModelMatrix.solve(coords, ret);
+        modelMatrix.solve(coords, ret);
         // undo scale matrix
         CoordMatrix4x4.setZero(tmpMatrix2);
         CoordMatrix4x4.setDilate(tmpMatrix2, getARScaleParameter());
         tmpMatrix2.solve(ret, tmpCoords1);
         // undo screen coordinates
-        ret.setMul(mView.getToSceneMatrix(), tmpCoords1);
+        ret.setMul(view3D.getToSceneMatrix(), tmpCoords1);
     }
 
     public void setProjectionMatrixViewForAR(CoordMatrix4x4 projectionMatrix) {
@@ -450,7 +450,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void calculateAndShowRatio() {
-        if (!mView.isARRatioShown() || !objectIsPlaced) {
+        if (!view3D.isARRatioShown() || !objectIsPlaced) {
             return;
         }
 
@@ -462,9 +462,9 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
             ratio = arRatioAtStart;
         }
         String text;
-        if (mView.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
+        if (view3D.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
             ratio = (double) Math.round(ratio * 100d) / 100d;
-            mView.setARRatioUnit("inch");
+            view3D.setARRatioUnit("inch");
         } else {
             if (ratio >= 100) {
                 // round to 0 decimal places.
@@ -476,10 +476,10 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                 // round to 1 decimal places.
                 ratio = (double) Math.round(ratio * 10) / 10d;
             }
-            mView.setARRatioUnit("cm");
+            view3D.setARRatioUnit("cm");
         }
         text = getRatioMessage(ratio);
-        mArSnackBarManagerInterface.showRatio(text);
+        arSnackBarManagerInterface.showRatio(text);
     }
 
     private String getRatioMessage(double ratio) {
@@ -488,7 +488,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         } else {
             arRatioText = String.format("%.4s", ratio);
         }
-        return String.format("1 : %s %s", arRatioText, mView.getARRatioUnit());
+        return String.format("1 : %s %s", arRatioText, view3D.getARRatioUnit());
     }
 
     public void fitThickness() {
@@ -504,7 +504,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private void updateSettingsScale(float factor) {
-        EuclidianSettings3D settings = mView.getSettings();
+        EuclidianSettings3D settings = view3D.getSettings();
         settings.setXYZscale(settings.getXscale() * factor,
                 settings.getYscale() * factor,
                 settings.getZscale() * factor);
@@ -515,7 +515,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void resetScaleFromAR() {
-        EuclidianSettings3D s = mView.getSettings();
+        EuclidianSettings3D s = view3D.getSettings();
         s.setXYZscaleValues(s.getXscale() / arScaleFactor,
                 s.getYscale() / arScaleFactor,
                 s.getZscale() / arScaleFactor);
@@ -527,7 +527,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     public void setARRatio(double ratio) {
-        if (mView.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
+        if (view3D.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
             ratioChange = (float) ((ratio * EuclidianView3D.FROM_INCH_TO_CM) / arRatioAtStart);
         } else {
             ratioChange = (float) ((ratio) / arRatioAtStart);
@@ -538,7 +538,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private float getUnitConversion() {
-        if (mView.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
+        if (view3D.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
             return EuclidianView3D.FROM_CM_TO_INCH;
         } else {
             return 1;
@@ -549,7 +549,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         if (ratioIsShown) {
             calculateAndShowRatio();
         } else {
-            mArSnackBarManagerInterface.hideRatio();
+            arSnackBarManagerInterface.hideRatio();
         }
     }
 }
