@@ -190,7 +190,7 @@ public class CopyPasteW extends CopyPaste {
 		for (Map.Entry<String, String> image : copiedImages.entrySet()) {
 			textToSave.append(imagePrefix);
 			textToSave.append(" ");
-			textToSave.append(image.getKey());
+			textToSave.append(Global.escape(image.getKey()));
 			textToSave.append(" ");
 			textToSave.append(image.getValue());
 			textToSave.append("\n");
@@ -445,11 +445,13 @@ public class CopyPasteW extends CopyPaste {
 					.substring(endline + imagePrefix.length() + 1, nextEndline);
 
 			String[] image = line.split(" ");
+			String name = Global.unescape(image[0]);
+			String src = image[1];
 
 			ImageManagerW imageManager = app.getImageManager();
-			imageManager.addExternalImage(image[0], image[1]);
-			ImageElement img = imageManager.getExternalImage(image[0], app, true);
-			img.setSrc(image[1]);
+			imageManager.addExternalImage(name, src);
+			ImageElement img = imageManager.getExternalImage(name, app, true);
+			img.setSrc(src);
 
 			endline = nextEndline + 1;
 		}
