@@ -63,21 +63,19 @@ public class MainMenu extends FlowPanel
 	 */
 	Submenu logoMenu;
 
-	private MainMenuItemProvider actionProvider;
+	private ClassicMenuItemProvider actionProvider;
 
 	/**
 	 * Constructs the menubar
 	 *
 	 * @param app
 	 *            application
-	 * @param actionProvider
-	 *            action provider
 	 */
-	public MainMenu(AppW app, MainMenuItemProvider actionProvider) {
+	public MainMenu(AppW app) {
 		if (!app.isUnbundledOrWhiteboard()) {
 			this.addStyleName("menubarSMART");
 		}
-		this.actionProvider = actionProvider;
+		this.actionProvider = new ClassicMenuItemProvider(app);
 		signInMenu = new SignInMenu(app);
 		this.app = app;
 		init();
@@ -288,8 +286,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private boolean hasLoginButton() {
-		return app.enableFileFeatures()
-				&& actionProvider.hasSigninMenu();
+		return app.enableFileFeatures();
 	}
 
 	private void removeUserSignIn() {

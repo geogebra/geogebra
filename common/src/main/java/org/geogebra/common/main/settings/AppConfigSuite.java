@@ -100,6 +100,16 @@ public class AppConfigSuite extends AppConfigGraphing {
 	}
 
 	@Override
+	public boolean isCASEnabled() {
+		return true;
+	}
+
+	@Override
+	public String getTutorialKey() {
+		return "suite_tutorial";
+	}
+
+	@Override
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.SUITE;
 	}

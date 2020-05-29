@@ -6,8 +6,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
-import org.geogebra.web.full.gui.menubar.NotesMenuItemProvider;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
@@ -31,11 +29,6 @@ public class NotesActivity extends BaseActivity {
 	@Override
 	public DockPanelW createAVPanel() {
 		return new AlgebraDockPanelW(null, true);
-	}
-
-	@Override
-	public MainMenuItemProvider getMenuItemProvider(AppW app) {
-		return new NotesMenuItemProvider(app);
 	}
 
 	@Override
