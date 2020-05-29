@@ -3,7 +3,7 @@ package com.himamis.retex.renderer.share.fonts;
 import com.himamis.retex.renderer.share.Configuration;
 import com.himamis.retex.renderer.share.FontInfo;
 
-final class CMMIB10 extends FontInfo {
+class CMMIB10 extends FontInfo {
 
 	CMMIB10(final String ttfPath) {
 		super(0, ttfPath, 444, 0, 1150, 0);
