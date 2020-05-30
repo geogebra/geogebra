@@ -56,7 +56,7 @@
 		}
 
 		.toolBPanel {
-			.float(left);
+			float: left;
 			padding-top: 1px;
 
 			ul {
@@ -65,13 +65,13 @@
 			}
 
 			li.toolbar_item {
-				.margin(0px, 5px, 0px, 0px);
+				margin: 0 5px 0 0;
 				text-align: center;
 				position: relative;
 				width: 40px;
 				height: 40px;
 				display: block;
-				.float(left);
+				float: left;
 				list-style-type: none;
 				cursor: pointer;
 			}
@@ -121,7 +121,7 @@
 				.submenuArrow {
 					position: absolute;
 					z-index: 300;
-					.left(4px);
+					left: 4px;
 				}
 
 				.submenuContent {
@@ -141,7 +141,7 @@
 						list-style-type: none;
 						height: 32px;
 						padding: 5px 0;
-						.text-align(left);
+						text-align: left;
 						cursor: pointer;
 
 						&:hover,
@@ -158,13 +158,13 @@
 					}
 
 					img {
-						.float(left);
+						float: left;
 						padding-left: 5px;
 						padding-right: 5px;
 					}
 
 					.gwt-Label {
-						.padding(7px, 10px, 0, 40px);
+						padding: 7px 10px 0 40px;
 					}
 				}
 			}
@@ -217,30 +217,30 @@
 			}
 
 			li {
-				.margin(0px, 5px, 0px, 0px);
+				margin: 0 5px 0 0;
 				text-align: center;
 				position: relative;
 				width: 40px;
 				height: 40px;
 				display: block;
-				.float(left);
+				float: left;
 				list-style-type: none;
 				cursor: pointer;
 			}
 		}
 
 		.rightButtonPanel {
-			.float(right);
+			float: right;
 			margin: 6px;
 
 			& > * {
-				.margin(0px, 5px, 0px, 10px);
-				.float(left);
+				margin: 0 5px 0 10px;
+				float: left;
 			}
 
 			// Make redo close to undo button
 			.redoButton {
-				.margin-left(0px);
+				margin-left: 0;
 			}
 
 			.selectedButton {
@@ -300,8 +300,8 @@
 	.menubarSMART {
 		overflow-y: auto;
 		background-color: @color-lightgrey;
-		.border-left(1px);
-		.border-left-color(@color-bordergrey);
+		border-left: 1px;
+		border-left-color: @color-bordergrey;
 		border-left-style: solid;
 		height: 100%;
 
@@ -317,7 +317,7 @@
 			}
 
 			.gwt-MenuItem {
-				.padding(6px, 5px, 6px, 35px);
+				padding: 6px 5px 6px 35px;
 				position: relative;
 				display: block;
 
@@ -327,7 +327,7 @@
 					position: absolute;
 					top: 50%;
 					margin-top: -10px;
-					.left(5px);
+					left: 5px;
 				}
 			}
 
@@ -373,12 +373,12 @@
 			}
 
 			input[type="radio"] {
-				.margin(0px, 5px, 0px, 0px);
+				margin: 0 5px 0 0;
 			}
 
 			/* Workaround due to GWT's bug, see ticket #4819 */
 			&.subMenuLeftSide2 {
-				.right(10px);
+				right: 10px;
 			}
 		}
 	}
