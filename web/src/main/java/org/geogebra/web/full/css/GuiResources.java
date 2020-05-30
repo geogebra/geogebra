@@ -305,14 +305,7 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/css/fonts.css")
 	TextResource fonts();
 
-	// New less resources for GEOGEBRA EXAM
-	@Source("org/geogebra/web/exam/css/exam.ltr.less")
-	LessResource examStyleLTR();
-
-	@Source("org/geogebra/web/exam/css/exam.rtl.less")
-	LessResource examStyleRTL();
-
-	@Source("org/geogebra/web/exam/css/exam.less")
+	@Source("org/geogebra/web/resources/css/exam.less")
 	LessReference examStyle();
 
 	@Override
@@ -339,29 +332,11 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/css/definitions.less")
 	LessReference lessDefinitions();
 
-	@Source("org/geogebra/web/resources/css/general.ltr.less")
-	LessResource generalStyleLTR();
-
-	@Source("org/geogebra/web/resources/css/general.rtl.less")
-	LessResource generalStyleRTL();
-
 	@Source("org/geogebra/web/resources/css/general.less")
 	LessReference generalStyle();
 
-	@Source("org/geogebra/web/resources/css/headerbar.ltr.less")
-	LessResource headerbarStyleLTR();
-
-	@Source("org/geogebra/web/resources/css/headerbar.rtl.less")
-	LessResource headerbarStyleRTL();
-
 	@Source("org/geogebra/web/resources/css/headerbar.less")
 	LessReference headerbarStyle();
-
-	@Source("org/geogebra/web/resources/css/av.ltr.less")
-	LessResource avStyleLTR();
-
-	@Source("org/geogebra/web/resources/css/av.rtl.less")
-	LessResource avStyleRTL();
 
 	@Source("org/geogebra/web/resources/css/av.less")
 	LessReference avStyle();
