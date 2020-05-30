@@ -1,7 +1,5 @@
 package org.geogebra.web.full.css;
 
-import org.geogebra.web.html5.util.LessResource;
-import org.geogebra.web.resources.LessReference;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SassResource;
 
@@ -302,11 +300,11 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons/png/web/general/expand24.png")
 	ImageResource expand();
 
-	@Source("org/geogebra/web/resources/css/fonts.css")
+	@Source("org/geogebra/web/resources/scss/fonts.css")
 	TextResource fonts();
 
-	@Source("org/geogebra/web/resources/css/exam.less")
-	LessReference examStyle();
+	@Source("org/geogebra/web/resources/scss/exam.scss")
+	SassResource examStyle();
 
 	@Override
 	@Source("org/geogebra/web/resources/scss/mow.scss")
@@ -316,8 +314,8 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/mow-toolbar.scss")
 	SassResource mowToolbarStyle();
 
-	@Source("org/geogebra/web/resources/css/web-styles.less")
-	LessResource modernStyle();
+	@Source("org/geogebra/web/resources/scss/web-styles.scss")
+	SassResource modernStyle();
 
 	@Source("org/geogebra/web/resources/scss/spreadsheet.scss")
 	SassResource spreadsheetStyle();
@@ -329,17 +327,14 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/av-styles.scss")
 	SassResource avStyleScss();
 
-	@Source("org/geogebra/web/resources/css/definitions.less")
-	LessReference lessDefinitions();
+	@Source("org/geogebra/web/resources/scss/general.scss")
+	SassResource generalStyle();
 
-	@Source("org/geogebra/web/resources/css/general.less")
-	LessReference generalStyle();
+	@Source("org/geogebra/web/resources/scss/headerbar.scss")
+	SassResource headerbarStyle();
 
-	@Source("org/geogebra/web/resources/css/headerbar.less")
-	LessReference headerbarStyle();
-
-	@Source("org/geogebra/web/resources/css/av.less")
-	LessReference avStyle();
+	@Source("org/geogebra/web/resources/scss/av.scss")
+	SassResource avStyle();
 
 	@Source("org/geogebra/web/resources/scss/toolbar-styles.scss")
 	SassResource toolBarStyleScss();

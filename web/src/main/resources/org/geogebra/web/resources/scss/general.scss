@@ -5,18 +5,18 @@
 *	Make sure everything is placed in .GeoGebraFrame!
 **/
 
-@import "definitions.less";
+@import 'colors';
 
 .GeoGebraFrame {
-	background-color: @color-white;
-	color: @text-primary;
+	background-color: $white;
+	color: $text-primary;
 	font-size: 16px;
 
 	label,
 	span,
 	td,
 	th {
-		color: @text-primary;
+		color: $text-primary;
 		font-size: 16px;
 	}
 
@@ -83,7 +83,7 @@
 				height: 0;
 				padding: 0;
 				border: 0;
-				border-top: 1px solid @color-bordergrey;
+				border-top: 1px solid $tool-border;
 				overflow: hidden;
 			}
 		}
