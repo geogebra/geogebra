@@ -974,29 +974,32 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.MaterialDialogBox {
-		.examStartDialog {
-			.examStartText {
-				font-size: 100%;
-				margin: 0px;
-				padding-right: 16px;
-			}
+	.dialogComponent.examStartDialog {
+		max-width: 427px;
+		max-height: 155px;
 
-			.DialogButtonPanel {
-				.button {
-					cursor: pointer;
-				}
-			}
+		.examStartText {
+			font-size: 100%;
+			margin: 0px;
+			padding-bottom: 24px;
+			color: $text-secondary;
 		}
 	}
 
-	.MaterialDialogBox {
-		.examExitConfDialog {
-			.exitConfText {
-				font-size: 100%;
-				margin: 0px;
-				padding-right: 16px;
-			}
+	.dialogComponent.examExitConfDialog {
+		max-width: 326px;
+		max-height: 115px;
+
+		.dialogContent {
+			// no title
+			height: calc(100% - 52px);
+		}
+
+		.exitConfText {
+			font-size: 100%;
+			margin: 0px;
+			padding-bottom: 24px;
+			color: $text-secondary;
 		}
 	}
 

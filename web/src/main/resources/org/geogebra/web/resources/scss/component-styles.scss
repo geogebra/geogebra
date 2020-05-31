@@ -309,11 +309,10 @@
             }
 
             .dialogBtnPanel {
-                display: inline-block;
+                display: inline-flex;
                 padding: 8px 8px 8px 24px;
-                position: absolute;
-                right: 0px;
-                bottom: 0px;
+                position: relative;
+                float: right;
             }
         }
     }
