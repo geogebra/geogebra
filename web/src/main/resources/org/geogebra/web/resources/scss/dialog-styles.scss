@@ -668,11 +668,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			border-radius: 2px 2px 0 0 ;
 			cursor: pointer;
    		}
-
-   		.dialogBtnPanel {
-   		    position: relative;
-   		    float: right;
-   		}
    }
 
 	.pdfDialog {
@@ -885,15 +880,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		padding-bottom: 24px;
 		max-width: 510px;
 		max-height: 164px;
-
-        .dialogMainPanel {
-            height: calc(100% - 20px);
-        }
-
-        .dialogContent {
-            // no button panel
-            height: calc(100% - 40px);
-        }
 
 		>div>table {
 			padding-right: 0px;
@@ -1329,11 +1315,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
             padding-left: 0px;
         }
 
-        .dialogBtnPanel {
-            position: relative;
-            float: right;
-        }
-
         .dialogContent {
             margin-bottom: 24px;
         }
@@ -1625,11 +1606,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
                 cursor: pointer;
                 @extend .subtitle1-link;
             }
-   	    }
-
-   	    .dialogBtnPanel {
-   	        position: relative;
-   	        float: right;
    	    }
    	}
 
