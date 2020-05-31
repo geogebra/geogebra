@@ -40,4 +40,9 @@ public class CaptionStyleProperty extends AbstractGeoElementProperty implements 
         element.updateRepaint();
         element.getApp().setPropertiesOccured();
     }
+
+    @Override
+    boolean isApplicableTo(GeoElement element) {
+        return !isTextOrInput(element);
+    }
 }

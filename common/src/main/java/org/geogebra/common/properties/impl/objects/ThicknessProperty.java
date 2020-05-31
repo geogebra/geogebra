@@ -53,4 +53,15 @@ public class ThicknessProperty
     public Integer getStep() {
         return 1;
     }
+
+    @Override
+    boolean isApplicableTo(GeoElement element) {
+        if (isTextOrInput(element)) {
+            return false;
+        }
+        if (element instanceof GeoList) {
+            return isApplicableTo(element);
+        }
+        return element.showLineProperties();
+    }
 }

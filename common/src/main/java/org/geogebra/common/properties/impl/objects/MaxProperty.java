@@ -1,11 +1,14 @@
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Max
  */
 public class MaxProperty extends RangelessDecimalProperty {
+
+    private SliderPropertyDelegate delegate;
 
     public MaxProperty(GeoNumeric numeric) {
         super("Maximum.short", numeric);
@@ -21,5 +24,17 @@ public class MaxProperty extends RangelessDecimalProperty {
         GeoNumeric numeric = getElement();
         numeric.setIntervalMax(value);
         numeric.getApp().setPropertiesOccured();
+    }
+
+    @Override
+    boolean isApplicableTo(GeoElement element) {
+        return getDelegate().isSlider(element);
+    }
+
+    private SliderPropertyDelegate getDelegate() {
+        if (delegate == null) {
+            delegate = new SliderPropertyDelegate(this);
+        }
+        return delegate;
     }
 }

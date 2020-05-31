@@ -1550,9 +1550,6 @@ public class GeoNumeric extends GeoElement
 	 * @return interval min
 	 */
 	public NumberValue getIntervalMinObject() {
-		if (intervalMin == null) {
-			return null;
-		}
 		return intervalMin;
 	}
 
@@ -1562,9 +1559,6 @@ public class GeoNumeric extends GeoElement
 	 * @return interval max
 	 */
 	public NumberValue getIntervalMaxObject() {
-		if (intervalMax == null) {
-			return null;
-		}
 		return intervalMax;
 	}
 
