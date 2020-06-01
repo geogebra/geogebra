@@ -1,5 +1,6 @@
 package org.geogebra.web.full.euclidian.inline;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -77,20 +78,18 @@ public class InlineTableControllerW implements InlineTableController {
 			setWidth(2 * CELL_WIDTH + 3);
 			setHeight(2 * CELL_HEIGHT + 3);
 
-			setAngle(0);
+			setAngle(table.getAngle());
 		}
 	}
 
 	@Override
-	public void draw(GGraphics2D g2) {
-		if (tableCanvas != null && !"visible".equals(style.getVisibility())) {
-			GPoint2D location = table.getLocation();
-			int x = view.toScreenCoordX(location.x);
-			int y = view.toScreenCoordY(location.y);
-
-			if (tableCanvas.getWidth() != 0) {
-				((GGraphics2DW) g2).drawImage(tableCanvas, x, y);
-			}
+	public void draw(GGraphics2D g2, GAffineTransform transform) {
+		if (tableCanvas != null && !"visible".equals(style.getVisibility())
+				&& tableCanvas.getWidth() != 0) {
+			g2.saveTransform();
+			g2.transform(transform);
+			((GGraphics2DW) g2).drawImage(tableCanvas, 0, 0);
+			g2.restoreTransform();
 		}
 	}
 
@@ -207,8 +206,8 @@ public class InlineTableControllerW implements InlineTableController {
 		hypergrid = initTable(tableElement, dataJ, elemE, editor, renderer, callback);
 
 		style = tableElement.getStyle();
+		style.setProperty("transformOrigin", "0 0");
 		tableCanvas = Dom.querySelectorForElement(tableElement, "canvas").cast();
-		style.setPosition(Style.Position.ABSOLUTE);
 
 		update();
 	}

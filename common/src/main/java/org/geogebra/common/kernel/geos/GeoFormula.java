@@ -3,11 +3,8 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -16,7 +13,7 @@ import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 
-public class GeoFormula extends GeoElement implements GeoInline, Translateable, PointRotateable {
+public class GeoFormula extends GeoInline {
 
 	public static final int DEFAULT_WIDTH = 250;
 	public static final int DEFAULT_HEIGHT = 48;
@@ -24,17 +21,12 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	private static final Parser parser = new Parser(new MetaModel());
 	private static final TeXSerializer texSerializer = new TeXSerializer();
 
-	private GPoint2D position;
 	private boolean defined = true;
 	private String formula;
-
-	private double width;
-	private double height;
 
 	private double minWidth;
 	private double minHeight;
 
-	private double angle = 0;
 	private String latex = "";
 
 	/**
@@ -45,9 +37,9 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	 */
 	public GeoFormula(Construction c, GPoint2D location) {
 		super(c);
-		this.position = location;
-		this.width = DEFAULT_WIDTH;
-		this.height = DEFAULT_HEIGHT;
+		setLocation(location);
+		setWidth(DEFAULT_WIDTH);
+		setHeight(DEFAULT_HEIGHT);
 	}
 
 	@Override
@@ -57,7 +49,7 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 
 	@Override
 	public GeoElement copy() {
-		GeoFormula copy = new GeoFormula(cons, position);
+		GeoFormula copy = new GeoFormula(cons, getLocation());
 		copy.set(this);
 		return copy;
 	}
@@ -122,46 +114,6 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	}
 
 	@Override
-	public double getHeight() {
-		return height;
-	}
-
-	@Override
-	public double getWidth() {
-		return width;
-	}
-
-	@Override
-	public double getAngle() {
-		return angle;
-	}
-
-	@Override
-	public GPoint2D getLocation() {
-		return position;
-	}
-
-	@Override
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	@Override
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
-	@Override
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
-
-	@Override
-	public void setLocation(GPoint2D startPoint) {
-		this.position = startPoint;
-	}
-
-	@Override
 	public void setContent(String content) {
 		formula = content;
 		try {
@@ -187,27 +139,6 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
-	}
-
-	@Override
-	public boolean isTranslateable() {
-		return true;
-	}
-
-	@Override
-	public void translate(Coords v) {
-		position.setLocation(position.getX() + v.getX(), position.getY() + v.getY());
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoPointND S) {
-		angle -= r.getDouble();
-		GeoInlineText.rotate(position, r, S);
-	}
-
-	@Override
-	public void rotate(NumberValue r) {
-		angle -= r.getDouble();
 	}
 
 	/**

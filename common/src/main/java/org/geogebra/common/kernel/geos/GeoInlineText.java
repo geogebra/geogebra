@@ -6,33 +6,22 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
  * Inline Geo Text element.
  */
-public class GeoInlineText extends GeoElement
-		implements Translateable, TextStyle, PointRotateable, GeoInline {
+public class GeoInlineText extends GeoInline implements TextStyle  {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
-
-	private GPoint2D location;
-	private double width;
-	private double height;
-
-	private double angle;
 
 	private double minHeight;
 
@@ -49,9 +38,9 @@ public class GeoInlineText extends GeoElement
 	 */
 	public GeoInlineText(Construction c, GPoint2D location) {
 		super(c);
-		this.location = location;
-		this.width = DEFAULT_WIDTH;
-		this.height = DEFAULT_HEIGHT;
+		setLocation(location);
+		setWidth(DEFAULT_WIDTH);
+		setHeight(DEFAULT_HEIGHT);
 		this.contentDefaultSize = getCurrentFontSize();
 	}
 
@@ -62,44 +51,14 @@ public class GeoInlineText extends GeoElement
 	public GeoInlineText(GeoText geoText) {
 		super(geoText.getConstruction());
 		this.contentDefaultSize = getCurrentFontSize();
-		location = new GPoint2D(geoText.getStartPoint().getInhomX(),
-				geoText.getStartPoint().getInhomY());
+		setLocation(new GPoint2D(geoText.getStartPoint().getInhomX(),
+				geoText.getStartPoint().getInhomY()));
 		setContentFromText(geoText);
 	}
 
 	private int getCurrentFontSize() {
 		return kernel.getApplication().getSettings().getFontSettings()
 				.getAppFontSize();
-	}
-
-	@Override
-	public GPoint2D getLocation() {
-		return location;
-	}
-
-	@Override
-	public void setLocation(GPoint2D location) {
-		this.location = location;
-	}
-
-	@Override
-	public double getWidth() {
-		return width;
-	}
-
-	@Override
-	public double getHeight() {
-		return height;
-	}
-
-	@Override
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	@Override
-	public void setHeight(double height) {
-		this.height = height;
 	}
 
 	@Override
@@ -142,7 +101,7 @@ public class GeoInlineText extends GeoElement
 
 	@Override
 	public GeoElement copy() {
-		return new GeoInlineText(cons, new GPoint2D(location.getX(), location.getY()));
+		return new GeoInlineText(cons, new GPoint2D(getLocation().getX(), getLocation().getY()));
 	}
 
 	@Override
@@ -150,9 +109,9 @@ public class GeoInlineText extends GeoElement
 		cons = geo.getConstruction();
 		if (geo instanceof GeoInlineText) {
 			GeoInlineText text = (GeoInlineText) geo;
-			location = text.location;
-			width = text.width;
-			height = text.height;
+			setLocation(text.getLocation());
+			setWidth(text.getWidth());
+			setHeight(text.getHeight());
 		}
 	}
 
@@ -209,16 +168,6 @@ public class GeoInlineText extends GeoElement
 	@Override
 	public HitType getLastHitType() {
 		return HitType.ON_FILLING;
-	}
-
-	@Override
-	public void translate(Coords v) {
-		location.setLocation(location.getX() + v.getX(), location.getY() + v.getY());
-	}
-
-	@Override
-	public boolean isTranslateable() {
-		return true;
 	}
 
 	@Override
@@ -299,41 +248,6 @@ public class GeoInlineText extends GeoElement
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public void rotate(NumberValue r) {
-		angle -= r.getDouble();
-	}
-
-	@Override
-	public void rotate(NumberValue r, GeoPointND S) {
-		angle -= r.getDouble();
-		rotate(location, r, S);
-	}
-
-	protected static void rotate(GPoint2D location, NumberValue r, GeoPointND S) {
-		double phi = r.getDouble();
-		double cos = MyMath.cos(phi);
-		double sin = Math.sin(phi);
-		double qx = S.getInhomCoords().getX();
-		double qy = S.getInhomCoords().getY();
-
-		double x = location.getX();
-		double y = location.getY();
-
-		location.setLocation((x - qx) * cos + (qy - y) * sin + qx,
-				(x - qx) * sin + (y - qy) * cos + qy);
-	}
-
-	@Override
-	public double getAngle() {
-		return angle;
-	}
-
-	@Override
-	public void setAngle(double angle) {
-		this.angle = angle;
 	}
 
     private void setContentFromText(GeoText geo) {

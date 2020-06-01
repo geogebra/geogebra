@@ -11,17 +11,13 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
-public class GeoInlineTable extends GeoElement implements TextStyle, GeoInline {
+public class GeoInlineTable extends GeoInline implements TextStyle {
 
 	private ArrayList<ArrayList<String>> contents = new ArrayList<>();
 	private boolean defined = true;
 
 	public static final int DEFAULT_WIDTH = 200;
 	public static final int DEFAULT_HEIGHT = 72;
-
-	private GPoint2D location;
-	private double width;
-	private double height;
 
 	private double minHeight;
 
@@ -34,9 +30,9 @@ public class GeoInlineTable extends GeoElement implements TextStyle, GeoInline {
 	 */
 	public GeoInlineTable(Construction c, GPoint2D location) {
 		super(c);
-		this.location = location;
-		this.width = DEFAULT_WIDTH;
-		this.height = DEFAULT_HEIGHT;
+		setLocation(location);
+		setWidth(DEFAULT_WIDTH);
+		setHeight(DEFAULT_HEIGHT);
 		ensureSize(2, 2);
 	}
 
@@ -48,7 +44,7 @@ public class GeoInlineTable extends GeoElement implements TextStyle, GeoInline {
 	@Override
 	public GeoElement copy() {
 		GeoInlineTable copy = new GeoInlineTable(cons,
-				new GPoint2D(location.getX(), location.getY()));
+				new GPoint2D(getLocation().getX(), getLocation().getY()));
 		copy.set(this);
 		return copy;
 	}
@@ -163,46 +159,6 @@ public class GeoInlineTable extends GeoElement implements TextStyle, GeoInline {
 	@Override
 	public double getFontSizeMultiplier() {
 		return GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
-	}
-
-	@Override
-	public double getHeight() {
-		return height;
-	}
-
-	@Override
-	public double getWidth() {
-		return width;
-	}
-
-	@Override
-	public double getAngle() {
-		return 0;
-	}
-
-	@Override
-	public GPoint2D getLocation() {
-		return location;
-	}
-
-	@Override
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	@Override
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
-	@Override
-	public void setAngle(double angle) {
-		// nothing for now
-	}
-
-	@Override
-	public void setLocation(GPoint2D location) {
-		this.location = location;
 	}
 
 	@Override

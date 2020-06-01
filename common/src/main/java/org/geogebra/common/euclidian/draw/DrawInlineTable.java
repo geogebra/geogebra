@@ -39,7 +39,7 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (tableController != null) {
-			tableController.draw(g2);
+			tableController.draw(g2, rectangle.getDirectTransform());
 		}
 	}
 

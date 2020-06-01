@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian.inline;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 
 public interface InlineTableController {
@@ -34,7 +35,7 @@ public interface InlineTableController {
 
 	void update();
 
-	void draw(GGraphics2D g2);
+	void draw(GGraphics2D g2, GAffineTransform transform);
 
 	void toForeground(int x, int y);
 
