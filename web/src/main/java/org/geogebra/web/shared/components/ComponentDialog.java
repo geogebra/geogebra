@@ -23,6 +23,8 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	private FlowPanel dialogContent;
 	private Runnable positiveAction;
 	private Runnable negativeAction;
+	private StandardButton posButton;
+	private StandardButton negButton;
 
 	/**
 	 * base dialog constructor
@@ -85,7 +87,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 			return;
 		}
 
-		StandardButton negButton = new StandardButton(app.getLocalization()
+		negButton = new StandardButton(app.getLocalization()
 				.getMenu(negTransKey), getApplication());
 		negButton.setStyleName("dialogTextButton");
 
@@ -98,12 +100,28 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 			return;
 		}
 
-		StandardButton posButton = new StandardButton(app.getLocalization()
+		posButton = new StandardButton(app.getLocalization()
 				.getMenu(posTransKey), getApplication());
 		posButton.setStyleName("dialogContainedButton");
 
 		posButton.addFastClickHandler(source -> onPositiveAction());
 		dialogButtonPanel.add(posButton);
+	}
+
+	public void setPosBtnDisabled(boolean disabled) {
+		setBtnDisabled(posButton, disabled);
+	}
+
+	public void setNedBtnDisabled(boolean disabled) {
+		setBtnDisabled(negButton, disabled);
+	}
+
+	private void setBtnDisabled(StandardButton btn, boolean disabled) {
+		if (disabled) {
+			btn.addStyleName("disabled");
+		} else {
+			btn.removeStyleName("disabled");
+		}
 	}
 
 	/**
@@ -117,7 +135,10 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	/**
 	 * runs the negative action and hides the dialog
 	 */
-	private void onNegativeAction() {
+	public void onNegativeAction() {
+		if (negButton.getStyleName().contains("disabled")) {
+			return;
+		}
 		if (negativeAction != null) {
 			negativeAction.run();
 		}
@@ -127,7 +148,11 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	/**
 	 * runs the positive action and hides the dialog
 	 */
-	private void onPositiveAction() {
+	public void onPositiveAction() {
+		if (posButton.getStyleName().contains("disabled")) {
+			return;
+		}
+
 		if (positiveAction != null) {
 			positiveAction.run();
 		}
