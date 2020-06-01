@@ -2,16 +2,17 @@ package org.geogebra.common.properties.impl.objects.collection;
 
 import java.util.Collection;
 
+import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.NumericProperty;
 import org.geogebra.common.properties.Property;
 
 public class NumericPropertyCollection<T extends Number & Comparable<T>>
-        implements NumericProperty<T> {
+        implements NumericProperty<T>, GeoElementProperty {
 
-    private Collection<NumericProperty<T>> propertyCollection;
+    private Collection<? extends NumericProperty<T>> propertyCollection;
     private NumericProperty<T> property;
 
-    public NumericPropertyCollection(Collection<NumericProperty<T>> propertyCollection) {
+    public NumericPropertyCollection(Collection<? extends NumericProperty<T>> propertyCollection) {
         this.propertyCollection = propertyCollection;
         property = propertyCollection.iterator().next();
     }

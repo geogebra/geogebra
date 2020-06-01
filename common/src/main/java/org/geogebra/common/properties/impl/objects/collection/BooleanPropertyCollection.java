@@ -3,13 +3,14 @@ package org.geogebra.common.properties.impl.objects.collection;
 import java.util.Collection;
 
 import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.Property;
 
-public class BooleanPropertyCollection implements BooleanProperty {
+public class BooleanPropertyCollection implements BooleanProperty, GeoElementProperty {
 
-    private Collection<BooleanProperty> propertyCollection;
+    private Collection<? extends BooleanProperty> propertyCollection;
 
-    public BooleanPropertyCollection(Collection<BooleanProperty> propertyCollection) {
+    public BooleanPropertyCollection(Collection<? extends BooleanProperty> propertyCollection) {
         this.propertyCollection = propertyCollection;
     }
 

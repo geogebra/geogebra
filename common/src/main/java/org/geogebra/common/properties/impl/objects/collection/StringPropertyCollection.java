@@ -2,15 +2,16 @@ package org.geogebra.common.properties.impl.objects.collection;
 
 import java.util.Collection;
 
+import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.StringProperty;
 
-public class StringPropertyCollection implements StringProperty {
+public class StringPropertyCollection implements StringProperty, GeoElementProperty {
 
-    private Collection<StringProperty> propertyCollection;
+    private Collection<? extends StringProperty> propertyCollection;
     private StringProperty property;
 
-    public StringPropertyCollection(Collection<StringProperty> propertyCollection) {
+    public StringPropertyCollection(Collection<? extends StringProperty> propertyCollection) {
         this.propertyCollection = propertyCollection;
         property = propertyCollection.iterator().next();
     }

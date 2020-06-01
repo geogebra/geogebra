@@ -3,14 +3,16 @@ package org.geogebra.common.properties.impl.objects.collection;
 import java.util.Collection;
 
 import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.Property;
 
-public class EnumerablePropertyCollection implements EnumerableProperty {
+public class EnumerablePropertyCollection implements EnumerableProperty, GeoElementProperty {
 
     private Collection<? extends EnumerableProperty> propertyCollection;
     EnumerableProperty property;
 
-    public EnumerablePropertyCollection(Collection<? extends EnumerableProperty> propertyCollection) {
+    public EnumerablePropertyCollection(
+            Collection<? extends EnumerableProperty> propertyCollection) {
         this.propertyCollection = propertyCollection;
         property = propertyCollection.iterator().next();
     }
