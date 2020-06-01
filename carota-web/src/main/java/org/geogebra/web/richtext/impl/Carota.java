@@ -18,6 +18,9 @@ public class Carota {
 	public native CarotaEditorFactory getEditor();
 
 	@JsProperty
+	public native CarotaTableFactory getTable();
+
+	@JsProperty
 	public native CarotaText getText();
 
 	@JsProperty

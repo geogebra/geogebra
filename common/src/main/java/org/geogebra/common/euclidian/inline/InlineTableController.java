@@ -40,4 +40,6 @@ public interface InlineTableController {
 	void toForeground(int x, int y);
 
 	void toBackground();
+
+	void updateContent();
 }

@@ -1,7 +1,5 @@
 package org.geogebra.common.kernel.geos;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
@@ -13,8 +11,8 @@ import org.geogebra.common.util.StringUtil;
 
 public class GeoInlineTable extends GeoInline implements TextStyle {
 
-	private ArrayList<ArrayList<String>> contents = new ArrayList<>();
 	private boolean defined = true;
+	private String content;
 
 	public static final int DEFAULT_WIDTH = 200;
 	public static final int DEFAULT_HEIGHT = 72;
@@ -33,7 +31,6 @@ public class GeoInlineTable extends GeoInline implements TextStyle {
 		setLocation(location);
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
-		ensureSize(2, 2);
 	}
 
 	@Override
@@ -52,10 +49,7 @@ public class GeoInlineTable extends GeoInline implements TextStyle {
 	@Override
 	public void set(GeoElementND geo) {
 		if (geo instanceof GeoInlineTable) {
-			contents.clear();
-			for (ArrayList<String> row : ((GeoInlineTable) geo).contents) {
-				contents.add(new ArrayList<>(row));
-			}
+			this.content = ((GeoInlineTable) geo).content;
 		} else {
 			setUndefined();
 		}
@@ -101,54 +95,15 @@ public class GeoInlineTable extends GeoInline implements TextStyle {
 		return HitType.ON_FILLING;
 	}
 
-	public String getContents(int row, int col) {
-		return contents.get(row).get(col);
-	}
-
-	public int getColumns() {
-		return contents.isEmpty() ? 0 : contents.get(0).size();
-	}
-
-	public int getRows() {
-		return contents.size();
-	}
-
-	public void setContents(int row, int col, String value) {
-		contents.get(row).set(col, value);
-	}
-
 	@Override
 	public void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
-		sb.append("\t<table columns=\"");
-		sb.append(getColumns());
-		int counter = 0;
-		for (ArrayList<String> row: contents) {
-			for (String cell: row) {
-				sb.append("\" cell").append(counter).append("=\"")
-						.append(StringUtil.encodeXML(cell));
-				counter++;
-			}
-		}
+		sb.append("\t<table content=\"");
+		sb.append(StringUtil.encodeXML(content));
 		sb.append("\"/>\n");
 
 		XMLBuilder.appendPosition(sb, this);
-	}
-
-	/**
-	 * @param columns columns
-	 * @param rows rows
-	 */
-	public void ensureSize(int columns, int rows) {
-		for (int i = contents.size(); i < rows; i++) {
-			contents.add(new ArrayList<String>());
-		}
-		for (ArrayList<String> row : contents) {
-			for (int j = row.size(); j < columns; j++) {
-				row.add("");
-			}
-		}
 	}
 
 	@Override
@@ -161,9 +116,13 @@ public class GeoInlineTable extends GeoInline implements TextStyle {
 		return GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
 	}
 
+	public String getContent() {
+		return content;
+	}
+
 	@Override
 	public void setContent(String content) {
-		// nothing for now
+		this.content = content;
 	}
 
 	@Override

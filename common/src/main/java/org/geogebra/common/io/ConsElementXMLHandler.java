@@ -2249,18 +2249,7 @@ public class ConsElementXMLHandler {
 
 	private void handleTableContent(LinkedHashMap<String, String> attrs) {
 		GeoInlineTable table = (GeoInlineTable) geo;
-		int columns = Integer.parseInt(attrs.remove("columns"));
-		table.ensureSize(columns, attrs.size() / columns);
-		int col = 0;
-		int row = 0;
-		for (String cell: attrs.values()) {
-			table.setContents(row, col, cell);
-			col++;
-			if (col == columns) {
-				col = 0;
-				row++;
-			}
-		}
+		table.setContent(attrs.get("content"));
 	}
 
 	private void handleContentSize(LinkedHashMap<String, String> attrs) {
