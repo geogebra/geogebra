@@ -3,6 +3,7 @@ package org.geogebra.web.shared.components;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -117,11 +118,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	}
 
 	private void setBtnDisabled(StandardButton btn, boolean disabled) {
-		if (disabled) {
-			btn.addStyleName("disabled");
-		} else {
-			btn.removeStyleName("disabled");
-		}
+		Dom.toggleClass(btn, "disabled", disabled);
 	}
 
 	/**
