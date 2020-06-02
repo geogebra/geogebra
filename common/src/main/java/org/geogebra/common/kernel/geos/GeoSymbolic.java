@@ -175,8 +175,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
-		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(), getArbitraryConstant(),
-				StringTemplate.prefixedDefault, null, kernel);
+		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(), 
+				getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 

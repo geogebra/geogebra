@@ -1878,13 +1878,14 @@ public class AlgebraProcessor {
 	public GeoElement[] processValidExpression(ValidExpression ve,
 			EvalInfo info) throws MyError, Exception {
 
+		EvalInfo evalInfo = info;
 		ValidExpression expression = ve;
 		// check for existing labels
 		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
 		if (replaceable instanceof HasArbitraryConstant) {
 			HasArbitraryConstant hasConstant = (HasArbitraryConstant) replaceable;
-			info = info.withArbitraryConstant(hasConstant.getArbitraryConstant());
+			evalInfo = evalInfo.withArbitraryConstant(hasConstant.getArbitraryConstant());
 		}
 
 		GeoElement[] ret;
@@ -1899,7 +1900,7 @@ public class AlgebraProcessor {
 		// we have to make sure that the macro mode is
 		// set back at the end
 		try {
-			ret = doProcessValidExpression(expression, info);
+			ret = doProcessValidExpression(expression, evalInfo);
 
 			if (ret == null) { // eg (1,2,3) running in 2D
 				if (isFreehandFunction(expression)) {
@@ -1912,7 +1913,7 @@ public class AlgebraProcessor {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		processReplace(replaceable, ret, expression, info);
+		processReplace(replaceable, ret, expression, evalInfo);
 
 		return ret;
 	}
