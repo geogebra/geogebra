@@ -38,6 +38,8 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected Object hittingTrackable;
     protected double hittingDistance;
     private float arScaleFactor = 1;
+    protected boolean isTracking;
+    protected ARFrame arFrame;
 
     private Coords tmpCoords1 = new Coords(4);
     private Coords tmpCoords2 = new Coords(4);
@@ -74,11 +76,33 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     abstract public void onPause();
 
-    abstract public void proceedARLogic();
-
     abstract public void arButtonClicked() throws ARException;
 
     abstract public void setSession() throws ARException;
+
+    protected abstract boolean sessionAndARFramePrepared();
+
+    protected abstract void drawBackground();
+
+    protected abstract void drawTargetRenderer();
+
+    protected abstract void updateMatrices();
+
+    protected abstract void drawDetectionPlanes();
+
+    protected abstract Object getBestHitForScreenCenter();
+
+    protected abstract boolean handleTap();
+
+    protected abstract boolean anchorIsTracking();
+
+    protected abstract void updateViewAndProjectMatrix();
+
+    protected abstract void updateAnchorMatrix();
+
+    protected abstract boolean setHitResult();
+
+    protected abstract void updateGestureManagerTransformIfNeeded();
 
     protected void addGestureRecognizers(){
         arGestureManager.addGestureRecognizers();
@@ -213,6 +237,58 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         } else {
             renderer.getView().setARDrawing(false);
             renderer.endOfDrawScene();
+        }
+    }
+
+    public void proceedARLogic() {
+        if (!sessionAndARFramePrepared()) {
+            return;
+        }
+        drawBackground();
+        isTracking = arFrame.isCameraTracking();
+        // If not tracking, don't draw 3d objects.
+        if (!isTracking) {
+            return;
+        }
+        updateMatrices();
+        updateGestureManagerTransformIfNeeded();
+
+        if (!objectIsPlaced) {
+            drawDetectionPlanes();
+            arFrame.setHit(getBestHitForScreenCenter());
+            if (!arFrame.isHitNull()) {
+                if (handleTap()) {
+                    arSnackBarManagerInterface.updateSnackBarAR(
+                            ARSnackBarManagerInterface.SnackBarMessage.NONE);
+                    hittingTrackable = arFrame.getTrackable();
+                    calculateAndShowRatio();
+                } else {
+                    drawTargetRenderer();
+                    arSnackBarManagerInterface.updateSnackBarAR(
+                            ARSnackBarManagerInterface.SnackBarMessage.TAP_SCREEN);
+                }
+            } else {
+                arSnackBarManagerInterface.updateSnackBarAR(
+                        ARSnackBarManagerInterface.SnackBarMessage.DETECT_SURFACE);
+            }
+            if (arGestureManager != null) {
+                arGestureManager.setTaped(false);
+            }
+        } else {
+            if (anchorIsTracking()) {
+                drawing = true;
+                updateViewAndProjectMatrix();
+                updateAnchorMatrix();
+                if (arGestureManager != null && arGestureManager.getIsTouched()) {
+                    copyPosFromGestureManager();
+                    if (setHitResult()) {
+                        rayEndOrigin = setRay();
+                        updateTranslationIfNeeded();
+                        updateModelMatrixFields();
+                    }
+                }
+                updateModelMatrix();
+            }
         }
     }
 
