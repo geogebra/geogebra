@@ -66,7 +66,7 @@ public class PointSizeProperty
             return false;
         }
         if (element instanceof GeoList) {
-            return isApplicableTo(element);
+            return isApplicableToGeoList((GeoList) element);
         }
         EuclidianView euclidianView = element.getApp().getActiveEuclidianView();
         return PointStyleModel.match(element) && euclidianView.canShowPointStyle();

@@ -35,7 +35,7 @@ public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implemen
                 return false;
             }
             if (element instanceof GeoList) {
-                return isApplicableTo(element);
+                return isApplicableToGeoList((GeoList) element);
             }
             return true;
         }

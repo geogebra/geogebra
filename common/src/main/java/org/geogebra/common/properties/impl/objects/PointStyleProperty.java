@@ -56,7 +56,7 @@ public class PointStyleProperty
             return false;
         }
         if (element instanceof GeoList) {
-            return isApplicableTo(element);
+            return isApplicableToGeoList((GeoList) element);
         }
         return PointStyleModel.match(element);
     }

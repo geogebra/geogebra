@@ -50,7 +50,7 @@ public class EquationFormProperty extends AbstractGeoElementProperty implements 
             return false;
         }
         if (element instanceof GeoList) {
-            return isApplicableTo(element);
+            return isApplicableToGeoList((GeoList) element);
         }
         return hasEquationModeSetting(element);
     }

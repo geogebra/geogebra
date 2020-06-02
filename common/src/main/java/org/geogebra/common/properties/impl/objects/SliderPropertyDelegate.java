@@ -17,7 +17,7 @@ class SliderPropertyDelegate {
             return false;
         }
         if (element instanceof GeoList) {
-            return property.isApplicableTo(element);
+            return property.isApplicableToGeoList((GeoList) element);
         }
         return hasSliderProperties(element);
     }
