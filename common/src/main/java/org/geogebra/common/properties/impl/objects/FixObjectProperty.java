@@ -42,7 +42,9 @@ public class FixObjectProperty extends AbstractGeoElementProperty implements Boo
     private boolean hasFunctionProperties(GeoElement element) {
         if (element instanceof GeoList && !isApplicableTo(element)) {
             return false;
-        } else return element.isFunctionOrEquationFromUser();
+        } else {
+            return element.isFunctionOrEquationFromUser();
+        }
     }
 
     @Override
