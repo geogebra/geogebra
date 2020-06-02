@@ -105,6 +105,6 @@ public class AppConfigSuite extends AppConfigGraphing {
 
 	@Override
 	public String getTutorialKey() {
-		return "suite_tutorial";
+		return "TutorialSuite";
 	}
 }
