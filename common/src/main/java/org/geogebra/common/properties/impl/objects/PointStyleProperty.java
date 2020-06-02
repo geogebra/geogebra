@@ -4,14 +4,20 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.IconsEnumerableProperty;
+import org.geogebra.common.properties.PropertyResource;
 
 /**
  * Point style
  */
-public class PointStyleProperty extends AbstractGeoElementProperty implements EnumerableProperty {
+public class PointStyleProperty
+        extends AbstractGeoElementProperty implements IconsEnumerableProperty {
 
-    private static final String[] styles = new String[0];
+    private static final PropertyResource[] icons = {
+            PropertyResource.ICON_POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_CROSS,
+            PropertyResource.ICON_POINT_STYLE_CIRCLE, PropertyResource.ICON_POINT_STYLE_PLUS,
+            PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
+    };
 
     public PointStyleProperty(GeoElement geoElement) {
         super("Properties.Style", geoElement);
@@ -19,7 +25,7 @@ public class PointStyleProperty extends AbstractGeoElementProperty implements En
 
     @Override
     public String[] getValues() {
-        return styles;
+        return null;
     }
 
     @Override
@@ -35,5 +41,10 @@ public class PointStyleProperty extends AbstractGeoElementProperty implements En
             element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
             element.getApp().setPropertiesOccured();
         }
+    }
+
+    @Override
+    public PropertyResource[] getIcons() {
+        return icons;
     }
 }

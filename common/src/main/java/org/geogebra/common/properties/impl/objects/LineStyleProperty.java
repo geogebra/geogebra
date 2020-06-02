@@ -2,12 +2,20 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.properties.IconsEnumerableProperty;
+import org.geogebra.common.properties.PropertyResource;
 
 /**
  * Line style
  */
-public class LineStyleProperty extends AbstractGeoElementProperty implements EnumerableProperty {
+public class LineStyleProperty
+        extends AbstractGeoElementProperty implements IconsEnumerableProperty {
+
+    private static final PropertyResource[] icons = {
+            PropertyResource.ICON_LINE_TYPE_FULL, PropertyResource.ICON_LINE_TYPE_DASHED_DOTTED,
+            PropertyResource.ICON_LINE_TYPE_DASHED_LONG, PropertyResource.ICON_LINE_TYPE_DOTTED,
+            PropertyResource.ICON_LINE_TYPE_DASHED_SHORT
+    };
 
     public LineStyleProperty(GeoElement geoElement) {
         super("Properties.Style", geoElement);
@@ -15,7 +23,7 @@ public class LineStyleProperty extends AbstractGeoElementProperty implements Enu
 
     @Override
     public String[] getValues() {
-        return new String[0];
+        return null;
     }
 
     @Override
@@ -29,5 +37,10 @@ public class LineStyleProperty extends AbstractGeoElementProperty implements Enu
         element.setLineType(style);
         element.updateVisualStyleRepaint(GProperty.LINE_STYLE);
         element.getApp().setPropertiesOccured();
+    }
+
+    @Override
+    public PropertyResource[] getIcons() {
+        return icons;
     }
 }
