@@ -92,6 +92,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasArbitraryConstant;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
@@ -1021,7 +1022,7 @@ public class AlgebraProcessor {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
-		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted);
+		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
 		if (label != null && kernel.lookupLabel(label) != null
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
@@ -1881,6 +1882,10 @@ public class AlgebraProcessor {
 		// check for existing labels
 		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
+		if (replaceable instanceof HasArbitraryConstant) {
+			HasArbitraryConstant hasConstant = (HasArbitraryConstant) replaceable;
+			info = info.withArbitraryConstant(hasConstant.getArbitraryConstant());
+		}
 
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();

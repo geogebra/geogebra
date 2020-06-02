@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.TreeMap;
 
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.util.GPredicate;
@@ -28,6 +29,14 @@ public class EvalInfo {
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private GPredicate<String> labelFilter;
 	private RedefinitionRule redefinitionRule;
+	private MyArbitraryConstant constant;
+
+	/**
+	 * Creates a default evaluation info
+	 */
+	public EvalInfo() {
+		this(false);
+	}
 
 	/**
 	 * @param labelOut
@@ -49,7 +58,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param labelOutput
 	 *            whether label should be labeled
 	 * @param redefineIndependent
@@ -65,7 +74,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param labelOutput
 	 *            whether label should be labeled
 	 * @param redefineIndependent
@@ -112,7 +121,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cas
 	 *            whether to allow using CAS for computations
 	 * @return copy of this with adjusted CAS flag
@@ -146,6 +155,7 @@ public class EvalInfo {
 		ret.labelFilter = this.labelFilter;
 		ret.allowTypeChange = this.allowTypeChange;
 		ret.redefinitionRule = this.redefinitionRule;
+		ret.constant = this.constant;
 		return ret;
 	}
 
@@ -168,7 +178,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param labeling
 	 *            whether labels for output are allowed
 	 * @return copy of this with adjusted labeling flag
@@ -281,7 +291,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return whether random numbers should be updated on a redefinition
 	 */
 	public boolean updateRandom() {
@@ -413,5 +423,20 @@ public class EvalInfo {
 
 	public boolean isSimplifiedMultiplication() {
 		return simplifiedMultiplication;
+	}
+
+	/**
+	 * Copy eval info with arbitrary constant
+	 * @param constant const
+	 * @return eval info
+	 */
+	public EvalInfo withArbitraryConstant(MyArbitraryConstant constant) {
+		EvalInfo info = copy();
+		info.constant = constant;
+		return info;
+	}
+
+	public MyArbitraryConstant getArbitraryConstant() {
+		return constant;
 	}
 }

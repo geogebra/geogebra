@@ -93,7 +93,7 @@ public class SymbolicProcessor {
 	 * @param replaced symbolic expression
 	 * @return evaluated expression
 	 */
-	protected GeoElement doEvalSymbolicNoLabel(ExpressionNode replaced) {
+	protected GeoElement doEvalSymbolicNoLabel(ExpressionNode replaced, EvalInfo info) {
 		ExpressionValue expressionValue = replaced.unwrap();
 		Command cmd;
 		CommandDispatcher cmdDispatcher = kernel.getAlgebraProcessor().cmdDispatcher;
@@ -129,10 +129,15 @@ public class SymbolicProcessor {
 			sym = (GeoSymbolic) ads.getOutput(0);
 		} else {
 			sym = new GeoSymbolic(cons);
+			sym.setArbitraryConstant(info.getArbitraryConstant());
 			sym.setDefinition(replaced);
 			sym.computeOutput();
 		}
 		return sym;
+	}
+
+	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve) {
+		return evalSymbolicNoLabel(ve, new EvalInfo());
 	}
 
 	/**
@@ -140,12 +145,12 @@ public class SymbolicProcessor {
 	 *            input expression
 	 * @return processed geo
 	 */
-	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve) {
+	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve, EvalInfo info) {
 		ve.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		if (ve.unwrap() instanceof Command
 				&& "Sequence".equals(((Command) ve.unwrap()).getName())) {
-			return doEvalSymbolicNoLabel(ve.wrap());
+			return doEvalSymbolicNoLabel(ve.wrap(), info);
 		}
 		ExpressionNode replaced = ve
 				.traverse(new SubExpressionEvaluator(this, ve)).wrap();
@@ -156,7 +161,7 @@ public class SymbolicProcessor {
 			ve.wrap().setLabel(null);
 		}
 
-		return doEvalSymbolicNoLabel(replaced);
+		return doEvalSymbolicNoLabel(replaced, info);
 	}
 
 	/**

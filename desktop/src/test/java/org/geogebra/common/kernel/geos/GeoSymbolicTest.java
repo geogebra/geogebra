@@ -1111,4 +1111,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic element = add("If(x>5, x^2, x<5, x)");
 		assertThat(element.getTwinGeo(), is(nullValue()));
 	}
+
+	@Test
+	public void testRedefinitionKeepsConstant() {
+		add("f(x) = Integral(x)");
+		add("f(x) = Integral(x)");
+		GeoElement element = lookup("c_2");
+		assertThat(element, is(nullValue()));
+	}
 }
