@@ -1115,6 +1115,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testRedefinitionKeepsConstant() {
 		add("f(x) = Integral(x)");
+		// redefine geo
 		add("f(x) = Integral(x)");
 		GeoElement element = lookup("c_2");
 		assertThat(element, is(nullValue()));
