@@ -1,11 +1,16 @@
 package org.geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -13,35 +18,40 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 
 /**
  * Created by kh on 18.01.2018.
  */
-public class AlgoHolesPolynomial extends AlgoElement {
+public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCAS {
 
 	private GeoFunction f; // input
-	private GeoList res;
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private boolean indcludesInfinite;
 
 	/**
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            output label
-	 * @param f
-	 *            function
+	 * @param cons construction
+	 * @param f function
 	 */
-	public AlgoHolesPolynomial(Construction cons, String label, GeoFunction f) {
-		super(cons);
+	public AlgoHolesPolynomial(Construction cons, GeoFunction f, String[] labels) {
+		this(cons, f, labels, true);
+	}
+
+	/**
+	 * @param cons construction
+	 * @param f function
+	 * @param indcludesInfinite include infinite values
+	 */
+	public AlgoHolesPolynomial(Construction cons, GeoFunction f, String[] labels,
+			boolean indcludesInfinite) {
+		super(cons, labels, true);
 
 		this.f = f;
-		this.res = new GeoList(cons);
+		this.indcludesInfinite = indcludesInfinite;
 
 		setInputOutput();
 		compute();
-		res.setLabel(label);
-		res.setEuclidianVisible(true);
 	}
 
 	@Override
@@ -54,47 +64,49 @@ public class AlgoHolesPolynomial extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = f.toGeoElement();
-
-		setOnlyOutput(res);
+		setOutput(getPoints());
 		setDependencies(); // done by AlgoElement
-	}
-
-	public GeoList getHolePoints() {
-		return res;
 	}
 
 	@Override
 	public void compute() {
 		Function fun = f.getFunction();
-		res.clear();
-		solveExpr(fun.getExpression());
+		List<MyPoint> result = new ArrayList<>();
+		solveExpr(fun.getExpression(), result);
+
+		double[] xs = new double[result.size()];
+		double[] ys = new double[result.size()];
+		for (int i = 0; i < result.size(); i++) {
+			MyPoint point = result.get(i);
+			xs[i] = point.x;
+			ys[i] = point.y;
+		}
+		setPoints(xs, ys, xs.length);
+		updatePoints();
 	}
 
-	private void solveExpr(ExpressionValue expr) {
+	private void solveExpr(ExpressionValue expr, List<MyPoint> result) {
 		if (expr == null || expr.isConstant()) {
 			return;
 		}
 		if (expr.isExpressionNode()) {
 			ExpressionNode node = expr.wrap();
 			if (node.getOperation() == Operation.DIVIDE) {
-				solveDivision(node.getRight());
+				solveDivision(node.getRight(), result);
 			}
-			solveExpr(node.getLeft());
-			solveExpr(node.getRight());
+			solveExpr(node.getLeft(), result);
+			solveExpr(node.getRight(), result);
 		}
 	}
 
-	private void solveDivision(ExpressionValue exp) {
-
-		StringBuilder sb = new StringBuilder("solve(");
-		sb.append(exp.toString(StringTemplate.prefixedDefault));
-		sb.append(" = 0)");
-
+	private void solveDivision(ExpressionValue exp, List<MyPoint> result) {
 		arbconst.startBlocking();
-		String solns = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
-				arbconst);
+		String input = "solve(" + exp.toString(StringTemplate.prefixedDefault) + " = 0)";
+		String solns = kernel.evaluateCachedGeoGebraCAS(input, arbconst);
 		GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
-
+		if (raw == null) {
+			return;
+		}
 		for (int i = 0; i < raw.size(); i++) {
 			GeoElement element = raw.get(i);
 			if (element instanceof GeoLine) {
@@ -106,15 +118,19 @@ public class AlgoHolesPolynomial extends AlgoElement {
 				double below = limit(x, -1);
 
 				if (above == below) {
-					res.add(new GeoPoint(cons, x, above,
-							1.0));
+					add(x, above, result);
 				} else {
-					res.add(new GeoPoint(cons, x, below,
-							1.0));
-					res.add(new GeoPoint(cons, x, above,
-							1.0));
+					add(x, below, result);
+					add(x, above, result);
 				}
 			}
+		}
+	}
+
+	private void add(double x, double y, List<MyPoint> result) {
+		if (indcludesInfinite || !Double.isInfinite(y)) {
+			MyPoint point = new MyPoint(x, y);
+			result.add(point);
 		}
 	}
 
@@ -134,10 +150,17 @@ public class AlgoHolesPolynomial extends AlgoElement {
 		}
 	}
 
+	private void updatePoints() {
+		for (GeoPoint point: points) {
+			if (point != null) {
+				point.setPointStyle(EuclidianStyleConstants.POINT_STYLE_CIRCLE);
+			}
+		}
+	}
+
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return getLoc().getPlainDefault("HolesOfA", "Holes of %0",
 				f.getLabel(tpl));
-
 	}
 }

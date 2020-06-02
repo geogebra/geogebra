@@ -165,12 +165,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		double l = left.getDouble();
 		double r = right.getDouble();
 
-		if (!f1.toGeoElement().isDefined() || !left.isDefined()
-				|| !right.isDefined() // ||
-										// (right.getDouble()<=left.getDouble()
-										// )
-		) {
-			setPoints(new double[1], 0); // 0 flags it
+		if (!f1.toGeoElement().isDefined() || !left.isDefined() || !right.isDefined()) {
+			setPoints(f1, new double[1], 0); // 0 flags it
 		} else {
 
 			if (l > r) {
@@ -203,12 +199,11 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 				Log.debug("Exception in compute() " + e.toString());
 			} // try-catch
 			if (numberOfExtremums == 0) {
-				setPoints(new double[1], 0);
+				setPoints(f1, new double[1], 0);
 			} else {
-				setPoints(extremums, numberOfExtremums);
+				setPoints(f1, extremums, numberOfExtremums);
 			} // if null
 		} // if input is ok?
-
 	}
 
 	/**
@@ -228,7 +223,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	 *            extremum finder
 	 * @return extrema
 	 */
-	public final static double[] findExtremums(UnivariateFunction rrfunc,
+	public static double[] findExtremums(UnivariateFunction rrfunc,
 			double l, double r, int samples, ExtremumFinderI extrfinder) {
 		double[] y = new double[samples + 1]; // n+1 y-values
 		boolean[] grad = new boolean[samples]; // n gradients, true: f'>=0,
@@ -257,26 +252,20 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 				if ((grad[i - 2]) && (!grad[i - 1])) { // max
 					// if( ((y[i-1]-y[i-2])/deltax)<MAX_GRADIENT) {
 					xval = extrfinder.findMaximum(curleft, curright, rrfunc,
-							3.0E-8); // debug("Gradient for "+xval+":
-										// "+gradient(rrfunc,xval,curleft,curright));
+							3.0E-8);
 					if (gradientChangesSign(rrfunc, xval, curleft, curright)) {
 						xlist.add(DoubleUtil.checkMax(xval, rrfunc));
 					} // If not too large gradient
 				} else if ((!grad[i - 2]) && (grad[i - 1])) { // min
 					// if( ((y[i-2]-y[i-1])/deltax) < MAX_GRADIENT ) {
 					xval = extrfinder.findMinimum(curleft, curright, rrfunc,
-							3.0E-8); // debug("Gradient for "+xval+":
-										// "+gradient(rrfunc,xval,curleft,curright));
+							3.0E-8);
 					if (gradientChangesSign(rrfunc, xval, curleft, curright)) {
 						xlist.add(DoubleUtil.checkMin(xval, rrfunc));
 
 					} // if not too large gradient
-
-				} else {
-					// debug("did nothing");
 				} // if possible extremum between x[i-2] and x[i]
 			} // if grad analysis possible
-
 		} // for all n sample points
 
 		double[] result = new double[xlist.size()];
@@ -289,7 +278,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	// / --- Private methods --- ///
 	// Make all private after testing...
 
-	private final static boolean gradientChangesSign(UnivariateFunction rrf,
+	private static boolean gradientChangesSign(UnivariateFunction rrf,
 			double x, double l, double r) {
 		double dx = (r - l) / 1E8;
 		double vx = rrf.value(x);
@@ -319,7 +308,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 			points[i].setUseVisualDefaults(false);
 		}
 		if (points.length > number) {
-
 			// count points with dependent elements
 			boolean foundDependency = false;
 
@@ -343,19 +331,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 					points[0].remove();
 				}
 			}
-
 			super.setOutput(points);
 		}
 	}
-
-	/**
-	 * @param x
-	 *            parameter value
-	 * @return f(x)
-	 */
-	@Override
-	protected double yAt(double x) {
-		return f1.value(x);
-	}
-
 }

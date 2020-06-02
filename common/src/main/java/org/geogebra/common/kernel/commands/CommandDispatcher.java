@@ -542,6 +542,7 @@ public abstract class CommandDispatcher {
 			case CountIf:
 			case Extremum:
 			case Holes:
+			case RemovableDiscontinuity:
 			case UnitVector:
 			case Direction:
 			case Text:
