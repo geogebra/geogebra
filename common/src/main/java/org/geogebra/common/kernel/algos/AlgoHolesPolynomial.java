@@ -16,7 +16,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -80,7 +82,7 @@ public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCA
 			ys[i] = point.y;
 		}
 		setPoints(xs, ys, xs.length);
-
+		updatePoints();
 	}
 
 	private void solveExpr(ExpressionValue expr, List<MyPoint> result) {
@@ -145,6 +147,14 @@ public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCA
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return 0;
+		}
+	}
+
+	private void updatePoints() {
+		for (GeoPoint point: points) {
+			if (point != null) {
+				point.setPointStyle(EuclidianStyleConstants.POINT_STYLE_CIRCLE);
+			}
 		}
 	}
 
