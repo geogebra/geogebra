@@ -20,6 +20,12 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void rootOfMinusOneShouldBeUsedInExpression() {
+		add("z_1 = 1 + 6i");
+		shouldBeUpdatedAs("2 + 3sqrt(-1)", "2 + 3" + IMAGINARY_UNIT);
+	}
+
+	@Test
 	public void sinShouldBeTyped() {
 		add("z_1 = 3+2i");
 		shouldBeUpdatedAs("sin45", "sin(45)");

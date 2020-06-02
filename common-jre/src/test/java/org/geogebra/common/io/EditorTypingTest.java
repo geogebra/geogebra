@@ -297,7 +297,7 @@ public class EditorTypingTest {
 	}
 
 	@Test
-	public void testBackspaceWithBrakets() {
+	public void testBackspaceWithBrackets() {
 		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
 				.checkAsciiMath("(8)/(2)");
 	}

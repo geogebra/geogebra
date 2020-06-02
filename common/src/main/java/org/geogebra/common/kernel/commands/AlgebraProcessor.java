@@ -64,7 +64,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -482,11 +481,6 @@ public class AlgebraProcessor {
 				node.setOperation(Operation.NO_OPERATION);
 			}
 		}
-	}
-
-	boolean isComplexNumber(GeoElementND geo) {
-		return geo instanceof VectorNDValue
-				&& ((VectorNDValue) geo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 
 	/**
@@ -3040,8 +3034,14 @@ public class AlgebraProcessor {
 		n.resolveVariables(info);
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
+
+			boolean wasPoint = n.isForcedPoint();
 			n = n.getLeft().wrap();
+			if (wasPoint){
+				n.setForcePoint();
+			}
 		}
+
 		String label = n.getLabel();
 		if (n.containsFreeFunctionVariable(null)) {
 			n = makeFunctionNVar(n).wrap();
