@@ -1,6 +1,5 @@
 package org.geogebra.common.properties.impl.objects;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -68,7 +67,6 @@ public class PointSizeProperty
         if (element instanceof GeoList) {
             return isApplicableToGeoList((GeoList) element);
         }
-        EuclidianView euclidianView = element.getApp().getActiveEuclidianView();
-        return PointStyleModel.match(element) && euclidianView.canShowPointStyle();
+        return PointStyleModel.match(element);
     }
 }
