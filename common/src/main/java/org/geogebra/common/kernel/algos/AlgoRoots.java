@@ -239,7 +239,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		}
 		if (!ok) {
 			double[] xs = new double[1];
-			setPoints(new double[1], ys(new double[1]), 0);
+			setPoints(xs, ys(xs), 0);
 		} else {
 			if (type == TYPE_INTERSECTIONS) {
 				diff = new GeoFunction(cons);
