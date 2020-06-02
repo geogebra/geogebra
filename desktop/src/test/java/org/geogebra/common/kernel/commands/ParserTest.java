@@ -309,6 +309,12 @@ public class ParserTest {
 		assertValidLabel(Unicode.PI_STRING + 8);
 	}
 
+	@Test
+	public void shouldHandleDecimalsInLabels() {
+		shouldReparseAs("x1.3=7", "x * 1.3 = 7");
+		shouldReparseAs("x1.3=y", "x * 1.3 = y");
+	}
+
 	private void assertValidLabel(String s) {
 		try {
 			assertEquals(s, parser.parseLabel(s));

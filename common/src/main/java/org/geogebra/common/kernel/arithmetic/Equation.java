@@ -740,19 +740,16 @@ public class Equation extends ValidExpression implements EquationValue {
 	 */
 	public ValidExpression equationOrAssignment() {
 		ExpressionValue lhsUnwrapped = lhs.unwrap();
-		if (!lhsUnwrapped.isExpressionNode()
-				&& (!rhs.containsFreeFunctionVariable(null) || rhsHasLists())) {
-			// assignment, e.g. z = 23
-			if (lhsUnwrapped instanceof Variable) {
-				String name = ((Variable) lhsUnwrapped)
-						.getName(StringTemplate.defaultTemplate);
-				rhs.setLabel(name);
-				return rhs;
-			}
+		boolean rhsConstant = !rhs.containsFreeFunctionVariable(null) || rhsHasLists();
+		// assignment, e.g. p = 23
+		if (lhsUnwrapped instanceof Variable) {
+			return assignmentOrProduct(lhsUnwrapped, rhsConstant);
+		}
+		if (!lhsUnwrapped.isExpressionNode() && rhsConstant) {
 
 			// special case: e = 2 should be an assignment
 			// but an undefined "e" has been read as the Euler constant already
-			else if (Unicode.EULER_STRING
+			if (Unicode.EULER_STRING
 					.equals(lhsUnwrapped.toString(StringTemplate.defaultTemplate))) {
 				rhs.setLabel("e");
 				return rhs;
@@ -774,8 +771,22 @@ public class Equation extends ValidExpression implements EquationValue {
 			}
 
 		}
-
 		return this;
+	}
+
+	private ValidExpression assignmentOrProduct(ExpressionValue lhsUnwrapped, boolean rhsConstant) {
+		String name = ((Variable) lhsUnwrapped)
+				.getName(StringTemplate.defaultTemplate);
+		if (name.contains(".")) {
+			lhs = ((Variable) lhsUnwrapped).resolveAsExpressionValue(SymbolicMode.NONE,
+					true).wrap();
+			return this;
+		}
+		if (!rhsConstant) {
+			return this;
+		}
+		rhs.setLabel(name);
+		return rhs;
 	}
 
 	private boolean rhsHasLists() {

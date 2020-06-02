@@ -982,6 +982,7 @@ public class AlgebraProcessor {
 					}
 
 				};
+				Log.error(sb.toString());
 				boolean autoCreateSlidersAnswer = handler
 						.onUndefinedVariables(sb.toString(), callback);
 

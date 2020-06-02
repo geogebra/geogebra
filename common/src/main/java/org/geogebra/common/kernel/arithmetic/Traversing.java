@@ -813,6 +813,10 @@ public interface Traversing {
 					SymbolicMode.NONE);
 			if (replace == null) {
 				replace = variableReplacerAlgorithm.replace(name);
+				if (replace instanceof ExpressionNode) {
+					replace.traverse(this);
+					return;
+				}
 			}
 			if (replace instanceof Variable
 					&& !name.equals(kernel.getConstruction()
@@ -907,11 +911,12 @@ public interface Traversing {
                             .getKernel()
                             .getConstruction()
                             .isRegistredFunctionVariable(variableName)) {
-					// Log.debug("found undefined variable: "
-					// + ((Variable) ret)
-					// .getName(StringTemplate.defaultTemplate));
 					tree.add(((Variable) expressionFromVariableName)
 							.getName(StringTemplate.defaultTemplate));
+				}
+				// a1.5 -> a*1.5: traverse subexpressions
+				if (expressionFromVariableName.isExpressionNode()) {
+					expressionFromVariableName.traverse(this);
 				}
 			} else if (ev instanceof Command) { // Iteration[a+1, a, {1},4]
 

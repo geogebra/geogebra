@@ -51,7 +51,7 @@ public class VariableReplacerAlgorithm {
 	 */
 	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
-		if (!tokenizerAllowed) {
+		if (!tokenizerAllowed && !expressionString.contains(".")) {
 			return replaceToken(expressionString);
 		}
 
