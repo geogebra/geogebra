@@ -3049,6 +3049,7 @@ __GGB__keysVar["eu"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "a67hk6uw",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Gidak",
     "TwoVarStats": "Aldagai Biko Analisia",
     "TwoVarStats.Help": "Hautatu dituzun bi edo hiru zutabetan, zenbakien bikoteak aztertzen ditu",

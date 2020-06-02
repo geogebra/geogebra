@@ -3049,6 +3049,7 @@ __GGB__keysVar["sv"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Guider",
     "TwoVarStats": "Tv\xe5variabels regressionanalys",
     "TwoVarStats.Help": "Analysera parvisa v\xe4rden fr\xe5n tv\xe5 eller tre markerade kolumner",

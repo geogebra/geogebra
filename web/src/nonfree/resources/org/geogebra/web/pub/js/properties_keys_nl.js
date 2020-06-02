@@ -3049,6 +3049,7 @@ __GGB__keysVar["nl"].menu = {
     "TutorialGeometry": "hmhdjr9p",
     "TutorialGraphing": "x6chykxu",
     "TutorialScientific": "t24bueug",
+    "TutorialSuite": "wq96jxxv",
     "Tutorials": "Initiatiehandleidingen",
     "TwoVarStats": "Regressieanalyse",
     "TwoVarStats.Help": "Analyseert de gekoppelde waarden in twee of meer geselecteerde kolommen",

@@ -3049,6 +3049,7 @@ __GGB__keysVar["sl"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "tcbEyJvh",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Navodila",
     "TwoVarStats": "Regresijska analiza dveh spremenljivk",
     "TwoVarStats.Help": "Primerjalna analiza vrednosti dveh ali treh izbranih stolpcev",
