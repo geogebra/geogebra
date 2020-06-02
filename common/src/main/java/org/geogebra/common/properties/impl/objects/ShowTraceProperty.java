@@ -35,6 +35,6 @@ public class ShowTraceProperty extends AbstractGeoElementProperty implements Boo
         if (element instanceof GeoList) {
             return isApplicableToGeoList((GeoList) element);
         }
-        return true;
+        return element.isTraceable();
     }
 }
