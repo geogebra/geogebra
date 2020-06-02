@@ -31,14 +31,13 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     protected static final String AR_RATIO_SETTINGS = "arRatioSettings";
     protected static final String RATIO_UNIT_KEY = "arUnit";
 
-    protected float rotateAngel = 0;
     protected Coords hittingFloor = Coords.createInhomCoorsInD3();
     protected boolean hittingFloorOk;
     private Map<Object, Double> trackablesZ;
     protected Object hittingTrackable;
     protected double hittingDistance;
     private float arScaleFactor = 1;
-    protected boolean isTracking;
+    protected boolean isTracking; // used in iOS
     protected ARFrame arFrame;
 
     private Coords tmpCoords1 = new Coords(4);
@@ -46,7 +45,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     private Coords tmpCoords3 = new Coords(4);
 
     private Coords lastHitOrigin = new Coords(3);
-    protected Coords rayEndOrigin = new Coords(3);
+    private Coords rayEndOrigin = new Coords(3);
     private Coords translationOffset = new Coords(3);
     private Coords previousTranslationOffset = new Coords(3);
     private Coords positionXY = new Coords(2);
@@ -240,7 +239,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         }
     }
 
-    public void proceedARLogic() {
+    private void proceedARLogic() {
         if (!sessionAndARFramePrepared()) {
             return;
         }
@@ -300,7 +299,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
 
     }
 
-    protected void updateModelMatrixFields() {
+    private void updateModelMatrixFields() {
         /* translating */
         translationOffset.setSub3(rayEndOrigin, lastHitOrigin);
 
@@ -315,7 +314,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         hittingTrackable = null;
     }
 
-    protected void updateModelMatrix() {
+    private void updateModelMatrix() {
         modelMatrix.set(anchorMatrix);
         /* translating */
         Coords modelOrigin = modelMatrix.getOrigin();
@@ -327,7 +326,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                 previousTranslationOffset.getZ());
     }
 
-    protected Coords setRay() {
+    private Coords setRay() {
         viewMatrix.solve(Coords.O, rayOrigin);
         rayDirection.setSub3(cHitMatrix.getOrigin(), rayOrigin);
         rayOrigin.projectPlane(modelMatrix.getVx(), modelMatrix.getVz(), rayDirection,
@@ -335,7 +334,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         return projection;
     }
 
-    protected void updateTranslationIfNeeded() {
+    private void updateTranslationIfNeeded() {
         if (arGestureManager != null && arGestureManager.getUpdateOriginIsWanted()) {
             arGestureManager.setUpdateOriginIsWanted(false);
             Coords modelOrigin = modelMatrix.getOrigin();
@@ -378,7 +377,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         }
     }
 
-    protected void copyPosFromGestureManager() {
+    private void copyPosFromGestureManager() {
         if (arGestureManager != null) {
             arGestureManager.copyXYPosition(positionXY);
         }
