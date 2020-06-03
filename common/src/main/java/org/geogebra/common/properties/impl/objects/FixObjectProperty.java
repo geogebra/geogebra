@@ -30,7 +30,7 @@ public class FixObjectProperty extends AbstractGeoElementProperty implements Boo
     @Override
     boolean isApplicableTo(GeoElement element) {
         if (element instanceof GeoList) {
-            return isApplicableTo((GeoList) element);
+            return isApplicableToGeoList((GeoList) element);
         }
         AppConfig config = element.getApp().getConfig();
         if (hasFunctionProperties(element) && config.isObjectDraggingRestricted()) {
@@ -42,11 +42,13 @@ public class FixObjectProperty extends AbstractGeoElementProperty implements Boo
     private boolean hasFunctionProperties(GeoElement element) {
         if (element instanceof GeoList && !isApplicableTo(element)) {
             return false;
-        } else return element.isFunctionOrEquationFromUser();
+        } else {
+            return element.isFunctionOrEquationFromUser();
+        }
     }
 
     @Override
-    boolean isApplicableTo(GeoList list) {
+    boolean isApplicableToGeoList(GeoList list) {
         GeoElement elementForProperties = list.getGeoElementForPropertiesDialog();
         return elementForProperties instanceof GeoFunction;
     }

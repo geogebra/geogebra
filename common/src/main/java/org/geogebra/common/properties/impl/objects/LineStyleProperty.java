@@ -2,9 +2,9 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.properties.IconsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
-import org.geogebra.common.kernel.geos.GeoList;
 
 /**
  * Line style
@@ -51,7 +51,7 @@ public class LineStyleProperty
             return false;
         }
         if (element instanceof GeoList) {
-            return isApplicableTo(element);
+            return isApplicableToGeoList((GeoList) element);
         }
         return element.showLineProperties();
     }

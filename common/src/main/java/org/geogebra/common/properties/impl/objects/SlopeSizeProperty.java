@@ -23,6 +23,9 @@ import org.geogebra.common.properties.util.GeoPropertyDelegate;
 public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implements IntegerProperty,
         GeoElementProperty, GeoPropertyDelegate<Integer> {
 
+    private GeoListPropertyHelper<Integer> propertyHelper;
+    private GeoElementSlopeSizeProperty geoElementSlopeSizeProperty;
+
     private static class GeoElementSlopeSizeProperty extends AbstractGeoElementProperty {
 
         GeoElementSlopeSizeProperty(GeoElement geoElement) {
@@ -35,14 +38,11 @@ public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implemen
                 return false;
             }
             if (element instanceof GeoList) {
-                return isApplicableTo(element);
+                return isApplicableToGeoList((GeoList) element);
             }
             return true;
         }
     }
-
-    private GeoListPropertyHelper<Integer> propertyHelper;
-    private GeoElementSlopeSizeProperty geoElementSlopeSizeProperty;
 
     /**
      * Creates a new slope size property.

@@ -9,10 +9,10 @@ import org.geogebra.common.properties.RangeProperty;
 /**
  * Line opacity
  */
-public class LineOpacityProperty
+public class OpacityProperty
         extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
-    public LineOpacityProperty(GeoElement geoElement) {
+    public OpacityProperty(GeoElement geoElement) {
         super("Opacity", geoElement);
     }
 
@@ -53,7 +53,7 @@ public class LineOpacityProperty
             return false;
         }
         if (element instanceof GeoList) {
-            return isApplicableTo(element);
+            return isApplicableToGeoList((GeoList) element);
         }
         return element.isFillable();
     }

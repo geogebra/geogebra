@@ -50,7 +50,7 @@ public class EquationFormProperty extends AbstractGeoElementProperty implements 
             return false;
         }
         if (element instanceof GeoList) {
-            return isApplicableTo(element);
+            return isApplicableToGeoList((GeoList) element);
         }
         return hasEquationModeSetting(element);
     }
@@ -58,20 +58,21 @@ public class EquationFormProperty extends AbstractGeoElementProperty implements 
     /**
      * Returns true, if the equation mode setting
      * should be shown.
-     *
      * @return true if setting should be shown.
      */
     private boolean hasEquationModeSetting(GeoElement element) {
+        return !isEnforcedEquationForm(element)
+                && element instanceof GeoLine
+                && !element.isNumberValue()
+                && element.getDefinition() == null;
+    }
+
+    private boolean isEnforcedEquationForm(GeoElement element) {
         App app = element.getApp();
         boolean isEnforcedLineEquationForm = element instanceof GeoLine
                 && app.getConfig().getEnforcedLineEquationForm() != -1;
         boolean isEnforcedConicEquationForm = element instanceof GeoConicND
                 && app.getConfig().getEnforcedConicEquationForm() != -1;
-        boolean isEnforcedEquationForm =
-                isEnforcedLineEquationForm || isEnforcedConicEquationForm;
-        boolean show = !isEnforcedEquationForm;
-        show = show && element instanceof GeoLine && !element.isNumberValue();
-        show = show && element.getDefinition() == null;
-        return show;
+        return isEnforcedLineEquationForm || isEnforcedConicEquationForm;
     }
 }

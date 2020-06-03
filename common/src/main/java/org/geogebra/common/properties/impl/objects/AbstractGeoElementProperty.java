@@ -42,7 +42,7 @@ public abstract class AbstractGeoElementProperty implements GeoElementProperty {
 		return true;
 	}
 
-	boolean isApplicableTo(GeoList list) {
+	boolean isApplicableToGeoList(GeoList list) {
 		for (int i = 0; i < list.size(); i++) {
 			if (!isApplicableTo(list.get(i))) {
 				return false;
