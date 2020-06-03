@@ -877,11 +877,12 @@ abstract public class ObjectSettingsModel {
      */
     public SlopeSizeProperty getSlopeSizeProperty() {
         if (slopeSizeProperty == null) {
-            slopeSizeProperty = new SlopeSizeProperty(app);
+            GeoElement firstElement = geoElementsList.get(0);
+            slopeSizeProperty =
+                    firstElement instanceof GeoNumeric
+                            ? new SlopeSizeProperty((GeoNumeric) firstElement)
+                            : null;
         }
-        List<GeoElementND> list = new ArrayList<>();
-        list.addAll(geoElementsList);
-        slopeSizeProperty.setGeoElements(list);
         return slopeSizeProperty;
     }
 }

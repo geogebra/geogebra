@@ -9,7 +9,6 @@ import org.geogebra.common.properties.BooleanProperty;
 import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.IconsEnumerableProperty;
-import org.geogebra.common.properties.IntegerProperty;
 import org.geogebra.common.properties.NumericProperty;
 import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCollection;
@@ -200,7 +199,7 @@ public class GeoElementProperties {
 
     private void addSlopeSizeProperty() {
         try {
-            List<IntegerProperty> slopeSizeProperties = new ArrayList<>();
+            List<RangeProperty<Integer>> slopeSizeProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 if (element instanceof GeoNumeric) {
                     slopeSizeProperties.add(new SlopeSizeProperty((GeoNumeric) element));

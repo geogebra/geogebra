@@ -1,86 +1,46 @@
 package org.geogebra.common.properties.impl.objects;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
-import org.geogebra.common.properties.AbstractNumericProperty;
 import org.geogebra.common.properties.GeoElementProperty;
-import org.geogebra.common.properties.IntegerProperty;
-import org.geogebra.common.properties.util.GeoListPropertyHelper;
-import org.geogebra.common.properties.util.GeoPropertyDelegate;
+import org.geogebra.common.properties.RangeProperty;
 
 /**
  * Property for triangle size of the Slope() command output
  **/
-public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implements IntegerProperty,
-        GeoElementProperty, GeoPropertyDelegate<Integer> {
-
-    private GeoListPropertyHelper<Integer> propertyHelper;
-    private GeoElementSlopeSizeProperty geoElementSlopeSizeProperty;
-
-    private static class GeoElementSlopeSizeProperty extends AbstractGeoElementProperty {
-
-        GeoElementSlopeSizeProperty(GeoElement geoElement) {
-            super("Size", geoElement);
-        }
-
-        @Override
-        boolean isApplicableTo(GeoElement element) {
-            if (isTextOrInput(element)) {
-                return false;
-            }
-            if (element instanceof GeoList) {
-                return isApplicableToGeoList((GeoList) element);
-            }
-            return true;
-        }
-    }
-
-    /**
-     * Creates a new slope size property.
-     *
-     * @param app app
-     */
-    public SlopeSizeProperty(App app) {
-        super(app.getLocalization(), "Size");
-        propertyHelper = new GeoListPropertyHelper<>(app, this);
-    }
+public class SlopeSizeProperty
+		extends AbstractGeoElementProperty implements RangeProperty<Integer>, GeoElementProperty {
 
     /**
      * @param slope slope
      */
     public SlopeSizeProperty(GeoNumeric slope) {
-        this(slope.getApp());
-        setSlope(slope);
+        super("Size", slope);
         if (!isApplicableTo(slope)) {
             throw new NotApplicablePropertyException(slope, this);
         }
     }
 
-    private void setSlope(GeoNumeric element) {
-        List<GeoElementND> list = new ArrayList<>();
-        list.add(element);
-        propertyHelper.setGeoElements(list);
-    }
-
-    /**
-     * @param geoElements geoElements
-     */
-    public void setGeoElements(List<GeoElementND> geoElements) {
-        propertyHelper.setGeoElements(geoElements);
+    @Override
+    GeoNumeric getElement() {
+        return (GeoNumeric) super.getElement();
     }
 
     @Override
-    protected void setValueSafe(Integer value) {
-        propertyHelper.setValue(value);
+    public Integer getValue() {
+        return getElement().getSlopeTriangleSize();
+    }
+
+    @Override
+    public void setValue(Integer value) {
+        GeoNumeric slope = getElement();
+        slope.setSlopeTriangleSize(value);
+        slope.updateVisualStyleRepaint(GProperty.COMBINED);
+        slope.getApp().setPropertiesOccured();
     }
 
     @Override
@@ -94,39 +54,23 @@ public class SlopeSizeProperty extends AbstractNumericProperty<Integer> implemen
     }
 
     @Override
-    public Integer getValue() {
-        return propertyHelper.getValue();
+    public Integer getStep() {
+        return 1;
     }
 
     @Override
     public boolean isEnabled() {
-        return propertyHelper.isEnabled();
+        return Algos.isUsedFor(Commands.Slope, getElement());
     }
 
     @Override
-    public Integer getPropertyValue(GeoElementND element) {
-        return ((GeoNumeric) element).getSlopeTriangleSize();
-    }
-
-    @Override
-    public void setPropertyValue(GeoElementND element, Integer value) {
-        ((GeoNumeric) element).setSlopeTriangleSize(value);
-        element.updateVisualStyleRepaint(GProperty.COMBINED);
-    }
-
-    @Override
-    public boolean hasProperty(GeoElementND element) {
-        return Algos.isUsedFor(Commands.Slope, element);
-    }
-
-    private boolean isApplicableTo(GeoElement element) {
-        return isEnabled() && getGeoElementSlopeSizeProperty(element).isApplicableTo(element);
-    }
-
-    private GeoElementSlopeSizeProperty getGeoElementSlopeSizeProperty(GeoElement element) {
-        if (geoElementSlopeSizeProperty == null) {
-            geoElementSlopeSizeProperty = new GeoElementSlopeSizeProperty(element);
+    boolean isApplicableTo(GeoElement element) {
+        if (!isEnabled() || isTextOrInput(element)) {
+            return false;
         }
-        return geoElementSlopeSizeProperty;
+        if (element instanceof GeoList) {
+            return isApplicableToGeoList((GeoList) element);
+        }
+        return true;
     }
 }
