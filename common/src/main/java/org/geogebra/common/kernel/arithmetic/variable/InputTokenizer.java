@@ -162,7 +162,7 @@ public class InputTokenizer {
 	}
 
 	private boolean isDigitAt(int i) {
-		return input.length() > i && VariableReplacerAlgorithm.isDigitOrDot(input.charAt(i));
+		return input.length() > i && StringUtil.isDigitOrDot(input.charAt(i));
 	}
 
 	private char nextChar() {

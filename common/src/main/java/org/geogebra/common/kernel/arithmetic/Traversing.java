@@ -861,7 +861,7 @@ public interface Traversing {
 	 * @author michael
 	 *
 	 */
-	public class CollectUndefinedVariables implements Traversing {
+	public class CollectUndefinedVariables implements Inspecting {
 
 		private TreeSet<String> tree = new TreeSet<>();
 		private TreeSet<String> localTree = new TreeSet<>();
@@ -885,14 +885,14 @@ public interface Traversing {
 		}
 
 		@Override
-		public ExpressionValue process(ExpressionValue ev) {
+		public boolean check(ExpressionValue ev) {
 
 			if (ev instanceof Variable) {
 				Variable variable = (Variable) ev;
 				String variableName = variable.getName(StringTemplate.defaultTemplate);
 				if (variable.getKernel().getApplication().getParserFunctions()
 						.isReserved(variableName)) {
-					return ev;
+					return false;
 				}
 				ExpressionValue expressionFromVariableName =
 						variable.getKernel().lookupLabel(variableName);
@@ -914,9 +914,9 @@ public interface Traversing {
 					tree.add(((Variable) expressionFromVariableName)
 							.getName(StringTemplate.defaultTemplate));
 				}
-				// a1.5 -> a*1.5: traverse subexpressions
+				// a1.5 -> a*1.5: inspect subexpressions
 				if (expressionFromVariableName.isExpressionNode()) {
-					expressionFromVariableName.traverse(this);
+					expressionFromVariableName.inspect(this);
 				}
 			} else if (ev instanceof Command) { // Iteration[a+1, a, {1},4]
 
@@ -955,7 +955,7 @@ public interface Traversing {
 					localTree.add("C");
 				}
 			}
-			return ev;
+			return false;
 		}
 
 		private void addLocalVar(Command com, int i) {

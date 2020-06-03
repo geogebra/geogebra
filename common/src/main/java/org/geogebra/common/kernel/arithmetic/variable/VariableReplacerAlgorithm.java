@@ -215,7 +215,7 @@ public class VariableReplacerAlgorithm {
 	private MySpecialDouble consumeConstant(String expressionString) {
 		int numberLength = 0;
 		while (numberLength < expressionString.length()
-				&& isDigitOrDot(expressionString.charAt(numberLength))) {
+				&& StringUtil.isDigitOrDot(expressionString.charAt(numberLength))) {
 			numberLength++;
 		}
 		if (numberLength != 0) {
@@ -226,10 +226,6 @@ public class VariableReplacerAlgorithm {
 			return new MySpecialDouble(kernel, value, num);
 		}
 		return null;
-	}
-
-	static boolean isDigitOrDot(char charAt) {
-		return StringUtil.isDigit(charAt) || '.' == charAt;
 	}
 
 	private void processPi() {

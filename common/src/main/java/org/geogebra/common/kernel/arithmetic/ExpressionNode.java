@@ -1290,11 +1290,11 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * @return true if this is leaf containing only imaginary unit
+	 * @return true if given value is an imaginary unit
 	 */
-	public static boolean isImaginaryUnit(ExpressionValue left) {
-		return (left instanceof GeoVec2D)
-				&& ((GeoVec2D) left).isImaginaryUnit();
+	public static boolean isImaginaryUnit(ExpressionValue value) {
+		return (value instanceof GeoVec2D)
+				&& ((GeoVec2D) value).isImaginaryUnit();
 	}
 
 	/**

@@ -725,6 +725,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
+	 * @return whether given character is a digit or or '.'
+	 */
+	public static boolean isDigitOrDot(char ch) {
+		return isDigit(ch) || '.' == ch;
+	}
+
+	/**
 	 * @param str
 	 *            String
 	 * @return true if str matches one of "!=", "<>", Unicode.NOTEQUAL
