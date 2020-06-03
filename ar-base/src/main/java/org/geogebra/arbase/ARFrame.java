@@ -1,19 +1,19 @@
 package org.geogebra.arbase;
 
-abstract public class ARFrame {
+public interface ARFrame {
 
-    public abstract Object getFrame();
+    Object getFrame();
 
-    public abstract boolean isCameraTracking();
+    boolean isCameraTracking();
 
-    public abstract Object getCamera();
+    Object getCamera();
 
-    public abstract void setHit(Object hit);
+    void setHit(Object hit);
 
-    public abstract Object getHit();
+    Object getHit();
 
-    public abstract Object getTrackable();
+    Object getTrackable();
 
-    public abstract boolean isHitNull();
+    boolean isHitNull();
 
 }
