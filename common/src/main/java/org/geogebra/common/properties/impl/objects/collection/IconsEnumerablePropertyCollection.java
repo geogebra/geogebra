@@ -5,9 +5,15 @@ import java.util.Collection;
 import org.geogebra.common.properties.IconsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
 
+/**
+ * Handles a collection of IconsEnumerableProperty objects as a single IconsEnumerableProperty.
+ */
 public class IconsEnumerablePropertyCollection
         extends EnumerablePropertyCollection implements IconsEnumerableProperty {
 
+    /**
+     * @param propertyCollection properties to handle
+     */
     public IconsEnumerablePropertyCollection(
             Collection<? extends IconsEnumerableProperty> propertyCollection) {
         super(propertyCollection);

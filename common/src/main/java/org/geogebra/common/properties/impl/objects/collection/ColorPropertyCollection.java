@@ -7,11 +7,17 @@ import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.objects.ColorProperty;
 
+/**
+ * Handles a collection of ColorProperty objects as a single ColorProperty.
+ */
 public class ColorPropertyCollection implements GeoElementProperty {
 
     private Collection<? extends ColorProperty> propertyCollection;
-    ColorProperty property;
+    private ColorProperty property;
 
+    /**
+     * @param propertyCollection properties to handle
+     */
     public ColorPropertyCollection(
             Collection<? extends ColorProperty> propertyCollection) {
         this.propertyCollection = propertyCollection;
@@ -23,16 +29,13 @@ public class ColorPropertyCollection implements GeoElementProperty {
     }
 
     public GColor getColor() {
-        GColor defaultColor = getColorValues()[0];
-        GColor commonColor = property.getColor();
-        for (ColorProperty colorProperty : propertyCollection) {
-            if (!commonColor.equals(colorProperty.getColor())) {
-                return defaultColor;
-            }
-        }
-        return commonColor;
+        return property.getColor();
     }
 
+    /**
+     * Sets the color of the GeoElement of all the properties.
+     * @param color color
+     */
     public void setColor(GColor color) {
         for (ColorProperty property : propertyCollection) {
             property.setColor(color);

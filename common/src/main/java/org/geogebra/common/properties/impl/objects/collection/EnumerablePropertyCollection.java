@@ -6,11 +6,17 @@ import org.geogebra.common.properties.EnumerableProperty;
 import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.Property;
 
+/**
+ * Handles a collection of EnumerableProperty objects as a single EnumerableProperty.
+ */
 public class EnumerablePropertyCollection implements EnumerableProperty, GeoElementProperty {
 
     private Collection<? extends EnumerableProperty> propertyCollection;
     EnumerableProperty property;
 
+    /**
+     * @param propertyCollection properties to handle
+     */
     public EnumerablePropertyCollection(
             Collection<? extends EnumerableProperty> propertyCollection) {
         this.propertyCollection = propertyCollection;

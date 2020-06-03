@@ -18,20 +18,32 @@ import org.geogebra.common.properties.impl.objects.collection.IconsEnumerablePro
 import org.geogebra.common.properties.impl.objects.collection.NumericPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.RangePropertyCollection;
 
+/**
+ * Creates the list of properties for a GeoElement or for a list of GeoElements.
+ */
 public class GeoElementProperties {
 
     private List<GeoElement> elements;
     private List<GeoElementProperty> properties;
 
+    /**
+     * @param elements elements
+     */
     public GeoElementProperties(List<GeoElement> elements) {
         this.elements = elements;
     }
 
+    /**
+     * @param element element
+     */
     public GeoElementProperties(GeoElement element) {
         elements = new ArrayList<>();
         elements.add(element);
     }
 
+    /**
+     * @return The list of properties for the GeoElement(s)
+     */
     public List<GeoElementProperty> getProperties() {
         properties = new ArrayList<>();
         addMinProperty();

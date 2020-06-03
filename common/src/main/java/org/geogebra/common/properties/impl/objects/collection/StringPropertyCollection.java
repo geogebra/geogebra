@@ -6,11 +6,17 @@ import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.StringProperty;
 
+/**
+ * Handles a collection of StringProperty objects as a single StringProperty.
+ */
 public class StringPropertyCollection implements StringProperty, GeoElementProperty {
 
     private Collection<? extends StringProperty> propertyCollection;
     private StringProperty property;
 
+    /**
+     * @param propertyCollection properties to handle
+     */
     public StringPropertyCollection(Collection<? extends StringProperty> propertyCollection) {
         this.propertyCollection = propertyCollection;
         property = propertyCollection.iterator().next();

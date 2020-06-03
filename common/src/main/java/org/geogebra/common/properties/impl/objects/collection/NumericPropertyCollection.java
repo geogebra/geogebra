@@ -6,12 +6,18 @@ import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.NumericProperty;
 import org.geogebra.common.properties.Property;
 
+/**
+ * Handles a collection of NumericProperty objects as a single NumericProperty.
+ */
 public class NumericPropertyCollection<T extends Number & Comparable<T>>
         implements NumericProperty<T>, GeoElementProperty {
 
     private Collection<? extends NumericProperty<T>> propertyCollection;
     NumericProperty<T> property;
 
+    /**
+     * @param propertyCollection properties to handle
+     */
     public NumericPropertyCollection(Collection<? extends NumericProperty<T>> propertyCollection) {
         this.propertyCollection = propertyCollection;
         property = propertyCollection.iterator().next();
