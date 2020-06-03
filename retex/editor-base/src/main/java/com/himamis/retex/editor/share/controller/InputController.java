@@ -24,6 +24,7 @@ public class InputController {
 	public static final char FUNCTION_OPEN_KEY = '('; // probably universal
 	public static final char FUNCTION_CLOSE_KEY = ')';
 	public static final char DELIMITER_KEY = ';';
+	private static final String[] SUFFIX_REPLACEABLE_FUNCTIONS = {"abs", "sqrt"};
 
 	private final MetaModel metaModel;
 
@@ -214,22 +215,28 @@ public class InputController {
 	}
 
 	private void newBraces(EditorState editorState, FunctionPower power, char ch) {
-		Tag tag = Tag.lookup(power.name);
+		String name = power.name;
+		for (String suffix: SUFFIX_REPLACEABLE_FUNCTIONS) {
+			if (name.endsWith(suffix)) {
+				name = suffix;
+			}
+		}
+		Tag tag = Tag.lookup(name);
 
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
 			if (power.script != null) {
 				bkspCharacter(editorState);
 			}
-			delCharacters(editorState, power.name.length());
-			newFunction(editorState, power.name, false,
+			delCharacters(editorState, name.length());
+			newFunction(editorState, name, false,
 					power.script);
 		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
-				&& metaModel.isFunction(power.name)) {
+				&& metaModel.isFunction(name)) {
 			if (power.script != null) {
 				bkspCharacter(editorState);
 			}
-			delCharacters(editorState, power.name.length());
-			newFunction(editorState, power.name, ch == '[', power.script);
+			delCharacters(editorState, name.length());
+			newFunction(editorState, name, ch == '[', power.script);
 
 		} else {
 			String selText = editorState.getSelectedText().trim();
