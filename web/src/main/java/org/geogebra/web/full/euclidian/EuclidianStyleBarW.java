@@ -570,8 +570,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected void closeLabelPopup() {
-		if (getLabelPopup().getMyPopup().isShowing()) {
-			getLabelPopup().getMyPopup().hide();
+		if (btnLabel != null && btnLabel.getMyPopup().isShowing()) {
+			btnLabel.getMyPopup().hide();
 		}
 	}
 
@@ -1798,7 +1798,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 			this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
 			this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
 		}
-		getLabelPopup().setLabels();
+		if (btnLabel != null) {
+			btnLabel.setLabels();
+		}
 		btnLineStyle.setLabels();
 		btnColor.setLabels();
 		if (btnTextBgColor != null) {

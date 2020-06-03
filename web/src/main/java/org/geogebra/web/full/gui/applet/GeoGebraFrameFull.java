@@ -596,8 +596,8 @@ public class GeoGebraFrameFull
 
 	private VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField) {
-		return getApp().getKeyboardManager().getOnScreenKeyboard(textField,
-				this);
+		getKeyboardManager().setListeners(textField, this);
+		return getKeyboardManager().getOnScreenKeyboard();
 	}
 
 	/**
