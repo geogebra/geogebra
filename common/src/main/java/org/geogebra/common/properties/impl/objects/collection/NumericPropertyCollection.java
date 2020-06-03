@@ -10,7 +10,7 @@ public class NumericPropertyCollection<T extends Number & Comparable<T>>
         implements NumericProperty<T>, GeoElementProperty {
 
     private Collection<? extends NumericProperty<T>> propertyCollection;
-    private NumericProperty<T> property;
+    NumericProperty<T> property;
 
     public NumericPropertyCollection(Collection<? extends NumericProperty<T>> propertyCollection) {
         this.propertyCollection = propertyCollection;
