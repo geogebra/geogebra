@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInline;
-import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -2207,9 +2206,6 @@ public class ConsElementXMLHandler {
 			case "selectedIndex":
 				handleSelectedIndex(attrs);
 				break;
-			case "table":
-				handleTableContent(attrs);
-				break;
 			case "tableview":
 				handleTableView(attrs);
 				break;
@@ -2245,11 +2241,6 @@ public class ConsElementXMLHandler {
 			}
 		}
 
-	}
-
-	private void handleTableContent(LinkedHashMap<String, String> attrs) {
-		GeoInlineTable table = (GeoInlineTable) geo;
-		table.setContent(attrs.get("content"));
 	}
 
 	private void handleContentSize(LinkedHashMap<String, String> attrs) {

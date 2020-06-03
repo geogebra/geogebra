@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.io.latex.ParseException;
 import com.himamis.retex.editor.share.io.latex.Parser;
@@ -105,15 +104,6 @@ public class GeoFormula extends GeoInline {
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-		sb.append("\t<content val=\"");
-		StringUtil.encodeXML(sb, formula);
-		sb.append("\"/>\n");
-		XMLBuilder.appendPosition(sb, this);
-	}
-
-	@Override
 	public void setContent(String content) {
 		formula = content;
 		try {
@@ -121,6 +111,11 @@ public class GeoFormula extends GeoInline {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String getContent() {
+		return formula;
 	}
 
 	@Override
@@ -139,12 +134,5 @@ public class GeoFormula extends GeoInline {
 
 	public void setMinHeight(double minHeight) {
 		this.minHeight = minHeight;
-	}
-
-	/**
-	 * @return formula, parseable by editor
-	 */
-	public String getContent() {
-		return formula;
 	}
 }

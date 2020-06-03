@@ -42,4 +42,6 @@ public interface InlineTableController {
 	void toBackground();
 
 	void updateContent();
+
+	<T> T getFormat(String key, T fallback);
 }

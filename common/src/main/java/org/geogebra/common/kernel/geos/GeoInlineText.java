@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.HasFormat;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -18,7 +19,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Inline Geo Text element.
  */
-public class GeoInlineText extends GeoInline implements TextStyle  {
+public class GeoInlineText extends GeoInline implements TextStyle {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
@@ -87,9 +88,7 @@ public class GeoInlineText extends GeoInline implements TextStyle  {
 		this.content = content;
 	}
 
-	/**
-	 * @return JSON representation of the document (used by Carota)
-	 */
+	@Override
 	public String getContent() {
 		return content;
 	}
@@ -113,21 +112,6 @@ public class GeoInlineText extends GeoInline implements TextStyle  {
 			setWidth(text.getWidth());
 			setHeight(text.getHeight());
 		}
-	}
-
-	/**
-	 * returns all class-specific xml tags for getXML
-	 */
-	@Override
-	protected void getXMLtags(StringBuilder sb) {
-		getXMLfixedTag(sb);
-		getXMLvisualTags(sb);
-
-		sb.append("\t<content val=\"");
-		StringUtil.encodeXML(sb, content);
-		sb.append("\"/>\n");
-
-		XMLBuilder.appendPosition(sb, this);
 	}
 
 	@Override
@@ -172,15 +156,23 @@ public class GeoInlineText extends GeoInline implements TextStyle  {
 
 	@Override
 	public int getFontStyle() {
-		DrawInlineText drawable = getDrawable();
+		return getFontStyle(getDrawable());
+	}
+
+	/**
+	 * Compute the font style of the inline object
+	 * @param hasFormat inline object with format (text, table)
+	 * @return font style (see GFont)
+	 */
+	public static int getFontStyle(HasFormat hasFormat) {
 		try {
-			boolean bold = drawable.getFormat("bold", false);
-			boolean italic = drawable.getFormat("italic", false);
-			boolean underline = drawable.getFormat("underline", false);
+			boolean bold = hasFormat.getFormat("bold", false);
+			boolean italic = hasFormat.getFormat("italic", false);
+			boolean underline = hasFormat.getFormat("underline", false);
 			return ((bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0)) | (underline
 					? GFont.UNDERLINE : 0);
 		} catch (RuntimeException e) {
-			Log.warn("No format for " + this);
+			Log.warn("No format for " + hasFormat);
 		}
 
 		return GFont.PLAIN;
@@ -211,7 +203,7 @@ public class GeoInlineText extends GeoInline implements TextStyle  {
 
 	@Override
 	public double getFontSizeMultiplier() {
-		DrawInlineText drawable = getDrawable();
+		HasFormat drawable = getDrawable();
 		double viewFontSize = getCurrentFontSize();
 		double defaultMultiplier = GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
 		try {

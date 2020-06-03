@@ -1,13 +1,12 @@
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.euclidian.draw.HasFormat;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.StringUtil;
 
 public class GeoInlineTable extends GeoInline implements TextStyle {
 
@@ -96,19 +95,13 @@ public class GeoInlineTable extends GeoInline implements TextStyle {
 	}
 
 	@Override
-	public void getXMLtags(StringBuilder sb) {
-		super.getXMLtags(sb);
-
-		sb.append("\t<table content=\"");
-		sb.append(StringUtil.encodeXML(content));
-		sb.append("\"/>\n");
-
-		XMLBuilder.appendPosition(sb, this);
+	public int getFontStyle() {
+		return GeoInlineText.getFontStyle(getDrawable());
 	}
 
-	@Override
-	public int getFontStyle() {
-		return GFont.PLAIN;
+	protected HasFormat getDrawable() {
+		return (HasFormat) kernel.getApplication()
+				.getActiveEuclidianView().getDrawableFor(this);
 	}
 
 	@Override
@@ -116,13 +109,14 @@ public class GeoInlineTable extends GeoInline implements TextStyle {
 		return GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
 	}
 
-	public String getContent() {
-		return content;
-	}
-
 	@Override
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@Override
+	public String getContent() {
+		return content;
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.StringUtil;
 
 public abstract class GeoInline extends GeoElement implements Translateable, PointRotateable,
 		RectangleTransformable {
@@ -94,6 +95,11 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	public abstract void setContent(String content);
 
 	/**
+	 * @return editor content; encoding depends on editor type
+	 */
+	public abstract String getContent();
+
+	/**
 	 * @return min width in pixels, depends on content
 	 */
 	public abstract double getMinWidth();
@@ -136,5 +142,20 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 
 		location.setLocation((x - qx) * cos + (qy - y) * sin + qx,
 				(x - qx) * sin + (y - qy) * cos + qy);
+	}
+
+	/**
+	 * returns all class-specific xml tags for getXML
+	 */
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		getXMLfixedTag(sb);
+		getXMLvisualTags(sb);
+
+		sb.append("\t<content val=\"");
+		StringUtil.encodeXML(sb, getContent());
+		sb.append("\"/>\n");
+
+		XMLBuilder.appendPosition(sb, this);
 	}
 }

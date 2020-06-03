@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.HasFormat;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -26,45 +28,57 @@ import com.google.gwt.user.client.Command;
  *
  * @author laszlo
  */
-public class InlineTextItems {
+public class InlineFormattingItems {
+
+	private final App app;
 	private final Localization loc;
-	private App app;
+	private final GPopupMenuW menu;
+	private final ContextMenuFactory factory;
+
 	private final ArrayList<GeoElement> geos;
-	private GPopupMenuW menu;
-	private ContextMenuFactory factory;
-	private List<DrawInlineText> inlines;
+	private final List<HasFormat> inlines;
 
 	/**
 	 * @param app the application
 	 * @param geos the elements what items are for
 	 *@param menu to add the items to.
 	 */
-	public InlineTextItems(App app, ArrayList<GeoElement> geos, GPopupMenuW menu,
+	public InlineFormattingItems(App app, ArrayList<GeoElement> geos, GPopupMenuW menu,
 						   ContextMenuFactory factory) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.geos = geos;
 		this.factory = factory;
 		this.menu = menu;
-		inlines = new ArrayList<>();
-		if (allGeosAreText()) {
+		this.inlines = new ArrayList<>();
+
+		if (allGeosHaveFormats()) {
 			fillInlines();
 		}
 	}
 
-	private boolean allGeosAreText() {
-		for (GeoElement geo: geos) {
-			if (!(geo instanceof GeoInlineText)) {
+	private boolean allGeosHaveFormats() {
+		for (GeoElement geo : geos) {
+			if (!(geo instanceof GeoInlineText) && !(geo instanceof GeoInlineTable)) {
 				return false;
 			}
 		}
 		return true;
 	}
 
+	private boolean hasInlineTable() {
+		for (GeoElement geo : geos) {
+			if (geo instanceof GeoInlineTable) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private void fillInlines() {
-		for (GeoElement geo: geos) {
-			inlines.add((DrawInlineText) app.getActiveEuclidianView()
-					.getDrawableFor(geo));
+		for (GeoElement geo : geos) {
+			inlines.add((HasFormat) app.getActiveEuclidianView().getDrawableFor(geo));
 		}
 	}
 
@@ -77,9 +91,15 @@ public class InlineTextItems {
 			return;
 		}
 
-		addToolbar();
-		addFontSubmenu();
-		addHyperlinkItems();
+		if (hasInlineTable()) {
+			addFontSubmenu();
+			menu.addSeparator();
+		} else {
+			addToolbar();
+			addFontSubmenu();
+			addHyperlinkItems();
+			menu.addSeparator();
+		}
 	}
 
 	private void addToolbar() {
@@ -108,7 +128,7 @@ public class InlineTextItems {
 			return;
 		}
 
-		if (StringUtil.emptyOrZero(inlines.get(0).getHyperLinkURL())) {
+		if (StringUtil.emptyOrZero(((DrawInlineText) inlines.get(0)).getHyperLinkURL())) {
 			addHyperlinkItem("Link");
 		} else {
 			addHyperlinkItem("editLink");
@@ -117,24 +137,17 @@ public class InlineTextItems {
 	}
 
 	private void addHyperlinkItem(String labelTransKey) {
-		Command addHyperlinkCommand = new Command() {
-			@Override
-			public void execute() {
-				openHyperlinkDialog();
-			}
-		};
-
-		addItem(labelTransKey, addHyperlinkCommand);
+		addItem(labelTransKey, this::openHyperlinkDialog);
 	}
 
-	private void  openHyperlinkDialog() {
+	private void openHyperlinkDialog() {
 		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
 				getTextController());
 		hyperlinkDialog.center();
 	}
 
 	private InlineTextController getTextController() {
-		return inlines.get(0).getTextController();
+		return ((DrawInlineText) inlines.get(0)).getTextController();
 	}
 
 	private void addRemoveHyperlinkItem() {

@@ -10,7 +10,7 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 
-public class DrawInlineTable extends Drawable implements DrawInline {
+public class DrawInlineTable extends Drawable implements DrawInline, HasFormat {
 
 	private final InlineTableController tableController;
 
@@ -73,14 +73,14 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 		tableController.removeFromDom();
 	}
 
-	/**
-	 * @param key
-	 *            formatting option
-	 * @param val
-	 *            value (String, int or bool, depending on key)
-	 */
+	@Override
 	public void format(String key, Object val) {
 		tableController.format(key, val);
+	}
+
+	@Override
+	public <T> T getFormat(String key, T fallback) {
+		return tableController.getFormat(key, fallback);
 	}
 
 	@Override

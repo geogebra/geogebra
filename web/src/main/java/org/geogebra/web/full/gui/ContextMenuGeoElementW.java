@@ -236,13 +236,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addInlineTextItems(ArrayList<GeoElement> geos) {
-		InlineTextItems items = new InlineTextItems(app, geos, wrappedPopup, factory);
-		if (items.isEmpty()) {
-			return;
-		}
+		InlineFormattingItems items = new InlineFormattingItems(app, geos, wrappedPopup, factory);
 		items.addItems();
-		wrappedPopup.addSeparator();
-
 	}
 
 	private boolean addLayerItem(ArrayList<GeoElement> geos) {

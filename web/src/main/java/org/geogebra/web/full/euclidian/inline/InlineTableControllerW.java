@@ -5,12 +5,12 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.inline.InlineTableController;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.richtext.impl.Carota;
 import org.geogebra.web.richtext.impl.CarotaTable;
 import org.geogebra.web.richtext.impl.CarotaUtil;
-import org.geogebra.web.richtext.impl.EditorCallback;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -94,10 +94,14 @@ public class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public void format(String key, Object val) {
-		//CarotaRange selection = editor.selectedRange();
-		//CarotaRange range = selection.getStart() == selection.getEnd() ? editor.documentRange()
-		//		: selection;
-		//range.setFormatting(key, val);
+		tableImpl.setFormatting(key, val);
+		table.setContent(getContent());
+		table.updateRepaint();
+	}
+
+	@Override
+	public <T> T getFormat(String key, T fallback) {
+		return tableImpl.getFormatting(key, fallback);
 	}
 
 	@Override
@@ -128,23 +132,31 @@ public class InlineTableControllerW implements InlineTableController {
 		}
 	}
 
+	private String getContent() {
+		return Global.JSON.stringify(tableImpl.save());
+	}
+
 	private void initTable(Element parent) {
 		tableElement = DOM.createDiv();
 		tableElement.addClassName("mowWidget");
 		parent.appendChild(tableElement);
 
-		EditorCallback callback = () -> {
-			table.setContent(Global.JSON.stringify(tableImpl.save()));
-			view.getApplication().storeUndoInfo();
-		};
-
 		style = tableElement.getStyle();
 		style.setProperty("transformOrigin", "0 0");
+		style.setVisibility(Style.Visibility.HIDDEN);
 		tableImpl = Carota.get().getTable().create(tableElement);
 		tableImpl.init(2, 2);
 
 		updateContent();
-		tableImpl.contentChanged(callback);
+
+		tableImpl.contentChanged(() -> {
+			table.setContent(getContent());
+			view.getApplication().storeUndoInfo();
+		});
+
+		tableImpl.selectionChanged(() ->
+			table.getKernel().notifyUpdateVisualStyle(table, GProperty.FONT)
+		);
 
 		update();
 	}

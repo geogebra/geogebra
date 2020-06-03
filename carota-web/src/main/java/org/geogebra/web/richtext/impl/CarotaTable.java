@@ -18,6 +18,8 @@ public class CarotaTable {
 
 	public native void contentChanged(EditorCallback editorCallback);
 
+	public native void selectionChanged(EditorCallback editorCallback);
+
 	@JsOverlay
 	public final void startEditing(int x, int y) {
 		startEditing(getHitCell(x, y), x, y);
@@ -30,4 +32,8 @@ public class CarotaTable {
 	public native void stopEditing();
 
 	public native void removeSelection();
+
+	public native void setFormatting(String key, Object val);
+
+	public native <T> T getFormatting(String key, T fallback);
 }

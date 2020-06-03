@@ -3,6 +3,7 @@ package org.geogebra.web.full.javax.swing;
 import java.util.List;
 
 import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.HasFormat;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
@@ -21,9 +22,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author laszlo
  */
 public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
+
 	private AriaMenuItem item;
 	private final App app;
-	private List<DrawInlineText> drawInlineTexts;
+	private List<HasFormat> formatters;
 	private FlowPanel panel;
 	private MyToggleButtonW subScriptBtn;
 	private MyToggleButtonW superScriptBtn;
@@ -33,11 +35,11 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 	/**
 	 * Constructor of special context menu item holding the
 	 * list and sub/superscript toggle buttons
-	 * @param drawInlineTexts the drawable.
+	 * @param formatters the formatters.
 	 *
 	 */
-	public InlineTextToolbar(List<DrawInlineText> drawInlineTexts, AriaMenuItem item, App app) {
-		this.drawInlineTexts = drawInlineTexts;
+	public InlineTextToolbar(List<HasFormat> formatters, AriaMenuItem item, App app) {
+		this.formatters = formatters;
 		this.item = item;
 		this.app = app;
 
@@ -101,17 +103,17 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 	}
 
 	protected String getScriptFormat() {
-		if (drawInlineTexts.isEmpty()) {
+		if (formatters.isEmpty()) {
 			return "";
 		}
 
-			String format = drawInlineTexts.get(0).getFormat("script", "normal");
-		if (drawInlineTexts.size() == 1) {
+		String format = formatters.get(0).getFormat("script", "normal");
+		if (formatters.size() == 1) {
 			return format;
 		}
 
-		for (DrawInlineText d: drawInlineTexts) {
-			if (!format.equals(d.getFormat("script", "normal"))) {
+		for (HasFormat formatter : formatters) {
+			if (!format.equals(formatter.getFormat("script", "normal"))) {
 				return "";
 			}
 		}
@@ -120,17 +122,17 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 	}
 
 	protected String getListStyle() {
-		if (drawInlineTexts.isEmpty()) {
+		if (formatters.isEmpty()) {
 			return "";
 		}
 
-		String listStyle = getListStyle(drawInlineTexts.get(0));
-		if (drawInlineTexts.size() == 1) {
+		String listStyle = getListStyle(((DrawInlineText) formatters.get(0)));
+		if (formatters.size() == 1) {
 			return listStyle;
 		}
 
-		for (DrawInlineText drawInlineText: drawInlineTexts) {
-			if (!listStyle.equals(getListStyle(drawInlineText))) {
+		for (HasFormat formatter : formatters) {
+			if (!listStyle.equals(getListStyle(((DrawInlineText) formatter)))) {
 				return "";
 			}
 		}
@@ -171,15 +173,15 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 	}
 
 	private void formatScript(String type, Boolean value) {
-		for (DrawInlineText d: drawInlineTexts) {
-			d.format("script", value ? type : "none");
+		for (HasFormat formatter : formatters) {
+			formatter.format("script", value ? type : "none");
 		}
 		app.storeUndoInfo();
 	}
 
 	private void switchListTo(String listType) {
-		for (DrawInlineText d: drawInlineTexts) {
-			d.switchListTo(listType);
+		for (HasFormat formatter : formatters) {
+			((DrawInlineText) formatter).switchListTo(listType);
 		}
 		app.storeUndoInfo();
 	}
