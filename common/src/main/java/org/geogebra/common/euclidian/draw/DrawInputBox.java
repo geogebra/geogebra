@@ -494,6 +494,9 @@ public class DrawInputBox extends CanvasDrawable {
 		view.getViewTextField().setBoxBounds(labelRectangle);
 	}
 
+	/**
+	 * @param show whether to show the widget
+	 */
 	public void setWidgetVisible(boolean show) {
 		if (geo.isEuclidianVisible() && view.isVisibleInThisView(geo) && show) {
 			showWidget();
