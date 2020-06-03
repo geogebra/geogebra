@@ -3,13 +3,11 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
-import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.dom.client.IFrameElement;
 import com.google.gwt.dom.client.ImageElement;
@@ -17,41 +15,42 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author csilla
  *
  */
-public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
-	private AppW appW;
-	private FlowPanel mainPanel;
+public class ExportImageDialog extends ComponentDialog {
 	private FlowPanel contentPanel;
-	private Label rightClickText;
 	private NoDragImage previewImage;
 	private Frame iframePDF;
 	private String base64Url;
-	private FlowPanel buttonPanel;
-	private StandardButton downloadBtn;
-	private StandardButton copyToClipboardBtn;
 
 	/**
 	 * @param app
 	 *            see {@link AppW}
+	 * @param data
+	 * 			  dialog transkeys
 	 * @param base64Image
 	 *            optional image
 	 */
-	public ExportImageDialog(AppW app, String base64Image) {
-		super(app.getPanel(), app);
-		setAutoHideEnabled(true);
-		this.appW = app;
+	public ExportImageDialog(AppW app, DialogData data, String base64Image) {
+		super(app, data, true, true);
+		addStyleName("exportImgDialog");
 		if (base64Image != null) {
 			setPreviewImage(base64Image);
 		} else {
 			setPreviewImage(getExportDataURL(app));
 		}
-		initGui();
-		initActions();
+		buildContent(app);
+
+		setOnPositiveAction(() -> {
+			Browser.exportImage(base64Url,
+					app.getExportTitle() + getExtension(base64Url));
+		});
+		setOnNegativeAction(() -> {
+			app.copyGraphicsViewToClipboard();
+		});
 	}
 
 	/**
@@ -83,12 +82,11 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 						false, greyscale);
 	}
 
-	private void initGui() {
-		mainPanel = new FlowPanel();
+	private void buildContent(AppW appW) {
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("expImgContent");
 		if (!appW.isCopyImageToClipboardAvailable()) {
-			rightClickText = new Label();
+			Label rightClickText = new Label(app.getLocalization().getMenu("expImgRightClickMsg"));
 			rightClickText.addStyleName("rightClickHelpText");
 			contentPanel.add(rightClickText);
 		}
@@ -97,58 +95,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		} else if (iframePDF != null) {
 			contentPanel.add(iframePDF);
 		}
-		// panel for buttons
-		downloadBtn = new StandardButton("", appW);
-		if (!appW.isUnbundled() && !appW.isWhiteboardActive()) {
-			downloadBtn.addStyleName("gwt-Button");
-			downloadBtn.addStyleName("downloadBtn");
-		}
-		if (appW.isCopyImageToClipboardAvailable()) {
-			copyToClipboardBtn = new StandardButton("", appW);
-			copyToClipboardBtn.addStyleName("copyToClipBtn");
-			if (!appW.isUnbundled()) {
-				copyToClipboardBtn.addStyleName("gwt-Button");
-			}
-		}
-		buttonPanel = new FlowPanel();
-		buttonPanel.setStyleName("DialogButtonPanel");
-		if (copyToClipboardBtn != null) {
-			buttonPanel.add(copyToClipboardBtn);
-			buttonPanel.addStyleName("withCopyToClip");
-			if (!appW.isUnbundled() && !appW.isWhiteboardActive()) {
-				buttonPanel.addStyleName("classic");
-			}
-		}
-		buttonPanel.add(downloadBtn);
-		// add panels
-		add(mainPanel);
-		mainPanel.add(contentPanel);
-		mainPanel.add(buttonPanel);
-		// style
-		addStyleName("GeoGebraPopup");
-		addStyleName("exportImgDialog");
-		setGlassEnabled(true);
-		setLabels();
-		center();
-	}
-
-	private void initActions() {
-		downloadBtn.addFastClickHandler(this);
-		if (copyToClipboardBtn != null) {
-			copyToClipboardBtn.addFastClickHandler(this);
-		}
-	}
-
-	@Override
-	public void onClick(Widget source) {
-		if (source == downloadBtn) {
-			// DOWNLOAD AS PNG/SVG/PDF
-			Browser.exportImage(base64Url,
-					appW.getExportTitle() + getExtension(base64Url));
-			super.hide();
-		} else if (source == copyToClipboardBtn) {
-			app.copyGraphicsViewToClipboard();
-		}
+		addDialogContent(contentPanel);
 	}
 
 	private static String getExtension(String url) {
@@ -161,35 +108,12 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		}
 	}
 
-	/**
-	 * set button labels and dialog title
-	 */
-	public void setLabels() {
-		getCaption().setText(appW.getLocalization().getMenu("exportImage")); // dialog
-		// no right click message for:
-		// PDF
-		// iOS
-		// Android
-		if (rightClickText != null && previewImage != null && !Browser.isMobile()) {
-			rightClickText.setText(
-					appW.getLocalization().getMenu("expImgRightClickMsg"));
-		}
-		if (copyToClipboardBtn != null) {
-			copyToClipboardBtn
-					.setText(appW.getLocalization().getMenu("CopyToClipboard"));
-		}
-		downloadBtn.setText(appW.getLocalization().getMenu("Download")); // download
-	}
-
 	private void setPreviewImage(String imgStr) {
 		if (imgStr != null && imgStr.length() > 0) {
-
 			base64Url = imgStr;
 
 			if (imgStr.startsWith(StringUtil.pdfMarker)) {
-
 				iframePDF = new Frame(imgStr);
-
 				IFrameElement iframe = iframePDF.getElement().cast();
 
 				Style style = iframe.getStyle();
@@ -200,29 +124,14 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 				iframe.setTabIndex(-1);
 				iframe.setSrc(imgStr);
 
-				ImageWrapper.nativeon(iframe, "load", new ImageLoadCallback() {
-
-					@Override
-					public void onLoad() {
-						center();
-					}
-				});
-
+				ImageWrapper.nativeon(iframe, "load", () -> center());
 			} else {
-
 				previewImage = new NoDragImage(imgStr);
 				previewImage.addStyleName("prevImg");
 				Browser.setAllowContextMenu(previewImage.getElement(), true);
 				ImageElement img = previewImage.getElement().cast();
-				ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
-
-					@Override
-					public void onLoad() {
-						center();
-					}
-				});
+				ImageWrapper.nativeon(img, "load", () -> center());
 			}
 		}
 	}
-
 }
