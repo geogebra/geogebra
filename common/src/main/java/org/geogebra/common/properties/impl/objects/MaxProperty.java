@@ -37,4 +37,9 @@ public class MaxProperty extends RangelessDecimalProperty {
         }
         return delegate;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
