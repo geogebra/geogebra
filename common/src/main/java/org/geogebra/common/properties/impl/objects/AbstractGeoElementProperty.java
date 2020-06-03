@@ -39,7 +39,7 @@ public abstract class AbstractGeoElementProperty implements GeoElementProperty {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return geoElement.isEuclidianVisible();
 	}
 
 	boolean isApplicableToGeoList(GeoList list) {

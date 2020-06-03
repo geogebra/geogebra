@@ -75,4 +75,9 @@ public class EquationFormProperty extends AbstractGeoElementProperty implements 
                 && app.getConfig().getEnforcedConicEquationForm() != -1;
         return isEnforcedLineEquationForm || isEnforcedConicEquationForm;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

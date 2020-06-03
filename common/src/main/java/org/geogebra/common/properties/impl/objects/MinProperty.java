@@ -37,4 +37,9 @@ public class MinProperty extends RangelessDecimalProperty {
         }
         return delegate;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

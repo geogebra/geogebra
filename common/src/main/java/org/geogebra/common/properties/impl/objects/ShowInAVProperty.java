@@ -33,4 +33,9 @@ public class ShowInAVProperty extends AbstractGeoElementProperty implements Bool
     boolean isApplicableTo(GeoElement element) {
         return true;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
