@@ -65,6 +65,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariable
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
@@ -176,6 +177,7 @@ public class AlgebraProcessor {
 	private SymbolicProcessor symbolicProcessor;
 	private CommandSyntax localizedCommandSyntax;
 	private CommandSyntax englishCommandSyntax;
+	private SqrtMinusOneReplacer sqrtMinusOneReplacer;
 
 	/**
 	 * @param kernel
@@ -192,6 +194,7 @@ public class AlgebraProcessor {
 		loc = app.getLocalization();
 		parser = kernel.getParser();
 		setEnableStructures(app.getConfig().isEnableStructures());
+		sqrtMinusOneReplacer = new SqrtMinusOneReplacer(kernel);
 	}
 
 	/**
@@ -450,7 +453,7 @@ public class AlgebraProcessor {
 			}
 
 			replaceDerivative(ve, geo);
-			replaceSqrtMinusOne(ve);
+			ve = replaceSqrtMinusOne(ve);
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
@@ -471,16 +474,12 @@ public class AlgebraProcessor {
 		}
 	}
 
-	private void replaceSqrtMinusOne(ValidExpression ve) {
-		ExpressionNode node = ve.wrap();
-		ExpressionValue left = node.getLeft();
-		if (node.getOperation() == Operation.SQRT
-				&& left.isNumberValue() && left.isConstant()) {
-			if (left.evaluateDouble() == -1) {
-				node.setLeft(kernel.getImaginaryUnit());
-				node.setOperation(Operation.NO_OPERATION);
-			}
+	private ValidExpression replaceSqrtMinusOne(ValidExpression ve) {
+		ExpressionValue result = ve.traverse(sqrtMinusOneReplacer);
+		if (result.wrap().isImaginaryUnit()) {
+			result = result.wrap();
 		}
+		return (ValidExpression) result;
 	}
 
 	/**
@@ -3037,7 +3036,7 @@ public class AlgebraProcessor {
 
 			boolean wasPoint = n.isForcedPoint();
 			n = n.getLeft().wrap();
-			if (wasPoint){
+			if (wasPoint) {
 				n.setForcePoint();
 			}
 		}

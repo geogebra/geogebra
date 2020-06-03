@@ -15,8 +15,6 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	public void rootOfMinusOneShouldBeImaginaryWithComplexNumber() {
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("sqrt(-1)", IMAGINARY_UNIT);
-		shouldBeUpdatedAs("sqrt(11)", "sqrt(11)");
-		shouldBeUpdatedAs("sqrt(   -1)", IMAGINARY_UNIT);
 	}
 
 	@Test
