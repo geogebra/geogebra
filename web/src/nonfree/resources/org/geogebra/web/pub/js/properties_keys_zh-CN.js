@@ -3049,6 +3049,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "TutorialGeometry": "mn6gygsa",
     "TutorialGraphing": "uvxc62ft",
     "TutorialScientific": "nfzknyt8",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "\u6559\u7a0b",
     "TwoVarStats": "\u53cc\u53d8\u91cf\u56de\u5f52\u5206\u6790",
     "TwoVarStats.Help": "\u5bf9\u9009\u4e2d\u7684\u4e24\u5217\u6216\u4e09\u5217\u6570\u636e\u8fdb\u884c\u6570\u503c\u5206\u6790",

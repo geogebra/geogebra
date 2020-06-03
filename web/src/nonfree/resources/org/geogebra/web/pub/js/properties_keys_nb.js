@@ -3049,6 +3049,7 @@ __GGB__keysVar["nb"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Oppl\xe6ring",
     "TwoVarStats": "Regresjonsanalyse",
     "TwoVarStats.Help": "Analyser tallpar fra to eller tre valgte kolonner",

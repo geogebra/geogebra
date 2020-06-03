@@ -3049,6 +3049,7 @@ __GGB__keysVar["cs"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "grwxgqmx",
     "TutorialScientific": "uptfaefh",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Tutori\xe1ly",
     "TwoVarStats": "Regresn\xed anal\xfdza dvojrozm\u011brn\xfdch dat",
     "TwoVarStats.Help": "Analyzovat p\xe1rovan\xe9 \u010d\xedseln\xe9 hodnoty z vybran\xfdch bun\u011bk",

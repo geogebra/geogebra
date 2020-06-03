@@ -3049,6 +3049,7 @@ __GGB__keysVar["lv"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Rokasgr\u0101mata",
     "TwoVarStats": "Divu main\u012bgo regresijas anal\u012bze",
     "TwoVarStats.Help": "Analiz\u0113t skait\u013cu p\u0101rus no izv\u0113l\u0113taj\u0101m \u0161\u016bn\u0101m",

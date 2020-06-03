@@ -3049,6 +3049,7 @@ __GGB__keysVar["ro"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Tutoriale",
     "TwoVarStats": "Analiza de regresie a dou\u0103 variabile",
     "TwoVarStats.Help": "Analiza\u021bi valorile \xeemperecheate din coloanele selectate",

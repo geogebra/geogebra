@@ -3049,6 +3049,7 @@ __GGB__keysVar["hy"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "\u0534\u0561\u057d\u0565\u0580",
     "TwoVarStats": "\u0535\u0580\u056f\u0578\u0582 \u0583\u0578\u0583\u0578\u056d\u0561\u056f\u0561\u0576\u056b \u057c\u0565\u0563\u0580\u0565\u057d\u056b\u0578\u0576 \u0561\u0576\u0561\u056c\u056b\u0566",
     "TwoVarStats.Help": "Analyzes paired number values from two or three selected columns",

@@ -3049,6 +3049,7 @@ __GGB__keysVar["ta"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "\u0baa\u0baf\u0bbf\u0bb1\u0bcd\u0b9a\u0bbf\u0b95\u0bb3\u0bcd",
     "TwoVarStats": "Two Variable Regression Analysis",
     "TwoVarStats.Help": "Analyzes paired number values from two or three selected columns",

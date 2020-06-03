@@ -3049,6 +3049,7 @@ __GGB__keysVar["lt"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Mokymai",
     "TwoVarStats": "Dviej\u0173 kintm\u0173j\u0173 regresin\u0117 analiz\u0117",
     "TwoVarStats.Help": "Analizuoti suporuotus skai\u010di\u0173 vertes i\u0161 pasirinkt\u0173 laukeli\u0173",

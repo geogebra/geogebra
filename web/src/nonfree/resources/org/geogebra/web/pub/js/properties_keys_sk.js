@@ -3049,6 +3049,7 @@ __GGB__keysVar["sk"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "N\xe1vody",
     "TwoVarStats": "Regresn\xe1 anal\xfdza dvoch premenn\xfdch",
     "TwoVarStats.Help": "Analyzuje p\xe1rovan\xe9 \u010d\xedseln\xe9 hodnoty z vyzna\u010den\xfdch buniek",

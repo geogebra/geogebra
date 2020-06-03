@@ -3049,6 +3049,7 @@ __GGB__keysVar["hr"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "t8Ag55dQ",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Priru\u010dnici",
     "TwoVarStats": "Dvovarijabilna regresijska analiza",
     "TwoVarStats.Help": "Analizira sparene broj\u010dane vrijednosti iz dva ili tri odabrana stupca",
