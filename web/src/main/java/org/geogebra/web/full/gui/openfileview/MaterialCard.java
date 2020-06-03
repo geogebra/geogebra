@@ -9,7 +9,8 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -17,9 +18,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- * 
- * @author csilla
- *
+ * Material card
  */
 public class MaterialCard extends FlowPanel implements MaterialCardI {
 	private AppW app;
@@ -56,12 +55,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	 * Open this material.
 	 */
 	protected void openMaterial() {
-		app.getGuiManager().getBrowseView().closeAndSave(new AsyncOperation<Boolean>() {
-			@Override
-			public void callback(Boolean obj) {
-				controller.loadOnlineFile();
-			}
-		});
+		app.getGuiManager().getBrowseView().closeAndSave(obj -> controller.loadOnlineFile());
 	}
 
 	private void initGui() {
@@ -147,8 +141,10 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 
 	@Override
 	public void onDelete() {
-		DialogBoxW removeDialog = new RemoveDialog(app.getPanel(), app, this);
-		removeDialog.center();
+		DialogData data = new DialogData(null, "Cancel", "Delete");
+		ComponentDialog removeDialog = new RemoveDialog(app, data, this);
+		removeDialog.show();
+		removeDialog.setOnPositiveAction(this::onConfirmDelete);
 	}
 
 	@Override

@@ -48,6 +48,7 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CopyPasteW;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -269,9 +270,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void  openHyperlinkDialog() {
+		DialogData data = new DialogData(null, "Cancel", "OK");
 		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
-				getTextController());
-		hyperlinkDialog.center();
+				data, getTextController());
+		hyperlinkDialog.show();
 	}
 
 	private InlineTextController getTextController() {

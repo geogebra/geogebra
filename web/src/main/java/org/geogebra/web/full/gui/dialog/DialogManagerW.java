@@ -59,6 +59,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -74,12 +75,10 @@ public class DialogManagerW extends DialogManager
 	protected UploadImageDialog imageDialog;
 	protected WebcamInputDialog webcamInputDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
-	private AudioInputDialog audioInputDialog;
 	private TemplateChooser templateChooser;
 	private PDFInputDialog pdfInputDialog;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
-	private InputDialogTableView tableViewDialog = null;
 	private BaseWidgetFactory widgetFactory = new BaseWidgetFactory();
 
 	/**
@@ -306,15 +305,13 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showAudioInputDialog() {
-		this.audioInputDialog = new AudioInputDialog((AppW) app);
-		audioInputDialog.center();
+		AudioInputDialog audioInputDialog = new AudioInputDialog((AppW) app);
 		audioInputDialog.show();
 	}
 
 	@Override
 	public void showEmbedDialog() {
 		EmbedInputDialog embedDialog = new EmbedInputDialog((AppW) app);
-		embedDialog.center();
 		embedDialog.show();
 	}
 
@@ -335,7 +332,6 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showVideoInputDialog() {
 		VideoInputDialog videoInputDialog = new VideoInputDialog((AppW) app);
-		videoInputDialog.center();
 		videoInputDialog.show();
 	}
 
@@ -666,15 +662,15 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void openTableViewDialog(GeoElement geo) {
-		if (tableViewDialog == null) {
-			tableViewDialog = new InputDialogTableView((AppW) app);
-		}
+		DialogData data = new DialogData("TableOfValues", "Cancel", "OK");
+		InputDialogTableView tableViewDialog = new InputDialogTableView((AppW) app, data);
 		tableViewDialog.show(geo);
 	}
 
 	@Override
 	public Export3dDialogInterface getExport3dDialog(View view) {
-		return new Export3dDialog((AppW) app, view);
+		DialogData data = new DialogData("DownloadAsStl", "Cancel", "Download");
+		return new Export3dDialog((AppW) app, data, view);
 	}
 
 	public void setWidgetFactory(BaseWidgetFactory widgetFactory) {
@@ -683,7 +679,8 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void showTemplateChooser() {
-		templateChooser = new TemplateChooser((AppW) app,
+		DialogData data = new DialogData("New.Mebis", "Cancel", "Create");
+		templateChooser = new TemplateChooser((AppW) app, data,
 				((GuiManagerW) ((AppW) app).getGuiManager()).getTemplateController());
 		templateChooser.show();
 	}

@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.Label;
  * Base dialog material design component
  */
 public class ComponentDialog extends GPopupPanel implements Persistable, ResizeHandler {
-
 	private Label title;
 	private FlowPanel dialogContent;
 	private Runnable positiveAction;
@@ -132,7 +131,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	/**
 	 * runs the negative action and hides the dialog
 	 */
-	public void onNegativeAction() {
+	private void onNegativeAction() {
 		if (negButton.getStyleName().contains("disabled")) {
 			return;
 		}
@@ -149,7 +148,6 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		if (posButton.getStyleName().contains("disabled")) {
 			return;
 		}
-
 		if (positiveAction != null) {
 			positiveAction.run();
 		}
