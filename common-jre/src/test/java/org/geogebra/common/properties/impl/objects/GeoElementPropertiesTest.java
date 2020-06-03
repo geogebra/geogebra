@@ -1,6 +1,6 @@
 package org.geogebra.common.properties.impl.objects;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
@@ -23,13 +23,13 @@ public class GeoElementPropertiesTest extends BaseUnitTest {
         points.add(onePoint);
         List<GeoElementProperty> pointProperties = new GeoElementProperties(points).getProperties();
 
-        assertThat(pointProperties.get(0), instanceOf(ShowObjectProperty.class));
-        assertThat(pointProperties.get(1), instanceOf(ColorProperty.class));
-        assertThat(pointProperties.get(2), instanceOf(PointStyleProperty.class));
-        assertThat(pointProperties.get(3), instanceOf(PointSizeProperty.class));
-        assertThat(pointProperties.get(4), instanceOf(CaptionStyleProperty.class));
-        assertThat(pointProperties.get(5), instanceOf(ShowTraceProperty.class));
-        assertThat(pointProperties.get(6), instanceOf(FixObjectProperty.class));
-        assertThat(pointProperties.get(7), instanceOf(ShowInAVProperty.class));
+        assertThat(pointProperties.get(0).getName(), equalTo("Show"));
+        assertThat(pointProperties.get(1).getName(), equalTo("stylebar.Color"));
+        assertThat(pointProperties.get(2).getName(), equalTo("Properties.Style"));
+        assertThat(pointProperties.get(3).getName(), equalTo("Size"));
+        assertThat(pointProperties.get(4).getName(), equalTo("stylebar.Caption"));
+        assertThat(pointProperties.get(5).getName(), equalTo("ShowTrace"));
+        assertThat(pointProperties.get(6).getName(), equalTo("fixed"));
+        assertThat(pointProperties.get(7).getName(), equalTo("ShowInAlgebraView"));
     }
 }
