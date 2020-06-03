@@ -75,8 +75,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 			public void callback(Widget share) {
 				String url = Location.getHref().replaceAll("\\?.*", "")
 						+ getRelativeURLforEqn(getMathField().getText());
-				DialogData data = new DialogData(AppWsolver.this.isMebis() ? "shareByLink"
-						: "Share", null, null);
+				DialogData data = new DialogData("Share", null, null);
 				ShareLinkDialog sd = new ShareLinkDialog(AppWsolver.this, data, url,
 						share);
 				sd.setVisible(true);

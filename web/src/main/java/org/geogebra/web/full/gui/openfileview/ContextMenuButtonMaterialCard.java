@@ -15,13 +15,10 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.user.client.Command;
-
 /**
  * Context Menu of Material Cards
  */
 public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
-
 	private Material material;
 	private MaterialCardI card;
 
@@ -57,22 +54,22 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 
 	private void addShareItem() {
 		addItem(MaterialDesignResources.INSTANCE.share_black(),
-				loc.getMenu("Share"), (Command) () -> onShare());
+				loc.getMenu("Share"), this::onShare);
 	}
 
 	private void addRenameItem() {
 		addItem(MaterialDesignResources.INSTANCE.mow_rename(),
-				loc.getMenu("Rename"), (Command) () -> onRename());
+				loc.getMenu("Rename"), this::onRename);
 	}
 
 	private void addCopyItem() {
 		addItem(MaterialDesignResources.INSTANCE.copy_black(),
-				loc.getMenu("makeACopy"), (Command) () -> onCopy());
+				loc.getMenu("makeACopy"), this::onCopy);
 	}
 
 	private void addDeleteItem() {
 		addItem(MaterialDesignResources.INSTANCE.delete_black(),
-				loc.getMenu("Delete"), (Command) () -> onDelete());
+				loc.getMenu("Delete"), this::onDelete);
 	}
 
 	/**

@@ -205,8 +205,7 @@ public class ShareDialogMow extends ComponentDialog
 			String shareURL) {
 		FlowPanel shareByLinkPanel = new FlowPanel();
 		shareByLinkPanel.addStyleName("shareByLink");
-		shareSwitch = new ComponentSwitch(isMatShared(material),
-				obj -> onSwitch(obj.booleanValue()));
+		shareSwitch = new ComponentSwitch(isMatShared(material), this::onSwitch);
 		NoDragImage linkImg = new NoDragImage(
 				SharedResources.INSTANCE.mow_link_black(), 24);
 		linkImg.addStyleName("linkImg");
