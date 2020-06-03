@@ -130,8 +130,6 @@ gwt {
         if (project.hasProperty("greport")) {
            compileReport = true
         }
-        
-        //    logLevel = 'SPAM';
         if (project.hasProperty("gdraft")) {
             draftCompile = true
         }
@@ -172,7 +170,7 @@ task copyHtml {
 
     doLast {
         delete {
-            delete fileTree(dir:'war', include: "*.html");
+            delete fileTree(dir:'war', include: "*.html")
         }
 
         copy {
@@ -193,6 +191,7 @@ task copyHtml {
                 file("war/${app.id}-template.html").text = replaceHtml(app, false).replace("<!--CODEBASE-->", "/")
             }
         }
+        file("war/calculator.html").text = file("war/suite.html").text
     }
 }
 
@@ -208,7 +207,7 @@ task copyHandlebars {
         }
         String solver = solverHtml()
         def solverPath = "${handlebarsDir}/solver-template.handlebars"
-        file(solverPath).text = handlebars(solver.replace("<!--APP TYPE-->", "solver"));
+        file(solverPath).text = handlebars(solver.replace("<!--APP TYPE-->", "solver"))
     }
 }
 
@@ -232,11 +231,11 @@ task createSolverHtml {
 task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     doLast {
         ["web3d", "webSimple"].each { module ->
-            def dir = file("build/gwt/out/$module");
+            def dir = file("build/gwt/out/$module")
             fileTree(dir).each { f ->
                 println "$f -> $f"
                 def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
-                file(outFile.parent).mkdirs();
+                file(outFile.parent).mkdirs()
                 ant.gzip(src: f, zipfile: outFile)
             }
         }
@@ -266,7 +265,7 @@ task mergeDeploy(){
    }
 }
 
-def gwtGlobalCache = file('build/gwt/devModeCache');
+def gwtGlobalCache = file('build/gwt/devModeCache')
 // As now this task doesn't finish until the java process exits.
 // This causes some problems as the IDE cannot run any other tasks.
 // https://issues.gradle.org/browse/GRADLE-1254
