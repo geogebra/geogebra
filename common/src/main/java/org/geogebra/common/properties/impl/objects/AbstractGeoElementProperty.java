@@ -1,6 +1,9 @@
 package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.GeoElementProperty;
 
 /**
@@ -14,7 +17,16 @@ public abstract class AbstractGeoElementProperty implements GeoElementProperty {
 	protected AbstractGeoElementProperty(String name, GeoElement geoElement) {
 		this.name = name;
 		this.geoElement = geoElement;
+		if (!isApplicableTo(geoElement)) {
+			throw new NotApplicablePropertyException(geoElement, this);
+		}
 	}
+
+	/**
+	 * @param element Element with properties.
+	 * @return True if the element has the property.
+	 */
+	abstract boolean isApplicableTo(GeoElement element);
 
 	@Override
 	public String getName() {
@@ -28,5 +40,18 @@ public abstract class AbstractGeoElementProperty implements GeoElementProperty {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	boolean isApplicableToGeoList(GeoList list) {
+		for (int i = 0; i < list.size(); i++) {
+			if (!isApplicableTo(list.get(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	boolean isTextOrInput(GeoElement element) {
+		return element instanceof GeoText || element instanceof GeoInputBox;
 	}
 }

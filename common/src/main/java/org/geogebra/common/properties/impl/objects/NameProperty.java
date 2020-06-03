@@ -45,4 +45,10 @@ public class NameProperty extends AbstractGeoElementProperty implements StringPr
     public boolean isValid(String value) {
         return false;
     }
+
+    @Override
+    boolean isApplicableTo(GeoElement element) {
+        String label = element.isAlgebraLabelVisible() ? element.getLabelSimple() : "";
+        return label != null;
+    }
 }

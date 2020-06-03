@@ -1,7 +1,10 @@
 package org.geogebra.common.properties.impl.objects;
 
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.properties.IconsEnumerableProperty;
@@ -46,5 +49,17 @@ public class PointStyleProperty
     @Override
     public PropertyResource[] getIcons() {
         return icons;
+    }
+
+    @Override
+    boolean isApplicableTo(GeoElement element) {
+        if (isTextOrInput(element)) {
+            return false;
+        }
+        if (element instanceof GeoList) {
+            return isApplicableToGeoList((GeoList) element);
+        }
+        EuclidianView euclidianView = element.getApp().getActiveEuclidianView();
+        return PointStyleModel.match(element) && euclidianView.canShowPointStyle();
     }
 }

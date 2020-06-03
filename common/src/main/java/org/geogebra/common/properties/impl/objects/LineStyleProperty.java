@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.properties.IconsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
 
@@ -42,5 +43,16 @@ public class LineStyleProperty
     @Override
     public PropertyResource[] getIcons() {
         return icons;
+    }
+
+    @Override
+    boolean isApplicableTo(GeoElement element) {
+        if (isTextOrInput(element)) {
+            return false;
+        }
+        if (element instanceof GeoList) {
+            return isApplicableToGeoList((GeoList) element);
+        }
+        return element.showLineProperties();
     }
 }

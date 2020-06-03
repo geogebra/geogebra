@@ -35,6 +35,11 @@ public class ColorProperty extends AbstractGeoElementProperty {
         app.setPropertiesOccured();
     }
 
+    @Override
+    boolean isApplicableTo(GeoElement element) {
+        return true;
+    }
+
     /**
      * @return All the possible colors of a GeoElement
      */
