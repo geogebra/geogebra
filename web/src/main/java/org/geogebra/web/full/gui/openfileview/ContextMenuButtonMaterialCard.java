@@ -13,6 +13,7 @@ import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.user.client.Command;
 
@@ -132,9 +133,10 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	 */
 	protected void onRename() {
 		hide();
+		DialogData data = new DialogData("rename.resource", "Cancel", "Rename");
 		MaterialRenameDialog renameDialog = new MaterialRenameDialog(
-				app.getPanel(), app, card);
-		renameDialog.center();
+				app, data, card);
+		renameDialog.show();
 	}
 
 	/**

@@ -7,6 +7,7 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.web.full.gui.dialog.SessionExpireNotifyDialog;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -76,7 +77,6 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 	}
 
 	private void ensureInited() {
-
 		if (inited || app.getLAF() == null
 				|| app.getLAF().getLoginListener() == null) {
 			return;
@@ -111,6 +111,7 @@ public class AuthenticationModelW extends AuthenticationModel implements GTimerL
 
 	@Override
 	public void onRun() {
-		new SessionExpireNotifyDialog(app).show();
+		DialogData data = new DialogData(null, "Cancel", "Save");
+		new SessionExpireNotifyDialog(app, data).show();
 	}
 }
