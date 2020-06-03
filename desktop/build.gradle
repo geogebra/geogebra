@@ -91,6 +91,7 @@ dependencies {
     testCompile project(':keyboard-base')
     testCompile "junit:junit:$junitVersion"
     testCompile "org.mockito:mockito-core:$mockitoVersion"
+    testCompile "org.hamcrest:hamcrest:$hamcrestVersion"
     testCompile project(':ggbjdk')
     testCompile project(':common-jre').sourceSets.test.output
 }
