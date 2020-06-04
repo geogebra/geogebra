@@ -3728,7 +3728,21 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private boolean hasSimpleNumbers() {
+		if (hasPiOrE(getLeft()) || hasPiOrE(getRight())) {
+			return false;
+		}
+
 		return areLeftAndRightNumbers() && isLeftOrRightSpecial();
+	}
+
+	private boolean hasPiOrE(ExpressionValue expressionValue) {
+		if (expressionValue == null) {
+			return false;
+		}
+
+		ExpressionNode node = expressionValue.wrap();
+		double value = node.evaluateDouble();
+		return DoubleUtil.isEqual(value, Math.PI) || DoubleUtil.isEqual(value, Math.E);
 	}
 
 	private boolean areLeftAndRightNumbers() {

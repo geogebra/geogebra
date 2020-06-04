@@ -171,4 +171,40 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo(updatedText);
 		assertEquals(expected, inputBox.getText());
 	}
+
+	@Test
+	public void minusPiShouldStayAsItIs() {
+		addAvInput("a = 0.32");
+		GeoInputBox inputBox = addAvInput("b = InputBox(a)");
+		inputBox.setSymbolicMode(true);
+		inputBox.updateLinkedGeo("-" + Unicode.PI_STRING);
+		assertEquals("-\\pi ", inputBox.getText());
+	}
+
+	@Test
+	public void minusEShouldStayAsItIs() {
+		addAvInput("a = 0.32");
+		GeoInputBox inputBox = addAvInput("b = InputBox(a)");
+		inputBox.setSymbolicMode(true);
+		inputBox.updateLinkedGeo("-" + Unicode.EULER_STRING);
+		assertEquals("-" + Unicode.EULER_STRING, inputBox.getText());
+	}
+
+	@Test
+	public void expressionWithMinusPiShouldStayAsItIs() {
+		addAvInput("a = 0.32");
+		GeoInputBox inputBox = addAvInput("b = InputBox(a)");
+		inputBox.setSymbolicMode(true);
+		inputBox.updateLinkedGeo("-" + Unicode.PI_STRING + " + 1");
+		assertEquals("-\\pi " + " + 1", inputBox.getText());
+	}
+
+	@Test
+	public void expressionWithMinusEShouldStayAsItIs() {
+		addAvInput("a = 0.32");
+		GeoInputBox inputBox = addAvInput("b = InputBox(a)");
+		inputBox.setSymbolicMode(true);
+		inputBox.updateLinkedGeo("-" + Unicode.EULER_STRING + " + 1");
+		assertEquals("-" + Unicode.EULER_STRING + " + 1", inputBox.getText());
+	}
 }
