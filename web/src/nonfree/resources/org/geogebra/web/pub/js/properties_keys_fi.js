@@ -757,7 +757,7 @@ __GGB__keysVar["fi"].command = {
     "Relation": "Suhde",
     "Relation.Syntax": "[ <Lista> ]\n[ <Objekti>, <Objekti> ]",
     "RemovableDiscontinuity": "RemovableDiscontinuity",
-    "RemovableDiscontinuity.Syntax": "[ <Function> ]",
+    "RemovableDiscontinuity.Syntax": "[ <Funktio> ]",
     "Remove": "Poista",
     "Remove.Syntax": "[ <Lista>, <Lista> ]",
     "RemoveUndefined": "PoistaM\xe4\xe4rittelem\xe4t\xf6n",
