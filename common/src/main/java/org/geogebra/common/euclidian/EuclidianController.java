@@ -9864,11 +9864,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		view.repaintView();
 
 		lastGroupHit = topHit.getParentGroup();
-		if (!needsFocus) {
-			lastMowHit = topHit;
-		} else {
-			lastMowHit = null;
-		}
+		lastMowHit = needsFocus ? null : topHit;
 	}
 
 	private boolean shouldEnterFocusedSelection(GeoElement topHit) {
