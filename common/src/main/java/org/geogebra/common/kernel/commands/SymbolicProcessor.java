@@ -61,17 +61,19 @@ public class SymbolicProcessor {
 	private static final class SubExpressionEvaluator implements Traversing {
 		private ExpressionValue root;
 		private SymbolicProcessor processor;
+		private EvalInfo evalInfo;
 
 		public SubExpressionEvaluator(SymbolicProcessor symbolicProcessor,
-				ExpressionValue root) {
+				ExpressionValue root, EvalInfo evalInfo) {
 			this.processor = symbolicProcessor;
 			this.root = root;
+			this.evalInfo = evalInfo;
 		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command && ev != root.unwrap()) {
-				return processor.evalSymbolicNoLabel(ev);
+				return processor.evalSymbolicNoLabel(ev, evalInfo);
 			}
 			if (ev instanceof GeoDummyVariable && ((GeoDummyVariable) ev)
 					.getElementWithSameName() != null) {
@@ -125,7 +127,7 @@ public class SymbolicProcessor {
 		GeoSymbolic sym;
 		if (noDummyVars.size() > 0) {
 			AlgoDependentSymbolic ads = new AlgoDependentSymbolic(cons,
-					replaced, noDummyVars);
+					replaced, noDummyVars, info.getArbitraryConstant());
 			sym = (GeoSymbolic) ads.getOutput(0);
 		} else {
 			sym = new GeoSymbolic(cons);
@@ -152,8 +154,9 @@ public class SymbolicProcessor {
 				&& "Sequence".equals(((Command) ve.unwrap()).getName())) {
 			return doEvalSymbolicNoLabel(ve.wrap(), info);
 		}
+		EvalInfo subInfo = new EvalInfo().withArbitraryConstant(info.getArbitraryConstant());
 		ExpressionNode replaced = ve
-				.traverse(new SubExpressionEvaluator(this, ve)).wrap();
+				.traverse(new SubExpressionEvaluator(this, ve, subInfo)).wrap();
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
