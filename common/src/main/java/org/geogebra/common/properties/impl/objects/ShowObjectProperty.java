@@ -29,4 +29,9 @@ public class ShowObjectProperty extends AbstractGeoElementProperty implements Bo
     boolean isApplicableTo(GeoElement element) {
         return true;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
