@@ -9989,7 +9989,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& !event.isControlDown() && view.getSelectionRectangle() == null
 				&& !wasBoundingBoxHit) {
 			handleMowSelectionRelease();
-			return;
 		}
 
 		// after finished drag switch back mode
@@ -10128,7 +10127,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		final boolean alt = event.isAltDown();
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		PointerEventType type = event.getType();
-		view.setFocusedGroupGeoBoundingBox(null);
+
 		if (isDraggingOccuredBeyondThreshold()) {
 			if (shouldClearSelectionAfterMove(right)) {
 				clearSelectionsKeepLists(true, true);

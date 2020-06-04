@@ -1138,7 +1138,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		resetUI();
 		resetPenTool();
-		resetCoordSystemChanged();
 	}
 
 	private void resetPages() {
