@@ -125,6 +125,7 @@ import org.geogebra.common.kernel.geos.PolygonFactory;
 import org.geogebra.common.kernel.geos.TestGeo;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -414,6 +415,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private SnapController snapController = new SnapController();
 	private ArrayList<GeoElement> splitPartsToRemove = new ArrayList<>();
 
+	// used for focused selection in groups and embed elements in groups
+	private Group lastGroupHit;
+	// used for edit mode of inline elements
 	private GeoElement lastMowHit;
 
 	private GeoPriorityComparator priorityComparator;
@@ -8314,7 +8318,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.hideDynamicStylebar();
 		}
 
-		lastMowHit = null;
+		lastGroupHit = null;
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			setMouseLocation(event);
@@ -9821,6 +9825,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void handleMowSelectionRelease() {
 		if (view.getHits().isEmpty()) {
 			clearSelections();
+			lastGroupHit = null;
 			lastMowHit = null;
 			return;
 		}
@@ -9831,13 +9836,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			selection.clearSelectedGeos(false, false);
 			selection.addSelectedGeoWithGroup(topHit);
 			updateBoundingBoxFromSelection(false);
+		}
 
-			boolean needsFocus = topHit.getParentGroup() != null;
-			if (shouldEnterFocusedSelection(topHit)) {
-				focusGroupElement(topHit);
-				needsFocus = false;
-			}
+		boolean needsFocus = topHit.getParentGroup() != null;
+		if (shouldEnterFocusedSelection(topHit)) {
+			focusGroupElement(topHit);
+			needsFocus = false;
+		}
 
+		if (!draggingOccured) {
 			// TODO: this will be simplified when I refactor embeds and videos to
 			// 	act more like inlines (probably in the media rotation ticket)
 			if (!needsFocus && topHit instanceof GeoVideo) {
@@ -9848,20 +9855,20 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				handleEmbedHit(topHit);
 			}
 
-			if (topHit instanceof GeoInline) {
+			if (!needsFocus && topHit instanceof GeoInline) {
 				handleInlineHit(topHit);
 			}
 		}
 
 		showDynamicStylebar();
-
 		view.repaintView();
-		lastMowHit = topHit;
+
+		lastGroupHit = topHit.getParentGroup();
+		lastMowHit = needsFocus ? null : topHit;
 	}
 
 	private boolean shouldEnterFocusedSelection(GeoElement topHit) {
-		return lastMowHit != null && topHit.getParentGroup() != null
-				&& lastMowHit.getParentGroup() == topHit.getParentGroup();
+		return lastGroupHit != null && lastGroupHit == topHit.getParentGroup();
 	}
 
 	private void handleVideoHit(GeoElement topHit) {
@@ -9978,7 +9985,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& !event.isControlDown() && view.getSelectionRectangle() == null
 				&& !wasBoundingBoxHit) {
 			handleMowSelectionRelease();
-			return;
 		}
 
 		// after finished drag switch back mode
@@ -10117,7 +10123,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		final boolean alt = event.isAltDown();
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		PointerEventType type = event.getType();
-		view.setFocusedGroupGeoBoundingBox(null);
+
 		if (isDraggingOccuredBeyondThreshold()) {
 			if (shouldClearSelectionAfterMove(right)) {
 				clearSelectionsKeepLists(true, true);
