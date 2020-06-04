@@ -23,237 +23,242 @@ import org.geogebra.common.properties.impl.objects.collection.RangePropertyColle
  */
 public class GeoElementProperties {
 
-    private List<GeoElement> elements;
-    private List<GeoElementProperty> properties;
-
-    /**
-     * @param elements elements
-     */
-    public GeoElementProperties(List<GeoElement> elements) {
-        this.elements = elements;
-    }
-
-    /**
-     * @param element element
-     */
-    public GeoElementProperties(GeoElement element) {
-        elements = new ArrayList<>();
-        elements.add(element);
-    }
-
     /**
      * @return The list of properties for the GeoElement(s)
      */
-    public List<GeoElementProperty> getProperties() {
-        properties = new ArrayList<>();
-        addMinProperty();
-        addMaxProperty();
-        addStepProperty();
-        addShowObjectProperty();
-        addColorProperty();
-        addPointStyleProperty();
-        addPointSizeProperty();
-        addOpacityProperty();
-        addLineStyleProperty();
-        addThicknessProperty();
-        addSlopeSizeProperty();
-        addEquationFormProperty();
-        addCaptionStyleProperty();
-        addShowTraceProperty();
-        addFixObjectProperty();
-        addShowInAvProperty();
+    public static List<GeoElementProperty> getProperties(List<GeoElement> elements) {
+        List<GeoElementProperty> properties = new ArrayList<>();
+        addPropertyIfNotNull(properties, createMinProperty(elements));
+        addPropertyIfNotNull(properties, createMaxProperty(elements));
+        addPropertyIfNotNull(properties, createStepProperty(elements));
+        addPropertyIfNotNull(properties, createShowObjectProperty(elements));
+        addPropertyIfNotNull(properties, createColorProperty(elements));
+        addPropertyIfNotNull(properties, createPointStyleProperty(elements));
+        addPropertyIfNotNull(properties, createPointSizeProperty(elements));
+        addPropertyIfNotNull(properties, createOpacityProperty(elements));
+        addPropertyIfNotNull(properties, createLineStyleProperty(elements));
+        addPropertyIfNotNull(properties, createThicknessProperty(elements));
+        addPropertyIfNotNull(properties, createSlopeSizeProperty(elements));
+        addPropertyIfNotNull(properties, createEquationFormProperty(elements));
+        addPropertyIfNotNull(properties, createCaptionStyleProperty(elements));
+        addPropertyIfNotNull(properties, createShowTraceProperty(elements));
+        addPropertyIfNotNull(properties, createFixObjectProperty(elements));
+        addPropertyIfNotNull(properties, createShowInAvProperty(elements));
         return properties;
     }
 
-    private void addShowObjectProperty() {
+    private static void addPropertyIfNotNull(
+            List<GeoElementProperty> properties, GeoElementProperty property) {
+        if (property != null) {
+            properties.add(property);
+        }
+    }
+
+    private static BooleanPropertyCollection createShowObjectProperty(List<GeoElement> elements) {
         try {
             List<BooleanProperty> showObjectProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 showObjectProperties.add(new ShowObjectProperty(element));
             }
-            properties.add(new BooleanPropertyCollection(showObjectProperties));
+            return new BooleanPropertyCollection(showObjectProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addColorProperty() {
+    private static ColorPropertyCollection createColorProperty(List<GeoElement> elements) {
         try {
             List<ColorProperty> colorProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 colorProperties.add(new ColorProperty(element));
             }
-            properties.add(new ColorPropertyCollection(colorProperties));
+            return new ColorPropertyCollection(colorProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addFixObjectProperty() {
+    private static BooleanPropertyCollection createFixObjectProperty(List<GeoElement> elements) {
         try {
             List<BooleanProperty> fixObjectProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 fixObjectProperties.add(new FixObjectProperty(element));
             }
-            properties.add(new BooleanPropertyCollection(fixObjectProperties));
+            return new BooleanPropertyCollection(fixObjectProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addCaptionStyleProperty() {
+    private static EnumerablePropertyCollection createCaptionStyleProperty(List<GeoElement> elements) {
         try {
             List<EnumerableProperty> captionStyleProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 captionStyleProperties.add(new CaptionStyleProperty(element));
             }
-            properties.add(new EnumerablePropertyCollection(captionStyleProperties));
+            return new EnumerablePropertyCollection(captionStyleProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addOpacityProperty() {
+    private static RangePropertyCollection createOpacityProperty(List<GeoElement> elements) {
         try {
             List<RangeProperty<Integer>> opacityProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 opacityProperties.add(new OpacityProperty(element));
             }
-            properties.add(new RangePropertyCollection<>(opacityProperties));
+            return new RangePropertyCollection<>(opacityProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addMinProperty() {
+    private static NumericPropertyCollection createMinProperty(List<GeoElement> elements) {
         try {
             List<NumericProperty<Double>> minProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 if (element instanceof GeoNumeric) {
                     minProperties.add(new MinProperty((GeoNumeric) element));
                 } else {
-                    return;
+                    return null;
                 }
             }
-            properties.add(new NumericPropertyCollection<>(minProperties));
+            return new NumericPropertyCollection<>(minProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addMaxProperty() {
+    private static NumericPropertyCollection createMaxProperty(List<GeoElement> elements) {
         try {
             List<NumericProperty<Double>> maxProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 if (element instanceof GeoNumeric) {
                     maxProperties.add(new MaxProperty((GeoNumeric) element));
                 } else {
-                    return;
+                    return null;
                 }
             }
-            properties.add(new NumericPropertyCollection<>(maxProperties));
+            return new NumericPropertyCollection<>(maxProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addStepProperty() {
+    private static NumericPropertyCollection createStepProperty(List<GeoElement> elements) {
         try {
             List<NumericProperty<Double>> stepProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 if (element instanceof GeoNumeric) {
                     stepProperties.add(new StepProperty((GeoNumeric) element));
                 } else {
-                    return;
+                    return null;
                 }
             }
-            properties.add(new NumericPropertyCollection<>(stepProperties));
+            return new NumericPropertyCollection<>(stepProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addPointStyleProperty() {
+    private static IconsEnumerablePropertyCollection createPointStyleProperty(List<GeoElement> elements) {
         try {
             List<IconsEnumerableProperty> pointStyleProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 pointStyleProperties.add(new PointStyleProperty(element));
             }
-            properties.add(new IconsEnumerablePropertyCollection(pointStyleProperties));
+            return new IconsEnumerablePropertyCollection(pointStyleProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addPointSizeProperty() {
+    private static RangePropertyCollection createPointSizeProperty(List<GeoElement> elements) {
         try {
             List<RangeProperty<Integer>> pointSizeProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 pointSizeProperties.add(new PointSizeProperty(element));
             }
-            properties.add(new RangePropertyCollection<>(pointSizeProperties));
+            return new RangePropertyCollection<>(pointSizeProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addThicknessProperty() {
+    private static RangePropertyCollection createThicknessProperty(List<GeoElement> elements) {
         try {
             List<RangeProperty<Integer>> thicknessProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 thicknessProperties.add(new ThicknessProperty(element));
             }
-            properties.add(new RangePropertyCollection<>(thicknessProperties));
+            return new RangePropertyCollection<>(thicknessProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addLineStyleProperty() {
+    private static IconsEnumerablePropertyCollection createLineStyleProperty(List<GeoElement> elements) {
         try {
             List<IconsEnumerableProperty> lineStyleProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 lineStyleProperties.add(new LineStyleProperty(element));
             }
-            properties.add(new IconsEnumerablePropertyCollection(lineStyleProperties));
+            return new IconsEnumerablePropertyCollection(lineStyleProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addSlopeSizeProperty() {
+    private static NumericPropertyCollection createSlopeSizeProperty(List<GeoElement> elements) {
         try {
             List<RangeProperty<Integer>> slopeSizeProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 if (element instanceof GeoNumeric) {
                     slopeSizeProperties.add(new SlopeSizeProperty((GeoNumeric) element));
                 } else {
-                    return;
+                    return null;
                 }
             }
-            properties.add(new NumericPropertyCollection<>(slopeSizeProperties));
+            return new NumericPropertyCollection<>(slopeSizeProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addEquationFormProperty() {
+    private static EnumerablePropertyCollection createEquationFormProperty(List<GeoElement> elements) {
         try {
             List<EnumerableProperty> equationFormProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 equationFormProperties.add(new EquationFormProperty(element));
             }
-            properties.add(new EnumerablePropertyCollection(equationFormProperties));
+            return new EnumerablePropertyCollection(equationFormProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addShowTraceProperty() {
+    private static BooleanPropertyCollection createShowTraceProperty(List<GeoElement> elements) {
         try {
             List<BooleanProperty> traceProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 traceProperties.add(new ShowTraceProperty(element));
             }
-            properties.add(new BooleanPropertyCollection(traceProperties));
+            return new BooleanPropertyCollection(traceProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 
-    private void addShowInAvProperty() {
+    private static BooleanPropertyCollection createShowInAvProperty(List<GeoElement> elements) {
         try {
             List<BooleanProperty> showInAvProperties = new ArrayList<>();
             for (GeoElement element : elements) {
                 showInAvProperties.add(new ShowInAVProperty(element));
             }
-            properties.add(new BooleanPropertyCollection(showInAvProperties));
+            return new BooleanPropertyCollection(showInAvProperties);
         } catch (NotApplicablePropertyException ignored) {
+            return null;
         }
     }
 }

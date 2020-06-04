@@ -21,7 +21,7 @@ public class GeoElementPropertiesTest extends BaseUnitTest {
         List<GeoElement> points = new ArrayList<>();
         points.add(zeroPoint);
         points.add(onePoint);
-        List<GeoElementProperty> pointProperties = new GeoElementProperties(points).getProperties();
+        List<GeoElementProperty> pointProperties = GeoElementProperties.getProperties(points);
 
         assertThat(pointProperties.get(0).getName(), equalTo("Show"));
         assertThat(pointProperties.get(1).getName(), equalTo("stylebar.Color"));
