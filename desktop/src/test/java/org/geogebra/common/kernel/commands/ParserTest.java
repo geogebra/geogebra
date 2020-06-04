@@ -1,7 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -293,6 +297,21 @@ public class ParserTest {
 		shouldReparseAs("3,5>x", "If(5 > x, 3)");
 		shouldReparseAs("1,2 + 1,4", "1.2 + 1.4");
 		shouldReparseAs("(1,2) + 1,4", "(1, 2) + 1.4");
+	}
+
+	@Test
+	public void shouldKeepMultiplicationFromLeft() {
+		String f1 = reparse(app, "F(x,A,B)=BAxe^(-Bx)-Ae^(-Bx)",
+				StringTemplate.xmlTemplate, true);
+		assertEquals("(((B * A) * x) * " + Unicode.EULER_STRING
+				+ "^((-((B * x))))) - (A * " + Unicode.EULER_STRING + "^((-((B * x)))))",
+				f1);
+		String f2 = reparse(app, "F(x,A,B)=B A x e^(-B x)-A e^(-B x)",
+				StringTemplate.xmlTemplate, true);
+		// brackets in exponent slightly different
+		assertEquals("(((B * A) * x) * " + Unicode.EULER_STRING
+						+ "^(((-B) * x))) - (A * " + Unicode.EULER_STRING + "^(((-B) * x)))",
+				f2);
 	}
 
 	static void shouldReparseAs(App app, String string, String expected) {
