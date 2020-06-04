@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
+import org.geogebra.common.kernel.algos.AlgoRemovableDiscontinuity;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -202,6 +203,9 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 				addExtremumPoly(geo, retList);
 			}
 		}
+		AlgoRemovableDiscontinuity algoRemovableDiscontinuity =
+				new AlgoRemovableDiscontinuity(kernel.getConstruction(), geo, null, false);
+		processAlgo(geo, algoRemovableDiscontinuity, retList);
 
 		if (yAxis) {
 			AlgoIntersectPolynomialLine algoPolynomialLine = new AlgoIntersectPolynomialLine(

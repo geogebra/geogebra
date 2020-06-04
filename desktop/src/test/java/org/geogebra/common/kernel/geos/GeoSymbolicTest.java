@@ -937,11 +937,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("g:x^3 - 1");
 		add("h:x");
 		updateSpecialPoints("f");
-		Assert.assertEquals(7, numberOfSpecialPoints());
+		Assert.assertEquals(8, numberOfSpecialPoints());
 		updateSpecialPoints("g");
-		Assert.assertEquals(5, numberOfSpecialPoints());
+		Assert.assertEquals(6, numberOfSpecialPoints());
 		updateSpecialPoints("h");
-		Assert.assertEquals(5, numberOfSpecialPoints());
+		Assert.assertEquals(6, numberOfSpecialPoints());
 	}
 
 	@Test
