@@ -76,8 +76,8 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	public void testArctanIntegral() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "21xarctanx", "21 x tan" +
-				Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+		shouldBeUpdatedAs("f", "21xarctanx", "21 x tan"
+				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
 	@Test

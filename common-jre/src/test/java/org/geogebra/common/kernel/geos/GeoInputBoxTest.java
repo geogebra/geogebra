@@ -469,6 +469,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("x+()");
 		assertThat(inputBox.getTempUserEvalInput(), is(notNullValue()));
 	}
+
 	@Test
 	public void testUndoRedoWithInvalidInput() {
 		App app = getApp();
