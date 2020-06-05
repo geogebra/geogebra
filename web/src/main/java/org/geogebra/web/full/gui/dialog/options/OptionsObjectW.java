@@ -969,12 +969,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private OptionsTab addScriptTab() {
 		OptionsTab tab = makeOptionsTab("Scripting");
 		final ScriptEditorModel model = new ScriptEditorModel(app);
-		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
-			@Override
-			public void onSelection(SelectionEvent<Integer> event) {
-				model.applyModifications();
-			}
-		});
 		tab.addModel(model);
 		return tab;
 	}
