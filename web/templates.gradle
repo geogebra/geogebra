@@ -56,9 +56,12 @@ ext.classicHtml = { app, prerelease, offline = false ->
 }
 
 String.metaClass.injectFirebaseTemplate = { firebaseAppId, measurementId ->
-    delegate.injectPartial("firebase")
-            .replace("<!--FIREBASE APP ID-->", firebaseAppId)
-            .replace("<!--MEASUREMENT ID-->", measurementId)
+    if (firebaseAppId != "" && measurementId != "") {
+        return delegate.injectPartial("firebase")
+                .replace("<!--FIREBASE APP ID-->", firebaseAppId)
+                .replace("<!--MEASUREMENT ID-->", measurementId)
+    }
+    return delegate;
 }
 
 ext.appHtml = { app, prerelease, offline = false ->

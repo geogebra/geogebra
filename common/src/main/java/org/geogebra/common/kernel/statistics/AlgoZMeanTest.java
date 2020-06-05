@@ -131,15 +131,7 @@ public class AlgoZMeanTest extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
-		String testType;
-		if (tail.getTextString().equals("<")) {
-			testType = "left";
-		} else if (tail.getTextString().equals(">")) {
-			testType = "right";
-		} else if (StringUtil.isNotEqual(tail.getTextString())) {
-			testType = "two";
-		} else {
+		if (!(StringUtil.isInequality(tail.getTextString()))) {
 			result.setUndefined();
 			return;
 		}
@@ -170,21 +162,32 @@ public class AlgoZMeanTest extends AlgoElement {
 			return;
 		}
 
-		if ("right".equals(testType)) {
-			P = 1 - P;
-		} else if ("two".equals(testType)) {
-			if (testStatistic < 0) {
-				P = 2 * P;
-			} else {
-				P = 2 * (1 - P);
-			}
-		}
+		P = adjustPValue(P, testStatistic, tail);
 
 		// put these results into the output list
 		result.clear();
 		result.addNumber(P, null);
 		result.addNumber(testStatistic, null);
 
+	}
+
+	/**
+	 * @param pValue p-value
+	 * @param testStatistic test statistic
+	 * @param tail tail string (one of &lt;, &gt; ,&lt;&gt )
+	 * @return adjusted p-value
+	 */
+	public static double adjustPValue(double pValue, double testStatistic, GeoText tail) {
+		if (">".equals(tail.getTextString())) {
+			return 1 - pValue;
+		} else if (StringUtil.isNotEqual(tail.getTextString())) {
+			if (testStatistic < 0) {
+				return 2 * pValue;
+			} else {
+				return 2 * (1 - pValue);
+			}
+		}
+		return pValue;
 	}
 
 }

@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoInputBox;
@@ -190,7 +191,7 @@ public class CopyPasteW extends CopyPaste {
 		for (Map.Entry<String, String> image : copiedImages.entrySet()) {
 			textToSave.append(imagePrefix);
 			textToSave.append(" ");
-			textToSave.append(image.getKey());
+			textToSave.append(Global.escape(image.getKey()));
 			textToSave.append(" ");
 			textToSave.append(image.getValue());
 			textToSave.append("\n");
@@ -240,14 +241,18 @@ public class CopyPasteW extends CopyPaste {
 		copiedXml.setLength(0);
 		copiedImages.clear();
 
-		for (ConstructionElement ce : geoslocal) {
-			ce.getXML(false, copiedXml);
+		Construction cons = app.getKernel().getConstruction();
+		for (int i = 0; i < cons.steps(); ++i) {
+			ConstructionElement ce = cons.getConstructionElement(i);
+			if (geoslocal.contains(ce)) {
+				ce.getXML(false, copiedXml);
 
-			if (ce instanceof GeoImage) {
-				GeoImage image = (GeoImage) ce;
-				String name = image.getImageFileName();
-				ImageManagerW imageManager = ((ImageManagerW) app.getImageManager());
-				copiedImages.put(name, imageManager.getExternalImageSrc(name));
+				if (ce instanceof GeoImage) {
+					GeoImage image = (GeoImage) ce;
+					String name = image.getImageFileName();
+					ImageManagerW imageManager = ((ImageManagerW) app.getImageManager());
+					copiedImages.put(name, imageManager.getExternalImageSrc(name));
+				}
 			}
 		}
 
@@ -445,11 +450,13 @@ public class CopyPasteW extends CopyPaste {
 					.substring(endline + imagePrefix.length() + 1, nextEndline);
 
 			String[] image = line.split(" ");
+			String name = Global.unescape(image[0]);
+			String src = image[1];
 
 			ImageManagerW imageManager = app.getImageManager();
-			imageManager.addExternalImage(image[0], image[1]);
-			ImageElement img = imageManager.getExternalImage(image[0], app, true);
-			img.setSrc(image[1]);
+			imageManager.addExternalImage(name, src);
+			ImageElement img = imageManager.getExternalImage(name, app, true);
+			img.setSrc(src);
 
 			endline = nextEndline + 1;
 		}

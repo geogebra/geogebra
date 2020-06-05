@@ -63,7 +63,7 @@ public class AlgoFromBase extends AlgoElement {
 		}
 		double val = 0;
 
-		String in = number.getTextString();
+		String in = number.getTextStringSafe();
 		int pos = in.indexOf('.');
 		String s = pos > -1 ? StringUtil.toLowerCaseUS(in.substring(0, pos))
 				: StringUtil.toLowerCaseUS(in);
