@@ -432,6 +432,7 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
 												 boolean isPinchZooming) {
+		view.invalidateCache();
 		if (right || penPoints.size() == 0) {
 			return false;
 		}

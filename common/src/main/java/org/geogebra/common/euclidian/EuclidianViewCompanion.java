@@ -468,7 +468,6 @@ public class EuclidianViewCompanion {
 	 * drawables
 	 */
 	protected void updateSizeKeepDrawables() {
-		view.invalidateCache();
 		view.updateSizeKeepDrawables();
 	}
 

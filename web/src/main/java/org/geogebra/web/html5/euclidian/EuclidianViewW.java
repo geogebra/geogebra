@@ -1514,6 +1514,9 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void invalidateCache() {
 		cacheGraphics = null;
+		// fix for chromium bug with putImageData
+		// https://bugs.chromium.org/p/chromium/issues/detail?id=68495
+		forceResize(this);
 	}
 
 	/**

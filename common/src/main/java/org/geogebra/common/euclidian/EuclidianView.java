@@ -1875,7 +1875,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public void update(GeoElement geo) {
 		DrawableND d = drawableMap.get(geo);
-		invalidateCache();
 		if (d != null) {
 			if (!d.isCompatibleWithGeo()) {
 				remove(geo);
@@ -1917,7 +1916,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	@Override
 	public void add(GeoElement geo) {
-		invalidateCache();
 		// G.Sturr 2010-6-30
 		// filter out any geo not marked for this view
 		if (!drawableNeeded(geo)) {
@@ -3420,7 +3418,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private void updateSizeChange() {
-		invalidateCache();
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
 	}
@@ -5704,7 +5701,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void exportPaintPre(GGraphics2D g2d, double scale,
 			boolean transparency) {
-		invalidateCache();
 		exportPaintPreScale(g2d, scale);
 
 		// clipping on selection rectangle
@@ -6210,7 +6206,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected void resetBackgroundAndCache() {
 		bgImage = null;
 		bgGraphics = null;
-		invalidateCache();
 	}
 
 	/**
