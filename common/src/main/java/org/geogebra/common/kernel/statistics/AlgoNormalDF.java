@@ -23,10 +23,13 @@ import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * algorithm for Normal[0,1,x]
@@ -121,8 +124,8 @@ public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
 			ExpressionNode div2 = new ExpressionNode(kernel, sd);
 			div2 = div2.square().multiply(2);
 
-			ExpressionNode sqrt2pi = (new ExpressionNode(kernel, Math.PI))
-					.multiply(2).sqrt();
+			ExpressionNode sqrt2pi = (new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING))
+					.wrap().multiplyR(2).sqrt();
 
 			div = sqrt2pi.multiply(div.abs());
 

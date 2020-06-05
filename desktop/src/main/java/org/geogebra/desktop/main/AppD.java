@@ -5040,11 +5040,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private static volatile MessageDigest md5EncrypterD;
 
 	@Override
-	public void schedulePreview(Runnable scheduledPreview) {
+	public void schedulePreview(final Runnable scheduledPreview) {
 
 		cancelPreview();
 
-		handler = scheduler.schedule(scheduledPreview,
+		Runnable threadSafeCallback = new Runnable() {
+			@Override
+			public void run() {
+				SwingUtilities.invokeLater(scheduledPreview);
+			}
+		};
+		handler = scheduler.schedule(threadSafeCallback,
 				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
 	}
 

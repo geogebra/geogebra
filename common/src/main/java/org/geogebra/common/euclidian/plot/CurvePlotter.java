@@ -33,7 +33,9 @@ public class CurvePlotter {
 	// maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
 	private static final int MAX_DEFINED_BISECTIONS = 16;
 	private static final int MAX_PROBLEM_BISECTIONS = 8;
-	private static final int MAX_CONTINUITY_BISECTIONS = 16;
+	// NB: don't try to increase this to improve discontinuity check in something like
+	// ln(x)+sin(x), it could lead to piecewise functions joining up.
+	private static final int MAX_CONTINUITY_BISECTIONS = 8;
 
 	// maximum number of times to loop when xDiff, yDiff are both zero
 	// eg Curve[0sin(t), 0t, t, 0, 6]

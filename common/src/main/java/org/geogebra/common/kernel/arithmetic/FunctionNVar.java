@@ -294,7 +294,8 @@ public class FunctionNVar extends ValidExpression
 			final StringTemplate tpl) {
 		for (int i = 0; i < fVars.length - 1; i++) {
 			sb.append(fVars[i].toString(tpl));
-			sb.append(", ");
+			sb.append(",");
+			tpl.appendOptionalSpace(sb);
 		}
 		sb.append(fVars[fVars.length - 1].toString(tpl));
 		return sb;
@@ -316,7 +317,7 @@ public class FunctionNVar extends ValidExpression
 	 *
 	 * @return whether this is a valid (numeric or boolean) function
 	 */
-	public boolean initFunction(boolean simplifyInt) {
+	public boolean  initFunction(boolean simplifyInt) {
 		EvalInfo info = new EvalInfo(false).withSimplifying(simplifyInt);
 		return initFunction(info);
 	}

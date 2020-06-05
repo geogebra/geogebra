@@ -388,9 +388,6 @@ public class DockManagerW extends DockManager {
 			// is focused dock panel not visible anymore => reset
 			if (focusedDockPanel != null && !focusedDockPanel.isVisible()) {
 				focusedDockPanel = null;
-				if (focusedEuclidianDockPanel != null) {
-					focusedEuclidianDockPanel.setEuclidianFocus(false);
-				}
 				focusedEuclidianDockPanel = null;
 			}
 
@@ -1289,56 +1286,32 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 
-		// euclidian focus
-
 		// in case there is no focused panel there is also no focused euclidian
 		// dock panel
 		if (panel == null) {
 			if (focusedEuclidianDockPanel != null) {
-				focusedEuclidianDockPanel.setEuclidianFocus(false);
-				// if (focusedEuclidianDockPanel != focusedDockPanel)
-				// focusedEuclidianDockPanel.setTitleLabelFocus();
 				focusedEuclidianDockPanel = null;
 			}
 		} else {
 			if (panel instanceof EuclidianDockPanelWAbstract
 					&& focusedEuclidianDockPanel != panel) {
-				// remove focus from previously focused dock panel
-				if (focusedEuclidianDockPanel != null) {
-					focusedEuclidianDockPanel.setEuclidianFocus(false);
-					// if (focusedEuclidianDockPanel != focusedDockPanel)
-					// focusedEuclidianDockPanel.setTitleLabelFocus();
-				}
-
 				// if a panel has focus and that panel is a euclidian dock panel
 				// change the focused euclidian dock panel to that panel
 				focusedEuclidianDockPanel = (EuclidianDockPanelWAbstract) panel;
-				focusedEuclidianDockPanel.setEuclidianFocus(true);
 
 				// (panels which are not euclidian dock panels do not change the
 				// focused
 				// euclidian dock panel (ie the old is kept))
-
 			}
-		}
-
-		// remove focus from previously focused dock panel
-		if (focusedDockPanel != null) {
-			focusedDockPanel.setFocus(false, false);
 		}
 
 		focusedDockPanel = (DockPanelW) panel;
 
 		if (focusedDockPanel != null) {
-			focusedDockPanel.setFocus(true, updatePropertiesView);
+			focusedDockPanel.setFocus(updatePropertiesView);
 		}
 
 		app.getGuiManager().updateMenubarSelection();
-
-		// if (focusedDockPanel != null && panel.isInFrame()) {
-		// panel.getFrame().toFront();
-		// }
-
 	}
 
 	/**
@@ -1444,25 +1417,6 @@ public class DockManagerW extends DockManager {
 		for (DockPanelW panel : dockPanels) {
 			panel.buildToolbarGui();
 		}
-	}
-
-	/**
-	 * Update the glass pane
-	 */
-	public void updateGlassPane() {
-		// if(!app.isApplet() && glassPane.getParent() != null) {
-		// app.setGlassPane(glassPane);
-		// }
-	}
-
-	/**
-	 * Update the titles of the frames as they contain the file name of the
-	 * current document.
-	 */
-	public void updateTitles() {
-		// for(DockPanel panel : dockPanels) {
-		// panel.updateTitle();
-		// }
 	}
 
 	/**

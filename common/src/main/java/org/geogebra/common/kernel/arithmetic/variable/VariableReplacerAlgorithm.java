@@ -9,6 +9,8 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
@@ -30,6 +32,7 @@ public class VariableReplacerAlgorithm {
 	private Exponents exponents;
 	private ExpressionValue geo;
 	private int charIndex;
+	private boolean tokenizerAllowed = false;
 
 	/**
 	 * @param kernel The kernel.
@@ -48,24 +51,76 @@ public class VariableReplacerAlgorithm {
 	 */
 	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
+		if (!tokenizerAllowed) {
+			return replaceToken(expressionString);
+		}
+
+		ExpressionValue value = replaceToken(expressionString);
+		if (value instanceof Variable) {
+			return tokenize(expressionString);
+		}
+
+		return value;
+	}
+
+	private ExpressionValue tokenize(String expressionString) {
+
+		InputTokenizer tokenizer = new InputTokenizer(kernel, expressionString);
+		String next = expressionString;
+		while (tokenizer.hasToken()) {
+			next = tokenizer.next();
+			ExpressionValue v1 = replaceToken(next);
+			ExpressionValue v2 = tokenizer.noInputLeft()
+						? null
+				: replace(tokenizer.getInputRemaining());
+
+			if (isProductFactor(v1) && isProductFactor(v2)) {
+				if (isProduct(v2)) {
+					return v1.wrap().multiplyR(v2.wrap().getLeft()).multiplyR(v2.wrap().getRight());
+				}
+
+				return v1.wrap().multiplyR(v2);
+			}
+		}
+
+		return replaceToken(next);
+	}
+
+	private boolean isProductFactor(ExpressionValue value) {
+		if (value == null) {
+			return false;
+		}
+
+		return value.isNumberValue() || value.isConstant()
+				|| value.isVariable()
+				|| isProduct(value) || value.isGeoElement();
+	}
+
+	private boolean isProduct(ExpressionValue value) {
+		return value.wrap().getOperation() == Operation.MULTIPLY;
+	}
+
+	private ExpressionValue replaceToken(String expressionString) {
 		this.expressionString = expressionString;
 
-		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
-		if (expressionString.endsWith("'")
-				&& kernel.getAlgebraProcessor().enableStructures()) {
-
-			ExpressionValue ret = derivativeCreator.getDerivative(expressionString);
-			if (ret != null) {
-				return ret;
-			}
+		ExpressionValue derivative = getDerivative(expressionString);
+		if (derivative != null) {
+			return derivative;
 		}
 
 		exponents.initWithZero();
 
 		geo = lookupOrProduct(expressionString);
 		if (geo != null) {
-			return geo;
+			if (tokenizerAllowed) {
+				String label = getLabel(geo);
+				return isAtomicLabel(label) ? geo : tokenize(label);
+			} else {
+				return geo;
+			}
+
 		}
+
 		nameNoX = expressionString;
 		int degPower = 0;
 		while (nameNoX.length() > 0 && (geo == null)
@@ -92,13 +147,19 @@ public class VariableReplacerAlgorithm {
 		processPi();
 		MySpecialDouble mult = consumeConstant(nameNoX);
 
+		if (InputTokenizer.isImaginaryUnit(nameNoX)) {
+			return getImaginaryUnit();
+		}
+
 		if (nameNoX.length() > 0 && geo == null) {
 			return new Variable(kernel, nameNoX);
 		}
+
 		ExpressionNode ret = productCreator.getFunctionVariablePowers(exponents).wrap();
 		if (geo != null) {
 			ret = ret.multiply(geo);
 		}
+
 		ret = productCreator.piDegPowers(ret, exponents.get(Unicode.PI_STRING), degPower);
 
 		if (mult != null) {
@@ -108,15 +169,36 @@ public class VariableReplacerAlgorithm {
 		return ret;
 	}
 
+	private GeoVec2D getImaginaryUnit() {
+		GeoVec2D imaginary = new GeoVec2D(kernel, 0, 1);
+		imaginary.setMode(Kernel.COORD_COMPLEX);
+		return imaginary;
+	}
+
+	private boolean isAtomicLabel(String label) {
+		return label.length() < 2 || label.charAt(1) == '_';
+	}
+
+	private String getLabel(ExpressionValue geo) {
+		return geo instanceof GeoElement ? ((GeoElement) geo).getLabelSimple() : "";
+	}
+
+	private ExpressionValue getDerivative(String expressionString) {
+		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
+		return expressionString.endsWith("'")
+				&& kernel.getAlgebraProcessor().enableStructures()
+				? derivativeCreator.getDerivative(expressionString)
+				: null;
+	}
+
 	private ExpressionValue processInReverse() {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
-
 			Operation op = kernel.getApplication().getParserFunctions()
 					.getSingleArgumentOp(nameNoX.substring(0, charIndex));
 			op = ArcTrigReplacer.getDegreeInverseTrigOp(op);
 			if (op != null) {
 				ExpressionValue arg = new VariableReplacerAlgorithm(kernel)
-						.replace(expressionString.substring(charIndex));
+						.replaceToken(expressionString.substring(charIndex));
 				if (arg instanceof Variable) {
 					return arg;
 				}
@@ -166,6 +248,7 @@ public class VariableReplacerAlgorithm {
 				&& !isCharVariableOrConstantName(nameNoX)) {
 			return new FunctionVariable(kernel, nameNoX);
 		}
+
 		ExpressionValue ret = kernel.lookupLabel(nameNoX);
 
 		if (ret == null && "i".equals(nameNoX)) {
@@ -174,11 +257,12 @@ public class VariableReplacerAlgorithm {
 		if (ret == null && "e".equals(nameNoX)) {
 			ret = kernel.getEulerNumber();
 		}
+
 		if (ret == null) {
 			ret = productCreator.getProduct(nameNoX);
 		}
 		return ret;
-	}
+}
 
 	private ExpressionValue processProductReverse() {
 		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
@@ -267,5 +351,9 @@ public class VariableReplacerAlgorithm {
 	// For tests only.
 	Exponents getExponents() {
 		return exponents;
+	}
+
+	public void setTokenizerAllowed(boolean value) {
+		tokenizerAllowed = value;
 	}
 }

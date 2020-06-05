@@ -6309,13 +6309,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		selectAndShowBoundingBox(inlineObject);
 		final DrawableND drawable = view.getDrawableFor(inlineObject);
 		drawable.update();
-
-		app.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				((DrawInline) drawable).toForeground(0, 0);
-			}
-		});
+		((DrawInline) drawable).toForeground(0, 0);
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {
@@ -8016,17 +8010,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected boolean allowSelectionRectangle() {
 		switch (mode) {
-		case EuclidianConstants.MODE_ZOOM_IN:
-			return true;
 		// move objects
 		case EuclidianConstants.MODE_MOVE:
 			return moveMode == MOVE_NONE && isAltDown();
 
 		case EuclidianConstants.MODE_SELECT_MOW:
 			return moveMode == MOVE_NONE;
-
-		case EuclidianConstants.MODE_SELECT:
-			return true;
 
 		// move rotate objects
 		case EuclidianConstants.MODE_MOVE_ROTATE:
@@ -8040,6 +8029,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			return allowSelectionRectangleForTranslateByVector;
 
+		case EuclidianConstants.MODE_ZOOM_IN:
+		case EuclidianConstants.MODE_SELECT:
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
@@ -8049,9 +8040,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_CREATE_LIST:
 		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
 		case EuclidianConstants.MODE_RELATION:
-			return true;
-
-		// checkbox, button
 		case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
 		case EuclidianConstants.MODE_BUTTON_ACTION:
 		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
@@ -9616,15 +9604,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
 		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
-			processSelectionRectangleForTransformations(hits,
-					TestGeo.TRANSFORMABLE);
-			break;
-
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			processSelectionRectangleForTransformations(hits,
-					TestGeo.TRANSFORMABLE);
-			break;
-
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			processSelectionRectangleForTransformations(hits,
 					TestGeo.TRANSFORMABLE);
@@ -9643,37 +9623,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_FITLINE:
-			// check for list first
-			if (hits.size() == 1) {
-				if (hits.get(0).isGeoList()) {
-					getSelectedGeoList().addAll(hits);
-					setAppSelectedGeos(hits);
-					changedKernel = processMode(hits, isControlDown, null);
-					view.setSelectionRectangle(null);
-					break;
-				}
-			}
-
-			// remove non-Points
-			for (int i = 0; i < hits.size(); i++) {
-				GeoElement geo = hits.get(i);
-				if (!(TestGeo.GEOPOINT.check(geo))) {
-					hits.remove(i);
-				}
-			}
-
-			// Fit line is available from more than 1 point
-			if (hits.size() < 2) {
-				hits.clear();
-			} else {
-				removeParentPoints(hits);
-				getSelectedGeoList().addAll(hits);
-				setAppSelectedGeos(hits);
-				changedKernel = processMode(hits, isControlDown, null);
-				view.setSelectionRectangle(null);
-			}
-			break;
-
 		case EuclidianConstants.MODE_RELATION:
 			// check for list first
 			if (hits.size() == 1) {
@@ -9694,7 +9643,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				}
 			}
 
-			// Fit line makes sense only for more than 1 point (or one list)
+			// Fit line is available from more than 1 point
 			if (hits.size() < 2) {
 				hits.clear();
 			} else {
@@ -9800,15 +9749,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
 		case EuclidianConstants.MODE_MIRROR_AT_CIRCLE:
-			processSelectionRectangleForTransformations(hits,
-					TestGeo.TRANSFORMABLE);
-			break;
-
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			processSelectionRectangleForTransformations(hits,
-					TestGeo.TRANSFORMABLE);
-			break;
-
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			processSelectionRectangleForTransformations(hits,
 					TestGeo.TRANSFORMABLE);
@@ -10884,11 +10825,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					.createPreviewPerpendicularBisector(getSelectedPointList());
 			break;
 
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-			previewDrawable = view.createPreviewConic(mode1,
-					getSelectedPointList());
-			break;
-
 		case EuclidianConstants.MODE_JOIN: // line through two points
 			useLineEndPoint = false;
 			previewDrawable = view.createPreviewLine(getSelectedPointList());
@@ -10905,6 +10841,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_VECTOR:
+		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			useLineEndPoint = false;
 			previewDrawable = view.createPreviewVector(getSelectedPointList());
 			break;
@@ -10924,6 +10861,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
 			previewDrawable = view.createPreviewConic(mode1,
 					getSelectedPointList());
 			break;
@@ -10946,11 +10884,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
 			previewDrawable = new DrawConicPart(view, mode1,
 					getSelectedPointList());
-			break;
-
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			useLineEndPoint = false;
-			previewDrawable = view.createPreviewVector(getSelectedPointList());
 			break;
 
 		case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:

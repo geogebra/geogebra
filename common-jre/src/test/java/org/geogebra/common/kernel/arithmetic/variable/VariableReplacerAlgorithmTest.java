@@ -6,13 +6,14 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
-	private VariableReplacerAlgorithm variableReplacerAlgorithm;
+	private static VariableReplacerAlgorithm variableReplacerAlgorithm;
 
 	@Before
 	public void setupTest() {
@@ -26,6 +27,48 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void testIndexProduct() {
+		allowTokenizer();
+		add("a_{1} = 4");
+		add("b = 2");
+		add("b_{1} = 4");
+		shouldReplaceAs("a_{1}b", "a_{1} * b");
+		shouldReplaceAs("ba_{1}", "b * a_{1}");
+		shouldReplaceAs("a_{1}b_{1}", "a_{1} * b_{1}");
+	}
+
+	@Ignore
+	@Test
+	public void testFunctionProducts() {
+		shouldReplaceAs("sina", "sin(a)");
+	}
+
+	@Test
+	public void testFunctionProductsMul() {
+		allowTokenizer();
+		shouldReplaceAs("xlnx", "x * log(x)");
+		shouldReplaceAs("xln2x", "x * log(2 * x)");
+		shouldReplaceAs("xsinx", "x * sin(x)");
+	}
+
+	static void allowTokenizer() {
+		variableReplacerAlgorithm.setTokenizerAllowed(true);
+	}
+
+	@Test
+	public void testConstantMultiplier() {
+	allowTokenizer();
+		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING
+			+ " * sqrt(5)");
+	}
+
+	@Test
+	public void testEmbeddedTrigs() {
+		allowTokenizer();
+		shouldReplaceAs("4coscoscosx", "4 * cos(cos(cos(x)))");
+	}
+
+	@Test
 	public void testTrig() {
 		shouldReplaceAs("sinx", "sin(x)");
 		shouldReplaceAs("sinxx", "sin(x^(2))");
@@ -33,6 +76,12 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("cos3x", "cos(3 * x)");
 		shouldReplaceAs("asinsinpix",
 				TestStringUtil.unicode("asind(sin(" + Unicode.PI_STRING + " * x))"));
+	}
+
+	@Test
+	public void testImaginary() {
+		allowTokenizer();
+		shouldReplaceAs("isqrt3", String.valueOf(Unicode.IMAGINARY) + " * sqrt(3)");
 	}
 
 	@Test
