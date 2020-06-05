@@ -33,13 +33,9 @@ import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -49,13 +45,9 @@ import com.google.gwt.user.client.ui.ListBox;
  * Dialog to create a GeoBoolean object (checkbox) that determines the
  * visibility of a list of objects.
  */
-public class CheckboxCreationDialogW extends DialogBoxW implements
+public class CheckboxCreationDialogW extends ComponentDialog implements
 		GeoElementSelectionListener, HasKeyboardPopup {
-
 	private AutoCompleteTextFieldW tfCaption;
-	private Button btOK;
-	private Button btCancel;
-	private FlowPanel optionPane;
 	private GeoListBox gbObjects;
 	private GeoAttachedListBox gbList;
 
@@ -149,17 +141,16 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	 * Input Dialog for a GeoBoolean object Make this *not* modal to allow
 	 * adding geos by clicking in EV
 	 */
-	public CheckboxCreationDialogW(AppW app, GPoint loc2,
-			GeoBoolean geoBoolean) {
-		super(false, false, null, app.getPanel(), app);
-
-		this.app = app;
+	public CheckboxCreationDialogW(AppW app, DialogData data,
+			GPoint loc2, GeoBoolean geoBoolean) {
+		super(app, data, false, false);
+		addStyleName("Checkbox");
 		this.loc = app.getLocalization();
 		this.location = loc2;
 		this.geoBoolean = geoBoolean;
 		initLists();
-		createGUI(loc.getMenu("CheckBoxTitle"));
-		center();
+		buildContent();
+		setOnPositiveAction(this::apply);
 	}
 
 	private void initLists() {
@@ -180,7 +171,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		}
 	
 		// fill list with all selected geos
-		
 		gbList = new GeoAttachedListBox(gbObjects);
 
 		// add all selected geos to list
@@ -189,14 +179,10 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			gbList.add(geo);
 		}
 		
-		gbObjects.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				GeoElement geo = gbObjects.getSelectedGeo();
-				if (geo != null) {
-					gbList.add(geo);
-				}
+		gbObjects.addChangeHandler(event -> {
+			GeoElement geo = gbObjects.getSelectedGeo();
+			if (geo != null) {
+				gbList.add(geo);
 			}
 		});
 	}
@@ -206,12 +192,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		gbList.add(geo);
 	}
 
-	protected void createGUI(String title) {
-		addStyleName("GeoGebraPopup");
-		if (app.isUnbundledOrWhiteboard()) {
-			addStyleName("Checkbox");
-		}
-		getCaption().setText(title);
+	protected void buildContent() {
 		Label lblSelectObjects = new Label(loc.getMenu("Tool.SelectObjects"));
 		lblSelectObjects.setStyleName("panelTitle");
 		// create caption panel
@@ -242,68 +223,23 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		listPanel.add(lblSelectObjects);
 		listPanel.add(LayoutUtilW.panelRow(gbList, btnRemove));
 		
-		btnRemove.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				GeoElement geo = gbList.getSelectedGeo();
-				if (geo != null) {
-					gbObjects.add(geo);
-					gbList.remove(geo);
-				}
+		btnRemove.addClickHandler(event -> {
+			GeoElement geo = gbList.getSelectedGeo();
+			if (geo != null) {
+				gbObjects.add(geo);
+				gbList.remove(geo);
 			}
 		});
-		// buttons
-		btOK = new Button(loc.getMenu("OK"));
-		btOK.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				actionPerformed(btOK);
-			}
-		});
-		
-		btCancel = new Button(loc.getMenu("Cancel"));
-		btCancel.addStyleName("cancelBtn");
-		btCancel.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				actionPerformed(btCancel);
-			}
-		});
-		
-		FlowPanel btPanel = new FlowPanel();
-		btPanel.setStyleName("DialogButtonPanel");
-
-		btPanel.add(btOK);
-		btPanel.add(btCancel);
 
 		// Create the JOptionPane.
-		optionPane = new FlowPanel();
+		FlowPanel contentPanel = new FlowPanel();
 
 		// create object list
-		optionPane.add(captionPanel);
-		optionPane.add(listPanel);
-		optionPane.add(btPanel);
+		contentPanel.add(captionPanel);
+		contentPanel.add(listPanel);
 
 		// Make this dialog display it.
-		setWidget(optionPane);
-	}
-
-	/**
-	 * Handle input event
-	 * 
-	 * @param src
-	 *            input element
-	 */
-	public void actionPerformed(Object src) {
-		if (src == btCancel) {
-			hide();
-		} else if (src == btOK) {
-			apply();
-			hide();
-		}
+		addDialogContent(contentPanel);
 	}
 
 	private void apply() {
@@ -343,7 +279,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	public void setVisible(boolean flag) {
 		if (!isModal()) {
 			if (flag) {
-				// app.setMoveMode();
 				app.getSelectionManager().addSelectionListener(this);
 			} else {
 				app.getSelectionManager().removeSelectionListener(this);
@@ -351,15 +286,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 				app.setMode(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 			}
 		}
-		// if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-		// if (flag) {
-		// app.registerPopup(this);
-		// } else {
-		// app.unregisterPopup(this);
-		// }
-		// }
-
 		super.setVisible(flag);
 	}
-
 }

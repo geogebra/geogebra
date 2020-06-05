@@ -192,6 +192,9 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		Event nativeEvent = Event.as(event.getNativeEvent());
 		if (Event.ONKEYPRESS == event.getTypeInt() && isEnter(nativeEvent.getCharCode())) {
 			onPositiveAction();
+		} else if (event.getTypeInt() == Event.ONKEYUP
+				&& event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+			hide();
 		}
 	}
 }

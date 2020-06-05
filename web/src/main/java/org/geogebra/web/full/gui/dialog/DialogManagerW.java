@@ -36,7 +36,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.full.export.AnimationExportDialogW;
 import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
@@ -53,7 +52,6 @@ import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -69,16 +67,11 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 public class DialogManagerW extends DialogManager
 		implements LoadingApplication {
-
 	private FunctionInspectorW functionInspector;
-	protected SaveDialogI saveDialog = null;
-	protected UploadImageDialog imageDialog;
-	protected WebcamInputDialog webcamInputDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
 	private TemplateChooser templateChooser;
-	private PDFInputDialog pdfInputDialog;
 	private PopupPanel loadingAnimation = null;
-	private ColorChooserDialog dialog = null;
+	private ColorChooserDialog colChooser = null;
 	private BaseWidgetFactory widgetFactory = new BaseWidgetFactory();
 
 	/**
@@ -123,8 +116,9 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showBooleanCheckboxCreationDialog(GPoint position,
 			GeoBoolean bool) {
+		DialogData data = new DialogData("CheckBoxTitle", "Cancel", "OK");
 		CheckboxCreationDialogW dlg = new CheckboxCreationDialogW((AppW) app,
-				position, bool);
+				data, position, bool);
 		dlg.show();
 	}
 
@@ -212,9 +206,11 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
+		DialogData data = new DialogData(textfield ? "TextFieldAction"
+				: "ButtonAction", "Cancel", "OK");
 		ButtonDialogW buttonDialog = new ButtonDialogW(((AppW) app), x, y,
-				textfield);
-		buttonDialog.setVisible(true);
+				data, textfield);
+		buttonDialog.show();
 		return true;
 	}
 
@@ -260,11 +256,8 @@ public class DialogManagerW extends DialogManager
 			((BrowserDevice) device).getUploadImageWithoutDialog((AppW) app);
 			return;
 		}
-		if (this.imageDialog == null) {
-			this.imageDialog = device.getImageInputDialog((AppW) app);
-		}
+		UploadImageDialog imageDialog = device.getImageInputDialog((AppW) app);
 		imageDialog.setLocation(corner);
-		imageDialog.center();
 		imageDialog.show();
 	}
 
@@ -288,8 +281,8 @@ public class DialogManagerW extends DialogManager
 			@Override
 			public void onSuccess() {
 				LoggerW.loaded("PDF JS");
-				pdfInputDialog = new PDFInputDialog((AppW) app);
-				pdfInputDialog.center();
+				DialogData data = new DialogData("pdfDialogTitle", "Cancel", "Insert");
+				PDFInputDialog pdfInputDialog = new PDFInputDialog((AppW) app, data);
 				pdfInputDialog.show();
 				if (file != null) {
 					pdfInputDialog.loadPdf(file);
@@ -348,12 +341,9 @@ public class DialogManagerW extends DialogManager
 				&& device instanceof BrowserDevice)) {
 			return;
 		}
-		if (this.webcamInputDialog == null) {
-			this.webcamInputDialog = ((BrowserDevice) device)
-					.getWebcamInputDialog((AppW) app);
-		} else {
-			webcamInputDialog.startVideo();
-		}
+		WebcamInputDialog webcamInputDialog = ((BrowserDevice) device)
+				.getWebcamInputDialog((AppW) app);
+		webcamInputDialog.startVideo();
 	}
 
 	@Override
@@ -378,12 +368,9 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public boolean showSliderCreationDialog(int x, int y) {
-		app.setWaitCursor();
-
-		SliderDialogW sliderDialog = new SliderDialogW(((AppW) app), x, y);
-		sliderDialog.center();
-
-		app.setDefaultCursor();
+		DialogData data = new DialogData("Slider", "Cancel", "OK");
+		SliderDialogW sliderDialog = new SliderDialogW(((AppW) app), data, x, y);
+		sliderDialog.show();
 		return true;
 	}
 
@@ -432,14 +419,13 @@ public class DialogManagerW extends DialogManager
 	 * @return {@link SaveDialogI}
 	 */
 	public SaveDialogI getSaveDialog() {
-		if (saveDialog == null) {
-			DialogData data;
-			if (app.isMebis()) {
-				saveDialog = new SaveDialogMow((AppW) app);
-			} else {
-				data = new DialogData("Save", "Cancel", "Save");
-				saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
-			}
+		DialogData data;
+		SaveDialogI saveDialog;
+		if (app.isMebis()) {
+			saveDialog = new SaveDialogMow((AppW) app);
+		} else {
+			data = new DialogData("Save", "Cancel", "Save");
+			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
 		}
 		// set default saveType
 		saveDialog.setSaveType(
@@ -492,7 +478,6 @@ public class DialogManagerW extends DialogManager
 		} else {
 			app.getGuiManager().setShowView(true,
 					App.VIEW_PROPERTIES);
-
 		}
 	}
 
@@ -569,10 +554,6 @@ public class DialogManagerW extends DialogManager
 		if (textInputDialog != null) {
 			((TextInputDialogW) textInputDialog).setLabels();
 		}
-
-		if (imageDialog != null) {
-			imageDialog.setLabels();
-		}
 	}
 
 	/**
@@ -585,13 +566,13 @@ public class DialogManagerW extends DialogManager
 	 */
 	public void showColorChooserDialog(GColor originalColor,
 			ColorChangeHandler handler) {
-		if (dialog == null) {
-			dialog = new ColorChooserDialog((AppW) app, originalColor, handler);
+		if (colChooser == null) {
+			colChooser = new ColorChooserDialog((AppW) app, originalColor, handler);
 		} else {
-			dialog.setOriginalColor(originalColor);
-			dialog.setHandler(handler);
+			colChooser.setOriginalColor(originalColor);
+			colChooser.setHandler(handler);
 		}
-		dialog.center();
+		colChooser.center();
 	}
 
 	/**
@@ -613,15 +594,6 @@ public class DialogManagerW extends DialogManager
 			String initString, InputHandler handler, GeoElement geo) {
 		return new InputDialogW((AppW) app1, message, title, initString,
 				handler, geo);
-	}
-
-	/**
-	 * Show animation export dialog.
-	 */
-	public void showAnimGifExportDialog() {
-		GDialogBox gifDialog = new AnimationExportDialogW((AppW) app);
-		gifDialog.center();
-		gifDialog.show();
 	}
 
 	/**
