@@ -189,13 +189,6 @@ public interface AppConfig {
 	String getExamMenuItemText();
 
 	/**
-	 * Whether it shows the error dialog for the input boxes.
-	 *
-	 * @return true iff it should show the error dialog
-	 */
-	boolean isShowingErrorDialogForInputBox();
-
-	/**
 	 * Create app specific operation argument filter.
 	 * <code>null</code> is allowed.
 	 *

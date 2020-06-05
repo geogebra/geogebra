@@ -259,11 +259,6 @@ public class AppConfigDefault implements AppConfig {
 		return AppKeyboardType.GRAPHING;
 	}
 
-	@Override
-	public boolean isShowingErrorDialogForInputBox() {
-		return false;
-	}
-
     @Override
     public int getEnforcedLineEquationForm() {
 	    return -1;
