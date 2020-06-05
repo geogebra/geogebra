@@ -168,23 +168,29 @@ public class KeyboardManager
 	}
 
 	/**
-	 * Return a keyboard and connected to given textfield.
+	 * Update keyboard processor and close listener.
 	 *
 	 * @param textField
 	 *            textfield adapter
 	 * @param listener
 	 *            open/close listener
-	 * @return keyboard
 	 */
-	@Nonnull
-	public VirtualKeyboardGUI getOnScreenKeyboard(
-			MathKeyboardListener textField, UpdateKeyBoardListener listener) {
+	public void setListeners(MathKeyboardListener textField,
+			UpdateKeyBoardListener listener) {
 		ensureKeyboardExists();
 		if (textField != null) {
 			setOnScreenKeyboardTextField(textField);
 		}
-
 		keyboard.setListener(listener);
+	}
+
+	/**
+	 * Lazy loading getter
+	 * @return the keyboard
+	 */
+	@Nonnull
+	public VirtualKeyboardGUI getOnScreenKeyboard() {
+		ensureKeyboardExists();
 		return keyboard;
 	}
 
