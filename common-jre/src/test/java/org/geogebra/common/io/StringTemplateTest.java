@@ -59,10 +59,10 @@ public class StringTemplateTest {
 
 	@Test
 	public void testCannonicNumber() {
-		assertEquals("0", StringUtil.cannonicNumber("0.0"));
-		assertEquals("0", StringUtil.cannonicNumber(".0"));
-		assertEquals("1.0E2", StringUtil.cannonicNumber("1.0E2"));
-		assertEquals("1", StringUtil.cannonicNumber("1.00"));
+		assertEquals("0", StringUtil.canonicalNumber("0.0"));
+		assertEquals("0", StringUtil.canonicalNumber(".0"));
+		assertEquals("1.0E2", StringUtil.canonicalNumber("1.0E2"));
+		assertEquals("1", StringUtil.canonicalNumber("1.00"));
 	}
 
 	@Test

@@ -2952,7 +2952,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					// display powers over 9 as unicode superscript
 					try {
 						int i = Integer.parseInt(rightStr);
-						exponent(sb, i);
+						StringUtil.numberToIndex(i, sb);
 					} catch (RuntimeException e) {
 						sb.append('^');
 						sb.append(rightStr);
@@ -2999,57 +2999,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		sb.append(leftBracket());
 		sb.append(leftStr);
 		sb.append(rightBracket());
-	}
-
-	private static void exponent(StringBuilder sb, int i0) {
-		int i = i0;
-		String index = "";
-		if (i < 0) {
-			sb.append('\u207B'); // superscript minus sign
-			i = -i;
-		}
-
-		if (i == 0) {
-			sb.append('\u2070'); // zero
-		} else {
-			while (i > 0) {
-				switch (i % 10) {
-				default:
-				case 0:
-					index = "\u2070" + index;
-					break;
-				case 1:
-					index = "\u00b9" + index;
-					break;
-				case 2:
-					index = "\u00b2" + index;
-					break;
-				case 3:
-					index = "\u00b3" + index;
-					break;
-				case 4:
-					index = "\u2074" + index;
-					break;
-				case 5:
-					index = "\u2075" + index;
-					break;
-				case 6:
-					index = "\u2076" + index;
-					break;
-				case 7:
-					index = "\u2077" + index;
-					break;
-				case 8:
-					index = "\u2078" + index;
-					break;
-				case 9:
-					index = "\u2079" + index;
-					break;
-				}
-				i = i / 10;
-			}
-		}
-		sb.append(index);
 	}
 
 	/**
