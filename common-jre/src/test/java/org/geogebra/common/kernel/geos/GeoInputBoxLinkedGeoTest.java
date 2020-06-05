@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -30,6 +32,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		updateInput("GeoGebra Really Rocks");
 		t("txt", "GeoGebra Really Rocks");
 		hasType("txt", GeoClass.TEXT);
+	}
+
+	@Test
+	public void shouldShowNewlineQuotesForText() {
+		setupInput("txt", "\"GeoGebra\\\\nRocks\"");
+		assertEquals("GeoGebra\\\\nRocks", inputBox.getText());
+		updateInput("GeoGebra\\\\nReally\\\\nRocks");
+		t("txt", "GeoGebra\nReally\nRocks");
 	}
 
 	@Test
