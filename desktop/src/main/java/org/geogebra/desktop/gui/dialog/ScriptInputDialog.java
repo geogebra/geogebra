@@ -13,11 +13,11 @@ package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
@@ -81,8 +81,9 @@ public class ScriptInputDialog extends InputDialogD
 		if (forceJavaScript) {
 			languageSelector.setSelectedIndex(1);
 			languageSelector.setEnabled(false);
-			model.setScriptType(ScriptType.JAVASCRIPT);
 		}
+		btPanel.removeAll();
+		btPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		btPanel.add(languageSelector, 0);
 
 		centerPanel.add(inputPanel, BorderLayout.CENTER);
@@ -117,62 +118,33 @@ public class ScriptInputDialog extends InputDialogD
 
 	}
 
-	public JPanel getInputPanel() {
-		return inputPanel;
-	}
-
-	public JButton getApplyButton() {
-		return btApply;
-	}
-
 	private void processInput(AsyncOperation<Boolean> callback) {
-		model.processInput(inputPanel.getText(), callback);
+		ScriptType type = ScriptType.values()[languageSelector
+				.getSelectedIndex()];
+		model.processInput(inputPanel.getText(), type, callback);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
-
 		try {
-			if (source == btOK || source == inputPanel.getTextComponent()) {
+			processInput(new AsyncOperation<Boolean>() {
 
-				processInput(new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean finished) {
-						if (wrappedDialog.isShowing()) {
-							// text dialog window is used and open
-							setVisible(!finished);
-						} else {
-							// text input field embedded in properties window
-							model.setGeo(model.getGeo());
-						}
-
+				@Override
+				public void callback(Boolean finished) {
+					if (wrappedDialog.isShowing()) {
+						// text dialog window is used and open
+						setVisible(!finished);
+					} else {
+						// text input field embedded in properties window
+						model.setGeo(model.getGeo());
 					}
-				});
-
-			} else if (source == btCancel) {
-				if (wrappedDialog.isShowing()) {
-					setVisible(false);
-				} else {
-					model.setGeo(model.getGeo());
 				}
-			} else if (source == languageSelector) {
-				// setJSMode(languageSelector.getSelectedIndex()==1);
-				model.setScriptType(ScriptType.values()[languageSelector
-						.getSelectedIndex()]);
-			}
+			});
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
 			ex.printStackTrace();
 		}
 	}
-
-	// private void setJSMode(boolean flag){
-	// javaScript = flag;
-	// ((GeoGebraEditorPane) inputPanel.getTextComponent()).setEditorKit(flag ?
-	// "javascript":"geogebra");
-	// }
 
 	/**
 	 * Inserts geo into text and creates the string for a dynamic text, e.g.
@@ -222,39 +194,27 @@ public class ScriptInputDialog extends InputDialogD
 
 	@Override
 	public void updateFonts() {
-
 		super.updateFonts();
 
 		Font font = app.getPlainFont();
 		languageSelector.setFont(font);
-
 	}
 
 	@Override
-	public void setInputText(String text0) {
+	public void setInput(String text0, ScriptType type) {
 		String text = text0;
 
-		if (model.getScriptType() == ScriptType.JAVASCRIPT) {
+		if (type == ScriptType.JAVASCRIPT) {
 			text = JavaScriptBeautifier.format(text);
 		}
 		inputPanel.getTextComponent().setText(text);
 
-	}
-
-	@Override
-	public String getInputText() {
-		return inputPanel.getTextComponent().getText();
-	}
-
-	@Override
-	public void setLanguageIndex(int index, String name) {
 		GeoGebraEditorPane editor = (GeoGebraEditorPane) inputPanel
 				.getTextComponent();
 		editor.getDocument().removeDocumentListener(this);
-		languageSelector.setSelectedIndex(index);
-		editor.setEditorKit(name);
+		languageSelector.setSelectedIndex(type.ordinal());
+		editor.setEditorKit(type.getXMLName());
 		editor.getDocument().addDocumentListener(this);
-
 	}
 
 	public void setGeo(GeoElement button) {

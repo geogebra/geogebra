@@ -135,11 +135,6 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public boolean hasScientificKeyboard() {
-		return false;
-	}
-
-	@Override
 	public boolean isEnableStructures() {
 		return true;
 	}
@@ -260,8 +255,8 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public boolean isShowingErrorDialogForInputBox() {
-		return false;
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.GRAPHING;
 	}
 
     @Override

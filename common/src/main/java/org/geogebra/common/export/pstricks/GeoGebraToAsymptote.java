@@ -992,12 +992,12 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected void drawText(GeoText geo) {
 		boolean isLatex = geo.isLaTeX();
-		String st = geo.getTextString();
+		String st = geo.getTextStringSafe();
 		if (isLatex) {
 			st = StringUtil.toLaTeXString(st, true);
 		}
 		// try to replace euro symbol
-		if (st.indexOf("\u20ac") != -1) {
+		if (st.contains("\u20ac")) {
 			st = st.replace("\\u20ac", "\\\\euro{}");
 			if (!eurosym) {
 				codePreamble.append("usepackage(\"eurosym\"); ");

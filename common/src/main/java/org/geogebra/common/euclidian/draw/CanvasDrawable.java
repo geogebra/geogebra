@@ -363,14 +363,6 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	/**
-	 * @param show
-	 *            whether to show or hide the widget
-	 */
-	public void setWidgetVisible(boolean show) {
-		// only for InputBox
-	}
-
-	/**
 	 * @return hit rectangle
 	 */
 	public GRectangle getHitRect() {
