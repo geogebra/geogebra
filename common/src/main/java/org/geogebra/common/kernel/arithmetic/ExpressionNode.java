@@ -3728,11 +3728,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private boolean hasSimpleNumbers() {
-		if (isRightPiOrE()) {
-			return false;
-		}
-
-		return areLeftAndRightNumbers() && isLeftOrRightSpecial();
+		return areLeftAndRightNumbers() && isLeftOrRightSpecial() && !isRightPiOrE();
 	}
 
 	private boolean isRightPiOrE() {
