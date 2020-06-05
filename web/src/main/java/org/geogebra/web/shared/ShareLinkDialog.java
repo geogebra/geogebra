@@ -167,7 +167,8 @@ public class ShareLinkDialog extends DialogBoxW {
 					+ " style=\"border: 1px solid #e4e4e4;border-radius: 4px;\""
 					+ " frameborder=\"0\"></iframe>";
 			this.app.copyTextToSystemClipboard(code);
-			ToolTipManagerW.sharedInstance().showBottomMessage("CopiedToClipboard", true, appW);
+			ToolTipManagerW.sharedInstance().showBottomMessage(
+					localize("CopiedToClipboard"), true, appW);
 		}
 	}
 
