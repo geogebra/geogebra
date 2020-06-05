@@ -2777,7 +2777,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// support for sin^2(x)
 			if ((stringType.equals(StringType.LATEX) || stringType.equals(StringType.GEOGEBRA))
-					&& left.isExpressionNode() && isTrigFunction((ExpressionNode) left)) {
+					&& left.isExpressionNode() && isTrigFunction((ExpressionNode) left)
+					&& right.isConstant()) {
 				boolean latex = stringType.equals(StringType.LATEX);
 
 				double indexD = right.evaluateDouble();
@@ -2785,7 +2786,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// only positive integers
 				// sin^-1(x) is arcsin
 				// sin^-2(x) not standard notation
-				if (indexD > 0 && DoubleUtil.isInteger(indexD) && right.isConstant()) {
+				if (indexD > 0 && DoubleUtil.isInteger(indexD)) {
 					int index = (int) Math.round(indexD);
 					String leftStrTrimmed = leftStr.trim();
 
