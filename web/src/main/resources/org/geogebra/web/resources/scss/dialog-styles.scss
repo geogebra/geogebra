@@ -74,19 +74,26 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	}
 
 	/* image tool dialog */
-	.MaterialDialogBox.image {
+	.dialogComponent.image {
 		.gwt-Label:hover {
-			color: $teal-default;
+			color: $purple-default;
+			cursor: pointer;
 		}
 
 		.gwt-Label-highlighted {
-			color: $teal-default;
-			cursor: pointer;
+			color: $purple-default;
+
+			&:hover {
+			    cursor: default;
+			}
 		}
 	}
 
 	/* checkbox tool dialog */
-	.MaterialDialogBox.Checkbox {
+	.dialogComponent.Checkbox {
+	    max-width: 391px;
+	    max-height: 438px;
+
 		.gwt-ListBox {
 			margin-right: 16px;
 			width: calc(100% - 16px) !important;
@@ -94,15 +101,16 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 		.panelTitle {
   	  		margin-right: 16px;
-    		color: $teal-default;
     		display: block;
     		cursor: default;
-    		border-bottom: 1px solid $teal-light;
 		}
 	}
 
 	/* button tool dialog*/
-	.MaterialDialogBox.buttonDialog {
+	.dialogComponent.buttonDialog {
+	    max-width: 448px;
+	    max-height: 444px;
+
 		.scriptArea {
 			margin-right: 16px;
 			border-radius: 2px;
@@ -115,16 +123,25 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		}
 	}
 
-	.dialogComponent.RecoverAutoSavedDialog {
-	    max-width: 450px;
-	    max-height: 174px;
+	.dialogComponent.inputboxDialog {
+	    max-width: 430px;
+	    max-height: 250px;
 
-        .infoText {
-			font-size: 100%;
-			margin-bottom: 24px;
-			color: $text-secondary;
-		}
+        .AutoCompleteTextFieldW {
+	        max-width: 382px;
+	    }
 	}
+
+	.dialogComponent.RecoverAutoSavedDialog {
+    	    max-width: 450px;
+    	    max-height: 174px;
+
+            .infoText {
+    			font-size: 100%;
+    			margin-bottom: 24px;
+    			color: $text-secondary;
+    		}
+    }
 
 	.dialogComponent.GeoGebraFileChooser {
 	    max-width: 530px;
@@ -287,7 +304,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
         }
     }
 
-	.MaterialDialogBox {
+	.MaterialDialogBox, .dialogComponent {
 		z-index: 501;
 		background-color: $white;
 		border-radius: 2px;
@@ -364,14 +381,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			.gwt-Label {
     			margin-top: 0px;
 			}
-
 		}
 
    		.gwt-TabBar {
    			.gwt-Label {
    				font-size: 100% !important;
 			}
-
    		}
 
    		.gwt-TabBar .gwt-TabBarItem-selected {
@@ -451,6 +466,24 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
    			@extend .flatDialogBtn;
    			float: right;
    		}
+	}
+
+	.dialogComponent {
+	    padding: 0px;
+
+        .coloredLabel {
+            color: $mow-primary;
+        }
+
+	    :not(.textField)>.AutoCompleteTextFieldW,
+	        .sliderIntervalPanel .gwt-TextBox {
+	        // ignore this for now, we need new design
+            border-bottom: 1px solid $mow-primary !important;
+        }
+
+        .gwt-Label-highlighted {
+            color: $toolbar-header;
+        }
 	}
 
    	.dialogComponent.removeMaterial {
@@ -673,28 +706,17 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
    		}
    }
 
-	.pdfDialog {
-		max-width: 474px;
-		max-height: 522px;
+	.dialogComponent.pdfDialog {
+		max-width: 506px;
+		max-height: 546px;
 		width: 80%;
 		height: 94%;
 
-		.pdfDialogMainPanel {
-			height: 100%;
-		}
+        .dialogContent {
+            height: calc(100% - 116px);
+            margin-bottom: 24px;
+        }
 
-		.pdfDialogTable {
-			height: 100%;
-			width: 100%;
-		}
-
-		.dialogMiddle {
-			height: 100%;
-		}
-
-		.dialogMiddleCenterInner.dialogContent {
-			height: 100%;
-		}
 
 		 .pdfDialogContent {
 			height: 100%;
@@ -822,7 +844,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 						text-align: center;
 						font-size: 100%;
 						padding: 0px;
+						box-shadow: none;
+                        border: none;
 						border-radius: 0px;
+						border-bottom: 1px solid $black-42;
 					}
 
 					&.default {
@@ -1225,34 +1250,21 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 *   WEBCAM DIALOGS: permission dialog + camera dialog
 *****************************************************/
 	.mowPermissionDialog{
-		width: calc(100% - 80px);
-   		min-width: 250px;
-   		max-width: 476px; // 500px - (8px + 16px) padding
-   		max-height: calc(100% - 48px);
-		.Caption{
-			margin-right: 16px;
-		}
+   		max-width: 500px;
+   		max-height: 177px;
 		.gwt-Label{
 			margin-top: 0px !important;
-			margin-right: 16px;
 		}
-		button {
-   			color: $mow_dark !important;
-   		}
    		&.narrowDialog {
 			max-width: 376px; // 400px - (8px + 16px) padding
 			width: fit-content;
 		}
-		&.noButtons {
-			.gwt-Label{
-				padding-bottom: 32px;
-			}
-		}
 	}
 
-	.MaterialDialogBox.camera {
-		max-width: 80%;
-		max-height: 80%;
+	.dialogComponent.camera {
+		max-width: 530px;
+        max-height: 488px;
+
 		.mowCameraSimplePanel{
 			position: relative;
 			margin-left: 16px;
@@ -1269,9 +1281,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			max-height: calc(100vh - 320px);
 			position: relative;
 			text-align: center;
-		}
-		button {
-			color: $mow_dark !important;
 		}
 	}
 
@@ -1739,6 +1748,15 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
             color: $text-secondary;
             max-width: 400px;
             margin-bottom: 20px;
+        }
+    }
+
+    .dialogComponent.sliderDialog {
+        max-width: 504px;
+        max-height: 450px;
+
+        .gwt-RadioButton [type="radio"]+label {
+            padding-left: 35px;
         }
     }
 }

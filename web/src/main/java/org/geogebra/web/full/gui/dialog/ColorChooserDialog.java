@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ColorChooserDialog extends DialogBoxW
 		implements SetLabels, ClickHandler {
-
 	private ColorChooserW colorChooserW; 
 	private Button btnOk;
 	private Button btnCancel;
