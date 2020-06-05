@@ -3049,6 +3049,7 @@ __GGB__keysVar["xh"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "iiTutorials",
     "TwoVarStats": "iiVariable Regression Analysis ezimbini",
     "TwoVarStats.Help": "Hlalutya lamanani abekwe ngambini kumagumbi",

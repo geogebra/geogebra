@@ -6543,7 +6543,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (dl instanceof DrawDropDownList) {
 				((DrawDropDownList) dl).onOptionOver(event.getX(),
 						event.getY());
-				return dl.isCanvasDrawable();
+				return true;
 			}
 		}
 		return false;

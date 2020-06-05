@@ -3049,6 +3049,7 @@ __GGB__keysVar["eo"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Lerniloj",
     "TwoVarStats": "Regresianalizo en du variabloj",
     "TwoVarStats.Help": "Analyzes paired number values from two or three selected columns",

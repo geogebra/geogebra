@@ -96,15 +96,7 @@ public class AlgoZProportionTest extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
-		String testType;
-		if (tail.getTextString().equals("<")) {
-			testType = "left";
-		} else if (tail.getTextString().equals(">")) {
-			testType = "right";
-		} else if (StringUtil.isNotEqual(tail.getTextString())) {
-			testType = "two";
-		} else {
+		if (!(StringUtil.isInequality(tail.getTextString()))) {
 			result.setUndefined();
 			return;
 		}
@@ -125,15 +117,7 @@ public class AlgoZProportionTest extends AlgoElement {
 			return;
 		}
 
-		if ("right".equals(testType)) {
-			P = 1 - P;
-		} else if ("two".equals(testType)) {
-			if (testStatistic < 0) {
-				P = 2 * P;
-			} else {
-				P = 2 * (1 - P);
-			}
-		}
+		P = AlgoZMeanTest.adjustPValue(P, testStatistic, tail);
 
 		// put these results into the output list
 		result.clear();

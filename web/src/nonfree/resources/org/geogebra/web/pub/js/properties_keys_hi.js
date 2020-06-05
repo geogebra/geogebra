@@ -3049,6 +3049,7 @@ __GGB__keysVar["hi"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "\u091f\u094d\u092f\u0942\u091f\u094b\u0930\u093f\u092f\u0932",
     "TwoVarStats": "\u0926\u094b \u091a\u0930 \u092a\u094d\u0930\u0924\u093f\u0917\u092e\u0928 \u0935\u093f\u0936\u094d\u0932\u0947\u0937\u0923",
     "TwoVarStats.Help": "\u091a\u092f\u0928\u093f\u0924 \u0938\u0947\u0932\u094b\u0902 \u0938\u0947 \u092f\u0941\u0917\u094d\u092e\u093f\u0924 \u0938\u0902\u0916\u094d\u092f\u093e \u092e\u093e\u0928\u094b\u0902 \u0915\u093e \u0935\u093f\u0936\u094d\u0932\u0947\u0937\u0923",

@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
@@ -39,6 +40,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.GPredicate;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -571,8 +573,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	protected void closeLabelPopup() {
-		if (getLabelPopup().getMyPopup().isShowing()) {
-			getLabelPopup().getMyPopup().hide();
+		if (btnLabel != null && btnLabel.getMyPopup().isShowing()) {
+			btnLabel.getMyPopup().hide();
 		}
 	}
 
@@ -953,7 +955,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					for (GeoElement geoElement : geos) {
 						GeoElement geo = geoElement
 								.getGeoElementForPropertiesDialog();
-						if (geo instanceof TextStyle || geo.isGeoAudio()
+						if (hasTextColor(geo) || geo.isGeoAudio()
 								|| geo.isGeoVideo() || geo instanceof GeoEmbed) {
 							geosOK = false;
 							break;
@@ -1142,17 +1144,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 			@Override
 			public void update(List<GeoElement> geos) {
-
-				boolean geosOK = geos.size() > 0;
-				for (GeoElement geoElement : geos) {
-					GeoElement geo = geoElement
-							.getGeoElementForPropertiesDialog();
-					if (!(geo instanceof TextProperties)) {
-						geosOK = false;
-						break;
-					}
-				}
-
+				boolean geosOK = checkGeos(geos, geo -> geo instanceof TextProperties);
 				super.setVisible(geosOK);
 
 				if (geosOK) {
@@ -1200,13 +1192,17 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnTextBgColor.addPopupHandler(this);
 	}
 
+	public boolean hasTextColor(GeoElement geoElement) {
+		return geoElement instanceof TextStyle || geoElement instanceof GeoFormula;
+	}
+
 	private void createTextColorBtn() {
 		btnTextColor = new ColorPopupMenuButton(app,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 			@Override
 			public void update(List<GeoElement> geos) {
-				boolean geosOK = checkGeoText(geos);
+				boolean geosOK = checkGeos(geos, EuclidianStyleBarW.this::hasTextColor);
 				super.setVisible(geosOK);
 				if (geosOK) {
 					GeoElement geo = geos.get(0)
@@ -1238,13 +1234,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private boolean checkTextNoInputBox(List<GeoElement> geos) {
-		boolean geosOK = checkGeoText(geos);
-		for (GeoElement geo : geos) {
-			if (geo.isGeoInputBox()) {
-				return false;
-			}
-		}
-		return geosOK;
+		return checkGeos(geos, geo -> geo instanceof TextStyle && !geo.isGeoInputBox());
 	}
 
 	private void createTextBoldBtn() {
@@ -1432,9 +1422,13 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private static boolean checkGeoText(List<GeoElement> geos) {
+		return checkGeos(geos, geo -> geo instanceof TextStyle);
+	}
+
+	private static boolean checkGeos(List<GeoElement> geos, GPredicate<GeoElement> check) {
 		boolean geosOK = geos.size() > 0;
 		for (GeoElement geo : geos) {
-			if (!(geo.getGeoElementForPropertiesDialog() instanceof TextStyle)) {
+			if (!check.test(geo.getGeoElementForPropertiesDialog())) {
 				geosOK = false;
 				break;
 			}
@@ -1497,7 +1491,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
 						color, alpha);
 			}
-		} else if (source == btnTextColor) { 
+		} else if (source == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
 				if (color == null) {
@@ -1790,7 +1784,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 			this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
 			this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
 		}
-		getLabelPopup().setLabels();
+		if (btnLabel != null) {
+			btnLabel.setLabels();
+		}
 		btnLineStyle.setLabels();
 		btnColor.setLabels();
 		if (btnTextBgColor != null) {

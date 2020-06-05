@@ -949,6 +949,9 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			return resourceBundle.mode_orthogonalthreed_32();
 
+		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			return resourceBundle.mode_surface_of_revolution();
+
 		/** WHITEBOARD TOOLS */
 		case EuclidianConstants.MODE_SHAPE_LINE:
 			return resourceBundle.mode_shape_line_32();

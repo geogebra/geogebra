@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
@@ -1000,6 +1001,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		}
 		getAppletFrame()
 				.setMenuHeight(getInputPosition() == InputPosition.bottom);
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		if ("evaluator".equals(articleElement.getDataParamAppName())
+				&& "normal".equals(articleElement.getParamKeyboardType("normal"))) {
+			return AppKeyboardType.SUITE;
+		}
+		return getConfig().getKeyboardType();
 	}
 
 	@Override

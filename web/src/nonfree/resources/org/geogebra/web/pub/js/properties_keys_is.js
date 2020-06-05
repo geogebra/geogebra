@@ -3049,6 +3049,7 @@ __GGB__keysVar["is"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Kennsluefni",
     "TwoVarStats": "A\xf0hvarfsgreining tveggja breytist\xe6r\xf0a",
     "TwoVarStats.Help": "Greining \xe1 talnap\xf6rum \xed v\xf6ldum reitum",

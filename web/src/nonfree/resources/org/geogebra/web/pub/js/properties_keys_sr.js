@@ -3049,6 +3049,7 @@ __GGB__keysVar["sr"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Tutorijali",
     "TwoVarStats": "Regresiona analiza dve promenljive",
     "TwoVarStats.Help": "Analizira uparene broj\u010dane vrednosti iz odabranih \u0107elija",

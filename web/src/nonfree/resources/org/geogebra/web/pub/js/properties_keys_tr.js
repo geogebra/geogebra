@@ -3049,6 +3049,7 @@ __GGB__keysVar["tr"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "\xd6\u011freticiler",
     "TwoVarStats": "\u0130ki De\u011fi\u015fkenli Regresyon Analizi",
     "TwoVarStats.Help": "Se\xe7ili h\xfccrelerden \xe7iftli say\u0131 de\u011ferlerini incele",

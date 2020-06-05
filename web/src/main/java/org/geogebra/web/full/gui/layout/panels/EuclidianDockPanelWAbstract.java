@@ -36,7 +36,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	private ConstructionProtocolNavigationW consProtNav;
 
-	private boolean hasEuclidianFocus;
 	private boolean mayHaveZoomButtons;
 	/**
 	 * panel with home,+,-,fullscreen btns
@@ -76,21 +75,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		this.mayHaveZoomButtons = hasZoomPanel;
 	}
 
-	/**
-	 * sets this euclidian panel to have the "euclidian focus"
-	 *
-	 * @param hasFocus
-	 *            whether to focus
-	 */
-	public final void setEuclidianFocus(boolean hasFocus) {
-		hasEuclidianFocus = hasFocus;
-	}
-
-	@Override
-	protected boolean titleIsBold() {
-		return super.titleIsBold() || hasEuclidianFocus;
-	}
-
 	@Override
 	public boolean updateResizeWeight() {
 		return true;
@@ -124,11 +108,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	@Override
 	public final void updateNavigationBar() {
-		// ConstructionProtocolSettings cps = app.getSettings()
-		// .getConstructionProtocol();
-		// ((ConstructionProtocolNavigationW) consProtNav).settingsChanged(cps);
-		// cps.addListener((ConstructionProtocolNavigation)consProtNav);
-
 		if (app.getShowCPNavNeedsUpdate(id)) {
 			app.setShowConstructionProtocolNavigation(
 					app.showConsProtNavigation(id), id);

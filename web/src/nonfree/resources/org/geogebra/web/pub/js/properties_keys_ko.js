@@ -3049,6 +3049,7 @@ __GGB__keysVar["ko"].menu = {
     "TutorialGeometry": "DmVNbn2V",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "\ud29c\ud1a0\ub9ac\uc5bc",
     "TwoVarStats": "\uc774\ubcc0\ub7c9 \ud68c\uadc0\ubd84\uc11d",
     "TwoVarStats.Help": "\uc120\ud0dd\ub41c \ub458 \ub610\ub294 \uc138 \uac1c\uc758 \uc5f4\ub85c\ubd80\ud130 \uc21c\uc11c\uc30d \uc218\uce58\uac12\uc744 \ubd84\uc11d\ud558\uc138\uc694.",

@@ -3049,6 +3049,7 @@ __GGB__keysVar["gl"].menu = {
     "TutorialGeometry": "ENuC5Are",
     "TutorialGraphing": "vd6UC685",
     "TutorialScientific": "brr48aw7",
+    "TutorialSuite": "etg2rk8j",
     "Tutorials": "Titoriais",
     "TwoVarStats": "An\xe1lise de regresi\xf3n de d\xfaas variables",
     "TwoVarStats.Help": "An\xe1lise dos pares de valores num\xe9ricos das celas seleccionadas",
