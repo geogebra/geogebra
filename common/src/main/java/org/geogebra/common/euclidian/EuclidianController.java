@@ -8176,7 +8176,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (view.getHits().isEmpty()) {
 				geo = null;
 			} else {
-				geo = viewHits.get(viewHits.size() - 1);
+				geo = getNotesTopHit();
 			}
 		}
 
@@ -9822,6 +9822,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return draggingOccured && draggingBeyondThreshold;
 	}
 
+	private GeoElement getNotesTopHit() {
+		GeoElement topHit = view.getHits().get(0);
+		for (GeoElement geo : view.getHits()) {
+			if (priorityComparator.compare(geo, topHit, false) > 0) {
+				topHit = geo;
+			}
+		}
+
+		return topHit;
+	}
+
 	private void handleMowSelectionRelease() {
 		if (view.getHits().isEmpty()) {
 			clearSelections();
@@ -9830,7 +9841,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		GeoElement topHit = view.getHits().get(view.getHits().size() - 1);
+		GeoElement topHit = getNotesTopHit();
 
 		if (!draggingOccured) {
 			selection.clearSelectedGeos(false, false);
