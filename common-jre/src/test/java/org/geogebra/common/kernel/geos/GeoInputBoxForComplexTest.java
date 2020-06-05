@@ -9,7 +9,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoInputBoxForComplexTest extends BaseUnitTest {
 
-	public static final String IMAGINARY_UNIT = String.valueOf(Unicode.IMAGINARY);
+	public static final String IMAGINARY_UNIT = "i";
 
 	@Test
 	public void rootOfMinusOneShouldBeImaginaryWithComplexNumber() {
@@ -33,5 +33,71 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 		GeoInputBox inputBox = addAvInput("ib = InputBox(z_1)");
 		inputBox.updateLinkedGeo(updatedText);
 		assertEquals(expected, inputBox.getText());
+	}
+
+	@Test
+	public void testImaginaryShouldRenderedAsRegularI() {
+		GeoInputBox inputBox = withComplexLinkedGeo();
+		assertEquals("3 + 2 \\; i", inputBox.getText());
+	}
+
+	protected GeoInputBox withComplexLinkedGeo() {
+		add("z_1 = 3+2i");
+		GeoInputBox inputBox = add("InputBox(z_1)");
+		inputBox.setSymbolicMode(true);
+		return inputBox;
+	}
+
+	@Test
+	public void testImaginaryShouldEditedAsRegularI() {
+		GeoInputBox inputBox = withComplexLinkedGeo();
+		assertEquals("3+2 i", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void testOnUpdateImaginaryShouldBeUsed() {
+		GeoInputBox inputBox = withComplexLinkedGeo();
+		inputBox.updateLinkedGeo("4 + 5" + Unicode.IMAGINARY);
+		assertEquals("4 + 5 \\; i", inputBox.getText());
+		assertEquals("4+5 i", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void capitalIShouldBeSmallIWhenComplex() {
+		GeoInputBox inputBox = withComplexLinkedGeo();
+		inputBox.updateLinkedGeo("4+5I");
+		assertEquals("4 + 5 \\; i", inputBox.getText());
+	}
+
+	@Test
+	public void formulaTextShouldUseRegularIWhenComplex() {
+		GeoInputBox inputBox = withComplexLinkedGeo();
+		GeoText text = add("FormulaText[InputBox1]");
+		assertEquals("3 + 2 \\; i", text.getTextString());
+	}
+
+	@Test
+	public void inputBoxPlusStringShouldUseImaginaryWhenComplex() {
+		GeoInputBox inputBox = withComplexLinkedGeo();
+		GeoText text = add("InputBox1 + \"\"");
+		assertEquals("3 + 2" + Unicode.IMAGINARY, text.getTextString());
+	}
+
+	@Test
+	public void formulaTextOnePlusIShouldUseRegularI() {
+		GeoText text = add("FormulaText(1+" + Unicode.IMAGINARY + ")");
+		assertEquals("1 + i", text.getTextString());
+	}
+
+	@Test
+	public void addOnePlusIShouldUseImaginary() {
+		GeoText text = add("(1 + " + Unicode.IMAGINARY + ") + \"\"");
+		assertEquals("(1 + " + Unicode.IMAGINARY + ")", text.getTextString());
+	}
+
+	@Test
+	public void textOnePlusIShouldUseImaginary() {
+		GeoText text = add("Text(1+" + Unicode.IMAGINARY + ")");
+		assertEquals("1 + " + Unicode.IMAGINARY, text.getTextString());
 	}
 }

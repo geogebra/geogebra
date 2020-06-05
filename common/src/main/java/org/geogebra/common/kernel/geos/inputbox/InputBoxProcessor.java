@@ -118,6 +118,11 @@ public class InputBoxProcessor {
 			defineText = linkedGeo.getLabel(tpl) + "("
 					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
 		}
+
+		if (isComplexNumber()) {
+			defineText = defineText.replace('I', 'i');
+		}
+
 		return defineText;
 	}
 
