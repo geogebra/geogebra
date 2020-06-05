@@ -2774,64 +2774,35 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		} else {
 			StringBuilder sb = new StringBuilder();
-			// everything else
-
-			boolean finished = false;
 
 			// support for sin^2(x)
 			if ((stringType.equals(StringType.LATEX) || stringType.equals(StringType.GEOGEBRA))
-					&& left.isExpressionNode()) {
-				switch (((ExpressionNode) left).getOperation()) {
-				// #1592
-				case SIN:
-				case COS:
-				case TAN:
-				case SEC:
-				case CSC:
-				case COT:
-				case SINH:
-				case COSH:
-				case TANH:
-				case SECH:
-				case CSCH:
-				case COTH:
+					&& left.isExpressionNode() && isTrigFunction((ExpressionNode) left)) {
+				boolean latex = stringType.equals(StringType.LATEX);
 
-					boolean latex = stringType.equals(StringType.LATEX);
+				double indexD = right.evaluateDouble();
 
-					double indexD = right.evaluateDouble();
+				// only positive integers
+				// sin^-1(x) is arcsin
+				// sin^-2(x) not standard notation
+				if (indexD > 0 && DoubleUtil.isInteger(indexD) && right.isConstant()) {
 					int index = (int) Math.round(indexD);
+					String leftStrTrimmed = leftStr.trim();
 
-					// only positive integers
-					// sin^-1(x) is arcsin
-					// sin^-2(x) not standard notation
-					if (index > 0 && DoubleUtil.isInteger(indexD)) {
+					int spaceIndex = leftStrTrimmed.indexOf(latex ? ' ' : '(');
+					sb.append(leftStrTrimmed, 0, spaceIndex);
 
-						String leftStrTrimmed = leftStr.trim();
-
-						int spaceIndex = leftStrTrimmed.trim().indexOf(latex ? ' ' : '(');
-						sb.append(leftStrTrimmed.substring(0, spaceIndex));
-
-						if (latex) {
+					if (latex) {
 						sb.append(" ^{");
 						sb.append(rightStr);
 						sb.append("}");
-						} else {
+					} else {
 						// alternative using Unicode
-							sb.append(StringUtil.numberToIndex(index));
-						}
-						// everything except the "\\sin " or "sin"
-						sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
-
-						finished = true;
-
-						break;
+						sb.append(StringUtil.numberToIndex(index));
 					}
+					// everything except the "\\sin " or "sin"
+					sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
 
-				default:
-					// fall through
-				}
-
-				if (finished) {
 					return sb.toString();
 				}
 			}
@@ -2993,6 +2964,26 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 			}
 			return sb.toString();
+		}
+	}
+
+	private boolean isTrigFunction(ExpressionNode expr) {
+		switch (expr.getOperation()) {
+		case SIN:
+		case COS:
+		case TAN:
+		case SEC:
+		case CSC:
+		case COT:
+		case SINH:
+		case COSH:
+		case TANH:
+		case SECH:
+		case CSCH:
+		case COTH:
+			return true;
+		default:
+			return false;
 		}
 	}
 
