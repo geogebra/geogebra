@@ -3728,20 +3728,19 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private boolean hasSimpleNumbers() {
-		if (hasPiOrE(getLeft()) || hasPiOrE(getRight())) {
+		if (isRightPiOrE()) {
 			return false;
 		}
 
 		return areLeftAndRightNumbers() && isLeftOrRightSpecial();
 	}
 
-	private boolean hasPiOrE(ExpressionValue expressionValue) {
-		if (expressionValue == null) {
+	private boolean isRightPiOrE() {
+		if (getRight() == null) {
 			return false;
 		}
 
-		ExpressionNode node = expressionValue.wrap();
-		double value = node.evaluateDouble();
+		double value = getRight().evaluateDouble();
 		return DoubleUtil.isEqual(value, Math.PI) || DoubleUtil.isEqual(value, Math.E);
 	}
 
