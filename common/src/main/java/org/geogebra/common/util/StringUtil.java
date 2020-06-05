@@ -1718,7 +1718,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @param power superscript power
 	 * @return value
 	 */
-	public static int indexToNumber(String power){
+	public static int indexToNumber(String power) {
 		int sign = 1;
 		int start = 0;
 		if (power.charAt(0) == Unicode.SUPERSCRIPT_MINUS) {

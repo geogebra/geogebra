@@ -126,13 +126,12 @@ public class StringUtilTest {
 
 	@Test
 	public void testIndexToNumber() {
-		assertEquals(27, StringUtil.indexToNumber( "" + Unicode.SUPERSCRIPT_2
+		assertEquals(27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_2
 						+ Unicode.SUPERSCRIPT_7));
 		assertEquals(-27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_MINUS
 						+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7));
 		assertEquals(0, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_0));
 	}
-
 
 	private static void compatibleNewlines(String in, String out) {
 		assertEquals(out, StringUtil.newlinesToHTML(in));
