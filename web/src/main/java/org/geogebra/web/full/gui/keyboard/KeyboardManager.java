@@ -17,7 +17,6 @@ import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
@@ -199,18 +198,8 @@ public class KeyboardManager
 			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
 					&& !shouldDetach();
 			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app,
-					keyboardIsScientific(),
 					showMoreButton);
 		}
-	}
-
-	private boolean keyboardIsScientific() {
-		ArticleElementInterface articleElement = app.getArticleElement();
-		if ("evaluator".equals(articleElement.getDataParamAppName())) {
-			return "scientific"
-					.equals(articleElement.getParamKeyboardType("normal"));
-		}
-		return app.getConfig().hasScientificKeyboard();
 	}
 
 	@Override
