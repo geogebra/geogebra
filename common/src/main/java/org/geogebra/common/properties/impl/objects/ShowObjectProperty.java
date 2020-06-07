@@ -22,7 +22,6 @@ public class ShowObjectProperty extends AbstractGeoElementProperty implements Bo
         GeoElement element = getElement();
         element.setEuclidianVisible(show);
         element.updateRepaint();
-        element.getApp().setPropertiesOccured();
     }
 
     @Override

@@ -34,7 +34,6 @@ public class NameProperty extends AbstractGeoElementProperty implements StringPr
                 element.setAlgebraLabelVisible(true);
                 element.getKernel().notifyUpdate(element);
                 element.updateRepaint();
-                app.setPropertiesOccured();
             }
         } catch (MyError e) {
             app.showError(e.getLocalizedMessage());

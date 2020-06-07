@@ -38,7 +38,6 @@ public class CaptionStyleProperty extends AbstractGeoElementProperty implements 
         element.setLabelMode(captionStyle);
         element.setLabelVisible(captionStyle != LABEL_HIDDEN);
         element.updateRepaint();
-        element.getApp().setPropertiesOccured();
     }
 
     @Override

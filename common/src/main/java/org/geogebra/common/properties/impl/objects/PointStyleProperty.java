@@ -42,7 +42,6 @@ public class PointStyleProperty
         if (element instanceof PointProperties) {
             ((PointProperties) element).setPointStyle(pointStyle);
             element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
-            element.getApp().setPropertiesOccured();
         }
     }
 

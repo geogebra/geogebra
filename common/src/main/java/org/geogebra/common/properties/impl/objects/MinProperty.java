@@ -23,7 +23,6 @@ public class MinProperty extends RangelessDecimalProperty {
     public void setValue(Double value) {
         GeoNumeric numeric = getElement();
         numeric.setIntervalMin(value);
-        numeric.getApp().setPropertiesOccured();
     }
 
     @Override

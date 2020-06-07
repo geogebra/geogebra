@@ -40,7 +40,6 @@ public class PointSizeProperty
         GeoElement element = getElement();
         setSize(element, size);
         element.updateRepaint();
-        element.getApp().setPropertiesOccured();
     }
 
     private void setSize(GeoElement element, int size) {

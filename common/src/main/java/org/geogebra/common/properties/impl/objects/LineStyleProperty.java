@@ -37,7 +37,6 @@ public class LineStyleProperty
         GeoElement element = getElement();
         element.setLineType(style);
         element.updateVisualStyleRepaint(GProperty.LINE_STYLE);
-        element.getApp().setPropertiesOccured();
     }
 
     @Override

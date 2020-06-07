@@ -25,7 +25,6 @@ public class ShowInAVProperty extends AbstractGeoElementProperty implements Bool
         element.updateRepaint();
 
         App app = element.getApp();
-        app.setPropertiesOccured();
         app.updateGuiForShowAuxiliaryObjects();
     }
 

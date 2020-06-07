@@ -23,7 +23,6 @@ public class MaxProperty extends RangelessDecimalProperty {
     public void setValue(Double value) {
         GeoNumeric numeric = getElement();
         numeric.setIntervalMax(value);
-        numeric.getApp().setPropertiesOccured();
     }
 
     @Override

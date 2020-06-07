@@ -23,7 +23,6 @@ public class StepProperty extends RangelessDecimalProperty {
     public void setValue(Double value) {
         GeoNumeric numeric = getElement();
         numeric.setAnimationStep(value);
-        numeric.getApp().setPropertiesOccured();
     }
 
     @Override

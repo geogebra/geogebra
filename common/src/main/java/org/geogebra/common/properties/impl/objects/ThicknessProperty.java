@@ -35,7 +35,6 @@ public class ThicknessProperty
         GeoElement element = getElement();
         setThickness(element, size);
         element.updateRepaint();
-        element.getApp().setPropertiesOccured();
     }
 
     private void setThickness(GeoElement element, int size) {

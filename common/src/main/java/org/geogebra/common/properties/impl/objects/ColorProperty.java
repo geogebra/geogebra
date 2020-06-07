@@ -32,7 +32,6 @@ public class ColorProperty extends AbstractGeoElementProperty {
         App app = element.getApp();
         EuclidianStyleBarStatic.applyColor(
                 color, element.getAlphaValue(), app, app.getSelectionManager().getSelectedGeos());
-        app.setPropertiesOccured();
     }
 
     @Override

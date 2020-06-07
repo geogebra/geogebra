@@ -39,7 +39,6 @@ public class OpacityProperty
         double alpha = opacity / 100.0;
         EuclidianStyleBarStatic.applyColor(
                 element.getObjectColor(), alpha, app, app.getSelectionManager().getSelectedGeos());
-        app.setPropertiesOccured();
     }
 
     @Override

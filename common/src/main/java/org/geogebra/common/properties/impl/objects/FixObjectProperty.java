@@ -24,7 +24,6 @@ public class FixObjectProperty extends AbstractGeoElementProperty implements Boo
     public void setValue(boolean fixObject) {
         GeoElement element = getElement();
         element.setFixed(fixObject);
-        element.getApp().setPropertiesOccured();
     }
 
     @Override

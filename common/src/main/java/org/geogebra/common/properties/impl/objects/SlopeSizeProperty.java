@@ -36,7 +36,6 @@ public class SlopeSizeProperty
         GeoNumeric slope = getElement();
         slope.setSlopeTriangleSize(value);
         slope.updateVisualStyleRepaint(GProperty.COMBINED);
-        slope.getApp().setPropertiesOccured();
     }
 
     @Override
