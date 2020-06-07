@@ -7,9 +7,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.properties.BooleanProperty;
 import org.geogebra.common.properties.EnumerableProperty;
-import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.IconsEnumerableProperty;
 import org.geogebra.common.properties.NumericProperty;
+import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.ColorPropertyCollection;
@@ -26,8 +26,8 @@ public class GeoElementProperties {
     /**
      * @return The list of properties for the GeoElement(s)
      */
-    public static List<GeoElementProperty> getProperties(List<GeoElement> elements) {
-        List<GeoElementProperty> properties = new ArrayList<>();
+    public static List<Property> getProperties(List<GeoElement> elements) {
+        List<Property> properties = new ArrayList<>();
         addPropertyIfNotNull(properties, createMinProperty(elements));
         addPropertyIfNotNull(properties, createMaxProperty(elements));
         addPropertyIfNotNull(properties, createStepProperty(elements));
@@ -47,8 +47,7 @@ public class GeoElementProperties {
         return properties;
     }
 
-    private static void addPropertyIfNotNull(
-            List<GeoElementProperty> properties, GeoElementProperty property) {
+    private static void addPropertyIfNotNull(List<Property> properties, Property property) {
         if (property != null) {
             properties.add(property);
         }

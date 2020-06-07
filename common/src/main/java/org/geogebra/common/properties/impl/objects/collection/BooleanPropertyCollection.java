@@ -3,52 +3,42 @@ package org.geogebra.common.properties.impl.objects.collection;
 import java.util.Collection;
 
 import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.GeoElementProperty;
-import org.geogebra.common.properties.Property;
 
 /**
  * Handles a collection of BooleanProperty objects as a single BooleanProperty.
  */
-public class BooleanPropertyCollection implements BooleanProperty, GeoElementProperty {
+public class BooleanPropertyCollection
+		extends AbstractPropertyCollection<BooleanProperty, Boolean> implements BooleanProperty {
 
-    private Collection<? extends BooleanProperty> propertyCollection;
-    private BooleanProperty property;
+	/**
+	 * @param propertyCollection properties to handle
+	 */
+	public BooleanPropertyCollection(Collection<? extends BooleanProperty> propertyCollection) {
+		super(propertyCollection.toArray(new BooleanProperty[0]));
+	}
 
-    /**
-     * @param propertyCollection properties to handle
-     */
-    public BooleanPropertyCollection(Collection<? extends BooleanProperty> propertyCollection) {
-        this.propertyCollection = propertyCollection;
-        property = propertyCollection.iterator().next();
-    }
+	@Override
+	Boolean getPropertyValue(BooleanProperty property) {
+		return property.getValue();
+	}
 
-    @Override
-    public boolean getValue() {
-        boolean value = true;
-        for (BooleanProperty property : propertyCollection) {
-            value = value && property.getValue();
-        }
-        return value;
-    }
+	@Override
+	protected Boolean defaultValue() {
+		return false;
+	}
 
-    @Override
-    public void setValue(boolean value) {
-        for (BooleanProperty property : propertyCollection) {
-            property.setValue(value);
-        }
-    }
+	@Override
+	public boolean getValue() {
+		return reduceValue();
+	}
 
-    @Override
-    public String getName() {
-        return property.getName();
-    }
+	@Override
+	protected void setPropertyValue(BooleanProperty property, Boolean value) {
+		property.setValue(value);
+	}
 
-    @Override
-    public boolean isEnabled() {
-        boolean isEnabled = true;
-        for (Property property : propertyCollection) {
-            isEnabled = isEnabled && property.isEnabled();
-        }
-        return isEnabled;
-    }
+	@Override
+	public void setValue(boolean value) {
+		setProperties(value);
+	}
 }

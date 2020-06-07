@@ -2,58 +2,52 @@ package org.geogebra.common.properties.impl.objects.collection;
 
 import java.util.Collection;
 
-import org.geogebra.common.properties.GeoElementProperty;
-import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.StringProperty;
 
 /**
  * Handles a collection of StringProperty objects as a single StringProperty.
  */
-public class StringPropertyCollection implements StringProperty, GeoElementProperty {
-
-    private Collection<? extends StringProperty> propertyCollection;
-    private StringProperty property;
+public class StringPropertyCollection
+        extends AbstractPropertyCollection<StringProperty, String> implements StringProperty {
 
     /**
      * @param propertyCollection properties to handle
      */
     public StringPropertyCollection(Collection<? extends StringProperty> propertyCollection) {
-        this.propertyCollection = propertyCollection;
-        property = propertyCollection.iterator().next();
+        super(propertyCollection.toArray(new StringProperty[0]));
     }
 
     @Override
     public String getValue() {
-        return property.getValue();
+        return reduceValue();
     }
 
     @Override
     public void setValue(String value) {
-        for (StringProperty property : propertyCollection) {
-            property.setValue(value);
-        }
+        setProperties(value);
     }
 
     @Override
     public boolean isValid(String value) {
         boolean isValid = true;
-        for (Property property : propertyCollection) {
-            isValid = isValid && property.isEnabled();
+        for (StringProperty property : properties) {
+            isValid = isValid && property.isValid(value);
         }
         return isValid;
     }
 
     @Override
-    public String getName() {
-        return property.getName();
+    String defaultValue() {
+        return "";
     }
 
     @Override
-    public boolean isEnabled() {
-        boolean isEnabled = true;
-        for (Property property : propertyCollection) {
-            isEnabled = isEnabled && property.isEnabled();
-        }
-        return isEnabled;
+    void setPropertyValue(StringProperty property, String value) {
+        property.setValue(value);
+    }
+
+    @Override
+    String getPropertyValue(StringProperty property) {
+        return property.getValue();
     }
 }

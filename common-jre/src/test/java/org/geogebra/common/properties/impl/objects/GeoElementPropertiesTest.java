@@ -9,7 +9,7 @@ import java.util.List;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.properties.GeoElementProperty;
+import org.geogebra.common.properties.Property;
 import org.junit.Test;
 
 public class GeoElementPropertiesTest extends BaseUnitTest {
@@ -21,7 +21,7 @@ public class GeoElementPropertiesTest extends BaseUnitTest {
         List<GeoElement> points = new ArrayList<>();
         points.add(zeroPoint);
         points.add(onePoint);
-        List<GeoElementProperty> pointProperties = GeoElementProperties.getProperties(points);
+        List<Property> pointProperties = GeoElementProperties.getProperties(points);
 
         assertThat(pointProperties.get(0).getName(), equalTo("Show"));
         assertThat(pointProperties.get(1).getName(), equalTo("stylebar.Color"));

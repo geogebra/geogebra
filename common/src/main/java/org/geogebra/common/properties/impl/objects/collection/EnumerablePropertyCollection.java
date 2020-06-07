@@ -3,54 +3,49 @@ package org.geogebra.common.properties.impl.objects.collection;
 import java.util.Collection;
 
 import org.geogebra.common.properties.EnumerableProperty;
-import org.geogebra.common.properties.GeoElementProperty;
-import org.geogebra.common.properties.Property;
 
 /**
  * Handles a collection of EnumerableProperty objects as a single EnumerableProperty.
  */
-public class EnumerablePropertyCollection implements EnumerableProperty, GeoElementProperty {
-
-    private Collection<? extends EnumerableProperty> propertyCollection;
-    EnumerableProperty property;
+public class EnumerablePropertyCollection
+        extends AbstractPropertyCollection<EnumerableProperty, Integer>
+        implements EnumerableProperty {
 
     /**
      * @param propertyCollection properties to handle
      */
     public EnumerablePropertyCollection(
             Collection<? extends EnumerableProperty> propertyCollection) {
-        this.propertyCollection = propertyCollection;
-        property = propertyCollection.iterator().next();
+        super(propertyCollection.toArray(new EnumerableProperty[0]));
     }
 
     @Override
     public String[] getValues() {
-        return property.getValues();
+        return getFirstProperty().getValues();
     }
 
     @Override
     public int getIndex() {
-        return property.getIndex();
+        return reduceValue();
     }
 
     @Override
     public void setIndex(int index) {
-        for (EnumerableProperty property : propertyCollection) {
-            property.setIndex(index);
-        }
+        setProperties(index);
     }
 
     @Override
-    public String getName() {
-        return property.getName();
+    Integer defaultValue() {
+        return 0;
     }
 
     @Override
-    public boolean isEnabled() {
-        boolean isEnabled = true;
-        for (Property property : propertyCollection) {
-            isEnabled = isEnabled && property.isEnabled();
-        }
-        return isEnabled;
+    void setPropertyValue(EnumerableProperty property, Integer value) {
+        property.setIndex(value);
+    }
+
+    @Override
+    Integer getPropertyValue(EnumerableProperty property) {
+        return property.getIndex();
     }
 }

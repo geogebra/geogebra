@@ -19,7 +19,7 @@ public class RangePropertyCollection<T extends Number & Comparable<T>>
 
     @Override
     public T getStep() {
-        RangeProperty<T> rangeProperty = (RangeProperty<T>) property;
+        RangeProperty<T> rangeProperty = (RangeProperty<T>) getFirstProperty();
         return rangeProperty.getStep();
     }
 }
