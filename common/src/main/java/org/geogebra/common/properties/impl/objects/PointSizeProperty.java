@@ -13,7 +13,7 @@ import org.geogebra.common.properties.RangeProperty;
 public class PointSizeProperty
         extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
-    public PointSizeProperty(GeoElement geoElement) {
+    public PointSizeProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("Size", geoElement);
     }
 

@@ -10,7 +10,7 @@ import org.junit.Test;
 public class EquationFormPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorForLineInGeometry() {
+	public void testConstructorForLineInGeometry() throws NotApplicablePropertyException {
 		getApp().setGeometryConfig();
 		GeoElement line = addAvInput("Line((1,1),(2,2))");
 		new EquationFormProperty(line);
@@ -24,7 +24,7 @@ public class EquationFormPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorForLineListInGeometry() {
+	public void testConstructorForLineListInGeometry() throws NotApplicablePropertyException {
 		getApp().setGeometryConfig();
 		addAvInput("f = Line((1,1),(2,2))");
 		addAvInput("g = Line((3,4),(4,3))");

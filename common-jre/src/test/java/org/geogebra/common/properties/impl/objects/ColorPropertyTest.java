@@ -7,7 +7,7 @@ import org.junit.Test;
 public class ColorPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	public void testConstructorSucceeds() throws NotApplicablePropertyException {
 		GeoElement point = addAvInput("(1,2)");
 		new ColorProperty(point);
 	}

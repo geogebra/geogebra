@@ -7,7 +7,7 @@ import org.junit.Test;
 public class ShowInAVPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	public void testConstructorSucceeds() throws NotApplicablePropertyException {
 		GeoNumeric slider = addAvInput("1");
 		new ShowInAVProperty(slider);
 	}

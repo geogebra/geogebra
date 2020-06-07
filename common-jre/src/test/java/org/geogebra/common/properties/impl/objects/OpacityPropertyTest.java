@@ -9,7 +9,7 @@ import org.junit.Test;
 public class OpacityPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorForPolygon() {
+	public void testConstructorForPolygon() throws NotApplicablePropertyException {
 		addAvInput("A = (0, 0)");
 		addAvInput("B = (1, 1)");
 		addAvInput("C = (0, 1)");
@@ -18,7 +18,7 @@ public class OpacityPropertyTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConstructorForSlider() {
+	public void testConstructorForSlider() throws NotApplicablePropertyException {
 		GeoElement slider = addAvInput("1");
 		slider.setEuclidianVisible(true);
 		new OpacityProperty(slider);

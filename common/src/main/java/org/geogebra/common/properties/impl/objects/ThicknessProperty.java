@@ -11,7 +11,7 @@ import org.geogebra.common.properties.RangeProperty;
 public class ThicknessProperty
         extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
-    public ThicknessProperty(GeoElement geoElement) {
+    public ThicknessProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("Thickness", geoElement);
     }
 

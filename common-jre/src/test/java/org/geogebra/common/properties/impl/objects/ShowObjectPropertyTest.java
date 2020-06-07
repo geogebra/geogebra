@@ -10,13 +10,13 @@ import org.junit.Test;
 public class ShowObjectPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	public void testConstructorSucceeds() throws NotApplicablePropertyException {
 		GeoNumeric slider = addAvInput("1");
 		new ShowObjectProperty(slider);
 	}
 
 	@Test
-	public void testSetValue() {
+	public void testSetValue() throws NotApplicablePropertyException {
 		GeoNumeric slider = addAvInput("1");
 		slider.setEuclidianVisible(true);
 		slider.setEuclidianVisible(false);

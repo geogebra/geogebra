@@ -10,7 +10,7 @@ import org.junit.Test;
 public class CaptionStylePropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	public void testConstructorSucceeds() throws NotApplicablePropertyException {
 		GeoElement f = addAvInput("f: x");
 		new CaptionStyleProperty(f);
 	}

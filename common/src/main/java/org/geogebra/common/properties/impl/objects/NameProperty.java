@@ -11,7 +11,7 @@ import org.geogebra.common.properties.StringProperty;
  */
 public class NameProperty extends AbstractGeoElementProperty implements StringProperty {
 
-    public NameProperty(GeoElement geoElement) {
+    public NameProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super(geoElement.translatedTypeString(), geoElement);
     }
 

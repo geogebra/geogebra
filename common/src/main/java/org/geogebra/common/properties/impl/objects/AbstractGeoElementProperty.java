@@ -14,7 +14,8 @@ public abstract class AbstractGeoElementProperty implements GeoElementProperty {
 	private String name;
 	private GeoElement geoElement;
 
-	protected AbstractGeoElementProperty(String name, GeoElement geoElement) {
+	protected AbstractGeoElementProperty(String name, GeoElement geoElement)
+			throws NotApplicablePropertyException {
 		this.name = name;
 		this.geoElement = geoElement;
 		if (!isApplicableTo(geoElement)) {

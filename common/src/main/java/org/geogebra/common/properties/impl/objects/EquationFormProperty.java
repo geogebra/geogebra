@@ -21,7 +21,7 @@ public class EquationFormProperty extends AbstractGeoElementProperty implements 
             "InputForm"
     };
 
-    public EquationFormProperty(GeoElement geoElement) {
+    public EquationFormProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("Equation", geoElement);
     }
 

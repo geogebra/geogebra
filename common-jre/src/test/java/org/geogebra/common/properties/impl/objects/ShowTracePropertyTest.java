@@ -11,7 +11,7 @@ import org.junit.Test;
 public class ShowTracePropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorForPoint() {
+	public void testConstructorForPoint() throws NotApplicablePropertyException {
 		GeoElement point = addAvInput("(1,2)");
 		new ShowTraceProperty(point);
 	}

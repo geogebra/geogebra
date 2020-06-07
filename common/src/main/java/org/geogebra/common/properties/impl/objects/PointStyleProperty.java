@@ -22,7 +22,7 @@ public class PointStyleProperty
             PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
     };
 
-    public PointStyleProperty(GeoElement geoElement) {
+    public PointStyleProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("Properties.Style", geoElement);
     }
 

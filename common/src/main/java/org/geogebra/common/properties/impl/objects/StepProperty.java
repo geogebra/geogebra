@@ -10,7 +10,7 @@ public class StepProperty extends RangelessDecimalProperty {
 
     private SliderPropertyDelegate delegate;
 
-    public StepProperty(GeoNumeric numeric) {
+    public StepProperty(GeoNumeric numeric) throws NotApplicablePropertyException {
         super("AnimationStep", numeric);
     }
 

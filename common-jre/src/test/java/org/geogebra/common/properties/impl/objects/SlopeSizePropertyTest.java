@@ -9,7 +9,7 @@ import org.junit.Test;
 public class SlopeSizePropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	public void testConstructorSucceeds() throws NotApplicablePropertyException {
 		GeoNumeric slope = addAvInput("Slope( Line((1,1), (2,2)) )");
 		new SlopeSizeProperty(slope);
 	}

@@ -18,7 +18,7 @@ public class LineStyleProperty
             PropertyResource.ICON_LINE_TYPE_DASHED_SHORT
     };
 
-    public LineStyleProperty(GeoElement geoElement) {
+    public LineStyleProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("Properties.Style", geoElement);
     }
 

@@ -11,7 +11,7 @@ import org.geogebra.common.properties.BooleanProperty;
  */
 public class FixObjectProperty extends AbstractGeoElementProperty implements BooleanProperty {
 
-    public FixObjectProperty(GeoElement geoElement) {
+    public FixObjectProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("fixed", geoElement);
     }
 

@@ -9,7 +9,7 @@ import org.junit.Test;
 public class ThicknessPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	public void testConstructorSucceeds() throws NotApplicablePropertyException {
 		GeoElement line = addAvInput("Line((1,1),(2,2))");
 		new ThicknessProperty(line);
 	}

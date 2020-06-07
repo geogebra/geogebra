@@ -3,7 +3,7 @@ package org.geogebra.common.properties.impl.objects;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.properties.GeoElementProperty;
 
-public class NotApplicablePropertyException extends RuntimeException {
+public class NotApplicablePropertyException extends Exception {
 
     private final String message;
 

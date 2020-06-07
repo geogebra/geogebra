@@ -7,7 +7,7 @@ import org.junit.Test;
 public class StepPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	public void testConstructorSucceeds() throws NotApplicablePropertyException {
 		GeoNumeric slider = addAvInput("1");
 		slider.setEuclidianVisible(true);
 		new StepProperty(slider);

@@ -10,7 +10,7 @@ public class MinProperty extends RangelessDecimalProperty {
 
     private SliderPropertyDelegate delegate;
 
-    public MinProperty(GeoNumeric numeric) {
+    public MinProperty(GeoNumeric numeric) throws NotApplicablePropertyException {
         super("Minimum.short", numeric);
     }
 

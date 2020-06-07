@@ -18,7 +18,7 @@ public class CaptionStyleProperty extends AbstractGeoElementProperty implements 
             "Caption"
     };
 
-    public CaptionStyleProperty(GeoElement geoElement) {
+    public CaptionStyleProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("stylebar.Caption", geoElement);
     }
 

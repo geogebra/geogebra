@@ -13,7 +13,7 @@ public class ColorProperty extends AbstractGeoElementProperty {
 
     private GColor[] colors;
 
-    public ColorProperty(GeoElement geoElement) {
+    public ColorProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("stylebar.Color", geoElement);
     }
 

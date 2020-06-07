@@ -10,7 +10,7 @@ import org.geogebra.common.properties.BooleanProperty;
  */
 public class ShowTraceProperty extends AbstractGeoElementProperty implements BooleanProperty {
 
-    public ShowTraceProperty(GeoElement geoElement) {
+    public ShowTraceProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("ShowTrace", geoElement);
     }
 

@@ -12,7 +12,7 @@ import org.geogebra.common.properties.RangeProperty;
 public class OpacityProperty
         extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
-    public OpacityProperty(GeoElement geoElement) {
+    public OpacityProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("Opacity", geoElement);
     }
 

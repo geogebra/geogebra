@@ -9,7 +9,7 @@ import org.junit.Test;
 public class PointSizePropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	public void testConstructorSucceeds() throws NotApplicablePropertyException {
 		GeoElement point = addAvInput("(1,2)");
 		new PointSizeProperty(point);
 	}

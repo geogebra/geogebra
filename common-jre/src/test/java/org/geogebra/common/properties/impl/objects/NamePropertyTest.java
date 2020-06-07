@@ -7,7 +7,7 @@ import org.junit.Test;
 public class NamePropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() {
+	public void testConstructorSucceeds() throws NotApplicablePropertyException {
 		GeoElement slider = addAvInput("1");
 		new NameProperty(slider);
 	}

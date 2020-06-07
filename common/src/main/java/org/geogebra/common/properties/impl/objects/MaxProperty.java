@@ -10,7 +10,7 @@ public class MaxProperty extends RangelessDecimalProperty {
 
     private SliderPropertyDelegate delegate;
 
-    public MaxProperty(GeoNumeric numeric) {
+    public MaxProperty(GeoNumeric numeric) throws NotApplicablePropertyException {
         super("Maximum.short", numeric);
     }
 

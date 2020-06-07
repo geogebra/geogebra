@@ -8,7 +8,7 @@ import org.geogebra.common.properties.BooleanProperty;
  */
 public class ShowObjectProperty extends AbstractGeoElementProperty implements BooleanProperty {
 
-    public ShowObjectProperty(GeoElement geoElement) {
+    public ShowObjectProperty(GeoElement geoElement) throws NotApplicablePropertyException {
         super("Show", geoElement);
     }
 

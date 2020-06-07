@@ -6,23 +6,19 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.properties.GeoElementProperty;
 import org.geogebra.common.properties.RangeProperty;
 
 /**
  * Property for triangle size of the Slope() command output
  **/
 public class SlopeSizeProperty
-		extends AbstractGeoElementProperty implements RangeProperty<Integer>, GeoElementProperty {
+		extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
     /**
      * @param slope slope
      */
-    public SlopeSizeProperty(GeoNumeric slope) {
+    public SlopeSizeProperty(GeoNumeric slope) throws NotApplicablePropertyException {
         super("Size", slope);
-        if (!isApplicableTo(slope)) {
-            throw new NotApplicablePropertyException(slope, this);
-        }
     }
 
     @Override
