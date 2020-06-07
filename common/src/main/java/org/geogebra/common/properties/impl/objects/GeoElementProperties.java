@@ -89,7 +89,8 @@ public class GeoElementProperties {
         }
     }
 
-    private static EnumerablePropertyCollection createCaptionStyleProperty(List<GeoElement> elements) {
+    private static EnumerablePropertyCollection createCaptionStyleProperty(
+            List<GeoElement> elements) {
         try {
             List<EnumerableProperty> captionStyleProperties = new ArrayList<>();
             for (GeoElement element : elements) {
@@ -161,7 +162,8 @@ public class GeoElementProperties {
         }
     }
 
-    private static IconsEnumerablePropertyCollection createPointStyleProperty(List<GeoElement> elements) {
+    private static IconsEnumerablePropertyCollection createPointStyleProperty(
+            List<GeoElement> elements) {
         try {
             List<IconsEnumerableProperty> pointStyleProperties = new ArrayList<>();
             for (GeoElement element : elements) {
@@ -197,7 +199,8 @@ public class GeoElementProperties {
         }
     }
 
-    private static IconsEnumerablePropertyCollection createLineStyleProperty(List<GeoElement> elements) {
+    private static IconsEnumerablePropertyCollection createLineStyleProperty(
+            List<GeoElement> elements) {
         try {
             List<IconsEnumerableProperty> lineStyleProperties = new ArrayList<>();
             for (GeoElement element : elements) {
@@ -225,7 +228,8 @@ public class GeoElementProperties {
         }
     }
 
-    private static EnumerablePropertyCollection createEquationFormProperty(List<GeoElement> elements) {
+    private static EnumerablePropertyCollection createEquationFormProperty(
+            List<GeoElement> elements) {
         try {
             List<EnumerableProperty> equationFormProperties = new ArrayList<>();
             for (GeoElement element : elements) {

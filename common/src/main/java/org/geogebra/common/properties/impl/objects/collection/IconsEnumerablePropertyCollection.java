@@ -21,7 +21,8 @@ public class IconsEnumerablePropertyCollection
 
     @Override
     public PropertyResource[] getIcons() {
-        IconsEnumerableProperty iconsEnumerableProperty = (IconsEnumerableProperty) getFirstProperty();
+        IconsEnumerableProperty iconsEnumerableProperty =
+                (IconsEnumerableProperty) getFirstProperty();
         return iconsEnumerableProperty.getIcons();
     }
 }
