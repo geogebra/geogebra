@@ -19,7 +19,6 @@ import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;

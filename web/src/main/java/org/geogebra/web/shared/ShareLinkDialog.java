@@ -1,17 +1,15 @@
 package org.geogebra.web.shared;
 
-import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
-import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.resources.SVGResource;
-
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -22,14 +20,8 @@ import com.google.gwt.user.client.ui.Widget;
  *   Share link dialog
  */
 public class ShareLinkDialog extends ComponentDialog {
-	private FlowPanel contentPanel;
 	/** textbox providing share url */
 	protected TextBox linkBox;
-	private StandardButton copyBtn;
-
-	private StandardButton printBtn;
-	private StandardButton embedBtn;
-	private StandardButton exportImgBtn;
 
 	/** parent widget */
 	protected Widget anchor;
@@ -56,8 +48,6 @@ public class ShareLinkDialog extends ComponentDialog {
 			}
 		});
 
-		contentPanel = new FlowPanel();
-
 		FlowPanel linkPanel = new FlowPanel();
 		linkPanel.setStyleName("linkPanel");
 		Label linkLabel = new Label(localize("Link"));
@@ -68,7 +58,7 @@ public class ShareLinkDialog extends ComponentDialog {
 		linkBox.setStyleName("linkBox");
 		addLinkBoxHandlers();
 
-		copyBtn = new StandardButton(localize("Copy"),
+		StandardButton copyBtn = new StandardButton(localize("Copy"),
 				app);
 		copyBtn.setStyleName("copyButton");
 
@@ -77,6 +67,7 @@ public class ShareLinkDialog extends ComponentDialog {
 			hide();
 		});
 
+		FlowPanel contentPanel = new FlowPanel();
 		contentPanel.add(linkLabel);
 		linkPanel.add(linkBox);
 		linkPanel.add(copyBtn);
@@ -92,21 +83,21 @@ public class ShareLinkDialog extends ComponentDialog {
 		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
 
-		printBtn = roundButton(
+		StandardButton printBtn = roundButton(
 				SharedResources.INSTANCE.print_white(), "Print");
 		printBtn.addFastClickHandler(source -> {
 			app.getDialogManager().showPrintPreview();
 			hide();
 		});
 
-		exportImgBtn = roundButton(
+		StandardButton exportImgBtn = roundButton(
 				SharedResources.INSTANCE.file_download_white(), "exportImage");
 		exportImgBtn.addFastClickHandler(source -> {
 			app.getDialogManager().showExportImageDialog(null);
 			hide();
 		});
 
-		embedBtn = roundButton(
+		StandardButton embedBtn = roundButton(
 				SharedResources.INSTANCE.code_white(), "Embed");
 		embedBtn.addFastClickHandler(source -> {
 			copyEmbedCode();
