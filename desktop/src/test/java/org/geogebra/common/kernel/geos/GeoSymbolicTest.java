@@ -1111,4 +1111,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic element = add("If(x>5, x^2, x<5, x)");
 		assertThat(element.getTwinGeo(), is(nullValue()));
 	}
+
+	@Test
+	public void testSolveEuclidianHidden() {
+		add("eq1: x + y = 2");
+		add("eq2: x - y = 3");
+		GeoSymbolic element = add("Solve({eq1, eq2}, {x, y})");
+		assertThat(element.showInEuclidianView(), is(false));
+	}
 }
