@@ -149,6 +149,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
+		app.closePopups();
 		if (app.getGuiManager() != null) {
 			((GuiManagerW) app.getGuiManager())
 					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN3D);
@@ -201,6 +202,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		app.closePopups();
 		mtg.onMouseDown(event);
 	}
 

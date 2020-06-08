@@ -35,7 +35,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler;
@@ -98,11 +97,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 * If this panel is visible.
 	 */
 	protected boolean visible = false;
-
-	/**
-	 * If this panel has focus.
-	 */
-	protected boolean hasFocus = false;
 
 	/**
 	 * The dimensions of the external window of this panel.
@@ -342,22 +336,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public Widget getComponent() {
 		return component;
-	}
-
-	/**
-	 * Method which is called if this dock panel gained focus. This happens if
-	 * setFocus(true) was called and this panel had no focus before.
-	 */
-	protected void focusGained() {
-		// empty by default
-	}
-
-	/**
-	 * Method which is called if this dock panel lost focus. This happens if
-	 * setFocus(false) was called and this panel had focus before.
-	 */
-	protected void focusLost() {
-		// empty by default
 	}
 
 	/**
@@ -1140,53 +1118,16 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Mark this panel as focused. When gaining focus the panel will
 	 * automatically request focus for its parent frame.
-	 * 
-	 * @param hasFocus
-	 *            has the focus
+	 *
 	 * @param updatePropertiesView
 	 *            update properties view
 	 */
-	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
-
-		if (hasFocus && updatePropertiesView) {
+	public void setFocus(boolean updatePropertiesView) {
+		if (updatePropertiesView) {
 			app.getGuiManager().updatePropertiesView();
 		}
 
-		setFocus(hasFocus);
-	}
-
-	/**
-	 * Mark this panel as focused. When gaining focus the panel will
-	 * automatically request focus for its parent frame.
-	 * 
-	 * @param hasFocus
-	 *            has the focus
-	 */
-	protected void setFocus(boolean hasFocus) {
-
-		// don't change anything if it's not necessary
-		if (this.hasFocus == hasFocus) {
-			return;
-		}
-
-		this.hasFocus = hasFocus;
-
-		// call callback methods for focus changes
-		if (hasFocus) {
-			// request focus and change toolbar if necessary
-			setActiveToolBar();
-			focusGained();
-		} else {
-			focusLost();
-		}
-
-		/*
-		 * Mark the focused view in bold if the focus system is available. If
-		 * this isn't the case we always stick with the normal font as it would
-		 * confuse the users that the focus "indicator" just changes if we
-		 * switch between EVs.
-		 */
-		setTitleLabelFocus();
+		setActiveToolBar();
 	}
 
 	/**
@@ -1196,25 +1137,6 @@ public abstract class DockPanelW extends ResizeComposite
 		if (hasToolbar()) {
 			app.getGuiManager().setActivePanelAndToolbar(getViewId());
 		}
-	}
-
-	/**
-	 * Set the title bar focus style
-	 * 
-	 * TODO: Focus is indicated by change in title bar style instead of bold
-	 * text, so refactor to express this correctly
-	 * 
-	 */
-	protected void setTitleLabelFocus() {
-		Dom.toggleClass(titleBarPanel, "TitleBarPanel-focus", titleIsBold());
-	}
-
-	/**
-	 * 
-	 * @return true if title has to be in bold
-	 */
-	protected boolean titleIsBold() {
-		return hasFocus;
 	}
 
 	/**

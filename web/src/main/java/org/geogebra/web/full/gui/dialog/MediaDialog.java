@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
+
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
@@ -13,7 +14,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 /**
  * Audio / video / embed dialog.
  */
+
 public abstract class MediaDialog extends ComponentDialog {
+
 	protected MediaInputPanel mediaInputPanel;
 
 	/**
@@ -22,6 +25,7 @@ public abstract class MediaDialog extends ComponentDialog {
 	 * @param dialogTitle
 	 * 			  title of dialog
 	 */
+
 	public MediaDialog(AppW app, String dialogTitle) {
 		super(app, new DialogData(dialogTitle, "Cancel", "Insert"),
 				false, true);
@@ -74,6 +78,6 @@ public abstract class MediaDialog extends ComponentDialog {
 
 	protected void onMediaElementCreated(GeoElement geoElement) {
 		getApplication().getActiveEuclidianView()
-				.getEuclidianController().selectAndShowBoundingBox(geoElement);
+				.getEuclidianController().selectAndShowSelectionUI(geoElement);
 	}
 }

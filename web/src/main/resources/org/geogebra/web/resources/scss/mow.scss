@@ -4,8 +4,6 @@
 	$pagecontrolpanelWidth: 269px;
 	$always_on_top: 60;
 
-	$highlighted-menuitem-background: $selected-menuitem-background;
-
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	$pagecontrol-transition: right 0.25s cubic-bezier(0.4, 0, 1, 1);
 	$floatingbtn-hover-transition: background-color 0.15s;
@@ -18,8 +16,6 @@
 
 	// comes from youtube player, you must not change this.
 	$z_mow_video: 50;
-	$z_mow_video_background: 12;
-	$z_mow_foreground: 50;
 	$z_mask: 50;
 
 /*****************
@@ -427,33 +423,6 @@
 			}
 		}
 
-		/*.AutoCompleteTextFieldW {
-    				margin: 0px !important;
-    				padding: 8px 0px;
-    				border-radius: 2px;
-    				width: calc(100% + 12px) !important;
-
-    				.TextField {
-    					padding: 8px 0px 8px 0px;
-    					border: none;
-    					border-bottom: none;
-    					background: transparent;
-    					box-shadow: none;
-    					border-radius: 0px !important;
-
-    					&:focus {
-    						border: none;
-    						border-bottom: 2px solid $mow_primary;
-  							padding: 8px 0px 6px 0px;
-    						width: calc(100% + 12px) !important;
-    						transition: width 0.2s;
-    						caret-color: $mow_primary;
-    					}
-    				}
-    			}
-	}*/
-	
-	
 	.mowPagePreviewCardDivider {
 		width: 240px;
 		height: 16px;
@@ -505,11 +474,13 @@
 			width: 100%;
 			height: 100%;
 		}
+		&.mowVideo {
+			border-style: none;
+		}
 	}
 
 	.mowWidget.background {
 		@extend .mowVideo;
-		z-index: $z_mow_video_background;
 	}
 
 	.mowVideo video {
@@ -528,65 +499,12 @@
 		border: 1px solid;
 	}
 
-	.mowDoubleCanvas {
-		.mowVideo {
-			position: absolute;
-			border-style: none;
-		}
-
-		.mowBackground {
-			position: absolute;
-			top: 0px;
-			bottom: 0px;
-			z-index: 0;
-		}
-
-		.cursor_pen,
-		.cursor_highlighter,
-		.cursor_eraser,
-		.cursor_rotation,
-		.cursor_hit,
-		.cursor_drag,
-		.cursor_resizeEW,
-		.cursor_resizeNS,
-		.cursor_resizeNESW,
-		.cursor_resizeNWSE,
-		.cursor_transparent {
-			position: absolute;
-			top: 0px;
-			bottom: 0px;
-			z-index: $z_mow_foreground;
-		 }
-	}
-
 	.mowMenuSeparator {
 		background-color: #dedede;
 		height: 1px;
 		width: calc(100% - 56px);
 		list-style: none;
 		margin: 6px 0 6px auto;
-	}
-
-	#fontSubMenu {
-		background-color: $white;
-		padding-top: 8px;
-		padding-bottom: 8px;
-		scrollbar-width: thin;
-		overflow-y: auto;
-
-		// max height is viewport height - header height
-		max-height: calc(100vh - 48px);
-
-		.listMenuItem {
-			  padding: 4px 16px 0px 16px;
-			  height: 32px;
-			  border-radius: 2px;
-			  cursor: pointer;
-		}
-
-		.highlighted {
-			background-color: $highlighted-menuitem-background;
-		}
 	}
 
 	.inlineTextToolbar {

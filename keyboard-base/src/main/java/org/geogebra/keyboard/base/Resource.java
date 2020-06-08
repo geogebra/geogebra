@@ -50,5 +50,15 @@ public enum Resource {
 
     FRACTION,
 
-    INVERSE
+    INVERSE,
+
+    DEFINITE_INTEGRAL,
+
+    SUM,
+
+    PRODUCT,
+
+    LIM,
+
+    VECTOR
 }

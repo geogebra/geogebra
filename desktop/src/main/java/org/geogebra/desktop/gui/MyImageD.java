@@ -169,14 +169,6 @@ public class MyImageD implements MyImageJre {
 	}
 
 	@Override
-	public void drawSubimage(int startX, int startY, int imgWidth,
-			int imgHeight, GGraphics2D g, int posX, int posY) {
-		GGraphics2DD.getAwtGraphics(g).drawImage(((BufferedImage) img)
-				.getSubimage(startX, startY, imgWidth, imgHeight), null, posX,
-				posY);
-	}
-
-	@Override
 	public GGraphics2D createGraphics() {
 		return new GGraphics2DD((Graphics2D) img.getGraphics());
 	}

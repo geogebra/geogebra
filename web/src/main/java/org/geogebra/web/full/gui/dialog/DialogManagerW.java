@@ -307,7 +307,7 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void showEmbedDialog() {
-		EmbedInputDialog embedDialog = new EmbedInputDialog((AppW) app);
+		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app);
 		embedDialog.show();
 	}
 
