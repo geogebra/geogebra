@@ -16,6 +16,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Command;
@@ -128,7 +129,8 @@ public class InlineTextItems {
 	}
 
 	private void  openHyperlinkDialog() {
-		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app,
+		DialogData data = new DialogData(null, "Cancel", "OK");
+		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app, data,
 				getTextController());
 		hyperlinkDialog.center();
 	}
