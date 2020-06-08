@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -25,18 +26,18 @@ import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class ParserTest {
-	static AppDNoGui app;
-	static AlgebraProcessor ap;
+	private AppDNoGui app;
+	private Parser parser;
 
 	@Before
-	public void setupCas() {
+	public void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);
+		parser = app.getKernel().getParser();
 		app.setLanguage(Locale.US);
 	}
 
@@ -95,19 +96,19 @@ public class ParserTest {
 		shouldReparseAs("2" + Unicode.PI_STRING + "8",
 				"2 * 8" + Unicode.PI_STRING);
 		// APPS-804
-		// shouldReparseAs(Unicode.PI_STRING + "8.1",
-		// Unicode.PI_STRING + "8.1");
-		// shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
-		// "2" + Unicode.PI_STRING + "8.1");
+		shouldReparseAs(Unicode.PI_STRING + "8.1",
+				"8.1" + Unicode.PI_STRING);
+		shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
+				 "2 * 8.1" + Unicode.PI_STRING);
 
 	}
 
-	private static void checkSameStructure(String string, String string2) {
+	private void checkSameStructure(String string, String string2) {
 		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));
 	}
 
-	private static String reparse(String string, StringTemplate tpl) {
+	private String reparse(String string, StringTemplate tpl) {
 		return reparse(app, string, tpl, false);
 	}
 
@@ -135,7 +136,7 @@ public class ParserTest {
 		return reparse1;
 	}
 
-	private static void shouldBeException(String string,
+	private void shouldBeException(String string,
 			String exceptionClass) {
 		Throwable p = null;
 		try {
@@ -256,11 +257,11 @@ public class ParserTest {
 	}
 
 	@Test
-	@Ignore // TODO for WLY-60
 	public void multiplicationShouldResolvedToChainedTrig() {
-		shouldReparseAs("e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
+		app.getKernel().getConstruction().registerFunctionVariable("t");
+		shouldReparseAs(app, "e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
 				Unicode.EULER_STRING + "^(-t) * 9sin"
-				+ Unicode.SUPERSCRIPT_8 + "(t * cos(t))");
+				+ Unicode.SUPERSCRIPT_8 + "(t cos(t))");
 	}
 
 	@Test
@@ -299,12 +300,35 @@ public class ParserTest {
 		shouldReparseAs("(1,2) + 1,4", "(1, 2) + 1.4");
 	}
 
+	@Test
+	public void checkValidLabels() {
+		assertValidLabel("aa");
+		assertValidLabel("aa8");
+		assertValidLabel("aa_7");
+		assertValidLabel("aa_{72}''");
+		assertValidLabel(Unicode.PI_STRING + 8);
+	}
+
+	@Test
+	public void shouldHandleDecimalsInLabels() {
+		shouldReparseAs("x1.3=7", "x * 1.3 = 7");
+		shouldReparseAs("x1.3=y", "x * 1.3 = y");
+	}
+
+	private void assertValidLabel(String s) {
+		try {
+			assertEquals(s, parser.parseLabel(s));
+		} catch (ParseException e) {
+			fail("Unexpected parser exception " + e);
+		}
+	}
+
 	static void shouldReparseAs(App app, String string, String expected) {
 		Assert.assertEquals(expected,
 				reparse(app, string, StringTemplate.editTemplate, true));
 	}
 
-	private static void shouldReparseAs(String string, String expected) {
+	private void shouldReparseAs(String string, String expected) {
 		Assert.assertEquals(expected,
 				reparse(string, StringTemplate.editTemplate));
 	}
@@ -328,7 +352,7 @@ public class ParserTest {
 				&& op != Operation.INVERSE_NORMAL;
 	}
 
-	private static void checkStable(ExpressionNode left) {
+	private void checkStable(ExpressionNode left) {
 		String str = null;
 		try {
 			str = left.toString(StringTemplate.editTemplate);
@@ -349,7 +373,7 @@ public class ParserTest {
 		}
 	}
 
-	private static ValidExpression parseExpression(String string)
+	private ValidExpression parseExpression(String string)
 			throws ParseException {
 		return parseExpression(app, string);
 	}

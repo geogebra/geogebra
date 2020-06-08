@@ -51,7 +51,7 @@ public class VariableReplacerAlgorithm {
 	 */
 	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
-		if (!tokenizerAllowed) {
+		if (!tokenizerAllowed && !expressionString.contains(".")) {
 			return replaceToken(expressionString);
 		}
 
@@ -215,7 +215,7 @@ public class VariableReplacerAlgorithm {
 	private MySpecialDouble consumeConstant(String expressionString) {
 		int numberLength = 0;
 		while (numberLength < expressionString.length()
-				&& StringUtil.isDigit(expressionString.charAt(numberLength))) {
+				&& StringUtil.isDigitOrDot(expressionString.charAt(numberLength))) {
 			numberLength++;
 		}
 		if (numberLength != 0) {
