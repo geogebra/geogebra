@@ -1,0 +1,5 @@
+update_configs:
+  - package_manager: "gradle"
+    directory: "/"
+  - package_manager: "npm_and_yarn"
+    directory: "/uitest"

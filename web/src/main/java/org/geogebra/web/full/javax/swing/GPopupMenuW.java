@@ -321,6 +321,7 @@ public class GPopupMenuW implements AttachedToDOM {
 					}
 					subPopup = new GPopupMenuW(subMenu, getApp());
 					subPopup.setVisible(true);
+					subMenu.unselect();
 					subMenu.stylePopup(subPopup.getPopupPanel());
 					// Calculate the position of the "submenu", and show it
 					openItem = newItem;

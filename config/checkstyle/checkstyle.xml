@@ -101,7 +101,9 @@
             <property name="option" value="EOL"/>
         </module>
         <module name="WhitespaceAfter"/>
-        <module name="WhitespaceAround"/>
+        <module name="WhitespaceAround">
+            <property name="allowEmptyLambdas" value="true"/>
+        </module>
         <module name="JavadocMethod">
             <property name="scope" value="public"/>
             <property name="allowMissingParamTags" value="true"/>

@@ -1127,4 +1127,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				angle.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
 				equalTo("1 rad"));
 	}
+
+	@Test
+	public void testSolveEuclidianHidden() {
+		add("eq1: x + y = 2");
+		add("eq2: x - y = 3");
+		GeoSymbolic element = add("Solve({eq1, eq2}, {x, y})");
+		assertThat(element.showInEuclidianView(), is(false));
+	}
 }

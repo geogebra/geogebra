@@ -857,7 +857,7 @@ public class AlgebraProcessor {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
 				info.isSimplifiedMultiplication());
-		ve.traverse(collecter);
+		ve.inspect(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 
 		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,

@@ -94,11 +94,11 @@ public class HitDetector {
 			}
 		}
 
-		// remove all lists and images if there are other objects too
-		if ((hits.size() - (hits.getListCount() + hits.getImageCount())) > 0) {
+		// remove all lists if there are other objects too
+		if (hits.size() > hits.getListCount()) {
 			for (int i = hits.size() - 1; i >= 0; i--) {
 				GeoElement geo = hits.get(i);
-				if ((geo.isGeoList() && !((GeoList) geo).drawAsComboBox()) || geo.isGeoImage()) {
+				if (geo.isGeoList() && !((GeoList) geo).drawAsComboBox()) {
 					hits.remove(i);
 				}
 			}

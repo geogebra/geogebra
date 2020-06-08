@@ -71,7 +71,7 @@ public class AppCommon extends App {
 	private AppConfig config = new AppConfigDefault();
 	private CASFactory casFactory = new CASFactoryDummy();
 
-    /**
+	/**
 	 * Construct an AppCommon.
 	 * 
 	 * @param loc

@@ -12,7 +12,7 @@ public class SolverKeyboard extends TabbedKeyboard {
 	 *            keyboard context
 	 */
 	public SolverKeyboard(HasKeyboard appKeyboard) {
-		super(appKeyboard, false, false);
+		super(appKeyboard, false);
         switcher = new KeyboardSwitcher(this) {
 
             @Override

@@ -80,7 +80,8 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
                 EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
                 EuclidianConstants.MODE_CONIFY,
                 EuclidianConstants.MODE_EXTRUSION,
-                EuclidianConstants.MODE_NET);
+                EuclidianConstants.MODE_NET,
+                EuclidianConstants.MODE_SURFACE_OF_REVOLUTION);
 
         impl.addCategory(ToolCategory.PLANES,
                 EuclidianConstants.MODE_PLANE_THREE_POINTS,

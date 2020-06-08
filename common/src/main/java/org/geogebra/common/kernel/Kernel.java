@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -80,6 +81,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -4294,11 +4296,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		clearJustCreatedGeosInViews();
 		getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().storeVideos();
+		VideoManager videoManager = getApplication().getVideoManager();
+		if (videoManager != null) {
+			videoManager.storeVideos();
 		}
-		if (getApplication().getEmbedManager() != null) {
-			getApplication().getEmbedManager().storeEmbeds();
+		EmbedManager embedManager = getApplication().getEmbedManager();
+		if (embedManager != null) {
+			embedManager.storeEmbeds();
 		}
 		app.getActiveEuclidianView().resetInlineObjects();
 	}
@@ -4307,9 +4311,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(this);
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().clearStoredVideos();
-		}
 		getApplication().getActiveEuclidianView().restoreDynamicStylebar();
 	}
 
@@ -4620,9 +4621,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (cons.requires3D()) {
 			// DO NOT REMOVE
 			// it's important we pick up errors involving this quickly
-			Log.error("************************************");
-			Log.error("****** file has 3D objects *********");
-			Log.error("************************************");
+			Log.error("file has 3D objects");
 			sb.append("\t<uses3D val=\"true\"/>\n");
 		}
 

@@ -200,7 +200,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		closeBracket = "\\right.";
 		int tableColumns = geoList.size();
 		if (args != null && !StringUtil.empty(args.getTextString())) {
-			String optionsStr = args.getTextString();
+			String optionsStr = args.getTextStringSafe();
 			if (optionsStr.contains("v")) {
 				alignment = Alignment.VERTICAL; // vertical table
 			}
@@ -307,7 +307,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			// support for older files before the fix
 			GeoText options = (GeoText) geoList.get(tableColumns - 1);
-			String optionsStr = options.getTextString();
+			String optionsStr = options.getTextStringSafe();
 
 			if (optionsStr.contains("h")) {
 				alignment = Alignment.HORIZONTAL; // horizontal table

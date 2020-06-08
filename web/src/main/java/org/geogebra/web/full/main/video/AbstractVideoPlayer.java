@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.video;
 
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 
@@ -11,26 +12,24 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	protected App app;
 
 	/** Video geo to play */
-	protected GeoVideo video;
-	private String playerId;
+	protected DrawVideo video;
 
-	AbstractVideoPlayer(GeoVideo video, int id) {
+	AbstractVideoPlayer(DrawVideo video) {
 		this.video = video;
-		app = video.getKernel().getApplication();
-		playerId = "video_player" + id;
+		app = video.getView().getApplication();
 	}
 
 	/**
 	 * @return the associated GeoVideo object.
 	 */
 	public GeoVideo getVideo() {
-		return video;
+		return video.getVideo();
 	}
 
-	protected void stylePlayer() {
+	protected void stylePlayer(int id) {
 		asWidget().addStyleName("mowVideo");
 		asWidget().addStyleName("mowWidget");
-		asWidget().getElement().setId(playerId);
+		asWidget().getElement().setId("video_player" + id);
 	}
 
 	abstract void update();
@@ -52,6 +51,9 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	public void setBackground(boolean background) {
 		video.setBackground(background);
 		update();
+		if (!background) {
+			asWidget().getElement().getStyle().clearZIndex();
+		}
 	}
 
 	/**

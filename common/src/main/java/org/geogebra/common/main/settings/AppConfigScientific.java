@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
+import org.geogebra.common.main.AppKeyboardType;
 
 /**
  * Config for Scientific Calculator app
@@ -54,11 +55,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public String getForcedPerspective() {
 		return Perspective.SCIENTIFIC + "";
-	}
-
-	@Override
-	public boolean hasScientificKeyboard() {
-		return true;
 	}
 
 	@Override
@@ -149,5 +145,10 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
 		return new ScientificPropertiesFactory();
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.SCIENTIFIC;
 	}
 }

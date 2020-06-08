@@ -66,7 +66,6 @@ public class ResourcesInjector {
 			loadCodecs();
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.xmlUtil());
 	}
 
 	/**

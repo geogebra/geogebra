@@ -86,7 +86,7 @@ public class AlgoSimplifyText extends AlgoElement {
 
 		// eg Simplify["+1x++x--x+-1x-+1x++x"]
 
-		String ret = textIn.getTextString();
+		String ret = textIn.getTextStringSafe();
 		// ++ -> +
 		ret = ret.replaceAll("\\+ *\\+", "+");
 		// -- -> +

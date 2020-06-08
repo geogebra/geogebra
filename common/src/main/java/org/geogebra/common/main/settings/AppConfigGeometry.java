@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.properties.factory.BasePropertiesFactory;
@@ -139,11 +140,6 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public String getForcedPerspective() {
 		return Perspective.GEOMETRY + "";
-	}
-
-	@Override
-	public boolean hasScientificKeyboard() {
-		return false;
 	}
 
 	@Override
@@ -272,8 +268,8 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public boolean isShowingErrorDialogForInputBox() {
-		return true;
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.GEOMETRY;
 	}
 
 	@Override
