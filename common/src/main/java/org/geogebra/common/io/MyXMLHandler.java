@@ -2981,6 +2981,8 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("cascell".equals(eName)) {
 				constMode = MODE_CONST_CAS_CELL;
 				casMode = MODE_CONST_CAS_CELL;
+			} else if ("group".equals(eName)) {
+				geoHandler.handleGroup(attrs);
 			} else if ("worksheetText".equals(eName)) {
 				handleWorksheetText(attrs);
 			} else {
@@ -3021,12 +3023,8 @@ public class MyXMLHandler implements DocHandler {
 			if ("construction".equals(eName)) {
 				// process start points at end of construction
 				this.geoHandler.processLists();
+				cons.getLayerManager().updateList();
 				processEvSizes();
-				// now called from MyXMLio.doParseXML()
-				// if (spreadsheetTraceNeeded) {
-				// // don't want to initialize trace manager unless necessary
-				// app.getTraceManager().loadTraceGeoCollection();
-				// }
 
 				if (kernel == origKernel) {
 					mode = MODE_GEOGEBRA;

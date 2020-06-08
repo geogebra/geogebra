@@ -59,7 +59,6 @@ import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntegralODE;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.Algos;
@@ -83,6 +82,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -317,6 +317,10 @@ public abstract class GeoElement extends ConstructionElement
 	private boolean descriptionNeedsUpdateInAV;
 
 	private AlgebraOutputFilter algebraOutputFilter;
+
+	private Group parentGroup;
+
+	private int ordering = -1;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
 
@@ -1032,94 +1036,27 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	public void setLayer(int layer2) {
-		int newlayer = layer2;
-
-		if (layer2 == this.layer
-		// layer valid only for Drawable objects
-		// DON'T check this: eg angles on file load are not yet isDrawable()
-		// || !isDrawable()
-		) {
+	public void setLayer(int newLayer) {
+		if (newLayer == this.layer) {
 			return;
 		}
-		if (newlayer > EuclidianStyleConstants.MAX_LAYERS) {
-			newlayer = EuclidianStyleConstants.MAX_LAYERS;
-		} else if (newlayer < 0) {
-			newlayer = 0;
+
+		int oldLayer = this.layer;
+
+		if (newLayer > EuclidianStyleConstants.MAX_LAYERS) {
+			this.layer = EuclidianStyleConstants.MAX_LAYERS;
+		} else if (newLayer < 0) {
+			this.layer = 0;
+		} else {
+			this.layer = newLayer;
 		}
 
-		kernel.notifyChangeLayer(this, this.layer, newlayer);
-
-		this.layer = newlayer;
+		kernel.notifyChangeLayer(this, oldLayer, this.layer);
 	}
 
 	@Override
 	public final int getLayer() {
 		return layer;
-	}
-
-	/**
-	 *
-	 * @return drawing priority (lower = drawn first)
-	 */
-	private int typePriority() {
-		return getGeoClassType().getPriority(isIndependent());
-	}
-
-	/**
-	 * Compare drawing priority with another object
-	 *
-	 * @param other
-	 *            the other object
-	 * @param checkLastHitType
-	 *            whether hits on boundary should be preferred to hits on
-	 *            filling
-	 * @return whether this should be drawn fist
-	 */
-	public boolean drawBefore(GeoElement other, boolean checkLastHitType) {
-
-		if (this.getLayer() < other.getLayer()) {
-			return true;
-		}
-
-		if (this.getLayer() > other.getLayer()) {
-			return false;
-		}
-
-		if (checkLastHitType) {
-			if (this.getLastHitType() == HitType.ON_BOUNDARY
-					&& other.getLastHitType() != HitType.ON_BOUNDARY) {
-				return false;
-			}
-
-			if (this.getLastHitType() != HitType.ON_BOUNDARY
-					&& other.getLastHitType() == HitType.ON_BOUNDARY) {
-				return true;
-			}
-		}
-
-		if (this.typePriority() < other.typePriority()) {
-			return true;
-		}
-
-		if (this.typePriority() > other.typePriority()) {
-			return false;
-		}
-
-		if (this.getConstructionIndex() < other.getConstructionIndex()) {
-			return true;
-		}
-
-		if (this.getConstructionIndex() > other.getConstructionIndex()) {
-			return false;
-		}
-		if (this.getParentAlgorithm() instanceof AlgoMacroInterface) {
-			return ((AlgoMacroInterface) this.getParentAlgorithm())
-					.drawBefore(this, other);
-		}
-		// Log.warn("Objects "+this+" and "+other+" have the same drawing
-		// priority.");
-		return true;
 	}
 
 	@Override
@@ -1596,6 +1533,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true if fixed property can be set
 	 */
+
 	public boolean isFixable() {
 		return true; // deleting objects with fixed descendents makes them
 						// undefined
@@ -2603,7 +2541,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
-
 		if (addToConstr) {
 			notifyAdd();
 		}
@@ -2722,6 +2659,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		// UPDATE KERNEL
+		cons.getLayerManager().setRenameRunning(true);
 		cons.removeLabel(this); // remove old table entry
 		oldLabel = label; // remember old label (for applet to javascript
 							// rename)
@@ -2735,7 +2673,7 @@ public abstract class GeoElement extends ConstructionElement
 			correspondingCasCell.setInputFromTwinGeo(false, false);
 		}
 		cons.putLabel(this); // add new table entry
-
+		cons.getLayerManager().setRenameRunning(false);
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
 
@@ -3043,6 +2981,10 @@ public abstract class GeoElement extends ConstructionElement
 			// remove old key from cache
 			// JLaTeXMathCache.removeCachedTeXFormula(keyLaTeX);
 			latexCache.remove();
+		}
+
+		if (getParentGroup() != null) {
+			cons.removeGroupFromGroupList(getParentGroup());
 		}
 	}
 
@@ -6440,6 +6382,14 @@ public abstract class GeoElement extends ConstructionElement
 		return getLabelTextOrHTML(false); // columnHeadingsForTraceDialog.toString();
 	}
 
+	public boolean isLead() {
+		return parentGroup == null || parentGroup.isLead(this);
+	}
+
+	public boolean hasGroup() {
+		return parentGroup != null;
+	}
+
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	public enum TraceModesEnum {
 		/** no value for this geo, only copy */
@@ -7309,5 +7259,21 @@ public abstract class GeoElement extends ConstructionElement
 
 	protected boolean canBeFunctionOrEquationFromUser() {
 		return this instanceof EquationValue;
+	}
+
+	public void setParentGroup(Group parentGroup) {
+		this.parentGroup = parentGroup;
+	}
+
+	public Group getParentGroup() {
+		return parentGroup;
+	}
+
+	public int getOrdering() {
+		return ordering;
+	}
+
+	public void setOrdering(int ordering) {
+		this.ordering = ordering;
 	}
 }

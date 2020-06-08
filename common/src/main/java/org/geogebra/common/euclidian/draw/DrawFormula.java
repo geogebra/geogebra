@@ -6,6 +6,8 @@ import java.util.List;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -96,6 +98,11 @@ public class DrawFormula extends Drawable implements DrawInline {
 	@Override
 	public RotatableBoundingBox getBoundingBox() {
 		return rectangle.getBoundingBox();
+	}
+
+	@Override
+	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
+		return getBoundingBox();
 	}
 
 	@Override

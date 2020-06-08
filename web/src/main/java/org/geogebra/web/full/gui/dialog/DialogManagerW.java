@@ -306,14 +306,14 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showAudioInputDialog() {
-		this.audioInputDialog = new AudioInputDialog((AppW) app);
+		this.audioInputDialog = new AudioInputDialog((AppWFull) app);
 		audioInputDialog.center();
 		audioInputDialog.show();
 	}
 
 	@Override
 	public void showEmbedDialog() {
-		EmbedInputDialog embedDialog = new EmbedInputDialog((AppW) app);
+		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app);
 		embedDialog.center();
 		embedDialog.show();
 	}
@@ -334,7 +334,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showVideoInputDialog() {
-		VideoInputDialog videoInputDialog = new VideoInputDialog((AppW) app);
+		VideoInputDialog videoInputDialog = new VideoInputDialog((AppWFull) app);
 		videoInputDialog.center();
 		videoInputDialog.show();
 	}

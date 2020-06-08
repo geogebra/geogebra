@@ -47,7 +47,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 *            application
 	 */
 	protected ContextMenuGraphicsWindowW(AppW app) {
-		super(app);
+		super(app, new ContextMenuFactory());
 		if (app.isUnbundledOrWhiteboard()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		}

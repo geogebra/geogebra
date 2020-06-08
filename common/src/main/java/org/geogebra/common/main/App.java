@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
@@ -72,6 +74,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.kernel.geos.DefaultGeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
@@ -80,6 +83,8 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPriorityComparator;
+import org.geogebra.common.kernel.geos.NotesPriorityComparator;
 import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -1023,13 +1028,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.NONE) {
 			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.MAY_SET_COORD_SYSTEM;
 		}
-	}
-
-	/**
-	 * Resets the coord system change flag
-	 */
-	public void resetCoordSystemChanged() {
-		storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.NONE;
 	}
 
 	public void setPropertiesOccured() {
@@ -4951,7 +4949,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return MD5EncrypterGWTImpl.encrypt(s);
 	}
 
-	public EmbedManager getEmbedManager() {
+	public @CheckForNull EmbedManager getEmbedManager() {
 		return null;
 	}
 
@@ -5176,5 +5174,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public InlineFormulaController createInlineFormulaController(EuclidianView view,
 			GeoFormula geo) {
 		return null;
+	}
+
+	/**
+	 * GeoPriorityComparators are used to decide the drawing
+	 * and selection orders of Geos
+	 * @return the default comparator (layer -> type -> construction order) in every
+	 * app except notes, where the geo's `ordering` is used
+	 */
+	public GeoPriorityComparator getGeoPriorityComparator() {
+		if (isWhiteboardActive()) {
+			return new NotesPriorityComparator();
+		} else {
+			return new DefaultGeoPriorityComparator();
+		}
 	}
 }

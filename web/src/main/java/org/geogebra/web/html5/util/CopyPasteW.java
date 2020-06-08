@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
@@ -24,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.MoveGeos;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
@@ -230,8 +232,9 @@ public class CopyPasteW extends CopyPaste {
 		geostohide.addAll(addAlgosDependentFromInside(geoslocal));
 
 		Kernel kernel = app.getKernel();
-		if (app.getEmbedManager() != null) {
-			app.getEmbedManager().persist();
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.persist();
 		}
 		beforeSavingToXML(geoslocal, geostohide);
 
@@ -254,6 +257,9 @@ public class CopyPasteW extends CopyPaste {
 					copiedImages.put(name, imageManager.getExternalImageSrc(name));
 				}
 			}
+		}
+		for (Group group : app.getSelectionManager().getSelectedGroups()) {
+			group.getXML(copiedXml);
 		}
 
 		kernel.setSaveScriptsToXML(saveScriptsToXML);
@@ -426,7 +432,7 @@ public class CopyPasteW extends CopyPaste {
 					));
 					drawText.update();
 
-					ev.getEuclidianController().selectAndShowBoundingBox(txt);
+					ev.getEuclidianController().selectAndShowSelectionUI(txt);
 					app.storeUndoInfo();
 				}
 			});
@@ -495,7 +501,7 @@ public class CopyPasteW extends CopyPaste {
 		ArrayList<GeoElement> createdElements = handleLabels(app, copiedXmlLabels, false);
 
 		app.setBlockUpdateScripts(scriptsBlocked);
-
+		app.getActiveEuclidianView().invalidateDrawableList();
 		app.getKernel().notifyPasteComplete();
 
 		if (app.isWhiteboardActive()) {
@@ -507,8 +513,8 @@ public class CopyPasteW extends CopyPaste {
 				}
 
 				if (created instanceof GeoInline) {
-					DrawInline drawInlineText = (DrawInline) ev.getDrawableFor(created);
-					drawInlineText.updateContent();
+					DrawInline drawInline = (DrawInline) ev.getDrawableFor(created);
+					drawInline.updateContent();
 					shapes.add(created);
 				}
 			}

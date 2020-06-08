@@ -215,14 +215,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 
 		@Override
 		public void updateNavigationBar() {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public Canvas getBackgroundCanvas() {
-			// TODO Auto-generated method stub
-			return null;
+			// not needed for text preview
 		}
 
 		@Override

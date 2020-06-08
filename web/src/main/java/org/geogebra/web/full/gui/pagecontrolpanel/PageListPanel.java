@@ -13,7 +13,6 @@ import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.PersistablePanel;
@@ -39,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class PageListPanel
 		extends PersistablePanel implements SetLabels, CardListInterface {
 
-	private AppW app;
+	private AppWFull app;
 	private GeoGebraFrameFull frame;
 	private EuclidianDockPanelW dockPanel;
 	private ScrollPanel scrollPanel;
@@ -56,9 +55,9 @@ public class PageListPanel
 	 * @param app
 	 *            application
 	 */
-	public PageListPanel(AppW app) {
+	public PageListPanel(AppWFull app) {
 		this.app = app;
-		this.frame = ((AppWFull) app).getAppletFrame();
+		this.frame = app.getAppletFrame();
 		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 		this.toolbarMow = frame.getToolbarMowSafe(app);

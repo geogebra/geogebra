@@ -1,5 +1,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
+import com.google.gwt.canvas.client.Canvas;
+
 /**
  * Renderer interface
  */
@@ -17,4 +19,5 @@ public interface RendererWInterface {
 	 */
 	void setBuffering(boolean useBuffer);
 
+	Canvas getCanvas();
 }

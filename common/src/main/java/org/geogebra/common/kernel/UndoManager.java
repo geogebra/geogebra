@@ -420,10 +420,11 @@ public abstract class UndoManager {
 	 *            embed ID
 	 */
 	public void embeddedAction(EventType action, String id) {
-		if (app.getEmbedManager() != null) {
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
 			try {
 				int embedId = Integer.parseInt(id);
-				app.getEmbedManager().executeAction(action, embedId);
+				embedManager.executeAction(action, embedId);
 			} catch (RuntimeException e) {
 				Log.warn("No undo possible for embed " + id);
 			}

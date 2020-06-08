@@ -26,10 +26,10 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 		this.ev = ev;
 		canvas = createCanvas();
 		if (canvas != null) {
-			getCanvas().getElement().getStyle()
+			canvas.getElement().getStyle()
 					.setPosition(Style.Position.RELATIVE);
-			getCanvas().getElement().getStyle().setZIndex(0);
-			add(getCanvas());
+			canvas.getElement().getStyle().setZIndex(0);
+			add(canvas);
 		}
 	}
 
@@ -75,12 +75,6 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 	@Override
 	public void updateNavigationBar() {
 		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public Canvas getBackgroundCanvas() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

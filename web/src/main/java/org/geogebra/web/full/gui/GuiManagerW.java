@@ -293,7 +293,8 @@ public class GuiManagerW extends GuiManager
 	public ContextMenuGeoElementW getPopupMenu(
 			final ArrayList<GeoElement> geos) {
 		removePopup();
-		currentPopup = new ContextMenuGeoElementW(getApp(), geos);
+		currentPopup = new ContextMenuGeoElementW(getApp(), geos,
+				new ContextMenuFactory());
 		((ContextMenuGeoElementW) currentPopup).addOtherItems();
 		return (ContextMenuGeoElementW) currentPopup;
 	}
@@ -331,7 +332,7 @@ public class GuiManagerW extends GuiManager
 			final EuclidianView view, final ArrayList<GeoElement> selectedGeos,
 			final ArrayList<GeoElement> geos, final GPoint p) {
 		currentPopup = new ContextMenuChooseGeoW(getApp(), view,
-				selectedGeos, geos, p);
+				selectedGeos, geos, p, new ContextMenuFactory());
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
@@ -1078,7 +1079,7 @@ public class GuiManagerW extends GuiManager
 			if (!getApp().isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
 				if (getApp().needsSpreadsheetTableModel()) {
-					(getApp()).getSpreadsheetTableModel(); // ensure create one if
+					getApp().getSpreadsheetTableModel(); // ensure create one if
 					// not already done
 				}
 			}
@@ -1904,8 +1905,10 @@ public class GuiManagerW extends GuiManager
 	public void addStylebar(EuclidianView ev,
 			EuclidianStyleBar dynamicStylebar) {
 		DockPanelW dp = getLayout().getDockManager().getPanel(ev.getViewID());
-		((EuclidianDockPanelWAbstract) dp).getAbsolutePanel()
-		.add((DynamicStyleBar) dynamicStylebar);
+		AbsolutePanel absolutePanel = ((EuclidianDockPanelWAbstract) dp).getAbsolutePanel();
+		if (absolutePanel != null) {
+			absolutePanel.add((DynamicStyleBar) dynamicStylebar);
+		}
 	}
 
 	@Override

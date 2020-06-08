@@ -921,7 +921,7 @@ public class GeoGebraFrameFull
 			return;
 		}
 		if (pageListPanel == null) {
-			pageListPanel = new PageListPanel(app1);
+			pageListPanel = new PageListPanel((AppWFull) app1);
 		}
 	}
 

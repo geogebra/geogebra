@@ -148,7 +148,6 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.plugin.WebsocketLogger;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -209,7 +208,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected final ArticleElementInterface articleElement;
 
 	protected EuclidianPanelWAbstract euclidianViewPanel;
-	protected Canvas canvas;
 
 	private final GLookAndFeelI laf;
 
@@ -512,13 +510,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return ggbapi;
 	}
 
-	/**
-	 * @return {@link Canvas}
-	 */
-	public Canvas getCanvas() {
-		return canvas;
-	}
-
 	@Override
 	public final NormalizerMinimal getNormalizer() {
 		if (normalizerMinimal == null) {
@@ -774,10 +765,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void loadGgbFileAsBase64Again(String dataUrl, boolean isggs) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
-		if (!isggs && getEmbedManager() != null) {
+		EmbedManager embedManager = getEmbedManager();
+		if (!isggs && embedManager != null) {
 			Material mat = new Material(-1, Material.MaterialType.ggb);
 			mat.setBase64(dataUrl);
-			getEmbedManager().embed(mat);
+			embedManager.embed(mat);
 		} else {
 			view.processBase64String(dataUrl);
 		}
@@ -805,7 +797,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getArticleElement().attr("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
 			if (getPageController() != null) {
-				getEuclidianView1().initBgCanvas();
 				getPageController().loadSlides(archiveContent);
 				return;
 			}
@@ -850,9 +841,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				maybeProcessImage(key, entry.getValue(), toLoad);
 			}
 		}
-		if (getEmbedManager() != null) {
-			getEmbedManager().loadEmbeds(archive);
+
+		EmbedManager embedManager = getEmbedManager();
+		if (embedManager != null) {
+			embedManager.loadEmbeds(archive);
 		}
+
 		if (construction == null) {
 			if (macros != null) {
 				getXMLio().processXMLString(macros, true, true);
@@ -1144,7 +1138,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		resetUI();
 		resetPenTool();
-		resetCoordSystemChanged();
 	}
 
 	private void resetPages() {
@@ -1161,19 +1154,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getActiveEuclidianView().getSettings()
 					.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
 			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
-		}
-	}
-
-	/**
-	 * Remove all widgets for videos and embeds.
-	 */
-	@Override
-	public void clearMedia() {
-		if (getVideoManager() != null) {
-			getVideoManager().removePlayers();
-		}
-		if (getEmbedManager() != null) {
-			getEmbedManager().removeAll();
 		}
 	}
 
@@ -1650,7 +1630,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				}
 				if (app.isWhiteboardActive()) {
 					app.getActiveEuclidianView().getEuclidianController()
-							.selectAndShowBoundingBox(geoImage);
+							.selectAndShowSelectionUI(geoImage);
 				}
 				setDefaultCursor();
 				storeUndoInfo();

@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.media.MediaFactory;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -17,7 +18,7 @@ public class AudioInputDialog extends MediaDialog {
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public AudioInputDialog(AppW app) {
+	public AudioInputDialog(AppWFull app) {
 		super(app.getPanel(), app);
 	}
 

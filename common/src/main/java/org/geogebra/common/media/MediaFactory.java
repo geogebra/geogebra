@@ -60,11 +60,11 @@ public class MediaFactory {
 				video.setAbsoluteScreenLoc(
 						(ev.getWidth() - video.getWidth()) / 2,
 						(ev.getHeight() - video.getHeight()) / 2);
-				 Drawable dr = (Drawable) ev.getDrawableFor(video);
-				 if (dr != null) {
+				Drawable dr = (Drawable) ev.getDrawableFor(video);
+				if (dr != null) {
 				 	dr.update();
-				 }
-				ev.getEuclidianController().selectAndShowBoundingBox(video);
+				}
+				ev.getEuclidianController().selectAndShowSelectionUI(video);
 				app.storeUndoInfo();
 			}
 		});
