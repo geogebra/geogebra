@@ -44,11 +44,6 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	}
 
 	@Override
-	public boolean isValid() {
-		return isFrameValid();
-	}
-
-	@Override
 	public Widget asWidget() {
 		return main;
 	}

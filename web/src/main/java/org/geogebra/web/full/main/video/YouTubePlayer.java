@@ -44,17 +44,12 @@ public class YouTubePlayer extends VideoPlayer {
 	}-*/;
 
 	@Override
-	public boolean isValid() {
-		return isFrameValid();
-	}
-
-	@Override
 	public Widget asWidget() {
 		return frame;
 	}
 
 	@Override
 	public boolean matches(GeoVideo video2) {
-		return video2.getEmbeddedUrl().equals(video2.getEmbeddedUrl());
+		return getVideo().getEmbeddedUrl().equals(video2.getEmbeddedUrl());
 	}
 }
