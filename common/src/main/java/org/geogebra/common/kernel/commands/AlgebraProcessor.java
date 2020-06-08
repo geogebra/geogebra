@@ -476,7 +476,7 @@ public class AlgebraProcessor {
 
 	private ValidExpression replaceSqrtMinusOne(ValidExpression ve) {
 		ExpressionValue result = ve.traverse(sqrtMinusOneReplacer);
-		if (result.wrap().isImaginaryUnit()) {
+		if (ExpressionNode.isImaginaryUnit(result)) {
 			result = result.wrap();
 		}
 		return (ValidExpression) result;
