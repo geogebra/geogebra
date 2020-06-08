@@ -133,7 +133,7 @@ public class DrawInlineText extends Drawable implements DrawInline, HasFormat {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (textController != null) {
+		if (text.isEuclidianVisible() && textController != null) {
 			textController.draw(g2, rectangle.getDirectTransform());
 		}
 	}

@@ -38,7 +38,7 @@ public class DrawInlineTable extends Drawable implements DrawInline, HasFormat {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (tableController != null) {
+		if (geo.isEuclidianVisible() && tableController != null) {
 			tableController.draw(g2, rectangle.getDirectTransform());
 		}
 	}

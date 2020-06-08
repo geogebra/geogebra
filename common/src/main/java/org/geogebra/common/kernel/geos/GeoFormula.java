@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -76,31 +75,6 @@ public class GeoFormula extends GeoInline {
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return latex;
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return false;
-	}
-
-	@Override
-	public ValueType getValueType() {
-		return ValueType.TEXT;
-	}
-
-	@Override
-	protected boolean showInEuclidianView() {
-		return true;
-	}
-
-	@Override
-	public boolean isAlgebraViewEditable() {
-		return false;
-	}
-
-	@Override
-	public HitType getLastHitType() {
-		return HitType.ON_FILLING;
 	}
 
 	@Override

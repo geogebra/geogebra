@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.HasFormat;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -70,28 +69,8 @@ public class GeoInlineTable extends GeoInline implements TextStyle {
 	}
 
 	@Override
-	public ValueType getValueType() {
-		return ValueType.TEXT;
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
-	protected boolean showInEuclidianView() {
-		return true;
-	}
-
-	@Override
 	public boolean isEqual(GeoElementND geo) {
 		return geo == this;
-	}
-
-	@Override
-	public HitType getLastHitType() {
-		return HitType.ON_FILLING;
 	}
 
 	@Override

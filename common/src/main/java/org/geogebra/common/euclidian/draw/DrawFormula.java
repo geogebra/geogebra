@@ -62,7 +62,8 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (formulaController == null || !formulaController.isInForeground()) {
+		if (formula.isEuclidianVisible()
+				&& (formulaController == null || !formulaController.isInForeground())) {
 			g2.setPaint(geo.getObjectColor());
 			g2.setFont(view.getFont());
 			g2.setStroke(objStroke); // needed eg for \sqrt
