@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.euclidian.draw.HasFormat;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -18,7 +18,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Inline Geo Text element.
  */
-public class GeoInlineText extends GeoInline implements TextStyle {
+public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormatter {
 
 	public static final int DEFAULT_WIDTH = 100;
 	public static final int DEFAULT_HEIGHT = 30;
@@ -130,35 +130,33 @@ public class GeoInlineText extends GeoInline implements TextStyle {
 
 	@Override
 	public int getFontStyle() {
-		return getFontStyle(getDrawable());
+		return getFontStyle(getFormatter());
 	}
 
 	/**
 	 * Compute the font style of the inline object
-	 * @param hasFormat inline object with format (text, table)
+	 * @param hasTextFormat inline object with format (text, table)
 	 * @return font style (see GFont)
 	 */
-	public static int getFontStyle(HasFormat hasFormat) {
+	public static int getFontStyle(HasTextFormat hasTextFormat) {
 		try {
-			boolean bold = hasFormat.getFormat("bold", false);
-			boolean italic = hasFormat.getFormat("italic", false);
-			boolean underline = hasFormat.getFormat("underline", false);
+			boolean bold = hasTextFormat.getFormat("bold", false);
+			boolean italic = hasTextFormat.getFormat("italic", false);
+			boolean underline = hasTextFormat.getFormat("underline", false);
 			return ((bold ? GFont.BOLD : 0) | (italic ? GFont.ITALIC : 0)) | (underline
 					? GFont.UNDERLINE : 0);
 		} catch (RuntimeException e) {
-			Log.warn("No format for " + hasFormat);
+			Log.warn("No format for " + hasTextFormat);
 		}
 
 		return GFont.PLAIN;
 	}
 
-	/**
-	 *
-	 * @return the corresponding drawable.
-	 */
-	public DrawInlineText getDrawable() {
-		return (DrawInlineText) kernel.getApplication()
-				.getActiveEuclidianView().getDrawableFor(this);
+	@Override
+	public HasTextFormat getFormatter() {
+		return ((DrawInlineText) kernel.getApplication()
+				.getActiveEuclidianView().getDrawableFor(this))
+				.getTextController();
 	}
 
 	/**
@@ -177,7 +175,7 @@ public class GeoInlineText extends GeoInline implements TextStyle {
 
 	@Override
 	public double getFontSizeMultiplier() {
-		HasFormat drawable = getDrawable();
+		HasTextFormat drawable = getFormatter();
 		double viewFontSize = getCurrentFontSize();
 		double defaultMultiplier = GeoText.getRelativeFontSize(GeoText.FONTSIZE_SMALL);
 		try {

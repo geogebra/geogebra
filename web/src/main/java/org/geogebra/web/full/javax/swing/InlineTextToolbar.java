@@ -2,8 +2,7 @@ package org.geogebra.web.full.javax.swing;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.euclidian.draw.HasFormat;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
@@ -25,7 +24,7 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 
 	private AriaMenuItem item;
 	private final App app;
-	private List<HasFormat> formatters;
+	private List<HasTextFormat> formatters;
 	private FlowPanel panel;
 	private MyToggleButtonW subScriptBtn;
 	private MyToggleButtonW superScriptBtn;
@@ -38,7 +37,7 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 	 * @param formatters the formatters.
 	 *
 	 */
-	public InlineTextToolbar(List<HasFormat> formatters, AriaMenuItem item, App app) {
+	public InlineTextToolbar(List<HasTextFormat> formatters, AriaMenuItem item, App app) {
 		this.formatters = formatters;
 		this.item = item;
 		this.app = app;
@@ -112,7 +111,7 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 			return format;
 		}
 
-		for (HasFormat formatter : formatters) {
+		for (HasTextFormat formatter : formatters) {
 			if (!format.equals(formatter.getFormat("script", "normal"))) {
 				return "";
 			}
@@ -126,22 +125,22 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 			return "";
 		}
 
-		String listStyle = getListStyle(((DrawInlineText) formatters.get(0)));
+		String listStyle = getListStyle(formatters.get(0));
 		if (formatters.size() == 1) {
 			return listStyle;
 		}
 
-		for (HasFormat formatter : formatters) {
-			if (!listStyle.equals(getListStyle(((DrawInlineText) formatter)))) {
+		for (HasTextFormat formatter : formatters) {
+			if (!listStyle.equals(getListStyle(formatter))) {
 				return "";
 			}
 		}
 		return listStyle;
 	}
 
-	private String getListStyle(DrawInlineText drawInlineText) {
-		return drawInlineText.getListStyle() != null
-				? drawInlineText.getListStyle()
+	private String getListStyle(HasTextFormat formatter) {
+		return formatter.getListStyle() != null
+				? formatter.getListStyle()
 				: "";
 	}
 
@@ -173,15 +172,15 @@ public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
 	}
 
 	private void formatScript(String type, Boolean value) {
-		for (HasFormat formatter : formatters) {
+		for (HasTextFormat formatter : formatters) {
 			formatter.format("script", value ? type : "none");
 		}
 		app.storeUndoInfo();
 	}
 
 	private void switchListTo(String listType) {
-		for (HasFormat formatter : formatters) {
-			((DrawInlineText) formatter).switchListTo(listType);
+		for (HasTextFormat formatter : formatters) {
+			formatter.switchListTo(listType);
 		}
 		app.storeUndoInfo();
 	}

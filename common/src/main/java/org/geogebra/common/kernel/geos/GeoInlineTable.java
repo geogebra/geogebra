@@ -1,13 +1,14 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.euclidian.draw.HasFormat;
+import org.geogebra.common.euclidian.draw.DrawInlineTable;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
-public class GeoInlineTable extends GeoInline implements TextStyle {
+public class GeoInlineTable extends GeoInline implements TextStyle, HasTextFormatter {
 
 	private boolean defined = true;
 	private String content;
@@ -75,12 +76,14 @@ public class GeoInlineTable extends GeoInline implements TextStyle {
 
 	@Override
 	public int getFontStyle() {
-		return GeoInlineText.getFontStyle(getDrawable());
+		return GeoInlineText.getFontStyle(getFormatter());
 	}
 
-	protected HasFormat getDrawable() {
-		return (HasFormat) kernel.getApplication()
-				.getActiveEuclidianView().getDrawableFor(this);
+	@Override
+	public HasTextFormat getFormatter() {
+		return ((DrawInlineTable) kernel.getApplication()
+				.getActiveEuclidianView().getDrawableFor(this))
+				.getTableController();
 	}
 
 	@Override

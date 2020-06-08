@@ -10,9 +10,9 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 
-public class DrawInlineTable extends Drawable implements DrawInline, HasFormat {
+public class DrawInlineTable extends Drawable implements DrawInline {
 
-	private final InlineTableController tableController;
+	private InlineTableController tableController;
 
 	private final TransformableRectangle rectangle;
 
@@ -73,14 +73,8 @@ public class DrawInlineTable extends Drawable implements DrawInline, HasFormat {
 		tableController.removeFromDom();
 	}
 
-	@Override
-	public void format(String key, Object val) {
-		tableController.format(key, val);
-	}
-
-	@Override
-	public <T> T getFormat(String key, T fallback) {
-		return tableController.getFormat(key, fallback);
+	public boolean isInEditMode() {
+		return tableController != null && tableController.isInEditMode();
 	}
 
 	@Override
@@ -103,5 +97,17 @@ public class DrawInlineTable extends Drawable implements DrawInline, HasFormat {
 			GPoint2D p = rectangle.getInversePoint(x, y);
 			tableController.toForeground((int) p.getX(), (int) p.getY());
 		}
+	}
+
+	public InlineTableController getTableController() {
+		return tableController;
+	}
+
+	/**
+	 * For tests
+	 * @param tableController
+	 */
+	public void setTextController(InlineTableController tableController) {
+		this.tableController = tableController;
 	}
 }

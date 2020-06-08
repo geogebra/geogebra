@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 /**
  * Class that handles drawing inline text elements.
  */
-public class DrawInlineText extends Drawable implements DrawInline, HasFormat {
+public class DrawInlineText extends Drawable implements DrawInline {
 
 	public static final int PADDING = 8;
 
@@ -173,57 +173,6 @@ public class DrawInlineText extends Drawable implements DrawInline, HasFormat {
 	@Override
 	protected List<GPoint2D> toPoints() {
 		return rectangle.toPoints();
-	}
-
-	/**
-	 * @param key
-	 *            formatting option
-	 * @param val
-	 *            value (String, int or bool, depending on key)
-	 */
-	@Override
-	public void format(String key, Object val) {
-		if (textController != null) {
-			textController.format(key, val);
-		}
-	}
-
-	@Override
-	public <T> T getFormat(String key, T fallback) {
-		if (textController != null) {
-			return textController.getFormat(key, fallback);
-		}
-		return fallback;
-	}
-
-	/**
-	 * @return hyperlink of selected part, or at the end of text element if no selection
-	 */
-	public String getHyperLinkURL() {
-		if (textController != null) {
-			return textController.getHyperLinkURL();
-		}
-		return "";
-	}
-
-	/**
-	 * Switch the list type of selected text
-	 * @param listType - numbered or bullet list
-	 */
-	public void switchListTo(String listType) {
-		if (textController != null) {
-			textController.switchListTo(listType);
-		}
-	}
-
-	/**
-	 * @return list style of selected text
-	 */
-	public String getListStyle() {
-		if (textController != null) {
-			return textController.getListStyle();
-		}
-		return "";
 	}
 
 	@Override

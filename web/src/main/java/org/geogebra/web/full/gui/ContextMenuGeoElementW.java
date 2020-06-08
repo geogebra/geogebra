@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -16,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -193,6 +195,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addFixForUnbundledOrNotes();
 		} else if (app.isWhiteboardActive()) {
 			addInlineTextItems(getGeos());
+
+			if (editModeTable()) {
+				return;
+			}
+
 			addCutCopyPaste();
 			boolean layerAdded = addLayerItem(getGeos());
 			boolean groupsAdded = addGroupItems();
@@ -1238,5 +1245,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				wrappedPopup.getPopupMenu().focus();
 			}
 		});
+	}
+
+	private boolean editModeTable() {
+		if (getGeo() instanceof GeoInlineTable) {
+			DrawInlineTable d = (DrawInlineTable) app.getActiveEuclidianView()
+					.getDrawableFor(getGeo());
+			return d.isInEditMode();
+		}
+
+		return false;
 	}
 }

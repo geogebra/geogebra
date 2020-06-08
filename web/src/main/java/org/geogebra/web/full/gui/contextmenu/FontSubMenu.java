@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.contextmenu;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.draw.HasFormat;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.web.html5.gui.laf.FontFamily;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class FontSubMenu extends AriaMenuBar {
 
 	private final List<FontFamily> fonts;
-	private final List<HasFormat> formatters;
+	private final List<HasTextFormat> formatters;
 	private final AppW app;
 	private AriaMenuItem highlighted;
 
@@ -28,7 +28,7 @@ public class FontSubMenu extends AriaMenuBar {
 	 * @param app the application
 	 * @param formatters to format text.
 	 */
-	public FontSubMenu(AppW app, List<HasFormat> formatters) {
+	public FontSubMenu(AppW app, List<HasTextFormat> formatters) {
 		this.app = app;
 		this.fonts = app.getVendorSettings().getTextToolFonts();
 		this.formatters = formatters;
@@ -51,7 +51,7 @@ public class FontSubMenu extends AriaMenuBar {
 	}
 
 	private void setFontName(String cssName) {
-		for (HasFormat formatter : formatters) {
+		for (HasTextFormat formatter : formatters) {
 			formatter.format("font", cssName);
 		}
 	}

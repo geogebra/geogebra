@@ -1,5 +1,8 @@
 package org.geogebra.web.full.euclidian.inline;
 
+import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
+import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -66,8 +69,13 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public boolean isInEditMode() {
+		return VISIBLE.getCssName().equals(style.getVisibility());
+	}
+
+	@Override
 	public void draw(GGraphics2D g2, GAffineTransform transform) {
-		if (!"visible".equals(style.getVisibility())) {
+		if (!isInEditMode()) {
 			g2.saveTransform();
 			g2.transform(transform);
 			tableImpl.draw(((GGraphics2DW) g2).getContext());
@@ -78,7 +86,7 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void toForeground(int x, int y) {
 		if (style != null) {
-			style.setVisibility(Style.Visibility.VISIBLE);
+			style.setVisibility(VISIBLE);
 			tableImpl.startEditing(x, y);
 		}
 	}
@@ -86,7 +94,7 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void toBackground() {
 		if (style != null) {
-			style.setVisibility(Style.Visibility.HIDDEN);
+			style.setVisibility(HIDDEN);
 			tableImpl.stopEditing();
 			tableImpl.removeSelection();
 		}
@@ -102,6 +110,36 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public <T> T getFormat(String key, T fallback) {
 		return tableImpl.getFormatting(key, fallback);
+	}
+
+	@Override
+	public String getHyperLinkURL() {
+		return "";
+	}
+
+	@Override
+	public void setHyperlinkUrl(String url) {
+		// unimplemented - for now
+	}
+
+	@Override
+	public String getHyperlinkRangeText() {
+		return null;
+	}
+
+	@Override
+	public void insertHyperlink(String url, String text) {
+		// unimplemented - for now
+	}
+
+	@Override
+	public String getListStyle() {
+		return null;
+	}
+
+	@Override
+	public void switchListTo(String listType) {
+		// unimplemented - for now
 	}
 
 	@Override
@@ -143,7 +181,7 @@ public class InlineTableControllerW implements InlineTableController {
 
 		style = tableElement.getStyle();
 		style.setProperty("transformOrigin", "0 0");
-		style.setVisibility(Style.Visibility.HIDDEN);
+		style.setVisibility(HIDDEN);
 		tableImpl = Carota.get().getTable().create(tableElement);
 		tableImpl.init(2, 2);
 
