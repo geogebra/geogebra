@@ -14,4 +14,8 @@ public interface HasLastItem {
 	 */
 	String getLastItemWithOptionalBrackets();
 
+	/**
+	 * @return True if the last item is a GeoText, otherwise false.
+	 */
+	boolean isLastItemText();
 }

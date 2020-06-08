@@ -63,4 +63,10 @@ public final class ConstructionItemProvider implements HasLastItem {
 		}
 		return "(" + lastItemString + ")";
 	}
+
+	@Override
+	public boolean isLastItemText() {
+		GeoElement element = getLastGeoElement();
+		return element != null && element.isGeoText();
+	}
 }
