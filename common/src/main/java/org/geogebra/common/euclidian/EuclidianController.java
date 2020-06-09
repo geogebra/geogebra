@@ -5249,7 +5249,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
-			createInlineObject(selectionPreview, new GeoInlineFactory() {
+			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
 					return new GeoInlineText(cons, location);
@@ -5258,7 +5258,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_TABLE:
-			createInlineObject(selectionPreview, new GeoInlineFactory() {
+			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
 					return new GeoInlineTable(cons, location);
@@ -5267,7 +5267,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_EQUATION:
-			createInlineObject(selectionPreview, new GeoInlineFactory() {
+			changedKernel = createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
 					return new GeoFormula(cons, location);
@@ -6297,9 +6297,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return changedKernel;
 	}
 
-	private void createInlineObject(boolean selPreview, GeoInlineFactory factory) {
+	private boolean createInlineObject(boolean selPreview, GeoInlineFactory factory) {
 		if (selPreview) {
-			return;
+			return false;
 		}
 
 		GeoInline inlineObject;
@@ -6326,10 +6326,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		inlineObject.setLabel(null);
-		selectAndShowSelectionUI((GeoElement) inlineObject);
+		selectAndShowSelectionUI(inlineObject);
 		final DrawableND drawable = view.getDrawableFor(inlineObject);
 		drawable.update();
 		((DrawInline) drawable).toForeground(0, 0);
+
+		return true;
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {

@@ -105,7 +105,7 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 
 	/**
 	 * For tests
-	 * @param tableController
+	 * @param tableController mock controller
 	 */
 	public void setTextController(InlineTableController tableController) {
 		this.tableController = tableController;

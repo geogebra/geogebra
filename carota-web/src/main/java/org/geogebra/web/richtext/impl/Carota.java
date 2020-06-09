@@ -11,7 +11,7 @@ public class Carota {
 		// use Carota.get() instead, may return null
 	}
 
-	@JsProperty(name="carota")
+	@JsProperty(name="murok")
 	public static native Carota get();
 
 	@JsProperty
