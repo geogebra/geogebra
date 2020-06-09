@@ -249,6 +249,8 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_orthogonalthreed_32();
 
+	ResourcePrototype mode_surface_of_revolution();
+
 	// Whiteboard
 
 	ResourcePrototype mode_shape_line_32();
@@ -286,8 +288,6 @@ public interface ToolbarResources {
 	ResourcePrototype mode_highlighter_32();
 
 	ResourcePrototype mode_pdf_32();
-
-	ResourcePrototype mode_extension();
 
 	ResourcePrototype mode_pen();
 

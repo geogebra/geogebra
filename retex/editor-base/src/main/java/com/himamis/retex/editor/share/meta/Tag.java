@@ -35,6 +35,16 @@ public enum Tag {
 
 	LIM("lim"),
 
+	DEF_INT("$defint"),
+
+	LIM_EQ("$limeq"),
+
+	PROD_EQ("$prodeq"),
+
+	SUM_EQ("$sumeq"),
+
+	VEC("$vec"),
+
 	APPLY,
 
 	ABS("abs"),
@@ -58,16 +68,16 @@ public enum Tag {
 	}
 
 	/**
-	 * @param casName
+	 * @param name
 	 *            name
 	 * @return tag with given name
 	 */
-	public static Tag lookup(String casName) {
-		if (casName == null || casName.length() == 0) {
+	public static Tag lookup(String name) {
+		if (name == null || name.length() == 0) {
 			return null;
 		}
 		for (Tag tag : Tag.values()) {
-			if (casName.equals(tag.key)) {
+			if (name.equals(tag.key)) {
 				return tag;
 			}
 		}

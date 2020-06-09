@@ -138,20 +138,28 @@ public class AlgoTTest extends AlgoElement {
 	}
 
 	private double adjustedPValue(double pValue, double testStatistic) {
+		return adjustedPValue(pValue, testStatistic, tail);
+	}
 
+	/**
+	 * @param pValue p-value
+	 * @param testStatistic test statistic
+	 * @param tail tail string (one of &lt;, &gt; ,&lt;&gt )
+	 * @return adjusted p-value
+	 */
+	public static double adjustedPValue(double pValue, double testStatistic, GeoText tail) {
 		// two sided test
 		if (StringUtil.isNotEqual(tail.getTextString())) {
 			return pValue;
 		}
 
 		// one sided test
-		else if ((tail.getTextString().equals(">") && testStatistic > 0)
-				|| (tail.getTextString().equals("<") && testStatistic < 0)) {
+		else if ((tail.getTextStringSafe().equals(">") && testStatistic > 0)
+				|| (tail.getTextStringSafe().equals("<") && testStatistic < 0)) {
 			return pValue / 2;
 		} else {
 			return 1 - pValue / 2;
 		}
-
 	}
 
 	@Override

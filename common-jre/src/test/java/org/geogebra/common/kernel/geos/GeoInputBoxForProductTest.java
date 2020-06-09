@@ -41,10 +41,10 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	public void testXPlusBs() {
 		add("f(x)=?");
 		add("b=1");
-		shouldBeUpdatedAs("f", "x+bb", "x + b b");
-		shouldBeUpdatedAs("f", "x+bbb", "x + b b b");
-		shouldBeUpdatedAs("f", "x+bbbb", "x + b b b b");
-		shouldBeUpdatedAs("f", "x+bbbbbx", "x + b b b b b x");
+		shouldBeUpdatedAs("f", "x+bb", "x+b b");
+		shouldBeUpdatedAs("f", "x+bbb", "x+b b b");
+		shouldBeUpdatedAs("f", "x+bbbb", "x+b b b b");
+		shouldBeUpdatedAs("f", "x+bbbbbx", "x+b b b b b x");
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("a=?");
 		add("b=?");
 		shouldBeUpdatedAs("f", "xab", "x a b");
-		shouldBeUpdatedAs("f", "x + ab", "x + a b");
+		shouldBeUpdatedAs("f", "x + ab", "x+a b");
 		shouldBeUpdatedAs("f", "xxxxxxxxxx", "x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
 		shouldBeUpdatedAs("f", "axxxxxxxxxx",
 				"a x" + Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0);
@@ -76,34 +76,35 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	public void testArctanIntegral() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "21xarctanx", "21x atand(x)");
+		shouldBeUpdatedAs("f", "21xarctanx", "21 x tan"
+				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
 	}
 
 	@Test
 	public void testCost7() {
 		add("g(t)=?");
-		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t cos(7t))) / 7");
+		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t cos(7 t)))/7");
 	}
 
 	@Test
 	public void testNpi7() {
 		add("f(x)=?");
 		add("n=6");
-		shouldBeUpdatedAs("f", "npi/7", "(n " + Unicode.PI_STRING + ") / 7");
+		shouldBeUpdatedAs("f", "npi/7", "(n " + Unicode.PI_STRING + ")/7");
 	}
 
 	@Test
 	public void testLnX() {
 		add("f(x)=?");
 		shouldBeUpdatedAs("f", "xlnx", "x ln(x)");
-		shouldBeUpdatedAs("f", "xln2x", "x ln(2x)");
+		shouldBeUpdatedAs("f", "xln2x", "x ln(2 x)");
 	}
 
 	@Test
 	public void testC_2Index() {
 		add("c_2=3");
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7x)");
+		shouldBeUpdatedAs("f", "c_2e^(7x)", "c_2 " + Unicode.EULER_STRING + "^(7 x)");
 	}
 
 	@Test
@@ -116,13 +117,13 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	public void testx4() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "x4", "x * 4");
+		shouldBeUpdatedAs("f", "x4", "x*4");
 	}
 
 	@Test
 	public void testk4() {
 		add("g(k)=?");
-		shouldBeUpdatedAs("g", "k4", "k * 4");
+		shouldBeUpdatedAs("g", "k4", "k*4");
 	}
 
 	@Test
@@ -134,14 +135,13 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 
 	@Test
 	public void testImaginaryProduct() {
-		add("a=4");
-		shouldBeUpdatedAs("a", "i1", String.valueOf(Unicode.IMAGINARY));
+		numberBeUpdatedAs("i1", String.valueOf(Unicode.IMAGINARY));
 	}
 
 	@Test
 	public void testPiSqrt() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "18pisqrt5", "18" + Unicode.PI_STRING + " sqrt(5)");
+		shouldBeUpdatedAs("f", "18pisqrt5", "18 " + Unicode.PI_STRING + " sqrt(5)");
 	}
 
 	@Test
@@ -155,7 +155,7 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	@Test
 	public void testTangent() {
 		add("f(x)=?");
-		shouldBeUpdatedAs("f", "2xtan8x", "2x tan(8x)");
+		shouldBeUpdatedAs("f", "2xtan8x", "2 x tan(8 x)");
 	}
 
 	@Test
@@ -163,12 +163,45 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("θ=45");
 		add("F=5");
 		add("f(x, y)=?");
-		shouldBeUpdatedAs("f", "Fcosθx+Fsinθy", "F cos(θ x) + F sin(θ y)");
+		shouldBeUpdatedAs("f", "Fcosθx+Fsinθy", "F cos(θ x)+F sin(θ y)");
+	}
+
+	private void numberBeUpdatedAs(String updatedText, String expected) {
+		addAvInput("a = 1");
+		shouldBeUpdatedAs("a", updatedText, expected);
 	}
 
 	private void shouldBeUpdatedAs(String linkedGeo, String updatedText, String expected) {
 		GeoInputBox inputBox = addAvInput("ib = InputBox(" + linkedGeo + ")");
+		inputBox.setSymbolicMode(true);
 		inputBox.updateLinkedGeo(updatedText);
-		assertEquals(expected, inputBox.getText());
+		assertEquals(expected, inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void minusPiShouldStayAsItIs() {
+		String minusPi = "-" + Unicode.PI_STRING;
+		numberBeUpdatedAs(minusPi,	minusPi);
+	}
+
+	@Test
+	public void minusEShouldStayAsItIs() {
+		String minusE = "-" + Unicode.EULER_STRING;
+		numberBeUpdatedAs(minusE, minusE);
+	}
+
+	@Test
+	public void expressionWithMinusPiShouldStayAsItIs() {
+		String piExpression = "-" + Unicode.PI_STRING + "+1";
+		numberBeUpdatedAs(piExpression, piExpression);
+	}
+
+	@Test
+	public void expressionWithMinusEShouldStayAsItIs() {
+		addAvInput("a = 0.32");
+		GeoInputBox inputBox = addAvInput("b = InputBox(a)");
+		inputBox.setSymbolicMode(true);
+		inputBox.updateLinkedGeo("-" + Unicode.EULER_STRING + " + 1");
+		assertEquals("-" + Unicode.EULER_STRING + " + 1", inputBox.getText());
 	}
 }

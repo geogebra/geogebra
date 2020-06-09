@@ -103,6 +103,9 @@ public class MathFieldProcessing implements KeyboardListener {
 			type("log(");
 			mf.getKeyListener()
 					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, 0, '\0'));
+		} else if ("$defint".equals(text) || "$prodeq".equals(text) || "$sumeq".equals(text)
+				|| "$limeq".equals(text) || "$vec".equals(text)) {
+			mf.insertFunction(text);
 		} else {
 			if ("d/dx".equals(text)) {
 				mf.handleDerivative(text);

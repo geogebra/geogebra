@@ -390,8 +390,7 @@ TOKEN : {
  |
    // standard case: labels for GeoElements and command names
    < LABEL:
-    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (<INDEX>)? (<LETTER> | <DIGIT> | "'" )*>
- // |  < #INDEX:  "_" (  <CHAR>  | ("{" (<CHAR>)+ "}") )  >
+    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (("." <INTEGER>)?  | ((<INDEX>)? (<LETTER> | <DIGIT> | "'" )*))>
  |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >
  | < #LETTER:  // unicode letters
        [
@@ -469,6 +468,11 @@ ValidExpression buildValidExpression() :
         // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too
       LOOKAHEAD(2147483647)
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
+      {
+            if (l.image.contains(".")) {
+                ve = new Equation(kernel, new Variable(kernel, l.image), ve).equationOrAssignment();
+            }
+      }
    |
         LOOKAHEAD(2147483647)
         (

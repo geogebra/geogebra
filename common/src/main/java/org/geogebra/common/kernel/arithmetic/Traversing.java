@@ -813,6 +813,10 @@ public interface Traversing {
 					SymbolicMode.NONE);
 			if (replace == null) {
 				replace = variableReplacerAlgorithm.replace(name);
+				if (replace instanceof ExpressionNode) {
+					replace.traverse(this);
+					return;
+				}
 			}
 			if (replace instanceof Variable
 					&& !name.equals(kernel.getConstruction()
@@ -857,7 +861,7 @@ public interface Traversing {
 	 * @author michael
 	 *
 	 */
-	public class CollectUndefinedVariables implements Traversing {
+	public class CollectUndefinedVariables implements Inspecting {
 
 		private TreeSet<String> tree = new TreeSet<>();
 		private TreeSet<String> localTree = new TreeSet<>();
@@ -881,14 +885,14 @@ public interface Traversing {
 		}
 
 		@Override
-		public ExpressionValue process(ExpressionValue ev) {
+		public boolean check(ExpressionValue ev) {
 
 			if (ev instanceof Variable) {
 				Variable variable = (Variable) ev;
 				String variableName = variable.getName(StringTemplate.defaultTemplate);
 				if (variable.getKernel().getApplication().getParserFunctions()
 						.isReserved(variableName)) {
-					return ev;
+					return false;
 				}
 				ExpressionValue expressionFromVariableName =
 						variable.getKernel().lookupLabel(variableName);
@@ -899,7 +903,7 @@ public interface Traversing {
 					expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
 				}
 
-				if (expressionFromVariableName.wrap().isImaginaryUnit()) {
+				if (ExpressionNode.isImaginaryUnit(expressionFromVariableName.unwrap())) {
 					tree.add(InputTokenizer.IMAGINARY_STRING);
 				}
 				if (expressionFromVariableName instanceof Variable
@@ -907,11 +911,12 @@ public interface Traversing {
                             .getKernel()
                             .getConstruction()
                             .isRegistredFunctionVariable(variableName)) {
-					// Log.debug("found undefined variable: "
-					// + ((Variable) ret)
-					// .getName(StringTemplate.defaultTemplate));
 					tree.add(((Variable) expressionFromVariableName)
 							.getName(StringTemplate.defaultTemplate));
+				}
+				// a1.5 -> a*1.5: inspect subexpressions
+				if (expressionFromVariableName.isExpressionNode()) {
+					expressionFromVariableName.inspect(this);
 				}
 			} else if (ev instanceof Command) { // Iteration[a+1, a, {1},4]
 
@@ -950,7 +955,7 @@ public interface Traversing {
 					localTree.add("C");
 				}
 			}
-			return ev;
+			return false;
 		}
 
 		private void addLocalVar(Command com, int i) {

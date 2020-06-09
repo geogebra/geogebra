@@ -42,15 +42,14 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 public class GGraphics2DW implements GGraphics2DWI {
 
 	protected final Canvas canvas;
-	private final JLMContext2d context;
+	private JLMContext2d context;
 
 	private GFontW currentFont = new GFontW("normal");
-	private GColor color = GColor.newColor(255, 255, 255, 255);
+	protected GColor color = GColor.newColor(255, 255, 255, 255);
 
 	GPaint currentPaint = GColor.newColor(255, 255, 255, 255);
 
 	private double[] dashArray = null;
-	private JsArrayNumber jsarrn;
 
 	private int canvasWidth;
 	private int canvasHeight;
@@ -90,6 +89,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 		this.context = (JLMContext2d) ctx.cast();
 		this.context.initTransform();
+	}
+
+	protected void setContext(JLMContext2d context) {
+		this.context = context;
 	}
 
 	/**
@@ -320,11 +323,8 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 *
 	 * @param svgPaint
 	 *            SVG pattern
-	 * @param lineWidth
-	 *            line width
 	 */
-	public void setPaintSVG(final GPaintSVG svgPaint, double lineWidth) {
-
+	public void setPaintSVG(final GPaintSVG svgPaint) {
 		CanvasPattern ptr = context.createPatternSVG(
 				svgPaint.getPath(), svgPaint.getStyle(), svgPaint.getWidth(),
 				svgPaint.getHeight(),
@@ -333,14 +333,13 @@ public class GGraphics2DW implements GGraphics2DWI {
 		// "stroke:black; stroke-width:1", 69.2820323028, 120);
 
 		context.setFillStyle(ptr);
-
 	}
 
 	@Override
 	public void setPaint(final GPaint paint) {
 
 		if (paint instanceof GPaintSVG) {
-			setPaintSVG((GPaintSVG) paint, context.getLineWidth());
+			setPaintSVG((GPaintSVG) paint);
 			return;
 		}
 
@@ -401,7 +400,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 			double[] dasharr = stroke.getDashArray();
 			if (dasharr != null) {
-				jsarrn = JavaScriptObject.createArray().cast();
+				JsArrayNumber jsarrn = JavaScriptObject.createArray().cast();
 				jsarrn.setLength(dasharr.length);
 				for (int i = 0; i < dasharr.length; i++) {
 					jsarrn.set(i, dasharr[i]);
@@ -485,27 +484,27 @@ public class GGraphics2DW implements GGraphics2DWI {
 		return currentFont;
 	}
 
-	private int physicalPX(int logicalPX) {
+	int physicalPX(int logicalPX) {
 		return (int) (logicalPX * getDevicePixelRatio());
 	}
 
 	@Override
 	public void setCoordinateSpaceSize(int width, int height) {
+		setCanvasSize(width, height);
+		context.resetTransform(getDevicePixelRatio());
+		setPixelSize(width, height);
+		this.updateCanvasColor();
+	}
+
+	protected void setCanvasSize(int width, int height) {
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
-
-		context.resetTransform(getDevicePixelRatio());
-		setWidth(width);
-		setHeight(height);
-		this.updateCanvasColor();
 	}
 
 	@Override
 	public void setCoordinateSpaceSizeNoTransformNoColor(int width, int height) {
-		canvas.setCoordinateSpaceWidth(physicalPX(width));
-		canvas.setCoordinateSpaceHeight(physicalPX(height));
-		setWidth(width);
-		setHeight(height);
+		setCanvasSize(width, height);
+		setPixelSize(width, height);
 	}
 
 	@Override
@@ -596,10 +595,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void clearRect(int x, int y, int w, int h) {
-		context.saveTransform();
-		context.setTransform2(1, 0, 0, 1, 0, 0);
 		context.clearRect(x, y, w, h);
-		context.restoreTransform();
 	}
 
 	@Override
@@ -745,29 +741,22 @@ public class GGraphics2DW implements GGraphics2DWI {
 	}
 
 	/**
-	 * @param w
+	 * @param width
 	 *            CSS width in pixels
-	 */
-	public void setWidth(int w) {
-		this.canvasWidth = w;
-		canvas.setWidth(w + "px");
-	}
-
-	/**
-	 * @param h
+	 * @param height
 	 *            CSS height in pixels
 	 */
-	public void setHeight(int h) {
-		this.canvasHeight = h;
-		canvas.setHeight(h + "px");
+	public void setPixelSize(int width, int height) {
+		this.canvasWidth = width;
+		this.canvasHeight = height;
+		canvas.setPixelSize(width, height);
 	}
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
 		int width = Math.max(0, preferredSize.getWidth());
 		int height = Math.max(0, preferredSize.getHeight());
-		setWidth(width);
-		setHeight(height);
+		setPixelSize(width, height);
 
 		// do not use getOffsetWidth here,
 		// as it is prepared by the browser and not yet ready...
@@ -880,7 +869,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public void clearAll() {
 		double scale = getScale();
-		clearRect(0, 0, (int) (scale * getOffsetWidth()), (int) (scale * getOffsetHeight()));
+		context.saveTransform();
+		context.setTransform2(scale, 0, 0, scale, 0, 0);
+		clearRect(0, 0, getOffsetWidth(), getOffsetHeight());
+		context.restoreTransform();
 	}
 
 	public double getScale() {
@@ -979,9 +971,14 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
-			int dy) {
+			int dy, int dw, int dh) {
 		context.drawImage(((MyImageW) img).getImage(), sx, sy, sw, sh, dx, dy,
-				sw, sh);
+				dw, dh);
+	}
+
+	@Override
+	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
+		context.drawImage(((MyImageW) img).getImage(), dx, dy, dw, dh);
 	}
 
 	@Override
@@ -1045,6 +1042,16 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public boolean isAttached() {
 		return canvas != null && canvas.isAttached();
+	}
+
+	@Override
+	public int embed() {
+		return 0; // no layers
+	}
+
+	@Override
+	public void resetLayer() {
+		// no layers
 	}
 
 }

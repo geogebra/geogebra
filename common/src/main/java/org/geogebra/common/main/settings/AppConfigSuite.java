@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.AppKeyboardType;
 
 /**
  * Config for the Suite app (currently graphing before tool removal)
@@ -105,6 +106,11 @@ public class AppConfigSuite extends AppConfigGraphing {
 
 	@Override
 	public String getTutorialKey() {
-		return "suite_tutorial";
+		return "TutorialSuite";
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.SUITE;
 	}
 }

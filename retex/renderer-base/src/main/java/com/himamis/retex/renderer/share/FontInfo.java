@@ -86,13 +86,19 @@ public class FontInfo {
 	protected CharFont[] nextLarger;
 	protected char[][] extensions;
 
-	public FontInfo(int size, String path, double xHeight, double space,
-			double quad, char skewChar) {
+	// This is the currently loaded character, so that calls to
+	// setKern etc do not have to pass it, and allows for better
+	// optimization of common code pieces. Should not be used after
+	// initMetrics returns
+	private char current;
+
+	public FontInfo(int size, String path, int xHeight, int space,
+			int quad, int skewChar) {
 		this.path = path;
-		this.xHeight = xHeight;
-		this.space = space;
-		this.quad = quad;
-		this.skewChar = skewChar;
+		this.xHeight = xHeight / 1000.;
+		this.space = space / 1000.;
+		this.quad = quad / 1000.;
+		this.skewChar = (char) skewChar;
 		this.size = size == 0 ? NUMBER_OF_CHAR_CODES : size;
 		this.metrics = new double[this.size][];
 	}
@@ -222,6 +228,41 @@ public class FontInfo {
 		extensions[c] = ext;
 	}
 
+	public void setMetrics(int c, int... metrics) {
+		current = (char) c;
+
+		if (metrics.length == 2) {
+			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000.,
+					0, 0});
+		} else if (metrics.length == 3) {
+			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000.,
+					metrics[2] / 1000., 0});
+		} else {
+			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000.,
+					metrics[2] / 1000., metrics[3] / 1000.});
+		}
+	}
+
+	public void setNextLarger(FontInfo fi, int nextLarger) {
+		setNextLarger(current, (char) nextLarger, fi);
+	}
+
+	public void setKern(int... kerns) {
+		for (int i = 0; i < kerns.length; i += 2) {
+			addKern(current, (char) kerns[i], kerns[i + 1] / 1000.);
+		}
+	}
+
+	public void setLigatures(int... chars) {
+		for (int i = 0; i < chars.length; i += 2) {
+			addLigature(current, (char) chars[i], (char) chars[i + 1]);
+		}
+	}
+
+	public void setExtension(int top, int mid, int rep, int bot) {
+		setExtension(current, new char[] {(char) top, (char) mid, (char) rep, (char) bot});
+	}
+
 	public void setMetrics(char c, double[] arr) {
 		metrics[c] = arr;
 	}
@@ -232,28 +273,6 @@ public class FontInfo {
 			nextLarger = new CharFont[size];
 		}
 		nextLarger[c] = new CharFont(larger, fontLarger);
-	}
-
-	public void setInfo(char c, double[] metrics, char[] ligatures,
-			char[] kernCode, double[] kernValue, FontInfo nextLarger,
-			char nextLargerChar, char[] extension) {
-		setMetrics(c, metrics);
-		if (ligatures != null) {
-			for (int i = 0; i < ligatures.length; i += 2) {
-				addLigature(c, ligatures[i], ligatures[i + 1]);
-			}
-		}
-		if (kernCode != null) {
-			for (int i = 0; i < kernCode.length; ++i) {
-				addKern(c, kernCode[i], kernValue[i]);
-			}
-		}
-		if (nextLarger != null) {
-			setNextLarger(c, nextLargerChar, nextLarger);
-		}
-		if (extension != null) {
-			setExtension(c, extension);
-		}
 	}
 
 	protected final void init() {
