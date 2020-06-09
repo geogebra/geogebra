@@ -309,4 +309,20 @@ public class EditorTypingTest {
 		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
 		inputBoxChecker.type("sin(pix)").checkAsciiMath("sin(" + Unicode.PI_STRING + "x)");
 	}
+
+	@Test
+	public void shouldRecognizeAbsAsSuffix() {
+		checker.type("xabs(x").checkGGBMath("x abs(x)");
+	}
+
+	@Test
+	public void shouldRecognizeSqrtAsSuffix() {
+		checker.type("xsqrt(x").checkGGBMath("x sqrt(x)");
+	}
+
+	@Test
+	public void shouldRecognizeSqrtAsSuffixWithConst() {
+		// for constant no multiplication space added => we have to check the raw string
+		checker.type("8sqrt(x").checkRaw("MathSequence[8, FnSQRT[MathSequence[x]]]");
+	}
 }

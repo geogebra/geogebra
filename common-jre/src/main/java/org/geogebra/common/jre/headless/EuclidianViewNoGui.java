@@ -53,7 +53,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	public void repaint() {
 		updateBackgroundIfNecessary();
-		paint(getGraphicsForPen(), getBackgroundGraphics());
+		paint(getGraphicsForPen());
 	}
 
 	@Override

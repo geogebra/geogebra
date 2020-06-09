@@ -317,7 +317,7 @@ public class FunctionNVar extends ValidExpression
 	 *
 	 * @return whether this is a valid (numeric or boolean) function
 	 */
-	public boolean initFunction(boolean simplifyInt) {
+	public boolean  initFunction(boolean simplifyInt) {
 		EvalInfo info = new EvalInfo(false).withSimplifying(simplifyInt);
 		return initFunction(info);
 	}

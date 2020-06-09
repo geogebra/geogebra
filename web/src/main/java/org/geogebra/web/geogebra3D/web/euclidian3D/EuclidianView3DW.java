@@ -9,11 +9,11 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
+import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App.ExportType;
@@ -35,7 +35,6 @@ import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.euclidian.ReaderWidget;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -43,6 +42,7 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
@@ -76,8 +76,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	/** graphics */
 	private GGraphics2DWI g2p = null;
 
-	private PointerEventHandler pointerHandler;
-
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	private long lastRepaint;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
@@ -102,15 +100,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		initBaseComponents(evPanel, ec);
 
 		getRenderer().init();
-		if (g2p.getCanvas() != null) {
-			ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					((AppW) getApplication()).closePopups();
-				}
-			});
-			initAriaDefaults();
-		}
+		initAriaDefaults();
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
@@ -128,7 +118,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		initView(true);
 		attachView();
 
-		((EuclidianController3DW) euclidiancontroller).setView(this);
+		euclidiancontroller.setView(this);
 
 		registerKeyHandlers(canvas);
 		registerMouseTouchGestureHandlers(euclidianViewPanel,
@@ -142,8 +132,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	private void initAriaDefaults() {
 		Element elem = g2p.getElement();
-		elem.setAttribute("role", "figure");
-		elem.setAttribute("aria-label", "3D View");
+		if (elem != null) {
+			elem.setAttribute("role", "figure");
+			elem.setAttribute("aria-label", "3D View");
+		}
 	}
 
 	private void setEvNo() {
@@ -170,7 +162,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
 		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
 
-		if (!Browser.supportsPointerEvents()) {
+		if (Browser.supportsPointerEvents()) {
+			PointerEventHandler pointerHandler = new PointerEventHandler(
+					(IsEuclidianController) euclidianController,
+					euclidiancontroller.getOffsets());
+			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
+		} else {
 			absPanel.addDomHandler(euclidiancontroller,
 					MouseMoveEvent.getType());
 			absPanel.addDomHandler(euclidiancontroller,
@@ -182,22 +179,14 @@ public class EuclidianView3DW extends EuclidianView3D implements
 						MouseDownEvent.getType());
 			}
 			absPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
+			absPanel.addBitlessDomHandler(euclidiancontroller, TouchStartEvent.getType());
+			absPanel.addBitlessDomHandler(euclidiancontroller, TouchEndEvent.getType());
+			absPanel.addBitlessDomHandler(euclidiancontroller, TouchMoveEvent.getType());
+			absPanel.addBitlessDomHandler(euclidiancontroller, TouchCancelEvent.getType());
+			absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
+			absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
+			absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
 		}
-
-		if (Browser.supportsPointerEvents()) {
-			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
-					euclidiancontroller.getOffsets());
-			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
-			return;
-		}
-		absPanel.addBitlessDomHandler(euclidiancontroller, TouchStartEvent.getType());
-		absPanel.addBitlessDomHandler(euclidiancontroller, TouchEndEvent.getType());
-		absPanel.addBitlessDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-		absPanel.addBitlessDomHandler(euclidiancontroller, TouchCancelEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
-		absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
-
 	}
 
 	/**
@@ -227,8 +216,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements
 	        RequiresResize {
 
-		private Renderer pRenderer;
-
 		/**
 		 * constructor
 		 * 
@@ -241,7 +228,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		@Override
 		protected Canvas createCanvas() {
-			pRenderer = getRenderer();
+			Renderer pRenderer = getRenderer();
 			return (Canvas) pRenderer.getCanvas();
 		}
 
@@ -565,11 +552,34 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	public String getCanvasBase64WithTypeString() {
 		((RendererWInterface) this.renderer).setBuffering(true);
 		this.doRepaint2();
-		String ret = EuclidianViewW.getCanvasBase64WithTypeString(
-				this.getWidth(), getHeight(), null,
-				(Canvas) renderer.getCanvas());
+		String ret = getCanvasBase64WithTypeString(
+				this.getWidth(), getHeight());
 		((RendererWInterface) this.renderer).setBuffering(false);
 		return ret;
+	}
+
+	private String getCanvasBase64WithTypeString(double width, double height) {
+		Canvas foreground = ((RendererWInterface) this.renderer).getCanvas();
+		double ratio = width / height;
+		double thx = MyXMLio.THUMBNAIL_PIXELS_X;
+		double thy = MyXMLio.THUMBNAIL_PIXELS_Y;
+		if (ratio < 1) {
+			thx *= ratio;
+		} else if (ratio > 1) {
+			thy /= ratio;
+		}
+
+		Canvas canv = Canvas.createIfSupported();
+		canv.setCoordinateSpaceHeight((int) thy);
+		canv.setCoordinateSpaceWidth((int) thx);
+		canv.setWidth((int) thx + "px");
+		canv.setHeight((int) thy + "px");
+		Context2d c2 = canv.getContext2d();
+
+		c2.drawImage(foreground.getCanvasElement(), 0, 0, (int) thx,
+				(int) thy);
+
+		return EuclidianViewW.dataURL(canv, null);
 	}
 
 	@Override

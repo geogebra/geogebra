@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
+import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoEmbed;
@@ -49,7 +50,7 @@ public interface EmbedManager {
 	 * @param f
 	 *            archive
 	 */
-	public void writeEmbeds(Construction construction, ZipFile f);
+	void writeEmbeds(Construction construction, ZipFile f);
 
 	/**
 	 * Load all embeds for a slide
@@ -57,7 +58,7 @@ public interface EmbedManager {
 	 * @param archive
 	 *            slide
 	 */
-	public void loadEmbeds(ZipFile archive);
+	void loadEmbeds(ZipFile archive);
 
 	/**
 	 * Save state of all widgets.
@@ -67,7 +68,7 @@ public interface EmbedManager {
 	/**
 	 * Move all embeds to background.
 	 */
-	public void backgroundAll();
+	void backgroundAll();
 
 	/**
 	 * Activates embedded applet
@@ -75,7 +76,7 @@ public interface EmbedManager {
 	 * @param embed
 	 *            active embed
 	 */
-	public void play(GeoEmbed embed);
+	void play(GeoEmbed embed);
 
 	/**
 	 * Removes embedded applet
@@ -83,7 +84,7 @@ public interface EmbedManager {
 	 * @param drawEmbed
 	 *            drawable
 	 */
-	public void remove(DrawEmbed drawEmbed);
+	void remove(DrawEmbed drawEmbed);
 
 	/**
 	 * Add new embedded applet and store undo info.
@@ -98,7 +99,7 @@ public interface EmbedManager {
 	 *            applet drawble
 	 * @return preview image
 	 */
-	public MyImage getPreview(DrawEmbed drawEmbed);
+	MyImage getPreview(DrawEmbed drawEmbed);
 
 	/**
 	 * Executes an action in all embedded elements.
@@ -106,7 +107,7 @@ public interface EmbedManager {
 	 * @param action
 	 *            event type
 	 */
-	public void executeAction(EventType action);
+	void executeAction(EventType action);
 
 	/**
 	 * @param action
@@ -114,22 +115,28 @@ public interface EmbedManager {
 	 * @param embedId
 	 *            ID of embedded element
 	 */
-	public void executeAction(EventType action, int embedId);
+	void executeAction(EventType action, int embedId);
 
 	/**
 	 * Move embeds to chache so that they don't need rebuilding during undo
 	 */
-	public void storeEmbeds();
+	void storeEmbeds();
 
 	/**
 	 * Permanently remove cached embeds
 	 */
-	public void clearStoredEmbeds();
+	void clearStoredEmbeds();
 
 	/**
 	 * opens the  Graspable math tool
 	 */
-	public void openGraspableMTool();
+	void openGraspableMTool();
 
 	void initAppEmbed(GeoEmbed ge);
+
+	/**
+	 * @param embed drawable
+	 * @param layer z-index
+	 */
+	void setLayer(DrawWidget embed, int layer);
 }

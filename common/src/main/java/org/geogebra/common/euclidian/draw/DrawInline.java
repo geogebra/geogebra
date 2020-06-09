@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.RemoveNeeded;
 
 public interface DrawInline extends RemoveNeeded {
@@ -19,4 +21,6 @@ public interface DrawInline extends RemoveNeeded {
 	 * Send this to background
 	 */
 	void toBackground();
+
+	BoundingBox<? extends GShape> getBoundingBox();
 }

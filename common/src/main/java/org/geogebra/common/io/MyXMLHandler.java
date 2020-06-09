@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
@@ -1814,11 +1815,12 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 
-		if ("degree".equals(angleUnit)) {
+		if (GeoGebraPreferencesXML.ANGLE_DEGREE_XML_NAME.equals(angleUnit)) {
 			kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
-		} else if ("radiant".equals(angleUnit)) {
+		} else if (GeoGebraPreferencesXML.ANGLE_RADIANT_XML_NAME.equals(angleUnit)) {
 			kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
-		} else if ("degreesMinutesSeconds".equals(angleUnit)) {
+		} else if (
+				GeoGebraPreferencesXML.ANGLE_DEGREES_MINUTES_SECONDS_XML_NAME.equals(angleUnit)) {
                 kernel.setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
 		} else {
 			return false;
@@ -2981,6 +2983,8 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("cascell".equals(eName)) {
 				constMode = MODE_CONST_CAS_CELL;
 				casMode = MODE_CONST_CAS_CELL;
+			} else if ("group".equals(eName)) {
+				geoHandler.handleGroup(attrs);
 			} else if ("worksheetText".equals(eName)) {
 				handleWorksheetText(attrs);
 			} else {
@@ -3021,12 +3025,8 @@ public class MyXMLHandler implements DocHandler {
 			if ("construction".equals(eName)) {
 				// process start points at end of construction
 				this.geoHandler.processLists();
+				cons.getLayerManager().updateList();
 				processEvSizes();
-				// now called from MyXMLio.doParseXML()
-				// if (spreadsheetTraceNeeded) {
-				// // don't want to initialize trace manager unless necessary
-				// app.getTraceManager().loadTraceGeoCollection();
-				// }
 
 				if (kernel == origKernel) {
 					mode = MODE_GEOGEBRA;

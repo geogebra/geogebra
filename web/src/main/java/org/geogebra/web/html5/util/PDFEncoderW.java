@@ -86,7 +86,7 @@ public class PDFEncoderW implements Encoder {
 	 *            height
 	 * @return canvas2pdf object
 	 */
-	public static native JavaScriptObject getCanvas2PDF(double width,
+	public static native Context2d getCanvas2PDF(double width,
 			double height) /*-{
 		if ($wnd.canvas2pdf) {
 			return new $wnd.canvas2pdf.PdfContext(width, height);
@@ -146,7 +146,7 @@ public class PDFEncoderW implements Encoder {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
 		}
 
-		return PDFEncoderW.getCanvas2PDF(width, height).cast();
+		return PDFEncoderW.getCanvas2PDF(width, height);
 	}
 
 }

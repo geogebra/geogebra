@@ -1,10 +1,14 @@
 package org.geogebra.web.test;
 
-import com.google.gwt.user.client.ui.*;
-import com.google.gwtmockito.GwtMockitoTestRunner;
+import java.util.Collection;
+
 import org.junit.runners.model.InitializationError;
 
-import java.util.Collection;
+import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtmockito.GwtMockitoTestRunner;
 
 public class GgbMockitoTestRunner extends GwtMockitoTestRunner {
 

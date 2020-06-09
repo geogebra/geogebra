@@ -1,6 +1,17 @@
 package org.geogebra.common.main;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Vector;
+
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
@@ -60,10 +71,10 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.kernel.geos.DefaultGeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
@@ -72,6 +83,8 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPriorityComparator;
+import org.geogebra.common.kernel.geos.NotesPriorityComparator;
 import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -114,15 +127,7 @@ import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Vector;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -429,13 +434,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	final static public long CE_ID_COUNTER_START = 1;
 	private long ceIDcounter = CE_ID_COUNTER_START;
 	private int nextVariableID = 1;
-	private boolean buttonShadows = false;
-	private double buttonRounding = 0.2;
 	private SpecialPointsManager specialPointsManager;
 
 	private boolean areCommands3DEnabled = true;
 	protected AccessibilityManagerInterface accessibilityManager;
-	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
 	private AlgebraOutputFilter algebraOutputFilter;
@@ -3934,9 +3936,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case SPEECH_RECOGNITION:
 			return false;
 
-		case SURFACE_OF_REVOLUTION_TOOL:
-			return prerelease;
-
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
@@ -4792,52 +4791,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * GGB-2171
-	 *
-	 * @param b
-	 *            set whether buttons have shadows
-	 */
-	public void setButtonShadows(boolean b) {
-		this.buttonShadows = b;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @param percent
-	 *            set how rounded buttons are
-	 */
-	public void setButtonRounding(double percent) {
-		if (!MyDouble.isFinite(percent)) {
-			this.buttonRounding = 0.2;
-		} else if (percent < 0) {
-			this.buttonRounding = 0;
-		} else if (percent > 0.9) {
-			this.buttonRounding = 0.9;
-		} else {
-			this.buttonRounding = percent;
-		}
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @return how rounded buttons are
-	 */
-	public double getButtonRouding() {
-		return buttonRounding;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @return whether buttons have shadows
-	 */
-	public boolean getButtonShadows() {
-		return buttonShadows;
-	}
-
-	/**
 	 * check is view is 3D WITHOUT creating 3D View
 	 *
 	 * @param view
@@ -4993,20 +4946,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public String md5Encrypt(String s) {
-		return getMD5EncrypterStatic().encrypt(s);
+		return MD5EncrypterGWTImpl.encrypt(s);
 	}
 
-	/**
-	 * @return MD5 encrypter that can be used in GWT
-	 */
-	public static synchronized MD5EncrypterGWTImpl getMD5EncrypterStatic() {
-		if (md5Encrypter == null) {
-			md5Encrypter = new MD5EncrypterGWTImpl();
-		}
-		return md5Encrypter;
-	}
-
-	public EmbedManager getEmbedManager() {
+	public @CheckForNull EmbedManager getEmbedManager() {
 		return null;
 	}
 
@@ -5231,5 +5174,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public InlineFormulaController createInlineFormulaController(EuclidianView view,
 			GeoFormula geo) {
 		return null;
+	}
+
+	/**
+	 * GeoPriorityComparators are used to decide the drawing
+	 * and selection orders of Geos
+	 * @return the default comparator (layer -> type -> construction order) in every
+	 * app except notes, where the geo's `ordering` is used
+	 */
+	public GeoPriorityComparator getGeoPriorityComparator() {
+		if (isWhiteboardActive()) {
+			return new NotesPriorityComparator();
+		} else {
+			return new DefaultGeoPriorityComparator();
+		}
 	}
 }

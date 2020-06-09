@@ -1,9 +1,9 @@
 package org.geogebra.common.properties.util;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-
-import java.util.List;
 
 /**
  * Helper class for properties with GeoElements. To use this class, the property must

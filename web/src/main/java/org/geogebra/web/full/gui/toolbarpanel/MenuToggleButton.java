@@ -69,6 +69,7 @@ public class MenuToggleButton extends MyToggleButton
 	 * Toggle open/closed state of the menu
 	 */
 	protected void toggleMenu() {
+		appW.hideKeyboard();
 		appW.toggleMenu();
 	}
 

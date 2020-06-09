@@ -1,11 +1,11 @@
 package org.geogebra.desktop.factories;
 
 import org.geogebra.common.jre.util.UtilFactoryJre;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.URLEncoder;
-import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.HttpRequestD;

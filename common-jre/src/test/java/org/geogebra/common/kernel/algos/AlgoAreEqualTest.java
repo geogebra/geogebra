@@ -1,6 +1,8 @@
 package org.geogebra.common.kernel.algos;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Construction;
@@ -12,7 +14,7 @@ import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgoAreEqualTest {
 

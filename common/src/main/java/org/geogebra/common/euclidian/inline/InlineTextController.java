@@ -42,15 +42,12 @@ public interface InlineTextController {
 
 	void setAngle(double angle);
 
+	void toForeground(int x, int y);
+
 	/**
 	 * Put the editor behind the canvas
 	 */
 	void toBackground();
-
-	/**
-	 * Bring the editor to the foreground and start editing
-	 */
-	void toForeground(int x, int y);
 
 	/**
 	 * @param key

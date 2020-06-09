@@ -1,10 +1,10 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.GTimer;
-
-import java.util.ArrayList;
 
 /**
  * @author gabor Base class for login logout operations

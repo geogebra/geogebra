@@ -103,4 +103,19 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/floor.svg")
 	SVGResource floor();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/definite_integral.svg")
+	SVGResource definite_integral();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/lim.svg")
+	SVGResource lim();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/product.svg")
+	SVGResource product();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/sum.svg")
+	SVGResource sum();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/vector.svg")
+	SVGResource vector();
 }

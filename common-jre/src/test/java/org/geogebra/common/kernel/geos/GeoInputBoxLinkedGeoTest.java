@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -30,6 +32,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		updateInput("GeoGebra Really Rocks");
 		t("txt", "GeoGebra Really Rocks");
 		hasType("txt", GeoClass.TEXT);
+	}
+
+	@Test
+	public void shouldShowNewlineQuotesForText() {
+		setupInput("txt", "\"GeoGebra\\\\nRocks\"");
+		assertEquals("GeoGebra\\\\nRocks", inputBox.getText());
+		updateInput("GeoGebra\\\\nReally\\\\nRocks");
+		t("txt", "GeoGebra\nReally\nRocks");
 	}
 
 	@Test
@@ -264,5 +274,15 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("p:Plane(A,B,C)");
 		GeoInputBox inputBox = add("InputBox(p)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
+	}
+
+	@Test
+	public void testCanBeSymbolicForEquation() {
+		add("eq1:x^3+y^3=1");
+		GeoInputBox inputBox1 = add("InputBox(eq1)");
+		add("eq2:x^2+y^2+z^2=1");
+		GeoInputBox inputBox2 = add("InputBox(eq2)");
+		Assert.assertTrue(inputBox1.canBeSymbolic());
+		Assert.assertTrue(inputBox2.canBeSymbolic());
 	}
 }

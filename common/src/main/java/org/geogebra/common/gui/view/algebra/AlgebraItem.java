@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.algebra;
 
-import com.himamis.retex.editor.share.util.Unicode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
@@ -25,6 +24,8 @@ import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Utitlity class for AV items
@@ -519,8 +520,7 @@ public class AlgebraItem {
 	public static String getLatexString(GeoElement geo1, Integer limit,
 			boolean output) {
 		Kernel kernel = geo1.getKernel();
-		if (!geo1.isDefinitionValid()
-				|| (output && !geo1.isLaTeXDrawableGeo())) {
+		if (output && !geo1.isLaTeXDrawableGeo()) {
 			return null;
 		}
 		if (geo1.getParentAlgorithm() instanceof AlgoFractionText) {

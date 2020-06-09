@@ -51,6 +51,7 @@ import org.freehep.graphicsio.svg.SVGGraphics2D;
 import org.freehep.util.UserProperties;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -853,17 +854,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			}
 
 			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Throwable t) {
 			app.showError(Errors.SaveFileFailed);
-			Log.debug(ex.toString());
+			Log.printStacktrace(t.getMessage());
 			return false;
-		} catch (Error ex) {
-			app.showError(Errors.SaveFileFailed);
-			Log.debug(ex.toString());
-			return false;
-		} finally {
-			ev.restoreOldCoordSystem();
 		}
 	}
 
@@ -1036,19 +1030,19 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			ev.drawActionObjects(expGraphics);
 			g.endGroup("misc");
 
-			for (int layer = 0; layer <= app.getMaxLayerUsed(); layer++) // draw
-			// only
-			// layers
-			// we
-			// need
-			{
-				g.startGroup("layer" + layer);
+			int currentLayer = 0;
 
-				// ev.drawLayers[layer].drawAll(new GGraphics2DD(g));
-				g.drawAll(ev.drawLayers[layer], new GGraphics2DD(g));
+			g.startGroup("layer" + currentLayer);
+			for (Drawable d : ev.allDrawableList) {
+				if (d.getGeoElement().getLayer() != currentLayer) {
+					g.endGroup("layer" + currentLayer);
+					currentLayer = d.getGeoElement().getLayer();
+					g.startGroup("layer" + currentLayer);
+				}
 
-				g.endGroup("layer" + layer);
+				g.draw(d, new GGraphics2DD(g));
 			}
+			g.endGroup("layer" + currentLayer);
 
 			g.endExport();
 			expGraphics.resetClip();

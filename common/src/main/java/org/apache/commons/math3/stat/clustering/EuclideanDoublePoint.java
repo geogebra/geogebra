@@ -17,8 +17,8 @@
 package org.apache.commons.math3.stat.clustering;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Arrays;
+import java.util.Collection;
 
 import org.apache.commons.math3.util.MathArrays;
 

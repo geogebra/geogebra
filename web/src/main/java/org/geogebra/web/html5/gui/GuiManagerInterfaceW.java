@@ -16,9 +16,9 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
+import org.geogebra.web.html5.main.TemplateChooserControllerI;
 
 import com.google.gwt.user.client.Command;
-import org.geogebra.web.html5.main.TemplateChooserControllerI;
 
 public interface GuiManagerInterfaceW extends GuiManagerInterface {
 

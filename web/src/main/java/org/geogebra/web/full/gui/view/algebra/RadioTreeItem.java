@@ -40,9 +40,9 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
@@ -777,8 +777,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
-		if (AlgebraItem.needsPacking(geo) || !geo.isAlgebraLabelVisible()) {
+		if (AlgebraItem.needsPacking(geo)) {
 			return geo.getLaTeXDescriptionRHS(substituteNumbers, tpl);
+		} else if (!geo.isAlgebraLabelVisible()) {
+			return geo.getDefinition(tpl);
 		}
 		return geo.getLaTeXAlgebraDescriptionWithFallback(
 				substituteNumbers

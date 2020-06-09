@@ -19,8 +19,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	EuclidianPanel euclidianpanel;
 
 	Canvas eview1 = null; // static foreground
-	Canvas eviewBg = null; // static background
-	private boolean doubleCanvas = false;
 
 	/**
 	 * This constructor is used by the Application
@@ -28,10 +26,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 * 
 	 * @param stylebar
 	 *            (is there stylebar?)
-	 * @param doubleCanvas
-	 *            if application uses double canvas or not.
 	 */
-	public EuclidianDockPanelW(boolean stylebar, boolean doubleCanvas) {
+	public EuclidianDockPanelW(boolean stylebar) {
 		super(
 				App.VIEW_EUCLIDIAN,	// view id 
 				"DrawingPad", 				// view title
@@ -44,12 +40,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
-
-		this.doubleCanvas = doubleCanvas;
-		if (stylebar) {
-			component = loadComponent();
-		} else {
-			component = loadComponent();
+		component = loadComponent();
+		if (!stylebar) {
 			buildDockPanel();
 		}
 	}
@@ -63,7 +55,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	 *            whether to use stylebar
 	 */
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
-		this(stylebar, application.isWhiteboardActive());
+		this(stylebar);
 		attachApp(application);
 	}
 
@@ -88,18 +80,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
 			TestHarness.setAttr(eview1, "euclidianView");
-			if (doubleCanvas) {
-				eviewBg = Canvas.createIfSupported();
-				if (eviewBg != null) {
-					eviewBg.addStyleName("mowBackground");
-					eview1.addStyleName("mowForeground");
-				}
-				addCanvas(eviewBg);
-				addCanvas(eview1);
-				euclidianpanel.addStyleName("mowDoubleCanvas");
-			} else {
-				addCanvas(eview1);
-			}
+			addCanvas(eview1);
 		}
 		return euclidianpanel;
 	}
@@ -121,11 +102,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract
 	@Override
 	public Canvas getCanvas() {
 		return eview1;
-	}
-
-	@Override
-	public Canvas getBackgroundCanvas() {
-		return eviewBg;
 	}
 
 	@Override

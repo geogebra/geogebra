@@ -1,5 +1,11 @@
 package org.geogebra.web.full.gui;
 
+import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.DialogBoxW;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -9,11 +15,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.DialogBoxW;
 
 /**
  * A Dialog that describes what has changed recently in the app.

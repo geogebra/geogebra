@@ -2,8 +2,6 @@ package org.geogebra.web.full.gui.util;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialVisibility;
@@ -25,8 +23,9 @@ import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.components.ComponentCheckbox;
 import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.SharedResources;
+import org.geogebra.web.shared.components.ComponentCheckbox;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -44,9 +43,10 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.geogebra.web.shared.SharedResources;
 
 /**
  * Dialog for online saving (tube/drive)

@@ -76,11 +76,37 @@ class MetaModelFunctions {
 								MetaParameter.BASIC, MetaParameter.BASIC
         }));
 
+		functions.add(
+				createFunctionInsert(Tag.DEF_INT, "\\int", 2,
+						new MetaParameter[] {
+								createParameterUp(1), createParameterDown(0)
+		}));
+
 		functions
 				.add(createFunctionInsert(Tag.LIM, "\\lim", 2,
 						new MetaParameter[] {
 								MetaParameter.BASIC, MetaParameter.BASIC, MetaParameter.BASIC
         }));
+
+		functions
+				.add(createFunctionInsert(Tag.LIM_EQ, "\\lim", 1,
+						new MetaParameter[] {
+								MetaParameter.BASIC
+		}));
+
+		functions.add(createFunctionInsert(Tag.PROD_EQ, "\\prod", 2,
+				new MetaParameter[] {
+						createParameterUp(1), createParameterDown(0)
+		}));
+
+		functions.add(createFunctionInsert(Tag.SUM_EQ, "\\sum", 2,
+				new MetaParameter[] {
+						createParameterUp(1), createParameterDown(0)
+		}));
+
+		functions.add(createFunction(Tag.VEC, "\\vec", new MetaParameter[] {
+				MetaParameter.BASIC
+		}));
 
 		functions.add(createFunction(Tag.ABS));
 		functions.add(createFunction(Tag.FLOOR));
