@@ -18,11 +18,6 @@ public class GeoElementValueConverterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConvertsText() {
-		assertConverts("\"hello\"", "“hello”");
-	}
-
-	@Test
 	public void testAddsBracketsForComplexExpressions() {
 		assertConverts("y=3x", "y = 3x");
 		assertConverts("x^2", "x²");
