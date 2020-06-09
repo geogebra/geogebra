@@ -95,6 +95,8 @@ public class InlineFormattingItems {
 	}
 
 	private void addTableItems() {
+		final GeoInlineTable table = (GeoInlineTable) geos.get(0);
+
 		addItem("ContextMenu.insertRowAbove", () -> {});
 		addItem("ContextMenu.insertRowBelow", () -> {});
 		addItem("ContextMenu.insertColumnLeft", () -> {});
@@ -104,7 +106,7 @@ public class InlineFormattingItems {
 
 		addItem("ContextMenu.deleteRow", () -> {});
 		addItem("ContextMenu.deleteColumn", () -> {});
-		addItem("ContextMenu.deleteTable", () -> {});
+		addItem("ContextMenu.deleteTable", table::remove);
 	}
 
 	private void addToolbar() {

@@ -2950,14 +2950,6 @@ public abstract class GeoElement extends ConstructionElement
 			colFunction.unregisterColorFunctionListener(this);
 		}
 
-		/*
-		 * // remove all dependent algorithms if (algorithmList != null) { final
-		 * Object[] algos = algorithmList.toArray(); for (int i = 0; i <
-		 * algos.length; i++) { algo = (AlgoElement) algos[i];
-		 * algo.remove(this); cons.updateCasCellRows(); } //
-		 * cons.updateCasCellRows(); }
-		 */
-
 		// remove this object from table
 		if (isLabelSet()) {
 			cons.removeLabel(this);
