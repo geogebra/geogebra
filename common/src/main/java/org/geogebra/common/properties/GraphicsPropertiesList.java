@@ -38,7 +38,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 	 * @param localization
 	 *            localization
 	 */
-	GraphicsPropertiesList(App app, Localization localization) {
+	public GraphicsPropertiesList(App app, Localization localization) {
 		super(getProperties(app, localization));
         mApp = app;
         mLocalization = localization;
