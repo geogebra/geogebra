@@ -85,20 +85,21 @@ class RatioUtil {
         } else {
             ratio = ratioAtStart;
         }
+
+        if (ratio >= 100) {
+            // round to 0 decimal places.
+            ratio = (double) Math.round(ratio);
+        } else if (ratio < 10 ) {
+            // round to 2 decimal places.
+            ratio = (double) Math.round(ratio * 100) / 100d;
+        } else {
+            // round to 1 decimal places.
+            ratio = (double) Math.round(ratio * 10) / 10d;
+        }
+
         if (view3D.getARRatioMetricSystem() == EuclidianView3D.RATIO_UNIT_INCHES) {
-            ratio = (double) Math.round(ratio * 100d) / 100d;
             view3D.setARRatioUnit("inch");
         } else {
-            if (ratio >= 100) {
-                // round to 0 decimal places.
-                ratio = (double) Math.round(ratio);
-            } else if (ratio < 10 ) {
-                // round to 2 decimal places.
-                ratio = (double) Math.round(ratio * 100) / 100d;
-            } else {
-                // round to 1 decimal places.
-                ratio = (double) Math.round(ratio * 10) / 10d;
-            }
             view3D.setARRatioUnit("cm");
         }
         return ratio;
