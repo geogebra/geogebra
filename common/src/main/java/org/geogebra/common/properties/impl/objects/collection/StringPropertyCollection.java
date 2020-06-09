@@ -19,7 +19,7 @@ public class StringPropertyCollection
 
     @Override
     public String getValue() {
-        return reduceValue();
+        return getFirstProperty().getValue();
     }
 
     @Override
@@ -37,17 +37,7 @@ public class StringPropertyCollection
     }
 
     @Override
-    String defaultValue() {
-        return "";
-    }
-
-    @Override
     void setPropertyValue(StringProperty property, String value) {
         property.setValue(value);
-    }
-
-    @Override
-    String getPropertyValue(StringProperty property) {
-        return property.getValue();
     }
 }

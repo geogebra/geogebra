@@ -18,22 +18,12 @@ public class ColorPropertyCollection extends AbstractPropertyCollection<ColorPro
     }
 
     @Override
-    GColor defaultValue() {
-        return GColor.BLACK;
-    }
-
-    @Override
     void setPropertyValue(ColorProperty property, GColor value) {
         property.setColor(value);
     }
 
-    @Override
-    GColor getPropertyValue(ColorProperty property) {
-        return property.getColor();
-    }
-
     public GColor getColor() {
-        return reduceValue();
+        return getFirstProperty().getColor();
     }
 
     public void setColor(GColor color) {

@@ -26,7 +26,7 @@ public class EnumerablePropertyCollection
 
     @Override
     public int getIndex() {
-        return reduceValue();
+        return getFirstProperty().getIndex();
     }
 
     @Override
@@ -35,17 +35,7 @@ public class EnumerablePropertyCollection
     }
 
     @Override
-    Integer defaultValue() {
-        return 0;
-    }
-
-    @Override
     void setPropertyValue(EnumerableProperty property, Integer value) {
         property.setIndex(value);
-    }
-
-    @Override
-    Integer getPropertyValue(EnumerableProperty property) {
-        return property.getIndex();
     }
 }

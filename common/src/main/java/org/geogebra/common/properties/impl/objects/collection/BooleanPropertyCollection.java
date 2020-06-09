@@ -18,18 +18,8 @@ public class BooleanPropertyCollection
 	}
 
 	@Override
-	Boolean getPropertyValue(BooleanProperty property) {
-		return property.getValue();
-	}
-
-	@Override
-	protected Boolean defaultValue() {
-		return false;
-	}
-
-	@Override
 	public boolean getValue() {
-		return reduceValue();
+		return getFirstProperty().getValue();
 	}
 
 	@Override

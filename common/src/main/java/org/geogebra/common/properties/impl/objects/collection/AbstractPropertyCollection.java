@@ -10,11 +10,7 @@ abstract class AbstractPropertyCollection<T extends Property, S> implements Prop
 		this.properties = properties;
 	}
 
-	abstract S defaultValue();
-
 	abstract void setPropertyValue(T property, S value);
-
-	abstract S getPropertyValue(T property);
 
 	@Override
 	public String getName() {
@@ -38,15 +34,5 @@ abstract class AbstractPropertyCollection<T extends Property, S> implements Prop
 		for (T element : properties) {
 			setPropertyValue(element, value);
 		}
-	}
-
-	S reduceValue() {
-		S value = getPropertyValue(getFirstProperty());
-		for (T property : properties) {
-			if (!value.equals(getPropertyValue(property))) {
-				return defaultValue();
-			}
-		}
-		return value;
 	}
 }

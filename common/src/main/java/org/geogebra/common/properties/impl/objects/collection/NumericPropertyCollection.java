@@ -29,7 +29,7 @@ public class NumericPropertyCollection<T extends Number & Comparable<T>>
 
     @Override
     public T getValue() {
-        return reduceValue();
+        return getFirstProperty().getValue();
     }
 
     @Override
@@ -38,17 +38,7 @@ public class NumericPropertyCollection<T extends Number & Comparable<T>>
     }
 
     @Override
-    T defaultValue() {
-        return getFirstProperty().getValue();
-    }
-
-    @Override
     void setPropertyValue(NumericProperty<T> property, T value) {
         property.setValue(value);
-    }
-
-    @Override
-    T getPropertyValue(NumericProperty<T> property) {
-        return property.getValue();
     }
 }
