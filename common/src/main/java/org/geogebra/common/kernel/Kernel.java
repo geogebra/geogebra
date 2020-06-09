@@ -1,15 +1,16 @@
 package org.geogebra.common.kernel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -20,6 +21,8 @@ import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIf;
@@ -32,9 +35,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
@@ -46,6 +47,7 @@ import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -63,7 +65,6 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -80,6 +81,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -207,9 +209,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** Whether to move point on path together with path */
 	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.ON;
 	private GeoGebraCasInterface ggbCAS;
-	/** Angle type: radians */
+	/** Angle unit: radians */
 	final public static int ANGLE_RADIANT = 1;
-	/** Angle type: degrees */
+	/** Angle unit: degrees */
 	final public static int ANGLE_DEGREE = 2;
 	/** Coord system: cartesian */
 	final public static int COORD_CARTESIAN = 3;
@@ -2396,7 +2398,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				break;
 
 			case LATEX:
-				sbFormatAngle.append("\\;rad");
+				sbFormatAngle.append(" \\; rad");
 				break;
 
 			case GEOGEBRA_XML:
@@ -4294,11 +4296,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		clearJustCreatedGeosInViews();
 		getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().storeVideos();
+		VideoManager videoManager = getApplication().getVideoManager();
+		if (videoManager != null) {
+			videoManager.storeVideos();
 		}
-		if (getApplication().getEmbedManager() != null) {
-			getApplication().getEmbedManager().storeEmbeds();
+		EmbedManager embedManager = getApplication().getEmbedManager();
+		if (embedManager != null) {
+			embedManager.storeEmbeds();
 		}
 		app.getActiveEuclidianView().resetInlineObjects();
 	}
@@ -4307,9 +4311,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(this);
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().clearStoredVideos();
-		}
 		getApplication().getActiveEuclidianView().restoreDynamicStylebar();
 	}
 
@@ -4620,9 +4621,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (cons.requires3D()) {
 			// DO NOT REMOVE
 			// it's important we pick up errors involving this quickly
-			Log.error("************************************");
-			Log.error("****** file has 3D objects *********");
-			Log.error("************************************");
+			Log.error("file has 3D objects");
 			sb.append("\t<uses3D val=\"true\"/>\n");
 		}
 
@@ -5009,49 +5008,42 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Recompute CAS algos. Used by web once CAS is loaded.
 	 */
 	public void refreshCASCommands() {
-
 		clearCasCache();
-		cons.recomputeCASalgos();
-		TreeSet<GeoElement> treeset = new TreeSet<>(
-				getConstruction().getGeoSetWithCasCellsConstructionOrder());
 
-		ArrayList<GeoElement> al = new ArrayList<>();
-
-		Iterator<GeoElement> it = treeset.iterator();
-
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (geo instanceof FunctionalNVar) {
-				FunctionNVar fun = ((FunctionalNVar) geo).getFunction();
-
-				if (fun != null) {
-					fun.clearCasEvalMap("");
+		ArrayList<GeoElement> geosToUpdate = new ArrayList<>();
+		for (GeoElement geo : cons.getGeoSetWithCasCellsConstructionOrder()) {
+			AlgoElement parent = geo.getParentAlgorithm();
+			if (geo instanceof CasEvaluableFunction) {
+				((CasEvaluableFunction) geo).clearCasEvalMap();
+				if (parent instanceof AlgoDependentFunction
+					|| parent instanceof AlgoDependentFunctionNVar) {
+					geosToUpdate.add(geo);
 				}
-			} else if (geo instanceof GeoCurveCartesianND) {
-				GeoCurveCartesianND curve = (GeoCurveCartesian) geo;
-				curve.clearCasEvalMap("");
+			} else if (geo instanceof GeoSymbolicI && parent == null) {
+				((GeoSymbolicI) geo).computeOutput();
 			}
-			AlgoElement algo = geo.getParentAlgorithm();
+		}
 
+		for (AlgoElement algo : cons.getAlgoList()) {
 			if (algo instanceof AlgoCasBase) {
-				((AlgoCasBase) algo).clearCasEvalMap("");
-				algo.compute();
-			} else if (algo instanceof AlgoUsingTempCASalgo) {
+				((AlgoCasBase) algo).clearCasEvalMap();
+			}
+			if (algo instanceof AlgoUsingTempCASalgo) {
 				((AlgoUsingTempCASalgo) algo).refreshCASResults();
-				algo.compute();
-			} else if (algo instanceof UsesCAS
-					|| algo instanceof AlgoCasCellInterface) {
+			}
+
+			if (algo instanceof UsesCAS || algo instanceof AlgoCasCellInterface) {
 				// eg Limit, LimitAbove, LimitBelow, SolveODE
 				// AlgoCasCellInterface: eg Solve[x^2]
 				algo.compute();
+
+				if (algo.getOutput() != null) {
+					geosToUpdate.addAll(Arrays.asList(algo.getOutput()));
+				}
 			}
-			if (geo instanceof GeoSymbolicI && algo == null) {
-				((GeoSymbolicI) geo).computeOutput();
-			}
-			al.add(geo);
 		}
 		cons.setUpdateConstructionRunning(true);
-		GeoElement.updateCascade(al, new TreeSet<AlgoElement>(), true);
+		GeoElement.updateCascade(geosToUpdate, new TreeSet<AlgoElement>(), true);
 		cons.setUpdateConstructionRunning(false);
 	}
 

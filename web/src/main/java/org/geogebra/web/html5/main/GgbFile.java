@@ -17,7 +17,7 @@ public class GgbFile extends HashMap<String, String> implements ZipFile {
 
 	/** default value */
 	private static final long serialVersionUID = 1L;
-	private String id;
+	private final String id;
 
 	private static int counter = 0;
 
@@ -61,14 +61,6 @@ public class GgbFile extends HashMap<String, String> implements ZipFile {
 	 */
 	public String getID() {
 		return id;
-	}
-
-	/**
-	 * @param id
-	 *            file ID
-	 */
-	public void setID(String id) {
-		this.id = id;
 	}
 
 	/**

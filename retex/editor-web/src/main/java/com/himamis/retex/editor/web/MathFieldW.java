@@ -37,8 +37,6 @@ import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -55,10 +53,10 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
-import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldAsync;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
@@ -740,6 +738,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	protected void onFocusTimer() {
 		BlurHandler oldBlur = this.onTextfieldBlur;
 		onTextfieldBlur = null;
+		// set focused flag before update to make sure cursor is rendered
+		focused = true;
 		mathFieldInternal.update();
 		// first focus canvas to get the scrolling right
 		html.getElement().focus();
@@ -751,7 +751,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private void focusTextArea() {
 		inputTextArea.getElement().focus();
-
 		if (html.getElement().getParentElement() != null) {
 			html.getElement().getParentElement().setScrollTop(0);
 		}
@@ -834,6 +833,24 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		KeyboardInputAdapter.insertString(mathFieldInternal, text);
 	}
 
+	/**
+	 * add derivative and move cursor back before /
+	 * @param text - d/dx
+	 */
+	public void handleDerivative(String text) {
+		String[] parts = text.split("/");
+		insertString(parts[0]);
+		insertFunction("frac");
+		insertString(parts[1]);
+		pressKeyLeft();
+		pressKeyLeft();
+		pressKeyLeft();
+	}
+
+	private void pressKeyLeft() {
+		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+	}
+
 	private Element getHiddenTextArea() {
 		if (clip == null) {
 			clip = new SimplePanel();
@@ -843,13 +860,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			inputTextArea.addCompositionUpdateHandler(
 					new EditorCompositionHandler(this));
 
-			inputTextArea.addFocusHandler(new FocusHandler() {
-
-				@Override
-				public void onFocus(FocusEvent event) {
-					startBlink();
-					event.stopPropagation();
-				}
+			inputTextArea.addFocusHandler(event -> {
+				startBlink();
+				event.stopPropagation();
 			});
 
 			if (html != null) {
@@ -948,8 +961,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 *            font size
 	 */
 	public void setFontSize(double size) {
-		this.mathFieldInternal.setSize(size);
-		this.mathFieldInternal.update();
+		mathFieldInternal.setSizeAndUpdate(size);
 	}
 
 	/**

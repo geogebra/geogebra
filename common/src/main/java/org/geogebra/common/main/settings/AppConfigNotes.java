@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.AppConfigDefault;
+import org.geogebra.common.main.AppKeyboardType;
 
 /**
  * Config for Mebis Notes and GGB Notes
@@ -53,5 +54,10 @@ public class AppConfigNotes extends AppConfigDefault {
 	@Override
 	public boolean shouldHideEquations() {
 		return false;
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.MOW;
 	}
 }

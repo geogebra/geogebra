@@ -1,13 +1,5 @@
 package org.geogebra.keyboard.scientific.model;
 
-import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.model.KeyboardModel;
-import org.geogebra.keyboard.base.model.KeyboardModelFactory;
-import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
-import org.geogebra.keyboard.base.model.impl.RowImpl;
-import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
-
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.DIVISION;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.MULTIPLICATION;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.PI;
@@ -19,6 +11,14 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInpu
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
+
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.KeyboardModelFactory;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
+import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 
 public class ScientificKeyboardFactory implements KeyboardModelFactory {
 

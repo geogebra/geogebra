@@ -43,8 +43,10 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
+import org.geogebra.common.main.settings.AppConfigCas;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.main.settings.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
@@ -69,7 +71,7 @@ public class AppCommon extends App {
 	private AppConfig config = new AppConfigDefault();
 	private CASFactory casFactory = new CASFactoryDummy();
 
-    /**
+	/**
 	 * Construct an AppCommon.
 	 * 
 	 * @param loc
@@ -748,6 +750,30 @@ public class AppCommon extends App {
 	 */
 	public void setGeometryConfig() {
 		setConfig(new AppConfigGeometry());
+		reInit();
+	}
+
+	/**
+	 * Sets 3D config and reinitializes the app.
+	 */
+	public void set3dConfig() {
+		setConfig(new AppConfigGraphing3D());
+		reInit();
+	}
+
+	/**
+	 * Sets Geometry config and reinitializes the app.
+	 */
+	public void setCasConfig() {
+		setConfig(new AppConfigCas());
+		reInit();
+	}
+
+	/**
+	 * Sets Geometry config and reinitializes the app.
+	 */
+	public void setDefaultConfig() {
+		setConfig(new AppConfigDefault());
 		reInit();
 	}
 

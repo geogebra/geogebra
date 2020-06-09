@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.commands.selector;
 
-import org.geogebra.common.kernel.commands.Commands;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.geogebra.common.kernel.commands.Commands;
 
 /**
  * Filters commands by their table name.

@@ -18,6 +18,7 @@ package org.apache.commons.math3.optim.linear;
 
 import java.util.Collection;
 import java.util.Collections;
+
 import org.apache.commons.math3.exception.TooManyIterationsException;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;

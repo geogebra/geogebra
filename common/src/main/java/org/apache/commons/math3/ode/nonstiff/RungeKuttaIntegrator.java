@@ -26,7 +26,6 @@ import org.apache.commons.math3.ode.AbstractIntegrator;
 import org.apache.commons.math3.ode.ExpandableStatefulODE;
 import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
 import org.apache.commons.math3.util.Cloner;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * This class implements the common part of all fixed step Runge-Kutta

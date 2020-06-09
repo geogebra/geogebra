@@ -53,7 +53,6 @@ public class AlgoLimit extends AlgoElement
 	public AlgoLimit(Construction cons, String label, GeoFunction f,
 			GeoNumberValue num) {
 		super(cons);
-		cons.addCASAlgo(this);
 		this.f = f;
 		this.num = num;
 

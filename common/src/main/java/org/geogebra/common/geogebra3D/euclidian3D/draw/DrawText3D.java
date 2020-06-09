@@ -57,7 +57,7 @@ public final class DrawText3D extends Drawable3DCurves {
 				label.setWaitForReset();
 			}
 			wasLaTeX = text.isLaTeX();
-			label.update(text.getTextString(), getFont(),
+			label.update(text.getTextStringSafe(), getFont(),
 					getGeoElement().getBackgroundColor(),
 					getGeoElement().getObjectColor(), getLabelPosition(),
 					getLabelOffsetX(), -getLabelOffsetY(), 0);

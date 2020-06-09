@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -147,7 +148,6 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 import org.geogebra.web.plugin.WebsocketLogger;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -208,7 +208,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected final ArticleElementInterface articleElement;
 
 	protected EuclidianPanelWAbstract euclidianViewPanel;
-	protected Canvas canvas;
 
 	private final GLookAndFeelI laf;
 
@@ -511,13 +510,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return ggbapi;
 	}
 
-	/**
-	 * @return {@link Canvas}
-	 */
-	public Canvas getCanvas() {
-		return canvas;
-	}
-
 	@Override
 	public final NormalizerMinimal getNormalizer() {
 		if (normalizerMinimal == null) {
@@ -773,10 +765,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void loadGgbFileAsBase64Again(String dataUrl, boolean isggs) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
-		if (!isggs && getEmbedManager() != null) {
+		EmbedManager embedManager = getEmbedManager();
+		if (!isggs && embedManager != null) {
 			Material mat = new Material(-1, Material.MaterialType.ggb);
 			mat.setBase64(dataUrl);
-			getEmbedManager().embed(mat);
+			embedManager.embed(mat);
 		} else {
 			view.processBase64String(dataUrl);
 		}
@@ -804,7 +797,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getArticleElement().attr("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
 			if (getPageController() != null) {
-				getEuclidianView1().initBgCanvas();
 				getPageController().loadSlides(archiveContent);
 				return;
 			}
@@ -849,9 +841,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				maybeProcessImage(key, entry.getValue(), toLoad);
 			}
 		}
-		if (getEmbedManager() != null) {
-			getEmbedManager().loadEmbeds(archive);
+
+		EmbedManager embedManager = getEmbedManager();
+		if (embedManager != null) {
+			embedManager.loadEmbeds(archive);
 		}
+
 		if (construction == null) {
 			if (macros != null) {
 				getXMLio().processXMLString(macros, true, true);
@@ -1067,7 +1062,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean clearConstruction() {
-		// if (isSaved() || saveCurrentFile()) {
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -1076,9 +1070,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setMoveMode();
 
 		return true;
-
-		// }
-		// return false;
 	}
 
 	@Override
@@ -1134,12 +1125,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public final void fileNew() {
-		// clear all
-		// triggers the "do you want to save" dialog
-		// so must be called first
-		if (!clearConstruction()) {
-			return;
-		}
+		resetPages();
+		clearConstruction();
 		clearMedia();
 		resetUniqueId();
 		setLocalID(-1);
@@ -1148,27 +1135,25 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
+
 		resetUI();
-		resetPages();
+		resetPenTool();
 	}
 
 	private void resetPages() {
-		if (pageController == null) {
-			return;
+		if (pageController != null) {
+			pageController.resetPageControl();
 		}
-		pageController.resetPageControl();
 	}
 
 	/**
-	 * Remove all widgets for videos and embeds.
+	 * Selects Pen tool in whiteboard
 	 */
-	@Override
-	public void clearMedia() {
-		if (getVideoManager() != null) {
-			getVideoManager().removePlayers();
-		}
-		if (getEmbedManager() != null) {
-			getEmbedManager().removeAll();
+	protected final void resetPenTool() {
+		if (isWhiteboardActive()) {
+			getActiveEuclidianView().getSettings()
+					.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 		}
 	}
 
@@ -1194,9 +1179,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		if (!isUnbundledOrWhiteboard()) {
 			showPerspectivesPopup();
-		}
-		if (getPageController() != null) {
-			getPageController().resetPageControl();
 		}
 	}
 
@@ -1532,8 +1514,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// TODO: image file name should be reset after the file data is
 		// available
 
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zipDirectory = md5e.encrypt(url);
+		String zipDirectory = MD5EncrypterGWTImpl.encrypt(url);
 
 		// with dummy extension, maybe gif or jpg in real
 		String imgFileName = zipDirectory + ".png";
@@ -1649,7 +1630,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				}
 				if (app.isWhiteboardActive()) {
 					app.getActiveEuclidianView().getEuclidianController()
-							.selectAndShowBoundingBox(geoImage);
+							.selectAndShowSelectionUI(geoImage);
 				}
 				setDefaultCursor();
 				storeUndoInfo();

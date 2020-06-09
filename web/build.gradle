@@ -1,7 +1,7 @@
 
 buildscript {
     dependencies {
-        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.13'
     }
 }
 
@@ -25,8 +25,8 @@ ext.gwtCompilerVersion = project(':renderer-web').gwtCompilerVersion
 
 apply plugin: 'gwt-compiler'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 sourceSets {
     nonfree
@@ -77,19 +77,35 @@ dependencies {
 def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 
 ext.appSpecs = [
-    [id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0', releases: 'Releases', icon: 'ggb.ico'],
+    [id:'classic', title:'Classic', transKey:'Classic', exe:'GeoGebra', pkg:'GeoGebra_6.0',
+        releases: 'Releases', icon: 'ggb.ico', measurementId: 'G-8JGZQG6FHG',
+        firebaseAppId: '1:895270214636:web:3c05deeefcd1a96584fec9'],
     [id:'graphing', title:'Graphing Calculator', transKey:'GraphingCalculator',
-        exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing', icon: 'Graphing.ico', appStoreId:'1146717204'],
-    [id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976'],
+        exe:'GeoGebraGraphing', pkg:'GeoGebra_Graphing', releases: 'Releases-graphing',
+        icon: 'Graphing.ico', appStoreId:'1146717204', measurementId: 'G-55K7P9GRQK',
+        firebaseAppId: '1:895270214636:web:db7055c9a67f1f1e84fec9'],
+    [id:'3d', title:'3D Graphing Calculator', transKey:'Graphing3D', appStoreId:'1445871976',
+        firebaseAppId: '1:895270214636:web:574d60209dda5f5384fec9',
+        measurementId: 'G-PMP3RB4M8S'],
     [id:'cas', title:'CAS Calculator', transKey:'CASCalculator',
-        exe:'GeoGebraCAS', pkg:'GeoGebra_CAS',  releases: 'Releases-cas', icon: 'CAS.ico', appStoreId:'1436278267'],
+        exe:'GeoGebraCAS', pkg:'GeoGebra_CAS',  releases: 'Releases-cas',
+        icon: 'CAS.ico', appStoreId:'1436278267', measurementId: 'G-N3Z7S82FZ6',
+        firebaseAppId: '1:895270214636:web:87b00b628121939d84fec9'],
     [id:'scientific', title:'Scientific Calculator', transKey:'ScientificCalculator',
-        partials:["undo-redo"], appStoreId:'1412748754'],
+        partials:["undo-redo"], appStoreId:'1412748754', measurementId: 'G-YJ1QVF1SFK',
+        firebaseAppId: '1:895270214636:web:540b533d4b47a7bb84fec9'],
     [id:'geometry', title:'Geometry', transKey:'Geometry',
-        exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry', icon: 'Geometry.ico', appStoreId:'1232591335'],
-    [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite'],
-    [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes',  pkg:'GeoGebra_Notes',  releases: 'Releases-notes', icon: 'notes.ico'],
-    [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel',  pkg:'Mebis_Tafel', icon: 'notes.ico', vendor: "Mebis"]]
+        exe:'GeoGebraGeometry', pkg:'GeoGebra_Geometry',  releases: 'Releases-geometry',
+        icon: 'Geometry.ico', appStoreId:'1232591335', measurementId: 'G-82GL4RTR4H',
+        firebaseAppId: '1:895270214636:web:6bf3d469e0d2b32584fec9'],
+    [id:'suite', title:'Calculator Suite', transKey:'CalculatorSuite',
+         firebaseAppId: '1:895270214636:web:7daf432883a8464084fec9',
+         measurementId: 'G-FXVLXMD21Y'],
+    [id:'notes', title:'Notes', transKey: 'Notes', exe:'GeoGebraNotes', pkg:'GeoGebra_Notes',
+         releases: 'Releases-notes', icon: 'notes.ico', measurementId: 'G-MWHBRQSXTL',
+         firebaseAppId: '1:895270214636:web:aece5066924cacb084fec9'],
+    [id:'notes-mebis', title:'Tafel', transKey: 'Tafel', exe:'MebisTafel', pkg:'Mebis_Tafel',
+         icon: 'notes.ico', vendor: "Mebis"]]
 
 gwt {
     gwtVersion = gwtCompilerVersion
@@ -114,8 +130,6 @@ gwt {
         if (project.hasProperty("greport")) {
            compileReport = true
         }
-        
-        //    logLevel = 'SPAM';
         if (project.hasProperty("gdraft")) {
             draftCompile = true
         }
@@ -139,7 +153,6 @@ tasks.withType(org.wisepersist.gradle.plugins.gwt.AbstractGwtActionTask) {
 }
 
 def warDirRel = 'war'
-def warDirAbs = file(warDirRel).toURI()
 def outputs = ['web', 'web3d', 'webSimple', 'solver', 'tablet3d','tabletWin']
 
 task cleanWar(type: Delete) {
@@ -157,7 +170,7 @@ task copyHtml {
 
     doLast {
         delete {
-            delete fileTree(dir:'war', include: "*.html");
+            delete fileTree(dir:'war', include: "*.html")
         }
 
         copy {
@@ -178,6 +191,7 @@ task copyHtml {
                 file("war/${app.id}-template.html").text = replaceHtml(app, false).replace("<!--CODEBASE-->", "/")
             }
         }
+        file("war/calculator.html").text = file("war/suite.html").text
     }
 }
 
@@ -193,7 +207,7 @@ task copyHandlebars {
         }
         String solver = solverHtml()
         def solverPath = "${handlebarsDir}/solver-template.handlebars"
-        file(solverPath).text = handlebars(solver.replace("<!--APP TYPE-->", "solver"));
+        file(solverPath).text = handlebars(solver.replace("<!--APP TYPE-->", "solver"))
     }
 }
 
@@ -217,11 +231,11 @@ task createSolverHtml {
 task prepareS3Upload(dependsOn: ['compileGwt', 'copyHtml']) {
     doLast {
         ["web3d", "webSimple"].each { module ->
-            def dir = file("build/gwt/out/$module");
+            def dir = file("build/gwt/out/$module")
             fileTree(dir).each { f ->
                 println "$f -> $f"
                 def outFile = file("$f".replace(dir.absolutePath, "build/s3/$module/"))
-                file(outFile.parent).mkdirs();
+                file(outFile.parent).mkdirs()
                 ant.gzip(src: f, zipfile: outFile)
             }
         }
@@ -251,54 +265,11 @@ task mergeDeploy(){
    }
 }
 
-task symlinkIntoWar(dependsOn: ['copyHtml']) {
-    description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
-    doLast {
-        outputs.each { folder ->
-            ant.symlink(resource: "../build/gwt/out/$folder", link: file("war/$folder"), overwrite: true)
-        }
-    }
-}
-
-task draftSymlinkIntoWar(dependsOn: ['copyHtml']) {
-    description 'Creates a symbolic link to the GWT draft compilation directory (web3d) in the war directory.'
-    doLast {
-        outputs.each { folder ->
-            ant.symlink(resource: "../build/gwt/draftOut/$folder", link: file("war/$folder"), overwrite: true)
-        }
-    }
-}
-
-task draftDeployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
-    description 'Copies/updates the GWT draft compilation directory (web3d) to the war directory.'
-    from draftCompileGwt
-    into warDirRel
-}
-
-def appHtmlRel = 'app.html'
-def appHtmlAbs = file("${warDirAbs}/${appHtmlRel}").toURI()
-
-task run(dependsOn: 'deployIntoWar') {
-    group 'application'
-    description 'Runs GeoGebraWeb in the default web browser'
-    doLast {
-        java.awt.Desktop.desktop.browse appHtmlAbs
-    }
-}
-
-task draftRun(dependsOn: 'draftDeployIntoWar') {
-    group 'application'
-    description 'Runs GeoGebraWeb draft in the default web browser'
-    doLast {
-        java.awt.Desktop.desktop.browse appHtmlAbs
-    }
-}
-
-def gwtGlobalCache = file('build/gwt/devModeCache');
+def gwtGlobalCache = file('build/gwt/devModeCache')
 // As now this task doesn't finish until the java process exits.
 // This causes some problems as the IDE cannot run any other tasks.
 // https://issues.gradle.org/browse/GRADLE-1254
-task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
+task run(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
     description 'Starts a codeserver, and a simple webserver for development'
     doFirst {
         delete {

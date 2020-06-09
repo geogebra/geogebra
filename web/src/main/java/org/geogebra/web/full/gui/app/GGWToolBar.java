@@ -949,6 +949,9 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			return resourceBundle.mode_orthogonalthreed_32();
 
+		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
+			return resourceBundle.mode_surface_of_revolution();
+
 		/** WHITEBOARD TOOLS */
 		case EuclidianConstants.MODE_SHAPE_LINE:
 			return resourceBundle.mode_shape_line_32();
@@ -965,8 +968,8 @@ public class GGWToolBar extends Composite
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
 			return resourceBundle.mode_shape_rectangle_round_edges_32();
 
-		case EuclidianConstants.MODE_SHAPE_POLYGON:
-			return resourceBundle.mode_shape_polygon_32();
+		case EuclidianConstants.MODE_SHAPE_PENTAGON:
+			return resourceBundle.mode_shape_pentagon_32();
 
 		case EuclidianConstants.MODE_SHAPE_FREEFORM:
 			return resourceBundle.mode_shape_freeform_32();
@@ -996,7 +999,7 @@ public class GGWToolBar extends Composite
 			return resourceBundle.mode_graphing_32();
 
 		case EuclidianConstants.MODE_EXTENSION:
-			return resourceBundle.mode_extension();
+			return ToolbarSvgResourcesSync.INSTANCE.mode_extension();
 
 		case EuclidianConstants.MODE_PDF:
 			return resourceBundle.mode_pdf_32();

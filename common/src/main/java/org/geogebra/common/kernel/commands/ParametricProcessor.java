@@ -106,7 +106,8 @@ public class ParametricProcessor {
 
 		TreeSet<GeoNumeric> num = new TreeSet<>();
 		// Iteration[a+1, a, {1},4]
-		ap.replaceUndefinedVariables(ve, num, new String[] { varName, "X" });
+		ap.replaceUndefinedVariables(ve, num, new String[] {varName, "X" },
+				info.isSimplifiedMultiplication());
 		for (GeoNumeric slider : num) {
 			undefinedVariables.remove(slider.getLabelSimple());
 		}
@@ -580,7 +581,7 @@ public class ParametricProcessor {
 	public ValidExpression checkParametricEquationF(ValidExpression ve,
 			ValidExpression fallback, Construction cons, EvalInfo info) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-		ve.traverse(collecter);
+		ve.inspect(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 		if (undefinedVariables.size() == 1) {
 			try {
@@ -616,7 +617,7 @@ public class ParametricProcessor {
 	 */
 	public GeoElement[] processXEquation(Equation equ, EvalInfo info) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-		equ.traverse(collecter);
+		equ.inspect(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 		// case 3DLine
 		if (undefinedVariables.isEmpty()) {

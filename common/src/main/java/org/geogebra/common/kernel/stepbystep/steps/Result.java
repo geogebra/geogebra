@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 
 /**
  * Class used as the result of a SolveStepGenerator. It contains eiter

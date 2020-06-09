@@ -17,9 +17,6 @@
 
 package org.apache.commons.math3.ode.nonstiff;
 
-import org.apache.commons.math3.util.FastMath;
-
-
 /**
  * This class implements the Gill fourth order Runge-Kutta
  * integrator for Ordinary Differential Equations .

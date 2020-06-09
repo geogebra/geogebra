@@ -1,19 +1,5 @@
 package org.geogebra.desktop.geogebra3D.input3D.intelRealSense;
 
-import intel.rssdk.PXCMCaptureManager;
-import intel.rssdk.PXCMHandConfiguration;
-import intel.rssdk.PXCMHandConfiguration.AlertHandler;
-import intel.rssdk.PXCMHandData;
-import intel.rssdk.PXCMHandData.AlertData;
-import intel.rssdk.PXCMHandData.AlertType;
-import intel.rssdk.PXCMHandData.BodySideType;
-import intel.rssdk.PXCMHandModule;
-import intel.rssdk.PXCMPoint3DF32;
-import intel.rssdk.PXCMPoint4DF32;
-import intel.rssdk.PXCMSenseManager;
-import intel.rssdk.PXCMSession;
-import intel.rssdk.pxcmStatus;
-
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -41,6 +27,20 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
+
+import intel.rssdk.PXCMCaptureManager;
+import intel.rssdk.PXCMHandConfiguration;
+import intel.rssdk.PXCMHandConfiguration.AlertHandler;
+import intel.rssdk.PXCMHandData;
+import intel.rssdk.PXCMHandData.AlertData;
+import intel.rssdk.PXCMHandData.AlertType;
+import intel.rssdk.PXCMHandData.BodySideType;
+import intel.rssdk.PXCMHandModule;
+import intel.rssdk.PXCMPoint3DF32;
+import intel.rssdk.PXCMPoint4DF32;
+import intel.rssdk.PXCMSenseManager;
+import intel.rssdk.PXCMSession;
+import intel.rssdk.pxcmStatus;
 
 
 /**

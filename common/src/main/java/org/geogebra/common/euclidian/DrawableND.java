@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -146,17 +145,6 @@ public abstract class DrawableND {
 	public void move() {
 		// TODO Auto-generated method stub
 
-	}
-
-	/**
-	 * @return whether this is a Drawable for input box or list in dropdown mode
-	 */
-	public boolean isCanvasDrawable() {
-		if (!(this instanceof CanvasDrawable)) {
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

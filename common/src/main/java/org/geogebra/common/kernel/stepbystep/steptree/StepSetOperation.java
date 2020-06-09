@@ -1,10 +1,13 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 import org.geogebra.common.main.Localization;
-
-import java.util.*;
 
 public class StepSetOperation extends StepLogical implements Iterable<StepLogical> {
 

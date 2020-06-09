@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.scripting;
 
+import java.util.Set;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
@@ -8,8 +10,6 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.MyError;
-
-import java.util.Set;
 
 /**
  * SetDecoration

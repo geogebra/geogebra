@@ -106,7 +106,7 @@ public class ModeShape {
 		if (!dragPointSet || (pointListFreePoly.isEmpty()
 				&& ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM)) {
 			dragStartPoint.setLocation(event.getX(), event.getY());
-			view.setBoundingBox(null);
+			view.resetBoundingBoxes();
 			pointListFreePoly.clear();
 			pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
 			dragPointSet = true;
@@ -175,7 +175,7 @@ public class ModeShape {
 			updateTriangle(event);
 			view.setShapePolygon(polygon);
 			view.repaintView();
-		} else if (mode == EuclidianConstants.MODE_SHAPE_POLYGON) {
+		} else if (mode == EuclidianConstants.MODE_SHAPE_PENTAGON) {
 			updateRegularPolygon(event);
 			view.setShapePolygon(polygon);
 			view.repaintView();
@@ -333,7 +333,7 @@ public class ModeShape {
 			wasDragged = false;
 			return segment;
 		} else if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE
-				|| mode == EuclidianConstants.MODE_SHAPE_POLYGON) {
+				|| mode == EuclidianConstants.MODE_SHAPE_PENTAGON) {
 			GeoPoint[] points = null;
 			if (mode == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
 				points = getRealPointsOfTriangle(event);

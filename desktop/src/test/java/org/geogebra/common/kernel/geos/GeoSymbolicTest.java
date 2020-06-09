@@ -52,6 +52,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Before
 	public void clean() {
 		app.getKernel().clearConstruction(true);
+		app.setCasConfig();
+		app.getKernel().setAngleUnit(app.getConfig().getDefaultAngleUnit());
 	}
 
 	@Test
@@ -70,7 +72,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	private void checkInput(String label, String expectedInput) {
 		assertEquals(expectedInput,
-				getSymbolic(label).getDefinitionForEditor());
+				getSymbolic(label).getDefinitionForInputBar());
 	}
 
 	@Test
@@ -888,7 +890,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"p is a prime", "7 is a prime");
 		GeoElement lastGeoElement = app.getKernel().getConstruction().getLastGeoElement();
 		new LabelController().hideLabel(lastGeoElement);
-		assertEquals("p + \" is a prime\"",
+		assertEquals("p+\" is a prime\"",
 				lastGeoElement.getDefinitionForEditor());
 		assertThat(lastGeoElement, instanceOf(GeoText.class));
 	}
@@ -1056,6 +1058,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		Assert.assertTrue(element.isShowingExtendedAV());
 	}
 
+	@Test
+	public void testUndoRedoKeepsShowingIntegralArea() {
+		GeoSymbolic integralArea = add("a(x)=Integral(xx,2,3)");
+		Assert.assertTrue(integralArea.isEuclidianVisible());
+		Assert.assertTrue(integralArea.getTwinGeo().isEuclidianVisible());
+
+		app.setXML(app.getXML(), true);
+		integralArea = (GeoSymbolic) app.getKernel().lookupLabel("a");
+
+		Assert.assertTrue(integralArea.isEuclidianVisible());
+		Assert.assertTrue(integralArea.getTwinGeo().isEuclidianVisible());
+	}
+
 	private int numberOfSpecialPoints() {
 		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
 			return 0;
@@ -1097,5 +1112,27 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testIfArgumentFiltered() {
 		GeoSymbolic element = add("If(x>5, x^2, x<5, x)");
 		assertThat(element.getTwinGeo(), is(nullValue()));
+	}
+
+	@Test
+	public void testRadians() {
+		GeoSymbolic angle = add("1rad");
+		assertThat(
+				angle.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("1 rad"));
+		assertThat(
+				angle.getValueForInputBar(),
+				equalTo("1 rad"));
+		assertThat(
+				angle.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				equalTo("1 rad"));
+	}
+
+	@Test
+	public void testSolveEuclidianHidden() {
+		add("eq1: x + y = 2");
+		add("eq2: x - y = 3");
+		GeoSymbolic element = add("Solve({eq1, eq2}, {x, y})");
+		assertThat(element.showInEuclidianView(), is(false));
 	}
 }

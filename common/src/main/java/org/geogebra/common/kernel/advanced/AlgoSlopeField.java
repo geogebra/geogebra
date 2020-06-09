@@ -17,10 +17,10 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
- * 
+ *
  * eg SlopeField[ x/y ] eg SlopeField[ x/y, 20 ] eg SlopeField[ x/y, 20, 0.8 ]
  * eg SlopeField[ x/y, 20, 0.8, 0, 0, 5, 5 ]
- * 
+ *
  * @author michael
  *
  */
@@ -43,7 +43,6 @@ public class AlgoSlopeField extends AlgoElement {
 	private FunctionalNVar num;
 	private FunctionalNVar den;
 	private boolean quotient;
-	private EuclidianView mainView;
 
 	/**
 	 * @param cons
@@ -183,7 +182,7 @@ public class AlgoSlopeField extends AlgoElement {
 			al.clear();
 		}
 
-		mainView = null;
+		EuclidianView mainView = null;
 		double xmax = -Double.MAX_VALUE;
 		double ymin = Double.MAX_VALUE;
 		double xmin = Double.MAX_VALUE;
@@ -202,9 +201,7 @@ public class AlgoSlopeField extends AlgoElement {
 				mainView = kernel.getApplication().getEuclidianView2(1);
 			}
 		} else {
-
 			// make sure it covers all of EV1 & EV2 if appropriate
-
 			EuclidianView view = kernel.getApplication().getEuclidianView1();
 
 			if (view.isVisibleInThisView(locus)) {
@@ -242,6 +239,7 @@ public class AlgoSlopeField extends AlgoElement {
 
 		// if it's visible in at least one view, calculate visible portion
 		if (xmax > -Double.MAX_VALUE) {
+			double scaleRatio = mainView.getScaleRatio();
 			int nD = (int) (n == null ? 39 : n.getDouble() - 1);
 
 			if (nD < 2 || nD > 100) {
@@ -259,26 +257,13 @@ public class AlgoSlopeField extends AlgoElement {
 				length = 0.5;
 			}
 
-			length = Math.min(xStep, yStep * mainView.getScaleRatio()) * length
-					* 0.5;
-			// double yLength = yStep * length * 0.5;
-
-			// AbstractApplication.debug(xStep+" "+yStep+" "+step);
-
+			length = Math.min(xStep, yStep * scaleRatio) * length * 0.5;
 			for (double xx = xmin; xx < xmax + xStep / 2; xx += xStep) {
 				for (double yy = ymin; yy < ymax + yStep / 2; yy += yStep) {
-
-					// double[] input1 = { xx, yy };
-					// double gradient = func.evaluate(input1);
-
-					// AbstractApplication.debug(num.isDefined()+"
-					// "+den.isDefined());
-
 					if (num.isDefined() && den.isDefined()) {
 						// quotient function like x / y
 
 						// make sure eg SlopeField[(2 - y) / 2] works
-
 						double numD = num.evaluate(xx, yy);
 						double denD = den.evaluate(xx, yy);
 
@@ -289,40 +274,29 @@ public class AlgoSlopeField extends AlgoElement {
 								al.add(new MyPoint(xx, yy, SegmentType.LINE_TO));
 							} else {
 								// vertical line
-								drawLine(0, 1, length, xx, yy);
+								drawLine(0, 1, length, xx, yy, scaleRatio);
 							}
 						} else {
-
 							// standard case
 							double gradient = numD / denD;
-							drawLine(1, gradient, length, xx, yy);
+							drawLine(1, gradient, length, xx, yy, scaleRatio);
 						}
 					} else {
 						// non-quotient function like x y
-						double gradient;
-
-						gradient = func.evaluate(xx, yy);
-
-						drawLine(1, gradient, length, xx, yy);
-
+						double gradient = func.evaluate(xx, yy);
+						drawLine(1, gradient, length, xx, yy, scaleRatio);
 					}
-
 				}
 			}
 		}
 
 		locus.setPoints(al);
 		locus.setDefined(true);
-
 	}
 
 	private void drawLine(double dx0, double dy0, double length, double xx,
-			double yy) {
-		/*
-		 * double theta = Math.atan(gradient); double dx = Math.cos(theta);
-		 * double dy = Math.sin(theta);
-		 */
-		double dyScaled = dy0 * mainView.getScaleRatio();
+			double yy, double scaleRatio) {
+		double dyScaled = dy0 * scaleRatio;
 		double coeff = Math.sqrt(dx0 * dx0 + dyScaled * dyScaled);
 		double dx = dx0 * length / coeff;
 		double dy = dy0 * length / coeff;
@@ -340,5 +314,4 @@ public class AlgoSlopeField extends AlgoElement {
 		((GeoElement) func).removeAlgorithm(numAlgo);
 		((GeoElement) func).removeAlgorithm(denAlgo);
 	}
-
 }

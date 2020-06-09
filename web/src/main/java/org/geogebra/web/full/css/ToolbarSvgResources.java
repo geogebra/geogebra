@@ -503,6 +503,10 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	SVGResource mode_orthogonalthreed_32();
 
+	@Source("org/geogebra/web/full/gui/toolbar/svgimages/mode_surface_of_revolution.svg")
+	@Override
+	SVGResource mode_surface_of_revolution();
+
 	/** Whiteboard icons */
 
 	@Override
@@ -526,8 +530,8 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_shape_rectangle_round_edges_32();
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_polygon_black.svg")
-	SVGResource mode_shape_polygon_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_pentagon_black.svg")
+	SVGResource mode_shape_pentagon_32();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_freeform_black.svg")
@@ -583,10 +587,6 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pdf.svg")
 	SVGResource mode_pdf_32();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extension.svg")
-	SVGResource mode_extension();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mask.svg")

@@ -64,12 +64,9 @@ public class InlineTextControllerW implements InlineTextController {
 	}
 
 	private Runnable getCallback() {
-		return new Runnable() {
-			@Override
-			public void run() {
-				editor.reload();
-				geo.getKernel().notifyRepaint();
-			}
+		return () -> {
+			editor.reload();
+			geo.getKernel().notifyRepaint();
 		};
 	}
 

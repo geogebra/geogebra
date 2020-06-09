@@ -18,7 +18,6 @@
 package org.apache.commons.math3.random;
 
 import java.io.Serializable;
-//import java.security.SecureRandom;
 import java.util.Collection;
 
 import org.apache.commons.math3.distribution.BetaDistribution;
@@ -43,6 +42,8 @@ import org.apache.commons.math3.exception.NumberIsTooLargeException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.util.MathArrays;
+
+//import java.security.SecureRandom;
 
 /**
  * Implements the {@link RandomData} interface using a {@link RandomGenerator}

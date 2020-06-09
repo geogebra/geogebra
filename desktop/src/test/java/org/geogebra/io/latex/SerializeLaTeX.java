@@ -42,21 +42,22 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testExpr() {
-		checkCannon("1 * 2", "1*2");
-		checkCannon("1 == 2", "1==2");
+		checkCannon("1 * 2", "1 * 2");
+		checkCannon("1 == 2", "1 == 2");
 		checkCannon("1 " + Unicode.PARALLEL + " 2",
-				"1" + Unicode.PARALLEL + "2");
-		checkCannon("1 = 2", "1=2");
-		checkCannon("(1 * 2)", "(1*2)");
+				"1 " + Unicode.PARALLEL + " 2");
+		checkCannon("1 = 2", "1 = 2");
+		checkCannon("(1 * 2)", "(1 * 2)");
+		checkCannon("(1*2)", "(1*2)");
 	}
 
 	@Test
 	public void testSqrt() {
-		checkCannon("sqrt(x + 1)", "sqrt(x+1)");
-		checkCannon("x sqrt(x + 1)", "x sqrt(x+1)");
-		checkCannon("f(x) = sqrt(x)", "f(x)= sqrt(x)");
-		checkCannon("nroot(x + 1,3)", "nroot(x+1,3)");
-		checkCannon("f(x) = nroot(x,3)", "f(x)= nroot(x,3)");
+		checkCannon("sqrt(x + 1)", "sqrt(x + 1)");
+		checkCannon("x sqrt(x + 1)", "x sqrt(x + 1)");
+		checkCannon("f(x) = sqrt(x)", "f(x) = sqrt(x)");
+		checkCannon("nroot(x + 1,3)", "nroot(x + 1,3)");
+		checkCannon("f(x) = nroot(x,3)", "f(x) = nroot(x,3)");
 	}
 
 	@Test
@@ -78,8 +79,8 @@ public class SerializeLaTeX {
 		checkCannon("1/n_2", "(1)/(n_{2})");
 		checkCannon("1/2", "(1)/(2)");
 		checkCannon("1/2+3", "(1)/(2)+3");
-		checkCannon("1/ ( 2)", "(1)/(2)");
-		checkCannon("1/ ( 2+3)", "(1)/(2+3)");
+		checkCannon("1/ ( 2)", "(1)/( 2)");
+		checkCannon("1/ (2+3)", "(1)/(2+3)");
 		checkCannon("1/ ((2+3)+4)", "(1)/((2+3)+4)");
 		checkCannon("1/(2/3)", "(1)/((2)/(3))");
 		checkCannon("x^2/ 3", "(x^(2))/(3)");
@@ -113,16 +114,16 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testPower() {
-		checkCannon("x ^ 2", "x^(2)");
-		checkCannon("x ^ 2 ^3", "x^(2)^(3)");
-		checkCannon("(x ^ 2) ^3", "(x^(2))^(3)");
-		checkCannon("x ^ 2 + 1", "x^(2)+1");
+		checkCannon("x ^ 2", "x ^(2)");
+		checkCannon("x ^ 2 ^3", "x ^(2) ^(3)");
+		checkCannon("(x ^ 2) ^3", "(x ^(2)) ^(3)");
+		checkCannon("x ^ 2 + 1", "x ^(2) + 1");
 		checkCannon("x" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3,
 				"x^(23)");
 		checkCannon("x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
 				+ Unicode.SUPERSCRIPT_3, "x^(-23)");
 		checkCannon("1 + x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
-				+ Unicode.SUPERSCRIPT_3, "1+x^(-23)");
+				+ Unicode.SUPERSCRIPT_3, "1 + x^(-23)");
 		checkCannon("e^x*sin(x)", "e^(x)*sin(x)");
 		checkCannon("e^(-10/x)*sin(x)", "e^(-(10)/(x))*sin(x)");
 	}
@@ -130,25 +131,25 @@ public class SerializeLaTeX {
 	@Test
 	public void testSubscript() {
 		checkCannon("x_2", "x_{2}");
-		checkCannon("x_2 = 7", "x_{2}=7");
-		checkCannon("x_2 t", "x_{2}*t");
-		checkCannon("x_2 sin(x)", "x_{2}*sin(x)");
+		checkCannon("x_2 = 7", "x_{2} = 7");
+		checkCannon("x_2 t", "x_{2} t");
+		checkCannon("x_2 sin(x)", "x_{2} sin(x)");
 		checkCannon("f_2(x)", "f_{2}(x)");
 		checkCannon("f_2 (x)", "f_{2} (x)");
 	}
 
 	@Test
 	public void testPoint() {
-		checkCannon("(1, 2)", "(1,2)");
-		checkCannon("(1; 2)", "(1;2)");
-		checkCannon("(1, 2, 3)", "(1,2,3)");
-		checkCannon("(1; 2; 3)", "(1;2;3)");
+		checkCannon("(1,2)", "(1,2)");
+		checkCannon("(1;2)", "(1;2)");
+		checkCannon("(1,2,3)", "(1,2,3)");
+		checkCannon("(1;2;3)", "(1;2;3)");
 	}
 
 	@Test
 	public void testMultiply() {
 		checkCannon("t (1,2)", "t (1,2)");
-		checkCannon("x x x", "x*x*x");
+		checkCannon("x x x", "x x x");
 	}
 
 	@Test
@@ -161,8 +162,9 @@ public class SerializeLaTeX {
 	@Test
 	public void testMatrix() {
 		checkCannon("{{1,2},{3,4}}", "{{1,2},{3,4}}");
-		checkCannon("{{1 , 2} , { 3 , 4}}", "{{1,2},{3,4}}");
-		checkCannon("{{1 , 2} , 3}", "{{1,2},3}");
+		// normalize rows, but not cells
+		checkCannon("{{1 , 2} , { 3 , 4}}", "{{1 , 2},{ 3 , 4}}");
+		checkCannon("{{1 , 2} , 3}", "{{1 , 2} , 3}");
 		checkCannon("{{1,2},{3,4}}+1", "{{1,2},{3,4}}+1");
 		checkCannon("{7,{{1,2},{3,4}}+2,4,5,6}", "{7,{{1,2},{3,4}}+2,4,5,6}");
 	}
@@ -170,9 +172,7 @@ public class SerializeLaTeX {
 	@Test
 	public void testList() {
 		checkCannon("{x,1}", "{x,1}");
-		checkCannon("{x, 1}", "{x,1}");
-		checkCannon("{x ,1}", "{x,1}");
-		checkCannon("{x , 1}", "{x,1}");
+		checkCannon("{x , 1}", "{x , 1}");
 	}
 
 	@Test
@@ -234,9 +234,9 @@ public class SerializeLaTeX {
 		for (char op : new char[] { Unicode.LESS_EQUAL, Unicode.GREATER_EQUAL,
 				Unicode.IS_SUBSET_OF, Unicode.IS_ELEMENT_OF,
 				Unicode.IS_SUBSET_OF_STRICT }) {
-			checkCannon("5 " + op + " 3", "5" + op + "3");
+			checkCannon("5 " + op + " 3", "5 " + op + " 3");
 			checkCannon("5 " + op + " (2/3*x+5/3)",
-					"5" + op + " ((2)/(3)*x+(5)/(3))");
+					"5 " + op + " ((2)/(3)*x+(5)/(3))");
 		}
 	}
 

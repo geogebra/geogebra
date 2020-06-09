@@ -860,7 +860,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	}
 
 	@Override
-	public void clearCasEvalMap(String string) {
+	public void clearCasEvalMap() {
 		// TODO Auto-generated method stub
 
 	}

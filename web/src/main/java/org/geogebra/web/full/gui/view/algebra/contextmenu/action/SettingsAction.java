@@ -1,11 +1,11 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu.action;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
-
-import java.util.ArrayList;
 
 public class SettingsAction extends DefaultMenuAction<GeoElement> {
 

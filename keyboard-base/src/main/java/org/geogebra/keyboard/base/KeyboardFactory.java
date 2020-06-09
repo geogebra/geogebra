@@ -9,11 +9,11 @@ import org.geogebra.keyboard.base.model.KeyboardModelFactory;
 import org.geogebra.keyboard.base.model.impl.AccentModifier;
 import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
+import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.FunctionKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.GreekKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.LetterKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactory;
-import org.geogebra.keyboard.base.model.impl.factory.DefaultKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFactory;
 
 /**

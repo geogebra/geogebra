@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
-//import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -46,6 +45,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.himamis.retex.editor.share.util.Unicode;
+
+//import org.geogebra.common.euclidian.event.KeyHandler;
 
 public class FillingPanel extends OptionPanel implements IFillingListener {
 	FillingModel model;

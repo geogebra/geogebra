@@ -17,9 +17,9 @@
 package org.apache.commons.math3.optim.nonlinear.vector.jacobian;
 
 import org.apache.commons.math3.exception.ConvergenceException;
-import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.MathUnsupportedOperationException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.BlockRealMatrix;

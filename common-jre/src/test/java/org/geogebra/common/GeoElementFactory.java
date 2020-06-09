@@ -1,5 +1,7 @@
 package org.geogebra.common;
 
+import static org.junit.Assert.assertFalse;
+
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -8,8 +10,6 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.scientific.LabelController;
-
-import static org.junit.Assert.assertFalse;
 
 /**
  * Class for creating geo elements.
@@ -34,6 +34,15 @@ public class GeoElementFactory {
      */
 	public GeoLine createGeoLine() {
 		return (GeoLine) create("x=y");
+	}
+
+	/**
+	 * Create a GeoLine with Command
+	 *
+	 * @return line
+	 */
+	public GeoLine createGeoLineWithCommand() {
+		return (GeoLine) create("Line((1,1),(2,2))");
 	}
 
 	/**

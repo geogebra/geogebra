@@ -310,7 +310,7 @@ public class DrawInputBox extends CanvasDrawable {
 	 * @return size of label + input
 	 */
 	public GDimension getTotalSize() {
-		measureLabel(view.getGraphicsForPen(), getGeoInputBox(), labelDesc);
+		recomputeSize();
 		return new GDimension() {
 
 			@Override
@@ -410,7 +410,7 @@ public class DrawInputBox extends CanvasDrawable {
 		final GFont font = g2.getFont();
 		g2.setFont(getLabelFont().deriveFont(GFont.PLAIN));
 
-		boolean latexLabel = measureLabel(g2, getGeoInputBox(), labelDesc);
+		boolean latexLabel = recomputeSize();
 
 		// TF Bounds
 		labelRectangle.setBounds(boxLeft, boxTop, boxWidth, boxHeight);
@@ -436,6 +436,10 @@ public class DrawInputBox extends CanvasDrawable {
 		if (editing && view.getSymbolicEditor() != null) {
 			view.getSymbolicEditor().repaintBox(g2);
 		}
+	}
+
+	private boolean recomputeSize() {
+		return measureLabel(view.getGraphicsForPen(), getGeoInputBox(), labelDesc);
 	}
 
 	@Override
@@ -481,7 +485,7 @@ public class DrawInputBox extends CanvasDrawable {
 		}
 
 		view.getViewTextField().revalidateBox();
-		measureLabel(view.getGraphicsForPen(), getGeoInputBox(), labelDesc);
+		recomputeSize();
 		labelRectangle.setBounds(boxLeft,
 				(int) Math.round(getLabelTop() + ((getHeightForLabel(labelDesc)
 						- getPreferredHeight()) / 2.0)),
@@ -490,7 +494,9 @@ public class DrawInputBox extends CanvasDrawable {
 		view.getViewTextField().setBoxBounds(labelRectangle);
 	}
 
-	@Override
+	/**
+	 * @param show whether to show the widget
+	 */
 	public void setWidgetVisible(boolean show) {
 		if (geo.isEuclidianVisible() && view.isVisibleInThisView(geo) && show) {
 			showWidget();
@@ -501,6 +507,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void showWidget() {
 		if (geoInputBox.isSymbolicMode()) {
+			recomputeSize();
 			attachMathField();
 			return;
 		}
@@ -553,7 +560,8 @@ public class DrawInputBox extends CanvasDrawable {
 	public void attachMathField() {
 		hideTextField();
 		view.attachSymbolicEditor(geoInputBox, getInputFieldBounds());
-		geoInputBox.updateRepaint();
+		geoInputBox.update();
+		view.repaintView();
 	}
 
 	/**

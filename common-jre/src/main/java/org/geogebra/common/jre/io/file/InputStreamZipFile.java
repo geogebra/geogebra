@@ -1,8 +1,8 @@
 package org.geogebra.common.jre.io.file;
 
-import org.geogebra.common.io.file.ZipFile;
-
 import java.io.InputStream;
+
+import org.geogebra.common.io.file.ZipFile;
 
 public class InputStreamZipFile implements ZipFile {
 

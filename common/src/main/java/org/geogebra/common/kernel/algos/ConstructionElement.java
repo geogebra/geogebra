@@ -291,15 +291,6 @@ public abstract class ConstructionElement
 	 */
 	public abstract String getDefinition(StringTemplate tpl);
 
-	/**
-	 * Returns string representation of this element
-	 * 
-	 * @param tpl
-	 *            string template
-	 * @return e.g. "A=(1,2)"
-	 */
-	public abstract String toString(StringTemplate tpl);
-
 	public abstract String toString(GTemplate tpl);
 
 	protected Localization getLoc() {

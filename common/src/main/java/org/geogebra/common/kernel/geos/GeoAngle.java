@@ -365,10 +365,11 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 */
 
 	@Override
-	public GeoNumeric copy() {
+	public GeoAngle copy() {
 		GeoAngle angle = new GeoAngle(cons);
 		angle.setValue(rawValue);
 		angle.setAngleStyle(angleStyle);
+		angle.setDrawable(isDrawable, false);
 		return angle;
 	}
 

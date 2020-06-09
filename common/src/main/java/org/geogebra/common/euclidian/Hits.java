@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -26,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.TestGeo;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -126,7 +128,7 @@ public class Hits extends ArrayList<GeoElement> {
 			listCount++;
 		} else if (geo.isGeoImage()) {
 			imageCount++;
-		} else if (geo.isGeoPolygon()) {
+		} else if (isPolygon(geo)) {
 			polyCount++;
 
 		} else if (geo instanceof GeoAxisND) {
@@ -285,7 +287,7 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 	}
 
-	final private void removeHasSegmentsDependingSidePresent(
+	private void removeHasSegmentsDependingSidePresent(
 			boolean sidePresentWanted) {
 
 		Iterator<GeoElement> it = this.iterator();
@@ -295,8 +297,8 @@ public class Hits extends ArrayList<GeoElement> {
 				boolean sidePresent = false;
 				GeoSegmentND[] sides = ((HasSegments) geo).getSegments();
 				if (sides != null) {
-					for (int k = 0; k < sides.length; k++) {
-						if (this.contains(sides[k])) {
+					for (GeoSegmentND side : sides) {
+						if (this.contains(side)) {
 							sidePresent = true;
 							break;
 						}
@@ -361,14 +363,10 @@ public class Hits extends ArrayList<GeoElement> {
 	final public void removeSegmentsFromPolygons() {
 		ArrayList<GeoSegmentND> toRemove = new ArrayList<>();
 
-		Iterator<GeoElement> it = this.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (geo.isGeoPolygon()) {
+		for (GeoElement geo : this) {
+			if (isPolygon(geo)) {
 				GeoSegmentND[] sides = ((GeoPolygon) geo).getSegments();
-				for (int k = 0; k < sides.length; k++) {
-					toRemove.add(sides[k]);
-				}
+				toRemove.addAll(Arrays.asList(sides));
 			}
 		}
 
@@ -403,11 +401,15 @@ public class Hits extends ArrayList<GeoElement> {
 
 			for (int i = size() - 1; i >= 0; i--) {
 				GeoElement geo = get(i);
-				if (geo.isGeoPolygon()) {
+				if (isPolygon(geo)) {
 					remove(i);
 				}
 			}
 		}
+	}
+
+	private boolean isPolygon(GeoElement geo) {
+		return geo.isGeoPolygon() && !geo.isShape();
 	}
 
 	/**
@@ -416,7 +418,7 @@ public class Hits extends ArrayList<GeoElement> {
 	final public void removeAllPolygons() {
 		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
-			if (geo.isGeoPolygon()) {
+			if (isPolygon(geo)) {
 				remove(i);
 			}
 		}
@@ -441,7 +443,7 @@ public class Hits extends ArrayList<GeoElement> {
 		int toRemove = polyCount - 1;
 		for (int i = size() - 1; i >= 0 && toRemove > 0; i--) {
 			GeoElement geo = get(i);
-			if (geo.isGeoPolygon()) {
+			if (isPolygon(geo)) {
 				remove(i);
 				toRemove--;
 			}
@@ -494,13 +496,6 @@ public class Hits extends ArrayList<GeoElement> {
 	 * Removes all polygonsand quadrics but one; for 3D
 	 */
 	public void removeAllPolygonsAndQuadricsButOne() {
-		// for 3D
-	}
-
-	/**
-	 * Keeps only images; for 3D
-	 */
-	final public void removeAllButImages() {
 		// for 3D
 	}
 
@@ -1116,4 +1111,30 @@ public class Hits extends ArrayList<GeoElement> {
 		return null;
 	}
 
+	/**
+	 * Get hits only that are groupped together or have no group
+	 *
+	 *  @return the groupped geos.
+	 */
+	public Hits getHitsGroupped() {
+		Hits ret = new Hits();
+		for (int i = 0; i < size(); i++) {
+			GeoElement geo = get(i);
+			Group group = geo.getParentGroup();
+			if (group == null || containsGroup(group)) {
+				ret.add(geo);
+			}
+		}
+		return ret;
+	}
+
+	private boolean containsGroup(Group group) {
+		for (GeoElement geo: group.getGroupedGeos()) {
+			if (!contains(geo)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }

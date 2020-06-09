@@ -364,19 +364,7 @@ public class EuclidianViewCompanion {
 	 *            graphics
 	 */
 	public void paint(GGraphics2D g2) {
-		paint(g2, null);
-	}
-
-	/**
-	 * Paints content of this view.
-	 * 
-	 * @param g2
-	 *            graphics
-	 * @param g3
-	 *            background
-	 */
-	public void paint(GGraphics2D g2, GGraphics2D g3) {
-		view.paintTheBackground(g3 == null ? g2 : g3);
+		view.paintTheBackground(g2);
 
 		g2.setAntialiasing();
 
@@ -392,30 +380,12 @@ public class EuclidianViewCompanion {
 			view.getBoundingBox().draw(g2);
 		}
 
+		if (view.getFocusedGroupGeoBoundingBox() != null) {
+			view.getFocusedGroupGeoBoundingBox().draw(g2);
+		}
+
 		// draw shape preview for shape tools
-		if (view.getShapeRectangle() != null) {
-			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
-					view.getShapeStroke(),
-					view.getShapeRectangle());
-		}
-
-		view.drawMaskPreview(g2);
-
-		if (view.getShapeEllipse() != null) {
-			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
-					view.getShapeStroke(), view.getShapeEllipse());
-		}
-
-		if (view.getShapeLine() != null) {
-			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
-					view.getShapeStroke(), view.getShapeLine());
-		}
-
-		if (view.getShapePolygon() != null) {
-			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
-					view.getShapeStroke(),
-					view.getShapePolygon());
-		}
+		view.drawShapePreview(g2);
 
 		if (view.deletionRectangle != null) {
 			view.drawRect(g2, EuclidianView.colDeletionSquare,
@@ -498,7 +468,6 @@ public class EuclidianViewCompanion {
 	 * drawables
 	 */
 	protected void updateSizeKeepDrawables() {
-		view.cacheLayers(-1);
 		view.updateSizeKeepDrawables();
 	}
 

@@ -1,6 +1,11 @@
 package org.geogebra.common.main.settings;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CASCommandArgumentFilter;
@@ -8,12 +13,12 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.settings.updater.CasSettingsUpdater;
+import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.CasPropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * Config for CAS Calculator app
@@ -118,5 +123,25 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public boolean shouldHideEquations() {
 		return false;
+	}
+
+	@Override
+	public int getDefaultAngleUnit() {
+		return Kernel.ANGLE_RADIANT;
+	}
+
+	@Override
+	public boolean isAngleUnitSettingEnabled() {
+		return false;
+	}
+
+	@Override
+	public SettingsUpdater createSettingsUpdater() {
+		return new CasSettingsUpdater();
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new CasPropertiesFactory();
 	}
 }

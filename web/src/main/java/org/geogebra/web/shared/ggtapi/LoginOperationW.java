@@ -2,6 +2,7 @@ package org.geogebra.web.shared.ggtapi;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -13,9 +14,10 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.RootPanel;
+
+import elemental2.dom.DomGlobal;
 
 /**
  * The web version of the login operation. uses an own AuthenticationModel and
@@ -49,7 +51,12 @@ public class LoginOperationW extends LogInOperation {
 		super();
 		this.app = appWeb;
 		getView().add(new LanguageLoginCallback());
-		setModel(new AuthenticationModelW(appWeb));
+		AuthenticationModelW model = new AuthenticationModelW(appWeb);
+		setModel(model);
+		if (app.getVendorSettings().canSessionExpire()) {
+			model.setSessionExpireTimer(app.newTimer(model,
+					AuthenticationModel.SESSION_TIME));
+		}
 
 		iniNativeEvents();
 		apiFactory = new BackendAPIFactory(app);
@@ -138,7 +145,7 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	public void showLogoutUI() {
 		if (!StringUtil.empty(app.getArticleElement().getParamLogoutURL())) {
-			Window.open(app.getArticleElement().getParamLogoutURL(), "_blank",
+			DomGlobal.window.open(app.getArticleElement().getParamLogoutURL(), "_blank",
 					"menubar=off,width=450,height=350");
 		}
 	}

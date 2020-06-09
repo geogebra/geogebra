@@ -317,7 +317,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
 		sb.append(" ");
@@ -382,7 +382,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
 		sb.append(" ");
@@ -679,10 +679,6 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CONIFY);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EXTRUSION);
-		if (app.has(Feature.SURFACE_OF_REVOLUTION_TOOL)) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_SURFACE_OF_REVOLUTION);
-		}
 
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS);
@@ -696,6 +692,8 @@ public class ToolBar {
 
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_NET);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SURFACE_OF_REVOLUTION);
 		sb.append(" | ");
 
 		// spheres

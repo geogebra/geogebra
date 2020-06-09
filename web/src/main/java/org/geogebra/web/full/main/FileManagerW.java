@@ -1,5 +1,8 @@
 package org.geogebra.web.full.main;
 
+import java.util.ArrayList;
+import java.util.TreeSet;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -19,9 +22,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
-
-import java.util.ArrayList;
-import java.util.TreeSet;
 
 /**
  * Manager for files from {@link Storage localStorage}

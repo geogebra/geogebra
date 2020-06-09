@@ -1,5 +1,7 @@
 package org.geogebra.common.media;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.util.AsyncOperation;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -34,9 +36,9 @@ public class MediaURLParserTest {
 			@Override
 			public void callback(VideoURL obj) {
 				Assert.assertTrue(obj.isValid());
-				Assert.assertEquals(fmt, obj.getFormat());
+				assertEquals(fmt, obj.getFormat());
 				if (fmt == MediaFormat.VIDEO_YOUTUBE) {
-					Assert.assertEquals(id,
+					assertEquals(id,
 						MediaURLParser.getYouTubeId(obj.getUrl()));
 				}
 				if (fmt == MediaFormat.VIDEO_MEBIS) {
@@ -120,7 +122,16 @@ public class MediaURLParserTest {
 				INVALID);
 		checkVideo("https://mediathek.mebis.bayern.de/?&&f&",
 				INVALID);
+	}
 
+	@Test
+	public void testEmbeddableUrls() {
+		assertEquals("https://en.wikipedia.org/wiki/%2B", // this actually exists
+				MediaURLParser.toEmbeddableUrl("https://en.wikipedia.org/wiki/+"));
+		assertEquals("https://www.bavarikon.de/object/bav:foo?lang=de&mebisembedding=true",
+				MediaURLParser.toEmbeddableUrl("https://www.bavarikon.de/object/bav:foo?lang=de"));
+		assertEquals("https://www.bavarikon.de/object/bav:foo?mebisembedding=true",
+				MediaURLParser.toEmbeddableUrl("https://www.bavarikon.de/object/bav:foo"));
 	}
 
 	public static void checkVideo(String url,

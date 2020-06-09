@@ -1,9 +1,10 @@
 package org.geogebra.web.full.gui.dialog.template;
 
-import com.google.gwt.user.client.ui.FlowPanel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.dialog.OptionDialog;
 import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.user.client.ui.FlowPanel;
 
 public class TemplateChooser extends OptionDialog {
     private Localization loc;

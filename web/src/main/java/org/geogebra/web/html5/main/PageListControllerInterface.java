@@ -20,6 +20,13 @@ public interface PageListControllerInterface {
 	GgbFile getSlide(int index);
 
 	/**
+	 * Make sure slide content is synced with construction
+	 * @param index
+	 *            index
+	 */
+	void refreshSlide(int index);
+
+	/**
 	 * @return JSON representation of current multislide file in the format of
 	 *         GeoGebra Book
 	 */

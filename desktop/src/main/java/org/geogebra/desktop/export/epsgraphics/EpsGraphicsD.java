@@ -205,7 +205,12 @@ public class EpsGraphicsD extends EpsGraphics {
 
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
-			int dy) {
+			int dy, int dw, int dh) {
+		drawImage(img, dx, dy);
+	}
+
+	@Override
+	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		drawImage(img, dx, dy);
 	}
 

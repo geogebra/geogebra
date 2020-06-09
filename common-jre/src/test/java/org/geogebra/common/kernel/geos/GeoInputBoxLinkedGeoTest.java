@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -30,6 +32,14 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		updateInput("GeoGebra Really Rocks");
 		t("txt", "GeoGebra Really Rocks");
 		hasType("txt", GeoClass.TEXT);
+	}
+
+	@Test
+	public void shouldShowNewlineQuotesForText() {
+		setupInput("txt", "\"GeoGebra\\\\nRocks\"");
+		assertEquals("GeoGebra\\\\nRocks", inputBox.getText());
+		updateInput("GeoGebra\\\\nReally\\\\nRocks");
+		t("txt", "GeoGebra\nReally\nRocks");
 	}
 
 	@Test
@@ -80,29 +90,19 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
+		Assert.assertEquals("1+1/5", inputBox.getTextForEditor());
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
+		Assert.assertEquals("1+1/5", inputBox.getTextForEditor());
 	}
 
 	@Test
 	public void nonsymbolicShouldShowDefinitionForFraction() {
 		setupInput("l", "1 + 1 / 5");
-		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
+		((GeoNumeric) lookup("l")).setSymbolicMode(true, true);
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
-		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
-	}
-
-	@Test
-	public void nonsymbolicShouldShowDefinitionForDecimals() {
-		setupInput("l", "1 + 1 / 5");
-		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
-		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		Assert.assertEquals("1 + 1 / 5", inputBox.getTextForEditor());
+		Assert.assertEquals("6 / 5", inputBox.getText());
+		((GeoNumeric) lookup("l")).setSymbolicMode(false, true);
+		Assert.assertEquals("1.2", inputBox.getText());
 	}
 
 	@Test
@@ -203,7 +203,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("u: (1, 2)");
 		add("v: (3, 4)");
 		setupInput("l", "u + v");
-		Assert.assertEquals("u + v", inputBox.getTextForEditor());
+		Assert.assertEquals("u+v", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -211,7 +211,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("u: (1, 2, 3)");
 		add("v: (3, 4, 5)");
 		setupInput("l", "u + v");
-		Assert.assertEquals("u + v", inputBox.getTextForEditor());
+		Assert.assertEquals("u+v", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -274,5 +274,15 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("p:Plane(A,B,C)");
 		GeoInputBox inputBox = add("InputBox(p)");
 		Assert.assertTrue(inputBox.canBeSymbolic());
+	}
+
+	@Test
+	public void testCanBeSymbolicForEquation() {
+		add("eq1:x^3+y^3=1");
+		GeoInputBox inputBox1 = add("InputBox(eq1)");
+		add("eq2:x^2+y^2+z^2=1");
+		GeoInputBox inputBox2 = add("InputBox(eq2)");
+		Assert.assertTrue(inputBox1.canBeSymbolic());
+		Assert.assertTrue(inputBox2.canBeSymbolic());
 	}
 }
