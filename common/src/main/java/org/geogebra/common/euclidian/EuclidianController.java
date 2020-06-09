@@ -9930,6 +9930,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 *            pointer event
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
+		boolean newSelection = getAppSelectedGeos() == null || getAppSelectedGeos().isEmpty();
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
 
