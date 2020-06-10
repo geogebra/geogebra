@@ -9,9 +9,6 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Class for representing playable audio data.
- * 
- * @author laszlo
- *
  */
 public class GeoAudio extends GeoMedia {
 
@@ -32,6 +29,16 @@ public class GeoAudio extends GeoMedia {
 		setHeight(DEFAULT_PLAYER_HEIGHT);
 		app = getKernel().getApplication();
 		setAnimationStep(DEFAULT_STEP);
+	}
+
+	@Override
+	public double getMinWidth() {
+		return DEFAULT_PLAYER_WIDTH;
+	}
+
+	@Override
+	public double getMinHeight() {
+		return DEFAULT_PLAYER_HEIGHT;
 	}
 
 	/**

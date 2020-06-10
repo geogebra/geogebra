@@ -13,10 +13,12 @@ import org.geogebra.common.util.StringUtil;
 /**
  * Geo for embedded apps
  */
-public class GeoEmbed extends GeoWidget implements Translateable {
+public class GeoEmbed extends GeoWidget {
 
 	private static final double DEFAULT_WIDTH = 800;
 	private static final double DEFAULT_HEIGHT = 600;
+
+	public final static int EMBED_SIZE_THRESHOLD = 100;
 
 	private boolean defined = true;
 	private int embedID = -1;
@@ -32,6 +34,16 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	 */
 	public GeoEmbed(Construction c) {
 		super(c);
+	}
+
+	@Override
+	public double getMinWidth() {
+		return EMBED_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public double getMinHeight() {
+		return EMBED_SIZE_THRESHOLD;
 	}
 
 	/**

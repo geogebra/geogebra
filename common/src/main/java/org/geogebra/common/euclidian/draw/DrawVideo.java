@@ -23,8 +23,6 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 	private final GeoVideo video;
 	private final App app;
 
-	private final static int VIDEO_SIZE_THRESHOLD = 100;
-
 	/** Threshold correction for resizing handler capturing */
 	public static final int HANDLER_THRESHOLD = -4;
 
@@ -54,12 +52,12 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 
 	@Override
 	public double getWidthThreshold() {
-		return VIDEO_SIZE_THRESHOLD;
+		return GeoVideo.VIDEO_SIZE_THRESHOLD;
 	}
 
 	@Override
 	public double getHeightThreshold() {
-		return VIDEO_SIZE_THRESHOLD;
+		return GeoVideo.VIDEO_SIZE_THRESHOLD;
 	}
 
 	@Override

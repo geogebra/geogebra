@@ -56,14 +56,10 @@ public abstract class GeoWidget extends GeoElement
 	}
 
 	@Override
-	public double getMinWidth() {
-		return 0;
-	}
+	public abstract double getMinWidth();
 
 	@Override
-	public double getMinHeight() {
-		return 0;
-	}
+	public abstract double getMinHeight();
 
 	@Override
 	public double getHeight() {

@@ -18,7 +18,6 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 	private final GeoEmbed geoEmbed;
 	private final EmbedManager embedManager;
 
-	private final static int EMBED_SIZE_THRESHOLD = 100;
 	private MyImage preview;
 
 	/**
@@ -52,12 +51,12 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 
 	@Override
 	public double getWidthThreshold() {
-		return EMBED_SIZE_THRESHOLD;
+		return GeoEmbed.EMBED_SIZE_THRESHOLD;
 	}
 
 	@Override
 	public double getHeightThreshold() {
-		return EMBED_SIZE_THRESHOLD;
+		return GeoEmbed.EMBED_SIZE_THRESHOLD;
 	}
 
 	@Override

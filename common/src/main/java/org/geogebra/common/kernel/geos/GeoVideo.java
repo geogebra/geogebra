@@ -16,6 +16,11 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoVideo extends GeoMedia {
 
+	private static final int VIDEO_WIDTH = 420;
+	private static final int VIDEO_HEIGHT = 345;
+
+	public final static int VIDEO_SIZE_THRESHOLD = 100;
+
 	private static final String WMODE_TRANSPARENT = "&wmode=transparent";
 
 	/**
@@ -28,8 +33,6 @@ public class GeoVideo extends GeoMedia {
 	private static final String TIME_PARAM_A = "&t=";
 	private static final String TIME_PARAM_Q = "?t=";
 	private static final String TIME_PARAM_S = "start=";
-	private static final int VIDEO_WIDTH = 420;
-	private static final int VIDEO_HEIGHT = 345;
 	private static final String JAVASCRIPT_API = "enablejsapi=1";
 
 	private String youtubeId = null;
@@ -164,6 +167,16 @@ public class GeoVideo extends GeoMedia {
 	public void setWidth(double width) {
 		super.setWidth(width);
 		runSizeCallbackIfReady();
+	}
+
+	@Override
+	public double getMinWidth() {
+		return VIDEO_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public double getMinHeight() {
+		return VIDEO_SIZE_THRESHOLD;
 	}
 
 	@Override
