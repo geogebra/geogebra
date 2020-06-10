@@ -24,7 +24,7 @@ public class VariableReplacerAlgorithm {
 	private Kernel kernel;
 	private DerivativeCreator derivativeCreator;
 
-	private boolean tokenizerAllowed = false;
+	private boolean multipleUnassignedAllowed = false;
 
 	/**
 	 * @param kernel The kernel.
@@ -63,6 +63,11 @@ public class VariableReplacerAlgorithm {
 				return arg.wrap().apply(op);
 			}
 			ExpressionValue v1 = replaceToken(next);
+
+			if (!multipleUnassignedAllowed && v1 instanceof Variable) {
+				return parseReverse(expressionString);
+			}
+
 			if (tokenizer.hasToken()) {
 				ExpressionValue v2 = tokenize(tokenizer.getInputRemaining());
 				return leftProduct(v1, v2);
@@ -71,6 +76,23 @@ public class VariableReplacerAlgorithm {
 		}
 
 		return replaceToken(next);
+	}
+
+	private ExpressionValue parseReverse(String expressionString) {
+		if (expressionString.endsWith("deg")) {
+			return buildReverseProduct(expressionString, 3);
+		}
+		String lastChar = expressionString.substring(expressionString.length() - 1);
+		if (isCharVariableName(lastChar) || Unicode.PI_STRING.equals(lastChar)) {
+			return buildReverseProduct(expressionString, 1);
+		}
+		return replaceToken(expressionString);
+	}
+
+	private ExpressionValue buildReverseProduct(String expressionString, int suffixLength) {
+		int length = expressionString.length() - suffixLength;
+		ExpressionValue left = parseReverse(expressionString.substring(0, length));
+		return left.wrap().multiply(replaceToken(expressionString.substring(length)));
 	}
 
 	private ExpressionNode leftProduct(ExpressionValue v1, ExpressionValue v2) {
@@ -214,7 +236,12 @@ public class VariableReplacerAlgorithm {
 		return -1;
 	}
 
-	public void setTokenizerAllowed(boolean value) {
-		tokenizerAllowed = value;
+	/**
+	 * We always allow splitting pp to p*p if p is a function variable, but if p
+	 * is a generic variable (=unassigned) we only want to split it in input boxes.
+	 * @param value whether to allow splitting with more than one Variable instance
+	 */
+	public void setMultipleUnassignedAllowed(boolean value) {
+		multipleUnassignedAllowed = value;
 	}
 }

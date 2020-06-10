@@ -774,7 +774,7 @@ public interface Traversing {
 		}
 
 		public void setSimplifyMultiplication(boolean value) {
-			variableReplacerAlgorithm.setTokenizerAllowed(value);
+			variableReplacerAlgorithm.setMultipleUnassignedAllowed(value);
 		}
 
 		@Override
@@ -899,7 +899,7 @@ public interface Traversing {
 				if (expressionFromVariableName == null) {
 					VariableReplacerAlgorithm variableReplacerAlgorithm =
 							new VariableReplacerAlgorithm(variable.getKernel());
-					variableReplacerAlgorithm.setTokenizerAllowed(simplifiedMultiplication);
+					variableReplacerAlgorithm.setMultipleUnassignedAllowed(simplifiedMultiplication);
 					expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
 				}
 

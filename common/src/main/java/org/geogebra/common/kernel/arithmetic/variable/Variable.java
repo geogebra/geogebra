@@ -36,6 +36,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -145,7 +146,7 @@ public class Variable extends ValidExpression {
 	 */
 	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
 														   boolean allowTokenizer) {
-		variableReplacerAlgorithm.setTokenizerAllowed(allowTokenizer);
+		variableReplacerAlgorithm.setMultipleUnassignedAllowed(allowTokenizer);
 		GeoElement geo = resolve(false, mode);
 		if (geo == null) {
 			if (kernel.getConstruction().isRegistredFunctionVariable(name)) {
@@ -198,7 +199,9 @@ public class Variable extends ValidExpression {
 	@Override
 	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> ret = new HashSet<>();
-		ret.add(resolve(true, mode));
+		GeoElement resolve = resolve(true, mode);
+		Log.error("resolved as "+resolve);
+		ret.add(resolve);
 		return ret;
 	}
 

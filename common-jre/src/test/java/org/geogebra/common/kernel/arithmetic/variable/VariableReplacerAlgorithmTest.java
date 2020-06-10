@@ -35,7 +35,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testIndexProduct() {
-		allowTokenizer();
+		allowMultipleUnassigned();
 		add("a_{1} = 4");
 		add("b = 2");
 		add("b_{1} = 4");
@@ -53,26 +53,25 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testFunctionProductsMul() {
-		allowTokenizer();
+		allowMultipleUnassigned();
 		shouldReplaceAs("xlnx", "x * log(x)");
 		shouldReplaceAs("xln2x", "x * log(2 * x)");
 		shouldReplaceAs("xsinx", "x * sin(x)");
 	}
 
-	static void allowTokenizer() {
-		variableReplacerAlgorithm.setTokenizerAllowed(true);
+	static void allowMultipleUnassigned() {
+		variableReplacerAlgorithm.setMultipleUnassignedAllowed(true);
 	}
 
 	@Test
 	public void testConstantMultiplier() {
-	allowTokenizer();
 		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING
 			+ " * sqrt(5)");
 	}
 
 	@Test
 	public void testEmbeddedTrigs() {
-		allowTokenizer();
+		allowMultipleUnassigned();
 		shouldReplaceAs("4coscoscosx", "4 * cos(cos(cos(x)))");
 	}
 
@@ -88,7 +87,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testImaginary() {
-		allowTokenizer();
+		allowMultipleUnassigned();
 		shouldReplaceAs("isqrt3", String.valueOf(Unicode.IMAGINARY) + " * sqrt(3)");
 	}
 
