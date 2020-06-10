@@ -45,6 +45,13 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("c_{1}'a''", "c_{1}' * a''");
 	}
 
+	@Test
+	public void testIndexProductGreek() {
+		allowMultipleUnassigned();
+		shouldReplaceAs("E_{m}" + Unicode.omega + "C",
+				"E_{m} * " + Unicode.omega + " * C");
+	}
+
 	@Ignore
 	@Test
 	public void testFunctionProducts() {

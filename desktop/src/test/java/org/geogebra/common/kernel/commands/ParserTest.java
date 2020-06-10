@@ -98,13 +98,18 @@ public class ParserTest {
 		shouldReparseAs(Unicode.PI_STRING + "8.1",
 				Unicode.PI_STRING + " * 8.1");
 		shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
-				 "2" + Unicode.PI_STRING + " * 8.1");
+				 unicode("2@pi * 8.1"));
 	}
 
 	@Test
 	public void testPiPower() {
-		shouldReparseAs("pixxyyy",
-				unicode(Unicode.PI_STRING + " x^2 y^3"));
+		shouldReparseAs("pixxyyy", unicode("@pi x^2 y^3"));
+		shouldReparseAs(Unicode.PI_STRING + "3^2", unicode("@pi * 3^2"));
+	}
+
+	@Test
+	public void testPower() {
+		shouldReparseAs("f(k,y,z)=kyz^6", unicode("k y z^6"));
 	}
 
 	@Test
@@ -335,6 +340,7 @@ public class ParserTest {
 	public void shouldHandleDecimalsInLabels() {
 		shouldReparseAs("x1.3=7", "x * 1.3 = 7");
 		shouldReparseAs("x1.3=y", "x * 1.3 = y");
+		shouldReparseAs("x_{1.3}=7", "7");
 	}
 
 	private void assertValidLabel(String s) {

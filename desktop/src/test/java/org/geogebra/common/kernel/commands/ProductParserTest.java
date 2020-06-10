@@ -150,6 +150,15 @@ public class ProductParserTest extends TokenizerBaseTest {
 		shouldReparseAs("Fcosθx+Fsinθy", "F cos(θ x) + F sin(θ y)");
 	}
 
+	@Test
+	public void testIndexProduct() {
+		shouldReparseAs("F_{1}F_{2}", "F_{1} F_{2}");
+		shouldReparseAs("F_{1}F_{2}sin" + Unicode.theta_STRING,
+				unicode("F_{1} F_{2} sin(@theta)"));
+		shouldReparseAs("Gm_{1}m_{2}", "G m_{1} m_{2}");
+		shouldReparseAs("Gm_{1}m_{2}d", "G m_{1} m_{2} d");
+	}
+
 	private void shouldReparseAs(String original, String parsed) {
 		ParserTest.shouldReparseAs(getApp(), original, parsed);
 	}

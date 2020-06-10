@@ -897,10 +897,10 @@ public interface Traversing {
 				ExpressionValue expressionFromVariableName =
 						variable.getKernel().lookupLabel(variableName);
 				if (expressionFromVariableName == null) {
-					VariableReplacerAlgorithm variableReplacerAlgorithm =
+					VariableReplacerAlgorithm variableReplacerAlgo =
 							new VariableReplacerAlgorithm(variable.getKernel());
-					variableReplacerAlgorithm.setMultipleUnassignedAllowed(simplifiedMultiplication);
-					expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
+					variableReplacerAlgo.setMultipleUnassignedAllowed(simplifiedMultiplication);
+					expressionFromVariableName = variableReplacerAlgo.replace(variableName);
 				}
 
 				if (ExpressionNode.isImaginaryUnit(expressionFromVariableName.unwrap())) {

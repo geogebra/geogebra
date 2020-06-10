@@ -482,6 +482,7 @@ public class ExpressionNode extends ValidExpression
 			if (right.isVariable()) {
 				right = ((Variable) right).resolveAsExpressionValue(
 						info.getSymbolicMode(), info.isSimplifiedMultiplication());
+				right = groupPowers(right);
 			} else {
 				right.resolveVariables(info);
 			}

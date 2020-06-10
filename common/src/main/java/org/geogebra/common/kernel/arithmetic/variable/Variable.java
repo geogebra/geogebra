@@ -36,7 +36,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -199,9 +198,7 @@ public class Variable extends ValidExpression {
 	@Override
 	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> ret = new HashSet<>();
-		GeoElement resolve = resolve(true, mode);
-		Log.error("resolved as "+resolve);
-		ret.add(resolve);
+		ret.add(resolve(true, mode));
 		return ret;
 	}
 
