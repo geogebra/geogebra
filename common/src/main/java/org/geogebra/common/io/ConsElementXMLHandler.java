@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.geos.HasAlignment;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
@@ -241,13 +242,10 @@ public class ConsElementXMLHandler {
 				}
 				button.setFixedSize(true);
 				return true;
-			} else if (geo instanceof GeoEmbed) {
-				((GeoEmbed) geo).setWidth(widthD);
-				((GeoEmbed) geo).setHeight(heightD);
-			} else if (geo instanceof GeoInline) {
-				((GeoInline) geo).setWidth(widthD);
-				((GeoInline) geo).setHeight(heightD);
-				((GeoInline) geo).setAngle(angleD);
+			} else if (geo instanceof RectangleTransformable) {
+				((RectangleTransformable) geo).setWidth(widthD);
+				((RectangleTransformable) geo).setHeight(heightD);
+				((RectangleTransformable) geo).setAngle(angleD);
 			}
 
 			return true;
@@ -1085,7 +1083,7 @@ public class ConsElementXMLHandler {
 	 * @see #processStartPointList()
 	 */
 	private void handleStartPoint(LinkedHashMap<String, String> attrs) {
-		if (geo instanceof GeoInline) {
+		if (geo instanceof RectangleTransformable) {
 			double x = 0;
 			double y = 0;
 
@@ -1093,12 +1091,11 @@ public class ConsElementXMLHandler {
 				x = Double.parseDouble(attrs.get("x"));
 				y = Double.parseDouble(attrs.get("y"));
 			} catch (NumberFormatException e) {
-				Log.error("Incorrect start point for GeoInlineText");
+				Log.error("Incorrect start point for RectangleTransformable");
 			}
 
 			GPoint2D startPoint = new GPoint2D(x, y);
-
-			((GeoInline) geo).setLocation(startPoint);
+			((RectangleTransformable) geo).setLocation(startPoint);
 			return;
 		}
 

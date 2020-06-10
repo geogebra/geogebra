@@ -245,10 +245,6 @@ public class GeoVideo extends GeoMedia {
 		} else if (getSrc() != null) {
 			sb.append(StringUtil.encodeXML(getSrc()));
 		}
-		sb.append("\" width=\"");
-		sb.append(getWidth());
-		sb.append("\" height=\"");
-		sb.append(getHeight());
 		sb.append("\"");
 		if (getFormat() != null) {
 			sb.append(" type=\"");

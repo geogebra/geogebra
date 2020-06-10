@@ -116,8 +116,7 @@ public class GeoEmbed extends GeoWidget {
 				.append('\"');
 
 		}
-		sb.append("/>");
-		XMLBuilder.dimension(sb, Double.toString(getWidth()), Double.toString(getHeight()));
+		sb.append("/>\n");
 	}
 
 	/**

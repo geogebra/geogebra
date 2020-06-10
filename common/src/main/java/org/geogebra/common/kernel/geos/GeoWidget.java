@@ -172,11 +172,7 @@ public abstract class GeoWidget extends GeoElement
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-		sb.append("\t<startPoint x=\"")
-			.append(startPoint.getX())
-			.append("\" y=\"")
-			.append(startPoint.getY())
-			.append("\">\n");
+		XMLBuilder.appendPosition(sb, this);
 	}
 
 	@Override
