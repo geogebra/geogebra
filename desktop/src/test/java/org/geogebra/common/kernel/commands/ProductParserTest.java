@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.geogebra.test.TestStringUtil.unicode;
+
 import org.geogebra.common.kernel.arithmetic.variable.TokenizerBaseTest;
 import org.junit.Test;
 
@@ -31,7 +33,7 @@ public class ProductParserTest extends TokenizerBaseTest {
 	@Test
 	public void testFunctionalVarVar() {
 		withGeos("f(var)");
-		shouldReparseAs("varvar", "var var");
+		shouldReparseAs("varvar", unicode("var^2"));
 	}
 
 	@Test
@@ -145,7 +147,7 @@ public class ProductParserTest extends TokenizerBaseTest {
 
 	@Test
 	public void testFcosThetaSum() {
-		shouldReparseAs("Fcosθx+Fsinθy", "F cos(x θ) + F sin(y θ)");
+		shouldReparseAs("Fcosθx+Fsinθy", "F cos(θ x) + F sin(θ y)");
 	}
 
 	private void shouldReparseAs(String original, String parsed) {

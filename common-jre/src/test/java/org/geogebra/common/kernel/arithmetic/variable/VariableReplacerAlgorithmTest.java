@@ -22,15 +22,15 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testPower() {
+		// transformation to x^2 y^3 done on higher level, see ParserTest
 		shouldReplaceAs("pixxyyy",
-				Unicode.PI_STRING + " * x^(2) * y^(3)");
+				Unicode.PI_STRING + " * x * x * y * y * y");
 	}
 
 	@Test
 	public void testDecimal() {
-		// opposite ordering would be better, part of WLY-98
 		shouldReplaceAs("pi8.1",
-				  "8.1 * " + Unicode.PI_STRING);
+				Unicode.PI_STRING + " * 8.1");
 	}
 
 	@Test
@@ -42,6 +42,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("a_{1}b", "a_{1} * b");
 		shouldReplaceAs("ba_{1}", "b * a_{1}");
 		shouldReplaceAs("a_{1}b_{1}", "a_{1} * b_{1}");
+		shouldReplaceAs("c_{1}'a''", "c_{1}' * a''");
 	}
 
 	@Ignore
@@ -78,7 +79,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	@Test
 	public void testTrig() {
 		shouldReplaceAs("sinx", "sin(x)");
-		shouldReplaceAs("sinxx", "sin(x^(2))");
+		shouldReplaceAs("sinxx", "sin(x * x)");
 		shouldReplaceAs("sin2", "sin(2)");
 		shouldReplaceAs("cos3x", "cos(3 * x)");
 		shouldReplaceAs("asinsinpix",
@@ -110,8 +111,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	public void testReuseInstance() {
 		String expression = "x";
 		variableReplacerAlgorithm.replace(expression);
-		variableReplacerAlgorithm.replace(expression);
-		int powerOfX = variableReplacerAlgorithm.getExponents().get("x");
-		Assert.assertEquals(1, powerOfX);
+		ExpressionValue secondRun = variableReplacerAlgorithm.replace(expression);
+		Assert.assertEquals("x", secondRun.toString(StringTemplate.defaultTemplate));
 	}
 }

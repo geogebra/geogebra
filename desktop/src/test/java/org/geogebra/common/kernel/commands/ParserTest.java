@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
@@ -92,15 +91,28 @@ public class ParserTest {
 		checkSameStructure(Unicode.PI_STRING + "(1.3)",
 				Unicode.PI_STRING + " 1.3");
 		checkSameStructure("pi(1.3)", Unicode.PI_STRING + " 1.3");
-		shouldReparseAs(Unicode.PI_STRING + "8", "8" + Unicode.PI_STRING);
+		shouldReparseAs(Unicode.PI_STRING + "8",  Unicode.PI_STRING + " * 8");
 		shouldReparseAs("2" + Unicode.PI_STRING + "8",
-				"2 * 8" + Unicode.PI_STRING);
+				"2" + Unicode.PI_STRING + " * 8");
 		// APPS-804
 		shouldReparseAs(Unicode.PI_STRING + "8.1",
-				"8.1" + Unicode.PI_STRING);
+				Unicode.PI_STRING + " * 8.1");
 		shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
-				 "2 * 8.1" + Unicode.PI_STRING);
+				 "2" + Unicode.PI_STRING + " * 8.1");
+	}
 
+	@Test
+	public void testPiPower() {
+		shouldReparseAs("pixxyyy",
+				unicode(Unicode.PI_STRING + " x^2 y^3"));
+	}
+
+	@Test
+	public void testTrigPower() {
+		shouldReparseAs("sinxy^2",
+				unicode("sin(x y^2)"));
+		shouldReparseAs("sinxxx^2",
+				unicode("sin(x^2 x^2)"));
 	}
 
 	private void checkSameStructure(String string, String string2) {
@@ -215,12 +227,7 @@ public class ParserTest {
 		shouldReparseAs("cos3x", "cos(3x)");
 		shouldReparseAs("cos3a", "cos(3a)");
 		shouldReparseAs("f(n)=cos3n", "cos(3n)");
-		try {
-			reparse("cos3n", StringTemplate.defaultTemplate);
-			fail("Variable resolution should fail");
-		} catch (MyError e) {
-			assertEquals("UndefinedVariable", e.getMessage());
-		}
+		shouldReparseAs("cos3n", "cos(3n)");
 		shouldReparseAs("x*cos3x", "x cos(3x)");
 		shouldReparseAs("3x*cosx", "3x cos(x)");
 		shouldReparseAs("3x*cos3x", "3x cos(3x)");

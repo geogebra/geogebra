@@ -610,7 +610,7 @@ public class CommandsTest {
 		t("f(" + theta_STRING + ")=sin" + theta_STRING, "sin(" + theta_STRING + ")");
 		t("f(t)=sin t", "sin(t)");
 		t("f(t)=sint", "sin(t)");
-		t("x" + PI_STRING, "(" + PI_STRING + " * x)");
+		t("x" + PI_STRING, "(x * " + PI_STRING + ")");
 		t("xdeg", "x" + DEGREE_STRING);
 		t("sinxdeg", "sin(x" + DEGREE_STRING + ")");
 	}
