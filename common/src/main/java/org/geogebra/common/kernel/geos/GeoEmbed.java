@@ -5,11 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -33,7 +30,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	 */
 	public GeoEmbed(Construction c) {
 		super(c);
-		topLeftCorner = 2;
 	}
 
 	/**
@@ -47,12 +43,8 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 				- contentWidth / ev.getXscale() / 2;
 		double y = ev.toRealWorldCoordY(ev.getViewHeight() / 2.0)
 				- contentHeight / ev.getYscale() / 2;
-		corner[0] = new GeoPoint(cons);
-		corner[0].setCoords(x, y, 1);
-		corner[1] = new GeoPoint(cons);
-		corner[1].setCoords(x + contentWidth / ev.getXscale(), y, 1);
-		corner[2] = new GeoPoint(cons);
-		corner[2].setCoords(x, y + contentHeight / ev.getXscale(), 1);
+		startPoint = new GeoPoint(cons);
+		startPoint.setCoords(x, y, 1);
 	}
 
 	@Override
@@ -87,22 +79,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	@Override
 	public boolean showInAlgebraView() {
 		return false;
-	}
-
-	/**
-	 * Get corner, same as GeoImage
-	 * 
-	 * @param i
-	 *            index
-	 * @return corner
-	 */
-	public GeoPointND getCorner(int i) {
-		if (corner[i] == null) {
-			GeoPoint ret = new GeoPoint(cons);
-			ret.setCoords(0, 0, 1);
-			return ret;
-		}
-		return corner[i];
 	}
 
 	@Override
@@ -152,60 +128,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 		this.embedID = embedID;
 	}
 
-	@Override
-	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
-		corner[0] = p;
-	}
-
-	@Override
-	public void removeStartPoint(GeoPointND p) {
-		for (int i = 0; i < corner.length; i++) {
-			if (corner[i] == p) {
-				corner[i] = p.copy();
-			}
-		}
-	}
-
-	@Override
-	public GeoPointND getStartPoint() {
-		return corner[0];
-	}
-
-	@Override
-	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
-		corner[number] = p;
-	}
-
-	@Override
-	public GeoPointND[] getStartPoints() {
-		return corner;
-	}
-
-	@Override
-	public void initStartPoint(GeoPointND p, int number) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean hasAbsoluteLocation() {
-		return false;
-	}
-
-	@Override
-	public boolean isAlwaysFixed() {
-		return false;
-	}
-
-	@Override
-	public void setWaitForStartPoint() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void updateLocation() {
-		// TODO Auto-generated method stub
-	}
-
 	/**
 	 * @return whether the applet is currently inactive (can be moved)
 	 */
@@ -219,17 +141,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	 */
 	public void setBackground(boolean background) {
 		this.background = background;
-	}
-
-	@Override
-	public void setAbsoluteScreenLoc(int x, int y) {
-		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
-		double oldWidth = getCorner(1).getInhomX() - getCorner(0).getInhomX();
-		double oldHeight = getCorner(2).getInhomY() - getCorner(0).getInhomY();
-		getCorner(2).setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
-		getCorner(0).setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y) - oldHeight, 1);
-		getCorner(1).setCoords(view.toRealWorldCoordX(x) + oldWidth,
-				view.toRealWorldCoordY(y) - oldHeight, 1);
 	}
 
 	/**
@@ -283,25 +194,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	 */
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	@Override
-	public boolean isFurniture() {
-		return true;
-	}
-
-	@Override
-	public void translate(Coords v) {
-		for (GeoPointND geoPointND : corner) {
-			if (geoPointND != null) {
-				geoPointND.translate(v);
-			}
-		}
-	}
-
-	@Override
-	public boolean isTranslateable() {
-		return true;
 	}
 
 	public boolean isGraspableMath() {

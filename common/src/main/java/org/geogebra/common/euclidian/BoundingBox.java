@@ -284,7 +284,7 @@ public abstract class BoundingBox<T extends GShape> {
 		if (fixRatio) {
 			newHeight = (int) (video.getOriginalRatio() * newWidth);
 		}
-		video.setAbsoluteScreenLoc((int) Math.min(p.getX(), p2.getX()),
+		video.setScreenLocation((int) Math.min(p.getX(), p2.getX()),
 				(int) Math.min(p.getY(), p2.getY()));
 		video.setWidth(newWidth);
 		video.setHeight(newHeight);

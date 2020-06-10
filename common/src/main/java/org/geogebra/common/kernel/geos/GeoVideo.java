@@ -162,13 +162,13 @@ public class GeoVideo extends GeoMedia {
 	}
 
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(double width) {
 		super.setWidth(width);
 		runSizeCallbackIfReady();
 	}
 
 	@Override
-	public void setHeight(int height) {
+	public void setHeight(double height) {
 		super.setHeight(height);
 		runSizeCallbackIfReady();
 	}
@@ -326,7 +326,7 @@ public class GeoVideo extends GeoMedia {
 	 * 
 	 */
 	private void zoomX(double factor) {
-		setWidth(getWidthAsDouble() * factor);
+		setWidth(getWidth() * factor);
 	}
 	
 	/**
@@ -337,16 +337,7 @@ public class GeoVideo extends GeoMedia {
 	 * 
 	 */
 	private void zoomY(double factor) {
-		setHeight(getHeightAsDouble() * factor);
-	}
-
-	@Override
-	public void setAbsoluteScreenLocActive(boolean flag) {
-		super.setAbsoluteScreenLocActive(flag);
-		if (app != null && app.getActiveEuclidianView() != null) {
-			xScale = app.getActiveEuclidianView().getXscale();
-			yScale = app.getActiveEuclidianView().getYscale();
-		}
+		setHeight(getHeight() * factor);
 	}
 
 	/**
@@ -359,15 +350,14 @@ public class GeoVideo extends GeoMedia {
 			yScale = app.getActiveEuclidianView().getYscale();
 			return;
 		}
-		if (!isAbsoluteScreenLocActive()) {
-			if (xScale != app.getActiveEuclidianView().getXscale()) {
-				zoomX(app.getActiveEuclidianView().getXscale() / xScale);
-				xScale = app.getActiveEuclidianView().getXscale();
-			}
-			if (yScale != app.getActiveEuclidianView().getYscale()) {
-				zoomY(app.getActiveEuclidianView().getYscale() / yScale);
-				yScale = app.getActiveEuclidianView().getYscale();
-			}
+
+		if (xScale != app.getActiveEuclidianView().getXscale()) {
+			zoomX(app.getActiveEuclidianView().getXscale() / xScale);
+			xScale = app.getActiveEuclidianView().getXscale();
+		}
+		if (yScale != app.getActiveEuclidianView().getYscale()) {
+			zoomY(app.getActiveEuclidianView().getYscale() / yScale);
+			yScale = app.getActiveEuclidianView().getYscale();
 		}
 	}
 

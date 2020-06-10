@@ -38,10 +38,9 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	 */
 	public void update() {
 		Style style = asWidget().getElement().getStyle();
-		style.setLeft(getVideo().getScreenLocX(app.getActiveEuclidianView()),
-				Style.Unit.PX);
-		style.setTop(getVideo().getScreenLocY(app.getActiveEuclidianView()),
-				Style.Unit.PX);
+		style.setLeft(video.getLeft(), Style.Unit.PX);
+		style.setTop(video.getTop(), Style.Unit.PX);
+
 		if (getVideo().hasSize()) {
 			asWidget().setWidth(getVideo().getWidth() + "px");
 			asWidget().setHeight(getVideo().getHeight() + "px");

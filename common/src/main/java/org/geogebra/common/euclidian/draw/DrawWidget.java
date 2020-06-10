@@ -34,7 +34,7 @@ public interface DrawWidget {
 	 * @param y
 	 *            top corner y-coord in EV
 	 */
-	public void setAbsoluteScreenLoc(int x, int y);
+	public void setScreenLocation(int x, int y);
 
 	/**
 	 * @return aspect ratio at start of resize (NaN if last drag changed it)

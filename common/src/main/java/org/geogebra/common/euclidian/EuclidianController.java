@@ -116,7 +116,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -7273,8 +7272,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 		// button
 		else if (movedGeoElement instanceof AbsoluteScreenLocateable
-				&& ((AbsoluteScreenLocateable) movedGeoElement).isFurniture()
-				&& !(movedGeoElement instanceof GeoEmbed)) {
+				&& ((AbsoluteScreenLocateable) movedGeoElement).isFurniture()) {
 			// for applets:
 			// allow buttons to be dragged only if the button tool is selected
 			// (important for tablets)
@@ -7305,15 +7303,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					runScriptsIfNeeded(movedGeoElement);
 				}
 			}
-		} else if (movedGeoElement instanceof GeoWidget) {
-			movedObject = (GeoWidget) movedGeoElement;
-			if (movedObject.isGeoAudio()
+		} else if (movedGeoElement.isGeoAudio()
 					&& !isMoveAudioExpected(app.getCapturingThreshold(type))) {
-				moveMode = MOVE_AUDIO_SLIDER;
-				moveAudioSlider(true);
-				return;
-			}
-			moveAbsoluteLocatable(movedObject);
+			moveMode = MOVE_AUDIO_SLIDER;
+			moveAudioSlider(true);
 		}
 
 		// image
@@ -7364,9 +7357,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	private void moveAbsoluteLocatable(AbsoluteScreenLocateable geo) {
 		moveMode = MOVE_WIDGET;
 		startLoc = mouseLoc;
-		if (geo instanceof GeoWidget) {
-			((GeoWidget) geo).updateAbsLocation(view);
-		}
+
 		oldLoc.x = geo.getAbsoluteScreenLocX();
 		oldLoc.y = geo.getAbsoluteScreenLocY();
 

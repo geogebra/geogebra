@@ -73,10 +73,10 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	private void setMetrics() {
-		int width = video.getWidth();
-		int height = video.getHeight();
-		left = video.getScreenLocX(view);
-		top = video.getScreenLocY(view);
+		int width = (int) video.getWidth();
+		int height = (int) video.getHeight();
+		left = view.toScreenCoordX(video.getStartPoint().getInhomX());
+		top = view.toScreenCoordY(video.getStartPoint().getInhomY());
 
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 	}
@@ -169,8 +169,8 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	@Override
-	public void setAbsoluteScreenLoc(int x, int y) {
-		video.setAbsoluteScreenLoc(x, y);
+	public void setScreenLocation(int x, int y) {
+		video.getStartPoint().setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
 	}
 
 	@Override
@@ -180,12 +180,12 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 
 	@Override
 	public int getWidth() {
-		return video.getWidth();
+		return (int) video.getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return video.getHeight();
+		return (int) video.getHeight();
 	}
 
 	@Override

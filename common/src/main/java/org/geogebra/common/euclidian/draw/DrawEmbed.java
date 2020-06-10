@@ -16,7 +16,6 @@ import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App.ExportType;
 
 /**
@@ -126,12 +125,12 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	@Override
 	public int getTop() {
-		return getView().toScreenCoordY(geoEmbed.getCorner(2).getInhomY());
+		return (int) bounds.getY();
 	}
 
 	@Override
 	public int getLeft() {
-		return getView().toScreenCoordX(geoEmbed.getCorner(0).getInhomX());
+		return (int) bounds.getX();
 	}
 
 	@Override
@@ -157,14 +156,12 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	@Override
 	public int getWidth() {
-		return (int) Math.round(getView().toScreenCoordXd(geoEmbed.getCorner(1).getInhomX())
-				- getView().toScreenCoordXd(geoEmbed.getCorner(0).getInhomX()));
+		return (int) geoEmbed.getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		return (int) Math.round(getView().toScreenCoordYd(geoEmbed.getCorner(0).getInhomY())
-				- getView().toScreenCoordYd(geoEmbed.getCorner(2).getInhomY()));
+		return (int) geoEmbed.getWidth();
 	}
 
 	@Override
@@ -177,29 +174,17 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	@Override
 	public void setWidth(int newWidth) {
-		double contentWidth = geoEmbed.getContentWidth() * newWidth / getWidth();
-		geoEmbed.setContentWidth(contentWidth);
-		GeoPointND corner = geoEmbed.getCorner(1);
-		corner.setCoords(geoEmbed.getCorner(0).getInhomX() + newWidth / view.getXscale(),
-				corner.getInhomY(), 1);
-		corner.updateCoords();
+		geoEmbed.setWidth(newWidth);
 	}
 
 	@Override
 	public void setHeight(int newHeight) {
-		double contentHeight = geoEmbed.getContentHeight() * newHeight / getHeight();
-		geoEmbed.setContentHeight(contentHeight);
-		GeoPointND corner = geoEmbed.getCorner(0);
-		corner.setCoords(corner.getInhomX(),
-				corner.getInhomY() - (newHeight - getHeight()) / view.getYscale(), 1);
-		corner = geoEmbed.getCorner(1);
-		corner.setCoords(corner.getInhomX(),
-				corner.getInhomY() - (newHeight - getHeight()) / view.getYscale(), 1);
+		geoEmbed.setHeight(newHeight);
 	}
 
 	@Override
-	public void setAbsoluteScreenLoc(int x, int y) {
-		geoEmbed.setAbsoluteScreenLoc(x, y);
+	public void setScreenLocation(int x, int y) {
+		geoEmbed.getStartPoint().setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
 	}
 
 	@Override

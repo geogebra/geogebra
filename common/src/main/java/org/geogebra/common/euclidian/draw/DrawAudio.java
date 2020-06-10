@@ -26,6 +26,10 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  *
  */
 public class DrawAudio extends Drawable {
+
+	private static final int DEFAULT_PLAYER_WIDTH = 300;
+	private static final int DEFAULT_PLAYER_HEIGHT = 48;
+
 	private static final int SLIDER_AREA_WIDTH = 4;
 	private static final int BLOB_RADIUS = 8;
 	private static final int INNER_BLOB_RADIUS = 6;
@@ -98,11 +102,11 @@ public class DrawAudio extends Drawable {
 		if (!isVisible) {
 			return;
 		}
-		left = geoAudio.getScreenLocX(view);
-		top = geoAudio.getScreenLocY(view);
+		left = view.toScreenCoordX(geoAudio.getStartPoint().getInhomX());
+		top = view.toScreenCoordY(geoAudio.getStartPoint().getInhomY());
 
-		width = geoAudio.getWidth();
-		height = geoAudio.getHeight();
+		width = DEFAULT_PLAYER_WIDTH;
+		height = DEFAULT_PLAYER_HEIGHT;
 		int size = 2 * getPlaySize();
 		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 		playRect = AwtFactory.getPrototype().newRectangle(left, top, size, size);
@@ -197,12 +201,12 @@ public class DrawAudio extends Drawable {
 
 	@Override
 	public double getWidthThreshold() {
-		return geoAudio.getWidth();
+		return DEFAULT_PLAYER_WIDTH;
 	}
 
 	@Override
 	public double getHeightThreshold() {
-		return geoAudio.getHeight();
+		return DEFAULT_PLAYER_HEIGHT;
 	}
 
 	private void drawPlay(GGraphics2D g2) {

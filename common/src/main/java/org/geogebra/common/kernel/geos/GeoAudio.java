@@ -14,9 +14,8 @@ import org.geogebra.common.util.StringUtil;
  *
  */
 public class GeoAudio extends GeoMedia {
+
 	private static final double DEFAULT_STEP = 0.5;
-	private static final int DEFAULT_PLAYER_WIDTH = 300;
-	private static final int DEFAULT_PLAYER_HEIGHT = 48;
 
 	/**
 	 * Constructs a new, empty audio element.
@@ -27,8 +26,6 @@ public class GeoAudio extends GeoMedia {
 	public GeoAudio(Construction c) {
 		super(c);
 		app = getKernel().getApplication();
-		setWidth(DEFAULT_PLAYER_WIDTH);
-		setHeight(DEFAULT_PLAYER_HEIGHT);
 		setAnimationStep(DEFAULT_STEP);
 	}
 
