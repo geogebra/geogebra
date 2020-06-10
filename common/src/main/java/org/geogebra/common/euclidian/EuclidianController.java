@@ -9871,7 +9871,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		showDynamicStylebar();
+		if (!draggingOccured) {
+			showDynamicStylebar();
+		}
+
 		view.repaintView();
 
 		lastGroupHit = topHit.getParentGroup();
@@ -9925,12 +9928,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * Handle pointer release.
-	 * 
+	 *
 	 * @param event
 	 *            pointer event
 	 */
 	public void wrapMouseReleased(AbstractEvent event) {
 		boolean newSelection = getAppSelectedGeos() == null || getAppSelectedGeos().isEmpty();
+		EuclidianBoundingBoxHandler handler = view.getHitHandler();
+
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
 
@@ -10063,9 +10068,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				if (geos.size() == 1 && geos.get(0).hasPreviewPopup()) {
 					showSpecialPointPopup(geos);
 				} else {
-					if (!draggingBeyondThreshold || view.getSelectionRectangle() != null
-							|| (view.getBoundingBox() != null && !getAppSelectedGeos().isEmpty()
-							&& newSelection)) {
+					if (shouldShowDynamicStylebarAfterMouseRelease(newSelection, handler)) {
 						showDynamicStylebar();
 					}
 				}
@@ -10083,6 +10086,14 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		decreaseTargets();
+	}
+
+	private boolean shouldShowDynamicStylebarAfterMouseRelease(boolean newSelection,
+			EuclidianBoundingBoxHandler handler) {
+		return !draggingBeyondThreshold || view.getSelectionRectangle() != null
+				|| (view.getBoundingBox() != null && !getAppSelectedGeos().isEmpty()
+				&& newSelection)
+				|| (handler != null && handler != EuclidianBoundingBoxHandler.UNDEFINED);
 	}
 
 	/**
