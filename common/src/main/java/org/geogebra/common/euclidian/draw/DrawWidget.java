@@ -148,7 +148,7 @@ public abstract class DrawWidget extends Drawable {
 		return rectangle.getDirectTransform();
 	}
 
-	protected GPoint2D getInversePoint(int x, int y) {
+	public GPoint2D getInversePoint(int x, int y) {
 		return rectangle.getInversePoint(x, y);
 	}
 }
