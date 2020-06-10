@@ -26,7 +26,6 @@ public abstract class DrawWidget extends Drawable {
 	}
 
 	public void updateBounds() {
-		getGeoElement().zoomIfNeeded();
 		rectangle.updateSelfAndBoundingBox();
 	}
 
@@ -147,5 +146,9 @@ public abstract class DrawWidget extends Drawable {
 
 	public GAffineTransform getTransform() {
 		return rectangle.getDirectTransform();
+	}
+
+	protected GPoint2D getInversePoint(int x, int y) {
+		return rectangle.getInversePoint(x, y);
 	}
 }

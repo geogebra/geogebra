@@ -39,6 +39,7 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 
 	@Override
 	public void update() {
+		getGeoElement().zoomIfNeeded();
 		updateBounds();
 
 		if (geoEmbed.getEmbedID() >= 0 && embedManager != null) {

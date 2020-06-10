@@ -44,6 +44,8 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 		if (getVideo().hasSize()) {
 			asWidget().setWidth(getVideo().getWidth() + "px");
 			asWidget().setHeight(getVideo().getHeight() + "px");
+			style.setProperty("transformOrigin", "0 0");
+			style.setProperty("transform", "rotate(" + getVideo().getAngle() + "rad)");
 		}
 		if (getVideo().isBackground()) {
 			asWidget().addStyleName("background");

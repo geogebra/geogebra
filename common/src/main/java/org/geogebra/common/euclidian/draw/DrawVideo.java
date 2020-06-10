@@ -44,6 +44,7 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 
 	@Override
 	public void update() {
+		getGeoElement().zoomIfNeeded();
 		updateBounds();
 
 		if (app.getVideoManager() != null) {

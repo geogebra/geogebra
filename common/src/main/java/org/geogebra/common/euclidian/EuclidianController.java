@@ -6035,8 +6035,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		movedGeoNumeric.updateRepaint();
 	}
 
-	protected final void moveAudioSlider(boolean repaint) {
-		GeoAudio audio = (GeoAudio) movedObject;
+	protected final void moveAudioSlider() {
+		GeoAudio audio = (GeoAudio) movedGeoElement;
 		setAudioTimeValue(audio);
 		audio.updateRepaint();
 	}
@@ -7308,7 +7308,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		} else if (movedGeoElement.isGeoAudio()
 					&& !isMoveAudioExpected(app.getCapturingThreshold(type))) {
 			moveMode = MOVE_AUDIO_SLIDER;
-			moveAudioSlider(true);
+			moveAudioSlider();
 		}
 
 		// image
@@ -7698,7 +7698,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case MOVE_AUDIO_SLIDER:
-			moveAudioSlider(repaint);
+			moveAudioSlider();
 			break;
 
 		case MOVE_BOOLEAN:
