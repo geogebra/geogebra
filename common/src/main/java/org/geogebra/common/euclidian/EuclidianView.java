@@ -23,7 +23,6 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.background.DrawBackground;
 import org.geogebra.common.euclidian.draw.DrawAngle;
-import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
@@ -4069,13 +4068,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				dl.draw(g);
 			} else if (d instanceof DrawInputBox) {
 
-				if (d.needsUpdate()) {
-					d.setNeedsUpdate(false);
-					d.update();
-				}
-
-				d.draw(g);
-			} else if (d instanceof DrawAudio) {
 				if (d.needsUpdate()) {
 					d.setNeedsUpdate(false);
 					d.update();
