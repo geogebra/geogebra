@@ -1,7 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
@@ -10,13 +12,16 @@ import org.geogebra.common.kernel.matrix.Coords;
  * Base class for locateable geos like button and video.
  *
  */
-public abstract class GeoWidget extends GeoElement implements Translateable {
+public abstract class GeoWidget extends GeoElement
+		implements Translateable, PointRotateable, RectangleTransformable {
 
 	/** Corners */
-	protected final GeoPointND startPoint;
+	protected GPoint2D startPoint;
 
 	private double width;
 	private double height;
+
+	private double angle;
 
 	private double xScale;
 	private double yScale;
@@ -27,31 +32,57 @@ public abstract class GeoWidget extends GeoElement implements Translateable {
 	 */
 	public GeoWidget(Construction c) {
 		super(c);
-		startPoint = new GeoPoint(c);
+		startPoint = new GPoint2D();
 	}
 
-	public GeoPointND getStartPoint() {
-		return startPoint;
-	}
-
-	public void setStartPoint(GeoPointND startPoint) {
-		this.startPoint.set(startPoint);
-	}
-
+	@Override
 	public double getWidth() {
 		return width;
 	}
 
+	@Override
+	public double getAngle() {
+		return angle;
+	}
+
+	@Override
+	public GPoint2D getLocation() {
+		return startPoint;
+	}
+
+	@Override
 	public void setWidth(double width) {
 		this.width = width;
 	}
 
+	@Override
+	public double getMinWidth() {
+		return 0;
+	}
+
+	@Override
+	public double getMinHeight() {
+		return 0;
+	}
+
+	@Override
 	public double getHeight() {
 		return height;
 	}
 
+	@Override
 	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	@Override
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
+
+	@Override
+	public void setLocation(GPoint2D location) {
+		this.startPoint = location;
 	}
 
 	/**
@@ -134,7 +165,7 @@ public abstract class GeoWidget extends GeoElement implements Translateable {
 
 	@Override
 	public void translate(Coords v) {
-		startPoint.translate(v);
+		startPoint.setLocation(startPoint.getX() + v.getX(), startPoint.getY() + v.getY());
 	}
 
 	@Override
@@ -146,9 +177,20 @@ public abstract class GeoWidget extends GeoElement implements Translateable {
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		sb.append("\t<startPoint x=\"")
-			.append(startPoint.getInhomX())
+			.append(startPoint.getX())
 			.append("\" y=\"")
-			.append(startPoint.getInhomY())
+			.append(startPoint.getY())
 			.append("\">\n");
+	}
+
+	@Override
+	public void rotate(NumberValue r) {
+		angle -= r.getDouble();
+	}
+
+	@Override
+	public void rotate(NumberValue r, GeoPointND S) {
+		angle -= r.getDouble();
+		GeoInlineText.rotate(startPoint, r, S);
 	}
 }

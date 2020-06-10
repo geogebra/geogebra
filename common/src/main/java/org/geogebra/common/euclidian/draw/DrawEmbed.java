@@ -22,14 +22,13 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 	private MyImage preview;
 
 	/**
-	 * @param ev
+	 * @param view
 	 *            view
 	 * @param geo
 	 *            embedded applet
 	 */
-	public DrawEmbed(EuclidianView ev, GeoEmbed geo) {
-		this.view = ev;
-		this.geo = geo;
+	public DrawEmbed(EuclidianView view, GeoEmbed geo) {
+		super(view, geo);
 		this.geoEmbed = geo;
 		embedManager = view.getApplication().getEmbedManager();
 		update();

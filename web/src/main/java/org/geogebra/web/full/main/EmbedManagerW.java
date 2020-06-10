@@ -251,6 +251,8 @@ public class EmbedManagerW implements EmbedManager {
 		Style style = embedElement.getGreatParent().getElement().getStyle();
 		style.setTop(drawEmbed.getTop(), Unit.PX);
 		style.setLeft(drawEmbed.getLeft(), Unit.PX);
+		style.setProperty("transformOrigin", "0 0");
+		style.setProperty("transform", "rotate(" + drawEmbed.getGeoElement().getAngle() + "rad)");
 		if (drawEmbed.getWidth() > 0) {
 			embedElement.getGreatParent().setSize(
 					drawEmbed.getWidth() + "px",

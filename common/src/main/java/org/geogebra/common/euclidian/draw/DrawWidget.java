@@ -1,47 +1,58 @@
 package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.RotatableBoundingBox;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoWidget;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.geos.RectangleTransformable;
 
 public abstract class DrawWidget extends Drawable {
 
-	private final GRectangle2D bounds = AwtFactory.getPrototype().newRectangle2D();
-	private double originalRatio = Double.NaN;
+	private final TransformableRectangle rectangle;
+
+	public DrawWidget(EuclidianView view, GeoElement geo) {
+		super(view, geo);
+		this.rectangle = new TransformableRectangle(view, (RectangleTransformable) geo);
+	}
 
 	public void updateBounds() {
 		getGeoElement().zoomIfNeeded();
-
-		GeoPointND startPoint = getGeoElement().getStartPoint();
-
-		double left = view.toScreenCoordXd(startPoint.getInhomX());
-		double top = view.toScreenCoordYd(startPoint.getInhomY());
-		double width = getGeoElement().getWidth();
-		double height = getGeoElement().getHeight();
-
-		bounds.setFrame(left, top, width, height);
+		rectangle.updateSelfAndBoundingBox();
 	}
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		return bounds != null && bounds.contains(x, y);
+		return rectangle.hit(x, y);
 	}
 
 	@Override
 	public boolean isInside(GRectangle rect) {
-		return rect.contains(bounds);
+		return rect.contains(getBounds());
 	}
 
 	@Override
 	public GRectangle getBounds() {
-		return bounds.getBounds();
+		return rectangle.getBounds();
+	}
+
+	@Override
+	public RotatableBoundingBox getBoundingBox() {
+		return rectangle.getBoundingBox();
+	}
+
+	@Override
+	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
+		return getBoundingBox();
 	}
 
 	/**
@@ -78,14 +89,14 @@ public abstract class DrawWidget extends Drawable {
 	 * @return left corner x-coord in EV
 	 */
 	public final double getLeft() {
-		return bounds.getX();
+		return view.toScreenCoordX(getGeoElement().getLocation().getX());
 	}
 
 	/**
 	 * @return top corner y-coord in EV
 	 */
 	public final double getTop() {
-		return bounds.getY();
+		return view.toScreenCoordY(getGeoElement().getLocation().getY());
 	}
 
 	/**
@@ -95,36 +106,24 @@ public abstract class DrawWidget extends Drawable {
 	 *            top corner y-coord in EV
 	 */
 	public final void setScreenLocation(int x, int y) {
-		getGeoElement().getStartPoint()
-				.setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
+		getGeoElement().getLocation()
+				.setLocation(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y));
 	}
 
-	/**
-	 * @return aspect ratio at start of resize (NaN if last drag changed it)
-	 */
-	public final double getOriginalRatio() {
-		return originalRatio;
-	}
-
-	/**
-	 * Reset aspect ratio.
-	 */
-	public final void resetRatio() {
-		originalRatio = Double.NaN;
-	}
-
-	private void updateOriginalRatio() {
-		double width = getWidth();
-		double height = getHeight();
-		originalRatio = height / width;
+	@Override
+	public List<GPoint2D> toPoints() {
+		return rectangle.toPoints();
 	}
 
 	@Override
 	public void fromPoints(ArrayList<GPoint2D> pts) {
-		if (Double.isNaN(originalRatio)) {
-			updateOriginalRatio();
-		}
-		BoundingBox.resize(this, pts.get(0), pts.get(1));
+		rectangle.fromPoints(pts);
+	}
+
+	@Override
+	public void updateByBoundingBoxResize(GPoint2D point,
+			EuclidianBoundingBoxHandler handler) {
+		rectangle.updateByBoundingBoxResize(point, handler);
 	}
 
 	/**
@@ -145,4 +144,8 @@ public abstract class DrawWidget extends Drawable {
 	public abstract boolean isBackground();
 
 	public abstract void setBackground(boolean b);
+
+	public GAffineTransform getTransform() {
+		return rectangle.getDirectTransform();
+	}
 }

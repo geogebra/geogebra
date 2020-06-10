@@ -102,8 +102,8 @@ public class DrawAudio extends Drawable {
 		if (!isVisible) {
 			return;
 		}
-		left = view.toScreenCoordX(geoAudio.getStartPoint().getInhomX());
-		top = view.toScreenCoordY(geoAudio.getStartPoint().getInhomY());
+		left = view.toScreenCoordX(geoAudio.getLocation().getX());
+		top = view.toScreenCoordY(geoAudio.getLocation().getY());
 
 		width = DEFAULT_PLAYER_WIDTH;
 		height = DEFAULT_PLAYER_HEIGHT;

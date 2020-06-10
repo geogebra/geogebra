@@ -46,7 +46,7 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 
 		double x = ev.toRealWorldCoordX((ev.getViewWidth() - DEFAULT_WIDTH) / 2.0);
 		double y = ev.toRealWorldCoordY((ev.getViewHeight() - DEFAULT_HEIGHT) / 2.0);
-		startPoint.setCoords(x, y, 1);
+		startPoint.setLocation(x, y);
 	}
 
 	@Override

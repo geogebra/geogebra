@@ -35,9 +35,8 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 	 *            The GeoElement that represents the video content.
 	 */
 	public DrawVideo(EuclidianView view, GeoVideo geo) {
-		this.view = view;
+		super(view, geo);
 		this.video = geo;
-		this.geo = geo;
 		this.app = geo.getKernel().getApplication();
 
 		updateBounds();

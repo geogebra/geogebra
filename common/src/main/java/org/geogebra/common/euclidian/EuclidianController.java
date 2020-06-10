@@ -9685,6 +9685,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoElement geoElement = selectedGeos.get(0);
 			return geoElement.isGeoSegment()
 					|| geoElement instanceof GeoInline
+					|| geoElement instanceof GeoWidget
 					|| (geoElement.isGeoImage() && !geoElement.isLocked() && crop);
 		}
 		return false;

@@ -32,10 +32,10 @@ public class MediaFactory {
 	public GeoElement addAudio(String url) {
 		EuclidianView ev = app.getActiveEuclidianView();
 		GeoAudio audio = new GeoAudio(app.getKernel().getConstruction(), url);
-		audio.getStartPoint().setCoords(
+		audio.getLocation().setLocation(
 				ev.toRealWorldCoordX((ev.getWidth() - audio.getWidth()) / 2),
-				ev.toRealWorldCoordY((ev.getHeight() - audio.getHeight()) / 2),
-				1);
+				ev.toRealWorldCoordY((ev.getHeight() - audio.getHeight()) / 2)
+		);
 		audio.setLabel(null);
 		app.storeUndoInfo();
 		app.getActiveEuclidianView().repaint();
@@ -59,10 +59,10 @@ public class MediaFactory {
 
 			@Override
 			public void run() {
-				video.getStartPoint().setCoords(
+				video.getLocation().setLocation(
 						ev.toRealWorldCoordX((ev.getWidth() - video.getWidth()) / 2),
-						ev.toRealWorldCoordY((ev.getHeight() - video.getHeight()) / 2),
-						1);
+						ev.toRealWorldCoordY((ev.getHeight() - video.getHeight()) / 2)
+				);
 				Drawable dr = (Drawable) ev.getDrawableFor(video);
 				if (dr != null) {
 				 	dr.update();
