@@ -1,19 +1,12 @@
 package org.geogebra.common.euclidian.draw;
 
-import java.util.ArrayList;
 
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
-import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.main.App;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.media.VideoManager;
@@ -26,14 +19,11 @@ import org.geogebra.common.media.VideoManager;
  * @author laszlo
  *
  */
-public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
+public class DrawVideo extends DrawWidget implements RemoveNeeded {
 
-	private GeoVideo video;
-	private App app;
-	private GRectangle bounds;
-	private int left;
-	private int top;
-	private double originalRatio = Double.NaN;
+	private final GeoVideo video;
+	private final App app;
+
 	private final static int VIDEO_SIZE_THRESHOLD = 100;
 
 	/** Threshold correction for resizing handler capturing */
@@ -50,7 +40,8 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 		this.video = geo;
 		this.geo = geo;
 		this.app = geo.getKernel().getApplication();
-		setMetrics();
+
+		updateBounds();
 	}
 
 	@Override
@@ -59,7 +50,8 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().updatePlayer(this);
 		}
-		setMetrics();
+
+		updateBounds();
 	}
 
 	@Override
@@ -70,15 +62,6 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 	@Override
 	public double getHeightThreshold() {
 		return VIDEO_SIZE_THRESHOLD;
-	}
-
-	private void setMetrics() {
-		int width = (int) video.getWidth();
-		int height = (int) video.getHeight();
-		left = view.toScreenCoordX(video.getStartPoint().getInhomX());
-		top = view.toScreenCoordY(video.getStartPoint().getInhomY());
-
-		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
 	}
 
 	@Override
@@ -94,7 +77,7 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 			sx /= preview.getWidth();
 			double sy = video.getHeight();
 			sy /= preview.getHeight();
-			g2.translate(left, top);
+			g2.translate(getLeft(), getTop());
 			g2.scale(sx, sy);
 			g2.drawImage(preview, 0, 0);
 			g2.restoreTransform();
@@ -102,95 +85,8 @@ public class DrawVideo extends Drawable implements DrawWidget, RemoveNeeded {
 	}
 
 	@Override
-	public boolean hit(int x, int y, int hitThreshold) {
-		if (hitBoundingBox(x, y, hitThreshold)) {
-			video.setLastHitType(HitType.ON_BOUNDARY);
-			return false;
-		}
-		if (bounds == null) {
-			return false;
-		}
-		video.setLastHitType(HitType.ON_FILLING);
-		return bounds.contains(x, y) && video.isVisible();
-	}
-
-	private boolean hitBoundingBox(int hitX, int hitY, int hitThreshold) {
-		return view.getBoundingBox() != null && geo.isSelected()
-				&& view.getBoundingBox().hit(hitX, hitY, hitThreshold);
-	}
-
-	@Override
-	public boolean isInside(GRectangle rect) {
-		return rect.contains(bounds);
-	}
-
-	@Override
-	public GeoElement getGeoElement() {
+	public GeoWidget getGeoElement() {
 		return video;
-	}
-
-	private void updateOriginalRatio() {
-		double width = video.getWidth();
-		double height = video.getHeight();
-		originalRatio = height / width;
-	}
-
-	@Override
-	public void fromPoints(ArrayList<GPoint2D> pts) {
-		if (Double.isNaN(originalRatio)) {
-			updateOriginalRatio();
-		}
-		BoundingBox.resize(this, pts.get(0), pts.get(1));
-	}
-
-	@Override
-	public GRectangle getBounds() {
-		return bounds;
-	}
-
-	@Override
-	public void setWidth(int newWidth) {
-		video.setWidth(newWidth);
-	}
-
-	@Override
-	public void setHeight(int newHeight) {
-		video.setHeight(newHeight);
-	}
-
-	@Override
-	public int getLeft() {
-		return left;
-	}
-
-	@Override
-	public int getTop() {
-		return top;
-	}
-
-	@Override
-	public void setScreenLocation(int x, int y) {
-		video.getStartPoint().setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
-	}
-
-	@Override
-	public double getOriginalRatio() {
-		return originalRatio;
-	}
-
-	@Override
-	public int getWidth() {
-		return (int) video.getWidth();
-	}
-
-	@Override
-	public int getHeight() {
-		return (int) video.getHeight();
-	}
-
-	@Override
-	public void resetRatio() {
-		originalRatio = Double.NaN;
 	}
 
 	@Override

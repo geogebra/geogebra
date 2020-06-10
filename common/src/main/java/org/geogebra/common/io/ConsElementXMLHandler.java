@@ -242,8 +242,8 @@ public class ConsElementXMLHandler {
 				button.setFixedSize(true);
 				return true;
 			} else if (geo instanceof GeoEmbed) {
-				((GeoEmbed) geo).setContentWidth(widthD);
-				((GeoEmbed) geo).setContentHeight(heightD);
+				((GeoEmbed) geo).setWidth(widthD);
+				((GeoEmbed) geo).setHeight(heightD);
 			} else if (geo instanceof GeoInline) {
 				((GeoInline) geo).setWidth(widthD);
 				((GeoInline) geo).setHeight(heightD);

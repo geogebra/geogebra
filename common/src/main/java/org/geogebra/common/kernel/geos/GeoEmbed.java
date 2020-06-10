@@ -15,10 +15,12 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoEmbed extends GeoWidget implements Translateable {
 
+	private static final double DEFAULT_WIDTH = 800;
+	private static final double DEFAULT_HEIGHT = 600;
+
 	private boolean defined = true;
 	private int embedID = -1;
-	private double contentWidth = 800;
-	private double contentHeight = 600;
+
 	private boolean background = true;
 	private String appName = "graphing";
 	private String url;
@@ -39,11 +41,11 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	 *            view
 	 */
 	public void initPosition(EuclidianViewInterfaceCommon ev) {
-		double x = ev.toRealWorldCoordX(ev.getViewWidth() / 2.0)
-				- contentWidth / ev.getXscale() / 2;
-		double y = ev.toRealWorldCoordY(ev.getViewHeight() / 2.0)
-				- contentHeight / ev.getYscale() / 2;
-		startPoint = new GeoPoint(cons);
+		setWidth(DEFAULT_WIDTH);
+		setHeight(DEFAULT_HEIGHT);
+
+		double x = ev.toRealWorldCoordX((ev.getViewWidth() - DEFAULT_WIDTH) / 2.0);
+		double y = ev.toRealWorldCoordY((ev.getViewHeight() - DEFAULT_HEIGHT) / 2.0);
 		startPoint.setCoords(x, y, 1);
 	}
 
@@ -103,7 +105,7 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 
 		}
 		sb.append("/>");
-		XMLBuilder.dimension(sb, Double.toString(contentWidth), Double.toString(contentHeight));
+		XMLBuilder.dimension(sb, Double.toString(getWidth()), Double.toString(getHeight()));
 	}
 
 	/**
@@ -141,36 +143,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	 */
 	public void setBackground(boolean background) {
 		this.background = background;
-	}
-
-	/**
-	 * @return width parameter of the embedded applet
-	 */
-	public double getContentWidth() {
-		return contentWidth;
-	}
-
-	/**
-	 * @return height parameter of the embedded applet
-	 */
-	public double getContentHeight() {
-		return contentHeight;
-	}
-
-	/**
-	 * @param newWidth
-	 *            width parameter of the embedded applet
-	 */
-	public void setContentWidth(double newWidth) {
-		this.contentWidth = newWidth;
-	}
-
-	/**
-	 * @param newHeight
-	 *            height parameter of the embedded applet
-	 */
-	public void setContentHeight(double newHeight) {
-		this.contentHeight = newHeight;
 	}
 
 	/**

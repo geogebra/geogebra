@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.matrix.Coords;
 public abstract class GeoWidget extends GeoElement implements Translateable {
 
 	/** Corners */
-	protected GeoPointND startPoint;
+	protected final GeoPointND startPoint;
 
 	private double width;
 	private double height;
@@ -24,6 +24,7 @@ public abstract class GeoWidget extends GeoElement implements Translateable {
 	 */
 	public GeoWidget(Construction c) {
 		super(c);
+		startPoint = new GeoPoint(c);
 	}
 
 	public GeoPointND getStartPoint() {
@@ -31,7 +32,7 @@ public abstract class GeoWidget extends GeoElement implements Translateable {
 	}
 
 	public void setStartPoint(GeoPointND startPoint) {
-		this.startPoint = startPoint;
+		this.startPoint.set(startPoint);
 	}
 
 	public double getWidth() {
