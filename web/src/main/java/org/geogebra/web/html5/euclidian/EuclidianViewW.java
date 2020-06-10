@@ -1508,7 +1508,8 @@ public class EuclidianViewW extends EuclidianView implements
 		if (embedManager != null) {
 			embedManager.setLayer(widget, layer);
 		}
-		g2.clearRect(widget.getLeft(), widget.getTop(), widget.getWidth(), widget.getHeight());
+		g2.clearRect((int) widget.getLeft(), (int) widget.getTop(),
+				(int) widget.getWidth(), (int) widget.getHeight());
 	}
 
 	@Override

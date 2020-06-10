@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian.draw;
 
-
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -46,12 +45,11 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 
 	@Override
 	public void update() {
-		video.zoomIfNeeded();
+		updateBounds();
+
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().updatePlayer(this);
 		}
-
-		updateBounds();
 	}
 
 	@Override

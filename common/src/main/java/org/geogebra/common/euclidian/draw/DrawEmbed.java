@@ -67,16 +67,19 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 			return;
 		}
 
-		int sx = getWidth();
-		int sy = getHeight();
+		int left = (int) getLeft();
+		int top = (int) getTop();
+		int sx = (int) getWidth();
+		int sy = (int) getHeight();
+
 		g2.setColor(GColor.WHITE);
-		g2.fillRect(getLeft(), getTop(), sx, sy);
+		g2.fillRect(left, top, sx, sy);
 		g2.setColor(GColor.BLACK);
-		g2.drawRect(getLeft(), getTop(), sx, sy);
+		g2.drawRect(left, top, sx, sy);
 
 		int s = Math.min(sx, sy);
-		int iconLeft = getLeft() + Math.max((sx - s) / 2, 0);
-		int iconTop = getTop() + Math.max((sy - s) / 2, 0);
+		int iconLeft = left + Math.max((sx - s) / 2, 0);
+		int iconTop = top + Math.max((sy - s) / 2, 0);
 		g2.drawImage(preview, iconLeft, iconTop, s, s);
 	}
 

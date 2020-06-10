@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.factories.AwtFactory;
@@ -12,18 +13,20 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public abstract class DrawWidget extends Drawable {
 
-	private GRectangle bounds;
+	private final GRectangle2D bounds = AwtFactory.getPrototype().newRectangle2D();
 	private double originalRatio = Double.NaN;
 
 	public void updateBounds() {
+		getGeoElement().zoomIfNeeded();
+
 		GeoPointND startPoint = getGeoElement().getStartPoint();
 
-		int left = view.toScreenCoordX(startPoint.getInhomX());
-		int top = view.toScreenCoordY(startPoint.getInhomY());
-		int width = (int) getGeoElement().getWidth();
-		int height = (int) getGeoElement().getHeight();
+		double left = view.toScreenCoordXd(startPoint.getInhomX());
+		double top = view.toScreenCoordYd(startPoint.getInhomY());
+		double width = getGeoElement().getWidth();
+		double height = getGeoElement().getHeight();
 
-		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
+		bounds.setFrame(left, top, width, height);
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public abstract class DrawWidget extends Drawable {
 
 	@Override
 	public GRectangle getBounds() {
-		return bounds;
+		return bounds.getBounds();
 	}
 
 	/**
@@ -60,37 +63,29 @@ public abstract class DrawWidget extends Drawable {
 	/**
 	 * @return width on screen at current zoom
 	 */
-	public final int getWidth() {
-		return (int) getGeoElement().getWidth();
+	public final double getWidth() {
+		return getGeoElement().getWidth();
 	}
 
 	/**
 	 * @return height on screen at current zoom
 	 */
-	public final int getHeight() {
-		return (int) getGeoElement().getHeight();
+	public final double getHeight() {
+		return getGeoElement().getHeight();
 	}
 
 	/**
 	 * @return left corner x-coord in EV
 	 */
-	public final int getLeft() {
-		if (bounds == null) {
-			updateBounds();
-		}
-
-		return (int) bounds.getX();
+	public final double getLeft() {
+		return bounds.getX();
 	}
 
 	/**
 	 * @return top corner y-coord in EV
 	 */
-	public final int getTop() {
-		if (bounds == null) {
-			updateBounds();
-		}
-
-		return (int) bounds.getY();
+	public final double getTop() {
+		return bounds.getY();
 	}
 
 	/**

@@ -18,6 +18,9 @@ public abstract class GeoWidget extends GeoElement implements Translateable {
 	private double width;
 	private double height;
 
+	private double xScale;
+	private double yScale;
+
 	/**
 	 * @param c
 	 *            the construction.
@@ -49,6 +52,49 @@ public abstract class GeoWidget extends GeoElement implements Translateable {
 
 	public void setHeight(double height) {
 		this.height = height;
+	}
+
+	/**
+	 * Zooming in x direction
+	 *
+	 * @param factor
+	 *            zoom factor;
+	 *
+	 */
+	private void zoomX(double factor) {
+		setWidth(getWidth() * factor);
+	}
+
+	/**
+	 * Zooming in y direction
+	 *
+	 * @param factor
+	 *            zoom factor;
+	 *
+	 */
+	private void zoomY(double factor) {
+		setHeight(getHeight() * factor);
+	}
+
+	/**
+	 * Zoom the video if the video is not pinned, and the scales of the view
+	 * changed.
+	 */
+	public void zoomIfNeeded() {
+		if (xScale == 0) {
+			xScale = app.getActiveEuclidianView().getXscale();
+			yScale = app.getActiveEuclidianView().getYscale();
+			return;
+		}
+
+		if (xScale != app.getActiveEuclidianView().getXscale()) {
+			zoomX(app.getActiveEuclidianView().getXscale() / xScale);
+			xScale = app.getActiveEuclidianView().getXscale();
+		}
+		if (yScale != app.getActiveEuclidianView().getYscale()) {
+			zoomY(app.getActiveEuclidianView().getYscale() / yScale);
+			yScale = app.getActiveEuclidianView().getYscale();
+		}
 	}
 
 	@Override

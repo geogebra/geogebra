@@ -116,6 +116,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
@@ -7178,7 +7179,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			tempFunction.set(movedGeoFunction);
 		} else if (movedGeoElement instanceof GeoLocusStroke
-				|| movedGeoElement instanceof GeoInline) {
+				|| movedGeoElement instanceof GeoInline
+				|| movedGeoElement instanceof GeoWidget) {
 			if (translationVec == null) {
 				translationVec = new Coords(2);
 			}

@@ -38,8 +38,7 @@ public class GeoVideo extends GeoMedia {
 	private MyImage preview;
 	private HitType lastHitType;
 	private boolean background = true;
-	private double xScale;
-	private double yScale;
+
 	private Runnable sizeSetCallback;
 
 	/**
@@ -316,49 +315,6 @@ public class GeoVideo extends GeoMedia {
 	 */
 	public boolean hasSize() {
 		return getWidth() != -1 && getHeight() != -1;
-	}
-
-	/**
-	 * Zooming in x direction
-	 * 
-	 * @param factor
-	 *            zoom factor;
-	 * 
-	 */
-	private void zoomX(double factor) {
-		setWidth(getWidth() * factor);
-	}
-	
-	/**
-	 * Zooming in y direction
-	 * 
-	 * @param factor
-	 *            zoom factor;
-	 * 
-	 */
-	private void zoomY(double factor) {
-		setHeight(getHeight() * factor);
-	}
-
-	/**
-	 * Zoom the video if the video is not pinned, and the scales of the view
-	 * changed.
-	 */
-	public void zoomIfNeeded() {
-		if (xScale == 0) {
-			xScale = app.getActiveEuclidianView().getXscale();
-			yScale = app.getActiveEuclidianView().getYscale();
-			return;
-		}
-
-		if (xScale != app.getActiveEuclidianView().getXscale()) {
-			zoomX(app.getActiveEuclidianView().getXscale() / xScale);
-			xScale = app.getActiveEuclidianView().getXscale();
-		}
-		if (yScale != app.getActiveEuclidianView().getYscale()) {
-			zoomY(app.getActiveEuclidianView().getYscale() / yScale);
-			yScale = app.getActiveEuclidianView().getYscale();
-		}
 	}
 
 	/**
