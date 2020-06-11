@@ -1,25 +1,22 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-import java.util.Collection;
-
 import org.geogebra.common.properties.RangeProperty;
 
 /**
  * Handles a collection of RangeProperty objects as a single RangeProperty.
  */
-public class RangePropertyCollection<T extends Number & Comparable<T>>
-        extends NumericPropertyCollection<T> implements RangeProperty<T> {
+public class RangePropertyCollection<T extends RangeProperty<V>, V extends Number & Comparable<V>>
+        extends NumericPropertyCollection<T, V> implements RangeProperty<V> {
 
     /**
-     * @param propertyCollection properties to handle
+     * @param properties properties to handle
      */
-    public RangePropertyCollection(Collection<? extends RangeProperty<T>> propertyCollection) {
-        super(propertyCollection);
+    public RangePropertyCollection(T[] properties) {
+        super(properties);
     }
 
     @Override
-    public T getStep() {
-        RangeProperty<T> rangeProperty = (RangeProperty<T>) getFirstProperty();
-        return rangeProperty.getStep();
+    public V getStep() {
+        return getFirstProperty().getStep();
     }
 }

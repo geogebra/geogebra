@@ -1,20 +1,18 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-import java.util.Collection;
-
 import org.geogebra.common.properties.BooleanProperty;
 
 /**
  * Handles a collection of BooleanProperty objects as a single BooleanProperty.
  */
-public class BooleanPropertyCollection
-		extends AbstractPropertyCollection<BooleanProperty, Boolean> implements BooleanProperty {
+public class BooleanPropertyCollection<T extends BooleanProperty>
+		extends AbstractPropertyCollection<T, Boolean> implements BooleanProperty {
 
 	/**
-	 * @param propertyCollection properties to handle
+	 * @param properties properties to handle
 	 */
-	public BooleanPropertyCollection(Collection<? extends BooleanProperty> propertyCollection) {
-		super(propertyCollection.toArray(new BooleanProperty[0]));
+	public BooleanPropertyCollection(T[] properties) {
+		super(properties);
 	}
 
 	@Override
@@ -23,7 +21,7 @@ public class BooleanPropertyCollection
 	}
 
 	@Override
-	protected void setPropertyValue(BooleanProperty property, Boolean value) {
+	void setPropertyValue(T property, Boolean value) {
 		property.setValue(value);
 	}
 

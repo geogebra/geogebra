@@ -1,44 +1,43 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-import java.util.Collection;
-
 import org.geogebra.common.properties.NumericProperty;
 
 /**
  * Handles a collection of NumericProperty objects as a single NumericProperty.
  */
-public class NumericPropertyCollection<T extends Number & Comparable<T>>
-        extends AbstractPropertyCollection<NumericProperty<T>, T> implements NumericProperty<T> {
+public class NumericPropertyCollection
+		<T extends NumericProperty<V>, V extends Number & Comparable<V>>
+        extends AbstractPropertyCollection<T, V> implements NumericProperty<V> {
 
     /**
-     * @param propertyCollection properties to handle
+     * @param properties properties to handle
      */
-    public NumericPropertyCollection(Collection<? extends NumericProperty<T>> propertyCollection) {
-        super(propertyCollection.toArray(new NumericProperty[0]));
+    public NumericPropertyCollection(T[] properties) {
+        super(properties);
     }
 
     @Override
-    public T getMin() {
+    public V getMin() {
         return getFirstProperty().getMin();
     }
 
     @Override
-    public T getMax() {
+    public V getMax() {
         return getFirstProperty().getMax();
     }
 
     @Override
-    public T getValue() {
+    public V getValue() {
         return getFirstProperty().getValue();
     }
 
     @Override
-    public void setValue(T value) {
+    public void setValue(V value) {
         setProperties(value);
     }
 
     @Override
-    void setPropertyValue(NumericProperty<T> property, T value) {
+    void setPropertyValue(T property, V value) {
         property.setValue(value);
     }
 }

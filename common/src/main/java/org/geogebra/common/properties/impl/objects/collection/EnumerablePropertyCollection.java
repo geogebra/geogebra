@@ -1,22 +1,19 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-import java.util.Collection;
-
 import org.geogebra.common.properties.EnumerableProperty;
 
 /**
  * Handles a collection of EnumerableProperty objects as a single EnumerableProperty.
  */
-public class EnumerablePropertyCollection
-        extends AbstractPropertyCollection<EnumerableProperty, Integer>
+public class EnumerablePropertyCollection<T extends EnumerableProperty>
+        extends AbstractPropertyCollection<T, Integer>
         implements EnumerableProperty {
 
     /**
-     * @param propertyCollection properties to handle
+     * @param properties properties to handle
      */
-    public EnumerablePropertyCollection(
-            Collection<? extends EnumerableProperty> propertyCollection) {
-        super(propertyCollection.toArray(new EnumerableProperty[0]));
+    public EnumerablePropertyCollection(T[] properties) {
+        super(properties);
     }
 
     @Override
@@ -35,7 +32,7 @@ public class EnumerablePropertyCollection
     }
 
     @Override
-    void setPropertyValue(EnumerableProperty property, Integer value) {
+    void setPropertyValue(T property, Integer value) {
         property.setIndex(value);
     }
 }

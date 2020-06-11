@@ -1,20 +1,18 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
-import java.util.Collection;
-
 import org.geogebra.common.properties.StringProperty;
 
 /**
  * Handles a collection of StringProperty objects as a single StringProperty.
  */
-public class StringPropertyCollection
-        extends AbstractPropertyCollection<StringProperty, String> implements StringProperty {
+public class StringPropertyCollection<T extends StringProperty>
+        extends AbstractPropertyCollection<T, String> implements StringProperty {
 
     /**
-     * @param propertyCollection properties to handle
+     * @param properties properties to handle
      */
-    public StringPropertyCollection(Collection<? extends StringProperty> propertyCollection) {
-        super(propertyCollection.toArray(new StringProperty[0]));
+    public StringPropertyCollection(T[] properties) {
+        super(properties);
     }
 
     @Override
@@ -37,7 +35,7 @@ public class StringPropertyCollection
     }
 
     @Override
-    void setPropertyValue(StringProperty property, String value) {
+    void setPropertyValue(T property, String value) {
         property.setValue(value);
     }
 }
