@@ -9,9 +9,13 @@ import org.junit.Test;
 public class FixObjectPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorSucceeds() throws NotApplicablePropertyException {
+	public void testConstructorSucceeds() {
 		GeoElement point = addAvInput("(1,2)");
-		new FixObjectProperty(point);
+		try {
+			new FixObjectProperty(point);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test

@@ -9,19 +9,27 @@ import org.junit.Test;
 public class OpacityPropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorForPolygon() throws NotApplicablePropertyException {
+	public void testConstructorForPolygon() {
 		addAvInput("A = (0, 0)");
 		addAvInput("B = (1, 1)");
 		addAvInput("C = (0, 1)");
 		GeoElement polygon = addAvInput("Polygon(A,B,C)");
-		new OpacityProperty(polygon);
+		try {
+			new OpacityProperty(polygon);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
-	public void testConstructorForSlider() throws NotApplicablePropertyException {
+	public void testConstructorForSlider() {
 		GeoElement slider = addAvInput("1");
 		slider.setEuclidianVisible(true);
-		new OpacityProperty(slider);
+		try {
+			new OpacityProperty(slider);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test

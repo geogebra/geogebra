@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -11,9 +12,13 @@ import org.junit.Test;
 public class ShowTracePropertyTest extends BaseUnitTest {
 
 	@Test
-	public void testConstructorForPoint() throws NotApplicablePropertyException {
+	public void testConstructorForPoint() {
 		GeoElement point = addAvInput("(1,2)");
-		new ShowTraceProperty(point);
+		try {
+			new ShowTraceProperty(point);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
