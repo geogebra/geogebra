@@ -29,6 +29,10 @@ import org.geogebra.common.plugin.Operation;
  */
 public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCAS {
 
+	private GeoFunction f; // input
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private boolean indcludesInfinite;
+
 	static private class ValueCollector implements Traversing {
 
 		private final List<NumberValue> values = new ArrayList<>();
@@ -47,10 +51,6 @@ public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCA
 			return ev;
 		}
 	}
-
-	private GeoFunction f; // input
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
-	private boolean indcludesInfinite;
 
 	/**
 	 * @param cons construction
