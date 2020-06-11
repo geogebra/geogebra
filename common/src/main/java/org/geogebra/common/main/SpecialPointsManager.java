@@ -28,8 +28,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
+import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
@@ -43,6 +46,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private Kernel kernel;
 	private List<GeoElement> specPoints;
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
+	private GeoPoint defaultPoint;
 	private boolean isUpdating = false;
 	/**
 	 * storing the special points parent algos: needed for iOS as GeoElement as only weak
@@ -57,6 +61,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	public SpecialPointsManager(Kernel kernel) {
 		this.kernel = kernel;
 		specPointAlgos = new ArrayList<>();
+		defaultPoint = (GeoPoint) kernel.getConstruction().getConstructionDefaults()
+				.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_PREVIEW);
 		App app = kernel.getApplication();
 		app.getSelectionManager().addListener(this);
 		app.getEventDispatcher().addEventListener(this);
@@ -70,45 +76,33 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	 *            geo which special points will be updated
 	 */
 	public void updateSpecialPoints(GeoElement geo) {
-		if (!kernel.getApplication().getConfig().hasPreviewPoints()
-				|| isUpdating) {
+		if (!kernel.getApplication().getConfig().hasPreviewPoints() || isUpdating) {
 			return;
 		}
 		// Prevent calling update special points recursively
 		isUpdating = true;
 
-		getSpecPoints(geo);
+		updateSpecialPointsInternal(geo);
 		fireSpecialPointsChangedEvent();
 
 		isUpdating = false;
 	}
 
-	private List<GeoElement> getSpecPoints(GeoElement geo0) {
+	private void updateSpecialPointsInternal(GeoElement geo0) {
 		clearSpecPoints();
 		GeoElement geo = getGeoForSpecialPoints(geo0);
 
 		if (geo != null) {
-			ArrayList<GeoElementND> specPoints0 = new ArrayList<>();
-			getSpecPoints(geo, specPoints0);
+			ArrayList<GeoElement> newPoints = new ArrayList<>();
+			getSpecPoints(geo, newPoints);
 			boolean canBeRemoved = geo.canBeRemovedAsInput();
 			geo.setCanBeRemovedAsInput(false);
-			if (specPoints0.size() > 0) {
-				specPoints = new ArrayList<>(specPoints0.size());
-				for (GeoElementND pt : specPoints0) {
-					if (pt != null) {
-						specPoints.add(pt.toGeoElement());
-						pt.remove();
-						pt.setAdvancedVisualStyle(kernel
-							.getConstruction().getConstructionDefaults()
-							.getDefaultGeo(
-									ConstructionDefaults.DEFAULT_POINT_PREVIEW));
-					}
-				}
+			if (newPoints.size() > 0) {
+				specPoints = new ArrayList<>(newPoints.size());
+				specPoints.addAll(newPoints);
 				geo.setCanBeRemovedAsInput(canBeRemoved);
 			}
 		}
-
-		return specPoints;
 	}
 
 	private void clearSpecPoints() {
@@ -130,7 +124,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void getSpecPoints(GeoElementND geo,
-							   ArrayList<GeoElementND> retList) {
+							   ArrayList<GeoElement> retList) {
 		if (!shouldShowSpecialPoints(geo)) {
 			return;
 		}
@@ -160,7 +154,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void doGetSpecialPoints(GeoElementND geo, boolean xAxis,
-									boolean yAxis, ArrayList<GeoElementND> retList) {
+									boolean yAxis, ArrayList<GeoElement> retList) {
 		if (geo instanceof GeoFunction) {
 			getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
 		} else if (geo instanceof EquationValue) {
@@ -169,7 +163,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void getFunctionSpecialPoints(GeoFunction geo, boolean xAxis, boolean yAxis,
-								  ArrayList<GeoElementND> retList) {
+								  ArrayList<GeoElement> retList) {
 		PolyFunction poly = geo.getFunction()
 				.expandToPolyFunction(
 						geo.getFunctionExpression(), false,
@@ -205,7 +199,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 		AlgoRemovableDiscontinuity algoRemovableDiscontinuity =
 				new AlgoRemovableDiscontinuity(kernel.getConstruction(), geo, null, false);
-		processAlgo(geo, algoRemovableDiscontinuity, retList);
+		processAlgo(geo, algoRemovableDiscontinuity, retList,
+				EuclidianStyleConstants.POINT_STYLE_CIRCLE);
 
 		if (yAxis) {
 			AlgoIntersectPolynomialLine algoPolynomialLine = new AlgoIntersectPolynomialLine(
@@ -215,15 +210,14 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 	}
 
-	private void addExtremumPoly(GeoFunctionable geo,
-			ArrayList<GeoElementND> retList) {
+	private void addExtremumPoly(GeoFunctionable geo, ArrayList<GeoElement> retList) {
 		AlgoExtremumPolynomial algoExtremumPolynomial = new AlgoExtremumPolynomial(
 				kernel.getConstruction(), null, geo, false);
 		processAlgo(geo, algoExtremumPolynomial, retList);
 	}
 
 	private void getEquationSpecialPoints(GeoElementND geo, boolean xAxis,
-			boolean yAxis, ArrayList<GeoElementND> retList) {
+			boolean yAxis, ArrayList<GeoElement> retList) {
 		GeoLine xAxisLine = kernel.getXAxis();
 		GeoLine yAxisLine = kernel.getYAxis();
 		if (geo == xAxisLine || geo == yAxisLine) {
@@ -244,7 +238,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void getIntersectsBetween(GeoElementND geo,
-			ArrayList<GeoElementND> retList) {
+			ArrayList<GeoElement> retList) {
 		Construction cons = kernel.getConstruction();
 		GeoLine xAxisLine = kernel.getXAxis();
 		GeoLine yAxisLine = kernel.getYAxis();
@@ -265,7 +259,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private void getSpecialPointsIntersect(GeoElementND element,
 			GeoElement secondElement,
 										   CmdIntersect intersect, Command cmd,
-										   ArrayList<GeoElementND> retList) {
+										   ArrayList<GeoElement> retList) {
 		AlgoDispatcher dispatcher = kernel.getAlgoDispatcher();
 		boolean oldValue = dispatcher.isIntersectCacheEnabled();
 		try {
@@ -301,18 +295,32 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void processAlgo(GeoElementND element, AlgoElement algoElement,
-			ArrayList<GeoElementND>
-			retList) {
-		element.removeAlgorithm(algoElement);
-		add(algoElement.getOutput(), retList);
-		storeAlgo(algoElement);
+			ArrayList<GeoElement> retList) {
+		processAlgo(element, algoElement, retList, defaultPoint.getPointStyle());
 	}
 
-	private static void add(GeoElement[] geos1,
-			ArrayList<GeoElementND> retList) {
-		if (geos1 != null) {
-			for (int i = 0; i < geos1.length; i++) {
-				retList.add(geos1[i]);
+	private void processAlgo(GeoElementND element, AlgoElement algoElement,
+			ArrayList<GeoElement> retList, int pointStyle) {
+		storeAlgo(algoElement);
+		element.removeAlgorithm(algoElement);
+		GeoElement[] outputElements = algoElement.getOutput();
+		add(outputElements, retList, pointStyle);
+	}
+
+	private void add(GeoElement[] elements, ArrayList<GeoElement> retList) {
+		add(elements, retList, defaultPoint.getPointStyle());
+	}
+
+	private void add(GeoElement[] elements, ArrayList<GeoElement> retList, int pointStyle) {
+		for (GeoElement outputElement: elements) {
+			if (outputElement != null) {
+				outputElement.remove();
+				outputElement.setAdvancedVisualStyle(defaultPoint);
+				if (outputElement instanceof PointProperties) {
+					PointProperties point = (PointProperties) outputElement;
+					point.setPointStyle(pointStyle);
+				}
+				retList.add(outputElement);
 			}
 		}
 	}
@@ -372,5 +380,4 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		// we need to store parent algos due to weak reference in iOS
 		specPointAlgos.add(algo);
 	}
-
 }
