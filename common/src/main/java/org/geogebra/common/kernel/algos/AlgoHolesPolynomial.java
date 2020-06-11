@@ -1,22 +1,25 @@
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
@@ -29,6 +32,25 @@ public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCA
 	private GeoFunction f; // input
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	private boolean indcludesInfinite;
+
+	static private class ValueCollector implements Traversing {
+
+		private final List<NumberValue> values = new ArrayList<>();
+
+		@Override
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof Equation) {
+				Equation equation = (Equation) ev;
+				ExpressionValue rhs = equation.getRHS().unwrap();
+				ExpressionNode lhs = equation.getLHS();
+				if (lhs.containsFunctionVariable("x") && rhs.isNumberValue()) {
+					NumberValue numberValue = (NumberValue) rhs;
+					values.add(numberValue);
+				}
+			}
+			return ev;
+		}
+	}
 
 	/**
 	 * @param cons construction
@@ -102,29 +124,31 @@ public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCA
 
 	private void solveDivision(ExpressionValue exp, List<MyPoint> result) {
 		arbconst.startBlocking();
-		String input = "solve(" + exp.toString(StringTemplate.prefixedDefault) + " = 0)";
-		String solns = kernel.evaluateCachedGeoGebraCAS(input, arbconst);
-		GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
-		if (raw == null) {
-			return;
-		}
-		for (int i = 0; i < raw.size(); i++) {
-			GeoElement element = raw.get(i);
-			if (element instanceof GeoLine) {
-				GeoLine line = (GeoLine) element;
+		List<NumberValue> values = getValues(exp);
+		for (NumberValue value: values) {
+			double x = value.getDouble();
 
-				double x = -line.getZ() / line.getX();
+			double above = limit(x, 1);
+			double below = limit(x, -1);
 
-				double above = limit(x, 1);
-				double below = limit(x, -1);
-
-				if (above == below) {
-					add(x, above, result);
-				} else {
-					add(x, below, result);
-					add(x, above, result);
-				}
+			add(x, above, result);
+			if (above != below) {
+				add(x, above, result);
 			}
+		}
+	}
+
+	private List<NumberValue> getValues(ExpressionValue exp) {
+		String input = "solve(" + exp.toString(StringTemplate.prefixedDefault) + " = 0)";
+		String output = kernel.evaluateCachedGeoGebraCAS(input, arbconst);
+
+		try {
+			ExpressionNode node = kernel.getParser().parseExpression(output);
+			ValueCollector collector = new ValueCollector();
+			node.traverse(collector);
+			return collector.values;
+		} catch (ParseException ignored) {
+			return Collections.emptyList();
 		}
 	}
 
@@ -152,7 +176,7 @@ public class AlgoHolesPolynomial extends AlgoGeoPointsFunction implements UsesCA
 	}
 
 	private void updatePoints() {
-		for (GeoPoint point: points) {
+		for (GeoPoint point : points) {
 			if (point != null) {
 				point.setPointStyle(EuclidianStyleConstants.POINT_STYLE_CIRCLE);
 			}
