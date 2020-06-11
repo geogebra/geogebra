@@ -180,21 +180,18 @@ public class DrawAudio extends Drawable {
 			int x = sliderLeft;
 			int y = top + height / 2;
 
+			g2.setStroke(SLIDER_STROKE);
 			g2.setPaint(SLIDER_STROKE_COLOR);
 			g2.drawStraightLine(x, y, x + sliderWidth, y);
 
 			g2.setPaint(blobColor);
-			g2.setStroke(SLIDER_STROKE);
 			g2.drawStraightLine(x, y, coords[0], y);
 
-			g2.setPaint(blobColor);
-			g2.setStroke(SLIDER_STROKE);
 			if (sliderHighlighted) {
 				g2.fill(circleOuter);
 			} else {
 				g2.fill(circle);
 			}
-
 		}
 	}
 

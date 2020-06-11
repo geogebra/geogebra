@@ -16,11 +16,8 @@ public interface MyImage {
 
 	boolean isSVG();
 
-	void drawSubimage(int x, int y, int width, int height, GGraphics2D g,
-			int posX, int posY);
-
 	GGraphics2D createGraphics();
 
-	public String toLaTeXStringBase64();
+	String toLaTeXStringBase64();
 
 }

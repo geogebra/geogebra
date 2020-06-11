@@ -51,7 +51,7 @@ public class VariableReplacerAlgorithm {
 	 */
 	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
-		if (!tokenizerAllowed) {
+		if (!tokenizerAllowed && !expressionString.contains(".")) {
 			return replaceToken(expressionString);
 		}
 
@@ -75,15 +75,18 @@ public class VariableReplacerAlgorithm {
 				: replace(tokenizer.getInputRemaining());
 
 			if (isProductFactor(v1) && isProductFactor(v2)) {
-				if (isProduct(v2)) {
-					return v1.wrap().multiplyR(v2.wrap().getLeft()).multiplyR(v2.wrap().getRight());
-				}
-
-				return v1.wrap().multiplyR(v2);
+				return leftProduct(v1, v2);
 			}
 		}
 
 		return replaceToken(next);
+	}
+
+	private ExpressionNode leftProduct(ExpressionValue v1, ExpressionValue v2) {
+		if (isProduct(v2)) {
+			return leftProduct(v1, v2.wrap().getLeft()).multiplyR(v2.wrap().getRight());
+		}
+		return v1.wrap().multiplyR(v2);
 	}
 
 	private boolean isProductFactor(ExpressionValue value) {
@@ -215,7 +218,7 @@ public class VariableReplacerAlgorithm {
 	private MySpecialDouble consumeConstant(String expressionString) {
 		int numberLength = 0;
 		while (numberLength < expressionString.length()
-				&& StringUtil.isDigit(expressionString.charAt(numberLength))) {
+				&& StringUtil.isDigitOrDot(expressionString.charAt(numberLength))) {
 			numberLength++;
 		}
 		if (numberLength != 0) {

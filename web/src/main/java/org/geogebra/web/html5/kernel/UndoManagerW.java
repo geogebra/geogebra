@@ -48,6 +48,8 @@ public class UndoManagerW extends DefaultUndoManager {
 			processXML(tempXML, false);
 			app.getScriptManager().enableListeners();
 
+			app.getActiveEuclidianView().invalidateDrawableList();
+
 			AppW appW = (AppW) app;
 			if (appW.getPageController() != null) {
 				appW.getPageController().updatePreviewImage();

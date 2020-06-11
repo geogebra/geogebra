@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -15,7 +17,6 @@ import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
@@ -166,22 +167,29 @@ public class KeyboardManager
 	}
 
 	/**
-	 * Return a keyboard and connected to given textfield.
+	 * Update keyboard processor and close listener.
 	 *
 	 * @param textField
 	 *            textfield adapter
 	 * @param listener
 	 *            open/close listener
-	 * @return keyboard
 	 */
-	public VirtualKeyboardGUI getOnScreenKeyboard(
-			MathKeyboardListener textField, UpdateKeyBoardListener listener) {
+	public void setListeners(MathKeyboardListener textField,
+			UpdateKeyBoardListener listener) {
 		ensureKeyboardExists();
 		if (textField != null) {
 			setOnScreenKeyboardTextField(textField);
 		}
-
 		keyboard.setListener(listener);
+	}
+
+	/**
+	 * Lazy loading getter
+	 * @return the keyboard
+	 */
+	@Nonnull
+	public VirtualKeyboardGUI getOnScreenKeyboard() {
+		ensureKeyboardExists();
 		return keyboard;
 	}
 
@@ -190,18 +198,8 @@ public class KeyboardManager
 			boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
 					&& !shouldDetach();
 			keyboard = new OnscreenTabbedKeyboard((HasKeyboard) app,
-					keyboardIsScientific(),
 					showMoreButton);
 		}
-	}
-
-	private boolean keyboardIsScientific() {
-		ArticleElementInterface articleElement = app.getArticleElement();
-		if ("evaluator".equals(articleElement.getDataParamAppName())) {
-			return "scientific"
-					.equals(articleElement.getParamKeyboardType("normal"));
-		}
-		return app.getConfig().hasScientificKeyboard();
 	}
 
 	@Override

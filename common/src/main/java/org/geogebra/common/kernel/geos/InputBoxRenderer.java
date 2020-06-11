@@ -20,7 +20,7 @@ class InputBoxRenderer {
 			return tempUserEvalInput;
 		}
 		if (linkedGeo.isGeoText()) {
-			return ((GeoText) linkedGeo).getTextString();
+			return ((GeoText) linkedGeo).getTextStringSafe().replace("\n", GeoText.NEW_LINE);
 		}
 
 		String linkedGeoText;

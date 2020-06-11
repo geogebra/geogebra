@@ -52,7 +52,7 @@ public abstract class CopyPaste {
 
 	public abstract void pasteFromXML(App app);
 
-	public abstract void duplicate(App app, List<GeoElement> selection);
+	public abstract void duplicate(App app, List<GeoElement> geos);
 
 	public abstract void clearClipboard();
 

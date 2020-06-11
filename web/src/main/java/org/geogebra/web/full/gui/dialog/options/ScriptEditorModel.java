@@ -38,13 +38,4 @@ public class ScriptEditorModel extends OptionsModel {
 	public PropertyListener getListener() {
 		return listener;
 	}
-
-	/**
-	 * Notify listener
-	 */
-	public void applyModifications() {
-		if (listener != null) {
-			listener.applyModifications();
-		}
-	}
 }

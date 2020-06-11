@@ -674,14 +674,15 @@ public class EuclidianControllerCompanion {
 
 	/**
 	 * For view from plane remove the parent of the view
-	 * 
+	 * Must return a new list that can be altered by caller.
+	 *
 	 * @param list
 	 *            list of elements
 	 * @return filtered list
 	 */
 	public ArrayList<GeoElement> removeParentsOfView(
 			ArrayList<GeoElement> list) {
-		return list;
+		return new ArrayList<>(list);
 	}
 
 	/**

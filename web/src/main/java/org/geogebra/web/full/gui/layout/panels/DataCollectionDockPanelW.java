@@ -28,11 +28,6 @@ public class DataCollectionDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	protected void focusGained() {
-		((GuiManagerW) app.getGuiManager()).updateDataCollectionView();
-	}
-
-	@Override
 	protected ResourcePrototype getViewIcon() {
 		return null;
 	}

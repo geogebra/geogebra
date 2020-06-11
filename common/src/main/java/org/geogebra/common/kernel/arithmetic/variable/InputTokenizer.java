@@ -74,7 +74,7 @@ public class InputTokenizer {
 			return IMAGINARY_STRING;
 		}
 
-		if (isDigitNext()) {
+		if (isDigitAt(1)) {
 			if (StringUtil.isLetter(input.charAt(0))) {
 				return String.valueOf(input.charAt(0));
 			}
@@ -154,17 +154,15 @@ public class InputTokenizer {
 		}
 
 		StringBuilder result = new StringBuilder();
-		int i = from;
-		while (i < input.length() && StringUtil.isDigit(input.charAt(i))) {
+
+		for (int i = from; isDigitAt(i); i++) {
 			result.append(input.charAt(i));
-			i++;
 		}
 		return result.toString();
-
 	}
 
-	private boolean isDigitNext() {
-		return input.length() > 1 && StringUtil.isDigit(nextChar());
+	private boolean isDigitAt(int i) {
+		return input.length() > i && StringUtil.isDigitOrDot(input.charAt(i));
 	}
 
 	private char nextChar() {

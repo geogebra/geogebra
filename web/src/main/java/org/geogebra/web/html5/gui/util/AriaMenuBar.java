@@ -377,13 +377,8 @@ public class AriaMenuBar extends FlowPanel {
 		if (!item.isEnabled() || cmd == null) {
 			return;
 		}
-		Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				cmd.execute();
-			}
-		});
 
+		Scheduler.get().scheduleFinally(cmd);
 	}
 
 	/**

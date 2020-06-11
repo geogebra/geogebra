@@ -22,11 +22,10 @@ public class TextFold implements FoldComputer {
 
 	@Override
 	public void add(GeoElement p, Operation op) {
-		if (p.isGeoText()) {
+		if (p.isGeoText() && ((GeoText) p).getTextString() != null) {
 			sb.append(((GeoText) p).getTextString());
 		} else {
 			result.setUndefined();
-			return;
 		}
 
 	}

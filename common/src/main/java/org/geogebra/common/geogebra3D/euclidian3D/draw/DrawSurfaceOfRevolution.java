@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoAxisND;
 
 /**
  * Preview for surface of revolution tool.
@@ -41,7 +42,8 @@ public class DrawSurfaceOfRevolution extends Drawable3DSurfaces
 
 	@Override
 	public void updatePreview() {
-		if (previewSurface == null && selectedFunctions.size() == 1) {
+		if (previewSurface == null && selectedFunctions.size() == 1
+				&& !(selectedFunctions.get(0) instanceof GeoAxisND)) {
 			Kernel3D kernel = getView3D().getKernel();
 			angle = createAngle(0);
 			boolean oldSilent = kernel.isSilentMode();

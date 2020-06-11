@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main.video;
 
-import org.geogebra.common.kernel.geos.GeoVideo;
+import org.geogebra.common.euclidian.draw.DrawVideo;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -21,7 +21,7 @@ public class MebisPlayer extends HTML5Player {
 	 * @param id
 	 *            The id of the player.
 	 */
-	public MebisPlayer(GeoVideo video, int id) {
+	public MebisPlayer(DrawVideo video, int id) {
 		super(video, id);
 	}
 
