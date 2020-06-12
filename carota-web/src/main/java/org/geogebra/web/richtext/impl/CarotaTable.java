@@ -40,4 +40,14 @@ public class CarotaTable {
 	public native void setWidth(double width);
 
 	public native void setHeight(double height);
+
+	public native CarotaRange hyperlinkRange();
+
+	public native void insertHyperlink(String url, String text);
+
+	public native void setHyperlinkUrl(String url);
+
+	public native String getListStyle();
+
+	public native void switchListTo(String listType);
 }

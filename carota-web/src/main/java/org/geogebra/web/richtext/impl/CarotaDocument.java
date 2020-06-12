@@ -30,7 +30,9 @@ public class CarotaDocument {
 
 	public native String urlByCoordinate(int x, int y);
 
-	public native CarotaRange hyperlinkRange(int start, int end);
+	public native CarotaRange hyperlinkRange();
+
+	public native void setHyperlinkUrl(String url);
 
 	public native void switchListTo(CarotaRange range, String listType);
 

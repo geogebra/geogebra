@@ -117,32 +117,32 @@ public class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public String getHyperLinkURL() {
-		return "";
+		return tableImpl.getFormatting("url", "");
 	}
 
 	@Override
 	public void setHyperlinkUrl(String url) {
-		// unimplemented - for now
+		tableImpl.setHyperlinkUrl(url);
 	}
 
 	@Override
 	public String getHyperlinkRangeText() {
-		return null;
+		return tableImpl.hyperlinkRange().plainText();
 	}
 
 	@Override
 	public void insertHyperlink(String url, String text) {
-		// unimplemented - for now
+		tableImpl.insertHyperlink(url, text);
 	}
 
 	@Override
 	public String getListStyle() {
-		return null;
+		return tableImpl.getListStyle();
 	}
 
 	@Override
 	public void switchListTo(String listType) {
-		// unimplemented - for now
+		tableImpl.switchListTo(listType);
 	}
 
 	@Override
