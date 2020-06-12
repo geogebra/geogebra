@@ -54,14 +54,14 @@ public class GgbApiTest {
 		api.evalMathML(
 				"<mrow><mi> x</mi><mo> +</mo><mrow><mi> 1</mi><mo>/</mo><mi> 2</mi></mrow></mrow>");
 		assertEquals(api.getLaTeXString("f"), "x + \\frac{1}{2}");
-		assertEquals(api.getValueString("f"), "f(x) = x + 1 / 2");
+		assertEquals(api.getValueString("f", true), "f(x) = x + 1 / 2");
 	}
 
 	@Test
 	public void testEvalLaTeX() {
 		api.evalLaTeX("latex(x)=\\sqrt{x}", 0);
 		assertEquals(api.getLaTeXString("latex"), "\\sqrt{x}");
-		assertEquals(api.getValueString("latex"), "latex(x) = sqrt(x)");
+		assertEquals(api.getValueString("latex", true), "latex(x) = sqrt(x)");
 	}
 
 	@Test

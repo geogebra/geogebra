@@ -326,9 +326,9 @@ public class ApiExporter {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isDefined(Ljava/lang/String;)(objName + "");
 		};
 
-		api.getValueString = function(objName, localize = true) {
-			localized = Boolean(localized) || localized === 'undefined'
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getValueString(Ljava/lang/String;Z)(objName + "", localize);
+		api.getValueString = function(objName, localized) {
+			localized = Boolean(localized) || typeof localized === 'undefined'
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getValueString(Ljava/lang/String;Z)(objName + "", localized);
 		};
 
 		api.getListValue = function(objName, index) {
