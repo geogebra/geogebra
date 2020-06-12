@@ -10,7 +10,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
@@ -1105,7 +1104,6 @@ public class ConsElementXMLHandler {
 			String number = attrs.get("number");
 			if (geo instanceof GeoEmbed && number != null) {
 				GeoEmbed embed = (GeoEmbed) geo;
-				EuclidianView ev = app.getActiveEuclidianView();
 
 				switch (number) {
 				case "0":
@@ -2042,6 +2040,9 @@ public class ConsElementXMLHandler {
 			case "condition":
 				handleCondition(attrs);
 				break;
+			case "contentSize":
+				handleContentSize(attrs);
+				break;
 			case "checkbox":
 				handleCheckbox(attrs);
 				break;
@@ -2242,6 +2243,25 @@ public class ConsElementXMLHandler {
 			}
 		}
 
+	}
+
+	private void handleContentSize(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoEmbed)) {
+			Log.error("wrong element type for <contentSize>: " + geo.getClass());
+			return;
+		}
+
+		GeoEmbed geoEmbed = (GeoEmbed) geo;
+
+		try {
+			double width = Double.parseDouble(attrs.get("width"));
+			double height = Double.parseDouble(attrs.get("height"));
+
+			geoEmbed.setContentWidth(width);
+			geoEmbed.setContentHeight(height);
+		} catch (NumberFormatException e) {
+			Log.error("malformed <contentSize>");
+		}
 	}
 
 	private void handleParentLabel(LinkedHashMap<String, String> attrs) {

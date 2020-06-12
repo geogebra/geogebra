@@ -34,7 +34,7 @@ public class GeoEmbed extends GeoWidget {
 	private boolean background = true;
 	private String appName = "graphing";
 	private String url;
-	private Map<String, String> settings = new HashMap<>();
+	private final Map<String, String> settings = new HashMap<>();
 
 	/**
 	 * @param c
@@ -52,6 +52,22 @@ public class GeoEmbed extends GeoWidget {
 	@Override
 	public double getMinHeight() {
 		return EMBED_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public void setWidth(double width) {
+		if (getWidth() != 0) {
+			setContentWidth(contentWidth * width / getWidth());
+		}
+		super.setWidth(width);
+	}
+
+	@Override
+	public void setHeight(double height) {
+		if (getHeight() != 0) {
+			setContentHeight(contentHeight * height / getHeight());
+		}
+		super.setHeight(height);
 	}
 
 	@Override
@@ -146,6 +162,11 @@ public class GeoEmbed extends GeoWidget {
 			sb.append(StringUtil.encodeXML(url));
 		}
 		sb.append("\"/>\n");
+		sb.append("\t<contentSize width=\"");
+		sb.append(contentWidth);
+		sb.append("\" height=\"");
+		sb.append(contentHeight);
+		sb.append("\"/>\n");
 		sb.append("\t<embedSettings");
 		for (Map.Entry<String, String> entry : getSettings()) {
 			sb.append(' ')
@@ -153,7 +174,6 @@ public class GeoEmbed extends GeoWidget {
 				.append("=\"")
 				.append(StringUtil.encodeXML(entry.getValue()))
 				.append('\"');
-
 		}
 		sb.append("/>\n");
 	}
