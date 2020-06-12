@@ -7180,7 +7180,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			tempFunction.set(movedGeoFunction);
 		} else if (movedGeoElement.isGeoAudio()
-				&& isMoveAudioExpected(app.getCapturingThreshold(type))) {
+				&& isMoveAudioSlider(app.getCapturingThreshold(type))) {
 			moveMode = MOVE_AUDIO_SLIDER;
 			moveAudioSlider();
 		} else if (movedGeoElement instanceof GeoLocusStroke
@@ -7405,7 +7405,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return ((tempRightClick()) || !movedGeoNumeric.isSliderFixed()) && hitSliderNotBlob;
 	}
 
-	protected boolean isMoveAudioExpected(int hitThreshold) {
+	protected boolean isMoveAudioSlider(int hitThreshold) {
 		DrawAudio da = (DrawAudio) view.getDrawableFor(movedGeoElement);
 		GPoint2D inversePoint = da.getInversePoint(mouseLoc.x, mouseLoc.y);
 
@@ -9380,10 +9380,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& mode == EuclidianConstants.MODE_SELECT
 					&& (f.isGeoBoolean() || f.isGeoButton() || combo
 							|| slider)) {
-				return;
-			}
-
-			if (f.isGeoVideo()) {
 				return;
 			}
 
