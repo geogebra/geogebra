@@ -1135,4 +1135,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic element = add("Solve({eq1, eq2}, {x, y})");
 		assertThat(element.showInEuclidianView(), is(false));
 	}
+
+	@Test
+	public void testFunctionLikeMultiplication() {
+		GeoSymbolic element =  add("x(x + 1)");
+		assertThat(element.toValueString(StringTemplate.defaultTemplate), is("x\u00B2 + x"));
+	}
 }

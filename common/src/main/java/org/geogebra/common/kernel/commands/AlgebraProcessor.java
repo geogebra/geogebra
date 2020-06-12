@@ -1016,7 +1016,9 @@ public class AlgebraProcessor {
 			symbolicProcessor = new SymbolicProcessor(kernel);
 		}
 		ValidExpression extracted = ve;
-		if (ve.unwrap() instanceof Equation && info != null) {
+		if (ve.wrap().containsFreeFunctionVariable(null)) {
+			replaceFunctionVariables(ve.wrap());
+		} else if (ve.unwrap() instanceof Equation && info != null) {
 			Equation equation = (Equation) ve.unwrap();
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
@@ -1029,6 +1031,18 @@ public class AlgebraProcessor {
 		}
 		setLabel(sym, label);
 		return sym;
+	}
+
+	private ValidExpression replaceFunctionVariables(ExpressionNode expression) {
+		ExpressionValue value = expression;
+		FunctionVarCollector fvc = FunctionVarCollector.getCollector();
+		value = value.traverse(fvc);
+		FunctionVariable[] fxvArray = fvc.buildVariables(kernel);
+		FunctionVariable[] xyzVars = FunctionNVar.getXYZVars(fxvArray);
+		ExpressionNode node = value.wrap();
+		node.replaceXYZnodes(xyzVars[0], xyzVars[1], xyzVars[2],
+				new ArrayList<ExpressionNode>());
+		return node;
 	}
 
 	private void setLabel(GeoElement element, String label) {
