@@ -10,6 +10,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
@@ -243,9 +244,15 @@ public class ConsElementXMLHandler {
 				button.setFixedSize(true);
 				return true;
 			} else if (geo instanceof RectangleTransformable) {
-				((RectangleTransformable) geo).setWidth(widthD);
-				((RectangleTransformable) geo).setHeight(heightD);
-				((RectangleTransformable) geo).setAngle(angleD);
+				if (angle == null) {
+					// we have an old GeoEmbed
+					((GeoEmbed) geo).setContentWidth(widthD);
+					((GeoEmbed) geo).setContentHeight(heightD);
+				} else {
+					((RectangleTransformable) geo).setWidth(widthD);
+					((RectangleTransformable) geo).setHeight(heightD);
+					((RectangleTransformable) geo).setAngle(angleD);
+				}
 			}
 
 			return true;
@@ -1092,6 +1099,26 @@ public class ConsElementXMLHandler {
 				y = Double.parseDouble(attrs.get("y"));
 			} catch (NumberFormatException e) {
 				Log.error("Incorrect start point for RectangleTransformable");
+			}
+
+			// old GeoEmbeds are represented by three rw points
+			String number = attrs.get("number");
+			if (geo instanceof GeoEmbed && number != null) {
+				GeoEmbed embed = (GeoEmbed) geo;
+				EuclidianView ev = app.getActiveEuclidianView();
+
+				switch (number) {
+				case "0":
+					embed.setHeight(y);
+					return;
+				case "1":
+					embed.setWidth(x);
+					return;
+				case "2":
+					embed.setRealWidth(embed.getWidth() - x);
+					embed.setRealHeight(y - embed.getHeight());
+					break;
+				}
 			}
 
 			GPoint2D startPoint = new GPoint2D(x, y);

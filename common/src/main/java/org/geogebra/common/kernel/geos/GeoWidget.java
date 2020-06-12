@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Base class for locateable geos like button and video.
@@ -53,6 +54,7 @@ public abstract class GeoWidget extends GeoElement
 	@Override
 	public void setWidth(double width) {
 		this.width = width;
+		Log.error("awidth: " + width);
 	}
 
 	@Override

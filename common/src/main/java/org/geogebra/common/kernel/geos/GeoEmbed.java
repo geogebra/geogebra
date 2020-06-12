@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -19,6 +20,13 @@ public class GeoEmbed extends GeoWidget {
 	private static final double DEFAULT_HEIGHT = 600;
 
 	public final static int EMBED_SIZE_THRESHOLD = 100;
+
+	private double contentWidth = DEFAULT_WIDTH;
+	private double contentHeight = DEFAULT_HEIGHT;
+
+	// ONLY USED FOR LOADING OLD MATERIALS
+	private Double realWidth;
+	private Double realHeight;
 
 	private boolean defined = true;
 	private int embedID = -1;
@@ -46,6 +54,21 @@ public class GeoEmbed extends GeoWidget {
 		return EMBED_SIZE_THRESHOLD;
 	}
 
+	@Override
+	public void zoomIfNeeded() {
+		if (realWidth != null || realHeight != null) {
+			EuclidianView ev = app.getActiveEuclidianView();
+
+			setWidth(ev.getXscale() * realWidth);
+			setHeight(ev.getYscale() * realHeight);
+
+			realWidth = null;
+			realHeight = null;
+		} else {
+			super.zoomIfNeeded();
+		}
+	}
+
 	/**
 	 * Center this in a view
 	 * 
@@ -59,6 +82,22 @@ public class GeoEmbed extends GeoWidget {
 		double x = ev.toRealWorldCoordX((ev.getViewWidth() - DEFAULT_WIDTH) / 2.0);
 		double y = ev.toRealWorldCoordY((ev.getViewHeight() - DEFAULT_HEIGHT) / 2.0);
 		startPoint.setLocation(x, y);
+	}
+
+	public int getContentWidth() {
+		return (int) contentWidth;
+	}
+
+	public void setContentWidth(double contentWidth) {
+		this.contentWidth = contentWidth;
+	}
+
+	public int getContentHeight() {
+		return (int) contentHeight;
+	}
+
+	public void setContentHeight(double contentHeight) {
+		this.contentHeight = contentHeight;
 	}
 
 	@Override
@@ -107,8 +146,8 @@ public class GeoEmbed extends GeoWidget {
 			sb.append(StringUtil.encodeXML(url));
 		}
 		sb.append("\"/>\n");
-		sb.append("<embedSettings");
-		for (Map.Entry<String, String> entry: getSettings()) {
+		sb.append("\t<embedSettings");
+		for (Map.Entry<String, String> entry : getSettings()) {
 			sb.append(' ')
 				.append(entry.getKey())
 				.append("=\"")
@@ -189,5 +228,13 @@ public class GeoEmbed extends GeoWidget {
 
 	public void attr(String key, Object value) {
 		settings.put(key, String.valueOf(value));
+	}
+
+	public void setRealWidth(double width) {
+		this.realWidth = width;
+	}
+
+	public void setRealHeight(double height) {
+		this.realHeight = height;
 	}
 }

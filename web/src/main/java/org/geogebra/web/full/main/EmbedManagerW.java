@@ -134,8 +134,8 @@ public class EmbedManagerW implements EmbedManager {
 		parameters
 				.attr("scaleContainerClass", "embedContainer")
 				.attr("allowUpscale", "true")
-				.attr("width", drawEmbed.getGeoEmbed().getWidth() + "")
-				.attr("height", drawEmbed.getGeoEmbed().getHeight() + "")
+				.attr("width", drawEmbed.getGeoEmbed().getContentWidth() + "")
+				.attr("height", drawEmbed.getGeoEmbed().getContentHeight() + "")
 				.attr("appName", drawEmbed.getGeoEmbed().getAppName())
 				.attr("borderColor", "#CCC");
 		for (Entry<String, String> entry: drawEmbed.getGeoEmbed().getSettings()) {
@@ -259,8 +259,8 @@ public class EmbedManagerW implements EmbedManager {
 					drawEmbed.getHeight() + "px");
 			// above the oject canvas (50) and below MOW toolbar (51)
 			toggleBackground(embedElement, drawEmbed);
-			int contentWidth = (int) drawEmbed.getGeoEmbed().getWidth();
-			int contentHeight = (int) drawEmbed.getGeoEmbed().getHeight();
+			int contentWidth = drawEmbed.getGeoEmbed().getContentWidth();
+			int contentHeight = drawEmbed.getGeoEmbed().getContentHeight();
 			embedElement.setSize(contentWidth, contentHeight);
 		}
 	}
@@ -418,8 +418,8 @@ public class EmbedManagerW implements EmbedManager {
 		int id = nextID();
 		base64.put(id, material.getBase64());
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
-		ge.setWidth(material.getWidth());
-		ge.setHeight(material.getHeight());
+		ge.setContentWidth(material.getWidth());
+		ge.setContentHeight(material.getHeight());
 		ge.attr("showToolBar", material.getShowToolbar() || material.getShowMenu());
 		ge.attr("showMenuBar", material.getShowMenu());
 		ge.attr("allowStyleBar", material.getAllowStylebar());
