@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
@@ -18,7 +17,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.PenPreviewLine;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
-import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
@@ -1419,14 +1417,6 @@ public class EuclidianViewW extends EuclidianView implements
 			}
 			repaintView();
 		}
-	}
-
-	@Override
-	public int getThresholdForDrawable(PointerEventType type, Drawable d) {
-		if (d instanceof DrawVideo && !Browser.isTabletBrowser()) {
-			return DrawVideo.HANDLER_THRESHOLD;
-		}
-		return app.getCapturingThreshold(type);
 	}
 
 	private SVGResource getSVGRulingResource() {

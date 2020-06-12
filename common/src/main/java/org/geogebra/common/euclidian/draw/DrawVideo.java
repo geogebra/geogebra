@@ -23,9 +23,6 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 	private final GeoVideo video;
 	private final App app;
 
-	/** Threshold correction for resizing handler capturing */
-	public static final int HANDLER_THRESHOLD = -4;
-
 	/**
 	 * @param view
 	 *            The euclidian view.
