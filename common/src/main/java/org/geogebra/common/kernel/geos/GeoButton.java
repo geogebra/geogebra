@@ -244,7 +244,6 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 		return getHeight();
 	}
 
-
 	private void updateRelLocation(EuclidianView ev) {
 		startPoint.setCoords(ev.toRealWorldCoordX(labelOffsetX),
 				ev.toRealWorldCoordY(labelOffsetY), 1);
@@ -264,20 +263,9 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 
 	/**
 	 * @param width
-	 *            width in pixels (used for fixed size buttons)
-	 */
-	public void setWidth(int width) {
-		this.width = width;
-		if (hasScreenLocation()) {
-			getScreenLocation().initWidth(width);
-		}
-	}
-
-	/**
-	 * @param width
 	 *            width
 	 */
-	protected void setWidth(double width) {
+	public void setWidth(double width) {
 		this.width = width;
 		if (hasScreenLocation()) {
 			getScreenLocation().initWidth((int) width);
@@ -294,20 +282,9 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 
 	/**
 	 * @param height
-	 *            height in pixels (used for fixed size buttons)
-	 */
-	public void setHeight(int height) {
-		this.height = height;
-		if (hasScreenLocation()) {
-			getScreenLocation().initHeight(height);
-		}
-	}
-
-	/**
-	 * @param height
 	 *            height in pixels
 	 */
-	protected void setHeight(double height) {
+	public void setHeight(double height) {
 		this.height = height;
 		if (hasScreenLocation()) {
 			getScreenLocation().initHeight((int) height);

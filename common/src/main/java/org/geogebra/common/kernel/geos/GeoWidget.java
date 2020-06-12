@@ -41,25 +41,9 @@ public abstract class GeoWidget extends GeoElement
 	}
 
 	@Override
-	public double getAngle() {
-		return angle;
-	}
-
-	@Override
-	public GPoint2D getLocation() {
-		return startPoint;
-	}
-
-	@Override
 	public void setWidth(double width) {
 		this.width = width;
 	}
-
-	@Override
-	public abstract double getMinWidth();
-
-	@Override
-	public abstract double getMinHeight();
 
 	@Override
 	public double getHeight() {
@@ -72,14 +56,30 @@ public abstract class GeoWidget extends GeoElement
 	}
 
 	@Override
+	public double getAngle() {
+		return angle;
+	}
+
+	@Override
 	public void setAngle(double angle) {
 		this.angle = angle;
+	}
+
+	@Override
+	public GPoint2D getLocation() {
+		return startPoint;
 	}
 
 	@Override
 	public void setLocation(GPoint2D location) {
 		this.startPoint = location;
 	}
+
+	@Override
+	public abstract double getMinWidth();
+
+	@Override
+	public abstract double getMinHeight();
 
 	/**
 	 * Zooming in x direction

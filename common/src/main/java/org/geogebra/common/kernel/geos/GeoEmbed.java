@@ -72,7 +72,7 @@ public class GeoEmbed extends GeoWidget {
 
 	@Override
 	public void zoomIfNeeded() {
-		if (realWidth != null || realHeight != null) {
+		if (realWidth != null && realHeight != null) {
 			EuclidianView ev = app.getActiveEuclidianView();
 
 			setWidth(ev.getXscale() * realWidth);

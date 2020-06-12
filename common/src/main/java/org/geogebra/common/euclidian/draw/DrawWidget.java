@@ -25,7 +25,7 @@ public abstract class DrawWidget extends Drawable {
 		this.rectangle = new TransformableRectangle(view, (RectangleTransformable) geo);
 	}
 
-	public void updateBounds() {
+	protected void updateBounds() {
 		rectangle.updateSelfAndBoundingBox();
 	}
 
@@ -98,17 +98,6 @@ public abstract class DrawWidget extends Drawable {
 		return view.toScreenCoordY(getGeoElement().getLocation().getY());
 	}
 
-	/**
-	 * @param x
-	 *            left corner x-coord in EV
-	 * @param y
-	 *            top corner y-coord in EV
-	 */
-	public final void setScreenLocation(int x, int y) {
-		getGeoElement().getLocation()
-				.setLocation(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y));
-	}
-
 	@Override
 	public List<GPoint2D> toPoints() {
 		return rectangle.toPoints();
@@ -125,9 +114,7 @@ public abstract class DrawWidget extends Drawable {
 		rectangle.updateByBoundingBoxResize(point, handler);
 	}
 
-	/**
-	 * @return the geo linked to this
-	 */
+	@Override
 	public abstract GeoWidget getGeoElement();
 
 	/**

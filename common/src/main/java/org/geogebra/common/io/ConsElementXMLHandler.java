@@ -237,8 +237,8 @@ public class ConsElementXMLHandler {
 			if (geo.isGeoButton()) {
 				GeoButton button = (GeoButton) geo;
 				if (widthD > 10 && heightD > 10) {
-					button.setWidth((int) widthD);
-					button.setHeight((int) heightD);
+					button.setWidth(widthD);
+					button.setHeight(heightD);
 				}
 				button.setFixedSize(true);
 				return true;
@@ -1105,17 +1105,15 @@ public class ConsElementXMLHandler {
 			if (geo instanceof GeoEmbed && number != null) {
 				GeoEmbed embed = (GeoEmbed) geo;
 
-				switch (number) {
-				case "0":
+				if ("0".equals(number)) {
 					embed.setHeight(y);
 					return;
-				case "1":
+				} else if ("1".equals(number)) {
 					embed.setWidth(x);
 					return;
-				case "2":
+				} else if ("2".equals(number)) {
 					embed.setRealWidth(embed.getWidth() - x);
 					embed.setRealHeight(y - embed.getHeight());
-					break;
 				}
 			}
 

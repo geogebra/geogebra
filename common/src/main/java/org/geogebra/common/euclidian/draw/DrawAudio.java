@@ -173,22 +173,20 @@ public class DrawAudio extends DrawWidget {
 	}
 
 	private void drawSlider(GGraphics2D g2) {
-		if (isVisible) {
-			int x = sliderLeft;
-			int y = (int) (getHeight() / 2);
+		int x = sliderLeft;
+		int y = (int) (getHeight() / 2);
 
-			g2.setStroke(SLIDER_STROKE);
-			g2.setPaint(SLIDER_STROKE_COLOR);
-			g2.drawStraightLine(x, y, x + sliderWidth, y);
+		g2.setStroke(SLIDER_STROKE);
+		g2.setPaint(SLIDER_STROKE_COLOR);
+		g2.drawStraightLine(x, y, x + sliderWidth, y);
 
-			g2.setPaint(blobColor);
-			g2.drawStraightLine(x, y, coords[0], y);
+		g2.setPaint(blobColor);
+		g2.drawStraightLine(x, y, coords[0], y);
 
-			if (sliderHighlighted) {
-				g2.fill(circleOuter);
-			} else {
-				g2.fill(circle);
-			}
+		if (sliderHighlighted) {
+			g2.fill(circleOuter);
+		} else {
+			g2.fill(circle);
 		}
 	}
 
@@ -310,7 +308,7 @@ public class DrawAudio extends DrawWidget {
 	 * @return true if play was hit.
 	 */
 	public boolean isPlayHit(double x, double y) {
-		return playRect.contains(x, y) && isVisible;
+		return playRect.contains(x, y);
 	}
 
 	/**
@@ -384,7 +382,7 @@ public class DrawAudio extends DrawWidget {
 
 	@Override
 	public void setBackground(boolean b) {
-
+		// background state not possible for audios
 	}
 
 	/**
