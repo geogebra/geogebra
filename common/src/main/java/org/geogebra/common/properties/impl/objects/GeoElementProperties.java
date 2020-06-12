@@ -56,7 +56,7 @@ public class GeoElementProperties {
 	private static BooleanPropertyCollection<ShowObjectProperty> createShowObjectProperty(
 			List<GeoElement> elements) {
 		try {
-			List<BooleanProperty> showObjectProperties = new ArrayList<>();
+			List<ShowObjectProperty> showObjectProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				showObjectProperties.add(new ShowObjectProperty(element));
 			}
@@ -84,7 +84,7 @@ public class GeoElementProperties {
 	private static BooleanPropertyCollection<FixObjectProperty> createFixObjectProperty(
 			List<GeoElement> elements) {
 		try {
-			List<BooleanProperty> fixObjectProperties = new ArrayList<>();
+			List<FixObjectProperty> fixObjectProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				fixObjectProperties.add(new FixObjectProperty(element));
 			}
@@ -98,7 +98,7 @@ public class GeoElementProperties {
 	private static EnumerablePropertyCollection<CaptionStyleProperty> createCaptionStyleProperty(
 			List<GeoElement> elements) {
 		try {
-			List<EnumerableProperty> captionStyleProperties = new ArrayList<>();
+			List<CaptionStyleProperty> captionStyleProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				captionStyleProperties.add(new CaptionStyleProperty(element));
 			}
@@ -112,7 +112,7 @@ public class GeoElementProperties {
 	private static RangePropertyCollection<OpacityProperty, Integer> createOpacityProperty(
 			List<GeoElement> elements) {
 		try {
-			List<RangeProperty<Integer>> opacityProperties = new ArrayList<>();
+			List<OpacityProperty> opacityProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				opacityProperties.add(new OpacityProperty(element));
 			}
@@ -126,7 +126,7 @@ public class GeoElementProperties {
 	private static NumericPropertyCollection<MinProperty, Double> createMinProperty(
 			List<GeoElement> elements) {
 		try {
-			List<NumericProperty<Double>> minProperties = new ArrayList<>();
+			List<MinProperty> minProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				if (element instanceof GeoNumeric) {
 					minProperties.add(new MinProperty((GeoNumeric) element));
@@ -144,7 +144,7 @@ public class GeoElementProperties {
 	private static NumericPropertyCollection<MaxProperty, Double> createMaxProperty(
 			List<GeoElement> elements) {
 		try {
-			List<NumericProperty<Double>> maxProperties = new ArrayList<>();
+			List<MaxProperty> maxProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				if (element instanceof GeoNumeric) {
 					maxProperties.add(new MaxProperty((GeoNumeric) element));
@@ -162,7 +162,7 @@ public class GeoElementProperties {
 	private static NumericPropertyCollection<StepProperty, Double> createStepProperty(
 			List<GeoElement> elements) {
 		try {
-			List<NumericProperty<Double>> stepProperties = new ArrayList<>();
+			List<StepProperty> stepProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				if (element instanceof GeoNumeric) {
 					stepProperties.add(new StepProperty((GeoNumeric) element));
@@ -180,7 +180,7 @@ public class GeoElementProperties {
 	private static IconsEnumerablePropertyCollection<PointStyleProperty> createPointStyleProperty(
 			List<GeoElement> elements) {
 		try {
-			List<IconsEnumerableProperty> pointStyleProperties = new ArrayList<>();
+			List<PointStyleProperty> pointStyleProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				pointStyleProperties.add(new PointStyleProperty(element));
 			}
@@ -194,7 +194,7 @@ public class GeoElementProperties {
 	private static RangePropertyCollection<PointSizeProperty, Integer> createPointSizeProperty(
 			List<GeoElement> elements) {
 		try {
-			List<RangeProperty<Integer>> pointSizeProperties = new ArrayList<>();
+			List<PointSizeProperty> pointSizeProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				pointSizeProperties.add(new PointSizeProperty(element));
 			}
@@ -208,7 +208,7 @@ public class GeoElementProperties {
 	private static RangePropertyCollection<ThicknessProperty, Integer> createThicknessProperty(
 			List<GeoElement> elements) {
 		try {
-			List<RangeProperty<Integer>> thicknessProperties = new ArrayList<>();
+			List<ThicknessProperty> thicknessProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				thicknessProperties.add(new ThicknessProperty(element));
 			}
@@ -222,7 +222,7 @@ public class GeoElementProperties {
 	private static IconsEnumerablePropertyCollection<LineStyleProperty> createLineStyleProperty(
 			List<GeoElement> elements) {
 		try {
-			List<IconsEnumerableProperty> lineStyleProperties = new ArrayList<>();
+			List<LineStyleProperty> lineStyleProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				lineStyleProperties.add(new LineStyleProperty(element));
 			}
@@ -236,7 +236,7 @@ public class GeoElementProperties {
 	private static NumericPropertyCollection<SlopeSizeProperty, Integer> createSlopeSizeProperty(
 			List<GeoElement> elements) {
 		try {
-			List<RangeProperty<Integer>> slopeSizeProperties = new ArrayList<>();
+			List<SlopeSizeProperty> slopeSizeProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				if (element instanceof GeoNumeric) {
 					slopeSizeProperties.add(new SlopeSizeProperty((GeoNumeric) element));
@@ -254,7 +254,7 @@ public class GeoElementProperties {
 	private static EnumerablePropertyCollection<EquationFormProperty> createEquationFormProperty(
 			List<GeoElement> elements) {
 		try {
-			List<EnumerableProperty> equationFormProperties = new ArrayList<>();
+			List<EquationFormProperty> equationFormProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				equationFormProperties.add(new EquationFormProperty(element));
 			}
@@ -268,7 +268,7 @@ public class GeoElementProperties {
 	private static BooleanPropertyCollection<ShowTraceProperty> createShowTraceProperty(
 			List<GeoElement> elements) {
 		try {
-			List<BooleanProperty> traceProperties = new ArrayList<>();
+			List<ShowTraceProperty> traceProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				traceProperties.add(new ShowTraceProperty(element));
 			}
@@ -282,7 +282,7 @@ public class GeoElementProperties {
 	private static BooleanPropertyCollection<ShowInAVProperty> createShowInAvProperty(
 			List<GeoElement> elements) {
 		try {
-			List<BooleanProperty> showInAvProperties = new ArrayList<>();
+			List<ShowInAVProperty> showInAvProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				showInAvProperties.add(new ShowInAVProperty(element));
 			}
