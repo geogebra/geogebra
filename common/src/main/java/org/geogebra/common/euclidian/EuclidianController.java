@@ -7361,6 +7361,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		moveMode = MOVE_WIDGET;
 		startLoc = mouseLoc;
 
+		if (geo instanceof GeoButton) {
+			((GeoButton) geo).updateAbsLocation(view);
+		}
+
 		oldLoc.x = geo.getAbsoluteScreenLocX();
 		oldLoc.y = geo.getAbsoluteScreenLocY();
 
