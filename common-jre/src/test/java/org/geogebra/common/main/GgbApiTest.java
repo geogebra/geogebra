@@ -1,11 +1,14 @@
 package org.geogebra.common.main;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.geogebra.common.euclidian.EuclidianController;
@@ -247,6 +250,14 @@ public class GgbApiTest {
 		}
 
 		assertEquals(1, dragEndEvents);
+	}
+
+	@Test
+	public void testGetValueString() {
+		app.getLocalization().currentLocale = Locale.FRANCE;
+		api.evalCommand("f(x) = If(x > 3, x, 3)");
+		assertThat(api.getValueString("f", true), is("f(x) = Si(x > 3, x, 3)"));
+		assertThat(api.getValueString("f", false), is("f(x) = If[x > 3, x, 3]"));
 	}
 
 	private class MockScriptManager extends ScriptManagerJre {
