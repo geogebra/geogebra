@@ -159,6 +159,13 @@ public class ProductParserTest extends TokenizerBaseTest {
 		shouldReparseAs("Gm_{1}m_{2}d", "G m_{1} m_{2} d");
 	}
 
+	@Test
+	public void testIndexGreek() {
+		shouldReparseAs("f(h,r_{w},r)=hr_{w}", "h r_{w}");
+		// prefer undefined over invalid
+		shouldReparseAs("f(r_{w}g, g_{w})=hr_{w}g_{w}", "h r_{w} g_{w}");
+	}
+
 	private void shouldReparseAs(String original, String parsed) {
 		ParserTest.shouldReparseAs(getApp(), original, parsed);
 	}

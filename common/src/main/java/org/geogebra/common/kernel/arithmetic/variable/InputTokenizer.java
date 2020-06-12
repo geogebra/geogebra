@@ -78,14 +78,9 @@ public class InputTokenizer {
 			return "deg";
 		}
 
-		String geoLabel = getGeoLabel(minLength);
+		String geoLabel = getGeoLabelOrVariable(minLength);
 		if (!StringUtil.empty(geoLabel)) {
 			return geoLabel;
-		}
-
-		String variable = getVariable();
-		if (!"".equals(variable)) {
-			return variable;
 		}
 
 		if (isPiNext()) {
@@ -119,13 +114,13 @@ public class InputTokenizer {
 		return input.charAt(0) == 'i';
 	}
 
-	private String getGeoLabel(int minLength) {
-		if (input.length() == 1) {
-			return input;
-		}
-
-		for (int i = minLength; i < input.length(); i++) {
+	private String getGeoLabelOrVariable(int minLength) {
+		for (int i = minLength; i <= input.length();
+				i = getTokenWithIndexLength(i + 1)) {
 			String label = input.substring(0, i);
+			if (varStrings.contains(label)) {
+				return label;
+			}
 			GeoElement geo = kernel.lookupLabel(label);
 			if (geo != null) {
 				return label;
@@ -140,15 +135,6 @@ public class InputTokenizer {
 		}
 
 		return "pi".equals(input.substring(0, 2).toLowerCase());
-	}
-
-	private String getVariable() {
-		for (String var : varStrings) {
-			if (input.startsWith(var)) {
-				return var;
-			}
-		}
-		return "";
 	}
 
 	private String getNumberToken() {
