@@ -9,32 +9,32 @@ import org.geogebra.common.properties.BooleanProperty;
  */
 public class ShowInAVProperty extends AbstractGeoElementProperty implements BooleanProperty {
 
-    public ShowInAVProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-        super("ShowInAlgebraView", geoElement);
-    }
+	public ShowInAVProperty(GeoElement geoElement) throws NotApplicablePropertyException {
+		super("ShowInAlgebraView", geoElement);
+	}
 
-    @Override
-    public boolean getValue() {
-        return !getElement().isAuxiliaryObject();
-    }
+	@Override
+	public boolean getValue() {
+		return !getElement().isAuxiliaryObject();
+	}
 
-    @Override
-    public void setValue(boolean show) {
-        GeoElement element = getElement();
-        element.setAuxiliaryObject(!show);
-        element.updateRepaint();
+	@Override
+	public void setValue(boolean show) {
+		GeoElement element = getElement();
+		element.setAuxiliaryObject(!show);
+		element.updateRepaint();
 
-        App app = element.getApp();
-        app.updateGuiForShowAuxiliaryObjects();
-    }
+		App app = element.getApp();
+		app.updateGuiForShowAuxiliaryObjects();
+	}
 
-    @Override
-    boolean isApplicableTo(GeoElement element) {
-        return true;
-    }
+	@Override
+	boolean isApplicableTo(GeoElement element) {
+		return true;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

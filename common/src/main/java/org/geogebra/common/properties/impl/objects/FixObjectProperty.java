@@ -11,44 +11,44 @@ import org.geogebra.common.properties.BooleanProperty;
  */
 public class FixObjectProperty extends AbstractGeoElementProperty implements BooleanProperty {
 
-    public FixObjectProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-        super("fixed", geoElement);
-    }
+	public FixObjectProperty(GeoElement geoElement) throws NotApplicablePropertyException {
+		super("fixed", geoElement);
+	}
 
-    @Override
-    public boolean getValue() {
-        return getElement().isLocked();
-    }
+	@Override
+	public boolean getValue() {
+		return getElement().isLocked();
+	}
 
-    @Override
-    public void setValue(boolean fixObject) {
-        GeoElement element = getElement();
-        element.setFixed(fixObject);
-    }
+	@Override
+	public void setValue(boolean fixObject) {
+		GeoElement element = getElement();
+		element.setFixed(fixObject);
+	}
 
-    @Override
-    boolean isApplicableTo(GeoElement element) {
-        if (element instanceof GeoList) {
-            return isApplicableToGeoList((GeoList) element);
-        }
-        AppConfig config = element.getApp().getConfig();
-        if (hasFunctionProperties(element) && config.isObjectDraggingRestricted()) {
-            return false;
-        }
-        return element.showFixUnfix();
-    }
+	@Override
+	boolean isApplicableTo(GeoElement element) {
+		if (element instanceof GeoList) {
+			return isApplicableToGeoList((GeoList) element);
+		}
+		AppConfig config = element.getApp().getConfig();
+		if (hasFunctionProperties(element) && config.isObjectDraggingRestricted()) {
+			return false;
+		}
+		return element.showFixUnfix();
+	}
 
-    private boolean hasFunctionProperties(GeoElement element) {
-        if (element instanceof GeoList && !isApplicableTo(element)) {
-            return false;
-        } else {
-            return element.isFunctionOrEquationFromUser();
-        }
-    }
+	private boolean hasFunctionProperties(GeoElement element) {
+		if (element instanceof GeoList && !isApplicableTo(element)) {
+			return false;
+		} else {
+			return element.isFunctionOrEquationFromUser();
+		}
+	}
 
-    @Override
-    boolean isApplicableToGeoList(GeoList list) {
-        GeoElement elementForProperties = list.getGeoElementForPropertiesDialog();
-        return elementForProperties instanceof GeoFunction;
-    }
+	@Override
+	boolean isApplicableToGeoList(GeoList list) {
+		GeoElement elementForProperties = list.getGeoElementForPropertiesDialog();
+		return elementForProperties instanceof GeoFunction;
+	}
 }

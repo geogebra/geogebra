@@ -14,51 +14,51 @@ import org.geogebra.common.properties.PropertyResource;
  * Point style
  */
 public class PointStyleProperty
-        extends AbstractGeoElementProperty implements IconsEnumerableProperty {
+		extends AbstractGeoElementProperty implements IconsEnumerableProperty {
 
-    private static final PropertyResource[] icons = {
-            PropertyResource.ICON_POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_CROSS,
-            PropertyResource.ICON_POINT_STYLE_CIRCLE, PropertyResource.ICON_POINT_STYLE_PLUS,
-            PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
-    };
+	private static final PropertyResource[] icons = {
+			PropertyResource.ICON_POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_CROSS,
+			PropertyResource.ICON_POINT_STYLE_CIRCLE, PropertyResource.ICON_POINT_STYLE_PLUS,
+			PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
+	};
 
-    public PointStyleProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-        super("Properties.Style", geoElement);
-    }
+	public PointStyleProperty(GeoElement geoElement) throws NotApplicablePropertyException {
+		super("Properties.Style", geoElement);
+	}
 
-    @Override
-    public String[] getValues() {
-        return null;
-    }
+	@Override
+	public String[] getValues() {
+		return null;
+	}
 
-    @Override
-    public int getIndex() {
-        return getElement() instanceof GeoPoint ? ((GeoPoint) getElement()).getPointStyle() : -1;
-    }
+	@Override
+	public int getIndex() {
+		return getElement() instanceof GeoPoint ? ((GeoPoint) getElement()).getPointStyle() : -1;
+	}
 
-    @Override
-    public void setIndex(int pointStyle) {
-        GeoElement element = getElement();
-        if (element instanceof PointProperties) {
-            ((PointProperties) element).setPointStyle(pointStyle);
-            element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
-        }
-    }
+	@Override
+	public void setIndex(int pointStyle) {
+		GeoElement element = getElement();
+		if (element instanceof PointProperties) {
+			((PointProperties) element).setPointStyle(pointStyle);
+			element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
+		}
+	}
 
-    @Override
-    public PropertyResource[] getIcons() {
-        return icons;
-    }
+	@Override
+	public PropertyResource[] getIcons() {
+		return icons;
+	}
 
-    @Override
-    boolean isApplicableTo(GeoElement element) {
-        if (isTextOrInput(element)) {
-            return false;
-        }
-        if (element instanceof GeoList) {
-            return isApplicableToGeoList((GeoList) element);
-        }
-        EuclidianView euclidianView = element.getApp().getActiveEuclidianView();
-        return PointStyleModel.match(element) && euclidianView.canShowPointStyle();
-    }
+	@Override
+	boolean isApplicableTo(GeoElement element) {
+		if (isTextOrInput(element)) {
+			return false;
+		}
+		if (element instanceof GeoList) {
+			return isApplicableToGeoList((GeoList) element);
+		}
+		EuclidianView euclidianView = element.getApp().getActiveEuclidianView();
+		return PointStyleModel.match(element) && euclidianView.canShowPointStyle();
+	}
 }

@@ -14,58 +14,58 @@ import org.geogebra.common.properties.RangeProperty;
 public class SlopeSizeProperty
 		extends AbstractGeoElementProperty implements RangeProperty<Integer> {
 
-    /**
-     * @param slope slope
-     */
-    public SlopeSizeProperty(GeoNumeric slope) throws NotApplicablePropertyException {
-        super("Size", slope);
-    }
+	/**
+	 * @param slope slope
+	 */
+	public SlopeSizeProperty(GeoNumeric slope) throws NotApplicablePropertyException {
+		super("Size", slope);
+	}
 
-    @Override
-    GeoNumeric getElement() {
-        return (GeoNumeric) super.getElement();
-    }
+	@Override
+	GeoNumeric getElement() {
+		return (GeoNumeric) super.getElement();
+	}
 
-    @Override
-    public Integer getValue() {
-        return getElement().getSlopeTriangleSize();
-    }
+	@Override
+	public Integer getValue() {
+		return getElement().getSlopeTriangleSize();
+	}
 
-    @Override
-    public void setValue(Integer value) {
-        GeoNumeric slope = getElement();
-        slope.setSlopeTriangleSize(value);
-        slope.updateVisualStyleRepaint(GProperty.COMBINED);
-    }
+	@Override
+	public void setValue(Integer value) {
+		GeoNumeric slope = getElement();
+		slope.setSlopeTriangleSize(value);
+		slope.updateVisualStyleRepaint(GProperty.COMBINED);
+	}
 
-    @Override
-    public Integer getMin() {
-        return 1;
-    }
+	@Override
+	public Integer getMin() {
+		return 1;
+	}
 
-    @Override
-    public Integer getMax() {
-        return 10;
-    }
+	@Override
+	public Integer getMax() {
+		return 10;
+	}
 
-    @Override
-    public Integer getStep() {
-        return 1;
-    }
+	@Override
+	public Integer getStep() {
+		return 1;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return Algos.isUsedFor(Commands.Slope, getElement());
-    }
+	@Override
+	public boolean isEnabled() {
+		return Algos.isUsedFor(Commands.Slope, getElement());
+	}
 
-    @Override
-    boolean isApplicableTo(GeoElement element) {
-        if (!isEnabled() || isTextOrInput(element)) {
-            return false;
-        }
-        if (element instanceof GeoList) {
-            return isApplicableToGeoList((GeoList) element);
-        }
-        return true;
-    }
+	@Override
+	boolean isApplicableTo(GeoElement element) {
+		if (!isEnabled() || isTextOrInput(element)) {
+			return false;
+		}
+		if (element instanceof GeoList) {
+			return isApplicableToGeoList((GeoList) element);
+		}
+		return true;
+	}
 }

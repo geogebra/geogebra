@@ -9,23 +9,23 @@ import org.geogebra.common.properties.impl.objects.ColorProperty;
 public class ColorPropertyCollection<T extends ColorProperty>
 		extends AbstractPropertyCollection<T, GColor> {
 
-    /**
-     * @param properties properties to handle
-     */
-    public ColorPropertyCollection(T[] properties) {
-        super(properties);
-    }
+	/**
+	 * @param properties properties to handle
+	 */
+	public ColorPropertyCollection(T[] properties) {
+		super(properties);
+	}
 
-    @Override
-    void setPropertyValue(T property, GColor value) {
-        property.setColor(value);
-    }
+	@Override
+	void setPropertyValue(T property, GColor value) {
+		property.setColor(value);
+	}
 
-    public GColor getColor() {
-        return getFirstProperty().getColor();
-    }
+	public GColor getColor() {
+		return getFirstProperty().getColor();
+	}
 
-    public void setColor(GColor color) {
-        setProperties(color);
-    }
+	public void setColor(GColor color) {
+		setProperties(color);
+	}
 }
