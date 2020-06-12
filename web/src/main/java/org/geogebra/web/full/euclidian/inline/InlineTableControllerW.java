@@ -15,6 +15,7 @@ import org.geogebra.web.richtext.impl.Carota;
 import org.geogebra.web.richtext.impl.CarotaTable;
 import org.geogebra.web.richtext.impl.CarotaUtil;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
@@ -61,8 +62,8 @@ public class InlineTableControllerW implements InlineTableController {
 			setLocation(view.toScreenCoordX(location.x),
 					view.toScreenCoordY(location.y));
 
-			setWidth(2 * CELL_WIDTH + 3);
-			setHeight(2 * CELL_HEIGHT + 3);
+			setWidth(table.getWidth());
+			setHeight(table.getHeight());
 
 			setAngle(table.getAngle());
 		}
@@ -86,8 +87,10 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void toForeground(int x, int y) {
 		if (style != null) {
-			style.setVisibility(VISIBLE);
-			tableImpl.startEditing(x, y);
+			Scheduler.get().scheduleDeferred(() -> {
+				style.setVisibility(VISIBLE);
+				tableImpl.startEditing(x, y);
+			});
 		}
 	}
 
@@ -149,13 +152,15 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(double width) {
 		style.setWidth(width, Style.Unit.PX);
+		tableImpl.setWidth(width);
 	}
 
 	@Override
-	public void setHeight(int height) {
+	public void setHeight(double height) {
 		style.setHeight(height, Style.Unit.PX);
+		tableImpl.setHeight(height);
 	}
 
 	@Override

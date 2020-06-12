@@ -19,14 +19,14 @@ public interface InlineTableController extends HasTextFormat {
 	 *
 	 * @param width width
 	 */
-	void setWidth(int width);
+	void setWidth(double width);
 
 	/**
 	 * Set the height of the editor.
 	 *
 	 * @param height height
 	 */
-	void setHeight(int height);
+	void setHeight(double height);
 
 	void setAngle(double angle);
 
