@@ -522,16 +522,13 @@ public class EuclidianStyleBarStatic {
 			double alpha) {
 		boolean needUndo = false;
 
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-
+		for (GeoElement geo : geos) {
 			// if text geo, then apply background color
 			if (geo instanceof TextStyle) {
 				if (geo.getBackgroundColor() != color
 						|| geo.getAlphaValue() != alpha) {
 					geo.setBackgroundColor(color);
-					// TODO apply background alpha
-					// --------
+
 					geo.updateVisualStyleRepaint(GProperty.COLOR_BG);
 					needUndo = true;
 				}

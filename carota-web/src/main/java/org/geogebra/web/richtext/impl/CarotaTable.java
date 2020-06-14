@@ -37,6 +37,8 @@ public class CarotaTable {
 
 	public native <T> T getFormatting(String key, T fallback);
 
+	public native void setBgcolor(String bgcolor);
+
 	public native void setWidth(double width);
 
 	public native void setHeight(double height);

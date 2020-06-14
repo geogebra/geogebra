@@ -4,6 +4,7 @@ import static com.google.gwt.dom.client.Style.Visibility.HIDDEN;
 import static com.google.gwt.dom.client.Style.Visibility.VISIBLE;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -52,6 +53,11 @@ public class InlineTableControllerW implements InlineTableController {
 		if (table.getContent() != null && !table.getContent().isEmpty()) {
 			tableImpl.load(Global.JSON.parse(table.getContent()));
 		}
+	}
+
+	@Override
+	public void setBgcolor(GColor bgColor) {
+		tableImpl.setBgcolor(bgColor == null ? null : bgColor.toString());
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.inline;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 
@@ -43,4 +44,6 @@ public interface InlineTableController extends HasTextFormat {
 	void toBackground();
 
 	void updateContent();
+
+	void setBgcolor(GColor bgColor);
 }

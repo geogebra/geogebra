@@ -1,8 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawInlineTable;
-import org.geogebra.common.euclidian.draw.HasTextFormat;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -70,6 +71,11 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	@Override
+	public void setBackgroundColor(GColor bgColor) {
+		getFormatter().setBgcolor(bgColor);
+	}
+
+	@Override
 	public boolean isEqual(GeoElementND geo) {
 		return geo == this;
 	}
@@ -80,7 +86,7 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	@Override
-	public HasTextFormat getFormatter() {
+	public InlineTableController getFormatter() {
 		return ((DrawInlineTable) kernel.getApplication()
 				.getActiveEuclidianView().getDrawableFor(this))
 				.getTableController();
