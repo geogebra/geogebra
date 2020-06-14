@@ -96,11 +96,12 @@ public class InlineFormattingItems {
 
 	private void addTableItems() {
 		final GeoInlineTable table = (GeoInlineTable) geos.get(0);
+		final InlineTableController controller = table.getFormatter();
 
-		addItem("ContextMenu.insertRowAbove", () -> {});
-		addItem("ContextMenu.insertRowBelow", () -> {});
-		addItem("ContextMenu.insertColumnLeft", () -> {});
-		addItem("ContextMenu.insertColumnRight", () -> {});
+		addItem("ContextMenu.insertRowAbove", controller::insertRowAbove);
+		addItem("ContextMenu.insertRowBelow", controller::insertRowBelow);
+		addItem("ContextMenu.insertColumnLeft", controller::insertColumnLeft);
+		addItem("ContextMenu.insertColumnRight", controller::insertColumnRight);
 
 		menu.addSeparator();
 

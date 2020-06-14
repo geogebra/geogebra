@@ -154,6 +154,30 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public void insertRowAbove() {
+		tableImpl.insertRowAbove();
+		updateSizes();
+	}
+
+	@Override
+	public void insertRowBelow() {
+		tableImpl.insertRowBelow();
+		updateSizes();
+	}
+
+	@Override
+	public void insertColumnLeft() {
+		tableImpl.insertColumnLeft();
+		updateSizes();
+	}
+
+	@Override
+	public void insertColumnRight() {
+		tableImpl.insertColumnRight();
+		updateSizes();
+	}
+
+	@Override
 	public void setLocation(int x, int y) {
 		style.setLeft(x, Style.Unit.PX);
 		style.setTop(y, Style.Unit.PX);
@@ -181,6 +205,12 @@ public class InlineTableControllerW implements InlineTableController {
 		if (tableElement != null) {
 			tableElement.removeFromParent();
 		}
+	}
+
+	private void updateSizes() {
+		table.setWidth(tableImpl.getTotalWidth());
+		table.setHeight(tableImpl.getTotalHeight());
+		table.updateRepaint();
 	}
 
 	private String getContent() {

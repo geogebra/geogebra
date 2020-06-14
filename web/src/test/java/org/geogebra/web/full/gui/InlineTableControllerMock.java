@@ -79,6 +79,26 @@ public class InlineTableControllerMock implements InlineTableController {
 	}
 
 	@Override
+	public void insertRowAbove() {
+
+	}
+
+	@Override
+	public void insertRowBelow() {
+
+	}
+
+	@Override
+	public void insertColumnLeft() {
+
+	}
+
+	@Override
+	public void insertColumnRight() {
+
+	}
+
+	@Override
 	public void format(String key, Object val) {
 
 	}

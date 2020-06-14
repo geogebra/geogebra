@@ -4,10 +4,18 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 
 import jsinterop.annotations.JsOverlay;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true)
 public class CarotaTable {
+
+	@JsProperty
+	public native int getTotalWidth();
+
+	@JsProperty
+	public native int getTotalHeight();
+
 	public native void draw(Context2d ctx);
 
 	public native void init(int rows, int cols);
@@ -25,9 +33,12 @@ public class CarotaTable {
 		startEditing(getHitCell(x, y), x, y);
 	}
 
-	private native JavaScriptObject getHitCell(int x, int y);
+	@JsProperty
+	private native CarotaSelection getSelection();
 
-	private native void startEditing(JavaScriptObject selection, int x, int y);
+	private native CarotaSelection getHitCell(int x, int y);
+
+	private native void startEditing(CarotaSelection selection, int x, int y);
 
 	public native void stopEditing();
 
@@ -54,4 +65,28 @@ public class CarotaTable {
 	public native void switchListTo(String listType);
 
 	public native String urlByCoordinate(int x, int y);
+
+	private native void addRow(int i);
+
+	private native void addColumn(int j);
+
+	@JsOverlay
+	public final void insertRowAbove() {
+		addRow(getSelection().y);
+	}
+
+	@JsOverlay
+	public final void insertRowBelow() {
+		addRow(getSelection().y + 1);
+	}
+
+	@JsOverlay
+	public final void insertColumnLeft() {
+		addColumn(getSelection().x);
+	}
+
+	@JsOverlay
+	public final void insertColumnRight() {
+		addColumn(getSelection().x + 1);
+	}
 }
