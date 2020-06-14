@@ -178,6 +178,18 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
+	public void removeRow() {
+		tableImpl.removeRow();
+		updateSizes();
+	}
+
+	@Override
+	public void removeColumn() {
+		tableImpl.removeColumn();
+		updateSizes();
+	}
+
+	@Override
 	public void setLocation(int x, int y) {
 		style.setLeft(x, Style.Unit.PX);
 		style.setTop(y, Style.Unit.PX);
@@ -208,9 +220,16 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	private void updateSizes() {
-		table.setWidth(tableImpl.getTotalWidth());
-		table.setHeight(tableImpl.getTotalHeight());
-		table.updateRepaint();
+		int width = tableImpl.getTotalWidth();
+		int height = tableImpl.getTotalHeight();
+
+		if (width < 1 || height < 1) {
+			table.remove();
+		} else {
+			table.setWidth(tableImpl.getTotalWidth());
+			table.setHeight(tableImpl.getTotalHeight());
+			table.updateRepaint();
+		}
 	}
 
 	private String getContent() {

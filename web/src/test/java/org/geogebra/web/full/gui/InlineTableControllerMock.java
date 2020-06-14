@@ -99,6 +99,16 @@ public class InlineTableControllerMock implements InlineTableController {
 	}
 
 	@Override
+	public void removeRow() {
+
+	}
+
+	@Override
+	public void removeColumn() {
+
+	}
+
+	@Override
 	public void format(String key, Object val) {
 
 	}

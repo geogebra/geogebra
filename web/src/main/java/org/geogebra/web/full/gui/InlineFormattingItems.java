@@ -105,8 +105,8 @@ public class InlineFormattingItems {
 
 		menu.addSeparator();
 
-		addItem("ContextMenu.deleteRow", () -> {});
-		addItem("ContextMenu.deleteColumn", () -> {});
+		addItem("ContextMenu.deleteRow", controller::removeRow);
+		addItem("ContextMenu.deleteColumn", controller::removeColumn);
 		addItem("ContextMenu.deleteTable", table::remove);
 	}
 

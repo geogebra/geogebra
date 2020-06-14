@@ -36,6 +36,16 @@ public class CarotaTable {
 	@JsProperty
 	private native CarotaSelection getSelection();
 
+	@JsOverlay
+	private int selectionX() {
+		return getSelection() == null ? 0 : getSelection().x;
+	}
+
+	@JsOverlay
+	private int selectionY() {
+		return getSelection() == null ? 0 : getSelection().y;
+	}
+
 	private native CarotaSelection getHitCell(int x, int y);
 
 	private native void startEditing(CarotaSelection selection, int x, int y);
@@ -70,23 +80,37 @@ public class CarotaTable {
 
 	private native void addColumn(int j);
 
+	private native void removeRow(int i);
+
+	private native void removeColumn(int j);
+
 	@JsOverlay
 	public final void insertRowAbove() {
-		addRow(getSelection().y);
+		addRow(selectionY());
 	}
 
 	@JsOverlay
 	public final void insertRowBelow() {
-		addRow(getSelection().y + 1);
+		addRow(selectionY() + 1);
 	}
 
 	@JsOverlay
 	public final void insertColumnLeft() {
-		addColumn(getSelection().x);
+		addColumn(selectionX());
 	}
 
 	@JsOverlay
 	public final void insertColumnRight() {
-		addColumn(getSelection().x + 1);
+		addColumn(selectionX() + 1);
+	}
+
+	@JsOverlay
+	public final void removeRow() {
+		removeRow(selectionY());
+	}
+
+	@JsOverlay
+	public final void removeColumn() {
+		removeColumn(selectionX());
 	}
 }

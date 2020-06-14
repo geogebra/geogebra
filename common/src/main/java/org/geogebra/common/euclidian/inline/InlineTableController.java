@@ -56,4 +56,8 @@ public interface InlineTableController extends HasTextFormat {
 	void insertColumnLeft();
 
 	void insertColumnRight();
+
+	void removeRow();
+
+	void removeColumn();
 }
