@@ -52,4 +52,6 @@ public class CarotaTable {
 	public native String getListStyle();
 
 	public native void switchListTo(String listType);
+
+	public native String urlByCoordinate(int x, int y);
 }

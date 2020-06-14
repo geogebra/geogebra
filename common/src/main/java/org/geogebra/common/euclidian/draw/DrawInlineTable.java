@@ -68,6 +68,16 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	}
 
 	@Override
+	public String urlByCoordinate(int x, int y) {
+		if (tableController != null) {
+			GPoint2D p = rectangle.getInversePoint(x, y);
+			return tableController.urlByCoordinate((int) p.getX(), (int) p.getY());
+		}
+
+		return "";
+	}
+
+	@Override
 	public void updateByBoundingBoxResize(GPoint2D point, EuclidianBoundingBoxHandler handler) {
 		rectangle.updateByBoundingBoxResize(point, handler);
 	}

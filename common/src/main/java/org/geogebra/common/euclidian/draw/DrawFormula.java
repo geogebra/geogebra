@@ -102,6 +102,11 @@ public class DrawFormula extends Drawable implements DrawInline {
 	}
 
 	@Override
+	public String urlByCoordinate(int x, int y) {
+		return "";
+	}
+
+	@Override
 	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
 		return getBoundingBox();
 	}

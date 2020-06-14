@@ -46,4 +46,6 @@ public interface InlineTableController extends HasTextFormat {
 	void updateContent();
 
 	void setBgcolor(GColor bgColor);
+
+	String urlByCoordinate(int x, int y);
 }

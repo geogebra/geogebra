@@ -25,9 +25,6 @@ import elemental2.core.Global;
 
 public class InlineTableControllerW implements InlineTableController {
 
-	private static final int CELL_HEIGHT = 36;
-	private static final int CELL_WIDTH = 100;
-
 	private GeoInlineTable table;
 	private final EuclidianView view;
 
@@ -58,6 +55,11 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void setBgcolor(GColor bgColor) {
 		tableImpl.setBgcolor(bgColor == null ? null : bgColor.toString());
+	}
+
+	@Override
+	public String urlByCoordinate(int x, int y) {
+		return tableImpl.urlByCoordinate(x, y);
 	}
 
 	@Override

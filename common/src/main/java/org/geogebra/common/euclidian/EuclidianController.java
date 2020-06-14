@@ -33,7 +33,6 @@ import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInline;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -9907,9 +9906,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	private void handleInlineHit(GeoElement topHit) {
+		DrawInline drawInline = (DrawInline) view.getDrawableFor(topHit);
 		if (topHit == lastMowHit
 				&& view.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED) {
-			DrawInline drawInline = (DrawInline) view.getDrawableFor(topHit);
 			drawInline.toForeground(mouseLoc.x, mouseLoc.y);
 
 			// Fix weird multiselect bug.
@@ -9918,13 +9917,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return;
 		}
 
-		if (topHit instanceof GeoInlineText) {
-			DrawInlineText drInlineText = ((DrawInlineText) view.getDrawableFor(topHit));
-			String hyperlinkURL = drInlineText.urlByCoordinate(mouseLoc.x, mouseLoc.y);
-			if (!StringUtil.emptyOrZero(hyperlinkURL)) {
-				drInlineText.toForeground(mouseLoc.x, mouseLoc.y);
-				app.showURLinBrowser(hyperlinkURL);
-			}
+		String hyperlinkURL = drawInline.urlByCoordinate(mouseLoc.x, mouseLoc.y);
+		if (!StringUtil.emptyOrZero(hyperlinkURL)) {
+			drawInline.toForeground(mouseLoc.x, mouseLoc.y);
+			app.showURLinBrowser(hyperlinkURL);
 		}
 	}
 
