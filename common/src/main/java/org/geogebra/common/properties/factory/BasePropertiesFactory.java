@@ -6,7 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.GraphicsPropertiesList;
-import org.geogebra.common.properties.PropertiesList;
+import org.geogebra.common.properties.PropertiesArray;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
@@ -31,12 +31,12 @@ public class BasePropertiesFactory implements PropertiesFactory {
      * @return an array of general properties
      */
     @Override
-    public PropertiesList createGeneralProperties(
+    public PropertiesArray createGeneralProperties(
             App app, Localization localization,
             LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
 
-        return new PropertiesList(
+        return new PropertiesArray(
                 "",
                 new RoundingProperty(app, localization),
                 new AngleUnitProperty(kernel, localization),
@@ -54,18 +54,18 @@ public class BasePropertiesFactory implements PropertiesFactory {
      * @return an array of algebra specific properties
      */
 	@Override
-    public PropertiesList createAlgebraProperties(App app, Localization localization) {
+    public PropertiesArray createAlgebraProperties(App app, Localization localization) {
         AlgebraView algebraView = app.getAlgebraView();
         Kernel kernel = app.getKernel();
         if (app.has(Feature.MOB_PROPERTY_SORT_BY)) {
-			return new PropertiesList(
+			return new PropertiesArray(
 			        "",
 					new AlgebraDescriptionProperty(kernel, localization),
 					new SortByProperty(algebraView, localization),
 					new ShowAuxiliaryProperty(app, localization)
 			);
 		} else {
-			return new PropertiesList(
+			return new PropertiesArray(
 			        "",
 					new AlgebraDescriptionProperty(kernel, localization),
 					new ShowAuxiliaryProperty(app, localization));
@@ -80,7 +80,7 @@ public class BasePropertiesFactory implements PropertiesFactory {
      * @return an array of graphics specific properties
      */
 	@Override
-    public PropertiesList createGraphicsProperties(App app, Localization localization) {
+    public PropertiesArray createGraphicsProperties(App app, Localization localization) {
         return new GraphicsPropertiesList(app, localization);
     }
 }

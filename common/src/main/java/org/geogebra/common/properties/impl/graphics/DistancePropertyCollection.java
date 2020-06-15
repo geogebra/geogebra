@@ -8,7 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.AbstractProperty;
-import org.geogebra.common.properties.PropertiesList;
+import org.geogebra.common.properties.PropertiesArray;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 
@@ -17,7 +17,7 @@ import org.geogebra.common.properties.PropertyCollection;
  */
 public class DistancePropertyCollection extends AbstractProperty implements PropertyCollection {
 
-    private PropertiesList collection;
+    private PropertiesArray collection;
 
     /**
 	 * Constructs a numbering distances property collection.
@@ -49,7 +49,7 @@ public class DistancePropertyCollection extends AbstractProperty implements Prop
                             "zAxis", 2));
         }
 
-		collection = new PropertiesList("Distance", properties);
+		collection = new PropertiesArray("Distance", properties.toArray(new Property[0]));
     }
 
     @Override

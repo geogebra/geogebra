@@ -1,6 +1,7 @@
 package org.geogebra.common.properties;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -26,7 +27,7 @@ import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
  * List of properties for graphics views
  *
  */
-public class GraphicsPropertiesList extends PropertiesList {
+public class GraphicsPropertiesList extends PropertiesArray {
 
     private App mApp;
     private Localization mLocalization;
@@ -39,7 +40,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 	 *            localization
 	 */
     public GraphicsPropertiesList(App app, Localization localization) {
-		super("", getProperties(app, localization));
+		super("", getProperties(app, localization).toArray(new Property[0]));
         mApp = app;
         mLocalization = localization;
 	}
@@ -91,10 +92,8 @@ public class GraphicsPropertiesList extends PropertiesList {
     public Property[] getProperties() {
         if (mApp.getActiveEuclidianView().isAREnabled()) {
             if (propertiesArrayARView == null) {
-				ArrayList<Property> propertiesListARView = new ArrayList<>();
-				for (Property prop : getPropertyCollection()) {
-					propertiesListARView.add(prop);
-				}
+				ArrayList<Property> propertiesListARView =
+						new ArrayList<>(Arrays.asList(super.getProperties()));
 				if (mApp.has(Feature.G3D_AR_RATIO_SETTINGS)) {
                     propertiesListARView.add(1,
                             new ARRatioPropertyCollection(mApp, mLocalization));
@@ -111,7 +110,7 @@ public class GraphicsPropertiesList extends PropertiesList {
 			}
 			return propertiesArrayARView;
         }
-        return getPropertyCollection().toArray(EMPTY_ARRAY);
+        return super.getProperties();
     }
 
 }

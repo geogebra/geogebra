@@ -3,7 +3,8 @@ package org.geogebra.common.properties.factory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertiesList;
+import org.geogebra.common.properties.PropertiesArray;
+import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.impl.general.CoordinatesProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
@@ -15,14 +16,14 @@ public class CasPropertiesFactory implements PropertiesFactory {
 	private PropertiesFactory basePropertiesFactory = new BasePropertiesFactory();
 
 	@Override
-	public PropertiesList createGeneralProperties(
+	public PropertiesArray createGeneralProperties(
 			App app,
 			Localization localization,
 			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
 
 		Kernel kernel = app.getKernel();
 
-		return new PropertiesList(
+		return new PropertiesArray(
 				"",
 				new RoundingProperty(app, localization),
 				new LabelingProperty(app, localization),
@@ -32,12 +33,12 @@ public class CasPropertiesFactory implements PropertiesFactory {
 	}
 
 	@Override
-	public PropertiesList createAlgebraProperties(App app, Localization localization) {
+	public PropertyCollection createAlgebraProperties(App app, Localization localization) {
 		return basePropertiesFactory.createAlgebraProperties(app, localization);
 	}
 
 	@Override
-	public PropertiesList createGraphicsProperties(App app, Localization localization) {
+	public PropertyCollection createGraphicsProperties(App app, Localization localization) {
 		return basePropertiesFactory.createGraphicsProperties(app, localization);
 	}
 }
