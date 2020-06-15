@@ -3,11 +3,12 @@ package org.geogebra.web.richtext.impl;
 import org.geogebra.web.richtext.Editor;
 
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.core.Global;
 
 /**
  * Inline text editor based on Carota.
@@ -86,7 +87,7 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void setContent(String content) {
-		editor.load(parse(content), false);
+		editor.load(Global.JSON.parse(content), false);
 	}
 
 	@Override
@@ -134,16 +135,8 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public String getContent() {
-		return stringify(editor.save());
+		return Global.JSON.stringify(editor.save());
 	}
-
-	private native JavaScriptObject parse(String content) /*-{
-		return JSON.parse(content);
-	}-*/;
-
-	private native String stringify(JavaScriptObject json) /*-{
-		return JSON.stringify(json);
-	}-*/;
 
 	@Override
 	public void switchListTo(String listType) {

@@ -42,6 +42,6 @@ public class CarotaDocument {
 
 	public native JavaScriptObject save();
 
-	public native void load(JavaScriptObject content, boolean focus);
+	public native void load(Object content, boolean focus);
 
 }
