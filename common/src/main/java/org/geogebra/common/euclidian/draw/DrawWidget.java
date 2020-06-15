@@ -20,6 +20,10 @@ public abstract class DrawWidget extends Drawable {
 
 	private final TransformableRectangle rectangle;
 
+	/**
+	 * @param view view
+	 * @param geo construction element
+	 */
 	public DrawWidget(EuclidianView view, GeoElement geo) {
 		super(view, geo);
 		this.rectangle = new TransformableRectangle(view, (RectangleTransformable) geo);
