@@ -89,7 +89,7 @@ public abstract class GeoWidget extends GeoElement
 	 *
 	 */
 	private void zoomX(double factor) {
-		setWidth(getWidth() * factor);
+		width *= factor;
 	}
 
 	/**
@@ -100,7 +100,7 @@ public abstract class GeoWidget extends GeoElement
 	 *
 	 */
 	private void zoomY(double factor) {
-		setHeight(getHeight() * factor);
+		height *= factor;
 	}
 
 	/**
