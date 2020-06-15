@@ -8,6 +8,10 @@ public class PropertiesArray implements PropertyCollection {
     private String name;
     private Property[] properties;
 
+    /**
+     * @param name name
+     * @param properties properties
+     */
     public PropertiesArray(String name, Property... properties) {
         this.name = name;
         this.properties = properties;
