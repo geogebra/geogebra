@@ -8,11 +8,9 @@ public interface HasLastItem {
 	String getLastItem();
 
 	/**
-	 * @return The last output as string.
-	 * It doesn't have brackets around it if the last output is a GeoText or a simple number,
-	 * otherwise it's between brackets.
+	 * @return True if the last item is a simple number, otherwise false.
 	 */
-	String getLastItemWithOptionalBrackets();
+	boolean isLastItemSimpleNumber();
 
 	/**
 	 * @return True if the last item is a GeoText, otherwise false.

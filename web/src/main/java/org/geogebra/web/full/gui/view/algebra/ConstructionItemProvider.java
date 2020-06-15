@@ -17,6 +17,8 @@ public final class ConstructionItemProvider implements HasLastItem {
 	private final Construction cons;
 	private final AlgebraViewW algebraView;
 	private final ToStringConverter<GeoElement> converter;
+	private boolean isLastItemSimpleNumber;
+	private boolean isLastItemText;
 
 	/**
 	 * @param cons construction
@@ -48,25 +50,23 @@ public final class ConstructionItemProvider implements HasLastItem {
 		while (algebraView.getNode(element) == null && iterator.hasNext()) {
 			element = iterator.next();
 		}
+		setLastItemFlagsWith(element);
 		return element;
 	}
 
+	private void setLastItemFlagsWith(GeoElement lastItem) {
+		String lastItemString = convertToString(lastItem);
+		isLastItemSimpleNumber = StringUtil.isSimpleNumber(lastItemString);
+		isLastItemText = lastItem != null && lastItem.isGeoText();
+	}
+
 	@Override
-	public String getLastItemWithOptionalBrackets() {
-		GeoElement element = getLastGeoElement();
-		if (element == null) {
-			return "";
-		}
-		String lastItemString = convertToString(element);
-		if (StringUtil.isSimpleNumber(lastItemString) || element.isGeoText()) {
-			return lastItemString;
-		}
-		return "(" + lastItemString + ")";
+	public boolean isLastItemSimpleNumber() {
+		return isLastItemSimpleNumber;
 	}
 
 	@Override
 	public boolean isLastItemText() {
-		GeoElement element = getLastGeoElement();
-		return element != null && element.isGeoText();
+		return isLastItemText;
 	}
 }
