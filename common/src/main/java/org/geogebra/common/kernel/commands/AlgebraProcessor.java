@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.CoordMultiplyReplacer;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -1015,10 +1016,8 @@ public class AlgebraProcessor {
 		if (symbolicProcessor == null) {
 			symbolicProcessor = new SymbolicProcessor(kernel);
 		}
-		ValidExpression extracted = ve;
-		if (ve.wrap().containsFreeFunctionVariable(null)) {
-			extracted = replaceFunctionVariables(ve.wrap());
-		} else if (ve.unwrap() instanceof Equation && info != null) {
+		ValidExpression extracted = replaceFunctionVariables(ve);
+		if (ve.unwrap() instanceof Equation && info != null) {
 			Equation equation = (Equation) ve.unwrap();
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
@@ -1033,15 +1032,13 @@ public class AlgebraProcessor {
 		return sym;
 	}
 
-	private ValidExpression replaceFunctionVariables(ExpressionNode expression) {
-		ExpressionValue value = expression;
-		FunctionVarCollector fvc = FunctionVarCollector.getCollector();
-		value = value.traverse(fvc);
-		FunctionVariable[] fxvArray = fvc.buildVariables(kernel);
+	private ExpressionNode replaceFunctionVariables(ValidExpression expression) {
+		FunctionVarCollector collector = FunctionVarCollector.getCollector();
+		expression.traverse(collector);
+		FunctionVariable[] fxvArray = collector.buildVariables(kernel);
 		FunctionVariable[] xyzVars = FunctionNVar.getXYZVars(fxvArray);
-		ExpressionNode node = value.wrap();
-		node.replaceXYZnodes(xyzVars[0], xyzVars[1], xyzVars[2],
-				new ArrayList<ExpressionNode>());
+		ExpressionNode node = expression.traverse(new CoordMultiplyReplacer(xyzVars[0], xyzVars[1], xyzVars[2])).wrap();
+		node.setLabels(expression.getLabels());
 		return node;
 	}
 
