@@ -5,12 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.properties.BooleanProperty;
-import org.geogebra.common.properties.EnumerableProperty;
-import org.geogebra.common.properties.IconsEnumerableProperty;
-import org.geogebra.common.properties.NumericProperty;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.RangeProperty;
 import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.ColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.EnumerablePropertyCollection;
