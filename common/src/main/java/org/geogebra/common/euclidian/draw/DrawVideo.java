@@ -63,6 +63,7 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 			view.embed(g2, this);
 			return;
 		}
+
 		MyImage preview = video.getPreview();
 		if (preview != null) {
 			g2.saveTransform();
@@ -70,7 +71,7 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 			sx /= preview.getWidth();
 			double sy = video.getHeight();
 			sy /= preview.getHeight();
-			g2.translate(getLeft(), getTop());
+			g2.transform(getTransform());
 			g2.scale(sx, sy);
 			g2.drawImage(preview, 0, 0);
 			g2.restoreTransform();
