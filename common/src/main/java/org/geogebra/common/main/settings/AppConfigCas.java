@@ -136,7 +136,7 @@ public class AppConfigCas extends AppConfigGraphing {
 	}
 
 	@Override
-	public boolean isCoordinatesSettingEnabled() {
+	public boolean isCoordinatesObjectSettingEnabled() {
 		return true;
 	}
 

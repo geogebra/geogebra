@@ -264,7 +264,7 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public boolean isCoordinatesSettingEnabled() {
+	public boolean isCoordinatesObjectSettingEnabled() {
 		return false;
 	}
 

@@ -263,7 +263,7 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public boolean isCoordinatesSettingEnabled() {
+	public boolean isCoordinatesObjectSettingEnabled() {
 		return true;
 	}
 

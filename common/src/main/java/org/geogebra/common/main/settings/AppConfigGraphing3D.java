@@ -184,7 +184,7 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	}
 
 	@Override
-	public boolean isCoordinatesSettingEnabled() {
+	public boolean isCoordinatesObjectSettingEnabled() {
 		return true;
 	}
 }
