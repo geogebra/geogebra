@@ -23,6 +23,7 @@ public class CasPropertiesFactory implements PropertiesFactory {
 		Kernel kernel = app.getKernel();
 
 		return new PropertiesList(
+				"",
 				new RoundingProperty(app, localization),
 				new LabelingProperty(app, localization),
 				new CoordinatesProperty(kernel, localization),

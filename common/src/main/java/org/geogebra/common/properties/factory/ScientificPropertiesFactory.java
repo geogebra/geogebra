@@ -20,6 +20,7 @@ public class ScientificPropertiesFactory implements PropertiesFactory {
 		Kernel kernel = app.getKernel();
 
 		return new PropertiesList(
+				"",
 				new AngleUnitProperty(kernel, localization),
 				new RoundingProperty(app, localization),
 				new FontSizeProperty(app, localization),
