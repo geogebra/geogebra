@@ -43,7 +43,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
-	private boolean twinUpToDate = false;
+	private boolean isTwinUpToDate = false;
+	private boolean isEuclidianShowable = true;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
 	private GeoFunction asFunction;
@@ -108,7 +109,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			fVars.addAll(symbolic.fVars);
 			value = symbolic.getValue();
 			casOutputString = symbolic.casOutputString;
-			twinUpToDate = false;
+			isTwinUpToDate = false;
 		}
 	}
 
@@ -138,7 +139,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	protected boolean showInEuclidianView() {
 		GeoElementND twin = getTwinGeo();
-		return twin != null && twin.isEuclidianShowable();
+		return isEuclidianShowable && twin != null && twin.isEuclidianShowable();
 	}
 
 	@Override
@@ -183,7 +184,12 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		computeFunctionVariables();
 		setValue(casOutput);
 
-		twinUpToDate = false;
+		isTwinUpToDate = false;
+		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
+	}
+
+	private boolean shouldBeEuclidianVisible(Command input) {
+		return !"Solve".equals(input.getName());
 	}
 
 	private ExpressionValue parseOutputString(String output) {
@@ -283,7 +289,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 * @return geo for drawing
 	 */
 	public GeoElementND getTwinGeo() {
-		if (twinUpToDate) {
+		if (isTwinUpToDate) {
 			return twinGeo;
 		}
 
@@ -306,7 +312,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			twinGeo = newTwin.toGeoElement();
 			setVisualStyle(twinGeo);
 		}
-		twinUpToDate = true;
+		isTwinUpToDate = true;
 
 		return twinGeo;
 	}

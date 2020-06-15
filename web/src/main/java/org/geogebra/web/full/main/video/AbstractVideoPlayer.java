@@ -1,8 +1,10 @@
 package org.geogebra.web.full.main.video;
 
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.IsWidget;
 
 public abstract class AbstractVideoPlayer implements IsWidget {
@@ -11,34 +13,46 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	protected App app;
 
 	/** Video geo to play */
-	protected GeoVideo video;
-	private String playerId;
+	protected DrawVideo video;
 
-	AbstractVideoPlayer(GeoVideo video, int id) {
+	AbstractVideoPlayer(DrawVideo video) {
 		this.video = video;
-		app = video.getKernel().getApplication();
-		playerId = "video_player" + id;
+		app = video.getView().getApplication();
 	}
 
 	/**
 	 * @return the associated GeoVideo object.
 	 */
 	public GeoVideo getVideo() {
-		return video;
+		return video.getVideo();
 	}
 
-	protected void stylePlayer() {
+	protected void stylePlayer(int id) {
 		asWidget().addStyleName("mowVideo");
 		asWidget().addStyleName("mowWidget");
-		asWidget().getElement().setId(playerId);
+		asWidget().getElement().setId("video_player" + id);
 	}
 
-	abstract void update();
-
 	/**
-	 * @return if the player is valid.
+	 * Updates the player based on video object.
 	 */
-	abstract boolean isValid();
+	public void update() {
+		Style style = asWidget().getElement().getStyle();
+		style.setLeft(getVideo().getScreenLocX(app.getActiveEuclidianView()),
+				Style.Unit.PX);
+		style.setTop(getVideo().getScreenLocY(app.getActiveEuclidianView()),
+				Style.Unit.PX);
+		if (getVideo().hasSize()) {
+			asWidget().setWidth(getVideo().getWidth() + "px");
+			asWidget().setHeight(getVideo().getHeight() + "px");
+		}
+		if (getVideo().isBackground()) {
+			asWidget().addStyleName("background");
+		} else {
+			asWidget().removeStyleName("background");
+		}
+		video.getView().repaintView();
+	}
 
 	/**
 	 * @param video2 other video
@@ -52,6 +66,9 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 	public void setBackground(boolean background) {
 		video.setBackground(background);
 		update();
+		if (!background) {
+			asWidget().getElement().getStyle().clearZIndex();
+		}
 	}
 
 	/**

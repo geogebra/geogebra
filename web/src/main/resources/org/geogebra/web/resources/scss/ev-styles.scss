@@ -349,11 +349,11 @@
 
 	.zoomPanel {
 		position: absolute;
-		z-index: 11;
 		cursor: default;
 		top: auto !important;
     	left: auto !important;
     	z-index: $always_on_top;
+		will-change: transform;
 		
     	.zoomPanelBtn {
     		position: relative;
@@ -361,7 +361,6 @@
     		height: 36px;
     		margin-bottom: 8px;
     		background-color: $white;
-    		/*background-color: #888;*/
     		border-radius: 50%;
     		box-shadow: 0 1px 3px 0 $black-20, 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12;
     		cursor: pointer;
@@ -395,7 +394,7 @@
 			opacity: 1;
 			visibility: visible;
 			transition: all 0.2s ease;
-			}
+		}
 	
 		.zoomPanelHomeOut {
 			cursor: default;

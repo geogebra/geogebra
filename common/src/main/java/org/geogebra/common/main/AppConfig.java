@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 public interface AppConfig {
 
@@ -81,11 +82,6 @@ public interface AppConfig {
 	 * @return preferred perspective ID or null if user setting should be used
 	 */
 	String getForcedPerspective();
-
-	/**
-	 * @return whether to use scientific keyboard layout
-	 */
-	boolean hasScientificKeyboard();
 
 	/**
 	 * @return whether match structures (functions, equations, vectors) are
@@ -194,13 +190,6 @@ public interface AppConfig {
 	String getExamMenuItemText();
 
 	/**
-	 * Whether it shows the error dialog for the input boxes.
-	 *
-	 * @return true iff it should show the error dialog
-	 */
-	boolean isShowingErrorDialogForInputBox();
-
-	/**
 	 * Create app specific operation argument filter.
 	 * <code>null</code> is allowed.
 	 *
@@ -252,5 +241,25 @@ public interface AppConfig {
 	 * @return whether the apps uses restricted dragging for certain objects or not
 	 */
 	boolean isObjectDraggingRestricted();
+
+	/**
+	 * @return type of keyboard based on the app
+	 */
+	AppKeyboardType getKeyboardType();
+
+	/**
+	 * @return default angle unit
+	 */
+	int getDefaultAngleUnit();
+
+	/**
+	 * @return true if the angle unit setting is enabled
+	 */
+	boolean isAngleUnitSettingEnabled();
+
+	/**
+	 * @return new PropertiesFactory instance
+	 */
+	PropertiesFactory createPropertiesFactory();
 }
 

@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys;
@@ -85,6 +87,7 @@ public class SelectionManager {
 	private boolean geoToggled = false;
 
 	private ArrayList<GeoElement> tempMoveGeoList;
+	private GeoElement focusedGroupElement;
 
 	/**
 	 * @param kernel
@@ -167,6 +170,7 @@ public class SelectionManager {
 	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
 		int size = selectedGeos.size();
 		if (size > 0) {
+			focusedGroupElement = null;
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = selectedGeos.get(i);
 				boolean oldSelected = geo.isSelected();
@@ -681,7 +685,8 @@ public class SelectionManager {
 			return true;
 		}
 
-		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
+		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
+
 		GeoElement next = tree.higher(lastSelected);
 
 		clearSelectedGeos();
@@ -694,6 +699,15 @@ public class SelectionManager {
 		return false;
 	}
 
+	private GeoElement getGroupLead(GeoElement geo) {
+		Group group = geo.getParentGroup();
+		if (group == null) {
+			return geo;
+		}
+
+		return group.getLead();
+	}
+
 	/**
 	 * Selects last geo in a particular order.
 	 *
@@ -701,18 +715,19 @@ public class SelectionManager {
 	 */
 	final public boolean selectLastGeo() {
 		boolean forceLast = false;
-		if (selectedGeos.size() != 1) {
+		if (selectedGeos.size() != 1 && !selectedGeos.get(0).hasGroup()) {
 			forceLast = true;
 		}
 		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
 
 		int selectionSize = selectedGeos.size();
-		GeoElement last = tree.last();
+		GeoElement last = getGroupLead(tree.last());
 		if (forceLast) {
 			addSelectedGeoForEV(last);
 			return true;
 		}
-		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
+
+		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
 		GeoElement prev = tree.lower(lastSelected);
 		removeAllSelectedGeos();
 
@@ -740,7 +755,7 @@ public class SelectionManager {
 	 *            construction element
 	 */
 	public void addSelectedGeoForEV(GeoElement geo) {
-		addSelectedGeo(geo);
+		addSelectedGeoWithGroup(geo);
 
 		checkInputBoxAndFocus(geo);
 		App app1 = kernel.getApplication();
@@ -790,7 +805,7 @@ public class SelectionManager {
 			boolean remove = false;
 			// selectionAllowed arg only matters for axes; axes are not in
 			// construction
-			if (!geo.isSelectionAllowed(null)) {
+			if (!geo.isSelectionAllowed(null) || !geo.isLead()) {
 				remove = true;
 			} else {
 				boolean visibleInView = (app.showView(App.VIEW_EUCLIDIAN3D)
@@ -1145,7 +1160,11 @@ public class SelectionManager {
 		for (String name : selectedGeosNames) {
 			GeoElement geo = kernel1.lookupLabel(name);
 			if (geo != null) {
-				list.add(geo);
+				if (geo.hasGroup()) {
+					list.addAll(geo.getParentGroup().getGroupedGeos());
+				} else {
+					list.add(geo);
+				}
 			}
 		}
 		setSelectedGeos(list);
@@ -1204,5 +1223,70 @@ public class SelectionManager {
 			kernel.notifyUpdateHightlight(geo);
 		}
 	}
-}
 
+	/**
+	 * Finds the groups os selected goes
+	 * @return groups of selected geos
+	 */
+	public HashSet<Group> getSelectedGroups() {
+		HashSet<Group> selectedGroups = new HashSet<>();
+		for (GeoElement geo : selectedGeos) {
+			if (geo.hasGroup()) {
+				selectedGroups.add(geo.getParentGroup());
+			}
+		}
+		return selectedGroups;
+	}
+
+	/**
+	 * Adds all the geos of the group, that the given geo belongs.
+	 * If geo has no group, it is added to the selection.
+	 *
+	 * @param geo to add with its group
+	 */
+	public void addSelectedGeoWithGroup(GeoElement geo) {
+		Group group = geo.getParentGroup();
+		if (group == null) {
+			addSelectedGeo(geo, true, true);
+		} else {
+			addSelectedGeos(group.getGroupedGeos(), true);
+		}
+	}
+
+	/**
+	 * Removes or adds given geo and its group if any
+	 * to selection and repaints views
+	 *
+	 * @param geo
+	 *            geo to be added / removed
+	 */
+	final public void toggleSelectedGeoWithGroup(GeoElement geo) {
+		Group group = geo.getParentGroup();
+		if (group == null) {
+			toggleSelectedGeo(geo, true);
+		} else {
+			toggleSelectedGroup(group);
+		}
+	}
+
+	private void toggleSelectedGroup(Group group) {
+		for (GeoElement geo: group.getGroupedGeos()) {
+			toggleSelectedGeo(geo, true);
+		}
+	}
+
+	/**
+	 * @param geo single selection within group
+	 */
+	public void setFocusedGroupElement(GeoElement geo) {
+		this.focusedGroupElement = geo;
+		updateSelection();
+	}
+
+	/**
+	 * @return focused selection within group
+	 */
+	public GeoElement getFocusedGroupElement() {
+		return focusedGroupElement;
+	}
+}

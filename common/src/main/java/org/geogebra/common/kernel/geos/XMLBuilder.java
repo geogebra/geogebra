@@ -27,7 +27,7 @@ public class XMLBuilder {
 	 * @param withLabelOffset
 	 *            true to include label offsets
 	 */
-	protected static final void getXMLvisualTags(GeoElement geo,
+	protected static void getXMLvisualTags(GeoElement geo,
 			final StringBuilder sb, final boolean withLabelOffset) {
 		final boolean isDrawable = geo.isDrawable();
 
@@ -125,15 +125,20 @@ public class XMLBuilder {
 		// don't remove layer 0 information
 		// we always need it in case an earlier element has higher layer eg 1
 		if (isDrawable) {
-			sb.append("\t<layer ");
-			sb.append("val=\"" + geo.getLayer() + "\"");
-			sb.append("/>\n");
+			sb.append("\t<layer val=\"");
+			sb.append(geo.getLayer());
+			sb.append("\"/>\n");
+			if (geo.getOrdering() >= 0) {
+				sb.append("\t<ordering val=\"");
+				sb.append(geo.getOrdering());
+				sb.append("\"/>\n");
+			}
 		}
 
 		if (geo.isDefaultGeo()) {
-			sb.append("\t<autocolor ");
-			sb.append("val=\"" + geo.isAutoColor() + "\"");
-			sb.append("/>\n");
+			sb.append("\t<autocolor val=\"");
+			sb.append(geo.isAutoColor());
+			sb.append("\"/>\n");
 		}
 
 		if (withLabelOffset
@@ -305,9 +310,9 @@ public class XMLBuilder {
 		sb.append("\"");
 
 		if (corners[number].isAbsoluteStartPoint()) {
-			sb.append(" x=\"" + corners[number].getInhomX() + "\"");
-			sb.append(" y=\"" + corners[number].getInhomY() + "\"");
-			sb.append(" z=\"1\"");
+			sb.append(" x=\"").append(corners[number].getInhomX());
+			sb.append("\" y=\"").append(corners[number].getInhomY());
+			sb.append("\" z=\"1\"");
 		} else {
 			sb.append(" exp=\"");
 			StringUtil.encodeXML(sb, corners[number].getLabel(StringTemplate.xmlTemplate));
@@ -327,8 +332,8 @@ public class XMLBuilder {
 	 *            height
 	 */
 	public static void dimension(StringBuilder sb, String width, String height) {
-		sb.append("\t<dimensions width=\"" + width + "\" height=\"" + height
-				+ "\" />\n");
+		sb.append("\t<dimensions width=\"").append(width)
+				.append("\" height=\"").append(height).append("\" />\n");
 	}
 
 	/**

@@ -11,6 +11,8 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
+import org.geogebra.common.euclidian.draw.DrawVideo;
+import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.io.file.ZipFile;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -21,6 +23,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.css.ToolbarSvgResourcesSync;
 import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
@@ -37,9 +40,11 @@ import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JSON;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -55,14 +60,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class EmbedManagerW implements EmbedManager {
 
 	private AppWFull app;
-	private HashMap<DrawEmbed, EmbedElement> widgets = new HashMap<>();
+	private HashMap<DrawWidget, EmbedElement> widgets = new HashMap<>();
 	// cache for undo: index by embed ID, drawables will change on reload
 	private HashMap<Integer, EmbedElement> cache = new HashMap<>();
 
 	private int counter;
 	private HashMap<Integer, String> content = new HashMap<>();
 	private HashMap<Integer, String> base64 = new HashMap<>();
-	private MyImage preview;
 
 	/**
 	 * @param app
@@ -71,8 +75,6 @@ public class EmbedManagerW implements EmbedManager {
 	EmbedManagerW(AppWFull app) {
 		this.app = app;
 		this.counter = 0;
-		preview = new MyImageW(ImageManagerW.getInternalImage(
-				SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent()), true);
 	}
 
 	@Override
@@ -88,6 +90,22 @@ public class EmbedManagerW implements EmbedManager {
 			}
 		} else {
 			addCalcEmbed(drawEmbed);
+		}
+	}
+
+	@Override
+	public void setLayer(DrawWidget embed, int layer) {
+		Element element;
+		if (embed instanceof DrawVideo) {
+			if (!app.getVideoManager().hasPlayer((DrawVideo) embed)) {
+				return;
+			}
+			element = app.getVideoManager().getElement((DrawVideo) embed);
+		} else {
+			element = widgets.get(embed).getGreatParent().getElement();
+		}
+		if (element.hasClassName("background")) {
+			element.getStyle().setZIndex(layer);
 		}
 	}
 
@@ -155,7 +173,7 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private boolean hasWidgetWithId(int embedId) {
-		for (DrawEmbed drawable: widgets.keySet()) {
+		for (DrawWidget drawable: widgets.keySet()) {
 			if (drawable.getEmbedID() == embedId) {
 				return true;
 			}
@@ -246,13 +264,13 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private void toggleBackground(EmbedElement frame,
-			DrawEmbed drawEmbed) {
-		boolean background = drawEmbed.getGeoEmbed().isBackground();
+			DrawWidget drawEmbed) {
+		boolean background = drawEmbed.isBackground();
 		Dom.toggleClass(frame.getGreatParent(), "background",
 				background);
-
 		if (!background) {
 			app.getMaskWidgets().masksToForeground();
+			frame.getGreatParent().getElement().getStyle().clearZIndex();
 		}
 	}
 
@@ -266,7 +284,7 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void storeEmbeds() {
-		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			cache.put(entry.getKey().getEmbedID(),
 					entry.getValue());
 		}
@@ -331,7 +349,7 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void persist() {
-		for (Entry<DrawEmbed, EmbedElement> e : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> e : widgets.entrySet()) {
 			String embedContent = e.getValue().getContentSync();
 			if (embedContent != null) {
 				content.put(e.getKey().getEmbedID(), embedContent);
@@ -377,8 +395,8 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void backgroundAll() {
-		for (Entry<DrawEmbed, EmbedElement> e : widgets.entrySet()) {
-			e.getKey().getGeoEmbed().setBackground(true);
+		for (Entry<DrawWidget, EmbedElement> e : widgets.entrySet()) {
+			e.getKey().setBackground(true);
 			toggleBackground(e.getValue(), e.getKey());
 		}
 	}
@@ -417,14 +435,28 @@ public class EmbedManagerW implements EmbedManager {
 			@Override
 			public void run() {
 				app.getActiveEuclidianView().getEuclidianController()
-						.selectAndShowBoundingBox(ge);
+						.selectAndShowSelectionUI(ge);
 			}
 		});
 	}
 
 	@Override
 	public MyImage getPreview(DrawEmbed drawEmbed) {
-		return preview;
+		SVGResource resource = getSvgPlaceholder(drawEmbed);
+
+		return new MyImageW(ImageManagerW.getInternalImage(
+				resource), true);
+
+	}
+
+	private SVGResource getSvgPlaceholder(DrawEmbed drawEmbed) {
+		switch (drawEmbed.getGeoEmbed().getAppName()) {
+			case "graphing":
+				return SvgPerspectiveResources.INSTANCE.menu_icon_algebra_transparent();
+			case "cas":
+				return SvgPerspectiveResources.INSTANCE.menu_icon_cas_transparent();
+			default: return ToolbarSvgResourcesSync.INSTANCE.mode_extension();
+		}
 	}
 
 	/**
@@ -442,7 +474,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void executeAction(EventType action, int embedId) {
 		restoreEmbeds();
-		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			if (entry.getKey().getEmbedID() == embedId) {
 				entry.getValue().executeAction(action);
 			}
@@ -452,7 +484,7 @@ public class EmbedManagerW implements EmbedManager {
 	@Override
 	public void executeAction(EventType action) {
 		restoreEmbeds();
-		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			entry.getValue().executeAction(action);
 		}
 	}
@@ -492,7 +524,7 @@ public class EmbedManagerW implements EmbedManager {
 	JavaScriptObject getEmbeddedCalculators() {
 		JavaScriptObject jso = JavaScriptObject.createObject();
 
-		for (Entry<DrawEmbed, EmbedElement> entry : widgets.entrySet()) {
+		for (Entry<DrawWidget, EmbedElement> entry : widgets.entrySet()) {
 			EmbedElement embedElement = entry.getValue();
 			if (embedElement instanceof CalcEmbedElement) {
 				JavaScriptObject api = ((CalcEmbedElement) embedElement)

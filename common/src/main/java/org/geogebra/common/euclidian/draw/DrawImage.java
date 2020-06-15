@@ -376,7 +376,7 @@ public final class DrawImage extends Drawable {
 
 					g3.drawImage(image, (int) ptDst.getX(), (int) ptDst.getY(),
 							cropWidth, cropHeight, (int) ptDst.getX(),
-							(int) ptDst.getY());
+							(int) ptDst.getY(), cropWidth, cropHeight);
 				}
 				
 				g3.restoreTransform();

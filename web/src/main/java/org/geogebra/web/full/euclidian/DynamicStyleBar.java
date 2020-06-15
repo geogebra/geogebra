@@ -102,9 +102,8 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (functionOrLine) {
 			left = this.getView().getEuclidianController().getMouseLoc().x + 10;
 		} else {
-			left = gRectangle2D.getMaxX();
-			left -= getContextMenuButton().getAbsoluteLeft()
-					- getAbsoluteLeft();
+			left = gRectangle2D.getMaxX() - getOffsetWidth();
+			left += getContextMenuButtonWidth();
 
 			// do not hide rotation handler
 			left = Math.max(left,

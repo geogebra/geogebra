@@ -55,7 +55,7 @@ pipeline {
             steps {
                 script {
                     withAWS (region:'eu-central-1', credentials:'aws-credentials') {
-                       s3Delete(bucket: 'apps-builds', path: "geogebra/branches/${env.GIT_BRANCH}/latest")
+                       s3Delete(bucket: 'apps-builds', path: "geogebra/branches/${env.GIT_BRANCH}/latest/")
                     }
                     s3uploadDefault(".", "changes.csv", "")
                     s3uploadDefault("web/build/s3", "webSimple/**", "gzip")
@@ -67,20 +67,8 @@ pipeline {
         }
     }
     post {
-        always { 
-           cleanWs() 
-        }
-        failure {
-            slackSend(color: 'danger', tokenCredentialId: 'slack.token', username: 'jenkins',
-                message:  "${env.JOB_NAME} [${env.BUILD_NUMBER}]: Build failed. (<${env.BUILD_URL}|Open>)")
-        }
-        unstable {
-            slackSend(color: 'warning', tokenCredentialId: 'slack.token', username: 'jenkins',
-                message:  "${env.JOB_NAME} [${env.BUILD_NUMBER}]: Unstable. (<${env.BUILD_URL}|Open>)")
-        }
-        fixed {
-            slackSend(color: 'good', tokenCredentialId: 'slack.token', username: 'jenkins',
-                message:  "${env.JOB_NAME} [${env.BUILD_NUMBER}]: Back to normal. (<${env.BUILD_URL}|Open>)")
+        always {
+           cleanAndNotify()
         }
     }
 }
