@@ -251,18 +251,19 @@ public class Kernel3D extends Kernel {
 		if (!(geo instanceof GeoCoords4D)) {
 			return super.handleCoords(geo, attrs);
 		}
-
+		if (geo.getParentAlgorithm() != null
+				&& !geo.isPointInRegion() && !geo.isPointOnPath()) {
+			// the coords from XML are redundant and may be buggy (see APPS-1382)
+			return true;
+		}
 		try {
 			double x = Double.parseDouble(attrs.get("x"));
 			double y = Double.parseDouble(attrs.get("y"));
 			double z = Double.parseDouble(attrs.get("z"));
 			double w = Double.parseDouble(attrs.get("w"));
 			((GeoCoords4D) geo).setCoords(x, y, z, w);
-			// Application.debug(geo.getLabel()+": x="+x+", y="+y+", z="+z+",
-			// w="+w);
 			return true;
 		} catch (Exception e) {
-			// Application.debug("erreur : "+e);
 			return false;
 		}
 	}
