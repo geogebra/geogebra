@@ -69,7 +69,7 @@ public class InlineTableControllerMock implements InlineTableController {
 	}
 
 	@Override
-	public void setBgcolor(GColor bgColor) {
+	public void setBackgroundColor(GColor bgColor) {
 
 	}
 

@@ -53,8 +53,8 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	@Override
-	public void setBgcolor(GColor bgColor) {
-		tableImpl.setBgcolor(bgColor == null ? null : bgColor.toString());
+	public void setBackgroundColor(GColor backgroundColor) {
+		tableImpl.setBackgroundColor(backgroundColor == null ? null : backgroundColor.toString());
 	}
 
 	@Override

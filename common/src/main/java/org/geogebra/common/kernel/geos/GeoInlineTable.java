@@ -71,8 +71,8 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	}
 
 	@Override
-	public void setBackgroundColor(GColor bgColor) {
-		getFormatter().setBgcolor(bgColor);
+	public void setBackgroundColor(GColor backgroundColor) {
+		getFormatter().setBackgroundColor(backgroundColor);
 	}
 
 	@Override
