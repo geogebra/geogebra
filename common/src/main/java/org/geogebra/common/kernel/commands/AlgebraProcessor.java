@@ -1017,7 +1017,7 @@ public class AlgebraProcessor {
 		}
 		ValidExpression extracted = ve;
 		if (ve.wrap().containsFreeFunctionVariable(null)) {
-			replaceFunctionVariables(ve.wrap());
+			extracted = replaceFunctionVariables(ve.wrap());
 		} else if (ve.unwrap() instanceof Equation && info != null) {
 			Equation equation = (Equation) ve.unwrap();
 			extracted = symbolicProcessor.extractAssignment(equation, info);
