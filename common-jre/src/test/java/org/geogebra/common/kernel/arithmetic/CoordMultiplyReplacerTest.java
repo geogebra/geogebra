@@ -27,19 +27,4 @@ public class CoordMultiplyReplacerTest extends BaseUnitTest {
 		assertThat(node.getOperation(), is(Operation.MULTIPLY_OR_FUNCTION));
 		assertThat(node.getOperation(), is(Operation.MULTIPLY_OR_FUNCTION));
 	}
-
-	@Test
-	public void testCollectsUndefined() {
-		FunctionVariable xVar = new FunctionVariable(getKernel(), "x");
-		FunctionVariable yVar = new FunctionVariable(getKernel(), "y");
-		CoordMultiplyReplacer replacer = new CoordMultiplyReplacer(xVar, yVar, null);
-		ExpressionNode node = null;
-		try {
-			node = getKernel().getParser().parseExpression("x(x+1)+y(y+5)");
-		} catch (ParseException e) {
-			fail();
-		}
-		node.traverse(replacer).wrap();
-		assertThat(replacer.getUndecided().size(), is(2));
-	}
 }

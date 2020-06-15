@@ -1,27 +1,29 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Replaces the xcoode, ycoord and zcoord operations
+ * with a function_or_multiply operation.
+ */
 public class CoordMultiplyReplacer implements Traversing {
 
 	final private FunctionVariable xVar;
 	final private FunctionVariable yVar;
 	final private FunctionVariable zVar;
-	final private List<ExpressionNode> undecided = new ArrayList<>();
 
+	/**
+	 * Create a new CoordMultiplyReplacer
+	 * @param xVar x variable
+	 * @param yVar y variable
+	 * @param zVar z variable
+	 */
 	public CoordMultiplyReplacer(FunctionVariable xVar,
 			FunctionVariable yVar, FunctionVariable zVar) {
 		this.xVar = xVar;
 		this.yVar = yVar;
 		this.zVar = zVar;
-	}
-
-	public List<ExpressionNode> getUndecided() {
-		return undecided;
 	}
 
 	@Override
@@ -36,21 +38,18 @@ public class CoordMultiplyReplacer implements Traversing {
 		switch (node.getOperation()) {
 		case XCOORD:
 			if (xVar != null && !leftHasCoord(node)) {
-				undecided.add(node);
 				return new ExpressionNode(node.getKernel(), xVar, Operation.MULTIPLY_OR_FUNCTION,
 						node.getLeft());
 			}
 			return node;
 		case YCOORD:
 			if (yVar != null && !leftHasCoord(node)) {
-				undecided.add(node);
 				return new ExpressionNode(node.getKernel(), yVar, Operation.MULTIPLY_OR_FUNCTION,
 						node.getLeft());
 			}
 			return node;
 		case ZCOORD:
 			if (zVar != null && !leftHasCoord(node)) {
-				undecided.add(node);
 				return new ExpressionNode(node.getKernel(), zVar, Operation.MULTIPLY_OR_FUNCTION,
 						node.getLeft());
 			}
