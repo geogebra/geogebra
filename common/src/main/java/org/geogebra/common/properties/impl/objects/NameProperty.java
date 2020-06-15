@@ -11,44 +11,43 @@ import org.geogebra.common.properties.StringProperty;
  */
 public class NameProperty extends AbstractGeoElementProperty implements StringProperty {
 
-    public NameProperty(GeoElement geoElement) {
-        super(geoElement.translatedTypeString(), geoElement);
-    }
+	public NameProperty(GeoElement geoElement) throws NotApplicablePropertyException {
+		super(geoElement.translatedTypeString(), geoElement);
+	}
 
-    @Override
-    public String getValue() {
-        return getElement().getLabelSimple();
-    }
+	@Override
+	public String getValue() {
+		return getElement().getLabelSimple();
+	}
 
-    @Override
-    public void setValue(String name) {
-        if (name == null || name.isEmpty() || name.equals(getValue())) {
-            return;
-        }
+	@Override
+	public void setValue(String name) {
+		if (name == null || name.isEmpty() || name.equals(getValue())) {
+			return;
+		}
 
-        GeoElement element = getElement();
-        App app = element.getApp();
-        try {
-            if (LabelManager.isValidLabel(name, element.getKernel(), element)) {
-                element.rename(name);
-                element.setAlgebraLabelVisible(true);
-                element.getKernel().notifyUpdate(element);
-                element.updateRepaint();
-                app.setPropertiesOccured();
-            }
-        } catch (MyError e) {
-            app.showError(e.getLocalizedMessage());
-        }
-    }
+		GeoElement element = getElement();
+		App app = element.getApp();
+		try {
+			if (LabelManager.isValidLabel(name, element.getKernel(), element)) {
+				element.rename(name);
+				element.setAlgebraLabelVisible(true);
+				element.getKernel().notifyUpdate(element);
+				element.updateRepaint();
+			}
+		} catch (MyError e) {
+			app.showError(e.getLocalizedMessage());
+		}
+	}
 
-    @Override
-    public boolean isValid(String value) {
-        return false;
-    }
+	@Override
+	public boolean isValid(String value) {
+		return false;
+	}
 
-    @Override
-    boolean isApplicableTo(GeoElement element) {
-        String label = element.isAlgebraLabelVisible() ? element.getLabelSimple() : "";
-        return label != null;
-    }
+	@Override
+	boolean isApplicableTo(GeoElement element) {
+		String label = element.isAlgebraLabelVisible() ? element.getLabelSimple() : "";
+		return label != null;
+	}
 }

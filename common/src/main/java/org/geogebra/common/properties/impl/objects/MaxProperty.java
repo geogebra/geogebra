@@ -8,38 +8,37 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class MaxProperty extends RangelessDecimalProperty {
 
-    private SliderPropertyDelegate delegate;
+	private SliderPropertyDelegate delegate;
 
-    public MaxProperty(GeoNumeric numeric) {
-        super("Maximum.short", numeric);
-    }
+	public MaxProperty(GeoNumeric numeric) throws NotApplicablePropertyException {
+		super("Maximum.short", numeric);
+	}
 
-    @Override
-    public Double getValue() {
-        return getElement().getIntervalMax();
-    }
+	@Override
+	public Double getValue() {
+		return getElement().getIntervalMax();
+	}
 
-    @Override
-    public void setValue(Double value) {
-        GeoNumeric numeric = getElement();
-        numeric.setIntervalMax(value);
-        numeric.getApp().setPropertiesOccured();
-    }
+	@Override
+	public void setValue(Double value) {
+		GeoNumeric numeric = getElement();
+		numeric.setIntervalMax(value);
+	}
 
-    @Override
-    boolean isApplicableTo(GeoElement element) {
-        return getDelegate().isSlider(element);
-    }
+	@Override
+	boolean isApplicableTo(GeoElement element) {
+		return getDelegate().isSlider(element);
+	}
 
-    private SliderPropertyDelegate getDelegate() {
-        if (delegate == null) {
-            delegate = new SliderPropertyDelegate(this);
-        }
-        return delegate;
-    }
+	private SliderPropertyDelegate getDelegate() {
+		if (delegate == null) {
+			delegate = new SliderPropertyDelegate(this);
+		}
+		return delegate;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

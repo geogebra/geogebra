@@ -11,7 +11,11 @@ public class LineStylePropertyTest extends BaseUnitTest {
 	@Test
 	public void testConstructorSucceeds() {
 		GeoElement line = addAvInput("Line((1,1),(2,2))");
-		new LineStyleProperty(line);
+		try {
+			new LineStyleProperty(line);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test

@@ -8,25 +8,26 @@ import org.geogebra.common.properties.NumericProperty;
  * Double.MIN_VALUE < --- > Double.MAX_VALUE
  * (so it's practically rangeless).
  */
-public abstract class RangelessDecimalProperty
-        extends AbstractGeoElementProperty implements NumericProperty<Double> {
+abstract class RangelessDecimalProperty
+		extends AbstractGeoElementProperty implements NumericProperty<Double> {
 
-    protected RangelessDecimalProperty(String name, GeoNumeric numeric) {
-        super(name, numeric);
-    }
+	RangelessDecimalProperty(String name, GeoNumeric numeric)
+			throws NotApplicablePropertyException {
+		super(name, numeric);
+	}
 
-    @Override
-    public Double getMin() {
-        return Double.MIN_VALUE;
-    }
+	@Override
+	public Double getMin() {
+		return Double.MIN_VALUE;
+	}
 
-    @Override
-    public Double getMax() {
-        return Double.MAX_VALUE;
-    }
+	@Override
+	public Double getMax() {
+		return Double.MAX_VALUE;
+	}
 
-    @Override
-    GeoNumeric getElement() {
-        return (GeoNumeric) super.getElement();
-    }
+	@Override
+	GeoNumeric getElement() {
+		return (GeoNumeric) super.getElement();
+	}
 }

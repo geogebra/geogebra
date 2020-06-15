@@ -1,6 +1,7 @@
 package org.geogebra.common.properties.impl.objects;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -11,7 +12,11 @@ public class SlopeSizePropertyTest extends BaseUnitTest {
 	@Test
 	public void testConstructorSucceeds() {
 		GeoNumeric slope = addAvInput("Slope( Line((1,1), (2,2)) )");
-		new SlopeSizeProperty(slope);
+		try {
+			new SlopeSizeProperty(slope);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test

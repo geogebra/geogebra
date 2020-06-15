@@ -8,38 +8,37 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class StepProperty extends RangelessDecimalProperty {
 
-    private SliderPropertyDelegate delegate;
+	private SliderPropertyDelegate delegate;
 
-    public StepProperty(GeoNumeric numeric) {
-        super("AnimationStep", numeric);
-    }
+	public StepProperty(GeoNumeric numeric) throws NotApplicablePropertyException {
+		super("AnimationStep", numeric);
+	}
 
-    @Override
-    public Double getValue() {
-        return getElement().getAnimationStep();
-    }
+	@Override
+	public Double getValue() {
+		return getElement().getAnimationStep();
+	}
 
-    @Override
-    public void setValue(Double value) {
-        GeoNumeric numeric = getElement();
-        numeric.setAnimationStep(value);
-        numeric.getApp().setPropertiesOccured();
-    }
+	@Override
+	public void setValue(Double value) {
+		GeoNumeric numeric = getElement();
+		numeric.setAnimationStep(value);
+	}
 
-    @Override
-    boolean isApplicableTo(GeoElement element) {
-        return getDelegate().isSlider(element);
-    }
+	@Override
+	boolean isApplicableTo(GeoElement element) {
+		return getDelegate().isSlider(element);
+	}
 
-    private SliderPropertyDelegate getDelegate() {
-        if (delegate == null) {
-            delegate = new SliderPropertyDelegate(this);
-        }
-        return delegate;
-    }
+	private SliderPropertyDelegate getDelegate() {
+		if (delegate == null) {
+			delegate = new SliderPropertyDelegate(this);
+		}
+		return delegate;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }

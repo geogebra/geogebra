@@ -2,6 +2,7 @@ package org.geogebra.common.properties.impl.objects;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -12,7 +13,11 @@ public class ShowObjectPropertyTest extends BaseUnitTest {
 	@Test
 	public void testConstructorSucceeds() {
 		GeoNumeric slider = addAvInput("1");
-		new ShowObjectProperty(slider);
+		try {
+			new ShowObjectProperty(slider);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
@@ -21,9 +26,16 @@ public class ShowObjectPropertyTest extends BaseUnitTest {
 		slider.setEuclidianVisible(true);
 		slider.setEuclidianVisible(false);
 
-		ShowObjectProperty showObjectProperty = new ShowObjectProperty(slider);
-		MinProperty minProperty = new MinProperty(slider);
-		ColorProperty colorProperty = new ColorProperty(slider);
+		ShowObjectProperty showObjectProperty = null;
+		MinProperty minProperty = null;
+		ColorProperty colorProperty = null;
+		try {
+			showObjectProperty = new ShowObjectProperty(slider);
+			minProperty = new MinProperty(slider);
+			colorProperty = new ColorProperty(slider);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
 
 		showObjectProperty.setValue(true);
 		assertThat(showObjectProperty.isEnabled(), is(true));
