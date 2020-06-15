@@ -92,12 +92,10 @@ public class OptionsAlgebraW
 			lblDescriptionMode.addStyleName("panelTitle");
 
 			description = new AlgebraStyleListBox(getApp(), false);
-			if (app.getConfig().isCoordinatesSettingEnabled()) {
-				coordStyle = new ListBox();
-				lblCoordStyle = new FormLabel(
-						getApp().getLocalization().getMenu("Coordinates") + ":")
-						.setFor(coordStyle);
-			}
+			coordStyle = new ListBox();
+			lblCoordStyle = new FormLabel(
+					getApp().getLocalization().getMenu("Coordinates") + ":")
+							.setFor(coordStyle);
 
 			if (app.getConfig().isAngleUnitSettingEnabled()) {
 				angleUnit = new ListBox();
@@ -112,11 +110,8 @@ public class OptionsAlgebraW
 			optionsPanel.add(lblDescriptionMode);
 			optionsPanel.add(LayoutUtilW.panelRowIndent(description));
 
-			if (coordStyle != null) {
-				optionsPanel.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
-				coordStyle.addChangeHandler(this);
-			}
-
+			optionsPanel.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
+			coordStyle.addChangeHandler(this);
 			if (angleUnit != null) {
 				optionsPanel.add(LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit));
 				angleUnit.addChangeHandler(this);
@@ -153,7 +148,6 @@ public class OptionsAlgebraW
 		/**
 		 * @return coord style combo box
 		 */
-		@Nullable
 		public ListBox getCoordStyle() {
 			return coordStyle;
 		}
@@ -183,9 +177,6 @@ public class OptionsAlgebraW
 		 * update coord style combo box content
 		 */
 		public void updateCoordStyle() {
-			if (lblCoordStyle == null || coordStyle == null) {
-				return;
-			}
 			lblCoordStyle
 					.setText(getApp().getLocalization().getMenu("Coordinates")
 							+ ":");
@@ -278,7 +269,7 @@ public class OptionsAlgebraW
 				int i = getSortMode().getSelectedIndex();
 				getApp().getSettings().getAlgebra()
 						.setTreeMode(supportedModes.get(i));
-			} else if (source == getCoordStyle() && getCoordStyle() != null) {
+			} else if (source == getCoordStyle()) {
 				int i = getCoordStyle().getSelectedIndex();
 				getApp().getKernel().setCoordStyle(i);
 				getApp().getKernel().updateConstruction(false);
