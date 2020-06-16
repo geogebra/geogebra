@@ -3807,10 +3807,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// *********************************************************
 		// **********************************************************************
 
-		// MOB-270
-		case ACRA:
-			return prerelease;
-
 		case ANALYTICS:
 			return prerelease;
 
