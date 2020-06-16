@@ -68,9 +68,7 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void insertString(String text) {
-		if (!mf.getInternal().getInputController().getCreateFrac()) {
-			type(text);
-		} else if (text.equals(KeyboardConstants.A_POWER_X)) {
+		if (text.equals(KeyboardConstants.A_POWER_X)) {
 			mf.insertFunction("^");
 		} else if (text.equals(Unicode.SUPERSCRIPT_2 + "")) {
 			mf.insertFunction("^");
