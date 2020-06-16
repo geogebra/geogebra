@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -343,31 +342,18 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		if (geo.isShape()) {
-			boolean contains = gp.contains(x - hitThreshold,
-					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+		GShape t = geo.isInverseFill() ? getShape() : gp;
+		boolean contains = t.contains(AwtFactory.getPrototype().newRectangle(x - hitThreshold,
+				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
 
-			boolean intersects = gp.intersects(x - hitThreshold,
-					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
-
-			if (geo.isFilled() && contains) {
-				poly.setLastHitType(HitType.ON_FILLING);
-				return true;
-			}
-
-			if (intersects && !contains) {
-				poly.setLastHitType(HitType.ON_BOUNDARY);
-				return true;
-			}
-
-			poly.setLastHitType(HitType.NONE);
-			return false;
+		if (geo.isFilled() && contains) {
+			return true;
 		}
 
-		GShape t = geo.isInverseFill() ? getShape() : gp;
-		return (t != null
-				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
-				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold)));
+		boolean intersects = t.intersects(x - hitThreshold,
+				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+
+		return intersects && !contains;
 	}
 
 	@Override
