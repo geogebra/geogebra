@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractProperty;
 import org.geogebra.common.properties.StringProperty;
 
 /**

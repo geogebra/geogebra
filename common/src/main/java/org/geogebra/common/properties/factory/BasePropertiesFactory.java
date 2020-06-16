@@ -5,8 +5,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.GraphicsPropertiesList;
-import org.geogebra.common.properties.PropertiesArray;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;

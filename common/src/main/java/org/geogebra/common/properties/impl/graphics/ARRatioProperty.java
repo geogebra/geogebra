@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.properties.AbstractProperty;
+import org.geogebra.common.properties.impl.AbstractProperty;
 import org.geogebra.common.properties.RatioProperty;
 
 public class ARRatioProperty extends AbstractProperty

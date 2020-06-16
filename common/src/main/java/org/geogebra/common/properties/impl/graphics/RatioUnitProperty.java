@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
 public class RatioUnitProperty extends AbstractEnumerableProperty {
     private EuclidianView3D view3D;

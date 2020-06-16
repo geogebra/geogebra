@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumerableProperty;
-import org.geogebra.common.properties.PropertiesArray;
+import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 import org.geogebra.web.full.gui.HeaderView;

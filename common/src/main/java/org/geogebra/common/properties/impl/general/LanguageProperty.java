@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 import org.geogebra.common.util.lang.Language;
 
 /**

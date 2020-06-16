@@ -1,4 +1,4 @@
-package org.geogebra.common.properties;
+package org.geogebra.common.properties.factory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +10,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.graphics.ARRatioPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
