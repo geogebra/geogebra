@@ -903,6 +903,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.usePrefix = usePrefix;
 		result.allowMoreDigits = allowMoreDigits;
 		result.printFormPI = printFormPI;
+		result.printFormImaginary = printFormImaginary;
 		result.internationalizeDigits = internationalizeDigits;
 		result.useRealLabels = useRealLabels;
 		result.localizeCmds = localizeCmds;

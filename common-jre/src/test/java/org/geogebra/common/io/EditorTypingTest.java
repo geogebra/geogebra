@@ -297,7 +297,7 @@ public class EditorTypingTest {
 	}
 
 	@Test
-	public void testBackspaceWithBrakets() {
+	public void testBackspaceWithBrackets() {
 		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
 				.checkAsciiMath("(8)/(2)");
 	}
@@ -324,5 +324,21 @@ public class EditorTypingTest {
 	public void shouldRecognizeSqrtAsSuffixWithConst() {
 		// for constant no multiplication space added => we have to check the raw string
 		checker.type("8sqrt(x").checkRaw("MathSequence[8, FnSQRT[MathSequence[x]]]");
+	}
+
+	@Test
+	public void testTypingPiWithComplex() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("3pi + 4i").checkAsciiMath("3" + Unicode.PI_STRING + " + 4i");
+	}
+
+	@Test
+	public void testTypingPiiWithComplex() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("3pii").checkAsciiMath("3" + Unicode.PI_STRING + "i");
 	}
 }

@@ -135,7 +135,8 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 
 	@Test
 	public void testImaginaryProduct() {
-		numberBeUpdatedAs("i1", String.valueOf(Unicode.IMAGINARY));
+		add("a=4");
+		shouldBeUpdatedAs("a", "i1", "i");
 	}
 
 	@Test
