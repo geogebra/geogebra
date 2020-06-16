@@ -49,6 +49,7 @@ public class InlineTableControllerW implements InlineTableController {
 	public void updateContent() {
 		if (table.getContent() != null && !table.getContent().isEmpty()) {
 			tableImpl.load(Global.JSON.parse(table.getContent()));
+			updateSizes();
 		}
 	}
 
@@ -228,6 +229,8 @@ public class InlineTableControllerW implements InlineTableController {
 		} else {
 			table.setWidth(tableImpl.getTotalWidth());
 			table.setHeight(tableImpl.getTotalHeight());
+			table.setMinWidth(tableImpl.getMinWidth());
+			table.setMinHeight(tableImpl.getMinHeight());
 			table.updateRepaint();
 		}
 	}

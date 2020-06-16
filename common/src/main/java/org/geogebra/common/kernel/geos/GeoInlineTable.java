@@ -17,7 +17,11 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	public static final int DEFAULT_WIDTH = 200;
 	public static final int DEFAULT_HEIGHT = 72;
 
-	private double minHeight;
+	private static final int MIN_CELL_SIZE = 16;
+
+	// By default two columns and rows
+	private double minWidth = 2 * MIN_CELL_SIZE;
+	private double minHeight = 2 * MIN_CELL_SIZE;
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -109,11 +113,19 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	@Override
 	public double getMinWidth() {
-		return DEFAULT_WIDTH;
+		return minWidth;
 	}
 
 	@Override
 	public double getMinHeight() {
-		return Math.max(minHeight, DEFAULT_HEIGHT);
+		return minHeight;
+	}
+
+	public void setMinWidth(double minWidth) {
+		this.minWidth = minWidth;
+	}
+
+	public void setMinHeight(double minHeight) {
+		this.minHeight = minHeight;
 	}
 }

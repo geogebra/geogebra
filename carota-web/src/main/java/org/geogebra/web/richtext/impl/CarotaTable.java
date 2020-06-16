@@ -64,6 +64,10 @@ public class CarotaTable {
 
 	public native void setHeight(double height);
 
+	public native int getMinWidth();
+
+	public native int getMinHeight();
+
 	public native CarotaRange hyperlinkRange();
 
 	public native void insertHyperlink(String url, String text);
