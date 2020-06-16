@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.main.App;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.IsWidget;
 
 public abstract class AbstractVideoPlayer implements IsWidget {
@@ -32,12 +33,26 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 		asWidget().getElement().setId("video_player" + id);
 	}
 
-	abstract void update();
-
 	/**
-	 * @return if the player is valid.
+	 * Updates the player based on video object.
 	 */
-	abstract boolean isValid();
+	public void update() {
+		Style style = asWidget().getElement().getStyle();
+		style.setLeft(getVideo().getScreenLocX(app.getActiveEuclidianView()),
+				Style.Unit.PX);
+		style.setTop(getVideo().getScreenLocY(app.getActiveEuclidianView()),
+				Style.Unit.PX);
+		if (getVideo().hasSize()) {
+			asWidget().setWidth(getVideo().getWidth() + "px");
+			asWidget().setHeight(getVideo().getHeight() + "px");
+		}
+		if (getVideo().isBackground()) {
+			asWidget().addStyleName("background");
+		} else {
+			asWidget().removeStyleName("background");
+		}
+		video.getView().repaintView();
+	}
 
 	/**
 	 * @param video2 other video

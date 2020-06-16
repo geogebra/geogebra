@@ -512,4 +512,14 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox = undoRedo.getAfterRedo("a");
 		assertThat(inputBox.getText(), equalTo("1 + \\sqrt{2}"));
 	}
+
+	@Test
+	public void testDependentGeosUpdate() {
+		add("g(x) = ?");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
+		add("correct = Text(ib) == \"x\"");
+		inputBox.updateLinkedGeo("x+");
+		inputBox.updateLinkedGeo("x");
+		assertTrue(((GeoBoolean) lookup("correct")).getBoolean());
+	}
 }

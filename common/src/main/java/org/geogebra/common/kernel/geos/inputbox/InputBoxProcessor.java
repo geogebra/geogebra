@@ -50,10 +50,12 @@ public class InputBoxProcessor {
 			return;
 		}
 
+		// first clear temp input, so that the string representation of the input
+		// box is correct when updating dependencies
+		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
+
 		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
 		updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
-
-		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
 
 		if (errorHandler.errorOccured) {
 			inputBox.setTempUserDisplayInput(tempUserDisplayInput);
