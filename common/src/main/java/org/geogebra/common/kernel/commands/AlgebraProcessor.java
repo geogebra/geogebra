@@ -1037,7 +1037,9 @@ public class AlgebraProcessor {
 		expression.traverse(collector);
 		FunctionVariable[] fxvArray = collector.buildVariables(kernel);
 		FunctionVariable[] xyzVars = FunctionNVar.getXYZVars(fxvArray);
-		ExpressionNode node = expression.traverse(new CoordMultiplyReplacer(xyzVars[0], xyzVars[1], xyzVars[2])).wrap();
+		ExpressionNode node =
+				expression.traverse(new CoordMultiplyReplacer(xyzVars[0], xyzVars[1], xyzVars[2]))
+						.wrap();
 		node.setLabels(expression.getLabels());
 		return node;
 	}
