@@ -3,14 +3,14 @@ project.setDescription('Developer tools required to compile web platforms')
 apply plugin: 'java'
 
 dependencies {
-	compile 'com.google.gwt:gwt-dev:2.8.2',
-	'com.google.gwt:gwt-user:2.8.2',
-		project(':common'),
-		'io.bit3:jsass:5.4.0'
+	compile "com.google.gwt:gwt-dev:$gwtCompilerVersion",
+			"com.google.gwt:gwt-user:$gwtCompilerVersion",
+			project(':common'),
+			'io.bit3:jsass:5.4.0'
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 configurations.all {
    resolutionStrategy {
@@ -20,8 +20,8 @@ configurations.all {
        force 'commons-io:commons-io:2.5'
        force 'commons-collections:commons-collections:3.2.2'
        force 'org.apache.commons:commons-lang3:3.5'
-       force 'org.ow2.asm:asm:5.0.3'
-       force 'org.ow2.asm:asm-commons:5.0.3'
+       force 'org.ow2.asm:asm:7.1'
+       force 'org.ow2.asm:asm-commons:7.1'
        force 'commons-codec:commons-codec:1.10'
        force 'xml-apis:xml-apis:1.4.01'
    }
