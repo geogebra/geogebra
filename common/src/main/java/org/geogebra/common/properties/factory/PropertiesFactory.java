@@ -2,7 +2,7 @@ package org.geogebra.common.properties.factory;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertiesList;
+import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 
 /**
@@ -18,7 +18,7 @@ public interface PropertiesFactory {
 	 * @param onLanguageSetCallback callback when language is set
 	 * @return an array of general properties
 	 */
-	PropertiesList createGeneralProperties(
+	PropertyCollection createGeneralProperties(
 			App app,
 			Localization localization,
 			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback);
@@ -30,7 +30,7 @@ public interface PropertiesFactory {
 	 * @param localization localization for properties
 	 * @return an array of algebra specific properties
 	 */
-	PropertiesList createAlgebraProperties(App app, Localization localization);
+	PropertyCollection createAlgebraProperties(App app, Localization localization);
 
 	/**
 	 * Creates graphics specific properties.
@@ -39,5 +39,5 @@ public interface PropertiesFactory {
 	 * @param localization localization for properties
 	 * @return an array of graphics specific properties
 	 */
-	PropertiesList createGraphicsProperties(App app, Localization localization);
+	PropertyCollection createGraphicsProperties(App app, Localization localization);
 }

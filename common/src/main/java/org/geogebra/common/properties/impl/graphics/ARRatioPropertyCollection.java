@@ -8,14 +8,14 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.AbstractProperty;
-import org.geogebra.common.properties.PropertiesList;
+import org.geogebra.common.properties.PropertiesArray;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.PropertyCollection;
 
 public class ARRatioPropertyCollection extends AbstractProperty
         implements PropertyCollection {
 
-    private PropertiesList collection;
+    private PropertiesArray collection;
 
     /**
      * Constructs a ar ratio property collection.
@@ -35,7 +35,7 @@ public class ARRatioPropertyCollection extends AbstractProperty
         properties.add(new RatioUnitProperty((EuclidianView3D) app.getActiveEuclidianView(),
                 localization));
 
-        collection = new PropertiesList("AR Ratio", properties);
+        collection = new PropertiesArray("AR Ratio", properties.toArray(new Property[0]));
     }
 
     @Override
