@@ -138,14 +138,14 @@ public class Variable extends ValidExpression {
 	 * 
 	 * @param mode
 	 *            symbolic mode
-	 * 
-	 * @param allowTokenizer sets the use of input tokenizer
+	 * @param multipleUnassignedAllowed
+	 *            whether to allow splitting into multiple unassigned variables
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 *         wrapping spreadsheet reference
 	 */
 	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
-														   boolean allowTokenizer) {
-		variableReplacerAlgorithm.setMultipleUnassignedAllowed(allowTokenizer);
+				boolean multipleUnassignedAllowed) {
+		variableReplacerAlgorithm.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
 		GeoElement geo = resolve(false, mode);
 		if (geo == null) {
 			if (kernel.getConstruction().isRegistredFunctionVariable(name)) {

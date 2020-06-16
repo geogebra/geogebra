@@ -79,7 +79,7 @@ public class InputBoxProcessor {
 				false, false).withSliders(false)
 				.withNoRedefinitionAllowed().withPreventingTypeChange()
 				.withRedefinitionRule(createRedefinitionRule())
-				.withSimplifiedMultiplication();
+				.withMultipleUnassignedAllowed();
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,

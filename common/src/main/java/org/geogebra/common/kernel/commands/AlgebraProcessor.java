@@ -856,7 +856,7 @@ public class AlgebraProcessor {
 			final EvalInfo info) {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
-				info.isSimplifiedMultiplication());
+				info.isMultipleUnassignedAllowed());
 		ve.inspect(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 
@@ -962,7 +962,7 @@ public class AlgebraProcessor {
 							// ve2, fvX2);
 							replaceUndefinedVariables(ve2,
 									new TreeSet<GeoNumeric>(), null,
-									info.isSimplifiedMultiplication());
+									info.isMultipleUnassignedAllowed());
 						}
 						try {
 							geos = processValidExpression(storeUndo, handler,
@@ -996,7 +996,7 @@ public class AlgebraProcessor {
 			// step5: replace undefined variables
 			// ==========================
 			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null,
-					info.isSimplifiedMultiplication());
+					info.isMultipleUnassignedAllowed());
 
 			// Do not copy plain variables, as
 			// they might have been just created now

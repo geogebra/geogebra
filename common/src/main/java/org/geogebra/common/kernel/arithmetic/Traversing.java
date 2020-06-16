@@ -865,14 +865,14 @@ public interface Traversing {
 
 		private TreeSet<String> tree = new TreeSet<>();
 		private TreeSet<String> localTree = new TreeSet<>();
-		private boolean simplifiedMultiplication;
+		private boolean multipleUnassignedAllowed;
 
 		public CollectUndefinedVariables() {
 			this(false);
 		}
 
-		public CollectUndefinedVariables(boolean simplifiedMultiplication) {
-			this.simplifiedMultiplication = simplifiedMultiplication;
+		public CollectUndefinedVariables(boolean multipleUnassignedAllowed) {
+			this.multipleUnassignedAllowed = multipleUnassignedAllowed;
 		}
 
 		/**
@@ -899,7 +899,7 @@ public interface Traversing {
 				if (expressionFromVariableName == null) {
 					VariableReplacerAlgorithm variableReplacerAlgo =
 							new VariableReplacerAlgorithm(variable.getKernel());
-					variableReplacerAlgo.setMultipleUnassignedAllowed(simplifiedMultiplication);
+					variableReplacerAlgo.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
 					expressionFromVariableName = variableReplacerAlgo.replace(variableName);
 				}
 

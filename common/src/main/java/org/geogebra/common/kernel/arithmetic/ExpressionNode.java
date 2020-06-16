@@ -462,7 +462,7 @@ public class ExpressionNode extends ValidExpression
 		// resolve left wing
 		if (left.isVariable()) {
 			left = ((Variable) left).resolveAsExpressionValue(
-					info.getSymbolicMode(), info.isSimplifiedMultiplication());
+					info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
@@ -481,7 +481,7 @@ public class ExpressionNode extends ValidExpression
 		if (right != null) {
 			if (right.isVariable()) {
 				right = ((Variable) right).resolveAsExpressionValue(
-						info.getSymbolicMode(), info.isSimplifiedMultiplication());
+						info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
 				right = groupPowers(right);
 			} else {
 				right.resolveVariables(info);

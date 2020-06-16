@@ -130,15 +130,15 @@ public class ParserTest {
 	}
 
 	private static String reparse(App app, String string, StringTemplate tpl,
-								  boolean simplifiedMultiplication) {
+								  boolean multipleUnassignedAllowed) {
 		String reparse1 = "";
 		try {
 			ValidExpression v1 = parseExpression(app, string);
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
-			EvalInfo info = simplifiedMultiplication
-					? new EvalInfo(false).withSimplifiedMultiplication()
+			EvalInfo info = multipleUnassignedAllowed
+					? new EvalInfo(false).withMultipleUnassignedAllowed()
 					: new EvalInfo(false);
 
 			v1.resolveVariables(info);
