@@ -100,14 +100,12 @@ public class GraphicsPropertiesList extends PropertiesArray {
                             new ARRatioPropertyCollection(mApp, mLocalization));
 					propertiesListARView.add(2,
 							new BackgroundProperty(mApp, mLocalization));
-					this.propertiesArrayARView = propertiesListARView
-							.toArray(new Property[0]);
 				} else {
 					propertiesListARView.add(1,
 							new BackgroundProperty(mApp, mLocalization));
-					this.propertiesArrayARView = propertiesListARView
-							.toArray(new Property[0]);
 				}
+				propertiesArrayARView = propertiesListARView
+						.toArray(new Property[0]);
 			}
 			return propertiesArrayARView;
         }

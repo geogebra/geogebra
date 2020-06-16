@@ -28,12 +28,12 @@ public class ScientificPropertiesFactory implements PropertiesFactory {
 	}
 
 	@Override
-	public PropertyCollection createAlgebraProperties(App app, Localization localization) {
+	public PropertiesArray createAlgebraProperties(App app, Localization localization) {
 		return null;
 	}
 
 	@Override
-	public PropertyCollection createGraphicsProperties(App app, Localization localization) {
+	public PropertiesArray createGraphicsProperties(App app, Localization localization) {
 		return null;
 	}
 }

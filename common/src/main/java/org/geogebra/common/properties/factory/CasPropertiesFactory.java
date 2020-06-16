@@ -32,12 +32,12 @@ public class CasPropertiesFactory implements PropertiesFactory {
 	}
 
 	@Override
-	public PropertyCollection createAlgebraProperties(App app, Localization localization) {
+	public PropertiesArray createAlgebraProperties(App app, Localization localization) {
 		return basePropertiesFactory.createAlgebraProperties(app, localization);
 	}
 
 	@Override
-	public PropertyCollection createGraphicsProperties(App app, Localization localization) {
+	public PropertiesArray createGraphicsProperties(App app, Localization localization) {
 		return basePropertiesFactory.createGraphicsProperties(app, localization);
 	}
 }
