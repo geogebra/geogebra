@@ -181,8 +181,8 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 			break;
 		case "S":
 			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_link(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Link"));
+					MaterialDesignResources.INSTANCE.mow_card_shared(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
 			break;
 		case "O":
 			visibiltyImg = new NoDragImage(
@@ -195,5 +195,9 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		visibilityPanel.clear();
 		visibilityPanel
 				.add(LayoutUtilW.panelRowIndent(visibiltyImg, visibilityTxt));
+	}
+
+	public void setLabels() {
+		updateVisibility(getMaterial().getVisibility());
 	}
 }

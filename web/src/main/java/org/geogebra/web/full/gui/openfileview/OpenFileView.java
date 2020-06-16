@@ -384,6 +384,12 @@ public class OpenFileView extends MyHeaderPanel
 				sortDropDown.setItemText(i + 1, localize(labelFor(map[i])));
 			}
 		}
+		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
+			Widget wgt = materialPanel.getWidget(i);
+			if (wgt instanceof MaterialCard) {
+				((MaterialCard) wgt).setLabels();
+			}
+		}
 		if (messagePanel != null) {
 			setMessagePanelLabels(messagePanel);
 		}
