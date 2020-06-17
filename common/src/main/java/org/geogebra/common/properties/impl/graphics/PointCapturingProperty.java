@@ -3,7 +3,7 @@ package org.geogebra.common.properties.impl.graphics;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.properties.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
 /**
  * Property for setting the point capturing.

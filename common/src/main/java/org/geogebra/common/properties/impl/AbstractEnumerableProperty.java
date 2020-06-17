@@ -1,6 +1,7 @@
-package org.geogebra.common.properties;
+package org.geogebra.common.properties.impl;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.EnumerableProperty;
 
 /**
  * Helps implementing enumerable properties. Handles the indexing of values.

@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.algebra;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
 /**
  * Property for setting sort by in Algebra view.

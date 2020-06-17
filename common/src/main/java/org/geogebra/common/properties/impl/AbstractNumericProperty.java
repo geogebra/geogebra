@@ -1,6 +1,7 @@
-package org.geogebra.common.properties;
+package org.geogebra.common.properties.impl;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.NumericProperty;
 
 /**
  * Abstract property class for numeric properties.

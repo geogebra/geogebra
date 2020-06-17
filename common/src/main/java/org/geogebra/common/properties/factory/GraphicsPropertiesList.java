@@ -1,4 +1,4 @@
-package org.geogebra.common.properties;
+package org.geogebra.common.properties.factory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +10,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.graphics.ARRatioPropertyCollection;
 import org.geogebra.common.properties.impl.graphics.AxesColoredProperty;
 import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
@@ -99,14 +100,12 @@ public class GraphicsPropertiesList extends PropertiesArray {
                             new ARRatioPropertyCollection(mApp, mLocalization));
 					propertiesListARView.add(2,
 							new BackgroundProperty(mApp, mLocalization));
-					this.propertiesArrayARView = propertiesListARView
-							.toArray(new Property[0]);
 				} else {
 					propertiesListARView.add(1,
 							new BackgroundProperty(mApp, mLocalization));
-					this.propertiesArrayARView = propertiesListARView
-							.toArray(new Property[0]);
 				}
+				propertiesArrayARView = propertiesListARView
+						.toArray(new Property[0]);
 			}
 			return propertiesArrayARView;
         }
