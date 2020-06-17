@@ -32,14 +32,6 @@ package java.io;
 public class InputStreamReader extends Reader {
     private InputStream in;
 
-//    private static final int BUFFER_SIZE = 8192;
-
-//    private boolean endOfInput = false;
-
-    //CharsetDecoder decoder;
-
-    //ByteBuffer bytes = ByteBuffer.allocate(BUFFER_SIZE);
-
     /**
      * Constructs a new {@code InputStreamReader} on the {@link InputStream}
      * {@code in}. This constructor sets the character converter to the encoding
@@ -50,15 +42,8 @@ public class InputStreamReader extends Reader {
      *            the input stream from which to read characters.
      */
     public InputStreamReader(InputStream in) {
-        super(in);
+        super();
         this.in = in;
-       /*AG String encoding = AccessController
-                .doPrivileged(new PriviAction<String>(
-                        "file.encoding", "ISO8859_1")); //$NON-NLS-1$//$NON-NLS-2$
-        decoder = Charset.forName(encoding).newDecoder().onMalformedInput(
-                CodingErrorAction.REPLACE).onUnmappableCharacter(
-                CodingErrorAction.REPLACE);*/
-       // bytes.limit(0);
     }
 
     /**
@@ -78,56 +63,9 @@ public class InputStreamReader extends Reader {
      */
     public InputStreamReader(InputStream in, final String enc)
             throws UnsupportedEncodingException {
-        super(in);
-        if (enc == null) {
-            throw new NullPointerException();
-        }
+        super();
         this.in = in;
-//        try {
-//            decoder = Charset.forName(enc).newDecoder().onMalformedInput(
-//                    CodingErrorAction.REPLACE).onUnmappableCharacter(
-//                    CodingErrorAction.REPLACE);
-//        } catch (IllegalArgumentException e) {
-//            throw (UnsupportedEncodingException)
-//                    new UnsupportedEncodingException().initCause(e);
-//        }
-        //bytes.limit(0);
     }
-
-    /**
-     * Constructs a new InputStreamReader on the InputStream {@code in} and
-     * CharsetDecoder {@code dec}.
-     * 
-     * @param in
-     *            the source InputStream from which to read characters.
-     * @param dec
-     *            the CharsetDecoder used by the character conversion.
-     */
-    /*public InputStreamReader(InputStream in, CharsetDecoder dec) {
-        super(in);
-        dec.averageCharsPerByte();
-        this.in = in;
-       // decoder = dec;
-       // bytes.limit(0);
-    }*/
-
-    /**
-     * Constructs a new InputStreamReader on the InputStream {@code in} and
-     * Charset {@code charset}.
-     * 
-     * @param in
-     *            the source InputStream from which to read characters.
-     * @param charset
-     *            the Charset that defines the character converter
-     */
-   /* public InputStreamReader(InputStream in, Charset charset) {
-        super(in);
-        this.in = in;
-        decoder = charset.newDecoder().onMalformedInput(
-                CodingErrorAction.REPLACE).onUnmappableCharacter(
-                CodingErrorAction.REPLACE);
-        bytes.limit(0);
-    }*/
 
     /**
      * Closes this reader. This implementation closes the source InputStream and
@@ -138,28 +76,13 @@ public class InputStreamReader extends Reader {
      */
     @Override
     public void close() throws IOException {
-        synchronized (lock) {
-            //decoder = null;
-            if (in != null) {
-                in.close();
-                in = null;
-            }
+        //decoder = null;
+        if (in != null) {
+            in.close();
+            in = null;
         }
     }
 
-    /**
-     * Returns the name of the encoding used to convert bytes into characters.
-     * The value {@code null} is returned if this reader has been closed.
-     * 
-     * @return the name of the character converter or {@code null} if this
-     *         reader is closed.
-     */
-   /*AG public String getEncoding() {
-        if (!isOpen()) {
-            return null;
-        }
-        return HistoricalNamesUtil.getHistoricalName(decoder.charset().name());
-    }*/
 
     /**
      * Reads a single character from this reader and returns it as an integer
@@ -175,121 +98,10 @@ public class InputStreamReader extends Reader {
      */
     @Override
     public int read() throws IOException {
-        synchronized (lock) {
-            if (!isOpen()) {
-                // luni.BA=InputStreamReader is closed.
-                throw new IOException(); //$NON-NLS-1$
-            }
-
-            char buf[] = new char[1];
-            return read(buf, 0, 1) != -1 ? buf[0] : -1;
-        }
+        return 0;
     }
 
     /**
-     * Reads at most {@code length} characters from this reader and stores them
-     * at position {@code offset} in the character array {@code buf}. Returns
-     * the number of characters actually read or -1 if the end of the reader has
-     * been reached. The bytes are either obtained from converting bytes in this
-     * reader's buffer or by first filling the buffer from the source
-     * InputStream and then reading from the buffer.
-     * 
-     * @param buf
-     *            the array to store the characters read.
-     * @param offset
-     *            the initial position in {@code buf} to store the characters
-     *            read from this reader.
-     * @param length
-     *            the maximum number of characters to read.
-     * @return the number of characters read or -1 if the end of the reader has
-     *         been reached.
-     * @throws IndexOutOfBoundsException
-     *             if {@code offset < 0} or {@code length < 0}, or if
-     *             {@code offset + length} is greater than the length of
-     *             {@code buf}.
-     * @throws IOException
-     *             if this reader is closed or some other I/O error occurs.
-     */
-    /*@Override
-    public int read(char[] buf, int offset, int length) throws IOException {
-        synchronized (lock) {
-            if (!isOpen()) {
-                // luni.BA=InputStreamReader is closed.
-                throw new IOException(); //$NON-NLS-1$
-            }
-            if (offset < 0 || offset > buf.length - length || length < 0) {
-                throw new IndexOutOfBoundsException();
-            }
-            if (length == 0) {
-                return 0;
-            }
-
-            //CharBuffer out = CharBuffer.wrap(buf, offset, length);
-           // CoderResult result = CoderResult.UNDERFLOW;
-
-            // bytes.remaining() indicates number of bytes in buffer
-            // when 1-st time entered, it'll be equal to zero
-            //boolean needInput = !bytes.hasRemaining();
-
-            while (out.hasRemaining()) {
-                // fill the buffer if needed
-                if (needInput) {
-                    try {
-                        if ((in.available() == 0) 
-                            && (out.position() > offset)) {
-                            // we could return the result without blocking read
-                            break;
-                        }
-                    } catch (IOException e) {
-                        // available didn't work so just try the read
-                    }
-
-                    int to_read = bytes.capacity() - bytes.limit();
-                    int off = bytes.arrayOffset() + bytes.limit();
-                    int was_red = in.read(bytes.array(), off, to_read);
-
-                    if (was_red == -1) {
-                        endOfInput = true;
-                        break;
-                    } else if (was_red == 0) {
-                        break;
-                    }
-                    bytes.limit(bytes.limit() + was_red);
-                    needInput = false;
-                }
-
-                // decode bytes
-                result = decoder.decode(bytes, out, false);
-
-                if (result.isUnderflow()) {
-                    // compact the buffer if no space left
-                    if (bytes.limit() == bytes.capacity()) {
-                        bytes.compact();
-                        bytes.limit(bytes.position());
-                        bytes.position(0);
-                    }
-                    needInput = true;
-                } else {
-                    break;
-                }
-            }
-
-            if (result == CoderResult.UNDERFLOW && endOfInput) {
-                result = decoder.decode(bytes, out, true);
-                decoder.flush(out);
-                decoder.reset();
-            }
-            if (result.isMalformed()) {
-                throw new MalformedInputException(result.length());
-            } else if (result.isUnmappable()) {
-                throw new UnmappableCharacterException(result.length());
-            }
-
-            return out.position() - offset == 0 ? -1 : out.position() - offset;
-        }
-    }
-
-    /*
      * Answer a boolean indicating whether or not this InputStreamReader is
      * open.
      */
@@ -312,21 +124,19 @@ public class InputStreamReader extends Reader {
      */
     @Override
     public boolean ready() throws IOException {
-        synchronized (lock) {
-            if (in == null) {
-                // luni.BA=InputStreamReader is closed.
-                throw new IOException(); //$NON-NLS-1$
-            }
-            try {
-                return in.available() > 0; // bytes.hasRemaining() || in.available() > 0;
-            } catch (IOException e) {
-                return false;
-            }
+        if (in == null) {
+            // luni.BA=InputStreamReader is closed.
+            throw new IOException(); //$NON-NLS-1$
+        }
+        try {
+            return in.available() > 0; // bytes.hasRemaining() || in.available() > 0;
+        } catch (IOException e) {
+            return false;
         }
     }
 
 	@Override
-	public int read(char[] buf, int offset, int count) throws IOException {
+	public int read(char[] buf, int offset, int count) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
