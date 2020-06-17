@@ -3,7 +3,6 @@ package org.geogebra.common.properties.factory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.PropertyCollection;
 import org.geogebra.common.properties.impl.general.AngleUnitProperty;
 import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
