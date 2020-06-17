@@ -61,8 +61,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * 5 degrees allows 45 degrees to be selected when the slider width is 180
 	 * 
 	 */
-	final public static double DEFAULT_SLIDER_INCREMENT_ANGLE = 5 * Math.PI
-			/ 180.0;
+	final public static double DEFAULT_SLIDER_INCREMENT_ANGLE = Math.PI	/ 180.0;
 
 	/**
 	 * different angle styles

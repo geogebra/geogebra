@@ -621,7 +621,6 @@ public class ConstructionDefaults {
 		angle.setAlphaValue(DEFAULT_ANGLE_ALPHA);
 		angle.setDrawable(true, false);
 		angle.setDrawable(true, false);
-		angle.setAutoStep(true);
 		angle.setArcSize(angleSize);
 		/*
 		 * we have to set min/max/increment/speed here because
