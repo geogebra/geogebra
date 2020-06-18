@@ -15,11 +15,9 @@ public class ScientificPropertiesFactory implements PropertiesFactory {
 			App app,
 			Localization localization,
 			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
-
 		Kernel kernel = app.getKernel();
-
-		return new PropertiesArray(
-				"",
+		String name = localization.getMenu("General");
+		return new PropertiesArray(name,
 				new AngleUnitProperty(kernel, localization),
 				new RoundingProperty(app, localization),
 				new FontSizeProperty(app, localization),

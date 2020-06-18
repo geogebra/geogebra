@@ -30,8 +30,8 @@ import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
  */
 public class GraphicsPropertiesList extends PropertiesArray {
 
-    private App mApp;
-    private Localization mLocalization;
+    private App app;
+    private Localization localization;
 	private Property[] propertiesArrayARView;
 
 	/**
@@ -41,9 +41,10 @@ public class GraphicsPropertiesList extends PropertiesArray {
 	 *            localization
 	 */
     public GraphicsPropertiesList(App app, Localization localization) {
-		super("", getProperties(app, localization).toArray(new Property[0]));
-        mApp = app;
-        mLocalization = localization;
+		super(localization.getMenu("DrawingPad"),
+				getProperties(app, localization).toArray(new Property[0]));
+        this.app = app;
+        this.localization = localization;
 	}
 
 	private static List<Property> getProperties(App app,
@@ -91,18 +92,18 @@ public class GraphicsPropertiesList extends PropertiesArray {
 
     @Override
     public Property[] getProperties() {
-        if (mApp.getActiveEuclidianView().isAREnabled()) {
+        if (app.getActiveEuclidianView().isAREnabled()) {
             if (propertiesArrayARView == null) {
 				ArrayList<Property> propertiesListARView =
 						new ArrayList<>(Arrays.asList(super.getProperties()));
-				if (mApp.has(Feature.G3D_AR_RATIO_SETTINGS)) {
+				if (app.has(Feature.G3D_AR_RATIO_SETTINGS)) {
                     propertiesListARView.add(1,
-                            new ARRatioPropertyCollection(mApp, mLocalization));
+                            new ARRatioPropertyCollection(app, localization));
 					propertiesListARView.add(2,
-							new BackgroundProperty(mApp, mLocalization));
+							new BackgroundProperty(app, localization));
 				} else {
 					propertiesListARView.add(1,
-							new BackgroundProperty(mApp, mLocalization));
+							new BackgroundProperty(app, localization));
 				}
 				propertiesArrayARView = propertiesListARView
 						.toArray(new Property[0]);

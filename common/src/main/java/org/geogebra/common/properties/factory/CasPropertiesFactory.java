@@ -18,11 +18,10 @@ public class CasPropertiesFactory implements PropertiesFactory {
 			App app,
 			Localization localization,
 			LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
-
 		Kernel kernel = app.getKernel();
+		String name = localization.getMenu("General");
 
-		return new PropertiesArray(
-				"",
+		return new PropertiesArray(name,
 				new RoundingProperty(app, localization),
 				new LabelingProperty(app, localization),
 				new CoordinatesProperty(kernel, localization),

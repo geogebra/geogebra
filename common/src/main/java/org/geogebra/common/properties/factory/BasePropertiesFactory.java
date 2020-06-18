@@ -33,9 +33,8 @@ public class BasePropertiesFactory implements PropertiesFactory {
             App app, Localization localization,
             LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
-
-        return new PropertiesArray(
-                "",
+        String name = localization.getMenu("General");
+        return new PropertiesArray(name,
                 new RoundingProperty(app, localization),
                 new AngleUnitProperty(kernel, localization),
                 new LabelingProperty(app, localization),
@@ -55,16 +54,15 @@ public class BasePropertiesFactory implements PropertiesFactory {
     public PropertiesArray createAlgebraProperties(App app, Localization localization) {
         AlgebraView algebraView = app.getAlgebraView();
         Kernel kernel = app.getKernel();
+        String name = localization.getMenu("Algebra");
         if (app.has(Feature.MOB_PROPERTY_SORT_BY)) {
-			return new PropertiesArray(
-			        "",
+			return new PropertiesArray(name,
 					new AlgebraDescriptionProperty(kernel, localization),
 					new SortByProperty(algebraView, localization),
 					new ShowAuxiliaryProperty(app, localization)
 			);
 		} else {
-			return new PropertiesArray(
-			        "",
+			return new PropertiesArray(name,
 					new AlgebraDescriptionProperty(kernel, localization),
 					new ShowAuxiliaryProperty(app, localization));
 		}
