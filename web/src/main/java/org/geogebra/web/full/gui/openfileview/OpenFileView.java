@@ -385,9 +385,9 @@ public class OpenFileView extends MyHeaderPanel
 			}
 		}
 		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
-			Widget wgt = materialPanel.getWidget(i);
-			if (wgt instanceof MaterialCard) {
-				((MaterialCard) wgt).setLabels();
+			Widget widget = materialPanel.getWidget(i);
+			if (widget instanceof MaterialCard) {
+				((MaterialCard) widget).setLabels();
 			}
 		}
 		if (messagePanel != null) {
@@ -398,10 +398,10 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public void addMaterial(Material material) {
 		for (int i = 0; i < materialPanel.getWidgetCount(); i++) {
-			Widget wgt = materialPanel.getWidget(i);
-			if (wgt instanceof MaterialCard
-					&& isBeforeOrSame(material, ((MaterialCard) wgt).getMaterial())) {
-				if (((MaterialCard) wgt).getMaterial().getSharingKeyOrId()
+			Widget widget = materialPanel.getWidget(i);
+			if (widget instanceof MaterialCard
+					&& isBeforeOrSame(material, ((MaterialCard) widget).getMaterial())) {
+				if (((MaterialCard) widget).getMaterial().getSharingKeyOrId()
 						.equals(material.getSharingKeyOrId())) {
 					// don't add the same material twice
 					return;
