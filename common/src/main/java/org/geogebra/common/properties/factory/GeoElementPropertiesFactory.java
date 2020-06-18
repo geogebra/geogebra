@@ -1,11 +1,29 @@
-package org.geogebra.common.properties.impl.objects;
+package org.geogebra.common.properties.factory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
+import org.geogebra.common.properties.impl.objects.ColorProperty;
+import org.geogebra.common.properties.impl.objects.EquationFormProperty;
+import org.geogebra.common.properties.impl.objects.FixObjectProperty;
+import org.geogebra.common.properties.impl.objects.LineStyleProperty;
+import org.geogebra.common.properties.impl.objects.MaxProperty;
+import org.geogebra.common.properties.impl.objects.MinProperty;
+import org.geogebra.common.properties.impl.objects.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.objects.OpacityProperty;
+import org.geogebra.common.properties.impl.objects.PointSizeProperty;
+import org.geogebra.common.properties.impl.objects.PointStyleProperty;
+import org.geogebra.common.properties.impl.objects.ShowInAVProperty;
+import org.geogebra.common.properties.impl.objects.ShowObjectProperty;
+import org.geogebra.common.properties.impl.objects.ShowTraceProperty;
+import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
+import org.geogebra.common.properties.impl.objects.StepProperty;
+import org.geogebra.common.properties.impl.objects.ThicknessProperty;
 import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.ColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.EnumerablePropertyCollection;
@@ -16,12 +34,19 @@ import org.geogebra.common.properties.impl.objects.collection.RangePropertyColle
 /**
  * Creates the list of properties for a GeoElement or for a list of GeoElements.
  */
-public class GeoElementProperties {
+public class GeoElementPropertiesFactory {
+
 
 	/**
-	 * @return The list of properties for the GeoElement(s)
+	 * Creates properties for a list of GeoElements.
+	 *
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
 	 */
-	public static List<Property> getProperties(List<GeoElement> elements) {
+	public static PropertiesArray createGeoElementProperties(
+			Localization localization,
+			List<GeoElement> elements) {
 		List<Property> properties = new ArrayList<>();
 		addPropertyIfNotNull(properties, createMinProperty(elements));
 		addPropertyIfNotNull(properties, createMaxProperty(elements));
@@ -39,7 +64,7 @@ public class GeoElementProperties {
 		addPropertyIfNotNull(properties, createShowTraceProperty(elements));
 		addPropertyIfNotNull(properties, createFixObjectProperty(elements));
 		addPropertyIfNotNull(properties, createShowInAvProperty(elements));
-		return properties;
+		return createPropertiesArray(localization, properties, elements);
 	}
 
 	private static void addPropertyIfNotNull(List<Property> properties, Property property) {
@@ -286,5 +311,20 @@ public class GeoElementProperties {
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
+	}
+
+	private static PropertiesArray createPropertiesArray(Localization localization,
+			List<Property> properties,
+			List<GeoElement> geoElements) {
+		String name;
+		if (geoElements.size() > 1) {
+			name = localization.getMenu("Selection");
+		} else if (geoElements.size() == 1) {
+			GeoElement element = geoElements.get(0);
+			name = element.translatedTypeString();
+		} else {
+			name = "";
+		}
+		return new PropertiesArray(name, properties.toArray(new Property[0]));
 	}
 }
