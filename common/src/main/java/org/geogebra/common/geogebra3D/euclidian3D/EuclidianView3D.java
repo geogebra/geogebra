@@ -3261,22 +3261,18 @@ public abstract class EuclidianView3D extends EuclidianView
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].drawLabel(renderer1);
 		}
-
 	}
 
 	/**
-	 * tell all drawables owned by the view to be udpated
+	 * tell all drawables owned by the view to be updated
 	 */
 	private void setWaitForUpdateOwnDrawables() {
-
 		xOyPlaneDrawable.setWaitForUpdate();
 
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].setWaitForUpdate();
 		}
-
 		clippingCubeDrawable.setWaitForUpdate();
-
 	}
 
 	/**
