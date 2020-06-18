@@ -9,7 +9,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RotatableBoundingBox;
+import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
@@ -19,7 +19,7 @@ public class TransformableRectangle {
 
 	private final EuclidianView view;
 	private final RectangleTransformable geo;
-	private RotatableBoundingBox boundingBox;
+	private MediaBoundingBox boundingBox;
 	private GAffineTransform directTransform;
 	private GAffineTransform inverseTransform;
 
@@ -228,9 +228,9 @@ public class TransformableRectangle {
 	 * Get the rotatable bounding box that is defined by this rectangle
 	 * @return rotatable bounding box
 	 */
-	public RotatableBoundingBox getBoundingBox() {
+	public MediaBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new RotatableBoundingBox();
+			boundingBox = new MediaBoundingBox();
 			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
 		}

@@ -153,6 +153,7 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
@@ -9671,8 +9672,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (specialBoundingBoxNeeded(crop)) {
 			Drawable dr = ((Drawable) view.getDrawableFor(sel.get(0)));
 			BoundingBox<? extends GShape> boundingBox = dr.getBoundingBox();
-			view.setBoundingBox(boundingBox);
-			view.repaintView();
+			if (boundingBox instanceof MediaBoundingBox) {
+				((MediaBoundingBox) boundingBox).setCropMode(crop);
+				view.setBoundingBox(boundingBox);
+				view.repaintView();
+			}
 		} else { // multi-selection
 			setBoundingBoxFromList(sel);
 		}

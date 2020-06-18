@@ -34,7 +34,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RotatableBoundingBox;
+import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -67,7 +67,7 @@ public final class DrawImage extends Drawable {
 	private GRectangle classicBoundingBox;
 	private GGeneralPath highlighting;
 	private double[] hitCoords = new double[2];
-	private RotatableBoundingBox boundingBox;
+	private MediaBoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
 	/**
 	 * ratio of the whole image and the crop box width
@@ -505,9 +505,9 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	public RotatableBoundingBox getBoundingBox() {
+	public MediaBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = transformableRectangle.getBoundingBox(); //new CropBox();
+			boundingBox = transformableRectangle.getBoundingBox();
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
 		}
 		boundingBox.updateFrom(geo);
