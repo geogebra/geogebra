@@ -84,7 +84,7 @@ public class BaseUnitTest {
 	 * @return localization
 	 */
 	protected Localization getLocalization() {
-    	return app.getLocalization();
+		return app.getLocalization();
 	}
 
 	/**
