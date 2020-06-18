@@ -13,6 +13,7 @@ public class MaxProperty extends AbstractNumericProperty {
 
 	private final SliderPropertyDelegate delegate;
 
+	/***/
 	public MaxProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Maximum.short");

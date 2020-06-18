@@ -15,6 +15,7 @@ public class FixObjectProperty extends AbstractProperty implements BooleanProper
 
 	private final GeoElementDelegate delegate;
 
+	/***/
 	public FixObjectProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "fixed");

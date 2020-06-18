@@ -16,6 +16,7 @@ public class ShowTraceProperty extends AbstractProperty implements BooleanProper
 
 	private final GeoElementDelegate delegate;
 
+	/***/
 	public ShowTraceProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "ShowTrace");

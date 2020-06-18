@@ -16,6 +16,7 @@ public class ThicknessProperty extends AbstractRangeProperty<Integer> {
 
 	private final GeoElementDelegate delegate;
 
+	/***/
 	public ThicknessProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Thickness", null, 9, 1);

@@ -23,6 +23,7 @@ public class SlopeSizePropertyTest extends BaseUnitTest {
 	@Test
 	public void testConstructorThrowsError() {
 		GeoNumeric number = addAvInput("1");
-		assertThrows(NotApplicablePropertyException.class, () -> new SlopeSizeProperty(getLocalization(), number));
+		assertThrows(NotApplicablePropertyException.class,
+				() -> new SlopeSizeProperty(getLocalization(), number));
 	}
 }

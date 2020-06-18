@@ -23,6 +23,7 @@ public class EquationFormProperty extends AbstractEnumerableProperty {
 
 	private final GeoElementDelegate delegate;
 
+	/***/
 	public EquationFormProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Equation");

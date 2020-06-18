@@ -26,6 +26,7 @@ public class PointStyleProperty extends AbstractEnumerableProperty
 
 	private final GeoElementDelegate delegate;
 
+	/***/
 	public PointStyleProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Properties.Style");

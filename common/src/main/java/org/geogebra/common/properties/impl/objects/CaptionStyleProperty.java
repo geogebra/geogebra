@@ -24,6 +24,7 @@ public class CaptionStyleProperty extends AbstractEnumerableProperty {
 
 	private final GeoElementDelegate delegate;
 
+	/***/
 	public CaptionStyleProperty(Localization localization, GeoElement geoElement)
 			throws NotApplicablePropertyException {
 		super(localization, "stylebar.Caption");

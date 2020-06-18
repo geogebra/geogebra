@@ -14,6 +14,7 @@ public class MinProperty extends AbstractNumericProperty {
 
 	private final SliderPropertyDelegate delegate;
 
+	/***/
 	public MinProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Minimum.short");

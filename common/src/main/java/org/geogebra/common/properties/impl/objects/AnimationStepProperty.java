@@ -14,6 +14,7 @@ public class AnimationStepProperty extends AbstractNumericProperty {
 
 	private final SliderPropertyDelegate delegate;
 
+	/***/
 	public AnimationStepProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "AnimationStep");

@@ -17,6 +17,7 @@ public class ElementColorProperty extends AbstractProperty implements ColorPrope
 	private final GeoElement element;
 	private GColor[] colors;
 
+	/***/
 	public ElementColorProperty(Localization localization, GeoElement element) {
 		super(localization, "stylebar.Color");
 		this.element = element;

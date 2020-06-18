@@ -24,6 +24,7 @@ public class LineStyleProperty extends AbstractEnumerableProperty
 
 	private final GeoElementDelegate delegate;
 
+	/***/
 	public LineStyleProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Properties.Style");

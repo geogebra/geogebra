@@ -12,6 +12,7 @@ public class ShowObjectProperty extends AbstractProperty implements BooleanPrope
 
 	private final GeoElement element;
 
+	/***/
 	public ShowObjectProperty(Localization localization, GeoElement element) {
 		super(localization, "Show");
 		this.element = element;

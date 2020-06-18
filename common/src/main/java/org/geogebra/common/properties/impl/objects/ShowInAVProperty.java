@@ -13,6 +13,7 @@ public class ShowInAVProperty extends AbstractProperty implements BooleanPropert
 
 	private final GeoElement element;
 
+	/***/
 	public ShowInAVProperty(Localization localization, GeoElement element) {
 		super(localization, "ShowInAlgebraView");
 		this.element = element;

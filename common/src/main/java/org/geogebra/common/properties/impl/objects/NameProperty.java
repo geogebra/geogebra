@@ -18,6 +18,7 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 
 	private final GeoElementDelegate delegate;
 
+	/***/
 	public NameProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, element.getTypeString());

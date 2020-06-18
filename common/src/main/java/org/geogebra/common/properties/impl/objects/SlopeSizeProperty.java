@@ -15,9 +15,7 @@ public class SlopeSizeProperty extends AbstractRangeProperty<Integer> {
 
 	private final SlopeSizePropertyDelegate delegate;
 
-	/**
-	 * @param element slope
-	 */
+	/***/
 	public SlopeSizeProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Size", 1, 10, 1);

@@ -9,6 +9,11 @@ public abstract class AbstractGeoElementDelegate implements GeoElementDelegate {
 
 	protected final GeoElement element;
 
+	/**
+	 * Create a new AbstractGeoElementDelegate
+	 * @param element element
+	 * @throws NotApplicablePropertyException if not applicable
+	 */
 	public AbstractGeoElementDelegate(GeoElement element) throws NotApplicablePropertyException {
 		this.element = element;
 		checkIsApplicable();

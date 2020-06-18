@@ -17,6 +17,7 @@ public class PointSizeProperty extends AbstractRangeProperty<Integer> {
 
 	private final GeoElementDelegate delegate;
 
+	/***/
 	public PointSizeProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
 		super(localization, "Size", 1, 9, 1);
