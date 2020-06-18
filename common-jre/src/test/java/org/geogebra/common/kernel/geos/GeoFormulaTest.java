@@ -34,8 +34,7 @@ public class GeoFormulaTest extends BaseUnitTest {
 		GPoint2D startPoint = new GPoint2D(x, y);
 
 		GeoFormula savedFormula = new GeoFormula(cons, startPoint);
-		savedFormula.setWidth(width);
-		savedFormula.setHeight(height);
+		savedFormula.setSize(width, height);
 		savedFormula.setAngle(angle);
 		savedFormula.setContent(content);
 		savedFormula.setLabel("testFormula");

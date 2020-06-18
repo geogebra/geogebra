@@ -31,10 +31,10 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.euclidian.CropBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.RotatableBoundingBox;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -49,6 +49,7 @@ import org.geogebra.common.util.MyMath;
  * @author Markus
  */
 public final class DrawImage extends Drawable {
+	private final TransformableRectangle transformableRectangle;
 	private GeoImage geoImage;
 	private boolean isVisible;
 	private MyImage image;
@@ -66,7 +67,7 @@ public final class DrawImage extends Drawable {
 	private GRectangle classicBoundingBox;
 	private GGeneralPath highlighting;
 	private double[] hitCoords = new double[2];
-	private CropBox boundingBox;
+	private RotatableBoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
 	/**
 	 * ratio of the whole image and the crop box width
@@ -96,6 +97,8 @@ public final class DrawImage extends Drawable {
 	public DrawImage(EuclidianView view, GeoImage geoImage) {
 		this.view = view;
 		this.geoImage = geoImage;
+		transformableRectangle =
+				new TransformableRectangle(view, geoImage);
 		geo = geoImage;
 		// temp
 		at = AwtFactory.getPrototype().newAffineTransform();
@@ -113,7 +116,7 @@ public final class DrawImage extends Drawable {
 		if (!isVisible) {
 			return;
 		}
-
+		transformableRectangle.updateSelfAndBoundingBox();
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
 			alphaComp = AwtFactory.getPrototype().newAlphaComposite(alpha);
@@ -269,14 +272,6 @@ public final class DrawImage extends Drawable {
 
 		if (!view.isBackgroundUpdating() && isInBackground) {
 			view.updateBackgroundImage();
-		}
-
-		if (geo.getKernel().getApplication().isWhiteboardActive()) {
-			if (geoImage.isCropped() && geoImage.getCropBoxRelative() != null) {
-				getBoundingBox().setRectangle(getCropBox());
-			} else if (getBounds() != null) {
-				getBoundingBox().setRectangle(getBounds());
-			}
 		}
 	}
 
@@ -510,9 +505,9 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	public CropBox getBoundingBox() {
+	public RotatableBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new CropBox();
+			boundingBox = transformableRectangle.getBoundingBox(); //new CropBox();
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
 		}
 		boundingBox.updateFrom(geo);
@@ -529,21 +524,6 @@ public final class DrawImage extends Drawable {
 			height = geoImage.getImageScreenHeight();
 		}
 		originalRatio = height / width;
-	}
-
-	@Override
-	public void updateByBoundingBoxResize(GPoint2D p,
-			EuclidianBoundingBoxHandler handler) {
-		if (!geo.getKernel().getApplication().isWhiteboardActive()) {
-			return;
-		}
-		if (boundingBox.isCropBox()) {
-			geoImage.setCropped(true);
-			if (Double.isNaN(originalRatio)) {
-				updateOriginalRatio();
-			}
-			updateImageCrop(p, handler);
-		}
 	}
 
 	@Override
@@ -851,5 +831,22 @@ public final class DrawImage extends Drawable {
 	public GRectangle2D getBoundsClipped() {
 		updateIfNeeded();
 		return super.getBoundsClipped();
+	}
+
+	@Override
+	public void updateByBoundingBoxResize(GPoint2D point,
+			EuclidianBoundingBoxHandler handler) {
+		if (!geo.getKernel().getApplication().isWhiteboardActive()) {
+			return;
+		}
+		if (boundingBox.isCropBox()) {
+			geoImage.setCropped(true);
+			if (Double.isNaN(originalRatio)) {
+				updateOriginalRatio();
+			}
+			updateImageCrop(point, handler);
+		} else {
+			transformableRectangle.updateByBoundingBoxResize(point, handler);
+		}
 	}
 }

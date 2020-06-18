@@ -6308,8 +6308,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			int height = (int) Math.max(inlineObject.getMinHeight(),
 					inlinePreviewRectangle.getHeight());
 
-			inlineObject.setWidth(width);
-			inlineObject.setHeight(height);
+			inlineObject.setSize(width, height);
 
 			inlinePreviewRectangle = null;
 			view.setShapeRectangle(null);
@@ -7334,7 +7333,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 						- yRW;
 			} else if (movedGeoImage.hasAbsoluteLocation()) {
 				setStartPointLocation();
-				oldImage = new GeoImage(movedGeoImage);
+				oldImage = movedGeoImage.copy();
 
 				GeoPoint loc = movedGeoImage.getStartPoints()[2];
 				if (loc != null) { // top left defined
@@ -9686,7 +9685,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			return geoElement.isGeoSegment()
 					|| geoElement instanceof GeoInline
 					|| geoElement instanceof GeoWidget
-					|| (geoElement.isGeoImage() && !geoElement.isLocked() && crop);
+					|| (geoElement.isGeoImage() && !geoElement.isLocked());
 		}
 		return false;
 	}
@@ -12286,7 +12285,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		for (GeoElement geo : geos) {
 			Drawable dr = ((Drawable) view.getDrawableFor(geo));
 			if (dr != null) {
-				if (geo instanceof GeoImage || !(geo instanceof PointRotateable)) {
+				if (!(geo instanceof PointRotateable)) {
 					hasRotationHandler = false;
 				}
 				GRectangle2D bounds = dr.getBoundsClipped();

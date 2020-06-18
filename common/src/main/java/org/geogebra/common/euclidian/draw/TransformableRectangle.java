@@ -124,8 +124,7 @@ public class TransformableRectangle {
 			return;
 		}
 
-		geo.setWidth(newWidth);
-		geo.setHeight(newHeight);
+		geo.setSize(newWidth, newHeight);
 		geo.setAngle(newAngle);
 		geo.setLocation(new GPoint2D(
 						view.toRealWorldCoordX(points.get(0).getX()),
@@ -200,8 +199,7 @@ public class TransformableRectangle {
 
 		geo.setLocation(new GPoint2D(view.toRealWorldCoordX(origin.getX()),
 				view.toRealWorldCoordY(origin.getY())));
-		geo.setWidth(width);
-		geo.setHeight(height);
+		geo.setSize(width, height);
 		geo.updateRepaint();
 		updateSelfAndBoundingBox();
 	}

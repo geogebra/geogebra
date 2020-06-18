@@ -59,22 +59,6 @@ public abstract class DrawWidget extends Drawable {
 	}
 
 	/**
-	 * @param newWidth
-	 *            pixel width at current zoom
-	 */
-	public void setWidth(int newWidth) {
-		getGeoElement().setWidth(newWidth);
-	}
-
-	/**
-	 * @param newHeight
-	 *            pixel height at current zoom
-	 */
-	public void setHeight(int newHeight) {
-		getGeoElement().setHeight(newHeight);
-	}
-
-	/**
 	 * @return width on screen at current zoom
 	 */
 	public final double getWidth() {

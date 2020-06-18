@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -41,7 +42,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoImage extends GeoElement implements Locateable,
 		AbsoluteScreenLocateable, PointRotateable, Mirrorable, Translateable,
-		Dilateable, MatrixTransformable, Transformable {
+		Dilateable, MatrixTransformable, Transformable, RectangleTransformable {
 	/** Index of the center in corners array */
 	public static final int CENTER_INDEX = 3;
 	// private String imageFileName = ""; // image file
@@ -118,31 +119,16 @@ public class GeoImage extends GeoElement implements Locateable,
 		setLabel(label);
 	}
 
-	/**
-	 * Copy constructor
-	 * 
-	 * @param img
-	 *            source image
-	 */
-	public GeoImage(GeoImage img) {
-		this(img.cons);
-		set(img);
-	}
-
 	@Override
-	public GeoElement copy() {
-		return new GeoImage(this);
+	public GeoImage copy() {
+		GeoImage copy = new GeoImage(cons);
+		copy.set(this);
+		return copy;
 	}
 
 	@Override
 	public int getRelatedModeID() {
-
 		return EuclidianConstants.MODE_IMAGE;
-		/*
-		 * switch (this.image.getType()){ case 5: return
-		 * EuclidianConstants.MODE_IMAGE; case 6: return
-		 * EuclidianConstants.MODE_PEN; default: return -1; }
-		 */
 	}
 
 	private void initTempPoints() {
@@ -315,10 +301,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void setImageFileName(String fileName) {
 		setImageFileName(fileName, 0, 0);
 	}
-
-	// final public BufferedImage getFillImage() {
-	// return image;
-	// }
 
 	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
@@ -1169,10 +1151,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		String md5B = imageFileName2.substring(0,
 				kernel.getApplication().getMD5folderLength(imageFileName));
 		// MD5 checksums equal, so images almost certainly identical
-		if (md5A.equals(md5B)) {
-			return true;
-		}
-		return false;
+		return md5A.equals(md5B);
 	}
 
 	@Override
@@ -1444,5 +1423,81 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	public void setCropped(boolean cropped) {
 		this.cropped = cropped;
+	}
+
+	@Override
+	public double getMinWidth() {
+		return 200;
+	}
+
+	@Override
+	public double getMinHeight() {
+		return 200;
+	}
+
+	@Override
+	public double getHeight() {
+		if (getStartPoints()[2] != null) {
+			return getStartPoint().distance(getStartPoints()[2]) * kernel.getApplication()
+					.getActiveEuclidianView().getXscale();
+		}
+		return (pixelHeight * getWidth()) / pixelWidth;
+	}
+
+	@Override
+	public double getWidth() {
+		return getStartPoint().distance(getStartPoints()[1]) * kernel.getApplication().getActiveEuclidianView().getXscale();
+	}
+
+	@Override
+	public double getAngle() {
+		double[] c1 = new double[2];
+		getInternalCornerPointCoords(c1,0);
+		double[] c2 = new double[2];
+		getInternalCornerPointCoords(c2,1);
+		return Math.atan2(c1[1] - c2[1], c2[0] - c1[0]);
+	}
+
+	@Override
+	public GPoint2D getLocation() {
+		double[] c = new double[2];
+		getInternalCornerPointCoords(c,2);
+		return new GPoint2D(c[0], c[1]);
+	}
+
+	@Override
+	public void setSize(double width, double height) {
+		ensureCorner();
+		double rwWidth = width / 50.0;
+		double rwHeight = height / 50.0;
+
+		double angle = -getAngle();
+
+		getStartPoint().setCoords(getStartPoints()[2].x + rwHeight * Math.sin(angle),
+				 getStartPoints()[2].y - rwHeight * Math.cos(angle), 1);
+		getStartPoints()[1].setCoords(getStartPoints()[0].x + rwWidth * Math.cos(angle),
+				getStartPoints()[0].y + rwWidth * Math.sin(angle), 1);
+	}
+
+	private void ensureCorner() {
+		if (getStartPoints()[2] == null) {
+			GeoPoint c3 = new GeoPoint(cons);
+			calculateCornerPoint(c3, 4);
+			setCorner(c3, 2);
+		}
+	}
+
+	@Override
+	public void setAngle(double angle) {
+		// not needed ?
+	}
+
+	@Override
+	public void setLocation(GPoint2D location) {
+		ensureCorner();
+		Coords shift = new Coords(-getStartPoints()[2].x + location.x, -getStartPoints()[2].y +location.y);
+		getStartPoint().translate(shift);
+		getStartPoints()[1].translate(shift);
+		getStartPoints()[2].translate(shift);
 	}
 }
