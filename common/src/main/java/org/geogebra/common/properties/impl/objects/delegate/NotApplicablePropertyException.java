@@ -1,8 +1,6 @@
 package org.geogebra.common.properties.impl.objects.delegate;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.properties.GeoElementProperty;
-import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
 
 public class NotApplicablePropertyException extends Exception {
 
