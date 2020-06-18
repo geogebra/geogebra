@@ -1,40 +1,42 @@
 package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.impl.AbstractProperty;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.objects.delegate.ShowTracePropertyDelegate;
 
 /**
  * Show trace
  */
-public class ShowTraceProperty extends AbstractGeoElementProperty implements BooleanProperty {
+public class ShowTraceProperty extends AbstractProperty implements BooleanProperty {
 
-	public ShowTraceProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-		super("ShowTrace", geoElement);
+	private final GeoElementDelegate delegate;
+
+	public ShowTraceProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
+		super(localization, "ShowTrace");
+		delegate = new ShowTracePropertyDelegate(element);
 	}
 
 	@Override
 	public boolean getValue() {
-		return getElement().getTrace();
+		return delegate.getElement().getTrace();
 	}
 
 	@Override
 	public void setValue(boolean trace) {
-		GeoElement element = getElement();
+		GeoElement element = delegate.getElement();
 		if (element.isTraceable()) {
 			((Traceable) element).setTrace(trace);
 		}
 	}
 
 	@Override
-	boolean isApplicableTo(GeoElement element) {
-		if (isTextOrInput(element)) {
-			return false;
-		}
-		if (element instanceof GeoList) {
-			return isApplicableToGeoList((GeoList) element);
-		}
-		return element.isTraceable();
+	public boolean isEnabled() {
+		return delegate.isEnabled();
 	}
 }

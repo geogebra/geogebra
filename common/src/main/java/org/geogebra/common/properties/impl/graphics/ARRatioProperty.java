@@ -5,11 +5,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.properties.RatioProperty;
+import org.geogebra.common.properties.StringProperty;
 import org.geogebra.common.properties.impl.AbstractProperty;
 
-public class ARRatioProperty extends AbstractProperty
-        implements RatioProperty {
+public class ARRatioProperty extends AbstractProperty implements StringProperty {
 
     private Renderer renderer;
     private Kernel kernel;
@@ -54,10 +53,5 @@ public class ARRatioProperty extends AbstractProperty
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String getUnits() {
-        return renderer.getARRatioUnits();
     }
 }

@@ -1,45 +1,42 @@
 package org.geogebra.common.properties.impl.objects;
 
-import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.properties.RangeProperty;
+import org.geogebra.common.properties.impl.AbstractRangeProperty;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.objects.delegate.PointSizePropertyDelegate;
 
 /**
  * Point size
  */
-public class PointSizeProperty
-		extends AbstractGeoElementProperty implements RangeProperty<Integer> {
+public class PointSizeProperty extends AbstractRangeProperty<Integer> {
 
-	public PointSizeProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-		super("Size", geoElement);
+	private final GeoElementDelegate delegate;
+
+	public PointSizeProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
+		super(localization, "Size", 1, 9, 1);
+		delegate = new PointSizePropertyDelegate(element);
 	}
 
 	@Override
-	public Integer getMin() {
-		return 1;
-	}
-
-	@Override
-	public Integer getMax() {
-		return 9;
+	protected void setValueSafe(Integer value) {
+		GeoElement element = delegate.getElement();
+		setSize(element, value);
+		element.updateRepaint();
 	}
 
 	@Override
 	public Integer getValue() {
-		if (getElement() instanceof PointProperties) {
-			return ((PointProperties) getElement()).getPointSize();
+		GeoElement element = delegate.getElement();
+		if (element instanceof PointProperties) {
+			return ((PointProperties) element).getPointSize();
 		}
 		return EuclidianStyleConstants.DEFAULT_POINT_SIZE;
-	}
-
-	@Override
-	public void setValue(Integer size) {
-		GeoElement element = getElement();
-		setSize(element, size);
-		element.updateRepaint();
 	}
 
 	private void setSize(GeoElement element, int size) {
@@ -54,18 +51,7 @@ public class PointSizeProperty
 	}
 
 	@Override
-	public Integer getStep() {
-		return 1;
-	}
-
-	@Override
-	boolean isApplicableTo(GeoElement element) {
-		if (isTextOrInput(element)) {
-			return false;
-		}
-		if (element instanceof GeoList) {
-			return isApplicableToGeoList((GeoList) element);
-		}
-		return PointStyleModel.match(element);
+	public boolean isEnabled() {
+		return delegate.isEnabled();
 	}
 }

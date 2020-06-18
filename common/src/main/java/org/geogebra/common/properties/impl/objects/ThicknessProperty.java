@@ -3,38 +3,40 @@ package org.geogebra.common.properties.impl.objects;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.properties.RangeProperty;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.impl.AbstractRangeProperty;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.objects.delegate.ThicknessPropertyDelegate;
 
 /**
  * Line thickness
  */
-public class ThicknessProperty
-		extends AbstractGeoElementProperty implements RangeProperty<Integer> {
+public class ThicknessProperty extends AbstractRangeProperty<Integer> {
 
-	public ThicknessProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-		super("Thickness", geoElement);
+	private final GeoElementDelegate delegate;
+
+	public ThicknessProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
+		super(localization, "Thickness", null, 9, 1);
+		delegate = new ThicknessPropertyDelegate(element);
 	}
 
 	@Override
 	public Integer getMin() {
-		return getElement().getMinimumLineThickness();
+		return delegate.getElement().getMinimumLineThickness();
 	}
 
 	@Override
-	public Integer getMax() {
-		return 9;
+	protected void setValueSafe(Integer value) {
+		GeoElement element = delegate.getElement();
+		setThickness(element, value);
+		element.updateRepaint();
 	}
 
 	@Override
 	public Integer getValue() {
-		return getElement().getLineThickness();
-	}
-
-	@Override
-	public void setValue(Integer size) {
-		GeoElement element = getElement();
-		setThickness(element, size);
-		element.updateRepaint();
+		return delegate.getElement().getLineThickness();
 	}
 
 	private void setThickness(GeoElement element, int size) {
@@ -49,18 +51,7 @@ public class ThicknessProperty
 	}
 
 	@Override
-	public Integer getStep() {
-		return 1;
-	}
-
-	@Override
-	boolean isApplicableTo(GeoElement element) {
-		if (isTextOrInput(element)) {
-			return false;
-		}
-		if (element instanceof GeoList) {
-			return isApplicableToGeoList((GeoList) element);
-		}
-		return element.showLineProperties();
+	public boolean isEnabled() {
+		return delegate.isEnabled();
 	}
 }

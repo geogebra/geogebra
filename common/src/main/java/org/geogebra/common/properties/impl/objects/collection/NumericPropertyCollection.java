@@ -17,16 +17,6 @@ public class NumericPropertyCollection
 	}
 
 	@Override
-	public V getMin() {
-		return getFirstProperty().getMin();
-	}
-
-	@Override
-	public V getMax() {
-		return getFirstProperty().getMax();
-	}
-
-	@Override
 	public V getValue() {
 		return getFirstProperty().getValue();
 	}

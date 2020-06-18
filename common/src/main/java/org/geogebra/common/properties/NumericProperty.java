@@ -7,20 +7,6 @@ package org.geogebra.common.properties;
 public interface NumericProperty<T extends Number & Comparable<T>> extends Property {
 
 	/**
-	 * Returns the minimal possible value for this property inclusive.
-	 *
-	 * @return minimal value
-	 */
-    T getMin();
-
-	/**
-	 * Returns the maximal possible value for this property inclusive.
-	 *
-	 * @return maximal value
-	 */
-	T getMax();
-
-	/**
 	 * Get the value for the property.
 	 *
 	 * @return value

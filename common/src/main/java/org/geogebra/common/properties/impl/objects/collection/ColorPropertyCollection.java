@@ -1,12 +1,12 @@
 package org.geogebra.common.properties.impl.objects.collection;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.properties.impl.objects.ColorProperty;
+import org.geogebra.common.properties.impl.objects.ElementColorProperty;
 
 /**
  * Handles a collection of ColorProperty objects as a single ColorProperty.
  */
-public class ColorPropertyCollection<T extends ColorProperty>
+public class ColorPropertyCollection<T extends ElementColorProperty>
 		extends AbstractTypedPropertyCollection<T, GColor> {
 
 	/**

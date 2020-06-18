@@ -7,6 +7,7 @@ import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.Test;
 
 public class ShowTracePropertyTest extends BaseUnitTest {
@@ -15,7 +16,7 @@ public class ShowTracePropertyTest extends BaseUnitTest {
 	public void testConstructorForPoint() {
 		GeoElement point = addAvInput("(1,2)");
 		try {
-			new ShowTraceProperty(point);
+			new ShowTraceProperty(getLocalization(), point);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}
@@ -24,12 +25,14 @@ public class ShowTracePropertyTest extends BaseUnitTest {
 	@Test
 	public void testConstructorForNumeric() {
 		GeoNumeric slider = addAvInput("1");
-		assertThrows(NotApplicablePropertyException.class, () -> new ShowTraceProperty(slider));
+		assertThrows(NotApplicablePropertyException.class,
+				() -> new ShowTraceProperty(getLocalization(), slider));
 	}
 
 	@Test
 	public void testConstructorForText() {
 		GeoText text = addAvInput("\"\"");
-		assertThrows(NotApplicablePropertyException.class, () -> new ShowTraceProperty(text));
+		assertThrows(NotApplicablePropertyException.class,
+				() -> new ShowTraceProperty(getLocalization(), text));
 	}
 }

@@ -1,20 +1,22 @@
 package org.geogebra.common.properties.impl.objects;
 
-import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.IconsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.objects.delegate.PointStylePropertyDelegate;
 
 /**
  * Point style
  */
-public class PointStyleProperty
-		extends AbstractGeoElementProperty implements IconsEnumerableProperty {
+public class PointStyleProperty extends AbstractEnumerableProperty
+		implements IconsEnumerableProperty {
 
 	private static final PropertyResource[] icons = {
 			PropertyResource.ICON_POINT_STYLE_DOT, PropertyResource.ICON_POINT_STYLE_CROSS,
@@ -22,27 +24,13 @@ public class PointStyleProperty
 			PropertyResource.ICON_POINT_STYLE_FILLED_DIAMOND
 	};
 
-	public PointStyleProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-		super("Properties.Style", geoElement);
-	}
+	private final GeoElementDelegate delegate;
 
-	@Override
-	public String[] getValues() {
-		return null;
-	}
-
-	@Override
-	public int getIndex() {
-		return getElement() instanceof GeoPoint ? ((GeoPoint) getElement()).getPointStyle() : -1;
-	}
-
-	@Override
-	public void setIndex(int pointStyle) {
-		GeoElement element = getElement();
-		if (element instanceof PointProperties) {
-			((PointProperties) element).setPointStyle(pointStyle);
-			element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
-		}
+	public PointStyleProperty(Localization localization, GeoElement element)
+			throws NotApplicablePropertyException {
+		super(localization, "Properties.Style");
+		delegate = new PointStylePropertyDelegate(element);
+		setValues(new String[icons.length]);
 	}
 
 	@Override
@@ -51,14 +39,22 @@ public class PointStyleProperty
 	}
 
 	@Override
-	boolean isApplicableTo(GeoElement element) {
-		if (isTextOrInput(element)) {
-			return false;
+	protected void setValueSafe(String value, int index) {
+		GeoElement element = delegate.getElement();
+		if (element instanceof PointProperties) {
+			((PointProperties) element).setPointStyle(index);
+			element.updateVisualStyleRepaint(GProperty.POINT_STYLE);
 		}
-		if (element instanceof GeoList) {
-			return isApplicableToGeoList((GeoList) element);
-		}
-		EuclidianView euclidianView = element.getApp().getActiveEuclidianView();
-		return PointStyleModel.match(element) && euclidianView.canShowPointStyle();
+	}
+
+	@Override
+	public int getIndex() {
+		GeoElement element = delegate.getElement();
+		return element instanceof GeoPoint ? ((GeoPoint) element).getPointStyle() : -1;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return delegate.isEnabled();
 	}
 }

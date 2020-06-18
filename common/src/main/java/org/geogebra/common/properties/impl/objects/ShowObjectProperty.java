@@ -1,36 +1,30 @@
 package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.impl.AbstractProperty;
 
 /**
  * Show object
  */
-public class ShowObjectProperty extends AbstractGeoElementProperty implements BooleanProperty {
+public class ShowObjectProperty extends AbstractProperty implements BooleanProperty {
 
-	public ShowObjectProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-		super("Show", geoElement);
+	private final GeoElement element;
+
+	public ShowObjectProperty(Localization localization, GeoElement element) {
+		super(localization, "Show");
+		this.element = element;
 	}
 
 	@Override
 	public boolean getValue() {
-		return getElement().isEuclidianVisible();
+		return element.isEuclidianVisible();
 	}
 
 	@Override
 	public void setValue(boolean show) {
-		GeoElement element = getElement();
 		element.setEuclidianVisible(show);
 		element.updateRepaint();
-	}
-
-	@Override
-	boolean isApplicableTo(GeoElement element) {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
 	}
 }

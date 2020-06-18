@@ -8,26 +8,26 @@ import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropert
 import org.geogebra.common.properties.impl.objects.delegate.SliderPropertyDelegate;
 
 /**
- * Min property
+ * Step
  */
-public class MinProperty extends AbstractNumericProperty {
+public class AnimationStepProperty extends AbstractNumericProperty {
 
 	private final SliderPropertyDelegate delegate;
 
-	public MinProperty(Localization localization, GeoElement element)
+	public AnimationStepProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "Minimum.short");
+		super(localization, "AnimationStep");
 		delegate = new SliderPropertyDelegate(element);
 	}
 
 	@Override
 	public Double getValue() {
-		return delegate.getElement().getIntervalMin();
+		return delegate.getElement().getAnimationStep();
 	}
 
 	@Override
 	public void setValue(Double value) {
 		GeoNumeric numeric = delegate.getElement();
-		numeric.setIntervalMin(value);
+		numeric.setAnimationStep(value);
 	}
 }
