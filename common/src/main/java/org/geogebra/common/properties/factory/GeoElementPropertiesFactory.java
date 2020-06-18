@@ -36,7 +36,6 @@ import org.geogebra.common.properties.impl.objects.collection.RangePropertyColle
  */
 public class GeoElementPropertiesFactory {
 
-
 	/**
 	 * Creates properties for a list of GeoElements.
 	 *
