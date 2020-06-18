@@ -111,16 +111,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 	}
 
 	private native void setImageInterpolationNative(Context2d ctx, boolean b) /*-{
-
 		ctx['imageSmoothingEnabled'] = b;
-		ctx['mozImageSmoothingEnabled'] = b;
 		// IE11+ only
 		ctx['msImageSmoothingEnabled'] = b;
-		ctx['oImageSmoothingEnabled'] = b;
-		// deprecated
-		// https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/Ud3cV1mj35s/Ssat21OeRqYJ
-		// ctx['webkitImageSmoothingEnabled'] = b;
-
 	}-*/;
 
 	/**
