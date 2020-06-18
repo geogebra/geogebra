@@ -5,18 +5,19 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.properties.GeoElementProperty;
+import org.geogebra.common.properties.impl.AbstractProperty;
 
 /**
  * Holds the reference to the GeoElement and to the name of the property.
  */
-public abstract class AbstractGeoElementProperty implements GeoElementProperty {
+public abstract class AbstractGeoElementProperty extends AbstractProperty
+		implements GeoElementProperty {
 
-	private String name;
 	private GeoElement geoElement;
 
 	protected AbstractGeoElementProperty(String name, GeoElement geoElement)
 			throws NotApplicablePropertyException {
-		this.name = name;
+		super(geoElement.getKernel().getLocalization(), name);
 		this.geoElement = geoElement;
 		if (!isApplicableTo(geoElement)) {
 			throw new NotApplicablePropertyException(geoElement, this);
@@ -28,11 +29,6 @@ public abstract class AbstractGeoElementProperty implements GeoElementProperty {
 	 * @return True if the element has the property.
 	 */
 	abstract boolean isApplicableTo(GeoElement element);
-
-	@Override
-	public String getName() {
-		return name;
-	}
 
 	GeoElement getElement() {
 		return geoElement;
