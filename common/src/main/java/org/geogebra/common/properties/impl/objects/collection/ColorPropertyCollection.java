@@ -7,7 +7,7 @@ import org.geogebra.common.properties.impl.objects.ColorProperty;
  * Handles a collection of ColorProperty objects as a single ColorProperty.
  */
 public class ColorPropertyCollection<T extends ColorProperty>
-		extends AbstractPropertyCollection<T, GColor> {
+		extends AbstractTypedPropertyCollection<T, GColor> {
 
 	/**
 	 * @param properties properties to handle
