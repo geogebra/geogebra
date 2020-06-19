@@ -12,5 +12,5 @@ public interface BoundingBoxDelegate {
 
 	boolean hitSideOfBoundingBox(int x, int y, int hitThreshold);
 
-	void updateHandlers();
+	void setHandlerFromCenter(int i, double x, double y);
 }

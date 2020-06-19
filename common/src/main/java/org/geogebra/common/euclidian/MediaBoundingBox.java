@@ -1,16 +1,20 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
 
 public class MediaBoundingBox extends BoundingBox<GShape> {
 
-	BoundingBoxDelegate delegate;
 	protected RectangleTransformable geo;
 	protected GAffineTransform transform;
+	protected GPoint2D[] corners = new GPoint2D[9];
+	BoundingBoxDelegate delegate;
 
 	public MediaBoundingBox() {
 		delegate = new RotatableBoundingBox(this);
@@ -28,7 +32,23 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		delegate.draw(g2);
+		g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
+				GBasicStroke.JOIN_MITER));
+		g2.setColor(color);
+
+		if (corners[0] != null) {
+			for (int i = 0; i < 4; i++) {
+				g2.drawLine((int) corners[i].getX(), (int) corners[i].getY(),
+						(int) corners[(i + 1) % 4].getX(), (int) corners[(i + 1) % 4].getY());
+			}
+			if (showHandlers() && !isCropBox()) {
+				g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
+						(int) corners[8].getX(), (int) corners[8].getY());
+			}
+		}
+		if (showHandlers()) {
+			delegate.draw(g2);
+		}
 	}
 
 	@Override
@@ -39,14 +59,34 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 	@Override
 	public void setTransform(GAffineTransform directTransform) {
 		this.transform = directTransform;
-		delegate.updateHandlers();
+		updateHandlers();
+	}
+
+	private void setHandlerTransformed(int i, double x, double y) {
+		corners[i] = transform.transform(new GPoint2D(x, y), null);
+		delegate.setHandlerFromCenter(i, corners[i].getX(), corners[i].getY());
+	}
+
+	private void updateHandlers() {
+		double width = geo.getWidth();
+		double height = geo.getHeight();
+
+		setHandlerTransformed(0, 0, 0);
+		setHandlerTransformed(1, 0, height);
+		setHandlerTransformed(2, width, height);
+		setHandlerTransformed(3, width, 0);
+		setHandlerTransformed(4, width / 2, 0);
+		setHandlerTransformed(5, 0, height / 2);
+		setHandlerTransformed(6, width / 2, height);
+		setHandlerTransformed(7, width, height / 2);
+		setHandlerTransformed(8, width / 2, -BoundingBox.ROTATION_HANDLER_DISTANCE);
 	}
 
 	public void setCropMode(boolean crop) {
 		if (crop != isCropBox()) {
 			delegate = crop ? new CropBox(this) : new RotatableBoundingBox(this);
 			delegate.createHandlers();
-			delegate.updateHandlers();
+			updateHandlers();
 		}
 	}
 

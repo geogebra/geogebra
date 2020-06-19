@@ -1461,7 +1461,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	public GPoint2D getLocation() {
 		double[] c = new double[2];
-		getInternalCornerPointCoords(c,2);
+		getInternalCornerPointCoords(c, 2);
 		return new GPoint2D(c[0], c[1]);
 	}
 
@@ -1495,7 +1495,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	public void setLocation(GPoint2D location) {
 		ensureCorner();
-		Coords shift = new Coords(-getStartPoints()[2].x + location.x, -getStartPoints()[2].y +location.y);
+		Coords shift = new Coords(-getStartPoints()[2].x + location.x,
+				-getStartPoints()[2].y + location.y);
 		if (getStartPoints()[1] != null && getStartPoints()[2] != null) {
 			getStartPoint().translate(shift);
 			getStartPoints()[1].translate(shift);

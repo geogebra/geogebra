@@ -208,8 +208,8 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	}
 
 	@Override
-	public void setSize(double w,double h) {
-		this.width = w;
-		this.height = h;
+	public void setSize(double width, double height) {
+		this.width = width;
+		this.height = height;
 	}
 }

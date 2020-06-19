@@ -687,6 +687,7 @@ public final class DrawImage extends Drawable {
 			break;
 		}
 		boundingBox.setRectangle(rect);
+		boundingBox.setTransform(transformableRectangle.getDirectTransform());
 		// remember last crop box position
 		setCropBox(rect);
 		updateImageCropRatio();

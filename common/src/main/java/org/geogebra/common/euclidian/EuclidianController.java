@@ -153,7 +153,6 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
