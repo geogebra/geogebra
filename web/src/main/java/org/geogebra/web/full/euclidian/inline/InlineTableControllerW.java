@@ -221,18 +221,12 @@ public class InlineTableControllerW implements InlineTableController {
 	}
 
 	private void updateSizes() {
-		int width = tableImpl.getTotalWidth();
-		int height = tableImpl.getTotalHeight();
-
-		if (width < 1 || height < 1) {
-			table.remove();
-		} else {
-			table.setWidth(tableImpl.getTotalWidth());
-			table.setHeight(tableImpl.getTotalHeight());
-			table.setMinWidth(tableImpl.getMinWidth());
-			table.setMinHeight(tableImpl.getMinHeight());
-			table.updateRepaint();
-		}
+		table.setWidth(tableImpl.getTotalWidth());
+		table.setHeight(tableImpl.getTotalHeight());
+		table.setMinWidth(tableImpl.getMinWidth());
+		table.setMinHeight(tableImpl.getMinHeight());
+		table.setContent(getContent());
+		table.updateRepaint();
 	}
 
 	private String getContent() {
@@ -253,8 +247,16 @@ public class InlineTableControllerW implements InlineTableController {
 		updateContent();
 
 		tableImpl.contentChanged(() -> {
-			table.setContent(getContent());
+			if (tableImpl.getTotalWidth() < 1 || tableImpl.getTotalHeight() < 1) {
+				table.remove();
+			} else {
+				table.setContent(getContent());
+			}
 			view.getApplication().storeUndoInfo();
+		});
+
+		tableImpl.sizeChanged(() -> {
+			table.setContent(getContent());
 		});
 
 		tableImpl.selectionChanged(() ->

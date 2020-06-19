@@ -26,6 +26,8 @@ public class CarotaTable {
 
 	public native void contentChanged(EditorCallback editorCallback);
 
+	public native void sizeChanged(EditorCallback editorCallback);
+
 	public native void selectionChanged(EditorCallback editorCallback);
 
 	@JsOverlay
