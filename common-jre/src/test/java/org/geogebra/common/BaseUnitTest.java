@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Localization;
 import org.junit.Before;
 
 /**
@@ -76,6 +77,15 @@ public class BaseUnitTest {
     protected GeoElementFactory getElementFactory() {
         return elementFactory;
     }
+
+	/**
+	 * Get the localization.
+	 *
+	 * @return localization
+	 */
+	protected Localization getLocalization() {
+		return app.getLocalization();
+	}
 
 	/**
 	 * Use this method when you want to test the commands as if those were read from file.

@@ -19,4 +19,14 @@ public class RangePropertyCollection<T extends RangeProperty<V>, V extends Numbe
 	public V getStep() {
 		return getFirstProperty().getStep();
 	}
+
+	@Override
+	public V getMin() {
+		return getFirstProperty().getMin();
+	}
+
+	@Override
+	public V getMax() {
+		return getFirstProperty().getMax();
+	}
 }

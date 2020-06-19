@@ -5,54 +5,53 @@ import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.ColorProperty;
+import org.geogebra.common.properties.impl.AbstractProperty;
 
 /**
  * Color property
  */
-public class ColorProperty extends AbstractGeoElementProperty {
+public class ElementColorProperty extends AbstractProperty implements ColorProperty {
 
+	private final GeoElement element;
 	private GColor[] colors;
 
-	public ColorProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-		super("stylebar.Color", geoElement);
+	/***/
+	public ElementColorProperty(Localization localization, GeoElement element) {
+		super(localization, "stylebar.Color");
+		this.element = element;
 	}
 
-	/**
-	 * @return color
-	 */
+	@Override
 	public GColor getColor() {
-		return getElement().getObjectColor();
+		return element.getObjectColor();
 	}
 
-	/**
-	 * @param color color
-	 */
+	@Override
 	public void setColor(GColor color) {
-		GeoElement element = getElement();
 		App app = element.getApp();
 		EuclidianStyleBarStatic.applyColor(
 				color, element.getAlphaValue(), app, app.getSelectionManager().getSelectedGeos());
 	}
 
 	@Override
-	boolean isApplicableTo(GeoElement element) {
-		return true;
-	}
-
-	/**
-	 * @return All the possible colors of a GeoElement
-	 */
-	public GColor[] getColorValues() {
+	public GColor[] getColors() {
 		if (colors == null) {
 			colors = createColorValues();
 		}
 		return colors;
 	}
 
+	@Override
+	public boolean isEnabled() {
+		return element.isEuclidianVisible();
+	}
+
 	private GColor[] createColorValues() {
 		GColor[] primColor = GeoGebraColorConstants.getPrimarySwatchColors();
 		GColor[] scolors = GeoGebraColorConstants.getMainColorSwatchColors();
-		return new GColor[] { primColor[0], primColor[2], primColor[4],
+		return new GColor[]{primColor[0], primColor[2], primColor[4],
 				primColor[8], primColor[10], primColor[12], GColor.BLACK,
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
 				GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE, scolors[19],
@@ -67,6 +66,6 @@ public class ColorProperty extends AbstractGeoElementProperty {
 				scolors[44], scolors[52], scolors[60], scolors[6], scolors[14],
 				scolors[22], scolors[38], scolors[46], scolors[54], scolors[62],
 				scolors[7], scolors[15], scolors[23], scolors[39], scolors[47],
-				scolors[55], scolors[63] };
+				scolors[55], scolors[63]};
 	}
 }

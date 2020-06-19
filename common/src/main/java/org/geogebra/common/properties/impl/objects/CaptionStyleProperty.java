@@ -1,12 +1,16 @@
 package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.properties.EnumerableProperty;
+import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.objects.delegate.CaptionStyleDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.GeoElementDelegate;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
  * Caption style
  */
-public class CaptionStyleProperty extends AbstractGeoElementProperty implements EnumerableProperty {
+public class CaptionStyleProperty extends AbstractEnumerableProperty {
 
 	private static final int LABEL_HIDDEN = 0;
 
@@ -18,30 +22,31 @@ public class CaptionStyleProperty extends AbstractGeoElementProperty implements 
 			"Caption"
 	};
 
-	public CaptionStyleProperty(GeoElement geoElement) throws NotApplicablePropertyException {
-		super("stylebar.Caption", geoElement);
-	}
+	private final GeoElementDelegate delegate;
 
-	@Override
-	public String[] getValues() {
-		return captionStyleNames;
+	/***/
+	public CaptionStyleProperty(Localization localization, GeoElement geoElement)
+			throws NotApplicablePropertyException {
+		super(localization, "stylebar.Caption");
+		delegate = new CaptionStyleDelegate(geoElement);
+		setValuesAndLocalize(captionStyleNames);
 	}
 
 	@Override
 	public int getIndex() {
-		return getElement().getLabelMode();
+		return delegate.getElement().getLabelMode();
 	}
 
 	@Override
-	public void setIndex(int captionStyle) {
-		GeoElement element = getElement();
-		element.setLabelMode(captionStyle);
-		element.setLabelVisible(captionStyle != LABEL_HIDDEN);
+	protected void setValueSafe(String value, int index) {
+		GeoElement element = delegate.getElement();
+		element.setLabelMode(index);
+		element.setLabelVisible(index != LABEL_HIDDEN);
 		element.updateRepaint();
 	}
 
 	@Override
-	boolean isApplicableTo(GeoElement element) {
-		return !isTextOrInput(element);
+	public boolean isEnabled() {
+		return delegate.isEnabled();
 	}
 }

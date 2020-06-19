@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.properties.impl.objects.NotApplicablePropertyException;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.SlopeSizeProperty;
 
 /**
@@ -882,7 +882,7 @@ abstract public class ObjectSettingsModel {
             try {
                 slopeSizeProperty =
                         firstElement instanceof GeoNumeric
-                                ? new SlopeSizeProperty((GeoNumeric) firstElement)
+                                ? new SlopeSizeProperty(app.getLocalization(), firstElement)
                                 : null;
             } catch (NotApplicablePropertyException ignored) {
             }

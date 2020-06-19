@@ -2,11 +2,11 @@ package org.geogebra.common.properties.impl.objects.collection;
 
 import org.geogebra.common.properties.Property;
 
-abstract class AbstractPropertyCollection<T extends Property, S> implements Property {
+abstract class AbstractTypedPropertyCollection<T extends Property, S> implements Property {
 
 	T[] properties;
 
-	AbstractPropertyCollection(T[] properties) {
+	AbstractTypedPropertyCollection(T[] properties) {
 		this.properties = properties;
 	}
 

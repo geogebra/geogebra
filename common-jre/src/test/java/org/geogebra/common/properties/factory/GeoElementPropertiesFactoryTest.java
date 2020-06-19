@@ -26,12 +26,12 @@ public class GeoElementPropertiesFactoryTest extends BaseUnitTest {
 		Property[] pointProperties = propertiesArray.getProperties();
 
 		assertThat(pointProperties[0].getName(), equalTo("Show"));
-		assertThat(pointProperties[1].getName(), equalTo("stylebar.Color"));
-		assertThat(pointProperties[2].getName(), equalTo("Properties.Style"));
+		assertThat(pointProperties[1].getName(), equalTo("Set color"));
+		assertThat(pointProperties[2].getName(), equalTo("Style"));
 		assertThat(pointProperties[3].getName(), equalTo("Size"));
-		assertThat(pointProperties[4].getName(), equalTo("stylebar.Caption"));
-		assertThat(pointProperties[5].getName(), equalTo("ShowTrace"));
-		assertThat(pointProperties[6].getName(), equalTo("fixed"));
-		assertThat(pointProperties[7].getName(), equalTo("ShowInAlgebraView"));
+		assertThat(pointProperties[4].getName(), equalTo("Set caption style"));
+		assertThat(pointProperties[5].getName(), equalTo("Show trace"));
+		assertThat(pointProperties[6].getName(), equalTo("Fixed"));
+		assertThat(pointProperties[7].getName(), equalTo("Show in Algebra View"));
 	}
 }

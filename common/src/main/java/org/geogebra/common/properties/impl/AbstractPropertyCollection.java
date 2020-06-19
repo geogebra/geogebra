@@ -7,7 +7,8 @@ import org.geogebra.common.properties.PropertyCollection;
 /**
  * Implements the PropertyCollection interface.
  */
-public class AbstractPropertyCollection extends AbstractProperty implements PropertyCollection {
+public abstract class AbstractPropertyCollection extends AbstractProperty
+		implements PropertyCollection {
 
 	private Property[] properties;
 

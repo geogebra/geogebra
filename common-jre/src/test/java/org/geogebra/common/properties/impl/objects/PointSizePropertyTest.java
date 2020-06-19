@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.Test;
 
 public class PointSizePropertyTest extends BaseUnitTest {
@@ -13,7 +14,7 @@ public class PointSizePropertyTest extends BaseUnitTest {
 	public void testConstructorSucceeds() {
 		GeoElement point = addAvInput("(1,2)");
 		try {
-			new PointSizeProperty(point);
+			new PointSizeProperty(getLocalization(), point);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}
@@ -22,6 +23,7 @@ public class PointSizePropertyTest extends BaseUnitTest {
 	@Test
 	public void testConstructorThrowsError() {
 		GeoElement f = addAvInput("f: x");
-		assertThrows(NotApplicablePropertyException.class, () -> new PointSizeProperty(f));
+		assertThrows(NotApplicablePropertyException.class,
+				() -> new PointSizeProperty(getLocalization(), f));
 	}
 }

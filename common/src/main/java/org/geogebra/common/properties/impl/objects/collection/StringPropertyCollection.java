@@ -6,7 +6,7 @@ import org.geogebra.common.properties.StringProperty;
  * Handles a collection of StringProperty objects as a single StringProperty.
  */
 public class StringPropertyCollection<T extends StringProperty>
-		extends AbstractPropertyCollection<T, String> implements StringProperty {
+		extends AbstractTypedPropertyCollection<T, String> implements StringProperty {
 
 	/**
 	 * @param properties properties to handle

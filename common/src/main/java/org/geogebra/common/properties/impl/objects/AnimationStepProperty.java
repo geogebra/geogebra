@@ -1,32 +1,34 @@
 package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractNumericProperty;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.common.properties.impl.objects.delegate.SliderPropertyDelegate;
 
 /**
- * Max property
+ * Step
  */
-public class MaxProperty extends AbstractNumericProperty {
+public class AnimationStepProperty extends AbstractNumericProperty {
 
 	private final SliderPropertyDelegate delegate;
 
 	/***/
-	public MaxProperty(Localization localization, GeoElement element)
+	public AnimationStepProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, "Maximum.short");
+		super(localization, "AnimationStep");
 		delegate = new SliderPropertyDelegate(element);
 	}
 
 	@Override
 	public Double getValue() {
-		return delegate.getElement().getIntervalMax();
+		return delegate.getElement().getAnimationStep();
 	}
 
 	@Override
 	public void setValue(Double value) {
-		delegate.getElement().setIntervalMax(value);
+		GeoNumeric numeric = delegate.getElement();
+		numeric.setAnimationStep(value);
 	}
 }

@@ -6,7 +6,7 @@ import org.geogebra.common.properties.BooleanProperty;
  * Handles a collection of BooleanProperty objects as a single BooleanProperty.
  */
 public class BooleanPropertyCollection<T extends BooleanProperty>
-		extends AbstractPropertyCollection<T, Boolean> implements BooleanProperty {
+		extends AbstractTypedPropertyCollection<T, Boolean> implements BooleanProperty {
 
 	/**
 	 * @param properties properties to handle
