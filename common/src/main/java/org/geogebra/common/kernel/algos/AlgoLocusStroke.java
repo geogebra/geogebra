@@ -150,23 +150,23 @@ public class AlgoLocusStroke extends AlgoElement {
 
 	@Override
 	public String getDefinition(StringTemplate tpl) {
-		String def = "PolyLine";
-		// #2706
-		if (input == null) {
-			return null;
-		}
-		sbAE.setLength(0);
-		if (tpl.isPrintLocalizedCommandNames()) {
-			sbAE.append(getLoc().getCommand(def));
-		} else {
-			sbAE.append(def);
-		}
+		String unlocalizedName = "PolyLine";
+		String def =
+				tpl.isPrintLocalizedCommandNames()
+						? getLoc().getCommand(unlocalizedName)
+						: unlocalizedName;
 
-		sbAE.append(tpl.leftSquareBracket());
-		// input legth is 0 for ConstructionStep[]
-		
-		appendPoints(sbAE);
-		sbAE.append(tpl.rightSquareBracket());
-		return sbAE.toString();
+		if (tpl.equals(StringTemplate.editorTemplate)) {
+			return def + tpl.leftBracket() + tpl.rightBracket();
+		} else if (input == null) {
+			return null;
+		} else {
+			sbAE.setLength(0);
+			sbAE.append(def);
+			sbAE.append(tpl.leftSquareBracket());
+			appendPoints(sbAE);
+			sbAE.append(tpl.rightSquareBracket());
+			return sbAE.toString();
+		}
 	}
 }

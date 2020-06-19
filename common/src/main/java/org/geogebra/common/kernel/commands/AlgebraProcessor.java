@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -1910,7 +1912,7 @@ public class AlgebraProcessor {
 			ret = doProcessValidExpression(expression, info);
 
 			if (ret == null) { // eg (1,2,3) running in 2D
-				if (isFreehandFunction(expression)) {
+				if (isFreehandFunction(expression) || isPenStroke(expression)) {
 					return kernel.lookupLabel(expression.getLabel()).asArray();
 				}
 				throw new MyError(loc,
@@ -1943,14 +1945,20 @@ public class AlgebraProcessor {
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
-        ExpressionValue expressionValue = expression.unwrap();
-        if (expressionValue instanceof Command) {
-            Command command = (Command) expressionValue;
-            if (command.getName().equals(loc.getFunction("freehand"))) {
-                return true;
-            }
-        }
-		return false;
+        return loc.getFunction("freehand").equals(getCommandName(expression));
+	}
+
+	@Nullable
+	private String getCommandName(ValidExpression expression) {
+		ExpressionValue expressionValue = expression.unwrap();
+		if (expressionValue instanceof Command) {
+			return ((Command) expressionValue).getName();
+		}
+		return null;
+	}
+
+	private boolean isPenStroke(ValidExpression expression) {
+		return loc.getCommand("PolyLine").equals(getCommandName(expression));
 	}
 
 	/**
