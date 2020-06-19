@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GShape;
 
@@ -13,5 +12,5 @@ public interface BoundingBoxDelegate {
 
 	boolean hitSideOfBoundingBox(int x, int y, int hitThreshold);
 
-	void setTransform(GAffineTransform directTransform);
+	void updateHandlers();
 }

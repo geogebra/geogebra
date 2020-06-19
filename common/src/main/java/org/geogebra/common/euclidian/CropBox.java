@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGeneralPath;
@@ -20,13 +19,18 @@ public class CropBox implements BoundingBoxDelegate {
 		this.box = box;
 	}
 
+	@Override
 	public void createHandlers() {
 		box.initHandlers(CROP_HANDLERS);
-		createhandlers();
+		updateHandlers();
 	}
 
-	private void createhandlers() {
+	@Override
+	public void updateHandlers() {
 		GRectangle2D rectangle = box.rectangle;
+		for (int i = 0; i < 8; i++) {
+			getHandler(i).reset();
+		}
 		getHandler(0).moveTo(rectangle.getX(), rectangle.getY() + 10);
 		getHandler(0).lineTo(rectangle.getX(), rectangle.getY());
 		getHandler(0).lineTo(rectangle.getX() + 10, rectangle.getY());
@@ -61,7 +65,7 @@ public class CropBox implements BoundingBoxDelegate {
 		// draw bounding box
 		box.drawRectangle(g2);
 
-		if (box.handlers != null && !box.handlers.isEmpty()) {
+		if (!box.handlers.isEmpty()) {
 			g2.setColor(GColor.WHITE);
 			g2.setStroke(outlineStroke);
 			for (int i = 0; i < CROP_HANDLERS; i++) {
@@ -78,11 +82,6 @@ public class CropBox implements BoundingBoxDelegate {
 	@Override
 	public boolean hitSideOfBoundingBox(int x, int y, int hitThreshold) {
 		return box.rectangle != null && box.hitRectangle(x, y, 2 * hitThreshold);
-	}
-
-	@Override
-	public void setTransform(GAffineTransform directTransform) {
-
 	}
 
 	@Override

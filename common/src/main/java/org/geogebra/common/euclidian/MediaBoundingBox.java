@@ -10,6 +10,7 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 
 	BoundingBoxDelegate delegate;
 	protected RectangleTransformable geo;
+	protected GAffineTransform transform;
 
 	public MediaBoundingBox() {
 		delegate = new RotatableBoundingBox(this);
@@ -37,12 +38,16 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 
 	@Override
 	public void setTransform(GAffineTransform directTransform) {
-		delegate.setTransform(directTransform);
+		this.transform = directTransform;
+		delegate.updateHandlers();
 	}
 
 	public void setCropMode(boolean crop) {
-		delegate = crop ? new CropBox(this) : new RotatableBoundingBox(this);
-		delegate.createHandlers();
+		if (crop != isCropBox()) {
+			delegate = crop ? new CropBox(this) : new RotatableBoundingBox(this);
+			delegate.createHandlers();
+			delegate.updateHandlers();
+		}
 	}
 
 	@Override

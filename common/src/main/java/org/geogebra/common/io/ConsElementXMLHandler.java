@@ -1090,7 +1090,7 @@ public class ConsElementXMLHandler {
 	 * @see #processStartPointList()
 	 */
 	private void handleStartPoint(LinkedHashMap<String, String> attrs) {
-		if (geo instanceof RectangleTransformable) {
+		if (geo instanceof RectangleTransformable && !geo.isGeoImage()) {
 			double x = 0;
 			double y = 0;
 

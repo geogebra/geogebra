@@ -106,16 +106,12 @@ public class GeoCanvasImage extends GeoImage {
 		return g;
 	}
 
-	/**
-	 * @return width
-	 */
+	@Override
 	public double getWidth() {
 		return pixelWidth;
 	}
 
-	/**
-	 * @return height
-	 */
+	@Override
 	public double getHeight() {
 		return pixelHeight;
 	}

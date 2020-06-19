@@ -536,8 +536,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| (mode == EuclidianConstants.MODE_TRANSLATEVIEW
 						&& temporaryMode
 						&& oldMode == EuclidianConstants.MODE_SELECT_MOW))
-				&& selection.getSelectedGeos().size() > 0 && !this.specialBoundingBoxNeeded(
-						view.getBoundingBox() != null && view.getBoundingBox().isCropBox());
+				&& selection.getSelectedGeos().size() > 0 && !this.specialBoundingBoxNeeded();
 	}
 
 	private static boolean modeCreatesHelperPoints(int mode2) {
@@ -9669,7 +9668,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void updateBoundingBoxFromSelection(boolean crop) {
 		List<GeoElement> sel = selection.getSelectedGeos();
-		if (specialBoundingBoxNeeded(crop)) {
+		if (specialBoundingBoxNeeded()) {
 			Drawable dr = ((Drawable) view.getDrawableFor(sel.get(0)));
 			BoundingBox<? extends GShape> boundingBox = dr.getBoundingBox();
 			if (boundingBox instanceof MediaBoundingBox) {
@@ -9682,7 +9681,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private boolean specialBoundingBoxNeeded(boolean crop) {
+	private boolean specialBoundingBoxNeeded() {
 		ArrayList<GeoElement> selectedGeos = selection.getSelectedGeos();
 		if (selectedGeos.size() == 1) {
 			GeoElement geoElement = selectedGeos.get(0);

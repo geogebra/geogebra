@@ -1496,8 +1496,10 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void setLocation(GPoint2D location) {
 		ensureCorner();
 		Coords shift = new Coords(-getStartPoints()[2].x + location.x, -getStartPoints()[2].y +location.y);
-		getStartPoint().translate(shift);
-		getStartPoints()[1].translate(shift);
-		getStartPoints()[2].translate(shift);
+		if (getStartPoints()[1] != null && getStartPoints()[2] != null) {
+			getStartPoint().translate(shift);
+			getStartPoints()[1].translate(shift);
+			getStartPoints()[2].translate(shift);
+		}
 	}
 }

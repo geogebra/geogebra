@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
@@ -13,7 +12,6 @@ import org.geogebra.common.factories.AwtFactory;
 public class RotatableBoundingBox implements BoundingBoxDelegate {
 
 	private GPoint2D[] corners = new GPoint2D[9];
-	private GAffineTransform transform;
 	private final MediaBoundingBox box;
 
 	public RotatableBoundingBox(MediaBoundingBox box) {
@@ -62,11 +60,12 @@ public class RotatableBoundingBox implements BoundingBoxDelegate {
 	}
 
 	private void setHandlerTransformed(int i, double x, double y) {
-		corners[i] = transform.transform(new GPoint2D(x, y), null);
+		corners[i] = box.transform.transform(new GPoint2D(x, y), null);
 		setHandlerFromCenter(i, corners[i].getX(), corners[i].getY());
 	}
 
-	private void updateHandlers() {
+	@Override
+	public void updateHandlers() {
 		double width = box.geo.getWidth();
 		double height = box.geo.getHeight();
 
@@ -79,14 +78,5 @@ public class RotatableBoundingBox implements BoundingBoxDelegate {
 		setHandlerTransformed(6, width / 2, height);
 		setHandlerTransformed(7, width, height / 2);
 		setHandlerTransformed(8, width / 2, - BoundingBox.ROTATION_HANDLER_DISTANCE);
-	}
-
-	/**
-	 * Set the transform and update the handlers
-	 * @param transform GAffineTransform
-	 */
-	public void setTransform(GAffineTransform transform) {
-		this.transform = transform;
-		updateHandlers();
 	}
 }
