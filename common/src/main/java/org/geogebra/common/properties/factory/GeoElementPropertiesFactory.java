@@ -14,6 +14,7 @@ import org.geogebra.common.properties.impl.objects.FixObjectProperty;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
 import org.geogebra.common.properties.impl.objects.MaxProperty;
 import org.geogebra.common.properties.impl.objects.MinProperty;
+import org.geogebra.common.properties.impl.objects.NameProperty;
 import org.geogebra.common.properties.impl.objects.OpacityProperty;
 import org.geogebra.common.properties.impl.objects.PointSizeProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleProperty;
@@ -28,6 +29,7 @@ import org.geogebra.common.properties.impl.objects.collection.EnumerableProperty
 import org.geogebra.common.properties.impl.objects.collection.IconsEnumerablePropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.NumericPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.RangePropertyCollection;
+import org.geogebra.common.properties.impl.objects.collection.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -44,6 +46,7 @@ public class GeoElementPropertiesFactory {
 	public static PropertiesArray createGeoElementProperties(
 			Localization localization, List<GeoElement> elements) {
 		List<Property> properties = new ArrayList<>();
+		addPropertyIfNotNull(properties, createNameProperty(localization, elements));
 		addPropertyIfNotNull(properties, createMinProperty(localization, elements));
 		addPropertyIfNotNull(properties, createMaxProperty(localization, elements));
 		addPropertyIfNotNull(properties, createStepProperty(localization, elements));
@@ -66,6 +69,19 @@ public class GeoElementPropertiesFactory {
 	private static void addPropertyIfNotNull(List<Property> properties, Property property) {
 		if (property != null) {
 			properties.add(property);
+		}
+	}
+
+	private static StringPropertyCollection<NameProperty> createNameProperty(
+			Localization localization, List<GeoElement> elements) {
+		try {
+			List<NameProperty> nameProperties = new ArrayList<>();
+			for (GeoElement element : elements) {
+				nameProperties.add(new NameProperty(localization, element));
+			}
+			return new StringPropertyCollection<>(nameProperties.toArray(new NameProperty[0]));
+		} catch (NotApplicablePropertyException ignored) {
+			return null;
 		}
 	}
 
