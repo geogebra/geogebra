@@ -49,9 +49,4 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 		GeoElement element = delegate.getElement();
 		return !value.isEmpty() && LabelManager.isValidLabel(value, element.getKernel(), element);
 	}
-
-	@Override
-	public boolean isEnabled() {
-		return delegate.isEnabled();
-	}
 }
