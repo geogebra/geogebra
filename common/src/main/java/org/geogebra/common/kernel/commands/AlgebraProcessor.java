@@ -1958,7 +1958,10 @@ public class AlgebraProcessor {
 	}
 
 	private boolean isPenStroke(ValidExpression expression) {
-		return loc.getCommand("PolyLine").equals(getCommandName(expression));
+		String polyLineCommandKey = "PolyLine";
+		String commandName = getCommandName(expression);
+		return polyLineCommandKey.equals(commandName)
+				|| loc.getCommand(polyLineCommandKey).equals(commandName);
 	}
 
 	/**

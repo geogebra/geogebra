@@ -198,7 +198,10 @@ public abstract class CommandDispatcher {
 	}
 
 	private boolean isPenStroke(Command command) {
-		return command.getName().equals(app.getLocalization().getCommand("PolyLine"));
+		String polyLineCommandKey = "PolyLine";
+		String commandName = command.getName();
+		return polyLineCommandKey.equals(commandName)
+				|| command.getName().equals(app.getLocalization().getCommand(polyLineCommandKey));
 	}
 
 	/**
