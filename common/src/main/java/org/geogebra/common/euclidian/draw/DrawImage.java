@@ -348,30 +348,11 @@ public final class DrawImage extends Drawable {
 				if (!geoImage.isCropped()) {
 					g3.drawImage(image, 0, 0);
 				} else {
-					GRectangle2D drawRectangle = getCropBox();
-					GPoint2D ptDst = new GPoint2D();
-					GPoint2D ptDst2 = new GPoint2D();
-					GPoint2D ptScr = new GPoint2D(
-							drawRectangle.getX(), drawRectangle.getY());
-					GPoint2D ptScr2 = new GPoint2D(
-							drawRectangle.getMaxX(), drawRectangle.getMaxY());
-					atInverse.transform(ptScr, ptDst);
-					atInverse.transform(ptScr2, ptDst2);
+					GRectangle2D rect = geoImage.getCropBoxRelative();
 
-					int cropWidth = Math.min(image.getWidth(),
-							(int) Math.abs(ptDst2.getX() - ptDst.getX()));
-					int cropHeight = Math.min(image.getHeight(),
-							(int) Math.abs(ptDst2.getY() - ptDst.getY()));
-					if (ptDst.getX() < 0) {
-						ptDst.setX(0);
-					}
-					if (ptDst.getY() < 0) {
-						ptDst.setY(0);
-					}
-
-					g3.drawImage(image, (int) ptDst.getX(), (int) ptDst.getY(),
-							cropWidth, cropHeight, (int) ptDst.getX(),
-							(int) ptDst.getY(), cropWidth, cropHeight);
+					g3.drawImage(image, (int) rect.getX(), (int) rect.getY(),
+							(int) rect.getWidth(), (int) rect.getHeight(), (int) rect.getX(),
+							(int) rect.getY(), (int) rect.getWidth(), (int) rect.getHeight());
 				}
 				
 				g3.restoreTransform();
