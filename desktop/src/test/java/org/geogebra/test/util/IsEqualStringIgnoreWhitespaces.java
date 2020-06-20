@@ -2,7 +2,6 @@ package org.geogebra.test.util;
 
 import org.geogebra.cas.logging.CASTestLogger;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -65,7 +64,7 @@ public class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String> {
 		description.appendValue(expected);
 	}
 
-	@Factory
+
 	public static Matcher<String> equalToIgnoreWhitespaces(
 			CASTestLogger logger, String input, String expectedResult,
 			String... validResults) {

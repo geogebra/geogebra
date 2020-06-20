@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -61,7 +60,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 	 * @return <b>true</b> if the equations are same (ignoring the term ordering
 	 *         on each side, <b>false</b> otherwise
 	 */
-	@Factory
+
 	public static Matcher<String> equalToPolynomialEquation(String expected) {
 		return new IsEqualPolynomialEquation(expected);
 	}

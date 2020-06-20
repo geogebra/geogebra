@@ -1,5 +1,12 @@
 plugins {
     id 'com.github.spotbugs' version '1.6.9'
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
 }
 
 project.setDescription('Parts of GeoGebra related to desktop platforms')
@@ -53,8 +60,8 @@ for (location in ['lib/jfxrt.jar', 'jre/lib/jfxrt.jar', 'jre/lib/ext/jfxrt.jar']
     }
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 List ext = [
     'netscape.javascript:jsobject:1', 
@@ -64,6 +71,10 @@ List ext = [
 
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
     compile project(':common')
     compile project(':common-jre')
     compile project(':editor-desktop')
@@ -95,7 +106,8 @@ dependencies {
     testCompile project(':common-jre').sourceSets.test.output
 }
 
-mainClassName = "org.geogebra.desktop.GeoGebra3D"
+mainClassName = "geogebraVoiceCommand.dialog.Main"
+//mainClassName = "org.geogebra.desktop.GeoGebra3D"
 
 run {
     // Copying JOGL related native JARs into the same directory where the non-native JAR takes place.
@@ -121,6 +133,7 @@ test {
 
     ignoreFailures = true
     outputs.upToDateWhen { false }
+    useJUnitPlatform()
 }
 spotbugs {
     ignoreFailures = true

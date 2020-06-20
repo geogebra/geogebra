@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<root>
+    <command>
+        <items>
+            <name>create</name>
+            <KeyWord>
+                <td>постр</td>
+                <td>дан</td>
+                <td>опред</td>             
+            </KeyWord>
+            <KeyWordContext>
+                <td>случайн</td>
+                <td>в начале координат</td>
+            </KeyWordContext>
+        </items> 
+        <items>
+            <name>move</name>
+            <KeyWord>
+                <td>сдвин</td>
+                <td>перемест</td>
+                <td>смест</td>             
+            </KeyWord>
+            <KeyWordContext>
+                <td>влев</td>
+                <td>вправ</td>
+                <td>вниз</td>
+                <td>вверх</td>
+                <td>левее</td>
+                <td>правее</td>
+                <td>ниже</td>
+                <td>выше</td>
+                <td>в начало координат</td>
+            </KeyWordContext>
+        </items> 
+        <items>
+            <name>delete</name>
+            <KeyWord>
+                <td>удал</td>
+                <td>убра</td>
+                <td>очист</td>
+            </KeyWord>
+            <KeyWordContext>
+                <td>отрез</td>
+                <td>прямоуг</td>
+                <td>квадр</td>
+                <td>кру</td>
+                <td>прямую</td>
+                <td>последн</td>
+                <td>точк</td>
+                <td>все</td>            
+            </KeyWordContext>
+        </items>
+        <items>
+            <name>view</name>
+            <CountDemension></CountDemension>
+            <KeyWord> 
+                <td>масштаб</td>
+                <td>оси</td>
+                <td>область</td>      
+            </KeyWord>
+            <KeyWordContext>
+                <td actionContext='умень'>zoomOut</td>
+                <td actionContext='увели'>zoomIn</td>
+                <td actionContext='меньш'>zoomOut</td>
+                <td actionContext='увели'>zoomIn</td>
+            </KeyWordContext>
+        </items> 
+        <items>
+            <name>info</name>
+            <CountDemension></CountDemension>
+            <KeyWord> 
+                <td>площадь</td>     
+            </KeyWord>
+            <KeyWordContext>
+                <td actionContext='треуг'>Triangle</td>
+            </KeyWordContext>
+        </items> 
+    </command>
+    
+    
+    <objects>
+        <items>
+            <name>Segment</name>
+            <CountDemension>2</CountDemension>
+            <KeyWord> 
+                <td>отрезок</td>  
+                <td>отрез</td>                 
+            </KeyWord>
+            <KeyWordContext>
+                <td>по точк</td>
+                <td>по предыдущ</td>
+                <td>через эти точк</td>
+            </KeyWordContext>
+        </items> 
+        <items>
+            <name>Triangle</name>
+            <CountDemension>3</CountDemension>
+            <KeyWord> 
+                <td>треуг</td>       
+            </KeyWord>
+            <KeyWordContext>
+                <td>по точк</td>
+                <td>по предыдущ</td>
+                <td>через эти точк</td>
+                <td>случайн</td>
+                <td>прямоугольн</td>
+                <td>равнобедр</td>
+                <td>правильный</td>
+            </KeyWordContext>
+        </items> 
+        <items>
+            <name>Rectangle</name>
+            <CountDemension>4</CountDemension>
+            <KeyWord> 
+                <td>квадр</td>
+                <td>прямоуг</td>
+                <td>четырёхуг</td>       
+            </KeyWord>
+            <KeyWordContext>
+                <td>через точк</td>
+                <td>случайн</td>
+            </KeyWordContext>
+        </items>   
+        <items>
+            <name>Point</name>
+            <CountDemension>1</CountDemension>
+            <KeyWord> 
+                <td>точк</td>
+                <td>.</td>
+            </KeyWord>
+            <KeyWordContext>
+                <td>с координатами</td>
+                <td>координатами</td>
+                <td>какую-нибудь</td>
+                <td>где-нибудь</td>
+                <td>случайн</td>
+            </KeyWordContext>
+        </items>
+    </objects>
+    
+        
+    
+</root>
+
+<!--
+        <items>
+            <name></name>
+            <CountDemension></CountDemension>
+            <KeyWord> 
+                <td></td>
+                <td></td>
+                <td></td>       
+            </KeyWord>
+            <KeyWordContext>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </KeyWordContext>
+        </items> 
+-->
+
