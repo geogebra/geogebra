@@ -104,17 +104,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	private ArrayList<GeoPoint> pointsArray;
 
-	private StringBuilder sbToString = new StringBuilder(50);
-
-	private boolean asBoundary = false;
-
 	private boolean trace;
 
 	/**
 	 * orientation (1/-1) when convex
 	 */
 	private int convexOrientation;
-	private HitType lastHitType = HitType.ON_FILLING;
 
 	private Coords labelPosition;
 	private ChangeableParent changeableParent = null;
@@ -264,18 +259,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public GeoClass getGeoClassType() {
 		return GeoClass.POLYGON;
 	}
-
-	/**
-	 * @param type
-	 *            hit type
-	 */
-	final public void setLastHitType(HitType type) {
-		lastHitType = type;
-	}
 	
 	@Override
 	final public HitType getLastHitType() {
-		return lastHitType;
+		return HitType.ON_FILLING;
 	}
 
 	/**
@@ -564,11 +551,17 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public GeoSegmentND createSegment(Construction cons1, GeoPointND startPoint,
 			GeoPointND endPoint, boolean euclidianVisible) {
+		return createSegmentOwnDimension(cons1, startPoint, endPoint, euclidianVisible);
+	}
 
+	/**
+	 * Create a segment with the same dimension as the polygon
+	 * @return segment
+	 */
+	public GeoSegmentND createSegmentOwnDimension(Construction cons1, GeoPointND startPoint,
+			GeoPointND endPoint, boolean euclidianVisible) {
 		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons1,
 				(GeoPoint) startPoint, (GeoPoint) endPoint, this, false);
-		// cons.removeFromConstructionList(algoSegment);
-
 		return createSegment(algoSegment.getSegment(), euclidianVisible);
 	}
 
@@ -1534,18 +1527,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append(" = ");
-		sbToString.append(kernel.format(getArea(), tpl));
-		return sbToString.toString();
+		return label + " = " + kernel.format(getArea(), tpl);
 	}
 
 	@Override
 	final public String toStringMinimal(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(regrFormat(getArea()));
-		return sbToString.toString();
+		return regrFormat(getArea());
 	}
 
 	@Override
@@ -1905,19 +1892,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		// Log.debug("numCS = " + numCS);
 
-	}
-
-	// //////////////////////////
-	// interface GeoSurfaceFinite
-	// /////////////////////////////
-	@Override
-	public void setRole(boolean isAsBoundary) {
-		this.asBoundary = isAsBoundary; // false means 'as region'
-	}
-
-	@Override
-	public boolean asBoundary() {
-		return asBoundary;
 	}
 
 	/**

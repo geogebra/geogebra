@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -32,7 +31,7 @@ public class GeoVideo extends GeoMedia {
 	private static final int VIDEO_WIDTH = 420;
 	private static final int VIDEO_HEIGHT = 345;
 	private static final String JAVASCRIPT_API = "enablejsapi=1";
-	private boolean changed = false;
+
 	private String youtubeId = null;
 	private String previewUrl = null;
 	private Integer startTime = null;
@@ -67,7 +66,6 @@ public class GeoVideo extends GeoMedia {
 	 */
 	public GeoVideo(Construction c, String url, MediaFormat format) {
 		super(c, url, format);
-		setSrc(url, false);
 		setLabel("video");
 		setWidth(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1);
 		setHeight(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
@@ -92,7 +90,6 @@ public class GeoVideo extends GeoMedia {
 		}
 		GeoVideo video = (GeoVideo) geo;
 		setSrc(video.getSrc(), video.getFormat());
-		changed = true;
 	}
 
 	@Override
@@ -102,8 +99,6 @@ public class GeoVideo extends GeoMedia {
 		}
 		constructIds();
 		createPreview();
-		app.getVideoManager().loadGeoVideo(this);
-		changed = true;
 	}
 
 	/**
@@ -126,26 +121,7 @@ public class GeoVideo extends GeoMedia {
 		if (getFormat() != MediaFormat.VIDEO_YOUTUBE && getFormat() != MediaFormat.VIDEO_MEBIS) {
 			return;
 		}
-		app.getVideoManager().createPreview(this, new AsyncOperation<MyImage>() {
-
-			@Override
-			public void callback(MyImage obj) {
-				setPreview(obj);
-				setChanged(true);
-				app.getActiveEuclidianView().updateAllDrawablesForView(true);
-			}
-		});
-	}
-
-	/**
-	 * Refresh the video 
-	 */
-	public void refresh() {
-		if (!changed) {
-			return;
-		}
-		app.getVideoManager().updatePlayer(this);
-		changed = false;
+		app.getVideoManager().createPreview(this);
 	}
 
 	private void initStartTime() {
@@ -188,14 +164,12 @@ public class GeoVideo extends GeoMedia {
 	@Override
 	public void setWidth(int width) {
 		super.setWidth(width);
-		changed = true;
 		runSizeCallbackIfReady();
 	}
 
 	@Override
 	public void setHeight(int height) {
 		super.setHeight(height);
-		changed = true;
 		runSizeCallbackIfReady();
 	}
 
@@ -206,23 +180,6 @@ public class GeoVideo extends GeoMedia {
 
 	private boolean hasVideoManager() {
 		return app.getVideoManager() != null;
-	}
-
-	/**
-	 *
-	 * @return if any relevant property has changed.
-	 */
-	public boolean hasChanged() {
-		return changed;
-	}
-
-	/**
-	 *
-	 * @param changed
-	 *            to set
-	 */
-	public void setChanged(boolean changed) {
-		this.changed = changed;
 	}
 
 	/**
@@ -352,24 +309,6 @@ public class GeoVideo extends GeoMedia {
 	 */
 	public void setBackground(boolean background) {
 		this.background = background;
-	}
-
-	/**
-	 * @return if video is online.
-	 */
-	public boolean isOnline() {
-		if (!hasVideoManager()) {
-			return false;
-		}
-		return app.getVideoManager().isOnline(this);
-	}
-
-	@Override
-	public void remove() {
-		if (hasVideoManager()) {
-			app.getVideoManager().removePlayer(this);
-		}
-		super.remove();
 	}
 
 	/**

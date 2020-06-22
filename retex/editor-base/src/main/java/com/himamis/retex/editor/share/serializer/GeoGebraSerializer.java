@@ -134,6 +134,16 @@ public class GeoGebraSerializer implements Serializer {
 				generalFunction(mathFunction, stringBuilder);
 			}
 			break;
+
+		case DEF_INT:
+		case SUM_EQ:
+		case PROD_EQ:
+		case LIM_EQ:
+		case VEC:
+			stringBuilder.append(mathFunction.getName().getFunction());
+			serializeArgs(mathFunction, stringBuilder, 0);
+			break;
+
 		default:
 			generalFunction(mathFunction, stringBuilder);
 		}

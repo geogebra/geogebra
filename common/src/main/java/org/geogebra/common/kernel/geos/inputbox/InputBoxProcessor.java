@@ -12,14 +12,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
-
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Updates linked element for an input box from user input
@@ -29,10 +23,7 @@ public class InputBoxProcessor {
 	private GeoInputBox inputBox;
 	private GeoElementND linkedGeo;
 	private Kernel kernel;
-	private App app;
 	private AlgebraProcessor algebraProcessor;
-	private ErrorHandler errorHandler;
-	private boolean showErrorDialog;
 
 	/**
 	 * @param inputBox
@@ -44,10 +35,7 @@ public class InputBoxProcessor {
 		this.inputBox = inputBox;
 		this.linkedGeo = linkedGeo;
 		this.kernel = inputBox.getKernel();
-		this.app = kernel.getApplication();
 		this.algebraProcessor = kernel.getAlgebraProcessor();
-		this.showErrorDialog = app.getConfig().isShowingErrorDialogForInputBox();
-		this.errorHandler = showErrorDialog ? app.getErrorHandler() : ErrorHelper.silent();
 	}
 
 	/**
@@ -62,35 +50,25 @@ public class InputBoxProcessor {
 			return;
 		}
 
+		// first clear temp input, so that the string representation of the input
+		// box is correct when updating dependencies
 		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
-		InputBoxErrorHandler errorHandler =
-				new InputBoxErrorHandler(
-						inputBox,
-						this.errorHandler,
-						tempUserDisplayInput,
-						inputText);
-		updateLinkedGeo(inputText, tpl, errorHandler);
+
+		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
+		updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
+
+		if (errorHandler.errorOccured) {
+			inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+			inputBox.setTempUserEvalInput(inputText);
+			linkedGeo.setUndefined();
+			linkedGeo.updateRepaint();
+		}
 	}
 
 	private String getAndClearTempUserDisplayInput(String inputText) {
 		String tempUserInput = inputBox.getTempUserDisplayInput();
 		inputBox.clearTempUserInput();
 		return tempUserInput == null ? inputText : tempUserInput;
-	}
-
-	private void updateLinkedGeo(String inputText,
-								 StringTemplate tpl,
-								 InputBoxErrorHandler errorHandler) {
-		try {
-			updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
-		} catch (MyError error) {
-			errorHandler.handleError();
-			maybeShowError(error);
-		} catch (Throwable throwable) {
-			errorHandler.handleError();
-			Log.error(throwable.getMessage());
-			maybeShowError(MyError.Errors.InvalidInput);
-		}
 	}
 
 	private void updateLinkedGeoNoErrorHandling(String inputText,
@@ -134,18 +112,19 @@ public class InputBoxProcessor {
 			if (!defineText.startsWith(prefix)) {
 				defineText = prefix + defineText;
 			}
-		} else if (isComplexNumber()) {
-
-			// make sure user can enter regular "i"
-			defineText = defineText.replace('i', Unicode.IMAGINARY);
-
 		}
+
 		if (linkedGeo instanceof FunctionalNVar) {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
 			defineText = linkedGeo.getLabel(tpl) + "("
 					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
 		}
+
+		if (isComplexNumber()) {
+			defineText = defineText.replace('I', 'i');
+		}
+
 		return defineText;
 	}
 
@@ -161,17 +140,5 @@ public class InputBoxProcessor {
 	boolean isComplexNumber() {
 		return linkedGeo.isGeoPoint()
 				&& ((GeoPointND) linkedGeo).getToStringMode() == Kernel.COORD_COMPLEX;
-	}
-
-	private void maybeShowError(MyError error) {
-		if (showErrorDialog) {
-			app.showError(error);
-		}
-	}
-
-	private void maybeShowError(MyError.Errors error) {
-		if (showErrorDialog) {
-			app.showError(error);
-		}
 	}
 }

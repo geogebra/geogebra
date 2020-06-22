@@ -2887,7 +2887,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			if (Double.isNaN(P.getRegionParameters().getT2())) {
 				P.getRegionParameters().setT2(0);
 			}
-			// udpate point using pathChanged
+			// update point using pathChanged
 			P.setCoords(line.getPoint(t), false);
 			return;
 		}

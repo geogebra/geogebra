@@ -24,10 +24,12 @@ import org.geogebra.common.main.App.ExportType;
  */
 public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
+	private final EmbedManager embedManager;
 	private GRectangle2D bounds;
 	private double originalRatio = Double.NaN;
 	private GeoEmbed geoEmbed;
 	private final static int EMBED_SIZE_THRESHOLD = 100;
+	private MyImage preview;
 
 	/**
 	 * @param ev
@@ -39,20 +41,20 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		this.view = ev;
 		this.geo = geo;
 		this.geoEmbed = geo;
+		embedManager = view.getApplication().getEmbedManager();
 		update();
-	}
-
-	private EmbedManager getEmbedManager() {
-		return view.getApplication().getEmbedManager();
+		if (embedManager != null) {
+			preview = embedManager.getPreview(this);
+		}
 	}
 
 	@Override
 	public void update() {
-		if (geoEmbed.getEmbedID() >= 0 && getEmbedManager() != null) {
-			getEmbedManager().add(this);
+		if (geoEmbed.getEmbedID() >= 0 && embedManager != null) {
+			embedManager.add(this);
 		}
-		if (getEmbedManager() != null) {
-			getEmbedManager().update(this);
+		if (embedManager != null) {
+			embedManager.update(this);
 		}
 
 		bounds = AwtFactory.getPrototype().newRectangle2D();
@@ -72,24 +74,21 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (view.getApplication().getExportType() == ExportType.NONE) {
+			view.embed(g2, this);
 			return;
 		}
-		MyImage preview = view.getApplication().getEmbedManager().getPreview(this);
 
-		// if (preview != null) {
-		g2.setColor(GColor.BLACK);
 		int sx = getWidth();
 		int sy = getHeight();
+		g2.setColor(GColor.WHITE);
+		g2.fillRect(getLeft(), getTop(), sx, sy);
+		g2.setColor(GColor.BLACK);
 		g2.drawRect(getLeft(), getTop(), sx, sy);
-		g2.saveTransform();
 
-		double s = Math.min(sx, sy);
-		g2.translate(getLeft() + Math.max((sx - s) / 2, 0), getTop() + Math.max((sy - s) / 2, 0));
-		g2.scale(s / preview.getWidth(), s / preview.getHeight());
-
-		g2.drawImage(preview, 0, 0);
-		g2.restoreTransform();
-
+		int s = Math.min(sx, sy);
+		int iconLeft = getLeft() + Math.max((sx - s) / 2, 0);
+		int iconTop = getTop() + Math.max((sy - s) / 2, 0);
+		g2.drawImage(preview, iconLeft, iconTop, s, s);
 	}
 
 	@Override
@@ -135,13 +134,21 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 		return getView().toScreenCoordX(geoEmbed.getCorner(0).getInhomX());
 	}
 
-	/**
-	 * @return embed ID
-	 */
+	@Override
 	public int getEmbedID() {
 		return geoEmbed.getEmbedID();
 	}
-	
+
+	@Override
+	public boolean isBackground() {
+		return geoEmbed.isBackground();
+	}
+
+	@Override
+	public void setBackground(boolean b) {
+		geoEmbed.setBackground(b);
+	}
+
 	private void updateOriginalRatio() {
 		double width = getWidth();
 		double height = getHeight();
@@ -214,7 +221,9 @@ public class DrawEmbed extends Drawable implements DrawWidget, RemoveNeeded {
 
 	@Override
 	public void remove() {
-		view.getApplication().getEmbedManager().remove(this);
+		if (embedManager != null) {
+			embedManager.remove(this);
+		}
 	}
 
 	@Override

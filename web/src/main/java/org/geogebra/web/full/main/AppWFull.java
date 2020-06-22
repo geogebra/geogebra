@@ -34,13 +34,13 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.main.settings.updater.SettingsUpdaterBuilder;
-import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -93,7 +93,6 @@ import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.ConstructionItemProvider;
-import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.activity.CASActivity;
 import org.geogebra.web.full.main.activity.ClassicActivity;
@@ -137,7 +136,6 @@ import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -162,7 +160,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private static final boolean ALLOW_RECENT_CHANGES_DIALOG = false;
 	private final static int AUTO_SAVE_PERIOD = 2000;
 
-	private DataCollection dataCollection;
 	private GuiManagerW guiManager = null;
 
 	private CustomizeToolbarGUI ct;
@@ -243,13 +240,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		this.euclidianViewPanel = new EuclidianDockPanelW(this,
 				allowStylebar());
-		this.canvas = this.euclidianViewPanel.getCanvas();
-		if (canvas != null) {
-			canvas.setWidth("1px");
-			canvas.setHeight("1px");
-			canvas.setCoordinateSpaceHeight(1);
-			canvas.setCoordinateSpaceWidth(1);
-		}
 		initCoreObjects();
 		checkExamPerspective();
 		afterCoreObjectsInited();
@@ -363,16 +353,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public final void showKeyboard(MathKeyboardListener textField) {
 		showKeyboard(textField, false);
-	}
-
-	/**
-	 * @return data collection view
-	 */
-	public final DataCollection getDataCollection() {
-		if (this.dataCollection == null) {
-			this.dataCollection = new DataCollection(this);
-		}
-		return this.dataCollection;
 	}
 
 	@Override
@@ -1012,6 +992,15 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
+	public AppKeyboardType getKeyboardType() {
+		if ("evaluator".equals(articleElement.getDataParamAppName())
+				&& "normal".equals(articleElement.getParamKeyboardType("normal"))) {
+			return AppKeyboardType.SUITE;
+		}
+		return getConfig().getKeyboardType();
+	}
+
+	@Override
 	public boolean attachedToEqEditor() {
 		return isWhiteboardActive();
 	}
@@ -1260,8 +1249,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void executeAction(EventType action, AppState state, String[] args) {
-		if (action == EventType.EMBEDDED_STORE_UNDO) {
-			getEmbedManager().executeAction(EventType.REDO,
+		if (action == EventType.EMBEDDED_STORE_UNDO && embedManager != null) {
+			embedManager.executeAction(EventType.REDO,
 					Integer.parseInt(args[0]));
 		} else if (getPageController() != null) {
 			getPageController().executeAction(action, state, args);
@@ -1308,16 +1297,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 							.getHeight());
 			euclidianDockPanel.updatePanel(false);
 
-			// FIXME: temporary hack until it is found what causes
-			// the 1px difference
-			// getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setLeft(1,
-			// Style.Unit.PX);
-			// getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle().setTop(1,
-			// Style.Unit.PX);
-			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
-					.setBottom(-1, Style.Unit.PX);
-			getEuclidianViewpanel().getAbsolutePanel().getElement().getStyle()
-					.setRight(-1, Style.Unit.PX);
 			oldSplitLayoutPanel = null;
 			updateVoiceover();
 		}
@@ -1977,7 +1956,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public final VideoManager getVideoManager() {
+	public final @Nonnull VideoManagerW getVideoManager() {
 		if (videoManager == null) {
 			videoManager = new VideoManagerW(this);
 		}
@@ -1990,6 +1969,19 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			maskWidgets = new MaskWidgetListW(this);
 		}
 		return maskWidgets;
+	}
+
+	/**
+	 * Remove all widgets for videos and embeds.
+	 */
+	@Override
+	public void clearMedia() {
+		if (videoManager != null) {
+			videoManager.removePlayers();
+		}
+		if (embedManager != null) {
+			embedManager.removeAll();
+		}
 	}
 
 	private int getSpHeight() {

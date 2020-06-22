@@ -1290,18 +1290,11 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * @return true if this is leaf containing only Variable
+	 * @return true if given value is an imaginary unit
 	 */
-	public boolean isSingleVariable() {
-		return (isLeaf() && (left instanceof Variable));
-	}
-
-	/**
-	 * @return true if this is leaf containing only imaginary unit
-	 */
-	public boolean isImaginaryUnit() {
-		return (isLeaf() && (left instanceof GeoVec2D)
-				&& ((GeoVec2D) left).isImaginaryUnit());
+	public static boolean isImaginaryUnit(ExpressionValue value) {
+		return (value instanceof GeoVec2D)
+				&& ((GeoVec2D) value).isImaginaryUnit();
 	}
 
 	/**
@@ -3728,7 +3721,16 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private boolean hasSimpleNumbers() {
-		return areLeftAndRightNumbers() && isLeftOrRightSpecial();
+		return areLeftAndRightNumbers() && isLeftOrRightSpecial() && !isRightPiOrE();
+	}
+
+	private boolean isRightPiOrE() {
+		if (getRight() == null) {
+			return false;
+		}
+
+		double value = getRight().evaluateDouble();
+		return DoubleUtil.isEqual(value, Math.PI) || DoubleUtil.isEqual(value, Math.E);
 	}
 
 	private boolean areLeftAndRightNumbers() {

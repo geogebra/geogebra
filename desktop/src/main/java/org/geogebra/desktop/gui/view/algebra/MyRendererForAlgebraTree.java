@@ -16,6 +16,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
@@ -36,9 +37,6 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	private ImageIcon iconShown, iconHidden;
 
 	private ImageIcon latexIcon;
-	private String latexStr = null;
-
-	private Font latexFont;
 
 	public MyRendererForAlgebraTree(AppD app, AlgebraTree view) {
 		setOpaque(true);
@@ -105,16 +103,16 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			}
 
 			// if enabled, render with LaTeX
-			if (view.isRenderLaTeX()
-					&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
-					&& geo.isDefined()) {
-				latexFont = new Font(app.getBoldFont().getName(),
+			int algebraStyle = app.getSettings().getAlgebra().getStyle();
+			if (view.isRenderLaTeX() && algebraStyle == AlgebraStyle.VALUE
+					&& geo.isDefined()
+					&& geo.isLaTeXDrawableGeo()) {
+				Font latexFont = new Font(app.getBoldFont().getName(),
 						app.getBoldFont().getStyle(), app.getFontSize() - 1);
-				latexStr = geo.getLaTeXAlgebraDescription(true,
+				String latexStr = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplate);
-				if (latexStr != null && geo.isLaTeXDrawableGeo()) {
-					latexStr = "\\;" + latexStr; // add a little space for the
-													// icon
+				if (latexStr != null) {
+					latexStr = "\\;" + latexStr; // add a little space for the icon
 					app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
 							latexStr, latexFont, false, getForeground(),
 							this.getBackground());
@@ -129,7 +127,6 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			// children)
 			// we have to remove this border to prevent an unnecessary indent
 			setBorder(null);
-
 		}
 
 		// no GeoElement
@@ -170,8 +167,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	}
 
 	/**
-	 * 
-	 * @param geo
+	 * @param geo construction element
 	 * @return algebra description of the geo
 	 */
 	protected static String getAlgebraDescriptionTextOrHTML(GeoElement geo) {
@@ -182,9 +178,9 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	/**
 	 * Creates a new ImageIcon by joining them together (leftIcon to rightIcon).
 	 * 
-	 * @param leftIcon
-	 * @param rightIcon
-	 * @return
+	 * @param leftIcon left icon
+	 * @param rightIcon right icon
+	 * @return merged icon
 	 */
 	private static ImageIcon joinIcons(ImageIcon leftIcon,
 			ImageIcon rightIcon) {
@@ -210,18 +206,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 		g2.drawImage(rightIcon.getImage(), w1, mid - h2 / 2, null);
 		g2.dispose();
 
-		ImageIcon ic = new ImageIcon(image);
-		return ic;
-	}
-
-	/**
-	 * Overrides setFont to also set the LaTeX font.
-	 */
-	@Override
-	public void setFont(Font font) {
-		super.setFont(font);
-		// latexFont = font;
-		// use a slightly smaller font for LaTeX
+		return new ImageIcon(image);
 	}
 
 	public ImageIcon getIconShown() {

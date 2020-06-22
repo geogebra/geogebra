@@ -15,6 +15,8 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -58,6 +60,7 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 public class GeoText extends GeoElement
 		implements Locateable, AbsoluteScreenLocateable, TextValue,
 		TextProperties, SpreadsheetTraceable, HasSymbolicMode {
+	public static final String NEW_LINE = "\\\\n";
 	private static Comparator<GeoText> comparator;
 
 	private String str;
@@ -254,7 +257,7 @@ public class GeoText extends GeoElement
 		} else {
 			// replace "\\n" with a proper newline
 			// for eg Text["Hello\\nWorld",(1,1)]
-			str = text.replaceAll("\\\\\\\\n", "\n");
+			str = text.replace(NEW_LINE, "\n");
 		}
 
 	}
@@ -265,8 +268,13 @@ public class GeoText extends GeoElement
 	 * @return the string wrapped in this text
 	 */
 	@Override
+	@CheckForNull
 	final public String getTextString() {
 		return str;
+	}
+
+	final public String getTextStringSafe() {
+		return str == null ? "" : str;
 	}
 
 	/**
@@ -404,7 +412,7 @@ public class GeoText extends GeoElement
 	@Override
 	public String toValueString(StringTemplate tpl1) {
 		// https://help.geogebra.org/topic/fixed-list-list-with-text-objects
-		return str == null ? "" : str;
+		return getTextStringSafe();
 	}
 
 	/**
@@ -1101,16 +1109,16 @@ public class GeoText extends GeoElement
 							.getApplication().getNormalizer();
 
 					// remove accents etc
-					String strA = noramlizer.transform(itemA.getTextString());
-					String strB = noramlizer.transform(itemB.getTextString());
+					String strA = noramlizer.transform(itemA.getTextStringSafe());
+					String strB = noramlizer.transform(itemB.getTextStringSafe());
 
 					// do comparison without accents etc
 					int comp = strA.compareTo(strB);
 
 					if (comp == 0) {
 						// try compare with accents
-						comp = itemA.getTextString()
-								.compareTo(itemB.getTextString());
+						comp = itemA.getTextStringSafe()
+								.compareTo(itemB.getTextStringSafe());
 					}
 
 					if (comp == 0) {
@@ -1152,8 +1160,8 @@ public class GeoText extends GeoElement
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return isLaTeX() || (getTextString() != null
-				&& getTextString().indexOf('_') != -1);
+		return isLaTeX() || (str != null
+				&& str.indexOf('_') != -1);
 	}
 
 	@Override

@@ -7,23 +7,11 @@
 
 @import "definitions.less";
 
-/**
- * In order to maintain cross-browser compatibility, the following syntax is
- * used to create IE6 specific style rules:
- *    .gwt-Widget {
- *      property: rule applies to all browsers
- *      -property: rule applies only to IE6 (overrides previous rule)
- *    }
- *    * html .gwt-Widget {
- *      property: rule applies to all versions of IE
- *    }
- */
-
 .GeoGebraFrame {
 	background-color: @color-white;
 	color: @text-primary;
 	font-size: 16px;
-	
+
 	label,
 	span,
 	td,
@@ -31,130 +19,127 @@
 		color: @text-primary;
 		font-size: 16px;
 	}
-	
+
 	img {
 		vertical-align: baseline;
 	}
-	
+
 	.button,
 	.gwt-PushButton,
 	.gwt-MenuItem {
 		cursor: pointer;
-		
+
 		&.button-up-disabled,
 		&.gwt-PushButton-up-disabled {
 			cursor: default;
-			.opacity(30);
+			opacity: 0.3;
 		}
 	}
-	
+
 	.gwt-MenuItem-disabled {
 		cursor: default;
-		.opacity(30);
+		opacity: 0.3;
 	}
-	
-	
-	.SpreadsheetEditorCell input[type="text"]:disabled{
+
+	.SpreadsheetEditorCell input[type="text"]:disabled {
 		background-color: #FFFFFF;
 		opacity: 1;
-	}	
-	
-	input[type="text"]:disabled{
+	}
+
+	input[type="text"]:disabled {
 		background-color: rgb(235, 235, 228);
 	}
-	
-	.disabledTextfieldEditing input[type="text"]{
+
+	.disabledTextfieldEditing input[type="text"] {
 		background-color: #FFFFFF;
 	}
-	
+
 	.gwt-MenuBar {
 		cursor: default;
-	}	
-	
+	}
+
 	// Used for SMART Menu
 	.gwt-MenuBar-vertical {
 		table {
 			border-collapse: collapse;
 		}
-		
+
 		.subMenuIcon {
 			padding-right: 4px;
 		}
+
 		.subMenuIcon-selected {
 			background: #CCCCFF;
 		}
-		
+
 		.gwt-MenuItem {
 			.padding(2px, 40px, 2px, 1px);
 		}
-		
+
 		.gwt-MenuItemSeparator {
-			padding: 1px 0px;
-			
+			padding: 1px 0;
+
 			.menuSeparatorInner {
-				height: 0px;
-				padding: 0px;
-				border: 0px;
+				height: 0;
+				padding: 0;
+				border: 0;
 				border-top: 1px solid @color-bordergrey;
 				overflow: hidden;
 			}
 		}
 	}
 
-	input[type="text"], input[type="number"], select{
-		min-height:0;
-		min-width:0;
+	input[type="text"], input[type="number"], select {
+		min-height: 0;
+		min-width: 0;
 	}
 
 	.titlePanel input[type="text"] {
-		min-width:450px;
+		min-width: 450px;
 	}
-	
-	
+
 	.Dialog-messagePanel {
 		margin-bottom: 10px;
 	}
-	
+
 	.Dialog-errorPanel, .Dialog-errorPanel td {
 		color: red;
 	}
-	
+
 	.Dialog-errorPanel {
 		color: red;
-		display:block;
+		display: block;
 	}
-	
+
 	.Dialog-messagePanel img {
-		/* margin: 10px; */
 		margin-right: 10px;
 	}
-	
-	
+
+
 	.DialogRbPanel {
 		margin-top: 10px;
 	}
-	
+
 	.DialogRbPanel td {
 		padding-right: 20px;
 	}
-	
+
 	.DialogBox .infoText {
 		padding-bottom: 10px;
 	}
-	
+
 	.DialogBox .dialogToolIcon {
 		padding: 3px;
 		border-radius: 5px;
 		border: 1px solid #DCDCDC;
 		background-color: #FFF;
 	}
-	
+
 	.DialogBox .DialogButtonPanel .gwt-Button.button-up-disabled,
 	.DialogBox .buttonPanel .button.button-up-disabled,
 	.DialogBox .buttonPanel .button.button-up-disabled:hover,
 	.DialogBox .buttonPanel .button.button-up-disabled:active {
 		opacity: 0.3;
-	    filter: alpha(opacity=30); /* For IE8 and earlier */
-	    cursor: default;
-	} 
+		cursor: default;
+	}
 }

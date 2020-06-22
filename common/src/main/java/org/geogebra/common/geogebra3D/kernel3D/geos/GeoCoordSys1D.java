@@ -337,7 +337,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 
 		pp.setT(t);
 
-		// udpate point using pathChanged
+		// update point using pathChanged
 		P.setCoords(getPoint(t), false);
 
 	}
