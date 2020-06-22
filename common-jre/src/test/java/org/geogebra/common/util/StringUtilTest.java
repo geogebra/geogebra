@@ -6,6 +6,8 @@ import org.geogebra.common.media.GeoGebraURLParser;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 @SuppressWarnings("javadoc")
 public class StringUtilTest {
 	@Test
@@ -109,6 +111,26 @@ public class StringUtilTest {
 		String in = "\n\na\nb";
 		String out = "<div><br></div><div><br></div><div>a</div><div>b</div>";
 		compatibleNewlines(in, out);
+	}
+
+	@Test
+	public void testNumberToIndex() {
+		assertEquals("" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7,
+				StringUtil.numberToIndex(27));
+		assertEquals("" + Unicode.SUPERSCRIPT_MINUS
+						+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7,
+				StringUtil.numberToIndex(-27));
+		assertEquals("" + Unicode.SUPERSCRIPT_0,
+				StringUtil.numberToIndex(0));
+	}
+
+	@Test
+	public void testIndexToNumber() {
+		assertEquals(27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_2
+						+ Unicode.SUPERSCRIPT_7));
+		assertEquals(-27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_MINUS
+						+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7));
+		assertEquals(0, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_0));
 	}
 
 	private static void compatibleNewlines(String in, String out) {

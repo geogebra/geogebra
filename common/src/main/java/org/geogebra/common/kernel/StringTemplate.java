@@ -2779,64 +2779,36 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		} else {
 			StringBuilder sb = new StringBuilder();
-			// everything else
-
-			boolean finished = false;
 
 			// support for sin^2(x)
 			if ((stringType.equals(StringType.LATEX) || stringType.equals(StringType.GEOGEBRA))
-					&& left.isExpressionNode()) {
-				switch (((ExpressionNode) left).getOperation()) {
-				// #1592
-				case SIN:
-				case COS:
-				case TAN:
-				case SEC:
-				case CSC:
-				case COT:
-				case SINH:
-				case COSH:
-				case TANH:
-				case SECH:
-				case CSCH:
-				case COTH:
+					&& left.isExpressionNode() && isTrigFunction((ExpressionNode) left)
+					&& right.isConstant()) {
+				boolean latex = stringType.equals(StringType.LATEX);
 
-					boolean latex = stringType.equals(StringType.LATEX);
+				double indexD = right.evaluateDouble();
 
-					double indexD = right.evaluateDouble();
+				// only positive integers
+				// sin^-1(x) is arcsin
+				// sin^-2(x) not standard notation
+				if (indexD > 0 && DoubleUtil.isInteger(indexD)) {
 					int index = (int) Math.round(indexD);
+					String leftStrTrimmed = leftStr.trim();
 
-					// only positive integers
-					// sin^-1(x) is arcsin
-					// sin^-2(x) not standard notation
-					if (index > 0 && DoubleUtil.isInteger(indexD)) {
+					int spaceIndex = leftStrTrimmed.indexOf(latex ? ' ' : '(');
+					sb.append(leftStrTrimmed, 0, spaceIndex);
 
-						String leftStrTrimmed = leftStr.trim();
-
-						int spaceIndex = leftStrTrimmed.trim().indexOf(latex ? ' ' : '(');
-						sb.append(leftStrTrimmed.substring(0, spaceIndex));
-
-						if (latex) {
+					if (latex) {
 						sb.append(" ^{");
 						sb.append(rightStr);
 						sb.append("}");
-						} else {
+					} else {
 						// alternative using Unicode
-							sb.append(StringUtil.numberToIndex(index));
-						}
-						// everything except the "\\sin " or "sin"
-						sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
-
-						finished = true;
-
-						break;
+						sb.append(StringUtil.numberToIndex(index));
 					}
+					// everything except the "\\sin " or "sin"
+					sb.append(leftStrTrimmed.substring(spaceIndex + (latex ? 1 : 0)));
 
-				default:
-					// fall through
-				}
-
-				if (finished) {
 					return sb.toString();
 				}
 			}
@@ -2986,7 +2958,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					// display powers over 9 as unicode superscript
 					try {
 						int i = Integer.parseInt(rightStr);
-						exponent(sb, i);
+						StringUtil.numberToIndex(i, sb);
 					} catch (RuntimeException e) {
 						sb.append('^');
 						sb.append(rightStr);
@@ -2998,6 +2970,26 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 			}
 			return sb.toString();
+		}
+	}
+
+	private boolean isTrigFunction(ExpressionNode expr) {
+		switch (expr.getOperation()) {
+		case SIN:
+		case COS:
+		case TAN:
+		case SEC:
+		case CSC:
+		case COT:
+		case SINH:
+		case COSH:
+		case TANH:
+		case SECH:
+		case CSCH:
+		case COTH:
+			return true;
+		default:
+			return false;
 		}
 	}
 
@@ -3013,57 +3005,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		sb.append(leftBracket());
 		sb.append(leftStr);
 		sb.append(rightBracket());
-	}
-
-	private static void exponent(StringBuilder sb, int i0) {
-		int i = i0;
-		String index = "";
-		if (i < 0) {
-			sb.append('\u207B'); // superscript minus sign
-			i = -i;
-		}
-
-		if (i == 0) {
-			sb.append('\u2070'); // zero
-		} else {
-			while (i > 0) {
-				switch (i % 10) {
-				default:
-				case 0:
-					index = "\u2070" + index;
-					break;
-				case 1:
-					index = "\u00b9" + index;
-					break;
-				case 2:
-					index = "\u00b2" + index;
-					break;
-				case 3:
-					index = "\u00b3" + index;
-					break;
-				case 4:
-					index = "\u2074" + index;
-					break;
-				case 5:
-					index = "\u2075" + index;
-					break;
-				case 6:
-					index = "\u2076" + index;
-					break;
-				case 7:
-					index = "\u2077" + index;
-					break;
-				case 8:
-					index = "\u2078" + index;
-					break;
-				case 9:
-					index = "\u2079" + index;
-					break;
-				}
-				i = i / 10;
-			}
-		}
-		sb.append(index);
 	}
 
 	/**
