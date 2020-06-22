@@ -86,7 +86,7 @@ public class ShareDialogMow extends ComponentDialog
 					material.setVisibility("P");
 				}
 			}
-			shareWithGroups(obj -> showTooltip(obj));
+			shareWithGroups(this::showTooltip);
 		});
 	}
 
@@ -102,6 +102,9 @@ public class ShareDialogMow extends ComponentDialog
 	 *            list of group with which the material was shared
 	 */
 	public void updateOnSharedGroups(List<String> sharedGroupList) {
+		if (sharedGroupList == null) {
+			return;
+		}
 		this.sharedGroups = sharedGroupList;
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
@@ -125,7 +128,7 @@ public class ShareDialogMow extends ComponentDialog
 	private void addGroup(FlowPanel groupsPanel, String groupStr,
 			boolean selected) {
 		groupsPanel.add(new GroupButtonMow(((AppW) app), groupStr, selected,
-				obj -> updateChangedGroupList(obj)));
+				this::updateChangedGroupList));
 	}
 
 	/**
@@ -318,11 +321,7 @@ public class ShareDialogMow extends ComponentDialog
 	protected void getGroupsSharedWith() {
 		app.getLoginOperation().getGeoGebraTubeAPI()
 				.getGroups(material.getSharingKeyOrId(),
-						obj -> {
-							if (obj != null) {
-								updateOnSharedGroups(obj);
-							}
-						});
+								this::updateOnSharedGroups);
 	}
 
 	/**
@@ -332,7 +331,7 @@ public class ShareDialogMow extends ComponentDialog
 	protected void showTooltip(Boolean success) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
 				((AppW) app).getLocalization()
-						.getMenu(success.booleanValue() ? "GroupShareOk"
+						.getMenu(success ? "GroupShareOk"
 								: "GroupShareFail"),
 				true, ((AppW) app));
 	}
