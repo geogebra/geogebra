@@ -6,16 +6,16 @@ import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoAudio;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -25,7 +25,8 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  * @author laszlo
  *
  */
-public class DrawAudio extends Drawable {
+public class DrawAudio extends DrawWidget {
+
 	private static final int SLIDER_AREA_WIDTH = 4;
 	private static final int BLOB_RADIUS = 8;
 	private static final int INNER_BLOB_RADIUS = 6;
@@ -33,7 +34,10 @@ public class DrawAudio extends Drawable {
 	private static final int MARGIN_BEFORE_TEXT_X = 8;
 	private static final int MARGIN_AFTER_TEXT_X = 16;
 	private static final int TIME_FONT = 14;
-	private static final int PLAY_PADDING = 4;
+
+	private static final int PLAY_SIZE = 16;
+	private static final int PLAY_LEFT_PADDING = 14;
+
 	private static final int SLIDER_MARGIN = 8;
 	private static final int SLIDER_THICKNESS = 4;
 	private static final GColor BACKGROUND_COLOR = GColor.MOW_WIDGET_BACKGROUND;
@@ -42,13 +46,10 @@ public class DrawAudio extends Drawable {
 	private static final GColor SLIDER_STROKE_COLOR = GColor.TEXT_PRIMARY;
 	private static final GBasicStroke SLIDER_STROKE = EuclidianStatic.getStroke(SLIDER_THICKNESS,
 			EuclidianStyleConstants.LINE_TYPE_FULL);
+
 	private final GeoAudio geoAudio;
-	private int top;
-	private int left;
-	private int width;
-	private int height;
+
 	private boolean isVisible;
-	private GRectangle bounds;
 	private GRectangle playRect;
 	private boolean playHovered = false;
 	private boolean playing = false;
@@ -75,9 +76,8 @@ public class DrawAudio extends Drawable {
 	 *            The GeoElement that represents the audio content.
 	 */
 	public DrawAudio(EuclidianView view, GeoAudio geo) {
-		this.view = view;
+		super(view, geo);
 		this.geoAudio = geo;
-		this.geo = geo;
 		getColors();
 		update();
 	}
@@ -88,24 +88,18 @@ public class DrawAudio extends Drawable {
 		blobColor = app.getPrimaryColor();
 	}
 
-	private static int getPlaySize() {
-		return 24;
-	}
-
 	@Override
 	public void update() {
+		updateBounds();
 		isVisible = geo.isEuclidianVisible() && geoAudio.isDefined();
 		if (!isVisible) {
 			return;
 		}
-		left = geoAudio.getScreenLocX(view);
-		top = geoAudio.getScreenLocY(view);
 
-		width = geoAudio.getWidth();
-		height = geoAudio.getHeight();
-		int size = 2 * getPlaySize();
-		bounds = AwtFactory.getPrototype().newRectangle(left, top, width, height);
-		playRect = AwtFactory.getPrototype().newRectangle(left, top, size, size);
+		int size = 2 * PLAY_SIZE;
+		int margin = (int) (getHeight() / 2 - PLAY_SIZE);
+		playRect = AwtFactory.getPrototype().newRectangle(0, margin,
+				size + PLAY_LEFT_PADDING, size);
 
 		// NPE in Classic 5 on file loading
 		try {
@@ -123,7 +117,7 @@ public class DrawAudio extends Drawable {
 		String textAll = getElapsedTime(duration, duration);
 		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll,
 				font, g2.getFontRenderContext());
-		int x = left + TAP_AREA_SIZE + MARGIN_BEFORE_TEXT_X;
+		int x = TAP_AREA_SIZE + MARGIN_BEFORE_TEXT_X;
 
 		double d = geoAudio.getDuration();
 		double param = geoAudio.getCurrentTime() / d;
@@ -132,13 +126,13 @@ public class DrawAudio extends Drawable {
 		}
 		sliderLeft = (int) (x + txtLayout.getBounds().getWidth()
 				+ 2 * BLOB_RADIUS) + MARGIN_AFTER_TEXT_X;
-		sliderWidth = left + width - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_RADIUS);
-		int middle = height / 2;
-		int sliderTop = top + middle;
-		updateDot(sliderLeft + sliderWidth * param, sliderTop);
-		AwtFactory.getPrototype().newRectangle(sliderLeft, sliderTop - SLIDER_AREA_WIDTH,
-				sliderLeft - left, 2 * SLIDER_AREA_WIDTH);
-		line.setLine(sliderLeft, sliderTop, sliderLeft + sliderWidth, sliderTop);
+		sliderWidth = (int) (getWidth() - (sliderLeft + SLIDER_MARGIN + 2 * BLOB_RADIUS));
+		int middle = (int) (getHeight() / 2);
+
+		updateDot(sliderLeft + sliderWidth * param, middle);
+		AwtFactory.getPrototype().newRectangle(sliderLeft, middle - SLIDER_AREA_WIDTH,
+				sliderLeft, 2 * SLIDER_AREA_WIDTH);
+		line.setLine(sliderLeft, middle, sliderLeft + sliderWidth, middle);
 	}
 
 	private void updateDot(double rwX, double rwY) {
@@ -163,6 +157,8 @@ public class DrawAudio extends Drawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
+			g2.saveTransform();
+			g2.transform(getTransform());
 			drawBox(g2);
 			if (playing) {
 				drawPause(g2);
@@ -172,71 +168,68 @@ public class DrawAudio extends Drawable {
 			drawTime(g2);
 			updateStrokes(geoAudio);
 			drawSlider(g2);
+			g2.restoreTransform();
 		}
 	}
 
 	private void drawSlider(GGraphics2D g2) {
-		if (isVisible) {
-			int x = sliderLeft;
-			int y = top + height / 2;
+		int x = sliderLeft;
+		int y = (int) (getHeight() / 2);
 
-			g2.setStroke(SLIDER_STROKE);
-			g2.setPaint(SLIDER_STROKE_COLOR);
-			g2.drawStraightLine(x, y, x + sliderWidth, y);
+		g2.setStroke(SLIDER_STROKE);
+		g2.setPaint(SLIDER_STROKE_COLOR);
+		g2.drawStraightLine(x, y, x + sliderWidth, y);
 
-			g2.setPaint(blobColor);
-			g2.drawStraightLine(x, y, coords[0], y);
+		g2.setPaint(blobColor);
+		g2.drawStraightLine(x, y, coords[0], y);
 
-			if (sliderHighlighted) {
-				g2.fill(circleOuter);
-			} else {
-				g2.fill(circle);
-			}
+		if (sliderHighlighted) {
+			g2.fill(circleOuter);
+		} else {
+			g2.fill(circle);
 		}
 	}
 
 	@Override
 	public double getWidthThreshold() {
-		return geoAudio.getWidth();
+		return GeoAudio.DEFAULT_PLAYER_WIDTH;
 	}
 
 	@Override
 	public double getHeightThreshold() {
-		return geoAudio.getHeight();
+		return GeoAudio.DEFAULT_PLAYER_HEIGHT;
 	}
 
 	private void drawPlay(GGraphics2D g2) {
 		g2.setColor(playHovered ? playHoverColor : PLAY_COLOR);
-		int size = getPlaySize();
-		int margin = (height - size) / 2;
-		int x = left + margin;
-		int y = top + margin;
-		int x1 = x + PLAY_PADDING;
-		int y1 = y + PLAY_PADDING;
+		int size = PLAY_SIZE;
+		int margin = (int) ((getHeight() - size) / 2);
+		int x1 = PLAY_LEFT_PADDING;
+		int y1 = margin;
 		int x2 = x1;
-		int y2 = y + size - PLAY_PADDING;
-		int x3 = x + size - PLAY_PADDING;
-		int y3 = y + size / 2;
+		int y2 = margin + size;
+		int x3 = PLAY_LEFT_PADDING + size;
+		int y3 = margin + size / 2;
 
 		AwtFactory.fillTriangle(g2, x1, y1, x2, y2, x3, y3);
 	}
 
 	private void drawPause(GGraphics2D g2) {
 		g2.setColor(playHovered ? playHoverColor : PLAY_COLOR);
-		int size = getPlaySize();
-		int margin = (height - size) / 2;
-		int barWidth = size / 6;
-		int x = left + margin + barWidth;
-		int y = top + margin + PLAY_PADDING;
+		int size = PLAY_SIZE;
+		int margin = (int) ((getHeight() - size) / 2);
+		int barWidth = size / 4;
+
+		int x = PLAY_LEFT_PADDING;
 		int x1 = x + 2 * barWidth;
-		int barHeight = size - 2 * PLAY_PADDING;
-		g2.fillRect(x, y, barWidth, barHeight);
-		g2.fillRect(x1, y, barWidth, barHeight);
+
+		g2.fillRect(x, margin, barWidth, size);
+		g2.fillRect(x1, margin, barWidth, size);
 	}
 
 	private void drawBox(GGraphics2D g2) {
 		g2.setPaint(BACKGROUND_COLOR);
-		g2.fillRect(left - 1, top - 1, width, height);
+		g2.fillRect(0, 0, (int) getWidth(), (int) getHeight());
 	}
 
 	private void drawTime(GGraphics2D g2) {
@@ -251,8 +244,8 @@ public class DrawAudio extends Drawable {
 
 		GTextLayout txtLayout = AwtFactory.getPrototype().newTextLayout(textAll, font,
 				g2.getFontRenderContext());
-		int x = left + TAP_AREA_SIZE + MARGIN_BEFORE_TEXT_X;
-		int y = top + (int) (height + txtLayout.getBounds().getHeight()) / 2;
+		int x = TAP_AREA_SIZE + MARGIN_BEFORE_TEXT_X;
+		int y = (int) (getHeight() + txtLayout.getBounds().getHeight()) / 2;
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
 				x, y, false, null, null);
@@ -293,15 +286,17 @@ public class DrawAudio extends Drawable {
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		boolean sh = isSliderHit(x, y, 2);
-		boolean ph = isPlayHit(x, y);
+		GPoint2D inversePoint = getInversePoint(x, y);
+
+		boolean sh = isSliderHit(inversePoint.getX(), inversePoint.getY(), 2);
+		boolean ph = isPlayHit(inversePoint.getX(), inversePoint.getY());
 		boolean repaint = sh != sliderHighlighted || ph != playHovered;
 		sliderHighlighted = sh;
 		playHovered = ph;
 		if (repaint) {
 			view.repaintView();
 		}
-		return bounds.contains(x, y) && isVisible;
+		return super.hit(x, y, hitThreshold);
 	}
 
 	/**
@@ -312,8 +307,8 @@ public class DrawAudio extends Drawable {
 	 *            coordinate.
 	 * @return true if play was hit.
 	 */
-	public boolean isPlayHit(int x, int y) {
-		return playRect.contains(x, y) && isVisible;
+	public boolean isPlayHit(double x, double y) {
+		return playRect.contains(x, y);
 	}
 
 	/**
@@ -345,7 +340,7 @@ public class DrawAudio extends Drawable {
 	 *            threshold
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
-	public boolean isSliderHit(int x, int y, int hitThreshold) {
+	public boolean isSliderHit(double x, double y, int hitThreshold) {
 		int r = hitThreshold + SLIDER_THICKNESS;
 		return line.intersects(x - r, y - r, 2 * r, 2 * r);
 	}
@@ -364,20 +359,30 @@ public class DrawAudio extends Drawable {
 	public boolean hitSliderNotBlob(int x, int y, int hitThreshold) {
 		return isSliderHit(x, y, hitThreshold) && !isBlobHit(x, y, hitThreshold);
 	}
-	
+
 	@Override
-	public boolean isInside(GRectangle rect) {
-		return rect.contains(bounds);
+	public GeoWidget getGeoElement() {
+		return geoAudio;
 	}
 
 	@Override
-	public GeoElement getGeoElement() {
-		return geo;
+	public boolean isFixedRatio() {
+		return false;
 	}
 
 	@Override
-	public GRectangle getBounds() {
-		return bounds;
+	public int getEmbedID() {
+		return 0;
+	}
+
+	@Override
+	public boolean isBackground() {
+		return false;
+	}
+
+	@Override
+	public void setBackground(boolean b) {
+		// background state not possible for audios
 	}
 
 	/**
@@ -390,7 +395,8 @@ public class DrawAudio extends Drawable {
 	 * @return if was handled here or not.
 	 */
 	public boolean onMouseDown(int x, int y) {
-		if (isPlayHit(x, y)) {
+		GPoint2D inversePoint = getInversePoint(x, y);
+		if (isPlayHit(inversePoint.getX(), inversePoint.getY())) {
 			playing = !playing;
 			if (playing) {
 				geoAudio.play();
