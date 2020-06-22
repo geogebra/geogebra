@@ -163,7 +163,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testSubstituteCommand() {
 		t("Substitute(x^2+y^2, x=aaa)", "aaa^(2) + y^(2)");
-		t("Substitute(x^2+y^2, {x=aaa, y=bbb})", "aaa^(2) + bbb^(2)");
+		t("Substitute(x^2+y^2, {x=ccc, y=bbb})", "ccc^(2) + bbb^(2)");
 	}
 
 	@Test
@@ -191,7 +191,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(x^2=1)", "{x = -1, x = 1}");
 		t("Solve(x^2=a)", "{x = -sqrt(a), x = sqrt(a)}");
 		t("Solve({x+y=1, x-y=3})", "{{x = 2, y = -1}}");
-		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
 		t("Solve({(x, y) = (3, 2) + t*(5, 1), (x, y) = (4, 1) + s*(1, -1)}, {x, y, t, s})",
 				"{{x = 3, y = 2, t = 0, s = -1}}");
 		testValidResultCombinations(
@@ -212,6 +211,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
 		t("Solve(1-p^2=(1-0.7^2)/4)", "{p = (-sqrt(349)) / 20, p = sqrt(349) / 20}");
 		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846, p = 0.9340770846}");
+	}
+
+	@Test
+	public void testSolveCommandCustomVar() {
+		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
 	}
 
 	@Test
@@ -441,6 +445,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solutions({aa+bb=1, aa-bb=3})", "{{2, -1}}");
 		t("Solutions(x^2=aaa)", "{-sqrt(aaa), sqrt(aaa)}");
 		t("Solutions(y^2=aaa)", "{-sqrt(aaa), sqrt(aaa)}");
+	}
+
+	@Test
+	public void testSolutionsCommandCustomVar() {
 		t("Solutions(bbb^2=aaa)", "{-sqrt(aaa), sqrt(aaa)}");
 	}
 
@@ -455,7 +463,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Integral(x*y^2,x,0,2)", "2 * y^(2)");
 		t("Integral(x*y^2,x,aaa,bbb)", "y^(2) * ((-1) / 2 * aaa^(2) + 1 / 2 * bbb^(2))");
 		t("Integral(Integral(x*y^2,x,0,2),y,0,1)", "2 / 3");
-		t("Integral(Integral(x*y^2,x,0,2),y,0,aaa)", "2 / 3 * aaa^(3)");
+		t("Integral(Integral(x*y^2,x,0,2),y,0,q)", "2 / 3 * q^(3)");
 		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + pi + ")");
 	}
 
@@ -491,9 +499,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testTangentCommand() {
 		t("Tangent(bbb, y = aaa x^2)", "y = -aaa * bbb^(2) + 2 * aaa * bbb * x");
-		t("Tangent((bbb, bbb^2 aaa), y = aaa x^2)",
-				"y = -aaa * bbb^(2) + 2 * aaa * bbb * x");
-		t("Tangent((1,aaa), y = aaa x^2)", "y = 2 * aaa * x - aaa");
+		t("Tangent((d, d^2 c), y = c x^2)",
+				"y = -c * d^(2) + 2 * c * d * x");
+		t("Tangent((1,c), y = c x^2)", "y = 2 * c * x - c");
 	}
 
 	@Test
@@ -509,11 +517,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testTrigCommands() {
+	public void testTrigExpand() {
 		t("TrigExpand(tan(aaa+bbb))",
 				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
-		t("f(x) = TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
 		t("TrigExpand(x)", "x");
+	}
+
+	@Test
+	public void testTrigCombine() {
+		t("f(x) = TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+	}
+
+	@Test
+	public void testTrigSimplify() {
 		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
 	}
 
@@ -536,8 +552,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		testValidResultCombinations("{{a,b},{c,d}} {{a,b},{c,d}}",
 				"{{a^(2) + b * c, a * b + b * d}, {a * c + c * d, d^(2) + b * c}}",
 				"{{b * c + a^(2), a * b + b * d}, {a * c + c * d, b * c + d^(2)}}");
-		t("{{aa,bb},{cc,dd}} {{ee,ff},{gg,hh}}",
-				"{{aa * ee + bb * gg, aa * ff + bb * hh}, {cc * ee + dd * gg, cc * ff + dd * hh}}");
+	}
+
+	@Test
+	public void testMatrixMultiplication() {
+		t("{{aa,bb},{cc,dd}} {{pp,ff},{gg,hh}}",
+				"{{aa * pp + bb * gg, aa * ff + bb * hh}, {cc * pp + dd * gg, cc * ff + dd * hh}}");
 	}
 
 	@Test
