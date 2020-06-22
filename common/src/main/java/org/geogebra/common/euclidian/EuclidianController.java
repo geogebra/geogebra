@@ -7556,9 +7556,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		// handle rotation
 		if (view.getHitHandler() == EuclidianBoundingBoxHandler.ROTATION) {
 			splitSelectedStrokes(true);
-			GRectangle2D bounds = (getResizedShape() != null)
-					? getResizedShape().getBounds()
-					: view.getBoundingBox().getRectangle();
+			GRectangle2D bounds = view.getBoundingBox().getRectangle();
 			// bounds exist
 			if (bounds != null) {
 				if (lastMouseLoc == null) {

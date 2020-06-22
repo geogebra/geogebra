@@ -1437,16 +1437,31 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public double getHeight() {
+		if (cropBox == null) {
+			return getHeightUncropped();
+		}
+		return getHeightUncropped() * cropBox.getHeight() / pixelHeight;
+	}
+
+	public double getHeightUncropped() {
 		if (getStartPoints()[2] != null) {
 			return getStartPoint().distance(getStartPoints()[2]) * kernel.getApplication()
 					.getActiveEuclidianView().getXscale();
 		}
-		return (pixelHeight * getWidth()) / pixelWidth;
+		return (pixelHeight * getWidthUncropped()) / pixelWidth;
 	}
 
 	@Override
 	public double getWidth() {
-		return getStartPoint().distance(getStartPoints()[1]) * kernel.getApplication().getActiveEuclidianView().getXscale();
+		if (cropBox == null) {
+			return getWidthUncropped();
+		}
+		return getWidthUncropped() * cropBox.getWidth() / pixelWidth;
+	}
+
+	public double getWidthUncropped() {
+		return getStartPoint().distance(getStartPoints()[1])
+				* kernel.getApplication().getActiveEuclidianView().getXscale();
 	}
 
 	@Override
@@ -1462,15 +1477,27 @@ public class GeoImage extends GeoElement implements Locateable,
 	public GPoint2D getLocation() {
 		double[] c = new double[2];
 		getInternalCornerPointCoords(c, 2);
-		return new GPoint2D(c[0], c[1]);
+		double x = c[0];
+		double y = c[1];
+		if (cropBox != null) {
+			x = x + (getRealWorldX(1) - getRealWorldX(0)) * cropBox.getX() / pixelWidth
+					+ (getRealWorldX(0) - c[0]) * cropBox.getY() / pixelHeight;
+			y = y + (getRealWorldY(1) - getRealWorldY(0)) * cropBox.getX() / pixelWidth
+					+ (getRealWorldY(0) - c[1]) * cropBox.getY() / pixelHeight;
+		}
+		return new GPoint2D(x, y);
 	}
 
 	@Override
 	public void setSize(double width, double height) {
 		ensureCorner();
-		double rwWidth = width / 50.0;
-		double rwHeight = height / 50.0;
-
+		double rwWidth = width / app.getActiveEuclidianView().getScale(0);
+		double rwHeight = height / app.getActiveEuclidianView().getScale(1);
+		ensureCropBox();
+		if (cropBox != null) {
+			rwWidth /= cropBox.getWidth() / pixelWidth;
+			rwHeight /= cropBox.getHeight() / pixelHeight;
+		}
 		double angle = -getAngle();
 
 		getStartPoint().setCoords(getStartPoints()[2].x + rwHeight * Math.sin(angle),
@@ -1501,6 +1528,13 @@ public class GeoImage extends GeoElement implements Locateable,
 			getStartPoint().translate(shift);
 			getStartPoints()[1].translate(shift);
 			getStartPoints()[2].translate(shift);
+		}
+	}
+
+	public void ensureCropBox() {
+		if (cropBox == null) {
+			cropBox = AwtFactory.getPrototype().newRectangle2D();
+			cropBox.setFrame(0,0, pixelWidth, pixelHeight);
 		}
 	}
 }

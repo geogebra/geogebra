@@ -79,7 +79,9 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		setHandlerTransformed(5, 0, height / 2);
 		setHandlerTransformed(6, width / 2, height);
 		setHandlerTransformed(7, width, height / 2);
-		setHandlerTransformed(8, width / 2, -BoundingBox.ROTATION_HANDLER_DISTANCE);
+		if (!isCropBox()) {
+			setHandlerTransformed(8, width / 2, -BoundingBox.ROTATION_HANDLER_DISTANCE);
+		}
 	}
 
 	public void setCropMode(boolean crop) {

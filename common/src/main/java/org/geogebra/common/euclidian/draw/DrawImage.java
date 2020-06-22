@@ -580,60 +580,48 @@ public final class DrawImage extends Drawable {
 			EuclidianBoundingBoxHandler handler) {
 		double eventX = p.getX();
 		double eventY = p.getY();
-		double newWidth = 1;
-		double newHeight = 1;
+		double newWidth;
+		double newHeight;
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		GRectangle2D boundingBoxRectangle = getBoundingBox().getRectangle();
+		int minWidth = Math.min(IMG_CROP_THRESHOLD, image.getWidth());
+		int minHeight = Math.min(IMG_CROP_THRESHOLD, image.getHeight());
+		GPoint2D event = atInverse.transform(new GPoint2D(eventX, eventY), null);
+		eventX = event.x;
+		eventY = event.y;
+		geoImage.ensureCropBox();
+		GRectangle2D cropBoxRelative = geoImage.getCropBoxRelative();
+		double cropY = cropBoxRelative.getY();
+		double cropX = cropBoxRelative.getX();
 		switch (handler) {
 		case BOTTOM:
-			eventY = MyMath.clamp(eventY,
-					boundingBoxRectangle.getMinY()
-							+ Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
-					getBounds().getMaxY());
-			rect.setRect(boundingBoxRectangle.getX(),
-					boundingBoxRectangle.getY(),
-					boundingBoxRectangle.getWidth(),
-					eventY - boundingBoxRectangle.getY());
+			cropBoxRelative.setFrame(cropX, cropY,
+					cropBoxRelative.getWidth(), eventY - cropY);
 			originalRatio = Double.NaN;
 			break;
 		case TOP:
-			eventY = MyMath.clamp(eventY, getBounds().getMinY(),
-					boundingBoxRectangle.getMaxY()
-							- Math.min(IMG_CROP_THRESHOLD, image.getHeight()));
-			rect.setRect(boundingBoxRectangle.getX(), eventY,
-					boundingBoxRectangle.getWidth(),
-					boundingBoxRectangle.getMaxY() - eventY);
+			cropBoxRelative.setFrame(cropX, eventY,
+					cropBoxRelative.getWidth(), cropY + cropBoxRelative.getHeight() - eventY);
 			originalRatio = Double.NaN;
 			break;
 		case LEFT:
-			eventX = MyMath.clamp(eventX,
-					getBounds().getMinX(),
-					boundingBoxRectangle.getMaxX()
-							- Math.min(IMG_CROP_THRESHOLD, image.getWidth()));
-			rect.setRect(eventX, boundingBoxRectangle.getY(),
-					boundingBoxRectangle.getMaxX() - eventX,
-					boundingBoxRectangle.getHeight());
+			cropBoxRelative.setFrame(eventX, cropY,
+					cropX + cropBoxRelative.getWidth() - eventX, cropBoxRelative.getHeight());
 			originalRatio = Double.NaN;
 			break;
 		case RIGHT:
-			eventX = MyMath.clamp(eventX,
-					boundingBoxRectangle.getMinX()
-							+ Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
-					getBounds().getMaxX());
-			rect.setRect(boundingBoxRectangle.getX(),
-					boundingBoxRectangle.getY(),
-					eventX - boundingBoxRectangle.getX(),
-					boundingBoxRectangle.getHeight());
+			cropBoxRelative.setFrame(cropBoxRelative.getX(), cropBoxRelative.getY(),
+					eventX - cropX, cropBoxRelative.getHeight());
 			originalRatio = Double.NaN;
 			break;
 		case BOTTOM_RIGHT:
 			newWidth = MyMath.clamp(
 					eventX - boundingBoxRectangle.getMinX(),
-					Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
+					minWidth,
 					getBounds().getMaxX()
 							- boundingBoxRectangle.getMinX());
 			newHeight = MyMath.clamp(originalRatio * newWidth,
-					Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
+					minHeight,
 					getBounds().getMaxY()
 							- boundingBoxRectangle.getMinY());
 			rect.setRect(boundingBoxRectangle.getX(),
@@ -643,11 +631,11 @@ public final class DrawImage extends Drawable {
 		case BOTTOM_LEFT:
 			newWidth = MyMath.clamp(
 					boundingBoxRectangle.getMaxX() - eventX,
-					Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
+					minWidth,
 					boundingBoxRectangle.getMaxX()
 							- getBounds().getMinX());
 			newHeight = MyMath.clamp(originalRatio * newWidth,
-					Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
+					minHeight,
 					getBounds().getMaxY()
 							- boundingBoxRectangle.getMinY());
 			rect.setRect(boundingBoxRectangle.getMaxX() - newWidth,
@@ -657,11 +645,11 @@ public final class DrawImage extends Drawable {
 		case TOP_RIGHT:
 			newWidth = MyMath.clamp(
 					eventX - boundingBoxRectangle.getMinX(),
-					Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
+					minWidth,
 					getBounds().getMaxX()
 							- boundingBoxRectangle.getMinX());
 			newHeight = MyMath.clamp(originalRatio * newWidth,
-					Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
+					minHeight,
 					boundingBoxRectangle.getMaxY()
 							- getBounds().getMinY());
 			rect.setRect(boundingBoxRectangle.getX(),
@@ -672,11 +660,11 @@ public final class DrawImage extends Drawable {
 		case TOP_LEFT:
 			newWidth = MyMath.clamp(
 					boundingBoxRectangle.getMaxX() - eventX,
-					Math.min(IMG_CROP_THRESHOLD, image.getWidth()),
+					minWidth,
 					boundingBoxRectangle.getMaxX()
 							- getBounds().getMinX());
 			newHeight = MyMath.clamp(originalRatio * newWidth,
-					Math.min(IMG_CROP_THRESHOLD, image.getHeight()),
+					minHeight,
 					boundingBoxRectangle.getMaxY()
 							- getBounds().getMinY());
 			rect.setRect(boundingBoxRectangle.getMaxX() - newWidth,
@@ -686,10 +674,7 @@ public final class DrawImage extends Drawable {
 		default:
 			break;
 		}
-		boundingBox.setRectangle(rect);
-		boundingBox.setTransform(transformableRectangle.getDirectTransform());
-		// remember last crop box position
-		setCropBox(rect);
+		transformableRectangle.updateSelfAndBoundingBox();
 		updateImageCropRatio();
 	}
 
@@ -731,17 +716,6 @@ public final class DrawImage extends Drawable {
 					- geoImage.getFillImage().getHeight();
 		}
 		return 0;
-	}
-
-	private void setCropBox(GRectangle2D rect) {
-		double locX = view.toScreenCoordXd(geoImage.getRealWorldLocX());
-		double locY = getImageTop();
-		GRectangle2D cb = AwtFactory.getPrototype().newRectangle2D();
-		cb.setRect((rect.getMinX() - locX) / getOriginalRatioX(),
-				(rect.getMinY() - locY) / getOriginalRatioY(),
-				rect.getWidth() / getOriginalRatioX(),
-				rect.getHeight() / getOriginalRatioY());
-		geoImage.setCropBoxRelative(cb);
 	}
 
 	private GRectangle2D getCropBox() {
@@ -803,7 +777,8 @@ public final class DrawImage extends Drawable {
 
 	@Override
 	public GRectangle2D getBoundsForStylebarPosition() {
-		if (geoImage.isCropped() && !view.getBoundingBox().isCropBox()) {
+		if (geoImage.isCropped() && view.getBoundingBox() != null
+				&& !view.getBoundingBox().isCropBox()) {
 			return getCropBox();
 		}
 		return getBounds();

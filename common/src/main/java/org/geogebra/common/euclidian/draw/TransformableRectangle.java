@@ -204,7 +204,7 @@ public class TransformableRectangle {
 		updateSelfAndBoundingBox();
 	}
 
-	public GPoint2D getInversePoint(int x, int y) {
+	public GPoint2D getInversePoint(double x, double y) {
 		return inverseTransform.transform(new GPoint2D(x, y), null);
 	}
 

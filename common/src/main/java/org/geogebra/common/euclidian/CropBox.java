@@ -65,6 +65,7 @@ public class CropBox implements BoundingBoxDelegate {
 		case 7:
 			getHandler(7).moveTo(x + normal, y - tangent);
 			getHandler(7).lineTo(x - normal, y + tangent);
+			break;
 		default:
 			Log.warn("illegal handler " + i);
 		}
