@@ -105,6 +105,18 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void testFloor() {
+		checker.insert("2 floor(x)")
+				.checkRaw("MathSequence[2,  , FnFLOOR[MathSequence[x]]]");
+	}
+
+	@Test
+	public void testCeil() {
+		checker.insert("2 ceil(x)")
+				.checkRaw("MathSequence[2,  , FnCEIL[MathSequence[x]]]");
+	}
+
+	@Test
 	public void testKorean() {
 
 		checker.checkEditorInsert("\u3147\u314F\u3139\u314D\u314F", "\uC54C\uD30C");
