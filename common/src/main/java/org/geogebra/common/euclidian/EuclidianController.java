@@ -8223,7 +8223,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 		}
 
-		if ((geo != null) && (!geo.isLocked() || isMoveButtonExpected(geo)
+		if ((geo != null) && ((!geo.isLocked() || geo.hasGroup()) || isMoveButtonExpected(geo)
 				|| isMoveTextFieldExpected(geo))) {
 			moveModeSelectionHandled = true;
 		} else if (!wasBoundingBoxHit) {
