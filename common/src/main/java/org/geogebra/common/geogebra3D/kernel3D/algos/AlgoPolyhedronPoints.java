@@ -495,7 +495,9 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		// if prism/pyramid is down-oriented, reverse normals for blending
 		if (height != null) {
-			polyhedron.setReverseNormalsForDrawing(height.getDouble() < 0);
+			boolean isBottomInverse = bottomAsInput && bottom != null
+					&& bottom.isConvexInverseDirection();
+			polyhedron.setReverseNormalsForDrawing(isBottomInverse ^ height.getDouble() < 0);
 		}
 
 		return true;
