@@ -2,6 +2,7 @@ package org.geogebra.web.editor;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -178,6 +179,11 @@ public class AppWsolver extends AppW implements HasKeyboard {
 		} else {
 			return width;
 		}
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.SUITE;
 	}
 
 	@Override

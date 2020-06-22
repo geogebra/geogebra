@@ -1,5 +1,7 @@
 package org.geogebra.web.full.javax.swing;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -18,9 +20,10 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author laszlo
  */
-public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandler<Boolean> {
+public class InlineTextToolbar implements ValueChangeHandler<Boolean> {
+	private AriaMenuItem item;
 	private final App app;
-	private DrawInlineText drawInlineText;
+	private List<DrawInlineText> drawInlineTexts;
 	private FlowPanel panel;
 	private MyToggleButtonW subScriptBtn;
 	private MyToggleButtonW superScriptBtn;
@@ -30,26 +33,38 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 	/**
 	 * Constructor of special context menu item holding the
 	 * list and sub/superscript toggle buttons
-	 * @param drawInlineText the drawable.
+	 * @param drawInlineTexts the drawable.
+	 *
 	 */
-	public InlineTextToolbar(DrawInlineText drawInlineText, App app) {
-		super();
-		this.drawInlineText = drawInlineText;
+	public InlineTextToolbar(List<DrawInlineText> drawInlineTexts, AriaMenuItem item, App app) {
+		this.drawInlineTexts = drawInlineTexts;
+		this.item = item;
 		this.app = app;
 
 		createGui();
-		setLabels();
+		setTooltips();
 	}
 
-	private void createGui() {
-		setStyleName("inlineTextToolbar");
+	/**
+	 * Creates the toolbar gui
+	 */
+	protected void createGui() {
+		item.setStyleName("inlineTextToolbar");
 		panel = new FlowPanel();
 		createSubscriptBtn();
 		createSuperscriptBtn();
 		createBulletListBtn();
 		createNumberedListBtn();
-		setWidget(panel);
+		item.setWidget(panel);
 		updateState();
+	}
+
+	/**
+	 * Set item content as text
+	 * @param text to set
+	 */
+	protected void setContent(String text) {
+		item.setContent(text, false);
 	}
 
 	private void createSubscriptBtn() {
@@ -85,15 +100,49 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 		return button;
 	}
 
-	private String getScriptFormat() {
-		return drawInlineText.getFormat("script", "normal");
+	protected String getScriptFormat() {
+		if (drawInlineTexts.isEmpty()) {
+			return "";
+		}
+
+			String format = drawInlineTexts.get(0).getFormat("script", "normal");
+		if (drawInlineTexts.size() == 1) {
+			return format;
+		}
+
+		for (DrawInlineText d: drawInlineTexts) {
+			if (!format.equals(d.getFormat("script", "normal"))) {
+				return "";
+			}
+		}
+
+		return format;
 	}
 
-	private String getListStyle() {
-		return drawInlineText.getListStyle();
+	protected String getListStyle() {
+		if (drawInlineTexts.isEmpty()) {
+			return "";
+		}
+
+		String listStyle = getListStyle(drawInlineTexts.get(0));
+		if (drawInlineTexts.size() == 1) {
+			return listStyle;
+		}
+
+		for (DrawInlineText drawInlineText: drawInlineTexts) {
+			if (!listStyle.equals(getListStyle(drawInlineText))) {
+				return "";
+			}
+		}
+		return listStyle;
 	}
 
-	@Override
+	private String getListStyle(DrawInlineText drawInlineText) {
+		return drawInlineText.getListStyle() != null
+				? drawInlineText.getListStyle()
+				: "";
+	}
+
 	public void add(Widget widget) {
 		panel.add(widget);
 	}
@@ -105,9 +154,9 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 		} else if (superScriptBtn.equals(event.getSource())) {
 			setSuperscript(event.getValue());
 		} else if (bulletListBtn.equals(event.getSource())) {
-			drawInlineText.switchListTo("bullet");
+			switchListTo("bullet");
 		} else if (numberedListBtn.equals(event.getSource())) {
-			drawInlineText.switchListTo("number");
+			switchListTo("number");
 		}
 
 		updateState();
@@ -122,14 +171,34 @@ public class InlineTextToolbar extends AriaMenuItem implements ValueChangeHandle
 	}
 
 	private void formatScript(String type, Boolean value) {
-		drawInlineText.format("script", value ? type : "none");
+		for (DrawInlineText d: drawInlineTexts) {
+			d.format("script", value ? type : "none");
+		}
 		app.storeUndoInfo();
 	}
 
-	private void setLabels() {
+	private void switchListTo(String listType) {
+		for (DrawInlineText d: drawInlineTexts) {
+			d.switchListTo(listType);
+		}
+		app.storeUndoInfo();
+	}
+
+	/**
+	 * Sets the tooltips
+	 */
+	protected void setTooltips() {
 		subScriptBtn.setToolTipText(app.getLocalization().getMenu("Subscript"));
 		superScriptBtn.setToolTipText(app.getLocalization().getMenu("Superscript"));
 		bulletListBtn.setToolTipText(app.getLocalization().getMenu("bulletList"));
 		numberedListBtn.setToolTipText(app.getLocalization().getMenu("numberedList"));
+	}
+
+	/**
+	 *
+	 * @return the toolbar as a menu item
+	 */
+	public AriaMenuItem getItem() {
+		return item;
 	}
 }

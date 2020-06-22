@@ -342,6 +342,10 @@ var GGBApplet = function() {
         var parameterNames = ['width', 'height', 'showToolBar', 'showMenuBar',
             'showAlgebraInput', 'allowStyleBar', 'showResetIcon', 'enableLabelDrags',
             'enableShiftDragZoom', 'enableRightClick', 'appName'];
+        // different defaults in API and web3d
+        ['enableLabelDrags', 'enableShiftDragZoom', 'enableRightClick'].forEach(function(name) {
+            settings[name] = !!settings[name];
+        });
         parameterNames.forEach(function(name) {
              if (parameters[name] === undefined && settings[name] !== undefined) {
                 parameters[name] = settings[name];

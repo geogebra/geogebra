@@ -582,7 +582,7 @@ public class AlgoMacro extends AlgoElement
 	}
 
 	@Override
-	public boolean drawBefore(GeoElement geoElement, GeoElement other) {
+	public int drawBefore(GeoElement geoElement, GeoElement other) {
 		int myIndex = 0, otherIndex = 0;
 		for (int i = 0; i < this.getOutputLength(); i++) {
 			if (this.algoOutputAndReferencedGeos.get(i) == geoElement) {
@@ -594,7 +594,7 @@ public class AlgoMacro extends AlgoElement
 						.getConstructionIndex();
 			}
 		}
-		return myIndex < otherIndex;
+		return myIndex - otherIndex;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
@@ -78,7 +79,6 @@ public class TabbedKeyboard extends FlowPanel
 	 * true if keyboard wanted
 	 */
 	protected boolean keyboardWanted = false;
-	private boolean scientific;
 	private ButtonRepeater repeater;
 	private boolean hasMoreButton;
 
@@ -88,18 +88,14 @@ public class TabbedKeyboard extends FlowPanel
 	/**
 	 * @param appKeyboard
 	 *            {@link HasKeyboard}
-	 * @param scientific
-	 *            whether to use scientific layout
 	 * @param hasMoreButton
 	 *            whether to show help button
 	 */
-	public TabbedKeyboard(HasKeyboard appKeyboard,
-			boolean scientific, boolean hasMoreButton) {
+	public TabbedKeyboard(HasKeyboard appKeyboard, boolean hasMoreButton) {
 		this.hasKeyboard = appKeyboard;
 		this.locale = hasKeyboard.getLocalization();
 		this.keyboardLocale = locale.getLocaleStr();
 		this.switcher = new KeyboardSwitcher(this);
-		this.scientific = scientific;
 		this.hasMoreButton = hasMoreButton;
 		this.keyboardMap = new HashMap<>();
 	}
@@ -131,14 +127,22 @@ public class TabbedKeyboard extends FlowPanel
 				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365));
 	}
 
-	private void buildGUIGraphing() {
+	private void buildGUIGgb() {
 		// more button must be first because of float (Firefox)
 		if (hasMoreButton) {
 			switcher.addMoreButton();
 		}
 		tabs = new FlowPanel();
 
-		KeyboardFactory factory = new KeyboardFactory();
+		KeyboardFactory factory;
+		switch (hasKeyboard.getKeyboardType()) {
+			case MOW:
+				factory = new KeyboardMow();
+				break;
+			default:
+				factory = new KeyboardFactory();
+		}
+
 		createAnsMathKeyboard(factory);
 		createDefaultKeyboard(factory);
 		createFunctionsKeyboard(factory);
@@ -623,8 +627,34 @@ public class TabbedKeyboard extends FlowPanel
 					KeyboardResources.INSTANCE.floor(),
 					button.getPrimaryActionName(), bh, false, loc,
 					"altText.Floor");
+		} else if (resourceName.equals(Resource.DEFINITE_INTEGRAL.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.definite_integral(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.DefiniteIntegral");
+		} else if (resourceName.equals(Resource.LIM.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.lim(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.Lim");
+		} else if (resourceName.equals(Resource.PRODUCT.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.product(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.Product");
+		} else if (resourceName.equals(Resource.SUM.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.sum(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.Sum");
+		} else if (resourceName.equals(Resource.VECTOR.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.vector(),
+					button.getPrimaryActionName(), bh, false, loc,
+					"altText.Vector");
 		}
-		if (resourceName.equals(Resource.ROOT.name())) {
+
+  		if (resourceName.equals(Resource.ROOT.name())) {
 			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.sqrt(),
 					button.getPrimaryActionName(), bh, false, loc,
@@ -712,10 +742,10 @@ public class TabbedKeyboard extends FlowPanel
 	 * (Re)build the UI.
 	 */
 	public void buildGUI() {
-		if (scientific) {
+		if (hasKeyboard.getKeyboardType().equals(AppKeyboardType.SCIENTIFIC)) {
 			buildGUIScientific();
 		} else {
-			buildGUIGraphing();
+			buildGUIGgb();
 		}
 	}
 

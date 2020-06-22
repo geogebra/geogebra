@@ -37,14 +37,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class GeoAngle extends GeoNumeric implements AngleProperties {
 
-	// public int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 	private int arcSize;
-
-	// allow angle > pi
-	// private boolean allowReflexAngle = true;
-
-	// shows whether the current value was changed to (2pi - value)
-	// private boolean changedReflexAngle;
 
 	// states whether a special right angle appearance should be used to draw
 	// this angle
@@ -55,14 +48,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	final public static double DEFAULT_SLIDER_MIN_ANGLE = 0;
 	/** Default maximum value when displayed as slider */
 	final public static double DEFAULT_SLIDER_MAX_ANGLE = Kernel.PI_2;
-	/**
-	 * default increment when displayed as slider
-	 * 
-	 * 5 degrees allows 45 degrees to be selected when the slider width is 180
-	 * 
-	 */
-	final public static double DEFAULT_SLIDER_INCREMENT_ANGLE = 5 * Math.PI
-			/ 180.0;
+	/** Default increment when displayed as slider */
+	final public static double DEFAULT_SLIDER_INCREMENT_ANGLE = Math.PI / 180.0;
 
 	/**
 	 * different angle styles
@@ -88,7 +75,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		 */
 		UNBOUNDED(3);
 
-		private int xmlVal;
+		private final int xmlVal;
 
 		/**
 		 * @return number for this style in XML
@@ -108,43 +95,47 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		 */
 		public static AngleStyle getStyle(int style) {
 			for (AngleStyle l : AngleStyle.values()) {
-
 				if (l.xmlVal == style) {
 					return l;
 				}
 			}
 
 			return AngleStyle.ANTICLOCKWISE;
-
 		}
 	}
 
 	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
 
 	/** interval minima for different angle styles */
-	private static final String[] INTERVAL_MIN = { "0" + Unicode.DEGREE_CHAR,
-			"0" + Unicode.DEGREE_CHAR, "180" + Unicode.DEGREE_CHAR,
-			"-" + Unicode.INFINITY };
+	private static final String[] INTERVAL_MIN = {
+			"0" + Unicode.DEGREE_CHAR,
+			"0" + Unicode.DEGREE_CHAR,
+			"180" + Unicode.DEGREE_CHAR,
+			"-" + Unicode.INFINITY
+	};
 	/** interval maxima for different angle styles */
-	private static final String[] INTERVAL_MAX = { "360" + Unicode.DEGREE_CHAR,
-			"180" + Unicode.DEGREE_CHAR, "360" + Unicode.DEGREE_CHAR,
-			"" + Unicode.INFINITY };
+	private static final String[] INTERVAL_MAX = {
+			"360" + Unicode.DEGREE_CHAR,
+			"180" + Unicode.DEGREE_CHAR,
+			"360" + Unicode.DEGREE_CHAR,
+			"" + Unicode.INFINITY
+	};
 
 	/**
 	 * @author Loic
 	 * @return List of decoration types.
 	 */
-	public static final Integer[] getDecoTypes() {
-		Integer[] ret = { Integer.valueOf(GeoElementND.DECORATION_NONE),
-				Integer.valueOf(GeoElementND.DECORATION_ANGLE_TWO_ARCS),
-				Integer.valueOf(GeoElementND.DECORATION_ANGLE_THREE_ARCS),
-				Integer.valueOf(GeoElementND.DECORATION_ANGLE_ONE_TICK),
-				Integer.valueOf(GeoElementND.DECORATION_ANGLE_TWO_TICKS),
-				Integer.valueOf(GeoElementND.DECORATION_ANGLE_THREE_TICKS),
-				Integer.valueOf(
-						GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE),
-				Integer.valueOf(GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE) };
-		return ret;
+	public static Integer[] getDecoTypes() {
+		return new Integer[] {
+				DECORATION_NONE,
+				DECORATION_ANGLE_TWO_ARCS,
+				DECORATION_ANGLE_THREE_ARCS,
+				DECORATION_ANGLE_ONE_TICK,
+				DECORATION_ANGLE_TWO_TICKS,
+				DECORATION_ANGLE_THREE_TICKS,
+				DECORATION_ANGLE_ARROW_ANTICLOCKWISE,
+				DECORATION_ANGLE_ARROW_CLOCKWISE
+		};
 	}
 
 	/**
@@ -319,10 +310,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 		// if needed: change angle
 		switch (angleStyle) {
-		// case ANGLE_ISCLOCKWISE:
-		// angVal = 2.0 * Math.PI - angVal;
-		// break;
-
 		case NOTREFLEX:
 			if (angVal > Math.PI) {
 				angVal = 2.0 * Math.PI - angVal;
@@ -334,35 +321,13 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 				angVal = 2.0 * Math.PI - angVal;
 			}
 			break;
-		case ANTICLOCKWISE:
-			break;
-		case UNBOUNDED:
-			break;
+
 		default:
 			break;
 		}
 
 		return angVal;
 	}
-
-	/*
-	 * not needed now that angles can be unbounded (AngleStyle.UNBOUNDED)
-	 * 
-	 * @Override public void setIntervalMax(double max) { if (max > Kernel.PI_2)
-	 * return; super.setIntervalMax(max); }
-	 * 
-	 * @Override public void setIntervalMin(double min) { if (min < 0) return;
-	 * super.setIntervalMin(min); }
-	 */
-
-	/*
-	 * removed - overrides setting in XML this is set from
-	 * SliderDialog.actionPerformed for new sliders
-	 * 
-	 * @Override public void setEuclidianVisible(boolean flag) { if (flag &&
-	 * isIndependent()) { setLabelMode(GeoElement.LABEL_NAME_VALUE); }
-	 * super.setEuclidianVisible(flag); }
-	 */
 
 	@Override
 	public GeoAngle copy() {
@@ -415,7 +380,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 */
 	@Override
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
-
 		if (forceReflexAngle) {
 			setAngleStyle(AngleStyle.ISREFLEX);
 		} else if (angleStyle == AngleStyle.ISREFLEX) {
@@ -437,7 +401,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 */
 	@Override
 	public void setAngleStyle(AngleStyle angleStyle) {
-
 		if (angleStyle == this.angleStyle) {
 			return;
 		}
@@ -446,7 +409,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 		// we have to reset the value of this angle
 		if (algoParent == null) {
-			// setValue(value);
 			setValue(rawValue);
 		} else {
 			algoParent.update();
@@ -623,5 +585,4 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	public boolean canHaveClickScript() {
 		return isDrawable();
 	}
-
 }

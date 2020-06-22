@@ -121,11 +121,13 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 				new ElementFactory<GeoElement>() {
 					@Override
 					public GeoElement newElement() {
-						GeoElement segment = (GeoElement) outputPolygon
-								.getElement(0).createSegment(cons, A, B, true);
+						int size = outputSegments.size();
+						GeoPolygon polygon =  outputPolygon.getElement(0);
+						GeoElement segment = (GeoElement) (size == 0
+								? polygon.createSegment(cons, A, B, true)
+								: polygon.createSegmentOwnDimension(cons, A, B, true));
 						segment.setAuxiliaryObject(true);
 						boolean segmentsVisible = false;
-						int size = outputSegments.size();
 						if (size > 0) { // check if at least one segment is
 										// visible
 							for (int i = 0; i < size && !segmentsVisible; i++) {

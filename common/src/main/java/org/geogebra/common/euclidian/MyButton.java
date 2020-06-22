@@ -258,10 +258,9 @@ public class MyButton implements Observer {
 			if (im.isSVG()) {
 				drawSVG(im, g);
 			} else {
-
-				im.drawSubimage(startX, startY, imgWidth, imgHeight, g,
+				g.drawImage(im, startX, startY, imgWidth, imgHeight,
 						x + (getWidth() - imgWidth) / 2,
-						y + MARGIN_TOP + imgStart);
+						y + MARGIN_TOP + imgStart, imgWidth, imgHeight);
 			}
 		}
 
@@ -400,8 +399,8 @@ public class MyButton implements Observer {
 	public void setBounds(GRectangle labelRectangle) {
 		x = (int) labelRectangle.getMinX();
 		y = (int) labelRectangle.getMinY();
-		geoButton.setWidth((int) labelRectangle.getWidth());
-		geoButton.setHeight((int) labelRectangle.getHeight());
+		geoButton.setWidth(labelRectangle.getWidth());
+		geoButton.setHeight(labelRectangle.getHeight());
 	}
 
 	/**

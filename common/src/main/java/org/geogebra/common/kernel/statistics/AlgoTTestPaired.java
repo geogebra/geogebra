@@ -85,16 +85,7 @@ public class AlgoTTestPaired extends AlgoElement {
 	}
 
 	private double adjustedPValue(double p, double testStatistic) {
-
-		// two sided test
-		if (StringUtil.isNotEqual(tail.getTextString())) {
-			return p;
-		} else if ((tail.getTextString().equals(">") && testStatistic > 0)
-				|| (tail.getTextString().equals("<") && testStatistic < 0)) {
-			return p / 2;
-		} else {
-			return 1 - p / 2;
-		}
+		return AlgoTTest.adjustedPValue(p, testStatistic, tail);
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package org.geogebra.web.full.gui.dialog.options;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
@@ -51,12 +53,16 @@ public class OptionsAlgebraW
 		private AlgebraStyleListBox description;
 		private FormLabel lblCoordStyle;
 		private ListBox coordStyle;
-		private FormLabel lblAngleUnit;
-		private ListBox angleUnit;
 		private FormLabel lblSortMode;
 		private FormLabel lblDescriptionMode;
 		private List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
 			SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
+
+		@Nullable
+		private ListBox angleUnit;
+
+		@Nullable
+		private FormLabel lblAngleUnit;
 
 		/**
 		 * algebra tab in algebra settings panel
@@ -90,10 +96,12 @@ public class OptionsAlgebraW
 			lblCoordStyle = new FormLabel(
 					getApp().getLocalization().getMenu("Coordinates") + ":")
 							.setFor(coordStyle);
-			angleUnit = new ListBox();
-			lblAngleUnit = new FormLabel(
-					getApp().getLocalization().getMenu("AngleUnit") + ":")
-							.setFor(angleUnit);
+
+			if (app.getConfig().isAngleUnitSettingEnabled()) {
+				angleUnit = new ListBox();
+				String labelText = getApp().getLocalization().getMenu("AngleUnit") + ":";
+				lblAngleUnit = new FormLabel(labelText).setFor(angleUnit);
+			}
 
 			optionsPanel.add(lblShow);
 			optionsPanel.add(LayoutUtilW.panelRowIndent(showAuxiliaryObjects));
@@ -104,8 +112,10 @@ public class OptionsAlgebraW
 
 			optionsPanel.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
 			coordStyle.addChangeHandler(this);
-			optionsPanel.add(LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit));
-			angleUnit.addChangeHandler(this);
+			if (angleUnit != null) {
+				optionsPanel.add(LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit));
+				angleUnit.addChangeHandler(this);
+			}
 			sortMode.addChangeHandler(this);
 			description.addChangeHandler(new ChangeHandler() {
 
@@ -145,6 +155,7 @@ public class OptionsAlgebraW
 		/**
 		 * @return angle unit combo box
 		 */
+		@Nullable
 		public ListBox getAngleUnit() {
 			return angleUnit;
 		}
@@ -182,6 +193,10 @@ public class OptionsAlgebraW
 		 * update angle unit
 		 */
 		public void updateAngleUnit() {
+			if (angleUnit == null || lblAngleUnit == null) {
+				return;
+			}
+
 			lblAngleUnit
 					.setText(getApp().getLocalization().getMenu("AngleUnit") + ":");
 			angleUnit.clear();
@@ -258,7 +273,7 @@ public class OptionsAlgebraW
 				int i = getCoordStyle().getSelectedIndex();
 				getApp().getKernel().setCoordStyle(i);
 				getApp().getKernel().updateConstruction(false);
-			} else if (source == getAngleUnit()) {
+			} else if (source == getAngleUnit() && getAngleUnit() != null) {
 				int i = getAngleUnit().getSelectedIndex();
 
 				int unit;

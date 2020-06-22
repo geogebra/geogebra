@@ -469,10 +469,14 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
-			int dy) {
-		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + sw, dy + sh,
+			int dy, int dw, int dh) {
+		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + dw, dy + dh,
 				sx, sy, sx + sw, sy + sh, null);
-		
+	}
+
+	@Override
+	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
+		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + dw, dy + dh, null);
 	}
 
 }

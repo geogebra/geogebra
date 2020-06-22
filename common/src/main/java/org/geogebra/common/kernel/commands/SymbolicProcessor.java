@@ -116,11 +116,11 @@ public class SymbolicProcessor {
 		ArrayList<GeoElement> noDummyVars = new ArrayList<>();
 		if (vars != null) {
 			for (GeoElement var : vars) {
-				if (!(var instanceof GeoDummyVariable)) {
-					noDummyVars.add(var);
-				} else {
+				if (var instanceof GeoDummyVariable) {
 					cons.getCASdummies()
 							.add(((GeoDummyVariable) var).getVarName());
+				} else if (var != null) {
+					noDummyVars.add(var);
 				}
 			}
 		}

@@ -6,6 +6,8 @@ import java.util.List;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -22,7 +24,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	public static final int PADDING = 8;
 
 	private GeoInlineText text;
-	private final InlineTextController textController;
+	private InlineTextController textController;
 
 	private final TransformableRectangle rectangle;
 
@@ -228,7 +230,22 @@ public class DrawInlineText extends Drawable implements DrawInline {
 		return "";
 	}
 
+	@Override
+	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
+		return getBoundingBox();
+	}
+
 	public InlineTextController getTextController() {
 		return textController;
+	}
+
+	/**
+	 * Setter to mock Carota.
+	 * Nicer solutions are welcome.
+	 *
+	 * @param textController to set.
+	 */
+	public void setTextController(InlineTextController textController) {
+		this.textController = textController;
 	}
 }

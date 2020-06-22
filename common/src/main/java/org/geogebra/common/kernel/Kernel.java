@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -34,15 +35,12 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -80,6 +78,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -207,9 +206,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** Whether to move point on path together with path */
 	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.ON;
 	private GeoGebraCasInterface ggbCAS;
-	/** Angle type: radians */
+	/** Angle unit: radians */
 	final public static int ANGLE_RADIANT = 1;
-	/** Angle type: degrees */
+	/** Angle unit: degrees */
 	final public static int ANGLE_DEGREE = 2;
 	/** Coord system: cartesian */
 	final public static int COORD_CARTESIAN = 3;
@@ -2396,7 +2395,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				break;
 
 			case LATEX:
-				sbFormatAngle.append("\\;rad");
+				sbFormatAngle.append(" \\; rad");
 				break;
 
 			case GEOGEBRA_XML:
@@ -4294,11 +4293,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		clearJustCreatedGeosInViews();
 		getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().storeVideos();
+		VideoManager videoManager = getApplication().getVideoManager();
+		if (videoManager != null) {
+			videoManager.storeVideos();
 		}
-		if (getApplication().getEmbedManager() != null) {
-			getApplication().getEmbedManager().storeEmbeds();
+		EmbedManager embedManager = getApplication().getEmbedManager();
+		if (embedManager != null) {
+			embedManager.storeEmbeds();
 		}
 		app.getActiveEuclidianView().resetInlineObjects();
 	}
@@ -4307,9 +4308,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(this);
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().clearStoredVideos();
-		}
 		getApplication().getActiveEuclidianView().restoreDynamicStylebar();
 	}
 
@@ -4434,61 +4432,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Parse expression image(x) where image ends with supersript digits.
-	 * 
-	 * @param image
-	 *            function
-	 * @param en
-	 *            argument
-	 * @param operation
-	 *            image without superscript index
-	 * @return sin^2(x) or x^2*(x+1)
-	 */
-	final public ExpressionNode handleTrigPower(String image,
-			ValidExpression en, String operation) {
-
-		if ("x".equals(operation) || "y".equals(operation)
-				|| "z".equals(operation)) {
-			return new ExpressionNode(this,
-					new ExpressionNode(this,
-							new FunctionVariable(this, operation),
-							Operation.POWER, convertIndexToNumber(image)),
-					Operation.MULTIPLY_OR_FUNCTION, en);
-		}
-		GeoElement ge = lookupLabel(operation);
-		Operation type = app.getParserFunctions().get(operation, 1);
-		if (ge != null || type == null) {
-			return new ExpressionNode(this,
-					new ExpressionNode(this, new Variable(this, operation),
-							Operation.POWER, convertIndexToNumber(image)),
-					Operation.MULTIPLY_OR_FUNCTION, en);
-		}
-
-		// sin^(-1)(x) -> ArcSin(x)
-		// sin^(-1)(x) -> ArcSin(x)
-		if (image.indexOf(Unicode.SUPERSCRIPT_MINUS) > -1) {
-			// String check = ""+Unicode.SUPERSCRIPT_Minus +
-			// Unicode.Superscript_1 + '(';
-
-			int index = image
-					.indexOf(Unicode.SUPERSCRIPT_MINUS_ONE_BRACKET_STRING);
-
-			// tg^-1 -> index = 2 (eg Hungarian)
-			// sin^-1 -> index = 3
-			// sinh^-1 -> index =4
-			if (index >= 2 && index <= 4) {
-				return inverseTrig(type, en);
-			}
-			// eg sin^-2(x)
-			return new MyDouble(this, Double.NaN).wrap();
-		}
-
-		return new ExpressionNode(this,
-				new ExpressionNode(this, en, type, null), Operation.POWER,
-				convertIndexToNumber(image));
-	}
-
-	/**
 	 * @param type
 	 *            trig operation
 	 * @param en
@@ -4541,28 +4484,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		}
 	}
-
-	/**
-	 * Take 42 from "sin<sup>42</sup>(".
-	 * 
-	 * @param str
-	 *            superscript text
-	 * @return number
-	 */
-	final public MyDouble convertIndexToNumber(String str) {
-		int i = 0;
-		while ((i < str.length())
-				&& !Unicode.isSuperscriptDigit(str.charAt(i))) {
-			i++;
-		}
-
-		// strip off eg "sin" at start, "(" at end
-		return new MyDouble(this, str.substring(i, str.length() - 1));
-	}
-
-	/*----------------------------------
-	 * FACTORY METHODS FOR GeoElements
-	 ***********************************/
 
 	/**
 	 * @return imaginary unit
@@ -4620,9 +4541,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (cons.requires3D()) {
 			// DO NOT REMOVE
 			// it's important we pick up errors involving this quickly
-			Log.error("************************************");
-			Log.error("****** file has 3D objects *********");
-			Log.error("************************************");
+			Log.error("file has 3D objects");
 			sb.append("\t<uses3D val=\"true\"/>\n");
 		}
 

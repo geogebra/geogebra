@@ -21,6 +21,22 @@ public class GParser extends Parser {
 		super(kernel);
 	}
 
+	/**
+	 * We want x_1y_2 and x8.1 to be a single token, but don't want users to
+	 * create objects with these names, so we prefer to split it into product.
+	 *
+	 * @param name variable name
+	 * @return whether we should force splitting it to product of two variables
+	 */
+	public static boolean shouldSplitLabel(String name) {
+		int endIndex = name.indexOf('}');
+		if (endIndex > 0) {
+			return name.indexOf('_', endIndex) >= 0;
+		}
+		// x8.1 is bad, x_{8.1} is OK
+		return name.contains(".");
+	}
+
 	@Override
 	public ParseException generateParseException() {
 		if (!silent) {

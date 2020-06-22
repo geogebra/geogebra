@@ -65,6 +65,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariable
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
@@ -177,6 +178,7 @@ public class AlgebraProcessor {
 	private SymbolicProcessor symbolicProcessor;
 	private CommandSyntax localizedCommandSyntax;
 	private CommandSyntax englishCommandSyntax;
+	private SqrtMinusOneReplacer sqrtMinusOneReplacer;
 
 	/**
 	 * @param kernel
@@ -193,6 +195,7 @@ public class AlgebraProcessor {
 		loc = app.getLocalization();
 		parser = kernel.getParser();
 		setEnableStructures(app.getConfig().isEnableStructures());
+		sqrtMinusOneReplacer = new SqrtMinusOneReplacer(kernel);
 	}
 
 	/**
@@ -449,7 +452,9 @@ public class AlgebraProcessor {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
 			}
+
 			replaceDerivative(ve, geo);
+			ve = replaceSqrtMinusOne(ve);
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
@@ -468,6 +473,14 @@ public class AlgebraProcessor {
 					loc.getInvalidInputError() + ":\n"
 							+ newValue);
 		}
+	}
+
+	private ValidExpression replaceSqrtMinusOne(ValidExpression ve) {
+		ExpressionValue result = ve.traverse(sqrtMinusOneReplacer);
+		if (ExpressionNode.isImaginaryUnit(result)) {
+			result = result.wrap();
+		}
+		return (ValidExpression) result;
 	}
 
 	/**
@@ -857,8 +870,8 @@ public class AlgebraProcessor {
 			final EvalInfo info) {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
-				info.isSimplifiedMultiplication());
-		ve.traverse(collecter);
+				info.isMultipleUnassignedAllowed());
+		ve.inspect(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 
 		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
@@ -963,7 +976,7 @@ public class AlgebraProcessor {
 							// ve2, fvX2);
 							replaceUndefinedVariables(ve2,
 									new TreeSet<GeoNumeric>(), null,
-									info.isSimplifiedMultiplication());
+									info.isMultipleUnassignedAllowed());
 						}
 						try {
 							geos = processValidExpression(storeUndo, handler,
@@ -997,7 +1010,7 @@ public class AlgebraProcessor {
 			// step5: replace undefined variables
 			// ==========================
 			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null,
-					info.isSimplifiedMultiplication());
+					info.isMultipleUnassignedAllowed());
 
 			// Do not copy plain variables, as
 			// they might have been just created now
@@ -3026,8 +3039,14 @@ public class AlgebraProcessor {
 		n.resolveVariables(info);
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
+
+			boolean wasPoint = n.isForcedPoint();
 			n = n.getLeft().wrap();
+			if (wasPoint) {
+				n.setForcePoint();
+			}
 		}
+
 		String label = n.getLabel();
 		if (n.containsFreeFunctionVariable(null)) {
 			n = makeFunctionNVar(n).wrap();

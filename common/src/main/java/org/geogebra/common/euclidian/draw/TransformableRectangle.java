@@ -11,13 +11,14 @@ import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RotatableBoundingBox;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.util.debug.Log;
 
 public class TransformableRectangle {
+
 	private final EuclidianView view;
-	private final GeoInline geo;
+	private final RectangleTransformable geo;
 	private RotatableBoundingBox boundingBox;
 	private GAffineTransform directTransform;
 	private GAffineTransform inverseTransform;
@@ -29,11 +30,11 @@ public class TransformableRectangle {
 
 	/**
 	 * @param view view
-	 * @param text text or formula
+	 * @param geo transformable geo
 	 */
-	TransformableRectangle(EuclidianView view, GeoInline text) {
+	TransformableRectangle(EuclidianView view, RectangleTransformable geo) {
 		this.view = view;
-		this.geo = text;
+		this.geo = geo;
 	}
 
 	/**

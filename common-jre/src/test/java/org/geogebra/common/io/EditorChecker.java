@@ -109,7 +109,6 @@ class EditorChecker {
 
 	protected void checkEditorInsert(String input, String output) {
 		new EditorChecker(app).insert(input).checkAsciiMath(output);
-
 	}
 
 	public ExpressionNode parse(String exp) throws ParseException {

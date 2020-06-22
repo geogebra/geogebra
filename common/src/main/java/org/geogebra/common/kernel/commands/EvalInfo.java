@@ -25,7 +25,7 @@ public class EvalInfo {
 	private boolean updateRandom = true;
 	private boolean copyingPlainVariables = false;
 	private boolean allowTypeChange = true;
-	private boolean simplifiedMultiplication = false;
+	private boolean multipleUnassignedAllowed = false;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private GPredicate<String> labelFilter;
 	private RedefinitionRule redefinitionRule;
@@ -415,14 +415,14 @@ public class EvalInfo {
 	 * for example: abc_1 is a * b * c_1
 	 * @return a copy of the eval info
 	 */
-	public EvalInfo withSimplifiedMultiplication() {
+	public EvalInfo withMultipleUnassignedAllowed() {
 		EvalInfo info = copy();
-		info.simplifiedMultiplication = true;
+		info.multipleUnassignedAllowed = true;
 		return info;
 	}
 
-	public boolean isSimplifiedMultiplication() {
-		return simplifiedMultiplication;
+	public boolean isMultipleUnassignedAllowed() {
+		return multipleUnassignedAllowed;
 	}
 
 	/**

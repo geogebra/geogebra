@@ -141,4 +141,11 @@ public class MathCharacter extends MathComponent {
 		this.meta = metaCharacter;
 	}
 
+	/**
+	 * @return whether this is a word-breaking character (space, operator or separator)
+	 */
+	@SuppressWarnings("deprecation")
+	public boolean isWordBreak() {
+		return isOperator() || isSeparator() || Character.isSpace(meta.getUnicode());
+	}
 }

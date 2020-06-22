@@ -84,6 +84,6 @@ public class EmbedElement {
 	 *            whether this should be visible
 	 */
 	public void setVisible(boolean visible) {
-		widget.setVisible(visible);
+		getGreatParent().setVisible(visible);
 	}
 }

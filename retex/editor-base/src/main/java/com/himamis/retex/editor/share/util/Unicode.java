@@ -1,5 +1,8 @@
 package com.himamis.retex.editor.share.util;
 
+import java.util.Arrays;
+import java.util.List;
+
 @SuppressWarnings("javadoc")
 public class Unicode {
 
@@ -22,6 +25,12 @@ public class Unicode {
 	final public static char SUPERSCRIPT_7 = '\u2077';
 	final public static char SUPERSCRIPT_8 = '\u2078';
 	final public static char SUPERSCRIPT_9 = '\u2079';
+	final public static List<Character> SUPERSCRIPTS = Arrays.asList(
+			Unicode.SUPERSCRIPT_0, Unicode.SUPERSCRIPT_1,
+			Unicode.SUPERSCRIPT_2, Unicode.SUPERSCRIPT_3,
+			Unicode.SUPERSCRIPT_4, Unicode.SUPERSCRIPT_5,
+			Unicode.SUPERSCRIPT_6, Unicode.SUPERSCRIPT_7,
+			Unicode.SUPERSCRIPT_8, Unicode.SUPERSCRIPT_9);
 	final public static char ZERO_WIDTH_SPACE = '\u200b';
 	final public static char RIGHT_TO_LEFT_MARK = '\u200f';
 	final public static String RIGHT_TO_LEFT_UNARY_MINUS_SIGN = "\u200f-\u200f";
