@@ -538,7 +538,7 @@ public final class DrawImage extends Drawable {
 			break;
 		case RIGHT:
 			newWidth = MyMath.clamp(event.x - cropLeft,
-					minWidth,imageWidth - cropLeft);
+					minWidth, imageWidth - cropLeft);
 			cropBoxRelative.setFrame(cropBoxRelative.getX(), cropBoxRelative.getY(),
 					newWidth, cropBoxRelative.getHeight());
 			break;
@@ -546,7 +546,7 @@ public final class DrawImage extends Drawable {
 			newWidth = MyMath.clamp(event.x - cropLeft,
 					minWidth, imageWidth - cropLeft);
 			newHeight = MyMath.clamp(originalRatio * newWidth,
-					minHeight,imageHeight	- cropTop);
+					minHeight, imageHeight	- cropTop);
 			cropBoxRelative.setFrame(cropLeft, cropTop,
 					newWidth, newHeight);
 			break;
@@ -554,7 +554,7 @@ public final class DrawImage extends Drawable {
 			newWidth = MyMath.clamp(cropRight - event.x,
 					minWidth, cropRight);
 			newHeight = MyMath.clamp(originalRatio * newWidth,
-					minHeight,imageHeight	- cropTop);
+					minHeight, imageHeight	- cropTop);
 			cropBoxRelative.setFrame(cropRight - newWidth , cropTop,
 					newWidth, newHeight);
 			break;

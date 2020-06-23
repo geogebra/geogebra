@@ -42,5 +42,4 @@ public class RotatableBoundingBox implements BoundingBoxDelegate {
 						y + BoundingBox.HANDLER_RADIUS);
 	}
 
-
 }

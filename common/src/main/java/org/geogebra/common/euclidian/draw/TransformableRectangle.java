@@ -196,10 +196,11 @@ public class TransformableRectangle {
 		}
 
 		GPoint2D origin = directTransform.transform(new GPoint2D(x, y), null);
-
+		// setting size first, location second is important for images
+		geo.setSize(width, height);
 		geo.setLocation(new GPoint2D(view.toRealWorldCoordX(origin.getX()),
 				view.toRealWorldCoordY(origin.getY())));
-		geo.setSize(width, height);
+
 		geo.updateRepaint();
 		updateSelfAndBoundingBox();
 	}

@@ -84,6 +84,9 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		}
 	}
 
+	/**
+	 * @param crop true for crop mode, false for resize
+	 */
 	public void setCropMode(boolean crop) {
 		if (crop != isCropBox()) {
 			delegate = crop ? new CropBox(this) : new RotatableBoundingBox(this);
