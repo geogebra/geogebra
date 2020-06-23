@@ -15,6 +15,8 @@ package org.geogebra.common.euclidian.draw;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
@@ -47,7 +49,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean isVisible;
 	private boolean labelVisible;
 
-	private GeneralPathClipped gp;
+	@Nonnull
+	private final  GeneralPathClipped gp;
 	private double[] coords = new double[2];
 	private ArrayList<GeoPointND> points;
 
@@ -67,7 +70,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.view = view;
 		this.poly = poly;
 		geo = poly;
-
+		gp = new GeneralPathClipped(view);
 		update();
 	}
 
@@ -84,6 +87,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		this.points = points;
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
+		gp = new GeneralPathClipped(view);
 		updatePreview();
 	}
 
@@ -144,11 +148,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	// return false if a point doesn't lie on the plane
 	private boolean addPointsToPath(int length) {
-		if (gp == null) {
-			gp = new GeneralPathClipped(view);
-		} else {
-			gp.reset();
-		}
+		gp.reset();
 
 		if (length <= 0) {
 			return false;
@@ -358,8 +358,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean isInside(GRectangle rect) {
-		return gp != null && gp.getBounds() != null
-				&& rect.contains(gp.getBounds());
+		return gp.getBounds() != null && rect.contains(gp.getBounds());
 	}
 
 	@Override
@@ -372,7 +371,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
 		return gp.getBounds();

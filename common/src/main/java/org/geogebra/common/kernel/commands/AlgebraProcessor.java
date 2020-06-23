@@ -95,6 +95,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasArbitraryConstant;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
@@ -871,7 +872,7 @@ public class AlgebraProcessor {
 			final EvalInfo info) {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
-				info.isSimplifiedMultiplication());
+				info.isMultipleUnassignedAllowed());
 		ve.inspect(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 
@@ -977,7 +978,7 @@ public class AlgebraProcessor {
 							// ve2, fvX2);
 							replaceUndefinedVariables(ve2,
 									new TreeSet<GeoNumeric>(), null,
-									info.isSimplifiedMultiplication());
+									info.isMultipleUnassignedAllowed());
 						}
 						try {
 							geos = processValidExpression(storeUndo, handler,
@@ -1011,7 +1012,7 @@ public class AlgebraProcessor {
 			// step5: replace undefined variables
 			// ==========================
 			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null,
-					info.isSimplifiedMultiplication());
+					info.isMultipleUnassignedAllowed());
 
 			// Do not copy plain variables, as
 			// they might have been just created now
@@ -1036,7 +1037,7 @@ public class AlgebraProcessor {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
-		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted);
+		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
 		String label = extracted.getLabel();
 		if (label != null && kernel.lookupLabel(label) != null
 				&& !info.isLabelRedefinitionAllowedFor(label)) {
@@ -1892,10 +1893,15 @@ public class AlgebraProcessor {
 	public GeoElement[] processValidExpression(ValidExpression ve,
 			EvalInfo info) throws MyError, Exception {
 
+		EvalInfo evalInfo = info;
 		ValidExpression expression = ve;
 		// check for existing labels
 		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
+		if (replaceable instanceof HasArbitraryConstant) {
+			HasArbitraryConstant hasConstant = (HasArbitraryConstant) replaceable;
+			evalInfo = evalInfo.withArbitraryConstant(hasConstant.getArbitraryConstant());
+		}
 
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -1909,7 +1915,7 @@ public class AlgebraProcessor {
 		// we have to make sure that the macro mode is
 		// set back at the end
 		try {
-			ret = doProcessValidExpression(expression, info);
+			ret = doProcessValidExpression(expression, evalInfo);
 
 			if (ret == null) { // eg (1,2,3) running in 2D
 				if (isFreehandFunction(expression) || isPenStroke(expression)) {
@@ -1922,7 +1928,7 @@ public class AlgebraProcessor {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		processReplace(replaceable, ret, expression, info);
+		processReplace(replaceable, ret, expression, evalInfo);
 
 		return ret;
 	}

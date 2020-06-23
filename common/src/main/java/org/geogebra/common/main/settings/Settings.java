@@ -38,8 +38,6 @@ public class Settings {
 
 	private AbstractSettings keyboardSettings;
 
-	private DataCollectionSettings dataCollectionSettings;
-
 	private CASSettings casSettings;
 
 	private ProbabilityCalculatorSettings probCalcSettings;
@@ -152,13 +150,6 @@ public class Settings {
 					probCalcSettings.getListeners());
 		}
 
-		if (dataCollectionSettings == null) {
-			dataCollectionSettings = new DataCollectionSettings();
-		} else {
-			dataCollectionSettings = new DataCollectionSettings(
-					dataCollectionSettings.getListeners());
-		}
-
 		tableSettings = new TableSettings();
 		styleSettings = new StyleSettings();
 
@@ -190,7 +181,6 @@ public class Settings {
 		keyboardSettings.beginBatch();
 		casSettings.beginBatch();
 		probCalcSettings.beginBatch();
-		dataCollectionSettings.beginBatch();
 		tableSettings.beginBatch();
 	}
 
@@ -217,7 +207,6 @@ public class Settings {
 		keyboardSettings.endBatch();
 		casSettings.endBatch();
 		probCalcSettings.endBatch();
-		dataCollectionSettings.endBatch();
 		tableSettings.endBatch();
 	}
 
@@ -361,13 +350,6 @@ public class Settings {
 	 */
 	public final CASSettings getCasSettings() {
 		return casSettings;
-	}
-
-	/**
-	 * @return data collection settings
-	 */
-	public final DataCollectionSettings getDataCollection() {
-		return dataCollectionSettings;
 	}
 
 	/**

@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
@@ -18,7 +17,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.PenPreviewLine;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
-import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
@@ -280,8 +278,8 @@ public class EuclidianViewW extends EuclidianView implements
 	public final void paintBackground(GGraphics2D g2) {
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
-		        || kernel.needToShowAnimationButton()
-				|| getSettings().getBackgroundType() != BackgroundType.NONE) {
+				|| kernel.needToShowAnimationButton()
+				|| getBackgroundType() != BackgroundType.NONE) {
 			g2.drawImage(bgImage, 0, 0);
 		} else {
 			((GGraphics2DWI) g2).fillWith(getBackgroundCommon());
@@ -1210,7 +1208,7 @@ public class EuclidianViewW extends EuclidianView implements
 		double origXZero = getXZero();
 		double origScale = getXscale();
 		if (app.isWhiteboardActive()
-				&& getSettings().getBackgroundType() != BackgroundType.NONE
+				&& getBackgroundType() != BackgroundType.NONE
 				&& selectionRectangle == null) {
 			setCoordSystem(525 / SCALE_STANDARD * origScale, getYZero(),
 					origScale, origScale);
@@ -1421,16 +1419,8 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
-	@Override
-	public int getThresholdForDrawable(PointerEventType type, Drawable d) {
-		if (d instanceof DrawVideo && !Browser.isTabletBrowser()) {
-			return DrawVideo.HANDLER_THRESHOLD;
-		}
-		return app.getCapturingThreshold(type);
-	}
-
 	private SVGResource getSVGRulingResource() {
-		switch (getSettings().getBackgroundType()) {
+		switch (getBackgroundType()) {
 		case ELEMENTARY12:
 			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12();
 		case ELEMENTARY12_HOUSE:
@@ -1449,6 +1439,10 @@ public class EuclidianViewW extends EuclidianView implements
 		default:
 			return null;
 		}
+	}
+
+	private BackgroundType getBackgroundType() {
+		return getSettings() == null ? BackgroundType.NONE : getSettings().getBackgroundType();
 	}
 
 	private void createSVGBackgroundIfNeeded() {
@@ -1508,7 +1502,10 @@ public class EuclidianViewW extends EuclidianView implements
 		if (embedManager != null) {
 			embedManager.setLayer(widget, layer);
 		}
-		g2.clearRect(widget.getLeft(), widget.getTop(), widget.getWidth(), widget.getHeight());
+		g2.saveTransform();
+		g2.transform(widget.getTransform());
+		g2.clearRect(0, 0, (int) widget.getWidth(), (int) widget.getHeight());
+		g2.restoreTransform();
 	}
 
 	@Override

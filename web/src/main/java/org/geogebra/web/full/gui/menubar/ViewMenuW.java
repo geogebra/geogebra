@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.menubar;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
@@ -32,8 +31,6 @@ public class ViewMenuW extends Submenu {
 	AppW app;
 	/** item for input */
 	GCheckBoxMenuItem inputBarItem;
-	/** item for sensor app */
-	GCheckBoxMenuItem dataCollection;
 	/** item for navigation bar */
 	GCheckBoxMenuItem consProtNav;
 
@@ -152,28 +149,7 @@ public class ViewMenuW extends Submenu {
 				}, true, app);
 		consProtNav.setForceCheckbox(true);
 		addItem(consProtNav.getMenuItem());
-		if (app.getPlatform() != null && app.getPlatform() != Platform.OFFLINE
-				&& !app.isExam()) {
-			dataCollection = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtmlEmptyIcon(
-							app.getLocalization().getMenu("Sensors")),
-					new MenuCommand(app) {
 
-						@Override
-						public void execute() {
-							app.getGuiManager().setShowView(
-									!app.getGuiManager().showView(
-											App.VIEW_DATA_COLLECTION),
-									App.VIEW_DATA_COLLECTION);
-							dataCollection.setSelected(app.getGuiManager()
-									.showView(App.VIEW_DATA_COLLECTION),
-									ViewMenuW.this);
-							app.toggleMenu();
-						}
-					}, true, app);
-			dataCollection.setForceCheckbox(true);
-			addItem(dataCollection.getMenuItem());
-		}
 		addSeparator();
 		initRefreshActions(loc);
 		update();
@@ -221,10 +197,6 @@ public class ViewMenuW extends Submenu {
 				&& app.getInputPosition() != InputPosition.algebraView;
 		inputBarItem.setSelected(linearInput, this);
 		consProtNav.setSelected(app.showConsProtNavigation(), this);
-		if (dataCollection != null) {
-			dataCollection.setSelected(app.getGuiManager().showView(
-					App.VIEW_DATA_COLLECTION), this);
-		}
 	}
 
 	@Override

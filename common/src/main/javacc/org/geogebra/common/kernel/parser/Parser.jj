@@ -390,7 +390,7 @@ TOKEN : {
  |
    // standard case: labels for GeoElements and command names
    < LABEL:
-    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (("." <INTEGER>)?  | ((<INDEX>)? (<LETTER> | <DIGIT> | "'" )*))>
+    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (("." <INTEGER>)?  | ((<INDEX> | <LETTER> | <DIGIT> | "'" )*))>
  |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >
  | < #LETTER:  // unicode letters
        [
@@ -469,7 +469,7 @@ ValidExpression buildValidExpression() :
       LOOKAHEAD(2147483647)
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
       {
-            if (l.image.contains(".")) {
+            if (GParser.shouldSplitLabel(l.image)) {
                 ve = new Equation(kernel, new Variable(kernel, l.image), ve).equationOrAssignment();
             }
       }
@@ -1768,7 +1768,7 @@ ExpressionNode numberFunction():
                 || Unicode.SUPERSCRIPT_MINUS==c.image.charAt(pos))) {
             pos--;
         }
-        ExpressionNode ret = kernel.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
+        ExpressionNode ret = functionParser.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
         if (ret.getOperation() == Operation.MULTIPLY_OR_FUNCTION) {
             undecided.add(ret);
         }

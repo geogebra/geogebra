@@ -15,4 +15,15 @@ public class GeoAngleTest extends BaseUnitTest {
 		GeoAngle copy = angle.copy();
 		assertThat(copy.isDrawable, is(true));
 	}
+
+	@Test
+	public void testSetAllVisualPropertiesExceptEuclidianVisible() {
+		GeoAngle hidden = addAvInput("90°");
+		hidden.setDrawable(false, false);
+		GeoAngle visible = addAvInput("90°");
+		visible.setDrawable(true, false);
+		visible.setAllVisualPropertiesExceptEuclidianVisible(
+				hidden, false, true);
+		assertThat(visible.isDrawable, is(true));
+	}
 }

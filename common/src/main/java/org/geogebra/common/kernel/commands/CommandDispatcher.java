@@ -380,8 +380,6 @@ public abstract class CommandDispatcher {
 			case ParseToNumber:
 			case ParseToFunction:
 			case StartAnimation:
-			case StartLogging:
-			case StopLogging:
 			case StartRecord:
 			case SetPerspective:
 			case Delete:

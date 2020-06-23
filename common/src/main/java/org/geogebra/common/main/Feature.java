@@ -13,8 +13,6 @@ public enum Feature {
 
 	LOG_AXES,
 
-	ACRA,
-
 	ANALYTICS,
 
 	/** GGB-334, TRAC-3401 */

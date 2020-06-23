@@ -658,7 +658,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				cbItem.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						fixObjectCmd();
+						fixObjectCmd(!getGeo().isLocked());
 					}
 				});
 				addItem(cbItem);
