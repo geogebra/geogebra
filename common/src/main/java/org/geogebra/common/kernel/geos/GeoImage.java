@@ -45,6 +45,10 @@ public class GeoImage extends GeoElement implements Locateable,
 		Dilateable, MatrixTransformable, Transformable, RectangleTransformable {
 	/** Index of the center in corners array */
 	public static final int CENTER_INDEX = 3;
+	/**
+	 * the image should have at least 50px width
+	 */
+	public final static int IMG_SIZE_THRESHOLD = 50;
 	// private String imageFileName = ""; // image file
 	private GeoPoint[] corners; // corners of the image
 	// private BufferedImage image;
@@ -235,34 +239,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	public void setInBackground(boolean flag) {
 		inBackground = flag;
-	}
-
-	/**
-	 * @return img width in screen coord
-	 */
-	public double getImageScreenWidth() {
-		for (int i = 0; i < 3; i++) {
-			if (getCorner(i) == null || !getCorner(i).isDefined()) {
-				GeoPoint tmp = new GeoPoint(cons);
-				calculateCornerPoint(tmp, i == 2 ? 4 : i + 1);
-				setCorner(tmp, i);
-			}
-		}
-		return getCorner(1).getInhomX() - getCorner(0).getInhomX();
-	}
-
-	/**
-	 * @return img height in screen coord
-	 */
-	public double getImageScreenHeight() {
-		for (int i = 0; i < 3; i++) {
-			if (getCorner(i) == null || !getCorner(i).isDefined()) {
-				GeoPoint tmp = new GeoPoint(cons);
-				calculateCornerPoint(tmp, i == 2 ? 4 : i + 1);
-				setCorner(tmp, i);
-			}
-		}
-		return getCorner(2).getInhomY() - getCorner(0).getInhomY();
 	}
 
 	/**
@@ -577,8 +553,6 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		// name of image file
 		sb.append("\t<file name=\"");
-		// Michael Borcherds 2007-12-10 this line restored (not needed now MD5
-		// code put in the correct place)
 		sb.append(StringUtil
 				.encodeXML(this.getGraphicsAdapter().getImageFileName()));
 		sb.append("\"/>\n");
@@ -1127,7 +1101,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
-	// Michael Borcherds 2008-04-30
 	@Override
 	final public boolean isEqual(GeoElementND geo) {
 		// return false if it's a different type
@@ -1427,12 +1400,12 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public double getMinWidth() {
-		return 200;
+		return IMG_SIZE_THRESHOLD;
 	}
 
 	@Override
 	public double getMinHeight() {
-		return 200;
+		return IMG_SIZE_THRESHOLD;
 	}
 
 	@Override
