@@ -82,11 +82,13 @@ public class EmbedManagerW implements EmbedManager {
 		if (widgets.get(drawEmbed) != null) {
 			return;
 		}
+		int embedID = drawEmbed.getEmbedID();
+		counter = Math.max(embedID + 1, counter);
 		if ("extension".equals(drawEmbed.getGeoEmbed().getAppName())) {
 			addExtension(drawEmbed);
-			if (content.get(drawEmbed.getEmbedID()) != null) {
+			if (content.get(embedID) != null) {
 				widgets.get(drawEmbed)
-						.setContent(content.get(drawEmbed.getEmbedID()));
+						.setContent(content.get(embedID));
 			}
 		} else {
 			addCalcEmbed(drawEmbed);
@@ -119,6 +121,7 @@ public class EmbedManagerW implements EmbedManager {
 		if (cache.containsKey(drawEmbed.getEmbedID())) {
 			element = (CalcEmbedElement) cache.get(drawEmbed.getEmbedID());
 			element.setVisible(true);
+			cache.remove(drawEmbed.getEmbedID());
 		} else {
 			element = createCalcEmbed(drawEmbed);
 		}
@@ -231,14 +234,10 @@ public class EmbedManagerW implements EmbedManager {
 
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
 			final TestArticleElement parameters) {
-		return new OpenFileListener() {
-
-			@Override
-			public boolean onOpenFile() {
-				drawEmbed.getGeoEmbed()
-						.setAppName(parameters.getDataParamAppName());
-				return true;
-			}
+		return () -> {
+			drawEmbed.getGeoEmbed()
+					.setAppName(parameters.getDataParamAppName());
+			return true;
 		};
 	}
 
@@ -432,14 +431,8 @@ public class EmbedManagerW implements EmbedManager {
 		ge.initPosition(app.getActiveEuclidianView());
 		ge.setLabel(null);
 		app.storeUndoInfo();
-		app.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				app.getActiveEuclidianView().getEuclidianController()
-						.selectAndShowSelectionUI(ge);
-			}
-		});
+		app.invokeLater(() -> app.getActiveEuclidianView().getEuclidianController()
+				.selectAndShowSelectionUI(ge));
 	}
 
 	@Override
@@ -493,7 +486,11 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void openGraspableMTool() {
-		openTool("https://graspablemath.com");
+		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		ge.setUrl("https://graspablemath.com");
+		ge.setAppName("extension");
+		ge.setEmbedId(nextID());
+		showAndSelect(ge);
 	}
 
 	@Override
@@ -502,14 +499,6 @@ public class EmbedManagerW implements EmbedManager {
 		ge.attr("showToolBar", true);
 		ge.attr("showAlgebraInput", true);
 		ge.attr("allowStyleBar", true);
-	}
-
-	private void openTool(String URL) {
-		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
-		ge.setUrl(URL);
-		ge.setAppName("extension");
-		ge.setEmbedId(nextID());
-		showAndSelect(ge);
 	}
 
 	/**
