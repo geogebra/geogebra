@@ -83,7 +83,6 @@ public class EmbedManagerW implements EmbedManager {
 			return;
 		}
 		int embedID = drawEmbed.getEmbedID();
-		counter = Math.max(embedID + 1, counter);
 		if ("extension".equals(drawEmbed.getGeoEmbed().getAppName())) {
 			addExtension(drawEmbed);
 			if (content.get(embedID) != null) {
@@ -385,8 +384,7 @@ public class EmbedManagerW implements EmbedManager {
 			if (entry.getKey().startsWith("embed")) {
 				try {
 					int id = Integer.parseInt(entry.getKey().split("[_.]")[1]);
-					counter = Math.max(counter, id + 1);
-					content.put(id, entry.getValue());
+					setContent(id, entry.getValue());
 				} catch (RuntimeException e) {
 					Log.warn("Problem loading embed " + entry.getKey());
 				}
@@ -526,6 +524,17 @@ public class EmbedManagerW implements EmbedManager {
 			}
 		}
 		return jso;
+	}
+
+	@Override
+	public String getContent(int embedID) {
+		return content.get(embedID);
+	}
+
+	@Override
+	public void setContent(int id, String content) {
+		counter = Math.max(counter, id + 1);
+		this.content.put(id, content);
 	}
 
 	private static native void pushApisIntoNativeEntry(
