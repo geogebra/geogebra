@@ -264,10 +264,10 @@ public class CopyPasteW extends CopyPaste {
 					ImageManagerW imageManager = ((ImageManagerW) app.getImageManager());
 					copiedImages.put(name, imageManager.getExternalImageSrc(name));
 				}
-				if (ce instanceof GeoEmbed) {
+				if (ce instanceof GeoEmbed && embedManager != null) {
 					int embedID = ((GeoEmbed) ce).getEmbedID();
 					String name = String.valueOf(embedID);
-					copiedEmbeds.put(name, app.getEmbedManager().getContent(embedID));
+					copiedEmbeds.put(name, embedManager.getContent(embedID));
 				}
 			}
 		}
