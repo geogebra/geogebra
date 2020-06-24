@@ -69,7 +69,6 @@ public final class DrawImage extends Drawable {
 	private GGeneralPath highlighting;
 	private double[] hitCoords = new double[2];
 	private MediaBoundingBox boundingBox;
-	private double originalRatio = Double.NaN;
 
 	/**
 	 * the croped image should have at least 50px width
@@ -88,7 +87,7 @@ public final class DrawImage extends Drawable {
 		this.view = view;
 		this.geoImage = geoImage;
 		transformableRectangle =
-				new TransformableRectangle(view, geoImage);
+				new TransformableRectangle(view, geoImage, true);
 		geo = geoImage;
 		// temp
 		at = AwtFactory.getPrototype().newAffineTransform();
@@ -263,16 +262,6 @@ public final class DrawImage extends Drawable {
 		if (!view.isBackgroundUpdating() && isInBackground) {
 			view.updateBackgroundImage();
 		}
-	}
-
-	@Override
-	public double getWidthThreshold() {
-		return GeoImage.IMG_SIZE_THRESHOLD;
-	}
-
-	@Override
-	public double getHeightThreshold() {
-		return  GeoImage.IMG_SIZE_THRESHOLD;
 	}
 
 	private static boolean isTranslation(GAffineTransform at2) {
@@ -485,10 +474,6 @@ public final class DrawImage extends Drawable {
 		return boundingBox;
 	}
 
-	private void updateOriginalRatio() {
-		originalRatio = geoImage.getHeight() / geoImage.getWidth();
-	}
-
 	@Override
 	public List<GPoint2D> toPoints() {
 		return transformableRectangle.toPoints();
@@ -512,11 +497,9 @@ public final class DrawImage extends Drawable {
 		double cropLeft = cropBoxRelative.getX();
 		double cropBottom = cropTop + cropBoxRelative.getHeight();
 		double cropRight = cropLeft + cropBoxRelative.getWidth();
-		if (!handler.isDiagonal()) {
-			originalRatio = Double.NaN;
-		}
 		int imageWidth = geoImage.getFillImage().getWidth();
 		int imageHeight = geoImage.getFillImage().getHeight();
+		double originalRatio = transformableRectangle.getAspectRatio();
 		switch (handler) {
 		case BOTTOM:
 			newHeight = MyMath.clamp(event.y - cropTop,
@@ -603,9 +586,7 @@ public final class DrawImage extends Drawable {
 		}
 		if (boundingBox.isCropBox()) {
 			geoImage.setCropped(true);
-			if (Double.isNaN(originalRatio)) {
-				updateOriginalRatio();
-			}
+			transformableRectangle.updateAspectRatio(geoImage, handler);
 			updateImageCrop(point, handler);
 		} else {
 			transformableRectangle.updateByBoundingBoxResize(point, handler);

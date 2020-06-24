@@ -36,7 +36,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	 */
 	public DrawInlineText(EuclidianView view, GeoInlineText text) {
 		super(view, text);
-		rectangle = new TransformableRectangle(view, text);
+		rectangle = new TransformableRectangle(view, text, false);
 		this.text = text;
 		this.textController = view.getApplication().createInlineTextController(view, text);
 		createEditor();
@@ -115,20 +115,6 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	@Override
 	public MediaBoundingBox getBoundingBox() {
 		return rectangle.getBoundingBox();
-	}
-
-	@Override
-	public double getWidthThreshold() {
-		if (text.getHeight() - text.getMinHeight() < 2) {
-			return text.getWidth();
-		}
-
-		return GeoInlineText.DEFAULT_WIDTH;
-	}
-
-	@Override
-	public double getHeightThreshold() {
-		return text.getMinHeight();
 	}
 
 	@Override

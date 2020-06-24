@@ -26,7 +26,8 @@ public abstract class DrawWidget extends Drawable {
 	 */
 	public DrawWidget(EuclidianView view, GeoElement geo) {
 		super(view, geo);
-		this.rectangle = new TransformableRectangle(view, (RectangleTransformable) geo);
+		this.rectangle = new TransformableRectangle(view, (RectangleTransformable) geo,
+				false);
 	}
 
 	protected void updateBounds() {

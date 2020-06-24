@@ -22,19 +22,23 @@ public class TransformableRectangle {
 	private MediaBoundingBox boundingBox;
 	private GAffineTransform directTransform;
 	private GAffineTransform inverseTransform;
+	private boolean keepAspectRatio;
 
 	private GPoint2D corner0;
 	private GPoint2D corner1;
 	private GPoint2D corner2;
 	private GPoint2D corner3;
+	private double aspectRatio = Double.NaN;
 
 	/**
 	 * @param view view
 	 * @param geo transformable geo
+	 * @param keepAspectRatio
 	 */
-	TransformableRectangle(EuclidianView view, RectangleTransformable geo) {
+	TransformableRectangle(EuclidianView view, RectangleTransformable geo, boolean keepAspectRatio) {
 		this.view = view;
 		this.geo = geo;
+		this.keepAspectRatio = keepAspectRatio;
 	}
 
 	/**
@@ -162,6 +166,7 @@ public class TransformableRectangle {
 		double y = 0;
 		double width = geo.getWidth();
 		double height = geo.getHeight();
+		updateAspectRatio(geo, handler);
 
 		if (handler.getDx() == 1) {
 			width = transformed.getX();
@@ -170,14 +175,19 @@ public class TransformableRectangle {
 			x = transformed.getX();
 		}
 
-		if (handler.getDy() == 1) {
+		if (keepAspectRatio && handler.isDiagonal()) {
+			double bottom = height + y;
+			height = width * aspectRatio;
+			y = handler.getDy() > 0 ? y : bottom - height;
+		} else if (handler.getDy() == 1) {
 			height = transformed.getY();
 		} else if (handler.getDy() == -1) {
 			height = geo.getHeight() - transformed.getY();
 			y = transformed.getY();
 		}
 
-		if (height < geo.getMinHeight() && width < geo.getWidth()) {
+		if (geo instanceof  GeoInlineText &&
+				height < geo.getMinHeight() && width < geo.getWidth()) {
 			return;
 		}
 
@@ -203,6 +213,14 @@ public class TransformableRectangle {
 
 		geo.updateRepaint();
 		updateSelfAndBoundingBox();
+	}
+
+	protected void updateAspectRatio(RectangleTransformable geo, EuclidianBoundingBoxHandler handler) {
+		if (!handler.isDiagonal()) {
+			aspectRatio = Double.NaN;
+		} else if (Double.isNaN(aspectRatio)) {
+			aspectRatio = geo.getHeight() / geo.getWidth();
+		}
 	}
 
 	public GPoint2D getInversePoint(double x, double y) {
@@ -237,5 +255,12 @@ public class TransformableRectangle {
 		}
 		boundingBox.updateFrom(geo.toGeoElement());
 		return boundingBox;
+	}
+
+	/**
+	 * @return height/width when resizing diagonally, Double.NaN otherwise
+	 */
+	public double getAspectRatio() {
+		return aspectRatio;
 	}
 }

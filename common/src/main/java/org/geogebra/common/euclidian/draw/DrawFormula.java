@@ -32,7 +32,7 @@ public class DrawFormula extends Drawable implements DrawInline {
 	 */
 	public DrawFormula(EuclidianView ev, GeoFormula formula) {
 		super(ev, formula);
-		this.rectangle = new TransformableRectangle(view, formula);
+		this.rectangle = new TransformableRectangle(view, formula, false);
 		this.formula = formula;
 		this.formulaController = ev.getApplication().createInlineFormulaController(ev, formula);
 		update();
