@@ -275,6 +275,16 @@ public class AlgoIntersectRegionPlanePolyhedron
 			return 0;
 		}
 
+		@Override
+		public boolean equals(Object obj) {
+			return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+		}
+
+		@Override
+		public int hashCode() {
+			return super.hashCode();
+		}
+
 	}
 
 	/**
@@ -595,6 +605,16 @@ public class AlgoIntersectRegionPlanePolyhedron
 			super.clear();
 		}
 
+		@Override
+		public boolean equals(Object obj) {
+			return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+		}
+
+		@Override
+		public int hashCode() {
+			return super.hashCode();
+		}
+
 	}
 
 	/**
@@ -799,7 +819,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 *            start index for polygons
 	 * @param indexPoint0
 	 *            start index for points
-	 * @param indexSegment
+	 * @param indexSegment0
 	 *            start index for segments
 	 */
 	private void addPolyhedronVerticesToOutput(int indexPolygon0,
