@@ -58,6 +58,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	 *
 	 * @return height
 	 */
+	@Override
 	public double getHeight() {
 		return height;
 	}
@@ -67,6 +68,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	 *
 	 * @return width
 	 */
+	@Override
 	public double getWidth() {
 		return width;
 	}
@@ -74,6 +76,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	/**
 	 * @return rotation angle in radians
 	 */
+	@Override
 	public double getAngle() {
 		return angle;
 	}
@@ -83,6 +86,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	 *
 	 * @return location
 	 */
+	@Override
 	public GPoint2D getLocation() {
 		return location;
 	}
@@ -92,6 +96,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	 *
 	 * @param width element width in pixels
 	 */
+	@Override
 	public void setWidth(double width) {
 		this.width = width;
 	}
@@ -101,6 +106,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	 *
 	 * @param height height in pixels
 	 */
+	@Override
 	public void setHeight(double height) {
 		this.height = height;
 	}
@@ -108,6 +114,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	/**
 	 * @param angle rotation angle in radians
 	 */
+	@Override
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}
@@ -116,6 +123,7 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	 * @param location
 	 *            on-screen location
 	 */
+	@Override
 	public void setLocation(GPoint2D location) {
 		this.location = location;
 	}
@@ -129,16 +137,6 @@ public abstract class GeoInline extends GeoElement implements Translateable, Poi
 	 * @return editor content; encoding depends on editor type
 	 */
 	public abstract String getContent();
-
-	/**
-	 * @return min width in pixels, depends on content
-	 */
-	public abstract double getMinWidth();
-
-	/**
-	 * @return min height in pixels, depends on content
-	 */
-	public abstract double getMinHeight();
 
 	@Override
 	public void translate(Coords v) {
