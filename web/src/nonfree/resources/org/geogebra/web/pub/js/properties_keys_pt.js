@@ -485,7 +485,7 @@ __GGB__keysVar["pt"].command = {
     "InverseWeibull.Syntax": "[ <Forma>, <Escala>, <Probabilidade> ]",
     "InverseZipf": "Distribui\xe7\xe3oDeZipfInversa",
     "InverseZipf.Syntax": "[ <N\xfamero de Elementos>, <Expoente>, <Probabilidade> ]",
-    "Invert": "MatrizInversa",
+    "Invert": "Fun\xe7\xe3oInversa",
     "Invert.Syntax": "[ <Matriz> ]\n[ <Fun\xe7\xe3o> ]",
     "IsInRegion": "PertenceARegi\xe3o",
     "IsInRegion.Syntax": "[ <Ponto>, <Regi\xe3o> ]",
