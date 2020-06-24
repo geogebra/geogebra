@@ -13,8 +13,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.web.full.html5.GMenuBarMock;
-import org.geogebra.web.full.html5.MenuFactory;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Before;
@@ -30,19 +28,19 @@ import com.google.gwtmockito.WithClassesToStub;
 public class InlineTextItemsTest {
 
 	public static final String LINK_URL = "www.foo.bar";
+	private ContextMenuMock contextMenu;
 	private Construction construction;
 	private AppW app;
 	private GPoint2D point;
-	private ContextMenuFactory factory;
 	private InlineTextControllerMock controllerMockWithLink;
 
 	@Before
 	public void setUp() {
 		app = AppMocker.mockNotes(getClass());
-		factory = new MenuFactory(app);
 		construction = app.getKernel().getConstruction();
 		point = new GPoint2D(0, 0);
 		controllerMockWithLink = new InlineTextControllerMock(LINK_URL);
+		contextMenu = new ContextMenuMock(app);
 		enableSettingsItem();
 	}
 
@@ -63,14 +61,7 @@ public class InlineTextItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
-	}
-
-	private List<String> getMenuEntriesFor(ArrayList<GeoElement> geos) {
-		ContextMenuGeoElementW contextMenu = new ContextMenuGeoElementW(app, geos, factory);
-		contextMenu.addOtherItems();
-		GMenuBarMock menu = (GMenuBarMock) contextMenu.getWrappedPopup().getPopupMenu();
-		return menu.getTitles();
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	@Test
@@ -85,7 +76,7 @@ public class InlineTextItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	@Test
@@ -101,7 +92,7 @@ public class InlineTextItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	@Test
@@ -116,7 +107,7 @@ public class InlineTextItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	@Test
@@ -128,7 +119,7 @@ public class InlineTextItemsTest {
 				"FixObject", "ShowTrace", "Settings"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	@Test
@@ -140,7 +131,7 @@ public class InlineTextItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	private GeoElement createMask() {
@@ -177,7 +168,7 @@ public class InlineTextItemsTest {
 				"SEPARATOR", "General.Order"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	@Test
@@ -189,8 +180,6 @@ public class InlineTextItemsTest {
 		construction.createGroup(geos);
 		List<String> expected = Collections.singletonList("General.Order");
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
-
-
 }

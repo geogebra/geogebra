@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -57,7 +56,7 @@ class MaskWidget extends FlowPanel {
 		String sb = "matrix(" + m11 + ", " + m21
 				+ ", " + m12 + ", " + m22
 				+ ", " + m13 + ", " +	m23 + ")";
-		Browser.setTransform(style, sb);
+		style.setProperty("transform", sb);
 	}
 
 	private GPoint2D toScreenPoint(Coords source) {

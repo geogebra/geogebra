@@ -8,91 +8,62 @@
 
 @import "definitions.less";
 
-
 .GeoGebraFrame {
-	
+
 	/*hack for toolbar submenu, that is isn't hidden by 
 	 dockpanel standard div styling (overflow:hidden) */
 	.ggbdockpanelhack > div {
 		overflow: visible !important;
 	}
+
 	position: relative;
-	
+
 	.toolbarPanel {
-		position:relative;
+		position: relative;
 		background-color: @color-lightgrey;
-		.box-shadow(@shadow);
+		box-shadow: @shadow;
 		padding: 5px;
-		.box-sizing(border-box);
+		box-sizing: border-box;
 		z-index: 100;
-		
+
 		.toolBPanelMobile {
-			/*overflow-x: auto !important;
-			overflow-y: hidden !important;*/
-			
-			/* hide scrollbars in ff and ie */
-			overflow: -moz-scrollbars-none !important;
-			-ms-overflow-style: none;
-			
+			overflow: hidden;
 			height: 46px;
-			}	
-			::-webkit-scrollbar {
-			    height: 5px;
-			    overflow: visible;
-			    
-			}
-			::-scrollbar {
-			    height: 5px;
-			    overflow: visible;
-			   
-			}
-			::-webkit-scrollbar-button {
-			    height: 0;
-			    width: 0;
-			}
-			::-scrollbar-button {
-			    height: 0;
-			    width: 0;
-			}
-			::-scrollbar-thumb {
-		    background-color: #999999;
-		   
-			}
-			::-webkit-scrollbar-thumb {
-		    background-color: #999999;
-		   
-			}
-			
-			::-webkit-scrollbar-track {
-			    background-clip: padding-box;
-			    border: solid transparent;
-			    border-width: 0 0 0 4px;
-			}
-			::-scrollbar-track {
-			    background-clip: padding-box;
-			    border: solid transparent;
-			    border-width: 0 0 0 4px;
-			}
-			::-webkit-scrollbar-track-piece {
-				
-			}
-			
-			::-scrollbar-track-piece{
-				
-			}
-			
+		}
+
+		::-webkit-scrollbar {
+			height: 5px;
+			overflow: visible;
+		}
+
+		::-webkit-scrollbar-button {
+			height: 0;
+			width: 0;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background-color: #999999;
+		}
+
+		::-webkit-scrollbar-track {
+			background-clip: padding-box;
+			border: solid transparent;
+			border-width: 0 0 0 4px;
+		}
+
 		.overflow {
 			overflow: visible !important;
 		}
+
 		.toolBPanel {
 			.float(left);
 			padding-top: 1px;
-						
+
 			ul {
-				margin: 0px;
-				padding: 0px;
+				margin: 0;
+				padding: 0;
 			}
-			
+
 			li.toolbar_item {
 				.margin(0px, 5px, 0px, 0px);
 				text-align: center;
@@ -104,250 +75,247 @@
 				list-style-type: none;
 				cursor: pointer;
 			}
-			
+
 			.toolbar_button {
-				.border-radius(5px);
+				border-radius: 5px;
 				border: 1px solid @color-bordergrey;
 				background-color: @color-white;
 				padding: 3px;
 				width: 32px;
 				height: 32px;
-				
+
 				&[isSelected=false] {
 					border-color: @color-bordergrey;
-				}				
+				}
+
 				&:hover[isSelected=false][isMobile=false],
 				&:focus[isSelected=false][isMobile=false] {
 					border-color: @color-highlight;
 				}
+
 				&[isSelected=true] {
 					border: 2px solid @color-highlight;
 					padding: 2px;
 				}
-				
+
 				img.gwt-Image.toolbar_icon.plusPadding {
 					width: 24px !important;
 					height: 24px;
 					padding: 4px;
 				}
 			}
-			
+
 			.touched {
-					border-color: @color-highlight !important;
-				}
-			
+				border-color: @color-highlight !important;
+			}
+
 			.toolbar_submenu {
 				position: absolute;
 				z-index: 501;
 				display: none;
-				
+
 				&.visible {
 					display: block;
 				}
-				
+
 				.submenuArrow {
 					position: absolute;
 					z-index: 300;
 					.left(4px);
 				}
-				
+
 				.submenuContent {
 					position: absolute;
-						
+
 					z-index: 250;
-					.border-radius(10px);
+					border-radius: 10px;
 					padding-top: 3px !important;
-					background-color: @color-white-transparent-90-IE;
 					background-color: @color-white-transparent-90;
-					.box-shadow(@shadow-dark);
+					box-shadow: @shadow-dark;
 					overflow-y: auto;
 					overflow-x: hidden;
 					-webkit-overflow-scrolling: touch;
-					
+
 					li {
 						white-space: nowrap;
 						list-style-type: none;
 						height: 32px;
-						padding: 5px 0px;
+						padding: 5px 0;
 						.text-align(left);
 						cursor: pointer;
-						
+
 						&:hover,
 						&:focus {
 							color: @color-darkgrey;
 							background-color: @color-bg-highlight;
 						}
-						
-						img.gwt-Image.plusPadding { 
+
+						img.gwt-Image.plusPadding {
 							width: 24px !important;
 							height: 24px;
 							padding: 4px 4px 4px 9px;
 						}
 					}
-					
+
 					img {
 						.float(left);
 						padding-left: 5px;
 						padding-right: 5px;
 					}
-					
+
 					.gwt-Label {
 						.padding(7px, 10px, 0, 40px);
 					}
 				}
 			}
 		}
-				
+
 		.submenuBack {
 			position: absolute;
 			top: 10px;
 			left: 10px;
 			cursor: pointer;
+
 			img {
 				opacity: 0.54;
 			}
+
 			img:hover {
 				opacity: 0.84;
 			}
 		}
+
 		.submenuPanel {
-			margin-top: 0px;
+			margin-top: 0;
 		}
-		.submenuScrollPanel{
+
+		.submenuScrollPanel {
 			overflow-x: auto;
 			overflow-y: hidden;
-			
-			/* hide scrollbars in ff and ie */
-			overflow: -moz-scrollbars-none !important;
-			-ms-overflow-style: none;
-			
+
 			position: absolute !important;
 			top: 6px;
 			left: 50px;
 			height: 46px;
 		}
+
 		.submenuItems {
 
 			margin: 0;
-		
+
 			.submenu_button {
-					.border-radius(5px);
-					border: 1px solid @color-bordergrey;
-					background-color: @color-white;
-					padding: 3px;
-					width: 32px;
-					height: 32px;
-					
-					&[isSelected=false] {
-						border-color: @color-bordergrey;
-					}
+				border-radius: 5px;
+				border: 1px solid @color-bordergrey;
+				background-color: @color-white;
+				padding: 3px;
+				width: 32px;
+				height: 32px;
+
+				&[isSelected=false] {
+					border-color: @color-bordergrey;
 				}
-				li {
-					.margin(0px, 5px, 0px, 0px);
-					text-align: center;
-					position: relative;
-					width: 40px;
-					height: 40px;
-					display: block;
-					.float(left);
-					list-style-type: none;
-					cursor: pointer;
-				}
-		
+			}
+
+			li {
+				.margin(0px, 5px, 0px, 0px);
+				text-align: center;
+				position: relative;
+				width: 40px;
+				height: 40px;
+				display: block;
+				.float(left);
+				list-style-type: none;
+				cursor: pointer;
+			}
 		}
+
 		.rightButtonPanel {
 			.float(right);
 			margin: 6px;
-			
-			
+
 			& > * {
 				.margin(0px, 5px, 0px, 10px);
 				.float(left);
-				// If these are set, GeoGebraExam's red timer looks incorrectly:
-				// width: 32px;
-				// height: 32px;
 			}
-			
+
 			// Make redo close to undo button
 			.redoButton {
 				.margin-left(0px);
 			}
-			
+
 			.selectedButton {
-				padding: 0px;
+				padding: 0;
 			}
-			
+
 			.MyToggleButton {
-				padding: 0px;
+				padding: 0;
 				border: none;
 				background: none;
 			}
 		}
+
 		.rightButtonPanelMobile {
 			position: absolute;
-  			top: 5px;
-   			right: 5px;
+			top: 5px;
+			right: 5px;
 		}
 	}
-	
+
 	.toolbarPanelSouth {
 		border-top: 1px solid @color-bordergrey;
-		
-		.submenuArrow{
-				bottom: 45px;
-    			transform: scale(-1);
-    			-webkit-transform: scale(-1);
-			}
 
-		
-		.submenuContent{
+		.submenuArrow {
+			bottom: 45px;
+			transform: scale(-1);
+		}
+
+		.submenuContent {
 			bottom: 60px;
 		}
 	}
-	
-	.toolbarPanelNorth{
+
+	.toolbarPanelNorth {
 		border-bottom: 1px solid @color-bordergrey;
-		
-		.submenuContent{
+
+		.submenuContent {
 			top: 15px;
 		}
 	}
-	
+
 	/**
 	 * GeoGebra Menu
 	 */
-	 
 	.menuContainer {
 		left: auto !important;
 		top: 53px !important; /* should be equal to GLookAndFeelI.TOOLBAR_HEIGHT */
 		z-index: 100;
 	}
-	
+
 	.ggbmenubarwrapper {
 		width: 100%;
 		height: 100%;
 		box-sizing: border-box;
 	}
-	
+
 	.menubarSMART {
 		overflow-y: auto;
 		background-color: @color-lightgrey;
 		.border-left(1px);
 		.border-left-color(@color-bordergrey);
-		border-left-style:solid;
+		border-left-style: solid;
 		height: 100%;
-		
+
 		.menuPanel {
 			width: 100%;
 			border-collapse: collapse;
 			padding: 0;
 		}
-		
+
 		.GeoGebraMenuBar {
 			& > table {
 				width: 100%;
 			}
-			
+
 			.gwt-MenuItem {
 				.padding(6px, 5px, 6px, 35px);
 				position: relative;
@@ -361,14 +329,17 @@
 					margin-top: -10px;
 					.left(5px);
 				}
-			}			
+			}
+
 			.gwt-MenuItem:focus {
 				background: none;
 			}
+
 			.gwt-MenuItem:hover,
 			.gwt-MenuItem:active {
 				background: @color-bg-highlight;
 			}
+
 			.RadioButtonMenuItem label {
 				cursor: pointer;
 			}
@@ -377,8 +348,8 @@
 
 	.subMenuLeftSidePopup {
 		box-shadow: none;
-		padding: 0px;
-		.border-radius(0px);
+		padding: 0;
+		border-radius: 0;
 
 		.GeoGebraMenuBar.subMenuLeftSide {
 			right: 280px;
@@ -386,10 +357,10 @@
 			top: -5px;
 			position: absolute;
 			z-index: 600;
-			.border-radius(10px);
+			border-radius: 10px;
 			padding: 5px;
 			background-color: @color-white-transparent-90;
-			.box-shadow(@shadow-dark);
+			box-shadow: @shadow-dark;
 
 			.arrowSubmenu {
 				position: absolute;
@@ -404,7 +375,6 @@
 			input[type="radio"] {
 				.margin(0px, 5px, 0px, 0px);
 			}
-
 
 			/* Workaround due to GWT's bug, see ticket #4819 */
 			&.subMenuLeftSide2 {

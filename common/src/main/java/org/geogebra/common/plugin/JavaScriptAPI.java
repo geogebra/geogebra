@@ -521,9 +521,11 @@ public interface JavaScriptAPI {
 	 * 
 	 * @param objName
 	 *            object name
+	 * @param localized
+	 *            if output should be localized
 	 * @return value string
 	 */
-	public String getValueString(String objName);
+	public String getValueString(String objName, boolean localized);
 
 	/**
 	 * Returns the description of the object with the given name as a string.

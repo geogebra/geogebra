@@ -377,9 +377,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					// not +, -, *, /, ^
 					sb.append(leftStr);
 				} else {
-					sb.append(tpl.leftBracket());
-					sb.append(leftStr);
-					sb.append(tpl.rightBracket());
+					tpl.appendWithBrackets(sb, leftStr);
 				}
 				sb.append('!');
 				break;
@@ -664,24 +662,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			} else {
 				switch (stringType) {
 				case LATEX:
-					sb.append("\\ln \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("ln left ( ");
+					sb.append("\\ln");
 					break;
 				case GIAC:
-				case GEOGEBRA_XML:
-					sb.append("log(");
+					sb.append("log");
 					break;
-
-				case PSTRICKS:
-				case PGF:
 				default:
-					sb.append("ln(");
+					sb.append("ln");
 					break;
 				}
-				sb.append(leftStr);
-				sb.append(tpl.rightBracket());
+				tpl.appendWithBrackets(sb, leftStr);
 			}
 			break;
 
@@ -695,17 +685,13 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append("\\log_{");
 				sb.append(leftStr);
 				sb.append('}');
-				sb.append(tpl.leftBracket());
-				sb.append(rightStr);
-				sb.append(tpl.rightBracket());
+				tpl.appendWithBrackets(sb, rightStr);
 				break;
 			case LIBRE_OFFICE:
 				sb.append("log_{");
 				sb.append(leftStr);
 				sb.append('}');
-				sb.append(tpl.leftBracket());
-				sb.append(rightStr);
-				sb.append(tpl.rightBracket());
+				tpl.appendWithBrackets(sb, rightStr);
 				break;
 			case GIAC:
 				// make sure eg log_10(100) works
@@ -814,9 +800,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 				wrapInBackslashOperatorname(sb, "erf");
 
-				sb.append(tpl.leftBracket());
-				sb.append(leftStr);
-				sb.append(tpl.rightBracket());
+				tpl.appendWithBrackets(sb, leftStr);
 				break;
 			case LIBRE_OFFICE:
 				sb.append("func ");
@@ -834,9 +818,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			switch (stringType) {
 			case LATEX:
 				sb.append("\\psi");
-				sb.append(tpl.leftBracket());
-				sb.append(leftStr);
-				sb.append(tpl.rightBracket());
+				tpl.appendWithBrackets(sb, leftStr);
 				break;
 
 			case GIAC:
@@ -997,9 +979,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					|| (ExpressionNode.opID(right) >= Operation.VECTORPRODUCT.ordinal())) {
 				sb.append(rightStr);
 			} else {
-				sb.append(tpl.leftBracket());
-				sb.append(rightStr);
-				sb.append(tpl.rightBracket());
+				tpl.appendWithBrackets(sb, rightStr);
 			}
 			break;
 		case SQRT_SHORT:
@@ -1120,9 +1100,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			default:
 				sb.append("sgn");
 			}
-			sb.append(tpl.leftBracket());
-			sb.append(leftStr);
-			sb.append(tpl.rightBracket());
+			tpl.appendWithBrackets(sb, leftStr);
 			break;
 
 		case CONJUGATE:
@@ -1601,9 +1579,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 						sb.append("func ");
 					}
 					sb.append(geo.getLabel(tpl));
-					sb.append(tpl.leftBracket());
-					sb.append(rightStr);
-					sb.append(tpl.rightBracket());
+					tpl.appendWithBrackets(sb, rightStr);
 				} else {
 					// inline function: replace function var by right side
 					Function fn = geo.getFunction();
@@ -1635,9 +1611,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				case DOLLAR_VAR_ROW:
 				case DOLLAR_VAR_COL:
 				case DOLLAR_VAR_ROW_COL:
-					sb.append(tpl.leftBracket());
-					sb.append(leftStr);
-					sb.append(tpl.rightBracket());
+					tpl.appendWithBrackets(sb, leftStr);
 					break;
 				case DERIVATIVE:
 					if (stringType.isGiac()) {
@@ -1725,14 +1699,10 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				} else if (left instanceof GeoDummyVariable) {
 					sb.append(tpl.leftBracket());
 					sb.append(leftStr);
-					sb.append(tpl.leftBracket());
-					sb.append(rightStr);
-					sb.append(tpl.rightBracket());
+					tpl.appendWithBrackets(sb, rightStr);
 					sb.append(tpl.rightBracket());
 				} else {
-					sb.append(tpl.leftBracket());
-					sb.append(leftStr);
-					sb.append(tpl.rightBracket());
+					tpl.appendWithBrackets(sb, leftStr);
 				}
 			} else {
 				appendFunctionNVar(sb, left, leftStr, rightStr, tpl);
@@ -1746,9 +1716,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			} else {
 				sb.append(leftStr);
 			}
-			sb.append(tpl.leftBracket());
-			sb.append(rightStr);
-			sb.append(tpl.rightBracket());
+			tpl.appendWithBrackets(sb, rightStr);
 			break;
 		case DIFF:
 			// we only serialize this temporarily during GIAC parsing, so only
@@ -2021,26 +1989,18 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append("),1)");
 
 			} else {
-				if (!left.isLeaf()) {
-					sb.append(tpl.leftBracket());
-				}
-
-				sb.append(leftStr);
-
-				if (!left.isLeaf()) {
-					sb.append(tpl.rightBracket());
+				if (left.isLeaf()) {
+					sb.append(leftStr);
+				} else {
+					tpl.appendWithBrackets(sb, leftStr);
 				}
 
 				sb.append(Unicode.ELLIPSIS);
 
-				if (!right.isLeaf()) {
-					sb.append(tpl.leftBracket());
-				}
-
-				sb.append(rightStr);
-
-				if (!right.isLeaf()) {
-					sb.append(tpl.rightBracket());
+				if (right.isLeaf()) {
+					sb.append(rightStr);
+				} else {
+					tpl.appendWithBrackets(sb, rightStr);
 				}
 			}
 

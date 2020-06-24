@@ -998,11 +998,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return geo.isIndependent();
 	}
 
-	/**
-	 * Returns the value of the object with the given name as a string.
-	 */
 	@Override
-	public synchronized String getValueString(String objName) {
+	public synchronized String getValueString(String objName, boolean localized) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) {
 			return "";
@@ -1015,8 +1012,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo.isGeoCasCell()) {
 			return ((GeoCasCell) geo).getOutput(StringTemplate.numericDefault);
 		}
+		StringTemplate template =
+				localized ? StringTemplate.algebraTemplate : StringTemplate.noLocalDefault;
 
-		return geo.getAlgebraDescriptionDefault();
+		return geo.getAlgebraDescriptionPublic(template);
 	}
 
 	/**

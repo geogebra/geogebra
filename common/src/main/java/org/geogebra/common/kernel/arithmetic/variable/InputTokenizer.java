@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.arithmetic.variable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -43,31 +43,19 @@ public class InputTokenizer {
 
 	/**
 	 *
-	 * @return all the tokens input was split to.
-	 */
-	public List<String> getTokens() {
-		ArrayList<String> tokens = new ArrayList<>();
-		while (!StringUtil.empty(input)) {
-			String nextToken = next();
-			tokens.add(nextToken);
-		}
-
-		return tokens;
-	}
-
-	/**
-	 *
 	 * @return the next token processed from input
 	 */
 	public String next() {
 		String token = getToken();
-		input = !StringUtil.empty(token) ? input.substring(token.length()) : null;
+		input = !StringUtil.empty(token) ? input.substring(token.length()) : "";
 		return token;
 	}
 
 	private String getToken() {
-		if (noInputLeft()) {
-			return null;
+
+		String opPrefix = getOperationPrefix();
+		if (opPrefix != null) {
+			return opPrefix;
 		}
 
 		if (isImaginaryNext()) {
@@ -78,55 +66,65 @@ public class InputTokenizer {
 			if (StringUtil.isLetter(input.charAt(0))) {
 				return String.valueOf(input.charAt(0));
 			}
-			return getNumberToken(0);
+			return getNumberToken();
 		}
 
-		String geoLabel = getGeoLabel();
+		if (input.length() == 1) {
+			return input.substring(0, 1);
+		}
+
+		int minLength = getTokenWithIndexLength(1);
+		if (input.startsWith("deg")) {
+			return "deg";
+		}
+
+		String geoLabel = getGeoLabelOrVariable(minLength);
 		if (!StringUtil.empty(geoLabel)) {
 			return geoLabel;
-		}
-
-		String variable = getVariable();
-		if (!"".equals(variable)) {
-			return variable;
 		}
 
 		if (isPiNext()) {
 			return "pi";
 		}
 
-		if (isSingleCharOrLetterNext()) {
-			return String.valueOf(input.charAt(0));
+		if (minLength <= input.length()) {
+			return input.substring(0, minLength);
 		}
 
-		if (isQuoteMarkNext()) {
-			return input.charAt(0) + "'";
-		}
+		return input;
+	}
 
-		if (isIndexNext()) {
-			return getTokenWithIndex();
+	private String getOperationPrefix() {
+		if (input.startsWith("log_")) {
+			int end = input.startsWith("log_{") ? input.indexOf('}') : "log_1".length();
+			return input.substring(0, end);
 		}
-
-		return "";
+		for (int i = 0; i < input.length(); i++) {
+			String prefix = input.substring(0, i);
+			Operation op = kernel.getApplication().getParserFunctions()
+					.getSingleArgumentOp(prefix);
+			if (op != null) {
+				return prefix;
+			}
+		}
+		return null;
 	}
 
 	private boolean isImaginaryNext() {
 		return input.charAt(0) == 'i';
 	}
 
-	private String getGeoLabel() {
-		if (input.length() == 1) {
-			return input;
-		}
-
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < input.length(); i++) {
-			String label = sb.toString();
+	private String getGeoLabelOrVariable(int minLength) {
+		for (int i = minLength; i <= input.length();
+				i = getTokenWithIndexLength(i + 1)) {
+			String label = input.substring(0, i);
+			if (varStrings.contains(label)) {
+				return label;
+			}
 			GeoElement geo = kernel.lookupLabel(label);
 			if (geo != null) {
 				return label;
 			}
-			sb.append(input.charAt(i));
 		}
 		return null;
 	}
@@ -139,23 +137,14 @@ public class InputTokenizer {
 		return "pi".equals(input.substring(0, 2).toLowerCase());
 	}
 
-	private String getVariable() {
-		for (String var : varStrings) {
-			if (input.startsWith(var)) {
-				return var;
-			}
-		}
-		return "";
-	}
-
-	private String getNumberToken(int from) {
-		if (noInputLeft()) {
+	private String getNumberToken() {
+		if (!hasToken()) {
 			return "";
 		}
 
 		StringBuilder result = new StringBuilder();
 
-		for (int i = from; isDigitAt(i); i++) {
+		for (int i = 0; isDigitAt(i); i++) {
 			result.append(input.charAt(i));
 		}
 		return result.toString();
@@ -165,46 +154,19 @@ public class InputTokenizer {
 		return input.length() > i && StringUtil.isDigitOrDot(input.charAt(i));
 	}
 
-	private char nextChar() {
-		return input.charAt(1);
-	}
-
-	private boolean isQuoteMarkNext() {
-		return nextChar() == '\'';
-	}
-
-	private boolean isSingleCharOrLetterNext() {
-		return input.length() == 1 || StringUtil.isLetter(nextChar())
-				|| isBracket(nextChar());
-	}
-
-	private boolean isBracket(char ch) {
-		return ch == '(' || ch == ')';
-	}
-
-	private String getTokenWithIndex() {
-		if ("_{".equals(input.substring(1, 3))) {
-			return tokenWithCurlyBracketIndex();
+	private int getTokenWithIndexLength(int offset) {
+		if (offset >= input.length()) {
+			return offset;
 		}
-		return tokenWithUnderscoreIndex();
-	}
-
-	private String tokenWithUnderscoreIndex() {
-		String token = input.substring(0, 2);
-		return token + getNumberToken(2);
-	}
-
-	private String tokenWithCurlyBracketIndex() {
-		int idxClose = input.indexOf("}");
-		return idxClose != -1 ? input.substring(0, idxClose + 1) : "";
-	}
-
-	private boolean isIndexNext() {
-		return nextChar() == '_';
-	}
-
-	public boolean noInputLeft() {
-		return input == null || input.length() == 0;
+		if (input.charAt(offset) == '_') {
+			if (input.charAt(offset + 1) == '{') {
+				return getTokenWithIndexLength(input.indexOf('}', offset) + 1);
+			}
+			return getTokenWithIndexLength(offset + 2);
+		} else if (input.charAt(offset) == '\'') {
+			return getTokenWithIndexLength(offset + 1);
+		}
+		return offset;
 	}
 
 	/**
@@ -218,7 +180,7 @@ public class InputTokenizer {
 	 * @return if there are tokens to process.
 	 */
 	public boolean hasToken() {
-		return !(input == null || "".equals(input));
+		return !StringUtil.empty(input);
 
 	}
 

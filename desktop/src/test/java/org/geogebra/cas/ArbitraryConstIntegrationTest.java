@@ -453,12 +453,12 @@ public class ArbitraryConstIntegrationTest {
 			app.getGgbApi().undo(true);
 			app.getGgbApi().undo(true);
 		}
-		Assert.assertEquals(app.getGgbApi().getValueString("$2"),
+		Assert.assertEquals(app.getGgbApi().getValueString("$2", true),
 				"F(x):=-cos(x) + c_1");
 		String base64 = app.getGgbApi().getBase64();
 		app.getKernel().clearConstruction(true);
 		app.getGgbApi().setBase64(base64);
-		Assert.assertEquals(app.getGgbApi().getValueString("$2"),
+		Assert.assertEquals(app.getGgbApi().getValueString("$2", true),
 				"F(x):=-cos(x) + c_1");
 	}
 

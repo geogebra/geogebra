@@ -21,8 +21,6 @@ evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web:dev')
 evaluationDependsOn(':keyboard-web')
 
-ext.gwtCompilerVersion = project(':renderer-web').gwtCompilerVersion
-
 apply plugin: 'gwt-compiler'
 
 sourceCompatibility = 1.8

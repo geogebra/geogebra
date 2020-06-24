@@ -69,10 +69,10 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	@Test
 	public void enteringNewValueShouldKeepComplexNumber() {
-		setupAndCheckInput("P", "1 + " + Unicode.IMAGINARY);
+		setupAndCheckInput("P", "1 + i");
 		updateInput("7");
 		t("P", "7 + 0" + Unicode.IMAGINARY);
-		Assert.assertEquals("7",
+		assertEquals("7",
 				lookup("P").getDefinition(StringTemplate.defaultTemplate));
 		hasType("P", GeoClass.POINT);
 	}
@@ -90,9 +90,9 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, false);
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("1+1/5", inputBox.getTextForEditor());
+		assertEquals("1+1/5", inputBox.getTextForEditor());
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, false);
-		Assert.assertEquals("1+1/5", inputBox.getTextForEditor());
+		assertEquals("1+1/5", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -100,24 +100,24 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("l", "1 + 1 / 5");
 		((GeoNumeric) lookup("l")).setSymbolicMode(true, true);
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("6 / 5", inputBox.getText());
+		assertEquals("6 / 5", inputBox.getText());
 		((GeoNumeric) lookup("l")).setSymbolicMode(false, true);
-		Assert.assertEquals("1.2", inputBox.getText());
+		assertEquals("1.2", inputBox.getText());
 	}
 
 	@Test
 	public void shouldShowValueForSimpleNumeric() {
 		setupInput("l", "5");
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("5", inputBox.getText());
-		Assert.assertEquals("5", inputBox.getTextForEditor());
+		assertEquals("5", inputBox.getText());
+		assertEquals("5", inputBox.getTextForEditor());
 	}
 
 	@Test
 	public void shouldBeEmptyAfterSettingLineUndefined() {
 		setupInput("f", "y = 5");
 		t("SetValue(f, ?)");
-		Assert.assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getText());
 	}
 
 	@Test
@@ -125,15 +125,15 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("f", "y = 5");
 		t("SetValue(f, ?)");
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("", inputBox.getText());
-		Assert.assertEquals("", inputBox.getTextForEditor());
+		assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getTextForEditor());
 	}
 
 	@Test
 	public void shouldBeEmptyAfterSettingPlaneUndefined() {
 		setupInput("eq1", "4x + 3y + 2z = 1");
 		t("SetValue(eq1, ?)");
-		Assert.assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getText());
 	}
 
 	@Test
@@ -141,8 +141,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("eq1", "4x + 3y + 2z = 1");
 		t("SetValue(eq1, ?)");
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("", inputBox.getText());
-		Assert.assertEquals("", inputBox.getTextForEditor());
+		assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -151,16 +151,16 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoElement ib2 = add("in2=InputBox(eq1)");
 		updateInput("?");
 		// both input boxes undefined, but first one remembers user input ...
-		Assert.assertEquals("?", inputBox.getText());
+		assertEquals("?", inputBox.getText());
 		// ... and second one stays empty (APPS-1246)
-		Assert.assertEquals("", ((GeoInputBox) ib2).getText());
+		assertEquals("", ((GeoInputBox) ib2).getText());
 	}
 
 	@Test
 	public void shouldBeEmptyAfterSettingComplexUndefined() {
 		setupInput("z1", "3 + i");
 		t("SetValue(z1, ?)");
-		Assert.assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getText());
 	}
 
 	@Test
@@ -168,8 +168,8 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("z1", "3 + i");
 		t("SetValue(z1, ?)");
 		inputBox.setSymbolicMode(true, false);
-		Assert.assertEquals("", inputBox.getText());
-		Assert.assertEquals("", inputBox.getTextForEditor());
+		assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -177,25 +177,25 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("f(c) = c / ?");
 		inputBox = add("ib=InputBox(f)");
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("c / ?", inputBox.getText());
+		assertEquals("c / ?", inputBox.getText());
 		updateInput("?");
-		Assert.assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getText());
 		updateInput("c / 3");
-		Assert.assertEquals("c / 3", inputBox.getText());
+		assertEquals("c / 3", inputBox.getText());
 	}
 
 	@Test
 	public void independentVectorsMustBeColumnEditable() {
 		setupInput("l", "(1, 2, 3)");
-		Assert.assertEquals("{{1}, {2}, {3}}", inputBox.getTextForEditor());
+		assertEquals("{{1}, {2}, {3}}", inputBox.getTextForEditor());
 	}
 
 	@Test
 	public void symbolicShouldSupportVectorsWithVariables() {
 		add("a: 1");
 		setupInput("l", "(1, 2, a)");
-		Assert.assertEquals("(1, 2, a)", inputBox.getText());
-		Assert.assertEquals("{{1}, {2}, {a}}", inputBox.getTextForEditor());
+		assertEquals("(1, 2, a)", inputBox.getText());
+		assertEquals("{{1}, {2}, {a}}", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -203,7 +203,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("u: (1, 2)");
 		add("v: (3, 4)");
 		setupInput("l", "u + v");
-		Assert.assertEquals("u+v", inputBox.getTextForEditor());
+		assertEquals("u+v", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -211,7 +211,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("u: (1, 2, 3)");
 		add("v: (3, 4, 5)");
 		setupInput("l", "u + v");
-		Assert.assertEquals("u+v", inputBox.getTextForEditor());
+		assertEquals("u+v", inputBox.getTextForEditor());
 	}
 
 	@Test
@@ -219,11 +219,11 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		add("g(p, q) = p / ?");
 		inputBox = add("ib=InputBox(g)");
 		inputBox.setSymbolicMode(false, false);
-		Assert.assertEquals("p / ?", inputBox.getText());
+		assertEquals("p / ?", inputBox.getText());
 		updateInput("?");
-		Assert.assertEquals("", inputBox.getText());
+		assertEquals("", inputBox.getText());
 		updateInput("p / q");
-		Assert.assertEquals("p / q", inputBox.getText());
+		assertEquals("p / q", inputBox.getText());
 	}
 
 	@Test
@@ -248,7 +248,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	private void hasType(String label, GeoClass geoClass) {
-		Assert.assertEquals(lookup(label).getGeoClassType(), geoClass);
+		assertEquals(lookup(label).getGeoClassType(), geoClass);
 	}
 
 	private void updateInput(String string) {
@@ -257,7 +257,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 
 	private void setupAndCheckInput(String label, String value) {
 		setupInput(label, value);
-		Assert.assertEquals(value,
+		assertEquals(value,
 				inputBox.toValueString(StringTemplate.testTemplate));
 	}
 

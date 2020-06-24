@@ -1,8 +1,12 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 class InputBoxRenderer {
 	private GeoElementND linkedGeo;
@@ -33,11 +37,25 @@ class InputBoxRenderer {
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
 
+		if (isComplexNumber(linkedGeo)) {
+			linkedGeoText = linkedGeoText.replace(Unicode.IMAGINARY, 'i');
+		}
+
 		if (isTextUndefined(linkedGeoText)) {
 			return "";
 		}
 
 		return linkedGeoText;
+	}
+
+	/**
+	 *
+	 * @param geo to check
+	 * @return if geo is complex number or not.
+	 */
+	public static boolean isComplexNumber(GeoElementND geo) {
+		return geo instanceof VectorNDValue
+				&& ((VectorNDValue) geo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 
 	private boolean isTextUndefined(String text) {
