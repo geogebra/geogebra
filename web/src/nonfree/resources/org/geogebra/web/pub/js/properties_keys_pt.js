@@ -2888,7 +2888,7 @@ __GGB__keysVar["pt"].menu = {
     "SumsAndIntegrals": "Somas e Integrais",
     "Superscript": "Expoente",
     "Surface": "Superf\xedcie",
-    "SurfaceOfRevolution": "Surface of Revolution",
+    "SurfaceOfRevolution": "Superf\xedcie de Revolu\xe7\xe3o",
     "SurfaceOfRevolution.Help": "Arraste a curva em torno do eixo",
     "Sx": "Sx",
     "Sxx": "Sxx",
