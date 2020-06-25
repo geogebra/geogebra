@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoInlineTable;
 
 public class DrawInlineTable extends Drawable implements DrawInline {
 
+	private final GeoInlineTable table;
 	private InlineTableController tableController;
 
 	private final TransformableRectangle rectangle;
@@ -26,15 +27,19 @@ public class DrawInlineTable extends Drawable implements DrawInline {
 	 */
 	public DrawInlineTable(EuclidianView view, GeoInlineTable table) {
 		super(view, table);
-		tableController = view.getApplication().createTableController(view, table);
 		rectangle = new TransformableRectangle(view, table);
+		this.table = table;
 		update();
 	}
 
 	@Override
 	public void update() {
 		rectangle.updateSelfAndBoundingBox();
-
+		if (tableController == null && table.getContent() != null) {
+			// make sure we don't initialize the controller during paste XML parsing
+			// to avoid inconsistent state
+			tableController = view.getApplication().createTableController(view, table);
+		}
 		if (tableController != null) {
 			tableController.update();
 		}
