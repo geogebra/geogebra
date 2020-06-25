@@ -80,6 +80,10 @@ public class CarotaTable {
 
 	public native int getMinHeight();
 
+	public native void insert(String text);
+
+	public native CarotaRange selectedRange();
+
 	public native CarotaRange hyperlinkRange();
 
 	public native void insertHyperlink(String url, String text);
@@ -129,4 +133,5 @@ public class CarotaTable {
 	public final void removeColumn() {
 		removeColumn(selectionX());
 	}
+
 }

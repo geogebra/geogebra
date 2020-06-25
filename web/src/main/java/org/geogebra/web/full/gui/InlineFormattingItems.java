@@ -79,7 +79,7 @@ public class InlineFormattingItems {
 	 * Add all text items that's available for the geo including
 	 * its group if any.
 	 */
-	void addItems() {
+	void addFormatItems() {
 		if (inlines.isEmpty()) {
 			return;
 		}
@@ -88,8 +88,10 @@ public class InlineFormattingItems {
 		addFontSubmenu();
 		addHyperlinkItems();
 		menu.addSeparator();
+	}
 
-		if (editModeTable(inlines.get(0))) {
+	void addTableItemsIfNeeded() {
+		if (!inlines.isEmpty() && editModeTable(inlines.get(0))) {
 			addTableItems();
 		}
 	}

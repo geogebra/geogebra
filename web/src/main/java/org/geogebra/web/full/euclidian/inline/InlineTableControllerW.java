@@ -17,6 +17,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.FontLoader;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.richtext.impl.Carota;
 import org.geogebra.web.richtext.impl.CarotaTable;
 import org.geogebra.web.richtext.impl.CarotaUtil;
@@ -179,6 +180,17 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void switchListTo(String listType) {
 		tableImpl.switchListTo(listType);
+	}
+
+	@Override
+	public boolean copySelection() {
+		String text = tableImpl.selectedRange().plainText();
+		return CopyPasteW.writeToExternalClipboardIfNonempty(text);
+	}
+
+	@Override
+	public void setSelectionText(String text) {
+		tableImpl.insert(text);
 	}
 
 	@Override

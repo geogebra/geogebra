@@ -63,6 +63,16 @@ public class CarotaEditor implements Editor {
 	}
 
 	@Override
+	public String getSelectionRangeText() {
+		return editor.selectedRange().plainText();
+	}
+
+	@Override
+	public void setSelection(String text) {
+		editor.insert(text);
+	}
+
+	@Override
 	public String urlByCoordinate(int x, int y) {
 		return editor.urlByCoordinate(x, y);
 	}

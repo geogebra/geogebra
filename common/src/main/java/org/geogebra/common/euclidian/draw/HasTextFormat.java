@@ -50,4 +50,8 @@ public interface HasTextFormat {
 	 * @param listType - numbered or bullet list
 	 */
 	void switchListTo(String listType);
+
+	boolean copySelection();
+
+	void setSelectionText(String text);
 }
