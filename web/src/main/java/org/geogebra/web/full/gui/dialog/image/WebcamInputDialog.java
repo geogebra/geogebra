@@ -8,7 +8,6 @@ import org.geogebra.web.html5.webcam.WebcamDialogInterface;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -51,11 +50,6 @@ public class WebcamInputDialog extends ComponentDialog
 	}
 
 	@Override
-	public void onResize(ResizeEvent resizeEvent) {
-		super.onResize(resizeEvent);
-	}
-
-	@Override
 	public void hide() {
 		if (this.webcamInputPanel != null) {
 			this.webcamInputPanel.stopVideo();
@@ -71,11 +65,6 @@ public class WebcamInputDialog extends ComponentDialog
 		super.hide(autoClosed, setFocus);
 		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
 				ModeSetter.TOOLBAR);
-	}
-
-	@Override
-	public void center() {
-		super.center();
 	}
 
 	/**

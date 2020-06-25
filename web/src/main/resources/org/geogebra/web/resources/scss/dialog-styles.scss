@@ -9,12 +9,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 .GeoGebraFrame {
 
 	.MaterialDialogBox {
-		input[type="text"]:focus,
 		input[type="number"]:focus,
 		.GeoGebraFrame .gwt-TextBox:focus, .GeoGebraFrame select:focus,
 		textarea:focus, .GeoGebraFrame .gwt-TextArea:focus,
 		iframe.objectPropertiesTextEditor:focus,
-		input[type="text"]:focus:not([readonly]),
 		input[type="number"]:focus:not([readonly]),
 		.gwt-TextBox:focus:not([readonly]),
 		select:focus:not([readonly]),
@@ -362,6 +360,17 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 		.gwt-ListBox {
    			border-radius: 2px;
     		box-shadow: none;
+   		}
+
+   		input[type="text"] {
+   			border: none;
+   			box-shadow: none;
+   			margin-bottom: 0px;
+   			padding-left: 4px;
+
+   			&:focus {
+   				border:none;
+   			}
    		}
 
 		.gwt-Label {
