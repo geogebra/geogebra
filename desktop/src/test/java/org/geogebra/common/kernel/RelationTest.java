@@ -9,21 +9,41 @@ import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
+import org.junit.Before;
 import org.junit.Test;
 
 public class RelationTest extends BaseUnitTest {
 
-	@Test
-	public void moreButtonShouldShowNDGS() {
+	private GeoElement A;
+	private GeoElement B;
+	private GeoElement C;
+	private GeoElement f;
+
+	@Before
+	public void setupObjects() {
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		getApp().setCASFactory(new CASFactoryD());
-		GeoElement A = add("A=(0,0)");
-		GeoElement B = add("B=(0,1)");
-		add("f=Line(A,B)");
-		GeoElement C = add("C=Midpoint(A,B)");
+		A = add("A=(0,0)");
+		B = add("B=(0,1)");
+		f = add("f=Line(A,B)");
+		C = add("C=Midpoint(A,B)");
+	}
+
+	@Test
+	public void moreButtonShouldShowNDGS() {
 		Relation rel = new Relation(getApp(), A, B, C, null);
 		assertThat(rel.getRows()[0].getInfo(),
 				containsString("collinear"));
+		assertThat(rel.getExpandedRow(0).getInfo(),
+				allOf(containsString("under the condition"),
+						containsString("are not equal")));
+	}
+
+	@Test
+	public void moreButtonShouldShowNDGSPath() {
+		Relation rel = new Relation(getApp(), f, C, null,null);
+		assertThat(rel.getRows()[0].getInfo(),
+				containsString("lies on"));
 		assertThat(rel.getExpandedRow(0).getInfo(),
 				allOf(containsString("under the condition"),
 						containsString("are not equal")));
