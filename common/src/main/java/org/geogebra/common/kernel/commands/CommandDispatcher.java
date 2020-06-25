@@ -185,23 +185,13 @@ public abstract class CommandDispatcher {
 		CommandProcessor cmdProc = getProcessor(c);
 
 		if (cmdProc == null) {
-			if (isFreehandFunction(c) || isPenStroke(c)) {
+			if (c.getName()
+					.equals(app.getLocalization().getFunction("freehand"))) {
 				return null;
 			}
 			throw new CommandNotFoundError(app.getLocalization(), c);
 		}
 		return process(cmdProc, c, info);
-	}
-
-	private boolean isFreehandFunction(Command command) {
-		return command.getName().equals(app.getLocalization().getFunction("freehand"));
-	}
-
-	private boolean isPenStroke(Command command) {
-		String polyLineCommandKey = "PolyLine";
-		String commandName = command.getName();
-		return polyLineCommandKey.equals(commandName)
-				|| command.getName().equals(app.getLocalization().getCommand(polyLineCommandKey));
 	}
 
 	/**
