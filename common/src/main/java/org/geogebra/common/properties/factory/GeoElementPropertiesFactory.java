@@ -63,6 +63,22 @@ public class GeoElementPropertiesFactory {
 		return createPropertiesArray(localization, properties, elements);
 	}
 
+	public static PropertiesArray createPointStyleProperties(
+			Localization localization, List<GeoElement> elements) {
+		List<Property> properties = new ArrayList<>();
+		addPropertyIfNotNull(properties, createPointStyleProperty(localization, elements));
+		addPropertyIfNotNull(properties, createPointSizeProperty(localization, elements));
+		return createPropertiesArray(localization, properties, elements);
+	}
+
+	public static PropertiesArray createLineStyleProperties(
+			Localization localization, List<GeoElement> elements) {
+		List<Property> properties = new ArrayList<>();
+		addPropertyIfNotNull(properties, createLineStyleProperty(localization, elements));
+		addPropertyIfNotNull(properties, createThicknessProperty(localization, elements));
+		return createPropertiesArray(localization, properties, elements);
+	}
+
 	private static void addPropertyIfNotNull(List<Property> properties, Property property) {
 		if (property != null) {
 			properties.add(property);
