@@ -24,8 +24,10 @@ public class LineStyleProperty extends AbstractEnumerableProperty
 	};
 
 	private int[] lineTypes = new int[] { EuclidianStyleConstants.LINE_TYPE_FULL,
-			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED, EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
-			EuclidianStyleConstants.LINE_TYPE_DOTTED, EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT};
+			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
+			EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
+			EuclidianStyleConstants.LINE_TYPE_DOTTED,
+			EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT};
 
 	private final GeoElementDelegate delegate;
 
