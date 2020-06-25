@@ -28,7 +28,7 @@ public class StringPropertyCollection<T extends StringProperty>
 	@Override
 	public boolean isValid(String value) {
 		boolean isValid = true;
-		for (StringProperty property : properties) {
+		for (StringProperty property : getProperties()) {
 			isValid = isValid && property.isValid(value);
 		}
 		return isValid;
