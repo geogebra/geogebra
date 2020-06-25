@@ -23,7 +23,7 @@ public class LineStyleProperty extends AbstractEnumerableProperty
 			PropertyResource.ICON_LINE_TYPE_DASHED_SHORT
 	};
 
-	private int[] lineTypes = new int[] { EuclidianStyleConstants.LINE_TYPE_FULL,
+	private static final int[] lineTypes = new int[] { EuclidianStyleConstants.LINE_TYPE_FULL,
 			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
 			EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
 			EuclidianStyleConstants.LINE_TYPE_DOTTED,
