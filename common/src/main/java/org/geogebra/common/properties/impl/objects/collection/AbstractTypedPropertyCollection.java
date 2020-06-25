@@ -7,10 +7,10 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 	private final T[] properties;
 
 	AbstractTypedPropertyCollection(T[] properties) {
-		this.properties = properties;
 		if (properties.length == 0) {
 			throw new IllegalArgumentException("Properties must have at least a single property");
 		}
+		this.properties = properties;
 	}
 
 	abstract void setPropertyValue(T property, S value);
