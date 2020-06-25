@@ -22,7 +22,8 @@ public class GeoElementPropertiesFactoryTest extends BaseUnitTest {
 		points.add(zeroPoint);
 		points.add(onePoint);
 		PropertiesArray propertiesArray = GeoElementPropertiesFactory
-				.createGeoElementProperties(getApp().getLocalization(), points);
+				.createGeoElementProperties(getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(), points);
 		Property[] pointProperties = propertiesArray.getProperties();
 
 		assertThat(pointProperties[0].getName(), equalTo("Name"));
