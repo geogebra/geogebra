@@ -14,7 +14,7 @@ public class MinPropertyTest extends BaseUnitTest {
 		GeoNumeric slider = addAvInput("1");
 		slider.setEuclidianVisible(true);
 		try {
-			new MinProperty(getLocalization(), slider);
+			new MinProperty(getKernel().getAlgebraProcessor(), getLocalization(), slider);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
 		}

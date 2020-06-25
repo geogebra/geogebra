@@ -3,6 +3,7 @@ package org.geogebra.common.properties.factory;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
@@ -14,6 +15,7 @@ import org.geogebra.common.properties.impl.objects.FixObjectProperty;
 import org.geogebra.common.properties.impl.objects.LineStyleProperty;
 import org.geogebra.common.properties.impl.objects.MaxProperty;
 import org.geogebra.common.properties.impl.objects.MinProperty;
+import org.geogebra.common.properties.impl.objects.NameProperty;
 import org.geogebra.common.properties.impl.objects.OpacityProperty;
 import org.geogebra.common.properties.impl.objects.PointSizeProperty;
 import org.geogebra.common.properties.impl.objects.PointStyleProperty;
@@ -26,8 +28,8 @@ import org.geogebra.common.properties.impl.objects.collection.BooleanPropertyCol
 import org.geogebra.common.properties.impl.objects.collection.ColorPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.EnumerablePropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.IconsEnumerablePropertyCollection;
-import org.geogebra.common.properties.impl.objects.collection.NumericPropertyCollection;
 import org.geogebra.common.properties.impl.objects.collection.RangePropertyCollection;
+import org.geogebra.common.properties.impl.objects.collection.StringPropertyCollection;
 import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 
 /**
@@ -37,16 +39,18 @@ public class GeoElementPropertiesFactory {
 
 	/**
 	 * Creates properties for a list of GeoElements.
+	 * @param processor algebra processor
 	 * @param localization localization
 	 * @param elements input elements
 	 * @return the list of properties for the GeoElement(s)
 	 */
 	public static PropertiesArray createGeoElementProperties(
-			Localization localization, List<GeoElement> elements) {
+			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
 		List<Property> properties = new ArrayList<>();
-		addPropertyIfNotNull(properties, createMinProperty(localization, elements));
-		addPropertyIfNotNull(properties, createMaxProperty(localization, elements));
-		addPropertyIfNotNull(properties, createStepProperty(localization, elements));
+		addPropertyIfNotNull(properties, createNameProperty(localization, elements));
+		addPropertyIfNotNull(properties, createMinProperty(processor, localization, elements));
+		addPropertyIfNotNull(properties, createMaxProperty(processor, localization, elements));
+		addPropertyIfNotNull(properties, createStepProperty(processor, localization, elements));
 		addPropertyIfNotNull(properties, createShowObjectProperty(localization, elements));
 		addPropertyIfNotNull(properties, createColorProperty(localization, elements));
 		addPropertyIfNotNull(properties, createPointStyleProperty(localization, elements));
@@ -94,6 +98,19 @@ public class GeoElementPropertiesFactory {
 	private static void addPropertyIfNotNull(List<Property> properties, Property property) {
 		if (property != null) {
 			properties.add(property);
+		}
+	}
+
+	private static StringPropertyCollection<NameProperty> createNameProperty(
+			Localization localization, List<GeoElement> elements) {
+		try {
+			List<NameProperty> nameProperties = new ArrayList<>();
+			for (GeoElement element : elements) {
+				nameProperties.add(new NameProperty(localization, element));
+			}
+			return new StringPropertyCollection<>(nameProperties.toArray(new NameProperty[0]));
+		} catch (NotApplicablePropertyException ignored) {
+			return null;
 		}
 	}
 
@@ -159,42 +176,42 @@ public class GeoElementPropertiesFactory {
 		}
 	}
 
-	private static NumericPropertyCollection<MinProperty, Double> createMinProperty(
-			Localization localization, List<GeoElement> elements) {
+	private static StringPropertyCollection<MinProperty> createMinProperty(
+			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
 		try {
 			List<MinProperty> minProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
-				minProperties.add(new MinProperty(localization, element));
+				minProperties.add(new MinProperty(processor, localization, element));
 			}
-			return new NumericPropertyCollection<>(
+			return new StringPropertyCollection<>(
 					minProperties.toArray(new MinProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
 	}
 
-	private static NumericPropertyCollection<MaxProperty, Double> createMaxProperty(
-			Localization localization, List<GeoElement> elements) {
+	private static StringPropertyCollection<MaxProperty> createMaxProperty(
+			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
 		try {
 			List<MaxProperty> maxProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
-				maxProperties.add(new MaxProperty(localization, element));
+				maxProperties.add(new MaxProperty(processor, localization, element));
 			}
-			return new NumericPropertyCollection<>(
+			return new StringPropertyCollection<>(
 					maxProperties.toArray(new MaxProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
 		}
 	}
 
-	private static NumericPropertyCollection<AnimationStepProperty, Double> createStepProperty(
-			Localization localization, List<GeoElement> elements) {
+	private static StringPropertyCollection<AnimationStepProperty> createStepProperty(
+			AlgebraProcessor processor, Localization localization, List<GeoElement> elements) {
 		try {
 			List<AnimationStepProperty> stepProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
-				stepProperties.add(new AnimationStepProperty(localization, element));
+				stepProperties.add(new AnimationStepProperty(processor, localization, element));
 			}
-			return new NumericPropertyCollection<>(
+			return new StringPropertyCollection<>(
 					stepProperties.toArray(new AnimationStepProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;
@@ -257,14 +274,14 @@ public class GeoElementPropertiesFactory {
 		}
 	}
 
-	private static NumericPropertyCollection<SlopeSizeProperty, Integer> createSlopeSizeProperty(
+	private static RangePropertyCollection<SlopeSizeProperty, Integer> createSlopeSizeProperty(
 			Localization localization, List<GeoElement> elements) {
 		try {
 			List<SlopeSizeProperty> slopeSizeProperties = new ArrayList<>();
 			for (GeoElement element : elements) {
 				slopeSizeProperties.add(new SlopeSizeProperty(localization, element));
 			}
-			return new NumericPropertyCollection<>(
+			return new RangePropertyCollection<>(
 					slopeSizeProperties.toArray(new SlopeSizeProperty[0]));
 		} catch (NotApplicablePropertyException ignored) {
 			return null;

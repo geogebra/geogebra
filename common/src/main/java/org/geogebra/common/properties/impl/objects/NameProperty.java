@@ -21,7 +21,7 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 	/***/
 	public NameProperty(Localization localization, GeoElement element)
 			throws NotApplicablePropertyException {
-		super(localization, element.getTypeString());
+		super(localization, "Name");
 		delegate = new NamePropertyDelegate(element);
 	}
 
@@ -48,10 +48,5 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 	public boolean isValid(String value) {
 		GeoElement element = delegate.getElement();
 		return !value.isEmpty() && LabelManager.isValidLabel(value, element.getKernel(), element);
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return delegate.isEnabled();
 	}
 }

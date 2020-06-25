@@ -22,16 +22,18 @@ public class GeoElementPropertiesFactoryTest extends BaseUnitTest {
 		points.add(zeroPoint);
 		points.add(onePoint);
 		PropertiesArray propertiesArray = GeoElementPropertiesFactory
-				.createGeoElementProperties(getApp().getLocalization(), points);
+				.createGeoElementProperties(getKernel().getAlgebraProcessor(),
+						getApp().getLocalization(), points);
 		Property[] pointProperties = propertiesArray.getProperties();
 
-		assertThat(pointProperties[0].getName(), equalTo("Show"));
-		assertThat(pointProperties[1].getName(), equalTo("Set color"));
-		assertThat(pointProperties[2].getName(), equalTo("Style"));
-		assertThat(pointProperties[3].getName(), equalTo("Size"));
-		assertThat(pointProperties[4].getName(), equalTo("Set caption style"));
-		assertThat(pointProperties[5].getName(), equalTo("Show trace"));
-		assertThat(pointProperties[6].getName(), equalTo("Fixed"));
-		assertThat(pointProperties[7].getName(), equalTo("Show in Algebra View"));
+		assertThat(pointProperties[0].getName(), equalTo("Name"));
+		assertThat(pointProperties[1].getName(), equalTo("Show"));
+		assertThat(pointProperties[2].getName(), equalTo("Set color"));
+		assertThat(pointProperties[3].getName(), equalTo("Style"));
+		assertThat(pointProperties[4].getName(), equalTo("Size"));
+		assertThat(pointProperties[5].getName(), equalTo("Set caption style"));
+		assertThat(pointProperties[6].getName(), equalTo("Show trace"));
+		assertThat(pointProperties[7].getName(), equalTo("Fixed"));
+		assertThat(pointProperties[8].getName(), equalTo("Show in Algebra View"));
 	}
 }

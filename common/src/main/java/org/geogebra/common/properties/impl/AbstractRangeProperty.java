@@ -10,13 +10,12 @@ import org.geogebra.common.properties.RangeProperty;
 public abstract class AbstractRangeProperty<T extends Number & Comparable<T>>
 		extends AbstractProperty implements RangeProperty<T> {
 
-	private T min;
-	private T max;
-	private T step;
+	private final T min;
+	private final T max;
+	private final T step;
 
 	/**
-	 * Create a new AbstractNumericProperty.
-	 *
+	 * Create a new AbstractRangeProperty.
 	 * @param localization localization
 	 * @param name name of property
 	 * @param min min value
@@ -57,7 +56,6 @@ public abstract class AbstractRangeProperty<T extends Number & Comparable<T>>
 
 	/**
 	 * Sets the value safely.
-	 *
 	 * @param value safe value
 	 */
 	protected abstract void setValueSafe(T value);

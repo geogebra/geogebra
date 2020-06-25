@@ -22,7 +22,8 @@ public class ShowObjectPropertyTest extends BaseUnitTest {
 		ElementColorProperty elementColorProperty = null;
 		try {
 			showObjectProperty = new ShowObjectProperty(getLocalization(), slider);
-			minProperty = new MinProperty(getLocalization(), slider);
+			minProperty =
+					new MinProperty(getKernel().getAlgebraProcessor(), getLocalization(), slider);
 			elementColorProperty = new ElementColorProperty(getLocalization(), slider);
 		} catch (NotApplicablePropertyException e) {
 			fail(e.getMessage());
