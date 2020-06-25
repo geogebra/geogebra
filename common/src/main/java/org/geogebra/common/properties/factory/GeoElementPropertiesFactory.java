@@ -6,6 +6,8 @@ import java.util.List;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.ColorProperty;
 import org.geogebra.common.properties.Property;
 import org.geogebra.common.properties.impl.objects.AnimationStepProperty;
 import org.geogebra.common.properties.impl.objects.CaptionStyleProperty;
@@ -95,6 +97,42 @@ public class GeoElementPropertiesFactory {
 		return createPropertiesArray(localization, properties, elements);
 	}
 
+	/**
+	 * Creates a color property for the elements
+	 * @param localization localization
+	 * @param elements elements
+	 * @return color property
+	 */
+	public static ColorProperty createColorProperty(Localization localization,
+			List<GeoElement> elements) {
+		List<ElementColorProperty> colorProperties = new ArrayList<>();
+		for (GeoElement element : elements) {
+			colorProperties.add(new ElementColorProperty(localization, element));
+		}
+		return new ColorPropertyCollection<>(
+				colorProperties.toArray(new ElementColorProperty[0]));
+	}
+
+	/**
+	 * Returns with a Boolean property that fixes the object, or null if not applicable
+	 * @param localization localization
+	 * @param elements elements
+	 * @return property or null
+	 */
+	public static BooleanProperty createFixObjectProperty(Localization localization,
+			List<GeoElement> elements) {
+		try {
+			List<FixObjectProperty> fixObjectProperties = new ArrayList<>();
+			for (GeoElement element : elements) {
+				fixObjectProperties.add(new FixObjectProperty(localization, element));
+			}
+			return new BooleanPropertyCollection<>(
+					fixObjectProperties.toArray(new FixObjectProperty[0]));
+		} catch (NotApplicablePropertyException ignored) {
+			return null;
+		}
+	}
+
 	private static void addPropertyIfNotNull(List<Property> properties, Property property) {
 		if (property != null) {
 			properties.add(property);
@@ -122,30 +160,6 @@ public class GeoElementPropertiesFactory {
 		}
 		return new BooleanPropertyCollection<>(
 				showObjectProperties.toArray(new ShowObjectProperty[0]));
-	}
-
-	private static ColorPropertyCollection<ElementColorProperty> createColorProperty(
-			Localization localization, List<GeoElement> elements) {
-		List<ElementColorProperty> colorProperties = new ArrayList<>();
-		for (GeoElement element : elements) {
-			colorProperties.add(new ElementColorProperty(localization, element));
-		}
-		return new ColorPropertyCollection<>(
-				colorProperties.toArray(new ElementColorProperty[0]));
-	}
-
-	private static BooleanPropertyCollection<FixObjectProperty> createFixObjectProperty(
-			Localization localization, List<GeoElement> elements) {
-		try {
-			List<FixObjectProperty> fixObjectProperties = new ArrayList<>();
-			for (GeoElement element : elements) {
-				fixObjectProperties.add(new FixObjectProperty(localization, element));
-			}
-			return new BooleanPropertyCollection<>(
-					fixObjectProperties.toArray(new FixObjectProperty[0]));
-		} catch (NotApplicablePropertyException ignored) {
-			return null;
-		}
 	}
 
 	private static EnumerablePropertyCollection<CaptionStyleProperty> createCaptionStyleProperty(
