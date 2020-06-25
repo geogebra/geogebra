@@ -190,7 +190,6 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		FunctionVariable x = new FunctionVariable(kernel);
 		ExpressionNode inv = AlgoFunctionInvert.invert(fun.getExpression(),
 				fun.getFunctionVariable(), x, kernel);
-		Log.debug(inv);
 		x.set(0);
 		if (inv != null) {
 			root = inv.evaluateDouble();
