@@ -52,31 +52,7 @@ public class WebcamInputDialog extends ComponentDialog
 
 	@Override
 	public void onResize(ResizeEvent resizeEvent) {
-		resize();
-	}
-
-	@Override
-	public void resize() {
-		if (!isShowing()) {
-			return;
-		}
-		double width = webcamInputPanel.getVideoWidth();
-		double height = webcamInputPanel.getVideoHeight();
-		double ratio = height / width;
-		if (app.getHeight() < app.getWidth()) {
-			height = app.getHeight() / 2.5;
-			width = height / ratio;
-			if (width < 250) {
-				width = 250;
-				height = width * ratio;
-			}
-		} else {
-			width = Math.max(250, app.getWidth() / 2.5);
-			height = width * ratio;
-		}
-		webcamInputPanel.getParent().setHeight(height + "px");
-		webcamInputPanel.getParent().setWidth(width + "px");
-		center();
+		super.onResize(resizeEvent);
 	}
 
 	@Override
@@ -118,11 +94,15 @@ public class WebcamInputDialog extends ComponentDialog
 	public void onCameraError() {
 		// not used
 	}
-	
+
+	@Override
+	public void resize() {
+		// nothing to do here
+	}
+
 	@Override
 	public void showAndResize() {
 		show();
-		resize();
 		center();
 	}
 }

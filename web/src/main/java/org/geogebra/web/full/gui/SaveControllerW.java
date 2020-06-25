@@ -129,7 +129,7 @@ public class SaveControllerW implements SaveController {
 				}
 				runnable.callback(saved);
 			});
-			((DialogManagerW) app.getDialogManager()).getSaveDialog().showAndPosition(anchor);
+			((DialogManagerW) app.getDialogManager()).getSaveDialog().show();
 		} else {
 			setRunAfterSave(null);
 			runnable.callback(true);
