@@ -71,7 +71,6 @@ public abstract class AbstractNumericProperty extends AbstractProperty
 		return Math.abs(d1 - d2) < EPS;
 	}
 
-
 	protected abstract void setNumberValue(GeoNumberValue value);
 
 	protected abstract NumberValue getNumberValue();
