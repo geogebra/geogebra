@@ -63,6 +63,12 @@ public class GeoElementPropertiesFactory {
 		return createPropertiesArray(localization, properties, elements);
 	}
 
+	/**
+	 * Creates Point style properties for a list of GeoElements.
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
+	 */
 	public static PropertiesArray createPointStyleProperties(
 			Localization localization, List<GeoElement> elements) {
 		List<Property> properties = new ArrayList<>();
@@ -71,6 +77,12 @@ public class GeoElementPropertiesFactory {
 		return createPropertiesArray(localization, properties, elements);
 	}
 
+	/**
+	 * Creates Lines style properties for a list of GeoElements.
+	 * @param localization localization
+	 * @param elements input elements
+	 * @return the list of properties for the GeoElement(s)
+	 */
 	public static PropertiesArray createLineStyleProperties(
 			Localization localization, List<GeoElement> elements) {
 		List<Property> properties = new ArrayList<>();
