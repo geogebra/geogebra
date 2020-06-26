@@ -4,9 +4,12 @@ import org.geogebra.common.properties.Property;
 
 abstract class AbstractTypedPropertyCollection<T extends Property, S> implements Property {
 
-	T[] properties;
+	private final T[] properties;
 
 	AbstractTypedPropertyCollection(T[] properties) {
+		if (properties.length == 0) {
+			throw new IllegalArgumentException("Properties must have at least a single property");
+		}
 		this.properties = properties;
 	}
 
@@ -17,8 +20,12 @@ abstract class AbstractTypedPropertyCollection<T extends Property, S> implements
 		return getFirstProperty().getName();
 	}
 
-	T getFirstProperty() {
+	protected T getFirstProperty() {
 		return properties[0];
+	}
+
+	protected T[] getProperties() {
+		return properties;
 	}
 
 	@Override
