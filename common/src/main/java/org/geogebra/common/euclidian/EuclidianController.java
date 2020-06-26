@@ -11886,7 +11886,12 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			GeoFunction function = getSelectedFunctions()[0];
 			// not for rootfinding: x*sqrt(1-x^2) does not have polynomial
 			// derivative
-			if (function.isPolynomialFunction(false)) {
+			PolyFunction poly = function.getFunction()
+					.expandToPolyFunction(
+							function.getFunctionExpression(), false,
+							true);
+			if (function.isPolynomialFunction(false)
+					|| (poly != null && poly.getDegree() > 25)) {
 				// calculates all extremum points (e.g. x^2)
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons,
 						null, function, true);
