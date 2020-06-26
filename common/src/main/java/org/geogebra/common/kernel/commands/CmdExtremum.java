@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.algos.AlgoExtremumPolynomialInterval;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -88,10 +87,8 @@ public class CmdExtremum extends CommandProcessor {
 		// if (!kernelA.getConstruction().isFileLoading() && f.isDefined()
 		// && !f.isPolynomialFunction(true))
 		// return null;
-		PolyFunction poly = f.expandToPolyFunction(
-						f.getFunctionExpression(), false,
-						true);
-		if (!gf.isPolynomialFunction(true) || (poly != null && poly.getDegree() > 25)) {
+
+		if (!gf.isPolynomialFunction(true)) {
 			EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 					.getActiveEuclidianView();
 			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, c.getLabels(),
