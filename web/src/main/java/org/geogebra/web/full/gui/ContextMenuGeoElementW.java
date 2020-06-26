@@ -500,7 +500,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 						@Override
 						public void execute() {
-							fixObjectCmd();
+							fixObjectCmd(!getGeo().isLocked());
 						}
 					}, true, app);
 
@@ -617,29 +617,49 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addFixForUnbundledOrNotes() {
+		ArrayList<GeoElement> selection = app.getSelectionManager().getSelectedGeos();
+		if (selection.size() > 1) {
+			addFixForSelection(selection);
+		} else {
+			addFixObjectForOneGeo();
+		}
+	}
+
+	private void addFixObjectForOneGeo() {
 		final GeoElement geo = getGeo();
 		// change back to old name-> Fix instead of Lock
 		if (geo.isFixable() && (!app.getConfig().isObjectDraggingRestricted()
-				|| !geo.isFunctionOrEquationFromUser())
-				&& app.getSelectionManager().getSelectedGeos().size() <= 1) {
-
-			String img = MaterialDesignResources.INSTANCE.lock_black().getSafeUri()
-					.asString();
-			final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
-					MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("FixObject")),
-					MaterialDesignResources.INSTANCE.check_black(),
-					geo.isLocked());
-			Command cmdLock = new Command() {
-
-				@Override
-				public void execute() {
-					fixObjectCmd();
-					cmItem.setChecked(geo.isLocked());
-				}
-			};
-			cmItem.setCommand(cmdLock);
-			wrappedPopup.addItem(cmItem);
+				|| !geo.isFunctionOrEquationFromUser())) {
+			addFixObjectMenuItem(geo.isLocked(), () -> fixObjectCmd(!geo.isLocked()));
 		}
+	}
+
+	private void addFixObjectMenuItem(boolean locked, Runnable command) {
+		String img = MaterialDesignResources.INSTANCE.lock_black().getSafeUri()
+				.asString();
+		final GCheckmarkMenuItem cmItem = factory.newCheckmarkMenuItem(
+				MainMenu.getMenuBarHtmlClassic(img, loc.getMenu("FixObject")),
+				MaterialDesignResources.INSTANCE.check_black(),
+				locked);
+		cmItem.setCommand(command::run);
+		cmItem.setChecked(locked);
+		wrappedPopup.addItem(cmItem);
+	}
+
+	private void addFixForSelection(ArrayList<GeoElement> selectedGeos) {
+		boolean fixable = true;
+		boolean locked = !app.getConfig().isObjectDraggingRestricted();
+		for (GeoElement geo: selectedGeos) {
+			fixable = fixable && geo.isFixable();
+			locked = locked && geo.isLocked();
+		}
+
+		if (!fixable) {
+			return;
+		}
+
+		final boolean fix = !locked;
+		addFixObjectMenuItem(locked, () -> fixObjectCmd(fix));
 	}
 
 	private void addCutCopyPaste() {
@@ -1171,8 +1191,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		AriaMenuBar mnu = new AriaMenuBar();
-		// mnu.addStyleName("gwt-PopupPanel");
-		// mnu.addStyleName("contextMenuSubmenu");
 		GeoElement[] geos = { getGeo() };
 		final ReflexAngleModel model = new ReflexAngleModel(app, false);
 		model.setGeos(geos);

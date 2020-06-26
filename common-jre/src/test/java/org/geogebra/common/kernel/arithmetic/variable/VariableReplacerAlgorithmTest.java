@@ -22,26 +22,34 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testPower() {
+		// transformation to x^2 y^3 done on higher level, see ParserTest
 		shouldReplaceAs("pixxyyy",
-				Unicode.PI_STRING + " * x^(2) * y^(3)");
+				Unicode.PI_STRING + " * x * x * y * y * y");
 	}
 
 	@Test
 	public void testDecimal() {
-		// opposite ordering would be better, part of WLY-98
 		shouldReplaceAs("pi8.1",
-				  "8.1 * " + Unicode.PI_STRING);
+				Unicode.PI_STRING + " * 8.1");
 	}
 
 	@Test
 	public void testIndexProduct() {
-		allowTokenizer();
+		allowMultipleUnassigned();
 		add("a_{1} = 4");
 		add("b = 2");
 		add("b_{1} = 4");
 		shouldReplaceAs("a_{1}b", "a_{1} * b");
 		shouldReplaceAs("ba_{1}", "b * a_{1}");
 		shouldReplaceAs("a_{1}b_{1}", "a_{1} * b_{1}");
+		shouldReplaceAs("c_{1}'a''", "c_{1}' * a''");
+	}
+
+	@Test
+	public void testIndexProductGreek() {
+		allowMultipleUnassigned();
+		shouldReplaceAs("E_{m}" + Unicode.omega + "C",
+				"E_{m} * " + Unicode.omega + " * C");
 	}
 
 	@Ignore
@@ -52,33 +60,32 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testFunctionProductsMul() {
-		allowTokenizer();
-		shouldReplaceAs("xlnx", "x * log(x)");
-		shouldReplaceAs("xln2x", "x * log(2 * x)");
+		allowMultipleUnassigned();
+		shouldReplaceAs("xlnx", "x * ln(x)");
+		shouldReplaceAs("xln2x", "x * ln(2 * x)");
 		shouldReplaceAs("xsinx", "x * sin(x)");
 	}
 
-	static void allowTokenizer() {
-		variableReplacerAlgorithm.setTokenizerAllowed(true);
+	static void allowMultipleUnassigned() {
+		variableReplacerAlgorithm.setMultipleUnassignedAllowed(true);
 	}
 
 	@Test
 	public void testConstantMultiplier() {
-	allowTokenizer();
 		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING
 			+ " * sqrt(5)");
 	}
 
 	@Test
 	public void testEmbeddedTrigs() {
-		allowTokenizer();
+		allowMultipleUnassigned();
 		shouldReplaceAs("4coscoscosx", "4 * cos(cos(cos(x)))");
 	}
 
 	@Test
 	public void testTrig() {
 		shouldReplaceAs("sinx", "sin(x)");
-		shouldReplaceAs("sinxx", "sin(x^(2))");
+		shouldReplaceAs("sinxx", "sin(x * x)");
 		shouldReplaceAs("sin2", "sin(2)");
 		shouldReplaceAs("cos3x", "cos(3 * x)");
 		shouldReplaceAs("asinsinpix",
@@ -87,14 +94,14 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testImaginary() {
-		allowTokenizer();
+		allowMultipleUnassigned();
 		shouldReplaceAs("isqrt3", String.valueOf(Unicode.IMAGINARY) + " * sqrt(3)");
 	}
 
 	@Test
 	public void testLog() {
-		shouldReplaceAs("lnpi", "log(" + Unicode.PI_STRING + ")");
-		shouldReplaceAs("ln" + Unicode.PI_STRING, "log(" + Unicode.PI_STRING + ")");
+		shouldReplaceAs("lnpi", "ln(" + Unicode.PI_STRING + ")");
+		shouldReplaceAs("ln" + Unicode.PI_STRING, "ln(" + Unicode.PI_STRING + ")");
 		shouldReplaceAs("log_{2}2", "log(2, 2)");
 		shouldReplaceAs("log_22", "log(2, 2)");
 		shouldReplaceAs("log_{2}xx", "log(2, x^(2))");
@@ -110,8 +117,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 	public void testReuseInstance() {
 		String expression = "x";
 		variableReplacerAlgorithm.replace(expression);
-		variableReplacerAlgorithm.replace(expression);
-		int powerOfX = variableReplacerAlgorithm.getExponents().get("x");
-		Assert.assertEquals(1, powerOfX);
+		ExpressionValue secondRun = variableReplacerAlgorithm.replace(expression);
+		Assert.assertEquals("x", secondRun.toString(StringTemplate.defaultTemplate));
 	}
 }

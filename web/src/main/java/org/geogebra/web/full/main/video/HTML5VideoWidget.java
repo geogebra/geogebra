@@ -55,9 +55,7 @@ public class HTML5VideoWidget extends Widget {
 	private native void addHandlers(JavaScriptObject video) /*-{
 		var that = this;
 		video.oncanplaythrough = function() {
-			that
-					.@org.geogebra.web.full.main.video.HTML5VideoWidget::listenerOnLoad(
-							II)(video.videoWidth, video.videoHeight);
+			that.@org.geogebra.web.full.main.video.HTML5VideoWidget::listenerOnLoad(II)(video.videoWidth, video.videoHeight);
 		}
 
 		video.onerror = function() {

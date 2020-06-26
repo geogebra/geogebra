@@ -309,24 +309,9 @@ public class Browser {
 
 		Style style = parent.getStyle();
 		if (style != null) {
-			setTransform(style, transform);
-			style.setProperty("msTransformOrigin", pos);
-			style.setProperty("mozTransformOrigin", pos);
-			style.setProperty("webkitTransformOrigin", pos);
+			style.setProperty("transform", transform);
 			style.setProperty("transformOrigin", pos);
 		}
-	}
-
-	/**
-	 * Sets css transform property to every browser.
-	 * @param style to set the property to.
-	 * @param transform css transform to set.
-	 */
-	public static void setTransform(Style style, String transform) {
-		style.setProperty("webkitTransform", transform);
-		style.setProperty("mozTransform", transform);
-		style.setProperty("msTransform", transform);
-		style.setProperty("transform", transform);
 	}
 
 	private static void zoom(Element parent, double externalScale) {
@@ -334,7 +319,7 @@ public class Browser {
 		if (style == null) {
 			return;
 		}
-		setTransform(style, "none");
+		style.setProperty("transform", "none");
 		int zoomPercent = (int) Math.round(externalScale * 100);
 		style.setProperty("zoom", zoomPercent + "%");
 	}

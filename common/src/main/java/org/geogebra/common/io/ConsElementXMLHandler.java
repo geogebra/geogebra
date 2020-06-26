@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.geos.HasAlignment;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
@@ -236,18 +237,21 @@ public class ConsElementXMLHandler {
 			if (geo.isGeoButton()) {
 				GeoButton button = (GeoButton) geo;
 				if (widthD > 10 && heightD > 10) {
-					button.setWidth((int) widthD);
-					button.setHeight((int) heightD);
+					button.setWidth(widthD);
+					button.setHeight(heightD);
 				}
 				button.setFixedSize(true);
 				return true;
-			} else if (geo instanceof GeoEmbed) {
-				((GeoEmbed) geo).setContentWidth(widthD);
-				((GeoEmbed) geo).setContentHeight(heightD);
-			} else if (geo instanceof GeoInline) {
-				((GeoInline) geo).setWidth(widthD);
-				((GeoInline) geo).setHeight(heightD);
-				((GeoInline) geo).setAngle(angleD);
+			} else if (geo instanceof RectangleTransformable) {
+				if (angle == null) {
+					// we have an old GeoEmbed
+					((GeoEmbed) geo).setContentWidth(widthD);
+					((GeoEmbed) geo).setContentHeight(heightD);
+				} else {
+					((RectangleTransformable) geo).setWidth(widthD);
+					((RectangleTransformable) geo).setHeight(heightD);
+					((RectangleTransformable) geo).setAngle(angleD);
+				}
 			}
 
 			return true;
@@ -1085,7 +1089,7 @@ public class ConsElementXMLHandler {
 	 * @see #processStartPointList()
 	 */
 	private void handleStartPoint(LinkedHashMap<String, String> attrs) {
-		if (geo instanceof GeoInline) {
+		if (geo instanceof RectangleTransformable) {
 			double x = 0;
 			double y = 0;
 
@@ -1093,12 +1097,28 @@ public class ConsElementXMLHandler {
 				x = Double.parseDouble(attrs.get("x"));
 				y = Double.parseDouble(attrs.get("y"));
 			} catch (NumberFormatException e) {
-				Log.error("Incorrect start point for GeoInlineText");
+				Log.error("Incorrect start point for RectangleTransformable");
+			}
+
+			// old GeoEmbeds are represented by three rw points
+			String number = attrs.get("number");
+			if (geo instanceof GeoEmbed && number != null) {
+				GeoEmbed embed = (GeoEmbed) geo;
+
+				if ("0".equals(number)) {
+					embed.setHeight(y);
+					return;
+				} else if ("1".equals(number)) {
+					embed.setWidth(x);
+					return;
+				} else if ("2".equals(number)) {
+					embed.setRealWidth(embed.getWidth() - x);
+					embed.setRealHeight(y - embed.getHeight());
+				}
 			}
 
 			GPoint2D startPoint = new GPoint2D(x, y);
-
-			((GeoInline) geo).setLocation(startPoint);
+			((RectangleTransformable) geo).setLocation(startPoint);
 			return;
 		}
 
@@ -2018,6 +2038,9 @@ public class ConsElementXMLHandler {
 			case "condition":
 				handleCondition(attrs);
 				break;
+			case "contentSize":
+				handleContentSize(attrs);
+				break;
 			case "checkbox":
 				handleCheckbox(attrs);
 				break;
@@ -2218,6 +2241,25 @@ public class ConsElementXMLHandler {
 			}
 		}
 
+	}
+
+	private void handleContentSize(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoEmbed)) {
+			Log.error("wrong element type for <contentSize>: " + geo.getClass());
+			return;
+		}
+
+		GeoEmbed geoEmbed = (GeoEmbed) geo;
+
+		try {
+			double width = Double.parseDouble(attrs.get("width"));
+			double height = Double.parseDouble(attrs.get("height"));
+
+			geoEmbed.setContentWidth(width);
+			geoEmbed.setContentHeight(height);
+		} catch (NumberFormatException e) {
+			Log.error("malformed <contentSize>");
+		}
 	}
 
 	private void handleParentLabel(LinkedHashMap<String, String> attrs) {

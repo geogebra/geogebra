@@ -696,7 +696,7 @@ public class GeoNumeric extends GeoElement
 		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced,
 				setAuxiliaryProperty);
 
-		if (geo.isGeoNumeric()) {
+		if (geo.isGeoNumeric() && !geo.isGeoAngle()) {
 			isDrawable = ((GeoNumeric) geo).isDrawable;
 		}
 	}

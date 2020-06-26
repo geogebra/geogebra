@@ -12,8 +12,12 @@ public class TestStringUtil {
 		return ascii.replace("^2", Unicode.SUPERSCRIPT_2 + "")
 				.replace("^3", Unicode.SUPERSCRIPT_3 + "")
 				.replace("^4", Unicode.SUPERSCRIPT_4 + "")
+				.replace("^5", Unicode.SUPERSCRIPT_5 + "")
+				.replace("^6", Unicode.SUPERSCRIPT_6 + "")
 				.replace("^-1",
 						Unicode.SUPERSCRIPT_MINUS + "" + Unicode.SUPERSCRIPT_1)
-				.replace("deg", Unicode.DEGREE_STRING);
+				.replace("deg", Unicode.DEGREE_STRING)
+				.replace("@pi", Unicode.PI_STRING)
+				.replace("@theta", Unicode.theta_STRING);
 	}
 }

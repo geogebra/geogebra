@@ -1,11 +1,14 @@
 package org.geogebra.common.main;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.geogebra.common.euclidian.EuclidianController;
@@ -54,14 +57,14 @@ public class GgbApiTest {
 		api.evalMathML(
 				"<mrow><mi> x</mi><mo> +</mo><mrow><mi> 1</mi><mo>/</mo><mi> 2</mi></mrow></mrow>");
 		assertEquals(api.getLaTeXString("f"), "x + \\frac{1}{2}");
-		assertEquals(api.getValueString("f"), "f(x) = x + 1 / 2");
+		assertEquals(api.getValueString("f", true), "f(x) = x + 1 / 2");
 	}
 
 	@Test
 	public void testEvalLaTeX() {
 		api.evalLaTeX("latex(x)=\\sqrt{x}", 0);
 		assertEquals(api.getLaTeXString("latex"), "\\sqrt{x}");
-		assertEquals(api.getValueString("latex"), "latex(x) = sqrt(x)");
+		assertEquals(api.getValueString("latex", true), "latex(x) = sqrt(x)");
 	}
 
 	@Test
@@ -247,6 +250,14 @@ public class GgbApiTest {
 		}
 
 		assertEquals(1, dragEndEvents);
+	}
+
+	@Test
+	public void testGetValueString() {
+		app.getLocalization().currentLocale = Locale.FRANCE;
+		api.evalCommand("f(x) = If(x > 3, x, 3)");
+		assertThat(api.getValueString("f", true), is("f(x) = Si(x > 3, x, 3)"));
+		assertThat(api.getValueString("f", false), is("f(x) = If[x > 3, x, 3]"));
 	}
 
 	private class MockScriptManager extends ScriptManagerJre {

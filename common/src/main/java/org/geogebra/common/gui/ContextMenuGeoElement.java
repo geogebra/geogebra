@@ -377,26 +377,25 @@ public abstract class ContextMenuGeoElement {
 	/**
 	 * Lock / unlock object
 	 */
-	public void fixObjectCmd() {
+	public void fixObjectCmd(boolean fixed) {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
-
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1.isGeoNumeric()) {
-				((GeoNumeric) geo1)
-						.setSliderFixed(!((GeoNumeric) geo1).isSliderFixed());
-				geo1.updateRepaint();
-			} else {
-				if (geo1.isFixable()) {
-					geo1.setFixed(!geo1.isLocked());
-					geo1.updateRepaint();
-				}
-			}
-
+			fixGeo(geo1, fixed);
+			geo1.updateRepaint();
 		}
+
 		getGeo().updateVisualStyle(GProperty.COMBINED);
 		app.getKernel().notifyRepaint();
 		app.storeUndoInfo();
+	}
+
+	private void fixGeo(GeoElement geo, boolean fixed) {
+		if (geo.isFixable()) {
+			geo.setFixed(fixed);
+		} else if (geo.isGeoNumeric()) {
+			((GeoNumeric) geo).setSliderFixed(fixed);
+		}
 	}
 
 	/**

@@ -4100,30 +4100,37 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	public String getAlgebraDescriptionDefault() {
 		if (strAlgebraDescriptionNeedsUpdate) {
-			updateAlgebraDescription();
+			strAlgebraDescription = getAlgebraDescriptionPublic(StringTemplate.algebraTemplate);
 			strAlgebraDescriptionNeedsUpdate = false;
 		}
 		return strAlgebraDescription;
 	}
 
-	private void updateAlgebraDescription() {
+	/**
+	 * Returns algebraic representation (e.g. coordinates, equation) of this
+	 * construction element. Caching is not employed.
+	 *
+	 * @param tpl String template, localization also depends on it
+	 * @return  algebraic representation (e.g. coordinates, equation)
+	 */
+	public String getAlgebraDescriptionPublic(StringTemplate tpl) {
 		if (isDefined()) {
-			setAlgebraDescriptionForDefined();
+			return getAlgebraDescriptionForDefined(tpl);
 		} else {
-			setAlgebraDescriptionForUndefined();
+			return getAlgebraDescriptionForUndefined(tpl);
 		}
 	}
 
-	private void setAlgebraDescriptionForDefined() {
+	private String getAlgebraDescriptionForDefined(StringTemplate tpl) {
 		if (!LabelManager.isShowableLabel(label)) {
-			strAlgebraDescription = toValueString(StringTemplate.algebraTemplate);
+			return toValueString(tpl);
 		} else {
-			strAlgebraDescription = toString(StringTemplate.algebraTemplate);
+			return toString(tpl);
 		}
 	}
 
-	private void setAlgebraDescriptionForUndefined() {
-		strAlgebraDescription = label + ' ' + getLoc().getMenu("Undefined");
+	private String getAlgebraDescriptionForUndefined(StringTemplate tpl) {
+		return label + ' ' + tpl.getUndefined(getLoc());
 	}
 
 	/**

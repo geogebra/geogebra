@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -126,7 +127,7 @@ public class FunctionParser {
 		}
 
 		if (forceCommand || (geo == null && cell == null)) {
-			Operation op = app.getParserFunctions().get(funcName, myList.size());
+			Operation op = getOperation(funcName, myList.size());
 			if (op != null) {
 				return buildOpNode(op, myList);
 			}
@@ -218,6 +219,15 @@ public class FunctionParser {
 		// e.g. a(1+x) = a*(1+x) when a is a number
 
 		return multiplication(geoExp, undecided, myList, funcName);
+	}
+
+	private Operation getOperation(String funcName, int size) {
+		// Compatibility mode for file opening, see https://jira.geogebra.org/browse/WLY-13
+		// Files saved after that ticket was implemented contain ln and lg explicitly.
+		if (size == 1 && "log".equals(funcName) && kernel.getLoadingMode()) {
+			return Operation.LOG;
+		}
+		return app.getParserFunctions().get(funcName, size);
 	}
 
 	private static boolean hasDerivative(GeoElement geo) {
@@ -342,7 +352,7 @@ public class FunctionParser {
 		// function: wrap function in ExpressionNode
 		// number of vars
 		int n = localVars.size();
-		Operation op = app.getParserFunctions().get(funLabel, n);
+		Operation op = getOperation(funLabel, n);
 		if (op != null) {
 			if (n == 1) {
 				return new Equation(kernel,
@@ -383,5 +393,78 @@ public class FunctionParser {
 
 		rhs.setLabel(funLabel);
 		return rhs;
+	}
+
+	/**
+	 * Parse expression image(x) where image ends with supersript digits.
+	 *
+	 * @param image
+	 *            function
+	 * @param en
+	 *            argument
+	 * @param operation
+	 *            image without superscript index
+	 * @return sin^2(x) or x^2*(x+1)
+	 */
+	final public ExpressionNode handleTrigPower(String image,
+			ValidExpression en, String operation) {
+
+		if ("x".equals(operation) || "y".equals(operation)
+				|| "z".equals(operation)) {
+			return new ExpressionNode(kernel,
+					new ExpressionNode(kernel,
+							new FunctionVariable(kernel, operation),
+							Operation.POWER, convertIndexToNumber(image)),
+					Operation.MULTIPLY_OR_FUNCTION, en);
+		}
+		GeoElement ge = kernel.lookupLabel(operation);
+		Operation type = getOperation(operation, 1);
+		if (ge != null || type == null) {
+			return new ExpressionNode(kernel,
+					new ExpressionNode(kernel, new Variable(kernel, operation),
+							Operation.POWER, convertIndexToNumber(image)),
+					Operation.MULTIPLY_OR_FUNCTION, en);
+		}
+
+		// sin^(-1)(x) -> ArcSin(x)
+		// sin^(-1)(x) -> ArcSin(x)
+		if (image.indexOf(Unicode.SUPERSCRIPT_MINUS) > -1) {
+			// String check = ""+Unicode.SUPERSCRIPT_Minus +
+			// Unicode.Superscript_1 + '(';
+
+			int index = image
+					.indexOf(Unicode.SUPERSCRIPT_MINUS_ONE_BRACKET_STRING);
+
+			// tg^-1 -> index = 2 (eg Hungarian)
+			// sin^-1 -> index = 3
+			// sinh^-1 -> index =4
+			if (index >= 2 && index <= 4) {
+				return kernel.inverseTrig(type, en);
+			}
+			// eg sin^-2(x)
+			return new MyDouble(kernel, Double.NaN).wrap();
+		}
+
+		return new ExpressionNode(kernel,
+				new ExpressionNode(kernel, en, type, null), Operation.POWER,
+				convertIndexToNumber(image));
+	}
+
+	/**
+	 * Take 42 from "sin<sup>42</sup>(".
+	 *
+	 * @param str
+	 *            superscript text
+	 * @return number
+	 */
+	final public MyDouble convertIndexToNumber(String str) {
+		int i = 0;
+		while ((i < str.length())
+				&& !Unicode.isSuperscriptDigit(str.charAt(i))) {
+			i++;
+		}
+
+		// strip off eg "sin" at start, "(" at end
+		return new MyDouble(kernel, str.substring(i, str.length() - 1));
 	}
 }

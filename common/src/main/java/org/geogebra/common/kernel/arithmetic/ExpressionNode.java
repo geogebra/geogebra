@@ -462,18 +462,17 @@ public class ExpressionNode extends ValidExpression
 		// resolve left wing
 		if (left.isVariable()) {
 			left = ((Variable) left).resolveAsExpressionValue(
-					info.getSymbolicMode(), info.isSimplifiedMultiplication());
+					info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
 				fixPowerFactorialTrig();
-			}
-			if (operation == Operation.SQRT_SHORT) {
+			} else if (operation == Operation.SQRT_SHORT) {
 				fixSqrtShort(Operation.MULTIPLY);
-			}
-			if (operation == Operation.MULTIPLY &&  isConstantDouble(right, Kernel.PI_180)) {
+			} else if (operation == Operation.MULTIPLY &&  isConstantDouble(right, Kernel.PI_180)) {
 				fixMultiplyDeg();
 			}
+			left = groupPowers(left);
 		} else {
 			left.resolveVariables(info);
 		}
@@ -482,11 +481,51 @@ public class ExpressionNode extends ValidExpression
 		if (right != null) {
 			if (right.isVariable()) {
 				right = ((Variable) right).resolveAsExpressionValue(
-						info.getSymbolicMode(), info.isSimplifiedMultiplication());
+						info.getSymbolicMode(), info.isMultipleUnassignedAllowed());
+				right = groupPowers(right);
 			} else {
 				right.resolveVariables(info);
 			}
 		}
+	}
+
+	private static ExpressionValue groupPowers(ExpressionValue left) {
+		if (left.wrap().getOperation() == Operation.MULTIPLY) {
+			ArrayList<ExpressionValue> factors = new ArrayList<>();
+			left.wrap().collectFactors(factors);
+			if (factors.size() > 1) {
+
+				ExpressionValue currentVar = null;
+				ExpressionValue product = null;
+				int currentPower = 0;
+				for (ExpressionValue factor : factors) {
+					if (currentVar == null) {
+						currentVar = factor;
+						currentPower = 1;
+					} else if (isSameVar(currentVar, factor)) {
+						currentPower++;
+					} else {
+						product = buildProduct(currentVar.wrap().power(currentPower), product);
+						currentVar = factor;
+						currentPower = 1;
+					}
+				}
+				product = buildProduct(currentVar.wrap().power(currentPower), product);
+				return product;
+			}
+		}
+		return left;
+	}
+
+	private static boolean isSameVar(ExpressionValue a, ExpressionValue b) {
+		return a.unwrap() instanceof FunctionVariable
+				&& b.unwrap() instanceof FunctionVariable
+				&& a.toString(StringTemplate.xmlTemplate).equals(
+						b.toString(StringTemplate.xmlTemplate));
+	}
+
+	private static ExpressionValue buildProduct(ExpressionNode power, ExpressionValue product) {
+		return product == null ? power : power.multiply(product);
 	}
 
 	/**
@@ -3530,22 +3569,30 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	// collect factors of expression recursively
-	private void collectFactors(ArrayList<ExpressionNode> factors) {
+	private void collectFactorCopies(ArrayList<ExpressionNode> factorCopies) {
+		ArrayList<ExpressionValue> factors = new ArrayList<>();
+		collectFactors(factors);
+		for (ExpressionValue factor: factors) {
+			factorCopies.add(factor.deepCopy(kernel).wrap());
+		}
+	}
+
+	private void collectFactors(ArrayList<ExpressionValue> factors) {
 		if (!getOperation().equals(Operation.MULTIPLY)) {
-			factors.add(deepCopy(kernel));
+			factors.add(this);
 			return;
 		}
 
 		if (left instanceof ExpressionNode) {
 			((ExpressionNode) left).collectFactors(factors);
 		} else if (left != null) {
-			factors.add(left.deepCopy(kernel).wrap());
+			factors.add(left);
 		}
 
 		if (right instanceof ExpressionNode) {
 			((ExpressionNode) right).collectFactors(factors);
 		} else if (right != null) {
-			factors.add(right.deepCopy(kernel).wrap());
+			factors.add(right);
 		}
 	}
 
@@ -3554,7 +3601,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public ArrayList<ExpressionNode> getFactorsWithoutPow() {
 		ArrayList<ExpressionNode> factors = new ArrayList<>();
-		collectFactors(factors);
+		collectFactorCopies(factors);
 		ArrayList<ExpressionNode> factorsWithoutPow = new ArrayList<>(
 				factors.size());
 		if (!factors.isEmpty()) {

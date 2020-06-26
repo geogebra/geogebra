@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
@@ -92,15 +91,33 @@ public class ParserTest {
 		checkSameStructure(Unicode.PI_STRING + "(1.3)",
 				Unicode.PI_STRING + " 1.3");
 		checkSameStructure("pi(1.3)", Unicode.PI_STRING + " 1.3");
-		shouldReparseAs(Unicode.PI_STRING + "8", "8" + Unicode.PI_STRING);
+		shouldReparseAs(Unicode.PI_STRING + "8",  Unicode.PI_STRING + " * 8");
 		shouldReparseAs("2" + Unicode.PI_STRING + "8",
-				"2 * 8" + Unicode.PI_STRING);
+				"2" + Unicode.PI_STRING + " * 8");
 		// APPS-804
 		shouldReparseAs(Unicode.PI_STRING + "8.1",
-				"8.1" + Unicode.PI_STRING);
+				Unicode.PI_STRING + " * 8.1");
 		shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
-				 "2 * 8.1" + Unicode.PI_STRING);
+				 unicode("2@pi * 8.1"));
+	}
 
+	@Test
+	public void testPiPower() {
+		shouldReparseAs("pixxyyy", unicode("@pi x^2 y^3"));
+		shouldReparseAs(Unicode.PI_STRING + "3^2", unicode("@pi * 3^2"));
+	}
+
+	@Test
+	public void testPower() {
+		shouldReparseAs("f(k,y,z)=kyz^6", unicode("k y z^6"));
+	}
+
+	@Test
+	public void testTrigPower() {
+		shouldReparseAs("sinxy^2",
+				unicode("sin(x y^2)"));
+		shouldReparseAs("sinxxx^2",
+				unicode("sin(x^2 x^2)"));
 	}
 
 	private void checkSameStructure(String string, String string2) {
@@ -113,15 +130,15 @@ public class ParserTest {
 	}
 
 	private static String reparse(App app, String string, StringTemplate tpl,
-								  boolean simplifiedMultiplication) {
+								  boolean multipleUnassignedAllowed) {
 		String reparse1 = "";
 		try {
 			ValidExpression v1 = parseExpression(app, string);
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
-			EvalInfo info = simplifiedMultiplication
-					? new EvalInfo(false).withSimplifiedMultiplication()
+			EvalInfo info = multipleUnassignedAllowed
+					? new EvalInfo(false).withMultipleUnassignedAllowed()
 					: new EvalInfo(false);
 
 			v1.resolveVariables(info);
@@ -198,11 +215,19 @@ public class ParserTest {
 		shouldReparseAs("ln(x)", "ln(x)");
 		shouldReparseAs("ld(x)", "ld(x)");
 		shouldReparseAs("lg(x)", "lg(x)");
-		shouldReparseAs("log(x)", "ln(x)");
+		shouldReparseAs("log(x)", "lg(x)");
 		shouldReparseAs("log_" + Unicode.EULER_STRING + "(x)",
 				"log(" + Unicode.EULER_STRING + ", x)");
 		shouldReparseAs("log_{" + Unicode.EULER_STRING + "}(x)",
 				"log(" + Unicode.EULER_STRING + ", x)");
+	}
+
+	@Test
+	public void testLogFunctionFromFile() {
+		app.getKernel().setLoadingMode(true);
+		shouldReparseAs("log(x)", "ln(x)");
+		shouldReparseAs("log(5,x)", "log(5, x)");
+		app.getKernel().setLoadingMode(false);
 	}
 
 	@Test
@@ -215,12 +240,7 @@ public class ParserTest {
 		shouldReparseAs("cos3x", "cos(3x)");
 		shouldReparseAs("cos3a", "cos(3a)");
 		shouldReparseAs("f(n)=cos3n", "cos(3n)");
-		try {
-			reparse("cos3n", StringTemplate.defaultTemplate);
-			fail("Variable resolution should fail");
-		} catch (MyError e) {
-			assertEquals("UndefinedVariable", e.getMessage());
-		}
+		shouldReparseAs("cos3n", "cos(3n)");
 		shouldReparseAs("x*cos3x", "x cos(3x)");
 		shouldReparseAs("3x*cosx", "3x cos(x)");
 		shouldReparseAs("3x*cos3x", "3x cos(3x)");
@@ -328,6 +348,7 @@ public class ParserTest {
 	public void shouldHandleDecimalsInLabels() {
 		shouldReparseAs("x1.3=7", "x * 1.3 = 7");
 		shouldReparseAs("x1.3=y", "x * 1.3 = y");
+		shouldReparseAs("x_{1.3}=7", "7");
 	}
 
 	private void assertValidLabel(String s) {

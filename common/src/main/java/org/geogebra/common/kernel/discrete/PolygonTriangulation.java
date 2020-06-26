@@ -96,11 +96,21 @@ public class PolygonTriangulation {
 
 			SortedSet<E> set = headSet(e);
 
-			if (set == null || set.isEmpty()) {
+			if (set.isEmpty()) {
 				return null;
 			}
 
 			return set.last();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+		}
+
+		@Override
+		public int hashCode() {
+			return super.hashCode();
 		}
 
 	}
