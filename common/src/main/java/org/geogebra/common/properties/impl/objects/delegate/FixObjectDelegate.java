@@ -17,7 +17,7 @@ public class FixObjectDelegate extends AbstractGeoElementDelegate {
 			return isApplicableToList((GeoList) element);
 		}
 		AppConfig config = element.getApp().getConfig();
-		if (hasFunctionProperties(element) && config.isObjectDraggingRestricted()) {
+		if (!hasFunctionProperties(element) || config.isObjectDraggingRestricted()) {
 			return false;
 		}
 		return element.showFixUnfix();
