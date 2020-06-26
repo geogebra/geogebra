@@ -27,7 +27,11 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 
 	@Override
 	public String getValue() {
-		return delegate.getElement().getLabelSimple();
+		GeoElement element = delegate.getElement();
+		if (!element.isAlgebraLabelVisible()) {
+			return "";
+		}
+		return element.getLabelSimple();
 	}
 
 	@Override
