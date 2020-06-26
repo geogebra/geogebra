@@ -160,11 +160,16 @@ void mathAtomOrPower(MathContainer currentField) : {
 	(<SPACE>)*
   
 	(t= <OPERATOR>)? {
-		if(t!=null) {
+		if (t != null) {
 			currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
 		}
 	}
 	(
+		 LOOKAHEAD(2147483647)
+		 (mathAtomCharacter(currentField))+
+		 (superscript(currentField) | power(currentField))
+		 arrayParantheses(currentField)
+	|
 		power(currentField)
 	|
 		superscript(currentField)
@@ -206,7 +211,7 @@ void superscript(MathContainer currentField) :
 		mathSequence = new MathSequence();
 		power.setArgument(0, mathSequence);
 		currentField.addArgument(power);
-		for(int i=0;i<t.image.length();i++) {
+		for (int i = 0; i < t.image.length(); i++) {
 			MathComponent mathCharacter = convertSuperscriptToNormal(metaModel, t.image.charAt(i));
 			mathSequence.addArgument(mathCharacter);
 		}
@@ -258,7 +263,7 @@ void subscript(MathContainer currentField) :
 	}
 	((<CURLY_BRACKETS_OPEN> mathContainer(subscript) <CURLY_BRACKETS_CLOSE>)
 	|
-	(mathCharacter(subscript))) {
+	mathCharacter(subscript)) {
 		subscriptFunction.setArgument(0, subscript);
 		currentField.addArgument(subscriptFunction);
 	}
@@ -320,7 +325,6 @@ void absVecLimeq(MathContainer currentField) : {
 	} <PARANTHESES_CLOSE>
 }
 
-
 void log(MathContainer currentField) : { }
 {
 	<LOG> <PARANTHESES_OPEN> {
@@ -365,7 +369,6 @@ void arrayParantheses(MathContainer currentField) :
 		{
 			mathArrayOrFunction.addArgument(mathSequence);
 			mathSequence = new MathSequence();
-
 		}
 	)*
 
@@ -390,7 +393,7 @@ void arrayFloorCeil(MathContainer currentField) :
 		mathArray = new MathArray(metaModel.getArray(arrayType), 0);
 		currentField.addArgument(mathArray);
 	}
-	(mathContainer(mathSequence))
+	mathContainer(mathSequence)
 	{
 		mathArray.addArgument(mathSequence);
 			mathSequence = new MathSequence();
