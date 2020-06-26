@@ -754,7 +754,7 @@ public enum Operation {
 				return vec;
 
 			} else {
-				throw ev.polynomialOrDie(lt, "log(");
+				throw ev.polynomialOrDie(lt, "ln(");
 			}
 		}
 	},

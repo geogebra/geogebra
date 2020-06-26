@@ -1072,8 +1072,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void solve_OneVariableVC_10() {
-		t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = 10 / 3 * log(2)}",
-				"{t = (10 * log(2)) / 3}");
+		t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = 10 / 3 * ln(2)}",
+				"{t = (10 * ln(2)) / 3}");
 	}
 
 	@Test
@@ -2778,18 +2778,18 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				+ Unicode.LESS_EQUAL + " 2, x^(2), x > 2, 1 / x)");
 		t("h4(x):=If(0<x<=2,f(x), 2<x<4, g(x))", "Wenn(0 < x "
 				+ Unicode.LESS_EQUAL + " 2, x^(2), 2 < x < 4, 1 / x)");
-		t("Integral(h(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
-		t("Integral(h2(x),1,3)", "-log(2) + log(3) + 7 / 3");
-		t("Integral(h3(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
-		t("Integral(h4(x),1,3)", "-log(2) + log(3) + 7 / 3", "2.738798441441");
+		t("Integral(h(x),1,3)", "-ln(2) + ln(3) + 7 / 3", "2.738798441441");
+		t("Integral(h2(x),1,3)", "-ln(2) + ln(3) + 7 / 3");
+		t("Integral(h3(x),1,3)", "-ln(2) + ln(3) + 7 / 3", "2.738798441441");
+		t("Integral(h4(x),1,3)", "-ln(2) + ln(3) + 7 / 3", "2.738798441441");
 	}
 
 	@Test
 	public void exponentialEqs() {
 		t("Solve[7^(2 x - 5) 5^x = 9^(x + 1), x]",
-				"{x = (5 * log(7) + log(9)) / (log(5) + 2 * log(7) - log(9))}");
+				"{x = (5 * ln(7) + ln(9)) / (ln(5) + 2 * ln(7) - ln(9))}");
 		t("Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]",
-				"{x = (-log(11) - log(5)) / (log(13) - log(5))}");
+				"{x = (-ln(11) - ln(5)) / (ln(13) - ln(5))}");
 
 		// These take too long (more than 1 minute)
 		// t("Solve[{6.7 * 10^9 = c * a^2007, 3 * 10^8 = c * a^950}, {c, a}]",

@@ -54,7 +54,7 @@ class MetaModelFunctions {
 								createParameterDown(0), createParameterUp(1)
         }));
 
-		functions.add(createFunctionInsert(Tag.LOG, "log", 1,
+		functions.add(createFunctionInsert(Tag.LOG, "\\log", 1,
 				new MetaParameter[] { MetaParameter.BASIC, MetaParameter.BASIC }));
 
 		functions.add(

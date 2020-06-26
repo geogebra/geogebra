@@ -1,3 +1,9 @@
+buildscript {
+    dependencies {
+        classpath "org.openjfx:javafx-plugin:0.0.8"
+    }
+}
+
 plugins {
     id 'com.github.spotbugs' version '1.6.9'
 }
@@ -7,6 +13,15 @@ project.setDescription('Parts of GeoGebra related to desktop platforms')
 apply plugin: 'application'
 apply plugin: 'eclipse'
 apply plugin: 'checkstyle'
+
+
+if (JavaVersion.current() == JavaVersion.VERSION_11) {
+    apply plugin: 'org.openjfx.javafxplugin'
+    javafx {
+        version = "11.0.2"
+        modules = [ 'javafx.controls', 'javafx.web', 'javafx.swing' ]
+    }
+}
 
 sourceSets {
     nonfree

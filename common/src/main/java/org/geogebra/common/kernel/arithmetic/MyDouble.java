@@ -39,8 +39,6 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.StringUtil;
 
-import com.himamis.retex.editor.share.util.Unicode;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -109,55 +107,7 @@ public class MyDouble extends ValidExpression
 	 */
 	public MyDouble(Kernel kernel, String power) {
 		this.kernel = kernel;
-
-		int sign = 1;
-		int start = 0;
-		if (power.charAt(0) == Unicode.SUPERSCRIPT_MINUS) {
-			start = 1;
-			sign = -1;
-		}
-
-		val = 0;
-		for (int i = 0; i < power.length() - start; i++) {
-			switch (power.charAt(power.length() - 1 - i)) {
-			case Unicode.SUPERSCRIPT_0:
-				// val+= 0;
-				break;
-			case Unicode.SUPERSCRIPT_1:
-				val += Math.pow(10, i);
-				break;
-			case Unicode.SUPERSCRIPT_2:
-				val += Math.pow(10, i) * 2;
-				break;
-			case Unicode.SUPERSCRIPT_3:
-				val += Math.pow(10, i) * 3;
-				break;
-			case Unicode.SUPERSCRIPT_4:
-				val += Math.pow(10, i) * 4;
-				break;
-			case Unicode.SUPERSCRIPT_5:
-				val += Math.pow(10, i) * 5;
-				break;
-			case Unicode.SUPERSCRIPT_6:
-				val += Math.pow(10, i) * 6;
-				break;
-			case Unicode.SUPERSCRIPT_7:
-				val += Math.pow(10, i) * 7;
-				break;
-			case Unicode.SUPERSCRIPT_8:
-				val += Math.pow(10, i) * 8;
-				break;
-			case Unicode.SUPERSCRIPT_9:
-				val += Math.pow(10, i) * 9;
-				break;
-			default: // unexpected character
-				val = Double.NaN;
-				return;
-			}
-		}
-
-		val = val * sign;
-
+		val = StringUtil.indexToNumber(power);
 	}
 
 	@Override

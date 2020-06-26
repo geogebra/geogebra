@@ -558,19 +558,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		AppD.appendJavaVersion(sb);
 		sb.append(", ");
 
-		// needed by the user for logging
-		// if (!app.isApplet()) {
-		// sb.append("IP: ");
-		// try {
-		// sb.append(InetAddress.getLocalHost().getHostAddress());
-		// sb.append(':');
-		// sb.append(SensorLogger.port);
-		// } catch (UnknownHostException e) {
-		// sb.append("<unknown>");
-		// }
-		// sb.append(", ");
-		// }
-
 		sb.append(app.getHeapSize() / 1024 / 1024);
 		sb.append("MB, ");
 		sb.append(App.getCASVersionString());

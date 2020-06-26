@@ -35,6 +35,7 @@ import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.euclidian.ReaderWidget;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.TimerSystemW;
@@ -167,6 +168,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 					(IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
 			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler);
+			CancelEventTimer.killTouch(absPanel);
 		} else {
 			absPanel.addDomHandler(euclidiancontroller,
 					MouseMoveEvent.getType());

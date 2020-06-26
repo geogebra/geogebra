@@ -296,16 +296,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons_view_perspectives/p24/menu_view_construction_protocol.png")
 	ImageResource icons_view_construction_protocol_p24();
 
-	// PLAY, PAUSE, REWIND, ARROWS, CANCEL
-	// USED FOR BUTTON FILLINGS
-
-	// DATA COLLECTION
-	@Source("org/geogebra/common/icons/png/web/general/datacollection_on.png")
-	ImageResource datacollection_on();
-
-	@Source("org/geogebra/common/icons/png/web/general/datacollection_off.png")
-	ImageResource datacollection_off();
-
 	@Source("org/geogebra/common/icons/png/web/general/collapse24.png")
 	ImageResource collapse();
 
@@ -348,9 +338,6 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 
 	@Source("org/geogebra/web/resources/css/definitions.less")
 	LessReference lessDefinitions();
-
-	@Source("org/geogebra/web/resources/css/functions.less")
-	LessReference lessFunctions();
 
 	@Source("org/geogebra/web/resources/css/general.ltr.less")
 	LessResource generalStyleLTR();

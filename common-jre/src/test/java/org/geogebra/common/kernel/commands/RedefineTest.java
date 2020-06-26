@@ -111,8 +111,12 @@ public class RedefineTest extends Assert {
 		// error could be improved
 		checkError("f(x)=sin(1,2,3)", "Unknown command : sin");
 		checkError("{1,2,3}\\(1,2)", "Illegal list operation \n" + "{1, 2, 3} \\ (1, 2) ");
-		checkError("Rename(ff,\"fff\")",
-				"Please check your input :\n" + "Undefined variable \n" + "ff ");
+	}
+
+	@Test
+	public void testErrorUndefined() {
+		checkError("Rename(f,\"fff\")",
+				"Please check your input :\n" + "Undefined variable \n" + "f ");
 	}
 
 	@Test

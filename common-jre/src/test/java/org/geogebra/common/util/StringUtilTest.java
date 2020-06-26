@@ -1,15 +1,21 @@
 package org.geogebra.common.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
 
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 @SuppressWarnings("javadoc")
 public class StringUtilTest {
+	private static final boolean IS_JAVA_8 = System.getProperty("java.version").startsWith("1.8.");
+
 	@Test
 	public void isLetterShouldComplyWithJava() {
+		assumeTrue(IS_JAVA_8);
 		String falseNeg = "";
 		String falsePos = "";
 		for (int cc = 0; cc < 65536; ++cc) {
@@ -33,6 +39,7 @@ public class StringUtilTest {
 
 	@Test
 	public void isDigitShouldComplyWithJava() {
+		assumeTrue(IS_JAVA_8);
 		String falseNeg = "";
 		String falsePos = "";
 		for (int cc = 0; cc < 65536; ++cc) {
@@ -66,6 +73,7 @@ public class StringUtilTest {
 
 	@Test
 	public void isWhitespaceShouldComplyWithJava() {
+		assumeTrue(IS_JAVA_8);
 		for (int cc = 0; cc < 65536; ++cc) {
 			char c = (char) cc;
 			if (Character.isWhitespace(c) != StringUtil.isWhitespace(c)) {
@@ -109,6 +117,26 @@ public class StringUtilTest {
 		String in = "\n\na\nb";
 		String out = "<div><br></div><div><br></div><div>a</div><div>b</div>";
 		compatibleNewlines(in, out);
+	}
+
+	@Test
+	public void testNumberToIndex() {
+		assertEquals("" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7,
+				StringUtil.numberToIndex(27));
+		assertEquals("" + Unicode.SUPERSCRIPT_MINUS
+						+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7,
+				StringUtil.numberToIndex(-27));
+		assertEquals("" + Unicode.SUPERSCRIPT_0,
+				StringUtil.numberToIndex(0));
+	}
+
+	@Test
+	public void testIndexToNumber() {
+		assertEquals(27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_2
+						+ Unicode.SUPERSCRIPT_7));
+		assertEquals(-27, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_MINUS
+						+ Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_7));
+		assertEquals(0, StringUtil.indexToNumber("" + Unicode.SUPERSCRIPT_0));
 	}
 
 	private static void compatibleNewlines(String in, String out) {

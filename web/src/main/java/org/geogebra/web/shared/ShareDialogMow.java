@@ -1,8 +1,8 @@
 package org.geogebra.web.shared;
 
-import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -22,7 +22,6 @@ import org.geogebra.web.shared.components.ComponentLinkBox;
 import org.geogebra.web.shared.components.ComponentSwitch;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -85,6 +84,9 @@ public class ShareDialogMow extends DialogBoxW
 	 *            list of group with which the material was shared
 	 */
 	public void updateOnSharedGroups(List<String> sharedGroupList) {
+		if (sharedGroupList == null) {
+			return;
+		}
 		this.sharedGroups = sharedGroupList;
 		ArrayList<String> groupNames = app.getLoginOperation().getModel()
 				.getUserGroups();
@@ -108,13 +110,7 @@ public class ShareDialogMow extends DialogBoxW
 	private void addGroup(FlowPanel groupsPanel, String groupStr,
 			boolean selected) {
 		groupsPanel.add(new GroupButtonMow(appW, groupStr, selected,
-				new AsyncOperation<AbstractMap.SimpleEntry<String, Boolean>>() {
-
-					@Override
-					public void callback(SimpleEntry<String, Boolean> obj) {
-						updateChangedGroupList(obj);
-					}
-				}));
+				this::updateChangedGroupList));
 	}
 
 	/**
@@ -211,13 +207,7 @@ public class ShareDialogMow extends DialogBoxW
 		textPanel.add(linkShareHelpLbl);
 		shareByLinkPanel.add(textPanel);
 		shareSwitch = new ComponentSwitch(isMatShared(material),
-				new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean obj) {
-						onSwitch(obj.booleanValue());
-					}
-		});
+				this::onSwitch);
 		shareByLinkPanel.add(shareSwitch);
 		buildLinkPanel(shareByLinkPanel, shareURL);
 		dialogContent.add(shareByLinkPanel);
@@ -264,12 +254,9 @@ public class ShareDialogMow extends DialogBoxW
 		linkShareHelpLbl.setText(localization.getMenu(getLinkShareHelpLabelTextKey()));
 		linkPanel.setVisible(isSwitchOn);
 		if (isSwitchOn) {
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-				@Override
-				public void execute() {
-					getLinkBox().selectAll();
-					getLinkBox().setFocus(true);
-				}
+			Scheduler.get().scheduleDeferred(() -> {
+				getLinkBox().selectAll();
+				getLinkBox().setFocus(true);
 			});
 		}
 	}
@@ -347,13 +334,7 @@ public class ShareDialogMow extends DialogBoxW
 					material.setVisibility("P");
 				}
 			}
-			shareWithGroups(new AsyncOperation<Boolean>() {
-
-				@Override
-				public void callback(Boolean obj) {
-					showTooltip(obj);
-				}
-			});
+			shareWithGroups(this::onGroupShareChanged);
 			hide();
 		} else if (source == copyBtn) {
 			linkBox.setFocused(false);
@@ -396,26 +377,21 @@ public class ShareDialogMow extends DialogBoxW
 	protected void getGroupsSharedWith() {
 		appW.getLoginOperation().getGeoGebraTubeAPI()
 				.getGroups(material.getSharingKeyOrId(),
-						new AsyncOperation<List<String>>() {
-
-							@Override
-							public void callback(List<String> obj) {
-								if (obj != null) {
-									updateOnSharedGroups(obj);
-								}
-							}
-						});
+						this::updateOnSharedGroups);
 	}
 
 	/**
 	 * @param success
 	 *            shared with group successful or not
 	 */
-	protected void showTooltip(Boolean success) {
+	protected void onGroupShareChanged(boolean success) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
 				appW.getLocalization()
-						.getMenu(success.booleanValue() ? "GroupShareOk"
+						.getMenu(success ? "GroupShareOk"
 								: "GroupShareFail"),
 				true, appW);
+		if (success) {
+			callback.onLoaded(Collections.singletonList(material), null);
+		}
 	}
 }

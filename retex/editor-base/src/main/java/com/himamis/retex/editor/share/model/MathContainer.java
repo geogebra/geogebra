@@ -128,17 +128,6 @@ abstract public class MathContainer extends MathComponent {
 
 	}
 
-	// private String toFlatString() {
-	// StringBuilder sb = new StringBuilder();
-	// Iterator<MathComponent> it = arguments.iterator();
-	//
-	// while (it.hasNext()) {
-	// sb.append(((MathCharacter) it.next()).getUnicode());
-	// }
-	//
-	// return sb.toString();
-	// }
-
 	/**
 	 * Extend arguments array to given size
 	 * 

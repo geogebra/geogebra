@@ -180,11 +180,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		if (hasAlgebraView()) {
 			getAlgebraViewXML(sb, asPreference);
 		}
-
-		// save Data Collection View settings
-		if (hasDataCollectionView()) {
-			getDataCollectionViewXML(sb, asPreference);
-		}
 	}
 
 	/**

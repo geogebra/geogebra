@@ -10,111 +10,103 @@
 .GeoGebraFrame {
 	.algebraView {
 		height: 100%;
-	
-	
+
 		div table:not(.spec) {
 			width: 100%;
 			border-collapse: collapse;
 		}
-		
+
 		div table:not(.spec) tr > td:first-child {
 			display: none;
 		}
-		
-		div table:not(.spec) tr>td+td {
+
+		div table:not(.spec) tr > td + td {
 			width: 100%;
-			padding: 0px;
+			padding: 0;
 		}
-		
+
 		.avItem {
-			line-height: 10px;/*low enough to avoid overflow in IE*/
+			line-height: 10px; /*low enough to avoid overflow in IE*/
 		}
 	}
-	/*.algebraView div div>div {*/
+
 	.algebraView > div > div > div {
-		margin-left: 0px !important;
-	/*	width: 100%; */
+		margin-left: 0 !important;
 	}
-	
-	
+
 	.algebraView .avItem, .algebraView .avInputItem {
-		/*padding: 3px 10px !important;*/
-		padding: 0px !important;
+		padding: 0 !important;
 		z-index: 1;
 		margin-top: -2px;
 	}
+
 	.avItem.avSelectedRow {
 		z-index: 3;
 	}
+
 	.avItem,
 	.avItem .gwt-TreeItem,
-	.avItem .gwt-TreeItem >* {
+	.avItem .gwt-TreeItem > * {
 		width: 100%;
 		box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
 	}
-	
+
 	.avItem .gwt-TreeItem,
 	.avItem .gwt-TreeItem-selected {
 		display: inline-block !important;
 		background: none;
 	}
-	
-	 
+
 	.algebraView .panelRow > * {
-		margin: 0px;
+		margin: 0;
 	}
-	
-	.panelRow .optionsSlider input[type=range]{
+
+	.panelRow .optionsSlider input[type=range] {
 		display: inline-block;
 	}
-	
+
 	.NewRadioButtonTreeItemParent {
 		/* AlgebraViewObjectStylebar was not at right position, needs position absolute */
 		position: absolute;
 		width: 100%;
 		z-index: 4;
 	}
- 
+
 	.NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar .gwt-PushButton {
-		padding: 0px 0px 2px 5px;
+		padding: 0 0 2px 5px;
 	}
- 
+
 	.avItem .gwt-TreeItem {
-		padding: 0px;
+		padding: 0;
 		margin-top: 1px;
 		/* transparent border: keep layout, avoid extra border for top row*/
 		border-top: 1px solid transparent;
 		border-bottom: 1px solid #DCDCDC;
 		background-color: transparent !important;
 	}
+
 	.avItem.avSelectedRow .gwt-TreeItem {
-		padding: 0px;
-		/*margin-top: 1px;*/
-	
-	/*	border-top: 1px solid #6161FF;
-		border-bottom: 1px solid #6161FF; */
+		padding: 0;
 	}
 
-	.avItem.avSelectedRow .marblePanel  {
-		/* background-color: #CCCCFF; */
+	.avItem.avSelectedRow .marblePanel {
 		background-color: #DCDCDC;
-		/*border-right: 1px solid #DCDCDC;*/
 	}
-	
+
 	.algebraHelpButton, .marblePanel {
 		border-right: 1px solid #DCDCDC;
 	}
 
-	.algebraView .gwt-CheckBox{
+	.algebraView .gwt-CheckBox {
 		padding-left: 40px;
 	}
+
 	.NewRadioButtonTreeItemParent {
 		border-top: #6161FF solid 1px;
-		border-bottom:	#6161FF solid 1px;
+		border-bottom: #6161FF solid 1px;
 		background-color: white;
 	}
+
 	.NewRadioButtonTreeItemParent .scrollableTextBox,
 	.NewRadioButtonTreeItemParent .inputBorder {
 		overflow: hidden;
@@ -126,49 +118,6 @@
 			height: 24px;
 			.margin(5px, 7px, 5px, 0px);
 		}
-	}
-
-	.avHelpButtonParent {
-		position: absolute;
-		z-index: 7;
-		height: 100%;
-		line-height: 50px;
-	}
-
-	.NewRadioButtonTreeItemParent .hasCursorPermanent{
-		padding-left: 10px;
-	}
-
-	/*
-	tempHasCursorPermanent used only because before releasing of inputhelp showing in AV (GGB-574)
-	hasCursorPermanent has different padding in stable and in prereleased version. Later
-	.NewRadioButtonTreeItemParent .hasCursorPermanent will have this padding
-	*/
-	.NewRadioButtonTreeItemParent .tempHasCursorPermanent{
-		padding-left: 40px;
-	}
-	
-	.avTextItem {
-		display: inline-block;
-		padding-bottom: 4px;
-	}
-
-	.avPlainTextItem {
-		display: inline-block;
-		padding-bottom: 4px;
-		line-height: 100%;
-	}
-
-	.avPlainTextItem .canvasDef {
-		-webkit-transform: translateY(-8%);
-		-ms-transform: translateY(-8%);
-		transform: translateY(-8%);
-	}
-
-	.avPlainTextItem .canvasVal {
-		-webkit-transform: translateY(15%);
-		-ms-transform: translateY(15%);
-		transform: translateY(15%);
 	}
 
 	.avDefinition {
@@ -186,21 +135,20 @@
 		display: flex;
 		align-items: center;
 	}
-	.avOutput >* {
+
+	.avOutput > * {
 		display: inline-block;
 	}
-	
+
 	.elemText .prefix, .elemText .prefixLatex {
 		font-size: 150%;
 		position: relative;
-  		-webkit-transform: translateY(-15%);
- 		-ms-transform: translateY(-15%);
-  		transform: translateY(-15%);
-  		margin-left: 4px;
-  		margin-top: 4px;
-    	opacity: 0.54;
+		transform: translateY(-15%);
+		margin-left: 4px;
+		margin-top: 4px;
+		opacity: 0.54;
 	}
-	
+
 	.avOutput .prefix {
 		margin-right: 14px;
 	}
@@ -212,37 +160,23 @@
 		background-color: #FFFFFF;
 		border: #6161FF solid 1px;
 		margin-right: 5px;
-  		margin-left: -1px;
-  		padding: 1px;
-		}
-		
+		margin-left: -1px;
+		padding: 1px;
+	}
+
 	.avOutput .symbolicButton:hover {
 		background-color: #CCCCFF;
-		}
-		
+	}
+
 	.btn-prefix {
-		-webkit-transform: translateY(15%);
- 		-ms-transform: translateY(15%);
-  		transform: translateY(15%);
+		transform: translateY(15%);
 	}
 
 	.avPreview > div {
 		display: block;
 	}
-			
-	.algebraError{
-		color: #FF0000;
-		display: block;
-		padding-top: 3px;
-		padding-left: 40px;
-		white-space: normal;
-	}
 
-	.NewRadioButtonTreeItemParent .algebraError{
-		padding-left: 6px;
-	}
-
-	.avDummyLabel{
+	.avDummyLabel {
 		display: inline-block;
 		color: #999999;
 		line-height: 1.6;
@@ -253,43 +187,44 @@
 	}
 
 	.prefixLatex, .prefix {
-	 	font-family: geogebra-sans-serif,"Arial Unicode MS", Arial
+		font-family: geogebra-sans-serif, "Arial Unicode MS", Arial
 	}
 
-	.NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar{
+	.NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar {
 		top: 2px;
 	}
 
 	.scrollableTextBox.avPreview {
 		padding-top: 10px;
 	}
-	
+
 	.scrollableTextBox.noPreview {
 		padding-top: 14px;
 	}
-	
+
 	.avItem .elemText {
 		&.scrollableTextBox {
 			padding-top: 10px;
 		}
-		&.additionalRow{
+
+		&.additionalRow {
 			display: inline-flex;
 		}
 	}
-	
+
 	.marblePanel {
 		position: absolute;
 		height: 100%;
 		box-sizing: border-box;
 		margin-top: -1px;
 		padding: 1px 7px;
-		
-		.gwt-ToggleButton{
+
+		.gwt-ToggleButton {
 			position: relative;
 			top: 50%;
 			margin-top: -12px;
 		}
-		
+
 		.textOverMarble {
 			height: 20px;
 			width: 20px;
@@ -298,28 +233,28 @@
 			opacity: 0.54;
 		}
 	}
-	
-	.XButton, .XButtonNeighbour {
+
+	.XButton {
 		width: 24px;
 		height: 24px;
 		line-height: 24px;
 		text-align: center;
 		display: none;
 	}
-	
+
 	.AlgebraViewObjectStylebar {
 		position: absolute;
-		top: 0px;
-		right: 0px;
+		top: 0;
+		right: 0;
 		z-index: 10;
-		padding: 4px 4px 2px 0px;
+		padding: 4px 4px 2px 0;
 		border-bottom-left-radius: 5px;
 		background-color: rgba(255, 255, 255, 0.9);
-		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+		box-shadow: 0 0 2px 1px rgba(102, 102, 102, 0.3);
 	}
 
 	.AlgebraViewObjectStylebar.smallStylebar {
-		padding: 2px 2px 2px 0px;	
+		padding: 2px 2px 2px 0;
 	}
 
 	.AlgebraViewObjectStylebar > * {
@@ -339,23 +274,24 @@
 
 	.marblePanel.plus {
 		padding-left: 3px;
+
 		img {
 			opacity: 0.54;
 		}
 	}
 
-	.marblePanel.plus :hover{
+	.marblePanel.plus :hover {
 		img {
 			opacity: 1;
 		}
 	}
-	
+
 	.playOnly {
 		position: absolute;
 		top: 33px;
 		right: 2px;
 	}
-	
+
 	.avPlainText {
 		line-height: 140%;
 	}
@@ -363,5 +299,4 @@
 	.scrollableTextBox .avPlainText {
 		display: block;
 	}
-	
 }

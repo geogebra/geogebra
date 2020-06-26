@@ -498,8 +498,8 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rename_box_black_24px.svg")
 	SVGResource mow_rename();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-link-24px.svg")
-	SVGResource mow_card_link();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-people-24px.svg")
+	SVGResource mow_card_shared();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-lock-24px.svg")
 	SVGResource mow_card_private();
