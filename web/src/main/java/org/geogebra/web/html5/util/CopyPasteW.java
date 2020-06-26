@@ -463,28 +463,16 @@ public class CopyPasteW extends CopyPaste {
 		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent, endline);
 
 		endline++;
-		while (clipboardContent.startsWith(imagePrefix, endline)) {
+		while (clipboardContent.startsWith(imagePrefix, endline)
+				|| clipboardContent.startsWith(embedPrefix, endline)) {
 			int nextEndline = clipboardContent.indexOf('\n', endline);
 			String line = clipboardContent
-					.substring(endline + imagePrefix.length() + 1, nextEndline);
+					.substring(endline, nextEndline);
 
-			String[] image = line.split(" ");
-			String name = Global.unescape(image[0]);
-			String src = image[1];
-
-			ImageManagerW imageManager = app.getImageManager();
-			imageManager.addExternalImage(name, src);
-			ImageElement img = imageManager.getExternalImage(name, app, true);
-			img.setSrc(src);
-
-			endline = nextEndline + 1;
-		}
-
-		while (clipboardContent.startsWith(embedPrefix, endline)) {
-			int nextEndline = clipboardContent.indexOf('\n', endline);
-			String line = clipboardContent
-					.substring(endline + embedPrefix.length() + 1, nextEndline);
-			addEmbedData(line, app);
+			String[] tokens = line.split(" ", 3);
+			if (tokens.length == 3) {
+				handleSpecialLine(tokens, app);
+			}
 			endline = nextEndline + 1;
 		}
 
@@ -494,13 +482,20 @@ public class CopyPasteW extends CopyPaste {
 				() -> pasteGeoGebraXMLInternal(app, copiedXMLlabels, copiedXML));
 	}
 
-	private static void addEmbedData(String line, AppW app) {
-		String[] image = line.split(" ", 2);
-		String name = Global.unescape(image[0]);
-		String content = image[1];
-		EmbedManager embedManager = app.getEmbedManager();
-		if (embedManager != null) {
-			embedManager.setContent(Integer.parseInt(name), content);
+	private static void handleSpecialLine(String[] tokens, AppW app) {
+		String prefix = tokens[0];
+		String name = Global.unescape(tokens[1]);
+		String content = tokens[2];
+		if (imagePrefix.equals(prefix)) {
+			ImageManagerW imageManager = app.getImageManager();
+			imageManager.addExternalImage(name, content);
+			ImageElement img = imageManager.getExternalImage(name, app, true);
+			img.setSrc(content);
+		} else {
+			EmbedManager embedManager = app.getEmbedManager();
+			if (embedManager != null) {
+				embedManager.setContent(Integer.parseInt(name), content);
+			}
 		}
 	}
 
