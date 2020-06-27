@@ -19,15 +19,19 @@ public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter 
         }
         GeoElement[] arguments = commandProcessor.resArgs(command);
 
-        checkAllowedLineCommands(command, arguments, commandProcessor);
-        checkAllowedLengthCommands(command, arguments, commandProcessor);
+        if (areEqual(command, Commands.Line)) {
+            checkLine(command, arguments, commandProcessor);
+        } else if (areEqual(command, Commands.Length)) {
+            checkLength(command, arguments, commandProcessor);
+        }
     }
 
-    private void checkAllowedLineCommands(Command command, GeoElement[] arguments,
+    private boolean areEqual(Command command, Commands commandsValue) {
+        return command.getName().equals(commandsValue.name());
+    }
+
+    private void checkLine(Command command, GeoElement[] arguments,
                                           CommandProcessor commandProcessor) {
-        if (!command.getName().equals(Commands.Line.name())) {
-            return;
-        }
         if (arguments.length < 2) {
             return;
         }
@@ -40,11 +44,8 @@ public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter 
         }
     }
 
-    private void checkAllowedLengthCommands(Command command, GeoElement[] arguments,
+    private void checkLength(Command command, GeoElement[] arguments,
                                             CommandProcessor commandProcessor) {
-        if (!command.getName().equals(Commands.Length.name())) {
-            return;
-        }
         if (arguments.length == 1) {
             GeoElement argument = arguments[0];
             boolean argIsListOrText = argument.isGeoList() || argument.isGeoText();
