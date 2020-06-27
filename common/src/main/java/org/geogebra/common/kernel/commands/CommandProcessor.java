@@ -918,4 +918,7 @@ public abstract class CommandProcessor {
 				!kernel.getConstruction().isFileLoading() && value);
 	}
 
+	public Localization getLocalization() {
+		return loc;
+	}
 }

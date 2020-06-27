@@ -34,8 +34,15 @@ public class UndoRedoTester {
 	 * @return the GeoElement with the given label
 	 */
 	public  <T extends GeoElement> T getAfterUndo(String label) {
-		construction.getUndoManager().undo();
+		undo();
 		return (T) construction.lookupLabel(label);
+	}
+
+	/**
+	 * Executes undo
+	 */
+	public void undo() {
+		construction.getUndoManager().undo();
 	}
 
 	/**
@@ -45,7 +52,14 @@ public class UndoRedoTester {
 	 * @return the GeoElement with the given label
 	 */
 	public  <T extends GeoElement> T getAfterRedo(String label) {
-		construction.getUndoManager().redo();
+		redo();
 		return (T) construction.lookupLabel(label);
+	}
+
+	/**
+	 * Executes redo
+	 */
+	public void redo() {
+		construction.getUndoManager().redo();
 	}
 }

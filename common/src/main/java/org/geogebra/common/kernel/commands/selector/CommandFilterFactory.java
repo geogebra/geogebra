@@ -61,7 +61,7 @@ public final class CommandFilterFactory {
 				Commands.Direction, Commands.Distance, Commands.Envelope, Commands.IntersectPath,
 				Commands.Locus, Commands.LocusEquation, Commands.Midpoint, Commands.Perimeter,
 				Commands.PerpendicularBisector, Commands.LineBisector, Commands.PerpendicularLine,
-				Commands.OrthogonalLine, Commands.Polygon, Commands.PolyLine, Commands.Polyline,
+				Commands.OrthogonalLine, Commands.Polygon,
 				Commands.Prove, Commands.ProveDetails, Commands.Radius, Commands.RigidPolygon,
 				Commands.Sector, Commands.Segment, Commands.Slope, Commands.Tangent,
 				Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
