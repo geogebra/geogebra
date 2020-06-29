@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.main.App;
+import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
@@ -58,5 +60,17 @@ public class ContextMenuFactory {
 	 */
 	public InlineTextToolbar newInlineTextToolbar(List<DrawInlineText> inlines, App app) {
 		return new InlineTextToolbar(inlines, new AriaMenuItem(), app);
+	}
+
+	/**
+	 *
+	 * @param title the title of the item.
+	 * @param checkmark the resource of the checkmark icon.
+	 * @param checked if the item should be checked by default
+	 * @return the new checkmark capable item.
+	 */
+	public GCheckmarkMenuItem newCheckmarkMenuItem(String title,
+			SVGResource checkmark, boolean checked) {
+		return new GCheckmarkMenuItem(title, checkmark, checked);
 	}
 }

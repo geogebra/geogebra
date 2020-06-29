@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
@@ -65,12 +66,12 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("a=?");
 		add("aa(x,y)=?");
 		add("g(k)=?");
-		shouldBeUpdatedAs("g", "kk", "k k");
-		shouldBeUpdatedAs("g", "kkk", "k k k");
-		shouldBeUpdatedAs("g", "kkkk", "k k k k");
+		shouldBeUpdatedAs("g", "kk", unicode("k^2"));
+		shouldBeUpdatedAs("g", "kkk", unicode("k^3"));
+		shouldBeUpdatedAs("g", "kkkk", unicode("k^4"));
 		shouldBeUpdatedAs("g", "akakak", "a k a k a k");
-		shouldBeUpdatedAs("g", "akka", "a k k a");
-		shouldBeUpdatedAs("g", "kkaa", "k k a a");
+		shouldBeUpdatedAs("g", "akka", unicode("a k^2 a"));
+		shouldBeUpdatedAs("g", "kkaa", unicode("k^2 a a"));
 	}
 
 	@Test
@@ -135,7 +136,8 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 
 	@Test
 	public void testImaginaryProduct() {
-		numberBeUpdatedAs("i1", String.valueOf(Unicode.IMAGINARY));
+		add("a=4");
+		shouldBeUpdatedAs("a", "i1", "i");
 	}
 
 	@Test

@@ -113,4 +113,9 @@ public class AppConfigSuite extends AppConfigGraphing {
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.SUITE;
 	}
+
+	@Override
+	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
+	}
 }

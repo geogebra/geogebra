@@ -1,9 +1,8 @@
 package org.geogebra.web.html5.gui.util;
 
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -191,21 +190,8 @@ public class CancelEventTimer {
 	 *            widget
 	 */
 	public static void killTouch(Widget panel) {
-		panel.addBitlessDomHandler(new TouchStartHandler() {
-
-			public void onTouchStart(TouchStartEvent event) {
-				event.preventDefault();
-
-			}
-		}, TouchStartEvent.getType());
-		panel.addBitlessDomHandler(new TouchMoveHandler() {
-
-			public void onTouchMove(TouchMoveEvent event) {
-				event.preventDefault();
-
-			}
-		}, TouchMoveEvent.getType());
-
+		panel.addBitlessDomHandler(DomEvent::preventDefault, TouchStartEvent.getType());
+		panel.addBitlessDomHandler(DomEvent::preventDefault, TouchMoveEvent.getType());
 	}
 
 }

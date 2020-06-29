@@ -134,9 +134,18 @@ class GeometriesSetPacking extends GeometriesSet {
 		bufferManager.remove(index, getGeometriesLength());
 	}
 
-    @Override
-    public boolean usePacking() {
+	@Override
+	public boolean usePacking() {
         return true;
     }
 
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

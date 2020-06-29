@@ -3246,18 +3246,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
-	public boolean hasDataCollectionView() {
-		// not available in desktop
-		return false;
-	}
-
-	@Override
-	public void getDataCollectionViewXML(StringBuilder sb,
-			boolean asPreference) {
-		// not available in desktop
-	}
-
-	@Override
 	public void getToolImageURL(int mode, GeoImage gi,
 			AsyncOperation<String> callback) {
 		String modeStr = StringUtil

@@ -93,7 +93,6 @@ import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.ConstructionItemProvider;
-import org.geogebra.web.full.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.full.helper.ResourcesInjectorFull;
 import org.geogebra.web.full.main.activity.CASActivity;
 import org.geogebra.web.full.main.activity.ClassicActivity;
@@ -161,7 +160,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private static final boolean ALLOW_RECENT_CHANGES_DIALOG = false;
 	private final static int AUTO_SAVE_PERIOD = 2000;
 
-	private DataCollection dataCollection;
 	private GuiManagerW guiManager = null;
 
 	private CustomizeToolbarGUI ct;
@@ -355,16 +353,6 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public final void showKeyboard(MathKeyboardListener textField) {
 		showKeyboard(textField, false);
-	}
-
-	/**
-	 * @return data collection view
-	 */
-	public final DataCollection getDataCollection() {
-		if (this.dataCollection == null) {
-			this.dataCollection = new DataCollection(this);
-		}
-		return this.dataCollection;
 	}
 
 	@Override
