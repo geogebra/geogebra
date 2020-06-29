@@ -1,6 +1,7 @@
 package org.geogebra.common.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
 
 import org.geogebra.common.media.GeoGebraURLParser;
 import org.junit.Assert;
@@ -10,8 +11,11 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
 public class StringUtilTest {
+	private static final boolean IS_JAVA_8 = System.getProperty("java.version").startsWith("1.8.");
+
 	@Test
 	public void isLetterShouldComplyWithJava() {
+		assumeTrue(IS_JAVA_8);
 		String falseNeg = "";
 		String falsePos = "";
 		for (int cc = 0; cc < 65536; ++cc) {
@@ -35,6 +39,7 @@ public class StringUtilTest {
 
 	@Test
 	public void isDigitShouldComplyWithJava() {
+		assumeTrue(IS_JAVA_8);
 		String falseNeg = "";
 		String falsePos = "";
 		for (int cc = 0; cc < 65536; ++cc) {
@@ -68,6 +73,7 @@ public class StringUtilTest {
 
 	@Test
 	public void isWhitespaceShouldComplyWithJava() {
+		assumeTrue(IS_JAVA_8);
 		for (int cc = 0; cc < 65536; ++cc) {
 			char c = (char) cc;
 			if (Character.isWhitespace(c) != StringUtil.isWhitespace(c)) {
