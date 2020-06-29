@@ -52,7 +52,7 @@ public abstract class AbstractNumericProperty extends AbstractProperty
 
 	private GeoNumberValue parseInputString(String value) {
 		String trimmedValue = value.trim();
-		if (trimmedValue.equals("")) {
+		if ("".equals(trimmedValue)) {
 			return null;
 		}
 		return algebraProcessor.evaluateToNumeric(trimmedValue, true);
