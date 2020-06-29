@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Finds one real root of a function with newtons method. The first derivative
