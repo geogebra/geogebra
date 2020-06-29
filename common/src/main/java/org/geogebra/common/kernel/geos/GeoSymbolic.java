@@ -699,4 +699,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	public void setArbitraryConstant(MyArbitraryConstant constant) {
 		this.constant = constant;
 	}
+
+	@Override
+	public boolean isFixable() {
+		return false;
+	}
 }
