@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -450,7 +451,7 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		addAvInput("g(k) = ?");
 		GeoInputBox inputBox = addAvInput("ib = InputBox(g)");
 		inputBox.updateLinkedGeo("aakkaa");
-		assertEquals("a a k k a a", inputBox.getText());
+		assertEquals(unicode("a a k^2 a a"), inputBox.getText());
 	}
 
 	@Test

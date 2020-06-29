@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.geogebra.test.TestStringUtil.unicode;
+
 import org.geogebra.common.kernel.arithmetic.variable.TokenizerBaseTest;
 import org.junit.Test;
 
@@ -31,7 +33,7 @@ public class ProductParserTest extends TokenizerBaseTest {
 	@Test
 	public void testFunctionalVarVar() {
 		withGeos("f(var)");
-		shouldReparseAs("varvar", "var var");
+		shouldReparseAs("varvar", unicode("var^2"));
 	}
 
 	@Test
@@ -145,7 +147,23 @@ public class ProductParserTest extends TokenizerBaseTest {
 
 	@Test
 	public void testFcosThetaSum() {
-		shouldReparseAs("Fcosθx+Fsinθy", "F cos(x θ) + F sin(y θ)");
+		shouldReparseAs("Fcosθx+Fsinθy", "F cos(θ x) + F sin(θ y)");
+	}
+
+	@Test
+	public void testIndexProduct() {
+		shouldReparseAs("F_{1}F_{2}", "F_{1} F_{2}");
+		shouldReparseAs("F_{1}F_{2}sin" + Unicode.theta_STRING,
+				unicode("F_{1} F_{2} sin(@theta)"));
+		shouldReparseAs("Gm_{1}m_{2}", "G m_{1} m_{2}");
+		shouldReparseAs("Gm_{1}m_{2}d", "G m_{1} m_{2} d");
+	}
+
+	@Test
+	public void testIndexGreek() {
+		shouldReparseAs("f(h,r_{w},r)=hr_{w}", "h r_{w}");
+		// prefer undefined over invalid
+		shouldReparseAs("f(r_{w}g, g_{w})=hr_{w}g_{w}", "h r_{w} g_{w}");
 	}
 
 	private void shouldReparseAs(String original, String parsed) {

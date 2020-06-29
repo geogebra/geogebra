@@ -6,11 +6,13 @@ import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.AriaMenuItemMock;
 import org.geogebra.web.full.gui.ContextMenuFactory;
+import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -37,5 +39,11 @@ public class MenuFactory extends ContextMenuFactory {
 	@Override
 	public AriaMenuItem newAriaMenuItem(String text, boolean asHtml, AriaMenuBar submenu) {
 		return new AriaMenuItemMock(text, asHtml, submenu);
+	}
+
+	@Override
+	public GCheckmarkMenuItem newCheckmarkMenuItem(String title, SVGResource checkmark,
+			boolean checked) {
+		return new GCheckmarkMenuItemMock(title, checkmark, checked);
 	}
 }

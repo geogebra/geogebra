@@ -882,8 +882,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		// When we have <splitter> || , we know that we should separate
 		// these bars (i. e., we want absolute value, not OR)
 		Set<Character> splitters = new TreeSet<>(
-				Arrays.asList(new Character[] { Unicode.SQUARE_ROOT, '+', '-',
-						'*', '/', '^', '=' }));
+				Arrays.asList(Unicode.SQUARE_ROOT, '+', '-',
+						'*', '/', '^', '='));
 
 		// first we iterate from left to right, and then backward
 		int topLevelBars = 0;
@@ -903,13 +903,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				ignoredIndices = ignoreIndices(parseString);
 				sbFix = new StringBuilder();
 				splitters = new TreeSet<>(
-						Arrays.asList(new Character[] { '*', '/', '^', '=',
+						Arrays.asList('*', '/', '^', '=',
 								Unicode.SUPERSCRIPT_0, Unicode.SUPERSCRIPT_1,
 								Unicode.SUPERSCRIPT_2, Unicode.SUPERSCRIPT_3,
 								Unicode.SUPERSCRIPT_4, Unicode.SUPERSCRIPT_5,
 								Unicode.SUPERSCRIPT_6, Unicode.SUPERSCRIPT_7,
 								Unicode.SUPERSCRIPT_8, Unicode.SUPERSCRIPT_9,
-								Unicode.SUPERSCRIPT_MINUS }));
+								Unicode.SUPERSCRIPT_MINUS));
 			}
 
 			int len = ignoredIndices.length();
@@ -1283,7 +1283,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return number with removed trailing .00...0 and added initial 0 in case
 	 *         of ".5"
 	 */
-	public static String cannonicNumber(String str) {
+	public static String canonicalNumber(String str) {
 		boolean zerosNeedRemoving = true;
 		int index = str.indexOf(".");
 		if (index >= 0) {
@@ -1304,14 +1304,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
-	 * convert 1.200000000 into 1.2 convert .23 into 0.23 convert 1.23000E20
-	 * into 1.23E20
-	 * 
+	 * convert 1.200000000 into 1.2, .23 into 0.23, 1.23000E20 into 1.23E20
+	 *
 	 * @param str
 	 *            number representation
 	 * @return number without redundant trailing zeros
 	 */
-	public static String cannonicNumber2(String str) {
+	public static String canonicalNumber2(String str) {
 		String num = str;
 		String exponent = "";
 
@@ -1690,68 +1689,57 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	/**
 	 * converts an integer to a unicode SUPERSCRIPT string (including minus
 	 * sign) eg for use as a power
-	 * 
-	 * @author Michael
+
 	 * @param i0
 	 *            number
 	 * @return unicode superscript index
 	 */
-	final public static String numberToIndex(int i0) {
-		int i = i0;
+	public static String numberToIndex(int i0) {
 		final StringBuilder sb = new StringBuilder();
-		boolean negative = false;
+		numberToIndex(i0, sb);
+		return sb.toString();
+	}
+
+	/**
+	 * converts an integer to a unicode SUPERSCRIPT string (including minus
+	 * sign) eg for use as a power, appends result to a string builder
+
+	 * @param i0
+	 *            number
+	 */
+	public static void numberToIndex(int i0, StringBuilder sb) {
+		int i = i0;
 		if (i < 0) {
-			negative = true;
+			sb.append(Unicode.SUPERSCRIPT_MINUS);
 			i = -i;
 		}
+		int offset = sb.length();
+		do {
+			sb.insert(offset, Unicode.SUPERSCRIPTS.get(i % 10));
+			i = i / 10;
+		} while (i > 0);
+	}
 
-		if (i == 0) {
-			sb.append(Unicode.SUPERSCRIPT_0); // zero
-		} else {
-			while (i > 0) {
-				switch (i % 10) {
-				default:
-				case 0:
-					sb.insert(0, Unicode.SUPERSCRIPT_0);
-					break;
-				case 1:
-					sb.insert(0, Unicode.SUPERSCRIPT_1);
-					break;
-				case 2:
-					sb.insert(0, Unicode.SUPERSCRIPT_2);
-					break;
-				case 3:
-					sb.insert(0, Unicode.SUPERSCRIPT_3);
-					break;
-				case 4:
-					sb.insert(0, Unicode.SUPERSCRIPT_4);
-					break;
-				case 5:
-					sb.insert(0, Unicode.SUPERSCRIPT_5);
-					break;
-				case 6:
-					sb.insert(0, Unicode.SUPERSCRIPT_6);
-					break;
-				case 7:
-					sb.insert(0, Unicode.SUPERSCRIPT_7);
-					break;
-				case 8:
-					sb.insert(0, Unicode.SUPERSCRIPT_8);
-					break;
-				case 9:
-					sb.insert(0, Unicode.SUPERSCRIPT_9);
-					break;
-
-				}
-				i = i / 10;
-			}
+	/**
+	 * Inverse of numberToIndex
+	 * @param power superscript power
+	 * @return value
+	 */
+	public static int indexToNumber(String power) {
+		int sign = 1;
+		int start = 0;
+		if (power.charAt(0) == Unicode.SUPERSCRIPT_MINUS) {
+			start = 1;
+			sign = -1;
 		}
 
-		if (negative) {
-			sb.insert(0, Unicode.SUPERSCRIPT_MINUS);
+		int val = 0;
+		for (int i = start; i < power.length(); i++) {
+			char digit = power.charAt(i);
+			val = 10 * val + Unicode.SUPERSCRIPTS.indexOf(digit);
 		}
 
-		return sb.toString();
+		return val * sign;
 	}
 
 	/**

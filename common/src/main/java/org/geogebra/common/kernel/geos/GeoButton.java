@@ -19,11 +19,15 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -32,8 +36,13 @@ import org.geogebra.common.util.StringUtil;
  * 
  * @author Michael
  */
-public class GeoButton extends GeoWidget
-		implements TextProperties {
+public class GeoButton extends GeoElement implements TextProperties, Locateable,
+		AbsoluteScreenLocateable {
+
+	protected GeoPointND startPoint;
+
+	private double width = 40.0;
+	private double height = 30.0;
 
 	private double fontSizeD = 1;
 	private int fontStyle = GFont.PLAIN;
@@ -43,9 +52,6 @@ public class GeoButton extends GeoWidget
 	private boolean fixedSize = false;
 
 	private Observer observer;
-
-	// original positions and widths
-	// set once (if null)
 
 	/**
 	 * Creates new button
@@ -76,7 +82,9 @@ public class GeoButton extends GeoWidget
 	 *            y offset
 	 */
 	public GeoButton(Construction cons, int labelOffsetX, int labelOffsetY) {
-		super(cons, labelOffsetX, labelOffsetY);
+		this(cons);
+		this.labelOffsetX = labelOffsetX;
+		this.labelOffsetY = labelOffsetY;
 	}
 
 	/**
@@ -88,6 +96,254 @@ public class GeoButton extends GeoWidget
 	public GeoButton(Construction cons, double size) {
 		this(cons);
 		this.fontSizeD = size;
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p) {
+		// remove old dependencies
+		if (startPoint != null) {
+			startPoint.getLocateableList().unregisterLocateable(this);
+		}
+
+		// set new location
+		if (p == null) {
+			if (startPoint != null) {
+				startPoint = startPoint.copy();
+			}
+
+			labelOffsetX = 0;
+			labelOffsetY = 0;
+		} else {
+			startPoint = p;
+
+			// add new dependencies
+			startPoint.getLocateableList().registerLocateable(this);
+		}
+	}
+
+	@Override
+	public void removeStartPoint(GeoPointND p) {
+		// empty implementation.
+	}
+
+	@Override
+	public GeoPointND getStartPoint() {
+		return startPoint;
+	}
+
+	@Override
+	public void setStartPoint(GeoPointND p, int number) {
+		startPoint = p;
+	}
+
+	@Override
+	public GeoPointND[] getStartPoints() {
+		return new GeoPointND[] { startPoint };
+	}
+
+	@Override
+	public void initStartPoint(GeoPointND p, int number) {
+		startPoint = p;
+	}
+
+	@Override
+	public boolean hasAbsoluteLocation() {
+		return startPoint == null || startPoint.isAbsoluteStartPoint();
+	}
+
+	@Override
+	public boolean isAlwaysFixed() {
+		return false;
+	}
+
+	@Override
+	public void setWaitForStartPoint() {
+		// empty implementation
+	}
+
+	@Override
+	public double getRealWorldLocX() {
+		return startPoint == null ? 0 : startPoint.getInhomX();
+	}
+
+	@Override
+	public double getRealWorldLocY() {
+		return startPoint == null ? 0 : startPoint.getInhomY();
+	}
+
+	@Override
+	public boolean isAbsoluteScreenLocActive() {
+		return startPoint == null;
+	}
+
+	@Override
+	public void setAbsoluteScreenLoc(int x, int y) {
+		labelOffsetX = x;
+		labelOffsetY = y;
+		if (startPoint != null) {
+			updateRelLocation(kernel.getApplication().getActiveEuclidianView());
+		}
+		if (!hasScreenLocation()) {
+			setScreenLocation(x, y);
+		}
+	}
+
+	@Override
+	public int getAbsoluteScreenLocX() {
+		return labelOffsetX;
+	}
+
+	@Override
+	public int getAbsoluteScreenLocY() {
+		return labelOffsetY;
+	}
+
+	@Override
+	public void setAbsoluteScreenLocActive(boolean flag) {
+		EuclidianView ev = kernel.getApplication().getActiveEuclidianView();
+		if (flag && startPoint != null) {
+			updateAbsLocation(ev);
+
+			startPoint = null;
+		} else if (!flag) {
+			startPoint = new GeoPoint(cons);
+			updateRelLocation(ev);
+		}
+	}
+
+	/**
+	 * Update absolute location according to relative location in given view
+	 * (when rel. position active)
+	 *
+	 * @param ev
+	 *            view
+	 */
+	public void updateAbsLocation(EuclidianView ev) {
+		if (startPoint != null) {
+			labelOffsetX = ev.toScreenCoordX(startPoint.getInhomX());
+			labelOffsetY = ev.toScreenCoordY(startPoint.getInhomY());
+		}
+	}
+
+	@Override
+	public void setRealWorldLoc(double x, double y) {
+		startPoint = new GeoPoint(cons);
+		startPoint.setCoords(x, y, 1);
+	}
+
+	/**
+	 * @return total screen width, overridden in GeoInputBox
+	 */
+	@Override
+	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
+		return getWidth();
+	}
+
+	@Override
+	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
+		return getHeight();
+	}
+
+	private void updateRelLocation(EuclidianView ev) {
+		startPoint.setCoords(ev.toRealWorldCoordX(labelOffsetX),
+				ev.toRealWorldCoordY(labelOffsetY), 1);
+	}
+
+	@Override
+	public void updateLocation() {
+		update();
+	}
+
+	/**
+	 * @return width in pixels (if it's fixed)
+	 */
+	public int getWidth() {
+		return (int) width;
+	}
+
+	/**
+	 * @param width
+	 *            width
+	 */
+	public void setWidth(double width) {
+		this.width = width;
+		if (hasScreenLocation()) {
+			getScreenLocation().initWidth((int) width);
+		}
+	}
+
+	/**
+	 *
+	 * @return height in pixels (if it's fixed)
+	 */
+	public int getHeight() {
+		return (int) height;
+	}
+
+	/**
+	 * @param height
+	 *            height in pixels
+	 */
+	public void setHeight(double height) {
+		this.height = height;
+		if (hasScreenLocation()) {
+			getScreenLocation().initHeight((int) height);
+		}
+	}
+
+	@Override
+	public ValueType getValueType() {
+		return ValueType.VOID;
+	}
+
+	@Override
+	public void setUndefined() {
+		// do nothing
+	}
+
+	@Override
+	public boolean isDefined() {
+		return true;
+	}
+
+	@Override
+	public boolean showInEuclidianView() {
+		return true;
+	}
+
+	@Override
+	final public boolean isAlgebraViewEditable() {
+		return !isIndependent();
+	}
+
+	@Override
+	public HitType getLastHitType() {
+		return HitType.ON_FILLING;
+	}
+
+	@Override
+	public String toValueString(StringTemplate tpl) {
+		return "";
+	}
+
+	/**
+	 *
+	 * @param ev
+	 *            the euclidian view.
+	 * @return x coordinate of screen location.
+	 */
+	public int getScreenLocX(EuclidianViewInterfaceCommon ev) {
+		return startPoint == null ? labelOffsetX : ev.toScreenCoordX(startPoint.getInhomX());
+	}
+
+	/**
+	 *
+	 * @param ev
+	 *            the euclidian view.
+	 * @return y coordinate of screen location.
+	 */
+	public int getScreenLocY(EuclidianViewInterfaceCommon ev) {
+		return startPoint == null ? labelOffsetY : ev.toScreenCoordY(startPoint.getInhomY());
 	}
 
 	@Override
@@ -107,6 +363,11 @@ public class GeoButton extends GeoWidget
 
 	@Override
 	public final boolean isGeoButton() {
+		return true;
+	}
+
+	@Override
+	public boolean isAbsoluteScreenLocateable() {
 		return true;
 	}
 
