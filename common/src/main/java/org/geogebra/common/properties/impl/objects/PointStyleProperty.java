@@ -2,7 +2,6 @@ package org.geogebra.common.properties.impl.objects;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.IconsEnumerableProperty;
@@ -51,7 +50,10 @@ public class PointStyleProperty extends AbstractEnumerableProperty
 	@Override
 	public int getIndex() {
 		GeoElement element = delegate.getElement();
-		return element instanceof GeoPoint ? ((GeoPoint) element).getPointStyle() : -1;
+		if (element instanceof PointProperties) {
+			return ((PointProperties) element).getPointStyle();
+		}
+		return -1;
 	}
 
 	@Override
