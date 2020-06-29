@@ -11891,7 +11891,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 							function.getFunctionExpression(), false,
 							true);
 			if (function.isPolynomialFunction(false)
-					|| (poly != null && poly.getDegree() > 25)) {
+					|| (poly != null && poly.isMaxDegreeReached())) {
 				// calculates all extremum points (e.g. x^2)
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons,
 						null, function, true);

@@ -92,7 +92,7 @@ public class CmdExtremum extends CommandProcessor {
 				f.getFunctionExpression(), false,
 				true);
 		if (!gf.isPolynomialFunction(true)
-				|| (poly != null && poly.getDegree() > 25)) {
+				|| (poly != null && poly.isMaxDegreeReached())) {
 			EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 					.getActiveEuclidianView();
 			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, c.getLabels(),
