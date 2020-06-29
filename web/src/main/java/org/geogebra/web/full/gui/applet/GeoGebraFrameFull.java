@@ -596,8 +596,8 @@ public class GeoGebraFrameFull
 
 	private VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField) {
-		return getApp().getKeyboardManager().getOnScreenKeyboard(textField,
-				this);
+		getKeyboardManager().setListeners(textField, this);
+		return getKeyboardManager().getOnScreenKeyboard();
 	}
 
 	/**
@@ -921,7 +921,7 @@ public class GeoGebraFrameFull
 			return;
 		}
 		if (pageListPanel == null) {
-			pageListPanel = new PageListPanel(app1);
+			pageListPanel = new PageListPanel((AppWFull) app1);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.video;
 
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.web.full.main.video.HTML5VideoWidget.VideoListener;
 import org.geogebra.web.html5.util.PersistablePanel;
@@ -25,31 +26,21 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	 * @param id
 	 *            The id of the player.
 	 */
-	public HTML5Player(GeoVideo video, int id) {
+	public HTML5Player(DrawVideo video, int id) {
 		super(video, id);
 	}
 
 	@Override
 	protected void createGUI() {
 		main = new PersistablePanel();
-		v = new HTML5VideoWidget(video.getSrc(), this);
+		v = new HTML5VideoWidget(getVideo().getSrc(), this);
 		main.add(v);
-	}
-
-	@Override
-	protected void initPlayerAPI() {
-		// no API
 	}
 
 	@Override
 	public void update() {
 		super.update();
 		v.setControls(!video.isBackground());
-	}
-
-	@Override
-	public boolean isValid() {
-		return isFrameValid();
 	}
 
 	@Override
@@ -81,6 +72,6 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 
 	@Override
 	public boolean matches(GeoVideo video2) {
-		return video.getSrc().equals(video2.getSrc());
+		return getVideo().getSrc().equals(video2.getSrc());
 	}
 }

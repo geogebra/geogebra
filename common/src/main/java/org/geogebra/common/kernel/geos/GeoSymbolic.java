@@ -39,17 +39,19 @@ import org.geogebra.common.util.StringUtil;
  * @author Zbynek
  */
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
-		GeoEvaluatable, GeoFunctionable, DelegateProperties {
+		GeoEvaluatable, GeoFunctionable, DelegateProperties, HasArbitraryConstant {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
-	private boolean twinUpToDate = false;
+	private boolean isTwinUpToDate = false;
+	private boolean isEuclidianShowable = true;
 	private int tableColumn = -1;
 	private boolean pointsVisible = true;
 	private GeoFunction asFunction;
 	private int pointStyle;
 	private int pointSize;
 	private boolean symbolicMode;
+	private MyArbitraryConstant constant;
 
 	@Nullable
 	private GeoElement twinGeo;
@@ -108,7 +110,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			fVars.addAll(symbolic.fVars);
 			value = symbolic.getValue();
 			casOutputString = symbolic.casOutputString;
-			twinUpToDate = false;
+			isTwinUpToDate = false;
 		}
 	}
 
@@ -138,7 +140,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	protected boolean showInEuclidianView() {
 		GeoElementND twin = getTwinGeo();
-		return twin != null && twin.isEuclidianShowable();
+		return isEuclidianShowable && twin != null && twin.isEuclidianShowable();
 	}
 
 	@Override
@@ -174,16 +176,20 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
-		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
-				new MyArbitraryConstant(this), StringTemplate.prefixedDefault,
-				null, kernel);
+		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(), 
+				getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 
 		computeFunctionVariables();
 		setValue(casOutput);
 
-		twinUpToDate = false;
+		isTwinUpToDate = false;
+		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
+	}
+
+	private boolean shouldBeEuclidianVisible(Command input) {
+		return !"Solve".equals(input.getName());
 	}
 
 	private ExpressionValue parseOutputString(String output) {
@@ -283,7 +289,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 * @return geo for drawing
 	 */
 	public GeoElementND getTwinGeo() {
-		if (twinUpToDate) {
+		if (isTwinUpToDate) {
 			return twinGeo;
 		}
 
@@ -306,7 +312,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			twinGeo = newTwin.toGeoElement();
 			setVisualStyle(twinGeo);
 		}
-		twinUpToDate = true;
+		isTwinUpToDate = true;
 
 		return twinGeo;
 	}
@@ -679,5 +685,18 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		return twinGeo != null
 				? twinGeo.isGeoVector()
 				: getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
+	}
+
+	@Override
+	public MyArbitraryConstant getArbitraryConstant() {
+		if (constant == null) {
+			constant = new MyArbitraryConstant(this);
+		}
+		return constant;
+	}
+
+	@Override
+	public void setArbitraryConstant(MyArbitraryConstant constant) {
+		this.constant = constant;
 	}
 }

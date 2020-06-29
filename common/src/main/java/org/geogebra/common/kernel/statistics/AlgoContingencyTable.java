@@ -202,28 +202,28 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		showTest = false;
 		lastRow = 0;
 		if (args != null) {
-			String optionsStr = args.getTextString();
-			if (optionsStr.indexOf("_") > -1) {
+			String optionsStr = args.getTextStringSafe();
+			if (optionsStr.contains("_")) {
 				showRowPercent = true;
 				lastRow = 1;
 			}
-			if (optionsStr.indexOf("|") > -1) {
+			if (optionsStr.contains("|")) {
 				showColPercent = true;
 				lastRow = 2;
 			}
-			if (optionsStr.indexOf("+") > -1) {
+			if (optionsStr.contains("+")) {
 				showTotalPercent = true;
 				lastRow = 3;
 			}
-			if (optionsStr.indexOf("e") > -1) {
+			if (optionsStr.contains("e")) {
 				showExpected = true;
 				lastRow = 4;
 			}
-			if (optionsStr.indexOf("k") > -1) {
+			if (optionsStr.contains("k")) {
 				showChi = true;
 				lastRow = 5;
 			}
-			if (optionsStr.indexOf("=") > -1) {
+			if (optionsStr.contains("=")) {
 				showTest = true;
 			}
 		}

@@ -7,14 +7,14 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.RectangleTransformable;
 
 /**
  * Bounding box for a single element that rotates together with the geo.
  */
 public class RotatableBoundingBox extends BoundingBox<GEllipse2DDouble> {
 
-	private GeoInline geo;
+	private RectangleTransformable geo;
 
 	private GPoint2D[] corners = new GPoint2D[9];
 
@@ -33,7 +33,7 @@ public class RotatableBoundingBox extends BoundingBox<GEllipse2DDouble> {
 	@Override
 	public void updateFrom(GeoElement geo) {
 		super.updateFrom(geo);
-		this.geo = (GeoInline) geo;
+		this.geo = (RectangleTransformable) geo;
 	}
 
 	@Override
@@ -47,11 +47,18 @@ public class RotatableBoundingBox extends BoundingBox<GEllipse2DDouble> {
 				g2.drawLine((int) corners[i].getX(), (int) corners[i].getY(),
 						(int) corners[(i + 1) % 4].getX(), (int) corners[(i + 1) % 4].getY());
 			}
-			g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
-					(int) corners[8].getX(), (int) corners[8].getY());
+			if (showHandlers()) {
+				g2.drawLine((int) corners[4].getX(), (int) corners[4].getY(),
+						(int) corners[8].getX(), (int) corners[8].getY());
+			}
 		}
+		if (showHandlers()) {
+			drawHandlers(g2);
+		}
+	}
 
-		drawHandlers(g2);
+	private boolean showHandlers() {
+		return !((GeoElement) geo).hasGroup();
 	}
 
 	@Override

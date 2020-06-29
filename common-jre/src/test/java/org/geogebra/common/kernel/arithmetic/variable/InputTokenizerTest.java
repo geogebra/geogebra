@@ -2,7 +2,9 @@ package org.geogebra.common.kernel.arithmetic.variable;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -20,6 +22,13 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 	public void testAIndexedB() {
 		withGeos("a_{1}", "b");
 		shouldBeSplitTo("a_{1}b", "a_{1}", "b");
+	}
+
+	@Test
+	public void testRhoIndexedB() {
+		String rhoW = Unicode.rho + "_{w}";
+		withGeos(Unicode.rho + "", "ρ_{w}", "h");
+		shouldBeSplitTo(rhoW + "h", rhoW, "h");
 	}
 
 	@Test
@@ -100,6 +109,19 @@ public class InputTokenizerTest extends TokenizerBaseTest {
 
 	private void shouldBeSplitTo(String input, String... tokens) {
 		InputTokenizer tokenizer = new InputTokenizer(getKernel(), input);
-		assertEquals(Arrays.asList(tokens), tokenizer.getTokens());
+		assertEquals(Arrays.asList(tokens), getTokens(tokenizer));
+	}
+
+	/**
+	 *
+	 * @return all the tokens input was split to.
+	 */
+	public List<String> getTokens(InputTokenizer tokenizer) {
+		ArrayList<String> tokens = new ArrayList<>();
+		while (tokenizer.hasToken()) {
+			tokens.add(tokenizer.next());
+		}
+
+		return tokens;
 	}
 }

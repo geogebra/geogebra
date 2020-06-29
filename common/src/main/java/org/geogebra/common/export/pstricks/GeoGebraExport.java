@@ -120,10 +120,7 @@ public abstract class GeoGebraExport {
 
 	protected String format(double d) {
 		String ret = kernel.format(DoubleUtil.checkDecimalFraction(d), tpl);
-
-		ret = StringUtil.cannonicNumber2(ret);
-
-		return ret;
+		return StringUtil.canonicalNumber2(ret);
 	}
 
 	// Functions added to access and modify xmin, xmax, ymin and ymax

@@ -29,7 +29,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GgbAPI;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
@@ -48,7 +47,6 @@ import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
-import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.ImageManagerD;
@@ -65,7 +63,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	private DrawEquationD drawEquation;
 	private GgbAPIJre ggbapi;
 	private SoundManager soundManager;
-	private SensorLogger udpLogger;
 	private boolean is3Dactive;
 	private EuclidianView3DNoGui ev3d;
 
@@ -207,14 +204,6 @@ public class AppDNoGui extends AppCommon implements AppDI {
 	@Override
 	public ImageManager getImageManager() {
 		return new ImageManagerD();
-	}
-
-	@Override
-	public SensorLogger getSensorLogger() {
-		if (udpLogger == null) {
-			udpLogger = new UDPLoggerD(getKernel());
-		}
-		return udpLogger;
 	}
 
 	@Override

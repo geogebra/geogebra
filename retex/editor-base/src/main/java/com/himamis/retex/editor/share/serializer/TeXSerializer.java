@@ -201,7 +201,6 @@ public class TeXSerializer extends SerializerAdapter {
 			break;
 		case SUM:
 		case PROD:
-
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append("_{");
 			serialize(function.getArgument(0), stringBuilder);
@@ -233,6 +232,16 @@ public class TeXSerializer extends SerializerAdapter {
 			}
 			stringBuilder.append('}');
 			break;
+		case SUM_EQ:
+		case PROD_EQ:
+		case DEF_INT:
+			stringBuilder.append(function.getTexName());
+			stringBuilder.append('_');
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append('^');
+			serialize(function.getArgument(1), stringBuilder);
+			stringBuilder.append("{}");
+			break;
 		case LIM:
 			// lim not implemented in jmathtex
 			stringBuilder.append("\\lim_{");
@@ -246,6 +255,11 @@ public class TeXSerializer extends SerializerAdapter {
 			this.addWithBraces(stringBuilder, function.getArgument(2),
 					addBraces);
 			stringBuilder.append('}');
+			break;
+		case LIM_EQ:
+			stringBuilder.append("\\lim_{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("} ");
 			break;
 		case ABS:
 			stringBuilder.append("\\left|");
@@ -268,6 +282,11 @@ public class TeXSerializer extends SerializerAdapter {
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("}");
 			serializeArguments(stringBuilder, function, 1);
+			break;
+		case VEC:
+			stringBuilder.append("\\overrightarrow{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("}");
 			break;
 		default:
 			stringBuilder.append("{\\mathrm{");

@@ -1,5 +1,9 @@
 package org.geogebra.common.kernel.cas;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -29,5 +33,14 @@ public class AlgoDependentSymbolicTest extends BaseSymbolicTest {
 		element = add("f(3, 4)");
 		controller.hideLabel(element);
 		app.setXML(app.getXML(), true);
+	}
+
+	@Test
+	public void testRedefinitionKeepsConstant() {
+		add("f(x) = Integral(Integral(x))");
+		// redefine geo
+		add("f(x) = Integral(Integral(x))");
+		GeoElement element = lookup("c_3");
+		assertThat(element, is(nullValue()));
 	}
 }

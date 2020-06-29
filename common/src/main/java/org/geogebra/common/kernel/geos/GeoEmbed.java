@@ -4,28 +4,37 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
 /**
  * Geo for embedded apps
  */
-public class GeoEmbed extends GeoWidget implements Translateable {
+public class GeoEmbed extends GeoWidget {
+
+	private static final double DEFAULT_WIDTH = 800;
+	private static final double DEFAULT_HEIGHT = 600;
+
+	public final static int EMBED_SIZE_THRESHOLD = 100;
+
+	private double contentWidth = DEFAULT_WIDTH;
+	private double contentHeight = DEFAULT_HEIGHT;
+
+	// ONLY USED FOR LOADING OLD MATERIALS
+	private Double realWidth;
+	private Double realHeight;
 
 	private boolean defined = true;
 	private int embedID = -1;
-	private double contentWidth = 800;
-	private double contentHeight = 600;
+
 	private boolean background = true;
 	private String appName = "graphing";
 	private String url;
-	private Map<String, String> settings = new HashMap<>();
+	private final Map<String, String> settings = new HashMap<>();
 
 	/**
 	 * @param c
@@ -33,7 +42,47 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	 */
 	public GeoEmbed(Construction c) {
 		super(c);
-		topLeftCorner = 2;
+	}
+
+	@Override
+	public double getMinWidth() {
+		return EMBED_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public double getMinHeight() {
+		return EMBED_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public void setWidth(double width) {
+		if (getWidth() != 0) {
+			setContentWidth(contentWidth * width / getWidth());
+		}
+		super.setWidth(width);
+	}
+
+	@Override
+	public void setHeight(double height) {
+		if (getHeight() != 0) {
+			setContentHeight(contentHeight * height / getHeight());
+		}
+		super.setHeight(height);
+	}
+
+	@Override
+	public void zoomIfNeeded() {
+		if (realWidth != null && realHeight != null) {
+			EuclidianView ev = app.getActiveEuclidianView();
+
+			setWidth(ev.getXscale() * realWidth);
+			setHeight(ev.getYscale() * realHeight);
+
+			realWidth = null;
+			realHeight = null;
+		} else {
+			super.zoomIfNeeded();
+		}
 	}
 
 	/**
@@ -43,16 +92,28 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	 *            view
 	 */
 	public void initPosition(EuclidianViewInterfaceCommon ev) {
-		double x = ev.toRealWorldCoordX(ev.getViewWidth() / 2.0)
-				- contentWidth / ev.getXscale() / 2;
-		double y = ev.toRealWorldCoordY(ev.getViewHeight() / 2.0)
-				- contentHeight / ev.getYscale() / 2;
-		corner[0] = new GeoPoint(cons);
-		corner[0].setCoords(x, y, 1);
-		corner[1] = new GeoPoint(cons);
-		corner[1].setCoords(x + contentWidth / ev.getXscale(), y, 1);
-		corner[2] = new GeoPoint(cons);
-		corner[2].setCoords(x, y + contentHeight / ev.getXscale(), 1);
+		setWidth(DEFAULT_WIDTH);
+		setHeight(DEFAULT_HEIGHT);
+
+		double x = ev.toRealWorldCoordX((ev.getViewWidth() - DEFAULT_WIDTH) / 2.0);
+		double y = ev.toRealWorldCoordY((ev.getViewHeight() - DEFAULT_HEIGHT) / 2.0);
+		startPoint.setLocation(x, y);
+	}
+
+	public int getContentWidth() {
+		return (int) contentWidth;
+	}
+
+	public void setContentWidth(double contentWidth) {
+		this.contentWidth = contentWidth;
+	}
+
+	public int getContentHeight() {
+		return (int) contentHeight;
+	}
+
+	public void setContentHeight(double contentHeight) {
+		this.contentHeight = contentHeight;
 	}
 
 	@Override
@@ -89,22 +150,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 		return false;
 	}
 
-	/**
-	 * Get corner, same as GeoImage
-	 * 
-	 * @param i
-	 *            index
-	 * @return corner
-	 */
-	public GeoPointND getCorner(int i) {
-		if (corner[i] == null) {
-			GeoPoint ret = new GeoPoint(cons);
-			ret.setCoords(0, 0, 1);
-			return ret;
-		}
-		return corner[i];
-	}
-
 	@Override
 	public void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
@@ -117,17 +162,20 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 			sb.append(StringUtil.encodeXML(url));
 		}
 		sb.append("\"/>\n");
-		sb.append("<embedSettings");
-		for (Map.Entry<String, String> entry: getSettings()) {
+		sb.append("\t<contentSize width=\"");
+		sb.append(contentWidth);
+		sb.append("\" height=\"");
+		sb.append(contentHeight);
+		sb.append("\"/>\n");
+		sb.append("\t<embedSettings");
+		for (Map.Entry<String, String> entry : getSettings()) {
 			sb.append(' ')
 				.append(entry.getKey())
 				.append("=\"")
 				.append(StringUtil.encodeXML(entry.getValue()))
 				.append('\"');
-
 		}
-		sb.append("/>");
-		XMLBuilder.dimension(sb, Double.toString(contentWidth), Double.toString(contentHeight));
+		sb.append("/>\n");
 	}
 
 	/**
@@ -152,60 +200,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 		this.embedID = embedID;
 	}
 
-	@Override
-	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
-		corner[0] = p;
-	}
-
-	@Override
-	public void removeStartPoint(GeoPointND p) {
-		for (int i = 0; i < corner.length; i++) {
-			if (corner[i] == p) {
-				corner[i] = p.copy();
-			}
-		}
-	}
-
-	@Override
-	public GeoPointND getStartPoint() {
-		return corner[0];
-	}
-
-	@Override
-	public void setStartPoint(GeoPointND p, int number) throws CircularDefinitionException {
-		corner[number] = p;
-	}
-
-	@Override
-	public GeoPointND[] getStartPoints() {
-		return corner;
-	}
-
-	@Override
-	public void initStartPoint(GeoPointND p, int number) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public boolean hasAbsoluteLocation() {
-		return false;
-	}
-
-	@Override
-	public boolean isAlwaysFixed() {
-		return false;
-	}
-
-	@Override
-	public void setWaitForStartPoint() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void updateLocation() {
-		// TODO Auto-generated method stub
-	}
-
 	/**
 	 * @return whether the applet is currently inactive (can be moved)
 	 */
@@ -219,47 +213,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 	 */
 	public void setBackground(boolean background) {
 		this.background = background;
-	}
-
-	@Override
-	public void setAbsoluteScreenLoc(int x, int y) {
-		EuclidianViewInterfaceCommon view = kernel.getApplication().getActiveEuclidianView();
-		double oldWidth = getCorner(1).getInhomX() - getCorner(0).getInhomX();
-		double oldHeight = getCorner(2).getInhomY() - getCorner(0).getInhomY();
-		getCorner(2).setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y), 1);
-		getCorner(0).setCoords(view.toRealWorldCoordX(x), view.toRealWorldCoordY(y) - oldHeight, 1);
-		getCorner(1).setCoords(view.toRealWorldCoordX(x) + oldWidth,
-				view.toRealWorldCoordY(y) - oldHeight, 1);
-	}
-
-	/**
-	 * @return width parameter of the embedded applet
-	 */
-	public double getContentWidth() {
-		return contentWidth;
-	}
-
-	/**
-	 * @return height parameter of the embedded applet
-	 */
-	public double getContentHeight() {
-		return contentHeight;
-	}
-
-	/**
-	 * @param newWidth
-	 *            width parameter of the embedded applet
-	 */
-	public void setContentWidth(double newWidth) {
-		this.contentWidth = newWidth;
-	}
-
-	/**
-	 * @param newHeight
-	 *            height parameter of the embedded applet
-	 */
-	public void setContentHeight(double newHeight) {
-		this.contentHeight = newHeight;
 	}
 
 	/**
@@ -285,25 +238,6 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 		this.url = url;
 	}
 
-	@Override
-	public boolean isFurniture() {
-		return true;
-	}
-
-	@Override
-	public void translate(Coords v) {
-		for (GeoPointND geoPointND : corner) {
-			if (geoPointND != null) {
-				geoPointND.translate(v);
-			}
-		}
-	}
-
-	@Override
-	public boolean isTranslateable() {
-		return true;
-	}
-
 	public boolean isGraspableMath() {
 		return url != null && url.contains("graspablemath.com");
 	}
@@ -314,5 +248,13 @@ public class GeoEmbed extends GeoWidget implements Translateable {
 
 	public void attr(String key, Object value) {
 		settings.put(key, String.valueOf(value));
+	}
+
+	public void setRealWidth(double width) {
+		this.realWidth = width;
+	}
+
+	public void setRealHeight(double height) {
+		this.realHeight = height;
 	}
 }

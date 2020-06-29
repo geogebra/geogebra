@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
@@ -72,6 +74,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.kernel.geos.DefaultGeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
@@ -80,6 +83,8 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPriorityComparator;
+import org.geogebra.common.kernel.geos.NotesPriorityComparator;
 import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
 import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -108,7 +113,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoScriptRunner;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.AsyncOperation;
@@ -189,8 +193,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// please let 1024 to 2047 empty
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
-	/** data collection view (web only) */
-	public static final int VIEW_DATA_COLLECTION = 43;
 	/** accessibility view in Web */
 	public static final int VIEW_ACCESSIBILITY = 44;
 	/** id for table view */
@@ -1023,13 +1025,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.NONE) {
 			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.MAY_SET_COORD_SYSTEM;
 		}
-	}
-
-	/**
-	 * Resets the coord system change flag
-	 */
-	public void resetCoordSystemChanged() {
-		storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.NONE;
 	}
 
 	public void setPropertiesOccured() {
@@ -3673,10 +3668,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return companion;
 	}
 
-	public SensorLogger getSensorLogger() {
-		return null;
-	}
-
 	/**
 	 * Add file open listener.
 	 *
@@ -3809,10 +3800,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// *********************************************************
 		// **********************************************************************
 
-		// MOB-270
-		case ACRA:
-			return prerelease;
-
 		case ANALYTICS:
 			return prerelease;
 
@@ -3937,9 +3924,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		 */
 		case SPEECH_RECOGNITION:
 			return false;
-
-		case SURFACE_OF_REVOLUTION_TOOL:
-			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -4954,7 +4938,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return MD5EncrypterGWTImpl.encrypt(s);
 	}
 
-	public EmbedManager getEmbedManager() {
+	public @CheckForNull EmbedManager getEmbedManager() {
 		return null;
 	}
 
@@ -5179,5 +5163,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public InlineFormulaController createInlineFormulaController(EuclidianView view,
 			GeoFormula geo) {
 		return null;
+	}
+
+	/**
+	 * GeoPriorityComparators are used to decide the drawing
+	 * and selection orders of Geos
+	 * @return the default comparator (layer -> type -> construction order) in every
+	 * app except notes, where the geo's `ordering` is used
+	 */
+	public GeoPriorityComparator getGeoPriorityComparator() {
+		if (isWhiteboardActive()) {
+			return new NotesPriorityComparator();
+		} else {
+			return new DefaultGeoPriorityComparator();
+		}
 	}
 }

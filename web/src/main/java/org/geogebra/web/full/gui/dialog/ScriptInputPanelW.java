@@ -17,7 +17,6 @@ import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -25,12 +24,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -41,7 +34,7 @@ import com.google.gwt.user.client.ui.ListBox;
  * @author hohenwarter
  */
 public class ScriptInputPanelW extends FlowPanel implements
-		IScriptInputListener /*,DocumentListener*/ {
+		IScriptInputListener {
 	private ScriptInputModel model;
 	private ListBox languageSelector;
 	private FlowPanel inputPanel;
@@ -70,19 +63,9 @@ public class ScriptInputPanelW extends FlowPanel implements
 		inputPanel = new FlowPanel();
 		textArea = new ScriptArea(app);
 
-		textArea.addKeyUpHandler(new KeyUpHandler() {
-				@Override
-				public void onKeyUp(KeyUpEvent event) {
-					applyScript();
-				}
-			});
+		textArea.addKeyUpHandler(event -> applyScript());
+		textArea.addBlurHandler(event -> applyScript());
 
-		textArea.addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				applyScript();
-			}
-		});
 		if (Browser.isTabletBrowser()) {
 			textArea.enableGGBKeyboard();
 		}
@@ -103,7 +86,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 		if (forceJavaScript) {
 			languageSelector.setSelectedIndex(1);
 			languageSelector.setEnabled(false);
-			model.setScriptType(ScriptType.JAVASCRIPT);
 		}
 
 		btPanel.add(languageSelector);
@@ -116,33 +98,10 @@ public class ScriptInputPanelW extends FlowPanel implements
 			}
 		});
 
-		//
-		// textArea.addClickHandler(new ClickHandler(){
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// showKeyboard();
-		// applyScript();
-		// }});
-		//
-		languageSelector.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				updateLanguage();
-			}
-		});
+		languageSelector.addChangeHandler(event -> applyScript());
 
 		add(inputPanel);
 		add(btPanel);
-	}
-
-	/**
-	 * Update model language from dropdown
-	 */
-	protected void updateLanguage() {
-		model.setScriptType(
-				ScriptType.values()[languageSelector.getSelectedIndex()]);
 	}
 
 	/**
@@ -166,14 +125,9 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 	private void processInput() {
 		String inputText = textArea.getText();
-		model.processInput(inputText, new AsyncOperation<Boolean>() {
-
-			@Override
-			public void callback(Boolean obj) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+		ScriptType type = ScriptType.values()[languageSelector
+				.getSelectedIndex()];
+		model.processInput(inputText, type, obj -> {});
 	}
 
 	/**
@@ -184,29 +138,10 @@ public class ScriptInputPanelW extends FlowPanel implements
 		model.setGeo(model.getGeo());
 	}
 
-	/**
-	 * apply edit modifications
-	 */
-	public void applyModifications() {
-		if (model.isEditOccurred()) {
-			model.setEditOccurred(false);
-			processInput();
-		}
-	}
-
 	@Override
-	public void setInputText(String text) {
+	public void setInput(String text, ScriptType type) {
 		textArea.setText(text);
-	}
-
-	@Override
-	public String getInputText() {
-		return textArea.getText();
-	}
-
-	@Override
-	public void setLanguageIndex(int index, String name) {
-		languageSelector.setSelectedIndex(index);
+		languageSelector.setSelectedIndex(type.ordinal());
 	}
 
 	/**

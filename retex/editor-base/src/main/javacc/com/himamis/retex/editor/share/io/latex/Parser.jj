@@ -69,7 +69,7 @@ public class Parser {
 PARSER_END(Parser)
 
 <DEFAULT> SKIP : {
-     "\r"
+	 "\r"
    | "\t"
    | "\n"
 }
@@ -97,6 +97,11 @@ PARSER_END(Parser)
 	| < NROOT : "nroot" >
 	| < LOG : "log" >
 	| < ABS : "abs" >
+	| < DEF_INT : "$defint" >
+	| < PROD_EQ : "$prodeq" >
+	| < SUM_EQ : "$sumeq" >
+	| < LIM_EQ : "$limeq" >
+	| < VEC : "$vec" >
 	| < COMMA : "," >
 	| < SPACE : " " >
 	| < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
@@ -127,7 +132,9 @@ void mathContainer(MathContainer currentField) : {}
 	|
 		log(currentField)
 	|
-		abs(currentField)
+		defintSumProduct(currentField)
+	|
+		absVecLimeq(currentField)
 	|
 		arrayParantheses(currentField)
 	|
@@ -153,11 +160,16 @@ void mathAtomOrPower(MathContainer currentField) : {
 	(<SPACE>)*
   
 	(t= <OPERATOR>)? {
-		if(t!=null) {
+		if (t != null) {
 			currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
 		}
 	}
 	(
+		 LOOKAHEAD(2147483647)
+		 (mathAtomCharacter(currentField))+
+		 (superscript(currentField) | power(currentField))
+		 arrayParantheses(currentField)
+	|
 		power(currentField)
 	|
 		superscript(currentField)
@@ -172,7 +184,7 @@ void mathAtomOrPower(MathContainer currentField) : {
 	|
 		log(currentField)
 	|
-		abs(currentField)
+		absVecLimeq(currentField)
 	|
 		arrayParantheses(currentField)
 	|
@@ -199,7 +211,7 @@ void superscript(MathContainer currentField) :
 		mathSequence = new MathSequence();
 		power.setArgument(0, mathSequence);
 		currentField.addArgument(power);
-		for(int i=0;i<t.image.length();i++) {
+		for (int i = 0; i < t.image.length(); i++) {
 			MathComponent mathCharacter = convertSuperscriptToNormal(metaModel, t.image.charAt(i));
 			mathSequence.addArgument(mathCharacter);
 		}
@@ -251,7 +263,7 @@ void subscript(MathContainer currentField) :
 	}
 	((<CURLY_BRACKETS_OPEN> mathContainer(subscript) <CURLY_BRACKETS_CLOSE>)
 	|
-	(mathCharacter(subscript))) {
+	mathCharacter(subscript)) {
 		subscriptFunction.setArgument(0, subscript);
 		currentField.addArgument(subscriptFunction);
 	}
@@ -283,6 +295,36 @@ void nroot(MathContainer currentField) : {}
 	} <PARANTHESES_CLOSE>
 }
 
+void defintSumProduct(MathContainer currentField) : {
+	Token symbol;
+}
+{
+	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ>) <PARANTHESES_OPEN> {
+		MathFunction defint = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
+		MathSequence param0 = new MathSequence();
+		mathContainer(param0);
+	} <COMMA> {
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+		defint.setArgument(0, param0);
+		defint.setArgument(1, param1);
+		currentField.addArgument(defint);
+	} <PARANTHESES_CLOSE>
+}
+
+void absVecLimeq(MathContainer currentField) : {
+	Token symbol;
+}
+{
+	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ>) <PARANTHESES_OPEN> {
+		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
+		MathSequence param1 = new MathSequence();
+		mathContainer(param1);
+		vec.setArgument(0, param1);
+		currentField.addArgument(vec);
+	} <PARANTHESES_CLOSE>
+}
+
 void log(MathContainer currentField) : { }
 {
 	<LOG> <PARANTHESES_OPEN> {
@@ -300,17 +342,6 @@ void log(MathContainer currentField) : { }
 	{
 	  currentField.addArgument(nroot);
 	}
-}
-
-void abs(MathContainer currentField) : { }
-{
-	<ABS> <PARANTHESES_OPEN> {
-		MathFunction abs = new MathFunction(metaModel.getGeneral(Tag.ABS));
-		MathSequence param1 = new MathSequence();
-		mathContainer(param1);
-		abs.setArgument(0, param1);
-		currentField.addArgument(abs);
-	} <PARANTHESES_CLOSE>
 }
 
 void arrayParantheses(MathContainer currentField) :
@@ -338,7 +369,6 @@ void arrayParantheses(MathContainer currentField) :
 		{
 			mathArrayOrFunction.addArgument(mathSequence);
 			mathSequence = new MathSequence();
-
 		}
 	)*
 
@@ -363,7 +393,7 @@ void arrayFloorCeil(MathContainer currentField) :
 		mathArray = new MathArray(metaModel.getArray(arrayType), 0);
 		currentField.addArgument(mathArray);
 	}
-	(mathContainer(mathSequence))
+	mathContainer(mathSequence)
 	{
 		mathArray.addArgument(mathSequence);
 			mathSequence = new MathSequence();

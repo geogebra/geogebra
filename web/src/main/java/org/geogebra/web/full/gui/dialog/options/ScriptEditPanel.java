@@ -62,15 +62,6 @@ class ScriptEditPanel extends OptionPanel {
 
 	}
 
-	/**
-	 * apply edit modifications
-	 */
-	public void applyModifications() {
-		clickDialog.applyModifications();
-		updateDialog.applyModifications();
-		globalDialog.applyModifications();
-	}
-
 	@Override
 	public void setLabels() {
 		// setBorder(BorderFactory.createTitledBorder(app.getPlain("JavaScript")));

@@ -13,6 +13,9 @@ import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.properties.factory.PropertiesFactory;
+import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 
 /**
  * Config for Scientific Calculator app
@@ -52,11 +55,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public String getForcedPerspective() {
 		return Perspective.SCIENTIFIC + "";
-	}
-
-	@Override
-	public boolean hasScientificKeyboard() {
-		return true;
 	}
 
 	@Override
@@ -142,5 +140,15 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public boolean shouldHideEquations() {
 		return false;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new ScientificPropertiesFactory();
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.SCIENTIFIC;
 	}
 }

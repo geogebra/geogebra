@@ -106,7 +106,7 @@ public class ModeShape {
 		if (!dragPointSet || (pointListFreePoly.isEmpty()
 				&& ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM)) {
 			dragStartPoint.setLocation(event.getX(), event.getY());
-			view.setBoundingBox(null);
+			view.resetBoundingBoxes();
 			pointListFreePoly.clear();
 			pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
 			dragPointSet = true;

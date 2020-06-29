@@ -50,7 +50,7 @@ public class MySpecialDouble extends MyDouble {
 		super(kernel, val);
 
 		// Reduce can't handle .5*8
-		originalString = StringUtil.cannonicNumber(str);
+		originalString = StringUtil.canonicalNumber(str);
 
 		strToString = originalString;
 

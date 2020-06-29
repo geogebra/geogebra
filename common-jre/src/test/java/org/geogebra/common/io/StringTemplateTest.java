@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
@@ -57,10 +59,10 @@ public class StringTemplateTest {
 
 	@Test
 	public void testCannonicNumber() {
-		Assert.assertEquals("0", StringUtil.cannonicNumber("0.0"));
-		Assert.assertEquals("0", StringUtil.cannonicNumber(".0"));
-		Assert.assertEquals("1.0E2", StringUtil.cannonicNumber("1.0E2"));
-		Assert.assertEquals("1", StringUtil.cannonicNumber("1.00"));
+		assertEquals("0", StringUtil.canonicalNumber("0.0"));
+		assertEquals("0", StringUtil.canonicalNumber(".0"));
+		assertEquals("1.0E2", StringUtil.canonicalNumber("1.0E2"));
+		assertEquals("1", StringUtil.canonicalNumber("1.00"));
 	}
 
 	@Test
@@ -80,7 +82,7 @@ public class StringTemplateTest {
 
 	private void plain(String string, String string2) {
 		GeoElementND geo = add(string);
-		Assert.assertEquals(string2, geo.getDefinitionForInputBar());
+		assertEquals(string2, geo.getDefinitionForInputBar());
 	}
 
 	@Test
@@ -109,7 +111,7 @@ public class StringTemplateTest {
 	private void tcl(String string, String string2) {
 		GeoElementND geo = add(string);
 		Assert.assertTrue(geo instanceof GeoFunction);
-		Assert.assertEquals(
+		assertEquals(
 				((GeoFunction) geo).conditionalLaTeX(false,
 						StringTemplate.latexTemplate),
 				string2.replace("<=", Unicode.LESS_EQUAL + ""));
@@ -117,7 +119,7 @@ public class StringTemplateTest {
 
 	private void tex(String string, String string2) {
 		GeoElementND geo = add(string);
-		Assert.assertEquals(string2,
+		assertEquals(string2,
 				geo.getDefinition(StringTemplate.latexTemplate));
 	}
 
@@ -132,11 +134,11 @@ public class StringTemplateTest {
 	@Test
 	public void editorTemplateShouldRetainPrecision() {
 		GeoElementND f = add("f:0.33333x");
-		Assert.assertEquals("f(x)=0.33333 x",
+		assertEquals("f(x)=0.33333 x",
 				f.toString(StringTemplate.editorTemplate));
-		Assert.assertEquals("f(x) = 0.33333x",
+		assertEquals("f(x) = 0.33333x",
 				f.toString(StringTemplate.editTemplate));
-		Assert.assertEquals("f(x) = 0.33x",
+		assertEquals("f(x) = 0.33x",
 				f.toString(StringTemplate.defaultTemplate));
 	}
 
@@ -158,6 +160,27 @@ public class StringTemplateTest {
 		for (String t : testI) {
 			Assert.assertTrue(CASgiac.inequality.test(t));
 		}
+	}
+
+	@Test
+	public void shouldUseTrigPowerForConstantExponent() {
+		FunctionVariable x = new FunctionVariable(app.getKernel());
+		ExpressionNode node = x.wrap().sin().power(2);
+		assertEquals("sin" + Unicode.SUPERSCRIPT_2 + "(x)",
+				node.toString(StringTemplate.editTemplate));
+		assertEquals("\\operatorname{sin} ^{2}\\left( x \\right)",
+				node.toString(StringTemplate.latexTemplate));
+	}
+
+	@Test
+	public void shouldUseTrigPowerForVarExponent() {
+		FunctionVariable x = new FunctionVariable(app.getKernel());
+		ExpressionNode node = x.wrap().sin().power(x.wrap().cos());
+		assertEquals("sin(x)^cos(x)",
+				node.toString(StringTemplate.editTemplate));
+		assertEquals("\\operatorname{sin} \\left( x \\right)"
+						+ "^{\\operatorname{cos} \\left( x \\right)}",
+				node.toString(StringTemplate.latexTemplate));
 	}
 
 }
