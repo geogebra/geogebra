@@ -65,7 +65,7 @@ public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter 
 
     private void checkPolyline(
             Command command, GeoElement[] arguments, CommandProcessor commandProcessor) {
-        if (arguments.length == 0) {
+        if (arguments.length < 2) {
             throw new CommandNotFoundError(commandProcessor.getLocalization(), command);
         }
 
