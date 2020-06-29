@@ -306,12 +306,7 @@ public abstract class ValidExpression
 	 */
 	@Override
 	public double evaluateDouble() {
-		ExpressionValue ev;
-		try {
-			ev = evaluate(StringTemplate.defaultTemplate);
-		} catch (Exception ex) {
-			return Double.NaN;
-		}
+		ExpressionValue ev = evaluate(StringTemplate.defaultTemplate);
 		if (ev instanceof NumberValue) {
 			return ((NumberValue) ev).getDouble();
 		}
