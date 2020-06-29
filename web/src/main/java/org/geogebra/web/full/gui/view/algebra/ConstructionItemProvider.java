@@ -3,6 +3,8 @@ package org.geogebra.web.full.gui.view.algebra;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -32,8 +34,8 @@ public final class ConstructionItemProvider implements HasLastItem {
 	}
 
 	@Override
-	public String getLastItem() {
-		return convertToString(getLastGeoElement());
+	public String getPreviousItemFrom(GeoElement element) {
+		return convertToString(getPreviousElementFrom(element));
 	}
 
 	private String convertToString(GeoElement element) {
@@ -43,15 +45,42 @@ public final class ConstructionItemProvider implements HasLastItem {
 		return "";
 	}
 
-	private GeoElement getLastGeoElement() {
+	@Nullable
+	private GeoElement getPreviousElementFrom(GeoElement element) {
 		TreeSet<GeoElement> elements = cons.getGeoSetWithCasCellsConstructionOrder();
 		Iterator<GeoElement> iterator = elements.descendingIterator();
-		GeoElement element = iterator.next();
-		while (algebraView.getNode(element) == null && iterator.hasNext()) {
-			element = iterator.next();
+		if (element == null) {
+			return getPreviousElementFrom(iterator);
+		} else {
+			Iterator<GeoElement> iteratorFromElement = findElement(element, iterator);
+			return getPreviousElementFrom(iteratorFromElement);
 		}
-		setLastItemFlagsWith(element);
-		return element;
+	}
+
+	private GeoElement getPreviousElementFrom(Iterator<GeoElement> iterator) {
+		if (!iterator.hasNext()) {
+			setLastItemFlagsWith(null);
+			return null;
+		}
+		GeoElement iterated = iterator.next();
+		while (algebraView.getNode(iterated) == null && iterator.hasNext()) {
+			iterated = iterator.next();
+		}
+		if (algebraView.getNode(iterated) != null) {
+			setLastItemFlagsWith(iterated);
+			return iterated;
+		} else {
+			setLastItemFlagsWith(null);
+			return null;
+		}
+	}
+
+	private Iterator<GeoElement> findElement(GeoElement element, Iterator<GeoElement> iterator) {
+		GeoElement iterated = null;
+		while (iterated != element && iterator.hasNext()) {
+			iterated = iterator.next();
+		}
+		return iterator;
 	}
 
 	private void setLastItemFlagsWith(GeoElement lastItem) {

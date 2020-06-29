@@ -1,11 +1,14 @@
 package org.geogebra.common.gui.inputfield;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+
 public interface HasLastItem {
 
 	/**
-	 * @return last output as string
+	 * @param element The GeoElement of the current AV item.
+	 * @return Last output as string.
 	 */
-	String getLastItem();
+	String getPreviousItemFrom(GeoElement element);
 
 	/**
 	 * @return True if the last item is a simple number, otherwise false.

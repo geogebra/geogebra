@@ -2093,7 +2093,7 @@ public class GuiManagerW extends GuiManager
 		}
 		if (textField instanceof RadioTreeItem) {
 			return new MathFieldProcessing(
-					((RadioTreeItem) textField).getMathField(),
+					(RadioTreeItem) textField,
 					lastItemProvider);
 		}
 		if (textField instanceof KeyboardListener) {
