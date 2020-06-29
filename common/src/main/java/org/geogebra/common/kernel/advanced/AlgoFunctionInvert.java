@@ -95,7 +95,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 		}
 
 		ExpressionValue root = f.getFunctionExpression();
-		if (root == null || root.isConstant()) {
+		if (root == null) {
 			// eg f(x) = 2
 			g.setUndefined();
 			return;
@@ -133,6 +133,9 @@ public class AlgoFunctionInvert extends AlgoElement {
 	 */
 	public static ExpressionNode invert(ExpressionValue root0,
 			FunctionVariable oldFV, FunctionVariable x, Kernel kernel) {
+		if (root0.isConstant()) {
+			return null;
+		}
 		boolean fvLeft;
 		ExpressionNode newRoot = x.wrap();
 		ExpressionValue root = root0.unwrap();
