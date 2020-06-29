@@ -363,4 +363,14 @@ public class Hits3D extends Hits {
 		return new Hits3D();
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
 }

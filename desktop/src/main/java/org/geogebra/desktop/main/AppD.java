@@ -1330,10 +1330,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return runtime.maxMemory();
 	}
 
-	public void traceMethodsOn(boolean on) {
-		runtime.traceMethodCalls(on);
-	}
-
 	private static boolean virtualKeyboardActive = false;
 
 	public static boolean isVirtualKeyboardActive() {
