@@ -82,6 +82,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		// Prevent calling update special points recursively
 		isUpdating = true;
 
+		clearSpecPoints();
 		updateSpecialPointsInternal(geo);
 		fireSpecialPointsChangedEvent();
 
@@ -89,19 +90,23 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void updateSpecialPointsInternal(GeoElement geo0) {
-		clearSpecPoints();
 		GeoElement geo = getGeoForSpecialPoints(geo0);
-
 		if (geo != null) {
-			ArrayList<GeoElement> newPoints = new ArrayList<>();
-			getSpecPoints(geo, newPoints);
-			boolean canBeRemoved = geo.canBeRemovedAsInput();
-			geo.setCanBeRemovedAsInput(false);
+			updateSpecialPointsForGeo(geo);
+		}
+	}
+
+	private void updateSpecialPointsForGeo(GeoElement geoElement) {
+		ArrayList<GeoElement> newPoints = new ArrayList<>();
+		boolean canBeRemoved = geoElement.canBeRemovedAsInput();
+		try {
+			geoElement.setCanBeRemovedAsInput(false);
+			getSpecPoints(geoElement, newPoints);
 			if (newPoints.size() > 0) {
-				specPoints = new ArrayList<>(newPoints.size());
-				specPoints.addAll(newPoints);
-				geo.setCanBeRemovedAsInput(canBeRemoved);
+				specPoints = new ArrayList<>(newPoints);
 			}
+		} finally {
+			geoElement.setCanBeRemovedAsInput(canBeRemoved);
 		}
 	}
 
