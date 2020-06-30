@@ -1,9 +1,12 @@
 package org.geogebra.web.editor;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.gui.inputfield.AnsProvider;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
@@ -19,6 +22,9 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	private MathFieldW mf;
 	private AnsProvider ansProvider;
+
+	@Nullable
+	private RadioTreeItem avInput;
 	
 	/**
 	 * @param mf
@@ -38,6 +44,11 @@ public class MathFieldProcessing implements KeyboardListener {
 	public MathFieldProcessing(MathFieldW mf, HasLastItem lastItemProvider) {
 		this.mf = mf;
 		ansProvider = lastItemProvider != null ? new AnsProvider(lastItemProvider) : null;
+	}
+
+	public MathFieldProcessing(RadioTreeItem avInput, HasLastItem lastItemProvider) {
+		this(avInput.getMathField(), lastItemProvider);
+		this.avInput = avInput;
 	}
 
 	@Override
@@ -193,13 +204,13 @@ public class MathFieldProcessing implements KeyboardListener {
 		String currentInput = mf.getText();
 		String ans =
 				isInputInTextMode
-						? ansProvider.getAnsForTextInput(currentInput)
-						: ansProvider.getAns(currentInput);
+						? ansProvider.getAnsForTextInput(avInput.getGeo(), currentInput)
+						: ansProvider.getAns(avInput.getGeo(), currentInput);
 		mf.insertString(ans);
 	}
 
 	@Override
 	public boolean requestsAns() {
-		return ansProvider != null;
+		return ansProvider != null && avInput != null;
 	}
 }
