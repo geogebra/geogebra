@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInline;
@@ -417,25 +418,26 @@ public class CopyPasteW extends CopyPaste {
 
 			txt.setContent(array.toString());
 
-			final DrawInlineText drawText = (DrawInlineText) app.getActiveEuclidianView()
+			final DrawableND drawText =  app.getActiveEuclidianView()
 					.getDrawableFor(txt);
-			drawText.update();
-			drawText.updateContent();
+			if (drawText != null) {
+				drawText.update();
+				((DrawInlineText) drawText).updateContent();
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					@Override
+					public void execute() {
+						int x = (ev.getWidth() - defaultTextWidth) / 2;
+						int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
+						txt.setLocation(new GPoint2D(
+								ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
+						));
+						drawText.update();
 
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					int x = (ev.getWidth() - defaultTextWidth) / 2;
-					int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
-					txt.setLocation(new GPoint2D(
-							ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
-					));
-					drawText.update();
-
-					ev.getEuclidianController().selectAndShowSelectionUI(txt);
-					app.storeUndoInfo();
-				}
-			});
+						ev.getEuclidianController().selectAndShowSelectionUI(txt);
+						app.storeUndoInfo();
+					}
+				});
+			}
 		}
 	}
 
@@ -513,8 +515,10 @@ public class CopyPasteW extends CopyPaste {
 				}
 
 				if (created instanceof GeoInline) {
-					DrawInline drawInline = (DrawInline) ev.getDrawableFor(created);
-					drawInline.updateContent();
+					DrawableND drawInline = ev.getDrawableFor(created);
+					if (drawInline != null) {
+						((DrawInline) drawInline).updateContent();
+					}
 					shapes.add(created);
 				}
 			}

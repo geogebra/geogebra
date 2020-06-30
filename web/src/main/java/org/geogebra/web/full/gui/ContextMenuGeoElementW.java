@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
@@ -1249,9 +1250,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private boolean editModeTable() {
 		if (getGeo() instanceof GeoInlineTable) {
-			DrawInlineTable d = (DrawInlineTable) app.getActiveEuclidianView()
+			DrawableND drawable =  app.getActiveEuclidianView()
 					.getDrawableFor(getGeo());
-			return d.isInEditMode();
+			if (drawable != null) {
+				return ((DrawInlineTable) drawable).isInEditMode();
+			}
 		}
 
 		return false;
