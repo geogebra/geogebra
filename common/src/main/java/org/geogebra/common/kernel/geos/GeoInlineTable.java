@@ -91,9 +91,9 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 
 	@Override
 	public InlineTableController getFormatter() {
-		return ((DrawInlineTable) kernel.getApplication()
-				.getActiveEuclidianView().getDrawableFor(this))
-				.getTableController();
+		DrawInlineTable drawable = (DrawInlineTable) kernel.getApplication()
+				.getActiveEuclidianView().getDrawableFor(this);
+		return drawable == null ? null : drawable.getTableController();
 	}
 
 	@Override

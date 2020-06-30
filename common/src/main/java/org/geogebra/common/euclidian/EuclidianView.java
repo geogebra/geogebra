@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -1752,7 +1754,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            whether the list should be drawn as combobox
 	 */
 	public void drawListAsComboBox(GeoList list, boolean b) {
-		DrawableND d = getDrawable(list);
+		DrawableND d = getDrawableFor(list);
 		if (d != null) {
 			remove(list);
 			add(list);
@@ -1925,7 +1927,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// check if there is already a drawable for geo
-		DrawableND d = getDrawable(geo);
+		DrawableND d = getDrawableFor(geo);
 
 		if (d != null) {
 			return;
@@ -2048,7 +2050,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private void setupPreviewsSpecsPointDrawable(GeoElement specialPoint) {
-		DrawableND drawable = getDrawable(specialPoint);
+		DrawableND drawable = getDrawableFor(specialPoint);
 		if (drawable instanceof DrawPoint) {
 			DrawPoint drawPoint = (DrawPoint) drawable;
 			drawPoint.setPreview(true);
@@ -2236,13 +2238,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            geo
 	 * @return drawable for the given GeoElement.
 	 */
-	protected final DrawableND getDrawable(GeoElement geo) {
+	@Override
+	@CheckForNull
+	final public DrawableND getDrawableFor(GeoElementND geo) {
 		return drawableMap.get(geo);
 	}
 
 	@Override
 	public DrawableND getDrawableND(GeoElement geo) {
-		return getDrawable(geo);
+		return getDrawableFor(geo);
 	}
 
 	/**
@@ -2330,11 +2334,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public void updateHighlight(GeoElementND geo) {
 		// nothing to do here
-	}
-
-	@Override
-	final public DrawableND getDrawableFor(GeoElementND geo) {
-		return drawableMap.get(geo);
 	}
 
 	@Override

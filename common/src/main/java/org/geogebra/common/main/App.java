@@ -4057,7 +4057,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			} else if (geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
-				((DrawDropDownList) d).toggleOptions();
+				if (d != null) {
+					((DrawDropDownList) d).toggleOptions();
+				}
 
 			} else if (geo.isGeoNumeric()) {
 

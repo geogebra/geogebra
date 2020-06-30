@@ -154,9 +154,9 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 
 	@Override
 	public HasTextFormat getFormatter() {
-		return ((DrawInlineText) kernel.getApplication()
-				.getActiveEuclidianView().getDrawableFor(this))
-				.getTextController();
+		DrawInlineText drawable = (DrawInlineText) kernel.getApplication()
+				.getActiveEuclidianView().getDrawableFor(this);
+		return drawable == null ? null : drawable.getTextController();
 	}
 
 	/**

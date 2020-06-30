@@ -1243,6 +1243,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void loadEmptySlide() {
 		kernel.clearConstruction(true);
+		getSelectionManager().clearSelectedGeos();
 		resetMaxLayerUsed();
 		setCurrentFile(null);
 		resetUI();
