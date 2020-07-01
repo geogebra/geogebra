@@ -104,17 +104,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	private ArrayList<GeoPoint> pointsArray;
 
-	private StringBuilder sbToString = new StringBuilder(50);
-
-	private boolean asBoundary = false;
-
 	private boolean trace;
 
 	/**
 	 * orientation (1/-1) when convex
 	 */
 	private int convexOrientation;
-	private HitType lastHitType = HitType.ON_FILLING;
 
 	private Coords labelPosition;
 	private ChangeableParent changeableParent = null;
@@ -264,18 +259,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public GeoClass getGeoClassType() {
 		return GeoClass.POLYGON;
 	}
-
-	/**
-	 * @param type
-	 *            hit type
-	 */
-	final public void setLastHitType(HitType type) {
-		lastHitType = type;
-	}
 	
 	@Override
 	final public HitType getLastHitType() {
-		return lastHitType;
+		return HitType.ON_FILLING;
 	}
 
 	/**
@@ -1540,18 +1527,12 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append(" = ");
-		sbToString.append(kernel.format(getArea(), tpl));
-		return sbToString.toString();
+		return label + " = " + kernel.format(getArea(), tpl);
 	}
 
 	@Override
 	final public String toStringMinimal(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(regrFormat(getArea()));
-		return sbToString.toString();
+		return regrFormat(getArea());
 	}
 
 	@Override
@@ -1913,19 +1894,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	}
 
-	// //////////////////////////
-	// interface GeoSurfaceFinite
-	// /////////////////////////////
-	@Override
-	public void setRole(boolean isAsBoundary) {
-		this.asBoundary = isAsBoundary; // false means 'as region'
-	}
-
-	@Override
-	public boolean asBoundary() {
-		return asBoundary;
-	}
-
 	/**
 	 * returns 1 if the segment ((x1,y1),(x2,y2)) intersects y=0 for x>0, 2 if
 	 * (0,0) is on the segment and -1 otherwise If the segment only touches the
@@ -2067,7 +2035,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * if this is a convex polygon
+	 * If this is a convex polygon. Also updates the convexOrientation value (even for a triangle)
 	 * 
 	 * @return if this is a convex polygon
 	 */
@@ -2095,10 +2063,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 
 		int n = xList.size();
-		
-		if (n <= 3) {
-			return true;
-		}
 
 		// remove last point if equals first points
 		if (DoubleUtil.isEqual(xList.get(0), xList.get(n - 1))

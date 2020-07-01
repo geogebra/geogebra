@@ -38,8 +38,7 @@ public class CommandSignatures {
 				}
 			}
 			if ("Function".equals(cmdName) || "Random".equals(cmdName)
-					|| "DataFunction".equals(cmdName)
-					|| "StartLogging".equals(cmdName)) {
+					|| "DataFunction".equals(cmdName)) {
 				signature.add(0);
 			}
 			return signature;

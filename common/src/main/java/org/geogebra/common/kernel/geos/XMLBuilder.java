@@ -413,7 +413,7 @@ public class XMLBuilder {
 	 * @param sb XML builder
 	 * @param inline inline text or formula
 	 */
-	public static void appendPosition(StringBuilder sb, GeoInline inline) {
+	public static void appendPosition(StringBuilder sb, RectangleTransformable inline) {
 		GPoint2D location = inline.getLocation();
 		if (location != null) {
 			sb.append("\t<startPoint x=\"");

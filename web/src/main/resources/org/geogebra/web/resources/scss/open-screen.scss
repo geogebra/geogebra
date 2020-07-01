@@ -41,8 +41,7 @@
 	}
 
 	/* to avoid scrollbars on tablets and mac */
-	.browsegui > div:nth-child(1), .browsegui > div:nth-child(1) > div,
-	.languageGUI > div:nth-child(1), .languageGUI > div:nth-child(1) > div {
+	.browsegui > div:nth-child(1), .browsegui > div:nth-child(1) > div {
 		overflow: hidden !important;
 	}
 

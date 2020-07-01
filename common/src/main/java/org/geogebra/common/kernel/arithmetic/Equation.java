@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -777,7 +778,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	private ValidExpression assignmentOrProduct(ExpressionValue lhsUnwrapped, boolean rhsConstant) {
 		String name = ((Variable) lhsUnwrapped)
 				.getName(StringTemplate.defaultTemplate);
-		if (name.contains(".")) {
+		if (GParser.shouldSplitLabel(name)) {
 			lhs = ((Variable) lhsUnwrapped).resolveAsExpressionValue(SymbolicMode.NONE,
 					true).wrap();
 			return this;

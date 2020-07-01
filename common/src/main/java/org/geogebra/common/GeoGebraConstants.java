@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "09 June 2020";
+	public static final String BUILD_DATE = "30 June 2020";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.589.0";
+	public static final String VERSION_STRING = "5.0.592.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -248,10 +248,6 @@ public interface GeoGebraConstants {
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
 	public static final String FORUM_URL = "https://help.geogebra.org/";
-
-	public static final String DATA_LOGGING_WEBSOCKET_URL = "//data-logger.geogebra.org";
-	public static final String DATA_LOGGING_WEBSOCKET_PORT = "80";
-	public static final String DATA_LOGGING_WEBSOCKET_SECURE_PORT = "443";
 
 	public static final String WIDGET_URL = "https://www.geogebra.org/widgetprovider/index/widgettype/";
 

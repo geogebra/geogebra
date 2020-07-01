@@ -113,7 +113,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoScriptRunner;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.AsyncOperation;
@@ -194,8 +193,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// please let 1024 to 2047 empty
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
-	/** data collection view (web only) */
-	public static final int VIEW_DATA_COLLECTION = 43;
 	/** accessibility view in Web */
 	public static final int VIEW_ACCESSIBILITY = 44;
 	/** id for table view */
@@ -3671,10 +3668,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return companion;
 	}
 
-	public SensorLogger getSensorLogger() {
-		return null;
-	}
-
 	/**
 	 * Add file open listener.
 	 *
@@ -3806,10 +3799,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// note: please use prefix MOB
 		// *********************************************************
 		// **********************************************************************
-
-		// MOB-270
-		case ACRA:
-			return prerelease;
 
 		case ANALYTICS:
 			return prerelease;

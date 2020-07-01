@@ -263,6 +263,11 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
+	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
+	}
+
+	@Override
 	public PropertiesFactory createPropertiesFactory() {
 		return new BasePropertiesFactory();
 	}

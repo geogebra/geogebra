@@ -61,17 +61,19 @@ public class SymbolicProcessor {
 	private static final class SubExpressionEvaluator implements Traversing {
 		private ExpressionValue root;
 		private SymbolicProcessor processor;
+		private EvalInfo evalInfo;
 
 		public SubExpressionEvaluator(SymbolicProcessor symbolicProcessor,
-				ExpressionValue root) {
+				ExpressionValue root, EvalInfo evalInfo) {
 			this.processor = symbolicProcessor;
 			this.root = root;
+			this.evalInfo = evalInfo;
 		}
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command && ev != root.unwrap()) {
-				return processor.evalSymbolicNoLabel(ev);
+				return processor.evalSymbolicNoLabel(ev, evalInfo);
 			}
 			if (ev instanceof GeoDummyVariable && ((GeoDummyVariable) ev)
 					.getElementWithSameName() != null) {
@@ -93,7 +95,7 @@ public class SymbolicProcessor {
 	 * @param replaced symbolic expression
 	 * @return evaluated expression
 	 */
-	protected GeoElement doEvalSymbolicNoLabel(ExpressionNode replaced) {
+	protected GeoElement doEvalSymbolicNoLabel(ExpressionNode replaced, EvalInfo info) {
 		ExpressionValue expressionValue = replaced.unwrap();
 		Command cmd;
 		CommandDispatcher cmdDispatcher = kernel.getAlgebraProcessor().cmdDispatcher;
@@ -114,25 +116,30 @@ public class SymbolicProcessor {
 		ArrayList<GeoElement> noDummyVars = new ArrayList<>();
 		if (vars != null) {
 			for (GeoElement var : vars) {
-				if (!(var instanceof GeoDummyVariable)) {
-					noDummyVars.add(var);
-				} else {
+				if (var instanceof GeoDummyVariable) {
 					cons.getCASdummies()
 							.add(((GeoDummyVariable) var).getVarName());
+				} else if (var != null) {
+					noDummyVars.add(var);
 				}
 			}
 		}
 		GeoSymbolic sym;
 		if (noDummyVars.size() > 0) {
 			AlgoDependentSymbolic ads = new AlgoDependentSymbolic(cons,
-					replaced, noDummyVars);
+					replaced, noDummyVars, info.getArbitraryConstant());
 			sym = (GeoSymbolic) ads.getOutput(0);
 		} else {
 			sym = new GeoSymbolic(cons);
+			sym.setArbitraryConstant(info.getArbitraryConstant());
 			sym.setDefinition(replaced);
 			sym.computeOutput();
 		}
 		return sym;
+	}
+
+	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve) {
+		return evalSymbolicNoLabel(ve, new EvalInfo());
 	}
 
 	/**
@@ -140,15 +147,16 @@ public class SymbolicProcessor {
 	 *            input expression
 	 * @return processed geo
 	 */
-	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve) {
+	protected GeoElement evalSymbolicNoLabel(ExpressionValue ve, EvalInfo info) {
 		ve.resolveVariables(
 				new EvalInfo(false).withSymbolicMode(SymbolicMode.SYMBOLIC_AV));
 		if (ve.unwrap() instanceof Command
 				&& "Sequence".equals(((Command) ve.unwrap()).getName())) {
-			return doEvalSymbolicNoLabel(ve.wrap());
+			return doEvalSymbolicNoLabel(ve.wrap(), info);
 		}
+		EvalInfo subInfo = new EvalInfo().withArbitraryConstant(info.getArbitraryConstant());
 		ExpressionNode replaced = ve
-				.traverse(new SubExpressionEvaluator(this, ve)).wrap();
+				.traverse(new SubExpressionEvaluator(this, ve, subInfo)).wrap();
 		if (replaced.inspect(new RecursiveEquationFinder(ve))) {
 			replaced = new Equation(kernel,
 					new GeoDummyVariable(cons, ve.wrap().getLabel()), replaced)
@@ -156,7 +164,7 @@ public class SymbolicProcessor {
 			ve.wrap().setLabel(null);
 		}
 
-		return doEvalSymbolicNoLabel(replaced);
+		return doEvalSymbolicNoLabel(replaced, info);
 	}
 
 	/**

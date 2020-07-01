@@ -166,7 +166,7 @@ public final class CommandFilterFactory {
 				Commands.SetSeed, Commands.SetSpinSpeed, Commands.SetTooltipMode,
 				Commands.SetTrace, Commands.SetValue, Commands.SetViewDirection,
 				Commands.SetVisibleInView, Commands.ShowLabel,
-				Commands.StartLogging, Commands.StartRecord, Commands.StopLogging,
+				Commands.StartRecord,
 				Commands.Turtle, Commands.TurtleBack, Commands.TurtleDown,
 				Commands.TurtleForward, Commands.TurtleLeft, Commands.TurtleRight,
 				Commands.TurtleUp, Commands.UpdateConstruction,

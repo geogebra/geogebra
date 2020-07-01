@@ -883,10 +883,6 @@ public enum Commands implements CommandsConstants,
 
 	SetPerspective(TABLE_SCRIPTING),
 
-	StartLogging(TABLE_SCRIPTING),
-
-	StopLogging(TABLE_SCRIPTING),
-
 	StartRecord(TABLE_SCRIPTING),
 
 	Repeat(TABLE_SCRIPTING),

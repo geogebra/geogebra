@@ -2192,7 +2192,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return null;
 		}
 		for (Drawable d : allDrawableList) {
-			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, getThresholdForDrawable(type, d));
+			hitHandler = d.hitBoundingBoxHandler(p.x, p.y, app.getCapturingThreshold(type));
 			if (hitHandler != EuclidianBoundingBoxHandler.UNDEFINED) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
@@ -2201,21 +2201,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * 
-	 * @param type
-	 *            The event type.
-	 * @param d
-	 *            {@link Drawable}
-	 * @return threshold for grabbing the BouingBox
-	 */
-	public int getThresholdForDrawable(PointerEventType type, Drawable d) {
-		if (d == null) {
-			return 0;
-		}
-		return app.getCapturingThreshold(type);
 	}
 
 	/**
