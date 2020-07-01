@@ -36,6 +36,7 @@ public class RemoveSliderTest extends BaseSymbolicTest {
 		symbolic = lookup("a");
 		assertThat(symbolic, is(CoreMatchers.<GeoElement>instanceOf(GeoSymbolic.class)));
 		assertThat(symbolic.getLabelSimple(), is("a"));
+		assertThat(symbolic.isAlgebraLabelVisible(), is(true));
 	}
 
 	@Test
