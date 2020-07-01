@@ -1138,6 +1138,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		resetUI();
 		resetPenTool();
+		resetUrl();
 	}
 
 	private void resetPages() {
@@ -1309,6 +1310,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean openFile(JavaScriptObject fileToHandle) {
 		resetPerspectiveParam();
+		resetUrl();
 		return doOpenFile(fileToHandle, null);
 	}
 
@@ -3823,5 +3825,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public SignInControllerI getSignInController() {
 		return getLAF().getSignInController(this);
+	}
+
+	public void resetUrl() {
+	 	Browser.resetUrl();
+		Browser.changeUrl("/" + articleElement.getParamShareLinkPrefix());
 	}
 }
