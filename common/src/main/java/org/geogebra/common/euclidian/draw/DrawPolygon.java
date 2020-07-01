@@ -107,8 +107,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			fillShape = false;
 
 			if (geo.isInverseFill()) {
-				createShape();
-				fillShape = true;
+				createInverseShape();
 			}
 
 			// polygon on screen?
@@ -133,7 +132,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	private void createShape() {
+	private void createInverseShape() {
+		fillShape = true;
 		setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 		getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 	}
@@ -342,6 +342,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
+		if (!isVisible) {
+			return false;
+		}
 		GShape t = geo.isInverseFill() ? getShape() : gp;
 		boolean contains = t.contains(AwtFactory.getPrototype().newRectangle(x - hitThreshold,
 				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
@@ -379,10 +382,14 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	public GArea getShape() {
-		if (geo.isInverseFill() && super.getShape() != null) {
+		if (super.getShape() != null) {
 			return super.getShape();
 		}
-		setShape(AwtFactory.getPrototype().newArea(gp));
+		if (geo.isInverseFill()) {
+			createInverseShape();
+		} else {
+			setShape(AwtFactory.getPrototype().newArea(gp));
+		}
 		return super.getShape();
 	}
 
