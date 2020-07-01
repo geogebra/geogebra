@@ -3712,7 +3712,7 @@ public class ExpressionNode extends ValidExpression
 			return false;
 		}
 		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
-				|| unwrap instanceof GeoNumeric) {
+				|| (unwrap instanceof GeoNumeric && !(unwrap instanceof GeoDummyVariable))) {
 			double val = evaluateDouble();
 			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);

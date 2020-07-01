@@ -3128,8 +3128,8 @@ public class AlgebraProcessor {
 	}
 
 	private boolean willResultInSlider(ExpressionNode node) {
-		return node.isSimpleNumber() || (node.unwrap() instanceof Command
-				&& ((Command) node.unwrap()).getName().equals("Slider"));
+		return node.unwrap() instanceof Command
+				&& ((Command) node.unwrap()).getName().equals("Slider");
 	}
 
 	/**
