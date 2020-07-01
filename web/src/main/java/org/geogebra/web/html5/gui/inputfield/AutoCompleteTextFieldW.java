@@ -28,6 +28,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
@@ -1493,6 +1494,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void setFocus(boolean focus) {
 		isFocused = focus;
 		textField.setFocus(focus);
+		((GeoGebraFrameFull) app.getAppletFrame()).doShowKeyBoard(focus, this);
 	}
 
 	public void addInsertHandler(InsertHandler newInsertHandler) {
