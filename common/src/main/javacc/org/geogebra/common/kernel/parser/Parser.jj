@@ -1153,7 +1153,7 @@ ExpressionValue multterm():
      LOOKAHEAD( { getToken(1).kind != VERTICAL_BAR} )
      f = powerdivterm()
         {
-            ExpressionValue special = ExpressionNode.multiplySpecial(ret, f, kernel, GiacParsing);
+            ExpressionValue special = functionParser.multiplySpecial(ret, f, GiacParsing, GeoGebraCASParsing);
             if (special == null) {
                 if (ExpressionNode.isConstantDouble(f, Kernel.PI_180)
                         && ret instanceof ExpressionNode
