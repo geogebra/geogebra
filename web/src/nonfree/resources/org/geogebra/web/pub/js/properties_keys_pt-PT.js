@@ -1127,7 +1127,7 @@ __GGB__keysVar["pt-PT"].command = {
     "mean.SyntaxCAS": "[ <Lista de N\xfameros> ]",
     "nCr": "nCr",
     "nCr.Syntax": "[ <N\xfamero n>, <N\xfamero r> ]",
-    "stdev": "devstd",
+    "stdev": "DevStd",
     "stdev.Syntax": "[ <Lista de Dados n\xe3o Classificados> ]\n[ <Lista de N\xfameros>, <Lista de Frequ\xeancias> ]",
     "stdevp": "DesStd",
     "stdevp.Syntax": "[ <Lista de Dados n\xe3o Classificados> ]\n[ <Lista de N\xfameros>, <Lista de Frequ\xeancias> ]",
