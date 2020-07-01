@@ -133,9 +133,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	private void createInverseShape() {
-		fillShape = true;
 		setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 		getShape().subtract(AwtFactory.getPrototype().newArea(gp));
+		fillShape = true;
 	}
 
 	private Coords getCoords(int i) {
