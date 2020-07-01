@@ -379,7 +379,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	public GArea getShape() {
-		if (geo.isInverseFill() || super.getShape() != null) {
+		if (geo.isInverseFill() && super.getShape() != null) {
 			return super.getShape();
 		}
 		setShape(AwtFactory.getPrototype().newArea(gp));
