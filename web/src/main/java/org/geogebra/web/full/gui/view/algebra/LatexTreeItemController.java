@@ -48,6 +48,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onBlur(BlurEvent event) {
+		item.setFocusedStyle(false);
 		if (preventBlur || noEvaluationOnBlur()) {
 			return;
 		}

@@ -288,13 +288,7 @@ public class RadioTreeItemController implements ClickHandler,
 	}
 
 	private void setFocusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				setFocus(true);
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> setFocus(true));
 	}
 
 	/**
@@ -486,15 +480,7 @@ public class RadioTreeItemController implements ClickHandler,
 		if (!isEditing()) {
 			setEditHeigth(item.getEditHeight());
 			getAV().startEditItem(geo);
-
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-
-					item.adjustStyleBar();
-				}
-			});
-
+			Scheduler.get().scheduleDeferred(() -> item.adjustStyleBar());
 			showKeyboard();
 		}
 	}

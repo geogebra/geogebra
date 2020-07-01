@@ -90,7 +90,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private AlgebraStyleBarW styleBar;
 	private boolean editItem = false;
 	private GeoElement draggedGeo;
-	// to store width if original was thiner than needed.
+	// to store width if original was thinner than needed.
 	private Integer originalWidth = null;
 	private int mqFontSize = -1;
 	private int maxItemWidth = 0;
@@ -102,19 +102,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/** whether it's attached to kernel */
 	protected boolean attached = false;
 
-	private AnimationCallback repaintCallback = new AnimationCallback() {
-		@Override
-		public void execute(double ts) {
-			doRepaint();
-		}
-	};
+	private AnimationCallback repaintCallback = ts -> doRepaint();
 
-	private AnimationCallback repaintSlidersCallback = new AnimationCallback() {
-		@Override
-		public void execute(double ts) {
-			doRepaintSliders();
-		}
-	};
+	private AnimationCallback repaintSlidersCallback = ts -> doRepaintSliders();
 
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
@@ -191,13 +181,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		app.getSelectionManager()
-				.addSelectionListener(new GeoElementSelectionListener() {
-					@Override
-					public void geoElementSelected(GeoElement geo,
-							boolean addToSelection) {
-						updateSelection();
-					}
-				});
+				.addSelectionListener((geo, addToSelection) -> updateSelection());
 		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));
 	}
 
@@ -1218,12 +1202,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
 			if (wasEmpty) {
-				// if adding new elements the first time,
-				// let's show the X signs in the input bar!
 				if (this.inputPanelLatex != null) {
 					this.inputPanelLatex.updateGUIfocus(false);
 				}
-
 			}
 
 			// ensure that the leaf with the new object is visible
@@ -1232,15 +1213,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if (inputPanelLatex != null && scroll) {
 			inputPanelLatex.updateUIforInput();
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				@Override
-				public void execute() {
-
-					inputPanelLatex.updateButtonPanelPosition();
-					getAlgebraDockPanel().scrollAVToBottom();
-
-				}
+			Scheduler.get().scheduleDeferred(() -> {
+				inputPanelLatex.updateButtonPanelPosition();
+				getAlgebraDockPanel().scrollAVToBottom();
 			});
 		}
 		updateSelection();

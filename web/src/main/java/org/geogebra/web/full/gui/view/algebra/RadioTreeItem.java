@@ -1172,6 +1172,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public void ensureEditing() {
+		setFocusedStyle(true);
 		if (!controller.isEditing()) {
 			enterEditMode(geo == null || isMoveablePoint(geo));
 
@@ -2159,5 +2160,19 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public int getEditHeight() {
 		int outputHeight = outputPanel == null ? 0 : outputPanel.getOffsetHeight();
 		return getOffsetHeight() - outputHeight;
+	}
+
+	/**
+	 * set the focused style for inputbar
+	 * @param focused - true if editing started
+	 */
+	public void setFocusedStyle(boolean focused) {
+		if (isInputTreeItem()) {
+			if (focused) {
+				getWidget().getElement().getParentElement().addClassName("focused");
+			} else {
+				getWidget().getElement().getParentElement().removeClassName("focused");
+			}
+		}
 	}
 }
