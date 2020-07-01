@@ -140,10 +140,12 @@ public class FunctionParser {
 				MyDouble pi = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
 				return multiplication(pi, undecided, myList, funcName);
 			}
-			ExpressionNode splitCommand = makeSplitCommand(funcName, myList,
-					GiacParsing || GeoGebraCASParsing);
-			if (splitCommand != null) {
-				return splitCommand;
+			if (myList.size() == 1) {
+				ExpressionNode splitCommand = makeSplitCommand(funcName,
+						myList.getListElement(0), GiacParsing || GeoGebraCASParsing);
+				if (splitCommand != null) {
+					return splitCommand;
+				}
 			}
 			// function name does not exist: return command
 			Command cmd = new Command(kernel, funcName, true, !GiacParsing);
@@ -229,15 +231,16 @@ public class FunctionParser {
 		return multiplication(geoExp, undecided, myList, funcName);
 	}
 
-	private ExpressionNode makeSplitCommand(String funcName, MyList myList, boolean b) {
-		if (myList.size() == 1 && !b
+	private ExpressionNode makeSplitCommand(String funcName, ExpressionValue arg,
+			boolean casParsing) {
+		if (!casParsing
 				&& !kernel.getLoadingMode()
 				&& kernel.getApplication().getInternalCommand(funcName) == null) {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
 			ExpressionValue ve2 = replacer.replace(funcName + "$");
 			if (ve2.isExpressionNode()) {
 				Traversing.VariableReplacer replacer1 = Traversing.VariableReplacer
-						.getReplacer("$", myList.getListElement(0), kernel);
+						.getReplacer("$", arg, kernel);
 				return ve2.traverse(replacer1).wrap();
 			}
 		}
@@ -531,6 +534,16 @@ public class FunctionParser {
 				return new ExpressionNode(kernel, right, op, null)
 						.power(exponent);
 
+			} else {
+				ExpressionNode splitCommand = makeSplitCommand(leftImg, right,
+						giacParsing || geogebraCasParsing);
+				if (splitCommand != null) {
+					ExpressionValue exponent = ((ExpressionNode) left).getRight()
+							.unwrap();
+					if (splitCommand.wrap().getOperation() == Operation.MULTIPLY) {
+						return buildTrigPower(splitCommand, exponent);
+					}
+				}
 			}
 			// x * sin x in GGB is function applied on the right if "sin" is not
 			// a variable
@@ -567,5 +580,15 @@ public class FunctionParser {
 			}
 		}
 		return null;
+	}
+
+	private ExpressionValue buildTrigPower(ExpressionNode splitCommand,
+			ExpressionValue exponent) {
+		ExpressionValue leftC = splitCommand.wrap().getLeft();
+		ExpressionValue rightC = splitCommand.wrap().getRight();
+		ExpressionNode power = exponent.isConstant() && exponent.evaluateDouble() == -1 ?
+				kernel.inverseTrig(rightC.wrap().getOperation(), rightC.wrap().getLeft()) :
+				rightC.wrap().power(exponent);
+		return leftC.wrap().multiplyR(power);
 	}
 }
