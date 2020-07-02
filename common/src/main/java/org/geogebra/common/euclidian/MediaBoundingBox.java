@@ -62,9 +62,10 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 		updateHandlers();
 	}
 
-	private void setHandlerTransformed(int i, double x, double y) {
-		corners[i] = transform.transform(new GPoint2D(x, y), null);
-		delegate.setHandlerFromCenter(i, corners[i].getX(), corners[i].getY());
+	private void setHandlerTransformed(int handlerIndex, double x, double y) {
+		corners[handlerIndex] = transform.transform(new GPoint2D(x, y), null);
+		delegate.setHandlerFromCenter(handlerIndex,
+				corners[handlerIndex].getX(), corners[handlerIndex].getY());
 	}
 
 	private void updateHandlers() {

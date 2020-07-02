@@ -25,10 +25,10 @@ public class CropBox implements BoundingBoxDelegate {
 	}
 
 	@Override
-	public void setHandlerFromCenter(int i, double x, double y) {
+	public void setHandlerFromCenter(int handlerIndex, double x, double y) {
 		double tangent = 5 * Math.cos(box.geo.getAngle());
 		double normal = 5 * Math.sin(box.geo.getAngle());
-		switch (i) {
+		switch (handlerIndex) {
 		case 0:
 			getHandler(0).moveTo(x - 2 * normal, y + 2 * tangent);
 			getHandler(0).lineTo(x, y);
@@ -67,12 +67,12 @@ public class CropBox implements BoundingBoxDelegate {
 			getHandler(7).lineTo(x - normal, y + tangent);
 			break;
 		default:
-			Log.warn("illegal handler " + i);
+			Log.warn("illegal handler " + handlerIndex);
 		}
 	}
 
-	private GGeneralPath getHandler(int i) {
-		return (GGeneralPath) box.handlers.get(i);
+	private GGeneralPath getHandler(int handlerIndex) {
+		return (GGeneralPath) box.handlers.get(handlerIndex);
 	}
 
 	@Override

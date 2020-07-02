@@ -36,8 +36,8 @@ public class RotatableBoundingBox implements BoundingBoxDelegate {
 	}
 
 	@Override
-	public void setHandlerFromCenter(int i, double x, double y) {
-		((GEllipse2DDouble) box.handlers.get(i))
+	public void setHandlerFromCenter(int handlerIndex, double x, double y) {
+		((GEllipse2DDouble) box.handlers.get(handlerIndex))
 				.setFrameFromCenter(x, y, x + BoundingBox.HANDLER_RADIUS,
 						y + BoundingBox.HANDLER_RADIUS);
 	}
