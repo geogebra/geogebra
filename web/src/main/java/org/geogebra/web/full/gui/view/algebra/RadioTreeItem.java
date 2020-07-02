@@ -1679,7 +1679,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getArticleElement().getScaleX());
 		mf.setOnBlur(getLatexController());
-		mf.setOnFocus(focusEvent -> setFocusedStyle(true));
+		mf.setOnFocus(focusEvent -> {
+			setFocusedStyle(true);
+			app.getAppletFrame().doShowKeyBoard(true, this);
+		});
 	}
 
 	private void updateEditorAriaLabel(String text) {
@@ -2188,5 +2191,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		getController().setEditing(false);
 		setFocusedStyle(false);
+		if (app.getAppletFrame().isKeyboardShowing()) {
+			app.hideKeyboard();
+		}
 	}
 }
