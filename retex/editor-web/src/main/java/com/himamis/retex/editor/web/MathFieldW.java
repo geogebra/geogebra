@@ -37,6 +37,7 @@ import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -97,6 +98,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private boolean enabled = true;
 	private static Timer tick;
 	private BlurHandler onTextfieldBlur;
+	private FocusHandler onTextfieldFocus;
 	private Timer focuser;
 	private boolean pasteInstalled = false;
 
@@ -699,6 +701,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private void setFocus(boolean focus, final Runnable callback) {
 		if (focus) {
+			if (onTextfieldFocus != null) {
+				onTextfieldFocus.onFocus(null);
+			}
 			startBlink();
 			focuser = new Timer() {
 
@@ -717,7 +722,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				pasteInstalled = true;
 				installPaste(this.getHiddenTextArea());
 			}
-
 		} else {
 			if (focuser != null) {
 				focuser.cancel();
@@ -905,6 +909,10 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	public void setOnBlur(BlurHandler run) {
 		this.onTextfieldBlur = run;
+	}
+
+	public void setOnFocus(FocusHandler run) {
+		this.onTextfieldFocus = run;
 	}
 
 	private static native Element getHiddenTextAreaNative(int counter,

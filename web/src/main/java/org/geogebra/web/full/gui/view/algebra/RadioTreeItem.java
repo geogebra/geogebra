@@ -1679,6 +1679,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getArticleElement().getScaleX());
 		mf.setOnBlur(getLatexController());
+		mf.setOnFocus(focusEvent -> setFocusedStyle(true));
 	}
 
 	private void updateEditorAriaLabel(String text) {
@@ -1708,6 +1709,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (isInputTreeItem()) {
 				MinMaxPanel.closeMinMaxPanel();
 				getAV().restoreWidth(true);
+				setFocusedStyle(true);
 			}
 		} else {
 			if (isInputTreeItem()) {
@@ -2174,5 +2176,17 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				getWidget().getElement().getParentElement().removeClassName("focused");
 			}
 		}
+	}
+
+	/**
+	 * if empty input bar remove cursor, put help text,
+	 * and disable focus
+	 */
+	public void resetInputBarOnBlur() {
+		if (isEmpty() && isInputTreeItem()) {
+			addDummyLabel();
+		}
+		getController().setEditing(false);
+		setFocusedStyle(false);
 	}
 }
