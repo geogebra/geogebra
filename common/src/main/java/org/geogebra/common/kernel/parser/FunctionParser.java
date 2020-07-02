@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic.variable.VariableReplacerAlgorithm;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -235,7 +236,7 @@ public class FunctionParser {
 			boolean casParsing) {
 		if (!casParsing
 				&& !kernel.getLoadingMode()
-				&& kernel.getApplication().getInternalCommand(funcName) == null) {
+				&& !isCommand(funcName)) {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
 			ExpressionValue ve2 = replacer.replace(funcName + "$");
 			if (ve2.isExpressionNode()) {
@@ -245,6 +246,19 @@ public class FunctionParser {
 			}
 		}
 		return null;
+	}
+
+	private boolean isCommand(String funcName) {
+		if (kernel.getApplication().getInternalCommand(funcName) != null) {
+			return true;
+		}
+		try {
+			Commands.valueOf(funcName);
+			return true;
+		} catch(Exception notFound){
+			// not a command
+		}
+		return false;
 	}
 
 	private Operation getOperation(String funcName, int size) {
@@ -430,7 +444,7 @@ public class FunctionParser {
 			pos--;
 		}
 		String operation = image.substring(0, pos + 1);
-		String power = image.substring(pos + 1);
+		String power = image.substring(pos + 1, image.length() - 1);
 		if ("x".equals(operation) || "y".equals(operation)
 				|| "z".equals(operation)) {
 			return new ExpressionNode(kernel,
