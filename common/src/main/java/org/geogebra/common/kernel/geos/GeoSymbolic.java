@@ -322,21 +322,34 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			return null;
 		}
 		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
-		ExpressionNode node;
-		try {
-			cons.setSuppressLabelCreation(true);
-			node = getDefinition().deepCopy(kernel).traverse(createPrepareDefinition()).wrap();
-			node.setLabel(null);
-			return process(node);
-		} catch (Throwable exception) {
+		cons.setSuppressLabelCreation(true);
+		GeoElementND newTwin;
+		if (getArbitraryConstant().getTotalNumberOfConsts() > 0) {
+			newTwin = computeFromOutput();
+		} else {
 			try {
-				node = getKernel().getParser().parseGiac(casOutputString).wrap();
-				return process(node);
-			} catch (Throwable t) {
-				return null;
+				ExpressionNode node = getDefinition().deepCopy(kernel)
+						.traverse(createPrepareDefinition()).wrap();
+				node.setLabel(null);
+				newTwin = process(node);
+			} catch (Throwable exception) {
+				try {
+					newTwin = computeFromOutput();
+				} catch (Throwable t) {
+					return null;
+				}
 			}
-		} finally {
-			cons.setSuppressLabelCreation(isSuppressLabelsActive);
+		}
+		cons.setSuppressLabelCreation(isSuppressLabelsActive);
+		return newTwin;
+	}
+
+	private GeoElementND computeFromOutput() {
+		try {
+			ExpressionNode node = getKernel().getParser().parseGiac(casOutputString).wrap();
+			return process(node);
+		} catch (Throwable t) {
+			return null;
 		}
 	}
 
