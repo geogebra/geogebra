@@ -19,11 +19,20 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void imaginaryUnitShouldOverrideUserDefinedVar() {
+	public void imaginaryUnitShouldOverrideUserDefinedVarForPoints() {
 		add("z_1 = 3 + 2i");
 		add("i = 7");
 		shouldBeUpdatedAs("2i", "2" + IMAGINARY_UNIT);
 		assertEquals("0 + 2i",
+				lookup("z_1").toValueString(StringTemplate.latexTemplate));
+	}
+
+	@Test
+	public void userDefinedVarShouldOverrideImaginaryUnitForNumbers() {
+		add("i = 7");
+		add("z_1 = 3 + 2i");
+		shouldBeUpdatedAs("2i", "2" + IMAGINARY_UNIT);
+		assertEquals("14",
 				lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
 

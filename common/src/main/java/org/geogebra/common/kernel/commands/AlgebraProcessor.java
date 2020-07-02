@@ -453,7 +453,9 @@ public class AlgebraProcessor {
 			}
 
 			replaceDerivative(ve, geo);
-			ve = replaceSqrtMinusOne(ve);
+			if (GeoPoint.isComplexNumber(geo)) {
+				ve = replaceSqrtMinusOne(ve);
+			}
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
