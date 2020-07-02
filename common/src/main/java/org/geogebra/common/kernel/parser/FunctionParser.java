@@ -238,11 +238,12 @@ public class FunctionParser {
 				&& !kernel.getLoadingMode()
 				&& !isCommand(funcName)) {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
-			ExpressionValue ve2 = replacer.replace(funcName + "$");
-			if (ve2.isExpressionNode()) {
-				Traversing.VariableReplacer replacer1 = Traversing.VariableReplacer
+			ExpressionValue exprWithDummyArg = replacer.replace(funcName + "$");
+			if (exprWithDummyArg.isExpressionNode()
+					&& exprWithDummyArg.wrap().getOperation() ==  Operation.MULTIPLY) {
+				Traversing.VariableReplacer dummyArgReplacer = Traversing.VariableReplacer
 						.getReplacer("$", arg, kernel);
-				return ve2.traverse(replacer1).wrap();
+				return exprWithDummyArg.traverse(dummyArgReplacer).wrap();
 			}
 		}
 		return null;
@@ -413,12 +414,11 @@ public class FunctionParser {
 			funVar[i] = new FunctionVariable(kernel, localVars.get(i));
 		}
 
-		// multi variable function
 		if (n == 1) { // single variable function
 			Function fun = new Function(rhs, funVar[0]);
 			fun.setLabel(funLabel);
 			rhs = new ExpressionNode(kernel, fun);
-		} else {
+		} else { // multi variable function
 			FunctionNVar funn = new FunctionNVar(rhs, funVar);
 			funn.setLabel(funLabel);
 			rhs = new ExpressionNode(kernel, funn);
@@ -541,12 +541,7 @@ public class FunctionParser {
 			if (op != null) {
 				ExpressionValue exponent = ((ExpressionNode) left).getRight()
 						.unwrap();
-				if (exponent.isConstant()
-						&& DoubleUtil.isEqual(-1, exponent.evaluateDouble())) {
-					return kernel.inverseTrig(op, right);
-				}
-				return new ExpressionNode(kernel, right, op, null)
-						.power(exponent);
+				return inverseOrPower(op, right, exponent);
 
 			} else {
 				ExpressionNode splitCommand = makeSplitCommand(leftImg, right,
@@ -554,9 +549,7 @@ public class FunctionParser {
 				if (splitCommand != null) {
 					ExpressionValue exponent = ((ExpressionNode) left).getRight()
 							.unwrap();
-					if (splitCommand.wrap().getOperation() == Operation.MULTIPLY) {
-						return buildTrigPower(splitCommand, exponent);
-					}
+					return buildTrigPower(splitCommand, exponent);
 				}
 			}
 			// x * sin x in GGB is function applied on the right if "sin" is not
@@ -596,13 +589,21 @@ public class FunctionParser {
 		return null;
 	}
 
+	private ExpressionValue inverseOrPower(Operation op, ExpressionValue right, ExpressionValue exponent) {
+		if (exponent.isConstant()
+				&& DoubleUtil.isEqual(-1, exponent.evaluateDouble())) {
+			return kernel.inverseTrig(op, right);
+		}
+		return new ExpressionNode(kernel, right, op, null)
+				.power(exponent);
+	}
+
 	private ExpressionValue buildTrigPower(ExpressionNode splitCommand,
 			ExpressionValue exponent) {
-		ExpressionValue leftC = splitCommand.wrap().getLeft();
-		ExpressionValue rightC = splitCommand.wrap().getRight();
-		ExpressionNode power = exponent.isConstant() && exponent.evaluateDouble() == -1 ?
-				kernel.inverseTrig(rightC.wrap().getOperation(), rightC.wrap().getLeft()) :
-				rightC.wrap().power(exponent);
-		return leftC.wrap().multiplyR(power);
+		ExpressionValue coefficient = splitCommand.getLeft();
+		ExpressionNode trigExpression = splitCommand.getRight().wrap();
+		ExpressionValue power = inverseOrPower(trigExpression.getOperation(),
+				trigExpression.getLeft(), exponent);
+		return coefficient.wrap().multiplyR(power);
 	}
 }
