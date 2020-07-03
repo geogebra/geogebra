@@ -11,8 +11,10 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.Serializer;
@@ -132,5 +134,10 @@ public class EvaluatorAPI {
 			mathFieldInternal.parse(state.getContent());
 			mathFieldInternal.setCaretPath(state.getCaretPath());
 		}
+	}
+
+	public void evalLaTeX(String formula) {
+		String plainText = new SyntaxAdapterImpl(parser.getKernel()).convert(formula);
+		KeyboardInputAdapter.insertString(mathFieldInternal, plainText);
 	}
 }

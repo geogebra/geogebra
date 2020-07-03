@@ -4,6 +4,8 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.html5.export.Canvas2Svg;
+import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -13,6 +15,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.web.MathFieldW;
+import com.himamis.retex.renderer.share.CursorBox;
+
+import jsinterop.base.Js;
 
 /**
  * Evaluator Web implementation.
@@ -115,5 +121,35 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	@Override
 	public void onBlur(BlurEvent event) {
 		mathFieldEditor.setKeyboardVisibility(false);
+	}
+
+	/**
+	 * @param type image type -- only SVG supported
+	 * @return {svg: base64 encoded SVG, baseline: relative baseline position}
+	 */
+	public Object exportImage(String type) {
+		EquationExportImage ret = new EquationExportImage();
+		if (!"svg".equals(type) || !ExportLoader.ensureCanvas2SvgLoaded()) {
+			ret.setError("Something went wrong");
+			return ret;
+		}
+
+		MathFieldW mathField = mathFieldEditor.getMathField();
+		mathField.repaintWeb();
+
+		int height = mathField.getIconHeight();
+		int depth = mathField.getIconDepth();
+		int width = mathField.getIconWidth();
+		if (height < 1 || width < 1) {
+			ret.setError("Invalid dimensions");
+			return ret;
+		}
+		Canvas2Svg ctx = Canvas2Svg.get(width, height + depth);
+		CursorBox.setBlink(false);
+		mathField.paint(Js.uncheckedCast(ctx));
+		ret.setBaseline(height / (double) (height + depth));
+		ret.setSvg(ctx.getSerializedSvg(true));
+
+		return ret;
 	}
 }
