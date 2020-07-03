@@ -247,7 +247,7 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionValue lookupOrProduct(String nameNoX) {
-		if (kernel.getConstruction().isRegistredFunctionVariable(nameNoX)
+		if (kernel.getConstruction().isRegisteredFunctionVariable(nameNoX)
 				&& !isCharVariableOrConstantName(nameNoX)) {
 			return new FunctionVariable(kernel, nameNoX);
 		}

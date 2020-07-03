@@ -1529,11 +1529,13 @@ ExpressionValue numVecVariable():
         if (lookforEulerImaginary) {
             // TREAT e and i specially
             // e for Euler constant
-            if (c.image.equals("e") && kernel.lookupLabel(c.image) == null) {
+            if (c.image.equals("e") && kernel.lookupLabel(c.image) == null
+            		&& !kernel.getConstruction().isRegisteredFunctionVariable("e")) {
                 return kernel.getEulerNumber();
             }
             // i for imaginary unit
-            else if (c.image.equals("i") && kernel.lookupLabel(c.image) == null) {
+            else if (c.image.equals("i") && kernel.lookupLabel(c.image) == null
+            					&& !kernel.getConstruction().isRegisteredFunctionVariable("i")) {
                 return kernel.getImaginaryUnit();
             }
         }

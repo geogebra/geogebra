@@ -910,7 +910,7 @@ public interface Traversing {
 						&& !variable
                             .getKernel()
                             .getConstruction()
-                            .isRegistredFunctionVariable(variableName)) {
+                            .isRegisteredFunctionVariable(variableName)) {
 					tree.add(((Variable) expressionFromVariableName)
 							.getName(StringTemplate.defaultTemplate));
 				}
