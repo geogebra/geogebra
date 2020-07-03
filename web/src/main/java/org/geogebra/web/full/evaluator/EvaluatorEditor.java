@@ -34,6 +34,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	public EvaluatorEditor(AppW app) {
 		this.app = app;
 		mathFieldEditor = new MathFieldEditor(app, this);
+		mathFieldEditor.setTextMode(app.getArticleElement().getParamTextMode());
 		mathFieldEditor.addStyleName("evaluatorEditor");
 		mathFieldEditor.addBlurHandler(this);
 		mathFieldEditor.setFontSize(app.getArticleElement().getParamFontSize(18));
