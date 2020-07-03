@@ -46,6 +46,12 @@ public class MathFieldProcessing implements KeyboardListener {
 		ansProvider = lastItemProvider != null ? new AnsProvider(lastItemProvider) : null;
 	}
 
+	/**
+	 * @param avInput
+	 * 			current AV input (needed for getting the ANS from the previous row)
+	 * @param lastItemProvider
+	 * 			an object with ordered GeoElement collection
+	 */
 	public MathFieldProcessing(RadioTreeItem avInput, HasLastItem lastItemProvider) {
 		this(avInput.getMathField(), lastItemProvider);
 		this.avInput = avInput;
