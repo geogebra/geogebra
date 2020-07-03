@@ -150,6 +150,8 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.File;
+
 /**
  * App with all the GUI
  *
@@ -1993,7 +1995,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public void openPDF(JavaScriptObject file) {
+	public void openPDF(File file) {
 		this.getDialogManager().showPDFInputDialog(file);
 	}
 

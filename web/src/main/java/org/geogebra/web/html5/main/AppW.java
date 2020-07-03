@@ -167,6 +167,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.File;
+
 public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
@@ -1339,7 +1341,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 		var appl = this;
 		if (fileName.match(/\.(pdf)$/i)) {
-			appl.@org.geogebra.web.html5.main.AppW::openPDF(Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
+			appl.@org.geogebra.web.html5.main.AppW::openPDF(*)(fileToHandle);
 			return true;
 		}
 
@@ -3111,7 +3113,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param pdfFile
 	 *            PDF file
 	 */
-	public void openPDF(JavaScriptObject pdfFile) {
+	public void openPDF(File pdfFile) {
 		// only makes sense in GUI
 	}
 

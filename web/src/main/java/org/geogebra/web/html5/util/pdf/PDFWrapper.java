@@ -1,8 +1,13 @@
 package org.geogebra.web.html5.util.pdf;
 
-import org.geogebra.common.util.ExternalAccess;
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.dom.File;
+import elemental2.dom.FileReader;
+import elemental2.promise.Promise;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Wrapper class for pdf.js
@@ -13,9 +18,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class PDFWrapper {
 
 	private PDFListener listener;
-	private int pageCount;
+	private int numberOfPages;
 	private int pageNumber = 1;
-	private JavaScriptObject pdf = null;
+	private Promise<PDFDocumentProxy> document;
 
 	/**
 	 * Interface to communicate with PDF Container.
@@ -39,6 +44,12 @@ public class PDFWrapper {
 		void finishLoading(boolean result);
 
 		/**
+		 * Updates the max number of pages
+		 * in the client.
+		 */
+		void updateNumberOfPages();
+
+		/**
 		 * Sets the value of the progress bar for the given percent.
 		 * 
 		 * @param percent
@@ -56,107 +67,72 @@ public class PDFWrapper {
 	 * @param listener
 	 *            to communicate with PDF container.
 	 */
-	public PDFWrapper(JavaScriptObject file, PDFListener listener) {
+	public PDFWrapper(File file, PDFListener listener) {
 		this.listener = listener;
 		read(file);
 	}
 
-	@ExternalAccess
-	private void finishLoading(boolean result) {
-		listener.finishLoading(result);
-	}
-
-	@ExternalAccess
 	private void setProgressBarPercent(double percent) {
 		listener.setProgressBarPercent(percent);
 	}
 
-	private native void read(JavaScriptObject file) /*-{
-		var reader = new FileReader();
-		var that = this;
-
-		reader.onprogress = function(event) {
+	private void read(File file) {
+		FileReader reader = new FileReader();
+		reader.onprogress = event -> {
 			if (event.lengthComputable) {
-				var percent = (event.loaded / event.total) * 100;
-				that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setProgressBarPercent(D)(percent);
+				double percent = (event.loaded / event.total) * 100;
+				setProgressBarPercent(percent);
 			}
+			return null;
 		};
+		reader.addEventListener("load", evt -> {
+			load(reader.result.asString());
+		});
 
-		reader
-				.addEventListener(
-						"load",
-						function() {
-							var src = reader.result;
-							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::load(Ljava/lang/String;)(src);
-						}, false);
-
-		if (file) {
+		if (Js.isTruthy(file)) {
 			reader.readAsDataURL(file);
 		}
+	}
 
-	}-*/;
+	private void load(String src) {
+		PdfDocumentLoadingTask task = PdfJsLib.get().getDocument(src);
+		document = task.promise;
+		listener.finishLoading(true);
+		getPage();
 
-	@ExternalAccess
-	private native void load(String src) /*-{
-		var loadingTask = $wnd.PDFJS.getDocument(src);
-		var that = this;
+	}
 
-		loadingTask.promise
-				.then(
-						function(pdf) {
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)('PDF loaded');
-							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(pdf);
-							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::setPageCount(I)(pdf.numPages);
-							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::finishLoading(Z)(true);
-						},
-						function(reason) {
-							// PDF loading error
-							@org.geogebra.common.util.debug.Log::error(Ljava/lang/String;)(reason);
-							that.@org.geogebra.web.html5.util.pdf.PDFWrapper::finishLoading(Z)(false);
-						});
-	}-*/;
+	private void getPage() {
+		Canvas canvas = Canvas.createIfSupported();
+		document.then(document -> {
+			setNumberOfPages(document.numPages);
+			return document.getPage(pageNumber);
+		}).then(page -> {
+			PageViewPort viewport = page.getViewport(getViewportOptions());
+			RenderTask renderTask = page.render(getRendererContext(viewport,
+					canvas.getContext2d()));
+			canvas.setCoordinateSpaceWidth(viewport.width);
+			canvas.setCoordinateSpaceHeight(viewport.height);
+			return renderTask.promise;
+		}).then(dummy -> {
+			onPageDisplay(canvas.toDataUrl());
+			return null;
+		});
+	}
 
-	private native void renderPage() /*-{
-		var that = this;
-		var pdf = this.@org.geogebra.web.html5.util.pdf.PDFWrapper::pdf;
-		var pageNumber = this.@org.geogebra.web.html5.util.pdf.PDFWrapper::pageNumber;
-		var svgCallback = function(svg) {
-			svgs = (new XMLSerializer()).serializeToString(svg);
-			// convert to base64 URL for <img>
-			var callback = function(svg) {
-				var data = "data:image/svg+xml;base64,"
-						+ btoa(unescape(encodeURIComponent(svg)));
-				that.@org.geogebra.web.html5.util.pdf.PDFWrapper::onPageDisplay(Ljava/lang/String;)(data);
-				// convert to base64 URL for <img>
-			}
+	private JsPropertyMap<Object> getRendererContext(PageViewPort viewport, Context2d context2d) {
+		JsPropertyMap<Object> rendererContext = JsPropertyMap.of();
+		rendererContext.set("canvasContext", context2d);
+		rendererContext.set("viewport", viewport);
+		return rendererContext;
+	}
 
-			svgs = that.@org.geogebra.web.html5.util.pdf.PDFWrapper::convertBlobs(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(svgs, callback);
+	private JsPropertyMap<Object> getViewportOptions() {
+		JsPropertyMap<Object> options = JsPropertyMap.of();
+		options.set("scale", 1);
+		return options;
+	}
 
-		};
-		pdf
-				.getPage(pageNumber)
-				.then(
-						function(page) {
-							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/Object;)('Page loaded');
-
-							var scale = 1;
-							var viewport = page.getViewport(scale);
-
-							return page
-									.getOperatorList()
-									.then(
-											function(opList) {
-												var svgGfx = new $wnd.PDFJS.SVGGraphics(
-														page.commonObjs,
-														page.objs);
-												return svgGfx.getSVG(opList,
-														viewport).then(
-														svgCallback);
-											});
-						});
-	}-*/;
-
-	@ExternalAccess
 	private void onPageDisplay(String src) {
 		if (listener == null) {
 			return;
@@ -168,35 +144,18 @@ public class PDFWrapper {
 	 * 
 	 * @return the number of pages in the PDF.
 	 */
-	public int getPageCount() {
-		return pageCount;
+	public int getNumberOfPages() {
+		return numberOfPages;
 	}
 
 	/**
 	 * 
-	 * @param pageCount
+	 * @param numberOfPages
 	 *            to set.
 	 */
-	public void setPageCount(int pageCount) {
-		this.pageCount = pageCount;
-	}
-
-	/**
-	 * 
-	 * @return PDF as JavaScriptObject
-	 */
-	public JavaScriptObject getPdf() {
-		return pdf;
-	}
-
-	/**
-	 * sets PDF as JavaScriptObject
-	 * 
-	 * @param pdf
-	 *            the JavaScriptObject to set.
-	 */
-	public void setPdf(JavaScriptObject pdf) {
-		this.pdf = pdf;
+	public void setNumberOfPages(int numberOfPages) {
+		this.numberOfPages = numberOfPages;
+		listener.updateNumberOfPages();
 	}
 
 	/**
@@ -205,6 +164,7 @@ public class PDFWrapper {
 	public void previousPage() {
 		if (pageNumber > 1) {
 			setPageNumber(pageNumber - 1);
+			getPage();
 		}
 	}
 
@@ -212,8 +172,9 @@ public class PDFWrapper {
 	 * load next page of the PDF if any.
 	 */
 	public void nextPage() {
-		if (pageNumber < pageCount) {
+		if (pageNumber < numberOfPages) {
 			setPageNumber(pageNumber + 1);
+			getPage();
 		}
 	}
 
@@ -232,57 +193,10 @@ public class PDFWrapper {
 	 * @return if page change was successful.
 	 */
 	public boolean setPageNumber(int num) {
-		if (num > 0 && num <= pageCount) {
+		if (num > 0 && num <= numberOfPages) {
 			pageNumber = num;
-			renderPage();
 			return true;
 		}
 		return false;
 	}
-
-	// convert something like
-	// xlink:href="blob:http://www.example.org/d3872604-2efe-4e3f-94d9-d449d966c20f"
-	// to base64 PNG
-	@ExternalAccess
-	private native void convertBlobs(JavaScriptObject svg,
-			JavaScriptObject callback) /*-{
-
-		if (svg.indexOf('xlink:href="blob:') > 0) {
-
-			var index = svg.indexOf('xlink:href="blob:');
-			var index2 = svg.indexOf('"', index + 17);
-			var blobURI = svg.substr(index + 12, index2 - (index + 12));
-			svg = svg
-					.replace(
-							blobURI,
-							this.@org.geogebra.web.html5.util.pdf.PDFWrapper::blobToBase64(Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(blobURI, svg, callback));
-		} else {
-			callback(svg);
-		}
-	}-*/;
-
-	@ExternalAccess
-	private native void blobToBase64(String blobURI, JavaScriptObject svg,
-			JavaScriptObject callback) /*-{
-
-		var img = $doc.createElement("img");
-		var canvas = $doc.createElement("canvas");
-		var that = this;
-
-		// eg img.src = "blob:http://www.example.org/d3872604-2efe-4e3f-94d9-d449d966c20f";
-		img.src = blobURI;
-		img.onload = function(a) {
-			var h = a.target.height;
-			var w = a.target.width;
-			var c = canvas.getContext('2d');
-			canvas.width = w;
-			canvas.height = h;
-
-			c.drawImage(img, 0, 0);
-			svg = svg.replace(blobURI, canvas.toDataURL());
-
-			// convert next blob (or finish)
-			that.@org.geogebra.web.html5.util.pdf.PDFWrapper::convertBlobs(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(svg, callback);
-		}
-	}-*/;
 }
