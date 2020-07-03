@@ -3827,6 +3827,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return getLAF().getSignInController(this);
 	}
 
+	/**
+	 * reset url after e.g. new file
+	 */
 	public void resetUrl() {
 	 	Browser.resetUrl();
 		Browser.changeUrl("/" + articleElement.getParamShareLinkPrefix());
