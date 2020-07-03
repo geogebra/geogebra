@@ -45,16 +45,13 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 
 	protected GeoInputBox withLinkedGeo(String definition, String label, String value) {
 		add(definition + " = " + value);
-		GeoInputBox inputBox = add("InputBox(" + label +")");
+		GeoInputBox inputBox = add("InputBox(" + label + ")");
 		inputBox.setSymbolicMode(true);
 		return inputBox;
 	}
 
 	protected GeoInputBox withLinkedGeo(String label, String value) {
-		add(label + " = " + value);
-		GeoInputBox inputBox = add("InputBox(" + label +")");
-		inputBox.setSymbolicMode(true);
-		return inputBox;
+		return withLinkedGeo(label, label, value);
 	}
 
 	protected GeoInputBox withComplexLinkedGeo() {
@@ -119,7 +116,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 		GeoInputBox inputBox = withLinkedGeo("g(e)", "g", "?");
 		GeoNumeric a = add("a = g(1)");
 		inputBox.updateLinkedGeo("e");
-		assertEquals( 1, a.getValue(), 0);
+		assertEquals(1, a.getValue(), 0);
 	}
 
 	@Test
