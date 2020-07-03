@@ -37,13 +37,14 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 	@Override
 	public void setValue(String value) {
 		GeoElement element = delegate.getElement();
-		App app = element.getApp();
+		String newLabel = element.getFreeLabel(value);
 		try {
-			element.rename(value);
+			element.rename(newLabel);
 			element.setAlgebraLabelVisible(true);
 			element.getKernel().notifyUpdate(element);
 			element.updateRepaint();
 		} catch (MyError e) {
+			App app = element.getApp();
 			app.showError(e.getLocalizedMessage());
 		}
 	}
