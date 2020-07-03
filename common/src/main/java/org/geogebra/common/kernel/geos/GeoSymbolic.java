@@ -328,10 +328,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			newTwin = computeFromOutput();
 		} else {
 			try {
-				ExpressionNode node = getDefinition().deepCopy(kernel)
-						.traverse(createPrepareDefinition()).wrap();
-				node.setLabel(null);
-				newTwin = process(node);
+				newTwin = computeFromInput();
 			} catch (Throwable exception) {
 				try {
 					newTwin = computeFromOutput();
@@ -351,6 +348,13 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		} catch (Throwable t) {
 			return null;
 		}
+	}
+
+	private GeoElementND computeFromInput() throws Exception {
+		ExpressionNode node = getDefinition().deepCopy(kernel)
+				.traverse(createPrepareDefinition()).wrap();
+		node.setLabel(null);
+		return process(node);
 	}
 
 	@Override
