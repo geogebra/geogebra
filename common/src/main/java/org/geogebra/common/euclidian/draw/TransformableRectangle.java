@@ -33,9 +33,10 @@ public class TransformableRectangle {
 	/**
 	 * @param view view
 	 * @param geo transformable geo
-	 * @param keepAspectRatio
+	 * @param keepAspectRatio whether to keep aspect ratio
 	 */
-	TransformableRectangle(EuclidianView view, RectangleTransformable geo, boolean keepAspectRatio) {
+	TransformableRectangle(EuclidianView view, RectangleTransformable geo,
+			boolean keepAspectRatio) {
 		this.view = view;
 		this.geo = geo;
 		this.keepAspectRatio = keepAspectRatio;
@@ -186,8 +187,8 @@ public class TransformableRectangle {
 			y = transformed.getY();
 		}
 
-		if (geo instanceof  GeoInlineText &&
-				height < geo.getMinHeight() && width < geo.getWidth()) {
+		if (geo instanceof  GeoInlineText
+				&& height < geo.getMinHeight() && width < geo.getWidth()) {
 			return;
 		}
 
@@ -215,7 +216,8 @@ public class TransformableRectangle {
 		updateSelfAndBoundingBox();
 	}
 
-	protected void updateAspectRatio(RectangleTransformable geo, EuclidianBoundingBoxHandler handler) {
+	protected void updateAspectRatio(RectangleTransformable geo,
+			EuclidianBoundingBoxHandler handler) {
 		if (!handler.isDiagonal()) {
 			aspectRatio = Double.NaN;
 		} else if (Double.isNaN(aspectRatio)) {
