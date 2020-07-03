@@ -2046,10 +2046,7 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-	/**
-	 * callback for save after successful login
-	 * @param runAfterLogin - callback
-	 */
+	@Override
 	public void setRunAfterLogin(Runnable runAfterLogin) {
 		this.runAfterLogin = runAfterLogin;
 	}

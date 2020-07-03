@@ -197,7 +197,7 @@ public class SaveDialogMow extends DialogBoxW
 		}
 	}
 
-	public void onSave() {
+	private void onSave() {
 		if (templateCheckbox.isSelected()) {
 			setSaveType(MaterialType.ggsTemplate);
 			app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
