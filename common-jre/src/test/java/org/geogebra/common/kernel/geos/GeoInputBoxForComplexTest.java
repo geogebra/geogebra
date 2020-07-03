@@ -112,7 +112,7 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void functionVariableEShouldStayAsE() {
+	public void functionVariableEShouldStayAsVariable() {
 		GeoInputBox inputBox = withLinkedGeo("g(e)", "g", "?");
 		GeoNumeric a = add("a = g(1)");
 		inputBox.updateLinkedGeo("e");
@@ -120,7 +120,15 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void functionVariableIShouldStayAsI() {
+	public void functionMultiVarIAndEShouldStayVariables() {
+		GeoInputBox inputBox = withLinkedGeo("g(e, i, v)", "g", "?");
+		GeoNumeric a = add("a = g(1, 2, 3)");
+		inputBox.updateLinkedGeo("2e + 3i - 4v");
+		assertEquals(-4, a.getValue(), 0);
+	}
+
+	@Test
+	public void functionVariableIShouldStayAsVariable() {
 		GeoInputBox inputBox = withLinkedGeo("g(i)", "g", "?");
 		GeoNumeric a = add("a = g(1)");
 		inputBox.updateLinkedGeo("3i/2");
