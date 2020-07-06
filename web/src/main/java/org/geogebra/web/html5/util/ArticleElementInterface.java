@@ -512,4 +512,9 @@ public interface ArticleElementInterface {
 	 * @return value of data-param-evaluatorKeyboard (e.g. scientific), or def if not specified
 	 */
 	String getParamKeyboardType(String def);
+
+	/**
+	 * @return parameter for switching text/equation mode of the editor, for evaluator app only
+	 */
+	boolean getParamTextMode();
 }
