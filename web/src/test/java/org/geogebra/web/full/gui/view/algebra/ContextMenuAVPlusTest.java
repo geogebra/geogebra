@@ -20,7 +20,7 @@ public class ContextMenuAVPlusTest {
     @Test
     public void imageToolShownIfAppHasToolbar() {
         ArticleElementInterface articleElement =
-                new TestArticleElement("prerelease", "classic")
+                new TestArticleElement("classic")
                     .attr("showToolBar", "true");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
@@ -36,7 +36,7 @@ public class ContextMenuAVPlusTest {
     @Test
     public void noImageToolIfShowToolbarIsFalse() {
         ArticleElementInterface articleElement =
-                new TestArticleElement("prerelease", "classic")
+                new TestArticleElement("classic")
                         .attr("showToolBar", "false");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
@@ -52,7 +52,7 @@ public class ContextMenuAVPlusTest {
     @Test
     public void noImageToolIfCustomToolbarHasNoImageTool() {
         ArticleElementInterface articleElement =
-                new TestArticleElement("prerelease", "classic")
+                new TestArticleElement("classic")
                         .attr("customToolBar", "1 2");
         AppWFull app = AppMocker.mockApplet(articleElement);
 

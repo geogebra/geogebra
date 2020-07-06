@@ -3034,21 +3034,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Update prerelease / canary flags
+	 * Update prerelease flag
 	 *
-	 * @param prereleaseStr
+	 * @param prerelease
 	 *            prerelease parameter
 	 */
-	public void setPrerelease(String prereleaseStr) {
-		this.canary = false;
-		this.prerelease = false;
-
-		if ("canary".equals(prereleaseStr)) {
-			canary = true;
-			prerelease = true;
-		} else if ("true".equals(prereleaseStr)) {
-			this.prerelease = true;
-		}
+	public void setPrerelease(boolean prerelease) {
+		this.prerelease = prerelease;
 	}
 
 	@Override

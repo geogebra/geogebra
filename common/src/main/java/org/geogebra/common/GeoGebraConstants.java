@@ -69,20 +69,16 @@ public interface GeoGebraConstants {
 		/**
 		 * @param prerelease
 		 *            whether we run prerelease
-		 * @param canary
-		 *            whether we run canary
 		 * @return eg X.Y.Zd-prerelease
 		 */
-		public String getVersionString(boolean prerelease, boolean canary, String appCode) {
+		public String getVersionString(boolean prerelease, String appCode) {
 
 			StringBuilder suffix = new StringBuilder(10);
 			suffix.append(name);
 			if (!"classic".equals(appCode)) {
 				suffix.append(appCode);
 			}
-			if (canary) {
-				suffix.append("-canary");
-			} else if (prerelease) {
+			if (prerelease) {
 				suffix.append("-prerelease");
 			}
 
