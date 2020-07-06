@@ -56,7 +56,7 @@ public class AppMocker {
 
 	private static AppWFull mockApp(String appName, Class<?> testClass) {
 		testClass.getClassLoader().setDefaultAssertionStatus(false);
-		return mockApplet(new TestArticleElement("prerelease", appName));
+		return mockApplet(new TestArticleElement(appName));
 	}
 
 	public static AppWFull mockApplet(ArticleElementInterface ae) {

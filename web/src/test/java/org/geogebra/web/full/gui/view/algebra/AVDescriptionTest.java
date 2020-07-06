@@ -19,7 +19,7 @@ public class AVDescriptionTest {
 	@Test
 	public void geometryShouldUseLaTeXForFunctions() {
 		AppWFull app = AppMocker
-				.mockApplet(new TestArticleElement("prerelease", "geometry"));
+				.mockApplet(new TestArticleElement("geometry"));
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand("f:sqrt(x/2)", false);
 		RadioTreeItem rte = new RadioTreeItem(app.getKernel().lookupLabel("f"));

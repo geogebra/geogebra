@@ -370,7 +370,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
 	protected boolean prerelease;
-	protected boolean canary;
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
@@ -3061,9 +3060,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return version string
 	 */
 	public String getVersionString() {
-
 		if (platform != null) {
-			return platform.getVersionString(prerelease, canary, getConfig().getAppCode());
+			return platform.getVersionString(prerelease, getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly

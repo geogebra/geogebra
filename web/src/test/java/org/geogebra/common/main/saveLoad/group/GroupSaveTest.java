@@ -33,7 +33,7 @@ public class GroupSaveTest {
 
     @Before
     public void initTest() {
-        TestArticleElement articleElement = new TestArticleElement("prerelease", "notes");
+        TestArticleElement articleElement = new TestArticleElement("notes");
         app = AppMocker.mockApplet(articleElement);
         cons = app.getKernel().getConstruction();
     }

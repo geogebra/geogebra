@@ -23,7 +23,7 @@ public class TemplateSaveTest {
 
 	@Test
 	public void testSaveTemplate() {
-		TestArticleElement articleElement = new TestArticleElement("prerelease", "notes");
+		TestArticleElement articleElement = new TestArticleElement("notes");
 		app = AppMocker.mockApplet(articleElement);
 		app.getSaveController().setSaveType(Material.MaterialType.ggsTemplate);
 		EuclidianSettings settings = app.getActiveEuclidianView().getSettings();
