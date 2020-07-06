@@ -562,7 +562,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void testIntersectCommand() {
-		t("Intersect(x^2+y^2=5, x+y=sqrt(2))", "{((-sqrt(2)) / 2, 3 * sqrt(2) / 2), (3 * sqrt(2) / 2, (-sqrt(2)) / 2)}");
+		t("Intersect(x^2+y^2=5, x+y=sqrt(2))",
+				"{((-sqrt(2)) / 2, 3 * sqrt(2) / 2), (3 * sqrt(2) / 2, (-sqrt(2)) / 2)}");
 		t("Intersect(x+y=sqrt(2), y-x=pi)",
 				"{((-1) / 2 * " + pi + " + sqrt(2) / 2, 1 / 2 * " + pi + " + sqrt(2) / 2)}");
 		t("Intersect((x+8)^2+(y-4)^2=13,(x+4)^2+(y-4)^2=2)",
@@ -673,7 +674,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	private void testOutputLabelOfFunctionsWithApostrophe(String input,
-							   String outputStartsWith) {
+			String outputStartsWith) {
 		GeoSymbolic firstGeo = createGeoWithHiddenLabel(input);
 		assertTrue(firstGeo.getTwinGeo() instanceof GeoFunction);
 		showLabel(firstGeo);
@@ -1100,16 +1101,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(smallNumber.toValueString(StringTemplate.defaultTemplate),
 				is("1 / 50000000000000000000"));
 
-		// This test is not working because
-		// StringTemplate.convertScientificNotationGiac has a bug
-//		GeoSymbolic bigNumber = add("1.2345678934534545345345E20");
-//		assertThat(bigNumber.toValueString(StringTemplate.defaultTemplate),
-//				is("1.2345678935 * 10" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_0));
+		GeoSymbolic bigNumber = add("1.2345678934534545345345E20");
+		assertThat(bigNumber.toValueString(StringTemplate.defaultTemplate),
+				is("2469135786906909069069 / 20"));
 	}
 
 	@Test
 	public void testFunctionLikeMultiplication() {
-		GeoSymbolic element =  add("x(x + 1)");
+		GeoSymbolic element = add("x(x + 1)");
 		assertThat(element.toValueString(StringTemplate.defaultTemplate), is("x\u00B2 + x"));
 	}
 
