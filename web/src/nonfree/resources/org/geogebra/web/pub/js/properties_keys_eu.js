@@ -676,6 +676,8 @@ __GGB__keysVar["eu"].command = {
     "PlaneBisector.Syntax": "[ <Zuzenkia> ]\n[ <Puntua>, <Puntua> ]",
     "PlaySound": "ErreproduzituSoinua",
     "PlaySound.Syntax": "[ <URL> ]\n[ <Soinua Boolearra> ]\n[ <Funtzioa>, <Balio Minimoa>, <Balio Maximoa> ]\n[ <Funtzioa>, <Balio Minimoa>, <Balio Maximoa>, <Lagin-tasa>, <Lagin-sakonera> ]",
+    "PloteSolve": "PloteSolve",
+    "PloteSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Puntua",
     "Point.Syntax": "[ <Objektua> ]\n[ <Zerrenda> ]\n[ <Objektua>, <Parametroa> ]\n[ <Puntua>, <Bektorea> ]",
     "PointIn": "PuntuaNon",

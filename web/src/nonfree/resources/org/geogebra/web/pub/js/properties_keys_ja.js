@@ -676,6 +676,8 @@ __GGB__keysVar["ja"].command = {
     "PlaneBisector.Syntax": "[ <\u7dda\u5206> ]\n[ <\u70b9>, <\u70b9> ]",
     "PlaySound": "PlaySound",
     "PlaySound.Syntax": "[ <\u30d5\u30a1\u30a4\u30eb> ]\n[ <Boolean Play> ]\n[ <\u95a2\u6570>, <\u6700\u5c0f\u5024>, <\u6700\u5927\u5024> ]\n[ <\u95a2\u6570>, <\u6700\u5c0f\u5024>, <\u6700\u5927\u5024>, <\u30b5\u30f3\u30d7\u30eb\u30ec\u30fc\u30c8>, <\u30b5\u30f3\u30d7\u30eb\u6df1\u5ea6> ]",
+    "PloteSolve": "PloteSolve",
+    "PloteSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Point",
     "Point.Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8> ]\n[ <\u30ea\u30b9\u30c8> ]\n[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u5a92\u4ecb\u5909\u6570> ]\n[ <\u70b9>, <\u30d9\u30af\u30c8\u30eb> ]",
     "PointIn": "PointIn",

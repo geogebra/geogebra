@@ -676,6 +676,8 @@ __GGB__keysVar["vi"].command = {
     "PlaneBisector.Syntax": "[ <\u0110o\u1ea1n th\u1eb3ng> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]",
     "PlaySound": "\xc2mThanh",
     "PlaySound.Syntax": "[ <T\u1eadp tin> ]\n[ <Bi\u1ebfn Boolean> ]\n[ <H\xe0m s\u1ed1>, <Gi\xe1 tr\u1ecb nh\u1ecf nh\u1ea5t>, <Gi\xe1 tr\u1ecb l\u1edbn nh\u1ea5t> ]\n[ <H\xe0m s\u1ed1>, <Gi\xe1 tr\u1ecb nh\u1ecf nh\u1ea5t>, <Gi\xe1 tr\u1ecb l\u1edbn nh\u1ea5t>, <T\u1ec9 l\u1ec7 m\u1eabu>, <Chi\u1ec1u s\xe2u c\u1ee7a m\u1eabu> ]",
+    "PloteSolve": "PloteSolve",
+    "PloteSolve.Syntax": "[ <Equation in x> ]",
     "Point": "\u0110i\u1ec3m",
     "Point.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng> ]\n[ <Danh s\xe1ch> ]\n[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <Tham s\u1ed1> ]\n[ <\u0110i\u1ec3m>, <V\xe9c t\u01a1> ]",
     "PointIn": "DiemTrong",
