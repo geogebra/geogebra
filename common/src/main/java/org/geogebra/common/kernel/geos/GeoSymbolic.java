@@ -500,12 +500,15 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public DescriptionMode getDescriptionMode() {
 		GeoElementND twinGeo = getTwinGeo();
+		boolean symbolicMode = isSymbolicMode();
+		setSymbolicMode(true, false);
 
 		String def = getDefinition(StringTemplate.defaultTemplate);
 		String val = getValueForInputBar();
 		String twin = twinGeo != null
 				? twinGeo.toValueString(StringTemplate.defaultTemplate) : null;
 
+		setSymbolicMode(symbolicMode, false);
 		if (def.equals(val) && (twin == null || twin.equals(val))) {
 			return DescriptionMode.VALUE;
 		} else {

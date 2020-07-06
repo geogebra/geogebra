@@ -452,7 +452,8 @@ public class AlgebraItem {
 	 * @return true if both rows should be shown.
 	 */
 	public static boolean shouldShowBothRows(GeoElement element) {
-		return (hasDefinitionAndValueMode(element) || isDependentText(element))
+		return (hasDefinitionAndValueMode(element) || isDependentText(element)
+				|| isSymbolicDiffers(element))
 				&& shouldShowOutputRowForAlgebraStyle(element, getAlgebraStyle(element.getApp()));
 	}
 

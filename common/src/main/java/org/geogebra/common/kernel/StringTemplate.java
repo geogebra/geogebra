@@ -3108,8 +3108,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// eg 4.35372862870553E8
 			// need to add decimal point back in
 			if (i < 0) {
-				return s[0].substring(0, s[0].length() + i) + "."
-						+ s[0].substring(s[0].length() + i);
+				return "(" + s[0] + "/1" + StringUtil.repeat('0', -i) + ")";
 			}
 
 			if (i == 0) {
