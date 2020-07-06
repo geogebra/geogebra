@@ -1681,7 +1681,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setOnBlur(getLatexController());
 		mf.setOnFocus(focusEvent -> {
 			setFocusedStyle(true);
-			app.getAppletFrame().doShowKeyBoard(true, this);
 		});
 	}
 
