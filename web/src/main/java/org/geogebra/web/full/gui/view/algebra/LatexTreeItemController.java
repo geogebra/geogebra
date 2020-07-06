@@ -154,8 +154,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onInsertString() {
-		getMathField().setFormula(
-				GeoGebraSerializer.reparse(getMathField().getFormula()));
+		// nothing to do
 	}
 
 	/**

@@ -402,7 +402,7 @@ TOKEN : {
         "\u00d8"-"\u00f6",    //accentuated letters
         "\u00f8"-"\u01bf",    //accentuated letters
         "\u01c4"-"\u02a8",    //accentuated letters
-        "\u0391"-"\u03f3",     // Greek
+        "\u038e"-"\u03f5",     // Greek
          "\u0401"-"\u0481",    // Cyrillic
         "\u0490"-"\u04f9",    // Cyrillic
         "\u0531"-"\u1ffc",       // a lot of signs (Arabic, accentuated, ...)

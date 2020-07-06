@@ -34,21 +34,26 @@ public class EditorTypingTest {
 	@Test
 	public void testEditorUnicode() {
 		checker.checkEditorInsert(TestStringUtil.unicode("x/sqrt(x^2+4)"),
-				TestStringUtil.unicode("x/sqrt(x^2+4)"));
+				"(x)/(sqrt(x^(2)+4))");
 		checker.checkEditorInsert("x/(" + Unicode.EULER_STRING + "^x+1)",
-				"x/(" + Unicode.EULER_STRING + "^x+1)");
+				"(x)/(" + Unicode.EULER_STRING + "^(x)+1)");
 
 		checker.checkEditorInsert("3*x", "3*x");
 	}
 
 	@Test
 	public void testEditor() {
-		checker.checkEditorInsert("sqrt(x/2)", "sqrt(x/2)");
+		checker.checkEditorInsert("sqrt(x/2)", "sqrt((x)/(2))");
 
 		checker.checkEditorInsert("1+2+3-4", "1+2+3-4");
 		checker.checkEditorInsert("12345", "12345");
-		checker.checkEditorInsert("1/2/3/4", "1/2/3/4");
+		checker.checkEditorInsert("1/2/3/4", "(((1)/(2))/(3))/(4)");
 		checker.checkEditorInsert("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
+	}
+
+	@Test
+	public void insertNrootShouldMaintainArgumentsOrder(){
+		checker.checkEditorInsert("nroot(x,3)", "nroot(x,3)");
 	}
 
 	@Test
