@@ -587,8 +587,4 @@ public class AlgebraItem {
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}
-
-	public static boolean isEditable(GeoElement element) {
-		return !element.isPenStroke();
-	}
 }
