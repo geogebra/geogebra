@@ -3282,7 +3282,7 @@ __GGB__keysVar["es-UY"].menu = {
     "exam_custom_header": "Examen GeoGebra",
     "exam_end_time": "Hora de finalizaci\xf3n",
     "exam_ended": "Modo Examen finalizado",
-    "exam_exit_confirmation": "\xbfQuieres salir del modo Examen?",
+    "exam_exit_confirmation": "\xbfEst\xe1s seguro que quieres salir del modo Examen?",
     "exam_exit_header": "\xbfFinalizar Examen?",
     "exam_instructions_before_start": "El Registro de examen muestra la informaci\xf3n del reloj durante la prueba.",
     "exam_lock_button": "Bloquear aplicaci\xf3n",

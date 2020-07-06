@@ -831,6 +831,9 @@ public class CommandsTest {
 		tRound("IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
 				new String[] { "1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)", "1",
 						"1", "1", "1" });
+		tRound("IntersectPath[Polygon[(1,-2),(3,-2),(3,0)],"
+						+ "Polygon[Intersect[x=1,xAxis],(1,-2),(3,-2),(3,0)]]",
+				new String[] { "2", "(3, 0)", "(1, -2)", "(3, -2)", "2.82843", "2", "2" });
 		tRound("IntersectPath[Polygon[(0,0),(4,0),4],(x-2)^2+(y-2)^2=5]",
 				new String[] { "2", "2", "2", "2" });
 		tRound("IntersectPath[Segment[(0,0),(4,4)],(x-2)^2+(y-2)^2=2]",
