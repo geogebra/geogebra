@@ -403,7 +403,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					coeff[i][j] = ev[i][j].evaluateDouble();
 				}
 				if (Double.isInfinite(coeff[i][j])) {
-					setUndefined();
+					defined = false;
 				}
 				isConstant = isConstant
 						&& (DoubleUtil.isZero(coeff[i][j]) || (i == 0 && j == 0));
@@ -643,6 +643,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void setUndefined() {
 		defined = false;
+		resetCoeff();
 	}
 
 	@Override
@@ -838,15 +839,19 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	protected void getExpressionXML(StringBuilder sb) {
-		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.append("<expression");
-			sb.append(" label=\"");
+		if (isIndependent() && getDefaultGeoType() < 0 && isDefined()) {
+			sb.append("<expression label=\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
-			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
+			StringUtil.encodeXML(sb, getXmlString());
 			// expression
 			sb.append("\"/>\n");
 		}
+	}
+
+	private String getXmlString() {
+		return getDefinition() == null ? toValueString(StringTemplate.xmlTemplate)
+				: getDefinition().toValueString(StringTemplate.xmlTemplate);
 	}
 
 	@Override
@@ -2208,15 +2213,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 *            coeefficients
 	 * @param kernel
 	 *            kernel
-	 * @param tpl
+	 * @param tpl0
 	 *            string template
 	 * @return string representation of polynomial with given coefficients
 	 */
 	protected static String toRawValueString(double[][] coeff, Kernel kernel,
-			StringTemplate tpl) {
+			StringTemplate tpl0) {
 		if (coeff == null) {
 			return "";
 		}
+		StringTemplate tpl = tpl0.deriveWithQuestionmark(true);
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
 		for (int i = coeff.length - 1; i >= 0; i--) {
