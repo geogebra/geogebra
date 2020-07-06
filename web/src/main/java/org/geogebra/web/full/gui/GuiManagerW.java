@@ -2041,6 +2041,7 @@ public class GuiManagerW extends GuiManager
 	private void runAfterSuccessfulLogin() {
 		if (app.isMebis() && runAfterLogin != null) {
 			runAfterLogin.run();
+			setRunAfterLogin(null);
 		} else {
 			save();
 		}

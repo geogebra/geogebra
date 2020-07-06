@@ -10,7 +10,7 @@ public class OpenOfflineFileAction extends DefaultMenuAction<Void>  {
 
 	@Override
 	public void execute(Void item, final AppWFull app) {
-		if (app.isMebis() && !app.getLoginOperation().isLoggedIn()) {
+		if (!app.getLoginOperation().isLoggedIn()) {
 			app.getSaveController().showDialogIfNeeded(obj -> onOpenFile(app));
 		} else {
 			onOpenFile(app);
