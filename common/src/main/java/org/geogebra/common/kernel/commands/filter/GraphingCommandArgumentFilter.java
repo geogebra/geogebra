@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 
-public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter {
+public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
 
     public GraphingCommandArgumentFilter() {
         super(Commands.Line, Commands.Length);
