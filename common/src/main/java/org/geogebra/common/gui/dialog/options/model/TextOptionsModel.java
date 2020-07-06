@@ -256,7 +256,7 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	public void setEditGeoText(String text) {
-		if (editGeo == null) {
+		if (editGeo == null || !isTextEditable()) {
 			return;
 		}
 
