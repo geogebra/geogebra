@@ -138,6 +138,7 @@ public class EvaluatorAPI {
 
 	public void evalLaTeX(String formula) {
 		String plainText = new SyntaxAdapterImpl(parser.getKernel()).convert(formula);
+		mathFieldInternal.parse("");
 		KeyboardInputAdapter.insertString(mathFieldInternal, plainText);
 	}
 }

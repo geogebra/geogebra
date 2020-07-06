@@ -596,7 +596,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
-		paint(ctx);
+		paint(ctx, getMargin(lastIcon));
 	}
 
 	private double computeWidth() {
@@ -607,8 +607,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Paints the formula on a canvas
 	 * @param ctx canvas context
 	 */
-	public void paint(Context2d ctx) {
-		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),
+	public void paint(Context2d ctx, int top) {
+		JlmLib.draw(lastIcon, ctx, 0, top, new ColorW(foregroundCssColor),
 				backgroundCssColor, null, ratio);
 	}
 
@@ -750,7 +750,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			// last repaint with no cursor
 			CursorBox.setBlink(false);
 			repaintWeb();
-			//this.lastIcon = null;
 
 		}
 		this.focused = focus;

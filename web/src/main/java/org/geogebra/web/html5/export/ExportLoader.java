@@ -10,9 +10,9 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "window")
-public class ExportLoader {
+public final class ExportLoader {
 
-	protected ExportLoader() {
+	private ExportLoader() {
 		// utility class
 	}
 

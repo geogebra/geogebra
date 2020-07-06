@@ -453,7 +453,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (!ExportLoader.ensureCanvas2SvgLoaded()) {
 			return null;
 		}
-		Canvas2Svg canvas2svg = Canvas2Svg.get(width, height);
+		Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
 		Context2d ctx = Js.uncheckedCast(canvas2svg);
 		g4copy = new GGraphics2DW(ctx);
 		this.appW.setExporting(ExportType.SVG, scale);

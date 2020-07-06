@@ -18,6 +18,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
 
+import elemental2.core.Global;
 import jsinterop.base.Js;
 
 /**
@@ -27,6 +28,7 @@ import jsinterop.base.Js;
  */
 public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler {
 
+	private static final String SVG_PREFIX = "data:image/svg+xml;utf8,";
 	private AppW app;
 	private MathFieldEditor mathFieldEditor;
 	private EvaluatorAPI evaluatorAPI;
@@ -144,11 +146,11 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 			ret.setError("Invalid dimensions");
 			return ret;
 		}
-		Canvas2Svg ctx = Canvas2Svg.get(width, height + depth);
+		Canvas2Svg ctx = new Canvas2Svg(width, height + depth);
 		CursorBox.setBlink(false);
-		mathField.paint(Js.uncheckedCast(ctx));
+		mathField.paint(Js.uncheckedCast(ctx), 0);
 		ret.setBaseline(height / (double) (height + depth));
-		ret.setSvg(ctx.getSerializedSvg(true));
+		ret.setSvg(SVG_PREFIX + Global.escape(ctx.getSerializedSvg(true)));
 
 		return ret;
 	}
