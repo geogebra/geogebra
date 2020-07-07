@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -122,6 +123,39 @@ public class GeoInterval extends GeoFunction {
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(false, tpl);
+	}
+
+	@Override
+	public void getXML(boolean getListenersToo, StringBuilder sbxml) {
+		// an independent function needs to add
+		// its expression itself
+		// e.g. f(x) = x^2 - 3x
+		if (isIndependent() && getDefaultGeoType() < 0) {
+			sbxml.append("<expression");
+			sbxml.append(" label=\"");
+			sbxml.append(label);
+			sbxml.append("\" exp=\"");
+			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
+			// expression
+			sbxml.append("\" type=\"inequality\"/>\n");
+		}
+
+		sbxml.append("<element");
+		sbxml.append(" type=\"function\"");
+		sbxml.append(" label=\"");
+		sbxml.append(label);
+		if (getDefaultGeoType() >= 0) {
+			sbxml.append("\" default=\"");
+			sbxml.append(getDefaultGeoType());
+		}
+		sbxml.append("\">\n");
+		getXMLtags(sbxml);
+		getCaptionXML(sbxml);
+		printCASEvalMapXML(sbxml);
+		if (getListenersToo) {
+			getListenerTagsXML(sbxml);
+		}
+		sbxml.append("</element>\n");
 	}
 
 	/**

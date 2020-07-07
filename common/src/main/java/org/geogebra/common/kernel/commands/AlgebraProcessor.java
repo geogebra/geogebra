@@ -624,6 +624,8 @@ public class AlgebraProcessor {
 				n.setForceVector();
 			} else if (geo.isGeoFunction()) {
 				n.setForceFunction();
+			} else if (geo.isGeoInterval()) {
+				n.setForceInequality();
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -1963,6 +1965,7 @@ public class AlgebraProcessor {
 	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
 		boolean isForceVector = expression.wrap().isForcedVector();
 		boolean isForcePoint = expression.wrap().isForcedPoint();
+		boolean isForceInequality = expression.wrap().isForceInequality();
 		ValidExpression copy = expression.deepCopy(kernel);
 		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
 		copy.setLabels(labels);
@@ -1972,6 +1975,9 @@ public class AlgebraProcessor {
 		}
 		if (isForcePoint) {
 			copy.wrap().setForcePoint();
+		}
+		if (isForceInequality) {
+			copy.wrap().setForceInequality();
 		}
 
 		return copy;
@@ -2343,6 +2349,9 @@ public class AlgebraProcessor {
 				f.setLabel(label);
 				return array(f);
 			}
+		} else if (en.isForceInequality()) {
+			f = new GeoInterval(cons, fun);
+			return array(f);
 		}
 
 		if (isIndependent) {
@@ -3130,6 +3139,10 @@ public class AlgebraProcessor {
 			// complex number stored in XML as exp="3" so looks like a GeoNumeric
 			if (n.isForcedPoint()) {
 				return processPointVector(n, eval);
+			}
+
+			if (n.isForceInequality()) {
+				return processFunction(new Function(kernel, n), info);
 			}
 
 			return processNumber(n, eval, info);

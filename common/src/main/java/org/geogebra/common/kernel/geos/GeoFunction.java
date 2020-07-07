@@ -935,7 +935,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * save object in xml format
 	 */
 	@Override
-	public final void getXML(boolean getListenersToo, StringBuilder sbxml) {
+	public void getXML(boolean getListenersToo, StringBuilder sbxml) {
 		// an independent function needs to add
 		// its expression itself
 		// e.g. f(x) = x^2 - 3x
