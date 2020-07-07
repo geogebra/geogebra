@@ -52,7 +52,7 @@ public class EditorTypingTest {
 	}
 
 	@Test
-	public void insertNrootShouldMaintainArgumentsOrder(){
+	public void insertNrootShouldMaintainArgumentsOrder() {
 		checker.checkEditorInsert("nroot(x,3)", "nroot(x,3)");
 	}
 
