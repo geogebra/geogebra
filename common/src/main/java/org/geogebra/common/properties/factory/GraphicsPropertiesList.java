@@ -43,9 +43,7 @@ public class GraphicsPropertiesList extends PropertiesArray {
 		this.localization = localization;
 	}
 
-	private static List<Property> getProperties(App app,
-			Localization localization) {
-
+	private static List<Property> getProperties(App app, Localization localization) {
 		EuclidianView activeView = app.getActiveEuclidianView();
 		EuclidianSettings euclidianSettings = activeView.getSettings();
 		ArrayList<Property> propertyList = new ArrayList<>();
@@ -58,24 +56,20 @@ public class GraphicsPropertiesList extends PropertiesArray {
 					(EuclidianSettings3D) euclidianSettings));
 		}
 
-		propertyList.add(
-				new GridVisibilityProperty(localization, euclidianSettings));
+		propertyList.add(new GridVisibilityProperty(localization, euclidianSettings));
 
 		if (activeView.isEuclidianView3D()) {
-			propertyList.add(
-					new ProjectionsProperty(localization, activeView,
-							(EuclidianSettings3D) euclidianSettings));
+			propertyList.add(new ProjectionsProperty(localization, activeView,
+					(EuclidianSettings3D) euclidianSettings));
 		}
 
 		if (!activeView.isEuclidianView3D()) {
-			propertyList.add(
-					new GridStyleProperty(localization, euclidianSettings));
+			propertyList.add(new GridStyleProperty(localization, euclidianSettings));
 		}
 
 		propertyList.add(new PointCapturingProperty(app, localization));
 		propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
-		propertyList.add(
-				new LabelsPropertyCollection(localization, euclidianSettings));
+		propertyList.add(new LabelsPropertyCollection(localization, euclidianSettings));
 
 		if (activeView.isEuclidianView3D()) {
 			propertyList.add(new AxesColoredProperty(localization,
@@ -96,7 +90,7 @@ public class GraphicsPropertiesList extends PropertiesArray {
 
 	private void ensureArViewPropertiesInitialized() {
 		if (arViewProperties == null) {
-			List<Property> propertiesListARView = Arrays.asList(getProperties());
+			List<Property> propertiesListARView = Arrays.asList(super.getProperties());
 			propertiesListARView.add(1, new ARRatioPropertyCollection(app, localization));
 			propertiesListARView.add(2, new BackgroundProperty(app, localization));
 			arViewProperties = propertiesListARView.toArray(new Property[0]);
