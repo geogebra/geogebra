@@ -42,7 +42,7 @@ public class UserPreferredLanguage {
 			}
 		}
 
-		String urlLang = app.getArticleElement().getDataParamApp()
+		String urlLang = app.getAppletParameters().getDataParamApp()
 				? Location.getParameter("lang") : "";
 
 		if (!StringUtil.empty(urlLang) && !loggedIn) {

@@ -61,7 +61,7 @@ public class AppWsimple extends AppW {
 
 	private void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
-		GeoGebraFrameW.handleLoadFile(articleElement, this);
+		GeoGebraFrameW.handleLoadFile(appletParameters, this);
 		initing = false;
 		if (ZoomPanel.neededFor(this)) {
 			ZoomPanel zp = new ZoomPanel(getEuclidianView1(), this, true, true);

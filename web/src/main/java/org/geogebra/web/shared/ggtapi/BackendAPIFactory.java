@@ -27,7 +27,7 @@ public class BackendAPIFactory {
 	 */
 	public BackendAPIFactory(AppW app) {
 		this.app = app;
-		articleElement = app.getArticleElement();
+		articleElement = app.getAppletParameters();
 	}
 
 	/**

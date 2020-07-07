@@ -224,8 +224,8 @@ public class LoadFilePresenter {
 				|| "5".equals(perspective)) {
 
 			if (app.isPortrait()) {
-				int height = app.getArticleElement().getDataParamHeight();
-				if (app.getArticleElement().getDataParamFitToScreen()) {
+				int height = app.getAppletParameters().getDataParamHeight();
+				if (app.getAppletParameters().getDataParamFitToScreen()) {
 					height = Window.getClientHeight();
 				}
 				if (height > 0) {
@@ -235,8 +235,8 @@ public class LoadFilePresenter {
 				}
 
 			} else {
-				int width = app.getArticleElement().getDataParamWidth();
-				if (app.getArticleElement().getDataParamFitToScreen()) {
+				int width = app.getAppletParameters().getDataParamWidth();
+				if (app.getAppletParameters().getDataParamFitToScreen()) {
 					width = Window.getClientWidth();
 				}
 				if (width > 0) {
@@ -287,7 +287,7 @@ public class LoadFilePresenter {
 
 		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
 				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
-		if (app.getArticleElement().getDataParamShowAppsPicker()
+		if (app.getAppletParameters().getDataParamShowAppsPicker()
 				&& app.getExam() == null && !smallScreen
 				&& !app.isWhiteboardActive()) {
 			app.showPerspectivesPopup();

@@ -436,14 +436,14 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @return app scale (vertical)
 	 */
 	protected double getScaleY() {
-		return app.getArticleElement().getScaleY();
+		return app.getGeoGebraElement().getScaleY();
 	}
 
 	/**
 	 * @return app scale (horizontal)
 	 */
 	protected double getScaleX() {
-		return app.getArticleElement().getScaleX();
+		return app.getGeoGebraElement().getScaleX();
 	}
 
 	/**

@@ -282,7 +282,7 @@ public class GGWToolBar extends Composite
 				HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
 				exam.getLog(loc, settings, htmlBuilder);
 				HTML html = htmlBuilder.getHTML();
-				if (app.getArticleElement().hasDataParamEnableGraphing()) {
+				if (app.getAppletParameters().hasDataParamEnableGraphing()) {
 					exam.setHasGraph(true);
 					boolean supportsCAS = app.getKernel().getAlgebraProcessor()
 							.getCommandDispatcher().isCASAllowed();
@@ -374,8 +374,8 @@ public class GGWToolBar extends Composite
 			addUndoPanel();
 		}
 		this.menuBarShowing = false;
-		if (app.getArticleElement().getDataParamShowMenuBar(false)
-				|| app.getArticleElement().getDataParamApp()) {
+		if (app.getAppletParameters().getDataParamShowMenuBar(false)
+				|| app.getAppletParameters().getDataParamApp()) {
 			initMenuButton();
 
 			if (!exam && app.enableFileFeatures()) {

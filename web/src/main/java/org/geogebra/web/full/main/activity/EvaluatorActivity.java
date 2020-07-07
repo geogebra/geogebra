@@ -29,7 +29,7 @@ public class EvaluatorActivity extends BaseActivity {
 		frame.clear();
 		frame.add(editor);
 
-		if (!appW.getArticleElement().preventFocus()) {
+		if (!appW.getAppletParameters().preventFocus()) {
 			editor.requestFocus();
 		}
 	}

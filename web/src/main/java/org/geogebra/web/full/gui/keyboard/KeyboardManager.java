@@ -151,7 +151,7 @@ public class KeyboardManager
 	}
 
 	private Element getAppletContainer() {
-		Element scaler = app.getArticleElement().getParentElement();
+		Element scaler = app.getAppletParameters().getParentElement();
 		Element container = scaler == null ? null : scaler.getParentElement();
 		if (container == null) {
 			return RootPanel.getBodyElement();

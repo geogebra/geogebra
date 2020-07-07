@@ -565,10 +565,10 @@ public class DockManagerW extends DockManager {
 			}
 		}
 
-		if (app.getArticleElement().getDataParamShowMenuBar(false)) {
+		if (app.getAppletParameters().getDataParamShowMenuBar(false)) {
 			DockGlassPaneW glassPane = ((AppWFull) app).getGlassPane();
-			if (glassPane.getArticleElement() == null) {
-				glassPane.setArticleElement(app.getArticleElement());
+			if (glassPane.getGeoGebraElement() == null) {
+				glassPane.setGeoGebraElement(app.getGeoGebraElement());
 			}
 			glassPane.attach(this, (int) app.getWidth(), (int) app.getHeight());
 			glassPane.startDrag(new DnDState(panel));

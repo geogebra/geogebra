@@ -59,7 +59,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
         initCoreObjects();
 
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
+		Browser.removeDefaultContextMenu(this.getAppletParameters().getElement());
 
 		initSignInEventFlow(new LoginOperationW(this));
 

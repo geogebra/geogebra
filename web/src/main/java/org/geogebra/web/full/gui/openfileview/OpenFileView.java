@@ -233,7 +233,7 @@ public class OpenFileView extends MyHeaderPanel
 				app.tryLoadTemplatesOnFileNew();
 			}
 		};
-		app.getArticleElement().attr("perspective", "");
+		app.getAppletParameters().setAttribute("perspective", "");
 		app.getSaveController().showDialogIfNeeded(newConstruction);
 		close();
 	}

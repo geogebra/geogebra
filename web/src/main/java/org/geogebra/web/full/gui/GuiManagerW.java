@@ -632,7 +632,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void resize(final int width, final int height) {
 		final Element geogebraFrame = getApp().getFrameElement();
-		int borderThickness = getApp().getArticleElement()
+		int borderThickness = getApp().getAppletParameters()
 				.getBorderThickness();
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
 			if (geogebraFrame.getOffsetHeight() <= 0) {
@@ -1455,7 +1455,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateFrameSize() {
-		if (!getApp().getArticleElement().getDataParamApp()) {
+		if (!getApp().getAppletParameters().getDataParamApp()) {
 			return;
 		}
 		// get frame size from layout manager
@@ -1682,7 +1682,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	@Override
 	public void showMenuBar(final boolean show) {
-		getApp().getArticleElement().attr("showMenuBar", show + "");
+		getApp().getAppletParameters().attr("showMenuBar", show + "");
 		if (show) {
 			showToolBar(true);
 		}
@@ -1705,7 +1705,7 @@ public class GuiManagerW extends GuiManager
 		}
 		if (currentlyVisible != show) {
 			getApp().setShowToolBar(show);
-			getApp().getArticleElement()
+			getApp().getAppletParameters()
 			.removeAttribute("data-param-showToolBar");
 			getApp().persistWidthAndHeight();
 			getApp()
@@ -2142,7 +2142,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	public static boolean mayForceKeyboard(AppW app) {
 		return !app.isStartedWithFile()
-				&& !app.getArticleElement().preventFocus()
+				&& !app.getAppletParameters().preventFocus()
 				&& (app.getExam() == null || app.getExam().getStart() > 0);
 	}
 
