@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoInterval;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -115,10 +116,15 @@ public class InputBoxProcessor {
 		}
 
 		if (linkedGeo instanceof FunctionalNVar) {
-			// string like f(x,y)=x^2
-			// or f(\theta) = \theta
-			defineText = linkedGeo.getLabel(tpl) + "("
-					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
+			if (linkedGeo instanceof GeoInterval) {
+				defineText = linkedGeo.getLabel(tpl) + ":"
+						+ defineText;
+			} else {
+				// string like f(x,y)=x^2
+				// or f(\theta) = \theta
+				defineText = linkedGeo.getLabel(tpl) + "("
+						+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
+			}
 		}
 
 		if (isComplexNumber()) {
