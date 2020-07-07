@@ -29,8 +29,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 
 	@Override
 	protected AppW createApplication(GeoGebraElement article,
-			GLookAndFeelI laf) {
-		return new AppWsimple(article, this, false);
+			AppletParameters parameters, GLookAndFeelI laf) {
+		return new AppWsimple(article, parameters, this, false);
 	}
 
 	/**

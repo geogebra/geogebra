@@ -119,9 +119,9 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	protected AppW createApplication(GeoGebraElement article,
-			GLookAndFeelI laf) {
-		AppW application = factory.getApplet(article, this, laf, this.device);
+	protected AppW createApplication(GeoGebraElement geoGebraElement,
+			AppletParameters parameters, GLookAndFeelI laf) {
+		AppW application = factory.getApplet(geoGebraElement, parameters, this, laf, this.device);
 		if (!app.isApplet()) {
 			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
 		} else {

@@ -4,6 +4,7 @@ import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -31,7 +32,9 @@ public class StepsEntry implements EntryPoint {
 		SuperDevUncaughtExceptionHandler.register();
 
 		GeoGebraElement geoGebraElement = GeoGebraElement.as(DOM.getElementById("ggw"));
-		geoGebraElement.setAttribute("data-param-marginTop", "64");
+		AppletParameters parameters = new AppletParameters(geoGebraElement);
+
+		parameters.setAttribute("marginTop", "64");
 
 		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.sharedStyleScss());
@@ -45,7 +48,7 @@ public class StepsEntry implements EntryPoint {
 
 		geogebraFrame = new GeoGebraFrameSimple(geoGebraElement);
 
-		app = new AppWsolver(geoGebraElement, geogebraFrame);
+		app = new AppWsolver(geoGebraElement, parameters, geogebraFrame);
 		LoggerW.startLogger(app.getAppletParameters());
 
 		String type = geoGebraElement.getAttribute("data-param-appType");

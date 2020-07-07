@@ -5,6 +5,7 @@ import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.resources.StyleInjector;
 
@@ -39,7 +40,8 @@ public class Editor implements EntryPoint, MathFieldListener {
 	@Override
 	public void onModuleLoad() {
 		GeoGebraElement element = GeoGebraElement.as(DOM.createElement("div"));
-		app = new AppWsolver(element, new GeoGebraFrameSimple(element));
+		AppletParameters parameters = new AppletParameters(element);
+		app = new AppWsolver(element, parameters, new GeoGebraFrameSimple(element));
 
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());

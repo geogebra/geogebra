@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.dom.client.Element;
@@ -44,12 +45,12 @@ public class SplashDialog extends SimplePanel {
 	 *            frame
 	 */
 	public SplashDialog(boolean showLogo, GeoGebraElement geoGebraElement,
-			GeoGebraFrameW frame) {
+			AppletParameters parameters, GeoGebraFrameW frame) {
 		this.geoGebraElement = geoGebraElement;
 		this.geogebraFrame = frame;
 		previewExists = checkIfPreviewExists(geoGebraElement)
 				|| AppConfigDefault
-						.isUnbundledOrNotes(article.getDataParamAppName());
+						.isUnbundledOrNotes(parameters.getDataParamAppName());
 
 		if (!previewExists) {
 			FlowPanel panel = new FlowPanel();

@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.core.client.impl.SchedulerImpl;
 import com.google.gwt.dom.client.Element;
@@ -62,8 +63,9 @@ public class AppMocker {
 		useCommonFakeProviders();
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(new AppletFactory3D() {
 			@Override
-			public AppWFull getApplet(AppletParameters params,
-									  GeoGebraFrameFull frame, GLookAndFeelI laf, GDevice device) {
+			public AppWFull getApplet(GeoGebraElement element,
+					AppletParameters params,
+					GeoGebraFrameFull frame, GLookAndFeelI laf, GDevice device) {
 				return new AppWapplet3DTest(params, frame, (GLookAndFeel) laf, device);
 			}
 		},

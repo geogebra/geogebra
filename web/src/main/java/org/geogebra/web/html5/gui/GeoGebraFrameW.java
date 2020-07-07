@@ -123,7 +123,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		int height = computeHeight();
 
 		boolean showLogo = ((width >= LOGO_WIDTH) && (height >= LOGO_HEIGHT));
-		splash = new SplashDialog(showLogo, geoGebraElement, this);
+		splash = new SplashDialog(showLogo, geoGebraElement, appletParameters, this);
 
 		if (splash.isPreviewExists()) {
 			splashWidth = width;
@@ -433,7 +433,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		ResourcesInjector.injectResources(appletParameters);
 		ResourcesInjector.loadFont(appletParameters.getDataParamFontsCssUrl());
 
-		app = createApplication(geoGebraElement, this.laf);
+		app = createApplication(geoGebraElement, appletParameters, this.laf);
 		app.setCustomToolBar();
 
 		Event.sinkEvents(geoGebraElement.getElement(), Event.ONKEYPRESS | Event.ONKEYDOWN);
@@ -486,12 +486,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * @param article
 	 *            article element
+	 * @param parameters applet parameters
 	 * @param lookAndFeel
 	 *            look and feel
 	 * @return the newly created instance of Application
 	 */
 	protected abstract AppW createApplication(GeoGebraElement article,
-			GLookAndFeelI lookAndFeel);
+			AppletParameters parameters, GLookAndFeelI lookAndFeel);
 
 	/**
 	 * @return list of instances of GeogebraFrame
