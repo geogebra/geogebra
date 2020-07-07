@@ -92,6 +92,12 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void functionPowerShouldNotBeUsedForProduct() {
+		add("f(r,t)=?");
+		shouldBeUpdatedAs("f", "t^2 r^(11t)", unicode("t^2 r^(11 t)"));
+	}
+
+	@Test
 	public void testCost7() {
 		add("g(t)=?");
 		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t cos(7 t)))/7");

@@ -240,7 +240,8 @@ public class FunctionParser {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
 			ExpressionValue exprWithDummyArg = replacer.replace(funcName + "$");
 			if (exprWithDummyArg.isExpressionNode()
-					&& exprWithDummyArg.wrap().getOperation() ==  Operation.MULTIPLY) {
+					&& exprWithDummyArg.wrap().getOperation() ==  Operation.MULTIPLY
+					&& Operation.isSimpleFunction(exprWithDummyArg.wrap().getRightTree().getOperation())) {
 				Traversing.VariableReplacer dummyArgReplacer = Traversing.VariableReplacer
 						.getReplacer("$", arg, kernel);
 				return exprWithDummyArg.traverse(dummyArgReplacer).wrap();
