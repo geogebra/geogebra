@@ -339,27 +339,27 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	private ExpressionNode getTwinInput() throws ParseException {
 		if (useOutputAsMainTwin()) {
-			return getOutputNode();
+			return getOutputFromNode();
 		}
-		return getInputNode();
+		return getInputFromNode();
 	}
 
 	private ExpressionNode getTwinFallbackInput() throws ParseException {
 		if (useOutputAsMainTwin()) {
-			return getInputNode();
+			return getInputFromNode();
 		}
-		return getOutputNode();
+		return getOutputFromNode();
 	}
 
 	private boolean useOutputAsMainTwin() {
 		return constant != null && constant.getTotalNumberOfConsts() > 0;
 	}
 
-	private ExpressionNode getOutputNode() throws ParseException {
+	private ExpressionNode getOutputFromNode() throws ParseException {
 		return kernel.getParser().parseGiac(casOutputString).wrap();
 	}
 
-	private ExpressionNode getInputNode() {
+	private ExpressionNode getInputFromNode() {
 		ExpressionNode node = getDefinition().deepCopy(kernel)
 				.traverse(createPrepareDefinition()).wrap();
 		node.setLabel(null);
