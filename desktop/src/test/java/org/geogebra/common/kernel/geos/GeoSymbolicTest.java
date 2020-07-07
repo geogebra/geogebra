@@ -1165,8 +1165,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(element.showInEuclidianView(), is(false));
 	}
 
-
-
 	@Test
 	public void testFunctionLikeMultiplication() {
 		GeoSymbolic element =  add("x(x + 1)");
