@@ -44,8 +44,9 @@ public class AppletParameters {
 		attributeProvider.removeAttribute("data-param-" + attribute);
 	}
 
-	public void setAttribute(String attribute, String value) {
+	public AppletParameters setAttribute(String attribute, String value) {
 		attributeProvider.setAttribute("data-param-" + attribute, value);
+		return this;
 	}
 
 	private boolean getBoolDataParam(String attr, boolean def) {

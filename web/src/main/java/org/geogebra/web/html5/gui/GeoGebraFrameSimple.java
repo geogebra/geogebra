@@ -6,11 +6,10 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -40,12 +39,12 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param geoGebraMobileTags
 	 *            list of &lt;article&gt; elements of the web page
 	 */
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
-		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrameW inst = new GeoGebraFrameSimple(articleElement);
-			LoggerW.startLogger(articleElement);
+	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags) {
+		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
+			final GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement);
+			LoggerW.startLogger(geoGebraElement);
 			inst.createSplash();
-			RootPanel.get(articleElement.getId()).add(inst);
+			RootPanel.get(geoGebraElement.getId()).add(inst);
 		}
 	}
 
@@ -55,10 +54,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param clb
 	 *            callback
 	 */
-	public static void renderArticleElement(Element el, JavaScriptObject clb) {
+	public static void renderArticleElement(GeoGebraElement el, JavaScriptObject clb) {
 		GeoGebraFrameW.renderArticleElementWithFrame(el,
-				new GeoGebraFrameSimple(ArticleElement.as(el)),
-				clb);
+				new GeoGebraFrameSimple(el), clb);
 	}
 
 	@Override
