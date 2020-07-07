@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -27,6 +29,8 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.syntax.suggestionfilter.GraphingSyntaxFilter;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.BasePropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
@@ -209,6 +213,12 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public CommandArgumentFilter getCommandArgumentFilter() {
 		return new GraphingCommandArgumentFilter();
+	}
+
+	@Nullable
+	@Override
+	public SyntaxFilter newCommandSyntaxFilter() {
+		return new GraphingSyntaxFilter();
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
@@ -13,6 +15,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 
 /**
  * Config for the Suite app (currently graphing before tool removal)
@@ -66,6 +69,12 @@ public class AppConfigSuite extends AppConfigGraphing {
 
 	@Override
 	public OperationArgumentFilter createOperationArgumentFilter() {
+		return null;
+	}
+
+	@Nullable
+	@Override
+	public SyntaxFilter newCommandSyntaxFilter() {
 		return null;
 	}
 

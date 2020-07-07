@@ -276,7 +276,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setUndoRedoEnabled(articleElement.getDataParamEnableUndoRedo()
 				&& (laf == null || laf.undoRedoSupported()));
 
-		this.loc = new LocalizationW(dimension);
+		this.loc = new LocalizationW(getConfig(), dimension);
 		this.articleElement = articleElement;
 		this.laf = laf;
 

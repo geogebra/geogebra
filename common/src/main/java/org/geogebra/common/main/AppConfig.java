@@ -2,6 +2,8 @@ package org.geogebra.common.main;
 
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -12,6 +14,7 @@ import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
 public interface AppConfig {
@@ -156,6 +159,12 @@ public interface AppConfig {
 	 * @return the Command Argument filter for the app.
 	 */
 	CommandArgumentFilter getCommandArgumentFilter();
+
+	/**
+	 * @return command syntax filter
+	 */
+	@Nullable
+	SyntaxFilter newCommandSyntaxFilter();
 
 	/**
 	 * @return whether the app should show the tools panel or not

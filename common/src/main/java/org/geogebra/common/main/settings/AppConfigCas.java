@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
@@ -17,6 +19,7 @@ import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.settings.updater.CasSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.CasPropertiesFactory;
 import org.geogebra.common.properties.factory.PropertiesFactory;
 
@@ -68,6 +71,12 @@ public class AppConfigCas extends AppConfigGraphing {
 	@Override
 	public CommandArgumentFilter getCommandArgumentFilter() {
 		return new CASCommandArgumentFilter();
+	}
+
+	@Nullable
+	@Override
+	public SyntaxFilter newCommandSyntaxFilter() {
+		return null;
 	}
 
 	@Override
