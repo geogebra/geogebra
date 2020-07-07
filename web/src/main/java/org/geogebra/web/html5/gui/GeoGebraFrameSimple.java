@@ -23,12 +23,12 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param articleElement
 	 *            article with parameters
 	 */
-	public GeoGebraFrameSimple(AppletParameters articleElement) {
+	public GeoGebraFrameSimple(GeoGebraElement articleElement) {
 		super(null, articleElement);
 	}
 
 	@Override
-	protected AppW createApplication(AppletParameters article,
+	protected AppW createApplication(GeoGebraElement article,
 			GLookAndFeelI laf) {
 		return new AppWsimple(article, this, false);
 	}
@@ -41,8 +41,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 */
 	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags) {
 		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
-			final GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement);
-			LoggerW.startLogger(geoGebraElement);
+			AppletParameters parameters = new AppletParameters(geoGebraElement);
+			GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement);
+			LoggerW.startLogger(parameters);
 			inst.createSplash();
 			RootPanel.get(geoGebraElement.getId()).add(inst);
 		}

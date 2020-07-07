@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.FontManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ShareLinkDialog;
 import org.geogebra.web.shared.SignInController;
@@ -42,8 +43,8 @@ public class AppWsolver extends AppW implements HasKeyboard {
      *            frame
 
      */
-    public AppWsolver(AppletParameters ae, GeoGebraFrameW gf) {
-        super(ae, 2, null);
+    public AppWsolver(GeoGebraElement ae, AppletParameters parameters, GeoGebraFrameW gf) {
+        super(ae, parameters, 2, null);
         this.frame = gf;
         setAppletHeight(frame.getComputedHeight());
         setAppletWidth(frame.getComputedWidth());
@@ -59,7 +60,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
         initCoreObjects();
 
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(this.getAppletParameters().getElement());
+		Browser.removeDefaultContextMenu(getGeoGebraElement());
 
 		initSignInEventFlow(new LoginOperationW(this));
 

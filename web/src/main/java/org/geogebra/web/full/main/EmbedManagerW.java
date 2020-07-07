@@ -38,6 +38,7 @@ import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.JSON;
 import org.geogebra.web.resources.SVGResource;
@@ -126,10 +127,12 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
+		FlowPanel scaler = new FlowPanel();
+
 		AppletParameters parameters = new AppletParameters("graphing");
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(
 				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
-				app.getDevice(), parameters);
+				app.getDevice(), GeoGebraElement.as(scaler.getElement()));
 
 		parameters.setAttribute("scaleContainerClass", "embedContainer")
 				.setAttribute("allowUpscale", "true")
@@ -150,10 +153,6 @@ public class EmbedManagerW implements EmbedManager {
 		fr.setComputedHeight(parameters.getDataParamHeight()
 				- parameters.getBorderThickness());
 		fr.runAsyncAfterSplash();
-
-		FlowPanel scaler = new FlowPanel();
-		scaler.add(fr);
-		parameters.setParentElement(scaler.getElement());
 
 		addToGraphics(scaler);
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());

@@ -1682,7 +1682,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	@Override
 	public void showMenuBar(final boolean show) {
-		getApp().getAppletParameters().attr("showMenuBar", show + "");
+		getApp().getAppletParameters().setAttribute("showMenuBar", show + "");
 		if (show) {
 			showToolBar(true);
 		}

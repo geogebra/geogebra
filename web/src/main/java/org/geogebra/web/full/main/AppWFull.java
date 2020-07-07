@@ -128,6 +128,7 @@ import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
@@ -202,8 +203,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	/**
 	 *
-	 * @param ae
-	 *            article element
+	 * @param geoGebraElement
+	 *            GeoGebra element
 	 * @param dimension
 	 *            2 or 3 (for 2D or 3D app)
 	 * @param laf
@@ -213,10 +214,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param frame
 	 *            frame
 	 */
-	public AppWFull(AppletParameters ae, int dimension,
-			GLookAndFeelI laf,
+	public AppWFull(GeoGebraElement geoGebraElement, AppletParameters parameters,
+			int dimension, GLookAndFeelI laf,
 			GDevice device, GeoGebraFrameFull frame) {
-		super(ae, dimension, laf);
+		super(geoGebraElement, parameters, dimension, laf);
 		this.frame = frame;
 		this.device = device;
 
@@ -227,10 +228,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
 
-		this.useFullGui = !isApplet() || ae.getDataParamShowAlgebraInput(false)
-				|| ae.getDataParamShowToolBar(false)
-				|| ae.getDataParamShowMenuBar(false)
-				|| ae.getDataParamEnableRightClick() || !isStartedWithFile();
+		this.useFullGui = !isApplet() || parameters.getDataParamShowAlgebraInput(false)
+				|| parameters.getDataParamShowToolBar(false)
+				|| parameters.getDataParamShowMenuBar(false)
+				|| parameters.getDataParamEnableRightClick() || !isStartedWithFile();
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 				+ GeoGebraConstants.BUILD_DATE + " "
@@ -244,8 +245,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		checkExamPerspective();
 		afterCoreObjectsInited();
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(this.getAppletParameters().getElement());
-		if (ae.getDataParamApp() && !this.getLAF().isSmart()) {
+		Browser.removeDefaultContextMenu(geoGebraElement);
+		if (getAppletParameters().getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
 		}
 		setupHeader();

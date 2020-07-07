@@ -4,7 +4,7 @@ import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.editor.AppWsolver;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.StyleInjector;
@@ -30,10 +30,8 @@ public class StepsEntry implements EntryPoint {
 	public void onModuleLoad() {
 		SuperDevUncaughtExceptionHandler.register();
 
-		ArticleElement articleElement = ArticleElement.as(DOM.getElementById("ggw"));
-		articleElement.attr("marginTop", "64");
-
-		LoggerW.startLogger(articleElement);
+		GeoGebraElement geoGebraElement = GeoGebraElement.as(DOM.getElementById("ggw"));
+		geoGebraElement.setAttribute("data-param-marginTop", "64");
 
 		StyleInjector.inject(SharedResources.INSTANCE.solverStyleScss());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.sharedStyleScss());
@@ -45,12 +43,13 @@ public class StepsEntry implements EntryPoint {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
 
-		geogebraFrame = new GeoGebraFrameSimple(articleElement);
+		geogebraFrame = new GeoGebraFrameSimple(geoGebraElement);
 
-		app = new AppWsolver(articleElement, geogebraFrame);
+		app = new AppWsolver(geoGebraElement, geogebraFrame);
+		LoggerW.startLogger(app.getAppletParameters());
 
-		String type = articleElement.getAttribute("data-param-appType");
-		RootPanel.get(articleElement.getId()).add(geogebraFrame);
+		String type = geoGebraElement.getAttribute("data-param-appType");
+		RootPanel.get(geoGebraElement.getId()).add(geogebraFrame);
 
 		switchMode(type);
 		Stub3DFragment.load();

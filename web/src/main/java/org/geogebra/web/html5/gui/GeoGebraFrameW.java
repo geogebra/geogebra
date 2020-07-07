@@ -13,7 +13,6 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.Visibility;
-import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
@@ -432,7 +431,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public void runAsyncAfterSplash() {
 		ResourcesInjector.injectResources(appletParameters);
-		ResourcesInjector.loadFont(geoGebraElement.getDataParamFontsCssUrl());
+		ResourcesInjector.loadFont(appletParameters.getDataParamFontsCssUrl());
 
 		app = createApplication(geoGebraElement, this.laf);
 		app.setCustomToolBar();
@@ -491,7 +490,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            look and feel
 	 * @return the newly created instance of Application
 	 */
-	protected abstract AppW createApplication(AppletParameters article,
+	protected abstract AppW createApplication(GeoGebraElement article,
 			GLookAndFeelI lookAndFeel);
 
 	/**
@@ -613,22 +612,17 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            load callback
 	 *
 	 */
-	public static void renderArticleElementWithFrame(final Element element,
+	public static void renderArticleElementWithFrame(GeoGebraElement element,
 			GeoGebraFrameW frame, JavaScriptObject onLoadCallback) {
-
-		final ArticleElement article = ArticleElement.as(element);
-		if (Log.getLogger() == null) {
-			LoggerW.startLogger(article);
-		}
-		article.clear();
-		article.initID(0);
+		element.clear();
+		element.initID(0);
 		frame.onLoadCallback = onLoadCallback;
 		frame.createSplash();
-		RootPanel root = RootPanel.get(article.getId());
+		RootPanel root = RootPanel.get(element.getId());
 		if (root != null) {
 			root.add(frame);
 		} else {
-			Log.error("Cannot find article with ID " + article.getId());
+			Log.error("Cannot find article with ID " + element.getId());
 		}
 	}
 

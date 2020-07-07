@@ -269,11 +269,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param laf
 	 *            (null for webSimple) {@link GLookAndFeelI}
 	 */
-	protected AppW(GeoGebraElement geoGebraElement, int dimension,
-			GLookAndFeelI laf) {
-		init();
+	protected AppW(GeoGebraElement geoGebraElement, AppletParameters appletParameters,
+			int dimension, GLookAndFeelI laf) {
+		super(getPlatform(appletParameters, dimension, laf));
 		this.geoGebraElement = geoGebraElement;
-		this.appletParameters = new AppletParameters(geoGebraElement);
+		this.appletParameters = appletParameters;
 
 		setPrerelease(appletParameters.getDataParamPrerelease());
 

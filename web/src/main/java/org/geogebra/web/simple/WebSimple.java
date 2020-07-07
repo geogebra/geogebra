@@ -3,7 +3,7 @@ package org.geogebra.web.simple;
 import java.util.ArrayList;
 
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -21,17 +21,17 @@ public class WebSimple implements EntryPoint {
 		exportGGBElementRenderer();
 
 		// instead, load it immediately
-		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
+		startGeoGebra(GeoGebraElement.getGeoGebraMobileTags());
 		SuperDevUncaughtExceptionHandler.register();
 		Stub3DFragment.load();
 	}
 
-	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
+	static void startGeoGebra(ArrayList<GeoGebraElement> geoGebraMobileTags) {
 		GeoGebraFrameSimple.main(geoGebraMobileTags);
 	}
 
 	private native void exportGGBElementRenderer() /*-{
-		$wnd.renderGGBElement = $entry(@org.geogebra.web.html5.gui.GeoGebraFrameSimple::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
+		$wnd.renderGGBElement = $entry(@org.geogebra.web.html5.gui.GeoGebraFrameSimple::renderArticleElement(*))
 		@org.geogebra.web.html5.gui.GeoGebraFrameW::renderGGBElementReady()();
 	}-*/;
 

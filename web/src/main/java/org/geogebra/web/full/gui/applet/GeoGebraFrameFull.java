@@ -119,7 +119,7 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	protected AppW createApplication(AppletParameters article,
+	protected AppW createApplication(GeoGebraElement article,
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
 		if (!app.isApplet()) {
@@ -159,12 +159,13 @@ public class GeoGebraFrameFull
 	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags,
 			AppletFactory factory, GLookAndFeel laf, GDevice device) {
 
-		for (final GeoGebraElement articleElement : geoGebraMobileTags) {
+		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
+			AppletParameters parameters = new AppletParameters(geoGebraElement);
 			final GeoGebraFrameFull inst = new GeoGebraFrameFull(factory, laf,
-					device, articleElement);
-			LoggerW.startLogger(articleElement);
+					device, geoGebraElement);
+			LoggerW.startLogger(parameters);
 			inst.createSplash();
-			RootPanel.get(articleElement.getId()).add(inst);
+			RootPanel.get(geoGebraElement.getId()).add(inst);
 		}
 	}
 
@@ -180,9 +181,9 @@ public class GeoGebraFrameFull
 	 */
 	public static void renderArticleElement(Element el, AppletFactory factory,
 			GLookAndFeel laf, JavaScriptObject clb) {
-
-		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameFull(
-				factory, laf, null, ArticleElement.as(el)),
+		GeoGebraElement element = GeoGebraElement.as(el);
+		GeoGebraFrameW.renderArticleElementWithFrame(element,
+				new GeoGebraFrameFull(factory, laf, null, element),
 				clb);
 	}
 
