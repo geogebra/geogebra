@@ -2,7 +2,7 @@ package org.geogebra.web.html5.js;
 
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
@@ -31,7 +31,7 @@ public class ResourcesInjector {
 	 * Inject all JS/CSS resources
 	 * @param ae article element
 	 */
-	public static void injectResources(ArticleElementInterface ae) {
+	public static void injectResources(AppletParameters ae) {
 		if (resourcesInjected) {
 			return;
 		}
@@ -92,7 +92,7 @@ public class ResourcesInjector {
 	 *
 	 * @param ae article element
 	 */
-	protected void injectResourcesGUI(ArticleElementInterface ae) {
+	protected void injectResourcesGUI(AppletParameters ae) {
 		// overridden elsewhere
 	}
 

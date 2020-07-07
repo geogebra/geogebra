@@ -126,7 +126,7 @@ import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
@@ -213,7 +213,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param frame
 	 *            frame
 	 */
-	public AppWFull(ArticleElementInterface ae, int dimension,
+	public AppWFull(AppletParameters ae, int dimension,
 			GLookAndFeelI laf,
 			GDevice device, GeoGebraFrameFull frame) {
 		super(ae, dimension, laf);

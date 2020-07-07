@@ -7,8 +7,8 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.HasAppletProperties;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.ViewW;
@@ -53,7 +53,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static final int LOGO_HEIGHT = 120;
 
 	/** Article element */
-	private ArticleElementInterface articleElement;
+	private AppletParameters articleElement;
 
 	private int computedWidth = 0;
 	private int computedHeight = 0;
@@ -86,7 +86,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @param articleElement
 	 *            applet parameters
 	 */
-	public GeoGebraFrameW(GLookAndFeelI laf, ArticleElementInterface articleElement) {
+	public GeoGebraFrameW(GLookAndFeelI laf, AppletParameters articleElement) {
 		this(laf, ArticleElement.getDataParamFitToScreen(articleElement.getElement()));
 		this.articleElement = articleElement;
 
@@ -454,7 +454,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @param app
 	 *            app
 	 */
-	public static void handleLoadFile(ArticleElementInterface articleElement,
+	public static void handleLoadFile(AppletParameters articleElement,
 			AppW app) {
 		ViewW view = app.getViewW();
 		new LoadFilePresenter().onPageLoad(articleElement, app, view);
@@ -489,7 +489,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            look and feel
 	 * @return the newly created instance of Application
 	 */
-	protected abstract AppW createApplication(ArticleElementInterface article,
+	protected abstract AppW createApplication(AppletParameters article,
 			GLookAndFeelI lookAndFeel);
 
 	/**

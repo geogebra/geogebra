@@ -35,7 +35,7 @@ public class LoadFilePresenter {
 	 * @param vv
 	 *            zip loader
 	 */
-	public void onPageLoad(final ArticleElementInterface view, final AppW app,
+	public void onPageLoad(final AppletParameters view, final AppW app,
 			ViewW vv) {
 
 		String base64String;
@@ -145,7 +145,7 @@ public class LoadFilePresenter {
 	 *            article element
 	 * @return whether special perspective (search / customize) was used
 	 */
-	boolean openEmptyApp(final AppW app, ArticleElementInterface ae) {
+	boolean openEmptyApp(final AppW app, AppletParameters ae) {
 		// we dont have content, it is an app
 		Log.debug("no base64content, possibly App loaded?");
 

@@ -33,7 +33,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.GgbFile;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 
 /** 3D applet */
 public class AppWapplet3D extends AppWFull {
@@ -53,7 +53,7 @@ public class AppWapplet3D extends AppWFull {
 	 * @param device
 	 *            browser or tablet
 	 */
-	public AppWapplet3D(ArticleElementInterface ae, GeoGebraFrameFull gf,
+	public AppWapplet3D(AppletParameters ae, GeoGebraFrameFull gf,
 			GLookAndFeel laf, GDevice device) {
 		super(ae, 3, laf, device, gf);
 	}

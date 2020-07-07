@@ -13,7 +13,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
@@ -90,7 +90,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * Updates fullscreen button and article.
 	 */
 	public void updateFullscreen() {
-		ArticleElementInterface ae = app.getArticleElement();
+		AppletParameters ae = app.getArticleElement();
 		if (!ae.getDataParamApp() && isFullScreen()) {
 			getZoomController().scaleApplet(ae.getParentElement(),
 					ae.getParentElement().getParentElement(),

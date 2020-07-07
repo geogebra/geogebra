@@ -11,7 +11,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.resources.StyleInjector;
 
@@ -303,7 +303,7 @@ public class ZoomController {
 			}
 			handleIframeFullscreen(fullscreenBtn);
 		} else {
-			ArticleElementInterface ae = app.getArticleElement();
+			AppletParameters ae = app.getArticleElement();
 			final Element scaler = ae.getParentElement();
 			container = scaler.getParentElement();
 			if (!isFullScreenActive()) {

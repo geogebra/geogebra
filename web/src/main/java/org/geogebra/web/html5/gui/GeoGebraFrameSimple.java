@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -24,12 +24,12 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param articleElement
 	 *            article with parameters
 	 */
-	public GeoGebraFrameSimple(ArticleElementInterface articleElement) {
+	public GeoGebraFrameSimple(AppletParameters articleElement) {
 		super(null, articleElement);
 	}
 
 	@Override
-	protected AppW createApplication(ArticleElementInterface article,
+	protected AppW createApplication(AppletParameters article,
 			GLookAndFeelI laf) {
 		return new AppWsimple(article, this, false);
 	}

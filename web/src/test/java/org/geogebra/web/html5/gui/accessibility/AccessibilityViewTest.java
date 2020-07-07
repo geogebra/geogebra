@@ -11,7 +11,6 @@ import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.sliderPanel.SliderW;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.test.DomMocker;

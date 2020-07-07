@@ -44,8 +44,8 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -92,7 +92,7 @@ public class GeoGebraFrameFull
 	private PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
 
-	public GeoGebraFrameFull(GLookAndFeelI laf, ArticleElementInterface articleElement) {
+	public GeoGebraFrameFull(GLookAndFeelI laf, AppletParameters articleElement) {
 		super(laf, articleElement);
 	}
 
@@ -107,7 +107,7 @@ public class GeoGebraFrameFull
 	 *            article with parameters
 	 */
 	public GeoGebraFrameFull(AppletFactory factory, GLookAndFeelI laf,
-							 GDevice device, ArticleElementInterface articleElement) {
+							 GDevice device, AppletParameters articleElement) {
 		super(laf, articleElement);
 		this.device = device;
 		this.factory = factory;
@@ -119,7 +119,7 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	protected AppW createApplication(ArticleElementInterface article,
+	protected AppW createApplication(AppletParameters article,
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
 		if (!app.isApplet()) {

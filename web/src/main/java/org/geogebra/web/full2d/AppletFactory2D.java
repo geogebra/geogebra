@@ -6,7 +6,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.simple.Stub3DFragment;
 
 /**
@@ -22,7 +22,7 @@ public class AppletFactory2D implements AppletFactory {
 	}
 
 	@Override
-	public AppW getApplet(ArticleElementInterface ae, GeoGebraFrameFull gf,
+	public AppW getApplet(AppletParameters ae, GeoGebraFrameFull gf,
 			GLookAndFeelI laf, GDevice device) {
 		return new AppWFull(ae, 2, laf, device, gf);
 	}

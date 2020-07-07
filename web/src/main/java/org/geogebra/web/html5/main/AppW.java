@@ -133,8 +133,8 @@ import org.geogebra.web.html5.main.settings.SettingsBuilderW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
@@ -203,7 +203,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected MaterialsManagerI fm;
 	private Material activeMaterial;
 
-	protected final ArticleElementInterface articleElement;
+	protected final AppletParameters articleElement;
 
 	protected EuclidianPanelWAbstract euclidianViewPanel;
 
@@ -267,7 +267,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @param laf
 	 *            (null for webSimple) {@link GLookAndFeelI}
 	 */
-	protected AppW(ArticleElementInterface articleElement, int dimension,
+	protected AppW(AppletParameters articleElement, int dimension,
 			GLookAndFeelI laf) {
 		super(getPlatform(articleElement, dimension, laf));
 		setPrerelease(articleElement.getDataParamPrerelease());
@@ -417,7 +417,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// TODO listener (?)
 	}
 
-	private static Platform getPlatform(ArticleElementInterface ae,
+	private static Platform getPlatform(AppletParameters ae,
 										int dimension,
 										GLookAndFeelI laf2) {
 		return laf2 == null ? Platform.WEB
@@ -2013,7 +2013,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return article element with parameters
 	 */
-	public ArticleElementInterface getArticleElement() {
+	public AppletParameters getArticleElement() {
 		return articleElement;
 	}
 

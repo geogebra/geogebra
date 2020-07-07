@@ -10,7 +10,7 @@ import org.geogebra.common.move.ggtapi.models.Service;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.HttpRequestW;
 
 import com.google.gwt.core.client.GWT;
@@ -26,7 +26,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	// delegation should be extended, until we can completely get rid
 	// of tube and this class.
 	private MaterialRestAPI materialRestAPI;
-	private ArticleElementInterface articleElement;
+	private AppletParameters articleElement;
 
 	/**
 	 * @param beta
@@ -35,7 +35,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	 *            parameters
 	 */
 	public GeoGebraTubeAPIWSimple(boolean beta,
-			ArticleElementInterface articleElement) {
+			AppletParameters articleElement) {
 		super(beta);
 		this.articleElement = articleElement;
 		if (!StringUtil.empty(articleElement.getMaterialsAPIurl())) {

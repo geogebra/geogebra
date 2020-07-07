@@ -12,7 +12,7 @@ import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.FontManagerW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ShareLinkDialog;
 import org.geogebra.web.shared.SignInController;
@@ -42,7 +42,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
      *            frame
 
      */
-    public AppWsolver(ArticleElementInterface ae, GeoGebraFrameW gf) {
+    public AppWsolver(AppletParameters ae, GeoGebraFrameW gf) {
         super(ae, 2, null);
         this.frame = gf;
         setAppletHeight(frame.getComputedHeight());

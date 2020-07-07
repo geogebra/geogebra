@@ -9,7 +9,7 @@ import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
@@ -34,7 +34,7 @@ public class AppWsimple extends AppW {
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public AppWsimple(ArticleElementInterface ae, GeoGebraFrameW gf,
+	public AppWsimple(AppletParameters ae, GeoGebraFrameW gf,
 	        final boolean undoActive) {
 		super(ae, 2, null);
 		this.frame = gf;

@@ -12,8 +12,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppWsimple;
-import org.geogebra.web.html5.main.TestArticleElement;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 
 import com.google.gwt.core.client.impl.SchedulerImpl;
 import com.google.gwt.dom.client.Element;
@@ -59,11 +58,11 @@ public class AppMocker {
 		return mockApplet(new TestArticleElement(appName));
 	}
 
-	public static AppWFull mockApplet(ArticleElementInterface ae) {
+	public static AppWFull mockApplet(AppletParameters ae) {
 		useCommonFakeProviders();
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(new AppletFactory3D() {
 			@Override
-			public AppWFull getApplet(ArticleElementInterface params,
+			public AppWFull getApplet(AppletParameters params,
 									  GeoGebraFrameFull frame, GLookAndFeelI laf, GDevice device) {
 				return new AppWapplet3DTest(params, frame, (GLookAndFeel) laf, device);
 			}
@@ -85,7 +84,7 @@ public class AppMocker {
 		app.getKernel().getConstruction().initUndoInfo();
 	}
 
-	public static AppWsimple mockAppletSimple(ArticleElementInterface ae) {
+	public static AppWsimple mockAppletSimple(AppletParameters ae) {
 		useCommonFakeProviders();
 		useProviderForSchedulerImpl();
 		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(ae);
