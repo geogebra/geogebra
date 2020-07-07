@@ -1,10 +1,6 @@
 package org.geogebra.common.properties.impl.graphics;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.Property;
@@ -20,13 +16,9 @@ public class ARRatioPropertyCollection extends AbstractPropertyCollection {
 	public ARRatioPropertyCollection(App app, Localization localization) {
 		super(localization, "AR Ratio");
 
-		Kernel kernel = app.getKernel();
-		Renderer renderer = ((EuclidianView3D) app.getActiveEuclidianView()).getRenderer();
-		ArrayList<Property> properties = new ArrayList<>();
-		properties.add(new ARRatioProperty(localization, renderer, kernel));
-		properties.add(new RatioUnitProperty((EuclidianView3D) app.getActiveEuclidianView(),
-				localization));
-
-		setProperties(properties.toArray(new Property[0]));
+		EuclidianView3D view3D = ((EuclidianView3D) app.getActiveEuclidianView());
+		Property arRatio = new ARRatioProperty(localization, view3D);
+		Property ratioUnit = new RatioUnitProperty(localization, view3D);
+		setProperties(new Property[]{arRatio, ratioUnit});
 	}
 }

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -26,91 +25,76 @@ import org.geogebra.common.properties.impl.graphics.ProjectionsProperty;
 
 /**
  * List of properties for graphics views
- *
  */
 public class GraphicsPropertiesList extends PropertiesArray {
 
-    private App app;
-    private Localization localization;
-	private Property[] propertiesArrayARView;
+	private final App app;
+	private final Localization localization;
+	private Property[] arViewProperties;
 
 	/**
-	 * @param app
-	 *            app
-	 * @param localization
-	 *            localization
+	 * @param app app
+	 * @param localization localization
 	 */
-    public GraphicsPropertiesList(App app, Localization localization) {
+	public GraphicsPropertiesList(App app, Localization localization) {
 		super(localization.getMenu("DrawingPad"),
 				getProperties(app, localization).toArray(new Property[0]));
-        this.app = app;
-        this.localization = localization;
+		this.app = app;
+		this.localization = localization;
 	}
 
-	private static List<Property> getProperties(App app,
-			Localization localization) {
-
+	private static List<Property> getProperties(App app, Localization localization) {
 		EuclidianView activeView = app.getActiveEuclidianView();
-        EuclidianSettings euclidianSettings = activeView.getSettings();
-        ArrayList<Property> propertyList = new ArrayList<>();
+		EuclidianSettings euclidianSettings = activeView.getSettings();
+		ArrayList<Property> propertyList = new ArrayList<>();
 
 		propertyList.add(new GraphicsPositionProperty(app));
 		propertyList.add(new AxesVisibilityProperty(localization, euclidianSettings));
 
-        if (activeView.isEuclidianView3D()) {
+		if (activeView.isEuclidianView3D()) {
 			propertyList.add(new PlaneVisibilityProperty(localization,
-                    (EuclidianSettings3D) euclidianSettings));
-        }
+					(EuclidianSettings3D) euclidianSettings));
+		}
 
-		propertyList.add(
-				new GridVisibilityProperty(localization, euclidianSettings));
+		propertyList.add(new GridVisibilityProperty(localization, euclidianSettings));
 
-        if (activeView.isEuclidianView3D()) {
-            propertyList.add(
-                    new ProjectionsProperty(localization, activeView,
-                            (EuclidianSettings3D) euclidianSettings));
-        }
+		if (activeView.isEuclidianView3D()) {
+			propertyList.add(new ProjectionsProperty(localization, activeView,
+					(EuclidianSettings3D) euclidianSettings));
+		}
 
 		if (!activeView.isEuclidianView3D()) {
-			propertyList.add(
-					new GridStyleProperty(localization, euclidianSettings));
-        }
+			propertyList.add(new GridStyleProperty(localization, euclidianSettings));
+		}
 
-        propertyList.add(new PointCapturingProperty(app, localization));
-
+		propertyList.add(new PointCapturingProperty(app, localization));
 		propertyList.add(new DistancePropertyCollection(app, localization, euclidianSettings));
-		propertyList.add(
-				new LabelsPropertyCollection(localization, euclidianSettings));
+		propertyList.add(new LabelsPropertyCollection(localization, euclidianSettings));
 
 		if (activeView.isEuclidianView3D()) {
 			propertyList.add(new AxesColoredProperty(localization,
-                    (EuclidianSettings3D) euclidianSettings));
-        }
+					(EuclidianSettings3D) euclidianSettings));
+		}
 
 		return propertyList;
-    }
+	}
 
-    @Override
-    public Property[] getProperties() {
-        if (app.getActiveEuclidianView().isAREnabled()) {
-            if (propertiesArrayARView == null) {
-				ArrayList<Property> propertiesListARView =
-						new ArrayList<>(Arrays.asList(super.getProperties()));
-				if (app.has(Feature.G3D_AR_RATIO_SETTINGS)) {
-                    propertiesListARView.add(1,
-                            new ARRatioPropertyCollection(app, localization));
-					propertiesListARView.add(2,
-							new BackgroundProperty(app, localization));
-				} else {
-					propertiesListARView.add(1,
-							new BackgroundProperty(app, localization));
-				}
-				propertiesArrayARView = propertiesListARView
-						.toArray(new Property[0]);
-			}
-			return propertiesArrayARView;
-        }
-        return super.getProperties();
-    }
+	@Override
+	public Property[] getProperties() {
+		if (app.getActiveEuclidianView().isAREnabled()) {
+			ensureArViewPropertiesInitialized();
+			return arViewProperties;
+		}
+		return super.getProperties();
+	}
 
+	private void ensureArViewPropertiesInitialized() {
+		if (arViewProperties == null) {
+			List<Property> propertiesListARView =
+					new ArrayList<>(Arrays.asList(super.getProperties()));
+			propertiesListARView.add(1, new ARRatioPropertyCollection(app, localization));
+			propertiesListARView.add(2, new BackgroundProperty(app, localization));
+			arViewProperties = propertiesListARView.toArray(new Property[0]);
+		}
+	}
 }

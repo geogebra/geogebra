@@ -31,7 +31,7 @@ public abstract class AbstractNumericProperty extends AbstractProperty
 
 	@Override
 	public void setValue(String value) {
-		GeoNumberValue numberValue = algebraProcessor.evaluateToNumeric(value, true);
+		GeoNumberValue numberValue = parseInputString(value);
 		setNumberValue(numberValue);
 	}
 
@@ -46,9 +46,16 @@ public abstract class AbstractNumericProperty extends AbstractProperty
 
 	@Override
 	public boolean isValid(String value) {
-		NumberValue numberValue =
-				value.trim().equals("") ? null : algebraProcessor.evaluateToNumeric(value, true);
+		NumberValue numberValue = parseInputString(value);
 		return numberValue != null && !Double.isNaN(numberValue.getDouble());
+	}
+
+	private GeoNumberValue parseInputString(String value) {
+		String trimmedValue = value.trim();
+		if ("".equals(trimmedValue)) {
+			return null;
+		}
+		return algebraProcessor.evaluateToNumeric(trimmedValue, true);
 	}
 
 	private String getFormatted(double distance) {

@@ -1,6 +1,10 @@
 package org.geogebra.common.properties.impl.objects;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 import org.geogebra.common.properties.impl.objects.delegate.CaptionStyleDelegate;
@@ -22,6 +26,13 @@ public class CaptionStyleProperty extends AbstractEnumerableProperty {
 			"Caption"
 	};
 
+	private static final List<Integer> labelModes = Arrays.asList(
+			GeoElementND.LABEL_DEFAULT,
+			GeoElementND.LABEL_NAME,
+			GeoElementND.LABEL_NAME_VALUE,
+			GeoElementND.LABEL_VALUE,
+			GeoElementND.LABEL_CAPTION);
+
 	private final GeoElementDelegate delegate;
 
 	/***/
@@ -34,13 +45,18 @@ public class CaptionStyleProperty extends AbstractEnumerableProperty {
 
 	@Override
 	public int getIndex() {
-		return delegate.getElement().getLabelMode();
+		GeoElement element = delegate.getElement();
+		if (!element.isLabelVisible()) {
+			return 0;
+		}
+		int index = labelModes.indexOf(element.getLabelMode());
+		return index >= 0 ? index : 1;
 	}
 
 	@Override
 	protected void setValueSafe(String value, int index) {
 		GeoElement element = delegate.getElement();
-		element.setLabelMode(index);
+		element.setLabelMode(labelModes.get(index));
 		element.setLabelVisible(index != LABEL_HIDDEN);
 		element.updateRepaint();
 	}

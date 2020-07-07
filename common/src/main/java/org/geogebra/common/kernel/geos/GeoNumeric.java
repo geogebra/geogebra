@@ -219,7 +219,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean isFillable() {
-		return isDrawable;
+		return isDrawable && !isSlider() && getDrawAlgorithm() != null;
 	}
 
 	/**
@@ -2063,7 +2063,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean showLineProperties() {
-		return isDrawable() && !isSlider();
+		return isDrawable() && !isSlider() && getDrawAlgorithm() != null;
 	}
 
 	/**

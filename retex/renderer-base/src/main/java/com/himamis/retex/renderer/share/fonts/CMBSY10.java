@@ -256,7 +256,7 @@ final class CMBSY10 extends FontInfo {
 		setNextLarger(Configuration.getFonts().cmex10, 170);
 
 		setMetrics(104, 447, 750, 250);
-		setNextLarger(Configuration.getFonts().cmex10, 171);
+		setNextLarger(Configuration.getFonts().cmex10, 173);
 
 		setMetrics(105, 447, 750, 250);
 		setNextLarger(Configuration.getFonts().cmex10, 174);
