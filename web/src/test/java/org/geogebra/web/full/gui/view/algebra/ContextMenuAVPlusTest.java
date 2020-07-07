@@ -19,8 +19,8 @@ public class ContextMenuAVPlusTest {
     @Test
     public void imageToolShownIfAppHasToolbar() {
         AppletParameters articleElement =
-                new TestArticleElement("classic")
-                    .attr("showToolBar", "true");
+                new AppletParameters("classic")
+                    .setAttribute("showToolBar", "true");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
         RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());
@@ -35,8 +35,8 @@ public class ContextMenuAVPlusTest {
     @Test
     public void noImageToolIfShowToolbarIsFalse() {
         AppletParameters articleElement =
-                new TestArticleElement("classic")
-                        .attr("showToolBar", "false");
+                new AppletParameters("classic")
+                        .setAttribute("showToolBar", "false");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
         RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());
@@ -51,8 +51,8 @@ public class ContextMenuAVPlusTest {
     @Test
     public void noImageToolIfCustomToolbarHasNoImageTool() {
         AppletParameters articleElement =
-                new TestArticleElement("classic")
-                        .attr("customToolBar", "1 2");
+                new AppletParameters("classic")
+                        .setAttribute("customToolBar", "1 2");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
         RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());

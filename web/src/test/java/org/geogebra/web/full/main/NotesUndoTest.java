@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,8 +29,8 @@ public class NotesUndoTest {
 	@Test
 	public void undoSingle() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("notes")
-						.attr("vendor", "mebis"));
+				.mockApplet(new AppletParameters("notes")
+						.setAttribute("vendor", "mebis"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -50,7 +51,7 @@ public class NotesUndoTest {
 	@Test
 	public void undoReorder() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("notes"));
+				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -79,7 +80,7 @@ public class NotesUndoTest {
 	@Test
 	public void undoDuplicate() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("notes"));
+				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 		shouldHaveUndoPoints(1);
 
@@ -122,7 +123,7 @@ public class NotesUndoTest {
 	@Test
 	public void undoDuplicateChain() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("notes"));
+				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 		shouldHaveUndoPoints(1);
 
@@ -171,7 +172,7 @@ public class NotesUndoTest {
 	@Test
 	public void undoRedo() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("notes"));
+				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -209,7 +210,7 @@ public class NotesUndoTest {
 	@Test
 	public void pageSwitch() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("notes"));
+				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 
 		app.getAppletFrame().initPageControlPanel(app);
@@ -264,7 +265,7 @@ public class NotesUndoTest {
 	@Test
 	public void switchFourSlides() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("notes"));
+				.mockApplet(new AppletParameters("notes"));
 		addObject("x");
 
 		app.getAppletFrame().initPageControlPanel(app);
@@ -323,7 +324,7 @@ public class NotesUndoTest {
 	@Test
 	public void singleObjectPerSlide() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("notes"));
+				.mockApplet(new AppletParameters("notes"));
 
 
 		app.getAppletFrame().initPageControlPanel(app);

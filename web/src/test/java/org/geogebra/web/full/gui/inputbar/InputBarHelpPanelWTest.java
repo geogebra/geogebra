@@ -19,8 +19,8 @@ public class InputBarHelpPanelWTest {
     @Test
     public void onlineHelpShownIfMenuBarIsShown() {
         AppletParameters articleElement =
-                new TestArticleElement("classic")
-                    .attr("showMenuBar", "true");
+                new AppletParameters("classic")
+                    .setAttribute("showMenuBar", "true");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
         InputBarHelpPanelW inputBarHelpPanelW
@@ -35,8 +35,8 @@ public class InputBarHelpPanelWTest {
     @Test
     public void onlineHelpNotShownIfMenuBarIsNotShown() {
         AppletParameters articleElement =
-                new TestArticleElement("classic")
-                        .attr("showMenuBar", "false");
+                new AppletParameters("classic")
+                        .setAttribute("showMenuBar", "false");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
         InputBarHelpPanelW inputBarHelpPanelW

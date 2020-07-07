@@ -11,6 +11,7 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.util.file.FileIO;
 import org.junit.Assert;
@@ -37,10 +38,9 @@ public class LoadFromJsonFileTest {
 
 	@Test
 	public void testLoadApp() {
-
-		TestArticleElement articleElement = new TestArticleElement("simple");
+		AppletParameters articleElement = new AppletParameters("simple");
 		String json = FileIO.load(jsonPath);
-		articleElement.attr("jsonFile", json);
+		articleElement.setAttribute("jsonFile", json);
 		AppWsimple app = AppMocker.mockAppletSimple(articleElement);
 		assertTrue(((GeoBoolean) app.getKernel().lookupLabel("visible")).getBoolean());
 	}
@@ -66,10 +66,10 @@ public class LoadFromJsonFileTest {
 
 	private void initAppFromFile() {
 		AppMocker.useProviderForSchedulerImpl();
-		TestArticleElement articleElement =
-				new TestArticleElement("graphing");
+		AppletParameters articleElement =
+				new AppletParameters("graphing");
 		String json = FileIO.load(CLOSED_AV_JSON_PATH);
-		articleElement.attr("jsonFile", json);
+		articleElement.setAttribute("jsonFile", json);
 		app = AppMocker.mockApplet(articleElement);
 		app.setShowToolBar(true);
 	}

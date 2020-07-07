@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class GraphingTest {
 	@Test
 	public void startApp() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("graphing"));
+				.mockApplet(new AppletParameters("graphing"));
 	}
 
 }
