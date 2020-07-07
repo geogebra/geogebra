@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.junit.After;
 import org.junit.Assert;
@@ -18,21 +17,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-
 @RunWith(MockitoJUnitRunner.class)
-public class SliderBuilderTest {
+public class SliderBuilderTest extends BaseUnitTest {
 
-	private App app;
 	private SliderBuilder sliderBuilder;
 	private Construction construction;
 
-	public SliderBuilderTest() {
-		app = BaseUnitTest.createAppCommon();
-	}
-
 	@Before
-	public void setUp() {
-		Kernel kernel = app.getKernel();
+	public void setupSliderBuilder() {
+		Kernel kernel = getApp().getKernel();
 		construction = kernel.getConstruction();
 		AlgebraProcessor algebraProcessor = kernel.getAlgebraProcessor();
 		ErrorHandler errorHandler = mock(ErrorHandler.class);

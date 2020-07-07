@@ -1,8 +1,8 @@
 package org.geogebra.common.geogebra3D.euclidian3D.ar;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Interface for Augmented Reality managers

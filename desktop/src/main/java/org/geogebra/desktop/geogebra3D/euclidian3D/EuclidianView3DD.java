@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -33,7 +34,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.RendererType;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -52,7 +52,6 @@ import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
 import org.geogebra.desktop.geogebra3D.euclidianInput3D.Mouse3DEventD;
 import org.geogebra.desktop.io.MyImageIO;
-import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -193,13 +192,8 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	public void add(GBox box) {
-		evjpanel.add(((GBoxD) box).getImpl());
-	}
-
-	@Override
-	public void remove(GBox box) {
-		evjpanel.remove(((GBoxD) box).getImpl());
+	public void add(Box box) {
+		evjpanel.add(box);
 	}
 
 	/**

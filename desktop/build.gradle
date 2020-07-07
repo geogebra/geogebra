@@ -1,3 +1,9 @@
+buildscript {
+    dependencies {
+        classpath "org.openjfx:javafx-plugin:0.0.8"
+    }
+}
+
 plugins {
     id 'com.github.spotbugs' version '1.6.9'
     id 'org.openjfx.javafxplugin' version '0.0.8'
@@ -8,6 +14,15 @@ project.setDescription('Parts of GeoGebra related to desktop platforms')
 apply plugin: 'application'
 apply plugin: 'eclipse'
 apply plugin: 'checkstyle'
+
+
+if (JavaVersion.current() == JavaVersion.VERSION_11) {
+    apply plugin: 'org.openjfx.javafxplugin'
+    javafx {
+        version = "11.0.2"
+        modules = [ 'javafx.controls', 'javafx.web', 'javafx.swing' ]
+    }
+}
 
 sourceSets {
     nonfree
@@ -21,6 +36,15 @@ sourceSets {
             }
         }
     }
+    e2eTest {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output
+    }
+}
+
+configurations {
+    e2eTestCompile.extendsFrom testCompile
+    e2eTestCompile.extendsFrom testRuntime
 }
 
 eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
@@ -84,8 +108,8 @@ dependencies {
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
 
     testCompile project(':keyboard-base')
-    testCompile 'junit:junit:4.+'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '3.0.0'
+    testCompile "junit:junit:$junitVersion"
+    testCompile "org.mockito:mockito-core:$mockitoVersion"
     testCompile project(':ggbjdk')
     testCompile project(':common-jre').sourceSets.test.output
 }
@@ -112,25 +136,15 @@ run {
 
 }
 test {
-    Properties properties = new Properties()
-    if (project.hasProperty("authProperties")) {
-        File propertiesFile = new File(project.getProperty("authProperties"))
-        propertiesFile.withInputStream {
-            properties.load(it)
-        }
-        properties.each { prop, val->
-            systemProperty prop.trim(), val;
-        }
-    }
-
     systemProperty "ggb.prerelease", project.findProperty("prerelease") ?: "true";
 
     ignoreFailures = true
     outputs.upToDateWhen { false }
 }
 spotbugs {
-     ignoreFailures = true
-     excludeFilter = file("config/findbugs.xml")
+    ignoreFailures = true
+    excludeFilter = file("config/findbugs.xml")
+    jvmArgs = ['-Dfindbugs.sf.comment=true']
 }
 
 import org.gradle.plugins.ide.eclipse.model.AccessRule
@@ -148,11 +162,6 @@ eclipse {
 checkstyle {
     configDir = file("config/checkstyle/")
     toolVersion = "8.8"
-}
-
-javafx {
-    version = "11"
-    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media', 'javafx.swing', 'javafx.web' ]
 }
 
 // https://gist.github.com/jlmelville/2bfe9277e9e2c0ff79b6#gistcomment-2802097

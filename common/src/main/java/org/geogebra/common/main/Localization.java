@@ -1298,6 +1298,13 @@ public abstract class Localization {
 		return getMenu("Keyboard.row" + row);
 	}
 
+	/** @return true if the localized keyboard has latin characters. */
+	public boolean isLatinKeyboard() {
+		String middleRow = getKeyboardRow(2);
+		int first = middleRow.codePointAt(0);
+		return !(first < 0 || first > 0x00FF);
+	}
+
 	abstract protected ArrayList<Locale> getSupportedLocales();
 
 	/**
@@ -1373,9 +1380,7 @@ public abstract class Localization {
 	 * @return English command name
 	 */
 	public String getEnglishCommand(String internalName) {
-		// String internalName = "LineBisector";
 		Commands toTest = Commands.stringToCommand(internalName);
-		// Log.debug("toTest = " + toTest + " " + toTest.getClass());
 
         String mainCommandName = getMainCommandName(toTest);
 		if (mainCommandName != null) {
@@ -1385,16 +1390,11 @@ public abstract class Localization {
 		for (Commands c : Commands.values()) {
 			Commands cInternal = Commands.englishToInternal(c);
 
-			// Log.debug(c.name() + " " + cInternal + " " + toTest + " "
-			// + internalName);
-
 			// check for Commands.TABLE_ENGLISH to avoid
 			// InfiniteCone -> ConeInfinite
 			if (c.getTable() != CommandsConstants.TABLE_ENGLISH
 					&& toTest.equals(cInternal)
 					&& !c.name().equals(cInternal.toString())) {
-				Log.debug(
-						"English name for " + internalName + " is " + c.name());
 				return c.name();
 			}
 		}

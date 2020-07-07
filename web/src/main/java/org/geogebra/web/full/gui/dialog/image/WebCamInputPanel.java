@@ -91,7 +91,7 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	private void resetVideo() {
 		Localization loc = app.getLocalization();
 		String message;
-        if (app.getPlatform() == Platform.WEB) {
+		if (app.getPlatform() == Platform.WEB) {
 			message = "";
 		} else if (Browser.isFirefox()) {
 			message = loc.getMenu("Webcam.Firefox");
@@ -184,8 +184,12 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 	@Override
 	public void onCameraError(String errName) {
 		webcamDialog.onCameraError();
-		
-		if ("NotFoundError".equals(errName)
+		if ("PermissionDeniedError".equals(errName)
+				|| "NotAllowedError".equals(errName)
+				|| (Browser.isElectron() && Browser.isMacOS())
+				&& "TrackStartError".equals(errName)) {
+			showPermissionDeniedDialog();
+		} else if ("NotFoundError".equals(errName)
 				|| "DevicesNotFoundError".equals(errName)
 				|| "TrackStartError".equals(errName)
 				|| "NotReadableError".equals(errName)
@@ -193,9 +197,6 @@ public class WebCamInputPanel extends VerticalPanel implements WebCamInterface {
 				|| "Error".equals(errName)) {
 			showErrorDialog();
 			// permission denied by user
-		} else if ("PermissionDeniedError".equals(errName)
-				|| "NotAllowedError".equals(errName)) {
-			showPermissionDeniedDialog();
 		}
 		Log.debug("Error from WebCam: " + errName);
 	}

@@ -1,15 +1,20 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -32,12 +37,13 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * Here goes the toolbar contents ie the buttons
 	 */
 	FlowPanel contentPanel;
+	protected ArrayList<ToolButton> toolButtons = new ArrayList<>();
 
 	/**
 	 * group panel
 	 */
 	protected static class GroupPanel extends FlowPanel {
-		private static final int BUTTON_WIDTH = 104;
+		private static final int BUTTON_WIDTH = 100;
 
 		/**
 		 * constructor
@@ -80,6 +86,11 @@ public abstract class SubMenuPanel extends FlowPanel
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("mowSubMenuContent");
 		add(contentPanel);
+	}
+
+	protected void makeButtonsAccessible(AccessibilityGroup group) {
+		new FocusableWidget(group, null,
+				toolButtons.toArray(new ToolButton[0])).attachTo(app);
 	}
 
 	/**
@@ -142,6 +153,8 @@ public abstract class SubMenuPanel extends FlowPanel
 		for (Integer mode : menu) {
 			if (app.isModeValid(mode)) {
 				ToolButton btn = new ToolButton(mode, app, this);
+				toolButtons.add(btn);
+				TestHarness.setAttr(btn, "selectModeButton" + mode);
 				group.add(btn);
 				col++;
 			}
@@ -186,31 +199,35 @@ public abstract class SubMenuPanel extends FlowPanel
 	 *            The mode to select
 	 */
 	public void setMode(int mode) {
-		for (int i = 0; i < panelRow.getWidgetCount(); i++) {
-			FlowPanel w = (FlowPanel) panelRow.getWidget(i);
-			for (int j = 0; j < w.getWidgetCount(); j++) {
-				int modeID = Integer.parseInt(
-						w.getWidget(j).getElement().getAttribute("mode"));
-				if (modeID != mode) {
-					w.getWidget(j).getElement().setAttribute("selected",
-							"false");
-					((ToolButton) w.getWidget(j)).setSelected(false);
-				} else {
-					w.getWidget(j).getElement().setAttribute("selected",
-							"true");
-					((ToolButton) w.getWidget(j)).setSelected(true);
-				}
+		for (ToolButton btn : toolButtons) {
+			int modeID = Integer.parseInt(
+					btn.getElement().getAttribute("mode"));
+			if (modeID != mode) {
+				btn.getElement().setAttribute("selected",
+						"false");
+				btn.setSelected(false);
+			} else {
+				btn.getElement().setAttribute("selected",
+						"true");
+				btn.setSelected(true);
 			}
 		}
 	}
 
 	@Override
 	public void setLabels() {
-		for (int i = 0; i < panelRow.getWidgetCount(); i++) {
-			FlowPanel w = (FlowPanel) panelRow.getWidget(i);
-			for (int j = 0; j < w.getWidgetCount(); j++) {
-				((ToolButton) w.getWidget(j)).setLabel();
-			}
+		for (ToolButton btn : toolButtons) {
+			btn.setLabel();
+		}
+	}
+
+	/**
+	 * Make buttons (in)visible for screen reader
+	 * @param hidden whether to hide from screen reader
+	 */
+	public void setAriaHidden(boolean hidden) {
+		for (ToolButton btn : toolButtons) {
+			AriaHelper.setHidden(btn, hidden);
 		}
 	}
 

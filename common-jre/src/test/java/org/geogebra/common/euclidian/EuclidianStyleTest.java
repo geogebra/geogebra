@@ -1,44 +1,65 @@
 package org.geogebra.common.euclidian;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.plugin.GeoClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class EuclidianStyleTest {
-    private static AppCommon3D app;
-    private static ConstructionDefaults cd;
+	private AppCommon3D app;
+	private ConstructionDefaults cd;
+	private Construction construction;
 
-    @BeforeClass
-    public static void setupApp() {
-        app = new AppCommon3D(new LocalizationCommon(3),
-                new AwtFactoryCommon());
-        cd = app.getKernel().getConstruction().getConstructionDefaults();
-    }
+	@Before
+	public void setupApp() {
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
+		construction = app.getKernel().getConstruction();
+		cd = construction.getConstructionDefaults();
+	}
 
-    @Test
-    public void textShouldBeTransparentOnReload() {
-        GeoElementND transparentText = t("trans=\"aaa\"");
-        Assert.assertNull(transparentText.getBackgroundColor());
-        GeoElement defaultText = cd
-                .getDefaultGeo(cd.getDefaultType(null, GeoClass.TEXT));
-        defaultText.setBackgroundColor(GColor.WHITE);
-        GeoElementND whiteText = t("\"aaa\"");
-        Assert.assertEquals(whiteText.getBackgroundColor(), GColor.WHITE);
-        app.setXML(app.getXML(), true);
-        GeoElement transparentText2 = app.getKernel().lookupLabel("trans");
-        Assert.assertNull(transparentText2.getBackgroundColor());
-    }
+	@Test
+	public void textShouldBeTransparentOnReload() {
+		GeoElementND transparentText = t("trans=\"aaa\"");
+		Assert.assertNull(transparentText.getBackgroundColor());
+		GeoElement defaultText = cd
+				.getDefaultGeo(cd.getDefaultType(null, GeoClass.TEXT));
+		defaultText.setBackgroundColor(GColor.WHITE);
+		GeoElementND whiteText = t("\"aaa\"");
+		assertEquals(whiteText.getBackgroundColor(), GColor.WHITE);
+		app.setXML(app.getXML(), true);
+		GeoElement transparentText2 = app.getKernel().lookupLabel("trans");
+		Assert.assertNull(transparentText2.getBackgroundColor());
+	}
 
-    private static GeoElementND t(String string) {
-        return app.getKernel().getAlgebraProcessor()
-                .processAlgebraCommand(string, false)[0];
-    }
+	@Test
+	public void linePropertiesShouldApplyToNewGeo() {
+		EuclidianController ec = app.getActiveEuclidianView().getEuclidianController();
+		EuclidianStyleBarSelection selection = new EuclidianStyleBarSelection(app, ec);
+		app.setMode(EuclidianConstants.MODE_JOIN);
+		selection.updateDefaultsForMode(EuclidianConstants.MODE_JOIN);
+		ArrayList<GeoElement> geos = selection.getGeos();
+		EuclidianStyleBarStatic.applyColor(GColor.GREEN, 1, app, geos);
+		EuclidianStyleBarStatic.applyLineStyle(1, 5, app, geos);
+		assertEquals(GColor.GREEN, new GeoLine(construction).getObjectColor());
+		assertEquals(5, new GeoLine(construction).getLineThickness());
+	}
+
+	private GeoElementND t(String string) {
+		return app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommand(string, false)[0];
+	}
 }

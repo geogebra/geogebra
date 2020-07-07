@@ -41,7 +41,11 @@ public class JSONParserGGT {
 		Material.MaterialType type = MaterialType.ggb;
 		if (getString(obj, "type").length() > 0) {
 			try {
-				type = MaterialType.valueOf(getString(obj, "type"));
+				if ("ggs-template".equals(getString(obj, "type"))) {
+					type = MaterialType.ggsTemplate;
+				} else {
+					type = MaterialType.valueOf(getString(obj, "type"));
+				}
 			} catch (Throwable t) {
 				Log.error("Unknown material type:" + getString(obj, "type"));
 			}
@@ -74,6 +78,11 @@ public class JSONParserGGT {
 		if (!"".equals(getString(obj, "syncstamp"))) {
 			material.setSyncStamp(Long.parseLong(getString(obj, "syncstamp")));
 		}
+
+		if (!"".equals(getAppName(obj))) {
+			material.setAppName(getAppName(obj));
+		}
+
 		material.setVisibility(getString(obj, "visibility"));
 		material.setFileName(getString(obj, "fileUrl"));
 		material.setSharingKey(sharingKey);
@@ -95,6 +104,7 @@ public class JSONParserGGT {
 		material.setInstructionsPost(getString(obj, "instructions_post"));
 		material.setInstructionsPre(getString(obj, "instructions_pre"));
 		material.setShowToolbar(getBoolean(obj, "toolbar", false));
+		material.setAllowStylebar(getBoolean(obj, "stylebar", false));
 		material.setShowMenu(getBoolean(obj, "menubar", false));
 		material.setShowInputbar(getBoolean(obj, "inputbar", false));
 		material.setFavorite(getBoolean(obj, "favorite", false));
@@ -126,6 +136,10 @@ public class JSONParserGGT {
 		return material;
 	}
 
+	private static String getAppName(JSONObject obj) {
+		return getString(obj, "appname");
+	}
+
 	private static void setCreator(Material material, JSONObject obj) {
 		try {
 			JSONObject creatorObj = obj.getJSONObject("creator");
@@ -134,7 +148,6 @@ public class JSONParserGGT {
 			int id = getInt(creatorObj, "id", -1);
 			String displayname = getString(creatorObj, "displayname");
 			material.setCreator(new UserPublic(username, id, displayname));
-
 		} catch (Throwable t) {
 			Log.debug(t.getMessage());
 		}

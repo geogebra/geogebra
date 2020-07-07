@@ -26,11 +26,9 @@ public class GeoGebraSerializer implements Serializer {
 	}
 
 	private static void serialize(MathComponent mathComponent,
-			MathSequence parent, int index,
 			StringBuilder stringBuilder) {
 		if (mathComponent instanceof MathCharacter) {
-			serialize((MathCharacter) mathComponent, parent, index,
-					stringBuilder);
+			serialize((MathCharacter) mathComponent, stringBuilder);
 		} else if (mathComponent instanceof MathFunction) {
 			serialize((MathFunction) mathComponent, stringBuilder);
 		} else if (mathComponent instanceof MathArray) {
@@ -47,32 +45,13 @@ public class GeoGebraSerializer implements Serializer {
 	 */
 	public static String serialize(MathComponent c) {
 		StringBuilder sb = new StringBuilder();
-		GeoGebraSerializer.serialize(c, null, 0, sb);
+		GeoGebraSerializer.serialize(c, sb);
 		return sb.toString();
 	}
 
 	private static void serialize(MathCharacter mathCharacter,
-			MathSequence parent, int index,
 			StringBuilder stringBuilder) {
-		if (mathCharacter.getUnicode() == Unicode.ZERO_WIDTH_SPACE) {
-
-			if (parent != null && index + 1 < parent.size()) {
-				if (needsSpace(parent.getArgument(index + 1))) {
-					stringBuilder.append(" ");
-				}
-			}
-			return;
-		}
 		stringBuilder.append(mathCharacter.getUnicode());
-	}
-
-	private static boolean needsSpace(MathComponent argument) {
-		// TODO Auto-generated method stub
-		return argument instanceof MathArray
-				|| (argument instanceof MathFunction
-						&& ((MathFunction) argument).getName() != Tag.SUBSCRIPT
-						&& ((MathFunction) argument)
-								.getName() != Tag.SUPERSCRIPT);
 	}
 
 	private static void serialize(MathFunction mathFunction,
@@ -155,6 +134,16 @@ public class GeoGebraSerializer implements Serializer {
 				generalFunction(mathFunction, stringBuilder);
 			}
 			break;
+
+		case DEF_INT:
+		case SUM_EQ:
+		case PROD_EQ:
+		case LIM_EQ:
+		case VEC:
+			stringBuilder.append(mathFunction.getName().getFunction());
+			serializeArgs(mathFunction, stringBuilder, 0);
+			break;
+
 		default:
 			generalFunction(mathFunction, stringBuilder);
 		}
@@ -207,13 +196,12 @@ public class GeoGebraSerializer implements Serializer {
 					.getArgument(mathFunction.getParentIndex() - 1);
 			if (mathComponent instanceof MathCharacter) {
 				MathCharacter mathCharacter = (MathCharacter) mathComponent;
-				if (mathCharacter.isCharacter() && mathCharacter
-						.getUnicode() != Unicode.ZERO_WIDTH_SPACE) {
-					stringBuilder.append("*");
+				if (!mathCharacter.isWordBreak()) {
+					stringBuilder.append(" ");
 				}
 			}
-            if (mathComponent != null && mathComponent.hasTag(Tag.SUBSCRIPT)) {
-                stringBuilder.append("*");
+			if (mathComponent != null && mathComponent.hasTag(Tag.SUBSCRIPT)) {
+				stringBuilder.append(" ");
 			}
 		}
 	}
@@ -256,8 +244,7 @@ public class GeoGebraSerializer implements Serializer {
 			return;
 		}
 		for (int i = 0; i < mathSequence.size(); i++) {
-			serialize(mathSequence.getArgument(i), mathSequence, i,
-					stringBuilder);
+			serialize(mathSequence.getArgument(i), stringBuilder);
 		}
 	}
 

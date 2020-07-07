@@ -3,17 +3,17 @@ package org.geogebra.common.kernel.arithmetic.variable;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.variable.power.Base;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
-	private VariableReplacerAlgorithm variableReplacerAlgorithm;
+	private static VariableReplacerAlgorithm variableReplacerAlgorithm;
 
 	@Before
 	public void setupTest() {
@@ -22,35 +22,102 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 
 	@Test
 	public void testPower() {
+		// transformation to x^2 y^3 done on higher level, see ParserTest
 		shouldReplaceAs("pixxyyy",
-				Unicode.PI_STRING + TestStringUtil.unicode(" x^2 y^3"));
+				Unicode.PI_STRING + " * x * x * y * y * y");
+	}
+
+	@Test
+	public void testDecimal() {
+		shouldReplaceAs("pi8.1",
+				Unicode.PI_STRING + " * 8.1");
+	}
+
+	@Test
+	public void testIndexProduct() {
+		allowMultipleUnassigned();
+		add("a_{1} = 4");
+		add("b = 2");
+		add("b_{1} = 4");
+		shouldReplaceAs("a_{1}b", "a_{1} * b");
+		shouldReplaceAs("ba_{1}", "b * a_{1}");
+		shouldReplaceAs("a_{1}b_{1}", "a_{1} * b_{1}");
+		shouldReplaceAs("c_{1}'a''", "c_{1}' * a''");
+	}
+
+	@Test
+	public void testIndexProductGreek() {
+		allowMultipleUnassigned();
+		shouldReplaceAs("E_{m}" + Unicode.omega + "C",
+				"E_{m} * " + Unicode.omega + " * C");
+	}
+
+	@Ignore
+	@Test
+	public void testFunctionProducts() {
+		shouldReplaceAs("sina", "sin(a)");
+	}
+
+	@Test
+	public void testFunctionProductsMul() {
+		allowMultipleUnassigned();
+		shouldReplaceAs("xlnx", "x * ln(x)");
+		shouldReplaceAs("xln2x", "x * ln(2 * x)");
+		shouldReplaceAs("xsinx", "x * sin(x)");
+	}
+
+	static void allowMultipleUnassigned() {
+		variableReplacerAlgorithm.setMultipleUnassignedAllowed(true);
+	}
+
+	@Test
+	public void testConstantMultiplier() {
+		shouldReplaceAs("18pisqrt5", "18 * " + Unicode.PI_STRING
+			+ " * sqrt(5)");
+	}
+
+	@Test
+	public void testEmbeddedTrigs() {
+		allowMultipleUnassigned();
+		shouldReplaceAs("4coscoscosx", "4 * cos(cos(cos(x)))");
+	}
+
+	@Test
+	public void testTrig() {
+		shouldReplaceAs("sinx", "sin(x)");
+		shouldReplaceAs("sinxx", "sin(x * x)");
+		shouldReplaceAs("sin2", "sin(2)");
+		shouldReplaceAs("cos3x", "cos(3 * x)");
+		shouldReplaceAs("asinsinpix",
+				TestStringUtil.unicode("asind(sin(" + Unicode.PI_STRING + " * x))"));
+	}
+
+	@Test
+	public void testImaginary() {
+		allowMultipleUnassigned();
+		shouldReplaceAs("isqrt3", String.valueOf(Unicode.IMAGINARY) + " * sqrt(3)");
 	}
 
 	@Test
 	public void testLog() {
+		shouldReplaceAs("lnpi", "ln(" + Unicode.PI_STRING + ")");
+		shouldReplaceAs("ln" + Unicode.PI_STRING, "ln(" + Unicode.PI_STRING + ")");
 		shouldReplaceAs("log_{2}2", "log(2, 2)");
 		shouldReplaceAs("log_22", "log(2, 2)");
-		testLogWithXSquare();
-	}
-
-	private void testLogWithXSquare() {
-		String xSquare = TestStringUtil.unicode("x^2");
-		String expected = "log(2, " + xSquare + ")";
-		shouldReplaceAs("log_{2}xx", expected);
+		shouldReplaceAs("log_{2}xx", "log(2, x^(2))");
 	}
 
 	private void shouldReplaceAs(String in, String out) {
 		ExpressionValue replacement = variableReplacerAlgorithm.replace(in);
 		Assert.assertEquals(out,
-				replacement.toString(StringTemplate.defaultTemplate));
+				replacement.toString(StringTemplate.testTemplate));
 	}
 
 	@Test
 	public void testReuseInstance() {
 		String expression = "x";
 		variableReplacerAlgorithm.replace(expression);
-		variableReplacerAlgorithm.replace(expression);
-		int powerOfX = variableReplacerAlgorithm.getExponents().get(Base.x);
-		Assert.assertEquals(1, powerOfX);
+		ExpressionValue secondRun = variableReplacerAlgorithm.replace(expression);
+		Assert.assertEquals("x", secondRun.toString(StringTemplate.defaultTemplate));
 	}
 }

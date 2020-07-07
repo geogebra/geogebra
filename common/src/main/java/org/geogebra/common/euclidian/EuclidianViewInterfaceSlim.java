@@ -5,12 +5,12 @@ import java.util.Collection;
 
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.kernel.LayerView;
-import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
@@ -216,11 +216,6 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 * @return y-offset of topmost slider in pixels
 	 */
 	public int getSliderOffsetY();
-
-	/**
-	 * @return minimal x-distance (maximal x-resolution) for function plotting
-	 */
-	public double getMinPixelDistance();
 
 	/**
 	 * @return settings

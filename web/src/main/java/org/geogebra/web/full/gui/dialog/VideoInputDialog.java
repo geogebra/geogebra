@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.media.MediaFactory;
 import org.geogebra.common.media.MediaURLParser;
 import org.geogebra.common.media.VideoURL;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -17,7 +18,7 @@ public class VideoInputDialog extends MediaDialog {
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public VideoInputDialog(AppW app) {
+	public VideoInputDialog(AppWFull app) {
 		super(app.getPanel(), app);
 	}
 
@@ -36,12 +37,12 @@ public class VideoInputDialog extends MediaDialog {
 		if (appW.getGuiManager() != null) {
 			String url = getUrlWithProtocol();
 			// inputField.getTextComponent().setText("https://www.youtube.com/watch?v=Kc2iLAubras");
-			inputField.getTextComponent().setText(url);
+			mediaInputPanel.inputField.getTextComponent().setText(url);
 			VideoURL videoURL = MediaURLParser.checkVideo(url);
 			if (videoURL.isValid()) {
 				addVideo(videoURL);
 			} else {
-				showError("InvalidInput");
+				mediaInputPanel.showError("InvalidInput");
 			}
 		}
 	}
@@ -52,10 +53,10 @@ public class VideoInputDialog extends MediaDialog {
 	 * @param videoURL
 	 *            the validated URL of the video.
 	 */
-    private void addVideo(VideoURL videoURL) {
-		resetError();
-		new MediaFactory(appW).addVideo(videoURL);
+	private void addVideo(VideoURL videoURL) {
+		mediaInputPanel.resetError();
 		hide();
+		new MediaFactory(appW).addVideo(videoURL);
 	}
 
 	@Override

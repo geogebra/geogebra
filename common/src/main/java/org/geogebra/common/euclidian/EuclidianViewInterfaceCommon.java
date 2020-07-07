@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -16,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -62,7 +62,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * create a previewable for line construction
-	 * 
+	 *
 	 * @param selectedPoints
 	 *            points
 	 * @return the line previewable
@@ -71,7 +71,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * create a previewable for segment construction
-	 * 
+	 *
 	 * @param selectedPoints
 	 *            points
 	 * @return the segment previewable
@@ -81,7 +81,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * create a previewable for ray construction
-	 * 
+	 *
 	 * @param selectedPoints
 	 *            points
 	 * @return the ray previewable
@@ -90,7 +90,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * create a previewable for vector construction
-	 * 
+	 *
 	 * @param selectedPoints
 	 *            points
 	 * @return the ray previewable
@@ -100,7 +100,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * create a previewable for conic construction
-	 * 
+	 *
 	 * @param mode
 	 *            mode
 	 * @param selectedPoints
@@ -112,7 +112,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * create a previewable for parabolas
-	 * 
+	 *
 	 * @param selectedPoints
 	 *            points
 	 * @param selectedLines
@@ -191,13 +191,13 @@ public interface EuclidianViewInterfaceCommon
 	public boolean hasVisibleObjects();
 
 	/**
-	 * 
+	 *
 	 * @return string description of plane from the view was created
 	 */
 	public String getFromPlaneString();
 
 	/**
-	 * 
+	 *
 	 * @return string translated description of plane from the view was created
 	 */
 	public String getTranslatedFromPlaneString();
@@ -209,7 +209,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * Whether axes have automatic number distances
-	 * 
+	 *
 	 * @return array {xauto,yauto}
 	 */
 	public boolean[] isAutomaticAxesNumberingDistance();
@@ -221,7 +221,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * returns true if the axes ratio is 1
-	 * 
+	 *
 	 * @return true if the axes ratio is 1
 	 */
 	public boolean isLockedAxesRatio();
@@ -462,7 +462,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * sets the axis crossing value
-	 * 
+	 *
 	 * @param axis
 	 *            axis index
 	 * @param cross
@@ -472,7 +472,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * sets the axis label to axisLabel
-	 * 
+	 *
 	 * @param axis
 	 *            axis index
 	 * @param axisLabel
@@ -482,7 +482,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * sets the tickstyle of this axis
-	 * 
+	 *
 	 * @param axis
 	 *            axis index
 	 * @param tickStyle
@@ -515,7 +515,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * translate coord system after page up/down key pressed
-	 * 
+	 *
 	 * @param height
 	 *            z movement in pixels
 	 */
@@ -547,7 +547,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * sets if the axis is drawn in the positive direction only
-	 * 
+	 *
 	 * @param axis
 	 *            axis index
 	 * @param isPositive
@@ -569,7 +569,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * sets if numbers are shown on this axis
-	 * 
+	 *
 	 * @param axis
 	 *            axis index
 	 * @param showAxisNumbers
@@ -591,7 +591,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * minX
-	 * 
+	 *
 	 * @param minMax
 	 *            new xMax object
 	 */
@@ -610,12 +610,12 @@ public interface EuclidianViewInterfaceCommon
 	public void setYmaxObject(NumberValue minMax);
 
 	/**
-	 * 
+	 *
 	 */
 	public void updateBackground();
 
 	/**
-	 * 
+	 *
 	 */
 	public void updateBoundObjects();
 
@@ -644,31 +644,17 @@ public interface EuclidianViewInterfaceCommon
 	 */
 	public boolean hitAnimationButton(int x, int y);
 
-	/**
-	 * Set the hits regarding to the mouse location
-	 * 
-	 * @param mouseLoc
-	 *            update hits using mouse position
-	 * @param t
-	 *            event type
-	 */
-	public void setHits(GPoint mouseLoc, PointerEventType t);
 
 	/**
 	 * Get the hits recorded
-	 * 
+	 *
 	 * @return current hits
 	 */
 	public Hits getHits();
 
 	/**
-	 * @return hit button (or null)
-	 */
-    public MyButton getHitButton();
-
-	/**
 	 * Switch to hit cursor
-	 * 
+	 *
 	 * @param cursor
 	 *            cursor
 	 */
@@ -676,7 +662,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * Try to focus this view
-	 * 
+	 *
 	 * @return true if successful
 	 */
 	public boolean requestFocusInWindow();
@@ -693,7 +679,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * Updates highlighting of animation buttons.
-	 * 
+	 *
 	 * @param b
 	 *            true to highlight
 	 * @return whether status was changed
@@ -702,7 +688,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * sets showing flag of the axis
-	 * 
+	 *
 	 * @param axis
 	 *            id of the axis
 	 * @param flag
@@ -721,7 +707,7 @@ public interface EuclidianViewInterfaceCommon
 	/**
 	 * Sets real world coord system using min and max values for both axes in
 	 * real world values.
-	 * 
+	 *
 	 * @param realWorldCoordX
 	 *            new xMin
 	 * @param realWorldCoordX2
@@ -740,16 +726,8 @@ public interface EuclidianViewInterfaceCommon
 			double realWorldCoordY2, int steps, boolean storeUndo);
 
 	/**
-	 * Sets hits using given rectangle
-	 * 
-	 * @param rect
-	 *            rectangle
-	 */
-	public void setHits(GRectangle rect);
-
-	/**
 	 * update the cursor as if mouse has moved over this point
-	 * 
+	 *
 	 * @param point
 	 *            point
 	 */
@@ -801,7 +779,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * Zooms about P with given factor
-	 * 
+	 *
 	 * @param originX
 	 *            x coord of old origin
 	 * @param originY
@@ -820,7 +798,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * sets showing flag of all axes
-	 * 
+	 *
 	 * @param flag
 	 *            show/hide
 	 * @param update
@@ -831,7 +809,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * create a previewable for polygon construction
-	 * 
+	 *
 	 * @param selectedPoints
 	 *            points
 	 * @return the polygon previewable
@@ -841,7 +819,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * create a previewable for polyline construction
-	 * 
+	 *
 	 * @param selectedPoints
 	 *            points
 	 * @return the polygon previewable
@@ -911,7 +889,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * highlight this geo
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 */
@@ -919,7 +897,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * highlight list of geos
-	 * 
+	 *
 	 * @param geos
 	 *            geos
 	 */
@@ -927,7 +905,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * Warning: only called by AlgebraTreeController
-	 * 
+	 *
 	 * @param geoList
 	 *            list of geos that mouse moved over
 	 */
@@ -959,7 +937,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * added so that we can easily show/hide axes in 2D & 3D
-	 * 
+	 *
 	 * @param b
 	 *            flag to show axes
 	 */
@@ -967,7 +945,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * Restores standard view
-	 * 
+	 *
 	 * @param storeUndo
 	 *            true to store undo info
 	 */
@@ -991,7 +969,7 @@ public interface EuclidianViewInterfaceCommon
 	/**
 	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
 	 * changed here unless newRatioY == 1 and then the x-axis is changed.
-	 * 
+	 *
 	 * @param newRatioX
 	 *            x:y ratio is newRatioX / newRatioY
 	 * @param newRatioY
@@ -1043,7 +1021,7 @@ public interface EuclidianViewInterfaceCommon
 
 	/**
 	 * Close all the dropdowns but the one was hit at
-	 * 
+	 *
 	 * @param x
 	 *            hit x
 	 * @param y
@@ -1052,7 +1030,7 @@ public interface EuclidianViewInterfaceCommon
 	void closeDropDowns(int x, int y);
 
 	/**
-	 * 
+	 *
 	 * @param coordsInD3
 	 *            3D point coords
 	 * @return 2D coords in view's coord system

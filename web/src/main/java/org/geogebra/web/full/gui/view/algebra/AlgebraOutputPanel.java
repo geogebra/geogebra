@@ -140,7 +140,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 	boolean updateValuePanel(GeoElement geo1, String text,
 			boolean latex, int fontSize, GeoGebraActivity activity) {
 		if (geo1 == null || geo1
-				.needToShowBothRowsInAV() != DescriptionMode.DEFINITION_VALUE) {
+				.getDescriptionMode() != DescriptionMode.DEFINITION_VALUE) {
 			return false;
 		}
 		clear();

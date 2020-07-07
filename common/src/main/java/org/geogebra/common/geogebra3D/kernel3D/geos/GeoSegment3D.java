@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -18,6 +17,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -142,18 +142,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 				|| (getStartInhomCoords().equalsForKernel(s.getEndInhomCoords())
 						&& getEndInhomCoords()
 								.equalsForKernel(s.getStartInhomCoords()));
-	}
-
-	/**
-	 * TODO say if this is to be shown in algebra view
-	 * 
-	 * @return if this is to be shown in algebra view
-	 * 
-	 */
-	@Override
-	public boolean showInAlgebraView() {
-
-		return true;
 	}
 
 	/**
@@ -550,11 +538,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 				endPoint1, GeoClass.SEGMENT3D);
 
 		return algo.getOutput(0);
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

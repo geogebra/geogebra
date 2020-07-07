@@ -25,34 +25,36 @@ public class CalcEmbedElement extends EmbedElement {
 	 * @param widget
 	 *            calculator frame
 	 */
-    public CalcEmbedElement(GeoGebraFrameFull widget, EmbedManagerW embedManager, int embedId) {
-        super(widget);
-        frame = widget;
-        setupUndoRedo(embedId, embedManager);
-    }
+	public CalcEmbedElement(GeoGebraFrameFull widget, EmbedManagerW embedManager, int embedId) {
+		super(widget);
+		frame = widget;
+		frame.useDataParamBorder();
+		setupUndoRedo(embedId, embedManager);
+	}
 
-    private void setupUndoRedo(int embedID, EmbedManagerW embedManager) {
-        AppW app = frame.getApp();
-        app.setUndoRedoPanelAllowed(false);
-        app.setUndoRedoEnabled(true);
-        Kernel kernel = app.getKernel();
-        kernel.setUndoActive(true);
+	private void setupUndoRedo(int embedID, EmbedManagerW embedManager) {
+		AppW app = frame.getApp();
+		app.setUndoRedoPanelAllowed(false);
+		app.setUndoRedoEnabled(true);
+		Kernel kernel = app.getKernel();
+		kernel.setUndoActive(true);
 
-        // Store initial undo info
-        kernel.initUndoInfo();
+		// Store initial undo info
+		kernel.initUndoInfo();
 
-        UndoManager undoManager = kernel.getConstruction().getUndoManager();
-        undoRedoGlue = new UndoRedoGlue(embedID, undoManager, embedManager);
-    }
+		UndoManager undoManager = kernel.getConstruction().getUndoManager();
+		undoRedoGlue = new UndoRedoGlue(embedID, undoManager, embedManager);
+	}
 
-    @Override
-    public void executeAction(EventType action) {
-        undoRedoGlue.executeAction(action);
-    }
+	@Override
+	public void executeAction(EventType action) {
+		undoRedoGlue.executeAction(action);
+	}
 
 	@Override
 	public void setSize(int contentWidth, int contentHeight) {
-        frame.getApp().getGgbApi().setSize(contentWidth, contentHeight);
+		frame.getApp().getGgbApi().setSize(contentWidth, contentHeight);
+		// 1px border
 		frame.getElement().getStyle().setWidth(contentWidth - 2, Unit.PX);
 		frame.getElement().getStyle().setHeight(contentHeight - 2, Unit.PX);
         frame.getApp().checkScaleContainer();

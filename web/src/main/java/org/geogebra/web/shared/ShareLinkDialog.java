@@ -1,19 +1,13 @@
 package org.geogebra.web.shared;
 
-import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -25,19 +19,14 @@ import com.google.gwt.user.client.ui.Widget;
  *
  *         get share link dialog
  */
-public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
-	private FlowPanel mainPanel;
-	private FlowPanel linkPanel;
+public class ShareLinkDialog extends DialogBoxW {
 	private Label linkLabel;
 	/** textbox providing share url */
 	protected TextBox linkBox;
-	/** true if linkBox is focused */
-	protected boolean linkBoxFocused = true;
 	private StandardButton copyBtn;
 	private Label shareHelp;
-	// button panel
-	private FlowPanel buttonPanel;
 	private StandardButton printBtn;
+	private StandardButton embedBtn;
 	private StandardButton exportImgBtn;
 	private StandardButton cancelBtn;
 	// share link
@@ -55,6 +44,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	 */
 	public ShareLinkDialog(AppW app, String shareURL, Widget anchor) {
 		super(false, true, null, app.getPanel(), app);
+		setStyleName("MaterialDialogBox"); // even in classic
 		this.app = app;
 		this.shareURL = shareURL;
 		this.anchor = anchor;
@@ -63,22 +53,17 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	}
 
 	private void initGui() {
-        VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
-        addStyleName(vendorSettings.getStyleName("shareLink"));
+		VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
+		addStyleName(vendorSettings.getStyleName("shareLink"));
 		setAutoHideEnabled(true);
 		setGlassEnabled(false);
-		addCloseHandler(new CloseHandler<GPopupPanel>() {
-
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				if (anchor != null) {
-					anchor.removeStyleName("selected");
-				}
+		addCloseHandler(event -> {
+			if (anchor != null) {
+				anchor.removeStyleName("selected");
 			}
 		});
-		mainPanel = new FlowPanel();
 		// panel with link text field
-		linkPanel = new FlowPanel();
+		FlowPanel linkPanel = new FlowPanel();
 		linkPanel.setStyleName("linkPanel");
 		linkLabel = new Label();
 		linkLabel.setStyleName("linkLabel");
@@ -91,6 +76,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		copyBtn = new StandardButton(localize("Copy"),
 				app);
 		copyBtn.setStyleName("copyButton");
+		FlowPanel mainPanel = new FlowPanel();
 		mainPanel.add(linkLabel);
 		linkPanel.add(linkBox);
 		linkPanel.add(copyBtn);
@@ -98,56 +84,67 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		// share help text
 		shareHelp = new Label();
 		shareHelp.addStyleName("shareHelpTxt");
-        if (app.isMebis()) {
+		if (app.isMebis()) {
 			mainPanel.add(shareHelp);
 		}
 		// build button panel (print prev, export img)
-		buttonPanel = new FlowPanel();
+		// button panel
+		FlowPanel buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("buttonPanel");
-		printBtn = new StandardButton(
-				SharedResources.INSTANCE.print_white(),
-				localize("Print"), 24, app);
-		printBtn.setStyleName("roundButton");
-		printBtn.addFastClickHandler(this);
-		exportImgBtn = new StandardButton(
-				SharedResources.INSTANCE.file_download_white(),
-				localize("exportImage"), 24, app);
+
+		printBtn = roundButton(
+				SharedResources.INSTANCE.print_white(), "Print");
+		printBtn.addFastClickHandler(source -> {
+			app.getDialogManager().showPrintPreview();
+			hide();
+		});
+
+		embedBtn = roundButton(
+				SharedResources.INSTANCE.code_white(), "Embed");
+		embedBtn.setStyleName("roundButton");
+		embedBtn.addFastClickHandler(source -> {
+			copyEmbedCode();
+			hide();
+		});
+
+		exportImgBtn = roundButton(
+				SharedResources.INSTANCE.file_download_white(), "exportImage");
 		exportImgBtn.setStyleName("roundButton");
-		exportImgBtn.addFastClickHandler(this);
+		exportImgBtn.addFastClickHandler(source -> {
+			app.getDialogManager().showExportImageDialog(null);
+			hide();
+		});
+
 		cancelBtn = new StandardButton(localize("Cancel"), app);
-		cancelBtn.addFastClickHandler(this);
-        if (app.isMebis()) {
+		cancelBtn.addFastClickHandler(source -> hide());
+		if (app.isMebis()) {
 			buttonPanel.setStyleName("DialogButtonPanel");
 			buttonPanel.add(cancelBtn);
 		} else {
 			buttonPanel.add(printBtn);
 			buttonPanel.add(exportImgBtn);
+			buttonPanel.add(embedBtn);
 		}
 		mainPanel.add(buttonPanel);
 		add(mainPanel);
 		setLabels();
-		copyBtn.addFastClickHandler(this);
+
+		copyBtn.addFastClickHandler(source -> {
+			app.copyTextToSystemClipboard(linkBox.getText());
+			hide();
+		});
+	}
+
+	private StandardButton roundButton(SVGResource icon, String titleKey) {
+		StandardButton btn = new StandardButton(icon,
+				localize(titleKey), 24, app);
+		btn.setStyleName("roundButton");
+		return btn;
 	}
 
 	private void addLinkBoxHandlers() {
-		linkBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				focusLinkBox();
-			}
-		});
-		linkBox.addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				if (linkBoxFocused) {
-					linkBox.setFocus(true);
-					linkBox.setSelectionRange(0, 0);
-				}
-				linkBoxFocused = false;
-			}
-		});
+		// prevent manual deselection
+		linkBox.addClickHandler(event -> focusLinkBox());
 	}
 
 	/**
@@ -157,24 +154,21 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		linkBox.setFocus(true);
 		linkBox.setSelectionRange(0, 0);
 		linkBox.selectAll();
-		linkBoxFocused = true;
 	}
 
-	@Override
-	public void onClick(Widget source) {
-		if (source == copyBtn) {
-			linkBoxFocused = false;
-			app.copyTextToSystemClipboard(linkBox.getText());
-			focusLinkBox();
-			hide();
-		} else if (source == printBtn) {
-			app.getDialogManager().showPrintPreview();
-			hide();
-		} else if (source == exportImgBtn) {
-			app.getDialogManager().showExportImageDialog(null);
-			hide();
-		} else if (source == cancelBtn) {
-			hide();
+	private void copyEmbedCode() {
+		AppW appW = (AppW) this.app;
+		Material m = appW.getActiveMaterial();
+		if (m != null) {
+			String url = appW.getCurrentURL(m.getSharingKeyOrId(), true) + "?embed";
+			String code =
+					"<iframe src=\"" + url + "\""
+					+ " width=\"800\" height=\"600\" allowfullscreen"
+					+ " style=\"border: 1px solid #e4e4e4;border-radius: 4px;\""
+					+ " frameborder=\"0\"></iframe>";
+			this.app.copyTextToSystemClipboard(code);
+			ToolTipManagerW.sharedInstance().showBottomMessage(
+					localize("CopiedToClipboard"), true, appW);
 		}
 	}
 
@@ -194,15 +188,16 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 	public void setLabels() {
 		// dialog title
 		getCaption().setText(
-                localize(app.isMebis() ? "shareByLink" : "Share"));
+				localize(app.isMebis() ? "shareByLink" : "Share"));
 		linkLabel.setText(localize("Link"));
 		copyBtn.setText(localize("Copy"));
 		printBtn.setText(localize("Print"));
+		embedBtn.setText(localize("Embed"));
 		exportImgBtn.setText(localize("exportImage"));
 		cancelBtn.setText(localize("Cancel"));
 
-        VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
-        shareHelp.setText(localize(vendorSettings.getMenuLocalizationKey("SharedLinkHelpTxt")));
+		VendorSettings vendorSettings = ((AppW) app).getVendorSettings();
+		shareHelp.setText(localize(vendorSettings.getMenuLocalizationKey("SharedLinkHelpTxt")));
 	}
 
 	private String localize(String id) {
@@ -215,13 +210,7 @@ public class ShareLinkDialog extends DialogBoxW implements FastClickHandler {
 		if (anchor != null) {
 			anchor.addStyleName("selected");
 		}
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				linkBox.selectAll();
-				linkBox.setFocus(true);
-			}
-		});
+		Scheduler.get().scheduleDeferred(this::focusLinkBox);
 	}
 
 	@Override

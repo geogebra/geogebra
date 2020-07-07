@@ -18,22 +18,19 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.plugin.GeoClass;
@@ -53,12 +50,12 @@ public class DrawLocus extends Drawable {
 	private GeneralPathClippedForCurvePlotter gp;
 	private double[] labelPosition;
 	private CoordSys transformSys;
-	private BoundingBox boundingBox;
 	private GBufferedImage bitmap;
-	private AlgoElement algo;
 
 	private int bitmapShiftX;
 	private int bitmapShiftY;
+
+	private GRectangle partialHitClip;
 
 	/**
 	 * Creates new drawable for given locus
@@ -87,10 +84,9 @@ public class DrawLocus extends Drawable {
 			return;
 		}
 
-		algo = geo.getParentAlgorithm();
+		AlgoElement algo = geo.getParentAlgorithm();
 		if (algo instanceof AlgoLocusEquation) {
-			AlgoLocusEquation ale = (AlgoLocusEquation) geo
-					.getParentAlgorithm();
+			AlgoLocusEquation ale = (AlgoLocusEquation) geo.getParentAlgorithm();
 			if (ale.resetFingerprint(geo.getKernel(), false)) {
 				ale.update();
 			}
@@ -105,8 +101,7 @@ public class DrawLocus extends Drawable {
 		buildGeneralPath(locus.getPoints());
 
 		// line on screen?
-		if (!geo.isInverseFill()
-				&& !view.intersects(gp)) {
+		if (!geo.isInverseFill() && !view.intersects(gp)) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -125,8 +120,7 @@ public class DrawLocus extends Drawable {
 			double width = view.getWidth();
 			double height = view.getHeight();
 			xLabel = (int) ((x - xmin) / (xmax - xmin) * width) + 5;
-			yLabel = (int) (height - (y - ymin) / (ymax - ymin) * height) + 4
-					+ view.getFontSize();
+			yLabel = (int) (height - (y - ymin) / (ymax - ymin) * height) + 4 + view.getFontSize();
 			/*
 			 * Adding (5,4) will hopefully move the label out of the curve's
 			 * direct hiding. This is just a hack, and it does not work always.
@@ -135,8 +129,7 @@ public class DrawLocus extends Drawable {
 		}
 
 		// draw trace
-		if (geo.isTraceable() && (geo instanceof Traceable)
-				&& ((Traceable) geo).getTrace()) {
+		if (geo.isTraceable() && (geo instanceof Traceable) && ((Traceable) geo).getTrace()) {
 			isTracing = true;
 			GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null) {
@@ -152,12 +145,6 @@ public class DrawLocus extends Drawable {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
-
-		if (geo.getKernel().getApplication().isWhiteboardActive()
-				&& geo.getGeoClassType() == GeoClass.PENSTROKE
-				&& getBounds() != null) {
-			getBoundingBox().setRectangle(getBounds2D());
-		}
 	}
 
 	@Override
@@ -168,8 +155,7 @@ public class DrawLocus extends Drawable {
 	private void drawLocus(GGraphics2D g2) {
 		if (isVisible) {
 
-			if (geo.isPenStroke()
-					&& !geo.getKernel().getApplication().isExporting()) {
+			if (geo.isPenStroke() && !geo.getKernel().getApplication().isExporting()) {
 				if (bitmap == null) {
 					this.bitmap = makeImage(g2);
 					GGraphics2D g2bmp = bitmap.createGraphics();
@@ -234,11 +220,8 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
-            if (isHighlighted()) {
-				// draw locus
-				g2.setPaint(geo.getSelColor());
-				g2.setStroke(selStroke);
-				g2.draw(gp);
+			if (isHighlighted()) {
+				drawHighlighted(g2);
 			}
 
 			// draw locus
@@ -250,6 +233,18 @@ public class DrawLocus extends Drawable {
 				g2.setColor(geo.getLabelColor());
 				drawLabel(g2);
 			}
+		}
+	}
+
+	private void drawHighlighted(GGraphics2D g2) {
+		g2.setPaint(geo.getSelColor());
+		g2.setStroke(selStroke);
+		if (partialHitClip != null) {
+			g2.setClip(partialHitClip, true);
+			g2.draw(gp);
+			g2.resetClip();
+		} else {
+			g2.draw(gp);
 		}
 	}
 
@@ -265,27 +260,26 @@ public class DrawLocus extends Drawable {
 		}
 
 		if (geo.isFilled()) {
-			return t.intersects(x - hitThreshold, y - hitThreshold,
-					2 * hitThreshold, 2 * hitThreshold);
+			return t.intersects(x - hitThreshold, y - hitThreshold, 2 * hitThreshold,
+					2 * hitThreshold);
 		}
 		if (!isVisible || objStroke.getLineWidth() <= 0) {
 			return false;
 		}
+		updateStrokedShape();
+		return strokedShape != null && strokedShape.intersects(x - hitThreshold, y - hitThreshold,
+				2 * hitThreshold, 2 * hitThreshold);
+	}
+
+	private void updateStrokedShape() {
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
 			try {
 				strokedShape = objStroke.createStrokedShape(gp, 2500);
 			} catch (Exception e) {
 				Log.error("problem creating Locus shape: " + e.getMessage());
-				return false;
 			}
 		}
-		return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
-				2 * hitThreshold, 2 * hitThreshold);
-
-		/*
-		 * return gp.intersects(x-2,y-2,4,4) && !gp.contains(x-2,y-2,4,4);
-		 */
 	}
 
 	@Override
@@ -295,7 +289,8 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return gp.intersects(rect);
+		updateStrokedShape();
+		return strokedShape != null && strokedShape.intersects(rect);
 	}
 
 	@Override
@@ -316,102 +311,58 @@ public class DrawLocus extends Drawable {
 		return gp.getBounds();
 	}
 
-	private GRectangle2D getBounds2D() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
-			return null;
+	@Override
+	public GRectangle getBoundsClipped() {
+		if (this.partialHitClip != null) {
+			return gp.getBounds().createIntersection(partialHitClip).getBounds();
 		}
-		return gp.getBounds2D();
+		return getBounds();
 	}
 
 	@Override
-	public void updateByBoundingBoxResize(GPoint2D p,
-			EuclidianBoundingBoxHandler handler) {
-		if (!geo.getKernel().getApplication().isWhiteboardActive()) {
-			return;
-		}
-		updateLocus(handler, p);
-	}
-
-	@Override
-	public void updateGeo(GPoint2D p) {
-		((GeoLocus) geo).resetSavedBoundingBoxValues(false);
-	}
-
-	/**
-	 * update locus by dragging side handler
-	 * 
-	 * @param handler
-	 *            - handler was hit
-	 * @param p
-	 *            - mouse position
-	 */
-	private void updateLocus(EuclidianBoundingBoxHandler handler,
-			GPoint2D p) {
-		updatePoints(handler, p,
-				getBoundingBox().getRectangle());
-		update();
-		getBoundingBox().setRectangle(getBounds2D());
-	}
-
-	/**
-	 * Updates the points when resizing the locus with bounding box handler
-	 * 
-	 * @param handler
-	 *            handler was hit
-	 * @param p
-	 *            mouse position
-	 * @param gRectangle2D
-	 *            bounding box rectangle
-	 */
-	public void updatePoints(EuclidianBoundingBoxHandler handler,
-			GPoint2D p, GRectangle2D gRectangle2D) {
-		// save the original rates when scaling first time
-		((GeoLocus) geo).saveOriginalRates(gRectangle2D);
-
-		switch (handler) {
-		case TOP:
-		case BOTTOM:
-			((GeoLocus) geo).updatePointsY(handler, p.getY(), gRectangle2D,
-					Double.NaN);
-			break;
-		case LEFT:
-		case RIGHT:
-			((GeoLocus) geo).updatePointsX(handler, p.getX(), gRectangle2D);
-			break;
-		case TOP_LEFT:
-		case BOTTOM_LEFT:
-		case TOP_RIGHT:
-		case BOTTOM_RIGHT:
-			((GeoLocus) geo).saveRatio(gRectangle2D);
-			double newWidth = ((GeoLocus) geo).updatePointsX(handler,
-					p.getX(),
-					gRectangle2D);
-			((GeoLocus) geo).updatePointsY(handler, p.getY(), gRectangle2D,
-					newWidth);
-			break;
-		default: // UNDEFINED - maybe not possible
-			Log.warn("unhandled case");
-		}
+	public GRectangle getPartialHitClip() {
+		return partialHitClip;
 	}
 
 	@Override
 	public GRectangle getBoundsForStylebarPosition() {
-		if (gp == null) {
-			return null;
-		}
-		return gp.getBounds();
+		return getBoundsClipped();
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
-        if (view.getApplication().isWhiteboardActive()) {
-			if (boundingBox == null) {
-                boundingBox = createBoundingBox(false, false);
-			}
-            boundingBox.updateFrom(geo);
-			return boundingBox;
-		}
-		return null;
+	public void setPartialHitClip(GRectangle rect) {
+		this.partialHitClip = rect;
 	}
 
+	@Override
+	public boolean resetPartialHitClip(int x, int y) {
+		if (partialHitClip != null && !partialHitClip.contains(x, y)) {
+			partialHitClip = null;
+			return geo.isSelected();
+		}
+		return false;
+	}
+
+	@Override
+	public ArrayList<GPoint2D> toPoints() {
+		ArrayList<GPoint2D> points = new ArrayList<>();
+		for (MyPoint pt : locus.getPoints()) {
+			points.add(
+					new MyPoint(view.toScreenCoordXd(pt.getX()), view.toScreenCoordYd(pt.getY())));
+		}
+		return points;
+	}
+
+	@Override
+	public void fromPoints(ArrayList<GPoint2D> points) {
+		int i = 0;
+		for (MyPoint pt : locus.getPoints()) {
+			pt.setLocation(view.toRealWorldCoordX(points.get(i).getX()),
+					view.toRealWorldCoordY(points.get(i).getY()));
+			i++;
+		}
+		if (locus instanceof GeoLocusStroke) {
+			((GeoLocusStroke) locus).resetXMLPointBuilder();
+		}
+	}
 }

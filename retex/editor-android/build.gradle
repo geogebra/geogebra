@@ -33,7 +33,6 @@ publishing {
 dependencies {
 	api project(':editor-base')
     implementation project(':renderer-android')
-	testImplementation 'junit:junit:4.11'
 }
 
 android {
@@ -41,7 +40,7 @@ android {
     buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion rootProject.minSdkVersion
     }
 
     compileOptions {

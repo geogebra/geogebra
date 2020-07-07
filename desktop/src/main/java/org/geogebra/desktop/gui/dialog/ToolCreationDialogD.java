@@ -40,8 +40,6 @@ import org.geogebra.desktop.gui.view.algebra.MyComboBoxListener;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Dialog to create a new user defined tool
  * 
@@ -512,8 +510,6 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 
 		ChangeListener cl = new ChangeListener() {
 			@Override
-			@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-					"missing break is deliberate" })
 			public void stateChanged(ChangeEvent e) {
 				int tab = tabbedPane.getSelectedIndex();
 				btBack.setEnabled(tab > 0);
@@ -521,8 +517,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 				switch (tab) {
 				case 1: // input objects
 					updateInputList();
-
-					// fall through
+					//$FALL-THROUGH$
 				case 0: // output objects
 					btNext.setText(loc.getMenu("Next") + " >");
 					btNext.setEnabled(true);

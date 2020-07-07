@@ -60,6 +60,9 @@ public enum GeoClass {
 	/** TEXT */
 	TEXT("Text", 150, false),
 
+	/** Formula */
+	FORMULA("Formula", 150, false),
+
 	/** VECTOR */
 	VECTOR("Vector", 120, false),
 
@@ -169,7 +172,10 @@ public enum GeoClass {
 	DEFAULT("Default", 160, false),
 
 	/** SYmbolic row in CAS calc */
-	SYMBOLIC("Symbolic", 0, false);
+	SYMBOLIC("Symbolic", 0, false),
+
+	/** Inline text */
+	INLINE_TEXT("InlineText", 150, false);
 
 	/**
 	 * name MUST be in ggbtrans/properties

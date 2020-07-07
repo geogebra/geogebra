@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -10,16 +9,12 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.gui.view.button.MyToggleButton;
+import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Image;
@@ -33,7 +28,7 @@ import com.google.gwt.user.client.ui.Image;
  * @author Alicia
  *
  */
-public class ContextMenuButtonCard extends MyToggleButton
+public class ContextMenuButtonCard extends StandardButton
 		implements SetLabels, CloseHandler<GPopupPanel> {
 	/** visible component */
 	protected GPopupMenuW wrappedPopup;
@@ -49,8 +44,7 @@ public class ContextMenuButtonCard extends MyToggleButton
 	 *            application
 	 */
 	public ContextMenuButtonCard(AppW app) {
-		super(getImage(MaterialDesignResources.INSTANCE.more_vert_black()),
-				app);
+		super(MaterialDesignResources.INSTANCE.more_vert_black(), null, 24, app);
 		this.app = app;
 		loc = app.getLocalization();
 		frame = ((AppWFull) app).getAppletFrame();
@@ -58,34 +52,25 @@ public class ContextMenuButtonCard extends MyToggleButton
 	}
 
 	private void initButton() {
-        SVGResource resource = getActiveImageResource();
-        Image hoveringFace = getImage(resource);
+		SVGResource resource = getActiveImageResource();
+		Image hoveringFace = getImage(resource);
 		getUpHoveringFace().setImage(hoveringFace);
 		getDownHoveringFace().setImage(hoveringFace);
 		addStyleName("mowMoreButton");
 
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				if (isShowing()) {
-					hide();
-				} else {
-					show();
-				}
-			}
-		});
-		this.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				event.stopPropagation();
+		addFastClickHandler(source -> {
+			if (isShowing()) {
+				hide();
+			} else {
+				show();
 			}
 		});
 	}
 
-    private SVGResource getActiveImageResource() {
-        SVGResource resource = MaterialDesignResources.INSTANCE.more_vert_black();
-        return resource.withFill(app.getVendorSettings().getPrimaryColor().toString());
-    }
+	private SVGResource getActiveImageResource() {
+		SVGResource resource = MaterialDesignResources.INSTANCE.more_vert_black();
+		return resource.withFill(app.getVendorSettings().getPrimaryColor().toString());
+	}
 
 	/**
 	 * adds a menu item
@@ -138,7 +123,7 @@ public class ContextMenuButtonCard extends MyToggleButton
 		if (wrappedPopup == null) {
 			initPopup();
 		}
-		focusDeferred();
+		wrappedPopup.getPopupMenu().focusDeferred();
 		wrappedPopup.setMenuShown(true);
 		toggleIcon(true);
 	}
@@ -163,21 +148,12 @@ public class ContextMenuButtonCard extends MyToggleButton
 	 */
 	protected void toggleIcon(boolean toggle) {
 		if (toggle) {
-            getUpFace().setImage(getImage(getActiveImageResource()));
+			getUpFace().setImage(getImage(getActiveImageResource()));
 			addStyleName("active");
 		} else {
 			getUpFace().setImage(getImage(
 					MaterialDesignResources.INSTANCE.more_vert_black()));
 			removeStyleName("active");
 		}
-	}
-
-	private void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				wrappedPopup.getPopupMenu().getElement().focus();
-			}
-		});
 	}
 }

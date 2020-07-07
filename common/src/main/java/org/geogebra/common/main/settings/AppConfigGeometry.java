@@ -1,19 +1,31 @@
 package org.geogebra.common.main.settings;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * App-specific behaviors of Geometry app
@@ -26,7 +38,6 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
-			dp.makeVisible();
 			dp.setLocation("3");
 			dp.setToolMode(true);
 		}
@@ -38,7 +49,7 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public String getAVTitle() {
-        return "Algebra";
+		return "Algebra";
 	}
 
 	@Override
@@ -132,11 +143,6 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public boolean hasScientificKeyboard() {
-		return false;
-	}
-
-	@Override
 	public boolean isEnableStructures() {
 		return true;
 	}
@@ -197,27 +203,103 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public CommandNameFilter getCommandNameFilter() {
-		return CommandNameFilterFactory.createNoCasCommandNameFilter();
+	public CommandFilter getCommandFilter() {
+		return CommandFilterFactory.createNoCasCommandFilter();
 	}
 
-    @Override
-    public boolean showToolsPanel() {
-        return true;
-    }
+	@Override
+	public CommandArgumentFilter getCommandArgumentFilter() {
+		return null;
+	}
 
-    @Override
-    public String getAppCode() {
-        return "geometry";
-    }
+	@Override
+	public boolean showToolsPanel() {
+		return true;
+	}
 
-    @Override
-    public SettingsUpdater createSettingsUpdater() {
-        return new GeometrySettingsUpdater();
-    }
+	@Override
+	public String getAppCode() {
+		return "geometry";
+	}
 
-    @Override
-    public GeoGebraConstants.Version getVersion() {
-        return GeoGebraConstants.Version.GEOMETRY;
-    }
+	@Override
+	public SettingsUpdater createSettingsUpdater() {
+		return new GeometrySettingsUpdater();
+	}
+
+	@Override
+	public GeoGebraConstants.Version getVersion() {
+		return GeoGebraConstants.Version.GEOMETRY;
+	}
+
+	@Override
+	public boolean hasExam() {
+		return false;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "";
+	}
+
+	@Override
+	public Set<FillType> getAvailableFillTypes() {
+		return new HashSet<>(Arrays.asList(FillType.values()));
+	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return false;
+	}
+
+	@Override
+	public int getDefaultAngleUnit() {
+		return Kernel.ANGLE_DEGREE;
+	}
+
+	@Override
+	public boolean isAngleUnitSettingEnabled() {
+		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new BasePropertiesFactory();
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.GEOMETRY;
+	}
+
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return null;
+	}
+
+	@Override
+	public ParserFunctions createParserFunctions() {
+		return ParserFunctionsFactory.createParserFunctions();
+	}
+
+	@Override
+	public int getEnforcedLineEquationForm() {
+		return -1;
+	}
+
+	@Override
+	public int getEnforcedConicEquationForm() {
+		return -1;
+	}
+
+	@Override
+	public boolean shouldHideEquations() {
+		return false;
+	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return true;
+	}
 }
+

@@ -6,56 +6,55 @@ import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.full.gui.components.MathFieldEditorDecoratorBase;
 
 public class SymbolicEditorDecorator extends MathFieldEditorDecoratorBase {
-    private int mainHeight;
-    private int top;
-    private double fontSize;
 
-    /**
-     * @param editor   to decorate.
-     * @param fontSize to use.
-     */
-    SymbolicEditorDecorator(MathFieldEditor editor, int fontSize) {
-        super(editor);
-        this.fontSize = fontSize;
-        editor.addStyleName("evInputEditor");
-        editor.setFontSize(fontSize);
-    }
+	private int baseline;
+	private double fontSize;
 
-    @Override
-    public void update() {
-        updateSize();
-    }
+	/**
+	 *
+	 * @param editor to decorate.
+	 * @param fontSize to use.
+	 */
+	SymbolicEditorDecorator(MathFieldEditor editor, int fontSize) {
+		super(editor);
+		this.fontSize = fontSize;
+		editor.addStyleName("evInputEditor");
+		editor.setFontSize(fontSize);
+	}
 
-    private void updateSize() {
-        double diff = mainHeight - getHeight();
-        top += diff / 2;
-        setTop(top);
-        mainHeight = getHeight();
-    }
+	@Override
+	public void update() {
+		updateSize();
+	}
 
-    /**
-     * Updates editor bounds, colors amd font size
-     * according to the geoInputBox
-     *
-     * @param bounds      to set.
-     * @param geoInputBox the currently edited geo.
-     */
-    void update(GRectangle bounds, GeoInputBox geoInputBox) {
-        updateBounds(bounds);
-        setForegroundColor(geoInputBox.getObjectColor());
-        setBackgroundColor(geoInputBox.getBackgroundColor());
-        setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
+	private void updateSize() {
+		if (getHeight() > 0) {
+			setTop(baseline - getHeight() / 2);
+		}
+	}
 
-    }
+	/**
+	 * Updates editor bounds, colors amd font size
+	 * according to the geoInputBox
+	 *
+	 * @param bounds to set.
+	 * @param geoInputBox the currently edited geo.
+	 */
+	void update(GRectangle bounds, GeoInputBox geoInputBox) {
+		updateBounds(bounds);
+		setForegroundColor(geoInputBox.getObjectColor());
+		setBackgroundColor(geoInputBox.getBackgroundColor());
+		setFontSize(fontSize * geoInputBox.getFontSizeMultiplier());
 
-    private void updateBounds(GRectangle bounds) {
-        double fieldWidth = bounds.getWidth() - PADDING_LEFT;
-        setLeft(bounds.getX());
-        setTop(bounds.getY());
-        setWidth(fieldWidth);
-        setHeight(bounds.getHeight());
+	}
 
-        top = (int) bounds.getY();
-        mainHeight = (int) bounds.getHeight();
-    }
+	private void updateBounds(GRectangle bounds) {
+		double fieldWidth = bounds.getWidth() - PADDING_LEFT;
+		setLeft(bounds.getX());
+		setTop(bounds.getY());
+		setWidth(fieldWidth);
+		setHeight(bounds.getHeight());
+
+		baseline = (int) (bounds.getY() + bounds.getHeight() / 2);
+	}
 }

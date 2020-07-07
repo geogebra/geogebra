@@ -1,5 +1,7 @@
 package org.geogebra.web.html5;
 
+import java.util.Locale;
+
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -10,22 +12,24 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.Window.Navigator;
 
+import elemental2.core.Global;
+import elemental2.dom.DomGlobal;
+
 public class Browser {
 	private static boolean webWorkerSupported = false;
-	private static boolean float64supported = true;
 	private static Boolean webglSupported = null;
 
-	public static native boolean isFirefox() /*-{
-		// copying checking code from the checkWorkerSupport method
-		// however, this is not necessarily the best method to decide
-		if ($wnd.navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
-			return true;
-		}
-		return false;
-	}-*/;
+	/**
+	 * UA string check, may not be reliable
+	 * @return whether the app is running in Firefox
+	 */
+	public static boolean isFirefox() {
+		return doesUserAgentContainRegex("firefox");
+	}
 
 	/**
 	 * Check if browser is Internet Explorer
@@ -34,16 +38,15 @@ public class Browser {
 	 *
 	 * @return true if IE
 	 */
-	public static native boolean isIE() /*-{
+	public static boolean isIE() {
 		// check if app is running in IE5 or greater
-		// clipboardData object is available from IE5 and onwards
-		var userAgent = $wnd.navigator.userAgent.toLowerCase();
-		if ((userAgent.indexOf('msie ') > -1)
-				|| (userAgent.indexOf('trident/') > -1)) {
-			return true;
-		}
-		return false;
-	}-*/;
+		return doesUserAgentContainRegex("msie |trident/");
+	}
+
+	private static boolean doesUserAgentContainRegex(String regex) {
+		String userAgent = Navigator.getUserAgent().toLowerCase(Locale.US);
+		return userAgent.matches(".*(" + regex + ").*");
+	}
 
 	/**
 	 * Check if browser is Safari on iOS
@@ -54,8 +57,14 @@ public class Browser {
 	 *
 	 * @return true if iOS (WebView or Safari browser)
 	 */
-	public static native boolean isiOS() /*-{
-		return !!(/iPhone|iPad|iPod/i.test($wnd.navigator.userAgent));
+	public static boolean isiOS() {
+		return doesUserAgentContainRegex("iphone|ipad|ipod")
+				// only iPhones iPads and iPods support multitouch
+				|| ("MacIntel".equals(Navigator.getPlatform()) && getMaxPointTouch() > 1);
+	}
+
+	private static native int getMaxPointTouch() /*-{
+		return $wnd.navigator.maxTouchPoints;
 	}-*/;
 
 	/**
@@ -119,63 +128,30 @@ public class Browser {
 
 	private static native boolean nativeCheckWorkerSupport(
 			String workerpath) /*-{
-		// Worker support in Firefox is incompatible at the moment for zip.js,
-		// see http://gildas-lormeau.github.com/zip.js/ for details:
-		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1) {
-			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: worker not supported in Firefox, fallback for simple js");
-			return false;
-		}
-		if (navigator.userAgent.toLowerCase().indexOf("safari") != -1
+		// Web workers are not supported in cross domain situations, and the
+		// following check only correctly detects them in chrome, so this
+		// condition must stay here until the end of times.
+		if (navigator.userAgent.toLowerCase().indexOf("firefox") != -1
+			|| navigator.userAgent.toLowerCase().indexOf("safari") != -1
 			&& navigator.userAgent.toLowerCase().indexOf("chrome") == -1) {
-			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: worker not supported in Safari, fallback for simple js");
+			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: workers might not be supported");
 			return false;
 		}
 
-	    try {
-	    	var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
-	    } catch (e) {
-	    	@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: worker not supported (no worker at " + workerpath + "), fallback for simple js");
+		try {
+			var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
+		} catch (e) {
+			@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: workers are not supported (no worker at " + workerpath + "), fallback for simple js");
+			return false;
+		}
 
-	    	return false;
-	    }
-	    @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: workers are supported");
-
-	    worker.terminate();
-	    return true;
+		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("INIT: workers are supported");
+		worker.terminate();
+		return true;
 	}-*/;
 
 	public static native boolean zipjsLoadedWithoutWebWorkers() /*-{
 		return !!($wnd.zip && $wnd.zip.useWebWorkers === false);
-	}-*/;
-
-	/**
-	 * @return whether we are running under iOS
-	 */
-	public static native String getMobileOperatingSystem()/*-{
-		var userAgent = $wnd.navigator.userAgent;
-
-		//iOS detection from: http://stackoverflow.com/a/9039885/177710
-		if (/Mac|iPad|iPhone|iPod/.test(userAgent) && !$wnd.MSStream) {
-			return "iOS";
-		}
-		return "unknown";
-	}-*/;
-
-	/**
-	 * Checks whether browser supports float64. Must be called before a polyfill
-	 * kicks in.
-	 */
-	public static void checkFloat64() {
-		float64supported = doCheckFloat64();
-	}
-
-	public static boolean isFloat64supported() {
-		return float64supported;
-	}
-
-	private static native boolean doCheckFloat64()/*-{
-		var floatSupport = 'undefined' !== typeof Float64Array;
-		return 'undefined' !== typeof Float64Array;
 	}-*/;
 
 	/**
@@ -192,17 +168,13 @@ public class Browser {
 		return !iOS && !!$wnd.WebAssembly;
 	}-*/;
 
-	public static native boolean supportsPointerEvents(boolean usePen)/*-{
-		//$wnd.console.log("PEN SUPPORT" + usePen + "," + (!!$wnd.PointerEvent));
-		if (usePen && $wnd.PointerEvent) {
-			return true;
-		}
-		return $wnd.navigator.msPointerEnabled ? true : false;
+	public static native boolean supportsPointerEvents() /*-{
+		return !!$wnd.PointerEvent;
 	}-*/;
 
-	private static native boolean isHTTP() /*-{
-		return $wnd.location.protocol != 'file:';
-	}-*/;
+	private static boolean isHTTP() {
+		return !"file:".equals(Location.getProtocol());
+	}
 
 	/**
 	 * Check this to avoid exceptions thrown from Storage.get*StorageIfSupported
@@ -337,19 +309,9 @@ public class Browser {
 
 		Style style = parent.getStyle();
 		if (style != null) {
-			setTransform(style, transform);
-			style.setProperty("msTransformOrigin", pos);
-			style.setProperty("mozTransformOrigin", pos);
-			style.setProperty("webkitTransformOrigin", pos);
+			style.setProperty("transform", transform);
 			style.setProperty("transformOrigin", pos);
 		}
-	}
-
-	private static void setTransform(Style style, String transform) {
-		style.setProperty("webkitTransform", transform);
-		style.setProperty("mozTransform", transform);
-		style.setProperty("msTransform", transform);
-		style.setProperty("transform", transform);
 	}
 
 	private static void zoom(Element parent, double externalScale) {
@@ -357,7 +319,7 @@ public class Browser {
 		if (style == null) {
 			return;
 		}
-		setTransform(style, "none");
+		style.setProperty("transform", "none");
 		int zoomPercent = (int) Math.round(externalScale * 100);
 		style.setProperty("zoom", zoomPercent + "%");
 	}
@@ -373,14 +335,16 @@ public class Browser {
 	 * @return true if Javascript CAS is supported.
 	 */
 	public static boolean supportsJsCas() {
-		return Browser.isFloat64supported()
-				&& !Browser.isAndroidVersionLessThan(4.0);
+		return !Browser.isAndroidVersionLessThan(4.0);
 	}
 
-	public static native boolean isMobile()/*-{
-		return !!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-				.test($wnd.navigator.userAgent));
-	}-*/;
+	/**
+	 * @return whether app is running in a mobile browser
+	 */
+	public static boolean isMobile() {
+		String browsers = "android|webos|blackberry|iemobile|opera mini";
+		return doesUserAgentContainRegex(browsers) || isiOS();
+	}
 
 	/**
 	 * @return CSS pixel ratio
@@ -410,12 +374,12 @@ public class Browser {
 	 *            A binary string (obtained for instance by the FileReader API)
 	 * @return a base64 encoded string.
 	 */
-	public static native String encodeSVG(String svg) /*-{
+	public static String encodeSVG(String svg) {
 		// can't use data:image/svg+xml;utf8 in IE11 / Edge
 		// so encode as Base64
-		return @org.geogebra.common.util.StringUtil::svgMarker
-				+ $wnd.btoa($wnd.unescape($wnd.encodeURIComponent(svg)));
-	}-*/;
+		return StringUtil.svgMarker + DomGlobal.btoa(
+				Global.unescape(URL.encodePathSegment(svg)));
+	}
 
 	public static native String encodeURIComponent(String txt) /*-{
 		return $wnd.encodeURIComponent(txt);
@@ -668,7 +632,7 @@ public class Browser {
 	 */
 	@Deprecated
 	public static boolean isTabletBrowser() {
-		return isAndroid() || isIPad();
+		return isAndroid() || isiOS();
 	}
 
 	public static void setWebWorkerSupported(boolean b) {
@@ -858,13 +822,13 @@ public class Browser {
 				: StringUtil.txtMarker + txt;
 	}
 
-    /**
-     * Checks for screen readers that don't support keyboard event handling in
-     * canvas.
-     *
-     * @return whether emulator of tab handler is needed
-     */
-    public static boolean needsAccessibilityView() {
-        return isMobile();
-    }
+	/**
+	 * Checks for screen readers that don't support keyboard event handling in
+	 * canvas.
+	 * 
+	 * @return whether emulator of tab handler is needed
+	 */
+	public static boolean needsAccessibilityView() {
+		return isMobile();
+	}
 }

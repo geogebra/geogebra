@@ -22,7 +22,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -53,6 +52,7 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -64,7 +64,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoList extends GeoElement
 		implements ListValue, DelegateProperties, TextProperties, Traceable, Path,
-		Transformable, SpreadsheetTraceable, Furniture, InequalityProperties,
+		Transformable, SpreadsheetTraceable, AbsoluteScreenLocateable, InequalityProperties,
 		AngleProperties, Animatable, SegmentProperties {
 
 	private static final int MAX_ITEMS_FOR_SCREENREADER = 8;
@@ -632,11 +632,6 @@ public class GeoList extends GeoElement
 		return isDrawable || drawAsComboBox();
 	}
 
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
 	/**
 	 * Clear the list
 	 */
@@ -897,7 +892,7 @@ public class GeoList extends GeoElement
 				final GeoElement geo = elements.get(i);
 				sbBuildValueString.append(geo.toOutputValueString(tpl));
 				sbBuildValueString.append(getLoc().getComma());
-				sbBuildValueString.append(" ");
+				tpl.appendOptionalSpace(sbBuildValueString);
 			}
 
 			// last element
@@ -1937,11 +1932,6 @@ public class GeoList extends GeoElement
 	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
-	}
-
-	@Override
-	public boolean justFontSize() {
-		return false;
 	}
 
 	@Override
@@ -3000,6 +2990,11 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
+	public void initSymbolicMode() {
+		setSymbolicMode(true, false);
+	}
+
+	@Override
 	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		for (int i = 0; i < this.size(); i++) {
 			if (get(i) instanceof HasSymbolicMode) {
@@ -3015,7 +3010,7 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (isMatrix() && isIndependent()) {
 			return DescriptionMode.VALUE;
 		}
@@ -3024,7 +3019,7 @@ public class GeoList extends GeoElement
 		}
 
 		for (GeoElement geo : elements) {
-			if (geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+			if (geo.getDescriptionMode() == DescriptionMode.DEFINITION_VALUE
 					&& !Equation.isAlgebraEquation(geo)) {
 				return DescriptionMode.DEFINITION_VALUE;
 			}

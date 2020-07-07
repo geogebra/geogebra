@@ -1,7 +1,10 @@
 package org.geogebra.web.full.euclidian;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 
@@ -25,9 +28,9 @@ public class GridPopup extends PopupMenuButtonWithDefault {
 	}
 
 	@Override
-	public void update(Object[] geos) {
+	public void update(List<GeoElement> geos) {
 		this.setVisible(
-				geos.length == 0 && !EuclidianView.isPenMode(app.getMode())
+				geos.size() == 0 && !EuclidianView.isPenMode(app.getMode())
 						&& app.getMode() != EuclidianConstants.MODE_DELETE);
 	}
 

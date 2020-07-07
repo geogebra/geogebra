@@ -1,8 +1,11 @@
 package org.geogebra.common.kernel.commands;
 
+import static org.geogebra.test.TestStringUtil.unicode;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -14,23 +17,26 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class ParserTest {
-	static AppDNoGui app;
-	static AlgebraProcessor ap;
+	private AppDNoGui app;
+	private Parser parser;
 
-	@BeforeClass
-	public static void setupCas() {
+	@Before
+	public void setup() {
 		app = new AppDNoGui(new LocalizationD(3), false);
+		parser = app.getKernel().getParser();
 		app.setLanguage(Locale.US);
 	}
 
@@ -85,40 +91,69 @@ public class ParserTest {
 		checkSameStructure(Unicode.PI_STRING + "(1.3)",
 				Unicode.PI_STRING + " 1.3");
 		checkSameStructure("pi(1.3)", Unicode.PI_STRING + " 1.3");
-		shouldReparseAs(Unicode.PI_STRING + "8", Unicode.PI_STRING + "8");
+		shouldReparseAs(Unicode.PI_STRING + "8",  Unicode.PI_STRING + " * 8");
 		shouldReparseAs("2" + Unicode.PI_STRING + "8",
-				"2" + Unicode.PI_STRING + "8");
+				"2" + Unicode.PI_STRING + " * 8");
 		// APPS-804
-		// shouldReparseAs(Unicode.PI_STRING + "8.1",
-		// Unicode.PI_STRING + "8.1");
-		// shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
-		// "2" + Unicode.PI_STRING + "8.1");
-
+		shouldReparseAs(Unicode.PI_STRING + "8.1",
+				Unicode.PI_STRING + " * 8.1");
+		shouldReparseAs("2" + Unicode.PI_STRING + "8.1",
+				 unicode("2@pi * 8.1"));
 	}
 
-	private static void checkSameStructure(String string, String string2) {
+	@Test
+	public void testPiPower() {
+		shouldReparseAs("pixxyyy", unicode("@pi x^2 y^3"));
+		shouldReparseAs(Unicode.PI_STRING + "3^2", unicode("@pi * 3^2"));
+	}
+
+	@Test
+	public void testPower() {
+		shouldReparseAs("f(k,y,z)=kyz^6", unicode("k y z^6"));
+	}
+
+	@Test
+	public void testTrigPower() {
+		shouldReparseAs("sinxy^2",
+				unicode("sin(x y^2)"));
+		shouldReparseAs("sinxxx^2",
+				unicode("sin(x^2 x^2)"));
+	}
+
+	private void checkSameStructure(String string, String string2) {
 		Assert.assertEquals(reparse(string, StringTemplate.maxPrecision),
 				reparse(string2, StringTemplate.maxPrecision));
 	}
 
-	private static String reparse(String string, StringTemplate tpl) {
+	private String reparse(String string, StringTemplate tpl) {
+		return reparse(app, string, tpl, false);
+	}
+
+	private static String reparse(App app, String string, StringTemplate tpl,
+								  boolean multipleUnassignedAllowed) {
 		String reparse1 = "";
 		try {
-			ValidExpression v1 = parseExpression(string);
+			ValidExpression v1 = parseExpression(app, string);
 			FunctionVariable xVar = new FunctionVariable(app.getKernel(), "x"),
 					yVar = new FunctionVariable(app.getKernel(), "y"),
 					zVar = new FunctionVariable(app.getKernel(), "z");
+			EvalInfo info = multipleUnassignedAllowed
+					? new EvalInfo(false).withMultipleUnassignedAllowed()
+					: new EvalInfo(false);
+
+			v1.resolveVariables(info);
 			v1.wrap().replaceXYZnodes(xVar, yVar, zVar,
 					new ArrayList<ExpressionNode>());
+			app.getKernel().getConstruction().registerFunctionVariable(null);
 			reparse1 = v1.toString(tpl);
-		} catch (Throwable e) {
+		} catch (ParseException e) {
 			e.printStackTrace();
-			Assert.fail(e.getMessage());
+			fail(e.getMessage());
 		}
 		return reparse1;
 	}
 
-	private static void shouldBeException(String string,
+	private void shouldBeException(String string,
 			String exceptionClass) {
 		Throwable p = null;
 		try {
@@ -180,11 +215,73 @@ public class ParserTest {
 		shouldReparseAs("ln(x)", "ln(x)");
 		shouldReparseAs("ld(x)", "ld(x)");
 		shouldReparseAs("lg(x)", "lg(x)");
-		shouldReparseAs("log(x)", "ln(x)");
+		shouldReparseAs("log(x)", "lg(x)");
 		shouldReparseAs("log_" + Unicode.EULER_STRING + "(x)",
 				"log(" + Unicode.EULER_STRING + ", x)");
 		shouldReparseAs("log_{" + Unicode.EULER_STRING + "}(x)",
 				"log(" + Unicode.EULER_STRING + ", x)");
+	}
+
+	@Test
+	public void testLogFunctionFromFile() {
+		app.getKernel().setLoadingMode(true);
+		shouldReparseAs("log(x)", "ln(x)");
+		shouldReparseAs("log(5,x)", "log(5, x)");
+		app.getKernel().setLoadingMode(false);
+	}
+
+	@Test
+	public void multiplicationByTrigShouldChangeToApplication() {
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand("a=1", false);
+		shouldReparseAs("cos x", "cos(x)");
+		// shouldReparseAs("cos 9x", "cos(9 x)"); TODO
+
+		shouldReparseAs("cos7t/t", "cos(7t) / t");
+		shouldReparseAs("cos3x", "cos(3x)");
+		shouldReparseAs("cos3a", "cos(3a)");
+		shouldReparseAs("f(n)=cos3n", "cos(3n)");
+		shouldReparseAs("cos3n", "cos(3n)");
+		shouldReparseAs("x*cos3x", "x cos(3x)");
+		shouldReparseAs("3x*cosx", "3x cos(x)");
+		shouldReparseAs("3x*cos3x", "3x cos(3x)");
+		shouldReparseAs("ln3", "ln(3)");
+		// ln|y+6| not supported in parser; AV editor prduces ln abs(y+6) anyway
+		shouldReparseAs("ln abs(y+6)", "ln(abs(y + 6))");
+		shouldReparseAs("cos33" + Unicode.DEGREE_STRING,
+				"cos(33" + Unicode.DEGREE_STRING + ")");
+		shouldReparseAs("3cos33" + Unicode.DEGREE_STRING,
+				"3cos(33" + Unicode.DEGREE_STRING + ")");
+	}
+
+	@Test
+	public void inverseTrigShouldUseDegrees() {
+		shouldReparseAs("atanx", "atand(x)");
+	}
+
+	@Test
+	public void multiplicationByTrigPowerShouldChangeToApplication() {
+		String sinCubedX = "sin" + Unicode.SUPERSCRIPT_3 + "(x)";
+		shouldReparseAs("sin" + Unicode.SUPERSCRIPT_3 + "(x)", sinCubedX);
+		shouldReparseAs("sin^3(x)", sinCubedX);
+		shouldReparseAs("sin" + Unicode.SUPERSCRIPT_3 + " x", sinCubedX);
+		shouldReparseAs("sin^3 x", sinCubedX);
+		shouldReparseAs("e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "cost",
+			Unicode.EULER_STRING + "^(-t) * 9sin" + Unicode.SUPERSCRIPT_8 + "(cos(t))");
+	}
+
+	@Test
+	public void powerShouldHavePrecedence() {
+		shouldReparseAs("sin 2^2", unicode("sin(2^2)"));
+		shouldReparseAs("sin2^2", unicode("sin(2^2)"));
+		shouldReparseAs("sin3x^2", unicode("sin(3x^2)"));
+	}
+
+	@Test
+	public void multiplicationShouldResolvedToChainedTrig() {
+		app.getKernel().getConstruction().registerFunctionVariable("t");
+		shouldReparseAs(app, "e^(-t)9sin" + Unicode.SUPERSCRIPT_8 + "tcost",
+				Unicode.EULER_STRING + "^(-t) * 9sin"
+				+ Unicode.SUPERSCRIPT_8 + "(t cos(t))");
 	}
 
 	@Test
@@ -223,7 +320,51 @@ public class ParserTest {
 		shouldReparseAs("(1,2) + 1,4", "(1, 2) + 1.4");
 	}
 
-	private static void shouldReparseAs(String string, String expected) {
+	@Test
+	public void shouldKeepMultiplicationFromLeft() {
+		String f1 = reparse(app, "F(x,A,B)=BAxe^(-Bx)-Ae^(-Bx)",
+				StringTemplate.xmlTemplate, true);
+		assertEquals("(((B * A) * x) * " + Unicode.EULER_STRING
+						+ "^((-((B * x))))) - (A * " + Unicode.EULER_STRING + "^((-((B * x)))))",
+				f1);
+		String f2 = reparse(app, "F(x,A,B)=B A x e^(-B x)-A e^(-B x)",
+				StringTemplate.xmlTemplate, true);
+		// brackets in exponent slightly different
+		assertEquals("(((B * A) * x) * " + Unicode.EULER_STRING
+						+ "^(((-B) * x))) - (A * " + Unicode.EULER_STRING + "^(((-B) * x)))",
+				f2);
+	}
+
+	@Test
+	public void checkValidLabels() {
+		assertValidLabel("aa");
+		assertValidLabel("aa8");
+		assertValidLabel("aa_7");
+		assertValidLabel("aa_{72}''");
+		assertValidLabel(Unicode.PI_STRING + 8);
+	}
+
+	@Test
+	public void shouldHandleDecimalsInLabels() {
+		shouldReparseAs("x1.3=7", "x * 1.3 = 7");
+		shouldReparseAs("x1.3=y", "x * 1.3 = y");
+		shouldReparseAs("x_{1.3}=7", "7");
+	}
+
+	private void assertValidLabel(String s) {
+		try {
+			assertEquals(s, parser.parseLabel(s));
+		} catch (ParseException e) {
+			fail("Unexpected parser exception " + e);
+		}
+	}
+
+	static void shouldReparseAs(App app, String string, String expected) {
+		Assert.assertEquals(expected,
+				reparse(app, string, StringTemplate.editTemplate, true));
+	}
+
+	private void shouldReparseAs(String string, String expected) {
 		Assert.assertEquals(expected,
 				reparse(string, StringTemplate.editTemplate));
 	}
@@ -247,11 +388,10 @@ public class ParserTest {
 				&& op != Operation.INVERSE_NORMAL;
 	}
 
-	private static void checkStable(ExpressionNode left) {
+	private void checkStable(ExpressionNode left) {
 		String str = null;
 		try {
 			str = left.toString(StringTemplate.editTemplate);
-			// Log.debug(str);
 			ExpressionNode ve = (ExpressionNode) parseExpression(str);
 			String combo = left.getOperation() + "," + ve.getOperation();
 
@@ -265,13 +405,17 @@ public class ParserTest {
 			Assert.assertEquals(left.getOperation(), ve.getOperation());
 
 		} catch (ParseException e) {
-			Assert.fail(str);
+			fail(str);
 		}
 	}
 
-	private static ValidExpression parseExpression(String string)
+	private ValidExpression parseExpression(String string)
+			throws ParseException {
+		return parseExpression(app, string);
+	}
+
+	private static ValidExpression parseExpression(App app, String string)
 			throws ParseException {
 		return app.getKernel().getParser().parseGeoGebraExpression(string);
 	}
-
 }

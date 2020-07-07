@@ -23,11 +23,6 @@ public class DefaultUndoManager extends UndoManager {
     }
 
     @Override
-    public void storeUndoInfoAfterPasteOrAdd() {
-		// overridden in subclases
-    }
-
-    @Override
     public void storeUndoInfo(StringBuilder currentUndoXML, boolean refresh) {
         doStoreUndoInfo(currentUndoXML);
         if (refresh) {
@@ -50,10 +45,15 @@ public class DefaultUndoManager extends UndoManager {
      */
     private synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
         AppState appStateToAdd = new StringAppState(undoXML.toString());
-        UndoCommand command = new UndoCommand(appStateToAdd);
+        UndoCommand command = createUndoCommand(appStateToAdd);
         maybeStoreUndoCommand(command);
         pruneStateList();
         app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
+        updateUndoActions();
+    }
+
+    protected UndoCommand createUndoCommand(AppState appState) {
+    	return new UndoCommand(appState);
     }
 
     @Override

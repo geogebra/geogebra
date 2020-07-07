@@ -5,9 +5,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -16,22 +14,14 @@ import org.geogebra.common.util.debug.Log;
  * @author laszlo
  *
  */
-public class GeoVideo extends GeoMedia implements GeoFrame {
+public class GeoVideo extends GeoMedia {
+
+	private static final int VIDEO_WIDTH = 420;
+	private static final int VIDEO_HEIGHT = 345;
+
+	public final static int VIDEO_SIZE_THRESHOLD = 100;
+
 	private static final String WMODE_TRANSPARENT = "&wmode=transparent";
-
-	/**
-	 * Indicates video state
-	 */
-	public enum State {
-		/** Video unselected and shows preview image */
-		NONE,
-
-		/** Video is selected and ready to play (still preview is shown) */
-		READY,
-
-		/** video is playing */
-		PLAYING
-	}
 
 	/**
 	 * Test video URL.
@@ -43,20 +33,16 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	private static final String TIME_PARAM_A = "&t=";
 	private static final String TIME_PARAM_Q = "?t=";
 	private static final String TIME_PARAM_S = "start=";
-	private static final int VIDEO_WIDTH = 420;
-	private static final int VIDEO_HEIGHT = 345;
 	private static final String JAVASCRIPT_API = "enablejsapi=1";
-	private boolean changed = false;
+
 	private String youtubeId = null;
 	private String previewUrl = null;
 	private Integer startTime = null;
 	private MyImage preview;
 	private HitType lastHitType;
-	private State state = State.NONE;
 	private boolean background = true;
-	private double xScale;
-	private double yScale;
-    private Runnable sizeSetCallback;
+
+	private Runnable sizeSetCallback;
 
 	/**
 	 * Constructor.
@@ -82,7 +68,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	 */
 	public GeoVideo(Construction c, String url, MediaFormat format) {
 		super(c, url, format);
-		setSrc(url, false);
 		setLabel("video");
 		setWidth(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1);
 		setHeight(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
@@ -107,7 +92,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		}
 		GeoVideo video = (GeoVideo) geo;
 		setSrc(video.getSrc(), video.getFormat());
-		changed = true;
 	}
 
 	@Override
@@ -117,14 +101,12 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		}
 		constructIds();
 		createPreview();
-		app.getVideoManager().loadGeoVideo(this);
-		changed = true;
 	}
 
 	/**
 	 * Define the identifiers and/or any URLs of the video here.
 	 */
-	protected void constructIds() {
+	private void constructIds() {
 		if (getFormat() == MediaFormat.VIDEO_YOUTUBE) {
 			youtubeId = app.getVideoManager().getYouTubeId(getSrc());
 			previewUrl = YOUTUBE_PREVIEW.replace("%ID%", youtubeId);
@@ -137,49 +119,27 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	/**
 	 * Creates the preview image for the video.
 	 */
-	protected void createPreview() {
+	private void createPreview() {
 		if (getFormat() != MediaFormat.VIDEO_YOUTUBE && getFormat() != MediaFormat.VIDEO_MEBIS) {
 			return;
 		}
-		app.getVideoManager().createPreview(this, new AsyncOperation<MyImage>() {
-
-			@Override
-			public void callback(MyImage obj) {
-				setPreview(obj);
-				setChanged(true);
-				app.getActiveEuclidianView().updateAllDrawablesForView(true);
-			}
-		});
-	}
-
-	/**
-	 * Refresh the video 
-	 */
-	public void refresh() {
-		if (!changed) {
-			return;
-		}
-		changed = true;
-		app.getVideoManager().updatePlayer(this);
-		changed = false;
+		app.getVideoManager().createPreview(this);
 	}
 
 	private void initStartTime() {
 		String url = getSrc();
 
-		int startIdx = url.indexOf(TIME_PARAM_A) != -1
-				? url.indexOf(TIME_PARAM_A)
-				: (url.indexOf(TIME_PARAM_Q) != -1 ? url.indexOf(TIME_PARAM_Q)
-						: (url.indexOf(TIME_PARAM_S) != -1
-								? url.indexOf(TIME_PARAM_S) : -1));
+		int startIdx = url.contains(TIME_PARAM_A) ? url.indexOf(TIME_PARAM_A)
+				: (url.contains(TIME_PARAM_Q) ? url.indexOf(TIME_PARAM_Q)
+				: url.indexOf(TIME_PARAM_S));
 		if (startIdx != -1) {
-			String t = url.indexOf(TIME_PARAM_S) != -1
+			String t = url.contains(TIME_PARAM_S)
 					? url.substring(startIdx + TIME_PARAM_S.length())
 					: url.substring(startIdx + TIME_PARAM_A.length());
 
-			int endIdx = t.indexOf("&") != -1 ? t.indexOf("&")
-					: (t.indexOf("?") != -1 ? t.indexOf("?")
-							: (t.indexOf("\"") != -1 ? t.indexOf("\"") : -1));
+			int endIdx = t.contains("&") ? t.indexOf("&")
+					: (t.contains("?") ? t.indexOf("?")
+					: t.indexOf("\""));
 
 			String time = endIdx == -1 ? t : t.substring(0, endIdx);
 
@@ -196,8 +156,7 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 				startTime += Integer.parseInt(seconds);
 			}
 			if (idxM == -1 && idxS == -1) {
-				String seconds = time;
-				startTime = Integer.parseInt(seconds);
+				startTime = Integer.parseInt(time);
 			}
 		} else {
 			startTime = null;
@@ -205,19 +164,25 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	}
 
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(double width) {
 		super.setWidth(width);
-		setReady();
-		changed = true;
-        runSizeCallbackIfReady();
+		runSizeCallbackIfReady();
 	}
 
 	@Override
-	public void setHeight(int height) {
+	public double getMinWidth() {
+		return VIDEO_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public double getMinHeight() {
+		return VIDEO_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public void setHeight(double height) {
 		super.setHeight(height);
-		setReady();
-		changed = true;
-        runSizeCallbackIfReady();
+		runSizeCallbackIfReady();
 	}
 
 	@Override
@@ -225,30 +190,8 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		return true;
 	}
 
-	@Override
-	public boolean isPlaying() {
-		return state == State.PLAYING;
-	}
-
 	private boolean hasVideoManager() {
 		return app.getVideoManager() != null;
-	}
-
-	/**
-	 *
-	 * @return if any relevant property has changed.
-	 */
-	public boolean hasChanged() {
-		return changed;
-	}
-
-	/**
-	 *
-	 * @param changed
-	 *            to set
-	 */
-	public void setChanged(boolean changed) {
-		this.changed = changed;
 	}
 
 	/**
@@ -294,31 +237,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	}
 
 	@Override
-	public void play() {
-		setBackground(false);
-		state = processState();
-		Log.debug("PLAY state: " + state);
-		changed = true;
-	}
-
-	private State processState() {
-		switch (state) {
-		case NONE:
-			return State.READY;
-		case READY:
-			return State.PLAYING;
-		default:
-			return State.NONE;
-		}
-	}
-
-	@Override
-	public void pause() {
-		state = State.NONE;
-		changed = true;
-	}
-
-	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		sb.append("\t<video src=\"");
@@ -327,10 +245,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 		} else if (getSrc() != null) {
 			sb.append(StringUtil.encodeXML(getSrc()));
 		}
-		sb.append("\" width=\"");
-		sb.append(getWidth());
-		sb.append("\" height=\"");
-		sb.append(getHeight());
 		sb.append("\"");
 		if (getFormat() != null) {
 			sb.append(" type=\"");
@@ -388,30 +302,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 
 	/**
 	 * 
-	 * @return if player is ready to play.
-	 */
-	@Override
-	public boolean isReady() {
-		return state == State.READY;
-	}
-
-	/**
-	 * Sets video playable for next click.
-	 */
-	@Override
-	public void setReady() {
-		state = State.READY;
-	}
-
-	/**
-	 * Resets state to none.
-	 */
-	public void resetState() {
-		state = State.NONE;
-	}
-
-	/**
-	 * 
 	 * @return if video is in background.
 	 */
 	public boolean isBackground() {
@@ -430,24 +320,6 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	}
 
 	/**
-	 * @return if video is online.
-	 */
-	public boolean isOnline() {
-		if (!hasVideoManager()) {
-			return false;
-		}
-		return app.getVideoManager().isOnline(this);
-	}
-
-	@Override
-	public void remove() {
-		if (hasVideoManager()) {
-			app.getVideoManager().removePlayer(this);
-		}
-		super.remove();
-	}
-
-	/**
 	 * @return if video size is set or not.
 	 */
 	public boolean hasSize() {
@@ -455,74 +327,20 @@ public class GeoVideo extends GeoMedia implements GeoFrame {
 	}
 
 	/**
-	 * Zooming in x direction
+	 * Runs callback once after size is set
 	 * 
-	 * @param factor
-	 *            zoom factor;
-	 * 
+	 * @param sizeCallback
+	 *            size callback
 	 */
-	public void zoomX(double factor) {
-		Double width = getWidthAsDouble() * factor;
-		setWidth(width);
-	}
-	
-	/**
-	 * Zooming in y direction
-	 * 
-	 * @param factor
-	 *            zoom factor;
-	 * 
-	 */
-	public void zoomY(double factor) {
-		Double height = getHeightAsDouble() * factor;
-		setHeight(height);
+	public void afterSizeSet(Runnable sizeCallback) {
+		sizeSetCallback = sizeCallback;
+		runSizeCallbackIfReady();
 	}
 
-	@Override
-	public void setAbsoluteScreenLocActive(boolean flag) {
-		super.setAbsoluteScreenLocActive(flag);
-		if (app != null && app.getActiveEuclidianView() != null) {
-			xScale = app.getActiveEuclidianView().getXscale();
-			yScale = app.getActiveEuclidianView().getYscale();
+	private void runSizeCallbackIfReady() {
+		if (sizeSetCallback != null && getWidth() > 0 && getHeight() > 0) {
+			sizeSetCallback.run();
+			sizeSetCallback = null;
 		}
 	}
-
-	/**
-	 * Zoom the video if the video is not pinned, and the scales of the view
-	 * changed.
-	 */
-	public void zoomIfNeeded() {
-		if (xScale == 0) {
-			xScale = app.getActiveEuclidianView().getXscale();
-			yScale = app.getActiveEuclidianView().getYscale();
-			return;
-		}
-		if (!isAbsoluteScreenLocActive()) {
-			if (xScale != app.getActiveEuclidianView().getXscale()) {
-				zoomX(app.getActiveEuclidianView().getXscale() / xScale);
-				xScale = app.getActiveEuclidianView().getXscale();
-			}
-			if (yScale != app.getActiveEuclidianView().getYscale()) {
-				zoomY(app.getActiveEuclidianView().getYscale() / yScale);
-				yScale = app.getActiveEuclidianView().getYscale();
-			}
-		}
-	}
-
-    /**
-     * Runs callback once after size is set
-     *
-     * @param sizeCallback size callback
-     */
-    public void afterSizeSet(Runnable sizeCallback) {
-        sizeSetCallback = sizeCallback;
-        runSizeCallbackIfReady();
-    }
-
-    private void runSizeCallbackIfReady() {
-        if (sizeSetCallback != null && getWidth() > 0 && getHeight() > 0) {
-            sizeSetCallback.run();
-            sizeSetCallback = null;
-        }
-    }
 }

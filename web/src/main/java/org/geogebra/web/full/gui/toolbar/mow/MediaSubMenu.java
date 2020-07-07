@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
@@ -24,8 +25,9 @@ public class MediaSubMenu extends SubMenuPanel {
 	@Override
 	protected void createContentPanel() {
 		super.createContentPanel();
-        boolean isEnabled = app.getVendorSettings().isGraspableMathEnabled();
-        super.createPanelRow(ToolBar.getMOWMediaToolBarDefString(app, isEnabled));
+		boolean isEnabled = app.getVendorSettings().isGraspableMathEnabled();
+		super.createPanelRow(ToolBar.getMOWMediaToolBarDefString(app, isEnabled));
+		makeButtonsAccessible(AccessibilityGroup.NOTES_TOOL_MEDIA);
 	}
 
 	@Override
@@ -55,8 +57,10 @@ public class MediaSubMenu extends SubMenuPanel {
 				|| mode == EuclidianConstants.MODE_AUDIO
 				|| mode == EuclidianConstants.MODE_GRAPHING
 				|| mode == EuclidianConstants.MODE_PDF
-                || mode == EuclidianConstants.MODE_EXTENSION
-                || mode == EuclidianConstants.MODE_GRASPABLE_MATH
-                || mode == EuclidianConstants.MODE_CAS;
+				|| mode == EuclidianConstants.MODE_EXTENSION
+				|| mode == EuclidianConstants.MODE_TABLE
+				|| mode == EuclidianConstants.MODE_EQUATION
+				|| mode == EuclidianConstants.MODE_GRASPABLE_MATH
+				|| mode == EuclidianConstants.MODE_CAS;
 	}
 }

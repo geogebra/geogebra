@@ -21,32 +21,29 @@ public abstract class MathFieldEditorDecoratorBase implements MathFieldEditorDec
         this.style = editor.getStyle();
     }
 
-    /**
-     * Sets background color for the editor
-     *
-     * @param backgroundColor {@link GColor}
-     */
-    protected void setBackgroundColor(GColor backgroundColor) {
-        GColor color = backgroundColor != null
-                ? backgroundColor
-                : GColor.WHITE;
-        String cssColor = toCssColor(color);
-        style.setBackgroundColor(cssColor);
-        mathField.setBackgroundCssColor(cssColor);
-    }
+	/**
+	 * Sets background color for the editor
+	 *
+	 * @param backgroundColor {@link GColor}
+	 */
+	protected void setBackgroundColor(GColor backgroundColor) {
+		GColor color = backgroundColor != null
+				? backgroundColor
+				: GColor.WHITE;
+		String cssColor = StringUtil.toHtmlColor(color);
+		style.setBackgroundColor(cssColor);
+		mathField.setBackgroundCssColor(cssColor);
+	}
 
-    private static String toCssColor(GColor color) {
-        return "#" + StringUtil.toHexString(color);
-    }
-
-    /**
-     * Sets foreground color for the editor
-     *
-     * @param foregroundColor {@link GColor}
-     */
-    protected void setForegroundColor(GColor foregroundColor) {
-        mathField.setForegroundCssColor(toCssColor(foregroundColor));
-    }
+	/**
+	 * Sets foreground color for the editor
+	 *
+	 * @param foregroundColor {@link GColor}
+	 */
+	protected void setForegroundColor(GColor foregroundColor) {
+		mathField
+				.setForegroundCssColor(StringUtil.toHtmlColor(foregroundColor));
+	}
 
     /**
      * Sets the font size of the editor.

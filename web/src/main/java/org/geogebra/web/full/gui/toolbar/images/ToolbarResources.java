@@ -197,9 +197,9 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_zoomout_32();
 
-    ResourcePrototype mode_graspablemath_32();
+	ResourcePrototype mode_graspablemath_32();
 
-    ResourcePrototype mode_cas_32();
+	ResourcePrototype mode_cas_32();
 
 	// 3D
 
@@ -249,6 +249,8 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_orthogonalthreed_32();
 
+	ResourcePrototype mode_surface_of_revolution();
+
 	// Whiteboard
 
 	ResourcePrototype mode_shape_line_32();
@@ -261,7 +263,7 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_shape_rectangle_round_edges_32();
 
-	ResourcePrototype mode_shape_polygon_32();
+	ResourcePrototype mode_shape_pentagon_32();
 
 	ResourcePrototype mode_shape_freeform_32();
 
@@ -287,8 +289,12 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_pdf_32();
 
-	ResourcePrototype mode_extension();
-
 	ResourcePrototype mode_pen();
+
+	ResourcePrototype mode_mask();
+
+	ResourcePrototype mode_equation();
+
+	ResourcePrototype mode_table();
 
 }

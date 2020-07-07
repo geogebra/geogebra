@@ -27,7 +27,6 @@ public class PropertiesDockPanelW extends DockPanelW {
 		);
 		
 		this.app = app;
-		this.setOpenInFrame(true);
 		super.setDialog(true);
 		this.setShowStyleBar(true);
 	}
@@ -39,20 +38,8 @@ public class PropertiesDockPanelW extends DockPanelW {
 	@Override
 	protected Widget loadComponent() {
 		getPropertiesView();
-
-//		if (isOpenInFrame())
-//			view.windowPanel();
-//		else
-//			view.unwindowPanel();
 		return view.getWrappedPanel();
 	}
-
-//	@Override
-//	protected Widget loadStyleBar() {
-//		getPropertiesView();
-//		return ((PropertiesStyleBarW) view.getStyleBar()).getWrappedPanel();
-//	}
-//	
 
 	@Override
 	public void onResize() {
@@ -66,14 +53,6 @@ public class PropertiesDockPanelW extends DockPanelW {
 	@Override
 	public boolean isStyleBarEmpty() {
 		return false;
-	}
-
-	@Override
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-		if (view != null) {
-			view.updateAVvisible(visible);
-		}
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -283,8 +283,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// check if f(a) and f(b) are defined
 		double fa = f.value(lowerLimit);
 		double fb = f.value(upperLimit);
-        if (Double.isInfinite(lowerLimit) || Double.isInfinite(upperLimit) || Double.isNaN(fa)
-                || Double.isInfinite(fa) || Double.isNaN(fb) || Double.isInfinite(fb)) {
+		if (Double.isInfinite(lowerLimit) || Double.isInfinite(upperLimit) || Double.isNaN(fa)
+				|| Double.isInfinite(fa) || Double.isNaN(fb) || Double.isInfinite(fb)) {
 			if (!this.evaluateNumerically && !evaluateOnly()
 					&& !f.includesFreehandOrData()) {
 				computeSpecial();
@@ -340,19 +340,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 		if (f.isFreehandFunction()) {
 			n.setValue(freehandIntegration(f, lowerLimit, upperLimit));
-
-			// AbstractApplication.debug(n.getValue()+" "+sign *
-			// numericIntegration(f,
-			// lowerLimit, upperLimit));
-
 		} else if (f.isDataFunction()) {
-
 			n.setValue(dataIntegration(f, lowerLimit, upperLimit));
-
 		} else {
-
 			// more accurate numeric-integration for polynomials
-
 			Function inFun = f.getFunction();
 
 			// check if it's a polynomial
@@ -365,211 +356,193 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 						- polyIntegral.value(lowerLimit));
 
 			} else {
-
-				// Log.debug("numeric " + lowerLimit + " " + upperLimit + " "
-				// + f.getFunctionExpression().getOperation());
-
-				if (f.getParentAlgorithm() instanceof AlgoDependentFunction
+				AlgoElement algo = f.getParentAlgorithm();
+				if (algo instanceof AlgoDependentFunction
 						|| f.getFunctionExpression().isConditional()) {
-					
-					double upperLimit0 = upperLimit;
-					double lowerLimit0 = lowerLimit;
-					double sign = +1;
-
-					if (upperLimit < lowerLimit) {
-						Log.debug("swapping");
-						upperLimit0 = lowerLimit;
-						lowerLimit0 = upperLimit;
-						sign = -1;
-
-					}
-
-					AlgoElement algo = f.getParentAlgorithm();
 
 					ExpressionNode exp = algo instanceof AlgoDependentFunction
 							? ((AlgoDependentFunction) algo).getExpression()
 							: f.getFunctionExpression();
 
-					// Log.debug("op = " + op);
-
 					if (exp.isConditional()) {
-						ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
-						ArrayList<Bounds> boundsAl = new ArrayList<>();
-
-						boolean complete = Bounds.collectCases(exp,
-								nodesAl, boundsAl, new Bounds(kernel,
-										f.getFunctionVariables()[0]),
-								true);
-
-						int size = complete ? (nodesAl.size() - 1)
-								: nodesAl.size();
-
-						double sum = 0;
-
-						Function fun = null;
-
-						double coveredMin = Double.NaN;
-						double coveredMax = Double.NaN;
-						ExpressionNode node;
-
-						for (int i = 0; i < size; i++) {
-							node = nodesAl.get(i);
-							// Log.debug("node op = " + node.getOperation());
-
-							Bounds bound = boundsAl.get(i);
-							if (bound != null) {
-								// Log.debug("bound "
-								// + bound.toLaTeXString(false, "x",
-								// StringTemplate.defaultTemplate)
-								// + " " + bound.getLower() + " "
-								// + bound.getUpper());
-
-								double lower = bound.getLower();
-								double upper = bound.getUpper();
-								if (!bound.isInterval()) {
-									// eg f(x) = If(-2 <= x < 2, x, 2 <= x <= 3,
-									// 4 - x, 3 < x <= 6, 1)
-									Log.debug(
-											"non-linear condition "
-													+ bound);
-									standardIntegral(lowerLimit, upperLimit);
-									return;
-								}
-								if (i == 0) {
-									coveredMin = lower;
-									coveredMax = upper;
-								} else if (lower == coveredMax) {
-									coveredMax = upper;
-								} else if (upper == coveredMin) {
-									coveredMin = lower;
-								} else {
-									// regions are defined in a strange order
-									Log.debug(
-											"regions not sorted, can't use fast method for "
-													+ bound);
-									standardIntegral(lowerLimit, upperLimit);
-									return;
-								}
-
-								if (fun == null) {
-									fun = new Function(node,
-											f.getFunctionVariables()[0]);
-								} else {
-									fun.setExpression(node);
-								}
-
-								if (Double.isInfinite(lower)) {
-
-									if (upper > lowerLimit0) {
-										sum += sign * numericIntegration(fun,
-												lowerLimit0,
-												Math.min(upper, upperLimit0),
-												STANDARD_MULTIPLIER);
-									}
-
-								} else if (Double.isInfinite(upper)) {
-
-									if (lower < upperLimit0) {
-										sum += sign * numericIntegration(fun,
-												Math.max(lower, lowerLimit0),
-												upperLimit0,
-												STANDARD_MULTIPLIER);
-									}
-
-								} else if (upper <= lowerLimit0
-										|| lower >= upperLimit0) {
-
-									// nothing to do
-								} else if (lower >= lowerLimit0
-										&& upper <= upperLimit0) {
-
-									// include all
-									sum += sign * numericIntegration(fun, lower,
-											upper,
-											STANDARD_MULTIPLIER);
-								} else if ((Double.isNaN(lower)
-										|| lower <= lowerLimit0)
-										&& upper <= upperLimit0) {
-
-									sum += sign * numericIntegration(fun,
-											lowerLimit0,
-											upper, STANDARD_MULTIPLIER);
-								} else if ((Double.isNaN(upper)
-										|| upper >= upperLimit0)
-										&& lower >= lowerLimit0) {
-
-									sum += sign * numericIntegration(fun, lower,
-											upperLimit0, STANDARD_MULTIPLIER);
-
-								} else if (lower <= lowerLimit0
-										&& upper >= upperLimit0) {
-
-									sum += sign * numericIntegration(fun,
-											lowerLimit0, upperLimit0,
-											STANDARD_MULTIPLIER);
-
-								} else {
-									Log.error("lower = " + lower);
-									Log.error("lowerLimit0 = " + lowerLimit0);
-									Log.error("upper = " + upper);
-									Log.error("upperLimit0 = " + upperLimit0);
-								}
-
-							}
-
-						}
-
-						if (complete) {
-							// Log.error("TODO " + coveredMin + " " +
-							// coveredMax);
-
-							node = nodesAl.get(size);
-
-							if (fun == null) {
-								fun = new Function(node,
-										f.getFunctionVariables()[0]);
-							} else {
-								fun.setExpression(node);
-							}
-
-							if (upperLimit0 <= coveredMin
-									|| lowerLimit0 >= coveredMax) {
-								// all outside what's been covered already
-								sum += sign * numericIntegration(fun,
-										lowerLimit0, upperLimit0,
-										STANDARD_MULTIPLIER);
-							} else if (lowerLimit0 >= coveredMin
-									&& upperLimit0 <= coveredMax) {
-								// nothing to do
-							} else if (lowerLimit0 <= coveredMin
-									&& upperLimit0 <= coveredMax) {
-								sum += sign
-										* numericIntegration(fun, lowerLimit0,
-										coveredMin, STANDARD_MULTIPLIER);
-							} else if (lowerLimit0 >= coveredMin
-									&& upperLimit0 >= coveredMax) {
-								sum += sign * numericIntegration(fun,
-										coveredMax, upperLimit0,
-										STANDARD_MULTIPLIER);
-							} else {
-								Log.error("problem");
-							}
-						}
-
-						Log.debug("GGB-2318 using fast/accurate method with "
-								+ nodesAl.size() + " " + boundsAl.size()
-								+ " intervals");
-
-						n.setValue(sum);
+						computeConditional(exp, lowerLimit, upperLimit);
 						return;
-
 					}
-
 				}
 
 				standardIntegral(lowerLimit, upperLimit);
 			}
 		}
+	}
+
+	private void computeConditional(ExpressionNode exp, double lowerLimit, double upperLimit) {
+		double upperLimit0 = upperLimit;
+		double lowerLimit0 = lowerLimit;
+		double sign = +1;
+
+		if (upperLimit < lowerLimit) {
+			upperLimit0 = lowerLimit;
+			lowerLimit0 = upperLimit;
+			sign = -1;
+
+		}
+		ArrayList<ExpressionNode> nodesAl = new ArrayList<>();
+		ArrayList<Bounds> boundsAl = new ArrayList<>();
+
+		boolean complete = Bounds.collectCases(exp,
+				nodesAl, boundsAl, new Bounds(kernel,
+						f.getFunctionVariables()[0]),
+				true);
+
+		int size = complete ? (nodesAl.size() - 1)
+				: nodesAl.size();
+
+		double sum = 0;
+
+		Function fun = null;
+
+		double coveredMin = Double.NaN;
+		double coveredMax = Double.NaN;
+		ExpressionNode node;
+
+		for (int i = 0; i < size; i++) {
+			node = nodesAl.get(i);
+
+			Bounds bound = boundsAl.get(i);
+			if (bound != null) {
+				double lower = bound.getLower();
+				double upper = bound.getUpper();
+				if (!bound.isInterval()) {
+					// eg f(x) = If(-2 <= x < 2, x, 2 <= x <= 3,
+					// 4 - x, 3 < x <= 6, 1)
+					Log.debug(
+							"non-linear condition "
+									+ bound);
+					standardIntegral(lowerLimit, upperLimit);
+					return;
+				}
+				if (i == 0) {
+					coveredMin = lower;
+					coveredMax = upper;
+				} else if (lower == coveredMax) {
+					coveredMax = upper;
+				} else if (upper == coveredMin) {
+					coveredMin = lower;
+				} else {
+					// regions are defined in a strange order
+					Log.debug(
+							"regions not sorted, can't use fast method for "
+									+ bound);
+					standardIntegral(lowerLimit, upperLimit);
+					return;
+				}
+
+				if (fun == null) {
+					fun = new Function(node,
+							f.getFunctionVariables()[0]);
+				} else {
+					fun.setExpression(node);
+				}
+
+				if (Double.isInfinite(lower)) {
+
+					if (upper > lowerLimit0) {
+						sum += sign * numericIntegration(fun,
+								lowerLimit0,
+								Math.min(upper, upperLimit0),
+								STANDARD_MULTIPLIER);
+					}
+
+				} else if (Double.isInfinite(upper)) {
+
+					if (lower < upperLimit0) {
+						sum += sign * numericIntegration(fun,
+								Math.max(lower, lowerLimit0),
+								upperLimit0,
+								STANDARD_MULTIPLIER);
+					}
+
+				} else if (upper <= lowerLimit0
+						|| lower >= upperLimit0) {
+
+					// nothing to do
+				} else if (lower >= lowerLimit0
+						&& upper <= upperLimit0) {
+
+					// include all
+					sum += sign * numericIntegration(fun, lower,
+							upper,
+							STANDARD_MULTIPLIER);
+				} else if ((Double.isNaN(lower)
+						|| lower <= lowerLimit0)
+						&& upper <= upperLimit0) {
+
+					sum += sign * numericIntegration(fun,
+							lowerLimit0,
+							upper, STANDARD_MULTIPLIER);
+				} else if ((Double.isNaN(upper)
+						|| upper >= upperLimit0)
+						&& lower >= lowerLimit0) {
+
+					sum += sign * numericIntegration(fun, lower,
+							upperLimit0, STANDARD_MULTIPLIER);
+
+				} else if (lower <= lowerLimit0
+						&& upper >= upperLimit0) {
+
+					sum += sign * numericIntegration(fun,
+							lowerLimit0, upperLimit0,
+							STANDARD_MULTIPLIER);
+
+				} else {
+					Log.error("lower = " + lower);
+					Log.error("lowerLimit0 = " + lowerLimit0);
+					Log.error("upper = " + upper);
+					Log.error("upperLimit0 = " + upperLimit0);
+				}
+
+			}
+
+		}
+
+		if (complete) {
+			// Log.error("TODO " + coveredMin + " " +
+			// coveredMax);
+
+			node = nodesAl.get(size);
+
+			if (fun == null) {
+				fun = new Function(node,
+						f.getFunctionVariables()[0]);
+			} else {
+				fun.setExpression(node);
+			}
+
+			if (upperLimit0 <= coveredMin
+					|| lowerLimit0 >= coveredMax) {
+				// all outside what's been covered already
+				sum += sign * numericIntegration(fun,
+						lowerLimit0, upperLimit0,
+						STANDARD_MULTIPLIER);
+			} else if (lowerLimit0 >= coveredMin
+					&& upperLimit0 <= coveredMax) {
+				// nothing to do
+			} else if (lowerLimit0 <= coveredMin
+					&& upperLimit0 <= coveredMax) {
+				sum += sign
+						* numericIntegration(fun, lowerLimit0,
+						coveredMin, STANDARD_MULTIPLIER);
+			} else if (lowerLimit0 >= coveredMin
+					&& upperLimit0 >= coveredMax) {
+				sum += sign * numericIntegration(fun,
+						coveredMax, upperLimit0,
+						STANDARD_MULTIPLIER);
+			} else {
+				Log.error("GGB-2318 problem computing integral");
+			}
+		}
+
+		n.setValue(sum);
 	}
 
 	private void standardIntegral(double lowerLimit, double upperLimit) {

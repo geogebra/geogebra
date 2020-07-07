@@ -1,7 +1,6 @@
 package org.geogebra.common.gui;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 
 /**
  * Accessibility manager for app with no UI (simple applets)
@@ -10,12 +9,12 @@ public final class AccessibilityManagerNoGui
 		implements AccessibilityManagerInterface {
 
 	@Override
-	public void focusNext(AccessibilityGroup group, int viewID) {
+	public void focusNext() {
 		// only tab geos
 	}
 
 	@Override
-	public void focusPrevious(AccessibilityGroup group, int viewID) {
+	public void focusPrevious() {
 		// only tab geos
 	}
 
@@ -30,33 +29,17 @@ public final class AccessibilityManagerNoGui
 	}
 
 	@Override
-	public boolean isTabOverGeos() {
-		return true;
-	}
-
-	@Override
-	public boolean isCurrentTabExitGeos(boolean isShiftDown) {
-		return false;
-	}
-
-	@Override
-	public void setTabOverGeos(boolean b) {
-		// always true anyway
-	}
-
-	@Override
 	public void focusGeo(GeoElement geo) {
 		// only called from AV
 	}
 
 	@Override
-	public void setAnchor(Object anchor) {
+	public void setAnchor(MayHaveFocus anchor) {
 		// not needed
 	}
 
 	@Override
-	public Object getAnchor() {
-		// TODO Auto-generated method stub
+	public MayHaveFocus getAnchor() {
 		return null;
 	}
 
@@ -73,56 +56,15 @@ public final class AccessibilityManagerNoGui
 	@Override
 	public void focusAnchorOrMenu() {
 		// not needed
-
 	}
 
 	@Override
-	public boolean handleTabExitGeos(boolean forward) {
-		return false;
+	public void register(MayHaveFocus focusable) {
+		// nothing to do
 	}
 
 	@Override
-	public boolean tabEuclidianControl(boolean forward) {
-		return false;
-	}
-
-	@Override
-	public void setPlaySelectedIfVisible(boolean b, int viewID) {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @param app
-	 *            app
-	 * @return single selected geo
-	 */
-	public static GeoElement getSelectedGeo(App app) {
-		return app.getSelectionManager().getSelectedGeos().size() == 1
-				? app.getSelectionManager().getSelectedGeos().get(0) : null;
-	}
-
-	@Override
-    public void sliderChange(double step, SliderInput input) {
-		// no slider
-	}
-
-	@Override
-	public boolean onSelectFirstGeo(boolean forward) {
-		return false;
-	}
-
-	@Override
-	public boolean onSelectLastGeo(boolean forward) {
-		return false;
-	}
-
-	@Override
-	public void onEmptyConstuction(boolean forward) {
+	public void setTabOverGeos() {
 		// not used
 	}
-
-    @Override
-    public String getAction(GeoElement geo) {
-        return "";
-    }
 }

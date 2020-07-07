@@ -887,10 +887,6 @@ public enum Commands implements CommandsConstants,
 
 	SetPerspective(TABLE_SCRIPTING),
 
-	StartLogging(TABLE_SCRIPTING),
-
-	StopLogging(TABLE_SCRIPTING),
-
 	StartRecord(TABLE_SCRIPTING),
 
 	Repeat(TABLE_SCRIPTING),
@@ -1201,6 +1197,8 @@ public enum Commands implements CommandsConstants,
 	TrigCombine(TABLE_FUNCTION),
 
 	nPr(TABLE_ENGLISH),
+
+	CASLoaded(TABLE_GEOGEBRA),
 
 	ShowSteps(TABLE_ALGEBRA);
 

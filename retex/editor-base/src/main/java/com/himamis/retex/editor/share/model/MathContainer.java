@@ -69,7 +69,7 @@ abstract public class MathContainer extends MathComponent {
 	 */
 	protected boolean checkKorean(int i, MathComponent comp) {
 
-        if (comp != null && i > 0 && arguments.size() > 0 && i - 1 < arguments.size()) {
+		if (comp != null && i > 0 && arguments.size() > 0 && i - 1 < arguments.size()) {
 
 			MathComponent compLast = arguments.get(i - 1);
 			if (!(compLast instanceof MathCharacter)) {
@@ -96,7 +96,7 @@ abstract public class MathContainer extends MathComponent {
 			// check if "previous" char needs changing
 			if (ret[0] != lastChar) {
 				MetaCharacter metaChar = new MetaCharacter(ret[0] + "",
-						ret[0] + "", ret[0], ret[0], MetaCharacter.CHARACTER);
+						ret[0] + "", ret[0], MetaCharacter.CHARACTER);
 
 				MathCharacter mathChar = (MathCharacter) compLast;
 				mathChar.setChar(metaChar);
@@ -117,7 +117,7 @@ abstract public class MathContainer extends MathComponent {
 
 			MathCharacter mathChar = (MathCharacter) comp;
 			mathChar.setChar(new MetaCharacter(newNewChar + "", newNewChar + "",
-					newNewChar, newNewChar, MetaCharacter.CHARACTER));
+					newNewChar, MetaCharacter.CHARACTER));
 
 			// make sure comp is still inserted
 			return false;
@@ -197,9 +197,9 @@ abstract public class MathContainer extends MathComponent {
 			arguments = new ArrayList<>(i + 1);
 		}
 
-        if (i >= arguments.size()) {
-            return;
-        }
+		if (i >= arguments.size()) {
+			return;
+		}
 
 		if (arguments.get(i) != null) {
 			arguments.get(i).setParent(null);

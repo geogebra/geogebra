@@ -52,35 +52,24 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction
 	}
 
 	@Override
-	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()) {
-			if (b.getDouble() < 0) {
-				num.setUndefined();
-			} else {
-				num.setValue(randomNormal(a.getDouble(), b.getDouble()));
-			}
-		} else {
-			num.setUndefined();
+	protected double computeValue(double aVal, double bVal) {
+		if (bVal < 0) {
+			return Double.NaN;
 		}
+		return randomNormal(aVal, bVal);
 	}
 
 	private double randomNormal(double mean, double sd) {
 		double fac, rsq, v1, v2;
 		do {
+			// two random numbers from -1 to +1
 			v1 = 2.0 * kernel.getApplication().getRandomNumber() - 1;
-			v2 = 2.0 * kernel.getApplication().getRandomNumber() - 1; // two
-																		// random
-																		// numbers
-																		// from
-																		// -1 to
-																		// +1
+			v2 = 2.0 * kernel.getApplication().getRandomNumber() - 1;
 			rsq = v1 * v1 + v2 * v2;
 		} while (rsq >= 1.0 || rsq == 0.0); // keep going until they are in the
 											// unit circle
 		fac = Math.sqrt(-2.0 * Math.log(rsq) / rsq);
-		// Application.debug("randomNormal="+(v1*fac));
 		return v1 * fac * sd + mean;
-
 	}
 
 	@Override

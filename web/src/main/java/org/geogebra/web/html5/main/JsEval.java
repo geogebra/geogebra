@@ -24,58 +24,29 @@ public class JsEval {
 		}
 	}-*/;
 
-	public static native void callNativeJavaScript(String funcname) /*-{
+	public static native void callNativeJavaScript(String funcname, String... args) /*-{
 		if ($wnd[funcname]) {
-			$wnd[funcname]();
+			$wnd[funcname].apply(null, args);
 		}
 	}-*/;
 
-    public static native void callNativeJavaScript(String funcname,
-                                                   JavaScriptObject arg) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname](arg);
+	public static native void callNativeJavaScript(JavaScriptObject funcObject,
+			String... args) /*-{
+		if (typeof funcObject === "function") {
+			funcObject.apply(null, args);
 		}
 	}-*/;
 
-	public static native void callNativeJavaScript(String funcname,
-			String arg) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname](arg);
-		}
-	}-*/;
-
-	public static native void callNativeJavaScriptMultiArg(String funcname,
-			JavaScriptObject arg) /*-{
+	public static native void callNativeJavaScript(String funcname, JavaScriptObject arg) /*-{
 		if ($wnd[funcname]) {
 			$wnd[funcname](arg);
 		}
 	}-*/;
 
-    public static native void callNativeJavaScript(String funcname,
-                                                   String arg0, String arg1) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname](arg0, arg1);
-		}
-	}-*/;
-
-    public static native void callNativeJavaScript(JavaScriptObject funcObject,
-                                                   JavaScriptObject param) /*-{
+	public static native void callNativeJavaScript(JavaScriptObject funcObject,
+			JavaScriptObject param) /*-{
 		if (typeof funcObject === "function") {
 			funcObject(param);
-		}
-	}-*/;
-
-    public static native void callNativeJavaScript(JavaScriptObject funcObject,
-                                                   String arg) /*-{
-		if (typeof funcObject === "function") {
-			funcObject(arg);
-		}
-	}-*/;
-
-    public static native void callNativeJavaScript(JavaScriptObject funcObject,
-                                                   String arg0, String arg1) /*-{
-		if (typeof funcObject === "function") {
-			funcObject(arg0, arg1);
 		}
 	}-*/;
 }

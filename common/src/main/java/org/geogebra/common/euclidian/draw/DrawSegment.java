@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -24,20 +24,21 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Previewable;
+import org.geogebra.common.euclidian.SegmentBoundingBox;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
@@ -47,8 +48,7 @@ import org.geogebra.common.util.MyMath;
  */
 public class DrawSegment extends SetDrawable implements Previewable {
 
-	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
-			AwtFactory.getPrototype().newPoint2D() };
+	private GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 
 	private GeoLineND s;
 
@@ -63,8 +63,8 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	// For drawing ticks
 	private GLine2D[] decoTicks;
 
-	private BoundingBox boundingBox;
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private SegmentBoundingBox boundingBox;
+	private GPoint2D endPoint = new GPoint2D();
 
 	/**
 	 * Creates new DrawSegment
@@ -125,19 +125,8 @@ public class DrawSegment extends SetDrawable implements Previewable {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
 				// for segment only two handler
-				boundingBox.getHandlers().get(0).setFrameFromCenter(
-						line.getX1(), line.getY1(), line.getX1() + 5,
-						line.getY1() + 5);
-				boundingBox.getHandlers().get(1).setFrameFromCenter(
-						line.getX2(), line.getY2(), line.getX2() + 5,
-						line.getY2() + 5);
-				// handler for rotation
-				// boundingBox.getHandlers().get(2).setFrameFromCenter(
-				// (getBounds().getMinX() + getBounds().getMaxX()) / 2,
-				// getBounds().getMaxY() + 15,
-				// (getBounds().getMinX() + getBounds().getMaxX()) / 2 + 3,
-				// getBounds().getMaxY() + 15 + 3);
-
+				boundingBox.setHandlerFromCenter(0, line.getX1(), line.getY1());
+				boundingBox.setHandlerFromCenter(1, line.getX2(), line.getY2());
 			} else {
 				getBoundingBox().setRectangle(null);
 			}
@@ -421,7 +410,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		}
 
 		if (isVisible) {
-            if (isHighlighted()) {
+			if (isHighlighted()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(line);
@@ -568,10 +557,7 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	final public boolean hit(int x, int y, int hitThreshold) {
 		return (line != null && isVisible
 				&& line.intersects(x - hitThreshold, y - hitThreshold,
-						2 * hitThreshold, 2 * hitThreshold))
-				|| (getBoundingBox() != null
-						&& getBoundingBox() == view.getBoundingBox()
-						&& getBoundingBox().hit(x, y, hitThreshold));
+						2 * hitThreshold, 2 * hitThreshold));
 	}
 
 	@Override
@@ -614,12 +600,12 @@ public class DrawSegment extends SetDrawable implements Previewable {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
+	public SegmentBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-            boundingBox = createBoundingBox(false, true);
-			boundingBox.setNrHandlers(2);
+			boundingBox = new SegmentBoundingBox();
+			boundingBox.setColor(view.getApplication().getPrimaryColor());
 		}
-        boundingBox.updateFrom(geo);
+		boundingBox.updateFrom(geo);
 		return boundingBox;
 	}
 
@@ -644,11 +630,32 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		double realX = view.toRealWorldCoordX(snap.getX());
 		double realY = view.toRealWorldCoordY(snap.getY());
 		updated.setCoords(realX, realY, 1);
-
-		s.update();
-		s.updateRepaint();
 		s.getParentAlgorithm().update();
-		update();
+		s.updateRepaint();
+	}
+
+	@Override
+	public void fromPoints(ArrayList<GPoint2D> pts) {
+		s.getStartPoint().setCoords(view.toRealWorldCoordX(pts.get(0).getX()),
+				view.toRealWorldCoordY(pts.get(0).getY()), 1);
+		s.getEndPoint().setCoords(view.toRealWorldCoordX(pts.get(1).getX()),
+				view.toRealWorldCoordY(pts.get(1).getY()), 1);
+		s.getParentAlgorithm().update();
+		s.updateRepaint();
+	}
+
+	@Override
+	public ArrayList<GPoint2D> toPoints() {
+		ArrayList<GPoint2D> ret = new ArrayList<>();
+		addPoint(s.getStartPoint(), ret);
+		addPoint(s.getEndPoint(), ret);
+		return ret;
+	}
+
+	private void addPoint(GeoPointND point, ArrayList<GPoint2D> ret) {
+		point.updateCoords2D();
+		ret.add(new MyPoint(view.toScreenCoordXd(point.getX2D()),
+				view.toScreenCoordYd(point.getY2D())));
 	}
 
 }

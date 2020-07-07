@@ -1,13 +1,16 @@
 package org.geogebra.desktop.move.ggtapi.models;
 
+import javax.swing.SwingUtilities;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.move.events.GenericEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.desktop.move.ggtapi.views.BaseSwingEventView;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.desktop.util.URLEncoderD;
 
 /**
@@ -30,7 +33,6 @@ public class LoginOperationD extends LogInOperation {
 	public LoginOperationD(App app) {
 		super();
 		this.app = app;
-		setView(new BaseSwingEventView());
 		setModel(new AuthenticationModelD());
 	}
 
@@ -66,6 +68,18 @@ public class LoginOperationD extends LogInOperation {
 		URLEncoderD enc = new URLEncoderD();
 		return enc.encode("GeoGebra Desktop Application V"
 				+ GeoGebraConstants.VERSION_STRING);
+	}
+
+	@Override
+	public void dispatchEvent(final GenericEvent<EventRenderable> event) {
+
+		// call the gui event on the Event dispatch thread.
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				LoginOperationD.super.dispatchEvent(event);
+			}
+		});
 	}
 
 	/**

@@ -97,8 +97,6 @@ public interface GuiManagerInterface {
 
 	boolean hasSpreadsheetView();
 
-	boolean hasDataCollectionView();
-
 	void attachSpreadsheetView();
 
 	void setShowView(boolean b, int viewID);
@@ -128,8 +126,6 @@ public interface GuiManagerInterface {
 	TableValuesPoints getTableValuesPoints();
 
 	boolean hasProbabilityCalculator();
-
-	void getDataCollectionViewXML(StringBuilder sb, boolean asPreference);
 
 	void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
 
@@ -162,11 +158,6 @@ public interface GuiManagerInterface {
 	void mouseReleasedForPropertiesView(boolean creatorMode);
 
 	boolean save();
-
-	/**
-	 * tells the properties view to show slider tab
-	 */
-	void showPropertiesViewSliderTab();
 
 	boolean loadURL(String urlString);
 
@@ -285,10 +276,6 @@ public interface GuiManagerInterface {
 
 	void updateFrameSize();
 
-	void clearInputbar();
-
-	Object createFrame();
-
 	/**
 	 * 
 	 * @return id of view which is setting the active toolbar
@@ -369,10 +356,13 @@ public interface GuiManagerInterface {
 
 	String getHelpURL(Help type, String pageName);
 
+	String getReportBugUrl();
+
+	String getLicenseUrl();
+
 	void buildStepGui(SolutionStep steps);
 
 	void openMenuInAVFor(GeoElement geo);
 
 	void getViewsXML(StringBuilder sb, boolean asPreference);
-
 }

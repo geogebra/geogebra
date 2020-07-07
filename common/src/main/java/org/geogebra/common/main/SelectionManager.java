@@ -1,13 +1,13 @@
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
@@ -19,10 +19,12 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys;
@@ -85,6 +87,7 @@ public class SelectionManager {
 	private boolean geoToggled = false;
 
 	private ArrayList<GeoElement> tempMoveGeoList;
+	private GeoElement focusedGroupElement;
 
 	/**
 	 * @param kernel
@@ -167,11 +170,12 @@ public class SelectionManager {
 	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
 		int size = selectedGeos.size();
 		if (size > 0) {
+			focusedGroupElement = null;
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = selectedGeos.get(i);
 				boolean oldSelected = geo.isSelected();
 				geo.setSelected(false);
-				if (geo.getKernel().getApplication()
+				if (kernel.getApplication()
 						.isUnbundledOrWhiteboard()
 						&& oldSelected) {
 
@@ -191,7 +195,6 @@ public class SelectionManager {
 			kernel.getApplication().getEventDispatcher()
 					.dispatchEvent(EventType.DESELECT, null);
 		}
-
 	}
 
 	private void notifyListeners(GeoElement geo) {
@@ -200,7 +203,6 @@ public class SelectionManager {
 				sl.geoElementSelected(geo, false);
 			}
 		}
-
 	}
 
 	/**
@@ -229,7 +231,6 @@ public class SelectionManager {
 			if (repaint) {
 				kernel.notifyRepaint();
 			}
-
 		}
 	}
 
@@ -252,7 +253,6 @@ public class SelectionManager {
 		selectedGeos.clear();
 		updateSelection();
 		kernel.notifyRepaint();
-
 	}
 
 	/**
@@ -297,13 +297,11 @@ public class SelectionManager {
 				sl.geoElementSelected(geo, true);
 			}
 		}
-
 	}
 
 	private void dispatchSelected(GeoElement geo) {
 		kernel.getApplication().getEventDispatcher()
 				.dispatchEvent(EventType.SELECT, geo);
-
 	}
 
 	private void setGeoToggled(boolean flag) {
@@ -672,72 +670,72 @@ public class SelectionManager {
 	/**
 	 * Selects next geo in a particular order.
 	 *
-	 * @param ev
-	 *            The Euclidian View that has the geos to select.
-	 *
 	 * @return if select was successful or not.
 	 */
-	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev) {
+	final public boolean selectNextGeo() {
 		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
-
-		if (tree.isEmpty()) {
-			getAccessibilityManager().onEmptyConstuction(true);
-			return true;
+		if (tree.size() == 0) {
+			return false;
 		}
 
 		int selectionSize = selectedGeos.size();
 
 		if (selectionSize == 0) {
 			addSelectedGeoForEV(tree.first());
-			return false;
+			return true;
 		}
 
-		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
+		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
+
 		GeoElement next = tree.higher(lastSelected);
 
-		removeAllSelectedGeos();
+		clearSelectedGeos();
 
 		if (next != null) {
 			addSelectedGeoForEV(next);
-		} else if (!getAccessibilityManager().onSelectLastGeo(true)) {
-			addSelectedGeoForEV(tree.first());
+			return true;
 		}
 
-		return true;
+		return false;
+	}
+
+	private GeoElement getGroupLead(GeoElement geo) {
+		Group group = geo.getParentGroup();
+		if (group == null) {
+			return geo;
+		}
+
+		return group.getLead();
 	}
 
 	/**
 	 * Selects last geo in a particular order.
 	 *
-	 * @param ev
-	 *            The Euclidian View that has the geos to select.
+	 * @return whether selection was successful
 	 */
-	final public void selectLastGeo(EuclidianViewInterfaceCommon ev) {
+	final public boolean selectLastGeo() {
 		boolean forceLast = false;
-		if (selectedGeos.size() != 1) {
-			if (!getAccessibilityManager().handleTabExitGeos(false)) {
-				return;
-
-			}
+		if (selectedGeos.size() != 1 && !selectedGeos.get(0).hasGroup()) {
 			forceLast = true;
 		}
 		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
 
 		int selectionSize = selectedGeos.size();
-		GeoElement last = tree.last();
+		GeoElement last = getGroupLead(tree.last());
 		if (forceLast) {
 			addSelectedGeoForEV(last);
-			return;
+			return true;
 		}
-		GeoElement lastSelected = selectedGeos.get(selectionSize - 1);
+
+		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
 		GeoElement prev = tree.lower(lastSelected);
 		removeAllSelectedGeos();
 
 		if (prev != null) {
 			addSelectedGeoForEV(prev);
-		} else if (!getAccessibilityManager().onSelectFirstGeo(false)) {
-			addSelectedGeoForEV(last);
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -750,58 +748,47 @@ public class SelectionManager {
 		return tree.size() != 0 && tree.last() != geo;
 	}
 
-    /**
-     * Select an element and focus it in graphics view
-     *
-     * @param geo construction element
-     */
-    public void addSelectedGeoForEV(GeoElement geo) {
-        addSelectedGeo(geo);
+	/**
+	 * Select an element and focus it in graphics view
+	 * 
+	 * @param geo
+	 *            construction element
+	 */
+	public void addSelectedGeoForEV(GeoElement geo) {
+		addSelectedGeoWithGroup(geo);
 
-        checkInputBoxAndFocus(geo);
-        App app1 = geo.getKernel().getApplication();
+		checkInputBoxAndFocus(geo);
+		App app1 = kernel.getApplication();
 
-        if (app1.isEuclidianView3Dinited()) {
-            EuclidianView3DInterface view3d = app1.getEuclidianView3D();
-            if (view3d.isShowing()) {
-                view3d.showFocusOn(geo);
-            }
-        }
-    }
+		if (app1.isEuclidianView3Dinited()) {
+			EuclidianView3DInterface view3d = app1.getEuclidianView3D();
+			if (view3d.isShowing()) {
+				view3d.showFocusOn(geo);
+			}
+		}
+	}
 
-    private EuclidianViewInterfaceCommon getViewOf(GeoElement geo) {
-        int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
-                ? geo.getViewSet().get(0)
-                : -1;
-        App app1 = geo.getKernel().getApplication();
-        if (viewID == App.VIEW_EUCLIDIAN2) {
-            return app1.getEuclidianView2(1);
-        } else if (viewID == App.VIEW_EUCLIDIAN3D) {
-            return app1.getEuclidianView3D();
-        }
+	private EuclidianViewInterfaceCommon getViewOf(GeoElement geo) {
+		int viewID = geo.getViewSet() != null && geo.getViewSet().size() > 0
+				? geo.getViewSet().get(0)
+				: -1;
+		App app1 = kernel.getApplication();
+		if (viewID == App.VIEW_EUCLIDIAN2) {
+			return app1.getEuclidianView2(1);
+		} else if (viewID == App.VIEW_EUCLIDIAN3D) {
+			return app1.getEuclidianView3D();
+		}
 
-        return app1.getEuclidianView1();
-    }
+		return app1.getEuclidianView1();
+	}
 
-    private void checkInputBoxAndFocus(GeoElement geo) {
-        EuclidianViewInterfaceCommon view = getViewOf(geo);
-        if (geo instanceof GeoInputBox) {
-            ((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
-        } else {
-            view.requestFocus();
-        }
-    }
-
-    /**
-     * move selection from input box
-     */
-    public void nextFromInputBox() {
-        if (selectedGeos.isEmpty()) {
-            kernel.getApplication()
-                    .getActiveEuclidianView().requestFocus();
-        } else {
-            checkInputBoxAndFocus(selectedGeos.get(0));
-        }
+	private void checkInputBoxAndFocus(GeoElement geo) {
+		EuclidianViewInterfaceCommon view = getViewOf(geo);
+		if (geo instanceof GeoInputBox) {
+			((EuclidianView) view).focusAndShowTextField((GeoInputBox) geo);
+		} else {
+			view.requestFocus();
+		}
 	}
 
 	private void filterGeosForView(TreeSet<GeoElement> tree) {
@@ -818,7 +805,7 @@ public class SelectionManager {
 			boolean remove = false;
 			// selectionAllowed arg only matters for axes; axes are not in
 			// construction
-			if (!geo.isSelectionAllowed(null)) {
+			if (!geo.isSelectionAllowed(null) || !geo.isLead()) {
 				remove = true;
 			} else {
 				boolean visibleInView = (app.showView(App.VIEW_EUCLIDIAN3D)
@@ -836,7 +823,6 @@ public class SelectionManager {
 				tree.remove(geo);
 			}
 		}
-
 	}
 
 	private boolean algebraViewShowing() {
@@ -1153,6 +1139,12 @@ public class SelectionManager {
 	public void storeSelectedGeosNames() {
 		selectedGeosNames.clear();
 		for (GeoElement geo : getSelectedGeos()) {
+			if (geo instanceof GeoLocusStroke) {
+				String labelParent = ((GeoLocusStroke) geo).getSplitParentLabel();
+				if (kernel.lookupLabel(labelParent) == null) {
+					selectedGeosNames.add(labelParent);
+				}
+			}
 			selectedGeosNames.add(geo.getLabelSimple());
 		}
 	}
@@ -1168,7 +1160,11 @@ public class SelectionManager {
 		for (String name : selectedGeosNames) {
 			GeoElement geo = kernel1.lookupLabel(name);
 			if (geo != null) {
-				list.add(geo);
+				if (geo.hasGroup()) {
+					list.addAll(geo.getParentGroup().getGroupedGeos());
+				} else {
+					list.add(geo);
+				}
 			}
 		}
 		setSelectedGeos(list);
@@ -1228,8 +1224,69 @@ public class SelectionManager {
 		}
 	}
 
-	private AccessibilityManagerInterface getAccessibilityManager() {
-		return kernel.getApplication().getAccessibilityManager();
+	/**
+	 * Finds the groups os selected goes
+	 * @return groups of selected geos
+	 */
+	public HashSet<Group> getSelectedGroups() {
+		HashSet<Group> selectedGroups = new HashSet<>();
+		for (GeoElement geo : selectedGeos) {
+			if (geo.hasGroup()) {
+				selectedGroups.add(geo.getParentGroup());
+			}
+		}
+		return selectedGroups;
+	}
+
+	/**
+	 * Adds all the geos of the group, that the given geo belongs.
+	 * If geo has no group, it is added to the selection.
+	 *
+	 * @param geo to add with its group
+	 */
+	public void addSelectedGeoWithGroup(GeoElement geo) {
+		Group group = geo.getParentGroup();
+		if (group == null) {
+			addSelectedGeo(geo, true, true);
+		} else {
+			addSelectedGeos(group.getGroupedGeos(), true);
+		}
+	}
+
+	/**
+	 * Removes or adds given geo and its group if any
+	 * to selection and repaints views
+	 *
+	 * @param geo
+	 *            geo to be added / removed
+	 */
+	final public void toggleSelectedGeoWithGroup(GeoElement geo) {
+		Group group = geo.getParentGroup();
+		if (group == null) {
+			toggleSelectedGeo(geo, true);
+		} else {
+			toggleSelectedGroup(group);
+		}
+	}
+
+	private void toggleSelectedGroup(Group group) {
+		for (GeoElement geo: group.getGroupedGeos()) {
+			toggleSelectedGeo(geo, true);
+		}
+	}
+
+	/**
+	 * @param geo single selection within group
+	 */
+	public void setFocusedGroupElement(GeoElement geo) {
+		this.focusedGroupElement = geo;
+		updateSelection();
+	}
+
+	/**
+	 * @return focused selection within group
+	 */
+	public GeoElement getFocusedGroupElement() {
+		return focusedGroupElement;
 	}
 }
-

@@ -1,13 +1,12 @@
 package org.geogebra.web.full.gui;
 
-import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
@@ -52,15 +51,17 @@ public class ShareControllerW implements ShareController {
 	public void share() {
 		AsyncOperation<Boolean> shareCallback = getShareCallback();
 		// not saved as material yet
-		boolean untitled = app.getActiveMaterial() == null;
-		if (untitled || "P".equals(app.getActiveMaterial().getVisibility())) {
+		Material activeMaterial = app.getActiveMaterial();
+		boolean untitled = activeMaterial == null
+				|| activeMaterial.getType() == Material.MaterialType.ggsTemplate;
+		if (untitled || "P".equals(activeMaterial.getVisibility())) {
 			if (!app.getLoginOperation().isLoggedIn()) {
 				// not saved, not logged in
 				loginForShare();
 			} else {
 				// not saved, logged in
 				if (untitled) {
-					saveUntitledMaterial(shareCallback);
+				    saveUntitledMaterial(shareCallback);
 				} else {
 					autoSaveMaterial(shareCallback);
 				}
@@ -83,11 +84,8 @@ public class ShareControllerW implements ShareController {
 	 * Create material and save online
 	 */
 	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
-		// for mow default visibility: private
-		MaterialVisibility visibility = app.isWhiteboardActive() ? MaterialVisibility.Private
-				: MaterialVisibility.Shared;
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().setDefaultVisibility(visibility)
-				.showIfNeeded(shareCallback, true, anchor);
+		((SaveControllerW) app.getSaveController())
+				.showDialogIfNeeded(shareCallback, true, anchor);
 	}
 
 	private void autoSaveMaterial(AsyncOperation<Boolean> shareCallback) {
@@ -118,16 +116,16 @@ public class ShareControllerW implements ShareController {
 				}
 
 				String sharingKey = "";
-				if (getAppW().getActiveMaterial() != null && getAppW()
-						.getActiveMaterial().getSharingKey() != null) {
-					sharingKey = getAppW().getActiveMaterial().getSharingKey();
+				Material activeMaterial = getAppW().getActiveMaterial();
+				if (activeMaterial != null && activeMaterial.getSharingKey() != null) {
+					sharingKey = activeMaterial.getSharingKey();
 				}
-                if (getAppW().isMebis()) {
-                    shareDialogMow = new ShareDialogMow(getAppW(),
-                            getAppW().getCurrentURL(sharingKey, true),
-                            null);
-                    shareDialogMow.show();
-                } else {
+				if (getAppW().isMebis()) {
+					shareDialogMow = new ShareDialogMow(getAppW(),
+							getAppW().getCurrentURL(sharingKey, true),
+							null);
+					shareDialogMow.show();
+				} else {
 					shareDialog = new ShareLinkDialog(getAppW(),
 							getAppW().getCurrentURL(sharingKey, true),
 							getAnchor());

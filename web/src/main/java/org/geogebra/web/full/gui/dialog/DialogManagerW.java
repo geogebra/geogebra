@@ -33,9 +33,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.export.AnimationExportDialogW;
@@ -43,6 +41,7 @@ import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
+import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
@@ -52,8 +51,6 @@ import org.geogebra.web.full.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.full.main.GDevice;
-import org.geogebra.web.full.move.googledrive.events.GoogleLoginEvent;
-import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GDialogBox;
@@ -70,7 +67,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 public class DialogManagerW extends DialogManager
-		implements EventRenderable, LoadingApplication {
+		implements LoadingApplication {
 
 	private FunctionInspectorW functionInspector;
 	protected SaveDialogI saveDialog = null;
@@ -78,11 +75,12 @@ public class DialogManagerW extends DialogManager
 	protected WebcamInputDialog webcamInputDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
 	private AudioInputDialog audioInputDialog;
+	private TemplateChooser templateChooser;
 	private PDFInputDialog pdfInputDialog;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
 	private InputDialogTableView tableViewDialog = null;
-    private BaseWidgetFactory widgetFactory = new BaseWidgetFactory();
+	private BaseWidgetFactory widgetFactory = new BaseWidgetFactory();
 
 	/**
 	 * @param app
@@ -90,10 +88,6 @@ public class DialogManagerW extends DialogManager
 	 */
 	public DialogManagerW(AppW app) {
 		super(app);
-		if (app.getGoogleDriveOperation() != null) {
-			((GoogleDriveOperationW) app.getGoogleDriveOperation()).getView()
-					.add(this);
-		}
 	}
 
 	@Override
@@ -241,9 +235,7 @@ public class DialogManagerW extends DialogManager
 		}
 		geo.setLabelVisible(true);
 		geo.updateRepaint();
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().clearInputbar();
-		}
+
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		InputDialogW id = new InputDialogW((AppW) app, app.getLocalization()
@@ -314,15 +306,14 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showAudioInputDialog() {
-		this.audioInputDialog = new AudioInputDialog((AppW) app);
+		this.audioInputDialog = new AudioInputDialog((AppWFull) app);
 		audioInputDialog.center();
 		audioInputDialog.show();
 	}
 
 	@Override
 	public void showEmbedDialog() {
-		EmbedInputDialog embedDialog = new EmbedInputDialog((AppW) app,
-				app.getLoginOperation().getGeoGebraTubeAPI().getURLChecker());
+		EmbedInputDialog embedDialog = new EmbedInputDialog((AppWFull) app);
 		embedDialog.center();
 		embedDialog.show();
 	}
@@ -343,7 +334,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showVideoInputDialog() {
-		VideoInputDialog videoInputDialog = new VideoInputDialog((AppW) app);
+		VideoInputDialog videoInputDialog = new VideoInputDialog((AppWFull) app);
 		videoInputDialog.center();
 		videoInputDialog.show();
 	}
@@ -453,9 +444,9 @@ public class DialogManagerW extends DialogManager
 	 */
 	public SaveDialogI getSaveDialog() {
 		if (saveDialog == null) {
-            saveDialog = app.isMebis()
+			saveDialog = app.isMebis()
 					? new SaveDialogMow((AppW) app)
-                    : new SaveDialogW((AppW) app, widgetFactory);
+					: new SaveDialogW((AppW) app, widgetFactory);
 		}
 		// set default saveType
 		saveDialog.setSaveType(
@@ -547,16 +538,6 @@ public class DialogManagerW extends DialogManager
 		((AppW) app).getGuiManager().getOptionPane().showConfirmDialog(
 				text, "", GOptionPane.OK_OPTION,
 				GOptionPane.INFORMATION_MESSAGE, null);
-	}
-
-	@Override
-	public void renderEvent(BaseEvent event) {
-		if (event instanceof GoogleLoginEvent) {
-			if (!((GoogleLoginEvent) event).isSuccessFull()) {
-				Log.debug("Login to Google failed");
-			}
-		}
-
 	}
 
 	/**
@@ -696,7 +677,19 @@ public class DialogManagerW extends DialogManager
 		return new Export3dDialog((AppW) app, view);
 	}
 
-    public void setWidgetFactory(BaseWidgetFactory widgetFactory) {
-        this.widgetFactory = widgetFactory;
-    }
+	public void setWidgetFactory(BaseWidgetFactory widgetFactory) {
+		this.widgetFactory = widgetFactory;
+	}
+
+	@Override
+	public void showTemplateChooser() {
+		templateChooser = new TemplateChooser((AppW) app,
+				((GuiManagerW) ((AppW) app).getGuiManager()).getTemplateController());
+		templateChooser.show();
+	}
+
+	@Override
+	public void closeTemplateChooser() {
+		templateChooser.hide();
+	}
 }

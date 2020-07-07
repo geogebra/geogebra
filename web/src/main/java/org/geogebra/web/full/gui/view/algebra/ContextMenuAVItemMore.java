@@ -5,18 +5,15 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.menubar.MainMenu;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.ClearInputAction;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.DeleteAction;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.ClearInputItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DeleteItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.TestHarness;
-import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -30,9 +27,9 @@ public class ContextMenuAVItemMore implements SetLabels {
 	/** localization */
 	private Localization loc;
 	private AppWFull mApp;
-	private MenuActionCollection<GeoElement> actions;
+	private MenuItemCollection<GeoElement> actions;
 	private GeoElement geo;
-	private ClearInputAction clearInputAction;
+	private ClearInputItem clearInputAction;
 
 	/**
 	 * Creates new context menu
@@ -42,7 +39,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 * @param collection
 	 *            collection of items
 	 */
-	ContextMenuAVItemMore(RadioTreeItem item, MenuActionCollection<GeoElement> collection) {
+	ContextMenuAVItemMore(RadioTreeItem item, MenuItemCollection<GeoElement> collection) {
 		mApp = item.getApplication();
 		loc = mApp.getLocalization();
 		wrappedPopup = new GPopupMenuW(mApp);
@@ -54,7 +51,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 		this.actions = collection;
 		setGeo(item.geo);
 		if (item.isInputTreeItem()) {
-			clearInputAction = new ClearInputAction(item);
+			clearInputAction = new ClearInputItem(item);
 		}
 	}
 
@@ -70,13 +67,13 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void buildGUI() {
 		if (geo == null) {
-			addAction(new DeleteAction());
+			addAction(new DeleteItem());
 			return;
 		}
 
 		wrappedPopup.clearItems();
-		for (MenuAction<GeoElement> action : actions) {
-			if (action.isAvailable(geo)) {
+		for (MenuItem<GeoElement> action : actions) {
+			if (action.getAction().isAvailable(geo)) {
 				addAction(action);
 			}
 		}
@@ -99,46 +96,36 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
-		focusDeferred();
+		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 
-	private void addAction(final MenuAction<GeoElement> menuAction) {
-        LoggerW.debug("menuAction " + menuAction);
-		SVGResource img = mApp.isUnbundled() ? null : menuAction.getImage();
-		String html = MainMenu.getMenuBarHtml(img, menuAction.getTitle(loc));
+	private void addAction(final MenuItem<GeoElement> menuItem) {
+		SVGResource img = mApp.isUnbundled() ? null : menuItem.getImage();
+		String html = MainMenu.getMenuBarHtml(img, menuItem.getTitle(loc));
 		AriaMenuItem mi = new AriaMenuItem(html, true, new Command() {
 
 			@Override
 			public void execute() {
-				select(menuAction);
+				select(menuItem);
 			}
 
 		});
-        TestHarness.setAttr(mi, "menu_" + menuAction.getTitle());
+		TestHarness.setAttr(mi, "menu" + menuItem.getTitle());
 		mi.addStyleName("no-image");
 		wrappedPopup.addItem(mi);
 	}
 
 	/**
-	 * @param menuAction
+	 * @param menuItem
 	 *            action to be executed
 	 */
-	protected void select(final MenuAction<GeoElement> menuAction) {
-		menuAction.execute(geo, mApp);
+	protected void select(final MenuItem<GeoElement> menuItem) {
+		menuItem.getAction().execute(geo, mApp);
 	}
 
 	@Override
 	public void setLabels() {
 		buildGUI();
-	}
-
-	private void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				wrappedPopup.getPopupMenu().getElement().focus();
-			}
-		});
 	}
 
 	/**

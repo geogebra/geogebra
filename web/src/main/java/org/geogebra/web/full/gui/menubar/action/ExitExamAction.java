@@ -2,44 +2,74 @@ package org.geogebra.web.full.gui.menubar.action;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.main.exam.ExamLogBuilder;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.layout.LayoutW;
-import org.geogebra.web.full.gui.view.algebra.MenuAction;
+import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 
 /**
- * Exit exam action
+ * Exits exam mode.
  */
-public class ExitExamAction extends MenuAction<Void> {
-	private static final double PADDING = 24;
-	/** Canvas line height */
+public class ExitExamAction extends DefaultMenuAction<Void> {
+	/**
+	 * Canvas line height
+	 */
 	protected static final int LINE_HEIGHT = 24;
-	private AppW app;
+	private static final double PADDING = 24;
+
+	private AppWFull app;
+
+	@Override
+	public void execute(Void item, AppWFull app) {
+		this.app = app;
+		showExamExitDialog();
+	}
 
 	/**
-	 * @param app
-	 *            application
+	 * Show exit exam dialog
 	 */
-	public ExitExamAction(AppW app) {
-		super("exam_menu_exit", MaterialDesignResources.INSTANCE.signout_black());
-		this.app = app;
+	protected void showExamExitDialog() {
+		Localization loc = app.getLocalization();
+		// set Firefox dom.allow_scripts_to_close_windows in about:config to
+		// true to make this work
+		String[] optionNames = {loc.getMenu("Cancel"), loc.getMenu("Exit")};
+
+		if (app.getConfig().hasExam()) {
+			new ExamExitConfirmDialog(app, new AsyncOperation<String>() {
+				@Override
+				public void callback(String obj) {
+					if ("exit".equals(obj)) {
+						exitAndResetExamOffline();
+					}
+				}
+			}).show();
+		} else {
+			app.getGuiManager().getOptionPane().showOptionDialog(
+					loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
+					loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
+					1, GOptionPane.WARNING_MESSAGE, null, optionNames,
+					new AsyncOperation<String[]>() {
+						@Override
+						public void callback(String[] obj) {
+							if ("1".equals(obj[0])) {
+								exitAndResetExam();
+							}
+						}
+					});
+		}
 	}
 
 	/**
@@ -51,24 +81,24 @@ public class ExitExamAction extends MenuAction<Void> {
 		ExamEnvironment exam = app.getExam();
 		exam.exit();
 		boolean examFile = app.getArticleElement().hasDataParamEnableGraphing();
-		String buttonText = null;
-		AsyncOperation<String[]> handler = null;
-		AsyncOperation<String[]> welcomeHandler = null;
+		String buttonText;
+		AsyncOperation<String[]> handler;
+		AsyncOperation<String[]> welcomeHandler;
 		if (examFile && !app.isUnbundledGraphing()) {
 			handler = new AsyncOperation<String[]>() {
 				@Override
 				public void callback(String[] dialogResult) {
-					getApp().setNewExam();
-					ExamDialog.startExam(null, getApp());
+					app.setNewExam();
+					ExamDialog.startExam(null, app);
 				}
 			};
 			welcomeHandler = new AsyncOperation<String[]>() {
 
 				@Override
 				public void callback(String[] obj) {
-					getApp().getLAF().toggleFullscreen(true);
-					getApp().setNewExam();
-					getApp().examWelcome();
+					app.getLAF().toggleFullscreen(true);
+					app.setNewExam();
+					app.examWelcome();
 				}
 			};
 			buttonText = loc.getMenu("Restart");
@@ -77,7 +107,7 @@ public class ExitExamAction extends MenuAction<Void> {
 			boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();
 			if (!supports3D && supportsCAS) {
 				showFinalLog(loc.getMenu("ExamCAS"), buttonText, handler);
-			} else if (!supports3D && !supportsCAS) {
+			} else if (!supports3D) {
 				if (app.enableGraphing()) {
 					showFinalLog(loc.getMenu("ExamGraphingCalc.long"), buttonText, handler);
 				} else {
@@ -91,42 +121,23 @@ public class ExitExamAction extends MenuAction<Void> {
 			handler = new AsyncOperation<String[]>() {
 				@Override
 				public void callback(String[] dialogResult) {
-					getApp().fileNew();
+					app.fileNew();
 				}
 			};
 			buttonText = loc.getMenu("OK");
 			showFinalLog(loc.getMenu("exam_log_header") + " " + app.getVersionString(),
 					buttonText, handler);
 		}
-		resetAfterExam();
+		app.endExam();
 	}
 
-	private void showFinalLog(String menu, String buttonText, AsyncOperation<String[]> handler) {
-		getApp().fileNew();
+	private void showFinalLog(String menu, String buttonText,
+							  AsyncOperation<String[]> handler) {
+		app.fileNew();
 		HTMLLogBuilder htmlBuilder = new HTMLLogBuilder();
-		getApp().getExam().getLog(app.getLocalization(), getApp().getSettings(), htmlBuilder);
-		getApp().showMessage(htmlBuilder.getHTML(), menu, buttonText, handler);
+		app.getExam().getLog(app.getLocalization(), app.getSettings(), htmlBuilder);
+		app.showMessage(htmlBuilder.getHTML(), menu, buttonText, handler);
 		saveScreenshot(menu);
-	}
-
-	/**
-	 * @return application
-	 */
-	AppW getApp() {
-		return app;
-	}
-
-	private void resetAfterExam() {
-		getApp().setExam(null);
-		getApp().resetViewsEnabled();
-		LayoutW.resetPerspectives(getApp());
-		getApp().getLAF().addWindowClosingHandler(getApp());
-		getApp().fireViewsChangedEvent();
-		getApp().getGuiManager().updateToolbarActions();
-		getApp().getGuiManager()
-				.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, getApp()));
-		getApp().getGuiManager().resetMenu();
-		getApp().setActivePerspective(0);
 	}
 
 	private void saveScreenshot(String menu) {
@@ -175,55 +186,16 @@ public class ExitExamAction extends MenuAction<Void> {
 
 		app.getExam().getLog(app.getLocalization(), app.getSettings(), canvasLogBuilder);
 		Browser.exportImage(canvas.toDataUrl(), "ExamLog.png");
-
 	}
 
 	/**
 	 * Exit exam and restore normal mode
 	 */
-	protected void exitAndResetExamGraphing() {
-		getApp().getLAF().toggleFullscreen(false);
-		saveScreenshot(getApp().getLocalization().getMenu("ExamGraphingCalc.long"));
-		getApp().fileNew();
-		resetAfterExam();
-	}
-
-	/**
-	 * Show exit exam dialog
-	 */
-	protected void showExamExitDialog() {
-		Localization loc = app.getLocalization();
-		// set Firefox dom.allow_scripts_to_close_windows in about:config to
-		// true to make this work
-		String[] optionNames = { loc.getMenu("Cancel"), loc.getMenu("Exit") };
-
-		if (getApp().isUnbundledGraphing()) {
-			new ExamExitConfirmDialog(getApp(), new AsyncOperation<String>() {
-				@Override
-				public void callback(String obj) {
-					if ("exit".equals(obj)) {
-						exitAndResetExamGraphing();
-					}
-				}
-			}).show();
-		} else {
-			getApp().getGuiManager().getOptionPane().showOptionDialog(
-					loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
-					loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
-					1, GOptionPane.WARNING_MESSAGE, null, optionNames,
-					new AsyncOperation<String[]>() {
-						@Override
-						public void callback(String[] obj) {
-							if ("1".equals(obj[0])) {
-								exitAndResetExam();
-							}
-						}
-					});
-		}
-	}
-
-	@Override
-	public void execute(Void geo, AppWFull appx) {
-		showExamExitDialog();
+	protected void exitAndResetExamOffline() {
+		app.getLAF().toggleFullscreen(false);
+		saveScreenshot(app.getLocalization().getMenu((app.getConfig()
+				.getAppName())));
+		app.fileNew();
+		app.endExam();
 	}
 }

@@ -15,24 +15,30 @@ import com.google.j2objc.annotations.Weak;
  */
 public class SimpleTextRenderer implements TextRenderer {
 
-    @Weak
-    private CanvasDrawable drawable;
+	private App app;
 
-    /**
-     * @param drawable drawable
-     */
-    SimpleTextRenderer(CanvasDrawable drawable) {
-        this.drawable = drawable;
-    }
+	@Weak
+	private DrawInputBox drawable;
 
-    @Override
-    public void drawText(App app, GeoInputBox geo, GGraphics2D graphics, GFont font,
-                         String text, double xPos, double yPos, double boxWidth, int lineHeight) {
-        double textBottom = yPos + lineHeight;
-        String truncated = text.substring(0, getTruncIndex(text, graphics, boxWidth));
-        double newXPos = xPos + getTextOffset(truncated, geo, app, (int) boxWidth, graphics);
-        EuclidianStatic.drawIndexedString(app, graphics, truncated, newXPos, textBottom, false);
-    }
+	/**
+	 * @param drawable
+	 *            drawable
+	 */
+	SimpleTextRenderer(App app, DrawInputBox drawable) {
+		this.drawable = drawable;
+		this.app = app;
+	}
+
+	@Override
+	public void drawText(GeoInputBox geo, GGraphics2D graphics,
+						 GFont font, String text,
+						 double xPos, double yPos) {
+		double textBottom = yPos + drawable.getTextBottom();
+		double boxContentWidth = drawable.getContentWidth();
+		String truncated = text.substring(0, getTruncIndex(text, graphics, boxContentWidth));
+		double newXPos = xPos + getTextOffset(truncated, geo, app, (int) boxContentWidth, graphics);
+		EuclidianStatic.drawIndexedString(app, graphics, truncated, newXPos, textBottom, false);
+	}
 
     private static int getTextOffset(String text, GeoInputBox geoInputBox, App app,
                                      int boxWidth, GGraphics2D graphics2D) {
@@ -51,13 +57,18 @@ public class SimpleTextRenderer implements TextRenderer {
                 0, 0, false, false, null, null).x;
     }
 
-    @Override
-    public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
-                                    String labelDescription) {
-        drawable.measureLabel(graphics, geo, labelDescription);
-        return AwtFactory.getPrototype().newRectangle(
-                drawable.boxLeft, drawable.boxTop, drawable.boxWidth, drawable.boxHeight);
-    }
+	@Override
+	public GRectangle measureBounds(GGraphics2D graphics, GeoInputBox geo, GFont font,
+									String labelDescription) {
+		drawable.measureLabel(graphics, geo, labelDescription);
+		int height = Math.max(drawable.boxHeight, DrawInputBox.MIN_HEIGHT);
+
+		double labelHeight = drawable.getHeightForLabel(labelDescription);
+		double inputBoxTop = drawable.getLabelTop() + ((labelHeight - height) / 2);
+
+		return AwtFactory.getPrototype().newRectangle(
+				drawable.boxLeft, (int) Math.round(inputBoxTop), drawable.boxWidth, height);
+	}
 
     private int getTruncIndex(String text, GGraphics2D g2, double boxWidth) {
         int idx = text.length();

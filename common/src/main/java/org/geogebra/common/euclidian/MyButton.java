@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -18,9 +17,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.StringUtil;
-
-//import java.awt.Color;
 
 /**
  * Replaces Swing button in DrawButton
@@ -29,6 +27,8 @@ public class MyButton implements Observer {
 
 	private GeoButton geoButton;
 	private EuclidianView view;
+	private StyleSettings styleSettings;
+
 	private int x;
 	private int y;
 	private boolean selected;
@@ -41,9 +41,8 @@ public class MyButton implements Observer {
 	private boolean draggedOrContext;
 	private double textHeight;
 	private double textWidth;
-	private GBasicStroke borderStroke;
 	private boolean firstCall = true;
-    private final ButtonHighlightArea halo;
+	private final ButtonHighlightArea halo;
 
 	private final static int MARGIN_TOP = 6;
 	private final static int MARGIN_BOTTOM = 5;
@@ -59,11 +58,12 @@ public class MyButton implements Observer {
 	public MyButton(GeoButton button, EuclidianView view) {
 		this.geoButton = button;
 		this.view = view;
+		this.styleSettings = view.getApplication().getSettings().getStyle();
+
 		this.x = 20;
 		this.y = 20;
-		this.borderStroke = EuclidianStatic.getDefaultStroke();
 		geoButton.setObserver(this);
-        halo = new ButtonHighlightArea(this);
+		halo = new ButtonHighlightArea(this);
 	}
 
 	private String getCaption() {
@@ -201,7 +201,7 @@ public class MyButton implements Observer {
 		GColor paint;
 
 		// change background color on mouse click
-        if (pressed && !geoButton.getKernel().getApplication().isExporting()) {
+		if (pressed && !geoButton.getKernel().getApplication().isExporting()) {
 			if (bg.equals(GColor.WHITE)) {
 				paint = GColor.LIGHTEST_GRAY;
 			} else {
@@ -212,34 +212,36 @@ public class MyButton implements Observer {
 		}
 
 		int arcSize = (int) Math.round(Math.min(getWidth(), getHeight())
-				* geoButton.getKernel().getApplication().getButtonRouding());
+				* styleSettings.getButtonRouding());
 
 		int shadowSize = 0;
 
 		// fill background
 
-		if (geoButton.getKernel().getApplication().getButtonShadows()) {
+		if (styleSettings.getButtonShadows()) {
 			shadowSize = (int) (getHeight() * 0.1);
 			g.setPaint(paint.slightlyDarker());
 			g.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
 					getHeight() - 1, arcSize, arcSize);
 		}
 
-        if (isSelected()) {
+		if (isSelected()) {
 			halo.draw(g, widthCorrection, arcSize);
 		}
 
-        g.setPaint(paint);
-		g.setStroke(borderStroke);
+		g.setPaint(paint);
+		g.setStroke(EuclidianStatic.getDefaultStroke());
 		g.fillRoundRect(x, y, getWidth() + (int) widthCorrection - 1,
 				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
-		// color for outer border: default button design
-		if (bg.equals(GColor.WHITE)) {
-			g.setColor(GColor.BLACK);
-			// user adjusted design
+		if (styleSettings.getButtonBorderColor() != null) {
+			g.setColor(styleSettings.getButtonBorderColor());
 		} else {
-			g.setColor(isSelected() ? bg.darker().darker() : bg.darker());
+			if (bg.equals(GColor.WHITE)) {
+				g.setColor(GColor.BLACK);
+			} else {
+				g.setColor(isSelected() ? bg.darker().darker() : bg.darker());
+			}
 		}
 
 		// draw border
@@ -256,10 +258,9 @@ public class MyButton implements Observer {
 			if (im.isSVG()) {
 				drawSVG(im, g);
 			} else {
-
-				im.drawSubimage(startX, startY, imgWidth, imgHeight, g,
+				g.drawImage(im, startX, startY, imgWidth, imgHeight,
 						x + (getWidth() - imgWidth) / 2,
-						y + MARGIN_TOP + imgStart);
+						y + MARGIN_TOP + imgStart, imgWidth, imgHeight);
 			}
 		}
 
@@ -335,11 +336,11 @@ public class MyButton implements Observer {
 		boolean latex = CanvasDrawable.isLatexString(getCaption());
 
 		// Reduces the font for attempts
-		GTextLayout t = null;
 		int i = GeoText.getFontSizeIndex(
 				((TextProperties) geoButton).getFontSizeMultiplier());
-		while (i > 0 && (int) textHeight + imgGap
-				+ (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()) {
+		while (i > 0
+				&& (textHeight + imgGap + (MARGIN_TOP + MARGIN_BOTTOM) > getHeight()
+				|| textWidth + (MARGIN_LEFT + MARGIN_RIGHT) > getWidth())) {
 			i--;
 			font = font.deriveFont(font.getStyle(),
 					(int) (GeoText.getRelativeFontSize(i) * 12));
@@ -349,34 +350,14 @@ public class MyButton implements Observer {
 						getSerif());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
-
 			} else {
-				t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
+				GTextLayout t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
 						g.getFontRenderContext());
 				textHeight = t.getAscent() + t.getDescent();
 				textWidth = t.getAdvance();
 			}
 		}
 
-		while (i > 0 && (int) textWidth
-				+ (MARGIN_LEFT + MARGIN_RIGHT) > getWidth()) {
-			i--;
-			font = font.deriveFont(font.getStyle(),
-					(int) (GeoText.getRelativeFontSize(i) * 12));
-			if (latex) {
-				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font, getCaption(),
-						getSerif());
-				textHeight = d.getHeight();
-				textWidth = d.getWidth();
-
-			} else {
-				t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
-						g.getFontRenderContext());
-				textHeight = t.getAscent() + t.getDescent();
-				textWidth = t.getAdvance();
-			}
-		}
 		double ret = GeoText.getRelativeFontSize(i);
 		paintComponent(g, ret, false);
 	}
@@ -418,8 +399,8 @@ public class MyButton implements Observer {
 	public void setBounds(GRectangle labelRectangle) {
 		x = (int) labelRectangle.getMinX();
 		y = (int) labelRectangle.getMinY();
-		geoButton.setWidth((int) labelRectangle.getWidth());
-		geoButton.setHeight((int) labelRectangle.getHeight());
+		geoButton.setWidth(labelRectangle.getWidth());
+		geoButton.setHeight(labelRectangle.getHeight());
 	}
 
 	/**

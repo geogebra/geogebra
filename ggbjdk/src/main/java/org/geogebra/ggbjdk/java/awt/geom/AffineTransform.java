@@ -29,8 +29,6 @@ import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * The <code>AffineTransform</code> class represents a 2D affine transform
  * that performs a linear mapping from 2D coordinates to other 2D
@@ -830,8 +828,6 @@ public class AffineTransform implements GAffineTransform {
      * they have not been cached.
      * @see #getType
      */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
     private void calculateType() {
         int ret = TYPE_IDENTITY;
         boolean sgn0, sgn1;
@@ -995,8 +991,6 @@ public class AffineTransform implements GAffineTransform {
      * @see #TYPE_UNIFORM_SCALE
      * @since 1.2
      */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
     public double getDeterminant() {
         switch (state) {
         default:
@@ -1602,8 +1596,6 @@ public class AffineTransform implements GAffineTransform {
      * @since 1.2
      */
     @Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void scale(double sx, double sy) {
 		int state1 = this.state;
 		switch (state1) {
@@ -2209,8 +2201,6 @@ public class AffineTransform implements GAffineTransform {
      * @since 1.2
      */
     @Override
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public void concatenate(GAffineTransform Tx0) {
     	
     	AffineTransform Tx = (AffineTransform) Tx0;
@@ -2850,7 +2840,7 @@ public class AffineTransform implements GAffineTransform {
     /**
      * Transforms the specified <code>ptSrc</code> and stores the result
      * in <code>ptDst</code>.
-     * If <code>ptDst</code> is <code>null</code>, a new {@link Point2D}
+     * If <code>ptDst</code> is <code>null</code>, a new {@link GPoint2D}
      * object is allocated and then the result of the transformation is
      * stored in this object.
      * In either case, <code>ptDst</code>, which contains the
@@ -2868,12 +2858,7 @@ public class AffineTransform implements GAffineTransform {
     @Override
 	public GPoint2D transform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {
-            if (ptSrc instanceof Point2D.Double) {
-                ptDst = new Point2D.Double();
-            } else {
-                //ptDst = new Point2D.Float();
-            	throw new RuntimeException("Point2D.Float not available");
-            }
+            ptDst = new GPoint2D();
         }
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();
@@ -2955,12 +2940,7 @@ public class AffineTransform implements GAffineTransform {
             double y = src.getY();
             GPoint2D dst = ptDst[dstOff++];
             if (dst == null) {
-                if (src instanceof Point2D.Double) {
-                    dst = new Point2D.Double();
-                } else {
-                    //dst = new Point2D.Float();
-                	throw new RuntimeException("Point2D.Float not available");
-                }
+                dst = new GPoint2D();
                 ptDst[dstOff - 1] = dst;
             }
             switch (state) {
@@ -3138,13 +3118,7 @@ public class AffineTransform implements GAffineTransform {
         throws NoninvertibleTransformException
     {
         if (ptDst == null) {
-            if (ptSrc instanceof Point2D.Double) {
-                ptDst = new Point2D.Double();
-            } else {
-                //ptDst = new Point2D.Float();
-            	throw new RuntimeException("Point2D.Float not available");
-
-            }
+        	ptDst = new GPoint2D();
         }
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();
@@ -3368,12 +3342,7 @@ public class AffineTransform implements GAffineTransform {
      */
     public GPoint2D deltaTransform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {
-            if (ptSrc instanceof Point2D.Double) {
-                ptDst = new Point2D.Double();
-            } else {
-                //ptDst = new Point2D.Float();
-            	throw new RuntimeException("Point2D.Float not available");
-            }
+            ptDst = new GPoint2D();
         }
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();

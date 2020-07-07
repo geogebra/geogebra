@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Computes RandomBinomial[a, b]
@@ -33,14 +32,14 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 	 *            construction
 	 * @param label
 	 *            output label
-	 * @param a
+	 * @param n
 	 *            number of trials
-	 * @param b
+	 * @param p
 	 *            probability of success
 	 */
-	public AlgoRandomBinomial(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
-		super(cons, label, a, b);
+	public AlgoRandomBinomial(Construction cons, String label, GeoNumberValue n,
+			GeoNumberValue p) {
+		super(cons, label, n, p);
 
 		// output is random number
 		cons.addRandomGeo(num);
@@ -52,33 +51,18 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 	}
 
 	@Override
-	public final void compute() {
-		// int frac[] = {0,0};
-		// int [] frac = DecimalToFraction(b.getDouble(),0.00000001);
-		// Application.debug(frac[0]+" "+frac[1]);
-
-		if (input[0].isDefined() && input[1].isDefined()) {
-			if (b.getDouble() < 0) {
-				num.setUndefined();
-			} else {
-				// disabled randomBinomialTRS() as it doesn't work well
-				// eg when p is near 0.5
-				// http://www.geogebra.org/forum/viewtopic.php?f=8&t=18685
-				// num.setValue(randomBinomialTRS((int)a.getDouble(),
-				// b.getDouble()));
-				num.setValue(
-						randomBinomial((int) a.getDouble(), b.getDouble()));
-			}
-
-		} else {
-			num.setUndefined();
+	public final double computeValue(double aVal, double bVal) {
+		if (bVal < 0) {
+			return Double.NaN;
 		}
+
+		return randomBinomial((int) a.getDouble(), b.getDouble());
 	}
 
 	@Override
 	public boolean setRandomValue(GeoElementND d0) {
-		double d = Math.round(DoubleUtil.checkInteger(d0.evaluateDouble()));
-		num.setValue(Math.max((int) a.getDouble(), Math.min(d, b.getDouble())));
+		double d = Math.round(d0.evaluateDouble());
+		num.setValue(Math.max(0, Math.min(d, a.getDouble())));
 		return true;
 	}
 
@@ -93,61 +77,4 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 
 		return count;
 	}
-
-	// private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);
-
-	// private static double logtable[] = new double[10];
-
-	// private int[] DecimalToFraction(double Decimal, double AccuracyFactor) {
-	// double FractionNumerator, FractionDenominator;
-	// double DecimalSign;
-	// double Z;
-	// double PreviousDenominator;
-	// double ScratchValue;
-	//
-	// int ret[] = {0,0};
-	// if (Decimal < 0.0) DecimalSign = -1.0; else DecimalSign = 1.0;
-	// Decimal = Math.abs(Decimal);
-	// if (Decimal == Math.floor(Decimal)) { // handles exact integers including
-	// 0
-	// FractionNumerator = Decimal * DecimalSign;
-	// FractionDenominator = 1.0;
-	// ret[0] = (int)FractionNumerator;
-	// ret[1] = (int)FractionDenominator;
-	// return ret;
-	// }
-	// if (Decimal < 1.0E-19) { // X = 0 already taken care of
-	// FractionNumerator = DecimalSign;
-	// FractionDenominator = 9999999999999999999.0;
-	// ret[0] = (int)FractionNumerator;
-	// ret[1] = (int)FractionDenominator;
-	// return ret;
-	// }
-	// if (Decimal > 1.0E19) {
-	// FractionNumerator = 9999999999999999999.0*DecimalSign;
-	// FractionDenominator = 1.0;
-	// ret[0] = (int)FractionNumerator;
-	// ret[1] = (int)FractionDenominator;
-	// return ret;
-	// }
-	// Z = Decimal;
-	// PreviousDenominator = 0.0;
-	// FractionDenominator = 1.0;
-	// do {
-	// Z = 1.0/(Z - Math.floor(Z));
-	// ScratchValue = FractionDenominator;
-	// FractionDenominator = FractionDenominator * Math.floor(Z) +
-	// PreviousDenominator;
-	// PreviousDenominator = ScratchValue;
-	// FractionNumerator = Math.floor(Decimal * FractionDenominator + 0.5); //
-	// Rounding Function
-	// } while ( Math.abs((Decimal - (FractionNumerator /FractionDenominator)))
-	// > AccuracyFactor && Z != Math.floor(Z));
-	// FractionNumerator = DecimalSign*FractionNumerator;
-	//
-	// ret[0] = (int)FractionNumerator;
-	// ret[1] = (int)FractionDenominator;
-	// return ret;
-	// }
-
 }

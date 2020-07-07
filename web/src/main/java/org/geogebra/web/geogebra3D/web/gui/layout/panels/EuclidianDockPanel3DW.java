@@ -9,7 +9,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -43,7 +42,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 				'3' // ctrl-shift-3
 		);
 		this.app = (AppW) app;
-		this.setOpenInFrame(true);
 		this.setEmbeddedSize(DEFAULT_WIDTH);
 	}
 
@@ -82,7 +80,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 								.setPopupPosition(
 										(int) getApp().getWidth() - offsetWidth,
 										y);
-						contextMenu.focusDeferred();
+						contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
 					}
 				});
 	}
@@ -126,11 +124,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 			return getResources().settings();
 		}
 		return getResources().styleBar_graphics3dView();
-	}
-
-	@Override
-	public Canvas getCanvas() {
-		return null;
 	}
 
 }

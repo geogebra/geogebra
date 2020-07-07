@@ -3,9 +3,12 @@ package org.geogebra.desktop.gui.util;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Custom toggle button for use in stylebars
@@ -52,7 +55,7 @@ public class MyToggleButtonD extends JButton {
 		this.setPreferredSize(d);
 	}
 
-	public void update(Object[] geos) {
+	public void update(List<GeoElement> geos) {
 		// override
 	}
 

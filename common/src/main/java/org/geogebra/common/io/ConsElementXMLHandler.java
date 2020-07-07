@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -17,6 +18,7 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
@@ -33,11 +35,15 @@ import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVideo;
@@ -45,6 +51,7 @@ import org.geogebra.common.kernel.geos.HasAlignment;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.kernel.geos.RectangleTransformable;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.Auxiliary;
@@ -62,7 +69,6 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -215,28 +221,37 @@ public class ConsElementXMLHandler {
 	private boolean handleDimensions(LinkedHashMap<String, String> attrs) {
 		String width = attrs.get("width");
 		String height = attrs.get("height");
+		String angle = attrs.get("angle");
 		if (width != null && height != null) {
 
-			// workaround for bug where we had "100.0" instead of "100"
 			double widthD = -1;
 			double heightD = -1;
+			double angleD = 0;
 			try {
 				widthD = StringUtil.parseDouble(width);
 				heightD = StringUtil.parseDouble(height);
+				angleD = StringUtil.parseDouble(angle);
 			} catch (Exception e) {
 				Log.warn(e.getMessage());
 			}
 			if (geo.isGeoButton()) {
 				GeoButton button = (GeoButton) geo;
 				if (widthD > 10 && heightD > 10) {
-					button.setWidth((int) widthD);
-					button.setHeight((int) heightD);
+					button.setWidth(widthD);
+					button.setHeight(heightD);
 				}
 				button.setFixedSize(true);
 				return true;
-			} else if (geo instanceof GeoEmbed) {
-				((GeoEmbed) geo).setContentWidth(widthD);
-				((GeoEmbed) geo).setContentHeight(heightD);
+			} else if (geo instanceof RectangleTransformable) {
+				if (angle == null) {
+					// we have an old GeoEmbed
+					((GeoEmbed) geo).setContentWidth(widthD);
+					((GeoEmbed) geo).setContentHeight(heightD);
+				} else {
+					((RectangleTransformable) geo).setWidth(widthD);
+					((RectangleTransformable) geo).setHeight(heightD);
+					((RectangleTransformable) geo).setAngle(angleD);
+				}
 			}
 
 			return true;
@@ -297,6 +312,16 @@ public class ConsElementXMLHandler {
 		}
 	}
 
+	private void handleContentParam(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoInline)) {
+			Log.error("wrong element type for <content>: " + geo.getClass());
+			return;
+		}
+
+		GeoInline inlineText = (GeoInline) geo;
+		inlineText.setContent(attrs.get("val"));
+	}
+
 	private boolean handleValue(LinkedHashMap<String, String> attrs,
 			ArrayList<String> errors) {
 		boolean isBoolean = geo.isGeoBoolean();
@@ -348,6 +373,21 @@ public class ConsElementXMLHandler {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private boolean handleVariables(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoSymbolic)) {
+			return false;
+		}
+		String variableString = attrs.get("val");
+		String[] variables = variableString.split(",");
+		FunctionVariable[] fVars = new FunctionVariable[variables.length];
+		for (int i = 0; i < variables.length; i++) {
+			fVars[i] = new FunctionVariable(xmlHandler.kernel, variables[i]);
+		}
+		GeoSymbolic symbolic = (GeoSymbolic) geo;
+		symbolic.setVariables(fVars);
+		return true;
 	}
 
 	protected void init(LinkedHashMap<String, String> attrs) {
@@ -528,6 +568,15 @@ public class ConsElementXMLHandler {
 	private boolean handleIsShape(LinkedHashMap<String, String> attrs) {
 		try {
 			geo.setIsShape(MyXMLHandler.parseBoolean(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
+	private boolean handleIsMask(LinkedHashMap<String, String> attrs) {
+		try {
+			geo.setIsMask(MyXMLHandler.parseBoolean(attrs.get("val")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1037,16 +1086,47 @@ public class ConsElementXMLHandler {
 	 * So we store all (geo, startpoint expression) pairs and process them at
 	 * the end of the construction.
 	 * 
-	 * @see processStartPointList
+	 * @see #processStartPointList()
 	 */
-	private boolean handleStartPoint(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof Locateable)) {
-			if (geo instanceof GeoButton) {
-				return handleAbsoluteScreenLocation(attrs, false);
+	private void handleStartPoint(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof RectangleTransformable) {
+			double x = 0;
+			double y = 0;
+
+			try {
+				x = Double.parseDouble(attrs.get("x"));
+				y = Double.parseDouble(attrs.get("y"));
+			} catch (NumberFormatException e) {
+				Log.error("Incorrect start point for RectangleTransformable");
 			}
-			Log.error("wrong element type for <startPoint>: " + geo.getClass());
-			return false;
+
+			// old GeoEmbeds are represented by three rw points
+			String number = attrs.get("number");
+			if (geo instanceof GeoEmbed && number != null) {
+				GeoEmbed embed = (GeoEmbed) geo;
+
+				if ("0".equals(number)) {
+					embed.setHeight(y);
+					return;
+				} else if ("1".equals(number)) {
+					embed.setWidth(x);
+					return;
+				} else if ("2".equals(number)) {
+					embed.setRealWidth(embed.getWidth() - x);
+					embed.setRealHeight(y - embed.getHeight());
+				}
+			}
+
+			GPoint2D startPoint = new GPoint2D(x, y);
+			((RectangleTransformable) geo).setLocation(startPoint);
+			return;
 		}
+
+		if (!(geo instanceof Locateable)) {
+			Log.error("wrong element type for <startPoint>: " + geo.getClass());
+			return;
+		}
+
 		Locateable locGeo = (Locateable) geo;
 
 		// relative start point (expression or label expected)
@@ -1071,13 +1151,6 @@ public class ConsElementXMLHandler {
 		} else {
 			// absolute start point (coords expected)
 			try {
-				/*
-				 * double x = StringUtil.parseDouble((String) attrs.get("x"));
-				 * double y = StringUtil.parseDouble((String) attrs.get("y"));
-				 * double z = StringUtil.parseDouble((String) attrs.get("z"));
-				 * GeoPoint p = new GeoPoint(cons); p.setCoords(x, y, z);
-				 */
-
 				GeoPointND p = xmlHandler.handleAbsoluteStartPoint(attrs);
 
 				if (number == 0) {
@@ -1092,11 +1165,9 @@ public class ConsElementXMLHandler {
 					locGeo.setWaitForStartPoint();
 				}
 			} catch (Exception e) {
-				return false;
+				// do nothing
 			}
 		}
-
-		return true;
 	}
 
     private boolean handleLength(LinkedHashMap<String, String> attrs) {
@@ -1113,8 +1184,25 @@ public class ConsElementXMLHandler {
         return true;
     }
 
-    private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
-        String align = attrs.get("val");
+	private boolean handleTempUserInput(LinkedHashMap<String, String> attrs) {
+
+		// name of linked geo
+		String eval = attrs.get("eval");
+		String display = attrs.get("display");
+
+		if (geo instanceof GeoInputBox) {
+			GeoInputBox inputBox = (GeoInputBox) geo;
+			inputBox.setTempUserDisplayInput(display);
+			inputBox.setTempUserEvalInput(eval);
+		} else {
+			Log.error("temp user input not supported for " + geo.getGeoClassType());
+		}
+
+		return true;
+	}
+
+	private boolean handleTextAlign(LinkedHashMap<String, String> attrs) {
+		String align = attrs.get("val");
 
         if (geo instanceof HasAlignment) {
             ((HasAlignment) geo).setAlignment(TextAlignment.fromString(align));
@@ -1147,7 +1235,7 @@ public class ConsElementXMLHandler {
 	 * So we store all (geo, expression) pairs and process them at the end of
 	 * the construction.
 	 * 
-	 * @see processLinkedGeoList
+	 * @see #processLinkedGeoList()
 	 */
 	private boolean handleLinkedGeo(LinkedHashMap<String, String> attrs) {
 
@@ -1201,8 +1289,8 @@ public class ConsElementXMLHandler {
 		String style = attrs.get("style");
 		String parameter = attrs.get("parameter");
 		if (geo instanceof EquationValue) {
-            // GeoConic handled here
-			if (!((EquationValue) geo).setTypeFromXML(style, parameter)) {
+			// GeoConic handled here
+			if (!((EquationValue) geo).setTypeFromXML(style, parameter, true)) {
 				Log.error("unknown style for conic in <eqnStyle>: " + style);
 			}
 		} else if (geo instanceof GeoLineND && "parametric".equals(style)) {
@@ -1219,20 +1307,26 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
-	private boolean handleEmbed(LinkedHashMap<String, String> attrs) {
+	private void handleEmbed(LinkedHashMap<String, String> attrs) {
 		if (geo instanceof GeoEmbed) {
 			try {
 				((GeoEmbed) geo).setEmbedId(Integer.parseInt(attrs.get("id")));
 				((GeoEmbed) geo).setAppName(attrs.get("app"));
 				((GeoEmbed) geo).setUrl(attrs.get("url"));
 			} catch (RuntimeException e) {
-				return false;
+				Log.error("Problem parsing embed " + e.getMessage());
 			}
 		} else {
 			Log.error("wrong element type for <embed>: " + geo.getClass());
-			return false;
 		}
-		return true;
+	}
+
+	private void handleEmbedSettings(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoEmbed) {
+			for (Map.Entry<String, String> entry: attrs.entrySet()) {
+				((GeoEmbed) geo).attr(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 
 	private boolean handleSlider(LinkedHashMap<String, String> attrs) {
@@ -1423,23 +1517,20 @@ public class ConsElementXMLHandler {
 		return true;
 	}
 
-	private boolean handleBoundingBox(LinkedHashMap<String, String> attrs) {
-		if (!app.has(Feature.MOW_TEXT_TOOL)) {
-			return false;
+	private void handleBoundingBox(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoText && geo.isIndependent()) {
+			try {
+				GeoInlineText ret = new GeoInlineText((GeoText) geo);
+				geo.getConstruction().replace(geo, ret);
+				geo = ret;
+				ret.setWidth(Integer.parseInt(attrs.get("width")));
+				ret.setHeight(Integer.parseInt(attrs.get("height")));
+			} catch (Exception e) {
+				Log.debug(e);
+			}
+		} else {
+			Log.error("Unexpected type for <boundingBox>: " + geo.getClass());
 		}
-
-		if (!(geo instanceof GeoText)) {
-			Log.error("wrong element type for <boundingBox>: " + geo.getClass());
-			return false;
-		}
-
-		GRectangle rect = AwtFactory.getPrototype().newRectangle(
-				Integer.parseInt(attrs.get("x")), Integer.parseInt(attrs.get("y")),
-				Integer.parseInt(attrs.get("width")), Integer.parseInt(attrs.get("height")));
-		GeoText text = (GeoText) geo;
-		text.setMowBoundingBox(rect);
-		text.setMowBoundingBoxJustLoaded(true);
-		return true;
 	}
 
 	private boolean handleMatrix(LinkedHashMap<String, String> attrs) {
@@ -1627,6 +1718,14 @@ public class ConsElementXMLHandler {
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
 			return false;
+		}
+	}
+
+	private void handleOrdering(LinkedHashMap<String, String> attrs) {
+		try {
+			geo.setOrdering(Integer.parseInt(attrs.get("val")));
+		} catch (RuntimeException e) {
+			// no or incorrect ordering
 		}
 	}
 
@@ -1939,6 +2038,9 @@ public class ConsElementXMLHandler {
 			case "condition":
 				handleCondition(attrs);
 				break;
+			case "contentSize":
+				handleContentSize(attrs);
+				break;
 			case "checkbox":
 				handleCheckbox(attrs);
 				break;
@@ -1956,6 +2058,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "casMap":
 				xmlHandler.casMapForElement();
+				break;
+			case "content":
+				handleContentParam(attrs);
 				break;
 			case "decoration":
 				handleDecoration(attrs);
@@ -1977,6 +2082,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "embed":
 				handleEmbed(attrs);
+				break;
+			case "embedSettings":
+				handleEmbedSettings(attrs);
 				break;
 			case "fixed":
 				handleFixed(attrs);
@@ -2001,6 +2109,9 @@ public class ConsElementXMLHandler {
 				break;
 			case "interpolate":
 				handleInterpolate(attrs);
+				break;
+			case "isMask":
+				handleIsMask(attrs);
 				break;
 			case "isShape":
 				handleIsShape(attrs);
@@ -2029,6 +2140,9 @@ public class ConsElementXMLHandler {
 			case "length":
 				handleLength(attrs);
 				break;
+			case "tempUserInput":
+				handleTempUserInput(attrs);
+				break;
 			case "listType":
 				handleListType(attrs);
 				break;
@@ -2044,8 +2158,14 @@ public class ConsElementXMLHandler {
 			case "objColor":
 				handleObjColor(attrs);
 				break;
+			case "ordering":
+				handleOrdering(attrs);
+				break;
 			case "outlyingIntersections":
 				handleOutlyingIntersections(attrs);
+				break;
+			case "parentLabel":
+				handleParentLabel(attrs);
 				break;
 			case "pointSize":
 				handlePointSize(attrs);
@@ -2107,6 +2227,9 @@ public class ConsElementXMLHandler {
 			case "value":
 				handleValue(attrs, errors);
 				break;
+			case "variables":
+				handleVariables(attrs);
+				break;
 			case "video":
 				handleVideo(attrs);
                 break;
@@ -2116,6 +2239,32 @@ public class ConsElementXMLHandler {
 			default:
 				Log.error("unknown tag in <element>: " + eName);
 			}
+		}
+
+	}
+
+	private void handleContentSize(LinkedHashMap<String, String> attrs) {
+		if (!(geo instanceof GeoEmbed)) {
+			Log.error("wrong element type for <contentSize>: " + geo.getClass());
+			return;
+		}
+
+		GeoEmbed geoEmbed = (GeoEmbed) geo;
+
+		try {
+			double width = Double.parseDouble(attrs.get("width"));
+			double height = Double.parseDouble(attrs.get("height"));
+
+			geoEmbed.setContentWidth(width);
+			geoEmbed.setContentHeight(height);
+		} catch (NumberFormatException e) {
+			Log.error("malformed <contentSize>");
+		}
+	}
+
+	private void handleParentLabel(LinkedHashMap<String, String> attrs) {
+		if (geo instanceof GeoLocusStroke) {
+			((GeoLocusStroke) geo).setSplitParentLabel(attrs.get("val"));
 		}
 
 	}
@@ -2249,21 +2398,26 @@ public class ConsElementXMLHandler {
 				// into defined
 				// this is intentional, but when loading a file we must override
 				// it for 3.2 compatibility
-				boolean wasDefined = pair.getGeo().isDefined();
+				GeoElement geoElement = pair.getGeo();
+				boolean wasDefined = geoElement.isDefined();
+				boolean isDrawable = geoElement.isDrawable();
 				if (pair.min != null) {
 					NumberValue num = algProc.evaluateToNumeric(pair.min,
 							xmlHandler.handler);
-					((GeoNumeric) pair.getGeo()).setIntervalMin(num);
+					((GeoNumeric) geoElement).setIntervalMin(num);
 				}
 
 				if (pair.max != null) {
 					NumberValue num2 = algProc.evaluateToNumeric(pair.max,
 							xmlHandler.handler);
-					((GeoNumeric) pair.getGeo()).setIntervalMax(num2);
+					((GeoNumeric) geoElement).setIntervalMax(num2);
 				}
 
 				if (!wasDefined) {
-					pair.getGeo().setUndefined();
+					geoElement.setUndefined();
+				}
+				if (!isDrawable && geoElement instanceof GeoNumeric) {
+					((GeoNumeric) geoElement).setDrawable(false);
 				}
 			}
 		} catch (RuntimeException e) {
@@ -2442,6 +2596,22 @@ public class ConsElementXMLHandler {
 		} else {
 			docPointStyle = -1;
 		}
+	}
 
+	/**
+	 * parse list of geos in a group
+	 * @param attrs - labels of geos in the group
+	 */
+	public void handleGroup(LinkedHashMap<String, String> attrs) {
+		ArrayList<GeoElement> geosInGroup = new ArrayList<>();
+		for (String label : attrs.values()) {
+			GeoElement geo = xmlHandler.kernel.lookupLabel(label);
+			if (geo != null) {
+				geosInGroup.add(geo);
+			}
+		}
+		if (!geosInGroup.isEmpty()) {
+			app.getKernel().getConstruction().createGroup(geosInGroup);
+		}
 	}
 }

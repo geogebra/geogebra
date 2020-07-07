@@ -138,4 +138,28 @@ public abstract class ClickEndHandler {
 	public void setStopPropagation(boolean stopPropagation) {
 		this.stopPropagation = stopPropagation;
 	}
+
+	/**
+	 * Attaches a handler only for preventing default and/or stopping
+	 * propagation.
+	 *
+	 * @param w
+	 *            Widget that the handlers are attached to
+	 * @param preventDefault
+	 *            whether or not event.preventDefault() should be called for
+	 *            MouseUpEvents and TouchEndEvents
+	 * @param stopPropagation
+	 *            whether or not event.stopPropagation() should be called for
+	 *            MouseUpEvents and TouchEndEvents
+	 */
+	public static void initDefaults(Widget w, boolean preventDefault,
+									boolean stopPropagation) {
+		init(w, new ClickEndHandler(preventDefault, stopPropagation) {
+
+			@Override
+			public void onClickEnd(int x, int y, PointerEventType type) {
+				// just for preventDefault and stopPropagation.
+			}
+		});
+	}
 }

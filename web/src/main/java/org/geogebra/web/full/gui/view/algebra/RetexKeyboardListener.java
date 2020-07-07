@@ -28,7 +28,7 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 	}
 
 	@Override
-	public void setFocus(boolean focus, boolean scheduled) {
+	public void setFocus(boolean focus) {
 		// canvas.setFocus(focus);
 		mf.setFocus(focus);
 	}
@@ -50,12 +50,6 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 		return null;
 	}
 
-	@Override
-	public void onEnter(boolean b) {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * @return math input field
 	 */
@@ -66,6 +60,11 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 	@Override
 	public boolean needsAutofocus() {
 		return true;
+	}
+
+	@Override
+	public boolean hasFocus() {
+		return getMathField().hasFocus();
 	}
 
 	/**

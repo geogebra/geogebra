@@ -107,33 +107,18 @@ public class AlgoFitImplicit extends AlgoElement {
 			return;
 		}
 		try {
-
 			// Get functions, x and y from lists
 			if (!makeMatrixes()) {
 				fitfunction.setUndefined();
 				return;
 			}
 
-			// Log.debug("datasize = " + datasize);
-			// Log.debug("order = " + order);
-			// Log.debug("M cols = "+M.getColumnDimension());
-			// Log.debug("M rows = "+M.getRowDimension());
-			// Log.debug("M = "+M.toString());
-
 			SingularValueDecomposition svd = new SingularValueDecomposition(
 					M);
 
 			V = svd.getV();
 
-			// Log.debug("V = "+V.toString());
-
-			// Log.debug("size of M = "+M.getColumnDimension()+"
-			// "+M.getRowDimension());
-			// Log.debug("size of V = "+V.getColumnDimension()+"
-			// "+V.getRowDimension());
-
 			makeFunction();
-
 		} catch (Throwable t) {
 			fitfunction.setUndefined();
 			t.printStackTrace();
@@ -165,14 +150,11 @@ public class AlgoFitImplicit extends AlgoElement {
 			// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
 			for (int i = 0; i <= order; i++) {
 				for (int xpower = 0; xpower <= i; xpower++) {
-
 					int ypower = i - xpower;
 
-					double val = power(x, xpower) * power(y, ypower);
-					// Log.debug(val + "x^"+xpower+" * y^"+ypower);
+					double val = Math.pow(x, xpower) * Math.pow(y, ypower);
 
 					M.setEntry(r, c++, val);
-
 				}
 			}
 		}
@@ -180,43 +162,10 @@ public class AlgoFitImplicit extends AlgoElement {
 		return true;
 	}
 
-	/**
-	 * @param x
-	 *            base
-	 * @param power
-	 *            exponent
-	 * @return base ^ exponent
-	 */
-	public static double power(double x, int power) {
-		if (power == 0) {
-			return 1;
-		}
-
-		if (power == 1) {
-			return x;
-		}
-
-		double ret = x;
-		int pow = power;
-
-		while (pow > 1) {
-			ret *= x;
-			pow--;
-		}
-
-		return ret;
-	}
-
 	private final void makeFunction() {
-
 		int order = (int) orderGeo.evaluateDouble();
 
 		double[][] coeffs = new double[order + 1][order + 1];
-
-		// Log.debug("row/cols = "+V.getRowDimension() + " "+
-		// V.getColumnDimension()+" "+(order * (order + 3) / 2 -1));
-
-		// Log.debug(V.toString());
 
 		RealVector coeffsRV = V.getColumnVector(V.getColumnDimension() - 1);
 
@@ -232,5 +181,4 @@ public class AlgoFitImplicit extends AlgoElement {
 		fitfunction.setCoeff(coeffs);
 		fitfunction.setDefined();
 	}
-
 }

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.scientific.LabelController;
 
@@ -33,6 +34,24 @@ public class GeoElementFactory {
      */
 	public GeoLine createGeoLine() {
 		return (GeoLine) create("x=y");
+	}
+
+	/**
+	 * Create a GeoLine with Command
+	 *
+	 * @return line
+	 */
+	public GeoLine createGeoLineWithCommand() {
+		return (GeoLine) create("Line((1,1),(2,2))");
+	}
+
+	/**
+	 * Create a GeoRay.
+	 *
+	 * @return ray
+	 */
+	public GeoRay createGeoRay() {
+		return (GeoRay) create("Ray((1,1),(2,2))");
 	}
 
 	/**
@@ -65,6 +84,9 @@ public class GeoElementFactory {
         return new GeoFunction(unitTest.getConstruction(), function);
     }
 
+	/**
+	 * @return line with a hidden label
+	 */
 	public GeoElement createLineNoLabel() {
 		GeoElement line = createGeoLine();
 		LabelController labelController = new LabelController();

@@ -13,8 +13,6 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
@@ -49,7 +47,8 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.exam.ExamEnvironment;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -261,8 +260,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	private boolean checkAbsValue(ExpressionNode leftHandSide,
 			ExpressionNode rightHandSide) {
-        if (rightHandSide.isConstant() && rightHandSide.evaluateDouble() >= 0
-                && leftHandSide.isExpressionNode()
+		if (rightHandSide.isConstant() && rightHandSide.evaluateDouble() >= 0
+				&& leftHandSide.isExpressionNode()
 				&& leftHandSide.wrap().getOperation() == Operation.ABS) {
 
 			ArrayList<ExpressionNode> factors = new ArrayList<>(2);
@@ -631,6 +630,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			// .deepCopy(kernel);
 			fromEquation(new Equation(kernel, lhs, new MyDouble(kernel, 0)),
 					((GeoImplicitCurve) geo).coeff);
+		} else {
+			setUndefined();
 		}
 	}
 
@@ -651,9 +652,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (ExamEnvironment.isProtectedEquation(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
-		}
 		if (!isDefined()) {
 			return "?";
 		}
@@ -667,11 +665,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public String toString(StringTemplate tpl) {
 		return label + ": " + toValueString(tpl);
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
 	}
 
 	@Override
@@ -824,11 +817,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
-	}
-
-	@Override
 	public boolean isPath() {
 		return true;
 	}
@@ -849,17 +837,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public void getXML(boolean listeners, StringBuilder sbxml) {
+	protected void getExpressionXML(StringBuilder sb) {
 		if (isIndependent() && getDefaultGeoType() < 0) {
-			sbxml.append("<expression");
-			sbxml.append(" label=\"");
-			sbxml.append(label);
-			sbxml.append("\" exp=\"");
-			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
+			sb.append("<expression");
+			sb.append(" label=\"");
+			sb.append(label);
+			sb.append("\" exp=\"");
+			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
 			// expression
-			sbxml.append("\"/>\n");
+			sb.append("\"/>\n");
 		}
-		super.getXML(listeners, sbxml);
 	}
 
 	@Override
@@ -2430,10 +2417,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String[] getEquationVariables() {
-
-        if (expression == null || expression.getFunctionVariables() == null) {
-            return null;
-        }
+		
+		if (expression == null || expression.getFunctionVariables() == null) {
+			return null;
+		}
 		
 		ArrayList<String> vars = new ArrayList<>();
 		for (FunctionVariable var : expression.getFunctionVariables()) {
@@ -2445,15 +2432,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (toStringMode == GeoLine.EQUATION_USER) {
 			return DescriptionMode.VALUE;
 		}
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter) {
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
 		return false;
 	}
 

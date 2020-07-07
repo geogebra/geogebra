@@ -17,20 +17,19 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.geos.Furniture;
+import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -52,6 +51,7 @@ public abstract class GlobalKeyDispatcher {
 
 	private TreeSet<AlgoElement> tempSet;
 	private Coords tempVec;
+	private boolean hasUnsavedGeoChanges;
 
 	/**
 	 * @param app2
@@ -204,13 +204,13 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private boolean handleUpDownArrowsForDropdown(ArrayList<GeoElement> geos,
-			boolean down, boolean canOpenDropDown) {
+												  boolean down) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (dl == null || !((GeoList) geos.get(0)).drawAsComboBox()) {
 				return false;
 			}
-			if (canOpenDropDown && !dl.isOptionsVisible()) {
+			if (!dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			} else {
 				dl.moveSelectorVertical(down);
@@ -221,10 +221,10 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private boolean handleLeftRightArrowsForDropdown(ArrayList<GeoElement> geos,
-			boolean left, boolean canOpenDropDown) {
+													 boolean left) {
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
-			if (canOpenDropDown && !dl.isOptionsVisible()) {
+			if (!dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			}
 
@@ -234,8 +234,7 @@ public abstract class GlobalKeyDispatcher {
 					return true;
 				}
 			} else {
-				return handleUpDownArrowsForDropdown(geos, left,
-						canOpenDropDown);
+				return handleUpDownArrowsForDropdown(geos, left);
 			}
 
 		}
@@ -255,16 +254,16 @@ public abstract class GlobalKeyDispatcher {
 	 * 
 	 * @return whether any object was moved
 	 */
-    public boolean handleArrowKeyMovement(List<GeoElement> geos,
-                                          double[] diff, double increment) {
+	public boolean handleArrowKeyMovement(List<GeoElement> geos,
+			double[] diff, double increment) {
+		app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 		GeoElement geo = geos.get(0);
 
 		boolean allSliders = true;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geoi = geos.get(i);
+		for (GeoElement geoi : geos) {
 			if (!geoi.isGeoNumeric() || !geoi.isChangeable()) {
 				allSliders = false;
-				continue;
+				break;
 			}
 		}
 
@@ -298,8 +297,8 @@ public abstract class GlobalKeyDispatcher {
 
 		// nothing moved
 		if (!moved) {
-			for (int i = 0; i < geos.size(); i++) {
-				geo = geos.get(i);
+			for (GeoElement geoElement : geos) {
+				geo = geoElement;
 				// toggle boolean value
 				if (geo.isChangeable() && geo.isGeoBoolean()) {
 					GeoBoolean bool = (GeoBoolean) geo;
@@ -355,12 +354,8 @@ public abstract class GlobalKeyDispatcher {
 
 			// ESC: set move mode
 			handleEscForDropdown();
-			if (app.isApplet() && !app.showToolBar()) {
-				app.loseFocus();
-			} else {
+			if (!app.isApplet() || app.showToolBar()) {
 				app.setMoveMode();
-				app.getActiveEuclidianView().getEuclidianController()
-						.deletePastePreviewSelected();
 			}
 			consumed = true;
 			break;
@@ -387,7 +382,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case TAB:
 			if (app.isDesktop()) {
-				consumed = handleTab(isControlDown, isShiftDown);
+				consumed = handleTabDesktop(isControlDown, isShiftDown);
 			}
 
 			break;
@@ -450,19 +445,6 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 
-		/*
-		 * // make sure Ctrl-1/2/3 works on the Numeric Keypad even with Numlock
-		 * // off // **** NB if NumLock on, event.isShiftDown() always returns
-		 * false with // Numlock on!!! (Win 7) if (event.getKeyLocation() ==
-		 * KeyEvent.KEY_LOCATION_NUMPAD) { String keyText =
-		 * KeyEvent.getKeyText(keyCode); if ("End".equals(keyText)) { keyCode =
-		 * KeyEvent.VK_1; } else if ("Down".equals(keyText)) { keyCode =
-		 * KeyEvent.VK_2; } else if ("Page Down".equals(keyText)) { keyCode =
-		 * KeyEvent.VK_3; }
-		 * 
-		 * }
-		 */
-
 		// Ctrl key down (and not Alt, so that AltGr works for special
 		// characters)
 		if (isControlDown && !isAltDown) {
@@ -474,47 +456,8 @@ public abstract class GlobalKeyDispatcher {
 		return consumed;
 	}
 
-	/**
-	 * Handler for common shortcuts
-	 * 
-	 * @param key
-	 *            translated keycode of the event
-	 * @param isControlDown
-	 *            is control button down
-	 * @param isAltDown
-	 *            is alt button down
-	 * @return true if the event handled
-	 */
-	public boolean handleCommonKeys(KeyCodes key, boolean isControlDown,
-			boolean isAltDown) {
-		if (app != null && key == KeyCodes.X && isControlDown && isAltDown) {
-			app.hideMenu();
-			app.closePopups();
-			if (app.getActiveEuclidianView() != null) {
-				app.getActiveEuclidianView().getEuclidianController()
-						.hideDynamicStylebar();
-			}
-			app.getSelectionManager().clearSelectedGeos();
-			app.getAccessibilityManager().focusInput(true);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Handler for common shortcuts
-	 * 
-	 * @param i
-	 *            event keycode
-	 * @param isControlDown
-	 *            is control button down
-	 * @param isAltDown
-	 *            alt button button down
-	 * @return true if the event handled
-	 */
-	public boolean handleCommonKeys(int i, boolean isControlDown,
-			boolean isAltDown) {
-		return handleCommonKeys(translateKey(i), isControlDown, isAltDown);
+	protected boolean handleTabDesktop(boolean isControlDown, boolean isShiftDown) {
+		return false; // overridden in desktop
 	}
 
 	/**
@@ -838,16 +781,7 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case Y:
-			if (isShiftDown) {
-				// if (app.isUsingFullGui() && app.getGuiManager() != null)
-				// {
-				// app.getGuiManager().setShowView(
-				// !app.getGuiManager().showView(
-				// App.VIEW_PYTHON),
-				// App.VIEW_PYTHON);
-				// consumed = true;
-				// }
-			} else if (app.getGuiManager() != null) {
+			 if (!isShiftDown && app.getGuiManager() != null) {
 				// needed for detached views and MacOS
 				// Cmd + Y: Redo
 
@@ -936,10 +870,9 @@ public abstract class GlobalKeyDispatcher {
 				while (it.hasNext()) {
 					GeoElement geo = it.next();
 
-					if (geo instanceof Furniture
+					if ((geo instanceof AbsoluteScreenLocateable
+							&& ((AbsoluteScreenLocateable) geo).isFurniture())
 							|| (geo.isGeoNumeric() && geo.isIndependent())
-							|| (geo.isGeoList()
-									&& ((GeoList) geo).drawAsComboBox())
 							|| geo.isGeoBoolean()
 							|| (geo.isGeoPoint() && !geo.isLocked())) {
 
@@ -963,7 +896,7 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	/**
-	 * Change algebra style value -&gt; desfinition -&gt; description ...
+	 * Change algebra style value -&gt; definition -&gt; description ...
 	 * 
 	 * @param app
 	 *            application
@@ -1017,13 +950,10 @@ public abstract class GlobalKeyDispatcher {
 	protected abstract void showPrintPreview(App app2);
 
 	/**
-	 * Handles Ctrl+V; overridden in desktop Default implementation pastes from
-	 * XML and returns true
+	 * Handle Ctrl+V
 	 */
 	protected void handleCtrlV() {
-		app.setWaitCursor();
-		app.getCopyPaste().pasteFromXML(app, false);
-		app.setDefaultCursor();
+		// overridden in desktop, in web, we listen to paste events
 	}
 
 	/**
@@ -1034,42 +964,13 @@ public abstract class GlobalKeyDispatcher {
 	protected abstract boolean handleCtrlShiftN(boolean isAltDown);
 
 	/**
-	 * overridden in desktop Default implementation copies into XML
-	 * 
+	 * Overridden in desktop, in web we listen to cut and copy events
+	 *
 	 * @param cut
 	 *            whether to cut (false = copy)
 	 */
 	protected void handleCopyCut(boolean cut) {
-		// Copy selected geos
-		app.setWaitCursor();
-		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(), false);
-		if (cut) {
-			app.deleteSelectedObjects(cut);
-		}
-		app.updateMenubar();
-		app.setDefaultCursor();
-	}
-
-	/**
-	 * @param isControlDown
-	 *            whether control is down
-	 * @param isShiftDown
-	 *            whether shift is down
-	 * @return whether key was consumed
-	 */
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
-
-		EuclidianView ev = app.getActiveEuclidianView();
-
-		ev.closeDropdowns();
-
-		if (isShiftDown) {
-			selection.selectLastGeo(ev);
-		} else {
-			selection.selectNextGeo(ev);
-		}
-
-		return true;
+		// overridden in desktop, in web, we listen to paste events
 	}
 
 	/**
@@ -1426,6 +1327,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 			// DELETE selected objects
 			if (!app.isApplet() || keyboardShortcutsEnabled()) {
+				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
 				app.deleteSelectedObjects(false);
 				return true;
 			}
@@ -1469,7 +1371,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleUpDownArrowsForDropdown(geos, false, true)) {
+					&& handleUpDownArrowsForDropdown(geos, false)) {
 				return true;
 			}
 			changeValY = base;
@@ -1483,7 +1385,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleUpDownArrowsForDropdown(geos, true, true)) {
+					&& handleUpDownArrowsForDropdown(geos, true)) {
 				return true;
 			}
 			changeValY = -base;
@@ -1497,7 +1399,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleLeftRightArrowsForDropdown(geos, true, true)) {
+					&& handleLeftRightArrowsForDropdown(geos, true)) {
 				return true;
 			}
 			changeValX = base;
@@ -1511,7 +1413,7 @@ public abstract class GlobalKeyDispatcher {
 				return false;
 			}
 			if (!fromSpreadsheet
-					&& handleLeftRightArrowsForDropdown(geos, false, true)) {
+					&& handleLeftRightArrowsForDropdown(geos, false)) {
 				return true;
 			}
 
@@ -1528,8 +1430,9 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
-            double[] diff = new double[]{changeValX, changeValY, changeValZ};
-            moved = handleArrowKeyMovement(geos, diff, getIncrement(geos));
+			double[] diff = new double[] { changeValX, changeValY, changeValZ };
+			moved = handleArrowKeyMovement(geos, diff, getIncrement(geos));
+			hasUnsavedGeoChanges = true;
 		}
 
 		if (moved) {
@@ -1600,17 +1503,8 @@ public abstract class GlobalKeyDispatcher {
 			changeVal = -base;
 			index = 1;
 			break;
-		// case ESCAPE:
-		// if (!fromSpreadsheet) {
-		// handleEscForDropdown();
-		// }
-		// break;
 		}
-		/*
-		 * if (changeVal == 0) { char keyChar = event.getKeyChar(); if (keyChar
-		 * == '+') changeVal = base; else if (keyChar == '-') changeVal = -base;
-		 * }
-		 */
+
 		// change all geoelements
 		if (changeVal != 0) {
 
@@ -1661,6 +1555,7 @@ public abstract class GlobalKeyDispatcher {
                         }
 
 						num.setValue(newValue);
+						hasUnsavedGeoChanges = true;
 					}
 
 					// update point on path
@@ -1671,6 +1566,7 @@ public abstract class GlobalKeyDispatcher {
 									changeVal * p.getAnimationStep());
 							ScreenReader.readGeoMoved((GeoElement) p);
 						}
+						hasUnsavedGeoChanges = true;
 					}
 				}
 
@@ -1746,10 +1642,18 @@ public abstract class GlobalKeyDispatcher {
 			} else if (geo.isGeoInputBox()) {
 				app.getActiveEuclidianView()
 						.focusAndShowTextField((GeoInputBox) geo);
-			} else if (app.has(Feature.MOW_TEXT_TOOL) && geo.isGeoText()) {
-				app.getEuclidianController().getTextController().edit((GeoText) geo);
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Store undo point if some objects were moved.
+	 */
+	public void storeUndoInfoIfChanged() {
+		if (hasUnsavedGeoChanges) {
+			app.storeUndoInfo();
+			hasUnsavedGeoChanges = false;
+		}
 	}
 }

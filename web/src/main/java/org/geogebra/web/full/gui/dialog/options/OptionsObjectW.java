@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.OptionsObject;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
@@ -65,7 +63,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -77,7 +74,6 @@ import org.geogebra.web.full.gui.properties.ListBoxPanel;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.properties.SliderPanelW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -90,6 +86,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -211,13 +208,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			labelMode.setVisible(model.isNameValueShown());
 		}
 
-		public void autoShowCaption() {
-			GeoElement geo0 = model.getGeoAt(0);
-			geo0.setLabelVisible(true);
-			geo0.setLabelMode(GeoElementND.LABEL_CAPTION);
-			model.updateProperties();
-		}
-
 		@Override
 		public void setLabels() {
 			updateShowLabel();
@@ -233,12 +223,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	private class ShowConditionPanel extends OptionPanel
-			implements IShowConditionListener, ErrorHandler {
+			implements IShowConditionListener, ErrorHandler, Command {
 		private ShowConditionModel model;
 		private FormLabel title;
 		private AutoCompleteTextFieldW tfCondition;
 
-		boolean processed;
 		private FlowPanel errorPanel;
 
 		public ShowConditionPanel() {
@@ -256,30 +245,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			title = new FormLabel().setFor(tfCondition);
 			title.setStyleName("panelTitle");
 			mainPanel.add(title);
-
-			tfCondition.addKeyHandler(new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						doActionPerformed();
-					}
-				}
-			});
-
-			tfCondition.addFocusListener(new FocusListenerW(this) {
-				@Override
-				protected void wrapFocusGained() {
-					processed = false;
-				}
-
-				@Override
-				protected void wrapFocusLost() {
-					if (!processed) {
-						doActionPerformed();
-					}
-				}
-			});
+			SingleActionProcessor processor = new SingleActionProcessor(this);
+			processor.handleEvents(tfCondition);
 			// put it all together
 			mainPanel.add(inputPanel);
 			errorPanel = new FlowPanel();
@@ -315,8 +282,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			return tfCondition.getCommand();
 		}
 
-		void doActionPerformed() {
-			processed = true;
+		@Override
+		public void execute() {
 			errorPanel.clear();
 			model.applyChanges(tfCondition.getText(), this);
 		}
@@ -449,7 +416,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	}
 
 	private class ColorFunctionPanel extends OptionPanel
-			implements IColorFunctionListener {
+			implements IColorFunctionListener, Command {
 
 		ColorFunctionModel model;
 		private InputPanelW inputPanelA;
@@ -473,8 +440,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		private String defaultB = "0";
 		private String defaultA = "1";
 
-		boolean processed = false;
-
 		public ColorFunctionPanel() {
 			model = new ColorFunctionModel(app, this);
 			setModel(model);
@@ -495,43 +460,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			nameLabelG = new FormLabel().setFor(tfGreen);
 			nameLabelB = new FormLabel().setFor(tfBlue);
 			nameLabelA = new FormLabel().setFor(tfAlpha);
-
-			FocusListenerW focusListener = new FocusListenerW(this) {
-
-				@Override
-				protected void wrapFocusGained() {
-					processed = false;
-				}
-
-				@Override
-				protected void wrapFocusLost() {
-					if (!processed) {
-						doActionPerformed();
-					}
-				}
-			};
-
-			tfRed.addFocusListener(focusListener);
-			tfGreen.addFocusListener(focusListener);
-			tfBlue.addFocusListener(focusListener);
-			tfAlpha.addFocusListener(focusListener);
-
-			KeyHandler keyHandler = new KeyHandler() {
-
-				@Override
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						if (!processed) {
-							doActionPerformed();
-						}
-					}
-				}
-			};
-
-			tfRed.addKeyHandler(keyHandler);
-			tfGreen.addKeyHandler(keyHandler);
-			tfBlue.addKeyHandler(keyHandler);
-			tfAlpha.addKeyHandler(keyHandler);
+			SingleActionProcessor processor = new SingleActionProcessor(this);
+			processor.handleEvents(tfRed);
+			processor.handleEvents(tfGreen);
+			processor.handleEvents(tfBlue);
+			processor.handleEvents(tfAlpha);
 
 			btRemove = new Label();
 			btRemove.addStyleName("textButton");
@@ -551,7 +484,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 					colorSpace = cbColorSpace.getSelectedIndex();
 					allowSetComboBoxLabels = false;
 					setLabels();
-					doActionPerformed();
+					execute();
 					cbColorSpace.setSelectedIndex(colorSpace);
 				}
 			});
@@ -643,9 +576,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			// btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
 		}
 
-		void doActionPerformed() {
-			processed = true;
-
+		@Override
+		public void execute() {
 			String strRed = tfRed.getText();
 			String strGreen = tfGreen.getText();
 			String strBlue = tfBlue.getText();
@@ -1037,12 +969,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private OptionsTab addScriptTab() {
 		OptionsTab tab = makeOptionsTab("Scripting");
 		final ScriptEditorModel model = new ScriptEditorModel(app);
-		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
-			@Override
-			public void onSelection(SelectionEvent<Integer> event) {
-				model.applyModifications();
-			}
-		});
 		tab.addModel(model);
 		return tab;
 	}

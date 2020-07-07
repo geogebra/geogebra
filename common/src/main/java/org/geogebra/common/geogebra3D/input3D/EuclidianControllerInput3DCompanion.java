@@ -17,11 +17,11 @@ import org.geogebra.common.geogebra3D.input3D.EuclidianViewInput3DCompanion.Stat
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCursor3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -203,7 +203,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 		@Override
 		public int hashCode() {
-            return DoubleUtil.hashCode(distance) ^ point.hashCode();
+			return DoubleUtil.hashCode(distance) ^ point.hashCode();
 		}
 
 	}
@@ -265,8 +265,8 @@ public class EuclidianControllerInput3DCompanion extends
 
 		@Override
 		public int hashCode() {
-            return DoubleUtil.hashCode(distanceOrtho)
-                    ^ DoubleUtil.hashCode(distanceOrigin) ^ sp.hashCode();
+			return DoubleUtil.hashCode(distanceOrtho)
+					^ DoubleUtil.hashCode(distanceOrigin) ^ sp.hashCode();
 		}
 
 	}

@@ -2,14 +2,17 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GFont;
+import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -23,7 +26,7 @@ import org.geogebra.common.util.debug.Log;
 public class TextOptionsModel extends OptionsModel {
 	private ITextOptionsListener listener;
 
-	private boolean justDisplayFontSize;
+	private boolean displayFontStyle;
 
 	private Localization loc;
 	private DynamicTextProcessor dTProcessor;
@@ -32,25 +35,19 @@ public class TextOptionsModel extends OptionsModel {
 
 	public interface ITextOptionsListener extends PropertyListener {
 
-		void setWidgetsVisible(boolean showFontDetails, boolean isButton);
-
-		void setFontSizeVisibleOnly();
-
 		void selectSize(int index);
 
 		void selectFont(int index);
 
 		void selectDecimalPlaces(int index);
 
-		void setSecondLineVisible(boolean noDecimals);
+		void updateWidgetVisibility();
 
 		void selectFontStyle(int style);
 
 		void setEditorText(ArrayList<DynamicTextElement> list);
 
-		void setEditorText(String text);
-
-		void updatePreview();
+		void updatePreviewPanel();
 
 		void reinitEditor();
 
@@ -70,28 +67,27 @@ public class TextOptionsModel extends OptionsModel {
 			return false;
 		}
 		boolean geosOK = true;
-		justDisplayFontSize = true;
+		displayFontStyle = true;
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 
-			if ((geo instanceof TextProperties
-					&& !((TextProperties) geo).justFontSize())
-					|| geo.isGeoButton()) {
-				justDisplayFontSize = false;
+			if (geo instanceof GeoInputBox) {
+				displayFontStyle = false;
 			}
 
-			if (!(geo.getGeoElementForPropertiesDialog().isGeoText())) {
-				if (!geo.isGeoButton()) {
-					geosOK = false;
-					break;
-				}
+			GeoElement geoForProperties = geo.getGeoElementForPropertiesDialog();
+			if (!(geoForProperties instanceof TextStyle)) {
+				geosOK = false;
+				break;
 			}
 		}
 		return geosOK;
 	}
 
 	public TextProperties getTextPropertiesAt(int index) {
-		return (TextProperties) getObjectAt(index);
+		Object objectAt = getObjectAt(index);
+		return objectAt instanceof TextProperties ? (TextProperties) objectAt
+				: null;
 	}
 
 	public GeoText getGeoTextAt(int index) {
@@ -106,63 +102,44 @@ public class TextOptionsModel extends OptionsModel {
 	@Override
 	public void updateProperties() {
 		GeoElement geo = getGeoAt(0);
-		if (geo.isGeoInputBox()) {
-			listener.setFontSizeVisibleOnly();
-		} else {
-			listener.setWidgetsVisible(!justDisplayFontSize, geo.isGeoButton());
-		}
+		listener.updateWidgetVisibility();
 
+		TextStyle textStyleGeo = (TextStyle) geo;
+		listener.selectSize(GeoText
+				.getFontSizeIndex(textStyleGeo.getFontSizeMultiplier()));
 		TextProperties geo0 = getTextPropertiesAt(0);
+		if (geo0 != null) {
+			setEditGeo(getGeoTextAt(0));
+			listener.selectFont(geo0.isSerifFont() ? 1 : 0);
+			int selItem = -1;
 
-		setEditGeo(getGeoTextAt(0));
+			int decimals = geo0.getPrintDecimals();
+			if (decimals > 0 && decimals < optionsMenu.decimalsLookupLength()
+					&& !geo0.useSignificantFigures()) {
+				selItem = optionsMenu.decimalsLookup(decimals);
+			}
 
-		listener.selectSize(
-				GeoText.getFontSizeIndex(geo0.getFontSizeMultiplier())); // font
-		// size
-		// ranges
-		// from
-		// -6
-		// to
-		// 6,
-		// transform
-		// this
-		// to
-		// 0,1,..,6
-		listener.selectFont(geo0.isSerifFont() ? 1 : 0);
-		int selItem = -1;
+			int figures = geo0.getPrintFigures();
+			if (figures > 0 && figures < optionsMenu.figuresLookupLength()
+					&& geo0.useSignificantFigures()) {
+				selItem = optionsMenu.figuresLookup(figures);
+			}
 
-		int decimals = geo0.getPrintDecimals();
-		if (decimals > 0 && decimals < optionsMenu.decimalsLookupLength()
-				&& !geo0.useSignificantFigures()) {
-			selItem = optionsMenu.decimalsLookup(decimals);
+			listener.selectDecimalPlaces(selItem);
 		}
-
-		int figures = geo0.getPrintFigures();
-		if (figures > 0 && figures < optionsMenu.figuresLookupLength()
-				&& geo0.useSignificantFigures()) {
-			selItem = optionsMenu.figuresLookup(figures);
-		}
-
-		listener.selectDecimalPlaces(selItem);
-		listener.setSecondLineVisible(
-				(getGeoAt(0).isIndependent() || (geo0 instanceof GeoList)));
 
 		Log.debug("UpdateText Properties Text");
 		GeoText text0 = getGeoTextAt(0);
 		if (text0 != null) {
-			/*
-			 * Gives null for eg. table text
-			 */
+			// Gives null for eg. table text
 			ArrayList<DynamicTextElement> a = dTProcessor
 					.buildDynamicTextList(text0);
 			if (a != null) {
 				listener.setEditorText(a);
 			}
-
 		}
 
-		listener.selectFontStyle(geo0.getFontStyle());
-
+		listener.selectFontStyle(EuclidianStyleBarStatic.getFontStyle(getGeosAsList()));
 	}
 
 	public void applyFontSizeFromString(String percentStr0) {
@@ -186,7 +163,6 @@ public class TextOptionsModel extends OptionsModel {
 			return;
 		}
 		applyFontSize(multiplier);
-
 	}
 
 	public void applyFontSizeFromIndex(int index) {
@@ -196,21 +172,21 @@ public class TextOptionsModel extends OptionsModel {
 	public void applyFontSize(double value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
-			text.setFontSizeMultiplier(value);
-			getGeoAt(i).updateVisualStyleRepaint(GProperty.FONT);
+			if (text != null) {
+				text.setFontSizeMultiplier(value);
+				text.updateVisualStyleRepaint(GProperty.FONT);
+			}
 		}
 		if (editGeo == null) {
 			return;
 		}
 
-		((TextProperties) editGeo).setFontSizeMultiplier(value);
-		listener.updatePreview();
+		editGeo.setFontSizeMultiplier(value);
+		listener.updatePreviewPanel();
 	}
 
 	public String[] getFonts() {
-		String[] ret = { loc.getMenu("SansSerif"), loc.getMenu("Serif") };
-
-		return ret;
+		return new String[]{ loc.getMenu("SansSerif"), loc.getMenu("Serif") };
 	}
 
 	public String[] getFontSizes() {
@@ -218,62 +194,52 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	public void applyFont(boolean isSerif) {
-
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
-			text.setSerifFont(isSerif);
-			text.updateVisualStyleRepaint(GProperty.FONT);
+			if (text != null) {
+				text.setSerifFont(isSerif);
+				text.updateVisualStyleRepaint(GProperty.FONT);
+			}
 		}
 
 		if (editGeo != null) {
-			((TextProperties) editGeo).setSerifFont(isSerif);
+			editGeo.setSerifFont(isSerif);
 		}
 
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 	}
 
 	public void applyDecimalPlaces(int decimals) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
-			if (decimals < 8) // decimal places
-			{
-				// Application.debug("decimals"+roundingMenuLookup[decimals]+"");
+			if (decimals < 8) { // decimal places
 				text.setPrintDecimals(optionsMenu.roundingMenuLookup(decimals),
 						true);
-			} else // significant figures
-			{
-				// Application.debug("figures"+roundingMenuLookup[decimals]+"");
+			} else { // significant figures
 				text.setPrintFigures(optionsMenu.roundingMenuLookup(decimals),
 						true);
 			}
-			((GeoElement) text).updateRepaint();
+			text.updateRepaint();
 		}
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 
 	}
 
 	public static int getFontStyle(boolean isBold, boolean isItalic) {
 		int style = 0;
 		if (isBold) {
-			style += 1;
+			style += GFont.BOLD;
 		}
 		if (isItalic) {
-			style += 2;
+			style += GFont.ITALIC;
 		}
 		return style;
 	}
 
-	public void applyFontStyle(boolean isBold, boolean isItalic) {
-		int style = getFontStyle(isBold, isItalic);
+	public void applyFontStyle(int mask, boolean add) {
+		EuclidianStyleBarStatic.applyFontStyle(getGeosAsList(), mask, add);
 
-		for (int i = 0; i < getGeosLength(); i++) {
-			TextProperties text = getTextPropertiesAt(i);
-			text.setFontStyle(style);
-			text.updateVisualStyleRepaint(GProperty.FONT);
-		}
-
-		listener.updatePreview();
-
+		listener.updatePreviewPanel();
 	}
 
 	public String getGeoGebraString(ArrayList<DynamicTextElement> list,
@@ -309,7 +275,7 @@ public class TextOptionsModel extends OptionsModel {
 					public void callback(GeoElementND geo1) {
 						((GeoText) geo1).setSerifFont(isSerif);
 						((GeoText) geo1).setLaTeX(isLatex, true);
-						((GeoText) geo1).updateRepaint();
+						geo1.updateRepaint();
 						app.getSelectionManager().addSelectedGeo(geo1);
 						editGeo = null;
 					}
@@ -324,7 +290,7 @@ public class TextOptionsModel extends OptionsModel {
 		}
 
 		editGeo = null;
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 	}
 
 	public void setLaTeX(boolean isLatex, boolean updateAlgo) {
@@ -334,7 +300,7 @@ public class TextOptionsModel extends OptionsModel {
 
 		editGeo.setLaTeX(isLatex, updateAlgo);
 		editGeo.updateRepaint();
-		listener.updatePreview();
+		listener.updatePreviewPanel();
 		storeUndoInfo();
 	}
 
@@ -363,5 +329,20 @@ public class TextOptionsModel extends OptionsModel {
 		if (listener != null) {
 			listener.reinitEditor();
 		}
+	}
+
+	public boolean hasFontStyle() {
+		return hasGeos() && displayFontStyle;
+	}
+
+	/**
+	 * @return whether rounding setting should be shown
+	 */
+	public boolean hasRounding() {
+		if (!hasGeos()) {
+			return false;
+		}
+		GeoElement geo = getGeoAt(0);
+		return geo != null && !geo.isIndependent() && !geo.isGeoList();
 	}
 }

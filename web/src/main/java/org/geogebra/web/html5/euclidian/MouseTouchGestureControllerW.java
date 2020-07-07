@@ -134,9 +134,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	}
 
-	// private int EuclidianViewXOffset;
-
-	// private int EuclidianViewYOffset;
 	/**
 	 * @return offset to get correct getY() in mouseEvents
 	 */
@@ -197,10 +194,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	/**
-	 * TODO kill long touch
+	 * Fire touch event at the specified coordinates (right click if not unbundled)
 	 */
 	public void handleLongTouch(int x, int y) {
-		Log.debug("LONG TOUCH");
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,
 		        ZeroOffset.INSTANCE);
 		if (!app.isUnbundled()) {
@@ -409,43 +405,32 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * @param event
 	 *            touch start event
 	 */
-    public void onTouchStart(TouchStartEvent event) {
-        JsArray<Touch> targets = event.getTargetTouches();
-        calculateEnvironment();
-        CancelEventTimer.touchEventOccured();
-        moveCounter = 0;
-        ignoreEvent = false;
-        ec.resetPinchZoomOccured();
-        final boolean inputBoxFocused = false;
-        ec.setDefaultEventType(PointerEventType.TOUCH, true);
-        if (targets.length() == 1) {
-            AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), this);
-            onTouchStart(e);
-            if (isWholePageDrag()) {
-                return;
-            }
-        } else if (targets.length() == 2) {
-            longTouchManager.cancelTimer();
-            twoTouchStart(targets.get(0), targets.get(1));
-        } else {
-            longTouchManager.cancelTimer();
-        }
-        if (!inputBoxFocused && !isWholePageDrag()) {
-            preventTouchIfNeeded(event);
-        }
-    }
+	public void onTouchStart(TouchStartEvent event) {
+		JsArray<Touch> targets = event.getTargetTouches();
+		calculateEnvironment();
+		CancelEventTimer.touchEventOccured();
+		moveCounter = 0;
+		ignoreEvent = false;
+		ec.resetPinchZoomOccured();
+		final boolean inputBoxFocused = false;
+		ec.setDefaultEventType(PointerEventType.TOUCH, true);
 
-    /**
-     * Starts the touch.
-     *
-     * @param event abstract touch event
-     */
-    public void onTouchStart(AbstractEvent event) {
-        if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
-            longTouchManager.scheduleTimer((LongTouchHandler) ec, event.getX(), event.getY());
-        }
-        onPointerEventStart(event);
-    }
+		if (targets.length() == 1) {
+			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), this);
+			onPointerEventStart(e);
+			if (isWholePageDrag()) {
+				return;
+			}
+		} else if (targets.length() == 2) {
+			longTouchManager.cancelTimer();
+			twoTouchStart(targets.get(0), targets.get(1));
+		} else {
+			longTouchManager.cancelTimer();
+		}
+		if (!inputBoxFocused && !isWholePageDrag()) {
+			preventTouchIfNeeded(event);
+		}
+	}
 
 	private boolean isWholePageDrag() {
 		boolean result = ec.getMode() == EuclidianConstants.MODE_MOVE
@@ -483,7 +468,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		        second.getY());
 		first.release();
 		second.release();
-		ec.getView().cacheLayers(-1);
+		ec.getView().invalidateCache();
 	}
 
 	/**
@@ -677,11 +662,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
         ec.wrapMouseReleased(e);
         e.release();
 
-//		boolean elementCreated = ec.pen != null
-//		        && ec.pen.getCreatedShape() != null;
-
-        ec.resetModeAfterFreehand();
-    }
+		ec.resetModeAfterFreehand();
+	}
 
 	/**
 	 * Handle mouse down event.
@@ -710,27 +692,32 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * @param event
 	 *            pointer start
 	 */
-    public void onPointerEventStart(AbstractEvent event) {
-        app.getFpsProfiler().notifyTouchStart();
-        if (isRecording) {
-            drawingRecorder
-                    .recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
-        }
-        if (!ec.isTextfieldHasFocus()) {
-            dragModeMustBeSelected = true;
-            dragModeIsRightClick = event.isRightClick();
-        }
+	public void onPointerEventStart(AbstractEvent event) {
+		app.getFpsProfiler().notifyTouchStart();
+		if (isRecording) {
+			drawingRecorder
+					.recordCoordinate(event.getX(), event.getY(), System.currentTimeMillis());
+		}
+		if (event.getType() == PointerEventType.TOUCH
+				&& EuclidianConstants.isMoveOrSelectionMode(ec.getMode())) {
+			longTouchManager.scheduleTimer((LongTouchHandler) ec, event.getX(), event.getY());
+		}
 
-        ec.wrapMousePressed(event);
-        // hide PopUp if no hits was found.
-        if (ec.getView().getHits().isEmpty() && ec.getView().hasStyleBar()) {
-            ec.getView().getStyleBar().hidePopups();
-        }
-        if (!event.isRightClick()) {
-            ec.prepareModeForFreehand();
-        }
-        event.release();
-    }
+		if (!ec.isTextfieldHasFocus()) {
+			dragModeMustBeSelected = true;
+			dragModeIsRightClick = event.isRightClick();
+		}
+
+		ec.wrapMousePressed(event);
+		// hide PopUp if no hits was found.
+		if (ec.getView().getHits().isEmpty() && ec.getView().hasStyleBar()) {
+			ec.getView().getStyleBar().hidePopups();
+		}
+		if (!event.isRightClick()) {
+			ec.prepareModeForFreehand();
+		}
+		event.release();
+	}
 
 	private boolean comboBoxHit() {
 		if (ec.getView().getHits() == null) {
@@ -785,24 +772,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	@Override
 	public int touchEventX(int clientX) {
-		if (((AppW) app).getLAF() != null && ((AppW) app).getLAF().isSmart()) {
-			return mouseEventX(clientX - style.getxOffset());
-		}
-		// IE touch events are mouse events
-		return Browser.supportsPointerEvents(false)
-				? mouseEventX(clientX)
-		        : mouseEventX(clientX - style.getxOffset());
+		return mouseEventX(clientX - style.getxOffset());
 	}
 
 	@Override
 	public int touchEventY(int clientY) {
-		if (((AppW) app).getLAF() != null && ((AppW) app).getLAF().isSmart()) {
-			return mouseEventY(clientY - style.getyOffset());
-		}
-		// IE touch events are mouse events
-		return Browser.supportsPointerEvents(false)
-				? mouseEventY(clientY)
-		        : mouseEventY(clientY - style.getyOffset());
+		return mouseEventY(clientY - style.getyOffset());
 	}
 
 	/**
@@ -860,40 +835,40 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	/**
 	 * Close all popups.
 	 */
-    public void closePopups() {
-        ((AppW) app).onUnhandledClick();
-        ((AppW) app).closePerspectivesPopup();
-        app.closePopups();
-    }
+	public void closePopups() {
+		((AppW) app).onUnhandledClick();
+		app.closePopups();
+	}
 
-    /**
-     * @return drawing emulator
-     */
-    public DrawingEmulator getDrawingEmulator() {
-        if (drawingEmulator == null) {
-            drawingEmulator = new DrawingEmulator(this);
-        }
-        return drawingEmulator;
-    }
+	/**
+	 * @return drawing emulator
+	 */
+	public DrawingEmulator getDrawingEmulator() {
+		if (drawingEmulator == null) {
+			drawingEmulator = new DrawingEmulator(this);
+		}
+		return drawingEmulator;
+	}
 
-    /**
-     * Records the drawing.
-     */
-    public void startDrawRecording() {
-        isRecording = true;
-        if (drawingRecorder == null) {
-            drawingRecorder = new DrawingRecorder();
-        }
-    }
+	/**
+	 * Records the drawing.
+	 */
+	public void startDrawRecording() {
+		isRecording = true;
+		if (drawingRecorder == null) {
+			drawingRecorder = new DrawingRecorder();
+		}
+	}
 
-    /**
-     * Ends the recording of the drawing and logs the results.
-     * <p>
-     * For autonomous drawing, the logged result has to be copied into the coords.json file.
-     */
-    public void endDrawRecordingAndLogResult() {
-        Log.debug(drawingRecorder);
-        drawingRecorder.reset();
-        isRecording = false;
-    }
+	/**
+	 * Ends the recording of the drawing and logs the results.
+	 *
+	 * For autonomous drawing, the logged result has to be copied into the coords.json file.
+	 */
+	public void endDrawRecordingAndLogResult() {
+		Log.debug(drawingRecorder);
+		drawingRecorder.reset();
+		isRecording = false;
+	}
 }
+

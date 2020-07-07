@@ -1,7 +1,7 @@
 package org.geogebra.keyboard.web;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.keyboard.base.KeyboardType;
@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GCustomButton;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -16,166 +17,187 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class KeyboardSwitcher extends FlowPanel {
 
-    private TabbedKeyboard tabbedkeyboard;
+	private TabbedKeyboard tabbedkeyboard;
 
-    private FlowPanel contents;
-    private List<SwitcherButton> switches;
+	private FlowPanel contents;
+	private Map<KeyboardType, SwitcherButton> switches;
 	private GToggleButton moreButton;
 
-    private class SwitcherButton extends Button {
+	public class SwitcherButton extends Button {
 
-        private KeyPanelBase keyboard;
+		private KeyPanelBase keyboard;
 
-        public SwitcherButton(String label, KeyPanelBase keyboard) {
-            super(label);
-            this.keyboard = keyboard;
+		/**
+		 * Create a new SwitcherButton
+		 *
+		 * @param label label
+		 * @param keyboard keyboard
+		 */
+		public SwitcherButton(String label, KeyPanelBase keyboard) {
+			super(label);
+			this.keyboard = keyboard;
 
-            ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+			ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
-                @Override
-                public void onClickStart(int x, int y, PointerEventType type) {
-                    select();
-                }
-            });
-        }
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					select();
+				}
+			});
+		}
 
-        public void select() {
-            tabbedkeyboard.hideTabs();
-            unselectAll();
-            keyboard.setVisible(true);
-            setSelected(this, true);
-        }
-    }
+		public KeyPanelBase getKeyboard() {
+			return keyboard;
+		}
+
+		/**
+		 * Makes the keyboard visible and selects the button.
+		 */
+		public void select() {
+			tabbedkeyboard.hideKeyboards();
+			unselectAll();
+			keyboard.setVisible(true);
+			setSelected(this, true);
+		}
+	}
 
 	/**
 	 * @param tabbedkeyboard
 	 *            keyboard
 	 */
-    public KeyboardSwitcher(TabbedKeyboard tabbedkeyboard) {
-        this.tabbedkeyboard = tabbedkeyboard;
-        addStyleName("KeyboardSwitcher");
-        setup();
-    }
+	public KeyboardSwitcher(TabbedKeyboard tabbedkeyboard) {
+		this.tabbedkeyboard = tabbedkeyboard;
+		addStyleName("KeyboardSwitcher");
+		setup();
+	}
 
 	protected void setup() {
-        addCloseButton();
-        contents = new FlowPanel();
-        contents.addStyleName("switcherContents");
-        add(contents);
-        switches = new ArrayList<>();
-    }
+		addCloseButton();
+		contents = new FlowPanel();
+		contents.addStyleName("switcherContents");
+		add(contents);
+		switches = new HashMap<>();
+	}
 
-	protected void addSwitch(final KeyPanelBase keyboard, String string) {
-        SwitcherButton btn = new SwitcherButton(string, keyboard);
-        switches.add(btn);
-        contents.add(btn);
-    }
+	protected SwitcherButton addSwitch(KeyPanelBase keyboard, KeyboardType type, String string) {
+		SwitcherButton btn = new SwitcherButton(string, keyboard);
+		switches.put(type, btn);
+		contents.add(btn);
+		return btn;
+	}
 
 	protected void setSelected(Button btn, boolean value) {
-        if (value) {
-            btn.addStyleName("selected");
-        } else {
-            btn.removeStyleName("selected");
-        }
-    }
+		if (value) {
+			btn.addStyleName("selected");
+		} else {
+			btn.removeStyleName("selected");
+		}
+	}
+
+	protected boolean isSelected(Button btn) {
+		return btn.getStyleName().contains("selected");
+	}
 
 	protected void unselectAll() {
-        for (Widget btn : switches) {
-            btn.removeStyleName("selected");
-        }
-    }
+		for (Widget btn : switches.values()) {
+			btn.removeStyleName("selected");
+		}
+	}
 
-    protected void addCloseButton() {
-        Image img = new Image(KeyboardResources.INSTANCE
-                .keyboard_close_black().getSafeUri().asString());
-        img.setAltText(tabbedkeyboard.locale.getMenu("Close"));
-        Image hoverImg = new Image(KeyboardResources.INSTANCE
-                .keyboard_close_purple().getSafeUri().asString());
-        hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Close"));
+	protected void addCloseButton() {
+		Image img = new Image(KeyboardResources.INSTANCE
+				.keyboard_close_black().getSafeUri().asString());
+		img.setAltText(tabbedkeyboard.locale.getMenu("Close"));
+		Image hoverImg = new Image(KeyboardResources.INSTANCE
+				.keyboard_close_purple().getSafeUri().asString());
+		hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Close"));
 		GCustomButton closeButton = new GCustomButton() {
-            // it's abstract for some reason
-        };
-        closeButton.getElement().setAttribute("aria-label",
-                tabbedkeyboard.locale.getMenu("Close"));
+			@Override
+			public void setFocus(boolean focused) {
+				// Do not focus the button
+			}
+		};
+		closeButton.getElement().setAttribute("aria-label",
+				tabbedkeyboard.locale.getMenu("Close"));
 
-        closeButton.getUpFace().setImage(img);
-        closeButton.getUpHoveringFace().setImage(hoverImg);
-        closeButton.addStyleName("closeTabbedKeyboardButton");
-        ClickStartHandler.init(closeButton, new ClickStartHandler() {
+		closeButton.getUpFace().setImage(img);
+		closeButton.getUpHoveringFace().setImage(hoverImg);
+		closeButton.addStyleName("closeTabbedKeyboardButton");
+		closeButton.getElement().setAttribute("data-test", "closeKeyboardButton");
+		ClickStartHandler.init(closeButton, new ClickStartHandler() {
 
-            @Override
-            public void onClickStart(int x, int y, PointerEventType type) {
-                tabbedkeyboard.closeButtonClicked();
-            }
-        });
-        add(closeButton);
-    }
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				tabbedkeyboard.closeButtonClicked();
+				DOM.setCapture(null); // reset capture from GCustomButton's mousedown handler
+			}
+		});
+		add(closeButton);
+	}
 
 	protected final void addMoreButton() {
-        Image img = new Image(KeyboardResources.INSTANCE.keyboard_more()
-                .getSafeUri().asString());
-        img.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
-        Image hoverImg = new Image(KeyboardResources.INSTANCE
-                .keyboard_more_purple().getSafeUri().asString());
-        hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
+		Image img = new Image(KeyboardResources.INSTANCE.keyboard_more()
+				.getSafeUri().asString());
+		img.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
+		Image hoverImg = new Image(KeyboardResources.INSTANCE
+				.keyboard_more_purple().getSafeUri().asString());
+		hoverImg.setAltText(tabbedkeyboard.locale.getMenu("Commands"));
 		moreButton = new GToggleButton(img, hoverImg);
-        moreButton.getElement().setAttribute("aria-label",
-                tabbedkeyboard.locale.getMenu("Commands"));
+		moreButton.getElement().setAttribute("aria-label",
+				tabbedkeyboard.locale.getMenu("Commands"));
 
-        moreButton.getUpHoveringFace().setImage(hoverImg);
-        moreButton.addStyleName("moreKeyboardButton");
-        ClickStartHandler.init(moreButton, new ClickStartHandler() {
+		moreButton.getUpHoveringFace().setImage(hoverImg);
+		moreButton.addStyleName("moreKeyboardButton");
+		ClickStartHandler.init(moreButton, new ClickStartHandler() {
 
-            @Override
-            public void onClickStart(int x, int y, PointerEventType type) {
-                tabbedkeyboard.showHelp(
-                        getMoreButton().getAbsoluteLeft()
-                                + getMoreButton().getOffsetWidth(),
-                        getMoreButton().getAbsoluteTop());
-            }
-        });
-        contents.add(moreButton);
-    }
-
-	public GToggleButton getMoreButton() {
-        return moreButton;
-    }
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				tabbedkeyboard.showHelp(moreButton.getAbsoluteLeft()
+								+ moreButton.getOffsetWidth(),
+						moreButton.getAbsoluteTop());
+			}
+		});
+		contents.add(moreButton);
+	}
 
 	protected void reset() {
-        if (moreButton != null) {
-            moreButton.setValue(false);
-        }
-    }
+		if (moreButton != null) {
+			moreButton.setValue(false);
+		}
+	}
 
 	/**
 	 * @param keyboardType
 	 *            keyboard type
 	 */
 	protected void select(KeyboardType keyboardType) {
-		if (keyboardType == KeyboardType.SPECIAL) {
-			tabbedkeyboard.hideTabs();
-			tabbedkeyboard.getTabs().getWidget(keyboardType.getIndex())
-					.setVisible(true);
+		if (keyboardType == KeyboardType.GREEK) {
+			tabbedkeyboard.hideKeyboards();
+			tabbedkeyboard.getKeyboard(keyboardType).setVisible(true);
 		} else {
-			switches.get(keyboardType.getIndex()).select();
+			switches.get(keyboardType).select();
 		}
 	}
 
-    public FlowPanel getContent() {
-        return contents;
-    }
+	public FlowPanel getContent() {
+		return contents;
+	}
 
-    /**
-     * Shows the More button
-     */
-    public void showMoreButton() {
-        moreButton.setVisible(true);
-    }
+	/**
+	 * Shows the More button
+	 */
+	public void showMoreButton() {
+		if (moreButton != null) {
+			moreButton.setVisible(true);
+		}
+	}
 
-    /**
-     * Hides the More button
-     */
-    public void hideMoreButton() {
-        moreButton.setVisible(false);
-    }
+	/**
+	 * Hides the More button
+	 */
+	public void hideMoreButton() {
+		if (moreButton != null) {
+			moreButton.setVisible(false);
+		}
+	}
 }

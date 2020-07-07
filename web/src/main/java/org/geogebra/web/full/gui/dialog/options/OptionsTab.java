@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.AnimationSpeedPanelW;
@@ -63,13 +64,13 @@ import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.full.gui.util.ColorChooserW;
 import org.geogebra.web.full.gui.util.ComboBoxW;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
+import org.geogebra.web.full.gui.util.InlineTextFormatter;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -79,6 +80,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -342,12 +345,12 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof AnimationSpeedModel) {
 			return new AnimationSpeedPanelW((AnimationSpeedModel) m, app);
 		}
-        if (m instanceof AnimationStepModel) {
-            return new AnimationStepPanelW((AnimationStepModel) m, app);
-        }
-        if (m instanceof TextFieldAlignmentModel) {
-            return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
-        }
+		if (m instanceof AnimationStepModel) {
+			return new AnimationStepPanelW((AnimationStepModel) m, app);
+		}
+		if (m instanceof TextFieldAlignmentModel) {
+			return new TextFieldAlignmentPanel((TextFieldAlignmentModel) m, app);
+		}
 
 		return null;
 	}
@@ -364,12 +367,14 @@ public class OptionsTab extends FlowPanel {
 	/**
 	 * Panel for color settings
 	 */
-	public class ColorPanel extends OptionPanel implements IColorObjectListener {
+	public static class ColorPanel extends OptionPanel
+			implements IColorObjectListener {
 		private ColorObjectModel model;
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW;
 		private GColor selectedColor;
 		private CheckBox sequential;
+		private InlineTextFormatter inlineTextFormatter;
 
 		/**
 		 * @param model0
@@ -431,7 +436,7 @@ public class OptionsTab extends FlowPanel {
 				}
 			});
 			colorChooserW.setColorPreviewClickable();
-
+			inlineTextFormatter = new InlineTextFormatter(app);
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
 
@@ -440,15 +445,14 @@ public class OptionsTab extends FlowPanel {
 				mainPanel.add(sequential);
 				sequential.addClickHandler(new ClickHandler() {
 
-				@Override
-				public void onClick(ClickEvent event) {
-					// TODO we may need to update the GUI here
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO we may need to update the GUI here
 						getModel().setSequential(getSequential().getValue());
-				}
+					}
 				});
 			}
 			setWidget(mainPanel);
-
 		}
 
 		/**
@@ -463,6 +467,12 @@ public class OptionsTab extends FlowPanel {
 						alphaOnly ? null : color, alpha);
 			} else {
 				model.applyChanges(color, alpha, alphaOnly);
+			}
+			if (!alphaOnly) {
+				inlineTextFormatter.formatInlineText(
+						model.getGeosAsList(),
+						"color",
+						StringUtil.toHtmlColor(color));
 			}
 		}
 
@@ -610,19 +620,19 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
-    private static class TextFieldAlignmentPanel extends ListBoxPanel {
+	private static class TextFieldAlignmentPanel extends ListBoxPanel {
 
-        TextFieldAlignmentPanel(TextFieldAlignmentModel model, AppW app) {
-            super(app.getLocalization(), "stylebar.Align");
-            model.setListener(this);
-            setModel(model);
-        }
-    }
+		TextFieldAlignmentPanel(TextFieldAlignmentModel model, AppW app) {
+			super(app.getLocalization(), "stylebar.Align");
+			model.setListener(this);
+			setModel(model);
+		}
+	}
 
 	private static class DecoAnglePanel extends DecoOptionPanel
 			implements IDecoAngleListener {
 
-        DecoAngleModel model;
+		DecoAngleModel model;
 
 		public DecoAnglePanel(DecoAngleModel model0, AppW app) {
 			super(app);
@@ -1035,10 +1045,11 @@ public class OptionsTab extends FlowPanel {
 			inputPanel = new InputPanelW(null, app, 1, -1, false);
 			tfSize = inputPanel.getTextComponent();
 			tfSize.setAutoComplete(false);
-			tfSize.addFocusListener(new FocusListenerW(this) {
+			tfSize.addBlurHandler(new BlurHandler() {
 				@Override
-				protected void wrapFocusLost() {
+				public void onBlur(BlurEvent event) {
 					model.applyChanges(tfSize.getText());
+
 				}
 			});
 			tfSize.addKeyHandler(new KeyHandler() {
@@ -1110,9 +1121,9 @@ public class OptionsTab extends FlowPanel {
 			tfButtonHeight = ipButtonHeight.getTextComponent();
 			tfButtonHeight.setAutoComplete(false);
 
-			FocusListenerW focusListener = new FocusListenerW(this) {
+			BlurHandler focusListener = new BlurHandler() {
 				@Override
-				protected void wrapFocusLost() {
+				public void onBlur(BlurEvent event) {
 					getModel().setSizesFromString(getTfButtonWidth().getText(),
 							getTfButtonHeight().getText(),
 							getCbUseFixedSize().getValue());
@@ -1120,8 +1131,8 @@ public class OptionsTab extends FlowPanel {
 				}
 			};
 
-			tfButtonWidth.addFocusListener(focusListener);
-			tfButtonHeight.addFocusListener(focusListener);
+			tfButtonWidth.addBlurHandler(focusListener);
+			tfButtonHeight.addBlurHandler(focusListener);
 
 			KeyHandler keyHandler = new KeyHandler() {
 

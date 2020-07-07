@@ -43,10 +43,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	private List<GeoElement> specPoints;
 	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
 	private boolean isUpdating = false;
-    /**
-     * storing the special points parent algos: needed for iOS as GeoElement as only weak
-     * reference to its parent algo
-     */
+	/**
+	 * storing the special points parent algos: needed for iOS as GeoElement as only weak
+	 * reference to its parent algo
+	 */
 	private List<AlgoElement> specPointAlgos;
 
 	/**
@@ -62,24 +62,35 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		app.getActiveEuclidianView().getEuclidianController().addZoomerListener(this);
 	}
 
-	private List<GeoElement> getSpecPoints(GeoElement geo0,
-			List<GeoElement> selectedGeos) {
+	/**
+	 * Updates the special points of the geo.
+	 *
+	 * @param geo
+	 *            geo which special points will be updated
+	 */
+	public void updateSpecialPoints(GeoElement geo) {
+		if (!kernel.getApplication().getConfig().hasPreviewPoints()
+				|| isUpdating) {
+			return;
+		}
+		// Prevent calling update special points recursively
+		isUpdating = true;
 
-        // we set parent algorithm to null due to weak reference in iOS
-        if (specPoints != null) {
-            for (GeoElement geo : specPoints) {
-                geo.setParentAlgorithm(null);
-            }
-        }
-        specPointAlgos.clear();
-		specPoints = null;
-		GeoElement geo = (geo0 == null && selectedGeos != null
-				&& selectedGeos.size() > 0) ? selectedGeos.get(0) : geo0;
+		getSpecPoints(geo);
+		fireSpecialPointsChangedEvent();
+
+		isUpdating = false;
+	}
+
+	private List<GeoElement> getSpecPoints(GeoElement geo0) {
+		clearSpecPoints();
+		GeoElement geo = getGeoForSpecialPoints(geo0);
 
 		if (geo != null) {
 			ArrayList<GeoElementND> specPoints0 = new ArrayList<>();
 			getSpecPoints(geo, specPoints0);
-
+			boolean canBeRemoved = geo.canBeRemovedAsInput();
+			geo.setCanBeRemovedAsInput(false);
 			if (specPoints0.size() > 0) {
 				specPoints = new ArrayList<>(specPoints0.size());
 				for (GeoElementND pt : specPoints0) {
@@ -92,32 +103,29 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 									ConstructionDefaults.DEFAULT_POINT_PREVIEW));
 					}
 				}
+				geo.setCanBeRemovedAsInput(canBeRemoved);
 			}
 		}
 
 		return specPoints;
 	}
 
-	/**
-	 * Updates the special points of the geo.
-	 *
-	 * @param geo
-	 *            geo which special points will be updated
-	 */
-	public void updateSpecialPoints(GeoElement geo) {
-        if (!kernel.getApplication().getConfig().hasPreviewPoints()
-                || isUpdating) {
-			return;
+	private void clearSpecPoints() {
+		// we set parent algorithm to null due to weak reference in iOS
+		if (specPoints != null) {
+			for (GeoElement geo : specPoints) {
+				geo.setParentAlgorithm(null);
+			}
 		}
-		// Prevent calling update special points recursively
-		isUpdating = true;
+		specPointAlgos.clear();
+		specPoints = null;
+	}
 
-		getSpecPoints(geo, kernel.getApplication().getSelectionManager()
-				.getSelectedGeos());
-
-		fireSpecialPointsChangedEvent();
-
-		isUpdating = false;
+	private GeoElement getGeoForSpecialPoints(GeoElement geo) {
+		List<GeoElement> selectedGeos = kernel.getApplication()
+				.getSelectionManager().getSelectedGeos();
+		return geo == null && selectedGeos != null
+				&& selectedGeos.size() > 0 ? selectedGeos.get(0) : geo;
 	}
 
 	private void getSpecPoints(GeoElementND geo,
@@ -137,7 +145,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		boolean suppressLabelsActive = cons.isSuppressLabelsActive();
 		kernel.setSilentMode(true);
 		try {
-            doGetSpecialPoints(geo.unwrapSymbolic(), xAxis, yAxis, retList);
+			doGetSpecialPoints(geo.unwrapSymbolic(), xAxis, yAxis, retList);
 			// Can be of function or equation
 			if (hasIntersectsBetween(geo)) {
 				getIntersectsBetween(geo, retList);
@@ -150,14 +158,14 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		}
 	}
 
-    private void doGetSpecialPoints(GeoElementND geo, boolean xAxis,
-                                    boolean yAxis, ArrayList<GeoElementND> retList) {
-        if (geo instanceof GeoFunction) {
-            getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
-        } else if (geo instanceof EquationValue) {
-            getEquationSpecialPoints(geo, xAxis, yAxis, retList);
-        }
-    }
+	private void doGetSpecialPoints(GeoElementND geo, boolean xAxis,
+									boolean yAxis, ArrayList<GeoElementND> retList) {
+		if (geo instanceof GeoFunction) {
+			getFunctionSpecialPoints((GeoFunction) geo, xAxis, yAxis, retList);
+		} else if (geo instanceof EquationValue) {
+			getEquationSpecialPoints(geo, xAxis, yAxis, retList);
+		}
+	}
 
 	private void getFunctionSpecialPoints(GeoFunction geo, boolean xAxis, boolean yAxis,
 								  ArrayList<GeoElementND> retList) {
@@ -276,12 +284,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private static boolean shouldShowSpecialPoints(GeoElementND geo) {
-        GeoElementND geoTwin = geo.unwrapSymbolic();
-        return (geoTwin instanceof GeoFunction || geoTwin instanceof EquationValue
-                || geoTwin instanceof GeoSymbolic)
-                && !(geoTwin.isGeoSegment())
-                && geoTwin.isVisible() && geoTwin.isDefined()
-                && geoTwin.isEuclidianVisible() && !geoTwin.isGeoElement3D();
+		GeoElementND geoTwin = geo.unwrapSymbolic();
+		return (geoTwin instanceof GeoFunction || geoTwin instanceof EquationValue
+				|| geoTwin instanceof GeoSymbolic)
+				&& !(geoTwin.isGeoSegment())
+				&& geoTwin.isVisible() && geoTwin.isDefined()
+				&& geoTwin.isEuclidianVisible() && !geoTwin.isGeoElement3D();
 	}
 
 	private static boolean hasIntersectsBetween(GeoElementND element) {
@@ -357,7 +365,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	}
 
 	private void storeAlgo(AlgoElement algo) {
-	    // we need to store parent algos due to weak reference in iOS
+		// we need to store parent algos due to weak reference in iOS
 		specPointAlgos.add(algo);
 	}
 

@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 
 /**
  * ToolCollectionFactory for the 3D Grapher app.
@@ -18,14 +20,14 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
         createStandardLevel(impl);
         createAdvancedLevel(impl);
 
-        impl.setLevel(0);
+        impl.setLevel(ToolsetLevel.STANDARD);
         return impl;
     }
 
     private void createStandardLevel(ToolCollectionImpl impl) {
-        impl.addLevel(LEVEL_STANDARD);
+        impl.addLevel(ToolsetLevel.STANDARD);
 
-        impl.extendCategory(CATEGORY_BASIC,
+        impl.extendCategory(ToolCategory.BASIC,
                 EuclidianConstants.MODE_MOVE,
                 EuclidianConstants.MODE_POINT,
                 EuclidianConstants.MODE_PYRAMID,
@@ -37,27 +39,27 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
     }
 
     private void createAdvancedLevel(ToolCollectionImpl impl) {
-        impl.addLevel(LEVEL_ADVANCED);
+        impl.addLevel(ToolsetLevel.ADVANCED);
 
-        impl.extendCategory(CATEGORY_BASIC);
+        impl.extendCategory(ToolCategory.BASIC);
 
-        impl.addCategory(CATEGORY_EDIT,
+        impl.addCategory(ToolCategory.EDIT,
                 EuclidianConstants.MODE_SHOW_HIDE_LABEL,
                 EuclidianConstants.MODE_SHOW_HIDE_OBJECT,
                 EuclidianConstants.MODE_DELETE,
                 EuclidianConstants.MODE_VIEW_IN_FRONT_OF);
 
-        impl.addCategory(CATEGORY_POINTS,
+        impl.addCategory(ToolCategory.POINTS,
                 EuclidianConstants.MODE_POINT,
                 EuclidianConstants.MODE_INTERSECT,
                 EuclidianConstants.MODE_MIDPOINT,
                 EuclidianConstants.MODE_POINT_ON_OBJECT,
                 EuclidianConstants.MODE_ATTACH_DETACH);
 
-        impl.addCategory(CATEGORY_LINES_AND_POLYGONS,
-                EuclidianConstants.MODE_SEGMENT,
-                EuclidianConstants.MODE_SEGMENT_FIXED,
-                EuclidianConstants.MODE_JOIN,
+		impl.addCategory(ToolCategory.LINES_AND_POLYGONS,
+				EuclidianConstants.MODE_SEGMENT,
+				EuclidianConstants.MODE_SEGMENT_FIXED,
+				EuclidianConstants.MODE_JOIN,
                 EuclidianConstants.MODE_RAY,
                 EuclidianConstants.MODE_VECTOR,
                 EuclidianConstants.MODE_POLYGON,
@@ -67,7 +69,7 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
                 EuclidianConstants.MODE_ANGULAR_BISECTOR,
                 EuclidianConstants.MODE_TANGENTS);
 
-        impl.addCategory(CATEGORY_SOLIDS,
+        impl.addCategory(ToolCategory.SOLIDS,
                 EuclidianConstants.MODE_PYRAMID,
                 EuclidianConstants.MODE_PRISM,
                 EuclidianConstants.MODE_TETRAHEDRON,
@@ -78,15 +80,16 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
                 EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
                 EuclidianConstants.MODE_CONIFY,
                 EuclidianConstants.MODE_EXTRUSION,
-                EuclidianConstants.MODE_NET);
+                EuclidianConstants.MODE_NET,
+                EuclidianConstants.MODE_SURFACE_OF_REVOLUTION);
 
-        impl.addCategory(CATEGORY_PLANES,
+        impl.addCategory(ToolCategory.PLANES,
                 EuclidianConstants.MODE_PLANE_THREE_POINTS,
                 EuclidianConstants.MODE_PLANE,
                 EuclidianConstants.MODE_PARALLEL_PLANE,
                 EuclidianConstants.MODE_ORTHOGONAL_PLANE);
 
-        impl.addCategory(CATEGORY_CIRCLES,
+        impl.addCategory(ToolCategory.CIRCLES,
                 EuclidianConstants.MODE_CIRCLE_AXIS_POINT,
                 EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION,
                 EuclidianConstants.MODE_CIRCLE_THREE_POINTS,
@@ -95,7 +98,7 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
                 EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS,
                 EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
 
-        impl.addCategory(CATEGORY_CURVES,
+        impl.addCategory(ToolCategory.CURVES,
                 EuclidianConstants.MODE_ELLIPSE_THREE_POINTS,
                 EuclidianConstants.MODE_CONIC_FIVE_POINTS,
                 EuclidianConstants.MODE_PARABOLA,
@@ -103,7 +106,7 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
                 EuclidianConstants.MODE_LOCUS,
                 EuclidianConstants.MODE_INTERSECTION_CURVE);
 
-        impl.addCategory(CATEGORY_TRANSFORM,
+        impl.addCategory(ToolCategory.TRANSFORM,
                 EuclidianConstants.MODE_MIRROR_AT_PLANE,
                 EuclidianConstants.MODE_MIRROR_AT_POINT,
                 EuclidianConstants.MODE_ROTATE_AROUND_LINE,
@@ -111,7 +114,7 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
                 EuclidianConstants.MODE_DILATE_FROM_POINT,
                 EuclidianConstants.MODE_MIRROR_AT_LINE);
 
-        impl.addCategory(CATEGORY_MEASURE,
+        impl.addCategory(ToolCategory.MEASURE,
                 EuclidianConstants.MODE_ANGLE,
                 EuclidianConstants.MODE_DISTANCE,
                 EuclidianConstants.MODE_AREA,
@@ -125,9 +128,9 @@ public class Graphing3DToolCollectionFactory extends AbstractToolCollectionFacto
         if (!isPhoneApp) {
             others.add(EuclidianConstants.MODE_TEXT);
         }
-        impl.addCategory(CATEGORY_OTHERS, others);
+        impl.addCategory(ToolCategory.OTHERS, others);
 
-        impl.addCategory(CATEGORY_SPECIAL_LINES,
+        impl.addCategory(ToolCategory.SPECIAL_LINES,
                 EuclidianConstants.MODE_VECTOR_FROM_POINT,
                 EuclidianConstants.MODE_POLYLINE,
                 // EuclidianConstants.MODE_FITLINE,

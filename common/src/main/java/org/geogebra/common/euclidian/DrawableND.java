@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -148,17 +148,6 @@ public abstract class DrawableND {
 	}
 
 	/**
-	 * @return whether this is a Drawable for input box or list in dropdown mode
-	 */
-	public boolean isCanvasDrawable() {
-		if (!(this instanceof CanvasDrawable)) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * @return recctangle for stylebar
 	 */
 	public GRectangle2D getBoundsForStylebarPosition() {
@@ -192,4 +181,14 @@ public abstract class DrawableND {
 	 */
 	public abstract DrawableND createDrawableND(GeoElement listElement);
 
+	/**
+	 * @param rect
+	 *            clipping rectangle for partial hits
+	 */
+	public abstract void setPartialHitClip(GRectangle rect);
+
+	/**
+	 * @return partialHitClip (used for strokes to select part of stroke)
+	 */
+	public abstract GRectangle getPartialHitClip();
 }

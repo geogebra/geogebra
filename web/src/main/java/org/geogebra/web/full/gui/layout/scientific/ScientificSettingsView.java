@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumerableProperty;
-import org.geogebra.common.properties.PropertiesFactory;
 import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
 import org.geogebra.web.full.gui.components.ComponentDropDown.DropDownSelectionCallback;
@@ -52,7 +52,7 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 	}
 
 	private void createHeader() {
-		headerView = new HeaderView(app);
+		headerView = new HeaderView();
 		headerView.setCaption(localization.getMenu("Settings"));
 		StandardButton backButton = headerView.getBackButton();
 		backButton.addFastClickHandler(this);
@@ -67,7 +67,8 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 
 		FlowPanel contentPanel = new FlowPanel();
 		PropertiesList propertiesList =
-				PropertiesFactory.createScientificCalculatorProperties(app, localization, null);
+				new ScientificPropertiesFactory()
+						.createGeneralProperties(app, localization, null);
 
 		buildPropertiesPanel(propertiesList, contentPanel);
 		settingsScrollPanel.add(contentPanel);

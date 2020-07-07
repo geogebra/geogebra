@@ -10,7 +10,7 @@ $duration: 0.2s;
 		background-color: $white;
 		padding: 8px 0px 8px 0px;
 		border-radius: 2px;
-		min-width: 192px;
+		min-width: 190px;
 
 		.withImg.listMenuItem.expanded, .withImg.listMenuItem.collapsed {
 			.checkMarkMenuItem {
@@ -26,12 +26,9 @@ $duration: 0.2s;
 
 		.gwt-MenuItem {
 			height: 32px;
-			min-width: 256px;
-			cursor: pointer; 
-			padding-left: 64px;
-			padding-top: 0px;
-			padding-bottom: 0px;
-			padding-right: 16px;
+			min-width: 190px;
+			cursor: pointer;
+			padding: 0px 16px 0px 56px;
 
 			&.no-image {
 				padding-left: 16px;
@@ -40,7 +37,7 @@ $duration: 0.2s;
 
 			.checkMarkMenuItem, .collapseMenuItem {
 				.gwt-HTML {
-					padding: 0 20px 0 8px;
+					padding: 0 20px 0 6px;
 				}
 
 				.checkImg {
@@ -69,14 +66,6 @@ $duration: 0.2s;
 			padding-left: 24px;
 			padding-bottom: 8px;
 			cursor: default;
-		}
-
-		.gwt-MenuItem:hover {
-			background-color: $selected-menuitem-background;
-			img {
-				opacity: 0.87;
-			}
-			color: $black;
 		}
 
 		.gwt-MenuItem-disabled,
@@ -111,53 +100,47 @@ $duration: 0.2s;
 	}
 
 	.matSubMenu.gwt-PopupPanel {
-		padding: 4px 0px 4px 0px;
+		padding: 8px 0 8px 0;
 		border-radius: 2px;
 		min-width: 64px;
-		background-color: $white-95;
+		background-color: $white;
+		scrollbar-width: thin;
+		overflow-y: auto;
+
+		// max height is viewport height - header height
+		max-height: calc(100vh - 48px);
 
 		.gwt-MenuItem {
-			height: 24px;
+			height: 32px;
 			min-width: 64px;
-			cursor: pointer; 
-			padding-left: 0px;
-			padding-top: 0px;
-			padding-bottom: 0px;
-			padding-right: 40px;
+			cursor: pointer;
+			padding: 4px 16px 0 16px;
 			line-height: 24px;
+			white-space: nowrap;
 
 			img {
 				width: 24px !important;
 				height: 24px !important;
 				opacity: 0.54;
-				/*padding: 6px;	*/
 			}
 		}
 
-		 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
+		span.gwt-RadioButton.RadioButtonMenuItem {
 			padding-left: 16px; 
 			padding-right: 16px; 
-		} 
-
-		 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame:hover { 
-			background-color: $selected-menuitem-background; 
-		} 
+		}
 
 		.gwt-MenuItem.no-image {
 			padding-left: 24px !important;
 			padding-right: 16px;
 		}
 
-		.gwt-MenuItem:hover {
+		.gwt-MenuItem:hover, .highlighted {
 			background-color: $selected-menuitem-background;
 			color: $black;
 
 			img {
 				opacity: 0.87;
-			}
-
-			span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
-				background-color: $selected-menuitem-background; 
 			}
 		}
 
@@ -166,7 +149,6 @@ $duration: 0.2s;
 			color: $black;
 			opacity: 0.38;
 		}
-
 	}
 
 	.suggestionBar {
@@ -354,11 +336,13 @@ $duration: 0.2s;
 			}
 		}
 
+		div[data-title="Input Help"]:hover:after {
+            top: 48px;
+        }
+
 		.scrollableTextBox,
 		.scrollableTextBox.avPreview,
-		.scrollableTextBox.noPreview, 
-		.avItem .elemText,
-		.avItem .elemText.scrollableTextBox,
+		.scrollableTextBox.noPreview,
 		.avItemContent {
 			padding-top: 10px;
 			padding-left: 68px;
@@ -403,7 +387,11 @@ $duration: 0.2s;
 		}
 		.avItem .elemText {
 			padding-top: 14px;
-			padding-bottom: 4px;
+			padding-bottom: 0px;
+			padding-left: 68px;
+			&.noPreview:not(.scrollableTextBox) {
+				padding-bottom: 4px;
+			}
 		}
 
 		.avItem .gwt-CheckBox{

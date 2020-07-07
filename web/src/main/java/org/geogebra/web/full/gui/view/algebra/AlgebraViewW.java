@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.gui.view.algebra.AlgebraController;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -16,6 +17,7 @@ import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -31,7 +33,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
-import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.html5.Browser;
@@ -230,9 +231,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		getElement().addClassName("algebraView");
 
-		// needed to have an element with tabindex > 0 with focus to catch
-		// keyboard events
-		getElement().setTabIndex(GUITabs.AV_TREE);
+		// needed to have tabindex >= 0 with focus to catch keyboard events
+		getElement().setTabIndex(0);
 		addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 		addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		addKeyPressHandler(this.app.getGlobalKeyDispatcher());
@@ -266,24 +266,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				// onkeypress
 				if (!(editItem || Browser.isTabletBrowser())) {
 					app.getGlobalKeyDispatcher()
-							.handleSelectedGeosKeysNative(event);
+							.handleSelectedGeosKeys(event);
 					event.stopPropagation();
 					event.preventDefault();
 					return;
 				}
-
-				// TODO: check this ----
-				break;
-			case KeyCodes.KEY_TAB:
-				event.preventDefault();
-				return;
 			}
 			break;
 		case Event.ONMOUSEDOWN:
 		case Event.ONTOUCHSTART:
 			app.closePopups();
-			// see this.setFocus(true) and this.addKeyDownHandler...
-			app.focusGained(this, this.getElement());
 		}
 
 		if (Browser.isTabletBrowser()) {
@@ -295,10 +287,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (event.getTypeInt() == Event.ONCLICK
 					&& !CancelEventTimer.cancelKeyboardHide()
 					&& !CancelEventTimer.cancelMouseEvent()) {
-				// maybe another focusScheduled is called, but
-				// that should not be a problem, the problem should
-				// collect blur events all along the way
-				app.getGuiManager().focusScheduled(true, true, true);
 				app.hideKeyboard();
 			}
 			super.onBrowserEvent(event);
@@ -362,7 +350,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		case GWTKeycodes.KEY_RIGHT:
 		case GWTKeycodes.KEY_UP:
 		case GWTKeycodes.KEY_DOWN:
-		case GWTKeycodes.KEY_TAB:
 			getActiveTreeItem().getMathField().getKeyListener()
 					.onKeyPressed(new KeyEvent(keyCode, 0,
 							(char) event.getCharCode()));
@@ -447,22 +434,36 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-
 			RadioTreeItem item = RadioTreeItem.as(node);
-
-			item.updateOnNextRepaint();
-			repaintView();
-			/*
-			 * Cancel editing if the updated geo element has been edited, but
-			 * not otherwise because editing geos while animation is running
-			 * won't work then (ticket #151).
-			 */
-			if (isEditItem() && item.getController().isEditing()) {
-				item.cancelEditing();
+			repaint(item);
+			cancelEditingIfHasBeenEdited(item);
+			if (AlgebraItem.shouldShowSlider(geo)) {
+				updateItemFor(geo);
 			}
-
 		}
 		GeoGebraProfiler.addAlgebra(System.currentTimeMillis() - start);
+	}
+
+	private void repaint(RadioTreeItem item) {
+		item.updateOnNextRepaint();
+		repaintView();
+	}
+
+	private void cancelEditingIfHasBeenEdited(RadioTreeItem item) {
+		/*
+		 * Cancel editing if the updated geo element has been edited, but
+		 * not otherwise because editing geos while animation is running
+		 * won't work then (ticket #151).
+		 */
+		if (isEditItem() && item.getController().isEditing()) {
+			item.cancelEditing();
+		}
+	}
+
+	private void updateItemFor(GeoElement element) {
+		if (element instanceof GeoNumeric && !element.isSetEuclidianVisible()) {
+			((GeoNumeric) element).initAlgebraSlider();
+		}
 	}
 
 	/**
@@ -1742,7 +1743,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private void stopCurrentEditor() {
 		if (getActiveTreeItem() != null) {
-			getActiveTreeItem().onEnter(false);
+			getActiveTreeItem().getController().onEnter(false, false);
 		}
 	}
 
@@ -1802,8 +1803,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		if (geos != null) {
-			if (geos.length > 0) {
-				inputPanelLatex.previewValue(geos[0]);
+			if (geos.length > 0 && getActiveTreeItem() != null) {
+				getActiveTreeItem().previewValue(geos[0]);
 			}
 		} else {
 			if (WarningErrorHandler.getUndefinedValiables(kernel) != null) {

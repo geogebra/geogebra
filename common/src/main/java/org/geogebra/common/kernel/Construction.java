@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -13,10 +14,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.LayerManager;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -29,8 +29,6 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
-import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
-import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -42,6 +40,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.geos.groups.Group;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -57,6 +56,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -129,6 +129,10 @@ public class Construction {
 	/** Table for (label, GeoElement) pairs, contains global variables */
 	protected HashMap<String, GeoElement> geoTable;
 
+	// List of GeoElements to store strong references to
+	// Used in the iOS app
+	private List<ConstructionElement> tempList;
+
 	// list of algorithms that need to be updated when EuclidianView changes
 	private ArrayList<EuclidianViewCE> euclidianViewCE;
 	private ArrayList<EuclidianViewCE> corner5Algos;
@@ -152,8 +156,6 @@ public class Construction {
 	private AlgorithmSet algoSetCurrentlyUpdated;
 
 	private final TreeSet<String> casDummies = new TreeSet<>();
-
-	private ArrayList<AlgoElement> casAlgos = new ArrayList<>();
 
 	/**
 	 * Table for (label, GeoCasCell) pairs, contains global variables used in
@@ -197,6 +199,10 @@ public class Construction {
 	private boolean updateConstructionRunning;
 	private LabelManager labelManager;
 
+	private ArrayList<Group> groups;
+
+	private LayerManager layerManager;
+
 	/**
 	 * Creates a new Construction.
 	 * 
@@ -229,6 +235,9 @@ public class Construction {
 		geoSetLabelOrder = new TreeSet<>(new LabelComparator());
 		geoSetsTypeMap = new HashMap<>();
 		euclidianViewCE = new ArrayList<>();
+		tempList = new ArrayList<>();
+
+		layerManager = new LayerManager();
 
 		if (parentConstruction != null) {
 			consDefaults = parentConstruction.getConstructionDefaults();
@@ -241,6 +250,7 @@ public class Construction {
 		setIgnoringNewTypes(false);
 		geoTable = new HashMap<>(200);
 		initGeoTables();
+		groups = new ArrayList<>();
 	}
 
 	/**
@@ -571,6 +581,22 @@ public class Construction {
 		return null;
 	}
 
+	/**
+	 * Returns the last Cas Evaluable GeoElement object in the construction list.
+	 *
+	 * @return the last Cas Evaluable GeoElement object in the construction list.
+	 */
+	public GeoElement getLastCasEvaluableGeoElement() {
+		Iterator<GeoElement> descending = geoSetWithCasCells.descendingIterator();
+		while (descending.hasNext()) {
+			GeoElement lastElement = descending.next();
+			if (lastElement.isCasEvaluableObject()) {
+				return lastElement;
+			}
+		}
+		return null;
+	}
+
 	/***
 	 * Returns the n-th GeoCasCell object (free or dependent) in the
 	 * construction list. This is the GeoCasCell in the n-th row of the CAS
@@ -892,6 +918,7 @@ public class Construction {
 	public void addToConstructionList(ConstructionElement ce,
 			boolean checkContains) {
 		if (supressLabelCreation) {
+			tempList.add(ce);
 			return;
 		}
 		if (checkContains && ce.isInConstructionList()) {
@@ -912,7 +939,8 @@ public class Construction {
 		int pos = ceList.indexOf(ce);
 		if (pos == -1) {
 			return;
-		} else if (pos <= step) {
+		}
+		if (pos <= step) {
 			ceList.remove(ce);
 			ce.setConstructionIndex(-1);
 			--step;
@@ -1185,11 +1213,6 @@ public class Construction {
 		// collect notifyUpdate calls using xAxis as dummy geo
 		updateConstructionRunning = true;
 		try {
-			// G.Sturr 2010-5-28: turned this off so that random numbers can be
-			// traced
-			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
-			// kernel.app.getGuiManager().startCollectingSpreadsheetTraces();
-
 			// update all independent GeoElements
 			int size = ceList.size();
 			for (int i = 0; i < size; ++i) {
@@ -1246,10 +1269,6 @@ public class Construction {
 					algo.update();
 				}
 			}
-
-			// G.Sturr 2010-5-28:
-			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
-			// kernel.app.getGuiManager().stopCollectingSpreadsheetTraces();
 		} finally {
 			updateConstructionRunning = false;
 		}
@@ -1308,9 +1327,17 @@ public class Construction {
 
 			getConstructionElementsXML(sb, getListenersToo);
 
+			getGroupsXML(sb);
+
 			sb.append("</construction>\n");
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void getGroupsXML(StringBuilder sb) {
+		for (Group gr : getGroups()) {
+			gr.getXML(sb);
 		}
 	}
 
@@ -1672,7 +1699,7 @@ public class Construction {
 		// moveDependencies(oldGeo,newGeo);
 
 		// 4) build new construction
-		buildConstruction(consXML, oldXML, info);
+		buildConstructionWithGlobalListeners(consXML, oldXML, info);
 		if (moveMode) {
 			GeoElement selGeo = kernel.lookupLabel(oldSelection);
 			selection.addSelectedGeo(selGeo, false, true);
@@ -1682,6 +1709,16 @@ public class Construction {
 
 		// recall views for plane
 		app.getCompanion().recallViewCreators();
+	}
+
+	private void buildConstructionWithGlobalListeners(
+			StringBuilder consXML, String oldXML,
+			EvalInfo info) throws Exception {
+
+		ScriptManager scriptManager = kernel.getApplication().getScriptManager();
+		scriptManager.keepListenersOnReset();
+		buildConstruction(consXML, oldXML, info);
+		scriptManager.dropListenersOnReset();
 	}
 
 	/**
@@ -1732,7 +1769,7 @@ public class Construction {
 
 		try {
 			// 4) build new construction for all changes at once
-			buildConstruction(consXML, oldXML);
+			buildConstructionWithGlobalListeners(consXML, oldXML, null);
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -1895,7 +1932,7 @@ public class Construction {
 		newGeo.setViewFlags(oldGeo.getViewSet());
 		newGeo.setScripting(oldGeo);
 		if (newGeo.getGeoClassType() != oldGeo.getGeoClassType() 
-				&& AlgebraItem.isFunctionOrEquationFromUser(newGeo)) {
+				&& newGeo.isFunctionOrEquationFromUser()) {
 			newGeo.setFixed(true);
 		}
 	}
@@ -1993,6 +2030,10 @@ public class Construction {
 		geoSetWithCasCells.add(geo);
 		geoSetLabelOrder.add(geo);
 
+		if (getApplication().isWhiteboardActive()) {
+			layerManager.addGeo(geo);
+		}
+
 		// get ordered type set
 		GeoClass type = geo.getGeoClassType();
 		TreeSet<GeoElement> typeSet = geoSetsTypeMap.get(type);
@@ -2046,19 +2087,16 @@ public class Construction {
 		geoSetWithCasCells.remove(geo);
 		geoSetLabelOrder.remove(geo);
 
+		if (getApplication().isWhiteboardActive()) {
+			layerManager.removeGeo(geo);
+		}
+
 		// set ordered type set
 		GeoClass type = geo.getGeoClassType();
 		TreeSet<GeoElement> typeSet = geoSetsTypeMap.get(type);
 		if (typeSet != null) {
 			typeSet.remove(geo);
 		}
-
-		/*
-		 * Application.debug("*** geoSet order (remove " + geo + ") ***");
-		 * Iterator it = geoSet.iterator(); int i = 0; while (it.hasNext()) {
-		 * GeoElement g = (GeoElement) it.next();
-		 * Application.debug(g.getConstructionIndex() + ": " + g); }
-		 */
 	}
 
 	/**
@@ -2224,7 +2262,7 @@ public class Construction {
 		 * like "A$1" for the "A1" to deal with absolute references. Let's
 		 * remove all "$" signs from label and try again.
 		 */
-		if (label1.indexOf('$') > -1) {
+		if (label1.indexOf('$') > -1 && label1.length() > 1) {
 			StringBuilder labelWithoutDollar = new StringBuilder(
 					label1.length() - 1);
 			for (int i = 0; i < label1.length(); i++) {
@@ -3030,10 +3068,13 @@ public class Construction {
 		intsM.clear();
 		ceList.clear();
 		algoList.clear();
+		tempList.clear();
 
 		geoSetConsOrder.clear();
 		geoSetWithCasCells.clear();
 		geoSetLabelOrder.clear();
+
+		layerManager.clear();
 
 		geoSetsTypeMap.clear();
 		euclidianViewCE.clear();
@@ -3055,6 +3096,8 @@ public class Construction {
 
 		usedMacros = null;
 		spreadsheetTraces = false;
+
+		groups.clear();
 	}
 
 	/**
@@ -3400,40 +3443,6 @@ public class Construction {
 	}
 
 	/**
-	 * Add algo to a list of algos that need update after CAS load
-	 * 
-	 * @param casAlgo
-	 *            algo using CAS
-	 */
-	public void addCASAlgo(AlgoElement casAlgo) {
-		casAlgos.add(casAlgo);
-	}
-
-	/**
-	 * Recompute all algos using CASS and dependent CAS cells
-	 */
-	public void recomputeCASalgos() {
-		for (AlgoElement algo : casAlgos) {
-			if (algo.getOutput() != null && !algo.getOutput(0).isLabelSet()) {
-				if (algo instanceof AlgoCasBase) {
-					((AlgoCasBase) algo).clearCasEvalMap("");
-					algo.compute();
-				} else if (algo instanceof AlgoUsingTempCASalgo) {
-					((AlgoUsingTempCASalgo) algo).refreshCASResults();
-					algo.compute();
-				} else if (algo instanceof UsesCAS
-						|| algo instanceof AlgoCasCellInterface) {
-					// eg Limit, LimitAbove, LimitBelow, SolveODE
-					// AlgoCasCellInterface: eg Solve[x^2]
-					algo.compute();
-				}
-				algo.getOutput(0).updateCascade();
-			}
-		}
-		casAlgos.clear();
-	}
-
-	/**
 	 * Update construction after language change (affects Name[] and similar
 	 * algos)
 	 */
@@ -3666,4 +3675,28 @@ public class Construction {
 		discoveryPool = new Pool();
 	}
 
+	public ArrayList<Group> getGroups() {
+		return groups;
+	}
+
+	public void addGroupToGroupList(Group group) {
+		getGroups().add(group);
+	}
+
+	public void removeGroupFromGroupList(Group group) {
+		getGroups().remove(group);
+	}
+
+	/**
+	 * creates group of selected geos and adds it to the construction
+	 * @param geos - list of geos selected for grouping
+	 */
+	public void createGroup(ArrayList<GeoElement> geos) {
+		Group group = new Group(geos);
+		addGroupToGroupList(group);
+	}
+
+	public LayerManager getLayerManager() {
+		return layerManager;
+	}
 }

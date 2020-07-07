@@ -18,6 +18,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -33,6 +36,7 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -114,6 +118,25 @@ public abstract class Drawable extends DrawableND {
 	protected boolean firstCall = true;
     private GeoElement geoForLabel;
 
+	/**
+	 * Create a default drawable. GeoElement and the view must be set
+	 * after creation in the constructor.
+	 */
+	public Drawable() {
+		this(null, null);
+	}
+
+	/**
+	 * Create a drawable.
+	 *
+	 * @param view euclidean view
+	 * @param geo geo element
+	 */
+	public Drawable(EuclidianView view, GeoElement geo) {
+		this.view = view;
+		this.geo = geo;
+	}
+
 	// boolean createdByDrawList = false;
 
 	@Override
@@ -165,9 +188,11 @@ public abstract class Drawable extends DrawableND {
 	public abstract GeoElement getGeoElement();
 
 	/**
-	 * @return bounding box construction
+	 * @return bounding box with handlers
 	 */
-	public abstract BoundingBox getBoundingBox();
+	public BoundingBox<? extends GShape> getBoundingBox() {
+		return null;
+	}
 
 	@Override
 	public double getxLabel() {
@@ -200,8 +225,8 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return min width in pixels
 	 */
-	public int getWidthThreshold() {
-		return 0;
+	public double getWidthThreshold() {
+		return Double.NEGATIVE_INFINITY;
 	}
 
 	/**
@@ -209,8 +234,8 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return min height in pixels
 	 */
-	public int getHeightThreshold() {
-		return 0;
+	public double getHeightThreshold() {
+		return Double.NEGATIVE_INFINITY;
 	}
 
 	/**
@@ -382,8 +407,8 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public final void drawMultilineLaTeX(GGraphics2D g2, GFont font,
 			GColor fgColor, GColor bgColor) {
-				EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
-						view.getTempGraphics2D(font), geo, g2, font, fgColor,
+		EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
+				view.getTempGraphics2D(font), geo, g2, font, fgColor,
 				bgColor, labelDesc, xLabel, yLabel, isSerif(),
 				view.getCallBack(geo, firstCall),
 				labelRectangle);
@@ -516,10 +541,8 @@ public abstract class Drawable extends DrawableND {
 	 *            - threshold
 	 * @return bounding box handler
 	 */
-	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y,
-			int hitThreshold) {
-		if (getBoundingBox() != null
-				&& getBoundingBox() == view.getBoundingBox()) {
+	public EuclidianBoundingBoxHandler hitBoundingBoxHandler(int x, int y, int hitThreshold) {
+		if (getBoundingBox() != null && getBoundingBox() == view.getBoundingBox()) {
 			return getBoundingBox().getHitHandler(x, y, hitThreshold);
 		}
 
@@ -782,17 +805,6 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * method to update geoElement of drawable by drag of resize handlers of
-	 * boundingBox
-	 * 
-	 * @param p
-	 *            - mouse release position
-	 */
-	public void updateGeo(GPoint2D p) {
-		// do nothing here
-	}
-
-	/**
 	 * @param text
 	 *            text
 	 * @param font
@@ -880,13 +892,6 @@ public abstract class Drawable extends DrawableND {
 				|| handler == EuclidianBoundingBoxHandler.TOP_RIGHT;
 	}
 
-	/**
-	 * @return whether bounding box should have a rotation handler
-	 */
-	protected boolean hasRotationHandler() {
-		return false;
-	}
-
 	@Override
 	public DrawableND createDrawableND(GeoElement subGeo) {
 		return view.newDrawable(subGeo);
@@ -899,22 +904,68 @@ public abstract class Drawable extends DrawableND {
         return getTopLevelGeo().doHighlighting();
     }
 
-    /**
-     * Helper method for creating a BoundingBox object.
-     *
-     * @param isImage            is image
-     * @param hasRotationHandler has rotation handler
-     * @return bounding box
-     */
-    protected BoundingBox createBoundingBox(boolean isImage, boolean hasRotationHandler) {
-        BoundingBox boundingBox = new BoundingBox(isImage, hasRotationHandler);
-        boundingBox.setColor(getActiveColor());
+	@Override
+	public void setPartialHitClip(GRectangle rect) {
+		// just strokes
+	}
 
-        return boundingBox;
-    }
+	@Override
+	public GRectangle getPartialHitClip() {
+		return null;
+	}
 
-    private GColor getActiveColor() {
-        App app = geo.getKernel().getApplication();
-        return app.getPrimaryColor();
-    }
+	/**
+	 * @return bounding box for multi-selection, possibly clipped
+	 */
+	public GRectangle2D getBoundsClipped() {
+		return getBoundingBox() != null ? getBoundingBox().getRectangle() : getBounds();
+	}
+
+	/**
+	 * Reset partial hit rectangle after click
+	 * 
+	 * @param x
+	 *            screen x-coord of the click
+	 * @param y
+	 *            screen y-coord of the click
+	 * @return whether we clicked outside of partial hit
+	 */
+	public boolean resetPartialHitClip(int x, int y) {
+		return false; // only for strokes
+	}
+
+	/**
+	 * @param points
+	 *            list of points defining the drawable
+	 */
+	public void fromPoints(ArrayList<GPoint2D> points) {
+		// only shapes
+	}
+
+	/**
+	 * @return list of points defining the drawable
+	 */
+	protected List<GPoint2D> toPoints() {
+		GRectangle2D bounds = getBoundingBox() != null
+				? getBoundingBox().getRectangle()
+				: getBounds();
+		List<GPoint2D> ret = new ArrayList<>(2);
+		ret.add(new MyPoint(bounds.getMinX(), bounds.getMinY()));
+		ret.add(new MyPoint(bounds.getMaxX(), bounds.getMaxY()));
+		return ret;
+	}
+
+	/**
+	 * Update this if it's marked as outdated
+	 */
+	public void updateIfNeeded() {
+		if (needsUpdate()) {
+			setNeedsUpdate(false);
+			update();
+		}
+	}
+
+	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
+		return new SingleBoundingBox(view.getApplication().getPrimaryColor());
+	}
 }

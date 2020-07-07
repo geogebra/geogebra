@@ -7,8 +7,6 @@ import org.geogebra.common.kernel.DistanceFunction;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -27,6 +25,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -209,12 +209,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 
 		// distFun = new ParametricCurveDistanceFunction(this);
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		// TODO Auto-generated method stub
-		return true;
 	}
 
 	@Override
@@ -576,7 +570,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public void clearCasEvalMap(String string) {
+	public void clearCasEvalMap() {
 		// TODO Auto-generated method stub
 
 	}
@@ -617,11 +611,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	@Override
 	protected GeoCurveCartesianND newGeoCurveCartesian(Construction cons1) {
 		return new GeoCurveCartesian3D(cons1);
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

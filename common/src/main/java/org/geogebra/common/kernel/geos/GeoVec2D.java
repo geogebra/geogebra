@@ -23,7 +23,6 @@ import java.util.HashSet;
 import org.apache.commons.math3.complex.Complex;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -39,6 +38,7 @@ import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
@@ -1172,13 +1172,12 @@ final public class GeoVec2D extends ValidExpression
 		if (isImaginaryUnit()) {
 			switch (tpl.getStringType()) {
 			case GIAC:
+			case LATEX:
 				return "i";
-
 			default:
 				// case GEOGEBRA:
 				// case GEOGEBRA_XML:
-				// case LATEX:
-				return Unicode.IMAGINARY + "";
+				return String.valueOf(Unicode.IMAGINARY);
 			}
 		} else if (mode == Kernel.COORD_COMPLEX) {
 			initStringBuilder();

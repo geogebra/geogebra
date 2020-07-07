@@ -37,41 +37,25 @@ public class AlgoGCD extends AlgoTwoNumFunction {
 	}
 
 	@Override
-	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()) {
-
-			if (a.getDouble() > Long.MAX_VALUE || b.getDouble() > Long.MAX_VALUE
-					|| a.getDouble() < -Long.MAX_VALUE
-					|| b.getDouble() < -Long.MAX_VALUE) {
-				num.setUndefined();
-				return;
-			}
-
-			if (DoubleUtil.isInteger(a.getDouble())
-					&& DoubleUtil.isInteger(b.getDouble())) {
-				BigInteger i1 = BigInteger
-						.valueOf((long) DoubleUtil.checkInteger(a.getDouble()));
-				BigInteger i2 = BigInteger
-						.valueOf((long) DoubleUtil.checkInteger(b.getDouble()));
-
-				i1 = i1.gcd(i2);
-
-				double result = Math.abs(i1.doubleValue());
-
-				// can't store integers greater than this in a double accurately
-				if (result > 1e15) {
-					num.setUndefined();
-					return;
-				}
-
-				num.setValue(result);
-			} else {
-				num.setUndefined();
-			}
-
-		} else {
-			num.setUndefined();
+	public final double computeValue(double aVal, double bVal) {
+		if (aVal > Long.MAX_VALUE || bVal > Long.MAX_VALUE || aVal < -Long.MAX_VALUE
+				|| bVal < -Long.MAX_VALUE) {
+			return Double.NaN;
 		}
-	}
 
+		if (DoubleUtil.isInteger(aVal) && DoubleUtil.isInteger(bVal)) {
+			BigInteger i1 = BigInteger.valueOf(Math.round(aVal));
+			BigInteger i2 = BigInteger.valueOf(Math.round(bVal));
+
+			i1 = i1.gcd(i2);
+
+			double result = Math.abs(i1.doubleValue());
+
+			// can't store integers greater than this in a double accurately
+			if (result < 1e15) {
+				return result;
+			}
+		}
+		return Double.NaN;
+	}
 }

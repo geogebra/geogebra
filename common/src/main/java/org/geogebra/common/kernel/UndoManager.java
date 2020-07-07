@@ -149,7 +149,7 @@ public abstract class UndoManager {
 	final public synchronized void processXML(String strXML,
 			boolean isGGTOrDefaults, EvalInfo info) throws Exception {
 
-		boolean randomize = info == null || info.updateRandom();
+		boolean randomize = info != null && info.updateRandom();
 
 		construction.setFileLoading(true);
 		construction.setCasCellUpdate(true);
@@ -158,16 +158,6 @@ public abstract class UndoManager {
 		construction.setFileLoading(false);
 		construction.setCasCellUpdate(false);
 	}
-
-	// final public synchronized void processXML(String strXML,
-	// boolean isGGTOrDefaults, boolean randomize) throws Exception {
-	// construction.setFileLoading(true);
-	// construction.setCasCellUpdate(true);
-	// construction.getXMLio().processXMLString(strXML, true, isGGTOrDefaults,
-	// true, randomize);
-	// construction.setFileLoading(false);
-	// construction.setCasCellUpdate(false);
-	// }
 
 	/**
 	 * Loads previous construction state from undo info list.
@@ -266,11 +256,6 @@ public abstract class UndoManager {
 		}
 		return iterator.hasNext();
 	}
-
-	/**
-	 * Stores undo info after pasting or adding new objects
-	 */
-	public abstract void storeUndoInfoAfterPasteOrAdd();
 
 	/**
 	 * @param currentUndoXML
@@ -435,10 +420,11 @@ public abstract class UndoManager {
 	 *            embed ID
 	 */
 	public void embeddedAction(EventType action, String id) {
-		if (app.getEmbedManager() != null) {
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
 			try {
 				int embedId = Integer.parseInt(id);
-				app.getEmbedManager().executeAction(action, embedId);
+				embedManager.executeAction(action, embedId);
 			} catch (RuntimeException e) {
 				Log.warn("No undo possible for embed " + id);
 			}

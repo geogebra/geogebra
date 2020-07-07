@@ -9,13 +9,11 @@ import org.geogebra.web.full.css.ResourceIconProvider;
 import org.geogebra.web.full.gui.layout.BaseHeaderResizer;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.full.gui.menubar.BaseMenuItemProvider;
-import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AVErrorHandler;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MarblePanel;
-import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollection;
 import org.geogebra.web.full.main.HeaderResizer;
@@ -78,7 +76,7 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
+	public MenuItemCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
 		return new AlgebraMenuItemCollection(view);
 	}
 
@@ -89,18 +87,13 @@ public class BaseActivity implements GeoGebraActivity {
 	}
 
 	@Override
-	public MainMenuItemProvider getMenuItemProvider(AppW app) {
-		return new BaseMenuItemProvider(app);
-	}
-
-	@Override
 	public void showSettingsView(AppW app) {
 		app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL, null);
 	}
 
 	@Override
 	public SVGResource getIcon() {
-		// default implementation: never used
+		// default implementation: classic and suite
 		return MaterialDesignResources.INSTANCE.geogebra_color();
 	}
 
@@ -117,18 +110,23 @@ public class BaseActivity implements GeoGebraActivity {
 		return headerResizer;
 	}
 
-    @Override
-    public ResourceIconProvider getResourceIconProvider() {
-        return MaterialDesignResources.INSTANCE;
-    }
+	@Override
+	public ResourceIconProvider getResourceIconProvider() {
+		return MaterialDesignResources.INSTANCE;
+	}
 
-    @Override
-    public boolean isWhiteboard() {
-        return false;
-    }
+	@Override
+	public boolean isWhiteboard() {
+		return false;
+	}
 
-    @Override
-    public ApiExporter getApiExporter() {
-        return new ApiExporter();
-    }
+	@Override
+	public ApiExporter getApiExporter() {
+		return new ApiExporter();
+	}
+
+	@Override
+	public SVGResource getExamIcon() {
+		return null;
+	}
 }

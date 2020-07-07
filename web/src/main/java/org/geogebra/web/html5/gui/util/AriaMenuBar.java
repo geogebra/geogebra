@@ -12,24 +12,24 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /** Accessible alternative to MenuBar */
-public class AriaMenuBar extends Widget {
+public class AriaMenuBar extends FlowPanel {
 	private AriaMenuItem selectedItem;
 	private ArrayList<AriaMenuItem> allItems = new ArrayList<>();
 	private ArrayList<AriaMenuBar> submenus = new ArrayList<>();
 	private boolean autoOpen;
-	private boolean focusOnHover;
 	private boolean handleArrows = true;
 
 	/**
 	 * Create new accessible menu
 	 */
 	public AriaMenuBar() {
-		setElement(Document.get().createULElement());
+		super("UL");
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
-				| Event.ONFOCUS | Event.ONKEYDOWN);
+				| Event.ONFOCUS | Event.ONKEYPRESS | Event.ONKEYDOWN);
 		getElement().setAttribute("role", "menubar");
 		getElement().setTabIndex(0);
 		addStyleName("gwt-MenuBar");
@@ -50,7 +50,7 @@ public class AriaMenuBar extends Widget {
 	 * @return the item
 	 */
 	public AriaMenuItem addItem(AriaMenuItem item) {
-		getElement().appendChild(item.getElement());
+		super.add(item);
 		allItems.add(item);
 		return item;
 	}
@@ -142,13 +142,20 @@ public class AriaMenuBar extends Widget {
 	 *            item to be selected
 	 */
 	public void selectItem(AriaMenuItem item) {
-		if (selectedItem != null) {
-			selectedItem.removeStyleName("selectedItem");
-		}
+		unselect();
 		this.selectedItem = item;
 		if (item != null) {
 			focus(item);
 			item.addStyleName("selectedItem");
+		}
+	}
+
+	/**
+	 * Removes selection from previously selected item.
+	 */
+	public void unselect() {
+		if (selectedItem != null) {
+			selectedItem.removeStyleName("selectedItem");
 		}
 	}
 
@@ -200,6 +207,9 @@ public class AriaMenuBar extends Widget {
 	 */
 	public boolean moveSelectionDown() {
 		int next = allItems.indexOf(selectedItem) + 1;
+		if (next >= allItems.size()) {
+			next = 0;
+		}
 		if (next < allItems.size()) {
 			selectItem(allItems.get(next));
 			return true;
@@ -229,7 +239,11 @@ public class AriaMenuBar extends Widget {
 	 */
 	public void addSeparator() {
 		Element li = DOM.createElement("LI");
-		li.setClassName("menuSeparator");
+		if (getApp() != null && getApp().isWhiteboardActive()) {
+			li.setClassName("mowMenuSeparator");
+		} else {
+			li.setClassName("menuSeparator");
+		}
 		li.setAttribute("role", "presentation");
 		getElement().appendChild(li);
 	}
@@ -266,7 +280,7 @@ public class AriaMenuBar extends Widget {
 				doItemAction(item);
 			}
 			break;
-
+		case Event.ONTOUCHSTART:
 		case Event.ONMOUSEOVER:
 			if (item != null) {
 				itemOver(item);
@@ -284,16 +298,13 @@ public class AriaMenuBar extends Widget {
 			break;
 		}
 
+		case Event.ONKEYPRESS:
+			handleActionKey(event, item);
+			break;
+
 		case Event.ONKEYDOWN:
 			int keyCode = event.getKeyCode();
-			if (keyCode == KeyCodes.KEY_ENTER
-					|| keyCode == KeyCodes.KEY_SPACE) {
-				if (item != null) {
-					doItemAction(item);
-					eatEvent(event);
-				}
-			}
-			else if (keyCode == KeyCodes.KEY_UP && handleArrows) {
+			if (keyCode == KeyCodes.KEY_UP && handleArrows) {
 				moveSelectionUp();
 				eatEvent(event);
 				return;
@@ -307,6 +318,20 @@ public class AriaMenuBar extends Widget {
 		} // end switch (DOM.eventGetType(event))
 
 		super.onBrowserEvent(event);
+	}
+
+	private void handleActionKey(Event event, AriaMenuItem item) {
+		if (!isActionKey(event.getKeyCode()) || item == null) {
+			return;
+		}
+
+		doItemAction(item);
+		eatEvent(event);
+	}
+
+	private boolean isActionKey(int keyCode) {
+		return keyCode == KeyCodes.KEY_ENTER
+				|| keyCode == KeyCodes.KEY_SPACE;
 	}
 
 	/**
@@ -349,16 +374,11 @@ public class AriaMenuBar extends Widget {
 
 	private static void doItemAction(AriaMenuItem item) {
 		final ScheduledCommand cmd = item.getScheduledCommand();
-		if (!item.isEnabled()) {
+		if (!item.isEnabled() || cmd == null) {
 			return;
 		}
-		Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				cmd.execute();
-			}
-		});
 
+		Scheduler.get().scheduleFinally(cmd);
 	}
 
 	/**
@@ -368,11 +388,11 @@ public class AriaMenuBar extends Widget {
 	protected void itemOver(AriaMenuItem item) {
 		if (item != null) {
 			removeSubPopup();
+			selectItem(item);
 		}
 		if (item != null
 				&& "true".equals(item.getElement().getAttribute("hasPopup"))
 				&& autoOpen) {
-			selectItem(item);
 			doItemAction(item);
 		}
 	}
@@ -410,21 +430,6 @@ public class AriaMenuBar extends Widget {
 	}
 
 	/**
-	 * @param focusOnHover
-	 *            whether mouseover should select items
-	 */
-	public void setFocusOnHoverEnabled(boolean focusOnHover) {
-		this.focusOnHover = focusOnHover;
-	}
-
-	/**
-	 * @return whether mouseover should select items
-	 */
-	public boolean isFocusOnHover() {
-		return focusOnHover;
-	}
-
-	/**
 	 * Clears default menu role. Useful for submenus.
 	 */
 	public void clearRole() {
@@ -436,5 +441,13 @@ public class AriaMenuBar extends Widget {
 	 */
 	public void selectLastItem() {
 		selectItem(allItems.get(allItems.size() - 1));
+	}
+
+	/**
+	 * Style popup menu appears
+	 * @param widget to style.
+	 */
+	public void stylePopup(Widget widget) {
+		// implement in subclasses if needed
 	}
 }

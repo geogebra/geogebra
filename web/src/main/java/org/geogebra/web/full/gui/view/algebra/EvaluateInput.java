@@ -22,7 +22,7 @@ import com.google.gwt.core.client.Scheduler;
 public class EvaluateInput {
 	RadioTreeItem item;
 	App app;
-	LatexTreeItemController ctrl;
+	RadioTreeItemController ctrl;
 	private boolean usingValidInput;
 
 	/**
@@ -31,7 +31,7 @@ public class EvaluateInput {
 	 * @param item to evaluate.
 	 * @param ctrl the controller.
 	 */
-	public EvaluateInput(RadioTreeItem item, LatexTreeItemController ctrl) {
+	public EvaluateInput(RadioTreeItem item, RadioTreeItemController ctrl) {
 		this.item = item;
 		this.app = item.getApplication();
 		this.ctrl = ctrl;
@@ -112,7 +112,7 @@ public class EvaluateInput {
 				.processAlgebraCommandNoExceptionHandling(input, false, err,
 						info, cbEval);
 		if (!keepFocus) {
-			item.setFocus(false, false);
+			item.setFocus(false);
 		}
 	}
 
@@ -157,7 +157,7 @@ public class EvaluateInput {
 								if (keepFocus) {
 									ctrl.setFocus(true);
 								} else {
-									item.setFocus(false, true);
+									item.setFocus(false);
 								}
 							}
 						});

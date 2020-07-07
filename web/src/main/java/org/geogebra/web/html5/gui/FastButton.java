@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
-import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.GCustomButton;
 
@@ -46,8 +44,7 @@ import com.google.gwt.user.client.Event;
  * @author ashton with changes from Matthias Meisinger
  * 
  */
-public abstract class FastButton extends GCustomButton
-		implements AccessibilityInterface {
+public abstract class FastButton extends GCustomButton {
 
 	// in case the same touch reaches different Buttons (f.e. TouchStart +
 	// TouchEnd open the StyleBar and MouseUp reaches the first Button on the
@@ -55,9 +52,7 @@ public abstract class FastButton extends GCustomButton
 
 	private boolean touchMoved = false;
 	private int touchId;
-	private boolean active;
 	private final List<FastClickHandler> handlers;
-	private AccessibilityButton acc;
 
 	/**
 	 * New fast button
@@ -74,27 +69,6 @@ public abstract class FastButton extends GCustomButton
 		                                               // Cancel, Change)
 
 		this.handlers = new ArrayList<>();
-		acc = new AccessibilityButton(this);
-	}
-
-	/**
-	 * @param active
-	 *            whether it's enabled
-	 */
-	public void setActive(boolean active) {
-		if (active) {
-			onEnablePressStyle();
-		} else {
-			onDisablePressStyle();
-		}
-		this.active = active;
-	}
-
-	/**
-	 * @return whether it's enabled
-	 */
-	public boolean isActive() {
-		return this.active;
 	}
 
 	/**
@@ -109,57 +83,16 @@ public abstract class FastButton extends GCustomButton
 		this.handlers.add(handler);
 	}
 
-	/**
-	 * Implement the handler for pressing but NOT releasing the button. Normally
-	 * you just want to show some CSS style change to alert the user the element
-	 * is active but not yet pressed
-	 * 
-	 * ONLY FOR STYLE CHANGE - Will briefly be called onClick
-	 * 
-	 * TIP: Don't make a dramatic style change. Take note that if a user is just
-	 * trying to scroll, and start on the element and then scrolls off, we may
-	 * not want to distract them too much. If a user does scroll off the
-	 * element,
-	 * 
-	 */
-	public abstract void onHoldPressDownStyle();
-
-	/**
-	 * Implement the handler for release of press. This should just be some CSS
-	 * or Style change.
-	 * 
-	 * ONLY FOR STYLE CHANGE - Will briefly be called onClick
-	 * 
-	 * TIP: This should just go back to the normal style.
-	 */
-	public abstract void onHoldPressOffStyle();
-
-	/**
-	 * Change styling to disabled
-	 */
-	public abstract void onDisablePressStyle();
-
-	/**
-	 * Change styling to enabled
-	 * 
-	 * TIP:
-	 */
-	public abstract void onEnablePressStyle();
-
 	@Override
 	public void onBrowserEvent(Event event) {
-
 		if (!this.isEnabled()) {
 			event.stopPropagation();
 			return;
 		}
 		
-		if (acc.handleBrowserEvent(event)) {
-			return;
-		}
-		
 		switch (DOM.eventGetType(event)) {
 		case Event.ONTOUCHSTART: {
+			removeStyleName("keyboardFocus");
 			onTouchStart(event);
 			event.stopPropagation();
 			break;
@@ -176,16 +109,12 @@ public abstract class FastButton extends GCustomButton
 		}
 		case Event.ONMOUSEUP: {
 			onClick(event);
-			Log.debug("touch up");
-			// because Event.ONCLICK always came twice on desktop browsers oO
 			event.stopPropagation();
 			break;
 		}
 		case Event.ONMOUSEDOWN: {
+			removeStyleName("keyboardFocus");
 			event.stopPropagation();
-			if (!this.handlers.isEmpty()) {
-				event.preventDefault();
-			}
 			break;
 		}
 
@@ -219,16 +148,13 @@ public abstract class FastButton extends GCustomButton
 
 		if (!CancelEventTimer.cancelMouseEvent()) {
 			// Press not handled yet
-			fireFastClickEvent();
+			fireFastClickEvent(event.getType());
 		}
 
 		super.onBrowserEvent(event);
 	}
 
 	private void onTouchStart(Event event) {
-
-		onHoldPressDownStyle(); // Show style change
-
 		// Stop the event from bubbling up
 		event.stopPropagation();
 
@@ -279,10 +205,7 @@ public abstract class FastButton extends GCustomButton
 				boolean xRight = (this.getAbsoluteLeft() + this
 				        .getOffsetWidth()) < xCord; // x to the right
 
-				if (yTop || yBottom || xLeft || xRight) {
-					this.touchMoved = true;
-					onHoldPressOffStyle(); // Go back to normal style
-				}
+				this.touchMoved = yTop || yBottom || xLeft || xRight;
 			}
 		}
 	}
@@ -290,37 +213,21 @@ public abstract class FastButton extends GCustomButton
 	private void onTouchEnd(Event event) {
 		CancelEventTimer.touchEventOccured();
 		if (!this.touchMoved) {
-			fireFastClickEvent();
+			fireFastClickEvent(event.getType());
 			event.preventDefault();
-			onHoldPressOffStyle(); // Change back the style
 		}
 	}
 
 	/**
 	 * Notify all handlers
 	 */
-	protected void fireFastClickEvent() {
-
+	private void fireFastClickEvent(String eventType) {
 		for (FastClickHandler h : this.handlers) {
-			h.onClick(this);
-		}
-	}
-	
-	@Override
-	public void addTabHandler(TabHandler handler) {
-		acc.addTabHandler(handler);
-	}
-	
-	@Override
-	public void setIgnoreTab() {
-		acc.setIgnoreTab();
-	}
-
-	@Override
-	protected void onAttach() {
-		super.onAttach();
-		if (acc != null) {
-			acc.correctTabIndex();
+			if (h instanceof FastClickHandler.Typed) {
+				((FastClickHandler.Typed) h).onClick(eventType);
+			} else {
+				h.onClick(this);
+			}
 		}
 	}
 }

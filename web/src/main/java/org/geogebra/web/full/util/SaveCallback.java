@@ -57,8 +57,9 @@ public class SaveCallback {
 							+ app.getLocalization()
 									.getMenu("SavedLocalCopySuccessfully"))
 					: loc.getMenu("SavedSuccessfully");
-			if (app.getActiveMaterial() != null
-					&& !app.getActiveMaterial().getVisibility().equals("P")
+			Material activeMaterial = app.getActiveMaterial();
+			if (activeMaterial != null
+					&& !activeMaterial.getVisibility().equals("P")
 					&& state != SaveState.ERROR) {
 
 				if (state == SaveState.FORKED) {
@@ -70,7 +71,7 @@ public class SaveCallback {
 				ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 						"<p style='margin-top: 13px; margin-bottom: 0px'>"
 								+ msg + "</p>",
-						app.getActiveMaterial().getURL(),
+						activeMaterial.getURL(),
 						ToolTipLinkType.ViewSavedFile, app,
 						app.getAppletFrame().isKeyboardShowing());
 			} else {
@@ -118,7 +119,7 @@ public class SaveCallback {
 							+ "\n" + app.getLocalization()
 									.getMenu("SaveLocalCopyFailed"));
 		} else {
-            app.showError(Errors.SaveFileFailed);
+			app.showError(Errors.SaveFileFailed);
 		}
 
 	}

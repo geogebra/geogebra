@@ -5,16 +5,9 @@ import java.util.List;
 
 class MetaModelFunctions {
 
-	private static MetaFunction createFunction(Tag name, String tex,
-			char key, MetaParameter[] parameters) {
-		return new MetaFunction(name, tex, key, parameters);
-    }
-
-	private static MetaFunction createFunction(Tag name, String tex,
-			MetaParameter[] parameters) {
-		char key = name.getKey();
-		return createFunction(name, tex, key, parameters);
-    }
+	private static MetaFunction createFunction(Tag name, String tex, MetaParameter[] parameters) {
+		return new MetaFunction(name, tex, parameters);
+	}
 
 	private static MetaFunction createFunction(Tag name) {
 		return createFunction(name, new MetaParameter[] { MetaParameter.BASIC });
@@ -40,8 +33,8 @@ class MetaModelFunctions {
 		return new MetaParameter(-1, down);
     }
 
-	ListMetaGroup createGeneralFunctionsGroup() {
-		List<MetaComponent> functions = new ArrayList<>();
+	ListMetaGroup<MetaFunction> createGeneralFunctionsGroup() {
+		List<MetaFunction> functions = new ArrayList<>();
 
 		functions.add(createFunction(Tag.SUBSCRIPT));
 		functions.add(createFunction(Tag.SUPERSCRIPT));
@@ -61,7 +54,7 @@ class MetaModelFunctions {
 								createParameterDown(0), createParameterUp(1)
         }));
 
-		functions.add(createFunctionInsert(Tag.LOG, "log", 1,
+		functions.add(createFunctionInsert(Tag.LOG, "\\log", 1,
 				new MetaParameter[] { MetaParameter.BASIC, MetaParameter.BASIC }));
 
 		functions.add(
@@ -83,16 +76,42 @@ class MetaModelFunctions {
 								MetaParameter.BASIC, MetaParameter.BASIC
         }));
 
+		functions.add(
+				createFunctionInsert(Tag.DEF_INT, "\\int", 2,
+						new MetaParameter[] {
+								createParameterUp(1), createParameterDown(0)
+		}));
+
 		functions
 				.add(createFunctionInsert(Tag.LIM, "\\lim", 2,
 						new MetaParameter[] {
 								MetaParameter.BASIC, MetaParameter.BASIC, MetaParameter.BASIC
         }));
 
+		functions
+				.add(createFunctionInsert(Tag.LIM_EQ, "\\lim", 1,
+						new MetaParameter[] {
+								MetaParameter.BASIC
+		}));
+
+		functions.add(createFunctionInsert(Tag.PROD_EQ, "\\prod", 2,
+				new MetaParameter[] {
+						createParameterUp(1), createParameterDown(0)
+		}));
+
+		functions.add(createFunctionInsert(Tag.SUM_EQ, "\\sum", 2,
+				new MetaParameter[] {
+						createParameterUp(1), createParameterDown(0)
+		}));
+
+		functions.add(createFunction(Tag.VEC, "\\vec", new MetaParameter[] {
+				MetaParameter.BASIC
+		}));
+
 		functions.add(createFunction(Tag.ABS));
 		functions.add(createFunction(Tag.FLOOR));
 		functions.add(createFunction(Tag.CEIL));
 
-		return new ListMetaGroup(functions);
-    }
+		return new ListMetaGroup<>(functions);
+	}
 }

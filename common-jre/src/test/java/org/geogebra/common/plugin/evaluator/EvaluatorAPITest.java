@@ -10,6 +10,8 @@ import org.geogebra.common.io.MathFieldCommon;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.himamis.retex.editor.share.meta.MetaModel;
+
 /**
  * Tests for the EvaluatorAPI
  */
@@ -18,12 +20,12 @@ public class EvaluatorAPITest extends BaseUnitTest {
     private EditorTyper typer;
     private EvaluatorAPI api;
 
-    @Before
-    public void setupTest() {
-        MathFieldCommon mathField = new MathFieldCommon();
-        api = new EvaluatorAPI(getKernel(), mathField.getInternal());
-        typer = new EditorTyper(mathField);
-    }
+	@Before
+	public void setupTest() {
+		MathFieldCommon mathField = new MathFieldCommon(new MetaModel());
+		api = new EvaluatorAPI(getKernel(), mathField.getInternal());
+		typer = new EditorTyper(mathField);
+	}
 
     @Test
     public void testGetEvaluatorValue() {
@@ -59,8 +61,32 @@ public class EvaluatorAPITest extends BaseUnitTest {
         typer.type("1/");
         Map<String, Object> value = api.getEvaluatorValue();
 
-        assertEquals("{\\frac{1}{\\nbsp }}", value.get("latex").toString());
-        assertEquals("(1)/()", value.get("content").toString());
-        assertEquals("NaN", value.get("eval").toString());
-    }
+		assertEquals("{\\frac{1}{\\nbsp }}", value.get("latex").toString());
+		assertEquals("(1)/()", value.get("content").toString());
+		assertEquals("NaN", value.get("eval").toString());
+	}
+
+	@Test
+	public void testSetEditorState() {
+		api.setEditorState("{content:\"1+1/5\"}");
+		Map<String, Object> value = api.getEvaluatorValue();
+
+		assertEquals("1+{\\frac{1}{5}}", value.get("latex").toString());
+		assertEquals("1+(1)/(5)", value.get("content").toString());
+		assertEquals("1.2", value.get("eval").toString());
+	}
+
+	@Test
+	public void testSetEditorStateInvalidCaret() {
+		api.setEditorState("{content:\"1+1/5\", caret: \"/\"}");
+		Map<String, Object> value = api.getEvaluatorValue();
+		assertEquals("1+(1)/(5)", value.get("content").toString());
+	}
+
+	@Test
+	public void testSetEditorStateInvalidContent() {
+		api.setEditorState("{caret: [1,2,3]}");
+		Map<String, Object> value = api.getEvaluatorValue();
+		assertEquals("", value.get("content").toString());
+	}
 }

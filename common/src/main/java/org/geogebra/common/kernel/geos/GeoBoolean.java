@@ -180,11 +180,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public final boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	public boolean isFixable() {
 		// visible checkbox should not be fixable
 		return isIndependent() && !isSetEuclidianVisible()
@@ -251,7 +246,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		StringBuilder sbToString = new StringBuilder();
 		sbToString.setLength(0);
 		sbToString.append(label);
-		sbToString.append(" = ");
+		sbToString.append(tpl.getEqualsWithSpace());
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
@@ -476,6 +471,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
+		notifyUpdate();
 	}
 
 	@Override
@@ -493,6 +489,11 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return (int) (32 + StringUtil.getPrototype().estimateLength(
 				getCaption(StringTemplate.defaultTemplate),
 				ev.getApplication().getFontCanDisplay(label)));
+	}
+
+	@Override
+	public boolean isFurniture() {
+		return false;
 	}
 
 	@Override

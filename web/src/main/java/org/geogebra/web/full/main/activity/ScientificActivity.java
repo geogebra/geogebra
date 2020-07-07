@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -10,12 +10,10 @@ import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificDockPanelDecorator;
 import org.geogebra.web.full.gui.layout.scientific.ScientificHeaderResizer;
-import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
-import org.geogebra.web.full.gui.menubar.ScientificMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AVItemHeaderScientific;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.AlgebraMenuItemCollectionScientific;
 import org.geogebra.web.full.main.HeaderResizer;
@@ -44,7 +42,7 @@ public class ScientificActivity extends BaseActivity {
 	public void start(AppW app) {
 		
 		app.getKernel().getAlgebraProcessor()
-				.addCommandNameFilter(CommandNameFilterFactory.createSciCalcCommandNameFilter());
+				.addCommandFilter(CommandFilterFactory.createSciCalcCommandFilter());
 		initHeaderButtons(app);
 		app.forceEnglishCommands();
 		app.setRightClickEnabledForAV(false);
@@ -52,7 +50,7 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	private static void initHeaderButtons(AppW app) {
-        app.getGuiManager().menuToGlobalHeader();
+		app.getGuiManager().menuToGlobalHeader();
 		GlobalHeader.INSTANCE.initSettingButtonIfOnHeader();
 		GlobalHeader.INSTANCE.initUndoRedoButtonsIfOnHeader();
 	}
@@ -83,7 +81,7 @@ public class ScientificActivity extends BaseActivity {
 	}
 
 	@Override
-	public MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
+	public MenuItemCollection<GeoElement> getAVMenuItems(AlgebraViewW view) {
 		return new AlgebraMenuItemCollectionScientific(view);
 	}
 
@@ -91,11 +89,6 @@ public class ScientificActivity extends BaseActivity {
 	public ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
 			boolean allowSliders, boolean withSliders) {
 		return ErrorHelper.silent();
-	}
-
-	@Override
-	public MainMenuItemProvider getMenuItemProvider(AppW app) {
-		return new ScientificMenuItemProvider(app);
 	}
 
 	@Override

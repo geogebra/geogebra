@@ -111,10 +111,11 @@ public abstract class FileManager extends MaterialsManager {
 			mat.setAuthorId(app.getLoginOperation().getModel().getUserId());
 			mat.setAuthor(app.getLoginOperation().getUserName());
 		}
-		if (app.getActiveMaterial() != null) {
-			mat.setSharingKey(app.getActiveMaterial().getSharingKey());
-			mat.setVisibility(app.getActiveMaterial().getVisibility());
-			mat.setURL(app.getActiveMaterial().getURL());
+		Material activeMaterial = app.getActiveMaterial();
+		if (activeMaterial != null) {
+			mat.setSharingKey(activeMaterial.getSharingKey());
+			mat.setVisibility(activeMaterial.getVisibility());
+			mat.setURL(activeMaterial.getURL());
 		}
 		return mat;
 	}
@@ -133,8 +134,7 @@ public abstract class FileManager extends MaterialsManager {
 	 */
 	@Override
 	public void getUsersMaterials() {
-		getFiles(MaterialFilter.getUniversalFilter());
-		// getFiles(MaterialFilter.getAuthorFilter(app.getLoginOperation().getUserName()));
+		getFiles(MaterialFilter.getAppNameFilter(app.getConfig().getAppCode()));
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public abstract class FileManager extends MaterialsManager {
 			}
 			app.getGgbApi().setBase64(base64);
 		} catch (final Throwable t) {
-            app.showError(Errors.LoadFileFailed);
+			app.showError(Errors.LoadFileFailed);
 			t.printStackTrace();
 		}
 	}

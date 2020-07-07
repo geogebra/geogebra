@@ -2,8 +2,6 @@ package org.geogebra.common.move.ggtapi.models;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.move.models.BaseModel;
-
 /**
  * Represents a user in GeoGebraTube. Each user is identified by a user name.
  * 
@@ -13,7 +11,7 @@ import org.geogebra.common.move.models.BaseModel;
  * @author stefan
  *
  */
-public class GeoGebraTubeUser extends BaseModel {
+public class GeoGebraTubeUser {
 	private String userName = null;
 	private String token = null;
 	private int userId = -1;
@@ -171,13 +169,6 @@ public class GeoGebraTubeUser extends BaseModel {
 	 */
 	public boolean hasGoogleDrive() {
 		return this.identifier.startsWith("google:");
-	}
-
-	/**
-	 * @return whether onedrive should be enabled
-	 */
-	public boolean hasOneDrive() {
-		return false;
 	}
 
 	/**

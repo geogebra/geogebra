@@ -13,7 +13,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -54,7 +53,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 
 	/**
 	 * constructor
-	 * 
+	 *
 	 * @param ec
 	 *            controller
 	 * @param settings
@@ -67,7 +66,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param xmin
 	 *            x-coord min
 	 * @param xmax
@@ -154,7 +153,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param format
 	 *            3D format
 	 * @return 3D export
@@ -164,7 +163,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param format
 	 *            3D format
 	 * @param dialog
@@ -176,8 +175,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		settingsChanged(getSettings());
 		useSpecificThickness = false;
 		updateScene();
-        if (format.needsScale()) {
-            if (updateObjectsBounds(true, true, true)) {
+		if (format.needsScale()) {
+			if (updateObjectsBounds(true, true, true)) {
 				useSpecificThickness = true;
 				double thickness = THICKNESS_FOR_PRINT_LINES;
 				GeoElement thicknessGeo = getKernel()
@@ -218,8 +217,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 								public void run() {
 									setThicknessAndScale(format,
 											dialog.getCurrentThickness() / 2,
-                                            dialog.getCurrentScale(),
-                                            dialog.wantsFilledSolids());
+											dialog.getCurrentScale(),
+											dialog.wantsFilledSolids());
 									ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(
 											EuclidianView3DForExport.this,
 											renderer.getGeometryManager());
@@ -233,7 +232,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 							});
 					return null;
 				}
-                setThicknessAndScale(format, thickness, scale, true);
+				setThicknessAndScale(format, thickness, scale, true);
 			} else {
 				format.setScale(10); // default value: 1unit = 10mm
 			}
@@ -245,18 +244,18 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 
 	/**
 	 * set thickness and scale
-	 * 
+	 *
 	 * @param format
 	 *            export format
 	 * @param thickness
 	 *            thickness
 	 * @param scale
 	 *            scale
-     * @param wantsFilledSolids
-     *            if user wants filled solid
+	 * @param wantsFilledSolids
+	 *            if user wants filled solid
 	 */
 	void setThicknessAndScale(Format format, double thickness,
-                              double scale, boolean wantsFilledSolids) {
+			double scale, boolean wantsFilledSolids) {
 		specificThicknessForLines = (float) (thickness / scale * getXscale());
 		specificThicknessForSurfaces = (float) ((thickness
 				+ SHIFT_LINE_TO_SURFACE_THICKNESS) / scale * getXscale());
@@ -265,8 +264,8 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		specificThicknessForLines /= PlotterBrush.LINE3D_THICKNESS;
 		specificSizeForPoints /= DrawPoint3D.DRAW_POINT_FACTOR;
 		format.setScale(scale);
-        format.setWantsFilledSolids(wantsFilledSolids);
-        format.setExportsPointsAndLines(!DoubleUtil.isZero(thickness));
+		format.setWantsFilledSolids(wantsFilledSolids);
+		format.setExportsPointsAndLines(!DoubleUtil.isZero(thickness));
 		reset();
 		updateScene();
 	}
@@ -285,7 +284,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param getter
 	 *            geometry getter
 	 */
@@ -392,16 +391,6 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	@Override
 	protected CoordSystemAnimation newZoomer() {
 		return null;
-	}
-
-	@Override
-	public void add(GBox box) {
-		// no need
-	}
-
-	@Override
-	public void remove(GBox box) {
-		// no need
 	}
 
 	@Override

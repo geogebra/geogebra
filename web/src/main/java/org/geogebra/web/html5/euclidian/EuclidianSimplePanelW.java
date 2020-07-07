@@ -12,7 +12,6 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Euclidian panel for WebSimple
@@ -40,14 +39,17 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		getElement().setAttribute("role", "application");
 	}
 
-	private Widget loadComponent() {
+	private void loadComponent() {
 		eview1 = Canvas.createIfSupported();
 		eview1.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 		eview1.getElement().getStyle().setZIndex(0);
+		eview1.setWidth("1px");
+		eview1.setHeight("1px");
+		eview1.setCoordinateSpaceHeight(1);
+		eview1.setCoordinateSpaceWidth(1);
 		getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		add(eview1);
 
-		return this;
 	}
 
 	@Override
@@ -122,20 +124,6 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	@Override
 	public void updateNavigationBar() {
 		// no navigation
-	}
-
-	@Override
-	public void setVisible(boolean sv) {
-		super.setVisible(sv);
-		if (getEuclidianView() != null) {
-			((EuclidianViewW) getEuclidianView()).updateFirstAndLast(sv, false);
-		}
-	}
-
-	@Override
-	public Canvas getBackgroundCanvas() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

@@ -51,8 +51,7 @@ public class GeneralPathClipped implements GShape {
 
 	private GRectangle2D oldBounds;
 
-	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
-			AwtFactory.getPrototype().newPoint2D() };
+	private GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 
 	private static final boolean useSutherlandHodgesClipping = false;
 
@@ -235,7 +234,7 @@ public class GeneralPathClipped implements GShape {
 		} else if (y < -border) {
 			y = -border;
 		}
-		return AwtFactory.getPrototype().newPoint2D(x, y);
+		return new GPoint2D(x, y);
 	}
 
 	private void addClippedSegmentsSH() {

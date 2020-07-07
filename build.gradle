@@ -35,6 +35,17 @@ subprojects {
 	tasks['eclipseJdt'].dependsOn(eclipseJdtPrepare)
 	tasks['cleanEclipse'].dependsOn(cleanEclipseJdtUi)
 	tasks['eclipse'].dependsOn(eclipseJdtPrepare, eclipseJdtUi, cleanEclipse)
+
+	afterEvaluate {
+		// forward command line properties to every test JVM
+		tasks.withType(Test.class).each { task ->
+			project.properties.each { prop, val ->
+				if (val instanceof String) {
+					task.systemProperty prop.trim(), val
+				}
+			}
+		}
+	}
 }
 
 wrapper {
@@ -49,7 +60,8 @@ task checkPmd(dependsOn: [':common:pmdMain', ':common-jre:pmdMain', ':web:pmdMai
 
 task checkAllStyles(dependsOn: [':common:checkstyleMain', ':common-jre:checkstyleMain', ':web:checkstyleMain',
         ':editor-base:checkstyleMain', ':editor-web:checkstyleMain',
-        ':keyboard-web:checkstyleMain', ':keyboard-base:checkstyleMain', ':keyboard-scientific:checkstyleMain', ':desktop:checkstyleTest']){
+        ':keyboard-web:checkstyleMain', ':keyboard-base:checkstyleMain', ':keyboard-scientific:checkstyleMain',
+        ':desktop:checkstyleTest', ':common-jre:checkstyleTest']){
         description "run checkstyle for all subprojects with checkstyle conf"
 }
 

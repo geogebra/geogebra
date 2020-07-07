@@ -9,13 +9,14 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawPoint;
-import org.geogebra.common.kernel.geos.Furniture;
+import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.web.html5.util.EventUtil;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.dom.client.Style.Unit;
 
@@ -35,10 +36,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 */
 	public DynamicStyleBar(EuclidianView ev) {
 		super(ev, -1);
-        addStyleName("matDynStyleBar");
-        if (app.isWhiteboardActive()) {
-            addStyleName("mowDynStyleBar");
-        }
+		addStyleName("matDynStyleBar");
+		if (app.isWhiteboardActive()) {
+			addStyleName("mowDynStyleBar");
+		}
+		TestHarness.setAttr(this, "dynamicStyleBar");
 
 		app.getSelectionManager()
 				.addSelectionListener(new GeoElementSelectionListener() {
@@ -59,8 +61,8 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 						DynamicStyleBar.this.updateStyleBar();
 					}
 				});
-        EventUtil.stopPointer(getElement());
-    }
+		EventUtil.stopPointer(getElement());
+	}
 
 	private GPoint calculatePosition(GRectangle2D gRectangle2D, boolean isPoint,
 			boolean isFunction) {
@@ -87,7 +89,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		int maxtop = app.getActiveEuclidianView().getHeight() - height - 5;
 		if (top > maxtop) {
-            if (isPoint) {
+			if (isPoint) {
 				// if there is no enough place under the point
 				// put the dyn. stylebar above the point
 				top = gRectangle2D.getMinY() - height - 10;
@@ -100,9 +102,8 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (functionOrLine) {
 			left = this.getView().getEuclidianController().getMouseLoc().x + 10;
 		} else {
-			left = gRectangle2D.getMaxX();
-            left -= getContextMenuButton().getAbsoluteLeft()
-                    - getAbsoluteLeft();
+			left = gRectangle2D.getMaxX() - getOffsetWidth();
+			left += getContextMenuButtonWidth();
 
 			// do not hide rotation handler
 			left = Math.max(left,
@@ -112,10 +113,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (left < 0) {
 			left = 0;
 		}
-        int maxLeft = app.getActiveEuclidianView().getWidth()
-                - this.getOffsetWidth();
-        if (left > maxLeft) {
-            left = maxLeft;
+		int maxLeft = app.getActiveEuclidianView().getWidth()
+				- this.getOffsetWidth();
+		if (left > maxLeft) {
+			left = maxLeft;
 		}
 
 		return new GPoint((int) left, (int) top);
@@ -132,7 +133,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		super.updateStyleBar();
 
 		if (activeGeoList == null || activeGeoList.size() == 0) {
-			this.setVisible(false);
+			setVisible(false);
 			return;
 		}
 
@@ -189,9 +190,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 	private GPoint fromDrawable(GeoElement geo) {
 		DrawableND dr = ev.getDrawableND(geo);
-		if (dr != null && (!(dr.getGeoElement() instanceof Furniture
-				&& ((Furniture) dr.getGeoElement()).isFurniture())
-				|| dr.getGeoElement() instanceof GeoEmbed)) {
+		if (dr != null && (!(geo instanceof AbsoluteScreenLocateable
+				&& ((AbsoluteScreenLocateable) geo).isFurniture())
+				|| geo instanceof GeoEmbed)) {
 			return calculatePosition(dr.getBoundsForStylebarPosition(),
 					dr instanceof DrawPoint && activeGeoList.size() < 2, false);
 		}

@@ -20,51 +20,53 @@ import com.google.gwt.user.client.Window.Location;
  * Enumeration of all modules (fragments) that can be prefetched
  */
 public enum AsyncModule {
-    STATS(RunAsyncCode.runAsyncCode(CommandDispatcherStats.class)),
+	STATS(RunAsyncCode.runAsyncCode(CommandDispatcherStats.class)),
 
-    ADVANCED(RunAsyncCode.runAsyncCode(CommandDispatcherAdvanced.class)),
+	ADVANCED(RunAsyncCode.runAsyncCode(CommandDispatcherAdvanced.class)),
 
-    CAS(RunAsyncCode.runAsyncCode(CommandDispatcherCAS.class)),
+	CAS(RunAsyncCode.runAsyncCode(CommandDispatcherCAS.class)),
 
-    SPATIAL(RunAsyncCode.runAsyncCode(CommandDispatcher3D.class)),
+	SPATIAL(RunAsyncCode.runAsyncCode(CommandDispatcher3D.class)),
 
-    PROVER(RunAsyncCode.runAsyncCode(Prover.class)),
+	PROVER(RunAsyncCode.runAsyncCode(Prover.class)),
 
-    SCRIPTING(RunAsyncCode.runAsyncCode(CommandDispatcherScripting.class)),
+	SCRIPTING(RunAsyncCode.runAsyncCode(CommandDispatcherScripting.class)),
 
-    DISCRETE(RunAsyncCode.runAsyncCode(CommandDispatcherDiscrete.class)),
+	DISCRETE(RunAsyncCode.runAsyncCode(CommandDispatcherDiscrete.class)),
 
-    STEPS(RunAsyncCode.runAsyncCode(CommandDispatcherSteps.class));
+	STEPS(RunAsyncCode.runAsyncCode(CommandDispatcherSteps.class));
 
-    private RunAsyncCode asyncCode;
+	private RunAsyncCode asyncCode;
 
-    private AsyncModule(RunAsyncCode splitPoint) {
-        this.asyncCode = splitPoint;
-    }
+	private AsyncModule(RunAsyncCode splitPoint) {
+		this.asyncCode = splitPoint;
+	}
 
-    /**
-     * Prefetch the module so that actual fetch can load it from memory
-     */
-    public void prefetch() {
-        if (!asyncCode.isLoaded()
-                && Location.getProtocol().startsWith("http")) {
-            FragmentPrefetcher.prefetch(asyncCode.getSplitPoint());
-        }
-    }
+	/**
+	 * Prefetch the module so that actual fetch can load it from memory
+	 */
+	public void prefetch() {
+		// in dev mode split point is -1; avoid bogus network requests
+		if (!asyncCode.isLoaded() && asyncCode.getSplitPoint() > 0
+				&& Location.getProtocol().startsWith("http")) {
+			FragmentPrefetcher.prefetch(asyncCode.getSplitPoint());
+		}
+	}
 
-    /**
-     * @param name module name
-     * @return module with given name or null if not found
-     */
-    public static AsyncModule parseOrNull(String name) {
-        if (!StringUtil.empty(name)) {
-            try {
-                return valueOf(name.toUpperCase(Locale.US));
-            } catch (Exception e) {
-                Log.warn("Invalid module " + name);
-            }
-        }
-        return null;
-    }
+	/**
+	 * @param name
+	 *            module name
+	 * @return module with given name or null if not found
+	 */
+	public static AsyncModule parseOrNull(String name) {
+		if (!StringUtil.empty(name)) {
+			try {
+				return valueOf(name.toUpperCase(Locale.US));
+			} catch (Exception e) {
+				Log.warn("Invalid module " + name);
+			}
+		}
+		return null;
+	}
 
 }

@@ -1,8 +1,11 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
+import java.util.Collection;
+
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
+import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -41,14 +44,16 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	/**
 	 * tab containing the tools
 	 */
-
 	private ScrollPanel sp;
 
 	private App app;
-	/**
-	 *
-	 */
+
 	public boolean isCustomToolbar = false;
+
+	/**
+	 * Tool categories
+	 */
+	ToolCollection toolCollection;
 
 	/**
 	 * panel containing tools
@@ -57,6 +62,10 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	public ToolsTab(ToolbarPanel toolbarPanel) {
 		this.toolbarPanel = toolbarPanel;
 		this.app = toolbarPanel.getApp();
+
+		ToolCollectionFactory toolCollectionFactory = app.createToolCollectionFactory();
+		toolCollection = toolCollectionFactory.createToolCollection();
+
 		createContents();
 		if (!isCustomToolbar) {
 			handleMoreLessButtons();
@@ -79,8 +88,6 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 		AriaHelper.hide(lessBtn);
 		lessBtn.addStyleName("moreLessBtn");
 		lessBtn.removeStyleName("button");
-		moreBtn.setIgnoreTab();
-		lessBtn.setIgnoreTab();
 		moreBtn.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -99,65 +106,31 @@ public class ToolsTab extends ToolbarPanel.ToolbarTab {
 	}
 
 	/** More button handler */
-	protected void onMorePressed() {
-		ToolsetLevel level = app.getSettings().getToolbarSettings()
-				.getToolsetLevel();
-		if (level.equals(ToolsetLevel.EMPTY_CONSTRUCTION)) {
-			app.getSettings().getToolbarSettings()
-					.setToolsetLevel(ToolsetLevel.STANDARD);
-		} else if (level.equals(ToolsetLevel.STANDARD)) {
-			app.getSettings().getToolbarSettings()
-					.setToolsetLevel(ToolsetLevel.ADVANCED);
-		}
+	private void onMorePressed() {
+		toolCollection.setLevel(toolCollection.getLevel().getNext());
 		updateContent();
 	}
 
 	/** Less button handler */
-	protected void onLessPressed() {
-		ToolbarSettings toolbarSettings = app.getSettings().getToolbarSettings();
-		ToolsetLevel level = toolbarSettings
-				.getToolsetLevel();
-		if (level.equals(ToolsetLevel.ADVANCED)) {
-			toolbarSettings
-					.setToolsetLevel(ToolsetLevel.STANDARD);
-		} else if (level.equals(ToolsetLevel.STANDARD)
-				&& toolbarSettings.hasEmptyConstruction()) {
-			toolbarSettings
-					.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
-		} else {
-			toolbarSettings
-					.setToolsetLevel(ToolsetLevel.STANDARD);
-		}
+	private void onLessPressed() {
+		toolCollection.setLevel(toolCollection.getLevel().getPrevious());
 		updateContent();
 	}
 
 	/**
 	 * add more or less button to tool panel
 	 */
-	public void addMoreLessButtons() {
-		boolean hasEmptyConstruction = app.getSettings().getToolbarSettings()
-				.hasEmptyConstruction();
-		ToolsetLevel level = app.getSettings().getToolbarSettings()
-				.getToolsetLevel();
+	private void addMoreLessButtons() {
+		Collection<ToolsetLevel> levels = toolCollection.getLevels();
+		ToolsetLevel level = toolCollection.getLevel();
 
-		switch (level) {
-		case EMPTY_CONSTRUCTION:
-			toolsPanel.add(moreBtn);
-			break;
-		case STANDARD:
-			if (hasEmptyConstruction) {
-				toolsPanel.add(lessBtn);
-			}
-			toolsPanel.add(moreBtn);
-			break;
-
-		case ADVANCED:
+		if (levels.contains(level.getPrevious())) {
 			toolsPanel.add(lessBtn);
-
-		default:
-			break;
 		}
 
+		if (levels.contains(level.getNext())) {
+			toolsPanel.add(moreBtn);
+		}
 	}
 
 	private void createContents() {

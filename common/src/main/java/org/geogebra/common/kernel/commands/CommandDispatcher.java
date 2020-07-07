@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -23,7 +25,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -72,12 +74,12 @@ public abstract class CommandDispatcher {
 
 	private CommandDispatcherBasic basicDispatcher = null;
 
-	private CommandArgumentFilter commandArgumentFilter;
-
 	/** stores internal (String name, CommandProcessor cmdProc) pairs */
 	private MacroProcessor macroProc;
 	private boolean enabled = true;
-	private List<CommandNameFilter> commandNameFilters;
+	private List<CommandFilter> commandFilters;
+	private List<CommandArgumentFilter> commandArgumentFilters;
+
 	/** number of visible tables */
 	public static final int tableCount = 20;
 
@@ -147,8 +149,10 @@ public abstract class CommandDispatcher {
 		cons = kernel.getConstruction();
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		commandNameFilters = new ArrayList<>();
-		addCommandNameFilter(app.getConfig().getCommandNameFilter());
+		commandFilters = new ArrayList<>();
+		commandArgumentFilters = new ArrayList<>();
+		addCommandFilter(app.getConfig().getCommandFilter());
+		addCommandArgumentFilter(app.getConfig().getCommandArgumentFilter());
 	}
 
 	/**
@@ -185,7 +189,7 @@ public abstract class CommandDispatcher {
 					.equals(app.getLocalization().getFunction("freehand"))) {
 				return null;
 			}
-			throw createUnknownCommandError(c);
+			throw new CommandNotFoundError(app.getLocalization(), c);
 		}
 		return process(cmdProc, c, info);
 	}
@@ -197,7 +201,7 @@ public abstract class CommandDispatcher {
 	 */
 	public boolean isAllowedByNameFilter(Commands command) {
 		boolean allowed = true;
-		for (CommandNameFilter filter : commandNameFilters) {
+		for (CommandFilter filter : commandFilters) {
 			allowed = allowed && filter.isCommandAllowed(command);
 		}
 		return allowed;
@@ -205,19 +209,12 @@ public abstract class CommandDispatcher {
 
 	private void checkAllowedByArgumentFilter(Command command,
 			CommandProcessor commandProcessor) throws MyError {
-		if (commandArgumentFilter != null) {
-			commandArgumentFilter.checkAllowed(command, commandProcessor);
+		for (CommandArgumentFilter filter : commandArgumentFilters) {
+			filter.checkAllowed(command, commandProcessor);
 		}
 	}
 
-	private MyError createUnknownCommandError(Command command) {
-		throw new MyError(app.getLocalization(),
-				app.getLocalization().getError("UnknownCommand") + " : "
-						+ app.getLocalization().getCommand(command.getName()));
-	}
-
-	private GeoElement[] process(CommandProcessor cmdProc, Command c,
-			EvalInfo info) {
+	private GeoElement[] process(@CheckForNull CommandProcessor cmdProc, Command c, EvalInfo info) {
 		checkAllowedByArgumentFilter(c, cmdProc);
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
@@ -227,15 +224,15 @@ public abstract class CommandDispatcher {
 		}
 
 		try {
-
 			// disable preview for commands using CAS
-			// if CAS not loaded
+			// if CAS not loaded but enabled
 			if (info != null && !info.isUsingCAS() && !kernel.isGeoGebraCASready()
+					&& app.getSettings().getCasSettings().isEnabled()
 					&& cmdProc instanceof UsesCAS) {
-				return null;
+				return new GeoElement[0];
 			}
 			if (cmdProc == null) {
-				throw createUnknownCommandError(c);
+				throw new CommandNotFoundError(app.getLocalization(), c);
 			}
 			return cmdProc.process(c, info);
 		} catch (Exception e) {
@@ -373,8 +370,6 @@ public abstract class CommandDispatcher {
 			case ParseToNumber:
 			case ParseToFunction:
 			case StartAnimation:
-			case StartLogging:
-			case StopLogging:
 			case StartRecord:
 			case SetPerspective:
 			case Delete:
@@ -676,7 +671,6 @@ public abstract class CommandDispatcher {
 				case Textfield:
 			case Normalize:
 			case ExportImage:
-
 				return getBasicDispatcher().dispatch(command, kernel);
 
 			case CFactor:
@@ -860,6 +854,7 @@ public abstract class CommandDispatcher {
 			case Solve:
 			case Solutions:
 			case NSolutions:
+			case CASLoaded:
 				return getCASDispatcher().dispatch(command, kernel);
 			case Expand:
 			case Factor:
@@ -975,44 +970,48 @@ public abstract class CommandDispatcher {
 	}
 
 	/**
-	 * add a new CommandNameFilter
-	 * 
+	 * Add a new CommandFilter.
+	 *
 	 * @param filter
 	 *            to add. only the commands that are allowed by all
-	 *            commandNameFilters will be added to the command table
+	 *            commandFilters will be added to the command table
 	 */
-	public void addCommandNameFilter(CommandNameFilter filter) {
+	public void addCommandFilter(CommandFilter filter) {
 		if (filter != null) {
-			commandNameFilters.add(filter);
+			commandFilters.add(filter);
 		}
 	}
 
 	/**
-	 * remove commandNameFilter
-	 * 
+	 * remove CommandArgumentFilter
+	 *
 	 * @param filter
 	 *            to remove.
 	 */
-	public void removeCommandNameFilter(CommandNameFilter filter) {
-		commandNameFilters.remove(filter);
+	public void removeCommandFilter(CommandFilter filter) {
+		commandFilters.remove(filter);
 	}
 
 	/**
-	 * Sets the CommandArgumentFilter
-	 * 
+	 * Add a new CommandArgumentFilter.
+	 *
 	 * @param filter
-	 *            only the commands that are allowed by the
-	 *            commandArgumentFilter will be allowed
+	 *            to add.
 	 */
-	public void setCommandArgumentFilter(CommandArgumentFilter filter) {
-		this.commandArgumentFilter = filter;
+	public void addCommandArgumentFilter(CommandArgumentFilter filter) {
+		if (filter != null) {
+			commandArgumentFilters.add(filter);
+		}
 	}
 
 	/**
-	 * @return command filter
+	 * remove command argument filter
+	 *
+	 * @param filter
+	 *            to remove.
 	 */
-	public CommandArgumentFilter getCommandArgumentFilter() {
-		return commandArgumentFilter;
+	public void removeCommandArgumentFilter(CommandArgumentFilter filter) {
+		commandArgumentFilters.remove(filter);
 	}
 
 	/**

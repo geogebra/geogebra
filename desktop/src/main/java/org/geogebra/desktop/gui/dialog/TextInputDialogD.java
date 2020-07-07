@@ -48,12 +48,12 @@ import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.gui.util.TableSymbolsLaTeX;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
@@ -333,30 +333,30 @@ public class TextInputDialogD extends InputDialogD
 		btInsertUnicode.addPopupMenuItem(menu);
 		// btInsertUnicode.addPopupMenuItem(createMenuItem(SymbolTable.math_ops,0,1,2));
 		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.operators, -1, 8));
+				createMenuItem(TableSymbols.OPERATORS, -1, 8));
 		btInsertUnicode.addPopupMenuItem(
 				createMenuItem(TableSymbols.greekLettersPlusVariants(), -1, 8));
 		btInsertUnicode
-				.addPopupMenuItem(createMenuItem(TableSymbols.analysis, -1, 8));
+				.addPopupMenuItem(createMenuItem(TableSymbols.ANALYSIS, -1, 8));
 
 		btInsertUnicode
-				.addPopupMenuItem(createMenuItem(TableSymbols.sets, -1, 8));
+				.addPopupMenuItem(createMenuItem(TableSymbols.SETS, -1, 8));
 		btInsertUnicode
-				.addPopupMenuItem(createMenuItem(TableSymbols.logical, -1, 8));
+				.addPopupMenuItem(createMenuItem(TableSymbols.LOGICAL, -1, 8));
 		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.sub_superscripts, -1, 10));
+				createMenuItem(TableSymbols.SUB_SUPERSCRIPTS, -1, 10));
 		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.basic_arrows, -1, 8));
+				createMenuItem(TableSymbols.BASIC_ARROWS, -1, 8));
 		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.otherArrows, -1, 8));
+				createMenuItem(TableSymbols.OTHER_ARROWS, -1, 8));
 		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.geometricShapes, -1, 8));
+				createMenuItem(TableSymbols.GEOMETRIC_SHAPES, -1, 8));
 		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.games_music, -1, 7));
+				createMenuItem(TableSymbols.GAMES_MUSIC, -1, 7));
 		btInsertUnicode
-				.addPopupMenuItem(createMenuItem(TableSymbols.currency, -1, 8));
+				.addPopupMenuItem(createMenuItem(TableSymbols.CURRENCY, -1, 8));
 		btInsertUnicode.addPopupMenuItem(
-				createMenuItem(TableSymbols.handPointers, -1, 6));
+				createMenuItem(TableSymbols.HAND_POINTERS, -1, 6));
 
 		app.setComponentOrientation(menu);
 

@@ -16,15 +16,14 @@
  */
 package org.apache.commons.math3.stat.correlation;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.Pair;
-
-import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Implementation of Kendall's Tau-b rank correlation</a>.

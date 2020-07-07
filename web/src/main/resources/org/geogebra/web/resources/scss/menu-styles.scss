@@ -2,234 +2,18 @@
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 $classicToolbar: 50px;
+// Copied from Flutter CupertinoPageTransition
+$submenuTimingFunction: cubic-bezier(.35, .91, .33, .97);
+$submenuTransitionDuration: 0.25s;
+$menuWidth: 320px;
 
 .GeoGebraFrame {
-	.floatingMenu {
-		position: absolute;
-		top: 0px;
-		/*left: 6px;*/
-		/*padding: 8px 0px 8px 0px;*/
-		box-shadow: 0 6px 16px rgba(0,0,0,0.28);
-		/*box-shadow: 0 0 16px $black-28;*/
-		background-color: $white;
-		/*border-radius: 2px;*/
-		z-index: 100000;
-		height: 100%;
-		max-width: 100%;
-		overflow-y: auto;	
-
-		.ggbmenubarwrapper { 
-			padding-bottom: 4px;
-		}
-		.menuLink{
-			//padding-top: 8px;
-			display: inline-block;
-		}
-
-		/* sub menu items */
-		.gwt-StackPanel .matStackPanel {
-			min-width: 232px;
-			background-color: $white;
-			
-			img {
-				opacity: 0.54;
-			}
-			
-		
-			.gwt-MenuItem {
-				padding-right: 16px;
-				padding-top: 0px;
-				padding-bottom: 0px;
-				padding-left: 72px;
-				line-height: 24px;
-				height: 40px;
-				min-width: 232px;
-				color: $black-87;
-				font-size: 90%;
-				
-				img {
-					height: 24px;
-					width: 24px;
-					position: absolute;
-					margin-left: -40px;	
-				}
-			}
-			
-			.gwt-MenuItem:hover {
-				background-color: $selected-menuitem-background;
-				img {
-					opacity: 0.87;
-				}
-				color: $black-87; 
-			}
-
-			&.matStackPanelNoOpacity {
-				img {
-					opacity: 1;
-				}
-				
-				.gwt-MenuItem {
-					a { 
-						span { 
-							font-size: 100%;
-							color: $black-87;
-						}
-					}
-				
-					.gwt-HTML {
-						padding-top: 6px;
-						padding-left: 8px;
-					
-						.menuImg {
-							margin-left: -32px;
-							opacity: 1;
-						}
-					}
-					
-					.checkImg {
-						margin-right: 4px;
-						padding: 4px;
-						opacity: 0.54;	
-					}
-					
-					span.gwt-CheckBox.matCheckBox {
-						padding-left: 16px;
-					}
-					
-					td {
-						vertical-align: middle;
-					}
-				}
-				
-				.gwt-MenuItem:hover {
-					img {
-						opacity: 1;
-					}
-				
-					.checkImg {
-						opacity: 0.87;	
-					}
-				}
-			}
-		}
-			
-		/* burger menu items */
-		.gwt-StackPanel .gwt-StackPanelItem {
-			min-width: 232px;
-			height: 48px;
-			background-color: $white;
-			padding-left: 72px;
-			padding-top: 0px;
-			padding-bottom: 0px;
-			padding-right: 16px;
-			border-bottom: none;
-			border-top: none;
-			line-height: normal;
-			img {
-				height: 24px;
-				width: 24px;
-				position: absolute;
-				margin-left: -56px;	
-				opacity: 0.54;
-			}
-
-			span {
-				font-size: 90%;
-				margin-right: 32px; // make sure expand icon has enough space
-				line-height: 24px;
-			}
-
-			.expandImg, .collapseImg {
-				right: 16px;	
-				margin: 0px;
-			}
-		
-			&.gwt-StackPanelItem-selected {
-				span {
-					color: $black;
-				}	
-			}
-		
-			&.gwt-StackPanelItem-below-selected { 
-				border-top: 1px solid $burger-menu-border;
-			}
-		}
-		
-		.gwt-StackPanel .gwt-StackPanelItem{
-			&:hover, &:focus {
-				background-color: $selected-menuitem-background;
-			}
-		}
-	
-		.gwt-StackPanel .gwt-StackPanelItem .gwt-StackPanelItem-first {
-			&:hover, &:focus {
-				background-color: white;
-			}
-		}
-		
-		.gwt-StackPanel .gwt-StackPanelItem-selected {
-			&:not(.gwt-StackPanelItem-first) {
-				border-top: 1px solid $burger-menu-border;
-			}
-			img {
-				opacity: 0.87;
-			}
-			color: $black-87; 
-		}
-		
-		.gwt-StackPanel {
-			list-style-type : none;
-		}
-		
-		&.classic{
-			top: $classicToolbar;
-			right: 0;
-			height: calc(100% - 50px);
-			&.animateIn {
-				animation-name: animateInClassic;
-			}
-			&.animateOut {
-				animation-name: animateOutClassic;
-			}
-			
-			.gwt-StackPanel .gwt-StackPanelItem, .gwt-StackPanel .gwt-StackPanelItem.gwt-StackPanelItem-first{
-				height: 32px;
-				padding-left: 32px;
-				background-color: $transparent;
-				border-bottom: 1px #dcdcdc solid;
-				img {
-					opacity: 1;
-					position: static;
-					width: 20px;
-					height: 20px;
-					margin-left: -28px;
-				}
-			}
-		}
-		&.mow {
-			.gwt-StackPanel .gwt-StackPanelItem {
-				min-width: 255px;
-			}
-		}
-
-		&.animateIn {
-			animation-duration: 0.25s;
-			animation-name: animateIn;
-			overflow: auto;
-		}
-		&.animateOut {
-			animation-duration: 0.2s;
-			animation-name: animateOut;
-			overflow-y: auto;
-		}
-	}
-
 	.floatingSubMenu {
 		z-index: 9999;
-		
+
 		.gwt-MenuBar {
 			border: 2px solid green;
-		}	
+		}
 		.gwt-MenuBar.gwt-MenuBar-vertical.floating-Popup.subMenuRightSide.matMenuBar.subMenuLeftSide2 {
 			top: 11px;
 			padding-top: 8px;
@@ -237,7 +21,7 @@ $classicToolbar: 50px;
 			padding-left: 0px;
 			padding-right: 0px;
 		}
-			
+
 		.subMenuRightSide {
 			position: relative;
 			width: 100%;
@@ -246,52 +30,177 @@ $classicToolbar: 50px;
 			padding: 5px;
 			background-color: $white-90;
 			box-shadow: $shadow-dark;
-			
+
 			.arrowSubmenu {
 				position: absolute;
 				top: -2px;
 				left: -17px;
 			}
-				
+
 			.gwt-MenuItem {
 				min-width: 36px;
 				padding-left: 12px;
 				padding-right: 16px;
 			}
-				
+
 			.gwt-MenuItemSeparator {
 				padding: 0px;
 			}
-			
+
 			input[type="radio"] {
 				margin: 0px 12px 0px 0px;
 			}
-				
+
 		}
 	}
-	
-	.floatingMenu .menuWithLogo {
-		.gwt-StackPanel .gwt-StackPanelItem.gwt-StackPanelItem-first {
-			height: 56px;
-			background-color: $white;
 
-			img {
-				opacity: 1;
-				top: 10px;
-				height: 36px;
-				width: 36px;
-				margin: 0px;
-				left: 6%;
+	.floatingMenuView {
+		position: absolute;
+		top: 0px;
+		box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+		z-index: 101;
+		height: 100%;
+		width: $menuWidth;
+		background-color: $white;
+		transition-property: left;
+		overflow: auto;
+		overflow-x: hidden;
+
+		&.transitionIn {
+			transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+			transition-duration: 0.25s;
+			left: 0px;
+		}
+		&.transitionOut {
+			transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+			transition-duration: 0.2s;
+			left: -$menuWidth;
+			box-shadow: none;
+		}
+		.headerCaption {
+			font-weight: 500;
+			letter-spacing: -0.65px;
+		}
+	}
+
+	.menuView {
+		width: 100%;
+		padding: 8px 0px;
+		.menuItemGroupView {
+			width: 100%;
+			padding-right: 10px;
+			.groupLabel {
+				color: $text-secondary;
+				font-size: 75%;
+				text-transform: uppercase;
+				margin: 8px 16px 8px 16px;
 			}
-
-			span {
-				font-size: 100%;
-			}
-
-			&:hover {
-				background-color: $white;
+			.menuItemView {
+				width: 100%;
+				height: 48px;
+				line-height: 48px;
+				border-radius: 0px 24px 24px 0px;
+				white-space: nowrap;
+				&:hover {
+					background-color: #EEEEEE;
+				}
+				.gwt-Image {
+					vertical-align: middle;
+					display: inline-block;
+					width: 24px;
+					height: 24px;
+					margin: 12px 16px 12px 16px;
+				}
+				.gwt-Label, .html-face {
+					display: inline-block;
+					font-size: 87%;
+					color: $text-primary;
+					vertical-align: middle;
+				}
+				.html-face {
+					padding-left: 16px;
+				}
+				&.userMenuItemView {
+					.gwt-Image {
+						margin: 2px 8px 6px 12px;
+						border-radius: 50%;
+						object-fit: cover;
+					}
+					.gwt-Label {
+						color: $text-secondary;
+						text-transform: uppercase;
+						font-size: 75%;
+					}
+				}
 			}
 		}
+		.divider {
+			background-color: #E4E4E4;
+			height: 1px;
+			margin: 8px 0px 8px 56px;
+		}
+	}
+
+	.headerDivider {
+		border-bottom: solid #E4E4E4 1px;
+	}
+
+	.titleHeader {
+		> div {
+			color: $text-secondary !important;
+		}
+	}
+
+	.headeredMenuView {
+		background-color: white;
+		width: 100%;
+		height: 100%;
+	}
+
+	.mainMenu {
+		position: absolute;
+		&.transitionIn {
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			left: 0px;
+		}
+		&.transitionOut {
+		    overflow: hidden;
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			left: -100px;
+		}
+	}
+
+	.subMenu {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		z-index: 200;
+		&.transitionIn {
+		    overflow: auto;
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			box-shadow: -2px 0px 20px 0px $black-30;
+			left: 0px;
+		}
+		&.transitionOut {
+			transition-timing-function: $submenuTimingFunction;
+			transition-duration: $submenuTransitionDuration;
+			left: $menuWidth;
+		}
+	}
+
+	.menuPanelContainer {
+		width: 100%;
+		height: 100%;
+	}
+
+	.menuPanelGlass {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		overflow: hidden;
 	}
 }
 
@@ -300,7 +209,7 @@ $classicToolbar: 50px;
 	50% {left: -100; top: 0px;}
 	100% {left: 0px; top: 0px;}
 }
-		
+
 @keyframes animateOut {
 	0% {left: 0px; top: 0px;}
 	50% {left: -220; top: 0px;}
@@ -312,10 +221,9 @@ $classicToolbar: 50px;
 	50% {right: -100; top: $classicToolbar;}
 	100% {right: 0px; top: $classicToolbar;}
 }
-		
+
 @keyframes animateOutClassic {
 	0% {right: 0px; top: $classicToolbar;}
 	50% {right: -220; top: $classicToolbar;}
 	100% {right: -320px; top: $classicToolbar;}
 }
-

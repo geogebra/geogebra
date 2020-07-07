@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.MyError.Errors;
+import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.ggtapi.models.Chapter;
-import org.geogebra.common.move.ggtapi.models.MarvlAPI;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
+import org.geogebra.common.move.ggtapi.operations.BackendAPI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -15,12 +17,13 @@ import org.geogebra.web.full.gui.SaveControllerW;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.ggtapi.BackendAPIFactory;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
 /**
  * Controller for material cards, common for new and old UI.
  */
-public class MaterialCardController {
+public class MaterialCardController implements OpenFileListener {
 	/** application */
 	protected AppW app;
 	private Material material;
@@ -49,8 +52,16 @@ public class MaterialCardController {
 	 */
 	private void load() {
 		app.getViewW().processFileName(material.getFileName());
-		app.setActiveMaterial(material);
+		updateActiveMaterial();
 		app.getGuiManager().getBrowseView().close();
+	}
+
+	private void updateActiveMaterial() {
+		app.setActiveMaterial(material);
+		app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
+		if (material.getType() == MaterialType.ggsTemplate) {
+			app.registerOpenFileListener(this);
+		}
 	}
 
 	/**
@@ -76,35 +87,53 @@ public class MaterialCardController {
 			load();
 			return;
 		}
+
 		final long synced = getMaterial().getSyncStamp();
-		app.getLoginOperation().getGeoGebraTubeAPI().getItem(
-				getMaterial().getSharingKeyOrId() + "", new MaterialCallback() {
 
-					@Override
-					public void onLoaded(final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
-						if (parseResponse.size() == 1) {
-							setMaterial(parseResponse.get(0));
-							getMaterial().setSyncStamp(synced);
-							if (getMaterial().getType() == MaterialType.csv) {
-								app.openCSV(Browser.decodeBase64(
-										getMaterial().getBase64()));
-							} else {
-								app.getGgbApi()
-										.setBase64(getMaterial().getBase64());
-							}
-							app.setActiveMaterial(getMaterial());
-						} else {
-                            app.showError(Errors.LoadFileFailed);
-						}
-						app.getGuiManager().getBrowseView().close();
-					}
+		BackendAPI api;
+		if (getMaterial().getType() == MaterialType.ggsTemplate) {
+			api = new BackendAPIFactory(app).newMaterialRestAPI();
+			api.setClient(app.getClientInfo());
+		} else {
+			api = app.getLoginOperation().getGeoGebraTubeAPI();
+		}
 
-					@Override
-					public void onError(Throwable error) {
-                        app.showError(Errors.LoadFileFailed);
-					}
-				});
+		api.getItem(getMaterial().getSharingKeyOrId(), new MaterialCallback() {
+			@Override
+			public void onLoaded(final List<Material> parseResponse,
+								 ArrayList<Chapter> meta) {
+				if (parseResponse.size() == 1) {
+					setMaterial(parseResponse.get(0));
+					getMaterial().setSyncStamp(synced);
+
+					loadMaterial();
+
+					updateActiveMaterial();
+				} else {
+					app.showError(Errors.LoadFileFailed);
+				}
+				app.getGuiManager().getBrowseView().close();
+			}
+
+			@Override
+			public void onError(Throwable error) {
+				app.showError(Errors.LoadFileFailed);
+			}
+		});
+	}
+
+	private void loadMaterial() {
+		if (getMaterial().getType() == MaterialType.csv) {
+			app.openCSV(Browser.decodeBase64(getMaterial().getBase64()));
+		} else if (getMaterial().getType() == MaterialType.ggsTemplate) {
+			if (app.isMebis()) {
+				app.getViewW().processFileName(material.getFileName());
+			} else {
+				app.getViewW().processFileName(material.getURL());
+			}
+		} else {
+			app.getGgbApi().setBase64(getMaterial().getBase64());
+		}
 	}
 
 	/**
@@ -139,7 +168,7 @@ public class MaterialCardController {
 									.delete(toDelete, false,
 											MaterialCardController.this.deleteCallback);
 							card.setVisible(true);
-                            app.showError(Errors.DeleteFailed);
+							app.showError(Errors.DeleteFailed);
 						}
 					});
 		} else {
@@ -189,7 +218,7 @@ public class MaterialCardController {
 										List<Material> parseResponse,
 										ArrayList<Chapter> meta) {
 									if (parseResponse.size() != 1) {
-                                        app.showError(Errors.RenameFailed);
+										app.showError(Errors.RenameFailed);
 										card.setMaterialTitle(oldTitle);
 									} else {
 										Log.debug("RENAME local");
@@ -225,7 +254,7 @@ public class MaterialCardController {
 				&& onlineFile(getMaterial())) {
 
 			app.getLoginOperation().getGeoGebraTubeAPI().copy(getMaterial(),
-					MarvlAPI.getCopyTitle(app.getLocalization(),
+					MaterialRestAPI.getCopyTitle(app.getLocalization(),
 							material.getTitle()),
 					new MaterialCallback() {
 						@Override
@@ -255,4 +284,9 @@ public class MaterialCardController {
 
 	}
 
+	@Override
+	public boolean onOpenFile() {
+		app.getKernel().getConstruction().setTitle(null);
+		return true; // one time only
+	}
 }

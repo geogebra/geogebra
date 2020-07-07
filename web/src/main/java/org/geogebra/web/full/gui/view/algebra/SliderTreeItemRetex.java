@@ -12,9 +12,11 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
@@ -65,9 +67,9 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 
 		getElement().getStyle().setColor("black");
 
-		content.add(getPlainTextItem());
+		content.add(getDefinitionValuePanel());
 
-		updateFont(getPlainTextItem());
+		updateFont(getDefinitionValuePanel());
 		createSliderGUI();
 		addControls();
 		styleContentPanel();
@@ -94,14 +96,20 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 				&& num.getIntervalMaxObject() != null) {
 			boolean degree = geo.isGeoAngle()
 					&& kernel.degreesMode();
-			setSlider(new SliderPanelW(num.getIntervalMin(),
-					num.getIntervalMax(), app.getKernel(), degree));
+			slider = new SliderPanelW(num.getIntervalMin(),
+					num.getIntervalMax(), app.getKernel(), degree);
 
 			getSlider().setValue(num.getValue());
 
 			getSlider().setStep(num.getAnimationStep());
 
 			getSlider().addValueChangeHandler(getSliderController());
+			ClickEndHandler.init(getSlider(), new ClickEndHandler() {
+				@Override
+				public void onClickEnd(int x, int y, PointerEventType type) {
+					getSliderController().storeUndoInfoIfChanged();
+				}
+			});
 
 			createMinMaxPanel();
 
@@ -243,7 +251,7 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	}
 
 	@Override
-	public void setFocus(boolean b, boolean sv) {
+	public void setFocus(boolean b) {
 		// ignore
 	}
 
@@ -257,14 +265,6 @@ public class SliderTreeItemRetex extends RadioTreeItem {
 	 */
 	public SliderPanelW getSlider() {
 		return slider;
-	}
-
-	/**
-	 * @param slider
-	 *            slider
-	 */
-	public void setSlider(SliderPanelW slider) {
-		this.slider = slider;
 	}
 
 	/**

@@ -5,9 +5,8 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.util.AutoCompleteDictionary;
@@ -20,12 +19,7 @@ public interface AutoCompleteTextField
 
 	void setAutoComplete(boolean b);
 
-	// inputfield.MyTextfield
-	void enableColoring(boolean b);
-
 	void setFocus(boolean b);
-
-	void setOpaque(boolean b);
 
 	// javax.swing.JTextField
 	void setFont(GFont font);
@@ -36,13 +30,10 @@ public interface AutoCompleteTextField
 	// javax.swing.JComponent
 	void setBackground(GColor color);
 
-	// java.awt.Component
-	void setFocusable(boolean b);
-
 	// javax.swing.JComponent
 	void requestFocus();
 
-	void addFocusListener(FocusListener focusListener);
+	void addFocusListener(FocusListenerDelegate focusListener);
 
 	void addKeyHandler(KeyHandler handler);
 
@@ -53,8 +44,6 @@ public interface AutoCompleteTextField
 	void setDictionary(boolean forCAS);
 
 	AutoCompleteDictionary getDictionary();
-
-	void setFocusTraversalKeysEnabled(boolean b);
 
 	void setUsedForInputBox(GeoInputBox geoTextField);
 
@@ -75,8 +64,6 @@ public interface AutoCompleteTextField
 	void removeSymbolTable();
 
 	void prepareShowSymbolButton(boolean b);
-
-	void hideDeferred(GBox box);
 
 	void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height);
@@ -102,8 +89,15 @@ public interface AutoCompleteTextField
      */
     void setSelection(int start, int end);
 
-    /**
-     * @param alignment the text alignment in the input box
-     */
-    void setTextAlignmentsForInputBox(TextAlignment alignment);
+	/**
+	 * @param alignment the text alignment in the input box
+	 */
+	void setTextAlignmentsForInputBox(TextAlignment alignment);
+
+	/**
+	 * Set the input mode of the text field.
+	 *
+	 * @param mode mode
+	 */
+	void setInputMode(InputMode mode);
 }

@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Region;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * @author ggb3D

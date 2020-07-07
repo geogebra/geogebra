@@ -1,19 +1,34 @@
 package org.geogebra.common.main.settings;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.arithmetic.filter.GraphingOperationArgumentFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.GraphingCommandArgumentFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * Config for Graphing Calculator app
@@ -23,7 +38,6 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
-			dp.makeVisible();
 			dp.setLocation("3");
 		}
 		else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
@@ -128,11 +142,6 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public boolean hasScientificKeyboard() {
-		return false;
-	}
-
-	@Override
 	public boolean isEnableStructures() {
 		return true;
 	}
@@ -193,27 +202,104 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public CommandNameFilter getCommandNameFilter() {
-		return CommandNameFilterFactory.createNoCasCommandNameFilter();
+	public CommandFilter getCommandFilter() {
+		return CommandFilterFactory.createGraphingCommandFilter();
 	}
 
-    @Override
-    public boolean showToolsPanel() {
-        return true;
-    }
+	@Override
+	public CommandArgumentFilter getCommandArgumentFilter() {
+		return new GraphingCommandArgumentFilter();
+	}
 
-    @Override
-    public String getAppCode() {
-        return "graphing";
-    }
+	@Override
+	public boolean showToolsPanel() {
+		return true;
+	}
 
-    @Override
-    public SettingsUpdater createSettingsUpdater() {
-        return new GraphingSettingsUpdater();
-    }
+	@Override
+	public String getAppCode() {
+		return "graphing";
+	}
 
-    @Override
-    public GeoGebraConstants.Version getVersion() {
-        return GeoGebraConstants.Version.GRAPHING;
-    }
+	@Override
+	public SettingsUpdater createSettingsUpdater() {
+		return new GraphingSettingsUpdater();
+	}
+
+	@Override
+	public GeoGebraConstants.Version getVersion() {
+		return GeoGebraConstants.Version.GRAPHING;
+	}
+
+	@Override
+	public boolean hasExam() {
+		return true;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "ExamGraphingCalc.short";
+	}
+
+	@Override
+	public Set<FillType> getAvailableFillTypes() {
+		Set<FillType> set = new HashSet<>(Arrays.asList(FillType.values()));
+		set.remove(FillType.IMAGE);
+		return set;
+	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return true;
+	}
+
+	@Override
+	public int getDefaultAngleUnit() {
+		return Kernel.ANGLE_DEGREE;
+	}
+
+	@Override
+	public boolean isAngleUnitSettingEnabled() {
+		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new BasePropertiesFactory();
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.GRAPHING;
+	}
+
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return new GraphingOperationArgumentFilter();
+	}
+
+	@Override
+	public ParserFunctions createParserFunctions() {
+		return ParserFunctionsFactory.createGraphingParserFunctions();
+	}
+
+	@Override
+	public int getEnforcedLineEquationForm() {
+		return GeoLine.EQUATION_USER;
+	}
+
+	@Override
+	public int getEnforcedConicEquationForm() {
+		return GeoConic.EQUATION_USER;
+	}
+
+	@Override
+	public boolean shouldHideEquations() {
+		return true;
+	}
+
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return true;
+	}
 }

@@ -338,8 +338,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		int numClasses = getModel().getSettings().getNumClasses();
 		fldNumClasses = (new InputPanelW(app, -1, false)).getTextComponent();
 		fldNumClasses.setEditable(false);
-		fldNumClasses.setOpaque(true);
-		fldNumClasses.setColumns(2);
+		fldNumClasses.setWidthInEm(2);
 		fldNumClasses.setVisible(false);
 
 		sliderNumClasses = new Slider(3, 20);
@@ -414,8 +413,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		fldStart.setText("" + (int) getModel().getSettings().getClassStart());
 		addInsertHandler(fldStart);
 		fldWidth = new AutoCompleteTextFieldW(4, app);
-		fldStart.setColumns(4);
-		fldWidth.setColumns(4);
+		fldStart.setWidthInEm(4);
+		fldWidth.setWidthInEm(4);
 		fldWidth.setText("" + (int) getModel().getSettings().getClassWidth());
 		addInsertHandler(fldWidth);
 

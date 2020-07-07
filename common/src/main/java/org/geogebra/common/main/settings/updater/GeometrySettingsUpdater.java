@@ -11,7 +11,7 @@ public class GeometrySettingsUpdater extends SettingsUpdater {
 	@Override
 	public void resetSettingsOnlyOnAppStart() {
 		super.resetSettingsOnlyOnAppStart();
-		getSettings().getAlgebra().setStyle(AlgebraStyle.Description);
+		getSettings().getAlgebra().setStyle(AlgebraStyle.DESCRIPTION);
 	}
 
 	@Override

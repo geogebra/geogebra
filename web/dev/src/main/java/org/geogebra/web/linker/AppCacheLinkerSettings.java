@@ -32,14 +32,14 @@ public class AppCacheLinkerSettings {
 	 */
 	protected static String[] otherCachedFiles() {
 		return new String[] {
-                "https://www.geogebra.org/apps/deployggb.js",
-                "https://www.geogebra.org/3d",
-                "https://www.geogebra.org/calculator",
-                "https://www.geogebra.org/cas",
-                "https://www.geogebra.org/classic",
-                "https://www.geogebra.org/geometry",
-                "https://www.geogebra.org/graphing",
-                "https://www.geogebra.org/notes"
+				"https://www.geogebra.org/apps/deployggb.js",
+				"https://www.geogebra.org/3d",
+				"https://www.geogebra.org/scientific",
+				"https://www.geogebra.org/cas",
+				"https://www.geogebra.org/classic",
+				"https://www.geogebra.org/geometry",
+				"https://www.geogebra.org/graphing",
+				"https://www.geogebra.org/notes"
 		};
 	}
 }

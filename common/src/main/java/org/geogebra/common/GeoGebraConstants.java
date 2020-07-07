@@ -10,25 +10,24 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-    public static final String BUILD_DATE = "30 September 2019";
+	public static final String BUILD_DATE = "23 June 2020";
 	/** complete version string */
-    public static final String VERSION_STRING = "5.0.560.0";
+	public static final String VERSION_STRING = "5.0.591.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
-    /**
-     * App versions
-     */
-    enum Version {
-        CAS,
-        GRAPHING,
-        GRAPHING_3D,
-        GEOMETRY,
-        SCIENTIFIC,
-        MIXED_REALITY,
-        NOTES,
-    }
+	/** App versions */
+	enum Version {
+		CAS,
+		GRAPHING,
+		GRAPHING_3D,
+		GEOMETRY,
+		SCIENTIFIC,
+		SUITE,
+		MIXED_REALITY,
+		NOTES
+	}
 
     public enum Platform {
 
@@ -171,12 +170,19 @@ public interface GeoGebraConstants {
 	public static final String GEOGEBRA_THIRD_PARTY_UPDATE_DIR = "\\GeoGebra 5.0"
 			+ "\\thirdparty\\update";
 
+	/** http prefix */
+	public static final String HTTP = "http://";
+	/** https prefix */
+	public static final String HTTPS = "https://";
+
 	/** GeoGebra URL */
 	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
 	/** 4.2 desktop bug reports */
 	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "https://help.geogebra.org/bugs/?v=5.0";
 	/** web bug reports */
 	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://help.geogebra.org/bugs/?v=web";
+	/** bug reports 8 */
+	public final static String GEOGEBRA_REPORT_BUG = "https://help.geogebra.org/bugs/";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
@@ -242,10 +248,6 @@ public interface GeoGebraConstants {
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
 	public static final String FORUM_URL = "https://help.geogebra.org/";
-
-	public static final String DATA_LOGGING_WEBSOCKET_URL = "//data-logger.geogebra.org";
-	public static final String DATA_LOGGING_WEBSOCKET_PORT = "80";
-	public static final String DATA_LOGGING_WEBSOCKET_SECURE_PORT = "443";
 
 	public static final String WIDGET_URL = "https://www.geogebra.org/widgetprovider/index/widgettype/";
 

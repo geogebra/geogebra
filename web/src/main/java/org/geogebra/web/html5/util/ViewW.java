@@ -35,82 +35,82 @@ public class ViewW {
 		}
 	}-*/;
 
-    private void maybeLoadFile() {
-        if (app == null || archiveContent == null) {
-            return;
-        }
+	private void maybeLoadFile() {
+		if (app == null || archiveContent == null) {
+			return;
+		}
 
-        try {
-            Log.debug("loadggb started" + System.currentTimeMillis());
-            app.loadGgbFile(archiveContent, false);
-            Log.debug("loadggb finished" + System.currentTimeMillis());
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-            log(ex);
-            return;
-        }
-        archiveContent = null;
+		try {
+			Log.debug("loadggb started" + System.currentTimeMillis());
+			app.loadGgbFile(archiveContent, false);
+			Log.debug("loadggb finished" + System.currentTimeMillis());
+		} catch (Throwable ex) {
+			ex.printStackTrace();
+			log(ex);
+			return;
+		}
+		archiveContent = null;
 
-        // app.getScriptManager().ggbOnInit(); //this line is moved from here
-        // too,
-        // it should load after the images are loaded
+		// app.getScriptManager().ggbOnInit(); //this line is moved from here
+		// too,
+		// it should load after the images are loaded
 
-        Log.debug("file loaded");
+		Log.debug("file loaded");
 
-        // reiniting of navigation bar, to show the correct numbers on the label
-        if (app.getGuiManager() != null && app.getUseFullGui()) {
-            ConstructionProtocolNavigation cpNav = this.getApplication()
-                    .getGuiManager()
-                    .getCPNavigationIfExists();
-            if (cpNav != null) {
-                cpNav.update();
-            }
-        }
-        Log.debug("end unzipping" + System.currentTimeMillis());
-    }
+		// reiniting of navigation bar, to show the correct numbers on the label
+		if (app.getGuiManager() != null && app.getUseFullGui()) {
+			ConstructionProtocolNavigation cpNav = this.getApplication()
+			        .getGuiManager()
+			        .getCPNavigationIfExists();
+			if (cpNav != null) {
+				cpNav.update();
+			}
+		}
+		Log.debug("end unzipping" + System.currentTimeMillis());
+	}
 
-    /**
-     * Load file if it's not null.
-     *
-     * @param archiveCont
-     *            file to load
-     */
-    public void maybeLoadFile(GgbFile archiveCont) {
-        archiveContent = archiveCont;
-        maybeLoadFile();
-    }
+	/**
+	 * Load file if it's not null.
+	 * 
+	 * @param archiveCont
+	 *            file to load
+	 */
+	public void maybeLoadFile(GgbFile archiveCont) {
+		archiveContent = archiveCont;
+		maybeLoadFile();
+	}
 
-    /**
-     * @return application
-     */
-    protected AppW getApplication() {
-        return app;
-    }
+	/**
+	 * @return application
+	 */
+	protected AppW getApplication() {
+		return app;
+	}
 
-    /**
-     * @param dataParamBase64String
-     *            base64 encoded file
-     */
-    public void processBase64String(String dataParamBase64String) {
-        populateArchiveContent(getBase64Reader(dataParamBase64String));
-    }
+	/**
+	 * @param dataParamBase64String
+	 *            base64 encoded file
+	 */
+	public void processBase64String(String dataParamBase64String) {
+		populateArchiveContent(getBase64Reader(dataParamBase64String));
+	}
 
-    @ExternalAccess
-    private void putIntoArchiveContent(String key, String value) {
-        archiveContent.put(key, value);
-        if (archiveContent.size() == zippedLength) {
-            maybeLoadFile();
-        }
-    }
+	@ExternalAccess
+	protected void putIntoArchiveContent(String key, String value) {
+		archiveContent.put(key, value);
+		if (archiveContent.size() == zippedLength) {
+			maybeLoadFile();
+		}
+	}
 
-    private void populateArchiveContent(JavaScriptObject ggbReader) {
-        String workerUrls = prepareFileReading();
-        GgbAPIW.setWorkerURL(workerUrls, false);
-        populateArchiveContent(workerUrls, this, ggbReader);
-    }
+	private void populateArchiveContent(JavaScriptObject ggbReader) {
+		String workerUrls = prepareFileReading();
+		GgbAPIW.setWorkerURL(workerUrls, false);
+		populateArchiveContent(workerUrls, this, ggbReader);
+	}
 
-    private native void populateArchiveContent(String workerUrls, ViewW view,
-                                               JavaScriptObject ggbReader) /*-{
+	private native void populateArchiveContent(String workerUrls, ViewW view,
+			JavaScriptObject ggbReader) /*-{
       // Writer for ASCII strings
       function ASCIIWriter() {
 	      var that = this, data;
@@ -296,24 +296,24 @@ public class ViewW {
 		return new $wnd.zip.Data64URIReader(base64str);
 	}-*/;
 
-    private String prepareFileReading() {
-        archiveContent = new GgbFile();
-        String workerUrls = GgbAPIW.zipJSworkerURL();
-        Log.debug("start unzipping" + System.currentTimeMillis());
-        return workerUrls;
-    }
+	private String prepareFileReading() {
+		archiveContent = new GgbFile();
+		String workerUrls = GgbAPIW.zipJSworkerURL();
+		Log.debug("start unzipping" + System.currentTimeMillis());
+		return workerUrls;
+	}
 
-    @ExternalAccess
-    private void prepare(int t) {
-        archiveContent = new GgbFile();
-        this.zippedLength = t;
-    }
+	@ExternalAccess
+	protected void prepare(int t) {
+		archiveContent = new GgbFile();
+		this.zippedLength = t;
+	}
 
-    /**
-     * @param encoded
-     *            JSON encoded ZIP file (zip.js format)
-     */
-    public native void processJSON(String encoded) /*-{
+	/**
+	 * @param encoded
+	 *            JSON encoded ZIP file (zip.js format)
+	 */
+	public native void processJSON(String encoded) /*-{
 		var content = JSON.parse(encoded).archive;
 		if (content) {
 			this.@org.geogebra.web.html5.util.ViewW::prepare(I)(content.length);

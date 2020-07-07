@@ -1,6 +1,7 @@
 package org.geogebra.desktop.gui.inputfield;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -9,7 +10,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
@@ -18,13 +22,13 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.gui.inputfield.MyTextField;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -190,8 +194,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void showPopupSymbolButton(boolean showPopupSymbolButton) {
-		((MyTextFieldD) this).setShowSymbolTableIcon(
-				showPopupSymbolButton && !popupSymbolDisabled);
+		setShowSymbolTableIcon(showPopupSymbolButton && !popupSymbolDisabled);
 	}
 
 	@Override
@@ -413,7 +416,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 				AutoCompleteTextField tf = app.getActiveEuclidianView()
 						.getTextField();
 				if (tf != null) {
-					geoUsedForInputBox.setText(tf.getText());
+					geoUsedForInputBox.updateLinkedGeo(tf.getText());
 				}
 				//
 				// app.getGlobalKeyDispatcher().handleTab(e.isControlDown(),
@@ -978,10 +981,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	@Override
-	public void addFocusListener(FocusListener focusListener) {
-		if (focusListener instanceof FocusListenerD) {
-			super.addFocusListener((FocusListenerD) focusListener);
-		}
+	public void addFocusListener(FocusListenerDelegate focusListener) {
+		super.addFocusListener(new FocusListenerD(focusListener));
 	}
 
 	@Override
@@ -1036,30 +1037,21 @@ public class AutoCompleteTextFieldD extends MathTextField
 		this.setShowSymbolTableIcon(b);
 	}
 
-    @Override
-    public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle bounds) {
-        drawBounds(g2, bgColor, ((int) bounds.getX()), ((int) bounds.getY()),
-                ((int) bounds.getWidth()), ((int) bounds.getHeight()));
-    }
+	@Override
+	public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle bounds) {
+		drawBounds(g2, bgColor, (int) bounds.getX(), (int) bounds.getY(),
+				(int) bounds.getWidth(), (int) bounds.getHeight());
+	}
 
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-
 		g2.setPaint(bgColor);
-        g2.fillRect(left - 1, top - 1, width - 1, height - 2);
+		g2.fillRect(left, top, width, height);
 
 		// TF Rectangle
-		g2.setPaint(GColor.LIGHT_GRAY);
-
-        g2.drawRect(left - 1, top - 1, width - 1, height - 2);
-
-	}
-
-	@Override
-	public void hideDeferred(final GBox box) {
-		setVisible(false);
-		box.setVisible(false);
+		g2.setPaint(GColor.TEXT_PRIMARY);
+		g2.drawRect(left, top, width, height);
 	}
 
 	/**
@@ -1089,25 +1081,30 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// not needed
 	}
 
-    @Override
-    public void setSelection(int start, int end) {
-        select(start, end);
-    }
+	@Override
+	public void setSelection(int start, int end) {
+		select(start, end);
+	}
 
-    @Override
-    public void setTextAlignmentsForInputBox(TextAlignment alignment) {
-        this.setHorizontalAlignment(toSwingAlignment(alignment));
-    }
+	@Override
+	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+		this.setHorizontalAlignment(toSwingAlignment(alignment));
+	}
 
-    private static int toSwingAlignment(TextAlignment alignment) {
-        switch (alignment) {
-            case LEFT:
-            default:
-                return SwingConstants.LEFT;
-            case CENTER:
-                return SwingConstants.CENTER;
-            case RIGHT:
-                return SwingConstants.RIGHT;
-        }
-    }
+	private static int toSwingAlignment(TextAlignment alignment) {
+		switch (alignment) {
+		case LEFT:
+		default:
+			return SwingConstants.LEFT;
+		case CENTER:
+			return SwingConstants.CENTER;
+		case RIGHT:
+			return SwingConstants.RIGHT;
+		}
+	}
+
+	@Override
+	public void setInputMode(InputMode type) {
+		// not needed
+	}
 }

@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
@@ -68,6 +69,7 @@ public class MenuToggleButton extends MyToggleButton
 	 * Toggle open/closed state of the menu
 	 */
 	protected void toggleMenu() {
+		appW.hideKeyboard();
 		appW.toggleMenu();
 	}
 
@@ -84,10 +86,14 @@ public class MenuToggleButton extends MyToggleButton
 		RootPanel root = RootPanel.get("headerID");
 		Element dummy = Dom.querySelectorForElement(root.getElement(),
 				"menuBtn");
+		Event.sinkEvents(root.getElement(), Event.KEYEVENTS);
+		Event.setEventListener(root.getElement(),
+				appW.getGlobalKeyDispatcher().getGlobalShortcutHandler());
 		if (dummy != null) {
 			dummy.removeFromParent();
 		}
 		root.insert(this, 0);
+
 	}
 
 	/**

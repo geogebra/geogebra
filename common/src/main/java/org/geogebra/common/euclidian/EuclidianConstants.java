@@ -228,6 +228,9 @@ public final class EuclidianConstants {
 	/** Freehand */
 	public static final int MODE_FREEHAND_SHAPE = 73;
 
+	/** Freehand function */
+	public static final int MODE_FREEHAND_FUNCTION = 74;
+
 	/** Extremum */
 	public static final int MODE_EXTREMUM = 75;
 
@@ -404,7 +407,7 @@ public final class EuclidianConstants {
 	/** Rounded rectangle */
 	public static final int MODE_SHAPE_RECTANGLE_ROUND_EDGES = 105;
 	/** Regular polygon */
-	public static final int MODE_SHAPE_POLYGON = 106;
+	public static final int MODE_SHAPE_PENTAGON = 106;
 	/** Freeform TODO same as normal polygon? */
 	public static final int MODE_SHAPE_FREEFORM = 107;
 	/** Circle */
@@ -433,9 +436,14 @@ public final class EuclidianConstants {
 	public static final int MODE_PDF = 119;
 	/** Extension embed */
 	public static final int MODE_EXTENSION = 120;
-
 	/** Text tool */
 	public static final int MODE_MEDIA_TEXT = 121;
+	/** Mask */
+	public static final int MODE_MASK = 122;
+	/** Table */
+	public static final int MODE_TABLE = 123;
+	/** Equation */
+	public static final int MODE_EQUATION = 124;
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
 	/** max delay between taps of a doublecklick */
@@ -772,6 +780,9 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			return "FreehandShape";
 
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+			return "FreehandFunction";
+
 		// case EuclidianConstants.MODE_VISUAL_STYLE:
 		// return "VisualStyle";
 
@@ -877,15 +888,16 @@ public final class EuclidianConstants {
 			return "ShapeRectangle";
 		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
 			return "ShapeRoundedRectangle";
-		case EuclidianConstants.MODE_SHAPE_POLYGON:
-			return "ShapePolygon";
+		case EuclidianConstants.MODE_SHAPE_PENTAGON:
+			return "Pentagon";
 		case EuclidianConstants.MODE_SHAPE_FREEFORM:
 			return "ShapeFreeform";
 		case EuclidianConstants.MODE_SHAPE_CIRCLE:
 			return "Circle";
 		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
 			return "Ellipse";
-
+		case EuclidianConstants.MODE_MASK:
+			return "MaskTool";
 		case EuclidianConstants.MODE_ERASER:
 			return "Eraser";
 		case EuclidianConstants.MODE_HIGHLIGHTER:
@@ -917,6 +929,10 @@ public final class EuclidianConstants {
 			return "Select";
 		case EuclidianConstants.MODE_SELECT_MOW:
 			return "Select";
+		case EuclidianConstants.MODE_TABLE:
+			return 	"Table";
+		case EuclidianConstants.MODE_EQUATION:
+			return 	"Equation";
 
 		default:
 			Log.error("Unknown mode " + mode);
@@ -942,7 +958,7 @@ public final class EuclidianConstants {
 	static public boolean isShapeMode(int mode) {
 		return mode == MODE_SHAPE_FREEFORM || mode == MODE_SHAPE_SQUARE
 				|| mode == MODE_SHAPE_CIRCLE || mode == MODE_SHAPE_ELLIPSE
-				|| mode == MODE_SHAPE_POLYGON || mode == MODE_SHAPE_RECTANGLE
+				|| mode == MODE_SHAPE_PENTAGON || mode == MODE_SHAPE_RECTANGLE
 				|| mode == MODE_SHAPE_TRIANGLE || mode == MODE_SHAPE_LINE;
 	}
 

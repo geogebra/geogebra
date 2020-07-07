@@ -9,9 +9,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -352,7 +352,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private double getThicknessMin(double distance) {
-        return mView.dipToPx(THICKNESS_MIN_FACTOR) * distance / projectMatrix.get(1, 1);
+        return mView.dipToPx(THICKNESS_MIN_FACTOR) * distance / projectMatrix.get(1 ,1);
     }
 
     public void setARScaleAtStart() {
@@ -458,7 +458,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
         double ratio;
         if (arGestureManager != null) {
             ratio = arRatioAtStart * arGestureManager.getScaleFactor() * ratioChange
-                    * getUnitConversion();
+                            * getUnitConversion();
         } else {
             ratio = arRatioAtStart;
         }
@@ -472,7 +472,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
                 // round double for precision 3 in m
                 ratio = (double) Math.round(ratio) / 100d;
                 units = "m";
-            } else if (ratio < 0.5) {
+            } else if (ratio < 0.5 ) {
                 // round double for precision 3 in mm
                 ratio = (double) Math.round(ratio * 1000d) / 100d;
                 units = "mm";
@@ -487,7 +487,7 @@ abstract public class ARManager<TouchEventType> implements ARManagerInterface<To
     }
 
     private String getRatioMessage(double ratio) {
-        if (DoubleUtil.isInteger(ratio)) {
+        if(DoubleUtil.isInteger(ratio)) {
             arRatioText = String.format("%d", (long) ratio);
         } else {
             arRatioText = String.format("%.4s", ratio);

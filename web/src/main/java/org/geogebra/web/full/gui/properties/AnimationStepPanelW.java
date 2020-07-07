@@ -4,7 +4,6 @@ import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.full.gui.AngleTextFieldW;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -48,6 +47,7 @@ implements ITextFieldListener {
 		mainPanel.add(tfAnimStep);
 		setWidget(mainPanel);
 
+		// update on every change, so no extra blur handler needed
 		tfAnimStep.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -55,8 +55,6 @@ implements ITextFieldListener {
 				doActionPerformed();
 			}
 		});
-
-		new FocusListenerW(this).init();
 
 		tfAnimStep.addKeyDownHandler(new KeyDownHandler() {
 

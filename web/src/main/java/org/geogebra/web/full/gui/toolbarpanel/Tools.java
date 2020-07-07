@@ -1,16 +1,12 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.toolbar.ToolbarItem;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
-import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.web.full.gui.toolbar.ToolButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -31,25 +27,18 @@ import com.google.gwt.user.client.ui.Widget;
 public class Tools extends FlowPanel implements SetLabels {
 
 	/**
-	 * Tool categories
-	 */
-	private ToolCategorization mToolCategorization;
-	/**
 	 * application
 	 */
-	AppW app;
+	private AppW app;
 	/**
 	 * see {@link ToolsTab}
 	 */
-	ToolsTab parentTab;
+	private ToolsTab parentTab;
 	/**
 	 * move button
 	 */
 	private StandardButton moveButton;
-	/**
-	 * categories list
-	 */
-	private ArrayList<ToolCategorization.Category> categories;
+
 	private ArrayList<CategoryPanel> categoryPanelList;
 
 	/**
@@ -61,6 +50,7 @@ public class Tools extends FlowPanel implements SetLabels {
 	public Tools(AppW app, ToolsTab parentTab) {
 		this.app = app;
 		this.parentTab = parentTab;
+
 		this.addStyleName("toolsPanel");
 		buildGui();
 	}
@@ -114,24 +104,17 @@ public class Tools extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * @return tool categorization
-	 */
-	public ToolCategorization getmToolCategorization() {
-		return mToolCategorization;
-	}
-
-	/**
 	 * @param moveButton
 	 *            floating action move btn
 	 */
-	public void setMoveButton(StandardButton moveButton) {
+	private void setMoveButton(StandardButton moveButton) {
 		this.moveButton = moveButton;
 	}
 
 	/**
 	 * Clears visual selection of all tools.
 	 */
-	public void clearSelectionStyle() {
+	private void clearSelectionStyle() {
 		for (int i = 0; i < getWidgetCount(); i++) {
 			Widget w = getWidget(i);
 			if (w instanceof CategoryPanel) {
@@ -153,48 +136,24 @@ public class Tools extends FlowPanel implements SetLabels {
 		categoryPanelList = new ArrayList<>();
 		// decide if custom toolbar or not
 		String def = app.getGuiManager().getCustomToolbarDefinition();
-		boolean isCustomToolbar = !ToolBar.isDefaultToolbar(def)
-				&& !ToolBar.isDefaultToolbar3D(def);
+		boolean isCustomToolbar = !ToolBar.isDefaultToolbar(def);
+
 		parentTab.isCustomToolbar = isCustomToolbar;
 		// build tools panel depending on if custom or not
-		if (!isCustomToolbar) {
-			mToolCategorization = app.createToolCategorization();
-			if (app.isUnbundled3D()) {
-				def = app.getGuiManager().getLayout().getDockManager()
-						.getPanel(App.VIEW_EUCLIDIAN3D).getToolbarString();
-			}
-			mToolCategorization.resetTools(def);
-			categories = mToolCategorization.getCategories();
-			for (int i = 0; i < categories.size(); i++) {
-				CategoryPanel catPanel = new CategoryPanel(categories.get(i));
-				categoryPanelList.add(catPanel);
-				add(catPanel);
-			}
-		} else {
+		if (isCustomToolbar) {
 			this.addStyleName("customToolbar");
-			Vector<ToolbarItem> toolbarItems = getToolbarVec(def);
-			for (ToolbarItem toolbarItem : toolbarItems) {
-				CategoryPanel catPanel = new CategoryPanel(toolbarItem);
-				categoryPanelList.add(catPanel);
-				add(catPanel);
-			}
 		}
-		setMoveMode();
-	}
 
-	/**
-	 * @param toolbarString
-	 *            string definition of toolbar
-	 * @return the vector of groups of tools
-	 */
-	protected Vector<ToolbarItem> getToolbarVec(String toolbarString) {
-		Vector<ToolbarItem> toolbarVec;
-		try {
-			toolbarVec = ToolBar.parseToolbarString(toolbarString);
-		} catch (Exception e) {
-			toolbarVec = ToolBar.parseToolbarString(ToolBar.getAllTools(app));
+		List<ToolCategory> categories = parentTab.toolCollection.getCategories();
+
+		for (int i = 0; i < categories.size(); i++) {
+			CategoryPanel catPanel = new CategoryPanel(categories.get(i),
+					parentTab.toolCollection.getTools(i));
+			categoryPanelList.add(catPanel);
+			add(catPanel);
 		}
-		return toolbarVec;
+
+		setMoveMode();
 	}
 
 	@Override
@@ -207,28 +166,19 @@ public class Tools extends FlowPanel implements SetLabels {
 	}
 
 	private class CategoryPanel extends FlowPanel implements SetLabels {
-		private Category category;
+
+		private ToolCategory category;
+		private List<Integer> tools;
+
 		private FlowPanel toolsPanel;
 		private Label categoryLabel;
 		private ArrayList<ToolButton> toolButtonList;
 
-		public CategoryPanel(ToolCategorization.Category cat) {
+		CategoryPanel(ToolCategory category, List<Integer> tools) {
 			super();
-			category = cat;
+			this.category = category;
+			this.tools = tools;
 			initGui();
-		}
-
-		public CategoryPanel(ToolbarItem toolbarItem) {
-			toolsPanel = new FlowPanel();
-			toolsPanel.addStyleName("categoryPanel");
-			toolButtonList = new ArrayList<>();
-			Vector<Integer> tools = toolbarItem.getMenu();
-			for (Integer mode : tools) {
-				if (app.isModeValid(mode)) {
-					addToolButton(mode);
-				}
-			}
-			add(toolsPanel);
 		}
 
 		private void addToolButton(Integer mode) {
@@ -241,21 +191,18 @@ public class Tools extends FlowPanel implements SetLabels {
 		}
 
 		private void initGui() {
-			categoryLabel = new Label(
-					getmToolCategorization().getLocalizedHeader(category));
-			categoryLabel.setStyleName("catLabel");
-			add(categoryLabel);
-			AriaHelper.hide(categoryLabel);
+			if (category != null) {
+				categoryLabel = new Label(category.getLocalizedHeader(app.getLocalization()));
+				categoryLabel.setStyleName("catLabel");
+				add(categoryLabel);
+				AriaHelper.hide(categoryLabel);
+			}
 
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
-			ArrayList<Integer> tools = getmToolCategorization().getTools(
-					getmToolCategorization().getCategories().indexOf(category));
 			toolButtonList = new ArrayList<>();
-			ToolBar.parseToolbarString(
-					app.getGuiManager().getToolbarDefinition());
-			for (int i = 0; i < tools.size(); i++) {
-				addToolButton(tools.get(i));
+			for (Integer tool : tools) {
+				addToolButton(tool);
 			}
 			add(toolsPanel);
 		}
@@ -267,7 +214,6 @@ public class Tools extends FlowPanel implements SetLabels {
 		private ToolButton getToolButton(final int mode) {
 			final ToolButton btn = new ToolButton(mode, getApp());
 			AriaHelper.hide(btn);
-			btn.setIgnoreTab();
 			btn.addFastClickHandler(new FastClickHandler() {
 
 				@Override
@@ -283,8 +229,7 @@ public class Tools extends FlowPanel implements SetLabels {
 		@Override
 		public void setLabels() {
 			// update label of category header
-			categoryLabel.setText(
-					getmToolCategorization().getLocalizedHeader(category));
+			categoryLabel.setText(category.getLocalizedHeader(app.getLocalization()));
 			// update tooltips of tools
 			for (ToolButton toolButton : toolButtonList) {
 				toolButton.setLabel();
@@ -300,16 +245,15 @@ public class Tools extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * @param modeMove
+	 * @param mode
 	 *            mode number
 	 */
-	public void showTooltip(int modeMove) {
+	public void showTooltip(int mode) {
 		if (allowTooltips()) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance()
-					.showBottomInfoToolTip(app.getToolTooltipHTML(modeMove),
-							((GuiManagerW) app.getGuiManager()).getTooltipURL(
-									modeMove),
+					.showBottomInfoToolTip(app.getToolTooltipHTML(mode),
+							app.getGuiManager().getTooltipURL(mode),
 							ToolTipLinkType.Help, app,
 							app.getAppletFrame().isKeyboardShowing());
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);

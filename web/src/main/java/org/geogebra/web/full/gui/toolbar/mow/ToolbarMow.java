@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -11,13 +12,13 @@ import org.geogebra.web.full.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.PersistablePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -48,8 +49,8 @@ public class ToolbarMow extends FlowPanel
 	private TabIds currentTab;
 
 	private final static int MAX_TOOLBAR_WIDTH = 600;
-    private final static int FLOATING_BTNS_WIDTH = 48;
-    private final static int FLOATING_BTNS_MARGIN_RIGHT = 16;
+	private final static int FLOATING_BTNS_WIDTH = 48;
+	private final static int FLOATING_BTNS_MARGIN_RIGHT = 16;
 
 	/**
 	 * Tab ids.
@@ -117,21 +118,20 @@ public class ToolbarMow extends FlowPanel
 		toolbarPanelContent.add(toolsPanel);
 		toolbarPanelContent.add(mediaPanel);
 		toolbarPanel.add(toolbarPanelContent);
+		updateAriaHidden();
 	}
 
 	private void createPageControlButton() {
 		pageControlButton = new StandardButton(
 				MaterialDesignResources.INSTANCE.mow_page_control(), null, 24,
 				appW);
+		new FocusableWidget(AccessibilityGroup.PAGE_LIST_OPEN, null, pageControlButton)
+				.attachTo(appW);
 		pageControlButton.setStyleName("mowFloatingButton");
 		showPageControlButton(true);
 
-		pageControlButton.addTouchStartHandler(new TouchStartHandler() {
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				setTouchStyleForCards();
-			}
-		});
+		pageControlButton.addBitlessDomHandler(event -> setTouchStyleForCards(),
+				TouchStartEvent.getType());
 		pageControlButton.addFastClickHandler(this);
 		updateFloatingButtonsPosition();
 	}
@@ -160,51 +160,51 @@ public class ToolbarMow extends FlowPanel
 	 * updates position of pageControlButton and zoomPanel
 	 */
 	public void updateFloatingButtonsPosition() {
-        if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
-            moveZoomPanelDown();
-            movePageControlButtonDown();
+		if (isEnoughSpaceForFloatingButtonBesideToolbar()) {
+			moveZoomPanelDown();
+			movePageControlButtonDown();
 		} else {
-            moveZoomPanelAboveToolbar();
-            movePageControlButtonAboveToolbar();
-        }
-    }
+			moveZoomPanelAboveToolbar();
+			movePageControlButtonAboveToolbar();
+		}
+	}
 
-    private void movePageControlButtonDown() {
-        pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
-        pageControlButton.removeStyleName("narrowscreen");
-    }
+	private void movePageControlButtonDown() {
+		pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
+		pageControlButton.removeStyleName("narrowscreen");
+	}
 
-    private void movePageControlButtonAboveToolbar() {
-        pageControlButton.getElement().getStyle().clearBottom();
-        Dom.toggleClass(
-                pageControlButton,
-                "showMowSubmenu", "hideMowSubmenu",
-                isOpen);
-        pageControlButton.addStyleName("narrowscreen");
-    }
+	private void movePageControlButtonAboveToolbar() {
+		pageControlButton.getElement().getStyle().clearBottom();
+		Dom.toggleClass(
+				pageControlButton,
+				"showMowSubmenu", "hideMowSubmenu",
+				isOpen);
+		pageControlButton.addStyleName("narrowscreen");
+	}
 
-    private void moveZoomPanelDown() {
-        getDockPanel().moveZoomPanelToBottom();
-    }
+	private void moveZoomPanelDown() {
+		getDockPanel().moveZoomPanelToBottom();
+	}
 
-    private void moveZoomPanelAboveToolbar() {
-        EuclidianDockPanelW dockPanel = getDockPanel();
-        dockPanel.moveZoomPanelAboveToolbar();
-        dockPanel.moveZoomPanelUpOrDown(isOpen);
-    }
+	private void moveZoomPanelAboveToolbar() {
+		EuclidianDockPanelW dockPanel = getDockPanel();
+		dockPanel.moveZoomPanelAboveToolbar();
+		dockPanel.moveZoomPanelUpOrDown(isOpen);
+	}
 
-    private EuclidianDockPanelW getDockPanel() {
-        return (EuclidianDockPanelW) appW
-                .getGuiManager()
-                .getLayout()
-                .getDockManager()
-                .getPanel(App.VIEW_EUCLIDIAN);
-    }
+	private EuclidianDockPanelW getDockPanel() {
+		return (EuclidianDockPanelW) appW
+				.getGuiManager()
+				.getLayout()
+				.getDockManager()
+				.getPanel(App.VIEW_EUCLIDIAN);
+	}
 
-    private boolean isEnoughSpaceForFloatingButtonBesideToolbar() {
-        int spaceNeededForFloatingButton = (FLOATING_BTNS_WIDTH + FLOATING_BTNS_MARGIN_RIGHT) * 2;
-        int toolbarWithFloatingButtonWidth = MAX_TOOLBAR_WIDTH + spaceNeededForFloatingButton;
-        return appW.getWidth() > toolbarWithFloatingButtonWidth;
+	private boolean isEnoughSpaceForFloatingButtonBesideToolbar() {
+		int spaceNeededForFloatingButton = (FLOATING_BTNS_WIDTH + FLOATING_BTNS_MARGIN_RIGHT) * 2;
+		int toolbarWithFloatingButtonWidth = MAX_TOOLBAR_WIDTH + spaceNeededForFloatingButton;
+		return appW.getWidth() > toolbarWithFloatingButtonWidth;
 	}
 
 	/**
@@ -239,7 +239,14 @@ public class ToolbarMow extends FlowPanel
 				break;
 			}
 			appW.setMode(getCurrentPanel().getFirstMode());
+			updateAriaHidden();
 		}
+	}
+
+	private void updateAriaHidden() {
+		penPanel.setAriaHidden(currentTab != TabIds.PEN);
+		toolsPanel.setAriaHidden(currentTab != TabIds.TOOLS);
+		mediaPanel.setAriaHidden(currentTab != TabIds.MEDIA);
 	}
 
 	@Override
@@ -270,9 +277,7 @@ public class ToolbarMow extends FlowPanel
 		}
 		EuclidianController ec = appW.getActiveEuclidianView().getEuclidianController();
 		ec.widgetsToBackground();
-		if (ec.getTextController() != null) {
-			ec.getTextController().reset();
-		}
+
 		if (pageControlPanel == null) {
 			pageControlPanel = ((AppWFull) appW).getAppletFrame()
 					.getPageControlPanel();
@@ -284,17 +289,19 @@ public class ToolbarMow extends FlowPanel
 	private void createUndoRedoButtons() {
 		undoRedoPanel = new PersistablePanel();
 		undoRedoPanel.addStyleName("undoRedoPanel");
-        undoRedoPanel.addStyleName(appW.getVendorSettings().getStyleName("undoRedoPosition"));
+		undoRedoPanel.addStyleName(appW.getVendorSettings().getStyleName("undoRedoPosition"));
 		// create buttons
 		btnUndo = new StandardButton(
 				MaterialDesignResources.INSTANCE.undo_border(), null, 24, appW);
 		btnUndo.addStyleName("flatButton");
 		btnUndo.addFastClickHandler(this);
+		new FocusableWidget(AccessibilityGroup.UNDO, null, btnUndo).attachTo(appW);
 		btnRedo = new StandardButton(
 				MaterialDesignResources.INSTANCE.redo_border(), null, 24, appW);
 		btnRedo.addFastClickHandler(this);
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
+		new FocusableWidget(AccessibilityGroup.REDO, null, btnRedo).attachTo(appW);
 		undoRedoPanel.add(btnUndo);
 		undoRedoPanel.add(btnRedo);
 	}

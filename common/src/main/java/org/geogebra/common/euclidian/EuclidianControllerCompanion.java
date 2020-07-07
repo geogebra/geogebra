@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.Region;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -32,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
@@ -674,14 +674,15 @@ public class EuclidianControllerCompanion {
 
 	/**
 	 * For view from plane remove the parent of the view
-	 * 
+	 * Must return a new list that can be altered by caller.
+	 *
 	 * @param list
 	 *            list of elements
 	 * @return filtered list
 	 */
 	public ArrayList<GeoElement> removeParentsOfView(
 			ArrayList<GeoElement> list) {
-		return list;
+		return new ArrayList<>(list);
 	}
 
 	/**

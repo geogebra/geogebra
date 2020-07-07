@@ -1,0 +1,97 @@
+def template = { fileName ->
+    String templateDir = "src/main/resources/org/geogebra/web/resources/html/"
+    return file(templateDir + fileName).text
+}
+
+String html = template("app-template.html")
+String splash = template("classic-splash.html")
+
+["algebra", "graphics", "spreadsheet", "cas", "probability", "3d", "exam"].each {
+    def iconText = file("../common/src/nonfree/resources/org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_" + it + ".svg").text
+    splash = splash.replace("<!--ICON:" + it.toUpperCase() + "-->",
+            "data:image/svg+xml;base64," + iconText.bytes.encodeBase64().toString())
+}
+
+String.metaClass.injectPartial = { partialId ->
+    delegate.replace("<!--${partialId.toUpperCase()}-->", template("partials/${partialId}.html"))
+}
+
+def partials = { code, appPartials ->
+    def partials = appPartials ?: ["share-button", "signin-button"]
+    partials.each({
+        code = code.injectPartial(it)
+    })
+    return code
+}
+
+def replaceVendor = { htmlContent, vendor ->
+    return htmlContent.replace("<!--VENDOR-->", vendor)
+            .replace("<!--VENDOR SCRIPTS-->", template("partials/vendor-scripts-${vendor.toLowerCase()}.html"))
+            .replace("<!--PRECONNECT-->", vendor == "Mebis" ? "" : template("partials/preconnect.html"))
+}
+
+ext.english = { raw, appName ->
+    return raw.replace("<!--SIGN IN-->", "Sign in")
+            .replace("<!--APP NAME-->", appName)
+            .replace("<!--CODEBASE-->", "")
+            .replace("<!--LANG-->", "en")
+}
+
+ext.handlebars = { raw ->
+    return raw.replace("<!--SIGN IN-->", "{{signIn}}")
+            .replace("<!--APP NAME-->", "{{appName}}")
+            .replace("<!--LANG-->", "{{lang}}")
+            .replace("<!--CODEBASE-->", "{{codebase}}")
+            .replace("<!--LANGUAGE LINKS-->", "{{{languageLinks}}}")
+}
+
+ext.classicHtml = { app, prerelease, offline = false ->
+    def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
+    return replaceVendor(html, "GeoGebra")
+            .replace("<!--SPLASH-->", splash)
+            .replace("<!--SPLASH STYLE-->", template("splash-style.css"))
+            .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/geogebra.ico")
+            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific)
+            .injectFirebaseTemplate(app.firebaseAppId, app.measurementId)
+}
+
+String.metaClass.injectFirebaseTemplate = { firebaseAppId, measurementId ->
+    if (firebaseAppId != "" && measurementId != "") {
+        return delegate.injectPartial("firebase")
+                .replace("<!--FIREBASE APP ID-->", firebaseAppId)
+                .replace("<!--MEASUREMENT ID-->", measurementId)
+    }
+    return delegate;
+}
+
+ext.appHtml = { app, prerelease, offline = false ->
+    def vendor = app.vendor ?: "GeoGebra"
+    def appID = app.id.split("-")[0]
+    def appTransKey = app.transKey
+    def header = vendor == "Mebis" ? "" : template("app-header-beta.html")
+    header = partials(header, app.partials)
+    def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->"
+    def startscreenStyle = "startscreen " + appID + (offline ? " offline" : "")
+    def appStoreBanner = app.appStoreId ? "<meta name=\"apple-itunes-app\" " +
+            "content=\"app-id=${app.appStoreId}\"><link rel=\"manifest\" href=\"https://www.geogebra.org/apps/manifest/${appID}.json\">" : ""
+    def splashContent = template("${app.id}-splash.html")
+    def firebaseAppId = app.firebaseAppId ?: ""
+    def measurementId = app.measurementId ?: ""
+    return replaceVendor(html, vendor)
+            .replace("<!--SPLASH-->", header + "<div class=\"$startscreenStyle\">$splashContent</div>")
+            .replace("<!--SPLASH STYLE-->", template("app-header.css").replace('$height', offline ? '0' : '64px') + template("app-style.css"))
+            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
+            .replace("<!--ICON-->", "https://www.geogebra.org/apps/icons/${appID}.ico")
+            .replace("<!--APP ID-->", appID)
+            .replace("<!--APP TRANSKEY-->", appTransKey)
+            .replace("<!--APPSTORE BANNER-->", appStoreBanner)
+            .injectFirebaseTemplate(firebaseAppId, measurementId)
+            .replace("\r\n", "\n") // generate the same on Win and Unix
+}
+
+ext.solverHtml = { ->
+    def header = partials(template("app-header-beta.html"), null);
+    template("solver-template.html")
+            .replace("<!--HEADER-->", header)
+            .replace("<!--SPLASH STYLE-->", template("app-header.css"))
+}

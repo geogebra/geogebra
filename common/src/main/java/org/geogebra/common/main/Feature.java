@@ -13,8 +13,6 @@ public enum Feature {
 
 	LOG_AXES,
 
-	ACRA,
-
 	ANALYTICS,
 
 	/** GGB-334, TRAC-3401 */
@@ -60,41 +58,18 @@ public enum Feature {
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
-	/** MOW-679 */
-	MOW_PEN_IS_LOCUS,
+	/** G3D-345 */
+	G3D_AR_SHOW_RATIO,
 
-    /**
-     * G3D-345
-     */
-    G3D_AR_SHOW_RATIO,
+	/** G3D-343 */
+	G3D_SELECT_META,
 
-    /**
-     * G3D-343
-     */
-    G3D_SELECT_META,
+	/** APPS-890 */
+	AUTOLABEL_CAS_SETTINGS,
 
-    /**
-     * APPS-890
-     */
-    AUTOLABEL_CAS_SETTINGS,
+	/** G3D-372 */
+	G3D_AR_RATIO_SETTINGS,
 
-    /**
-     * MOW-763
-     */
-    VIDEO_PLAYER_OFFLINE,
-
-    /**
-     * STUD-17
-     */
-    SURFACE_OF_REVOLUTION_TOOL,
-
-    /**
-     * G3D-372
-     */
-    G3D_AR_RATIO_SETTINGS,
-
-    /**
-     * APPS-1035
-     */
-    SYMBOLIC_INPUTFIELDS;
+	/** APPS-1035 */
+	SYMBOLIC_INPUTFIELDS
 }

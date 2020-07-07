@@ -81,10 +81,9 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.HttpRequestD;
+import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * GeoGebra's main window.
@@ -556,8 +555,6 @@ public class GeoGebraFrame extends JFrame
 		 * 
 		 * @throws IOException
 		 */
-		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
-				"don't need to check return value of mkdirs() or delete()" })
 		private static void downloadGeoGebraJars() throws IOException {
 			ZipInputStream zis = null;
 			try {
@@ -565,7 +562,7 @@ public class GeoGebraFrame extends JFrame
 				String updateDir = System.getenv("APPDATA")
 						+ GeoGebraConstants.GEOGEBRA_JARS_UPDATE_DIR;
 				Log.debug("Creating " + updateDir);
-				new File(updateDir).mkdirs();
+				UtilD.mkdirs(new File(updateDir));
 
 				// Downloading newest .jar files in a .zip:
 				String filename = updateDir + File.separator
@@ -600,8 +597,7 @@ public class GeoGebraFrame extends JFrame
 						fos.close();
 					}
 				}
-
-				dest.delete();
+				UtilD.delete(dest);
 
 			} catch (Exception e) {
 				Log.error("Unsuccessful update");

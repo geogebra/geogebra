@@ -1,221 +1,272 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Embedded Applet - GeoGebra</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
-<style>
-body {
-	font-family: sans-serif;
-}
-
-label {
-	min-width: 160px;
-	display: inline-block;
-}
-</style>
-<script type="text/javascript">
-
-	var params = {
-		"appName" : [ "select", "classic", "graphing", "geometry", "3d", "calculator", "notes", "evaluator"],
-		"perspective" : "text",
-		"showToolBar" : "boolean",
-		"showMenuBar" : "boolean",
-		"showAlgebraInput" : "boolean",
-		"tubeID" : "text",
-		"fileName" : "text",
-		"base64String" : "text",
-		"enableUndoRedo" : [ "boolean", true ],
-		"enableRightClick" : ["boolean", true],
-		"allowSymbolTable" : ["boolean", true],
-		"customToolBar" : "text",
-		"allowStyleBar" : "boolean",
-		"rounding" : "text",
-		"language" : "text",
-		"country" : "text",
-		"showToolBarHelp" : ["boolean",true],
-		"errorDialogsActive" : "boolean",
-		"enableLabelDrags" : [ "boolean", true ],
-		"enableShiftDragZoom" : [ "boolean",true ],
-		"enableFileFeatures" : [ "boolean", true ],
-		"enableGraphing" : [ "boolean", true ],
-		"enable3D" : [ "boolean", true ],
-		"enableCAS" : [ "boolean", true ],
-		"useBrowserForJS" : [ "boolean", true ],
-		"screenshotGenerator" : "boolean",		
-		"prerelease" : "boolean",
-		"borderColor" : [ "text", "#D3D3D3" ],
-		"capturingThreshold" : "number",
-		"fitToScreen" : "boolean",
-		"showStartTooltip" : "boolean",
-		"showLogging" : ["select", "true", "false", "graphics"],
-		"scale" : "number",
-		"allowUpscale" : "boolean",
-		"disableAutoScale": "boolean",
-		"scaleContainerClass": "text",
-		"autoHeight": "boolean",
-		"preventFocus":"boolean",
-		"showAppsPicker" : "boolean",
-		"marginTop" : "number",
-		"clientId":"text",
-		"laf":"text",
-		"showResetIcon" : "boolean",
-		"showAnimationButton" : ["boolean",true],
-		"showSuggestionButtons" : ["boolean",true],
-		"showFullscreenButton" : "boolean",
-		"showZoomButtons" : "boolean",
-		"buttonShadows": "boolean",
-		"buttonRounding": "number",
-		"fullscreenContainer": "text",
-		"app" : "boolean",
-		"jSON" : "text",
-		"id" : "text",
-		"fontSize" : "text",
-		"keyboardType" : ["select", "normal", "scientific"],
-		"randomSeed": "text",
-		"width" : [ "text", 600 ],
-		"height" : [ "text", 450 ]
-
-	}
-	function decode(el, param) {
-		var fallback = false;
-		if (typeof params[param] == "object") {
-			fallback = params[param][1];
+	<title>Embedded Applet - GeoGebra</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
+	<style>
+		body {
+			font-family: sans-serif;
 		}
-		if (el.type == "checkbox") {
-			return el.checked == fallback ? null : (el.checked + "");
-		}
-		if (param == "width" || param == "height") {
-			return el.value;
-		}
-		return el.value.length && el.value != fallback ? el.value : null;
-	}
 
-	function onParamChange(param, val, article) {
-		if (param == "scaleContainerClass") {
-			document.getElementById("scaleContainer").className += " " + val;
-			document.getElementById("resizer").style.visibility = val ? "visible" : "hidden";
-			var style = document.getElementById("scaleContainer").style;
-			style.width = style.width || "600px";
-			style.height = style.height || "450px";
+		label {
+			min-width: 160px;
+			display: inline-block;
 		}
-		if (val) {
-			article.setAttribute("data-param-" + param, val);
-		} else {
-			article.removeAttribute("data-param-" + param);
-		}
-	}
 
-	function updateParams(article) {
-		var url = location.protocol+"//"+location.host+location.pathname+"?"
-		for (param in params) {
-			var val = decode(document.getElementById("set" + param), param);
-			onParamChange(param, val, article);
-			if (val === "true") {
-				url += param + "&";
-			} else if (val) {
-				url += param + "=" + val+ "&";
+		#settings {
+			position: absolute;
+			right: 0;
+			top: 0;
+			max-height: 100%;
+			overflow-y: auto;
+			z-index: 1000;
+			background-color: rgba(255, 255, 255, 0.9);
+		}
+
+		#scaleContainer {
+			position: absolute;
+			top: 100px;
+			left: 100px;
+			background-color: #eeeeee;
+		}
+
+		#resizer {
+			visibility: hidden;
+			position: absolute;
+			background-color: #eeeeee;
+			border-radius: 50%;
+			width: 48px;
+			height: 48px;
+			line-height: 48px;
+			text-align: center;
+			left: 100%;
+		}
+
+		#glasspane {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			visibility: hidden;
+			z-index: 2000;
+		}
+	</style>
+
+	<script type="text/javascript">
+		const params = {
+			"module": ["select", "web3d", "webSimple"],
+			"appName": ["select", "classic", "graphing", "geometry", "3d", "scientific", "notes", "evaluator", "suite"],
+			"perspective": "text",
+			"showToolBar": "boolean",
+			"showMenuBar": "boolean",
+			"showAlgebraInput": "boolean",
+			"tubeID": "text",
+			"fileName": "text",
+			"ggbbase64": "text",
+			"enableUndoRedo": ["boolean", true],
+			"enableRightClick": ["boolean", true],
+			"allowSymbolTable": ["boolean", true],
+			"customToolBar": "text",
+			"allowStyleBar": "boolean",
+			"rounding": "text",
+			"language": "text",
+			"country": "text",
+			"showToolBarHelp": ["boolean", true],
+			"errorDialogsActive": "boolean",
+			"enableLabelDrags": ["boolean", true],
+			"enableShiftDragZoom": ["boolean", true],
+			"enableFileFeatures": ["boolean", true],
+			"enableGraphing": ["boolean", true],
+			"enable3D": ["boolean", true],
+			"enableCAS": ["boolean", true],
+			"useBrowserForJS": ["boolean", true],
+			"screenshotGenerator": "boolean",
+			"prerelease": "boolean",
+			"borderColor": ["text", "#D3D3D3"],
+			"capturingThreshold": "number",
+			"fitToScreen": "boolean",
+			"showStartTooltip": "boolean",
+			"showLogging": ["select", "true", "false", "graphics"],
+			"scale": "number",
+			"allowUpscale": "boolean",
+			"disableAutoScale": "boolean",
+			"scaleContainerClass": "text",
+			"autoHeight": "boolean",
+			"preventFocus": "boolean",
+			"showAppsPicker": "boolean",
+			"marginTop": "number",
+			"clientId": "text",
+			"laf": "text",
+			"showResetIcon": "boolean",
+			"showAnimationButton": ["boolean", true],
+			"showSuggestionButtons": ["boolean", true],
+			"showFullscreenButton": "boolean",
+			"showZoomButtons": "boolean",
+			"buttonShadows": "boolean",
+			"buttonRounding": "number",
+			"buttonBorderColor": "text",
+			"fullscreenContainer": "text",
+			"app": "boolean",
+			"jSON": "text",
+			"id": "text",
+			"fontSize": "text",
+			"keyboardType": ["select", "normal", "scientific"],
+			"randomSeed": "text",
+			"width": ["text", 800],
+			"height": ["text", 600]
+		};
+
+		function decode(el, param) {
+			var fallback = false;
+			if (typeof params[param] == "object") {
+				fallback = params[param][1];
 			}
-		}
-		history.pushState("","",url);
-		renderGGBElement(article);
-	}
-	window.addEventListener("load", function() {
-		var article = document.createElement("article");
-
-		for (param in params) {
-			type = typeof params[param] == "object" ? params[param][0]
-					: params[param];
-			var input = document.createElement(type == "select" ? "select"
-					: "input");
-			if (type == "select") {
-				for (var opt = 1; opt < params[param].length; opt++) {
-					var optVal = params[param][opt];
-					var optTag = document.createElement("option");
-					optTag.innerText = optVal;
-					optTag.value = optVal;
-					input.appendChild(optTag);
-				}
+			if (el.type === "checkbox") {
+				return el.checked === fallback ? null : (el.checked + "");
 			}
-			label = document.createElement("label");
-			label.innerText = param;
+			return el.value.length && el.value !== fallback ? el.value : null;
+		}
 
-			val = typeof params[param] == "object" ? params[param][1] : null;
-			input.type = type.replace("boolean", "checkbox");
-			if (type == "boolean") {
-				input.checked = val ? "on" : "";
+		function onParamChange(param, val, article) {
+			if (param === "scaleContainerClass") {
+				document.getElementById("scaleContainer").className += " " + val;
+				document.getElementById("resizer").style.visibility = val ? "visible" : "hidden";
+				var style = document.getElementById("scaleContainer").style;
+				style.width = style.width || "800px";
+				style.height = style.height || "600px";
+			}
+			if (val) {
+				article.setAttribute("data-param-" + param, val);
 			} else {
-				input.value = val;
+				article.removeAttribute("data-param-" + param);
 			}
-			input.id = input.name = "set" + param;
-			input.addEventListener("change", function() {
-				updateParams(article);
-			});
-			label.setAttribute("for", "set" + param);
-			field = document.createElement("div");
-			field.appendChild(label);
-			field.appendChild(input);
-			document.getElementById("settings").appendChild(field);
 		}
 
-		article.className = "geogebraweb";
-		document.getElementById("parent").appendChild(article);
-		settings = location.search.substring(1).split("&");
-		for (i in settings) {
-			var parts = settings[i].split("=");
-			if (params[parts[0]]) {
-				var val = decodeURIComponent(parts[1] || "true");
-				onParamChange(parts[0], val, article);
-				if (parts[1]) {
-					document.getElementById("set" + parts[0]).value = val;
-				} else {
-					document.getElementById("set" + parts[0]).checked = true;
+		function updateParams(article) {
+			var url = location.protocol + "//" + location.host + location.pathname + "?";
+			var reloadNeeded = false;
+			for (param in params) {
+				var val = decode(document.getElementById("set" + param), param);
+				onParamChange(param, val, article);
+				if (val === "true") {
+					url += param + "&";
+				} else if (val) {
+					url += param + "=" + encodeURIComponent(val) + "&";
+				}
+				if (param === "module" && val && !window[val]) {
+					reloadNeeded = true;
 				}
 			}
+			if (reloadNeeded) {
+				location.href = url;
+			} else {
+				history.pushState("", "", url);
+			}
+			renderGGBElement(article);
 		}
 
-		article.setAttribute("data-param-showLogging", "true");
+		window.addEventListener("load", function () {
+			var article = document.createElement("article");
 
-		var w3d = document.createElement("script");
-		w3d.src = "web3d/web3d.nocache.js";
-		document.body.appendChild(w3d);
-		var resizer = document.getElementById("resizer");
-		var glasspane = document.getElementById("glasspane");
-		resizer.addEventListener("mousedown", function() {
-			console.log("a");
-			resizer.dragging = true;
-			glasspane.style.visibility="visible";
-		});
-		glasspane.addEventListener("mouseup", function() {
-			console.log("a");
-			resizer.dragging = false;
-			glasspane.style.visibility="hidden";
-		});
-		glasspane.addEventListener("mousemove", function(e) {
-			console.log(e.x);
-			if (resizer.dragging) {
-				var x = e.x - 100;
-				var y = e.y - 100;
-				document.getElementById("scaleContainer").style.width = x+"px";
-				document.getElementById("scaleContainer").style.height = y+"px";
-				resizer.style.left = (x-24)+"px";
-				resizer.style.top = (y-24)+"px";
+			for (param in params) {
+				type = typeof params[param] == "object" ? params[param][0]
+					: params[param];
+				var input = document.createElement(type === "select" ? "select"
+					: "input");
+				if (type === "select") {
+					for (var opt = 1; opt < params[param].length; opt++) {
+						var optVal = params[param][opt];
+						var optTag = document.createElement("option");
+						optTag.innerText = optVal;
+						optTag.value = optVal;
+						input.appendChild(optTag);
+					}
+				}
+				label = document.createElement("label");
+				label.innerText = param;
+
+				val = typeof params[param] == "object" ? params[param][1] : null;
+				input.type = type.replace("boolean", "checkbox");
+				if (type === "boolean") {
+					input.checked = !!val;
+				} else {
+					input.value = val;
+				}
+				if (val !== null) {
+					article.setAttribute("data-param-" + param, val);
+				}
+				input.id = input.name = "set" + param;
+				input.addEventListener("change", function () {
+					updateParams(article);
+				});
+				label.setAttribute("for", "set" + param);
+				field = document.createElement("div");
+				field.appendChild(label);
+				field.appendChild(input);
+				document.getElementById("settings").appendChild(field);
 			}
+
+			article.className = "geogebraweb";
+			document.getElementById("parent").appendChild(article);
+			settings = location.search.substring(1).split("&");
+			var module = "web3d";
+
+			for (i in settings) {
+				var parts = settings[i].split("=");
+				if (params[parts[0]]) {
+					var val = decodeURIComponent(parts[1] || "true");
+					if (parts[0] === "module") {
+						module = val;
+					} else {
+						onParamChange(parts[0], val, article);
+					}
+					const input = document.getElementById("set" + parts[0]);
+					if (input.type === 'checkbox') {
+						input.checked = val === "true";
+					} else {
+						input.value = val;
+					}
+				}
+			}
+
+			var w3d = document.createElement("script");
+			w3d.src = module + "/" + module + ".nocache.js";
+			document.body.appendChild(w3d);
+			var resizer = document.getElementById("resizer");
+			var glasspane = document.getElementById("glasspane");
+			resizer.addEventListener("mousedown", function () {
+				resizer.dragging = true;
+				glasspane.style.visibility = "visible";
+			});
+			glasspane.addEventListener("mouseup", function () {
+				resizer.dragging = false;
+				glasspane.style.visibility = "hidden";
+			});
+			glasspane.addEventListener("mousemove", function (e) {
+				if (resizer.dragging) {
+					var x = e.x - 100;
+					var y = e.y - 100;
+					document.getElementById("scaleContainer").style.width = x + "px";
+					document.getElementById("scaleContainer").style.height = y + "px";
+					resizer.style.left = (x - 24) + "px";
+					resizer.style.top = (y - 24) + "px";
+				}
+			});
 		});
-	});
-</script>
-<script src="web3d/js/webfont.js?v=1.15"></script>
+	</script>
 </head>
 <body>
-	<div id="settings" style="position: absolute; right: 0; top: 0;max-height:100%;overflow-y:auto;z-index:1000;background-color:rgba(255,255,255,0.9)"></div>
-	<div id="scaleContainer" style="position:absolute;top: 100px; left: 100px;background-color:#eeeeee;">
+	<div id="settings"></div>
+	<div id="scaleContainer">
 		<div>
 			<div id="parent"></div>
 		</div>
-		<div id="resizer" style="visibility:hidden;position:absolute;background-color:#eeeeee;border-radius:50%;width:48px;height:48px;line-height:48px;text-align:center;left:100%">
+		<div id="resizer">
 			&#x2194;
 		</div>
 	</div>
-	<div id="glasspane" style="position:fixed;top:0;left:0;width:100%;height:100%;visibility:hidden;z-index:2000"></div>
+	<div id="glasspane"></div>
 </body>
 </html>

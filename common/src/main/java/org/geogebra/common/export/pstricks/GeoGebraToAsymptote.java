@@ -27,7 +27,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAngleLines;
 import org.geogebra.common.kernel.algos.AlgoAnglePoints;
 import org.geogebra.common.kernel.algos.AlgoAngleVector;
@@ -66,6 +65,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
@@ -992,12 +992,12 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected void drawText(GeoText geo) {
 		boolean isLatex = geo.isLaTeX();
-		String st = geo.getTextString();
+		String st = geo.getTextStringSafe();
 		if (isLatex) {
 			st = StringUtil.toLaTeXString(st, true);
 		}
 		// try to replace euro symbol
-		if (st.indexOf("\u20ac") != -1) {
+		if (st.contains("\u20ac")) {
 			st = st.replace("\\u20ac", "\\\\euro{}");
 			if (!eurosym) {
 				codePreamble.append("usepackage(\"eurosym\"); ");

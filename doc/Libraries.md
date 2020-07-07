@@ -22,9 +22,6 @@ The following tools are used as part of GeoGebra's software development process.
   Apache Commons Collections
   : https://commons.apache.org/proper/commons-collections (Apache Software License)
 
-  Calligraphy
-  : https://github.com/chrisjenx/Calligraphy (Apache 2.0)
-
   CircleImageView
   : https://github.com/hdodenhof/CircleImageView (Apache 2.0)
 

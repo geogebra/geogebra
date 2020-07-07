@@ -153,6 +153,11 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private int defaultLabelingStyle = ConstructionDefaults.LABEL_VISIBLE_NOT_SET;
 
+	private GColor lastSelectedPenColor = GColor.BLACK;
+	private GColor lastSelectedHighlighterColor = GColor.MOW_GREEN;
+	private int lastPenThickness = EuclidianConstants.DEFAULT_PEN_SIZE;
+	private int lastHighlighterThinckness = EuclidianConstants.DEFAULT_HIGHLIGHTER_SIZE;
+
 	/**
 	 * @param app
 	 *            application
@@ -192,14 +197,14 @@ public class EuclidianSettings extends AbstractSettings {
 		yminObject = null;
 		ymaxObject = null;
 
-		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_FULL);
-		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(GColor.BLACK);
-		setGridColor(GColor.LIGHT_GRAY);
-		setBackground(GColor.WHITE);
-		setBackgroundType(BackgroundType.NONE);
-		setBgRulerColor(GColor.MOW_RULER);
-		setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
+		gridLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
+		axesLineStyle = EuclidianStyleConstants.AXES_LINE_TYPE_ARROW;
+		axesColor = GColor.BLACK;
+		gridColor = GColor.LIGHT_GRAY;
+		backgroundColor = GColor.WHITE;
+		backgroundType = BackgroundType.NONE;
+		setBgRulerColorNoFire(GColor.MOW_RULER);
+		gridType = EuclidianView.GRID_CARTESIAN_WITH_SUBGRID;
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
@@ -1158,7 +1163,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	/**
 	 * @param size
-	 *            delee tool size
+	 *            delete tool size
 	 */
 	public void setDeleteToolSize(int size) {
 		this.deleteToolSize = size;
@@ -1512,6 +1517,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setBackgroundType(BackgroundType backgroundType) {
 		this.backgroundType = backgroundType;
+		settingChanged();
 	}
 
 	/**
@@ -1555,9 +1561,13 @@ public class EuclidianSettings extends AbstractSettings {
 	 *            color of main lines.
 	 */
 	public void setBgRulerColor(GColor color) {
+		setBgRulerColorNoFire(color);
+		settingChanged();
+	}
+
+	private void setBgRulerColorNoFire(GColor color) {
 		this.bgRulerColor = color;
 		bgSubLineColor = GColor.getSubGridColor(color);
-		settingChanged();
 	}
 
 	/**
@@ -1606,7 +1616,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public void setRulerType(int rulerType) {
 		setBackgroundType(BackgroundType.fromInt(rulerType));
-		settingChanged();
 	}
 
 	/**
@@ -1647,5 +1656,63 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setDefaultLabelingStyle(int labelingStyle) {
 		this.defaultLabelingStyle = labelingStyle;
+	}
+
+	/**
+	 * @return last selected pen color
+	 */
+	public GColor getLastSelectedPenColor() {
+		return lastSelectedPenColor;
+	}
+
+	/**
+	 * @param lastSelectedPenColor
+	 *            update last selected pen color
+	 */
+	public void setLastSelectedPenColor(GColor lastSelectedPenColor) {
+		this.lastSelectedPenColor = lastSelectedPenColor;
+	}
+
+	/**
+	 * @return last selected highlighter color
+	 */
+	public GColor getLastSelectedHighlighterColor() {
+		return lastSelectedHighlighterColor;
+	}
+
+	/**
+	 * @param lastSelectedHighlighterColor
+	 *            update last selected highlighter color
+	 */
+	public void setLastSelectedHighlighterColor(GColor lastSelectedHighlighterColor) {
+		this.lastSelectedHighlighterColor = lastSelectedHighlighterColor;
+	}
+
+	/**
+	 * @return last selected size for pen
+	 */
+	public int getLastPenThickness() {
+		return lastPenThickness;
+	}
+
+	/**
+	 * @param lastPenThickness size of pen
+	 */
+	public void setLastPenThickness(int lastPenThickness) {
+		this.lastPenThickness = lastPenThickness;
+	}
+
+	/**
+	 * @return last selected size of highlighter
+	 */
+	public int getLastHighlighterThinckness() {
+		return lastHighlighterThinckness;
+	}
+
+	/**
+	 * @param lastHighlighterThinckness size of highlighter
+	 */
+	public void setLastHighlighterThinckness(int lastHighlighterThinckness) {
+		this.lastHighlighterThinckness = lastHighlighterThinckness;
 	}
 }

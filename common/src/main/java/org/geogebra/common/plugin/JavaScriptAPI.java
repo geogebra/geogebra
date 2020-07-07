@@ -210,8 +210,25 @@ public interface JavaScriptAPI {
 
 	/**
 	 * Sets the fixed state of the object with the given name.
+	 * 
+	 * @param objName
+	 *            object name
+	 * @param fixed
+	 *            whether the object should be fixed
 	 */
-	public void setFixed(String objName, boolean flag);
+	public void setFixed(String objName, boolean fixed);
+
+	/**
+	 * Sets the fixed state of the object with the given name.
+	 * 
+	 * @param objName
+	 *            object name
+	 * @param fixed
+	 *            whether it should be fixed
+	 * @param selectionAllowed
+	 *            whether selection should be allowed
+	 */
+	void setFixed(String objName, boolean fixed, boolean selectionAllowed);
 
 	public void setAuxiliary(String objName, boolean flag);
 
@@ -504,9 +521,11 @@ public interface JavaScriptAPI {
 	 * 
 	 * @param objName
 	 *            object name
+	 * @param localized
+	 *            if output should be localized
 	 * @return value string
 	 */
-	public String getValueString(String objName);
+	public String getValueString(String objName, boolean localized);
 
 	/**
 	 * Returns the description of the object with the given name as a string.

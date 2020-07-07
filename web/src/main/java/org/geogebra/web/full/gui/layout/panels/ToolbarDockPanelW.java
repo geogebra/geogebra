@@ -1,13 +1,8 @@
 package org.geogebra.web.full.gui.layout.panels;
 
-import org.geogebra.common.gui.toolcategorization.ToolCategorization;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
-import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.core.client.Scheduler;
@@ -41,16 +36,6 @@ public class ToolbarDockPanelW extends DockPanelW
 	
 	@Override
 	protected Widget loadComponent() {
-		int activePerspective = ((AppWFull) this.app).getActivePerspective();
-
-		ToolbarSettings toolbarSettings = app.getSettings().getToolbarSettings();
-		if (activePerspective == Perspective.GRAPHER_3D - 1) {
-			toolbarSettings.setType(ToolCategorization.AppType.GRAPHER_3D);
-		}
-		if (activePerspective == Perspective.GEOMETRY - 1) {
-		 	toolbarSettings.setType(ToolCategorization.AppType.GEOMETRY_CALC);
-			toolbarSettings.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
-		}
 		toolbar = new ToolbarPanel(app);
 		setToolMode(toolMode);
 		return toolbar;

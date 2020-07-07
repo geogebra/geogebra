@@ -180,11 +180,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		if (hasAlgebraView()) {
 			getAlgebraViewXML(sb, asPreference);
 		}
-
-		// save Data Collection View settings
-		if (hasDataCollectionView()) {
-			getDataCollectionViewXML(sb, asPreference);
-		}
 	}
 
 	/**
@@ -765,6 +760,20 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 
 		return urlSB.toString();
+	}
+
+	@Override
+	public String getReportBugUrl() {
+		return GeoGebraConstants.GEOGEBRA_REPORT_BUG
+				+ "?v=" + app.getPlatform().getName()
+				+ "&lang=" + app.getLocalization().getLanguage();
+	}
+
+	@Override
+	public String getLicenseUrl() {
+		return GeoGebraConstants.GGW_ABOUT_LICENSE_URL
+				+ "&version=" + app.getVersionString()
+				+ "&date=" + GeoGebraConstants.BUILD_DATE;
 	}
 
 	@Override

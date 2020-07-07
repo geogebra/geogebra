@@ -59,7 +59,7 @@ public class InputBarHelpPopup extends GPopupPanel implements HasKeyboardPopup {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private void setButtonValue(boolean value) {
 		if (this.toggleButton != null) {
@@ -70,7 +70,7 @@ public class InputBarHelpPopup extends GPopupPanel implements HasKeyboardPopup {
 	/**
 	 * set the toggleButton to change automatic his style, if this popup is
 	 * shown or hidden.
-	 * 
+	 *
 	 * @param btnHelpToggle
 	 *            {@link GToggleButton}
 	 */

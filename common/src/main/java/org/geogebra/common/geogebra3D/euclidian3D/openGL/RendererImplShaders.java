@@ -3,7 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 
 /**
  * implementation for renderer using shaders
@@ -486,11 +486,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-    public void setProjectionMatrixViewForAR() {
-        ARManagerInterface<?> arManager = renderer.getARManager();
-        if (arManager != null) {
-            arManager.setProjectionMatrixViewForAR(projectionMatrix);
-        }
+	public void setProjectionMatrixViewForAR() {
+		ARManagerInterface<?> arManager = renderer.getARManager();
+		if (arManager != null) {
+			arManager.setProjectionMatrixViewForAR(projectionMatrix);
+		}
 	}
 
 	@Override
@@ -846,17 +846,17 @@ public abstract class RendererImplShaders extends RendererImpl {
 		}
 	}
 
-    /**
-     * disables flag for opaque surfaces
-     */
-    protected void disableOpaqueSurfaces() {
+	/**
+	 * disables flag for opaque surfaces
+	 */
+	protected void disableOpaqueSurfaces() {
 		glUniform1i(opaqueSurfacesLocation, 0);
-    }
+	}
 
-    /**
-     * enables flag for opaque surfaces
-     */
-    protected void enableOpaqueSurfaces() {
+	/**
+	 * enables flag for opaque surfaces
+	 */
+	protected void enableOpaqueSurfaces() {
 		glUniform1i(opaqueSurfacesLocation, 1);
 	}
 

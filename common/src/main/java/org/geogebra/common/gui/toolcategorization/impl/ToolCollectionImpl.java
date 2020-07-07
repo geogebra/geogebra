@@ -2,100 +2,104 @@ package org.geogebra.common.gui.toolcategorization.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.geogebra.common.gui.toolcategorization.ToolCategory;
 import org.geogebra.common.gui.toolcategorization.ToolCollection;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFilter;
+import org.geogebra.common.gui.toolcategorization.ToolsetLevel;
 
 /**
  * Generic implementation of a ToolCollection.
  */
 class ToolCollectionImpl implements ToolCollection {
 
-	private int level = -1;
-	private List<ToolsCollection> collections = new ArrayList<>();
-	private List<String> levels = new ArrayList<>();
+	private Map<ToolsetLevel, ToolsCollection> levels = new HashMap<>();
+    private ToolsetLevel level;
 
     private static class ToolsCollection {
-        private List<String> categories = new ArrayList<>();
+        private List<ToolCategory> categories = new ArrayList<>();
         private List<List<Integer>> tools = new ArrayList<>();
     }
 
-    void addLevel(String levelName) {
-        levels.add(levelName);
-        collections.add(new ToolsCollection());
-        level += 1;
+    void addLevel(ToolsetLevel toolsetLevel) {
+        levels.put(toolsetLevel, new ToolsCollection());
+        level = toolsetLevel;
     }
 
-    void addCategory(String category, List<Integer> tools) {
-        ToolsCollection collection = collections.get(level);
+    void addCategory(ToolCategory category, List<Integer> tools) {
+        ToolsCollection collection = levels.get(level);
         collection.categories.add(category);
         collection.tools.add(tools);
     }
 
-    void addCategory(String category, Integer... tools) {
+    void addCategory(ToolCategory category, Integer... tools) {
         addCategory(category, Arrays.asList(tools));
     }
 
-    void extendCategory(String category, List<Integer> tools) {
-        if (level == 0) {
+    void extendCategory(ToolCategory category, List<Integer> tools) {
+        int categoryIndex = -1;
+
+        ToolsetLevel previousLevel = level.getPrevious();
+        if (levels.get(previousLevel) != null) {
+            categoryIndex = levels.get(previousLevel).categories.indexOf(category);
+        }
+
+        if (categoryIndex < 0) {
             addCategory(category, tools);
         } else {
-            int previousLevel = level - 1;
-            int categoryIndex = collections.get(previousLevel).categories.indexOf(category);
-            if (categoryIndex < 0) {
-                addCategory(category, tools);
-            } else {
-                List<Integer> previousTools =
-                        collections.get(previousLevel).tools.get(categoryIndex);
-                List<Integer> newTools = new ArrayList<>(previousTools);
-                newTools.addAll(tools);
-                addCategory(category, newTools);
-            }
+            List<Integer> previousTools =
+                    levels.get(previousLevel).tools.get(categoryIndex);
+            List<Integer> newTools = new ArrayList<>(previousTools);
+            newTools.addAll(tools);
+            addCategory(category, newTools);
         }
     }
 
-    void extendCategory(String category, Integer... tools) {
+    void extendCategory(ToolCategory category, Integer... tools) {
         extendCategory(category, Arrays.asList(tools));
     }
 
     @Override
-    public List<String> getCategories() {
-        return collections.get(level).categories;
+    public List<ToolCategory> getCategories() {
+        return levels.get(level).categories;
     }
 
     @Override
     public List<Integer> getTools(int category) {
-        return collections.get(level).tools.get(category);
+        return levels.get(level).tools.get(category);
     }
 
     @Override
-    public List<String> getLevels() {
-        return levels;
+    public Collection<ToolsetLevel> getLevels() {
+        return levels.keySet();
     }
 
     @Override
-    public int getLevel() {
+    public ToolsetLevel getLevel() {
         return level;
     }
 
     @Override
-    public void setLevel(int level) {
-        if (level < 0 || level >= levels.size()) {
-            throw new UnsupportedOperationException("Level size not in range");
+    public void setLevel(ToolsetLevel level) {
+        if (!levels.containsKey(level)) {
+            throw new UnsupportedOperationException("Toolset level not supported");
         }
         this.level = level;
     }
 
     @Override
     public void filter(ToolCollectionFilter filter) {
-        for (ToolsCollection collection: collections) {
+        for (ToolsCollection collection : levels.values()) {
             for (int i = collection.tools.size() - 1; i >= 0; i--) {
                 List<Integer> tools = collection.tools.get(i);
                 List<Integer> filteredTools = new ArrayList<>();
-                for (int j = 0; j < tools.size(); j++) {
-                    if (filter.filter(tools.get(j))) {
-                        filteredTools.add(tools.get(j));
+                for (Integer tool : tools) {
+                    if (filter.filter(tool)) {
+                        filteredTools.add(tool);
                     }
                 }
                 if (filteredTools.size() == 0) {
@@ -106,5 +110,17 @@ class ToolCollectionImpl implements ToolCollection {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean contains(int mode) {
+        for (ToolsCollection level: levels.values()) {
+            for (List<Integer> tools : level.tools) {
+                if (tools.contains(mode)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

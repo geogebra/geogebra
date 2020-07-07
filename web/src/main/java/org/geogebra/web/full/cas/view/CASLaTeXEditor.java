@@ -6,11 +6,11 @@ import java.util.List;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.inputfield.InputSuggestions;
+import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -47,7 +47,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		MathKeyboardListener, MathFieldListener, BlurHandler {
 	/** suggestions */
-	InputSuggestions sug;
+	MathFieldInputSuggestions sug;
 	private final MathFieldW mf;
 	/** keyboard connector */
 	RetexKeyboardListener retexListener;
@@ -57,7 +57,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	private Widget dummy;
 	private Canvas canvas;
 	private boolean editAsText;
-    private MathFieldScroller scroller;
+	private MathFieldScroller scroller;
 
 	/**
 	 * @param app
@@ -70,10 +70,9 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		this.app = (AppWFull) app;
 		this.controller = controller;
 		canvas = Canvas.createIfSupported();
-		mf = new MathFieldW(new FormatConverterImpl(app.getKernel()), this,
+		mf = new MathFieldW(new SyntaxAdapterImpl(app.getKernel()), this,
 				canvas, this,
-				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
-				app.getGlobalKeyDispatcher().getFocusHandler());
+				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		mf.setOnBlur(this);
 		add(mf);
@@ -179,7 +178,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public void setFocus(boolean focus, boolean scheduled) {
+	public void setFocus(boolean focus) {
 		remove(focus ? dummy : mf);
 		if (focus) {
 			updateWidth();
@@ -196,7 +195,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		}
 		// got here by blur: do not use previous cell ref
 		if (!keepFocus && StringUtil.empty(getText())) {
-			this.setFocus(false, false);
+			this.setFocus(false);
 			return;
 		}
 		this.controller.handleEnterKey(false, false, app, keepFocus);
@@ -220,7 +219,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	@Override
 	public void ensureEditing() {
 		final GuiManagerInterfaceW gui = app.getGuiManager();
-		gui.setOnScreenKeyboardTextField(this.retexListener);
+		app.getKeyboardManager().setOnScreenKeyboardTextField(retexListener);
 		CancelEventTimer.keyboardSetVisible();
 		ClickStartHandler.init(this, new ClickStartHandler(false, false) {
 			@Override
@@ -230,14 +229,14 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 				gui.setActivePanelAndToolbar(App.VIEW_CAS);
 			}
 		});
-		setFocus(true, false);
+		setFocus(true);
 	}
 
 	/**
 	 * Click start callback
 	 */
 	protected void doClickStart() {
-		setFocus(true, false);
+		setFocus(true);
 		app.showKeyboard(retexListener);
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)
@@ -299,18 +298,13 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public boolean isForCAS() {
-		return true;
-	}
-
-	@Override
 	public String getCommand() {
 		return mf == null ? "" : mf.getCurrentWord();
 	}
 
-	private InputSuggestions getInputSuggestions() {
+	private MathFieldInputSuggestions getInputSuggestions() {
 		if (sug == null) {
-			sug = new InputSuggestions(app, this);
+			sug = new MathFieldInputSuggestions(app, this, true);
 		}
 		return sug;
 	}
@@ -334,10 +328,10 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 
 	@Override
 	public void onCursorMove() {
-        if (scroller == null) {
-            scroller = new MathFieldScroller(this);
-        }
-        scroller.scrollHorizontallyToCursor(20);
+		if (scroller == null) {
+			scroller = new MathFieldScroller(this);
+		}
+		scroller.scrollHorizontallyToCursor(20);
 	}
 
 	@Override
@@ -376,7 +370,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public App getApplication() {
+	public AppW getApplication() {
 		return app;
 	}
 
@@ -410,7 +404,8 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	 * Updates the font size.
 	 */
 	public void updateFontSize() {
-		int targetFontSize = app.getFontSizeWeb();
+		int targetFontSize = app.getSettings().getFontSettings()
+				.getAppFontSize();
 
 		mf.setFontSize(targetFontSize);
 		setDummyFontSize(targetFontSize);

@@ -26,12 +26,12 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -530,11 +530,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	public String toString(StringTemplate tpl) {
 		return label == null ? getLoc().getMenu("Image") : label;
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
 	}
 
 	@Override
@@ -1293,6 +1288,11 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
 		return pixelWidth;
+	}
+
+	@Override
+	public boolean isFurniture() {
+		return false;
 	}
 
 	@Override

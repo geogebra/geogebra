@@ -4,10 +4,8 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -66,46 +64,13 @@ public class InputHelper {
 			return;
 		}
 		for (GeoElementND geo : geos) {
-			updateSymbolicMode(geo);
 			if (geo instanceof GeoText) {
 				GeoText text = (GeoText) geo;
 				centerText(text, ev);
 			}
+			geo.updateRepaint();
 		}
 
-	}
-
-	/**
-	 * Sets the symbolic mode of the geo according to defaults (false for simple
-	 * fraction, true otherwise)
-	 *
-	 * @param geo
-	 *            geo element
-	 */
-	public static void initSymbolicMode(GeoElementND geo) {
-		if (geo instanceof HasSymbolicMode) {
-			// start with numeric mode for simple fractions like 7/2
-			if (geo instanceof GeoNumeric && geo.getDefinition() != null
-					&& (geo.getDefinition().isSimpleFraction()
-							|| !geo.getDefinition().isFractionNoPi())) {
-				((HasSymbolicMode) geo).setSymbolicMode(false, false);
-			} else {
-				((HasSymbolicMode) geo).setSymbolicMode(true,
-						geo instanceof GeoText);
-			}
-		}
-	}
-
-	/**
-	 * Sets the symbolic mode of the geo according to defaults (false for simple
-	 * fraction, true otherwise), then requests a repaint.
-	 * 
-	 * @param geo
-	 *            geo element
-	 */
-	public static void updateSymbolicMode(GeoElementND geo) {
-		initSymbolicMode(geo);
-		geo.updateRepaint();
 	}
 
 	/**
@@ -211,7 +176,7 @@ public class InputHelper {
 
 		curWord.setLength(0);
 		if (curWordEnd <= length) {
-			curWord.append(text.substring(curWordStart, curWordEnd));
+			curWord.append(text, curWordStart, curWordEnd);
 		} else {
 			Log.debug("CARET OUTSIDE");
 		}

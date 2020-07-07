@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow.TabIds;
@@ -8,7 +9,9 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.MyToggleButton;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.dom.client.Element;
@@ -55,6 +58,8 @@ public class HeaderMow extends FlowPanel
 		content.addStyleName("content");
 		createCenter();
 		createRight();
+		new FocusableWidget(AccessibilityGroup.NOTES_TOOLBAR_HEADER, null,
+				penPanelBtn, toolsPanelBtn, mediaPanelBtn, openCloseBtn).attachTo(appW);
 		add(content);
 	}
 
@@ -70,11 +75,14 @@ public class HeaderMow extends FlowPanel
 		penPanelBtn.addStyleName("flatButton");
 		toolsPanelBtn = createButton(
 				MaterialDesignResources.INSTANCE.toolbar_tools(), "Tools");
+		TestHarness.setAttr(toolsPanelBtn, "toolsPanelButton");
 		toolsPanelBtn.addStyleName("flatButton");
+		TestHarness.setAttr(toolsPanelBtn, "toolsPanelButton");
 		mediaPanelBtn = createButton(
 				MaterialDesignResources.INSTANCE.mow_media_panel(),
 				"ToolCategory.Media");
 		mediaPanelBtn.addStyleName("flatButton");
+		TestHarness.setAttr(mediaPanelBtn, "mediaPanelButton");
 		center.add(penPanelBtn);
 		center.add(toolsPanelBtn);
 		center.add(mediaPanelBtn);
@@ -150,7 +158,7 @@ public class HeaderMow extends FlowPanel
 		toggleCloseButton();
 		toolbar.setOpen(!toolbar.isOpen());
 		toolbar.addStyleName("toolbarMow");
-        toolbar.updateFloatingButtonsPosition();
+		toolbar.updateFloatingButtonsPosition();
 	}
 
 	/**

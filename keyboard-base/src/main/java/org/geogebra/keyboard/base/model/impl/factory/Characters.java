@@ -65,9 +65,15 @@ public class Characters {
 	public static final char RIGHT_SQUARE_BRACKET = ']';
 	public static final char COLON = ':';
 	public static final char QUOTATION_MARK = '\"';
+	public static final char APOSTROPHE = '\'';
+	public static final char COMMA = ',';
+	public static final char POINT = '.';
 	// public static final char LEFT_GUILLEMET = '\u00AB';
 	// public static final char RIGHT_GUILLEMET = '\u00BB';
 	public static final char MINUTES = '\u2032';
 	public static final char SECONDS = '\u2033';
-
+	public static final char NABLA = '\u2207';
+	public static final char LAPLACE = '\u2206';
+	public static final char FOR_ALL = '\u2200';
+	public static final char THERE_EXISTS = '\u2203';
 }

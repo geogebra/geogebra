@@ -288,212 +288,90 @@ var GGBApplet = function() {
         return false;
     };
 
-    function pluginEnabled(name) {
-        var plugins = navigator.plugins,
-            i = plugins.length,
-            regExp = new RegExp(name, 'i');
-        while (i--) {
-            if (regExp.test(plugins[i].name)) {
-                return true;
-            }
+    var getDefaultApiUrl = function() {
+        var host = location.host;
+        if (host.match(/alpha.geogebra.org/) || host.match(/groot.geogebra.org/)) {
+            return 'https://groot.geogebra.org:5000';
         }
-        return false;
-    }
-
-    var getTubeURL = function() {
-        var tubeurl, protocol;
-        // Determine the url for the tube API
-        if (parameters.tubeurl !== undefined) {
-
-            // Url was specified in parameters
-            tubeurl = parameters.tubeurl;
-        } else if (
-            window.location.host.indexOf("www.geogebra.org") > -1 ||
-            window.location.host.indexOf("alpha.geogebra.org") > -1 ||
-            window.location.host.indexOf("groot.geogebra.org") > -1 ||
-            window.location.host.indexOf("beta.geogebra.org") > -1 ||
-            window.location.host.indexOf("stage.geogebra.org") > -1) {
-
-            // if the script is used on a tube site, use this site for the api url.
-            tubeurl = window.location.protocol + "//" + window.location.host;
-        } else {
-            // Use main tube url
-            tubeurl = "https://www.geogebra.org";
+        if (host.match(/beta.geogebra.org/)) {
+            return 'https://api-beta.geogebra.org';
         }
-        return tubeurl;
+        if (host.match(/stage.geogebra.org/)) {
+            return 'https://api-stage.geogebra.org';
+        }
+
+        return 'https://api.geogebra.org';
     };
 
-    var fetchParametersFromTube = function(successCallback, materialsApiURL) {
-        var tubeurl = materialsApiURL ?  materialsApiURL.substring(0, materialsApiURL.indexOf("/", 8))
-            : getTubeURL();
+    var fetchParametersFromApi = function(successCallback, materialsApiUrl) {
+        var apiUrl = materialsApiUrl || getDefaultApiUrl();
+        var apiVersion = parameters.apiVersion || '1.0';
 
-        // load ggbbase64 string and settings from API
-        var api_request = {
-            "request": {
-                "-api": "1.0.0",
-                "login": {
-                    "-type":"cookie",
-                    "-getuserinfo":"false"
-                },
-                "task": {
-                    "-type": "fetch",
-                    "fields": {
-                        "field": [
-                            { "-name": "id" },
-                            { "-name": "geogebra_format" },
-//                            { "-name": "prefapplettype" },
-                            { "-name": "width" },
-                            { "-name": "height" },
-                            { "-name": "toolbar" },
-                            { "-name": "menubar" },
-                            { "-name": "inputbar" },
-                            { "-name": "stylebar" },
-                            { "-name": "reseticon" },
-                            { "-name": "labeldrags" },
-                            { "-name": "shiftdragzoom" },
-                            { "-name": "rightclick" },
-                            { "-name": "ggbbase64" },
-                            { "-name": "preview_url" },
-                            { "-name": "appname" }
-                        ]
-                    },
-                    "filters" : {
-                        "field": [{
-                                "-name":"id", "#text": ""+parameters.material_id+""
-                        }]
-                    },
-                    "order": {
-                        "-by": "id",
-                        "-type": "asc"
-                    },
-                    "limit": { "-num": "1" }
-                }
-            }
-        },
-
-        // TODO: Read view settings from database
-
-        success = function() {
-            var text = xhr.responseText;
-            var jsondata= JSON.parse(text); //retrieve result as an JSON object
-            var item = null;
-            for (i=0; jsondata.responses && i<jsondata.responses.response.length; i++) {
-                if (jsondata.responses.response[i].item !== undefined) {
-                    item = jsondata.responses.response[i].item;
-                }
-            }
-            if (item === null) {
+        var onSuccess = function(text) {
+            var jsonData= JSON.parse(text);
+            // handle either worksheet or single element format
+            var isGeoGebra = function(element) {return element.type == 'G' || element.type == 'E'};
+            var item = jsonData.elements ? jsonData.elements.filter(isGeoGebra)[0] : jsonData;
+            if (!item || !item.url) {
                 onError();
                 return;
             }
 
-            if (item.geogebra_format !== "") {
-                ggbVersion = item.geogebra_format;
-            }
-            if (parameters.ggbBase64 === undefined) {
-                parameters.ggbBase64 = item.ggbBase64;
-            }
-            if (parameters.width === undefined) {
-                parameters.width = item.width;
-            }
-            if (parameters.height === undefined) {
-                parameters.height = item.height;
-            }
-            if (parameters.showToolBar === undefined) {
-                parameters.showToolBar = item.toolbar === "true";
-            }
-            if (parameters.showMenuBar === undefined) {
-                parameters.showMenuBar = item.menubar === "true";
-            }
-            if (parameters.showAlgebraInput === undefined) {
-                parameters.showAlgebraInput = item.inputbar === "true";
-            }
-            if (parameters.allowStyleBar === undefined) {
-                parameters.allowStyleBar = item.stylebar === "true";
-            }
-            if (parameters.showResetIcon === undefined) {
-                parameters.showResetIcon = item.reseticon === "true";
-            }
-            if (parameters.enableLabelDrags === undefined) {
-                parameters.enableLabelDrags = item.labeldrags === "true";
-            }
-            if (parameters.enableShiftDragZoom === undefined) {
-                parameters.enableShiftDragZoom = item.shiftdragzoom === "true";
-            }
-            if (parameters.enableRightClick === undefined) {
-                parameters.enableRightClick = item.rightclick === "true";
-            }
-            if (parameters.showToolBarHelp === undefined) {
-                parameters.showToolBarHelp =  parameters.showToolBar;
-            }
-            if (parameters.appname === undefined) {
-                parameters.appname =  item.appname;
-            }
+            parameters.fileName = item.url;
+            updateAppletSettings(item.settings || {});
+            views.is3D = true;
 
-            if (parseFloat(item.geogebra_format) >= 5.0) {
-                views.is3D = true;
-            }
-
-            var previewUrl = (item.previewUrl === undefined) ? tubeurl+"/files/material-"+item.id+".png" : item.previewUrl;
             // user setting of preview URL has precedence
-            applet.setPreviewImage(previewImagePath || previewUrl, tubeurl+"/images/GeoGebra_loading.png", tubeurl+"/images/applet_play.png");
+            var imageDir = 'https://www.geogebra.org/images/';
+            applet.setPreviewImage(previewImagePath || item.previewUrl,
+                imageDir + 'GeoGebra_loading.png', imageDir + 'applet_play.png');
 
             successCallback();
         };
 
-        var url = tubeurl+"/api/json.php";
-        var xhr = createCORSRequest('POST', url);
-
+        var url = apiUrl + '/v' + apiVersion + '/materials/'
+                     + parameters.material_id + '?scope=basic';
         var onError = function() {
             parameters.onError && parameters.onError();
-            log("Error: The request for fetching material_id " + parameters.material_id + " from tube was not successful.");
+            log('Error: Fetching material (id ' + parameters.material_id + ') failed.');
         };
-
-        if (!xhr) {
-            onError();
-            return;
-        }
-
-        // Response handlers.
-        xhr.onload = success;
-        xhr.onerror = onError;
-        xhr.onprogress = function(){}; // IE9 will abort the xhr.send without this
-
-        // Send request
-        if ( xhr.setRequestHeader ) { // IE9's XDomainRequest does not support this method
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        }
-        xhr.send(JSON.stringify(api_request));
+        sendCorsRequest(url, onSuccess, onError);
     };
 
-    // Create the XHR object.
-    function createCORSRequest(method, url) {
-        var xhr = new XMLHttpRequest();
-        if ("withCredentials" in xhr) {
-            // XHR for Chrome/Firefox/Opera/Safari.
-            xhr.open(method, url, true);
-        } else if (typeof XDomainRequest !== "undefined") {
-            // XDomainRequest for IE.
-            xhr = new XDomainRequest();
-            xhr.open(method, url);
-        } else {
-            // CORS not supported.
-            xhr = null;
+    function updateAppletSettings(settings) {
+        var parameterNames = ['width', 'height', 'showToolBar', 'showMenuBar',
+            'showAlgebraInput', 'allowStyleBar', 'showResetIcon', 'enableLabelDrags',
+            'enableShiftDragZoom', 'enableRightClick', 'appName'];
+        // different defaults in API and web3d
+        ['enableLabelDrags', 'enableShiftDragZoom', 'enableRightClick'].forEach(function(name) {
+            settings[name] = !!settings[name];
+        });
+        parameterNames.forEach(function(name) {
+             if (parameters[name] === undefined && settings[name] !== undefined) {
+                parameters[name] = settings[name];
+             }
+        });
+        if (parameters.showToolBarHelp === undefined) {
+            parameters.showToolBarHelp = parameters.showToolBar;
         }
-        return xhr;
+    }
+
+    // Create the XHR object.
+    function sendCorsRequest(url, onSuccess, onError) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        // Response handlers.
+        xhr.onload = function() {
+            onSuccess(xhr.responseText);
+        }
+        xhr.onerror = onError;
+        xhr.send();
     }
 
     /**
      * @returns boolean Whether the system is capable of showing the GeoGebra HTML5 applet
      */
     applet.isHTML5Installed = function() {
-        if (isInternetExplorer()) {
-            if ((views.is3D || html5CodebaseScript === "web3d.nocache.js") && getIEVersion() < 11) { // WebGL is supported since IE 11
-                return false;
-            } else if (getIEVersion() < 10) {
-                return false;
-            }
-        }
         return true;
     };
 
@@ -542,7 +420,7 @@ var GGBApplet = function() {
         var appName = parameters.id !== undefined ? parameters.id : removedID;
         var app = window[appName];
 
-        if (typeof app === "object" && typeof app.getBase64 === "function") { // Check if the variable is a GeoGebra Applet and remove it
+        if (app && typeof app.getBase64 === "function") { // Check if the variable is a GeoGebra Applet and remove it
             app.remove();
             window[appName] = null;
         }
@@ -1036,10 +914,10 @@ var GGBApplet = function() {
                 '   width: 100%;' +
                 '   height: 100%;box-sizing: border-box;position: absolute;z-index: 1001;cursor: pointer;border-width: 0px;' +
                 '   background-color: transparent;background-repeat: no-repeat;left: 0;top: 0;background-position: center center;' +
-                '   background-image: url("'+getTubeURL()+'/images/worksheet/icon-start-applet.png");' +
+                '   background-image: url("https://www.geogebra.org/images/worksheet/icon-start-applet.png");' +
                 '}' +
                 '.icon-applet-play:hover {' +
-                        'background-image: url("'+getTubeURL()+'/images/worksheet/icon-start-applet-hover.png");' +
+                        'background-image: url("https://www.geogebra.org/images/worksheet/icon-start-applet-hover.png");' +
                 '}';
             var style = document.createElement('style');
 
@@ -1142,20 +1020,6 @@ var GGBApplet = function() {
         return "html5";
     };
 
-    var getIEVersion = function() {
-        var a=navigator.appVersion;
-        if (a.indexOf("Trident/7.0") > 0) {
-            return 11;
-        } else {
-            return a.indexOf('MSIE')+1?parseFloat(a.split('MSIE')[1]):999;
-        }
-    };
-
-    var isInternetExplorer = function() {
-        return (getIEVersion() !== 999);
-    };
-
-
     var modules = ["web", "webSimple", "web3d", "tablet", "tablet3d", "phone"];
     /**
      * @param version Can be: 3.2, 4.0, 4.2, 4.4, 5.0, test, test42, test44, test50
@@ -1189,10 +1053,10 @@ var GGBApplet = function() {
         } else if(index === 0) {
             codebase = protocol + html5CodebaseVersion;
         } else {
-            codebase = "https://www.geogebra.org/apps/latest/";
+            codebase = "%MODULE_BASE%";
         }
 
-        for(var key in modules){
+        for (var key in modules) {
             if (html5CodebaseVersion.slice(modules[key].length*-1) === modules[key] ||
                 html5CodebaseVersion.slice((modules[key].length+1)*-1) === modules[key]+"/") {
                 setHTML5CodebaseInternal(codebase, false);
@@ -1268,7 +1132,7 @@ var GGBApplet = function() {
 
     // Read the material parameters from the tube API, if a material_id was passed
     if (parameters.material_id !== undefined) {
-        fetchParametersFromTube(continueInit, parameters.materialsApi);
+        fetchParametersFromApi(continueInit, parameters.apiUrl);
     } else {
         continueInit();
     }
@@ -1352,21 +1216,11 @@ var GGBAppletUtils = (function() {
                 // Using mywith instead of innerWidth because after rotating a mobile device the innerWidth is sometimes wrong (e.g. on Galaxy Note III)
                 // windowWidth = window.innerWidth
                 windowWidth = myWidth;
-            } else if (typeof( window.innerWidth ) === 'number') {
+            } else {
                 //Non-IE
                 myWidth = window.innerWidth;
                 myHeight = window.innerHeight;
                 windowWidth = window.innerWidth;
-            } else if (document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight )) {
-                //IE 6+ in 'standards compliant mode'
-                myWidth = document.documentElement.clientWidth;
-                myHeight = document.documentElement.clientHeight;
-                windowWidth = document.documentElement.clientWidth;
-            } else if (document.body && ( document.body.clientWidth || document.body.clientHeight )) {
-                //IE 4 compatible
-                myWidth = document.body.clientWidth;
-                myHeight = document.body.clientHeight;
-                windowWidth = document.documentElement.clientWidth;
             }
 
             if (appletElem) {

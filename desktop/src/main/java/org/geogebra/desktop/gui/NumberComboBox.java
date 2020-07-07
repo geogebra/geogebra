@@ -14,13 +14,13 @@ package org.geogebra.desktop.gui;
 
 import java.awt.Dimension;
 
+import javax.swing.JComboBox;
+
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.desktop.main.AppD;
-
-import javax.swing.JComboBox;
 
 import com.himamis.retex.editor.share.util.Unicode;
 

@@ -27,7 +27,6 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -54,7 +53,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	private FlowPanel providerPanel;
 	private StandardButton locationTube;
 	private StandardButton locationDrive;
-	private StandardButton locationSkyDrive;
 	private Widget locationLocal;
 	/** application */
 	protected final AppW app;
@@ -71,8 +69,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.app = app;
 		this.app.getNetworkOperation().getView().add(this);
 		if (this.app.getLoginOperation() == null) {
-			this.app.initSignInEventFlow(new LoginOperationW(app),
-					!ArticleElement.isEnableUsageStats());
+			this.app.initSignInEventFlow(new LoginOperationW(app));
 		}
 		this.app.getLoginOperation().getView().add(this);
 		this.container = new HorizontalPanel();
@@ -94,7 +91,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 		app.registerOpenFileListener(this);
 
-        this.addBitlessDomHandler(new TouchMoveHandler() {
+		this.addBitlessDomHandler(new TouchMoveHandler() {
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
 				// prevent zooming
@@ -181,27 +178,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			});
 		}
 		this.providerPanel.add(this.locationDrive);
-
-	}
-
-	private void addOneDriveButton() {
-
-		if (this.locationSkyDrive == null) {
-			this.locationSkyDrive = new StandardButton(
-					BrowseResources.INSTANCE.location_skydrive(), app);
-			this.locationSkyDrive.addFastClickHandler(new FastClickHandler() {
-
-				@Override
-				public void onClick(Widget source) {
-					if (BrowseGUI.this.app.getGoogleDriveOperation() != null) {
-						app.getFileManager().setFileProvider(Provider.ONE);
-						// TODO open skydrive picker
-					}
-				}
-			});
-		}
-		this.providerPanel.add(this.locationSkyDrive);
-
 	}
 
 	/**
@@ -285,9 +261,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	// super.setFrame(frame);
 	// }
 
-    @Override
-    public void openFile(final JavaScriptObject fileToHandle) {
-        showLoading();
+	@Override
+	public void openFile(final JavaScriptObject fileToHandle) {
+		showLoading();
 		if (app.getLAF().supportsLocalSave()) {
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}
@@ -295,7 +271,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		app.getGuiManager().getBrowseView().closeAndSave(new AsyncOperation<Boolean>() {
 			@Override
 			public void callback(Boolean obj) {
-                app.openFile(fileToHandle);
+						app.openFile(fileToHandle);
 			}
 		});
 	}
@@ -398,9 +374,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			this.addDriveButton();
 		} else if (user != null) {
 			Log.debug(user.getIdentifier());
-		}
-		if (user != null && user.hasOneDrive()) {
-			this.addOneDriveButton();
 		}
 		// Set Tube as the active on
 		locationTube.addStyleName("selected");

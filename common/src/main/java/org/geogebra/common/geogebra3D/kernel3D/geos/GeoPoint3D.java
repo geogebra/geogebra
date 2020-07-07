@@ -31,9 +31,6 @@ import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LocateableList;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
@@ -73,6 +70,9 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -987,21 +987,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		StringBuilder sbToString = getSbToString();
-		sbToString.setLength(0);
-		sbToString.append(label);
-
-		GeoPoint.addEqualSignToString(sbToString, getToStringMode(),
-				tpl.getCoordStyle(kernel.getCoordStyle()));
-
-		sbToString.append(toValueString(tpl));
-
-		return sbToString.toString();
-	}
-
-	@Override
-	public boolean hasValueStringChangeableRegardingView() {
-		return true;
+		return label
+				+ GeoPoint.getEqualSign(getToStringMode(),
+				tpl.getCoordStyle(kernel.getCoordStyle()), tpl)
+				+ toValueString(tpl);
 	}
 
 	@Override
@@ -1373,7 +1362,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public final boolean showInAlgebraView() {
-		return (isDefined || showUndefinedInAlgebraView);
+		return isDefined || showUndefinedInAlgebraView;
 	}
 
 	@Override
@@ -1912,11 +1901,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				false);
 
 		updateCoords();
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

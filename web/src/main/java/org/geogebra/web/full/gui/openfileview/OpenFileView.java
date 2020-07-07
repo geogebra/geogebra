@@ -11,6 +11,7 @@ import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
+import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
@@ -19,7 +20,6 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.MessagePanel;
 import org.geogebra.web.full.gui.MyHeaderPanel;
-import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.BrowserDevice.FileOpenButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.laf.LoadSpinner;
@@ -70,7 +70,7 @@ public class OpenFileView extends MyHeaderPanel
 	private MaterialCallbackI sharedMaterialsCB;
 	// info panel
 	private FlowPanel infoPanel;
-    private MessagePanel messagePanel;
+	private MessagePanel messagePanel;
 	private LoadSpinner spinner;
 
 	private boolean[] materialListEmpty = { true, true };
@@ -91,10 +91,10 @@ public class OpenFileView extends MyHeaderPanel
 		this.app = app;
 		this.openFileBtn = openFileButton;
 		if (this.app.getLoginOperation() == null) {
-			this.app.initSignInEventFlow(new LoginOperationW(app),
-					true);
+			this.app.initSignInEventFlow(new LoginOperationW(app));
 		}
 		this.app.getLoginOperation().getView().add(this);
+		app.registerOpenFileListener(this);
 		initGUI();
 	}
 
@@ -133,7 +133,7 @@ public class OpenFileView extends MyHeaderPanel
 	}
 
 	private void initHeader() {
-		headerView = new HeaderView(app);
+		headerView = new HeaderView();
 		headerView.setCaption(localize("mow.openFileViewTitle"));
 		StandardButton backButton = headerView.getBackButton();
 		backButton.addFastClickHandler(new FastClickHandler() {
@@ -157,7 +157,7 @@ public class OpenFileView extends MyHeaderPanel
 		buttonPanel = new FlowPanel();
 		newFileBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.file_plus(),
-                localize("New.Mebis"), 18, app);
+				localize("New.Mebis"), 18, app);
 		newFileBtn.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -230,32 +230,20 @@ public class OpenFileView extends MyHeaderPanel
 
 			@Override
 			public void callback(Boolean active) {
-				app.setWaitCursor();
-				app.fileNew();
-				app.setDefaultCursor();
-
-				if (!app.isUnbundledOrWhiteboard()) {
-					app.showPerspectivesPopup();
-				}
-				if (app.isWhiteboardActive()
-						&& app.getPageController() != null) {
-					app.getPageController().resetPageControl();
-				}
-
+				app.tryLoadTemplatesOnFileNew();
 			}
 		};
 		app.getArticleElement().attr("perspective", "");
-		((DialogManagerW) getApp().getDialogManager()).getSaveDialog()
-				.showIfNeeded(newConstruction);
+		app.getSaveController().showDialogIfNeeded(newConstruction);
 		close();
 	}
 
-    @Override
-    public void openFile(final JavaScriptObject fileToHandle) {
+	@Override
+	public void openFile(final JavaScriptObject fileToHandle) {
 		if (app.getLAF().supportsLocalSave()) {
 			app.getFileManager().setFileProvider(Provider.LOCAL);
 		}
-        app.openFile(fileToHandle);
+		app.openFile(fileToHandle);
 		close();
 	}
 
@@ -263,24 +251,24 @@ public class OpenFileView extends MyHeaderPanel
 		infoPanel = new FlowPanel();
 		infoPanel.setStyleName("emptyMaterialListInfo");
 
-        messagePanel = createMessagePanel();
-        infoPanel.add(messagePanel);
+		messagePanel = createMessagePanel();
+		infoPanel.add(messagePanel);
 
-        contentPanel.clear();
+		contentPanel.clear();
 		contentPanel.add(infoPanel);
 	}
 
-    private MessagePanel createMessagePanel() {
-        MessagePanel messagePanel = new MessagePanel();
-        messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
-        setMessagePanelLabels(messagePanel);
-        return messagePanel;
-    }
+	private MessagePanel createMessagePanel() {
+		MessagePanel messagePanel = new MessagePanel();
+		messagePanel.setImageUri(MaterialDesignResources.INSTANCE.mow_lightbulb());
+		setMessagePanelLabels(messagePanel);
+		return messagePanel;
+	}
 
-    private void setMessagePanelLabels(MessagePanel messagePanel) {
-        messagePanel.setPanelTitle(localize("emptyMaterialList.caption.mow"));
-        messagePanel.setPanelMessage(localize("emptyMaterialList.info.mow"));
-    }
+	private void setMessagePanelLabels(MessagePanel messagePanel) {
+		messagePanel.setPanelTitle(localize("emptyMaterialList.caption.mow"));
+		messagePanel.setPanelMessage(localize("emptyMaterialList.info.mow"));
+	}
 
 	private void setExtendedButtonStyle() {
 		newFileBtn.setStyleName("extendedFAB");
@@ -320,14 +308,15 @@ public class OpenFileView extends MyHeaderPanel
 	public void loadAllMaterials() {
 		spinner.show();
 		clearMaterials();
-		if (this.app.getLoginOperation().isLoggedIn()) {
-			app.getLoginOperation().getGeoGebraTubeAPI()
+		LogInOperation loginOperation = app.getLoginOperation();
+		if (loginOperation.isLoggedIn()) {
+			loginOperation.getGeoGebraTubeAPI()
 					.getUsersOwnMaterials(this.userMaterialsCB,
 							order);
-			app.getLoginOperation().getGeoGebraTubeAPI()
+			loginOperation.getGeoGebraTubeAPI()
 					.getSharedMaterials(this.sharedMaterialsCB, order);
-		} else {
-			app.getLoginOperation().getGeoGebraTubeAPI()
+		} else if (!loginOperation.getModel().isLoginStarted()) {
+			loginOperation.getGeoGebraTubeAPI()
 					.getFeaturedMaterials(this.ggtMaterialsCB);
 		}
 	}
@@ -383,7 +372,7 @@ public class OpenFileView extends MyHeaderPanel
 	@Override
 	public void setLabels() {
 		headerView.setCaption(localize("mow.openFileViewTitle"));
-        newFileBtn.setText(localize("New.Mebis"));
+		newFileBtn.setText(localize("New.Mebis"));
 		openFileBtn
 				.setImageAndText(
 						MaterialDesignResources.INSTANCE.mow_pdf_open_folder()
@@ -395,8 +384,8 @@ public class OpenFileView extends MyHeaderPanel
 				sortDropDown.setItemText(i + 1, localize(labelFor(map[i])));
 			}
 		}
-        if (messagePanel != null) {
-            setMessagePanelLabels(messagePanel);
+		if (messagePanel != null) {
+			setMessagePanelLabels(messagePanel);
 		}
 	}
 
@@ -439,8 +428,16 @@ public class OpenFileView extends MyHeaderPanel
 
 	@Override
 	public boolean onOpenFile() {
-		// TODO
+		setConstructionTitleAsMaterial();
 		return false;
+	}
+
+	private void setConstructionTitleAsMaterial() {
+		Material activeMaterial = app.getActiveMaterial();
+		if (activeMaterial != null) {
+			app.getKernel().getConstruction().setTitle(
+					activeMaterial.getTitle());
+		}
 	}
 
 	private MaterialCallback getUserMaterialsCB(final int type) {
@@ -465,8 +462,8 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	protected void addUsersMaterials(final List<Material> matList, int type) {
 		materialListEmpty[type] = matList.isEmpty();
-		for (int i = 0; i < matList.size(); i++) {
-			addMaterial(matList.get(i));
+		for (Material material : matList) {
+			addMaterial(material);
 		}
 		spinner.hide();
 	}

@@ -26,7 +26,7 @@ public class CmdSetValue extends CmdScripting {
 
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -68,7 +68,7 @@ public class CmdSetValue extends CmdScripting {
 
 	/**
 	 * sets a value of a list (or extends the list if you set element n+1)
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param list
@@ -151,7 +151,7 @@ public class CmdSetValue extends CmdScripting {
 
 	/**
 	 * sets arg[0] to arg[1]
-	 * 
+	 *
 	 * @param arg0
 	 *            target
 	 * @param arg1
@@ -182,6 +182,7 @@ public class CmdSetValue extends CmdScripting {
 						&& Double.isNaN(arg1.evaluateDouble())) {
 					// eg SetValue[a,?] for line
 					arg0.setUndefined();
+					arg0.resetDefinition();
 				} else {
 					// copy() needed for eg
 					// rnd = {1,2,3,4}
@@ -202,11 +203,7 @@ public class CmdSetValue extends CmdScripting {
 		} else if (arg0.isGeoInputBox() && arg1.isGeoText()) {
 			String textString = ((GeoText) arg1).getTextString();
 			GeoInputBox geoInputBox = (GeoInputBox) arg0;
-			if (geoInputBox.getLinkedGeo() != null) {
-				geoInputBox.updateLinkedGeo(textString);
-			} else {
-				geoInputBox.setText(textString);
-			}
+			geoInputBox.updateLinkedGeo(textString);
 		}
 	}
 }

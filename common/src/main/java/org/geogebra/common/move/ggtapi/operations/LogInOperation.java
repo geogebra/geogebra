@@ -1,5 +1,6 @@
 package org.geogebra.common.move.ggtapi.operations;
 
+import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
@@ -12,16 +13,19 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author stefan
- * 
- *         Operational class for login functionality
+ * Operational class for login functionality
  *
+ * @author stefan
  */
 public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
-	@Override
+	/**
+	 * The Common model component to operate on
+	 */
+	protected AuthenticationModel model = null;
+
 	public AuthenticationModel getModel() {
-		return (AuthenticationModel) super.getModel();
+		return model;
 	}
 
 	/**
@@ -71,10 +75,6 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 *            information will be provided in the Login Event.
 	 */
 	public void performTokenLogin(String token, boolean automatic) {
-		if ("".equals(token)) {
-			stayLoggedOut();
-			return;
-		}
 		doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
 	}
 
@@ -101,13 +101,20 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
 		Log.debug(
 				"Sending call to GeoGebraTube API to authorize the login token...");
-
 		// Trigger an event to signal the login attempt
-		onEvent(new LoginAttemptEvent(user));
+		onEvent(new LoginAttemptEvent());
 
 		// Send API request to check if the token is valid
 		api.authorizeUser(user, this, automatic);
 
+	}
+
+	/**
+	 * Log out
+	 */
+	public void logOut() {
+		showLogoutUI();
+		performLogOut();
 	}
 
 	/**
@@ -225,4 +232,31 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		// hidden frame needs opening for e.g. Shibboleth
 	}
 
+	/**
+	 * Sets the Common model to operate on
+	 *
+	 * @param model
+	 *            the model to operate on
+	 */
+	public void setModel(AuthenticationModel model) {
+		this.model = model;
+	}
+
+	/**
+	 * Informs the view and the model about an event
+	 *
+	 * @param event
+	 *            The Event to trigger
+	 */
+	public void onEvent(final BaseEvent event) {
+		if (model != null) {
+			if (event instanceof LoginEvent) {
+				model.onLogin((LoginEvent) event);
+			}
+			if (event instanceof LogOutEvent) {
+				model.onLogout();
+			}
+		}
+		dispatchEvent(event);
+	}
 }

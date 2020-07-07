@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
+import javax.annotation.Nullable;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -14,15 +16,15 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * abstract class for Commands with one list argument eg Mean[ &lt;List> ]
- * 
+ *
  * if more than one argument, then they are put into a list
- * 
+ *
  * Michael Borcherds 2008-04-12
  */
 public abstract class CmdOneListFunction extends CommandProcessor {
 	/**
 	 * Create new command processor
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -31,7 +33,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
@@ -40,31 +42,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 		case 0:
 			throw argNumErr(c);
 		case 1:
-			if (arg[0].isGeoList()) {
-				GeoElement[] ret = {
-						doCommand(c.getLabel(), (GeoList) arg[0]) };
-				return ret;
-			} else if (arg[0].isGeoFunction()) {
-
-				// allow FitXXX[ <Freehand Function> ], eg FitSin
-
-				GeoFunction fun = (GeoFunction) arg[0];
-
-				if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
-
-					GeoList list = wrapFreehandFunctionArgInList(kernel,
-							(AlgoFunctionFreehand) fun.getParentAlgorithm());
-
-					if (list != null) {
-						GeoElement[] ret = { doCommand(c.getLabel(), list) };
-						return ret;
-					}
-
-				}
-
-			}
-			throw argErr(c, arg[0]);
-
+			return new GeoElement[] { process(c, info, arg[0]) };
 			// more than one argument
 		default:
 
@@ -89,24 +67,52 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 						GeoClass.NUMERIC);
 				if (list != null) {
 					list.setDefinedWithCurlyBrackets(false);
-					GeoElement[] ret = { doCommand(c.getLabel(), list) };
+					GeoElement[] ret = { doCommand(c.getLabel(), list, info) };
 					return ret;
 				}
-            } else if (arg[0] instanceof VectorValue) {
-                // try to create list of points (eg FitExp[])
-                GeoList list = wrapInList(kernel, arg, arg.length,
-                        GeoClass.POINT);
-                if (list != null) {
-                    GeoElement[] ret = { doCommand(c.getLabel(), list) };
-                    return ret;
-                }
+			} else if (arg[0] instanceof VectorValue) {
+				// try to create list of points (eg FitExp[])
+				GeoList list = wrapInList(kernel, arg, arg.length,
+						GeoClass.POINT);
+				if (list != null) {
+					GeoElement[] ret = { doCommand(c.getLabel(), list, info) };
+					return ret;
+				}
 
-            }
-            if (n == 2) {
-                throw argErr(c, arg[0].isGeoList() ? arg[1] : arg[0]);
-            }
+			}
+			if (n == 2) {
+				throw argErr(c, arg[0].isGeoList() ? arg[1] : arg[0]);
+			}
 			throw argNumErr(c);
 		}
+	}
+
+	private GeoElement process(Command command, EvalInfo info, GeoElement element) {
+		if (element.isGeoList()) {
+			return doCommand(command.getLabel(), (GeoList) element, info);
+		} else if (element.isGeoFunction()) {
+
+			// allow FitXXX[ <Freehand Function> ], eg FitSin
+
+			GeoFunction fun = (GeoFunction) element;
+
+			if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
+
+				GeoList list = wrapFreehandFunctionArgInList(kernel,
+						(AlgoFunctionFreehand) fun.getParentAlgorithm());
+
+				if (list != null) {
+					return doCommand(command.getLabel(), list, info);
+				}
+
+			}
+
+		}
+		throw argErr(command, element);
+	}
+
+	protected GeoElement doCommand(String label, GeoList list, @Nullable EvalInfo info) {
+		return doCommand(label, list);
 	}
 
 	/**

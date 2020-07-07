@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -371,7 +370,6 @@ public class DrawInequality1Var extends SetDrawable {
 			gp = new GeneralPathClipped[numOfX / 2];
 			lines = new GLine2D[numOfX];
 		}
-
 	}
 
 	/**
@@ -381,7 +379,6 @@ public class DrawInequality1Var extends SetDrawable {
 		for (int i = 0; i < lines.length; i++) {
 			lines[i] = null;
 		}
-
 	}
 
 	/**
@@ -389,10 +386,5 @@ public class DrawInequality1Var extends SetDrawable {
 	 */
 	public Inequality getIneq() {
 		return this.ineq;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		return null;
 	}
 }

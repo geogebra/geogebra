@@ -17,8 +17,6 @@ import org.geogebra.web.full.cas.view.CASStylebarW;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ContextMenuGraphicsWindowW;
-import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.app.ShowKeyboardButton;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.images.AppResources;
@@ -31,12 +29,13 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
@@ -77,7 +76,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public abstract class DockPanelW extends ResizeComposite
-		implements DockPanel, DockComponent, TabHandler {
+		implements DockPanel, DockComponent {
 	/** Dock manager */
 	protected DockManagerW dockManager;
 	/** app */
@@ -92,7 +91,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * The title of this dock panel.
 	 */
-	private String title = " no title";
+	private final String title;
 
 	/**
 	 * If this panel is visible.
@@ -100,24 +99,14 @@ public abstract class DockPanelW extends ResizeComposite
 	protected boolean visible = false;
 
 	/**
-	 * If this panel has focus.
-	 */
-	protected boolean hasFocus = false;
-
-	/**
 	 * The dimensions of the external window of this panel.
 	 */
 	protected Rectangle frameBounds = new Rectangle(50, 50, 500, 500);
 
 	/**
-	 * If this panel should be opened in a frame the next time it's visible.
-	 */
-	// final protected boolean openInFrame = false;
-
-	/**
 	 * If there is a style bar associated with this panel.
 	 */
-	private boolean hasStyleBar = false;
+	private final boolean hasStyleBar;
 
 	private int embeddedDimWidth;
 	private int embeddedDimHeight;
@@ -347,22 +336,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public Widget getComponent() {
 		return component;
-	}
-
-	/**
-	 * Method which is called if this dock panel gained focus. This happens if
-	 * setFocus(true) was called and this panel had no focus before.
-	 */
-	protected void focusGained() {
-		// empty by default
-	}
-
-	/**
-	 * Method which is called if this dock panel lost focus. This happens if
-	 * setFocus(false) was called and this panel had focus before.
-	 */
-	protected void focusLost() {
-		// empty by default
 	}
 
 	/**
@@ -614,11 +587,17 @@ public abstract class DockPanelW extends ResizeComposite
 				app);
 		graphicsContextMenuBtn
 				.setTitle(app.getLocalization().getMenu("Settings"));
+		final FocusableWidget focusableWidget = new FocusableWidget(
+				AccessibilityGroup.getViewGroup(getViewId()),
+				AccessibilityGroup.ViewControlId.SETTINGS_BUTTON,  graphicsContextMenuBtn);
+		if (getViewId() == App.VIEW_EUCLIDIAN) {
+			focusableWidget.attachTo(app);
+		}
 		FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
 
 			@Override
 			public void onClick(Widget source) {
-				app.getAccessibilityManager().setAnchor(source);
+				app.getAccessibilityManager().setAnchor(focusableWidget);
 				onGraphicsSettingsPressed();
 			}
 
@@ -628,8 +607,8 @@ public abstract class DockPanelW extends ResizeComposite
 		graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
 				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
 		titleBarPanelContent.add(graphicsContextMenuBtn);
-		graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
-		graphicsContextMenuBtn.addTabHandler(this);
+		graphicsContextMenuBtn.getElement().setTabIndex(0);
+		TestHarness.setAttr(graphicsContextMenuBtn, "graphicsViewContextMenu");
 		if (toggleStyleBarButton != null) {
 			toggleStyleBarButton.removeFromParent();
 			toggleStyleBarButton = null;
@@ -646,13 +625,13 @@ public abstract class DockPanelW extends ResizeComposite
 		int x = graphicsContextMenuBtn.getAbsoluteLeft();
 		final int y = 8;
 		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
-				app, x, y);
+				app, x, y, false);
 		final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();
 		popup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
 				popup.setPopupPosition((int) app.getWidth() - offsetWidth, y);
-				contextMenu.focusDeferred();
+				contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
 			}
 		});
 		popup.addCloseHandler(new CloseHandler<GPopupPanel>() {
@@ -813,16 +792,6 @@ public abstract class DockPanelW extends ResizeComposite
 				this.remove(this.getCenter());
 			}
 			super.add(w);
-		}
-
-	}
-
-	/**
-	 * Update all elements in the title bar.
-	 */
-	public void updateTitleBar() {
-		if (componentPanel == null) {
-			return;
 		}
 	}
 
@@ -989,10 +958,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @return The parent DockSplitPane or null.
 	 */
 	public DockSplitPaneW getParentSplitPane() {
-		if (isOpenInFrame()) {
-			return null;
-		}
-
 		Widget parent = getParent();
 
 		if (!(parent instanceof DockSplitPaneW)) {
@@ -1013,7 +978,7 @@ public abstract class DockPanelW extends ResizeComposite
 		DockSplitPaneW parentDSP;
 
 		while (parent instanceof DockSplitPaneW) {
-			int defType = -1;
+			int defType;
 
 			parentDSP = (DockSplitPaneW) parent;
 
@@ -1062,28 +1027,6 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
-	 * If this view should open in a frame. Has no immediate effect.
-	 * 
-	 * @param openInFrame
-	 *            whether this is in frame
-	 */
-	public void setOpenInFrame(boolean openInFrame) {
-		// this.openInFrame = openInFrame;
-	}
-
-	/**
-	 * @return Whether this view should open in frame.
-	 */
-	@Override
-	public boolean isOpenInFrame() {
-		// TODO: return openInFrame;
-		// currently opening in an own frame is not implemented on web,
-		// so temporarily it will return false all time (see #3468)
-		return false;
-		// return openInFrame;
-	}
-
-	/**
 	 * If the stylebar of this view should be visible. Has no immediate effect.
 	 * 
 	 * @param showStyleBar
@@ -1107,10 +1050,7 @@ public abstract class DockPanelW extends ResizeComposite
 				return false;
 			}
 		}
-		return (showStyleBar /*
-								 * || !(theRealTitleBarPanel.isVisible() &&
-								 * theRealTitleBarPanel.isAttached())
-								 */);
+		return showStyleBar;
 	}
 
 	/**
@@ -1136,13 +1076,6 @@ public abstract class DockPanelW extends ResizeComposite
 	public Rectangle getFrameBounds() {
 		return this.frameBounds;
 	}
-
-	/**
-	 * @return return the Window
-	 */
-	/*
-	 * public Window getFrame() { return frame; }
-	 */
 
 	/**
 	 * @param embeddedDef
@@ -1182,74 +1115,19 @@ public abstract class DockPanelW extends ResizeComposite
 		return visible;
 	}
 
-	/** @return Whether this has focus */
-	public boolean hasFocus() {
-		return hasFocus;
-	}
-
 	/**
 	 * Mark this panel as focused. When gaining focus the panel will
 	 * automatically request focus for its parent frame.
-	 * 
-	 * @param hasFocus
-	 *            has the focus
+	 *
 	 * @param updatePropertiesView
 	 *            update properties view
 	 */
-	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
-
-		if (hasFocus && updatePropertiesView) {
+	public void setFocus(boolean updatePropertiesView) {
+		if (updatePropertiesView) {
 			app.getGuiManager().updatePropertiesView();
 		}
 
-		setFocus(hasFocus);
-	}
-
-	/**
-	 * Mark this panel as focused. When gaining focus the panel will
-	 * automatically request focus for its parent frame.
-	 * 
-	 * @param hasFocus
-	 *            has the focus
-	 */
-	protected void setFocus(boolean hasFocus) {
-
-		// don't change anything if it's not necessary
-		if (this.hasFocus == hasFocus) {
-			return;
-		}
-
-		this.hasFocus = hasFocus;
-
-		if (hasFocus) {
-			// request focus and change toolbar if necessary
-			if (isOpenInFrame()) {
-				// TODO frame.requestFocus();
-			} else {
-				/*
-				 * TODO if (!app.isApplet()) { JFrame frame = app.getFrame();
-				 * 
-				 * if (frame != null) { frame.toFront(); } }
-				 */
-
-				setActiveToolBar();
-			}
-		}
-
-		// call callback methods for focus changes
-		if (hasFocus) {
-			focusGained();
-		} else {
-			focusLost();
-		}
-
-		/*
-		 * Mark the focused view in bold if the focus system is available. If
-		 * this isn't the case we always stick with the normal font as it would
-		 * confuse the users that the focus "indicator" just changes if we
-		 * switch between EVs.
-		 */
-		setTitleLabelFocus();
+		setActiveToolBar();
 	}
 
 	/**
@@ -1257,34 +1135,8 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	protected void setActiveToolBar() {
 		if (hasToolbar()) {
-			((GuiManagerW) app.getGuiManager())
-					.setActivePanelAndToolbar(getViewId());
+			app.getGuiManager().setActivePanelAndToolbar(getViewId());
 		}
-	}
-
-	/**
-	 * Set the title bar focus style
-	 * 
-	 * TODO: Focus is indicated by change in title bar style instead of bold
-	 * text, so refactor to express this correctly
-	 * 
-	 */
-	protected void setTitleLabelFocus() {
-
-		if (titleIsBold()) {
-			titleBarPanel.addStyleName("TitleBarPanel-focus");
-		} else {
-			titleBarPanel.removeStyleName("TitleBarPanel-focus");
-		}
-
-	}
-
-	/**
-	 * 
-	 * @return true if title has to be in bold
-	 */
-	protected boolean titleIsBold() {
-		return hasFocus;
 	}
 
 	/**
@@ -1369,24 +1221,6 @@ public abstract class DockPanelW extends ResizeComposite
 	@Override
 	public String getDefaultToolbarString() {
 		return defaultToolbarString;
-	}
-
-	/**
-	 * @return dock panel information as string for debugging.
-	 */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[DockPanel,id=");
-		sb.append(getViewId());
-		sb.append(",toolbar=");
-		sb.append(getToolbarString());
-		sb.append(",visible=");
-		sb.append(isVisible());
-		sb.append(",inframe=");
-		sb.append(isOpenInFrame());
-		sb.append("]");
-		return sb.toString();
 	}
 
 	@Override
@@ -1585,7 +1419,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @return resource bundle for icons
 	 */
 	protected SvgPerspectiveResources getResources() {
-		return ImageFactory.getPerspectiveResources();
+		return SvgPerspectiveResources.INSTANCE;
 	}
 
 	/**
@@ -1616,9 +1450,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 *            keyboard button
 	 */
 	public void addSouth(ShowKeyboardButton showKeyboardButton) {
-		if (this.kbButtonSpace == null) {
-			return;
-		}
 		this.kbButtonSpace.setWidget(showKeyboardButton);
 	}
 
@@ -1708,17 +1539,6 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public void setToolMode(boolean toolMode) {
 		// do nothing by default
-	}
-
-	@Override
-	public boolean onTab(Widget source, boolean shiftDown) {
-		if (source == graphicsContextMenuBtn && !shiftDown) {
-			app.getAccessibilityManager()
-					.focusNext(AccessibilityGroup.SETTINGS_BUTTON, getViewId());
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

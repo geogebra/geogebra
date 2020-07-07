@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -519,6 +520,17 @@ public class Equation extends ValidExpression implements EquationValue {
 			sb.append('0');
 		}
 
+		appendEqualSign(sb, tpl);
+
+		if (rhs != null) {
+			sb.append(rhs.toValueString(tpl));
+		} else {
+			sb.append('0');
+		}
+		return sb.toString();
+	}
+
+	private void appendEqualSign(StringBuilder sb, StringTemplate tpl) {
 		if (tpl.getStringType().isGiac()) {
 			if (lhs.evaluatesToList() || rhs.evaluatesToList()) {
 				// %= stops {1,2}={3,4} being turned into {1=3,2=4}
@@ -528,15 +540,8 @@ public class Equation extends ValidExpression implements EquationValue {
 			}
 		} else {
 			// equal sign
-			sb.append(" = ");
+			sb.append(tpl.getEqualsWithSpace());
 		}
-
-		if (rhs != null) {
-			sb.append(rhs.toValueString(tpl));
-		} else {
-			sb.append('0');
-		}
-		return sb.toString();
 	}
 
 	@Override
@@ -563,17 +568,7 @@ public class Equation extends ValidExpression implements EquationValue {
 			sb.append('0');
 		}
 
-		if (tpl.getStringType().isGiac()) {
-			if (lhs1.evaluatesToList() || rhs.evaluatesToList()) {
-				// %= stops {1,2}={3,4} being turned into {1=3,2=4}
-				sb.append("%=");
-			} else {
-				sb.append("=");
-			}
-		} else {
-			// equal sign
-			sb.append(" = ");
-		}
+		appendEqualSign(sb, tpl);
 
 		// right hand side
 		if (rhs != null) {
@@ -745,27 +740,25 @@ public class Equation extends ValidExpression implements EquationValue {
 	 *         e=x are equations).
 	 */
 	public ValidExpression equationOrAssignment() {
-		if (!lhs.unwrap().isExpressionNode()
-				&& (!rhs.containsFreeFunctionVariable(null) || rhsHasLists())) {
-			// assignment, e.g. z = 23
-			if (lhs.isSingleVariable()) {
-				rhs.setLabel(((Variable) lhs
-						.evaluate(StringTemplate.defaultTemplate))
-								.getName(StringTemplate.defaultTemplate));
-				return rhs;
-			}
+		ExpressionValue lhsUnwrapped = lhs.unwrap();
+		boolean rhsConstant = !rhs.containsFreeFunctionVariable(null) || rhsHasLists();
+		// assignment, e.g. p = 23
+		if (lhsUnwrapped instanceof Variable) {
+			return assignmentOrProduct(lhsUnwrapped, rhsConstant);
+		}
+		if (!lhsUnwrapped.isExpressionNode() && rhsConstant) {
 
 			// special case: e = 2 should be an assignment
 			// but an undefined "e" has been read as the Euler constant already
-			else if (Unicode.EULER_STRING
-					.equals(lhs.toString(StringTemplate.defaultTemplate))) {
+			if (Unicode.EULER_STRING
+					.equals(lhsUnwrapped.toString(StringTemplate.defaultTemplate))) {
 				rhs.setLabel("e");
 				return rhs;
 			}
 
 			// special case: i = 2 should be an assignment
 			// but an undefined "i" has been read as the imaginary unit already
-			else if (lhs.isImaginaryUnit()) {
+			else if (ExpressionNode.isImaginaryUnit(lhsUnwrapped)) {
 				rhs.setLabel("i");
 				return rhs;
 			}
@@ -773,14 +766,28 @@ public class Equation extends ValidExpression implements EquationValue {
 			// special case: z = 2 should be an assignment when 3D view is not
 			// present
 			else if (kernel.isZvarAllowed() && "z"
-					.equals(lhs.toString(StringTemplate.defaultTemplate))) {
+					.equals(lhsUnwrapped.toString(StringTemplate.defaultTemplate))) {
 				rhs.setLabel("z");
 				return rhs;
 			}
 
 		}
-
 		return this;
+	}
+
+	private ValidExpression assignmentOrProduct(ExpressionValue lhsUnwrapped, boolean rhsConstant) {
+		String name = ((Variable) lhsUnwrapped)
+				.getName(StringTemplate.defaultTemplate);
+		if (GParser.shouldSplitLabel(name)) {
+			lhs = ((Variable) lhsUnwrapped).resolveAsExpressionValue(SymbolicMode.NONE,
+					true).wrap();
+			return this;
+		}
+		if (!rhsConstant) {
+			return this;
+		}
+		rhs.setLabel(name);
+		return rhs;
 	}
 
 	private boolean rhsHasLists() {
@@ -871,7 +878,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter) {
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
 		return false;
 	}
 

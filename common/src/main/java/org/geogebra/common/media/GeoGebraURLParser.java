@@ -1,6 +1,6 @@
 package org.geogebra.common.media;
 
-import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -9,71 +9,70 @@ import org.geogebra.common.util.debug.Log;
 public final class GeoGebraURLParser {
 
 	/**
-	 * @param processedUrlString
+	 * @param url
 	 *            URL
 	 * @return whether URL belongs to GeoGebra
 	 */
-	public static boolean isGeoGebraURL(String processedUrlString) {
-		final String ggbTubeOld = "geogebratube.org/";
-		final String ggbTube = "tube.geogebra.org/";
-		final String ggbTubeBeta = "beta.geogebra.org/";
-		final String ggbTubeShort = "ggbtu.be/";
-		final String ggbMatShort = "ggbm.at/";
-		return processedUrlString.contains(GeoGebraConstants.GEOGEBRA_WEBSITE)
-				|| processedUrlString.contains(GeoGebraConstants.GEOGEBRA_WEBSITE_BETA)
-				|| processedUrlString.contains(ggbTube) || processedUrlString.contains(ggbTubeShort)
-				|| processedUrlString.contains(ggbMatShort)
-				|| processedUrlString.contains(ggbTubeBeta)
-				|| processedUrlString.contains(ggbTubeOld);
+	public static boolean isGeoGebraURL(String url) {
+		String urlNoProtocol = removeProtocol(url);
+		if (StringUtil.empty(urlNoProtocol)) {
+			return false;
+		}
+		String host = urlNoProtocol.split("/")[0];
+		return "geogebra.org".equals(host) || "ggbm.at".equals(host)
+				|| "ggbtu.be".equals(host) || host.endsWith(".geogebra.org");
 	}
 
 	/**
-	 * @param processedUrlString0
+	 * @param url
 	 *            GeoGebra URL
 	 * @return material sharing key (or numeric ID)
 	 */
-	public static String getIDfromURL(String processedUrlString0) {
-		String processedUrlString = processedUrlString0;
+	public static String getIDfromURL(String url) {
+		String urlNoProtocol = removeProtocol(url);
 		final String material = "/material/show/id/";
-		// remove eg http:// if it's there
-		if (processedUrlString.contains("://")) {
-			processedUrlString = processedUrlString.substring(processedUrlString.indexOf("://") + 3,
-					processedUrlString.length());
-		}
+
 		// remove hostname
-		processedUrlString = processedUrlString.substring(processedUrlString.indexOf('/'),
-				processedUrlString.length());
+		String pathAndQuery = urlNoProtocol.substring(urlNoProtocol.indexOf('/'));
 
 		String id;
 
 		// determine the start position of ID in the URL
-		int start;
-		if (processedUrlString.startsWith(material)) {
+		int start = -1;
+		if (pathAndQuery.startsWith(material)) {
 			start = material.length();
-		} else if (processedUrlString.startsWith("/m/")) {
+		} else if (pathAndQuery.startsWith("/m/")) {
 			start = "/m/".length();
-		} else {
-			start = processedUrlString.lastIndexOf("/m") + 2;
+		} else if (!url.contains("geogebra.org") || pathAndQuery.contains("/m")) {
+			// support short URLs but be a bit picky with geogebra.org
+			start = pathAndQuery.lastIndexOf("/m") + 2;
 		}
 
 		// no valid URL?
 		if (start == -1) {
-			Log.debug("problem parsing: " + processedUrlString);
+			Log.debug("problem parsing: " + pathAndQuery);
 			return null;
 		}
 
 		// the end position is either before the next slash or at the
 		// end of the string
-		int end = -1;
-		if (start > -1) {
-			end = processedUrlString.indexOf('/', start);
-		}
+		int end = pathAndQuery.indexOf('/', start);
 
 		if (end == -1) {
-			end = processedUrlString.length();
+			end = pathAndQuery.length();
 		}
 		// fetch ID
-		id = processedUrlString.substring(start, end);
+		id = pathAndQuery.substring(start, end);
 		return id;
+	}
+
+	/**
+	 * remove eg http:// if it's there
+	 */
+	private static String removeProtocol(String processedUrlString) {
+		if (processedUrlString.contains("://")) {
+			return processedUrlString.substring(processedUrlString.indexOf("://") + 3);
+		}
+		return processedUrlString;
 	}
 }

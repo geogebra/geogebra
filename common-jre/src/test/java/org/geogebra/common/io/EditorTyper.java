@@ -41,14 +41,28 @@ public class EditorTyper {
         return this;
     }
 
-    /**
-     * Types a key.
-     *
-     * @param key keyCode to type
-     * @return this
-     */
-    public EditorTyper typeKey(int key) {
-        mathField.getInternal().onKeyPressed(new KeyEvent(key, 0, '\0'));
-        return this;
-    }
+	/**
+	 * Types a key.
+	 *
+	 * @param key keyCode to type
+	 * @return this
+	 */
+	public EditorTyper typeKey(int key) {
+		mathField.getInternal().onKeyPressed(new KeyEvent(key, 0, '\0'));
+		return this;
+	}
+
+	/**
+	 * Repeats a key.
+	 *
+	 * @param key keyCode to type
+	 * @param count to repeat.
+	 * @return this
+	 */
+	public EditorTyper repeatKey(int key, int count) {
+		for (int i = 0; i < count; i++) {
+			mathField.getInternal().onKeyPressed(new KeyEvent(key, 0, '\0'));
+		}
+		return this;
+	}
 }

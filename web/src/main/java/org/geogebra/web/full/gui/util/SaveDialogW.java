@@ -14,9 +14,9 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.browser.BrowseResources;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
+import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -24,6 +24,8 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.SharedResources;
+import org.geogebra.web.shared.components.ComponentCheckbox;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -41,6 +43,8 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -57,6 +61,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	protected GTextBox title;
 	private StandardButton dontSaveButton;
 	private StandardButton saveButton;
+	private FastButton cancelButton;
+
 	private Label titleLabel;
 	private final static int MIN_TITLE_LENGTH = 1;
 	// SaveCallback saveCallback;
@@ -65,21 +71,22 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private ListBox listBox;
 
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<>();
-	private MaterialVisibility defaultVisibility;
 	private Localization loc;
-    private BaseWidgetFactory widgetFactory;
+	private BaseWidgetFactory widgetFactory;
+	private ComponentCheckbox templateCheckbox;
+	private Label templateTxt;
 
 	/**
 	 * Creates a new GeoGebra save dialog.
 	 * 
 	 * @param app
 	 *            see {@link AppW}
+	 * @param factory
+	 *            widget factory
 	 */
     public SaveDialogW(final AppW app, BaseWidgetFactory factory) {
 		super(app.getPanel(), app);
-        this.widgetFactory = factory;
-        this.defaultVisibility = app.isMebis() ? MaterialVisibility.Private
-				: MaterialVisibility.Shared;
+		this.widgetFactory = factory;
 		this.appW = app;
 		this.loc = appW.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");
@@ -90,6 +97,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.getCaption().setText(loc.getMenu("Save"));
 		VerticalPanel p = new VerticalPanel();
 		p.add(getTitelPanel());
+		if (app.isWhiteboardActive()) {
+			p.add(getCheckboxPanel());
+		}
 		p.add(getButtonPanel());
 		contentPanel.add(p);
 		addCancelButton();
@@ -161,7 +171,13 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		} else {
 			saveButton.setEnabled(true);
 		}
+	}
 
+	private FlowPanel getCheckboxPanel() {
+		templateTxt = new Label();
+		templateTxt.setText(loc.getMenu("saveTemplate"));
+		templateCheckbox = new ComponentCheckbox(false, templateTxt);
+		return templateCheckbox;
 	}
 
 	private FlowPanel getButtonPanel() {
@@ -177,9 +193,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		saveButton.addStyleName("saveButton");
 		dontSaveButton.addStyleName("cancelBtn");
+		listBox = widgetFactory.newListBox();
+		listBox.addStyleName("visibility");
 		setAvailableProviders();
-		// ImageOrText[] data, Integer rows, Integer columns, GDimensionW
-		// iconSize, geogebra.common.gui.util.SelectionTable mode
 
 		saveButton.addFastClickHandler(new FastClickHandler() {
 
@@ -215,11 +231,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			        .location_drive();
 			this.supportedProviders.add(Provider.GOOGLE);
 		}
-		if (user != null && user.hasOneDrive()) {
-			providerImages[providerCount++] = BrowseResources.INSTANCE
-			        .location_skydrive();
-			this.supportedProviders.add(Provider.ONE);
-		}
 		if (appW.getLAF().supportsLocalSave()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE
 			        .location_local();
@@ -234,12 +245,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				appW.isUnbundledOrWhiteboard());
 		this.providerPopup.getMyPopup().addStyleName("providersPopup");
 
-        listBox = widgetFactory.newListBox();
-		listBox.addStyleName("visibility");
-		listBox.addItem(loc.getMenu("Private"));
-		listBox.addItem(loc.getMenu("Shared"));
-		listBox.addItem(loc.getMenu("Public"));
-		listBox.setItemSelected(MaterialVisibility.Private.getIndex(), true);
 		if (appW.getLAF().supportsGoogleDrive()) {
 			providerPopup.addPopupHandler(this);
 			providerPopup.setSelectedIndex(appW.getFileManager()
@@ -252,10 +257,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerPopup.getElement().getStyle()
 		        .setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
-        if (!appW.isMebis()) {
-			buttonPanel.add(providerPopup);
-			buttonPanel.add(listBox);
-		}
+		buttonPanel.add(providerPopup);
+		buttonPanel.add(listBox);
 	}
 
 	/**
@@ -269,6 +272,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * <li>material is new or was private, than link to GGT</li>
 	 */
 	public void onSave() {
+		if (templateCheckbox != null) {
+			setSaveType(templateCheckbox.isSelected()
+					? MaterialType.ggsTemplate : MaterialType.ggs);
+		}
 		appW.getSaveController().saveAs(title.getText(),
 				getSelectedVisibility(), this);
 	}
@@ -304,7 +311,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			}
 		});
 
-		this.setTitle();
+		setTitle();
 		if (appW.isOffline()) {
 			this.providerPopup.setVisible(this.supportedProviders
 					.contains(Provider.LOCAL));
@@ -312,27 +319,18 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			this.providerPopup.setVisible(true);
 			this.providerPopup.setSelectedIndex(this.supportedProviders
 					.indexOf(appW.getFileManager().getFileProvider()));
-			// appW.getFileManager().setFileProvider(
-			// org.geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
-			if (appW.getActiveMaterial() != null) {
-				if (appW.getActiveMaterial().getVisibility()
-						.equals(MaterialVisibility.Public.getToken())) {
-					this.listBox.setSelectedIndex(MaterialVisibility.Public.getIndex());
-				} else if (appW.getActiveMaterial().getVisibility()
-						.equals(MaterialVisibility.Shared.getToken())) {
-					this.listBox.setSelectedIndex(MaterialVisibility.Shared.getIndex());
-				} else {
-					this.listBox
-							.setSelectedIndex(MaterialVisibility.Private.getIndex());
-				}
-			} else {
-				this.listBox.setSelectedIndex(defaultVisibility.getIndex());
-			}
 		}
+		rebuildVisibilityList();
 		listBox.setVisible(
 				appW.getFileManager().getFileProvider() == Provider.TUBE);
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.saveButton.setEnabled(false);
+		}
+		if (templateCheckbox != null) {
+			templateCheckbox.setVisible(true);
+			Material activeMaterial = ((AppW) app).getActiveMaterial();
+			templateCheckbox.setSelected(activeMaterial != null && MaterialType.ggsTemplate
+					.equals(activeMaterial.getType()));
 		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
@@ -342,43 +340,20 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		});
 	}
 
-	/**
-	 * shows the {@link SaveDialogW} if there are unsaved changes before editing
-	 * another file or creating a new one
-	 * 
-	 * Never shown in embedded LAF (Mix, SMART)
-	 * 
-	 * @param runnable
-	 *            runs either after saved successfully or immediately if dialog
-	 *            not needed {@link Runnable}
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable) {
-		showIfNeeded(runnable, !appW.isSaved(), null);
+	public void setDiscardMode() {
+		// could be useful
 	}
 
-	/**
-	 * @param runnable
-	 *            callback
-	 * @param needed
-	 *            whether it's needed to save (otherwise just run callback)
-	 * @param anchor
-	 *            relative element
-	 */
 	@Override
-	public void showIfNeeded(AsyncOperation<Boolean> runnable, boolean needed,
-			Widget anchor) {
-		if (needed && !appW.getLAF().isEmbedded()) {
-			appW.getSaveController().setRunAfterSave(runnable);
-			if (anchor == null) {
-				center();
-			} else {
-				showRelativeTo(anchor);
-			}
-			position();
+	public void showAndPosition(Widget anchor) {
+		if (anchor == null) {
+			center();
 		} else {
-			appW.getSaveController().setRunAfterSave(null);
-			runnable.callback(true);
+			showRelativeTo(anchor);
+		}
+		if (templateCheckbox != null) {
+			templateCheckbox.setVisible(false);
 		}
 	}
 
@@ -414,12 +389,30 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.titleLabel.setText(loc.getMenu("Title") + ": ");
 		this.dontSaveButton.setText(loc.getMenu("DontSave"));
 		this.saveButton.setText(loc.getMenu("Save"));
-		this.listBox.setItemText(MaterialVisibility.Private.getIndex(),
-				loc.getMenu("Private"));
-		this.listBox.setItemText(MaterialVisibility.Shared.getIndex(),
-				loc.getMenu("Shared"));
-		this.listBox.setItemText(MaterialVisibility.Public.getIndex(),
-				loc.getMenu("Public"));
+        if (templateTxt != null) {
+            templateTxt.setText(loc.getMenu("saveTemplate"));
+        }
+		rebuildVisibilityList();
+	}
+
+	private void rebuildVisibilityList() {
+		listBox.clear();
+		listBox.addItem(loc.getMenu("Private"));
+		listBox.addItem(loc.getMenu("Shared"));
+		MaterialVisibility currentVisibility = getCurrentVisibility();
+		if (currentVisibility == MaterialVisibility.Public) {
+			listBox.addItem(loc.getMenu("Public"));
+		}
+		listBox.setSelectedIndex(currentVisibility.getIndex());
+	}
+
+	private MaterialVisibility getCurrentVisibility() {
+		Material activeMaterial = appW.getActiveMaterial();
+		if (activeMaterial != null
+				&& app.getLoginOperation().owns(activeMaterial)) {
+			return MaterialVisibility.value(activeMaterial.getVisibility());
+		}
+		return MaterialVisibility.Shared;
 	}
 
 	@Override
@@ -435,19 +428,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
-			this.setAvailableProviders();
+			setAvailableProviders();
 		}
-	}
-
-	/**
-	 * @param visibility
-	 *            new default
-	 * @return this
-	 */
-	@Override
-	public SaveDialogW setDefaultVisibility(MaterialVisibility visibility) {
-		this.defaultVisibility = visibility;
-		return this;
 	}
 
 	/**
@@ -459,5 +441,33 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	@Override
 	public void setSaveType(MaterialType saveType) {
 		appW.getSaveController().setSaveType(saveType);
+	}
+
+	/**
+	 * Adds a little cross to cancel the dialog if there is already a panel
+	 * attached to the Dialogbox. If the first child of the Dialogbox is not a
+	 * Panel this will do nothing!
+	 *
+	 * Pulled up from SaveDialogW
+	 */
+	private void addCancelButton() {
+		if (getWidget() instanceof Panel
+				&& !(getWidget() instanceof SimplePanel)) {
+			SimplePanel cancel = new SimplePanel();
+			this.cancelButton = new StandardButton(
+					SharedResources.INSTANCE.dialog_cancel(), app);
+			this.cancelButton.addStyleName("cancelSaveButton");
+			this.cancelButton.addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick(Widget source) {
+					onCancel();
+					app.getSaveController().cancel();
+				}
+			});
+
+			cancel.add(this.cancelButton);
+
+			((Panel) getWidget()).add(cancel);
+		}
 	}
 }

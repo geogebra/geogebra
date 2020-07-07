@@ -1,7 +1,9 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.AddLabelItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.RemoveLabelItem;
 
 /**
  * Manu item collection for a GeoElement
@@ -9,14 +11,13 @@ import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
  * @author Zbynek
  */
 public class GeoElementMenuItemCollection
-		extends MenuActionCollection<GeoElement> {
+		extends MenuItemCollection<GeoElement> {
 
 	/**
 	 * Add "Add label" / "Remove label" to a menu
 	 * 
 	 */
 	public void addLabelingActions() {
-		addActions(new RemoveLabelAction(), new AddLabelAction());
+		addItems(new RemoveLabelItem(), new AddLabelItem());
 	}
-
 }

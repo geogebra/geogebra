@@ -2,21 +2,20 @@ package org.geogebra.web.editor;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.kernel.View;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.FontManagerW;
-import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
-import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.shared.GlobalHeader;
 import org.geogebra.web.shared.ShareLinkDialog;
+import org.geogebra.web.shared.SignInController;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
@@ -59,16 +58,14 @@ public class AppWsolver extends AppW implements HasKeyboard {
 
         initCoreObjects();
 
-        getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-        Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
-        if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
-            new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
-                    .checkAvailable(null);
-        }
-		initSignInEventFlow(new LoginOperationW(this), true);
+		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
+		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
+
+		initSignInEventFlow(new LoginOperationW(this));
+
 		GlobalHeader.INSTANCE.addSignIn(this);
 		addShareButton();
-        frame.setApplication(this);
+		frame.setApplication(this);
     }
 
 	private void addShareButton() {
@@ -77,7 +74,7 @@ public class AppWsolver extends AppW implements HasKeyboard {
 			@Override
 			public void callback(Widget share) {
 				String url = Location.getHref().replaceAll("\\?.*", "")
-                        + getRelativeURLforEqn(getMathField().getText());
+						+ getRelativeURLforEqn(getMathField().getText());
 				ShareLinkDialog sd = new ShareLinkDialog(AppWsolver.this, url,
 						share);
 				sd.setVisible(true);
@@ -86,9 +83,9 @@ public class AppWsolver extends AppW implements HasKeyboard {
 		});
 	}
 
-    public static String getRelativeURLforEqn(String text) {
-        return "?i=" + URL.encodePathSegment(text);
-    }
+	public static String getRelativeURLforEqn(String text) {
+		return "?i=" + URL.encodePathSegment(text);
+	}
 
 	/**
 	 * @return equation editor
@@ -112,18 +109,6 @@ public class AppWsolver extends AppW implements HasKeyboard {
     @Override
     public void afterLoadFileAppOrNot(boolean asSlide) {
 		// no file loading
-    }
-
-    @Override
-    public void focusLost(View v, Element el) {
-        super.focusLost(v, el);
-        this.getGlobalKeyDispatcher().setFocused(false);
-    }
-
-    @Override
-    public void focusGained(View v, Element el) {
-        super.focusGained(v, el);
-		this.getGlobalKeyDispatcher().setFocusedIfNotTab();
     }
 
     @Override
@@ -197,7 +182,22 @@ public class AppWsolver extends AppW implements HasKeyboard {
 	}
 
 	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.SUITE;
+	}
+
+	@Override
+	public boolean attachedToEqEditor() {
+		return false;
+	}
+
+	@Override
 	public AlgebraView getAlgebraView() {
 		return null;
+	}
+
+	@Override
+	public SignInControllerI getSignInController() {
+		return new SignInController(this, 0, null);
 	}
 }

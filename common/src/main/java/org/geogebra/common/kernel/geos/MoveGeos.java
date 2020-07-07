@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Library class for moving geos by drag
@@ -34,13 +34,13 @@ public class MoveGeos {
 	 *            euclidian view
 	 * @return true if something was moved
 	 */
-    public static boolean moveObjects(List<GeoElement> geosToMove,
-                                      final Coords rwTransVec, final Coords endPosition,
-                                      final Coords viewDirection, EuclidianView view) {
+	public static boolean moveObjects(List<GeoElement> geosToMove,
+			final Coords rwTransVec, final Coords endPosition,
+			final Coords viewDirection, EuclidianView view) {
 		if (moveObjectsUpdateList == null) {
 			moveObjectsUpdateList = new ArrayList<>();
 		}
-        List<GeoElement> geos = geosToMove;
+		List<GeoElement> geos = geosToMove;
 		final ArrayList<GeoElement> geos2 = new ArrayList<>();
 
 		// remove duplicates, eg drag Circle[A,A]

@@ -48,7 +48,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getDataParamJSON() {
-		return "";
+		return attributes.getOrDefault("jsonFile", "");
 	}
 
 	@Override
@@ -98,11 +98,11 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public boolean getDataParamShowMenuBar(boolean def) {
-        if (attributes.containsKey("showMenuBar")) {
-            return "true".equals(attributes.get("showMenuBar"));
-        }
+		if (attributes.containsKey("showMenuBar")) {
+			return "true".equals(attributes.get("showMenuBar"));
+		}
 
-        return def;
+		return def;
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getDataParamCustomToolBar() {
-        return attributes.getOrDefault("customToolbar", "");
+		return attributes.getOrDefault("customToolbar", "");
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public InputPosition getAlgebraPosition(InputPosition def) {
-		return InputPosition.top;
+		return def;
 	}
 
 	@Override
@@ -192,7 +192,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	@Override
 	public String getDataParamBorder() {
-		return "";
+		return attributes.getOrDefault("borderColor", "");
 	}
 
 	@Override
@@ -288,6 +288,11 @@ public class TestArticleElement implements ArticleElementInterface {
 	@Override
 	public double getDataParamButtonRounding() {
 		return 0;
+	}
+
+	@Override
+	public String getDataParamButtonBorderColor() {
+		return attributes.get("buttonBorderColor");
 	}
 
 	@Override
@@ -466,13 +471,13 @@ public class TestArticleElement implements ArticleElementInterface {
 		return attributes.get("vendor");
 	}
 
-    @Override
-    public int getParamFontSize(int def) {
-        return def;
-    }
+	@Override
+	public int getParamFontSize(int def) {
+		return def;
+	}
 
-    @Override
-    public String getParamKeyboardType(String def) {
-        return def;
-    }
+	@Override
+	public String getParamKeyboardType(String def) {
+		return def;
+	}
 }

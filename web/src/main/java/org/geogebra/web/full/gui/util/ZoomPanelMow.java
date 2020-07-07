@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.util;
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.html5.Browser;
@@ -10,8 +11,10 @@ import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
+import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomController;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -82,7 +85,10 @@ public class ZoomPanelMow extends FlowPanel
 		dragPadBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.move_canvas(), null, 24, appW);
 		dragPadBtn.setStyleName("zoomPanelBtn");
-		FastClickHandler handlerHome = new FastClickHandler() {
+		registerFocusable(dragPadBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_DRAG_VIEW);
+		TestHarness.setAttr(dragPadBtn, "panViewTool");
+
+		FastClickHandler handlerDragPad = new FastClickHandler() {
 
 			@Override
 			public void onClick(Widget source) {
@@ -93,7 +99,7 @@ public class ZoomPanelMow extends FlowPanel
 				}
 			}
 		};
-		dragPadBtn.addFastClickHandler(handlerHome);
+		dragPadBtn.addFastClickHandler(handlerDragPad);
 		add(dragPadBtn);
 		// click handler
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
@@ -103,6 +109,16 @@ public class ZoomPanelMow extends FlowPanel
 				// to stopPropagation and preventDefault.
 			}
 		});
+	}
+
+	private void registerFocusable(StandardButton dragPadBtn,
+			AccessibilityGroup.ViewControlId group) {
+		new FocusableWidget(AccessibilityGroup.getViewGroup(getViewId()), group,
+				dragPadBtn).attachTo(appW);
+	}
+
+	private int getViewId() {
+		return appW.getActiveEuclidianView().getViewID();
 	}
 
 	/**
@@ -116,6 +132,7 @@ public class ZoomPanelMow extends FlowPanel
 		homeBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.home_zoom_black18(), null, 20,
 				appW);
+		registerFocusable(homeBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_HOME);
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
 		getZoomController().hideHomeButton(homeBtn);
@@ -143,7 +160,7 @@ public class ZoomPanelMow extends FlowPanel
 		zoomOutBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24, appW);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
-
+		registerFocusable(zoomOutBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_MINUS);
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
@@ -159,7 +176,7 @@ public class ZoomPanelMow extends FlowPanel
 		zoomInBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24, appW);
 		zoomInBtn.setStyleName("zoomPanelBtn");
-
+		registerFocusable(zoomInBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_PLUS);
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {

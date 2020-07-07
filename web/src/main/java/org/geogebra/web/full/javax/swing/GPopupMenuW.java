@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
+import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.menubar.GMenuBar;
@@ -34,6 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class GPopupMenuW implements AttachedToDOM {
 
+	public static final int SUBMENU_VERTICAL_PADDING = 16;
 	/**
 	 * popup panel
 	 */
@@ -52,6 +54,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	private boolean menuShown = false;
 
 	private boolean horizontal;
+	private AriaMenuItem openItem = null;
 
 	/**
 	 * @param app
@@ -102,7 +105,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @param app
 	 *            application
 	 */
-	public GPopupMenuW(AriaMenuBar mb, AppW app) {
+	public GPopupMenuW(Widget mb, AppW app) {
+		this.app = app;
 		popupPanel = new GPopupPanel(app.getPanel(), app);
 		popupPanel.add(mb);
 		if (app.isUnbundledOrWhiteboard()) {
@@ -151,6 +155,8 @@ public class GPopupMenuW implements AttachedToDOM {
 			popupPanel.setPopupPosition(left, top);
 			// App.debug(left + "x" + top);
 		}
+
+		positionAndShowSubmenu();
 	}
 
 	/**
@@ -310,34 +316,16 @@ public class GPopupMenuW implements AttachedToDOM {
 			itemCommand = new ScheduledCommand() {
 				@Override
 				public void execute() {
-					int xCord, yCoord;
 					if (subPopup != null) {
 						subPopup.removeFromDOM();
 					}
 					subPopup = new GPopupMenuW(subMenu, getApp());
 					subPopup.setVisible(true);
+					subMenu.unselect();
+					subMenu.stylePopup(subPopup.getPopupPanel());
 					// Calculate the position of the "submenu", and show it
-					if (getApp().getLocalization()
-							.isRightToLeftReadingOrder()) {
-						xCord = getLeftSubPopupXCord();
-						if (xCord < 0) {
-							xCord = getRightSubPopupXCord();
-						}
-					} else {
-						xCord = getRightSubPopupXCord();
-						if (xCord + getSubPopupWidth() > Window
-								.getClientWidth()) {
-							xCord = getLeftSubPopupXCord();
-						}
-					}
-					yCoord = (int) Math.min(
-							(newItem.getAbsoluteTop()
-									- getApp().getPanel().getAbsoluteTop())
-									/ getScaleY(),
-							(Window.getClientHeight() + Window.getScrollTop()
-									- getApp().getPanel().getAbsoluteTop())
-									/ getScaleY() - getSubPopupHeight());
-					showSubPopup(xCord, yCoord);
+					openItem = newItem;
+					positionAndShowSubmenu();
 
 				}
 			};
@@ -355,6 +343,65 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 		popupMenuSize++;
 		item.addStyleName("gPopupMenu_item");
+	}
+
+	/**
+	 * Calculates where to place the submenu and show it.
+	 */
+	private void positionAndShowSubmenu() {
+		if (subPopup == null || openItem == null) {
+			return;
+		}
+
+		int x = isRightToLeftReadingOrder() ? getPopupXCoordRTL() : getPopupXCoord();
+		int y = Math.min(alignPopupToOpenItem(), alignPopupToBottom());
+		showSubPopup(x, y);
+	}
+
+	private int alignPopupToOpenItem() {
+		return Math.max(SUBMENU_VERTICAL_PADDING, getRelativeTop(openItem.getAbsoluteTop()));
+	}
+
+	/**
+	 * Submenu is placed to the left by default,
+	 * to the right if it would go offscreen.
+	 * @return x where submenu should placed
+	 */
+	private int getPopupXCoord() {
+		int xCoord = getRightSubPopupXCord();
+		return (xCoord + getSubPopupWidth() > Window.getClientWidth())
+				? getLeftSubPopupXCord() : xCoord;
+	}
+
+	/**
+	 * Submenu is placed to the right by default,
+	 * to the left if it would go offscreen. (RTL)
+	 * @return x where submenu should placed
+	 */
+	private int getPopupXCoordRTL() {
+		return getLeftSubPopupXCord() < 0 ? getRightSubPopupXCord() : getLeftSubPopupXCord();
+	}
+
+	private boolean isRightToLeftReadingOrder() {
+		return app.getLocalization().isRightToLeftReadingOrder();
+	}
+
+	private int alignPopupToBottom() {
+		int absTop = Math.max(SUBMENU_VERTICAL_PADDING,
+				Window.getClientHeight() + Window.getScrollTop()
+				- getSubPopupHeight() - SUBMENU_VERTICAL_PADDING);
+
+		return getRelativeTop(absTop);
+	}
+
+	/**
+	 *
+	 * @param absoluteTop to convert.
+	 * @return the relative top within the applet
+	 */
+	private int getRelativeTop(int absoluteTop) {
+		return (int) (Math.round(absoluteTop - getApp().getPanel().getAbsoluteTop()
+				/ getScaleY()));
 	}
 
 	/**
@@ -488,12 +535,16 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * hide popup menu
 	 */
 	public final void hide() {
+		if (!popupPanel.isShowing()) {
+			return;
+		}
+
 		AccessibilityManagerInterface am = getApp()
 				.getAccessibilityManager();
-		Object anchor = am.getAnchor();
+		MayHaveFocus anchor = am.getAnchor();
 		popupPanel.hide();
-		if (anchor instanceof Widget) {
-			((Widget) anchor).getElement().focus();
+		if (anchor != null) {
+			anchor.focusIfVisible(true);
 		}
 	}
 
@@ -609,7 +660,7 @@ public class GPopupMenuW implements AttachedToDOM {
 					}
 					AriaMenuBar.eatEvent(event);
 					return;
-			}
+			    }
 			}
 			super.onBrowserEvent(event);
 		}

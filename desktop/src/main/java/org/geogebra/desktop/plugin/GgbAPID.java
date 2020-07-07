@@ -1,17 +1,6 @@
 package org.geogebra.desktop.plugin;
 
 import java.awt.Toolkit;
-/* 
- GeoGebra - Dynamic Mathematics for Everyone
- http://www.geogebra.org
-
- This file is part of GeoGebra.
-
- This program is free software; you can redistribute it and/or modify it 
- under the terms of the GNU General Public License as published by 
- the Free Software Foundation.
-
- */
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -50,6 +39,18 @@ import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.UtilD;
 
+/*
+ GeoGebra - Dynamic Mathematics for Everyone
+ http://www.geogebra.org
+
+ This file is part of GeoGebra.
+
+ This program is free software; you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by
+ the Free Software Foundation.
+
+ */
+
 /**
  * <h3>GgbAPI - API for PlugLets</h3>
  * 
@@ -85,9 +86,6 @@ public class GgbAPID extends GgbAPIJre {
 	 */
 	public GgbAPID(AppD app) {
 		super(app);
-		kernel = app.getKernel();
-		algebraprocessor = kernel.getAlgebraProcessor();
-		construction = kernel.getConstruction();
 		// pluginmanager=app.getPluginManager();
 	}
 

@@ -20,7 +20,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -49,7 +48,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardListener;
-import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.cas.view.CASTableW;
 import org.geogebra.web.full.cas.view.CASViewW;
@@ -64,9 +62,9 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.browser.BrowseGUI;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.gui.dialog.options.OptionsTab.ColorPanel;
+import org.geogebra.web.full.gui.dialog.template.TemplateChooserController;
 import org.geogebra.web.full.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.full.gui.inputbar.InputBarHelpPanelW;
-import org.geogebra.web.full.gui.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
@@ -75,7 +73,6 @@ import org.geogebra.web.full.gui.layout.panels.AnimatingPanel;
 import org.geogebra.web.full.gui.layout.panels.CASDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ConstructionProtocolDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.DataAnalysisViewDockPanelW;
-import org.geogebra.web.full.gui.layout.panels.DataCollectionDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -85,20 +82,19 @@ import org.geogebra.web.full.gui.layout.panels.PropertiesDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.layout.scientific.ScientificSettingsView;
+import org.geogebra.web.full.gui.menubar.FileMenuW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.gui.toolbar.ToolBarW;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.util.PopupBlockAvoider;
 import org.geogebra.web.full.gui.util.ScriptArea;
-import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
-import org.geogebra.web.full.gui.view.dataCollection.DataCollectionView;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import org.geogebra.web.full.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
@@ -115,7 +111,6 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -127,7 +122,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Visibility;
 import org.geogebra.web.shared.GlobalHeader;
 
@@ -174,14 +168,7 @@ public class GuiManagerW extends GuiManager
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
 	private ToolBarW toolbarForUpdate = null;
-	private DataCollectionView dataCollectionView;
-	private VirtualKeyboardGUI onScreenKeyboard;
 	private GeoGebraFrameFull frame;
-
-	private int activeViewID;
-
-	private boolean inputBarSetFocusScheduled = false;
-	private boolean inputBarSetFocusAllowed = true;
 
 	private GOptionPaneW optionPane;
 
@@ -192,6 +179,7 @@ public class GuiManagerW extends GuiManager
 	private GGWMenuBar mainMenuBar;
 
 	private AnimatingPanel sciSettingsView;
+	private TemplateChooserController templateController;
 
 	/**
 	 *
@@ -302,7 +290,8 @@ public class GuiManagerW extends GuiManager
 	public ContextMenuGeoElementW getPopupMenu(
 			final ArrayList<GeoElement> geos) {
 		removePopup();
-		currentPopup = new ContextMenuGeoElementW(getApp(), geos);
+		currentPopup = new ContextMenuGeoElementW(getApp(), geos,
+				new ContextMenuFactory());
 		((ContextMenuGeoElementW) currentPopup).addOtherItems();
 		return (ContextMenuGeoElementW) currentPopup;
 	}
@@ -340,7 +329,7 @@ public class GuiManagerW extends GuiManager
 			final EuclidianView view, final ArrayList<GeoElement> selectedGeos,
 			final ArrayList<GeoElement> geos, final GPoint p) {
 		currentPopup = new ContextMenuChooseGeoW(getApp(), view,
-				selectedGeos, geos, p);
+				selectedGeos, geos, p, new ContextMenuFactory());
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
@@ -464,23 +453,6 @@ public class GuiManagerW extends GuiManager
 		if (hasCasView()) {
 			((CASViewW) getCasView()).updateFonts();
 		}
-		/*
-		 * ((AppW)
-		 * app).getFrameElement().getStyle().setFontSize(app.getFontSize(),
-		 * Unit.PX);
-		 *
-		 * // if (((AppW) app).getObjectPool().getGgwMenubar() != null){ //
-		 * GeoGebraMenubarW menubar = ((AppW)
-		 * app).getObjectPool().getGgwMenubar().getMenubar(); // if (menubar !=
-		 * null) menubar.updateFonts(); // }
-		 *
-		 * updateFontSizeStyleElement();
-		 *
-		 * if(hasPropertiesView()){
-		 * ((PropertiesViewW)getPropertiesView()).updateFonts(); }
-		 *
-		 * if(hasSpreadsheetView()){ getSpreadsheetView().updateFonts(); }
-		 */
 	}
 
 	@Override
@@ -504,7 +476,7 @@ public class GuiManagerW extends GuiManager
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(final int x,
 			final int y) {
-		currentPopup = new ContextMenuGraphicsWindowW(getApp(), x, y);
+		currentPopup = new ContextMenuGraphicsWindowW(getApp(), x, y, true);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
@@ -534,6 +506,7 @@ public class GuiManagerW extends GuiManager
 			} else {
 				sidePanelTab.close();
 			}
+			onToolbarVisibilityChanged(viewId, flag);
 		} else {
 			if (flag) {
 				showViewWithId(viewId);
@@ -543,11 +516,18 @@ public class GuiManagerW extends GuiManager
             getApp().dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE));
 		}
 
-		layout.getDockManager().updateVoiceover();
+		getApp().updateVoiceover();
 		getApp().closePopups();
 
 		if (sidePanel != null) {
 			sidePanel.updateUndoRedoPosition();
+		}
+	}
+
+	private void onToolbarVisibilityChanged(int viewId, boolean isVisible) {
+		DockPanel panel = layout.getDockManager().getPanel(viewId);
+		if (panel != null) {
+			panel.setVisible(isVisible);
 		}
 	}
 
@@ -646,22 +626,20 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateSpreadsheetColumnWidths() {
-		// TODO Auto-generated method stub
-		Log.debug("unimplemented");
-		// if (spreadsheetView != null) {
-		// spreadsheetView.updateColumnWidths();
-		// }
+		// unimplemented in web
 	}
 
 	@Override
 	public void resize(final int width, final int height) {
 		final Element geogebraFrame = getApp().getFrameElement();
-
-		int widthChanged = width - geogebraFrame.getOffsetWidth();
-		int heightChanged = height - geogebraFrame.getOffsetHeight();
 		int borderThickness = getApp().getArticleElement()
 				.getBorderThickness();
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
+			if (geogebraFrame.getOffsetHeight() <= 0) {
+				return; // not in DOM yet => no reliable size
+			}
+			int widthChanged = width - geogebraFrame.getOffsetWidth();
+			int heightChanged = height - geogebraFrame.getOffsetHeight();
 			final DockSplitPaneW root = getLayout().getRootComponent();
 			root.setPixelSize(root.getOffsetWidth() + widthChanged,
 					root.getOffsetHeight() + heightChanged);
@@ -692,21 +670,11 @@ public class GuiManagerW extends GuiManager
 
 			@Override
 			public void execute() {
-                getApp().centerAndResizeViews();
-				resizeKeyboard();
+				getApp().centerAndResizeViews();
+				getApp().getKeyboardManager().resizeKeyboard();
 			}
 
 		});
-	}
-
-	/**
-	 * Update keyboard size.
-	 */
-	protected void resizeKeyboard() {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard.updateSize();
-			onScreenKeyboard.setStyleName();
-		}
 	}
 
 	private ToolBarW getGeneralToolbar() {
@@ -851,8 +819,6 @@ public class GuiManagerW extends GuiManager
 		// register data analysis view
 		layout.registerPanel(new DataAnalysisViewDockPanelW(getApp()));
 
-		//register data collection view
-		layout.registerPanel(new DataCollectionDockPanelW());
 		return true;
 	}
 
@@ -960,12 +926,7 @@ public class GuiManagerW extends GuiManager
 	public AlgebraViewW getAlgebraView() {
 		if (algebraView == null) {
 			initAlgebraController();
-			algebraView = newAlgebraView(algebraController);
-			// if (!app.isApplet()) {
-			// allow drag & drop of files on algebraView
-			// algebraView.setDropTarget(new DropTarget(algebraView,
-			// new FileDropTargetListener(app)));
-			// }
+			algebraView = new AlgebraViewW(algebraController);
 		}
 
 		return algebraView;
@@ -978,19 +939,6 @@ public class GuiManagerW extends GuiManager
 		if (algebraController == null) {
 			algebraController = new AlgebraControllerW(getApp().getKernel());
 		}
-	}
-
-	/**
-	 *
-	 * @param algc
-	 *            algebra controller
-	 * @return new algebra view
-	 */
-	protected AlgebraViewW newAlgebraView(final AlgebraControllerW algc) {
-		// if (USE_COMPRESSED_VIEW) {
-		// return new CompressedAlgebraView(algc, CV_UPDATES_PER_SECOND);
-		// }
-		return new AlgebraViewW(algc);
 	}
 
 	@Override
@@ -1116,23 +1064,17 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void showPropertiesViewSliderTab() {
-		Log.debug("unimplemented");
-	}
-
-	@Override
 	public void updateGUIafterLoadFile(final boolean success,
 			final boolean isMacroFile) {
 		if (success && !isMacroFile
 				&& !getApp().getSettings().getLayout().isIgnoringDocumentLayout()) {
 
 			getLayout().setPerspectives(getApp().getTmpPerspectives(), null);
-			// SwingUtilities.updateComponentTreeUI(getLayout().getRootComponent());
 
 			if (!getApp().isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
 				if (getApp().needsSpreadsheetTableModel()) {
-					(getApp()).getSpreadsheetTableModel(); // ensure create one if
+					getApp().getSpreadsheetTableModel(); // ensure create one if
 					// not already done
 				}
 			}
@@ -1150,10 +1092,6 @@ public class GuiManagerW extends GuiManager
 			getEuclidianView2(1).updateFonts();
 		}
 
-		// if (getApp().getEuclidianView3D() != null) {
-		// ((EuclidianView3DW) (getApp().getEuclidianView3D())).doRepaint2();
-		//
-		// }
 		// force JavaScript ggbOnInit(); to be called
 		if (!getApp().isApplet()) {
 			getApp().getScriptManager().ggbOnInit();
@@ -1170,7 +1108,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public boolean noMenusOpen() {
-		Log.debug("unimplemented");
+		// unimplemented
 		return true;
 	}
 
@@ -1183,20 +1121,17 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void showGraphicExport() {
-		Log.debug("unimplemented");
-
+		// unimplemented
 	}
 
 	@Override
 	public void showPSTricksExport() {
-		Log.debug("unimplemented");
-
+		// unimplemented
 	}
 
 	@Override
 	public void showWebpageExport() {
-		Log.debug("unimplemented");
-
+		// unimplemented
 	}
 
 	@Override
@@ -1237,24 +1172,6 @@ public class GuiManagerW extends GuiManager
 	public void attachProbabilityCalculatorView() {
 		getProbabilityCalculator();
 		probCalculator.attachView();
-	}
-
-	/**
-	 * @return Data collection view
-	 */
-	public DataCollectionView getDataCollectionView() {
-		if (dataCollectionView == null) {
-			dataCollectionView = new DataCollectionView(getApp());
-			dataCollectionView.attachView();
-		}
-		return dataCollectionView;
-	}
-
-	/**
-	 * Update lists in data collection view
-	 */
-	public void updateDataCollectionView() {
-		this.dataCollectionView.updateGeoList();
 	}
 
 	@Override
@@ -1326,7 +1243,6 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void attachDataAnalysisView() {
-		Log.debug("DAMODE attachDataAnalysisView");
 		getDataAnalysisView();
 		dataAnalysisView.attachView();
 	}
@@ -1405,16 +1321,6 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void clearInputbar() {
-		Log.debug("unimplemented");
-	}
-
-	@Override
-	public Object createFrame() {
-		return null;
-	}
-
-	@Override
 	public boolean hasEuclidianView2(final int idx) {
 		if (!this.hasEuclidianView2EitherShowingOrNot(idx)) {
 			return false;
@@ -1461,9 +1367,6 @@ public class GuiManagerW extends GuiManager
 		if (propertiesView != null) {
 			((PropertiesViewW) propertiesView).setLabels();
 		}
-		if (this.dataCollectionView != null) {
-			this.dataCollectionView.setLabels();
-		}
 
 		getApp().getDialogManager().setLabels();
 		if (browseGUIwasLoaded()) {
@@ -1506,10 +1409,8 @@ public class GuiManagerW extends GuiManager
 		if (euclidianView2.get(idx) == null) {
 			final boolean[] showAxis = { true, true };
 			final boolean showGrid = false;
-			Log.debug("Creating 2nd Euclidian View");
 			final EuclidianViewW ev = newEuclidianView(showAxis, showGrid, 2);
 			euclidianView2.set(idx, ev);
-			// euclidianView2.setEuclidianViewNo(2);
 			ev.updateFonts();
 		}
 		return euclidianView2.get(idx);
@@ -1562,12 +1463,10 @@ public class GuiManagerW extends GuiManager
 		int width = size.getWidth();
 		int height = size.getHeight();
 		// check if frame fits on screen
-		Log.debug("Window resize: " + width + "," + height);
 
 		if (getApp().getDevice() != null) {
 			getApp().getDevice().resizeView(width, height);
 		}
-
 	}
 
 	@Override
@@ -1872,20 +1771,10 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void setActiveView(final int evID) {
-		this.activeViewID = evID;
 		if (layout == null || layout.getDockManager() == null) {
 			return;
 		}
 		layout.getDockManager().setFocusedPanel(evID);
-	}
-
-	/**
-	 *
-	 * @return ID of the active view
-	 * @see #setActiveView(int)
-	 */
-	public int getActiveViewID() {
-		return this.activeViewID;
 	}
 
 	@Override
@@ -1926,7 +1815,6 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void detachView(final int viewId) {
 		if (viewId == App.VIEW_FUNCTION_INSPECTOR) {
-			Log.debug("Detaching VIEW_FUNCTION_INSPECTOR");
 			getApp().getDialogManager().getFunctionInspector()
 			.setInspectorVisible(false);
 		} else {
@@ -1991,8 +1879,10 @@ public class GuiManagerW extends GuiManager
 	public void addStylebar(EuclidianView ev,
 			EuclidianStyleBar dynamicStylebar) {
 		DockPanelW dp = getLayout().getDockManager().getPanel(ev.getViewID());
-		((EuclidianDockPanelWAbstract) dp).getAbsolutePanel()
-		.add((DynamicStyleBar) dynamicStylebar);
+		AbsolutePanel absolutePanel = ((EuclidianDockPanelWAbstract) dp).getAbsolutePanel();
+		if (absolutePanel != null) {
+			absolutePanel.add((DynamicStyleBar) dynamicStylebar);
+		}
 	}
 
 	@Override
@@ -2019,45 +1909,59 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * shows the downloadDialog
+	 *
+	 * @param showDialog whether the download dialog should be shown or is it downloading directly
 	 */
 	@Override
-	public void exportGGB() {
+	public void exportGGB(boolean showDialog) {
 		final String extension = ((AppW) app).getFileExtension();
-		getOptionPane().showSaveDialog(loc.getMenu("Save"),
-				getApp().getExportTitle() + extension, null,
-				new AsyncOperation<String[]>() {
 
-					@Override
-					public void callback(String[] obj) {
-						getApp().dispatchEvent(
-								new Event(EventType.EXPORT, null, "[\""
-										+ extension.substring(1) + "\"]"));
-						if (Browser.isXWALK()) {
-							getApp().getGgbApi().getBase64(true,
-									getStringCallback(obj[1]));
-						} else if (Integer.parseInt(obj[0]) == 0) {
+		if (showDialog) {
+			getOptionPane().showSaveDialog(loc.getMenu("Save"),
+					getApp().getExportTitle() + extension, null,
+					new AsyncOperation<String[]>() {
 
-							String filename = obj[1];
+						@Override
+						public void callback(String[] obj) {
+							if (Integer.parseInt(obj[0]) == 0) {
 
-							if (filename == null || filename.trim().isEmpty()) {
-								filename = getApp().getExportTitle();
-							}
+								String filename = obj[1];
 
-							// in case user removes extension
-							if (!filename.endsWith(extension)) {
-								filename += extension;
-							}
-							if (Browser.isFirefox()) {
-								getApp().getGgbApi().getBase64(true,
-										getBase64DownloadCallback(filename));
-							} else {
-								getApp().getGgbApi().getGGBfile(true,
-									getDownloadCallback(filename));
+								if (filename == null || filename.trim().isEmpty()) {
+									filename = getApp().getExportTitle();
+								}
+
+								// in case user removes extension
+								if (!filename.endsWith(extension)) {
+									filename += extension;
+								}
+								exportGgb(filename, extension);
 							}
 						}
-					}
-				}, loc.getMenu("Save"));
+					}, loc.getMenu("Save"));
+		} else {
+			exportGGBDirectly();
+		}
+	}
+
+	private void exportGGBDirectly() {
+		String extension = ((AppW) app).getFileExtension();
+		String filename = getApp().getExportTitle() + extension;
+		exportGgb(filename, extension);
+	}
+
+	private void exportGgb(String filename, String extension) {
+		getApp().dispatchEvent(
+				new Event(EventType.EXPORT, null, "[\""
+						+ extension.substring(1) + "\"]"));
+
+		if (Browser.isFirefox()) {
+			getApp().getGgbApi().getBase64(true,
+					getBase64DownloadCallback(filename));
+		} else {
+			getApp().getGgbApi().getGGBfile(true,
+					getDownloadCallback(filename));
+		}
 	}
 
 	/**
@@ -2150,55 +2054,6 @@ public class GuiManagerW extends GuiManager
 		return "";
 	}
 
-	@Override
-	public boolean getKeyboardShouldBeShownFlag() {
-		return onScreenKeyboard != null && onScreenKeyboard.shouldBeShown();
-	}
-
-	/**
-	 * Return a keyboard and connected to given textfield.
-	 *
-	 * @param textField
-	 *            textfield adapter
-	 * @param listener
-	 *            open/close listener
-	 * @return keyboard
-	 */
-	public VirtualKeyboardGUI getOnScreenKeyboard(
-			MathKeyboardListener textField,
-			UpdateKeyBoardListener listener) {
-		if (onScreenKeyboard == null) {
-            boolean showMoreButton = app.getConfig().showKeyboardHelpButton()
-                    && !getApp().getKeyboardManager().shouldDetach();
-			onScreenKeyboard = new OnscreenTabbedKeyboard(getApp(),
-                    keyboardIsScientific(), showMoreButton);
-		}
-
-		if (textField != null) {
-			setOnScreenKeyboardTextField(textField);
-		}
-
-		onScreenKeyboard.setListener(listener);
-		return onScreenKeyboard;
-	}
-
-    private boolean keyboardIsScientific() {
-        ArticleElementInterface articleElement = ((AppW) app).getArticleElement();
-
-        if ("evaluator".equals(articleElement.getDataParamAppName())) {
-            return "scientific".equals(articleElement.getParamKeyboardType("normal"));
-        }
-
-        return app.getConfig().hasScientificKeyboard();
-    }
-
-	@Override
-	public void updateKeyboardLanguage() {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard.checkLanguage();
-		}
-	}
-
 	/**
 	 * Create keyboard adapter for text editing object.
 	 *
@@ -2234,82 +2089,6 @@ public class GuiManagerW extends GuiManager
 		}
 
 		return null;
-	}
-
-	@Override
-	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard
-				.setProcessing(
-							makeKeyboardListener(textField,
-									AlgebraItem.getLastItemProvider(app)));
-		}
-	}
-
-	@Override
-	public void onScreenEditingEnded() {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard.endEditing();
-		}
-	}
-
-	@Override
-	public boolean hasDataCollectionView() {
-		return dataCollectionView != null;
-	}
-
-	@Override
-	public void getDataCollectionViewXML(StringBuilder sb, boolean asPreference) {
-		if (hasDataCollectionView()) {
-			dataCollectionView.getXML(sb, asPreference);
-		}
-	}
-
-	/**
-	 * This is just a method for implementing the logic in
-	 * InputTreeItem.setFocus, because it might not be accessible at early a
-	 * time... I tried to do everything in one method to spare
-	 *
-	 * Comment copied from there (as earlier):
-	 *
-	 * This method should tell the Input Bar that a focus is scheduled in a
-	 * timeout or invokelater or some other method, this is important because
-	 * any intentional blur should cancel the schedule (hopefully), so:
-	 *
-	 * - setFocus shall set setFocusScheduled to false AND call the focus, in
-	 * case setFocusAllowed was true but do not call it if setFocusAllowed was
-	 * false AND setFocusScheduled was true at the same time
-	 *
-	 * - any blur event shall set setFocusAllowed to false, in case
-	 * setFocusScheduled was true (at least, it can have effect only in this
-	 * case)
-	 */
-	@Override
-	public boolean focusScheduled(boolean setNotGet,
-			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed) {
-		if (setNotGet) {
-			inputBarSetFocusScheduled = setOrGetScheduledPrioritized;
-			inputBarSetFocusAllowed = setOrGetAllowed;
-
-			// shall not be used:
-			return true;
-		} else if (setOrGetScheduledPrioritized) {
-			return inputBarSetFocusScheduled;
-		} else if (setOrGetAllowed) {
-			return inputBarSetFocusAllowed;
-		} else {
-			// strange, but we need another option of just setting
-			// one of them at once, so that focusScheduled can be called
-			// many times after one another, with also onBlur being called
-			// meanwhile, where the inputBarSetFocusAllowed shall be
-			// collected and summed all along the way, while still being
-			// in the same scheduled mode! In theory, the allowed
-			// property is set to true when the previous setFocus returns
-			inputBarSetFocusScheduled = true;
-		}
-
-		// shall not be used:
-		return true;
 	}
 
 	@Override
@@ -2375,7 +2154,7 @@ public class GuiManagerW extends GuiManager
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
 			input.autocomplete(string);
-			input.setFocus(true, true);
+			input.setFocus(true);
 			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().getTextField().autocomplete(string);
@@ -2392,7 +2171,7 @@ public class GuiManagerW extends GuiManager
 			RadioTreeItem input = getApp().getAlgebraView()
 					.getInputTreeItem();
 			input.setText(string);
-			input.setFocus(true, true);
+			input.setFocus(true);
 			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().setText(string);
@@ -2423,16 +2202,17 @@ public class GuiManagerW extends GuiManager
 	}
 
 	@Override
-	public void switchToolsToAV() {
-		getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)
-				.setToolMode(false);
+	public TemplateChooserController getTemplateController() {
+		if (templateController == null) {
+			templateController = new TemplateChooserController();
+		}
+		return templateController;
 	}
 
 	@Override
-	public void addKeyboardAutoHidePartner(GPopupPanel popup) {
-		if (onScreenKeyboard != null) {
-			onScreenKeyboard.addAutoHidePartner(popup);
-		}
+	public void switchToolsToAV() {
+		getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)
+				.setToolMode(false);
 	}
 
 	/**
@@ -2443,12 +2223,6 @@ public class GuiManagerW extends GuiManager
 		if (getApp().isUnbundled() && hasAlgebraView()) {
 			getAlgebraView().openMenuFor(geo);
 		}
-	}
-
-	@Override
-	public boolean isKeyboardClosedByUser() {
-		return this.onScreenKeyboard != null
-				&& !this.onScreenKeyboard.shouldBeShown();
 	}
 
 	@Override
@@ -2522,26 +2296,40 @@ public class GuiManagerW extends GuiManager
 		}
 	}
 
-    @Override
-    public void menuToGlobalHeader() {
-        if (GlobalHeader.isInDOM()) {
-            MenuToggleButton btn = new MenuToggleButton((AppW) app);
-            btn.setExternal(true);
-            btn.addToGlobalHeader();
-        }
-    }
+	@Override
+	public void menuToGlobalHeader() {
+		if (GlobalHeader.isInDOM()) {
+			MenuToggleButton btn = new MenuToggleButton((AppW) app);
+			btn.setExternal(true);
+			btn.addToGlobalHeader();
+		}
+	}
 
-    @Override
-    public SymbolicEditor createSymbolicEditor() {
-        return new SymbolicEditorW(app);
-    }
+	@Override
+	public void initShareActionInGlobalHeader() {
+		GlobalHeader.INSTANCE.initShareButton(new AsyncOperation<Widget>() {
 
-    /**
-     * @return Whether there is an available keyboard listener.
-     */
-    public boolean hasKeyboardListener() {
-        DockPanelW dockPanelForKeyboard = layout.getDockManager().getPanelForKeyboard();
-        MathKeyboardListener keyboardListener = getKeyboardListener(dockPanelForKeyboard);
-        return keyboardListener != null;
-    }
+			@Override
+			public void callback(Widget share) {
+				if (getApp().isMenuShowing()) {
+					getApp().toggleMenu();
+				}
+				FileMenuW.share(getApp(), share);
+			}
+		});
+	}
+
+	@Override
+	public SymbolicEditor createSymbolicEditor(EuclidianViewW view) {
+		return new SymbolicEditorW(app, view);
+	}
+
+	/**
+	 * @return with keyboard listener
+	 */
+	public MathKeyboardListener getKeyboardListener() {
+		DockPanelW dockPanelForKeyboard = layout.getDockManager().getPanelForKeyboard();
+		return getKeyboardListener(dockPanelForKeyboard);
+	}
+
 }

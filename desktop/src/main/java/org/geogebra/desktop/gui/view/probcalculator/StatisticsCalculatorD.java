@@ -317,22 +317,13 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		lblHypParameter = new JLabel();
 		lblTailType = new JLabel();
 
-		fldNullHyp = new MyTextFieldD((AppD) app);
-		fldNullHyp.setColumns(fieldWidth);
-		addActionListener(fldNullHyp);
-		((MyTextFieldD) fldNullHyp).addFocusListener(this);
+		fldNullHyp = newTextField();
 
 		lblConfLevel = new JLabel();
-		fldConfLevel = new MyTextFieldD((AppD) app);
-		fldConfLevel.setColumns(fieldWidth);
-		addActionListener(fldConfLevel);
-		((MyTextFieldD) fldNullHyp).addFocusListener(this);
+		fldConfLevel = newTextField();
 
 		lblSigma = new JLabel();
-		fldSigma = new MyTextFieldD((AppD) app);
-		fldSigma.setColumns(fieldWidth);
-		addActionListener(fldSigma);
-		((MyTextFieldD) fldNullHyp).addFocusListener(this);
+		fldSigma = newTextField();
 
 		lblSampleStat1 = new JLabel[3];
 		for (int i = 0; i < lblSampleStat1.length; i++) {
@@ -341,10 +332,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		fldSampleStat1 = new TextObject[3];
 		for (int i = 0; i < fldSampleStat1.length; i++) {
-			fldSampleStat1[i] = new MyTextFieldD((AppD) app);
-			fldSampleStat1[i].setColumns(fieldWidth);
-			addActionListener(fldSampleStat1[i]);
-			((MyTextFieldD) fldSampleStat1[i]).addFocusListener(this);
+			fldSampleStat1[i] = newTextField();
 		}
 
 		lblSampleStat2 = new JLabel[3];
@@ -354,11 +342,16 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		fldSampleStat2 = new MyTextFieldD[3];
 		for (int i = 0; i < fldSampleStat2.length; i++) {
-			fldSampleStat2[i] = new MyTextFieldD((AppD) app);
-			fldSampleStat2[i].setColumns(fieldWidth);
-			addActionListener(fldSampleStat2[i]);
-			((MyTextFieldD) fldSampleStat2[i]).addFocusListener(this);
+			fldSampleStat2[i] = newTextField();
 		}
+	}
+
+	private TextObject newTextField() {
+		MyTextFieldD ret = new MyTextFieldD((AppD) app);
+		ret.setColumns(fieldWidth);
+		addActionListener(ret);
+		ret.addFocusListener(this);
+		return ret;
 	}
 
 	@Override

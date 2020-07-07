@@ -17,11 +17,11 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.SegmentType;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Locus of points
@@ -151,11 +151,6 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 	@Override
 	protected double getChangingPointParameter(GeoSegmentND segment) {
 		return ((GeoSegment3D) segment).getParamOnLine(changingPoint);
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

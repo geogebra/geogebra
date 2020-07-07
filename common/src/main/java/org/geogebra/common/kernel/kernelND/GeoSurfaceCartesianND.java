@@ -4,8 +4,6 @@ import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -19,6 +17,8 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -860,7 +860,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	}
 
 	@Override
-	public void clearCasEvalMap(String string) {
+	public void clearCasEvalMap() {
 		// TODO Auto-generated method stub
 
 	}
@@ -884,11 +884,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public boolean hasLevelOfDetail() {
-		return true;
-	}
-
-	@Override
-	public final boolean showInAlgebraView() {
 		return true;
 	}
 

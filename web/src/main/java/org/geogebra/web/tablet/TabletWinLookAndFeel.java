@@ -29,8 +29,8 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	}
 
 	@Override
-    public Platform getPlatform(int dim, String appName) {
-        return Platform.WINDOWS_STORE;
+	public Platform getPlatform(int dim, String appName) {
+		return Platform.WINDOWS_STORE;
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	}
 
 	@Override
-	public boolean isGraphingExamSupported() {
+	public boolean isOfflineExamSupported() {
 		return true;
 	}
 

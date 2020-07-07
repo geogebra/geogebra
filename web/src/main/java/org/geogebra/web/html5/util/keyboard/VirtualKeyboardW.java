@@ -1,8 +1,9 @@
 package org.geogebra.web.html5.util.keyboard;
 
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.RequiresResize;
 
-public interface VirtualKeyboardW extends IsWidget {
+public interface VirtualKeyboardW extends IsWidget, RequiresResize {
 
 	void show();
 
@@ -22,5 +23,6 @@ public interface VirtualKeyboardW extends IsWidget {
 
     void showMoreButton();
 
-    void hideMoreButton();
+	void hideMoreButton();
+
 }

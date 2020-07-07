@@ -29,6 +29,7 @@
 package com.himamis.retex.editor.share.editor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import com.google.j2objc.annotations.Weak;
@@ -42,16 +43,20 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.io.latex.ParseException;
+import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * This class is a Math Field. Displays and allows to edit single formula.
@@ -90,6 +95,9 @@ public class MathFieldInternal
 
 	private boolean selectionMode = false;
 
+	private static final ArrayList<Integer> MATRIX_TOP_LEFT_CARET
+			= new ArrayList<>(Arrays.asList(0, 0, 0));
+
 	/**
 	 * @param mathField
 	 *            editor component
@@ -124,25 +132,37 @@ public class MathFieldInternal
 		mathField.setKeyListener(this);
 	}
 
-    /**
-     * @param size font size
-     */
-    public void setSize(double size) {
-        mathFieldController.setSize(size);
-    }
+	/**
+	 * @param size
+	 *            font size
+	 */
+	public void setSize(double size) {
+		mathFieldController.setSize(size);
+	}
 
 	/**
-     * @param type
-     *            font type
-     */
-    public void setType(int type) {
+	 * Update font size and update UI if needed
+	 * @param size font size in pixels
+	 */
+	public void setSizeAndUpdate(double size) {
+		if (size != mathFieldController.getFontSize()) {
+			mathFieldController.setSize(size);
+			update();
+		}
+	}
+
+	/**
+	 * @param type
+	 *            font type
+	 */
+	public void setType(int type) {
 		mathFieldController.setType(type);
 	}
 
 	/**
 	 * @return edited formula
-     */
-    public MathFormula getFormula() {
+	 */
+	public MathFormula getFormula() {
 		return mathFormula;
 	}
 
@@ -157,6 +177,13 @@ public class MathFieldInternal
 		editorState.setCurrentField(formula.getRootComponent());
 		editorState.setCurrentOffset(editorState.getCurrentField().size());
 		mathFieldController.update(formula, editorState, false);
+		setCaretPathIfMatrix(formula.getRootComponent());
+	}
+
+	private void setCaretPathIfMatrix(MathSequence sequence) {
+		if (sequence.isMatrix()) {
+			setCaretPath(MATRIX_TOP_LEFT_CARET);
+		}
 	}
 
 	/**
@@ -339,9 +366,9 @@ public class MathFieldInternal
 
 	/**
 	 * Notifies listener about key event and updates the view.
-     */
-    public void notifyAndUpdate() {
-        if (listener != null) {
+	 */
+	public void notifyAndUpdate() {
+		if (listener != null) {
 			listener.onKeyTyped();
 		}
 		update();
@@ -754,5 +781,30 @@ public class MathFieldInternal
 		if (currentField.size() == 1 && currentField.isOperator(0)) {
 			editorState.setCurrentOffset(0);
 		}
+	}
+
+	/**
+	 * Parse text to a formula and update content
+	 *
+	 * @param text
+	 *            ASCII math input
+	 */
+	public void parse(String text) {
+		Parser parser = new Parser(mathField.getMetaModel());
+		try {
+			MathFormula formula = parser.parse(text);
+			setFormula(formula);
+		} catch (ParseException e) {
+			FactoryProvider.debugS("Problem parsing: " + text);
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @return the contained formula serialized in the GeoGebra format
+	 */
+	public String getText() {
+		GeoGebraSerializer s = new GeoGebraSerializer();
+		return s.serialize(getFormula());
 	}
 }

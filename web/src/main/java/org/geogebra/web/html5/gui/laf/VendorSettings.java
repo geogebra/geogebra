@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui.laf;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.AppConfig;
 import org.geogebra.web.html5.gui.zoompanel.FullScreenHandler;
@@ -25,18 +27,13 @@ public interface VendorSettings {
 	 */
     String getAppTitle(AppConfig config);
 
-    /**
-     * @return view preferences
-     */
-    ViewPreferences getViewPreferences();
-
-    /**
-     * Gets helper for toggling emulated fullscreen when running in an iframe,
-     * only available for specific cases.
-     *
-     * @return helper for fullscreen or null.
-     */
-    FullScreenHandler getFullscreenHandler();
+	/**
+	 * Gets helper for toggling emulated fullscreen when running in an iframe,
+	 * only available for specific cases.
+	 * 
+	 * @return helper for fullscreen or null.
+	 */
+	FullScreenHandler getFullscreenHandler();
 
     /**
      * Returns the primary color.
@@ -66,8 +63,20 @@ public interface VendorSettings {
      */
     String getStyleName(String styleName);
 
-    /**
-     * @return the graspable mode if it's enabled or not
-     */
-    boolean isGraspableMathEnabled();
+	/**
+	*   @return the graspable mode if it's enabled or not
+	 */
+	boolean isGraspableMathEnabled();
+
+	/**
+	 *
+	 * @return the list
+	 */
+	List<FontFamily> getTextToolFonts();
+
+	/**
+	 * after session expired user will be logged out
+	 * @return if the user session can expire (only mebis)
+	 */
+	boolean canSessionExpire();
 }

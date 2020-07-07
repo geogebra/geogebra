@@ -441,7 +441,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			}
 		});
 
-		fldStep.setColumns(6);
+		fldStep.setWidthInEm(6);
     }
 
 	void changeXYStart() {
@@ -453,7 +453,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	private void createBtnAddColumn() {
-		btnAddColumn = new PopupMenuButtonW(app,
+		btnAddColumn = new PopupMenuButtonW((AppW) app,
 		        ImageOrText.convert(getModel().getColumnNames()), -1, 1,
 				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT, false) {
 			@Override
@@ -478,7 +478,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		lblInterval = new Label();
 		InputPanelW lowPanel = new InputPanelW(app, -1, false);
 		fldLow = lowPanel.getTextComponent();
-		fldLow.setColumns(6);
+		fldLow.setWidthInEm(6);
 
 		fldLow.addKeyHandler(new KeyHandler() {
 
@@ -501,7 +501,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		InputPanelW highPanel = new InputPanelW(app, -1, false);
 		fldHigh = highPanel.getTextComponent();
-		fldHigh.setColumns(6);
+		fldHigh.setWidthInEm(6);
 
 		fldHigh.addKeyHandler(new KeyHandler() {
 
@@ -609,8 +609,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void createOptionsButton() {
 		ImageOrText[] strOptions = new ImageOrText[] { new ImageOrText(
 				app.getLocalization().getMenu("CopyToSpreadsheet")) };
-		btnOptions = new PopupMenuButtonW(app, strOptions,
-		        strOptions.length, 1,
+		btnOptions = new PopupMenuButtonW((AppW) app, strOptions,
+				strOptions.length, 1,
 				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT, false);
 
 		ImageOrText icon = new ImageOrText(

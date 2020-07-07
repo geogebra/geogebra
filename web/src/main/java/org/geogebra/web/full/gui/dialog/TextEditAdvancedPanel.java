@@ -151,20 +151,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 	// =====================================================
 
 	private void createGeoListBox() {
-		// If this flag is True, it sucks on iPad. If it is false, it still
-		// sucks on iPad.
 		geoPanel = new VerticalPanel();
 		geoPanel.setWidth("100%");
 		geoPanel.setHeight("100%");
 		geoPanel.getElement().getStyle().setBorderStyle(BorderStyle.NONE);
-		//geoPanel.setVisibleItemCount(10);
-
-		/*geoPanel.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				String label = geoPanel.getItemText(geoPanel.getSelectedIndex());
-				editPanel.insertGeoElement(app.getKernel().lookupLabel(label));
-			}
-		});*/
 	}
 
 	/**
@@ -248,19 +238,19 @@ public class TextEditAdvancedPanel extends TabLayoutPanel implements SetLabels {
 
 		addTable(TableSymbols.basicSymbols(loc, map), false,
 		        defaultRowSize, false);
-		addTable(TableSymbols.operators, false, defaultRowSize, true);
+		addTable(TableSymbols.OPERATORS, false, defaultRowSize, true);
 		addTable(TableSymbols.greekLettersPlusVariants(), false,
 		        defaultRowSize, true);
-		addTable(TableSymbols.analysis, false, defaultRowSize, true);
-		addTable(TableSymbols.sets, false, defaultRowSize, true);
-		addTable(TableSymbols.logical, false, defaultRowSize, true);
-		addTable(TableSymbols.sub_superscripts, false, defaultRowSize, true);
-		addTable(TableSymbols.basic_arrows, false, defaultRowSize, true);
-		addTable(TableSymbols.otherArrows, false, defaultRowSize, true);
-		addTable(TableSymbols.geometricShapes, false, defaultRowSize, true);
-		addTable(TableSymbols.games_music, false, defaultRowSize, true);
-		addTable(TableSymbols.currency, false, defaultRowSize, true);
-		addTable(TableSymbols.handPointers, false, defaultRowSize, true);
+		addTable(TableSymbols.ANALYSIS, false, defaultRowSize, true);
+		addTable(TableSymbols.SETS, false, defaultRowSize, true);
+		addTable(TableSymbols.LOGICAL, false, defaultRowSize, true);
+		addTable(TableSymbols.SUB_SUPERSCRIPTS, false, defaultRowSize, true);
+		addTable(TableSymbols.BASIC_ARROWS, false, defaultRowSize, true);
+		addTable(TableSymbols.OTHER_ARROWS, false, defaultRowSize, true);
+		addTable(TableSymbols.GEOMETRIC_SHAPES, false, defaultRowSize, true);
+		addTable(TableSymbols.GAMES_MUSIC, false, defaultRowSize, true);
+		addTable(TableSymbols.CURRENCY, false, defaultRowSize, true);
+		addTable(TableSymbols.HAND_POINTERS, false, defaultRowSize, true);
 
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
@@ -12,9 +13,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Coords3;
-import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -27,6 +25,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords3;
+import org.geogebra.common.kernel.matrix.CoordsDouble3;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -221,8 +222,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 	}
 
 	private void setTolerances() {
-
-		maxRWPixelDistance = getView3D().getMaxPixelDistance();
+		maxRWPixelDistance = CurvePlotter.MAX_PIXEL_DISTANCE;
 
 		// set sizes
 		switch (levelOfDetail) {
@@ -234,7 +234,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		case QUALITY:
 			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
 			maxRWDistance = 2 * maxRWPixelDistance;
-			maxBend = getView3D().getMaxBend();
+			maxBend = CurvePlotter.MAX_BEND;
 			break;
 		}
 

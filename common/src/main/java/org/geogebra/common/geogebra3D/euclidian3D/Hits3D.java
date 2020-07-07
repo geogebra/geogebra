@@ -105,11 +105,6 @@ public class Hits3D extends Hits {
 	}
 
 	@Override
-	protected Hits newHits() {
-		return new Hits3D();
-	}
-
-	@Override
 	public boolean add(GeoElement geo) {
 
 		if (geo == null) {
@@ -366,6 +361,16 @@ public class Hits3D extends Hits {
 	@Override
 	protected Hits createNewHits() {
 		return new Hits3D();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
 	}
 
 }

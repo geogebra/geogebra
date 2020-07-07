@@ -36,9 +36,9 @@ import org.geogebra.common.util.debug.Log;
  * MyList is used to store a list of ExpressionNode objects read by the parser
  * and to evaluate them. So a MyList object is used when a list is entered (e.g.
  * {2, 3, 7, 9}) and also when a list is used for arithmetic operations.
- * 
+ *
  * @see ExpressionNode#evaluate(StringTemplate)
- * 
+ *
  * @author Markus Hohenwarter
  */
 public class MyList extends ValidExpression
@@ -55,7 +55,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Creates new MyList
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 */
@@ -65,7 +65,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Creates new MyList of given length
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param size
@@ -78,7 +78,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Create new MyList
-	 * 
+	 *
 	 * @param kernel
 	 *            kernel
 	 * @param isFlatList
@@ -96,7 +96,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Adds expression value to the list
-	 * 
+	 *
 	 * @param arg
 	 *            element to add
 	 */
@@ -108,7 +108,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Tries to return this list as an array of double values
-	 * 
+	 *
 	 * @return array of double values from this list
 	 */
 	@Override
@@ -128,7 +128,7 @@ public class MyList extends ValidExpression
 	/**
 	 * Replaces all Variable objects with the given varName in this list by the
 	 * given FunctionVariable object.
-	 * 
+	 *
 	 * @param varName
 	 *            variable name
 	 * @param fVar
@@ -157,9 +157,9 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Applies an operation to this list using the given value:
-	 * 
+	 *
 	 * [this] [operation] [value].
-	 * 
+	 *
 	 * @param operation
 	 *            int value like ExpressionNode.MULTIPLY
 	 * @param value
@@ -176,9 +176,9 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Applies an operation to this list using the given value:
-	 * 
+	 *
 	 * [value] [operation] [this].
-	 * 
+	 *
 	 * @param operation
 	 *            int value like ExpressionNode.MULTIPLY
 	 * @param value
@@ -248,7 +248,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Applies an operation to this list using the given value.
-	 * 
+	 *
 	 * @param operation
 	 *            int value like ExpressionNode.MULTIPLY
 	 * @param value
@@ -499,7 +499,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * @return 0 if not a matrix
-	 * 
+	 *
 	 * @author Michael Borcherds
 	 */
 	public int getMatrixRows() {
@@ -516,7 +516,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * @return 0 if not a matrix
-	 * 
+	 *
 	 * @author Michael Borcherds
 	 */
 	public int getMatrixCols() {
@@ -533,7 +533,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Inverts matrix (doesn't do any internal changes)
-	 * 
+	 *
 	 * @return inversion of this
 	 */
 	public MyList invert() {
@@ -759,7 +759,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Adapted from GeoList
-	 * 
+	 *
 	 * @param tpl
 	 *            output template
 	 * @param valueMode
@@ -771,7 +771,14 @@ public class MyList extends ValidExpression
 	 */
 	public String toString(StringTemplate tpl, boolean valueMode,
 			boolean printBrackets) {
+		if (tpl.getStringType() == ExpressionNodeConstants.StringType.LATEX && isMatrix()) {
+			return toMatrixString(tpl);
+		} else {
+			return toFlatString(tpl, valueMode, printBrackets);
+		}
+	}
 
+	private String toFlatString(StringTemplate tpl, boolean valueMode, boolean printBrackets) {
 		StringBuilder sb = new StringBuilder();
 
 		if (printBrackets) {
@@ -785,7 +792,7 @@ public class MyList extends ValidExpression
 				sb.append(valueMode ? exp.toOutputValueString(tpl)
 						: exp.toString(tpl)); // .toOutputValueString());
 				sb.append(kernel.getLocalization().getComma());
-				sb.append(" ");
+				tpl.appendOptionalSpace(sb);
 			}
 
 			// last element
@@ -796,6 +803,32 @@ public class MyList extends ValidExpression
 		if (printBrackets) {
 			tpl.rightCurlyBracket(sb);
 		}
+		return sb.toString();
+	}
+
+	private String toMatrixString(StringTemplate tpl) {
+		ExpressionValue e0 = listElements.get(0).unwrap();
+		final int cols = e0 instanceof MyList ? ((MyList) e0).size() : 1;
+
+		final StringBuilder sb = new StringBuilder();
+
+		sb.append("\\left(\\begin{array}{");
+		// eg rr
+		for (int i = 0; i < cols; i++) {
+			sb.append('r');
+		}
+		sb.append("}");
+		for (int i = 0; i < size(); i++) {
+			final MyList geo = (MyList) listElements.get(i).unwrap();
+			for (int j = 0; j < geo.size(); j++) {
+				sb.append(geo.getListElement(j).unwrap().toLaTeXString(true, tpl));
+				if (j < (geo.size() - 1)) {
+					sb.append("&");
+				}
+			}
+			sb.append("\\\\");
+		}
+		sb.append(" \\end{array}\\right)");
 		return sb.toString();
 	}
 
@@ -824,7 +857,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Replaces element for given index, index must be within (0, length -1)
-	 * 
+	 *
 	 * @param i
 	 *            index (0 based)
 	 * @param ev
@@ -874,7 +907,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Deep copy, except for geo elements
-	 * 
+	 *
 	 * @param kernel1
 	 *            kernel for result
 	 * @return deep copy, except for geo elements
@@ -1105,7 +1138,7 @@ public class MyList extends ValidExpression
 	/**
 	 * Computes vector product of this and other list, the result is stored in
 	 * this list
-	 * 
+	 *
 	 * @param list
 	 *            other list
 	 */
@@ -1176,7 +1209,7 @@ public class MyList extends ValidExpression
 
 	/**
 	 * Same as deep copy, but doesn't deep copy elements
-	 * 
+	 *
 	 * @param kernel2
 	 *            kernel
 	 * @return copy of this list

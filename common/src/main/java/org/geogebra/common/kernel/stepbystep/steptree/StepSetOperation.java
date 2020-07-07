@@ -105,7 +105,7 @@ public class StepSetOperation extends StepLogical implements Iterable<StepLogica
 		}
 
 		if (isSetOperation(SetOperation.INTERSECT) || isSetOperation(SetOperation.UNION)) {
-            Collections.sort(operands, new Comparator<StepLogical>() {
+			Collections.sort(operands, new Comparator<StepLogical>() {
 				@Override
 				public int compare(StepLogical o1, StepLogical o2) {
 					return o1.hashCode() - o2.hashCode();

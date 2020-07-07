@@ -22,8 +22,18 @@ public interface StylesProvider {
      */
     SassResource openScreenStyle();
 
-    /**
-     * @return dialogStylesScss resource
-     */
-    SassResource dialogStylesScss();
+	/**
+	 * @return dialogStylesScss resource
+	 */
+	SassResource dialogStylesScss();
+
+	/**
+	 * @return settingsStyles resources
+	 */
+	SassResource settingsStyleScss();
+
+	/**
+	 * @return componentStyles resources
+	 */
+	SassResource componentStyles();
 }

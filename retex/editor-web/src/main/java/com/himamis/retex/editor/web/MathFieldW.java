@@ -36,8 +36,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -54,21 +53,18 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.ExpressionReader;
-import com.himamis.retex.editor.share.editor.FormatConverter;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldAsync;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.editor.SyntaxAdapter;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
-import com.himamis.retex.editor.share.io.latex.ParseException;
-import com.himamis.retex.editor.share.io.latex.Parser;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.serializer.GeoGebraSerializer;
 import com.himamis.retex.editor.share.serializer.ScreenReaderSerializer;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -82,10 +78,11 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 
-public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
+public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHandler {
 
     public static final int SCROLL_THRESHOLD = 14;
 	protected static MetaModel sMetaModel = new MetaModel();
+	private MetaModel metaModel;
 
 	private MathFieldInternal mathFieldInternal;
 	private Canvas html;
@@ -109,21 +106,21 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	private double scale = 1.0;
 
-	private FocusHandler focusHandler;
-
-	private FormatConverter converter;
+	private SyntaxAdapter converter;
 
 	private ExpressionReader expressionReader;
 
-	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
+	private static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
-    private String foregroundCssColor = "#000000";
-    private String backgroundCssColor = "#ffffff";
+	private String foregroundCssColor = "#000000";
+	private String backgroundCssColor = "#ffffff";
+	private ChangeHandler changeHandler;
+	private int fixMargin = 0;
+	private int minHeight = 0;
 
 	/**
-	 * 
 	 * @param converter
 	 *            latex/mathml-&lt; ascii math converter (optional)
 	 * @param parent
@@ -135,15 +132,33 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 * @param directFormulaBuilder
 	 *            whether to convert content into JLM atoms directly without
 	 *            reparsing
-	 * @param fh
-	 *            focus handler
 	 */
-	public MathFieldW(FormatConverter converter, Panel parent, Canvas canvas,
-			MathFieldListener listener, boolean directFormulaBuilder,
-			FocusHandler fh) {
+	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
+					  MathFieldListener listener, boolean directFormulaBuilder) {
+		this(converter, parent, canvas, listener, directFormulaBuilder, sMetaModel);
+	}
+
+	/**
+	 *
+	 * @param converter
+	 *            latex/mathml-&lt; ascii math converter (optional)
+	 * @param parent
+	 *            parent element
+	 * @param canvas
+	 *            drawing context
+	 * @param listener
+	 *            listener for special events
+	 * @param directFormulaBuilder
+	 *            whether to convert content into JLM atoms directly without
+	 *            reparsing
+	 * @param metaModel
+	 *            model
+	 */
+	public MathFieldW(SyntaxAdapter converter, Panel parent, Canvas canvas,
+			MathFieldListener listener, boolean directFormulaBuilder, MetaModel metaModel) {
 
 		this.converter = converter;
-
+		this.metaModel = metaModel;
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
@@ -151,6 +166,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		bottomOffset = 10;
 		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this, directFormulaBuilder);
+		mathFieldInternal.getInputController().setFormatConverter(converter);
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);
@@ -158,7 +174,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			this.ctx = canvas.getContext2d();
 		}
 		SelectionBox.touchSelection = false;
-
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setType(TeXFont.SANSSERIF);
@@ -186,9 +201,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			}
 		}, MouseDownEvent.getType());
 
-		this.focusHandler = fh;
-
-        setKeyListener(inputTextArea, keyListener);
+		setKeyListener(inputTextArea, keyListener);
 	}
 
 	/**
@@ -203,22 +216,40 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            label for assistive technology
 	 */
 	public void setAriaLabel(String label) {
-		if ((mobileBrowser() || isMacOS() || isIE()) && !"".equals(label)) {
+		Element target = getElementForAriaLabel();
+		if (target != null) {
+			target.setAttribute("aria-label", label);
+		}
+	}
+
+	private Element getElementForAriaLabel() {
+		if ((mobileBrowser() || isMacOS() || isIE())) {
 			// mobile Safari: alttext is connected to parent so that screen
 			// reader doesn't read "dimmed" for the textarea
-            FactoryProvider.debugS(label);
-			if (!"textbox".equals(parent.getElement().getAttribute("role"))) {
-				parent.getElement().setAttribute("aria-live", "assertive");
-				parent.getElement().setAttribute("aria-atomic", "true");
-				parent.getElement().setAttribute("role", "textbox");
+			Element parentElement = parent.getElement();
+			if (!"textbox".equals(parentElement.getAttribute("role"))) {
+				parentElement.setAttribute("aria-live", "assertive");
+				parentElement.setAttribute("aria-atomic", "true");
+				parentElement.setAttribute("role", "textbox");
 			}
 
-			parent.getElement().setAttribute("aria-label", label);
-			return;
+			return parentElement;
 		}
-        if (inputTextArea != null) {
-            inputTextArea.getElement().setAttribute("aria-label", label);
+		if (inputTextArea != null) {
+			return inputTextArea.getElement();
 		}
+		return null;
+	}
+
+	/**
+	 * @return aria label
+	 */
+	public String getAriaLabel() {
+		Element target = getElementForAriaLabel();
+		if (target != null) {
+			return target.getAttribute("aria-label");
+		}
+		return "";
 	}
 
 	/**
@@ -372,7 +403,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 				int code = convertToJavaKeyCode(event.getNativeEvent());
 				boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
 						getModifiers(event), getChar(event.getNativeEvent())));
-
 				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
 				if (code == JavaKeyCodes.VK_LEFT
 						|| code == JavaKeyCodes.VK_RIGHT) {
@@ -401,6 +431,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		if (expressionReader != null) {
 			setAriaLabel(this.mathFieldInternal.getEditorState()
 					.getDescription(expressionReader));
+		} else {
+			FactoryProvider.debugS("no reader");
 		}
 	}
 
@@ -536,7 +568,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	@Override
 	public MetaModel getMetaModel() {
-		return sMetaModel;
+		return metaModel;
+	}
+
+	public void setMetaModel(MetaModel model) {
+		this.metaModel = model;
 	}
 
 	@Override
@@ -548,26 +584,24 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 * Actually repaint the content (repaint() is ignored in Web
 	 * implementation).
 	 */
-    public void repaintWeb() {
-        if (lastIcon == null) {
-            return;
-        }
-        if (!active(inputTextArea.getElement()) && isEdited()) {
-            inputTextArea.getElement().focus();
-        }
-        final double height = computeHeight(lastIcon);
-        final double width = roundUp(lastIcon.getIconWidth() + 30);
-        ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
-        ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
+	public void repaintWeb() {
+		if (lastIcon == null) {
+			return;
+		}
+		if (!active(inputTextArea.getElement()) && isEdited()) {
+			inputTextArea.getElement().focus();
+		}
+		final double height = computeHeight(lastIcon);
+		final double width = roundUp(lastIcon.getIconWidth() + 30);
+		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
+		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
-        ctx.setFillStyle(backgroundCssColor);
-        ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
-        JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),
-                backgroundCssColor, null, ratio);
-    }
+		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),
+				backgroundCssColor, null, ratio);
+	}
 
-    private boolean isEdited() {
-        return instances.contains(this);
+	private boolean isEdited() {
+		return instances.contains(this);
 	}
 
 	private static boolean mobileBrowser() {
@@ -576,13 +610,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	private double computeHeight(TeXIcon lastIcon2) {
 		int margin = getMargin(lastIcon2);
-		return roundUp(lastIcon2.getIconHeight() + margin + bottomOffset);
+		return Math.max(roundUp(lastIcon2.getIconHeight() + margin + bottomOffset), minHeight);
 	}
 
 	private int getMargin(TeXIcon lastIcon2) {
-		return (int) Math.max(0, roundUp(-lastIcon2.getTrueIconHeight()
-				+ lastIcon2.getTrueIconDepth()
-				+ getFontSize()));
+		return fixMargin > 0 ? fixMargin : (int) Math.max(0,
+				roundUp(-lastIcon2.getTrueIconHeight()
+						+ lastIcon2.getTrueIconDepth()
+						+ getFontSize()));
 	}
 
 	private native boolean active(Element element) /*-{
@@ -607,7 +642,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	@Override
 	public void hideCopyPasteButtons() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -619,19 +653,18 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	@Override
 	public void showCopyPasteButtons() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void scroll(int dx, int dy) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void fireInputChangedEvent() {
-		// TODO Auto-generated method stub
-
+		if (changeHandler != null) {
+			changeHandler.onChange(null);
+		}
 	}
 
 	@Override
@@ -667,9 +700,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private void setFocus(boolean focus, final Runnable callback) {
 		if (focus) {
 			startBlink();
-			if (focusHandler != null) {
-				focusHandler.onFocus(null);
-			}
 			focuser = new Timer() {
 
 				@Override
@@ -708,21 +738,19 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	protected void onFocusTimer() {
 		BlurHandler oldBlur = this.onTextfieldBlur;
 		onTextfieldBlur = null;
+		// set focused flag before update to make sure cursor is rendered
+		focused = true;
 		mathFieldInternal.update();
 		// first focus canvas to get the scrolling right
 		html.getElement().focus();
 
-		if (focusHandler != null) {
-			focusHandler.onFocus(null);
-		}
 		// after set focus to the keyboard listening element
 		focusTextArea();
 		onTextfieldBlur = oldBlur;
 	}
 
 	private void focusTextArea() {
-        inputTextArea.getElement().focus();
-
+		inputTextArea.getElement().focus();
 		if (html.getElement().getParentElement() != null) {
 			html.getElement().getParentElement().setScrollTop(0);
 		}
@@ -805,6 +833,24 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		KeyboardInputAdapter.insertString(mathFieldInternal, text);
 	}
 
+	/**
+	 * add derivative and move cursor back before /
+	 * @param text - d/dx
+	 */
+	public void handleDerivative(String text) {
+		String[] parts = text.split("/");
+		insertString(parts[0]);
+		insertFunction("frac");
+		insertString(parts[1]);
+		pressKeyLeft();
+		pressKeyLeft();
+		pressKeyLeft();
+	}
+
+	private void pressKeyLeft() {
+		getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT));
+	}
+
 	private Element getHiddenTextArea() {
 		if (clip == null) {
 			clip = new SimplePanel();
@@ -814,28 +860,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
             inputTextArea.addCompositionUpdateHandler(
                     new EditorCompositionHandler(this));
 
-            inputTextArea.addFocusHandler(new FocusHandler() {
-
-				@Override
-				public void onFocus(FocusEvent event) {
-					startBlink();
-					event.stopPropagation();
-
-				}
+			inputTextArea.addFocusHandler(event -> {
+				startBlink();
+				event.stopPropagation();
 			});
 
-            inputTextArea.addBlurHandler(new BlurHandler() {
-
-				@Override
-				public void onBlur(BlurEvent event) {
-					instances.remove(MathFieldW.this);
-					resetFlags();
-					event.stopPropagation();
-					runBlurCallback(event);
-
-				}
-			});
-            clip.setWidget(inputTextArea);
+			if (html != null) {
+				html.addBlurHandler(this);
+			}
+			inputTextArea.addBlurHandler(this);
+			clip.setWidget(inputTextArea);
 		}
 		if (parent != null) {
 			parent.add(clip);
@@ -844,9 +878,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
         return inputTextArea.getElement();
 	}
 
-	// private native void logNative(String s) /*-{
-	// $wnd.console.log(s);
-	// }-*/;
+	@Override
+	public void onBlur(BlurEvent event) {
+		instances.remove(this);
+		resetFlags();
+		event.stopPropagation();
+		runBlurCallback(event);
+	}
 
 	/**
 	 * Run blur callback.
@@ -893,8 +931,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			hiddenTextArea.style.minHeight = 0;
 			hiddenTextArea.style.height = "1px";//prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);
-			if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-					.test(window.navigator.userAgent)) {
+			if (@org.geogebra.web.html5.Browser::isMobile()()) {
 				hiddenTextArea.setAttribute("disabled", "true");
 			}
 		}
@@ -924,8 +961,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 *            font size
 	 */
 	public void setFontSize(double size) {
-		this.mathFieldInternal.setSize(size);
-		this.mathFieldInternal.update();
+		mathFieldInternal.setSizeAndUpdate(size);
 	}
 
 	/**
@@ -1040,18 +1076,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		this.leftAltDown = leftAltDown;
 	}
 
-	private static void parseText(String text0, MathFieldW mf) {
-		Parser parser = new Parser(mf.getMetaModel());
-		MathFormula formula;
-		try {
-			formula = parser.parse(text0);
-			mf.setFormula(formula);
-		} catch (ParseException e) {
-            FactoryProvider.debugS("Problem parsing: " + text0);
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * In plain mode just fill with text (linear), otherwise parse math (ASCII
 	 * math syntax) into the editor.
@@ -1063,11 +1087,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 */
 	public void setText(String text0, boolean asPlainText) {
 		if (asPlainText) {
-			parseText("", this);
+			mathFieldInternal.parse("");
 			setPlainTextMode(true);
 			insertString(text0);
 		} else {
-			parseText(text0, this);
+			mathFieldInternal.parse(text0);
 		}
 	}
 
@@ -1075,19 +1099,19 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 * @return text in GGB syntax
 	 */
 	public String getText() {
-		GeoGebraSerializer s = new GeoGebraSerializer();
-		return s.serialize(getFormula());
+		return mathFieldInternal.getText();
 	}
 
 	/**
-	 * @param er
-	 *            expression reader
 	 * @return description for screen reader
 	 */
-	public String getDescription(ExpressionReader er) {
-		mathFieldInternal.getEditorState();
-		return ScreenReaderSerializer.fullDescription(er,
+	public String getDescription() {
+		if (expressionReader != null) {
+			return ScreenReaderSerializer.fullDescription(
+					expressionReader,
 				mathFieldInternal.getEditorState().getRootComponent());
+		}
+		return "";
 	}
 
 	/**
@@ -1116,28 +1140,54 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return mathFieldInternal;
 	}
 
-    /**
-     * @return textarea
-     */
-    public MyTextArea getInputTextArea() {
-        return inputTextArea;
-    }
+	/**
+	 * @return textarea
+	 */
+	public MyTextArea getInputTextArea() {
+		return inputTextArea;
+	}
 
-    /**
-     * Sets foreground color in rgba(r, g, b, a) format.
-     *
-     * @param cssColor to set.
-     */
-    public void setForegroundCssColor(String cssColor) {
-        this.foregroundCssColor = cssColor;
-    }
+	/**
+	 * Sets foreground color in rgba(r, g, b, a) format.
+	 *
+	 * @param cssColor
+	 * 			to set.
+	 */
+	public void setForegroundCssColor(String cssColor) {
+		this.foregroundCssColor = cssColor;
+	}
 
-    /**
-     * Sets background color in #rrggbb format.
-     *
-     * @param cssColor to set.
-     */
-    public void setBackgroundCssColor(String cssColor) {
-        this.backgroundCssColor = cssColor;
-    }
+	/**
+	 * Sets background color in #rrggbb format.
+	 *
+	 * @param cssColor
+	 * 			to set.
+	 */
+	public void setBackgroundCssColor(String cssColor) {
+		this.backgroundCssColor = cssColor;
+	}
+
+	/**
+	 * @param changeHandler
+	 *            change event handler
+	 */
+	public void setChangeListener(ChangeHandler changeHandler) {
+		this.changeHandler = changeHandler;
+	}
+
+	/**
+	 * sets a fix margin of the mathfield, only used when bigger than 0
+	 * @param fixMargin value of the fix margin
+	 */
+	public void setFixMargin(int fixMargin) {
+		this.fixMargin = fixMargin;
+	}
+
+	/**
+	 * sets a minimum height of the mathfield, only used when bigger than 0
+	 * @param minHeight value of the minimum height
+	 */
+	public void setMinHeight(int minHeight) {
+		this.minHeight = minHeight;
+	}
 }

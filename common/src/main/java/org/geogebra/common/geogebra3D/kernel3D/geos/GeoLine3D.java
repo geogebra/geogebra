@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -15,6 +14,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ExtendedBoolean;
 
@@ -396,11 +396,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 	 * 
 	 * }
 	 */
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
-	}
 
 	@Override
 	public boolean isParametric() {

@@ -52,8 +52,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
@@ -92,6 +90,8 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SchedulerFactory;
@@ -171,8 +171,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private Coords tmpCoords2 = new Coords(4);
 	private Coords tmpCoordsForOrigin = new Coords(4);
 	private Coords tmpCoordsForDirection = new Coords(4);
-
-	protected double startPointZ;
 
 	private Hits3D goodHits;
 	/**
@@ -3089,38 +3087,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	// /////////////////////////////////////////
-	// PASTE PREVIEW
-
-	@Override
-	protected void updatePastePreviewPosition() {
-		GeoPoint3D p = view3D.getCursor3D();
-		if (translationVec3D == null) {
-			translationVec3D = new Coords(3);
-		}
-		translationVec3D.setX(p.getInhomX() - getStartPointX());
-		translationVec3D.setY(p.getInhomY() - getStartPointY());
-		translationVec3D.setZ(p.getInhomZ() - getStartPointZ());
-		setStartPointLocation(p.getInhomX(), p.getInhomY(), p.getInhomZ());
-		if (tmpCoordsL3 == null) {
-			tmpCoordsL3 = new Coords(3);
-		}
-		tmpCoordsL3.setX(p.getInhomX());
-		tmpCoordsL3.setY(p.getInhomY());
-		tmpCoordsL3.setZ(p.getInhomZ());
-		MoveGeos.moveObjects(pastePreviewSelected, translationVec3D,
-				tmpCoordsL3, view3D.getViewDirection(), view3D);
-	}
-
-	protected double getStartPointZ() {
-		return startPointZ;
-	}
-
-	protected void setStartPointLocation(double x, double y, double z) {
-		setStartPointLocation(x, y);
-		startPointZ = z;
-	}
-
-	// /////////////////////////////////////////
 	// SELECTIONS
 
 	// /////////////////////////////////////////
@@ -3591,7 +3557,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            source geo
 	 */
 	public void setStartPointLocation(GeoElement source) {
-		udpateStartPoint(source);
+		updateStartPoint(source);
 		super.setStartPointLocation();
 	}
 
@@ -3601,7 +3567,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param source
 	 *            source geo for start
 	 */
-	protected void udpateStartPoint(GeoElement source) {
+	protected void updateStartPoint(GeoElement source) {
 		if (mouseLoc == null) {
 			return;
 		}
@@ -3700,7 +3666,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void setStartPointLocationWithOrigin(double x, double y) {
-		udpateStartPoint(null);
+		updateStartPoint(null);
 		// sub origin
 		startPoint3DxOy.setX(startPoint3DxOy.getX() - x);
 		startPoint3DxOy.setY(startPoint3DxOy.getY() - y);
@@ -4069,7 +4035,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected final void processSelectionRectangle(boolean alt,
+	public final void processSelectionRectangle(boolean alt,
 			boolean isControlDown, boolean shift) {
 		// TODO implement this
 	}

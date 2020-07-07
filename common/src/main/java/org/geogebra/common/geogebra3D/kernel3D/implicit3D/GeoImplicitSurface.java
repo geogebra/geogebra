@@ -6,9 +6,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Coords3;
-import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -27,6 +24,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords3;
+import org.geogebra.common.kernel.matrix.CoordsDouble3;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -383,11 +383,6 @@ public class GeoImplicitSurface extends GeoElement3D
 	@Override
 	public String toString(StringTemplate tpl) {
 		return label + ": " + toValueString(tpl);
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
 	}
 
 	@Override
@@ -966,7 +961,7 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	@Override
-	public boolean setTypeFromXML(String style, String parameter) {
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
 		return false;
 	}
 

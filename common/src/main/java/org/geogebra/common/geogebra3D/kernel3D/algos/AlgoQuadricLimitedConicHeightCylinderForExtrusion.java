@@ -50,4 +50,8 @@ public class AlgoQuadricLimitedConicHeightCylinderForExtrusion extends
 		return getTopFace();
 	}
 
+	@Override
+	public void setOutputPointsEuclidianVisible(boolean b) {
+		super.setOutputPointsEuclidianVisible(b);
+	}
 }

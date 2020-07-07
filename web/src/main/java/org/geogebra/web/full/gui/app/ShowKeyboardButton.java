@@ -14,13 +14,11 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.util.TestHarness;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A PopupPanel in the bottom left corner of the application which represents a
@@ -37,11 +35,12 @@ public class ShowKeyboardButton extends SimplePanel {
 	 *            app
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
-                              final DockManagerW dm, final AppWFull app) {
+			final DockManagerW dm, final AppWFull app) {
 		this.addStyleName("matOpenKeyboardBtn");
 		NoDragImage showKeyboard = new NoDragImage(KeyboardResources.INSTANCE
 				.keyboard_show_material().getSafeUri().asString());
 		this.add(showKeyboard);
+		TestHarness.setAttr(this, "showKeyboardButton");
 
 		if (listener instanceof ComplexPanel) {
 			((ComplexPanel) listener).add(this);
@@ -55,12 +54,11 @@ public class ShowKeyboardButton extends SimplePanel {
 						new Date(System.currentTimeMillis()
 								+ 1000 * 60 * 60 * 24 * 365));
 				DockPanelW panel = dm.getPanelForKeyboard();
-                GuiManagerW guiManagerW = app.getGuiManager();
-                final MathKeyboardListener mathKeyboardListener = guiManagerW
-                        .getKeyboardListener(panel);
+				GuiManagerW guiManagerW = app.getGuiManager();
+				final MathKeyboardListener mathKeyboardListener = guiManagerW
+						.getKeyboardListener(panel);
 						
-				if (!app.isWhiteboardActive()
-						&& (panel instanceof AlgebraPanelInterface)) {
+				if (panel instanceof AlgebraPanelInterface) {
 					listener.doShowKeyBoard(true,
 							((AlgebraPanelInterface) panel)
 									.updateKeyboardListener(
@@ -69,46 +67,15 @@ public class ShowKeyboardButton extends SimplePanel {
 					listener.doShowKeyBoard(true, mathKeyboardListener);
 				}
 
-                if (guiManagerW.hasSpreadsheetView()) {
-                    guiManagerW.getSpreadsheetView().setKeyboardEnabled(true);
-                }
+				if (guiManagerW.hasSpreadsheetView()) {
+					guiManagerW.getSpreadsheetView().setKeyboardEnabled(true);
+				}
 
-                // TODO: check why scheduleFixedDelay is needed,
-                // would not scheduleDeferred or something like that better?
-                // but it's probably Okay, as the method returns false
-
-                guiManagerW.focusScheduled(false, false, false);
-
-                Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
-
-                    @Override
-                    public boolean execute() {
-                        if (mathKeyboardListener != null) {
-                            mathKeyboardListener.ensureEditing();
-                            mathKeyboardListener.setFocus(true, true);
-                        }
-                        return false;
-                    }
-                }, 0);
+				if (mathKeyboardListener != null) {
+					mathKeyboardListener.ensureEditing();
+					mathKeyboardListener.setFocus(true);
+				}
 			}
 		});
-	}
-
-	/**
-	 * 
-	 * @param show
-	 *            {@code true} to show the button to open the OnScreenKeyboard
-	 * @param textField
-	 *            {@link Widget} to receive the text input
-	 */
-	public void show(boolean show, MathKeyboardListener textField) {
-        setVisible(show);
-	}
-
-	/**
-	 * Hide the button
-	 */
-	public void hide() {
-		setVisible(false);
 	}
 }

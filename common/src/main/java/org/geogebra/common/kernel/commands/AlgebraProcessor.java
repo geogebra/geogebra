@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import org.geogebra.common.gui.inputfield.InputHelper;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -39,6 +37,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.algos.AlgoDependentVector;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLaTeX;
+import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -60,18 +59,18 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.Traversing.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
-import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.arithmetic.traversing.SqrtMinusOneReplacer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -89,10 +88,14 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.HasArbitraryConstant;
+import org.geogebra.common.kernel.geos.HasExtendedAV;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
@@ -170,11 +173,12 @@ public class AlgebraProcessor {
 
 	/** TODO use the selector from CommandDispatcher instead. */
 	@Deprecated
-	private CommandNameFilter noCASfilter;
+	private CommandFilter noCASfilter;
 
 	private SymbolicProcessor symbolicProcessor;
 	private CommandSyntax localizedCommandSyntax;
 	private CommandSyntax englishCommandSyntax;
+	private SqrtMinusOneReplacer sqrtMinusOneReplacer;
 
 	/**
 	 * @param kernel
@@ -191,6 +195,7 @@ public class AlgebraProcessor {
 		loc = app.getLocalization();
 		parser = kernel.getParser();
 		setEnableStructures(app.getConfig().isEnableStructures());
+		sqrtMinusOneReplacer = new SqrtMinusOneReplacer(kernel);
 	}
 
 	/**
@@ -411,9 +416,11 @@ public class AlgebraProcessor {
 								 boolean redefineIndependent, boolean storeUndoInfo,
 								 boolean withSliders, ErrorHandler handler,
 								 AsyncOperation<GeoElementND> callback) {
-		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
+		EvalInfo info =
+				new EvalInfo(!cons.isSuppressLabelsActive(), redefineIndependent)
 						.withSymbolicMode(app.getKernel().getSymbolicMode())
-						.withLabelRedefinitionAllowedFor(geo.getLabelSimple());
+						.withLabelRedefinitionAllowedFor(geo.getLabelSimple())
+						.withFractions(true);
 		changeGeoElementNoExceptionHandling(geo, newValue,
 				info.withSliders(withSliders), storeUndoInfo, callback, handler);
 	}
@@ -445,14 +452,16 @@ public class AlgebraProcessor {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
 			}
+
 			replaceDerivative(ve, geo);
+			ve = replaceSqrtMinusOne(ve);
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, newValue, loc, handler);
 		} catch (ParseException exception) {
-			callback.callback(geo);
 			handler.showError(exception.getMessage());
+			callback.callback(geo);
 		} catch (Exception e) {
 			handler.showError(e.getMessage());
 		} catch (CommandNotLoadedError e) {
@@ -464,6 +473,14 @@ public class AlgebraProcessor {
 					loc.getInvalidInputError() + ":\n"
 							+ newValue);
 		}
+	}
+
+	private ValidExpression replaceSqrtMinusOne(ValidExpression ve) {
+		ExpressionValue result = ve.traverse(sqrtMinusOneReplacer);
+		if (ExpressionNode.isImaginaryUnit(result)) {
+			result = result.wrap();
+		}
+		return (ValidExpression) result;
 	}
 
 	/**
@@ -525,14 +542,9 @@ public class AlgebraProcessor {
 		GeoElementND[] result;
 
 		app.getCompanion().storeViewCreators();
+
 		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
-		// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F,
-		// G, H, I}, 22] to FitPoly[{A, B, C, D, E, F, G, H, I}, 2]
-		/*
-		 * if (geo instanceof GeoFunction && ((GeoFunction) geo).isDefined()) {
-		 * cons.registerFunctionVariable(((GeoFunction) geo).getFunction()
-		 * .getVarString(StringTemplate.defaultTemplate)); }
-		 */
+		updateLabelIfSymbolic(newValue, info);
 		newLabel = newValue.getLabel();
 		if (!app.getConfig().hasAutomaticLabels()) {
 			geo.setAlgebraLabelVisible(newLabel != null);
@@ -555,7 +567,7 @@ public class AlgebraProcessor {
 			}
 		}
 		if (geo instanceof GeoPlaneND && newValue.unwrap() instanceof Equation) {
-			((Equation) newValue).setForcePlane();
+			((Equation) newValue.unwrap()).setForcePlane();
 		}
 		if (sameLabel(newLabel, oldLabel)) {
 			// try to overwrite
@@ -609,6 +621,12 @@ public class AlgebraProcessor {
 
 		cons.registerFunctionVariable(null);
 
+	}
+
+	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && symbolicProcessor != null) {
+			symbolicProcessor.updateLabel(expression, info);
+		}
 	}
 
 	private static boolean sameLabel(String newLabel, String oldLabel) {
@@ -666,7 +684,7 @@ public class AlgebraProcessor {
 	 * @return resulting geos
 	 */
 	public GeoElementND[] processAlgebraCommand(String cmd, boolean storeUndo,
-												final AsyncOperation<GeoElementND[]> callback) {
+			final AsyncOperation<GeoElementND[]> callback) {
 
 		try {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
@@ -800,19 +818,17 @@ public class AlgebraProcessor {
 			}
 			return rett;
 		}
-		ValidExpression ve;
 		try {
-			ve = parser.parseGeoGebraExpression(cmd);
-			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd, ve);
+			GeoCasCell casEval = checkCasEval(cmd, "(:=?)|=|" + Unicode.ASSIGN_STRING);
 			if (casEval != null) {
 				if (callback0 != null) {
 					callback0.callback(array(casEval));
 				}
 				return new GeoElement[0];
 			}
+			ValidExpression ve = parser.parseGeoGebraExpression(cmd);
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
-					handler, callback0,
-					info);
+					handler, callback0,	info);
 
 		} catch (ParseException e) {
 			e.printStackTrace(System.out);
@@ -825,7 +841,7 @@ public class AlgebraProcessor {
 		} catch (TokenMgrError e) {
 			// Sometimes TokenManagerError comes from parser
 			ErrorHelper.handleException(new Exception(e), app, handler);
-		}
+ 		}
 		if (callback0 != null) {
 			callback0.callback(null);
 		}
@@ -853,8 +869,9 @@ public class AlgebraProcessor {
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
 		// collect undefined variables
-		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-		ve.traverse(collecter);
+		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables(
+				info.isMultipleUnassignedAllowed());
+		ve.inspect(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 
 		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
@@ -958,7 +975,8 @@ public class AlgebraProcessor {
 							// insertStarIfNeeded(undefinedVariables,
 							// ve2, fvX2);
 							replaceUndefinedVariables(ve2,
-									new TreeSet<GeoNumeric>(), null);
+									new TreeSet<GeoNumeric>(), null,
+									info.isMultipleUnassignedAllowed());
 						}
 						try {
 							geos = processValidExpression(storeUndo, handler,
@@ -991,7 +1009,8 @@ public class AlgebraProcessor {
 			// ==========================
 			// step5: replace undefined variables
 			// ==========================
-			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null);
+			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null,
+					info.isMultipleUnassignedAllowed());
 
 			// Do not copy plain variables, as
 			// they might have been just created now
@@ -1010,15 +1029,44 @@ public class AlgebraProcessor {
 		if (symbolicProcessor == null) {
 			symbolicProcessor = new SymbolicProcessor(kernel);
 		}
-		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(ve);
-		if (ve.getLabel() != null
-				&& kernel.lookupLabel(ve.getLabel()) != null
-				&& !info.isLabelRedefinitionAllowedFor(ve.getLabel())) {
+		ValidExpression extracted = ve;
+		if (ve.unwrap() instanceof Equation && info != null) {
+			Equation equation = (Equation) ve.unwrap();
+			extracted = symbolicProcessor.extractAssignment(equation, info);
+			ve.setLabel(extracted.getLabel());
+		}
+		GeoElement sym = symbolicProcessor.evalSymbolicNoLabel(extracted, info);
+		String label = extracted.getLabel();
+		if (label != null && kernel.lookupLabel(label) != null
+				&& !info.isLabelRedefinitionAllowedFor(label)) {
 			throw new MyError(kernel.getLocalization(), "LabelAlreadyUsed");
 		}
-		sym.setLabel(ve.getLabel());
-		sym.getDefinition().setLabel(ve.getLabel());
+		setLabel(sym, label);
 		return sym;
+	}
+
+	private void setLabel(GeoElement element, String label) {
+		ExpressionNode definition = element.getDefinition();
+		definition.setLabel(label);
+		element.setLabel(label);
+		ExpressionValue unwrappedDefinition = definition.unwrap();
+		if (unwrappedDefinition instanceof ValidExpression) {
+			((ValidExpression) unwrappedDefinition).setLabel(label);
+		}
+		if (element instanceof GeoSymbolic && isVectorLabel(label)) {
+			setVectorPrintingModeFor((GeoSymbolic) element);
+		}
+	}
+
+	private void setVectorPrintingModeFor(GeoSymbolic element) {
+		ExpressionValue unwrappedDefinition = element.getDefinition().unwrap();
+		if (unwrappedDefinition instanceof MyVecNode) {
+			((MyVecNode) unwrappedDefinition).setupCASVector();
+		}
+		ExpressionValue unwrappedValue = element.getValue().unwrap();
+		if (unwrappedValue instanceof MyVecNode) {
+			((MyVecNode) unwrappedValue).setupCASVector();
+		}
 	}
 
 	/**
@@ -1053,63 +1101,52 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param label
-	 *            dollar label
 	 * @param input
 	 *            whole command including label
-	 * @param parsed
-	 *            parsed content of input
 	 * @return cell
 	 */
-	public GeoCasCell checkCasEval(String label, String input,
-			ValidExpression parsed) {
-		if (label != null && label.startsWith("$")) {
-			Integer row = -1;
-			try {
-				row = Integer.parseInt(label.substring(1)) - 1;
-			} catch (Exception e) {
-				// eg $A$1 label, do nothing
-			}
-			if (row < 0) {
+	public GeoCasCell checkCasEval(String input, String allowedAssignmentRegex) {
+		if (input != null && input.startsWith("$")) {
+			String[] result = input.split(allowedAssignmentRegex, 2);
+
+			if (result.length != 2 || result[1].startsWith("=")) {
 				return null;
 			}
-			if (app.getGuiManager() != null) {
-				app.getGuiManager().getCasView().cancelEditItem();
-			}
-			GeoCasCell cell = cons.getCasCell(row);
-			if (cell == null) {
-				cell = new GeoCasCell(cons);
-			}
-			String cmd = input == null
-					? parsed.toString(StringTemplate.defaultTemplate) : input;
-			if (parsed != null && parsed.unwrap() instanceof Command) {
-				Command c = (Command) parsed.unwrap();
-				if ("Rename".equals(c.getName())) {
-					cmd = "="
-							+ c.getArgument(1)
-									.traverse(CommandReplacer
-											.getReplacer(kernel, true))
-									.toString(StringTemplate.defaultTemplate)
-							+ ":=" + c.getArgument(0)
-									.toString(StringTemplate.defaultTemplate);
-				}
-			}
-			int colonPos = cmd.indexOf(':') + 1;
-			int eqPos = cmd.indexOf('=') + 1;
-			int prefixLength = eqPos > 0
-					? (colonPos > 0 ? Math.min(colonPos, eqPos) : eqPos)
-					: colonPos;
-			if (cmd.charAt(prefixLength) == '=') {
-				prefixLength++;
-			}
 
-			cell.setInput(cmd.substring(prefixLength));
-			this.processCasCell(cell, false);
-			return cell;
+			int row = cellNumber(result[0].substring(1));
+			if (row >= 0) {
+				return casEval(row, result[1]);
+			}
 		}
 		return null;
 	}
 
+	private GeoCasCell casEval(int row, String rhs) {
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getCasView().cancelEditItem();
+		}
+		GeoCasCell cell = cons.getCasCell(row);
+		if (cell == null) {
+			cell = new GeoCasCell(cons);
+		}
+		cell.setInput(rhs);
+		processCasCell(cell, false);
+		return cell;
+	}
+
+	private int cellNumber(String lhs) {
+		try {
+			return Integer.parseInt(lhs) - 1;
+		} catch (Exception e) {
+			// eg $A$1 label, do nothing
+		}
+		return -1;
+	}
+
+	/**
+	 * Changes "s i n x" to "sin(x)" (needed for evalMathml) and processes the expression.
+	 * @return processed expression
+	 */
 	private GeoElementND[] tryReplacingProducts(ValidExpression ve,
 			ErrorHandler eh, EvalInfo info) {
 		ValidExpression ve2 = (ValidExpression) ve.traverse(new Traversing() {
@@ -1121,7 +1158,7 @@ public class AlgebraProcessor {
 					String lt = ((ExpressionNode) ev).getLeft()
 							.toString(StringTemplate.defaultTemplate)
 							.replace(" ", "");
-					Operation op = app.getParserFunctions().get(lt, 1);
+					Operation op = app.getParserFunctions().getSingleArgumentOp(lt);
 					if (op != null) {
 						return new ExpressionNode(kernel,
 								((ExpressionNode) ev).getRight().traverse(this),
@@ -1236,9 +1273,10 @@ public class AlgebraProcessor {
 	 *            replace everything
 	 */
 	public void replaceUndefinedVariables(ValidExpression ve,
-			TreeSet<GeoNumeric> undefined, String[] except) {
+			TreeSet<GeoNumeric> undefined, String[] except, boolean multiplication) {
 		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(
 				this.kernel, undefined, except);
+		replacer.setSimplifyMultiplication(multiplication);
 		ve.traverse(replacer);
 
 	}
@@ -1350,7 +1388,7 @@ public class AlgebraProcessor {
 				Equation eq = (Equation) ve.unwrap();
 				ve = new ExpressionNode(kernel, eq.getLHS(),
 						Operation.EQUAL_BOOLEAN, eq.getRHS());
-			} else if (ve.unwrap() instanceof Variable) {
+			} else if (ve.unwrap() instanceof Variable && !isBoolean((Variable) ve.unwrap())) {
 				// GGB-1043
 				ve = new ExpressionNode(kernel, ve.unwrap(),
 						Operation.NOT_EQUAL, new MyDouble(kernel, 0d));
@@ -1377,6 +1415,10 @@ public class AlgebraProcessor {
 		}
 
 		return bool;
+	}
+
+	private boolean isBoolean(Variable variable) {
+		return kernel.lookupLabel(variable.getName()) instanceof GeoBoolean;
 	}
 
 	/**
@@ -1849,35 +1891,61 @@ public class AlgebraProcessor {
 	public GeoElement[] processValidExpression(ValidExpression ve,
 			EvalInfo info) throws MyError, Exception {
 
+		EvalInfo evalInfo = info;
+		ValidExpression expression = ve;
 		// check for existing labels
-		String[] labels = ve.getLabels();
+		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
+		if (replaceable instanceof HasArbitraryConstant) {
+			HasArbitraryConstant hasConstant = (HasArbitraryConstant) replaceable;
+			evalInfo = evalInfo.withArbitraryConstant(hasConstant.getArbitraryConstant());
+		}
 
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (replaceable != null) {
-			cons.setSuppressLabelCreation(true);
-		}
+            cons.setSuppressLabelCreation(true);
+			if (replaceable.isGeoVector()) {
+				expression = getTraversedCopy(labels, expression);
+			}
+        }
 
 		// we have to make sure that the macro mode is
 		// set back at the end
 		try {
-			ret = doProcessValidExpression(ve, info);
+			ret = doProcessValidExpression(expression, evalInfo);
 
 			if (ret == null) { // eg (1,2,3) running in 2D
-				if (isFreehandFunction(ve)) {
-					return kernel.lookupLabel(ve.getLabel()).asArray();
+				if (isFreehandFunction(expression)) {
+					return kernel.lookupLabel(expression.getLabel()).asArray();
 				}
 				throw new MyError(loc,
-						loc.getInvalidInputError() + ":\n" + ve);
+						loc.getInvalidInputError() + ":\n" + expression);
 			}
 		} finally {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
-		processReplace(replaceable, ret, ve, info);
+		processReplace(replaceable, ret, expression, evalInfo);
 
 		return ret;
+	}
+
+	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
+		boolean isForceVector = expression.wrap().isForcedVector();
+		boolean isForcePoint = expression.wrap().isForcedPoint();
+		ValidExpression copy = expression.deepCopy(kernel);
+		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
+		copy.setLabels(labels);
+
+		if (isForceVector) {
+			copy.wrap().setForceVector();
+		}
+		if (isForcePoint) {
+			copy.wrap().setForcePoint();
+		}
+
+		return copy;
 	}
 
 	private boolean isFreehandFunction(ValidExpression expression) {
@@ -1937,10 +2005,24 @@ public class AlgebraProcessor {
 			throws CircularDefinitionException {
 		// try to replace replaceable geo by ret[0]
 		if (replaceable != null && ret.length > 0) {
+			if (replaceable instanceof GeoNumeric) {
+				((GeoNumeric) replaceable).extendMinMax(ret[0]);
+			}
+			RedefinitionRule rule = info.getRedefinitionRule();
+			if (rule != null && !rule.allowed(replaceable.getGeoClassType(),
+					ret[0].getGeoClassType())) {
+				// Set undefined
+				ret[0] = replaceable;
+				replaceable.setUndefined();
+				replaceable.updateRepaint();
+				throw new MyError(loc, Errors.ReplaceFailed);
+			} else
 			// a changeable replaceable is not redefined:
 			// it gets the value of ret[0]
 			// (note: texts are always redefined)
-			if (!info.mayRedefineIndependent() && replaceable.isChangeable()
+			if (!info.mayRedefineIndependent()
+					&& ret[0].isIndependent()
+					&& replaceable.isChangeable()
 					&& !(replaceable.isGeoText())) {
 				try {
 					replaceable.set(ret[0]);
@@ -1962,9 +2044,6 @@ public class AlgebraProcessor {
 					if (replaceable.isIndependent() && ret[0].isIndependent()
 							&& compatibleTypes(replaceable.getGeoClassType(),
 									ret[0].getGeoClassType())) {
-						if (replaceable instanceof GeoNumeric) {
-							((GeoNumeric) replaceable).extendMinMax(ret[0]);
-						}
 						// copy equation style
 						ret[0].setVisualStyle(replaceable);
 						replaceable.set(ret[0]);
@@ -1980,7 +2059,9 @@ public class AlgebraProcessor {
 					}
 
 					// STANDARD CASE: REDFINED
-					else {
+					else if (!(info.isPreventingTypeChange())
+							|| compatibleTypes(replaceable.getGeoClassType(),
+							ret[0].getGeoClassType())) {
 						GeoElement newGeo = ret[0];
 						GeoCasCell cell = replaceable.getCorrespondingCasCell();
 						if (cell != null) {
@@ -2002,6 +2083,12 @@ public class AlgebraProcessor {
 								? newGeo.getLabelSimple()
 								: replaceable.getLabelSimple();
 						ret[0] = kernel.lookupLabel(newLabel);
+					} else {
+						// Set undefined
+						ret[0] = replaceable;
+						replaceable.setUndefined();
+						replaceable.updateRepaint();
+						throw new MyError(loc, Errors.ReplaceFailed);
 					}
 				} catch (CircularDefinitionException e) {
 					throw e;
@@ -2014,7 +2101,6 @@ public class AlgebraProcessor {
 				}
 			}
 		}
-
 	}
 
 	private static boolean compatibleTypes(GeoClass type, GeoClass type2) {
@@ -2027,7 +2113,14 @@ public class AlgebraProcessor {
 		if (type.equals(GeoClass.NUMERIC) && type2.equals(GeoClass.ANGLE)) {
 			return true;
 		}
-		return false;
+        if (type2.equals(GeoClass.LIST) && type.equals(GeoClass.VECTOR)) {
+            return true;
+        }
+        if (type.equals(GeoClass.LIST) && type2.equals(GeoClass.VECTOR)) {
+            return true;
+        }
+
+        return false;
 	}
 
 	/**
@@ -2158,7 +2251,7 @@ public class AlgebraProcessor {
 				return ret;
 			}
 		}
-		if (!fun.initFunction(info.isSimplifyingIntegers())) {
+		if (!fun.initFunction(info)) {
 			ExpressionNode copy = fun.getExpression().deepCopy(kernel);
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
@@ -2476,7 +2569,7 @@ public class AlgebraProcessor {
 		if (!enableStructures()) {
 			throw new MyError(loc, Errors.InvalidInput);
 		}
-		if (!fun.initFunction(info.isSimplifyingIntegers())) {
+		if (!fun.initFunction(info)) {
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
 					fun.getExpression()
@@ -2541,6 +2634,7 @@ public class AlgebraProcessor {
 		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV) {
 			return evalSymbolic(equ, info).asArray();
 		}
+
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable
@@ -2572,19 +2666,8 @@ public class AlgebraProcessor {
 				e.printStackTrace();
 			}
 		}
+
 		if (singleLeftVariable != null && equ.getLabel() == null) {
-
-			String varName;
-			if (lhs instanceof GeoDummyVariable) {
-				varName = ((GeoDummyVariable) lhs).getVarName();
-			} else {
-				varName = ((Variable) lhs).getName();
-			}
-
-			GeoCasCell c = this.checkCasEval(varName, null, equ);
-			if (c != null) {
-				return new GeoElement[0];
-			}
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
 				return processValidExpression(equ.getRHS());
@@ -2794,7 +2877,7 @@ public class AlgebraProcessor {
 			((EquationValue) line).setToUser();
 		}
 
-		if (AlgebraItem.isFunctionOrEquationFromUser(line)) {
+		if (line.isFunctionOrEquationFromUser()) {
 			line.setFixed(true);
 		}
 
@@ -2923,7 +3006,8 @@ public class AlgebraProcessor {
 	public final GeoElement[] processExpressionNode(ExpressionNode node,
 			EvalInfo info) throws MyError {
 		ExpressionNode n = node;
-		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)) {
+		if (info.getSymbolicMode() == SymbolicMode.SYMBOLIC_AV && !containsText(node)
+				&& !willResultInSlider(node)) {
 			return new GeoElement[] { evalSymbolic(node, info) };
 		}
 		// command is leaf: process command
@@ -2955,8 +3039,14 @@ public class AlgebraProcessor {
 		n.resolveVariables(info);
 		if (n.isLeaf() && n.getLeft().isExpressionNode()) {
 			// we changed f' to f'(x) -> clean double wrap
+
+			boolean wasPoint = n.isForcedPoint();
 			n = n.getLeft().wrap();
+			if (wasPoint) {
+				n.setForcePoint();
+			}
 		}
+
 		String label = n.getLabel();
 		if (n.containsFreeFunctionVariable(null)) {
 			n = makeFunctionNVar(n).wrap();
@@ -3062,6 +3152,11 @@ public class AlgebraProcessor {
 		return ev.inspect(Inspecting.textFinder);
 	}
 
+	private boolean willResultInSlider(ExpressionNode node) {
+		return node.isSimpleNumber() || (node.unwrap() instanceof Command
+				&& ((Command) node.unwrap()).getName().equals("Slider"));
+	}
+
 	/**
 	 * Make function or nvar function from expression, using all function
 	 * variables it has
@@ -3109,8 +3204,11 @@ public class AlgebraProcessor {
 			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
 
-		if (info.isFractions()) {
-			InputHelper.updateSymbolicMode(ret);
+		if (info.isFractions() && ret instanceof HasSymbolicMode) {
+			((HasSymbolicMode) ret).initSymbolicMode();
+		}
+		if (ret instanceof HasExtendedAV) {
+			((HasExtendedAV) ret).setShowExtendedAV(info.isAutocreateSliders());
 		}
 		if (info.isLabelOutput()) {
 			String label = n.getLabel();
@@ -3176,6 +3274,9 @@ public class AlgebraProcessor {
 			// Create GeoList object
 			ret = kernel.getAlgoDispatcher().list(label, geoElements,
 					isIndependent);
+			if (info.isFractions()) {
+				((HasSymbolicMode) ret).initSymbolicMode();
+			}
 			if (!evalList.isDefined()) {
 				ret.setUndefined();
 				ret.updateRepaint();
@@ -3302,7 +3403,7 @@ public class AlgebraProcessor {
 		// we want z = 3 + i to give a (complex) GeoPoint not a GeoVector
 		boolean complex = p.getToStringMode() == Kernel.COORD_COMPLEX;
 
-		GeoVec3D[] ret = new GeoVec3D[1];
+		GeoElement[] ret = new GeoElement[1];
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 
 		// make point if complex parts are present, e.g. 3 + i
@@ -3312,7 +3413,7 @@ public class AlgebraProcessor {
 		else if (label != null) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
 				// MyXMLHandler
-				if (StringUtil.isLowerCase(label.charAt(0))) {
+				if (isVectorLabel(label)) {
 					n.setForceVector();
 				} else {
 					n.setForcePoint();
@@ -3321,32 +3422,51 @@ public class AlgebraProcessor {
 		}
 		boolean isVector = n.shouldEvaluateToGeoVector();
 
+		GeoVec3D vector;
 		if (isIndependent) {
 			// get coords
 			double x = p.getX();
 			double y = p.getY();
 			if (isVector) {
-				ret[0] = kernel.getAlgoDispatcher().vector(x, y);
+				vector = kernel.getAlgoDispatcher().vector(x, y);
 			} else {
-				ret[0] = kernel.getAlgoDispatcher().point(x, y, complex);
+				vector = kernel.getAlgoDispatcher().point(x, y, complex);
 			}
-			ret[0].setDefinition(n);
-			ret[0].setLabel(label);
+			vector.setDefinition(n);
+			vector.setLabel(label);
 		} else {
 			if (isVector) {
-				ret[0] = dependentVector(label, n);
+				vector = dependentVector(label, n);
 			} else {
-				ret[0] = dependentPoint(label, n, complex);
+				vector = dependentPoint(label, n, complex);
 			}
 		}
 		if (polar) {
-			ret[0].setMode(Kernel.COORD_POLAR);
-			ret[0].updateRepaint();
+			vector.setMode(Kernel.COORD_POLAR);
+			vector.updateRepaint();
 		} else if (complex) {
-			ret[0].setMode(Kernel.COORD_COMPLEX);
-			ret[0].updateRepaint();
+			vector.setMode(Kernel.COORD_COMPLEX);
+			vector.updateRepaint();
 		}
+		ret[0] = vector;
+
 		return ret;
+	}
+
+	/**
+	 * Determines whether the element should be a vector or not based on its label.
+	 * @param element element
+	 * @return true if the element's label starts with a lowercase character, otherwise false.
+	 */
+	public boolean hasVectorLabel(GeoElement element) {
+		String alreadySetLabel = element.getLabelSimple();
+		String label =
+				alreadySetLabel != null ? alreadySetLabel : element.getDefinition().getLabel();
+		return isVectorLabel(label);
+	}
+
+	private boolean isVectorLabel(String label) {
+		return label != null && StringUtil.isLowerCase(label.charAt(0));
 	}
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,
@@ -3553,14 +3673,14 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * Sets the CommandNameFilter to the CommandDispatcher
+	 * Sets the CommandFilter to the CommandDispatcher
 	 * 
-	 * @param CommandNameFilter
-	 *            only the commands that are allowed by the CommandNameFilter
+	 * @param commandFilter
+	 *            only the commands that are allowed by the CommandFilter
 	 *            will be added to the command table
 	 */
-	public void addCommandNameFilter(CommandNameFilter CommandNameFilter) {
-		cmdDispatcher.addCommandNameFilter(CommandNameFilter);
+	public void addCommandFilter(CommandFilter commandFilter) {
+		cmdDispatcher.addCommandFilter(commandFilter);
 	}
 
 	/**
@@ -3578,8 +3698,10 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param cmdInt   command name
-	 * @param settings settings
+	 * @param cmdInt
+	 *            command name
+	 * @param settings
+	 *            settings
 	 * @return syntax in english // as fallback
 	 */
 	public String getEnglishSyntax(String cmdInt, Settings settings) {
@@ -3612,7 +3734,7 @@ public class AlgebraProcessor {
 			return syntax.getCommandSyntaxCAS("NIntegral");
 		}
 		if (noCASfilter == null) {
-			noCASfilter = CommandNameFilterFactory.createNoCasCommandNameFilter();
+			noCASfilter = CommandFilterFactory.createNoCasCommandFilter();
 		}
 		if (!noCASfilter.isCommandAllowed(cmd)) {
 			return null;

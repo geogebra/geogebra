@@ -1,8 +1,6 @@
 package org.geogebra.web.full.gui.util;
 
-import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
-import org.geogebra.common.util.AsyncOperation;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -16,12 +14,17 @@ public interface SaveDialogI {
 
 	void setLabels();
 
-	SaveDialogI setDefaultVisibility(MaterialVisibility visibility);
-
 	void hide();
 
-	void showIfNeeded(AsyncOperation<Boolean> callback, boolean needed,
-			Widget anchor);
+	/**
+	 * Update the UI to say "discard" rather than "cancel"
+	 */
+	void setDiscardMode();
 
-	void showIfNeeded(AsyncOperation<Boolean> runnable);
+	/**
+	 * Show the dialog and position relatively to anchor
+	 * @param anchor
+	 *         for dialog position; pass null to center
+	 */
+	void showAndPosition(Widget anchor);
 }

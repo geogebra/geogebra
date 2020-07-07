@@ -13,7 +13,6 @@ import com.himamis.retex.editor.web.MathFieldW;
 
 /**
  * Virtual keyboard bindings for ReTeX
- *
  */
 public class MathFieldProcessing implements KeyboardListener {
 
@@ -104,7 +103,14 @@ public class MathFieldProcessing implements KeyboardListener {
 			type("log(");
 			mf.getKeyListener()
 					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, 0, '\0'));
+		} else if ("$defint".equals(text) || "$prodeq".equals(text) || "$sumeq".equals(text)
+				|| "$limeq".equals(text) || "$vec".equals(text)) {
+			mf.insertFunction(text);
 		} else {
+			if ("d/dx".equals(text)) {
+				mf.handleDerivative(text);
+				return;
+			}
 			if (text.contains("/") || text.contains("^")) {
 				mf.insertString(text);
 				return;
@@ -179,8 +185,13 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void ansPressed() {
-		this.insertString(lastItemProvider.getLastItem());
-
+		if (lastItemProvider != null) {
+			insertString(lastItemProvider.getLastItem());
+		}
 	}
 
+	@Override
+	public boolean requestsAns() {
+		return lastItemProvider != null;
+	}
 }

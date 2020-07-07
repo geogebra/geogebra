@@ -1,12 +1,10 @@
 package org.geogebra.web.full.gui.exam;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.DialogBoxW;
-import org.geogebra.web.shared.GlobalHeader;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -14,9 +12,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author csilla
- * 
- *         dialog to enter in graphing calc exam mode
- *
+ * <p>
+ * dialog to enter in graphing or cas calc exam mode
  */
 public class ExamStartDialog extends DialogBoxW
 		implements SetLabels, FastClickHandler {
@@ -27,10 +24,9 @@ public class ExamStartDialog extends DialogBoxW
 	private StandardButton startBtn;
 
 	/**
-	 * @param app
-	 *            application
+	 * @param app application
 	 */
-	public ExamStartDialog(AppW app) {
+	public ExamStartDialog(AppWFull app) {
 		super(app.getPanel(), app);
 		buildGUI();
 	}
@@ -76,22 +72,10 @@ public class ExamStartDialog extends DialogBoxW
 	@Override
 	public void onClick(Widget source) {
 		if (source == startBtn) {
-			// ensure fullscreen: we may have lost it when handling unsaved
-			// changes
-			((AppW) app).getLAF().toggleFullscreen(true);
 			app.setNewExam();
 			app.startExam();
-			if (app.getGuiManager() instanceof GuiManagerW
-					&& ((GuiManagerW) app.getGuiManager())
-							.getUnbundledToolbar() != null) {
-				((GuiManagerW) app.getGuiManager()).setUnbundledHeaderStyle("examOk");
-				((GuiManagerW) app.getGuiManager()).resetMenu();
-				GlobalHeader.INSTANCE.addExamTimer();
-				new ExamUtil((AppW) app).visibilityEventMain();
-				((GuiManagerW) app.getGuiManager()).initInfoBtnAction();
-			}			
 		} else if (source == cancelBtn) {
-			((AppW) app).getLAF().toggleFullscreen(false);
+			((AppWFull) app).getLAF().toggleFullscreen(false);
 		}
 		hide();
 	}

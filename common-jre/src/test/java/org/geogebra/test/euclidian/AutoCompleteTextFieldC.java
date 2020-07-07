@@ -1,17 +1,22 @@
 package org.geogebra.test.euclidian;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.gui.inputfield.InputMode;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
 import org.geogebra.common.util.AutoCompleteDictionary;
+
+import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
  * Mock of a textfield, provides consistent getter/setter for content and
@@ -19,209 +24,206 @@ import org.geogebra.common.util.AutoCompleteDictionary;
  */
 public class AutoCompleteTextFieldC implements AutoCompleteTextField {
 
-    private String textField = "";
-    private TextAlignment alignment;
+	private String textField = "";
+	private TextAlignment alignment;
+	private boolean focus = false;
+	private GeoInputBox geoInputBox = null;
+	private List<FocusListenerDelegate> focusListeners = new ArrayList<>();
+	private List<KeyHandler> keyHandlers = new ArrayList<>();
 
-    @Override
-    public void showPopupSymbolButton(boolean b) {
-        // for test, not needed
-    }
+	@Override
+	public void showPopupSymbolButton(boolean b) {
+		// for test, not needed
+	}
 
-    @Override
-    public void setAutoComplete(boolean b) {
-        // for test, not needed
-    }
+	@Override
+	public void setAutoComplete(boolean b) {
+		// for test, not needed
+	}
 
-    @Override
-    public void enableColoring(boolean b) {
-        // for test, not needed
-    }
+	@Override
+	public void setFocus(boolean b) {
+		this.focus = b;
+	}
 
-    @Override
-    public void setFocus(boolean b) {
-        // for test, not needed
-    }
+	@Override
+	public void setFont(GFont font) {
+		// for test, not needed
+	}
 
-    @Override
-    public void setOpaque(boolean b) {
-        // for test, not needed
-    }
+	@Override
+	public void setForeground(GColor color) {
+		// for test, not needed
+	}
 
-    @Override
-    public void setFont(GFont font) {
-        // for test, not needed
-    }
+	@Override
+	public void setBackground(GColor color) {
+		// for test, not needed
+	}
 
-    @Override
-    public void setForeground(GColor color) {
-        // for test, not needed
-    }
+	@Override
+	public void requestFocus() {
+		focus = true;
+	}
 
-    @Override
-    public void setBackground(GColor color) {
-        // for test, not needed
-    }
+	@Override
+	public void addFocusListener(FocusListenerDelegate focusListener) {
+		focusListeners.add(focusListener);
+	}
 
-    @Override
-    public void setFocusable(boolean b) {
-        // for test, not needed
-    }
+	@Override
+	public void addKeyHandler(KeyHandler handler) {
+		keyHandlers.add(handler);
+	}
 
-    @Override
-    public void requestFocus() {
-        // for test, not needed
-    }
+	@Override
+	public int getCaretPosition() {
+		return 0;
+	}
 
-    @Override
-    public void addFocusListener(FocusListener focusListener) {
-        // for test, not needed
-    }
+	@Override
+	public void setCaretPosition(int caretPos) {
+		// for test, not needed
+	}
 
-    @Override
-    public void addKeyHandler(KeyHandler handler) {
-        // for test, not needed
-    }
+	@Override
+	public void setDictionary(boolean forCAS) {
+		// for test, not needed
+	}
 
-    @Override
-    public int getCaretPosition() {
-        return 0;
-    }
+	@Override
+	public AutoCompleteDictionary getDictionary() {
+		return null;
+	}
 
-    @Override
-    public void setCaretPosition(int caretPos) {
-        // for test, not needed
-    }
+	@Override
+	public void setUsedForInputBox(GeoInputBox geoInputBox) {
+		this.geoInputBox = geoInputBox;
+	}
 
-    @Override
-    public void setDictionary(boolean forCAS) {
-        // for test, not needed
-    }
+	@Override
+	public boolean hasFocus() {
+		return focus;
+	}
 
-    @Override
-    public AutoCompleteDictionary getDictionary() {
-        return null;
-    }
+	@Override
+	public boolean usedForInputBox() {
+		return geoInputBox != null;
+	}
 
-    @Override
-    public void setFocusTraversalKeysEnabled(boolean b) {
-        // for test, not needed
-    }
+	@Override
+	public GeoInputBox getInputBox() {
+		return geoInputBox;
+	}
 
-    @Override
-    public void setUsedForInputBox(GeoInputBox geoTextField) {
-        // for test, not needed
-    }
+	@Override
+	public DrawInputBox getDrawTextField() {
+		return null;
+	}
 
-    @Override
-    public boolean hasFocus() {
-        return false;
-    }
+	@Override
+	public void setDrawTextField(DrawInputBox df) {
+		// for test, not needed
+	}
 
-    @Override
-    public boolean usedForInputBox() {
-        return false;
-    }
+	@Override
+	public void removeSymbolTable() {
+		// for test, not needed
+	}
 
-    @Override
-    public GeoInputBox getInputBox() {
-        return null;
-    }
+	@Override
+	public void prepareShowSymbolButton(boolean b) {
+		// for test, not needed
+	}
 
-    @Override
-    public DrawInputBox getDrawTextField() {
-        return null;
-    }
+	@Override
+	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
+			int width, int height) {
+		// for test, not needed
+	}
 
-    @Override
-    public void setDrawTextField(DrawInputBox df) {
-        // for test, not needed
-    }
+	@Override
+	public String getCommand() {
+		return null;
+	}
 
-    @Override
-    public void removeSymbolTable() {
-        // for test, not needed
-    }
+	@Override
+	public void setPrefSize(int width, int height) {
+		// for test, not needed
+	}
 
-    @Override
-    public void prepareShowSymbolButton(boolean b) {
-        // for test, not needed
-    }
+	@Override
+	public void wrapSetText(String text) {
+		// for test, not needed
+	}
 
-    @Override
-    public void hideDeferred(GBox box) {
-        // for test, not needed
-    }
+	@Override
+	public void setAuralText(String text) {
+		// for test, not needed
+	}
 
-    @Override
-    public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top, int width, int height) {
-        // for test, not needed
-    }
+	@Override
+	public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle inputFieldBounds) {
+		// for test, not needed
+	}
 
-    @Override
-    public String getCommand() {
-        return null;
-    }
+	@Override
+	public void setSelection(int start, int end) {
+		// for test, not needed
+	}
 
-    @Override
-    public void setPrefSize(int width, int height) {
-        // for test, not needed
-    }
+	@Override
+	public void setTextAlignmentsForInputBox(TextAlignment alignment) {
+		this.alignment = alignment;
+	}
 
-    @Override
-    public void wrapSetText(String text) {
-        // for test, not needed
-    }
+	@Override
+	public String getText() {
+		return textField;
+	}
 
-    @Override
-    public void setAuralText(String text) {
-        // for test, not needed
-    }
+	@Override
+	public void setText(String s) {
+		textField = s;
+	}
 
-    @Override
-    public void drawBounds(GGraphics2D g2, GColor bgColor, GRectangle inputFieldBounds) {
-        // for test, not needed
-    }
+	@Override
+	public void setVisible(boolean b) {
+		// for test, not needed
+	}
 
-    @Override
-    public void setSelection(int start, int end) {
-        // for test, not needed
-    }
+	@Override
+	public void setEditable(boolean b) {
+		// for test, not needed
+	}
 
-    @Override
-    public void setTextAlignmentsForInputBox(TextAlignment alignment) {
-        this.alignment = alignment;
-    }
+	/**
+	 * @return last value from setAlignment
+	 */
+	public TextAlignment getAlignment() {
+		return alignment;
+	}
 
-    @Override
-    public String getText() {
-        return textField;
-    }
+	/**
+	 * Notify all listeners
+	 */
+	public void blur() {
+		for (FocusListenerDelegate listener : focusListeners) {
+			listener.focusLost();
+		}
+	}
 
-    @Override
-    public void setText(String s) {
-        textField = s;
-    }
+	/**
+	 * Notify all handlers about Enter key release
+	 */
+	public void onEnter() {
+		for (KeyHandler listener : new ArrayList<>(keyHandlers)) {
+			listener.keyReleased(new KeyEventC(KeyCodes.ENTER));
+		}
+	}
 
-    @Override
-    public void setColumns(int fieldWidth) {
-        // for test, not needed
-    }
-
-    @Override
-    public void setVisible(boolean b) {
-        // for test, not needed
-    }
-
-    @Override
-    public void setEditable(boolean b) {
-        // for test, not needed
-    }
-
-    /**
-     * @return last value from setAlignment
-     */
-    public TextAlignment getAlignment() {
-        return alignment;
-    }
-
+	@Override
+	public void setInputMode(InputMode type) {
+		// not needed
+	}
 }

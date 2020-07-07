@@ -1,35 +1,67 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.jre.headless.AppCommon;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.AlgebraTest;
+import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.AppConfigCas;
+import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.commands.AlgebraTestHelper;
-import org.junit.BeforeClass;
+import org.junit.Before;
 
 public class BaseSymbolicTest {
-    protected static AppCommon app;
-    protected static AlgebraProcessor ap;
+    protected AppCommon app;
+    protected AlgebraProcessor ap;
+    protected Kernel kernel;
+    private UndoManager undoManager;
 
     /**
      * Create the app
      */
-    @BeforeClass
-    public static void setup() {
-        app = AlgebraTest.createApp();
-        app.getKernel().setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
-        app.getKernel().getParser().setHighPrecisionParsing(true);
+    @Before
+    public void setup() {
+        app = AlgebraTest.createApp(new AppConfigCas());
+        kernel = app.getKernel();
+        ap = kernel.getAlgebraProcessor();
+
+        kernel.setSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+        kernel.getParser().setHighPrecisionParsing(true);
         app.setRounding("10");
-        ap = app.getKernel().getAlgebraProcessor();
-        app.getKernel().getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
+        kernel.getGeoGebraCAS().evaluateGeoGebraCAS("1+1", null,
                 StringTemplate.defaultTemplate, app.getKernel());
-        app.setConfig(new AppConfigCas());
+        undoManager = kernel.getConstruction().getUndoManager();
     }
 
-    public static void t(String input, String... expected) {
+    public void t(String input, String... expected) {
         AlgebraTestHelper.testSyntaxSingle(input, expected, ap,
                 StringTemplate.testTemplate);
+    }
+
+    public void t(String input, EvalInfo info, String... expected) {
+        GeoElementND result = ap.processAlgebraCommandNoExceptionHandling(input,
+                false, TestErrorHandler.INSTANCE, info, null)[0];
+        AlgebraTestHelper.assertOneOf(result, expected,
+                StringTemplate.testTemplate);
+    }
+
+    protected<T extends GeoElement> T add(String text) {
+        GeoElementND[] geos = ap.processAlgebraCommandNoExceptionHandling(text, false,
+                ErrorHelper.silent(), false, null);
+        return geos != null && geos.length > 0 ? (T) geos[0] : null;
+    }
+
+    protected void undoRedo() {
+        undoManager.undo();
+        undoManager.redo();
+    }
+
+    protected GeoElement lookup(String label) {
+        return app.getKernel().lookupLabel(label);
     }
 }

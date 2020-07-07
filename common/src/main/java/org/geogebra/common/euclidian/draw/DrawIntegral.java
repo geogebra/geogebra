@@ -14,7 +14,6 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
@@ -94,7 +93,7 @@ public class DrawIntegral extends DrawFunctionArea {
 		if (!isVisible) {
 			return;
 		}
-		labelVisible = geo.isLabelVisible();
+		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(n);
 		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())
 				|| isCasObject) {
@@ -153,7 +152,7 @@ public class DrawIntegral extends DrawFunctionArea {
 		if (labelVisible) {
 			xLabel = (int) Math.round((ax + bx) / 2) - 6;
 			yLabel = (int) view.getYZero() - view.getFontSize();
-			labelDesc = geo.getLabelDescription();
+			labelDesc = getTopLevelGeo().getLabelDescription();
 			addLabelOffset();
 		}
 	}
@@ -214,11 +213,5 @@ public class DrawIntegral extends DrawFunctionArea {
 	@Override
 	public GeoElement getGeoElement() {
 		return geo;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

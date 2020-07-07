@@ -1,9 +1,11 @@
 package org.geogebra.common.gui.util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -18,159 +20,86 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class TableSymbols {
 	// spaces either side (for multiply when inserted into the input bar)
-	private final static String[] functions = { " sqrt(x) ",
-
+	private final static String[] FUNCTIONS = {
+			" sqrt(x) ",
 			" cbrt(x) ",
-
 			" abs(x) ",
-
 			" sgn(x) ",
-
-            " alt(x, y, z))",
-
+			" alt((x, y, z))",
 			" arg(x) ",
-
 			" conjugate(x) ",
-
 			" floor(x) ",
-
 			" ceil(x) ",
-
 			" round(x) ",
-
 			" log(b,x) ",
-
 			" exp(x) ",
-
 			" ln(x) ",
-
 			" lg(x) ",
-
 			" ld(x) ",
-
 			" sin(x) ",
-
 			" asin(x) ",
-
 			" cos(x) ",
-
 			" acos(x) ",
-
 			" tan(x) ",
-
 			" atan(x) ",
-
 			" sinh(x) ",
-
 			" asinh(x) ",
-
 			" cosh(x) ",
-
 			" acosh(x) ",
-
 			" tanh(x) ",
-
 			" atanh(x) ",
-
 			" sec(x) ",
-
 			" sech(x) ",
-
 			" cosec(x) ",
-
 			" cosech(x) ",
-
 			" cot(x) ",
-
 			" coth(x) ",
-
 			" asind(x) ",
-
 			" acosd(x) ",
-
 			" atand(x) ",
-
 			" atan2(y, x) ",
-
 			" erf(x) ",
-
 			" gamma(x) ",
-
 			" beta(a, b) ",
-
 			" gamma(a, x) ",
-
 			" beta(a, b, x) ",
-
 			" gammaRegularized(a, x) ",
-
 			" betaRegularized(a, b, x) ",
-
 			" psi(x) ",
-
 			" polyGamma(m, x) ",
-
 			" nroot(x, n) ",
-
 			" fractionalPart(x) ",
-
 			" real(x) ", " imaginary(x) ",
-
 			" sinIntegral(x) ",
-
 			" cosIntegral(x) ",
-
 			" expIntegral(x) ",
-
 			" random() ",
-
 			" zeta(x) ", };
 
 	// spaces either side (for multiply when inserted into the input bar)
-	private final static String[][] functionsGrouped = {
-
+	private final static String[][] FUNCTIONS_GROUPED = {
 			{ " random() " },
-
 			{ " sqrt(x) ", " cbrt(x) ", " nroot(x, n) " },
-
-            {" abs(x) ", " sgn(x) ", " alt((x, y, z)) "},
-
+			{ " abs(x) ", " sgn(x) ", " alt((x, y, z)) " },
 			{ " arg(x) ", " conjugate(x) ", " real(x) ", " imaginary(x) " },
-
 			{ " floor(x) ", " ceil(x) ", " round(x) ", " fractionalPart(x) " },
-
 			{ " log(b,x) ", " exp(x) ", " ln(x) ", " lg(x) ", " ld(x) " },
-
 			{ " sin(x) ", " cos(x) ", " tan(x) " },
-
 			{ " sec(x) ", " cosec(x) ", " cot(x) " },
-
 			{ " asin(x) ", " acos(x) ", " atan(x) " },
-
 			{ " asind(x) ", " acosd(x) ", " atand(x) " },
-
 			{ " atan2(y, x) " },
-
 			{ " sinh(x) ", " cosh(x) ", " tanh(x) " },
-
 			{ " sech(x) ", " cosech(x) ", " coth(x) " },
-
 			{ " asinh(x) ", " acosh(x) ", " atanh(x) " },
-
 			{ " gamma(x) ", " gamma(a, x) ", " gammaRegularized(a, x) " },
-
 			{ " psi(x) ", " polyGamma(m, x) " },
-
 			{ " beta(a, b) ", " beta(a, b, x) ", " betaRegularized(a, b, x) " },
-
 			{ " erf(x) " },
-
 			{ " sinIntegral(x) ", " cosIntegral(x) ", " expIntegral(x) " },
-
 			{ " zeta(x) " }, };
 
-	public final static String[] analysis = {
-
+	public final static String[] ANALYSIS = {
 			"\u2211", // N-ARY SUMMATION
 			"\u2202", // PARTIAL DIFFERENTIAL
 			"\u2207", // NABLA
@@ -185,8 +114,7 @@ public class TableSymbols {
 			"\u221E", // INFINITY
 	};
 
-	public final static String[] logical = {
-
+	public final static String[] LOGICAL = {
 			"\u2200", // FOR ALL
 			"\u2203", // THERE EXISTS
 			"\u2204", // THERE DOES NOT EXIST
@@ -206,11 +134,9 @@ public class TableSymbols {
 			"\u2201", // COMPLEMENT
 			"\u2234", // THEREFORE
 			"\u2235", // BECAUSE
-
 	};
 
-	public final static String[] sets = {
-
+	public final static String[] SETS = {
 			"\u2205", // EMPTY SET
 			"\u2229", // INTERSECTION
 			"\u222A", // UNION
@@ -241,8 +167,7 @@ public class TableSymbols {
 
 	};
 
-	public final static String[] operators = {
-
+	public final static String[] OPERATORS = {
 			"\u00D7", // \\times
 			"\u00F7", // \\div
 			"\u2212", // \\minus
@@ -280,11 +205,9 @@ public class TableSymbols {
 			Unicode.VECTOR_PRODUCT + "", // \\otimes
 			"\u2298", // \\oslash
 			"\u2299", // \\odot
-
 	};
 
-	public final static String[] sub_superscripts = {
-
+	public final static String[] SUB_SUPERSCRIPTS = {
 			// first row
 			Unicode.SUPERSCRIPT_0 + "", Unicode.SUPERSCRIPT_1 + "",
 			Unicode.SUPERSCRIPT_2 + "", Unicode.SUPERSCRIPT_3 + "",
@@ -324,8 +247,7 @@ public class TableSymbols {
 			"\u208E", // SUBSCRIPT RIGHT PARENTHESIS
 	};
 
-	public final static String[] basic_arrows = {
-
+	public final static String[] BASIC_ARROWS = {
 			"\u2190", // \\leftarrow
 			"\u2191", // \\uparrow
 			"\u2192", // \\rightarrow
@@ -342,11 +264,9 @@ public class TableSymbols {
 			"\u21D3", // \\Downarrow
 			"\u21D4", // \\Leftrightarrow
 			"\u21D5", // \\Updownarrow
-
 	};
 
-	public final static String[] otherArrows = {
-
+	public final static String[] OTHER_ARROWS = {
 			"\u21A9", // \\hookleftarrow
 			"\u21AA", // \\hookrightarrow
 			"\u21AB", // \\looparrowleft
@@ -395,11 +315,9 @@ public class TableSymbols {
 			 * \\Longleftrightarrow "\u27FC", // \\longmapsto "\u27FF", //
 			 * \\leadsto
 			 */
-
 	};
 
-	public final static String[] geometricShapes = {
-
+	public final static String[] GEOMETRIC_SHAPES = {
 			"\u25EF", // \\bigcirc
 			"\u2605", // \\bigstar
 
@@ -422,11 +340,9 @@ public class TableSymbols {
 			// "\u25A0", // \\qedsymbol
 			"\u25A1", // \\square
 			"\u25AA", // \\blacksquare
-
 	};
 
-	public final static String[] games_music = {
-
+	public final static String[] GAMES_MUSIC = {
 			"\u2660", // \\spadesuit
 			"\u2661", // \\heartsuit
 			"\u2662", // \\diamondsuit
@@ -436,19 +352,16 @@ public class TableSymbols {
 			"\u266F", // \\sharp
 	};
 
-	public final static String[] handPointers = {
-
+	public final static String[] HAND_POINTERS = {
 			"\u261A", // BLACK LEFT POINTING INDEX
 			"\u261B", // BLACK RIGHT POINTING INDEX
 			"\u261C", // WHITE LEFT POINTING INDEX
 			"\u261D", // WHITE UP POINTING INDEX
 			"\u261E", // WHITE RIGHT POINTING INDEX
 			"\u261F", // WHITE DOWN POINTING INDEX
-
 	};
 
-	public final static String[] currency = {
-
+	public final static String[] CURRENCY = {
 			"\u20A0", // EURO-CURRENCY SIGN
 			"\u20A1", // COLON SIGN
 			"\u20A2", // CRUZEIRO SIGN
@@ -465,7 +378,6 @@ public class TableSymbols {
 			"\u20AD", // KIP SIGN
 			"\u20AE", // TUGRIK SIGN
 			"\u20AF", // DRACHMA SIGN
-
 	};
 
 	/**
@@ -473,9 +385,8 @@ public class TableSymbols {
 	 *            application
 	 * @return popup symbol table
 	 */
-	public final static String[][] basicSymbolsMap(Localization app) {
-
-		String[][] array = {
+	public static String[][] basicSymbolsMap(Localization app) {
+		return new String[][] {
 				// LOWERCASE GREEK
 				{ Unicode.alpha + "",
 						app.getPlain("GreekCharacterA", Unicode.alpha + "") },
@@ -590,9 +501,6 @@ public class TableSymbols {
 				{ Unicode.NBSP + "", app.getMenu("Symbol.NBSP") }, // non-breaking
 																	// space
 		};
-
-		return array;
-
 	}
 
 	/**
@@ -602,7 +510,7 @@ public class TableSymbols {
 	 *            symbol table
 	 * @return list of symbols
 	 */
-	public final static String[] basicSymbols(Localization app,
+	public static String[] basicSymbols(Localization app,
 			String[][] map) {
 
 		ArrayList<String> extraSymbols = new ArrayList<>();
@@ -632,7 +540,7 @@ public class TableSymbols {
 	 *            international symbols
 	 * @return symbols
 	 */
-	public final static String[] basicSymbolsToolTips(Localization app,
+	public static String[] basicSymbolsToolTips(Localization app,
 			String[][] map) {
 
 		ArrayList<String> extraTooltips = new ArrayList<>();
@@ -661,32 +569,28 @@ public class TableSymbols {
 	 *            app
 	 * @return translated names eg sin(x) -> sen(x)
 	 */
-	public final static String[] getTranslatedFunctions(App app) {
-
-		StringBuilder sb = new StringBuilder();
+	public static String[] getTranslatedFunctions(App app) {
+		ParserFunctions parserFunctions = app.getParserFunctions();
 		Localization loc = app.getLocalization();
-		String[] ret = new String[functions.length];
-		for (int i = 0; i < functions.length; i++) {
-			String[] strs = functions[i].split("\\(");
-
+		ArrayList<String> functions = new ArrayList<>();
+		for (String function: FUNCTIONS) {
+			String[] strs = function.split("\\(", 2);
 			String functionName = strs[0].trim();
-			String translatedFunctionName = loc
-					.getMenu(Localization.FUNCTION_PREFIX + functionName);
-			if (translatedFunctionName
-					.startsWith(Localization.FUNCTION_PREFIX)) {
-				// translation not supported for this function
-				ret[i] = functions[i];
-			} else {
-				sb.setLength(0);
-				sb.append(' ');
-				sb.append(translatedFunctionName);
-				sb.append('(');
-				sb.append(strs[1]);
-				ret[i] = sb.toString();
+			if (parserFunctions.isReserved(functionName)) {
+				String translatedFunctionName = loc
+						.getMenu(Localization.FUNCTION_PREFIX + functionName);
+				if (translatedFunctionName
+						.startsWith(Localization.FUNCTION_PREFIX)) {
+					// translation not supported for this function
+					functions.add(function);
+				} else {
+					String translated = " " + translatedFunctionName + "(" + strs[1];
+					functions.add(translated);
+				}
 			}
 		}
 
-		return ret;
+		return toArray(functions);
 	}
 
 	/**
@@ -696,43 +600,51 @@ public class TableSymbols {
 	 *            app
 	 * @return translated names eg sin(x) -> sen(x)
 	 */
-	public final static String[][] getTranslatedFunctionsGrouped(App app) {
-
-		StringBuilder sb = new StringBuilder();
+	public static String[][] getTranslatedFunctionsGrouped(App app) {
+		ParserFunctions parserFunctions = app.getParserFunctions();
 		Localization loc = app.getLocalization();
-		String[][] ret = new String[functionsGrouped.length][];
-		for (int i = 0; i < functionsGrouped.length; i++) {
-
-			ret[i] = new String[functionsGrouped[i].length];
-
-			for (int j = 0; j < functionsGrouped[i].length; j++) {
-
-				String[] strs = functionsGrouped[i][j].split("\\(");
+		List<List<String>> ret = new ArrayList<>();
+		for (String[] functionGroup: FUNCTIONS_GROUPED) {
+			List<String> group = new ArrayList<>();
+			for (String function: functionGroup) {
+				String[] strs = function.split("\\(", 2);
 				String functionName = strs[0].trim();
-				String translatedFunctionName = loc
-						.getMenu(Localization.FUNCTION_PREFIX + functionName);
-				if (translatedFunctionName
-						.startsWith(Localization.FUNCTION_PREFIX)) {
-					// translation not supported for this function
-					ret[i][j] = functionsGrouped[i][j];
-				} else {
-					sb.setLength(0);
-					sb.append(' ');
-					sb.append(translatedFunctionName);
-					sb.append('(');
-					sb.append(strs[1]);
-					ret[i][j] = sb.toString();
+				if (parserFunctions.isReserved(functionName)) {
+					String translatedFunctionName = loc
+							.getMenu(Localization.FUNCTION_PREFIX + functionName);
+					if (translatedFunctionName
+							.startsWith(Localization.FUNCTION_PREFIX)) {
+						group.add(function);
+					} else {
+						String translated = " " + translatedFunctionName + "(" + strs[1];
+						group.add(translated);
+					}
 				}
 			}
+			if (!group.isEmpty()) {
+				ret.add(group);
+			}
 		}
+		return toArrays(ret);
+	}
 
+	private static String[] toArray(List<String> list) {
+		return list.toArray(new String[0]);
+	}
+
+	private static String[][] toArrays(List<List<String>> lists) {
+		String[][] ret = new String[lists.size()][];
+		for (int i = 0; i < lists.size(); i++) {
+			List<String> list = lists.get(i);
+			ret[i] = toArray(list);
+		}
 		return ret;
 	}
 
 	/**
 	 * @return greek symbols including varphi, varepsilon etc.
 	 */
-	public final static String[] greekLettersPlusVariants() {
+	public static String[] greekLettersPlusVariants() {
 		ArrayList<String> list = new ArrayList<>();
 		GeoElement.addAddAllGreekUpperCase(list);
 		GeoElement.addAddAllGreekLowerCaseNoPi(list);
@@ -746,5 +658,4 @@ public class TableSymbols {
 
 		return s;
 	}
-
 }

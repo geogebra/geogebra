@@ -1,12 +1,11 @@
 package com.himamis.retex.editor.android.event;
 
-import android.os.Build;
+import com.himamis.retex.editor.android.FormulaEditor;
+import com.himamis.retex.editor.share.event.KeyListener;
+
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
-
-import com.himamis.retex.editor.android.FormulaEditor;
-import com.himamis.retex.editor.share.event.KeyListener;
 
 public class KeyListenerAdapter implements View.OnKeyListener {
 
@@ -72,12 +71,8 @@ public class KeyListenerAdapter implements View.OnKeyListener {
     }
 
     private static int getModifiers(KeyEvent keyEvent) {
-        if (Build.VERSION.SDK_INT >= 13) {
-            // TODO use the same modifiers as in natur/cuni... KeyEvent
-            return keyEvent.getModifiers();
-        }
-        // TODO ?
-        return 0;
+        // TODO use the same modifiers as in natur/cuni... KeyEvent
+        return keyEvent.getModifiers();
     }
 
     private static char getCharCode(KeyEvent keyEvent) {

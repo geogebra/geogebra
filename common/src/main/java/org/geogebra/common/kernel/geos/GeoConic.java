@@ -21,8 +21,6 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -40,6 +38,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -737,6 +737,28 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 	@Override
 	public boolean isPolynomialFunction(boolean forRoot) {
+		return true;
+	}
+
+	@Override
+	public boolean setTypeFromXML(String style, String parameter, boolean force) {
+		if ("implicit".equals(style)) {
+			setToImplicit();
+		} else if ("specific".equals(style)) {
+			setToSpecific();
+		} else if ("explicit".equals(style)) {
+			setToExplicit();
+		} else if ("parametric".equals(style)) {
+			setToParametric(parameter);
+		} else if ("user".equals(style)) {
+			setToUser();
+		} else if ("vertex".equals(style)) {
+			setToVertexform();
+		} else if ("conic".equals(style)) {
+			setToConicform();
+		} else {
+			return false;
+		}
 		return true;
 	}
 }

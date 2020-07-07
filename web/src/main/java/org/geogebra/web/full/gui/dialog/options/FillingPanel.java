@@ -22,7 +22,6 @@ import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -33,6 +32,8 @@ import org.geogebra.web.html5.util.ImageManagerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -301,9 +302,10 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		angleSlider.addChangeHandler(angleAndDistanceHandler);
 		distanceSlider.addChangeHandler(angleAndDistanceHandler);
 
-		tfInsertUnicode.addFocusListener(new FocusListenerW(this) {
+		tfInsertUnicode.addBlurHandler(new BlurHandler() {
+
 			@Override
-			protected void wrapFocusLost() {
+			public void onBlur(BlurEvent event) {
 				String symbolText = tfInsertUnicode.getText();
 				if (symbolText.isEmpty()) {
 					return;

@@ -2,8 +2,6 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.App;
 import org.geogebra.common.media.MediaFormat;
 import org.geogebra.common.media.MediaURLParser;
 
@@ -13,12 +11,9 @@ import org.geogebra.common.media.MediaURLParser;
  * @author laszlo
  *
  */
-public abstract class GeoMedia extends GeoWidget implements Translateable {
+public abstract class GeoMedia extends GeoWidget {
 	/** Source of the media, available for subclasses too */
 	protected String src;
-
-	/** Application for subclasses too. */
-	protected App app;
 
 	private MediaFormat format;
 
@@ -30,7 +25,6 @@ public abstract class GeoMedia extends GeoWidget implements Translateable {
 	 */
 	public GeoMedia(Construction c) {
 		super(c);
-		setAbsoluteScreenLocActive(false);
 		app = getKernel().getApplication();
 	}
 
@@ -68,21 +62,6 @@ public abstract class GeoMedia extends GeoWidget implements Translateable {
 	}
 
 	/**
-	 * Sets the source of the media.
-	 * 
-	 * @param src
-	 *            to set.
-	 * @param fireChanged
-	 *            determines if handler should be called or not.
-	 */
-	public void setSrc(String src, boolean fireChanged) {
-		this.src = src;
-		if (fireChanged) {
-			onSourceChanged();
-		}
-	}
-
-	/**
 	 * Set the source and call changed handler.
 	 * 
 	 * @param src
@@ -92,7 +71,8 @@ public abstract class GeoMedia extends GeoWidget implements Translateable {
 	 */
 	public void setSrc(String src, MediaFormat format) {
 		this.format = format;
-		setSrc(src, true);
+		this.src = src;
+		onSourceChanged();
 	}
 
 	/**
@@ -115,16 +95,6 @@ public abstract class GeoMedia extends GeoWidget implements Translateable {
 	 * Called after source has changed.
 	 */
 	protected abstract void onSourceChanged();
-
-	/**
-	 * Plays the media.
-	 */
-	public abstract void play();
-
-	/**
-	 * @return if media is playing.
-	 */
-	public abstract boolean isPlaying();
 
 	/**
 	 * @return the duration in seconds.
@@ -152,33 +122,8 @@ public abstract class GeoMedia extends GeoWidget implements Translateable {
 		return format;
 	}
 
-	/**
-	 * Stops media play back.
-	 */
-	public abstract void pause();
-
-	@Override
-	public void remove() {
-		pause();
-		super.remove();
-	}
-
 	@Override
 	public boolean isPinnable() {
-		return true;
-	}
-
-	@Override
-	public void translate(Coords v) {
-		for (int i = 0; i < corner.length; i++) {
-			if (corner[i] != null) {
-				corner[i].translate(v);
-			}
-		}
-	}
-
-	@Override
-	public boolean isTranslateable() {
 		return true;
 	}
 }

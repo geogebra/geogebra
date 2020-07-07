@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.toolbar;
 
-import java.util.List;
-import java.util.TreeSet;
 import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -34,12 +32,13 @@ public class ToolBar {
 	/**
 	 * any toolbar composed of a set of following menus should be considered as
 	 * default toolbar
-	 * 
+	 *
 	 * The first group depends on selection tool and rotate tool (different for
 	 * desktop x web and prerelease x stable): accept all
 	 */
 	static private final String[][] DEFAULT_TOOLBAR = {
-			{ "0 39 73 62 110", "0 39 73 62", "0 73 62", "0 77 73 62", "0 39 77 73 62" },
+			{ "0 39 73 62 110", "0 39 73 62", "0 73 62", "0 77 73 62", "0 39 77 73 62",
+					"0 77 73 74 62"},
 			{ "1 501 67 5 19 72 75 76" }, { "2 15 45 18 65 7 37" },
 			{ "4 3 8 9 13 44 58 47" }, { "16 51 64 70" },
 			{ "10 34 53 11 24 20 22 21 23" }, { "55 56 57 12" },
@@ -53,8 +52,10 @@ public class ToolBar {
 	static private final String[][] DEFAULT_TOOLBAR_3D = { { "0" },
 			{ "1 501 5 19 67" }, { "2 15 45 18 7 37" }, { "514 3 9 13 44 47" },
 			{ "16", "16 51" },
-            { "551 550 11 20 22 21 23 55 56 57 12", "551 550 11 22 23 55 56 57 12" }, { "69" },
-			{ "510 511 512 513" }, { "533 531 534 532 522 523 537 536 535" },
+			{ "551 550 11 20 22 21 23 55 56 57 12", "551 550 11 22 23 55 56 57 12" }, { "69" },
+			{ "510 511 512 513" },
+			{ "533 531 534 532 522 523 537 536 535",
+					"533 531 534 532 538 522 523 537 536 535" },
 			{ "521 520" }, { "36 38 49 560" }, { "571 30 29 570 31 33" },
 			{ "17" }, { "540 40 41 42 27 28 35 6 502" } };
 
@@ -66,7 +67,7 @@ public class ToolBar {
 	/**
 	 * Returns with the default definition of the general tool bar without
 	 * macros.
-	 * 
+	 *
 	 * @param html5
 	 *            true, if all menus must appear. (On the web there are some
 	 *            tools, which don't appear.)
@@ -84,7 +85,7 @@ public class ToolBar {
 	/**
 	 * Returns with the default definition of the general tool bar without
 	 * macros.
-	 * 
+	 *
 	 * @param html5
 	 *            true, if all menus must appear. (On the web there are some
 	 *            tools, which don't appear.)
@@ -316,7 +317,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
 		sb.append(" ");
@@ -337,10 +338,22 @@ public class ToolBar {
 	 *            the application.
 	 * @return definition for MOW media toolbar
 	 */
-    public static String getMOWMediaToolBarDefString(App app, boolean includeGraspableMath) {
+	public static String getMOWMediaToolBarDefString(App app, boolean includeGraspableMath) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(app.has(Feature.MOW_TEXT_TOOL) ? EuclidianConstants.MODE_MEDIA_TEXT
 				: EuclidianConstants.MODE_TEXT);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_EQUATION);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_GRAPHING);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CAS);
+		if (includeGraspableMath) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_GRASPABLE_MATH);
+		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_EXTENSION);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_IMAGE);
 		sb.append(" ");
@@ -350,17 +363,7 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_AUDIO);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_GRAPHING);
-        sb.append(" ");
-        sb.append(EuclidianConstants.MODE_CAS);
-        if (includeGraspableMath) {
-            sb.append(" ");
-            sb.append(EuclidianConstants.MODE_GRASPABLE_MATH);
-        }
-		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PDF);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_EXTENSION);
 		sb.append(" | ");
 		return sb.toString();
 	}
@@ -379,13 +382,15 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON);
+		sb.append(EuclidianConstants.MODE_SHAPE_PENTAGON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_MASK);
 
 		return sb.toString();
 	}
@@ -615,8 +620,8 @@ public class ToolBar {
 
 		// polygons
 		sb.append(EuclidianConstants.MODE_POLYGON);
-        sb.append(" ");
-        sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
 		sb.append(" | ");
 
 		// conics
@@ -674,10 +679,6 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CONIFY);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EXTRUSION);
-        if (app.has(Feature.SURFACE_OF_REVOLUTION_TOOL)) {
-            sb.append(" ");
-            sb.append(EuclidianConstants.MODE_SURFACE_OF_REVOLUTION);
-        }
 
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS);
@@ -691,6 +692,8 @@ public class ToolBar {
 
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_NET);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SURFACE_OF_REVOLUTION);
 		sb.append(" | ");
 
 		// spheres
@@ -754,10 +757,10 @@ public class ToolBar {
 	 * Parses a toolbar definition string like "0 , 1 2 | 3 4 5 || 7 8 9" where
 	 * the int values are mode numbers, "," adds a separator within a menu, "|"
 	 * starts a new menu and "||" adds a separator before starting a new menu.
-	 * 
+	 *
 	 * @param toolbarString
 	 *            toolbar definition string
-	 * 
+	 *
 	 * @return toolbar as nested Vector objects with Integers for the modes.
 	 *         Note: separators have negative values.
 	 * @throws NumberFormatException
@@ -885,22 +888,6 @@ public class ToolBar {
 	}
 
 	/**
-	 * @param standardToolbar
-	 *            toolbar items
-	 */
-	public static void removeSeparators(List<ToolbarItem> standardToolbar) {
-		for (ToolbarItem item : standardToolbar) {
-			Vector<Integer> menu = item.getMenu();
-			// iterate through menu backwards because items might be removed
-			for (int i = menu.size() - 1; i > -1; i--) {
-				if (ToolBar.SEPARATOR.equals(menu.get(i))) {
-					menu.remove(i);
-				}
-			}
-		}
-	}
-
-	/**
 	 * Filter for tools
 	 */
 	static public class ToolsRemover {
@@ -935,53 +922,18 @@ public class ToolBar {
 	/**
 	 * @param definition
 	 *            toolbar definition
-	 * @return whether this is default toolbar pre 5.0.280
-	 */
-	final static public boolean isOldDefaultToolbar(String definition) {
-
-		if (definition == null) {
-			return false;
-		}
-
-		String[] defSplit = split(definition);
-
-		return isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_PRE_5_0_280);
-	}
-
-	/**
-	 * @param definition
-	 *            toolbar definition
 	 * @return whether this is default toolbar of any version
 	 */
 	final static public boolean isDefaultToolbar(String definition) {
-
 		if (definition == null) {
 			return false;
 		}
 
 		String[] defSplit = split(definition);
 
-		if (isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_PRE_5_0_280)) {
-			return true;
-		}
-
-		return isDefaultToolbar(defSplit, DEFAULT_TOOLBAR);
-	}
-
-	/**
-	 * @param definition
-	 *            toolbar definition
-	 * @return whether this is default 3D toolbar
-	 */
-	final static public boolean isDefaultToolbar3D(String definition) {
-
-		if (definition == null) {
-			return false;
-		}
-
-		String[] defSplit = split(definition);
-
-		return isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_3D);
+		return isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_PRE_5_0_280)
+				|| isDefaultToolbar(defSplit, DEFAULT_TOOLBAR)
+				|| isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_3D);
 	}
 
 	final static private boolean isDefaultToolbar(String[] split, String[][] defaultToolbar) {
@@ -1016,31 +968,4 @@ public class ToolBar {
 
 		return def2.split(" \\| "); // split by tool menus
 	}
-
-	/**
-	 * @param definition
-	 *            toolbar definition
-	 * @return set of tools used in the definition
-	 */
-	final static public TreeSet<Integer> toSet(String definition) {
-		String def2 = definition.replaceAll(",", " "); // remove comas
-		def2 = def2.replaceAll("\\|", " "); // remove vertical bars
-		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
-
-		String[] split = def2.split(" "); // split by tool menus
-
-		TreeSet<Integer> ret = new TreeSet<>();
-		for (String s : split) {
-			try {
-				int mode = Integer.parseInt(s);
-				ret.add(mode);
-			} catch (NumberFormatException e) {
-				// not an integer
-			}
-		}
-
-		return ret;
-
-	}
-
 }

@@ -57,6 +57,8 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
+import elemental2.dom.DomGlobal;
+
 public class JlmLib {
 
 	private StringBuilder initString;
@@ -86,22 +88,14 @@ public class JlmLib {
 		return draw(icon, ctx, x, y, fgColorString, bgColorString, callback);
 	}
 
-	public static native double getPixelRatio() /*-{
-		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
-				.getContext("2d");
-		devicePixelRatio = $wnd.devicePixelRatio || 1;
-		backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio
-				|| testCtx.mozBackingStorePixelRatio
-				|| testCtx.msBackingStorePixelRatio
-				|| testCtx.oBackingStorePixelRatio
-				|| testCtx.backingStorePixelRatio || 1;
-		return devicePixelRatio / backingStorePixelRatio;
-	}-*/;
+	public static double getPixelRatio() {
+		return DomGlobal.window.devicePixelRatio;
+	}
 
 	public static JavaScriptObject draw(TeXIcon icon, Context2d ctx,
 			final int x, final int y, final String fgColorString,
 			final String bgColorString, final JavaScriptObject callback) {
-        return draw(icon, ctx, x, y, Colors.decode(fgColorString),
+		return draw(icon, ctx, x, y, Colors.decode(fgColorString),
 				bgColorString, callback, getPixelRatio());
 	}
 
@@ -115,18 +109,13 @@ public class JlmLib {
 		ctx.scale(ratio, ratio);
 		// fill the background color
 		if (bgColorString != null && !bgColorString.equals("")) {
-            final Color bgColor = Colors.decode(bgColorString);
+			final Color bgColor = Colors.decode(bgColorString);
 			g2.setColor(bgColor);
 			g2.fillRect(x, y, icon.getIconWidth(), icon.getIconHeight());
 		}
 
 		// set the callback
-		g2.setDrawingFinishedCallback(new DrawingFinishedCallback() {
-			@Override
-			public void onDrawingFinished(boolean async) {
-				callJavascriptCallback(callback, async);
-			}
-		});
+		g2.setDrawingFinishedCallback(async -> callJavascriptCallback(callback, async));
 
 		// paint the icon
 

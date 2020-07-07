@@ -33,8 +33,8 @@ public class ScreenReader {
 		if (0 < app.getSelectionManager().getSelectedGeos().size()) {
 			GeoElement geo0 = app.getSelectionManager().getSelectedGeos().get(0);
 			// do not steal focus from input box
-            if (geo0.isGeoInputBox()
-                    || app.getMode() == EuclidianConstants.MODE_PEN) {
+			if (geo0.isGeoInputBox()
+					|| app.getMode() == EuclidianConstants.MODE_PEN) {
 				return;
 			}
 			readText(geo0);
@@ -46,7 +46,7 @@ public class ScreenReader {
 	 *            selected element
 	 */
 	public static void readText(GeoElement geo) {
-        readText(getAuralText(geo, new ScreenReaderBuilder()), geo.getKernel().getApplication());
+		readText(getAuralText(geo, new ScreenReaderBuilder()), geo.getKernel().getApplication());
 	}
 
 	private static void readText(String text, App app) {
@@ -406,7 +406,7 @@ public class ScreenReader {
 	 *            the application.
 	 */
 	public static void readAnimationState(App app) {
-		String text = "";
+		String text;
 		Localization loc = app.getLocalization();
 		if (app.getKernel().getAnimatonManager().isRunning()) {
 			text = loc.getMenuDefault("AnimationStarted", "animation is started");
@@ -419,23 +419,25 @@ public class ScreenReader {
 	/**
 	 * @param sel
 	 *            selected object
+	 * @param builder
+	 *            screen reader output builder
 	 * @return aural text + info about next/prev objects
 	 */
-    public static String getAuralText(GeoElement sel, ScreenReaderBuilder builder) {
+	public static String getAuralText(GeoElement sel, ScreenReaderBuilder builder) {
 		sel.getAuralText(builder);
 
-        if (!builder.isMobile()) {
-            builder.appendSpace();
-            Localization loc = sel.getKernel().getLocalization();
-            if (sel.getKernel().getApplication().getSelectionManager()
-                    .hasNext(sel)) {
-                builder.append(loc.getMenuDefault("PressTabToSelectNext",
-                        "Press tab to select next object"));
-            } else {
-                // e.g. zoom panel
-                builder.append(loc.getMenuDefault("PressTabToSelectControls",
-                        "Press tab to select controls"));
-            }
+		if (!builder.isMobile()) {
+			builder.appendSpace();
+			Localization loc = sel.getKernel().getLocalization();
+			if (sel.getKernel().getApplication().getSelectionManager()
+					.hasNext(sel)) {
+				builder.append(loc.getMenuDefault("PressTabToSelectNext",
+						"Press tab to select next object"));
+			} else {
+				// e.g. zoom panel
+				builder.append(loc.getMenuDefault("PressTabToSelectControls",
+						"Press tab to select controls"));
+			}
 		}
 		return builder.toString();
 	}
@@ -447,5 +449,13 @@ public class ScreenReader {
 	 */
 	public static String convertToReadable(String s) {
 		return s.replace("_", " subscript ").replace("-", " minus ");
+	}
+
+	/**
+	 * @param text
+	 *            debug string with a prefix (for console filter)
+	 */
+	public static void debug(String text) {
+		Log.debug("read text: " + text);
 	}
 }

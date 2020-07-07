@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GBufferedImage;
@@ -25,9 +27,12 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianHost;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.MaskWidgetList;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -35,18 +40,22 @@ import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
-import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.font.FontCreator;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.AbstractToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.CustomToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GeometryToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.Graphing3DToolCollectionFactory;
 import org.geogebra.common.gui.toolcategorization.impl.GraphingToolCollectionFactory;
+import org.geogebra.common.gui.toolcategorization.impl.SuiteToolCollectionFactory;
+import org.geogebra.common.gui.view.algebra.GeoElementValueConverter;
+import org.geogebra.common.gui.view.algebra.ProtectiveGeoElementValueConverter;
+import org.geogebra.common.gui.view.algebra.fiter.AlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.fiter.DefaultAlgebraOutputFilter;
+import org.geogebra.common.gui.view.algebra.fiter.ProtectiveAlgebraOutputFilter;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.file.ByteArrayZipFile;
@@ -63,18 +72,24 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.kernel.geos.DefaultGeoPriorityComparator;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPriorityComparator;
+import org.geogebra.common.kernel.geos.NotesPriorityComparator;
+import org.geogebra.common.kernel.geos.description.DefaultLabelDescriptionConverter;
+import org.geogebra.common.kernel.geos.description.ProtectiveLabelDescriptionConverter;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -86,7 +101,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.SettingsBuilder;
-import org.geogebra.common.main.settings.ToolbarSettings;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
@@ -110,6 +124,7 @@ import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.profiler.FpsProfiler;
 
@@ -180,12 +195,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// please let 1024 to 2047 empty
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
-	/** data collection view (web only) */
-	public static final int VIEW_DATA_COLLECTION = 43;
-    /**
-     * accessibility view in Web
-     */
-    public static final int VIEW_ACCESSIBILITY = 44;
+	/** accessibility view in Web */
+	public static final int VIEW_ACCESSIBILITY = 44;
 	/** id for table view */
 	public static final int VIEW_TABLE = 8192;
 	/** id for tools view */
@@ -235,6 +246,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected final boolean[] showAxes = { true, true };
 	/** whether axes should be logarithmic when EV is created */
 	protected final boolean[] logAxes = { false, false };
+
+	/** This field filters from the outputs sensitive info, such as equations generated by tools. */
+	private ToStringConverter<GeoElement> outputFilter;
 
 	/**
 	 * Whether we are running applet in frame. Not possible with 4.2+ (we need
@@ -409,11 +423,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// whether to allow perspective and login popups
 	private boolean allowPopUps = false;
 
-    private Platform platform;
-	/**
-	 * static so that you can copy & paste between instances
-	 */
-	public static volatile CopyPaste copyPaste = null;
+	private Platform platform;
+
 	static final protected long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 100;
 
 	private ArrayList<String> mLastCommandsSelectedFromHelp;
@@ -426,16 +437,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	final static public long CE_ID_COUNTER_START = 1;
 	private long ceIDcounter = CE_ID_COUNTER_START;
 	private int nextVariableID = 1;
-    private int nextLineID = 1;
-	private boolean buttonShadows = false;
-	private double buttonRounding = 0.2;
 	private SpecialPointsManager specialPointsManager;
 
 	private boolean areCommands3DEnabled = true;
 	protected AccessibilityManagerInterface accessibilityManager;
-	private static volatile MD5EncrypterGWTImpl md5Encrypter;
 	private SettingsUpdater settingsUpdater;
 	private FontCreator fontCreator;
+	private AlgebraOutputFilter algebraOutputFilter;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -2278,8 +2286,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			currentSelectionListener = null;
 		}
-		if (getVideoManager() != null && mode != EuclidianConstants.MODE_MOVE) {
-			getVideoManager().backgroundAll();
+		if (mode != EuclidianConstants.MODE_MOVE) {
+			euclidianController.widgetsToBackground();
 		}
 		if (getGuiManager() != null) {
 			setModeFromGuiManager(mode, m);
@@ -2808,6 +2816,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
+	/**
+	 * Enable the full user interface.
+	 */
+	public void enableUseFullGui() {
+		useFullGui = true;
+	}
+
 	public boolean getUseFullGui() {
 		return useFullGui;
 	}
@@ -2938,7 +2953,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	public ParserFunctions getParserFunctions() {
 		if (pf == null) {
-			pf = new ParserFunctions();
+			pf = getConfig().createParserFunctions();
 		}
 		pf.setInverseTrig(
 				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
@@ -3639,14 +3654,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public abstract CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel);
 
 	/**
-	 * Should lose focus on Web applets, implement only where appropriate
-	 */
-	public void loseFocus() {
-		Log.debug(
-				"Should lose focus on Web applets, implement (override) only where appropriate");
-	}
-
-	/**
 	 * Whether the app is running just to create a screenshot, some
 	 * recomputations can be avoided in such case
 	 *
@@ -3820,10 +3827,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// *********************************************************
 		// **********************************************************************
 
-		// MOB-270
-		case ACRA:
-			return prerelease;
-
 		case ANALYTICS:
 			return prerelease;
 
@@ -3841,7 +3844,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** MOB-1293 */
 		case SELECT_TOOL_NEW_BEHAVIOUR:
-			return prerelease;
+			return prerelease || whiteboard;
 
 		// **********************************************************************
 		// MOBILE END
@@ -3862,19 +3865,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		/** MOW-189 */
 		case MOW_TEXT_TOOL:
-			return prerelease && whiteboard;
-
-		/**
-		 * MOW-679
-		 *
-		 * doesn't work with Reflect(penstroke, Object)
-		 */
-            case MOW_PEN_IS_LOCUS:
-                return whiteboard;
-
-            /** MOW-763 */
-            case VIDEO_PLAYER_OFFLINE:
-			return prerelease && whiteboard;
+			return whiteboard;
 
 		// **********************************************************************
 		// MOW END
@@ -3960,9 +3951,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
          */
             case SPEECH_RECOGNITION:
                 return false;
-
-            case SURFACE_OF_REVOLUTION_TOOL:
-			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -4073,13 +4061,21 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return true;
 	}
 
+	private boolean handleResetButton() {
+		if (!getActiveEuclidianView().isResetIconSelected()) {
+			return false;
+		}
+		reset();
+		return true;
+	}
+
 	/**
 	 * handle space key hitted
 	 *
 	 * @return true if key is consumed
 	 */
 	public boolean handleSpaceKey() {
-		if (handlePressAnimationButton()) {
+		if (handlePressAnimationButton() || handleResetButton()) {
 			return true;
 		}
 
@@ -4581,12 +4577,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return copy/paste utility
 	 */
 	public CopyPaste getCopyPaste() {
-		// return 2D version in AppD, AppW, AppWSimple
-		if (copyPaste == null) {
-			copyPaste = new CopyPaste3D();
-		}
-
-		return copyPaste;
+		return null;
 	}
 
 	/**
@@ -4741,32 +4732,18 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
     }
 
 	/**
-	 * @return tool categorization for this app
-	 */
-	public ToolCategorization createToolCategorization() {
-		// Needed temporary, until the toolset levels are not implemented on iOS
-		// too
-        ToolbarSettings set = getSettings().getToolbarSettings();
-		set.setFrom(getConfig(), getPlatform().isPhone());
-		return new ToolCategorization(this, getSettings().getToolbarSettings());
-	}
-
-	/**
 	 * Create a tool collection factory for this app.
 	 *
 	 * @return a ToolCollectionFactory
 	 */
 	public ToolCollectionFactory createToolCollectionFactory() {
-		ToolCollectionFactory factory = null;
 		String toolbarDefinition = getGuiManager().getToolbarDefinition();
 		if (toolbarDefinition == null
-				|| ToolBar.isDefaultToolbar(toolbarDefinition)
-				|| ToolBar.isDefaultToolbar3D(toolbarDefinition)) {
-			factory = createDefaultToolCollectionFactory();
+				|| ToolBar.isDefaultToolbar(toolbarDefinition)) {
+			return createDefaultToolCollectionFactory();
 		} else {
-			factory = new CustomToolCollectionFactory(this, toolbarDefinition);
+			return new CustomToolCollectionFactory(this, toolbarDefinition);
 		}
-		return factory;
 	}
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {
@@ -4780,6 +4757,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
                 break;
             case GRAPHER_3D:
 				factory = new Graphing3DToolCollectionFactory();
+				break;
+			case SUITE:
+				factory = new SuiteToolCollectionFactory();
 				break;
 			default:
                 factory = new GraphingToolCollectionFactory();
@@ -4824,52 +4804,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 
 		return accessibilityManager;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @param b
-	 *            set whether buttons have shadows
-	 */
-	public void setButtonShadows(boolean b) {
-		this.buttonShadows = b;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @param percent
-	 *            set how rounded buttons are
-	 */
-	public void setButtonRounding(double percent) {
-		if (!MyDouble.isFinite(percent)) {
-			this.buttonRounding = 0.2;
-		} else if (percent < 0) {
-			this.buttonRounding = 0;
-		} else if (percent > 0.9) {
-			this.buttonRounding = 0.9;
-		} else {
-			this.buttonRounding = percent;
-		}
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @return how rounded buttons are
-	 */
-	public double getButtonRouding() {
-		return buttonRounding;
-	}
-
-	/**
-	 * GGB-2171
-	 *
-	 * @return whether buttons have shadows
-	 */
-	public boolean getButtonShadows() {
-		return buttonShadows;
 	}
 
 	/**
@@ -5028,20 +4962,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public String md5Encrypt(String s) {
-		return getMD5EncrypterStatic().encrypt(s);
+		return MD5EncrypterGWTImpl.encrypt(s);
 	}
 
-	/**
-	 * @return MD5 encrypter that can be used in GWT
-	 */
-	public static synchronized MD5EncrypterGWTImpl getMD5EncrypterStatic() {
-		if (md5Encrypter == null) {
-			md5Encrypter = new MD5EncrypterGWTImpl();
-		}
-		return md5Encrypter;
-	}
-
-	public EmbedManager getEmbedManager() {
+	public @CheckForNull EmbedManager getEmbedManager() {
 		return null;
 	}
 
@@ -5183,12 +5107,102 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
         // no-op
     }
 
-    /**
-     * Ends the recording of the drawing and logs the results.
-     *
-     * For autonomous drawing, the logged result has to be copied into the coords.json file.
-     */
-    public void endDrawRecordingAndLogResults() {
-        // no-op
-    }
+	/**
+	 * Ends the recording of the drawing and logs the results.
+	 *
+	 * For autonomous drawing, the logged result has to be copied into the coords.json file.
+	 */
+	public void endDrawRecordingAndLogResults() {
+		// no-op
+	}
+
+	public MaskWidgetList getMaskWidgets() {
+		return null;
+	}
+
+	/**
+	 * Initializes and returns the output filter based on the AppConfig.
+	 * The output filter is responsible for filtering the sensitive information from the output,
+	 * such as equations generated by tools.
+	 *
+	 * @return output filter instance
+	 */
+	public ToStringConverter<GeoElement> getLabelDescriptionConverter() {
+		if (outputFilter == null) {
+			if (getConfig().shouldHideEquations()) {
+				outputFilter = new ProtectiveLabelDescriptionConverter();
+			} else {
+				outputFilter = new DefaultLabelDescriptionConverter();
+			}
+		}
+		return outputFilter;
+	}
+
+	/**
+	 * Creates a converter that converts a GeoElement to string, used in Algebra View.
+	 *
+	 * @return GeoElement to String converter
+	 */
+	public ToStringConverter<GeoElement> createGeoElementValueConverter() {
+		if (getConfig().shouldHideEquations()) {
+			return new ProtectiveGeoElementValueConverter();
+		} else {
+			return new GeoElementValueConverter();
+		}
+	}
+
+	/**
+	 * Creates an AlgebraOutputFilter based on the AppConfig if it doesn't exist yet and returns it.
+	 * @return AlgebraOutputFilter instance
+	 */
+	public AlgebraOutputFilter getAlgebraOutputFilter() {
+		if (algebraOutputFilter == null) {
+			if (getConfig().shouldHideEquations()) {
+				algebraOutputFilter = new ProtectiveAlgebraOutputFilter();
+			} else {
+				algebraOutputFilter = new DefaultAlgebraOutputFilter();
+			}
+		}
+		return algebraOutputFilter;
+	}
+
+	/**
+	 * Visible only for testing.
+	 */
+	public void resetAlgebraOutputFilter() {
+		algebraOutputFilter = null;
+	}
+
+	/**
+	 * Create an inline text controller iff the view supports inline text
+	 * editing.
+	 *
+	 * @param geo
+	 *            inline text
+	 *
+	 * @return an implementation of the text controller.
+	 */
+	public InlineTextController createInlineTextController(EuclidianView view,
+		   GeoInlineText geo) {
+		return null;
+	}
+
+	public InlineFormulaController createInlineFormulaController(EuclidianView view,
+			GeoFormula geo) {
+		return null;
+	}
+
+	/**
+	 * GeoPriorityComparators are used to decide the drawing
+	 * and selection orders of Geos
+	 * @return the default comparator (layer -> type -> construction order) in every
+	 * app except notes, where the geo's `ordering` is used
+	 */
+	public GeoPriorityComparator getGeoPriorityComparator() {
+		if (isWhiteboardActive()) {
+			return new NotesPriorityComparator();
+		} else {
+			return new DefaultGeoPriorityComparator();
+		}
+	}
 }

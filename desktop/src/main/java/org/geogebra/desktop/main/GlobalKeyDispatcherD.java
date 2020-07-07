@@ -12,12 +12,14 @@ import javax.swing.JRootPane;
 import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -29,6 +31,7 @@ import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.OOMLConverter;
 import org.geogebra.desktop.util.UtilD;
 
+import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.util.KeyCodes;
 
 /**
@@ -61,7 +64,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		// text areas)
 		// or key events coming from popups (source class = JRootPane)
 		if (event.isConsumed() || event.getSource() instanceof JTextComponent
-				|| event.getSource() instanceof JRootPane) {
+				|| event.getSource() instanceof JRootPane
+				|| event.getSource() instanceof MathFieldD) {
 			return false;
 		}
 
@@ -106,11 +110,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		if (handleSelectedGeosKeys(event, selection.getSelectedGeos())) {
-			return true;
-		}
-
-		return false;
+		return handleSelectedGeosKeys(event, selection.getSelectedGeos());
 	}
 
 	/**
@@ -169,8 +169,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			return true;
 		}
 
-		if (((AppD) app).isUsingFullGui()
-				&& ((GuiManagerD) app.getGuiManager()).noMenusOpen()) {
+		if (app.isUsingFullGui()
+				&& app.getGuiManager().noMenusOpen()) {
 			if (app.showAlgebraInput() && !((GuiManagerD) app.getGuiManager())
 					.getAlgebraInput().hasFocus()) {
 				// focus this frame (needed for external view windows)
@@ -189,7 +189,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	}
 
 	@Override
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown) {
+	public boolean handleTabDesktop(boolean isControlDown, boolean isShiftDown) {
 
 		app.getActiveEuclidianView().closeDropdowns();
 
@@ -203,8 +203,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 		}
 		boolean useTab = app.getActiveEuclidianView().hasFocus()
-				|| ((GuiManagerD) app.getGuiManager()).getAlgebraView()
-						.hasFocus();
+				|| app.getAlgebraView().hasFocus();
 
 		// make sure TAB works in Input Boxes but also in Spreadsheet, Input Bar
 		Component owner = ((AppD) app).getFrame().getFocusOwner();
@@ -214,7 +213,15 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		}
 
 		if (useTab) {
-			super.handleTab(isControlDown, isShiftDown);
+			EuclidianView ev = app.getActiveEuclidianView();
+
+			ev.closeDropdowns();
+
+			if (isShiftDown) {
+				selection.selectLastGeo();
+			} else {
+				selection.selectNextGeo();
+			}
 			return true;
 		}
 
@@ -227,8 +234,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				.hasFocus())
 				&& !(((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
 						.getAlgebraInput()).getTextField().hasFocus())) {
-
-			super.handleCopyCut(cut);
+			CopyPaste.handleCutCopy(app, cut);
 		}
 	}
 
@@ -239,7 +245,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				&& !(((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
 						.getAlgebraInput()).getTextField().hasFocus())) {
 
-			super.handleCtrlV();
+			app.setWaitCursor();
+			app.getCopyPaste().pasteFromXML(app);
+			app.setDefaultCursor();
 			tryPasteEquation();
 		}
 	}
@@ -274,7 +282,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			// load next file in folder
 
 			// ask if OK to discard current file
-			if (((AppD) app).isSaved() || ((AppD) app).saveCurrentFile()) {
+			if (app.isSaved() || ((AppD) app).saveCurrentFile()) {
 				MyFileFilter fileFilter = new MyFileFilter();
 				fileFilter.addExtension(FileExtensions.GEOGEBRA);
 				File[] options = ((AppD) app).getCurrentPath()
@@ -294,9 +302,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				}
 				TreeSet<File> sortedSet = new TreeSet<>(
 						UtilD.getFileComparator());
-				for (int i = 0; i < options.length; i++) {
-					if (options[i].isFile()) {
-						sortedSet.add(options[i]);
+				for (File option : options) {
+					if (option.isFile()) {
+						sortedSet.add(option);
 					}
 				}
 

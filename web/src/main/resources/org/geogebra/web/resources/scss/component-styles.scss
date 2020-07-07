@@ -1,6 +1,39 @@
 @import 'colors';
 
 .GeoGebraFrame {
+
+    /* CHECKBOX COMPONENT */
+    .checkbox {
+        width: 18px;
+        height: 18px;
+        padding: 3px;
+        position: relative;
+        cursor: pointer;
+
+        .background {
+            width: 18px;
+            height: 18px;
+            box-sizing: border-box;
+            border: 2px solid;
+            border-radius: 2px;
+            border-color: $black-54;
+            background-color: transparent;
+            transition: border-color 90ms cubic-bezier(0,0,.2,1) 0ms,background-color 90ms cubic-bezier(0,0,.2,1) 0ms;
+         }
+
+         .checkmark {
+             position: absolute;
+             left: 5px;
+             top: 5px;
+         }
+
+        &.selected {
+            .background {
+                border-color: $mow_primary;
+                background-color: $mow_primary;
+            }
+        }
+    }
 	
 	/* SWITCHER COMPONENT */
 	.switch {
@@ -240,5 +273,110 @@
             letter-spacing: 0.2px;
             margin-bottom: 48px;
         }
+    }
+
+    .dialogComponent {
+        z-index: 500;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0,0,0,.12);
+        max-width: 500px;
+        max-height: 350px;
+        width: 90%;
+        height: 100%;
+
+        .popupContent {
+            height: 100%;
+        }
+
+        .dialogMainPanel {
+            padding: 20px 0px 0px 24px;
+            height: calc(100% - 20px);
+
+            .dialogTitle {
+                height: 20px;
+                font-size: 125%;
+                margin-bottom: 20px;
+                color: $text-primary;
+            }
+
+            .dialogContent {
+                // 112px = 20px title + 20px margin + 52px button panel
+                // NOTE: this needs to be adjusted according what is added to the dialog
+                // (e.g. if no buttons do not add button panel height)
+                height: calc(100% - 92px);
+                background-color: aliceblue;
+                padding-right: 24px;
+            }
+
+            .dialogBtnPanel {
+                display: inline-block;
+                padding: 8px 8px 8px 24px;
+                position: absolute;
+                right: 0px;
+                bottom: 0px;
+            }
+        }
+    }
+
+    /** Material Design TEXT BUTTON **/
+    .materialTextButton {
+        display: inline-block;
+        min-width: 64px;
+        height: 36px;
+        background: transparent;
+        color: $mow_primary;
+        font-size: 90%;
+        letter-spacing: .04em;
+        line-height: 36px;
+        text-transform: uppercase;
+        border-radius: 4px;
+        padding: 0px 8px;
+        margin-left: 8px;
+        cursor: pointer;
+        transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            background: $mow_card_background_hover;
+        }
+
+        .html-face {
+            text-align: center;
+        }
+    }
+
+    /** Material Design CONTAINED BUTTON **/
+    .materialContainedButton {
+        @extend .materialTextButton;
+
+        padding: 0px 16px;
+        background-color: $mow_primary;
+        color: white;
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0,0,0,.12);
+        transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+            background: $mow_primary;
+            box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
+        }
+    }
+
+    /** Material TEXT BUTTON used for dialogs negative action **/
+    .dialogTextButton {
+        @extend .materialTextButton;
+
+        color: $black-54;
+
+        &:hover {
+            color: $dialog-text-btn-hover;
+            background-color: $selected-menuitem-background;
+        }
+    }
+
+    /** Material CONTAINED BUTTON used for dialogs positive action **/
+    .dialogContainedButton {
+        @extend .materialContainedButton;
+
+        box-shadow: none;
     }
 }

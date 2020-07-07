@@ -1,18 +1,15 @@
 package org.geogebra.web.shared.ggtapi.models;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.media.EmbedURLChecker;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
-import org.geogebra.common.move.ggtapi.operations.URLChecker;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.WindowW;
-import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Request;
@@ -27,7 +24,6 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Window.Location;
 
 /**
  * API Interface for GeoGebraTube requests and responses
@@ -36,7 +32,6 @@ import com.google.gwt.user.client.Window.Location;
  * 
  */
 public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
-    private URLChecker urlChecker = null;
 
 	/**
 	 * @param beta
@@ -50,24 +45,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			ArticleElementInterface articleElement) {
 		super(beta, articleElement);
 		this.client = client;
-        if (Location.getHost() != null
-                && Location.getHost().contains("geogebra")) {
-            urlChecker = new EmbedURLChecker(
-                    articleElement.getParamBackendURL());
-        } else {
-            urlChecker = new MarvlURLChecker();
-        }
 	}
-
-	// /**
-	// * Return a list of all Materials from the specified author
-	// * ! Should be the same search as for materials!
-	// * @param author
-	// */
-	// public void getAuthorsMaterials(String author, RequestCallback callback)
-	// {
-	// throw new UnsupportedOperationException();
-	// }
 
 	/**
 	 * Copies the user data from the API response to this user.
@@ -288,10 +266,4 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		}
 		return false;
 	}
-
-    @Override
-    public URLChecker getURLChecker() {
-        return urlChecker;
-    }
-
 }

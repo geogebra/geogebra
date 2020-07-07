@@ -17,9 +17,6 @@ import java.util.TreeMap;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Coords3;
-import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
@@ -46,6 +43,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords3;
+import org.geogebra.common.kernel.matrix.CoordsDouble3;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
@@ -416,11 +416,6 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		if (fun != null && isInequality == null && isBooleanFunction()) {
 			getIneqs();
@@ -478,7 +473,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public char getLabelDelimiter() {
-		return isBooleanFunction() ? ':' : '=';
+		return isBooleanFunction() || shortLHS != null ? ':' : '=';
 	}
 
 	/**
@@ -1247,9 +1242,9 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public void clearCasEvalMap(String key) {
+	public void clearCasEvalMap() {
 		if (fun != null) {
-			fun.clearCasEvalMap(key);
+			fun.clearCasEvalMap();
 		}
 	}
 
@@ -1394,12 +1389,12 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (GeoFunction.hideDefinitionInAlgebra(getFunctionExpression())) {
 			return DescriptionMode.VALUE;
 		}
 
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	@Override

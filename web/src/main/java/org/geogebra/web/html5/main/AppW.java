@@ -2,7 +2,10 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
+
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.awt.GColor;
@@ -23,7 +26,7 @@ import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.commands.CommandDispatcher3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
@@ -33,8 +36,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UndoManager;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -59,18 +62,17 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.SettingsBuilder;
-import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.events.BaseEventPool;
+import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
+import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
-import org.geogebra.common.move.views.OfflineView;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
@@ -101,16 +103,18 @@ import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
+import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityManagerW;
-import org.geogebra.web.html5.gui.accessibility.PerspectiveAccessibilityAdapter;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityView;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.laf.GgbSettings;
 import org.geogebra.web.html5.gui.laf.MebisSettings;
+import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -131,6 +135,7 @@ import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -139,10 +144,8 @@ import org.geogebra.web.html5.util.NetworkW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.html5.video.VideoManagerW;
-import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -193,8 +196,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected FontManagerW fontManager;
 	private SpreadsheetTableModelSimple tableModel;
 	private SoundManagerW soundManager;
-	private VideoManagerW videoManager;
 	private AsyncManager asyncManager;
+
+	private CopyPasteW copyPaste;
 
 	protected MaterialsManagerI fm;
 	private Material activeMaterial;
@@ -202,7 +206,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	protected final ArticleElementInterface articleElement;
 
 	protected EuclidianPanelWAbstract euclidianViewPanel;
-	protected Canvas canvas;
 
 	private final GLookAndFeelI laf;
 
@@ -211,16 +214,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
-	// when losing focus, remembering it so that ENTER can give focus back
-	private static volatile Element lastActiveElement = null;
-	// but not in case of anything important in any app has focus,
-	// we shall set it to true in each of those cases, e.g. AV input bar too !!!
-	private static boolean anyAppHasFocus = true;
-
 	private ReaderTimer readerTimer;
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
-	WebsocketLogger webSocketLogger = null;
 	private boolean keyboardNeeded;
 	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
@@ -244,7 +240,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private PopupRegistry popupRegistry = new PopupRegistry();
 	private VendorSettings vendorSettings;
 	private DefaultSettings defaultSettings;
-    private FpsProfiler fpsProfiler;
+	private FpsProfiler fpsProfiler;
+	private AccessibilityView accessibilityView;
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -281,8 +278,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = articleElement;
-		NativeFocusHandler.addNativeFocusHandler(articleElement.getElement(),
-				this);
 		this.laf = laf;
 
 		getTimerSystem();
@@ -486,14 +481,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return soundManager;
 	}
 
-	@Override
-	public final VideoManager getVideoManager() {
-		if (videoManager == null) {
-			videoManager = new VideoManagerW();
-		}
-		return videoManager;
-	}
-
 	/**
 	 * Use the async manager's schedule method when you try to access
 	 * parts of the code that have been split by the GWT compiler
@@ -518,13 +505,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			ggbapi = new GgbAPIW(this);
 		}
 		return ggbapi;
-	}
-
-	/**
-	 * @return {@link Canvas}
-	 */
-	public Canvas getCanvas() {
-		return canvas;
 	}
 
 	@Override
@@ -565,19 +545,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	final public GlobalKeyDispatcherW getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
-			globalKeyDispatcher = newGlobalKeyDispatcher();
-			if (articleElement != null && articleElement.getDataParamApp()) {
-				globalKeyDispatcher.setFocused(true);
-			}
+			globalKeyDispatcher = new GlobalKeyDispatcherW(this);
 		}
 		return globalKeyDispatcher;
-	}
-
-	/**
-	 * @return a new instance of {@link GlobalKeyDispatcherW}
-	 */
-	private GlobalKeyDispatcherW newGlobalKeyDispatcher() {
-		return new GlobalKeyDispatcherW(this);
 	}
 
 	@Override
@@ -645,9 +615,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		notifyLocalizationLoaded();
 		// importatnt for accessibility
 		getFrameElement().setLang(lang == null ? "" : lang.replace("_", "-"));
-		if (asyncCall && getGuiManager() != null) {
-			getGuiManager().updateKeyboardLanguage();
-		}
 	}
 
 	/**
@@ -795,8 +762,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void loadGgbFileAsBase64Again(String dataUrl, boolean isggs) {
 		prepareReloadGgbFile();
 		ViewW view = getViewW();
-		if (!isggs && getEmbedManager() != null) {
-			getEmbedManager().embed(dataUrl);
+		EmbedManager embedManager = getEmbedManager();
+		if (!isggs && embedManager != null) {
+			Material mat = new Material(-1, Material.MaterialType.ggb);
+			mat.setBase64(dataUrl);
+			embedManager.embed(mat);
 		} else {
 			view.processBase64String(dataUrl);
 		}
@@ -824,7 +794,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			getArticleElement().attr("appName", "notes");
 			getAppletFrame().initPageControlPanel(this);
 			if (getPageController() != null) {
-				getEuclidianView1().initBgCanvas();
 				getPageController().loadSlides(archiveContent);
 				return;
 			}
@@ -869,9 +838,12 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				maybeProcessImage(key, entry.getValue(), toLoad);
 			}
 		}
-		if (getEmbedManager() != null) {
-			getEmbedManager().loadEmbeds(archive);
+
+		EmbedManager embedManager = getEmbedManager();
+		if (embedManager != null) {
+			embedManager.loadEmbeds(archive);
 		}
+
 		if (construction == null) {
 			if (macros != null) {
 				getXMLio().processXMLString(macros, true, true);
@@ -1089,7 +1061,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean clearConstruction() {
-		// if (isSaved() || saveCurrentFile()) {
 		kernel.clearConstruction(true);
 
 		kernel.initUndoInfo();
@@ -1098,9 +1069,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setMoveMode();
 
 		return true;
-
-		// }
-		// return false;
 	}
 
 	@Override
@@ -1156,12 +1124,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public final void fileNew() {
-		// clear all
-		// triggers the "do you want to save" dialog
-		// so must be called first
-		if (!clearConstruction()) {
-			return;
-		}
+		resetPages();
+		clearConstruction();
 		clearMedia();
 		resetUniqueId();
 		setLocalID(-1);
@@ -1170,19 +1134,25 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
+
 		resetUI();
+		resetPenTool();
+	}
+
+	private void resetPages() {
+		if (pageController != null) {
+			pageController.resetPageControl();
+		}
 	}
 
 	/**
-	 * Remove all widgets for videos and embeds.
+	 * Selects Pen tool in whiteboard
 	 */
-	@Override
-	public void clearMedia() {
-		if (getVideoManager() != null) {
-			getVideoManager().removePlayers();
-		}
-		if (getEmbedManager() != null) {
-			getEmbedManager().removeAll();
+	protected final void resetPenTool() {
+		if (isWhiteboardActive()) {
+			getActiveEuclidianView().getSettings()
+					.setLastPenThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 		}
 	}
 
@@ -1194,6 +1164,50 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		clearInputBar();
 		if (!isUnbundled() && isPortrait()) {
 			adjustViews(false, false);
+		}
+	}
+
+	/**
+	 * reset everything for new file
+	 */
+	public void resetOnFileNew() {
+		// ignore active: don't save means we want new construction
+		setWaitCursor();
+		fileNew();
+		setDefaultCursor();
+
+		if (!isUnbundledOrWhiteboard()) {
+			showPerspectivesPopup();
+		}
+	}
+
+	/**
+	 * shows the template chooser if user is logged in and has templates,
+	 * otherwise resets the UI for file new
+	 */
+	public void tryLoadTemplatesOnFileNew() {
+		if (isWhiteboardActive() && getLoginOperation() != null) {
+			getLoginOperation().getGeoGebraTubeAPI().getTemplateMaterials(
+					new MaterialCallbackI() {
+						@Override
+						public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
+							if (result.isEmpty()) {
+								resetOnFileNew();
+							} else {
+								getGuiManager().getTemplateController()
+										.fillTemplates(AppW.this, result);
+								getDialogManager().showTemplateChooser();
+							}
+						}
+
+						@Override
+						public void onError(Throwable exception) {
+							Log.error("Error on templates load");
+							resetOnFileNew();
+						}
+					});
+		} else {
+			resetOnFileNew();
 		}
 	}
 
@@ -1354,14 +1368,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}-*/;
 
 	/**
-	 * @param str
-	 *            string to copy
-	 */
-	public void copyBase64ToClipboardChromeWebAppCase(String str) {
-		// This should do nothing in webSimple!
-	}
-
-	/**
 	 * @param id
 	 *            material ID
 	 * @param onError
@@ -1392,8 +1398,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		BaseEventPool onlineEventPool = new BaseEventPool(networkOperation,
 				true);
 		NetworkW.attach("online", onlineEventPool);
-		OfflineView ov = new OfflineView();
-		networkOperation.setView(ov);
 	}
 
 	/**
@@ -1509,8 +1513,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// TODO: image file name should be reset after the file data is
 		// available
 
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zipDirectory = md5e.encrypt(url);
+		String zipDirectory = MD5EncrypterGWTImpl.encrypt(url);
 
 		// with dummy extension, maybe gif or jpg in real
 		String imgFileName = zipDirectory + ".png";
@@ -1624,6 +1627,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				if (getImageManager().isPreventAuxImage()) {
 					geoImage.setAuxiliaryObject(false);
 				}
+				if (app.isWhiteboardActive()) {
+					app.getActiveEuclidianView().getEuclidianController()
+							.selectAndShowSelectionUI(geoImage);
+				}
 				setDefaultCursor();
 				storeUndoInfo();
 			}
@@ -1718,21 +1725,18 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	/**
 	 * Initializes the user authentication
-	 *
-	 * @param op
+	 *  @param op
 	 *            login operation
-	 * @param mayLogIn
-	 *            whether login dialog may be opened
+	 *
 	 */
-	public void initSignInEventFlow(LogInOperation op, boolean mayLogIn) {
-
+	public void initSignInEventFlow(LogInOperation op) {
 		// Initialize the signIn operation
 		loginOperation = op;
 		if (getNetworkOperation().isOnline()) {
-			if (this.getLAF() != null && this.getLAF().supportsGoogleDrive()) {
+			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
 				initGoogleDriveEventFlow();
 			}
-			if (mayLogIn) {
+			if (getArticleElement().getDataParamEnableFileFeatures()) {
 				loginOperation.performTokenLogin();
 			}
 		} else {
@@ -1827,12 +1831,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public boolean is3DViewEnabled() {
-
-		if (!getArticleElement().getDataParamEnable3D(true)) {
-			return false;
-		}
-
-		return super.is3DViewEnabled();
+		return getArticleElement().getDataParamEnable3D(true) && super.is3DViewEnabled();
 	}
 
 	private void setViewsEnabled() {
@@ -1913,7 +1912,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		RootPanel.get().removeStyleName("cursor_wait");
 	}
 
-	private void updateContentPane(boolean updateComponentTreeUI) {
+	/**
+	 * Updates the GUI of the main component.
+	 */
+	public void updateContentPane() {
 		if (initing) {
 			return;
 		}
@@ -1931,19 +1933,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		// update layout
-		if (updateComponentTreeUI) {
-			updateTreeUI();
-		}
+		updateTreeUI();
 
 		// reset mode and focus
 		set1rstMode();
-	}
-
-	/**
-	 * Updates the GUI of the main component.
-	 */
-	public void updateContentPane() {
-		updateContentPane(true);
 	}
 
 	/**
@@ -1992,54 +1985,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return null;
 	}
 
-	// methods used just from AppWapplet (and AppWsimple)
-	/**
-	 *
-	 * @param w
-	 *            last selected view
-	 * @param el
-	 *            target element
-	 */
-	public void focusLost(View w, Element el) {
-		// other things are handled in subclasses of AppW
-		// anyAppHasFocus = false;
-		if (el != null) {
-			setLastActive(el);
-		}
-	}
-
-	/**
-	 *
-	 * @param w
-	 *            selected view
-	 * @param el
-	 *            target element
-	 */
-	public void focusGained(View w, Element el) {
-		// this is used through the super keyword
-		// anyAppHasFocus = true;
-		if (el != null) {
-			setLastActive(el);
-		}
-	}
-
 	/**
 	 * Update toolbar from custom definition
 	 */
 	public void setCustomToolBar() {
 		// only needed in AppWFull
-	}
-
-	/**
-	 * @return whether EV1 is the only visible view
-	 */
-
-	public boolean onlyGraphicsViewShowing() {
-		if (!isUsingFullGui() || getGuiManager() == null) {
-			return true;
-		}
-
-		return getGuiManager().getLayout().isOnlyVisible(App.VIEW_EUCLIDIAN);
 	}
 
 	@Override
@@ -2076,7 +2026,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return active material
 	 */
-	public Material getActiveMaterial() {
+	public @CheckForNull Material getActiveMaterial() {
 		return this.activeMaterial;
 	}
 
@@ -2373,9 +2323,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void showURLinBrowser(final String pageUrl) {
 		getFileManager().open(pageUrl);
-		Log.debug("opening: " + pageUrl);
-
-		// assume showURLinBrowserWaiterFixedDelay is called before
 	}
 
 	@Override
@@ -2644,15 +2591,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		Log.debug("updateApplicationLayout: Implementation needed...");
 	}
 
-	@Override
-	public void setShowToolBar(boolean toolbar, boolean help) {
-		if (toolbar) {
-			// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE
-			// .propertiesKeysJS());
-		}
-		super.setShowToolBar(toolbar, help);
-	}
-
 	/**
 	 * @return applet ID
 	 */
@@ -2664,103 +2602,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * @return frame widget
 	 */
 	public abstract GeoGebraFrameW getAppletFrame();
-
-	/**
-	 * @return whether the focus was lost
-	 */
-	private static native Element nativeLoseFocus(Element element) /*-{
-		var active = $doc.activeElement;
-		var containsMask = $wnd.Node.DOCUMENT_POSITION_CONTAINS;
-		if (active
-				&& ((active === element) || (active
-						.compareDocumentPosition(element) & containsMask))) {
-			active.blur();
-			return active;
-		}
-		return null;
-	}-*/;
-
-	@Override
-	public void loseFocus() {
-		// probably this is called on ESC, so the reverse
-		// should happen on ENTER
-		Element ret = nativeLoseFocus(articleElement.getElement());
-		if (ret != null) {
-			setLastActive(ret);
-			setAnyAppFocused(false);
-			getGlobalKeyDispatcher().setFocused(false);
-		}
-	}
-
-	private static void setAnyAppFocused(boolean b) {
-		anyAppHasFocus = b;
-	}
-
-	/**
-	 * @return whether we can focus on ENTER
-	 */
-	private static native boolean nativeGiveFocusBack() /*-{
-		var active = $doc.activeElement;
-		if (active && (active !== $doc.body)) {
-
-			//if SVG clicked, getClassName returns non-string
-
-			if (typeof active.className == "string"
-					&& active.className.match(/geogebraweb-dummy-invisible/)) {
-				// actually, ESC focuses this, does not blur!
-				return true;
-			}
-			// this shall execute the default ENTER action on
-			// that element, to be independent (e.g. click on links!)
-			// OR if it is part of GeoGebra, then we shall also not
-			// support selecting GeoGebra again by ENTER
-			//return false; // behold the other return false;
-
-			// not doing more checks, don't do any action, which is safe
-			return false;
-		}
-		// blurred, probably, so it's safe to focus on ENTER
-		return true;
-	}-*/;
-
-	/**
-	 * Let's say this is the pair of loseFocus, so that only loseFocus can lose
-	 * focus from ALL applets officially (i.e. "ESC"), and from each part of
-	 * each applet (e.g. input bar, Graphics view, etc), while only
-	 * giveFocusBack can give focus back to an applet removed by the loseFocus
-	 * method - to avoid hidden bugs.
-	 *
-	 * What if focus is received by some other method than ENTER (pair of ESC)?
-	 * I think let's allow it, but if ENTER comes next, then we should adjust
-	 * our knowledge about it (otherwise, it should have been watched in the
-	 * entire codebase, which is probably worse, for there are possibilities of
-	 * errors). This way just these two methods shall be checked.
-	 */
-	public static void giveFocusBack() {
-		if (anyAppHasFocus) {
-			// here we are sure that ENTER should not do anything
-			return;
-		}
-
-		// update for the variable in this case, must be made anyway
-		// just it is a question whether this shall also mean a focus?
-		// BUT only when nativeGiveFocusBack is changed, and this
-		// variable also filled perfectly
-		// anyAppHasFocus = true;
-
-		// here we could insert static aggregates of relevant
-		// variables like getGlobalKeyDispatcher().InFocus
-		// ... but what if e.g. the input bar has focus?
-
-		// then we can easily check for $doc.activeElement,
-		// whether it means blur=OK
-		if (nativeGiveFocusBack()) {
-			if (lastActiveElement != null) {
-				anyAppHasFocus = true;
-				lastActiveElement.focus();
-			}
-		}
-	}
 
 	@Override
 	public boolean isScreenshotGenerator() {
@@ -3149,14 +2990,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// for applets with keyboard only
 	}
 
-	@Override
-	public SensorLogger getSensorLogger() {
-		if (webSocketLogger == null) {
-			webSocketLogger = new WebsocketLogger(getKernel());
-		}
-		return webSocketLogger;
-	}
-
 	/**
 	 * @param b
 	 *            whether keyboard is needed
@@ -3217,18 +3050,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		} else if ("true".equals(prereleaseStr)) {
 			this.prerelease = true;
 		}
-	}
-
-	/**
-	 * @param el
-	 *            article element
-	 * @return true if prerelease
-	 *
-	 *         Remove this function if GGB-2051 released. Used only in GGB-2051
-	 */
-	public static boolean isPrerelease(ArticleElement el) {
-		String p = el.getDataParamPrerelease();
-		return "true".equals(p) || "canary".equals(p);
 	}
 
 	@Override
@@ -3395,8 +3216,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public void readLater(GeoNumeric geo) {
 		if (!kernel.getConstruction().isFileLoading()
-				&& (!articleElement.preventFocus()
-						|| getGlobalKeyDispatcher().isFocused())) {
+				&& !articleElement.preventFocus()) {
 			if (readerTimer == null) {
 				readerTimer = new ReaderTimer();
 			}
@@ -3416,7 +3236,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	public void updateMaterialURL(int id, String sharingKey, String title) {
 		setTubeId(id > 0 ? Integer.toString(id) : sharingKey);
 		if (articleElement.getDataParamApp() && sharingKey != null) {
-
 			Browser.changeUrl(getCurrentURL(sharingKey, false));
 			if (!StringUtil.empty(title)) {
 				Browser.changeMetaTitle(title);
@@ -3457,45 +3276,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Hide perspective picker
-	 */
-	public void closePerspectivesPopup() {
-		// only for GUI
-	}
-
-	/**
 	 * @param index
 	 *            perspective ID
 	 */
 	public void setActivePerspective(int index) {
 		// only for GUI
-	}
-
-	/**
-	 * Focus this app
-	 */
-	public void addFocusToApp() {
-		if (!GlobalKeyDispatcherW.getIsHandlingTab()) {
-			getGlobalKeyDispatcher().setFocused(true);
-			return;
-		}
-
-		// add focus to AV if visible
-		AlgebraView av = getAlgebraView();
-		boolean visible = av != null && av.isShowing();
-		if (visible) {
-			((Widget) av).getElement().focus();
-			focusGained(av, ((Widget) av).getElement());
-			return;
-		}
-
-		// focus -> EV
-		EuclidianViewW ev = getEuclidianView1();
-		visible = ev != null && ev.isShowing();
-        if (visible) {
-            ev.getCanvasElement().focus();
-			ev.focusGained();
-		}
 	}
 
 	/**
@@ -3640,64 +3425,10 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return hiddenTextArea;
 	}-*/;
 
-    /**
-     * https://jsfiddle.net/alvaroAV/a2pt16yq/ works in IE11, Chrome
-     *
-     * this method doesn't always work in Edge, Firefox as needs to be run from eg
-     * button
-     *
-     * IE11: asks user for permission
-     *
-     * @param value text to copy
-	 */
-    public static native void copyToSystemClipboardNative(String value) /*-{
-
-		// async Clipboard API
-		// doesn't work in Firefox either so might as well just use execCommand('copy')
-		//if ($wnd.navigator.clipboard && $wnd.navigator.clipboard.writeText) {
-		//	// https://github.com/gwtproject/gwt/issues/9490
-		//	// .catch changed to ["catch"]
-		//	$wnd.navigator.clipboard.writeText(value).then(function() {
-		//		$wnd.console.log("Clipboard copy OK")
-		//	})["catch"](function(e) {
-		//		$wnd.console.log("Problem copying to clipboard")
-		//	});
-		//}
-
-		// currently seems to work in Chrome, IE11, Edge+Chromium
-		// doesn't seem to work in Edge, Firefox from GGB button
-		// document.execCommand('cut'/'copy') was denied because it was not called 
-		// from inside a short running user-generated event handler.
-		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
-		copyFrom.value = value;
-		copyFrom.select();
-		$doc.execCommand('copy');
-
-	}-*/;
-
 	@Override
 	public void copyTextToSystemClipboard(String text) {
 		Log.debug("copying to clipboard " + text);
-		copyToSystemClipboardNative(text);
-	}
-
-	/**
-	 * @param text
-	 *            text to copy
-	 * @param notify
-	 *            callback after copy is done
-	 */
-	public void copyTextToSystemClipboard(String text, Runnable notify) {
-		Log.debug("copying to clipboard " + text);
-		copyToSystemClipboardNative(text);
-
-		if (notify != null) {
-			notify.run();
-		}
-	}
-
-	private static void setLastActive(Element e) {
-		lastActiveElement = e;
+		CopyPasteW.writeToExternalClipboard(text);
 	}
 
 	/**
@@ -3975,17 +3706,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	@Override
 	public final AccessibilityManagerInterface getAccessibilityManager() {
 		if (accessibilityManager == null) {
-			accessibilityManager = new AccessibilityManagerW(this,
-					createPerspectiveAccessibilityAdapter());
+			accessibilityManager = new AccessibilityManagerW(this);
 		}
 		return accessibilityManager;
-	}
-
-	/**
-	 * @return adapter for tabbing through views
-	 */
-	protected PerspectiveAccessibilityAdapter createPerspectiveAccessibilityAdapter() {
-		return new SinglePanelAccessibilityAdapter(this);
 	}
 
 	public ZoomPanel getZoomPanel() {
@@ -3993,48 +3716,103 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	@Override
-    public SettingsBuilder newSettingsBuilder() {
-        return new SettingsBuilderW(this);
-    }
+	public SettingsBuilder newSettingsBuilder() {
+		return new SettingsBuilderW(this);
+	}
 
-    /**
-     * @return then embedded calculator apis.
-     */
-    public JavaScriptObject getEmbeddedCalculators() {
-        // iplemented in AppWFull
-        return null;
-    }
+	@Override
+	public CopyPasteW getCopyPaste() {
+		if (copyPaste == null) {
+			copyPaste = new CopyPasteW();
+		}
 
-    @Override
-    public GColor getPrimaryColor() {
-        return getVendorSettings().getPrimaryColor();
-    }
+		return copyPaste;
+	}
 
-    @Override
-    public FpsProfiler getFpsProfiler() {
-        if (fpsProfiler == null) {
-            fpsProfiler = new FpsProfilerW();
-        }
-        return fpsProfiler;
-    }
+	/**
+	 *
+	 * @return then embedded calculator apis.
+	 */
+	public JavaScriptObject getEmbeddedCalculators() {
+		// iplemented in AppWFull
+		return null;
+	}
 
-    @Override
-    public void testDraw() {
-        getEuclidianController().getMouseTouchGestureController().getDrawingEmulator().draw();
-    }
+	@Override
+	public GColor getPrimaryColor() {
+		return getVendorSettings().getPrimaryColor();
+	}
 
-    @Override
-    protected EuclidianControllerW getEuclidianController() {
-        return (EuclidianControllerW) super.getEuclidianController();
-    }
+	@Override
+	public FpsProfiler getFpsProfiler() {
+		if (fpsProfiler == null) {
+			fpsProfiler = new FpsProfilerW();
+		}
+		return fpsProfiler;
+	}
 
-    @Override
-    public void startDrawRecording() {
-        getEuclidianController().getMouseTouchGestureController().startDrawRecording();
-    }
+	@Override
+	public void testDraw() {
+		getEuclidianController().getMouseTouchGestureController().getDrawingEmulator().draw();
+	}
 
-    @Override
-    public void endDrawRecordingAndLogResults() {
-        getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
-    }
+	@Override
+	protected EuclidianControllerW getEuclidianController() {
+		return (EuclidianControllerW) super.getEuclidianController();
+	}
+
+	@Override
+	public void startDrawRecording() {
+		getEuclidianController().getMouseTouchGestureController().startDrawRecording();
+	}
+
+	@Override
+	public void endDrawRecordingAndLogResults() {
+		getEuclidianController().getMouseTouchGestureController().endDrawRecordingAndLogResult();
+	}
+
+	/**
+	 * @return manager for showing/hiding keyboard
+	 */
+	public @CheckForNull KeyboardManagerInterface getKeyboardManager() {
+		return null;
+	}
+
+	/**
+	 * Create provider of texts for ANS button.
+	 *
+	 * @return provider of last AV item
+	 */
+	public HasLastItem getLastItemProvider() {
+		return null;
+	}
+
+	/**
+	 * @return accessibility view
+	 */
+	public AccessibilityView getAccessibilityView() {
+		if (this.accessibilityView == null) {
+			accessibilityView = new AccessibilityView(this,
+					new BaseWidgetFactory());
+		}
+		return accessibilityView;
+	}
+
+	/**
+	 * Connect voiceover with the right panel
+	 */
+	public void updateVoiceover() {
+		if (Browser.needsAccessibilityView()) {
+			invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					getAccessibilityView().rebuild();
+				}
+			});
+		}
+	}
+
+	public SignInControllerI getSignInController() {
+		return getLAF().getSignInController(this);
+	}
 }

@@ -89,7 +89,7 @@ public class MathSequence extends MathContainer {
 			if (isOperator(i)) {
 				return true;
 			} else if (getArgument(i) instanceof MathFunction
-                    && getArgument(i).hasTag(Tag.SUPERSCRIPT)) {
+					&& getArgument(i).hasTag(Tag.SUPERSCRIPT)) {
 				return true;
 			}
 		}
@@ -108,18 +108,6 @@ public class MathSequence extends MathContainer {
 	}
 
 	/**
-	 * Is i'th argument character.
-	 * 
-	 * @param i
-	 *            index
-	 * @return whether given argument is a character
-	 */
-	public boolean isCharacter(int i) {
-		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
-				&& ((MathCharacter) getArgument(i)).isCharacter();
-	}
-
-	/**
 	 * Is i'th argument operator.
 	 * 
 	 * @param i
@@ -129,18 +117,6 @@ public class MathSequence extends MathContainer {
 	public boolean isOperator(int i) {
 		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
 				&& ((MathCharacter) getArgument(i)).isOperator();
-	}
-
-	/**
-	 * Is i'th argument symbol.
-	 * 
-	 * @param i
-	 *            index
-	 * @return whether given argument is a symbol
-	 */
-	public boolean isSymbol(int i) {
-		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
-				&& ((MathCharacter) getArgument(i)).isSymbol();
 	}
 
 	/**
@@ -169,4 +145,28 @@ public class MathSequence extends MathContainer {
 		return this;
 	}
 
+	/**
+	 * Extract the matrix if sequence contains one only.
+	 *
+	 * @return the matrix if any, the component unchanged
+	 * 		   otherwise.
+	 */
+	public MathContainer extractMatrix() {
+		if (size() == 1) {
+			MathComponent argument = getArgument(0);
+			if (MathArray.isMatrix(argument)) {
+				return (MathContainer) argument;
+			}
+		}
+
+		return this;
+	}
+
+	/**
+	 *
+	 * @return true if sequence is a matrix.
+	 */
+	public boolean isMatrix() {
+		return extractMatrix() != this;
+	}
 }

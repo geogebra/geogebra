@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the ReTeX library - https://github.com/himamis/ReTeX
  *
  * Copyright (C) 2015 Balazs Bencze
@@ -58,7 +58,6 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.IconHelper;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
-import com.himamis.retex.renderer.share.TeXFont;
 import com.himamis.retex.renderer.share.TeXIcon;
 
 public class MathFieldD extends JLabel implements MathField {
@@ -67,6 +66,7 @@ public class MathFieldD extends JLabel implements MathField {
 	
 	static {
 		metaModel = new MetaModel();
+		metaModel.enableSubstitutions();
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -80,8 +80,6 @@ public class MathFieldD extends JLabel implements MathField {
 		mathFieldInternal = new MathFieldInternal(this, false);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 		mathFieldInternal.setSelectionMode(true);
-		mathFieldInternal.setType(TeXFont.SANSSERIF);
-		mathFieldInternal.setSize(36);
 		this.setVerticalAlignment(SwingConstants.TOP);
 		Timer t = new Timer(500, new ActionListener() {
 
@@ -172,11 +170,6 @@ public class MathFieldD extends JLabel implements MathField {
 
 	}
 
-	public void hideCopyButton() {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public void fireInputChangedEvent() {
 		// TODO Auto-generated method stub
@@ -198,11 +191,7 @@ public class MathFieldD extends JLabel implements MathField {
 		Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
 			insertString(clip.getData(DataFlavor.stringFlavor).toString());
-		} catch (UnsupportedFlavorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (UnsupportedFlavorException | IOException e) {
 			e.printStackTrace();
 		}
 

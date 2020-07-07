@@ -51,15 +51,8 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction
 	}
 
 	@Override
-	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()) {
-			num.setValue(
-					a.getDouble() + kernel.getApplication().getRandomNumber()
-							* (b.getDouble() - a.getDouble()));
-		} else {
-			num.setUndefined();
-		}
-
+	protected double computeValue(double aVal, double bVal) {
+		return aVal + kernel.getApplication().getRandomNumber() * (bVal - aVal);
 	}
 
 	@Override

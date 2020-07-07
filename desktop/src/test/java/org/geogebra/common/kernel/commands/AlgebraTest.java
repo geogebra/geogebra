@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -25,16 +27,24 @@ public class AlgebraTest extends Assert {
 	/**
 	 * @return test app
 	 */
-	public static AppDNoGui createApp() {
-		AppDNoGui app2 = new AppDNoGui(new LocalizationD(3), false);
-		app2.setLanguage(Locale.US);
+	public static AppDNoGui createApp(AppConfig config) {
+		AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);
+		app.setLanguage(Locale.US);
+		app.setConfig(config);
 
 		// make sure x=y is a line, not plane
-		app2.getGgbApi().setPerspective("1");
+		app.getGgbApi().setPerspective("1");
 		// Setting the general timeout to 11 seconds. Feel free to change this.
-		app2.getKernel().getApplication().getSettings().getCasSettings()
+		app.getKernel().getApplication().getSettings().getCasSettings()
 				.setTimeoutMilliseconds(11000);
-		return app2;
+		return app;
+	}
+
+	/**
+	 * @return test app
+	 */
+	public static AppDNoGui createApp() {
+		return createApp(new AppConfigDefault());
 	}
 
     protected static void t(String s, String... expected) {

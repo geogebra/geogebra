@@ -2,24 +2,22 @@ package org.geogebra.web.full.gui.color;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.properties.FillType;
-import org.geogebra.common.main.App;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ButtonPopupMenu;
 import org.geogebra.web.full.gui.util.GeoGebraIconW;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
 /**
- * button to get popup with filling options
+ * Button to get popup with filling options.
  */
 public class FillingStyleButton extends PopupMenuButtonW {
 
-	private static final int FILL_TYPES_COUNT = 5;
-	private FillType[] fillTypes = { FillType.STANDARD, FillType.HATCH,
-			FillType.DOTTED, FillType.CROSSHATCHED, FillType.HONEYCOMB };
+	private FillType[] fillTypes;
 
 	/**
 	 * Filling style for fillable Geos
@@ -27,18 +25,20 @@ public class FillingStyleButton extends PopupMenuButtonW {
 	 * @param app
 	 *            application
 	 */
-	public FillingStyleButton(App app) {
-		super(app, createDummyIcons(5), -1, 5, SelectionTable.MODE_ICON, false);
+	public FillingStyleButton(AppW app, FillType[] fillTypes) {
+		super(app, createDummyIcons(fillTypes.length), -1, 5, SelectionTable.MODE_ICON, false);
+		this.fillTypes = fillTypes;
+
 		ButtonPopupMenu pp = (ButtonPopupMenu) getMyPopup();
-		// pp.addStyleName("fillingPopup");
 		pp.addStyleName("mowPopup");
+
 		createFillTable();
 	}
-
+	
 	private void createFillTable() {
-		ImageOrText[] icons = new ImageOrText[FILL_TYPES_COUNT];
-		for (int i = 0; i < FILL_TYPES_COUNT; i++) {
-			icons[i] = GeoGebraIconW.createFillStyleIcon(i);
+		ImageOrText[] icons = new ImageOrText[fillTypes.length];
+		for (int i = 0; i < fillTypes.length; i++) {
+			icons[i] = GeoGebraIconW.createFillStyleIcon(fillTypes[i]);
 		}
 		getMyTable().populateModel(icons);
 		getMyTable().addClickHandler(new ClickHandler() {
@@ -90,20 +90,10 @@ public class FillingStyleButton extends PopupMenuButtonW {
 				getMyTable().setSelectedIndex(i);
 			}
 		}
-		// this.setIcon(getButtonIcon());
 	}
 
 	@Override
 	public ImageOrText getButtonIcon() {
-		/*
-		 * if (getSelectedIndex() > -1) { return GeoGebraIconW
-		 * .createFillStyleIcon(getMyTable().getSelectedIndex());
-		 * 
-		 * }
-		 * 
-		 * return new ImageOrText();
-		 */
-		return new ImageOrText(MaterialDesignResources.INSTANCE.filling_black(),
-				24);
+		return new ImageOrText(MaterialDesignResources.INSTANCE.filling_black(), 24);
 	}
 }

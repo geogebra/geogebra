@@ -30,13 +30,13 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -273,6 +273,16 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 			// equal
 			return 0;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+		}
+
+		@Override
+		public int hashCode() {
+			return super.hashCode();
 		}
 
 	}
@@ -595,6 +605,16 @@ public class AlgoIntersectRegionPlanePolyhedron
 			super.clear();
 		}
 
+		@Override
+		public boolean equals(Object obj) {
+			return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+		}
+
+		@Override
+		public int hashCode() {
+			return super.hashCode();
+		}
+
 	}
 
 	/**
@@ -799,7 +819,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	 *            start index for polygons
 	 * @param indexPoint0
 	 *            start index for points
-	 * @param indexSegment
+	 * @param indexSegment0
 	 *            start index for segments
 	 */
 	private void addPolyhedronVerticesToOutput(int indexPolygon0,

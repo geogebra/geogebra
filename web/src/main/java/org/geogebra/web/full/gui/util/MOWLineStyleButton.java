@@ -1,6 +1,9 @@
 package org.geogebra.web.full.gui.util;
 
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.html5.main.AppW;
 
@@ -43,14 +46,14 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	}
 
 	@Override
-	public void update(Object[] geos) {
-		updatePanel(geos);
+	public void update(List<GeoElement> geos) {
+		updatePanel(geos.toArray());
 		updatePreview();
 	}
 
 	@Override
 	public void handlePopupActionEvent() {
-		model.applyLineTypeFromIndex(getSelectedIndex());
+		super.handlePopupActionEvent();
 		updatePreview();
 	}
 

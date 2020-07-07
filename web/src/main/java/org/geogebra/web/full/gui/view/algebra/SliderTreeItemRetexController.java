@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -23,6 +24,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		implements ValueChangeHandler<Double> {
 
 	private SliderTreeItemRetex slider;
+	private boolean hasUnsavedChanges;
 
 	/**
 	 * @param item
@@ -136,7 +138,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	protected boolean canEditStart(MouseEvent<?> event) {
 
 		return super.canEditStart(event)
-				&& isWidgetHit(item.getPlainTextItem(), event);
+				&& isWidgetHit(item.getDefinitionValuePanel(), event);
 	}
 
 	private static boolean isWidgetHit(Widget w, int x, int y) {
@@ -171,10 +173,11 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 			stopEdit();
 		}
 
-		slider.getNum().setValue(event.getValue());
-		slider.geo.updateCascade();
-
-		if (!slider.geo.isAnimating()) {
+		GeoNumeric numeric = slider.getNum();
+		numeric.setValue(event.getValue());
+		numeric.updateCascade();
+		hasUnsavedChanges = true;
+		if (!numeric.isAnimating()) {
 			if (isAnotherMinMaxOpen()) {
 				MinMaxPanel.closeMinMaxPanel();
 			}
@@ -186,4 +189,13 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		getApp().getKernel().notifyRepaint();
 	}
 
+	/**
+	 * If the slider moved since last undo point, store changes.
+	 */
+	public void storeUndoInfoIfChanged() {
+		if (hasUnsavedChanges) {
+			app.storeUndoInfo();
+			hasUnsavedChanges = false;
+		}
+	}
 }

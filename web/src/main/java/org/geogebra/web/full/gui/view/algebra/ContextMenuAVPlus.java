@@ -7,21 +7,21 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.gui.toolcategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.ToolCollection;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.KeyboardType;
-import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.full.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.SharedResources;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 
@@ -38,11 +38,11 @@ public class ContextMenuAVPlus implements SetLabels {
 	/** Localization */
 	protected Localization loc;
 	/** Application */
-	AppW app;
+	AppWFull app;
 	/** The AV item associated the menu with */
 	RadioTreeItem item;
 	/** On-Screen Keyboard instance to switch tabs if needed */
-	TabbedKeyboard kbd;
+	VirtualKeyboardGUI kbd;
 
 	/**
 	 * Creates new context menu
@@ -54,8 +54,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		app = item.getApplication();
 		loc = app.getLocalization();
 		this.item = item;
-		kbd = (TabbedKeyboard) ((GuiManagerW) app.getGuiManager())
-				.getOnScreenKeyboard(item, null);
+		kbd = app.getKeyboardManager().getOnScreenKeyboard();
 		wrappedPopup = new GPopupMenuW(app);
 		if (app.isUnbundled()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
@@ -68,34 +67,40 @@ public class ContextMenuAVPlus implements SetLabels {
 	private void buildGUI() {
 		wrappedPopup.clearItems();
 		addExpressionItem();
-		if (!app.getSettings().getToolbarSettings().is3D()) {
+		if (app.getActiveEuclidianView().getViewID() != App.VIEW_EUCLIDIAN3D) {
 			addTextItem();
 
-            if (app.showToolBar() && toolbarHasImageMode()) {
-                addImageItem();
-            }
+			if (app.showToolBar() && toolbarHasImageMode()) {
+				addImageItem();
+			}
 		}
 		addHelpItem();
 	}
 
-    private boolean toolbarHasImageMode() {
-        Vector<ToolbarItem> toolbarItems =
-                ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
+	private boolean toolbarHasImageMode() {
+		if (app.getConfig().getToolbarType().equals(AppType.CLASSIC)) {
+			Vector<ToolbarItem> toolbarItems =
+					ToolBar.parseToolbarString(app.getGuiManager().getToolbarDefinition());
 
-        for (ToolbarItem toolbarItem : toolbarItems) {
-            if (toolbarItem.getMode() == null) {
-                if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
-                    return true;
-                }
-            } else {
-                if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
-                    return true;
-                }
-            }
-        }
+			for (ToolbarItem toolbarItem : toolbarItems) {
+				if (toolbarItem.getMode() == null) {
+					if (toolbarItem.getMenu().contains(EuclidianConstants.MODE_IMAGE)) {
+						return true;
+					}
+				} else {
+					if (toolbarItem.getMode() == EuclidianConstants.MODE_IMAGE) {
+						return true;
+					}
+				}
+			}
+		} else {
+			ToolCollection toolCollection =
+					app.createToolCollectionFactory().createToolCollection();
+			return toolCollection.contains(EuclidianConstants.MODE_IMAGE);
+		}
 
-        return false;
-    }
+		return false;
+	}
 
 	private void addExpressionItem() {
 		ImageResource img = StyleBarResources.INSTANCE.description();
@@ -130,8 +135,8 @@ public class ContextMenuAVPlus implements SetLabels {
 				});
 		wrappedPopup.addItem(mi);
 	}
-
-    void addImageItem() {
+	
+	void addImageItem() {
 		SVGResource img = MaterialDesignResources.INSTANCE.insert_photo_black();
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("Image")), true,
@@ -142,7 +147,7 @@ public class ContextMenuAVPlus implements SetLabels {
 						item.getController().setInputAsText(false);
 						app.getImageManager().setPreventAuxImage(true);
 						
-						((GuiManagerW) app.getGuiManager()).loadImage(null,
+						app.getGuiManager().loadImage(null,
 								null, false, app.getActiveEuclidianView());
 					}
 				});
@@ -171,7 +176,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	 */
 	public void show(GPoint p) {
 		wrappedPopup.show(p);
-		focusDeferred();
+		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 
 	/**
@@ -184,16 +189,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
-		focusDeferred();
-	}
-
-	private void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				wrappedPopup.getPopupMenu().getElement().focus();
-			}
-		});
+		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 
 	@Override

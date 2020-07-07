@@ -44,13 +44,10 @@
 		}
 	}
 
-	.flatButton:focus{
+	.flatButton.keyboardFocus:focus{
 		outline: $focus-black 5px auto;
 	}
 
-	.gwt-MenuItem:focus {
-		background: $menu-focus-default !important;
-	}	
 	/*dyn stylebar*/
 	.matDynStyleBar {
 		// popup has 500
@@ -352,11 +349,11 @@
 
 	.zoomPanel {
 		position: absolute;
-		z-index: 11;
 		cursor: default;
 		top: auto !important;
     	left: auto !important;
     	z-index: $always_on_top;
+		will-change: transform;
 		
     	.zoomPanelBtn {
     		position: relative;
@@ -364,7 +361,6 @@
     		height: 36px;
     		margin-bottom: 8px;
     		background-color: $white;
-    		/*background-color: #888;*/
     		border-radius: 50%;
     		box-shadow: 0 1px 3px 0 $black-20, 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12;
     		cursor: pointer;
@@ -384,28 +380,26 @@
     			}
     		}
     	
-    		&:focus {
+    		&.keyboardFocus:focus {
     			img {
     				opacity: 1;
-    				outline: $focus-black 5px auto;	
-    			}	
+    				outline: $focus-black 5px auto;
+    			}
     		}
     	}
 		.zoomPanelBtnSmall img { 
  	        padding: 8px; 
  	    } 
 		.zoomPanelHomeIn {
-			@extend .zoomPanelBtn;
 			opacity: 1;
-			visibility: visible;	 
+			visibility: visible;
 			transition: all 0.2s ease;
-			}
+		}
 	
 		.zoomPanelHomeOut {
-			@extend .zoomPanelBtn;
 			cursor: default;
 			opacity: 0;	
-			visibility: hidden;	 
+			visibility: hidden;
 			transition: all 0.2s ease;
 	
 			img {
@@ -468,14 +462,12 @@
 		  	}
 		}
 		.zoomPanelHomeIn {
-			@extend .zoomPanelBtn;
 			opacity: 1;
 			visibility: visible;	 
 			transition: all 0.2s ease;
 		}
 	
 		.zoomPanelHomeOut {
-			@extend .zoomPanelBtn;
 			cursor: default;
 			opacity: 0;	
 			visibility: hidden;	 
@@ -764,6 +756,17 @@
             overflow: hidden;
          }
 
+         .accessibilityView {
+            opacity: 0.01;
+            position: fixed;
+            width: 1px;
+            height: 1px;
+            overflow: scroll;
+         }
+
+        .invisible {
+            visibility: hidden;
+        }
 }
 
 /* Outside of GeoGebraFrame */

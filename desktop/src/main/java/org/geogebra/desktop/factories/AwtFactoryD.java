@@ -25,7 +25,6 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGradientPaint;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -33,7 +32,6 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.EuclidianStatic;
-import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GAffineTransformD;
@@ -49,12 +47,10 @@ import org.geogebra.desktop.awt.GGeneralPathD;
 import org.geogebra.desktop.awt.GGenericRectangle2DD;
 import org.geogebra.desktop.awt.GGradientPaintD;
 import org.geogebra.desktop.awt.GLine2DD;
-import org.geogebra.desktop.awt.GPoint2DD;
 import org.geogebra.desktop.awt.GQuadCurve2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.awt.GTextLayoutD;
 import org.geogebra.desktop.awt.GTexturePaintD;
-import org.geogebra.desktop.euclidian.event.FocusListenerD;
 import org.geogebra.desktop.gui.MyImageD;
 
 public class AwtFactoryD extends AwtFactory {
@@ -117,19 +113,9 @@ public class AwtFactoryD extends AwtFactory {
 		return new GDimensionD(width, height);
 	}
 
-	@Override
-	public GPoint2D newPoint2D() {
-		return new GPoint2DD();
-	}
-
-	@Override
-	public GPoint2D newPoint2D(double x, double y) {
-		return new GPoint2DD(x, y);
-	}
-
 	/*
 	 * @Override public Point newPoint() { return new geogebra.awt.Point(); }
-	 * 
+	 *
 	 * @Override public Point newPoint(int x, int y) { return new
 	 * geogebra.awt.Point(x,y); }
 	 */
@@ -250,11 +236,6 @@ public class AwtFactoryD extends AwtFactory {
 	public GGradientPaint newGradientPaint(double x, double y, GColor bg2,
 			double x2, double i, GColor bg) {
 		return new GGradientPaintD(x, y, bg2, x2, i, bg);
-	}
-
-	@Override
-	public FocusListener newFocusListener(Object listener) {
-		return new FocusListenerD(listener);
 	}
 
 	@Override

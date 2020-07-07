@@ -1,5 +1,13 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2ES1;
+import com.jogamp.opengl.GL2ES2;
+import com.jogamp.opengl.GL2GL3;
+import com.jogamp.opengl.fixedfunc.GLLightingFunc;
+import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
+import com.jogamp.opengl.glu.GLU;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
@@ -9,20 +17,12 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
-
-import com.jogamp.opengl.GL;
-import com.jogamp.opengl.GL2ES1;
-import com.jogamp.opengl.GL2ES2;
-import com.jogamp.opengl.GL2GL3;
-import com.jogamp.opengl.fixedfunc.GLLightingFunc;
-import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
-import com.jogamp.opengl.glu.GLU;
 
 /**
  * Renderer implementation using GL2 (no shaders)
@@ -860,7 +860,7 @@ public class RendererImplGL2 extends RendererImpl
 	}
 
 	@Override
-    public void setProjectionMatrixViewForAR() {
+	public void setProjectionMatrixViewForAR() {
 		// used in AR only
 	}
 
@@ -938,3 +938,4 @@ public class RendererImplGL2 extends RendererImpl
 		setLight(0);
 	}
 }
+

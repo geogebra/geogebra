@@ -10,6 +10,7 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.variable.InputTokenizer;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.arithmetic.variable.VariableReplacerAlgorithm;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -236,51 +237,6 @@ public interface Traversing {
 	}
 
 	/**
-	 * Replaces asin(0.5) with asind(0.5)
-	 *
-	 */
-	public class ArcTrigReplacer implements Traversing {
-
-		private static ArcTrigReplacer replacer = new ArcTrigReplacer();
-
-		@Override
-		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ev;
-				Operation op = en.getOperation();
-				Operation newOp = null;
-
-				switch (op) {
-				default:
-					// do nothing
-					break;
-				case ARCSIN:
-					newOp = Operation.ARCSIND;
-					break;
-				case ARCCOS:
-					newOp = Operation.ARCCOSD;
-					break;
-				case ARCTAN:
-					newOp = Operation.ARCTAND;
-					break;
-				}
-
-				if (newOp != null) {
-					en.setOperation(newOp);
-				}
-			}
-			return ev;
-		}
-
-		/**
-		 * @return replacer
-		 */
-		public static ArcTrigReplacer getReplacer() {
-			return replacer;
-		}
-	}
-
-	/**
 	 * Replaces sin(x) with sin(x deg) GGB-2183 eg Solve(sin(x)=1/2)
 	 *
 	 */
@@ -384,11 +340,11 @@ public interface Traversing {
 					ExpressionValue unwrapped = en.unwrap();
 					if (unwrapped instanceof MyVecNode) {
 						MyVecNode vecNode = (MyVecNode) unwrapped;
-						vecNode.setCASVector();
+						vecNode.setupCASVector();
 						return vecNode;
 					} else if (unwrapped instanceof MyVec3DNode) {
 						MyVec3DNode vec3DNode = (MyVec3DNode) unwrapped;
-						vec3DNode.setCASVector();
+						vec3DNode.setupCASVector();
 						return vec3DNode;
 					}
 				}
@@ -817,6 +773,10 @@ public interface Traversing {
 			variableReplacerAlgorithm = new VariableReplacerAlgorithm(kernel);
 		}
 
+		public void setSimplifyMultiplication(boolean value) {
+			variableReplacerAlgorithm.setMultipleUnassignedAllowed(value);
+		}
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 
@@ -853,6 +813,10 @@ public interface Traversing {
 					SymbolicMode.NONE);
 			if (replace == null) {
 				replace = variableReplacerAlgorithm.replace(name);
+				if (replace instanceof ExpressionNode) {
+					replace.traverse(this);
+					return;
+				}
 			}
 			if (replace instanceof Variable
 					&& !name.equals(kernel.getConstruction()
@@ -897,10 +861,19 @@ public interface Traversing {
 	 * @author michael
 	 *
 	 */
-	public class CollectUndefinedVariables implements Traversing {
+	public class CollectUndefinedVariables implements Inspecting {
 
 		private TreeSet<String> tree = new TreeSet<>();
 		private TreeSet<String> localTree = new TreeSet<>();
+		private boolean multipleUnassignedAllowed;
+
+		public CollectUndefinedVariables() {
+			this(false);
+		}
+
+		public CollectUndefinedVariables(boolean multipleUnassignedAllowed) {
+			this.multipleUnassignedAllowed = multipleUnassignedAllowed;
+		}
 
 		/**
 		 * 
@@ -912,33 +885,38 @@ public interface Traversing {
 		}
 
 		@Override
-		public ExpressionValue process(ExpressionValue ev) {
+		public boolean check(ExpressionValue ev) {
 
 			if (ev instanceof Variable) {
-                Variable variable = (Variable) ev;
-                String variableName = variable.getName(StringTemplate.defaultTemplate);
-                if (variable.getKernel().getApplication().getParserFunctions()
-                        .isReserved(variableName)) {
-					return ev;
+				Variable variable = (Variable) ev;
+				String variableName = variable.getName(StringTemplate.defaultTemplate);
+				if (variable.getKernel().getApplication().getParserFunctions()
+						.isReserved(variableName)) {
+					return false;
 				}
-                ExpressionValue expressionFromVariableName =
-                        variable.getKernel().lookupLabel(variableName);
-                if (expressionFromVariableName == null) {
-					VariableReplacerAlgorithm variableReplacerAlgorithm =
-                            new VariableReplacerAlgorithm(variable.getKernel());
-                    expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
+				ExpressionValue expressionFromVariableName =
+						variable.getKernel().lookupLabel(variableName);
+				if (expressionFromVariableName == null) {
+					VariableReplacerAlgorithm variableReplacerAlgo =
+							new VariableReplacerAlgorithm(variable.getKernel());
+					variableReplacerAlgo.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
+					expressionFromVariableName = variableReplacerAlgo.replace(variableName);
 				}
 
-                if (expressionFromVariableName instanceof Variable
-                        && !variable
-                        .getKernel()
-                        .getConstruction()
-                        .isRegistredFunctionVariable(variableName)) {
-					// Log.debug("found undefined variable: "
-					// + ((Variable) ret)
-					// .getName(StringTemplate.defaultTemplate));
-                    tree.add(((Variable) expressionFromVariableName)
+				if (ExpressionNode.isImaginaryUnit(expressionFromVariableName.unwrap())) {
+					tree.add(InputTokenizer.IMAGINARY_STRING);
+				}
+				if (expressionFromVariableName instanceof Variable
+						&& !variable
+                            .getKernel()
+                            .getConstruction()
+                            .isRegistredFunctionVariable(variableName)) {
+					tree.add(((Variable) expressionFromVariableName)
 							.getName(StringTemplate.defaultTemplate));
+				}
+				// a1.5 -> a*1.5: inspect subexpressions
+				if (expressionFromVariableName.isExpressionNode()) {
+					expressionFromVariableName.inspect(this);
 				}
 			} else if (ev instanceof Command) { // Iteration[a+1, a, {1},4]
 
@@ -977,7 +955,7 @@ public interface Traversing {
 					localTree.add("C");
 				}
 			}
-			return ev;
+			return false;
 		}
 
 		private void addLocalVar(Command com, int i) {
@@ -1537,4 +1515,44 @@ public interface Traversing {
 		}
 
 	}
+
+    class ListVectorReplacer implements Traversing {
+
+        Kernel kernel;
+
+        public ListVectorReplacer(Kernel kernel) {
+            this.kernel = kernel;
+        }
+
+        @Override
+        public ExpressionValue process(ExpressionValue ev) {
+            if (ev instanceof MyList) {
+                MyList list = (MyList) ev;
+                if (isVector(list)) {
+                    if (list.getMatrixRows() == 2) {
+                        return new MyVecNode(kernel,
+                                getElement(list, 0),
+                                getElement(list, 1));
+                    } else {
+                        return new MyVec3DNode(kernel,
+                                getElement(list, 0),
+                                getElement(list, 1),
+                                getElement(list, 2));
+                    }
+                }
+            }
+            return ev;
+        }
+
+        private ExpressionValue getElement(MyList list, int index) {
+            MyList row = (MyList) list.getItem(index).unwrap();
+            return row.getItem(0);
+        }
+
+        private boolean isVector(MyList list) {
+            int cols = list.getMatrixCols();
+            int rows = list.getMatrixRows();
+            return list.isMatrix() && cols == 1 && (rows == 2 || rows == 3);
+        }
+    }
 }

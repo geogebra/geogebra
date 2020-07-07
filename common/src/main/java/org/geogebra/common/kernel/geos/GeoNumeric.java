@@ -113,8 +113,6 @@ public class GeoNumeric extends GeoElement
 	private int slopeTriangleSize = 1;
 
 	// for slider
-	private boolean intervalMinActive = false;
-	private boolean intervalMaxActive = false;
 	private NumberValue intervalMin;
 	private NumberValue intervalMax;
 	private double sliderWidth = this instanceof GeoAngle
@@ -133,7 +131,6 @@ public class GeoNumeric extends GeoElement
 
 	// is a constant depending on a function
 	private boolean isDependentConst = false;
-	private StringBuilder sbToString;
 	private ArrayList<GeoNumeric> minMaxListeners;
 	private boolean randomSlider = false;
 
@@ -204,7 +201,9 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public GeoNumeric copy() {
-		return new GeoNumeric(cons, value);
+		GeoNumeric copy = new GeoNumeric(cons, value);
+		copy.setDrawable(isDrawable, false);
+		return copy;
 	}
 
 	@Override
@@ -261,6 +260,7 @@ public class GeoNumeric extends GeoElement
 		// number with given min and max
 		if (isIndependent()) {
 			if (visible) { // TODO: Remove cast from GeoNumeric
+				isDrawable = true;
 				GeoNumeric num = kernel.getAlgoDispatcher()
 						.getDefaultNumber(isAngle());
 				// make sure the slider value is not fixed
@@ -388,42 +388,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public boolean showInEuclidianView() {
-		if (!isDrawable()) {
-			return false;
-		}
-
-		if (!isDefined()) {
-			return false;
-		}
-
-		// Double.isNaN(value) is tested in isDefined()
-
-		if (Double.isInfinite(value)) {
-			return false;
-		}
-
-		if (intervalMin == null) {
-			return true;
-		}
-
-		if (intervalMax == null) {
-			return true;
-		}
-
-		if (!isIntervalMinActive()) {
-			return false;
-		}
-
-		if (!isIntervalMaxActive()) {
-			return false;
-		}
-
-		return (getIntervalMin() < getIntervalMax());
-	}
-
-	@Override
-	public final boolean showInAlgebraView() {
-		return true;
+		return isDrawable && isDefined() && !Double.isInfinite(value);
 	}
 
 	@Override
@@ -630,7 +595,7 @@ public class GeoNumeric extends GeoElement
 			animationValue = value;
 		}
 
-		if (isLabelSet() && this.isSliderable() && isSelected()) {
+		if (isLabelSet() && isSliderable() && isSelected()) {
 			kernel.getApplication().readLater(this);
 		}
 	}
@@ -646,38 +611,22 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (sbToString == null) {
-			sbToString = new StringBuilder(50);
-		}
-
 		// #4186
 		if (tpl.hasCASType()) {
 			return toValueString(tpl);
 		}
 
-		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append(" = ");
-		sbToString.append(toValueString(tpl));
-		return sbToString.toString();
+		if (LabelManager.isShowableLabel(label)) {
+			return label + tpl.getEqualsWithSpace() + toValueString(tpl);
+		} else {
+			return toValueString(tpl);
+		}
 	}
 
 	/**
 	 * @return string representation for regression output
 	 */
 	final public String toStringMinimal() {
-		if (sbToString == null) {
-			sbToString = new StringBuilder(50);
-		}
-		sbToString.setLength(0);
-		sbToString.append(toValueStringMinimal());
-		return sbToString.toString();
-	}
-
-	/**
-	 * @return string representation of value for regression output
-	 */
-	public String toValueStringMinimal() {
 		return regrFormat(value);
 	}
 
@@ -747,7 +696,7 @@ public class GeoNumeric extends GeoElement
 		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced,
 				setAuxiliaryProperty);
 
-		if (geo.isGeoNumeric()) {
+		if (geo.isGeoNumeric() && !geo.isGeoAngle()) {
 			isDrawable = ((GeoNumeric) geo).isDrawable;
 		}
 	}
@@ -809,8 +758,13 @@ public class GeoNumeric extends GeoElement
 	 * @return true iff slider is possible
 	 */
 	public boolean isSliderable() {
-		return isIndependent()
-				&& (isIntervalMinActive() || isIntervalMaxActive());
+		return hasValidIntervals() && isSimple();
+	}
+
+	private boolean hasValidIntervals() {
+		return isIntervalMinActive()
+				&& isIntervalMaxActive()
+				&& getIntervalMin() < getIntervalMax();
 	}
 
 	@Override
@@ -929,7 +883,6 @@ public class GeoNumeric extends GeoElement
 			((GeoNumeric) intervalMax).unregisterMinMaxListener(this);
 		}
 		intervalMax = max;
-		setIntervalMaxActive(!Double.isNaN(max.getDouble()));
 		if (max instanceof GeoNumeric) {
 			((GeoNumeric) max).registerMinMaxListener(this);
 		}
@@ -947,7 +900,6 @@ public class GeoNumeric extends GeoElement
 			((GeoNumeric) intervalMin).unregisterMinMaxListener(this);
 		}
 		intervalMin = min;
-		setIntervalMinActive(!Double.isNaN(min.getDouble()));
 		if (min instanceof GeoNumeric) {
 			((GeoNumeric) min).registerMinMaxListener(this);
 		}
@@ -1014,10 +966,9 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public final double getIntervalMax() {
-        if (intervalMax == null) {
-            Log.error("intervalMax is null");
-            return Double.NaN;
-        }
+		if (intervalMax == null) {
+			return Double.NaN;
+		}
 		return intervalMax.getDouble();
 	}
 
@@ -1028,10 +979,9 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public final double getIntervalMin() {
-        if (intervalMin == null) {
-            Log.error("intervalMin is null");
-            return Double.NaN;
-        }
+		if (intervalMin == null) {
+			return Double.NaN;
+		}
 		return intervalMin.getDouble();
 	}
 
@@ -1077,7 +1027,11 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider max value wasn't disabled
 	 */
 	public final boolean isIntervalMaxActive() {
-		return intervalMaxActive;
+		return isValidInterval(getIntervalMax());
+	}
+
+	private boolean isValidInterval(double value) {
+		return !Double.isNaN(value) && !Double.isInfinite(value);
 	}
 
 	/**
@@ -1086,7 +1040,7 @@ public class GeoNumeric extends GeoElement
 	 * @return true if slider min value wasn't disabled
 	 */
 	public final boolean isIntervalMinActive() {
-		return intervalMinActive;
+		return isValidInterval(getIntervalMin());
 	}
 
 	/**
@@ -1356,16 +1310,12 @@ public class GeoNumeric extends GeoElement
 		if (intervalMin == null || intervalMax == null) {
 			return;
 		}
-		boolean okMin = !Double.isNaN(getIntervalMin())
-				&& !Double.isInfinite(getIntervalMin());
-		boolean okMax = !Double.isNaN(getIntervalMax())
-				&& !Double.isInfinite(getIntervalMax());
+		boolean okMin = isIntervalMinActive();
+		boolean okMax = isIntervalMaxActive();
 		boolean ok = (getIntervalMin() <= getIntervalMax());
-		setIntervalMinActive(ok && okMin);
-		setIntervalMaxActive((ok && okMin && okMax)
-				|| (getIntervalMin() == getIntervalMax() && okMin && okMax));
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
+			isDrawable = true;
 		} else if (okMin && okMax) {
 			setUndefined();
 		}
@@ -1552,14 +1502,6 @@ public class GeoNumeric extends GeoElement
 		return comparator;
 	}
 
-	// protected void setRandomNumber(boolean flag) {
-	// isRandomNumber = flag;
-	// }
-
-	// public boolean isRandomNumber() {
-	// return isRandomNumber;
-	// }
-
 	@Override
 	final public void updateRandomGeo() {
 		// set random value (for numbers used in trees using random())
@@ -1707,14 +1649,6 @@ public class GeoNumeric extends GeoElement
 
 	}
 
-	private void setIntervalMinActive(boolean intervalMinActive) {
-		this.intervalMinActive = intervalMinActive;
-	}
-
-	private void setIntervalMaxActive(boolean intervalMaxActive) {
-		this.intervalMaxActive = intervalMaxActive;
-	}
-
 	@Override
 	public boolean isPinnable() {
 		return isSlider();
@@ -1764,14 +1698,8 @@ public class GeoNumeric extends GeoElement
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth(), true);
 		num.setRandom(defaultNum.isRandom());
 		num.setLineThickness(DEFAULT_SLIDER_THICKNESS);
-		num.setDrawable(false, false);
 		num.update();
 		return num;
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override
@@ -1782,6 +1710,7 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
+		notifyUpdate();
 	}
 
 	@Override
@@ -1920,6 +1849,15 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
+	public void initSymbolicMode() {
+		ExpressionNode definition = getDefinition();
+		boolean symbolicMode =
+				(definition == null)
+						|| (!definition.isSimpleFraction() && definition.isFractionNoPi());
+		setSymbolicMode(symbolicMode, false);
+	}
+
+	@Override
 	public void setSymbolicMode(boolean mode, boolean update) {
 		this.symbolicMode = mode;
 	}
@@ -1930,7 +1868,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (getDefinition() != null && getDefinition().isFraction()) {
 			return DescriptionMode.DEFINITION_VALUE;
 		}
@@ -1938,7 +1876,7 @@ public class GeoNumeric extends GeoElement
 			// matters in scientific where we don't have AV sliders
 			return DescriptionMode.VALUE;
 		}
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	/**
@@ -2012,6 +1950,11 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
+	public boolean isFurniture() {
+		return false;
+	}
+
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return 0;
 	}
@@ -2029,7 +1972,7 @@ public class GeoNumeric extends GeoElement
 	private void addAuralSliderValue(ScreenReaderBuilder sb) {
 		if (!addAuralCaption(sb)) {
 			sb.append(getLabelSimple());
-			sb.append(getLabelDelimiterWithSpace());
+			sb.append(getLabelDelimiterWithSpace(StringTemplate.screenReader));
 			sb.append(toValueString(StringTemplate.defaultTemplate));
 		}
 	}
@@ -2127,5 +2070,25 @@ public class GeoNumeric extends GeoElement
 	@Override
 	public boolean showLineProperties() {
 		return isDrawable() && !isSlider();
+	}
+
+	/**
+	 * Creates slider.
+	 */
+	public void createSlider() {
+		isDrawable = true;
+		setShowExtendedAV(true);
+		initAlgebraSlider();
+	}
+
+	/**
+	 * Removes the slider.
+	 */
+	public void removeSlider() {
+		isDrawable = false;
+		setShowExtendedAV(false);
+		intervalMax = null;
+		intervalMin = null;
+		setEuclidianVisible(false);
 	}
 }

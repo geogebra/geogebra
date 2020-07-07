@@ -42,10 +42,12 @@ public class DrawSymbolic extends Drawable {
 			twinDrawable.update();
 		} else {
 			twinDrawable = view.newDrawable(symbolic.getTwinGeo());
-            if (twinDrawable instanceof Drawable) {
-                ((Drawable) twinDrawable).setTopLevelGeo(symbolic);
-                twinDrawable.update();
-            }
+			twinGeo.setVisualStyle(symbolic);
+			twinGeo.setEuclidianVisible(symbolic.isEuclidianVisible());
+			if (twinDrawable instanceof Drawable) {
+				((Drawable) twinDrawable).setTopLevelGeo(symbolic);
+				twinDrawable.update();
+			}
 		}
 	}
 
@@ -70,12 +72,6 @@ public class DrawSymbolic extends Drawable {
 			return ((Drawable) twinDrawable).isInside(rect);
 		}
 		return false;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

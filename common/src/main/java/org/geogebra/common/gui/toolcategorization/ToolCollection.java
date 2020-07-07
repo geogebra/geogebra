@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.toolcategorization;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,11 +11,11 @@ import java.util.List;
 public interface ToolCollection {
 
     /**
-     * The list of categories in this toolset. The list can contain null.
+     * The list of categories in this toolset.
      *
-     * @return the list of category names
+     * @return the list of categories, may contain null
      */
-    List<String> getCategories();
+    List<ToolCategory> getCategories();
 
     /**
      * The list of tools for specified category.
@@ -29,26 +30,33 @@ public interface ToolCollection {
      *
      * @return the list of levels
      */
-    List<String> getLevels();
+    Collection<ToolsetLevel> getLevels();
 
     /**
      * The current level of the toolset.
      *
      * @return the level of the toolset
      */
-    int getLevel();
+    ToolsetLevel getLevel();
 
     /**
      * Set the current level of the toolset.
      *
      * @param level the toolset level
      */
-    void setLevel(int level);
+    void setLevel(ToolsetLevel level);
 
     /**
-     * Filter this ToolCollection with the speicified filter.
+     * Filter this ToolCollection with the specified filter.
      *
      * @param filter filter
      */
     void filter(ToolCollectionFilter filter);
+
+    /**
+     *  Look for the given mode in the tools categorization
+     * @param mode - tool mode
+     * @return true if found mode in the categorization, false otherwise
+     */
+    boolean contains(int mode);
 }

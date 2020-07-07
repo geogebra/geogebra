@@ -5,7 +5,6 @@ import java.util.TreeMap;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.DistanceFunction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.ParametricCurveDistanceFunction;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
@@ -21,6 +20,7 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ParametricCurve;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -366,10 +366,10 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	}
 
 	@Override
-	public void clearCasEvalMap(String key) {
+	public void clearCasEvalMap() {
 		for (int k = 0; k < getDimension(); k++) {
 			if (getFun(k) != null) {
-				getFun(k).clearCasEvalMap(key);
+				getFun(k).clearCasEvalMap();
 			}
 		}
 	}

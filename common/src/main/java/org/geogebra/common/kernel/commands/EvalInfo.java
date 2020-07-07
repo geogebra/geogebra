@@ -2,7 +2,9 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.TreeMap;
 
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.util.GPredicate;
 
 /**
@@ -22,8 +24,19 @@ public class EvalInfo {
 	private boolean forceUserEquation;
 	private boolean updateRandom = true;
 	private boolean copyingPlainVariables = false;
+	private boolean allowTypeChange = true;
+	private boolean multipleUnassignedAllowed = false;
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 	private GPredicate<String> labelFilter;
+	private RedefinitionRule redefinitionRule;
+	private MyArbitraryConstant constant;
+
+	/**
+	 * Creates a default evaluation info
+	 */
+	public EvalInfo() {
+		this(false);
+	}
 
 	/**
 	 * @param labelOut
@@ -45,7 +58,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param labelOutput
 	 *            whether label should be labeled
 	 * @param redefineIndependent
@@ -61,7 +74,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param labelOutput
 	 *            whether label should be labeled
 	 * @param redefineIndependent
@@ -108,7 +121,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param cas
 	 *            whether to allow using CAS for computations
 	 * @return copy of this with adjusted CAS flag
@@ -140,6 +153,9 @@ public class EvalInfo {
 		ret.symbolicMode = this.symbolicMode;
 		ret.copyingPlainVariables = this.copyingPlainVariables;
 		ret.labelFilter = this.labelFilter;
+		ret.allowTypeChange = this.allowTypeChange;
+		ret.redefinitionRule = this.redefinitionRule;
+		ret.constant = this.constant;
 		return ret;
 	}
 
@@ -162,7 +178,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param labeling
 	 *            whether labels for output are allowed
 	 * @return copy of this with adjusted labeling flag
@@ -268,7 +284,14 @@ public class EvalInfo {
 	}
 
 	/**
-	 * 
+	 * @return whether type change is allowed during redefinition
+	 */
+	public boolean isPreventingTypeChange() {
+		return !allowTypeChange;
+	}
+
+	/**
+	 *
 	 * @return whether random numbers should be updated on a redefinition
 	 */
 	public boolean updateRandom() {
@@ -351,5 +374,69 @@ public class EvalInfo {
 	 */
 	public boolean isLabelRedefinitionAllowedFor(String label) {
 		return labelFilter == null || labelFilter.test(label);
+	}
+
+	/**
+	 * Calling this prevents the AlgebraProcessor to change the type of the GeoElement.
+	 * It sets the element to undefined when trying to replace with a new type.
+	 *
+	 * @return a copy of the eval info which prevents type change.
+	 */
+	public EvalInfo withPreventingTypeChange() {
+		EvalInfo info = copy();
+		info.allowTypeChange = false;
+		return info;
+	}
+
+	/**
+	 * Eval info with a custom redefinition rule. This rule will be applied when the element
+	 * is being replaced by another element.
+	 *
+	 * @param rule redefinition rule
+	 * @return a copy of the eval info
+	 */
+	public EvalInfo withRedefinitionRule(RedefinitionRule rule) {
+		EvalInfo info = copy();
+		info.redefinitionRule = rule;
+		return info;
+	}
+
+	/**
+	 * Get the redefinition rule. This specifies the allowed redefinition types.
+	 *
+	 * @return redefinition rule
+	 */
+	public RedefinitionRule getRedefinitionRule() {
+		return redefinitionRule;
+	}
+
+	/**
+	 * EvalInfo with simplified multiplication,
+	 * for example: abc_1 is a * b * c_1
+	 * @return a copy of the eval info
+	 */
+	public EvalInfo withMultipleUnassignedAllowed() {
+		EvalInfo info = copy();
+		info.multipleUnassignedAllowed = true;
+		return info;
+	}
+
+	public boolean isMultipleUnassignedAllowed() {
+		return multipleUnassignedAllowed;
+	}
+
+	/**
+	 * Copy eval info with arbitrary constant
+	 * @param constant const
+	 * @return eval info
+	 */
+	public EvalInfo withArbitraryConstant(MyArbitraryConstant constant) {
+		EvalInfo info = copy();
+		info.constant = constant;
+		return info;
+	}
+
+	public MyArbitraryConstant getArbitraryConstant() {
+		return constant;
 	}
 }

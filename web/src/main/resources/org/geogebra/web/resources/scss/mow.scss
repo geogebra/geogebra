@@ -3,31 +3,30 @@
 .GeoGebraFrame{
 	$pagecontrolpanelWidth: 269px;
 	$always_on_top: 60;
-	
+
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	$pagecontrol-transition: right 0.25s cubic-bezier(0.4, 0, 1, 1);
 	$floatingbtn-hover-transition: background-color 0.15s;
 	$floatingbtn-appear-transition: width 0.2s, height 0.2s, right 0.2s, margin-bottom 0.2s, visibility 0.2s;
 	$floatingbtn-img-appear-transition: width 0.2s, height 0.2s, padding 0.2s;
-	
+
 	$shadow-elevation-2: 0px 3px 1px -2px $black-20, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
 	$shadow-elevation-8: 0px 5px 5px -3px $black-20, 0px 8px 10px 1px $black-14, 0px 3px 14px 2px $black-12;
 	$shadow-elevation-16: 0px 8px 10px -5px $black-20, 0px 16px 24px 2px $black-14, 0px 6px 30px 5px $black-12;
-	
+
 	// comes from youtube player, you must not change this.
 	$z_mow_video: 50;
-	$z_mow_video_background: 12;
-	$z_mow_foreground: 50;
-	
+	$z_mask: 50;
+
 /*****************
 *   STYLEBAR
-******************/	
-	
+******************/
+
 	.mowColorPopup input[type="range"]{
 		width: 130px;
 	    margin: 0 0 0 4px;
 	    background-color: transparent;
-		}	
+		}
 	.mowColorPopup .popupSliderLabel{
 		margin-right: 3px !important;
 		margin-top: 0px;
@@ -40,7 +39,7 @@
 		    width: 22px;
 		}
 	}
-	
+
 	.mowLinePopup .preview{
 		    margin: 3px 0px 3px 12px;
 	}
@@ -49,29 +48,29 @@
 	    margin: 0 0 0 4px;
 	    background-color: transparent;
 	}
-	
+
 	.mowLinePopup .popupSliderLabel{
 		margin-right: 0px;
 	}
 
-	.mowColorPopup .SelectionTable .gwt-Label.border.selected, 
+	.mowColorPopup .SelectionTable .gwt-Label.border.selected,
 	.mowColorPopup .SelectionTable .gwt-Label.border:hover,
 	.mowColorPopup .SelectionTable .gwt-Label.border:active,
 	.mowStylePopup .SelectionTable .gwt-Label.border.selected,
-	.mowStylePopup .SelectionTable .gwt-Label.border:hover,	
-	.mowStylePopup .SelectionTable .gwt-Label.border:active{	
+	.mowStylePopup .SelectionTable .gwt-Label.border:hover,
+	.mowStylePopup .SelectionTable .gwt-Label.border:active{
 		background-color: transparent !important;
 		border: 2px solid $mow_primary;
 		padding: 2px;
 	}
-		
+
 	.mowBorderlessButton {
 		border: none !important;
 	}
-	
+
 /*****************
 *   STYLEBAR with Feature.MOW_COLOR_FILLING_LINE
-******************/	
+******************/
 	.mowDynStyleBar {
 		.MyCanvasButton {
 			&:hover {
@@ -85,34 +84,35 @@
 			}
 			&.withIcon {
 				border: $tool-border solid 1px !important;
-				
+
 				.buttonContent {
-					opacity: 0.7;	
+					opacity: 0.7;
 				}
 				&:hover {
 					border: $mow_primary solid 1px !important;
 				}
 			}
 		}
-		
-		.btnCrop,.btnBold,.btnItalic {
+
+		.btnCrop,.btnBold,.btnItalic,.btnUnderline,
+		 {
 			border-radius: 2px;
 			margin-left: 0px;
 			margin-right: 8px;
 
 			img {
 				opacity: 0.7;
-			}	
-			
+			}
+
 			&:hover, &:focus {
 				border: $mow_primary solid 1px !important;
 			}
-			
+
 			&.gwt-ToggleButton-down {
 				border: $mow_primary solid 1px !important;
 			}
 		}
-		
+
 		.matDynStyleContextButton:hover {
 			margin-right: 0px !important;
 			margin-left: 0px !important;
@@ -129,7 +129,7 @@
 		.plusButton:hover {
 			border: 1px solid $mow_primary !important;
         }
-        
+
         .panelRow.panelRow2.showSlider {
              width: 180px !important;
 
@@ -137,8 +137,32 @@
                 width: calc(100% - 74px);
              }
         }
+
+        .noColBtn {
+            display: inline-flex;
+            cursor: pointer;
+            margin: 1px 1px 4px 1px;
+            width: calc(100% - 2px);
+
+            &:hover {
+                background-color: $black-04;
+            }
+
+            img {
+                opacity: 0.54;
+                padding: 2px 0px 2px 2px;
+            }
+
+            .gwt-Label {
+                font-size: 14px;
+                margin: 4px 0px 4px 12px;
+                height: 20px;
+                line-height: 20px;
+                cursor: pointer;
+            }
+        }
 	}
-	
+
 /*****************
 *   BURGER MENU
 ******************/
@@ -155,28 +179,34 @@
     	height: 24px;
     	cursor: pointer;
     	transition: background-color 150ms ease 0ms;
-		
+
 		img{
 		    width: 24px;
 		    height: 24px;
 		}
+
+		&:focus {
+			outline: $focus-black 5px auto;
+		}
+
+		&.button-up img {
+			opacity: 0.54;
+		}
+
+		&.button-up-hovering {
+			img {
+				opacity: 1;
+			}
+			background-color: $mow_card_background_hover;
+		}
 	}
-	.mowOpenMenuButton.button-up{
-		opacity: 0.54;
-	}
-	.mowOpenMenuButton.button-up-hovering{
-		img { 
-		  opacity: 1;
-		 }
-		 background-color: $mow_card_background_hover;
-	}
-	
+
 	.mowMenubar {
 		  position: absolute;
 		  width: 100%;
 	  	  top: 45px;
 	  	  background-color: $white !important;
-	  	  
+
 	  	  .menuPanel {
 			width: 267px !important;
 			border: 1px solid $tool-border;
@@ -190,7 +220,7 @@
 	}
 	.subMenuRightSide {
 		left: -15px;
-		
+
 		.arrowSubmenu {
 			position: absolute;
 			top: 0px;
@@ -202,22 +232,26 @@
 ******************/
 	.mowFloatingButton {
 		cursor: pointer;
-		position: fixed;
-    	border-radius: 50%;
-    	z-index: 99;
- 
-    	background-color: $mow_primary;
-    	box-shadow: 0px 2px 10px $black-30, 0px 0px 1px $black-10, inset 0px 1px 0px $white-25, inset 0px -1px 0px $black-15;
-    	transition: $floatingbtn-hover-transition, $mowsubmenu-transition;
-    	
-    	&:hover {
-    		background-color: $mow_primary_variant;
-    	}
+		position: absolute;
+		border-radius: 50%;
+		z-index: 99;
+
+		background-color: $mow_primary;
+		box-shadow: 0px 2px 10px $black-30, 0px 0px 1px $black-10, inset 0px 1px 0px $white-25, inset 0px -1px 0px $black-15;
+		transition: $floatingbtn-hover-transition, $mowsubmenu-transition;
+
+		&:hover {
+			background-color: $mow_primary_variant;
+		}
+		&.keyboardFocus:focus {
+			outline: $focus-black 5px auto;
+		}
 	}
+
 	.mowPlusButton{
 		bottom: 0px;
 	}
-	
+
 	.hideMowFloatingButton {
 		@extend .mowFloatingButton;
 		cursor: default;
@@ -227,13 +261,13 @@
 		margin-bottom: 40px;
 		visibility: hidden;
 		transition: $floatingbtn-appear-transition;
-		
+
 		img {
 			width: 0px !important;
 			height: 0px !important;
 			padding: 0px;
-			transition: $floatingbtn-img-appear-transition; 
-		}	
+			transition: $floatingbtn-img-appear-transition;
+		}
 	}
 	.showMowFloatingButton {
 		@extend .mowFloatingButton;
@@ -243,7 +277,7 @@
 		margin-bottom: 16px;
 		visibility: visible;
 		transition: $floatingbtn-hover-transition, $floatingbtn-appear-transition, $mowsubmenu-transition;
-		
+
 		img {
 			width: 24px !important;
 			height: 24px !important;
@@ -251,7 +285,7 @@
 			transition: $floatingbtn-img-appear-transition;
 		}
 	}
-	
+
 /*****************
 *   PAGE CONTROL PANEL
 ******************/
@@ -265,15 +299,15 @@
 		height: 100%;
 		width: $pagecontrolpanelWidth;
 		overflow: hidden;
-	
+
 		.mowPageControlScrollPanel{
 			height: 100%;
 			overflow-x: hidden;
 			overflow-y: auto;
 		}
-		
+
 		.mowPageControlScrollPanel.noVerticalScrollbar {
-			overflow-y: hidden;	
+			overflow-y: hidden;
 		}
 		.mowPageControlContentPanel {
 			width: 100%;
@@ -286,36 +320,36 @@
 		animation-name: pCPanimateIn;
 		overflow: auto;
 	}
-			
+
 	@keyframes pCPanimateIn {
 		0% {right: -$pagecontrolpanelWidth; top: 0px;}
 		50% {right: -calc($pagecontrolpanelWidth/3); top: 0px;}
 		100% {right: 0px; top: 0px;}
 	}
-	
+
 	.mowPageControlPanel.animateOut {
 		animation-duration: 0.25s;
 		animation-name: pCPanimateOut;
 		overflow-y: auto;
 	}
-			
+
 	@keyframes pCPanimateOut {
 		0% {right: 0px; top: 0px;}
 		50% {right: -calc($pagecontrolpanelWidth*2/3); top: 0px;}
 		100% {right: -$pagecontrolpanelWidth; top: 0px;}
 	}
-	
+
 /*****************
 *   PAGE PREVIEW CARD
 ******************/
-	
+
 	.mowPagePreviewCard {
 		margin: 16px;
 		border-radius: 2px;
    		background-color: $white;
    		box-shadow: $shadow-elevation-2;
    		transition: box-shadow .25s;
-				
+
 		.mowImagePanel {
 			width: 100%;
 			height: 124px; /* 220px*9/16 */
@@ -334,7 +368,7 @@
 			background-color: $mow_card_background;
 			box-sizing: border-box;
 			display: flex;
-			
+
 			.gwt-Label {
 				line-height: 1;
 				padding: 16px;
@@ -353,7 +387,7 @@
 			    position: absolute;
 				opacity: 0.54;
 				cursor: pointer;
-				
+
 				&:hover {
 					opacity: 0.85;
 				}
@@ -366,7 +400,7 @@
 		.mowPagePreviewCard.selected {
 			box-shadow: $shadow-elevation-2;
 			transition: box-shadow .25s;
-			
+
 			.mowImagePanel {
 				border: 2px solid $mow_primary;
 				border-bottom: none;
@@ -388,41 +422,14 @@
 				box-shadow: $shadow-elevation-8;
 			}
 		}
-	
-		/*.AutoCompleteTextFieldW {
-    				margin: 0px !important;
-    				padding: 8px 0px;
-    				border-radius: 2px;	
-    				width: calc(100% + 12px) !important;
-    				
-    				.TextField {
-    					padding: 8px 0px 8px 0px;
-    					border: none;
-    					border-bottom: none;
-    					background: transparent;
-    					box-shadow: none;
-    					border-radius: 0px !important;
-    					
-    					&:focus {
-    						border: none;
-    						border-bottom: 2px solid $mow_primary;
-  							padding: 8px 0px 6px 0px;
-    						width: calc(100% + 12px) !important;
-    						transition: width 0.2s;
-    						caret-color: $mow_primary;
-    					}
-    				}
-    			}
-	}*/
-	
-	
+
 	.mowPagePreviewCardDivider {
 		width: 240px;
 		height: 16px;
-		background-color: $mow_card_divider;	
+		background-color: $mow_card_divider;
 		margin: 4px 16px 4px;
 	}
-	
+
 	.mowPagePreviewCard.dragged {
 		margin: 16px;
 		width: calc(100% - 32px);
@@ -442,13 +449,11 @@
 	.mowMatMenu.gwt-PopupPanel {
 		width: 168px;
    		min-width: 112px !important;
-   		.gwt-MenuItem { 
+   		z-index: 502;
+   		.gwt-MenuItem {
    			width: 168px;
     		min-width: 112px !important;
 			padding-left: 56px !important;
-			&:focus {
-   				background: $mow_light;
-			}
 		}
 	}
 
@@ -469,13 +474,15 @@
 			width: 100%;
 			height: 100%;
 		}
+		&.mowVideo {
+			border-style: none;
+		}
 	}
 
 	.mowWidget.background {
 		@extend .mowVideo;
-		z-index: $z_mow_video_background;
 	}
-	
+
 	.mowVideo video {
 		width: 100%;
 		height: 100%;
@@ -489,39 +496,58 @@
 			text-align: center;
 			padding: 33% 0;
 		}
+		box-sizing: border-box;
 		border: 1px solid;
 	}
 
-	.mowDoubleCanvas {
-		.mowVideo {
-			position: absolute;
-			border-style: none;
+	.mowMenuSeparator {
+		background-color: #dedede;
+		height: 1px;
+		width: calc(100% - 56px);
+		list-style: none;
+		margin: 6px 0 6px auto;
+	}
+
+	.inlineTextToolbar {
+		padding: 0 16px 6px 16px;
+
+		&.selectedItem {
+			background: none;
 		}
 
-		.mowBackground {
-			position: absolute; 
-			top: 0px;
-			bottom: 0px;
-			z-index: 0; 
-		}	
+		.MyToggleButton {
+			border-radius: 2px;
+			display: inline-block;
+			margin: 0 8px 0 0;
 
-		.cursor_pen,
-		.cursor_highlighter,
-		.cursor_eraser,
-		.cursor_rotation,
-		.cursor_hit,
-		.cursor_drag,
-		.cursor_resizeEW,
-		.cursor_resizeNS,
-		.cursor_resizeNESW,
-		.cursor_resizeNWSE,
-		.cursor_transparent {
-			position: absolute; 
-			top: 0px;
-			bottom: 0px;
-			z-index: $z_mow_foreground;
-		 }		
+			.gwt-Image {
+				opacity: 0.7;
+				margin-left: 0;
+				position: relative;
+			}
+
+			&.selected {
+				border-color: $mow_primary;
+			}
+
+			&:hover {
+				border-color: $mow_primary;
+			}
+		}
+	}
+
+	 // unit rectangle for mask to transform with matrix
+	 .maskWidget {
+	    position: absolute;
+	    z-index: $z_mask;
+	    top: 0;
+	    left: 0;
+	    width: 100px;
+	    height: 100px;
+	    transform-origin: left top;
+	}
+
+	.embedContainer .EuclidianPanel {
+	    z-index: 0;
 	}
 }
-
-

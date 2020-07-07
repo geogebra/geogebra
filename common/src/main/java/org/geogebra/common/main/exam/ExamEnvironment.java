@@ -8,18 +8,17 @@ import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilterFactory;
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
 import org.geogebra.common.main.exam.event.CheatingEvents;
-import org.geogebra.common.main.exam.output.OutputFilter;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.TimeFormatAdapter;
@@ -41,10 +40,9 @@ public class ExamEnvironment {
 	private boolean hasGraph = false;
 
 	private TimeFormatAdapter timeFormatter;
-	private CommandArgumentFilter nonExamCommandFilter;
-	private static OutputFilter outputFilter = new OutputFilter();
-	private static final CommandNameFilter noCASFilter = CommandNameFilterFactory
-			.createNoCasCommandNameFilter();
+	private CommandArgumentFilter examCommandFilter = new ExamCommandFilter();
+	private static final CommandFilter noCASFilter = CommandFilterFactory
+			.createNoCasCommandFilter();
 
 	/**
 	 * application
@@ -93,6 +91,7 @@ public class ExamEnvironment {
 	public void setStart(long time) {
 		examStartTime = time;
 		closed = -1;
+		clearClipboard();
 	}
 
 	/**
@@ -431,6 +430,15 @@ public class ExamEnvironment {
 	public void exit() {
 		storeEndTime();
 		restoreCommands();
+		clearClipboard();
+	}
+
+	private void clearClipboard() {
+		CopyPaste copyPaste = app.getCopyPaste();
+		if (copyPaste != null) {
+			copyPaste.clearClipboard();
+		}
+		app.copyTextToSystemClipboard("");
 	}
 
 	/**
@@ -462,7 +470,7 @@ public class ExamEnvironment {
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
-        return localization.getMenu(app.getConfig().getAppCode());
+		return localization.getMenu(app.getConfig().getAppNameShort());
 	}
 
 	/**
@@ -580,8 +588,7 @@ public class ExamEnvironment {
 	 * sets the exam command filter for the duration of the exam mode.
 	 */
 	private void enableExamCommandFilter() {
-		nonExamCommandFilter = commandDispatcher.getCommandArgumentFilter();
-		commandDispatcher.setCommandArgumentFilter(new ExamCommandFilter());
+		commandDispatcher.addCommandArgumentFilter(examCommandFilter);
 	}
 
 	/**
@@ -605,17 +612,7 @@ public class ExamEnvironment {
 	 * the CommandDispatcher
 	 */
 	private void disableExamCommandFilter() {
-		app.getKernel().getAlgebraProcessor().getCommandDispatcher()
-				.setCommandArgumentFilter(nonExamCommandFilter);
-	}
-
-	/**
-	 * @param eqn
-	 *            equation
-	 * @return whether the equation should be hidden
-	 */
-	public static boolean isProtectedEquation(GeoElement eqn) {
-		return !outputFilter.isAllowed(eqn);
+		commandDispatcher.removeCommandArgumentFilter(examCommandFilter);
 	}
 
 	/**
@@ -660,12 +657,12 @@ public class ExamEnvironment {
 
 	private void enableCAS() {
 		getCasSettings().setEnabled(true);
-		commandDispatcher.removeCommandNameFilter(noCASFilter);
+		commandDispatcher.removeCommandFilter(noCASFilter);
 	}
 
 	private void disableCAS() {
 		getCasSettings().setEnabled(false);
-		commandDispatcher.addCommandNameFilter(noCASFilter);
+		commandDispatcher.addCommandFilter(noCASFilter);
 	}
 
 	private CASSettings getCasSettings() {

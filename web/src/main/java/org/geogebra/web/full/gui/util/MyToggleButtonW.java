@@ -1,12 +1,13 @@
 package org.geogebra.web.full.gui.util;
 
+import java.util.List;
+
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.util.GToggleButton;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -18,7 +19,7 @@ import com.google.gwt.user.client.ui.Image;
  * 
  */
 public class MyToggleButtonW extends GToggleButton
-		implements MouseDownHandler, TouchEndHandler {
+		implements MouseDownHandler {
 
 	private HandlerRegistration actionListener;
 	private boolean ignoreTab = false;
@@ -112,8 +113,6 @@ public class MyToggleButtonW extends GToggleButton
 		setDown(false);
 		addStyleName("MyToggleButton");
 		addMouseDownHandler(this);
-		// fix for touch
-        addBitlessDomHandler(this, TouchEndEvent.getType());
 	}
 
 	/**
@@ -121,9 +120,9 @@ public class MyToggleButtonW extends GToggleButton
 	 * (e.g. visibility) based on a given array of GeoElements.
 	 * 
 	 * @param geos
-	 *            Array of GeoElements
+	 *            List of active GeoElements
 	 */
-	public void update(Object[] geos) {
+	public void update(List<GeoElement> geos) {
 		// do nothing
 	}
 
@@ -188,19 +187,11 @@ public class MyToggleButtonW extends GToggleButton
 	}
 
 	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		setDown(!isDown());
-		ValueChangeEvent.fire(this, isDown());
-		event.stopPropagation();
-	}
-
-	@Override
 	protected void onAttach() {
 		super.onAttach();
 		if (ignoreTab) {
 			setTabIndex(-1);
 		}
-
 	}
 
 	/**

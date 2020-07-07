@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -29,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -252,12 +252,6 @@ final public class GeoSegment extends GeoLine
 		super.setUndefined();
 		length = Double.NaN;
 		defined = false;
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		// return defined;
-		return true;
 	}
 
 	@Override
@@ -814,6 +808,7 @@ final public class GeoSegment extends GeoLine
 	@Override
 	public void translate(Coords v) {
 		super.translate(v);
+
 		startPoint.translate(v);
 		endPoint.translate(v);
 

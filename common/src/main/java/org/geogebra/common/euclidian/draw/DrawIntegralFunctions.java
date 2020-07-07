@@ -14,7 +14,6 @@ package org.geogebra.common.euclidian.draw;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
@@ -101,7 +100,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 		if (!isVisible) {
 			return;
 		}
-		labelVisible = geo.isLabelVisible();
+		labelVisible = getTopLevelGeo().isLabelVisible();
 		updateStrokes(n);
 
 		if (n.isAlgoMacroOutput() || isCasObject) {
@@ -160,7 +159,7 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 			aRW = view.toRealWorldCoordX(xLabel);
 			double y = (f.value(aRW) + g.value(aRW)) / 2;
 			yLabel = view.toClippedScreenCoordY(y);
-			labelDesc = geo.getLabelDescription();
+			labelDesc = getTopLevelGeo().getLabelDescription();
 			addLabelOffset();
 		}
 	}
@@ -223,9 +222,4 @@ public class DrawIntegralFunctions extends DrawFunctionArea {
 		return geo;
 	}
 
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

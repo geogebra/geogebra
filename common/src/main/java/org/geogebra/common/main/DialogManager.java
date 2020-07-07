@@ -1026,4 +1026,12 @@ public abstract class DialogManager {
 		// implemented only in web
 		return null;
 	}
+
+	public void showTemplateChooser() {
+		// only needed in web
+	}
+
+	public void closeTemplateChooser() {
+		// only needed in web
+	}
 }

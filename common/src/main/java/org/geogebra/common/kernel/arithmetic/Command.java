@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
@@ -103,7 +102,8 @@ public class Command extends ValidExpression
 			boolean allowEvaluationForTypeCheck) {
 		this.kernel = kernel;
 		app = kernel.getApplication();
-		this.allowEvaluationForTypeCheck = allowEvaluationForTypeCheck;
+		this.allowEvaluationForTypeCheck = app.getConfig().isCASEnabled()
+				&& allowEvaluationForTypeCheck;
 
 		/*
 		 * need to check app.isUsingInternalCommandNames() due to clash with
@@ -171,10 +171,8 @@ public class Command extends ValidExpression
 			if (str.length() == 1 && Character.isLetter(str.charAt(0))) {
 				return str;
 			}
-		} else if (ev instanceof GeoVec2D) {
-			if (((GeoVec2D) ev).isImaginaryUnit()) {
-				return Unicode.IMAGINARY + "";
-			}
+		} else if (ExpressionNode.isImaginaryUnit(ev)) {
+			return Unicode.IMAGINARY + "";
 		} else if (ev instanceof MySpecialDouble) {
 			if (((MySpecialDouble) ev).isEulerConstant()) {
 				return Unicode.EULER_STRING;

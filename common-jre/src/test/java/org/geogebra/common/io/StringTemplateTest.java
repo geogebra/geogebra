@@ -1,5 +1,7 @@
 package org.geogebra.common.io;
 
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
@@ -16,24 +18,18 @@ import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.gwt.regexp.shared.RegExp;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class StringTemplateTest {
-	static AppCommon3D app;
-
-	@BeforeClass
-	public static void initialize() {
-		app = new AppCommon3D(new LocalizationCommon(3),
-				new AwtFactoryCommon());
-	}
+	private AppCommon3D app;
 
 	@Before
-	public void cleanup() {
-		app.getKernel().clearConstruction(true);
+	public void initialize() {
+		app = new AppCommon3D(new LocalizationCommon(3),
+				new AwtFactoryCommon());
 	}
 
 	@Test
@@ -63,10 +59,10 @@ public class StringTemplateTest {
 
 	@Test
 	public void testCannonicNumber() {
-		Assert.assertEquals("0", StringUtil.cannonicNumber("0.0"));
-		Assert.assertEquals("0", StringUtil.cannonicNumber(".0"));
-		Assert.assertEquals("1.0E2", StringUtil.cannonicNumber("1.0E2"));
-		Assert.assertEquals("1", StringUtil.cannonicNumber("1.00"));
+		assertEquals("0", StringUtil.canonicalNumber("0.0"));
+		assertEquals("0", StringUtil.canonicalNumber(".0"));
+		assertEquals("1.0E2", StringUtil.canonicalNumber("1.0E2"));
+		assertEquals("1", StringUtil.canonicalNumber("1.00"));
 	}
 
 	@Test
@@ -86,45 +82,48 @@ public class StringTemplateTest {
 
 	private void plain(String string, String string2) {
 		GeoElementND geo = add(string);
-		Assert.assertEquals(string2, geo.getDefinitionForInputBar());
+		assertEquals(string2, geo.getDefinitionForInputBar());
 	}
 
 	@Test
 	public void testConditionalLatex() {
 		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
 		tcl("If[x>0,x]", caseSimple);
-		tcl("If[x>0,x,-x]",
-				"\\left\\{\\begin{array}{ll} x& : x > 0\\\\ -x& : \\text{otherwise} \\end{array}\\right. ");
-		String caseThree = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\ -x& : x < 0\\\\ 7& : \\text{otherwise} \\end{array}\\right. ";
+		tcl("If[x>0,x,-x]", "\\left\\{\\begin{array}{ll} x& : x > 0\\\\"
+						+ " -x& : \\text{otherwise} \\end{array}\\right. ");
+		String caseThree = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
+				+ " -x& : x < 0\\\\ 7& : \\text{otherwise} \\end{array}\\right. ";
 		tcl("If[x>1,x,If[x<0,-x,7]]", caseThree);
 		tcl("If[x>1,x,x<0,-x,7]", caseThree);
-		String caseTwo = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\ -x& : x <= 0 \\end{array}\\right. ";
+		String caseTwo = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
+				+ " -x& : x <= 0 \\end{array}\\right. ";
 		tcl("If[x>1,x,If[x<=0,-x]]", caseTwo);
 		tcl("If[x>1,x,x<=0,-x]", caseTwo);
 		// x>2 is impossible for x<=0
 		tcl("If[x>0,x,If[x>2,-x]]", caseSimple);
-		String caseImpossible = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\ -x& : x <= 1 \\end{array}\\right. ";
+		String caseImpossible = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
+				+ " -x& : x <= 1 \\end{array}\\right. ";
 		// x>1 and x<=2 cover the whole axis, further conditions are irrelevant
 		tcl("If[x>1,x,If[x<=2,-x,If[x>3,x^2,x^3]]]", caseImpossible);
 		tcl("If[x>1,x,If[x<=2,-x]]", caseImpossible);
 	}
 
-	private static void tcl(String string, String string2) {
+	private void tcl(String string, String string2) {
 		GeoElementND geo = add(string);
 		Assert.assertTrue(geo instanceof GeoFunction);
-		Assert.assertEquals(
+		assertEquals(
 				((GeoFunction) geo).conditionalLaTeX(false,
 						StringTemplate.latexTemplate),
 				string2.replace("<=", Unicode.LESS_EQUAL + ""));
 	}
 
-	private static void tex(String string, String string2) {
+	private void tex(String string, String string2) {
 		GeoElementND geo = add(string);
-		Assert.assertEquals(string2,
+		assertEquals(string2,
 				geo.getDefinition(StringTemplate.latexTemplate));
 	}
 
-	private static GeoElementND add(String string) {
+	private GeoElementND add(String string) {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		GeoElementND[] result = ap.processAlgebraCommandNoExceptionHandling(
 				string, false, TestErrorHandler.INSTANCE,
@@ -135,11 +134,11 @@ public class StringTemplateTest {
 	@Test
 	public void editorTemplateShouldRetainPrecision() {
 		GeoElementND f = add("f:0.33333x");
-		Assert.assertEquals("f(x) = 0.33333x",
+		assertEquals("f(x)=0.33333 x",
 				f.toString(StringTemplate.editorTemplate));
-		Assert.assertEquals("f(x) = 0.33333x",
+		assertEquals("f(x) = 0.33333x",
 				f.toString(StringTemplate.editTemplate));
-		Assert.assertEquals("f(x) = 0.33x",
+		assertEquals("f(x) = 0.33x",
 				f.toString(StringTemplate.defaultTemplate));
 	}
 
@@ -161,6 +160,27 @@ public class StringTemplateTest {
 		for (String t : testI) {
 			Assert.assertTrue(CASgiac.inequality.test(t));
 		}
+	}
+
+	@Test
+	public void shouldUseTrigPowerForConstantExponent() {
+		FunctionVariable x = new FunctionVariable(app.getKernel());
+		ExpressionNode node = x.wrap().sin().power(2);
+		assertEquals("sin" + Unicode.SUPERSCRIPT_2 + "(x)",
+				node.toString(StringTemplate.editTemplate));
+		assertEquals("\\operatorname{sin} ^{2}\\left( x \\right)",
+				node.toString(StringTemplate.latexTemplate));
+	}
+
+	@Test
+	public void shouldUseTrigPowerForVarExponent() {
+		FunctionVariable x = new FunctionVariable(app.getKernel());
+		ExpressionNode node = x.wrap().sin().power(x.wrap().cos());
+		assertEquals("sin(x)^cos(x)",
+				node.toString(StringTemplate.editTemplate));
+		assertEquals("\\operatorname{sin} \\left( x \\right)"
+						+ "^{\\operatorname{cos} \\left( x \\right)}",
+				node.toString(StringTemplate.latexTemplate));
 	}
 
 }

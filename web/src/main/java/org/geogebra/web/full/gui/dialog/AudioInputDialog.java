@@ -2,8 +2,10 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.media.MediaFactory;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -16,7 +18,7 @@ public class AudioInputDialog extends MediaDialog {
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	public AudioInputDialog(AppW app) {
+	public AudioInputDialog(AppWFull app) {
 		super(app.getPanel(), app);
 	}
 
@@ -34,7 +36,7 @@ public class AudioInputDialog extends MediaDialog {
 	protected void processInput() {
 		if (appW.getGuiManager() != null) {
 			String url = getUrlWithProtocol();
-			inputField.getTextComponent().setText(url);
+			mediaInputPanel.inputField.getTextComponent().setText(url);
 			app.getSoundManager().checkURL(url, new AsyncOperation<Boolean>() {
 
 				@Override
@@ -42,7 +44,7 @@ public class AudioInputDialog extends MediaDialog {
 					if (ok) {
 						addAudio();
 					} else {
-						showError("InvalidInput");
+						mediaInputPanel.showError("InvalidInput");
 					}
 				}
 			});
@@ -53,10 +55,10 @@ public class AudioInputDialog extends MediaDialog {
 	 * Adds the GeoAudio instance.
 	 */
 	void addAudio() {
-		resetError();
-		new MediaFactory(appW).addAudio(inputField.getText());
+		mediaInputPanel.resetError();
+		GeoElement audio = new MediaFactory(appW).addAudio(mediaInputPanel.getInput());
 		hide();
-		appW.setMode(EuclidianConstants.MODE_SELECT_MOW);
+		onMediaElementCreated(audio);
 	}
 
 	@Override

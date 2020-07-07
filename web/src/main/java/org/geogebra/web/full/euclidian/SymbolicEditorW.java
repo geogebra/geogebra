@@ -1,177 +1,156 @@
 package org.geogebra.web.full.euclidian;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.SymbolicEditor;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.euclidian.draw.LaTeXTextRenderer;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
-import org.geogebra.web.html5.euclidian.InputBoxWidget;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.HasMathKeyboardListener;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
+import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathSequence;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 
 /**
  * MathField-capable editor for EV, Web implementation.
  *
  * @author Laszlo
  */
-public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
-        InputBoxWidget, BlurHandler {
+public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardListener,
+		BlurHandler, ChangeHandler {
 
-    private final App app;
-    private GeoInputBox geoInputBox;
-    private GRectangle bounds;
-    private String text;
-    private MathFieldEditor editor;
-    private final SymbolicEditorDecorator decorator;
+	private GRectangle bounds;
+	private MathFieldEditor editor;
+	private final SymbolicEditorDecorator decorator;
 
-    /**
-     * Constructor
-     *
-     * @param app The application.
-     */
-    public SymbolicEditorW(App app) {
-        this.app = app;
-        editor = new MathFieldEditor(app, this);
-        editor.addBlurHandler(this);
+	/**
+	 * Constructor
+	 *
+	 * @param app
+	 *            The application.
+	 */
+	public SymbolicEditorW(App app, EuclidianViewW view) {
+		super(app, view);
+		editor = new MathFieldEditor(app, this);
+		editor.addBlurHandler(this);
+		editor.getMathField().setChangeListener(this);
+		editor.getMathField().setFixMargin(LaTeXTextRenderer.MARGIN);
+		editor.getMathField().setMinHeight(DrawInputBox.MIN_HEIGHT);
+		int baseFontSize = app.getSettings()
+				.getFontSettings().getAppFontSize() + 3;
 
-        int baseFontSize = app.getSettings()
-                .getFontSettings().getAppFontSize() + 3;
+		decorator = new SymbolicEditorDecorator(editor, baseFontSize);
+	}
 
-        decorator = new SymbolicEditorDecorator(editor, baseFontSize);
-    }
+	@Override
+	public void attach(GeoInputBox geoInputBox, GRectangle bounds) {
+		if (getDrawInputBox() != null && getDrawInputBox().getGeoElement() != geoInputBox) {
+			getDrawInputBox().setEditing(false);
+		}
+		setInputBox(geoInputBox);
 
-    @Override
-    public void attach(GeoInputBox geoInputBox, GRectangle bounds,
-                       AbsolutePanel parent) {
-        this.geoInputBox = geoInputBox;
-        this.bounds = bounds;
-        resetChanges();
-        editor.attach(parent);
-    }
+		this.bounds = bounds;
+		// add to DOM, but hidden => getHeight works, but widget is not shown in wrong position
+		editor.setVisible(false);
+		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
+		// update size and show
+		resetChanges();
+	}
 
-    @Override
-    public MathKeyboardListener getKeyboardListener() {
-        return null;
-    }
+	@Override
+	public void repaintBox(GGraphics2D g2) {
+		// only in desktop
+	}
 
-    private void resetChanges() {
-        boolean wasEditing = geoInputBox.isEditing();
-        this.geoInputBox.setEditing(true);
-        editor.setVisible(true);
-        decorator.update(bounds, geoInputBox);
-        editor.setKeyboardVisibility(true);
+	@Override
+	public MathKeyboardListener getKeyboardListener() {
+		return editor.getKeyboardListener();
+	}
 
-        if (!wasEditing) {
-            updateText();
-            focus();
-        }
+	@Override
+	protected void resetChanges() {
+		getDrawInputBox().setEditing(true);
 
-        editor.setText(text);
+		decorator.update(bounds, getGeoInputBox());
+		editor.setVisible(true);
+		editor.setText(getGeoInputBox().getTextForEditor());
+		editor.setLabel(getGeoInputBox().getAuralText());
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() {
+				editor.requestFocus();
+			}
+		});
+	}
 
-    }
+	@Override
+	public boolean isClicked(GPoint point) {
+		return getDrawInputBox().isEditing() && bounds.contains(point.getX(), point.getY());
+	}
 
-    private void updateText() {
-        text = geoInputBox.getTextForEditor().trim();
-        editor.setText(text);
-    }
+	@Override
+	protected MathFieldInternal getMathFieldInternal() {
+		return editor.getMathField().getInternal();
+	}
 
-    private void focus() {
-        editor.focus();
-    }
+	@Override
+	public void hide() {
+		if (!getDrawInputBox().isEditing()) {
+			return;
+		}
 
-    @Override
-    public boolean isClicked(GPoint point) {
-        return geoInputBox.isEditing() && bounds.contains(point.getX(), point.getY());
-    }
+		applyChanges();
+		getDrawInputBox().setEditing(false);
+		editor.setVisible(false);
 
-    @Override
-    public void hide() {
-        editor.setVisible(false);
-        onHide();
-    }
+		AnimationScheduler.get()
+				.requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
+			@Override
+			public void execute(double timestamp) {
+				((EuclidianViewW) view).doRepaint2();
+			}
+		});
+	}
 
-    private void onHide() {
-        if (!geoInputBox.isEditing()) {
-            return;
-        }
+	@Override
+	public void onKeyTyped() {
+		decorator.update();
+		getGeoInputBox().update();
+		editor.scrollHorizontally();
+		editor.updateAriaLabel();
+	}
 
-        applyChanges();
-        geoInputBox.setEditing(false);
-    }
+	@Override
+	public boolean onEscape() {
+		resetChanges();
+		return true;
+	}
 
-    @Override
-    public void onEnter() {
-        applyChanges();
-    }
+	@Override
+	public void onTab(boolean shiftDown) {
+		applyChanges();
+		hide();
+		((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).handleTab(shiftDown);
+	}
 
-    private void applyChanges() {
-        String editedText = editor.getText();
-        if (editedText.trim().equals(text)) {
-            return;
-        }
-        geoInputBox.updateLinkedGeo(editedText);
-    }
+	@Override
+	public void onBlur(BlurEvent event) {
+		hide();
+	}
 
-    @Override
-    public void onKeyTyped() {
-        decorator.update();
-        geoInputBox.update();
-        editor.scrollHorizontally();
-    }
-
-    @Override
-    public void onCursorMove() {
-        // nothing to do.
-    }
-
-    @Override
-    public void onUpKeyPressed() {
-        // nothing to do.
-    }
-
-    @Override
-    public void onDownKeyPressed() {
-        // nothing to do.
-    }
-
-    @Override
-    public String serialize(MathSequence selectionText) {
-        return null;
-    }
-
-    @Override
-    public void onInsertString() {
-        // nothing to do.
-    }
-
-    @Override
-    public boolean onEscape() {
-        resetChanges();
-        return true;
-    }
-
-    @Override
-    public void onTab(boolean shiftDown) {
-        applyChanges();
-        hide();
-        app.getGlobalKeyDispatcher().handleTab(false, shiftDown);
-        app.getSelectionManager().nextFromInputBox();
-    }
-
-    @Override
-    public Widget asWidget() {
-        return editor.asWidget();
-    }
-
-    @Override
-    public void onBlur(BlurEvent event) {
-        hide();
-    }
+	@Override
+	public void onChange(ChangeEvent event) {
+		decorator.update();
+	}
 }

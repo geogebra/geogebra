@@ -1,13 +1,24 @@
 package org.geogebra.common.main;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.AppType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
-import org.geogebra.common.kernel.commands.selector.CommandNameFilter;
+import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
+import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
+import org.geogebra.common.kernel.commands.selector.CommandFilter;
+import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
+import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * Config for Classic and derived apps (MR)
@@ -52,7 +63,7 @@ public class AppConfigDefault implements AppConfig {
 	public static boolean isUnbundledOrNotes(String appName) {
 		return "graphing".equals(appName) || "geometry".equals(appName)
 				|| "cas".equals(appName) || "notes".equals(appName)
-				|| "3d".equals(appName) || "calculator".equals(appName);
+				|| "3d".equals(appName) || "scientific".equals(appName) || "suite".equals(appName);
 	}
 
 	@Override
@@ -126,18 +137,13 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public boolean hasScientificKeyboard() {
-		return false;
-	}
-
-	@Override
 	public boolean isEnableStructures() {
 		return true;
 	}
 
 	@Override
 	public AppType getToolbarType() {
-		return AppType.GRAPHING_CALCULATOR;
+		return AppType.CLASSIC;
 	}
 
     @Override
@@ -191,27 +197,102 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
-	public CommandNameFilter getCommandNameFilter() {
+	public CommandFilter getCommandFilter() {
 		return null;
 	}
 
+	@Override
+	public CommandArgumentFilter getCommandArgumentFilter() {
+		return null;
+	}
+
+	@Override
+	public boolean showToolsPanel() {
+		return true;
+	}
+
+	@Override
+	public String getAppCode() {
+		return "classic";
+	}
+
+	@Override
+	public SettingsUpdater createSettingsUpdater() {
+		return new SettingsUpdater();
+	}
+
+	@Override
+	public GeoGebraConstants.Version getVersion() {
+		return GeoGebraConstants.Version.GRAPHING;
+	}
+
+	@Override
+	public boolean hasExam() {
+		return false;
+	}
+
+	@Override
+	public String getExamMenuItemText() {
+		return "";
+	}
+
+	@Override
+	public OperationArgumentFilter createOperationArgumentFilter() {
+		return null;
+	}
+
+	@Override
+	public ParserFunctions createParserFunctions() {
+		return ParserFunctionsFactory.createParserFunctions();
+	}
+
+	@Override
+	public Set<FillType> getAvailableFillTypes() {
+		return new HashSet<>(Arrays.asList(FillType.values()));
+	}
+
+	@Override
+	public boolean isObjectDraggingRestricted() {
+		return false;
+	}
+
+	@Override
+	public int getDefaultAngleUnit() {
+		return Kernel.ANGLE_DEGREE;
+	}
+
+	@Override
+	public boolean isAngleUnitSettingEnabled() {
+		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new BasePropertiesFactory();
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.GRAPHING;
+	}
+
     @Override
-    public boolean showToolsPanel() {
-        return true;
+    public int getEnforcedLineEquationForm() {
+	    return -1;
     }
 
     @Override
-    public String getAppCode() {
-        return "classic";
+    public int getEnforcedConicEquationForm() {
+        return -1;
     }
 
-    @Override
-    public SettingsUpdater createSettingsUpdater() {
-        return new SettingsUpdater();
-    }
+	@Override
+	public boolean shouldHideEquations() {
+		return false;
+	}
 
-    @Override
-    public GeoGebraConstants.Version getVersion() {
-        return GeoGebraConstants.Version.GRAPHING;
-    }
+	@Override
+	public boolean hasAnsButtonInAv() {
+		return false;
+	}
 }

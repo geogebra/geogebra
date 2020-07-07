@@ -1558,16 +1558,14 @@ public class GeoCasCell extends GeoElement
 									.equals("NSolve"))) {
 				parsed = removeComplexResults(parsed);
 			}
-			outputVE = parsed == null ? null
-					: (ValidExpression) parsed
-							.traverse(Traversing.GgbVectRemover.getInstance());
+			outputVE = parsed;
 			// needed for GGB-810
 			// replace geoDummys with constants
 			if (arbconst != null) {
 				ArrayList<GeoNumeric> constList = arbconst.getConstList();
 				if (!constList.isEmpty()) {
 					for (GeoNumeric geoNum : constList) {
-						geoNum.setSendValueToCas(true);
+						geoNum.setSendValueToCas(false);
 						GeoDummyReplacer replacer = GeoDummyReplacer
 								.getReplacer(geoNum.getLabelSimple(), geoNum,
 										false);
@@ -1604,10 +1602,10 @@ public class GeoCasCell extends GeoElement
 				ExpressionValue ve = outputVE.unwrap();
 				if (ve instanceof MyVecNode) {
 					MyVecNode node = (MyVecNode) ve;
-					node.setCASVector();
+					node.setupCASVector();
 				} else if (ve instanceof MyVec3DNode) {
 					MyVec3DNode node3d = (MyVec3DNode) ve;
-					node3d.setCASVector();
+					node3d.setupCASVector();
 				}
 			}
 		}
@@ -2968,11 +2966,6 @@ public class GeoCasCell extends GeoElement
 		return false;
 	}
 
-	@Override
-	public boolean isEqual(final GeoElementND geo) {
-		return geo == this;
-	}
-
 	/**
 	 * Returns assignment variable, e.g. "a" for "a := 5" or row reference, e.g.
 	 * "$5$". Note that kernel.getCASPrintForm() is taken into account, e.g. row
@@ -3593,11 +3586,6 @@ public class GeoCasCell extends GeoElement
 
 	@Override
 	public boolean useSignificantFigures() {
-		return false;
-	}
-
-	@Override
-	public boolean justFontSize() {
 		return false;
 	}
 

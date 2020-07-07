@@ -12,23 +12,35 @@ public interface MyVecNDNode extends ExpressionValue, ReplaceChildrenByValues {
 	public boolean isCASVector();
 
 	/**
+	 * Set this vector to CAS
+	 */
+	public void setupCASVector();
+
+	/**
 	 * @return 2 or 3
 	 */
 	public int getDimension();
 
-    /**
-     * @return x component
-     */
-    public ExpressionValue getX();
+	/**
+	 * 
+	 * @return x component
+	 */
+	public ExpressionValue getX();
 
-    /**
-     * @return y component
-     */
-    public ExpressionValue getY();
+	/**
+	 * 
+	 * @return y component
+	 */
+	public ExpressionValue getY();
 
-    /**
-     * @return z component (or null if getDimension() = 2)
-     */
-    public ExpressionValue getZ();
+	/**
+	 * 
+	 * @return z component (or null if getDimension() = 2)
+	 */
+	public ExpressionValue getZ();
 
+	/**
+	 * Sets the printing mode to vector printing
+	 */
+	void setVectorPrintingMode();
 }

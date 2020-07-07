@@ -23,10 +23,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
+import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -1248,7 +1249,8 @@ public abstract class AlgoElement extends ConstructionElement
 			sbAE.append(getInput(0).getLabel(tpl));
 		}
 		for (int i = 1; i < length; ++i) {
-			sbAE.append(", ");
+			sbAE.append(",");
+			tpl.appendOptionalSpace(sbAE);
 			appendCheckVector(sbAE, getInput(i), tpl);
 		}
 
@@ -1666,6 +1668,12 @@ public abstract class AlgoElement extends ConstructionElement
 			sb.append("\"");
 		}
 
+		if (this instanceof SetRandomValue && getOutput(0) instanceof GeoList) {
+			sb.append(" randomResult=\"");
+			sb.append(StringUtil.encodeXML(getOutput(0).toOutputValueString(tpl)));
+			sb.append("\"");
+		}
+
 		sb.append("/>\n");
 	}
 
@@ -1706,7 +1714,13 @@ public abstract class AlgoElement extends ConstructionElement
 		return isPrintedInXML;
 	}
 
-	@Override
+	/**
+	 * Returns string representation of this element
+	 *
+	 * @param tpl
+	 *            string template
+	 * @return e.g. "A=(1,2)"
+	 */
 	public String toString(StringTemplate tpl) {
 		return getDefinition(tpl);
 	}
@@ -1902,7 +1916,7 @@ public abstract class AlgoElement extends ConstructionElement
 			GeoElement geoElement,
 			StringTemplate tpl,
 			boolean substituteNumbers) {
-		return AlgebraItem.shouldShowOnlyDefinitionForGeo(geoElement)
+		return !geoElement.isAllowedToShowValue()
 				? geoElement.getDefinition(tpl)
 				: geoElement.getFormulaString(tpl, substituteNumbers);
 	}

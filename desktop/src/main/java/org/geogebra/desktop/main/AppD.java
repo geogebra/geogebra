@@ -101,6 +101,7 @@ import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.headless.AppDI;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcher3DJre;
 import org.geogebra.common.jre.kernel.commands.CommandDispatcherJre;
+import org.geogebra.common.jre.main.TemplateHelper;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -128,10 +129,8 @@ import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.ScriptManager;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Charsets;
-import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
@@ -187,13 +186,13 @@ import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.main.settings.DefaultSettingsD;
 import org.geogebra.desktop.main.settings.SettingsBuilderD;
-import org.geogebra.desktop.main.settings.updater.SettingsUpdaterBuilderD;
+import org.geogebra.desktop.main.settings.updater.FontSettingsUpdaterD;
 import org.geogebra.desktop.move.OpenFromGGTOperation;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
-import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
+import org.geogebra.desktop.util.CopyPasteD;
 import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -331,6 +330,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	protected boolean isErrorDialogShowing = false;
 
 	public boolean macsandbox = false;
+
+	private CopyPasteD copyPaste;
 
 	/*************************************************************
 	 * Construct application within JFrame
@@ -1349,10 +1350,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		return runtime.maxMemory();
 	}
 
-	public void traceMethodsOn(boolean on) {
-		runtime.traceMethodCalls(on);
-	}
-
 	private static boolean virtualKeyboardActive = false;
 
 	public static boolean isVirtualKeyboardActive() {
@@ -1437,7 +1434,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
-			getGuiManager().clearInputbar();
+			((GuiManagerD) getGuiManager()).clearInputbar();
 		}
 
 		// reset spreadsheet columns, reset trace columns
@@ -2905,7 +2902,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	public synchronized JFrame getFrame() {
 		if ((frame == null) && (getGuiManager() != null)) {
-			frame = (JFrame) getGuiManager().createFrame();
+			frame = ((GuiManagerD) getGuiManager()).createFrame();
 		}
 
 		return frame;
@@ -4872,17 +4869,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		uploadToGeoGebraTube();
 	}
 
-	private SensorLogger udpLogger;
-
 	private String perspectiveParam = "";
-
-	@Override
-	public SensorLogger getSensorLogger() {
-		if (udpLogger == null) {
-			udpLogger = new UDPLoggerD(getKernel());
-		}
-		return udpLogger;
-	}
 
 	public void setPerspectiveParam(String perspective) {
 		this.perspectiveParam = perspective;
@@ -4952,12 +4939,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		AppD ad = newAppForTemplateOrInsertFile();
 
 		// now, we have to load the file into AppD
-		ad.getGuiManager().loadFile(file, false);
+		ad.loadFile(file, false);
 
-		setLabelingStyle(ad.getLabelingStyle());
-		getKernel().setConstructionDefaults(ad.getKernel());
-		getKernel().setVisualStyles(ad.getKernel());
-		getKernel().updateConstruction(true);
+		new TemplateHelper(this).applyTemplate(ad);
 
 		// almost forgotten something important!
 		// ad should be closed!
@@ -5102,11 +5086,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	private static volatile MessageDigest md5EncrypterD;
 
 	@Override
-	public void schedulePreview(Runnable scheduledPreview) {
+	public void schedulePreview(final Runnable scheduledPreview) {
 
 		cancelPreview();
 
-		handler = scheduler.schedule(scheduledPreview,
+		Runnable threadSafeCallback = new Runnable() {
+			@Override
+			public void run() {
+				SwingUtilities.invokeLater(scheduledPreview);
+			}
+		};
+		handler = scheduler.schedule(threadSafeCallback,
 				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
 	}
 
@@ -5220,10 +5210,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	@Override
-	public CopyPaste getCopyPaste() {
+	public CopyPasteD getCopyPaste() {
 
 		if (copyPaste == null) {
-			copyPaste = new CopyPaste();
+			copyPaste = new CopyPasteD();
 		}
 
 		return copyPaste;
@@ -5465,7 +5455,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	protected SettingsUpdaterBuilder newSettingsUpdaterBuilder() {
-		return new SettingsUpdaterBuilderD(this);
+		return new SettingsUpdaterBuilder(this)
+				.withFontSettingsUpdater(new FontSettingsUpdaterD(this));
 	}
 
 	@Override

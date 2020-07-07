@@ -71,8 +71,7 @@ import com.google.gwt.core.ext.linker.impl.SelectionInformation;
 @Shardable
 public class AppCacheLinker extends AbstractLinker {
 
-	private static final String SWORKER = "sworker.js";
-    private static final String SWORKER_LOCKED = "sworker-locked.js";
+	private static final String SWORKER_LOCKED = "sworker-locked.js";
 	private static final String MANIFEST = "appcache.nocache.manifest";
 
 	@Override
@@ -117,10 +116,8 @@ public class AppCacheLinker extends AbstractLinker {
 			TreeLogger logger, ArtifactSet artifacts, ArtifactSet toReturn)
 			throws UnableToCompleteException {
 
-        ServiceWorkerBuilder serviceWorkerBuilder = new ServiceWorkerBuilder(
-                context, artifacts, logger);
-        String sworkerContent = serviceWorkerBuilder.getWorkerCode("latest");
-        toReturn.add(emitString(logger, sworkerContent, SWORKER));
+		ServiceWorkerBuilder serviceWorkerBuilder = new ServiceWorkerBuilder(
+				context, artifacts, logger);
 
         String sworkerContentLocked = serviceWorkerBuilder
                 .getWorkerCode(GeoGebraConstants.VERSION_STRING);

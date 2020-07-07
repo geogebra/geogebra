@@ -22,8 +22,6 @@ import java.util.TreeSet;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -61,9 +59,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.kernel.matrix.Coords3;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.main.exam.ExamEnvironment;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -163,45 +162,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			setConstructionDefaults(); // init visual settings
 		}
 		surfaceEvaluables = new TreeSet<>();
-
-	}
-
-	/**
-	 * @param autoLabel
-	 *            whether label was set by
-	 * @return whether function contains only valid variables
-	 */
-	public boolean validate(boolean autoLabel) {
-		return validate(autoLabel, cons.isSuppressLabelsActive());
-	}
-
-	/**
-	 * @param autoLabel
-	 *            whether label was set by
-	 * @param suppressLabel
-	 *            whether labels are suppressed (parsing command argument)
-	 * @return whether function contains only valid variables
-	 */
-	public boolean validate(boolean autoLabel, boolean suppressLabel) {
-		if (!cons.isFileLoading() && fun != null) {
-			if (getFunctionExpression().containsFreeFunctionVariableOtherThan(
-					getFunctionVariables())) {
-				return false;
-			}
-		}
-		// If labels are suppressed (processing command arguments) accept y and
-		// z as
-		// functions
-		if (suppressLabel || isBooleanFunction()) {
-			return true;
-		}
-		if ((this.isFunctionOfY()
-						// needed for GGB-1028
-						&& this.getCorrespondingCasCell() == null)
-				|| (autoLabel && this.isFunctionOfZ())) {
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -247,7 +207,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            function for y
 	 */
 	public GeoFunction(Construction c, GeoImplicit iPoly, GeoFunction f,
-			GeoFunction g) {
+					   GeoFunction g) {
 		this(c);
 		this.iPoly = iPoly;
 
@@ -327,6 +287,44 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		} // else: error
 	}
 
+	/**
+	 * @param autoLabel
+	 *            whether label was set by
+	 * @return whether function contains only valid variables
+	 */
+	public boolean validate(boolean autoLabel) {
+		return validate(autoLabel, cons.isSuppressLabelsActive());
+	}
+
+	/**
+	 * @param autoLabel
+	 *            whether label was set by
+	 * @param suppressLabel
+	 *            whether labels are suppressed (parsing command argument)
+	 * @return whether function contains only valid variables
+	 */
+	public boolean validate(boolean autoLabel, boolean suppressLabel) {
+		if (!cons.isFileLoading() && fun != null) {
+			if (getFunctionExpression().containsFreeFunctionVariableOtherThan(
+					getFunctionVariables())) {
+				return false;
+			}
+		}
+		// If labels are suppressed (processing command arguments) accept y and
+		// z as
+		// functions
+		if (suppressLabel || isBooleanFunction()) {
+			return true;
+		}
+		if ((this.isFunctionOfY()
+						// needed for GGB-1028
+						&& this.getCorrespondingCasCell() == null)
+				|| (autoLabel && this.isFunctionOfZ())) {
+			return false;
+		}
+		return true;
+	}
+
 	@Override
 	public void setVisualStyle(GeoElement g, boolean setAuxiliaryProperty) {
 		super.setVisualStyle(g, setAuxiliaryProperty);
@@ -377,28 +375,34 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public void set(GeoElementND geo) {
-		Function geoFun = geo == null ? null
-				: ((GeoFunctionable) geo).getFunction();
-
-		if (geoFun == null) {
-			fun = null;
-			isDefined = false;
-			return;
-		}
-		isDefined = geo.isDefined();
-		setFunction(new Function(geoFun, kernel));
-
-		// macro OUTPUT
-		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
-			// this object is an output object of AlgoMacro
-			// we need to check the references to all geos in its function's
-			// expression
-			if (!geo.isIndependent()) {
-				AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
-				algoMacro.initFunction(this.fun);
+		if (geo instanceof GeoFunctionable) {
+			Function geoFun = ((GeoFunctionable) geo).getFunction();
+			if (geoFun == null) {
+				fun = null;
+				isDefined = false;
+				return;
 			}
+			if (geo.isGeoNumeric() && fun != null) {
+				geoFun = new Function(geoFun.getExpression(),
+						fun.getFunctionVariable());
+			}
+			isDefined = geo.isDefined();
+			setFunction(new Function(geoFun, kernel));
+
+			// macro OUTPUT
+			if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
+				// this object is an output object of AlgoMacro
+				// we need to check the references to all geos in its function's
+				// expression
+				if (!geo.isIndependent()) {
+					AlgoMacroInterface algoMacro = (AlgoMacroInterface) getParentAlgorithm();
+					algoMacro.initFunction(this.fun);
+				}
+			}
+			isInequality = null;
+		} else {
+			setUndefined();
 		}
-		isInequality = null;
 	}
 
 	/**
@@ -833,11 +837,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		if (fun != null && isInequality == null && isBooleanFunction()) {
 			getIneqs();
@@ -854,11 +853,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (isLabelSet()) {
 			initStringBuilder(sbToString, tpl, label, this);
 		}
-		if (ExamEnvironment.isProtectedEquation(this)) {
-			sbToString.append(getParentAlgorithm().getDefinition(tpl));
-		} else {
-			sbToString.append(toValueString(tpl));
-		}
+		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
 
@@ -879,22 +874,19 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (fn.getShortLHS() != null) {
 			stringBuilder.append(": ");
 			stringBuilder.append(fn.getShortLHS());
-			stringBuilder.append(" = ");
+			stringBuilder.append(tpl.getEqualsWithSpace());
 		} else if (fn.isBooleanFunction()
 				&& !tpl.hasType(StringType.GEOGEBRA_XML)) {
 			stringBuilder.append(": ");
 		} else {
 			String var = fn.getVarString(tpl);
 			tpl.appendWithBrackets(stringBuilder, var);
-			stringBuilder.append(" = ");
+			stringBuilder.append(tpl.getEqualsWithSpace());
 		}
 	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (ExamEnvironment.isProtectedEquation(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
-		}
 		if (fun != null && isDefined()) {
 			return fun.toValueString(tpl);
 		}
@@ -911,9 +903,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String toOutputValueString(StringTemplate tpl) {
 		if (isLocalVariable()) {
 			return label;
-		}
-		if (ExamEnvironment.isProtectedEquation(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
 		}
 		if (fun != null && isDefined()) {
 			return fun.toOutputValueString(tpl);
@@ -933,9 +922,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		// make sure Freehand Functions have different entries in drop-down
 		// lists
-		if (ExamEnvironment.isProtectedEquation(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
-		}
 		if (isFreehandFunction() && isLabelSet()) {
 			return getAssignmentLHS(tpl);
 		}
@@ -1381,6 +1367,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return false;
 	}
 
+	@Override
+	public boolean isAlgebraViewEditable() {
+		return !(getParentAlgorithm() instanceof AlgoFunctionFreehand);
+	}
+
 	/**
 	 * changes variable interpretation: if swapped, the function is considered
 	 * to be x=f(y).
@@ -1461,14 +1452,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	final public boolean isFunctionInX() {
 		return true;
 	}
-
-	/*
-	 * public final GeoFunctionConditional getParentCondFun() { return
-	 * parentCondFun; }
-	 * 
-	 * public final void setParentCondFun(GeoFunctionConditional parentCondFun)
-	 * { this.parentCondFun = parentCondFun; }
-	 */
 
 	// Michael Borcherds 2009-02-15
 	@Override
@@ -2578,9 +2561,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public String getFormulaString(StringTemplate tpl,
 			boolean substituteNumbers) {
-		if (ExamEnvironment.isProtectedEquation(this)) {
-			return getParentAlgorithm().getDefinition(tpl);
-		}
 		String ret = "";
 		if (getFunctionExpression() != null
 				&& getFunctionExpression().isConditional()) {
@@ -2666,11 +2646,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public void clearCasEvalMap(String key) {
+	public void clearCasEvalMap() {
 		if (fun != null) {
-			fun.clearCasEvalMap(key);
+			fun.clearCasEvalMap();
 		}
-
 	}
 
 	/**
@@ -2790,11 +2769,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
-	}
-
-	@Override
 	public ValueType getValueType() {
 		return ValueType.FUNCTION;
 	}
@@ -2879,12 +2853,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		if (hideDefinitionInAlgebra(getFunctionExpression())) {
 			return DescriptionMode.VALUE;
 		}
 
-		return super.needToShowBothRowsInAV();
+		return super.getDescriptionMode();
 	}
 
 	@Override
@@ -3025,5 +2999,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public double getY() {
 		return -1;
+	}
+
+	@Override
+	protected boolean canBeFunctionOrEquationFromUser() {
+		return true;
 	}
 }

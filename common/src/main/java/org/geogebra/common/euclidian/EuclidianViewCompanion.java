@@ -9,9 +9,6 @@ import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -22,6 +19,9 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
@@ -364,19 +364,7 @@ public class EuclidianViewCompanion {
 	 *            graphics
 	 */
 	public void paint(GGraphics2D g2) {
-		paint(g2, null);
-	}
-
-	/**
-	 * Paints content of this view.
-	 * 
-	 * @param g2
-	 *            graphics
-	 * @param g3
-	 *            background
-	 */
-	public void paint(GGraphics2D g2, GGraphics2D g3) {
-		view.paintTheBackground(g3 == null ? g2 : g3);
+		view.paintTheBackground(g2);
 
 		g2.setAntialiasing();
 
@@ -392,28 +380,12 @@ public class EuclidianViewCompanion {
 			view.getBoundingBox().draw(g2);
 		}
 
+		if (view.getFocusedGroupGeoBoundingBox() != null) {
+			view.getFocusedGroupGeoBoundingBox().draw(g2);
+		}
+
 		// draw shape preview for shape tools
-		if (view.getShapeRectangle() != null) {
-			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
-					view.getShapeStroke(),
-					view.getShapeRectangle());
-		}
-
-		if (view.getShapeEllipse() != null) {
-			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
-					view.getShapeStroke(), view.getShapeEllipse());
-		}
-
-		if (view.getShapeLine() != null) {
-			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
-					view.getShapeStroke(), view.getShapeLine());
-		}
-
-		if (view.getShapePolygon() != null) {
-			view.drawShape(g2, view.getShapeFillCol(), view.getShapeObjCol(),
-					view.getShapeStroke(),
-					view.getShapePolygon());
-		}
+		view.drawShapePreview(g2);
 
 		if (view.deletionRectangle != null) {
 			view.drawRect(g2, EuclidianView.colDeletionSquare,
@@ -496,7 +468,6 @@ public class EuclidianViewCompanion {
 	 * drawables
 	 */
 	protected void updateSizeKeepDrawables() {
-		view.cacheLayers(-1);
 		view.updateSizeKeepDrawables();
 	}
 

@@ -17,7 +17,6 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
-import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.tableview.TableTab;
@@ -337,7 +336,6 @@ public class ToolbarPanel extends FlowPanel
 		}
 		// moveMoveBtnDown style added for moveBtn to fix the position on tablet
 		// too
-		moveBtn.setIgnoreTab();
 		moveBtn.addStyleName("moveMoveBtnDown");
 		main.add(moveBtn);
 		hideMoveFloatingButton();
@@ -381,6 +379,7 @@ public class ToolbarPanel extends FlowPanel
 		updateDraggerStyle(true);
 		updateSizes();
 		updateKeyboardVisibility();
+		updatePanelVisibility(isOpen);
 	}
 
 	/**
@@ -395,6 +394,7 @@ public class ToolbarPanel extends FlowPanel
 		updateSizes();
 		updateKeyboardVisibility();
 		dispatchEvent(EventType.SIDE_PANEL_CLOSED);
+		updatePanelVisibility(isOpen);
 	}
 
 	private void updateDraggerStyle(boolean close) {
@@ -424,7 +424,7 @@ public class ToolbarPanel extends FlowPanel
 	}
 
 	private void updateKeyboardVisibility() {
-		showKeyboardButtonDeferred(isOpen() && getSelectedTabId() != TabIds.TOOLS);
+		getFrame().showKeyboardButton(isOpen() && getSelectedTabId() != TabIds.TOOLS);
 	}
 
 	/**
@@ -581,7 +581,6 @@ public class ToolbarPanel extends FlowPanel
 		}
 		moveBtn.addStyleName("showMoveBtn");
 		moveBtn.removeStyleName("hideMoveBtn");
-		moveBtn.setTabIndex(GUITabs.NO_TAB);
 	}
 
 	/**
@@ -593,7 +592,6 @@ public class ToolbarPanel extends FlowPanel
 		}
 		moveBtn.addStyleName("hideMoveBtn");
 		moveBtn.removeStyleName("showMoveBtn");
-		moveBtn.setTabIndex(GUITabs.NO_TAB);
 	}
 
 	/**
@@ -676,21 +674,6 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public void markMenuAsExpanded(boolean expanded) {
 		header.markMenuAsExpanded(expanded);
-	}
-
-	/**
-	 * @param b
-	 *            To show or hide keyboard button.
-	 */
-	void showKeyboardButtonDeferred(final boolean b) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				getFrame().showKeyboardButton(b);
-
-			}
-		});
 	}
 
 	/**
@@ -1039,6 +1022,7 @@ public class ToolbarPanel extends FlowPanel
 		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager();
 		dm.closePortrait();
+		updatePanelVisibility(false);
 	}
 
 	/**
@@ -1069,7 +1053,8 @@ public class ToolbarPanel extends FlowPanel
 		if (force) {
 			openAlgebra(true);
 		}
-		return isAlgebraViewActive() && tabAlgebra.focusInput();
+		return header.isOpen() && isAlgebraViewActive()
+				&& tabAlgebra.focusInput();
 	}
 
 	/**
@@ -1128,5 +1113,9 @@ public class ToolbarPanel extends FlowPanel
 	 */
 	public TabContainer getTabContainer() {
 		return tabContainer;
+	}
+
+	private void updatePanelVisibility(boolean isVisible) {
+		app.getGuiManager().setShowView(isVisible, App.VIEW_ALGEBRA);
 	}
 }

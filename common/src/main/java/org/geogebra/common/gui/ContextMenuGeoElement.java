@@ -3,8 +3,8 @@ package org.geogebra.common.gui;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
@@ -312,13 +311,6 @@ public abstract class ContextMenuGeoElement {
 			if (i < geos2.size()) {
 				GeoElement geo1 = geos2.get(i);
 				// clear bounding box if geo if is there any
-				if (geo1.isShape()) {
-					Drawable d = (Drawable) app.getActiveEuclidianView()
-							.getDrawableFor(geo1);
-					if (d != null) {
-						d.getBoundingBox().resetBoundingBox();
-					}
-				}
 				if (removeParents) {
 					if (geo1.getParentAlgorithm() != null) {
 						for (GeoElement ge : geo1.getParentAlgorithm().input) {
@@ -385,26 +377,25 @@ public abstract class ContextMenuGeoElement {
 	/**
 	 * Lock / unlock object
 	 */
-	public void fixObjectCmd() {
+	public void fixObjectCmd(boolean fixed) {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
-
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1.isGeoNumeric()) {
-				((GeoNumeric) geo1)
-						.setSliderFixed(!((GeoNumeric) geo1).isSliderFixed());
-				geo1.updateRepaint();
-			} else {
-				if (geo1.isFixable()) {
-					geo1.setFixed(!geo1.isLocked());
-					geo1.updateRepaint();
-				}
-			}
-
+			fixGeo(geo1, fixed);
+			geo1.updateRepaint();
 		}
+
 		getGeo().updateVisualStyle(GProperty.COMBINED);
 		app.getKernel().notifyRepaint();
 		app.storeUndoInfo();
+	}
+
+	private void fixGeo(GeoElement geo, boolean fixed) {
+		if (geo.isFixable()) {
+			geo.setFixed(fixed);
+		} else if (geo.isGeoNumeric()) {
+			((GeoNumeric) geo).setSliderFixed(fixed);
+		}
 	}
 
 	/**
@@ -466,14 +457,6 @@ public abstract class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			geo1.setEuclidianVisible(newVisibility);
-			// do not show bounding box if shape is not shown
-			if (!newVisibility && geo1.isShape()) {
-				Drawable d = (Drawable) app.getActiveEuclidianView()
-						.getDrawableFor(geo1);
-				if (d != null) {
-					d.getBoundingBox().resetBoundingBox();
-				}
-			}
 			geo1.updateRepaint();
 		}
 		app.storeUndoInfo();
@@ -520,6 +503,7 @@ public abstract class ContextMenuGeoElement {
 	 * Toggle tracing
 	 */
 	public void traceCmd() {
+		getActiveEuclidianController().splitSelectedStrokes(true);
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 		// if there is at least 1 geo, which has no trace, all geo will have
 		// trace, otherwise, if all geo has trace, tracing will be set to false
@@ -726,12 +710,21 @@ public abstract class ContextMenuGeoElement {
 		this.geos = geos;
 	}
 
+	private void ensureGeoInSelection() {
+		if (app.getSelectionManager().getSelectedGeos().isEmpty()) {
+			app.getSelectionManager().addSelectedGeo(getGeo());
+		}
+	}
+
 	/**
 	 * Cuts selected elements
 	 */
 	public void cutCmd() {
+		ensureGeoInSelection();
+		getActiveEuclidianController().splitSelectedStrokes(true);
 		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos(), false);
+				app.getSelectionManager().getSelectedGeos());
+		app.getActiveEuclidianView().resetBoundingBoxes();
 		deleteCmd(true);
 	}
 
@@ -739,12 +732,37 @@ public abstract class ContextMenuGeoElement {
 	 * Duplicates selected elements
 	 */
 	public void duplicateCmd() {
-		if (app.getSelectionManager().getSelectedGeos().isEmpty()) {
-			app.getSelectionManager().addSelectedGeo(getGeo());
-		}
+		ensureGeoInSelection();
+		getActiveEuclidianController().splitSelectedStrokes(false);
+		app.getCopyPaste().duplicate(app, app.getSelectionManager().getSelectedGeos());
+		getActiveEuclidianController().removeSplitParts();
+	}
+
+	/**
+	 * Copies selected elements
+	 */
+	public void copyCmd() {
+		ensureGeoInSelection();
+		ArrayList<GeoElement> selection
+				= new ArrayList<>(app.getSelectionManager().getSelectedGeos());
+
+		getActiveEuclidianController().splitSelectedStrokes(false);
 		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos(), false);
-		app.getCopyPaste().pasteFromXML(app, false);
+				app.getSelectionManager().getSelectedGeos());
+		getActiveEuclidianController().removeSplitParts();
+
+		app.getSelectionManager().setSelectedGeos(selection);
+	}
+
+	protected EuclidianController getActiveEuclidianController() {
+		return app.getActiveEuclidianView().getEuclidianController();
+	}
+
+	/**
+	 * Pastes copied elements
+	 */
+	public void pasteCmd() {
+		app.getCopyPaste().pasteFromXML(app);
 	}
 
 	/**
@@ -755,15 +773,15 @@ public abstract class ContextMenuGeoElement {
 	public boolean needsInputFormItem(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)) {
 			if (geo.isGeoLine()) {
-				return ((GeoLine) geo)
+				return geo
 						.getToStringMode() != GeoLine.EQUATION_USER;
 			}
 			if (geo.isGeoPlane()) {
-				return ((GeoPlaneND) geo)
+				return geo
 						.getToStringMode() != GeoLine.EQUATION_USER;
 			}
 			if (geo.isGeoConic() || geo.isGeoQuadric()) {
-				return ((GeoQuadricND) geo)
+				return geo
 						.getToStringMode() != GeoConicND.EQUATION_USER;
 			}
 			if (geo instanceof GeoImplicit) {

@@ -41,7 +41,6 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		super(app);
 		this.px = px;
 		this.py = py;
-		setTitle(loc.getMenu("GraphicsView3D"));
 		buildGUI();
 	}
 
@@ -50,12 +49,9 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 			buildGUI3DUnbundled();
 			return;
 		}
-		if (app.isUnbundledOrWhiteboard()) {
-			addPasteItem();
-		} else {
-			addAxesAndGridCheckBoxes();
-			addNavigationBar();
-		}
+
+		addAxesAndGridCheckBoxes();
+		addNavigationBar();
 		addZoomMenu();
 		addShowAllObjectsViewMenuItem();
 		addStandardViewMenuItem();

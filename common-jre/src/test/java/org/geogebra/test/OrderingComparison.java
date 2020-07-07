@@ -1,5 +1,6 @@
 /*  Copyright (c) 2000-2009 hamcrest.org
  */
+
 package org.geogebra.test;
 
 import static java.lang.Integer.signum;
@@ -15,7 +16,8 @@ public final class OrderingComparison<T extends Comparable<T>>
 	private static final int GREATER_THAN = 1;
 	private static final int EQUAL = 0;
 	private final T expected;
-	private final int minCompare, maxCompare;
+	private final int minCompare;
+	private final int maxCompare;
 
 	private static final String[] comparisonDescriptions = { "less than",
 			"equal to", "greater than" };
@@ -67,12 +69,13 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return zero
+	 * @return comparison matcher
 	 * 
 	 */
 	@Factory
 	public static <T extends Comparable<T>> Matcher<T> comparesEqualTo(
 			T value) {
-		return new OrderingComparison<T>(value, EQUAL, EQUAL);
+		return new OrderingComparison<>(value, EQUAL, EQUAL);
 	}
 
 	/**
@@ -89,11 +92,11 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return greater than zero
-	 * 
+	 * @return comparison matcher
 	 */
 	@Factory
 	public static <T extends Comparable<T>> Matcher<T> greaterThan(T value) {
-		return new OrderingComparison<T>(value, GREATER_THAN, GREATER_THAN);
+		return new OrderingComparison<>(value, GREATER_THAN, GREATER_THAN);
 	}
 
 	/**
@@ -111,12 +114,12 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return greater than or equal to zero
-	 * 
+	 * @return comparison matcher
 	 */
 	@Factory
 	public static <T extends Comparable<T>> Matcher<T> greaterThanOrEqualTo(
 			T value) {
-		return new OrderingComparison<T>(value, EQUAL, GREATER_THAN);
+		return new OrderingComparison<>(value, EQUAL, GREATER_THAN);
 	}
 
 	/**
@@ -133,11 +136,11 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return less than zero
-	 * 
+	 * @return comparison matcher
 	 */
 	@Factory
 	public static <T extends Comparable<T>> Matcher<T> lessThan(T value) {
-		return new OrderingComparison<T>(value, LESS_THAN, LESS_THAN);
+		return new OrderingComparison<>(value, LESS_THAN, LESS_THAN);
 	}
 
 	/**
@@ -154,11 +157,11 @@ public final class OrderingComparison<T extends Comparable<T>>
 	 * @param value
 	 *            the value which, when passed to the compareTo method of the
 	 *            examined object, should return less than or equal to zero
-	 * 
+	 * @return comparison matcher
 	 */
 	@Factory
 	public static <T extends Comparable<T>> Matcher<T> lessThanOrEqualTo(
 			T value) {
-		return new OrderingComparison<T>(value, LESS_THAN, EQUAL);
+		return new OrderingComparison<>(value, LESS_THAN, EQUAL);
 	}
 }

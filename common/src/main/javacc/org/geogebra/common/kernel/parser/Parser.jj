@@ -390,8 +390,7 @@ TOKEN : {
  |
    // standard case: labels for GeoElements and command names
    < LABEL:
-    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (<INDEX>)? (<LETTER> | <DIGIT> | "'" )*>
- // |  < #INDEX:  "_" (  <CHAR>  | ("{" (<CHAR>)+ "}") )  >
+    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (("." <INTEGER>)?  | ((<INDEX> | <LETTER> | <DIGIT> | "'" )*))>
  |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >
  | < #LETTER:  // unicode letters
        [
@@ -469,6 +468,11 @@ ValidExpression buildValidExpression() :
         // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too
       LOOKAHEAD(2147483647)
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
+      {
+            if (GParser.shouldSplitLabel(l.image)) {
+                ve = new Equation(kernel, new Variable(kernel, l.image), ve).equationOrAssignment();
+            }
+      }
    |
         LOOKAHEAD(2147483647)
         (
@@ -762,59 +766,9 @@ ExpressionNode functionExpressionnode():
       // closing ) and assignment with expressionnode
           ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode() (cond = conditions())?
         {
-            // allow f(y) in CAS but not in GeoGebra
-            //  if (!ExternalCASParsing && !GeoGebraCASParsing && "y".equals(varName.image))
-            //      throw new MyError(app, "InvalidInput");
-        if (cond != null) {
-            rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
+            String funLabel = funName.image.substring(0, funName.image.length() - 1);
+            return functionParser.assignment(rhs, funLabel, localVars, cond);
         }
-        String funLabel = funName.image.substring(0,funName.image.length()-1);
-
-        // command without variables: return expressionnode
-        // only check for function variables outside of command, eg Derivative[f(x)]+x #4533
-        if (rhs.getLeft() instanceof Command && !rhs.containsFreeFunctionVariable(null)) {
-            rhs.setLabel(funLabel);
-            return rhs;
-        }
-
-        // function: wrap function in ExpressionNode
-      // number of vars
-      int n = localVars.size();
-      Operation op = app.getParserFunctions().get(funLabel,n);
-      if (op != null) {
-        if (n == 1) {
-          return new Equation(kernel,new FunctionVariable(kernel, localVars.get(0)).wrap().apply(op), rhs).wrap();
-        }
-        MyList vars = new MyList(kernel, n);
-        for (int i = 0; i<n; i++) {
-          FunctionVariable funVar = new FunctionVariable(kernel,localVars.get(i));
-          vars.addListElement(funVar);
-        }
-        return new Equation(kernel, functionParser.buildOpNode(op, vars), rhs).wrap();
-      }
-
-      FunctionVariable[] funVar = new FunctionVariable[n];
-        for (int i=0; i < n; i++) {
-          funVar[i] = new FunctionVariable(kernel, localVars.get(i));
-        }
-
-          switch (n) {
-            case 1: // single variable function
-        Function fun = new Function(rhs, funVar[0]);
-        fun.setLabel(funLabel);
-        rhs = new ExpressionNode(kernel, fun);
-        break;
-
-             default: // multi variable function
-             FunctionNVar funn = new FunctionNVar(rhs, funVar);
-        funn.setLabel(funLabel);
-        rhs = new ExpressionNode(kernel, funn);
-             break;
-          }
-
-           rhs.setLabel(funLabel);
-           return rhs;
-      }
 )
 }
 
@@ -1176,6 +1130,7 @@ ExpressionValue listopnode():
 
 /**
  * multterm =   divterm * divterm
+ * "a b c" is interpreted as "(a b) c" unless c is the degree symbol
  */
 ExpressionValue multterm():
 {
@@ -1200,7 +1155,14 @@ ExpressionValue multterm():
         {
             ExpressionValue special = ExpressionNode.multiplySpecial(ret, f, kernel, GiacParsing);
             if (special == null) {
-                ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
+                if (ExpressionNode.isConstantDouble(f, Kernel.PI_180)
+                        && ret instanceof ExpressionNode
+                        && ((ExpressionNode) ret).getOperation() == Operation.MULTIPLY) {
+                    ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
+                        ((ExpressionNode) ret).getRight(), Operation.MULTIPLY, f));
+                } else {
+                    ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
+                }
             } else {
                 ret = special;
             }
@@ -1806,7 +1768,7 @@ ExpressionNode numberFunction():
                 || Unicode.SUPERSCRIPT_MINUS==c.image.charAt(pos))) {
             pos--;
         }
-        ExpressionNode ret = kernel.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
+        ExpressionNode ret = functionParser.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
         if (ret.getOperation() == Operation.MULTIPLY_OR_FUNCTION) {
             undecided.add(ret);
         }

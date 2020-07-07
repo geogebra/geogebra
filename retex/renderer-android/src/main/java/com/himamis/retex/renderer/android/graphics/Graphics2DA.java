@@ -1,15 +1,5 @@
 package com.himamis.retex.renderer.android.graphics;
 
-import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.PointF;
-import android.graphics.RectF;
-import android.view.View;
-
 import com.himamis.retex.renderer.android.font.FontA;
 import com.himamis.retex.renderer.android.font.FontRenderContextA;
 import com.himamis.retex.renderer.android.geom.Line2DA;
@@ -28,6 +18,16 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
+
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.view.View;
 
 @SuppressLint("NewApi")
 public class Graphics2DA implements Graphics2DInterface {
@@ -110,7 +110,7 @@ public class Graphics2DA implements Graphics2DInterface {
 	@SuppressWarnings("deprecation")
 	public Transform getTransform() {
 		Matrix matrix = null;
-		if (mView != null && android.os.Build.VERSION.SDK_INT >= 11) {
+		if (mView != null) {
 			matrix = mView.getMatrix();
 		}
 		if (matrix == null) {
@@ -288,7 +288,7 @@ public class Graphics2DA implements Graphics2DInterface {
 	}
 
 	public void saveTransformation() {
-		mCanvas.save(Canvas.MATRIX_SAVE_FLAG);
+		mCanvas.save();
 		mScaleStack.pushScaleValues();
 	}
 

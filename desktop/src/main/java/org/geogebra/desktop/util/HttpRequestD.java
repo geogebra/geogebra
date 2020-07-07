@@ -56,7 +56,7 @@ public class HttpRequestD extends HttpRequest {
 	 * @param callback
 	 *            callback
 	 */
-	void sendRequestPostSync(String method, String url, String post,
+	private void sendRequestPostSync(String method, String url, String post,
 			AjaxCallback callback) {
 		HttpURLConnection huc = null;
 		try {

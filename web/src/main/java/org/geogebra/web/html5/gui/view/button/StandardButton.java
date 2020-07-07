@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.view.button;
 import org.geogebra.common.gui.view.ActionView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.FastButton;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -14,7 +13,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author csilla
@@ -93,6 +91,8 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 		this.label = label;
 		if (image != null) {
 			btnImage = new NoDragImage(image, width, height);
+			btnImage.getElement().setTabIndex(-1);
+
 			if (label == null) {
 				getUpFace().setImage(btnImage);
 			} else {
@@ -100,7 +100,7 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 				this.getElement().appendChild(btnImage.getElement());
 				this.getElement().appendChild(new Label(label).getElement());
 			}
-            btnImage.setPresentation();
+			btnImage.setPresentation();
 			return;
 		}
 
@@ -114,26 +114,6 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	public void setText(String text) {
 		this.label = text;
 		setIconAndLabel(this.icon, text, this.width, this.height);
-	}
-
-	@Override
-	public void onHoldPressDownStyle() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onHoldPressOffStyle() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onDisablePressStyle() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onEnablePressStyle() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -177,18 +157,17 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 
 	@Override
 	public void setTitle(String title) {
-		AriaHelper.setTitle(this, title, app);
+		AriaHelper.setTitle(this, title, app == null || app.isUnbundledOrWhiteboard());
 	}
 
 	/**
 	 * @param altText
 	 *            - alt text
 	 */
-	@Override
 	public void setAltText(String altText) {
-        if (btnImage != null) {
-            btnImage.setPresentation();
-        }
+		if (btnImage != null) {
+			btnImage.setPresentation();
+		}
 		AriaHelper.setLabel(this, altText);
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
@@ -201,12 +180,7 @@ public class StandardButton extends FastButton implements HasResource, ActionVie
 	@Override
 	public void setAction(final Runnable action) {
 		if (action != null) {
-			addFastClickHandler(new FastClickHandler() {
-				@Override
-				public void onClick(Widget source) {
-					action.run();
-				}
-			});
+			addFastClickHandler(source -> action.run());
 		}
 	}
 }

@@ -15,8 +15,9 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -38,7 +39,6 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -60,6 +60,7 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 public class GeoText extends GeoElement
 		implements Locateable, AbsoluteScreenLocateable, TextValue,
 		TextProperties, SpreadsheetTraceable, HasSymbolicMode {
+	public static final String NEW_LINE = "\\\\n";
 	private static Comparator<GeoText> comparator;
 
 	private String str;
@@ -122,16 +123,6 @@ public class GeoText extends GeoElement
 	private int totalHeight;
 	private int totalWidth;
 
-	private EditMode editMode = EditMode.None;
-
-	private int textHeight;
-	private GRectangle mowBoundingBox;
-	private boolean mowBoundingBoxJustLoaded = false;
-
-	private enum EditMode {
-		None, Ready, Edit
-	}
-
 	/**
 	 * Creates new text
 	 * 
@@ -175,7 +166,7 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public GeoElement copy() {
+	public GeoText copy() {
 		return new GeoText(this);
 	}
 
@@ -266,7 +257,7 @@ public class GeoText extends GeoElement
 		} else {
 			// replace "\\n" with a proper newline
 			// for eg Text["Hello\\nWorld",(1,1)]
-			str = text.replaceAll("\\\\\\\\n", "\n");
+			str = text.replace(NEW_LINE, "\n");
 		}
 
 	}
@@ -277,8 +268,13 @@ public class GeoText extends GeoElement
 	 * @return the string wrapped in this text
 	 */
 	@Override
+	@CheckForNull
 	final public String getTextString() {
 		return str;
+	}
+
+	final public String getTextStringSafe() {
+		return str == null ? "" : str;
 	}
 
 	/**
@@ -416,7 +412,7 @@ public class GeoText extends GeoElement
 	@Override
 	public String toValueString(StringTemplate tpl1) {
 		// https://help.geogebra.org/topic/fixed-list-list-with-text-objects
-		return str == null ? "" : str;
+		return getTextStringSafe();
 	}
 
 	/**
@@ -470,11 +466,6 @@ public class GeoText extends GeoElement
 		sbToString.append(tpl1.getCloseQuote());
 
 		return sbToString.toString();
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
 	}
 
 	@Override
@@ -670,31 +661,7 @@ public class GeoText extends GeoElement
 
 		// store location of text (and possible labelOffset)
 		sb.append(getXMLlocation());
-		getBoundingBoxForWhiteboardXML(sb);
 		getScriptTags(sb);
-
-	}
-
-	private void getBoundingBoxForWhiteboardXML(StringBuilder sb) {
-		if (!kernel.getApplication().has(Feature.MOW_TEXT_TOOL)) {
-			return;
-		}
-
-		if (mowBoundingBox == null) {
-			Log.debug("No bounding box for text " + getTextString() + "!");
-			return;
-		}
-		sb.append("\t<boundingBox");
-		sb.append(" x=\"");
-		sb.append(mowBoundingBox.getX());
-		sb.append("\" y=\"");
-		sb.append(mowBoundingBox.getY());
-		sb.append("\" width=\"");
-		sb.append(mowBoundingBox.getWidth());
-		sb.append("\" height=\"");
-		sb.append(mowBoundingBox.getHeight());
-		sb.append("\"/>\n");
-
 	}
 
 	/**
@@ -937,12 +904,7 @@ public class GeoText extends GeoElement
 			return FONTSIZE_VERY_LARGE;
 		}
 		return FONTSIZE_EXTRA_LARGE;
-
 	}
-
-	// public void setFontSize(int size) {
-	// fontSize = size;
-	// }
 
 	@Override
 	public void setFontSizeMultiplier(double d) {
@@ -965,7 +927,6 @@ public class GeoText extends GeoElement
 		} else {
 			setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS);
 		}
-
 	}
 
 	@Override
@@ -1148,16 +1109,16 @@ public class GeoText extends GeoElement
 							.getApplication().getNormalizer();
 
 					// remove accents etc
-					String strA = noramlizer.transform(itemA.getTextString());
-					String strB = noramlizer.transform(itemB.getTextString());
+					String strA = noramlizer.transform(itemA.getTextStringSafe());
+					String strB = noramlizer.transform(itemB.getTextStringSafe());
 
 					// do comparison without accents etc
 					int comp = strA.compareTo(strB);
 
 					if (comp == 0) {
 						// try compare with accents
-						comp = itemA.getTextString()
-								.compareTo(itemB.getTextString());
+						comp = itemA.getTextStringSafe()
+								.compareTo(itemB.getTextStringSafe());
 					}
 
 					if (comp == 0) {
@@ -1193,20 +1154,14 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public boolean justFontSize() {
-		return false;
-	}
-
-	@Override
 	public boolean isRedefineable() {
 		return true;
 	}
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-
-		return isLaTeX() || (getTextString() != null
-				&& getTextString().indexOf('_') != -1);
+		return isLaTeX() || (str != null
+				&& str.indexOf('_') != -1);
 	}
 
 	@Override
@@ -1300,7 +1255,6 @@ public class GeoText extends GeoElement
 		GeoText text = getColumnHeadingText(spreadsheetTraceableLeftTree);
 		text.setLaTeX(this.isLaTeX, false);
 		spreadsheetColumnHeadings.add(text);
-
 	}
 
 	@Override
@@ -1309,7 +1263,6 @@ public class GeoText extends GeoElement
 		GeoNumeric numeric = new GeoNumeric(cons,
 				spreadsheetTraceableValue.evaluateDouble());
 		spreadsheetTraceList.add(numeric);
-
 	}
 
 	@Override
@@ -1359,7 +1312,6 @@ public class GeoText extends GeoElement
 			sb.append(fontStyle);
 			sb.append("\"/>\n");
 		}
-
 	}
 
 	@Override
@@ -1440,8 +1392,13 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
+	public DescriptionMode getDescriptionMode() {
 		return DescriptionMode.VALUE;
+	}
+
+	@Override
+	public void initSymbolicMode() {
+		setSymbolicMode(true, true);
 	}
 
 	@Override
@@ -1453,7 +1410,6 @@ public class GeoText extends GeoElement
 				updateParent();
 			}
 		}
-
 	}
 
 	@Override
@@ -1487,6 +1443,11 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
+	public boolean isFurniture() {
+		return false;
+	}
+
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return totalHeight;
 	}
@@ -1497,17 +1458,11 @@ public class GeoText extends GeoElement
 			return super.getDefinitionForEditor();
 		}
 
-		String ret = getAlgebraDescription(StringTemplate.editorTemplate)
-                .replace("\"", "").replace(Unicode.OPEN_DOUBLE_QUOTE + "", "")
-				.replace(Unicode.CLOSE_DOUBLE_QUOTE + "", "");
-
-		// remove "text1=" from the start
-		// don't use split() - text itself might contain "="
-		if (ret.indexOf('=') > -1) {
-			ret = ret.substring(ret.indexOf('=') + 1);
+		if (isDefinitionValid()) {
+			return StringTemplate.editorTemplate.escapeString(str);
 		}
 
-		return ret;
+		return "?";
 	}
 
 	/**
@@ -1522,82 +1477,6 @@ public class GeoText extends GeoElement
 		builder.clear();
 		builder.append(txt);
 		return txt;
-	}
-
-	public boolean isEditMode() {
-		return editMode == EditMode.Edit;
-	}
-
-	public void setEditMode() {
-		editMode = EditMode.Edit;
-	}
-
-	public void setReadyToEdit() {
-		editMode = EditMode.Ready;
-	}
-
-	public void cancelEditMode() {
-		editMode = EditMode.None;
-	}
-
-	/**
-	 * process in edit mode
-	 */
-	public void processEditMode() {
-		switch (editMode) {
-		case None:
-			setReadyToEdit();
-			break;
-		case Ready:
-			setEditMode();
-			break;
-		case Edit:
-		default:
-			break;
-		}
-	}
-
-	public void setTextHeight(int height) {
-		textHeight = height;
-	}
-
-	public int getTextHeight() {
-		return textHeight;
-	}
-
-	/**
-	 * 
-	 * @return the bounding box for whiteboard.
-	 */
-	public GRectangle getMowBoundingBox() {
-		return mowBoundingBox;
-	}
-
-	/**
-	 * Sets the bounding box for whiteboard.
-	 * 
-	 * @param rect
-	 *            to set.
-	 */
-	public void setMowBoundingBox(GRectangle rect) {
-		this.mowBoundingBox = rect;
-	}
-
-	/**
-	 * @return true if the bounding box is just loaded from material.
-	 */
-	public boolean isMowBoundingBoxJustLoaded() {
-		return mowBoundingBoxJustLoaded;
-	}
-
-	/**
-	 * Sets if the bounding box is just loaded from material.
-	 * 
-	 * @param b
-	 *            to set.
-	 */
-	public void setMowBoundingBoxJustLoaded(boolean b) {
-		this.mowBoundingBoxJustLoaded = b;
 	}
 
 	@Override
@@ -1624,7 +1503,6 @@ public class GeoText extends GeoElement
 		}
 
 		return ScreenReader.convertToReadable(ret);
-
 	}
 
 	@Override

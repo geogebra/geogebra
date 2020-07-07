@@ -1,16 +1,22 @@
 package org.geogebra.common.kernel.scripting;
 
+import java.util.Set;
+
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.MyError;
 
 /**
  * SetDecoration
  */
 public class CmdSetDecoration extends CmdScripting {
+
+	private Set<FillType> availableTypes;
 
 	/**
 	 * Create new command processor
@@ -20,6 +26,13 @@ public class CmdSetDecoration extends CmdScripting {
 	 */
 	public CmdSetDecoration(Kernel kernel) {
 		super(kernel);
+		this.availableTypes = getAvailableFillTypes(kernel);
+	}
+
+	private Set<FillType> getAvailableFillTypes(Kernel kernel) {
+		App app = kernel.getApplication();
+		AppConfig config = app.getConfig();
+		return config.getAvailableFillTypes();
 	}
 
 	@Override
@@ -50,7 +63,8 @@ public class CmdSetDecoration extends CmdScripting {
 					style = 0;
 				}
 				FillType type = types[style];
-				if (type == FillType.SYMBOLS || type == FillType.IMAGE) {
+				if (!availableTypes.contains(type) || type == FillType.SYMBOLS
+						|| type == FillType.IMAGE) {
 					// we could add SetDecoration(poly1, 8 pic1),
 					// SetDecoration(poly1, 7, text) for these
 					// also SetDecoration(poly1, 1, hatchAngle)

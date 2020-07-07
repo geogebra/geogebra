@@ -14,14 +14,14 @@ import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwtmockito.WithClassesToStub;
 
 @RunWith(GgbMockitoTestRunner.class)
-@WithClassesToStub({TextAreaElement.class})
+@WithClassesToStub({ TextAreaElement.class })
 public class InputBarHelpPanelWTest {
 
     @Test
     public void onlineHelpShownIfMenuBarIsShown() {
         ArticleElementInterface articleElement =
                 new TestArticleElement("prerelease", "classic")
-                        .attr("showMenuBar", "true");
+                    .attr("showMenuBar", "true");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
         InputBarHelpPanelW inputBarHelpPanelW

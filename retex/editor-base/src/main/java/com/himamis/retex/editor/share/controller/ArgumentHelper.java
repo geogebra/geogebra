@@ -5,7 +5,6 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Library class for processing function arguments
@@ -27,8 +26,9 @@ public class ArgumentHelper {
 		// get pass to argument
 		MathSequence field = (MathSequence) container
 				.getArgument(container.getInsertIndex());
-		if (currentField.getArgument(currentOffset - 1) instanceof MathCharacter
-				&& (Unicode.ZERO_WIDTH_SPACE + "").equals(currentField
+		while (currentOffset > 0
+				&& currentField.getArgument(currentOffset - 1) instanceof MathCharacter
+				&& " ".equals(currentField
 						.getArgument(currentOffset - 1).toString())) {
 			currentField.delArgument(currentOffset - 1);
 			currentOffset--;
@@ -99,7 +99,7 @@ public class ArgumentHelper {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(currentOffset - 1);
-			if (character.isOperator() || character.isSeparator()) {
+			if (character.isWordBreak()) {
 				break;
 			}
 			currentField.delArgument(currentOffset - 1);
@@ -132,7 +132,7 @@ public class ArgumentHelper {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(offset - 1);
-			if (character.isOperator() || character.isSymbol()) {
+			if (character.isSymbol() || character.isWordBreak()) {
 				break;
 			}
 			offset--;

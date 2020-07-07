@@ -42,7 +42,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 			CasEvaluableFunction f, EvalInfo info) {
 		super(cons);
 		this.nocas = !info.isUsingCAS();
-		cons.addCASAlgo(this);
 		this.f = f;
 		/** g is created in compute */
 		compute();
@@ -63,7 +62,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	public AlgoSolveODECas(Construction cons, String label,
 			CasEvaluableFunction f, GeoPointND pt) {
 		super(cons);
-		cons.addCASAlgo(this);
 		this.f = f;
 		this.pt = pt;
 		/** g is created in compute */

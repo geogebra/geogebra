@@ -7,10 +7,10 @@ import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.Matrix.Quaternion;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.kernel.matrix.Quaternion;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
@@ -630,8 +630,8 @@ abstract public class Input3D implements Input3DConstants {
 			getEuclidianController().setViewRotationOccured(true);
 		}
 
-        getEuclidianController().getRotationSpeedHandler().setStart(0,
-                PointerEventType.MOUSE);
+		getEuclidianController().getRotationSpeedHandler().setStart(0,
+				PointerEventType.MOUSE);
 
 		// start values
 		startMouse3DPosition.set(mouse3DPosition);
@@ -659,8 +659,8 @@ abstract public class Input3D implements Input3DConstants {
 		}
 
 		view3D.shiftRotAboutZ(angle);
-        getEuclidianController().getRotationSpeedHandler()
-                .rotationOccurred(angle);
+		getEuclidianController().getRotationSpeedHandler()
+				.rotationOccurred(angle);
 	}
 
 	private void processRightDragQuaternions() {

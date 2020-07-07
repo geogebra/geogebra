@@ -31,7 +31,7 @@ package com.himamis.retex.editor.share.model;
 import java.util.ArrayList;
 
 import com.himamis.retex.editor.share.meta.MetaArray;
-import com.himamis.retex.editor.share.meta.MetaComponent;
+import com.himamis.retex.editor.share.meta.MetaArrayComponent;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.Tag;
 
@@ -155,7 +155,7 @@ public class MathArray extends MathContainer {
 		return getArgument(i * columns + j);
 	}
 
-	public MetaComponent getOpen() {
+	public MetaArrayComponent getOpen() {
 		return meta.getOpen();
 	}
 
@@ -169,7 +169,7 @@ public class MathArray extends MathContainer {
 	/**
 	 * @return close meta component
 	 */
-	public MetaComponent getClose() {
+	public MetaArrayComponent getClose() {
 		return meta.getClose();
 	}
 
@@ -180,7 +180,7 @@ public class MathArray extends MathContainer {
 		return meta.getCloseKey();
 	}
 
-	public MetaComponent getField() {
+	public MetaArrayComponent getField() {
 		return meta.getField();
 	}
 
@@ -188,7 +188,7 @@ public class MathArray extends MathContainer {
 		return meta.getFieldKey();
 	}
 
-	public MetaComponent getRow() {
+	public MetaArrayComponent getRow() {
 		return meta.getRow();
 	}
 
@@ -274,10 +274,8 @@ public class MathArray extends MathContainer {
 	private int numberOfColumns(MetaModel metaModel) {
 		int matrixWidth = -1;
 		for (int i = 0; i < size(); i++) {
-			if (getArgument(i).size() == 1
-					&& getArgument(i).getArgument(0) instanceof MathArray) {
-				MathArray row = (MathArray) getArgument(i).getArgument(0);
-
+			MathArray row = extractRow(i);
+			if (row != null) {
 				if (row.meta != metaModel.getArray(Tag.CURLY)) {
 					return -1;
 				} else if (matrixWidth == -1) {
@@ -292,13 +290,32 @@ public class MathArray extends MathContainer {
 		return matrixWidth;
 	}
 
+	private MathArray extractRow(int i) {
+		int idx = 0;
+		int size = getArgument(i).size();
+		while (idx < size && " ".equals(getArgument(i).getArgument(idx).toString())) {
+			idx++;
+		}
+		int last = size - 1;
+		while (last > idx && " ".equals(getArgument(i).getArgument(last).toString())) {
+			last--;
+		}
+		if (idx == last
+				&& getArgument(i).getArgument(idx) instanceof MathArray) {
+			return (MathArray) getArgument(i).getArgument(idx);
+		}
+		return null;
+	}
+
 	private void flattenMatrix() {
 		ArrayList<MathComponent> entries = new ArrayList<>();
 		for (int i = 0; i < size(); i++) {
-			for (int j = 0; j < ((MathContainer) getArgument(i).getArgument(0))
-					.size(); j++) {
-				MathComponent arg = ((MathContainer) getArgument(i)
-						.getArgument(0)).getArgument(j);
+			MathArray row = extractRow(i);
+			if (row == null) {
+				throw new IllegalStateException("Not a matrix");
+			}
+			for (int j = 0; j < row.size(); j++) {
+				MathComponent arg = row.getArgument(j);
 				entries.add(arg);
 			}
 		}
@@ -306,5 +323,15 @@ public class MathArray extends MathContainer {
 		for (MathComponent entry : entries) {
 			addArgument(entry);
 		}
+	}
+
+	/**
+	 *
+	 * @param container a MathFieldContainer
+	 * @return true if container is a matrix.
+	 */
+	public static boolean isMatrix(MathComponent container) {
+		return container instanceof MathArray
+				&& ((MathArray) container).isMatrix();
 	}
 }

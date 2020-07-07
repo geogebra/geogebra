@@ -12,10 +12,12 @@ import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoInterval;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -59,109 +61,77 @@ public class GeoFactory {
 		// due to a bug in GeoGebra 2.6c the type strings for conics
 		// in XML may be "ellipse", "hyperbola", ...
 
-		switch (type.charAt(0)) {
-		case 'a': // angle
-			if ("angle".equals(type)) {
-				return new GeoAngle(cons1);
-			} else if ("audio".equals(type)) {
-				return new GeoAudio(cons1);
-			}
+		switch (type) {
+		case  "angle":
+			return new GeoAngle(cons1);
+		case "audio":
+			return new GeoAudio(cons1);
+		case "axis":
 			return new GeoAxis(cons1, 1);
-
-		case 'b': // angle
-			if ("boolean".equals(type)) {
-				return new GeoBoolean(cons1);
-			}
-			return new GeoButton(cons1); // "button"
-
-		case 'c': // conic
-			if ("conic".equals(type)) {
-				return new GeoConic(cons1);
-			} else if ("conicpart".equals(type)) {
-				return new GeoConicPart(cons1, 0);
-			} else if ("curvecartesian".equals(type)) {
-				return new GeoCurveCartesian(cons1);
-			} else if ("cascell".equals(type)) {
-				return new GeoCasCell(cons1);
-			} else if ("circle".equals(type)) { // bug in GeoGebra 2.6c
-				return new GeoConic(cons1);
-			}
-
-		case 'd': // doubleLine // bug in GeoGebra 2.6c
+		case "boolean":
+			return new GeoBoolean(cons1);
+		case "button":
+			return new GeoButton(cons1);
+		case "conic":
+		case "circle":  // bug in GeoGebra 2.6c
+		case "doubleLine":
+		case "ellipse":
+		case "emtpyset":
+		case "hyperbola":
+		case "intersectinglines":
+		case "parabola":
+		case "parallellines":
 			return new GeoConic(cons1);
-
-		case 'e': // ellipse, emptyset // bug in GeoGebra 2.6c
-			if ("embed".equals(type)) {
-				return new GeoEmbed(cons1);
-			}
-			return new GeoConic(cons1);
-
-		case 'f': // function
-			if ("function".equals(type)) {
-				return new GeoFunction(cons1);
-			} else if ("functionconditional".equals(type)) { // had special
-																// class fror v
-																// <5.0
-				return new GeoFunction(cons1);
-			} else {
-				return new GeoFunctionNVar(cons1);
-			}
-
-		case 'h': // hyperbola // bug in GeoGebra 2.6c
-			return new GeoConic(cons1);
-
-		case 'i': // image,implicitpoly
-			if ("image".equals(type)) {
-				return new GeoImage(cons1);
-			} else if ("intersectinglines".equals(type)) {
-				return new GeoConic(cons1);
-			} else if ("implicitpoly".equals(type)) {
-				return newImplicitPoly(cons1).toGeoElement();
-			} else if ("interval".equals(type)) {
-				return new GeoInterval(cons1);
-			}
-
-		case 'l': // line, list, locus
-			if ("line".equals(type)) {
-				return new GeoLine(cons1);
-			} else if ("list".equals(type)) {
-				return new GeoList(cons1);
-			} else {
-				return new GeoLocus(cons1);
-			}
-
-		case 'n': // numeric
+		case "conicpart":
+			return new GeoConicPart(cons1, 0);
+		case "curvecartesian":
+			return new GeoCurveCartesian(cons1);
+		case "cascell":
+			return new GeoCasCell(cons1);
+		case "embed":
+			return new GeoEmbed(cons1);
+		case "formula":
+			return new GeoFormula(cons1, null);
+		case "function":
+		case "functionconditional":
+			return new GeoFunction(cons1);
+		case "functionnvar":
+			return new GeoFunctionNVar(cons1);
+		case "image":
+			return new GeoImage(cons1);
+		case "implicitpoly":
+			return newImplicitPoly(cons1).toGeoElement();
+		case "inlinetext":
+			return new GeoInlineText(cons1, null);
+		case "interval":
+			return new GeoInterval(cons1);
+		case "line":
+			GeoLine geoLine = new GeoLine(cons1);
+			geoLine.showUndefinedInAlgebraView(true);
+			return geoLine;
+		case "list":
+			return new GeoList(cons1);
+		case "locus":
+			return new GeoLocus(cons1);
+		case "numeric":
 			return new GeoNumeric(cons1);
-
-		case 'p': // point, polygon
-			if ("point".equals(type)) {
-				return new GeoPoint(cons1);
-			} else if ("polygon".equals(type)) {
-				return new GeoPolygon(cons1, null);
-			} else if ("polyline".equals(type)) {
-				return new GeoPolyLine(cons1, new GeoPointND[] {});
-			} else {
-				// parabola, parallelLines, point // bug in GeoGebra 2.6c
-				return new GeoConic(cons1);
-			}
-
-		case 'r': // ray
+		case "point":
+			return new GeoPoint(cons1);
+		case "polygon":
+			return new GeoPolygon(cons1, null);
+		case "polyline":
+			return new GeoPolyLine(cons1, new GeoPointND[]{});
+		case "ray":
 			return new GeoRay(cons1, null);
-
-		case 's': // segment
+		case "segment":
 			return new GeoSegment(cons1, null, null);
-
-		case 't':
-			if ("text".equals(type)) {
-				return new GeoText(cons1); // text
-			}
-			return new GeoInputBox(cons1); // textfield
-
-		case 'v':
-			if ("video".equals(type)) {
-				return new GeoVideo(cons1);
-			}
-			// vector
+		case "text":
+			return new GeoText(cons1);
+		case "textfield":
+			return new GeoInputBox(cons1);
+		case "video":
+			return new GeoVideo(cons1);
+		case "vector":
 			return new GeoVector(cons1);
 		default:
 			Log.error("GeoFactory: element of type " + type

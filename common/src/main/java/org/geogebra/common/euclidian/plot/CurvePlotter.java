@@ -6,10 +6,10 @@ import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
+import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -20,26 +20,31 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class CurvePlotter {
+
+	public static final int MAX_PIXEL_DISTANCE = 10; // pixels
+
+	// maximum angle between two line segments
+	private static final double MAX_ANGLE = 10; // degrees
+	private static final double MAX_ANGLE_OFF_SCREEN = 45; // degrees
+	public static final double MAX_BEND = Math.tan(MAX_ANGLE * Kernel.PI_180);
+	private static final double MAX_BEND_OFF_SCREEN = Math
+			.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
+
+	// maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
+	private static final int MAX_DEFINED_BISECTIONS = 16;
+	private static final int MAX_PROBLEM_BISECTIONS = 8;
+	// NB: don't try to increase this to improve discontinuity check in something like
+	// ln(x)+sin(x), it could lead to piecewise functions joining up.
+	private static final int MAX_CONTINUITY_BISECTIONS = 8;
+
+	// maximum number of times to loop when xDiff, yDiff are both zero
+	// eg Curve[0sin(t), 0t, t, 0, 6]
+	private static final int MAX_ZERO_COUNT = 1000;
+
+	// the curve is sampled at least at this many positions to plot it
+	private static final int MIN_SAMPLE_POINTS = 80;
+
 	private static final double MAX_JUMP = 5;
-	// low quality settings
-	// // maximum and minimum distance between two plot points in pixels
-	// private static final int MAX_PIXEL_DISTANCE = 16; // pixels
-	// private static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
-	//
-	// // maximum angle between two line segments
-	// private static final double MAX_ANGLE = 32; // degrees
-	// private static final double MAX_ANGLE_OFF_SCREEN = 70; // degrees
-	// private static final double MAX_BEND = Math.tan(MAX_ANGLE *
-	// Kernel.PI_180);
-	// private static final double MAX_BEND_OFF_SCREEN =
-	// Math.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
-	//
-	// // maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
-	// private static final int MAX_DEFINED_BISECTIONS = 8;
-	// private static final int MAX_PROBLEM_BISECTIONS = 4;
-	//
-	// // the curve is sampled at least at this many positions to plot it
-	// private static final int MIN_SAMPLE_POINTS = 5;
 
 	/** ways to overcome discontinuity */
 	public enum Gap {
@@ -79,31 +84,27 @@ public class CurvePlotter {
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
-	final public static GPoint plotCurve(CurveEvaluable curve, double t1,
+	public static GPoint plotCurve(CurveEvaluable curve, double t1,
 			double t2, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
 
 		// ensure MIN_PLOT_POINTS
-		double max_param_step = Math.abs(t2 - t1) / view.getMinSamplePoints();
+		double minSamplePoints = Math.max(MIN_SAMPLE_POINTS, view.getWidth() / 6);
+		double max_param_step = Math.abs(t2 - t1) / minSamplePoints;
 		// plot Interval [t1, t2]
 		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step, view,
 				gp, calcLabelPos, moveToAllowed);
 		if (moveToAllowed == Gap.CORNER) {
 			gp.corner();
 		}
-		// System.out.println(" plot points: " + countPoints + ", evaluations: "
-		// + countEvaluations );
-		// System.out.println("*** END plot");
 
 		return labelPoint;
 	}
 
-	// private static int plotIntervals = 0;
-
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].
 	 * 
-	 * @param: max_param_step:
+	 * @param max_param_step
 	 *             largest parameter step width allowed
 	 * @param gp
 	 *            generalpath that can be drawn afterwards
@@ -118,7 +119,6 @@ public class CurvePlotter {
 			double t2, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
-		// Log.debug(++plotIntervals);
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
 		// the interval and plot both intervals [left, (left + right)/2] and
@@ -133,10 +133,6 @@ public class CurvePlotter {
 		// see an explanation of this algorithm below.
 
 		double[] move = curve.newDoubleArray();
-		for (int i = 0; i < move.length; i++) {
-			move[i] = 0;
-		}
-		boolean onScreen = false;
 		boolean nextLineToNeedsMoveToFirst = false;
 		double[] eval = curve.newDoubleArray();
 		double[] eval0, eval1;
@@ -144,7 +140,6 @@ public class CurvePlotter {
 		// evaluate for t1
 		curve.evaluateCurve(t1, eval);
 		if (isUndefined(eval)) {
-			// Application.debug("Curve undefined at t = " + t1);
 			return plotProblemInterval(curve, t1, t2, intervalDepth,
 					max_param_step, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
@@ -154,12 +149,11 @@ public class CurvePlotter {
 		// evaluate for t2
 		curve.evaluateCurve(t2, eval);
 		if (isUndefined(eval)) {
-			// Application.debug("Curve undefined at t = " + t2);
 			return plotProblemInterval(curve, t1, t2, intervalDepth,
 					max_param_step, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
 		}
-		onScreen = view.isOnView(eval);
+		boolean onScreen = view.isOnView(eval);
 		eval1 = Cloner.clone(eval);
 
 		// first point
@@ -167,12 +161,10 @@ public class CurvePlotter {
 
 		// TODO
 		// INIT plotting algorithm
-		int length = view.getMaxDefinedBisections() + 1;
+		int length = MAX_DEFINED_BISECTIONS + 1;
 		int[] dyadicStack = new int[length];
 		int[] depthStack = new int[length];
 		double[][] posStack = new double[length][];
-		// double xStack[] = new double[LENGTH];
-		// double yStack[] = new double[LENGTH];
 		boolean[] onScreenStack = new boolean[length];
 		double[] divisors = new double[length];
 		divisors[0] = t2 - t1;
@@ -210,19 +202,19 @@ public class CurvePlotter {
 			// segment from last point off screen?
 			segOffScreen = view.isSegmentOffView(eval0, eval1);
 			// pixel distance from last point OK?
-			distanceOK = segOffScreen || isDistanceOK(diff, view);
+			distanceOK = segOffScreen || isDistanceOK(diff);
 			// angle from last segment OK?
 			angleOK = isAngleOK(prevDiff, diff, segOffScreen
-					? view.getMaxBendOfScreen() : view.getMaxBend());
+					? MAX_BEND_OFF_SCREEN : MAX_BEND);
 
 			// bisect interval as long as max bisection depth not reached & ...
-			while (depth < view.getMaxDefinedBisections()
+			while (depth < MAX_DEFINED_BISECTIONS
 					// ... distance not ok or angle not ok or step too big
 					&& (!distanceOK || !angleOK
 							|| divisors[depth] > max_param_step)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
 					// 0, 6]
-					&& countDiffZeros < view.getMaxZeroCount()) {
+					&& countDiffZeros < MAX_ZERO_COUNT) {
 				// push stacks
 				dyadicStack[top] = i;
 				depthStack[top] = depth;
@@ -245,7 +237,6 @@ public class CurvePlotter {
 
 					// split interval: f(t+eps) or f(t-eps) not defined
 					if (!singularity) {
-						// Application.debug("Curve undefined at t = " + t);
 						return plotProblemInterval(curve, left, t2,
 								intervalDepth, max_param_step, view, gp,
 								calcLabelPos, moveToAllowed, labelPoint);
@@ -265,10 +256,10 @@ public class CurvePlotter {
 				// segment from last point off screen?
 				segOffScreen = view.isSegmentOffView(eval0, eval1);
 				// pixel distance from last point OK?
-				distanceOK = segOffScreen || isDistanceOK(diff, view);
+				distanceOK = segOffScreen || isDistanceOK(diff);
 				// angle from last segment OK?
 				angleOK = isAngleOK(prevDiff, diff, segOffScreen
-						? view.getMaxBendOfScreen() : view.getMaxBend());
+						? MAX_BEND_OFF_SCREEN : MAX_BEND);
 
 			} // end of while-loop for interval bisections
 
@@ -281,8 +272,7 @@ public class CurvePlotter {
 					lineTo = false;
 				} else if (!angleOK || !distanceOK) {
 					// check for DISCONTINUITY
-					lineTo = isContinuous(curve, left, t,
-							view.getMaxProblemBisections());
+					lineTo = isContinuous(curve, left, t, MAX_CONTINUITY_BISECTIONS);
 				}
 			} else if (moveToAllowed == Gap.CORNER) {
 				gp.corner(eval1);
@@ -361,8 +351,8 @@ public class CurvePlotter {
 	 * Returns true when at least one element of eval is either NaN or infinite.
 	 */
 	private static boolean isUndefined(double[] eval) {
-		for (int i = 0; i < eval.length; i++) {
-			if (isUndefined(eval[i])) {
+		for (double value : eval) {
+			if (isUndefined(value)) {
 				return true;
 			}
 		}
@@ -378,7 +368,7 @@ public class CurvePlotter {
 			Gap moveToAllowed, GPoint labelPoint) {
 		boolean calcLabel = calcLabelPos;
 		// stop recursion for too many intervals
-		if (intervalDepth > view.getMaxProblemBisections() || t1 == t2) {
+		if (intervalDepth > MAX_PROBLEM_BISECTIONS || t1 == t2) {
 			return labelPoint;
 		}
 
@@ -473,9 +463,9 @@ public class CurvePlotter {
 	 * Returns whether the pixel distance from the last point is smaller than
 	 * MAX_PIXEL_DISTANCE in all directions.
 	 */
-	private static boolean isDistanceOK(double[] diff, EuclidianView view) {
+	private static boolean isDistanceOK(double[] diff) {
 		for (double d : diff) {
-			if (Math.abs(d) > view.getMaxPixelDistance()) {
+			if (Math.abs(d) > MAX_PIXEL_DISTANCE) {
 				return false;
 			}
 		}
@@ -531,13 +521,13 @@ public class CurvePlotter {
 	 *            min parameter
 	 * @param to
 	 *            max parameter
-	 * @param mnaxIterations
+	 * @param maxIterations
 	 *            max number of bisections
 	 * 
 	 * @return true when t1 and t2 get closer than Kernel.MAX_DOUBLE_PRECISION
 	 */
 	public static boolean isContinuous(CurveEvaluable c, double from, double to,
-			int mnaxIterations) {
+			int maxIterations) {
 		double t1 = from;
 		double t2 = to;
 		if (DoubleUtil.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) {
@@ -570,7 +560,7 @@ public class CurvePlotter {
 		int iterations = 0;
 		double[] middle = c.newDoubleArray();
 
-		while (iterations++ < mnaxIterations && dist > eps) {
+		while (iterations++ < maxIterations && dist > eps) {
 			double m = (t1 + t2) / 2;
 			c.evaluateCurve(m, middle);
 			double distLeft = c.distanceMax(left, middle);
@@ -587,28 +577,19 @@ public class CurvePlotter {
 
 			if (DoubleUtil.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) {
 				return true;
-			// System.out.println(" largest dist: " + dist + ", [" + t1 + ", "
-			// + t2 +"]");
 			}
 		}
 
 		// we managed to make the distance clearly smaller than the initial
 		// distance
-		boolean ret = dist <= eps;
-
-		// System.out.println("END isContinuous " + ret + ", eps: " + eps +
-		// ", dist: " + dist);
-		return ret;
+		return dist <= eps;
 	}
 
 	/**
 	 * Sets borders to a defined interval in [a, b] if possible.
-	 * 
-	 * @return whether two defined borders could be found.
 	 */
-	private static boolean getDefinedInterval(CurveEvaluable curve, double a,
+	private static void getDefinedInterval(CurveEvaluable curve, double a,
 			double b, double[] borders) {
-
 		double[] eval = curve.newDoubleArray();
 
 		// check first and last point in interval
@@ -623,7 +604,7 @@ public class CurvePlotter {
 			borders[1] = b;
 		}
 		// one end point defined
-		else if (aDef && !bDef || !aDef && bDef) {
+		else if (aDef || bDef) {
 			// check whether the curve is defined at the interval borders
 			// if not, we try to find a valid domain
 			double[] interval = curve.getDefinedInterval(a, b);
@@ -635,8 +616,6 @@ public class CurvePlotter {
 			borders[0] = a;
 			borders[1] = b;
 		}
-
-		return !isUndefined(borders);
 	}
 
 	/**
@@ -662,8 +641,7 @@ public class CurvePlotter {
 		// points
 		boolean linetofirst = true;
 		double[] lastMove = null;
-		for (int i = 0; i < size; i++) {
-			MyPoint p = pointList.get(i);
+		for (MyPoint p : pointList) {
 			// don't add infinite points
 			// otherwise hit-testing doesn't work
             if (p.isFinite() && gp.copyCoords(p, coords, transformSys)) {

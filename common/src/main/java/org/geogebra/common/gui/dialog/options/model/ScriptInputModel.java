@@ -1,23 +1,21 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.AsyncOperation;
 
 public class ScriptInputModel extends OptionsModel {
+
+	private final Kernel kernel;
 	private GeoElement geo;
 	private boolean global = false;
-	// private boolean javaScript = false;
-	private ScriptType scriptType = ScriptType.GGBSCRIPT;
-	private boolean updateScript = false;
-	private TextInputHandler inputHandler;
+
+	private boolean updateScript;
 	private IScriptInputListener listener;
 	/**
 	 * used for update to avoid several updates
@@ -30,12 +28,7 @@ public class ScriptInputModel extends OptionsModel {
 	private boolean editOccurred = false;
 
 	public interface IScriptInputListener extends PropertyListener {
-		void setInputText(String text);
-
-		String getInputText();
-
-		void setLanguageIndex(int index, String name);
-
+		void setInput(String text, ScriptType type);
 	}
 
 	public ScriptInputModel(App app, IScriptInputListener listener,
@@ -43,7 +36,7 @@ public class ScriptInputModel extends OptionsModel {
 		super(app);
 		this.listener = listener;
 		this.updateScript = updateScript;
-		inputHandler = new TextInputHandler();
+		this.kernel = app.getKernel();
 	}
 
 	public void setGeo(GeoElement geo) {
@@ -60,13 +53,12 @@ public class ScriptInputModel extends OptionsModel {
 		if (geo != null) {
 			Script script = geo.getScript(
 					updateScript ? EventType.UPDATE : EventType.CLICK);
-			// Default to an empty Ggb script
+
 			if (script == null) {
-				script = app.createScript(ScriptType.GGBSCRIPT, "", false);
+				listener.setInput("", ScriptType.GGBSCRIPT);
+			} else {
+				listener.setInput(script.getText(), script.getType());
 			}
-			// Log.debug(script.getText());
-			listener.setInputText(script.getText());
-			setScriptType(script.getType());
 		}
 
 		handlingDocumentEventOff = false;
@@ -76,45 +68,46 @@ public class ScriptInputModel extends OptionsModel {
 	 * edit global javascript
 	 */
 	public void setGlobal() {
-
 		boolean currentHandlingDocumentEventOff = handlingDocumentEventOff;
 		handlingDocumentEventOff = true;
 
 		geo = null;
 		global = true;
 
-		listener.setInputText(app.getKernel().getLibraryJavaScript());
+		listener.setInput(app.getKernel().getLibraryJavaScript(), ScriptType.JAVASCRIPT);
 
 		handlingDocumentEventOff = currentHandlingDocumentEventOff;
 	}
 
-	public void processInput(String inputText,
+	public void processInput(String inputText, ScriptType scriptType,
 			AsyncOperation<Boolean> callback) {
-		inputHandler.processInput(inputText, app.getErrorHandler(), callback);
-	}
-
-	// private void setJSMode(boolean flag){
-	// javaScript = flag;
-	// ((GeoGebraEditorPane) inputPanel.getTextComponent()).setEditorKit(flag ?
-	// "javascript":"geogebra");
-	// }
-
-	public void setScriptType(ScriptType scriptType) {
-		this.scriptType = scriptType;
-		String scriptStr;
-		int index = scriptType.ordinal();
-		switch (scriptType) {
-		default:
-		case GGBSCRIPT:
-			scriptStr = "geogebra";
-			break;
-
-		case JAVASCRIPT:
-			scriptStr = "javascript";
-			break;
-
+		if (inputText == null) {
+			callback.callback(false);
+			return;
 		}
-		listener.setLanguageIndex(index, scriptStr);
+
+		if (global) {
+			app.getKernel().setLibraryJavaScript(inputText);
+			callback.callback(true);
+			return;
+		}
+
+		if (getGeo() == null) {
+			setGeo(GeoButton.getNewButton(kernel.getConstruction()));
+		}
+
+		// change existing script
+		Script script = app.createScript(scriptType, inputText, true);
+		if (updateScript) {
+			getGeo().setUpdateScript(script);
+			// let's suppose fixing this script removed the reason why
+			// scripts were blocked
+			app.setBlockUpdateScripts(false);
+		} else {
+			getGeo().setClickScript(script);
+		}
+		storeUndoInfo();
+		callback.callback(true);
 	}
 
 	/**
@@ -124,56 +117,12 @@ public class ScriptInputModel extends OptionsModel {
 		return geo;
 	}
 
-	private class TextInputHandler implements InputHandler {
-
-		private Kernel kernel;
-
-		public TextInputHandler() {
-			kernel = app.getKernel();
-		}
-
-		@Override
-		public void processInput(String inputValue, ErrorHandler handler,
-				AsyncOperation<Boolean> callback) {
-			if (inputValue == null) {
-				callback.callback(false);
-				return;
-			}
-
-			if (global) {
-				app.getKernel().setLibraryJavaScript(inputValue);
-				callback.callback(true);
-				return;
-			}
-
-			if (getGeo() == null) {
-				setGeo(GeoButton.getNewButton(kernel.getConstruction()));
-
-			}
-
-			// change existing script
-			Script script = app.createScript(scriptType, inputValue, true);
-			if (updateScript) {
-				getGeo().setUpdateScript(script);
-				// let's suppose fixing this script removed the reason why
-				// scripts were blocked
-				app.setBlockUpdateScripts(false);
-			} else {
-				getGeo().setClickScript(script);
-			}
-			storeUndoInfo();
-			callback.callback(true);
-		}
-	}
-
 	public void handleDocumentEvent() {
-
 		if (handlingDocumentEventOff) {
 			return;
 		}
 
 		setEditOccurred(true);
-
 	}
 
 	@Override
@@ -204,13 +153,5 @@ public class ScriptInputModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
-	}
-
-	/**
-	 * 
-	 * @return GeoGebraScript or JavaScript
-	 */
-	public ScriptType getScriptType() {
-		return scriptType;
 	}
 }

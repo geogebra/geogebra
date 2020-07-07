@@ -709,8 +709,7 @@ public abstract class CommandProcessor {
 	 *            (-1 for just show syntax)
 	 * @return wrong parameter count error
 	 */
-
-	private MyError argNumErr(Command cmd, int argNumber) {
+	public MyError argNumErr(Command cmd, int argNumber) {
 		String commandName = cmd.getName();
 		String message = commandErrorMessageBuilder.buildArgumentNumberError(
 				commandName, argNumber);

@@ -21,6 +21,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.commands.CommandNotLoadedError;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
@@ -221,7 +223,7 @@ public abstract class MyXMLio {
 			sb.append(uniqueId); // unique id to identify ggb file
 			sb.append("\" ");
 		}
-		sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
+		sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/apps/xsd/");
 		if (isMacro) {
 			sb.append(GeoGebraConstants.GGT_XSD_FILENAME); // eg ggt.xsd
 		}
@@ -387,6 +389,14 @@ public abstract class MyXMLio {
 			}
 			resetXMLParser();
 			kernel.setLoadingMode(false);
+
+			if (app.isWhiteboardActive()) {
+				for (GeoElement geo : cons.getGeoSetConstructionOrder()) {
+					if (geo instanceof GeoPolygon) {
+						((GeoPolygon) geo).hideSegments();
+					}
+				}
+			}
 		} catch (CommandNotLoadedError e) {
 			throw e;
 		} catch (Error | Exception e) {
@@ -470,7 +480,7 @@ public abstract class MyXMLio {
 	 * @author mathieu
 	 *
 	 */
-	protected interface XMLStream {
+	public interface XMLStream {
 		// tagging interface
 	}
 

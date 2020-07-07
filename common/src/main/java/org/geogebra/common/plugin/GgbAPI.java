@@ -3,7 +3,6 @@ package org.geogebra.common.plugin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.TreeSet;
 
@@ -26,12 +25,12 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -47,6 +46,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
@@ -56,6 +56,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.serialize.ListBracketsAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
@@ -85,7 +86,6 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  */
 
 public abstract class GgbAPI implements JavaScriptAPI {
-	// /// ----- Properties ----- /////
 	/** kernel */
 	protected Kernel kernel = null;
 	/** construction */
@@ -95,8 +95,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	/** application */
 	protected App app = null;
 
-	// private PluginManager pluginmanager= null;
-	// /// ----- Interface ----- /////
 	/**
 	 * Returns reference to Construction
 	 * 
@@ -160,6 +158,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (!app.getSettings().getCasSettings().isEnabled()) {
 			return "?";
 		}
+		GeoCasCell assignment = algebraprocessor.checkCasEval(cmdString,
+				"(:=?)|" + Unicode.ASSIGN_STRING);
+		if (assignment != null) {
+			return getCasCellValue(assignment);
+		}
 		// default (undefined)
 		String ret = "?";
 
@@ -168,10 +171,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			// kernel.getConstruction().addToConstructionList(f, false);
 
 			f.setInput(cmdString);
-			if (f.getInputVE() != null && f.getInputVE().getLabel() != null) {
-				kernel.getAlgebraProcessor().checkCasEval(
-						f.getInputVE().getLabel(), cmdString, null);
-			}
 			f.computeOutput();
 
 			boolean includesNumericCommand = false;
@@ -189,15 +188,18 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				}
 			}
 
-			ret = f.getValue() != null
-					? f.getValue().toString(StringTemplate.numericDefault)
-					: f.getOutput(StringTemplate.testTemplate);
+			ret = getCasCellValue(f);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 
 		return ret;
+	}
 
+	private String getCasCellValue(GeoCasCell f) {
+		return f.getValue() != null
+				? f.getValue().toString(StringTemplate.numericDefault)
+				: f.getOutput(StringTemplate.testTemplate);
 	}
 
 	/**
@@ -206,11 +208,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	@Override
 	public synchronized boolean evalCommand(String cmdString) {
-
 		String labels = evalCommandGetLabels(cmdString);
-
 		return labels != null;
-
 	}
 
 	/**
@@ -222,8 +221,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @return comma separated labels
 	 */
 	public synchronized String evalCommandGetLabels(String cmdString) {
-
-		// Application.debug("evalCommand called..."+cmdString);
 		GeoElementND[] result;
 
 		// this is new in GeoGebra 4.2 and it will stop some files working
@@ -243,8 +240,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				return null;
 			}
 
-			for (int i = 0; i < result.length; i++) {
-				ret.append(result[i].getLabelSimple());
+			for (GeoElementND geoElementND : result) {
+				ret.append(geoElementND.getLabelSimple());
 				ret.append(",");
 			}
 
@@ -255,21 +252,19 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 			kernel.setUseInternalCommandNames(oldVal);
 			return ret.toString();
-
 		}
 
 		String[] cmdStrings = cmdString.split("[\\n]+");
-		for (int i = 0; i < cmdStrings.length; i++) {
+		for (String string : cmdStrings) {
 			result = kernel.getAlgebraProcessor()
-					.processAlgebraCommand(cmdStrings[i], false);
+					.processAlgebraCommand(string, false);
 
 			if (result != null) {
-				for (int j = 0; j < result.length; j++) {
-					ret.append(result[j].getLabelSimple());
+				for (GeoElementND geoElementND : result) {
+					ret.append(geoElementND.getLabelSimple());
 					ret.append(",");
 				}
 			}
-
 		}
 
 		kernel.setUseInternalCommandNames(oldVal);
@@ -284,12 +279,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return ret.toString();
 	}
 
-	/**
-	 * prints a string to the Java Console
-	 */
 	@Override
 	public synchronized void debug(String string) {
-
 		Log.debug(string);
 	}
 
@@ -393,8 +384,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		String[] names = getAllObjectNames();
-		for (int i = 0; i < names.length; i++) {
-			GeoElement geo = kernel.lookupLabel(names[i]);
+		for (String name : names) {
+			GeoElement geo = kernel.lookupLabel(name);
 			if (geo != null) {
 				if (geo.getLayer() == layer) {
 					geo.setEuclidianVisible(visible);
@@ -414,9 +405,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		String[] objNames = new String[size];
 
 		int i = 0;
-		Iterator<GeoElement> it = geoSet.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : geoSet) {
 			objNames[i] = geo.getLabelSimple();
 			i++;
 		}
@@ -432,9 +421,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// build objNames array
 		ArrayList<String> objList = new ArrayList<>(size / 2);
 
-		Iterator<GeoElement> it = geoSet.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : geoSet) {
 			if (StringUtil.empty(type)
 					|| type.equalsIgnoreCase(geo.getTypeString())) {
 				objList.add(geo.getLabelSimple());
@@ -443,40 +430,29 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return objList.toArray(new String[objList.size()]);
 	}
 
-	/**
-	 * Sets the fixed state of the object with the given name.
-	 */
 	@Override
-	public synchronized void setFixed(String objName, boolean flag) {
+	public synchronized void setFixed(String objName, boolean fixed) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo != null && geo.isFixable()) {
-			geo.setFixed(flag);
-			geo.updateRepaint();
+			setFixedAndNotify(fixed, geo);
 		}
 	}
 
-	/**
-	 * Sets the fixed state of the object with the given name.
-	 * 
-	 * @param objName
-	 *            object name
-	 * @param fixed
-	 *            whether it should be fixed
-	 * @param selectionAllowed
-	 *            whether selection should be allowed
-	 */
+	@Override
 	public synchronized void setFixed(String objName, boolean fixed,
 			boolean selectionAllowed) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo != null) {
-
 			geo.setSelectionAllowed(selectionAllowed);
-
 			if (geo.isFixable()) {
-				geo.setFixed(fixed);
-				geo.updateRepaint();
+				setFixedAndNotify(fixed, geo);
 			}
 		}
+	}
+
+	private static void setFixedAndNotify(boolean fixed, GeoElement geo) {
+		geo.setFixed(fixed);
+		geo.updateVisualStyleRepaint(GProperty.COMBINED);
 	}
 
 	/**
@@ -621,7 +597,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return "";
 		}
-		return "#" + StringUtil.toHexString(geo.getObjectColor());
+		return StringUtil.toHtmlColor(geo.getObjectColor());
 	}
 
 	@Override
@@ -726,7 +702,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public void setOnTheFlyPointCreationActive(boolean flag) {
 		app.setOnTheFlyPointCreationActive(flag);
-
 	}
 
 	@Override
@@ -1023,11 +998,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return geo.isIndependent();
 	}
 
-	/**
-	 * Returns the value of the object with the given name as a string.
-	 */
 	@Override
-	public synchronized String getValueString(String objName) {
+	public synchronized String getValueString(String objName, boolean localized) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) {
 			return "";
@@ -1040,8 +1012,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo.isGeoCasCell()) {
 			return ((GeoCasCell) geo).getOutput(StringTemplate.numericDefault);
 		}
+		StringTemplate template =
+				localized ? StringTemplate.algebraTemplate : StringTemplate.noLocalDefault;
 
-		return geo.getAlgebraDescriptionDefault();
+		return geo.getAlgebraDescriptionPublic(template);
 	}
 
 	/**
@@ -1185,7 +1159,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		return kernel.getExpressionNodeEvaluator().handleXcoord(geo,
 				Operation.XCOORD);
-
 	}
 
 	/**
@@ -1227,9 +1200,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return;
 		}
-
 		CmdSetCoords.setCoords(geo, x, y);
-
 	}
 
 	@Override
@@ -1239,9 +1210,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return;
 		}
-
 		CmdSetCoords.setCoords(geo, x, y, z);
-
 	}
 
 	/**
@@ -1491,14 +1460,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	final public void setPenColor(int red, int green, int blue) {
-		app.getActiveEuclidianView().getEuclidianController().getPen()
-				.setPenColor(GColor.newColor(red, green, blue));
+		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
+				.setObjColor(GColor.newColor(red, green, blue));
 	}
 
 	@Override
 	final public void setPenSize(int size) {
-		app.getActiveEuclidianView().getEuclidianController().getPen()
-				.setPenSize(size);
+		app.getActiveEuclidianView().getEuclidianController().getPen().defaultPenLine
+				.setLineThickness(size);
 	}
 
 	@Override
@@ -1509,7 +1478,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	@Override
 	public String getPenColor() {
-		return "#" + StringUtil.toHexString(app.getActiveEuclidianView()
+		return StringUtil.toHtmlColor(app.getActiveEuclidianView()
 				.getEuclidianController().getPen().getPenColor());
 	}
 
@@ -1704,8 +1673,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public void logout() {
 		if (app.getLoginOperation() != null
 				&& app.getLoginOperation().getModel() != null) {
-
 			app.getLoginOperation().performLogOut();
+			app.getLoginOperation().getModel().discardTimers();
 		}
 	}
 
@@ -1739,6 +1708,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 *            perspective
 	 */
 	private void setPerspectiveWithViews(String code) {
+		app.enableUseFullGui();
 		if (code.startsWith("+") || code.startsWith("-")) {
 			PerspectiveDecoder.decodeSimple(app, code);
 			return;
@@ -1780,7 +1750,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -1807,7 +1776,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 		return isVisibleInView(geo, view);
-
 	}
 
 	private static boolean isVisibleInView(GeoElement geo, int view) {
@@ -1833,7 +1801,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public int getCASObjectNumber() {
 		return kernel.getConstruction().getCASObjectNumber();
-
 	}
 
 	/**
@@ -1909,9 +1876,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			}
 
 			geo.updateRepaint();
-
 		}
-
 	}
 
 	@Override
@@ -1939,7 +1904,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * @param enable
-	 * 
 	 *            wheter labels draggable in geogebra-web applets or not
 	 */
 	@Override
@@ -1949,7 +1913,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * @param enable
-	 * 
 	 *            wheter shift - drag - zoom enabled in geogebra-web applets or
 	 *            not
 	 */
@@ -1977,7 +1940,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		evs.endBatch();
 		kernel.notifyRepaint();
-
 	}
 
 	@Override
@@ -2042,7 +2004,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		EuclidianSettings evs = app.getSettings().getEuclidian(index);
 		evs.setPointCapturing(capture);
 		kernel.notifyRepaint();
-
 	}
 
 	@Override
@@ -2050,7 +2011,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		geo.setAuxiliaryObject(flag);
 		geo.updateRepaint();
-
 	}
 
 	/**
@@ -2095,7 +2055,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 				handler.callback(frame.getCode());
 			}
-
 		};
 	}
 
@@ -2295,9 +2254,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public String getScreenReaderOutput(String label) {
 		GeoElement geo = kernel.lookupLabel(label);
-
 		return geo.toValueString(StringTemplate.screenReader);
-
 	}
 
 	/**

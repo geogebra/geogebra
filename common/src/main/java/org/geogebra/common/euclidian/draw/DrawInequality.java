@@ -8,7 +8,6 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -121,13 +120,13 @@ public class DrawInequality extends Drawable {
 					leftIneq.ignoreLines();
 				}
 			}
-            if (!(right.drawable instanceof DrawInequality1Var)) {
-                Log.error("right.drawable not instanceof DrawInequality1Var");
-                if (right.drawable != null) {
-                    Log.error("class = " + right.drawable.getClass());
-                }
-                return;
-            }
+			if (!(right.drawable instanceof DrawInequality1Var)) {
+				Log.error("right.drawable not instanceof DrawInequality1Var");
+				if (right.drawable != null) {
+					Log.error("class = " + right.drawable.getClass());
+				}
+				return;
+			}
 			DrawInequality1Var rightIneq = (DrawInequality1Var) right.drawable;
 			if (rightIneq.isMinBoundSet()) {
 				double minRight = rightIneq
@@ -619,7 +618,7 @@ public class DrawInequality extends Drawable {
 		}
 		if (!isForceNoFill()) {
 			if (gpAxis != null) {
-                if (isHighlighted()) {
+				if (isHighlighted()) {
 					g2.setPaint(geo.getSelColor());
 					g2.setStroke(selStroke);
 					for (int i = 0; gpAxis[i] != null; i++) {
@@ -691,12 +690,6 @@ public class DrawInequality extends Drawable {
 	public boolean isInside(GRectangle rect) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

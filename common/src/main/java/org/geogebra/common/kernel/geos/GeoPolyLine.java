@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -27,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
@@ -107,7 +107,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
-
 	}
 
 	@Override
@@ -122,7 +121,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 */
 	@Override
 	public int getNumPoints() {
-        return points == null ? 0 : points.length;
+		return points == null ? 0 : points.length;
 	}
 
 	/**
@@ -193,13 +192,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		defined = false;
 	}
 
-	@Override
-	public final boolean showInAlgebraView() {
-		// return defined;
-		return true;
-	}
-
-	// Michael Borcherds 2008-04-30
 	/**
 	 * Yields true if the points of this polyline is equal to the points of
 	 * polyline p.
@@ -621,11 +613,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	@Override
 	public Path getBoundary() {
 		return this;
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_BOUNDARY;
 	}
 
 	@Override

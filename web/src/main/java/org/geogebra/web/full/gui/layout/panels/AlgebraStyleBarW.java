@@ -1,6 +1,8 @@
 package org.geogebra.web.full.gui.layout.panels;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -74,11 +76,11 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 				ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
 			@Override
-			public void update(Object[] geos) {
+			public void update(List<GeoElement> geos) {
 
-				boolean geosOK = geos.length > 0;
-				for (int i = 0; i < geos.length; i++) {
-					GeoElement geo = ((GeoElement) geos[i])
+				boolean geosOK = geos.size() > 0;
+				for (int i = 0; i < geos.size(); i++) {
+					GeoElement geo = geos.get(i)
 							.getGeoElementForPropertiesDialog();
 					if (geo instanceof GeoImage || geo instanceof GeoText
 							|| geo instanceof GeoButton) {
@@ -92,17 +94,17 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 				if (geosOK) {
 					// get color from first geo
 					GColor geoColor;
-					geoColor = ((GeoElement) geos[0]).getObjectColor();
+					geoColor = ((GeoElement) geos.get(0)).getObjectColor();
 
 					// check if selection contains a fillable geo
 					// if true, then set slider to first fillable's alpha
 					// value
 					double alpha = 1.0;
 					boolean hasFillable = false;
-					for (int i = 0; i < geos.length; i++) {
-						if (((GeoElement) geos[i]).isFillable()) {
+					for (int i = 0; i < geos.size(); i++) {
+						if (((GeoElement) geos.get(i)).isFillable()) {
 							hasFillable = true;
-							alpha = ((GeoElement) geos[i]).getAlphaValue();
+							alpha = ((GeoElement) geos.get(i)).getAlphaValue();
 							break;
 						}
 					}
@@ -147,11 +149,11 @@ public class AlgebraStyleBarW extends StyleBarW2 implements SettingListener {
 			addMenuButton();
 		} else {
 			add(btnColor);
-			btnColor.update(new Object[] { selectedItem });
+			btnColor.update(Collections.singletonList(selectedItem));
 			add(btnLineStyle);
-			btnLineStyle.update(new Object[] { selectedItem });
+			btnLineStyle.update(Collections.singletonList(selectedItem));
 			add(btnPointStyle);
-			btnPointStyle.update(new Object[] { selectedItem });
+			btnPointStyle.update(Collections.singletonList(selectedItem));
 			addMenuButton();
 		}
 		// addViewButton is too expensive

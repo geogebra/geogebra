@@ -40,34 +40,24 @@ public class AlgoDiv extends AlgoTwoNumFunction {
 		return Commands.Div;
 	}
 
-	// calc area of conic c
 	@Override
-	public final void compute() {
-		if (input[0].isDefined() && input[1].isDefined()) {
+	public final double computeValue(double aVal, double bVal) {
+		double numerator = DoubleUtil.checkInteger(aVal);
+		double denominator = DoubleUtil.checkInteger(bVal);
 
-			double numerator = DoubleUtil.checkInteger(a.getDouble());
-			double denominator = DoubleUtil.checkInteger(b.getDouble());
+		if (Math.abs(numerator) > MyDouble.LARGEST_INTEGER
+				|| Math.abs(denominator) > MyDouble.LARGEST_INTEGER) {
+			return Double.NaN;
+		}
 
-			if (Math.abs(numerator) > MyDouble.LARGEST_INTEGER
-					|| Math.abs(denominator) > MyDouble.LARGEST_INTEGER) {
-				num.setUndefined();
-				return;
-			}
-
-			double fraction = numerator / denominator;
-			double integer = Math.round(fraction);
-			if (DoubleUtil.isEqual(fraction, integer)) {
-				num.setValue(integer);
-			} else if (denominator > 0) {
-				double div = Math.floor(fraction);
-				num.setValue(div);
-			} else {
-				double div = Math.ceil(fraction);
-				num.setValue(div);
-			}
+		double fraction = numerator / denominator;
+		double integer = Math.round(fraction);
+		if (DoubleUtil.isEqual(fraction, integer)) {
+			return integer;
+		} else if (denominator > 0) {
+			return Math.floor(fraction);
 		} else {
-			num.setUndefined();
+			return Math.ceil(fraction);
 		}
 	}
-
 }

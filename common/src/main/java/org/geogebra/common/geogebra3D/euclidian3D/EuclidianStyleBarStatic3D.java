@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.main.App;
 
 /**
  * static methods used in desktop / web for 3D style bar
@@ -22,7 +21,7 @@ public class EuclidianStyleBarStatic3D {
 	 *            map already filled for 2D
 	 */
 	public static void addToDefaultMap(
-			HashMap<Integer, Integer> defaultGeoMap, App app) {
+			HashMap<Integer, Integer> defaultGeoMap) {
 
 		// lines
 		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
@@ -55,22 +54,22 @@ public class EuclidianStyleBarStatic3D {
 				ConstructionDefaults3D.DEFAULT_QUADRIC);
 
 		// cylinders, cones
-        defaultGeoMap.put(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS,
-                ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
-        defaultGeoMap.put(EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
-                ConstructionDefaults.DEFAULT_PRISM_AND_CYLINDER);
-        defaultGeoMap.put(EuclidianConstants.MODE_EXTRUSION,
-                ConstructionDefaults.DEFAULT_PRISM_AND_CYLINDER);
-        defaultGeoMap.put(EuclidianConstants.MODE_CONIFY,
-                ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS,
+				ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS,
+				ConstructionDefaults.DEFAULT_PRISM_AND_CYLINDER);
+		defaultGeoMap.put(EuclidianConstants.MODE_EXTRUSION,
+				ConstructionDefaults.DEFAULT_PRISM_AND_CYLINDER);
+		defaultGeoMap.put(EuclidianConstants.MODE_CONIFY,
+				ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
 
 		// polyhedrons
-        defaultGeoMap.put(EuclidianConstants.MODE_PYRAMID,
-                ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
-        defaultGeoMap.put(EuclidianConstants.MODE_PRISM,
-                ConstructionDefaults.DEFAULT_PRISM_AND_CYLINDER);
-        defaultGeoMap.put(EuclidianConstants.MODE_TETRAHEDRON,
-                ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_PYRAMID,
+				ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
+		defaultGeoMap.put(EuclidianConstants.MODE_PRISM,
+				ConstructionDefaults.DEFAULT_PRISM_AND_CYLINDER);
+		defaultGeoMap.put(EuclidianConstants.MODE_TETRAHEDRON,
+				ConstructionDefaults.DEFAULT_PYRAMID_AND_CONE);
 		defaultGeoMap.put(EuclidianConstants.MODE_CUBE,
 				ConstructionDefaults.DEFAULT_POLYHEDRON);
 

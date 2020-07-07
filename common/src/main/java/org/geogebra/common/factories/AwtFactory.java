@@ -16,14 +16,12 @@ import org.geogebra.common.awt.GGradientPaint;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.main.App;
 
 public abstract class AwtFactory {
@@ -80,13 +78,9 @@ public abstract class AwtFactory {
 
 	public abstract GDimension newDimension(int width, int height);
 
-	public abstract GPoint2D newPoint2D();
-
 	public abstract GRectangle newRectangle(int w, int h);
 
 	public abstract GRectangle newRectangle();
-
-	public abstract GPoint2D newPoint2D(double x, double y);
 
 	public abstract GGeneralPath newGeneralPath();
 
@@ -127,8 +121,6 @@ public abstract class AwtFactory {
 
 	public abstract GGradientPaint newGradientPaint(double x, double y,
 			GColor bg2, double x2, double i, GColor bg);
-
-	public abstract FocusListener newFocusListener(Object listener);
 
 	public abstract GPaint newTexturePaint(GBufferedImage subimage,
 			GRectangle rect);

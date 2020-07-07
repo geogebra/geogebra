@@ -25,7 +25,6 @@ import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
 import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
 import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.exception.NullArgumentException;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * <a href="http://en.wikipedia.org/wiki/Harmonic_oscillator">

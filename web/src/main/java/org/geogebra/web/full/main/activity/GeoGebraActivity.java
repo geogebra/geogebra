@@ -5,10 +5,9 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.full.css.ResourceIconProvider;
 import org.geogebra.web.full.gui.layout.DockPanelW;
-import org.geogebra.web.full.gui.menubar.MainMenuItemProvider;
 import org.geogebra.web.full.gui.view.algebra.AlgebraItemHeader;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.MenuActionCollection;
+import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.main.HeaderResizer;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -69,7 +68,7 @@ public interface GeoGebraActivity {
 	 *            algebra view
 	 * @return actions for the row
 	 */
-	MenuActionCollection<GeoElement> getAVMenuItems(AlgebraViewW algebraView);
+	MenuItemCollection<GeoElement> getAVMenuItems(AlgebraViewW algebraView);
 
 	/**
 	 * @param radioTreeItem parent item
@@ -80,13 +79,6 @@ public interface GeoGebraActivity {
 	 */
 	ErrorHandler createAVErrorHandler(RadioTreeItem radioTreeItem, boolean valid,
 			boolean allowSliders, boolean withSliders);
-
-	/**
-	 * @param app
-	 *            application
-	 * @return provider of main menu actions
-	 */
-	MainMenuItemProvider getMenuItemProvider(AppW app);
 
 	/**
 	 * Show settings
@@ -115,19 +107,24 @@ public interface GeoGebraActivity {
 	 */
 	HeaderResizer getHeaderResizer(GeoGebraFrameW frame);
 
-    /**
-     * Returns with an icon provider which handles the vendor specific icons
-     *
-     * @return vendor specific icon provider
-     */
-    ResourceIconProvider getResourceIconProvider();
+	/**
+	 * Returns with an icon provider which handles the vendor specific icons
+	 *
+	 * @return vendor specific icon provider
+	 */
+	ResourceIconProvider getResourceIconProvider();
 
-    /**
-     * Please try to avoid if(isWhiteboard), use polymorphism instead
-     *
-     * @return whether this is whiteboard activity
-     */
-    boolean isWhiteboard();
+	/**
+	 * Please try to avoid if(isWhiteboard), use polymorphism instead
+	 * 
+	 * @return whether this is whiteboard activity
+	 */
+	boolean isWhiteboard();
 
-    ApiExporter getApiExporter();
+	ApiExporter getApiExporter();
+
+	/**
+	 * @return icon for menu
+	 */
+	SVGResource getExamIcon();
 }

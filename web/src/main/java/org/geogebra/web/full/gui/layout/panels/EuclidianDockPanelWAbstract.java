@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.common.main.Feature;
@@ -9,15 +11,12 @@ import org.geogebra.web.full.gui.util.ZoomPanelMow;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.accessibility.EuclidianViewAccessibiliyAdapter;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.voiceInput.SpeechRecognitionPanel;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -33,18 +32,17 @@ import com.google.gwt.user.client.ui.Widget;
  * @author arpad (based on EuclidianDockPanelAbstract by Mathieu)
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
-		implements GetViewId, EuclidianViewAccessibiliyAdapter {
+		implements GetViewId {
 
 	private ConstructionProtocolNavigationW consProtNav;
 
-	private boolean hasEuclidianFocus;
-	private boolean mayHaveZoomButtons = false;
+	private boolean mayHaveZoomButtons;
 	/**
 	 * panel with home,+,-,fullscreen btns
 	 */
 	ZoomPanel zoomPanel;
 	/** Zoom panel for MOW */
-	ZoomPanelMow mowZoomPanel;
+	@CheckForNull ZoomPanelMow mowZoomPanel;
 	/**
 	 * button panel for speech recognition
 	 */
@@ -77,21 +75,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		this.mayHaveZoomButtons = hasZoomPanel;
 	}
 
-	/**
-	 * sets this euclidian panel to have the "euclidian focus"
-	 *
-	 * @param hasFocus
-	 *            whether to focus
-	 */
-	public final void setEuclidianFocus(boolean hasFocus) {
-		hasEuclidianFocus = hasFocus;
-	}
-
-	@Override
-	protected boolean titleIsBold() {
-		return super.titleIsBold() || hasEuclidianFocus;
-	}
-
 	@Override
 	public boolean updateResizeWeight() {
 		return true;
@@ -100,19 +83,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	/**
 	 * @return view in this dock panel
 	 */
-	@Override
 	abstract public EuclidianView getEuclidianView();
 
 	@Override
 	public void setVisible(boolean sv) {
 		super.setVisible(sv);
-		// if (getEuclidianView() != null) {// also included in:
-		if (getEuclidianView() instanceof EuclidianViewWInterface) {
-			((EuclidianViewWInterface) getEuclidianView()).updateFirstAndLast(
-					sv,
-						false);
-			}
-		// }
 	}
 
 	/**
@@ -133,11 +108,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	@Override
 	public final void updateNavigationBar() {
-		// ConstructionProtocolSettings cps = app.getSettings()
-		// .getConstructionProtocol();
-		// ((ConstructionProtocolNavigationW) consProtNav).settingsChanged(cps);
-		// cps.addListener((ConstructionProtocolNavigation)consProtNav);
-
 		if (app.getShowCPNavNeedsUpdate(id)) {
 			app.setShowConstructionProtocolNavigation(
 					app.showConsProtNavigation(id), id);
@@ -196,7 +166,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			super();
 			this.dockPanel = dockPanel;
 			add(absoluteEuclidianPanel = absPanel);
-			absoluteEuclidianPanel.addStyleName("EuclidianPanel");
+			absoluteEuclidianPanel.addStyleName(EuclidianViewW.ABSOLUTE_PANEL_CLASS);
 			absoluteEuclidianPanel.getElement().getStyle()
                     .setOverflow(Overflow.HIDDEN);
 			checkFocus();
@@ -264,11 +234,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	protected abstract EuclidianPanel getEuclidianPanel();
 
 	/**
-	 * @return (foreground) canvas of the view
-	 */
-	public abstract Canvas getCanvas();
-
-	/**
 	 * @return application
 	 */
 	public AppW getApp() {
@@ -278,7 +243,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	/**
 	 * @return panel for positioning overlay elements (e.g. input boxes)
 	 */
-	public final AbsolutePanel getAbsolutePanel() {
+	public final @CheckForNull AbsolutePanel getAbsolutePanel() {
 		return getEuclidianPanel() == null ? null : getEuclidianPanel()
 				.getAbsolutePanel();
 	}
@@ -335,7 +300,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			mowZoomPanel.removeFromParent();
 			mowZoomPanel = null;
 		}
-		if (allowZoomPanel()) {
+		if (allowZoomPanel() && app.isWhiteboardActive()) {
 			mowZoomPanel = new ZoomPanelMow(app);
 			((AppWFull) app).setMowZoomPanel(mowZoomPanel);
 		}
@@ -427,45 +392,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
-	@Override
-	public void focusNextGUIElement() {
-		if (zoomPanel != null) {
-			zoomPanel.focusFirstButton();
-		}
-	}
-
-	@Override
-	public boolean focusSpeechRecBtn() {
-		if (speechRecPanel != null) {
-			speechRecPanel.focusSpeechRec();
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * @return if the EV panel has zoom or fullscreen buttons at all.
 	 */
 	public boolean hasZoomButtons() {
 		return zoomPanel != null && zoomPanel.hasButtons();
-	}
-
-	@Override
-	public boolean focusSettings() {
-		if (graphicsContextMenuBtn != null) {
-			graphicsContextMenuBtn.getElement().focus();
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public void focusLastZoomButton() {
-		if (zoomPanel != null) {
-			zoomPanel.focusLastButton();
-		} else {
-			focusSettings();
-		}
 	}
 
 	/**

@@ -14,7 +14,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.TextLayoutCommon;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.gui.font.GFontCommon;
 import org.geogebra.ggbjdk.factories.AwtFactoryHeadless;
 
@@ -53,15 +52,11 @@ public class AwtFactoryCommon extends AwtFactoryHeadless {
         return null;
     }
 
-    @Override
-    public GGradientPaint newGradientPaint(double x, double y, GColor bg2, double x2, double i, GColor bg) {
-        return null;
-    }
-
-    @Override
-    public FocusListener newFocusListener(Object listener) {
-        return null;
-    }
+	@Override
+	public GGradientPaint newGradientPaint(double x, double y, GColor bg2,
+			double x2, double i, GColor bg) {
+		return null;
+	}
 
     @Override
     public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {

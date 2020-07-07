@@ -36,6 +36,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -356,15 +357,15 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private void registerListeners() {
 		SpreadsheetMouseListenerW ml = new SpreadsheetMouseListenerW(app, this);
-        gridPanel.addBitlessDomHandler(ml, MouseDownEvent.getType());
-        gridPanel.addBitlessDomHandler(ml, MouseUpEvent.getType());
-        gridPanel.addBitlessDomHandler(ml, MouseMoveEvent.getType());
-        gridPanel.addBitlessDomHandler(ml, DoubleClickEvent.getType());
-        gridPanel.addBitlessDomHandler(ml, TouchStartEvent.getType());
-        gridPanel.addBitlessDomHandler(ml, TouchMoveEvent.getType());
-        gridPanel.addBitlessDomHandler(ml, TouchEndEvent.getType());
+		gridPanel.addDomHandler(ml, MouseDownEvent.getType());
+		gridPanel.addDomHandler(ml, MouseUpEvent.getType());
+		gridPanel.addDomHandler(ml, MouseMoveEvent.getType());
+		gridPanel.addDomHandler(ml, DoubleClickEvent.getType());
+		gridPanel.addBitlessDomHandler(ml, TouchStartEvent.getType());
+		gridPanel.addBitlessDomHandler(ml, TouchMoveEvent.getType());
+		gridPanel.addBitlessDomHandler(ml, TouchEndEvent.getType());
 
-        upperLeftCorner.addBitlessDomHandler(new ClickHandler() {
+		upperLeftCorner.addBitlessDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				selectAll();
@@ -1695,17 +1696,19 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			case DEFAULT:
 				editing = true;
 
-				AutoCompleteTextFieldW w = ((MyCellEditorW) getCellEditor())
+				AutoCompleteTextFieldW textField = ((MyCellEditorW) getCellEditor())
 						.getTableCellEditorWidget(this, ob, false,
 				        row, col);
 				// w.getElement().setAttribute("display", "none");
 
 				if (view.isKeyboardEnabled()) {
-					if (app.getGuiManager() != null) {
-						app.showKeyboard(w,
-							app.getGuiManager().getKeyboardShouldBeShownFlag());
+					KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
+					if (keyboardManager != null) {
+						app.showKeyboard(textField,
+								keyboardManager
+										.shouldKeyboardBeShown());
 					} else {
-						app.showKeyboard(w, true);
+						app.showKeyboard(textField, true);
 					}
 					final GRectangle rect = getCellRect(row, col, true);
 					Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -1716,24 +1719,24 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					});
 
 					if (Browser.isTabletBrowser()) {
-						w.setEnabled(false);
-						w.addDummyCursor(w.getCaretPosition());
+						textField.setEnabled(false);
+						textField.addDummyCursor(textField.getCaretPosition());
 					}
 				} else if (!app.isWhiteboardActive()) {
 					// if keyboard doesn't enabled, inserts openkeyboard button
 					// if there is no in the SV yet
-					app.showKeyboard(w, false);
+					app.showKeyboard(textField, false);
 				}
 
 				// set height and position of the editor
 				int editorHeight = ssGrid.getCellFormatter()
 				        .getElement(row, col).getClientHeight();
-				w.getTextField().getElement().getStyle()
+				textField.getTextField().getElement().getStyle()
 				        .setHeight(editorHeight, Unit.PX);
 				positionEditorPanel(true, row, col);
 
 				// give it the focus
-				w.requestFocus();
+				textField.requestFocus();
 				renderSelection();
 
 				return true;

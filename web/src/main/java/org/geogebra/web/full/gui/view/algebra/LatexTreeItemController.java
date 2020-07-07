@@ -1,13 +1,12 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.inputfield.InputSuggestions;
+import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -24,7 +23,7 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class LatexTreeItemController extends RadioTreeItemController
 		implements MathFieldListener, BlurHandler {
 
-	private InputSuggestions sug;
+	private MathFieldInputSuggestions sug;
 	private RetexKeyboardListener retexListener;
 	private EvaluateInput evalInput;
 
@@ -53,7 +52,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return;
 		}
 
-		item.onEnter(false);
+		onEnter(false, false);
 		if (item.isEmpty() && item.isInputTreeItem()) {
 			item.addDummyLabel();
 			item.setItemWidth(item.getAV().getFullWidth());
@@ -69,12 +68,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		return item.isInputTreeItem();
 	}
 
-	/**
-	 * @param keepFocus
-	 *            whether focus should stay
-	 * @param createSliders
-	 *            whether to create sliders
-	 */
+	@Override
 	public void onEnter(final boolean keepFocus, boolean createSliders) {
 		if (isEditing()) {
 			dispatchEditEvent(EventType.EDITOR_STOP);
@@ -226,7 +220,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 * Connect keyboard listener to keyboard
 	 */
 	public void setOnScreenKeyboardTextField() {
-		app.getGuiManager().setOnScreenKeyboardTextField(getRetexListener());
+		app.getKeyboardManager()
+				.setOnScreenKeyboardTextField(getRetexListener());
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)
 		CancelEventTimer.keyboardSetVisible();
@@ -256,9 +251,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 	/**
 	 * @return input suggestion model (lazy load)
 	 */
-	InputSuggestions getInputSuggestions() {
+	MathFieldInputSuggestions getInputSuggestions() {
 		if (sug == null) {
-			sug = new InputSuggestions(app, item);
+			sug = new MathFieldInputSuggestions(app, item, false);
 		}
 		return sug;
 	}
@@ -283,10 +278,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 		app.hideKeyboard();
 		if (shiftDown) {
 			app.getAccessibilityManager()
-					.focusPrevious(AccessibilityGroup.ALGEBRA_ITEM, -1);
+					.focusPrevious();
 		} else {
 			app.getAccessibilityManager()
-					.focusNext(AccessibilityGroup.ALGEBRA_ITEM, -1);
+					.focusNext();
 		}
 	}
 }

@@ -20,7 +20,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 
 /**
  * Web implementation of onscreen keyboard
- * 
+ *
  * @author Zbynek, based on Balazs's cross-platform model
  */
 public class OnscreenTabbedKeyboard extends TabbedKeyboard
@@ -31,25 +31,21 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	/**
 	 * @param app
 	 *            keyboard context
-	 * @param scientific
-	 *            whether to use scientific layout
-     * @param hasMoreButton
+	 * @param hasMoreButton
 	 *            whether to show more/help button
 	 */
-	public OnscreenTabbedKeyboard(HasKeyboard app, boolean scientific,
-                                  boolean hasMoreButton) {
-        super(app, scientific, hasMoreButton);
+	public OnscreenTabbedKeyboard(HasKeyboard app, boolean hasMoreButton) {
+		super(app, hasMoreButton);
 		buildGUI();
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// just stop propagation
-
 			}
 		});
 	}
-	
+
 	private void createHelpPopup() {
 		if (helpPopup != null) {
 			return;
@@ -68,7 +64,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 		});
 	}
-	
+
 	@Override
 	public void show() {
 		this.keyboardWanted = true;
@@ -97,7 +93,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			addStyleName("animating");
 		}
 		show();
-
 	}
 
 	@Override
@@ -108,15 +103,15 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	@Override
 	public void remove(final Runnable runnable) {
-		hasKeyboard.updateCenterPanelAndViews();
+		hasKeyboard.updateViewSizes();
 		this.addStyleName("animatingOut");
 		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
-				removeFromParent();
+				setVisible(false);
 				runnable.run();
 			}
-		}, getElement(), "animating");
+		}, getElement(), "animatingOut");
 	}
 
 	@Override
@@ -128,12 +123,12 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) gm
 					.getInputHelpPanel();
 			updateHelpPosition(helpPanel, x, y);
-			
+
 		} else if (helpPopup != null) {
 			helpPopup.hide();
 		}
 	}
-	
+
 	private void updateHelpPosition(final InputBarHelpPanelW helpPanel,
 			final int x, final int y) {
 		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
@@ -185,7 +180,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			helpPopup.removeStyleName("helpPopupAV");
 			helpPopup.addStyleName("helpPopupAVBottom");
 		}
-        helpPanel.updateGUI(maxOffsetHeight);
+		helpPanel.updateGUI(maxOffsetHeight);
 		helpPopup.show();
 	}
 

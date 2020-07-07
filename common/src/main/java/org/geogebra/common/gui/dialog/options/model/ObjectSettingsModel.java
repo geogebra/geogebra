@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -22,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -80,19 +80,16 @@ abstract public class ObjectSettingsModel {
             return;
         }
 
-        if (!hasFurtherStyle()) {
-            EuclidianStyleBarStatic.applyTextColor(geoElementsList, color);
-        } else {
-            EuclidianStyleBarStatic.applyColor(geoElementsList, color, geoElement.getAlphaValue(), app);
-        }
+        EuclidianStyleBarStatic.applyColor(color, geoElement.getAlphaValue(),
+                    app, app.getSelectionManager().getSelectedGeos());
 
         app.setPropertiesOccured();
     }
 
     /**
      * @return if the label of the geoElement is visible or not
-     */
-    public boolean isLabelShown() {
+      */
+	public boolean isLabelShown() {
         return geoElement != null && geoElement.isLabelVisible();
     }
 
@@ -331,7 +328,7 @@ abstract public class ObjectSettingsModel {
      * @return whether the geos show fix/unfix button
      */
     public boolean areObjectsShowingFixUnfix() {
-        if (geoElement == null || (hasFunctionProperties() && shouldHideFixSetting())) {
+        if (geoElement == null || (hasFunctionProperties() && app.getConfig().isObjectDraggingRestricted())) {
             return false;
         }
 
@@ -376,7 +373,6 @@ abstract public class ObjectSettingsModel {
             if (LabelManager.isValidLabel(name, geo.getKernel(), geo)) {
                 geo.rename(name);
                 geo.setAlgebraLabelVisible(true);
-                geo.setDescriptionNeedsUpdateInAV(true);
                 geo.getKernel().notifyUpdate(geo);
                 geo.updateRepaint();
                 app.setPropertiesOccured();
@@ -503,15 +499,17 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
-     * @param alpha
-     *         alpha value to be set for the geoElement, it should be between 0 and 100
-     */
+	 * @param alpha
+	 *            alpha value to be set for the geoElement, it should be between
+	 *            0 and 1
+	 */
     public void setAlpha(float alpha) {
         if (geoElement == null) {
             return;
         }
 
-        EuclidianStyleBarStatic.applyColor(geoElementsList, geoElement.getObjectColor(), alpha, app);
+        EuclidianStyleBarStatic.applyColor(geoElement.getObjectColor(), alpha,
+                app, app.getSelectionManager().getSelectedGeos());
 
         app.setPropertiesOccured();
     }
@@ -658,20 +656,11 @@ abstract public class ObjectSettingsModel {
                 if (!(elementForProperties instanceof GeoFunction)) {
                     return false;
                 }
-			} else if (!AlgebraItem.isFunctionOrEquationFromUser(geo)) {
+			} else if (!geo.isFunctionOrEquationFromUser()) {
                 return false;
             }
         }
         return true;
-    }
-
-    /**
-     * Tells whether the Fix/Unfix should be shown or not
-     *
-     * @return true, if the user is in exam mode so the Fix/Unfix button/setting should be hidden
-     */
-    public boolean shouldHideFixSetting() {
-        return app.getExam() != null && app.getExam().isStarted();
     }
 
     /**
@@ -763,7 +752,8 @@ abstract public class ObjectSettingsModel {
     }
 
     public boolean hasFixUnfixFunctionProperty() {
-        return app.getActiveEuclidianView().canMoveFunctions();
+        return app.getActiveEuclidianView().canMoveFunctions()
+                && !app.getConfig().isObjectDraggingRestricted();
     }
 
     public boolean hasPointStyleProperty() {
@@ -846,6 +836,13 @@ abstract public class ObjectSettingsModel {
         boolean show = geoElementsList.size() > 0;
         for (int i = 0; i < geoElementsList.size(); i++) {
             GeoElement element = geoElementsList.get(i);
+            boolean isEnforcedLineEquationForm = element instanceof GeoLine
+                    && app.getConfig().getEnforcedLineEquationForm() != -1;
+            boolean isEnforcedConicEquationForm = element instanceof GeoConicND
+                    && app.getConfig().getEnforcedConicEquationForm() != -1;
+            boolean isEnforcedEquationForm =
+                    isEnforcedLineEquationForm || isEnforcedConicEquationForm;
+            show = show && !isEnforcedEquationForm;
             show = show && element instanceof GeoLine && !element.isNumberValue();
             show = show && element.getDefinition() == null;
         }

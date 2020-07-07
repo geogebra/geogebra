@@ -163,20 +163,20 @@ public class OneVarInferencePanelW extends FlowPanel
 		lblTailType.setStyleName("panelTitle");
 
 		fldNullHyp = (new InputPanelW(app, -1, false)).getTextComponent();
-		fldNullHyp.setColumns(fieldWidth);
+		fldNullHyp.setWidthInEm(fieldWidth);
 		fldNullHyp.setText("" + 0);
 		fldNullHyp.addKeyHandler(new ParamKeyHandler(fldNullHyp));
 		fldNullHyp.addBlurHandler(new ParamBlurHandler(fldNullHyp));
 		lblConfLevel = new Label();
 		lblConfLevel.setStyleName("panelTitle");
 		fldConfLevel = (new InputPanelW(app, -1, false)).getTextComponent();
-		fldConfLevel.setColumns(fieldWidth);
+		fldConfLevel.setWidthInEm(fieldWidth);
 		fldConfLevel.addKeyHandler(new ParamKeyHandler(fldConfLevel));
 		fldConfLevel.addBlurHandler(new ParamBlurHandler(fldConfLevel));
 
 		lblSigma = new Label();
 		fldSigma = (new InputPanelW(app, -1, false)).getTextComponent();
-		fldSigma.setColumns(fieldWidth);
+		fldSigma.setWidthInEm(fieldWidth);
 		fldSigma.addKeyHandler(new ParamKeyHandler(fldSigma));
 		fldSigma.addBlurHandler(new ParamBlurHandler(fldSigma));
 

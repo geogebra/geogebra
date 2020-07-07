@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 
 public class AppCommon3D extends AppCommon {
 
-    private DrawEquation drawEquation;
+	private DrawEquation drawEquation;
 
 	public AppCommon3D(LocalizationJre loc, AwtFactory awtFactory) {
 		super(loc, awtFactory);
@@ -26,17 +26,17 @@ public class AppCommon3D extends AppCommon {
 	public CommandDispatcher newCommand3DDispatcher(Kernel cmdKernel) {
 		return new CommandDispatcher3DJre(cmdKernel);
 	}
-	
+
 	@Override
-	public boolean is3D(){
+	public boolean is3D() {
 		return true;
 	}
 
-    public DrawEquation getDrawEquation() {
-        if (drawEquation == null) {
-            drawEquation = new DrawEquationCommon();
-        }
-        return drawEquation;
-
-    }
+	@Override
+	public DrawEquation getDrawEquation() {
+		if (drawEquation == null) {
+			drawEquation = new DrawEquationCommon();
+		}
+		return drawEquation;
+	}
 }

@@ -10,6 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * interface for EuclidianViewW / EuclidianView3DW
@@ -23,11 +24,9 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	 * 
 	 * @return canvas
 	 */
-    Element getCanvasElement();
+	Element getCanvasElement();
 
 	Hits getHits();
-
-	boolean isInFocus();
 
 	boolean hasStyleBar();
 
@@ -92,8 +91,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	void requestFocus();
 
-	void updateFirstAndLast(boolean attach, boolean anyway);
-
 	void setAltText();
 
 	String getExportSVG(double scale, boolean transparency);
@@ -104,5 +101,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	int getExportHeight();
 
-    boolean isAttached();
+	boolean isAttached();
+
+	void add(Widget box, GPoint gPoint);
 }

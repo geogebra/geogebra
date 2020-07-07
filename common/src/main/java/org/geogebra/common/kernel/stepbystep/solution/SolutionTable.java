@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
-import org.geogebra.common.main.Localization;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.geogebra.common.main.Localization;
 
 public class SolutionTable extends SolutionStep {
 

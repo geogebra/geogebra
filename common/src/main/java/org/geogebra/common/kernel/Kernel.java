@@ -1,15 +1,16 @@
 package org.geogebra.common.kernel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -20,6 +21,8 @@ import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIf;
@@ -32,20 +35,16 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.FunctionNVar;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -63,7 +62,6 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -80,8 +78,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpecialPointsListener;
 import org.geogebra.common.main.SpecialPointsManager;
-import org.geogebra.common.main.settings.AlgebraSettings;
-import org.geogebra.common.main.settings.AlgebraStyle;
+import org.geogebra.common.media.VideoManager;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -209,9 +206,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** Whether to move point on path together with path */
 	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.ON;
 	private GeoGebraCasInterface ggbCAS;
-	/** Angle type: radians */
+	/** Angle unit: radians */
 	final public static int ANGLE_RADIANT = 1;
-	/** Angle type: degrees */
+	/** Angle unit: degrees */
 	final public static int ANGLE_DEGREE = 2;
 	/** Coord system: cartesian */
 	final public static int COORD_CARTESIAN = 3;
@@ -608,7 +605,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return the Evaluator for ExpressionNode
 	 */
 	public ExpressionNodeEvaluator newExpressionNodeEvaluator(Kernel kernel) {
-		return new ExpressionNodeEvaluator(app.getLocalization(), kernel);
+		return new ExpressionNodeEvaluator(app.getLocalization(), kernel,
+				app.getConfig().createOperationArgumentFilter());
 	}
 
 	/**
@@ -650,12 +648,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		return ret;
 	}
-
-	// This is a temporary place for abstract adapter methods which will go into
-	// factories later
-	// Arpad Fekete, 2011-12-01
-	// public abstract ColorAdapter getColorAdapter(int red, int green, int
-	// blue);
 
 	/**
 	 * If the data-param-showAnimationButton parameter for applet is false, be
@@ -964,117 +956,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public boolean moveInConstructionList(int from, int to) {
 		return cons.moveInConstructionList(from, to);
-	}
-
-	/**
-	 * Find geos with caption ending %style=... in this kernel, and set their
-	 * visual styles to those geos in the otherKernel which have the same
-	 * %style=... caption ending; as well as set %style=defaultStyle for all
-	 * geos
-	 * 
-	 * @param otherKernel
-	 *            other kernel
-	 */
-	public void setVisualStyles(Kernel otherKernel) {
-		TreeSet<GeoElement> okts = otherKernel.getConstruction()
-				.getGeoSetWithCasCellsConstructionOrder();
-		ArrayList<GeoElement> selected = getApplication().getSelectionManager()
-				.getSelectedGeos();
-
-		// maybe it's efficient to pre-filter this set to only contain
-		// elements that have "%style=" styling
-
-		Iterator<GeoElement> okit = okts.iterator();
-		GeoElement okactual;
-		String okcapt;
-		int okpos;
-		while (okit.hasNext()) {
-			okactual = okit.next();
-			okcapt = okactual.getCaptionSimple();
-			if (okcapt == null) {
-				okpos = -1;
-			} else {
-				okpos = okcapt.indexOf("%style=");
-			}
-			if (okpos < 0) {
-				// not having "%style=" setting, can be removed
-				// lucky that iterator has this method
-				okit.remove();
-			}
-		}
-
-		// okts is ready, now to the main loop
-
-		Iterator<GeoElement> it;
-		if (selected.isEmpty()) {
-			it = cons.getGeoSetWithCasCellsConstructionOrder().iterator();
-		} else {
-			it = selected.iterator();
-		}
-
-		GeoElement actual;
-		String capt;
-		int pos;
-		while (it.hasNext()) {
-			actual = it.next();
-
-			// at first, apply default styles!
-			// these are applied anyway, caption is not needed;
-			// however, Geo type is needed!
-			GeoClass gc = actual.getGeoClassType();
-
-			okit = okts.iterator();
-			while (okit.hasNext()) {
-				okactual = okit.next();
-				okcapt = okactual.getCaptionSimple();
-				// as okts is pre-filtered, okcapt is not null
-				okpos = okcapt.indexOf("%style=defaultStyle");
-				if (okpos > -1 && okactual.getGeoClassType() == gc) {
-					// match!
-					actual.setVisualStyle(okactual);
-				}
-			}
-			// now, okit, okactual, okcapt, okpos can be redefined...
-
-			capt = actual.getCaptionSimple();
-			if (capt == null) {
-				pos = -1;
-			} else {
-				pos = capt.indexOf("%style=");
-			}
-			if (pos > -1) {
-				// capt will not be needed until the next iteration
-				capt = capt.substring(pos);
-				// now, it's time to search for geos in otherKernel,
-				// whether any of them has the same style ending
-				okit = okts.iterator();
-				while (okit.hasNext()) {
-					okactual = okit.next();
-					okcapt = okactual.getCaptionSimple();
-					// as okts is pre-filtered, okcapt is not null
-					okpos = okcapt.indexOf("%style=");
-					// as okts is pre-filtered, okpos is not -1
-					// although we could double-check, it's not important
-
-					// okcapt will not be needed until the next iteration
-					okcapt = okcapt.substring(okpos);
-					if (capt.equals(okcapt)) {
-						// match!
-						actual.setVisualStyle(okactual);
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param otherKernel
-	 *            other kernel
-	 */
-	public void setConstructionDefaults(Kernel otherKernel) {
-		getConstruction().getConstructionDefaults().setConstructionDefaults(
-				otherKernel.getConstruction().getConstructionDefaults());
-
 	}
 
 	/**
@@ -1775,24 +1656,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * compares double arrays:
-	 * 
-	 * @param a
-	 *            first array
-	 * @param b
-	 *            second array
-	 * @return true if (isEqual(a[i], b[i]) == true) for all i
-	 */
-	final static boolean isEqual(double[] a, double[] b) {
-		for (int i = 0; i < a.length; ++i) {
-			if (!DoubleUtil.isEqual(a[i], b[i])) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * @param numbers
 	 *            coefficients
 	 * @param vars
@@ -1989,9 +1852,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		}
 		return temp;
 	}
-
-	// private final StringBuilder sbBuildImplicitVarPart = new
-	// StringBuilder(80);
 
 	/**
 	 * 
@@ -2285,9 +2145,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/** doesn't show 1 or -1 */
-	private final String formatCoeff(double x, StringTemplate tpl) { // TODO
-																		// make
-																		// private
+	private String formatCoeff(double x, StringTemplate tpl) {
 		if (Math.abs(x) == 1.0) {
 			if (x > 0.0) {
 				return "";
@@ -2537,7 +2395,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				break;
 
 			case LATEX:
-				sbFormatAngle.append("\\;rad");
+				sbFormatAngle.append(" \\; rad");
 				break;
 
 			case GEOGEBRA_XML:
@@ -2813,6 +2671,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * be used to create objects without any side effects, i.e. no labels are
 	 * created, algorithms are not added to the construction list and the views
 	 * are not notified about new objects.
+	 *
+	 * When calling this, make sure to store the suppressLabelCreation flag
+	 * of the construction to be able to restore it later.
 	 * 
 	 * @param silentMode
 	 *            silent mode
@@ -2967,7 +2828,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @deprecated AlgebraStyleSettings.setStyle should be used instead.
+	 * @deprecated AlgebraSettings.setStyle should be used instead.
 	 *
 	 * G.Sturr 2009-10-18
 	 * 
@@ -2976,9 +2837,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	@Deprecated
 	final public void setAlgebraStyle(int style) {
-		AlgebraSettings algebraSettings = getApplication().getSettings().getAlgebra();
-		AlgebraStyle algebraStyle = AlgebraStyle.values()[style];
-		algebraSettings.setStyle(algebraStyle);
+		getApplication().getSettings().getAlgebra().setStyle(style);
 	}
 
 	/**
@@ -3002,7 +2861,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	@Deprecated
 	final public int getAlgebraStyle() {
-		return getApplication().getSettings().getAlgebra().getStyle().ordinal();
+		return getApplication().getSettings().getAlgebra().getStyle();
 	}
 
 	/**
@@ -4434,21 +4293,22 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		notifyReset();
 		clearJustCreatedGeosInViews();
 		getApplication().getActiveEuclidianView().getEuclidianController().clearSelections();
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().storeVideos();
+		VideoManager videoManager = getApplication().getVideoManager();
+		if (videoManager != null) {
+			videoManager.storeVideos();
 		}
-		if (getApplication().getEmbedManager() != null) {
-			getApplication().getEmbedManager().storeEmbeds();
+		EmbedManager embedManager = getApplication().getEmbedManager();
+		if (embedManager != null) {
+			embedManager.storeEmbeds();
 		}
+		app.getActiveEuclidianView().resetInlineObjects();
 	}
 
 	private void restoreAfterReload() {
 		notifyReset();
 		app.getCompanion().recallViewCreators();
 		app.getSelectionManager().recallSelectedGeosNames(this);
-		if (getApplication().getVideoManager() != null) {
-			getApplication().getVideoManager().clearStoredVideos();
-		}
+		getApplication().getActiveEuclidianView().restoreDynamicStylebar();
 	}
 
 	/**
@@ -4572,61 +4432,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Parse expression image(x) where image ends with supersript digits.
-	 * 
-	 * @param image
-	 *            function
-	 * @param en
-	 *            argument
-	 * @param operation
-	 *            image without superscript index
-	 * @return sin^2(x) or x^2*(x+1)
-	 */
-	final public ExpressionNode handleTrigPower(String image,
-			ValidExpression en, String operation) {
-
-		if ("x".equals(operation) || "y".equals(operation)
-				|| "z".equals(operation)) {
-			return new ExpressionNode(this,
-					new ExpressionNode(this,
-							new FunctionVariable(this, operation),
-							Operation.POWER, convertIndexToNumber(image)),
-					Operation.MULTIPLY_OR_FUNCTION, en);
-		}
-		GeoElement ge = lookupLabel(operation);
-		Operation type = app.getParserFunctions().get(operation, 1);
-		if (ge != null || type == null) {
-			return new ExpressionNode(this,
-					new ExpressionNode(this, new Variable(this, operation),
-							Operation.POWER, convertIndexToNumber(image)),
-					Operation.MULTIPLY_OR_FUNCTION, en);
-		}
-
-		// sin^(-1)(x) -> ArcSin(x)
-		// sin^(-1)(x) -> ArcSin(x)
-		if (image.indexOf(Unicode.SUPERSCRIPT_MINUS) > -1) {
-			// String check = ""+Unicode.SUPERSCRIPT_Minus +
-			// Unicode.Superscript_1 + '(';
-
-			int index = image
-					.indexOf(Unicode.SUPERSCRIPT_MINUS_ONE_BRACKET_STRING);
-
-			// tg^-1 -> index = 2 (eg Hungarian)
-			// sin^-1 -> index = 3
-			// sinh^-1 -> index =4
-			if (index >= 2 && index <= 4) {
-				return inverseTrig(type, en);
-			}
-			// eg sin^-2(x)
-			return new MyDouble(this, Double.NaN).wrap();
-		}
-
-		return new ExpressionNode(this,
-				new ExpressionNode(this, en, type, null), Operation.POWER,
-				convertIndexToNumber(image));
-	}
-
-	/**
 	 * @param type
 	 *            trig operation
 	 * @param en
@@ -4679,30 +4484,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		}
 	}
-
-	/**
-	 * Take 42 from "sin<sup>42</sup>(".
-	 * 
-	 * @param str
-	 *            superscript text
-	 * @return number
-	 */
-	final public MyDouble convertIndexToNumber(String str) {
-		int i = 0;
-		while ((i < str.length())
-				&& !Unicode.isSuperscriptDigit(str.charAt(i))) {
-			i++;
-		}
-
-		// strip off eg "sin" at start, "(" at end
-		MyDouble md = new MyDouble(this, str.substring(i, str.length() - 1));
-
-		return md;
-	}
-
-	/*----------------------------------
-	 * FACTORY METHODS FOR GeoElements
-	 ***********************************/
 
 	/**
 	 * @return imaginary unit
@@ -4760,9 +4541,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
         if (cons.requires3D()) {
 			// DO NOT REMOVE
 			// it's important we pick up errors involving this quickly
-			Log.error("************************************");
-			Log.error("****** file has 3D objects *********");
-			Log.error("************************************");
+			Log.error("file has 3D objects");
 			sb.append("\t<uses3D val=\"true\"/>\n");
 		}
 
@@ -5149,49 +4928,42 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * Recompute CAS algos. Used by web once CAS is loaded.
 	 */
 	public void refreshCASCommands() {
-
 		clearCasCache();
-		cons.recomputeCASalgos();
-		TreeSet<GeoElement> treeset = new TreeSet<>(
-				getConstruction().getGeoSetWithCasCellsConstructionOrder());
 
-		ArrayList<GeoElement> al = new ArrayList<>();
-
-		Iterator<GeoElement> it = treeset.iterator();
-
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (geo instanceof FunctionalNVar) {
-				FunctionNVar fun = ((FunctionalNVar) geo).getFunction();
-
-				if (fun != null) {
-					fun.clearCasEvalMap("");
+		ArrayList<GeoElement> geosToUpdate = new ArrayList<>();
+		for (GeoElement geo : cons.getGeoSetWithCasCellsConstructionOrder()) {
+			AlgoElement parent = geo.getParentAlgorithm();
+			if (geo instanceof CasEvaluableFunction) {
+				((CasEvaluableFunction) geo).clearCasEvalMap();
+				if (parent instanceof AlgoDependentFunction
+					|| parent instanceof AlgoDependentFunctionNVar) {
+					geosToUpdate.add(geo);
 				}
-			} else if (geo instanceof GeoCurveCartesianND) {
-				GeoCurveCartesianND curve = (GeoCurveCartesian) geo;
-				curve.clearCasEvalMap("");
+			} else if (geo instanceof GeoSymbolicI && parent == null) {
+				((GeoSymbolicI) geo).computeOutput();
 			}
-			AlgoElement algo = geo.getParentAlgorithm();
+		}
 
+		for (AlgoElement algo : cons.getAlgoList()) {
 			if (algo instanceof AlgoCasBase) {
-				((AlgoCasBase) algo).clearCasEvalMap("");
-				algo.compute();
-			} else if (algo instanceof AlgoUsingTempCASalgo) {
+				((AlgoCasBase) algo).clearCasEvalMap();
+			}
+			if (algo instanceof AlgoUsingTempCASalgo) {
 				((AlgoUsingTempCASalgo) algo).refreshCASResults();
-				algo.compute();
-			} else if (algo instanceof UsesCAS
-					|| algo instanceof AlgoCasCellInterface) {
+			}
+
+			if (algo instanceof UsesCAS || algo instanceof AlgoCasCellInterface) {
 				// eg Limit, LimitAbove, LimitBelow, SolveODE
 				// AlgoCasCellInterface: eg Solve[x^2]
 				algo.compute();
+
+				if (algo.getOutput() != null) {
+					geosToUpdate.addAll(Arrays.asList(algo.getOutput()));
+				}
 			}
-			if (geo instanceof GeoSymbolicI && algo == null) {
-				((GeoSymbolicI) geo).computeOutput();
-			}
-			al.add(geo);
 		}
 		cons.setUpdateConstructionRunning(true);
-		GeoElement.updateCascade(al, new TreeSet<AlgoElement>(), true);
+		GeoElement.updateCascade(geosToUpdate, new TreeSet<AlgoElement>(), true);
 		cons.setUpdateConstructionRunning(false);
 	}
 

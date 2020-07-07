@@ -6,9 +6,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 public final class DrawText3D extends Drawable3DCurves {
 
@@ -57,7 +57,7 @@ public final class DrawText3D extends Drawable3DCurves {
 				label.setWaitForReset();
 			}
 			wasLaTeX = text.isLaTeX();
-			label.update(text.getTextString(), getFont(),
+			label.update(text.getTextStringSafe(), getFont(),
 					getGeoElement().getBackgroundColor(),
 					getGeoElement().getObjectColor(), getLabelPosition(),
 					getLabelOffsetX(), -getLabelOffsetY(), 0);

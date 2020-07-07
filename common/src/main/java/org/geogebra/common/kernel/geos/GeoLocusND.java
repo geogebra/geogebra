@@ -14,11 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
@@ -30,6 +26,7 @@ import org.geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -49,10 +46,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	/** coords of points on locus */
 	protected ArrayList<T> myPointList;
-	private ArrayList<GPoint2D> nonScaledPointList;
-	private double nonScaledWidth;
-	private double nonScaledHeight;
-	private StringBuilder sbToString = new StringBuilder(80);
 	private double closestPointDist;
 	/**
 	 * index of point closest to changingPoint
@@ -64,19 +57,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	protected double closestPointParameter;
 
 	private boolean trace;
-
-	// fixed parameters of bounding box when starting scaling
-	private double fixedX = Double.NaN;
-	private double fixedY = Double.NaN;
-
-	// scaling from the saved (in nonScaledPointList) points
-	private double scaleX = 1;
-	private double scaleY = 1;
-
-	private boolean reflectedX;
-	private boolean reflectedY;
-
-	private double ratio = Double.NaN;
 
 	/**
 	 * Creates new locus
@@ -146,220 +126,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return myPointList;
 	}
 
-	/**
-	 * Resets the saved starting values of coordinates of bounding box
-	 * 
-	 * @param pointListChanged
-	 *            true if list of points of locus (myPointList) changed
-	 */
-	public void resetSavedBoundingBoxValues(boolean pointListChanged) {
-		if (pointListChanged) {
-			nonScaledPointList = null;
-			scaleX = 1;
-			scaleY = 1;
-			reflectedX = false;
-			reflectedY = false;
-		} else { // after dragging of handler finished
-			fixedX = Double.NaN;
-			fixedY = Double.NaN;
-			reflectedX = scaleX < 0;
-			reflectedY = scaleY < 0;
-			ratio = Double.NaN;
-		}
-	}
-
-	/**
-	 * Store points before scaling
-	 * 
-	 * @param gRectangle2D
-	 *            bounding box
-	 */
-	public void saveOriginalRates(GRectangle2D gRectangle2D) {
-		if (nonScaledPointList == null) {
-			nonScaledPointList = new ArrayList<>(myPointList.size());
-			nonScaledWidth = gRectangle2D.getMaxX() - gRectangle2D.getMinX();
-			nonScaledHeight = gRectangle2D.getMaxY() - gRectangle2D.getMinY();
-			for (int i = 0; i < myPointList.size(); i++) {
-				double x = myPointList.get(i).getX();
-				double y = myPointList.get(i).getY();
-				if (Double.isNaN(x)) {
-					nonScaledPointList
-							.add(new GPoint2D.Double(Double.NaN, Double.NaN));
-				} else {
-					nonScaledPointList.add(new GPoint2D.Double(
-							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordXd(x)
-									- gRectangle2D.getMinX(),
-							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordYd(y)
-									- gRectangle2D.getMinY()));
-				}
-			}
-		}
-	}
-
-	/**
-	 * Store bounding box aspect ratio
-	 * 
-	 * @param gRectangle2D
-	 *            ratio before scaling
-	 */
-	public void saveRatio(GRectangle2D gRectangle2D) {
-		if (Double.isNaN(ratio) || Double.isInfinite(ratio)) {
-			double width = (gRectangle2D.getMaxX() - gRectangle2D.getMinX());
-			ratio = (gRectangle2D.getMaxY() - gRectangle2D.getMinY())
-					/ width;
-		}
-	}
-
-	private void setFixedX(EuclidianBoundingBoxHandler handler,
-			GRectangle2D gRectangle2D) {
-		switch (handler) {
-		case RIGHT:
-		case TOP_RIGHT:
-		case BOTTOM_RIGHT:
-			fixedX = gRectangle2D.getMinX();
-			break;
-		default:
-			fixedX = gRectangle2D.getMaxX();
-		}
-	}
-
-	private void setFixedY(EuclidianBoundingBoxHandler handler,
-			GRectangle2D gRectangle2D) {
-		boolean atTop = atTop(handler);
-		if (atTop) {
-			fixedY = gRectangle2D.getMaxY();
-		} else {
-			fixedY = gRectangle2D.getMinY();
-		}
-	}
-
-	private static boolean atTop(EuclidianBoundingBoxHandler handler) {
-		switch (handler) {
-		case TOP:
-		case TOP_RIGHT:
-		case TOP_LEFT:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	private static boolean atLeft(EuclidianBoundingBoxHandler handler) {
-		switch (handler) {
-		case LEFT:
-		case BOTTOM_LEFT:
-		case TOP_LEFT:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	/**
-	 * @param handler
-	 *            bounding box handdler
-	 * @param eventX
-	 *            drag event x-coord
-	 * @param gRectangle2D
-	 *            bounding box
-	 * @return new width
-	 */
-	public double updatePointsX(EuclidianBoundingBoxHandler handler,
-			double eventX, GRectangle2D gRectangle2D) {
-		if (nonScaledWidth == 0) {
-			return 0;
-		}
-		double newMinX;
-		boolean atLeft = atLeft(handler);
-		if (Double.isNaN(fixedX)) {
-			setFixedX(handler, gRectangle2D);
-		}	
-		double newWidth = eventX - fixedX;
-		scaleX = newWidth / nonScaledWidth;
-
-		if ((!atLeft && reflectedX) || (atLeft && !reflectedX)) {
-			newMinX = eventX;
-			scaleX *= -1;
-		} else {
-			newMinX = fixedX;
-		}
-
-		for (int i = 0; i < myPointList.size(); i++) {
-			double newPointScreenX = nonScaledPointList.get(i).getX() * scaleX
-					+ newMinX;
-			myPointList.get(i)
-					.setX(kernel.getApplication().getActiveEuclidianView()
-							.toRealWorldCoordX(newPointScreenX));
-		}
-
-		return newWidth;
-	}
-
-	/**
-	 * @param handler
-	 *            bounding box handdler
-	 * @param eventY
-	 *            drag event y-coord
-	 * @param gRectangle2D
-	 *            bounding box
-	 * @param newWidth
-	 *            new width
-	 */
-	public void updatePointsY(EuclidianBoundingBoxHandler handler,
-			double eventY, GRectangle2D gRectangle2D, double newWidth) {
-		if (nonScaledHeight == 0) {
-			return;
-		}
-		if (Double.isNaN(fixedY)) {
-			setFixedY(handler, gRectangle2D);
-		}
-		double newHeight;
-		if (Double.isNaN(ratio)) {
-			newHeight = fixedY - eventY;
-			if (handler == EuclidianBoundingBoxHandler.BOTTOM) {
-				newHeight *= -1;
-			}
-		} else if (nonScaledWidth == 0) {
-			newHeight = eventY - fixedY;
-		} else if (Double.isInfinite(ratio)) {
-			return;
-		} else {
-			newHeight = newWidth * ratio;
-		}
-		scaleY = newHeight / nonScaledHeight;
-		if ((atLeft(handler) && !reflectedY)
-				|| (!atLeft(handler) && reflectedY)) {
-			scaleY *= -1;
-		}
-		double newMinY;
-		if (atTop(handler) && !reflectedY || !atTop(handler) && reflectedY) {
-			newMinY = fixedY - (nonScaledHeight * scaleY);
-		} else {
-			newMinY = fixedY;
-		}
-		for (int i = 0; i < myPointList.size(); i++) {
-			double newPointScreenY = nonScaledPointList.get(i).getY() * scaleY
-					+ newMinY;
-			myPointList.get(i)
-					.setY(kernel.getApplication().getActiveEuclidianView()
-							.toRealWorldCoordY(newPointScreenY));
-		}
-	}
-
 	@Override
 	public String toString(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append(" = ");
-		sbToString.append(getDefinition(tpl));
-		return sbToString.toString();
-	}
-
-	@Override
-	public boolean showInAlgebraView() {
-		return true;
+		return label + " = " + getDefinition(tpl);
 	}
 
 	@Override
@@ -534,7 +303,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 				closestPointIndex = i;
 			}
 		}
-
 	}
 
 	@Override
@@ -575,7 +343,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		MyPoint locusPoint2 = myPointList.get((n + 1) % myPointList.size());
 
 		P.set(t, 1 - t, locusPoint, locusPoint2);
-
 	}
 
 	/**
@@ -635,8 +402,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 */
 	public void setPoints(ArrayList<T> al) {
 		myPointList = al;
-		this.resetSavedBoundingBoxValues(true);
-
 	}
 
 	@Override

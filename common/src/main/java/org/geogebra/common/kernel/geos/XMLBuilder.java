@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -26,7 +27,7 @@ public class XMLBuilder {
 	 * @param withLabelOffset
 	 *            true to include label offsets
 	 */
-	protected static final void getXMLvisualTags(GeoElement geo,
+	protected static void getXMLvisualTags(GeoElement geo,
 			final StringBuilder sb, final boolean withLabelOffset) {
 		final boolean isDrawable = geo.isDrawable();
 
@@ -124,15 +125,20 @@ public class XMLBuilder {
 		// don't remove layer 0 information
 		// we always need it in case an earlier element has higher layer eg 1
 		if (isDrawable) {
-			sb.append("\t<layer ");
-			sb.append("val=\"" + geo.getLayer() + "\"");
-			sb.append("/>\n");
+			sb.append("\t<layer val=\"");
+			sb.append(geo.getLayer());
+			sb.append("\"/>\n");
+			if (geo.getOrdering() >= 0) {
+				sb.append("\t<ordering val=\"");
+				sb.append(geo.getOrdering());
+				sb.append("\"/>\n");
+			}
 		}
 
 		if (geo.isDefaultGeo()) {
-			sb.append("\t<autocolor ");
-			sb.append("val=\"" + geo.isAutoColor() + "\"");
-			sb.append("/>\n");
+			sb.append("\t<autocolor val=\"");
+			sb.append(geo.isAutoColor());
+			sb.append("\"/>\n");
 		}
 
 		if (withLabelOffset
@@ -197,7 +203,7 @@ public class XMLBuilder {
 		}
 
 		if (!geo.isAlgebraLabelVisible()) {
-            sb.append("\t<algebra labelVisible=\"false\"/>\n");
+			sb.append("\t<algebra labelVisible=\"false\"/>\n");
 		}
 	}
 
@@ -304,9 +310,9 @@ public class XMLBuilder {
 		sb.append("\"");
 
 		if (corners[number].isAbsoluteStartPoint()) {
-			sb.append(" x=\"" + corners[number].getInhomX() + "\"");
-			sb.append(" y=\"" + corners[number].getInhomY() + "\"");
-			sb.append(" z=\"1\"");
+			sb.append(" x=\"").append(corners[number].getInhomX());
+			sb.append("\" y=\"").append(corners[number].getInhomY());
+			sb.append("\" z=\"1\"");
 		} else {
 			sb.append(" exp=\"");
 			StringUtil.encodeXML(sb, corners[number].getLabel(StringTemplate.xmlTemplate));
@@ -326,8 +332,8 @@ public class XMLBuilder {
 	 *            height
 	 */
 	public static void dimension(StringBuilder sb, String width, String height) {
-		sb.append("\t<dimensions width=\"" + width + "\" height=\"" + height
-				+ "\" />\n");
+		sb.append("\t<dimensions width=\"").append(width)
+				.append("\" height=\"").append(height).append("\" />\n");
 	}
 
 	/**
@@ -366,38 +372,62 @@ public class XMLBuilder {
 		}
 	}
 
-    /**
-     * Appends properties related to the symbolic mode.
-     *
-     * @param builder      string builder
-     * @param symbolicMode element with symbolic mode
-     * @param defaultMode  the default symbolic mode
-     */
-    public static void appendSymbolicMode(StringBuilder builder, HasSymbolicMode symbolicMode,
-                                          boolean defaultMode) {
-        boolean isSymbolicMode = symbolicMode.isSymbolicMode();
-        if (isSymbolicMode && !defaultMode) {
-            builder.append("\t<symbolic val=\"true\" />\n");
-        } else if (!isSymbolicMode && defaultMode) {
-            builder.append("\t<symbolic val=\"false\" />\n");
-        }
-    }
+	/**
+	 * Appends properties related to the symbolic mode.
+	 *
+	 * @param builder string builder
+	 * @param symbolicMode element with symbolic mode
+	 * @param defaultMode the default symbolic mode
+	 */
+	public static void appendSymbolicMode(StringBuilder builder, HasSymbolicMode symbolicMode,
+			boolean defaultMode) {
+		boolean isSymbolicMode = symbolicMode.isSymbolicMode();
+		if (isSymbolicMode && !defaultMode) {
+			builder.append("\t<symbolic val=\"true\" />\n");
+		} else if (!isSymbolicMode && defaultMode) {
+			builder.append("\t<symbolic val=\"false\" />\n");
+		}
+	}
 
-    /**
-     * @param sb                  string builder
-     * @param angleStyle          angle style
-     * @param emphasizeRightAngle whether to show special symbol for right angle
-     */
-    public static void appendAngleStyle(StringBuilder sb,
-                                        AngleStyle angleStyle, boolean emphasizeRightAngle) {
-        sb.append("\t<angleStyle val=\"");
-        sb.append(angleStyle.getXmlVal());
-        sb.append("\"/>\n");
-        if (!emphasizeRightAngle) {
-            // only store emphasizeRightAngle if "false"
-            sb.append("\t<emphasizeRightAngle val=\"");
-            sb.append(emphasizeRightAngle);
-            sb.append("\"/>\n");
-        }
-    }
+	/**
+	 * @param sb
+	 *            string builder
+	 * @param angleStyle
+	 *            angle style
+	 * @param emphasizeRightAngle
+	 *            whether to show special symbol for right angle
+	 */
+	public static void appendAngleStyle(StringBuilder sb,
+			AngleStyle angleStyle, boolean emphasizeRightAngle) {
+		sb.append("\t<angleStyle val=\"");
+		sb.append(angleStyle.getXmlVal());
+		sb.append("\"/>\n");
+		if (!emphasizeRightAngle) {
+			// only store emphasizeRightAngle if "false"
+			sb.append("\t<emphasizeRightAngle val=\"false\"/>\n");
+		}
+	}
+
+	/**
+	 * Adds position and dimension for inline texts and formulas
+	 * @param sb XML builder
+	 * @param inline inline text or formula
+	 */
+	public static void appendPosition(StringBuilder sb, RectangleTransformable inline) {
+		GPoint2D location = inline.getLocation();
+		if (location != null) {
+			sb.append("\t<startPoint x=\"");
+			sb.append(location.getX());
+			sb.append("\" y=\"");
+			sb.append(location.getY());
+			sb.append("\"/>\n");
+		}
+		sb.append("\t<dimensions width=\"");
+		sb.append(inline.getWidth());
+		sb.append("\" height=\"");
+		sb.append(inline.getHeight());
+		sb.append("\" angle=\"");
+		sb.append(inline.getAngle());
+		sb.append("\"/>\n");
+	}
 }

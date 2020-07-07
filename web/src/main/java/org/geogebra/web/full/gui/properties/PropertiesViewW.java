@@ -27,7 +27,6 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -55,18 +54,10 @@ public class PropertiesViewW extends PropertiesView
 	
 	private PropertiesStyleBarW styleBar;
 
-	private Label notImplemented;
-
 	private FlowPanel contentsPanel;
 	private OptionType optionType;
 	private boolean floatingAttached = false;
 
-	// For autoopen AV feature
-	// private boolean wasAVShowing;
-	//
-	// private boolean auxWasVisible;
-	//
-	// private boolean isObjectOptionsVisible;
 	/**
 	 * 
 	 * @param app
@@ -81,7 +72,6 @@ public class PropertiesViewW extends PropertiesView
 		app.setPropertiesView(this);
 		app.setWaitCursor();   
 
-		notImplemented = new Label("Not implemented");
 		optionType = ot;
 		initGUI();
 		app.setDefaultCursor();
@@ -89,22 +79,13 @@ public class PropertiesViewW extends PropertiesView
 
 	private void initGUI() {
 		wrappedPanel.addStyleName("PropertiesViewW");
-		//		getStyleBar();
 
-		//mainPanel = new FlowPanel();
-		
 		contentsPanel = new FlowPanel();
 		contentsPanel.addStyleName("contentsPanel");
-		//wrappedPanel.addStyleName("propertiesView");
-		//mainPanel.add(contentsPanel);
 		wrappedPanel.add(contentsPanel);
 		wrappedPanel.add(getStyleBar().getWrappedPanel());
-			
-		//wrappedPanel.add(mainPanel);
 
 		setOptionPanel(optionType, 0);
-		//createButtonPanel();
-		//add(buttonPanel, BorderLayout.SOUTH);
 	}
 
 	/**
@@ -219,39 +200,6 @@ public class PropertiesViewW extends PropertiesView
 		return null;
 	}
 
-	/**
-	 * TODO disabled; decide if we want this
-	 * 
-	 * @param visible
-	 *            whether to show AV
-	 */
-	public void updateAVvisible(boolean visible) {
-		// if ((visible && this.optionPanel instanceof OptionsObjectW) ==
-		// this.isObjectOptionsVisible) {
-		// return;
-		// }
-		// this.isObjectOptionsVisible = !this.isObjectOptionsVisible;
-		// if (visible) {
-		// wasAVShowing = app.getGuiManager().hasAlgebraViewShowing();
-		// auxWasVisible = app.getSettings().getAlgebra()
-		// .getShowAuxiliaryObjects();
-		// if (!wasAVShowing) {
-		// app.getGuiManager().setShowView(true, App.VIEW_ALGEBRA);
-		// app.updateViewSizes();
-		// }
-		// app.setShowAuxiliaryObjects(true);
-		//
-		// } else {
-		// if (!auxWasVisible) {
-		// app.setShowAuxiliaryObjects(false);
-		// }
-		// if (!wasAVShowing) {
-		// app.getGuiManager().setShowView(false, App.VIEW_ALGEBRA);
-		// app.updateViewSizes();
-		// }
-		// }
-	}
-
 	@Override
 	protected OptionsObjectW getObjectPanel() {
 		return super.getObjectPanel() != null
@@ -330,8 +278,7 @@ public class PropertiesViewW extends PropertiesView
 	public void updateSelection() {
 		if (app.getSelectionManager().selectedGeosSize() != 0 && optionType != OptionType.OBJECTS) {
 			setOptionPanel(OptionType.OBJECTS);
-		}
-		else if (app.getSelectionManager().selectedGeosSize() == 0) {
+		} else if (app.getSelectionManager().selectedGeosSize() == 0) {
 			if (optionType != OptionType.EUCLIDIAN
 					|| optionType != OptionType.EUCLIDIAN2
 					|| optionType != OptionType.EUCLIDIAN3D
@@ -396,10 +343,8 @@ public class PropertiesViewW extends PropertiesView
 		optionType = type;
 		contentsPanel.clear();
 		OptionPanelW optionPanel = getOptionPanel(type, subType);
-		updateAVvisible(true);
 		Widget wPanel = optionPanel.getWrappedPanel();
-		notImplemented.setText(getTypeString(type) + " - Not implemented");
-		contentsPanel.add(wPanel != null ? wPanel : notImplemented);
+		contentsPanel.add(wPanel);
 		if (wPanel != null) {
 			onResize();
 		}
@@ -442,11 +387,6 @@ public class PropertiesViewW extends PropertiesView
 		if (getEuclidianPanel() != null) {
 			getEuclidianPanel().updateGUI();
 		}
-
-		//		   if (optionType == OptionType.OBJECTS)  {
-		// Log.debug("selecting tab 2");
-		//			   getObjectPanel().selectTab(2);
-		//		   }
 
 		if (styleBar != null) {
 			styleBar.updateGUI();

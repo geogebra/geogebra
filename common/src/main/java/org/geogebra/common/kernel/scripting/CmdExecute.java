@@ -51,7 +51,7 @@ public class CmdExecute extends CmdScripting {
 
 		for (int i = 0; i < list.size(); i++) {
 			try {
-				String cmdText = ((GeoText) list.get(i)).getTextString();
+				String cmdText = ((GeoText) list.get(i)).getTextStringSafe();
 				for (int k = 1; k < n; k++) {
 					cmdText = cmdText.replace("%" + k,
 							arg[k].getLabel(StringTemplate.maxDecimals));

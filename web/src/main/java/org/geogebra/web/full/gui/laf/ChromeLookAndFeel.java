@@ -9,7 +9,7 @@ import org.geogebra.common.GeoGebraConstants;
 public class ChromeLookAndFeel extends GLookAndFeel {
 
 	@Override
-	public boolean isGraphingExamSupported() {
+	public boolean isOfflineExamSupported() {
 		return true;
 	}
 

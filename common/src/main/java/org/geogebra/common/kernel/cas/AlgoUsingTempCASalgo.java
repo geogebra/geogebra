@@ -19,7 +19,6 @@ public abstract class AlgoUsingTempCASalgo extends AlgoElement
 	 */
 	public AlgoUsingTempCASalgo(Construction c) {
 		super(c);
-		c.addCASAlgo(this);
 	}
 
 	/**
@@ -30,7 +29,6 @@ public abstract class AlgoUsingTempCASalgo extends AlgoElement
 	 */
 	public AlgoUsingTempCASalgo(Construction c, boolean addToConstructionList) {
 		super(c, addToConstructionList);
-		c.addCASAlgo(this);
 	}
 
 	@Override

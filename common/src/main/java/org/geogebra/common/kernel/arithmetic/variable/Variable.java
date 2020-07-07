@@ -108,26 +108,26 @@ public class Variable extends ValidExpression {
 	 *            symbolic mode
 	 * @return GeoElement with same label
 	 */
-    public GeoElement resolve(boolean allowAutoCreateGeoElement, boolean throwError,
-                              SymbolicMode mode) {
-        switch (mode) {
-            case SYMBOLIC:
-                return new GeoDummyVariable(kernel.getConstruction(), name);
-            case SYMBOLIC_AV:
-                return lookupLabel(allowAutoCreateGeoElement, mode);
-            case NONE:
-                GeoElement resolvedElement = lookupLabel(allowAutoCreateGeoElement, mode);
-                if (resolvedElement != null || !throwError) {
-                    return resolvedElement;
-                }
-            default:
-                Localization localization = kernel.getApplication().getLocalization();
-                throw new MyParseError(localization, Errors.UndefinedVariable, name);
-        }
-    }
 
-    private GeoElement lookupLabel(boolean allowAutoCreateGeoElement, SymbolicMode symbolicMode) {
-        return kernel.lookupLabel(name, allowAutoCreateGeoElement, symbolicMode);
+	public GeoElement resolve(boolean allowAutoCreateGeoElement, boolean throwError,
+							  SymbolicMode mode) {
+		if (mode == SymbolicMode.SYMBOLIC) {
+			return new GeoDummyVariable(kernel.getConstruction(), name);
+		}
+		GeoElement resolvedElement = lookupLabel(allowAutoCreateGeoElement, mode);
+		if (resolvedElement != null || !throwError) {
+			return resolvedElement;
+		}
+		if (mode == SymbolicMode.SYMBOLIC_AV) {
+			return new GeoDummyVariable(kernel.getConstruction(), name);
+		}
+		Localization localization = kernel.getApplication().getLocalization();
+		throw new MyParseError(localization, Errors.UndefinedVariable, name);
+	}
+
+	private GeoElement lookupLabel(boolean allowAutoCreateGeoElement, SymbolicMode symbolicMode) {
+		return kernel.lookupLabel(name, allowAutoCreateGeoElement, symbolicMode);
+
 	}
 
 	/**
@@ -138,11 +138,14 @@ public class Variable extends ValidExpression {
 	 * 
 	 * @param mode
 	 *            symbolic mode
-	 * 
+	 * @param multipleUnassignedAllowed
+	 *            whether to allow splitting into multiple unassigned variables
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 *         wrapping spreadsheet reference
 	 */
-	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode) {
+	final public ExpressionValue resolveAsExpressionValue(SymbolicMode mode,
+				boolean multipleUnassignedAllowed) {
+		variableReplacerAlgorithm.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
 		GeoElement geo = resolve(false, mode);
 		if (geo == null) {
 			if (kernel.getConstruction().isRegistredFunctionVariable(name)) {

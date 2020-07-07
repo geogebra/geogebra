@@ -1,5 +1,10 @@
 @import 'colors';
+@import 'text-styles';
 $duration: 0.2s;
+$shadow-card-default: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px
+ 5px 0px rgba(0,0,0,0.12);
+$shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+
 
 .GeoGebraFrame {
 
@@ -116,6 +121,31 @@ $duration: 0.2s;
 			font-size: 95%;
 			margin-right: 16px;
 		}
+
+		.templatePanel {
+            display: flex;
+            width: fit-content;
+            cursor: pointer;
+
+            .checkbox {
+           	    margin: 2px 16px 0px 0px;
+
+           	    &.selected {
+           	        .background {
+           	            border-color: $teal-default;
+                        background-color: $teal-default;
+           	        }
+           	    }
+           	}
+
+            .templateTxt {
+                font-size: 100%;
+                height: 28px;
+                line-height: 28px;
+                color: $text-primary;
+            }
+        }
+
 		.buttonPanel {
    			height: 36px;
    			text-align: right;
@@ -129,8 +159,9 @@ $duration: 0.2s;
    			}
 
    			.visibility {
-   				top: 130px;
-   				left: 76px;
+   			    bottom: 6px;
+                left: 76px;
+                top: auto;
    			 }
 
    			.MyCanvasButton {
@@ -222,6 +253,41 @@ $duration: 0.2s;
 		}
 	}
 
+	.flatDialogBtn {
+        display: inline-block;
+        position: relative;
+        min-width: 64px;
+        height: 36px;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: $teal-default;
+        font-size: 90%;
+        font-weight: 500;
+        letter-spacing: .04em;
+        line-height: 36px;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        overflow: hidden;
+        vertical-align: middle;
+        border-radius: 2px;
+        padding: 0px 8px;
+        margin-left: 8px;
+        box-shadow: none;
+        font-family: Roboto,sans-serif;
+        font-weight: 400 !important;
+
+        .html-face {
+            text-align: center;
+        }
+
+        &:hover {
+            background: $mow_card_background_hover !important;
+            color: $teal-dark;
+        }
+    }
+
 	.MaterialDialogBox {
 		z-index: 501;
 		background-color: $white;
@@ -234,37 +300,6 @@ $duration: 0.2s;
    		box-shadow: 0 2px 10px rgba(0,0,0,.2);*/
    		box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
    		-webkit-box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
-
-   		.flatDialogBtn {
-			display: inline-block;
-    		position: relative;
-    		min-width: 64px;
-    		height: 36px;
-    		border: none;
-    		outline: none;
-    		background: transparent;
-    		color: $teal-default;
-    		font-size: 90%;
-    		font-weight: 500;
-    		letter-spacing: .04em;
-    		line-height: 36px;
-    		text-align: center;
-    		text-decoration: none;
-    		text-transform: uppercase;
-    		overflow: hidden;
-    		vertical-align: middle;
-    		border-radius: 2px;
-    		padding: 0px 8px;
-    		margin-left: 8px;
-   			box-shadow: none;
-   			font-family: Roboto,sans-serif;
-    		font-weight: 400 !important;
-
-    		&:hover {
-    			background: $mow_card_background_hover !important;
-    			color: $teal-dark;
-    		}
-    	}
 
    		.Caption {
    			font-size: 125%;
@@ -423,7 +458,7 @@ $duration: 0.2s;
 	}
 
 	.MaterialDialogBox.mediaDialog {
-   		.mowMediaDialogContent {
+   		.mowInputPanelContent {
    			.AutoCompleteTextFieldW {
    				margin: 8px 16px 8px 0px;
    			}
@@ -512,7 +547,7 @@ $duration: 0.2s;
    		}
 
    		.DialogButtonPanel {
-   			padding-top: 8px !important;
+   			padding-top: 8px;
 
    			.button {
    				color: $mow_dark;
@@ -581,7 +616,7 @@ $duration: 0.2s;
    		}
 
 		.DialogButtonPanel {
-			padding-top: 8px !important;
+			padding-top: 8px;
 
 			.button-up-disabled {
 				opacity: 1;
@@ -670,165 +705,212 @@ $duration: 0.2s;
    		}
    }
 
-  	.pdfDialog {
-  		.pdfContainer {
-   			width: 450px;
-    		height: 400px;
-    		margin-right: 16px;
-    		border: 4px dashed $mow_pdf_dialog_border;
+	.pdfDialog {
+		max-width: 474px;
+		max-height: 522px;
+		width: 80%;
+		height: 94%;
 
-    		&.withPdf {
-    			border-color: transparent;
-    		}
+		.pdfDialogMainPanel {
+			height: 100%;
+		}
+
+		.pdfDialogTable {
+			height: 100%;
+			width: 100%;
+		}
+
+		.dialogMiddle {
+			height: 100%;
+		}
+
+		.dialogMiddleCenterInner.dialogContent {
+			height: 100%;
+		}
+
+		 .pdfDialogContent {
+			height: 100%;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			-webkit-flex-direction: column;
+		 }
+
+		.pdfContainer {
+			margin-right: 16px;
+			border: 4px dashed $mow_pdf_dialog_border;
+			border-radius: 8px;
+			height: 100%;
+
+			&.withPdf {
+				border-color: transparent;
+			}
+		}
+
+		.imgTextElement {
+			justify-content: center;
+			-webkit-justify-content: center;
+			height: 100%;
+			align-items: center;
+			-webkit-align-items: center;
+			display: flex;
+			display: -webkit-flex;
+			flex-direction: column;
+			-webkit-flex-direction: column;
 		}
 
 		.folderImg {
-    		display: block;
-    		margin-left: auto;
-    		margin-right: auto;
-    		margin-top: 100px;
-    		opacity: 0.54;
-    	}
+			opacity: 0.54;
+		}
 
 		.pdfDialogText {
-    		margin-top: 20px;
-    		text-align: center;
-    		max-width: 190px;
-    		margin-left: auto;
-    		margin-right: auto;
+			margin-top: 20px;
+			text-align: center;
+			max-width: 190px;
 		}
 
 		.clickOrDragText {
-    		font-size: 100% !important;
-    	}
+			font-size: 100% !important;
+		}
 
-    	.errorText {
-    		font-size: 12px;
+		.errorText {
+			font-size: 12px;
 			color: $red-A400;
 		}
 
-    	.loadText {
-    		font-size: 12px;
+		.loadText {
+			font-size: 12px;
+			margin-left: auto;
+            margin-right: auto;
 		}
 
-    	.pdfPreview {
-    		 display: flex;
+		.pdfPreview {
+			 display: inline-flex;
+			 display: -webkit-inline-flex;
+             width: 80%;
+             height: 100%;
+             position: relative;
 
-    		.leftBtn,.rightBtn {
-    			width: 24px;
-    			height: 24px;
-    			padding: 12px;
-    			opacity: 0.54;
-    			border-radius: 24px;
-    			margin-top: 150px;
-    		}
+			.leftBtn,.rightBtn {
+				width: 24px;
+				height: 24px;
+				padding: 12px;
+				opacity: 0.54;
+				border-radius: 24px;
+				top: 40%;
+				position: absolute;
+			}
 
-    		.rightBtn {
-    			right: 60px;
-    			position: absolute;
+			.rightBtn {
+				right: -25%;
 			}
 
 			.leftBtn {
-				left: 60px;
-    			position: absolute;
+				left: 0%;
+				z-index: 1;
 			}
 
-    		.leftBtn:hover, .rightBtn:hover {
-    			background: $mow_pdf_left_right_hover;
-    			opacity: 1;
-    		}
+			.leftBtn:hover, .rightBtn:hover {
+				background: $mow_pdf_left_right_hover;
+				opacity: 1;
+			}
 
-    		.previewImage {
-    			position: absolute;
-			    left: 50%;
-			    max-width: 300px;
-			    max-height: 360px;
-			    transform: translateX(-50%);
-    		}
-    	}
+			.previewImage {
+				position: absolute;
+				left: 63%;
+				top: 46%;
+				max-height: 90%;
+				max-width: 90%;
+				transform: translate(-50%, -50%);
+			}
+		}
 
-    	.pdfPageText {
-    			display: flex;
-   				width: fit-content;
-   				height: fit-content;
-    			position: relative;
-    			margin-left: auto;
-    			margin-right: auto;
-    			margin-top: 20px;
-    			top: 356px;
+		.pdfPageText {
+				display: flex;
+				display: -webkit-flex;
+				flex-direction: row;
+				-webkit-flex-direction: row;
+				width: fit-content;
+				height: fit-content;
+				position: relative;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 20px;
+				bottom: 10%;
 
-    			.gwt-Label {
-    				margin: 0px;
-    				font-size: 100%;
-   					height: fit-content;
-					font-family: Roboto Regular;
-    			}
+				.gwt-Label {
+					margin: 0px;
+					font-size: 100%;
+					height: fit-content;
+				}
 
-    			.curPageField {
-    				margin-left: 16px;
-   		 			margin-bottom: 0px;
-   		 			border-bottom-color: $black-42;
+				.curPageField {
+					margin-left: 16px;
+					margin-bottom: 0px;
+					border-bottom-color: $black-42;
 
-   		 			.TextField {
-   		 				margin: 0px;
-   		 				text-align: center;
-   		 				font-size: 100%;
-   		 				padding: 0px;
-   		 				border-radius: 0px;
-   		 				font-family: Roboto Regular;
-   		 			}
+					.TextField {
+						margin: 0px;
+						text-align: center;
+						font-size: 100%;
+						padding: 0px;
+						border-radius: 0px;
+					}
 
-   		 			&.default {
- 						border-bottom: 1px solid $black-42;
- 					}
+					&.default {
+						border-bottom: 1px solid $black-42;
+					}
 
-   		 			&.hover {
-   	 					border-bottom: 2px solid $black-87;
-   		 			}
+					&.hover {
+						border-bottom: 2px solid $black-87;
+					}
 
-   		 			&.focus, &.focus:hover {
-   	 					border-bottom: 2px solid $mow_dark_87;
-   		 			}
-    			}
+					&.focus, &.focus:hover {
+						border-bottom: 2px solid $mow_dark_87;
+					}
+				}
 
-    			&.hidden {
-   	 				visibility: hidden;
-    			}
+				&.hidden {
+					visibility: hidden;
+				}
 		}
 
 		.DialogButtonPanel {
+			min-width: unset;
+			max-width: unset;
 
-   			.button {
-   				color: $mow_dark;
-   				&:hover {
-   					color: $mow_dark;
-   				}
-   			}
+			.button {
+				color: $mow_dark;
+				&:hover {
+					color: $mow_dark;
+				}
+			}
 
-   			.insertBtn.button-up-disabled {
-   				opacity: 1;
-   				color: $mow_dark_26;
+			.insertBtn.button-up-disabled {
+				opacity: 1;
+				color: $mow_dark_26;
 
-   				&:hover {
-   					background: none !important;
-   				}
-   			}
-   		}
+				&:hover {
+					background: none !important;
+				}
+			}
+		}
 
-   		.progressBar {
-   			margin-top: 192px;
-   			margin-left: auto;
-   			margin-right: auto;
-   			background: $mow_light;
-   			height: 4px;
-   			width: 300px;
+		.progressBar {
+			margin-left: auto;
+			margin-right: auto;
+			background: $mow_light;
+			height: 4px;
+			max-width: 300px;
+			width: 80%;
 
-   			div {
-   				background: $mow_dark;
-   				height: 100%;
-   			}
-   		}
+			div {
+				background: $mow_dark;
+				height: 100%;
+			}
+		}
 	}
+
 	.MaterialDialogBox.shareLink {
 		padding-bottom: 24px;
 		padding-right: 24px;
@@ -1115,7 +1197,6 @@ $duration: 0.2s;
 			}
 			.linkBox::selection {
   				background: rgba($mow_primary, 0.2)
-
   			}
   		}
 
@@ -1135,17 +1216,35 @@ $duration: 0.2s;
  	.MaterialDialogBox.saveDialogMow {
 		@extend .mediaDialog;
 
-		.mowMediaDialogContent {
+		.mowInputPanelContent {
 				.AutoCompleteTextFieldW {
    					margin: 8px 16px 16px 0px !important;
    				}
    		}
 
-		.mowMediaDialogContent.hoverState,
-			.mowMediaDialogContent.focusState {
+		.mowInputPanelContent.hoverState,
+			.mowInputPanelContent.focusState {
 				.AutoCompleteTextFieldW {
    					margin: 8px 16px 15px 0px !important;
    				}
+   		}
+
+   		.templatePanel {
+   		    display: flex;
+   		    margin-bottom: 20px;
+   		    cursor: pointer;
+            width: fit-content;
+
+   		    .checkbox {
+   		        margin: 2px 16px 0px 0px;
+   		    }
+
+   		    .templateTxt {
+                font-size: 100%;
+                height: 28px;
+                line-height: 28px;
+                color: $text-primary;
+            }
    		}
 	}
 
@@ -1169,6 +1268,7 @@ $duration: 0.2s;
    		}
    		&.narrowDialog {
 			max-width: 376px; // 400px - (8px + 16px) padding
+			width: fit-content;
 		}
 		&.noButtons {
 			.gwt-Label{
@@ -1506,4 +1606,184 @@ $duration: 0.2s;
 			margin-right: 8px;
 		}
    	}
+
+   	.MaterialDialogBox.whatsNewDialog {
+   	    width: 560px;
+   	    .title {
+   	        @extend .headline6;
+   	        margin-top: 0px;
+            margin-bottom: 20px;
+   	    }
+   	    .messagePanel {
+   	        padding-right: 16px;
+   	        .message {
+                @extend .subtitle1;
+               	margin-right: 4px;
+            }
+            .link {
+                cursor: pointer;
+                @extend .subtitle1-link;
+            }
+   	    }
+        .DialogButtonPanel {
+            padding-top: 28px;
+        }
+   	}
+
+   	.mowInputPanelContent  {
+   	    .TextField::selection {
+            background: rgba($mow_primary, 0.2)
+        }
+   	}
+
+   	.MaterialDialogBox.optionDialog.templateChooser {
+   	    padding-left: 0px;
+        padding-right: 0px;
+        max-width: 680px;
+        max-height: 486px;
+        overflow: auto;
+
+   	    .Caption {
+   	        height: 26px;
+   	        line-height: 26px;
+   	        margin-left: 24px;
+   	        margin-bottom: 0px;
+   	    }
+
+   	    .templatesPanel {
+   	        max-width: 649px;
+            max-height: 372px;
+            display: inline-block;
+            overflow: auto;
+            padding-left: 16px;
+            padding-right: 16px;
+            margin-top: 12px;
+            padding-bottom: 12px;
+
+            &.withBorder {
+                border-bottom: 1px solid $black-12;
+                height: 371px;
+                max-width: 665px;
+                padding-right: 0px;
+                padding-left: 15px;
+                padding-bottom: 0px;
+            }
+
+   	        .templateCard {
+   	            width: 200px;
+   	            border-radius: 2px;
+                background-color: #fff;
+                box-shadow: $shadow-card-default;
+                transition: box-shadow .25s;
+                position: relative;
+                display: inline-block;
+                margin: 8px 8px 8px 8px;
+                cursor: pointer;
+
+                &:hover {
+                    box-shadow: $shadow-card-hover;
+                }
+
+                &.selected {
+                    outline: 2px solid $mow_primary;
+                    box-shadow: $shadow-card-default;
+                    transition: box-shadow .25s;
+                }
+
+                &.selected:hover {
+                    box-shadow: $shadow-card-hover;
+                }
+
+                .cardImgPanel {
+                    width: 100%;
+                    height: 120px;
+                    background-position: center;
+                }
+
+                .cardInfoPanel {
+                    width: 100%;
+                    height: 44px;
+                    border-radius: 0 0 2px 2px;
+                    background-color: $mow_card_background;
+                    box-sizing: border-box;
+                    display: flex;
+
+                    .cardTitle {
+                        line-height: 28px;
+                        font-size: 100%;
+                        height: 28px;
+                        width: 154px;
+                        padding: 8px 30px 8px 16px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        display: block;
+                        color: $text-primary;
+                    }
+
+                    .mowMoreButton {
+                        width: 24px;
+                        height: 24px;
+                        padding: 10px 6px 10px 10px;
+                        position: relative;
+                        opacity: 0.54;
+                        cursor: pointer;
+
+                        &.gwt-ToggleButton-up-hovering {
+                            opacity: 1;
+                        }
+                    }
+                }
+   	         }
+   	    }
+
+        .DialogButtonPanel {
+            margin-right: 8px;
+            padding-top: 4px;
+
+            .button {
+                color: $mow_primary;
+             }
+        }
+   	}
+
+   	.sessionExpireNotifyDialog {
+        z-index: 501;
+    	background-color: $white;
+    	border-radius: 2px;
+    	padding: 24px 8px 0px 24px;
+        box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0
+        24px 38px 3px rgba(0, 0, 0, 0.2);
+       	-webkit-box-shadow: 0 9px 46px 8px rgba(0, 0, 0, 0.14), 0 11px 15px -7px rgba(0, 0, 0, 0.12), 0 24px 38px 3px rgba(0, 0, 0, 0.2);
+
+        .sessionExpireTxt {
+            padding-right: 16px;
+            color: $text-secondary;
+            max-width: 384px;
+        }
+
+        .DialogButtonPanel {
+             height: 36px;
+             text-align: right;
+             padding-top: 28px;
+             padding-right: 0px;
+             padding-bottom: 8px;
+             padding-left: 0px;
+
+           	.cancelBtn , .saveBtn  {
+            	@extend .flatDialogBtn;
+            	cursor: pointer;
+
+                color: $mow_primary;
+
+                &:hover {
+                   color: $mow_primary;
+                }
+
+            	.html-face {
+            		text-align: center;
+            	}
+           	}
+       }
+    }
 }

@@ -119,11 +119,11 @@ public class ScientificFormat extends Format
 	 * have the number of digits specified by the significant digits (sigDig)
 	 * parameter but will not have a Base 10 Exponential(E) if the number of
 	 * digits in the mantissa <= maxWidth.
-     *
-     * @param sciNote
-     *            scientific notation flag
+	 * 
+	 * @param sciNote
+	 *            scientific notation flag
 	 */
-    protected void setScientificNotationStyle(boolean sciNote) {
+	protected void setScientificNotationStyle(boolean sciNote) {
 		this.sciNote = sciNote;
 	}
 
@@ -159,12 +159,12 @@ public class ScientificFormat extends Format
 		}
 
 		int ePos = preliminaryResult.indexOf('E');
-		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1))
-				+ 1;
-		if (exponent > maxWidth) {
+		if (ePos < 0) {
 			return preliminaryResult;
 		}
-		if (exponent < -maxWidth + sigDig + 1) {
+		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1))
+				+ 1;
+		if (exponent > maxWidth || exponent < -maxWidth + sigDig + 1) {
 			return preliminaryResult;
 		}
 

@@ -12,7 +12,18 @@
 
 package org.geogebra.desktop.euclidian;
 
-import java.awt.*;
+import java.awt.AWTEvent;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
@@ -27,7 +38,8 @@ import java.awt.print.Printable;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GBufferedImage;
@@ -41,7 +53,7 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.ScreenReaderAdapter;
-import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.main.App.ExportType;
@@ -58,7 +70,6 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.io.MyImageIO;
-import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
@@ -563,13 +574,8 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	@Override
-	public void add(GBox box) {
-		evjpanel.add(((GBoxD) box).getImpl());
-	}
-
-	@Override
-	public void remove(GBox box) {
-		evjpanel.remove(((GBoxD) box).getImpl());
+	public void add(Box box) {
+		evjpanel.add(box);
 	}
 
 	/**
@@ -981,6 +987,11 @@ public class EuclidianViewD extends EuclidianView
 	@Override
 	public ScreenReaderAdapter getScreenReader() {
 		return screenReader;
+	}
+
+	@Override
+	protected SymbolicEditor createSymbolicEditor() {
+		return new SymbolicEditorD(app, this);
 	}
 
 	@Override

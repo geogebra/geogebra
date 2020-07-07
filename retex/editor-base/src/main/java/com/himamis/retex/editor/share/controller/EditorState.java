@@ -143,8 +143,8 @@ public class EditorState {
 		currentSelEnd = cursorField;
 		// special case: start is inside end -> select single component
 		if (currentSelEnd == commonParent
-				|| commonParent instanceof MathFunction && "\\frac"
-						.equals(((MathFunction) commonParent).getTexName())) {
+				|| commonParent instanceof MathFunction
+					&& ((MathFunction) commonParent).getName() == Tag.FRAC) {
 			currentSelStart = commonParent;
 			currentSelEnd = commonParent;
 			return;
@@ -177,23 +177,23 @@ public class EditorState {
 	}
 
 	/**
-     * Select from cursor position to end of current sub-formula
-     */
-    public void selectToStart() {
-        extendSelection(getCursorField(false));
-        extendSelection(getCurrentField().getArgument(0));
-    }
+	 * Select from cursor position to end of current sub-formula
+	 */
+	public void selectToStart() {
+		extendSelection(getCursorField(false));
+		extendSelection(getCurrentField().getArgument(0));
+	}
 
-    /**
-     * Select from cursor position to start of current sub-formula
-     */
-    public void selectToEnd() {
-        extendSelection(getCursorField(true));
-        extendSelection(getCurrentField().getArgument(getCurrentField().size() - 1));
-    }
+	/**
+	 * Select from cursor position to start of current sub-formula
+	 */
+	public void selectToEnd() {
+		extendSelection(getCursorField(true));
+		extendSelection(getCurrentField().getArgument(getCurrentField().size() - 1));
+	}
 
-    /**
-     * @param left whether to search left
+	/**
+	 * @param left whether to search left
 	 * @return field directly left or right to the caret
 	 */
 	public MathComponent getCursorField(boolean left) {
@@ -362,7 +362,7 @@ public class EditorState {
 
 	private boolean endOfFunctionName() {
 		return currentField.getParent() instanceof MathFunction
-                && currentField.getParent().hasTag(Tag.APPLY)
+				&& currentField.getParent().hasTag(Tag.APPLY)
 				&& currentField.getParentIndex() == 0;
 	}
 

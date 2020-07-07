@@ -1,0 +1,11 @@
+{
+    "baseUrl" : "http://127.0.0.1:8888/",
+    "watchForFileChanges" : false,
+    "pageLoadTimeout" : 200000,
+    "defaultCommandTimeout" : 200000,
+    "reporter": "junit",
+    "reporterOptions": {
+        "mochaFile": "results/ui-tests.[hash].xml",
+        "jenkinsMode": true
+     }
+}

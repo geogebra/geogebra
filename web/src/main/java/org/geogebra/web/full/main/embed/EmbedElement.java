@@ -65,7 +65,7 @@ public class EmbedElement {
 	 * @param embedID
 	 *            embed ID
 	 */
-    public void addListeners(int embedID) {
+	public void addListeners(int embedID) {
 		// overridden for GM
 	}
 
@@ -84,6 +84,6 @@ public class EmbedElement {
 	 *            whether this should be visible
 	 */
 	public void setVisible(boolean visible) {
-		widget.setVisible(visible);
+		getGreatParent().setVisible(visible);
 	}
 }

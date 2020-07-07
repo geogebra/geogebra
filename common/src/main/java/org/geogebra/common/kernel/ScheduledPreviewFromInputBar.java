@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -21,15 +23,13 @@ import org.geogebra.common.util.debug.Log;
 public class ScheduledPreviewFromInputBar implements Runnable {
 
 	private static final int DEFAULT_MAX_LENGTH = 1000;
-	/**
-	 * 
-	 */
 	private final Kernel kernel;
 	private String input = "";
-	private String validInput = "";
+	// concurrent evaluation with CAS may set validInput to null
+	private @CheckForNull String validInput = "";
 	private ErrorHandler validation;
 	private int maxLength = DEFAULT_MAX_LENGTH;
-	private boolean notFirstInput = false;
+	private boolean notFirstInput;
 	private GeoElement[] previewGeos;
 	private String[] sliders;
 
@@ -116,7 +116,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			if (validation != null) {
 				// timeout -- assume OK as we don't know if it's wrong
 				validation.showError(maxLength != DEFAULT_MAX_LENGTH ? null
-                        : kernel.getLocalization().getInvalidInputError());
+						: kernel.getLocalization().getInvalidInputError());
 			}
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			return;
@@ -132,7 +132,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		boolean silentModeOld = this.kernel.isSilentMode();
 		boolean suppressLabelsOld = this.kernel.getConstruction().isSuppressLabelsActive();
 		previewGeos = null;
-		Long start = System.currentTimeMillis();
+		long start = System.currentTimeMillis();
 		try {
 			this.kernel.setSilentMode(true);
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
@@ -175,33 +175,20 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos);
 				} else if (kernel.getApplication().has(Feature.MOB_PREVIEW_WHEN_EDITING)
 						&& !existingGeo.hasChildren() && existingGeo.isIndependent()) {
-					ve.setLabels(null);
-					GeoElementND[] inputGeos = evalValidExpression(ve, info);
-					if (inputGeos != null && inputGeos.length == 1) {
-						GeoElementND redefined = inputGeos[0];
-						if (redefined.getGeoClassType() == existingGeo.getGeoClassType()) {
-							existingGeo.set(redefined);
-							kernel.notifyUpdatePreviewFromInputBar(new GeoElement[] {existingGeo});
-						}
-					}
+					previewRedefine(ve, existingGeo, info);
 				} else {
 					Log.debug("existing geo: " + existingGeo);
 					kernel.notifyUpdatePreviewFromInputBar(null);
-					if (validation != null && validInput.equals(input)) {
-						validation.resetError();
-					}
+					resetIfValid();
 				}
 			} else {
 				Log.debug("cas cell ");
-				if (validInput.equals(input)) {
-					validation.resetError();
-				}
+				resetIfValid();
 				kernel.notifyUpdatePreviewFromInputBar(null);
 			}
-			// concurrent evaluation with CAS may set validInput to null
-			if (validation != null && previewGeos != null
-					&& validInput != null && validInput.equals(input)) {
-				validation.resetError();
+
+			if (previewGeos != null) {
+				resetIfValid();
 			}
 		} catch (Throwable ee) {
 			Log.debug("-- invalid input" + ee + ":" + validInput);
@@ -212,8 +199,28 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.getConstruction().setSuppressLabelCreation(suppressLabelsOld);
 		}
 		if (System.currentTimeMillis() > start + 200) {
-			maxLength = validInput.length();
+			maxLength = validInput == null ? 0 : validInput.length();
 			validInput = null;
+		}
+	}
+
+	private void previewRedefine(ValidExpression ve, GeoElement existingGeo, EvalInfo info) {
+		ve.setLabels(null);
+		GeoElementND[] inputGeos = evalValidExpression(ve, info);
+		if (inputGeos != null && inputGeos.length == 1) {
+			GeoElementND redefined = inputGeos[0];
+			if (redefined.getGeoClassType() == existingGeo.getGeoClassType()) {
+				existingGeo.set(redefined);
+				kernel.notifyUpdatePreviewFromInputBar(new GeoElement[] {existingGeo});
+				return;
+			}
+		}
+		resetIfValid();
+	}
+
+	private void resetIfValid() {
+		if (validation != null && validInput != null && validInput.equals(input)) {
+			validation.resetError();
 		}
 	}
 
@@ -228,7 +235,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private static boolean isCASeval(ValidExpression ve) {
 		String label = ve.getLabel();
 		if (label != null && label.startsWith("$")) {
-			Integer row = -1;
+			int row = -1;
 			try {
 				row = Integer.parseInt(label.substring(1)) - 1;
 			} catch (Exception e) {
@@ -241,16 +248,14 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 	private void cleanOldSliders() {
 		if (sliders != null) {
-			for (int i = 0; i < sliders.length; i++) {
-				GeoElement slider = kernel.lookupLabel(sliders[i].trim());
+			for (String sliderLabel : sliders) {
+				GeoElement slider = kernel.lookupLabel(sliderLabel.trim());
 				slider.setFixed(false);
 				slider.remove();
-
 			}
 			kernel.notifyRepaint();
 			sliders = null;
 		}
-
 	}
 
 	/**
@@ -263,16 +268,12 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 */
 	public void updatePreviewFromInputBar(String newInput,
 			ErrorHandler validate) {
-
 		if (this.input.equals(newInput)) {
 			Log.debug("no update needed (same input)");
 			return;
 		}
-
 		setInput(newInput, validate);
-
 		kernel.getApplication().schedulePreview(this);
-
 	}
 
 	/**
@@ -295,7 +296,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		setInput(newInput, validation);
 		run();
 		return previewGeos;
-
 	}
 
 	/**
@@ -305,7 +305,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	public void addSliders(String string) {
 		cleanOldSliders();
 		sliders = string.split(",");
-
 	}
 
 	/**

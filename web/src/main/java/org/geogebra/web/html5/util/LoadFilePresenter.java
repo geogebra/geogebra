@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -37,7 +38,6 @@ public class LoadFilePresenter {
 	public void onPageLoad(final ArticleElementInterface view, final AppW app,
 			ViewW vv) {
 
-		// ViewW view = getView();
 		String base64String;
 		String filename;
 		app.checkScaleContainer();
@@ -69,12 +69,6 @@ public class LoadFilePresenter {
 			}
 		}
 
-		// app.setChooserPopupsEnabled(enableChooserPopups);
-		// app.setErrorDialogsActive(errorDialogsActive);
-		// if (customToolBar != null && customToolBar.length() > 0 &&
-		// showToolBar)
-		// app.getGuiManager().setToolBarDefinition(customToolBar);
-		// app.setMaxIconSize(maxIconSize);
 		boolean fullApp = !app.isApplet();
 		boolean showToolBar = view.getDataParamShowToolBar(fullApp);
 		boolean showMenuBar = view.getDataParamShowMenuBar(fullApp);
@@ -116,9 +110,12 @@ public class LoadFilePresenter {
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
 		        || view.getDataParamApp());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
-		app.setButtonShadows(view.getDataParamButtonShadows());
-		app.setButtonRounding(view.getDataParamButtonRounding());
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
+
+		StyleSettings styleSettings = app.getSettings().getStyle();
+		styleSettings.setButtonShadows(view.getDataParamButtonShadows());
+		styleSettings.setButtonRounding(view.getDataParamButtonRounding());
+		styleSettings.setButtonBorderColor(view.getDataParamButtonBorderColor());
 
 		if (!fileOpened) {
 			if (!openEmptyApp(app, view)) {
@@ -261,59 +258,60 @@ public class LoadFilePresenter {
 	 * @param p
 	 *            perspective
 	 */
-    void finishEmptyLoading(AppW app, Perspective p) {
-        if (p != null) {
-            app.setActivePerspective(p.getDefaultID() - 1);
-        }
-        app.getAppletFrame().updateHeaderSize();
-        app.setPreferredSize(
-                new GDimensionW(app.getAppletWidth(), app.getAppletHeight()));
-        app.ensureStandardView();
-        app.loadPreferences(p);
-        app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");
+	void finishEmptyLoading(AppW app, Perspective p) {
+		if (p != null) {
+			app.setActivePerspective(p.getDefaultID() - 1);
+		}
+		app.getAppletFrame().updateHeaderSize();
+		app.setPreferredSize(
+				new GDimensionW(app.getAppletWidth(), app.getAppletHeight()));
+		app.ensureStandardView();
+		app.loadPreferences(p);
+		app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");
 
-        // default layout doesn't have a Graphics View 2
-        app.getEuclidianViewpanel().deferredOnResize();
+		// default layout doesn't have a Graphics View 2
+		app.getEuclidianViewpanel().deferredOnResize();
 
-        app.appSplashCanNowHide();
+		app.appSplashCanNowHide();
 
-        app.updateToolBar();
-        app.setUndoActive(true);
-        if (p != null) {
-            app.setActivePerspective(p.getDefaultID() - 1);
-        }
+		app.updateToolBar();
+		app.setUndoActive(true);
+		if (p != null) {
+			app.setActivePerspective(p.getDefaultID() - 1);
+		}
 
-        // no Feature.ADJUST_VIEWS: returns false.
-        if (!app.isUnbundled() && app.isPortrait()) {
-            app.adjustViews(false, false);
-        }
+		// no Feature.ADJUST_VIEWS: returns false.
+		if (!app.isUnbundled() && app.isPortrait()) {
+			app.adjustViews(false, false);
+		}
 
-        boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
-                || Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
-        if (app.getArticleElement().getDataParamShowAppsPicker()
-                && app.getExam() == null && !smallScreen
-                && !app.isWhiteboardActive()) {
-            app.showPerspectivesPopup();
-        }
+		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
+				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
+		if (app.getArticleElement().getDataParamShowAppsPicker()
+				&& app.getExam() == null && !smallScreen
+				&& !app.isWhiteboardActive()) {
+			app.showPerspectivesPopup();
+		}
 
-        app.updateRounding();
-        preloadParser(app);
-    }
+		app.updateRounding();
+		preloadParser(app);
+	}
 
-    /**
-     * Make sure the parser is initiated: it will be needed for the first object
-     * creation and may cause a major delay (
-     *
-     * @param app application
-     */
-    private static void preloadParser(final AppW app) {
-        app.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                app.getParserFunctions();
-            }
-        });
-    }
+	/**
+	 * Make sure the parser is initiated: it will be needed for the first object
+	 * creation and may cause a major delay (
+	 * 
+	 * @param app
+	 *            application
+	 */
+	private static void preloadParser(final AppW app) {
+		app.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				app.getParserFunctions();
+			}
+		});
+	}
 
 	private static boolean tryReloadDataInStorage(ViewW view) {
 		if (!Browser.supportsSessionStorage()) {

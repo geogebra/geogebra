@@ -88,7 +88,7 @@ public class Solver {
 		FlowPanel editorFocusPanel = new FlowPanel();
 
 		mathField = new MathFieldW(null, editorFocusPanel, canvas,
-				new SolverMathFieldListener(this), false, null);
+				new SolverMathFieldListener(this), false);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
 		app.setMathField(mathField);
 
@@ -157,11 +157,12 @@ public class Solver {
 		app.getAppletFrame().updateHeaderSize();
 		mathField.setPixelRatio(Browser.getPixelRatio());
 		mathField.repaint();
-		keyboard.updateSize();
-
-		for (int i = 0; i < stepsPanel.getWidgetCount(); i++) {
-			if (stepsPanel.getWidget(i) instanceof StepInformation) {
-				((StepInformation) stepsPanel.getWidget(i)).resize();
+		keyboard.onResize();
+		if (stepsPanel != null) {
+			for (int i = 0; i < stepsPanel.getWidgetCount(); i++) {
+				if (stepsPanel.getWidget(i) instanceof StepInformation) {
+					((StepInformation) stepsPanel.getWidget(i)).resize();
+				}
 			}
 		}
 	}
@@ -172,7 +173,7 @@ public class Solver {
 	}
 
 	private void compute(String text) {
-        Browser.changeUrl(AppWsolver.getRelativeURLforEqn(text));
+		Browser.changeUrl(AppWsolver.getRelativeURLforEqn(text));
 		mathField.setText(text, false);
 		mathField.setFocus(false);
 
@@ -246,12 +247,12 @@ public class Solver {
 
 		for (StepVariable variable : variableList) {
 			try {
-                double startTime = FpsProfilerW.getMillisecondTimeNative();
+				double startTime = FpsProfilerW.getMillisecondTimeNative();
 				List<StepSolution> solutionList = solvable.solve(variable, sb);
-                double solveTime = FpsProfilerW.getMillisecondTimeNative();
+				double solveTime = FpsProfilerW.getMillisecondTimeNative();
 				solutions.add(
 						new StepInformation(app, guiBuilder, solutionList, sb.getSteps()));
-                double endTime = FpsProfilerW.getMillisecondTimeNative();
+				double endTime = FpsProfilerW.getMillisecondTimeNative();
 
 				Log.debug("Total execution time: " + (endTime - startTime) + " ms");
 				Log.debug("Solve time: " + (solveTime - startTime) + " ms");

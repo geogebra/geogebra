@@ -1,10 +1,11 @@
 package org.geogebra.common;
 
-import org.geogebra.common.factories.AwtFactoryCommon;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.jre.headless.AppCommon;
-import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.junit.Before;
@@ -38,8 +39,8 @@ public class BaseUnitTest {
 	/**
 	 * @return app instance for 2D testing
 	 */
-	public static AppCommon createAppCommon() {
-		return new AppCommon(new LocalizationCommon(2), new AwtFactoryCommon());
+	public AppCommon createAppCommon() {
+		return AppCommonFactory.create();
 	}
 
 	/**
@@ -78,15 +79,65 @@ public class BaseUnitTest {
         return elementFactory;
     }
 
-    /**
-     * @param command algebra input to be processed
-     * @return resulting element
-     */
-    protected GeoElement add(String command) {
-		GeoElementND[] ret = getApp().getKernel().getAlgebraProcessor()
-                .processAlgebraCommand(command, false);
-        return ret.length == 0 ? null : ret[0].toGeoElement();
-    }
+	/**
+	 * Use this method when you want to test the commands as if those were read from file.
+	 *
+	 * @param command
+	 *            algebra input to be processed
+	 * @return resulting element
+	 */
+	protected <T extends GeoElementND> T add(String command) {
+		GeoElementND[] geoElements =
+				getAlgebraProcessor().processAlgebraCommand(command, false);
+		return getFirstElement(geoElements);
+	}
+
+	private AlgebraProcessor getAlgebraProcessor() {
+		return getApp().getKernel().getAlgebraProcessor();
+	}
+
+	private <T extends GeoElementND> T getFirstElement(GeoElementND[] geoElements) {
+		if (geoElements != null) {
+			return geoElements.length == 0 ? null : (T) geoElements[0];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Use this method when you want to test the commands as if those were inserted in AV.
+	 *
+	 * @param command
+	 *            algebra input to be processed
+	 * @return resulting element
+	 */
+
+	protected <T extends GeoElement> T addAvInput(String command) {
+		EvalInfo info = EvalInfoFactory.getEvalInfoForAV(app, false);
+		return add(command, info);
+	}
+
+	/**
+	 * Use this method when you want to test the commands with a specific EvalInfo.
+	 *
+	 * @param command
+	 * 			algebra input to be processed
+	 * @param info
+	 * 			EvalInfo to pass to the AlgebraProcessor.processAlgebraCommandNoExceptionHandling
+	 * 			method.
+	 * @return resulting element
+	 */
+	protected <T extends GeoElement> T add(String command, EvalInfo info) {
+		GeoElementND[] geoElements =
+				getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(
+								command,
+								false,
+								app.getErrorHandler(),
+								info,
+								null);
+		return getFirstElement(geoElements);
+	}
 
     /**
      * @param label label

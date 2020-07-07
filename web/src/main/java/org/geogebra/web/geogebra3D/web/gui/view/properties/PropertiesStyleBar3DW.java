@@ -2,12 +2,9 @@ package org.geogebra.web.geogebra3D.web.gui.view.properties;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.ImageFactory;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.properties.PropertiesStyleBarW;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -32,14 +29,13 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 
 	@Override
 	protected String getTypeIcon(OptionType type) {
+		SvgPerspectiveResources pr = SvgPerspectiveResources.INSTANCE;
+
 		switch (type) {
 		case EUCLIDIAN3D:
-			return ImgResourceHelper
-					.safeURI(MaterialDesignResources.INSTANCE.graphing3D());
+			return pr.menu_icon_graphics3D_transparent().getSafeUri().asString();
 		case EUCLIDIAN_FOR_PLANE:
-			SvgPerspectiveResources pr = ImageFactory
-					.getPerspectiveResources();
-			return ImgResourceHelper.safeURI(pr.menu_icon_graphics_extra());
+			return pr.menu_icon_graphics_extra().getSafeUri().asString();
 		default:
 			return super.getTypeIcon(type);
 		}

@@ -63,8 +63,8 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
                 "(a * (4 * x + 6) / (4 * x + 6))^(2) + 6 * a * (4 * x + 6) / (4 * x + 6) + 8");
         t("Substitute((3 m - 3)^2 - (m + 3)^2, m, a)",
                 "(3 * a - 3)^(2) - (a + 3)^(2)");
-        t("Substitute(2x + 3y - z, {x = a, y = 2, z = b})",
-                "2 * a + 6 - b");
+        t("Substitute(2x + 3y - z, {x = a, y = 2, z = d})",
+                "2 * a + 6 - d");
     }
 
     @Test

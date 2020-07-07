@@ -34,6 +34,7 @@ import com.google.gwt.canvas.dom.client.Context2d.Repetition;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
@@ -41,15 +42,14 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 public class GGraphics2DW implements GGraphics2DWI {
 
 	protected final Canvas canvas;
-	private final JLMContext2d context;
+	private JLMContext2d context;
 
 	private GFontW currentFont = new GFontW("normal");
-	private GColor color = GColor.newColor(255, 255, 255, 255);
+	protected GColor color = GColor.newColor(255, 255, 255, 255);
 
 	GPaint currentPaint = GColor.newColor(255, 255, 255, 255);
 
 	private double[] dashArray = null;
-	private JsArrayNumber jsarrn;
 
 	private int canvasWidth;
 	private int canvasHeight;
@@ -91,6 +91,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 		this.context.initTransform();
 	}
 
+	protected void setContext(JLMContext2d context) {
+		this.context = context;
+	}
+
 	/**
 	 * Change how images are drawn on canvas.
 	 *
@@ -107,16 +111,9 @@ public class GGraphics2DW implements GGraphics2DWI {
 	}
 
 	private native void setImageInterpolationNative(Context2d ctx, boolean b) /*-{
-
 		ctx['imageSmoothingEnabled'] = b;
-		ctx['mozImageSmoothingEnabled'] = b;
 		// IE11+ only
 		ctx['msImageSmoothingEnabled'] = b;
-		ctx['oImageSmoothingEnabled'] = b;
-		// deprecated
-		// https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/Ud3cV1mj35s/Ssat21OeRqYJ
-		// ctx['webkitImageSmoothingEnabled'] = b;
-
 	}-*/;
 
 	/**
@@ -319,11 +316,8 @@ public class GGraphics2DW implements GGraphics2DWI {
 	 *
 	 * @param svgPaint
 	 *            SVG pattern
-	 * @param lineWidth
-	 *            line width
 	 */
-	public void setPaintSVG(final GPaintSVG svgPaint, double lineWidth) {
-
+	public void setPaintSVG(final GPaintSVG svgPaint) {
 		CanvasPattern ptr = context.createPatternSVG(
 				svgPaint.getPath(), svgPaint.getStyle(), svgPaint.getWidth(),
 				svgPaint.getHeight(),
@@ -332,14 +326,13 @@ public class GGraphics2DW implements GGraphics2DWI {
 		// "stroke:black; stroke-width:1", 69.2820323028, 120);
 
 		context.setFillStyle(ptr);
-
 	}
 
 	@Override
 	public void setPaint(final GPaint paint) {
 
 		if (paint instanceof GPaintSVG) {
-			setPaintSVG((GPaintSVG) paint, context.getLineWidth());
+			setPaintSVG((GPaintSVG) paint);
 			return;
 		}
 
@@ -400,7 +393,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 			double[] dasharr = stroke.getDashArray();
 			if (dasharr != null) {
-				jsarrn = JavaScriptObject.createArray().cast();
+				JsArrayNumber jsarrn = JavaScriptObject.createArray().cast();
 				jsarrn.setLength(dasharr.length);
 				for (int i = 0; i < dasharr.length; i++) {
 					jsarrn.set(i, dasharr[i]);
@@ -484,27 +477,27 @@ public class GGraphics2DW implements GGraphics2DWI {
 		return currentFont;
 	}
 
-	private int physicalPX(int logicalPX) {
+	int physicalPX(int logicalPX) {
 		return (int) (logicalPX * getDevicePixelRatio());
 	}
 
 	@Override
 	public void setCoordinateSpaceSize(int width, int height) {
+		setCanvasSize(width, height);
+		context.resetTransform(getDevicePixelRatio());
+		setPixelSize(width, height);
+		this.updateCanvasColor();
+	}
+
+	protected void setCanvasSize(int width, int height) {
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
-
-		context.resetTransform(getDevicePixelRatio());
-		setWidth(width);
-		setHeight(height);
-		this.updateCanvasColor();
 	}
 
 	@Override
 	public void setCoordinateSpaceSizeNoTransformNoColor(int width, int height) {
-		canvas.setCoordinateSpaceWidth(physicalPX(width));
-		canvas.setCoordinateSpaceHeight(physicalPX(height));
-		setWidth(width);
-		setHeight(height);
+		setCanvasSize(width, height);
+		setPixelSize(width, height);
 	}
 
 	@Override
@@ -595,10 +588,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void clearRect(int x, int y, int w, int h) {
-		context.saveTransform();
-		context.setTransform2(1, 0, 0, 1, 0, 0);
 		context.clearRect(x, y, w, h);
-		context.restoreTransform();
 	}
 
 	@Override
@@ -744,35 +734,27 @@ public class GGraphics2DW implements GGraphics2DWI {
 	}
 
 	/**
-	 * @param w
+	 * @param width
 	 *            CSS width in pixels
-	 */
-	public void setWidth(int w) {
-		this.canvasWidth = w;
-		canvas.setWidth(w + "px");
-	}
-
-	/**
-	 * @param h
+	 * @param height
 	 *            CSS height in pixels
 	 */
-	public void setHeight(int h) {
-		this.canvasHeight = h;
-		canvas.setHeight(h + "px");
+	public void setPixelSize(int width, int height) {
+		this.canvasWidth = width;
+		this.canvasHeight = height;
+		canvas.setPixelSize(width, height);
 	}
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		setWidth(Math.max(0, preferredSize.getWidth()));
-		setHeight(Math.max(0, preferredSize.getHeight()));
+		int width = Math.max(0, preferredSize.getWidth());
+		int height = Math.max(0, preferredSize.getHeight());
+		setPixelSize(width, height);
 
 		// do not use getOffsetWidth here,
 		// as it is prepared by the browser and not yet ready...
 		// if preferredSize can be negative, have a check for it instead
-		setCoordinateSpaceSize(
-				(preferredSize.getWidth() >= 0) ? preferredSize.getWidth() : 0,
-				(preferredSize.getHeight() >= 0) ? preferredSize.getHeight()
-						: 0);
+		setCoordinateSpaceSize(width, height);
 	}
 
 	@Override
@@ -810,7 +792,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	private void roundRect(int x, int y, int w, int h, double r) {
 
 		// gives good approximation to circular arc
-		double K = 4 / 3 * (Math.sqrt(2) - 1);
+		double K = 4.0 / 3 * (Math.sqrt(2) - 1);
 
 		double right = x + w;
 		double bottom = y + h;
@@ -880,7 +862,10 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public void clearAll() {
 		double scale = getScale();
-		clearRect(0, 0, (int) (scale * getOffsetWidth()), (int) (scale * getOffsetHeight()));
+		context.saveTransform();
+		context.setTransform2(scale, 0, 0, scale, 0, 0);
+		clearRect(0, 0, getOffsetWidth(), getOffsetHeight());
+		context.restoreTransform();
 	}
 
 	public double getScale() {
@@ -952,7 +937,23 @@ public class GGraphics2DW implements GGraphics2DWI {
 		try {
 			context.drawImage(img, x, y);
 		} catch (Exception e) {
-			Log.error("error in context.drawImage.3 method");
+			Log.error(e.getMessage());
+		}
+	}
+
+	/**
+	 * @param canvasImg
+	 *            canvas image
+	 * @param x
+	 *            left offset
+	 * @param y
+	 *            top offset
+	 */
+	public void drawImage(CanvasElement canvasImg, int x, int y) {
+		try {
+			context.drawImage(canvasImg, x, y);
+		} catch (Exception e) {
+			Log.error(e.getMessage());
 		}
 	}
 
@@ -963,18 +964,25 @@ public class GGraphics2DW implements GGraphics2DWI {
 
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
-			int dy) {
+			int dy, int dw, int dh) {
 		context.drawImage(((MyImageW) img).getImage(), sx, sy, sw, sh, dx, dy,
-				sw, sh);
+				dw, dh);
+	}
+
+	@Override
+	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
+		context.drawImage(((MyImageW) img).getImage(), dx, dy, dw, dh);
 	}
 
 	@Override
 	public void saveTransform() {
+		color = null; // saveTransform changes color in context, cached color needs reset too
 		context.saveTransform();
 	}
 
 	@Override
 	public void restoreTransform() {
+		color = null; // restoreTransform changes color in context, cached color needs reset too
 		context.restoreTransform();
 	}
 
@@ -1028,5 +1036,15 @@ public class GGraphics2DW implements GGraphics2DWI {
     public boolean isAttached() {
         return canvas != null && canvas.isAttached();
     }
+
+	@Override
+	public int embed() {
+		return 0; // no layers
+	}
+
+	@Override
+	public void resetLayer() {
+		// no layers
+	}
 
 }

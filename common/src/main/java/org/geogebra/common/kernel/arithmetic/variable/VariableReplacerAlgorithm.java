@@ -1,12 +1,14 @@
 package org.geogebra.common.kernel.arithmetic.variable;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.variable.power.Base;
-import org.geogebra.common.kernel.arithmetic.variable.power.Exponents;
+import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
@@ -21,14 +23,8 @@ public class VariableReplacerAlgorithm {
 
 	private Kernel kernel;
 	private DerivativeCreator derivativeCreator;
-	private ProductCreator productCreator;
 
-	private String expressionString;
-	private String nameNoX;
-	private Exponents exponents;
-	private ExpressionValue geo;
-	private int degPower;
-	private int charIndex;
+	private boolean multipleUnassignedAllowed = false;
 
 	/**
 	 * @param kernel The kernel.
@@ -36,8 +32,6 @@ public class VariableReplacerAlgorithm {
 	public VariableReplacerAlgorithm(Kernel kernel) {
 		this.kernel = kernel;
 		derivativeCreator = new DerivativeCreator(kernel);
-		productCreator = new ProductCreator(kernel);
-		exponents = new Exponents();
 	}
 
 	/**
@@ -47,167 +41,160 @@ public class VariableReplacerAlgorithm {
 	 */
 	@SuppressWarnings("hiding")
 	public ExpressionValue replace(String expressionString) {
-		this.expressionString = expressionString;
+		return tokenize(expressionString);
+	}
 
-		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
-		if (expressionString.endsWith("'")
-				&& kernel.getAlgebraProcessor().enableStructures()) {
+	private ExpressionValue tokenize(String expressionString) {
+		InputTokenizer tokenizer = new InputTokenizer(kernel, expressionString);
+		String next = expressionString;
+		if (tokenizer.hasToken()) {
+			next = tokenizer.next();
+			if (next.startsWith("log_")) {
+				ExpressionValue logIndex = FunctionParser.getLogIndex(expressionString, kernel);
+				if (logIndex != null) {
+					ExpressionValue logArg = getLogArg(expressionString);
+					return new ExpressionNode(kernel, logIndex, Operation.LOGB, logArg);
+				}
+			}
+			Operation op = kernel.getApplication().getParserFunctions().getSingleArgumentOp(next);
+			op = ArcTrigReplacer.getDegreeInverseTrigOp(op);
+			if (op != null) {
+				ExpressionValue arg =  tokenize(tokenizer.getInputRemaining());
+				return arg.wrap().apply(op);
+			}
+			ExpressionValue v1 = replaceToken(next);
 
-			ExpressionValue ret = derivativeCreator.getDerivative(expressionString);
-			if (ret != null) {
-				return ret;
+			if (!multipleUnassignedAllowed && v1 instanceof Variable) {
+				return parseReverse(expressionString);
 			}
 
+			if (tokenizer.hasToken()) {
+				ExpressionValue v2 = tokenize(tokenizer.getInputRemaining());
+				return leftProduct(v1, v2);
+			}
+			return v1;
 		}
 
-		exponents.initWithZero();
+		return replaceToken(next);
+	}
 
-		geo = productCreator.getProduct(expressionString);
+	private ExpressionValue parseReverse(String expressionString) {
+		if (expressionString.endsWith("deg")) {
+			return buildReverseProduct(expressionString, 3);
+		}
+		String lastChar = expressionString.substring(expressionString.length() - 1);
+		if (isCharVariableName(lastChar) || Unicode.PI_STRING.equals(lastChar)) {
+			return buildReverseProduct(expressionString, 1);
+		}
+		return replaceToken(expressionString);
+	}
+
+	private ExpressionValue buildReverseProduct(String expressionString, int suffixLength) {
+		int length = expressionString.length() - suffixLength;
+		ExpressionValue left = parseReverse(expressionString.substring(0, length));
+		return left.wrap().multiply(replaceToken(expressionString.substring(length)));
+	}
+
+	private ExpressionNode leftProduct(ExpressionValue v1, ExpressionValue v2) {
+		if (isProduct(v2)) {
+			return leftProduct(v1, v2.wrap().getLeft()).multiplyR(v2.wrap().getRight());
+		}
+		return v1.wrap().multiplyR(v2);
+	}
+
+	private boolean isProduct(ExpressionValue value) {
+		return value.wrap().getOperation() == Operation.MULTIPLY;
+	}
+
+	private ExpressionValue replaceToken(String expressionString) {
+		ExpressionValue derivative = getDerivative(expressionString);
+		if (derivative != null) {
+			return derivative;
+		}
+
+		ExpressionValue geo = lookupOrProduct(expressionString);
 		if (geo != null) {
 			return geo;
 		}
-		nameNoX = expressionString;
-		degPower = 0;
-		while (nameNoX.length() > 0 && (geo == null)
-				&& nameNoX.endsWith("deg")) {
-			int length = nameNoX.length();
-			degPower++;
-			nameNoX = nameNoX.substring(0, length - 3);
-			if (length > 3) {
-				geo = kernel.lookupLabel(nameNoX);
-			}
 
+		if ("deg".equals(expressionString)) {
+			return new MySpecialDouble(kernel, Kernel.PI_180, Unicode.DEGREE_STRING);
 		}
 
-		ExpressionValue logExpression = getLogExpression();
-		if (logExpression != null) {
-			return logExpression;
+		if ("pi".equals(expressionString) || Unicode.PI_STRING.equals(expressionString)) {
+			return new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
+		}
+		MySpecialDouble mult = consumeConstant(expressionString);
+		if (mult != null) {
+			return mult;
 		}
 
-		ExpressionValue resultOfReverseProcessing = processInReverse();
-		if (resultOfReverseProcessing != null) {
-			return resultOfReverseProcessing;
+		if (InputTokenizer.isImaginaryUnit(expressionString)) {
+			return getImaginaryUnit();
 		}
 
-		processPi();
-
-		double mult = Double.NaN;
-
-		if (nameNoX.length() > 0 && geo == null) {
-
-			// eg pi8 (with Unicode pi)
-			if (StringUtil.isNumber(nameNoX)) {
-				mult = MyDouble.parseDouble(kernel.getLocalization(), nameNoX);
-			} else {
-				return new Variable(kernel, nameNoX);
-			}
-		}
-		ExpressionNode powers = productCreator.getXyzPowers(exponents);
-		ExpressionNode ret;
-		if (geo == null) {
-			ret = exponents.get(Base.pi) == 0 && degPower == 0 ? powers
-					: powers.multiply(productCreator.piDegPowers(exponents.get(Base.pi), degPower));
-		} else {
-			ret = exponents.get(Base.pi) == 0 && degPower == 0
-					? powers.multiply(geo)
-				: powers.multiply(geo)
-				.multiply(productCreator.piDegPowers(exponents.get(Base.pi), degPower));
+		if (isCharVariableName(expressionString)) {
+			return new FunctionVariable(kernel, expressionString);
 		}
 
-		if (MyDouble.isFinite(mult)) {
-			ret = ret.multiply(mult);
+		return new Variable(kernel, expressionString);
+	}
+
+	private GeoVec2D getImaginaryUnit() {
+		GeoVec2D imaginary = new GeoVec2D(kernel, 0, 1);
+		imaginary.setMode(Kernel.COORD_COMPLEX);
+		return imaginary;
+	}
+
+	private ExpressionValue getDerivative(String expressionString) {
+		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
+		return expressionString.endsWith("'")
+				&& kernel.getAlgebraProcessor().enableStructures()
+				? derivativeCreator.getDerivative(expressionString)
+				: null;
+	}
+
+	private MySpecialDouble consumeConstant(String expressionString) {
+		int numberLength = 0;
+		while (numberLength < expressionString.length()
+				&& StringUtil.isDigitOrDot(expressionString.charAt(numberLength))) {
+			numberLength++;
+		}
+		if (numberLength != 0) {
+			String num = expressionString.substring(0, numberLength);
+			double value = MyDouble.parseDouble(kernel.getLocalization(), num);
+			return new MySpecialDouble(kernel, value, num);
+		}
+		return null;
+	}
+
+	private ExpressionValue lookupOrProduct(String nameNoX) {
+		if (kernel.getConstruction().isRegistredFunctionVariable(nameNoX)
+				&& !isCharVariableName(nameNoX)) {
+			return new FunctionVariable(kernel, nameNoX);
+		}
+
+		ExpressionValue ret = kernel.lookupLabel(nameNoX);
+
+		if (ret == null && "i".equals(nameNoX)) {
+			ret = kernel.getImaginaryUnit();
+		}
+		if (ret == null && "e".equals(nameNoX)) {
+			ret = kernel.getEulerNumber();
 		}
 
 		return ret;
 	}
 
-	private ExpressionValue processInReverse() {
-		for (charIndex = nameNoX.length() - 1; charIndex >= 0; charIndex--) {
-
-			if (!isCharVariableOrConstantName()) {
-				break;
-			}
-
-			increaseExponents();
-
-			nameNoX = expressionString.substring(0, charIndex);
-			geo = kernel.lookupLabel(nameNoX);
-			if (geo == null && "i".equals(nameNoX)) {
-				geo = kernel.getImaginaryUnit();
-			}
-			Operation op = kernel.getApplication().getParserFunctions()
-					.get(nameNoX, 1);
-			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
-					&& op != Operation.ZCOORD) {
-				return productCreator.getXyzPiDegPower(exponents, degPower).apply(op);
-			}
-
-			if (geo == null) {
-				geo = productCreator.getProduct(nameNoX);
-			}
-			if (geo != null) {
-				break;
-			}
+	private boolean isCharVariableName(String token) {
+		if (token.length() != 1) {
+			return false;
 		}
-
-		return null;
-	}
-
-	private void processPi() {
-		while (nameNoX.length() > 0 && geo == null && (nameNoX.startsWith("pi")
-				|| nameNoX.charAt(0) == Unicode.pi)) {
-			int chop = nameNoX.charAt(0) == Unicode.pi ? 1 : 2;
-			exponents.increase(Base.pi);
-			nameNoX = nameNoX.substring(chop);
-			if (charIndex + 1 >= chop) {
-				geo = kernel.lookupLabel(nameNoX);
-				if (geo == null) {
-					geo = productCreator.getProduct(nameNoX);
-				}
-			}
-			if (geo != null) {
-				break;
-			}
-		}
-	}
-
-	private void increaseExponents() {
-		char charAtIndex = expressionString.charAt(charIndex);
-
-		if (charAtIndex == Unicode.pi) {
-			exponents.increase(Base.pi);
-        } else if (charAtIndex == Unicode.theta) {
-			exponents.increase(Base.theta);
-        } else if (charAtIndex == 'x') {
-			exponents.increase(Base.x);
-        } else if (charAtIndex == 'y') {
-			exponents.increase(Base.y);
-        } else if (charAtIndex == 'z') {
-            exponents.increase(Base.z);
-        } else if (charAtIndex == 't') {
-            exponents.increase(Base.t);
-        }
-	}
-
-	private boolean isCharVariableOrConstantName() {
-		char charAtIndex = expressionString.charAt(charIndex);
-		boolean isPi = charAtIndex == Unicode.pi;
+		char charAtIndex = token.charAt(0);
 		boolean isTheta = charAtIndex == Unicode.theta;
         boolean isT = charAtIndex == 't';
 		boolean isXYZ = charAtIndex >= 'x' && charAtIndex <= 'z';
-        return isPi || isTheta || isXYZ || isT;
-	}
-
-	private ExpressionNode getLogExpression() {
-		if (!expressionString.startsWith("log_")) {
-			return null;
-		}
-		ExpressionValue logIndex = FunctionParser.getLogIndex(expressionString, kernel);
-		if (logIndex != null) {
-			ExpressionValue logArg = getLogArg(expressionString);
-			return new ExpressionNode(kernel, logIndex, Operation.LOGB, logArg);
-		}
-		return null;
+		return isTheta || isXYZ || isT;
 	}
 
 	private ExpressionValue getLogArg(String logString) {
@@ -249,8 +236,12 @@ public class VariableReplacerAlgorithm {
 		return -1;
 	}
 
-	// For tests only.
-	Exponents getExponents() {
-		return exponents;
+	/**
+	 * We always allow splitting pp to p*p if p is a function variable, but if p
+	 * is a generic variable (=unassigned) we only want to split it in input boxes.
+	 * @param value whether to allow splitting with more than one Variable instance
+	 */
+	public void setMultipleUnassignedAllowed(boolean value) {
+		multipleUnassignedAllowed = value;
 	}
 }

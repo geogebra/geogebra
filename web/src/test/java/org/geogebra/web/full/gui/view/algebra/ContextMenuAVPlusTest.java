@@ -14,14 +14,14 @@ import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwtmockito.WithClassesToStub;
 
 @RunWith(GgbMockitoTestRunner.class)
-@WithClassesToStub({TextAreaElement.class})
+@WithClassesToStub({ TextAreaElement.class })
 public class ContextMenuAVPlusTest {
 
     @Test
     public void imageToolShownIfAppHasToolbar() {
         ArticleElementInterface articleElement =
                 new TestArticleElement("prerelease", "classic")
-                        .attr("showToolBar", "true");
+                    .attr("showToolBar", "true");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
         RadioTreeItem radioTreeItem = new RadioTreeItem(app.getKernel());

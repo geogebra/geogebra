@@ -21,12 +21,15 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 
 /**
  * context menu
  */
 public class ContextMenuPopup extends MyCJButton
-		implements CloseHandler<GPopupPanel>, MouseOverHandler {
+		implements CloseHandler<GPopupPanel>, MouseOverHandler, ResizeHandler {
 
 	private EuclidianController ec;
 	private GPoint location;
@@ -51,6 +54,16 @@ public class ContextMenuPopup extends MyCJButton
 		updateLocation();
 		createPopup();
 		addStyleName("MyCanvasButton-borderless");
+		Window.addResizeHandler(this);
+	}
+
+	@Override
+	public void onResize(ResizeEvent event) {
+		if (!popup.isMenuShown()) {
+			return;
+		}
+		updateLocation();
+		popup.show(location);
 	}
 
 	private void updateLocation() {
@@ -75,7 +88,7 @@ public class ContextMenuPopup extends MyCJButton
 				} else {
 					showMenu();
 				}
-
+				app.hideKeyboard();
 			}
 		});
 		ClickEndHandler.init(this, new ClickEndHandler(false, true) {
@@ -114,7 +127,7 @@ public class ContextMenuPopup extends MyCJButton
 		}
 		if (isActive) {
 			ImgResourceHelper
-                    .setIcon(getActiveMoreVert(), this);
+					.setIcon(getActiveMoreVert(), this);
 		} else {
 			ImgResourceHelper
 					.setIcon(MaterialDesignResources.INSTANCE.more_vert_black(),
@@ -129,7 +142,7 @@ public class ContextMenuPopup extends MyCJButton
 		updateLocation();
 		popup.update();
 		popup.show(location);
-        ImgResourceHelper.setIcon(getActiveMoreVert(), this);
+		ImgResourceHelper.setIcon(getActiveMoreVert(), this);
 		this.addStyleName("noOpacity");
 		popup.setMenuShown(true);
 	}
@@ -153,6 +166,7 @@ public class ContextMenuPopup extends MyCJButton
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
 		unselectButton();
+		popup.setMenuShown(false);
 	}
 	
 	/**
@@ -178,11 +192,11 @@ public class ContextMenuPopup extends MyCJButton
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-        ImgResourceHelper.setIcon(getActiveMoreVert(), this);
-    }
+		ImgResourceHelper.setIcon(getActiveMoreVert(), this);
+	}
 
-    private SVGResource getActiveMoreVert() {
-        SVGResource resource = MaterialDesignResources.INSTANCE.more_vert_black();
-        return resource.withFill(app.getVendorSettings().getPrimaryColor().toString());
-    }
+	private SVGResource getActiveMoreVert() {
+		SVGResource resource = MaterialDesignResources.INSTANCE.more_vert_black();
+		return resource.withFill(app.getVendorSettings().getPrimaryColor().toString());
+	}
 }

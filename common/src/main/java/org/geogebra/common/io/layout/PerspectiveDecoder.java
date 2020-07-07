@@ -129,12 +129,6 @@ public class PerspectiveDecoder {
 								false, true, AwtFactory.getPrototype()
 										.newRectangle(100, 100, 700, 550),
 								"1,1", 400));
-		viewCodes
-				.put("M",
-						new DockPanelData(App.VIEW_DATA_COLLECTION, null, true,
-								false, false, AwtFactory.getPrototype()
-										.newRectangle(100, 100, 600, 400),
-								"3", 300));
 	}
 
 	/**
@@ -186,10 +180,10 @@ public class PerspectiveDecoder {
 		if (code.length() == 0 || code.startsWith("search:")) {
 			return null;
 		}
-        for (int i = 0; i < Layout.getDefaultPerspectivesLength(); i++) {
-            Perspective defaultPerspective = Layout.getDefaultPerspectives(i);
-            if (defaultPerspective != null && code.equals(defaultPerspective.getDefaultID() + "")) {
-                return defaultPerspective;
+		for (int i = 0; i < Layout.getDefaultPerspectivesLength(); i++) {
+			Perspective defaultPerspective = Layout.getDefaultPerspectives(i);
+			if (defaultPerspective != null && code.equals(defaultPerspective.getDefaultID() + "")) {
+				return defaultPerspective;
 			}
 		}
 		StringBuilder longCode = new StringBuilder();
@@ -290,8 +284,8 @@ public class PerspectiveDecoder {
 	}
 
 	/**
-     * @param app
-     *            application
+	 * @param app
+	 *            application
 	 * @param code
 	 *            eg "+A" to open Algebra View
 	 */

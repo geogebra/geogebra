@@ -21,15 +21,18 @@ public class EvaluatorActivity extends BaseActivity {
         super(new AppConfigEvaluator());
     }
 
-    @Override
-    public void start(AppW appW) {
-        super.start(appW);
-        editor = new EvaluatorEditor(appW);
-        GeoGebraFrameW frame = appW.getAppletFrame();
-        frame.clear();
-        frame.add(editor);
-        editor.requestFocus();
-    }
+	@Override
+	public void start(AppW appW) {
+		super.start(appW);
+		editor = new EvaluatorEditor(appW);
+		GeoGebraFrameW frame = appW.getAppletFrame();
+		frame.clear();
+		frame.add(editor);
+
+		if (!appW.getArticleElement().preventFocus()) {
+			editor.requestFocus();
+		}
+	}
 
     @Override
     public ApiExporter getApiExporter() {

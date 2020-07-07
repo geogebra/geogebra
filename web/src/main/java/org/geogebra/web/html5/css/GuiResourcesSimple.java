@@ -25,9 +25,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/canvas2pdf_min.js")
 	TextResource canvas2Pdf();
 
-	@Source("org/geogebra/web/resources/js/youtube.js")
-	TextResource youtube();
-
 	@Source("org/geogebra/common/icons_play/p24/nav_play_circle.png")
 	ImageResource icons_play_circle();
 
@@ -187,4 +184,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-record_voice_over-24px.svg")
 	SVGResource record();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/rulings/elementary12colored.svg")
+	SVGResource mow_ruling_elementary12colored();
 }

@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
@@ -54,7 +53,7 @@ class DrawParametricInequality extends SetDrawable {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-        if (isHighlighted()) {
+		if (isHighlighted()) {
 			g2.setPaint(geo.getSelColor());
 			g2.setStroke(selStroke);
 			g2.draw(gp);
@@ -151,7 +150,6 @@ class DrawParametricInequality extends SetDrawable {
 			yLabel = labelPos.getY();
 			addLabelOffset();
 		}
-
 	}
 
 	/**
@@ -159,11 +157,5 @@ class DrawParametricInequality extends SetDrawable {
 	 */
 	boolean isXparametric() {
 		return paramIneq.getType() == IneqType.INEQUALITY_PARAMETRIC_X;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

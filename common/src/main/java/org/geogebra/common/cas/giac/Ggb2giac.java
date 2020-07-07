@@ -282,7 +282,7 @@ public class Ggb2giac {
 		// regroup/normal swapped for improved variable order eg x^2+a*x+b
 		// #5500 don't expand brackets automatically
 		p("Evaluate.1",
-				"[[[ggbevalarg:=%0],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]],when(length(\"\"+ggbevalans)<=length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1]");
+				"[[[ggbevalarg:=?],[ggbevalarg:=%0],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]],when(length(\"\"+ggbevalans)<=length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1]");
 
 		// split into real+imag #4522
 		p("Expand.1",

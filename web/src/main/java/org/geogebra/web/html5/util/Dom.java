@@ -113,13 +113,35 @@ public final class Dom {
 	 */
 	public static void toggleClass(UIObject ui, String classTrue,
 			String classFalse, boolean add) {
+		toggleClass(ui.getElement(), classTrue, classFalse, add);
+	}
+
+	/**
+	 * @param elem
+	 *            HTML element
+	 * @param classTrue
+	 *            CSS class when toggle is true
+	 * @param classFalse
+	 *            CSS class when toggle is false
+	 * @param add
+	 *            whether to add or remove
+	 */
+	public static void toggleClass(Element elem, String classTrue,
+			String classFalse, boolean add) {
 		if (add) {
-			ui.getElement().addClassName(classTrue);
-			ui.getElement().removeClassName(classFalse);
+			elem.addClassName(classTrue);
+			elem.removeClassName(classFalse);
 		} else {
-			ui.getElement().removeClassName(classTrue);
-			ui.getElement().addClassName(classFalse);
+			elem.removeClassName(classTrue);
+			elem.addClassName(classFalse);
 		}
 	}
+
+	/**
+	 * @return active element
+	 */
+	public static native Element getActiveElement() /*-{
+		return $doc.activeElement;
+	}-*/;
 
 }

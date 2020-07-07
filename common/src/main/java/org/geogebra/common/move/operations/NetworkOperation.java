@@ -1,7 +1,6 @@
 package org.geogebra.common.move.operations;
 
 import org.geogebra.common.move.views.BooleanRenderable;
-import org.geogebra.common.move.views.OfflineView;
 
 /**
  * @author gabor Base for offline and online operations
@@ -23,11 +22,6 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 		this.online = network.onLine();
 	}
 
-	@Override
-	public OfflineView getView() {
-		return (OfflineView) view;
-	}
-
 	/**
 	 * @return if app state is online
 	 */
@@ -42,7 +36,7 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	 */
 	public void setOnline(boolean online) {
 		this.online = online;
-		((OfflineView) view).render(online);
+		dispatchEvent(new BooleanEvent(online));
 	}
 
 }

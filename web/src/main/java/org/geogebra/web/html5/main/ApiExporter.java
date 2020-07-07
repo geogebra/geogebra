@@ -7,23 +7,28 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class ApiExporter {
 
-    /**
-     * @param api                     exported object
-     * @param ggbAPI                  internal API
-     * @param listenerMappingFunction listener to ID mapping
-     */
-    protected void addListenerFunctions(JavaScriptObject api, GgbAPIW ggbAPI,
-                                        JavaScriptObject listenerMappingFunction) {
-        addClientListener(api, ggbAPI, listenerMappingFunction);
-        addSpecificListenerFunctionsNative(api, ggbAPI, listenerMappingFunction);
-    }
+	/**
+	 * @param api
+	 *            exported object
+	 * @param ggbAPI
+	 *            internal API
+	 * @param listenerMappingFunction
+	 *            listener to ID mapping
+	 */
+	protected void addListenerFunctions(JavaScriptObject api, GgbAPIW ggbAPI,
+			JavaScriptObject listenerMappingFunction) {
+		addClientListener(api, ggbAPI, listenerMappingFunction);
+		addSpecificListenerFunctionsNative(api, ggbAPI, listenerMappingFunction);
+	}
 
-    /**
-     * @param api    exported object
-     * @param ggbAPI internal API
-     */
-    protected native void addFunctions(JavaScriptObject api,
-                                       GgbAPIW ggbAPI) /*-{
+	/**
+	 * @param api
+	 *            exported object
+	 * @param ggbAPI
+	 *            internal API
+	 */
+	protected native void addFunctions(JavaScriptObject api,
+			GgbAPIW ggbAPI) /*-{
 		api.getXML = function(objName) {
 			if (objName) {
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXML(Ljava/lang/String;)(objName + "");
@@ -321,8 +326,9 @@ public class ApiExporter {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isDefined(Ljava/lang/String;)(objName + "");
 		};
 
-		api.getValueString = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getValueString(Ljava/lang/String;)(objName + "");
+		api.getValueString = function(objName, localized) {
+			localized = Boolean(localized) || typeof localized === 'undefined'
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getValueString(Ljava/lang/String;Z)(objName + "", localized);
 		};
 
 		api.getListValue = function(objName, index) {
@@ -751,8 +757,9 @@ public class ApiExporter {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getEditorState()();
 		};
 
-		api.setEditorState = function(text, label) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setEditorState(Ljava/lang/String;Ljava/lang/String;)(text + "", label || "");
+		api.setEditorState = function(state, label) {
+			var stateString = typeof state == "string" ? state : JSON.stringify(state); 
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setEditorState(Ljava/lang/String;Ljava/lang/String;)(stateString, label || "");
 		};
 
 		api.exportCollada = function(xmin, xmax, ymin, ymax, zmin, zmax, 
@@ -822,23 +829,26 @@ public class ApiExporter {
 		};
 	}-*/;
 
-    /**
-     * @param api    exported object
-     * @param ggbAPI internal API
-     * @param getId  listener to ID mapping
-     */
-    protected final native void addClientListener(JavaScriptObject api,
-                                                  GgbAPIW ggbAPI, JavaScriptObject getId) /*-{
+	/**
+	 * @param api
+	 *            exported object
+	 * @param ggbAPI
+	 *            internal API
+	 * @param getId
+	 *            listener to ID mapping
+	 */
+	protected final native void addClientListener(JavaScriptObject api,
+			GgbAPIW ggbAPI, JavaScriptObject getId) /*-{
 		api.registerClientListener = function(JSFunctionName) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerClientListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 	}-*/;
 
-    /**
-     * Adds client listeners for specific events (add, update, click, ...)
-     */
-    private native void addSpecificListenerFunctionsNative(JavaScriptObject api,
-                                                           GgbAPIW ggbAPI, JavaScriptObject listenerMappingFunction) /*-{
+	/**
+	 * Adds client listeners for specific events (add, update, click, ...)
+	 */
+	private native void addSpecificListenerFunctionsNative(JavaScriptObject api,
+			GgbAPIW ggbAPI, JavaScriptObject listenerMappingFunction) /*-{
 		var getId = listenerMappingFunction;
 
 		api.registerAddListener = function(JSFunctionName) {

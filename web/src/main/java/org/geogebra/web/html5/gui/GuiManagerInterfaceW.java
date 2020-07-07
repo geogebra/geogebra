@@ -12,9 +12,11 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
+import org.geogebra.web.html5.main.TemplateChooserControllerI;
 
 import com.google.gwt.user.client.Command;
 
@@ -84,14 +86,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	void recalculateEnvironments();
 
-	void exportGGB();
+	void exportGGB(boolean showDialog);
 
 	void listenToLogin();
-
-	void setOnScreenKeyboardTextField(MathKeyboardListener textField);
-
-	boolean focusScheduled(boolean setNotGet,
-			boolean setOrGetScheduledPrioritized, boolean setOrGetAllowed);
 
 	void setPixelRatio(double ratio);
 
@@ -111,19 +108,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	@Override
 	SpreadsheetViewInterface getSpreadsheetView();
 
-	void onScreenEditingEnded();
-
 	void setActivePanelAndToolbar(int viewID);
 
-	void updateKeyboardLanguage();
-
-	boolean getKeyboardShouldBeShownFlag();
-
-	void addKeyboardAutoHidePartner(GPopupPanel popup);
-
 	void switchToolsToAV();
-
-	boolean isKeyboardClosedByUser();
 
 	MathKeyboardListener getKeyboardListener(DockPanel panel);
 
@@ -172,15 +159,27 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 */
 	void updateUnbundledToolbar();
 
-    /**
-     * Adds the main menu button to the global header.
-     */
-    void menuToGlobalHeader();
+	/**
+	 * Adds the main menu button to the global header.
+	 */
+	void menuToGlobalHeader();
 
-    /**
-     * Creates and adds a symbolic editor to the panel.
-     *
-     * @return the editor
-     */
-    SymbolicEditor createSymbolicEditor();
+	/**
+	 * Initializes the share button in the global header.
+	 */
+	void initShareActionInGlobalHeader();
+
+	/**
+	 * Creates and adds a symbolic editor to the panel.
+	 *
+	 * @return the editor
+	 */
+	SymbolicEditor createSymbolicEditor(EuclidianViewW view);
+
+	/**
+	 *
+	 * @return templates controller
+	 */
+	TemplateChooserControllerI getTemplateController();
+
 }

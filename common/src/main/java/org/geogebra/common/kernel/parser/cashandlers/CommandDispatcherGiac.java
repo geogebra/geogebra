@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.parser.cashandlers;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -21,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -423,12 +423,12 @@ public class CommandDispatcherGiac {
 
 					vec = new MyVecNode(kernel, args.getItem(0),
 							args.getItem(1));
-					((MyVecNode) vec).setCASVector();
+					((MyVecNode) vec).setupCASVector();
 					break;
 				case 3:
 					vec = new MyVec3DNode(kernel, args.getItem(0),
 							args.getItem(1), args.getItem(2));
-					((MyVec3DNode) vec).setCASVector();
+					((MyVec3DNode) vec).setupCASVector();
 					break;
 
 				default:

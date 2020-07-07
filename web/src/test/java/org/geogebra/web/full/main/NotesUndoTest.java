@@ -29,8 +29,8 @@ public class NotesUndoTest {
 	@Test
 	public void undoSingle() {
 		app = AppMocker
-                .mockApplet(new TestArticleElement("canary", "notes")
-                        .attr("vendor", "mebis"));
+				.mockApplet(new TestArticleElement("canary", "notes")
+						.attr("vendor", "mebis"));
 		addObject("x");
 		addObject("-x");
 		shouldHaveUndoPoints(2);
@@ -368,6 +368,7 @@ public class NotesUndoTest {
 	}
 
 	private static void slideShouldHaveObjects(int slide, int expectedCount) {
+		app.getPageController().refreshSlide(slide);
 		String xml = app.getPageController().getSlide(slide)
 				.get("geogebra.xml");
 		int start = 0;

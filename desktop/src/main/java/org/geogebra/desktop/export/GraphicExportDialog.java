@@ -38,6 +38,7 @@ import org.freehep.graphicsio.svg.SVGGraphics2D;
 import org.freehep.util.UserProperties;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -60,8 +61,6 @@ import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @author Markus Hohenwarter
@@ -322,8 +321,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		cbFormat.addActionListener(new ActionListener() {
 			@Override
-			@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-					"missing break is deliberate" })
 			public void actionPerformed(ActionEvent arg0) {
 				textAsShapesCB.setEnabled(true);
 				switch (selectedFormat()) {
@@ -337,7 +334,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					break;
 				case EPS:
 					textAsShapesCB.setEnabled(false);
-					// fall through
+					//$FALL-THROUGH$
 				case PDF:
 					dpiPanel.remove(resolutionInDPILabel);
 					dpiPanel.remove(cbDPI);
@@ -844,17 +841,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			}
 
 			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-            app.showError(Errors.SaveFileFailed);
-			Log.debug(ex.toString());
+		} catch (Throwable t) {
+			app.showError(Errors.SaveFileFailed);
+			Log.printStacktrace(t.getMessage());
 			return false;
-		} catch (Error ex) {
-            app.showError(Errors.SaveFileFailed);
-			Log.debug(ex.toString());
-			return false;
-		} finally {
-			ev.restoreOldCoordSystem();
 		}
 	}
 
@@ -1027,19 +1017,19 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			ev.drawActionObjects(expGraphics);
 			g.endGroup("misc");
 
-			for (int layer = 0; layer <= app.getMaxLayerUsed(); layer++) // draw
-			// only
-			// layers
-			// we
-			// need
-			{
-				g.startGroup("layer" + layer);
+			int currentLayer = 0;
 
-				// ev.drawLayers[layer].drawAll(new GGraphics2DD(g));
-				g.drawAll(ev.drawLayers[layer], new GGraphics2DD(g));
+			g.startGroup("layer" + currentLayer);
+			for (Drawable d : ev.allDrawableList) {
+				if (d.getGeoElement().getLayer() != currentLayer) {
+					g.endGroup("layer" + currentLayer);
+					currentLayer = d.getGeoElement().getLayer();
+					g.startGroup("layer" + currentLayer);
+				}
 
-				g.endGroup("layer" + layer);
+				g.draw(d, new GGraphics2DD(g));
 			}
+			g.endGroup("layer" + currentLayer);
 
 			g.endExport();
 			expGraphics.resetClip();

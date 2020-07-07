@@ -38,21 +38,19 @@ public class Settings {
 
 	private AbstractSettings keyboardSettings;
 
-	private DataCollectionSettings dataCollectionSettings;
-
 	private CASSettings casSettings;
 
 	private ProbabilityCalculatorSettings probCalcSettings;
 
 	private DataAnalysisSettings daSettings;
 
-	private ToolbarSettings toolbarSettings;
-
 	private TableSettings tableSettings;
 
 	private FontSettings fontSettings;
 
 	private LabelSettings labelSettings;
+
+	private StyleSettings styleSettings;
 
 	/**
 	 * Initialize settings using the constructors of the setting container
@@ -152,21 +150,8 @@ public class Settings {
 					probCalcSettings.getListeners());
 		}
 
-		if (dataCollectionSettings == null) {
-			dataCollectionSettings = new DataCollectionSettings();
-		} else {
-			dataCollectionSettings = new DataCollectionSettings(
-					dataCollectionSettings.getListeners());
-		}
-
-		if (toolbarSettings == null) {
-			toolbarSettings = new ToolbarSettings();
-		} else {
-			toolbarSettings = new ToolbarSettings(
-					toolbarSettings.getListeners());
-		}
-
 		tableSettings = new TableSettings();
+		styleSettings = new StyleSettings();
 
 		for (Resetable setting : resetableSettings) {
 			setting.resetDefaults();
@@ -196,8 +181,6 @@ public class Settings {
 		keyboardSettings.beginBatch();
 		casSettings.beginBatch();
 		probCalcSettings.beginBatch();
-		dataCollectionSettings.beginBatch();
-		toolbarSettings.beginBatch();
 		tableSettings.beginBatch();
 	}
 
@@ -224,8 +207,6 @@ public class Settings {
 		keyboardSettings.endBatch();
 		casSettings.endBatch();
 		probCalcSettings.endBatch();
-		dataCollectionSettings.endBatch();
-		toolbarSettings.endBatch();
 		tableSettings.endBatch();
 	}
 
@@ -311,6 +292,13 @@ public class Settings {
 	}
 
 	/**
+	 * @return style settings (e.g. for buttons)
+	 */
+	public StyleSettings getStyle() {
+		return styleSettings;
+	}
+
+	/**
 	 * Restores spreadsheet defaults
 	 */
 	public void restoreDefaultSpreadsheetSettings() {
@@ -362,20 +350,6 @@ public class Settings {
 	 */
 	public final CASSettings getCasSettings() {
 		return casSettings;
-	}
-
-	/**
-	 * @return data collection settings
-	 */
-	public final DataCollectionSettings getDataCollection() {
-		return dataCollectionSettings;
-	}
-
-	/**
-	 * @return settings of toolbar
-	 */
-	public final ToolbarSettings getToolbarSettings() {
-		return toolbarSettings;
 	}
 
 	/**

@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -25,15 +25,12 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -41,6 +38,8 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.Lineable2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -105,7 +104,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	private GeoPointND startPoint;
 	private GeoPointND previewPoint2;
 
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private GPoint2D endPoint = new GPoint2D();
 	private final Coords coordsForMousePos = new Coords(4);
 
 	// clipping attributes
@@ -195,7 +194,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 		// take line g here, not geo this object may be used for conics too
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
-            labelVisible = getTopLevelGeo().isLabelVisible();
+			labelVisible = getTopLevelGeo().isLabelVisible();
 			updateStrokes(g);
 
 			Coords equation = g.getCartesianEquationVector(matrix);
@@ -234,7 +233,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 			}
 
 			if (labelVisible) {
-                labelDesc = getTopLevelGeo().getLabelDescription();
+				labelDesc = getTopLevelGeo().getLabelDescription();
 				setLabelPosition();
 				addLabelOffsetEnsureOnScreen(view.getFontLine());
 			}
@@ -434,7 +433,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		if (isVisible) {
-            if (isHighlighted()) {
+			if (isHighlighted()) {
 				// draw line
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
@@ -564,7 +563,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 				Lineable2D linePreview = null;
 
 				if (functions.size() == 1) {
-                    linePreview = functions.get(0);
+					linePreview = functions.get(0);
 				} else if (lines.size() == 1) {
 					linePreview = (Lineable2D) lines.get(0);
 				} else {
@@ -579,7 +578,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 				linePreview = null;
 
 				if (functions.size() == 1) {
-                    linePreview = functions.get(0);
+					linePreview = functions.get(0);
 				} else if (lines.size() == 1) {
 					linePreview = (Lineable2D) lines.get(0);
 				} else {
@@ -806,12 +805,6 @@ public class DrawLine extends SetDrawable implements Previewable {
 			return null;
 		}
 		return AwtFactory.getPrototype().newRectangle(line.getBounds());
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/**

@@ -44,7 +44,7 @@ public interface GLookAndFeelI {
 
 	boolean printSupported();
 
-    Platform getPlatform(int dim, String appName);
+	Platform getPlatform(int dim, String appName);
 
 	void storeLanguage(String language, AppW app);
 
@@ -52,7 +52,7 @@ public interface GLookAndFeelI {
 
 	void toggleFullscreen(boolean b);
 
-	boolean isGraphingExamSupported();
+	boolean isOfflineExamSupported();
 
 	boolean hasHeader();
 
@@ -68,8 +68,8 @@ public interface GLookAndFeelI {
 	 */
 	SignInControllerI getSignInController(App app);
 
-    /**
-     * @return client id
-     */
-    String getClientId();
+	/**
+	 * @return client id
+	 */
+	String getClientId();
 }

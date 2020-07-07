@@ -10,8 +10,8 @@ apply plugin: 'eclipse'
 apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 evaluationDependsOn ':renderer-web'
 evaluationDependsOn ':editor-base'
@@ -36,7 +36,6 @@ dependencies {
 	compile "com.google.gwt:gwt-dev:$gwtCompilerVersion"
 	compile "com.google.gwt:gwt-user:$gwtCompilerVersion"
 	testCompile "com.google.gwt:gwt-user:$gwtCompilerVersion"
-	testCompile 'junit:junit:4.12'
 }
 
 task runSuperDev(type: JavaExec, dependsOn: 'jar') {

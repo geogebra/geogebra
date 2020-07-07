@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.AppConfigDefault;
+import org.geogebra.common.main.AppKeyboardType;
 
 /**
  * Config for Mebis Notes and GGB Notes
@@ -25,18 +26,38 @@ public class AppConfigNotes extends AppConfigDefault {
 		return "Notes";
 	}
 
-    @Override
-    public String getAppCode() {
-        return "notes";
-    }
+	@Override
+	public String getAppCode() {
+		return "notes";
+	}
 
-    @Override
-    public String getTutorialKey() {
-        return "notes_tutorials";
-    }
+	@Override
+	public String getTutorialKey() {
+		return "notes_tutorials";
+	}
 
-    @Override
-    public GeoGebraConstants.Version getVersion() {
-        return GeoGebraConstants.Version.NOTES;
-    }
+	@Override
+	public GeoGebraConstants.Version getVersion() {
+		return GeoGebraConstants.Version.NOTES;
+	}
+
+	@Override
+	public int getEnforcedLineEquationForm() {
+		return -1;
+	}
+
+	@Override
+	public int getEnforcedConicEquationForm() {
+		return -1;
+	}
+
+	@Override
+	public boolean shouldHideEquations() {
+		return false;
+	}
+
+	@Override
+	public AppKeyboardType getKeyboardType() {
+		return AppKeyboardType.MOW;
+	}
 }

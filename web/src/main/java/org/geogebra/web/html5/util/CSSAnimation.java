@@ -12,7 +12,7 @@ public class CSSAnimation {
 	 * @param root
 	 *            animated element
 	 * @param classname
-	 *            class to be checked for theanimation and removed afterwards
+	 *            class to be checked for the animation and removed afterwards
 	 */
 	public static native void runOnAnimation(Runnable runnable, Element root,
 			String classname) /*-{

@@ -20,11 +20,11 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class GGraphics2DE implements GGraphics2DWI {
 
-    private com.google.gwt.user.client.Element element;
+	private Element element;
 
-    public GGraphics2DE() {
-        element = DOM.createElement("canvas");
-    }
+	public GGraphics2DE() {
+		element = DOM.createElement("canvas");
+	}
 
 	@Override
 	public void draw(GShape s) {
@@ -249,7 +249,12 @@ public class GGraphics2DE implements GGraphics2DWI {
 
 	@Override
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
-			int dy) {
+			int dy, int dw, int dh) {
+		// not needed
+	}
+
+	@Override
+	public void drawImage(MyImage img, int dx, int dy, int dw, int dh) {
 		// not needed
 	}
 
@@ -344,14 +349,23 @@ public class GGraphics2DE implements GGraphics2DWI {
 		// not needed
 	}
 
-    @Override
-    public Element getElement() {
-        return element;
-    }
+	@Override
+	public Element getElement() {
+		return element;
+	}
 
-    @Override
-    public boolean isAttached() {
-        return false;
-    }
+	@Override
+	public boolean isAttached() {
+		return false;
+	}
 
+	@Override
+	public int embed() {
+		return 0;
+	}
+
+	@Override
+	public void resetLayer() {
+		// no layers
+	}
 }

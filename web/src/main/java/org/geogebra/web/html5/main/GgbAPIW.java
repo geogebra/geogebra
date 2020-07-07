@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.io.MyXMLio;
@@ -208,13 +209,13 @@ public class GgbAPIW extends GgbAPI {
 								exportScale, transparent, greyscale));
 			}
 		}
-        String ret = pngBase64(getPNG(exportScale, transparent, dpi, greyscale));
+		String ret = pngBase64(getPNG(exportScale, transparent, dpi, greyscale));
 
-        if (copyToClipboard) {
-            app.copyImageToClipboard(StringUtil.pngMarker + ret);
-        }
+		if (copyToClipboard) {
+			app.copyImageToClipboard(StringUtil.pngMarker + ret);
+		}
 
-        return ret;
+		return ret;
 	}
 
 	private static String pngBase64(String pngURL) {
@@ -323,8 +324,9 @@ public class GgbAPIW extends GgbAPI {
 				.getPageController();
 		if (pageController != null) {
 			HashMap<String, Integer> usage = new HashMap<>();
-            GgbFile shared = new GgbFile("");
+			GgbFile shared = new GgbFile("");
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
+				pageController.refreshSlide(i);
 				countShared(pageController.getSlide(i), usage, shared);
 			}
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
@@ -337,7 +339,7 @@ public class GgbAPIW extends GgbAPI {
 					pageController.getStructureJSON(), jso);
 			return jso;
 		}
-        GgbFile archiveContent = new GgbFile("");
+		GgbFile archiveContent = new GgbFile("");
 		createArchiveContent(includeThumbnail, archiveContent);
 		return prepareToEntrySet(archiveContent, jso, "", null);
 	}
@@ -533,8 +535,9 @@ public class GgbAPIW extends GgbAPI {
 		// GGB-1758 write images at the end
 		((ImageManagerW) app.getImageManager())
 				.writeConstructionImages(getConstruction(), "", archiveContent);
-		if (app.getEmbedManager() != null) {
-			app.getEmbedManager().writeEmbeds(getConstruction(),
+		EmbedManager embedManager = app.getEmbedManager();
+		if (embedManager != null) {
+			embedManager.writeEmbeds(getConstruction(),
 					archiveContent);
 		}
 		// write construction thumbnails
@@ -598,7 +601,7 @@ public class GgbAPIW extends GgbAPI {
 	 * @return archive with macros + icons
 	 */
 	public GgbFile createMacrosArchive() {
-        GgbFile archiveContent = new GgbFile("");
+		GgbFile archiveContent = new GgbFile("");
 		writeMacroImages(archiveContent);
 		String macroXml = getApplication().getMacroXMLorEmpty();
 		if (!"".equals(macroXml)) {
@@ -1363,7 +1366,7 @@ public class GgbAPIW extends GgbAPI {
 			((AppW) app).afterLocalizationLoaded(new Runnable() {
 				@Override
 				public void run() {
-                    JsEval.callNativeJavaScript(callback, loc.getMenu(key));
+					JsEval.callNativeJavaScript(callback, loc.getMenu(key));
 				}
 			});
 		}
@@ -1376,7 +1379,7 @@ public class GgbAPIW extends GgbAPI {
 
 			@Override
 			public void callback(String obj) {
-                JsEval.callNativeJavaScript(callback, obj);
+				JsEval.callNativeJavaScript(callback, obj);
 			}
 		};
 	}
@@ -1401,10 +1404,11 @@ public class GgbAPIW extends GgbAPI {
 	 *            whether to show UI when token is invalid
 	 */
 	public void login(String token, boolean showUI) {
-		if (showUI && (StringUtil.empty(token) || StringUtil.isNaN(token))) {
+		String normalizedToken = StringUtil.isNaN(token) ? "" : token;
+		if (showUI && StringUtil.empty(normalizedToken)) {
 			app.getLoginOperation().showLoginDialog();
 		} else {
-			login(token);
+			login(normalizedToken);
 		}
 	}
 
@@ -1429,18 +1433,23 @@ public class GgbAPIW extends GgbAPI {
 		return editor == null ? "" : editor.getState();
 	}
 
-    /**
-     * @return then embedded calculator apis.
-     */
-    public JavaScriptObject getEmbeddedCalculators() {
-        return ((AppW) app).getEmbeddedCalculators();
-    }
+	/**
+	 *
+	 * @return then embedded calculator apis.
+	 */
+	public JavaScriptObject getEmbeddedCalculators() {
+		return ((AppW) app).getEmbeddedCalculators();
+	}
 
-    /**
-     * @return frame DOM element
-     */
-    public Element getFrame() {
-        return ((AppW) app).getFrameElement();
-    }
+	/**
+	 * @return frame DOM element
+	 */
+	public Element getFrame() {
+		return ((AppW) app).getFrameElement();
+	}
 
+	@Override
+	public void newConstruction() {
+		((AppW) app).tryLoadTemplatesOnFileNew();
+	}
 }

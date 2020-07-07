@@ -1,9 +1,8 @@
 package org.geogebra.common.media;
 
-import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoVideo;
-import org.geogebra.common.util.AsyncOperation;
 
 /**
  * Interface to manage video objects.
@@ -19,7 +18,7 @@ public interface VideoManager {
 	 * @param geo
 	 *            to load.
 	 */
-	void loadGeoVideo(GeoVideo geo);
+	void loadGeoVideo(DrawVideo geo);
 
 	/**
 	 * Adds a video player GUI.
@@ -27,7 +26,7 @@ public interface VideoManager {
 	 * @param video
 	 *            to add GUI for.
 	 */
-	void addPlayer(final GeoVideo video);
+	void addPlayer(final DrawVideo video);
 
 	/**
 	 * Removes the player specified by GeoVideo from GUI.
@@ -35,7 +34,7 @@ public interface VideoManager {
 	 * @param video
 	 *            to add GUI for.
 	 */
-	void removePlayer(final GeoVideo video);
+	void removePlayer(final DrawVideo video);
 
 	/**
 	 * Checks if there is a player already for video.
@@ -44,7 +43,7 @@ public interface VideoManager {
 	 *            to check.
 	 * @return if has player for the video specified.
 	 */
-	boolean hasPlayer(GeoVideo video);
+	boolean hasPlayer(DrawVideo video);
 
 	/**
 	 * Updates the player due to video.
@@ -52,31 +51,15 @@ public interface VideoManager {
 	 * @param video
 	 *            video
 	 */
-	void updatePlayer(GeoVideo video);
+	void updatePlayer(DrawVideo video);
 
 	/**
 	 * Plays/resumes GeoVideo object.
-	 * 
+	 *
 	 * @param geo
 	 *            to play.
 	 */
-	void play(GeoVideo geo);
-
-	/**
-	 * Pauses GeoVideo object.
-	 * 
-	 * @param geo
-	 *            to pause.
-	 */
-	void pause(GeoVideo geo);
-
-	/**
-	 * Puts GeoVideo object on the background.
-	 * 
-	 * @param geo
-	 *            to send background.
-	 */
-	void background(GeoVideo geo);
+	void play(DrawVideo geo);
 
 	/**
 	 * Puts all GeoVideo objects on the background.
@@ -88,24 +71,8 @@ public interface VideoManager {
 	 * 
 	 * @param geo
 	 *            video
-	 * @param cb
-	 *            the preview callback.
 	 */
-	void createPreview(GeoVideo geo, AsyncOperation<MyImage> cb);
-
-	/**
-	 * Activates preview mode if only preview images are needed (i.e. for image
-	 * export)
-	 * 
-	 * @param preview
-	 *            true to activate preview mode, false to deactivate
-	 */
-	void setPreviewOnly(boolean preview);
-
-	/**
-	 * @return true if preview mode is active
-	 */
-	boolean isPreviewOnly();
+	void createPreview(GeoVideo geo);
 
 	/**
 	 * Gets the ID of the YouTube video
@@ -134,14 +101,6 @@ public interface VideoManager {
 	void removePlayers();
 
 	/**
-	 * 
-	 * @param video
-	 *            to check.
-	 * @return if videos are online.
-	 */
-	boolean isOnline(GeoVideo video);
-
-	/**
 	 * Creates the proper video object based on the url.
 	 * 
 	 * @param c
@@ -160,21 +119,16 @@ public interface VideoManager {
 	void storeVideos();
 
 	/**
-	 * Remove unused videos from cache.
+	 * Called when an error occurred playing the video
+	 * but is it online
+	 * @param video the video.
 	 */
-	void clearStoredVideos();
+	void onError(DrawVideo video);
 
-    /**
-     * Called when an error occurred playing the video
-     * but is it online
-     *
-     * @param video the video.
-     */
-    void onError(GeoVideo video);
-
-    /**
-     * @param video to check
-     * @return if the player of the video is offline
-     */
-    boolean isPlayerOffline(GeoVideo video);
+	/**
+	 *
+	 * @param video to check
+	 * @return if the player of the video is offline
+	 */
+	boolean isPlayerOffline(DrawVideo video);
 }

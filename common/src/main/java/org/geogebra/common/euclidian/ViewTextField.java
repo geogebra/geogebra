@@ -1,28 +1,98 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Adapter between input box widget and drawable
+ */
 public abstract class ViewTextField {
-	/**
-	 *
-	 */
-	private final EuclidianView euclidianView;
-	private AutoCompleteTextField textField;
-	private GBox box;
 
 	/**
-	 * @param euclidianView
-	 *            view
+	 * @return textfield (may be null)
 	 */
-	public ViewTextField(EuclidianView euclidianView) {
-		this.euclidianView = euclidianView;
-		textField = null;
-		box = null;
+	public abstract AutoCompleteTextField getTextField();
+
+	/**
+	 * @param drawInputBox
+	 *            input box to focus
+	 */
+	public void focusTo(DrawInputBox drawInputBox) {
+		if (getTextField() == null) {
+			Log.debug("[TF] textField is null");
+			return;
+		}
+
+		GeoInputBox geoInputBox = (GeoInputBox) drawInputBox.getGeoElement();
+		if (geoInputBox != getTextField().getInputBox()) {
+			applyChanges();
+		}
+
+		getTextField().setAuralText(geoInputBox.getAuralText());
+		drawInputBox.attachTextField();
+	}
+
+	/**
+	 * Apply the edited text to the corresponding GeoInputBox
+	 */
+	protected void applyChanges() {
+		AutoCompleteTextField textField = getTextField();
+		if (textField == null) {
+			return;
+		}
+		GeoInputBox geoInputBox = textField.getInputBox();
+
+		if (geoInputBox == null) {
+			return;
+		}
+
+		if (textField.getText().equals(geoInputBox.getText())) {
+			return;
+		}
+
+		geoInputBox.textObjectUpdated(textField);
+		geoInputBox.textSubmitted();
+		geoInputBox.updateRepaint();
+	}
+
+	/**
+	 * Revalidate the Swing component
+	 */
+	public void revalidateBox() {
+		// only in desktop
+	}
+
+	/**
+	 * @param isVisible
+	 *            visibility of the wrapping box
+	 */
+	public abstract void setBoxVisible(boolean isVisible);
+
+	/**
+	 * @param labelRectangle
+	 *            wrapping box bounds
+	 */
+	public abstract void setBoxBounds(GRectangle labelRectangle);
+
+	/**
+	 * Paint all components to graphics
+	 * 
+	 * @param g2
+	 *            graphics
+	 */
+	public void repaintBox(GGraphics2D g2) {
+		// only in desktop
+	}
+
+	/**
+	 * Hide both text field and box
+	 */
+	public void hideDeferred() {
+		// only in desktop
 	}
 
 	/**
@@ -32,90 +102,27 @@ public abstract class ViewTextField {
 	 *            linked drawable
 	 * @return textfield
 	 */
-	public AutoCompleteTextField getTextField(int length,
-			DrawInputBox drawInputBox) {
-		if (textField == null) {
-			textField = newAutoCompleteTextField(length, this.euclidianView.app,
-					drawInputBox);
-			textField.setAutoComplete(false);
-			textField.enableColoring(false);
-			textField.setFocusTraversalKeysEnabled(false);
-			createBox();
-			box.add(textField);
-			this.euclidianView.add(box);
-		} else {
-			textField.setDrawTextField(drawInputBox);
-		}
-
-		return textField;
-	}
-
-	/**
-	 * @return textfield (may be null)
-	 */
-	public AutoCompleteTextField getTextField() {
-		return textField;
-	}
-
-	/**
-	 * @param inputBox
-	 *            input box to focus
-	 */
-	public void focusTo(GeoInputBox inputBox) {
-        if (inputBox.isSymbolicMode()) {
-            focusToSymbolicEditor(inputBox);
-            return;
-        }
-
-        if (textField == null) {
-            Log.debug("[TF] textField is null");
-            return;
-        }
-		textField.setAuralText(inputBox.getAuralText());
-		DrawableND d = this.euclidianView
-				.getDrawableFor(inputBox);
-		if (d == null) {
-			Log.debug("[TF] d is null!!!");
-			return;
-		}
-		((DrawInputBox) d).attachTextField();
-	}
-
-    private void focusToSymbolicEditor(GeoInputBox inputBox) {
-        DrawableND d = this.euclidianView
-                .getDrawableFor(inputBox);
-        if (d != null) {
-            ((DrawInputBox) d).attachMathField();
-        }
-    }
-
-	/**
-	 * @return box wrapping the input field
-	 */
-	public GBox getBox() {
-		createBox();
-		return box;
-	}
-
-	private void createBox() {
-		if (box == null) {
-			box = createHorizontalBox(
-					this.euclidianView.getEuclidianController());
-			box.add(textField);
-		}
-	}
-
-	public abstract AutoCompleteTextField newAutoCompleteTextField(int length,
-			App application, Drawable drawTextField);
-
-	public abstract GBox createHorizontalBox(EuclidianController style);
+	protected abstract AutoCompleteTextField getTextField(int length, DrawInputBox drawInputBox);
 
 	/**
 	 * Remove referenced objects.
 	 */
-	public void remove() {
-		textField = null;
-		box = null;
+	public abstract void remove();
+
+	/**
+	 * @param length
+	 *            number of characters
+	 */
+	public void setColumns(int length) {
+		// only in desktop
 	}
 
+	/**
+	 * Resets textfield
+	 */
+	public void reset() {
+		if (getTextField() != null) {
+			getTextField().setUsedForInputBox(null);
+		}
+	}
 }

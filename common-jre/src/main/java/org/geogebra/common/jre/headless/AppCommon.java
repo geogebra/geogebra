@@ -43,6 +43,10 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.SpreadsheetTableModelSimple;
+import org.geogebra.common.main.settings.AppConfigCas;
+import org.geogebra.common.main.settings.AppConfigGeometry;
+import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.main.settings.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.DefaultSettings;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
@@ -67,7 +71,7 @@ public class AppCommon extends App {
     private AppConfig config = new AppConfigDefault();
     private CASFactory casFactory = new CASFactoryDummy();
 
-    /**
+	/**
 	 * Construct an AppCommon.
 	 * 
 	 * @param loc
@@ -132,10 +136,10 @@ public class AppCommon extends App {
 
     @Override
     protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1) {
-		this.getSettings().getEuclidian(1).setPreferredSize(
+		getSettings().getEuclidian(1).setPreferredSize(
 				AwtFactory.getPrototype().newDimension(800, 600));
 		return new EuclidianViewNoGui(getEuclidianController(), 1,
-				this.getSettings().getEuclidian(1),
+				getSettings().getEuclidian(1),
 				createGraphics());
     }
 
@@ -240,7 +244,7 @@ public class AppCommon extends App {
 
     @Override
     public boolean showView(int view) {
-		Perspective p = this.getTmpPerspective(null);
+		Perspective p = getTmpPerspective(null);
 		if (p != null) {
 			for (DockPanelData dp : p.getDockPanelData()) {
 				if (dp.getViewId() == view) {
@@ -297,7 +301,7 @@ public class AppCommon extends App {
 	}
 
     @Override
-    public void evalJavaScript(App app, String script, String arg) throws Exception {
+    public void evalJavaScript(App app, String script, String arg) {
 		// TODO delegate to scriptManager
     }
 
@@ -579,7 +583,7 @@ public class AppCommon extends App {
 		kernel.clearConstruction(true);
 		kernel.initUndoInfo();
 		resetMaxLayerUsed();
-		this.resetCurrentFile();
+		resetCurrentFile();
 		setMoveMode();
 		return true;
 	}
@@ -590,7 +594,7 @@ public class AppCommon extends App {
     }
 
     @Override
-    public boolean loadXML(String xml) throws Exception {
+    public boolean loadXML(String xml) {
         return false;
     }
 
@@ -666,7 +670,7 @@ public class AppCommon extends App {
 
     @Override
     public DrawEquation getDrawEquation() {
-        return null;
+        return new DrawEquationStub();
     }
 
     @Override
@@ -729,7 +733,56 @@ public class AppCommon extends App {
         this.config = config;
     }
 
-    public void setCASFactory(CASFactory casFactory) {
-        this.casFactory = casFactory;
-    }
+	public void setCASFactory(CASFactory casFactory) {
+		this.casFactory = casFactory;
+	}
+
+	/**
+	 * Sets Graphing config and reinitializes the app.
+	 */
+	public void setGraphingConfig() {
+		setConfig(new AppConfigGraphing());
+		reInit();
+	}
+
+	/**
+	 * Sets Geometry config and reinitializes the app.
+	 */
+	public void setGeometryConfig() {
+		setConfig(new AppConfigGeometry());
+		reInit();
+	}
+
+	/**
+	 * Sets 3D config and reinitializes the app.
+	 */
+	public void set3dConfig() {
+		setConfig(new AppConfigGraphing3D());
+		reInit();
+	}
+
+	/**
+	 * Sets Geometry config and reinitializes the app.
+	 */
+	public void setCasConfig() {
+		setConfig(new AppConfigCas());
+		reInit();
+	}
+
+	/**
+	 * Sets Geometry config and reinitializes the app.
+	 */
+	public void setDefaultConfig() {
+		setConfig(new AppConfigDefault());
+		reInit();
+	}
+
+	private void reInit() {
+		resetAlgebraOutputFilter();
+		kernel.setAlgebraProcessor(null);
+	}
+
+	public void setScriptManager(ScriptManager scriptManager) {
+		this.scriptManager = scriptManager;
+	}
 }

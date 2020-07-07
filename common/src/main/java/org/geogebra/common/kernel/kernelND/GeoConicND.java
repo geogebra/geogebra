@@ -20,9 +20,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -54,7 +51,9 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
-import org.geogebra.common.main.exam.ExamEnvironment;
+import org.geogebra.common.kernel.matrix.CoordMatrix;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -168,6 +167,36 @@ public abstract class GeoConicND extends GeoQuadricND
 	private Coords tmpCoords2;
 
 	/**
+	 * default constructor
+	 *
+	 * @param c
+	 *            construction
+	 * @param dimension
+	 *            dimension
+	 */
+	public GeoConicND(Construction c, int dimension) {
+		this(c, dimension, false, EQUATION_IMPLICIT);
+	}
+
+	/**
+	 * default constructor
+	 *
+	 * @param c
+	 *            construction
+	 * @param dimension
+	 *            dimension
+	 * @param isIntersection
+	 *            if this is an intersection curve
+	 * @param stringMode
+	 *            toStroingMode, one of EQUATION_* constants
+	 */
+	public GeoConicND(Construction c, int dimension, boolean isIntersection,
+					  int stringMode) {
+		super(c, dimension, isIntersection);
+		setToStringMode(stringMode);
+	}
+
+	/**
 	 * 
 	 * @param i
 	 *            index of eigenvector
@@ -209,48 +238,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return the origin of lines in case of parallel lines
 	 */
 	abstract public Coords getOrigin3D(int i);
-
-	/*
-	 * private CoordMatrix eigenMatrix2D = new CoordMatrix(3,3);
-	 * 
-	 * /* update the 2D eigen matrix (should be called each
-	 *
-	 * public void updateEigenMatrix2D(){
-	 * 
-	 * eigenMatrix2D.setOrigin(getMidpoint());
-	 * eigenMatrix2D.setVx(getEigenvec(0)); eigenMatrix2D.setVy(getEigenvec(1));
-	 * }
-	 */
-
-	/**
-	 * default constructor
-	 * 
-	 * @param c
-	 *            construction
-	 * @param dimension
-	 *            dimension
-	 */
-	public GeoConicND(Construction c, int dimension) {
-		this(c, dimension, false, EQUATION_IMPLICIT);
-	}
-
-	/**
-	 * default constructor
-	 * 
-	 * @param c
-	 *            construction
-	 * @param dimension
-	 *            dimension
-	 * @param isIntersection
-	 *            if this is an intersection curve
-	 * @param stringMode
-	 *            toStroingMode, one of EQUATION_* constants
-	 */
-	public GeoConicND(Construction c, int dimension, boolean isIntersection,
-			int stringMode) {
-		super(c, dimension, isIntersection);
-		setToStringMode(stringMode);
-	}
 
 	/**
 	 * @return the matrix representation of the conic in its 2D sub space
@@ -1302,7 +1289,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		GeoConicND co = (GeoConicND) geo;
 
 		// copy everything
-		toStringMode = co.toStringMode;
+		setModeIfEquationFormIsNotForced(co.toStringMode);
 		type = co.type;
 		for (int i = 0; i < 6; i++) {
 			matrix[i] = co.matrix[i]; // flat matrix A
@@ -1381,19 +1368,12 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param mode
 	 *            equation mode (one of EQUATION_* constants)
 	 */
-	final public void setToStringMode(int mode) {
-		switch (mode) {
-		case EQUATION_SPECIFIC:
-		case EQUATION_EXPLICIT:
-		case EQUATION_USER:
-		case EQUATION_PARAMETRIC:
-		case EQUATION_VERTEX:
-		case EQUATION_CONICFORM:
-			this.toStringMode = mode;
-			break;
-
-		default:
-			this.toStringMode = EQUATION_IMPLICIT;
+	@Override
+	public void setToStringMode(int mode) {
+		if (isEquationFormEnforced()) {
+			toStringMode = cons.getApplication().getConfig().getEnforcedConicEquationForm();
+		} else {
+			setModeWithImplicitEquationAsDefault(mode);
 		}
 	}
 
@@ -1596,12 +1576,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		return isDefined() && (type != CONIC_EMPTY || isInverseFill());
 	}
 
-	@Override
-	public final boolean showInAlgebraView() {
-		// return defined;
-		return true;
-	}
-
 	/**
 	 * Returns whether this conic consists of lines
 	 * 
@@ -1766,9 +1740,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			// serialise to CAS as "...=0" so eg Coefficients(c) works
 			sb.append("=0");
 			return sb;
-		}
-		if (ExamEnvironment.isProtectedEquation(this)) {
-			return new StringBuilder(getParentAlgorithm().getDefinition(tpl));
 		}
 		if (getToStringMode() == GeoConicND.EQUATION_PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);
@@ -4553,32 +4524,36 @@ public abstract class GeoConicND extends GeoQuadricND
 		this.isShape = isShape;
 	}
 
-	/**
-	 * @param style
-	 *            equation type
-	 * @param parameter
-	 *            parameter (for parametric form)
-	 * @return whether it was successful
-	 */
-	public boolean setTypeFromXML(String style, String parameter) {
-		if ("implicit".equals(style)) {
-			setToImplicit();
-		} else if ("specific".equals(style)) {
-			setToSpecific();
-		} else if ("explicit".equals(style)) {
-			setToExplicit();
-		} else if ("parametric".equals(style)) {
-			setToParametric(parameter);
-		} else if ("user".equals(style)) {
-			setToUser();
-		} else if ("vertex".equals(style)) {
-			setToVertexform();
-		} else if ("conic".equals(style)) {
-			setToConicform();
-		} else {			
-			return false;
+	private void setModeIfEquationFormIsNotForced(int mode) {
+		if (isEquationFormEnforced()) {
+			toStringMode = cons.getApplication().getConfig().getEnforcedConicEquationForm();
+		} else {
+			toStringMode = mode;
 		}
-		return true;
+	}
+
+	private boolean isEquationFormEnforced() {
+		if (cons.getApplication().getConfig().getEnforcedConicEquationForm() == -1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	private void setModeWithImplicitEquationAsDefault(int mode) {
+		switch (mode) {
+			case EQUATION_SPECIFIC:
+			case EQUATION_EXPLICIT:
+			case EQUATION_USER:
+			case EQUATION_PARAMETRIC:
+			case EQUATION_VERTEX:
+			case EQUATION_CONICFORM:
+				toStringMode = mode;
+				break;
+
+			default:
+				toStringMode = EQUATION_IMPLICIT;
+		}
 	}
 
 }

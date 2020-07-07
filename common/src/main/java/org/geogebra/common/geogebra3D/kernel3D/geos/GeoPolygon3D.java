@@ -6,15 +6,11 @@ import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInter
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -26,6 +22,9 @@ import org.geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
+import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -160,12 +159,16 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			GeoPointND endPoint, boolean euclidianVisible) {
 
 		// if start and end points are both 2D, then use super method
-		if (!((GeoElement) startPoint).isGeoElement3D()
-				&& !((GeoElement) endPoint).isGeoElement3D()) {
-			return super.createSegment(cons1, startPoint, endPoint,
+		if (!startPoint.isGeoElement3D() && !endPoint.isGeoElement3D()) {
+			return super.createSegmentOwnDimension(cons1, startPoint, endPoint,
 					euclidianVisible);
 		}
+		return createSegmentOwnDimension(cons1, startPoint, endPoint, euclidianVisible);
+	}
 
+	@Override
+	public GeoSegmentND createSegmentOwnDimension(Construction cons1, GeoPointND startPoint,
+			GeoPointND endPoint, boolean euclidianVisible) {
 		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
 		cons.removeFromConstructionList(algoSegment);

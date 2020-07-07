@@ -31,9 +31,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	@Override
 	protected AppW createApplication(ArticleElementInterface article,
 			GLookAndFeelI laf) {
-		AppWsimple appl = new AppWsimple(article, this, false);
-		getArticleMap().put(article.getId(), appl);
-		return appl;
+		return new AppWsimple(article, this, false);
 	}
 
 	/**
@@ -43,21 +41,11 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 *            list of &lt;article&gt; elements of the web page
 	 */
 	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
-
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrameW inst = new GeoGebraFrameSimple(articleElement);
 			LoggerW.startLogger(articleElement);
 			inst.createSplash();
 			RootPanel.get(articleElement.getId()).add(inst);
-		}
-
-		if (geoGebraMobileTags.size() > 0) {
-		// // now we can create dummy elements before & after each applet
-		// // with tabindex 10000, for ticket #5158
-		// tackleFirstDummy(geoGebraMobileTags.get(0));
-			tackleLastDummy(geoGebraMobileTags
-					.get(geoGebraMobileTags.size() - 1));
-		// programFocusEvent(firstDummy, lastDummy);
 		}
 	}
 
@@ -68,12 +56,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 *            callback
 	 */
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
-
 		GeoGebraFrameW.renderArticleElementWithFrame(el,
 				new GeoGebraFrameSimple(ArticleElement.as(el)),
 				clb);
-
-		GeoGebraFrameW.reCheckForDummies(el);
 	}
 
 	@Override

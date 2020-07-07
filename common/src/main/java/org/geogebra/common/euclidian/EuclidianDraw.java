@@ -11,9 +11,11 @@ import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawConicSection;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawEmbed;
+import org.geogebra.common.euclidian.draw.DrawFormula;
 import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawImplicitCurve;
 import org.geogebra.common.euclidian.draw.DrawInequality;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawIntegral;
 import org.geogebra.common.euclidian.draw.DrawIntegralFunctions;
@@ -36,7 +38,6 @@ import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -52,9 +53,11 @@ import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoEmbed;
+import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
@@ -77,6 +80,7 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -296,7 +300,10 @@ public class EuclidianDraw {
 						.newDrawParametricCurve((ParametricCurve) geo);
 			}
 			break;
-
+		case FORMULA:
+			GeoFormula equation = (GeoFormula) geo;
+			d = new DrawFormula(ev, equation);
+			break;
 		case TEXT:
 			GeoText text = (GeoText) geo;
 			d = new DrawText(ev, text);
@@ -345,6 +352,9 @@ public class EuclidianDraw {
 			break;
 		case SYMBOLIC:
 			d = new DrawSymbolic(ev, (GeoSymbolic) geo);
+			break;
+		case INLINE_TEXT:
+			d = new DrawInlineText(ev, (GeoInlineText) geo);
 		}
 		return d;
 	}

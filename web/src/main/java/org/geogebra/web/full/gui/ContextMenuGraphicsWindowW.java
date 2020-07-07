@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.background.BackgroundType;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
@@ -16,6 +15,7 @@ import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.images.StyleBarResources;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.menubar.RadioButtonMenuBarW;
+import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.full.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.full.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
@@ -24,8 +24,6 @@ import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 
 /**
@@ -43,14 +41,13 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 */
 	protected double py;
 	private GCollapseMenuItem gridCollapseItem;
-	private GCollapseMenuItem rulingCollapseItem;
 
 	/**
 	 * @param app
 	 *            application
 	 */
 	protected ContextMenuGraphicsWindowW(AppW app) {
-		super(app);
+		super(app, new ContextMenuFactory());
 		if (app.isUnbundledOrWhiteboard()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		}
@@ -63,19 +60,18 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 *            x pos of popup
 	 * @param py
 	 *            y pos of popup
+	 * @param showPaste
+	 *            whether to show the paste button (false for the graphics settings button)
 	 */
-	public ContextMenuGraphicsWindowW(AppW app, double px, double py) {
+	public ContextMenuGraphicsWindowW(AppW app, double px, double py, boolean showPaste) {
 		this(app);
 		this.px = px;
 		this.py = py;
+
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		OptionType ot = OptionType.EUCLIDIAN;
-		if (ev.getEuclidianViewNo() == 2) {
-			ot = OptionType.EUCLIDIAN2;
-			setTitle(loc.getMenu("DrawingPad2"));
-		} else {
-			setTitle(loc.getMenu("DrawingPad"));
-		}
+		OptionType ot = ev.getEuclidianViewNo() == 1
+				? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2;
+
 		if (!app.isWhiteboardActive()) {
 			if (app.isUnbundled()) {
 				addAxesMenuItem(1);
@@ -83,13 +79,24 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				addSnapToGridMenuItem();
 				addClearTraceMenuItem();
 			} else {
+				if (ev.getEuclidianViewNo() == 1) {
+					setTitle(loc.getMenu("DrawingPad"));
+				} else {
+					setTitle(loc.getMenu("DrawingPad2"));
+				}
+
 				addCheckboxes();
 			}
 			addShowAllObjAndStandView();
 		} else {
-			addRulingMenuItem();
+			if (showPaste) {
+				addPasteItem();
+				wrappedPopup.addSeparator();
+			}
+			addRulingMenuItem(ot);
 			addBackgroundMenuItem();
 		}
+
 		addMiProperties("DrawingPad", ot);
 	}
 
@@ -102,7 +109,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		AriaMenuItem mi = new AriaMenuItem(
 				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
 				(AriaMenuBar) yaxisMenu);
-		mi.addStyleName("mi_no_image_new");
 		if (!app.isUnbundled()) {
 			wrappedPopup.addItem(mi);
 		}
@@ -114,23 +120,24 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 	}
 
-	private void addRulingMenuItem() {
-		String htmlString = MainMenu
-				.getMenuBarHtmlClassic(
-						MaterialDesignResources.INSTANCE.grid_black()
+	private void addRulingMenuItem(final OptionType optionType) {
+		AriaMenuItem rulingMenuItem = new AriaMenuItem(
+				MainMenu.getMenuBarHtmlClassic(
+						MaterialDesignResources.INSTANCE.minor_gridlines()
 								.getSafeUri().asString(),
-						loc.getMenu("Ruling"));
-		rulingCollapseItem = new GCollapseMenuItem(htmlString,
-				loc.getMenu("Ruling"),
-				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
-						.asString(),
-				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
-						.asString(),
-				false, wrappedPopup);
-		wrappedPopup.addItem(rulingCollapseItem);
-		RulingSubmenu rulingSubMenu = new RulingSubmenu(rulingCollapseItem);
-		rulingSubMenu.update();
-		rulingCollapseItem.attachToParent();
+						loc.getMenu("Ruling")),
+				true, new Command() {
+
+			@Override
+			public void execute() {
+				showOptionsDialog(optionType);
+				((PropertiesViewW) app.getGuiManager().getPropertiesView())
+						.getOptionPanel(optionType, -1)
+						.getTabPanel().selectTab(3);
+			}
+		});
+
+		wrappedPopup.addItem(rulingMenuItem);
 	}
 
 	private void addBackgroundMenuItem() {
@@ -604,14 +611,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 	}
 
-	@Override
-	protected void updateEditItems() {
-		if (!app.isUnbundledOrWhiteboard()) {
-			return;
-		}
-		updatePasteItem();
-	}
-
 	/**
 	 * @author csilla expand/collapse submenu for major and minor grid setting
 	 *
@@ -681,81 +680,5 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		public void update() {
 			// do nothing now
 		}
-	}
-
-	/**
-	 * expand/collapse menu item with ruling types
-	 * 
-	 * @author csilla
-	 *
-	 */
-	public class RulingSubmenu extends CheckMarkSubMenu {
-		/**
-		 * @param parentMenu
-		 *            - parent menu item
-		 */
-		public RulingSubmenu(GCollapseMenuItem parentMenu) {
-			super(parentMenu);
-		}
-
-		@Override
-		protected void initActions() {
-			addRulingItem("NoRuling", BackgroundType.NONE);
-			addRulingItem("Ruled", BackgroundType.RULER);
-			addRulingItem("Squared5", BackgroundType.SQUARE_SMALL);
-			addRulingItem("Squared1", BackgroundType.SQUARE_BIG);
-			addRulingItem("Elementary12", BackgroundType.ELEMENTARY12);
-			addRulingItem("Elementary12WithHouse",
-					BackgroundType.ELEMENTARY12_HOUSE);
-			addRulingItem("Elementary34", BackgroundType.ELEMENTARY34);
-			addRulingItem("Music", BackgroundType.MUSIC);
-		}
-
-		/**
-		 * @param rulingType
-		 *            new ruling type (see BackgroundType)
-		 */
-		protected void setRulingType(BackgroundType rulingType) {
-			app.getSettings().getEuclidian(1).setRulerType(rulingType.value());
-			// app.getActiveEuclidianView().setGridType(gridType);
-			app.getActiveEuclidianView().repaintView();
-			app.storeUndoInfo();
-			wrappedPopup.hideMenu();
-		}
-
-		private void addRulingItem(String key,
-				final BackgroundType rulingType) {
-			String text = app.getLocalization().getMenu(key);
-			boolean isSelected = app.getSettings().getEuclidian(1)
-					.getBackgroundType() == rulingType;
-			addItem(text, isSelected, new Command() {
-
-				@Override
-				public void execute() {
-					setRulingType(rulingType);
-				}
-			}, false);
-		}
-
-		@Override
-		public void update() {
-			// do nothing now
-		}
-	}
-
-	/**
-	 * focus menu in a deferred way.
-	 */
-	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				wrappedPopup.getPopupMenu().getElement().focus();
-				// first item is the header, so we need the 2nd.
-				wrappedPopup.getPopupMenu().moveSelectionDown();
-				wrappedPopup.getPopupMenu().moveSelectionDown();
-
-			}
-		});
 	}
 }

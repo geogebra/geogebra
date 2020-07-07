@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
@@ -25,7 +25,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -33,10 +32,10 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
@@ -61,9 +60,8 @@ public class DrawVector extends Drawable implements Previewable {
 	private boolean arrowheadVisible;
 	private boolean lineVisible;
 	private ArrayList<GeoPointND> points;
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
-	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
-			AwtFactory.getPrototype().newPoint2D() };
+	private GPoint2D endPoint = new GPoint2D();
+	private GPoint2D[] tmpClipPoints = {new GPoint2D(), new GPoint2D()};
 
 	/**
 	 * Creates new DrawVector
@@ -281,7 +279,7 @@ public class DrawVector extends Drawable implements Previewable {
 				}
 			}
 
-            if (isHighlighted()) {
+			if (isHighlighted()) {
 				g2.setPaint(((GeoElement) v).getSelColor());
 				g2.setStroke(selStroke);
 				if (lineVisible) {
@@ -439,11 +437,5 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 
 		return ret;
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

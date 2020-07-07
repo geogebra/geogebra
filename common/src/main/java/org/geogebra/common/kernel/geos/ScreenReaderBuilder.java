@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.geos;
 
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
+
 /**
  * String builder wrapper for screen reader; avoids double spaces and dots.
  * 
@@ -7,23 +10,23 @@ package org.geogebra.common.kernel.geos;
  */
 public class ScreenReaderBuilder {
 	private StringBuilder sb = new StringBuilder();
-    private boolean isMobile = false;
+	private boolean isMobile = false;
+	private TeXAtomSerializer texAtomSerializer;
 
-    /**
-     * Default constructor
-     */
-    public ScreenReaderBuilder() {
+	/**
+	 * Default constructor
+	 */
+	public  ScreenReaderBuilder() {
 
-    }
+	}
 
-    /**
-     * Constructor
-     *
-     * @param isMobile whether the user is on a mobile device or desktop
-     */
-    public ScreenReaderBuilder(boolean isMobile) {
-        this.isMobile = isMobile;
-    }
+	/**
+	 * Constructor
+	 * @param isMobile whether the user is on a mobile device or desktop
+	 */
+	public  ScreenReaderBuilder(boolean isMobile) {
+		this.isMobile = isMobile;
+	}
 
 	/**
 	 * Append string, make sure . is followed by space.
@@ -63,14 +66,31 @@ public class ScreenReaderBuilder {
 	/**
 	 * @return wrapped string builder
 	 */
-    protected StringBuilder getStringBuilder() {
-        return sb;
-    }
+	protected StringBuilder getStringBuilder() {
+		return sb;
+	}
+	
+	/**
+	 *
+	 * @return whether the user is on mobile or desktop
+	 */
+	public boolean isMobile() {
+		return isMobile;
+	}
 
-    /**
-     * @return whether the user is on mobile or desktop
-     */
-    public boolean isMobile() {
-        return isMobile;
-    }
+	/**
+	 * @param root formula to append
+	 */
+	public void appendLaTeX(String root) {
+		TeXFormula texFormula = new TeXFormula();
+		texFormula.setLaTeX(root);
+		append(getTexAtomSerializer().serialize(texFormula.root));
+	}
+
+	private TeXAtomSerializer getTexAtomSerializer() {
+		if (texAtomSerializer == null) {
+			texAtomSerializer = new TeXAtomSerializer(null);
+		}
+		return texAtomSerializer;
+	}
 }

@@ -24,6 +24,7 @@ public class ScriptArea extends TextArea
 	/** application */
 	protected AppW app;
 	private DummyCursor dummyCursor;
+	private boolean isFocused = false;
 
 	/**
 	 * Creates new script area
@@ -180,8 +181,9 @@ public class ScriptArea extends TextArea
 	}
 
 	@Override
-	public void setFocus(boolean focus, boolean scheduled) {
-		setFocus(focus);
+	public void setFocus(boolean focus) {
+		super.setFocus(focus);
+		isFocused = focus;
 	}
 
 	@Override
@@ -190,14 +192,14 @@ public class ScriptArea extends TextArea
 	}
 
 	@Override
-	public void onEnter(boolean b) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public boolean needsAutofocus() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean hasFocus() {
+		return isFocused;
 	}
 
 	/**

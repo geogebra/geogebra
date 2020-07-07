@@ -13,7 +13,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -211,34 +210,33 @@ public class EuclidianStatic {
 			if (isLaTeX) {
 				// save the height of this element by drawing it to a temporary
 				// buffer
-				GDimension dim = AwtFactory.getPrototype().newDimension(0, 0);
-				dim = app.getDrawEquation().drawEquation(app, geo, tempGraphics,
-						0, 0, elements[i], font, ((GeoText) geo).isSerifFont(),
+				GDimension dim = app.getDrawEquation().drawEquation(app, geo, tempGraphics,
+						0, 0, elements[i], font, serif,
 						fgColor, bgColor, false, false, callback);
 
 				int height = dim.getHeight();
 
 				// depth += dim.depth;
 
-				elementHeights.add(Integer.valueOf(height));
+				elementHeights.add(height);
 
 				// check if this element is taller than every else in the line
-				if (height > (lineHeights.get(currentLine)).intValue()) {
-					lineHeights.set(currentLine, Integer.valueOf(height));
+				if (height > lineHeights.get(currentLine)) {
+					lineHeights.set(currentLine, height);
 				}
 			} else {
 				elements[i] = elements[i].replaceAll("\\\\\\$", "\\$");
 				String[] lines = elements[i].split("\\n", -1);
 
 				for (int j = 0; j < lines.length; ++j) {
-					elementHeights.add(Integer.valueOf(lineSpread));
+					elementHeights.add(lineSpread);
 
 					// create a new line
 					if (j + 1 < lines.length) {
 						++currentLine;
 
 						lineHeights
-								.add(Integer.valueOf(lineSpread + lineSpace));
+								.add(lineSpread + lineSpace);
 					}
 				}
 			}
@@ -271,7 +269,7 @@ public class EuclidianStatic {
 				// draw the equation and save the x offset
 				xOffset += de.drawEquation(app, geo, g2, xLabel + xOffset,
 						(yLabel + height) + yOffset, elements[i], font,
-						((GeoText) geo).isSerifFont(), fgColor, bgColor, true,
+						serif, fgColor, bgColor, true,
 						false, callback).getWidth();
 
 				++currentElement;
@@ -631,6 +629,8 @@ public class EuclidianStatic {
 		// draw text line by line
 		int lineBegin = 0;
 		int length = labelDesc.length();
+		// fix jumping text in mow text editor
+		int yPos = yLabel;
 		for (int i = 0; i < length - 1; i++) {
 			if (labelDesc.charAt(i) == '\n') {
 
@@ -639,7 +639,7 @@ public class EuclidianStatic {
 
 				// end of line reached: draw this line
 				g2.drawString(labelDesc.substring(lineBegin, i), xLabel,
-						yLabel + lines * lineSpread);
+						yPos);
 
 				int width = (int) textWidth(labelDesc.substring(lineBegin, i),
 						font, frc);
@@ -649,15 +649,14 @@ public class EuclidianStatic {
 
 				lines++;
 				lineBegin = i + 1;
+				yPos += lineSpread;
 			}
 		}
-
-		double ypos = yLabel + lines * lineSpread;
 
 		// iOS (bug?) - bold text needs font setting for each line
 		g2.setFont(font);
 
-		g2.drawString(labelDesc.substring(lineBegin), xLabel, ypos);
+		g2.drawString(labelDesc.substring(lineBegin), xLabel, yPos);
 
 		int width = (int) textWidth(labelDesc.substring(lineBegin), font, frc);
 		if (width > xoffset) {
@@ -670,14 +669,7 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		if (app.has(Feature.MOW_TEXT_TOOL) && geo instanceof GeoText) {
-			ret.setBounds(xLabel - EDITOR_MARGIN, yLabel - fontSize - EDITOR_MARGIN,
-					(int) ret.getWidth(),
-					Math.max((int) ret.getHeight(), height + 2 * EDITOR_MARGIN));
-			((GeoText) geo).setTextHeight(height);
-		} else {
-			ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
-		}
+		ret.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6, height + 6);
 		return ret;
 	}
 

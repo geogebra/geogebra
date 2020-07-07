@@ -106,7 +106,8 @@ public class ParametricProcessor {
 
 		TreeSet<GeoNumeric> num = new TreeSet<>();
 		// Iteration[a+1, a, {1},4]
-		ap.replaceUndefinedVariables(ve, num, new String[] { varName, "X" });
+		ap.replaceUndefinedVariables(ve, num, new String[] {varName, "X" },
+				info.isMultipleUnassignedAllowed());
 		for (GeoNumeric slider : num) {
 			undefinedVariables.remove(slider.getLabelSimple());
 		}
@@ -234,7 +235,7 @@ public class ParametricProcessor {
 			if (((VectorValue) ev).getToStringMode() == Kernel.COORD_COMPLEX) {
 				if (!kernel.getApplication().has(Feature.SURFACE_2D)) {
 					throw new MyError(kernel.getApplication().getLocalization(),
-                            Errors.InvalidFunction);
+							Errors.InvalidFunction);
 				}
 				return complexSurface(exp, fv[0], label);
 			}
@@ -369,7 +370,7 @@ public class ParametricProcessor {
 				+ exp.toString(StringTemplate.defaultTemplate) + ","
 				+ ev.getClass() + "," + fv.length);
 		throw new MyError(kernel.getApplication().getLocalization(),
-                Errors.InvalidFunction);
+				Errors.InvalidFunction);
 
 	}
 
@@ -479,7 +480,7 @@ public class ParametricProcessor {
 	protected void checkNumber(ExpressionNode cx) {
 		if (!cx.evaluate(StringTemplate.maxPrecision).isNumberValue()) {
 			throw new MyError(kernel.getApplication().getLocalization(),
-                    Errors.InvalidFunction);
+					Errors.InvalidFunction);
 		}
 
 	}
@@ -580,7 +581,7 @@ public class ParametricProcessor {
 	public ValidExpression checkParametricEquationF(ValidExpression ve,
 			ValidExpression fallback, Construction cons, EvalInfo info) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-		ve.traverse(collecter);
+		ve.inspect(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 		if (undefinedVariables.size() == 1) {
 			try {
@@ -616,7 +617,7 @@ public class ParametricProcessor {
 	 */
 	public GeoElement[] processXEquation(Equation equ, EvalInfo info) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-		equ.traverse(collecter);
+		equ.inspect(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 		// case 3DLine
 		if (undefinedVariables.isEmpty()) {

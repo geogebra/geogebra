@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.Hits;
-import org.geogebra.common.euclidian.TextController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
@@ -19,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -73,7 +71,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		IsEuclidianController, DropHandler {
 
 	private MouseTouchGestureControllerW mtg;
-	private TextControllerW textController = null;
 
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
@@ -195,8 +192,6 @@ public class EuclidianControllerW extends EuclidianController implements
 					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN);
 		} else {
 			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
-			// app.setMode(EuclidianConstants.MODE_MOVE);
-			// app.getGuiManager().updateToolbar();
 		}
 		mtg.onTouchStart(event);
 	}
@@ -297,7 +292,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
-        Log.debug("tf focus");
 		if (isComboboxFocused()) {
 
             Log.error("isComboboxFocused!");
@@ -317,8 +311,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 			return true;
 		}
-        Log.debug("tf click");
-		// return view.textfieldClicked(x, y, type) || isComboboxFocused();
 		return getView().textfieldClicked(x, y, type);
 	}
 
@@ -450,15 +442,13 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	public void hideDynamicStylebar() {
-		if (!app.isUnbundledOrWhiteboard()
-				|| !((AppW) app).allowStylebar()) {
-			return;
+		if (getView().hasDynamicStyleBar()) {
+			getView().getDynamicStyleBar().setVisible(false);
 		}
-		getView().getDynamicStyleBar().setVisible(false);
 	}
 
 	@Override
-	protected void showDynamicStylebar() {
+	public void showDynamicStylebar() {
 		if (((AppW) app).allowStylebar()) {
 			getView().getDynamicStyleBar().setVisible(true);
 			getView().getDynamicStyleBar().updateStyleBar();
@@ -489,22 +479,11 @@ public class EuclidianControllerW extends EuclidianController implements
 		}
 	}
 
-	@Override
-	public TextController getTextController() {
-		if (!app.has(Feature.MOW_TEXT_TOOL)) {
-			return null;
-		}
-		if (textController == null) {
-			textController = new TextControllerW((AppW) app);
-		}
-		return textController;
+	/**
+	 * @return MouseTouchGestureControllerW instance
+	 */
+	public MouseTouchGestureControllerW getMouseTouchGestureController() {
+		return mtg;
 	}
-
-    /**
-     * @return MouseTouchGestureControllerW instance
-     */
-    public MouseTouchGestureControllerW getMouseTouchGestureController() {
-        return mtg;
-    }
 }
 

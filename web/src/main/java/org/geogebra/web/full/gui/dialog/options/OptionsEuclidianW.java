@@ -13,7 +13,10 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.components.dropdown.grid.GridDropdown;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.images.AppResources;
+import org.geogebra.web.full.gui.images.PropertiesResources;
 import org.geogebra.web.full.gui.util.ComboBoxW;
 import org.geogebra.web.full.gui.util.LineStylePopup;
 import org.geogebra.web.full.gui.util.MyCJButton;
@@ -26,6 +29,7 @@ import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
@@ -35,6 +39,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -55,7 +60,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private GridTab gridTab;
 	private boolean isIniting;
 	protected Localization loc;
-	
+
 	protected static abstract class EuclidianTab extends FlowPanel
 			implements SetLabels {
 		
@@ -101,7 +106,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private FormLabel lbPointCapturing;
 		private ListBox pointCapturingStyleList;
 		ListBox lbGridType;
-		ListBox lbRulerType = null;
+		GridDropdown lbRulerType = null;
 		CheckBox cbGridManualTick;
 		NumberListBox ncbGridTickX;
 		NumberListBox ncbGridTickY;
@@ -363,14 +368,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				return;
 			}
 
-			lbRulerType = new ListBox();
+			lbRulerType = new GridDropdown(app);
+			TestHarness.setAttr(lbRulerType, "rulingDropdown");
 			lblRulerType = new FormLabel(loc.getMenu("Ruling"))
 					.setFor(lbRulerType);
-			lbRulerType.addChangeHandler(new ChangeHandler() {
-
+			lbRulerType.setListener(new GridDropdown.GridDropdownListener() {
 				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyRulerType(lbRulerType.getSelectedIndex());
+				public void itemSelected(GridDropdown dropdown, int index) {
+					model.applyRulerType(BackgroundType.rulingOptions.get(index));
 					updateView();
 					app.storeUndoInfo();
 				}
@@ -627,11 +632,35 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		 * @param item
 		 *            add drop-down menu item with text
 		 */
-		public void addRulerTypeItem(String item) {
+		public void addRulerTypeItem(String item, BackgroundType type) {
 			if (gridOptions) {
 				return;
 			}
-			lbRulerType.addItem(item);
+			ImageResource background = getResourceForBackgroundType(type);
+			lbRulerType.addItem(item, background);
+		}
+
+		private ImageResource getResourceForBackgroundType(BackgroundType type) {
+			switch (type) {
+				case RULER:
+					return PropertiesResources.INSTANCE.linedRuling();
+				case SQUARE_SMALL:
+					return PropertiesResources.INSTANCE.squared5Ruling();
+				case SQUARE_BIG:
+					return PropertiesResources.INSTANCE.squared1Ruling();
+				case ELEMENTARY12_COLORED:
+					return PropertiesResources.INSTANCE.coloredRuling();
+				case ELEMENTARY12:
+					return PropertiesResources.INSTANCE.elementary12Ruling();
+				case ELEMENTARY12_HOUSE:
+					return PropertiesResources.INSTANCE.houseRuling();
+				case ELEMENTARY34:
+					return PropertiesResources.INSTANCE.elementary34Ruling();
+				case MUSIC:
+					return PropertiesResources.INSTANCE.musicRuling();
+				default:
+					return AppResources.INSTANCE.empty();
+			}
 		}
 
 		/**
@@ -658,8 +687,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		 *            true if the lines should be bold.
 		 */
 		public void updateRuler(int typeIdx, GColor color, int lineStyle, boolean bold) {
-			setRulerType(typeIdx);
 			BackgroundType bgType = BackgroundType.fromInt(typeIdx);
+			setRulerType(BackgroundType.rulingOptions.indexOf(bgType));
 			if (!gridOptions
 					&& (bgType == BackgroundType.NONE || bgType.isSVG())) {
 				stylePanel.setVisible(false);
@@ -980,12 +1009,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	@Override
-	public void addRulerTypeItem(String item) {
+	public void addRulerTypeItem(String item, BackgroundType type) {
 		if (gridTab == null) {
 			return;
 		}
 
-		gridTab.addRulerTypeItem(item);
+		gridTab.addRulerTypeItem(item, type);
 	}
 
 	@Override

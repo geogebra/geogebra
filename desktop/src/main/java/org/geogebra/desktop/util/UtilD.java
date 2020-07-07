@@ -429,4 +429,28 @@ public class UtilD {
 		return System.getProperty("java.version").startsWith("1.7.");
 	}
 
+	/**
+	 * Creates a directory
+	 * 
+	 * @param prefDir
+	 *            directory
+	 */
+	public static void mkdirs(File prefDir) {
+		if (!prefDir.exists() && !prefDir.mkdirs()) {
+			Log.warn("Could not create " + prefDir.getAbsolutePath());
+		}
+	}
+
+	/**
+	 * Deletes a file
+	 * 
+	 * @param dest
+	 *            file
+	 */
+	public static void delete(File dest) {
+		if (!dest.delete()) {
+			Log.warn("Could not delete " + dest.getAbsolutePath());
+		}
+	}
+
 }

@@ -45,6 +45,9 @@ public class TableValuesViewTest extends BaseUnitTest {
 
 	private TableValuesPointsImpl tablePoints;
 
+	/**
+	 * Clear construction & initialize table view
+	 */
     @Before
     public void setupTest() {
 		getKernel().clearConstruction(true);
@@ -269,10 +272,10 @@ public class TableValuesViewTest extends BaseUnitTest {
         showColumn(lines[0]);
         Mockito.verify(listener).notifyColumnAdded(model, lines[0], 1);
         showColumn(lines[1]);
-        Mockito.verify(listener).notifyColumnAdded(model, lines[1],2);
+		Mockito.verify(listener).notifyColumnAdded(model, lines[1], 2);
 
 		hideColumn(lines[1]);
-        Mockito.verify(listener).notifyColumnRemoved(model, lines[1],2);
+		Mockito.verify(listener).notifyColumnRemoved(model, lines[1], 2);
 
         view.update(lines[0]);
         Mockito.verify(listener).notifyColumnChanged(model, lines[0], 1);

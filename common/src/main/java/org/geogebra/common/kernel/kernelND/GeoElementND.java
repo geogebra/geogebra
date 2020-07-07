@@ -23,8 +23,8 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.AutoColor;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.GeoElementConvertable;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
@@ -39,6 +39,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenReaderBuilder;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EventType;
@@ -52,7 +54,7 @@ import org.geogebra.common.util.LaTeXCache;
  * @author Zbynek
  *
  */
-public interface GeoElementND extends ExpressionValue {
+public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 
 	/** label mode: name */
 	public static final int LABEL_NAME = 0;
@@ -730,7 +732,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * Changes transparency of this geo
 	 * 
 	 * @param alpha
-	 *            new alpha value
+	 *            new alpha value between 0 and 1
 	 */
 	void setAlphaValue(double alpha);
 
@@ -1142,7 +1144,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return true, only if AV should display 2 rows in 'Definition And Value'
 	 *         style.
 	 */
-	DescriptionMode needToShowBothRowsInAV();
+	DescriptionMode getDescriptionMode();
 
 	/**
 	 * Check that this is a GeoFunctionable representing a function R-&gt; R
@@ -1432,6 +1434,11 @@ public interface GeoElementND extends ExpressionValue {
 	boolean isShape();
 
 	/**
+	 * @return is geo created with mask tool
+	 */
+	boolean isMask();
+
+	/**
 	 * @param flag
 	 *            true to make this highlighted
 	 * 
@@ -1581,8 +1588,28 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	boolean isEuclidianShowable();
 
-    /**
-     * @return the unwrapped geo
-     */
-    GeoElementND unwrapSymbolic();
+	/**
+	 * @return the unwrapped geo
+	 */
+	GeoElementND unwrapSymbolic();
+
+	/**
+	 * @return app
+	 */
+	App getApp();
+
+	/**
+	 * Recursively checks the algo parents to determine whether the element's value is safe to show
+	 * to the user.
+	 * @return True if it's allowed to show the element's value, otherwise false.
+	 */
+	boolean isAllowedToShowValue();
+
+	/**
+	 * Tells whether the equation was typed directly from the user
+	 *
+	 * @return true if the equation was typed by the user (and not created via
+	 *         command or tool)
+	 */
+	boolean isFunctionOrEquationFromUser();
 }

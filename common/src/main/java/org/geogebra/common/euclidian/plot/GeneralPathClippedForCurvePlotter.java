@@ -6,10 +6,10 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 
 /**
@@ -21,7 +21,10 @@ import org.geogebra.common.util.DoubleUtil;
 public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		implements PathPlotter {
 
-    private static final double EPSILON = 0.0001;
+	private static final double EPSILON = 0.0001;
+
+	public static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
+
 	private boolean lineDrawn;
 	private Coords tmpCoords = new Coords(4);
 
@@ -62,9 +65,8 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 			return;
 		}
 
-		boolean distant = !DoubleUtil.isEqual(x, point.getX(),
-				view.getMinPixelDistance())
-				|| !DoubleUtil.isEqual(y, point.getY(), view.getMinPixelDistance());
+		boolean distant = !DoubleUtil.isEqual(x, point.getX(), MIN_PIXEL_DISTANCE)
+				|| !DoubleUtil.isEqual(y, point.getY(), MIN_PIXEL_DISTANCE);
 		if (lineTo == SegmentType.CONTROL || lineTo == SegmentType.CURVE_TO
 				|| lineTo == SegmentType.ARC_TO
 				|| lineTo == SegmentType.AUXILIARY) {

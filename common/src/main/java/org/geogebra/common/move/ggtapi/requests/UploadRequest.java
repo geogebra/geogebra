@@ -54,7 +54,7 @@ public class UploadRequest implements Request {
 	}
 
 	private static String typeString(MaterialType type) {
-		return (type == MaterialType.ggb || type == MaterialType.ggs) ? "applet" : type.name();
+		return (type == MaterialType.ggb || type == MaterialType.ggs) ? "applet" : type.toString();
 	}
 
 	/**
@@ -181,8 +181,8 @@ public class UploadRequest implements Request {
 			// settings
 			JSONObject settings = new JSONObject();
 
-            // appname
-            settings.put("-appname", client.getAppName());
+			// appname
+			settings.put("-appname", client.getAppName());
 
 			if (parent != null) {
 				task.put("parent", parent.getId());

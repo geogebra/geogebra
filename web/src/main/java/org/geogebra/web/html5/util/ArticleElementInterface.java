@@ -310,7 +310,7 @@ public interface ArticleElementInterface {
 	double getDataParamScale();
 
 	/**
-	 * @return whether focus prevented (use in multiple applets)
+	 * @return whether to add shadows to buttons
 	 */
 	boolean getDataParamButtonShadows();
 
@@ -319,6 +319,11 @@ public interface ArticleElementInterface {
 	 *         are (0-1)
 	 */
 	double getDataParamButtonRounding();
+
+	/**
+	 * @return data-param-buttonBorderColor: the parameter for
+	 */
+	String getDataParamButtonBorderColor();
 
 	/**
 	 * Remove cached scale values
@@ -498,13 +503,14 @@ public interface ArticleElementInterface {
 	 */
 	String getParamVendor();
 
-    /**
-     * @return value of data-param-evaluatorFontSize, or def if not specified
-     */
-    int getParamFontSize(int def);
+	/**
+	 * @return value of data-param-evaluatorFontSize, or def if not specified
+	 */
+	int getParamFontSize(int def);
 
-    /**
-     * @return value of data-param-evaluatorKeyboard (e.g. scientific), or def if not specified
-     */
-    String getParamKeyboardType(String def);
+	/**
+	 * @return value of data-param-evaluatorKeyboard (e.g. scientific), or def if not specified
+	 */
+	String getParamKeyboardType(String def);
+
 }

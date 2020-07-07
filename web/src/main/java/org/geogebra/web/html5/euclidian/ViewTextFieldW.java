@@ -1,30 +1,78 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.ViewTextField;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.javax.swing.GBoxW;
+import org.geogebra.web.html5.javax.swing.Positioner;
+
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class ViewTextFieldW extends ViewTextField {
 
-	public ViewTextFieldW(EuclidianView euclidianView) {
-		super(euclidianView);
+	private Positioner positioner;
+	private SimplePanel box;
+	private AutoCompleteTextFieldW textField;
+	private final EuclidianViewWInterface euclidianView;
+
+	public ViewTextFieldW(EuclidianViewWInterface euclidianView) {
+		this.euclidianView = euclidianView;
+	}
+
+	private AutoCompleteTextFieldW newAutoCompleteTextField(int length,
+			Drawable drawTextField) {
+		return new AutoCompleteTextFieldW(length,
+				this.euclidianView.getApplication(), drawTextField, true);
+	}
+
+	private void ensureBoxExists() {
+		if (box == null) {
+			box = new SimplePanel();
+			box.addStyleName("gbox");
+			positioner = new Positioner(euclidianView.getEuclidianController(), box);
+			box.setWidget(textField);
+		}
 	}
 
 	@Override
-	public AutoCompleteTextField newAutoCompleteTextField(int length,
-			App application, Drawable drawTextField) {
-		return new AutoCompleteTextFieldW(length, application, drawTextField, true);
+	public void setBoxVisible(boolean isVisible) {
+		ensureBoxExists();
+		box.setVisible(isVisible);
 	}
 
 	@Override
-	public GBox createHorizontalBox(EuclidianController style) {
-		return new GBoxW(style);
+	public void setBoxBounds(GRectangle bounds) {
+		ensureBoxExists();
+		positioner.setPosition(bounds.getMinX(), bounds.getMinY());
 	}
 
+	@Override
+	public AutoCompleteTextField getTextField(int length,
+			DrawInputBox drawInputBox) {
+		if (textField == null) {
+			textField = newAutoCompleteTextField(length, drawInputBox);
+			textField.setAutoComplete(false);
+			ensureBoxExists();
+			box.setWidget(textField);
+			euclidianView.add(box, positioner.getPosition());
+		} else {
+			textField.setDrawTextField(drawInputBox);
+		}
+
+		return textField;
+	}
+
+	@Override
+	public AutoCompleteTextField getTextField() {
+		return textField;
+	}
+
+	@Override
+	public void remove() {
+		textField = null;
+		positioner = null;
+		box = null;
+	}
 }

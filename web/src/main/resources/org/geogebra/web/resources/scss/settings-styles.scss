@@ -99,7 +99,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			}
     		}
     	
-    		.btnBold,.btnItalic, .btnLatex {
+    		.btnBold,.btnItalic,.btnUnderline, .btnLatex {
 				border-radius: 2px;
 				margin-left: 0px;
    	 			margin-right: 8px;
@@ -508,7 +508,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 						display: flex;
 						
 						.optionsSlider {
-							display: flex;	
+							display: flex;
 						}
 					
 						.gwt-Label {
@@ -542,6 +542,52 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				}
     			}	
     		}
+    }
+
+    .dropdownButton {
+        font-size: 87%;
+        color: #666666;
+        border: 0px;
+        box-shadow: none;
+        border: 0px;
+        border: none !important;
+        border-bottom: 1px solid #dcdcdc !important;
+        transition: border-bottom 0.3s ease-out;
+        background-color: transparent !important;
+
+        &:hover {
+            background-color: transparent;
+            border-bottom: 1px solid $teal-default !important;
+        }
+    }
+
+    .grid {
+        .cell {
+            padding: 8px;
+            vertical-align: top;
+            cursor: pointer;
+            .image {
+                width: 104px;
+                height: 64px;
+                margin-bottom: 8px;
+                border-radius: 4px;
+                border: 1px solid #e4e4e4;
+            }
+            .title {
+                text-align: center;
+                font-size: 75%;
+                width: 104px;
+                min-height: 40px;
+            }
+            &-active {
+                .image {
+                    border: 1px solid $mow_primary;
+                }
+                .title {
+                    color: $mow_primary;
+                }
+            }
+        }
     }
 
     .animateInFromRight {

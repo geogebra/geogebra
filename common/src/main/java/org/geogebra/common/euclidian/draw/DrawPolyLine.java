@@ -20,7 +20,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -29,10 +28,10 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
@@ -53,7 +52,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	// list of single points created by pen
 	private ArrayList<GPoint2D> pointList = new ArrayList<>();
 	private boolean startPointAdded = false;
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private GPoint2D endPoint = new GPoint2D();
 
 	/**
 	 * @param view
@@ -293,12 +292,6 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
 		if (isVisible) {
-			// double xRW = view.toRealWorldCoordX(mx);
-			// double yRW = view.toRealWorldCoordY(my);
-
-			int mx = view.toScreenCoordX(xRW);
-			int my = view.toScreenCoordY(yRW);
-
 			// round angle to nearest 15 degrees if alt pressed
 			if (view.getEuclidianController().isAltDown()) {
 				GeoPointND p = points.get(points.size() - 1);
@@ -314,8 +307,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				xRW = px + radius * Math.cos(angle * Math.PI / 180);
 				yRW = py + radius * Math.sin(angle * Math.PI / 180);
 
-				mx = view.toScreenCoordX(xRW);
-				my = view.toScreenCoordY(yRW);
+				int mx = view.toScreenCoordX(xRW);
+				int my = view.toScreenCoordY(yRW);
 
 				endPoint.setX(xRW);
 				endPoint.setY(yRW);
@@ -405,7 +398,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		coords[0] = v.getX();
 		coords[1] = v.getY();
 		view.toScreenCoords(coords);
-		GPoint2D p = AwtFactory.getPrototype().newPoint2D();
+		GPoint2D p = new GPoint2D();
 		p.setLocation(coords[0], coords[1]);
 		return p;
 	}
@@ -482,11 +475,5 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 
 		return view.getCoordsForView(points.get(i).getInhomCoordsInD3());
-	}
-
-	@Override
-	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

@@ -8,6 +8,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
@@ -19,12 +20,12 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -1305,7 +1306,6 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	private void setColors(GColor sourceColor, int alpha, GColor[] color) {
-
 		GColor c = sourceColor.deriveWithAlpha(alpha);
 
 		if (getView3D().isGrayScaled()) {
@@ -1344,7 +1344,6 @@ public abstract class Drawable3D extends DrawableND {
 		}
 		// highlighted color
 		color[1] = GColor.mixColors(color[0], tmpColor2, s, a);
-
 	}
 
 	protected void setAlpha(int alpha) {
@@ -1367,8 +1366,6 @@ public abstract class Drawable3D extends DrawableND {
 			a = 255;
 		}
 		setAlpha(a);
-
-		// setAlpha(getGeoElement().getAlphaValue());
 	}
 
 	/**
@@ -1402,7 +1399,6 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	public void setGeoElement(GeoElement a_geo) {
 		this.geo = a_geo;
-		// ((GeoElement3DInterface) a_geo).setDrawable3D(this);
 	}
 
 	// ///////////////////////////
@@ -1512,7 +1508,6 @@ public abstract class Drawable3D extends DrawableND {
 	 * record trace
 	 */
 	protected void recordTrace() {
-
 		if (!hasTrace()) {
 			return;
 		}
@@ -1558,7 +1553,6 @@ public abstract class Drawable3D extends DrawableND {
 				drawGeom(renderer, index);
 			}
 		}
-
 	}
 
 	/**
@@ -1609,7 +1603,6 @@ public abstract class Drawable3D extends DrawableND {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1619,7 +1612,6 @@ public abstract class Drawable3D extends DrawableND {
 	 *            renderer
 	 */
 	protected void drawTracesHidingSurface(Renderer renderer) {
-
 		if (trace == null) {
 			return;
 		}
@@ -1634,7 +1626,6 @@ public abstract class Drawable3D extends DrawableND {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -2142,5 +2133,15 @@ public abstract class Drawable3D extends DrawableND {
 	@Override
 	public DrawableND createDrawableND(GeoElement subGeo) {
 		return m_view3D.newDrawable(subGeo);
+	}
+
+	@Override
+	public void setPartialHitClip(GRectangle rect) {
+		// just strokes
+	}
+
+	@Override
+	public GRectangle getPartialHitClip() {
+		return null;
 	}
 }

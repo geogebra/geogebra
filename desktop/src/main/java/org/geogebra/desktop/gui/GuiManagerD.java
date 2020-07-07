@@ -2693,8 +2693,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		frame.setTitle(sb.toString());
 	}
 
-	@Override
-	public Object createFrame() {
+	public JFrame createFrame() {
 		GeoGebraFrame wnd = new GeoGebraFrame();
 		wnd.setGlassPane(layout.getDockManager().getGlassPane());
 		wnd.setApplication(getApp());
@@ -3099,7 +3098,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		// 3D stuff
 	}
 
-	@Override
 	public void showPropertiesViewSliderTab() {
 		propertiesView.showSliderTab();
 	}
@@ -3130,7 +3128,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		d.setVisible(true);
 	}
 
-	@Override
 	public void clearInputbar() {
 		((AlgebraInputD) getAlgebraInput()).clear();
 	}
@@ -3228,18 +3225,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (casView != null) {
 			casView.resetCursor();
 		}
-	}
-
-	@Override
-	public boolean hasDataCollectionView() {
-		// not available in desktop
-		return false;
-	}
-
-	@Override
-	public void getDataCollectionViewXML(StringBuilder sb,
-			boolean asPreference) {
-		// not available in desktop
 	}
 
 	@Override

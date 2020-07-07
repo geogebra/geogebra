@@ -78,6 +78,7 @@ public class FileManagerW extends FileManager {
 		updateViewerId(mat);
 		mat.setLocalID(id);
 		try {
+			mat.setAppName(app.getConfig().getAppCode());
 			stockStore.setItem(key, mat.toJson().toString());
 			cb.onSaved(mat, true);
 		} catch (Exception e) {
@@ -221,6 +222,7 @@ public class FileManagerW extends FileManager {
 				final Material mat = createMaterial(s,
 				        System.currentTimeMillis() / 1000);
 				try {
+					mat.setAppName(app.getConfig().getAppCode());
 					stockStore.setItem(getAutosaveKey(),
 							mat.toJson().toString());
 				} catch (Exception e) {
@@ -289,12 +291,13 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public void saveLoggedOut(App app1) {
-		((AppW) app1).getGuiManager().exportGGB();
+		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 	
 	@Override
 	public void export(App app1) {
-		((AppW) app1).getGuiManager().exportGGB();
+		dialogEvent(app, "exportGGB");
+		((AppW) app1).getGuiManager().exportGGB(true);
 	}
 
 	@Override
@@ -362,6 +365,7 @@ public class FileManagerW extends FileManager {
 										"[\"" + extension2 + "\"]"));
 							}
 						}, loc.getMenu("Export"));
+		dialogEvent(app, "exportPNG");
 	}
 
 	@Override
@@ -375,6 +379,10 @@ public class FileManagerW extends FileManager {
 		if (stockStore != null) {
 			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());
 		}
+	}
+
+	private static void dialogEvent(AppW app, String string) {
+		app.dispatchEvent(new Event(EventType.OPEN_DIALOG, null, string));
 	}
 
 }

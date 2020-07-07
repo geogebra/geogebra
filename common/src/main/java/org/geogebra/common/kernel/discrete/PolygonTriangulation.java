@@ -9,9 +9,9 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.matrix.CoordSys;
+import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -46,7 +46,7 @@ public class PolygonTriangulation {
 
 	private ArrayList<TriangleFan> fansList;
 
-	private GPoint2D.Double[] pointsArray;
+	private GPoint2D[] pointsArray;
 	protected Point nextNewPointForNonSelfIntersectingPolygon = null;
 	protected Segment comparedSameOrientationSegment;
 	protected int comparedSameOrientationValue;
@@ -96,11 +96,21 @@ public class PolygonTriangulation {
 
 			SortedSet<E> set = headSet(e);
 
-			if (set == null || set.isEmpty()) {
+			if (set.isEmpty()) {
 				return null;
 			}
 
 			return set.last();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+		}
+
+		@Override
+		public int hashCode() {
+			return super.hashCode();
 		}
 
 	}
@@ -637,7 +647,7 @@ public class PolygonTriangulation {
 
 		polygonPointsList = new ArrayList<>();
 		fansList = new ArrayList<>();
-		pointsArray = new GPoint2D.Double[0];
+		pointsArray = new GPoint2D[0];
 	}
 
 	/**
@@ -1316,7 +1326,7 @@ public class PolygonTriangulation {
 
 		// prepare points as an array
 		if (pointsArray.length < maxPointIndex) {
-			pointsArray = new GPoint2D.Double[maxPointIndex];
+			pointsArray = new GPoint2D[maxPointIndex];
 		}
 
 		// now all intersections are computed, and points are correctly chained
@@ -1342,13 +1352,13 @@ public class PolygonTriangulation {
 				segStart.removeFromPoints();
 				if (start.hasNoSegment()) {
 					pointSet.remove(start);
-					pointsArray[start.id] = new GPoint2D.Double(start.x,
+					pointsArray[start.id] = new GPoint2D(start.x,
 							start.y);
 				}
 				start = segStart.rightPoint; // check right point
 				if (start.hasNoSegment()) {
 					pointSet.remove(start);
-					pointsArray[start.id] = new GPoint2D.Double(start.x,
+					pointsArray[start.id] = new GPoint2D(start.x,
 							start.y);
 				}
 
@@ -1491,7 +1501,7 @@ public class PolygonTriangulation {
 					if (currentPoint.hasNoSegment()) {
 						// debug(currentPoint.name+" : remove");
 						pointSet.remove(currentPoint);
-						pointsArray[currentPoint.id] = new GPoint2D.Double(
+						pointsArray[currentPoint.id] = new GPoint2D(
 								currentPoint.x, currentPoint.y);
 					} else {
 						// debug(currentPoint.name+" : keep");
@@ -1505,7 +1515,7 @@ public class PolygonTriangulation {
 				if (start.hasNoSegment()) {
 					// debug(start.name+" : remove");
 					pointSet.remove(start);
-					pointsArray[start.id] = new GPoint2D.Double(start.x,
+					pointsArray[start.id] = new GPoint2D(start.x,
 							start.y);
 				} else {
 					// debug(start.name+" : keep");
@@ -2202,7 +2212,7 @@ public class PolygonTriangulation {
 		}
 
 		for (int i = length; i < maxPointIndex; i++) {
-			GPoint2D.Double point = pointsArray[i];
+			GPoint2D point = pointsArray[i];
 			if (point != null) {
 				completeVertices[i] = cs.getPoint(point.x, point.y);
 			}

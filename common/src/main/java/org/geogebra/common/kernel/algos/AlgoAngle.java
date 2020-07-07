@@ -3,12 +3,12 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.matrix.Coords;
 
 /**
  * Abstract class for all angle algos
@@ -120,12 +120,12 @@ public abstract class AlgoAngle extends AlgoElement {
 	 *            orientation for angle
 	 * @param a
 	 *            angle
-     * @param reverse
-     *            reverse check
+	 * @param reverse
+	 *            reverse check
 	 */
 	protected final static void checkOrientation(Coords vn,
-                                                 GeoDirectionND orientation, GeoAngle a, boolean reverse) {
-        if (vn.dotproduct(orientation.getDirectionInD3()) < 0 ^ reverse) {
+			GeoDirectionND orientation, GeoAngle a, boolean reverse) {
+		if (vn.dotproduct(orientation.getDirectionInD3()) < 0 ^ reverse) {
 			double v = 2 * Math.PI - a.getValue();
 			a.setValue(v);
 			if (v > Math.PI) {

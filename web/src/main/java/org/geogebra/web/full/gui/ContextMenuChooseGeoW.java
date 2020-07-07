@@ -54,9 +54,9 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	 *            place to show
 	 */
 	public ContextMenuChooseGeoW(AppW app, EuclidianView view,
-	        ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
-			GPoint invokerLocation) {
-		super(app, selectedGeos);
+								 ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
+								 GPoint invokerLocation, ContextMenuFactory factory) {
+		super(app, selectedGeos, factory);
 
 		// return if just one geo, or if first geos more than one
 		if (geos.size() < 2 || selectedGeos.size() > 1) {
@@ -188,9 +188,6 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 					localization.getMenu("PerformToolOn"), false,
 			        selectAnotherMenu);
 		}
-		if (!app.isUnbundledOrWhiteboard()) {
-			selectAnotherMenuItem.addStyleName("mi_no_image");
-		} 
 		wrappedPopup.addItem(selectAnotherMenuItem);
 	}
 

@@ -50,14 +50,17 @@ public interface GGraphics2DWI extends GGraphics2D {
 
 	void fillWith(GColor backgroundCommon);
 
-    /**
-     * @return canvas element
-     */
-    Element getElement();
+	/**
+	 * @return canvas element
+	 */
+	Element getElement();
 
-    /**
-     * @return whether the graphics is attached to DOM
-     */
-    boolean isAttached();
+	/**
+	 * @return whether the graphics is attached to DOM
+	 */
+	boolean isAttached();
 
+	int embed();
+
+	void resetLayer();
 }

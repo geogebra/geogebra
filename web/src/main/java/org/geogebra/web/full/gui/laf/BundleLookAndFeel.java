@@ -14,8 +14,8 @@ import com.google.gwt.storage.client.Storage;
  */
 public class BundleLookAndFeel extends GLookAndFeel {
 	@Override
-    public Platform getPlatform(int dim, String appName) {
-        return Platform.OFFLINE;
+	public Platform getPlatform(int dim, String appName) {
+		return Platform.OFFLINE;
 	}
 
 	@Override
@@ -60,13 +60,13 @@ public class BundleLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean supportsGoogleDrive() {
-		return false;
+	public boolean isOfflineExamSupported() {
+		return true;
 	}
 
 	@Override
-	public boolean isGraphingExamSupported() {
-		return true;
+	public boolean supportsGoogleDrive() {
+		return false;
 	}
 
 	@Override

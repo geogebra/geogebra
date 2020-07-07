@@ -149,6 +149,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
+		app.closePopups();
 		if (app.getGuiManager() != null) {
 			((GuiManagerW) app.getGuiManager())
 					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN3D);
@@ -201,6 +202,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		app.closePopups();
 		mtg.onMouseDown(event);
 	}
 
@@ -356,13 +358,13 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	@Override
 	public void hideDynamicStylebar() {
-		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
+		if (getView().hasDynamicStyleBar()) {
 			getView().getDynamicStyleBar().setVisible(false);
 		}
 	}
 
 	@Override
-	protected void showDynamicStylebar() {
+	public void showDynamicStylebar() {
 		if (app.isUnbundled() && ((AppW) app).allowStylebar()) {
 			getView().getDynamicStyleBar().setVisible(true);
 			getView().getDynamicStyleBar().updateStyleBar();
