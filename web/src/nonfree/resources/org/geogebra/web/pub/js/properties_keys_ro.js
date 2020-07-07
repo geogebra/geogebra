@@ -676,6 +676,8 @@ __GGB__keysVar["ro"].command = {
     "PlaneBisector.Syntax": "[ <Segment> ]\n[ <Punct>, <Punct> ]",
     "PlaySound": "Red\u0103Sunetul",
     "PlaySound.Syntax": "[ <URL> ]\n[ <Boolean> ]\n[ <Func\u0163ie>, <Valoare minim\u0103>, <Valoare maxim\u0103> ]\n[ <Func\u0163ie>, <Valoare minim\u0103>, <Valoare maxim\u0103>, <Rat\u0103 e\u015fantionare>, <Ad\xe2ncime e\u015fantion> ]",
+    "PloteSolve": "PloteSolve",
+    "PloteSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Punct",
     "Point.Syntax": "[ <Obiect> ]\n[ <Punct>, <Vector> ]",
     "PointIn": "Punct\xcen",

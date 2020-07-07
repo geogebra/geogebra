@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.kernel.StringTemplate;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -15,6 +16,15 @@ public class GeoInputBoxForComplexTest extends BaseUnitTest {
 	public void rootOfMinusOneShouldBeImaginaryWithComplexNumber() {
 		add("z_1 = 3 + 2i");
 		shouldBeUpdatedAs("sqrt(-1)", IMAGINARY_UNIT);
+	}
+
+	@Test
+	public void imaginaryUnitShouldOverrideUserDefinedVar() {
+		add("z_1 = 3 + 2i");
+		add("i = 7");
+		shouldBeUpdatedAs("2i", "2" + IMAGINARY_UNIT);
+		assertEquals("0 + 2i",
+				lookup("z_1").toValueString(StringTemplate.latexTemplate));
 	}
 
 	@Test

@@ -1165,6 +1165,28 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(element.showInEuclidianView(), is(false));
 	}
 
+
+
+	@Test
+	public void testFunctionLikeMultiplication() {
+		GeoSymbolic element =  add("x(x + 1)");
+		assertThat(element.toValueString(StringTemplate.defaultTemplate), is("x\u00B2 + x"));
+	}
+
+	@Test
+	public void testFunctionLikeMultiplicationSolve() {
+		assertSameAnswer("Solve(x(x-5)>x+7)", "Solve(x (x-5)>x+7)");
+		assertSameAnswer("Solve(y(y+1),y)", "Solve(y (y+1),y)");
+		assertSameAnswer("Solve(z(z+1),z)", "Solve(z (z+1),z)");
+	}
+
+	private void assertSameAnswer(String input1, String input2) {
+		GeoSymbolic solve1 = add(input1);
+		GeoSymbolic solve2 = add(input2);
+		assertThat(solve1.toValueString(StringTemplate.defaultTemplate),
+				is(solve2.toValueString(StringTemplate.defaultTemplate)));
+	}
+
 	@Test
 	public void testIntegralTwinGeoHasSliderValue() {
 		GeoSymbolic symbolic = add("Integral(x)");

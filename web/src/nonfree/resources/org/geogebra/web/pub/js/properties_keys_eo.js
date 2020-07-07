@@ -676,6 +676,8 @@ __GGB__keysVar["eo"].command = {
     "PlaneBisector.Syntax": "[ <Streko> ]\n[ <Punkto>, <Punkto> ]",
     "PlaySound": "LegiSonon",
     "PlaySound.Syntax": "[ <URL> ]\n[ <Boolean Play> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
+    "PloteSolve": "PloteSolve",
+    "PloteSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Punkto",
     "Point.Syntax": "[ <Objekto> ]\n[ <Listo> ]\n[ <Objekto>, <Parametro> ]\n[ <Punkto>, <Vektoro> ]",
     "PointIn": "PunktoEn",

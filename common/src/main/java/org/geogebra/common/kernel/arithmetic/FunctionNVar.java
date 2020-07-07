@@ -389,9 +389,27 @@ public class FunctionNVar extends ValidExpression
 	 * structure to x*(x+1) for example.
 	 */
 	private void fixStructure() {
+		FunctionVariable[] xyzVars = getXYZVars(fVars);
+
+		// try to replace x(x+1) by x*(x+1)
+		undecided.clear();
+		expression.replaceXYZnodes(xyzVars[0], xyzVars[1], xyzVars[2], undecided);
+		for (ExpressionNode en : undecided) {
+			en.setOperation(Operation.MULTIPLY);
+		}
+		undecided.clear();
+	}
+
+	/**
+	 * Returns the last x, y and z variables from the input var array, if they exist.
+	 *
+	 * @param vars input array
+	 * @return x, y and z variables from the input, if they exist
+	 */
+	public static FunctionVariable[] getXYZVars(FunctionVariable[] vars) {
 		// get function variables for x, y, z
 		FunctionVariable xVar = null, yVar = null, zVar = null;
-		for (FunctionVariable fVar : fVars) {
+		for (FunctionVariable fVar : vars) {
 			if ("x".equals(fVar.toString(StringTemplate.defaultTemplate))) {
 				xVar = fVar;
 			} else if ("y".equals(fVar.toString(StringTemplate.defaultTemplate))) {
@@ -400,14 +418,7 @@ public class FunctionNVar extends ValidExpression
 				zVar = fVar;
 			}
 		}
-
-		// try to replace x(x+1) by x*(x+1)
-		undecided.clear();
-		expression.replaceXYZnodes(xVar, yVar, zVar, undecided);
-		for (ExpressionNode en : undecided) {
-			en.setOperation(Operation.MULTIPLY);
-		}
-		undecided.clear();
+		return new FunctionVariable[] { xVar, yVar, zVar };
 	}
 
 	/**
