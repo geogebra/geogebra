@@ -1164,4 +1164,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic element = add("Solve({eq1, eq2}, {x, y})");
 		assertThat(element.showInEuclidianView(), is(false));
 	}
+
+	@Test
+	public void testIntegralTwinGeoHasSliderValue() {
+		GeoSymbolic symbolic = add("Integral(x)");
+		GeoNumeric slider = (GeoNumeric) lookup("c_1");
+		slider.setValue(10);
+		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
+				equalTo("1 / 2 x² + 10"));
+	}
 }
