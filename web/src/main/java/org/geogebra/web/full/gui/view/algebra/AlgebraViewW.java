@@ -88,8 +88,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private AlgebraStyleBarW styleBar;
 	private boolean editItem = false;
 	private GeoElement draggedGeo;
-	// to store width if original was thinner than needed.
-	private Integer originalWidth = null;
 	private int mqFontSize = -1;
 	private int maxItemWidth = 0;
 	private boolean latexLoaded;
@@ -2180,24 +2178,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public AVSelectionController getSelectionCtrl() {
 		return selectionCtrl;
-	}
-
-	/**
-	 * Gets the original width before AV expansion to restore original width
-	 * after.
-	 *
-	 * @return original width in pixels
-	 */
-	public Integer getOriginalWidth() {
-		return originalWidth;
-	}
-
-	/**
-	 * @param oldWidth
-	 *            original width in pixels
-	 */
-	public void setOriginalWidth(Integer oldWidth) {
-		this.originalWidth = oldWidth;
 	}
 
 	@Override

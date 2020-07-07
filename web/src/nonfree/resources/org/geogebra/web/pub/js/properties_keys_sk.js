@@ -676,6 +676,8 @@ __GGB__keysVar["sk"].command = {
     "PlaneBisector.Syntax": "[ <\xdase\u010dka> ]\n[ <Bod>, <Bod> ]",
     "PlaySound": "Prehra\u0165Vzuk",
     "PlaySound.Syntax": "[ <S\xfabor> ]\n[ <Logicky prehr\xe1vanie> ]\n[ <Funkcia>, <Min hodnota>, <Max hodnota> ]\n[ <Funkcia>, <Min hodnota>, <Max hodnota>, <rozsah vzorky>, <h\u013abka vzorky> ]",
+    "PloteSolve": "PloteSolve",
+    "PloteSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Bod",
     "Point.Syntax": "[ <Objekt> ]\n[ <Objekt>, <Parameter> ]\n[ <Bod>, <Vektor> ]",
     "PointIn": "BodV",

@@ -676,6 +676,8 @@ __GGB__keysVar["zh-CN"].command = {
     "PlaneBisector.Syntax": "[ <\u7ebf\u6bb5> ]\n[ <\u70b91>, <\u70b92> ]",
     "PlaySound": "\u64ad\u653e\u58f0\u97f3",
     "PlaySound.Syntax": "[ <\u7f51\u5740> ]\n[ <\u662f\u5426\u64ad\u653e? true|false> ]\n[ <\u51fd\u6570>, <\u6700\u5c0f\u503c>, <\u6700\u5927\u503c> ]\n[ <\u51fd\u6570>, <\u6700\u5c0f\u503c>, <\u6700\u5927\u503c>, <\u91c7\u6837\u7387>, <\u6837\u672c\u6df1\u5ea6> ]",
+    "PloteSolve": "PloteSolve",
+    "PloteSolve.Syntax": "[ <Equation in x> ]",
     "Point": "\u63cf\u70b9",
     "Point.Syntax": "[ <\u51e0\u4f55\u5bf9\u8c61> ]\n[ <\u6709\u5e8f\u6570\u7ec4\u5217\u8868> ]\n[ <\u51e0\u4f55\u5bf9\u8c61>, <\u8def\u5f84\u503c> ]\n[ <\u70b9>, <\u5411\u91cf> ]",
     "PointIn": "\u5185\u70b9",

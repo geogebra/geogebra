@@ -676,6 +676,8 @@ __GGB__keysVar["cy"].command = {
     "PlaneBisector.Syntax": "[ <Segment> ]\n[ <Point>, <Point> ]",
     "PlaySound": "ChwaraeSain",
     "PlaySound.Syntax": "[ <Ffeil> ]\n[ <Chwarae Boolean> ]\n[ <Ffwythiant>, <Gwerth Min>, <Gwerth Macs> ]\n[ <Ffwythiant>, <Gwerth Min>, <Gwerth Macs>, <Cyfradd Samplu>, <Dwysedd Samplu> ]",
+    "PloteSolve": "PloteSolve",
+    "PloteSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Pwynt",
     "Point.Syntax": "[ <Gwrthrych> ]\n[ <Pwynt>, <Fector> ]",
     "PointIn": "PwyntYn",

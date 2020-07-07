@@ -16,6 +16,9 @@ abstract public class ARGestureManager{
     private boolean actionPointerLeftPreviously = false;
     private boolean mTaped;
 
+    protected static float SCALE_MIN_MULTIPLIER = 0.3f;
+    protected static float SCALE_MAX_MULTIPLIER = 30.0f;
+
     public ARGestureManager(EuclidianView3D view) {
         mView = view;
     }

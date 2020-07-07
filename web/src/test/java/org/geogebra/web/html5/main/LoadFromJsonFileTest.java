@@ -38,7 +38,7 @@ public class LoadFromJsonFileTest {
 	@Test
 	public void testLoadApp() {
 
-		TestArticleElement articleElement = new TestArticleElement("prerelease", "simple");
+		TestArticleElement articleElement = new TestArticleElement("simple");
 		String json = FileIO.load(jsonPath);
 		articleElement.attr("jsonFile", json);
 		AppWsimple app = AppMocker.mockAppletSimple(articleElement);
@@ -67,7 +67,7 @@ public class LoadFromJsonFileTest {
 	private void initAppFromFile() {
 		AppMocker.useProviderForSchedulerImpl();
 		TestArticleElement articleElement =
-				new TestArticleElement("prerelease", "graphing");
+				new TestArticleElement("graphing");
 		String json = FileIO.load(CLOSED_AV_JSON_PATH);
 		articleElement.attr("jsonFile", json);
 		app = AppMocker.mockApplet(articleElement);

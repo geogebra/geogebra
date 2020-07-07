@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// and updated automatically by the "Version Bump" task
 	/** last build date */
-	public static final String BUILD_DATE = "30 June 2020";
+	public static final String BUILD_DATE = "07 July 2020";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.592.0";
+	public static final String VERSION_STRING = "5.0.593.0";
 
 	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
@@ -69,20 +69,16 @@ public interface GeoGebraConstants {
 		/**
 		 * @param prerelease
 		 *            whether we run prerelease
-		 * @param canary
-		 *            whether we run canary
 		 * @return eg X.Y.Zd-prerelease
 		 */
-		public String getVersionString(boolean prerelease, boolean canary, String appCode) {
+		public String getVersionString(boolean prerelease, String appCode) {
 
 			StringBuilder suffix = new StringBuilder(10);
 			suffix.append(name);
 			if (!"classic".equals(appCode)) {
 				suffix.append(appCode);
 			}
-			if (canary) {
-				suffix.append("-canary");
-			} else if (prerelease) {
+			if (prerelease) {
 				suffix.append("-prerelease");
 			}
 

@@ -422,9 +422,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		this.loc = loc;
 		loc.setApp(this);
 		this.cmdArgs = args;
-		this.prerelease = args != null && (args.containsArg("prerelease")
-				|| args.containsArg("canary"));
-		this.canary = args != null && args.containsArg("canary");
+		this.prerelease = args != null && args.containsArg("prerelease");
 		if (args != null && !args.containsArg("silent")) {
 			LoggerD logger = new LoggerD();
 			logger.setReading(true);
@@ -448,11 +446,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 		}
 
-		if (canary) {
-			Log.error("*****************************");
-			Log.error("*** Running with --canary ***");
-			Log.error("*****************************");
-		} else if (prerelease) {
+		if (prerelease) {
 			Log.error("*********************************");
 			Log.error("*** Running with --prerelease ***");
 			Log.error("*********************************");
