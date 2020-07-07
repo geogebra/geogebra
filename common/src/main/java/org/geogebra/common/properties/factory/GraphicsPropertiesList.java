@@ -90,7 +90,8 @@ public class GraphicsPropertiesList extends PropertiesArray {
 
 	private void ensureArViewPropertiesInitialized() {
 		if (arViewProperties == null) {
-			List<Property> propertiesListARView = Arrays.asList(super.getProperties());
+			List<Property> propertiesListARView =
+					new ArrayList<>(Arrays.asList(super.getProperties()));
 			propertiesListARView.add(1, new ARRatioPropertyCollection(app, localization));
 			propertiesListARView.add(2, new BackgroundProperty(app, localization));
 			arViewProperties = propertiesListARView.toArray(new Property[0]);
