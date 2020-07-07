@@ -150,10 +150,17 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("eq1", "4x + 3y + 2z = 1");
 		GeoElement ib2 = add("in2=InputBox(eq1)");
 		updateInput("?");
-		// both input boxes undefined, but first one remembers user input ...
-		assertEquals("?", inputBox.getText());
-		// ... and second one stays empty (APPS-1246)
+		// both input boxes undefined, we prefer empty string over question mark
+		// even if that's what the user typed (APPS-1246)
+		assertEquals("", inputBox.getText());
 		assertEquals("", ((GeoInputBox) ib2).getText());
+	}
+
+	@Test
+	public void shouldAllowQuestionMarkWhenLinkedToText() {
+		setupInput("txt", "\"GeoGebra Rocks\"");
+		updateInput("?");
+		assertEquals("?", inputBox.getText());
 	}
 
 	@Test
