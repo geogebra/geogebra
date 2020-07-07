@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -176,7 +177,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
-		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(), 
+		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
 				getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
@@ -323,38 +324,46 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		}
 		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		GeoElementND newTwin;
-		if (getArbitraryConstant().getTotalNumberOfConsts() > 0) {
-			newTwin = computeFromOutput();
-		} else {
-			try {
-				newTwin = computeFromInput();
-			} catch (Throwable exception) {
-				try {
-					newTwin = computeFromOutput();
-				} catch (Throwable t) {
-					return null;
-				}
-			}
-		}
-		cons.setSuppressLabelCreation(isSuppressLabelsActive);
-		return newTwin;
-	}
-
-	private GeoElementND computeFromOutput() {
 		try {
-			ExpressionNode node = getKernel().getParser().parseGiac(casOutputString).wrap();
-			return process(node);
-		} catch (Throwable t) {
-			return null;
+			return process(getTwinInput());
+		} catch (Throwable throwable) {
+			try {
+				return process(getTwinFallbackInput());
+			} catch (Throwable throwable2) {
+				return null;
+			}
+		} finally {
+			cons.setSuppressLabelCreation(isSuppressLabelsActive);
 		}
 	}
 
-	private GeoElementND computeFromInput() throws Exception {
+	private ExpressionNode getTwinInput() throws ParseException {
+		if (useOutputAsMainTwin()) {
+			return getOutputNode();
+		}
+		return getInputNode();
+	}
+
+	private ExpressionNode getTwinFallbackInput() throws ParseException {
+		if (useOutputAsMainTwin()) {
+			return getInputNode();
+		}
+		return getOutputNode();
+	}
+
+	private boolean useOutputAsMainTwin() {
+		return constant != null && constant.getTotalNumberOfConsts() > 0;
+	}
+
+	private ExpressionNode getOutputNode() throws ParseException {
+		return kernel.getParser().parseGiac(casOutputString).wrap();
+	}
+
+	private ExpressionNode getInputNode() {
 		ExpressionNode node = getDefinition().deepCopy(kernel)
 				.traverse(createPrepareDefinition()).wrap();
 		node.setLabel(null);
-		return process(node);
+		return node;
 	}
 
 	@Override
