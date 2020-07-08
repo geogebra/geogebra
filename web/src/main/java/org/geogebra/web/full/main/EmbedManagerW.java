@@ -128,11 +128,13 @@ public class EmbedManagerW implements EmbedManager {
 
 	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
 		FlowPanel scaler = new FlowPanel();
+		addToGraphics(scaler);
 
 		AppletParameters parameters = new AppletParameters("graphing");
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(
 				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
 				app.getDevice(), GeoGebraElement.as(scaler.getElement()), parameters);
+		scaler.add(fr);
 
 		parameters.setAttribute("scaleContainerClass", "embedContainer")
 				.setAttribute("allowUpscale", "true")
@@ -154,7 +156,6 @@ public class EmbedManagerW implements EmbedManager {
 				- parameters.getBorderThickness());
 		fr.runAsyncAfterSplash();
 
-		addToGraphics(scaler);
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
 		if (currentBase64 != null) {
 			fr.getApp().registerOpenFileListener(
