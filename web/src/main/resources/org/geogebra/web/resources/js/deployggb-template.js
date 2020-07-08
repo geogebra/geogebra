@@ -493,7 +493,8 @@ var GGBApplet = function() {
             scriptLoadStarted = false;
         }
 
-        var article = document.createElement("article");
+        var article = document.createElement("div");
+        article.classList.add("appletParameters");
         var oriWidth = parameters.width;
         var oriHeight = parameters.height;
         parameters.disableAutoScale = parameters.disableAutoScale === undefined ? GGBAppletUtils.isFlexibleWorksheetEditor() : parameters.disableAutoScale;
@@ -1260,11 +1261,6 @@ var GGBAppletUtils = (function() {
             }
         }
 
-        //console.log('myWidth: '+ myWidth);
-        //console.log('myHeight: ' + myHeight);
-        //console.log('border: ' + border);
-        //console.log('borderTop: '+ borderTop);
-
         if (appletElem) {
             if ((allowUpscale === undefined || !allowUpscale) && appletWidth > 0 && appletWidth + border < myWidth) {
                 myWidth = appletWidth;
@@ -1277,8 +1273,6 @@ var GGBAppletUtils = (function() {
                 myHeight -= borderTop;
             }
         }
-
-        //console.log('myWidth: ' + myWidth + ', myHeight: ' + myHeight);
 
         return {width: myWidth, height: myHeight};
     }
@@ -1299,7 +1293,7 @@ var GGBAppletUtils = (function() {
         var appletWidth = parameters.width;
         var appletHeight = parameters.height;
         if (appletWidth === undefined) {
-            var articles = appletElem.getElementsByTagName('article');
+            var articles = appletElem.querySelector('appletParameters');
             if (articles.length === 1) {
                 appletWidth = articles[0].offsetWidth;
                 appletHeight = articles[0].offsetHeight;
@@ -1397,11 +1391,11 @@ var GGBAppletUtils = (function() {
     }
 
     function responsiveResize(appletElem, parameters) {
-        var article = appletElem.getElementsByTagName("article")[0];
+        var article = appletElem.querySelector("appletParameters")[0];
 
         if (article) {
             if (typeof window.GGBT_wsf_view === "object" && window.GGBT_wsf_view.isFullscreen()) {
-                var articles = appletElem.getElementsByTagName("article");
+                var articles = appletElem.querySelector("appletParameters");
                 if (articles.length > 0 && parameters.id !== articles[0].getAttribute("data-param-id")) {
                     return;
                 }
