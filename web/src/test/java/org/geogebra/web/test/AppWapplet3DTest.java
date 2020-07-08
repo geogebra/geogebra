@@ -30,7 +30,7 @@ public class AppWapplet3DTest extends AppWapplet3D {
 	 */
 	public AppWapplet3DTest(AppletParameters ae, GeoGebraFrameFull gf,
 							GLookAndFeel laf, GDevice device) {
-		super(ae, gf, laf, device);
+		super(DomMocker.getGeoGebraElement(), ae, gf, laf, device);
 	}
 
 	@Override

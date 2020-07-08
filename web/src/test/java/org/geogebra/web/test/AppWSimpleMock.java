@@ -24,7 +24,7 @@ public class AppWSimpleMock extends AppWsimple {
 	 */
 	public AppWSimpleMock(AppletParameters article, GeoGebraFrameW frame,
 						  boolean undoActive) {
-		super(article, frame, undoActive);
+		super(DomMocker.getGeoGebraElement(), article, frame, undoActive);
 	}
 
 	@Override

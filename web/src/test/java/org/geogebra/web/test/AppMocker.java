@@ -2,6 +2,7 @@ package org.geogebra.web.test;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.AppWFull;
@@ -61,15 +62,16 @@ public class AppMocker {
 
 	public static AppWFull mockApplet(AppletParameters ae) {
 		useCommonFakeProviders();
-		GeoGebraFrameFull fr = new GeoGebraFrameFull(new AppletFactory3D() {
+		AppletFactory factory = new AppletFactory3D() {
 			@Override
 			public AppWFull getApplet(GeoGebraElement element,
 					AppletParameters params,
 					GeoGebraFrameFull frame, GLookAndFeelI laf, GDevice device) {
 				return new AppWapplet3DTest(params, frame, (GLookAndFeel) laf, device);
 			}
-		},
-				new GLookAndFeel(), new BrowserDevice(), ae);
+		};
+		GeoGebraFrameFull fr = new GeoGebraFrameFull(factory,
+				new GLookAndFeel(), new BrowserDevice(), DomMocker.getGeoGebraElement(), ae);
 		fr.runAsyncAfterSplash();
 		AppWFull app = fr.getApp();
 		setAppDefaults(app);
@@ -89,7 +91,7 @@ public class AppMocker {
 	public static AppWsimple mockAppletSimple(AppletParameters ae) {
 		useCommonFakeProviders();
 		useProviderForSchedulerImpl();
-		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(ae);
+		GeoGebraFrameSimple frame = new GeoGebraFrameSimple(DomMocker.getGeoGebraElement(), ae);
 		AppWsimple app = new AppWSimpleMock(ae, frame, false);
 		setAppDefaults(app);
 		return app;

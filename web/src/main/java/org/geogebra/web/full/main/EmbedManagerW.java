@@ -132,7 +132,7 @@ public class EmbedManagerW implements EmbedManager {
 		AppletParameters parameters = new AppletParameters("graphing");
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(
 				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
-				app.getDevice(), GeoGebraElement.as(scaler.getElement()));
+				app.getDevice(), GeoGebraElement.as(scaler.getElement()), parameters);
 
 		parameters.setAttribute("scaleContainerClass", "embedContainer")
 				.setAttribute("allowUpscale", "true")

@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.user.client.Window;
@@ -29,6 +30,7 @@ public class AppletParameters {
 	}
 
 	public AppletParameters(GeoGebraElement element) {
+		Log.error("I HAVE BEEN CONSTRUCTED");
 		this.attributeProvider = element;
 	}
 
@@ -81,7 +83,7 @@ public class AppletParameters {
 	 */
 	public String getDataParamId() {
 		String ret = getAttribute("id");
-		if (("".equals(ret)) || !ret.matches("[A-Za-z0-9_]+")) {
+		if (StringUtil.empty(ret) || !ret.matches("[A-Za-z0-9_]+")) {
 			return DEFAULT_APPLET_ID;
 		}
 		return ret;

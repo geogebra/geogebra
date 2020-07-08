@@ -86,10 +86,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @param geoGebraElement
 	 *            applet parameters
 	 */
-	public GeoGebraFrameW(GLookAndFeelI laf, GeoGebraElement geoGebraElement) {
-		this(laf, new AppletParameters(geoGebraElement).getDataParamFitToScreen());
+	public GeoGebraFrameW(GLookAndFeelI laf, GeoGebraElement geoGebraElement,
+			AppletParameters appletParameters) {
+		this(laf, appletParameters.getDataParamFitToScreen());
 		this.geoGebraElement = geoGebraElement;
-		this.appletParameters = new AppletParameters(geoGebraElement);
+		this.appletParameters = appletParameters;
 
 		getElement().setTabIndex(0);
 		getElement().getStyle().setOutlineStyle(OutlineStyle.NONE);
@@ -236,7 +237,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void setHeightWithCompactHeader() {
-		geoGebraElement.getElement().getStyle().setProperty("height",
+		geoGebraElement.getStyle().setProperty("height",
 				"calc(100% - " + getSmallScreenHeaderHeight() + "px)");
 	}
 
@@ -249,7 +250,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private void setHeightWithTallHeader() {
 		int headerHeight = appletParameters.getDataParamMarginTop();
-		geoGebraElement.getElement().getStyle().setProperty("height",
+		geoGebraElement.getStyle().setProperty("height",
 				"calc(100% - " + headerHeight + "px)");
 	}
 
@@ -374,7 +375,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	private void setBorder(String dpBorder, int px) {
-		setBorder(geoGebraElement.getElement(), getStyleElement(), dpBorder, px);
+		setBorder(geoGebraElement, getStyleElement(), dpBorder, px);
 	}
 
 	private static void setBorder(Element ae, Element gfE,
@@ -406,7 +407,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				APPLET_FOCUSED_CLASSNAME);
 		getElement().addClassName(
 				APPLET_UNFOCUSED_CLASSNAME);
-		geoGebraElement.getElement().getStyle().setOutlineStyle(OutlineStyle.NONE);
+		geoGebraElement.getStyle().setOutlineStyle(OutlineStyle.NONE);
 	}
 
 	/**

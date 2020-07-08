@@ -27,7 +27,7 @@ public class AppWSimpleLoadTest {
 	public void testLoadApp() {
 		AppletParameters articleElement = new AppletParameters("simple");
 		String json = FileIO.load(jsonPath);
-		articleElement.setAttribute("jsonFile", json);
+		articleElement.setAttribute("json", json);
 		AppWsimple app = AppMocker.mockAppletSimple(articleElement);
 		assertTrue(((GeoBoolean) app.getKernel().lookupLabel("visible")).getBoolean());
 	}

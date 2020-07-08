@@ -92,10 +92,6 @@ public class GeoGebraFrameFull
 	private PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
 
-	public GeoGebraFrameFull(GLookAndFeelI laf, GeoGebraElement geoGebraElement) {
-		super(laf, geoGebraElement);
-	}
-
 	/**
 	 * @param factory
 	 *            factory for applets (2D or 3D)
@@ -107,8 +103,9 @@ public class GeoGebraFrameFull
 	 *            article with parameters
 	 */
 	public GeoGebraFrameFull(AppletFactory factory, GLookAndFeelI laf,
-							 GDevice device, GeoGebraElement geoGebraElement) {
-		super(laf, geoGebraElement);
+			GDevice device, GeoGebraElement geoGebraElement,
+			AppletParameters parameters) {
+		super(laf, geoGebraElement, parameters);
 		this.device = device;
 		this.factory = factory;
 		panelTransitioner = new PanelTransitioner(this);
@@ -162,7 +159,7 @@ public class GeoGebraFrameFull
 		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
 			AppletParameters parameters = new AppletParameters(geoGebraElement);
 			final GeoGebraFrameFull inst = new GeoGebraFrameFull(factory, laf,
-					device, geoGebraElement);
+					device, geoGebraElement, parameters);
 			LoggerW.startLogger(parameters);
 			inst.createSplash();
 			RootPanel.get(geoGebraElement.getId()).add(inst);
@@ -182,8 +179,9 @@ public class GeoGebraFrameFull
 	public static void renderArticleElement(Element el, AppletFactory factory,
 			GLookAndFeel laf, JavaScriptObject clb) {
 		GeoGebraElement element = GeoGebraElement.as(el);
+		AppletParameters parameters = new AppletParameters(element);
 		GeoGebraFrameW.renderArticleElementWithFrame(element,
-				new GeoGebraFrameFull(factory, laf, null, element),
+				new GeoGebraFrameFull(factory, laf, null, element, parameters),
 				clb);
 	}
 

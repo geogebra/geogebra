@@ -46,7 +46,7 @@ public class StepsEntry implements EntryPoint {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
 
-		geogebraFrame = new GeoGebraFrameSimple(geoGebraElement);
+		geogebraFrame = new GeoGebraFrameSimple(geoGebraElement, parameters);
 
 		app = new AppWsolver(geoGebraElement, parameters, geogebraFrame);
 		LoggerW.startLogger(app.getAppletParameters());

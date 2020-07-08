@@ -41,7 +41,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 	public void onModuleLoad() {
 		GeoGebraElement element = GeoGebraElement.as(DOM.createElement("div"));
 		AppletParameters parameters = new AppletParameters(element);
-		app = new AppWsolver(element, parameters, new GeoGebraFrameSimple(element));
+		app = new AppWsolver(element, parameters, new GeoGebraFrameSimple(element, parameters));
 
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());

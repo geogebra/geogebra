@@ -23,8 +23,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param articleElement
 	 *            article with parameters
 	 */
-	public GeoGebraFrameSimple(GeoGebraElement articleElement) {
-		super(null, articleElement);
+	public GeoGebraFrameSimple(GeoGebraElement articleElement, AppletParameters parameters) {
+		super(null, articleElement, parameters);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags) {
 		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
 			AppletParameters parameters = new AppletParameters(geoGebraElement);
-			GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement);
+			GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement, parameters);
 			LoggerW.startLogger(parameters);
 			inst.createSplash();
 			RootPanel.get(geoGebraElement.getId()).add(inst);
@@ -56,8 +56,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 *            callback
 	 */
 	public static void renderArticleElement(GeoGebraElement el, JavaScriptObject clb) {
+		AppletParameters parameters = new AppletParameters(el);
 		GeoGebraFrameW.renderArticleElementWithFrame(el,
-				new GeoGebraFrameSimple(el), clb);
+				new GeoGebraFrameSimple(el, parameters), clb);
 	}
 
 	@Override
