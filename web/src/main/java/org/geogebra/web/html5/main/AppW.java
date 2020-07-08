@@ -720,12 +720,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            whether to reload just a slide
 	 */
 	public void loadGgbFile(final GgbFile archiveContent, final boolean asSlide) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				loadFileWithoutErrorHandling(archiveContent, asSlide);
-			}
-		};
+		Runnable r = () -> loadFileWithoutErrorHandling(archiveContent, asSlide);
 
 		getAsyncManager().scheduleCallback(r);
 	}

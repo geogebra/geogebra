@@ -99,9 +99,13 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void refreshSlide(int index) {
-		if (selectedCard == slides.get(index)) {
+		refreshSlide(slides.get(index));
+	}
+
+	protected void refreshSlide(PagePreviewCard card) {
+		if (selectedCard == card) {
 			app.getGgbApi().createArchiveContent(true,
-					slides.get(index).getFile());
+					card.getFile());
 		}
 	}
 
@@ -236,8 +240,8 @@ public class PageListController implements PageListControllerInterface,
 	 *            to duplicate.
 	 * @return the new, duplicated card.
 	 */
-	public PagePreviewCard duplicateSlideStoreUndo(PagePreviewCard sourceCard) {
-		PagePreviewCard ret = duplicateSlide(sourceCard, null);
+	public PagePreviewCard pasteSlideStoreUndo(PagePreviewCard sourceCard, String json) {
+		PagePreviewCard ret = pasteSlide(sourceCard, null, json);
 		app.getKernel().getConstruction().getUndoManager().storeAction(
 				EventType.DUPLICATE_SLIDE, sourceCard.getPageIndex() + "",
 				ret.getFile().getID(), sourceCard.getFile().getID());
@@ -251,10 +255,10 @@ public class PageListController implements PageListControllerInterface,
 	 *            to duplicate.
 	 * @return the new, duplicated card.
 	 */
-	private PagePreviewCard duplicateSlide(PagePreviewCard sourceCard,
-			String targetID) {
+	private PagePreviewCard pasteSlide(PagePreviewCard sourceCard,
+			String targetID, String json) {
 		savePreviewCard(selectedCard);
-		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard, targetID);
+		PagePreviewCard dup = PagePreviewCard.pasteAfter(sourceCard, targetID, json);
 		int dupIdx = dup.getPageIndex();
 		slides.add(dupIdx, dup);
 		setCardSelected(dup);
@@ -630,7 +634,7 @@ public class PageListController implements PageListControllerInterface,
 		} else if (action == EventType.CLEAR_SLIDE) {
 			loadNewPage(indexOfId(args[0]));
 		} else if (action == EventType.DUPLICATE_SLIDE) {
-			duplicateSlide(slides.get(Integer.parseInt(args[0])), args[1]);
+			pasteSlide(slides.get(Integer.parseInt(args[0])), args[1], args[2]);
 		} else if (action == EventType.MOVE_SLIDE) {
 			doReorder(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 		}

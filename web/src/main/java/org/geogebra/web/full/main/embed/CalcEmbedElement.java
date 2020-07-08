@@ -8,10 +8,11 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ScriptManagerW;
-import org.geogebra.web.html5.util.JSON;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
+
+import elemental2.core.Global;
 
 /**
  * Embedded GeoGebra calculator for Notes
@@ -62,7 +63,7 @@ public class CalcEmbedElement extends EmbedElement {
 
 	@Override
 	public String getContentSync() {
-		return JSON.stringify(
+		return Global.JSON.stringify(
 				frame.getApp().getGgbApi().getFileJSON(false));
 	}
 

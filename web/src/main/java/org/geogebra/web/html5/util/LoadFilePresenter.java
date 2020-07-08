@@ -13,7 +13,6 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -342,14 +341,7 @@ public class LoadFilePresenter {
 	 *            zip handler
 	 */
 	public void processJSON(final String json, final ViewW view) {
-		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				view.processJSON(json);
-			}
-		};
-
-		Scheduler.get().scheduleDeferred(deferredOnRes);
+		view.processJSON(json);
 	}
 
 }
