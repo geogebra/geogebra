@@ -945,8 +945,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			sbxml.append(label);
 			sbxml.append("\" exp=\"");
 			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
-			// expression
-			sbxml.append("\" type=\"function\"/>\n");
+			appendType(sbxml);
 		}
 
 		sbxml.append("<element");
@@ -965,6 +964,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			getListenerTagsXML(sbxml);
 		}
 		sbxml.append("</element>\n");
+	}
+
+	public void appendType(StringBuilder sbxml) {
+		sbxml.append("\" type=\"function\"/>\n");
 	}
 
 	/**

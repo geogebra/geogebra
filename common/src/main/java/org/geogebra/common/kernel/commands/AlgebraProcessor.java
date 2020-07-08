@@ -623,7 +623,11 @@ public class AlgebraProcessor {
 			} else if (geo.isGeoVector()) {
 				n.setForceVector();
 			} else if (geo.isGeoFunction()) {
-				n.setForceFunction();
+				if (((GeoFunction) geo).isInequality()) {
+					n.setForceInequality();
+				} else {
+					n.setForceFunction();
+				}
 			} else if (geo.isGeoInterval()) {
 				n.setForceInequality();
 			}
