@@ -59,11 +59,20 @@ public class InputBoxProcessor {
 		updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
 
 		if (errorHandler.errorOccured) {
-			inputBox.setTempUserDisplayInput(tempUserDisplayInput);
-			inputBox.setTempUserEvalInput(inputText);
+			if ("?".equals(inputText)) {
+				updateTempInput("", "");
+			} else {
+				updateTempInput(inputText, tempUserDisplayInput);
+			}
+
 			linkedGeo.setUndefined();
 			linkedGeo.updateRepaint();
 		}
+	}
+
+	private void updateTempInput(String inputText, String tempUserDisplayInput) {
+		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+		inputBox.setTempUserEvalInput(inputText);
 	}
 
 	private String getAndClearTempUserDisplayInput(String inputText) {

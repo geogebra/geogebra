@@ -126,36 +126,15 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	public void getXML(boolean getListenersToo, StringBuilder sbxml) {
-		// an independent function needs to add
-		// its expression itself
-		// e.g. f(x) = x^2 - 3x
-		if (isIndependent() && getDefaultGeoType() < 0) {
-			sbxml.append("<expression");
-			sbxml.append(" label=\"");
-			sbxml.append(label);
-			sbxml.append("\" exp=\"");
-			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
-			// expression
-			sbxml.append("\" type=\"inequality\"/>\n");
-		}
+	public String getAssignmentLHS(StringTemplate tpl) {
+		sbToString.setLength(0);
+		sbToString.append(tpl.printVariableName(label));
+		return sbToString.toString();
+	}
 
-		sbxml.append("<element");
-		sbxml.append(" type=\"function\"");
-		sbxml.append(" label=\"");
-		sbxml.append(label);
-		if (getDefaultGeoType() >= 0) {
-			sbxml.append("\" default=\"");
-			sbxml.append(getDefaultGeoType());
-		}
-		sbxml.append("\">\n");
-		getXMLtags(sbxml);
-		getCaptionXML(sbxml);
-		printCASEvalMapXML(sbxml);
-		if (getListenersToo) {
-			getListenerTagsXML(sbxml);
-		}
-		sbxml.append("</element>\n");
+	@Override
+	public void appendType(StringBuilder sbxml) {
+		sbxml.append("\" type=\"inequality\"/>\n");
 	}
 
 	/**
@@ -384,7 +363,6 @@ public class GeoInterval extends GeoFunction {
 			leftRightStr[0] = nv.toString(StringTemplate.defaultTemplate);
 		}
 		return nv.evaluateDouble();
-
 	}
 
 	private static double setRightBound(ExpressionValue nv,
@@ -404,7 +382,6 @@ public class GeoInterval extends GeoFunction {
 	public double getMin() {
 		updateBoundaries();
 		return leftRightBoundsField[0];
-
 	}
 
 	/**
@@ -413,7 +390,6 @@ public class GeoInterval extends GeoFunction {
 	public double getMax() {
 		updateBoundaries();
 		return leftRightBoundsField[1];
-
 	}
 
 	/**
@@ -439,5 +415,4 @@ public class GeoInterval extends GeoFunction {
 	public int getMinimumLineThickness() {
 		return 0;
 	}
-
 }
