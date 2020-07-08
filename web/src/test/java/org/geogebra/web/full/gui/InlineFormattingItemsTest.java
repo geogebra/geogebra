@@ -63,7 +63,7 @@ public class InlineFormattingItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	@Test
@@ -83,7 +83,7 @@ public class InlineFormattingItemsTest {
 				"ContextMenu.deleteTable"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	@Test
@@ -98,7 +98,7 @@ public class InlineFormattingItemsTest {
 				"FixObject", "Settings"
 		);
 
-		assertEquals(expected, getMenuEntriesFor(geos));
+		assertEquals(expected, contextMenu.getEntriesFor(geos));
 	}
 
 	@Test
