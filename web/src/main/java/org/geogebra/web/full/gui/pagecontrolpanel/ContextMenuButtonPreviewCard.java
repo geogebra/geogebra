@@ -1,11 +1,11 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.storage.client.Storage;
 
 /**
  * Context Menu of Page Preview Cards
@@ -16,6 +16,7 @@ import com.google.gwt.storage.client.Storage;
 public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 
 	private PagePreviewCard card;
+	private AriaMenuItem paste;
 
 	/**
 	 * @param app
@@ -56,7 +57,7 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	}
 
 	private void addPasteItem() {
-		addItem(MaterialDesignResources.INSTANCE.paste_black(),
+		paste = addItem(MaterialDesignResources.INSTANCE.paste_black(),
 				loc.getMenu("Paste"), this::onPaste);
 	}
 
@@ -73,15 +74,13 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	 */
 	private void onPaste() {
 		hide();
-		frame.getPageControlPanel().pastePage(card,
-				Storage.getLocalStorageIfSupported().getItem("copyslide"));
+		frame.getPageControlPanel().pastePage(card, SlideCopyUtil.getContent());
 	}
 
 	private void onCopy() {
 		hide();
 		frame.getPageControlPanel().saveSlide(card);
-		Storage.getLocalStorageIfSupported().setItem("copyslide",
-				app.getGgbApi().toJson(card.getFile()));
+		SlideCopyUtil.setContent(app.getGgbApi().toJson(card.getFile()));
 	}
 
 	@Override
@@ -89,5 +88,8 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 		super.show();
 		wrappedPopup.show(
 				new GPoint(getAbsoluteLeft() - 122, getAbsoluteTop() + 36));
+		if (paste != null && StringUtil.empty(SlideCopyUtil.getContent())) {
+			paste.setEnabled(false);
+		}
 	}
 }

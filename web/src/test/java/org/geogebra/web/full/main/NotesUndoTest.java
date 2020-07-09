@@ -119,6 +119,7 @@ public class NotesUndoTest {
 	}
 
 	private void duplicate(int page) {
+		app.getPageController().refreshSlide(page);
 		PagePreviewCard card = ((PageListController) app.getPageController()).getCard(page);
 		String content = ViewWMock.toJson(card.getFile());
 		app.getAppletFrame().getPageControlPanel().pastePage(card, content);

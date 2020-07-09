@@ -6,11 +6,14 @@ import java.util.Map.Entry;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
@@ -51,7 +54,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  */
 public class PageListController implements PageListControllerInterface,
 		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler,
-		TouchMoveHandler, TouchEndHandler, ScrollHandler, Cards, EventListener {
+		TouchMoveHandler, TouchEndHandler, ScrollHandler, Cards, EventListener, EventRenderable {
 	/**
 	 * application {@link AppW}
 	 */
@@ -78,6 +81,9 @@ public class PageListController implements PageListControllerInterface,
 		this.listener = listener;
 		dragCtrl = new DragController(this, app);
 		app.getEventDispatcher().addEventListener(this);
+		if (app.getLoginOperation() != null) {
+			app.getLoginOperation().getView().add(this);
+		}
 	}
 
 	/**
@@ -243,8 +249,8 @@ public class PageListController implements PageListControllerInterface,
 	public PagePreviewCard pasteSlideStoreUndo(PagePreviewCard sourceCard, String json) {
 		PagePreviewCard ret = pasteSlide(sourceCard, null, json);
 		app.getKernel().getConstruction().getUndoManager().storeAction(
-				EventType.DUPLICATE_SLIDE, sourceCard.getPageIndex() + "",
-				ret.getFile().getID(), sourceCard.getFile().getID());
+				EventType.PASTE_SLIDE, sourceCard.getPageIndex() + "",
+				ret.getFile().getID(), json);
 		return ret;
 	}
 
@@ -633,7 +639,7 @@ public class PageListController implements PageListControllerInterface,
 			}
 		} else if (action == EventType.CLEAR_SLIDE) {
 			loadNewPage(indexOfId(args[0]));
-		} else if (action == EventType.DUPLICATE_SLIDE) {
+		} else if (action == EventType.PASTE_SLIDE) {
 			pasteSlide(slides.get(Integer.parseInt(args[0])), args[1], args[2]);
 		} else if (action == EventType.MOVE_SLIDE) {
 			doReorder(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
@@ -681,6 +687,13 @@ public class PageListController implements PageListControllerInterface,
 	public void onScroll(ScrollEvent event) {
 		if (!CancelEventTimer.isDragging()) {
 			dragCtrl.cancelDrag();
+		}
+	}
+
+	@Override
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof LogOutEvent) {
+			SlideCopyUtil.clearContent();
 		}
 	}
 }

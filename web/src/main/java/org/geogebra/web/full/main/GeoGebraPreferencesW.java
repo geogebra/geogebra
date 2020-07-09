@@ -32,8 +32,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 	 *            application
 	 */
 	public void clearPreferences(App app) {
-		Storage stockStore = null;
-		stockStore = Storage.getLocalStorageIfSupported();
+		Storage stockStore = Storage.getLocalStorageIfSupported();
 		if (stockStore != null) {
 			stockStore.removeItem(getPrefKey(app));
 			stockStore.removeItem(getDefaultsKey(app));
@@ -65,8 +64,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 	 */
 	public void saveXMLPreferences(App app) {
 		String xml = app.getPreferencesXML();
-		Storage stockStore = null;
-		stockStore = Storage.getLocalStorageIfSupported();
+		Storage stockStore = Storage.getLocalStorageIfSupported();
 		if (stockStore != null) {
 			stockStore.setItem(getPrefKey(app), xml);
 			StringBuilder sb = new StringBuilder();

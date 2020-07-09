@@ -330,6 +330,7 @@ public class ViewW {
 	 */
 	public void processJSON(Object zip) {
 		new Timer() {
+			@Override
 			public  void run() {
 				archiveContent = new GgbFile();
 				setFileFromJson(Js.uncheckedCast(zip), archiveContent);
