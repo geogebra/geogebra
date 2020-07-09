@@ -354,23 +354,16 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
 		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
 		pageLbl.setText(appW.getLocalization().getMenu("page")); // Page
-		updateNumberOfPages();
+		if (pdf != null) {
+			ofPageLbl.setText(appW.getLocalization().getMenu("of") + " "
+					+ pdf.getNumberOfPages()); // of
+		}
 		if (loadText != null) {
 			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
 		}
 		if (errorText != null) {
 			errorText.setText(appW.getLocalization().getMenu("PdfErrorText"));
 		}
-	}
-
-	@Override
-	public void updateNumberOfPages() {
-		if (pdf == null) {
-			return;
-		}
-
-		ofPageLbl.setText(appW.getLocalization().getMenu("of") + " "
-				+ pdf.getNumberOfPages());
 	}
 
 	@Override

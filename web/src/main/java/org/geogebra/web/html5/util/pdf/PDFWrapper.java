@@ -5,7 +5,6 @@ import com.google.gwt.canvas.dom.client.Context2d;
 
 import elemental2.dom.File;
 import elemental2.dom.FileReader;
-import elemental2.promise.Promise;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -18,9 +17,8 @@ import jsinterop.base.JsPropertyMap;
 public class PDFWrapper {
 
 	private PDFListener listener;
-	private int numberOfPages;
 	private int pageNumber = 1;
-	private Promise<PDFDocumentProxy> document;
+	private PDFDocumentProxy document;
 
 	/**
 	 * Interface to communicate with PDF Container.
@@ -42,12 +40,6 @@ public class PDFWrapper {
 		 *            true if the loading of the pdf was successful
 		 */
 		void finishLoading(boolean result);
-
-		/**
-		 * Updates the max number of pages
-		 * in the client.
-		 */
-		void updateNumberOfPages();
 
 		/**
 		 * Sets the value of the progress bar for the given percent.
@@ -96,18 +88,17 @@ public class PDFWrapper {
 
 	private void load(String src) {
 		PdfDocumentLoadingTask task = PdfJsLib.get().getDocument(src);
-		document = task.promise;
-		listener.finishLoading(true);
-		getPage();
-
+		task.promise.then(document -> {
+			this.document = document;
+			listener.finishLoading(true);
+			getPage();
+			return null;
+		});
 	}
 
 	private void getPage() {
 		Canvas canvas = Canvas.createIfSupported();
-		document.then(document -> {
-			setNumberOfPages(document.numPages);
-			return document.getPage(pageNumber);
-		}).then(page -> {
+		document.getPage(pageNumber).then(page -> {
 			PageViewPort viewport = page.getViewport(getViewportOptions());
 			RenderTask renderTask = page.render(getRendererContext(viewport,
 					canvas.getContext2d()));
@@ -145,17 +136,7 @@ public class PDFWrapper {
 	 * @return the number of pages in the PDF.
 	 */
 	public int getNumberOfPages() {
-		return numberOfPages;
-	}
-
-	/**
-	 * 
-	 * @param numberOfPages
-	 *            to set.
-	 */
-	public void setNumberOfPages(int numberOfPages) {
-		this.numberOfPages = numberOfPages;
-		listener.updateNumberOfPages();
+		return document.numPages;
 	}
 
 	/**
@@ -172,7 +153,7 @@ public class PDFWrapper {
 	 * load next page of the PDF if any.
 	 */
 	public void nextPage() {
-		if (pageNumber < numberOfPages) {
+		if (pageNumber < getNumberOfPages()) {
 			setPageNumber(pageNumber + 1);
 			getPage();
 		}
@@ -193,7 +174,7 @@ public class PDFWrapper {
 	 * @return if page change was successful.
 	 */
 	public boolean setPageNumber(int num) {
-		if (num > 0 && num <= numberOfPages) {
+		if (num > 0 && num <= getNumberOfPages()) {
 			pageNumber = num;
 			return true;
 		}
