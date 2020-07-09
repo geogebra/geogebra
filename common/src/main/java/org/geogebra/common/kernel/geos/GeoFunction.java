@@ -138,6 +138,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private AlgoDependentFunction dependentFunction;
 	private int tableViewColumn = -1;
 	private boolean pointsVisible = true;
+	private static boolean forceInequality = false;
 
 	/**
 	 * Creates new function
@@ -879,9 +880,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				&& !tpl.hasType(StringType.GEOGEBRA_XML)) {
 			stringBuilder.append(": ");
 		} else {
-			String var = fn.getVarString(tpl);
-			tpl.appendWithBrackets(stringBuilder, var);
-			stringBuilder.append(tpl.getEqualsWithSpace());
+			if (forceInequality) {
+				stringBuilder.append(": ");
+			} else {
+				String var = fn.getVarString(tpl);
+				tpl.appendWithBrackets(stringBuilder, var);
+				stringBuilder.append(tpl.getEqualsWithSpace());
+			}
 		}
 	}
 
@@ -967,7 +972,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	public void appendType(StringBuilder sbxml) {
-		sbxml.append("\" type=\"function\"/>\n");
+		if (forceInequality()) {
+			sbxml.append("\" type=\"inequality\"/>\n");
+		} else {
+			sbxml.append("\" type=\"function\"/>\n");
+		}
 	}
 
 	/**
@@ -1351,7 +1360,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String getAssignmentLHS(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(tpl.printVariableName(label));
-		if (this.getLabelDelimiter() != ':') {
+		if (this.getLabelDelimiter() != ':' && !forceInequality) {
 			tpl.appendWithBrackets(sbToString, getVarString(tpl));
 		}
 		return sbToString.toString();
@@ -2627,6 +2636,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
+	 * @param isInequality true if should be an inequality
+	 */
+	public void setIsInequality(boolean isInequality) {
+		this.isInequality = isInequality;
+	}
+
+	/**
 	 * @return whether this function was obtained via freehand tool/command
 	 */
 	public boolean isFreehandFunction() {
@@ -3007,5 +3023,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	protected boolean canBeFunctionOrEquationFromUser() {
 		return true;
+	}
+
+	public boolean forceInequality() {
+		return forceInequality;
+	}
+
+	public void setForceInequality(boolean forceInequality) {
+		this.forceInequality = forceInequality;
 	}
 }

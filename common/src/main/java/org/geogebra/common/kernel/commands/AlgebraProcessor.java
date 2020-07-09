@@ -564,7 +564,7 @@ public class AlgebraProcessor {
 			} else if (geo.isGeoVector()) {
 				n.setForceVector();
 			} else if (geo.isGeoFunction()) {
-				if (((GeoFunction) geo).isInequality()) {
+				if (((GeoFunction) geo).forceInequality()) {
 					n.setForceInequality();
 				} else {
 					n.setForceFunction();
@@ -2322,6 +2322,9 @@ public class AlgebraProcessor {
 					f.setLabel(label);
 					return array(f);
 				}
+			} else if (en.isForceInequality()) {
+				f = new GeoInterval(cons, fun);
+				return array(f);
 			}
 		} else if (en.getOperation().equals(Operation.FUNCTION)) {
 			ExpressionValue left = en.getLeft();
@@ -2337,14 +2340,16 @@ public class AlgebraProcessor {
 				f.setLabel(label);
 				return array(f);
 			}
-		} else if (en.isForceInequality()) {
-			f = new GeoInterval(cons, fun);
-			return array(f);
 		}
 
 		if (isIndependent) {
 			f = new GeoFunction(cons, fun, info.isSimplifyingIntegers());
-
+			f.getIneqs();
+			if (f.isInequality() || en.isForceInequality()) {
+				f.setForceInequality(true);
+			} else {
+				f.setForceInequality(false);
+			}
 		} else {
 			f = kernel.getAlgoDispatcher().dependentFunction(fun, info);
 			if (label == null) {
