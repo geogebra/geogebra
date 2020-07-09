@@ -480,15 +480,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	.dialogComponent {
 	    padding: 0px;
 
-        .coloredLabel {
-            color: $mow-primary;
-        }
-
-	    .sliderIntervalPanel .gwt-TextBox {
-	        // ignore this for now, we need new design
-            border-bottom: 1px solid $mow-primary !important;
-        }
-
         .gwt-Label-highlighted {
             color: $toolbar-header;
         }
@@ -1781,11 +1772,15 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
         .gwt-RadioButton [type="radio"]+label {
             padding-left: 35px;
+
+            &:after {
+            	background-color: $teal-default;
+            }
         }
 
         .AutoCompleteTextFieldW {
         	// ignore this for now, we need new design
-        	border-bottom: 1px solid $mow-primary !important;
+        	border-bottom: 1px solid $teal-default !important;
         }
     }
 }
