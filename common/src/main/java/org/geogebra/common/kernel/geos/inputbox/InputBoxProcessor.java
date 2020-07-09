@@ -64,6 +64,7 @@ public class InputBoxProcessor {
 				updateTempInput(inputText, tempUserDisplayInput);
 			}
 			linkedGeo.setUndefined();
+			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
 		}
 	}

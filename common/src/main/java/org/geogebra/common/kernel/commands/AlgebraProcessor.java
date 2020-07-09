@@ -2750,7 +2750,7 @@ public class AlgebraProcessor {
 			return functionOrImplicitPoly(equ, def, info);
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree()
-				? equ.preferredDegree() : -1;
+				? Math.max(equ.preferredDegree(), equ.degree()) : -1;
 		// consider algebraic degree of equation
 		// check not equation of eg plane
 		switch (deg) {
@@ -2782,9 +2782,7 @@ public class AlgebraProcessor {
 				.trim();
 
 		if ("y".equals(lhsStr)
-				&& !equ.isForcedImplicitPoly()
-				&& !equ.isForcedConic()
-				&& !equ.isForcedLine()
+				&& canEvaluateToFunction(equ, info)
 				&& !equ.getRHS().containsFreeFunctionVariable("y")
 				&& !equ.getRHS().containsFreeFunctionVariable("z")) {
 
@@ -2812,6 +2810,12 @@ public class AlgebraProcessor {
 		}
 
 		return processImplicitPoly(equ, def, info);
+	}
+
+	private boolean canEvaluateToFunction(Equation equ, EvalInfo info) {
+		return (!equ.isForcedImplicitPoly()
+				&& !equ.isForcedConic()
+				&& !equ.isForcedLine()) || !info.isPreventingTypeChange();
 	}
 
 	private void checkNoTheta(Equation equ) {

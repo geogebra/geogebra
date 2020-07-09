@@ -204,6 +204,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	 * Force this to evaluate to implicit poly
 	 */
 	public void setForceImplicitPoly() {
+		new Throwable().printStackTrace();
 		this.forceImplicitPoly = true;
 	}
 
@@ -627,7 +628,7 @@ public class Equation extends ValidExpression implements EquationValue {
 
 	}
 
-	private static final boolean containsVar(ExpressionValue v, char var) {
+	private static boolean containsVar(ExpressionValue v, char var) {
 		if (v == null) {
 			return false;
 		}
