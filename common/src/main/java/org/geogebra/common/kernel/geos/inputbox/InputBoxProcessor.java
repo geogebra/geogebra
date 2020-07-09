@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoInterval;
@@ -144,7 +145,9 @@ public class InputBoxProcessor {
 		}
 
 		if (linkedGeo instanceof FunctionalNVar) {
-			if (linkedGeo instanceof GeoInterval) {
+			if (linkedGeo instanceof GeoInterval
+				|| (linkedGeo.isGeoFunction()
+					&& ((GeoFunction) linkedGeo).forceInequality())) {
 				defineText = linkedGeo.getLabel(tpl) + ":"
 						+ defineText;
 			} else {
