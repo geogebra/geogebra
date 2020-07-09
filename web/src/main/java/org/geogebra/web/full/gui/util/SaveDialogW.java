@@ -121,8 +121,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		titlePanel.add(title = new GTextBox());
 		title.setMaxLength(MAX_TITLE_LENGTH);
 		title.addKeyUpHandler(event ->
-				setPosBtnDisabled(title.getText().length()
-				< MIN_TITLE_LENGTH ? true : false));
+				setPosBtnDisabled(title.getText().length() < MIN_TITLE_LENGTH));
 
 		titlePanel.addStyleName("titlePanel");
 		return titlePanel;
