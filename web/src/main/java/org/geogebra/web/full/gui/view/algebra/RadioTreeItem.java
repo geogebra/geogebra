@@ -2085,13 +2085,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * Start listening to blur events
-	 */
-	protected void listenToBlur() {
-		mf.setOnBlur(getLatexController());
-	}
-
-	/**
 	 * Switches editor to text mode
 	 *
 	 * @param value
