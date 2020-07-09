@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
@@ -45,7 +46,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void enteringNewValueShouldKeepVectorType() {
 		setupAndCheckInput("v", "(1, 3)");
-		t("Rename(v,\"V\")", new String[0]);
+		t("Rename(v,\"V\")");
 		updateInput("(1, 5)");
 		t("V", "(1, 5)");
 		hasType("V", GeoClass.VECTOR);
@@ -143,6 +144,37 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		inputBox.setSymbolicMode(true, false);
 		assertEquals("", inputBox.getText());
 		assertEquals("", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void shouldAcceptLinesConicsAndFunctionsForImplicitCurve() {
+		setupInput("eq1", "x^3 = y^2");
+		updateInput("x = y"); // line
+		assertEquals("x = y", inputBox.getText());
+		updateInput("y = x"); // function (linear)
+		assertEquals("y = x", inputBox.getText());
+		updateInput("y = x^2"); // function (quadratic)
+		assertEquals(unicode("y = x^2"), inputBox.getText());
+		updateInput("x^2 = y^2"); // conic
+		assertEquals(unicode("x^2 = y^2"), inputBox.getText());
+	}
+
+	@Test
+	public void shouldAcceptLinesAndFunctionsForConics() {
+		setupInput("eq1", "x^2 = y^2");
+		updateInput("x = y"); // line
+		assertEquals("x = y", inputBox.getText());
+		updateInput("y = x"); // function (linear)
+		assertEquals("y = x", inputBox.getText());
+		updateInput("y = x^2"); // function (quadratic)
+		assertEquals(unicode("y = x^2"), inputBox.getText());
+	}
+
+	@Test
+	public void shouldAcceptFunctionsForLines() {
+		setupInput("eq1", "x = y");
+		updateInput("y = x"); // function (linear)
+		assertEquals("y = x", inputBox.getText());
 	}
 
 	@Test
