@@ -424,7 +424,7 @@ public class DialogManagerW extends DialogManager
 		if (app.isMebis()) {
 			saveDialog = new SaveDialogMow((AppW) app);
 		} else {
-			data = new DialogData("Save", "Cancel", "Save");
+			data = new DialogData("Save", "DontSave", "Save");
 			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
 		}
 		// set default saveType
