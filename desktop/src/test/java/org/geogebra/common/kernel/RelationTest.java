@@ -19,6 +19,9 @@ public class RelationTest extends BaseUnitTest {
 	private GeoElement C;
 	private GeoElement f;
 
+	/**
+	 * Initialize objects
+	 */
 	@Before
 	public void setupObjects() {
 		UtilFactory.setPrototypeIfNull(new UtilFactoryD());
@@ -41,7 +44,7 @@ public class RelationTest extends BaseUnitTest {
 
 	@Test
 	public void moreButtonShouldShowNDGSPath() {
-		Relation rel = new Relation(getApp(), f, C, null,null);
+		Relation rel = new Relation(getApp(), f, C, null, null);
 		assertThat(rel.getRows()[0].getInfo(),
 				containsString("lies on"));
 		assertThat(rel.getExpandedRow(0).getInfo(),
