@@ -83,7 +83,9 @@ public class AlgoInputBox extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		// nothing to compute
+		if (linkedGeo.isDefined()) {
+			inputBox.clearTempUserInput();
+		}
 	}
 
 	@Override
