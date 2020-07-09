@@ -422,7 +422,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @param factor
 	 *            number of a squarefree factor of the expression
 	 */
-	public void setCoeffSquarefree(ExpressionValue[][] ev, int factor) {
+	private void setCoeffSquarefree(ExpressionValue[][] ev, int factor) {
 		coeffSquarefree[factor] = new double[ev.length][];
 		for (int i = 0; i < ev.length; i++) {
 			coeffSquarefree[factor][i] = new double[ev[i].length];
