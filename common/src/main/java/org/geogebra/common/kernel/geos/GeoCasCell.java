@@ -2526,6 +2526,11 @@ public class GeoCasCell extends GeoElement
 		if (arg.unwrap() instanceof Command && !forceWrapping) {
 			return arg;
 		}
+
+		if (arg.unwrap() instanceof Function
+				&& ((Function) arg.unwrap()).getExpression().unwrap() instanceof  Command)  {
+			return arg;
+		}
 		// don't wrap if f'(x) is on top level (it is the same as
 		// Derivative[f(x)])
 		// but DO wrap f'(x+1) or f'(3) as it may simplify
@@ -2562,6 +2567,7 @@ public class GeoCasCell extends GeoElement
 		}
 		// Log.debug(en);
 		// Log.debug("WRAPPING");
+
 		Command c = new Command(kernel, "Evaluate", false);
 		c.addArgument(en);
 		ExpressionNode expr = c.wrap();
