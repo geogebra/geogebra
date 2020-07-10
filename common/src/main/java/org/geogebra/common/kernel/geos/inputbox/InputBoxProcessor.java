@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -14,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Updates linked element for an input box from user input
@@ -64,8 +66,25 @@ public class InputBoxProcessor {
 				updateTempInput(inputText, tempUserDisplayInput);
 			}
 			linkedGeo.setUndefined();
+			makeGeoIndependent();
 			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
+		}
+	}
+
+	/**
+	 * Make sure linked geo is independent; otherwise null definition causes NPE
+	 */
+	private void makeGeoIndependent() {
+		try {
+			if (!linkedGeo.isIndependent()) {
+				GeoElement newGeo = linkedGeo.copy().toGeoElement();
+				kernel.getConstruction().replace(linkedGeo.toGeoElement(),
+						newGeo);
+				linkedGeo = newGeo;
+			}
+		} catch (Exception e) {
+			Log.warn(e.getMessage());
 		}
 	}
 

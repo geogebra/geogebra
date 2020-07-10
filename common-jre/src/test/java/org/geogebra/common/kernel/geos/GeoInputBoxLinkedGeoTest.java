@@ -199,6 +199,16 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void shouldBeEmptyAfterDependentNumberUndefined() {
+		add("a=1");
+		setupInput("b", "3a");
+		updateInput("x=y");
+		assertEquals("b\\, \\text{undefined} ", lookup("b")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
 	public void shouldAllowQuestionMarkWhenLinkedToText() {
 		setupInput("txt", "\"GeoGebra Rocks\"");
 		updateInput("?");
