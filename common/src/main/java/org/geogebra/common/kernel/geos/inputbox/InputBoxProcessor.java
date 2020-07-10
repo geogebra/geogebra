@@ -127,7 +127,7 @@ public class InputBoxProcessor {
 
 		if (linkedGeo instanceof FunctionalNVar) {
 			if (linkedGeo instanceof GeoInterval
-				|| (linkedGeo.isGeoFunction()
+				|| (linkedGeo instanceof GeoFunction
 					&& ((GeoFunction) linkedGeo).forceInequality())) {
 				defineText = linkedGeo.getLabel(tpl) + ":"
 						+ defineText;
