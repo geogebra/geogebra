@@ -58,4 +58,11 @@ public class CursorBox extends Box {
 	public static void setBlink(boolean blink) {
 		CursorBox.blink = blink;
 	}
+
+	/**
+	 * @return if cursor is visible
+	 */
+	public static boolean visible() {
+		return CursorBox.blink;
+	}
 }
