@@ -138,7 +138,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private AlgoDependentFunction dependentFunction;
 	private int tableViewColumn = -1;
 	private boolean pointsVisible = true;
-	private static boolean forceInequality = false;
+	private boolean forceInequality = false;
 
 	/**
 	 * Creates new function
@@ -868,7 +868,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @param fn
 	 *            function; to determine what kind of LHS we want
 	 */
-	public final static void initStringBuilder(StringBuilder stringBuilder,
+	public final void initStringBuilder(StringBuilder stringBuilder,
 			StringTemplate tpl, String label,
 			FunctionalNVar fn) {
 		stringBuilder.append(label);
@@ -880,7 +880,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				&& !tpl.hasType(StringType.GEOGEBRA_XML)) {
 			stringBuilder.append(": ");
 		} else {
-			if (forceInequality) {
+			if (this.forceInequality) {
 				stringBuilder.append(": ");
 			} else {
 				String var = fn.getVarString(tpl);
@@ -971,6 +971,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		sbxml.append("</element>\n");
 	}
 
+	/**
+	 * If single-inequality use inequality type,
+	 * function otherwise
+	 * @param sbxml xml string builder
+	 */
 	public void appendType(StringBuilder sbxml) {
 		if (forceInequality()) {
 			sbxml.append("\" type=\"inequality\"/>\n");
