@@ -10405,6 +10405,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (drawable != null) {
 			BoundingBox<? extends GShape> bb = drawable
 					.getSelectionBoundingBox();
+			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
 			view.setFocusedGroupGeoBoundingBox(bb);
 			view.update(geo);
 		}
