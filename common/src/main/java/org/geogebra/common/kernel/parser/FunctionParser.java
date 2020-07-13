@@ -91,7 +91,7 @@ public class FunctionParser {
 		if (!forceCommand) {
 
 			// f(t)=t(t+1)
-			if (kernel.getConstruction().isRegistredFunctionVariable(funcName)) {
+			if (kernel.getConstruction().isRegisteredFunctionVariable(funcName)) {
 				ExpressionNode expr = new ExpressionNode(kernel, new Variable(kernel, funcName),
 						Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
 				undecided.add(expr);
