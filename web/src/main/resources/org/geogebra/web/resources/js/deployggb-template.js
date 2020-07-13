@@ -494,7 +494,8 @@ var GGBApplet = function() {
         }
 
         var article = document.createElement("div");
-        article.classList.add("appletParameters");
+        // don't add geogebraweb here, as we don't want to parse it out of the box.
+        article.classList.add("appletParameters", "notranslate");
         var oriWidth = parameters.width;
         var oriHeight = parameters.height;
         parameters.disableAutoScale = parameters.disableAutoScale === undefined ? GGBAppletUtils.isFlexibleWorksheetEditor() : parameters.disableAutoScale;
@@ -528,7 +529,6 @@ var GGBApplet = function() {
                 }
             }
         }
-        article.className = "notranslate"; //we remove geogebraweb here, as we don't want to parse it out of the box.
         article.style.border = 'none';
         article.style.display = 'inline-block';
 
@@ -1293,10 +1293,10 @@ var GGBAppletUtils = (function() {
         var appletWidth = parameters.width;
         var appletHeight = parameters.height;
         if (appletWidth === undefined) {
-            var articles = appletElem.querySelector('appletParameters');
-            if (articles.length === 1) {
-                appletWidth = articles[0].offsetWidth;
-                appletHeight = articles[0].offsetHeight;
+            var article = appletElem.querySelector('.appletParameters');
+            if (article) {
+                appletWidth = article.offsetWidth;
+                appletHeight = article.offsetHeight;
             }
         }
 
@@ -1391,12 +1391,11 @@ var GGBAppletUtils = (function() {
     }
 
     function responsiveResize(appletElem, parameters) {
-        var article = appletElem.querySelector("appletParameters")[0];
+        var article = appletElem.querySelector(".appletParameters");
 
         if (article) {
             if (typeof window.GGBT_wsf_view === "object" && window.GGBT_wsf_view.isFullscreen()) {
-                var articles = appletElem.querySelector("appletParameters");
-                if (articles.length > 0 && parameters.id !== articles[0].getAttribute("data-param-id")) {
+                if (parameters.id !== article.getAttribute("data-param-id")) {
                     return;
                 }
 
