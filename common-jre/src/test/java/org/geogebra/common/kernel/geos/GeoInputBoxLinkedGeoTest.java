@@ -151,7 +151,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoElement ib2 = add("in2=InputBox(eq1)");
 		updateInput("?");
 		// both input boxes undefined, but first one remembers user input ...
-		assertEquals("?", inputBox.getText());
+		assertEquals("", inputBox.getText());
 		// ... and second one stays empty (APPS-1246)
 		assertEquals("", ((GeoInputBox) ib2).getText());
 	}
