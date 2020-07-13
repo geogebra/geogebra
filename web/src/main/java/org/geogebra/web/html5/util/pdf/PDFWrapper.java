@@ -120,7 +120,7 @@ public class PDFWrapper {
 
 	private JsPropertyMap<Object> getViewportOptions() {
 		JsPropertyMap<Object> options = JsPropertyMap.of();
-		options.set("scale", 1);
+		options.set("scale", 2);
 		return options;
 	}
 
