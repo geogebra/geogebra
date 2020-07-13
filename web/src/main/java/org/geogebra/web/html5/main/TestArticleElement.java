@@ -14,19 +14,15 @@ import com.google.gwt.user.client.DOM;
  */
 public class TestArticleElement implements ArticleElementInterface {
 
-	private String prerelease;
 	private HashMap<String, String> attributes = new HashMap<>();
 	private Element parentElement;
 	private double scale = 1;
 
 	/**
-	 * @param prerelease
-	 *            flag
 	 * @param appName
 	 *            name of app
 	 */
-	public TestArticleElement(String prerelease, String appName) {
-		this.prerelease = prerelease;
+	public TestArticleElement(String appName) {
 		attr("appName", appName).attr("width", "800").attr("height", "600");
 	}
 
@@ -301,8 +297,8 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	@Override
-	public String getDataParamPrerelease() {
-		return prerelease;
+	public boolean getDataParamPrerelease() {
+		return "true".equals(attributes.get("prerelease"));
 	}
 
 	@Override

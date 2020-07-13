@@ -31,8 +31,8 @@ public class StringUtilTest {
 			}
 		}
 
-		assertEquals(7517, falseNeg.length());
-		assertEquals(-320014372, falseNeg.hashCode());
+		assertEquals(7512, falseNeg.length());
+		assertEquals(-1477782608, falseNeg.hashCode());
 		assertEquals(4583, falsePos.length());
 		assertEquals(-1032620861, falsePos.hashCode());
 	}

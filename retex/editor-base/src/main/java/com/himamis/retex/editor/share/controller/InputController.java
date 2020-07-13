@@ -32,6 +32,7 @@ public class InputController {
 	private MathField mathField;
 
 	private boolean createFrac = true;
+	private boolean createNroot = true;
 	private SyntaxAdapter formatConverter;
 
 	public InputController(MetaModel metaModel) {
@@ -52,6 +53,10 @@ public class InputController {
 
 	public void setCreateFrac(boolean createFrac) {
 		this.createFrac = createFrac;
+	}
+
+	public void setCreateNroot(boolean createNroot) {
+		this.createNroot = createNroot;
 	}
 
 	public void setFormatConverter(SyntaxAdapter formatConverter) {
@@ -221,7 +226,7 @@ public class InputController {
 				name = suffix;
 			}
 		}
-		Tag tag = Tag.lookup(name);
+		Tag tag = getAcceptableTag(name);
 
 		if (ch == FUNCTION_OPEN_KEY && tag != null) {
 			if (power.script != null) {
@@ -259,6 +264,13 @@ public class InputController {
 			// TODO brace type
 			newArray(editorState, 1, ch, false);
 		}
+	}
+
+	private Tag getAcceptableTag(String name) {
+		if (!createNroot && Tag.NROOT.getFunction().equals(name)) {
+			return null;
+		}
+		return Tag.lookup(name);
 	}
 
 	/**
@@ -307,7 +319,7 @@ public class InputController {
 
 		// add function
 		MathFunction function;
-		Tag tag = Tag.lookup(name);
+		Tag tag = getAcceptableTag(name);
 		final boolean hasSelection = editorState.getSelectionEnd() != null;
 		int offset = 0;
 		if (tag == Tag.LOG && exponent != null
@@ -628,19 +640,7 @@ public class InputController {
 		} else if (currentField.getParent() != null) {
 			MathContainer parent = currentField.getParent();
 
-			// if ',' typed at the end of intermediate field of function ...
-			// move to next field
-			if (ch == ',' && currentOffset == currentField.size()
-					&& parent instanceof MathFunction
-					&& parent.size() > currentField.getParentIndex() + 1) {
-
-				currentField = (MathSequence) parent
-						.getArgument(currentField.getParentIndex() + 1);
-				currentOffset = 0;
-
-				// if ')' typed at the end of last field of function ... move
-				// after closing character
-			} else if (currentOffset == currentField.size()
+			if (currentOffset == currentField.size()
 					&& parent instanceof MathFunction
 					&& ch == ((MathFunction) parent).getClosingBracket()
 					.charAt(0)

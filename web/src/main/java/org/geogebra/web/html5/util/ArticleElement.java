@@ -615,8 +615,8 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamPrerelease()
 	 */
 	@Override
-	public String getDataParamPrerelease() {
-		return getAttribute("data-param-prerelease").trim().toLowerCase();
+	public boolean getDataParamPrerelease() {
+		return getBoolDataParam("prerelease", false);
 	}
 
 	/* (non-Javadoc)

@@ -34,11 +34,10 @@ public class CmdRotateText extends CommandProcessor {
 		case 2:
 			if ((ok[0] = (arg[0].isGeoText()))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				AlgoRotateText algo = new AlgoRotateText(cons, c.getLabel(),
+				AlgoRotateText algo = new AlgoRotateText(cons,
 						(GeoText) arg[0], (GeoNumberValue) arg[1]);
-
+				algo.getResult().setLabel(c.getLabel());
 				return new GeoElement[] { algo.getResult() };
-
 			}
 			throw argErr(c, ok[0] ? arg[1] : arg[0]);
 

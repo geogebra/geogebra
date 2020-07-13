@@ -52,8 +52,7 @@ public class GeoVideo extends GeoMedia {
 	 */
 	public GeoVideo(Construction c) {
 		super(c);
-		setWidth(VIDEO_WIDTH);
-		setHeight(VIDEO_HEIGHT);
+		setSize(VIDEO_WIDTH, VIDEO_HEIGHT);
 	}
 
 	/**
@@ -69,8 +68,8 @@ public class GeoVideo extends GeoMedia {
 	public GeoVideo(Construction c, String url, MediaFormat format) {
 		super(c, url, format);
 		setLabel("video");
-		setWidth(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1);
-		setHeight(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
+		setSize(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1,
+				format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
 	}
 
 	@Override
@@ -164,12 +163,6 @@ public class GeoVideo extends GeoMedia {
 	}
 
 	@Override
-	public void setWidth(double width) {
-		super.setWidth(width);
-		runSizeCallbackIfReady();
-	}
-
-	@Override
 	public double getMinWidth() {
 		return VIDEO_SIZE_THRESHOLD;
 	}
@@ -180,8 +173,8 @@ public class GeoVideo extends GeoMedia {
 	}
 
 	@Override
-	public void setHeight(double height) {
-		super.setHeight(height);
+	public void setSize(double width, double height) {
+		super.setSize(width, height);
 		runSizeCallbackIfReady();
 	}
 

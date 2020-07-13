@@ -336,7 +336,7 @@ public interface ArticleElementInterface {
 	/**
 	 * @return data-param-prerelease: whether to use some beta features
 	 */
-	String getDataParamPrerelease();
+	boolean getDataParamPrerelease();
 
 	/**
 	 * @return material ID (or sharing code) to open on startup

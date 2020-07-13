@@ -139,4 +139,16 @@ public interface EmbedManager {
 	 * @param layer z-index
 	 */
 	void setLayer(DrawWidget embed, int layer);
+
+	/**
+	 * @param embedID embed ID
+	 * @return embed content as JSON
+	 */
+	String getContent(int embedID);
+
+	/**
+	 * @param embedID embed ID
+	 * @param content embed content as JSON
+	 */
+	void setContent(int embedID, String content);
 }

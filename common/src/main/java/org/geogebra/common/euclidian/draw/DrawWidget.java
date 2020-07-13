@@ -11,7 +11,7 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RotatableBoundingBox;
+import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
@@ -26,7 +26,8 @@ public abstract class DrawWidget extends Drawable {
 	 */
 	public DrawWidget(EuclidianView view, GeoElement geo) {
 		super(view, geo);
-		this.rectangle = new TransformableRectangle(view, (RectangleTransformable) geo);
+		this.rectangle = new TransformableRectangle(view, (RectangleTransformable) geo,
+				false);
 	}
 
 	protected void updateBounds() {
@@ -49,29 +50,13 @@ public abstract class DrawWidget extends Drawable {
 	}
 
 	@Override
-	public RotatableBoundingBox getBoundingBox() {
+	public MediaBoundingBox getBoundingBox() {
 		return rectangle.getBoundingBox();
 	}
 
 	@Override
 	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
 		return getBoundingBox();
-	}
-
-	/**
-	 * @param newWidth
-	 *            pixel width at current zoom
-	 */
-	public void setWidth(int newWidth) {
-		getGeoElement().setWidth(newWidth);
-	}
-
-	/**
-	 * @param newHeight
-	 *            pixel height at current zoom
-	 */
-	public void setHeight(int newHeight) {
-		getGeoElement().setHeight(newHeight);
 	}
 
 	/**

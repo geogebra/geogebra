@@ -36,24 +36,6 @@ public class AlgoRotateText extends AlgoElement {
 	private StringBuilder sb = new StringBuilder();
 
 	/**
-	 * Creates new text rotation algo
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param args
-	 *            input text
-	 * @param angle
-	 *            angle of rotation
-	 */
-	public AlgoRotateText(Construction cons, String label, GeoText args,
-			GeoNumberValue angle) {
-		this(cons, args, angle);
-		text.setLabel(label);
-	}
-
-	/**
 	 * Creates new unlabeled text rotation algo
 	 * 
 	 * @param cons
@@ -63,14 +45,14 @@ public class AlgoRotateText extends AlgoElement {
 	 * @param angle
 	 *            angle of rotation
 	 */
-	AlgoRotateText(Construction cons, GeoText args, GeoNumberValue angle) {
+	public AlgoRotateText(Construction cons, GeoText args, GeoNumberValue angle) {
 		super(cons);
 		this.args = args;
 		this.angle = angle;
 
 		text = new GeoText(cons);
 		text.setIsTextCommand(true); // stop editing as text
-
+		text.setSerifFont(args.isSerifFont());
 		setInputOutput();
 		compute();
 	}
@@ -108,13 +90,10 @@ public class AlgoRotateText extends AlgoElement {
 			text.setTextString("");
 			return;
 		}
-
 		sb.setLength(0);
 		appendRotatedText(sb, args, angle.getDouble() * 180 / Math.PI);
-
 		text.setTextString(sb.toString());
 		text.setLaTeX(true, false);
-		text.setSerifFont(args.isSerifFont());
 	}
 
 	/**

@@ -848,7 +848,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			return visible;
 		}
 
-		boolean setVisible(boolean visible) {
+		void setVisible(boolean visible) {
 			if (visible) {
 				ScreenReader.readDropDownOpened(geoList);
 			}
@@ -876,8 +876,6 @@ public final class DrawDropDownList extends CanvasDrawable
 			}
 			viewOpt.repaintView();
 			updateOpenedComboBox();
-
-			return true;
 		}
 
 		public void onResize(int w, int h) {
@@ -1335,11 +1333,9 @@ public final class DrawDropDownList extends CanvasDrawable
 
 	/**
 	 * Close dropdown
-	 * 
-	 * @return whether repaint is needed
 	 */
-	public boolean closeOptions() {
-		return setOptionsVisible(false);
+	public void closeOptions() {
+		setOptionsVisible(false);
 	}
 
 	/**
@@ -1365,8 +1361,8 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @param optionsVisible
 	 *            change visibility of dropdown items
 	 */
-	private boolean setOptionsVisible(boolean optionsVisible) {
-		return drawOptions.setVisible(optionsVisible);
+	private void setOptionsVisible(boolean optionsVisible) {
+		drawOptions.setVisible(optionsVisible);
 	}
 
 	/**

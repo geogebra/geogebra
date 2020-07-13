@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.arithmetic.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.CoordMultiplyReplacer;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -454,7 +455,9 @@ public class AlgebraProcessor {
 			}
 
 			replaceDerivative(ve, geo);
-			ve = replaceSqrtMinusOne(ve);
+			if (GeoPoint.isComplexNumber(geo)) {
+				ve = replaceSqrtMinusOne(ve);
+			}
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
@@ -1029,7 +1032,7 @@ public class AlgebraProcessor {
 		if (symbolicProcessor == null) {
 			symbolicProcessor = new SymbolicProcessor(kernel);
 		}
-		ValidExpression extracted = ve;
+		ValidExpression extracted = replaceFunctionVariables(ve);
 		if (ve.unwrap() instanceof Equation && info != null) {
 			Equation equation = (Equation) ve.unwrap();
 			extracted = symbolicProcessor.extractAssignment(equation, info);
@@ -1043,6 +1046,18 @@ public class AlgebraProcessor {
 		}
 		setLabel(sym, label);
 		return sym;
+	}
+
+	private ExpressionNode replaceFunctionVariables(ValidExpression expression) {
+		FunctionVarCollector collector = FunctionVarCollector.getCollector();
+		expression.traverse(collector);
+		FunctionVariable[] fxvArray = collector.buildVariables(kernel);
+		FunctionVariable[] xyzVars = FunctionNVar.getXYZVars(fxvArray);
+		ExpressionNode node =
+				expression.traverse(new CoordMultiplyReplacer(xyzVars[0], xyzVars[1], xyzVars[2]))
+						.wrap();
+		node.setLabels(expression.getLabels());
+		return node;
 	}
 
 	private void setLabel(GeoElement element, String label) {

@@ -5908,7 +5908,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			if (d instanceof DrawDropDownList) {
 				DrawDropDownList dl = (DrawDropDownList) d;
 				if (!(dl.isControlHit(x, y) || dl.isOptionsHit(x, y))) {
-					repaintNeeded = repaintNeeded || dl.closeOptions();
+					dl.closeOptions();
+					repaintNeeded = true;
 				}
 			}
 		}

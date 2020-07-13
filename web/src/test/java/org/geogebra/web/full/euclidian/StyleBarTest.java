@@ -19,7 +19,7 @@ public class StyleBarTest {
 	@Test
 	public void updateGraphingStylebar() {
 		AppWFull app = AppMocker
-				.mockApplet(new TestArticleElement("prerelease", "graphing"));
+				.mockApplet(new TestArticleElement("graphing"));
 		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(
 				app.getActiveEuclidianView(), 1);
 		checkUpdate(styleBar);
@@ -39,7 +39,7 @@ public class StyleBarTest {
 	@Test
 	public void updateWhiteboardStylebar() {
 		AppWFull app = AppMocker
-				.mockApplet(new TestArticleElement("prerelease", "notes"));
+				.mockApplet(new TestArticleElement("notes"));
 		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(
 				app.getActiveEuclidianView(), 1);
 		checkUpdate(styleBar);

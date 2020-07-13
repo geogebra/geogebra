@@ -93,16 +93,6 @@ public class GeoInlineText extends GeoElement
 	}
 
 	@Override
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	@Override
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
-	@Override
 	public double getMinWidth() {
 		return DEFAULT_WIDTH;
 	}
@@ -334,6 +324,12 @@ public class GeoInlineText extends GeoElement
 	@Override
 	public void setAngle(double angle) {
 		this.angle = angle;
+	}
+
+	@Override
+	public void setSize(double w, double h) {
+		width = w;
+		height = h;
 	}
 
     private void setContentFromText(GeoText geo) {

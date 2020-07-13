@@ -21,9 +21,12 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.arithmetic.variable.VariableReplacerAlgorithm;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -34,6 +37,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -66,7 +71,7 @@ public class FunctionParser {
 	 * @return function node
 	 */
 	public ExpressionNode makeFunctionNode(String cimage, MyList myList,
-			ArrayList<ExpressionNode> undecided, boolean GiacParsing) {
+			ArrayList<ExpressionNode> undecided, boolean GiacParsing, boolean GeoGebraCASParsing) {
 		String funcName = cimage.substring(0, cimage.length() - 1);
 		ExpressionNode en;
 		if (GiacParsing) {
@@ -78,7 +83,7 @@ public class FunctionParser {
 		}
 		boolean forceCommand = cimage.charAt(cimage.length() - 1) == '[';
 		GeoElement geo = null;
-		GeoElement cell = null;
+		GeoCasCell cell = null;
 		// check for derivative using f'' notation
 		int order = 0;
 
@@ -131,11 +136,17 @@ public class FunctionParser {
 			if (op != null) {
 				return buildOpNode(op, myList);
 			}
-
 			// pi(1.3)
 			if (Unicode.PI_STRING.equals(funcName) || "pi".equals(funcName)) {
 				MyDouble pi = new MySpecialDouble(kernel, Math.PI, Unicode.PI_STRING);
 				return multiplication(pi, undecided, myList, funcName);
+			}
+			if (myList.size() == 1) {
+				ExpressionNode splitCommand = makeSplitCommand(funcName,
+						myList.getListElement(0), GiacParsing || GeoGebraCASParsing);
+				if (splitCommand != null) {
+					return splitCommand;
+				}
 			}
 			// function name does not exist: return command
 			Command cmd = new Command(kernel, funcName, true, !GiacParsing);
@@ -156,7 +167,7 @@ public class FunctionParser {
 		// Perhaps we should prefer cell over geo in all cases ?
 		if (cell != null && (geo == null || geo.isGeoLine() || geo.isGeoConic()
 				|| geo.isGeoSurfaceCartesian() || list)) {
-			if (((GeoCasCell) cell).getFunctionVariables().length < 2) {
+			if (cell.getFunctionVariables().length < 2) {
 
 				return new ExpressionNode(kernel, cell,
 						list ? Operation.ELEMENT_OF : Operation.FUNCTION,
@@ -219,6 +230,37 @@ public class FunctionParser {
 		// e.g. a(1+x) = a*(1+x) when a is a number
 
 		return multiplication(geoExp, undecided, myList, funcName);
+	}
+
+	private ExpressionNode makeSplitCommand(String funcName, ExpressionValue arg,
+			boolean casParsing) {
+		if (!casParsing
+				&& !kernel.getLoadingMode()
+				&& !isCommand(funcName)) {
+			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
+			ExpressionValue exprWithDummyArg = replacer.replace(funcName + "$");
+			if (exprWithDummyArg.isExpressionNode()
+					&& exprWithDummyArg.wrap().getOperation() ==  Operation.MULTIPLY
+					&& Operation.isSimpleFunction(exprWithDummyArg.wrap().getRightTree().getOperation())) {
+				Traversing.VariableReplacer dummyArgReplacer = Traversing.VariableReplacer
+						.getReplacer("$", arg, kernel);
+				return exprWithDummyArg.traverse(dummyArgReplacer).wrap();
+			}
+		}
+		return null;
+	}
+
+	private boolean isCommand(String funcName) {
+		if (kernel.getApplication().getInternalCommand(funcName) != null) {
+			return true;
+		}
+		try {
+			Commands.valueOf(funcName);
+			return true;
+		} catch(Exception notFound){
+			// not a command
+		}
+		return false;
 	}
 
 	private Operation getOperation(String funcName, int size) {
@@ -333,10 +375,6 @@ public class FunctionParser {
 	public ExpressionNode assignment(ExpressionNode rhs0, String funLabel, List<String> localVars,
 			ExpressionValue cond) {
 		ExpressionNode rhs = rhs0;
-		// allow f(y) in CAS but not in GeoGebra
-		// if (!ExternalCASParsing && !GeoGebraCASParsing &&
-		// "y".equals(varName.image))
-		// throw new MyError(app, "InvalidInput");
 		if (cond != null) {
 			rhs = new ExpressionNode(kernel, cond, Operation.IF_SHORT, rhs);
 		}
@@ -360,8 +398,8 @@ public class FunctionParser {
 								.wrap();
 			}
 			MyList vars = new MyList(kernel, n);
-			for (int i = 0; i < n; i++) {
-				FunctionVariable funVar = new FunctionVariable(kernel, localVars.get(i));
+			for (String localVar : localVars) {
+				FunctionVariable funVar = new FunctionVariable(kernel, localVar);
 				vars.addListElement(funVar);
 			}
 			return new Equation(kernel, buildOpNode(op, vars), rhs).wrap();
@@ -377,18 +415,14 @@ public class FunctionParser {
 			funVar[i] = new FunctionVariable(kernel, localVars.get(i));
 		}
 
-		switch (n) {
-		case 1: // single variable function
+		if (n == 1) { // single variable function
 			Function fun = new Function(rhs, funVar[0]);
 			fun.setLabel(funLabel);
 			rhs = new ExpressionNode(kernel, fun);
-			break;
-
-		default: // multi variable function
+		} else { // multi variable function
 			FunctionNVar funn = new FunctionNVar(rhs, funVar);
 			funn.setLabel(funLabel);
 			rhs = new ExpressionNode(kernel, funn);
-			break;
 		}
 
 		rhs.setLabel(funLabel);
@@ -402,19 +436,22 @@ public class FunctionParser {
 	 *            function
 	 * @param en
 	 *            argument
-	 * @param operation
-	 *            image without superscript index
 	 * @return sin^2(x) or x^2*(x+1)
 	 */
-	final public ExpressionNode handleTrigPower(String image,
-			ValidExpression en, String operation) {
-
+	final public ExpressionNode handleTrigPower(String image, ValidExpression en) {
+		int pos = image.length() - 2;
+		while (pos >= 0 && (Unicode.isSuperscriptDigit(image.charAt(pos))
+				|| Unicode.SUPERSCRIPT_MINUS == image.charAt(pos))) {
+			pos--;
+		}
+		String operation = image.substring(0, pos + 1);
+		String power = image.substring(pos + 1, image.length() - 1);
 		if ("x".equals(operation) || "y".equals(operation)
 				|| "z".equals(operation)) {
 			return new ExpressionNode(kernel,
 					new ExpressionNode(kernel,
 							new FunctionVariable(kernel, operation),
-							Operation.POWER, convertIndexToNumber(image)),
+							Operation.POWER, convertIndexToNumber(power)),
 					Operation.MULTIPLY_OR_FUNCTION, en);
 		}
 		GeoElement ge = kernel.lookupLabel(operation);
@@ -422,7 +459,7 @@ public class FunctionParser {
 		if (ge != null || type == null) {
 			return new ExpressionNode(kernel,
 					new ExpressionNode(kernel, new Variable(kernel, operation),
-							Operation.POWER, convertIndexToNumber(image)),
+							Operation.POWER, convertIndexToNumber(power)),
 					Operation.MULTIPLY_OR_FUNCTION, en);
 		}
 
@@ -447,24 +484,127 @@ public class FunctionParser {
 
 		return new ExpressionNode(kernel,
 				new ExpressionNode(kernel, en, type, null), Operation.POWER,
-				convertIndexToNumber(image));
+				convertIndexToNumber(power));
 	}
 
 	/**
-	 * Take 42 from "sin<sup>42</sup>(".
+	 * Take 42 from "<sup>42</sup>(".
 	 *
 	 * @param str
 	 *            superscript text
 	 * @return number
 	 */
 	final public MyDouble convertIndexToNumber(String str) {
-		int i = 0;
-		while ((i < str.length())
-				&& !Unicode.isSuperscriptDigit(str.charAt(i))) {
-			i++;
+		return new MyDouble(kernel, StringUtil.indexToNumber(str));
+	}
+
+	/**
+	 * Builds product of two expressions
+	 *
+	 * @param left
+	 *            left factor
+	 * @param right
+	 *            right factor
+	 * @param giacParsing
+	 *            whether this is from GIAC
+	 * @return product of factors
+	 */
+	public ExpressionValue multiplySpecial(ExpressionValue left,
+			ExpressionValue right, boolean giacParsing, boolean geogebraCasParsing) {
+		String leftImg;
+		App app = kernel.getApplication();
+
+		// sin x in GGB is function application if "sin" is not a variable
+		if (left instanceof Variable) {
+			leftImg = left.toString(StringTemplate.defaultTemplate);
+			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
+			if (op != null) {
+				return new ExpressionNode(kernel, right, op, null);
+
+			}
+			if (leftImg.startsWith("log_")
+					&& kernel.lookupLabel(leftImg) == null) {
+				ExpressionValue index = FunctionParser.getLogIndex(leftImg,
+						kernel);
+
+				if (index != null) {
+					return new ExpressionNode(kernel, index, Operation.LOGB,
+							right);
+				}
+			}
+			// sin^2 x
+		} else if (left instanceof ExpressionNode
+				&& ((ExpressionNode) left).getOperation() == Operation.POWER
+				&& ((ExpressionNode) left).getLeft() instanceof Variable) {
+			leftImg = ((ExpressionNode) left).getLeft()
+					.toString(StringTemplate.defaultTemplate);
+			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
+			if (op != null) {
+				ExpressionValue exponent = ((ExpressionNode) left).getRight()
+						.unwrap();
+				return inverseOrPower(op, right, exponent);
+
+			} else {
+				ExpressionNode splitCommand = makeSplitCommand(leftImg, right,
+						giacParsing || geogebraCasParsing);
+				if (splitCommand != null) {
+					ExpressionValue exponent = ((ExpressionNode) left).getRight()
+							.unwrap();
+					return buildTrigPower(splitCommand, exponent);
+				}
+			}
+			// x * sin x in GGB is function applied on the right if "sin" is not
+			// a variable
+			// a * b * f -- check if b*f needs special handling
+		} else if (left instanceof ExpressionNode && (((ExpressionNode) left)
+				.getOperation() == Operation.MULTIPLY)) {
+			ExpressionValue bf = multiplySpecial(
+					((ExpressionNode) left).getRight(), right,
+					giacParsing, geogebraCasParsing);
+			return bf == null ? null
+					: new ExpressionNode(kernel,
+					((ExpressionNode) left).getLeft(),
+					Operation.MULTIPLY, bf);
+			// +-b * f is parsed as (b +- ()) *f
+		} else if (left instanceof ExpressionNode
+				&& (((ExpressionNode) left).getOperation() == Operation.PLUSMINUS)
+				&& (((ExpressionNode) left).getRight() instanceof MyNumberPair)) {
+			ExpressionValue bf = multiplySpecial(((ExpressionNode) left).getLeft(), right,
+					giacParsing, geogebraCasParsing);
+			return bf == null ? null
+					: new ExpressionNode(kernel, bf, Operation.PLUSMINUS,
+					((ExpressionNode) left).getRight());
 		}
 
-		// strip off eg "sin" at start, "(" at end
-		return new MyDouble(kernel, str.substring(i, str.length() - 1));
+		if (giacParsing) {
+			// (a)(b) in Giac is function application
+			if (left instanceof Variable) {
+				Command ret = new Command(kernel,
+						left.toString(StringTemplate.defaultTemplate), true,
+						true);
+				ret.addArgument(right.wrap());
+				return ret;
+				// c*(a)(b) in Giac: function applied on right subtree
+			}
+		}
+		return null;
+	}
+
+	private ExpressionValue inverseOrPower(Operation op, ExpressionValue right, ExpressionValue exponent) {
+		if (exponent.isConstant()
+				&& DoubleUtil.isEqual(-1, exponent.evaluateDouble())) {
+			return kernel.inverseTrig(op, right);
+		}
+		return new ExpressionNode(kernel, right, op, null)
+				.power(exponent);
+	}
+
+	private ExpressionValue buildTrigPower(ExpressionNode splitCommand,
+			ExpressionValue exponent) {
+		ExpressionValue coefficient = splitCommand.getLeft();
+		ExpressionNode trigExpression = splitCommand.getRight().wrap();
+		ExpressionValue power = inverseOrPower(trigExpression.getOperation(),
+				trigExpression.getLeft(), exponent);
+		return coefficient.wrap().multiplyR(power);
 	}
 }

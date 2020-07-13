@@ -23,7 +23,7 @@ public class Graphing3DTest {
 	@Test
 	public void startApp() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("prerelease", "3d"));
+				.mockApplet(new TestArticleElement("3d"));
 	}
 
 }

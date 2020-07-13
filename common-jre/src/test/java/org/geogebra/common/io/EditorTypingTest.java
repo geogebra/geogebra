@@ -52,6 +52,11 @@ public class EditorTypingTest {
 	}
 
 	@Test
+	public void insertNrootShouldMaintainArgumentsOrder() {
+		checker.checkEditorInsert("nroot(x,3)", "nroot(x,3)");
+	}
+
+	@Test
 	public void absShouldBePrefixedBySpace() {
 		// typing second | starts another abs() clause
 		checker.checkEditorInsert("3|x", "3 abs(x)");

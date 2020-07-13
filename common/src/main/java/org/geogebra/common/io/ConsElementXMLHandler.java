@@ -112,6 +112,8 @@ public class ConsElementXMLHandler {
 	private boolean symbolicTagProcessed;
 	private boolean sliderTagProcessed;
 	private boolean fontTagProcessed;
+	private double embedX;
+	private double embedY;
 	/**
 	 * The point style of the document, for versions < 3.3
 	 */
@@ -248,8 +250,7 @@ public class ConsElementXMLHandler {
 					((GeoEmbed) geo).setContentWidth(widthD);
 					((GeoEmbed) geo).setContentHeight(heightD);
 				} else {
-					((RectangleTransformable) geo).setWidth(widthD);
-					((RectangleTransformable) geo).setHeight(heightD);
+					((RectangleTransformable) geo).setSize(widthD, heightD);
 					((RectangleTransformable) geo).setAngle(angleD);
 				}
 			}
@@ -938,8 +939,8 @@ public class ConsElementXMLHandler {
 		try {
 			GeoVideo video = (GeoVideo) geo;
 			video.setSrc(attrs.get("src"), attrs.get("type"));
-			video.setWidth(Integer.parseInt(attrs.get("width")));
-			video.setHeight(Integer.parseInt(attrs.get("height")));
+			video.setSize(Integer.parseInt(attrs.get("width")),
+					Integer.parseInt(attrs.get("height")));
 			return true;
 		} catch (RuntimeException e) {
 			return false;
@@ -1089,7 +1090,7 @@ public class ConsElementXMLHandler {
 	 * @see #processStartPointList()
 	 */
 	private void handleStartPoint(LinkedHashMap<String, String> attrs) {
-		if (geo instanceof RectangleTransformable) {
+		if (geo instanceof RectangleTransformable && !geo.isGeoImage()) {
 			double x = 0;
 			double y = 0;
 
@@ -1106,14 +1107,14 @@ public class ConsElementXMLHandler {
 				GeoEmbed embed = (GeoEmbed) geo;
 
 				if ("0".equals(number)) {
-					embed.setHeight(y);
+					embedY = y;
 					return;
 				} else if ("1".equals(number)) {
-					embed.setWidth(x);
+					embedX = x;
 					return;
 				} else if ("2".equals(number)) {
-					embed.setRealWidth(embed.getWidth() - x);
-					embed.setRealHeight(y - embed.getHeight());
+					embed.setRealWidth(embedX - x);
+					embed.setRealHeight(y - embedY);
 				}
 			}
 
@@ -1523,8 +1524,8 @@ public class ConsElementXMLHandler {
 				GeoInlineText ret = new GeoInlineText((GeoText) geo);
 				geo.getConstruction().replace(geo, ret);
 				geo = ret;
-				ret.setWidth(Integer.parseInt(attrs.get("width")));
-				ret.setHeight(Integer.parseInt(attrs.get("height")));
+				ret.setSize(Integer.parseInt(attrs.get("width")),
+						Integer.parseInt(attrs.get("height")));
 			} catch (Exception e) {
 				Log.debug(e);
 			}
