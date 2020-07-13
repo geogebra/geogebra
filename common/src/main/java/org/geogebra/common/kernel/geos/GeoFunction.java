@@ -138,7 +138,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private AlgoDependentFunction dependentFunction;
 	private int tableViewColumn = -1;
 	private boolean pointsVisible = true;
-	private static boolean forceInequality = false;
+	private boolean forceInequality;
 
 	/**
 	 * Creates new function
@@ -868,7 +868,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @param fn
 	 *            function; to determine what kind of LHS we want
 	 */
-	public final static void initStringBuilder(StringBuilder stringBuilder,
+	private void initStringBuilder(StringBuilder stringBuilder,
 			StringTemplate tpl, String label,
 			FunctionalNVar fn) {
 		stringBuilder.append(label);
@@ -3030,7 +3030,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return true;
 	}
 
-	public static boolean forceInequality() {
+	public boolean forceInequality() {
 		return forceInequality;
 	}
 
