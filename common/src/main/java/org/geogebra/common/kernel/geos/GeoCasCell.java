@@ -2527,10 +2527,11 @@ public class GeoCasCell extends GeoElement
 			return arg;
 		}
 
-		if (arg.unwrap() instanceof Function
-				&& ((Function) arg.unwrap()).getExpression().unwrap() instanceof  Command)  {
+		// To prevent recursion.
+		if (isEvaluateCommand(arg))  {
 			return arg;
 		}
+
 		// don't wrap if f'(x) is on top level (it is the same as
 		// Derivative[f(x)])
 		// but DO wrap f'(x+1) or f'(3) as it may simplify
@@ -2547,7 +2548,6 @@ public class GeoCasCell extends GeoElement
 						&& en.getRight().unwrap() instanceof GeoDummyVariable) {
 					return arg;
 				}
-
 			}
 		}
 
@@ -2565,15 +2565,21 @@ public class GeoCasCell extends GeoElement
 			en = new ExpressionNode(kernel, arg.unwrap(),
 					Operation.NO_OPERATION, null);
 		}
-		// Log.debug(en);
-		// Log.debug("WRAPPING");
-
 		Command c = new Command(kernel, "Evaluate", false);
 		c.addArgument(en);
 		ExpressionNode expr = c.wrap();
 		expr.setLabel(arg.getLabel());
 		return expr;
+	}
 
+	private boolean isEvaluateCommand(ValidExpression ve) {
+		if (! (ve.unwrap() instanceof Function)) {
+			return false;
+		}
+
+		ExpressionValue value = ((Function) ve.unwrap()).getExpression().unwrap();
+		return  value instanceof Command
+				&& ((Command) value).getName().equals("Evaluate");
 	}
 
 	private ValidExpression processSolveCommand(ValidExpression ve) {
