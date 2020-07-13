@@ -1761,15 +1761,17 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	@Override
-	public void setText(String text0) {
-		if (!"".equals(text0)) {
+	public void setText(String text) {
+		if (!"".equals(text)) {
 			removeDummy();
+		} else {
+			addDummyLabel();
 		}
 		if (mf != null) {
-			mf.setText(text0, this.isTextItem());
+			mf.setText(text, this.isTextItem());
 		}
 		inputControl.ensureInputMoreMenu();
-		updateEditorAriaLabel(text0);
+		updateEditorAriaLabel(text);
 		updatePreview();
 	}
 
