@@ -73,7 +73,6 @@ public class AlgebraTestHelper {
 					&& !"RunClickScript".equals(cmdName)
 					&& !"RunUpdateScript".equals(cmdName)
 					&& !"Defined".equals(cmdName)
-					&& !"StopLogging".equals(cmdName)
 					&& !"AreEqual".equals(cmdName)
 					&& !"AreCongruent".equals(cmdName)
 					&& !"Textfield".equals(cmdName)

@@ -2,14 +2,13 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -268,30 +267,6 @@ public abstract class BoundingBox<T extends GShape> {
 	}
 
 	/**
-	 * @param video
-	 *            widget
-	 * @param p
-	 *            pointer position
-	 * @param p2
-	 *            hit handler
-	 */
-	public static void resize(DrawWidget video, GPoint2D p,
-			GPoint2D p2) {
-		boolean fixRatio = video.isFixedRatio();
-
-		int newWidth = (int) Math.abs(p.getX() - p2.getX());
-		int newHeight = (int) Math.abs(p.getY() - p2.getY());
-		if (fixRatio) {
-			newHeight = (int) (video.getOriginalRatio() * newWidth);
-		}
-		video.setAbsoluteScreenLoc((int) Math.min(p.getX(), p2.getX()),
-				(int) Math.min(p.getY(), p2.getY()));
-		video.setWidth(newWidth);
-		video.setHeight(newHeight);
-		video.update();
-	}
-
-	/**
 	 * @param handler
 	 *            handler
 	 * @return resizing cursor or null
@@ -350,5 +325,9 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	public void setFixed(boolean fixed) {
 		this.fixed = fixed;
+	}
+
+	public void setTransform(GAffineTransform directTransform) {
+		// only cropbox and rotatable box
 	}
 }

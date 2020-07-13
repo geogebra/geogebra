@@ -39,7 +39,7 @@ import org.geogebra.common.util.StringUtil;
  * @author Zbynek
  */
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
-		GeoEvaluatable, GeoFunctionable, DelegateProperties {
+		GeoEvaluatable, GeoFunctionable, DelegateProperties, HasArbitraryConstant {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -51,6 +51,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private int pointStyle;
 	private int pointSize;
 	private boolean symbolicMode;
+	private MyArbitraryConstant constant;
 
 	@Nullable
 	private GeoElement twinGeo;
@@ -175,9 +176,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
-		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
-				new MyArbitraryConstant(this), StringTemplate.prefixedDefault,
-				null, kernel);
+		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(), 
+				getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 
@@ -685,5 +685,18 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		return twinGeo != null
 				? twinGeo.isGeoVector()
 				: getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
+	}
+
+	@Override
+	public MyArbitraryConstant getArbitraryConstant() {
+		if (constant == null) {
+			constant = new MyArbitraryConstant(this);
+		}
+		return constant;
+	}
+
+	@Override
+	public void setArbitraryConstant(MyArbitraryConstant constant) {
+		this.constant = constant;
 	}
 }

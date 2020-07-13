@@ -1970,9 +1970,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public void throughPoints(GeoList points) {
-		ArrayList<GeoPoint> p = new ArrayList<>();
+		ArrayList<GeoPointND> p = new ArrayList<>();
 		for (int i = 0; i < points.size(); i++) {
-			p.add((GeoPoint) points.get(i));
+			p.add((GeoPointND) points.get(i));
 		}
 		throughPoints(p);
 	}
@@ -1983,7 +1983,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @param points
 	 *            ArrayList of points
 	 */
-	public void throughPoints(ArrayList<GeoPoint> points) {
+	public void throughPoints(ArrayList<GeoPointND> points) {
 		if ((int) Math.sqrt(9 + 8 * points.size()) != Math
 				.sqrt(9 + 8 * points.size())) {
 			setUndefined();
@@ -2005,8 +2005,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		double[] results;
 
 		for (int i = 0; i < points.size(); i++) {
-			double x = points.get(i).x / points.get(i).z;
-			double y = points.get(i).y / points.get(i).z;
+			double x = points.get(i).getInhomX();
+			double y = points.get(i).getInhomY();
 
 			for (int j = 0, m = 0; j < degree + 1; j++) {
 				for (int k = 0; j + k != degree + 1; k++) {
@@ -2032,8 +2032,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				matrixRow = new double[noPoints + 1];
 
 				for (int i = 0; i < noPoints; i++) {
-					double x = points.get(i).x;
-					double y = points.get(i).y;
+					double x = points.get(i).getX2D();
+					double y = points.get(i).getY2D();
 
 					for (int j = 0, m = 0; j < realDegree + 1; j++) {
 						for (int k = 0; j + k != realDegree + 1; k++) {

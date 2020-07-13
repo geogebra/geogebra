@@ -1,82 +1,130 @@
 package org.geogebra.common.euclidian.draw;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
+import org.geogebra.common.euclidian.BoundingBox;
+import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
+import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoWidget;
+import org.geogebra.common.kernel.geos.RectangleTransformable;
 
-/**
- * Interface for drawables resizeable by bounding box.
- */
-public interface DrawWidget {
-	/**
-	 * @param newWidth
-	 *            pixel width at current zoom
-	 */
-	public void setWidth(int newWidth);
+public abstract class DrawWidget extends Drawable {
+
+	private final TransformableRectangle rectangle;
 
 	/**
-	 * @param newHeight
-	 *            pixel height at current zoom
+	 * @param view view
+	 * @param geo construction element
 	 */
-	public void setHeight(int newHeight);
+	public DrawWidget(EuclidianView view, GeoElement geo) {
+		super(view, geo);
+		this.rectangle = new TransformableRectangle(view, (RectangleTransformable) geo,
+				false);
+	}
 
-	/**
-	 * @return left corner x-coord in EV
-	 */
-	public int getLeft();
+	protected void updateBounds() {
+		rectangle.updateSelfAndBoundingBox();
+	}
 
-	/**
-	 * @return top corner y-coord in EV
-	 */
-	public int getTop();
+	@Override
+	public boolean hit(int x, int y, int hitThreshold) {
+		return rectangle.hit(x, y);
+	}
 
-	/**
-	 * @param x
-	 *            left corner x-coord in EV
-	 * @param y
-	 *            top corner y-coord in EV
-	 */
-	public void setAbsoluteScreenLoc(int x, int y);
+	@Override
+	public boolean isInside(GRectangle rect) {
+		return rect.contains(getBounds());
+	}
 
-	/**
-	 * @return aspect ratio at start of resize (NaN if last drag changed it)
-	 */
-	public double getOriginalRatio();
+	@Override
+	public GRectangle getBounds() {
+		return rectangle.getBounds();
+	}
+
+	@Override
+	public MediaBoundingBox getBoundingBox() {
+		return rectangle.getBoundingBox();
+	}
+
+	@Override
+	public BoundingBox<? extends GShape> getSelectionBoundingBox() {
+		return getBoundingBox();
+	}
 
 	/**
 	 * @return width on screen at current zoom
 	 */
-	public int getWidth();
+	public final double getWidth() {
+		return getGeoElement().getWidth();
+	}
 
 	/**
 	 * @return height on screen at current zoom
 	 */
-	public int getHeight();
+	public final double getHeight() {
+		return getGeoElement().getHeight();
+	}
 
 	/**
-	 * Reset aspect ratio.
+	 * @return left corner x-coord in EV
 	 */
-	public void resetRatio();
+	public final double getLeft() {
+		return view.toScreenCoordX(getGeoElement().getLocation().getX());
+	}
 
 	/**
-	 * Update drawable.
+	 * @return top corner y-coord in EV
 	 */
-	public void update();
+	public final double getTop() {
+		return view.toScreenCoordY(getGeoElement().getLocation().getY());
+	}
 
-	/**
-	 * @return the geo linked to this
-	 */
-	public GeoElement getGeoElement();
+	@Override
+	public List<GPoint2D> toPoints() {
+		return rectangle.toPoints();
+	}
+
+	@Override
+	public void fromPoints(ArrayList<GPoint2D> pts) {
+		rectangle.fromPoints(pts);
+	}
+
+	@Override
+	public void updateByBoundingBoxResize(GPoint2D point,
+			EuclidianBoundingBoxHandler handler) {
+		rectangle.updateByBoundingBoxResize(point, handler);
+	}
+
+	@Override
+	public abstract GeoWidget getGeoElement();
 
 	/**
 	 * @return whether aspect ratio is fixed for this widget
 	 */
-	public boolean isFixedRatio();
+	public abstract boolean isFixedRatio();
 
 	/**
 	 * @return embed ID
 	 */
-	int getEmbedID();
+	public abstract int getEmbedID();
 
-	boolean isBackground();
+	public abstract boolean isBackground();
 
-	void setBackground(boolean b);
+	public abstract void setBackground(boolean b);
+
+	public GAffineTransform getTransform() {
+		return rectangle.getDirectTransform();
+	}
+
+	public GPoint2D getInversePoint(int x, int y) {
+		return rectangle.getInversePoint(x, y);
+	}
 }

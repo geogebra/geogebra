@@ -182,4 +182,9 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	public boolean hasAnsButtonInAv() {
 		return false;
 	}
+
+	@Override
+	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
+	}
 }

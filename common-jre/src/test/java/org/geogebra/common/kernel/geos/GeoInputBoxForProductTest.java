@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
@@ -65,12 +66,12 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("a=?");
 		add("aa(x,y)=?");
 		add("g(k)=?");
-		shouldBeUpdatedAs("g", "kk", "k k");
-		shouldBeUpdatedAs("g", "kkk", "k k k");
-		shouldBeUpdatedAs("g", "kkkk", "k k k k");
+		shouldBeUpdatedAs("g", "kk", unicode("k^2"));
+		shouldBeUpdatedAs("g", "kkk", unicode("k^3"));
+		shouldBeUpdatedAs("g", "kkkk", unicode("k^4"));
 		shouldBeUpdatedAs("g", "akakak", "a k a k a k");
-		shouldBeUpdatedAs("g", "akka", "a k k a");
-		shouldBeUpdatedAs("g", "kkaa", "k k a a");
+		shouldBeUpdatedAs("g", "akka", unicode("a k^2 a"));
+		shouldBeUpdatedAs("g", "kkaa", unicode("k^2 a a"));
 	}
 
 	@Test
@@ -78,12 +79,29 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("f(x)=?");
 		shouldBeUpdatedAs("f", "21xarctanx", "21 x tan"
 				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+		shouldBeUpdatedAs("f", "22xarctan(x)", "22 x tan"
+				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+	}
+
+	@Test
+	public void testSinPower() {
+		add("f(x)=?");
+		shouldBeUpdatedAs("f", "xsin^2(x)", unicode("x sin^2(x)"));
+		shouldBeUpdatedAs("f", "xsin^(-1)(x)", "x sin"
+				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+	}
+
+	@Test
+	public void functionPowerShouldNotBeUsedForProduct() {
+		add("f(r,t)=?");
+		shouldBeUpdatedAs("f", "t^2 r^(11t)", unicode("t^2 r^(11 t)"));
 	}
 
 	@Test
 	public void testCost7() {
 		add("g(t)=?");
 		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t cos(7 t)))/7");
+		shouldBeUpdatedAs("g", "-tcos(8t)/7", "(-(t cos(8 t)))/7");
 	}
 
 	@Test

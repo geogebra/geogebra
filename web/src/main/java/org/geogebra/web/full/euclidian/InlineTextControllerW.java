@@ -93,7 +93,7 @@ public class InlineTextControllerW implements InlineTextController {
 			public void onSizeChanged(int minHeight) {
 				int actualMinHeight = minHeight + 2 * DrawInlineText.PADDING;
 				if (geo.getMinHeight() != actualMinHeight) {
-					geo.setHeight(Math.max(actualMinHeight, geo.getHeight()));
+					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
 					geo.setMinHeight(actualMinHeight);
 					geo.updateRepaint();
 				}

@@ -108,18 +108,6 @@ public class MathSequence extends MathContainer {
 	}
 
 	/**
-	 * Is i'th argument character.
-	 * 
-	 * @param i
-	 *            index
-	 * @return whether given argument is a character
-	 */
-	public boolean isCharacter(int i) {
-		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
-				&& ((MathCharacter) getArgument(i)).isCharacter();
-	}
-
-	/**
 	 * Is i'th argument operator.
 	 * 
 	 * @param i
@@ -129,18 +117,6 @@ public class MathSequence extends MathContainer {
 	public boolean isOperator(int i) {
 		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
 				&& ((MathCharacter) getArgument(i)).isOperator();
-	}
-
-	/**
-	 * Is i'th argument symbol.
-	 * 
-	 * @param i
-	 *            index
-	 * @return whether given argument is a symbol
-	 */
-	public boolean isSymbol(int i) {
-		return i >= 0 && i < size() && getArgument(i) instanceof MathCharacter
-				&& ((MathCharacter) getArgument(i)).isSymbol();
 	}
 
 	/**

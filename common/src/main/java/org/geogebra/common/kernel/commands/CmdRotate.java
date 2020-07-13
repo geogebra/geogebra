@@ -74,9 +74,9 @@ public class CmdRotate extends CommandProcessor {
 				// c.setName("RotateText");
 				// return kernelA.getAlgebraProcessor().processCommand(c,
 				// new EvalInfo(false));
-				AlgoRotateText algo = new AlgoRotateText(cons, c.getLabel(),
+				AlgoRotateText algo = new AlgoRotateText(cons,
 						(GeoText) arg[0], (GeoNumberValue) arg[1]);
-
+				algo.getResult().setLabel(c.getLabel());
 				return new GeoElement[] { algo.getResult() };
 
 			}

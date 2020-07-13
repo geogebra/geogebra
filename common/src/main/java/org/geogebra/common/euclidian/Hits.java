@@ -1137,4 +1137,14 @@ public class Hits extends ArrayList<GeoElement> {
 
 		return true;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj); // see EQ_DOESNT_OVERRIDE_EQUALS in SpotBugs
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

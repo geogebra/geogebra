@@ -261,6 +261,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		this.region = region;
 	}
 
+	/**
+	 * @return whether given geo is a point with complex coordinates
+	 */
+	public static boolean isComplexNumber(GeoElementND geo) {
+		return geo.isGeoPoint()
+				&& ((GeoPointND) geo).getToStringMode() == Kernel.COORD_COMPLEX;
+	}
+
 	@Override
 	public void setZero() {
 		setCoords(0, 0, 1);

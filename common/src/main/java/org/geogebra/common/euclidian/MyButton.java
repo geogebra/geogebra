@@ -399,8 +399,8 @@ public class MyButton implements Observer {
 	public void setBounds(GRectangle labelRectangle) {
 		x = (int) labelRectangle.getMinX();
 		y = (int) labelRectangle.getMinY();
-		geoButton.setWidth((int) labelRectangle.getWidth());
-		geoButton.setHeight((int) labelRectangle.getHeight());
+		geoButton.setWidth(labelRectangle.getWidth());
+		geoButton.setHeight(labelRectangle.getHeight());
 	}
 
 	/**

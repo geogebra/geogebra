@@ -99,8 +99,7 @@ public class ArgumentHelper {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(currentOffset - 1);
-			if (character.isOperator() || character.isSeparator()
-					|| ' ' == character.getUnicode()) {
+			if (character.isWordBreak()) {
 				break;
 			}
 			currentField.delArgument(currentOffset - 1);
@@ -133,7 +132,7 @@ public class ArgumentHelper {
 
 			MathCharacter character = (MathCharacter) currentField
 					.getArgument(offset - 1);
-			if (character.isOperator() || character.isSymbol()) {
+			if (character.isSymbol() || character.isWordBreak()) {
 				break;
 			}
 			offset--;

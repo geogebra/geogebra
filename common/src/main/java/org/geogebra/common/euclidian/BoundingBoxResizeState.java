@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.RectangleTransformable;
 
 /**
  * State holder for bounding box resize (multi selection)
@@ -52,11 +53,8 @@ public class BoundingBoxResizeState {
 					continue;
 				}
 
-				if (dr.getWidthThreshold() > widthThreshold) {
-					widthThreshold = dr.getWidthThreshold();
-				}
-				if (dr.getHeightThreshold() > heightThreshold) {
-					heightThreshold = dr.getHeightThreshold();
+				if (geo instanceof RectangleTransformable) {
+					updateThresholdsFor((RectangleTransformable) geo);
 				}
 				// calculate the min/max coordinates
 
@@ -70,6 +68,15 @@ public class BoundingBoxResizeState {
 
 				ratios.put(geo, forGeo);
 			}
+		}
+	}
+
+	private void updateThresholdsFor(RectangleTransformable geo) {
+		if (geo.getMinWidth() > widthThreshold) {
+			widthThreshold = geo.getMinWidth();
+		}
+		if (geo.getMinHeight() > heightThreshold) {
+			heightThreshold = geo.getMinHeight();
 		}
 	}
 
@@ -89,18 +96,10 @@ public class BoundingBoxResizeState {
 		if (this.rect != null) {
 			widthHeightRatio = rect.getWidth() / rect.getHeight();
 			for (GeoElement geo : geos) {
-				Drawable dr = (Drawable) view.getDrawableFor(geo);
+				DrawableND dr = view.getDrawableFor(geo);
 				// check and update thresholds
-
-				if (dr == null) {
-					continue;
-				}
-
-				if (dr.getWidthThreshold() > widthThreshold) {
-					widthThreshold = dr.getWidthThreshold();
-				}
-				if (dr.getHeightThreshold() > heightThreshold) {
-					heightThreshold = dr.getHeightThreshold();
+				if (dr != null && geo instanceof  RectangleTransformable) {
+					updateThresholdsFor((RectangleTransformable) geo);
 				}
 			}
 		}

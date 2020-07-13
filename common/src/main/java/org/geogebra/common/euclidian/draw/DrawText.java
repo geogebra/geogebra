@@ -101,10 +101,6 @@ public final class DrawText extends Drawable {
 			updateStrokes(text);
 		}
 
-		if (isLaTeX) {
-			updateStrokes(text);
-		}
-
 		String newText = text.getTextString();
 
 		boolean textChanged = labelDesc == null || !labelDesc.equals(newText)

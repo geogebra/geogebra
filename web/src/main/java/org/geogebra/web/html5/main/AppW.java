@@ -73,7 +73,6 @@ import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
@@ -146,7 +145,6 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.KeyboardManagerInterface;
-import org.geogebra.web.plugin.WebsocketLogger;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -219,7 +217,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private ReaderTimer readerTimer;
 	private boolean toolLoadedFromStorage;
 	private Storage storage;
-	WebsocketLogger webSocketLogger = null;
 	private boolean keyboardNeeded;
 	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
@@ -1138,6 +1135,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		resetUI();
 		resetPenTool();
+		resetUrl();
 	}
 
 	private void resetPages() {
@@ -1309,6 +1307,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean openFile(JavaScriptObject fileToHandle) {
 		resetPerspectiveParam();
+		resetUrl();
 		return doOpenFile(fileToHandle, null);
 	}
 
@@ -1737,7 +1736,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			if (getLAF() != null && getLAF().supportsGoogleDrive()) {
 				initGoogleDriveEventFlow();
 			}
-			if (getArticleElement().getDataParamEnableFileFeatures()) {
+			if (!StringUtil.empty(articleElement.getDataParamTubeID())
+					|| articleElement.getDataParamEnableFileFeatures()) {
 				loginOperation.performTokenLogin();
 			}
 		} else {
@@ -2991,14 +2991,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		// for applets with keyboard only
 	}
 
-	@Override
-	public SensorLogger getSensorLogger() {
-		if (webSocketLogger == null) {
-			webSocketLogger = new WebsocketLogger(getKernel());
-		}
-		return webSocketLogger;
-	}
-
 	/**
 	 * @param b
 	 *            whether keyboard is needed
@@ -3044,21 +3036,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Update prerelease / canary flags
+	 * Update prerelease flag
 	 *
-	 * @param prereleaseStr
+	 * @param prerelease
 	 *            prerelease parameter
 	 */
-	public void setPrerelease(String prereleaseStr) {
-		this.canary = false;
-		this.prerelease = false;
-
-		if ("canary".equals(prereleaseStr)) {
-			canary = true;
-			prerelease = true;
-		} else if ("true".equals(prereleaseStr)) {
-			this.prerelease = true;
-		}
+	public void setPrerelease(boolean prerelease) {
+		this.prerelease = prerelease;
 	}
 
 	@Override
@@ -3823,5 +3807,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public SignInControllerI getSignInController() {
 		return getLAF().getSignInController(this);
+	}
+
+	/**
+	 * reset url after e.g. new file
+	 */
+	public void resetUrl() {
+	 	Browser.resetUrl();
+		Browser.changeUrl("/" + articleElement.getParamShareLinkPrefix());
 	}
 }

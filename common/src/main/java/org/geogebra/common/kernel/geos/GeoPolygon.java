@@ -2035,7 +2035,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * if this is a convex polygon
+	 * If this is a convex polygon. Also updates the convexOrientation value (even for a triangle)
 	 * 
 	 * @return if this is a convex polygon
 	 */
@@ -2063,10 +2063,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 
 		int n = xList.size();
-		
-		if (n <= 3) {
-			return true;
-		}
 
 		// remove last point if equals first points
 		if (DoubleUtil.isEqual(xList.get(0), xList.get(n - 1))

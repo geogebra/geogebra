@@ -82,11 +82,12 @@ public class EmbedManagerW implements EmbedManager {
 		if (widgets.get(drawEmbed) != null) {
 			return;
 		}
+		int embedID = drawEmbed.getEmbedID();
 		if ("extension".equals(drawEmbed.getGeoEmbed().getAppName())) {
 			addExtension(drawEmbed);
-			if (content.get(drawEmbed.getEmbedID()) != null) {
+			if (content.get(embedID) != null) {
 				widgets.get(drawEmbed)
-						.setContent(content.get(drawEmbed.getEmbedID()));
+						.setContent(content.get(embedID));
 			}
 		} else {
 			addCalcEmbed(drawEmbed);
@@ -119,6 +120,7 @@ public class EmbedManagerW implements EmbedManager {
 		if (cache.containsKey(drawEmbed.getEmbedID())) {
 			element = (CalcEmbedElement) cache.get(drawEmbed.getEmbedID());
 			element.setVisible(true);
+			cache.remove(drawEmbed.getEmbedID());
 		} else {
 			element = createCalcEmbed(drawEmbed);
 		}
@@ -126,7 +128,7 @@ public class EmbedManagerW implements EmbedManager {
 	}
 
 	private CalcEmbedElement createCalcEmbed(DrawEmbed drawEmbed) {
-		TestArticleElement parameters = new TestArticleElement("", "graphing");
+		TestArticleElement parameters = new TestArticleElement("graphing");
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(
 				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
 				app.getDevice(), parameters);
@@ -231,14 +233,10 @@ public class EmbedManagerW implements EmbedManager {
 
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
 			final TestArticleElement parameters) {
-		return new OpenFileListener() {
-
-			@Override
-			public boolean onOpenFile() {
-				drawEmbed.getGeoEmbed()
-						.setAppName(parameters.getDataParamAppName());
-				return true;
-			}
+		return () -> {
+			drawEmbed.getGeoEmbed()
+					.setAppName(parameters.getDataParamAppName());
+			return true;
 		};
 	}
 
@@ -251,14 +249,16 @@ public class EmbedManagerW implements EmbedManager {
 		Style style = embedElement.getGreatParent().getElement().getStyle();
 		style.setTop(drawEmbed.getTop(), Unit.PX);
 		style.setLeft(drawEmbed.getLeft(), Unit.PX);
+		style.setProperty("transformOrigin", "0 0");
+		style.setProperty("transform", "rotate(" + drawEmbed.getGeoElement().getAngle() + "rad)");
 		if (drawEmbed.getWidth() > 0) {
 			embedElement.getGreatParent().setSize(
 					drawEmbed.getWidth() + "px",
 					drawEmbed.getHeight() + "px");
 			// above the oject canvas (50) and below MOW toolbar (51)
 			toggleBackground(embedElement, drawEmbed);
-			int contentWidth = (int) drawEmbed.getGeoEmbed().getContentWidth();
-			int contentHeight = (int) drawEmbed.getGeoEmbed().getContentHeight();
+			int contentWidth = drawEmbed.getGeoEmbed().getContentWidth();
+			int contentHeight = drawEmbed.getGeoEmbed().getContentHeight();
 			embedElement.setSize(contentWidth, contentHeight);
 		}
 	}
@@ -384,8 +384,7 @@ public class EmbedManagerW implements EmbedManager {
 			if (entry.getKey().startsWith("embed")) {
 				try {
 					int id = Integer.parseInt(entry.getKey().split("[_.]")[1]);
-					counter = Math.max(counter, id + 1);
-					content.put(id, entry.getValue());
+					setContent(id, entry.getValue());
 				} catch (RuntimeException e) {
 					Log.warn("Problem loading embed " + entry.getKey());
 				}
@@ -430,14 +429,8 @@ public class EmbedManagerW implements EmbedManager {
 		ge.initPosition(app.getActiveEuclidianView());
 		ge.setLabel(null);
 		app.storeUndoInfo();
-		app.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				app.getActiveEuclidianView().getEuclidianController()
-						.selectAndShowSelectionUI(ge);
-			}
-		});
+		app.invokeLater(() -> app.getActiveEuclidianView().getEuclidianController()
+				.selectAndShowSelectionUI(ge));
 	}
 
 	@Override
@@ -491,7 +484,11 @@ public class EmbedManagerW implements EmbedManager {
 
 	@Override
 	public void openGraspableMTool() {
-		openTool("https://graspablemath.com");
+		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		ge.setUrl("https://graspablemath.com");
+		ge.setAppName("extension");
+		ge.setEmbedId(nextID());
+		showAndSelect(ge);
 	}
 
 	@Override
@@ -500,14 +497,6 @@ public class EmbedManagerW implements EmbedManager {
 		ge.attr("showToolBar", true);
 		ge.attr("showAlgebraInput", true);
 		ge.attr("allowStyleBar", true);
-	}
-
-	private void openTool(String URL) {
-		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
-		ge.setUrl(URL);
-		ge.setAppName("extension");
-		ge.setEmbedId(nextID());
-		showAndSelect(ge);
 	}
 
 	/**
@@ -535,6 +524,17 @@ public class EmbedManagerW implements EmbedManager {
 			}
 		}
 		return jso;
+	}
+
+	@Override
+	public String getContent(int embedID) {
+		return content.get(embedID);
+	}
+
+	@Override
+	public void setContent(int id, String content) {
+		counter = Math.max(counter, id + 1);
+		this.content.put(id, content);
 	}
 
 	private static native void pushApisIntoNativeEntry(

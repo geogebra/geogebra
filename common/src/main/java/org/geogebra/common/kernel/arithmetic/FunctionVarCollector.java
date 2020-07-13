@@ -19,9 +19,6 @@ public class FunctionVarCollector implements Traversing {
 
 	@Override
 	public ExpressionValue process(ExpressionValue ev) {
-		if (ev instanceof Equation) {
-			return ev.wrap();
-		}
 		if (ev instanceof FunctionVariable) {
 			variableNames.add(((FunctionVariable) ev).getSetVarString());
 		}

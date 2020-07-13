@@ -28,6 +28,7 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator.AnimationType;
+import org.geogebra.common.geogebra3D.euclidian3D.ar.ARManagerInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAngle3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAxis3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;
@@ -311,6 +312,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	final public static int RATIO_UNIT_INCHES = 2;
 	final public static float FROM_INCH_TO_CM = 2.54f;
 	final public static float FROM_CM_TO_INCH = 0.393700787f;
+	private boolean arRatioIsShown = true;
+	private String arRatioUnit = "cm";
+	private int arRatioMetricSystem;
 
 	/**
 	 * common constructor
@@ -3261,22 +3265,18 @@ public abstract class EuclidianView3D extends EuclidianView
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].drawLabel(renderer1);
 		}
-
 	}
 
 	/**
-	 * tell all drawables owned by the view to be udpated
+	 * tell all drawables owned by the view to be updated
 	 */
 	private void setWaitForUpdateOwnDrawables() {
-
 		xOyPlaneDrawable.setWaitForUpdate();
 
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].setWaitForUpdate();
 		}
-
 		clippingCubeDrawable.setWaitForUpdate();
-
 	}
 
 	/**
@@ -5060,4 +5060,53 @@ public abstract class EuclidianView3D extends EuclidianView
         return value;
     }
 
+	/**
+	 * set ARRatio is shown
+	 */
+	public void setARRatioIsShown(boolean arRatioIsShown) {
+		this.arRatioIsShown = arRatioIsShown;
+		ARManagerInterface arManager = renderer.getARManager();
+		if (arManager != null) {
+			arManager.setRatioIsShown(arRatioIsShown);
+		}
+	}
+
+	/**
+	 * @return ARRatio is shown
+	 */
+	public boolean isARRatioShown() {
+		return arRatioIsShown;
+	}
+
+	/**
+	 * set AR Ratio Unit
+	 */
+	public void setARRatioUnit(String arRatioUnit) {
+		this.arRatioUnit = arRatioUnit;
+	}
+
+	/**
+	 * @return AR Ratio Unit
+	 */
+	public String getARRatioUnit() {
+		return arRatioUnit;
+	}
+
+	/**
+	 * set AR Ratio Metric System
+	 */
+	public void setARRatioMetricSystem(int arRatioMetricSystem) {
+		this.arRatioMetricSystem = arRatioMetricSystem;
+		ARManagerInterface arManager = renderer.getARManager();
+		if (arManager != null) {
+			arManager.calculateAndShowRatio();
+		}
+	}
+
+	/**
+	 * @return AR Ratio Metric System
+	 */
+	public int getARRatioMetricSystem() {
+		return arRatioMetricSystem;
+	}
 }

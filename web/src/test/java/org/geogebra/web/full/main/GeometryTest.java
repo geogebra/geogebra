@@ -23,7 +23,7 @@ public class GeometryTest {
 	@Test
 	public void startApp() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("prerelease", "geometry"));
+				.mockApplet(new TestArticleElement("geometry"));
 	}
 
 }
