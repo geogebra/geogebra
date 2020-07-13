@@ -1135,6 +1135,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		resetUI();
 		resetPenTool();
+		resetUrl();
 	}
 
 	private void resetPages() {
@@ -1306,6 +1307,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public boolean openFile(JavaScriptObject fileToHandle) {
 		resetPerspectiveParam();
+		resetUrl();
 		return doOpenFile(fileToHandle, null);
 	}
 
@@ -3034,21 +3036,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Update prerelease / canary flags
+	 * Update prerelease flag
 	 *
-	 * @param prereleaseStr
+	 * @param prerelease
 	 *            prerelease parameter
 	 */
-	public void setPrerelease(String prereleaseStr) {
-		this.canary = false;
-		this.prerelease = false;
-
-		if ("canary".equals(prereleaseStr)) {
-			canary = true;
-			prerelease = true;
-		} else if ("true".equals(prereleaseStr)) {
-			this.prerelease = true;
-		}
+	public void setPrerelease(boolean prerelease) {
+		this.prerelease = prerelease;
 	}
 
 	@Override
@@ -3813,5 +3807,13 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	public SignInControllerI getSignInController() {
 		return getLAF().getSignInController(this);
+	}
+
+	/**
+	 * reset url after e.g. new file
+	 */
+	public void resetUrl() {
+	 	Browser.resetUrl();
+		Browser.changeUrl("/" + articleElement.getParamShareLinkPrefix());
 	}
 }

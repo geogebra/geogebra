@@ -24,7 +24,7 @@ public class AppWSimpleLoadTest {
 
 	@Test
 	public void testLoadApp() {
-		TestArticleElement articleElement = new TestArticleElement("prerelease", "simple");
+		TestArticleElement articleElement = new TestArticleElement("simple");
 		String json = FileIO.load(jsonPath);
 		articleElement.attr("jsonFile", json);
 		AppWsimple app = AppMocker.mockAppletSimple(articleElement);

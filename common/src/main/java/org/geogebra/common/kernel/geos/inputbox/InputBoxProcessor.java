@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoInterval;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
@@ -94,7 +94,7 @@ public class InputBoxProcessor {
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,
-				new InputBoxCallback(this, inputBox), errorHandler);
+				new InputBoxCallback(inputBox), errorHandler);
 	}
 
 	private String  preprocess(String inputText, StringTemplate tpl) {
@@ -139,7 +139,7 @@ public class InputBoxProcessor {
 			}
 		}
 
-		if (isComplexNumber()) {
+		if (GeoPoint.isComplexNumber(linkedGeo)) {
 			defineText = defineText.replace('I', 'i');
 		}
 
@@ -153,10 +153,5 @@ public class InputBoxProcessor {
 		RedefinitionRule vector = RedefinitionRules.oneWayRule(
 				GeoClass.VECTOR3D, GeoClass.VECTOR);
 		return RedefinitionRules.anyRule(same, point, vector);
-	}
-
-	boolean isComplexNumber() {
-		return linkedGeo.isGeoPoint()
-				&& ((GeoPointND) linkedGeo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 }

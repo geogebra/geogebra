@@ -55,19 +55,14 @@ public class GeoEmbed extends GeoWidget {
 	}
 
 	@Override
-	public void setWidth(double width) {
+	public void setSize(double width, double height) {
 		if (getWidth() != 0) {
 			setContentWidth(contentWidth * width / getWidth());
 		}
-		super.setWidth(width);
-	}
-
-	@Override
-	public void setHeight(double height) {
 		if (getHeight() != 0) {
 			setContentHeight(contentHeight * height / getHeight());
 		}
-		super.setHeight(height);
+		super.setSize(width, height);
 	}
 
 	@Override
@@ -75,8 +70,7 @@ public class GeoEmbed extends GeoWidget {
 		if (realWidth != null && realHeight != null) {
 			EuclidianView ev = app.getActiveEuclidianView();
 
-			setWidth(ev.getXscale() * realWidth);
-			setHeight(ev.getYscale() * realHeight);
+			setSize(ev.getXscale() * realWidth, ev.getYscale() * realHeight);
 
 			realWidth = null;
 			realHeight = null;
@@ -92,8 +86,7 @@ public class GeoEmbed extends GeoWidget {
 	 *            view
 	 */
 	public void initPosition(EuclidianViewInterfaceCommon ev) {
-		setWidth(DEFAULT_WIDTH);
-		setHeight(DEFAULT_HEIGHT);
+		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
 		double x = ev.toRealWorldCoordX((ev.getViewWidth() - DEFAULT_WIDTH) / 2.0);
 		double y = ev.toRealWorldCoordY((ev.getViewHeight() - DEFAULT_HEIGHT) / 2.0);

@@ -23,7 +23,7 @@ public class ScientificTest {
 	@Test
 	public void startApp() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("prerelease", "scientific"));
+				.mockApplet(new TestArticleElement("scientific"));
 	}
 
 }

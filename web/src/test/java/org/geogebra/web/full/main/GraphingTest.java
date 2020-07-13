@@ -23,7 +23,7 @@ public class GraphingTest {
 	@Test
 	public void startApp() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("prerelease", "graphing"));
+				.mockApplet(new TestArticleElement("graphing"));
 	}
 
 }
