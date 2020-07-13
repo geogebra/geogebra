@@ -45,16 +45,20 @@ public class InlineTextControllerW implements InlineTextController {
 		this.geo = geo;
 		this.parent = parent;
 		this.view = view;
-		checkFonts();
+		checkFonts(geo.getFormat(), getCallback());
 	}
 
-	private void checkFonts() {
+	/**
+	 * Check for bundled fonts in content, and load them
+	 * @param words array of Murok runs
+	 * @param callback to be executed after font is loaded
+	 */
+	public static void checkFonts(JSONArray words, Runnable callback) {
 		try {
-			JSONArray words = geo.getFormat();
 			for (int i = 0; i < words.length(); i++) {
 				JSONObject word = words.optJSONObject(i);
 				if (word.has("font")) {
-					FontLoader.loadFont(word.getString("font"), getCallback());
+					FontLoader.loadFont(word.getString("font"), callback);
 				}
 			}
 		} catch (JSONException | RuntimeException e) {
