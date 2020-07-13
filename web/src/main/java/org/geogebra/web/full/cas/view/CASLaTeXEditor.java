@@ -219,6 +219,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	@Override
 	public void ensureEditing() {
 		final GuiManagerInterfaceW gui = app.getGuiManager();
+		app.showKeyboard(retexListener, true);
 		app.getKeyboardManager().setOnScreenKeyboardTextField(retexListener);
 		CancelEventTimer.keyboardSetVisible();
 		ClickStartHandler.init(this, new ClickStartHandler(false, false) {

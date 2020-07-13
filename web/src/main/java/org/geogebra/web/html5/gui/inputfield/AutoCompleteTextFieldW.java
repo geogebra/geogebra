@@ -236,6 +236,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				if ((etype == Event.ONMOUSEDOWN || etype == Event.ONTOUCHSTART)
 						&& !app.isWhiteboardActive()
 						&& keyboardManager != null) {
+					app.showKeyboard(AutoCompleteTextFieldW.this, true);
 					keyboardManager.setOnScreenKeyboardTextField(
 							AutoCompleteTextFieldW.this);
 				}
