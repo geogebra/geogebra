@@ -27,6 +27,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
+import org.geogebra.web.html5.util.BrowserStorage;
 import org.geogebra.web.html5.util.PDFEncoderW;
 
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -693,7 +694,7 @@ public class PageListController implements PageListControllerInterface,
 	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LogOutEvent) {
-			SlideCopyUtil.clearContent();
+			BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE);
 		}
 	}
 }

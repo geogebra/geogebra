@@ -6,6 +6,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.BrowserStorage;
 
 /**
  * Context Menu of Page Preview Cards
@@ -74,13 +75,15 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	 */
 	private void onPaste() {
 		hide();
-		frame.getPageControlPanel().pastePage(card, SlideCopyUtil.getContent());
+		frame.getPageControlPanel().pastePage(card,
+				BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE));
 	}
 
 	private void onCopy() {
 		hide();
 		frame.getPageControlPanel().saveSlide(card);
-		SlideCopyUtil.setContent(app.getGgbApi().toJson(card.getFile()));
+		BrowserStorage.LOCAL.setItem(BrowserStorage.COPY_SLIDE,
+				app.getGgbApi().toJson(card.getFile()));
 	}
 
 	@Override
@@ -88,7 +91,8 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 		super.show();
 		wrappedPopup.show(
 				new GPoint(getAbsoluteLeft() - 122, getAbsoluteTop() + 36));
-		if (paste != null && StringUtil.empty(SlideCopyUtil.getContent())) {
+		String slideContent = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE);
+		if (paste != null && StringUtil.empty(slideContent)) {
 			paste.setEnabled(false);
 		}
 	}

@@ -5,15 +5,12 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.settings.StyleSettings;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 
@@ -43,29 +40,24 @@ public class LoadFilePresenter {
 		boolean fileOpened = true;
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());
-		if (!tryReloadDataInStorage(vv)) {
-			if (!"".equals(filename = view.getDataParamJSON())) {
-				processJSON(filename, vv);
-			} else if (!""
-					.equals(base64String = view.getDataParamBase64String())) {
-				process(base64String, vv);
-			} else if (!"".equals(filename = view.getDataParamFileName())) {
-				vv.processFileName(filename);
-			} else if (!"".equals(filename = view.getDataParamTubeID())) {
-				app.openMaterial(view.getDataParamTubeID(),
-						new AsyncOperation<String>() {
 
-							@Override
-							public void callback(String err) {
-								openEmptyApp(app, view);
-								ToolTipManagerW.sharedInstance()
-										.showBottomMessage(app.getLocalization()
-												.getError(err), false, app);
-							}
-						});
-			} else {
-				fileOpened = false;
-			}
+		if (!"".equals(filename = view.getDataParamJSON())) {
+			processJSON(filename, vv);
+		} else if (!""
+				.equals(base64String = view.getDataParamBase64String())) {
+			process(base64String, vv);
+		} else if (!"".equals(filename = view.getDataParamFileName())) {
+			vv.processFileName(filename);
+		} else if (!"".equals(view.getDataParamTubeID())) {
+			app.openMaterial(view.getDataParamTubeID(),
+					err -> {
+						openEmptyApp(app, view);
+						ToolTipManagerW.sharedInstance()
+								.showBottomMessage(app.getLocalization()
+										.getError(err), false, app);
+					});
+		} else {
+			fileOpened = false;
 		}
 
 		boolean fullApp = !app.isApplet();
@@ -312,22 +304,8 @@ public class LoadFilePresenter {
 		});
 	}
 
-	private static boolean tryReloadDataInStorage(ViewW view) {
-		if (!Browser.supportsSessionStorage()) {
-			return false;
-		}
-		Storage stockStore = Storage.getLocalStorageIfSupported();
-
-		if (stockStore == null) {
-			return false;
-		}
-		String base64String = stockStore.getItem("reloadBase64String");
-		if ((base64String == null) || (base64String.length() == 0)) {
-			return false;
-		}
-		process(base64String, view);
-		stockStore.removeItem("reloadBase64String");
-		return true;
+	private static boolean tryReloadDataInStorage() {
+		return false;
 	}
 
 	private static void process(String dataParamBase64String, ViewW view) {
