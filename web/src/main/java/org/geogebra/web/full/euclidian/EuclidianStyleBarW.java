@@ -1176,7 +1176,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createTextBgColorBtn() {
-		btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+		btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT,
+				false, selection) {
 
 			@Override
 			public void update(List<GeoElement> geos) {

@@ -518,7 +518,7 @@ public class EuclidianStyleBarStatic {
 	 *            opacity
 	 * @return success
 	 */
-	public static boolean applyBgColor(ArrayList<GeoElement> geos, GColor color,
+	public static boolean applyBgColor(List<GeoElement> geos, GColor color,
 			double alpha) {
 		boolean needUndo = false;
 
