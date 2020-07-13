@@ -1208,7 +1208,7 @@ public final class Configuration {
 		add("ogonek", TeXConstants.TYPE_ACCENT, 197, fonts.cmr10);
 		add("varTheta", TeXConstants.TYPE_ORDINARY, 163, fonts.cmmi10,
 				'\u03F4');
-		add("intop", TeXConstants.TYPE_BIG_OPERATOR, 82, fonts.cmex10);
+		add("intop", TeXConstants.TYPE_BIG_OPERATOR, 82, fonts.cmex10, '\u222b');
 		add("gets", TeXConstants.TYPE_RELATION, 195, fonts.cmsy10);
 		add("binampersand", TeXConstants.TYPE_OPENING, 110, fonts.stmary10);
 		add("Mapstochar", TeXConstants.TYPE_RELATION, 122, fonts.stmary10);

@@ -1153,7 +1153,7 @@ ExpressionValue multterm():
      LOOKAHEAD( { getToken(1).kind != VERTICAL_BAR} )
      f = powerdivterm()
         {
-            ExpressionValue special = ExpressionNode.multiplySpecial(ret, f, kernel, GiacParsing);
+            ExpressionValue special = functionParser.multiplySpecial(ret, f, GiacParsing, GeoGebraCASParsing);
             if (special == null) {
                 if (ExpressionNode.isConstantDouble(f, Kernel.PI_180)
                         && ret instanceof ExpressionNode
@@ -1256,12 +1256,13 @@ ExpressionValue enpower():
         (
        c = <POWERN>
         {
-            f = new MyDouble(kernel, c.image);
+            f = functionParser.convertIndexToNumber(c.image);
             // collect exponents
-      if (exponentList == null)
-        exponentList = new ArrayList<ExpressionValue>();
+            if (exponentList == null) {
+                exponentList = new ArrayList<ExpressionValue>();
+            }
             exponentList.add(f);
-      }
+        }
      )
     |
       (
@@ -1763,12 +1764,7 @@ ExpressionNode numberFunction():
 |
       ( c = <FUNCTION_POWER_LABEL> ) en = expressionOrEquation() (")"|"]")
     {
-        int pos = c.image.length()-2;
-        while (pos >=0 && (Unicode.isSuperscriptDigit(c.image.charAt(pos))
-                || Unicode.SUPERSCRIPT_MINUS==c.image.charAt(pos))) {
-            pos--;
-        }
-        ExpressionNode ret = functionParser.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
+        ExpressionNode ret = functionParser.handleTrigPower(c.image, en);
         if (ret.getOperation() == Operation.MULTIPLY_OR_FUNCTION) {
             undecided.add(ret);
         }
@@ -1799,7 +1795,7 @@ ExpressionNode numberFunction():
   // note: the last character of FUNCTION_LABEL is a "("
     {
         // remove the opening parenthesis
-        return functionParser.makeFunctionNode(c.image,myList, undecided, GiacParsing);
+        return functionParser.makeFunctionNode(c.image,myList, undecided, GiacParsing, GeoGebraCASParsing);
     }
 }
 

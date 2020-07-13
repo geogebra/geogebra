@@ -4,6 +4,7 @@ import com.himamis.retex.renderer.share.AccentedAtom;
 import com.himamis.retex.renderer.share.ArrayAtom;
 import com.himamis.retex.renderer.share.ArrayOfAtoms;
 import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.BigDelimiterAtom;
 import com.himamis.retex.renderer.share.BigOperatorAtom;
 import com.himamis.retex.renderer.share.BreakMarkAtom;
 import com.himamis.retex.renderer.share.CharAtom;
@@ -180,6 +181,9 @@ public class TeXAtomSerializer {
 		// TODO: probably more atoms need to implement HasTrueBase
 		if (root instanceof HasTrueBase) {
 			return serialize(((HasTrueBase) root).getTrueBase());
+		}
+		if (root instanceof BigDelimiterAtom) {
+			return serialize(((BigDelimiterAtom) root).getDelimiter());
 		}
 
 		FactoryProvider.debugS("Unhandled atom:"
