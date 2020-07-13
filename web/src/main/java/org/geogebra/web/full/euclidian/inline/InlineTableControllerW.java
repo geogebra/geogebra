@@ -48,7 +48,9 @@ public class InlineTableControllerW implements InlineTableController {
 		this.view = view;
 		CarotaUtil.ensureInitialized(view.getFontSize());
 		initTable(parent);
-		checkFonts();
+		if (table.getContent() != null) {
+			checkFonts();
+		}
 	}
 
 	private void checkFonts() {
