@@ -53,12 +53,14 @@ public class CopyPasteW extends CopyPaste {
 
 	private static final String pastePrefix = "ggbpastedata";
 	private static final String imagePrefix = "ggbimagedata";
+	private static final String embedPrefix = "ggbembeddata";
 
 	private static final int defaultTextWidth = 300;
 
 	private static final ArrayList<String> copiedXmlLabels = new ArrayList<>();
 	private static final StringBuilder copiedXml = new StringBuilder();
 	private static final Map<String, String> copiedImages = new HashMap<>();
+	private static final Map<String, String> copiedEmbeds = new HashMap<>();
 
 	/**
 	 * copyToXML - Add the algos which belong to our selected geos Also
@@ -190,18 +192,23 @@ public class CopyPasteW extends CopyPaste {
 		}
 		textToSave.append("\n");
 
+		print(textToSave, copiedImages, imagePrefix);
+		print(textToSave, copiedEmbeds, embedPrefix);
+
+		textToSave.append(copiedXml);
+
+		saveToClipboard(textToSave.toString());
+	}
+
+	private void print(StringBuilder textToSave, Map<String, String> copiedImages, String prefix) {
 		for (Map.Entry<String, String> image : copiedImages.entrySet()) {
-			textToSave.append(imagePrefix);
+			textToSave.append(prefix);
 			textToSave.append(" ");
 			textToSave.append(Global.escape(image.getKey()));
 			textToSave.append(" ");
 			textToSave.append(image.getValue());
 			textToSave.append("\n");
 		}
-
-		textToSave.append(copiedXml);
-
-		saveToClipboard(textToSave.toString());
 	}
 
 	private static void copyToXMLInternal(App app, List<GeoElement> geos) {
@@ -243,6 +250,7 @@ public class CopyPasteW extends CopyPaste {
 
 		copiedXml.setLength(0);
 		copiedImages.clear();
+		copiedEmbeds.clear();
 
 		Construction cons = app.getKernel().getConstruction();
 		for (int i = 0; i < cons.steps(); ++i) {
@@ -255,6 +263,11 @@ public class CopyPasteW extends CopyPaste {
 					String name = image.getImageFileName();
 					ImageManagerW imageManager = ((ImageManagerW) app.getImageManager());
 					copiedImages.put(name, imageManager.getExternalImageSrc(name));
+				}
+				if (ce instanceof GeoEmbed && embedManager != null) {
+					int embedID = ((GeoEmbed) ce).getEmbedID();
+					String name = String.valueOf(embedID);
+					copiedEmbeds.put(name, embedManager.getContent(embedID));
 				}
 			}
 		}
@@ -450,20 +463,16 @@ public class CopyPasteW extends CopyPaste {
 		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent, endline);
 
 		endline++;
-		while (clipboardContent.startsWith(imagePrefix, endline)) {
+		while (clipboardContent.startsWith(imagePrefix, endline)
+				|| clipboardContent.startsWith(embedPrefix, endline)) {
 			int nextEndline = clipboardContent.indexOf('\n', endline);
 			String line = clipboardContent
-					.substring(endline + imagePrefix.length() + 1, nextEndline);
+					.substring(endline, nextEndline);
 
-			String[] image = line.split(" ");
-			String name = Global.unescape(image[0]);
-			String src = image[1];
-
-			ImageManagerW imageManager = app.getImageManager();
-			imageManager.addExternalImage(name, src);
-			ImageElement img = imageManager.getExternalImage(name, app, true);
-			img.setSrc(src);
-
+			String[] tokens = line.split(" ", 3);
+			if (tokens.length == 3) {
+				handleSpecialLine(tokens, app);
+			}
 			endline = nextEndline + 1;
 		}
 
@@ -471,6 +480,23 @@ public class CopyPasteW extends CopyPaste {
 
 		Scheduler.get().scheduleDeferred(
 				() -> pasteGeoGebraXMLInternal(app, copiedXMLlabels, copiedXML));
+	}
+
+	private static void handleSpecialLine(String[] tokens, AppW app) {
+		String prefix = tokens[0];
+		String name = Global.unescape(tokens[1]);
+		String content = tokens[2];
+		if (imagePrefix.equals(prefix)) {
+			ImageManagerW imageManager = app.getImageManager();
+			imageManager.addExternalImage(name, content);
+			ImageElement img = imageManager.getExternalImage(name, app, true);
+			img.setSrc(content);
+		} else {
+			EmbedManager embedManager = app.getEmbedManager();
+			if (embedManager != null) {
+				embedManager.setContent(Integer.parseInt(name), content);
+			}
+		}
 	}
 
 	private static void pasteGeoGebraXMLInternal(App app,
