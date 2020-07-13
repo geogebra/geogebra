@@ -310,13 +310,13 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void setTeXIcon(TeXIcon icon) {
 		this.lastIcon = icon;
 
-		double height = computeHeight(icon);
+		double height = computeHeight();
 		if (ctx == null || height < 0) {
 			return;
 		}
 		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
 
-		ctx.getCanvas().getStyle().setWidth(roundUp(icon.getIconWidth() + 30),
+		ctx.getCanvas().getStyle().setWidth(computeWidth(),
 				Unit.PX);
 		parent.setHeight(height + "px");
 		parent.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
@@ -591,12 +591,24 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (!active(inputTextArea.getElement()) && isEdited()) {
 			inputTextArea.getElement().focus();
 		}
-		final double height = computeHeight(lastIcon);
-		final double width = roundUp(lastIcon.getIconWidth() + 30);
+		final double height = computeHeight();
+		final double width = computeWidth();
 		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
-		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),
+		paint(ctx, getMargin(lastIcon));
+	}
+
+	private double computeWidth() {
+		return roundUp(lastIcon.getIconWidth() + 30);
+	}
+
+	/**
+	 * Paints the formula on a canvas
+	 * @param ctx canvas context
+	 */
+	public void paint(Context2d ctx, int top) {
+		JlmLib.draw(lastIcon, ctx, 0, top, new ColorW(foregroundCssColor),
 				backgroundCssColor, null, ratio);
 	}
 
@@ -608,9 +620,21 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		return Navigator.getUserAgent().toLowerCase().contains("ipad");
 	}
 
-	private double computeHeight(TeXIcon lastIcon2) {
-		int margin = getMargin(lastIcon2);
-		return Math.max(roundUp(lastIcon2.getIconHeight() + margin + bottomOffset), minHeight);
+	private double computeHeight() {
+		int margin = getMargin(lastIcon);
+		return Math.max(roundUp(lastIcon.getIconHeight() + margin + bottomOffset), minHeight);
+	}
+
+	public int getIconHeight() {
+		return lastIcon.getIconHeight();
+	}
+
+	public int getIconWidth() {
+		return lastIcon.getIconWidth();
+	}
+
+	public int getIconDepth() {
+		return lastIcon.getIconDepth();
 	}
 
 	private int getMargin(TeXIcon lastIcon2) {
@@ -726,7 +750,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			// last repaint with no cursor
 			CursorBox.setBlink(false);
 			repaintWeb();
-			this.lastIcon = null;
 
 		}
 		this.focused = focus;
@@ -952,9 +975,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}-*/;
 
 	@Override
-	public native boolean useCustomPaste() /*-{
+	public boolean useCustomPaste() {
 		return false;
-	}-*/;
+	}
 
 	/**
 	 * @param size

@@ -696,7 +696,6 @@ public class MathFieldInternal
 			field = field.getParent();
 		}
 		reverse(path);
-
 		setFormula(GeoGebraSerializer.reparse(getFormula()));
 		if (listener != null) {
 			listener.onInsertString();
