@@ -304,10 +304,6 @@ public class LoadFilePresenter {
 		});
 	}
 
-	private static boolean tryReloadDataInStorage() {
-		return false;
-	}
-
 	private static void process(String dataParamBase64String, ViewW view) {
 		view.processBase64String(dataParamBase64String);
 	}

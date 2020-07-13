@@ -247,10 +247,11 @@ public class FileManagerW extends FileManager {
 		if (Browser.supportsSessionStorage()) {
 
 			if (stockStore != null) {
-				if (stockStore.getItem(TIMESTAMP) != null) {
+				String timestamp = stockStore.getItem(TIMESTAMP);
+				if (timestamp != null) {
 					long l = 0;
 					try {
-						l = Long.parseLong(stockStore.getItem(TIMESTAMP));
+						l = Long.parseLong(timestamp);
 					} catch (Exception e) {
 						Log.warn("Invalid timestamp.");
 					}

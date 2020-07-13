@@ -28,6 +28,7 @@ public class UndoManagerW extends DefaultUndoManager {
 		return new UndoCommand(appState, ((AppW) app).getSlideID());
 	}
 
+	@Override
 	protected AppState extractStateFromFile(String arg) {
 		GgbFile file = new GgbFile();
 		((AppW) app).getViewW().setFileFromJsonString(arg, file);

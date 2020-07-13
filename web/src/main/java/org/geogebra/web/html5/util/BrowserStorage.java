@@ -50,8 +50,13 @@ public enum BrowserStorage {
 	}
 
 	private void init() {
-		WebStorageWindow webStorageWindow = WebStorageWindow.of(DomGlobal.window);
-		storage = this == LOCAL ? webStorageWindow.localStorage : webStorageWindow.sessionStorage;
+		WebStorageWindow storageWindow = WebStorageWindow.of(DomGlobal.window);
+		try {
+			storage =
+					this == LOCAL ? storageWindow.localStorage : storageWindow.sessionStorage;
+		} catch (Exception e) {
+			// running in test environment or in a buggy browser
+		}
 	}
 
 	/**
