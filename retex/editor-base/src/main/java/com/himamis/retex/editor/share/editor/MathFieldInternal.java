@@ -697,6 +697,7 @@ public class MathFieldInternal
 		}
 		reverse(path);
 
+		setFormula(GeoGebraSerializer.reparse(getFormula()));
 		if (listener != null) {
 			listener.onInsertString();
 		}
