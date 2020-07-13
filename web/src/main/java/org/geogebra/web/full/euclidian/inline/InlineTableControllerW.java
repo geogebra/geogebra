@@ -21,7 +21,6 @@ import org.geogebra.web.richtext.impl.Carota;
 import org.geogebra.web.richtext.impl.CarotaTable;
 import org.geogebra.web.richtext.impl.CarotaUtil;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
@@ -123,10 +122,8 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public void toForeground(int x, int y) {
 		if (style != null) {
-			Scheduler.get().scheduleDeferred(() -> {
-				style.setVisibility(VISIBLE);
-				tableImpl.startEditing(x, y);
-			});
+			style.setVisibility(VISIBLE);
+			tableImpl.startEditing(x, y);
 		}
 	}
 
