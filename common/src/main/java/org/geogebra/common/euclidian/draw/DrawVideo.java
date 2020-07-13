@@ -48,16 +48,6 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 	}
 
 	@Override
-	public double getWidthThreshold() {
-		return GeoVideo.VIDEO_SIZE_THRESHOLD;
-	}
-
-	@Override
-	public double getHeightThreshold() {
-		return GeoVideo.VIDEO_SIZE_THRESHOLD;
-	}
-
-	@Override
 	public void draw(GGraphics2D g2) {
 		if (view.getApplication().getExportType() == App.ExportType.NONE) {
 			view.embed(g2, this);

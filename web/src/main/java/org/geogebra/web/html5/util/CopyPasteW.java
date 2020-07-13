@@ -415,7 +415,7 @@ public class CopyPasteW extends CopyPaste {
 
 			final GeoInlineText txt = new GeoInlineText(app.getKernel().getConstruction(),
 					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
-			txt.setWidth(defaultTextWidth);
+			txt.setSize(defaultTextWidth, GeoInlineText.DEFAULT_HEIGHT);
 			txt.setLabel(null);
 
 			JSONArray array = new JSONArray();

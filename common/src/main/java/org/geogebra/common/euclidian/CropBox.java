@@ -5,77 +5,99 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.util.debug.Log;
 
-public class CropBox extends BoundingBox<GGeneralPath> {
+public class CropBox implements BoundingBoxDelegate {
 	private static final int CROP_HANDLERS = 8;
 	private GBasicStroke outlineStroke = AwtFactory.getPrototype().newBasicStroke(6.0f,
 			GBasicStroke.CAP_SQUARE, GBasicStroke.JOIN_ROUND);
 	private GBasicStroke handlerStroke = AwtFactory.getPrototype().newBasicStroke(4.0f,
 			GBasicStroke.CAP_SQUARE, GBasicStroke.JOIN_ROUND);
+	private MediaBoundingBox box;
 
-	@Override
-	protected void createHandlers() {
-		initHandlers(CROP_HANDLERS);
-		createhandlers();
+	public CropBox(MediaBoundingBox box) {
+		this.box = box;
 	}
 
-	private void createhandlers() {
-		handlers.get(0).moveTo(rectangle.getX(), rectangle.getY() + 10);
-		handlers.get(0).lineTo(rectangle.getX(), rectangle.getY());
-		handlers.get(0).lineTo(rectangle.getX() + 10, rectangle.getY());
-		handlers.get(1).moveTo(rectangle.getX(), rectangle.getMaxY() - 10);
-		handlers.get(1).lineTo(rectangle.getX(), rectangle.getMaxY());
-		handlers.get(1).lineTo(rectangle.getX() + 10, rectangle.getMaxY());
-		handlers.get(2).moveTo(rectangle.getMaxX() - 10, rectangle.getMaxY());
-		handlers.get(2).lineTo(rectangle.getMaxX(), rectangle.getMaxY());
-		handlers.get(2).lineTo(rectangle.getMaxX(), rectangle.getMaxY() - 10);
-		handlers.get(3).moveTo(rectangle.getMaxX(), rectangle.getY() + 10);
-		handlers.get(3).lineTo(rectangle.getMaxX(), rectangle.getY());
-		handlers.get(3).lineTo(rectangle.getMaxX() - 10, rectangle.getY());
-		// side handlers
-		double centerX = (rectangle.getMinX() + rectangle.getMaxX()) / 2;
-		double centerY = (rectangle.getMinY() + rectangle.getMaxY()) / 2;
-		handlers.get(4).moveTo(centerX - 5, rectangle.getMinY());
-		handlers.get(4).lineTo(centerX + 5, rectangle.getMinY());
-		handlers.get(5).moveTo(rectangle.getMinX(), centerY - 5);
-		handlers.get(5).lineTo(rectangle.getMinX(), centerY + 5);
-		handlers.get(6).moveTo(centerX - 5, rectangle.getMaxY());
-		handlers.get(6).lineTo(centerX + 5, rectangle.getMaxY());
-		handlers.get(7).moveTo(rectangle.getMaxX(), centerY - 5);
-		handlers.get(7).lineTo(rectangle.getMaxX(), centerY + 5);
+	@Override
+	public void createHandlers() {
+		box.initHandlers(CROP_HANDLERS);
+	}
+
+	@Override
+	public void setHandlerFromCenter(int handlerIndex, double x, double y) {
+		double tangent = 5 * Math.cos(box.geo.getAngle());
+		double normal = 5 * Math.sin(box.geo.getAngle());
+		switch (handlerIndex) {
+		case 0:
+			getHandler(0).moveTo(x - 2 * normal, y + 2 * tangent);
+			getHandler(0).lineTo(x, y);
+			getHandler(0).lineTo(x + 2 * tangent, y + 2 * normal);
+			break;
+		case 1:
+			getHandler(1).moveTo(x + 2 * normal, y - 2 * tangent);
+			getHandler(1).lineTo(x, y);
+			getHandler(1).lineTo(x + 2 * tangent, y + 2 * normal);
+			break;
+		case 2:
+			getHandler(2).moveTo(x - 2 * tangent, y - 2 * normal);
+			getHandler(2).lineTo(x, y);
+			getHandler(2).lineTo(x + 2 * normal, y - 2 * tangent);
+			break;
+		case 3:
+			getHandler(3).moveTo(x - 2 * normal, y + 2 * tangent);
+			getHandler(3).lineTo(x, y);
+			getHandler(3).lineTo(x - 2 * tangent, y - 2 * normal);
+			break;
+		case 4:
+			// side handlers
+			getHandler(4).moveTo(x - tangent, y - normal);
+			getHandler(4).lineTo(x + tangent, y + normal);
+			break;
+		case 5:
+			getHandler(5).moveTo(x + normal, y - tangent);
+			getHandler(5).lineTo(x - normal, y + tangent);
+			break;
+		case 6:
+			getHandler(6).moveTo(x - tangent, y - normal);
+			getHandler(6).lineTo(x + tangent, y + normal);
+			break;
+		case 7:
+			getHandler(7).moveTo(x + normal, y - tangent);
+			getHandler(7).lineTo(x - normal, y + tangent);
+			break;
+		default:
+			Log.warn("illegal handler " + handlerIndex);
+		}
+	}
+
+	private GGeneralPath getHandler(int handlerIndex) {
+		return (GGeneralPath) box.handlers.get(handlerIndex);
 	}
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		// draw bounding box
-		drawRectangle(g2);
-
-		if (handlers != null && !handlers.isEmpty()) {
+		if (!box.handlers.isEmpty()) {
 			g2.setColor(GColor.WHITE);
 			g2.setStroke(outlineStroke);
 			for (int i = 0; i < CROP_HANDLERS; i++) {
-				g2.draw(handlers.get(i));
+				g2.draw(getHandler(i));
 			}
 			g2.setStroke(handlerStroke);
 			g2.setColor(GColor.BLACK);
 			for (int i = 0; i < CROP_HANDLERS; i++) {
-				g2.draw(handlers.get(i));
+				g2.draw(getHandler(i));
 			}
 		}
 	}
 
 	@Override
 	public boolean hitSideOfBoundingBox(int x, int y, int hitThreshold) {
-		return rectangle != null && hitRectangle(x, y, 2 * hitThreshold);
+		return box.rectangle != null && box.hitRectangle(x, y, 2 * hitThreshold);
 	}
 
 	@Override
-	public boolean isCropBox() {
-		return true;
-	}
-
-	@Override
-	protected GGeneralPath createHandler() {
+	public GGeneralPath createHandler() {
 		return AwtFactory.getPrototype().newGeneralPath();
 	}
 

@@ -100,8 +100,8 @@ public class AlgoMatrixPlot extends AlgoElement {
 
 		GGraphics2D g = outputImage.getGraphics();
 
-		int width = outputImage.getWidth();
-		int height = outputImage.getHeight();
+		int width = (int) outputImage.getWidth();
+		int height = (int) outputImage.getHeight();
 
 		g.setPaint(GColor.WHITE);
 		g.fillRect(0, 0, width, height);
