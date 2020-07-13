@@ -2361,11 +2361,7 @@ public class AlgebraProcessor {
 		if (isIndependent) {
 			f = new GeoFunction(cons, fun, info.isSimplifyingIntegers());
 			f.getIneqs();
-			if (f.isInequality() || en.isForceInequality()) {
-				f.setForceInequality(true);
-			} else {
-				f.setForceInequality(false);
-			}
+			f.setForceInequality(f.isInequality() || en.isForceInequality());
 		} else {
 			f = kernel.getAlgoDispatcher().dependentFunction(fun, info);
 			if (label == null) {
