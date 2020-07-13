@@ -190,16 +190,6 @@ public class DrawAudio extends DrawWidget {
 		}
 	}
 
-	@Override
-	public double getWidthThreshold() {
-		return GeoAudio.DEFAULT_PLAYER_WIDTH;
-	}
-
-	@Override
-	public double getHeightThreshold() {
-		return GeoAudio.DEFAULT_PLAYER_HEIGHT;
-	}
-
 	private void drawPlay(GGraphics2D g2) {
 		g2.setColor(playHovered ? playHoverColor : PLAY_COLOR);
 		int size = PLAY_SIZE;

@@ -96,20 +96,6 @@ public class MyDouble extends ValidExpression
 		angleDim = d.angleDim;
 	}
 
-	/**
-	 * called from the parser power must be a string of unicode SUPERSCRIPT
-	 * digits
-	 * 
-	 * @param kernel
-	 *            kernel
-	 * @param power
-	 *            SUPERSCRIPT power
-	 */
-	public MyDouble(Kernel kernel, String power) {
-		this.kernel = kernel;
-		val = StringUtil.indexToNumber(power);
-	}
-
 	@Override
 	public MyDouble deepCopy(Kernel kernel1) {
 		MyDouble ret = new MyDouble(this);

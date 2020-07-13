@@ -30,7 +30,6 @@ public class AppletParameters {
 	}
 
 	public AppletParameters(GeoGebraElement element) {
-		Log.error("I HAVE BEEN CONSTRUCTED");
 		this.attributeProvider = element;
 	}
 
@@ -46,6 +45,11 @@ public class AppletParameters {
 		attributeProvider.removeAttribute("data-param-" + attribute);
 	}
 
+	/**
+	 * @param attribute attribute name
+	 * @param value attribute value
+	 * @return this
+	 */
 	public AppletParameters setAttribute(String attribute, String value) {
 		attributeProvider.setAttribute("data-param-" + attribute, value);
 		return this;
@@ -665,5 +669,12 @@ public class AppletParameters {
 	 */
 	public String getParamKeyboardType(String def) {
 		return getStringDataParam("keyboardType", def);
+	}
+
+	/**
+	 * @return whether the editor should work in text mode (evaluator app only)
+	 */
+	public boolean getParamTextMode() {
+		return getBoolDataParam("textMode", false);
 	}
 }

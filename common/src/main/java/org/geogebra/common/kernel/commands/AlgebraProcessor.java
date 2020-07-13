@@ -455,7 +455,9 @@ public class AlgebraProcessor {
 			}
 
 			replaceDerivative(ve, geo);
-			ve = replaceSqrtMinusOne(ve);
+			if (GeoPoint.isComplexNumber(geo)) {
+				ve = replaceSqrtMinusOne(ve);
+			}
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
@@ -2241,7 +2243,7 @@ public class AlgebraProcessor {
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
 		if (varName.equals(Unicode.theta_STRING)
 				&& !kernel.getConstruction()
-						.isRegistredFunctionVariable(Unicode.theta_STRING)
+						.isRegisteredFunctionVariable(Unicode.theta_STRING)
 				&& fun.getExpression().evaluatesToNumber(true)) {
 			String label = fun.getLabel();
 			ValidExpression ve = new MyVecNode(kernel, fun.getExpression(),

@@ -11,7 +11,7 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RotatableBoundingBox;
+import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
@@ -36,7 +36,7 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	 */
 	public DrawInlineText(EuclidianView view, GeoInlineText text) {
 		super(view, text);
-		rectangle = new TransformableRectangle(view, text);
+		rectangle = new TransformableRectangle(view, text, false);
 		this.text = text;
 		this.textController = view.getApplication().createInlineTextController(view, text);
 		createEditor();
@@ -113,22 +113,8 @@ public class DrawInlineText extends Drawable implements DrawInline {
 	}
 
 	@Override
-	public RotatableBoundingBox getBoundingBox() {
+	public MediaBoundingBox getBoundingBox() {
 		return rectangle.getBoundingBox();
-	}
-
-	@Override
-	public double getWidthThreshold() {
-		if (text.getHeight() - text.getMinHeight() < 2) {
-			return text.getWidth();
-		}
-
-		return GeoInlineText.DEFAULT_WIDTH;
-	}
-
-	@Override
-	public double getHeightThreshold() {
-		return text.getMinHeight();
 	}
 
 	@Override

@@ -142,16 +142,6 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	}
 
 	@Override
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	@Override
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
-	@Override
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}
@@ -215,5 +205,11 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	 */
 	public String getContent() {
 		return formula;
+	}
+
+	@Override
+	public void setSize(double width, double height) {
+		this.width = width;
+		this.height = height;
 	}
 }

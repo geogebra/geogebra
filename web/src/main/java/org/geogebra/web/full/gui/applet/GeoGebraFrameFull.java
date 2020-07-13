@@ -269,8 +269,6 @@ public class GeoGebraFrameFull
 			keyboardState = KeyboardState.HIDDEN;
 		}
 
-		// this.mainPanel.add(this.dockPanel);
-
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
@@ -504,12 +502,7 @@ public class GeoGebraFrameFull
 
 	private void showKeyboardButton(final MathKeyboardListener textField) {
 		if (appNeedsKeyboard()) {
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					showKeyboardButton(isButtonNeeded(textField));
-				}
-			});
+			Scheduler.get().scheduleDeferred(() -> showKeyboardButton(isButtonNeeded(textField)));
 		}
 	}
 
@@ -560,18 +553,14 @@ public class GeoGebraFrameFull
 						return;
 					}
 					setKeyboardShowing(true);
-					app.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							if (getApp().isWhiteboardActive()) {
-								return;
-							}
-							getApp().persistWidthAndHeight();
-							addKeyboard(null, false);
-							ensureKeyboardDeferred();
-
+					app.invokeLater(() -> {
+						if (getApp().isWhiteboardActive()) {
+							return;
 						}
+						getApp().persistWidthAndHeight();
+						addKeyboard(null, false);
+						ensureKeyboardDeferred();
+
 					});
 				} else {
 					showKeyboardButton(null);

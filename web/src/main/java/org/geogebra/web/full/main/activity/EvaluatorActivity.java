@@ -46,4 +46,8 @@ public class EvaluatorActivity extends BaseActivity {
 	public EvaluatorAPI getEditorAPI() {
 		return editor.getAPI();
 	}
+
+	public Object exportImage(String type) {
+		return editor.exportImage(type);
+	}
 }
