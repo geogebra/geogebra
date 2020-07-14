@@ -83,7 +83,7 @@ public class InputBoxProcessor {
 						newGeo);
 				linkedGeo = newGeo;
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			Log.warn(e.getMessage());
 		}
 	}
