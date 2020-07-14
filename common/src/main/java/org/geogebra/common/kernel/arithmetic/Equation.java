@@ -204,7 +204,6 @@ public class Equation extends ValidExpression implements EquationValue {
 	 * Force this to evaluate to implicit poly
 	 */
 	public void setForceImplicitPoly() {
-		new Throwable().printStackTrace();
 		this.forceImplicitPoly = true;
 	}
 
