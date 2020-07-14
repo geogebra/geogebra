@@ -295,7 +295,9 @@ public class InlineTableControllerW implements InlineTableController {
 
 	private Runnable getCallback() {
 		return () -> {
+			tableImpl.stopEditing();
 			tableImpl.reload();
+			tableImpl.repaint();
 			table.getKernel().notifyRepaint();
 		};
 	}
