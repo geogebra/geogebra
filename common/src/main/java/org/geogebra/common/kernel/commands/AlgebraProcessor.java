@@ -565,14 +565,14 @@ public class AlgebraProcessor {
 				n.setForcePoint();
 			} else if (geo.isGeoVector()) {
 				n.setForceVector();
+			} else if (geo.isGeoInterval()) {
+				n.setForceInequality();
 			} else if (geo instanceof GeoFunction) {
 				if (((GeoFunction) geo).forceInequality()) {
 					n.setForceInequality();
 				} else {
 					n.setForceFunction();
 				}
-			} else if (geo.isGeoInterval()) {
-				n.setForceInequality();
 			}
 		}
 		if (geo instanceof GeoPlaneND && newValue.unwrap() instanceof Equation) {
@@ -2048,7 +2048,8 @@ public class AlgebraProcessor {
 			if (!info.mayRedefineIndependent()
 					&& ret[0].isIndependent()
 					&& replaceable.isChangeable()
-					&& !(replaceable.isGeoText())) {
+					&& !(replaceable.isGeoText())
+					&& !(replaceable.isGeoInterval())) {
 				try {
 					replaceable.set(ret[0]);
 					replaceable.updateRepaint();
@@ -2068,7 +2069,8 @@ public class AlgebraProcessor {
 					// simply assign value and don't redefine
 					if (replaceable.isIndependent() && ret[0].isIndependent()
 							&& compatibleTypes(replaceable.getGeoClassType(),
-									ret[0].getGeoClassType())) {
+									ret[0].getGeoClassType())
+							&& !(replaceable.isGeoInterval())) {
 						// copy equation style
 						ret[0].setVisualStyle(replaceable);
 						replaceable.set(ret[0]);
@@ -2144,6 +2146,13 @@ public class AlgebraProcessor {
         if (type.equals(GeoClass.LIST) && type2.equals(GeoClass.VECTOR)) {
             return true;
         }
+		if (type2.equals(GeoClass.INTERVAL) && type.equals(GeoClass.FUNCTION)) {
+			return true;
+		}
+		if (type.equals(GeoClass.INTERVAL) && type2.equals(GeoClass.FUNCTION)) {
+			return true;
+		}
+
 
         return false;
 	}

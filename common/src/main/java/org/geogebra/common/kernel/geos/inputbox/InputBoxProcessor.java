@@ -152,6 +152,10 @@ public class InputBoxProcessor {
 				GeoClass.POINT3D, GeoClass.POINT);
 		RedefinitionRule vector = RedefinitionRules.oneWayRule(
 				GeoClass.VECTOR3D, GeoClass.VECTOR);
-		return RedefinitionRules.anyRule(same, point, vector);
+		RedefinitionRule inequality = RedefinitionRules.oneWayRule(
+				GeoClass.INTERVAL, GeoClass.FUNCTION);
+		RedefinitionRule inequality2 = RedefinitionRules.oneWayRule(
+				GeoClass.FUNCTION, GeoClass.INTERVAL);
+		return RedefinitionRules.anyRule(same, point, vector, inequality, inequality2);
 	}
 }
