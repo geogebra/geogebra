@@ -2481,6 +2481,18 @@ var __giac = [ {},
 { cat:"Integral.3", cmd:"Integral(1/(x^2+1),0,inf)", result:"1 / 2 \u03C0" },
 { cat:"Integral.3", cmd:"Integral(1/(x^2+1),-inf,0)", result:"1 / 2 \u03C0" },
 { cat:"Limit", cmd:"limit(1/(1+sqrt(2)*cos(x))*sin(x-3*pi/4),x=3*pi/4)", result:"-1" },
+{ cat:"RemoveUndefined.1", cmd:"RemoveUndefined({})", result:"{}" },
+{ cat:"RemoveUndefined.1", cmd:"RemoveUndefined({1,2,3,4,4})", result:"{1, 2, 3, 4, 4}" },
+{ cat:"RemoveUndefined.1", cmd:"RemoveUndefined({123456789123456789,?})", result:"{123456789123456789}" },
+{ cat:"RemoveUndefined.1", cmd:"RemoveUndefined({?,1,2,?,3,4,4,?,?})", result:"{1, 2, 3, 4, 4}" },
+{ cat:"RemoveUndefined.1", cmd:"RemoveUndefined(Sequence(If(IsInteger(a^2/2),a^2,?),a,1,10))", result:"{4, 16, 36, 64, 100}" },
+{ cat:"IsInteger.1", cmd:"IsInteger(1.5)", result:"false" },
+{ cat:"IsInteger.1", cmd:"IsInteger(1)", result:"true" },
+{ cat:"IsInteger.1", cmd:"IsInteger(44/3)", result:"false" },
+{ cat:"IsInteger.1", cmd:"IsInteger(44/2)", result:"true" },
+{ cat:"IsInteger.1", cmd:"IsInteger(pi)", result:"false" },
+{ cat:"IsInteger.1", cmd:"IsInteger(123456789123456789.1)", result:"false" },
+
 //JSONEND
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
