@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
@@ -375,10 +376,14 @@ public class GeoLocusStroke extends GeoLocus
 		EuclidianView view = this.getKernel().getApplication().getActiveEuclidianView();
 
 		List<GeoElement> splits = new ArrayList<>();
-		if (view.getDrawableFor(this).getPartialHitClip() == null) {
+		DrawableND drawable = view.getDrawableFor(this);
+		if (drawable == null) {
+			return super.getPartialSelection(removeOriginal);
+		}
+		if (drawable.getPartialHitClip() == null) {
 			splits.add(this);
 		} else {
-			GRectangle viewRectangle = view.getDrawableFor(this).getPartialHitClip();
+			GRectangle viewRectangle = drawable.getPartialHitClip();
 			GRectangle2D realRectangle = AwtFactory.getPrototype().newRectangle2D();
 			realRectangle.setRect(
 					view.toRealWorldCoordX(viewRectangle.getX()),

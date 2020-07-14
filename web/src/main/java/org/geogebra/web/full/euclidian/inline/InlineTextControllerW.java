@@ -1,4 +1,4 @@
-package org.geogebra.web.full.euclidian;
+package org.geogebra.web.full.euclidian.inline;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
@@ -41,21 +41,24 @@ public class InlineTextControllerW implements InlineTextController {
 	 * @param parent
 	 *            parent div
 	 */
-	public InlineTextControllerW(GeoInlineText geo, Element parent,
-			EuclidianView view) {
+	public InlineTextControllerW(GeoInlineText geo, EuclidianView view, Element parent) {
 		this.geo = geo;
 		this.parent = parent;
 		this.view = view;
-		checkFonts();
+		checkFonts(geo.getFormat(), getCallback());
 	}
 
-	private void checkFonts() {
+	/**
+	 * Check for bundled fonts in content, and load them
+	 * @param words array of Murok runs
+	 * @param callback to be executed after font is loaded
+	 */
+	public static void checkFonts(JSONArray words, Runnable callback) {
 		try {
-			JSONArray words = geo.getFormat();
 			for (int i = 0; i < words.length(); i++) {
 				JSONObject word = words.optJSONObject(i);
 				if (word.has("font")) {
-					FontLoader.loadFont(word.getString("font"), getCallback());
+					FontLoader.loadFont(word.getString("font"), callback);
 				}
 			}
 		} catch (JSONException | RuntimeException e) {
