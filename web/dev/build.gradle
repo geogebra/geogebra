@@ -7,6 +7,10 @@ dependencies {
 			"com.google.gwt:gwt-user:$gwtCompilerVersion",
 			project(':common'),
 			'io.bit3:jsass:5.4.0'
+
+    compile group: 'com.google.elemental2', name: 'elemental2-core', version: '1.1.0'
+    compile group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.1.0'
+    compile group: 'com.google.elemental2', name: 'elemental2-webstorage', version: '1.1.0'
 }
 
 sourceCompatibility = 1.8
@@ -24,6 +28,7 @@ configurations.all {
        force 'org.ow2.asm:asm-commons:7.1'
        force 'commons-codec:commons-codec:1.10'
        force 'xml-apis:xml-apis:1.4.01'
+       force 'com.google.jsinterop:jsinterop-annotations:2.0.0'
    }
 }
 

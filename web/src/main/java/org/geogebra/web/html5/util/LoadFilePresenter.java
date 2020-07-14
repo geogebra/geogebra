@@ -82,7 +82,7 @@ public class LoadFilePresenter {
 			language = app.getLanguageFromCookie();
 
 			if (!StringUtil.empty(language) && app.getLAF() != null) {
-				app.getLAF().storeLanguage(language, app);
+				app.getLAF().storeLanguage(language);
 			}
 		}
 
