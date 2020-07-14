@@ -3581,7 +3581,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		}
 
 		EuclidianViewW ev = (EuclidianViewW) getActiveEuclidianView();
-		nativeCopyToClipboardExternal(ev.getExportImageDataUrl(3, false, false));
+//		nativeCopyToClipboardExternal(ev.getExportImageDataUrl(3, false, false));
+		Clipboard.copyGraphicsToClipboardExternal(ev.getExportImageDataUrl(3, false, false));
 	}
 
 	private native String nativeCopyToClipboardExternal(String s) /*-{
@@ -3591,9 +3592,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	/**
 	 * @return whether native clipboard API is available
 	 */
-	public native boolean isCopyImageToClipboardAvailable() /*-{
-		return !!$wnd.copyGraphicsToClipboardExternal;
-	}-*/;
+	public boolean isCopyImageToClipboardAvailable() {
+		return true;
+	}
 
 	@Override
 	public void copyImageToClipboard(String dataURI) {
