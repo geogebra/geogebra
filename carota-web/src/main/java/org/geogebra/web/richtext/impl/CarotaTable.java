@@ -26,6 +26,8 @@ public class CarotaTable {
 
 	public native void draw(Context2d ctx);
 
+	public native void repaint();
+
 	public native void init(int rows, int cols);
 
 	public native JavaScriptObject save();
