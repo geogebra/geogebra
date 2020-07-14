@@ -42,6 +42,7 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		SaveListener, EventRenderable, SaveDialogI {
 
 	private static final int MAX_TITLE_LENGTH = 60;
+	private final static int MIN_TITLE_LENGTH = 1;
 	/** title box */
 	protected GTextBox title;
 	private FastButton cancelButton;
@@ -119,6 +120,8 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 		titlePanel.add(titleLabel);
 		titlePanel.add(title = new GTextBox());
 		title.setMaxLength(MAX_TITLE_LENGTH);
+		title.addKeyUpHandler(event ->
+				setPosBtnDisabled(title.getText().length() < MIN_TITLE_LENGTH));
 
 		titlePanel.addStyleName("titlePanel");
 		return titlePanel;

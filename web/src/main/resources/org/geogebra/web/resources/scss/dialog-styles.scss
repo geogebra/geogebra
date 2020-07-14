@@ -74,12 +74,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	/* image tool dialog */
 	.dialogComponent.image {
 		.gwt-Label:hover {
-			color: $purple-default;
+			color: $teal-default;
 			cursor: pointer;
 		}
 
 		.gwt-Label-highlighted {
-			color: $purple-default;
+			color: $teal-default;
 
 			&:hover {
 			    cursor: default;
@@ -101,6 +101,12 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
   	  		margin-right: 16px;
     		display: block;
     		cursor: default;
+    		color: $teal-default;
+    		border-bottom: 1px solid $teal-default;
+		}
+
+		.AutoCompleteTextFieldW {
+			border-bottom: 1px solid $teal-default !important;
 		}
 	}
 
@@ -119,6 +125,10 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 			margin-right: 16px;
 			width: calc(100% - 16px) !important;
 		}
+
+		.AutoCompleteTextFieldW {
+            border-bottom: 1px solid $teal-default !important;
+        }
 	}
 
 	.dialogComponent.inputboxDialog {
@@ -127,6 +137,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
         .AutoCompleteTextFieldW {
 	        max-width: 382px;
+	        border-bottom: 1px solid $teal-default !important;
 	    }
 	}
 
@@ -152,7 +163,7 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 	    .titlePanel input[type="text"] {
             border: none;
             box-shadow: none;
-            border-bottom: 1px solid $mow-primary;
+            border-bottom: 1px solid $teal-default;
             border-radius: 0px;
         }
 
@@ -479,15 +490,6 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
 	.dialogComponent {
 	    padding: 0px;
-
-        .coloredLabel {
-            color: $mow-primary;
-        }
-
-	    .sliderIntervalPanel .gwt-TextBox {
-	        // ignore this for now, we need new design
-            border-bottom: 1px solid $mow-primary !important;
-        }
 
         .gwt-Label-highlighted {
             color: $toolbar-header;
@@ -1781,11 +1783,15 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
 
         .gwt-RadioButton [type="radio"]+label {
             padding-left: 35px;
+
+            &:after {
+            	background-color: $teal-default;
+            }
         }
 
         .AutoCompleteTextFieldW {
         	// ignore this for now, we need new design
-        	border-bottom: 1px solid $mow-primary !important;
+        	border-bottom: 1px solid $teal-default !important;
         }
     }
 }
