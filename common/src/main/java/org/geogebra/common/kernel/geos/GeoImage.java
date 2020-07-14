@@ -1414,7 +1414,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	private double getHeightUncropped() {
-		if (getStartPoints()[2] != null) {
+		if (getStartPoints()[2] != null && getStartPoint() != null) {
 			return getStartPoint().distance(getStartPoints()[2]) * kernel.getApplication()
 					.getActiveEuclidianView().getXscale();
 		}
@@ -1430,8 +1430,11 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	private double getWidthUncropped() {
-		return getStartPoint().distance(getStartPoints()[1])
-				* kernel.getApplication().getActiveEuclidianView().getXscale();
+		if (getStartPoints()[1] != null && getStartPoint() != null) {
+			return getStartPoint().distance(getStartPoints()[1])
+					* kernel.getApplication().getActiveEuclidianView().getXscale();
+		}
+		return pixelWidth;
 	}
 
 	@Override
