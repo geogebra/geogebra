@@ -1956,6 +1956,7 @@ __GGB__keysVar["tr"].menu = {
     "Graph": "Grafik",
     "GraphicsView3D": "3D Grafik",
     "GraphicsViewAsAsymptote": "Asimtot olarak Grafik G\xf6r\xfcn\xfcm\xfc",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "%0'\u0131n G\xf6r\xfcn\xfcm\xfc",
     "Graphing": "Grafik \xc7izme",
     "Graphing3D": "3D Grafik \xc7izici",

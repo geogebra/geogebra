@@ -1956,6 +1956,7 @@ __GGB__keysVar["ms"].menu = {
     "Graph": "Graf",
     "GraphicsView3D": "Grafik 3D",
     "GraphicsViewAsAsymptote": "Paparan Grafik sebagai Asimptot",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Paparan %0",
     "Graphing": "Pengrafan",
     "Graphing3D": "3D Calculator",

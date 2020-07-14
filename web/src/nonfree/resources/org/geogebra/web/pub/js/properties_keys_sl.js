@@ -1956,6 +1956,7 @@ __GGB__keysVar["sl"].menu = {
     "Graph": "Graf",
     "GraphicsView3D": "3d grafika",
     "GraphicsViewAsAsymptote": "Pribli\u017eni grafi\u010dni izgled",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Pogled %0",
     "Graphing": "Graf",
     "Graphing3D": "3D Ra\u010dunalo",

@@ -1956,6 +1956,7 @@ __GGB__keysVar["ne"].menu = {
     "Graph": "\u0932\u0947\u0916\u093e\u091a\u093f\u0924\u094d\u0930",
     "GraphicsView3D": "3D Graphics",
     "GraphicsViewAsAsymptote": "\u090f\u0938\u092e\u094d\u091f\u094b\u091f\u094d\u0938\u0915\u094b \u0930\u0941\u092a\u092e\u093e \u0917\u094d\u0930\u093e\u092b\u093f\u0915\u094d\u0938 \u0926\u0943\u0938\u094d\u092f",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "View of %0",
     "Graphing": "\u0917\u094d\u0930\u093e\u092b",
     "Graphing3D": "3D Calculator",

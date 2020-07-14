@@ -1956,6 +1956,7 @@ __GGB__keysVar["sk"].menu = {
     "Graph": "Graf",
     "GraphicsView3D": "Geometrick\xfd vzh\u013ead 3D",
     "GraphicsViewAsAsymptote": "Geometrick\xfd vzh\u013ead ako Asymptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Vzh\u013ead toho: %0",
     "Graphing": "Graphing",
     "Graphing3D": "3D Calculator",

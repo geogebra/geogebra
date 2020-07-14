@@ -1956,6 +1956,7 @@ __GGB__keysVar["fi"].menu = {
     "Graph": "Kuvaaja",
     "GraphicsView3D": "3D-piirtoalue",
     "GraphicsViewAsAsymptote": "Piirtoalue Asymptote-muodossa",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "%0:n n\xe4kym\xe4",
     "Graphing": "Kuvaajan piirt\xe4minen",
     "Graphing3D": "GeoGebra 3D",

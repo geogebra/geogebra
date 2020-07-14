@@ -1956,6 +1956,7 @@ __GGB__keysVar["eo"].menu = {
     "Graph": "Grafika\u0135o",
     "GraphicsView3D": "3D Graphics",
     "GraphicsViewAsAsymptote": "Graphics View as Asymptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Vido de %0",
     "Graphing": "Graphing",
     "Graphing3D": "3D Calculator",

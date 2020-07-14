@@ -1956,6 +1956,7 @@ __GGB__keysVar["is"].menu = {
     "Graph": "Graf",
     "GraphicsView3D": "Myndagluggi 3-v\xed\xf0ur",
     "GraphicsViewAsAsymptote": "Myndagluggi sem vigurmynd",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "S\xfdn \xe1 %0",
     "Graphing": "Teikning",
     "Graphing3D": "3D Calculator",

@@ -1956,6 +1956,7 @@ __GGB__keysVar["sq"].menu = {
     "Graph": "Graf",
     "GraphicsView3D": "Pamja Grafikore 3D",
     "GraphicsViewAsAsymptote": "Pamja Grafikore si Asimptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Pamja e %0",
     "Graphing": "Graphing",
     "Graphing3D": "3D Calculator",

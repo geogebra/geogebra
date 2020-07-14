@@ -1956,6 +1956,7 @@ __GGB__keysVar["ar-MA"].menu = {
     "Graph": "\u0645\u064f\u062e\u0637\u0651\u0637",
     "GraphicsView3D": "\u0647\u0646\u062f\u0633\u0629 \u0641\u0636\u0627\u0626\u064a\u0629",
     "GraphicsViewAsAsymptote": "\u0627\u0644\u0631\u0633\u0645 \u0628\u062e\u0637 \u0645\u062a\u0642\u0627\u0631\u0628",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "\u0645\u0646\u0638\u0648\u0631 \u0644\u0640 %0",
     "Graphing": "Graphing",
     "Graphing3D": "3D Calculator",

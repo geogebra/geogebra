@@ -1956,6 +1956,7 @@ __GGB__keysVar["fil"].menu = {
     "Graph": "Graph",
     "GraphicsView3D": "Graphics View 3D",
     "GraphicsViewAsAsymptote": "Graphics View bilang Asimtota",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Tanaw ng %0",
     "Graphing": "Graphing",
     "Graphing3D": "3D Calculator",

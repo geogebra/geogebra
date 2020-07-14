@@ -1956,6 +1956,7 @@ __GGB__keysVar["pl"].menu = {
     "Graph": "Grafika",
     "GraphicsView3D": "Widok Grafiki 3D",
     "GraphicsViewAsAsymptote": "Widok Grafiki jako plik Asymptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Rzut na p\u0142aszczyzn\u0119 %0",
     "Graphing": "Wykresy",
     "Graphing3D": "Grafika 3D",

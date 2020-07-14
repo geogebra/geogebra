@@ -1956,6 +1956,7 @@ __GGB__keysVar["xh"].menu = {
     "Graph": "Igrafu",
     "GraphicsView3D": "uMbonoWegrafu we3D",
     "GraphicsViewAsAsymptote": "Umbono weGrafu njengo MgcaOsondelaKwiGophe",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "uMbono ka %0",
     "Graphing": "umZobo",
     "Graphing3D": "I 3D Calculator",

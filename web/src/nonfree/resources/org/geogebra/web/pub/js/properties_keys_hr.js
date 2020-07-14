@@ -1956,6 +1956,7 @@ __GGB__keysVar["hr"].menu = {
     "Graph": "Graf",
     "GraphicsView3D": "3D grafi\u010dki prikaz",
     "GraphicsViewAsAsymptote": "Grafi\u010dki prikaz kao Asymptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Prikaz: %0",
     "Graphing": "Grafovi",
     "Graphing3D": "3D kalkulator",

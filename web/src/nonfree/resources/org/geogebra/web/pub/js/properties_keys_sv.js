@@ -1956,6 +1956,7 @@ __GGB__keysVar["sv"].menu = {
     "Graph": "Rita",
     "GraphicsView3D": "Ritomr\xe5de 3D",
     "GraphicsViewAsAsymptote": "Ritomr\xe5de som Asymptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Vy av %0",
     "Graphing": "Grafanalys",
     "Graphing3D": "3D-grafritare",

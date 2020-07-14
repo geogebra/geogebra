@@ -1956,6 +1956,7 @@ __GGB__keysVar["vi"].menu = {
     "Graph": "\u0110\u1ed3 th\u1ecb",
     "GraphicsView3D": "Hi\u1ec3n th\u1ecb d\u1ea1ng 3D",
     "GraphicsViewAsAsymptote": "Hi\u1ec3n th\u1ecb ti\u1ec7m c\u1eadn",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Hi\u1ec3n th\u1ecb c\u1ee7a %0",
     "Graphing": "Graphing",
     "Graphing3D": "3D Calculator",

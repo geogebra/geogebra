@@ -1956,6 +1956,7 @@ __GGB__keysVar["hu"].menu = {
     "Graph": "Grafikon",
     "GraphicsView3D": "3D-s n\xe9zet",
     "GraphicsViewAsAsymptote": "Rajzlap Asymptote k\xf3dk\xe9nt",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "%0 s\xedkbeli n\xe9zet",
     "Graphing": "F\xfcggv\xe9ny\xe1br\xe1zol\xe1s",
     "Graphing3D": "3D rajzol\xf3",

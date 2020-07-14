@@ -1956,6 +1956,7 @@ __GGB__keysVar["ml"].menu = {
     "Graph": "Graph",
     "GraphicsView3D": "3D \u0d17\u0d4d\u0d30\u0d3e\u0d2b\u0d3f\u0d15\u0d4d\u0d38\u0d4d",
     "GraphicsViewAsAsymptote": "Graphics View as Asymptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "View of %0",
     "Graphing": "Graphing",
     "Graphing3D": "3D Calculator",

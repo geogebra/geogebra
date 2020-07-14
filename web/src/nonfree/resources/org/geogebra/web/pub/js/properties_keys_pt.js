@@ -1956,6 +1956,7 @@ __GGB__keysVar["pt"].menu = {
     "Graph": "Visualiza\xe7\xe3o",
     "GraphicsView3D": "Janela de Visualiza\xe7\xe3o 3D",
     "GraphicsViewAsAsymptote": "Janela de Visualiza\xe7\xe3o como Asymptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Vista de %0",
     "Graphing": "Gr\xe1fico",
     "Graphing3D": "Calculadora 3D",

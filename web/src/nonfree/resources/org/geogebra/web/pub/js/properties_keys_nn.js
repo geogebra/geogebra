@@ -1956,6 +1956,7 @@ __GGB__keysVar["nn"].menu = {
     "Graph": "Graf",
     "GraphicsView3D": "Grafikkfelt 3D",
     "GraphicsViewAsAsymptote": "Grafikkfelt som Asymptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Grafikkfelt for %0",
     "Graphing": "Graf",
     "Graphing3D": "3D-grafteiknar",

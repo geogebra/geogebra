@@ -1956,6 +1956,7 @@ __GGB__keysVar["cs"].menu = {
     "Graph": "Graf",
     "GraphicsView3D": "Grafick\xfd n\xe1hled 3D",
     "GraphicsViewAsAsymptote": "Grafick\xfd n\xe1hled jako Asymptote",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Pohled na %0",
     "Graphing": "Grafy",
     "Graphing3D": "3D Grafy",

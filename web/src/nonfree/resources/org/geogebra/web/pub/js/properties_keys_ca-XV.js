@@ -1956,6 +1956,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "Graph": "Gr\xe0fic",
     "GraphicsView3D": "Finestra gr\xe0fica 3D",
     "GraphicsViewAsAsymptote": "Finestra gr\xe0fica com a as\xedmptota",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Finestra gr\xe0fica de %0",
     "Graphing": "Gr\xe0fics",
     "Graphing3D": "Calculadora 3D",

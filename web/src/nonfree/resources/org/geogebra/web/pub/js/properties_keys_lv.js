@@ -1956,6 +1956,7 @@ __GGB__keysVar["lv"].menu = {
     "Graph": "Grafiks",
     "GraphicsView3D": "Grafisks Skats 3D",
     "GraphicsViewAsAsymptote": "Grafisks Skats k\u0101 Asimptota",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "Skats %0",
     "Graphing": "Graphing",
     "Graphing3D": "3D Calculator",

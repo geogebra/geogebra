@@ -1956,6 +1956,7 @@ __GGB__keysVar["eu"].menu = {
     "Graph": "Grafikoa",
     "GraphicsView3D": "3D Grafikoak",
     "GraphicsViewAsAsymptote": "Ikuspegi Grafikoa Asintota gisa",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "%0-(r)en ikuspegia",
     "Graphing": "Grafikatzea",
     "Graphing3D": "3D Kalkulagailua",

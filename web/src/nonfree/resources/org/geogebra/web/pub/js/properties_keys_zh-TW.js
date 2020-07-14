@@ -1956,6 +1956,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Graph": "\u5716\u5f62",
     "GraphicsView3D": "3D \u7e6a\u5716\u5340",
     "GraphicsViewAsAsymptote": "\u532f\u51fa Asymptote \u6a94",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "%0 \u7684\u5e73\u9762\u5716",
     "Graphing": "\u7e6a\u5716\u8a08\u7b97",
     "Graphing3D": "3D \u8a08\u7b97\u6a5f",

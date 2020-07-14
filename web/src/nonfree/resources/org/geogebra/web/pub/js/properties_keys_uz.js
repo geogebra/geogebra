@@ -1956,6 +1956,7 @@ __GGB__keysVar["uz"].menu = {
     "Graph": "Grafik",
     "GraphicsView3D": "3D Grafiklar",
     "GraphicsViewAsAsymptote": "Grafik ko'rinishni Asymptote kabi",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "%0 ning ko'rinishi",
     "Graphing": "Grafik",
     "Graphing3D": "3D Graflovchi",

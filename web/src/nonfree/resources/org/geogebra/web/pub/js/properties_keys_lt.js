@@ -1956,6 +1956,7 @@ __GGB__keysVar["lt"].menu = {
     "Graph": "Grafikas",
     "GraphicsView3D": "3D grafinis vaizdas",
     "GraphicsViewAsAsymptote": "Grafinis vaizdas kaip asimptot\u0117",
+    "GraphicsViewCopiedToClipboard": "Graphics view copied to clipboard",
     "GraphicsViewForPlaneA": "%0 vaizdas",
     "Graphing": "Graphing",
     "Graphing3D": "3D Calculator",
