@@ -31,6 +31,7 @@ public class PolyFunction
 
 	private PolyFunction derivative;
 	private PolyFunction integral;
+	private static final int POLY_MAX_DEGREE = 25;
 
 	// private double [] // for value and derivative's value
 	/**
@@ -123,6 +124,13 @@ public class PolyFunction
 	 */
 	public int getDegree() {
 		return degree;
+	}
+
+	/**
+	 * @return if max degree was reached
+	 */
+	public boolean isMaxDegreeReached() {
+		return degree > POLY_MAX_DEGREE;
 	}
 
 	/**
