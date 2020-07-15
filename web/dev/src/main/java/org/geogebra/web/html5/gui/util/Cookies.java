@@ -64,7 +64,7 @@ public class Cookies {
 				+ "=;path="
 				+ path
 				+ ";expires=Fri, 02-Jan-1970 00:00:00 GMT";
-    }
+	}
 
 	/**
 	 * Sets a cookie. The cookie will expire when the current browser session is
@@ -116,29 +116,29 @@ public class Cookies {
 
 	private static HashMap<String, String> loadCookies() {
 		HashMap<String, String> cookieMap = new HashMap<>();
-        String docCookie = DomGlobal.document.cookie;
-        if (docCookie != null && !docCookie.isEmpty()) {
-            String[] crumbs = docCookie.split("; ");
-            for (int i = crumbs.length - 1; i >= 0; --i) {
-                String name, value;
-                int eqIdx = crumbs[i].indexOf('=');
-                if (eqIdx == -1) {
-                    name = crumbs[i];
-                    value = "";
-                } else {
-                    name = crumbs[i].substring(0, eqIdx);
-                    value = crumbs[i].substring(eqIdx + 1);
-                }
+		String docCookie = DomGlobal.document.cookie;
+		if (docCookie != null && !docCookie.isEmpty()) {
+			String[] crumbs = docCookie.split("; ");
+			for (int i = crumbs.length - 1; i >= 0; --i) {
+				String name, value;
+				int eqIdx = crumbs[i].indexOf('=');
+				if (eqIdx == -1) {
+					name = crumbs[i];
+					value = "";
+				} else {
+					name = crumbs[i].substring(0, eqIdx);
+					value = crumbs[i].substring(eqIdx + 1);
+				}
 
 				name = Global.decodeURIComponent(name);
 				value = Global.decodeURIComponent(value);
 
-                cookieMap.put(name, value);
-            }
-        }
+				cookieMap.put(name, value);
+			}
+		}
 
-        return cookieMap;
-    }
+		return cookieMap;
+	}
 
 	private static HashMap<String, String> ensureCookies() {
 		if (cachedCookies == null || needsRefresh()) {
@@ -148,14 +148,14 @@ public class Cookies {
 	}
 
 	private static boolean needsRefresh() {
-        String docCookie = DomGlobal.document.cookie;
+		String docCookie = DomGlobal.document.cookie;
 
-        // Check to see if cached cookies need to be invalidated.
-        if (!Objects.equals(docCookie, rawCookies)) {
-            rawCookies = docCookie;
-            return true;
-        } else {
-            return false;
-        }
-    }
+		// Check to see if cached cookies need to be invalidated.
+		if (!Objects.equals(docCookie, rawCookies)) {
+			rawCookies = docCookie;
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
