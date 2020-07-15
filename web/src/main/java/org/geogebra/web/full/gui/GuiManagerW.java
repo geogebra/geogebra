@@ -181,6 +181,8 @@ public class GuiManagerW extends GuiManager
 	private AnimatingPanel sciSettingsView;
 	private TemplateChooserController templateController;
 
+	private Runnable runAfterLogin;
+
 	/**
 	 *
 	 * @param app
@@ -2029,11 +2031,25 @@ public class GuiManagerW extends GuiManager
 		if (this.uploadWaiting && event instanceof LoginEvent
 				&& ((LoginEvent) event).isSuccessful()) {
 			this.uploadWaiting = false;
-			save();
+			runAfterSuccessfulLogin();
 		} else if (this.uploadWaiting && event instanceof StayLoggedOutEvent) {
 			this.uploadWaiting = false;
 			getApp().getFileManager().saveLoggedOut(getApp());
 		}
+	}
+
+	private void runAfterSuccessfulLogin() {
+		if (app.isMebis() && runAfterLogin != null) {
+			runAfterLogin.run();
+			setRunAfterLogin(null);
+		} else {
+			save();
+		}
+	}
+
+	@Override
+	public void setRunAfterLogin(Runnable runAfterLogin) {
+		this.runAfterLogin = runAfterLogin;
 	}
 
 	@Override
