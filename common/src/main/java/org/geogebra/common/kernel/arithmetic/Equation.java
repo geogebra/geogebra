@@ -627,7 +627,7 @@ public class Equation extends ValidExpression implements EquationValue {
 
 	}
 
-	private static final boolean containsVar(ExpressionValue v, char var) {
+	private static boolean containsVar(ExpressionValue v, char var) {
 		if (v == null) {
 			return false;
 		}
