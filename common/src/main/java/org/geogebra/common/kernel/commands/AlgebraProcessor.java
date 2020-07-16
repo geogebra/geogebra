@@ -2194,8 +2194,7 @@ public class AlgebraProcessor {
 		if (type.equals(GeoClass.INTERVAL) && type2.equals(GeoClass.FUNCTION)) {
 			return true;
 		}
-
-
+		
         return false;
 	}
 
