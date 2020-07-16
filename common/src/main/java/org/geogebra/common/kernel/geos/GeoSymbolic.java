@@ -290,9 +290,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	 * @return geo for drawing
 	 */
 	public GeoElementND getTwinGeo() {
-		if (!isEuclidianShowable) {
-			return null;
-		}
 		if (isTwinUpToDate) {
 			return twinGeo;
 		}
