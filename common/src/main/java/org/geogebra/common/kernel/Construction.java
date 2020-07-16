@@ -2744,31 +2744,21 @@ public class Construction {
 			pref = "a";
 		}
 
-		StringBuilder sbIndexLabel = new StringBuilder();
-		StringBuilder sbLongIndexLabel = new StringBuilder();
-
-		int n = startIndex;
+		String indexLabel;
+		String longIndexLabel;
+		boolean freeLabelFound;
+		int n = startIndex - 1;
 
 		do {
-			sbIndexLabel.setLength(0);
-			sbLongIndexLabel.setLength(0);
-			sbLongIndexLabel.append(pref);
-			sbLongIndexLabel.append("_{");
-			sbLongIndexLabel.append(n);
-			sbLongIndexLabel.append('}');
-			// n as index
-
-			if (n < 10) {
-				sbIndexLabel.append(pref);
-				sbIndexLabel.append('_');
-				sbIndexLabel.append(n);
-			} else {
-				sbIndexLabel.append(sbLongIndexLabel);
-			}
 			n++;
-		} while (!isFreeLabel(sbIndexLabel.toString(), true, includeDummies)
-				|| !isFreeLabel(sbLongIndexLabel.toString(), true, includeDummies));
-		return sbIndexLabel.toString();
+
+			longIndexLabel = pref + "_{" + n + '}';
+			indexLabel = pref + '_' + n;
+			freeLabelFound = isFreeLabel(longIndexLabel, true, includeDummies)
+					&& ((n >= 10) || isFreeLabel(indexLabel, true, includeDummies));
+		} while (!freeLabelFound);
+
+		return longIndexLabel;
 	}
 
 	/**
