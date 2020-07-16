@@ -336,6 +336,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		frac("Simplify(a!)", "gamma(1 / 3) / 3");
 	}
 
+	@Test
+	public void cmdIntegralSymbolic() {
+		// Tested in __giac.js
+	}
+
 	private void frac(String def, String expect) {
 		EvalInfo evalInfo = new EvalInfo(true, true).withFractions(true);
 		checkWithEvalInfo(def, expect, evalInfo);
