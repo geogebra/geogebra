@@ -2491,6 +2491,8 @@ var __giac = [ {},
 { cat:"IsInteger.1", cmd:"IsInteger(44/3)", result:"false" },
 { cat:"IsInteger.1", cmd:"IsInteger(44/2)", result:"true" },
 { cat:"IsInteger.1", cmd:"IsInteger(pi)", result:"false" },
+{ cat:"IsInteger.1", cmd:"IsInteger(?)", result:"false" },
+{ cat:"IsInteger.1", cmd:"IsInteger(a)", result:"false" },
 { cat:"IsInteger.1", cmd:"IsInteger(123456789123456789.1)", result:"false" },
 
 //JSONEND
