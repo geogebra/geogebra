@@ -441,6 +441,8 @@ __GGB__keysVar["eu"].command = {
     "IntegralBetween": "IntegralaArtean",
     "IntegralBetween.Syntax": "[ <Funtzioa>, <Funtzioa>, <x-ren Hasierako Balioa>, <x-ren Amaierako Balioa> ]\n[ <Funtzioa>, <Funtzioa>, <x-ren Hasierako Balioa>, <x-ren Amaierako Balioa>, <Ebaluatu Boolearra> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funtzioa>, <Funtzioa>, <x-ren Hasierako Balioa>, <x-ren Amaierako Balioa> ]\n[ <Funtzioa>, <Funtzioa>, <Aldagaia>, <Hasierako Balioa>, <Amaierako Balioa> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "BarneAngeluak",
     "InteriorAngles.Syntax": "[ <Poligonoa> ]",
     "Intersect": "Ebaki",

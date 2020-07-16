@@ -441,6 +441,8 @@ __GGB__keysVar["sq"].command = {
     "IntegralBetween": "IntegraliMidis",
     "IntegralBetween.Syntax": "[ <Funksion>, <Funksion>, <Fillo x-Vlere>, <Mbaro x-Vlere> ]\n[ <Funksion>, <Funksion>, <Fillo x-Vlere>, <Mbaro x-Vlere>, <Zhvillo Bulean> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funksion>, <Funksion>, <Fillo x-Vlere>, <Mbaro x-Vlere> ]\n[ <Funksion>, <Funksion>, <Variabel>, <Fillo x-Vlere>, <Mbaro x-Vlere> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Nderpres",

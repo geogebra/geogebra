@@ -441,6 +441,8 @@ __GGB__keysVar["cs"].command = {
     "IntegralBetween": "IntegralMezi",
     "IntegralBetween.Syntax": "[ <Funkce>, <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x> ]\n[ <Funkce>, <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x>, <Vyhodnotit (logick\xe1 hodnota)> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funkce>, <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x> ]\n[ <Funkce>, <Funkce>, <Prom\u011bnn\xe1>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "VnitrniUhly",
     "InteriorAngles.Syntax": "[ <Mnoho\xfaheln\xedk> ]",
     "Intersect": "Prusecik",

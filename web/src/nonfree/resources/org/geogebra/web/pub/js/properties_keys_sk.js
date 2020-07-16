@@ -441,6 +441,8 @@ __GGB__keysVar["sk"].command = {
     "IntegralBetween": "Integr\xe1lMedzi",
     "IntegralBetween.Syntax": "[ <Funkcia>, <Funkcia>, <x od>, <x do> ]\n[ <Funkcia>, <Funkcia>, <x od>, <x do>, <Logick\xe1 hodnota> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funkcia>, <Funkcia>, <x od>, <x do> ]\n[ <Funkcia>, <Funkcia>, <Premenn\xe1>, <Doln\xe1 hranica>, <Horn\xe1 hranica> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Priese\u010dn\xedk",

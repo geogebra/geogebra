@@ -441,6 +441,8 @@ __GGB__keysVar["tr"].command = {
     "IntegralBetween": "\u0130ntegralAras\u0131nda",
     "IntegralBetween.Syntax": "[ <Fonksiyon>, <Fonksiyon>, <Ba\u015flang\u0131\xe7 x-De\u011feri>, <Biti\u015f x-De\u011feri> ]\n[ <Fonksiyon>, <Fonksiyon>, <Ba\u015flang\u0131\xe7 x-De\u011feri>, <Biti\u015f x-De\u011feri>, <Mant\u0131ksal De\u011fer bulma> ]",
     "IntegralBetween.SyntaxCAS": "[ <Fonksiyon>, <Fonksiyon>, <Ba\u015flang\u0131\xe7 x-De\u011feri>, <Biti\u015f x-De\u011feri> ]\n[ <Fonksiyon>, <Fonksiyon>, <De\u011fi\u015fken<, <Ba\u015flang\u0131\xe7 De\u011feri>, <Biti\u015f De\u011feri> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "\u0130\xe7A\xe7\u0131lar",
     "InteriorAngles.Syntax": "[ <\xc7okgen> ]",
     "Intersect": "Kesi\u015ftir",

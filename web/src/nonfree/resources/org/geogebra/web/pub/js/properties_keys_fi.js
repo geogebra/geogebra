@@ -441,6 +441,8 @@ __GGB__keysVar["fi"].command = {
     "IntegralBetween": "IntegraaliV\xe4li",
     "IntegralBetween.Syntax": "[ <Funktio>, <Funktio>, <x:n alkuarvo>, <x:n loppuarvo> ]\n[ <Funktio>, <Funktio>, <x:n alkuarvo>, <x:n loppuarvo>, <Totuusarvo: Laske arvo> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funktio>, <Funktio>, <x:n alkuarvo>, <x:n loppuarvo> ]\n[ <Funktio>, <Funktio>, <muuttuja>, <alkuarvo>, <loppuarvo> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "Sis\xe4kulmat",
     "InteriorAngles.Syntax": "[ <Monikulmio> ]",
     "Intersect": "Leikkauspiste",

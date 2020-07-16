@@ -441,6 +441,8 @@ __GGB__keysVar["id"].command = {
     "IntegralBetween": "IntegralDiantata",
     "IntegralBetween.Syntax": "[ <Fungsi>, <Fungsi>, <Nilai x Awal>, <Nilai x Akhir> ]\n[ <Fungsi>, <Fungsi>, <Nilai x Awal>, <Nilai x Akhir>, <Boolean Evaluasi> ]",
     "IntegralBetween.SyntaxCAS": "[ <Fungsi>, <Fungsi>, <Nilai x Awal>, <Nilai x Akhir> ]\n[ <Fungsi>, <Fungsi>, <Variabel>, <Nilai Awal>, <Nilai Akhir> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Poligon> ]",
     "Intersect": "Perpotongan",

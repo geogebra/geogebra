@@ -441,6 +441,8 @@ __GGB__keysVar["lt"].command = {
     "IntegralBetween": "IntegralasTarp",
     "IntegralBetween.Syntax": "[ <Funkcija>, <Funkcija>, <Prad\u017eios x reik\u0161m\u0117>, <Galo x reik\u0161m\u0117> ]\n[ <Funkcija>, <Funkcija>, <Prad\u017eios x reik\u0161m\u0117>, <Galo x reik\u0161m\u0117>, <Login\u0117 vert\u0117> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funkcija>, <Funkcija>, <Prad\u017eios x reik\u0161m\u0117>, <Galo x reik\u0161m\u0117> ]\n[ <Funkcija>, <Funkcija>, <Kintamasis>, <Prad\u017eios vert\u0117>, <Galo vert\u0117> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Sukirsti",

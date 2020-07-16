@@ -441,6 +441,8 @@ __GGB__keysVar["nl"].command = {
     "IntegralBetween": "IntegraalTussen",
     "IntegralBetween.Syntax": "[ <Functie>, <Functie>, <Start x-Waarde>, <Eind x-Waarde> ]\n[ <Functie>, <Functie>, <Start x-Waarde>, <Eind x-Waarde>, <Boolean Evaluate> ]",
     "IntegralBetween.SyntaxCAS": "[ <Functie>, <Functie>, <Beginwaarde x>, <Eindwaarde x> ]\n[ <Functie>, <Functie>, <Variabele>, <Beginwaarde>, <Eindwaarde> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InwendigeHoeken",
     "InteriorAngles.Syntax": "[ <Veelhoek> ]",
     "Intersect": "Snijpunten",

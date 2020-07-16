@@ -441,6 +441,8 @@ __GGB__keysVar["de-AT"].command = {
     "IntegralBetween": "IntegralZwischen",
     "IntegralBetween.Syntax": "[ <Funktion>, <Funktion>, <Startwert>, <Endwert> ]\n[ <Funktion>, <Funktion>, <Startwert>, <Endwert>, <Wahrheitswert Berechne> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funktion>, <Funktion>, <Startwert>, <Endwert> ]\n[ <Funktion>, <Funktion>, <Variable>, <Startwert>, <Endwert> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "Innenwinkel",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Schneide",

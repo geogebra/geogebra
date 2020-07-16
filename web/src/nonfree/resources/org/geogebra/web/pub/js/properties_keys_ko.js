@@ -441,6 +441,8 @@ __GGB__keysVar["ko"].command = {
     "IntegralBetween": "\uc801\ubd84\ucc28",
     "IntegralBetween.Syntax": "[ <\ud568\uc218>, <\ud568\uc218>, <\ucc98\uc74c x-\uac12>, <\ub9c8\uc9c0\ub9c9 x-\uac12> ]\n[ <\ud568\uc218>, <\ud568\uc218>, <\ucc98\uc74c x-\uac12>, <\ub9c8\uc9c0\ub9c9 x-\uac12>, <\uacc4\uc0b0\uc2e4\ud589 true|false> ]",
     "IntegralBetween.SyntaxCAS": "[ <\ud568\uc218>, <\ud568\uc218>, <\ucc98\uc74c x-\uac12>, <\ub9c8\uc9c0\ub9c9 x-\uac12> ]\n[ <\ud568\uc218>, <\ud568\uc218>, <\ubcc0\uc218>, <\ucc98\uc74c x-\uac12>, <\ub9c8\uc9c0\ub9c9 x-\uac12> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "\ub0b4\uac01",
     "InteriorAngles.Syntax": "[ <\ub2e4\uac01\ud615> ]",
     "Intersect": "\uad50\uc810",

@@ -441,6 +441,8 @@ __GGB__keysVar["hu"].command = {
     "IntegralBetween": "K\xf6zrez\xe1rtTer\xfclet",
     "IntegralBetween.Syntax": "[ <F\xfcggv\xe9ny>, <F\xfcggv\xe9ny>, <Kezd\u0151 x-\xe9rt\xe9k>, <Lez\xe1r\xf3 x-\xe9rt\xe9k> ]\n[ <F\xfcggv\xe9ny>, <F\xfcggv\xe9ny>, <Kezd\u0151 x-\xe9rt\xe9k>, <Lez\xe1r\xf3 x-\xe9rt\xe9k>, <Logikai \xe9rt\xe9k> ]",
     "IntegralBetween.SyntaxCAS": "[ <F\xfcggv\xe9ny>, <F\xfcggv\xe9ny>, <Kezd\u0151 x-\xe9rt\xe9k>, <Lez\xe1r\xf3 x-\xe9rt\xe9k> ]\n[ <F\xfcggv\xe9ny>, <F\xfcggv\xe9ny>, <V\xe1ltoz\xf3>, <Kezd\u0151\xe9rt\xe9k>, <V\xe9g\xe9rt\xe9k> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "Bels\u0151Sz\xf6gek",
     "InteriorAngles.Syntax": "[ <Soksz\xf6g> ]",
     "Intersect": "Metsz\xe9spont",

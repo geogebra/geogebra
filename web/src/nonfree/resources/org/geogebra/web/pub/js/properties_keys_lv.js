@@ -441,6 +441,8 @@ __GGB__keysVar["lv"].command = {
     "IntegralBetween": "Integr\u0101lisStarp",
     "IntegralBetween.Syntax": "[ <Funkcija>, <Funkcija>, <S\u0101kuma x-V\u0113rt\u012bba>, <Beigu x-V\u0113rt\u012bba> ]\n[ <Funkcija>, <Funkcija>, <S\u0101kuma x-Value>, <Beigu x-V\u0113rt\u012bba>, <Boolean Evaluate> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funkcija>, <Funkcija>, <S\u0101kuma x-V\u0113rt\u012bba>, <Beigu x-V\u0113rt\u012bba> ]\n[ <Funkcija>, <Funkcija>, <S\u0101kuma x-Value>, <Beigu x-V\u0113rt\u012bba> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Krustpunkts",

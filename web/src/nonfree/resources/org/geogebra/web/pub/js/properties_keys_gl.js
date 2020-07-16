@@ -441,6 +441,8 @@ __GGB__keysVar["gl"].command = {
     "IntegralBetween": "IntegralEntre",
     "IntegralBetween.Syntax": "[ <Funci\xf3n>, <Funci\xf3n>, <Valor inicial x>, <Valor final x> ]\n[ <Funci\xf3n>, <Funci\xf3n>, <Valor Inicial x>, <Valor final x>, <Aval\xeda (booleana)> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funci\xf3n>, <Funci\xf3n>, <Valor inicial x>, <Valor final x> ]\n[ <Funci\xf3n>, <Funci\xf3n>, <Valor Inicial x>, <Valor final x>, <Aval\xeda (booleana)> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "\xc1ngulosInteriores",
     "InteriorAngles.Syntax": "[ <Pol\xedgono> ]",
     "Intersect": "Interseca",

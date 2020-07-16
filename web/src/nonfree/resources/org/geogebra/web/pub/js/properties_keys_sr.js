@@ -441,6 +441,8 @@ __GGB__keysVar["sr"].command = {
     "IntegralBetween": "IntegralIzme\u0111u",
     "IntegralBetween.Syntax": "[ <funkcija>, <funkcija>, <po\u010detna x-vrednost>, <krajnja x-vrednost> ]\n[ <funkcija>, <funkcija>, <po\u010detna x-vrednost>, <krajnja x-vrednost>, <logi\u010dki izvr\u0161i> ]",
     "IntegralBetween.SyntaxCAS": "[ <funkcija>, <funkcija>, <po\u010detna x-vrednost>, <krajnja x-vrednost> ]\n[ <funkcija>, <funkcija>, <promenljiva>, <po\u010detna vrednost>, <krajnja vrednost> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Preseci",

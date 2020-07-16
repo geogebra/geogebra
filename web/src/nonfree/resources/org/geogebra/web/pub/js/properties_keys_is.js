@@ -441,6 +441,8 @@ __GGB__keysVar["is"].command = {
     "IntegralBetween": "HeildiMilli",
     "IntegralBetween.Syntax": "[ <Fall>, <Fall>, <Upphafs-x-gildi>, <Loka-x-gildi> ]\n[ <Fall>, <Fall>, <Upphafs-x-gildi>, <Loka-x-gildi>, <Boole gildi> ]",
     "IntegralBetween.SyntaxCAS": "[ <Fall>, <Fall>, <Upphafs-x-gildi>, <Loka-x-gildi> ]\n[ <Fall>, <Fall>, <Breyta>, <Upphafs-x-gildi>, <Loka-x-gildi> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InnriHorn",
     "InteriorAngles.Syntax": "[ <Marghyrningur> ]",
     "Intersect": "Skur\xf0punktar",

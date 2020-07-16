@@ -441,6 +441,8 @@ __GGB__keysVar["uz"].command = {
     "IntegralBetween": "IntegralBetween",
     "IntegralBetween.Syntax": "[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Function>, <Start x-Value>, <End x-Value>, <Boolean Evaluate> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funktsiya>, <Funktsiya>, <Boshl.qiymat>, <Oxirgi qiymat> ]\n[ <Funktsiya>, <Funktsiya>, <O'zgaruvchi>, <Boshl.o'zgaruvchi>, <Oxirgi o'zgaruvchi> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Intersect",

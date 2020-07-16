@@ -441,6 +441,8 @@ __GGB__keysVar["cy"].command = {
     "IntegralBetween": "IntegrynRhwng",
     "IntegralBetween.Syntax": "[ <Ffwythiant>, <Ffwythiant>, <Gwerth x cychwynnol>, <Gwerth x olaf> ]\n[ <Ffwythiant>, <Ffwythiant>, <Gwerth x cychwynnol>, <Gwerth x olaf>, <Cyfrifo Boolean> ]",
     "IntegralBetween.SyntaxCAS": "[ <Ffwythiant>, <Ffwythiant>, <Gwerth x cychwynnol>, <Gwerth x olaf> ]\n[ <Ffwythiant>, <Ffwythiant>, <Gwerth x cychwynnol>, <Gwerth x olaf>, < Cyfrifwch Boolean > ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Croestorri",

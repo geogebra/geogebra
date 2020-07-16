@@ -441,6 +441,8 @@ __GGB__keysVar["vi"].command = {
     "IntegralBetween": "T\xedchPh\xe2nGi\u1eefaHaiH\xe0mS\u1ed1",
     "IntegralBetween.Syntax": "[ <h\xe0m s\u1ed1>, <h\xe0m s\u1ed1>, <c\u1eadn d\u01b0\u1edbi-x>, <c\u1eadn tr\xean-x> ]\n[ <h\xe0m s\u1ed1>, <h\xe0m s\u1ed1>, <c\u1eadn d\u01b0\u1edbi-x>, <c\u1eadn tr\xean-x>, <gi\xe1 tr\u1ecb boolean> ]",
     "IntegralBetween.SyntaxCAS": "[ <H\xe0m s\u1ed1>, <H\xe0m s\u1ed1>, <C\u1eadn d\u01b0\u1edbi-x>, <C\u1eadn tr\xean-x> ]\n[ <H\xe0m s\u1ed1>, <H\xe0m s\u1ed1>, <Bi\u1ebfn s\u1ed1>, <C\u1eadn d\u01b0\u1edbi-x>, <C\u1eadn tr\xean-x> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Giao\u0110i\u1ec3m",

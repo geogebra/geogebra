@@ -441,6 +441,8 @@ __GGB__keysVar["ms"].command = {
     "IntegralBetween": "KamiranAntara",
     "IntegralBetween.Syntax": "[ <Fungsi>, <Fungsi>, <Mula Nilai-x>, <Tamat Nilai-x> ]\n[ <Fungsi>, <Fungsi>, <Mula Nilai-x>, <Tamat Nilai-x>, <Nilaikan Boolean> ]",
     "IntegralBetween.SyntaxCAS": "[ <Fungsi>, <Fungsi>, <Mula Nilai-x>, <Tamat Nilai-x> ]\n[ <Fungsi>, <Fungsi>, <Pembolehubah>, <Nilai Mula>, <Nilai Tamat> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Silang",

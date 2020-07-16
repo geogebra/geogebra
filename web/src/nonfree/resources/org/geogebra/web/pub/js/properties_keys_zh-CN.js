@@ -441,6 +441,8 @@ __GGB__keysVar["zh-CN"].command = {
     "IntegralBetween": "\u79ef\u5206\u4ecb\u4e8e",
     "IntegralBetween.Syntax": "[ <\u51fd\u65701>, <\u51fd\u65702>, <x-\u79ef\u5206\u4e0b\u9650>, <x-\u79ef\u5206\u4e0a\u9650> ]\n[ <\u51fd\u65701>, <\u51fd\u65702>, <x-\u79ef\u5206\u4e0b\u9650>, <x-\u79ef\u5206\u4e0a\u9650>, <\u662f\u5426\u7ed9\u51fa\u79ef\u5206\u503c? true|false> ]",
     "IntegralBetween.SyntaxCAS": "[ <\u51fd\u65701>, <\u51fd\u65702>, <x-\u79ef\u5206\u4e0b\u9650>, <x-\u79ef\u5206\u4e0a\u9650> ]\n[ <\u51fd\u65701>, <\u51fd\u65702>, <\u53d8\u91cf>, <\u79ef\u5206\u4e0b\u9650>, <\u79ef\u5206\u4e0a\u9650> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "\u5185\u89d2",
     "InteriorAngles.Syntax": "[ <\u591a\u8fb9\u5f62> ]",
     "Intersect": "\u4ea4\u70b9",

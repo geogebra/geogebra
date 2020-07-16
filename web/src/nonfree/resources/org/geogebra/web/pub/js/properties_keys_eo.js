@@ -441,6 +441,8 @@ __GGB__keysVar["eo"].command = {
     "IntegralBetween": "IntegraloInter",
     "IntegralBetween.Syntax": "[ <Funkcio>, <Funkcio>, <Komenca valoro>, <Fina valoro> ]\n[ <Funkcio>, <Funkcio>, <Komenca valoro>, <Fina valoro>, <Bulea Kalkuli> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funkcio>, <Funkcio>, <Komenca valoro>, <Fina valoro> ]\n[ <Funkcio>, <Funkcio>, <Variablo>, <Komenca valoro>, <Fina valoro> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "Komuna\u0135o",

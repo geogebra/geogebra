@@ -441,6 +441,8 @@ __GGB__keysVar["pt"].command = {
     "IntegralBetween": "IntegralEntre",
     "IntegralBetween.Syntax": "[ <Fun\xe7\xe3o>, <Fun\xe7\xe3o>, <Valor de x Inicial>, <Valor de x Final> ]\n[ <Fun\xe7\xe3o>, <Fun\xe7\xe3o>, <Valor de x Inicial>, <Valor de x Final>, <Calcular (true | false)> ]",
     "IntegralBetween.SyntaxCAS": "[ <Fun\xe7\xe3o>, <Fun\xe7\xe3o>, <Valor de x Inicial>, <Valor de x Final> ]\n[ <Fun\xe7\xe3o>, <Fun\xe7\xe3o>, <Vari\xe1vel>, <Valor de x Inicial>, <Valor de x Final> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "\xc2ngulosInternos",
     "InteriorAngles.Syntax": "[ <Pol\xedgono> ]",
     "Intersect": "Interse\xe7\xe3o",

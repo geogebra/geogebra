@@ -441,6 +441,8 @@ __GGB__keysVar["et"].command = {
     "IntegralBetween": "IntegraalVahemikus",
     "IntegralBetween.Syntax": "[ <Funktsioon>, <Funktsioon>, <x-algv\xe4\xe4rtus>, <x-l\xf5ppv\xe4\xe4rtus> ]\n[ <Funktsioon>, <Funktsioon>, <x-algv\xe4\xe4rtus>, <x-l\xf5ppv\xe4\xe4rtus>, <T\xf5ev\xe4\xe4rtus> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funktsioon>, <Funktsioon>, <x-algv\xe4\xe4rtus>, <x-l\xf5ppv\xe4\xe4rtus> ]\n[ <Funktsioon>, <Funktsioon>, <Muutuja>, <Algv\xe4\xe4rtus>, <L\xf5ppv\xe4\xe4rtus> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <Polygon> ]",
     "Intersect": "L\xf5ikepunkt",

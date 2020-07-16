@@ -441,6 +441,8 @@ __GGB__keysVar["ca-XV"].command = {
     "IntegralBetween": "IntegralEntre",
     "IntegralBetween.Syntax": "[ <Funci\xf3>, <Funci\xf3>, <Valor x inicial>, <Valor x final> ]\n[ <Funci\xf3>, <Funci\xf3>, <Valor x inicial>, <Valor x final>, <Avaluaci\xf3 true/false> ]",
     "IntegralBetween.SyntaxCAS": "[ <Funci\xf3>, <Funci\xf3>, <Valor x inicial>, <Valor x final> ]\n[ <Funci\xf3>, <Funci\xf3>, <Variable, <Valor inicial>, <Valor final> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "AnglesInteriors",
     "InteriorAngles.Syntax": "[ <Pol\xedgon> ]",
     "Intersect": "Intersecci\xf3",

@@ -441,6 +441,8 @@ __GGB__keysVar["zh-TW"].command = {
     "IntegralBetween": "IntegralBetween",
     "IntegralBetween.Syntax": "[ <\u51fd\u6578>, <\u51fd\u6578>, <x \u521d\u503c>, <x \u672b\u503c> ]\n[ <\u51fd\u6578>, <\u51fd\u6578>, <x \u521d\u503c>, <x \u672b\u503c>, <\u8a08\u7b97\u7a4d\u5206\u503c\uff1f> ]",
     "IntegralBetween.SyntaxCAS": "[ <Function>, <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Function>, <Variable>, <Start Value>, <End Value> ]",
+    "IntegralSymbolic": "IntegralSymbolic",
+    "IntegralSymbolic.Syntax": "[ <Function> ]\n[ <Function>, <Variable> ]",
     "InteriorAngles": "InteriorAngles",
     "InteriorAngles.Syntax": "[ <\u591a\u908a\u5f62> ]",
     "Intersect": "Intersect",
