@@ -400,6 +400,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					algoMacro.initFunction(this.fun);
 				}
 			}
+			setForceInequality(((GeoFunction) geo).forceInequality);
 			isInequality = null;
 		} else {
 			setUndefined();

@@ -625,7 +625,8 @@ public class AlgebraProcessor {
 			} else if (geo.isGeoInterval()) {
 				n.setForceInequality();
 			} else if (geo instanceof GeoFunction) {
-				if (((GeoFunction) geo).forceInequality()) {
+				if (((GeoFunction) geo).forceInequality()
+					&& n.toString(StringTemplate.noLocalDefault).contains("?")) {
 					n.setForceInequality();
 				} else {
 					n.setForceFunction();
@@ -2063,11 +2064,17 @@ public class AlgebraProcessor {
 					&& ret[0].isIndependent()
 					&& replaceable.isChangeable()
 					&& !(replaceable.isGeoText())
-					&& !(replaceable.isGeoInterval())) {
+					&& !intervalToFuncOrFuncToInterval(replaceable, ret[0])) {
 				try {
-					replaceable.set(ret[0]);
-					replaceable.updateRepaint();
-					ret[0] = replaceable;
+					if (compatibleFunctions(replaceable, ret[0])) {
+						replaceable.set(ret[0]);
+						replaceable.updateRepaint();
+						ret[0] = replaceable;
+					} else {
+						ret[0] = replaceable;
+						replaceable.setUndefined();
+						replaceable.updateRepaint();
+					}
 				} catch (Exception e) {
 					throw new MyError(loc, Errors.IllegalAssignment,
 							replaceable.getLongDescription(), "     =     ",
@@ -2142,6 +2149,27 @@ public class AlgebraProcessor {
 				}
 			}
 		}
+	}
+
+	private boolean intervalToFuncOrFuncToInterval(GeoElement replaceableGeo,
+			GeoElement returnGeo) {
+		return (replaceableGeo instanceof GeoInterval
+				&& returnGeo instanceof GeoFunction)
+				|| (replaceableGeo instanceof GeoFunction
+				&& returnGeo instanceof GeoInterval);
+	}
+
+	private boolean isFunctionIneq(GeoElement geo) {
+		return geo instanceof GeoFunction
+				&& (((GeoFunction) geo).isInequality()
+				|| ((GeoFunction) geo).forceInequality());
+	}
+
+	private boolean compatibleFunctions(GeoElement replaceableGeo, GeoElement returnGeo) {
+		return (isFunctionIneq(replaceableGeo)
+				&& isFunctionIneq(returnGeo)) // both ineq functions
+				|| (!isFunctionIneq(replaceableGeo)
+				&& !isFunctionIneq(returnGeo)); // none ineq functions
 	}
 
 	private static boolean compatibleTypes(GeoClass type, GeoClass type2) {
