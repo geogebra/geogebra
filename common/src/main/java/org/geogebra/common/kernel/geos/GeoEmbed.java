@@ -91,6 +91,10 @@ public class GeoEmbed extends GeoWidget {
 		startPoint.setLocation(x, y);
 	}
 
+	/**
+	 * Set the size to the default, and then center it in the view
+	 * @param view euclidian view
+	 */
 	public void initDefaultPosition(EuclidianView view) {
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		initPosition(view);

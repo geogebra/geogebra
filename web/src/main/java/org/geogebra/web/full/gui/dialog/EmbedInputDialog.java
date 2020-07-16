@@ -115,7 +115,7 @@ public class EmbedInputDialog extends MediaDialog
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
 		ge.setUrl(url);
 		ge.setAppName("extension");
-		ge.initPosition(app.getActiveEuclidianView());
+		ge.initDefaultPosition(app.getActiveEuclidianView());
 		EmbedManager embedManager = appW.getEmbedManager();
 		if (embedManager != null) {
 			ge.setEmbedId(embedManager.nextID());
