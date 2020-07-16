@@ -2758,6 +2758,9 @@ public class Construction {
 					&& ((n >= 10) || isFreeLabel(indexLabel, true, includeDummies));
 		} while (!freeLabelFound);
 
+		if (n < 10) {
+			return indexLabel;
+		}
 		return longIndexLabel;
 	}
 
