@@ -296,5 +296,4 @@ public interface ToolbarResources {
 	ResourcePrototype mode_equation();
 
 	ResourcePrototype mode_table();
-
 }

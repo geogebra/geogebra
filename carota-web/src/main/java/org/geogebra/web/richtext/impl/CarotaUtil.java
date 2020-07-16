@@ -12,7 +12,7 @@ public class CarotaUtil {
 	/**
 	 * Injects the javascript if necessary.
 	 */
-	static void ensureInitialized(double fontSize) {
+	public static void ensureInitialized(double fontSize) {
 		if (isScriptInjected) {
 			return;
 		}

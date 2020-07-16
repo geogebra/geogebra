@@ -146,7 +146,7 @@ public class Variable extends ValidExpression {
 		variableReplacerAlgorithm.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
 		GeoElement geo = resolve(false, mode);
 		if (geo == null) {
-			if (kernel.getConstruction().isRegistredFunctionVariable(name)) {
+			if (kernel.getConstruction().isRegisteredFunctionVariable(name)) {
 				return new FunctionVariable(kernel, name);
 			}
 			ExpressionValue replacement = replacement(name);

@@ -141,12 +141,10 @@ public class MoveGeos {
 					DrawableND drawable = view.getDrawableFor(geo);
 					// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.kernel.geos.GeoElement&tm=moveObject&nid&an&c&s=new_status_desc
 					if (drawable != null) {
-						drawable.move();
 						screenLoc.setAbsoluteScreenLoc(x, y);
 						movedGeo = true;
 					}
 				} else if (geo1.isGeoNumeric()) {
-					view.getDrawableFor(geo).move();
 					if (!((GeoNumeric) geo).isSliderFixed()) {
 						// real world screen position - GeoNumeric
 						((GeoNumeric) geo).setRealWorldLoc(

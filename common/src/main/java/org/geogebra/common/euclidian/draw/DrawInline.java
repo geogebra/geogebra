@@ -23,4 +23,12 @@ public interface DrawInline extends RemoveNeeded {
 	void toBackground();
 
 	BoundingBox<? extends GShape> getBoundingBox();
+
+	/**
+	 * @param x x mouse coordinate in pixels
+	 * @param y y mouse coordinate in pixels
+	 * @return the url of the current coordinate, or null, if there is
+	 * nothing at (x, y), or it has no url set
+	 */
+	String urlByCoordinate(int x, int y);
 }

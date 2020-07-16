@@ -98,9 +98,7 @@ public class EditorDemo {
 
 			@Override
 			public void onInsertString() {
-				mathField.setFormula(
-						GeoGebraSerializer.reparse(mathField.getFormula()));
-
+				// nothing to do
 			}
 
 			@Override

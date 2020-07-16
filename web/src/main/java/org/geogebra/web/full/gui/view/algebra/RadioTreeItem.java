@@ -514,6 +514,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected void buildItemWithSingleRow() {
+		if (outputPanel != null) {
+			outputPanel.reset();
+		}
 		// LaTeX
 		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
 				geo.getDescriptionMode() != DescriptionMode.DEFINITION);

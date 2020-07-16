@@ -455,7 +455,9 @@ public class AlgebraProcessor {
 			}
 
 			replaceDerivative(ve, geo);
-			ve = replaceSqrtMinusOne(ve);
+			if (GeoPoint.isComplexNumber(geo)) {
+				ve = replaceSqrtMinusOne(ve);
+			}
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {
@@ -557,19 +559,7 @@ public class AlgebraProcessor {
 		}
 
 		// make sure that points stay points and vectors stay vectors
-		if (newValue instanceof ExpressionNode) {
-			ExpressionNode n = (ExpressionNode) newValue;
-			if (geo.isGeoPoint()) {
-				n.setForcePoint();
-			} else if (geo.isGeoVector()) {
-				n.setForceVector();
-			} else if (geo.isGeoFunction()) {
-				n.setForceFunction();
-			}
-		}
-		if (geo instanceof GeoPlaneND && newValue.unwrap() instanceof Equation) {
-			((Equation) newValue.unwrap()).setForcePlane();
-		}
+		updateTypePreservingFlags(newValue, geo, info.isPreventingTypeChange());
 		if (sameLabel(newLabel, oldLabel)) {
 			// try to overwrite
 			final boolean listeners = app.getScriptManager().hasListeners();
@@ -622,6 +612,31 @@ public class AlgebraProcessor {
 
 		cons.registerFunctionVariable(null);
 
+	}
+
+	private void updateTypePreservingFlags(ValidExpression newValue, GeoElementND geo,
+			boolean preventTypeChange) {
+		if (newValue instanceof ExpressionNode) {
+			ExpressionNode n = (ExpressionNode) newValue;
+			if (geo.isGeoPoint()) {
+				n.setForcePoint();
+			} else if (geo.isGeoVector()) {
+				n.setForceVector();
+			} else if (geo.isGeoFunction()) {
+				n.setForceFunction();
+			}
+		}
+		if (newValue.unwrap() instanceof Equation) {
+			if (geo instanceof GeoPlaneND) {
+				((Equation) newValue.unwrap()).setForcePlane();
+			} else if (geo instanceof GeoImplicitCurve && preventTypeChange) {
+				((Equation) newValue.unwrap()).setForceImplicitPoly();
+			} else if (geo instanceof GeoConic && preventTypeChange) {
+				((Equation) newValue.unwrap()).setForceConic();
+			} else if (geo instanceof GeoLine && preventTypeChange) {
+				((Equation) newValue.unwrap()).setForceLine();
+			}
+		}
 	}
 
 	private void updateLabelIfSymbolic(ValidExpression expression, EvalInfo info) {
@@ -2241,7 +2256,7 @@ public class AlgebraProcessor {
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
 		if (varName.equals(Unicode.theta_STRING)
 				&& !kernel.getConstruction()
-						.isRegistredFunctionVariable(Unicode.theta_STRING)
+						.isRegisteredFunctionVariable(Unicode.theta_STRING)
 				&& fun.getExpression().evaluatesToNumber(true)) {
 			String label = fun.getLabel();
 			ValidExpression ve = new MyVecNode(kernel, fun.getExpression(),
@@ -2750,8 +2765,7 @@ public class AlgebraProcessor {
 			return functionOrImplicitPoly(equ, def, info);
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree()
-				&& !equ.isForcedImplicitPoly()
-				? equ.degree() : -1;
+				? Math.max(equ.preferredDegree(), equ.degree()) : -1;
 		// consider algebraic degree of equation
 		// check not equation of eg plane
 		switch (deg) {
@@ -2783,6 +2797,7 @@ public class AlgebraProcessor {
 				.trim();
 
 		if ("y".equals(lhsStr)
+				&& canEvaluateToFunction(equ, info)
 				&& !equ.getRHS().containsFreeFunctionVariable("y")
 				&& !equ.getRHS().containsFreeFunctionVariable("z")) {
 
@@ -2810,6 +2825,12 @@ public class AlgebraProcessor {
 		}
 
 		return processImplicitPoly(equ, def, info);
+	}
+
+	private boolean canEvaluateToFunction(Equation equ, EvalInfo info) {
+		return (!equ.isForcedImplicitPoly()
+				&& !equ.isForcedConic()
+				&& !equ.isForcedLine()) || !info.isPreventingTypeChange();
 	}
 
 	private void checkNoTheta(Equation equ) {

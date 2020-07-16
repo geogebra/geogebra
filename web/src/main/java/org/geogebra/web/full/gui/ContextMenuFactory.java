@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
@@ -58,7 +58,7 @@ public class ContextMenuFactory {
 	 * @param app the application.
 	 * @return toolbar for texts, sub/superscript, list styles.
 	 */
-	public InlineTextToolbar newInlineTextToolbar(List<DrawInlineText> inlines, App app) {
+	public InlineTextToolbar newInlineTextToolbar(List<HasTextFormat> inlines, App app) {
 		return new InlineTextToolbar(inlines, new AriaMenuItem(), app);
 	}
 

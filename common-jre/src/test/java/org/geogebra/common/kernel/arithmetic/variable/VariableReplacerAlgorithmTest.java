@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -50,12 +49,6 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		allowMultipleUnassigned();
 		shouldReplaceAs("E_{m}" + Unicode.omega + "C",
 				"E_{m} * " + Unicode.omega + " * C");
-	}
-
-	@Ignore
-	@Test
-	public void testFunctionProducts() {
-		shouldReplaceAs("sina", "sin(a)");
 	}
 
 	@Test

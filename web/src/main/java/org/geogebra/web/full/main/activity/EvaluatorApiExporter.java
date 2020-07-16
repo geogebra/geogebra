@@ -41,10 +41,28 @@ public class EvaluatorApiExporter extends ApiExporter {
 		evaluatorActivity.getEditorAPI().setEditorState(state);
 	}
 
+	@ExternalAccess
+	private void evalLaTeX(String formula) {
+		evaluatorActivity.getEditorAPI().evalLaTeX(formula);
+	}
+
+	@ExternalAccess
+	private Object exportImage(String type) {
+		return evaluatorActivity.exportImage(type);
+	}
+
 	private native void addEditorState(JavaScriptObject api) /*-{
 		var that = this;
 		api.getEditorState = function() {
 			return that.@org.geogebra.web.full.main.activity.EvaluatorApiExporter::getEditorState()();
+		};
+
+		api.evalLaTeX = function(formula) {
+			return that.@org.geogebra.web.full.main.activity.EvaluatorApiExporter::evalLaTeX(Ljava/lang/String;)(formula);
+		};
+
+		api.exportImage = function(settings) {
+			return that.@org.geogebra.web.full.main.activity.EvaluatorApiExporter::exportImage(Ljava/lang/String;)(settings && settings.type);
 		};
 
 		api.setEditorState = function(state, label) {

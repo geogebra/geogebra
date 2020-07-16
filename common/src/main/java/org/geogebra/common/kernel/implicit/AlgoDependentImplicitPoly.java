@@ -30,7 +30,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	private ExpressionValue[][] coeff; // input
 	private GeoElementND geoElement; // output (will be a implicitPoly, line or conic)
 
-	// private FunctionNVar[] dependentFromFunctions;
 	private Set<FunctionNVar> dependentFromFunctions;
 	private Equation equation;
 	private Equation equationExpanded;

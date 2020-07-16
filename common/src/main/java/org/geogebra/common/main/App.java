@@ -31,6 +31,7 @@ import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
@@ -79,6 +80,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -4055,7 +4057,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			} else if (geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
-				((DrawDropDownList) d).toggleOptions();
+				if (d != null) {
+					((DrawDropDownList) d).toggleOptions();
+				}
 
 			} else if (geo.isGeoNumeric()) {
 
@@ -5152,6 +5156,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public InlineFormulaController createInlineFormulaController(EuclidianView view,
 			GeoFormula geo) {
+		return null;
+	}
+
+	public InlineTableController createTableController(EuclidianView view, GeoInlineTable table) {
 		return null;
 	}
 

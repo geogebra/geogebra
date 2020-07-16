@@ -72,7 +72,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 	public TextOptionsPanelW(TextOptionsModel model, AppW app) {
 		createGUI(model, app);
-		inlineFormatter = new InlineTextFormatter(app);
+		inlineFormatter = new InlineTextFormatter();
 	}
 
 	public void createGUI(TextOptionsModel model0, final AppW appw) {

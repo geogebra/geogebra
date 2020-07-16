@@ -219,6 +219,7 @@ public class SerializeLaTeX {
 		checkLaTeX("7\\times 6", "7" + Unicode.MULTIPLY + "6");
 		checkLaTeX("\\left( \\alpha + \\beta \\right)",
 				"(" + Unicode.alpha + "+" + Unicode.beta + ")");
+		checkLaTeX("\\sqrt[3]{x}", "nroot(x,3)");
 	}
 
 	@Test
@@ -282,14 +283,13 @@ public class SerializeLaTeX {
 	private static void checkLaTeX(String string, String string2,
 			ListBracketsAdapter ad) {
 		TeXFormula tf = new TeXFormula(string);
-		// TeXParser tp = new TeXParser(string);
-		// tp.parse();
 		Assert.assertEquals(string2,
 				new TeXAtomSerializer(ad).serialize(tf.root));
 	}
 
 	private static void checkCannon(String input, String output) {
 		MathFormula mf = checkLaTeXRender(parser, input);
+		Assert.assertNotNull(mf);
 		Assert.assertEquals(mf.getRootComponent() + "", output,
 				GeoGebraSerializer.serialize(mf.getRootComponent()));
 		checkLaTeXRender(parser, input);

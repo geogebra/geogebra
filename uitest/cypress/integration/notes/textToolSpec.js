@@ -17,12 +17,12 @@ describe('Text tool test', () => {
             .mouseEvent('down', 100, 100)
             .mouseEvent('up', 100, 100);
         cy.window().then((win) => {
-            expect(win.document.activeElement.parentElement).to.have.class("carotaTextArea");
+            expect(win.document.activeElement.parentElement).to.have.class("murokTextArea");
         })
         cy.wait(500); // visible pause before resizing
         cy.viewport(800, 600);
         cy.window().then((win) => {
-            expect(win.document.activeElement.parentElement).to.have.class("carotaTextArea");
+            expect(win.document.activeElement.parentElement).to.have.class("murokTextArea");
         })
     });
 
@@ -33,7 +33,7 @@ describe('Text tool test', () => {
             selectors.euclidianView.get()
                 .mouseEvent('down', 100, 300)
                 .mouseEvent('up', 100, 300);
-            cy.get(".carotaTextArea textarea").type("GeoGebra Rocks");
+            cy.get(".murokTextArea textarea").type("GeoGebra Rocks");
             cy.wait(500);
             cy.get(".btnBold img").click();
 
@@ -51,7 +51,7 @@ describe('Text tool test', () => {
            selectors.euclidianView.get()
                 .mouseEvent('down', 100, 300)
                 .mouseEvent('up', 100, 300);
-           cy.get(".carotaTextArea textarea").type("Text element example");
+           cy.get(".murokTextArea textarea").type("Text element example");
            cy.wait(500);
            cy.get(".btnUnderline img").click();
 
