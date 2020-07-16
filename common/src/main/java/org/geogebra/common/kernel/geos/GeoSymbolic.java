@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -176,7 +177,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
-		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(), 
+		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
 				getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
@@ -322,22 +323,47 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			return null;
 		}
 		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
-		ExpressionNode node;
+		cons.setSuppressLabelCreation(true);
 		try {
-			cons.setSuppressLabelCreation(true);
-			node = getDefinition().deepCopy(kernel).traverse(createPrepareDefinition()).wrap();
-			node.setLabel(null);
-			return process(node);
-		} catch (Throwable exception) {
+			return process(getTwinInput());
+		} catch (Throwable throwable) {
 			try {
-				node = getKernel().getParser().parseGiac(casOutputString).wrap();
-				return process(node);
-			} catch (Throwable t) {
+				return process(getTwinFallbackInput());
+			} catch (Throwable throwable2) {
 				return null;
 			}
 		} finally {
 			cons.setSuppressLabelCreation(isSuppressLabelsActive);
 		}
+	}
+
+	private ExpressionNode getTwinInput() throws ParseException {
+		if (useOutputAsMainTwin()) {
+			return getNodeFromOutput();
+		}
+		return getNodeFromInput();
+	}
+
+	private ExpressionNode getTwinFallbackInput() throws ParseException {
+		if (useOutputAsMainTwin()) {
+			return getNodeFromInput();
+		}
+		return getNodeFromOutput();
+	}
+
+	private boolean useOutputAsMainTwin() {
+		return constant != null && constant.getTotalNumberOfConsts() > 0;
+	}
+
+	private ExpressionNode getNodeFromOutput() throws ParseException {
+		return kernel.getParser().parseGiac(casOutputString).wrap();
+	}
+
+	private ExpressionNode getNodeFromInput() {
+		ExpressionNode node = getDefinition().deepCopy(kernel)
+				.traverse(createPrepareDefinition()).wrap();
+		node.setLabel(null);
+		return node;
 	}
 
 	@Override
