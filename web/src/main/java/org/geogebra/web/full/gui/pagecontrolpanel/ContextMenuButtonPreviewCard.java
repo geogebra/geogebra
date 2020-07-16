@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.pagecontrolpanel;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
@@ -89,11 +88,10 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	@Override
 	protected void show() {
 		super.show();
-		wrappedPopup.show(
-				new GPoint(getAbsoluteLeft() - 122, getAbsoluteTop() + 36));
+		wrappedPopup.show(this, -122, 36);
 		String slideContent = BrowserStorage.LOCAL.getItem(BrowserStorage.COPY_SLIDE);
-		if (paste != null && StringUtil.empty(slideContent)) {
-			paste.setEnabled(false);
+		if (paste != null) {
+			paste.setEnabled(!StringUtil.empty(slideContent));
 		}
 	}
 }

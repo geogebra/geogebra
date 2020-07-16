@@ -1,6 +1,5 @@
 package org.geogebra.web.full.cas.view;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.view.spreadsheet.CopyPasteCutW;
@@ -233,12 +232,13 @@ public class RowHeaderPopupMenuW extends
 	/**
 	 * show the popup
 	 * 
-	 * @param gPoint
-	 *            point where the popup should appear
+	 * @param x
+	 *            x-coord of the point where the popup should appear
+	 *  @param y
+	 * 	          y-coord of the point where the popup should appear
 	 */
-	public void show(GPoint gPoint) {
-		rowHeaderPopupMenu.show(gPoint);
-
+	public void show(double x, double y) {
+		rowHeaderPopupMenu.show(x, y);
 	}
 
 }
