@@ -3116,6 +3116,7 @@ __GGB__keysVar["ko"].menu = {
     "UseLighting": "\uad11\uc6d0 \uc0ac\uc6a9",
     "UsePairNames": "\uc30d \uc774\ub984 \uc0ac\uc6a9",
     "UsePathAndRegionParameters": "\uacbd\ub85c\uc640 \uc601\uc5ed \ubcc0\uc218 \uc0ac\uc6a9",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "\uc0ac\uc6a9\uc790 \uc778\ud130\ud398\uc774\uc2a4",
     "Value": "\uac12",
     "ValueOfA": "%0 \uc758 \uac12",

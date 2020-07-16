@@ -3116,6 +3116,7 @@ __GGB__keysVar["sv"].menu = {
     "UseLighting": "Anv\xe4nd ljusk\xe4lla",
     "UsePairNames": "Anv\xe4nd namn p\xe5 par",
     "UsePathAndRegionParameters": "Anv\xe4nd s\xf6kv\xe4g- och regionsparametrar",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Anv\xe4ndargr\xe4nssnitt",
     "Value": "V\xe4rde",
     "ValueOfA": "V\xe4rdet av %0",

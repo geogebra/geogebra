@@ -3116,6 +3116,7 @@ __GGB__keysVar["az"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Use Path and Region Parameters",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "\u0130stifad\u0259\xe7i interfeysi",
     "Value": "Value",
     "ValueOfA": "Value of %0",

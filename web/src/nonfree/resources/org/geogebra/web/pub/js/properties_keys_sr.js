@@ -3116,6 +3116,7 @@ __GGB__keysVar["sr"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Koristi imena u parovima",
     "UsePathAndRegionParameters": "Koristi putanju i parametre regiona",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Korisni\u010dki interfejs",
     "Value": "Vrednost",
     "ValueOfA": "Vrednost %0",

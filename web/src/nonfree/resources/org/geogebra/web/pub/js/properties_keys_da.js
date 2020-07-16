@@ -3116,6 +3116,7 @@ __GGB__keysVar["da"].menu = {
     "UseLighting": "Brug lyskilde",
     "UsePairNames": "Brug Par Navne",
     "UsePathAndRegionParameters": "Brug sti og omr\xe5de parametre",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Brugerflade",
     "Value": "V\xe6rdi",
     "ValueOfA": "V\xe6rdi af %0",

@@ -3116,6 +3116,7 @@ __GGB__keysVar["lv"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Lietot P\u0101ra V\u0101rdus",
     "UsePathAndRegionParameters": "Lietot interv\u0101la un apgabala parametrus",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Lietot\u0101ja Interfeiss",
     "Value": "V\u0113rt\u012bba",
     "ValueOfA": "V\u0113rt\u012bba %0",

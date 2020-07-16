@@ -3116,6 +3116,7 @@ __GGB__keysVar["id"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Gunakan Parameter Jalur dan Kawasan",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Antarmuka Pengguna",
     "Value": "Nilai",
     "ValueOfA": "Nilai dari %0",

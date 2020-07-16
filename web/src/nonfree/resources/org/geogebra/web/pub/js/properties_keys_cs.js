@@ -3116,6 +3116,7 @@ __GGB__keysVar["cs"].menu = {
     "UseLighting": "Pou\u017e\xedt sv\u011btlo",
     "UsePairNames": "Pou\u017e\xedt n\xe1zvy bod\u016f (typ pair)",
     "UsePathAndRegionParameters": "Pou\u017e\xedt parametrizaci cest a oblast\xed",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "U\u017eivatelsk\xe9 rozhran\xed",
     "Value": "Hodnota",
     "ValueOfA": "Hodnota %0",

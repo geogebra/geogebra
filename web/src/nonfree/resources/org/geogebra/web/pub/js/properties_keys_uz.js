@@ -3116,6 +3116,7 @@ __GGB__keysVar["uz"].menu = {
     "UseLighting": "Yoritishni qo'llash",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Use Path and Region Parameters",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Foydalanuvchi interfeysi",
     "Value": "Qiymat",
     "ValueOfA": "%0 ning qiymati",

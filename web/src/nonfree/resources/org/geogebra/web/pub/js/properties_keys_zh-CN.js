@@ -3116,6 +3116,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "UseLighting": "\u4f7f\u7528\u5149\u7167",
     "UsePairNames": "\u4f7f\u7528\u6210\u5bf9\u540d\u79f0",
     "UsePathAndRegionParameters": "\u8def\u5f84\u4e0e\u533a\u57df\u53c2\u6570",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "\u7528\u6237\u754c\u9762",
     "Value": "\u6570\u503c",
     "ValueOfA": "%0 \u7684\u503c",

@@ -3116,6 +3116,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "UseLighting": "Fes servir il\xb7luminaci\xf3.",
     "UsePairNames": "Utilitza noms aparellats",
     "UsePathAndRegionParameters": "Utilitza els par\xe0metres de cam\xed i regi\xf3",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Interf\xedcie d'usuari",
     "Value": "Valor",
     "ValueOfA": "Valor de %0",

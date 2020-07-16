@@ -3116,6 +3116,7 @@ __GGB__keysVar["is"].menu = {
     "UseLighting": "Nota l\xfdsingu",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Nota stika fyrir vegi og sv\xe6\xf0i",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Notendavi\xf0m\xf3t",
     "Value": "Gildi",
     "ValueOfA": "Gildi %0",

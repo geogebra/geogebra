@@ -3116,6 +3116,7 @@ __GGB__keysVar["hu"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Pontok nev\xe9nek megtart\xe1sa",
     "UsePathAndRegionParameters": "\xdatvonalak \xe9s ter\xfcleti param\xe9terek haszn\xe1lata",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Felhaszn\xe1l\xf3i fel\xfclet",
     "Value": "\xc9rt\xe9k",
     "ValueOfA": "%0 \xe9rt\xe9ke",

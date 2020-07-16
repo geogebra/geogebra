@@ -3116,6 +3116,7 @@ __GGB__keysVar["vi"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "S\u1eed d\u1ee5ng \u0111\u01b0\u1eddng d\u1eabn v\xe0 mi\u1ec1n c\xe1c tham s\u1ed1",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Giao di\u1ec7n ng\u01b0\u1eddi s\u1eed d\u1ee5ng",
     "Value": "Gi\xe1 tr\u1ecb",
     "ValueOfA": "Gi\xe1 tr\u1ecb c\u1ee7a %0",
