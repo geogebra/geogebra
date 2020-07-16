@@ -3585,7 +3585,11 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 			Log.debug("window.copyGraphicsToClipboard() not available");
 			return;
 		}
-		Clipboard.copyGraphicsToClipboard(dataURI);
+		try {
+			Clipboard.copyGraphicsToClipboard(dataURI);
+		} catch (Exception e) {
+			Log.warn("Clipboard API is new and maybe half-implemented in your browser.");
+		}
 	}
 
 	/**
