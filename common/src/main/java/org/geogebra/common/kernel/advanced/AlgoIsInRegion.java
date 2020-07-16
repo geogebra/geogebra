@@ -57,7 +57,7 @@ public class AlgoIsInRegion extends AlgoElement {
 
 	@Override
 	public void compute() {
-		if(!pi.isDefined() | !region.isDefined()){
+		if (!pi.isDefined() || !region.isDefined()) {
 			result.setValue(false);
 			return;
 		}
