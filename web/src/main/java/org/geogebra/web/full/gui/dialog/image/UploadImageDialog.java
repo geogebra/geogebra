@@ -40,6 +40,7 @@ public class UploadImageDialog extends ComponentDialog {
 		addStyleName("image");
 		buildContent();
 		app.addInsertImageCallback(this::hide);
+		uploadClicked();
 	}
 
 	protected void buildContent() {
