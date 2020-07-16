@@ -201,13 +201,14 @@ public class GLookAndFeel implements GLookAndFeelI {
 
 	@Override
 	public void storeLanguage(String lang) {
-		if (Browser.runningLocal()) {
-			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);
-		} else {
+		if (Browser.isGeoGebraOrg()) {
 			Date exp = new Date(
 					System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
 			Cookies.setCookie("GeoGebraLangUI",
-					Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp);
+					Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp,
+					"geogebra.org", "/");
+		} else {
+			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);
 		}
 	}
 
