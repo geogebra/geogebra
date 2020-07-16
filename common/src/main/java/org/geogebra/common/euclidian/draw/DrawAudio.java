@@ -76,7 +76,7 @@ public class DrawAudio extends DrawWidget {
 	 *            The GeoElement that represents the audio content.
 	 */
 	public DrawAudio(EuclidianView view, GeoAudio geo) {
-		super(view, geo);
+		super(view, geo, false);
 		this.geoAudio = geo;
 		getColors();
 		update();
@@ -353,11 +353,6 @@ public class DrawAudio extends DrawWidget {
 	@Override
 	public GeoWidget getGeoElement() {
 		return geoAudio;
-	}
-
-	@Override
-	public boolean isFixedRatio() {
-		return false;
 	}
 
 	@Override

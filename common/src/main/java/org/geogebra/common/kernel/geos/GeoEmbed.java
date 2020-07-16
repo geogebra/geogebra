@@ -86,11 +86,14 @@ public class GeoEmbed extends GeoWidget {
 	 *            view
 	 */
 	public void initPosition(EuclidianViewInterfaceCommon ev) {
-		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
-		double x = ev.toRealWorldCoordX((ev.getViewWidth() - DEFAULT_WIDTH) / 2.0);
-		double y = ev.toRealWorldCoordY((ev.getViewHeight() - DEFAULT_HEIGHT) / 2.0);
+		double x = ev.toRealWorldCoordX((ev.getViewWidth() - getWidth()) / 2.0);
+		double y = ev.toRealWorldCoordY((ev.getViewHeight() - getHeight()) / 2.0);
 		startPoint.setLocation(x, y);
+	}
+
+	public void initDefaultPosition(EuclidianView view) {
+		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		initPosition(view);
 	}
 
 	public int getContentWidth() {

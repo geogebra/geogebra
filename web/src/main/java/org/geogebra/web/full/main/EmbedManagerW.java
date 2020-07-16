@@ -415,6 +415,7 @@ public class EmbedManagerW implements EmbedManager {
 		int id = nextID();
 		base64.put(id, material.getBase64());
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		ge.setSize(material.getWidth(), material.getHeight());
 		ge.setContentWidth(material.getWidth());
 		ge.setContentHeight(material.getHeight());
 		ge.attr("showToolBar", material.getShowToolbar() || material.getShowMenu());
@@ -422,11 +423,11 @@ public class EmbedManagerW implements EmbedManager {
 		ge.attr("allowStyleBar", material.getAllowStylebar());
 		ge.attr("showAlgebraInput", material.getShowInputbar());
 		ge.setEmbedId(id);
+		ge.initPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
 	}
 
 	private void showAndSelect(final GeoEmbed ge) {
-		ge.initPosition(app.getActiveEuclidianView());
 		ge.setLabel(null);
 		app.storeUndoInfo();
 		app.invokeLater(() -> app.getActiveEuclidianView().getEuclidianController()
@@ -488,6 +489,7 @@ public class EmbedManagerW implements EmbedManager {
 		ge.setUrl("https://graspablemath.com");
 		ge.setAppName("extension");
 		ge.setEmbedId(nextID());
+		ge.initDefaultPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
 	}
 
