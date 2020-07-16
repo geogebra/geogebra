@@ -12,12 +12,10 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 class InputBoxCallback implements AsyncOperation<GeoElementND> {
 
-	private InputBoxProcessor processor;
 	private GeoInputBox inputBox;
 	private int toStringMode;
 
-	InputBoxCallback(InputBoxProcessor processor, GeoInputBox inputBox) {
-		this.processor = processor;
+	InputBoxCallback(GeoInputBox inputBox) {
 		this.inputBox = inputBox;
 		saveToStringMode();
 	}
@@ -39,7 +37,7 @@ class InputBoxCallback implements AsyncOperation<GeoElementND> {
 	@Override
 	public void callback(GeoElementND obj) {
 		restoreToStringMode();
-		if (processor.isComplexNumber()) {
+		if (GeoPoint.isComplexNumber(inputBox.getLinkedGeo())) {
 			ExpressionNode def = obj.getDefinition();
 			if (def != null && def.getOperation() == Operation.PLUS && def.getRight()
 					.toString(StringTemplate.defaultTemplate).equals("0" + Unicode.IMAGINARY)) {

@@ -36,7 +36,7 @@ public class Character {
                 (c >= '\u00d8' && c <= '\u00f6') || // accentuated letters
                 (c >= '\u00f8' && c <= '\u01bf') || // accentuated letters
                 (c >= '\u01c4' && c <= '\u02a8') || // accentuated letters
-                (c >= '\u0391' && c <= '\u03f3') || // Greek
+                (c >= '\u038e' && c <= '\u03f5') || // Greek
                 (c >= '\u0401' && c <= '\u0481') || // Cyrillic
                 (c >= '\u0490' && c <= '\u04f9') || // Cyrillic
                 (c >= '\u0531' && c <= '\u1ffc') || // a lot of signs (Arabic,

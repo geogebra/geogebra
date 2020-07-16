@@ -999,7 +999,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private OptionsTab addAlgebraTab() {
 		OptionsTab tab;
 		tab = makeOptionsTab("Properties.Algebra");
-		tab.addModel(new CoordsModel(app));
+		if (app.getConfig().isCoordinatesObjectSettingEnabled()) {
+			tab.addModel(new CoordsModel(app));
+		}
 		tab.addModel(new LineEqnModel(app));
 		tab.addModel(new PlaneEqnModel(app));
 		tab.addModel(new SymbolicModel(app));

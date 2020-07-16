@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
 import org.geogebra.common.main.AppConfigDefault;
-import org.geogebra.common.main.AppKeyboardType;
 
 /**
  * Config for Evaluator
@@ -63,8 +62,4 @@ public class AppConfigEvaluator extends AppConfigDefault {
 		return false;
 	}
 
-	@Override
-	public AppKeyboardType getKeyboardType() {
-		return AppKeyboardType.SCIENTIFIC;
-	}
 }

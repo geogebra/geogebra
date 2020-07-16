@@ -191,7 +191,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			}
 		}
 		if (poly == null || poly.getDegree() > 1) {
-			if (!geo.isPolynomialFunction(true)) {
+			if (!geo.isPolynomialFunction(true)
+					|| (poly != null && poly.isMaxDegreeReached())) {
 				EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 						.getActiveEuclidianView();
 				AlgoExtremumMulti algoExtremumMulti = new AlgoExtremumMulti(

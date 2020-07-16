@@ -40,6 +40,8 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.LayeredGGraphicsW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.export.Canvas2Svg;
+import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -53,7 +55,6 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.PDFEncoderW;
-import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -61,7 +62,6 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -88,6 +88,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
+
+import jsinterop.base.Js;
 
 /**
  * Web implementation of graphics view
@@ -448,22 +450,17 @@ public class EuclidianViewW extends EuclidianView implements
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 
-		if (!canvas2svgLoaded()) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Svg());
-		}
-		JavaScriptObject ctx = getCanvas2SVG(width, height);
-
-		if (ctx == null) {
-			Log.debug("canvas2SVG not found");
+		if (!ExportLoader.ensureCanvas2SvgLoaded()) {
 			return null;
 		}
-
-		g4copy = new GGraphics2DW((Context2d) ctx.cast());
+		Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
+		Context2d ctx = Js.uncheckedCast(canvas2svg);
+		g4copy = new GGraphics2DW(ctx);
 		this.appW.setExporting(ExportType.SVG, scale);
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
 		this.appW.setExporting(ExportType.NONE, 1);
-		return getSerializedSvg(ctx);
+		return canvas2svg.getSerializedSvg(true);
 	}
 
 	/**
@@ -512,23 +509,6 @@ public class EuclidianViewW extends EuclidianView implements
 		this.appW.setExporting(ExportType.NONE, 1);
 		return PDFEncoderW.getPDF(ctx);
 	}
-
-	private native JavaScriptObject getCanvas2SVG(double width,
-			double height) /*-{
-		if ($wnd.C2S) {
-			return new $wnd.C2S(width, height);
-		}
-
-		return null;
-	}-*/;
-
-	private native boolean canvas2svgLoaded() /*-{
-		return !!$wnd.C2S;
-	}-*/;
-
-	private native String getSerializedSvg(JavaScriptObject ctx) /*-{
-		return ctx.getSerializedSvg(true);
-	}-*/;
 
 	@Override
 	public GBufferedImageW getExportImage(double scale) {

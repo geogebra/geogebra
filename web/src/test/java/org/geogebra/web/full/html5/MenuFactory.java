@@ -2,7 +2,7 @@ package org.geogebra.web.full.html5;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.AriaMenuItemMock;
 import org.geogebra.web.full.gui.ContextMenuFactory;
@@ -27,7 +27,7 @@ public class MenuFactory extends ContextMenuFactory {
 	}
 
 	@Override
-	public InlineTextToolbar newInlineTextToolbar(List<DrawInlineText> inlines, App app) {
+	public InlineTextToolbar newInlineTextToolbar(List<HasTextFormat> inlines, App app) {
 		return new InlineTextToolbarMock(inlines, app);
 	}
 

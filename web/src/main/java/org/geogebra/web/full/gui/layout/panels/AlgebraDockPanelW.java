@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.full.gui.layout.DockPanelDecorator;
@@ -126,7 +127,8 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	public void onResize() {
 		DockSplitPaneW split = getParentSplitPane();
 		if (split != null && split.isForcedLayout()) {
-			if (aview != null) {
+			if (aview != null
+					&& split.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 				int w = getOffsetWidth();
 				aview.setUserWidth(w);
 			}

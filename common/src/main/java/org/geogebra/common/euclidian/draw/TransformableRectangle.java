@@ -9,7 +9,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RotatableBoundingBox;
+import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.RectangleTransformable;
@@ -19,22 +19,27 @@ public class TransformableRectangle {
 
 	private final EuclidianView view;
 	private final RectangleTransformable geo;
-	private RotatableBoundingBox boundingBox;
+	private MediaBoundingBox boundingBox;
 	private GAffineTransform directTransform;
 	private GAffineTransform inverseTransform;
+	private boolean keepAspectRatio;
 
 	private GPoint2D corner0;
 	private GPoint2D corner1;
 	private GPoint2D corner2;
 	private GPoint2D corner3;
+	private double aspectRatio = Double.NaN;
 
 	/**
 	 * @param view view
 	 * @param geo transformable geo
+	 * @param keepAspectRatio whether to keep aspect ratio
 	 */
-	TransformableRectangle(EuclidianView view, RectangleTransformable geo) {
+	TransformableRectangle(EuclidianView view, RectangleTransformable geo,
+			boolean keepAspectRatio) {
 		this.view = view;
 		this.geo = geo;
+		this.keepAspectRatio = keepAspectRatio;
 	}
 
 	/**
@@ -124,8 +129,7 @@ public class TransformableRectangle {
 			return;
 		}
 
-		geo.setWidth(newWidth);
-		geo.setHeight(newHeight);
+		geo.setSize(newWidth, newHeight);
 		geo.setAngle(newAngle);
 		geo.setLocation(new GPoint2D(
 						view.toRealWorldCoordX(points.get(0).getX()),
@@ -163,6 +167,7 @@ public class TransformableRectangle {
 		double y = 0;
 		double width = geo.getWidth();
 		double height = geo.getHeight();
+		updateAspectRatio(geo, handler);
 
 		if (handler.getDx() == 1) {
 			width = transformed.getX();
@@ -171,14 +176,19 @@ public class TransformableRectangle {
 			x = transformed.getX();
 		}
 
-		if (handler.getDy() == 1) {
+		if (keepAspectRatio && handler.isDiagonal()) {
+			double bottom = height + y;
+			height = width * aspectRatio;
+			y = handler.getDy() > 0 ? y : bottom - height;
+		} else if (handler.getDy() == 1) {
 			height = transformed.getY();
 		} else if (handler.getDy() == -1) {
 			height = geo.getHeight() - transformed.getY();
 			y = transformed.getY();
 		}
 
-		if (height < geo.getMinHeight() && width < geo.getWidth()) {
+		if (geo instanceof  GeoInlineText
+				&& height < geo.getMinHeight() && width < geo.getWidth()) {
 			return;
 		}
 
@@ -197,16 +207,25 @@ public class TransformableRectangle {
 		}
 
 		GPoint2D origin = directTransform.transform(new GPoint2D(x, y), null);
-
+		// setting size first, location second is important for images
+		geo.setSize(width, height);
 		geo.setLocation(new GPoint2D(view.toRealWorldCoordX(origin.getX()),
 				view.toRealWorldCoordY(origin.getY())));
-		geo.setWidth(width);
-		geo.setHeight(height);
+
 		geo.updateRepaint();
 		updateSelfAndBoundingBox();
 	}
 
-	public GPoint2D getInversePoint(int x, int y) {
+	protected void updateAspectRatio(RectangleTransformable geo,
+			EuclidianBoundingBoxHandler handler) {
+		if (!handler.isDiagonal()) {
+			aspectRatio = Double.NaN;
+		} else if (Double.isNaN(aspectRatio)) {
+			aspectRatio = geo.getHeight() / geo.getWidth();
+		}
+	}
+
+	public GPoint2D getInversePoint(double x, double y) {
 		return inverseTransform.transform(new GPoint2D(x, y), null);
 	}
 
@@ -230,13 +249,20 @@ public class TransformableRectangle {
 	 * Get the rotatable bounding box that is defined by this rectangle
 	 * @return rotatable bounding box
 	 */
-	public RotatableBoundingBox getBoundingBox() {
+	public MediaBoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new RotatableBoundingBox();
+			boundingBox = new MediaBoundingBox();
 			boundingBox.setRectangle(getBounds());
 			boundingBox.setColor(view.getApplication().getPrimaryColor());
 		}
 		boundingBox.updateFrom(geo.toGeoElement());
 		return boundingBox;
+	}
+
+	/**
+	 * @return height/width when resizing diagonally, Double.NaN otherwise
+	 */
+	public double getAspectRatio() {
+		return aspectRatio;
 	}
 }

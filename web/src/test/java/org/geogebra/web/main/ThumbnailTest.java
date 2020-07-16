@@ -21,7 +21,7 @@ public class ThumbnailTest {
 	@Test
 	public void thumbnailShouldUseNonemptyView() {
 		AppWFull app = AppMocker
-				.mockApplet(new TestArticleElement("prerelease", "classic"));
+				.mockApplet(new TestArticleElement("classic"));
 
 		thumbnailShouldUse(App.VIEW_EUCLIDIAN, app);
 

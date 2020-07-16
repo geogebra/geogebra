@@ -42,8 +42,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
-import org.geogebra.common.kernel.parser.FunctionParser;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
@@ -111,6 +109,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public ExpressionNode(Kernel kernel, ExpressionValue left,
 			Operation operation, ExpressionValue right) {
+
 		this.kernel = kernel;
 		loc = kernel.getLocalization();
 		this.operation = operation;
@@ -3345,97 +3344,6 @@ public class ExpressionNode extends ValidExpression
 			return;
 		}
 		Fractions.getFraction(parts, this, expandPlus);
-	}
-
-	/**
-	 * Builds product of two expressions
-	 * 
-	 * @param left
-	 *            left factor
-	 * @param right
-	 *            right factor
-	 * @param kernel
-	 *            kernel
-	 * @param giacParsing
-	 *            whether this is from GIAC
-	 * @return product of factors
-	 */
-	public static ExpressionValue multiplySpecial(ExpressionValue left,
-			ExpressionValue right, Kernel kernel, boolean giacParsing) {
-		String leftImg;
-		App app = kernel.getApplication();
-
-		// sin x in GGB is function application if "sin" is not a variable
-		if (left instanceof Variable) {
-			leftImg = left.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
-			if (op != null) {
-				return new ExpressionNode(kernel, right, op, null);
-
-			}
-			if (leftImg.startsWith("log_")
-					&& kernel.lookupLabel(leftImg) == null) {
-				ExpressionValue index = FunctionParser.getLogIndex(leftImg,
-						kernel);
-
-				if (index != null) {
-					return new ExpressionNode(kernel, index, Operation.LOGB,
-							right);
-				}
-			}
-			// sin^2 x
-		} else if (left instanceof ExpressionNode
-				&& ((ExpressionNode) left).getOperation() == Operation.POWER
-				&& ((ExpressionNode) left).getLeft() instanceof Variable) {
-			leftImg = ((ExpressionNode) left).getLeft()
-					.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
-			if (op != null) {
-				ExpressionValue exponent = ((ExpressionNode) left).getRight()
-						.unwrap();
-				if (exponent.isConstant()
-						&& DoubleUtil.isEqual(-1, exponent.evaluateDouble())) {
-					return kernel.inverseTrig(op, right);
-				}
-				return new ExpressionNode(kernel, right, op, null)
-						.power(exponent);
-
-			}
-			// x * sin x in GGB is function applied on the right if "sin" is not
-			// a variable
-			// a * b * f -- check if b*f needs special handling
-		} else if (left instanceof ExpressionNode && (((ExpressionNode) left)
-				.getOperation() == Operation.MULTIPLY)) {
-			ExpressionValue bf = multiplySpecial(
-					((ExpressionNode) left).getRight(), right, kernel,
-					giacParsing);
-			return bf == null ? null
-					: new ExpressionNode(kernel,
-							((ExpressionNode) left).getLeft(),
-							Operation.MULTIPLY, bf);
-			// +-b * f is parsed as (b +- ()) *f
-		} else if (left instanceof ExpressionNode
-				&& (((ExpressionNode) left).getOperation() == Operation.PLUSMINUS)
-				&& (((ExpressionNode) left).getRight() instanceof MyNumberPair)) {
-			ExpressionValue bf = multiplySpecial(((ExpressionNode) left).getLeft(), right, kernel,
-					giacParsing);
-			return bf == null ? null
-					: new ExpressionNode(kernel, bf, Operation.PLUSMINUS,
-							((ExpressionNode) left).getRight());
-		}
-
-		if (giacParsing) {
-			// (a)(b) in Giac is function application
-			if (left instanceof Variable) {
-				Command ret = new Command(kernel,
-						left.toString(StringTemplate.defaultTemplate), true,
-						true);
-				ret.addArgument(right.wrap());
-				return ret;
-				// c*(a)(b) in Giac: function applied on right subtree
-			}
-		}
-		return null;
 	}
 
 	/**

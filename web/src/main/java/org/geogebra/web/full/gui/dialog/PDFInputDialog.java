@@ -17,11 +17,8 @@ import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.shared.DialogBoxW;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -42,6 +39,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.DragEvent;
+import elemental2.dom.File;
+import elemental2.dom.FileList;
+import elemental2.dom.HTMLInputElement;
+import jsinterop.base.Js;
 
 /**
  * @author csilla
@@ -72,7 +75,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private NoDragImage previewImg;
 	private AutoCompleteTextFieldW curPageNrField;
 	private Label ofPageLbl;
-	private PDFChooser pdfChooser = new PDFChooser();
+	private FileUpload pdfChooser = getPDFChooser();
 	/**
 	 * pdf.js wrapper
 	 */
@@ -80,30 +83,17 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private ProgressBar progressBar;
 
 	/** indicates if current page number text field is in focus */
-	protected boolean tfActive = false;
 	private String previewSrc;
 	private boolean isFocus = false;
 
-	private class PDFChooser extends FileUpload
-			implements ChangeHandler {
-		public PDFChooser() {
-			super();
-			addChangeHandler(this);
-			getElement().setAttribute("accept", ".pdf");
-		}
-
-		public void open() {
-			click();
-		}
-
-		@Override
-		public void onChange(ChangeEvent event) {
-			PDFInputDialog.this.loadPdf(getSelectedFile());
-		}
-
-		private native JavaScriptObject getSelectedFile()/*-{
-			return $doc.querySelector('input[type=file]').files[0];
-		}-*/;
+	private FileUpload getPDFChooser() {
+		FileUpload pdfChooser = new FileUpload();
+		pdfChooser.addChangeHandler(event -> {
+				HTMLInputElement el = Js.uncheckedCast(pdfChooser.getElement());
+				loadPdf(el.files.item(0));
+			});
+		pdfChooser.getElement().setAttribute("accept", ".pdf");
+		return pdfChooser;
 	}
 
 	/**
@@ -115,7 +105,8 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		this.appW = app;
 		initGui();
 		initActions();
-		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfCombinedJs());
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfJs());
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfWorkerJs());
 	}
 
 	private void initGui() {
@@ -167,20 +158,16 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		pdfContainerPanel.add(imgTextPanel);
 	}
 
-	private native void addDropHandler(
-			com.google.gwt.dom.client.Element element) /*-{
-		var that = this;
-		element
-				.addEventListener(
-						"drop",
-						function(event) {
-							var files = event.dataTransfer.files;
-							that.@org.geogebra.web.full.gui.dialog.PDFInputDialog::loadPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(files[0]);
-							event.stopPropagation();
-							event.preventDefault();
-						});
-
-	}-*/;
+	private void addDropHandler(
+			com.google.gwt.dom.client.Element element) {
+		elemental2.dom.Element el = Js.uncheckedCast(element);
+		el.addEventListener("drop", evt -> {
+			FileList files = ((DragEvent) evt).dataTransfer.files;
+			loadPdf(files.item(0));
+			evt.stopPropagation();
+			evt.preventDefault();
+		});
+	}
 
 	private void buildPdfContainer() {
 		pdfContainerPanel.clear();
@@ -369,7 +356,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		pageLbl.setText(appW.getLocalization().getMenu("page")); // Page
 		if (pdf != null) {
 			ofPageLbl.setText(appW.getLocalization().getMenu("of") + " "
-					+ pdf.getPageCount()); // of
+					+ pdf.getNumberOfPages()); // of
 		}
 		if (loadText != null) {
 			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
@@ -377,7 +364,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		if (errorText != null) {
 			errorText.setText(appW.getLocalization().getMenu("PdfErrorText"));
 		}
-
 	}
 
 	@Override
@@ -397,7 +383,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	private void insertImage() {
 		String data = previewSrc;
-		((AppW) app).imageDropHappened("pdf.svg", data);
+		((AppW) app).imageDropHappened("pdf.png", data);
 		hide();
 	}
 
@@ -412,7 +398,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 * Choose PDF to insert.
 	 */
 	void choosePdfFile() {
-		pdfChooser.open();
+		pdfChooser.click();
 	}
 
 	/**
@@ -422,7 +408,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 *            to load.
 	 *
 	 */
-	void loadPdf(JavaScriptObject file) {
+	void loadPdf(File file) {
 		buildLoadingPanel();
 		pdf = new PDFWrapper(file, this);
 	}
@@ -505,7 +491,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	void onPDFLoaded() {
 		pdf.setPageNumber(1);
 		buildPdfContainer();
-		if (pdf.getPageCount() == 1) {
+		if (pdf.getNumberOfPages() == 1) {
 			leftBtn.addStyleName("hidden");
 			rightBtn.addStyleName("hidden");
 			pdfPageTextPanel.addStyleName("hidden");
@@ -554,6 +540,6 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	@Override
 	public void finishLoading(boolean result) {
 		progressBar.finishLoading(result);
+		setLabels();
 	}
 }
-

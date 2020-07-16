@@ -23,7 +23,7 @@ public class CasTest {
 	@Test
 	public void startApp() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("prerelease", "cas"));
+				.mockApplet(new TestArticleElement("cas"));
 	}
 
 }
