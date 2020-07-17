@@ -53,6 +53,7 @@ public class AlgebraItem {
 				GeoSymbolic symbolic = (GeoSymbolic) geo;
 				if (isSymbolicSolve(symbolic)) {
 					symbolic.toggleNumeric();
+					symbolic.setDescriptionNeedsUpdateInAV(true);
 				}
 			}
 
