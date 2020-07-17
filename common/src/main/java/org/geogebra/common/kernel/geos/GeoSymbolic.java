@@ -190,7 +190,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private boolean shouldBeEuclidianVisible(Command input) {
-		return !"Solve".equals(input.getName()) ||  !"NSolve".equals(input.getName());
+		return !("Solve".equals(input.getName()) || "NSolve".equals(input.getName()));
 	}
 
 	private ExpressionValue parseOutputString(String output) {
@@ -701,6 +701,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		this.constant = constant;
 	}
 
+	/**
+	 * Toggles between numeric and symbolic Solve
+	 */
 	public void toggleNumeric() {
 		Commands opposite = Commands.NSolve.getCommand()
 				.equals(getDefinition().getTopLevelCommand().getName())
