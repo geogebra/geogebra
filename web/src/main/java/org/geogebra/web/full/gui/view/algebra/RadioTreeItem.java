@@ -2201,7 +2201,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (isEmpty() && isInputTreeItem()) {
 			addDummyLabel();
 		}
-		getController().setEditing(false);
 		setFocusedStyle(false);
 		if (app.getAppletFrame().isKeyboardShowing()) {
 			app.hideKeyboard();
