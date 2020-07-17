@@ -587,7 +587,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * implementation).
 	 */
 	public void repaintWeb() {
-		if (lastIcon == null) {
+		if (lastIcon == null || !instances.contains(this)) {
 			return;
 		}
 		if (!active(inputTextArea.getElement()) && isEdited()) {
@@ -910,11 +910,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	private void removeCursor() {
-		instances.remove(this);
 		if (CursorBox.visible()) {
 			CursorBox.setBlink(false);
 			repaintWeb();
 		}
+		instances.remove(this);
 	}
 
 	/**
