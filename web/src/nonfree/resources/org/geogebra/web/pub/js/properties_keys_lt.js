@@ -3116,6 +3116,7 @@ __GGB__keysVar["lt"].menu = {
     "UseLighting": "Naudoti ap\u0161vietim\u0105",
     "UsePairNames": "Naudoti por\u0173 vardus",
     "UsePathAndRegionParameters": "Naudoti kelio ir srities nustatymus",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Vartotojo aplinka",
     "Value": "Vert\u0117",
     "ValueOfA": "%0 vert\u0117",

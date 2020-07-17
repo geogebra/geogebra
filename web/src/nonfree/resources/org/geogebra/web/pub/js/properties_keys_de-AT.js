@@ -3116,6 +3116,7 @@ __GGB__keysVar["de-AT"].menu = {
     "UseLighting": "Beleuchtung verwenden",
     "UsePairNames": "Verwende Zahlenpaare",
     "UsePathAndRegionParameters": "Pfad- und Bereichsparameter verwenden",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Benutzeroberfl\xe4che",
     "Value": "Wert",
     "ValueOfA": "Wert von %0",

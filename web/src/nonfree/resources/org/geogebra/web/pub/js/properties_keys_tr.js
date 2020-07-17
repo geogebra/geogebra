@@ -3116,6 +3116,7 @@ __GGB__keysVar["tr"].menu = {
     "UseLighting": "I\u015f\u0131kland\u0131rma Kullan",
     "UsePairNames": "E\u015f ad\u0131n\u0131 kullan",
     "UsePathAndRegionParameters": "Yol ve b\xf6lge parametrelerini kullan",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Kullan\u0131c\u0131 aray\xfcz\xfc",
     "Value": "De\u011fer",
     "ValueOfA": "%0 De\u011feri",

@@ -3116,6 +3116,7 @@ __GGB__keysVar["cy"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Use Path and Region Parameters",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Rhyngwyneb defnyddiwr",
     "Value": "Gwerth",
     "ValueOfA": "Value of %0",

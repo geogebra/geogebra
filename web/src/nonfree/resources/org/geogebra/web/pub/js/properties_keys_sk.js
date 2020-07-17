@@ -3116,6 +3116,7 @@ __GGB__keysVar["sk"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Poneha\u0165 pomenovania bodov",
     "UsePathAndRegionParameters": "Pou\u017ei\u0165 cestu a parametre r\xe9gia",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "U\u017e\xedvate\u013esk\xe9 rozhranie",
     "Value": "Hodnota",
     "ValueOfA": "Hodnota %0",

@@ -3116,6 +3116,7 @@ __GGB__keysVar["fi"].menu = {
     "UseLighting": "K\xe4yt\xe4 valaistusta",
     "UsePairNames": "K\xe4yt\xe4 parien nimi\xe4",
     "UsePathAndRegionParameters": "K\xe4yt\xe4 polku- ja alueparametreja",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "K\xe4ytt\xf6liittym\xe4",
     "Value": "Arvo",
     "ValueOfA": "Objektin %0 arvo",

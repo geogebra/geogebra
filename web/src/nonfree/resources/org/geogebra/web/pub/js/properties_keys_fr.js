@@ -3116,6 +3116,7 @@ __GGB__keysVar["fr"].menu = {
     "UseLighting": "Utiliser \xc9clairage",
     "UsePairNames": "Utiliser des noms li\xe9s",
     "UsePathAndRegionParameters": "Garde des Param\xe8tres Chemin et R\xe9gion",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Interface utilisateur",
     "Value": "Valeur",
     "ValueOfA": "Valeur de %0",
