@@ -2694,41 +2694,20 @@ public class Construction {
 
 	/**
 	 * Returns the next free indexed label using the given prefix.
-	 *
-	 * @param prefix
-	 *            e.g. "c"
+	 * @param prefix e.g. "c"
 	 * @return indexed label, e.g. "c_2"
 	 */
 	public String getIndexLabel(String prefix) {
-		return getIndexLabel(prefix, 1);
+		return getIndexLabel(prefix, false);
 	}
 
 	/**
-	 * Returns the next free indexed label using the given prefix starting with
-	 * the given index number.
-	 *
-	 * @param prefix
-	 *            e.g. "c"
-	 * @param startIndex
-	 *            e.g. 2
-	 * @return indexed label, e.g. "c_2"
-	 */
-	public String getIndexLabel(String prefix, int startIndex) {
-		return getIndexLabel(prefix, startIndex, false);
-	}
-
-	/**
-	 * Returns the next free indexed label using the given prefix starting with
-	 * the given index number.
-	 *
-	 * @param prefix
-	 *            e.g. "c"
-	 * @param startIndex
-	 *            e.g. 2
+	 * Returns the next free indexed label using the given prefix.
+	 * @param prefix e.g. "c"
 	 * @param includeDummies to include cas dummy variables
 	 * @return indexed label, e.g. "c_2"
 	 */
-	public String getIndexLabel(String prefix, int startIndex, boolean includeDummies) {
+	public String getIndexLabel(String prefix, boolean includeDummies) {
 		// start numbering with indices using suggestedLabel
 		// as prefix
 		String pref;
@@ -2747,7 +2726,7 @@ public class Construction {
 		String indexLabel;
 		String longIndexLabel;
 		boolean freeLabelFound;
-		int n = startIndex - 1;
+		int n = 0;
 
 		do {
 			n++;

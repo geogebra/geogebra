@@ -113,7 +113,7 @@ public class MyArbitraryConstant {
 	private GeoNumeric createConstant(ArrayList<GeoNumeric> consts2,
 			Map<Integer, GeoNumeric> map, String prefix, int index) {
 		Construction construction = ce.getConstruction();
-		String label = construction.getIndexLabel(prefix, 1, true);
+		String label = construction.getIndexLabel(prefix, true);
 		GeoNumeric constant;
 		if (symbolic) {
 			constant = createSymbolicConstant(construction, label);
