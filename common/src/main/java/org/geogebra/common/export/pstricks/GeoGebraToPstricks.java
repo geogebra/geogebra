@@ -1738,6 +1738,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			if (null == drawGeo) {
 				drawGeo = euclidianView.getDrawableFor(geo);
 			}
+			if (drawGeo == null) {
+				return;
+			}
 			double xLabel = drawGeo.getxLabel();
 			double yLabel = drawGeo.getyLabel();
 			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));

@@ -50,16 +50,6 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 	}
 
 	@Override
-	public double getWidthThreshold() {
-		return GeoEmbed.EMBED_SIZE_THRESHOLD;
-	}
-
-	@Override
-	public double getHeightThreshold() {
-		return GeoEmbed.EMBED_SIZE_THRESHOLD;
-	}
-
-	@Override
 	public void draw(GGraphics2D g2) {
 		if (view.getApplication().getExportType() == ExportType.NONE) {
 			view.embed(g2, this);

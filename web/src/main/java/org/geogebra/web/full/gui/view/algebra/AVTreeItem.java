@@ -31,7 +31,7 @@ public class AVTreeItem extends TreeItem {
 		super.setSelected(selected);
 
 		Element w = Dom.querySelectorForElement(this.getElement(),
-				"gwt-TreeItem-selected");
+				".gwt-TreeItem-selected");
 		if (w != null) {
 			w.getStyle().setBackgroundColor("#FFFFFF");
 		}

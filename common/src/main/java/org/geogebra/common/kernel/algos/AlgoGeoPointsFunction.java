@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.Arrays;
 
+import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -27,10 +28,8 @@ import org.geogebra.common.kernel.geos.LabelManager;
  * on functions, where the command returns a varying number of GeoPoints. This
  * is to avoid a lot of duplicated label-updating code. Most of the code is
  * copied from AlgoRootsPolynomial. (Where it might be eliminated later...)
- * 
  * @author Hans-Petter Ulven
  * @version 06.03.11
- * 
  */
 public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	private static final int PIXELS_BETWEEN_SAMPLES = 5; // Open for empirical
@@ -41,10 +40,8 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	 **/
 	protected static final int MAX_SAMPLES = 400;
 	private static final int MIN_SAMPLES = 50; // -"- (covers up to 50 in a 250
-	// pxs interval if
-	// 5-pix-convention)
 
-	protected GeoPoint[] points; // output in subcclass
+	protected GeoPoint[] points; // output in subclass
 
 	private String[] labels;
 	private boolean initLabels;
@@ -59,13 +56,9 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 	/**
 	 * Computes all roots of f
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param labels
-	 *            output labels
-	 * @param setLabels
-	 *            whether to set labels
+	 * @param cons construction
+	 * @param labels output labels
+	 * @param setLabels whether to set labels
 	 */
 	public AlgoGeoPointsFunction(Construction cons, String[] labels,
 			boolean setLabels) {
@@ -74,9 +67,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		initLabels = true;
 		updateLabelsFromOld();
 
-		this.setLabels = setLabels; // In subclass:
-									// !cons.isSuppressLabelsActive();
-
+		this.setLabels = setLabels;
 		// make sure root points is not null
 		int number = this.labels == null ? 1 : Math.max(1, this.labels.length);
 		points = new GeoPoint[0];
@@ -102,8 +93,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	}
 
 	/**
-	 * @param cons
-	 *            construction
+	 * @param cons construction
 	 */
 	public AlgoGeoPointsFunction(Construction cons) {
 		super(cons);
@@ -134,7 +124,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		} // if list not defined
 	}
 
-	protected final static void removeDuplicates(double[] tab) {
+	protected static void removeDuplicates(double[] tab) {
 		Arrays.sort(tab);
 		int maxIndex = 0;
 		double max = tab[0];
@@ -147,36 +137,30 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		} // for
 	}
 
+	protected final void setPoints(UnivariateFunction evaluatable, double[] curXValues,
+			int number) {
+		setPoints(curXValues, getYs(evaluatable, curXValues), number);
+	}
+
 	// roots array and number of roots
-	protected final void setPoints(double[] curXValues, int number) {
+	protected final void setPoints(double[] curXValues, double[] curYValues, int number) {
 		initPoints(number);
 
 		// now set the new values of the roots
 		for (int i = 0; i < number; i++) {
-
-			points[i].setCoords(curXValues[i], yAt(curXValues[i]), 1.0);
-
-			// Application.debug(" " + rootPoints[i]);
-
-		} // for
+			points[i].setCoords(curXValues[i], curYValues[i], 1.0);
+		}
 
 		// all other roots are undefined
 		for (int i = number; i < points.length; i++) {
 			points[i].setUndefined();
-		} //
+		}
 
 		if (setLabels) {
 			updateLabels(number);
 		}
 		noUndefinedPointsInAlgebraView(points); // **** experiment****
 	}
-
-	/**
-	 * @param x
-	 *            parameter value
-	 * @return f(x); replaced by exact 0 for roots algo
-	 */
-	protected abstract double yAt(double x);
 
 	// number is the number of current roots
 	protected void updateLabels(int number) {
@@ -197,14 +181,14 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 		// all other roots are undefined
 		for (int i = number; i < points.length; i++) {
-			points[i].setUndefined(); // Points[i].setAlgebraVisible(false);
+			points[i].setUndefined();
 		}
 	}
 
 	protected void noUndefinedPointsInAlgebraView(GeoPoint[] gpts) {
 		for (int i = 1; i < gpts.length; i++) {
 			gpts[i].showUndefinedInAlgebraView(false);
-		} // for
+		}
 	}
 
 	/**
@@ -248,7 +232,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			}
 			points = temp;
 			super.setOutput(points);
-		} // if
+		}
 	}
 
 	protected void removePoint(int pos) {
@@ -272,7 +256,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 		left = ev.getXminObject();
 		right = ev.getXmaxObject();
-
 	}
 
 	@Override
@@ -296,10 +279,8 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	}
 
 	/**
-	 * @param l
-	 *            left bound
-	 * @param r
-	 *            right bound
+	 * @param l left bound
+	 * @param r right bound
 	 * @return number of samples based on zoom
 	 */
 	public final int findNumberOfSamples(double l, double r) {
@@ -324,4 +305,17 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		return (int) Math.round(Math.max(screenSamples, MIN_SAMPLES));
 	}
 
+	/**
+	 * Helper method to get the y values for specific x values.
+	 * @param evaluatable function
+	 * @param xs x values
+	 * @return y values
+	 */
+	protected double[] getYs(UnivariateFunction evaluatable, double[] xs) {
+		double[] ys = new double[xs.length];
+		for (int i = 0; i < xs.length; i++) {
+			ys[i] = evaluatable.value(xs[i]);
+		}
+		return ys;
+	}
 }

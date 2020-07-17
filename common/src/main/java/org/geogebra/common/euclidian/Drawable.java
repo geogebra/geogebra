@@ -221,24 +221,6 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * Returns the minimum width of drawable
-	 * 
-	 * @return min width in pixels
-	 */
-	public double getWidthThreshold() {
-		return Double.NEGATIVE_INFINITY;
-	}
-
-	/**
-	 * Returns the minimum height of drawable
-	 * 
-	 * @return min height in pixels
-	 */
-	public double getHeightThreshold() {
-		return Double.NEGATIVE_INFINITY;
-	}
-
-	/**
 	 * Draws label of referenced geo
 	 * 
 	 * @param g2

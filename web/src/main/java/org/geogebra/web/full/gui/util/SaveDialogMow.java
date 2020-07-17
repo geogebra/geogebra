@@ -186,16 +186,27 @@ public class SaveDialogMow extends DialogBoxW
 			hide();
 			app.getSaveController().cancel();
 		} else if (source == saveBtn) {
-			if (templateCheckbox.isSelected()) {
-				setSaveType(MaterialType.ggsTemplate);
-				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
+			if (!app.getLoginOperation().isLoggedIn()) {
+				hide();
+				((AppW) app).getGuiManager().listenToLogin();
+				app.getLoginOperation().showLoginDialog();
+				((AppW) app).getGuiManager().setRunAfterLogin(() -> onSave());
 			} else {
-				setSaveType(MaterialType.ggs);
-				app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
+				onSave();
 			}
-			app.getSaveController().saveAs(getInputField().getText(),
-					getSaveVisibility(), this);
 		}
+	}
+
+	private void onSave() {
+		if (templateCheckbox.isSelected()) {
+			setSaveType(MaterialType.ggsTemplate);
+			app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggs);
+		} else {
+			setSaveType(MaterialType.ggs);
+			app.getSaveController().ensureTypeOtherThan(Material.MaterialType.ggsTemplate);
+		}
+		app.getSaveController().saveAs(getInputField().getText(),
+				getSaveVisibility(), this);
 	}
 
 	private MaterialVisibility getSaveVisibility() {

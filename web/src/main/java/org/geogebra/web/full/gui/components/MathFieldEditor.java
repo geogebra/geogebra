@@ -302,4 +302,8 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	public void setUseKeyboardButton(boolean useKeyboardButton) {
 		this.useKeyboardButton = useKeyboardButton;
 	}
+
+	public void setTextMode(boolean paramTextMode) {
+		mathField.setPlainTextMode(paramTextMode);
+	}
 }

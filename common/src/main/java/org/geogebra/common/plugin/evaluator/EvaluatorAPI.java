@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.util.SyntaxAdapterImpl;
 
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -132,5 +133,13 @@ public class EvaluatorAPI {
 			mathFieldInternal.parse(state.getContent());
 			mathFieldInternal.setCaretPath(state.getCaretPath());
 		}
+	}
+
+	/**
+	 * @param formula LaTeX formula
+	 */
+	public void evalLaTeX(String formula) {
+		String plainText = new SyntaxAdapterImpl(parser.getKernel()).convert(formula);
+		mathFieldInternal.parse(plainText);
 	}
 }

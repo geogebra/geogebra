@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1072,6 +1073,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 						GeoElement geo = geoElement
 								.getGeoElementForPropertiesDialog();
 						if (geo instanceof GeoText || geo instanceof GeoButton
+								|| geo instanceof GeoInline
 								|| geo instanceof GeoPoint
 								|| geo instanceof GeoLocusStroke
 								|| geo instanceof GeoWidget
@@ -1174,7 +1176,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createTextBgColorBtn() {
-		btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+		btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT,
+				false, selection) {
 
 			@Override
 			public void update(List<GeoElement> geos) {

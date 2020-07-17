@@ -181,4 +181,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	 * @return templates controller
 	 */
 	TemplateChooserControllerI getTemplateController();
+
+	/**
+	 * callback for save after successful login
+	 * @param runAfterLogin - callback
+	 */
+	void setRunAfterLogin(Runnable runAfterLogin);
 }

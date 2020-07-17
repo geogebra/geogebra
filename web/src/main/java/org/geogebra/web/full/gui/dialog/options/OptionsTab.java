@@ -436,7 +436,7 @@ public class OptionsTab extends FlowPanel {
 				}
 			});
 			colorChooserW.setColorPreviewClickable();
-			inlineTextFormatter = new InlineTextFormatter(app);
+			inlineTextFormatter = new InlineTextFormatter();
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
 

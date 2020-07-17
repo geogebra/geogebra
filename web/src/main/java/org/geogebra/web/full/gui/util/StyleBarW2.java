@@ -41,7 +41,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	 */
 	public StyleBarW2(AppW app, int viewID) {
 		super(app, viewID);
-		inlineFormatter = new InlineTextFormatter(app);
+		inlineFormatter = new InlineTextFormatter();
 	}
 
 	protected void createLineStyleBtn() {
