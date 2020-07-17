@@ -132,10 +132,13 @@ public class EmbedManagerW implements EmbedManager {
 		FlowPanel scaler = new FlowPanel();
 		addToGraphics(scaler);
 
+		FlowPanel parent = new FlowPanel();
+		scaler.add(parent);
+
 		AppletParameters parameters = new AppletParameters("graphing");
 		GeoGebraFrameFull fr = new GeoGebraFrameFull(
-				(AppletFactory) GWT.create(AppletFactory.class), app.getLAF(),
-				app.getDevice(), GeoGebraElement.as(scaler.getElement()), parameters);
+				GWT.create(AppletFactory.class), app.getLAF(),
+				app.getDevice(), GeoGebraElement.as(parent.getElement()), parameters);
 		scaler.add(fr);
 
 		parameters.setAttribute("scaleContainerClass", "embedContainer")
