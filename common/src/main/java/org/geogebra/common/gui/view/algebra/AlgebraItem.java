@@ -52,7 +52,7 @@ public class AlgebraItem {
 			if (geo instanceof GeoSymbolic) {
 				GeoSymbolic symbolic = (GeoSymbolic) geo;
 				if (isSymbolicSolve(symbolic)) {
-					symbolic.toggleNumeric();
+					toggleNumeric(symbolic);
 					symbolic.setDescriptionNeedsUpdateInAV(true);
 				}
 			}
@@ -624,5 +624,14 @@ public class AlgebraItem {
 		symbolic.computeOutput();
 
 		return !textOriginal.equals(textOpposite);
+	}
+
+	private static void toggleNumeric(GeoSymbolic symbolic) {
+		Commands opposite = Commands.NSolve.getCommand()
+				.equals(symbolic.getDefinition().getTopLevelCommand().getName())
+				? Commands.Solve : Commands.NSolve;
+
+		symbolic.getDefinition().getTopLevelCommand().setName(opposite.getCommand());
+		symbolic.computeOutput();
 	}
 }

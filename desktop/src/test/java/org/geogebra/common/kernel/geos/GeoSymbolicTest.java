@@ -20,6 +20,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -1184,4 +1185,33 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(solve1.toValueString(StringTemplate.defaultTemplate),
 				is(solve2.toValueString(StringTemplate.defaultTemplate)));
 	}
+
+	@Test
+	public void testSymbolicDiffersForSolve() {
+		GeoSymbolic solveX_1 = add("Solve(2x=5)");
+		GeoSymbolic solveX_2 = add("Solve(2x=6)");
+
+		GeoSymbolic solveA_1 = add("Solve(a*a=5)");
+		GeoSymbolic solveA_2 = add("Solve(a*a=4)");
+
+		assertThat(AlgebraItem.isSymbolicDiffers(solveX_1), is(true));
+		assertThat(AlgebraItem.isSymbolicDiffers(solveX_2), is(false));
+		assertThat(AlgebraItem.isSymbolicDiffers(solveA_1), is(true));
+		assertThat(AlgebraItem.isSymbolicDiffers(solveA_2), is(false));
+	}
+
+	@Test
+	public void testToggleSymbolicNumeric() {
+		GeoSymbolic solveX = add("Solve(2x=5)");
+		GeoSymbolic solveA = add("NSolve(a*a=5)");
+
+		AlgebraItem.toggleSymbolic(solveX);
+		AlgebraItem.toggleSymbolic(solveA);
+
+		assertThat(Commands.NSolve.getCommand().equals(solveX.getDefinition().getTopLevelCommand()
+				.getName()), is(true));
+		assertThat(Commands.Solve.getCommand().equals(solveA.getDefinition().getTopLevelCommand()
+				.getName()), is(true));
+	}
+
 }

@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -701,15 +700,4 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		this.constant = constant;
 	}
 
-	/**
-	 * Toggles between numeric and symbolic Solve
-	 */
-	public void toggleNumeric() {
-		Commands opposite = Commands.NSolve.getCommand()
-				.equals(getDefinition().getTopLevelCommand().getName())
-				? Commands.Solve : Commands.NSolve;
-
-		getDefinition().getTopLevelCommand().setName(opposite.getCommand());
-		computeOutput();
-	}
 }
