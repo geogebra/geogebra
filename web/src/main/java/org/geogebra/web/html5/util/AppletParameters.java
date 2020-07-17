@@ -188,7 +188,7 @@ public class AppletParameters {
 	 *         empty String
 	 */
 	public String getDataParamBase64String() {
-		return getStringDataParam("ggbbase64", "");
+		return getStringDataParam("ggbBase64", "");
 	}
 
 	/**
