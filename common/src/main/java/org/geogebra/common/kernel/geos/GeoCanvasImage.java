@@ -79,20 +79,11 @@ public class GeoCanvasImage extends GeoImage {
 
 	}
 
-	/**
-	 * Copy constructor
-	 * 
-	 * @param img
-	 *            source image
-	 */
-	public GeoCanvasImage(GeoCanvasImage img) {
-		this(img.cons);
-		set(img);
-	}
-
 	@Override
-	public GeoElement copy() {
-		return new GeoCanvasImage(this);
+	public GeoImage copy() {
+		GeoCanvasImage copy = new GeoCanvasImage(cons);
+		copy.set(this);
+		return copy;
 	}
 
 	@Override
@@ -115,17 +106,13 @@ public class GeoCanvasImage extends GeoImage {
 		return g;
 	}
 
-	/**
-	 * @return width
-	 */
-	public int getWidth() {
+	@Override
+	public double getWidth() {
 		return pixelWidth;
 	}
 
-	/**
-	 * @return height
-	 */
-	public int getHeight() {
+	@Override
+	public double getHeight() {
 		return pixelHeight;
 	}
 

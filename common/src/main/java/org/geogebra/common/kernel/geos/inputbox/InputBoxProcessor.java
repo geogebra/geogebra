@@ -7,13 +7,15 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Updates linked element for an input box from user input
@@ -58,11 +60,37 @@ public class InputBoxProcessor {
 		updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
 
 		if (errorHandler.errorOccured) {
-			inputBox.setTempUserDisplayInput(tempUserDisplayInput);
-			inputBox.setTempUserEvalInput(inputText);
+			if ("?".equals(inputText)) {
+				updateTempInput("", "");
+			} else {
+				updateTempInput(inputText, tempUserDisplayInput);
+			}
 			linkedGeo.setUndefined();
+			makeGeoIndependent();
+			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
 		}
+	}
+
+	/**
+	 * Make sure linked geo is independent; otherwise null definition causes NPE
+	 */
+	private void makeGeoIndependent() {
+		try {
+			if (!linkedGeo.isIndependent()) {
+				GeoElement newGeo = linkedGeo.copy().toGeoElement();
+				kernel.getConstruction().replace(linkedGeo.toGeoElement(),
+						newGeo);
+				linkedGeo = newGeo;
+			}
+		} catch (Throwable e) {
+			Log.warn(e.getMessage());
+		}
+	}
+
+	private void updateTempInput(String inputText, String tempUserDisplayInput) {
+		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+		inputBox.setTempUserEvalInput(inputText);
 	}
 
 	private String getAndClearTempUserDisplayInput(String inputText) {
@@ -83,7 +111,7 @@ public class InputBoxProcessor {
 
 		algebraProcessor.changeGeoElementNoExceptionHandling(linkedGeo,
 				defineText, info, false,
-				new InputBoxCallback(this, inputBox), errorHandler);
+				new InputBoxCallback(inputBox), errorHandler);
 	}
 
 	private String  preprocess(String inputText, StringTemplate tpl) {
@@ -121,7 +149,7 @@ public class InputBoxProcessor {
 					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
 		}
 
-		if (isComplexNumber()) {
+		if (GeoPoint.isComplexNumber(linkedGeo)) {
 			defineText = defineText.replace('I', 'i');
 		}
 
@@ -135,10 +163,5 @@ public class InputBoxProcessor {
 		RedefinitionRule vector = RedefinitionRules.oneWayRule(
 				GeoClass.VECTOR3D, GeoClass.VECTOR);
 		return RedefinitionRules.anyRule(same, point, vector);
-	}
-
-	boolean isComplexNumber() {
-		return linkedGeo.isGeoPoint()
-				&& ((GeoPointND) linkedGeo).getToStringMode() == Kernel.COORD_COMPLEX;
 	}
 }

@@ -140,14 +140,6 @@ public abstract class DrawableND {
 	public abstract boolean isTracing();
 
 	/**
-	 * Reset responsive coordinates
-	 */
-	public void move() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
 	 * @return recctangle for stylebar
 	 */
 	public GRectangle2D getBoundsForStylebarPosition() {

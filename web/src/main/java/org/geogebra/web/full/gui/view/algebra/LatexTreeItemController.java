@@ -151,8 +151,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onInsertString() {
-		getMathField().setFormula(
-				GeoGebraSerializer.reparse(getMathField().getFormula()));
+		// nothing to do
 	}
 
 	/**
@@ -218,7 +217,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 */
 	public void setOnScreenKeyboardTextField() {
 		app.getKeyboardManager()
-				.setOnScreenKeyboardTextField(getRetexListener());
+				.setOnScreenKeyboardTextField(item);
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)
 		CancelEventTimer.keyboardSetVisible();
@@ -226,7 +225,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void showKeyboard() {
-		app.showKeyboard(retexListener);
+		app.showKeyboard(item);
 	}
 
 	/**
@@ -237,7 +236,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		retexListener = new RetexKeyboardListener(item.canvas, getMathField());
 		retexListener.setAcceptsCommandInserts(true);
 		if (show) {
-			app.getAppletFrame().showKeyBoard(true, retexListener, false);
+			app.getAppletFrame().showKeyBoard(true, item, false);
 		}
 	}
 

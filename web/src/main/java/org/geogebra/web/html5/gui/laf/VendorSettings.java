@@ -79,4 +79,10 @@ public interface VendorSettings {
 	 * @return if the user session can expire (only mebis)
 	 */
 	boolean canSessionExpire();
+
+	/**
+	 *
+	 * @return if bitmaps (png, jpg, etc) needs a security check.
+	 */
+	boolean hasBitmapSecurity();
 }

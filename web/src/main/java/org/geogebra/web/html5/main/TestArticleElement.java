@@ -476,4 +476,9 @@ public class TestArticleElement implements ArticleElementInterface {
 	public String getParamKeyboardType(String def) {
 		return def;
 	}
+
+	@Override
+	public boolean getParamTextMode() {
+		return "true".equals(attributes.get("textMode"));
+	}
 }

@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.contextmenu;
 
 import java.util.List;
 
-import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.web.html5.gui.laf.FontFamily;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -20,18 +20,18 @@ import com.google.gwt.user.client.ui.Widget;
 public class FontSubMenu extends AriaMenuBar {
 
 	private final List<FontFamily> fonts;
-	private List<DrawInlineText> inlines;
+	private final List<HasTextFormat> formatters;
 	private final AppW app;
 	private AriaMenuItem highlighted;
 
 	/**
 	 * @param app the application
-	 * @param inlines to format text.
+	 * @param formatters to format text.
 	 */
-	public FontSubMenu(AppW app, List<DrawInlineText> inlines) {
+	public FontSubMenu(AppW app, List<HasTextFormat> formatters) {
 		this.app = app;
 		this.fonts = app.getVendorSettings().getTextToolFonts();
-		this.inlines = inlines;
+		this.formatters = formatters;
 		createItems();
 	}
 
@@ -51,8 +51,8 @@ public class FontSubMenu extends AriaMenuBar {
 	}
 
 	private void setFontName(String cssName) {
-		for (DrawInlineText drawInlineText: inlines) {
-			drawInlineText.getTextController().format("font", cssName);
+		for (HasTextFormat formatter : formatters) {
+			formatter.format("font", cssName);
 		}
 	}
 
@@ -62,11 +62,11 @@ public class FontSubMenu extends AriaMenuBar {
 	}
 
 	private void highlightCurrent() {
-		if (inlines.isEmpty()) {
+		if (formatters.isEmpty()) {
 			return;
 		}
 
-		String font = inlines.get(0).getFormat("font", "");
+		String font = formatters.get(0).getFormat("font", "");
 		for (FontFamily family : fonts) {
 			if (font.equals(family.cssName())) {
 				highlightItem(fonts.indexOf(family));

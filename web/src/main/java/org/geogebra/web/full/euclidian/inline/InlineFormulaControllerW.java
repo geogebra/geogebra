@@ -1,4 +1,4 @@
-package org.geogebra.web.full.euclidian;
+package org.geogebra.web.full.euclidian.inline;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawFormula;
@@ -162,12 +162,8 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 							- DrawFormula.PADDING;
 					int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
 
-					if (formula.getWidth() < width) {
-						formula.setWidth(width);
-					}
-					if (formula.getHeight() < height) {
-						formula.setHeight(height);
-					}
+					formula.setSize(Math.max(formula.getWidth(), width),
+							Math.max(formula.getHeight(), height));
 
 					formula.setMinWidth(width);
 					formula.setMinHeight(height);

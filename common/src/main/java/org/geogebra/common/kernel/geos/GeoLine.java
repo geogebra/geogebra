@@ -690,7 +690,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		GeoLine l = (GeoLine) geo;
 		parameter = l.parameter;
-		setModeIfEquationFormIsNotForced(l.toStringMode);
+		toStringMode = l.toStringMode;
 		reuseDefinition(geo);
 	}
 

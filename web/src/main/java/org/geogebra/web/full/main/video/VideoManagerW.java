@@ -231,8 +231,7 @@ public class VideoManagerW implements VideoManager {
 		if (video.getVideo().hasSize()) {
 			return;
 		}
-		video.setWidth(DEFAULT_WIDTH);
-		video.setHeight(DEFAULT_HEIGHT);
+		video.getVideo().setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
 	@Override

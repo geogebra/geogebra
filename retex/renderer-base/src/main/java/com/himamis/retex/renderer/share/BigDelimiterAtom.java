@@ -69,4 +69,8 @@ public class BigDelimiterAtom extends Atom {
 		hbox.add(b);
 		return hbox;
 	}
+
+	public Atom getDelimiter() {
+		return delim;
+	}
 }

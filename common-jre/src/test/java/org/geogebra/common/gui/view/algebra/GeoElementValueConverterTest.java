@@ -18,27 +18,22 @@ public class GeoElementValueConverterTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testConvertsText() {
-		assertConverts("\"hello\"", "“hello”");
-	}
-
-	@Test
 	public void testAddsBracketsForComplexExpressions() {
-		assertConverts("y=3x", "(y = 3x)");
-		assertConverts("x^2", "(x²)");
+		assertConverts("y=3x", "y = 3x");
+		assertConverts("x^2", "x²");
 	}
 
 	@Test
 	public void testDoesNotIncludeLabel() {
 		assertConverts("a = 1", "1");
-		assertConverts("f(x) = x+2", "(x + 2)");
-		assertConverts("d: y = 5x", "(y = 5x)");
+		assertConverts("f(x) = x+2", "x + 2");
+		assertConverts("d: y = 5x", "y = 5x");
 	}
 
 	@Test
 	public void testConvertsCommandsIntoValue() {
-		assertConverts("Line((1,2), (3,4))", "(-x + y = 1)");
-		assertConverts("Circle((0,0), 2)", "(x² + y² = 4)");
+		assertConverts("Line((1,2), (3,4))", "-x + y = 1");
+		assertConverts("Circle((0,0), 2)", "x² + y² = 4");
 	}
 
 	private void assertConverts(String input, String expected) {

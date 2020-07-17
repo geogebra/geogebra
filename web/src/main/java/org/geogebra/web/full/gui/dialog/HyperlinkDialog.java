@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.inline.InlineTextController;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
@@ -16,14 +16,14 @@ public class HyperlinkDialog extends OptionDialog {
 	private MediaInputPanel textInputPanel;
 	private MediaInputPanel linkInputPanel;
 
-	private InlineTextController inlineText;
+	private HasTextFormat formatter;
 
 	/**
 	 * Dialog for inserting hyperlink into an inline text
 	 */
-	public HyperlinkDialog(AppW app, InlineTextController inlineText) {
+	public HyperlinkDialog(AppW app, HasTextFormat formatter) {
 		super(app.getPanel(), app);
-		this.inlineText = inlineText;
+		this.formatter = formatter;
 
 		textInputPanel = new MediaInputPanel(app, this,	"Text", false);
 		linkInputPanel = new MediaInputPanel(app, this, "Link", true);
@@ -31,9 +31,9 @@ public class HyperlinkDialog extends OptionDialog {
 		linkInputPanel.addPlaceholder(app.getLocalization().getMenu("pasteLink"));
 		updateButtonLabels("OK");
 
-		hyperlinkText = inlineText.getHyperlinkRangeText().replace('\n', Unicode.ZERO_WIDTH_SPACE);
+		hyperlinkText = formatter.getHyperlinkRangeText().replace('\n', Unicode.ZERO_WIDTH_SPACE);
 		textInputPanel.setText(hyperlinkText);
-		linkInputPanel.setText(getSelectionUrl());
+		linkInputPanel.setText(formatter.getHyperLinkURL());
 
 		FlowPanel mainPanel = new FlowPanel();
 		mainPanel.add(textInputPanel);
@@ -47,10 +47,6 @@ public class HyperlinkDialog extends OptionDialog {
 		linkInputPanel.focusDeferred();
 	}
 
-	private String getSelectionUrl() {
-		return inlineText.getHyperLinkURL();
-	}
-
 	@Override
 	protected void processInput() {
 		String link = linkInputPanel.getInput();
@@ -61,10 +57,10 @@ public class HyperlinkDialog extends OptionDialog {
 		String url = normalizeUrl(link);
 
 		String text = textInputPanel.inputField.getText();
-		if (text.equals(hyperlinkText)	&& !StringUtil.empty(getSelectionUrl())) {
-			inlineText.setHyperlinkUrl(url);
+		if (text.equals(hyperlinkText)	&& !StringUtil.empty(formatter.getHyperLinkURL())) {
+			formatter.setHyperlinkUrl(url);
 		} else {
-			inlineText.insertHyperlink(url,	text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
+			formatter.insertHyperlink(url,	text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
 		}
 		hide();
 	}

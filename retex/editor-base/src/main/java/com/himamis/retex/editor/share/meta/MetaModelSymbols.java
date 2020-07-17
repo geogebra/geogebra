@@ -76,7 +76,7 @@ class MetaModelSymbols {
 
 		collection.addComponent(createOperator("div", "/", '/'));
 		collection.addComponent(
-				createOperator("ne", "!=", "\\ne", Unicode.NOTEQUAL));
+				createOperator("ne", "!=", "\\ne{}", Unicode.NOTEQUAL));
 		collection.addComponent(createOperator("equal", "==",
 				Unicode.QUESTEQ + "", Unicode.QUESTEQ));
 		collection.addComponent(
@@ -154,7 +154,7 @@ class MetaModelSymbols {
 				createOperator("empty", "NaN", "\\emptyset{}", '\u2205'));
 
 		collection.addComponent(
-				createOperator("pm", "NaN", "\\pm", Unicode.PLUSMINUS));
+				createOperator("pm", "NaN", "\\pm{}", Unicode.PLUSMINUS));
 		collection.addComponent(
 				createOperator("prime", "NaN", "\\prime{}", '\u2032'));
 		collection.addComponent(

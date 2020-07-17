@@ -6,6 +6,7 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -97,22 +98,6 @@ public class PDFEncoderW implements Encoder {
 
 	/**
 	 * 
-	 * @return true if canvas2pdf is already loaded
-	 */
-	public static native boolean canvas2PdfLoaded() /*-{
-		return !!$wnd.canvas2pdf;
-	}-*/;
-
-	/**
-	 * 
-	 * @return true if pako is already loaded
-	 */
-	public static native boolean pakoLoaded() /*-{
-		return !!$wnd.pako;
-	}-*/;
-
-	/**
-	 * 
 	 * @param pdfcontext
 	 *            canvas2pdf object
 	 * @return the resulting PDF (as base64 URL)
@@ -138,11 +123,11 @@ public class PDFEncoderW implements Encoder {
 	 */
 	public static Context2d getContext(int width, int height) {
 
-		if (!PDFEncoderW.pakoLoaded()) {
+		if (ExportLoader.getPako() == null) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
 		}
 
-		if (!PDFEncoderW.canvas2PdfLoaded()) {
+		if (ExportLoader.getCanvas2Pdf() == null) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
 		}
 
