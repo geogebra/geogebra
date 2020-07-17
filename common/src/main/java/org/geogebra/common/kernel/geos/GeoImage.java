@@ -18,7 +18,6 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
@@ -76,9 +75,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	private ArrayList<GeoPointND> al = null;
 	private boolean centered = false;
 
-	private double scaleX = 1;
-	private double scaleY = 1;
-	
 	private GRectangle2D cropBox;
 	private boolean cropped = false;
 
@@ -742,65 +738,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		return corners[i].inhomY;
 	}
 
-	/**
-	 * Updates the scale accordingly of the current corner points, and updates
-	 * the absolute screen location.
-	 */
-	public void updateScaleAndLocation() {
-		int width = getFillImage().getWidth();
-		int height = getFillImage().getHeight();
-		double curScaleX;
-		double curScaleY;
-		if (getCorner(1) != null) {
-			curScaleX = (getKernel().getApplication().getActiveEuclidianView()
-					.toScreenCoordXd(getCorner(1).inhomX)
-					- getKernel().getApplication().getActiveEuclidianView()
-							.toScreenCoordXd(getCorner(0).inhomX))
-					/ width;
-		} else {
-			curScaleX = 1;
-		}
-		if (getCorner(2) != null) {
-			curScaleY = (getKernel().getApplication().getActiveEuclidianView()
-					.toScreenCoordYd(getCorner(0).inhomY)
-					- getKernel().getApplication().getActiveEuclidianView()
-							.toScreenCoordYd(getCorner(2).inhomY))
-					/ height;
-		} else {
-			curScaleY = scaleX;
-		}
-		setScaleX(curScaleX);
-		setScaleY(curScaleY);
-		setAbsoluteScreenLoc(
-				getKernel().getApplication().getActiveEuclidianView()
-						.toScreenCoordX(getCorner(0).inhomX),
-				getKernel().getApplication().getActiveEuclidianView()
-						.toScreenCoordY(getCorner(0).inhomY));
-	}
-
-	/**
-	 * Updates the real world coordinates accordingly of the current real world
-	 * coordinates.
-	 */
-	public void screenToReal() {
-		EuclidianView ev = this.getKernel().getApplication().getActiveEuclidianView();
-		double realMinX = ev.toRealWorldCoordX(getAbsoluteScreenLocX());
-		double realMaxX = ev.toRealWorldCoordX(getAbsoluteScreenLocX()
-						+ getFillImage().getWidth() * getScaleX());
-		double realMinY = ev.toRealWorldCoordY(getAbsoluteScreenLocY());
-		double height = getFillImage().getHeight() * getScaleY();
-		double realMaxY = ev
-				.toRealWorldCoordY(getAbsoluteScreenLocY() - height);
-		setRealWorldCoord(realMinX, realMinY, 0);
-		setRealWorldCoord(realMaxX, realMinY, 1);
-		// C point created or updated - the next bug fixed with
-		// this:
-		// insert an image, scale with right side corner point,
-		// pin, scale the view, unpin => image was sheared
-		setRealWorldCoord(realMinX, realMaxY, 2);
-		setRealWorldCoord(realMaxX, realMaxY, 3);
-	}
-
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;
@@ -1312,44 +1249,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		corners[idx].remove();
 		kernel.notifyRemove(corners[idx]);
 		corners[idx] = null;
-	}
-
-	/**
-	 * Sets the scale of original width.
-	 * 
-	 * @param s
-	 *            new scale
-	 */
-	private void setScaleX(double s) {
-		scaleX = s;
-	}
-
-	/**
-	 * Gets the scale of original width.
-	 * 
-	 * @return x scale
-	 */
-	public double getScaleX() {
-		return scaleX;
-	}
-
-	/**
-	 * Sets the scale of original height.
-	 * 
-	 * @param s
-	 *            new scale
-	 */
-	private void setScaleY(double s) {
-		scaleY = s;
-	}
-
-	/**
-	 * Gets the scale of original height.
-	 * 
-	 * @return z scale
-	 */
-	public double getScaleY() {
-		return scaleY;
 	}
 
 	/**
