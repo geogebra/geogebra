@@ -27,7 +27,7 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 	 *            embedded applet
 	 */
 	public DrawEmbed(EuclidianView view, GeoEmbed geo) {
-		super(view, geo);
+		super(view, geo, false);
 		this.geoEmbed = geo;
 		embedManager = view.getApplication().getEmbedManager();
 		update();
@@ -105,10 +105,5 @@ public class DrawEmbed extends DrawWidget implements RemoveNeeded {
 		if (embedManager != null) {
 			embedManager.remove(this);
 		}
-	}
-
-	@Override
-	public boolean isFixedRatio() {
-		return false;
 	}
 }
