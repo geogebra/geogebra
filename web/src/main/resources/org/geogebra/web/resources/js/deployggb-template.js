@@ -398,8 +398,8 @@ var GGBApplet = function() {
         var removedID = null;
         for (i=0; i<appletParent.childNodes.length; i++) {
             var currentChild = appletParent.childNodes[i];
-            var tag = currentChild.tagName;
             var className = currentChild.className;
+
             if (currentChild.className === "applet_screenshot") {
                 if (showScreenshot) {
                     // Show the screenshot instead of the removed applet
@@ -409,10 +409,10 @@ var GGBApplet = function() {
                     // Hide the screenshot
                     currentChild.style.display = "none";
                 }
-            } else if ((tag === "ARTICLE" || tag === "DIV") && className !== "applet_scaler prerender") {
+            } else if (className !== "applet_scaler prerender") {
                 // Remove the applet
                 appletParent.removeChild(currentChild);
-                removedID = tag === "ARTICLE" ? currentChild.id : null;
+                removedID = className.contains("appletParameters") ? currentChild.id : null;
                 i--;
             }
         }
