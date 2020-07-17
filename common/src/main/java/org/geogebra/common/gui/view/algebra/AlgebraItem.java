@@ -452,7 +452,8 @@ public class AlgebraItem {
 	 * @return true if both rows should be shown.
 	 */
 	public static boolean shouldShowBothRows(GeoElement element) {
-		return (hasDefinitionAndValueMode(element) || isDependentText(element))
+		return (hasDefinitionAndValueMode(element) || isDependentText(element)
+				|| isSymbolicDiffers(element))
 				&& shouldShowOutputRowForAlgebraStyle(element, getAlgebraStyle(element.getApp()));
 	}
 
@@ -564,10 +565,12 @@ public class AlgebraItem {
 		int algebraStyle = element.getKernel().getAlgebraStyle();
 		if (element.getParentAlgorithm() instanceof AlgoFractionText) {
 			return element.getAlgebraDescription(stringTemplate);
+		} else if (element.isPenStroke()) {
+			return element.getLabelSimple();
 		} else if ((algebraStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION
 				|| algebraStyle == Kernel.ALGEBRA_STYLE_VALUE)
-				&& !AlgebraItem.isTextItem(element)) {
-			return AlgebraItem.getDescriptionString(element, algebraStyle,
+				&& !isTextItem(element)) {
+			return getDescriptionString(element, algebraStyle,
 					stringTemplate);
 		} else {
 			return null;

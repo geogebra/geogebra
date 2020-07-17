@@ -3116,6 +3116,7 @@ __GGB__keysVar["mk"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "\u041a\u043e\u0440\u0438\u0441\u0442\u0438 \u0433\u0438 \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u0438\u0442\u0435 \u0437\u0430 \u043f\u0430\u0442 \u0438 \u043e\u0431\u043b\u0430\u0441\u0442",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "\u041a\u043e\u0440\u0438\u0441\u043d\u0438\u0447\u043a\u0438 \u043f\u0440\u0438\u0441\u0442\u0430\u043f",
     "Value": "\u0412\u0440\u0435\u0434\u043d\u043e\u0441\u0442",
     "ValueOfA": "\u0412\u0440\u0435\u0434\u043d\u043e\u0441\u0442 \u043d\u0430 %0",

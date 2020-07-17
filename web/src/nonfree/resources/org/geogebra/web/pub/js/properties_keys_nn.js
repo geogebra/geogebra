@@ -3116,6 +3116,7 @@ __GGB__keysVar["nn"].menu = {
     "UseLighting": "Bruk lyssetting",
     "UsePairNames": "Bruk parnamn",
     "UsePathAndRegionParameters": "Bruk parametrar for sti og omr\xe5de",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Brukargrensesnitt",
     "Value": "Verdi",
     "ValueOfA": "Verdi av %0",

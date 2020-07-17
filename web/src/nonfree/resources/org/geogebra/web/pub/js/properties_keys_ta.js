@@ -3116,6 +3116,7 @@ __GGB__keysVar["ta"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Use Path and Region Parameters",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "\u0baa\u0baf\u0ba9\u0bbe\u0bb3\u0bb0\u0bcd \u0b87\u0b9f\u0bc8\u0bae\u0bc1\u0b95\u0bae\u0bcd",
     "Value": "\u0baa\u0bc6\u0bb1\u0bc1\u0bae\u0ba4\u0bbf",
     "ValueOfA": "Value of %0",

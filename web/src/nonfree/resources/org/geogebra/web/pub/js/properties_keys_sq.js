@@ -3116,6 +3116,7 @@ __GGB__keysVar["sq"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Perdor Parametra Shtegu dhe Zone",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Perdorues Interfaze",
     "Value": "Vlere",
     "ValueOfA": "Vlera e %0",

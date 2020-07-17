@@ -3116,6 +3116,7 @@ __GGB__keysVar["nl"].menu = {
     "UseLighting": "Gebruik belichting",
     "UsePairNames": "Gebruik gekoppelde namen",
     "UsePathAndRegionParameters": "Gebruik pad en regio parameters",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Gebruikersinterface",
     "Value": "Waarde",
     "ValueOfA": "Waarde van %0",

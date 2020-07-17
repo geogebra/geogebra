@@ -3116,6 +3116,7 @@ __GGB__keysVar["xh"].menu = {
     "UseLighting": "sebenzisa ukhanyiso",
     "UsePairNames": "Sebenzisa amagama eePeri",
     "UsePathAndRegionParameters": "Sebenzisa iNdlela kunye nMmandla weePharamitha",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Sebenzisa iInterface",
     "Value": "Ixabiso",
     "ValueOfA": "Ixabiso lika %0",

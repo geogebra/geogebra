@@ -3116,6 +3116,7 @@ __GGB__keysVar["ms"].menu = {
     "UseLighting": "Gunakan Cahaya",
     "UsePairNames": "Guna Nama Pasangan",
     "UsePathAndRegionParameters": "Gunakan Laluan dan Parameter Rantau",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Antara Muka Pengguna",
     "Value": "Nilai",
     "ValueOfA": "Nilai %0",
