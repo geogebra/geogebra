@@ -109,18 +109,9 @@ public class DrawImage extends Drawable {
 
 		// ABSOLUTE SCREEN POSITION
 		if (absoluteLocation) {
-			// scaleX and scaleY should be 1 if there is no MOW_PIN_IMAGE
-			// feature flag, so in that case there is no any effect of these
-			double scaleX = geoImage.getScaleX();
-			double scaleY = geoImage.getScaleY();
 			screenX = geoImage.getAbsoluteScreenLocX();
-			screenY = (int) (geoImage.getAbsoluteScreenLocY() - height * scaleY);
-			if (geo.getKernel().getApplication().isWhiteboardActive()) {
-				classicBoundingBox.setBounds(screenX, screenY,
-						(int) (width * scaleX), (int) (height * scaleY));
-			}
-			labelRectangle.setBounds(screenX, screenY, (int) (width * scaleX),
-					(int) (height * scaleY));
+			screenY = geoImage.getAbsoluteScreenLocY() - height;
+			labelRectangle.setBounds(screenX, screenY, width, height);
 		}
 
 		// RELATIVE SCREEN POSITION
@@ -290,12 +281,7 @@ public class DrawImage extends Drawable {
 			}
 			MyImage image = geoImage.getFillImage();
 			if (absoluteLocation) {
-				g3.saveTransform();
-				g3.translate(screenX, screenY);
-				g3.scale(geoImage.getScaleX(), geoImage.getScaleY());
-				g3.translate(-screenX, -screenY);
 				g3.drawImage(image, screenX, screenY);
-				g3.restoreTransform();
 				if (!isInBackground && isHighlighted()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
