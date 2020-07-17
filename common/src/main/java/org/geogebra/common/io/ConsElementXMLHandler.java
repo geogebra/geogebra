@@ -917,7 +917,7 @@ public class ConsElementXMLHandler {
 		}
 	}
 
-	private boolean handleTable(LinkedHashMap<String, String> attrs) {
+	private boolean handleTableView(LinkedHashMap<String, String> attrs) {
 		try {
 			((GeoEvaluatable) geo).setTableColumn(
 					(int) MyXMLHandler.parseDoubleNaN(attrs.get("column")));
@@ -2208,7 +2208,7 @@ public class ConsElementXMLHandler {
 				handleSelectedIndex(attrs);
 				break;
 			case "tableview":
-				handleTable(attrs);
+				handleTableView(attrs);
 				break;
 			case "trace":
 				handleTrace(attrs);

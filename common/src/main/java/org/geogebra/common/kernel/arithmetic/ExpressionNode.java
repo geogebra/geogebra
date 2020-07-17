@@ -890,13 +890,14 @@ public class ExpressionNode extends ValidExpression
 			right = right.traverse(t);
 		}
 
-		// if we did some replacement in a leaf,
-		// we might need to update the leaf flag (#3512)
-		ExpressionNode rewrap = unwrap().wrap();
-		if (isSecret()) {
-			rewrap.secretMaskingAlgo = this.secretMaskingAlgo;
+		if (isLeaf() && left != null && left.isExpressionNode()) {
+			ExpressionNode leftNode = left.wrap();
+			right = leftNode.right;
+			left = leftNode.left;
+			leaf = leftNode.leaf;
+			operation = leftNode.operation;
 		}
-		return rewrap;
+		return this;
 	}
 
 	@Override
@@ -3667,7 +3668,7 @@ public class ExpressionNode extends ValidExpression
 			return false;
 		}
 		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
-				|| unwrap instanceof GeoNumeric) {
+				|| (unwrap instanceof GeoNumeric && !(unwrap instanceof GeoDummyVariable))) {
 			double val = evaluateDouble();
 			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);

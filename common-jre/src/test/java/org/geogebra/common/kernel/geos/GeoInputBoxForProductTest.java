@@ -153,7 +153,7 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 
 	@Test
 	public void testImaginaryProduct() {
-		add("a=4");
+		add("a=4+i");
 		shouldBeUpdatedAs("a", "i1", "i");
 	}
 
