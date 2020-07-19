@@ -2304,7 +2304,7 @@ __GGB__keysVar["pt"].menu = {
     "NotAvailable": "N\xe3o Dispon\xedvel",
     "NotIncluded": "n\xe3o inclu\xeddo",
     "NotSharedLinkHelpTxt": "Particular, n\xe3o compartilhado",
-    "Notes": "O GeoGebra precisa acessar sua bilioteca de fotos para gravar uma imagem.",
+    "Notes": "Notas",
     "NullHypothesis": "Hip\xf3tese Nula",
     "NullHypothesis.short": "Nula",
     "Number": "N\xfamero",
