@@ -253,8 +253,8 @@ public class EmbedManagerW implements EmbedManager {
 		style.setProperty("transform", "rotate(" + drawEmbed.getGeoElement().getAngle() + "rad)");
 		if (drawEmbed.getWidth() > 0) {
 			embedElement.getGreatParent().setSize(
-					drawEmbed.getWidth() + "px",
-					drawEmbed.getHeight() + "px");
+					(int) drawEmbed.getWidth() + "px",
+					(int) drawEmbed.getHeight() + "px");
 			// above the oject canvas (50) and below MOW toolbar (51)
 			toggleBackground(embedElement, drawEmbed);
 			int contentWidth = drawEmbed.getGeoEmbed().getContentWidth();
