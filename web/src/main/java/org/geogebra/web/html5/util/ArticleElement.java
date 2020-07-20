@@ -32,10 +32,8 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	 */
 	public static ArticleElement as(Element element) {
 		if (element != null) {
-			element.setTabIndex(0);
+			element.setTabIndex(-1);
 		}
-		// assert element.getTagName().equalsIgnoreCase(TAG);
-		//addNativeHandlers(element);
 		return (ArticleElement) element;
 	}
 
