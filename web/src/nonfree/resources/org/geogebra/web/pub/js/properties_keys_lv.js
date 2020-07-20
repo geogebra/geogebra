@@ -678,7 +678,7 @@ __GGB__keysVar["lv"].command = {
     "PlaneBisector.Syntax": "[ <Segment> ]\n[ <Point>, <Point> ]",
     "PlaySound": "Atska\u0146o",
     "PlaySound.Syntax": "[ <Fails> ]\n[ <Boolean Play> ]\n[ <Funkcija>, <Min V\u0113rt\u012bba>, <Max V\u0113rt\u012bba> ]\n[ <Funkcija>, <Min V\u0113rt\u012bba>, <Max V\u0113rt\u012bba>, <Sample Rate>, <Sample Depth> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Punkti",
     "Point.Syntax": "[ <Objekts> ]\n[ <Saraksts> ]\n[ <Objekts>, <Parametrs> ]\n[ <Punkts>, <Vektors> ]",

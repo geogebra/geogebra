@@ -678,7 +678,7 @@ __GGB__keysVar["hu"].command = {
     "PlaneBisector.Syntax": "[ <Szakasz> ]\n[ <Pont>, <Pont> ]",
     "PlaySound": "HangLej\xe1tsz\xe1s",
     "PlaySound.Syntax": "[ <F\xe1jl> ]\n[ <Logikai \xe9rt\xe9k lej\xe1tsz\xe1shoz> ]\n[ <F\xfcggv\xe9ny>, <Kezd\u0151\xe9rt\xe9k>, <V\xe9g\xe9rt\xe9k> ]\n[ <F\xfcggv\xe9ny>, <Kezd\u0151\xe9rt\xe9k>, <V\xe9g\xe9rt\xe9k>, <Mintav\xe9tel s\u0171r\u0171s\xe9ge>, <Mintav\xe9tel m\xe9lys\xe9ge> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Pont",
     "Point.Syntax": "[ <Alakzat> ]\n[ <Lista> ]\n[ <Alakzat>, <Param\xe9ter> ]\n[ <Pont>, <Vektor> ]",

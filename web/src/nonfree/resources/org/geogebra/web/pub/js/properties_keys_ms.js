@@ -678,7 +678,7 @@ __GGB__keysVar["ms"].command = {
     "PlaneBisector.Syntax": "[ <Segmen> ]\n[ <Titik>, <Titik> ]",
     "PlaySound": "MainBunyi",
     "PlaySound.Syntax": "[ <Url> ]\n[ <Main Boolean> ]\n[ <Fungsi>, <Nilai Minimum>, <Nilai Maks> ]\n[ <Fungsi>, <Nilai Minimum>, <Nilai Maks>, <Kadar Sampel>, <Dalam Sampel> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Titik",
     "Point.Syntax": "[ <Objek> ]\n[ <Onjek>, <Parameter> ]\n[ <Titik>, <Vektor> ]",

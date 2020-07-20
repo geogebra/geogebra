@@ -678,7 +678,7 @@ __GGB__keysVar["ca"].command = {
     "PlaneBisector.Syntax": "[ <Segment> ]\n[ <Punt>, <Punt> ]",
     "PlaySound": "ReprodueixSo",
     "PlaySound.Syntax": "[ <Fitxer> ]\n[ <Reproducci\xf3 booleana> ]\n[ <Funci\xf3>, <Valor M\xednim>, <Valor M\xe0xim> ]\n[ <Funci\xf3>, <Valor M\xednim>, <Valor M\xe0xim>, <Freq\xfc\xe8ncia de mostreig>, <Profunditat de Mostreig> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Punt",
     "Point.Syntax": "[ <Objecte> ]\n[ <Llista> ]\n[ <Objecte>, <Par\xe0metre> ]\n[ <Punt>, <Vector> ]",

@@ -678,7 +678,7 @@ __GGB__keysVar["bs"].command = {
     "PlaneBisector.Syntax": "[ <Du\u017e> ]\n[ <Ta\u010dka>, <Ta\u010dka> ]",
     "PlaySound": "Sviraj",
     "PlaySound.Syntax": "[ <URL> ]\n[ <Sviraj-logi\u010dka vrijednost> ]\n[ <Funkcija>, <Min Vrijednost>, <Max Vrijednost> ]\n[ <Funkcija>, <Min Vrijednost>, <Max Vrijednost>, <Tempo>, <Dubina> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Ta\u010dka",
     "Point.Syntax": "[ <Objekt> ]\n[ <Lista> ]\n[ <Objekt>, <Parametar> ]\n[ <Ta\u010dka>, <Vektor> ]",
