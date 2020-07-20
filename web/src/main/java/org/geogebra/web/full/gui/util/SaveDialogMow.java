@@ -245,12 +245,7 @@ public class SaveDialogMow extends DialogBoxW
 		Material activeMaterial = ((AppW) app).getActiveMaterial();
 		templateCheckbox.setSelected(activeMaterial != null && MaterialType.ggsTemplate
 				.equals(activeMaterial.getType()));
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				getInputField().getTextComponent().setFocus(true);
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
 	}
 
 	/**
@@ -277,6 +272,7 @@ public class SaveDialogMow extends DialogBoxW
 	public void setDiscardMode() {
 		setCaptionKey("DoYouWantToSaveYourChanges");
 		cancelBtn.setLabel(loc.getMenu("Discard"));
+		templateCheckbox.setVisible(false);
 	}
 
 	@Override
