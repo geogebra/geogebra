@@ -69,6 +69,7 @@ public class DialogManagerW extends DialogManager
 		implements LoadingApplication {
 	private FunctionInspectorW functionInspector;
 	private RecoverAutoSavedDialog autoSavedDialog;
+	protected SaveDialogI saveDialog = null;
 	private TemplateChooser templateChooser;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog colChooser = null;
@@ -419,13 +420,13 @@ public class DialogManagerW extends DialogManager
 	 * @return {@link SaveDialogI}
 	 */
 	public SaveDialogI getSaveDialog() {
-		DialogData data;
-		SaveDialogI saveDialog;
-		if (app.isMebis()) {
-			saveDialog = new SaveDialogMow((AppW) app);
-		} else {
-			data = new DialogData("Save", "DontSave", "Save");
-			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
+		if (saveDialog == null) {
+			if (app.isMebis()) {
+				saveDialog = new SaveDialogMow((AppW) app);
+			} else {
+				DialogData data = new DialogData("Save", "DontSave", "Save");
+				saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
+			}
 		}
 		// set default saveType
 		saveDialog.setSaveType(
