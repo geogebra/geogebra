@@ -317,8 +317,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	protected Hits handleAddSelectedArrayList = new Hits();
 	protected Coords tmpCoordsL3;
 	protected boolean penDragged;
-	protected boolean shapeDragged;
-	protected int oldShapeMode = -1;
 	protected boolean doubleClickStarted;
 	protected double twoTouchStartX;
 	protected double twoTouchStartY;
@@ -6418,9 +6416,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		GeoElement geo = view.getLabelHit(mouseLoc, event.getType());
 		mouseIsOverLabel = geo != null;
 
-		// change cursor also in shape mode for hover
-		if (moveMode(mode) || shapeMode(mode)) { // label hit in move mode:
-													// block all other hits
+		// label hit in move mode: block all other hits
+		if (moveMode(mode)) {
 			if (geo != null) {
 				noHighlighting = true;
 				tempArrayList.clear();
@@ -8601,7 +8598,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (app.isSelectionRectangleAllowed()
 					&& ((app.isRightClick(event)
 							|| app.getMode() == EuclidianConstants.MODE_SELECT)
-							|| (allowSelectionRectangle() && !shapeDragged))
+							|| allowSelectionRectangle())
 					&& !temporaryMode
 					&& ((!app.isRightClick(event) && app
 							.getMode() == EuclidianConstants.MODE_SELECT_MOW)
@@ -9182,7 +9179,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		scriptsHaveRun = false;
 
 		penDragged = false;
-		shapeDragged = false;
 
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {
 			// determine parent panel to change focus
@@ -9215,47 +9211,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& view.getBoundingBox().hitSideOfBoundingBox(event.getX(),
 						event.getY(), app.getCapturingThreshold(event.getType()));
 
-		Drawable d = view.getBoundingBoxHandlerHit(
-				new GPoint(event.getX(), event.getY()), event.getType());
+		view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), event.getType());
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
-			// no hit or no bounding box, so we have to create
-			// shape
-			if ((view.getHits().isEmpty()
-					&& view.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED)
-					|| view.getBoundingBox() == null) {
-				// clear selection to be able to drag created shape with shape
-				// tool
-				selection.clearSelectedGeos();
-				getShapeMode().handleMousePressedForShapeMode(event);
-			} else {
-				if (d != null && view.getBoundingBox() != null
-						&& view.getBoundingBox()
-								.equals(d.getBoundingBox())) {
-					setResizedShape(d);
-				} else if (view.getHits().size() == 1
-						&& view.getHits().get(0) != null
-						&& view.getHits().get(0).isShape()) {
-					if (isCurrentBoundingBox(view.getHits().get(0))) {
-						shapeDragged = true;
-						oldShapeMode = mode;
-						mode = EuclidianConstants.MODE_MOVE;
-					} else {
-						selection.clearSelectedGeos();
-						getShapeMode().handleMousePressedForShapeMode(event);
-					}
-				} else if (selection.getSelectedGeos().size() == 1
-						&& selection.getSelectedGeos().get(0).isShape()
-						&& isCurrentBoundingBox(selection.getSelectedGeos().get(0))) {
-					shapeDragged = true;
-					oldShapeMode = mode;
-					mode = EuclidianConstants.MODE_MOVE;
-				// shape hit but not selected
-				} else {
-					selection.clearSelectedGeos();
-					getShapeMode().handleMousePressedForShapeMode(event);
-				}
-			}
+			getShapeMode().handleMousePressedForShapeMode(event);
 		}
 
 		this.pressedButton = view.getHitDetector().getHitButton();
@@ -9319,12 +9278,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		}
 		switchModeForMousePressed(event);
-	}
-
-	private boolean isCurrentBoundingBox(GeoElement geoElement) {
-		DrawableND drawable = view.getDrawableFor(geoElement);
-		return drawable != null
-				&& ((Drawable) drawable).getBoundingBox() == view.getBoundingBox();
 	}
 
 	private void updateHits(AbstractEvent event) {
@@ -9997,7 +9950,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			setBoundingBoxFromList(selection.getSelectedGeos());
 		}
 
-		if (shapeMode(mode) && !app.isRightClick(event) && !shapeDragged) {
+		if (shapeMode(mode) && !app.isRightClick(event)) {
 			GeoElement geo = getShapeMode()
 						.handleMouseReleasedForShapeMode(event);
 			if (geo != null && geo.isShape() && view.getDrawableFor(geo) != null) {
@@ -10016,14 +9969,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				&& !event.isControlDown() && view.getSelectionRectangle() == null
 				&& !wasBoundingBoxHit) {
 			handleMowSelectionRelease();
-		}
-
-		// after finished drag switch back mode
-		// also ignore drag start point
-		if (moveMode(mode) && shapeDragged) {
-			shapeDragged = false;
-			mode = oldShapeMode;
-			getShapeMode().setDragStartPointSet(false);
 		}
 
 		if (!event.isRightClick() && isDragTool()) {
