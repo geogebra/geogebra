@@ -3116,6 +3116,7 @@ __GGB__keysVar["eu"].menu = {
     "UseLighting": "Erabili Argiztapena",
     "UsePairNames": "Erabili Izen Bikoteak",
     "UsePathAndRegionParameters": "Erabili bidearen parametroa eta eskualdearen parametroa",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Erabiltzailearen Interfazea",
     "Value": "Balioa",
     "ValueOfA": "%0-ren balioa",

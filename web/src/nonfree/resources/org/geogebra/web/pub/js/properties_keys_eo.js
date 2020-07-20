@@ -3116,6 +3116,7 @@ __GGB__keysVar["eo"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Use Path and Region Parameters",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Fasado",
     "Value": "Valoro",
     "ValueOfA": "Valoro de %0",

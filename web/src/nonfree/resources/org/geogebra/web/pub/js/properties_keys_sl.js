@@ -3116,6 +3116,7 @@ __GGB__keysVar["sl"].menu = {
     "UseLighting": "Uporabi okrnjeno",
     "UsePairNames": "Uporabi usklajeni imeni",
     "UsePathAndRegionParameters": "Uporabi pot in regionalne parametre",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Uporabni\u0161ki vmesnik",
     "Value": "Vrednost",
     "ValueOfA": "Vrednost %0",

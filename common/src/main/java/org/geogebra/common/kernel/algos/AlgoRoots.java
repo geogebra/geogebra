@@ -238,7 +238,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			break;
 		}
 		if (!ok) {
-			setPoints(new double[1], 0); // debug("error in args");
+			double[] xs = new double[1];
+			setPoints(xs, ys(xs), 0);
 		} else {
 			if (type == TYPE_INTERSECTIONS) {
 				diff = new GeoFunction(cons);
@@ -252,12 +253,11 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		} // if ok input
 	}
 
-	@Override
-	protected double yAt(double x) {
+	private double[] ys(double[] xs) {
 		if (type == TYPE_ROOTS) {
-			return 0;
+			return new double[xs.length];
 		}
-		return f1.value(x);
+		return getYs(f1, xs);
 	}
 
 	private final void compute2(GeoFunctionable f) {
@@ -308,9 +308,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		}
 
 		if (numberofroots == 0) {
-			setPoints(new double[1], 0); // 0 flags no root=>undefined
+			setPoints(new double[1], ys(new double[1]), 0); // 0 flags no root=>undefined
 		} else {
-			setPoints(roots, roots.length);
+			setPoints(roots, ys(roots), roots.length);
 		}
 	}
 

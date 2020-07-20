@@ -3116,6 +3116,7 @@ __GGB__keysVar["ml"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Use Path and Region Parameters",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "User Interface",
     "Value": "Value",
     "ValueOfA": "%0 \u0d28\u0d4d\u0d31\u0d46 \u0d35\u0d3f\u0d32",

@@ -3116,6 +3116,7 @@ __GGB__keysVar["et"].menu = {
     "UseLighting": "Kasuta valgust",
     "UsePairNames": "Use Pair Names",
     "UsePathAndRegionParameters": "Kasuta tee ja piirkonna parameetreid",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Kasutajaliides",
     "Value": "V\xe4\xe4rtus",
     "ValueOfA": "%0 v\xe4\xe4rtus",

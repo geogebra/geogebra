@@ -3116,6 +3116,7 @@ __GGB__keysVar["gl"].menu = {
     "UseLighting": "Usar iluminaci\xf3n",
     "UsePairNames": "Uso par de nomes",
     "UsePathAndRegionParameters": "Usar par\xe1metros de ruta de acceso e rexi\xf3n",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Interface do usuario",
     "Value": "Valor",
     "ValueOfA": "Valor de %0",

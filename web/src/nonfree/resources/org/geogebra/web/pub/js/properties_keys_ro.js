@@ -3116,6 +3116,7 @@ __GGB__keysVar["ro"].menu = {
     "UseLighting": "Utiliza\u021bi iluminarea",
     "UsePairNames": "Utilizare nume pereche",
     "UsePathAndRegionParameters": "Utiliza\u021bi parametrii de cale sau de regiune",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "Interfa\u0163\u0103 utilizator",
     "Value": "Valoare",
     "ValueOfA": "Valoarea lui %0",

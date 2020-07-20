@@ -3116,6 +3116,7 @@ __GGB__keysVar["am"].menu = {
     "UseLighting": "Use Lighting",
     "UsePairNames": "\u1325\u1295\u12f5 \u1235\u121e\u127d \u1270\u1320\u1240\u121d",
     "UsePathAndRegionParameters": "Use Path and Region Parameters",
+    "UseTextAsCaption": "Use text as caption",
     "UserInterface": "\u12e8\u1270\u1320\u1243\u121a \u1260\u12ed\u1290\u1308\u133d",
     "Value": "\u12a5\u1234\u1275",
     "ValueOfA": "\u12e8 %0 \u12a5\u1234\u1275",

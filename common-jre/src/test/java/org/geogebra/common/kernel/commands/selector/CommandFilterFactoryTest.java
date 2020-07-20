@@ -26,7 +26,7 @@ public class CommandFilterFactoryTest {
 			Commands.Distance, Commands.Envelope, Commands.IntersectPath, Commands.Locus,
 			Commands.LocusEquation, Commands.Midpoint, Commands.Perimeter,
 			Commands.PerpendicularBisector, Commands.PerpendicularLine, Commands.Polygon,
-			Commands.Polyline, Commands.Prove, Commands.ProveDetails, Commands.Radius,
+			Commands.Prove, Commands.ProveDetails, Commands.Radius,
 			Commands.RigidPolygon, Commands.Sector, Commands.Segment, Commands.Slope,
 			Commands.Tangent, Commands.TriangleCenter, Commands.TriangleCurve, Commands.Trilinear,
 			Commands.Vertex, Commands.Polynomial, Commands.TaylorPolynomial, Commands.Asymptote,
