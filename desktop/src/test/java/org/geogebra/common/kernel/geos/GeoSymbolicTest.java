@@ -1158,10 +1158,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		AlgebraItem.toggleSymbolic(solveX);
 		AlgebraItem.toggleSymbolic(solveA);
 
-		assertThat(Commands.NSolve.getCommand().equals(solveX.getDefinition().getTopLevelCommand()
-				.getName()), is(true));
-		assertThat(Commands.Solve.getCommand().equals(solveA.getDefinition().getTopLevelCommand()
-				.getName()), is(true));
+		assertThat(Commands.NSolve.getCommand(),
+				is(solveX.getDefinition().getTopLevelCommand().getName()));
+
+		assertThat(Commands.Solve.getCommand(),
+				is(solveA.getDefinition().getTopLevelCommand().getName()));
 	}
 
 }
