@@ -305,8 +305,8 @@ public class PageListPanel
 	 * @param src
 	 *            to duplicate page at.
 	 */
-	public void duplicatePage(PagePreviewCard src) {
-		PagePreviewCard dup = pageController.duplicateSlideStoreUndo(src);
+	public void pastePage(PagePreviewCard src, String json) {
+		PagePreviewCard dup = pageController.pasteSlideStoreUndo(src, json);
 		addPreviewCard(dup);
 		pageController.updatePreviewImage();
 	}
@@ -374,5 +374,9 @@ public class PageListPanel
 	public void setIsTouch() {
 		isTouch = true;
 		update();
+	}
+
+	public void saveSlide(PagePreviewCard card) {
+		pageController.refreshSlide(card);
 	}
 }	

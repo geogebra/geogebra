@@ -1,5 +1,6 @@
 package org.geogebra.web.full.move.googledrive.models;
 
+import org.geogebra.web.html5.util.BrowserStorage;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
 /**
@@ -40,13 +41,10 @@ public class GoogleDriveModelW extends AuthenticationModelW {
 	 *            whether we logged in from google
 	 */
 	public void setLoggedInFromGoogleDrive(boolean loggedInFrom) {
-		if (storage == null) {
-			return;
-		}
 		if (loggedInFrom) {
-			storage.setItem(GGT_GOOGLE_KEY_NAME, "true");
+			BrowserStorage.LOCAL.setItem(GGT_GOOGLE_KEY_NAME, "true");
 		} else {
-			storage.removeItem(GGT_GOOGLE_KEY_NAME);
+			BrowserStorage.LOCAL.removeItem(GGT_GOOGLE_KEY_NAME);
 		}
 	}
 
@@ -54,10 +52,7 @@ public class GoogleDriveModelW extends AuthenticationModelW {
 	 * @return whether we logged in from Google last time
 	 */
 	public boolean lastLoggedInFromGoogleDrive() {
-		if (storage == null) {
-			return false;
-		}
-		return "true".equals(storage.getItem(GGT_GOOGLE_KEY_NAME));
+		return "true".equals(BrowserStorage.LOCAL.getItem(GGT_GOOGLE_KEY_NAME));
 	}
 
 }

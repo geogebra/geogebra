@@ -375,7 +375,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
 		        .getGuiManager()).getSpreadsheetContextMenu(table);
 		GPopupMenuW popupMenu = (GPopupMenuW) contextMenu.getMenuContainer();
-		popupMenu.show(new GPoint(x, y));
+		popupMenu.show(x, y);
 		app.registerPopup(popupMenu.getPopupPanel());
 	}
 

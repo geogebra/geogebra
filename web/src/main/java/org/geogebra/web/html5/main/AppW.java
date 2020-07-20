@@ -131,6 +131,7 @@ import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.BrowserStorage;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -151,7 +152,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -212,7 +212,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private ReaderTimer readerTimer;
 	private boolean toolLoadedFromStorage;
-	private Storage storage;
+	private BrowserStorage storage;
 	private boolean keyboardNeeded;
 	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
@@ -716,12 +716,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            whether to reload just a slide
 	 */
 	public void loadGgbFile(final GgbFile archiveContent, final boolean asSlide) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				loadFileWithoutErrorHandling(archiveContent, asSlide);
-			}
-		};
+		Runnable r = () -> loadFileWithoutErrorHandling(archiveContent, asSlide);
 
 		getAsyncManager().scheduleCallback(r);
 	}
@@ -1173,7 +1168,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	protected void createStorage() {
 		if (storage == null) {
-			storage = Storage.getSessionStorageIfSupported();
+			storage = BrowserStorage.SESSION;
 		}
 	}
 

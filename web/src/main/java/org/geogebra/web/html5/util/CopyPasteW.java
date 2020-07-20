@@ -43,7 +43,6 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.storage.client.Storage;
 
 import elemental2.core.Global;
 import elemental2.dom.Blob;
@@ -325,11 +324,7 @@ public class CopyPasteW extends CopyPaste {
 			String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
 			writeToExternalClipboard(encoded);
 		}
-		try {
-			Storage.getLocalStorageIfSupported().setItem(pastePrefix, toSave);
-		} catch (Throwable t) {
-			Log.debug("Quota exceeded");
-		}
+		BrowserStorage.LOCAL.setItem(pastePrefix, toSave);
 	}
 
 	private static native boolean copyToExternalSupported() /*-{
@@ -636,7 +631,7 @@ public class CopyPasteW extends CopyPaste {
 	 * @param app application
 	 */
 	public static void pasteInternal(AppW app) {
-		String stored = Storage.getLocalStorageIfSupported().getItem(pastePrefix);
+		String stored = BrowserStorage.LOCAL.getItem(pastePrefix);
 		if (!StringUtil.empty(stored)) {
 			pasteGeoGebraXML(app, stored);
 		}
