@@ -354,7 +354,7 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
-	public void testPlotSolveIsVisible() {
+	public void cmdPlotSolve() {
 		t("PlotSolve(x^2-2)", "{(-1.4142135623730951, 0), (1.4142135623730951, 0)}");
 		GeoElement element = get("l1");
 		assertThat(element.isEuclidianVisible(), is(true));

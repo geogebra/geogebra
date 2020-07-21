@@ -1415,4 +1415,9 @@ public class CAStestJSON {
 	public void testRandomUniform() {
 		testCat("RandomUniform.2");
 	}
+
+	@Test
+	public void testPlotSolve() {
+		testCat("PlotSolve.1");
+	}
 }
