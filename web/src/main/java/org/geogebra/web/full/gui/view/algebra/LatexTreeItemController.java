@@ -48,6 +48,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onBlur(BlurEvent event) {
+		item.resetInputBarOnBlur();
 		if (preventBlur || noEvaluationOnBlur()) {
 			return;
 		}
@@ -93,14 +94,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return;
 		}
 
-		item.stopEditing(item.getText(), new AsyncOperation<GeoElementND>() {
-
-			@Override
-			public void callback(GeoElementND obj) {
-				if (obj != null && !keepFocus) {
-					app.setScrollToShow(true);
-					obj.update();
-				}
+		item.stopEditing(item.getText(), obj -> {
+			if (obj != null && !keepFocus) {
+				app.setScrollToShow(true);
+				obj.update();
 			}
 		}, keepFocus);
 	}
