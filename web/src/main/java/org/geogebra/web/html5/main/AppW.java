@@ -3441,33 +3441,21 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void copyGraphicsViewToClipboard() {
-		if (!isCopyImageToClipboardAvailable()) {
-			Log.debug("window.copyGraphicsToClipboardExternal() not available");
-			return;
-		}
-
 		EuclidianViewW ev = (EuclidianViewW) getActiveEuclidianView();
-		nativeCopyToClipboardExternal(ev.getExportImageDataUrl(3, false, false));
+		copyImageToClipboard(ev.getExportImageDataUrl(3, false, false));
 	}
-
-	private native String nativeCopyToClipboardExternal(String s) /*-{
-		return $wnd.copyGraphicsToClipboardExternal(s);
-	}-*/;
-
-	/**
-	 * @return whether native clipboard API is available
-	 */
-	public native boolean isCopyImageToClipboardAvailable() /*-{
-		return !!$wnd.copyGraphicsToClipboardExternal;
-	}-*/;
 
 	@Override
 	public void copyImageToClipboard(String dataURI) {
-		if (!isCopyImageToClipboardAvailable()) {
-			Log.debug("window.copyGraphicsToClipboardExternal() not available");
+		if (!Clipboard.isCopyImageToClipboardAvailable()) {
+			Log.debug("window.copyGraphicsToClipboard() not available");
 			return;
 		}
-		nativeCopyToClipboardExternal(dataURI);
+		try {
+			Clipboard.copyGraphicsToClipboard(dataURI);
+		} catch (Exception e) {
+			Log.warn("Clipboard API is new and maybe half-implemented in your browser.");
+		}
 	}
 
 	/**
