@@ -59,6 +59,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/domvas.js")
 	TextResource domvas();
 
+	@Source("org/geogebra/web/resources/js/clipboard.js")
+	TextResource clipboardJs();
+
 	@Source("org/geogebra/web/resources/css/web-styles-global.less")
 	LessResource modernStyleGlobal();
 
