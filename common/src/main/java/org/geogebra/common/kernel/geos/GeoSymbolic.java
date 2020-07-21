@@ -190,7 +190,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private boolean shouldBeEuclidianVisible(Command input) {
-		return !"Solve".equals(input.getName());
+		return !"Solve".equals(input.getName()) && !"IsInteger".equals(input.getName());
 	}
 
 	private ExpressionValue parseOutputString(String output) {
