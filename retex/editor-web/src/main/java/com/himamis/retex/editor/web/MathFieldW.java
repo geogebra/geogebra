@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the ReTeX library - https://github.com/himamis/ReTeX
  *
  * Copyright (C) 2015 Balazs Bencze
@@ -112,7 +112,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private ExpressionReader expressionReader;
 
-	private static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
+	private static ArrayList<MathFieldW> instances = new ArrayList<>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
@@ -728,7 +728,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			if (onTextfieldFocus != null) {
 				onTextfieldFocus.onFocus(null);
 			}
-			startBlink();
 			focuser = new Timer() {
 
 				@Override
@@ -777,6 +776,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (html.getElement().getParentElement() != null) {
 			html.getElement().getParentElement().setScrollTop(0);
 		}
+		startBlink();
 	}
 
 	private native void installPaste(Element target) /*-{
@@ -801,7 +801,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private void startEditing() {
 		if (mathFieldInternal.getEditorState().getCurrentField() == null) {
-			mathFieldInternal.getCursorController();
 			CursorController.lastField(mathFieldInternal.getEditorState());
 		}
 		// update even when cursor didn't change here
