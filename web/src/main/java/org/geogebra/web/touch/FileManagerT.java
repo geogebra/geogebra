@@ -17,9 +17,9 @@ import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.BrowserStorage;
 
 import com.google.gwt.core.client.Callback;
-import com.google.gwt.storage.client.Storage;
 import com.googlecode.gwtphonegap.client.PhoneGap;
 import com.googlecode.gwtphonegap.client.file.DirectoryEntry;
 import com.googlecode.gwtphonegap.client.file.DirectoryReader;
@@ -47,7 +47,7 @@ public class FileManagerT extends FileManager {
 	private static final String OLD_FILE_PREFIX = "file#";
 	private static final String OLD_THUMB_PREFIX = "img#";
 	private static final String OLD_META_PREFIX = "meta#";
-	Storage stockStore = Storage.getLocalStorageIfSupported();
+	BrowserStorage stockStore = BrowserStorage.LOCAL;
 	
 	PhoneGap phonegap;
 	Flags createIfNotExist = new Flags(true, false);

@@ -103,9 +103,9 @@ public class UndoCommand {
 	public void undoAction(UndoManager mgr) {
 		if (action == EventType.ADD_SLIDE) {
 			mgr.executeAction(EventType.REMOVE_SLIDE, null, args[0]);
-		} else if (action == EventType.DUPLICATE_SLIDE) {
+		} else if (action == EventType.PASTE_SLIDE) {
 			mgr.executeAction(EventType.REMOVE_SLIDE, null,
-					new String[] { (Integer.parseInt(args[0]) + 1) + "" });
+					(Integer.parseInt(args[0]) + 1) + "");
 		} else if (action == EventType.REMOVE_SLIDE) {
 			mgr.executeAction(EventType.ADD_SLIDE, mgr.getCheckpoint(args[1]),
 					args[0], args[1]);
@@ -114,7 +114,7 @@ public class UndoCommand {
 					"-1", args[0]);
 		} else if (action == EventType.MOVE_SLIDE) {
 			mgr.executeAction(EventType.MOVE_SLIDE, null,
-					new String[] { args[1], args[0] });
+					args[1], args[0]);
 		} else if (action == EventType.EMBEDDED_STORE_UNDO) {
 			mgr.embeddedAction(EventType.UNDO, args[0]);
 		}
@@ -156,8 +156,6 @@ public class UndoCommand {
 	public void loadStateAfter(UndoManager mgr) {
 		if (action == EventType.ADD_SLIDE) {
 			mgr.executeAction(EventType.CLEAR_SLIDE, null, args[1]);
-		} else if (action == EventType.DUPLICATE_SLIDE) {
-			mgr.loadUndoInfo(mgr.getCheckpoint(args[2]), args[1]);
 		}
 	}
 

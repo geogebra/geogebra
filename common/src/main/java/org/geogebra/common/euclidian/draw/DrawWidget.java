@@ -24,10 +24,10 @@ public abstract class DrawWidget extends Drawable {
 	 * @param view view
 	 * @param geo construction element
 	 */
-	public DrawWidget(EuclidianView view, GeoElement geo) {
+	public DrawWidget(EuclidianView view, GeoElement geo, boolean fixedRatio) {
 		super(view, geo);
 		this.rectangle = new TransformableRectangle(view, (RectangleTransformable) geo,
-				false);
+				fixedRatio);
 	}
 
 	protected void updateBounds() {
@@ -105,11 +105,6 @@ public abstract class DrawWidget extends Drawable {
 
 	@Override
 	public abstract GeoWidget getGeoElement();
-
-	/**
-	 * @return whether aspect ratio is fixed for this widget
-	 */
-	public abstract boolean isFixedRatio();
 
 	/**
 	 * @return embed ID

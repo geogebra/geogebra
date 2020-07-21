@@ -678,7 +678,7 @@ __GGB__keysVar["nb"].command = {
     "PlaneBisector.Syntax": "[ <Linjestykke> ]\n[ <Punkt>, <Punkt> ]",
     "PlaySound": "SpillLyd",
     "PlaySound.Syntax": "[ <URL> ]\n[ <Boolsk Spill> ]\n[ <Funksjon>, <Minimumsverdi>, <Maksimumsverdi> ]\n[ <Funksjon>, <Minimumsverdi>, <Maksimumsverdi>, <Samplingsfrekvens>, <Samplingsdybde> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Punkt",
     "Point.Syntax": "[ <Objekt> ]\n[ <Liste> ]\n[ <Objekt>, <Parameter> ]\n[ <Punkt>, <Vektor> ]",

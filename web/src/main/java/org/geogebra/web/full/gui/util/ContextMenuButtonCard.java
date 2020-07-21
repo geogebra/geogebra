@@ -82,11 +82,12 @@ public class ContextMenuButtonCard extends StandardButton
 	 * @param cmd
 	 *            command to execute
 	 */
-	protected void addItem(SVGResource img, String text,
+	protected AriaMenuItem addItem(SVGResource img, String text,
 			ScheduledCommand cmd) {
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, text), true, cmd);
 		wrappedPopup.addItem(mi);
+		return mi;
 	}
 
 	private static Image getImage(SVGResource res) {

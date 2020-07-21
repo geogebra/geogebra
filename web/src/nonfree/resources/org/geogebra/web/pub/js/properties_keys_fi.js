@@ -678,7 +678,7 @@ __GGB__keysVar["fi"].command = {
     "PlaneBisector.Syntax": "[ <Jana> ]\n[ <Piste>, <Piste> ]",
     "PlaySound": "Soita\xc4\xe4ni",
     "PlaySound.Syntax": "[ <URL eli www-sivun osoite, mid tai mp3-tiedosto> ]\n[ <Nuotin sekvenssi>, <Soitin> ]\n[ <Funktio>, <Minimiarvo>, <Maksimiarvo> ]\n[ <Funktio>, <Minimiarvo>, <Maksimiarvo>, <N\xe4ytteenottotaajuus>, <N\xe4ytteen syvyys> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Piste",
     "Point.Syntax": "[ <Objekti> ]\n[ <Lista> ]\n[ <Objekti>, <Parametri> ]\n[ <Piste>, <Vektori> ]",

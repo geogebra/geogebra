@@ -20,6 +20,7 @@ import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.full.util.SaveCallback.SaveState;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.BrowserStorage;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -36,7 +37,7 @@ public class FileManagerW extends FileManager {
 
 	private static final String TIMESTAMP = "timestamp";
 	/** locale storage */
-	Storage stockStore = Storage.getLocalStorageIfSupported();
+	BrowserStorage stockStore = BrowserStorage.LOCAL;
 	private int freeBytes = -1;
 	private TreeSet<Integer> offlineIDs = new TreeSet<>();
 
@@ -246,10 +247,11 @@ public class FileManagerW extends FileManager {
 		if (Browser.supportsSessionStorage()) {
 
 			if (stockStore != null) {
-				if (stockStore.getItem(TIMESTAMP) != null) {
+				String timestamp = stockStore.getItem(TIMESTAMP);
+				if (timestamp != null) {
 					long l = 0;
 					try {
-						l = Long.parseLong(stockStore.getItem(TIMESTAMP));
+						l = Long.parseLong(timestamp);
 					} catch (Exception e) {
 						Log.warn("Invalid timestamp.");
 					}
