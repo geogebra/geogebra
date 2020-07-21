@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.view.algebra;
 
+import java.util.HashMap;
+
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -112,16 +114,26 @@ public class LatexTreeItemController extends RadioTreeItemController
 		setEditing(true);
 		onEnter(true, false);
 		item.getAV().clearActiveItem();
+		dispatchKeyTypeEvent("\n");
 	}
 
 	@Override
-	public void onKeyTyped() {
+	public void onKeyTyped(String key) {
 		if (app.getSelectionManager().getSelectedGeos().size() > 0) {
 			// to clear preview points
 			app.getSelectionManager().clearSelectedGeos();
 		}
 		item.onKeyTyped();
+		dispatchKeyTypeEvent(key);
+	}
+
+	private void dispatchKeyTypeEvent(String key) {
 		Event event = new Event(EventType.EDITOR_KEY_TYPED);
+		if (key != null) {
+			HashMap<String, Object> jsonArgument = new HashMap<>();
+			jsonArgument.put("key", key);
+			event.setJsonArgument(jsonArgument);
+		}
 		app.dispatchEvent(event);
 	}
 

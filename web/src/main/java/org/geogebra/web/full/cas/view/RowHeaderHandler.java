@@ -1,6 +1,5 @@
 package org.geogebra.web.full.cas.view;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -51,9 +50,8 @@ public class RowHeaderHandler implements MouseUpHandler {
 				// when a newer popup will be shown.
 				RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
 						.getGuiManager()).getCASContextMenu(table);
-				popupMenu.show(new GPoint(event.getClientX()
-				        + Window.getScrollLeft(), event.getClientY()
-				        + Window.getScrollTop()));
+				popupMenu.show(event.getClientX() + Window.getScrollLeft(),
+						event.getClientY() + Window.getScrollTop());
 			}
 		}
 	}

@@ -678,7 +678,7 @@ __GGB__keysVar["lt"].command = {
     "PlaneBisector.Syntax": "[ <Atkarpa> ]\n[ <Ta\u0161kas>, <Ta\u0161kas> ]",
     "PlaySound": "GrotiGars\u0105",
     "PlaySound.Syntax": "[ <Dokumentas> ]\n[ <Funkcija>, <Minimali vert\u0117>, <Maksimali vert\u0117> ]\n[ <Funkcija>, <Minimali vert\u0117>, <Maksimali vert\u0117>, <Pavyzd\u017eio da\u017enis>, <Pavyzd\u017eio gylis> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Ta\u0161kas",
     "Point.Syntax": "[ <Objektas> ]\n[ <S\u0105ra\u0161as> ]\n[ <Objektas>, <Parametras> ]\n[ <Ta\u0161kas>, <Vektorius> ]",

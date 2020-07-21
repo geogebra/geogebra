@@ -3,7 +3,6 @@ package org.geogebra.web.full.javax.swing;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.MayHaveFocus;
 import org.geogebra.common.util.DoubleUtil;
@@ -125,25 +124,25 @@ public class GPopupMenuW implements AttachedToDOM {
 	/**
 	 * Shows the popup menu, ensures that the popup menu must be on the client
 	 * area.
-	 * 
-	 * @param p
-	 *            point to show popup
+	 *
+	 * @param x  x-coord of the popup
+	 * @param y  y-coord of the popup
 	 */
-	public final void show(GPoint p) {
+	public final void show(double x, double y) {
 		double yOffset = app.getPanel().getAbsoluteTop() / getScaleY();
 		double xOffset = app.getPanel().getAbsoluteLeft() / getScaleX();
-		int top = (int) (p.getY() - yOffset);
-		int left = (int) (p.getX() - xOffset);
+		int top = (int) (y - yOffset);
+		int left = (int) (x - xOffset);
 		boolean newPoz = false;
 		showAtPoint(left, top);
-		if ((p.getX() + popupPanel.getOffsetWidth())
+		if ((x + popupPanel.getOffsetWidth())
 				* getScaleX() > Window.getClientWidth()
 						+ Window.getScrollLeft()) {
 			left = (int) ((Window.getClientWidth() + Window.getScrollLeft())
 					/ getScaleX() - xOffset - popupPanel.getOffsetWidth());
 			newPoz = true;
 		}
-		if ((p.getY() + popupPanel.getOffsetHeight())
+		if ((y + popupPanel.getOffsetHeight())
 				* getScaleY() > Window.getClientHeight()
 						+ Window.getScrollTop()) {
 			top = (int) (((Window.getClientHeight() + Window.getScrollTop()))
@@ -183,8 +182,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 *            coord to show popup
 	 */
 	public void showScaled(Element c, int x, int y) {
-		show(new GPoint((int) (c.getAbsoluteLeft() / getScaleX() + x),
-				(int) (c.getAbsoluteTop() / getScaleY() + y)));
+		show((int) (c.getAbsoluteLeft() / getScaleX() + x),
+				(int) (c.getAbsoluteTop() / getScaleY() + y));
 	}
 
 	/**
@@ -196,7 +195,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 *            coord to show popup
 	 */
 	public void show(Widget c, int x, int y) {
-		show(new GPoint(c.getAbsoluteLeft() + x, c.getAbsoluteTop() + y));
+		show(c.getAbsoluteLeft() + x, c.getAbsoluteTop() + y);
 	}
 
 	@Override

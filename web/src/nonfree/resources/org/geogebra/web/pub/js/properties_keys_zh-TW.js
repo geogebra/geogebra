@@ -678,7 +678,7 @@ __GGB__keysVar["zh-TW"].command = {
     "PlaneBisector.Syntax": "[ <Segment> ]\n[ <Point>, <Point> ]",
     "PlaySound": "PlaySound",
     "PlaySound.Syntax": "[ <URL> ]\n[ <Boolean Play> ]\n[ <Function>, <Min Value>, <Max Value> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Point",
     "Point.Syntax": "[ <\u7269\u4ef6> ]\n[ <\u96c6\u5408> ]\n[ <\u7269\u4ef6>, <\u53c3\u6578> ]\n[ <\u9ede>, <\u5411\u91cf> ]",

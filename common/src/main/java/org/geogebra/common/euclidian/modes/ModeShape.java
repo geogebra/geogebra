@@ -74,21 +74,6 @@ public class ModeShape {
 	}
 
 	/**
-	 * @return true if dragStartPoint is set
-	 */
-	public boolean isDragStartPointSet() {
-		return dragPointSet;
-	}
-
-	/**
-	 * @param isSet
-	 *            - false if we want to ignore that dragPoit was set
-	 */
-	public void setDragStartPointSet(boolean isSet) {
-		dragPointSet = isSet;
-	}
-
-	/**
 	 * if tool was changed clear data points
 	 */
 	public void clearPointList() {

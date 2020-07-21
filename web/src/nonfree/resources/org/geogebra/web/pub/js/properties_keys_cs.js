@@ -678,7 +678,7 @@ __GGB__keysVar["cs"].command = {
     "PlaneBisector.Syntax": "[ <\xdase\u010dka> ]\n[ <Bod>, <Bod> ]",
     "PlaySound": "PrehratZvuk",
     "PlaySound.Syntax": "[ <Soubor (URL)> ]\n[ <P\u0159ehr\xe1t (Pravdivostn\xed hodnota)> ]\n[ <Funkce>, <Minim\xe1ln\xed hodnota>, <Maxim\xe1ln\xed hodnota> ]\n[ <Funkce>, <Minim\xe1ln\xed hodnota>, <Maxim\xe1ln\xed hodnota>, <Rychlost vzorkov\xe1n\xed>, <Hloubka> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Bod",
     "Point.Syntax": "[ <Objekt> ]\n[ <Seznam> ]\n[ <Objekt>, <Parametr> ]\n[ <Bod>, <Vektor> ]",
