@@ -15,6 +15,7 @@ package org.geogebra.web.full.gui.view.algebra;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
@@ -2184,7 +2185,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * @param focused - true if editing started
 	 */
 	public void setFocusedStyle(boolean focused) {
-		if (isInputTreeItem()) {
+		if (isInputTreeItem()
+				&& !app.getConfig().getVersion().equals(GeoGebraConstants.Version.SCIENTIFIC)) {
 			if (focused) {
 				getWidget().getElement().getParentElement().addClassName("focused");
 			} else {
