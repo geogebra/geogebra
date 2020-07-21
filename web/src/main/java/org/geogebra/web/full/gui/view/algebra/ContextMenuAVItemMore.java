@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
@@ -95,7 +94,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 *            screen y-coordinate
 	 */
 	public void show(int x, int y) {
-		wrappedPopup.show(new GPoint(x, y));
+		wrappedPopup.show(x, y);
 		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 

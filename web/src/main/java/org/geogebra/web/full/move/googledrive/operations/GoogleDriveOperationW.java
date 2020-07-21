@@ -26,6 +26,9 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.user.client.Window.Location;
 
+import elemental2.core.Global;
+import jsinterop.base.Js;
+
 /**
  * Operational class for Google Drive Api
  *
@@ -512,7 +515,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		String state = Location.getParameter("state");
 		Log.debug(state);
 		if (state != null && !"".equals(state)) {
-			googleDriveURL = JSON.parse(state);
+			googleDriveURL = Js.uncheckedCast(Global.JSON.parse(state));
 			Log.debug(googleDriveURL);
 			if (!this.loggedIn) {
 				login(true);

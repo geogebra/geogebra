@@ -520,8 +520,13 @@ $duration: 0.2s;
 		}
 
 		.NewRadioButtonTreeItemParent {
-			border-top: $purple-default solid 1px;
-    		border-bottom: $purple-default solid 1px;
+			border-top: $tool-border solid 1px;
+			border-bottom: $tool-border solid 1px;
+
+    		&.focused {
+    			border-top: $purple-default solid 1px;
+    			border-bottom: $purple-default solid 1px;
+    		}
 
 			.scrollableTextBox, .inputBorder {
 				min-height: 48px;

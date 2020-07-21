@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.toolbarpanel.tableview;
 
 import java.util.List;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableValuesDimensions;
 import org.geogebra.common.gui.view.table.TableValuesListener;
 import org.geogebra.common.gui.view.table.TableValuesModel;
@@ -124,7 +123,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 	@Override
 	protected void onHeaderClick(Element source, int column) {
 		new ContextMenuTV(app, column > 0 ? view.getGeoAt(column - 1) : null, column - 1)
-				.show(new GPoint(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8));
+				.show(source.getAbsoluteLeft(), source.getAbsoluteTop() - 8);
 	}
 
 	@Override

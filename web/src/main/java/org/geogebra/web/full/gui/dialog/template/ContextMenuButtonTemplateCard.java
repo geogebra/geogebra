@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.dialog.template;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.main.AppW;
@@ -42,7 +41,6 @@ public class ContextMenuButtonTemplateCard extends ContextMenuButtonCard {
     @Override
     protected void show() {
         super.show();
-        wrappedPopup.show(
-                new GPoint(getAbsoluteLeft(), getAbsoluteTop()));
+        wrappedPopup.show(this, 0, 0);
     }
 }

@@ -27,10 +27,8 @@ gwt {
 evaluationDependsOn ':renderer-base'
 
 dependencies {
-	compile group: 'com.google.elemental2', name: 'elemental2-core', version: '1.0.0'
-	compile group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.0.0'
-
 	compile project(':renderer-base')
+	compile project(':web:dev')
 	compile files(project(':renderer-base').sourceSets.main.java.srcDirs)
 	compile "com.google.gwt:gwt-dev:$gwtCompilerVersion"
 	compile "com.google.gwt:gwt-user:$gwtCompilerVersion"

@@ -4,7 +4,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.Clipboard;
 import org.geogebra.web.resources.SVGResource;
 
 /**
@@ -51,7 +53,7 @@ public class EditMenuW extends Submenu {
 			// separator
 			addSeparator();
 		}
-		if (getApp().isCopyImageToClipboardAvailable()) {
+		if (Clipboard.isCopyImageToClipboardAvailable()) {
 			addCopyToClipboard();
 		}
 		addCopy();
@@ -149,6 +151,9 @@ public class EditMenuW extends Submenu {
 					@Override
 					public void doExecute() {
 						app.copyGraphicsViewToClipboard();
+						ToolTipManagerW.sharedInstance().showBottomMessage(
+								loc.getMenu("GraphicsViewCopiedToClipboard"),
+								false, app);
 					}
 				});
 	}

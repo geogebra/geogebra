@@ -39,7 +39,6 @@ import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
-import org.geogebra.web.html5.util.JSON;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -50,6 +49,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.core.Global;
 
 /**
  * Creates, deletes and resizes embedded applets.
@@ -166,7 +167,7 @@ public class EmbedManagerW implements EmbedManager {
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
 			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
 			fr.getApp().getGgbApi().setFileJSON(
-					JSON.parse(content.get(drawEmbed.getEmbedID())));
+					Global.JSON.parse(content.get(drawEmbed.getEmbedID())));
 			if (oldWidget) {
 				drawEmbed.getGeoEmbed().setEmbedId(nextID());
 			}
@@ -253,8 +254,8 @@ public class EmbedManagerW implements EmbedManager {
 		style.setProperty("transform", "rotate(" + drawEmbed.getGeoElement().getAngle() + "rad)");
 		if (drawEmbed.getWidth() > 0) {
 			embedElement.getGreatParent().setSize(
-					drawEmbed.getWidth() + "px",
-					drawEmbed.getHeight() + "px");
+					(int) drawEmbed.getWidth() + "px",
+					(int) drawEmbed.getHeight() + "px");
 			// above the oject canvas (50) and below MOW toolbar (51)
 			toggleBackground(embedElement, drawEmbed);
 			int contentWidth = drawEmbed.getGeoEmbed().getContentWidth();
@@ -415,6 +416,7 @@ public class EmbedManagerW implements EmbedManager {
 		int id = nextID();
 		base64.put(id, material.getBase64());
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		ge.setSize(material.getWidth(), material.getHeight());
 		ge.setContentWidth(material.getWidth());
 		ge.setContentHeight(material.getHeight());
 		ge.attr("showToolBar", material.getShowToolbar() || material.getShowMenu());
@@ -422,11 +424,11 @@ public class EmbedManagerW implements EmbedManager {
 		ge.attr("allowStyleBar", material.getAllowStylebar());
 		ge.attr("showAlgebraInput", material.getShowInputbar());
 		ge.setEmbedId(id);
+		ge.initPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
 	}
 
 	private void showAndSelect(final GeoEmbed ge) {
-		ge.initPosition(app.getActiveEuclidianView());
 		ge.setLabel(null);
 		app.storeUndoInfo();
 		app.invokeLater(() -> app.getActiveEuclidianView().getEuclidianController()
@@ -488,6 +490,7 @@ public class EmbedManagerW implements EmbedManager {
 		ge.setUrl("https://graspablemath.com");
 		ge.setAppName("extension");
 		ge.setEmbedId(nextID());
+		ge.initDefaultPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
 	}
 

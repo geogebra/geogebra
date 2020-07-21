@@ -678,7 +678,7 @@ __GGB__keysVar["tr"].command = {
     "PlaneBisector.Syntax": "[ <Do\u011fru Par\xe7as\u0131> ]\n[ <Nokta>, <Nokta> ]",
     "PlaySound": "Ses\xc7al",
     "PlaySound.Syntax": "[ <URL> ]\n[ <Mant\u0131ksal \xc7al> ]\n[ <\u0130\u015flev>, <Min De\u011fer>, <Max De\u011fer> ]\n[ <\u0130\u015flev>, <Min De\u011fer>, <Max De\u011fer>, <\xd6rnek H\u0131z>, <\xd6rnek Derinlik> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Nokta",
     "Point.Syntax": "[ <Nesne> ]\n[ <Liste> ]\n[ <Nesne>, <Parametre> ]\n[ <Nokta>, <Vekt\xf6r> ]",

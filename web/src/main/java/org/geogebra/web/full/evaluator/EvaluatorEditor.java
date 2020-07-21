@@ -1,5 +1,7 @@
 package org.geogebra.web.full.evaluator;
 
+import java.util.HashMap;
+
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
@@ -55,13 +57,28 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	@Override
 	public void onEnter() {
 		mathFieldEditor.reset();
+		dispatchKeyTypedEvent("\n");
+		dispatchEditorStop();
 	}
 
 	@Override
-	public void onKeyTyped() {
+	public void onKeyTyped(String key) {
 		scrollContentIfNeeded();
+		dispatchKeyTypedEvent(key);
+	}
+
+	private void dispatchKeyTypedEvent(String key) {
+		HashMap<String, Object> evaluatorValue = evaluatorAPI.getEvaluatorValue();
 		Event event = new Event(EventType.EDITOR_KEY_TYPED)
-				.setJsonArgument(evaluatorAPI.getEvaluatorValue());
+				.setJsonArgument(evaluatorValue);
+		if (key != null) {
+			evaluatorValue.put("key", key);
+		}
+		app.dispatchEvent(event);
+	}
+
+	private void dispatchEditorStop() {
+		Event event = new Event(EventType.EDITOR_STOP);
 		app.dispatchEvent(event);
 	}
 
@@ -124,6 +141,7 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	@Override
 	public void onBlur(BlurEvent event) {
 		mathFieldEditor.setKeyboardVisibility(false);
+		dispatchEditorStop();
 	}
 
 	/**
