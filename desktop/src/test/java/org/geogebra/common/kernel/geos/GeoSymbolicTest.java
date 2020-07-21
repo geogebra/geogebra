@@ -1134,4 +1134,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
 				equalTo("1 / 2 x² + 10"));
 	}
+
+	@Test
+	public void testPlotSolveIsEuclidianVisible() {
+		GeoSymbolic symbolic = add("PlotSolve(x^2-2)");
+		assertThat(symbolic.isEuclidianVisible(), is(true));
+	}
 }

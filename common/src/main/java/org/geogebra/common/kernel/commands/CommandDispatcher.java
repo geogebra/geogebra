@@ -840,7 +840,6 @@ public abstract class CommandDispatcher {
 			case Trilinear:
 			case Cubic:
 			case TriangleCurve:
-
 			case Voronoi:
 			case Hull:
 			case ConvexHull:
@@ -854,7 +853,7 @@ public abstract class CommandDispatcher {
 			case Solutions:
 			case NSolutions:
 			case CASLoaded:
-				return getCASDispatcher().dispatch(command, kernel);
+			case PlotSolve:
 			case Expand:
 			case Factor:
 			case IFactor:

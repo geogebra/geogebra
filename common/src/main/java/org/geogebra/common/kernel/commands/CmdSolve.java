@@ -34,7 +34,8 @@ public class CmdSolve extends CommandProcessor {
 		case 1:
 			return solve(args[0], null, c, info);
 		case 2:
-			if (type == Commands.Solve || type == Commands.Solutions) {
+			if (type == Commands.Solve || type == Commands.Solutions
+					|| type == Commands.PlotSolve) {
 				throw argNumErr(c);
 			}
 			if (args[1] instanceof EquationValue) {
