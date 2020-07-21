@@ -16,8 +16,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.full.util.SaveCallback;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.BrowserStorage;
 
 import com.google.gwt.core.client.Callback;
 import com.googlecode.gwtphonegap.client.PhoneGap;

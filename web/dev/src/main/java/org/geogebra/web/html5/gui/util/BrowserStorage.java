@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.util;
+package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.util.debug.Log;
 
@@ -10,7 +10,19 @@ public enum BrowserStorage {
 	LOCAL, SESSION;
 
 	public static final String COPY_SLIDE = "copyslide";
+	public static final String KEYBOARD_WANTED = "keyboardwanted";
+
 	private Storage storage;
+
+	private void init() {
+		WebStorageWindow storageWindow = WebStorageWindow.of(DomGlobal.window);
+		try {
+			storage =
+					this == LOCAL ? storageWindow.localStorage : storageWindow.sessionStorage;
+		} catch (Exception e) {
+			// running in test environment or in a buggy browser
+		}
+	}
 
 	/**
 	 * @param key key to be removed
@@ -46,16 +58,6 @@ public enum BrowserStorage {
 			}
 		} catch (Exception e) {
 			Log.warn("Quota exceeded");
-		}
-	}
-
-	private void init() {
-		WebStorageWindow storageWindow = WebStorageWindow.of(DomGlobal.window);
-		try {
-			storage =
-					this == LOCAL ? storageWindow.localStorage : storageWindow.sessionStorage;
-		} catch (Exception e) {
-			// running in test environment or in a buggy browser
 		}
 	}
 

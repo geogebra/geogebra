@@ -6,8 +6,8 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.web.full.gui.dialog.SessionExpireNotifyDialog;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.BrowserStorage;
 
 import elemental2.dom.DomGlobal;
 

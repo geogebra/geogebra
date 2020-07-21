@@ -65,8 +65,7 @@ dependencies {
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
         "com.google.gwt:gwt-dev:$gwtCompilerVersion",
-        'com.asual.lesscss:lesscss-engine:1.3.0',
-        'com.google.elemental2:elemental2-webstorage:1.1.0'
+        'com.asual.lesscss:lesscss-engine:1.3.0'
 
     testCompile "junit:junit:$junitVersion",
         'com.google.gwt.gwtmockito:gwtmockito:1.1.9',

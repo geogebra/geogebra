@@ -197,7 +197,7 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		if (this.availabilityCheckDone && op != null) {
 			op.onEvent(new TubeAvailabilityCheckEvent(this.available));
 		}
-		checkIfAvailable(op, getClientInfo());
+		checkIfAvailable(op);
 		return this.available;
 	}
 
@@ -209,30 +209,19 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 	}
 
 	/**
-	 * @return JSON encoded inormation about client
-	 */
-	protected String getClientInfo() {
-		return "";
-	}
-
-	/**
 	 * Sends a test request to GeoGebraTube to check if it is available The
 	 * result is stored in a boolean variable. Subsequent calls to isAvailable()
 	 * will return the value of the stored variable and don't send the request
 	 * again.
-	 *
-	 * @return boolean if the request was successful.
 	 */
-	private boolean checkIfAvailable(final LogInOperation op,
-			String clientInfo) {
+	private void checkIfAvailable(final LogInOperation op) {
 		if (!this.availabilityCheckDone) {
 			this.available = false;
 		}
 		this.availabilityCheckDone = false;
 		try {
 			performRequest(
-					"{\"request\": {\"-api\": \"1.0.0\"," + clientInfo
-							+ "\"task\": {\"-type\": \"info\"}}}",
+					"{\"request\": {\"-api\": \"1.0.0\", \"task\": {\"-type\": \"info\"}}}",
 					false, new AjaxCallback() {
 
 						@Override
@@ -260,8 +249,6 @@ public abstract class GeoGebraTubeAPI implements BackendAPI {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return this.available;
 	}
 
 	@Override

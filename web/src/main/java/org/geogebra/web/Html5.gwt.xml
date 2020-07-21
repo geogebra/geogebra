@@ -8,7 +8,6 @@
   <inherits name='org.geogebra.GgbJdk'/>
   <inherits name='org.geogebra.web.AppCacheLinker' />  
   <inherits name="com.himamis.retex.editor.JLMEditorDev" />
-  <inherits name="elemental2.webstorage.WebStorage" />
   <inherits name='org.geogebra.web.Carota'/>
 
   <!-- Specify the paths for translatable code                    -->

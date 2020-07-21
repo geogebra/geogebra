@@ -1,6 +1,6 @@
 package org.geogebra.web.full.move.googledrive.models;
 
-import org.geogebra.web.html5.util.BrowserStorage;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.shared.ggtapi.models.AuthenticationModelW;
 
 /**
