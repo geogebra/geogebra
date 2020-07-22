@@ -121,6 +121,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private ChangeHandler changeHandler;
 	private int fixMargin = 0;
 	private int minHeight = 0;
+	private boolean canBlur = true;
 
 	/**
 	 * @param converter
@@ -758,8 +759,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Make sure the HTML element has focus and update to render cursor
 	 */
 	protected void onFocusTimer() {
-		BlurHandler oldBlur = this.onTextfieldBlur;
-		onTextfieldBlur = null;
+		this.canBlur = false;
 		// set focused flag before update to make sure cursor is rendered
 		focused = true;
 		mathFieldInternal.update();
@@ -768,7 +768,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 		// after set focus to the keyboard listening element
 		focusTextArea();
-		onTextfieldBlur = oldBlur;
+		canBlur = true;
 	}
 
 	private void focusTextArea() {
@@ -902,14 +902,21 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		removeCursor();
-		resetFlags();
+		if (canBlur) {
+			removeCursor();
+			resetFlags();
+			runBlurCallback(event);
+		}
 		event.stopPropagation();
-		runBlurCallback(event);
 	}
 
 	private void removeCursor() {
-		if (CursorBox.visible()) {
+		boolean hadSelection = mathFieldInternal.getEditorState().hasSelection();
+		if (hadSelection) {
+			mathFieldInternal.getEditorState().resetSelection();
+			mathFieldInternal.update();
+		}
+		if (CursorBox.visible() || hadSelection) {
 			CursorBox.setBlink(false);
 			repaintWeb();
 		}
