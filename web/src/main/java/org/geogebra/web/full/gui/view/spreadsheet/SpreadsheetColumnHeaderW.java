@@ -519,7 +519,7 @@ public class SpreadsheetColumnHeaderW implements SpreadsheetHeader {
 		if (relative) {
 			popup.show(grid, x, y);
 		} else {
-			popup.show(new GPoint(x, y));
+			popup.show(x, y);
 		}
 	}
 }

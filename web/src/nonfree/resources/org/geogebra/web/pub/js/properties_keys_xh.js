@@ -678,7 +678,7 @@ __GGB__keysVar["xh"].command = {
     "PlaneBisector.Syntax": "[ <isiqithana> ]\n[ <iChaphaza>, <iChaphaza> ]",
     "PlaySound": "iPlaySound",
     "PlaySound.Syntax": "[ <URL> ]\n[ <Boolean Play> ]\n[ <Function>, <iVelyu yokuqala>, <iVelyu yokugqibela> ]\n[ <Function>, <Min Value>, <Max Value>, <Sample Rate>, <Sample Depth> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "IPoynti",
     "Point.Syntax": "[ <Into> ]\n[ <Uluhlu> ]\n[ <Into>, <iParameter> ]\n[ <iChaphaza>, <iVector> ]",

@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -580,24 +579,15 @@ public abstract class ContextMenuGeoElement {
 					int y = app.getActiveEuclidianView()
 							.toScreenCoordY(geoText.getRealWorldLocY());
 					geoText.setAbsoluteScreenLoc(x, y);
-					if (geoText.isGeoImage() && geoText.getKernel()
-							.getApplication().isWhiteboardActive()) {
-						((GeoImage) geoText).updateScaleAndLocation();
-					}
 				} else {
 					// convert screen coords to real world
-					if (geoText.isGeoImage() && geoText.getKernel()
-							.getApplication().isWhiteboardActive()) {
-						((GeoImage) geoText).screenToReal();
-					} else {
-						double x = app.getActiveEuclidianView()
-								.toRealWorldCoordX(
-										geoText.getAbsoluteScreenLocX());
-						double y = app.getActiveEuclidianView()
-								.toRealWorldCoordY(
-										geoText.getAbsoluteScreenLocY());
-						geoText.setRealWorldLoc(x, y);
-					}
+					double x = app.getActiveEuclidianView()
+							.toRealWorldCoordX(
+									geoText.getAbsoluteScreenLocX());
+					double y = app.getActiveEuclidianView()
+							.toRealWorldCoordY(
+									geoText.getAbsoluteScreenLocY());
+					geoText.setRealWorldLoc(x, y);
 				}
 				geoText.setAbsoluteScreenLocActive(flag);
 				geoText.updateRepaint();

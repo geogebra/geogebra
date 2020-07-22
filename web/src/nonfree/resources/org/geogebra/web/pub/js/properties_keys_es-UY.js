@@ -678,7 +678,7 @@ __GGB__keysVar["es-UY"].command = {
     "PlaneBisector.Syntax": "[ <Segmento> ]\n[ <Punto>, <Punto> ]",
     "PlaySound": "TocaSonido",
     "PlaySound.Syntax": "[ <URL/Archivo> ]\n[ <Suena o no (true/false)> ]\n[ <Funci\xf3n>, <Valor m\xednimo>, <Valor m\xe1ximo> ]\n[ <Funci\xf3n>, <Valor m\xednimo>, <Valor m\xe1ximo>, <Frecuencia de muestreo>, <Profundidad de muestreo> ]",
-    "PlotSolve": "PloteSolve",
+    "PlotSolve": "PlotSolve",
     "PlotSolve.Syntax": "[ <Equation in x> ]",
     "Point": "Punto",
     "Point.Syntax": "[ <Objeto> ]\n[ <Lista> ]\n[ <Objeto>, <Par\xe1metro> ]\n[ <Punto>, <Vector> ]",

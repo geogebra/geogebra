@@ -1791,11 +1791,12 @@ public class AlgebraProcessor {
 			throw e;
 		} catch (Error e) {
 			ErrorHelper.handleException(new Exception(e), app, handler);
+		} finally {
+			if (suppressLabels) {
+				cons.setSuppressLabelCreation(oldMacroMode);
+			}
 		}
 
-		if (suppressLabels) {
-			cons.setSuppressLabelCreation(oldMacroMode);
-		}
 		return p;
 	}
 

@@ -10,6 +10,12 @@ import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.GgbFile;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.Timer;
+
+import elemental2.core.Global;
+import elemental2.core.JsArray;
+import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * Processes file input
@@ -29,12 +35,6 @@ public class ViewW {
 		this.app = app;
 	}
 
-	private native void log(Object ex)/*-{
-		if ($wnd.console) {
-			$wnd.console.log(ex);
-		}
-	}-*/;
-
 	private void maybeLoadFile() {
 		if (app == null || archiveContent == null) {
 			return;
@@ -45,8 +45,7 @@ public class ViewW {
 			app.loadGgbFile(archiveContent, false);
 			Log.debug("loadggb finished" + System.currentTimeMillis());
 		} catch (Throwable ex) {
-			ex.printStackTrace();
-			log(ex);
+			Log.debug(ex);
 			return;
 		}
 		archiveContent = null;
@@ -303,42 +302,41 @@ public class ViewW {
 		return workerUrls;
 	}
 
-	@ExternalAccess
-	protected void prepare(int t) {
-		archiveContent = new GgbFile();
-		this.zippedLength = t;
-	}
-
 	/**
 	 * @param encoded
 	 *            JSON encoded ZIP file (zip.js format)
 	 */
-	public native void processJSON(String encoded) /*-{
-		var content = JSON.parse(encoded).archive;
-		if (content) {
-			this.@org.geogebra.web.html5.util.ViewW::prepare(I)(content.length);
-			for (var k = 0; k < content.length; k++) {
-				this.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(content[k].fileName,content[k].fileContent);
+	public void processJSON(String encoded) {
+		processJSON(Global.JSON.parse(encoded));
+	}
+
+	public void setFileFromJsonString(String encoded, GgbFile file) {
+		setFileFromJson(Js.uncheckedCast(Global.JSON.parse(encoded)), file);
+	}
+
+	private void setFileFromJson(JsPropertyMap<Object> json, GgbFile file) {
+		if (json.has("archive")) {
+			JsArray<JsPropertyMap<String>> content = Js.uncheckedCast(json.get("archive"));
+			for (int i = 0; i < content.length; i++) {
+				JsPropertyMap<String> entry = content.getAt(i);
+				file.put(entry.get("fileName"), entry.get("fileContent"));
 			}
 		}
-	}-*/;
+	}
 
 	/**
 	 * @param zip
 	 *            JS object representing the ZIP file, see getFileJSON in GgbAPI
 	 */
-	public native void processJSON(JavaScriptObject zip) /*-{
-		var that = this;
-		$wnd
-				.setTimeout(
-						function() {
-							var content = zip.archive;
-							that.@org.geogebra.web.html5.util.ViewW::prepare(I)(content.length);
-							for (var k = 0; k < content.length; k++) {
-								that.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(content[k].fileName,content[k].fileContent);
-							}
-						}, 0);
-
-	}-*/;
+	public void processJSON(Object zip) {
+		new Timer() {
+			@Override
+			public  void run() {
+				archiveContent = new GgbFile();
+				setFileFromJson(Js.uncheckedCast(zip), archiveContent);
+				maybeLoadFile();
+			}
+		}.schedule(0);
+	}
 
 }
