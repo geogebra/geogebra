@@ -170,7 +170,7 @@ public class AlgoAreEqual extends AlgoElement
 					}
 
 					// Integers between -10^8 and 10^8 are allowed
-					if (DoubleUtil.isInteger(d)) {
+					if (MyDouble.exactEqual(d, Math.round(d))) {
 						return d <= -1E8 || 1E8 <= d;
 					}
 
