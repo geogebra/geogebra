@@ -891,4 +891,7 @@ public class Command extends ValidExpression
 		return c != null;
 	}
 
+	public void setAllowEvaluationForTypeCheck(boolean allowEvaluationForTypeCheck) {
+		this.allowEvaluationForTypeCheck = allowEvaluationForTypeCheck;
+	}
 }
