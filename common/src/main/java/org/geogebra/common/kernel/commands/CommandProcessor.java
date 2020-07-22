@@ -371,6 +371,9 @@ public abstract class CommandProcessor {
 			} catch (MyError e) {
 				cmdCons.removeLocalVariable(localVarName);
 				throw e;
+			} catch (ClassCastException e) {
+				cmdCons.removeLocalVariable(localVarName);
+				throw e;
 			}
 			cons.setSuppressLabelCreation(oldval);
 			num.setValue(initValue.getDouble());
