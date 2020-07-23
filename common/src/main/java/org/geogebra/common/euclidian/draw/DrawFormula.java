@@ -11,7 +11,7 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RotatableBoundingBox;
+import org.geogebra.common.euclidian.MediaBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -32,7 +32,7 @@ public class DrawFormula extends Drawable implements DrawInline {
 	 */
 	public DrawFormula(EuclidianView ev, GeoFormula formula) {
 		super(ev, formula);
-		this.rectangle = new TransformableRectangle(view, formula);
+		this.rectangle = new TransformableRectangle(view, formula, false);
 		this.formula = formula;
 		this.formulaController = ev.getApplication().createInlineFormulaController(ev, formula);
 		update();
@@ -62,7 +62,8 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (formulaController == null || !formulaController.isInForeground()) {
+		if (formula.isEuclidianVisible()
+				&& (formulaController == null || !formulaController.isInForeground())) {
 			g2.setPaint(geo.getObjectColor());
 			g2.setFont(view.getFont());
 			g2.setStroke(objStroke); // needed eg for \sqrt
@@ -96,8 +97,13 @@ public class DrawFormula extends Drawable implements DrawInline {
 	}
 
 	@Override
-	public RotatableBoundingBox getBoundingBox() {
+	public MediaBoundingBox getBoundingBox() {
 		return rectangle.getBoundingBox();
+	}
+
+	@Override
+	public String urlByCoordinate(int x, int y) {
+		return "";
 	}
 
 	@Override

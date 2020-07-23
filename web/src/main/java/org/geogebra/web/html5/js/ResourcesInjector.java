@@ -2,9 +2,9 @@ package org.geogebra.web.html5.js;
 
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.PDFEncoderW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
@@ -40,6 +40,7 @@ public class ResourcesInjector {
 		fixComputedStyle();
 		// insert zip.js
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.clipboardJs());
 
 		if (instance == null) {
 			instance = (ResourcesInjector) GWT.create(ResourcesInjector.class);
@@ -66,13 +67,14 @@ public class ResourcesInjector {
 			loadCodecs();
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.xmlUtil());
 	}
 
 	/**
 	 * Load PAKO
 	 */
 	public static void loadCodecs() {
-		if (!PDFEncoderW.pakoLoaded()) {
+		if (ExportLoader.getPako() == null) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoJs());
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.pakoCodecJs());

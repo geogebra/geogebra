@@ -143,7 +143,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def,
 			EvalInfo info) {
 
-		if (equ.isForcedLine()) {
+		if (equ.isForcedLine() && !equ.containsFreeFunctionVariable("z")) {
 			return super.processLine(equ, def, info);
 		}
 

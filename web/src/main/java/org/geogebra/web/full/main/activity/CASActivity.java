@@ -51,6 +51,7 @@ public class CASActivity extends BaseActivity {
 		CommandDispatcher dispatcher = kernel.getAlgebraProcessor().getCommandDispatcher();
 		tryLoadingCasDispatcher(dispatcher);
 		tryLoadingAdvancedDispatcher(dispatcher);
+		tryLoadingScriptingDispatcher(dispatcher);
 	}
 
 	private void tryLoadingCasDispatcher(CommandDispatcher dispatcher) {
@@ -64,6 +65,14 @@ public class CASActivity extends BaseActivity {
 	private void tryLoadingAdvancedDispatcher(CommandDispatcher dispatcher) {
 		try {
 			dispatcher.getAdvancedDispatcher();
+		} catch (CommandNotLoadedError e) {
+			// ignore
+		}
+	}
+
+	private void tryLoadingScriptingDispatcher(CommandDispatcher dispatcher) {
+		try {
+			dispatcher.getScriptingDispatcher();
 		} catch (CommandNotLoadedError e) {
 			// ignore
 		}

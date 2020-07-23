@@ -3,11 +3,12 @@ package org.geogebra.web.richtext.impl;
 import org.geogebra.web.richtext.Editor;
 
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.core.Global;
 
 /**
  * Inline text editor based on Carota.
@@ -15,7 +16,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class CarotaEditor implements Editor {
 
 	private static final String INVISIBLE = "invisible";
-	private static final String HYPERLINK_COLOR = "#1565C0";
 
 	private Widget widget;
 	private CarotaDocument editor;
@@ -59,7 +59,7 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public String getHyperlinkRangeText() {
-		return getHyperlinkRange().plainText();
+		return editor.hyperlinkRange().plainText();
 	}
 
 	@Override
@@ -67,31 +67,9 @@ public class CarotaEditor implements Editor {
 		return editor.urlByCoordinate(x, y);
 	}
 
-	private CarotaRange getHyperlinkRange() {
-		CarotaRange selection = editor.selectedRange();
-		return editor.hyperlinkRange(selection.getStart(), selection.getEnd());
-	}
-
 	@Override
 	public void setHyperlinkUrl(String url) {
-		CarotaFormatting format = getHyperlinkRange().getFormatting();
-		String color = getFormatNative(format, "color", HYPERLINK_COLOR);
-		if (url == null) {
-			if (HYPERLINK_COLOR.equals(color)) {
-				color = null;
-			}
-			updateLinkStyle(color, false);
-		} else {
-			boolean isUnderline = getFormatNative(format,
-					"underline", true);
-			updateLinkStyle(color, isUnderline);
-		}
-		getHyperlinkRange().setFormatting("url", url);
-	}
-
-	private void updateLinkStyle(String color, boolean isUnderline) {
-		getHyperlinkRange().setFormatting("underline", isUnderline);
-		getHyperlinkRange().setFormatting("color", color);
+		editor.setHyperlinkUrl(url);
 	}
 
 	@Override
@@ -109,7 +87,7 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public void setContent(String content) {
-		editor.load(parse(content), false);
+		editor.load(Global.JSON.parse(content), false);
 	}
 
 	@Override
@@ -147,45 +125,18 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public <T> T getFormat(String key, T fallback) {
-		return getFormatNative(getRange().getFormatting(), key, fallback);
+		return getRange().getFormattingValue(key, fallback);
 	}
-
-	protected native <T> T getFormatNative(CarotaFormatting formatting, String key, T fallback) /*-{
-		var format = formatting[key];
-		if (typeof format == 'object') {
-			return fallback;
-		}
-		return format;
-	}-*/;
 
 	@Override
 	public void insertHyperlink(String url, String text) {
-		CarotaRange selectedRange = editor.selectedRange();
-		int newCaretPosition = (text.length() == 0 ? url.length() : text.length())
-				+ selectedRange.getStart();
-		CarotaRange hyperlinkRange = getHyperlinkRange();
-		if (hyperlinkRange.getEnd() > hyperlinkRange.getStart()) {
-			editor.select(hyperlinkRange.getStart(), hyperlinkRange.getEnd());
-		}
 		editor.insertHyperlink(url, text);
-		hyperlinkRange = getHyperlinkRange();
-		hyperlinkRange.setFormatting("color", HYPERLINK_COLOR);
-		hyperlinkRange.setFormatting("underline", true);
-		editor.select(newCaretPosition, newCaretPosition, true);
 	}
 
 	@Override
 	public String getContent() {
-		return stringify(editor.save());
+		return Global.JSON.stringify(editor.save());
 	}
-
-	private native JavaScriptObject parse(String content) /*-{
-		return JSON.parse(content);
-	}-*/;
-
-	private native String stringify(JavaScriptObject json) /*-{
-		return JSON.stringify(json);
-	}-*/;
 
 	@Override
 	public void switchListTo(String listType) {
@@ -207,7 +158,7 @@ public class CarotaEditor implements Editor {
 
 	@Override
 	public String getHyperLinkURL() {
-		return getFormatNative(editor.selectedRange().getFormatting(), "url", "");
+		return editor.selectedRange().getFormattingValue("url", "");
 	}
 
 	private boolean isEditing() {

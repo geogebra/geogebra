@@ -55,7 +55,7 @@ public class AccessibilityViewTest {
 	}
 
 	private void initAccessibilityViewSimple() {
-		app = AppMocker.mockAppletSimple(new TestArticleElement("prerelease", "simple"));
+		app = AppMocker.mockAppletSimple(new TestArticleElement("simple"));
 		aView = new AccessibilityView(app, baseWidgetFactory);
 	}
 

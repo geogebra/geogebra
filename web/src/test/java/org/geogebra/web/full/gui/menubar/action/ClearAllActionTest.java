@@ -43,7 +43,7 @@ public class ClearAllActionTest {
 	@Test
 	public void fileNew() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("canary", "notes")
+				.mockApplet(new TestArticleElement("notes")
 						.attr("vendor", "mebis"));
 		BaseWidgetFactory factory = mock(BaseWidgetFactory.class);
 		ListBox mockBox = mock(ListBox.class);

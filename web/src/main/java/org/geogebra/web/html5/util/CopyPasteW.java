@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInline;
@@ -37,12 +38,12 @@ import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.storage.client.Storage;
 
 import elemental2.core.Global;
 import elemental2.dom.Blob;
@@ -53,12 +54,14 @@ public class CopyPasteW extends CopyPaste {
 
 	private static final String pastePrefix = "ggbpastedata";
 	private static final String imagePrefix = "ggbimagedata";
+	private static final String embedPrefix = "ggbembeddata";
 
 	private static final int defaultTextWidth = 300;
 
 	private static final ArrayList<String> copiedXmlLabels = new ArrayList<>();
 	private static final StringBuilder copiedXml = new StringBuilder();
 	private static final Map<String, String> copiedImages = new HashMap<>();
+	private static final Map<String, String> copiedEmbeds = new HashMap<>();
 
 	/**
 	 * copyToXML - Add the algos which belong to our selected geos Also
@@ -190,18 +193,23 @@ public class CopyPasteW extends CopyPaste {
 		}
 		textToSave.append("\n");
 
+		print(textToSave, copiedImages, imagePrefix);
+		print(textToSave, copiedEmbeds, embedPrefix);
+
+		textToSave.append(copiedXml);
+
+		saveToClipboard(textToSave.toString());
+	}
+
+	private void print(StringBuilder textToSave, Map<String, String> copiedImages, String prefix) {
 		for (Map.Entry<String, String> image : copiedImages.entrySet()) {
-			textToSave.append(imagePrefix);
+			textToSave.append(prefix);
 			textToSave.append(" ");
 			textToSave.append(Global.escape(image.getKey()));
 			textToSave.append(" ");
 			textToSave.append(image.getValue());
 			textToSave.append("\n");
 		}
-
-		textToSave.append(copiedXml);
-
-		saveToClipboard(textToSave.toString());
 	}
 
 	private static void copyToXMLInternal(App app, List<GeoElement> geos) {
@@ -243,6 +251,7 @@ public class CopyPasteW extends CopyPaste {
 
 		copiedXml.setLength(0);
 		copiedImages.clear();
+		copiedEmbeds.clear();
 
 		Construction cons = app.getKernel().getConstruction();
 		for (int i = 0; i < cons.steps(); ++i) {
@@ -255,6 +264,11 @@ public class CopyPasteW extends CopyPaste {
 					String name = image.getImageFileName();
 					ImageManagerW imageManager = ((ImageManagerW) app.getImageManager());
 					copiedImages.put(name, imageManager.getExternalImageSrc(name));
+				}
+				if (ce instanceof GeoEmbed && embedManager != null) {
+					int embedID = ((GeoEmbed) ce).getEmbedID();
+					String name = String.valueOf(embedID);
+					copiedEmbeds.put(name, embedManager.getContent(embedID));
 				}
 			}
 		}
@@ -311,11 +325,7 @@ public class CopyPasteW extends CopyPaste {
 			String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
 			writeToExternalClipboard(encoded);
 		}
-		try {
-			Storage.getLocalStorageIfSupported().setItem(pastePrefix, toSave);
-		} catch (Throwable t) {
-			Log.debug("Quota exceeded");
-		}
+		BrowserStorage.LOCAL.setItem(pastePrefix, toSave);
 	}
 
 	private static native boolean copyToExternalSupported() /*-{
@@ -402,7 +412,7 @@ public class CopyPasteW extends CopyPaste {
 
 			final GeoInlineText txt = new GeoInlineText(app.getKernel().getConstruction(),
 					new GPoint2D(ev.toRealWorldCoordX(-defaultTextWidth), 0));
-			txt.setWidth(defaultTextWidth);
+			txt.setSize(defaultTextWidth, GeoInlineText.DEFAULT_HEIGHT);
 			txt.setLabel(null);
 
 			JSONArray array = new JSONArray();
@@ -417,25 +427,26 @@ public class CopyPasteW extends CopyPaste {
 
 			txt.setContent(array.toString());
 
-			final DrawInlineText drawText = (DrawInlineText) app.getActiveEuclidianView()
+			final DrawableND drawText =  app.getActiveEuclidianView()
 					.getDrawableFor(txt);
-			drawText.update();
-			drawText.updateContent();
+			if (drawText != null) {
+				drawText.update();
+				((DrawInlineText) drawText).updateContent();
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					@Override
+					public void execute() {
+						int x = (ev.getWidth() - defaultTextWidth) / 2;
+						int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
+						txt.setLocation(new GPoint2D(
+								ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
+						));
+						drawText.update();
 
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					int x = (ev.getWidth() - defaultTextWidth) / 2;
-					int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
-					txt.setLocation(new GPoint2D(
-							ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
-					));
-					drawText.update();
-
-					ev.getEuclidianController().selectAndShowSelectionUI(txt);
-					app.storeUndoInfo();
-				}
-			});
+						ev.getEuclidianController().selectAndShowSelectionUI(txt);
+						app.storeUndoInfo();
+					}
+				});
+			}
 		}
 	}
 
@@ -450,20 +461,16 @@ public class CopyPasteW extends CopyPaste {
 		ArrayList<String> copiedXMLlabels = separateXMLLabels(clipboardContent, endline);
 
 		endline++;
-		while (clipboardContent.startsWith(imagePrefix, endline)) {
+		while (clipboardContent.startsWith(imagePrefix, endline)
+				|| clipboardContent.startsWith(embedPrefix, endline)) {
 			int nextEndline = clipboardContent.indexOf('\n', endline);
 			String line = clipboardContent
-					.substring(endline + imagePrefix.length() + 1, nextEndline);
+					.substring(endline, nextEndline);
 
-			String[] image = line.split(" ");
-			String name = Global.unescape(image[0]);
-			String src = image[1];
-
-			ImageManagerW imageManager = app.getImageManager();
-			imageManager.addExternalImage(name, src);
-			ImageElement img = imageManager.getExternalImage(name, app, true);
-			img.setSrc(src);
-
+			String[] tokens = line.split(" ", 3);
+			if (tokens.length == 3) {
+				handleSpecialLine(tokens, app);
+			}
 			endline = nextEndline + 1;
 		}
 
@@ -471,6 +478,23 @@ public class CopyPasteW extends CopyPaste {
 
 		Scheduler.get().scheduleDeferred(
 				() -> pasteGeoGebraXMLInternal(app, copiedXMLlabels, copiedXML));
+	}
+
+	private static void handleSpecialLine(String[] tokens, AppW app) {
+		String prefix = tokens[0];
+		String name = Global.unescape(tokens[1]);
+		String content = tokens[2];
+		if (imagePrefix.equals(prefix)) {
+			ImageManagerW imageManager = app.getImageManager();
+			imageManager.addExternalImage(name, content);
+			ImageElement img = imageManager.getExternalImage(name, app, true);
+			img.setSrc(content);
+		} else {
+			EmbedManager embedManager = app.getEmbedManager();
+			if (embedManager != null) {
+				embedManager.setContent(Integer.parseInt(name), content);
+			}
+		}
 	}
 
 	private static void pasteGeoGebraXMLInternal(App app,
@@ -513,8 +537,10 @@ public class CopyPasteW extends CopyPaste {
 				}
 
 				if (created instanceof GeoInline) {
-					DrawInline drawInline = (DrawInline) ev.getDrawableFor(created);
-					drawInline.updateContent();
+					DrawableND drawInline = ev.getDrawableFor(created);
+					if (drawInline != null) {
+						((DrawInline) drawInline).updateContent();
+					}
 					shapes.add(created);
 				}
 			}
@@ -606,7 +632,7 @@ public class CopyPasteW extends CopyPaste {
 	 * @param app application
 	 */
 	public static void pasteInternal(AppW app) {
-		String stored = Storage.getLocalStorageIfSupported().getItem(pastePrefix);
+		String stored = BrowserStorage.LOCAL.getItem(pastePrefix);
 		if (!StringUtil.empty(stored)) {
 			pasteGeoGebraXML(app, stored);
 		}

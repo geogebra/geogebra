@@ -61,8 +61,7 @@ public class AngleInputDialogW extends InputDialogW {
 		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);
 
 		wrappedPopup.center();
-		inputPanel.getTextComponent().getTextField().setFocus(true);
-
+		inputPanel.getTextComponent().setFocus(true);
 	}
 
 	public boolean isCounterClockWise() {

@@ -924,9 +924,9 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_SELECT_MOW:
 			return "Select";
 		case EuclidianConstants.MODE_TABLE:
-			return 	"Table";
+			return "Table";
 		case EuclidianConstants.MODE_EQUATION:
-			return 	"Equation";
+			return "Equation";
 
 		default:
 			Log.error("Unknown mode " + mode);

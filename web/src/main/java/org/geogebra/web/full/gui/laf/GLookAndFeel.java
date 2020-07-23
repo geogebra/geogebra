@@ -12,13 +12,14 @@ import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
+import org.geogebra.web.html5.gui.util.Cookies;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.Widget;
@@ -199,13 +200,16 @@ public class GLookAndFeel implements GLookAndFeelI {
 	}
 
 	@Override
-	public void storeLanguage(String lang, AppW app) {
-		Date exp = new Date(
-				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
-		Cookies.setCookie("GeoGebraLangUI",
-				Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp,
-				"geogebra.org",
-				"/", false);
+	public void storeLanguage(String lang) {
+		if (Browser.isGeoGebraOrg()) {
+			Date exp = new Date(
+					System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
+			Cookies.setCookie("GeoGebraLangUI",
+					Language.getClosestGWTSupportedLanguage(lang).getLocaleGWT(), exp,
+					"geogebra.org", "/");
+		} else {
+			BrowserStorage.LOCAL.setItem("GeoGebraLangUI", lang);
+		}
 	}
 
 	@Override

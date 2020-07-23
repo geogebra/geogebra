@@ -910,6 +910,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.forceNF = forceNF;
 		result.forceSF = forceSF;
 		result.supportsFractions = supportsFractions;
+		result.questionMarkForNaN = questionMarkForNaN;
 		return result;
 	}
 
@@ -3108,8 +3109,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// eg 4.35372862870553E8
 			// need to add decimal point back in
 			if (i < 0) {
-				return s[0].substring(0, s[0].length() + i) + "."
-						+ s[0].substring(s[0].length() + i);
+				return "(" + s[0] + "/1" + StringUtil.repeat('0', -i) + ")";
 			}
 
 			if (i == 0) {
@@ -3269,6 +3269,20 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		StringTemplate ret = this.copy();
 		ret.supportsFractions = fractions;
+		return ret;
+	}
+
+	/**
+	 * @param questionMark whether to use "?" for Double.NaN
+	 * @return copy of this template with adjusted question mark flag
+	 */
+	public StringTemplate deriveWithQuestionmark(boolean questionMark) {
+		if (questionMarkForNaN == questionMark) {
+			return this;
+		}
+
+		StringTemplate ret = this.copy();
+		ret.questionMarkForNaN = questionMark;
 		return ret;
 	}
 

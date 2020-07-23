@@ -76,7 +76,7 @@ public class DrawAudio extends DrawWidget {
 	 *            The GeoElement that represents the audio content.
 	 */
 	public DrawAudio(EuclidianView view, GeoAudio geo) {
-		super(view, geo);
+		super(view, geo, false);
 		this.geoAudio = geo;
 		getColors();
 		update();
@@ -188,16 +188,6 @@ public class DrawAudio extends DrawWidget {
 		} else {
 			g2.fill(circle);
 		}
-	}
-
-	@Override
-	public double getWidthThreshold() {
-		return GeoAudio.DEFAULT_PLAYER_WIDTH;
-	}
-
-	@Override
-	public double getHeightThreshold() {
-		return GeoAudio.DEFAULT_PLAYER_HEIGHT;
 	}
 
 	private void drawPlay(GGraphics2D g2) {
@@ -363,11 +353,6 @@ public class DrawAudio extends DrawWidget {
 	@Override
 	public GeoWidget getGeoElement() {
 		return geoAudio;
-	}
-
-	@Override
-	public boolean isFixedRatio() {
-		return false;
 	}
 
 	@Override

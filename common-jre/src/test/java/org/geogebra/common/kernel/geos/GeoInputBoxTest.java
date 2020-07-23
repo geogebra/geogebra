@@ -358,8 +358,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void testConicRedefinition() {
 		testRedefinition("eq1", ":", CONIC,
 				GeoClass.CONIC,
-				new String[] {FUNCTION, LINE, PLANE, NUMBER, POINT_3D, POINT_2D},
-				new String[] {CONIC});
+				new String[] {FUNCTION, PLANE, NUMBER, POINT_3D, POINT_2D},
+				new String[] {CONIC, LINE});
 	}
 
 	@Test
@@ -431,7 +431,9 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo(redefinition);
 
 		GeoElementND element = inputBox.getLinkedGeo();
-		assertEquals(assertDefined, element.isDefined());
+		String message = (assertDefined ? "should keep " : "should not keep ")
+				+ keepType + " " + redefinition;
+		assertEquals(message, assertDefined, element.isDefined());
 		assertEquals(keepType, element.getGeoClassType());
 		element.remove();
 	}

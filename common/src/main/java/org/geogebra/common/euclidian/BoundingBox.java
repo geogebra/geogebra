@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
@@ -324,5 +325,9 @@ public abstract class BoundingBox<T extends GShape> {
 	 */
 	public void setFixed(boolean fixed) {
 		this.fixed = fixed;
+	}
+
+	public void setTransform(GAffineTransform directTransform) {
+		// only cropbox and rotatable box
 	}
 }

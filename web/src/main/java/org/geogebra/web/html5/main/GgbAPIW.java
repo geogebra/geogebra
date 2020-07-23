@@ -44,6 +44,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
+import elemental2.core.Global;
+
 /**
  * HTML5 version of API. The methods are exported in ScriptManagerW
  *
@@ -367,10 +369,20 @@ public class GgbAPIW extends GgbAPI {
 	 * @param obj
 	 *            JSON archive
 	 */
-	public void setFileJSON(JavaScriptObject obj) {
+	public void setFileJSON(Object obj) {
 		resetPerspective();
 		ViewW view = ((AppW) app).getViewW();
 		view.processJSON(obj);
+	}
+
+	/**
+	 * @param file GeoGebra file
+	 * @return JSON representation
+	 */
+	public String toJson(GgbFile file) {
+		JavaScriptObject jso = prepareToEntrySet(file,
+				JavaScriptObject.createObject(), "", null);
+		return Global.JSON.stringify(jso);
 	}
 
 	private static class StoreString implements AsyncOperation<String> {

@@ -24,7 +24,7 @@ public class TemplateLoadTest {
 
 	@Before
 	public void init() {
-		TestArticleElement articleElement = new TestArticleElement("prerelease", "notes");
+		TestArticleElement articleElement = new TestArticleElement("notes");
 		app = AppMocker.mockApplet(articleElement);
 		app.setXML("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<geogebra format=\"5.0\" " +
 				"version=\"5.0.570.0\" app=\"notes\" platform=\"w\" " +

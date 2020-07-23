@@ -126,10 +126,6 @@
     opacity: 0.54;
 }
 
-.GeoGebraFrame .matAvDesign .NewRadioButtonTreeItemParent {
-    border-top: #6557D2 solid 1px;
-    border-bottom: #6557D2 solid 1px;
-}
 .GeoGebraFrame .matAvDesign .gwt-Tree .gwt-TreeItem .elem {
     min-height: 48px;
     position: relative;
@@ -166,11 +162,6 @@
     border-right-width: 1px;
     border-right-style: solid;
     border-right-color: rgb(220, 220, 220);
-}
-
-.GeoGebraFrame .matAvDesign .NewRadioButtonTreeItemParent {
-    border-top: #6557D2 solid 1px;
-    border-bottom: #6557D2 solid 1px;
 }
 
 .GeoGebraFrame .toolbar .toolsPanel {

@@ -31,6 +31,7 @@ import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
@@ -79,6 +80,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -370,7 +372,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
 	protected boolean prerelease;
-	protected boolean canary;
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
@@ -3061,9 +3062,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return version string
 	 */
 	public String getVersionString() {
-
 		if (platform != null) {
-			return platform.getVersionString(prerelease, canary, getConfig().getAppCode());
+			return platform.getVersionString(prerelease, getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly
@@ -3901,16 +3901,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
        // *********************************************************
        // **********************************************************************
 
-		/** G3D-345 */
-		case G3D_AR_SHOW_RATIO:
-			return prerelease;
-
 		/** G3D-343 */
 		case G3D_SELECT_META:
-			return false;
-
-		/** G3D-372 */
-		case G3D_AR_RATIO_SETTINGS:
 			return false;
 
 		// **********************************************************************
@@ -4065,7 +4057,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			} else if (geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
-				((DrawDropDownList) d).toggleOptions();
+				if (d != null) {
+					((DrawDropDownList) d).toggleOptions();
+				}
 
 			} else if (geo.isGeoNumeric()) {
 
@@ -5162,6 +5156,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	public InlineFormulaController createInlineFormulaController(EuclidianView view,
 			GeoFormula geo) {
+		return null;
+	}
+
+	public InlineTableController createTableController(EuclidianView view, GeoInlineTable table) {
 		return null;
 	}
 

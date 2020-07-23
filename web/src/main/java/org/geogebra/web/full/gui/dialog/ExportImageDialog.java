@@ -7,6 +7,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.Clipboard;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.shared.DialogBoxW;
@@ -87,7 +88,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 		mainPanel = new FlowPanel();
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("expImgContent");
-		if (!appW.isCopyImageToClipboardAvailable()) {
+		if (!Clipboard.isCopyImageToClipboardAvailable()) {
 			rightClickText = new Label();
 			rightClickText.addStyleName("rightClickHelpText");
 			contentPanel.add(rightClickText);
@@ -103,7 +104,7 @@ public class ExportImageDialog extends DialogBoxW implements FastClickHandler {
 			downloadBtn.addStyleName("gwt-Button");
 			downloadBtn.addStyleName("downloadBtn");
 		}
-		if (appW.isCopyImageToClipboardAvailable()) {
+		if (Clipboard.isCopyImageToClipboardAvailable()) {
 			copyToClipboardBtn = new StandardButton("", appW);
 			copyToClipboardBtn.addStyleName("copyToClipBtn");
 			if (!appW.isUnbundled()) {
