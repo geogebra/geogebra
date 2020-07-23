@@ -618,6 +618,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/** Graphics Settings button handler */
 	protected void onGraphicsSettingsPressed() {
 		app.hideMenu();
+		app.hideKeyboard();
 		if (app.isWhiteboardActive() && app.getAppletFrame() != null
 				&& app.getAppletFrame() instanceof GeoGebraFrameFull) {
 			((GeoGebraFrameFull) app.getAppletFrame()).deselectDragBtn();

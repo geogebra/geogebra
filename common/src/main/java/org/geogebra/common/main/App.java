@@ -5176,4 +5176,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			return new DefaultGeoPriorityComparator();
 		}
 	}
+
+	public void closeMenuHideKeyboard() {
+		// nothing here
+	}
 }
