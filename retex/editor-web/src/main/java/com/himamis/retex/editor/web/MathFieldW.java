@@ -122,6 +122,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private int fixMargin = 0;
 	private int minHeight = 0;
 	private boolean canBlur = true;
+	private boolean wasPaintedWithCursor;
 
 	/**
 	 * @param converter
@@ -317,7 +318,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (ctx == null || height < 0) {
 			return;
 		}
-		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
+		ctx.getCanvas().getStyle().setHeight(height * ratio, Unit.PX);
 
 		ctx.getCanvas().getStyle().setWidth(computeWidth(),
 				Unit.PX);
@@ -588,7 +589,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * implementation).
 	 */
 	public void repaintWeb() {
-		if (lastIcon == null || !instances.contains(this)) {
+		if (lastIcon == null) {
 			return;
 		}
 		if (!active(inputTextArea.getElement()) && isEdited()) {
@@ -598,7 +599,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		final double width = computeWidth();
 		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
-
+		wasPaintedWithCursor = CursorBox.visible();
 		paint(ctx, getMargin(lastIcon));
 	}
 
@@ -916,7 +917,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			mathFieldInternal.getEditorState().resetSelection();
 			mathFieldInternal.update();
 		}
-		if (CursorBox.visible() || hadSelection) {
+		if (wasPaintedWithCursor || hadSelection) {
 			CursorBox.setBlink(false);
 			repaintWeb();
 		}
