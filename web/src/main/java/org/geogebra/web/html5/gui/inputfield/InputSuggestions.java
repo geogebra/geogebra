@@ -79,13 +79,23 @@ public class InputSuggestions {
 
 		// Start with the built-in function completions
 		completions = app.getParserFunctions().getCompletions(cmdPrefix);
-		// Then add the command completions
+		addToCompletions(commandCompletions);
+		return completions;
+	}
+
+	private void addToCompletions(List<String> commandCompletions) {
+		if (isNullOrEmpty(commandCompletions)) {
+			return;
+		}
 		if (completions.isEmpty()) {
 			completions = commandCompletions;
-		} else if (commandCompletions != null) {
+		} else {
 			completions.addAll(commandCompletions);
 		}
-		return completions;
+	}
+
+	private boolean isNullOrEmpty(List<String> list) {
+		return list == null || list.isEmpty() || (list.size() == 1 && list.get(0).isEmpty());
 	}
 
 	/**
