@@ -55,6 +55,7 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
@@ -113,7 +114,6 @@ import org.geogebra.web.full.main.mask.MaskWidgetListW;
 import org.geogebra.web.full.main.video.VideoManagerW;
 import org.geogebra.web.full.move.googledrive.operations.GoogleDriveOperationW;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -1565,7 +1565,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			updateNavigationBars();
 		}
 		this.setPreferredSize(
-				new GDimensionW((int) this.getWidth(), (int) this.getHeight()));
+				new Dimension((int) this.getWidth(), (int) this.getHeight()));
 		setDefaultCursor();
 		checkScaleContainer();
 		frame.useDataParamBorder();
