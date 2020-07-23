@@ -2202,7 +2202,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			addDummyLabel();
 		}
 		setFocusedStyle(false);
-		if (app.getAppletFrame().isKeyboardShowing()) {
+		if (isInputTreeItem()
+			&& app.getAppletFrame().isKeyboardShowing()) {
 			app.hideKeyboard();
 		}
 	}
