@@ -53,7 +53,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public void onBlur(BlurEvent event) {
 		Scheduler.get().scheduleDeferred(() -> {
 			item.resetInputBarOnBlur();
-			if (preventBlur) {
+			if (preventBlur || sug.isSuggesting()) {
 				return;
 			}
 
