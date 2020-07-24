@@ -230,6 +230,10 @@ public class PointerEventHandler {
             zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerOut(*)(e);
         });
 
+        element.addEventListener("pointercanel", function(e) {
+            zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerOut(*)(e);
+        });
+
 		$wnd.addEventListener("pointerup", function(e) {
             zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerUp(*)(e, element);
         });
