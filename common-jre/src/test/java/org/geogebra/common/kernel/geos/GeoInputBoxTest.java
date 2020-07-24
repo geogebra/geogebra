@@ -36,8 +36,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	private static final String LINE = "x+3y=1";
 	private static final String PLANE = "x+y+z=1";
 	private static final String NUMBER = "4";
-	private static final String SINGLE_INEQUALITY = "x<6";
-	private static final String DOUBLE_INEQUALITY = "2<x<6";
 
 	private TextObject textObject;
 
