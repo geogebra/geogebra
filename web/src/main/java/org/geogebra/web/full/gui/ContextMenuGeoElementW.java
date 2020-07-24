@@ -180,7 +180,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	private void addItemsForFocusedInGroup() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(getFocusedGroupElement());
-		addInlineTextItems(geos);
+		InlineFormattingItems textitems = addInlineTextItems(geos);
+		textitems.addFormatItems();
+		textitems.addTableItemsIfNeeded();
 		addLayerItem(geos);
 	}
 
@@ -195,13 +197,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addPinForUnbundled();
 			addFixForUnbundledOrNotes();
 		} else if (app.isWhiteboardActive()) {
-			addInlineTextItems(getGeos());
-
+			InlineFormattingItems textItems = addInlineTextItems(getGeos());
+			textItems.addFormatItems();
+			addCutCopyPaste();
+			textItems.addTableItemsIfNeeded();
 			if (editModeTable()) {
 				return;
 			}
-
-			addCutCopyPaste();
 			boolean layerAdded = addLayerItem(getGeos());
 			boolean groupsAdded = addGroupItems();
 			if (layerAdded || groupsAdded) {
@@ -243,9 +245,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		addPropertiesItem();
 	}
 
-	private void addInlineTextItems(ArrayList<GeoElement> geos) {
-		InlineFormattingItems items = new InlineFormattingItems(app, geos, wrappedPopup, factory);
-		items.addItems();
+	private InlineFormattingItems addInlineTextItems(ArrayList<GeoElement> geos) {
+		return new InlineFormattingItems(app, geos, wrappedPopup, factory);
+
 	}
 
 	private boolean addLayerItem(ArrayList<GeoElement> geos) {

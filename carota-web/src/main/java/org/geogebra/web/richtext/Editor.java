@@ -98,6 +98,10 @@ public interface Editor {
 
 	String getHyperlinkRangeText();
 
+	String getSelectionRangeText();
+
+	void setSelection(String text);
+
 	void setHyperlinkUrl(String input);
 
 	String urlByCoordinate(int x, int y);
