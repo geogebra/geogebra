@@ -41,8 +41,8 @@ public class CmdCurveCartesian extends CommandProcessor {
 		case 4:
 			ok = new boolean[2];
 			arg = new GeoElement[2];
-			arg[0] = resArgSilent(c,2, new EvalInfo(false));
-			arg[1] = resArgSilent(c,3, new EvalInfo(false));
+			arg[0] = resArgSilent(c, 2, new EvalInfo(false));
+			arg[1] = resArgSilent(c, 3, new EvalInfo(false));
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				ok = new boolean[n];
