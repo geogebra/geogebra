@@ -552,4 +552,6 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		assertThat(lookup("b").isDefined(), equalTo(false));
 	}
 
+
+
 }

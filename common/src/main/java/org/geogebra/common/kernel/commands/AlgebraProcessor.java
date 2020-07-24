@@ -2390,7 +2390,11 @@ public class AlgebraProcessor {
 					f.setLabel(label);
 					return array(f);
 				}
+			} else if (en.isForceInequality() && en.wasInterval()) {
+				f = new GeoInterval(cons, fun);
+				return array(f);
 			}
+
 		} else if (en.getOperation().equals(Operation.FUNCTION)) {
 			ExpressionValue left = en.getLeft();
 			ExpressionValue right = en.getRight();
