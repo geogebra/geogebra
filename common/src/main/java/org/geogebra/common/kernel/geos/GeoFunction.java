@@ -2130,8 +2130,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public char getLabelDelimiter() {
-		return isBooleanFunction() || shortLHS != null ? ':' :
-				(forceInequality ? ':' : '=');
+		return isBooleanFunction() || shortLHS != null
+				|| forceInequality ? ':' : '=';
 	}
 
 	/**
