@@ -1,6 +1,7 @@
 package org.geogebra.web.shared.components;
 
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -173,13 +174,17 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	@Override
 	public void show() {
 		super.show();
-		super.center();
+		centerAndResize(this instanceof HasKeyboardPopup
+				? ((AppW) app).getAppletFrame().getKeyboardHeight()
+				: 0);
 	}
 
 	@Override
 	public void onResize(ResizeEvent resizeEvent) {
 		if (isShowing()) {
-			super.center();
+			centerAndResize(this instanceof HasKeyboardPopup
+					? ((AppW) app).getAppletFrame().getKeyboardHeight()
+					: 0);
 		}
 	}
 
