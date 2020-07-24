@@ -77,7 +77,6 @@ public class ExpressionNode extends ValidExpression
 	private boolean forcePoint = false;
 	private boolean forceFunction = false;
 	private boolean forceInequality = false;
-	private boolean wasInterval = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -1264,20 +1263,6 @@ public class ExpressionNode extends ValidExpression
 	 */
 	final public boolean isForceInequality() {
 		return forceInequality;
-	}
-
-	/**
-	 * remember if was interval
-	 */
-	public void setWasInterval() {
-		wasInterval = true;
-	}
-
-	/**
-	 * @return true iff was interval
-	 */
-	final public boolean wasInterval() {
-		return wasInterval;
 	}
 
 	/**

@@ -624,7 +624,6 @@ public class AlgebraProcessor {
 				n.setForceVector();
 			} else if (geo.isGeoInterval()) {
 				n.setForceInequality();
-				n.setWasInterval();
 			} else if (geo instanceof GeoFunction) {
 				if (((GeoFunction) geo).forceInequality()
 					&& n.toString(StringTemplate.noLocalDefault).contains("?")) {
@@ -2411,7 +2410,7 @@ public class AlgebraProcessor {
 			f = new GeoFunction(cons, fun, info.isSimplifyingIntegers());
 			f.getIneqs();
 			f.setForceInequality(f.isInequality()
-					|| (en.isForceInequality() && !en.wasInterval()));
+					|| en.isForceInequality());
 		} else {
 			f = kernel.getAlgoDispatcher().dependentFunction(fun, info);
 			if (label == null) {
