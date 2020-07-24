@@ -1211,7 +1211,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	@Override
-	public void clearResult() {
+	public synchronized void clearResult() {
 		if (cas != null) {
 			cas.clearResult();
 		}
