@@ -174,17 +174,13 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	@Override
 	public void show() {
 		super.show();
-		centerAndResize(this instanceof HasKeyboardPopup
-				? ((AppW) app).getAppletFrame().getKeyboardHeight()
-				: 0);
+		super.center();
 	}
 
 	@Override
 	public void onResize(ResizeEvent resizeEvent) {
 		if (isShowing()) {
-			centerAndResize(this instanceof HasKeyboardPopup
-					? ((AppW) app).getAppletFrame().getKeyboardHeight()
-					: 0);
+			center();
 		}
 	}
 
