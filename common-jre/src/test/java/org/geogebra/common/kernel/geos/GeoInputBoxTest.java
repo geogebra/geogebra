@@ -36,6 +36,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	private static final String LINE = "x+3y=1";
 	private static final String PLANE = "x+y+z=1";
 	private static final String NUMBER = "4";
+	private static final String SINGLE_INEQUALITY = "x<6";
+	private static final String DOUBLE_INEQUALITY = "2<x<6";
 
 	private TextObject textObject;
 
@@ -525,4 +527,29 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("x");
 		assertTrue(((GeoBoolean) lookup("correct")).getBoolean());
 	}
+
+	@Test
+	public void testSingleIneqRedefinedToDoubleIneq() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("3<x<7");
+		assertThat(lookup("a").isDefined(), equalTo(true));
+
+		inputBox.updateLinkedGeo("3<x");
+		assertThat(lookup("a").isDefined(), equalTo(true));
+	}
+
+	@Test
+	public void testInequalityCannotRedefineAsFunction() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("xx");
+		assertThat(lookup("a").isDefined(), equalTo(false));
+
+		add("b:2<x<9");
+		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(b)");
+		inputBox2.updateLinkedGeo("x+5");
+		assertThat(lookup("b").isDefined(), equalTo(false));
+	}
+
 }
