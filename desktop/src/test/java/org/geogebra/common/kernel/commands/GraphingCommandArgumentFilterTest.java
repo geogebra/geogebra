@@ -78,4 +78,19 @@ public class GraphingCommandArgumentFilterTest extends BaseUnitTest {
 		addAvInput("curve = Curve(2 cos(t), 2 sin(t), t, 0, 2π)");
 		assertThat(addAvInput("Length(curve, (2,0), (0,-2))"), is(nullValue()));
 	}
+
+	@Test
+	public void testPolylineWithPointsFiltered() {
+		assertThat(addAvInput("Polyline((1, 3), (4, 3))"), is(nullValue()));
+	}
+
+	@Test
+	public void testPolylineWithPointsAndBooleanAllowed() {
+		assertThat(addAvInput("Polyline((1, 3), (4, 3), true)"), is(notNullValue()));
+	}
+
+	@Test
+	public void testPolylineWithPointListAndBooleanAllowed() {
+		assertThat(addAvInput("Polyline({(1, 3), (4, 3)}, true)"), is(notNullValue()));
+	}
 }

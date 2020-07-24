@@ -95,6 +95,7 @@ public class AppMocker {
 	}
 
 	private static void useCommonFakeProviders() {
+		ElementalMocker.setupElemental();
 		GwtMockito.useProviderForType(PopupImpl.class,
 				new FakeProvider<PopupImpl>() {
 

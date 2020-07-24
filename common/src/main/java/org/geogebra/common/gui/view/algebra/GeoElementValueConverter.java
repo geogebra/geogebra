@@ -2,7 +2,7 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.ToStringConverter;
 
 /**
@@ -12,10 +12,8 @@ public class GeoElementValueConverter implements ToStringConverter<GeoElement> {
 
 	@Override
 	public String convert(GeoElement element) {
-		String text = element.toOutputValueString(StringTemplate.algebraTemplate);
-		if (StringUtil.isSimpleNumber(text) || element.isGeoText()) {
-			return text;
-		}
-		return "(" + text + ")";
+		return element instanceof GeoText
+				? ((GeoText) element).getTextString()
+				: element.toOutputValueString(StringTemplate.algebraTemplate);
 	}
 }

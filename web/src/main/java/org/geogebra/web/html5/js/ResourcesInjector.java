@@ -40,6 +40,7 @@ public class ResourcesInjector {
 		fixComputedStyle();
 		// insert zip.js
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.clipboardJs());
 
 		if (instance == null) {
 			instance = (ResourcesInjector) GWT.create(ResourcesInjector.class);
@@ -66,6 +67,7 @@ public class ResourcesInjector {
 			loadCodecs();
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.xmlUtil());
 	}
 
 	/**

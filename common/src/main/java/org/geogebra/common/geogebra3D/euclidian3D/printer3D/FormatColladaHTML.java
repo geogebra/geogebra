@@ -48,7 +48,7 @@ public class FormatColladaHTML extends FormatCollada {
 		sb.append(
 				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/loaders/ColladaLoader.js'></script>\n");
 		sb.append(
-				"<script src='https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/controls/OrbitControls.js'></script>\n");
+				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/controls/OrbitControls.js'></script>\n");
 		sb.append(
 				"<script src='https://cdn.rawgit.com/mrdoob/three.js/r92/examples/js/renderers/SVGRenderer.js'></script>\n");
 		sb.append(

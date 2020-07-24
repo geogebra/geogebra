@@ -1,4 +1,4 @@
-package org.geogebra.web.full.euclidian;
+package org.geogebra.web.full.euclidian.inline;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawFormula;
@@ -148,7 +148,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		@Override
-		public void onKeyTyped() {
+		public void onKeyTyped(String key) {
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 				@Override
 				public void execute() {

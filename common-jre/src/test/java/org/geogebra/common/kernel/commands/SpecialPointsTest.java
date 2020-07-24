@@ -24,7 +24,7 @@ public class SpecialPointsTest extends BaseUnitTest {
 	public void specialPointsForPolynomials() {
 		add("f(x)=x^3-x");
 		updateSpecialPoints("f");
-		assertEquals(6, numberOfSpecialPoints());
+		assertEquals(7, numberOfSpecialPoints());
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class SpecialPointsTest extends BaseUnitTest {
 		add("ZoomIn(-4pi-1,-2,4pi+1,2)");
 		add("f(x)=sin(x)");
 		updateSpecialPoints("f");
-		assertEquals(18, numberOfSpecialPoints());
+		assertEquals(19, numberOfSpecialPoints());
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class SpecialPointsTest extends BaseUnitTest {
 		add("a=1");
 		add("f(x)=x^2+a");
 		updateSpecialPoints("f");
-		assertEquals(3, numberOfSpecialPoints());
+		assertEquals(4, numberOfSpecialPoints());
 	}
 
 	private int numberOfSpecialPoints() {

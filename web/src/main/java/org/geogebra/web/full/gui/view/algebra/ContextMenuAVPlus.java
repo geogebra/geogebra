@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.view.algebra;
 
 import java.util.Vector;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -169,17 +168,6 @@ public class ContextMenuAVPlus implements SetLabels {
 	}
 
 	/**
-	 * Show popup menu at a given point.
-	 * 
-	 * @param p
-	 *            point to show the menu at.
-	 */
-	public void show(GPoint p) {
-		wrappedPopup.show(p);
-		wrappedPopup.getPopupMenu().focusDeferred();
-	}
-
-	/**
 	 * Show popup menu at (x, y) screen coordinates.
 	 * 
 	 * @param x
@@ -188,7 +176,7 @@ public class ContextMenuAVPlus implements SetLabels {
 	 *            y coordinate.
 	 */
 	public void show(int x, int y) {
-		wrappedPopup.show(new GPoint(x, y));
+		wrappedPopup.show(x, y);
 		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 

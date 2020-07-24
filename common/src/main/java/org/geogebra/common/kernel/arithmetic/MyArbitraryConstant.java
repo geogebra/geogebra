@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -243,6 +244,11 @@ public class MyArbitraryConstant {
 				outCE.update();
 				if (((GeoCasCell) outCE).getTwinGeo() != null) {
 					((GeoCasCell) outCE).getTwinGeo().update();
+				}
+			} else if (outCE instanceof GeoSymbolic) {
+				outCE.update();
+				if (((GeoSymbolic) outCE).getTwinGeo() != null) {
+					((GeoSymbolic) outCE).getTwinGeo().update();
 				}
 			} else if (outCE != null) {
 				outCE.update();

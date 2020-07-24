@@ -672,7 +672,7 @@ public class ApiExporter {
 		};
 		
 		api.setFileJSON = function(zip) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFileJSON(Lcom/google/gwt/core/client/JavaScriptObject;)(zip);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFileJSON(Ljava/lang/Object;)(zip);
 		};
 
 		api.setLanguage = function(lang) {

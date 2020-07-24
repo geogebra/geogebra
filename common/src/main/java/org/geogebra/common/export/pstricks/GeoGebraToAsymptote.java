@@ -2333,6 +2333,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			if (drawGeo == null) {
 				drawGeo = euclidianView.getDrawableFor(geo);
 			}
+			if (drawGeo == null) {
+				return;
+			}
 			double xLabel = drawGeo.getxLabel();
 			double yLabel = drawGeo.getyLabel();
 			xLabel = euclidianView.toRealWorldCoordX(Math.round(xLabel));

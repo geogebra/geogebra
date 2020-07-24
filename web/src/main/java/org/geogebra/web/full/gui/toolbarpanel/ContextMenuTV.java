@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.toolbarpanel;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.table.TableValuesPoints;
 import org.geogebra.common.gui.view.table.TableValuesView;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -160,17 +159,6 @@ public class ContextMenuTV {
 	}
 
 	/**
-	 * Show the context menu at the p given point.
-	 * 
-	 * @param p
-	 *            point to show the menu at.
-	 */
-	public void show(GPoint p) {
-		wrappedPopup.show(p);
-		wrappedPopup.getPopupMenu().focusDeferred();
-	}
-
-	/**
 	 * Show the context menu at the (x, y) screen coordinates.
 	 * 
 	 * @param x
@@ -179,7 +167,7 @@ public class ContextMenuTV {
 	 *            y coordinate.
 	 */
 	public void show(int x, int y) {
-		wrappedPopup.show(new GPoint(x, y));
+		wrappedPopup.show(x, y);
 		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 }

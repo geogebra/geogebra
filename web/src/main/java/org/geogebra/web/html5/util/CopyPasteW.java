@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawInline;
@@ -37,12 +38,12 @@ import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.storage.client.Storage;
 
 import elemental2.core.Global;
 import elemental2.dom.Blob;
@@ -324,11 +325,7 @@ public class CopyPasteW extends CopyPaste {
 			String encoded = pastePrefix + DomGlobal.btoa(escapedContent);
 			writeToExternalClipboard(encoded);
 		}
-		try {
-			Storage.getLocalStorageIfSupported().setItem(pastePrefix, toSave);
-		} catch (Throwable t) {
-			Log.debug("Quota exceeded");
-		}
+		BrowserStorage.LOCAL.setItem(pastePrefix, toSave);
 	}
 
 	private static native boolean copyToExternalSupported() /*-{
@@ -430,25 +427,26 @@ public class CopyPasteW extends CopyPaste {
 
 			txt.setContent(array.toString());
 
-			final DrawInlineText drawText = (DrawInlineText) app.getActiveEuclidianView()
+			final DrawableND drawText =  app.getActiveEuclidianView()
 					.getDrawableFor(txt);
-			drawText.update();
-			drawText.updateContent();
+			if (drawText != null) {
+				drawText.update();
+				((DrawInlineText) drawText).updateContent();
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					@Override
+					public void execute() {
+						int x = (ev.getWidth() - defaultTextWidth) / 2;
+						int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
+						txt.setLocation(new GPoint2D(
+								ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
+						));
+						drawText.update();
 
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					int x = (ev.getWidth() - defaultTextWidth) / 2;
-					int y = (int) ((ev.getHeight() - txt.getHeight()) / 2);
-					txt.setLocation(new GPoint2D(
-							ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y)
-					));
-					drawText.update();
-
-					ev.getEuclidianController().selectAndShowSelectionUI(txt);
-					app.storeUndoInfo();
-				}
-			});
+						ev.getEuclidianController().selectAndShowSelectionUI(txt);
+						app.storeUndoInfo();
+					}
+				});
+			}
 		}
 	}
 
@@ -539,8 +537,10 @@ public class CopyPasteW extends CopyPaste {
 				}
 
 				if (created instanceof GeoInline) {
-					DrawInline drawInline = (DrawInline) ev.getDrawableFor(created);
-					drawInline.updateContent();
+					DrawableND drawInline = ev.getDrawableFor(created);
+					if (drawInline != null) {
+						((DrawInline) drawInline).updateContent();
+					}
 					shapes.add(created);
 				}
 			}
@@ -632,7 +632,7 @@ public class CopyPasteW extends CopyPaste {
 	 * @param app application
 	 */
 	public static void pasteInternal(AppW app) {
-		String stored = Storage.getLocalStorageIfSupported().getItem(pastePrefix);
+		String stored = BrowserStorage.LOCAL.getItem(pastePrefix);
 		if (!StringUtil.empty(stored)) {
 			pasteGeoGebraXML(app, stored);
 		}
