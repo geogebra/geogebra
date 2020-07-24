@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the ReTeX library - https://github.com/himamis/ReTeX
  *
  * Copyright (C) 2015 Balazs Bencze
@@ -112,7 +112,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private ExpressionReader expressionReader;
 
-	private static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
+	private static ArrayList<MathFieldW> instances = new ArrayList<>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
@@ -121,6 +121,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private ChangeHandler changeHandler;
 	private int fixMargin = 0;
 	private int minHeight = 0;
+	private boolean canBlur = true;
+	private boolean wasPaintedWithCursor;
 
 	/**
 	 * @param converter
@@ -316,7 +318,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (ctx == null || height < 0) {
 			return;
 		}
-		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
+		ctx.getCanvas().getStyle().setHeight(height * ratio, Unit.PX);
 
 		ctx.getCanvas().getStyle().setWidth(computeWidth(),
 				Unit.PX);
@@ -597,7 +599,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		final double width = computeWidth();
 		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
-
+		wasPaintedWithCursor = CursorBox.visible();
 		paint(ctx, getMargin(lastIcon));
 	}
 
@@ -728,7 +730,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			if (onTextfieldFocus != null) {
 				onTextfieldFocus.onFocus(null);
 			}
-			startBlink();
 			focuser = new Timer() {
 
 				@Override
@@ -759,8 +760,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Make sure the HTML element has focus and update to render cursor
 	 */
 	protected void onFocusTimer() {
-		BlurHandler oldBlur = this.onTextfieldBlur;
-		onTextfieldBlur = null;
+		this.canBlur = false;
 		// set focused flag before update to make sure cursor is rendered
 		focused = true;
 		mathFieldInternal.update();
@@ -769,7 +769,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 		// after set focus to the keyboard listening element
 		focusTextArea();
-		onTextfieldBlur = oldBlur;
+		canBlur = true;
 	}
 
 	private void focusTextArea() {
@@ -777,6 +777,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (html.getElement().getParentElement() != null) {
 			html.getElement().getParentElement().setScrollTop(0);
 		}
+		startBlink();
 	}
 
 	private native void installPaste(Element target) /*-{
@@ -801,7 +802,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private void startEditing() {
 		if (mathFieldInternal.getEditorState().getCurrentField() == null) {
-			mathFieldInternal.getCursorController();
 			CursorController.lastField(mathFieldInternal.getEditorState());
 		}
 		// update even when cursor didn't change here
@@ -903,18 +903,25 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		removeCursor();
-		resetFlags();
+		if (canBlur) {
+			removeCursor();
+			resetFlags();
+			runBlurCallback(event);
+		}
 		event.stopPropagation();
-		runBlurCallback(event);
 	}
 
 	private void removeCursor() {
-		instances.remove(this);
-		if (CursorBox.visible()) {
+		boolean hadSelection = mathFieldInternal.getEditorState().hasSelection();
+		if (hadSelection) {
+			mathFieldInternal.getEditorState().resetSelection();
+			mathFieldInternal.update();
+		}
+		if (wasPaintedWithCursor || hadSelection) {
 			CursorBox.setBlink(false);
 			repaintWeb();
 		}
+		instances.remove(this);
 	}
 
 	/**
