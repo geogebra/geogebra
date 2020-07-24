@@ -125,15 +125,13 @@ public class GeoInterval extends GeoFunction {
 	}
 
 	@Override
-	public String getAssignmentLHS(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(tpl.printVariableName(label));
-		return sbToString.toString();
+	public String getFunctionType() {
+		return "inequality";
 	}
 
 	@Override
-	public void appendType(StringBuilder sbxml) {
-		sbxml.append("\" type=\"inequality\"/>\n");
+	public char getLabelDelimiter() {
+		return ':';
 	}
 
 	/**

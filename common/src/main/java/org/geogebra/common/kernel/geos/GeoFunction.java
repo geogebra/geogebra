@@ -951,7 +951,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			sbxml.append(label);
 			sbxml.append("\" exp=\"");
 			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
-			appendType(sbxml);
+			appendFunctionType(sbxml);
 		}
 
 		sbxml.append("<element");
@@ -977,12 +977,19 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * function otherwise
 	 * @param sbxml xml string builder
 	 */
-	public void appendType(StringBuilder sbxml) {
-		if (forceInequality()) {
-			sbxml.append("\" type=\"inequality\"/>\n");
-		} else {
-			sbxml.append("\" type=\"function\"/>\n");
-		}
+	public void appendFunctionType(StringBuilder sbxml) {
+		sbxml.append("\" type=\"");
+		sbxml.append(getFunctionType());
+		sbxml.append("\"/>\n");
+	}
+
+	/**
+	 * function type
+	 * @return type of function (inequality or function)
+	 */
+	public String getFunctionType() {
+		return forceInequality() ? "inequality"
+				: "function";
 	}
 
 	/**
@@ -1366,7 +1373,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String getAssignmentLHS(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(tpl.printVariableName(label));
-		if (this.getLabelDelimiter() != ':' && !forceInequality) {
+		if (this.getLabelDelimiter() != ':') {
 			tpl.appendWithBrackets(sbToString, getVarString(tpl));
 		}
 		return sbToString.toString();
@@ -2123,7 +2130,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public char getLabelDelimiter() {
-		return isBooleanFunction() || shortLHS != null ? ':' : '=';
+		return isBooleanFunction() || shortLHS != null ? ':' :
+				(forceInequality ? ':' : '=');
 	}
 
 	/**
@@ -2639,13 +2647,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	public boolean isInequality() {
 		return (isInequality != null && isInequality) ? true : false;
-	}
-
-	/**
-	 * @param isInequality true if should be an inequality
-	 */
-	public void setIsInequality(boolean isInequality) {
-		this.isInequality = isInequality;
 	}
 
 	/**
