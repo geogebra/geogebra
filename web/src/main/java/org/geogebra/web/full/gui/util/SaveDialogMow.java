@@ -90,13 +90,7 @@ public class SaveDialogMow extends DialogBoxW
 
 	private void initActions() {
 		// set focus to input field!
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				getInputField().getTextComponent().setFocus(true);
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
 		addFocusBlurHandlers();
 		addHoverHandlers();
 	}
@@ -106,40 +100,16 @@ public class SaveDialogMow extends DialogBoxW
 	 */
 	private void addHoverHandlers() {
 		titleField.getTextComponent().getTextBox()
-				.addMouseOverHandler(new MouseOverHandler() {
-
-					@Override
-					public void onMouseOver(MouseOverEvent event) {
-						getInputPanel().addStyleName("hoverState");
-					}
-				});
+				.addMouseOverHandler(event -> getInputPanel().addStyleName("hoverState"));
 		titleField.getTextComponent().getTextBox()
-				.addMouseOutHandler(new MouseOutHandler() {
-
-					@Override
-					public void onMouseOut(MouseOutEvent event) {
-						getInputPanel().removeStyleName("hoverState");
-					}
-				});
+				.addMouseOutHandler(event -> getInputPanel().removeStyleName("hoverState"));
 	}
 
 	private void addFocusBlurHandlers() {
 		titleField.getTextComponent().getTextBox()
-				.addFocusHandler(new FocusHandler() {
-
-					@Override
-					public void onFocus(FocusEvent event) {
-						setFocusState();
-					}
-				});
+				.addFocusHandler(event -> setFocusState());
 		titleField.getTextComponent().getTextBox()
-				.addBlurHandler(new BlurHandler() {
-
-					@Override
-					public void onBlur(BlurEvent event) {
-						resetInputField();
-					}
-				});
+				.addBlurHandler(event -> resetInputField());
 	}
 
 	/**
@@ -270,6 +240,7 @@ public class SaveDialogMow extends DialogBoxW
 
 	@Override
 	public void setDiscardMode() {
+		setLabels();
 		setCaptionKey("DoYouWantToSaveYourChanges");
 		cancelBtn.setLabel(loc.getMenu("Discard"));
 		templateCheckbox.setVisible(false);
