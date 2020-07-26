@@ -899,7 +899,7 @@ __GGB__keysVar["nl"].command = {
     "SetViewDirection": "SetViewDirection",
     "SetViewDirection.Syntax": "[ <Richting> ]\n[ <Richting>, <Booleaans animatie> ]",
     "SetVisibleInView": "SetVisibleInView",
-    "SetVisibleInView.Syntax": "[ <Object>, <Tekenvenster 1|2>, <Boolean> ]",
+    "SetVisibleInView.Syntax": "[ <Object>, <Tekenvenster 1|2|-1>, <Boolean> ]",
     "Shear": "Vervormen",
     "Shear.Syntax": "[ <Object>, <Rechte>, <Factor> ]",
     "ShortestDistance": "KortsteAfstand",
