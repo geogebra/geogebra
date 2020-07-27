@@ -39,13 +39,12 @@ public class CmdCurveCartesian extends CommandProcessor {
 		// Note: x and y coords are numbers dependent on number-var
 		// Curve[t*(1-t)*A+t*t*B+(1-t)*(1-t)*C,t,0,1]
 		case 4:
-			ok = new boolean[2];
-			arg = new GeoElement[2];
-			arg[0] = resArgSilent(c, 2, new EvalInfo(false));
-			arg[1] = resArgSilent(c, 3, new EvalInfo(false));
-			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				ok = new boolean[n];
+			ok = new boolean[n];
+			arg = new GeoElement[n];
+			arg[2] = resArgSilent(c, 2, new EvalInfo(false));
+			arg[3] = resArgSilent(c, 3, new EvalInfo(false));
+			if ((ok[2] = arg[2] instanceof GeoNumberValue)
+					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
 				arg = resArgsLocalNumVar(c, 1, 2, 3);
 				if ((ok[0] = arg[0] instanceof VectorNDValue)
 						&& (ok[1] = arg[1].isGeoNumeric())
