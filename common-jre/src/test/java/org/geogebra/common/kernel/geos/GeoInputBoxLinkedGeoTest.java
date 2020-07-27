@@ -344,4 +344,30 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		Assert.assertTrue(inputBox1.canBeSymbolic());
 		Assert.assertTrue(inputBox2.canBeSymbolic());
 	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingConicUndefined() {
+		setupInput("eq1", "xx+yy = 1");
+		inputBox.setSymbolicMode(true, false);
+		updateInput("?");
+		assertEquals("", inputBox.getTextForEditor());
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("", inputBox.getTextForEditor());
+		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingQuadricUndefined() {
+		setupInput("eq1", "x^2 + y^2 + z^2 = 1");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("?");
+		assertEquals("", inputBox.getTextForEditor());
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("", inputBox.getTextForEditor());
+		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
 }
