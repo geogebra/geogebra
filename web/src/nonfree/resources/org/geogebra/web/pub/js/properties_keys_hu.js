@@ -3400,6 +3400,7 @@ __GGB__keysVar["hu"].menu = {
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra anyagok keres\xe9se",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
+    "settings.arRatio": "AR Ar\xe1ny",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

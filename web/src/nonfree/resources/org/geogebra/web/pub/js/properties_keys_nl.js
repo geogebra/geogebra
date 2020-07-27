@@ -3400,6 +3400,7 @@ __GGB__keysVar["nl"].menu = {
     "saveTemplate": "Sla op als sjabloon",
     "search_geogebra_materials": "Zoek in het GeoGebra materiaal",
     "sessionExpireNotify": "Je sessie loopt bijna af. Sla a.u.b. je bestand op om aangemeld te blijven.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Delen via link",
     "shareGroupHelpText": "Selecteer een of meer groepen",
     "share_message": "Message",

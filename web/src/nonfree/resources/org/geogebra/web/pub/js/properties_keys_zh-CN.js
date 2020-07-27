@@ -3400,6 +3400,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "saveTemplate": "\u4e0e\u6a21\u677f\u76f8\u540c",
     "search_geogebra_materials": "\u641c\u7d22 GeoGebra \u8d44\u6e90",
     "sessionExpireNotify": "\u60a8\u7684\u4f1a\u8bdd\u5373\u5c06\u7ed3\u675f, \u8bf7\u4fdd\u5b58\u6587\u4ef6\u4ee5\u4fdd\u6301\u767b\u5f55\u72b6\u6001.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "\u5171\u4eab\u94fe\u63a5",
     "shareGroupHelpText": "\u9009\u62e9\u4e00\u4e2a\u6216\u591a\u4e2a\u7ec4",
     "share_message": "Message",

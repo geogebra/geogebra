@@ -3400,6 +3400,7 @@ __GGB__keysVar["bg"].menu = {
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "\u0422\u044a\u0440\u0441\u0435\u043d\u0435 \u043d\u0430 GeoGebra \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0438",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

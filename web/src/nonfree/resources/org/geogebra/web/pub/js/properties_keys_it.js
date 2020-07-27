@@ -3400,6 +3400,7 @@ __GGB__keysVar["it"].menu = {
     "saveTemplate": "Salva come modello",
     "search_geogebra_materials": "Cerca risorse di GeoGebra",
     "sessionExpireNotify": "La tua sessione sta per terminare. Salva il tuo file per rimanere connesso.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Condividi con collegamento",
     "shareGroupHelpText": "Seleziona uno o pi\xf9 gruppi",
     "share_message": "Message",

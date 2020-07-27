@@ -3400,6 +3400,7 @@ __GGB__keysVar["hr"].menu = {
     "saveTemplate": "Spremi kao predlo\u017eak",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra materijale",
     "sessionExpireNotify": "Va\u0161a \u0107e sesija uskoro iste\u0107i. Spremite datoteku kako biste ostali prijavljeni.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Dijeljeno poveznicom",
     "shareGroupHelpText": "Odaberite jednu ili vi\u0161e grupa",
     "share_message": "Message",

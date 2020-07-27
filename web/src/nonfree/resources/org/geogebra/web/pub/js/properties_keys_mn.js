@@ -3400,6 +3400,7 @@ __GGB__keysVar["mn"].menu = {
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "\u0413\u0435\u043e\u0433\u0435\u0431\u0440\u0430 \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0443\u0443\u0434\u044b\u0433 \u0445\u0430\u0439\u0445",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "\u0425\u043e\u043b\u0431\u043e\u043e\u0441\u043e\u043e\u0440 \u0445\u0443\u0432\u0430\u0430\u043b\u0446\u0430\u0445",
     "shareGroupHelpText": "\u041d\u044d\u0433 \u044d\u0441\u0432\u044d\u043b \u043e\u043b\u043e\u043d \u0431\u04af\u043b\u044d\u0433 \u0441\u043e\u043d\u0433\u043e\u0445",
     "share_message": "Message",

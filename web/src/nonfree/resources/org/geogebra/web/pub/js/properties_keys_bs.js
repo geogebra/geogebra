@@ -3400,6 +3400,7 @@ __GGB__keysVar["bs"].menu = {
     "saveTemplate": "Spremi kao predlo\u017eak",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra Materijale",
     "sessionExpireNotify": "Va\u0161a \u0107e sesija uskoro iste\u0107i. Spremite Va\u0161u datoteku kako biste ostali prijavljeni.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Ozna\u010dite jednu ili vi\u0161e grupa",
     "share_message": "Message",

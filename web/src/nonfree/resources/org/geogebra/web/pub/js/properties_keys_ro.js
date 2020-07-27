@@ -3400,6 +3400,7 @@ __GGB__keysVar["ro"].menu = {
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Caut\u0103 \xeen materialele GeoGebra",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Partaja\u021bi link-ul",
     "shareGroupHelpText": "Selecteaz\u0103 unul sau mai multe grupuri",
     "share_message": "Message",

@@ -3400,6 +3400,7 @@ __GGB__keysVar["kk"].menu = {
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "GeoGebra \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0434\u0430\u0440\u044b\u043d \u0456\u0437\u0434\u0435\u0443",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

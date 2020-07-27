@@ -3400,6 +3400,7 @@ __GGB__keysVar["de-AT"].menu = {
     "saveTemplate": "Als Vorlage speichern",
     "search_geogebra_materials": "GeoGebra Materialien suchen",
     "sessionExpireNotify": "Ihre Sitzung l\xe4uft bald ab. Bitte speichern Sie Ihr Tafelbild, um angemeldet zu bleiben.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Teilen mit Link",
     "shareGroupHelpText": "W\xe4hle eine oder mehrere Gruppen aus",
     "share_message": "Nachricht",

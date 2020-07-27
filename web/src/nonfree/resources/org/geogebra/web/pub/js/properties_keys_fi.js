@@ -3400,6 +3400,7 @@ __GGB__keysVar["fi"].menu = {
     "saveTemplate": "Tallenna ty\xf6pohjana",
     "search_geogebra_materials": "Hae GeoGebra Materiaaleista",
     "sessionExpireNotify": "Istuntosi on loppumassa ja sinut kirjataan ulos.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Jaa linkill\xe4",
     "shareGroupHelpText": "Valitse yksi tai useampi ryhm\xe4",
     "share_message": "Message",

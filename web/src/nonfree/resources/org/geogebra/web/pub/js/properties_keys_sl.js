@@ -3400,6 +3400,7 @@ __GGB__keysVar["sl"].menu = {
     "saveTemplate": "Shrani kot vzorec",
     "search_geogebra_materials": "Prei\u0161\u010di GeoGebra vire",
     "sessionExpireNotify": "Seja se bo zaklju\u010dila. \u010ce shranite datoteko, ostanete prijavljeni.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Deljeno s povezavo",
     "shareGroupHelpText": "Izbira ene ali ve\u010d skupin",
     "share_message": "Message",

@@ -3400,6 +3400,7 @@ __GGB__keysVar["es-UY"].menu = {
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Buscar Recursos GeoGebra",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Compartir con enlace",
     "shareGroupHelpText": "Selecciona uno o m\xe1s grupos",
     "share_message": "Message",

@@ -3400,6 +3400,7 @@ __GGB__keysVar["kn"].menu = {
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "\u0c9c\u0cbf\u0caf\u0ccb\u0c9c\u0cbf\u0cac\u0ccd\u0cb0\u0cbe \u0cb8\u0c82\u0caa\u0ca8\u0ccd\u0cae\u0cc2\u0cb2\u0c97\u0cb3\u0ca8\u0ccd\u0ca8\u0cc1 \u0cb9\u0cc1\u0ca1\u0cc1\u0c95\u0cbf",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "\u0cb2\u0cbf\u0c82\u0c95\u0ccd \u0cae\u0cc2\u0cb2\u0c95 \u0cb9\u0c82\u0c9a\u0cbf\u0c95\u0cca\u0cb3\u0ccd\u0cb3\u0cbf",
     "shareGroupHelpText": "\u0c92\u0c82\u0ca6\u0cc1 \u0c85\u0ca5\u0cb5\u0cbe \u0cb9\u0cc6\u0c9a\u0ccd\u0c9a\u0cbf\u0ca8 \u0c97\u0cc1\u0c82\u0caa\u0ca8\u0ccd\u0ca8\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6 \u0cae\u0cbe\u0ca1\u0cbf",
     "share_message": "Message",

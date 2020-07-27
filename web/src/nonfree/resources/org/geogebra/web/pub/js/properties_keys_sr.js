@@ -3400,6 +3400,7 @@ __GGB__keysVar["sr"].menu = {
     "saveTemplate": "Save as template",
     "search_geogebra_materials": "Pretra\u017ei GeoGebra Materijale",
     "sessionExpireNotify": "Your session is about to expire. Please save your file to stay logged in.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Share by link",
     "shareGroupHelpText": "Select one or more group(s)",
     "share_message": "Message",

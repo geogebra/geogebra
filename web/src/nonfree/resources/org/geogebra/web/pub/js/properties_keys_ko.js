@@ -3400,6 +3400,7 @@ __GGB__keysVar["ko"].menu = {
     "saveTemplate": "\uc591\uc2dd\uc73c\ub85c \uc800\uc7a5\ud558\uae30",
     "search_geogebra_materials": "\uc9c0\uc624\uc9c0\ube0c\ub77c \uc790\ub8cc \uac80\uc0c9",
     "sessionExpireNotify": "\uc138\uc158\uc774 \uace7 \ub9cc\ub8cc\uc689\ub2c8\ub2e4. \ub85c\uadf8\uc778 \uc0c1\ud0dc\ub97c \uc720\uc9c0\ud558\ub824\uba74 \ud30c\uc77c\uc744 \uc800\uc7a5\ud558\uc2ed\uc2dc\uc624.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "\ub9c1\ud06c\ub85c \uacf5\uc720\ud558\uae30",
     "shareGroupHelpText": "\uadf8\ub8f9\uc744 \ud558\ub098 \uc774\uc0c1 \uc120\ud0dd\ud558\uc138\uc694.",
     "share_message": "Message",

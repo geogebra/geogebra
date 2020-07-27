@@ -3400,6 +3400,7 @@ __GGB__keysVar["da"].menu = {
     "saveTemplate": "Gem som skabelon",
     "search_geogebra_materials": "S\xf8g blandt GeoGebra Materialer",
     "sessionExpireNotify": "Din session er ved at udl\xf8be. Gem venligst dit arbejde for fortsat at v\xe6re logget ind.",
+    "settings.arRatio": "AR Ratio",
     "shareByLink": "Delt med link",
     "shareGroupHelpText": "V\xe6lg en eller flere grupper",
     "share_message": "Message",
