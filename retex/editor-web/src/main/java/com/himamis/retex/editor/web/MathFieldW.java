@@ -121,7 +121,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private ChangeHandler changeHandler;
 	private int fixMargin = 0;
 	private int minHeight = 0;
-	private boolean canBlur = true;
 	private boolean wasPaintedWithCursor;
 
 	/**
@@ -280,6 +279,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				public void run() {
 					CursorBox.toggleBlink();
 					for (MathFieldW field : instances) {
+						field.keepFocus();
 						field.repaintWeb();
 					}
 				}
@@ -318,7 +318,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (ctx == null || height < 0) {
 			return;
 		}
-		ctx.getCanvas().getStyle().setHeight(height * ratio, Unit.PX);
+		ctx.getCanvas().getStyle().setHeight(height, Unit.PX);
 
 		ctx.getCanvas().getStyle().setWidth(computeWidth(),
 				Unit.PX);
@@ -585,15 +585,21 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	/**
+	 * Make sure focus is in the editable element
+	 */
+	public void keepFocus() {
+		if (!active(inputTextArea.getElement()) && isEdited()) {
+			inputTextArea.getElement().focus();
+		}
+	}
+
+	/**
 	 * Actually repaint the content (repaint() is ignored in Web
 	 * implementation).
 	 */
 	public void repaintWeb() {
 		if (lastIcon == null) {
 			return;
-		}
-		if (!active(inputTextArea.getElement()) && isEdited()) {
-			inputTextArea.getElement().focus();
 		}
 		final double height = computeHeight();
 		final double width = computeWidth();
@@ -760,16 +766,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Make sure the HTML element has focus and update to render cursor
 	 */
 	protected void onFocusTimer() {
-		this.canBlur = false;
 		// set focused flag before update to make sure cursor is rendered
 		focused = true;
 		mathFieldInternal.update();
-		// first focus canvas to get the scrolling right
-		html.getElement().focus();
-
-		// after set focus to the keyboard listening element
+		// focus + scroll the editor
 		focusTextArea();
-		canBlur = true;
 	}
 
 	private void focusTextArea() {
@@ -903,11 +904,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		if (canBlur) {
-			removeCursor();
-			resetFlags();
-			runBlurCallback(event);
-		}
+		removeCursor();
+		resetFlags();
+		runBlurCallback(event);
 		event.stopPropagation();
 	}
 
