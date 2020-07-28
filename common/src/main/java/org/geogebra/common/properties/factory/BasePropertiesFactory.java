@@ -93,10 +93,10 @@ public class BasePropertiesFactory implements PropertiesFactory {
                 new GraphicsPositionProperty(app),
                 new AxesVisibilityProperty(localization, euclidianSettings),
                 new GridVisibilityProperty(localization, euclidianSettings),
+                new GridStyleProperty(localization, euclidianSettings),
                 new PointCapturingProperty(app, localization),
                 new DistancePropertyCollection(app, localization, euclidianSettings),
-                new LabelsPropertyCollection(localization, euclidianSettings),
-                new GridStyleProperty(localization, euclidianSettings)
+                new LabelsPropertyCollection(localization, euclidianSettings)
         );
     }
 }
