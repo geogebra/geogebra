@@ -2,7 +2,7 @@ package org.geogebra.common.main;
 
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
@@ -163,7 +163,7 @@ public interface AppConfig {
 	/**
 	 * @return command syntax filter
 	 */
-	@Nullable
+	@CheckForNull
 	SyntaxFilter newCommandSyntaxFilter();
 
 	/**

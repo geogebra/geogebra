@@ -1,5 +1,6 @@
 package org.geogebra.common.main.syntax;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 
 import org.geogebra.common.main.Localization;
@@ -15,7 +16,7 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 
 	private final Localization loc;
 
-	@Nullable
+	@CheckForNull
 	private SyntaxFilter syntaxFilter;
 
 	/**

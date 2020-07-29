@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
@@ -90,7 +90,7 @@ public class AppConfigScientific extends AppConfigGraphing {
 		return null;
 	}
 
-	@Nullable
+	@CheckForNull
 	@Override
 	public SyntaxFilter newCommandSyntaxFilter() {
 		return null;

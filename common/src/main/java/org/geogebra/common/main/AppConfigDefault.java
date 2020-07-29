@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Nullable;
+import javax.annotation.CheckForNull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.toolcategorization.AppType;
@@ -209,7 +209,7 @@ public class AppConfigDefault implements AppConfig {
 		return null;
 	}
 
-	@Nullable
+	@CheckForNull
 	@Override
 	public SyntaxFilter newCommandSyntaxFilter() {
 		return null;
