@@ -1210,4 +1210,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 	}
 
+	@Override
+	public synchronized void clearResult() {
+		if (cas != null) {
+			cas.clearResult();
+		}
+	}
 }
