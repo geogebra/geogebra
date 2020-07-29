@@ -525,4 +525,60 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("x");
 		assertTrue(((GeoBoolean) lookup("correct")).getBoolean());
 	}
+
+	@Test
+	public void testSingleIneqRedefinedToDoubleIneq() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("3<x<7");
+		assertThat(lookup("a").isDefined(), equalTo(true));
+
+		inputBox.updateLinkedGeo("3<x");
+		assertThat(lookup("a").isDefined(), equalTo(true));
+	}
+
+	@Test
+	public void testInequalityCannotRedefineAsFunction() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("xx");
+		assertThat(lookup("a").isDefined(), equalTo(false));
+		assertThat(inputBox.getText(), equalTo("xx")); // still preserves user input
+
+		add("b:2<x<9");
+		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(b)");
+		inputBox2.updateLinkedGeo("x+5");
+		assertThat(lookup("b").isDefined(), equalTo(false));
+		assertThat(inputBox2.getText(), equalTo("x+5")); // still preserves user input
+	}
+
+	@Test
+	public void testFunctionCannotRedefineAsInequality() {
+		add("f(x)=xx");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
+		inputBox.updateLinkedGeo("x<5");
+		assertThat(lookup("f").isDefined(), equalTo(false));
+		assertThat(inputBox.getText(), equalTo("x<5")); // still preserves user input
+
+		add("g(x)=x+8");
+		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(g)");
+		inputBox2.updateLinkedGeo("2<x<10");
+		assertThat(lookup("g").isDefined(), equalTo(false));
+		assertThat(inputBox2.getText(), equalTo("2<x<10")); // still preserves user input
+	}
+
+	@Test
+	public void testInequalitySetUndefinedInputboxShouldBeEmpty() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		add("SetValue(a,?)");
+		assertThat(lookup("a").isDefined(), equalTo(false));
+		assertThat(inputBox.getText(), equalTo("")); // still preserves user input
+
+		add("b:2<x<9");
+		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(b)");
+		add("SetValue(b,?)");
+		assertThat(lookup("b").isDefined(), equalTo(false));
+		assertThat(inputBox2.getText(), equalTo("")); // still preserves user input
+	}
 }

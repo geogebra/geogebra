@@ -3539,13 +3539,16 @@ public class MyXMLHandler implements DocHandler {
 			// enforce point or vector or line or plane type if it was given in
 			// attribute type
 			if (type != null) {
-				if ("point".equals(type) && ve instanceof ExpressionNode) {
-					((ExpressionNode) ve).setForcePoint();
-				} else if ("vector".equals(type)
-						&& ve instanceof ExpressionNode) {
-					((ExpressionNode) ve).setForceVector();
-					// we must check that we have Equation here as xAxis
-					// has also type "line" but is parsed as ExpressionNode
+				if (ve instanceof ExpressionNode) {
+					if ("point".equals(type)) {
+						((ExpressionNode) ve).setForcePoint();
+					} else if ("vector".equals(type)) {
+						((ExpressionNode) ve).setForceVector();
+						// we must check that we have Equation here as xAxis
+						// has also type "line" but is parsed as ExpressionNode
+					} else if ("inequality".equals(type)) {
+						((ExpressionNode) ve).setForceInequality();
+					}
 				} else if (ve instanceof Equation) {
 					if ("line".equals(type)) {
 						((Equation) ve).setForceLine();
@@ -3562,7 +3565,6 @@ public class MyXMLHandler implements DocHandler {
 					} else if ("implicitsurface".equals(type)) {
 						((Equation) ve).setForceSurface();
 					}
-
 				}
 			}
 
