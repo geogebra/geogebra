@@ -52,37 +52,41 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public void focusNext() {
+	public boolean focusNext() {
 		for (MayHaveFocus entry: components) {
 			if (entry.hasFocus()) {
 				if (!entry.focusNext()) {
 					focusFirstVisible(findNext(entry));
 				}
-				return;
+				return true;
 			}
 		}
 
-		focusFirstVisible(components.first());
+		return focusFirstVisible(components.first());
 	}
 
-	private void focusFirstVisible(@Nonnull MayHaveFocus entry) {
+	private boolean focusFirstVisible(@Nonnull MayHaveFocus entry) {
 		MayHaveFocus nextEntry = entry;
 		do {
 			if (nextEntry.focusIfVisible(false)) {
-				return;
+				return true;
 			}
 			nextEntry = findNext(nextEntry);
 		} while (nextEntry != entry);
+
+		return false;
 	}
 
-	private void focusLastVisible(@Nonnull MayHaveFocus entry) {
+	private boolean focusLastVisible(@Nonnull MayHaveFocus entry) {
 		MayHaveFocus nextEntry = entry;
 		do {
 			if (nextEntry.focusIfVisible(true)) {
-				return;
+				return true;
 			}
 			nextEntry = findPrevious(nextEntry);
 		} while (nextEntry != entry);
+
+		return false;
 	}
 
 	private MayHaveFocus findNext(MayHaveFocus entry) {
@@ -102,17 +106,17 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public void focusPrevious() {
+	public boolean focusPrevious() {
 		for (MayHaveFocus entry: components) {
 			if (entry.hasFocus()) {
 				if (!entry.focusPrevious()) {
-					focusLastVisible(findPrevious(entry));
+					return focusLastVisible(findPrevious(entry));
 				}
-				return;
+				return true;
 			}
 		}
 
-		focusLastVisible(components.last());
+		return focusLastVisible(components.last());
 	}
 
 	@Override

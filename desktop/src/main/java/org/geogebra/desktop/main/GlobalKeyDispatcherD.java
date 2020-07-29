@@ -218,7 +218,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			ev.closeDropdowns();
 
 			if (isShiftDown) {
-				selection.selectLastGeo();
+				selection.selectPreviousGeo();
 			} else {
 				selection.selectNextGeo();
 			}

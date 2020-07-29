@@ -709,32 +709,34 @@ public class SelectionManager {
 	}
 
 	/**
-	 * Selects last geo in a particular order.
+	 * Selects previous geo in a particular order.
 	 *
 	 * @return whether selection was successful
 	 */
-	final public boolean selectLastGeo() {
-		boolean forceLast = false;
-		if (selectedGeos.size() != 1 && !selectedGeos.get(0).hasGroup()) {
-			forceLast = true;
-		}
+	final public boolean selectPreviousGeo() {
 		TreeSet<GeoElement> tree = getEVFilteredTabbingSet();
+		if (tree.size() == 0) {
+			return false;
+		}
 
 		int selectionSize = selectedGeos.size();
-		GeoElement last = getGroupLead(tree.last());
-		if (forceLast) {
-			addSelectedGeoForEV(last);
+
+		if (selectionSize == 0) {
+			addSelectedGeoForEV(tree.last());
 			return true;
 		}
 
 		GeoElement lastSelected = getGroupLead(selectedGeos.get(selectionSize - 1));
-		GeoElement prev = tree.lower(lastSelected);
-		removeAllSelectedGeos();
 
-		if (prev != null) {
-			addSelectedGeoForEV(prev);
+		GeoElement previous = tree.lower(lastSelected);
+
+		clearSelectedGeos();
+
+		if (previous != null) {
+			addSelectedGeoForEV(previous);
 			return true;
 		}
+
 		return false;
 	}
 
