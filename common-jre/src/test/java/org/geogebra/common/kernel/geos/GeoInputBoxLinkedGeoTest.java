@@ -147,6 +147,17 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void symbolicShouldShowDefinitionFor3DPoints() {
+		setupInput("P", "(?,?,?)");
+		inputBox.setSymbolicMode(true, false);
+		assertEquals("(?,?,?)", inputBox.getTextForEditor());
+		updateInput("(sqrt(2), 1/3, 0)");
+		assertEquals("(sqrt(2),1/3,0)", inputBox.getTextForEditor());
+		add("SetValue(P,?)");
+		assertEquals("(?,?,?)", inputBox.getTextForEditor());
+	}
+
+	@Test
 	public void shouldAcceptLinesConicsAndFunctionsForImplicitCurve() {
 		setupInput("eq1", "x^3 = y^2");
 		updateInput("x = y"); // line
