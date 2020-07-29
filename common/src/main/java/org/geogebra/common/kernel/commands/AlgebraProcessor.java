@@ -104,6 +104,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
@@ -635,6 +636,8 @@ public class AlgebraProcessor {
 				((Equation) newValue.unwrap()).setForceConic();
 			} else if (geo instanceof GeoLine && preventTypeChange) {
 				((Equation) newValue.unwrap()).setForceLine();
+			} else if (geo instanceof GeoQuadric3DInterface && preventTypeChange) {
+				((Equation) newValue.unwrap()).setForceQuadric();
 			}
 		}
 	}

@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.kernelND;
 
+import java.util.Arrays;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -407,6 +409,7 @@ public abstract class GeoQuadricND extends GeoElement
 		defined = false;
 		empty();
 		resetDefinition();
+		Arrays.fill(matrix, Double.NaN);
 	}
 
 	/**
