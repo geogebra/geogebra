@@ -4,23 +4,16 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentDialog;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class MediaInputPanel extends FlowPanel implements ProcessInput {
 
 	private AppW app;
-	private OptionDialog parentDialog;
+	private ComponentDialog parentDialog;
 	private boolean required;
 
 	protected InputPanelW inputField;
@@ -37,8 +30,8 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * @param required
 	 *         whether nonempty string is expected
 	 */
-	public MediaInputPanel(AppW app, OptionDialog parentDialog,
-						   String labelTransKey, boolean required) {
+	public MediaInputPanel(AppW app, ComponentDialog parentDialog,
+			String labelTransKey, boolean required) {
 		this.app = app;
 		this.parentDialog = parentDialog;
 		this.required = required;
@@ -69,12 +62,9 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * Set focus the text field of the input panel
 	 */
 	public void focusDeferred() {
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				inputField.getTextComponent().setFocus(true);
-				inputField.getTextComponent().selectAll();
-			}
+		Scheduler.get().scheduleDeferred(() -> {
+			inputField.getTextComponent().setFocus(true);
+			inputField.getTextComponent().selectAll();
 		});
 	}
 
@@ -103,7 +93,6 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	public void addInfoLabel() {
 		infoLabel = new Label();
 		infoLabel.addStyleName("msgLabel");
-
 		add(infoLabel);
 	}
 
@@ -123,7 +112,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 		addStyleName("errorState");
 		errorLabel.setText(app.getLocalization().getMenu("Error") + ": "
 				+ app.getLocalization().getError(msg));
-		parentDialog.setPrimaryButtonEnabled(false);
+		parentDialog.setPosBtnDisabled(true);
 	}
 
 	/**
@@ -141,7 +130,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 		addStyleName("emptyState");
 		removeStyleName("errorState");
 		if (required) {
-			parentDialog.setPrimaryButtonEnabled(!isInputEmpty());
+			parentDialog.setPosBtnDisabled(isInputEmpty());
 		}
 	}
 
@@ -158,7 +147,7 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 
 	@Override
 	public void processInput() {
-		parentDialog.processInput();
+		parentDialog.onPositiveAction();
 	}
 
 	/**
@@ -172,35 +161,17 @@ public class MediaInputPanel extends FlowPanel implements ProcessInput {
 	 * Add mouse over/ out handlers
 	 */
 	private void addHoverHandlers() {
-		inputField.getTextComponent().getTextBox().addMouseOverHandler(new MouseOverHandler() {
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				MediaInputPanel.this.addStyleName("hoverState");
-			}
-		});
+		inputField.getTextComponent().getTextBox().addMouseOverHandler(
+				event -> this.addStyleName("hoverState"));
 
-		inputField.getTextComponent().getTextBox().addMouseOutHandler(new MouseOutHandler() {
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				MediaInputPanel.this.removeStyleName("hoverState");
-			}
-		});
+		inputField.getTextComponent().getTextBox().addMouseOutHandler(
+				event -> this.removeStyleName("hoverState"));
 	}
 
 	private void addFocusBlurHandlers() {
-		inputField.getTextComponent().getTextBox().addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent event) {
-				setFocusState();
-			}
-		});
+		inputField.getTextComponent().getTextBox().addFocusHandler(event -> setFocusState());
 
-		inputField.getTextComponent().getTextBox().addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				resetInputField();
-			}
-		});
+		inputField.getTextComponent().getTextBox().addBlurHandler(event -> resetInputField());
 	}
 
 	/**

@@ -5,89 +5,39 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
-public class SessionExpireNotifyDialog extends GPopupPanel implements FastClickHandler,
-		ResizeHandler, GTimerListener {
-
-	private StandardButton cancelBtn;
-	private StandardButton saveBtn;
+public class SessionExpireNotifyDialog extends ComponentDialog
+		implements ResizeHandler, GTimerListener {
 
 	/**
-	 * constructor
+	 * dialog to notify user that will be logged out when session expires
 	 * @param app see {@link AppW}
+	 * @param data dialog transkeys
 	 */
-	public SessionExpireNotifyDialog(AppW app) {
-		super(app.getPanel(), app);
-		setGlassEnabled(true);
-		this.setStyleName("sessionExpireNotifyDialog");
-		buildGUI();
-		Window.addResizeHandler(this);
+	public SessionExpireNotifyDialog(AppW app, DialogData data) {
+		super(app, data, false, true);
+		addStyleName("sessionExpireNotifyDialog");
+		buildContent();
+		setOnPositiveAction(() -> ((DialogManagerW) app.getDialogManager()).showSaveDialog());
 	}
 
-	private void buildGUI() {
-		FlowPanel dialoContent = new FlowPanel();
-
-		Label sessionExpireNotifyTxt = new Label();
-		sessionExpireNotifyTxt.setText(app.getLocalization().getMenu("sessionExpireNotify"));
+	private void buildContent() {
+		Label sessionExpireNotifyTxt = new Label(app.getLocalization()
+				.getMenu("sessionExpireNotify"));
 		sessionExpireNotifyTxt.addStyleName("sessionExpireTxt");
-		dialoContent.add(sessionExpireNotifyTxt);
-
-		addButtonPanel(dialoContent);
-
-		this.add(dialoContent);
-	}
-
-	private void addButtonPanel(FlowPanel dialogContent) {
-		FlowPanel buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("DialogButtonPanel");
-
-		cancelBtn = createButton("Cancel", "cancelBtn", buttonPanel);
-		saveBtn = createButton("Save", "saveBtn", buttonPanel);
-
-		dialogContent.add(buttonPanel);
-	}
-
-	private StandardButton createButton(String transKey, String styleName, FlowPanel buttonPanel) {
-		StandardButton button = new StandardButton(transKey, app);
-		button.setStyleName(styleName);
-		button.addFastClickHandler(this);
-		buttonPanel.add(button);
-		return button;
-	}
-
-	@Override
-	public void onResize(ResizeEvent resizeEvent) {
-		if (isShowing()) {
-			super.center();
-		}
+		addDialogContent(sessionExpireNotifyTxt);
 	}
 
 	@Override
 	public void show() {
 		super.show();
-		super.center();
 		startLogOutTimer();
-	}
-
-	@Override
-	public void onClick(Widget source) {
-		if (source.equals(saveBtn)) {
-			hide();
-			((DialogManagerW) app.getDialogManager()).showSaveDialog();
-		} else if (source.equals(cancelBtn)) {
-			hide();
-		}
 	}
 
 	private void startLogOutTimer() {
