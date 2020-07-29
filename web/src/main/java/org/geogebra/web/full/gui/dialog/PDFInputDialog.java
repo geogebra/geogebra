@@ -18,11 +18,6 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ImageResource;
@@ -157,7 +152,7 @@ public class PDFInputDialog extends ComponentDialog
 		pdfPageTextPanel.add(pageLbl);
 		pdfPageTextPanel.add(curPageNrField);
 		Label ofPageLbl = new Label(app.getLocalization().getMenu("of") + " "
-				+ pdf.getPageCount());
+				+ pdf.getNumberOfPages());
 		pdfPageTextPanel.add(ofPageLbl);
 		pdfContainerPanel.add(pdfPreviewPanel);
 		pdfContainerPanel.add(pdfPageTextPanel);
