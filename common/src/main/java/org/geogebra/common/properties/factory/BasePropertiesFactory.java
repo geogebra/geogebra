@@ -1,10 +1,12 @@
 package org.geogebra.common.properties.factory;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
@@ -14,6 +16,13 @@ import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
+import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.GraphicsPositionProperty;
+import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
+import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -77,6 +86,17 @@ public class BasePropertiesFactory implements PropertiesFactory {
      */
 	@Override
     public PropertiesArray createGraphicsProperties(App app, Localization localization) {
-        return new GraphicsPropertiesList(app, localization);
+        EuclidianView activeView = app.getActiveEuclidianView();
+        EuclidianSettings euclidianSettings = activeView.getSettings();
+        return new PropertiesArray(
+                localization.getMenu("DrawingPad"),
+                new GraphicsPositionProperty(app),
+                new AxesVisibilityProperty(localization, euclidianSettings),
+                new GridVisibilityProperty(localization, euclidianSettings),
+                new GridStyleProperty(localization, euclidianSettings),
+                new PointCapturingProperty(app, localization),
+                new DistancePropertyCollection(app, localization, euclidianSettings),
+                new LabelsPropertyCollection(localization, euclidianSettings)
+        );
     }
 }
