@@ -237,7 +237,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 		t = index + Math.min(1, Math.max(0, localT));
 		pp.setT(t);
 
-		// udpate point using pathChanged
+		// update point using pathChanged
 		pathChanged(P);
 	}
 

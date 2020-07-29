@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
@@ -18,7 +17,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.PenPreviewLine;
 import org.geogebra.common.euclidian.SymbolicEditor;
 import org.geogebra.common.euclidian.background.BackgroundType;
-import org.geogebra.common.euclidian.draw.DrawVideo;
 import org.geogebra.common.euclidian.draw.DrawWidget;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
@@ -42,6 +40,8 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.LayeredGGraphicsW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.export.Canvas2Svg;
+import org.geogebra.web.html5.export.ExportLoader;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -55,7 +55,6 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.PDFEncoderW;
-import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -63,7 +62,6 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -90,6 +88,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
+
+import jsinterop.base.Js;
 
 /**
  * Web implementation of graphics view
@@ -280,8 +280,8 @@ public class EuclidianViewW extends EuclidianView implements
 	public final void paintBackground(GGraphics2D g2) {
 		if (isGridOrAxesShown() || hasBackgroundImages() || isTraceDrawn()
 				|| appW.showResetIcon()
-		        || kernel.needToShowAnimationButton()
-				|| getSettings().getBackgroundType() != BackgroundType.NONE) {
+				|| kernel.needToShowAnimationButton()
+				|| getBackgroundType() != BackgroundType.NONE) {
 			g2.drawImage(bgImage, 0, 0);
 		} else {
 			((GGraphics2DWI) g2).fillWith(getBackgroundCommon());
@@ -450,22 +450,17 @@ public class EuclidianViewW extends EuclidianView implements
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 
-		if (!canvas2svgLoaded()) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Svg());
-		}
-		JavaScriptObject ctx = getCanvas2SVG(width, height);
-
-		if (ctx == null) {
-			Log.debug("canvas2SVG not found");
+		if (!ExportLoader.ensureCanvas2SvgLoaded()) {
 			return null;
 		}
-
-		g4copy = new GGraphics2DW((Context2d) ctx.cast());
+		Canvas2Svg canvas2svg = new Canvas2Svg(width, height);
+		Context2d ctx = Js.uncheckedCast(canvas2svg);
+		g4copy = new GGraphics2DW(ctx);
 		this.appW.setExporting(ExportType.SVG, scale);
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
 		this.appW.setExporting(ExportType.NONE, 1);
-		return getSerializedSvg(ctx);
+		return canvas2svg.getSerializedSvg(true);
 	}
 
 	/**
@@ -514,23 +509,6 @@ public class EuclidianViewW extends EuclidianView implements
 		this.appW.setExporting(ExportType.NONE, 1);
 		return PDFEncoderW.getPDF(ctx);
 	}
-
-	private native JavaScriptObject getCanvas2SVG(double width,
-			double height) /*-{
-		if ($wnd.C2S) {
-			return new $wnd.C2S(width, height);
-		}
-
-		return null;
-	}-*/;
-
-	private native boolean canvas2svgLoaded() /*-{
-		return !!$wnd.C2S;
-	}-*/;
-
-	private native String getSerializedSvg(JavaScriptObject ctx) /*-{
-		return ctx.getSerializedSvg(true);
-	}-*/;
 
 	@Override
 	public GBufferedImageW getExportImage(double scale) {
@@ -1210,7 +1188,7 @@ public class EuclidianViewW extends EuclidianView implements
 		double origXZero = getXZero();
 		double origScale = getXscale();
 		if (app.isWhiteboardActive()
-				&& getSettings().getBackgroundType() != BackgroundType.NONE
+				&& getBackgroundType() != BackgroundType.NONE
 				&& selectionRectangle == null) {
 			setCoordSystem(525 / SCALE_STANDARD * origScale, getYZero(),
 					origScale, origScale);
@@ -1421,16 +1399,8 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
-	@Override
-	public int getThresholdForDrawable(PointerEventType type, Drawable d) {
-		if (d instanceof DrawVideo && !Browser.isTabletBrowser()) {
-			return DrawVideo.HANDLER_THRESHOLD;
-		}
-		return app.getCapturingThreshold(type);
-	}
-
 	private SVGResource getSVGRulingResource() {
-		switch (getSettings().getBackgroundType()) {
+		switch (getBackgroundType()) {
 		case ELEMENTARY12:
 			return GuiResourcesSimple.INSTANCE.mow_ruling_elementary12();
 		case ELEMENTARY12_HOUSE:
@@ -1449,6 +1419,10 @@ public class EuclidianViewW extends EuclidianView implements
 		default:
 			return null;
 		}
+	}
+
+	private BackgroundType getBackgroundType() {
+		return getSettings() == null ? BackgroundType.NONE : getSettings().getBackgroundType();
 	}
 
 	private void createSVGBackgroundIfNeeded() {
@@ -1508,7 +1482,10 @@ public class EuclidianViewW extends EuclidianView implements
 		if (embedManager != null) {
 			embedManager.setLayer(widget, layer);
 		}
-		g2.clearRect(widget.getLeft(), widget.getTop(), widget.getWidth(), widget.getHeight());
+		g2.saveTransform();
+		g2.transform(widget.getTransform());
+		g2.clearRect(0, 0, (int) widget.getWidth(), (int) widget.getHeight());
+		g2.restoreTransform();
 	}
 
 	@Override
@@ -1524,6 +1501,8 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public void cacheGraphics() {
-		cacheGraphics = g2p.getContext().getImageData(0, 0, getWidth(), getHeight());
+		double scale = g2p.getDevicePixelRatio();
+		cacheGraphics = g2p.getContext().getImageData(0, 0, getWidth() * scale,
+				getHeight() * scale);
 	}
 }

@@ -74,4 +74,9 @@ public class GgbSettings implements VendorSettings {
 	public boolean canSessionExpire() {
 		return false;
 	}
+
+	@Override
+	public boolean hasBitmapSecurity() {
+		return false;
+	}
 }

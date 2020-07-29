@@ -963,7 +963,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		} else if (!ev1.isZero()) { // ev1 and ev2 are already orthogonal
 			// since ev1 was orthogonal to ev0 and ev0 and ev2 are parallel
 			ev0.setCrossProduct3(ev1, ev2);
-			ev0.normalize();
+			// in some cases ev1 and ev2 are parallel
+			if (ev0.isZero()) {
+				ev2.completeOrthonormal3(ev0, ev1);
+			} else {
+				ev0.normalize();
+			}
 		} else {
 			ev2.completeOrthonormal3(ev0, ev1);
 		}
@@ -1332,25 +1337,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		if (DoubleUtil.isRatioEqualTo1(eigenval[0], eigenval[1])) {
 			// eigenval[2] of multiplicity 1
-			computeEigenVectorMultiplicity1(matrix, eigenval[2], eigenvec[2]);
-			eigenvec[2].normalize();
-			completeOrthonormalRatioEqualTo1(eigenvec[0], eigenvec[1],
-					eigenvec[2]);
-			// eigenvec[2].completeOrthonormal3(eigenvec[0], eigenvec[1]);
+			findEigenvectorsMultiplicity1(eigenval[2], eigenvec[2], eigenvec[0], eigenvec[1]);
 		} else if (DoubleUtil.isRatioEqualTo1(eigenval[0], eigenval[2])) {
 			// eigenval[1] of multiplicity 1
-			computeEigenVectorMultiplicity1(matrix, eigenval[1], eigenvec[1]);
-			eigenvec[1].normalize();
-			completeOrthonormalRatioEqualTo1(eigenvec[2], eigenvec[0],
-					eigenvec[1]);
-			// eigenvec[1].completeOrthonormal3(eigenvec[2], eigenvec[0]);
+			findEigenvectorsMultiplicity1(eigenval[1], eigenvec[1], eigenvec[2], eigenvec[0]);
 		} else if (DoubleUtil.isRatioEqualTo1(eigenval[1], eigenval[2])) {
 			// eigenval[0] of multiplicity 1
-			computeEigenVectorMultiplicity1(matrix, eigenval[0], eigenvec[0]);
-			eigenvec[0].normalize();
-			completeOrthonormalRatioEqualTo1(eigenvec[1], eigenvec[2],
-					eigenvec[0]);
-			// eigenvec[0].completeOrthonormal3(eigenvec[1], eigenvec[2]);
+			findEigenvectorsMultiplicity1(eigenval[0], eigenvec[0], eigenvec[1], eigenvec[2]);
 		} else {
 			// all eigenvalues of multiplicity 1
 			for (int i = 0; i < 2; i++) {
@@ -1360,39 +1353,23 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			eigenvec[2].setCrossProduct3(eigenvec[0], eigenvec[1]); // ensure
 																	// orientation
 
-			for (int i = 0; i < 3; i++) {
-				eigenvec[i].normalize();
+			if (eigenvec[2].isZero()) {
+				// eigenval[0] / eigenval[1] of multiplicity 2
+				// eigenval[2] of multiplicity 1
+				findEigenvectorsMultiplicity1(eigenval[2], eigenvec[2], eigenvec[0], eigenvec[1]);
+			} else {
+				for (int i = 0; i < 3; i++) {
+					eigenvec[i].normalize();
+				}
 			}
-
-			// for (int i = 0; i < 3; i++) {
-			// for (int j = i + 1; j < 3; j++) {
-			// Log.debug("dotproduct = "
-			// + eigenvec[i].dotproduct(eigenvec[j]));
-			// }
-			// }
-			//
-			// Log.debug("orientation : "
-			// + eigenvec[0].crossProduct(eigenvec[1]).dotproduct(
-			// eigenvec[2]));
 		}
-
-		// String s = "";
-		// for (int i = 0; i < 3; i++) {
-		// Coords v = eigenvec[i];
-		// s += "\neigen vector #" + i + ": " + "{" + v.getX() + ","
-		// + v.getY() + "," + v.getZ() + "}";
-		// }
-		// Log.debug(s);
-
 	}
 
-	// private static final String format(double v) {
-	// return "" + v;
-	// }
-	//
-	// private static final String subEFormat(double v, double e) {
-	// return "" + (v - e);
-	// }
+	private void findEigenvectorsMultiplicity1(double val, Coords v, Coords v0, Coords v1) {
+		computeEigenVectorMultiplicity1(matrix, val, v);
+		v.normalize();
+		completeOrthonormalRatioEqualTo1(v0, v1, v);
+	}
 
 	private static final void computeEigenVectorMultiplicity1(double[] m,
 			double mu, Coords v) {
@@ -1417,44 +1394,18 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				v.set(1, 0, 0);
 			}
 		}
-
-		// Log.debug("\neigen value: " + mu + "\nmatrix - mu * Id:\n"
-		// + subEFormat(m[0], mu) + " " + format(m[4]) + " "
-		// + format(m[5]) + "\n" + format(m[4]) + " "
-		// + subEFormat(m[1], mu) + " " + format(m[6]) + "\n"
-		// + format(m[5]) + " " + format(m[6]) + " "
-		// + subEFormat(m[2], mu) + "\neigen vector:\n" + "{" + v.getX()
-		// + "," + v.getY() + "," + v.getZ() + "}");
-
 	}
 
 	/**
-	 * returns false if quadric's matrix is the zero matrix or has infinite or
-	 * NaN values
+	 * returns false if quadric's matrix contains NaNs
 	 */
-	final static private boolean checkDefined() {
+	private boolean checkDefined() {
+		for (double value : matrix) {
+			if (Double.isNaN(value)) {
+				return false;
+			}
+		}
 
-		/*
-		 * boolean allZero = true; double maxCoeffAbs = 0;
-		 * 
-		 * for (int i = 0; i < 6; i++) { if (Double.isNaN(matrix[i]) ||
-		 * Double.isInfinite(matrix[i])) { return false; }
-		 * 
-		 * double abs = Math.abs(matrix[i]); if (abs >
-		 * Kernel.STANDARD_PRECISION) allZero = false; if ((i == 0 || i == 1 ||
-		 * i == 3) && maxCoeffAbs < abs) { // check max only on coeffs x*x, y*y,
-		 * x*y maxCoeffAbs = abs; } } if (allZero) { return false; }
-		 * 
-		 * // huge or tiny coefficients? double factor = 1.0; if (maxCoeffAbs <
-		 * MIN_COEFFICIENT_SIZE) { factor = 2; while (maxCoeffAbs * factor <
-		 * MIN_COEFFICIENT_SIZE) factor *= 2; } else if (maxCoeffAbs >
-		 * MAX_COEFFICIENT_SIZE) { factor = 0.5; while (maxCoeffAbs * factor >
-		 * MAX_COEFFICIENT_SIZE) factor *= 0.5; }
-		 * 
-		 * // multiply matrix with factor to avoid huge and tiny coefficients if
-		 * (factor != 1.0) { maxCoeffAbs *= factor; for (int i=0; i < 6; i++) {
-		 * matrix[i] *= factor; } }
-		 */
 		return true;
 	}
 
@@ -1525,7 +1476,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			double angle) {
 
 		// check midpoint
-		defined = ((GeoElement) origin).isDefined() && !origin.isInfinite();
+		defined = origin.isDefined() && !origin.isInfinite();
 
 		// check direction
 
@@ -1622,7 +1573,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	public void setCylinder(GeoPointND origin, Coords direction, double r0) {
 		double r = r0;
 		// check midpoint
-		defined = ((GeoElement) origin).isDefined() && !origin.isInfinite();
+		defined = origin.isDefined() && !origin.isInfinite();
 
 		// check direction
 
@@ -2663,8 +2614,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	/**
-	 * @param oldCoords
-	 *            point
 	 * @param willingCoords
 	 *            willing coords of the point
 	 * @param willingDirection
@@ -2678,7 +2627,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 * @param parameters2
 	 *            p2 parameters
 	 */
-	public void getProjections(Coords oldCoords, Coords willingCoords,
+	public void getProjections(Coords willingCoords,
 			Coords willingDirection, Coords p1, double[] parameters1, Coords p2,
 			double[] parameters2) {
 
@@ -2887,7 +2836,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			if (Double.isNaN(P.getRegionParameters().getT2())) {
 				P.getRegionParameters().setT2(0);
 			}
-			// udpate point using pathChanged
+			// update point using pathChanged
 			P.setCoords(line.getPoint(t), false);
 			return;
 		}

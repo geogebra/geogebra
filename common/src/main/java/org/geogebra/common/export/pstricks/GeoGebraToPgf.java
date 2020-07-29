@@ -436,7 +436,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append(b);
 			codeFilledObject.append("] plot");
 			codeFilledObject.append("(\\x,{");
-			value = replaceX(value, "\\x");
+			value = replaceX(value, "(\\x)");
 			codeFilledObject.append(value);
 			codeFilledObject.append("})");
 		}
@@ -478,7 +478,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append(a);
 			codeFilledObject.append("] -- plot");
 			codeFilledObject.append("(\\x,{");
-			value = replaceX(value, "\\x");
+			value = replaceX(value, "(\\x)");
 			codeFilledObject.append(value);
 			codeFilledObject.append("})");
 		}
@@ -561,7 +561,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codeFilledObject.append(b);
 				codeFilledObject.append("] plot");
 				codeFilledObject.append("(\\x,{");
-				value = replaceX(value, "\\x");
+				value = replaceX(value, "(\\x)");
 				codeFilledObject.append(value);
 				codeFilledObject.append("})");
 			}
@@ -1639,7 +1639,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	 * 
 	 * @param sb
 	 *            The complete Function
-	 * @param name
+	 * @param nameFunc
 	 *            The Function unsupported
 	 */
 	private boolean warningFunc(String sb, String nameFunc) {
@@ -2481,6 +2481,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			}
 			if (null == drawGeo) {
 				drawGeo = euclidianView.getDrawableFor(geo);
+			}
+			if (drawGeo == null) {
+				return;
 			}
 			double xLabel = drawGeo.getxLabel();
 			double yLabel = drawGeo.getyLabel();

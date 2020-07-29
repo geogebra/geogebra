@@ -2,6 +2,7 @@ package org.geogebra.web.shared;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -127,7 +128,7 @@ public class ShareDialogMow extends ComponentDialog
 
 	private void addGroup(FlowPanel groupsPanel, String groupStr,
 			boolean selected) {
-		groupsPanel.add(new GroupButtonMow(((AppW) app), groupStr, selected,
+		groupsPanel.add(new GroupButtonMow(appW, groupStr, selected,
 				this::updateChangedGroupList));
 	}
 
@@ -328,11 +329,14 @@ public class ShareDialogMow extends ComponentDialog
 	 * @param success
 	 *            shared with group successful or not
 	 */
-	protected void showTooltip(Boolean success) {
+	protected void onGroupShareChanged(boolean success) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
-				((AppW) app).getLocalization()
+				appW.getLocalization()
 						.getMenu(success ? "GroupShareOk"
 								: "GroupShareFail"),
-				true, ((AppW) app));
+				true, appW);
+		if (success) {
+			callback.onLoaded(Collections.singletonList(material), null);
+		}
 	}
 }

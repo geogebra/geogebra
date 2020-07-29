@@ -18,7 +18,7 @@ public class SolverMathFieldListener implements MathFieldListener {
 	}
 
 	@Override
-	public void onKeyTyped() {
+	public void onKeyTyped(String key) {
 		// TODO Auto-generated method stub
 	}
 

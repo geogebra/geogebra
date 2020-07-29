@@ -1,5 +1,8 @@
 package org.geogebra.common.io;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
@@ -14,6 +17,7 @@ import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,10 +61,10 @@ public class StringTemplateTest {
 
 	@Test
 	public void testCannonicNumber() {
-		Assert.assertEquals("0", StringUtil.cannonicNumber("0.0"));
-		Assert.assertEquals("0", StringUtil.cannonicNumber(".0"));
-		Assert.assertEquals("1.0E2", StringUtil.cannonicNumber("1.0E2"));
-		Assert.assertEquals("1", StringUtil.cannonicNumber("1.00"));
+		assertEquals("0", StringUtil.canonicalNumber("0.0"));
+		assertEquals("0", StringUtil.canonicalNumber(".0"));
+		assertEquals("1.0E2", StringUtil.canonicalNumber("1.0E2"));
+		assertEquals("1", StringUtil.canonicalNumber("1.00"));
 	}
 
 	@Test
@@ -80,7 +84,7 @@ public class StringTemplateTest {
 
 	private void plain(String string, String string2) {
 		GeoElementND geo = add(string);
-		Assert.assertEquals(string2, geo.getDefinitionForInputBar());
+		assertEquals(string2, geo.getDefinitionForInputBar());
 	}
 
 	@Test
@@ -88,7 +92,7 @@ public class StringTemplateTest {
 		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
 		tcl("If[x>0,x]", caseSimple);
 		tcl("If[x>0,x,-x]", "\\left\\{\\begin{array}{ll} x& : x > 0\\\\"
-						+ " -x& : \\text{otherwise} \\end{array}\\right. ");
+				+ " -x& : \\text{otherwise} \\end{array}\\right. ");
 		String caseThree = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
 				+ " -x& : x < 0\\\\ 7& : \\text{otherwise} \\end{array}\\right. ";
 		tcl("If[x>1,x,If[x<0,-x,7]]", caseThree);
@@ -109,7 +113,7 @@ public class StringTemplateTest {
 	private void tcl(String string, String string2) {
 		GeoElementND geo = add(string);
 		Assert.assertTrue(geo instanceof GeoFunction);
-		Assert.assertEquals(
+		assertEquals(
 				((GeoFunction) geo).conditionalLaTeX(false,
 						StringTemplate.latexTemplate),
 				string2.replace("<=", Unicode.LESS_EQUAL + ""));
@@ -117,7 +121,7 @@ public class StringTemplateTest {
 
 	private void tex(String string, String string2) {
 		GeoElementND geo = add(string);
-		Assert.assertEquals(string2,
+		assertEquals(string2,
 				geo.getDefinition(StringTemplate.latexTemplate));
 	}
 
@@ -132,19 +136,19 @@ public class StringTemplateTest {
 	@Test
 	public void editorTemplateShouldRetainPrecision() {
 		GeoElementND f = add("f:0.33333x");
-		Assert.assertEquals("f(x)=0.33333 x",
+		assertEquals("f(x)=0.33333 x",
 				f.toString(StringTemplate.editorTemplate));
-		Assert.assertEquals("f(x) = 0.33333x",
+		assertEquals("f(x) = 0.33333x",
 				f.toString(StringTemplate.editTemplate));
-		Assert.assertEquals("f(x) = 0.33x",
+		assertEquals("f(x) = 0.33x",
 				f.toString(StringTemplate.defaultTemplate));
 	}
 
 	@Test
 	public void testInequality() {
-		String[] testI = new String[] { "(x>=3) && (7>=x) && (10>=x)" };
-		String[] test = new String[] { "aaa", "(a)+b", "3", "((a)+(b))+7" };
-		String[] testFalse = new String[] { "3(", "(((7)))" };
+		String[] testI = new String[]{"(x>=3) && (7>=x) && (10>=x)"};
+		String[] test = new String[]{"aaa", "(a)+b", "3", "((a)+(b))+7"};
+		String[] testFalse = new String[]{"3(", "(((7)))"};
 		for (String t : test) {
 			Assert.assertTrue(
 					RegExp.compile("^" + CASgiac.expression + "$").test(t));
@@ -160,4 +164,34 @@ public class StringTemplateTest {
 		}
 	}
 
+	@Test
+	public void shouldUseTrigPowerForConstantExponent() {
+		FunctionVariable x = new FunctionVariable(app.getKernel());
+		ExpressionNode node = x.wrap().sin().power(2);
+		assertEquals("sin" + Unicode.SUPERSCRIPT_2 + "(x)",
+				node.toString(StringTemplate.editTemplate));
+		assertEquals("\\operatorname{sin} ^{2}\\left( x \\right)",
+				node.toString(StringTemplate.latexTemplate));
+	}
+
+	@Test
+	public void shouldUseTrigPowerForVarExponent() {
+		FunctionVariable x = new FunctionVariable(app.getKernel());
+		ExpressionNode node = x.wrap().sin().power(x.wrap().cos());
+		assertEquals("sin(x)^cos(x)",
+				node.toString(StringTemplate.editTemplate));
+		assertEquals("\\operatorname{sin} \\left( x \\right)"
+						+ "^{\\operatorname{cos} \\left( x \\right)}",
+				node.toString(StringTemplate.latexTemplate));
+	}
+
+	@Test
+	public void testConvertScientificNotationGiac() {
+		StringTemplate template = StringTemplate.giacTemplate;
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3E3"), is("3000"));
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33"), is("(333/100)"));
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E1"), is("(333/10)"));
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E2"), is("333"));
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E3"), is("3330"));
+	}
 }

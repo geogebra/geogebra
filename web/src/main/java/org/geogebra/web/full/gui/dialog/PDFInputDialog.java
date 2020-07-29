@@ -18,6 +18,8 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -31,6 +33,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.DragEvent;
+import elemental2.dom.File;
+import elemental2.dom.FileList;
+import elemental2.dom.HTMLInputElement;
+import jsinterop.base.Js;
+
 /**
  * dialog to insert pdf page as image
  */
@@ -43,7 +51,7 @@ public class PDFInputDialog extends ComponentDialog
 	private StandardButton rightBtn;
 	private NoDragImage previewImg;
 	private AutoCompleteTextFieldW curPageNrField;
-	private PDFChooser pdfChooser = new PDFChooser();
+	private FileUpload pdfChooser = getPDFChooser();
 	/**
 	 * pdf.js wrapper
 	 */
@@ -51,30 +59,17 @@ public class PDFInputDialog extends ComponentDialog
 	private ProgressBar progressBar;
 
 	/** indicates if current page number text field is in focus */
-	protected boolean tfActive = false;
 	private String previewSrc;
 	private boolean isFocus = false;
 
-	private class PDFChooser extends FileUpload
-			implements ChangeHandler {
-		public PDFChooser() {
-			super();
-			addChangeHandler(this);
-			getElement().setAttribute("accept", ".pdf");
-		}
-
-		public void open() {
-			click();
-		}
-
-		@Override
-		public void onChange(ChangeEvent event) {
-			PDFInputDialog.this.loadPdf(getSelectedFile());
-		}
-
-		private native JavaScriptObject getSelectedFile()/*-{
-			return $doc.querySelector('input[type=file]').files[0];
-		}-*/;
+	private FileUpload getPDFChooser() {
+		FileUpload pdfChooser = new FileUpload();
+		pdfChooser.addChangeHandler(event -> {
+				HTMLInputElement el = Js.uncheckedCast(pdfChooser.getElement());
+				loadPdf(el.files.item(0));
+			});
+		pdfChooser.getElement().setAttribute("accept", ".pdf");
+		return pdfChooser;
 	}
 
 	/**
@@ -88,7 +83,8 @@ public class PDFInputDialog extends ComponentDialog
 		addStyleName("pdfDialog");
 		buildContent();
 		initActions();
-		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfCombinedJs());
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfJs());
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfWorkerJs());
 	}
 
 	private void buildContent() {
@@ -126,20 +122,16 @@ public class PDFInputDialog extends ComponentDialog
 		pdfContainerPanel.add(imgTextPanel);
 	}
 
-	private native void addDropHandler(
-			com.google.gwt.dom.client.Element element) /*-{
-		var that = this;
-		element
-				.addEventListener(
-						"drop",
-						function(event) {
-							var files = event.dataTransfer.files;
-							that.@org.geogebra.web.full.gui.dialog.PDFInputDialog::loadPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(files[0]);
-							event.stopPropagation();
-							event.preventDefault();
-						});
-
-	}-*/;
+	private void addDropHandler(
+			com.google.gwt.dom.client.Element element) {
+		elemental2.dom.Element el = Js.uncheckedCast(element);
+		el.addEventListener("drop", evt -> {
+			FileList files = ((DragEvent) evt).dataTransfer.files;
+			loadPdf(files.item(0));
+			evt.stopPropagation();
+			evt.preventDefault();
+		});
+	}
 
 	private void buildPdfContainer() {
 		pdfContainerPanel.clear();
@@ -270,7 +262,7 @@ public class PDFInputDialog extends ComponentDialog
 	private void initActions() {
 		setOnPositiveAction(() -> {
 			String data = previewSrc;
-			((AppW) app).imageDropHappened("pdf.svg", data);
+			((AppW) app).imageDropHappened("pdf.png", data);
 		});
 		pdfContainerPanel.sinkEvents(Event.ONCLICK);
 		pdfContainerPanel.addHandler(event -> {
@@ -302,7 +294,7 @@ public class PDFInputDialog extends ComponentDialog
 	 * Choose PDF to insert.
 	 */
 	void choosePdfFile() {
-		pdfChooser.open();
+		pdfChooser.click();
 	}
 
 	/**
@@ -312,7 +304,7 @@ public class PDFInputDialog extends ComponentDialog
 	 *            to load.
 	 *
 	 */
-	void loadPdf(JavaScriptObject file) {
+	void loadPdf(File file) {
 		buildLoadingPanel();
 		pdf = new PDFWrapper(file, this);
 	}
@@ -392,7 +384,7 @@ public class PDFInputDialog extends ComponentDialog
 	void onPDFLoaded() {
 		pdf.setPageNumber(1);
 		buildPdfContainer();
-		if (pdf.getPageCount() == 1) {
+		if (pdf.getNumberOfPages() == 1) {
 			leftBtn.addStyleName("hidden");
 			rightBtn.addStyleName("hidden");
 			pdfPageTextPanel.addStyleName("hidden");

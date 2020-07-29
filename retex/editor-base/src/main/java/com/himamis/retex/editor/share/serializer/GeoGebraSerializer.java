@@ -196,9 +196,7 @@ public class GeoGebraSerializer implements Serializer {
 					.getArgument(mathFunction.getParentIndex() - 1);
 			if (mathComponent instanceof MathCharacter) {
 				MathCharacter mathCharacter = (MathCharacter) mathComponent;
-				if (mathCharacter.isCharacter() && mathCharacter
-						.getUnicode() != Unicode.ZERO_WIDTH_SPACE
-						&& mathCharacter.getUnicode() != ' ') {
+				if (!mathCharacter.isWordBreak()) {
 					stringBuilder.append(" ");
 				}
 			}

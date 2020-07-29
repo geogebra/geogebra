@@ -774,7 +774,7 @@ public interface Traversing {
 		}
 
 		public void setSimplifyMultiplication(boolean value) {
-			variableReplacerAlgorithm.setTokenizerAllowed(value);
+			variableReplacerAlgorithm.setMultipleUnassignedAllowed(value);
 		}
 
 		@Override
@@ -865,14 +865,14 @@ public interface Traversing {
 
 		private TreeSet<String> tree = new TreeSet<>();
 		private TreeSet<String> localTree = new TreeSet<>();
-		private boolean simplifiedMultiplication;
+		private boolean multipleUnassignedAllowed;
 
 		public CollectUndefinedVariables() {
 			this(false);
 		}
 
-		public CollectUndefinedVariables(boolean simplifiedMultiplication) {
-			this.simplifiedMultiplication = simplifiedMultiplication;
+		public CollectUndefinedVariables(boolean multipleUnassignedAllowed) {
+			this.multipleUnassignedAllowed = multipleUnassignedAllowed;
 		}
 
 		/**
@@ -897,10 +897,10 @@ public interface Traversing {
 				ExpressionValue expressionFromVariableName =
 						variable.getKernel().lookupLabel(variableName);
 				if (expressionFromVariableName == null) {
-					VariableReplacerAlgorithm variableReplacerAlgorithm =
+					VariableReplacerAlgorithm variableReplacerAlgo =
 							new VariableReplacerAlgorithm(variable.getKernel());
-					variableReplacerAlgorithm.setTokenizerAllowed(simplifiedMultiplication);
-					expressionFromVariableName = variableReplacerAlgorithm.replace(variableName);
+					variableReplacerAlgo.setMultipleUnassignedAllowed(multipleUnassignedAllowed);
+					expressionFromVariableName = variableReplacerAlgo.replace(variableName);
 				}
 
 				if (ExpressionNode.isImaginaryUnit(expressionFromVariableName.unwrap())) {
@@ -910,7 +910,7 @@ public interface Traversing {
 						&& !variable
                             .getKernel()
                             .getConstruction()
-                            .isRegistredFunctionVariable(variableName)) {
+                            .isRegisteredFunctionVariable(variableName)) {
 					tree.add(((Variable) expressionFromVariableName)
 							.getName(StringTemplate.defaultTemplate));
 				}

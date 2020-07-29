@@ -68,19 +68,18 @@ import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
-import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.main.settings.TableSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
@@ -108,7 +107,6 @@ public class MyXMLHandler implements DocHandler {
 	protected static final int MODE_EUCLIDIAN_VIEW3D = 101; // only for 3D
 	private static final int MODE_SPREADSHEET_VIEW = 150;
 	private static final int MODE_ALGEBRA_VIEW = 151;
-	private static final int MODE_DATA_COLLECTION_VIEW = 152;
 	// private static final int MODE_CAS_VIEW = 160;
 	private static final int MODE_CONST_CAS_CELL = 161;
 	private static final int MODE_CAS_CELL_PAIR = 162;
@@ -345,10 +343,6 @@ public class MyXMLHandler implements DocHandler {
 			startSpreadsheetViewElement(eName, attrs);
 			break;
 
-		case MODE_DATA_COLLECTION_VIEW:
-			startDataCollectionViewElement(eName, attrs);
-			break;
-
 		case MODE_ALGEBRA_VIEW:
 			startAlgebraViewElement(eName, attrs);
 			break;
@@ -515,12 +509,6 @@ public class MyXMLHandler implements DocHandler {
 			}
 			break;
 
-		case MODE_DATA_COLLECTION_VIEW:
-			if ("dataCollectionView".equals(eName)) {
-				mode = MODE_GEOGEBRA;
-			}
-			break;
-
 		case MODE_PROBABILITY_CALCULATOR:
 			if ("probabilityCalculator".equals(eName)) {
 				mode = MODE_GEOGEBRA;
@@ -645,9 +633,6 @@ public class MyXMLHandler implements DocHandler {
 			break;
 		case "spreadsheetView":
 			mode = MODE_SPREADSHEET_VIEW;
-			break;
-		case "dataCollectionView":
-			mode = MODE_DATA_COLLECTION_VIEW;
 			break;
 		case "scripting":
 			startScriptingElement(attrs);
@@ -910,24 +895,6 @@ public class MyXMLHandler implements DocHandler {
 
 		if (!ok) {
 			Log.error("error in <spreadsheetView>: " + eName);
-		}
-	}
-
-	// ====================================
-	// <DataCollectionView>
-	// ====================================
-	private void startDataCollectionViewElement(String eName,
-			LinkedHashMap<String, String> attrs) {
-		Types type = Types.lookup(eName);
-		String mappedGeoLabel = attrs.get("geo");
-
-		if (type != null) {
-			Log.debug("found sensor mapping " + type + " = " + mappedGeoLabel);
-			DataCollectionSettings settings = app.getSettings()
-					.getDataCollection();
-			settings.mapSensorToGeo(type, mappedGeoLabel);
-		} else {
-			Log.error("unknown tag in <dataCollectionView>: " + eName);
 		}
 	}
 
@@ -1814,11 +1781,12 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 
-		if ("degree".equals(angleUnit)) {
+		if (GeoGebraPreferencesXML.ANGLE_DEGREE_XML_NAME.equals(angleUnit)) {
 			kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
-		} else if ("radiant".equals(angleUnit)) {
+		} else if (GeoGebraPreferencesXML.ANGLE_RADIANT_XML_NAME.equals(angleUnit)) {
 			kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
-		} else if ("degreesMinutesSeconds".equals(angleUnit)) {
+		} else if (
+				GeoGebraPreferencesXML.ANGLE_DEGREES_MINUTES_SECONDS_XML_NAME.equals(angleUnit)) {
                 kernel.setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
 		} else {
 			return false;
@@ -3571,13 +3539,16 @@ public class MyXMLHandler implements DocHandler {
 			// enforce point or vector or line or plane type if it was given in
 			// attribute type
 			if (type != null) {
-				if ("point".equals(type) && ve instanceof ExpressionNode) {
-					((ExpressionNode) ve).setForcePoint();
-				} else if ("vector".equals(type)
-						&& ve instanceof ExpressionNode) {
-					((ExpressionNode) ve).setForceVector();
-					// we must check that we have Equation here as xAxis
-					// has also type "line" but is parsed as ExpressionNode
+				if (ve instanceof ExpressionNode) {
+					if ("point".equals(type)) {
+						((ExpressionNode) ve).setForcePoint();
+					} else if ("vector".equals(type)) {
+						((ExpressionNode) ve).setForceVector();
+						// we must check that we have Equation here as xAxis
+						// has also type "line" but is parsed as ExpressionNode
+					} else if ("inequality".equals(type)) {
+						((ExpressionNode) ve).setForceInequality();
+					}
 				} else if (ve instanceof Equation) {
 					if ("line".equals(type)) {
 						((Equation) ve).setForceLine();
@@ -3594,7 +3565,6 @@ public class MyXMLHandler implements DocHandler {
 					} else if ("implicitsurface".equals(type)) {
 						((Equation) ve).setForceSurface();
 					}
-
 				}
 			}
 

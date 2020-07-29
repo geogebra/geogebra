@@ -20,6 +20,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -52,6 +53,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Before
 	public void clean() {
 		app.getKernel().clearConstruction(true);
+		app.setCasConfig();
+		app.getKernel().setAngleUnit(app.getConfig().getDefaultAngleUnit());
 	}
 
 	@Test
@@ -161,7 +164,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testSubstituteCommand() {
 		t("Substitute(x^2+y^2, x=aaa)", "aaa^(2) + y^(2)");
-		t("Substitute(x^2+y^2, {x=aaa, y=bbb})", "aaa^(2) + bbb^(2)");
+		t("Substitute(x^2+y^2, {x=ccc, y=bbb})", "ccc^(2) + bbb^(2)");
 	}
 
 	@Test
@@ -189,7 +192,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(x^2=1)", "{x = -1, x = 1}");
 		t("Solve(x^2=a)", "{x = -sqrt(a), x = sqrt(a)}");
 		t("Solve({x+y=1, x-y=3})", "{{x = 2, y = -1}}");
-		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
 		t("Solve({(x, y) = (3, 2) + t*(5, 1), (x, y) = (4, 1) + s*(1, -1)}, {x, y, t, s})",
 				"{{x = 3, y = 2, t = 0, s = -1}}");
 		testValidResultCombinations(
@@ -210,6 +212,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"{x = (-sqrt(-p * q)) / p, x = sqrt(-p * q) / p, x = 0}");
 		t("Solve(1-p^2=(1-0.7^2)/4)", "{p = (-sqrt(349)) / 20, p = sqrt(349) / 20}");
 		t("NSolve(1-p^2=(1-0.7^2)/4)", "{p = -0.9340770846, p = 0.9340770846}");
+	}
+
+	@Test
+	public void testSolveCommandCustomVar() {
+		t("Solve({aa+bb=1, aa-bb=3})", "{{aa = 2, bb = -1}}");
 	}
 
 	@Test
@@ -246,7 +253,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"(-1) / 2 + 8 / (15 * 1 / nroot(" + EULER_STRING + "^(23),5) + 1)");
 		t("b=a/(7-0.6)",
 				"5 / 32 * ((-1) / 2 + 8 / (15 / nroot(" + EULER_STRING + "^(23),5) + 1))");
-		t("Solve(h''(t)=0)", "{t = 50 / 23 * log(15)}");
+		t("Solve(h''(t)=0)", "{t = 50 / 23 * ln(15)}");
 		testValidResultCombinations(
 				"h'(5.8871)",
 				"276 * " + EULER_STRING + "^((-1354033) / 500000) / (1125 * (" + EULER_STRING
@@ -272,7 +279,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				"-21000000 * " + EULER_STRING + "^((-9) / 50 * t) + 21000000");
 		t("b=(f(8)-f(7))/f(7)", "(1 / nroot(" + EULER_STRING + "^(36),25) - 1 / nroot("
 				+ EULER_STRING + "^(63),50)) / (1 / nroot(" + EULER_STRING + "^(63),50) - 1)");
-		t("Solve(f(t)=20*10^6)", "{t = 50 / 9 * log(21)}");
+		t("Solve(f(t)=20*10^6)", "{t = 50 / 9 * ln(21)}");
 	}
 
 	@Test
@@ -315,7 +322,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(2x^2-x=15)", "{x = (-5) / 2, x = 3}");
 		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
 		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
-		t("Solve(12exp(x)=150)", "{x = log(25 / 2)}");
+		t("Solve(12exp(x)=150)", "{x = ln(25 / 2)}");
 		t("Solve(cos(x)=sin(x))", "{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}");
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
@@ -439,6 +446,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solutions({aa+bb=1, aa-bb=3})", "{{2, -1}}");
 		t("Solutions(x^2=aaa)", "{-sqrt(aaa), sqrt(aaa)}");
 		t("Solutions(y^2=aaa)", "{-sqrt(aaa), sqrt(aaa)}");
+	}
+
+	@Test
+	public void testSolutionsCommandCustomVar() {
 		t("Solutions(bbb^2=aaa)", "{-sqrt(aaa), sqrt(aaa)}");
 	}
 
@@ -453,7 +464,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Integral(x*y^2,x,0,2)", "2 * y^(2)");
 		t("Integral(x*y^2,x,aaa,bbb)", "y^(2) * ((-1) / 2 * aaa^(2) + 1 / 2 * bbb^(2))");
 		t("Integral(Integral(x*y^2,x,0,2),y,0,1)", "2 / 3");
-		t("Integral(Integral(x*y^2,x,0,2),y,0,aaa)", "2 / 3 * aaa^(3)");
+		t("Integral(Integral(x*y^2,x,0,2),y,0,q)", "2 / 3 * q^(3)");
 		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + pi + ")");
 	}
 
@@ -489,9 +500,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testTangentCommand() {
 		t("Tangent(bbb, y = aaa x^2)", "y = -aaa * bbb^(2) + 2 * aaa * bbb * x");
-		t("Tangent((bbb, bbb^2 aaa), y = aaa x^2)",
-				"y = -aaa * bbb^(2) + 2 * aaa * bbb * x");
-		t("Tangent((1,aaa), y = aaa x^2)", "y = 2 * aaa * x - aaa");
+		t("Tangent((d, d^2 c), y = c x^2)",
+				"y = -c * d^(2) + 2 * c * d * x");
+		t("Tangent((1,c), y = c x^2)", "y = 2 * c * x - c");
 	}
 
 	@Test
@@ -507,11 +518,19 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testTrigCommands() {
+	public void testTrigExpand() {
 		t("TrigExpand(tan(aaa+bbb))",
 				"(sin(aaa) / cos(aaa) + sin(bbb) / cos(bbb)) / (1 - sin(aaa) / cos(aaa) * sin(bbb) / cos(bbb))");
-		t("f(x) = TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
 		t("TrigExpand(x)", "x");
+	}
+
+	@Test
+	public void testTrigCombine() {
+		t("f(x) = TrigCombine(sin(aaa)*cos(aaa))", "1 / 2 * sin(2 * aaa)");
+	}
+
+	@Test
+	public void testTrigSimplify() {
 		t("TrigSimplify(1-sin(x)^2)", "cos(x)^(2)");
 	}
 
@@ -534,13 +553,18 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		testValidResultCombinations("{{a,b},{c,d}} {{a,b},{c,d}}",
 				"{{a^(2) + b * c, a * b + b * d}, {a * c + c * d, d^(2) + b * c}}",
 				"{{b * c + a^(2), a * b + b * d}, {a * c + c * d, b * c + d^(2)}}");
-		t("{{aa,bb},{cc,dd}} {{ee,ff},{gg,hh}}",
-				"{{aa * ee + bb * gg, aa * ff + bb * hh}, {cc * ee + dd * gg, cc * ff + dd * hh}}");
+	}
+
+	@Test
+	public void testMatrixMultiplication() {
+		t("{{aa,bb},{cc,dd}} {{pp,ff},{gg,hh}}",
+				"{{aa * pp + bb * gg, aa * ff + bb * hh}, {cc * pp + dd * gg, cc * ff + dd * hh}}");
 	}
 
 	@Test
 	public void testIntersectCommand() {
-		t("Intersect(x^2+y^2=5, x+y=sqrt(2))", "{((-sqrt(2)) / 2, 3 * sqrt(2) / 2), (3 * sqrt(2) / 2, (-sqrt(2)) / 2)}");
+		t("Intersect(x^2+y^2=5, x+y=sqrt(2))",
+				"{((-sqrt(2)) / 2, 3 * sqrt(2) / 2), (3 * sqrt(2) / 2, (-sqrt(2)) / 2)}");
 		t("Intersect(x+y=sqrt(2), y-x=pi)",
 				"{((-1) / 2 * " + pi + " + sqrt(2) / 2, 1 / 2 * " + pi + " + sqrt(2) / 2)}");
 		t("Intersect((x+8)^2+(y-4)^2=13,(x+4)^2+(y-4)^2=2)",
@@ -651,7 +675,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	private void testOutputLabelOfFunctionsWithApostrophe(String input,
-							   String outputStartsWith) {
+			String outputStartsWith) {
 		GeoSymbolic firstGeo = createGeoWithHiddenLabel(input);
 		assertTrue(firstGeo.getTwinGeo() instanceof GeoFunction);
 		showLabel(firstGeo);
@@ -832,9 +856,9 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 	@Test
 	public void equationWithFunction() {
-		t("f(x,a,b)=-a log(b*x)", "-a * log(b * x)");
+		t("f(x,a,b)=-a ln(b*x)", "-a * ln(b * x)");
 		t("eq1:a/(-1)=1", "-a = 1");
-		t("f(1, a,b)=1", "-a * log(b) = 1"); // autolabeling here
+		t("f(1, a,b)=1", "-a * ln(b) = 1"); // autolabeling here
 		t("Solve({eq1,eq2},{a,b})",
 				"{{a = -1, b = " + Unicode.EULER_STRING + "}}");
 	}
@@ -937,11 +961,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("g:x^3 - 1");
 		add("h:x");
 		updateSpecialPoints("f");
-		Assert.assertEquals(7, numberOfSpecialPoints());
+		Assert.assertEquals(8, numberOfSpecialPoints());
 		updateSpecialPoints("g");
-		Assert.assertEquals(5, numberOfSpecialPoints());
+		Assert.assertEquals(6, numberOfSpecialPoints());
 		updateSpecialPoints("h");
-		Assert.assertEquals(5, numberOfSpecialPoints());
+		Assert.assertEquals(6, numberOfSpecialPoints());
 	}
 
 	@Test
@@ -971,89 +995,11 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
-	public void testNumberCanBecomeSlider() {
-		GeoElement element = add("1");
-		Assert.assertTrue(element instanceof HasExtendedAV);
-	}
-
-	@Test
-	public void testRealNumberCanBecomeSlider() {
-		GeoElement element = add("0.6");
-		Assert.assertTrue(element instanceof HasExtendedAV);
-	}
-
-	@Test
-	public void testAngleCanBecomeSlider() {
-		GeoElement element = add("45" + Unicode.DEGREE_STRING);
-		Assert.assertTrue(element instanceof HasExtendedAV);
-	}
-
-	@Test
-	public void testUndefinedVariableCannotBecomeSlider() {
-		GeoElement element = add("a");
-		Assert.assertFalse(element instanceof HasExtendedAV);
-	}
-
-	@Test
-	public void testFunctionCannotBecomeSlider() {
-		GeoElement element = add("x^2");
-		Assert.assertFalse(element instanceof HasExtendedAV);
-	}
-
-	@Test
-	public void testAngleSetSlider() {
-		GeoNumeric element = add("45" + Unicode.DEGREE_STRING);
-		element.setShowExtendedAV(true);
-		element.initAlgebraSlider();
-		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 0));
-		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 2 * Math.PI));
-	}
-
-	@Test
 	public void testSliderCommandCreatesSlider() {
 		GeoNumeric element = add("Slider(1, 10)");
 		Assert.assertTrue(element.isShowingExtendedAV());
 		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 1));
 		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 10));
-	}
-
-	@Test
-	public void testExpressionCannotBecomeSlider() {
-		String[] expressions = {"1+2", "2*9", "1/4", "5^6"};
-		for (String expression: expressions) {
-			GeoElement element = add(expression);
-			Assert.assertFalse(element instanceof HasExtendedAV);
-		}
-	}
-
-	@Test
-	public void testCommandsCannotBecomeSlider() {
-		String[] expressions = {"Cross((1,2),(3,4))", "Dot((1,2),(3,4))", "Degree(x^2)"};
-		for (String expression: expressions) {
-			GeoElement element = add(expression);
-			Assert.assertFalse(element instanceof HasExtendedAV);
-		}
-	}
-
-	@Test
-	public void testShowAlgebraIsStoredInXML() {
-		GeoNumeric element = add("5");
-		element.setEuclidianVisible(true);
-		Assert.assertTrue(element.getXML().matches(
-				"[\\s\\S]*<slider [^>]* showAlgebra=\"false\"[\\s\\S]*"));
-		element.setShowExtendedAV(true);
-		Assert.assertTrue(element.getXML().matches(
-				"[\\s\\S]*<slider [^>]* showAlgebra=\"true\"[\\s\\S]*"));
-	}
-
-	@Test
-	public void testUndoRedoKeepsShowingExtendedAV() {
-		GeoNumeric element = add("5");
-		element.setEuclidianVisible(true);
-		element.setShowExtendedAV(true);
-		app.setXML(app.getXML(), true);
-		element = (GeoNumeric) app.getKernel().lookupLabel("a");
-		Assert.assertTrue(element.isShowingExtendedAV());
 	}
 
 	@Test
@@ -1113,10 +1059,110 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testRedefinitionKeepsConstant() {
+		add("f(x) = Integral(x)");
+		// redefine geo
+		add("f(x) = Integral(x)");
+		GeoElement element = lookup("c_2");
+		assertThat(element, is(nullValue()));
+	}
+
+	@Test
+	public void testRadians() {
+		GeoSymbolic angle = add("1rad");
+		assertThat(
+				angle.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("1 rad"));
+		assertThat(
+				angle.getValueForInputBar(),
+				equalTo("1 rad"));
+		assertThat(
+				angle.getTwinGeo().toValueString(StringTemplate.defaultTemplate),
+				equalTo("1 rad"));
+	}
+
+	@Test
 	public void testSolveEuclidianHidden() {
 		add("eq1: x + y = 2");
 		add("eq2: x - y = 3");
 		GeoSymbolic element = add("Solve({eq1, eq2}, {x, y})");
 		assertThat(element.showInEuclidianView(), is(false));
 	}
+
+	@Test
+	public void testNumbersOutput() {
+		GeoSymbolic degree = add("45" + Unicode.DEGREE_STRING);
+		assertThat(degree.toValueString(StringTemplate.defaultTemplate), is("1 / 4 " + pi));
+
+		GeoSymbolic realNumber = add("2.222222222222222222222");
+		assertThat(realNumber.toValueString(StringTemplate.defaultTemplate),
+				is("1111111111111111111111 / 500000000000000000000"));
+
+		GeoSymbolic smallNumber = add("2E-20");
+		assertThat(smallNumber.toValueString(StringTemplate.defaultTemplate),
+				is("1 / 50000000000000000000"));
+
+		GeoSymbolic bigNumber = add("1.2345678934534545345345E20");
+		assertThat(bigNumber.toValueString(StringTemplate.defaultTemplate),
+				is("2469135786906909069069 / 20"));
+	}
+
+	@Test
+	public void testFunctionLikeMultiplication() {
+		GeoSymbolic element = add("x(x + 1)");
+		assertThat(element.toValueString(StringTemplate.defaultTemplate), is("x\u00B2 + x"));
+	}
+
+	@Test
+	public void testFunctionLikeMultiplicationSolve() {
+		assertSameAnswer("Solve(x(x-5)>x+7)", "Solve(x (x-5)>x+7)");
+		assertSameAnswer("Solve(y(y+1),y)", "Solve(y (y+1),y)");
+		assertSameAnswer("Solve(z(z+1),z)", "Solve(z (z+1),z)");
+	}
+
+	private void assertSameAnswer(String input1, String input2) {
+		GeoSymbolic solve1 = add(input1);
+		GeoSymbolic solve2 = add(input2);
+		assertThat(solve1.toValueString(StringTemplate.defaultTemplate),
+				is(solve2.toValueString(StringTemplate.defaultTemplate)));
+	}
+
+	@Test
+	public void testIntegralTwinGeoHasSliderValue() {
+		GeoSymbolic symbolic = add("Integral(x)");
+		GeoNumeric slider = (GeoNumeric) lookup("c_1");
+		slider.setValue(10);
+		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
+				equalTo("1 / 2 x² + 10"));
+	}
+
+	@Test
+	public void testSymbolicDiffersForSolve() {
+		GeoSymbolic solveX_1 = add("Solve(2x=5)");
+		GeoSymbolic solveX_2 = add("Solve(2x=6)");
+
+		GeoSymbolic solveA_1 = add("Solve(a*a=5)");
+		GeoSymbolic solveA_2 = add("Solve(a*a=4)");
+
+		assertThat(AlgebraItem.isSymbolicDiffers(solveX_1), is(true));
+		assertThat(AlgebraItem.isSymbolicDiffers(solveX_2), is(false));
+		assertThat(AlgebraItem.isSymbolicDiffers(solveA_1), is(true));
+		assertThat(AlgebraItem.isSymbolicDiffers(solveA_2), is(false));
+	}
+
+	@Test
+	public void testToggleSymbolicNumeric() {
+		GeoSymbolic solveX = add("Solve(2x=5)");
+		GeoSymbolic solveA = add("NSolve(a*a=5)");
+
+		AlgebraItem.toggleSymbolic(solveX);
+		AlgebraItem.toggleSymbolic(solveA);
+
+		assertThat(Commands.NSolve.getCommand(),
+				is(solveX.getDefinition().getTopLevelCommand().getName()));
+
+		assertThat(Commands.Solve.getCommand(),
+				is(solveA.getDefinition().getTopLevelCommand().getName()));
+	}
+
 }

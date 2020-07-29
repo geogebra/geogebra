@@ -390,7 +390,7 @@ TOKEN : {
  |
    // standard case: labels for GeoElements and command names
    < LABEL:
-    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (("." <INTEGER>)?  | ((<INDEX>)? (<LETTER> | <DIGIT> | "'" )*))>
+    <LETTER> ( <LETTER> | <DIGIT> | "'" )* (("." <INTEGER>)?  | ((<INDEX> | <LETTER> | <DIGIT> | "'" )*))>
  |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >
  | < #LETTER:  // unicode letters
        [
@@ -402,7 +402,7 @@ TOKEN : {
         "\u00d8"-"\u00f6",    //accentuated letters
         "\u00f8"-"\u01bf",    //accentuated letters
         "\u01c4"-"\u02a8",    //accentuated letters
-        "\u0391"-"\u03f3",     // Greek
+        "\u038e"-"\u03f5",     // Greek
          "\u0401"-"\u0481",    // Cyrillic
         "\u0490"-"\u04f9",    // Cyrillic
         "\u0531"-"\u1ffc",       // a lot of signs (Arabic, accentuated, ...)
@@ -469,7 +469,7 @@ ValidExpression buildValidExpression() :
       LOOKAHEAD(2147483647)
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
       {
-            if (l.image.contains(".")) {
+            if (GParser.shouldSplitLabel(l.image)) {
                 ve = new Equation(kernel, new Variable(kernel, l.image), ve).equationOrAssignment();
             }
       }
@@ -1153,7 +1153,7 @@ ExpressionValue multterm():
      LOOKAHEAD( { getToken(1).kind != VERTICAL_BAR} )
      f = powerdivterm()
         {
-            ExpressionValue special = ExpressionNode.multiplySpecial(ret, f, kernel, GiacParsing);
+            ExpressionValue special = functionParser.multiplySpecial(ret, f, GiacParsing, GeoGebraCASParsing);
             if (special == null) {
                 if (ExpressionNode.isConstantDouble(f, Kernel.PI_180)
                         && ret instanceof ExpressionNode
@@ -1256,12 +1256,13 @@ ExpressionValue enpower():
         (
        c = <POWERN>
         {
-            f = new MyDouble(kernel, c.image);
+            f = functionParser.convertIndexToNumber(c.image);
             // collect exponents
-      if (exponentList == null)
-        exponentList = new ArrayList<ExpressionValue>();
+            if (exponentList == null) {
+                exponentList = new ArrayList<ExpressionValue>();
+            }
             exponentList.add(f);
-      }
+        }
      )
     |
       (
@@ -1529,11 +1530,13 @@ ExpressionValue numVecVariable():
         if (lookforEulerImaginary) {
             // TREAT e and i specially
             // e for Euler constant
-            if (c.image.equals("e") && kernel.lookupLabel(c.image) == null) {
+            if (c.image.equals("e") && kernel.lookupLabel(c.image) == null
+            		&& !kernel.getConstruction().isRegisteredFunctionVariable("e")) {
                 return kernel.getEulerNumber();
             }
             // i for imaginary unit
-            else if (c.image.equals("i") && kernel.lookupLabel(c.image) == null) {
+            else if (c.image.equals("i") && kernel.lookupLabel(c.image) == null
+            					&& !kernel.getConstruction().isRegisteredFunctionVariable("i")) {
                 return kernel.getImaginaryUnit();
             }
         }
@@ -1763,12 +1766,7 @@ ExpressionNode numberFunction():
 |
       ( c = <FUNCTION_POWER_LABEL> ) en = expressionOrEquation() (")"|"]")
     {
-        int pos = c.image.length()-2;
-        while (pos >=0 && (Unicode.isSuperscriptDigit(c.image.charAt(pos))
-                || Unicode.SUPERSCRIPT_MINUS==c.image.charAt(pos))) {
-            pos--;
-        }
-        ExpressionNode ret = kernel.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
+        ExpressionNode ret = functionParser.handleTrigPower(c.image, en);
         if (ret.getOperation() == Operation.MULTIPLY_OR_FUNCTION) {
             undecided.add(ret);
         }
@@ -1799,7 +1797,7 @@ ExpressionNode numberFunction():
   // note: the last character of FUNCTION_LABEL is a "("
     {
         // remove the opening parenthesis
-        return functionParser.makeFunctionNode(c.image,myList, undecided, GiacParsing);
+        return functionParser.makeFunctionNode(c.image,myList, undecided, GiacParsing, GeoGebraCASParsing);
     }
 }
 

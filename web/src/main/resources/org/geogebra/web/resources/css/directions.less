@@ -33,336 +33,280 @@
 // "border-color:" rule
 
 .border-color(@top, @right, @bottom, @left) when not (@rtl) {
-  border-color: @top @right @bottom @left;
+	border-color: @top @right @bottom @left;
 }
 
 .border-color(@top, @right, @bottom, @left) when (@rtl) {
-  border-color: @top @left @bottom @right;
+	border-color: @top @left @bottom @right;
 }
-
 
 // "border-left*:" rule
 
 .border-left(@left) when not (@rtl) {
-  border-left: @left;
+	border-left: @left;
 }
 
 .border-left(@left) when (@rtl) {
-  border-right: @left;
+	border-right: @left;
 }
 
 .border-left-color(@left) when not (@rtl) {
-  border-left-color: @left;
+	border-left-color: @left;
 }
 
 .border-left-color(@left) when (@rtl) {
-  border-right-color: @left;
+	border-right-color: @left;
 }
 
 .border-left-style(@left) when not (@rtl) {
-  border-left-style: @left;
+	border-left-style: @left;
 }
 
 .border-left-style(@left) when (@rtl) {
-  border-right-style: @left;
+	border-right-style: @left;
 }
 
 .border-left-width(@left) when not (@rtl) {
-  border-left-width: @left;
+	border-left-width: @left;
 }
 
 .border-left-width(@left) when (@rtl) {
-  border-right-width: @left;
+	border-right-width: @left;
 }
 
 
 // "border-right*:" rule
 
 .border-right(@right) when not (@rtl) {
-  border-right: @right;
+	border-right: @right;
 }
 
 .border-right(@right) when (@rtl) {
-  border-left: @right;
+	border-left: @right;
 }
 
 .border-right-color(@right) when not (@rtl) {
-  border-right-color: @right;
+	border-right-color: @right;
 }
 
 .border-right-color(@right) when (@rtl) {
-  border-left-color: @right;
+	border-left-color: @right;
 }
 
 .border-right-style(@right) when not (@rtl) {
-  border-right-style: @right;
+	border-right-style: @right;
 }
 
 .border-right-style(@right) when (@rtl) {
-  border-left-style: @right;
+	border-left-style: @right;
 }
 
 .border-right-width(@right) when not (@rtl) {
-  border-right-width: @right;
+	border-right-width: @right;
 }
 
 .border-right-width(@right) when (@rtl) {
-  border-left-width: @right;
+	border-left-width: @right;
 }
-
 
 // "border-style:" rule
 
 .border-style(@top, @right, @bottom, @left) when not (@rtl) {
-  border-style: @top @right @bottom @left;
+	border-style: @top @right @bottom @left;
 }
 
 .border-style(@top, @right, @bottom, @left) when (@rtl) {
-  border-style: @top @left @bottom @right;
+	border-style: @top @left @bottom @right;
 }
-
 
 // "border-width:" rule
 
 .border-width(@top, @right, @bottom, @left) when not (@rtl) {
-  border-width: @top @right @bottom @left;
+	border-width: @top @right @bottom @left;
 }
 
 .border-width(@top, @right, @bottom, @left) when (@rtl) {
-  border-width: @top @left @bottom @right;
+	border-width: @top @left @bottom @right;
 }
-
 
 // "border-radius:" rule
 
 .border-top-left-radius(@radius) when not (@rtl) {
-  -webkit-border-top-left-radius: @radius;
-  -moz-border-radius-topleft: @radius;
-  border-top-left-radius: @radius;
+	border-top-left-radius: @radius;
 }
 
 .border-top-left-radius(@radius) when (@rtl) {
-  -webkit-border-top-right-radius: @radius;
-  -moz-border-radius-topright: @radius;
-  border-top-right-radius: @radius;
+	border-top-right-radius: @radius;
 }
 
 .border-top-right-radius(@radius) when not (@rtl) {
-  -webkit-border-top-right-radius: @radius;
-  -moz-border-radius-topright: @radius;
-  border-top-right-radius: @radius;
+	border-top-right-radius: @radius;
 }
 
 .border-top-right-radius(@radius) when (@rtl) {
-  -webkit-border-top-left-radius: @radius;
-  -moz-border-radius-topleft: @radius;
-  border-top-left-radius: @radius;
+	border-top-left-radius: @radius;
 }
 
 .border-bottom-left-radius(@radius) when not (@rtl) {
-  -webkit-border-bottom-left-radius: @radius;
-  -moz-border-radius-bottomleft: @radius;
-  border-bottom-left-radius: @radius;
+	border-bottom-left-radius: @radius;
 }
 
 .border-bottom-left-radius(@radius) when (@rtl) {
-  -webkit-border-bottom-right-radius: @radius;
-  -moz-border-radius-bottomright: @radius;
-  border-bottom-right-radius: @radius;
+	border-bottom-right-radius: @radius;
 }
 
 .border-bottom-right-radius(@radius) when not (@rtl) {
-  -webkit-border-bottom-right-radius: @radius;
-  -moz-border-radius-bottomright: @radius;
-  border-bottom-right-radius: @radius;
+	border-bottom-right-radius: @radius;
 }
 
 .border-bottom-right-radius(@radius) when (@rtl) {
-  -webkit-border-bottom-left-radius: @radius;
-  -moz-border-radius-bottomleft: @radius;
-  border-bottom-left-radius: @radius;
+	border-bottom-left-radius: @radius;
 }
-
 
 // "clear:" rule
 
 .clear(@side: both) when not (@rtl), not (@side = left) and not (@side = right) {
-  clear: @side;
+	clear: @side;
 }
 
 .clear(left) when (@rtl) {
-  clear: right;
+	clear: right;
 }
 
 .clear(right) when (@rtl) {
-  clear: left;
+	clear: left;
 }
-
 
 // "direction:" rule
 
 .direction() {
-  direction: @direction;
+	direction: @direction;
 }
 
 .direction(@dir) when not (@rtl), not (@dir = ltr) and not (@dir = rtl) {
-  direction: @dir;
+	direction: @dir;
 }
 
 .direction(ltr) when (@rtl) {
-  direction: rtl;
+	direction: rtl;
 }
 
 .direction(rtl) when (@rtl) {
-  direction: ltr;
+	direction: ltr;
 }
-
 
 // "left:" rule
 
 .left(@left) when not (@rtl) {
-  left: @left;
+	left: @left;
 }
 
 .left(@left) when (@rtl) {
-  right: @left;
+	right: @left;
 }
-
 
 // "float:" rule
 
 .float() {
-  float: @left;
+	float: @left;
 }
 
 .float(@float) when not (@rtl), not (@float = left) and not (@float = right) {
-  float: @float;
+	float: @float;
 }
 
 .float(left) when (@rtl) {
-  float: right;
+	float: right;
 }
 
 .float(right) when (@rtl) {
-  float: left;
+	float: left;
 }
-
 
 // "margin:" rule
 
 .margin(@top, @right, @bottom, @left) when not (@rtl) {
-  margin: @top @right @bottom @left;
+	margin: @top @right @bottom @left;
 }
 
 .margin(@top, @right, @bottom, @left) when (@rtl) {
-  margin: @top @left @bottom @right;
+	margin: @top @left @bottom @right;
 }
-
-.ie7-margin(@top, @right, @bottom, @left) when not (@rtl) {
-  *margin: @top @right @bottom @left;
-}
-
-.ie7-margin(@top, @right, @bottom, @left) when (@rtl) {
-  *margin: @top @left @bottom @right;
-}
-
 
 // "margin-left:" rule
 
 .margin-left(@left) when not (@rtl) {
-  margin-left: @left;
+	margin-left: @left;
 }
 
 .margin-left(@left) when (@rtl) {
-  margin-right: @left;
+	margin-right: @left;
 }
-
-.ie7-margin-left(@left) when not (@rtl) {
-  *margin-left: @left;
-}
-
-.ie7-margin-left(@left) when (@rtl) {
-  *margin-right: @left;
-}
-
 
 // "margin-right:" rule
 
 .margin-right(@right) when not (@rtl) {
-  margin-right: @right;
+	margin-right: @right;
 }
 
 .margin-right(@right) when (@rtl) {
-  margin-left: @right;
+	margin-left: @right;
 }
-
-.ie7-margin-right(@right) when not (@rtl) {
-  *margin-right: @right;
-}
-
-.ie7-margin-right(@right) when (@rtl) {
-  *margin-left: @right;
-}
-
 
 // "padding:" rule
 
 .padding(@top, @right, @bottom, @left) when not (@rtl) {
-  padding: @top @right @bottom @left;
+	padding: @top @right @bottom @left;
 }
 
 .padding(@top, @right, @bottom, @left) when (@rtl) {
-  padding: @top @left @bottom @right;
+	padding: @top @left @bottom @right;
 }
-
 
 // "padding-left:" rule
 
 .padding-left(@left) when not (@rtl) {
-  padding-left: @left;
+	padding-left: @left;
 }
 
 .padding-left(@left) when (@rtl) {
-  padding-right: @left;
+	padding-right: @left;
 }
-
 
 // "padding-right:" rule
 
 .padding-right(@right) when not (@rtl) {
-  padding-right: @right;
+	padding-right: @right;
 }
 
 .padding-right(@right) when (@rtl) {
-  padding-left: @right;
+	padding-left: @right;
 }
-
 
 // "text-align:" rule
 
 .text-align() {
-  text-align: @left;
+	text-align: @left;
 }
 
 .text-align(@align) when not (@rtl), not (@align = left) and not (@align = right) {
-  text-align: @align;
+	text-align: @align;
 }
 
 .text-align(left) when (@rtl) {
-  text-align: right;
+	text-align: right;
 }
 
 .text-align(right) when (@rtl) {
-  text-align: left;
+	text-align: left;
 }
-
 
 // "right:" rule
 
 .right(@right) when not (@rtl) {
-  right: @right;
+	right: @right;
 }
 
 .right(@right) when (@rtl) {
-  left: @right;
+	left: @right;
 }

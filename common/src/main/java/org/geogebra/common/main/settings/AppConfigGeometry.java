@@ -24,6 +24,8 @@ import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
+import org.geogebra.common.properties.factory.BasePropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * App-specific behaviors of Geometry app
@@ -248,6 +250,26 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public boolean isObjectDraggingRestricted() {
 		return false;
+	}
+
+	@Override
+	public int getDefaultAngleUnit() {
+		return Kernel.ANGLE_DEGREE;
+	}
+
+	@Override
+	public boolean isAngleUnitSettingEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new BasePropertiesFactory();
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.inline.InlineTextController;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
@@ -16,18 +16,20 @@ public class HyperlinkDialog extends ComponentDialog {
 	private String hyperlinkText;
 	private MediaInputPanel textInputPanel;
 	private MediaInputPanel linkInputPanel;
-	private InlineTextController inlineText;
+
+	private HasTextFormat formatter;
 
 	/**
 	 * Dialog for inserting hyperlink into an inline text
 	 *
 	 * @param app see {@link AppW}
 	 * @param data dialog transkeys
+	 * @param formatter text formatter
 	 *
 	 */
-	public HyperlinkDialog(AppW app, DialogData data, InlineTextController inlineText) {
+	public HyperlinkDialog(AppW app, DialogData data, HasTextFormat formatter) {
 		super(app, data, false, true);
-		this.inlineText = inlineText;
+		this.formatter = formatter;
 
 		addStyleName("mediaDialog");
 		addStyleName("hyperLink");
@@ -43,9 +45,9 @@ public class HyperlinkDialog extends ComponentDialog {
 
 		linkInputPanel.addPlaceholder(app.getLocalization().getMenu("pasteLink"));
 
-		hyperlinkText = inlineText.getHyperlinkRangeText().replace('\n', Unicode.ZERO_WIDTH_SPACE);
+		hyperlinkText = formatter.getHyperlinkRangeText().replace('\n', Unicode.ZERO_WIDTH_SPACE);
 		textInputPanel.setText(hyperlinkText);
-		linkInputPanel.setText(getSelectionUrl());
+		linkInputPanel.setText(formatter.getHyperLinkURL());
 
 		FlowPanel contentPanel = new FlowPanel();
 		contentPanel.add(textInputPanel);
@@ -53,10 +55,6 @@ public class HyperlinkDialog extends ComponentDialog {
 		addDialogContent(contentPanel);
 
 		linkInputPanel.focusDeferred();
-	}
-
-	private String getSelectionUrl() {
-		return inlineText.getHyperLinkURL();
 	}
 
 	private void processInput() {
@@ -68,10 +66,10 @@ public class HyperlinkDialog extends ComponentDialog {
 		String url = normalizeUrl(link);
 
 		String text = textInputPanel.inputField.getText();
-		if (text.equals(hyperlinkText)	&& !StringUtil.empty(getSelectionUrl())) {
-			inlineText.setHyperlinkUrl(url);
+		if (text.equals(hyperlinkText)	&& !StringUtil.empty(formatter.getHyperLinkURL())) {
+			formatter.setHyperlinkUrl(url);
 		} else {
-			inlineText.insertHyperlink(url,	text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
+			formatter.insertHyperlink(url,	text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
 		}
 	}
 

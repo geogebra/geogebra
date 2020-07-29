@@ -41,5 +41,4 @@ public class AlgoIntersectFunctions extends AlgoRoots {
 	public GeoPoint[] getIntersectionPoints() {
 		return super.getRootPoints();
 	}
-
 }

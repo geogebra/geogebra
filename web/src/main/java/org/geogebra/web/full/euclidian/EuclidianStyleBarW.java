@@ -22,14 +22,15 @@ import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInline;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.GeoWidget;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.FillType;
@@ -955,8 +956,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 					for (GeoElement geoElement : geos) {
 						GeoElement geo = geoElement
 								.getGeoElementForPropertiesDialog();
-						if (hasTextColor(geo) || geo.isGeoAudio()
-								|| geo.isGeoVideo() || geo instanceof GeoEmbed) {
+						if (hasTextColor(geo) || geo instanceof GeoWidget) {
 							geosOK = false;
 							break;
 						}
@@ -1073,11 +1073,12 @@ public class EuclidianStyleBarW extends StyleBarW2
 						GeoElement geo = geoElement
 								.getGeoElementForPropertiesDialog();
 						if (geo instanceof GeoText || geo instanceof GeoButton
+								|| geo instanceof GeoInline
 								|| geo instanceof GeoPoint
 								|| geo instanceof GeoLocusStroke
-								|| geo instanceof GeoEmbed
-								|| geo instanceof GeoLine || geo.isGeoVideo()
-								|| geo.isGeoAudio() || geo.isGeoImage()) {
+								|| geo instanceof GeoWidget
+								|| geo instanceof GeoLine
+								|| geo.isGeoImage()) {
 							geosOK = false;
 							break;
 						}
@@ -1175,7 +1176,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void createTextBgColorBtn() {
-		btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+		btnTextBgColor = new BgColorPopup(app, ColorPopupMenuButton.COLORSET_DEFAULT,
+				false, selection) {
 
 			@Override
 			public void update(List<GeoElement> geos) {

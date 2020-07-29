@@ -13,8 +13,6 @@ public enum Feature {
 
 	LOG_AXES,
 
-	ACRA,
-
 	ANALYTICS,
 
 	/** GGB-334, TRAC-3401 */
@@ -60,17 +58,11 @@ public enum Feature {
 	/** Csilla Master */
 	SPEECH_RECOGNITION,
 
-	/** G3D-345 */
-	G3D_AR_SHOW_RATIO,
-
 	/** G3D-343 */
 	G3D_SELECT_META,
 
 	/** APPS-890 */
 	AUTOLABEL_CAS_SETTINGS,
-
-	/** G3D-372 */
-	G3D_AR_RATIO_SETTINGS,
 
 	/** APPS-1035 */
 	SYMBOLIC_INPUTFIELDS

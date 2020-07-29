@@ -1,72 +1,158 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.StringUtil;
 
-public interface GeoInline extends GeoElementND {
-	/**
-	 * Get the height of the element.
-	 *
-	 * @return height
-	 */
-	double getHeight();
+public abstract class GeoInline extends GeoElement implements Translateable, PointRotateable,
+		RectangleTransformable {
 
-	/**
-	 * Get the widht of the element.
-	 *
-	 * @return width
-	 */
-	double getWidth();
+	private GPoint2D location;
 
-	/**
-	 * @return rotation angle in radians
-	 */
-	double getAngle();
+	private double width;
+	private double height;
 
-	/**
-	 * Get the location of the text.
-	 *
-	 * @return location
-	 */
-	GPoint2D getLocation();
+	private double angle;
 
-	/**
-	 * Set the width of the element.
-	 *
-	 * @param width element width in pixels
-	 */
-	void setWidth(double width);
+	public GeoInline(Construction cons) {
+		super(cons);
+	}
 
-	/**
-	 * Set the height of the element.
-	 *
-	 * @param height height in pixels
-	 */
-	void setHeight(double height);
+	@Override
+	public ValueType getValueType() {
+		return ValueType.TEXT;
+	}
+
+	@Override
+	public boolean showInAlgebraView() {
+		return false;
+	}
+
+	@Override
+	protected boolean showInEuclidianView() {
+		return true;
+	}
+
+	@Override
+	public boolean isAlgebraViewEditable() {
+		return false;
+	}
+
+	@Override
+	public boolean isLabelShowable() {
+		return false;
+	}
+
+	@Override
+	public HitType getLastHitType() {
+		return HitType.ON_FILLING;
+	}
+
+	@Override
+	public double getHeight() {
+		return height;
+	}
+
+	@Override
+	public double getWidth() {
+		return width;
+	}
+
+	@Override
+	public double getAngle() {
+		return angle;
+	}
+
+	@Override
+	public GPoint2D getLocation() {
+		return location;
+	}
+
+	@Override
+	public void setSize(double width, double height) {
+		this.width = width;
+		this.height = height;
+	}
 
 	/**
 	 * @param angle rotation angle in radians
 	 */
-	void setAngle(double angle);
+	@Override
+	public void setAngle(double angle) {
+		this.angle = angle;
+	}
 
 	/**
 	 * @param location
 	 *            on-screen location
 	 */
-	void setLocation(GPoint2D location);
+	@Override
+	public void setLocation(GPoint2D location) {
+		this.location = location;
+	}
 
 	/**
 	 * @param content editor content; encoding depends on editor type
 	 */
-	void setContent(String content);
+	public abstract void setContent(String content);
 
 	/**
-	 * @return min width in pixels, depends on content
+	 * @return editor content; encoding depends on editor type
 	 */
-	double getMinWidth();
+	public abstract String getContent();
+
+	@Override
+	public void translate(Coords v) {
+		location.setLocation(location.getX() + v.getX(), location.getY() + v.getY());
+	}
+
+	@Override
+	public boolean isTranslateable() {
+		return true;
+	}
+
+	@Override
+	public void rotate(NumberValue r) {
+		angle -= r.getDouble();
+	}
+
+	@Override
+	public void rotate(NumberValue r, GeoPointND S) {
+		angle -= r.getDouble();
+		rotate(location, r, S);
+	}
+
+	protected static void rotate(GPoint2D location, NumberValue r, GeoPointND S) {
+		double phi = r.getDouble();
+		double cos = MyMath.cos(phi);
+		double sin = Math.sin(phi);
+		double qx = S.getInhomCoords().getX();
+		double qy = S.getInhomCoords().getY();
+
+		double x = location.getX();
+		double y = location.getY();
+
+		location.setLocation((x - qx) * cos + (qy - y) * sin + qx,
+				(x - qx) * sin + (y - qy) * cos + qy);
+	}
 
 	/**
-	 * @return min height in pixels, depends on content
+	 * returns all class-specific xml tags for getXML
 	 */
-	double getMinHeight();
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		getXMLfixedTag(sb);
+		getXMLvisualTags(sb);
+
+		sb.append("\t<content val=\"");
+		StringUtil.encodeXML(sb, getContent());
+		sb.append("\"/>\n");
+
+		XMLBuilder.appendPosition(sb, this);
+	}
 }

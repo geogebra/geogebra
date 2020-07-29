@@ -60,10 +60,11 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
+
+import elemental2.dom.File;
 
 public class DialogManagerW extends DialogManager
 		implements LoadingApplication {
@@ -276,7 +277,7 @@ public class DialogManagerW extends DialogManager
 	 * @param file
 	 *            PDF file
 	 */
-	public void showPDFInputDialog(final JavaScriptObject file) {
+	public void showPDFInputDialog(final File file) {
 		GWT.runAsync(new RunAsyncCallback() {
 
 			@Override

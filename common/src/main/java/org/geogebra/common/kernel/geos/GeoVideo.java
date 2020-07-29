@@ -16,6 +16,11 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoVideo extends GeoMedia {
 
+	private static final int VIDEO_WIDTH = 420;
+	private static final int VIDEO_HEIGHT = 345;
+
+	public final static int VIDEO_SIZE_THRESHOLD = 100;
+
 	private static final String WMODE_TRANSPARENT = "&wmode=transparent";
 
 	/**
@@ -28,8 +33,6 @@ public class GeoVideo extends GeoMedia {
 	private static final String TIME_PARAM_A = "&t=";
 	private static final String TIME_PARAM_Q = "?t=";
 	private static final String TIME_PARAM_S = "start=";
-	private static final int VIDEO_WIDTH = 420;
-	private static final int VIDEO_HEIGHT = 345;
 	private static final String JAVASCRIPT_API = "enablejsapi=1";
 
 	private String youtubeId = null;
@@ -38,8 +41,7 @@ public class GeoVideo extends GeoMedia {
 	private MyImage preview;
 	private HitType lastHitType;
 	private boolean background = true;
-	private double xScale;
-	private double yScale;
+
 	private Runnable sizeSetCallback;
 
 	/**
@@ -50,8 +52,7 @@ public class GeoVideo extends GeoMedia {
 	 */
 	public GeoVideo(Construction c) {
 		super(c);
-		setWidth(VIDEO_WIDTH);
-		setHeight(VIDEO_HEIGHT);
+		setSize(VIDEO_WIDTH, VIDEO_HEIGHT);
 	}
 
 	/**
@@ -67,8 +68,8 @@ public class GeoVideo extends GeoMedia {
 	public GeoVideo(Construction c, String url, MediaFormat format) {
 		super(c, url, format);
 		setLabel("video");
-		setWidth(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1);
-		setHeight(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
+		setSize(format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_WIDTH : -1,
+				format == MediaFormat.VIDEO_YOUTUBE ? VIDEO_HEIGHT : -1);
 	}
 
 	@Override
@@ -162,14 +163,18 @@ public class GeoVideo extends GeoMedia {
 	}
 
 	@Override
-	public void setWidth(int width) {
-		super.setWidth(width);
-		runSizeCallbackIfReady();
+	public double getMinWidth() {
+		return VIDEO_SIZE_THRESHOLD;
 	}
 
 	@Override
-	public void setHeight(int height) {
-		super.setHeight(height);
+	public double getMinHeight() {
+		return VIDEO_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public void setSize(double width, double height) {
+		super.setSize(width, height);
 		runSizeCallbackIfReady();
 	}
 
@@ -233,10 +238,6 @@ public class GeoVideo extends GeoMedia {
 		} else if (getSrc() != null) {
 			sb.append(StringUtil.encodeXML(getSrc()));
 		}
-		sb.append("\" width=\"");
-		sb.append(getWidth());
-		sb.append("\" height=\"");
-		sb.append(getHeight());
 		sb.append("\"");
 		if (getFormat() != null) {
 			sb.append(" type=\"");
@@ -316,59 +317,6 @@ public class GeoVideo extends GeoMedia {
 	 */
 	public boolean hasSize() {
 		return getWidth() != -1 && getHeight() != -1;
-	}
-
-	/**
-	 * Zooming in x direction
-	 * 
-	 * @param factor
-	 *            zoom factor;
-	 * 
-	 */
-	private void zoomX(double factor) {
-		setWidth(getWidthAsDouble() * factor);
-	}
-	
-	/**
-	 * Zooming in y direction
-	 * 
-	 * @param factor
-	 *            zoom factor;
-	 * 
-	 */
-	private void zoomY(double factor) {
-		setHeight(getHeightAsDouble() * factor);
-	}
-
-	@Override
-	public void setAbsoluteScreenLocActive(boolean flag) {
-		super.setAbsoluteScreenLocActive(flag);
-		if (app != null && app.getActiveEuclidianView() != null) {
-			xScale = app.getActiveEuclidianView().getXscale();
-			yScale = app.getActiveEuclidianView().getYscale();
-		}
-	}
-
-	/**
-	 * Zoom the video if the video is not pinned, and the scales of the view
-	 * changed.
-	 */
-	public void zoomIfNeeded() {
-		if (xScale == 0) {
-			xScale = app.getActiveEuclidianView().getXscale();
-			yScale = app.getActiveEuclidianView().getYscale();
-			return;
-		}
-		if (!isAbsoluteScreenLocActive()) {
-			if (xScale != app.getActiveEuclidianView().getXscale()) {
-				zoomX(app.getActiveEuclidianView().getXscale() / xScale);
-				xScale = app.getActiveEuclidianView().getXscale();
-			}
-			if (yScale != app.getActiveEuclidianView().getYscale()) {
-				zoomY(app.getActiveEuclidianView().getYscale() / yScale);
-				yScale = app.getActiveEuclidianView().getYscale();
-			}
-		}
 	}
 
 	/**

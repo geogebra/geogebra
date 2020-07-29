@@ -87,4 +87,9 @@ public class MebisSettings implements VendorSettings {
 	public boolean canSessionExpire() {
 		return true;
 	}
+
+	@Override
+	public boolean hasBitmapSecurity() {
+		return true;
+	}
 }

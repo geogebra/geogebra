@@ -63,8 +63,12 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 
 	@Override
 	protected void createContents() {
-		menuItem = new AriaMenuItem(getHTML(), true, getCmd());
+		menuItem = newMenuItem();
 		menuItem.getElement().setAttribute("role", "checkbox");
+	}
+
+	protected AriaMenuItem newMenuItem() {
+		return new AriaMenuItem(getHTML(), true, getCmd());
 	}
 
 	@Override

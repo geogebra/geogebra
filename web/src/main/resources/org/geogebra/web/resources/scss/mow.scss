@@ -486,6 +486,7 @@
 	.mowVideo video {
 		width: 100%;
 		height: 100%;
+		object-fit: fill;
 	}
 
 	.mowWidget.error {
@@ -496,6 +497,7 @@
 			text-align: center;
 			padding: 33% 0;
 		}
+		box-sizing: border-box;
 		border: 1px solid;
 	}
 

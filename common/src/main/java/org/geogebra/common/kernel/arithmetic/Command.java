@@ -579,6 +579,10 @@ public class Command extends ValidExpression
 			lastType = evaluationCopy.evaluate(StringTemplate.defaultTemplate)
 					.getValueType();
 		} catch (Throwable ex) {
+			if (!kernel.getGeoGebraCAS().isCommandAvailable(this)) {
+				return lastType;
+			}
+
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
 			if (ev != null) {
@@ -891,4 +895,7 @@ public class Command extends ValidExpression
 		return c != null;
 	}
 
+	public void setAllowEvaluationForTypeCheck(boolean allowEvaluationForTypeCheck) {
+		this.allowEvaluationForTypeCheck = allowEvaluationForTypeCheck;
+	}
 }

@@ -31,6 +31,7 @@ import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
@@ -79,6 +80,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -113,7 +115,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoScriptRunner;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.ScriptType;
-import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.AsyncOperation;
@@ -194,8 +195,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	// please let 1024 to 2047 empty
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
-	/** data collection view (web only) */
-	public static final int VIEW_DATA_COLLECTION = 43;
 	/** accessibility view in Web */
 	public static final int VIEW_ACCESSIBILITY = 44;
 	/** id for table view */
@@ -373,7 +372,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	protected HashMap<Integer, Boolean> showConsProtNavigation = null;
 	protected AppCompanion companion;
 	protected boolean prerelease;
-	protected boolean canary;
 
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
@@ -3064,9 +3062,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return version string
 	 */
 	public String getVersionString() {
-
 		if (platform != null) {
-			return platform.getVersionString(prerelease, canary, getConfig().getAppCode());
+			return platform.getVersionString(prerelease, getConfig().getAppCode());
 		}
 
 		// fallback in case version not set properly
@@ -3671,10 +3668,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return companion;
 	}
 
-	public SensorLogger getSensorLogger() {
-		return null;
-	}
-
 	/**
 	 * Add file open listener.
 	 *
@@ -3807,10 +3800,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// *********************************************************
 		// **********************************************************************
 
-		// MOB-270
-		case ACRA:
-			return prerelease;
-
 		case ANALYTICS:
 			return prerelease;
 
@@ -3912,16 +3901,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
        // *********************************************************
        // **********************************************************************
 
-		/** G3D-345 */
-		case G3D_AR_SHOW_RATIO:
-			return prerelease;
-
 		/** G3D-343 */
 		case G3D_SELECT_META:
-			return false;
-
-		/** G3D-372 */
-		case G3D_AR_RATIO_SETTINGS:
 			return false;
 
 		// **********************************************************************
@@ -4076,7 +4057,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			} else if (geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
-				((DrawDropDownList) d).toggleOptions();
+				if (d != null) {
+					((DrawDropDownList) d).toggleOptions();
+				}
 
 			} else if (geo.isGeoNumeric()) {
 
@@ -5176,6 +5159,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		return null;
 	}
 
+	public InlineTableController createTableController(EuclidianView view, GeoInlineTable table) {
+		return null;
+	}
+
 	/**
 	 * GeoPriorityComparators are used to decide the drawing
 	 * and selection orders of Geos
@@ -5188,5 +5175,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		} else {
 			return new DefaultGeoPriorityComparator();
 		}
+	}
+
+	public void closeMenuHideKeyboard() {
+		// nothing here
 	}
 }

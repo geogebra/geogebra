@@ -106,11 +106,16 @@ public class AppConfigSuite extends AppConfigGraphing {
 
 	@Override
 	public String getTutorialKey() {
-		return "suite_tutorial";
+		return "TutorialSuite";
 	}
 
 	@Override
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.SUITE;
+	}
+
+	@Override
+	public boolean isCoordinatesObjectSettingEnabled() {
+		return true;
 	}
 }

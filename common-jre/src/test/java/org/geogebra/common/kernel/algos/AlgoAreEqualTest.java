@@ -32,6 +32,7 @@ public class AlgoAreEqualTest {
 
 	@Test
 	public void simpleAlgebraicExpressions() {
+		assertTrue(compare("0", "0"));
 		assertTrue(compare("2/4", "1/2"));
 		assertFalse(compare("0.3333333333333333", "1/3"));
 		assertTrue(compare("pi/4", "atan(1)"));
@@ -50,6 +51,13 @@ public class AlgoAreEqualTest {
 		assertTrue(compare("10000000", "10000000"));
 		assertFalse(compare("100000000", "100000000"));
 		assertTrue(compare("1.23", "1.23"));
+	}
+
+	@Test
+	public void largeNumbers() {
+		assertTrue(compare("(73205*pi)/6", "73205*(pi/6)"));
+		assertTrue(compare("(73205*pi)/6", "(73205/6)*pi"));
+		assertTrue(compare("73205*(pi/6)", "(73205/6)*pi"));
 	}
 
 	@Test

@@ -35,6 +35,9 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class VideoManagerW implements VideoManager {
 
+	private final static int DEFAULT_WIDTH = 420;
+	private final static int DEFAULT_HEIGHT = 365;
+
 	private AppWFull app;
 
 	private Map<DrawVideo, AbstractVideoPlayer> players = new HashMap<>();
@@ -218,9 +221,17 @@ public class VideoManagerW implements VideoManager {
 
 	@Override
 	public void onError(DrawVideo video) {
+		setDefaultSize(video);
 		removePlayer(video);
 		AbstractVideoPlayer offlinePlayer = createPlayerOffline(video, players.size() + 1);
 		addPlayerToFrame(video, offlinePlayer);
+	}
+
+	private void setDefaultSize(DrawVideo video) {
+		if (video.getVideo().hasSize()) {
+			return;
+		}
+		video.getVideo().setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
 	@Override

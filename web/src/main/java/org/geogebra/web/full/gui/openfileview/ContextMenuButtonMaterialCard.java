@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.openfileview;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
@@ -133,7 +132,6 @@ public class ContextMenuButtonMaterialCard extends ContextMenuButtonCard {
 	@Override
 	protected void show() {
 		super.show();
-		wrappedPopup.show(
-				new GPoint(getAbsoluteLeft() - 130, getAbsoluteTop() + 28));
+		wrappedPopup.show(this, -130, 28);
 	}
 }

@@ -114,15 +114,8 @@ public class InputPanelW extends FlowPanel {
 		if (textComponent != null) {
 			textComponent.getTextBox().getElement().focus();
 		} else {
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					focusTextImmediate();
-				}
-			});
-
+			Scheduler.get().scheduleDeferred(() -> focusTextImmediate());
 		}
-
 	}
 	
 	/**

@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.openfileview;
 
+import java.util.List;
+
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -13,7 +15,6 @@ import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -43,12 +44,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		controller = new MaterialCardController(app);
 		controller.setMaterial(m);
 		initGui();
-		this.addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(final ClickEvent event) {
-				openMaterial();
-			}
-		}, ClickEvent.getType());
+		this.addDomHandler(event -> openMaterial(), ClickEvent.getType());
 	}
 
 	/**
@@ -171,14 +167,17 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 				app.getLocalization().getMenu("Public"));
 		switch (visibility) {
 		case "P":
+			app.getLoginOperation().getGeoGebraTubeAPI()
+					.getGroups(getMaterial().getSharingKeyOrId(),
+							this::showSharedIcon);
 			visibiltyImg = new NoDragImage(
 					MaterialDesignResources.INSTANCE.mow_card_private(), 24);
 			visibilityTxt = new Label(app.getLocalization().getMenu("Private"));
 			break;
 		case "S":
 			visibiltyImg = new NoDragImage(
-					MaterialDesignResources.INSTANCE.mow_card_link(), 24);
-			visibilityTxt = new Label(app.getLocalization().getMenu("Link"));
+					MaterialDesignResources.INSTANCE.mow_card_shared(), 24);
+			visibilityTxt = new Label(app.getLocalization().getMenu("Shared"));
 			break;
 		case "O":
 			visibiltyImg = new NoDragImage(
@@ -191,5 +190,15 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		visibilityPanel.clear();
 		visibilityPanel
 				.add(LayoutUtilW.panelRowIndent(visibiltyImg, visibilityTxt));
+	}
+
+	private void showSharedIcon(List<String> strings) {
+		if (strings != null && !strings.isEmpty()) {
+			updateVisibility("S");
+		}
+	}
+
+	public void setLabels() {
+		updateVisibility(getMaterial().getVisibility());
 	}
 }

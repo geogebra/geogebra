@@ -252,7 +252,6 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intParamYX(Inequality a, Inequality b) {
-		Log.debug(new Throwable().getStackTrace()[0].getMethodName());
 		GeoPoint[] bz = b.getZeros();
 		GeoFunction af = a.getFunBorder();
 		for (GeoPoint bp : bz) {

@@ -44,11 +44,6 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	}
 
 	@Override
-	public boolean isValid() {
-		return isFrameValid();
-	}
-
-	@Override
 	public Widget asWidget() {
 		return main;
 	}
@@ -56,8 +51,7 @@ public class HTML5Player extends VideoPlayer implements VideoListener {
 	@Override
 	public void onLoad(int width, int height) {
 		if (!getVideo().hasSize()) {
-			getVideo().setWidth(width);
-			getVideo().setHeight(height);
+			getVideo().setSize(width, height);
 		}
 		getVideo().update();
 		update();

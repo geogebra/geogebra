@@ -26,10 +26,12 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
 import org.geogebra.common.kernel.geos.properties.EquationType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoEvaluatable;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -39,7 +41,7 @@ import org.geogebra.common.util.StringUtil;
  * @author Zbynek
  */
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
-		GeoEvaluatable, GeoFunctionable, DelegateProperties {
+		GeoEvaluatable, GeoFunctionable, DelegateProperties, HasArbitraryConstant {
 	private ExpressionValue value;
 	private ArrayList<FunctionVariable> fVars = new ArrayList<>();
 	private String casOutputString;
@@ -51,6 +53,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private int pointStyle;
 	private int pointSize;
 	private boolean symbolicMode;
+	private MyArbitraryConstant constant;
 
 	@Nullable
 	private GeoElement twinGeo;
@@ -176,8 +179,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput.addArgument(casInputArg.wrap());
 		}
 		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
-				new MyArbitraryConstant(this), StringTemplate.prefixedDefault,
-				null, kernel);
+				getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 
@@ -189,7 +191,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	private boolean shouldBeEuclidianVisible(Command input) {
-		return !"Solve".equals(input.getName());
+		String inputName = input.getName();
+		return !Commands.Solve.name().equals(inputName)
+				&& !Commands.NSolve.name().equals(inputName);
 	}
 
 	private ExpressionValue parseOutputString(String output) {
@@ -322,22 +326,47 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			return null;
 		}
 		boolean isSuppressLabelsActive = cons.isSuppressLabelsActive();
-		ExpressionNode node;
+		cons.setSuppressLabelCreation(true);
 		try {
-			cons.setSuppressLabelCreation(true);
-			node = getDefinition().deepCopy(kernel).traverse(createPrepareDefinition()).wrap();
-			node.setLabel(null);
-			return process(node);
-		} catch (Throwable exception) {
+			return process(getTwinInput());
+		} catch (Throwable throwable) {
 			try {
-				node = getKernel().getParser().parseGiac(casOutputString).wrap();
-				return process(node);
-			} catch (Throwable t) {
+				return process(getTwinFallbackInput());
+			} catch (Throwable throwable2) {
 				return null;
 			}
 		} finally {
 			cons.setSuppressLabelCreation(isSuppressLabelsActive);
 		}
+	}
+
+	private ExpressionNode getTwinInput() throws ParseException {
+		if (useOutputAsMainTwin()) {
+			return getNodeFromOutput();
+		}
+		return getNodeFromInput();
+	}
+
+	private ExpressionNode getTwinFallbackInput() throws ParseException {
+		if (useOutputAsMainTwin()) {
+			return getNodeFromInput();
+		}
+		return getNodeFromOutput();
+	}
+
+	private boolean useOutputAsMainTwin() {
+		return constant != null && constant.getTotalNumberOfConsts() > 0;
+	}
+
+	private ExpressionNode getNodeFromOutput() throws ParseException {
+		return kernel.getParser().parseGiac(casOutputString).wrap();
+	}
+
+	private ExpressionNode getNodeFromInput() {
+		ExpressionNode node = getDefinition().deepCopy(kernel)
+				.traverse(createPrepareDefinition()).wrap();
+		node.setLabel(null);
+		return node;
 	}
 
 	@Override
@@ -500,12 +529,15 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	@Override
 	public DescriptionMode getDescriptionMode() {
 		GeoElementND twinGeo = getTwinGeo();
+		boolean symbolicMode = isSymbolicMode();
+		setSymbolicMode(true, false);
 
 		String def = getDefinition(StringTemplate.defaultTemplate);
 		String val = getValueForInputBar();
 		String twin = twinGeo != null
 				? twinGeo.toValueString(StringTemplate.defaultTemplate) : null;
 
+		setSymbolicMode(symbolicMode, false);
 		if (def.equals(val) && (twin == null || twin.equals(val))) {
 			return DescriptionMode.VALUE;
 		} else {
@@ -686,4 +718,18 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 				? twinGeo.isGeoVector()
 				: getDefinition() != null && getDefinition().unwrap() instanceof MyVecNDNode;
 	}
+
+	@Override
+	public MyArbitraryConstant getArbitraryConstant() {
+		if (constant == null) {
+			constant = new MyArbitraryConstant(this);
+		}
+		return constant;
+	}
+
+	@Override
+	public void setArbitraryConstant(MyArbitraryConstant constant) {
+		this.constant = constant;
+	}
+
 }

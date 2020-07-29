@@ -403,7 +403,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					coeff[i][j] = ev[i][j].evaluateDouble();
 				}
 				if (Double.isInfinite(coeff[i][j])) {
-					setUndefined();
+					defined = false;
 				}
 				isConstant = isConstant
 						&& (DoubleUtil.isZero(coeff[i][j]) || (i == 0 && j == 0));
@@ -422,7 +422,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @param factor
 	 *            number of a squarefree factor of the expression
 	 */
-	public void setCoeffSquarefree(ExpressionValue[][] ev, int factor) {
+	private void setCoeffSquarefree(ExpressionValue[][] ev, int factor) {
 		coeffSquarefree[factor] = new double[ev.length][];
 		for (int i = 0; i < ev.length; i++) {
 			coeffSquarefree[factor][i] = new double[ev[i].length];
@@ -643,6 +643,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void setUndefined() {
 		defined = false;
+		resetCoeff();
 	}
 
 	@Override
@@ -838,15 +839,19 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	protected void getExpressionXML(StringBuilder sb) {
-		if (isIndependent() && getDefaultGeoType() < 0) {
-			sb.append("<expression");
-			sb.append(" label=\"");
+		if (isIndependent() && getDefaultGeoType() < 0 && isDefined()) {
+			sb.append("<expression label=\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
-			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
+			StringUtil.encodeXML(sb, getXmlString());
 			// expression
 			sb.append("\"/>\n");
 		}
+	}
+
+	private String getXmlString() {
+		return getDefinition() == null ? toValueString(StringTemplate.xmlTemplate)
+				: getDefinition().toValueString(StringTemplate.xmlTemplate);
 	}
 
 	@Override
@@ -1970,9 +1975,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public void throughPoints(GeoList points) {
-		ArrayList<GeoPoint> p = new ArrayList<>();
+		ArrayList<GeoPointND> p = new ArrayList<>();
 		for (int i = 0; i < points.size(); i++) {
-			p.add((GeoPoint) points.get(i));
+			p.add((GeoPointND) points.get(i));
 		}
 		throughPoints(p);
 	}
@@ -1983,7 +1988,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @param points
 	 *            ArrayList of points
 	 */
-	public void throughPoints(ArrayList<GeoPoint> points) {
+	public void throughPoints(ArrayList<GeoPointND> points) {
 		if ((int) Math.sqrt(9 + 8 * points.size()) != Math
 				.sqrt(9 + 8 * points.size())) {
 			setUndefined();
@@ -2005,8 +2010,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		double[] results;
 
 		for (int i = 0; i < points.size(); i++) {
-			double x = points.get(i).x / points.get(i).z;
-			double y = points.get(i).y / points.get(i).z;
+			double x = points.get(i).getInhomX();
+			double y = points.get(i).getInhomY();
 
 			for (int j = 0, m = 0; j < degree + 1; j++) {
 				for (int k = 0; j + k != degree + 1; k++) {
@@ -2032,8 +2037,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				matrixRow = new double[noPoints + 1];
 
 				for (int i = 0; i < noPoints; i++) {
-					double x = points.get(i).x;
-					double y = points.get(i).y;
+					double x = points.get(i).getX2D();
+					double y = points.get(i).getY2D();
 
 					for (int j = 0, m = 0; j < realDegree + 1; j++) {
 						for (int k = 0; j + k != realDegree + 1; k++) {
@@ -2208,15 +2213,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 *            coeefficients
 	 * @param kernel
 	 *            kernel
-	 * @param tpl
+	 * @param tpl0
 	 *            string template
 	 * @return string representation of polynomial with given coefficients
 	 */
 	protected static String toRawValueString(double[][] coeff, Kernel kernel,
-			StringTemplate tpl) {
+			StringTemplate tpl0) {
 		if (coeff == null) {
 			return "";
 		}
+		StringTemplate tpl = tpl0.deriveWithQuestionmark(true);
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
 		for (int i = coeff.length - 1; i >= 0; i--) {

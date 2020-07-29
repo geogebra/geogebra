@@ -15,9 +15,9 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBufferedImage;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
@@ -41,9 +41,13 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoImage extends GeoElement implements Locateable,
 		AbsoluteScreenLocateable, PointRotateable, Mirrorable, Translateable,
-		Dilateable, MatrixTransformable, Transformable {
+		Dilateable, MatrixTransformable, Transformable, RectangleTransformable {
 	/** Index of the center in corners array */
 	public static final int CENTER_INDEX = 3;
+	/**
+	 * the image should have at least 50px width
+	 */
+	public final static int IMG_SIZE_THRESHOLD = 50;
 	// private String imageFileName = ""; // image file
 	private GeoPoint[] corners; // corners of the image
 	// private BufferedImage image;
@@ -71,9 +75,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	private ArrayList<GeoPointND> al = null;
 	private boolean centered = false;
 
-	private double scaleX = 1;
-	private double scaleY = 1;
-	
 	private GRectangle2D cropBox;
 	private boolean cropped = false;
 
@@ -118,31 +119,16 @@ public class GeoImage extends GeoElement implements Locateable,
 		setLabel(label);
 	}
 
-	/**
-	 * Copy constructor
-	 * 
-	 * @param img
-	 *            source image
-	 */
-	public GeoImage(GeoImage img) {
-		this(img.cons);
-		set(img);
-	}
-
 	@Override
-	public GeoElement copy() {
-		return new GeoImage(this);
+	public GeoImage copy() {
+		GeoImage copy = new GeoImage(cons);
+		copy.set(this);
+		return copy;
 	}
 
 	@Override
 	public int getRelatedModeID() {
-
 		return EuclidianConstants.MODE_IMAGE;
-		/*
-		 * switch (this.image.getType()){ case 5: return
-		 * EuclidianConstants.MODE_IMAGE; case 6: return
-		 * EuclidianConstants.MODE_PEN; default: return -1; }
-		 */
 	}
 
 	private void initTempPoints() {
@@ -252,34 +238,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * @return img width in screen coord
-	 */
-	public double getImageScreenWidth() {
-		for (int i = 0; i < 3; i++) {
-			if (getCorner(i) == null || !getCorner(i).isDefined()) {
-				GeoPoint tmp = new GeoPoint(cons);
-				calculateCornerPoint(tmp, i == 2 ? 4 : i + 1);
-				setCorner(tmp, i);
-			}
-		}
-		return getCorner(1).getInhomX() - getCorner(0).getInhomX();
-	}
-
-	/**
-	 * @return img height in screen coord
-	 */
-	public double getImageScreenHeight() {
-		for (int i = 0; i < 3; i++) {
-			if (getCorner(i) == null || !getCorner(i).isDefined()) {
-				GeoPoint tmp = new GeoPoint(cons);
-				calculateCornerPoint(tmp, i == 2 ? 4 : i + 1);
-				setCorner(tmp, i);
-			}
-		}
-		return getCorner(2).getInhomY() - getCorner(0).getInhomY();
-	}
-
-	/**
 	 * Tries to load the image using the given fileName.
 	 * 
 	 * @param fileName
@@ -315,10 +273,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void setImageFileName(String fileName) {
 		setImageFileName(fileName, 0, 0);
 	}
-
-	// final public BufferedImage getFillImage() {
-	// return image;
-	// }
 
 	@Override
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
@@ -391,8 +345,8 @@ public class GeoImage extends GeoElement implements Locateable,
 			}
 		} else {
 			// check if this point is already available
-			for (int i = 0; i < corners.length; i++) {
-				if (p == corners[i]) {
+			for (GeoPoint corner : corners) {
+				if (p == corner) {
 					return;
 				}
 			}
@@ -595,8 +549,6 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		// name of image file
 		sb.append("\t<file name=\"");
-		// Michael Borcherds 2007-12-10 this line restored (not needed now MD5
-		// code put in the correct place)
 		sb.append(StringUtil
 				.encodeXML(this.getGraphicsAdapter().getImageFileName()));
 		sb.append("\"/>\n");
@@ -784,65 +736,6 @@ public class GeoImage extends GeoElement implements Locateable,
 			return 0;
 		}
 		return corners[i].inhomY;
-	}
-
-	/**
-	 * Updates the scale accordingly of the current corner points, and updates
-	 * the absolute screen location.
-	 */
-	public void updateScaleAndLocation() {
-		int width = getFillImage().getWidth();
-		int height = getFillImage().getHeight();
-		double curScaleX;
-		double curScaleY;
-		if (getCorner(1) != null) {
-			curScaleX = (getKernel().getApplication().getActiveEuclidianView()
-					.toScreenCoordXd(getCorner(1).inhomX)
-					- getKernel().getApplication().getActiveEuclidianView()
-							.toScreenCoordXd(getCorner(0).inhomX))
-					/ width;
-		} else {
-			curScaleX = 1;
-		}
-		if (getCorner(2) != null) {
-			curScaleY = (getKernel().getApplication().getActiveEuclidianView()
-					.toScreenCoordYd(getCorner(0).inhomY)
-					- getKernel().getApplication().getActiveEuclidianView()
-							.toScreenCoordYd(getCorner(2).inhomY))
-					/ height;
-		} else {
-			curScaleY = scaleX;
-		}
-		setScaleX(curScaleX);
-		setScaleY(curScaleY);
-		setAbsoluteScreenLoc(
-				getKernel().getApplication().getActiveEuclidianView()
-						.toScreenCoordX(getCorner(0).inhomX),
-				getKernel().getApplication().getActiveEuclidianView()
-						.toScreenCoordY(getCorner(0).inhomY));
-	}
-
-	/**
-	 * Updates the real world coordinates accordingly of the current real world
-	 * coordinates.
-	 */
-	public void screenToReal() {
-		EuclidianView ev = this.getKernel().getApplication().getActiveEuclidianView();
-		double realMinX = ev.toRealWorldCoordX(getAbsoluteScreenLocX());
-		double realMaxX = ev.toRealWorldCoordX(getAbsoluteScreenLocX()
-						+ getFillImage().getWidth() * getScaleX());
-		double realMinY = ev.toRealWorldCoordY(getAbsoluteScreenLocY());
-		double height = getFillImage().getHeight() * getScaleY();
-		double realMaxY = ev
-				.toRealWorldCoordY(getAbsoluteScreenLocY() - height);
-		setRealWorldCoord(realMinX, realMinY, 0);
-		setRealWorldCoord(realMaxX, realMinY, 1);
-		// C point created or updated - the next bug fixed with
-		// this:
-		// insert an image, scale with right side corner point,
-		// pin, scale the view, unpin => image was sheared
-		setRealWorldCoord(realMinX, realMaxY, 2);
-		setRealWorldCoord(realMaxX, realMaxY, 3);
 	}
 
 	@Override
@@ -1145,7 +1038,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
-	// Michael Borcherds 2008-04-30
 	@Override
 	final public boolean isEqual(GeoElementND geo) {
 		// return false if it's a different type
@@ -1169,10 +1061,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		String md5B = imageFileName2.substring(0,
 				kernel.getApplication().getMD5folderLength(imageFileName));
 		// MD5 checksums equal, so images almost certainly identical
-		if (md5A.equals(md5B)) {
-			return true;
-		}
-		return false;
+		return md5A.equals(md5B);
 	}
 
 	@Override
@@ -1187,8 +1076,8 @@ public class GeoImage extends GeoElement implements Locateable,
 			return false;
 		}
 
-		for (int i = 0; i < corners.length; i++) {
-			if (corners[i] != null && !corners[i].isMoveable(view)) {
+		for (GeoPoint corner : corners) {
+			if (corner != null && !corner.isMoveable(view)) {
 				return false;
 			}
 		}
@@ -1211,9 +1100,9 @@ public class GeoImage extends GeoElement implements Locateable,
 			al.clear();
 		}
 
-		for (int i = 0; i < corners.length; i++) {
-			if (corners[i] != null) {
-				al.add(corners[i]);
+		for (GeoPoint corner : corners) {
+			if (corner != null) {
+				al.add(corner);
 			}
 		}
 
@@ -1263,10 +1152,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public boolean isPinnable() {
-		if (kernel.getApplication().isWhiteboardActive()) {
-			return false;
-		}
-		return true;
+		return !kernel.getApplication().isWhiteboardActive();
 	}
 
 	@Override
@@ -1366,44 +1252,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * Sets the scale of original width.
-	 * 
-	 * @param s
-	 *            new scale
-	 */
-	private void setScaleX(double s) {
-		scaleX = s;
-	}
-
-	/**
-	 * Gets the scale of original width.
-	 * 
-	 * @return x scale
-	 */
-	public double getScaleX() {
-		return scaleX;
-	}
-
-	/**
-	 * Sets the scale of original height.
-	 * 
-	 * @param s
-	 *            new scale
-	 */
-	private void setScaleY(double s) {
-		scaleY = s;
-	}
-
-	/**
-	 * Gets the scale of original height.
-	 * 
-	 * @return z scale
-	 */
-	public double getScaleY() {
-		return scaleY;
-	}
-
-	/**
 	 * sets relative position of crop box
 	 * 
 	 * @param rect
@@ -1444,5 +1292,135 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	public void setCropped(boolean cropped) {
 		this.cropped = cropped;
+	}
+
+	@Override
+	public double getMinWidth() {
+		return IMG_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public double getMinHeight() {
+		return IMG_SIZE_THRESHOLD;
+	}
+
+	@Override
+	public double getHeight() {
+		if (cropBox == null) {
+			return getHeightUncropped();
+		}
+		return getHeightUncropped() * cropBox.getHeight() / pixelHeight;
+	}
+
+	private double getHeightUncropped() {
+		if (getStartPoints()[2] != null && getStartPoint() != null) {
+			return getStartPoint().distance(getStartPoints()[2]) * kernel.getApplication()
+					.getActiveEuclidianView().getXscale();
+		}
+		return (pixelHeight * getWidthUncropped()) / pixelWidth;
+	}
+
+	@Override
+	public double getWidth() {
+		if (cropBox == null) {
+			return getWidthUncropped();
+		}
+		return getWidthUncropped() * cropBox.getWidth() / pixelWidth;
+	}
+
+	private double getWidthUncropped() {
+		if (getStartPoints()[1] != null && getStartPoint() != null) {
+			return getStartPoint().distance(getStartPoints()[1])
+					* kernel.getApplication().getActiveEuclidianView().getXscale();
+		}
+		return pixelWidth;
+	}
+
+	@Override
+	public double getAngle() {
+		double[] c1 = new double[2];
+		getInternalCornerPointCoords(c1, 0);
+		double[] c2 = new double[2];
+		getInternalCornerPointCoords(c2, 1);
+		return Math.atan2(c1[1] - c2[1], c2[0] - c1[0]);
+	}
+
+	@Override
+	public GPoint2D getLocation() {
+		double[] c = new double[2];
+		getInternalCornerPointCoords(c, 2);
+		double x = c[0];
+		double y = c[1];
+		if (cropBox != null) {
+			x = x + (getRealWorldX(1) - getRealWorldX(0)) * cropBox.getX() / pixelWidth
+					+ (getRealWorldX(0) - c[0]) * cropBox.getY() / pixelHeight;
+			y = y + (getRealWorldY(1) - getRealWorldY(0)) * cropBox.getX() / pixelWidth
+					+ (getRealWorldY(0) - c[1]) * cropBox.getY() / pixelHeight;
+		}
+		return new GPoint2D(x, y);
+	}
+
+	@Override
+	public void setSize(double width, double height) {
+		ensureCorner();
+		double rwWidth = width / app.getActiveEuclidianView().getScale(0);
+		double rwHeight = height / app.getActiveEuclidianView().getScale(1);
+		ensureCropBox();
+		if (cropBox != null) {
+			rwWidth /= cropBox.getWidth() / pixelWidth;
+			rwHeight /= cropBox.getHeight() / pixelHeight;
+		}
+		double angle = -getAngle();
+
+		getStartPoint().setCoords(getStartPoints()[2].x + rwHeight * Math.sin(angle),
+				 getStartPoints()[2].y - rwHeight * Math.cos(angle), 1);
+		getStartPoints()[1].setCoords(getStartPoints()[0].x + rwWidth * Math.cos(angle),
+				getStartPoints()[0].y + rwWidth * Math.sin(angle), 1);
+	}
+
+	private void ensureCorner() {
+		if (getStartPoints()[2] == null) {
+			GeoPoint c3 = new GeoPoint(cons);
+			calculateCornerPoint(c3, 4);
+			setCorner(c3, 2);
+		}
+	}
+
+	@Override
+	public void setAngle(double angle) {
+		// not needed ?
+	}
+
+	@Override
+	public void setLocation(GPoint2D location) {
+		ensureCorner();
+		double top = getStartPoints()[2].y;
+		double left = getStartPoints()[2].x;
+		if (cropBox != null) {
+			double angle = getAngle();
+			double cropTop = cropBox.getY() / pixelHeight * getHeightUncropped()
+					/ app.getActiveEuclidianView().getScale(0);
+			double cropLeft = cropBox.getX() / pixelWidth * getWidthUncropped()
+					/ app.getActiveEuclidianView().getScale(0);
+			left += cropLeft * Math.cos(angle) - cropTop * Math.sin(angle);
+			top += -cropLeft * Math.sin(angle) - cropTop * Math.cos(angle);
+		}
+
+		Coords shift = new Coords(location.x - left,	location.y - top);
+		if (getStartPoints()[1] != null && getStartPoints()[2] != null) {
+			getStartPoint().translate(shift);
+			getStartPoints()[1].translate(shift);
+			getStartPoints()[2].translate(shift);
+		}
+	}
+
+	/**
+	 * Make sure crop box is initialized
+	 */
+	public void ensureCropBox() {
+		if (cropBox == null) {
+			cropBox = AwtFactory.getPrototype().newRectangle2D();
+			cropBox.setFrame(0, 0, pixelWidth, pixelHeight);
+		}
 	}
 }

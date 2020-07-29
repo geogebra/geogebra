@@ -15,6 +15,6 @@ public class ClearInputAction extends DefaultMenuAction<GeoElement> {
 
 	@Override
 	public void execute(GeoElement item, AppWFull app) {
-		inputItem.setText("");
+		inputItem.onClear();
 	}
 }

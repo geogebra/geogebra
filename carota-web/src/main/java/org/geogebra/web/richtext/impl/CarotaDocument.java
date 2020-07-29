@@ -15,6 +15,8 @@ public class CarotaDocument {
 
 	public native void select(int start, int end, boolean takeFocus);
 
+	public native void insert(String text);
+
 	public native CarotaNode byCoordinate(int x, int y);
 
 	public native CarotaRange selectedRange();
@@ -30,7 +32,9 @@ public class CarotaDocument {
 
 	public native String urlByCoordinate(int x, int y);
 
-	public native CarotaRange hyperlinkRange(int start, int end);
+	public native CarotaRange hyperlinkRange();
+
+	public native void setHyperlinkUrl(String url);
 
 	public native void switchListTo(CarotaRange range, String listType);
 
@@ -40,6 +44,6 @@ public class CarotaDocument {
 
 	public native JavaScriptObject save();
 
-	public native void load(JavaScriptObject content, boolean focus);
+	public native void load(Object content, boolean focus);
 
 }

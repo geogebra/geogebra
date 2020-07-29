@@ -34,21 +34,26 @@ public class EditorTypingTest {
 	@Test
 	public void testEditorUnicode() {
 		checker.checkEditorInsert(TestStringUtil.unicode("x/sqrt(x^2+4)"),
-				TestStringUtil.unicode("x/sqrt(x^2+4)"));
+				"(x)/(sqrt(x^(2)+4))");
 		checker.checkEditorInsert("x/(" + Unicode.EULER_STRING + "^x+1)",
-				"x/(" + Unicode.EULER_STRING + "^x+1)");
+				"(x)/(" + Unicode.EULER_STRING + "^(x)+1)");
 
 		checker.checkEditorInsert("3*x", "3*x");
 	}
 
 	@Test
 	public void testEditor() {
-		checker.checkEditorInsert("sqrt(x/2)", "sqrt(x/2)");
+		checker.checkEditorInsert("sqrt(x/2)", "sqrt((x)/(2))");
 
 		checker.checkEditorInsert("1+2+3-4", "1+2+3-4");
 		checker.checkEditorInsert("12345", "12345");
-		checker.checkEditorInsert("1/2/3/4", "1/2/3/4");
+		checker.checkEditorInsert("1/2/3/4", "(((1)/(2))/(3))/(4)");
 		checker.checkEditorInsert("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
+	}
+
+	@Test
+	public void insertNrootShouldMaintainArgumentsOrder() {
+		checker.checkEditorInsert("nroot(x,3)", "nroot(x,3)");
 	}
 
 	@Test
@@ -102,6 +107,18 @@ public class EditorTypingTest {
 	public void testTrig6() {
 		checker.type("sin^-1").typeKey(JavaKeyCodes.VK_RIGHT).type("(x)")
 				.checkGGBMath("sin" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+	}
+
+	@Test
+	public void testFloor() {
+		checker.insert("2 floor(x)")
+				.checkRaw("MathSequence[2,  , FnFLOOR[MathSequence[x]]]");
+	}
+
+	@Test
+	public void testCeil() {
+		checker.insert("2 ceil(x)")
+				.checkRaw("MathSequence[2,  , FnCEIL[MathSequence[x]]]");
 	}
 
 	@Test
@@ -297,7 +314,7 @@ public class EditorTypingTest {
 	}
 
 	@Test
-	public void testBackspaceWithBrakets() {
+	public void testBackspaceWithBrackets() {
 		checker.type("8/").typeKey(JavaKeyCodes.VK_BACK_SPACE).type("/2")
 				.checkAsciiMath("(8)/(2)");
 	}
@@ -324,5 +341,21 @@ public class EditorTypingTest {
 	public void shouldRecognizeSqrtAsSuffixWithConst() {
 		// for constant no multiplication space added => we have to check the raw string
 		checker.type("8sqrt(x").checkRaw("MathSequence[8, FnSQRT[MathSequence[x]]]");
+	}
+
+	@Test
+	public void testTypingPiWithComplex() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("3pi + 4i").checkAsciiMath("3" + Unicode.PI_STRING + " + 4i");
+	}
+
+	@Test
+	public void testTypingPiiWithComplex() {
+		MetaModel model = new MetaModel();
+		model.enableSubstitutions();
+		EditorChecker inputBoxChecker = new EditorChecker(AppCommonFactory.create(), model);
+		inputBoxChecker.type("3pii").checkAsciiMath("3" + Unicode.PI_STRING + "i");
 	}
 }

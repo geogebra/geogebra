@@ -85,7 +85,7 @@ public class MenuToggleButton extends MyToggleButton
 		removeFromParent();
 		RootPanel root = RootPanel.get("headerID");
 		Element dummy = Dom.querySelectorForElement(root.getElement(),
-				"menuBtn");
+				".menuBtn");
 		Event.sinkEvents(root.getElement(), Event.KEYEVENTS);
 		Event.setEventListener(root.getElement(),
 				appW.getGlobalKeyDispatcher().getGlobalShortcutHandler());

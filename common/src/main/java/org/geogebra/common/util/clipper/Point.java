@@ -2,6 +2,8 @@ package org.geogebra.common.util.clipper;
 
 import java.util.Comparator;
 
+import org.geogebra.common.util.DoubleUtil;
+
 public abstract class Point<T extends Number & Comparable<T>> {
 	private final static NumberComparator NUMBER_COMPARATOR = new NumberComparator();
 
@@ -170,6 +172,11 @@ public abstract class Point<T extends Number & Comparable<T>> {
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
+		}
+		if (obj instanceof DoublePoint) {
+			final DoublePoint a = (DoublePoint) obj;
+			return DoubleUtil.isEqual((Double)x, a.getX())
+					&& DoubleUtil.isEqual((Double)y, a.getY());
 		}
 		if (obj instanceof Point<?>) {
 			final Point<?> a = (Point<?>) obj;
