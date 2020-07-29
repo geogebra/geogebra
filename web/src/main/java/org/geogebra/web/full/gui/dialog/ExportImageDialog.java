@@ -43,7 +43,7 @@ public class ExportImageDialog extends ComponentDialog {
 		} else {
 			setPreviewImage(getExportDataURL(app));
 		}
-		buildContent(app);
+		buildContent();
 
 		setOnPositiveAction(() -> {
 			Browser.exportImage(base64Url,
@@ -83,7 +83,7 @@ public class ExportImageDialog extends ComponentDialog {
 						false, greyscale);
 	}
 
-	private void buildContent(AppW appW) {
+	private void buildContent() {
 		contentPanel = new FlowPanel();
 		contentPanel.addStyleName("expImgContent");
 		if (!Clipboard.isCopyImageToClipboardAvailable()) {
