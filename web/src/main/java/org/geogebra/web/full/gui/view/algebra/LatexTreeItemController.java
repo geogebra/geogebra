@@ -11,6 +11,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputfield.MathFieldInputSuggestions;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -50,25 +51,23 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onBlur(BlurEvent event) {
-		item.resetInputBarOnBlur();
-		if (preventBlur || noEvaluationOnBlur()) {
-			return;
-		}
+		Scheduler.get().scheduleDeferred(() -> {
+			item.resetInputBarOnBlur();
+			if (preventBlur || sug.isSuggesting()) {
+				return;
+			}
 
-		onEnter(false, false);
-		if (item.isEmpty() && item.isInputTreeItem()) {
-			item.addDummyLabel();
-			item.setItemWidth(item.getAV().getFullWidth());
-		}
+			onEnter(false, false);
+			if (item.isEmpty() && item.isInputTreeItem()) {
+				item.addDummyLabel();
+				item.setItemWidth(item.getAV().getFullWidth());
+			}
 
-		if (item.getAV().isNodeTableEmpty()) {
-			// #5245#comment:8, cases B and C excluded
-			item.updateGUIfocus(true);
-		}
-	}
-
-	private boolean noEvaluationOnBlur() {
-		return item.isInputTreeItem();
+			if (item.getAV().isNodeTableEmpty()) {
+				// #5245#comment:8, cases B and C excluded
+				item.updateGUIfocus(true);
+			}
+		});
 	}
 
 	@Override
