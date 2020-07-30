@@ -66,8 +66,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
@@ -522,8 +520,20 @@ public class EuclidianStyleBarW extends StyleBarW2
 	}
 
 	private void addCropButton() {
-		btnCrop = new MyToggleButtonW(new NoDragImage(
-				MaterialDesignResources.INSTANCE.crop_black(), 24));
+		if (btnCrop == null) {
+			btnCrop = new MyToggleButtonW(new NoDragImage(
+					MaterialDesignResources.INSTANCE.crop_black(), 24)) {
+				@Override
+				public void update(List<GeoElement> geos) {
+					setEnabled(true);
+					for (GeoElement geo : geos) {
+						if (geo.isLocked()) {
+							setEnabled(false);
+						}
+					}
+				}
+			};
+		}
 		btnCrop.addStyleName("btnCrop");
 		btnCrop.setDown(ev.getBoundingBox() != null
 				&& ev.getBoundingBox().isCropBox());
@@ -561,13 +571,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 		StandardButton btnDelete = new StandardButton(
 				MaterialDesignResources.INSTANCE.delete_black(), null, 24, app);
 		btnDelete.setStyleName("MyCanvasButton");
-		FastClickHandler btnDelHandler = new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
-				app.deleteSelectedObjects(false);
-			}
+		FastClickHandler btnDelHandler = source -> {
+			app.getActiveEuclidianView().getEuclidianController().splitSelectedStrokes(true);
+			app.deleteSelectedObjects(false);
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);
 		add(btnDelete);
@@ -662,7 +668,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected MyToggleButtonW[] newToggleBtnList() {
 		return new MyToggleButtonW[] { getAxesOrGridToggleButton(), btnBold,
 				btnItalic, btnUnderline, btnFixPosition, btnFixObject, btnDeleteSizes[0],
-				btnDeleteSizes[1], btnDeleteSizes[2] };
+				btnDeleteSizes[1], btnDeleteSizes[2], btnCrop };
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
@@ -906,12 +912,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		ImageOrText icon = new ImageOrText(
 				StyleBarResources.INSTANCE.standard_view());
 		btnStandardView.setIcon(icon);
-		btnStandardView.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				setEvStandardView();
-			}
-		});
+		btnStandardView.addClickHandler(event -> setEvStandardView());
 	}
 
 	private void createCloseViewBtn() {
@@ -920,12 +921,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 				GuiResources.INSTANCE.dockbar_close());
 		btnCloseView.setIcon(icon);
 		btnCloseView.addStyleName("StylebarCloseViewButton");
-		btnCloseView.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				closeView();
-			}
-		});
+		btnCloseView.addClickHandler(event -> closeView());
 	}
 
 	private void closeView() {
