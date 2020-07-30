@@ -1400,7 +1400,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 
-		quadric.getProjections(null, hitting.origin, hitting.direction, p1,
+		quadric.getProjections(hitting.origin, hitting.direction, p1,
 				parameters1, p2, parameters2);
 
 		double z1 = Double.NEGATIVE_INFINITY, z2 = Double.NEGATIVE_INFINITY;

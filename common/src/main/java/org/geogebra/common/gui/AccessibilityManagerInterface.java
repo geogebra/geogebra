@@ -11,16 +11,18 @@ public interface AccessibilityManagerInterface {
 
 	/**
 	 * Focus next screen element
+	 * @return if there was a next element to focus
 	 */
-	void focusNext();
+	boolean focusNext();
 
 	/**
 	 * Focus previous screen element
+	 * @return if there was a previous element to focus
 	 */
-	void focusPrevious();
+	boolean focusPrevious();
 
 	/** Focus first interactive element (widget or drawable) */
-	public void focusFirstElement();
+	void focusFirstElement();
 
 	/**
 	 * Focus algebra input
@@ -30,7 +32,7 @@ public interface AccessibilityManagerInterface {
 	 * 
 	 * @return algebra input focused
 	 */
-	public boolean focusInput(boolean force);
+	boolean focusInput(boolean force);
 
 	/**
 	 * Focus the geo specified.
@@ -38,7 +40,7 @@ public interface AccessibilityManagerInterface {
 	 * @param geo
 	 *            to focus.
 	 */
-	public void focusGeo(GeoElement geo);
+	void focusGeo(GeoElement geo);
 
 	/**
 	 * Use this method to set an anchor you like to give the focus back to. For
@@ -48,24 +50,24 @@ public interface AccessibilityManagerInterface {
 	 * @param anchor
 	 *            to give back the focus.
 	 */
-	public void setAnchor(MayHaveFocus anchor);
+	void setAnchor(MayHaveFocus anchor);
 
 	/**
 	 * Get the anchor.
 	 * 
 	 * @return anchor to give back the focus.
 	 */
-	public MayHaveFocus getAnchor();
+	MayHaveFocus getAnchor();
 
 	/**
 	 * Give back the focus to the anchor if set.
 	 */
-	public void focusAnchor();
+	void focusAnchor();
 
 	/**
 	 * Clears the anchor.
 	 */
-	public void cancelAnchor();
+	void cancelAnchor();
 
 	/**
 	 * Give back the focus to the anchor if set otherwise give the focus to

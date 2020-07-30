@@ -3,11 +3,10 @@ package org.geogebra.web.full.gui.laf;
 import org.geogebra.common.GeoGebraConstants.Platform;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.SignInController;
 import org.geogebra.web.shared.ggtapi.BASEURL;
-
-import com.google.gwt.storage.client.Storage;
 
 /**
  * For offline browser
@@ -41,11 +40,8 @@ public class BundleLookAndFeel extends GLookAndFeel {
 	}-*/;
 
 	@Override
-	public void storeLanguage(String s, AppW app) {
-		Storage storage = Storage.getLocalStorageIfSupported();
-		if (storage != null) {
-			storage.setItem("GeoGebraLangUI", s);
-		}
+	public void storeLanguage(String s) {
+		BrowserStorage.LOCAL.setItem("GeoGebraLangUI", s);
 	}
 
 	@Override

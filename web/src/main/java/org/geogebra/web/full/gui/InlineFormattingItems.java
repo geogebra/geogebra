@@ -19,6 +19,7 @@ import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Command;
@@ -79,7 +80,7 @@ public class InlineFormattingItems {
 	 * Add all text items that's available for the geo including
 	 * its group if any.
 	 */
-	void addItems() {
+	void addFormatItems() {
 		if (inlines.isEmpty()) {
 			return;
 		}
@@ -88,8 +89,10 @@ public class InlineFormattingItems {
 		addFontSubmenu();
 		addHyperlinkItems();
 		menu.addSeparator();
+	}
 
-		if (editModeTable(inlines.get(0))) {
+	void addTableItemsIfNeeded() {
+		if (!inlines.isEmpty() && editModeTable(inlines.get(0))) {
 			addTableItems();
 		}
 	}
@@ -159,7 +162,8 @@ public class InlineFormattingItems {
 	}
 
 	private void openHyperlinkDialog() {
-		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app, inlines.get(0));
+		DialogData data = new DialogData(null, "Cancel", "OK");
+		HyperlinkDialog hyperlinkDialog = new HyperlinkDialog((AppW) app, data, inlines.get(0));
 		hyperlinkDialog.center();
 	}
 

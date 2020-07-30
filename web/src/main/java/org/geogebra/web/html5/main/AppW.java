@@ -112,6 +112,7 @@ import org.geogebra.web.html5.gui.laf.MebisSettings;
 import org.geogebra.web.html5.gui.laf.SignInControllerI;
 import org.geogebra.web.html5.gui.laf.VendorSettings;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LightBox;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -151,7 +152,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -212,7 +212,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	private ReaderTimer readerTimer;
 	private boolean toolLoadedFromStorage;
-	private Storage storage;
+	private BrowserStorage storage;
 	private boolean keyboardNeeded;
 	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
@@ -716,12 +716,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 *            whether to reload just a slide
 	 */
 	public void loadGgbFile(final GgbFile archiveContent, final boolean asSlide) {
-		Runnable r = new Runnable() {
-			@Override
-			public void run() {
-				loadFileWithoutErrorHandling(archiveContent, asSlide);
-			}
-		};
+		Runnable r = () -> loadFileWithoutErrorHandling(archiveContent, asSlide);
 
 		getAsyncManager().scheduleCallback(r);
 	}
@@ -1173,7 +1168,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	protected void createStorage() {
 		if (storage == null) {
-			storage = Storage.getSessionStorageIfSupported();
+			storage = BrowserStorage.SESSION;
 		}
 	}
 
@@ -3446,33 +3441,21 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 	@Override
 	public void copyGraphicsViewToClipboard() {
-		if (!isCopyImageToClipboardAvailable()) {
-			Log.debug("window.copyGraphicsToClipboardExternal() not available");
-			return;
-		}
-
 		EuclidianViewW ev = (EuclidianViewW) getActiveEuclidianView();
-		nativeCopyToClipboardExternal(ev.getExportImageDataUrl(3, false, false));
+		copyImageToClipboard(ev.getExportImageDataUrl(3, false, false));
 	}
-
-	private native String nativeCopyToClipboardExternal(String s) /*-{
-		return $wnd.copyGraphicsToClipboardExternal(s);
-	}-*/;
-
-	/**
-	 * @return whether native clipboard API is available
-	 */
-	public native boolean isCopyImageToClipboardAvailable() /*-{
-		return !!$wnd.copyGraphicsToClipboardExternal;
-	}-*/;
 
 	@Override
 	public void copyImageToClipboard(String dataURI) {
-		if (!isCopyImageToClipboardAvailable()) {
-			Log.debug("window.copyGraphicsToClipboardExternal() not available");
+		if (!Clipboard.isCopyImageToClipboardAvailable()) {
+			Log.debug("window.copyGraphicsToClipboard() not available");
 			return;
 		}
-		nativeCopyToClipboardExternal(dataURI);
+		try {
+			Clipboard.copyGraphicsToClipboard(dataURI);
+		} catch (Exception e) {
+			Log.warn("Clipboard API is new and maybe half-implemented in your browser.");
+		}
 	}
 
 	/**

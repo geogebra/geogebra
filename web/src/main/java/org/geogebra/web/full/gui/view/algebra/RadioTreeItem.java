@@ -212,6 +212,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
+	 * context menu -> delete action
+	 */
+	public void onClear() {
+		setText("");
+		addDummyLabel();
+	}
+
+	/**
 	 * Creates a new RadioTreeItem for displaying/editing an existing GeoElement
 	 *
 	 * @param geo0
@@ -1177,6 +1185,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public void ensureEditing() {
+		setFocusedStyle(true);
 		if (!controller.isEditing()) {
 			enterEditMode(geo == null || isMoveablePoint(geo));
 
@@ -1683,6 +1692,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getArticleElement().getScaleX());
 		mf.setOnBlur(getLatexController());
+		mf.setOnFocus(focusEvent -> {
+			setFocusedStyle(true);
+		});
 	}
 
 	private void updateEditorAriaLabel(String text) {
@@ -1712,6 +1724,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (isInputTreeItem()) {
 				MinMaxPanel.closeMinMaxPanel();
 				getAV().restoreWidth(true);
+				setFocusedStyle(true);
 			}
 		} else {
 			if (isInputTreeItem()) {
@@ -1761,15 +1774,15 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	@Override
-	public void setText(String text0) {
-		if (!"".equals(text0)) {
+	public void setText(String text) {
+		if (!"".equals(text)) {
 			removeDummy();
 		}
 		if (mf != null) {
-			mf.setText(text0, this.isTextItem());
+			mf.setText(text, this.isTextItem());
 		}
 		inputControl.ensureInputMoreMenu();
-		updateEditorAriaLabel(text0);
+		updateEditorAriaLabel(text);
 		updatePreview();
 	}
 
@@ -2072,13 +2085,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * Start listening to blur events
-	 */
-	protected void listenToBlur() {
-		mf.setOnBlur(getLatexController());
-	}
-
-	/**
 	 * Switches editor to text mode
 	 *
 	 * @param value
@@ -2164,5 +2170,30 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public int getEditHeight() {
 		int outputHeight = outputPanel == null ? 0 : outputPanel.getOffsetHeight();
 		return getOffsetHeight() - outputHeight;
+	}
+
+	/**
+	 * set the focused style for inputbar
+	 * @param focused - true if editing started
+	 */
+	public void setFocusedStyle(boolean focused) {
+		if (isInputTreeItem()) {
+			if (focused) {
+				getWidget().getElement().getParentElement().addClassName("focused");
+			} else {
+				getWidget().getElement().getParentElement().removeClassName("focused");
+			}
+		}
+	}
+
+	/**
+	 * if empty input bar remove cursor, put help text,
+	 * and disable focus
+	 */
+	public void resetInputBarOnBlur() {
+		if (isEmpty() && isInputTreeItem()) {
+			addDummyLabel();
+		}
+		setFocusedStyle(false);
 	}
 }

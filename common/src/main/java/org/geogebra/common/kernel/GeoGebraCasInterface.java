@@ -185,4 +185,8 @@ public interface GeoGebraCasInterface {
 	public ValidExpression parseOutput(String inValue, GeoSymbolicI geoCasCell,
 			Kernel kernel);
 
+	/**
+	 * If a cas exists, clear the results, otherwise do not initialize it
+	 */
+	void clearResult();
 }

@@ -6264,6 +6264,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for intervals
 	 */
+	@Override
 	public boolean isGeoInterval() {
 		return false;
 	}

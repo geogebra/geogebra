@@ -1,8 +1,10 @@
 package org.geogebra.web.full.main;
 
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
+import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
 import org.geogebra.web.html5.main.TestArticleElement;
 import org.geogebra.web.test.AppMocker;
+import org.geogebra.web.test.ViewWMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,8 +87,7 @@ public class NotesUndoTest {
 		shouldHaveUndoPoints(1);
 
 		app.getAppletFrame().initPageControlPanel(app);
-		app.getAppletFrame().getPageControlPanel().duplicatePage(
-				((PageListController) app.getPageController()).getCard(0));
+		duplicate(0);
 		shouldHaveSlides(2);
 		objectsPerSlideShouldBe(1, 1);
 
@@ -117,6 +118,13 @@ public class NotesUndoTest {
 		objectsPerSlideShouldBe(2, 2);
 	}
 
+	private void duplicate(int page) {
+		app.getPageController().refreshSlide(page);
+		PagePreviewCard card = ((PageListController) app.getPageController()).getCard(page);
+		String content = ViewWMock.toJson(card.getFile());
+		app.getAppletFrame().getPageControlPanel().pastePage(card, content);
+	}
+
 	/**
 	 * Make duplicate of a duplicate, add objects to all slides, undo & redo
 	 */
@@ -128,12 +136,10 @@ public class NotesUndoTest {
 		shouldHaveUndoPoints(1);
 
 		app.getAppletFrame().initPageControlPanel(app);
-		app.getAppletFrame().getPageControlPanel().duplicatePage(
-				((PageListController) app.getPageController()).getCard(0));
+		duplicate(0);
 		objectsPerSlideShouldBe(1, 1);
 
-		app.getAppletFrame().getPageControlPanel().duplicatePage(
-				((PageListController) app.getPageController()).getCard(1));
+		duplicate(1);
 		objectsPerSlideShouldBe(1, 1, 1);
 
 		selectPage(0);

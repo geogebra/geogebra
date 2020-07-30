@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -47,7 +46,6 @@ import org.geogebra.web.shared.SharedResources;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -84,9 +82,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/** Kernel */
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
-	// protected AlgebraInputW inputPanel;
 	/** Input item */
-	RadioTreeItem inputPanelLatex;
+	private RadioTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
 	private boolean editItem = false;
 	private GeoElement draggedGeo;
@@ -100,19 +97,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/** whether it's attached to kernel */
 	protected boolean attached = false;
 
-	private AnimationCallback repaintCallback = new AnimationCallback() {
-		@Override
-		public void execute(double ts) {
-			doRepaint();
-		}
-	};
+	private AnimationCallback repaintCallback = ts -> doRepaint();
 
-	private AnimationCallback repaintSlidersCallback = new AnimationCallback() {
-		@Override
-		public void execute(double ts) {
-			doRepaintSliders();
-		}
-	};
+	private AnimationCallback repaintSlidersCallback = ts -> doRepaintSliders();
 
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
@@ -153,7 +140,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private StringBuilder sbXML;
 
 	private RadioTreeItem activeItem;
-	// private AlgebraHelperBar helperBar;
 
 	private AlgebraController algebraController;
 	private AVSelectionController selectionCtrl;
@@ -189,13 +175,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		app.getSelectionManager()
-				.addSelectionListener(new GeoElementSelectionListener() {
-					@Override
-					public void geoElementSelected(GeoElement geo,
-							boolean addToSelection) {
-						updateSelection();
-					}
-				});
+				.addSelectionListener((geo, addToSelection) -> updateSelection());
 		app.getGgbApi().setEditor(new AlgebraMathEditorAPI(this));
 	}
 
@@ -1216,12 +1196,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
 			if (wasEmpty) {
-				// if adding new elements the first time,
-				// let's show the X signs in the input bar!
 				if (this.inputPanelLatex != null) {
 					this.inputPanelLatex.updateGUIfocus(false);
 				}
-
 			}
 
 			// ensure that the leaf with the new object is visible
@@ -1230,15 +1207,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if (inputPanelLatex != null && scroll) {
 			inputPanelLatex.updateUIforInput();
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				@Override
-				public void execute() {
-
-					inputPanelLatex.updateButtonPanelPosition();
-					getAlgebraDockPanel().scrollAVToBottom();
-
-				}
+			Scheduler.get().scheduleDeferred(() -> {
+				inputPanelLatex.updateButtonPanelPosition();
+				getAlgebraDockPanel().scrollAVToBottom();
 			});
 		}
 		updateSelection();
@@ -1984,7 +1955,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	@Override
 	public boolean hasFocus() {
-		Log.debug("unimplemented");
+		// unimplemented
 		return false;
 	}
 

@@ -138,6 +138,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private AlgoDependentFunction dependentFunction;
 	private int tableViewColumn = -1;
 	private boolean pointsVisible = true;
+	private boolean forceInequality;
 
 	/**
 	 * Creates new function
@@ -399,6 +400,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					algoMacro.initFunction(this.fun);
 				}
 			}
+			setForceInequality(((GeoFunction) geo).forceInequality);
 			isInequality = null;
 		} else {
 			setUndefined();
@@ -867,7 +869,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @param fn
 	 *            function; to determine what kind of LHS we want
 	 */
-	public final static void initStringBuilder(StringBuilder stringBuilder,
+	private void initStringBuilder(StringBuilder stringBuilder,
 			StringTemplate tpl, String label,
 			FunctionalNVar fn) {
 		stringBuilder.append(label);
@@ -879,9 +881,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				&& !tpl.hasType(StringType.GEOGEBRA_XML)) {
 			stringBuilder.append(": ");
 		} else {
-			String var = fn.getVarString(tpl);
-			tpl.appendWithBrackets(stringBuilder, var);
-			stringBuilder.append(tpl.getEqualsWithSpace());
+			if (forceInequality()) {
+				stringBuilder.append(": ");
+			} else {
+				String var = fn.getVarString(tpl);
+				tpl.appendWithBrackets(stringBuilder, var);
+				stringBuilder.append(tpl.getEqualsWithSpace());
+			}
 		}
 	}
 
@@ -935,7 +941,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * save object in xml format
 	 */
 	@Override
-	public final void getXML(boolean getListenersToo, StringBuilder sbxml) {
+	public void getXML(boolean getListenersToo, StringBuilder sbxml) {
 		// an independent function needs to add
 		// its expression itself
 		// e.g. f(x) = x^2 - 3x
@@ -945,8 +951,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			sbxml.append(label);
 			sbxml.append("\" exp=\"");
 			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
-			// expression
-			sbxml.append("\" type=\"function\"/>\n");
+			appendFunctionType(sbxml);
 		}
 
 		sbxml.append("<element");
@@ -965,6 +970,26 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			getListenerTagsXML(sbxml);
 		}
 		sbxml.append("</element>\n");
+	}
+
+	/**
+	 * If single-inequality use inequality type,
+	 * function otherwise
+	 * @param sbxml xml string builder
+	 */
+	public void appendFunctionType(StringBuilder sbxml) {
+		sbxml.append("\" type=\"");
+		sbxml.append(getFunctionType());
+		sbxml.append("\"/>\n");
+	}
+
+	/**
+	 * function type
+	 * @return type of function (inequality or function)
+	 */
+	public String getFunctionType() {
+		return forceInequality() ? "inequality"
+				: "function";
 	}
 
 	/**
@@ -2105,7 +2130,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public char getLabelDelimiter() {
-		return isBooleanFunction() || shortLHS != null ? ':' : '=';
+		return isBooleanFunction() || shortLHS != null
+				|| forceInequality ? ':' : '=';
 	}
 
 	/**
@@ -3004,5 +3030,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	protected boolean canBeFunctionOrEquationFromUser() {
 		return true;
+	}
+
+	public boolean forceInequality() {
+		return forceInequality;
+	}
+
+	public void setForceInequality(boolean forceInequality) {
+		this.forceInequality = forceInequality;
 	}
 }

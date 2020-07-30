@@ -436,7 +436,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append(b);
 			codeFilledObject.append("] plot");
 			codeFilledObject.append("(\\x,{");
-			value = replaceX(value, "\\x");
+			value = replaceX(value, "(\\x)");
 			codeFilledObject.append(value);
 			codeFilledObject.append("})");
 		}
@@ -478,7 +478,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append(a);
 			codeFilledObject.append("] -- plot");
 			codeFilledObject.append("(\\x,{");
-			value = replaceX(value, "\\x");
+			value = replaceX(value, "(\\x)");
 			codeFilledObject.append(value);
 			codeFilledObject.append("})");
 		}
@@ -561,7 +561,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codeFilledObject.append(b);
 				codeFilledObject.append("] plot");
 				codeFilledObject.append("(\\x,{");
-				value = replaceX(value, "\\x");
+				value = replaceX(value, "(\\x)");
 				codeFilledObject.append(value);
 				codeFilledObject.append("})");
 			}

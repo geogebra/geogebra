@@ -15,6 +15,8 @@ public class CarotaDocument {
 
 	public native void select(int start, int end, boolean takeFocus);
 
+	public native void insert(String text);
+
 	public native CarotaNode byCoordinate(int x, int y);
 
 	public native CarotaRange selectedRange();

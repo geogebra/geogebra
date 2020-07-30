@@ -191,8 +191,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	private boolean shouldBeEuclidianVisible(Command input) {
 		String inputName = input.getName();
-		return !Commands.Solve.name().equals(inputName) && !Commands.IntegralSymbolic.name()
-				.equals(inputName);
+		return !Commands.Solve.name().equals(inputName)
+				&& !Commands.NSolve.name().equals(inputName)
+				&& !Commands.IntegralSymbolic.name().equals(inputName);
 	}
 
 	private ExpressionValue parseOutputString(String output) {
@@ -728,4 +729,5 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	public void setArbitraryConstant(MyArbitraryConstant constant) {
 		this.constant = constant;
 	}
+
 }

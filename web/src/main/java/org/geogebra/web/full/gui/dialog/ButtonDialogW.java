@@ -9,19 +9,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -31,14 +24,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Dialog for creating buttons and inputboxes
  *
  */
-public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboardPopup {
-
+public class ButtonDialogW extends ComponentDialog
+		implements HasKeyboardPopup {
 	private AutoCompleteTextFieldW tfCaption;
-	private FlowPanel btPanel;
 	private ButtonDialogModel model;
-	private Button btOK;
-	private Button btCancel;
-	private FlowPanel optionPane;
 	private ScriptArea tfScript;
 	private Localization loc;
 	
@@ -49,40 +38,31 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 	 *            position
 	 * @param y
 	 *            position
+	 * @param data
+	 * 			  dialog transkeys
 	 * @param inputBox
 	 *            whether this is for inputbox
 	 */
-	public ButtonDialogW(final AppW app, int x, int y, boolean inputBox) {
-		super(false, true, null, app.getPanel(), app);
+	public ButtonDialogW(final AppW app, int x, int y,
+			DialogData data, boolean inputBox) {
+		super(app, data, false, true);
 
 		this.loc = app.getLocalization();
 		model = new ButtonDialogModel(app, x, y, inputBox);
-		addStyleName("GeoGebraPopup");
-		createGUI();	
-		this.setGlassEnabled(true);
-		this.setVisible(true);
-		center();
+		addStyleName(inputBox ? "inputboxDialog" : "buttonDialog");
+		buildContent();
+		setOnPositiveAction(() -> model.apply(tfCaption.getText(), tfScript.getText()));
 		if (!app.isWhiteboardActive()) {
 			app.registerPopup(this);
 		}
 
-		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				app.unregisterPopup(ButtonDialogW.this);
-				app.hideKeyboard();
-			}
+		this.addCloseHandler(event -> {
+			app.unregisterPopup(this);
+			app.hideKeyboard();
 		});
 	}
 
-	private void createGUI() {
-		if (model.isTextField()) {
-			this.getCaption().setText(loc.getMenu("TextFieldAction"));
-		}
-		else {
-			this.getCaption().setText(loc.getMenu("ButtonAction"));
-		}
-		
+	private void buildContent() {
 		// create caption panel
 		Label captionLabel = new Label(
 				app.isUnbundledOrWhiteboard() ? loc.getMenu("Button.Caption")
@@ -120,13 +100,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 			}	
 
 			if (cbAdd.getItemCount() > 1) {
-				cbAdd.addChangeHandler(new ChangeHandler() {
-
-					@Override
-					public void onChange(ChangeEvent event) {
-						updateModel(cbAdd);
-					}
-				});
+				cbAdd.addChangeHandler(event -> updateModel(cbAdd));
 			}
 		}
 
@@ -153,36 +127,19 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		}
 		linkedPanel.add(linkedLabel);
 		linkedPanel.add(cbAdd);
-		
-		// buttons
-		btOK = new Button(loc.getMenu("OK"));
-		btOK.getElement().setAttribute("action", "OK");
-		btOK.addClickHandler(this);
-		btCancel = new Button(loc.getMenu("Cancel"));
-		btCancel.getElement().setAttribute("action", "Cancel");
-		btCancel.addClickHandler(this);
-		btCancel.addStyleName("cancelBtn");
-		btPanel = new FlowPanel();
-		btPanel.add(btOK);
-		btPanel.add(btCancel);
-		btPanel.addStyleName("DialogButtonPanel");
 			
-		optionPane = new FlowPanel();
+		FlowPanel contentPanel = new FlowPanel();
 		
 		// create object list
-		optionPane.add(captionPanel);
+		contentPanel.add(captionPanel);
 
 		if (model.isTextField()) {
-			optionPane.add(linkedPanel);
+			contentPanel.add(linkedPanel);
 		}
 		else {
-			optionPane.add(scriptPanel);
+			contentPanel.add(scriptPanel);
 		}
-		
-		optionPane.add(btPanel);	
-		//Make this dialog display it.	
-		setWidget(optionPane);
-		this.addStyleName("buttonDialog");
+		addDialogContent(contentPanel);
 	}
 
 	/**
@@ -215,19 +172,4 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		}
 		return null;
 	}
-
-	@Override
-	public void onClick(ClickEvent event) {
-		Object source = event.getSource();				
-		if (source == btOK) {
-			model.apply(tfCaption.getText(), tfScript.getText());
-			hide();
-			app.getActiveEuclidianView().requestFocusInWindow();
-		} 
-		else if (source == btCancel) {
-			hide();
-			app.getActiveEuclidianView().requestFocusInWindow();
-		} 
-	}
-
 }

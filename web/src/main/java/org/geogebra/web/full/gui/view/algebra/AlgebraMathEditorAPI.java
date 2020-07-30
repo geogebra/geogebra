@@ -39,6 +39,7 @@ public class AlgebraMathEditorAPI implements MathEditorAPI {
 				CursorBox.setBlink(true);
 				algebraItem.getMathField()
 						.setCaretPath(editorJsonHandler.getCaretPath());
+				algebraItem.getMathField().keepFocus();
 				algebraItem.getMathField().repaintWeb();
 			}
 		}

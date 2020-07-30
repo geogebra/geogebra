@@ -123,6 +123,10 @@ public class EditorTypingTest {
 
 	@Test
 	public void testKorean() {
+		checker.checkEditorInsert("\u3141", "\u3141");
+		checker.checkEditorInsert("\u3141\u3157", "\uBAA8");
+		checker.checkEditorInsert("\u3141\u3157\u3131", "\uBAA9");
+		checker.checkEditorInsert("\u3141\u3157\u3131\u3145", "\uBAAB");
 
 		checker.checkEditorInsert("\u3147\u314F\u3139\u314D\u314F", "\uC54C\uD30C");
 		checker.checkEditorInsert("\u314A\u315C\u3139\u3131\u314F", "\uCD9C\uAC00");
