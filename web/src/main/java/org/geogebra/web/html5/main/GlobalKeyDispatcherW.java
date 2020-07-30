@@ -105,8 +105,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				KeyCodes kc = KeyCodes.translateGWTcode(event.getKeyCode());
 				if (kc == KeyCodes.TAB) {
 					if (!escPressed) {
-						handleTab(event.getShiftKey());
-						handled = true;
+						handled = handleTab(event.getShiftKey());
 					}
 				} else if (kc == KeyCodes.ESCAPE) {
 					escPressed = true;
@@ -220,16 +219,17 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	/**
 	 * @param isShiftDown whether Shift+Tab was pressed
+	 * @return whether the tab was handled internally
 	 */
-	public void handleTab(boolean isShiftDown) {
+	public boolean handleTab(boolean isShiftDown) {
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
 
 		app.getActiveEuclidianView().closeDropdowns();
 
 		if (isShiftDown) {
-			am.focusPrevious();
+			return am.focusPrevious();
 		} else {
-			am.focusNext();
+			return am.focusNext();
 		}
 	}
 

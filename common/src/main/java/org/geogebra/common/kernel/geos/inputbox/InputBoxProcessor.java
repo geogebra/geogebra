@@ -8,7 +8,9 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRule;
 import org.geogebra.common.kernel.commands.redefinition.RedefinitionRules;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoInterval;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -65,11 +67,17 @@ public class InputBoxProcessor {
 			} else {
 				updateTempInput(inputText, tempUserDisplayInput);
 			}
+
 			linkedGeo.setUndefined();
 			makeGeoIndependent();
 			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
 		}
+	}
+
+	private void updateTempInput(String inputText, String tempUserDisplayInput) {
+		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
+		inputBox.setTempUserEvalInput(inputText);
 	}
 
 	/**
@@ -86,11 +94,6 @@ public class InputBoxProcessor {
 		} catch (Throwable e) {
 			Log.warn(e.getMessage());
 		}
-	}
-
-	private void updateTempInput(String inputText, String tempUserDisplayInput) {
-		inputBox.setTempUserDisplayInput(tempUserDisplayInput);
-		inputBox.setTempUserEvalInput(inputText);
 	}
 
 	private String getAndClearTempUserDisplayInput(String inputText) {
@@ -143,10 +146,17 @@ public class InputBoxProcessor {
 		}
 
 		if (linkedGeo instanceof FunctionalNVar) {
-			// string like f(x,y)=x^2
-			// or f(\theta) = \theta
-			defineText = linkedGeo.getLabel(tpl) + "("
-					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
+			if (linkedGeo instanceof GeoInterval
+				|| (linkedGeo instanceof GeoFunction
+					&& ((GeoFunction) linkedGeo).forceInequality())) {
+				defineText = linkedGeo.getLabel(tpl) + ":"
+						+ defineText;
+			} else {
+				// string like f(x,y)=x^2
+				// or f(\theta) = \theta
+				defineText = linkedGeo.getLabel(tpl) + "("
+						+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
+			}
 		}
 
 		if (GeoPoint.isComplexNumber(linkedGeo)) {
@@ -162,6 +172,10 @@ public class InputBoxProcessor {
 				GeoClass.POINT3D, GeoClass.POINT);
 		RedefinitionRule vector = RedefinitionRules.oneWayRule(
 				GeoClass.VECTOR3D, GeoClass.VECTOR);
-		return RedefinitionRules.anyRule(same, point, vector);
+		RedefinitionRule inequality = RedefinitionRules.oneWayRule(
+				GeoClass.INTERVAL, GeoClass.FUNCTION);
+		RedefinitionRule inequality2 = RedefinitionRules.oneWayRule(
+				GeoClass.FUNCTION, GeoClass.INTERVAL);
+		return RedefinitionRules.anyRule(same, point, vector, inequality, inequality2);
 	}
 }

@@ -57,7 +57,6 @@ public class MathFieldInputSuggestions extends InputSuggestions
 	protected GSuggestBox.SuggestionCallback sugCallback = new GSuggestBox.SuggestionCallback() {
 		@Override
 		public void onSuggestionSelected(Suggestion s) {
-
 			String sugg = s.getReplacementString();
 			autocompleteAndHide(sugg);
 		}

@@ -108,4 +108,14 @@ public class InlineTextControllerMock implements InlineTextController {
 	public String urlByCoordinate(int x, int y) {
 		return null;
 	}
+
+	@Override
+	public boolean copySelection() {
+		return false;
+	}
+
+	@Override
+	public void setSelectionText(String text) {
+
+	}
 }

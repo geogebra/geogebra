@@ -353,6 +353,11 @@ $duration: 0.2s;
 		&.algebraPanelScientific {
 			.avItem .gwt-TreeItem, .NewRadioButtonTreeItemParent {
 				border-width: 0;
+
+				&.focused {
+					border-top: none;
+					border-bottom: none;
+				}
 			}
 			.AlgebraViewObjectStylebar.smallStylebar {
 				padding: 12px 8px 0 0;

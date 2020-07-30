@@ -15,7 +15,6 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
@@ -24,18 +23,13 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * GUI Element showing a Material as search Result
@@ -102,13 +96,7 @@ public class MaterialListElement extends FlowPanel
 		if (!isLocal) {
 			// this.material.setSyncStamp(-1);
 		}
-		this.editMaterial = new AsyncOperation<Boolean>() {
-
-			@Override
-			public void callback(Boolean activeMaterial) {
-				onEdit();
-			}
-		};
+		this.editMaterial = activeMaterial -> onEdit();
 		initMaterialInfos();
 
 		this.materialElementContent = new FlowPanel();
@@ -194,13 +182,7 @@ public class MaterialListElement extends FlowPanel
 		this.renameButton = new StandardButton(
 				BrowseResources.INSTANCE.document_rename(), "", 20, app);
 		this.infoPanel.add(this.renameButton);
-		this.renameButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				onRename();
-			}
-		});
+		this.renameButton.addFastClickHandler(source -> onRename());
 	}
 
 	void onRename() {
@@ -215,8 +197,7 @@ public class MaterialListElement extends FlowPanel
 	@Override
 	public void rename(String text) {
 		if (text.length() < 1
-				|| text.equals(this.title.getText())) { // no
-																					// changes
+				|| text.equals(this.title.getText())) { // no changes
 			this.title.setVisible(true);
 			this.renameTitleBox.setVisible(false);
 			return;
@@ -234,21 +215,11 @@ public class MaterialListElement extends FlowPanel
 		this.renameTitleBox.addStyleName("renameBox");
 		this.infoPanel.add(this.renameTitleBox);
 		this.renameTitleBox.setVisible(false);
-		this.renameTitleBox.addBlurHandler(new BlurHandler() {
+		this.renameTitleBox.addBlurHandler(event -> rename(renameTitleBox.getText()));
 
-			@Override
-			public void onBlur(BlurEvent event) {
-				rename(renameTitleBox.getText());
-			}
-		});
-
-		this.renameTitleBox.addKeyDownHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					renameTitleBox.setFocus(false);
-				}
+		this.renameTitleBox.addKeyDownHandler(event -> {
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				renameTitleBox.setFocus(false);
 			}
 		});
 	}
@@ -262,22 +233,18 @@ public class MaterialListElement extends FlowPanel
 	private void addPreviewPicture() {
 		SimplePanel previewPicturePanel = new SimplePanel();
 		previewPicturePanel.addStyleName("fileImage");
-		previewPicturePanel.addDomHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(final ClickEvent event) {
-				if (state == State.Selected) {
-					openDefault();
-				} else if (state == State.Disabled) {
-					return;
+		previewPicturePanel.addDomHandler(event -> {
+			if (state == State.Selected) {
+				openDefault();
+			} else if (state == State.Disabled) {
+				return;
+			} else {
+				if (app.getConfig().isSimpleMaterialPicker()) {
+					onEdit();
 				} else {
-					if (app.getConfig().isSimpleMaterialPicker()) {
-						onEdit();
-					} else {
-						markSelected();
-					}
-					event.stopPropagation();
+					markSelected();
 				}
+				event.stopPropagation();
 			}
 		}, ClickEvent.getType());
 
@@ -329,13 +296,7 @@ public class MaterialListElement extends FlowPanel
 		this.deleteButton = new StandardButton(
 				BrowseResources.INSTANCE.document_delete(), app);
 		this.infoPanel.add(this.deleteButton);
-		this.deleteButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				onDelete();
-			}
-		});
+		this.deleteButton.addFastClickHandler(source -> onDelete());
 		initConfirmDeletePanel();
 	}
 
@@ -346,13 +307,7 @@ public class MaterialListElement extends FlowPanel
 				app);
 		this.favoriteButton.addStyleName("ggbFavorite");
 		this.background.add(this.favoriteButton);
-		this.favoriteButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				onFavorite();
-			}
-		});
+		this.favoriteButton.addFastClickHandler(source -> onFavorite());
 	}
 
 	void onFavorite() {
@@ -392,24 +347,12 @@ public class MaterialListElement extends FlowPanel
 		this.confirm = new StandardButton(this.loc.getMenu("Delete"), app);
 		this.confirm.addStyleName("gwt-Button");
 		this.confirm.addStyleName("deleteButton");
-		this.confirm.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				onConfirmDelete();
-			}
-		});
+		this.confirm.addFastClickHandler(source -> onConfirmDelete());
 		this.cancel = new StandardButton(this.loc.getMenu("Cancel"), app);
 		this.cancel.addStyleName("cancelButton");
 		this.cancel.addStyleName("gwt-Button");
 		this.cancel.addStyleName("minor");
-		this.cancel.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				onCancel();
-			}
-		});
+		this.cancel.addFastClickHandler(source -> onCancel());
 
 		this.confirmDeletePanel = new FlowPanel();
 		this.confirmDeletePanel.add(this.cancel);
@@ -444,13 +387,8 @@ public class MaterialListElement extends FlowPanel
 		this.editButton = new StandardButton(
 				BrowseResources.INSTANCE.document_edit(), "", 20, app);
 		this.infoPanel.add(this.editButton);
-		this.editButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				guiManager.getBrowseView().closeAndSave(editMaterial);
-			}
-		});
+		this.editButton.addFastClickHandler(
+				source -> guiManager.getBrowseView().closeAndSave(editMaterial));
 	}
 
 	/**
@@ -489,9 +427,6 @@ public class MaterialListElement extends FlowPanel
 											ArrayList<Chapter> meta) {
 										if (response.size() != 1 || StringUtil
 												.empty(getMaterial().getBase64())) {
-											// guiManager.getBrowseView().clearMaterials();
-											// guiManager.getBrowseView().onSearchResults(
-											// response, null);
 											Browser.openWindow(
 													getMaterial().getEditUrl());
 										} else {
@@ -529,13 +464,7 @@ public class MaterialListElement extends FlowPanel
 				BrowseResources.INSTANCE.document_view(), "", 20, app);
 		this.viewButton.addStyleName("viewButton");
 		this.infoPanel.add(this.viewButton);
-		this.viewButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				onView();
-			}
-		});
+		this.viewButton.addFastClickHandler(source -> onView());
 	}
 
 	/**
@@ -595,7 +524,6 @@ public class MaterialListElement extends FlowPanel
 		if (this.renameButton != null) {
 			this.renameButton.setText(loc.getMenu("Rename"));
 		}
-
 	}
 
 	private void updateFavoriteText() {
@@ -613,10 +541,6 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	protected void showDetails(final boolean show) {
-		/*
-		 * if (this.favoriteButton != null) {
-		 * this.favoriteButton.setVisible(show); }
-		 */
 		if (ownMaterial && !isLocal()) {
 			this.sharedBy.setVisible(true);
 			if (viewButton != null) {

@@ -12,6 +12,7 @@ import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.DOM;
@@ -130,7 +131,6 @@ public class BrowserDevice implements GDevice {
 
 	@Override
 	public UploadImageDialog getImageInputDialog(AppW app) {
-
 		return new ImageInputDialog(app);
 	}
 
@@ -140,7 +140,8 @@ public class BrowserDevice implements GDevice {
 	 * @return WebcamInputDialog webcam input dialog
 	 */
 	public WebcamInputDialog getWebcamInputDialog(AppW app) {
-		return new WebcamInputDialog(app);
+		DialogData data = new DialogData("Camera", "Close", "takepicture");
+		return new WebcamInputDialog(app, data);
 	}
 
 	/**

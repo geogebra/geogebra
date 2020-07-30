@@ -1,53 +1,37 @@
 package org.geogebra.web.full.gui.openfileview;
 
-import org.geogebra.common.main.App;
-import org.geogebra.web.full.gui.dialog.OptionDialog;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 
 /**
  * Confirmation dialog for removing cards.
  */
-public class RemoveDialog extends OptionDialog {
-
+public class RemoveDialog extends ComponentDialog {
 	private MaterialCard card;
-	private Label confirmDelete;
 
 	/**
-	 * @param root
-	 *            root panel to position this
 	 * @param app
 	 *            application
+	 * @param data
+	 * 			  dialog transkeys
 	 * @param card
 	 *            card
 	 */
-	public RemoveDialog(Panel root, App app,
-			MaterialCard card) {
-		super(root, app);
-		FlowPanel main = new FlowPanel();
-		confirmDelete = new Label();
-		confirmDelete.setStyleName("message");
-		main.add(confirmDelete);
-		main.add(getButtonPanel());
-		add(main);
-		setPrimaryButtonEnabled(true);
+	public RemoveDialog(AppW app, DialogData data, MaterialCard card) {
+		super(app, data, false, true);
 		this.card = card;
-		setLabels();
+		addStyleName("removeMaterial");
 		addStyleName("mebis");
+		buildContent();
 	}
 
-	private void setLabels() {
-		this.updateButtonLabels("Delete");
-		confirmDelete.setText(app.getLocalization().getPlain("ConfirmDeleteA",
+	private void buildContent() {
+		Label confirmDelete = new Label(app.getLocalization().getPlain("ConfirmDeleteA",
 				card.getMaterialTitle()));
+		confirmDelete.setStyleName("message");
+		addDialogContent(confirmDelete);
 	}
-
-	@Override
-	protected void processInput() {
-		card.onConfirmDelete();
-		hide();
-	}
-
 }

@@ -15,6 +15,7 @@ import java.util.Arrays;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.test.UndoRedoTester;
@@ -140,6 +141,16 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 		undoRedoTester.undo();
 		GeoLocusStroke stroke = undoRedoTester.getAfterRedo("stroke");
 		assertThat(stroke, is(notNullValue()));
+	}
+
+	@Test
+	public void locusBasedOnStrokeShouldHaveEnoughPoints() {
+		addAvInput("stroke = Polyline((1, 3), (4, 3), (2,5), true)");
+		add("A=Point(stroke)");
+		add("B=A-(1,1)");
+		add("loc=Locus(B,A)");
+		GeoElement perimeter = add("Perimeter(loc)");
+		assertThat(perimeter.toValueString(StringTemplate.defaultTemplate), is("8.22"));
 	}
 
 	private GeoLocusStroke getInitialStroke() {

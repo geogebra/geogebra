@@ -120,27 +120,21 @@ public class ZoomController {
 
 	/** Home button handler. */
 	public void onHomePressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.closeMenuHideKeyboard();
 		view.setStandardView(true);
 		app.getAccessibilityManager().focusFirstElement();
 	}
 
 	/** Zoom In button handler. */
 	public void onZoomInPressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.closeMenuHideKeyboard();
 		view.getEuclidianController().zoomInOut(false,
 				false);
 	}
 
 	/** Zoom Out button handler. */
 	public void onZoomOutPressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.closeMenuHideKeyboard();
 		view.getEuclidianController().zoomInOut(false,
 				true);
 	}
@@ -283,9 +277,7 @@ public class ZoomController {
 	 */
 	protected void onFullscreenPressed(final Element elem,
 			final StandardButton fullscreenBtn, String eventType) {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.closeMenuHideKeyboard();
 		final Element container;
 		emulated = useEmulatedFullscreen(app, eventType);
 		if (app.getArticleElement().getDataParamFitToScreen()) {

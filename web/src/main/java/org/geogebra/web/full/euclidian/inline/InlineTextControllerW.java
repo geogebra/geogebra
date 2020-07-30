@@ -15,6 +15,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 
@@ -214,6 +215,17 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public String urlByCoordinate(int x, int y) {
 		return editor.urlByCoordinate(x, y);
+	}
+
+	@Override
+	public boolean copySelection() {
+		String text = editor.getSelectionRangeText();
+		return CopyPasteW.writeToExternalClipboardIfNonempty(text);
+	}
+
+	@Override
+	public void setSelectionText(String text) {
+		editor.setSelection(text);
 	}
 
 	@Override

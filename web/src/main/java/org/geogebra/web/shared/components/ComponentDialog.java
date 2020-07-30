@@ -1,9 +1,9 @@
 package org.geogebra.web.shared.components;
 
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -14,20 +14,20 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Base dialog material design component
  */
 public class ComponentDialog extends GPopupPanel implements Persistable, ResizeHandler {
-
 	private Label title;
 	private FlowPanel dialogContent;
 	private Runnable positiveAction;
 	private Runnable negativeAction;
+	private StandardButton posButton;
+	private StandardButton negButton;
 
 	/**
-	 * based dialog constructor
+	 * base dialog constructor
 	 * @param app - see {@link AppW}
 	 * @param dialogData - contains trans keys for title and buttons
 	 * @param autoHide - if the dialog should be closed on click outside
@@ -87,17 +87,11 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 			return;
 		}
 
-		StandardButton negButton = new StandardButton(negTransKey, getApplication());
+		negButton = new StandardButton(app.getLocalization()
+				.getMenu(negTransKey), getApplication());
 		negButton.setStyleName("dialogTextButton");
 
-		FastClickHandler negBtnClickHandler = new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				onNegativeAction();
-			}
-		};
-
-		negButton.addFastClickHandler(negBtnClickHandler);
+		negButton.addFastClickHandler(source -> onNegativeAction());
 		dialogButtonPanel.add(negButton);
 	}
 
@@ -106,18 +100,24 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 			return;
 		}
 
-		StandardButton posButton = new StandardButton(posTransKey, getApplication());
+		posButton = new StandardButton(app.getLocalization()
+				.getMenu(posTransKey), getApplication());
 		posButton.setStyleName("dialogContainedButton");
 
-		FastClickHandler posBtnClickHandler = new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				onPositiveAction();
-			}
-		};
-
-		posButton.addFastClickHandler(posBtnClickHandler);
+		posButton.addFastClickHandler(source -> onPositiveAction());
 		dialogButtonPanel.add(posButton);
+	}
+
+	public void setPosBtnDisabled(boolean disabled) {
+		setBtnDisabled(posButton, disabled);
+	}
+
+	public void setNedBtnDisabled(boolean disabled) {
+		setBtnDisabled(negButton, disabled);
+	}
+
+	private void setBtnDisabled(StandardButton btn, boolean disabled) {
+		Dom.toggleClass(btn, "disabled", disabled);
 	}
 
 	/**
@@ -132,6 +132,9 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	 * runs the negative action and hides the dialog
 	 */
 	private void onNegativeAction() {
+		if (negButton.getStyleName().contains("disabled")) {
+			return;
+		}
 		if (negativeAction != null) {
 			negativeAction.run();
 		}
@@ -141,7 +144,10 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	/**
 	 * runs the positive action and hides the dialog
 	 */
-	private void onPositiveAction() {
+	public void onPositiveAction() {
+		if (posButton.getStyleName().contains("disabled")) {
+			return;
+		}
 		if (positiveAction != null) {
 			positiveAction.run();
 		}
@@ -186,6 +192,9 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		Event nativeEvent = Event.as(event.getNativeEvent());
 		if (Event.ONKEYPRESS == event.getTypeInt() && isEnter(nativeEvent.getCharCode())) {
 			onPositiveAction();
+		} else if (event.getTypeInt() == Event.ONKEYUP
+				&& event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+			hide();
 		}
 	}
 }

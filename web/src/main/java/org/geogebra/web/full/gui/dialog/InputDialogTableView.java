@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.dialog;
 
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.validator.TableValuesDialogValidator;
 import org.geogebra.common.gui.view.table.InvalidValuesException;
 import org.geogebra.common.gui.view.table.TableValuesView;
@@ -12,21 +11,19 @@ import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.TestHarness;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- * @author csilla
- * 
- *         dialog opened from av context menu of functions and lines by clicking
- *         on Table of values
+ * dialog opened from av context menu of functions and lines by clicking
+ * on Table of values
  *
  */
-public class InputDialogTableView extends OptionDialog
-		implements SetLabels, HasKeyboardPopup {
+public class InputDialogTableView extends ComponentDialog
+		implements HasKeyboardPopup {
 	private static final String VERTICAL_SCROLL_CLASS = "verticalScroll";
 	private static final int MIN_CONTENT_HEIGHT = 56;
 	private ComponentInputField startValue;
@@ -42,20 +39,18 @@ public class InputDialogTableView extends OptionDialog
 	 * 
 	 * @param app
 	 *            see {@link AppW}
+	 * @param data
+	 * 			  dialog transkeys
 	 */
-	public InputDialogTableView(final AppW app) {
-		super(app.getPanel(), app, false);
-		buildGui();
-		setPrimaryButtonEnabled(true);
+	public InputDialogTableView(final AppW app, DialogData data) {
+		super(app, data, false, true);
+		addStyleName("tableOfValuesDialog");
+		buildContent();
 		validator = new TableValuesDialogValidator(app);
-		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				app.unregisterPopup(InputDialogTableView.this);
-				app.hideKeyboard();
-			}
+		this.addCloseHandler(event -> {
+			app.unregisterPopup(this);
+			app.hideKeyboard();
 		});
-		setGlassEnabled(true);
 	}
 
 	/**
@@ -65,8 +60,7 @@ public class InputDialogTableView extends OptionDialog
 		return startValue;
 	}
 
-	private void buildGui() {
-		addStyleName("tableOfValuesDialog");
+	private void buildContent() {
 		FlowPanel contentPanel = new FlowPanel();
 		errorLabel = new Label();
 		errorLabel.setStyleName("globalErrorLabel");
@@ -75,9 +69,7 @@ public class InputDialogTableView extends OptionDialog
 		buildTextFieldPanel(scrollContent);
 		scrollContent.add(errorLabel);
 		contentPanel.add(scrollContent);
-		buildButtonPanel(contentPanel);
-		add(contentPanel);
-		setLabels();
+		addDialogContent(contentPanel);
 	}
 
 	private void buildTextFieldPanel(FlowPanel root) {
@@ -98,19 +90,6 @@ public class InputDialogTableView extends OptionDialog
 		return field;
 	}
 
-	private void buildButtonPanel(FlowPanel root) {
-		root.add(getButtonPanel());
-	}
-
-	@Override
-	public void setLabels() {
-		getCaption().setText(app.getLocalization().getMenu("TableOfValues"));
-		startValue.setLabels();
-		endValue.setLabels();
-		step.setLabels();
-		updateButtonLabels("OK");
-	}
-
 	@Override
 	public void show() {
 		endValue.resetInputField();
@@ -118,7 +97,7 @@ public class InputDialogTableView extends OptionDialog
 		super.show();
 		centerAndResize(
 				((AppW) app).getAppletFrame().getKeyboardHeight());
-		focusDeferred(startValue);
+		startValue.focusDeferred();
 	}
 
 	@Override
@@ -128,9 +107,7 @@ public class InputDialogTableView extends OptionDialog
 		scrollContent.setHeight("auto");
 		super.centerAndResize(height);
 		int contentHeight = getOffsetHeight()
-				- getButtonPanel().getOffsetHeight()
-				- getCaption().asWidget().getOffsetHeight()
-				- GPopupPanel.VERTICAL_PADDING;
+				- 72 - GPopupPanel.VERTICAL_PADDING;
 		boolean scrollOnlyContent = contentHeight > MIN_CONTENT_HEIGHT;
 		if (scrollOnlyContent) {
 			scrollContent.setHeight(contentHeight + "px");
@@ -159,11 +136,11 @@ public class InputDialogTableView extends OptionDialog
 	private void openTableView() {
 		double[] inputFieldValues = validator.getDoubles(startValue, endValue, step);
 		if (startValue.hasError()) {
-			focusDeferred(startValue);
+			startValue.focusDeferred();
 		} else if (endValue.hasError()) {
-			focusDeferred(endValue);
+			endValue.focusDeferred();
 		} else if (step.hasError()) {
-			focusDeferred(step);
+			step.focusDeferred();
 		}
 		if (inputFieldValues != null) {
 			try {
@@ -173,7 +150,6 @@ public class InputDialogTableView extends OptionDialog
 				errorLabel
 						.setText(ex.getLocalizedMessage(app.getLocalization()));
 				errorLabel.getElement().scrollIntoView();
-				focusPrimaryButton();
 			}
 		} else {
 			errorLabel.setText("");
@@ -181,7 +157,7 @@ public class InputDialogTableView extends OptionDialog
 	}
 
 	@Override
-	protected void processInput() {
+	public void onPositiveAction() {
 		openTableView();
 	}
 

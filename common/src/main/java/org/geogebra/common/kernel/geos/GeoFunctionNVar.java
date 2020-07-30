@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -441,10 +442,28 @@ public class GeoFunctionNVar extends GeoElement
 	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		if (isLabelSet()) {
-			GeoFunction.initStringBuilder(sbToString, tpl, label, this);
+			initStringBuilder(sbToString, tpl, label, this);
 		}
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
+	}
+
+	private void initStringBuilder(StringBuilder stringBuilder,
+			StringTemplate tpl, String label,
+			FunctionalNVar fn) {
+		stringBuilder.append(label);
+		if (fn.getShortLHS() != null) {
+			stringBuilder.append(": ");
+			stringBuilder.append(fn.getShortLHS());
+			stringBuilder.append(tpl.getEqualsWithSpace());
+		} else if (fn.isBooleanFunction()
+				&& !tpl.hasType(ExpressionNodeConstants.StringType.GEOGEBRA_XML)) {
+			stringBuilder.append(": ");
+		} else {
+			String var = fn.getVarString(tpl);
+			tpl.appendWithBrackets(stringBuilder, var);
+			stringBuilder.append(tpl.getEqualsWithSpace());
+		}
 	}
 
 	@Override

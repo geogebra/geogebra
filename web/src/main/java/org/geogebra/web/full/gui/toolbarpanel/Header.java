@@ -297,9 +297,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Handler for Undo button.
 	 */
 	protected void onUndoPressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.closeMenuHideKeyboard();
 		app.getGuiManager().undo();
 	}
 
@@ -307,10 +305,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Handler for Redo button.
 	 */
 	protected void onRedoPressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
-
+		app.closeMenuHideKeyboard();
 		app.getAccessibilityManager().setAnchor(focusableMenuButton);
 		app.getGuiManager().redo();
 		app.getAccessibilityManager().cancelAnchor();

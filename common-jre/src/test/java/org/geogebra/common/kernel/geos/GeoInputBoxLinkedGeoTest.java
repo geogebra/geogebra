@@ -147,6 +147,17 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void symbolicShouldShowDefinitionFor3DPoints() {
+		setupInput("P", "(?,?,?)");
+		inputBox.setSymbolicMode(true, false);
+		assertEquals("(?,?,?)", inputBox.getTextForEditor());
+		updateInput("(sqrt(2), 1/3, 0)");
+		assertEquals("(sqrt(2),1/3,0)", inputBox.getTextForEditor());
+		add("SetValue(P,?)");
+		assertEquals("(?,?,?)", inputBox.getTextForEditor());
+	}
+
+	@Test
 	public void shouldAcceptLinesConicsAndFunctionsForImplicitCurve() {
 		setupInput("eq1", "x^3 = y^2");
 		updateInput("x = y"); // line
@@ -343,5 +354,31 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox2 = add("InputBox(eq2)");
 		Assert.assertTrue(inputBox1.canBeSymbolic());
 		Assert.assertTrue(inputBox2.canBeSymbolic());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingConicUndefined() {
+		setupInput("eq1", "xx+yy = 1");
+		inputBox.setSymbolicMode(true, false);
+		updateInput("?");
+		assertEquals("", inputBox.getTextForEditor());
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("", inputBox.getTextForEditor());
+		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingQuadricUndefined() {
+		setupInput("eq1", "x^2 + y^2 + z^2 = 1");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("?");
+		assertEquals("", inputBox.getTextForEditor());
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("", inputBox.getTextForEditor());
+		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
 	}
 }
