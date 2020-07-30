@@ -2708,7 +2708,7 @@ __GGB__keysVar["nl"].menu = {
     "SetClasssesManually": "Bepaal manueel de klassengrenzen",
     "SetToCurrentLocation": "Set naar huidige locatie",
     "Settings": "Instellingen",
-    "Settings.ArRatio": "AR Ratio",
+    "Settings.ArRatio": "AR Verhouding",
     "Settings.ResetDefault": "Standaardinstellingen herstellen",
     "Settings.Save": "Instellingen opslaan",
     "Settings.Unit": "Unit",
