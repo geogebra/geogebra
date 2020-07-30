@@ -9642,9 +9642,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				BoundingBox<? extends GShape> boundingBox = ((Drawable) dr).getBoundingBox();
 				if (boundingBox instanceof MediaBoundingBox) {
 					((MediaBoundingBox) boundingBox).setCropMode(crop);
-					view.setBoundingBox(boundingBox);
-					view.repaintView();
 				}
+				view.setBoundingBox(boundingBox);
+				view.repaintView();
 			}
 		} else { // multi-selection
 			setBoundingBoxFromList(sel);
