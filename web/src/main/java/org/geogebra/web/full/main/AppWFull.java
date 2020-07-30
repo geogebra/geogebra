@@ -135,6 +135,8 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -142,8 +144,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -1085,12 +1085,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void startDialogChain() {
 		autosavedMaterial = getFileManager().getAutosaveJSON();
-		afterLocalizationLoaded(new Runnable() {
-			@Override
-			public void run() {
-				maybeShowRecentChangesDialog();
-			}
-		});
+		afterLocalizationLoaded(() -> maybeShowRecentChangesDialog());
 	}
 
 	private void maybeShowRecentChangesDialog() {
@@ -1101,12 +1096,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String message = localization.getMenu(RECENT_CHANGES_KEY);
 			String readMore = localization.getMenu("tutorial_apps_comparison");
 			String link = "https://www.geogebra.org/m/" + readMore;
-			showRecentChangesDialog(message, link, new Runnable() {
-				@Override
-				public void run() {
-					maybeStartAutosave();
-				}
-			});
+			showRecentChangesDialog(message, link, () -> maybeStartAutosave());
 			setHideRecentChanges(RECENT_CHANGES_KEY);
 		} else {
 			maybeStartAutosave();
@@ -1131,13 +1121,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return;
 		}
 		if (autosavedMaterial != null && !isStartedWithFile() && getExam() == null) {
-			afterLocalizationLoaded(new Runnable() {
-				@Override
-				public void run() {
-					getDialogManager().showRecoverAutoSavedDialog(
-							AppWFull.this, autosavedMaterial);
-					autosavedMaterial = null;
-				}
+			afterLocalizationLoaded(() -> {
+				getDialogManager().showRecoverAutoSavedDialog(
+						this, autosavedMaterial);
+				autosavedMaterial = null;
 			});
 		} else {
 			startAutoSave();
@@ -1146,18 +1133,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void showRecentChangesDialog(String message, String link,
 										 final Runnable closingCallback) {
-		final WhatsNewDialog dialog = new WhatsNewDialog(this, message, link);
-		dialog.addCloseHandler(new CloseHandler<GPopupPanel>() {
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> closeEvent) {
-				closingCallback.run();
-			}
-		});
+		DialogData data = new DialogData("WhatsNew", null, "OK");
+		final WhatsNewDialog dialog = new WhatsNewDialog(this, data, message, link);
+		dialog.addCloseHandler(closeEvent -> closingCallback.run());
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
 				dialog.show();
-				dialog.center();
 			}
 		};
 		timer.schedule(0);
@@ -1895,8 +1877,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void centerAndResizePopups() {
 		for (Widget w : popups) {
 			if (w instanceof HasKeyboardPopup) {
-				if (w instanceof DialogBoxW) {
-					((DialogBoxW) w).centerAndResize(
+				if (w instanceof DialogBoxW
+						|| w instanceof ComponentDialog) {
+					((GPopupPanel) w).centerAndResize(
 							this.getAppletFrame().getKeyboardHeight());
 				}
 			}
@@ -1926,7 +1909,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void setFileVersion(String version, String appName) {
 		super.setFileVersion(version, appName);
-		
+
 		if (!"auto".equals(appName)
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
 			getArticleElement().attr("appName",

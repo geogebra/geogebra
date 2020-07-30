@@ -1020,6 +1020,15 @@ public class Korean {
 					sb.append(c);
 				}
 				break;
+			case '\u11a8':
+				c2 = str.charAt(i + 1);
+				if (c2 == '\u11ba') {
+					sb.append('\u11aa');
+					i++;
+				} else {
+					sb.append(c);
+				}
+				break;
 			default:
 				sb.append(c);
 			}
@@ -1133,6 +1142,8 @@ public class Korean {
 		// case5: a tailed char is doubled
 		// entered as two key presses
 		// eg \u3131 \u314F \u3142 \u3145 needs to give \uAC12
+		// or tail char made from 2 separate chars which can be combined
+		// eg \u3141 \u3157 \u3131 \u3145 needs to give \uBAAB
 
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanTailChar(newChar, true)) {

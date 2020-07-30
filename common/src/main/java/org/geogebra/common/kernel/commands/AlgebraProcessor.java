@@ -104,6 +104,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
@@ -626,8 +627,16 @@ public class AlgebraProcessor {
 				n.setForcePoint();
 			} else if (geo.isGeoVector()) {
 				n.setForceVector();
-			} else if (geo.isGeoFunction()) {
-				n.setForceFunction();
+			} else if (geo.isGeoInterval()) {
+				n.setForceInequality();
+				n.setWasInterval();
+			} else if (geo instanceof GeoFunction) {
+				if (((GeoFunction) geo).forceInequality()
+					&& n.toString(StringTemplate.noLocalDefault).contains("?")) {
+					n.setForceInequality();
+				} else {
+					n.setForceFunction();
+				}
 			}
 		}
 		if (newValue.unwrap() instanceof Equation) {
@@ -639,6 +648,8 @@ public class AlgebraProcessor {
 				((Equation) newValue.unwrap()).setForceConic();
 			} else if (geo instanceof GeoLine && preventTypeChange) {
 				((Equation) newValue.unwrap()).setForceLine();
+			} else if (geo instanceof GeoQuadric3DInterface && preventTypeChange) {
+				((Equation) newValue.unwrap()).setForceQuadric();
 			}
 		}
 	}
@@ -1967,6 +1978,7 @@ public class AlgebraProcessor {
 	private ValidExpression getTraversedCopy(String[] labels, ValidExpression expression) {
 		boolean isForceVector = expression.wrap().isForcedVector();
 		boolean isForcePoint = expression.wrap().isForcedPoint();
+		boolean isForceInequality = expression.wrap().isForceInequality();
 		ValidExpression copy = expression.deepCopy(kernel);
 		copy = copy.traverse(new Traversing.ListVectorReplacer(kernel)).wrap();
 		copy.setLabels(labels);
@@ -1976,6 +1988,9 @@ public class AlgebraProcessor {
 		}
 		if (isForcePoint) {
 			copy.wrap().setForcePoint();
+		}
+		if (isForceInequality) {
+			copy.wrap().setForceInequality();
 		}
 
 		return copy;
@@ -2056,11 +2071,19 @@ public class AlgebraProcessor {
 			if (!info.mayRedefineIndependent()
 					&& ret[0].isIndependent()
 					&& replaceable.isChangeable()
-					&& !(replaceable.isGeoText())) {
+					&& !(replaceable.isGeoText())
+					&& !intervalToIneqOrIneqToInterval(replaceable, ret[0])) {
 				try {
-					replaceable.set(ret[0]);
-					replaceable.updateRepaint();
-					ret[0] = replaceable;
+					if (compatibleFunctions(replaceable, ret[0])) {
+						replaceable.set(ret[0]);
+						replaceable.updateRepaint();
+						ret[0] = replaceable;
+					} else {
+						ret[0] = replaceable;
+						replaceable.setUndefined();
+						replaceable.updateRepaint();
+						throw new MyError(loc, Errors.ReplaceFailed);
+					}
 				} catch (Exception e) {
 					throw new MyError(loc, Errors.IllegalAssignment,
 							replaceable.getLongDescription(), "     =     ",
@@ -2075,8 +2098,9 @@ public class AlgebraProcessor {
 					// type:
 					// simply assign value and don't redefine
 					if (replaceable.isIndependent() && ret[0].isIndependent()
-							&& compatibleTypes(replaceable.getGeoClassType(),
-									ret[0].getGeoClassType())) {
+							&& compatibleTypes(replaceable,
+									ret[0])
+							&& !(replaceable.isGeoInterval())) {
 						// copy equation style
 						ret[0].setVisualStyle(replaceable);
 						replaceable.set(ret[0]);
@@ -2093,8 +2117,8 @@ public class AlgebraProcessor {
 
 					// STANDARD CASE: REDFINED
 					else if (!(info.isPreventingTypeChange())
-							|| compatibleTypes(replaceable.getGeoClassType(),
-							ret[0].getGeoClassType())) {
+							|| compatibleTypes(replaceable,
+							ret[0])) {
 						GeoElement newGeo = ret[0];
 						GeoCasCell cell = replaceable.getCorrespondingCasCell();
 						if (cell != null) {
@@ -2136,22 +2160,63 @@ public class AlgebraProcessor {
 		}
 	}
 
-	private static boolean compatibleTypes(GeoClass type, GeoClass type2) {
-		if (type2.equals(type)) {
+	private static boolean isIntervalAndIneqFunc(GeoElement geo1, GeoElement geo2) {
+		return geo1 instanceof GeoInterval
+				&& geo2 instanceof GeoFunction
+				&& isFunctionIneq(geo2);
+	}
+
+	private static boolean intervalToIneqOrIneqToInterval(GeoElement replaceableGeo,
+			GeoElement returnGeo) {
+		return isIntervalAndIneqFunc(replaceableGeo, returnGeo)
+				|| isIntervalAndIneqFunc(returnGeo, replaceableGeo);
+	}
+
+	private static boolean isFunctionIneq(GeoElement geo) {
+		return geo instanceof GeoFunction
+				&& (((GeoFunction) geo).isInequality()
+				|| ((GeoFunction) geo).forceInequality());
+	}
+
+	private boolean compatibleFunctions(GeoElement replaceableGeo, GeoElement returnGeo) {
+		if (replaceableGeo instanceof GeoInterval
+			|| returnGeo instanceof GeoInterval) {
+			return false;
+		}
+		return (isFunctionIneq(replaceableGeo)
+				&& isFunctionIneq(returnGeo)) // both ineq functions
+				|| (!isFunctionIneq(replaceableGeo)
+				&& !isFunctionIneq(returnGeo)); // none ineq functions
+	}
+
+	private static boolean compatibleTypes(GeoElement type, GeoElement type2) {
+		if (type2.getGeoClassType().equals(type.getGeoClassType())) {
 			return true;
 		}
-		if (type2.equals(GeoClass.NUMERIC) && type.equals(GeoClass.ANGLE)) {
+		if (type2.getGeoClassType().equals(GeoClass.NUMERIC)
+				&& type.getGeoClassType().equals(GeoClass.ANGLE)) {
 			return true;
 		}
-		if (type.equals(GeoClass.NUMERIC) && type2.equals(GeoClass.ANGLE)) {
+		if (type.getGeoClassType().equals(GeoClass.NUMERIC)
+				&& type2.getGeoClassType().equals(GeoClass.ANGLE)) {
 			return true;
 		}
-        if (type2.equals(GeoClass.LIST) && type.equals(GeoClass.VECTOR)) {
+        if (type2.getGeoClassType().equals(GeoClass.LIST)
+				&& type.getGeoClassType().equals(GeoClass.VECTOR)) {
             return true;
         }
-        if (type.equals(GeoClass.LIST) && type2.equals(GeoClass.VECTOR)) {
+        if (type.getGeoClassType().equals(GeoClass.LIST)
+				&& type2.getGeoClassType().equals(GeoClass.VECTOR)) {
             return true;
         }
+		if (type2.getGeoClassType().equals(GeoClass.INTERVAL)
+				&& type.getGeoClassType().equals(GeoClass.FUNCTION)) {
+			return intervalToIneqOrIneqToInterval(type2, type);
+		}
+		if (type.getGeoClassType().equals(GeoClass.INTERVAL)
+				&& type2.getGeoClassType().equals(GeoClass.FUNCTION)) {
+			return intervalToIneqOrIneqToInterval(type, type2);
+		}
 
         return false;
 	}
@@ -2332,7 +2397,11 @@ public class AlgebraProcessor {
 					f.setLabel(label);
 					return array(f);
 				}
+			} else if (en.isForceInequality() && en.wasInterval()) {
+				f = new GeoInterval(cons, fun);
+				return array(f);
 			}
+
 		} else if (en.getOperation().equals(Operation.FUNCTION)) {
 			ExpressionValue left = en.getLeft();
 			ExpressionValue right = en.getRight();
@@ -2351,7 +2420,9 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			f = new GeoFunction(cons, fun, info.isSimplifyingIntegers());
-
+			f.getIneqs();
+			f.setForceInequality(f.isInequality()
+					|| (en.isForceInequality() && !en.wasInterval()));
 		} else {
 			f = kernel.getAlgoDispatcher().dependentFunction(fun, info);
 			if (label == null) {
@@ -3134,6 +3205,10 @@ public class AlgebraProcessor {
 			// complex number stored in XML as exp="3" so looks like a GeoNumeric
 			if (n.isForcedPoint()) {
 				return processPointVector(n, eval);
+			}
+
+			if (n.isForceInequality()) {
+				return processFunction(new Function(kernel, n), info);
 			}
 
 			return processNumber(n, eval, info);

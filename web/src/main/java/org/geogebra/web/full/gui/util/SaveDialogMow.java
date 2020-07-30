@@ -16,15 +16,6 @@ import org.geogebra.web.shared.DialogUtil;
 import org.geogebra.web.shared.components.ComponentCheckbox;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -90,13 +81,7 @@ public class SaveDialogMow extends DialogBoxW
 
 	private void initActions() {
 		// set focus to input field!
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				getInputField().getTextComponent().setFocus(true);
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
 		addFocusBlurHandlers();
 		addHoverHandlers();
 	}
@@ -106,40 +91,16 @@ public class SaveDialogMow extends DialogBoxW
 	 */
 	private void addHoverHandlers() {
 		titleField.getTextComponent().getTextBox()
-				.addMouseOverHandler(new MouseOverHandler() {
-
-					@Override
-					public void onMouseOver(MouseOverEvent event) {
-						getInputPanel().addStyleName("hoverState");
-					}
-				});
+				.addMouseOverHandler(event -> getInputPanel().addStyleName("hoverState"));
 		titleField.getTextComponent().getTextBox()
-				.addMouseOutHandler(new MouseOutHandler() {
-
-					@Override
-					public void onMouseOut(MouseOutEvent event) {
-						getInputPanel().removeStyleName("hoverState");
-					}
-				});
+				.addMouseOutHandler(event -> getInputPanel().removeStyleName("hoverState"));
 	}
 
 	private void addFocusBlurHandlers() {
 		titleField.getTextComponent().getTextBox()
-				.addFocusHandler(new FocusHandler() {
-
-					@Override
-					public void onFocus(FocusEvent event) {
-						setFocusState();
-					}
-				});
+				.addFocusHandler(event -> setFocusState());
 		titleField.getTextComponent().getTextBox()
-				.addBlurHandler(new BlurHandler() {
-
-					@Override
-					public void onBlur(BlurEvent event) {
-						resetInputField();
-					}
-				});
+				.addBlurHandler(event -> resetInputField());
 	}
 
 	/**
@@ -256,12 +217,7 @@ public class SaveDialogMow extends DialogBoxW
 		Material activeMaterial = ((AppW) app).getActiveMaterial();
 		templateCheckbox.setSelected(activeMaterial != null && MaterialType.ggsTemplate
 				.equals(activeMaterial.getType()));
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				getInputField().getTextComponent().setFocus(true);
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
 	}
 
 	/**
@@ -286,8 +242,10 @@ public class SaveDialogMow extends DialogBoxW
 
 	@Override
 	public void setDiscardMode() {
+		setLabels();
 		setCaptionKey("DoYouWantToSaveYourChanges");
 		cancelBtn.setLabel(loc.getMenu("Discard"));
+		templateCheckbox.setVisible(false);
 	}
 
 	@Override

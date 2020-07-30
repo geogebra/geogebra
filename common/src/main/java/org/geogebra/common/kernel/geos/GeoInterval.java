@@ -124,6 +124,16 @@ public class GeoInterval extends GeoFunction {
 		return toString(false, tpl);
 	}
 
+	@Override
+	public String getFunctionType() {
+		return "inequality";
+	}
+
+	@Override
+	public char getLabelDelimiter() {
+		return ':';
+	}
+
 	/**
 	 * Returns string description of the interval
 	 * 
@@ -350,7 +360,6 @@ public class GeoInterval extends GeoFunction {
 			leftRightStr[0] = nv.toString(StringTemplate.defaultTemplate);
 		}
 		return nv.evaluateDouble();
-
 	}
 
 	private static double setRightBound(ExpressionValue nv,
@@ -370,7 +379,6 @@ public class GeoInterval extends GeoFunction {
 	public double getMin() {
 		updateBoundaries();
 		return leftRightBoundsField[0];
-
 	}
 
 	/**
@@ -379,7 +387,6 @@ public class GeoInterval extends GeoFunction {
 	public double getMax() {
 		updateBoundaries();
 		return leftRightBoundsField[1];
-
 	}
 
 	/**
@@ -405,5 +412,4 @@ public class GeoInterval extends GeoFunction {
 	public int getMinimumLineThickness() {
 		return 0;
 	}
-
 }

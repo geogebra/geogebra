@@ -105,8 +105,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	// region
 	private Region region;
 	private RegionParameters regionParameters;
-	/** 2D coord sys when point is on a region */
-	// private GeoCoordSys2D coordSys2D = null;
 	/** 2D x-coord when point is on a region */
 	private double x2D = 0;
 	/** 2D y-coord when point is on a region */
@@ -654,16 +652,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	/**
-	 * set the 2D coord sys where the region lies
-	 * 
-	 * @param cs
-	 *            2D coord sys
-	 */
-	/*
-	 * public void setCoordSys2D(GeoCoordSys2D cs){ this.coordSys2D = cs; }
-	 */
-
-	/**
 	 * update the 2D coords on the region (regarding willing coords and
 	 * direction)
 	 */
@@ -723,7 +711,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			RegionParameters rp = getRegionParameters();
 			rp.setT1(project[1].get(1));
 			rp.setT2(project[1].get(2));
-			rp.setNormal(((GeoElement) reg).getMainDirection());
+			rp.setNormal(reg.getMainDirection());
 		}
 	}
 
@@ -962,6 +950,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			// TODO ? moveMode = p.getMoveMode();
 			updateCoords();
 			setMode(p.getToStringMode()); // complex etc
+			reuseDefinition(geo);
+		} else {
+			setUndefined();
 		}
 		/*
 		 * TODO else if (geo.isGeoVector()) { GeoVector v = (GeoVector) geo;
@@ -1417,16 +1408,13 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public String getTraceDialogAsValues() {
 		String name = getLabelTextOrHTML(false);
 
-		StringBuilder sb1 = new StringBuilder();
-		sb1.append("x(");
-		sb1.append(name);
-		sb1.append("), y(");
-		sb1.append(name);
-		sb1.append("), z(");
-		sb1.append(name);
-		sb1.append(")");
-
-		return sb1.toString();
+		return "x("
+				+ name
+				+ "), y("
+				+ name
+				+ "), z("
+				+ name
+				+ ")";
 	}
 
 	@Override
@@ -1445,8 +1433,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		double x = getX();
 		double y = getY();
 
-		Double x1 = a * x + b * y;
-		Double y1 = c * x + d * y;
+		double x1 = a * x + b * y;
+		double y1 = c * x + d * y;
 
 		setCoords(x1, y1, getZ(), getW());
 	}
@@ -1536,9 +1524,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		double z = getZ();
 		double w = getW();
 
-		Coords Q = point;
-		double qx = w * Q.getX();
-		double qy = w * Q.getY();
+		double qx = w * point.getX();
+		double qy = w * point.getY();
 
 		setCoords((x - qx) * cos + (qy - y) * sin + qx,
 				(x - qx) * sin + (y - qy) * cos + qy, z, w);
@@ -1629,7 +1616,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	public void pointChanged(GeoPointND p) {
 		if (p.isGeoElement3D()) {
-			((GeoPoint3D) p).setCoords(this.getCoords(), false);
+			p.setCoords(this.getCoords(), false);
 		} else {
 			Coords coords = this.getCoords();
 			if (!DoubleUtil.isZero(coords.getZ())) {
@@ -2088,12 +2075,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			}
 		}
 
-		boolean ret = (num1 instanceof GeoNumeric
+		return (num1 instanceof GeoNumeric
 				&& ((GeoNumeric) num1).isPointerChangeable())
 				|| (num2 instanceof GeoNumeric
 						&& ((GeoNumeric) num2).isPointerChangeable());
-
-		return ret;
 	}
 
 	@Override

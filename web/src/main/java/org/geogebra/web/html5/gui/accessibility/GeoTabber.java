@@ -17,7 +17,7 @@ public class GeoTabber implements MayHaveFocus {
 	public boolean focusIfVisible(boolean reverse) {
 		app.getSelectionManager().clearSelectedGeos(false);
 		if (reverse) {
-			selected = app.getSelectionManager().selectLastGeo();
+			selected = app.getSelectionManager().selectPreviousGeo();
 		} else {
 			selected = app.getSelectionManager().selectNextGeo();
 		}
@@ -40,7 +40,7 @@ public class GeoTabber implements MayHaveFocus {
 
 	@Override
 	public boolean focusPrevious() {
-		selected = app.getSelectionManager().selectLastGeo();
+		selected = app.getSelectionManager().selectPreviousGeo();
 		return selected;
 	}
 

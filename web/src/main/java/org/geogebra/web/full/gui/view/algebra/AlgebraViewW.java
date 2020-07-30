@@ -82,9 +82,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/** Kernel */
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
-	// protected AlgebraInputW inputPanel;
 	/** Input item */
-	RadioTreeItem inputPanelLatex;
+	private RadioTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
 	private boolean editItem = false;
 	private GeoElement draggedGeo;
@@ -141,7 +140,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private StringBuilder sbXML;
 
 	private RadioTreeItem activeItem;
-	// private AlgebraHelperBar helperBar;
 
 	private AlgebraController algebraController;
 	private AVSelectionController selectionCtrl;
@@ -1957,7 +1955,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	@Override
 	public boolean hasFocus() {
-		Log.debug("unimplemented");
+		// unimplemented
 		return false;
 	}
 

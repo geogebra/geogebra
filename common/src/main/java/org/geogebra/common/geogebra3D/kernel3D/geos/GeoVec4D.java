@@ -117,14 +117,10 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-
-		sb.append("\t<coords");
-		sb.append(" x=\"" + getX() + "\"");
-		sb.append(" y=\"" + getY() + "\"");
-		sb.append(" z=\"" + getZ() + "\"");
-		sb.append(" w=\"" + getW() + "\"");
-		sb.append("/>\n");
-
+		sb.append("\t<coords x=\"").append(getX())
+				.append("\" y=\"").append(getY())
+				.append("\" z=\"").append(getZ())
+				.append("\" w=\"").append(getW()).append("\"/>\n");
 	}
 
 	/**

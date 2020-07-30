@@ -169,6 +169,7 @@ public class MarblePanel extends FlowPanel
 				
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
+					item.preventBlur();
 					onPlusPressed();
 				}
 			});

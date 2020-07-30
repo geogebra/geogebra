@@ -177,7 +177,6 @@ public class ContextMenuAVPlus implements SetLabels {
 	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(x, y);
-		wrappedPopup.getPopupMenu().focusDeferred();
 	}
 
 	@Override

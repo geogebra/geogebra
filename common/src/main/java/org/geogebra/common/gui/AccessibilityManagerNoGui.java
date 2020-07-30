@@ -3,19 +3,21 @@ package org.geogebra.common.gui;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
- * Accessibility manager for app with no UI (simple applets)
+ * Dummy implementation for desktop/mobile
  */
 public final class AccessibilityManagerNoGui
 		implements AccessibilityManagerInterface {
 
 	@Override
-	public void focusNext() {
+	public boolean focusNext() {
 		// only tab geos
+		return false;
 	}
 
 	@Override
-	public void focusPrevious() {
+	public boolean focusPrevious() {
 		// only tab geos
+		return false;
 	}
 
 	@Override
