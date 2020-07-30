@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -1165,4 +1166,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				is(solveA.getDefinition().getTopLevelCommand().getName()));
 	}
 
+	@Test
+	public void testChangingSliderValue() {
+		add("Integral(x)");
+		lookup("c_1");
+		GeoElement element = add("c_1=10");
+		assertThat(element, is(CoreMatchers.<GeoElement>instanceOf(GeoNumeric.class)));
+		GeoNumeric numeric = (GeoNumeric) element;
+		assertThat(numeric.getValue(), is(closeTo(10, 0.001)));
+	}
 }

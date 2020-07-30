@@ -1947,6 +1947,8 @@ public class AlgebraProcessor {
             cons.setSuppressLabelCreation(true);
 			if (replaceable.isGeoVector()) {
 				expression = getTraversedCopy(labels, expression);
+			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
+				evalInfo = evalInfo.withSymbolicMode(SymbolicMode.NONE);
 			}
         }
 
