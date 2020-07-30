@@ -141,7 +141,9 @@ public class ScriptInputPanelW extends FlowPanel implements
 	@Override
 	public void setInput(String text, ScriptType type) {
 		textArea.setText(text);
-		languageSelector.setSelectedIndex(type.ordinal());
+		boolean jsEnabled = app.getScriptManager().isJsEnabled();
+		languageSelector.setVisible(jsEnabled);
+		languageSelector.setSelectedIndex(jsEnabled ? type.ordinal() : 0);
 	}
 
 	/**

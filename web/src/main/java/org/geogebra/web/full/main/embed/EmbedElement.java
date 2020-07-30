@@ -86,4 +86,8 @@ public class EmbedElement {
 	public void setVisible(boolean visible) {
 		getGreatParent().setVisible(visible);
 	}
+
+	public void setJsEnabled(boolean b) {
+		// only for ggb
+	}
 }

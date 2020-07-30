@@ -19,7 +19,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -58,7 +60,7 @@ import elemental2.core.Global;
  * @author Zbynek
  *
  */
-public class EmbedManagerW implements EmbedManager {
+public class EmbedManagerW implements EmbedManager, EventRenderable {
 
 	private AppWFull app;
 	private HashMap<DrawWidget, EmbedElement> widgets = new HashMap<>();
@@ -76,6 +78,7 @@ public class EmbedManagerW implements EmbedManager {
 	EmbedManagerW(AppWFull app) {
 		this.app = app;
 		this.counter = 0;
+		app.getLoginOperation().getView().add(this);
 	}
 
 	@Override
@@ -161,6 +164,7 @@ public class EmbedManagerW implements EmbedManager {
 
 		addToGraphics(scaler);
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
+		element.setJsEnabled(isJsEnabled());
 		if (currentBase64 != null) {
 			fr.getApp().registerOpenFileListener(
 					getListener(drawEmbed, parameters));
@@ -546,4 +550,16 @@ public class EmbedManagerW implements EmbedManager {
 			JavaScriptObject jso) /*-{
 		jso[embedName] = api;
 	}-*/;
+
+	@Override
+	public void renderEvent(BaseEvent event) {
+		for (Entry<DrawWidget, EmbedElement> e : widgets.entrySet()) {
+			e.getValue().setJsEnabled(isJsEnabled());
+		}
+	}
+
+	private boolean isJsEnabled() {
+		return !app.isMebis()
+				|| app.getLoginOperation().isTeacherLoggedIn();
+	}
 }
