@@ -1,4 +1,4 @@
-/**
+/*
  * This file is part of the ReTeX library - https://github.com/himamis/ReTeX
  *
  * Copyright (C) 2015 Balazs Bencze
@@ -112,7 +112,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private ExpressionReader expressionReader;
 
-	private static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
+	private static ArrayList<MathFieldW> instances = new ArrayList<>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
 	private static int counter = 0;
@@ -121,6 +121,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private ChangeHandler changeHandler;
 	private int fixMargin = 0;
 	private int minHeight = 0;
+	private boolean wasPaintedWithCursor;
 
 	/**
 	 * @param converter
@@ -278,6 +279,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 				public void run() {
 					CursorBox.toggleBlink();
 					for (MathFieldW field : instances) {
+						field.keepFocus();
 						field.repaintWeb();
 					}
 				}
@@ -583,6 +585,15 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	}
 
 	/**
+	 * Make sure focus is in the editable element
+	 */
+	public void keepFocus() {
+		if (!active(inputTextArea.getElement()) && isEdited()) {
+			inputTextArea.getElement().focus();
+		}
+	}
+
+	/**
 	 * Actually repaint the content (repaint() is ignored in Web
 	 * implementation).
 	 */
@@ -590,14 +601,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (lastIcon == null) {
 			return;
 		}
-		if (!active(inputTextArea.getElement()) && isEdited()) {
-			inputTextArea.getElement().focus();
-		}
 		final double height = computeHeight();
 		final double width = computeWidth();
 		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
-
+		wasPaintedWithCursor = CursorBox.visible();
 		paint(ctx, getMargin(lastIcon));
 	}
 
@@ -728,7 +736,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 			if (onTextfieldFocus != null) {
 				onTextfieldFocus.onFocus(null);
 			}
-			startBlink();
 			focuser = new Timer() {
 
 				@Override
@@ -759,17 +766,11 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 * Make sure the HTML element has focus and update to render cursor
 	 */
 	protected void onFocusTimer() {
-		BlurHandler oldBlur = this.onTextfieldBlur;
-		onTextfieldBlur = null;
 		// set focused flag before update to make sure cursor is rendered
 		focused = true;
 		mathFieldInternal.update();
-		// first focus canvas to get the scrolling right
-		html.getElement().focus();
-
-		// after set focus to the keyboard listening element
+		// focus + scroll the editor
 		focusTextArea();
-		onTextfieldBlur = oldBlur;
 	}
 
 	private void focusTextArea() {
@@ -777,6 +778,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (html.getElement().getParentElement() != null) {
 			html.getElement().getParentElement().setScrollTop(0);
 		}
+		startBlink();
 	}
 
 	private native void installPaste(Element target) /*-{
@@ -801,7 +803,6 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 
 	private void startEditing() {
 		if (mathFieldInternal.getEditorState().getCurrentField() == null) {
-			mathFieldInternal.getCursorController();
 			CursorController.lastField(mathFieldInternal.getEditorState());
 		}
 		// update even when cursor didn't change here
@@ -905,16 +906,21 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	public void onBlur(BlurEvent event) {
 		removeCursor();
 		resetFlags();
-		event.stopPropagation();
 		runBlurCallback(event);
+		event.stopPropagation();
 	}
 
 	private void removeCursor() {
-		instances.remove(this);
-		if (CursorBox.visible()) {
+		boolean hadSelection = mathFieldInternal.getEditorState().hasSelection();
+		if (hadSelection) {
+			mathFieldInternal.getEditorState().resetSelection();
+			mathFieldInternal.update();
+		}
+		if (wasPaintedWithCursor || hadSelection) {
 			CursorBox.setBlink(false);
 			repaintWeb();
 		}
+		instances.remove(this);
 	}
 
 	/**

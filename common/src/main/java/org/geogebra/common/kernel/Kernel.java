@@ -3039,14 +3039,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		if (clearScripts) {
 			resetLibraryJavaScript();
-
-			// This needs to happen *before* cons.clearConstruction() is called
-			// as clearConstruction calls notifyClearView which triggers the
-			// updating of the Python Script
-			// resetLibraryPythonScript();
 		}
-		if (this.ggbCAS != null && this.ggbCAS.getCurrentCAS() != null) {
-			this.ggbCAS.getCurrentCAS().clearResult();
+		if (this.ggbCAS != null) {
+			this.ggbCAS.clearResult();
 		}
 		if (macroManager != null) {
 			macroManager.setAllMacrosUnused();

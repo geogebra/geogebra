@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
@@ -69,9 +71,11 @@ public class InlineFormattingItemsTest {
 	@Test
 	public void testEditModeInlineTableContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		geos.add(createTableInline("table1", new InlineTableControllerMock(true)));
+		geos.add(createTableInline(InlineTableControllerMock.get(true)));
 		List<String> expected = Arrays.asList(
 				"TEXTTOOLBAR", "ContextMenu.Font", "Link",
+				"SEPARATOR",
+				"Cut", "Copy", "Paste",
 				"SEPARATOR",
 				"ContextMenu.insertRowAbove",
 				"ContextMenu.insertRowBelow",
@@ -89,7 +93,7 @@ public class InlineFormattingItemsTest {
 	@Test
 	public void testSingleInlineTableContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		geos.add(createTableInline("table1", new InlineTableControllerMock(false)));
+		geos.add(createTableInline(InlineTableControllerMock.get(false)));
 		List<String> expected = Arrays.asList(
 				"ContextMenu.Font",
 				"SEPARATOR", "Cut", "Copy", "Paste",
@@ -105,7 +109,7 @@ public class InlineFormattingItemsTest {
 	public void testTextAndTableContextMenu() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTextInline("text1", new InlineTextControllerMock()));
-		geos.add(createTableInline("table1", new InlineTableControllerMock(false)));
+		geos.add(createTableInline(InlineTableControllerMock.get(false)));
 		List<String> expected = Arrays.asList(
 				"ContextMenu.Font",
 				"SEPARATOR", "Cut", "Copy", "Paste",
@@ -204,16 +208,18 @@ public class InlineFormattingItemsTest {
 		text.setLabel(label);
 		DrawInlineText drawInlineText = (DrawInlineText) app.getActiveEuclidianView()
 				.getDrawableFor(text);
+		assertNotNull(drawInlineText);
 		drawInlineText.setTextController(inlineTextControllerMock);
 		return text;
 	}
 
-	private GeoInlineTable createTableInline(String label, InlineTableControllerMock inlineTextControllerMock) {
+	private GeoInlineTable createTableInline(InlineTableController inlineTextController) {
 		GeoInlineTable table = new GeoInlineTable(construction, point);
-		table.setLabel(label);
+		table.setLabel("table1");
 		DrawInlineTable drawInlineTable = (DrawInlineTable) app.getActiveEuclidianView()
 				.getDrawableFor(table);
-		drawInlineTable.setTextController(inlineTextControllerMock);
+		assertNotNull(drawInlineTable);
+		drawInlineTable.setTextController(inlineTextController);
 		return table;
 	}
 

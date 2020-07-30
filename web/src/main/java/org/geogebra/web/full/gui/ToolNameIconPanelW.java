@@ -13,12 +13,8 @@ import org.geogebra.web.html5.util.ImageManagerW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -124,25 +120,14 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 				.safeURI(ToolbarSvgResourcesSync.INSTANCE.mode_tool_32()),
 				32);
 		Button labelIcon = new Button(loc.getMenu("Icon") + " ...");
-		labelIcon.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				(new UploadImageDialog((AppW) app, ICON_WIDTH, ICON_HEIGHT) {
-
-					@Override
-					public void onClick(ClickEvent ev) {
-						Object source = ev.getSource();
-						if (source == insertBtn) {
-							setIconFile(uploadImagePanel.getFileName(),
-							        uploadImagePanel.getImageDataURL());
-							hide();
-						} else if (source == cancelBtn) {
-							hide();
-						}
-					}
-				}).center();
-			}
+		labelIcon.addClickHandler(event -> {
+			UploadImageDialog imageDialog = new UploadImageDialog((AppW) app,
+					ICON_WIDTH, ICON_HEIGHT);
+			imageDialog.center();
+			imageDialog.setOnPositiveAction(() -> {
+				setIconFile(imageDialog.getUploadImgPanel().getFileName(),
+						imageDialog.getUploadImgPanel().getImageDataURL());
+			});
 		});
 
 		iconPanel.add(icon);
@@ -150,13 +135,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 
 		showTool = new CheckBox(loc.getMenu("ShowInToolBar"));
 		showTool.setValue(true);
-		showTool.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				showToolChanged();
-			}
-		});
+		showTool.addValueChangeHandler(event -> showToolChanged());
 
 		HorizontalPanel iconSelectShowPanel = new HorizontalPanel();
 		if (!app.isExam()) {
@@ -222,9 +201,6 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 
 	/**
 	 * Uses the textfields in this dialog to set the currently shown macro.
-	 * 
-	 * @see #init()
-	 * 
 	 */
 	private void updateMacro() {
 		if (macro == null) {
@@ -325,7 +301,6 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	@Override
 	public void onBlur(BlurEvent event) {
 		updateCmdName(event.getSource());
-
 	}
 
 	@Override
@@ -376,5 +351,4 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 			listener.onShowToolChange(m);
 		}
 	}
-
 }

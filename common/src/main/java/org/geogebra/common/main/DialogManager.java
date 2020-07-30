@@ -46,7 +46,6 @@ import org.geogebra.common.util.AsyncOperation;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class DialogManager {
-
 	protected App app;
 	protected Localization loc;
 

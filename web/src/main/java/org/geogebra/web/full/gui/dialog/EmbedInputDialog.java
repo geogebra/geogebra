@@ -19,7 +19,6 @@ import org.geogebra.common.move.ggtapi.operations.URLStatus;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ggtapi.MarvlURLChecker;
 import org.geogebra.web.shared.ggtapi.models.GeoGebraTubeAPIW;
@@ -29,21 +28,18 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 
-/**
- * @author csilla
- *
+/** embed dialog
  */
 public class EmbedInputDialog extends MediaDialog
 		implements AsyncOperation<URLStatus>, MaterialCallbackI {
-
 	private URLChecker urlChecker;
 
 	/**
 	 * @param app
 	 *            see {@link AppW}
 	 */
-	EmbedInputDialog(AppWFull app) {
-		super(app.getPanel(), app);
+	EmbedInputDialog(AppW app) {
+		super(app, "Web");
 		if (Window.Location.getHost() != null
 				&& Window.Location.getHost().contains("geogebra")) {
 			urlChecker = new EmbedURLChecker(app.getArticleElement().getParamBackendURL());
@@ -61,20 +57,9 @@ public class EmbedInputDialog extends MediaDialog
 		}
 	}
 
-	/**
-	 * set button labels and dialog title
-	 */
 	@Override
-	public void setLabels() {
-		super.setLabels();
-		// dialog title
-		getCaption().setText(appW.getLocalization().getMenu("Web"));
-		updateInfo();
-	}
-
-	@Override
-	protected void processInput() {
-		if (appW.getGuiManager() != null) {
+	public void onPositiveAction() {
+		if (app.getGuiManager() != null) {
 			String input = mediaInputPanel.getInput();
 			addEmbed(input);
 		}
@@ -116,7 +101,7 @@ public class EmbedInputDialog extends MediaDialog
 		ge.setUrl(url);
 		ge.setAppName("extension");
 		ge.initDefaultPosition(app.getActiveEuclidianView());
-		EmbedManager embedManager = appW.getEmbedManager();
+		EmbedManager embedManager = app.getEmbedManager();
 		if (embedManager != null) {
 			ge.setEmbedId(embedManager.nextID());
 		}
@@ -127,10 +112,10 @@ public class EmbedInputDialog extends MediaDialog
 	}
 
 	private void embedGeoGebraAndHide(Material material) {
-		EmbedManager embedManager = appW.getEmbedManager();
+		EmbedManager embedManager = app.getEmbedManager();
 		if (embedManager != null) {
 			embedManager.embed(material);
-			appW.storeUndoInfo();
+			app.storeUndoInfo();
 		}
 
 		hide();
@@ -139,7 +124,7 @@ public class EmbedInputDialog extends MediaDialog
 	@Override
 	public void hide() {
 		super.hide();
-		appW.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
+		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
 				ModeSetter.TOOLBAR);
 	}
 

@@ -90,8 +90,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		this(laf, ArticleElement.getDataParamFitToScreen(articleElement.getElement()));
 		this.articleElement = articleElement;
 
-		getElement().setTabIndex(0);
-		getElement().getStyle().setOutlineStyle(OutlineStyle.NONE);
 		if (!articleElement.getDataParamApp()) {
 			addFocusHandlers(articleElement.getElement());
 		}

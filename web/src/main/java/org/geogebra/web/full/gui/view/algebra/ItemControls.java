@@ -85,6 +85,7 @@ public class ItemControls extends FlowPanel
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
+					getController().preventBlur();
 					openMoreMenu();
 					DOM.setCapture(null); // reset capture from GCustomButton's mousedown handler
 				}
