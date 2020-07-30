@@ -459,6 +459,10 @@ public class AlgebraProcessor {
 			if (GeoPoint.isComplexNumber(geo)) {
 				ve = replaceSqrtMinusOne(ve);
 			}
+
+			if (info.isMultipleUnassignedAllowed()) {
+				ve = (ValidExpression) ve.traverse(Traversing.INPUTBOX_COMMAND_REPLACER);
+			}
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (MyError e) {

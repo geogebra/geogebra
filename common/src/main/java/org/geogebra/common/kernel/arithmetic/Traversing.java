@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
@@ -57,6 +58,43 @@ public interface Traversing {
 	 * @return processed value
 	 */
 	public ExpressionValue process(final ExpressionValue ev);
+
+	/**
+	 * Replace non-existing commands in inputboxes with implicit multiplication
+	 * e.g. gL(L+1) -> g*L*(L+1)
+	 */
+	Traversing INPUTBOX_COMMAND_REPLACER = new Traversing() {
+		@Override
+		public ExpressionValue process(ExpressionValue ev) {
+			if (!(ev instanceof Command)) {
+				return ev;
+			}
+
+			Command c = (Command) ev;
+			Kernel kernel = c.getKernel();
+
+			// Remove this check when we disable commands in input boxes
+			if (kernel.getAlgebraProcessor().isCommandAvailable(c.getName())
+					|| c.getArgumentNumber() != 1) {
+				return c;
+			}
+
+			Variable geoVar = new Variable(kernel, c.getName());
+			ExpressionValue geoExp = geoVar.resolveAsExpressionValue(SymbolicMode.NONE, true);
+
+			ExpressionNode argument = c.getArgument(0).traverse(this).wrap();
+
+			if (geoExp.wrap().getRight() instanceof GeoFunction) {
+				ExpressionValue left = geoExp.wrap().getLeft();
+				GeoFunction function = (GeoFunction) geoExp.wrap().getRight();
+
+				return new ExpressionNode(kernel, function,
+						Operation.FUNCTION, argument).multiply(left);
+			}
+
+			return argument.multiply(geoExp);
+		}
+	};
 
 	/**
 	 * Replaces one object by another
