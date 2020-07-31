@@ -1,94 +1,119 @@
 (function() {
-		var api1;
-		var eventCallback;
-		var clientId = btoa(Math.random()).substring(0, 8);
-		function sendEvent() {
-			var type = arguments[0];
-			var content = arguments[1];
-			var event = {
-				"type": type,
-				"content": content,
-				"client": clientId
-			}
-			if (arguments[2]) {
-				event.label = arguments[2];
-			}
-			eventCallback(event);
-		}
-		function evalCommand(api, command) {
-            unregisterListeners();
-            api.evalCommand(command);
-            registerListeners();
-        }
+    function LiveApp(parentClientId, embedLabel) {
+        this.api = null;
+        this.eventCallback;
+        this.clientId = parentClientId || btoa(Math.random()).substring(0, 8);
+        this.embeds = {};
+        this.sendEvent = function() {
+            var type = arguments[0];
+            var content = arguments[1];
+            var event = {
+                "type": type,
+                "content": content,
+                "embedLabel": embedLabel,
+                "client": this.clientId
+            }
+            if (arguments[2]) {
+                event.label = arguments[2];
+            }
+            this.eventCallback(event);
+        };
+        this.evalCommand = function(command) {
+            this.unregisterListeners();
+            this.api.evalCommand(command);
+            this.registerListeners();
+        };
 
-        function evalXML(api, xml) {
-            unregisterListeners();
-            api.evalXML(xml);
-            api.evalCommand("UpdateConstruction()");
-            registerListeners()
-        }
+        this.evalXML = function(xml) {
+            this.unregisterListeners();
+            this.api.evalXML(xml);
+            this.api.evalCommand("UpdateConstruction()");
+            this.registerListeners();
+            var that = this;
+            setTimeout(function() {
+                that.api.getAllObjectNames("embed").forEach(that.initEmbed.bind(that));
+            }, 500);//TODO no timeout
+        };
 
-        function setXML(api, xml) {
-            unregisterListeners();
-            api.setXML(xml);
-            api.evalCommand("UpdateConstruction()");
-            registerListeners();
-        }
+        this.setXML = function(xml) {
+            this.unregisterListeners();
+            this.api.setXML(xml);
+            this.api.evalCommand("UpdateConstruction()");
+            this.registerListeners();
+        };
 
+        this.initEmbed = function(label) {
+            if (this.embeds[label]) {
+                return;
+            }
+            var calc = (this.api.getEmbeddedCalculators() || {})[label];
+            if (calc) {
+                var calcLive = new LiveApp(this.clientId, label);
+                calcLive.api = calc;
+                calcLive.eventCallback = this.eventCallback;
+                calcLive.registerListeners();
+                this.embeds[label] = calcLive;
+            }
+        }
         // *** UPDATE LISTENERS ***
-        function updateListener(label) {
+        var updateListener = (function(label) {
             if (updatingOn) {
                 console.log(label + " is updated");
             } else {
                 console.log("no update for " + label + ", waiting for 'movedGeos' event");
                 return;
             }
-            if (api1.isIndependent(label) || api1.isMoveable(label)) {
-                var xml = api1.getXML(label);
+            if (this.api.isIndependent(label) || this.api.isMoveable(label)) {
+                var xml = this.api.getXML(label);
                 //console.log(xml);
-                sendEvent("evalXML", xml);
+                this.sendEvent("evalXML", xml);
             } else {
                 console.log("not sending update for " + label + ", isIndependent()="
-                + api1.isIndependent(label) + ", is movable()=" + api1.isMoveable(label));
+                + this.api.isIndependent(label) + ", is movable()=" + this.api.isMoveable(label));
             }
 
-        }
+        }).bind(this);
 
         // *** ADD LISTENERS ***
-        function addListener(label) {
+        var addListener = (function(label) {
             console.log(label + " is added");
 
-            var xml = api1.getXML(label);
+            var xml = this.api.getXML(label);
             //console.log(xml);
 
-            var definition = api1.getCommandString(label);
+            var definition = this.api.getCommandString(label);
             console.log(definition);
             if (definition) {
-                console.log("full "+api1.getAlgorithmXML(label) );
-                sendEvent("evalXML", api1.getAlgorithmXML(label) );
+                console.log("full "+this.api.getAlgorithmXML(label) );
+                this.sendEvent("evalXML", this.api.getAlgorithmXML(label) );
             } else {
-                sendEvent("evalXML", xml);
+                this.sendEvent("evalXML", xml);
             }
-        }
+            var that = this;
+            window.setTimeout(function(){
+                that.initEmbed(label);
+            },500); //TODO avoid timeout
+
+        }).bind(this);
 
         // *** REMOVE LISTENERS ***
-        function removeListener(label) {
+        var removeListener = (function(label) {
             console.log(label + " is removed");
-            sendEvent("deleteObject", label);
-        }
+            this.sendEvent("deleteObject", label);
+        }).bind(this);
 
         // *** CLIENT LISTENERS ***
-        function clientListener(event) {
+        var clientListener = (function(event){
             switch (event[0]) {
 
                 case "updateStyle":
                     var label = event[1];
                     console.log(label + " has changed style");
 
-                    var xml = api1.getXML(label);
+                    var xml = this.api.getXML(label);
                     //console.log(xml);
 
-                    sendEvent("evalXML", xml);
+                    this.sendEvent("evalXML", xml);
                     break;
 
                 case "setMode":
@@ -96,21 +121,21 @@
                     break;
 
                 case "editorKeyTyped":
-                    var state = api1.getEditorState();
+                    var state = this.api.getEditorState();
                     console.log(state);
-                    sendEvent("setEditorState", state, event[1]);
+                    this.sendEvent("setEditorState", state, event[1]);
                     break;
                 case "editorStop":
-                    sendEvent("setEditorState", "{content:\"\"}");
+                    this.sendEvent("setEditorState", "{content:\"\"}");
                     break;
 
                 case "deselect":
                     console.log("deselect", event);
-                    sendEvent("evalCommand", "SelectObjects[]");
+                    this.sendEvent("evalCommand", "SelectObjects[]");
                     break;
                 case "select":
                     console.log("select", event);
-                    sendEvent("evalCommand", "SelectObjects[" + event[1] + "]");
+                    this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]");
                     break;
 
                 case "addPolygon":
@@ -128,11 +153,11 @@
 
                     var xml = "";
                     for (var i = 1; i < event.length; i++) {
-                        xml += api1.getXML(event[i]);
+                        xml += this.api.getXML(event[i]);
                     }
 
                     //console.log("batch send", xml);
-                    sendEvent("evalXML", xml);
+                    this.sendEvent("evalXML", xml);
 
                     // reenable update events
                     updatingOn = true;
@@ -144,55 +169,61 @@
                 case "addPolygonComplete":
                     console.log(event[0], "sending whole xml");
 
-                    var xml = api1.getXML();
+                    var xml = this.api.getXML();
                     //console.log(xml);
-                    sendEvent("setXML", xml);
+                    this.sendEvent("setXML", xml);
                     break;
                 default:
                     console.log("unhandled event ", event[0], event);
 
             }
 
-        }
+        }).bind(this);
 
-        function registerListeners() {
-            api1.registerUpdateListener(updateListener);
-            api1.registerRemoveListener(removeListener);
-            api1.registerAddListener(addListener);
-            api1.registerClientListener(clientListener);
-        }
+        this.registerListeners = function() {
+            this.api.registerUpdateListener(updateListener);
+            this.api.registerRemoveListener(removeListener);
+            this.api.registerAddListener(addListener);
+            this.api.registerClientListener(clientListener);
+        };
 
-        function unregisterListeners() {
-            api1.unregisterUpdateListener(updateListener);
-            api1.unregisterRemoveListener(removeListener);
-            api1.unregisterAddListener(addListener);
-            api1.unregisterClientListener(clientListener);
-        }
+        this.unregisterListeners = function() {
+            this.api.unregisterUpdateListener(updateListener);
+            this.api.unregisterRemoveListener(removeListener);
+            this.api.unregisterAddListener(addListener);
+            this.api.unregisterClientListener(clientListener);
+        };
 
-
-window.GeoGebraLive = {
-     dispatch: function(last) {
-		if (last && last.client != clientId) {
-			if (last.type == "evalXML") {
-				evalXML(api1, last.content);
-			} else if (last.type == "setXML") {
-				setXML(api1, last.content);
-			} else if (last.type == "evalCommand") {
-				evalCommand(api1, last.content);
-			} else if (last.type == "deleteObject") {
-				api1.deleteObject(last.content);
-			} else if (last.type == "setEditorState") {
-				unregisterListeners();
-				api1.setEditorState(last.content, last.label);
-				registerListeners();
-			}
-		}
-   },
-   start: function(api, callback) {
-       api1 = api;
-       eventCallback = callback;
-       registerListeners();
+        this.dispatch = function(last) {
+            if (last && last.client != this.clientId) {
+                target = last.embedLabel ? this.embeds[last.embedLabel] : this;
+                if (last.type == "evalXML") {
+                    target.evalXML(last.content);
+                } else if (last.type == "setXML") {
+                    target.setXML(last.content);
+                } else if (last.type == "evalCommand") {
+                    target.evalCommand(last.content);
+                } else if (last.type == "deleteObject") {
+                    target.api.deleteObject(last.content);
+                } else if (last.type == "setEditorState") {
+                    target.unregisterListeners();
+                    target.api.setEditorState(last.content, last.label);
+                    target.registerListeners();
+                }
+            }
+        };
    }
-}
 
+    var mainSession = new LiveApp();
+
+    window.GeoGebraLive = {
+        dispatch: function(last) {
+            mainSession.dispatch(last);
+        },
+        start: function(api, callback) {
+           mainSession.api = api;
+           mainSession.eventCallback = callback;
+           mainSession.registerListeners();
+       }
+    }
 })();

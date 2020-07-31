@@ -10,7 +10,7 @@
 
 <body>
 <div id="ggbApplet1"></div>
-<button onclick="window.open(location.href)">Local test</button>
+<button onclick="window.open(location.href)" style="margin-top:56px">Local test</button>
 
 <script>
         var updatingOn = true;
@@ -52,7 +52,7 @@
         var parameters1 = {
             //"id": "ggbApplet1",
             "width": 800,
-            "height": 400,
+            "height": 700,
             "showMenuBar": true,
             "showAlgebraInput": true,
             "showToolBar": true,
@@ -83,7 +83,7 @@
         }
 
         var applet1 = new GGBApplet(parameters1, '5.0');
-        if (!location.href.startsWith("https://test.geogebra.org")) {
+        if (location.href.indexOf("https://test.geogebra.org") == -1 && location.href.indexOf("cb=")==-1) {
             var codebase = location.href.replace(/\/[^\/]*$/, "/web3d");
             applet1.setHTML5Codebase(codebase);
         }
