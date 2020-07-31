@@ -37,6 +37,10 @@ public class NameProperty extends AbstractProperty implements StringProperty {
 	@Override
 	public void setValue(String value) {
 		GeoElement element = delegate.getElement();
+		String oldLabel = element.getLabelSimple();
+		if (value.equals(oldLabel)) {
+			return;
+		}
 		String newLabel = element.getFreeLabel(value);
 		try {
 			element.rename(newLabel);
