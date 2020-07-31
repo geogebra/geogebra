@@ -1,6 +1,7 @@
 package org.geogebra.common.io;
 
 import org.geogebra.common.AppCommonFactory;
+import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.util.SyntaxAdapterImpl;
 import org.geogebra.test.TestStringUtil;
 import org.junit.Before;
@@ -287,7 +288,7 @@ public class EditorTypingTest {
 	public void testDivision3() {
 		checker.type("12").typeKey(JavaKeyCodes.VK_LEFT).type(Unicode.DIVIDE + "")
 			.checkAsciiMath("1/2");
-}
+	}
 
 	@Test
 	public void testBracketsAroundFunction() {
@@ -312,9 +313,35 @@ public class EditorTypingTest {
 	}
 
 	@Test
-	public void spaceAfterTrigShouldAddBrackets() {
+	public void spaceAfterFunctionShouldAddBrackets() {
 		checker.setFormatConverter(new SyntaxAdapterImpl(AppCommonFactory.create().getKernel()));
 		checker.type("sin 9x").checkAsciiMath("sin(9x)");
+	}
+
+	@Test
+	public void characterAfterFunctionShouldAddBrackets() {
+		AppCommon app = AppCommonFactory.create();
+
+		MetaModel model = new MetaModel();
+		model.setForceBracketAfterFunction(true);
+		EditorChecker inputBoxChecker = new EditorChecker(app, model);
+		inputBoxChecker.setFormatConverter(new SyntaxAdapterImpl(app.kernel));
+
+		inputBoxChecker.type("sin9x").checkAsciiMath("sin(9x)");
+		inputBoxChecker.fromParser("");
+
+		inputBoxChecker.type("sinhb").checkAsciiMath("sinh(b)");
+		inputBoxChecker.fromParser("");
+
+		inputBoxChecker.type("xsinxcosx").checkAsciiMath("xsin(xcos(x))");
+		inputBoxChecker.fromParser("");
+
+		inputBoxChecker.type("sin^2").typeKey(JavaKeyCodes.VK_RIGHT).type("a")
+				.checkAsciiMath("sin^(2)(a)");
+		inputBoxChecker.fromParser("");
+
+		inputBoxChecker.type("log_3").typeKey(JavaKeyCodes.VK_RIGHT).type("x")
+				.checkAsciiMath("log(3,x)");
 	}
 
 	@Test
