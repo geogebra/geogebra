@@ -837,7 +837,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		}
 
-		ImageLoader imageLoader = new ImageLoader(this, archive,
+		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
 				new Runnable() {
 					@Override
 					public void run() {
