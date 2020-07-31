@@ -69,10 +69,12 @@ public class PagePreviewCard extends FlowPanel
 	 *            ID of the new slide
 	 * @return The duplicated card.
 	 */
-	public static PagePreviewCard duplicate(PagePreviewCard source,
-			String targetID) {
+	public static PagePreviewCard pasteAfter(PagePreviewCard source,
+			String targetID, String json) {
+		GgbFile file = targetID == null ? new GgbFile() : new GgbFile(targetID);
+		source.app.getViewW().setFileFromJsonString(json, file);
 		return new PagePreviewCard(source.app, source.getPageIndex() + 1,
-				source.getFile().duplicate(targetID));
+				file);
 	}
 	
 	private void initGUI() {

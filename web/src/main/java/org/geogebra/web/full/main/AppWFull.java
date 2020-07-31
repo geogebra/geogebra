@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MaskWidgetList;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
@@ -30,6 +31,7 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFormula;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
@@ -56,8 +58,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
-import org.geogebra.web.full.euclidian.InlineFormulaControllerW;
-import org.geogebra.web.full.euclidian.InlineTextControllerW;
+import org.geogebra.web.full.euclidian.inline.InlineFormulaControllerW;
+import org.geogebra.web.full.euclidian.inline.InlineTableControllerW;
+import org.geogebra.web.full.euclidian.inline.InlineTextControllerW;
 import org.geogebra.web.full.gui.CustomizeToolbarGUI;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.MyHeaderPanel;
@@ -119,6 +122,7 @@ import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -131,6 +135,8 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 import org.geogebra.web.shared.ggtapi.LoginOperationW;
 import org.geogebra.web.shared.ggtapi.models.MaterialCallback;
 
@@ -138,9 +144,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -149,6 +152,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import elemental2.dom.File;
 
 /**
  * App with all the GUI
@@ -993,9 +998,16 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public AppKeyboardType getKeyboardType() {
-		if ("evaluator".equals(articleElement.getDataParamAppName())
-				&& "normal".equals(articleElement.getParamKeyboardType("normal"))) {
-			return AppKeyboardType.SUITE;
+		if ("evaluator".equals(articleElement.getDataParamAppName())) {
+			String setting = articleElement.getParamKeyboardType("normal");
+			switch (setting) {
+			case "normal":
+				return AppKeyboardType.SUITE;
+			case "notes":
+				return AppKeyboardType.MOW;
+			default:
+				return AppKeyboardType.SCIENTIFIC;
+			}
 		}
 		return getConfig().getKeyboardType();
 	}
@@ -1073,12 +1085,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void startDialogChain() {
 		autosavedMaterial = getFileManager().getAutosaveJSON();
-		afterLocalizationLoaded(new Runnable() {
-			@Override
-			public void run() {
-				maybeShowRecentChangesDialog();
-			}
-		});
+		afterLocalizationLoaded(() -> maybeShowRecentChangesDialog());
 	}
 
 	private void maybeShowRecentChangesDialog() {
@@ -1089,12 +1096,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			String message = localization.getMenu(RECENT_CHANGES_KEY);
 			String readMore = localization.getMenu("tutorial_apps_comparison");
 			String link = "https://www.geogebra.org/m/" + readMore;
-			showRecentChangesDialog(message, link, new Runnable() {
-				@Override
-				public void run() {
-					maybeStartAutosave();
-				}
-			});
+			showRecentChangesDialog(message, link, () -> maybeStartAutosave());
 			setHideRecentChanges(RECENT_CHANGES_KEY);
 		} else {
 			maybeStartAutosave();
@@ -1106,12 +1108,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private boolean shouldShowRecentChangesDialog(String key) {
-		String shown = Cookies.getCookie(getRecentChangesCookieKey(key));
+		String shown = BrowserStorage.LOCAL.getItem(getRecentChangesCookieKey(key));
 		return !"true".equals(shown);
 	}
 
 	private void setHideRecentChanges(String key) {
-		Cookies.setCookie(getRecentChangesCookieKey(key), "true");
+		BrowserStorage.LOCAL.setItem(getRecentChangesCookieKey(key), "true");
 	}
 
 	private void maybeStartAutosave() {
@@ -1119,13 +1121,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return;
 		}
 		if (autosavedMaterial != null && !isStartedWithFile() && getExam() == null) {
-			afterLocalizationLoaded(new Runnable() {
-				@Override
-				public void run() {
-					getDialogManager().showRecoverAutoSavedDialog(
-							AppWFull.this, autosavedMaterial);
-					autosavedMaterial = null;
-				}
+			afterLocalizationLoaded(() -> {
+				getDialogManager().showRecoverAutoSavedDialog(
+						this, autosavedMaterial);
+				autosavedMaterial = null;
 			});
 		} else {
 			startAutoSave();
@@ -1134,18 +1133,13 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	private void showRecentChangesDialog(String message, String link,
 										 final Runnable closingCallback) {
-		final WhatsNewDialog dialog = new WhatsNewDialog(this, message, link);
-		dialog.addCloseHandler(new CloseHandler<GPopupPanel>() {
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> closeEvent) {
-				closingCallback.run();
-			}
-		});
+		DialogData data = new DialogData("WhatsNew", null, "OK");
+		final WhatsNewDialog dialog = new WhatsNewDialog(this, data, message, link);
+		dialog.addCloseHandler(closeEvent -> closingCallback.run());
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
 				dialog.show();
-				dialog.center();
 			}
 		};
 		timer.schedule(0);
@@ -1240,6 +1234,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 */
 	public void loadEmptySlide() {
 		kernel.clearConstruction(true);
+		getSelectionManager().clearSelectedGeos();
 		resetMaxLayerUsed();
 		setCurrentFile(null);
 		resetUI();
@@ -1882,8 +1877,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	private void centerAndResizePopups() {
 		for (Widget w : popups) {
 			if (w instanceof HasKeyboardPopup) {
-				if (w instanceof DialogBoxW) {
-					((DialogBoxW) w).centerAndResize(
+				if (w instanceof DialogBoxW
+						|| w instanceof ComponentDialog) {
+					((GPopupPanel) w).centerAndResize(
 							this.getAppletFrame().getKeyboardHeight());
 				}
 			}
@@ -1913,7 +1909,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public void setFileVersion(String version, String appName) {
 		super.setFileVersion(version, appName);
-		
+
 		if (!"auto".equals(appName)
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
 			getArticleElement().attr("appName",
@@ -1993,7 +1989,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	@Override
-	public void openPDF(JavaScriptObject file) {
+	public void openPDF(File file) {
 		this.getDialogManager().showPDFInputDialog(file);
 	}
 
@@ -2108,7 +2104,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public InlineTextController createInlineTextController(EuclidianView view, GeoInlineText geo) {
 		Element parentElement = ((EuclidianViewW) view).getAbsolutePanel().getParent().getElement();
-		return new InlineTextControllerW(geo, parentElement, view);
+		return new InlineTextControllerW(geo, view, parentElement);
 	}
 
 	@Override
@@ -2117,5 +2113,21 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		EuclidianDockPanelW panel = (EuclidianDockPanelW) getGuiManager().getLayout()
 				.getDockManager().getPanel(VIEW_EUCLIDIAN);
 		return new InlineFormulaControllerW(geo, this, panel.getEuclidianPanel());
+	}
+
+	@Override
+	public InlineTableController createTableController(EuclidianView view, GeoInlineTable geo) {
+		Element parentElement = ((EuclidianViewW) view).getAbsolutePanel().getParent().getElement();
+		return new InlineTableControllerW(geo, view, parentElement);
+	}
+
+	@Override
+	public void closeMenuHideKeyboard() {
+		if (menuShowing) {
+			toggleMenu();
+		}
+		if (getAppletFrame().isKeyboardShowing()) {
+			hideKeyboard();
+		}
 	}
 }

@@ -20,6 +20,7 @@ import elemental2.core.Global;
 import elemental2.dom.DomGlobal;
 
 public class Browser {
+	public static final String ACTION_RESET_URL = "{\"action\": \"resetUrl\"}";
 	private static boolean webWorkerSupported = false;
 	private static Boolean webglSupported = null;
 
@@ -257,10 +258,9 @@ public class Browser {
 	 * @return whether we are running this from another website (local install
 	 *         of app bundle)
 	 */
-	public static boolean runningLocal() {
-		return Location.getProtocol().startsWith("http")
-				&& Location.getHost() != null
-				&& !Location.getHost().contains("geogebra.org");
+	public static boolean isGeoGebraOrg() {
+		return Location.getHost() != null
+				&& Location.getHost().contains("geogebra.org");
 	}
 
 	public native static String navigatorLanguage() /*-{
@@ -530,12 +530,16 @@ public class Browser {
 	 *            new URL
 	 */
 	public static void changeUrl(String string) {
-		if ((Location.getHost() != null
-				&& Location.getHost().contains("geogebra.org")
-				&& !Location.getHost().contains("autotest"))
-				|| string.startsWith("#") || string.startsWith("?")) {
+		if (isAppsServer() || string.startsWith("?")) {
 			nativeChangeUrl(string);
 		}
+	}
+
+	private static boolean isAppsServer() {
+		String host = Location.getHost();
+		return host != null
+				&& (host.contains("geogebra.org") || host.equals("localhost"))
+				&& !Location.getPath().contains(".html");
 	}
 
 	public static native void changeMetaTitle(String title) /*-{
@@ -551,6 +555,13 @@ public class Browser {
 			}
 		}
 	}-*/;
+
+	/**
+	 * resets url to base: no materials or query string.
+	 */
+	public static void resetUrl() {
+		DomGlobal.window.parent.postMessage(ACTION_RESET_URL, "*");
+	}
 
 	/**
 	 * Opens GeoGebraTube material in a new window

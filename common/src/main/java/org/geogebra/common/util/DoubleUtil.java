@@ -159,20 +159,28 @@ public class DoubleUtil {
 
 	/**
 	 * Check difference is small, proportional to numbers
-	 * 
-	 * @param x
-	 *            first number
-	 * @param y
-	 *            second number
-	 * @return x==y
+	 * @param x first number
+	 * @param y second number
+	 * @return x == y, with standard precision
 	 */
-	final public static boolean isRatioEqualTo1(double x, double y) {
+	public static boolean isRatioEqualTo1(double x, double y) {
+		return isRatioEqualTo1(x, y, Kernel.STANDARD_PRECISION);
+	}
+
+	/**
+	 * Check difference is small, proportional to numbers
+	 * @param x first number
+	 * @param y second number
+	 * @param precision precision to use when comparing
+	 * @return x == y, with the given precision
+	 */
+	public static boolean isRatioEqualTo1(double x, double y, double precision) {
 		if (x == y) {
 			return true;
 		}
-	
-		double eps = Kernel.STANDARD_PRECISION * Math.min(Math.abs(x), Math.abs(y));
-	
+
+		double eps = precision * Math.min(Math.abs(x), Math.abs(y));
+
 		return ((x - eps) <= y) && (y <= (x + eps));
 	}
 

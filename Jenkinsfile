@@ -24,10 +24,14 @@ def s3uploadDefault = { dir, pattern, encoding ->
 }
 
 pipeline {
+    options {
+        gitLabConnection('git.geogebra.org')
+    }
     agent any
     stages {
         stage('build') {
             steps {
+                updateGitlabCommitStatus name: 'build', state: 'pending'
                 writeFile file: 'changes.csv', text: getChangelog()
                 sh label: 'build web', script: './gradlew :web:prepareS3Upload :web:createDraftBundleZip :web:mergeDeploy -Pgdraft=true'
                 sh label: 'test', script: "./gradlew :common-jre:test :desktop:test :common-jre:jacocoTestReport :web:test"
@@ -49,6 +53,7 @@ pipeline {
                 ]
                 publishCoverage adapters: [jacocoAdapter('**/build/reports/jacoco/test/*.xml')],
                     sourceFileResolver: sourceFiles('NEVER_STORE')
+
             }
         }
         stage('archive') {
@@ -67,6 +72,12 @@ pipeline {
         }
     }
     post {
+        unsuccessful {
+            updateGitlabCommitStatus name: 'build', state: 'failed'
+        }
+        success {
+            updateGitlabCommitStatus name: 'build', state: 'success'
+        }
         always {
            cleanAndNotify()
         }

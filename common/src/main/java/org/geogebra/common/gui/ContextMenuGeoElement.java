@@ -3,11 +3,15 @@ package org.geogebra.common.gui;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
+import org.geogebra.common.euclidian.draw.DrawInlineTable;
+import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -16,7 +20,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -28,7 +31,10 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpreadsheetTraceManager;
+import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.CopyPaste;
 
 /**
  * @author gabor
@@ -580,24 +586,15 @@ public abstract class ContextMenuGeoElement {
 					int y = app.getActiveEuclidianView()
 							.toScreenCoordY(geoText.getRealWorldLocY());
 					geoText.setAbsoluteScreenLoc(x, y);
-					if (geoText.isGeoImage() && geoText.getKernel()
-							.getApplication().isWhiteboardActive()) {
-						((GeoImage) geoText).updateScaleAndLocation();
-					}
 				} else {
 					// convert screen coords to real world
-					if (geoText.isGeoImage() && geoText.getKernel()
-							.getApplication().isWhiteboardActive()) {
-						((GeoImage) geoText).screenToReal();
-					} else {
-						double x = app.getActiveEuclidianView()
-								.toRealWorldCoordX(
-										geoText.getAbsoluteScreenLocX());
-						double y = app.getActiveEuclidianView()
-								.toRealWorldCoordY(
-										geoText.getAbsoluteScreenLocY());
-						geoText.setRealWorldLoc(x, y);
-					}
+					double x = app.getActiveEuclidianView()
+							.toRealWorldCoordX(
+									geoText.getAbsoluteScreenLocX());
+					double y = app.getActiveEuclidianView()
+							.toRealWorldCoordY(
+									geoText.getAbsoluteScreenLocY());
+					geoText.setRealWorldLoc(x, y);
 				}
 				geoText.setAbsoluteScreenLocActive(flag);
 				geoText.updateRepaint();
@@ -721,11 +718,13 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void cutCmd() {
 		ensureGeoInSelection();
-		getActiveEuclidianController().splitSelectedStrokes(true);
-		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos());
+		HasTextFormat controller = getSelectedTextController();
+		if (controller != null && controller.copySelection()) {
+			controller.setSelectionText("");
+			return;
+		}
+		CopyPaste.handleCutCopy(app, true);
 		app.getActiveEuclidianView().resetBoundingBoxes();
-		deleteCmd(true);
 	}
 
 	/**
@@ -743,15 +742,26 @@ public abstract class ContextMenuGeoElement {
 	 */
 	public void copyCmd() {
 		ensureGeoInSelection();
-		ArrayList<GeoElement> selection
-				= new ArrayList<>(app.getSelectionManager().getSelectedGeos());
+		HasTextFormat controller = getSelectedTextController();
+		if (controller != null && controller.copySelection()) {
+			return;
+		}
+		CopyPaste.handleCutCopy(app, false);
+	}
 
-		getActiveEuclidianController().splitSelectedStrokes(false);
-		app.getCopyPaste().copyToXML(app,
-				app.getSelectionManager().getSelectedGeos());
-		getActiveEuclidianController().removeSplitParts();
-
-		app.getSelectionManager().setSelectedGeos(selection);
+	protected HasTextFormat getSelectedTextController() {
+		SelectionManager selection = app.getSelectionManager();
+		if (selection.getSelectedGeos().size() == 1) {
+			DrawableND drawable = app.getActiveEuclidianView()
+					.getDrawableFor(selection.getSelectedGeos().get(0));
+			if (drawable instanceof DrawInlineText) {
+				return ((DrawInlineText) drawable).getTextController();
+			}
+			if (drawable instanceof DrawInlineTable) {
+				return ((DrawInlineTable) drawable).getTableController();
+			}
+		}
+		return null;
 	}
 
 	protected EuclidianController getActiveEuclidianController() {
@@ -762,6 +772,16 @@ public abstract class ContextMenuGeoElement {
 	 * Pastes copied elements
 	 */
 	public void pasteCmd() {
+		final HasTextFormat controller = getSelectedTextController();
+		if (controller != null) {
+			app.getCopyPaste().paste(app, new AsyncOperation<String>() {
+				@Override
+				public void callback(String obj) {
+					controller.setSelectionText(obj);
+				}
+			});
+			return;
+		}
 		app.getCopyPaste().pasteFromXML(app);
 	}
 

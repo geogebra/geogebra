@@ -79,12 +79,29 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 		add("f(x)=?");
 		shouldBeUpdatedAs("f", "21xarctanx", "21 x tan"
 				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+		shouldBeUpdatedAs("f", "22xarctan(x)", "22 x tan"
+				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+	}
+
+	@Test
+	public void testSinPower() {
+		add("f(x)=?");
+		shouldBeUpdatedAs("f", "xsin^2(x)", unicode("x sin^2(x)"));
+		shouldBeUpdatedAs("f", "xsin^(-1)(x)", "x sin"
+				+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(x)");
+	}
+
+	@Test
+	public void functionPowerShouldNotBeUsedForProduct() {
+		add("f(r,t)=?");
+		shouldBeUpdatedAs("f", "t^2 r^(11t)", unicode("t^2 r^(11 t)"));
 	}
 
 	@Test
 	public void testCost7() {
 		add("g(t)=?");
 		shouldBeUpdatedAs("g", "-tcos7t/7", "(-(t cos(7 t)))/7");
+		shouldBeUpdatedAs("g", "-tcos(8t)/7", "(-(t cos(8 t)))/7");
 	}
 
 	@Test
@@ -136,7 +153,7 @@ public class GeoInputBoxForProductTest extends BaseUnitTest {
 
 	@Test
 	public void testImaginaryProduct() {
-		add("a=4");
+		add("a=4+i");
 		shouldBeUpdatedAs("a", "i1", "i");
 	}
 

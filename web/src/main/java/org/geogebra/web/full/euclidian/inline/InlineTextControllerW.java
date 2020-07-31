@@ -1,4 +1,4 @@
-package org.geogebra.web.full.euclidian;
+package org.geogebra.web.full.euclidian.inline;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
@@ -15,6 +15,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
+import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 
@@ -41,21 +42,24 @@ public class InlineTextControllerW implements InlineTextController {
 	 * @param parent
 	 *            parent div
 	 */
-	public InlineTextControllerW(GeoInlineText geo, Element parent,
-			EuclidianView view) {
+	public InlineTextControllerW(GeoInlineText geo, EuclidianView view, Element parent) {
 		this.geo = geo;
 		this.parent = parent;
 		this.view = view;
-		checkFonts();
+		checkFonts(geo.getFormat(), getCallback());
 	}
 
-	private void checkFonts() {
+	/**
+	 * Check for bundled fonts in content, and load them
+	 * @param words array of Murok runs
+	 * @param callback to be executed after font is loaded
+	 */
+	public static void checkFonts(JSONArray words, Runnable callback) {
 		try {
-			JSONArray words = geo.getFormat();
 			for (int i = 0; i < words.length(); i++) {
 				JSONObject word = words.optJSONObject(i);
 				if (word.has("font")) {
-					FontLoader.loadFont(word.getString("font"), getCallback());
+					FontLoader.loadFont(word.getString("font"), callback);
 				}
 			}
 		} catch (JSONException | RuntimeException e) {
@@ -93,7 +97,7 @@ public class InlineTextControllerW implements InlineTextController {
 			public void onSizeChanged(int minHeight) {
 				int actualMinHeight = minHeight + 2 * DrawInlineText.PADDING;
 				if (geo.getMinHeight() != actualMinHeight) {
-					geo.setHeight(Math.max(actualMinHeight, geo.getHeight()));
+					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
 					geo.setMinHeight(actualMinHeight);
 					geo.updateRepaint();
 				}
@@ -211,6 +215,17 @@ public class InlineTextControllerW implements InlineTextController {
 	@Override
 	public String urlByCoordinate(int x, int y) {
 		return editor.urlByCoordinate(x, y);
+	}
+
+	@Override
+	public boolean copySelection() {
+		String text = editor.getSelectionRangeText();
+		return CopyPasteW.writeToExternalClipboardIfNonempty(text);
+	}
+
+	@Override
+	public void setSelectionText(String text) {
+		editor.setSelection(text);
 	}
 
 	@Override

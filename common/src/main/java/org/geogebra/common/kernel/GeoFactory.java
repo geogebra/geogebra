@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoInterval;
@@ -129,6 +130,8 @@ public class GeoFactory {
 			return new GeoText(cons1);
 		case "textfield":
 			return new GeoInputBox(cons1);
+		case "table":
+			return new GeoInlineTable(cons1, null);
 		case "video":
 			return new GeoVideo(cons1);
 		case "vector":

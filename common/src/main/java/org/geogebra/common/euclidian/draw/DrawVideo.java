@@ -30,7 +30,7 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 	 *            The GeoElement that represents the video content.
 	 */
 	public DrawVideo(EuclidianView view, GeoVideo geo) {
-		super(view, geo);
+		super(view, geo, geo.getFormat() != MediaFormat.VIDEO_YOUTUBE);
 		this.video = geo;
 		this.app = geo.getKernel().getApplication();
 
@@ -45,16 +45,6 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 		if (app.getVideoManager() != null) {
 			app.getVideoManager().updatePlayer(this);
 		}
-	}
-
-	@Override
-	public double getWidthThreshold() {
-		return GeoVideo.VIDEO_SIZE_THRESHOLD;
-	}
-
-	@Override
-	public double getHeightThreshold() {
-		return GeoVideo.VIDEO_SIZE_THRESHOLD;
 	}
 
 	@Override
@@ -81,11 +71,6 @@ public class DrawVideo extends DrawWidget implements RemoveNeeded {
 	@Override
 	public GeoWidget getGeoElement() {
 		return video;
-	}
-
-	@Override
-	public boolean isFixedRatio() {
-		return video.getFormat() != MediaFormat.VIDEO_YOUTUBE;
 	}
 
 	@Override

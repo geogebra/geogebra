@@ -41,19 +41,7 @@ public interface RectangleTransformable extends GeoElementND {
 	 */
 	GPoint2D getLocation();
 
-	/**
-	 * Set the width of the element.
-	 *
-	 * @param width element width in pixels
-	 */
-	void setWidth(double width);
-
-	/**
-	 * Set the height of the element.
-	 *
-	 * @param height height in pixels
-	 */
-	void setHeight(double height);
+	void setSize(double width, double height);
 
 	/**
 	 * @param angle rotation angle in radians

@@ -52,7 +52,7 @@ final class EditorCompositionHandler
 			// inserted string should only depend on `compositionend`
 			// in Safari the data in `cmpositionupdate` is just Latin chars
 			editor.insertString(event.getData());
-			editor.getInternal().notifyAndUpdate();
+			editor.getInternal().notifyAndUpdate(event.getData());
 		}
 	}
 }

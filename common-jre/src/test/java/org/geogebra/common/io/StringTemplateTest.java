@@ -1,5 +1,6 @@
 package org.geogebra.common.io;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.cas.giac.CASgiac;
@@ -16,6 +17,7 @@ import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.test.OrderingComparison;
 import org.geogebra.test.TestErrorHandler;
+import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,7 +92,7 @@ public class StringTemplateTest {
 		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
 		tcl("If[x>0,x]", caseSimple);
 		tcl("If[x>0,x,-x]", "\\left\\{\\begin{array}{ll} x& : x > 0\\\\"
-						+ " -x& : \\text{otherwise} \\end{array}\\right. ");
+				+ " -x& : \\text{otherwise} \\end{array}\\right. ");
 		String caseThree = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\"
 				+ " -x& : x < 0\\\\ 7& : \\text{otherwise} \\end{array}\\right. ";
 		tcl("If[x>1,x,If[x<0,-x,7]]", caseThree);
@@ -144,9 +146,9 @@ public class StringTemplateTest {
 
 	@Test
 	public void testInequality() {
-		String[] testI = new String[] { "(x>=3) && (7>=x) && (10>=x)" };
-		String[] test = new String[] { "aaa", "(a)+b", "3", "((a)+(b))+7" };
-		String[] testFalse = new String[] { "3(", "(((7)))" };
+		String[] testI = new String[]{"(x>=3) && (7>=x) && (10>=x)"};
+		String[] test = new String[]{"aaa", "(a)+b", "3", "((a)+(b))+7"};
+		String[] testFalse = new String[]{"3(", "(((7)))"};
 		for (String t : test) {
 			Assert.assertTrue(
 					RegExp.compile("^" + CASgiac.expression + "$").test(t));
@@ -183,4 +185,13 @@ public class StringTemplateTest {
 				node.toString(StringTemplate.latexTemplate));
 	}
 
+	@Test
+	public void testConvertScientificNotationGiac() {
+		StringTemplate template = StringTemplate.giacTemplate;
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3E3"), is("3000"));
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33"), is("(333/100)"));
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E1"), is("(333/10)"));
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E2"), is("333"));
+		MatcherAssert.assertThat(template.convertScientificNotationGiac("3.33E3"), is("3330"));
+	}
 }

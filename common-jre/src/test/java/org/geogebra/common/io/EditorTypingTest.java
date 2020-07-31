@@ -34,21 +34,26 @@ public class EditorTypingTest {
 	@Test
 	public void testEditorUnicode() {
 		checker.checkEditorInsert(TestStringUtil.unicode("x/sqrt(x^2+4)"),
-				TestStringUtil.unicode("x/sqrt(x^2+4)"));
+				"(x)/(sqrt(x^(2)+4))");
 		checker.checkEditorInsert("x/(" + Unicode.EULER_STRING + "^x+1)",
-				"x/(" + Unicode.EULER_STRING + "^x+1)");
+				"(x)/(" + Unicode.EULER_STRING + "^(x)+1)");
 
 		checker.checkEditorInsert("3*x", "3*x");
 	}
 
 	@Test
 	public void testEditor() {
-		checker.checkEditorInsert("sqrt(x/2)", "sqrt(x/2)");
+		checker.checkEditorInsert("sqrt(x/2)", "sqrt((x)/(2))");
 
 		checker.checkEditorInsert("1+2+3-4", "1+2+3-4");
 		checker.checkEditorInsert("12345", "12345");
-		checker.checkEditorInsert("1/2/3/4", "1/2/3/4");
+		checker.checkEditorInsert("1/2/3/4", "(((1)/(2))/(3))/(4)");
 		checker.checkEditorInsert("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
+	}
+
+	@Test
+	public void insertNrootShouldMaintainArgumentsOrder() {
+		checker.checkEditorInsert("nroot(x,3)", "nroot(x,3)");
 	}
 
 	@Test
@@ -118,6 +123,10 @@ public class EditorTypingTest {
 
 	@Test
 	public void testKorean() {
+		checker.checkEditorInsert("\u3141", "\u3141");
+		checker.checkEditorInsert("\u3141\u3157", "\uBAA8");
+		checker.checkEditorInsert("\u3141\u3157\u3131", "\uBAA9");
+		checker.checkEditorInsert("\u3141\u3157\u3131\u3145", "\uBAAB");
 
 		checker.checkEditorInsert("\u3147\u314F\u3139\u314D\u314F", "\uC54C\uD30C");
 		checker.checkEditorInsert("\u314A\u315C\u3139\u3131\u314F", "\uCD9C\uAC00");

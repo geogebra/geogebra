@@ -38,7 +38,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 
 	@Override
 	public void onModuleLoad() {
-		TestArticleElement parameters = new TestArticleElement("true", "Solver");
+		TestArticleElement parameters = new TestArticleElement("Solver");
 		app = new AppWsolver(parameters, new GeoGebraFrameSimple(parameters));
 
 		if (FactoryProvider.getInstance() == null) {
@@ -99,7 +99,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 	}
 
 	@Override
-	public void onKeyTyped() {
+	public void onKeyTyped(String key) {
 		// TODO Auto-generated method stub
 	}
 

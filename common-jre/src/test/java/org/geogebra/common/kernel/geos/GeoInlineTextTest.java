@@ -41,8 +41,7 @@ public class GeoInlineTextTest extends BaseUnitTest {
 		GPoint2D startPoint = new GPoint2D(x, y);
 
 		GeoInlineText savedInlineText = new GeoInlineText(cons, startPoint);
-		savedInlineText.setWidth(width);
-		savedInlineText.setHeight(height);
+		savedInlineText.setSize(width, height);
 		savedInlineText.setLabel("testText");
 		savedInlineText.setAngle(angle);
 		savedInlineText.setContent(content);

@@ -2949,14 +2949,6 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			colFunction.unregisterColorFunctionListener(this);
 		}
 
-		/*
-		 * // remove all dependent algorithms if (algorithmList != null) { final
-		 * Object[] algos = algorithmList.toArray(); for (int i = 0; i <
-		 * algos.length; i++) { algo = (AlgoElement) algos[i];
-		 * algo.remove(this); cons.updateCasCellRows(); } //
-		 * cons.updateCasCellRows(); }
-		 */
-
 		// remove this object from table
 		if (isLabelSet()) {
 			cons.removeLabel(this);
@@ -5625,7 +5617,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	@Override
 	public boolean isEqual(GeoElementND geo) {
-		return this == geo;
+		return geo == this;
 	}
 
 	/**
@@ -6271,6 +6263,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/**
 	 * @return true for intervals
 	 */
+	@Override
 	public boolean isGeoInterval() {
 		return false;
 	}

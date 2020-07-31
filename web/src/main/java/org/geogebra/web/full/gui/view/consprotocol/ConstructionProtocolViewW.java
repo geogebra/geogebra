@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.consprotocol;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -461,8 +460,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				if (el != null && el.getParentNode() != null && el
 						.getParentElement().hasClassName("CP_popupImage")) { // three-dot
 																	// menu
-					popupMenu.show(new GPoint(el.getAbsoluteLeft(),
-							el.getAbsoluteBottom()));
+					popupMenu.show(el.getAbsoluteLeft(),
+							el.getAbsoluteBottom());
 				}
 			}
 		};

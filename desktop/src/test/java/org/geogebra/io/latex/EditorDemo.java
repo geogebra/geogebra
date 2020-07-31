@@ -68,7 +68,7 @@ public class EditorDemo {
 			}
 
 			@Override
-			public void onKeyTyped() {
+			public void onKeyTyped(String key) {
 				// TODO Auto-generated method stub
 
 			}
@@ -98,9 +98,7 @@ public class EditorDemo {
 
 			@Override
 			public void onInsertString() {
-				mathField.setFormula(
-						GeoGebraSerializer.reparse(mathField.getFormula()));
-
+				// nothing to do
 			}
 
 			@Override

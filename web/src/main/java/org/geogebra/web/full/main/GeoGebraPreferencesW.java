@@ -4,9 +4,8 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
+import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
-
-import com.google.gwt.storage.client.Storage;
 
 /**
  * Preferences in Web (Local Storage)
@@ -32,13 +31,9 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 	 *            application
 	 */
 	public void clearPreferences(App app) {
-		Storage stockStore = null;
-		stockStore = Storage.getLocalStorageIfSupported();
-		if (stockStore != null) {
-			stockStore.removeItem(getPrefKey(app));
-			stockStore.removeItem(getDefaultsKey(app));
-		}
-
+		BrowserStorage stockStore = BrowserStorage.LOCAL;
+		stockStore.removeItem(getPrefKey(app));
+		stockStore.removeItem(getDefaultsKey(app));
 	}
 
 	private static String getPrefKey(App app) {
@@ -65,16 +60,13 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 	 */
 	public void saveXMLPreferences(App app) {
 		String xml = app.getPreferencesXML();
-		Storage stockStore = null;
-		stockStore = Storage.getLocalStorageIfSupported();
-		if (stockStore != null) {
-			stockStore.setItem(getPrefKey(app), xml);
-			StringBuilder sb = new StringBuilder();
-			app.getKernel().getConstruction().getConstructionDefaults()
-					.getDefaultsXML(sb);
-			String objectPrefsXML = sb.toString();
-			stockStore.setItem(getDefaultsKey(app), objectPrefsXML);
-		}
+		BrowserStorage stockStore = BrowserStorage.LOCAL;
+		stockStore.setItem(getPrefKey(app), xml);
+		StringBuilder sb = new StringBuilder();
+		app.getKernel().getConstruction().getConstructionDefaults()
+				.getDefaultsXML(sb);
+		String objectPrefsXML = sb.toString();
+		stockStore.setItem(getDefaultsKey(app), objectPrefsXML);
 	}
 
 	/**
@@ -86,12 +78,9 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 	public void loadForApp(AppW app, Perspective p0) {
 		Perspective p = p0;
 		// code moved here from AppWapplication.afterCoreObjectsInited - end
-		Storage stockStore = null;
-
-		stockStore = Storage.getLocalStorageIfSupported();
+		BrowserStorage stockStore = BrowserStorage.LOCAL;
 		// if (stockStore != null) {
-		String xml = stockStore == null ? null
-				: stockStore.getItem(getPrefKey(app));
+		String xml = stockStore.getItem(getPrefKey(app));
 		if (xml != null) {
 			app.setXML(xml, false);
 		} else {
@@ -116,7 +105,7 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 	}
 
-	private static void readObjectDefaults(App app, Storage stockStore) {
+	private static void readObjectDefaults(App app, BrowserStorage stockStore) {
 		if (stockStore == null) {
 			return;
 		}

@@ -305,16 +305,14 @@
                 // NOTE: this needs to be adjusted according what is added to the dialog
                 // (e.g. if no buttons do not add button panel height)
                 height: calc(100% - 92px);
-                background-color: aliceblue;
                 padding-right: 24px;
             }
 
             .dialogBtnPanel {
-                display: inline-block;
+                display: inline-flex;
                 padding: 8px 8px 8px 24px;
-                position: absolute;
-                right: 0px;
-                bottom: 0px;
+                position: relative;
+                float: right;
             }
         }
     }
@@ -343,6 +341,15 @@
         .html-face {
             text-align: center;
         }
+
+        &.disabled {
+            color: $disabled-text-btn-col;
+
+            &:hover {
+                background: transparent;
+                cursor: default;
+            }
+        }
     }
 
     /** Material Design CONTAINED BUTTON **/
@@ -358,6 +365,17 @@
         &:hover {
             background: $mow_primary;
             box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0,0,0,.12);
+        }
+
+        &.disabled {
+            background-color: $disabled-contained-btn-bg;
+            color: $disabled-contained-btn-col;
+
+            &:hover {
+                cursor: default;
+                background: $disabled-contained-btn-bg;
+                box-shadow: none;
+            }
         }
     }
 

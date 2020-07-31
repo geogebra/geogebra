@@ -7,6 +7,10 @@ dependencies {
 			"com.google.gwt:gwt-user:$gwtCompilerVersion",
 			project(':common'),
 			'io.bit3:jsass:5.4.0'
+
+	compile group: 'com.google.elemental2', name: 'elemental2-core', version: '1.1.0'
+	compile group: 'com.google.elemental2', name: 'elemental2-dom', version: '1.1.0'
+	compile group: 'com.google.elemental2', name: 'elemental2-webstorage', version: '1.1.0'
 }
 
 sourceCompatibility = 1.8
@@ -14,19 +18,20 @@ targetCompatibility = 1.8
 
 configurations.all {
    resolutionStrategy {
-       failOnVersionConflict()
-       force 'org.eclipse.jetty:jetty-util:9.2.25.v20180606'
-       force 'org.eclipse.jetty:jetty-io:9.2.25.v20180606'
-       force 'commons-io:commons-io:2.5'
-       force 'commons-collections:commons-collections:3.2.2'
-       force 'org.apache.commons:commons-lang3:3.5'
-       force 'org.ow2.asm:asm:7.1'
-       force 'org.ow2.asm:asm-commons:7.1'
-       force 'commons-codec:commons-codec:1.10'
-       force 'xml-apis:xml-apis:1.4.01'
+	   failOnVersionConflict()
+	   force 'org.eclipse.jetty:jetty-util:9.2.25.v20180606'
+	   force 'org.eclipse.jetty:jetty-io:9.2.25.v20180606'
+	   force 'commons-io:commons-io:2.5'
+	   force 'commons-collections:commons-collections:3.2.2'
+	   force 'org.apache.commons:commons-lang3:3.5'
+	   force 'org.ow2.asm:asm:7.1'
+	   force 'org.ow2.asm:asm-commons:7.1'
+	   force 'commons-codec:commons-codec:1.10'
+	   force 'xml-apis:xml-apis:1.4.01'
+	   force 'com.google.jsinterop:jsinterop-annotations:2.0.0'
    }
 }
 
 javadoc {
-    options.addStringOption("sourcepath", "")
+	options.addStringOption("sourcepath", "")
 }

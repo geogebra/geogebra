@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.dialog;
 import java.util.EnumSet;
 
 import org.geogebra.common.factories.FormatFactory;
-import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.Export3dDialogInterface;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.validator.NumberValidator;
@@ -12,29 +11,20 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.web.full.gui.components.ComponentInputField;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.OnBackSpaceHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 /**
  * Dialog for export 3D
- *
  */
-public class Export3dDialog extends OptionDialog
-		implements Export3dDialogInterface, SetLabels, HasKeyboardPopup {
-
+public class Export3dDialog extends ComponentDialog
+		implements Export3dDialogInterface, HasKeyboardPopup {
 	final static private double MM_TO_CM = 0.1;
 
 	private Runnable onExportButtonPressed;
@@ -210,28 +200,13 @@ public class Export3dDialog extends OptionDialog
 		public void setController() {
 			// from hardware keyboard
 			inputField.getTextField().getTextComponent()
-					.addKeyUpHandler(new KeyUpHandler() {
-						@Override
-						public void onKeyUp(KeyUpEvent e) {
-							parseAndUpdateOthers();
-						}
-					});
+					.addKeyUpHandler(e -> parseAndUpdateOthers());
 
 			// from soft keyboard
 			inputField.getTextField().getTextComponent()
-					.addInsertHandler(new InsertHandler() {
-						@Override
-						public void onInsert(String text) {
-							parseAndUpdateOthers();
-						}
-					});
+					.addInsertHandler(text -> parseAndUpdateOthers());
 			inputField.getTextField().getTextComponent()
-					.addOnBackSpaceHandler(new OnBackSpaceHandler() {
-						@Override
-						public void onBackspace() {
-							parseAndUpdateOthers();
-						}
-					});
+					.addOnBackSpaceHandler(this::parseAndUpdateOthers);
 		}
 
 		void parseAndUpdateOthers() {
@@ -279,33 +254,28 @@ public class Export3dDialog extends OptionDialog
 	 * 
 	 * @param app
 	 *            app
+	 * @param data
+	 * 			  dialog transkeys
 	 * @param view
 	 *            exported view
 	 */
-	public Export3dDialog(final AppW app, final View view) {
-		super(app.getPanel(), app, false);
-		buildGui();
-		setPrimaryButtonEnabled(true);
-		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				app.getKernel().detach(view);
-				app.unregisterPopup(Export3dDialog.this);
-				app.hideKeyboard();
-			}
+	public Export3dDialog(final AppW app, DialogData data, final View view) {
+		super(app, data, false, true);
+		addStyleName("export3dDialog");
+		buildContent();
+		this.addCloseHandler(event -> {
+			app.getKernel().detach(view);
+			app.unregisterPopup(this);
+			app.hideKeyboard();
 		});
-		setGlassEnabled(true);
 	}
 
-	private void buildGui() {
-		addStyleName("export3dDialog");
+	private void buildContent() {
 		FlowPanel contentPanel = new FlowPanel();
 		buildDimensionsPanel(contentPanel);
 		buildScalePanel(contentPanel);
 		buildLineThicknessPanel(contentPanel);
-		buildButtonPanel(contentPanel);
-		add(contentPanel);
-		setLabels();
+		addDialogContent(contentPanel);
 		createController();
 	}
 
@@ -340,20 +310,18 @@ public class Export3dDialog extends OptionDialog
 		thicknessPanel.setStyleName("panelRow");
 		lineThicknessValue = addTextField("STL.Thickness", "mm",
 				thicknessPanel);
-		filledSolid = new CheckBox();
-		filledSolid.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				if (filledSolid.getValue()) {
-					oldLineThicknessValue = lineThicknessValue.getText();
-					lineThicknessValue.setInputText("");
-				} else {
-					String current = lineThicknessValue.getText();
-					if (oldLineThicknessValue != null && current == null
-							|| current.trim().length() == 0) {
-						lineThicknessValue
-								.setInputText(oldLineThicknessValue);
-					}
+		filledSolid = new CheckBox(app.getLocalization()
+				.getMenuDefault("STL.FilledSolid", "Filled Solid"));
+		filledSolid.addClickHandler(event -> {
+			if (filledSolid.getValue()) {
+				oldLineThicknessValue = lineThicknessValue.getText();
+				lineThicknessValue.setInputText("");
+			} else {
+				String current = lineThicknessValue.getText();
+				if (oldLineThicknessValue != null && current == null
+						|| current.trim().length() == 0) {
+					lineThicknessValue
+							.setInputText(oldLineThicknessValue);
 				}
 			}
 		});
@@ -369,15 +337,11 @@ public class Export3dDialog extends OptionDialog
 		return field;
 	}
 
-	private void buildButtonPanel(FlowPanel root) {
-		root.add(getButtonPanel());
-	}
-
 	private static boolean checkOkAndSetFocus(boolean ok, boolean currentOk,
 			ComponentInputField inputField) {
 		if (ok) {
 			if (!currentOk) {
-				focusDeferred(inputField);
+				inputField.focusDeferred();
 				return false;
 			}
 			return true;
@@ -386,7 +350,7 @@ public class Export3dDialog extends OptionDialog
 	}
 
 	@Override
-	protected void processInput() {
+	public void onPositiveAction() {
 		// check if everything can be parsed ok
 		boolean ok = true;
 		for (DimensionField f : DimensionField.values()) {
@@ -403,19 +367,6 @@ public class Export3dDialog extends OptionDialog
 				onExportButtonPressed.run();
 			}
 		}
-	}
-
-	@Override
-	public void setLabels() {
-		getCaption()
-				.setText(app.getLocalization().getMenu("DownloadAsStl"));
-		for (DimensionField f : DimensionField.values()) {
-			f.inputField.setLabels();
-		}
-		lineThicknessValue.setLabels();
-		filledSolid.setText(app.getLocalization()
-				.getMenuDefault("STL.FilledSolid", "Filled Solid"));
-		updateButtonLabels("Download");
 	}
 
 	private void initValues(double width, double length, double height,
@@ -463,5 +414,4 @@ public class Export3dDialog extends OptionDialog
 		return filledSolid.getValue()
 				|| DoubleUtil.isZero(getCurrentThickness());
 	}
-
 }

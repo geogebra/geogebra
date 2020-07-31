@@ -20,7 +20,7 @@ public class InputBarHelpPanelWTest {
     @Test
     public void onlineHelpShownIfMenuBarIsShown() {
         ArticleElementInterface articleElement =
-                new TestArticleElement("prerelease", "classic")
+                new TestArticleElement("classic")
                     .attr("showMenuBar", "true");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
@@ -36,7 +36,7 @@ public class InputBarHelpPanelWTest {
     @Test
     public void onlineHelpNotShownIfMenuBarIsNotShown() {
         ArticleElementInterface articleElement =
-                new TestArticleElement("prerelease", "classic")
+                new TestArticleElement("classic")
                         .attr("showMenuBar", "false");
         AppWFull app = AppMocker.mockApplet(articleElement);
 
