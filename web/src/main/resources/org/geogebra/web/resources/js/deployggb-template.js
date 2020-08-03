@@ -400,7 +400,7 @@ var GGBApplet = function() {
             var currentChild = appletParent.childNodes[i];
             var className = currentChild.className;
 
-            if (currentChild.className === "applet_screenshot") {
+            if (className === "applet_screenshot") {
                 if (showScreenshot) {
                     // Show the screenshot instead of the removed applet
                     currentChild.style.display = "block";
@@ -412,7 +412,7 @@ var GGBApplet = function() {
             } else if (className !== "applet_scaler prerender") {
                 // Remove the applet
                 appletParent.removeChild(currentChild);
-                removedID = className.contains("appletParameters") ? currentChild.id : null;
+                removedID = (className && className.contains("appletParameters")) ? currentChild.id : null;
                 i--;
             }
         }
