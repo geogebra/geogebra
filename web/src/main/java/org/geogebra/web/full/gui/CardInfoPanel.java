@@ -22,6 +22,10 @@ public class CardInfoPanel extends FlowPanel {
 		addSubtitleRow(subtitleRow);
 	}
 
+	public CardInfoPanel() {
+		this("", "subtitle");
+	}
+
 	private void addTitleRow(String title) {
 		titleRow = new Label(title);
 		titleRow.setStyleName("cardTitle");
