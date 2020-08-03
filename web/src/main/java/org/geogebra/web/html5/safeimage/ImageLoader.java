@@ -15,8 +15,9 @@ import org.geogebra.web.html5.util.ImageManagerW;
 public class ImageLoader {
 	private final ImageManagerW imageManager;
 	private final GgbFile archiveContent;
-	private AppW app;
-	private Runnable afterImages;
+	private final AppW app;
+	private final GgbFile originalArchive;
+	private final Runnable afterImages;
 	private final HashMap<String, String> images;
 	private int loadCount;
 
@@ -26,10 +27,11 @@ public class ImageLoader {
 	 * @param archive the ggb file to load images from.
 	 * @param afterImages callback to run after all images are loaded.
 	 */
-	public ImageLoader(AppW app, GgbFile archive, Runnable afterImages) {
+	public ImageLoader(AppW app, GgbFile archive, GgbFile originalArchive, Runnable afterImages) {
 		this.app = app;
 		this.imageManager = app.getImageManager();
 		this.archiveContent = archive;
+		this.originalArchive = originalArchive;
 		this.afterImages = afterImages;
 		images = new HashMap<>();
 	}
@@ -83,6 +85,6 @@ public class ImageLoader {
 			imageManager.triggerImageLoading(app, afterImages, images);
 		}
 
-		app.setCurrentFile(archiveContent);
+		app.setCurrentFile(originalArchive);
 	}
 }
