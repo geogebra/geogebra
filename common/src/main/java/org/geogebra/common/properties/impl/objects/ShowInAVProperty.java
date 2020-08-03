@@ -32,9 +32,4 @@ public class ShowInAVProperty extends AbstractProperty implements BooleanPropert
 		App app = element.getApp();
 		app.updateGuiForShowAuxiliaryObjects();
 	}
-
-	@Override
-	public boolean isEnabled() {
-		return element.isEuclidianVisible();
-	}
 }
