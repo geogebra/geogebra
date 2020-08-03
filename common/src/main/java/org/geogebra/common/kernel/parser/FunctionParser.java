@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.ParametricCurve;
@@ -66,15 +67,16 @@ public class FunctionParser {
 	 *            list of arguments
 	 * @param undecided
 	 *            list of nodes that may be either fns or multiplications
-	 * @param GiacParsing
+	 * @param giacParsing
 	 *            whether this is for Giac
 	 * @return function node
 	 */
 	public ExpressionNode makeFunctionNode(String cimage, MyList myList,
-			ArrayList<ExpressionNode> undecided, boolean GiacParsing, boolean GeoGebraCASParsing) {
+			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing,
+			boolean inputBoxParsing) {
 		String funcName = cimage.substring(0, cimage.length() - 1);
 		ExpressionNode en;
-		if (GiacParsing) {
+		if (giacParsing) {
 			// check for special Giac functions, e.g. diff, Psi etc.
 			en = CommandDispatcherGiac.processCommand(funcName, myList, kernel);
 			if (en != null) {
@@ -143,18 +145,20 @@ public class FunctionParser {
 			}
 			if (myList.size() == 1) {
 				ExpressionNode splitCommand = makeSplitCommand(funcName,
-						myList.getListElement(0), GiacParsing || GeoGebraCASParsing);
+						myList.getListElement(0), giacParsing || geoGebraCASParsing);
 				if (splitCommand != null) {
 					return splitCommand;
 				}
 			}
-			// function name does not exist: return command
-			Command cmd = new Command(kernel, funcName, true, !GiacParsing);
-			for (int i = 0; i < myList.size(); i++) {
-				cmd.addArgument(myList.getListElement(i).wrap());
-			}
-			return new ExpressionNode(kernel, cmd);
 
+			if (!inputBoxParsing || isCommand(funcName)) {
+				// function name does not exist: return command
+				Command cmd = new Command(kernel, funcName, true, !giacParsing);
+				for (int i = 0; i < myList.size(); i++) {
+					cmd.addArgument(myList.getListElement(i).wrap());
+				}
+				return new ExpressionNode(kernel, cmd);
+			}
 		}
 		// make sure we don't send 0th derivative to CAS
 		if (cell != null && order > 0) {
@@ -207,27 +211,34 @@ public class FunctionParser {
 								.toString(StringTemplate.defaultTemplate));
 			}
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION, myList.getListElement(0));
-		} else if (geo.isGeoCurveCartesian() || (geo.isGeoLine() && geo.isGeoElement3D())) {
+		} else if (geo != null
+				&& (geo.isGeoCurveCartesian() || (geo.isGeoLine() && geo.isGeoElement3D()))) {
 			// vector function
 			// at this point we have eg myList={{1,2}}, so we need first element
 			// of myList
 			return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION,
 					myList.getListElement(0));
-		} else if (geo.isGeoSurfaceCartesian()) {
+		} else if (geo != null && geo.isGeoSurfaceCartesian()) {
 			ExpressionValue vecArg = myList;
 			if (myList.size() == 1 && !(myList.getItem(0) instanceof ListValue)) {
 				vecArg = myList.getItem(0);
 			}
 			return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION, vecArg);
-		}
-		// list1(1) to get first element of list1 #1115
-		else if (list) {
+		} else if (list) {
+			// list1(1) to get first element of list1 #1115
 			return new ExpressionNode(kernel, geoExp, Operation.ELEMENT_OF, myList);
-			// String [] str = { "FunctionExpected", funcName };
-			// throw new MyParseError(loc, str);
 		}
+
 		// a(b) becomes a*b because a is not a function, no list, and no curve
 		// e.g. a(1+x) = a*(1+x) when a is a number
+
+		if (inputBoxParsing && geoExp.wrap().getRight() instanceof GeoFunction) {
+			ExpressionValue left = geoExp.wrap().getLeft();
+			GeoFunction function = (GeoFunction) geoExp.wrap().getRight();
+
+			return new ExpressionNode(kernel, function,
+					Operation.FUNCTION, toFunctionArgument(myList, funcName)).multiply(left);
+		}
 
 		return multiplication(geoExp, undecided, myList, funcName);
 	}

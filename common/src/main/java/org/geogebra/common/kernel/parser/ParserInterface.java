@@ -17,8 +17,7 @@ public interface ParserInterface {
 	 * @throws ParseException
 	 *             if parsing fails
 	 */
-	public ExpressionNode parseExpression(String parseString)
-			throws ParseException;
+	ExpressionNode parseExpression(String parseString) throws ParseException;
 
 	/**
 	 * @param string
@@ -27,7 +26,7 @@ public interface ParserInterface {
 	 * @throws ParseException
 	 *             if parsing fails
 	 */
-	public Function parseFunction(String string) throws ParseException;
+	Function parseFunction(String string) throws ParseException;
 
 	/**
 	 * @param string
@@ -36,7 +35,7 @@ public interface ParserInterface {
 	 * @throws ParseException
 	 *             if parsing fails
 	 */
-	public FunctionNVar parseFunctionNVar(String string) throws ParseException;
+	FunctionNVar parseFunctionNVar(String string) throws ParseException;
 
 	/**
 	 * @param str
@@ -45,8 +44,14 @@ public interface ParserInterface {
 	 * @throws ParseException
 	 *             if parsing fails
 	 */
-	public ValidExpression parseGeoGebraExpression(String str)
-			throws ParseException;
+	ValidExpression parseGeoGebraExpression(String str) throws ParseException;
+
+	/**
+	 * @param str
+	 *            string to parse
+	 * @return expression
+	 */
+	ValidExpression parseInputBoxExpression(String str) throws ParseException;
 
 	/**
 	 * @param label
@@ -55,5 +60,5 @@ public interface ParserInterface {
 	 * @throws ParseException
 	 *             if parsing fails
 	 */
-	public String parseLabel(String label) throws ParseException;
+	String parseLabel(String label) throws ParseException;
 }
