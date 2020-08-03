@@ -8338,7 +8338,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.hideDynamicStylebar();
 		}
 
-		lastGroupHit = null;
+		if (draggingOccured) {
+			lastGroupHit = null;
+		}
+		view.setFocusedGroupGeoBoundingBox(null);
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			setMouseLocation(event);
