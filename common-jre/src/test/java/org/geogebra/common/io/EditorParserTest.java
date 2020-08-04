@@ -53,6 +53,9 @@ public class EditorParserTest {
 
 	@Test
 	public void trigonometricFunctionPowerTest() {
+		String cosOverExponential = "(cos(x))/(e^(3t))";
+		parsesAs("cos(x)/e^(3t)", cosOverExponential);
+
 		String oneOverCosPower = "(1)/(cos^(4)(x))";
 		parsesAs("1/cos^(4)(x)", oneOverCosPower);
 		parsesAs("1/cos" + Unicode.SUPERSCRIPT_4 + "(x)", oneOverCosPower);
