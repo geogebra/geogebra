@@ -64,13 +64,10 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.append(')');
 			break;
 		case SUBSCRIPT:
-			StringBuilder subscript = new StringBuilder();
-			serialize(mathFunction.getArgument(0), subscript);
-			boolean needsBrackets = !subscript.toString().matches("^[0-9]$");
-			stringBuilder.append("_");
-			stringBuilder.append(needsBrackets ? "{" : "");
-			stringBuilder.append(subscript);
-			stringBuilder.append(needsBrackets ? "}" : "");
+			stringBuilder.append("_{");
+			serialize(mathFunction.getArgument(0), stringBuilder);
+			// a_{1}sin(x) should be a_{1} sin(x)
+			stringBuilder.append("}");
 			break;
 		case FRAC:
 			stringBuilder.append('(');
