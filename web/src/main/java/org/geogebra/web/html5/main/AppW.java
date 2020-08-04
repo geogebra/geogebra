@@ -1487,7 +1487,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void imageDropHappened(String fileName, String content) {
 		SafeGeoImageFactory factory = new SafeGeoImageFactory(this);
-		factory.create(fileName, content);
+		String path = ImageManagerW.getMD5FileName(fileName, content);
+		factory.create(path, content);
 	}
 
 	/**
