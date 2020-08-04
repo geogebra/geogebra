@@ -196,8 +196,13 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 
 		for (int i = 0; i < sortedData.length; i++) {
 			if (i < oldListSize) {
-				((GeoPoint) outputList.get(i)).setCoords(sortedData[i],
-						zValues[i], 1.0);
+				GeoElement geo = outputList.get(i);
+				if (geo instanceof GeoPoint) {
+					((GeoPoint) outputList.get(i)).setCoords(sortedData[i], zValues[i], 1.0);
+				} else {
+					outputList.remove(geo);
+					outputList.add(new GeoPoint(cons, sortedData[i], zValues[i], 1.0));
+				}
 			} else {
 				outputList.add(
 						new GeoPoint(cons, sortedData[i],

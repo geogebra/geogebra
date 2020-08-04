@@ -37,7 +37,6 @@ import org.geogebra.common.util.StringUtil;
 
 /**
  * Symbolic geo for CAS computations in AV
- *
  * @author Zbynek
  */
 public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
@@ -67,16 +66,14 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	/**
-	 * @param value
-	 *            output expression
+	 * @param value output expression
 	 */
 	private void setValue(ExpressionValue value) {
 		this.value = value;
 	}
 
 	/**
-	 * @param c
-	 *            construction
+	 * @param c construction
 	 */
 	public GeoSymbolic(Construction c) {
 		super(c);
@@ -178,8 +175,10 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
+		MyArbitraryConstant constant = getArbitraryConstant();
+		constant.setSymbolic(!shouldBeEuclidianVisible(casInput));
 		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
-				getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
+				constant, StringTemplate.prefixedDefault, null, kernel);
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 
@@ -193,7 +192,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	private boolean shouldBeEuclidianVisible(Command input) {
 		String inputName = input.getName();
 		return !Commands.Solve.name().equals(inputName)
-				&& !Commands.NSolve.name().equals(inputName);
+				&& !Commands.NSolve.name().equals(inputName)
+				&& !Commands.IntegralSymbolic.name().equals(inputName);
 	}
 
 	private ExpressionValue parseOutputString(String output) {
@@ -271,8 +271,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	}
 
 	/**
-	 * @param functionVariables
-	 *            function variables
+	 * @param functionVariables function variables
 	 */
 	public void setVariables(FunctionVariable[] functionVariables) {
 		fVars.clear();
@@ -296,7 +295,6 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		if (isTwinUpToDate) {
 			return twinGeo;
 		}
-
 		GeoElementND newTwin = createTwinGeo();
 
 		if (newTwin instanceof EquationValue) {

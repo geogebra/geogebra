@@ -76,7 +76,7 @@ public class SerializeLaTeX {
 	@Test
 	public void testDiv() {
 		checkCannon("1/n^2", "(1)/(n^(2))");
-		checkCannon("1/n_2", "(1)/(n_{2})");
+		checkCannon("1/n_2", "(1)/(n_2)");
 		checkCannon("1/2", "(1)/(2)");
 		checkCannon("1/2+3", "(1)/(2)+3");
 		checkCannon("1/ ( 2)", "(1)/( 2)");
@@ -130,12 +130,13 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testSubscript() {
-		checkCannon("x_2", "x_{2}");
-		checkCannon("x_2 = 7", "x_{2} = 7");
-		checkCannon("x_2 t", "x_{2} t");
-		checkCannon("x_2 sin(x)", "x_{2} sin(x)");
-		checkCannon("f_2(x)", "f_{2}(x)");
-		checkCannon("f_2 (x)", "f_{2} (x)");
+		checkCannon("x_2", "x_2");
+		checkCannon("x_2 = 7", "x_2 = 7");
+		checkCannon("x_2 t", "x_2 t");
+		checkCannon("x_2 sin(x)", "x_2 sin(x)");
+		checkCannon("f_2(x)", "f_2(x)");
+		checkCannon("f_2 (x)", "f_2 (x)");
+		checkCannon("x_{10}", "x_{10}");
 	}
 
 	@Test
