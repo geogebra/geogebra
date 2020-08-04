@@ -387,7 +387,7 @@ public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
 	private void saveTools() {
 		applyChanges();
 		SaveDialogI dlg = ((DialogManagerW) appw.getDialogManager())
-				.getSaveDialog();
+				.getSaveDialog(false, true);
 		dlg.setSaveType(MaterialType.ggt);
 		dlg.show();
 	}

@@ -529,7 +529,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void checkSaved(AsyncOperation<Boolean> runnable) {
-		getSaveController().showDialogIfNeeded(runnable);
+		getSaveController().showDialogIfNeeded(runnable, true);
 	}
 
 	@Override

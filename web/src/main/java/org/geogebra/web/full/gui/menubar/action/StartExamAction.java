@@ -22,7 +22,7 @@ public class StartExamAction extends DefaultMenuAction<Void> {
 
 	@Override
 	public void execute(Void item, AppWFull app) {
-		app.getSaveController().showDialogIfNeeded(createExamCallback());
+		app.getSaveController().showDialogIfNeeded(createExamCallback(), false);
 	}
 
 	/**

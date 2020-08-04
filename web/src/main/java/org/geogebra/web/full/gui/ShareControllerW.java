@@ -2,11 +2,11 @@ package org.geogebra.web.full.gui;
 
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.ShareController;
-import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.ShareDialogMow;
 import org.geogebra.web.shared.ShareLinkDialog;
@@ -85,8 +85,12 @@ public class ShareControllerW implements ShareController {
 	 * Create material and save online
 	 */
 	private void saveUntitledMaterial(AsyncOperation<Boolean> shareCallback) {
+		SaveDialogI saveDialog = ((DialogManagerW) app.getDialogManager())
+				.getSaveDialog(false, false);
 		((SaveControllerW) app.getSaveController())
-				.showDialogIfNeeded(shareCallback, true, anchor);
+				.showDialogIfNeeded(shareCallback, true, anchor,
+						false, false);
+		saveDialog.setDiscardMode();
 	}
 
 	private void autoSaveMaterial(AsyncOperation<Boolean> shareCallback) {
@@ -94,12 +98,9 @@ public class ShareControllerW implements ShareController {
 	}
 
 	private void loginForShare() {
-		app.getLoginOperation().getView().add(new EventRenderable() {
-			@Override
-			public void renderEvent(BaseEvent event) {
-				if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
-					share();
-				}
+		app.getLoginOperation().getView().add(event -> {
+			if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
+				share();
 			}
 		});
 		app.getLoginOperation().showLoginDialog();
