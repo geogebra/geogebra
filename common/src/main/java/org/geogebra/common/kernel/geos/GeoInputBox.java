@@ -257,7 +257,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 			sb.append("\"/>\n");
 		}
 
-		if (dynamicCaption != null) {
+		if (dynamicCaption != null && dynamicCaption.getLabelSimple() != null) {
 			sb.append("\t<dynamicCaption val=\"");
 			sb.append(dynamicCaption.getLabelSimple());
 			sb.append("\"/>\n");
