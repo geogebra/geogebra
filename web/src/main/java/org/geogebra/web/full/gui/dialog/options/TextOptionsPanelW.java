@@ -370,7 +370,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 	public void updateWidgetVisibility() {
 		secondLine.setVisible(model.hasRounding());
 		editorPanel.setVisible(model.isTextEditable());
-		lbFont.setVisible(model.hasFontStyle());
+		lbFont.setVisible(model.hasGeos());
 		btnBold.setVisible(model.hasFontStyle());
 		btnItalic.setVisible(model.hasFontStyle());
 		btnLatex.setVisible(model.isTextEditable());
