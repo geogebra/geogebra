@@ -700,6 +700,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
+	public synchronized String getImageFileName(String objName) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null) {
+			return "";
+		}
+		return geo.getImageFileName();
+	}
+
+	@Override
 	public void setOnTheFlyPointCreationActive(boolean flag) {
 		app.setOnTheFlyPointCreationActive(flag);
 	}

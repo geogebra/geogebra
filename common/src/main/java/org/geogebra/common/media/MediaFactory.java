@@ -1,6 +1,5 @@
 package org.geogebra.common.media;
 
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -63,10 +62,7 @@ public class MediaFactory {
 						ev.toRealWorldCoordX((ev.getWidth() - video.getWidth()) / 2),
 						ev.toRealWorldCoordY((ev.getHeight() - video.getHeight()) / 2)
 				);
-				Drawable dr = (Drawable) ev.getDrawableFor(video);
-				if (dr != null) {
-				 	dr.update();
-				}
+				video.notifyUpdate();
 				ev.getEuclidianController().selectAndShowSelectionUI(video);
 				app.storeUndoInfo();
 			}

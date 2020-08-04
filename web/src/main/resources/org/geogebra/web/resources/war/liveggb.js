@@ -77,7 +77,16 @@
         // *** ADD LISTENERS ***
         var addListener = (function(label) {
             console.log(label + " is added");
-
+            var image = this.api.getImageFileName(label);
+            var that = this;
+            if (image) {
+                var json = this.api.getFileJSON();
+                json.archive.forEach(function(item) {
+                    if (item.fileName == image) {
+                        that.sendEvent("addImage", JSON.stringify(item));
+                    }
+                })
+            }
             var xml = this.api.getXML(label);
             //console.log(xml);
 
@@ -89,7 +98,6 @@
             } else {
                 this.sendEvent("evalXML", xml);
             }
-            var that = this;
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -209,6 +217,9 @@
                     target.unregisterListeners();
                     target.api.setEditorState(last.content, last.label);
                     target.registerListeners();
+                } else  if (last.type == "addImage") {
+                    var file = JSON.parse(last.content);
+                    target.api.addImage(file.fileName, file.fileContent);
                 }
             }
         };
