@@ -1415,10 +1415,4 @@ public class CAStestJSON {
 	public void testRandomUniform() {
 		testCat("RandomUniform.2");
 	}
-
-	@Test
-	public void testIntegralSymbolic() {
-		testCat("IntegralSymbolic.1");
-		testCat("IntegralSymbolic.2");
-	}
 }

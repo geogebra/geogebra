@@ -466,9 +466,6 @@ public class Ggb2giac {
 						.replace("REPLACEME1", "%2").replace("REPLACEME2", "%3")
 						.replace("REPLACEME3", "%4"));
 
-		p("IntegralSymbolic.1", "regroup(integrate(%0))");
-		p("IntegralSymbolic.2", "regroup(integrate(%0,%1))");
-
 		// need to wrap in coordinates() for
 		// Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10]]
 		// but not for Intersect[x^2,x^3]
