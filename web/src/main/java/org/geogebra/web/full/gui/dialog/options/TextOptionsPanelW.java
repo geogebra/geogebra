@@ -89,52 +89,40 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			lbFont.addItem(item);
 		}
 
-		lbFont.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				model.setEditGeoText(editor.getText());
-				model.applyFont(lbFont.getSelectedIndex() == 1);
-			}
+		lbFont.addChangeHandler(event -> {
+			model.setEditGeoText(editor.getText());
+			model.applyFont(lbFont.getSelectedIndex() == 1);
 		});
 		lbSize = new ListBox();
 
-		lbSize.addChangeHandler(new ChangeHandler() {
+		lbSize.addChangeHandler(event -> {
+			model.setEditGeoText(editor.getText());
+			boolean isCustom = (lbSize.getSelectedIndex() == 7);
+			if (isCustom) {
+				String currentSize = Math
+						.round(model.getTextPropertiesAt(0)
+								.getFontSizeMultiplier() * 100)
+						+ "%";
 
-			@Override
-			public void onChange(ChangeEvent event) {
-				model.setEditGeoText(editor.getText());
-				boolean isCustom = (lbSize.getSelectedIndex() == 7);
-				if (isCustom) {
-					String currentSize = Math
-							.round(model.getTextPropertiesAt(0)
-									.getFontSizeMultiplier() * 100)
-							+ "%";
+				AsyncOperation<String[]> customSizeHandler =
+						dialogResult -> model.applyFontSizeFromString(dialogResult[1]);
+				appw.getGuiManager()
+						.getOptionPane()
+						.showInputDialog(
+								appw
+										.getLocalization()
+										.getMenu("EnterPercentage"),
+								currentSize, null,
+								customSizeHandler);
 
-					AsyncOperation<String[]> customSizeHandler = new AsyncOperation<String[]>() {
-						@Override
-						public void callback(String[] dialogResult) {
-							model.applyFontSizeFromString(dialogResult[1]);
-						}
-					};
-					appw.getGuiManager()
-							.getOptionPane()
-							.showInputDialog(
-									appw
-											.getLocalization()
-											.getMenu("EnterPercentage"),
-									currentSize, null,
-									customSizeHandler);
-
-				} else {
-					model.applyFontSizeFromIndex(lbSize.getSelectedIndex());
-					double size = GeoText
-							.getRelativeFontSize(lbSize.getSelectedIndex())
-							* app.getActiveEuclidianView().getFontSize();
-					inlineFormat("size", size);
-				}
-				updatePreviewPanel();
+			} else {
+				model.applyFontSizeFromIndex(lbSize.getSelectedIndex());
+				double size = GeoText
+						.getRelativeFontSize(lbSize.getSelectedIndex())
+						* app.getActiveEuclidianView().getFontSize();
+				inlineFormat("size", size);
 			}
+			updatePreviewPanel();
 		});
 
 		// font size
@@ -178,16 +166,12 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			addStyleClickListener("underline", GFont.UNDERLINE, btnUnderline);
 		}
 
-		btnLatex.addClickHandler(new ClickHandler() {
+		btnLatex.addClickHandler(event -> {
+			model.setLaTeX(isLatex(), true);
+			// manual override -> ignore autodetect
+			mayDetectLaTeX = isLatex();
 
-			@Override
-			public void onClick(ClickEvent event) {
-				model.setLaTeX(isLatex(), true);
-				// manual override -> ignore autodetect
-				mayDetectLaTeX = isLatex();
-
-				updatePreviewPanel();
-			}
+			updatePreviewPanel();
 		});
 		btnLatex.addStyleName("btnLatex");
 
@@ -197,14 +181,10 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			lbDecimalPlaces.addItem(item);
 		}
 
-		lbDecimalPlaces.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				model.setEditGeoText(editor.getText());
-				model.applyDecimalPlaces(lbDecimalPlaces.getSelectedIndex());
-				updatePreviewPanel();
-			}
+		lbDecimalPlaces.addChangeHandler(event -> {
+			model.setEditGeoText(editor.getText());
+			model.applyDecimalPlaces(lbDecimalPlaces.getSelectedIndex());
+			updatePreviewPanel();
 		});
 
 		// font, size
