@@ -67,7 +67,7 @@ public class SimpleTextRenderer implements TextRenderer {
 		double inputBoxTop = drawable.getLabelTop() + ((labelHeight - height) / 2);
 
 		return AwtFactory.getPrototype().newRectangle(
-				drawable.boxLeft, (int) Math.round(inputBoxTop), drawable.boxWidth, height);
+				drawable.boxLeft, (int) Math.floor(inputBoxTop), drawable.boxWidth, height);
 	}
 
 	private int getTruncIndex(String text, GGraphics2D g2, double boxWidth) {
