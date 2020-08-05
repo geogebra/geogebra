@@ -217,6 +217,8 @@ public class PointerEventHandler {
 			second = null;
 		} else if (match(third, event)) {
 			third = null;
+		} else {
+			reset();
 		}
 	}
 
