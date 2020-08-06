@@ -679,7 +679,7 @@ __GGB__keysVar["hr"].command = {
     "PlaySound": "Zvuk",
     "PlaySound.Syntax": "[ <URL> ]\n[ <sviraj \u2013 logi\u010dka vrijednost> ]\n[ <funkcija>, <najmanja vrijednost>, <najve\u0107a vrijednost> ]\n[ <funkcija>, <najmanja vrijednost>, <najve\u0107a vrijednost>, <frekvencija uzorka>, <dubina uzorka> ]",
     "PlotSolve": "PlotSolve",
-    "PlotSolve.Syntax": "[ <Equation in x> ]",
+    "PlotSolve.Syntax": "[ <jednad\u017eba po x> ]",
     "Point": "To\u010dka",
     "Point.Syntax": "[ <objekt> ]\n[ <lista> ]\n[ <objekt>, <parametar> ]\n[ <to\u010dka>, <vektor> ]",
     "PointIn": "To\u010dkaUPodru\u010dju",

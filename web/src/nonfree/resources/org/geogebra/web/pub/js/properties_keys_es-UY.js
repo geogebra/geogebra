@@ -53,7 +53,7 @@ __GGB__keysVar["es-UY"].colors = {
     "purple": "P\xfarpura",
     "red": "Rojo",
     "silver": "Plateado",
-    "teal": "Turquesa",
+    "teal": "Verde petr\xf3loe",
     "turquoise": "Turquesa",
     "violet": "Violeta",
     "white": "Blanco",
