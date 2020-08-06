@@ -365,8 +365,16 @@
 		}
 		.mowTitlePanel {
 			@extend .cardInfo;
+			height: 80px;
+			flex-direction: column;
+
+			.cardAuthor {
+				position: inherit;
+				display: block;
+			}
 
 			.mowMoreButton {
+				margin-top: 32px;
 				width: 24px;
 				height: 24px;
 				padding: 12px 6px 12px 16px;
