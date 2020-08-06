@@ -46,7 +46,7 @@ public class InlineTableControllerW implements InlineTableController {
 	public InlineTableControllerW(GeoInlineTable table, EuclidianView view, Element parent) {
 		this.table = table;
 		this.view = view;
-		CarotaUtil.ensureInitialized(view.getFontSize());
+		CarotaUtil.ensureInitialized(view.getFontSize(), view.getApplication().isMebis());
 		initTable(parent);
 		if (table.getContent() != null) {
 			checkFonts();

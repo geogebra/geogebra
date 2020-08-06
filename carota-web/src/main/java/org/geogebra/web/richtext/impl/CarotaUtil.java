@@ -9,10 +9,12 @@ public class CarotaUtil {
 
 	private static boolean isScriptInjected = false;
 
+	private static final String mebisSelectionColor = "rgba(102, 87, 210, 0.1)";
+
 	/**
 	 * Injects the javascript if necessary.
 	 */
-	public static void ensureInitialized(double fontSize) {
+	public static void ensureInitialized(double fontSize, boolean isMebis) {
 		if (isScriptInjected) {
 			return;
 		}
@@ -20,6 +22,9 @@ public class CarotaUtil {
 		ScriptInjector.fromString(javascript).setWindow(ScriptInjector.TOP_WINDOW).inject();
 		isScriptInjected = true;
 		setDefaultFontSize(fontSize);
+		if (isMebis && Carota.get() != null) {
+			Carota.get().getText().setSelectionColor(mebisSelectionColor);
+		}
 	}
 
 	public static void setDefaultFontSize(double fontSize) {

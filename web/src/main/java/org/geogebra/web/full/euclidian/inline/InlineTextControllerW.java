@@ -18,6 +18,7 @@ import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.richtext.Editor;
 import org.geogebra.web.richtext.impl.CarotaEditor;
+import org.geogebra.web.richtext.impl.CarotaUtil;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -46,6 +47,7 @@ public class InlineTextControllerW implements InlineTextController {
 		this.geo = geo;
 		this.parent = parent;
 		this.view = view;
+		CarotaUtil.ensureInitialized(view.getFontSize(), view.getApplication().isMebis());
 		checkFonts(geo.getFormat(), getCallback());
 	}
 
@@ -76,7 +78,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 	@Override
 	public void create() {
-		editor = new CarotaEditor(DrawInlineText.PADDING, view.getFontSize());
+		editor = new CarotaEditor(DrawInlineText.PADDING);
 		final Widget widget = editor.getWidget();
 		widget.addStyleName(INVISIBLE);
 		style = widget.getElement().getStyle();
