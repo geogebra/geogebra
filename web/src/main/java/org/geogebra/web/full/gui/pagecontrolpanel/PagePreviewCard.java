@@ -4,6 +4,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.CardInfoPanel;
+import org.geogebra.web.full.gui.dialog.CardInfoI;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
@@ -19,7 +20,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *
  */
 public class PagePreviewCard extends FlowPanel
-		implements SetLabels {
+		implements SetLabels, CardInfoI {
 
 	/** Margin of the cards. */
 	static final int MARGIN = 16;
@@ -338,5 +339,10 @@ public class PagePreviewCard extends FlowPanel
 		} else {
 			removeStyleName("dragCanStart");
 		}
+	}
+
+	@Override
+	public void rename(String subtitle) {
+		infoPanel.setCardSubtitle(subtitle);
 	}
 }

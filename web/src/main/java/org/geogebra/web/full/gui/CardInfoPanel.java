@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CardInfoPanel extends FlowPanel {
 	private Label titleRow;
+	private Label subtitleRow = null;
 
 	/**
 	 *
@@ -45,7 +46,8 @@ public class CardInfoPanel extends FlowPanel {
 	public CardInfoPanel(String title, String subtitle) {
 		setStyleName("cardInfoPanel");
 		addTitleRow(title);
-		addSubtitleRow(new Label(subtitle));
+		subtitleRow = new Label(subtitle);
+		addSubtitleRow(subtitleRow);
 	}
 
 	/**
@@ -62,5 +64,15 @@ public class CardInfoPanel extends FlowPanel {
 	 */
 	public void setCardTitle(String title) {
 		titleRow.setText(title);
+	}
+
+	/**
+	 * Sets the card subtitle text.
+	 * @param subtitle to set.
+	 */
+	public void setCardSubtitle(String subtitle) {
+		if (subtitleRow != null) {
+			subtitleRow.setText(subtitle);
+		}
 	}
 }

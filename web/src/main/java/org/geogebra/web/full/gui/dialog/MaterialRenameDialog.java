@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
@@ -18,7 +17,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class MaterialRenameDialog extends ComponentDialog {
 	private InputPanelW inputField;
 	private boolean inputChanged;
-	private MaterialCardI card;
+	private CardInfoI card;
 
 	/**
 	 * @param app
@@ -28,7 +27,7 @@ public class MaterialRenameDialog extends ComponentDialog {
 	 * @param card
 	 *            card of file being renamed
 	 */
-	public MaterialRenameDialog(AppW app, DialogData data, MaterialCardI card) {
+	public MaterialRenameDialog(AppW app, DialogData data, CardInfoI card) {
 		super(app, data, false, true);
 		this.card = card;
 		addStyleName("materialRename");
@@ -44,7 +43,7 @@ public class MaterialRenameDialog extends ComponentDialog {
 		inputLabel.addStyleName("inputLabel");
 		contentPanel.add(inputLabel);
 		contentPanel.add(inputField);
-		inputField.getTextComponent().setText(card.getMaterialTitle());
+		inputField.getTextComponent().setText(card.getTitle());
 		initInputFieldActions();
 		setPosBtnDisabled(true);
 		addDialogContent(contentPanel);
@@ -98,7 +97,7 @@ public class MaterialRenameDialog extends ComponentDialog {
 	 */
 	protected void validate() {
 		inputChanged = inputChanged
-				|| !inputField.getText().trim().equals(card.getMaterialTitle());
+				|| !inputField.getText().trim().equals(card.getTitle());
 		if (StringUtil.emptyTrim(inputField.getText())
 				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH
 				|| !inputChanged) {

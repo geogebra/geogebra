@@ -1,11 +1,12 @@
 package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.gui.dialog.CardInfoI;
 
 /**
  * Common interface for material cards.
  */
-public interface MaterialCardI {
+public interface MaterialCardI extends CardInfoI {
 
 	/**
 	 * @param visible
@@ -18,13 +19,6 @@ public interface MaterialCardI {
 	 */
 	void remove();
 
-	/**
-	 * Call API to rename material.
-	 * 
-	 * @param title
-	 *            new title
-	 */
-	void rename(String title);
 
 	/**
 	 * Update title in UI.
