@@ -16,7 +16,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.gwt-ToggleButton.flatButton.menu.portraitMenuBtn {
 		img {
 			opacity: 0.54;
-		}	
+		}
 	}
 
 	.gwt-ToggleButton.flatButton.menu.portraitMenuBtn.gwt-ToggleButton-up-hovering {
@@ -28,18 +28,13 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.toolbar {
 		overflow: hidden;
 
-		.header {		
+		.header {
 			background-color: $purple-default;
-			/*box-shadow: 0px 4px 6px 0px rgba(110, 110, 110, 0.46);*/
-			
-			.selected { 
-				/*border-bottom: solid 2px $white;*/
-			}
 
 			.flatButton:hover {
 				cursor: hand;
 
-				img { 
+				img {
 					opacity: 1;
 				}
 			}
@@ -50,7 +45,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				padding-top: 4px;
 				padding-bottom: 4px;
 			}
-			
+
 			.center {
 				position: absolute;
 				display: inline-flex;
@@ -62,16 +57,15 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 					height: 24px;
 					opacity: 0.85;
 				}
-								
+
 				.indicator {
 					width: 36px;
 					height: 3px;
 					background-color: white;
 					vertical-align: bottom;
 					position: relative;
-					bottom: 10px;
 					display: inline-table !important;
-					top: 40px;	
+					top: 40px;
 					transition: all 0.3s ease;
 					left: calc(50% + -24px);
 					opacity: 0.85;
@@ -88,13 +82,13 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				.indicator {
 					transform: translateX(50%) translateX(-84px);
 					position: absolute;
-				}	
+				}
 			}
 			.center.threeTab.indicatorCenter {
 				.indicator {
 					transform: translateX(50%) translateX(-36px);
 					position: absolute;
-				}	
+				}
 			}
 			.center.threeTab.indicatorRight {
 				.indicator {
@@ -102,90 +96,87 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 					position: absolute;
 				}
 			}
-		
+
 			.center.indicatorLeft {
 				.indicator {
 					transform: translateX(50%) translateX(-36px);
 					position: absolute;
-				}	
+				}
 			}
-		
+
 			.center.indicatorRight {
 				.indicator {
 					transform: translateX(50%) translateX(12px);
 					position: absolute;
-				}	
+				}
 			}
-		
+
 			.hidden.center >* {
 				display: none !important;
 			}
-		
+
 			.rightSide {
 				float: right;
-				
+
 				.contextMenu {
 					img {
 						opacity: 0.85;
-					}	
-				}	
-			
+					}
+				}
+
 				.contextMenu:hover {
 					img {
 						opacity: 1;
 					}
-				}			
+				}
 			}
-		
+
 			.close {
 				position: relative;
-			}			
+			}
 		}
-	
+
 		.header-open-portrait,
 		.header-open-landscape {
 			@extend .header;
-			
+
 			height: 56px;
 			width: 100%;
-			
+
 			.menu {
 				margin-right: 10px;
 				margin-left: 10px;
 			}
-			
+
 			.center.singleButton {
 				left: calc(50% - 42px);
 			}
 		}
-	
+
 		.header-open-portrait.examOk,
 		.header-open-landscape.examOk,
 		.header-close-portrait.examOk,
 		.header-close-landscape.examOk {
 			background-color: $teal-default;
 		}
-	
+
 		.header-open-portrait.examCheat,
 		.header-open-landscape.examCheat,
 		.header-close-portrait.examCheat,
 		.header-close-landscape.examCheat {
 			background-color: $exam-red;
 		}
-		
+
 		.header-open-portrait {
-		//transition: $open-close-transition;
 			.close {
-				/*position: absolute;*/
-				/*left: 0px;*/
 				margin-left: 10px;
-			}	
-		
+			}
+
 			.contextMenu {
-				margin-right: 10px;	
+				margin-right: 10px;
 			}
 		}
-	
+
 		.header-open-landscape {
 			.close {
 				float: left;
@@ -198,19 +189,19 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				margin-left: 0px;
 			}
 		}
-		
+
 		.header-close-landscape {
 			@extend .header;
-	 
+
 			width: 56px;
 			min-width: 56px;
 			height: 100%;
-		
+
 			.center {
 				display: table-cell;
 				top: calc(50% - 64px);
 				height: 84px !important;
-				
+
 				&.threeTab {
 					left: 50%;
 					transform: translateX(-50%);
@@ -221,24 +212,24 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 					display: none;
 					visibility: hidden;
 				}
-			}			
-			
+			}
+
 			.flatButton, .menu {
 				margin-left: 10px;
 				margin-right: 10px;
 			}
-			
+
 			.close {
 				position: absolute;
 				left: 0px;
 				bottom: 4px;
 			}
-		
+
 			.contextMenu {
 				display: none;
 			}
-		
-			.selected { 
+
+			.selected {
 				border-bottom: none;
 			}
 		}
@@ -248,31 +239,29 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			position: absolute;
 			bottom: 0;
 			height: 52px;
-			.center {			
+			.center {
 				.indicator {
 					display: none;
 					visibility: hidden;
 				}
-			}	
-		
+			}
+
 			.close {
-				/*position: absolute;*/
-				/*left: 0px;*/
 				margin-left: 10px;
-			}	
-		
+			}
+
 			.contextMenu {
 				display: none;
 			}
-		}	
-	
-		.toolsPanel {		
+		}
+
+		.toolsPanel {
 			padding: 8px 16px 14px 16px;
-			
+
 			&.customToolbar {
 				padding: 16px 16px 14px 16px;
 			}
-			
+
 			.catLabel {
 				cursor: default;
 			    line-height: 24px;
@@ -280,12 +269,12 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
                 margin: 8px 0px;
                 color: $text-primary;
 			}
-			
+
 			.categoryPanel {
 				position: relative;
 				line-height: 31px !important;
 			}
-	
+
 			.button {
 				position: relative;
 				display: inline-block;
@@ -297,16 +286,16 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				width: 32px;
 				height: 32px;
 			}
-	
+
 			.button.plusPadding img {
 				padding: 4px;
 			}
-	
+
 			.button[selected=true] {
 				padding: 2px;
 				border: 2px solid $purple-default;
 			}
-	
+
 			.button[selected=false] {
 				border: 1px solid $tool-border;
 
@@ -321,17 +310,17 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				margin-bottom: 4px;
 
 				img, img:hover {
-					opacity: 1;	
+					opacity: 1;
                 }
 
 				&[selected=true] .gwt-Label {
                     color: $purple-dark;
                     font-weight: 600;
 				}
-				
+
 				.gwt-Label {
                     padding-bottom: 0px;
-                    top: -10px;	
+                    top: -10px;
 				}
 			}
 
@@ -365,10 +354,10 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				}
 			}
 		}
-	
+
 		.main  {
 			position: absolute;
-			
+
 			.moveFloatingBtn {
 				cursor: pointer;
 				position: absolute;
@@ -379,10 +368,10 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				background: $purple-default;
 				box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
 				transition: background-color 150ms ease 0ms;
-				
+
 				img {
 					width: 24px !important;
-					padding: 12px;	
+					padding: 12px;
 				}
 
 				&:hover, &:focus {
@@ -396,7 +385,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 
 			.showMoveBtn {
 				@extend .moveFloatingBtn;
-				opacity: 1;	 
+				opacity: 1;
 				visibility: visible;
 				transition: opacity 0.2s ease;
 			}
@@ -404,7 +393,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			.hideMoveBtn {
 				@extend .moveFloatingBtn;
 				cursor: default;
-				opacity: 0;	
+				opacity: 0;
 				visibility: hidden;
 				transition: opacity 0.2s ease;
 
@@ -413,11 +402,10 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				}
 
 				&:hover, &:focus {
-					/*background-color: #666;*/
 					background-color: $selected-menuitem-background;
-					
+
 					img {
-						opacity: 0;	
+						opacity: 0;
 					}
 				}
 			}
@@ -447,7 +435,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			}
 
 			.tab {
-				visibility: visible;		
+				visibility: visible;
 			}
 
 			.tabFade {

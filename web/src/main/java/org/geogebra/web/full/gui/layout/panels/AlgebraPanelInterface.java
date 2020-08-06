@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
@@ -17,7 +18,7 @@ public interface AlgebraPanelInterface extends IsWidget {
 
 	int getInnerWidth();
 
-	boolean isToolMode();
+	DockPanelData.TabIds getTabId();
 
 	void scrollToActiveItem();
 

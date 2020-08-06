@@ -1,5 +1,6 @@
 package org.geogebra.web.full.gui.layout.panels;
 
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -214,8 +215,6 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 		if (spH < relTop + item.getOffsetHeight()) {
 			int pos = top + item.getOffsetHeight() - spH;
 			algebrap.setVerticalScrollPosition(pos);
-		} else {
-			// algebrap.setVerticalScrollPosition(savedScrollPosition);
 		}
 	}
 
@@ -228,8 +227,8 @@ public class AlgebraDockPanelW extends NavigableDockPanelW
 	}
 
 	@Override
-	public boolean isToolMode() {
-		return false;
+	public DockPanelData.TabIds getTabId() {
+		return DockPanelData.TabIds.ALGEBRA;
 	}
 
 	@Override
