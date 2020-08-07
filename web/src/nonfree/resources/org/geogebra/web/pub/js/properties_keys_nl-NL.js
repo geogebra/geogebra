@@ -3117,7 +3117,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "UseClipping": "Gebruik clipping",
     "UseHeaderAsTitle": "Gebruik kop als titel",
     "UseHeaderRow": "Gebruik kop in rij",
-    "UseLighting": "Gebruik licht",
+    "UseLighting": "Gebruik belichting",
     "UsePairNames": "Gebruik pare namen",
     "UsePathAndRegionParameters": "Gebruik pad en regio parameters",
     "UseTextAsCaption": "Use text as caption",

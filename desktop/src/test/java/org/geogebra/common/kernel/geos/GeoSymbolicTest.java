@@ -4,7 +4,6 @@ import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AnyOf.anyOf;
@@ -1126,15 +1125,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic solve2 = add(input2);
 		assertThat(solve1.toValueString(StringTemplate.defaultTemplate),
 				is(solve2.toValueString(StringTemplate.defaultTemplate)));
-	}
-
-	@Test
-	public void testSubstituteConstant() {
-		add("f(x)=IntegralSymbolic(x)");
-		add("a=5");
-		GeoSymbolic symbolic = add("g(x)=Substitute(f(x), c_1, a)");
-		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), is("1 / 2 x² + 5"));
-		assertThat(symbolic.getTwinGeo(), is(notNullValue()));
 	}
 
 	@Test

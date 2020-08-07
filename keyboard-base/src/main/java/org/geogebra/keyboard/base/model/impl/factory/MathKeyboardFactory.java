@@ -29,8 +29,8 @@ public class MathKeyboardFactory implements KeyboardModelFactory {
         KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
         RowImpl row = mathKeyboard.nextRow(9.2f);
-        addInputButton(row, buttonFactory, "x");
-        addInputButton(row, buttonFactory, "y");
+        addInputButton(row, buttonFactory, Characters.x, "x");
+        addInputButton(row, buttonFactory, Characters.y, "y");
         addInputButton(row, buttonFactory, PI);
         addInputButton(row, buttonFactory, "e", EULER);
         addButton(row, buttonFactory.createEmptySpace(0.2f));

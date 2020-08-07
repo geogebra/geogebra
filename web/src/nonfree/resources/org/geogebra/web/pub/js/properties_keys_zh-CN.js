@@ -1674,7 +1674,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "DirectionOfA": "%0 \u7684\u65b9\u5411\u5411\u91cf",
     "Directrix": "\u51c6\u7ebf",
     "DirectrixOfA": "%0 \u7684\u51c6\u7ebf",
-    "Discard": "\u653e\u5f03",
+    "Discard": "\u4e0d\u4fdd\u5b58",
     "Discrete": "\u79bb\u6563",
     "Display": "\u663e\u793a",
     "DisplayPointSymbol": "\u663e\u793a\u70b9\u7684\u7b26\u53f7",
