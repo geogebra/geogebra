@@ -2705,7 +2705,7 @@ public class Construction {
 	 * Returns the next free indexed label using the given prefix.
 	 * @param prefix e.g. "c"
 	 * @param includeDummies to include cas dummy variables
-	 * @return indexed label, e.g. "c_2"
+	 * @return indexed label, e.g. "c_{2}"
 	 */
 	public String getIndexLabel(String prefix, boolean includeDummies) {
 		// start numbering with indices using suggestedLabel
@@ -2723,7 +2723,6 @@ public class Construction {
 			pref = "a";
 		}
 
-		String indexLabel;
 		String longIndexLabel;
 		boolean freeLabelFound;
 		int n = 0;
@@ -2732,14 +2731,11 @@ public class Construction {
 			n++;
 
 			longIndexLabel = pref + "_{" + n + '}';
-			indexLabel = pref + '_' + n;
+			String indexLabel = pref + '_' + n;
 			freeLabelFound = isFreeLabel(longIndexLabel, true, includeDummies)
 					&& ((n >= 10) || isFreeLabel(indexLabel, true, includeDummies));
 		} while (!freeLabelFound);
 
-		if (n < 10) {
-			return indexLabel;
-		}
 		return longIndexLabel;
 	}
 

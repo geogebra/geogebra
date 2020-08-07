@@ -664,7 +664,7 @@ public class ControllerTest extends BaseControllerTest {
 	public void complexNumberTool() {
 		setMode(EuclidianConstants.MODE_COMPLEX_NUMBER);
 		click(100, 100);
-		checkContent("z_1 = 2 - 2" + Unicode.IMAGINARY);
+		checkContent("z_{1} = 2 - 2" + Unicode.IMAGINARY);
 	}
 
 	@Test
