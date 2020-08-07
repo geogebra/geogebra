@@ -43,10 +43,14 @@ public class MaterialRenameDialog extends ComponentDialog {
 		inputLabel.addStyleName("inputLabel");
 		contentPanel.add(inputLabel);
 		contentPanel.add(inputField);
-		inputField.getTextComponent().setText(card.getTitle());
+		setInitialText(card.getTitle());
 		initInputFieldActions();
 		setPosBtnDisabled(true);
 		addDialogContent(contentPanel);
+	}
+
+	public void setInitialText(String text) {
+		inputField.getTextComponent().setText(text);
 	}
 
 	/**
@@ -96,14 +100,18 @@ public class MaterialRenameDialog extends ComponentDialog {
 	 * Enable or disable
 	 */
 	protected void validate() {
+		setPosBtnDisabled(isTextInvalid());
+	}
+
+	protected boolean isTextInvalid() {
 		inputChanged = inputChanged
 				|| !inputField.getText().trim().equals(card.getTitle());
-		if (StringUtil.emptyTrim(inputField.getText())
+		return StringUtil.emptyTrim(inputField.getText())
 				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH
-				|| !inputChanged) {
-			setPosBtnDisabled(true);
-		} else {
-			setPosBtnDisabled(false);
-		}
+				|| !inputChanged;
+	}
+
+	protected boolean isInputChanged() {
+		return inputChanged;
 	}
 }

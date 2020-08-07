@@ -2,7 +2,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.dialog.MaterialRenameDialog;
+import org.geogebra.web.full.gui.dialog.PreviewCardRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
@@ -54,9 +54,9 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 
 	private void onRename() {
 		DialogData data = new DialogData("Rename", "Cancel", "OK");
-		MaterialRenameDialog renameDialog = new MaterialRenameDialog(
-				app, data, card);
+		PreviewCardRenameDialog renameDialog = new PreviewCardRenameDialog(app, data, card);
 		renameDialog.show();
+		renameDialog.selectAll();
 	}
 
 	private void addDeleteItem() {
