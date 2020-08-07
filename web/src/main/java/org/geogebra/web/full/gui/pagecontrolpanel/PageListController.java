@@ -17,6 +17,7 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
@@ -340,8 +341,14 @@ public class PageListController implements PageListControllerInterface,
 
 			for (int i = 0; i < slides.size(); i++) {
 				JSONArray elements = new JSONArray();
-				elements.put(
-						new JSONObject().put("id", GgbFile.SLIDE_PREFIX + i));
+				JSONObject page = new JSONObject();
+				page.put("id", GgbFile.SLIDE_PREFIX + i);
+				String subtitle = getCard(i).getSubtitle();
+				if (!StringUtil.empty(subtitle)) {
+					page.put("subtitle", subtitle);
+				}
+
+				elements.put(page);
 				pages.put(new JSONObject().put("elements", elements));
 			}
 
@@ -366,11 +373,11 @@ public class PageListController implements PageListControllerInterface,
 			JSONObject response = new JSONObject(new JSONTokener(structure));
 			JSONArray pages = response.getJSONArray("chapters").getJSONObject(0)
 					.getJSONArray("pages");
+
 			for (int i = 0; i < pages.length(); i++) {
-				slides.add(new PagePreviewCard(app, i, filter(archive,
-						pages.getJSONObject(i).getJSONArray("elements")
-								.getJSONObject(0).getString("id"))));
+				slides.add(createCardFromArchive(archive, pages, i));
 			}
+
 			app.loadFileWithoutErrorHandling(slides.get(0).getFile(), false);
 			/// TODO this breaks MVC
 			app.getAppletFrame().getPageControlPanel()
@@ -381,6 +388,20 @@ public class PageListController implements PageListControllerInterface,
 			e.printStackTrace();
 		}
 		return true;
+	}
+
+	private PagePreviewCard createCardFromArchive(GgbFile archive, JSONArray pages, int cardIndex)
+			throws JSONException {
+		JSONObject page = pages.getJSONObject(cardIndex).getJSONArray("elements")
+				.getJSONObject(0);
+		PagePreviewCard card = new PagePreviewCard(app, cardIndex, filter(archive,
+				page.getString("id")));
+
+		if (page.has("subtitle")) {
+			card.rename(page.getString("subtitle"));
+		}
+
+		return card;
 	}
 
 	/**

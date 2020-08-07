@@ -24,7 +24,7 @@ public class CardInfoPanel extends FlowPanel {
 	}
 
 	public CardInfoPanel() {
-		this("", "subtitle");
+		this("", "");
 	}
 
 	private void addTitleRow(String title) {
@@ -74,5 +74,12 @@ public class CardInfoPanel extends FlowPanel {
 		if (subtitleRow != null) {
 			subtitleRow.setText(subtitle);
 		}
+	}
+
+	/**
+	 * @return the card subtitle if it is a label.
+	 */
+	public String getCardSubtitle() {
+		return subtitleRow != null ?  subtitleRow.getText(): "";
 	}
 }
