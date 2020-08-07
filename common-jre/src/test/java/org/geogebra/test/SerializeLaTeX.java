@@ -24,12 +24,12 @@ public class SerializeLaTeX {
 	@Test
 	public void testJavaSerializationShouldKeepAllData() {
 		try {
-			ByteArrayOutputStream sourceStream = new ByteArrayOutputStream();
+			ByteArrayOutputStream targetStream = new ByteArrayOutputStream();
 			MathFormula mf = new Parser(new MetaModel()).parse("()");
-			ObjectOutputStream oos = new ObjectOutputStream(sourceStream);
+			ObjectOutputStream oos = new ObjectOutputStream(targetStream);
 			oos.writeObject(mf.getRootComponent());
-			InputStream targetStream = new ByteArrayInputStream(sourceStream.toByteArray());
-			ObjectInputStream ois = new ObjectInputStream(targetStream);
+			InputStream sourceStream = new ByteArrayInputStream(targetStream.toByteArray());
+			ObjectInputStream ois = new ObjectInputStream(sourceStream);
 			Object back = ois.readObject();
 			MatcherAssert.assertThat(back, CoreMatchers.instanceOf(MathSequence.class));
 		} catch (ParseException | IOException | ClassNotFoundException e) {
