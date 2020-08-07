@@ -224,13 +224,11 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 	 *            algo to be removed
 	 */
 	final public boolean remove(AlgoElement algo) {
-
 		if (set == null) {
 			return false;
 		}
 
-		Object remObj = set.remove(algo);
-		if (remObj == null) {
+		if (!set.remove(algo)) {
 			return false;
 		}
 
