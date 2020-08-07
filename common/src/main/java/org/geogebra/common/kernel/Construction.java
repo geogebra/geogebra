@@ -2693,16 +2693,21 @@ public class Construction {
 	}
 
 	/**
-	 * Returns the next free indexed label using the given prefix starting with
-	 * the given index number.
-	 * 
-	 * @param prefix
-	 *            e.g. "c"
-	 * @param startIndex
-	 *            e.g. 2
+	 * Returns the next free indexed label using the given prefix.
+	 * @param prefix e.g. "c"
 	 * @return indexed label, e.g. "c_2"
 	 */
-	public String getIndexLabel(String prefix, int startIndex) {
+	public String getIndexLabel(String prefix) {
+		return getIndexLabel(prefix, false);
+	}
+
+	/**
+	 * Returns the next free indexed label using the given prefix.
+	 * @param prefix e.g. "c"
+	 * @param includeDummies to include cas dummy variables
+	 * @return indexed label, e.g. "c_2"
+	 */
+	public String getIndexLabel(String prefix, boolean includeDummies) {
 		// start numbering with indices using suggestedLabel
 		// as prefix
 		String pref;
@@ -2718,42 +2723,24 @@ public class Construction {
 			pref = "a";
 		}
 
-		StringBuilder sbIndexLabel = new StringBuilder();
-		StringBuilder sbLongIndexLabel = new StringBuilder();
-
-		int n = startIndex;
+		String indexLabel;
+		String longIndexLabel;
+		boolean freeLabelFound;
+		int n = 0;
 
 		do {
-			sbIndexLabel.setLength(0);
-			sbLongIndexLabel.setLength(0);
-			sbLongIndexLabel.append(pref);
-			sbLongIndexLabel.append("_{");
-			sbLongIndexLabel.append(n);
-			sbLongIndexLabel.append('}');
-			// n as index
-
-			if (n < 10) {
-				sbIndexLabel.append(pref);
-				sbIndexLabel.append('_');
-				sbIndexLabel.append(n);
-			} else {
-				sbIndexLabel.append(sbLongIndexLabel);
-			}
 			n++;
-		} while (!isFreeLabel(sbIndexLabel.toString())
-				|| !isFreeLabel(sbLongIndexLabel.toString()));
-		return sbIndexLabel.toString();
-	}
 
-	/**
-	 * Returns the next free indexed label using the given prefix.
-	 * 
-	 * @param prefix
-	 *            e.g. "c"
-	 * @return indexed label, e.g. "c_2"
-	 */
-	public String getIndexLabel(String prefix) {
-		return getIndexLabel(prefix, 1);
+			longIndexLabel = pref + "_{" + n + '}';
+			indexLabel = pref + '_' + n;
+			freeLabelFound = isFreeLabel(longIndexLabel, true, includeDummies)
+					&& ((n >= 10) || isFreeLabel(indexLabel, true, includeDummies));
+		} while (!freeLabelFound);
+
+		if (n < 10) {
+			return indexLabel;
+		}
+		return longIndexLabel;
 	}
 
 	/**

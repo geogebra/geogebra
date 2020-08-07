@@ -338,6 +338,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdIntegralSymbolic() {
+		// Tested in __giac.js
+	}
+
+	@Test
 	public void cmdRemovableDiscontinuity() {
 		t("RemovableDiscontinuity((3-x)/(2x^2-6x))", "(3, -0.16666666666666666)");
 	}
