@@ -20,7 +20,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class Ggb2giac {
 	/** Giac syntax for Element(list,index) */
-	public static final String ELEMENT_2 = "when(%1>0&&%1<=size(%0),(%0)[%1-when(type(%0)==DOM_LIST,1,0)],?)";
+	public static final String ELEMENT_2 = "ggb_element(%0,%1)";
 	private static final String GGBVECT_TYPE = "27";
 	private static Map<String, String> commandMap = new TreeMap<>();
 
@@ -160,6 +160,10 @@ public class Ggb2giac {
 
 		// Use local function rather than subst to make sure t==5 is not
 		// evaluated to false before subst
+		p("KeepIf.3",
+				"[[ggbkeep(%1):=begin when(%0,[%1],[]);end],flatten1(map(%2,loc->ggbkeep(loc)))][1]");
+		p("KeepIf.2",
+				"[[ggbkeep(x):=begin when(%0,[x],[]);end],flatten1(map(%1,loc->ggbkeep(loc)))][1]");
 		p("CountIf.3",
 				"[[ggbcount(%1):=begin when(%0,1,0);end],sum(map(%2,loc->ggbcount(loc)))][1]");
 		p("CountIf.2",
