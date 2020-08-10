@@ -8,7 +8,6 @@ import java.util.Locale;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.localization.CommandErrorMessageBuilder;
 import org.geogebra.common.main.syntax.LocalizedCommandSyntax;
@@ -1390,10 +1389,7 @@ public abstract class Localization {
 		for (Commands c : Commands.values()) {
 			Commands cInternal = Commands.englishToInternal(c);
 
-			// check for Commands.TABLE_ENGLISH to avoid
-			// InfiniteCone -> ConeInfinite
-			if (c.getTable() != CommandsConstants.TABLE_ENGLISH
-					&& toTest.equals(cInternal)
+			if (toTest.equals(cInternal)
 					&& !c.name().equals(cInternal.toString())) {
 				return c.name();
 			}
