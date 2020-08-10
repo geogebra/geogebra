@@ -7,6 +7,7 @@ import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.CopyPasteW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
@@ -208,14 +209,15 @@ public class RowHeaderPopupMenuW extends
 			}
 			break;
 		case PASTE:
-			toBeCopied = CopyPasteCutW.getClipboardContents(null);
-			// it's possible that the last row is the input bar,
-			// and if this is the case, the formula ends by:
-			// \\ undefined \\
-			Log.debug("Pasting" + toBeCopied);
-			if (toBeCopied != null) {
-				table.setCellInput(selRows[0], toBeCopied);
-			}
+			CopyPasteW.pasteNative(app, (content) -> {
+				// it's possible that the last row is the input bar,
+				// and if this is the case, the formula ends by:
+				// \\ undefined \\
+				Log.debug("Pasting" + content);
+				if (content != null) {
+					table.setCellInput(selRows[0], content);
+				}
+			});
 		}
 
 		if (undoNeeded) {
