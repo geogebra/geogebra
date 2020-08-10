@@ -11,7 +11,7 @@ public class PreviewCardRenameDialog extends MaterialRenameDialog {
 	 *
 	 * @param app app
 	 * @param data dialog transkeys
-	 * @param card
+	 * @param card to rename.
 	 */
 	public PreviewCardRenameDialog(AppW app,
 			DialogData data,

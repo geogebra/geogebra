@@ -19,7 +19,6 @@ public interface MaterialCardI extends CardInfoI {
 	 */
 	void remove();
 
-
 	/**
 	 * Update title in UI.
 	 * 
