@@ -35,7 +35,6 @@ public class InlineTextControllerW implements InlineTextController {
 	private Element parent;
 	private Editor editor;
 	private Style style;
-	private EuclidianView view;
 
 	/**
 	 * @param geo
@@ -46,8 +45,10 @@ public class InlineTextControllerW implements InlineTextController {
 	public InlineTextControllerW(GeoInlineText geo, EuclidianView view, Element parent) {
 		this.geo = geo;
 		this.parent = parent;
-		this.view = view;
-		CarotaUtil.ensureInitialized(view.getFontSize(), view.getApplication().isMebis());
+		CarotaUtil.ensureInitialized(view.getFontSize());
+		if (view.getApplication().isMebis()) {
+			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
+		}
 		checkFonts(geo.getFormat(), getCallback());
 	}
 
