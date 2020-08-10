@@ -449,7 +449,14 @@ public class AlgebraProcessor {
 			AsyncOperation<GeoElementND> callback, ErrorHandler handler) {
 
 		try {
-			ValidExpression ve = parser.parseGeoGebraExpression(newValue);
+			ValidExpression ve;
+
+			if (info.isMultipleUnassignedAllowed()) {
+				ve = parser.parseInputBoxExpression(newValue);
+			} else {
+				ve = parser.parseGeoGebraExpression(newValue);
+			}
+
 			if ("X".equals(ve.getLabel())) {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
