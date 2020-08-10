@@ -533,8 +533,7 @@ public class InputController {
 				.getArgument(editorState.getCurrentOffset() - 1);
 
 		if (last instanceof MathCharacter) {
-			MetaCharacter merge = metaModel
-					.merge(((MathCharacter) last).toString(), meta);
+			MetaCharacter merge = metaModel.merge(last.toString(), meta);
 			if (merge != null) {
 				editorState.getCurrentField().setArgument(
 						editorState.getCurrentOffset() - 1,
@@ -542,15 +541,48 @@ public class InputController {
 				return;
 			}
 		}
-		if (meta.getUnicode() == ' ') {
-			FunctionPower power = getFunctionPower(editorState);
-			if (formatConverter != null && formatConverter.isFunction(power.name)) {
-				newBraces(editorState, power, '(');
+		if (formatConverter != null) {
+			FunctionPower function = getFunctionPower(editorState);
+			char unicode = meta.getUnicode();
+			if (unicode == ' ' && formatConverter.isFunction(function.name)) {
+				newBraces(editorState, function, '(');
 				return;
 			}
-		}
-		editorState.addArgument(new MathCharacter(meta));
 
+			if (metaModel.isForceBracketAfterFunction()
+					&& shouldAddBrackets(function, unicode)) {
+				newBraces(editorState, function, '(');
+
+				if (unicode == ' ') {
+					return;
+				}
+			}
+		}
+
+		editorState.addArgument(new MathCharacter(meta));
+	}
+
+	private boolean shouldAddBrackets(FunctionPower function, char unicode) {
+		if (unicode == '^' || unicode == '_' || unicode == '|'
+				|| Unicode.isSuperscriptDigit(unicode) || unicode == Unicode.SUPERSCRIPT_MINUS) {
+			return false;
+		}
+
+		return endsInFunction(function.name) && !endsInFunction(function.name + unicode);
+	}
+
+	private boolean endsInFunction(String name) {
+		int start = name.length() - 1;
+
+		while (start >= 0) {
+			if (formatConverter.isFunction(name.substring(start))) {
+				return true;
+			}
+
+			start--;
+		}
+
+		return false;
 	}
 
 	/**
