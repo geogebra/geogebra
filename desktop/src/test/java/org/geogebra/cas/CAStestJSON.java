@@ -383,8 +383,12 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testIntegral() {
+	public void testIntegral1() {
 		testCat("Integral.1");
+	}
+
+	@Test
+	public void testIntegral2() {
 		testCat("Integral.2");
 	}
 
