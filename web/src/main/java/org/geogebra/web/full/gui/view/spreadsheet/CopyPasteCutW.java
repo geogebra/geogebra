@@ -10,8 +10,6 @@ import org.geogebra.web.html5.util.CopyPasteW;
 
 public class CopyPasteCutW extends CopyPasteCut {
 
-	private static String staticClipboardString = "";
-
 	public CopyPasteCutW(App app) {
 		super(app);
 	}
@@ -116,11 +114,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		}
 
 		// a clipboard inside this application is better than nothing
-		if (nat) {
-			// if called from native event, setting clipboard contents
-			// is not crucial, and redundant/harmful in IE...
-			setInternalClipboardContents(new String(getCellBufferStr()));
-		} else {
+		if (!nat) {
 			app.copyTextToSystemClipboard(new String(getCellBufferStr()));
 			getTable().editCellAt(sourceColumn1, sourceRow1);
 		}
@@ -216,13 +210,5 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// copy
 		setCellBufferStr(null);
 		return delete(column1, row1, column2, row2);
-	}
-
-	/**
-	 * As copying to system clipboard is supposed to have done
-	 * @param value String
-	 */
-	private static void setInternalClipboardContents(String value) {
-		staticClipboardString = value;
 	}
 }
