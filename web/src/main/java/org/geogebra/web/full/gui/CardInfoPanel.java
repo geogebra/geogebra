@@ -80,6 +80,6 @@ public class CardInfoPanel extends FlowPanel {
 	 * @return the card subtitle if it is a label.
 	 */
 	public String getCardSubtitle() {
-		return subtitleRow != null ?  subtitleRow.getText(): "";
+		return subtitleRow != null ?  subtitleRow.getText() : "";
 	}
 }

@@ -4,7 +4,7 @@ import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.DialogData;
 
-public class PreviewCardRenameDialog extends MaterialRenameDialog{
+public class PreviewCardRenameDialog extends MaterialRenameDialog {
 
 	/**
 	 * Constructor
@@ -26,6 +26,9 @@ public class PreviewCardRenameDialog extends MaterialRenameDialog{
 		return isInputChanged();
 	}
 
+	/**
+	 * Selects all text in the input field.
+	 */
 	public void selectAll() {
 		getInputField().getTextComponent().selectAll();
 	}

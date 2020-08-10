@@ -379,12 +379,4 @@ public class PageListPanel
 	public void saveSlide(PagePreviewCard card) {
 		pageController.refreshSlide(card);
 	}
-
-	/**
-	 * Rename previrew card.
-	 *
-	 * @param card to rename.
-	 */
-	public void rename(PagePreviewCard card) {
-	}
 }
