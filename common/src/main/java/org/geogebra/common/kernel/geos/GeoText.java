@@ -112,6 +112,9 @@ public class GeoText extends GeoElement
 	// for absolute screen location
 	private boolean hasAbsoluteScreenLocation = false;
 
+	private GeoNumeric verticalAlignment;
+	private GeoNumeric horizontalAlignment;
+
 	/**
 	 */
 	boolean alwaysFixed = false;
@@ -198,6 +201,12 @@ public class GeoText extends GeoElement
 		// needed for Corner[Element[text
 		boundingBox = gt.getBoundingBox();
 
+		if (gt.getHorizontalAlignment() != null) {
+			setHorizontalAlignment(gt.getHorizontalAlignment());
+			if (gt.getVerticalAlignment() != null) {
+				setVerticalAlignment(gt.getVerticalAlignment());
+			}
+		}
 		try {
 			if (gt.startPoint != null) {
 				if (gt.hasAbsoluteLocation()) {
@@ -1510,4 +1519,19 @@ public class GeoText extends GeoElement
 		// only read content, no prefix
 	}
 
+	public void setHorizontalAlignment(GeoNumeric horizAlign) {
+		horizontalAlignment = horizAlign;
+	}
+
+	public GeoNumeric getHorizontalAlignment() {
+		return horizontalAlignment;
+	}
+
+	public void setVerticalAlignment(GeoNumeric vertAlign) {
+		verticalAlignment = vertAlign;
+	}
+
+	public GeoNumeric getVerticalAlignment() {
+		return verticalAlignment;
+	}
 }
