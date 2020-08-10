@@ -4,11 +4,11 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 
-public abstract class DefaultCommandArgumentFilter implements CommandArgumentFilter {
+public abstract class BaseCommandArgumentFilter implements CommandArgumentFilter {
 
     private Commands[] commands;
 
-    DefaultCommandArgumentFilter(Commands... commands) {
+    BaseCommandArgumentFilter(Commands... commands) {
         this.commands = commands;
     }
 
@@ -16,8 +16,13 @@ public abstract class DefaultCommandArgumentFilter implements CommandArgumentFil
         if (commandProcessor == null) {
             return false;
         }
+        return isFilteredCommand(command.getName());
+    }
+
+    @Override
+    public boolean isFilteredCommand(String commandName) {
         for (Commands cmd: commands) {
-            if (isCommand(command, cmd)) {
+            if (cmd.name().equals(commandName)) {
                 return true;
             }
         }

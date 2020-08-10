@@ -3809,7 +3809,8 @@ public class AlgebraProcessor {
 	 */
 	public String getSyntax(String cmdInt, Settings settings) {
 		if (localizedCommandSyntax == null) {
-			localizedCommandSyntax = new LocalizedCommandSyntax(loc);
+			localizedCommandSyntax =
+					new LocalizedCommandSyntax(loc, app.getConfig().newCommandSyntaxFilter());
 		}
 		return getSyntax(localizedCommandSyntax, cmdInt, settings);
 	}
@@ -3823,7 +3824,8 @@ public class AlgebraProcessor {
 	 */
 	public String getEnglishSyntax(String cmdInt, Settings settings) {
 		if (englishCommandSyntax == null) {
-			englishCommandSyntax = new EnglishCommandSyntax(loc);
+			englishCommandSyntax =
+					new EnglishCommandSyntax(loc, app.getConfig().newCommandSyntaxFilter());
 		}
 		return getSyntax(englishCommandSyntax, cmdInt, settings);
 	}
