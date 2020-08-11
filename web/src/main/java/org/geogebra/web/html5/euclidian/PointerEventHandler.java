@@ -138,7 +138,8 @@ public class PointerEventHandler {
 				first.x = e.getClientX();
 				first.y = e.getClientY();
 			}
-		} else if (match(first, e) || match(second, e)) {
+		} else if (match(first, e) || match(second, e)
+				|| "mouse".equals(e.getPointerType())) {
 			this.tc.onPointerEventMove(convertEvent(e));
 		}
 		if (!"INPUT".equals(e.getTarget().getTagName())) {
