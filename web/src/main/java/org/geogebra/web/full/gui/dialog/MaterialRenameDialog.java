@@ -33,7 +33,16 @@ public class MaterialRenameDialog extends ComponentDialog {
 		addStyleName("materialRename");
 		addStyleName("mebis");
 		buildContent();
-		setOnPositiveAction(() -> card.rename(inputField.getText().trim()));
+		setOnPositiveAction(this::renameCard);
+	}
+
+	private void renameCard() {
+		storeUndo();
+		card.rename(inputField.getText().trim());
+	}
+
+	protected void storeUndo() {
+		// implement it in subclasses on demand.
 	}
 
 	private void buildContent() {
@@ -43,13 +52,13 @@ public class MaterialRenameDialog extends ComponentDialog {
 		inputLabel.addStyleName("inputLabel");
 		contentPanel.add(inputLabel);
 		contentPanel.add(inputField);
-		setInitialText(card.getCardTitle());
+		setText(card.getCardTitle());
 		initInputFieldActions();
 		setPosBtnDisabled(true);
 		addDialogContent(contentPanel);
 	}
 
-	private void setInitialText(String text) {
+	private void setText(String text) {
 		inputField.getTextComponent().setText(text);
 	}
 

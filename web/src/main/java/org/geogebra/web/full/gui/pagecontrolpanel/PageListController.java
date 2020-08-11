@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.AppState;
+import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -70,6 +71,7 @@ public class PageListController implements PageListControllerInterface,
 	private DragController dragCtrl;
 	private CardListInterface listener;
 	private Material activeMaterial = null;
+	private UndoManager undoManager;
 
 	/**
 	 * @param app
@@ -82,6 +84,7 @@ public class PageListController implements PageListControllerInterface,
 		slides = new ArrayList<>();
 		this.listener = listener;
 		dragCtrl = new DragController(this, app);
+		undoManager = app.getKernel().getConstruction().getUndoManager();
 		app.getEventDispatcher().addEventListener(this);
 		if (app.getLoginOperation() != null) {
 			app.getLoginOperation().getView().add(this);
@@ -665,9 +668,15 @@ public class PageListController implements PageListControllerInterface,
 			pasteSlide(slides.get(Integer.parseInt(args[0])), args[1], args[2]);
 		} else if (action == EventType.MOVE_SLIDE) {
 			doReorder(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+		} else if (action == EventType.RENAME_SLIDE) {
+			renameCard(Integer.parseInt(args[0]), args[1]);
 		}
 		app.getAppletFrame().getPageControlPanel().update();
 		app.getAppletFrame().getPageControlPanel().open();
+	}
+
+	private void renameCard(int pageIndex, String title) {
+		cardAt(pageIndex).rename(title);
 	}
 
 	private int indexOfId(String slideID) {
@@ -717,5 +726,12 @@ public class PageListController implements PageListControllerInterface,
 		if (event instanceof LogOutEvent) {
 			BrowserStorage.LOCAL.removeItem(BrowserStorage.COPY_SLIDE);
 		}
+	}
+
+	@Override
+	public void onRename(PagePreviewCard card) {
+		undoManager.storeAction(EventType.RENAME_SLIDE, "" + card.getPageIndex(),
+				card.getCardTitle());
+
 	}
 }

@@ -10,52 +10,60 @@ import com.google.gwt.user.client.ui.Widget;
  * @author laszlo
  */
 public class CardInfoPanel extends FlowPanel {
-	private Label titleRow;
-	private Label subtitleRow = null;
+	private Label idLabel;
+	private Label titleLabel = null;
 
 	/**
 	 *
-	 * @param title text
-	 * @param subtitleRow widget for the second row.
+	 * @param id text
+	 * @param titleWidget widget for the second row.
 	 */
-	public CardInfoPanel(String title, Widget subtitleRow) {
-		addTitleRow(title);
-		addSubtitleRow(subtitleRow);
+	public CardInfoPanel(String id, Widget titleWidget) {
+		addIdLabel(id);
+		addTitleWidget(titleWidget);
 	}
 
 	public CardInfoPanel() {
 		this("", "");
 	}
 
-	private void addTitleRow(String title) {
-		titleRow = new Label(title);
-		titleRow.setStyleName("cardTitle");
+	private void addIdLabel(String id) {
+		idLabel = new Label(id);
+		idLabel.setStyleName("cardTitle");
+		add(idLabel);
+	}
+
+	private void addTitleWidget(Widget titleRow) {
+		titleRow.setStyleName("cardAuthor");
 		add(titleRow);
 	}
 
-	private void addSubtitleRow(Widget subtitleRow) {
-		subtitleRow.setStyleName("cardAuthor");
-		add(subtitleRow);
-	}
-
 	/**
 	 *
+	 * @param heading text.
 	 * @param title text.
-	 * @param subtitle text.
 	 */
-	public CardInfoPanel(String title, String subtitle) {
+	public CardInfoPanel(String heading, String title) {
 		setStyleName("cardInfoPanel");
-		addTitleRow(title);
-		subtitleRow = new Label(subtitle);
-		addSubtitleRow(subtitleRow);
+		addIdLabel(heading);
+		titleLabel = new Label(title);
+		addTitleWidget(titleLabel);
 	}
 
 	/**
 	 *
-	 * @return the card title text.
+	 * @return the card id text.
 	 */
-	public String getCardTitle() {
-		return titleRow.getText();
+	public String getCardId() {
+		return idLabel.getText();
+	}
+
+	/**
+	 * Sets the card title text.
+	 * @param id to set.
+	 */
+	public void setCardId(String id) {
+		this.idLabel.setText(id);
 	}
 
 	/**
@@ -63,23 +71,15 @@ public class CardInfoPanel extends FlowPanel {
 	 * @param title to set.
 	 */
 	public void setCardTitle(String title) {
-		titleRow.setText(title);
-	}
-
-	/**
-	 * Sets the card subtitle text.
-	 * @param subtitle to set.
-	 */
-	public void setCardSubtitle(String subtitle) {
-		if (subtitleRow != null) {
-			subtitleRow.setText(subtitle);
+		if (titleLabel != null) {
+			titleLabel.setText(title);
 		}
 	}
 
 	/**
 	 * @return the card subtitle if it is a label.
 	 */
-	public String getCardSubtitle() {
-		return subtitleRow != null ?  subtitleRow.getText() : "";
+	public String getCardTitle() {
+		return titleLabel != null ?  titleLabel.getText() : "";
 	}
 }

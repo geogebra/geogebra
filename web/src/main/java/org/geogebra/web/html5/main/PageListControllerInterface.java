@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
 
 /**
  * Controller for multipage files
@@ -105,4 +106,10 @@ public interface PageListControllerInterface {
 	 * @return base64 encoded PDF
 	 */
 	String exportPDF();
+
+	/**
+	 * Called after renaming a slide
+	 * @param card that was renamed.
+	 */
+	void onRename(PagePreviewCard card);
 }

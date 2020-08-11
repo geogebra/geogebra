@@ -135,7 +135,7 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	private void updateLabel() {
-		infoPanel.setCardTitle(loc.getMenu("page") + " " + (pageIndex + 1));
+		infoPanel.setCardId(loc.getMenu("page") + " " + (pageIndex + 1));
 	}
 
 	/**
@@ -342,12 +342,13 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	@Override
-	public void rename(String subtitle) {
-		infoPanel.setCardSubtitle(subtitle);
+	public void rename(String title) {
+		infoPanel.setCardTitle(title);
+
 	}
 
 	@Override
 	public String getCardTitle() {
-		return infoPanel.getCardSubtitle();
+		return infoPanel.getCardTitle();
 	}
 }
