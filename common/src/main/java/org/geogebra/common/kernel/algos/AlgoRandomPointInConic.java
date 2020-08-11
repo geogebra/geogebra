@@ -93,8 +93,8 @@ public class AlgoRandomPointInConic extends AlgoElement {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 			GeoVec2D center = conic.b;
 
-			double r = conic.getHalfAxis(0) *
-					Math.sqrt(cons.getApplication().getRandomNumber());
+			double r = conic.getHalfAxis(0)
+					* Math.sqrt(cons.getApplication().getRandomNumber());
 			double radians = 2 * Math.PI
 					* cons.getApplication().getRandomNumber();
 
