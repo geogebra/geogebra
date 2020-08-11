@@ -104,7 +104,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		prefixedDefault.usePrefix = true;
 		prefixedDefault.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
-		prefixedDefault.nf = FormatFactory.getPrototype().getNumberFormat(10);
 	}
 
 	/**
@@ -477,6 +476,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		numericNoLocal.allowMoreDigits = true;
 		numericNoLocal.localizeCmds = false;
+		numericNoLocal.forceSF = true;
+		numericNoLocal.sf =
+				FormatFactory.getPrototype()
+						.getScientificFormat(15, 20, false);
 	}
 
 	/**
