@@ -206,7 +206,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("", inputBox.getText());
 		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
-				StringTemplate.defaultTemplate, false));
+						StringTemplate.defaultTemplate, false));
 	}
 
 	@Test
@@ -380,5 +380,23 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
 						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void minusShouldStayInNumerator() {
+		setupInput("f", "x");
+		inputBox.setSymbolicMode(true, false);
+		updateInput("(-1)/4 x");
+		assertEquals("-1/4 x", inputBox.getTextForEditor());
+		assertEquals("\\frac{-1}{4} \\; x", inputBox.getText());
+	}
+
+	@Test
+	public void minusShouldStayInFrontOfFraction() {
+		setupInput("f", "x");
+		inputBox.setSymbolicMode(true, false);
+		updateInput("-(1/4) x");
+		assertEquals("-(1/4) x", inputBox.getTextForEditor());
+		assertEquals("-\\frac{1}{4} \\; x", inputBox.getText());
 	}
 }
