@@ -1,6 +1,7 @@
 @import 'colors';
 
 .GeoGebraFrame {
+	overflow: hidden;
 
 	div[data-title]:after {
 		opacity: 0;
@@ -240,6 +241,10 @@ $collapse-trans: all 0.2s ease;
 
 	.verticalScroll {
 		overflow-y: auto;
+	}
+
+	.mowColorPlusButton img {
+		padding: 3px;
 	}
  }
 
