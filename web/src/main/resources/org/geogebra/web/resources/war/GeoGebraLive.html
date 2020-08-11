@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta name=viewport content="width=device-width,initial-scale=1">
-		<meta charset="utf-8"/>
-        <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+<head>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <meta charset="utf-8"/>
+    <script src="https://cdn.geogebra.org/apps/deployggb.js"></script>
+    <script src="./liveggb.js"></script>
+</head>
 
-    </head>
+<body>
+<div id="ggbApplet1"></div>
+<button onclick="window.open(location.href)" style="margin-top:56px">Local test</button>
 
-    <body>
-        <div id="ggbApplet1"></div>
-        <div id="ggbApplet2"></div>
-
-        <script>
+<script>
         var updatingOn = true;
-        var clientId = btoa(Math.random()).substring(0, 8);
+
         var dispatchNext = 0;
         var api1;
+        function getUrlParam(param) {
+            var parts = location.href.split("?");
+            if(parts.length<2){
+                return null;
+            }
+            params=parts[1].split("&");
+            for(var i=0;i<params.length;i++){
+                if(params[i].indexOf(param + "=")==0){
+                    return params[i].substring(param.length + 1);
+                }
+            }
+            return null;
+        }
         window.addEventListener('storage', function(e) {
             if (api1) {
                 var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
                 for (var index = dispatchNext; index < events.length; index++) {
-                    var last = events[events.length - 1];
-                    if (last && last.client != clientId) {
-                        if (last.type == "evalXML") {
-                            evalXML(api1, last.content);
-                        } else if (last.type == "setXML") {
-                            setXML(api1, last.content);
-                        } else if (last.type == "evalCommand") {
-                            evalCommand(api1, last.content);
-                        } else if (last.type == "deleteObject") {
-                            api1.deleteObject(last.content);
-                        } else if (last.type == "setEditorState") {
-                            unregisterListeners();
-                            api1.setEditorState(last.content, last.label);
-                            registerListeners();
-                        }
-                    }
+                    var last = events[index];
+                    GeoGebraLive.dispatch(last);
                 }
                 if (events.length > 0) {
                     api1.setUndoPoint();
@@ -45,27 +44,15 @@
             }
         });
 
-        var bus = {
-            send: function() {
+        var storageEventBus = function(event) {
                 var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
-                var type = arguments[0];
-                var content = arguments[1];
-                var event = {
-                    "type": type,
-                    "content": content,
-                    "client": clientId
-                }
-                if (arguments[2]) {
-                    event.label = arguments[2];
-                }
                 events.push(event);
                 localStorage.setItem("ggbEvents", JSON.stringify(events));
-            }
-        };
+            };
         var parameters1 = {
             //"id": "ggbApplet1",
             "width": 800,
-            "height": 400,
+            "height": 700,
             "showMenuBar": true,
             "showAlgebraInput": true,
             "showToolBar": true,
@@ -79,225 +66,24 @@
             "useBrowserForJS": false,
             "allowStyleBar": false,
             "preventFocus": false,
-            "showZoomButtons": true,
-            "capturingThreshold": 3,
             // add code here to run when the applet starts
             //"appletOnLoad":function(api){ /* api.evalCommand('Segment((1,2),(3,4))');*/ },
             "showFullscreenButton": true,
-            "scale": 1,
-            "disableAutoScale": false,
-            "allowUpscale": false,
-            "clickToLoad": false,
-            "appName": "classic",
-            "showSuggestionButtons": true,
-            "buttonRounding": 0.7,
-            "buttonShadows": false,
+            "appName": getUrlParam("app") || "classic",
             "language": "en",
-            // use this instead of ggbBase64 to load a material from geogebra.org
-            // "material_id":"RHYH3UQ8",
-            // use this instead of ggbBase64 to load a .ggb file
-            // "filename":"myfile.ggb",
-            "ggbBase64": "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",
-        };
-        var parameters2 = JSON.parse(JSON.stringify(parameters1));
-
-        // is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator DA=Data Analysis, FI=Function Inspector, macro=Macros
-        var views = {
-            'is3D': 0,
-            'AV': 1,
-            'SV': 0,
-            'CV': 0,
-            'EV2': 0,
-            'CP': 0,
-            'PC': 0,
-            'DA': 0,
-            'FI': 0,
-            'macro': 0
         };
 
 
-        function evalCommand(api, command) {
-            unregisterListeners();
-            api.evalCommand(command);
-            registerListeners();
-        }
-
-        function evalXML(api, xml) {
-            unregisterListeners();
-            api.evalXML(xml);
-            api.evalCommand("UpdateConstruction()");
-            registerListeners()
-        }
-
-        function setXML(api, xml) {
-            unregisterListeners();
-            api.setXML(xml);
-            api.evalCommand("UpdateConstruction()");
-            registerListeners();
-        }
-
-        // *** UPDATE LISTENERS ***
-        function updateListener(label, xapi1, bus) {
-            if (updatingOn) {
-                console.log(label + " is updated");
-            } else {
-                console.log("no update for " + label + ", waiting for 'movedGeos' event");
-                return;
-            }
-            if (xapi1.isIndependent(label) || xapi1.isMoveable(label)) {
-                var xml = xapi1.getXML(label);
-                //console.log(xml);
-                bus.send("evalXML", xml);
-            } else {
-                console.log("not sending update for " + label + ", isIndependent()=" + xapi1.isIndependent(label) + ", is movable()=" + xapi1.isMoveable(label));
-            }
-
-        }
-
-        function updateListener1(label) {
-            updateListener(label, api1, bus);
-        }
-
-        // *** ADD LISTENERS ***
-        function addListener(label, xapi1, bus) {
-            console.log(label + " is added");
-
-            var xml = xapi1.getXML(label);
-            //console.log(xml);
-
-            var definition = xapi1.getCommandString(label);
-            console.log(definition);
-            if (definition) {
-                bus.send("evalXML", xapi1.getAlgorithmXML(label) + xml);
-            } else {
-                bus.send("evalXML", xml);
-            }
-        }
-
-        function addListener1(label) {
-            addListener(label, api1, bus);
-        }
-
-        // *** REMOVE LISTENERS ***
-        function removeListener(label, xapi1, bus) {
-            console.log(label + " is removed");
-            bus.send("deleteObject", label);
-        }
-
-        function removeListener1(label) {
-            removeListener(label, api1, bus);
-        }
-
-        // *** CLIENT LISTENERS ***
-        function clientListener(event, xapi1, bus) {
-            switch (event[0]) {
-
-                case "updateStyle":
-                    var label = event[1];
-                    console.log(label + " has changed style");
-
-                    var xml = xapi1.getXML(label);
-                    //console.log(xml);
-
-                    bus.send("evalXML", xml);
-                    break;
-
-                case "setMode":
-                    console.log("setMode(" + event[2] + ")");
-                    //xapi2.setMode(event[2]);
-                    break;
-
-                case "editorKeyTyped":
-                    var state = xapi1.getEditorState();
-                    console.log(state);
-                    bus.send("setEditorState", state, event[1]);
-                    break;
-                case "editorStop":
-                    bus.send("setEditorState", "{content:\"\"}");
-                    break;
-
-                case "deselect":
-                    console.log("deselect", event);
-                    bus.send("evalCommand", "SelectObjects[]");
-                    break;
-                case "select":
-                    console.log("select", event);
-                    bus.send("evalCommand", "SelectObjects[" + event[1] + "]");
-                    break;
-
-                case "addPolygon":
-                    console.log("addPolygon", event);
-                    break;
-
-                case "movingGeos":
-                    console.log("movingGeos", event);
-                    // do nothing until movedGeos event is received
-                    updatingOn = false;
-                    break;
-
-                case "movedGeos":
-                    console.log("movedGeos", event);
-
-                    var xml = "";
-                    for (var i = 1; i < event.length; i++) {
-                        xml += xapi1.getXML(event[i]);
-                    }
-
-                    //console.log("batch send", xml);
-                    bus.send("evalXML", xml);
-
-                    // reenable update events
-                    updatingOn = true;
-                    break;
-
-
-                case "undo":
-                case "redo":
-                case "addPolygonComplete":
-                    console.log(event[0], "sending whole xml");
-
-                    var xml = xapi1.getXML();
-                    //console.log(xml);
-                    bus.send("setXML", xml);
-                    break;
-
-
-
-
-                default:
-                    console.log("unhandled event ", event[0], event);
-
-            }
-
-        }
-
-        function clientListener1(event) {
-            clientListener(event, api1, bus);
-        }
-
-        function registerListeners() {
-            api1.registerUpdateListener("updateListener1");
-            api1.registerRemoveListener("removeListener1");
-            api1.registerAddListener("addListener1");
-            api1.registerClientListener("clientListener1");
-        }
-
-        function unregisterListeners() {
-            api1.unregisterUpdateListener("updateListener1");
-            api1.unregisterRemoveListener("removeListener1");
-            api1.unregisterAddListener("addListener1");
-            api1.unregisterClientListener("clientListener1");
-        }
 
         parameters1.id = "ggbApplet1";
         parameters1.appletOnLoad = function(api) {
             console.log("applet1 loaded");
             api1 = api;
-            registerListeners();
+            GeoGebraLive.start(api, storageEventBus);
         }
 
-        var applet1 = new GGBApplet(parameters1, '5.0', views);
-        if (!location.href.startsWith("https://test.geogebra.org")) {
+        var applet1 = new GGBApplet(parameters1, '5.0');
+        if (location.href.indexOf("https://test.geogebra.org") == -1 && location.href.indexOf("cb=")==-1) {
             var codebase = location.href.replace(/\/[^\/]*$/, "/web3d");
             applet1.setHTML5Codebase(codebase);
         }
@@ -306,7 +92,8 @@
             localStorage.clear();
             applet1.inject('ggbApplet1');
         };
-        </script>
-    </body>
+
+</script>
+</body>
 
 </html>
