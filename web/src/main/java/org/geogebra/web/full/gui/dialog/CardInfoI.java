@@ -14,5 +14,5 @@ public interface CardInfoI {
 	 *
 	 * @return the title of the card.
 	 */
-	String getTitle();
+	String getCardTitle();
 }

@@ -221,7 +221,7 @@ public class MaterialCardController implements OpenFileListener {
 										ArrayList<Chapter> meta) {
 									if (parseResponse.size() != 1) {
 										app.showError(Errors.RenameFailed);
-										card.setMaterialTitle(oldTitle);
+										card.setCardTitle(oldTitle);
 									} else {
 										Log.debug("RENAME local");
 										getMaterial().setModified(parseResponse

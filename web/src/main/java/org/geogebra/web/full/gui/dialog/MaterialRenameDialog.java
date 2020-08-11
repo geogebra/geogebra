@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class MaterialRenameDialog extends ComponentDialog {
 	private InputPanelW inputField;
 	private boolean inputChanged;
-	private CardInfoI card;
+	private final CardInfoI card;
 
 	/**
 	 * @param app
@@ -43,13 +43,13 @@ public class MaterialRenameDialog extends ComponentDialog {
 		inputLabel.addStyleName("inputLabel");
 		contentPanel.add(inputLabel);
 		contentPanel.add(inputField);
-		setInitialText(card.getTitle());
+		setInitialText(card.getCardTitle());
 		initInputFieldActions();
 		setPosBtnDisabled(true);
 		addDialogContent(contentPanel);
 	}
 
-	public void setInitialText(String text) {
+	private void setInitialText(String text) {
 		inputField.getTextComponent().setText(text);
 	}
 
@@ -105,7 +105,7 @@ public class MaterialRenameDialog extends ComponentDialog {
 
 	protected boolean isTextInvalid() {
 		inputChanged = inputChanged
-				|| !inputField.getText().trim().equals(card.getTitle());
+				|| !inputField.getText().trim().equals(card.getCardTitle());
 		return StringUtil.emptyTrim(inputField.getText())
 				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH
 				|| !inputChanged;

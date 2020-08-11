@@ -343,9 +343,9 @@ public class PageListController implements PageListControllerInterface,
 				JSONArray elements = new JSONArray();
 				JSONObject page = new JSONObject();
 				page.put("id", GgbFile.SLIDE_PREFIX + i);
-				String subtitle = getCard(i).getSubtitle();
-				if (!StringUtil.empty(subtitle)) {
-					page.put("subtitle", subtitle);
+				String title = getCard(i).getCardTitle();
+				if (!StringUtil.empty(title)) {
+					page.put("title", title);
 				}
 
 				elements.put(page);
@@ -397,8 +397,8 @@ public class PageListController implements PageListControllerInterface,
 		PagePreviewCard card = new PagePreviewCard(app, cardIndex, filter(archive,
 				page.getString("id")));
 
-		if (page.has("subtitle")) {
-			card.rename(page.getString("subtitle"));
+		if (page.has("title")) {
+			card.rename(page.getString("title"));
 		}
 
 		return card;

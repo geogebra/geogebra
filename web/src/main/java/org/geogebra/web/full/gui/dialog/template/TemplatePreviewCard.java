@@ -134,7 +134,7 @@ public class TemplatePreviewCard extends FlowPanel
     }
 
     @Override
-    public void setMaterialTitle(String title) {
+    public void setCardTitle(String title) {
         // nothing to do here
     }
 
@@ -149,7 +149,7 @@ public class TemplatePreviewCard extends FlowPanel
     }
 
     @Override
-    public String getMaterialTitle() {
+    public String getCardTitle() {
         return null;
     }
 

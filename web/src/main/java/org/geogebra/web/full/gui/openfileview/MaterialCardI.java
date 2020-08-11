@@ -20,27 +20,21 @@ public interface MaterialCardI extends CardInfoI {
 	void remove();
 
 	/**
-	 * Update title in UI.
-	 * 
-	 * @param title
-	 *            material title
-	 */
-	void setMaterialTitle(String title);
-
-	/**
 	 * Call API to copy yhe material.
 	 */
 	void copy();
 
 	/**
+	 * Sets the title of the material card.
+	 *
+	 * @param title to set.
+	 */
+	void setCardTitle(String title);
+
+	/**
 	 * Show delete dialog.
 	 */
 	void onDelete();
-
-	/**
-	 * @return title of the material
-	 */
-	String getMaterialTitle();
 
 	/**
 	 * @param groupID

@@ -17,7 +17,6 @@ public class PreviewCardRenameDialog extends MaterialRenameDialog {
 			DialogData data,
 			PagePreviewCard card) {
 		super(app, data, card);
-		setInitialText(card.getSubtitle());
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class RemoveDialog extends ComponentDialog {
 
 	private void buildContent() {
 		Label confirmDelete = new Label(app.getLocalization().getPlain("ConfirmDeleteA",
-				card.getMaterialTitle()));
+				card.getCardTitle()));
 		confirmDelete.setStyleName("message");
 		addDialogContent(confirmDelete);
 	}

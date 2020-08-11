@@ -346,7 +346,8 @@ public class PagePreviewCard extends FlowPanel
 		infoPanel.setCardSubtitle(subtitle);
 	}
 
-	public String getSubtitle() {
+	@Override
+	public String getCardTitle() {
 		return infoPanel.getCardSubtitle();
 	}
 }
