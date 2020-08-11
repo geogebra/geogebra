@@ -246,5 +246,9 @@ $collapse-trans: all 0.2s ease;
 	.mowColorPlusButton img {
 		padding: 3px;
 	}
+
+	.matDynStyleBar {
+		will-change: transform;
+	}
  }
 

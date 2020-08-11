@@ -234,6 +234,7 @@
 		cursor: pointer;
 		position: absolute;
 		border-radius: 50%;
+		will-change: transform;
 		z-index: 99;
 
 		background-color: $mow_primary;
