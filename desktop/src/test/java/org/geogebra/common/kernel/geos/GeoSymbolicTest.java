@@ -1165,4 +1165,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				is(solveA.getDefinition().getTopLevelCommand().getName()));
 	}
 
+	@Test
+	public void testFunctionRedefinition() {
+		add("f(x) = x");
+		GeoSymbolic function = add("f(x) = xx");
+		assertThat(function.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoFunction.class));
+	}
 }

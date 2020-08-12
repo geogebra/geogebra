@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
@@ -180,12 +181,16 @@ public class SymbolicProcessor {
 			ExpressionNode rhs = equ.getRHS();
 			FunctionNVar lhs = getRedefiningFunction(equ);
 
-			ValidExpression retVal = rhs;
+			ValidExpression extractedFunction = rhs;
 			if (lhs != null) {
-				retVal = new FunctionNVar(rhs, lhs.getFunctionVariables());
+				FunctionVariable[] functionVariables = lhs.getFunctionVariables();
+				extractedFunction =
+						functionVariables.length == 1
+								? new Function(rhs, functionVariables[0])
+								: new FunctionNVar(rhs, functionVariables);
 			}
-			retVal.setLabel(lhsName);
-			return retVal;
+			extractedFunction.setLabel(lhsName);
+			return extractedFunction;
 		}
 		return equ;
 	}
