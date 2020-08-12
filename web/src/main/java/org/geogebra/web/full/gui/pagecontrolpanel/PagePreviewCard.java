@@ -4,9 +4,9 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.CardInfoPanel;
-import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 
@@ -343,7 +343,7 @@ public class PagePreviewCard extends FlowPanel
 
 	@Override
 	public void rename(String title) {
-
+		// not used here
 	}
 
 	@Override
