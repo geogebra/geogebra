@@ -219,7 +219,7 @@ public abstract class CanvasDrawable extends Drawable {
 		return getLabelTextHeight() + HIGHLIGHT_MARGIN;
 	}
 
-	int getLabelTextHeight() {
+	protected int getLabelTextHeight() {
 		return (int) (getLabelFontSize() * LABEL_FONT_MULTIPLIER + HIGHLIGHT_MARGIN);
 	}
 

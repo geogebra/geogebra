@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.annotation.CheckForNull;
 
@@ -122,6 +123,7 @@ public class GeoText extends GeoElement
 	private boolean symbolicMode;
 	private int totalHeight;
 	private int totalWidth;
+	private List<GeoElement> updateListeners;
 
 	/**
 	 * Creates new text
@@ -137,8 +139,7 @@ public class GeoText extends GeoElement
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
 
-		// don't show in algebra view
-		// setAlgebraVisible(false);
+		updateListeners = new ArrayList<>();
 	}
 
 	/**
@@ -344,6 +345,15 @@ public class GeoText extends GeoElement
 
 	@Override
 	public void doRemove() {
+		List<GeoElement> listenersCopy = new ArrayList<>(updateListeners);
+		updateListeners.clear();
+
+		for (GeoElement geo : listenersCopy) {
+			HasDynamicCaption hasDynamicCaption = (HasDynamicCaption) geo;
+			hasDynamicCaption.removeDynamicCaption();
+			kernel.notifyUpdate(geo);
+		}
+
 		super.doRemove();
 		// tell startPoint
 		if (startPoint != null) {
@@ -387,10 +397,10 @@ public class GeoText extends GeoElement
 				&& getLabelSimple().startsWith("altText")) {
 			kernel.getApplication().setAltText();
 		}
-		// if (needsUpdatedBoundingBox) {
-		// kernel.notifyUpdate(this);
-		// }
 
+		for (GeoElement geo : updateListeners) {
+			geo.notifyUpdate();
+		}
 	}
 
 	/**
@@ -1510,4 +1520,32 @@ public class GeoText extends GeoElement
 		// only read content, no prefix
 	}
 
+	/**
+	 * @param geo element using this as dynamic caption
+	 */
+	public void registerUpdateListener(GeoElement geo) {
+		if (!updateListeners.contains(geo)) {
+			updateListeners.add(geo);
+		}
+	}
+
+	public void unregisterUpdateListener(GeoElement geo) {
+		updateListeners.remove(geo);
+	}
+
+	@Override
+	public void moveDependencies(GeoElement oldGeo) {
+		if (!oldGeo.isGeoText()) {
+			return;
+		}
+
+		GeoText text = (GeoText) oldGeo;
+		List<GeoElement> listenersCopy = new ArrayList<>(text.updateListeners);
+		updateListeners.clear();
+		text.updateListeners.clear();
+		for (GeoElement geo: listenersCopy) {
+			((HasDynamicCaption) geo).setDynamicCaption(this);
+			registerUpdateListener(geo);
+		}
+	}
 }
