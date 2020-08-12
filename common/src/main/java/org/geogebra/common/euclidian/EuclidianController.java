@@ -7837,8 +7837,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			}
 			dr.fromPoints(transformedPts);
 
-			// last update for drawable
-			dr.update();
+			geo.update();
 		}
 		view.repaintView();
 	}
