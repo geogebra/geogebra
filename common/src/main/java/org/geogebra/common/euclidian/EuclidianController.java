@@ -533,7 +533,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 				|| (mode == EuclidianConstants.MODE_TRANSLATEVIEW
 						&& temporaryMode
 						&& oldMode == EuclidianConstants.MODE_SELECT_MOW))
-				&& selection.getSelectedGeos().size() > 0 && !this.specialBoundingBoxNeeded();
+				&& selection.getSelectedGeos().size() > 0 && getSpecialBoundingBox() == null;
 	}
 
 	private static boolean modeCreatesHelperPoints(int mode2) {
@@ -8338,7 +8338,10 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			this.hideDynamicStylebar();
 		}
 
-		lastGroupHit = null;
+		if (draggingOccured) {
+			lastGroupHit = null;
+		}
+		view.setFocusedGroupGeoBoundingBox(null);
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			setMouseLocation(event);
@@ -9636,31 +9639,27 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	public void updateBoundingBoxFromSelection(boolean crop) {
 		List<GeoElement> sel = selection.getSelectedGeos();
-		if (specialBoundingBoxNeeded()) {
-			DrawableND dr = view.getDrawableFor(sel.get(0));
-			if (dr != null) {
-				BoundingBox<? extends GShape> boundingBox = ((Drawable) dr).getBoundingBox();
-				if (boundingBox instanceof MediaBoundingBox) {
-					((MediaBoundingBox) boundingBox).setCropMode(crop);
-					view.setBoundingBox(boundingBox);
-					view.repaintView();
-				}
+		BoundingBox<? extends GShape> boundingBox = getSpecialBoundingBox();
+		if (boundingBox != null) {
+			if (boundingBox instanceof MediaBoundingBox) {
+				((MediaBoundingBox) boundingBox).setCropMode(crop);
 			}
+			view.setBoundingBox(boundingBox);
+			view.repaintView();
 		} else { // multi-selection
 			setBoundingBoxFromList(sel);
 		}
 	}
 
-	private boolean specialBoundingBoxNeeded() {
+	private BoundingBox<? extends GShape> getSpecialBoundingBox() {
 		ArrayList<GeoElement> selectedGeos = selection.getSelectedGeos();
 		if (selectedGeos.size() == 1) {
-			GeoElement geoElement = selectedGeos.get(0);
-			return geoElement.isGeoSegment()
-					|| geoElement instanceof GeoInline
-					|| geoElement instanceof GeoWidget
-					|| (geoElement.isGeoImage() && !geoElement.isLocked());
+			DrawableND dr = view.getDrawableFor(selectedGeos.get(0));
+			if (dr != null) {
+				return ((Drawable) dr).getBoundingBox();
+			}
 		}
-		return false;
+		return null;
 	}
 
 	protected void processSelection() {

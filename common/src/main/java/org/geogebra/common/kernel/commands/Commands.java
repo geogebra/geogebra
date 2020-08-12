@@ -276,8 +276,6 @@ public enum Commands implements CommandsConstants,
 
 	IntegralBetween(TABLE_FUNCTION),
 
-	IntegralSymbolic(TABLE_FUNCTION),
-
 	LowerSum(TABLE_FUNCTION),
 
 	LeftSum(TABLE_FUNCTION),
