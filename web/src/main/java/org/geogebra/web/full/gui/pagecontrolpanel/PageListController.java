@@ -20,6 +20,7 @@ import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
@@ -401,7 +402,7 @@ public class PageListController implements PageListControllerInterface,
 				page.getString("id")));
 
 		if (page.has("title")) {
-			card.rename(page.getString("title"));
+			card.setCardTitle(page.getString("title"));
 		}
 
 		return card;
@@ -676,7 +677,7 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	private void renameCard(int pageIndex, String title) {
-		cardAt(pageIndex).rename(title);
+		cardAt(pageIndex).setCardTitle(title);
 	}
 
 	private int indexOfId(String slideID) {
@@ -729,9 +730,9 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	@Override
-	public void rename(PagePreviewCard card, String title) {
-		storeRenameAction(card, title);
-		card.rename(title);
+	public void rename(RenameCard card, String title) {
+		storeRenameAction((PagePreviewCard) card, title);
+		card.setCardTitle(title);
 	}
 
 	private void storeRenameAction(PagePreviewCard card, String oldTitle) {

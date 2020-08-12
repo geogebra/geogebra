@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentDialog;

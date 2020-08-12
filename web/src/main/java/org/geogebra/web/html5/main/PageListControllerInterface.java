@@ -2,7 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.kernel.AppState;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.web.full.gui.pagecontrolpanel.PagePreviewCard;
+import org.geogebra.web.html5.gui.RenameCard;
 
 /**
  * Controller for multipage files
@@ -112,5 +112,5 @@ public interface PageListControllerInterface {
 	 * @param card to rename.
 	 * @param title the new title.
 	 */
-	void rename(PagePreviewCard card, String title);
+	void rename(RenameCard card, String title);
 }

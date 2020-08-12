@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.dialog;
+package org.geogebra.web.html5.gui;
 
 public interface RenameCard {
 
@@ -9,6 +9,13 @@ public interface RenameCard {
 	 *            new title
 	 */
 	void rename(String title);
+
+	/**
+	 * Sets the title of the material card.
+	 *
+	 * @param title to set.
+	 */
+	void setCardTitle(String title);
 
 	/**
 	 *

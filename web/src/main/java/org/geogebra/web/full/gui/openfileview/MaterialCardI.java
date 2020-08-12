@@ -1,7 +1,7 @@
 package org.geogebra.web.full.gui.openfileview;
 
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.gui.dialog.RenameCard;
+import org.geogebra.web.html5.gui.RenameCard;
 
 /**
  * Common interface for material cards.
@@ -23,13 +23,6 @@ public interface MaterialCardI extends RenameCard {
 	 * Call API to copy yhe material.
 	 */
 	void copy();
-
-	/**
-	 * Sets the title of the material card.
-	 *
-	 * @param title to set.
-	 */
-	void setCardTitle(String title);
 
 	/**
 	 * Show delete dialog.
