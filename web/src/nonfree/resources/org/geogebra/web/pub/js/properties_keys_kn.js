@@ -590,7 +590,7 @@ __GGB__keysVar["kn"].command = {
     "Mode": "Mode",
     "Mode.Syntax": "[ <List of Numbers> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "NIntegral",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]",

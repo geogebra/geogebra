@@ -590,7 +590,7 @@ __GGB__keysVar["sq"].command = {
     "Mode": "Mode",
     "Mode.Syntax": "[ <Liste e Numrave> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "NIntegral",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <Funksion>, <x-Vlera e fillimit>, <x-Vlera e mbarimit> ]\n[ <Funksion>, <Variabli>, <Vlera e fillimit>, <Vlera e mbarimit> ]",

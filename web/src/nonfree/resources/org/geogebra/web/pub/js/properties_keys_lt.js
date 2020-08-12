@@ -590,7 +590,7 @@ __GGB__keysVar["lt"].command = {
     "Mode": "Moda",
     "Mode.Syntax": "[ <Skai\u010di\u0173 s\u0105ra\u0161as> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "NIntegralas",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <Funkcija>, <Prad\u017eios x reik\u0161m\u0117>, <Galo x reik\u0161m\u0117> ]\n[ <Funkcija>, <Kintamasis>, <Prad\u017eios vert\u0117>, <Galo vert\u0117> ]",

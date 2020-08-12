@@ -590,7 +590,7 @@ __GGB__keysVar["hi"].command = {
     "Mode": "\u092c\u0939\u0941\u0932\u0915",
     "Mode.Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e\u0913 \u0915\u0940 \u0938\u0942\u091a\u0940> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "N\u0938\u092e\u093e\u0915\u0932\u0917\u0941\u0923\u093e\u0902\u0915",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <\u095e\u0932\u0928>, <\u092a\u094d\u0930\u093e\u0930\u092e\u094d\u092d\u093f\u0915 x-\u092e\u093e\u0928>, <\u0905\u0902\u0924\u093f\u092e x-\u092e\u093e\u0928> ]\n[ <\u092b\u0932\u0928>, <\u091a\u0930>, <\u092a\u094d\u0930\u093e\u0930\u092e\u094d\u092d\u093f\u0915 \u092e\u093e\u0928>, <\u0905\u0902\u0924\u093f\u092e \u092e\u093e\u0928> ]",

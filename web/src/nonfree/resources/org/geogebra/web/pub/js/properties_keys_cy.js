@@ -590,7 +590,7 @@ __GGB__keysVar["cy"].command = {
     "Mode": "Modd",
     "Mode.Syntax": "[ <Rhestr y rhifau> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "IntegrynN",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]",

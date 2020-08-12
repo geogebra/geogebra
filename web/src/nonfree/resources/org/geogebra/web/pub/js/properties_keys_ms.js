@@ -590,7 +590,7 @@ __GGB__keysVar["ms"].command = {
     "Mode": "Mod",
     "Mode.Syntax": "[ <Senarai Nombor> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "NKamiran",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <Fungsi>, <Mula Nilai-x>, <Tamat Nilai-x> ]\n[ <Fungsi>, <Pembolehubah>, <Nilai Mula>, <Nilai Tamat> ]",

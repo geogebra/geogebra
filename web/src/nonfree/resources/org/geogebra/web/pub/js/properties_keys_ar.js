@@ -590,7 +590,7 @@ __GGB__keysVar["ar"].command = {
     "Mode": "\u0627\u0644\u0645\u0646\u0648\u0627\u0644",
     "Mode.Syntax": "[ <\u0642\u0627\u0626\u0645\u0629 \u0623\u0639\u062f\u0627\u062f> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "\u0627\u0644\u062a\u0643\u0627\u0645\u0644_\u0627\u0644\u0646\u0648\u0646\u0649",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <\u062f\u0627\u0644\u0629>, <\u0628\u062f\u0627\u064a\u0629 \u0642\u064a\u0645\u0629-\u0633>, <\u0646\u0647\u0627\u064a\u0629 \u0642\u064a\u0645\u0629-\u0633> ]\n[ <\u062f\u0627\u0644\u0629>, <\u0645\u062a\u063a\u064a\u0631>, <\u0642\u064a\u0645\u0629 \u0627\u0644\u0628\u062f\u0627\u064a\u0629>, <\u0642\u064a\u0645\u0629 \u0627\u0644\u0646\u0647\u0627\u064a\u0629> ]",

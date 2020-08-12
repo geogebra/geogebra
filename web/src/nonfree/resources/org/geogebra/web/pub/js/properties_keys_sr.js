@@ -590,7 +590,7 @@ __GGB__keysVar["sr"].command = {
     "Mode": "Modus",
     "Mode.Syntax": "[ <lista brojeva> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "NIntegral",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <funkcija>, <po\u010detna x-vrednost>, <krajnja x-vrednost> ]\n[ <funkcija>, <promenljiva>, <po\u010detna vrednost>, <krajnja vrednost> ]",

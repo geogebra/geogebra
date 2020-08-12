@@ -590,7 +590,7 @@ __GGB__keysVar["id"].command = {
     "Mode": "Modus",
     "Mode.Syntax": "[ <Daftar Angka> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "IntergralTerbatas",
     "NIntegral.Syntax": "[ <Fungsi> ]\n[ <Fungsi>, <Mulai Nilai x>, <Akhir Nilai x> ]",
     "NIntegral.SyntaxCAS": "[ <Fungsi>, <Nilai x Awal>, <Nilai x Akhir> ]\n[ <Fungsi>, <Variabel>, <Nilai Awal>, <Nilai Akhir> ]",

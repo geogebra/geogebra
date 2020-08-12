@@ -590,7 +590,7 @@ __GGB__keysVar["ro"].command = {
     "Mode": "Modul",
     "Mode.Syntax": "[ <List\u0103 de numere> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "NIntegral",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <Func\u0163ie>, <Valoare-x \xeenceput>, <Valoare-x sf\xe2r\u015fit> ]\n[ <Func\u0163ie>, <Variabil\u0103>, <Valoare \xeenceput>, <Valoare sf\xe2r\u015fit> ]",

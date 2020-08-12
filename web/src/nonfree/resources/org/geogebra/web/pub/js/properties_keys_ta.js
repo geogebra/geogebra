@@ -590,7 +590,7 @@ __GGB__keysVar["ta"].command = {
     "Mode": "\u0b86\u0b95\u0bbe\u0bb0\u0bae\u0bcd",
     "Mode.Syntax": "[ <List of Numbers> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "NIntegral",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]",

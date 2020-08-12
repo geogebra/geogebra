@@ -590,7 +590,7 @@ __GGB__keysVar["nl-NL"].command = {
     "Mode": "Modus",
     "Mode.Syntax": "[ <Lijst van getallen> ]",
     "NDerivative": "NAfgeleide",
-    "NDerivative.Syntax": "[ <Functie> ]",
+    "NDerivative.Syntax": "[ <Functie> ]\n[ <Functie>, <Orde> ]",
     "NIntegral": "Numerieke_Integraal",
     "NIntegral.Syntax": "[ <Functie> ]\n[ <Functie>, <Start x-waarde>, <Eind x-waarde> ]",
     "NIntegral.SyntaxCAS": "[ <Functievoorschrift>, <Beginwaarde interval>, <Eindwaarde interval> ]\n[ <Functievoorschrift>, <Variabele>, <Beginwaarde>, <Eindwaarde> ]",

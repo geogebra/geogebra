@@ -590,7 +590,7 @@ __GGB__keysVar["lv"].command = {
     "Mode": "Moda",
     "Mode.Syntax": "[ <Skait\u013cu saraksts> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "NoteiktaisIntegr\u0101lis",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <Funkcija>, <S\u0101kuma x-V\u0113rt\u012bba>, <Beigu x-V\u0113rt\u012bba> ]\n[ <Funkcija>, <Main\u012bgais>, <S\u0101kuma V\u0113rt\u012bba>, <Beigu V\u0113rt\u012bba> ]",

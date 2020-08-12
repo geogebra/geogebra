@@ -590,7 +590,7 @@ __GGB__keysVar["pt-PT"].command = {
     "Mode": "Moda",
     "Mode.Syntax": "[ <Lista de N\xfameros> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Fun\xe7\xe3o> ]",
+    "NDerivative.Syntax": "[ <Fun\xe7\xe3o> ]\n[ <Fun\xe7\xe3o>, <Ordem> ]",
     "NIntegral": "NIntegral",
     "NIntegral.Syntax": "[ <Fun\xe7\xe3o> ]\n[ <Fun\xe7\xe3o>, <Valor Inicial x>, <Valor Final x> ]",
     "NIntegral.SyntaxCAS": "[ <Fun\xe7\xe3o>, <Valor Inicial-x>, <Valor Final-x> ]\n[ <Fun\xe7\xe3o>, <Vari\xe1vel>, <x Inicial>, <x Final> ]",

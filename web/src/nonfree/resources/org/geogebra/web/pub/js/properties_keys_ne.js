@@ -590,7 +590,7 @@ __GGB__keysVar["ne"].command = {
     "Mode": "\u092c\u0939\u0941\u0932\u0915",
     "Mode.Syntax": "[ <\u0938\u0902\u0916\u094d\u092f\u093e\u0939\u0930\u0941\u0915\u094b \u0938\u0941\u091a\u0940> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "N\u0908\u0928\u094d\u091f\u093f\u0930\u094d\u0917\u0932",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <\u092b\u0932\u0928>, <x-\u0915\u094b\u092e\u093e\u0928 \u0936\u0941\u0930\u0941>, <x \u0915\u094b \u092e\u093e\u0928 \u0938\u092e\u093e\u092a\u094d\u0924> ]\n[ <\u092b\u0932\u0928>, <\u091a\u0932>, <\u0936\u0941\u0930\u0941 \u092e\u093e\u0928>, <\u0905\u0928\u094d\u0924\u093f\u092e \u092e\u093e\u0928> ]",

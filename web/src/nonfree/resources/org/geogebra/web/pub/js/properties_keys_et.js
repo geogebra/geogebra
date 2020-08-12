@@ -590,7 +590,7 @@ __GGB__keysVar["et"].command = {
     "Mode": "Mood",
     "Mode.Syntax": "[ <Arvude loend> ]",
     "NDerivative": "NDerivative",
-    "NDerivative.Syntax": "[ <Function> ]",
+    "NDerivative.Syntax": "[ <Function> ]\n[ <Function>, <Order> ]",
     "NIntegral": "NIntegraal",
     "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "NIntegral.SyntaxCAS": "[ <Funktsioon>, <x-algv\xe4\xe4rtus>, <x-l\xf5ppv\xe4\xe4rtus> ]\n[ <Funktsioon>, <Muutuja>, <Muutuja algv\xe4\xe4rtus>, <Muutuja l\xf5ppv\xe4\xe4rtus> ]",
