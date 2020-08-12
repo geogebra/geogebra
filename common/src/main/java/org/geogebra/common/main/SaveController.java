@@ -20,8 +20,9 @@ public interface SaveController {
 
 	/**
 	 * @param saveCallback callback, gets a flag depending on whether material was saved or not
+	 * @param addTempCheckBox true if checkbox for template should be added
 	 */
-	void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback);
+	void showDialogIfNeeded(AsyncOperation<Boolean> saveCallback, boolean addTempCheckBox);
 
 	/**
 	 * Listener interface to communicate with caller GUI.
