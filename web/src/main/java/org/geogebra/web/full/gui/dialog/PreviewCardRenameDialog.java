@@ -39,7 +39,7 @@ public class PreviewCardRenameDialog extends MaterialRenameDialog {
 	}
 
 	@Override
-	protected void storeUndo() {
-		pageController.onRename(card);
+	protected void renameCard() {
+		pageController.rename(card, getInputText());
 	}
 }

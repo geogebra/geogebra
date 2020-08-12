@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class MaterialRenameDialog extends ComponentDialog {
 	private InputPanelW inputField;
 	private boolean inputChanged;
-	private final CardInfoI card;
+	private final RenameCard card;
 
 	/**
 	 * @param app
@@ -27,7 +27,7 @@ public class MaterialRenameDialog extends ComponentDialog {
 	 * @param card
 	 *            card of file being renamed
 	 */
-	public MaterialRenameDialog(AppW app, DialogData data, CardInfoI card) {
+	public MaterialRenameDialog(AppW app, DialogData data, RenameCard card) {
 		super(app, data, false, true);
 		this.card = card;
 		addStyleName("materialRename");
@@ -36,13 +36,19 @@ public class MaterialRenameDialog extends ComponentDialog {
 		setOnPositiveAction(this::renameCard);
 	}
 
-	private void renameCard() {
-		storeUndo();
-		card.rename(inputField.getText().trim());
+	/**
+	 * Rename the card to the current input.
+	 */
+	protected void renameCard() {
+		card.rename(getInputText());
 	}
 
-	protected void storeUndo() {
-		// implement it in subclasses on demand.
+	/**
+	 *
+	 * @return the trimmed text of the input field.
+	 */
+	protected String getInputText() {
+		return inputField.getText().trim();
 	}
 
 	private void buildContent() {
@@ -114,7 +120,7 @@ public class MaterialRenameDialog extends ComponentDialog {
 
 	protected boolean isTextInvalid() {
 		inputChanged = inputChanged
-				|| !inputField.getText().trim().equals(card.getCardTitle());
+				|| !getInputText().equals(card.getCardTitle());
 		return StringUtil.emptyTrim(inputField.getText())
 				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH
 				|| !inputChanged;

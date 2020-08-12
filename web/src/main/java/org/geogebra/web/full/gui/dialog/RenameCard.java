@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
-public interface CardInfoI {
+public interface RenameCard {
 
 	/**
 	 * Call API to rename material.

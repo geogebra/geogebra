@@ -729,9 +729,14 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	@Override
-	public void onRename(PagePreviewCard card) {
+	public void rename(PagePreviewCard card, String title) {
+		storeRenameAction(card, title);
+		card.rename(title);
+	}
+
+	private void storeRenameAction(PagePreviewCard card, String oldTitle) {
 		undoManager.storeAction(EventType.RENAME_SLIDE, "" + card.getPageIndex(),
-				card.getCardTitle());
+				oldTitle, card.getCardTitle());
 
 	}
 }

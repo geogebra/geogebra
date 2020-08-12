@@ -108,8 +108,9 @@ public interface PageListControllerInterface {
 	String exportPDF();
 
 	/**
-	 * Called after renaming a slide
-	 * @param card that was renamed.
+	 * Renaming a slide
+	 * @param card to rename.
+	 * @param title the new title.
 	 */
-	void onRename(PagePreviewCard card);
+	void rename(PagePreviewCard card, String title);
 }
