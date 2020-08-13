@@ -3,6 +3,7 @@ package org.geogebra.web.html5.sound;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.SoundManager;
@@ -19,6 +20,7 @@ import elemental2.dom.HTMLAudioElement;
  */
 public class SoundManagerW implements SoundManager {
 	private final AppW app;
+	private final EuclidianView view;
 	private boolean mp3active = true;
 	private final Map<String, HTMLAudioElement> audioElements;
 	private final Map<String, GeoAudio> geoAudios;
@@ -32,6 +34,7 @@ public class SoundManagerW implements SoundManager {
 		this.app = app;
 		audioElements = new HashMap<>();
 		geoAudios = new HashMap<>();
+		view = app.getActiveEuclidianView();
 	}
 
 	@Override
@@ -117,11 +120,7 @@ public class SoundManagerW implements SoundManager {
 	 */
 	protected void onGeoAudioUpdate(HTMLAudioElement audio, String url) {
 		audioElements.put(url, audio);
-		GeoAudio geo = geoAudios.get(url);
-		if (geo != null) {
-			app.getActiveEuclidianView().update(geo);
-			app.getKernel().notifyUpdate(geo);
-		}
+		view.update(geoAudios.get(url));
 	}
 
 	private int getDuration(HTMLAudioElement audio) {
