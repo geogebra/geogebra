@@ -116,8 +116,6 @@ public class DrawInputBox extends CanvasDrawable {
 			}
 			getView().getEuclidianController().textfieldHasFocus(false);
 
-			// GGB-22 revert r43455
-			// stops alpha popup working
 			hideWidget();
 
 			// make sure (expensive) update doesn't happen unless needed
@@ -128,6 +126,7 @@ public class DrawInputBox extends CanvasDrawable {
 			}
 
 			view.getViewTextField().setBoxVisible(false);
+			view.getViewTextField().reset();
 		}
 	}
 
