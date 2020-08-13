@@ -20,7 +20,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class Ggb2giac {
 	/** Giac syntax for Element(list,index) */
-	public static final String ELEMENT_2 = "ggb_element(%0,%1)";
+	public static final String ELEMENT_2 = "when(%1>0&&%1<=size(%0),(%0)[%1-when(type(%0)==DOM_LIST,1,0)],?)";
 	private static final String GGBVECT_TYPE = "27";
 	private static Map<String, String> commandMap = new TreeMap<>();
 
