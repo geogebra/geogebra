@@ -183,11 +183,8 @@ public class SymbolicProcessor {
 
 			ValidExpression extractedFunction = rhs;
 			if (lhs != null) {
-				FunctionVariable[] functionVariables = lhs.getFunctionVariables();
 				extractedFunction =
-						functionVariables.length == 1
-								? new Function(rhs, functionVariables[0])
-								: new FunctionNVar(rhs, functionVariables);
+						kernel.getArithmeticFactory().newFunction(rhs, lhs.getFunctionVariables());
 			}
 			extractedFunction.setLabel(lhsName);
 			return extractedFunction;
