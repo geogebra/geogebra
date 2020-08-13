@@ -55,23 +55,40 @@
                 this.embeds[label] = calcLive;
             }
         }
-        // *** UPDATE LISTENERS ***
-        var updateListener = (function(label) {
-            if (updatingOn) {
-                console.log(label + " is updated");
-            } else {
-                console.log("no update for " + label + ", waiting for 'movedGeos' event");
-                return;
-            }
-            if (this.api.isIndependent(label) || this.api.isMoveable(label)) {
-                var xml = this.api.getXML(label);
-                //console.log(xml);
-                this.sendEvent("evalXML", xml);
-            } else {
-                console.log("not sending update for " + label + ", isIndependent()="
-                + this.api.isIndependent(label) + ", is movable()=" + this.api.isMoveable(label));
-            }
 
+        let objectsInWaiting = [];
+        let updateCallback;
+
+        let dispatchUpdates = (function() {
+            if (!updateCallback) {
+                const that = this;
+                updateCallback = setTimeout(function() {
+                    const tempObjects = objectsInWaiting.slice();
+                    objectsInWaiting = [];
+
+                    for (let i = 0; i < tempObjects.length; i++) {
+                        const label = tempObjects[i];
+                        let commandString = that.api.getCommandString(label, false);
+                        if (commandString) {
+                            that.sendEvent("evalCommand", label + " = " + commandString);
+                        } else {
+                            let xml = that.api.getXML(label);
+                            that.sendEvent("evalXML", xml);
+                        }
+                    }
+
+                    updateCallback = null;
+                }, 200);
+            }
+        }).bind(this);
+
+        // *** UPDATE LISTENERS ***
+        let updateListener = (function(label) {
+            console.log("update event for " + label);
+            if (!objectsInWaiting.includes(label)) {
+                objectsInWaiting.push(label);
+                dispatchUpdates();
+            }
         }).bind(this);
 
         // *** ADD LISTENERS ***
@@ -88,12 +105,9 @@
                 })
             }
             var xml = this.api.getXML(label);
-            //console.log(xml);
 
             var definition = this.api.getCommandString(label);
-            console.log(definition);
             if (definition) {
-                console.log("full "+this.api.getAlgorithmXML(label) );
                 this.sendEvent("evalXML", this.api.getAlgorithmXML(label) );
             } else {
                 this.sendEvent("evalXML", xml);
@@ -113,14 +127,11 @@
         // *** CLIENT LISTENERS ***
         var clientListener = (function(event){
             switch (event[0]) {
-
                 case "updateStyle":
                     var label = event[1];
                     console.log(label + " has changed style");
 
                     var xml = this.api.getXML(label);
-                    //console.log(xml);
-
                     this.sendEvent("evalXML", xml);
                     break;
 
@@ -133,44 +144,18 @@
                     console.log(state);
                     this.sendEvent("setEditorState", state, event[1]);
                     break;
+
                 case "editorStop":
                     this.sendEvent("setEditorState", "{content:\"\"}");
                     break;
 
                 case "deselect":
-                    console.log("deselect", event);
                     this.sendEvent("evalCommand", "SelectObjects[]");
                     break;
+
                 case "select":
-                    console.log("select", event);
                     this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]");
                     break;
-
-                case "addPolygon":
-                    console.log("addPolygon", event);
-                    break;
-
-                case "movingGeos":
-                    console.log("movingGeos", event);
-                    // do nothing until movedGeos event is received
-                    updatingOn = false;
-                    break;
-
-                case "movedGeos":
-                    console.log("movedGeos", event);
-
-                    var xml = "";
-                    for (var i = 1; i < event.length; i++) {
-                        xml += this.api.getXML(event[i]);
-                    }
-
-                    //console.log("batch send", xml);
-                    this.sendEvent("evalXML", xml);
-
-                    // reenable update events
-                    updatingOn = true;
-                    break;
-
 
                 case "undo":
                 case "redo":
