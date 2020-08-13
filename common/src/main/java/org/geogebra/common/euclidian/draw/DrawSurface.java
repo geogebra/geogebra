@@ -67,7 +67,7 @@ public class DrawSurface extends Drawable {
 		@Override
 		public double distanceMax(double[] p1, double[] p2) {
 			// TODO Auto-generated method stub
-			return 0;
+			return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
 		}
 
 		@Override

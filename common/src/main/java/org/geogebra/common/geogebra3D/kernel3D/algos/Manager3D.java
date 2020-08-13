@@ -1132,7 +1132,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
 			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo) {
 
-		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
+		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(cons, label,
 				point, coords,
 				new GeoNumeric[] { uVar, vVar },
 				new GeoNumberValue[] { uFrom, vFrom },

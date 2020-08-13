@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
@@ -233,10 +232,6 @@ public class ParametricProcessor {
 		}
 		if (fv.length < 2 && ev instanceof VectorValue) {
 			if (((VectorValue) ev).getToStringMode() == Kernel.COORD_COMPLEX) {
-				if (!kernel.getApplication().has(Feature.SURFACE_2D)) {
-					throw new MyError(kernel.getApplication().getLocalization(),
-							Errors.InvalidFunction);
-				}
 				return complexSurface(exp, fv[0], label);
 			}
 			GeoNumeric locVar = getLocalVar(exp, fv[0]);
@@ -392,15 +387,17 @@ public class ParametricProcessor {
 
 	private GeoElement[] complexSurface(ExpressionNode exp,
 			FunctionVariable fv, String label) {
-		FunctionVariable x = new FunctionVariable(kernel, "u");
-		FunctionVariable y = new FunctionVariable(kernel, "v");
-		ExpressionNode complex = new ExpressionNode(kernel, x, Operation.PLUS,
-				new ExpressionNode(kernel, y, Operation.MULTIPLY,
+		FunctionVariable u = new FunctionVariable(kernel, "u");
+		FunctionVariable v = new FunctionVariable(kernel, "v");
+		ExpressionNode complex = new ExpressionNode(kernel, u, Operation.PLUS,
+				new ExpressionNode(kernel, v, Operation.MULTIPLY,
 						kernel.getImaginaryUnit()));
 		// complex.setMode(Kernel.COORD_COMPLEX);
-		ExpressionNode exp2 = exp.replace(fv, complex).wrap();
-		return processSurface(exp2,
-				new FunctionVariable[] { x, y }, label, 2);
+		ExpressionNode exp2 = exp.deepCopy(kernel).replace(fv, complex).wrap();
+		GeoElement[] surface =  processSurface(exp2,
+				new FunctionVariable[] { u, v }, label, 2);
+		surface[0].setDefinition(exp);
+		return surface;
 	}
 
 	/**

@@ -2,7 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentConic3D;
-import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoSurfaceCartesian3D;
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoSurfaceCartesianND;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.kernel.Construction;
@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -51,8 +50,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			ExpressionValue ev, FunctionVariable[] fv, String label,
 			EvalInfo info) {
 		Construction cons = kernel.getConstruction();
-		if (ev instanceof VectorValue
-				&& kernel.getApplication().has(Feature.SURFACE_2D)) {
+		if (ev instanceof VectorValue) {
 			if (fv.length == 2) {
 				return processSurface(exp, fv, label, 2);
 			}
@@ -353,7 +351,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			cons.removeFromConstructionList(nx);
 			coords[i] = nx.getNumber();
 		}
-		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
+		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(cons, label,
 				exp,
 				coords,
 				new GeoNumeric[] { loc0, loc1 },

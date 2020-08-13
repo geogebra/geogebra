@@ -23,6 +23,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.Algos;
+import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -42,7 +44,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoSurfaceCartesian3D extends AlgoElement {
+public class AlgoSurfaceCartesianND extends AlgoElement {
 
 	private GeoNumberValue[] coords; // input
 	private GeoNumberValue[] from;
@@ -69,7 +71,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	 * @param to
 	 *            range max
 	 */
-	public AlgoSurfaceCartesian3D(Construction cons, String label,
+	public AlgoSurfaceCartesianND(Construction cons, String label,
 			ExpressionNode point, GeoNumberValue[] coords,
 			GeoNumeric[] localVar, GeoNumberValue[] from, GeoNumberValue[] to) {
 		super(cons);
@@ -129,8 +131,24 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	}
 
 	@Override
-	public Commands getClassName() {
-		return Commands.Surface;
+	public GetCommand getClassName() {
+		return surface.getDefinition() == null ? Commands.Surface : Algos.Expression;
+	}
+
+
+	@Override
+	public String toString(StringTemplate tpl) {
+		if (surface.getDefinition() == null) {
+			return super.toString(tpl);
+		}
+		if (surface.isLabelSet() && !tpl.isHideLHS()) {
+			return surface.getLabel(tpl) + "(" + surface.getVarString(tpl)+ ") = "+ getRHS(tpl);
+		}
+		return getRHS(tpl);
+	}
+
+	private String getRHS(StringTemplate tpl) {
+		return surface.getDefinition().toString(tpl);
 	}
 
 	// for AlgoElement
@@ -222,4 +240,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 	}
 
+	public GeoNumeric getLocalVar(int i) {
+		return this.localVar[i];
+	}
 }
