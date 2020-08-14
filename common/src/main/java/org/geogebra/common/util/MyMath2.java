@@ -76,7 +76,7 @@ public class MyMath2 {
 	 * @return beta(a,b)
 	 */
 	final public static double beta(double a, double b) {
-		ret = Math.exp(Beta.logBeta(a, b));
+		double ret = Math.exp(Beta.logBeta(a, b));
 		if (!MyDouble.isFinite(ret)) {
 			// handle negative cases
 			return Gamma.gamma(a) * Gamma.gamma(b) / Gamma.gamma(a + b);
