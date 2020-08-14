@@ -590,7 +590,7 @@ __GGB__keysVar["it"].command = {
     "Mode": "Moda",
     "Mode.Syntax": "[ <Lista di numeri> ]",
     "NDerivative": "DerivataN",
-    "NDerivative.Syntax": "[ <Funzione> ]",
+    "NDerivative.Syntax": "[ <Funzione> ]\n[ <Funzione>, <Ordine> ]",
     "NIntegral": "IntegraleN",
     "NIntegral.Syntax": "[ <Funzione> ]\n[ <Funzione>, <x iniziale>, <x finale> ]",
     "NIntegral.SyntaxCAS": "[ <Funzione>, <x iniziale>, <x finale> ]\n[ <Funzione>, <Variabile>, <Valore iniziale>, <Valore finale> ]",
