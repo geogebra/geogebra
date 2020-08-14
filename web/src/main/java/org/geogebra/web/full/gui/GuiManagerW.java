@@ -402,24 +402,6 @@ public class GuiManagerW extends GuiManager
 			getApp().getToolbar().closeAllSubmenu();
 		}
 
-		if (altDown) {
-//			String html = CopyPasteCutW.getClipboardContents(null);
-//
-//			int pngBase64index = html.indexOf(StringUtil.pngMarker);
-//
-//			if (pngBase64index > -1) {
-//				int pngBase64end = html.indexOf("\"", pngBase64index);
-//				String base64 = html.substring(
-//						pngBase64index,
-//						pngBase64end);
-//
-//				getApp().imageDropHappened("pastedFromClipboard.png",
-//						base64);
-//
-//				return;
-//			}
-		}
-
 		((DialogManagerW) app.getDialogManager()).showImageInputDialog(imageLoc,
 				this.device);
 	}
