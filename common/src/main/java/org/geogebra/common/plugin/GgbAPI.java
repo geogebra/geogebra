@@ -134,7 +134,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public synchronized void evalXML(String xmlString) {
 		StringBuilder sb = new StringBuilder();
-
+		getApplication().getActiveEuclidianView().getEuclidianController().widgetsToBackground();
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		sb.append("<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT
 				+ "\">\n");
@@ -143,6 +143,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		sb.append("</construction>\n");
 		sb.append("</geogebra>\n");
 		getApplication().setXML(sb.toString(), false);
+		getApplication().getActiveEuclidianView().updateInlines();
 	}
 
 	/**

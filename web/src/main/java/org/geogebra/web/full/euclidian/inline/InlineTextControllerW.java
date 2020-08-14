@@ -17,6 +17,7 @@ import org.geogebra.web.html5.euclidian.FontLoader;
 import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.richtext.Editor;
+import org.geogebra.web.richtext.EditorChangeListener;
 import org.geogebra.web.richtext.impl.CarotaEditor;
 
 import com.google.gwt.dom.client.Element;
@@ -84,18 +85,19 @@ public class InlineTextControllerW implements InlineTextController {
 		parent.appendChild(editor.getWidget().getElement());
 
 		updateContent();
-		editor.setListener(new Editor.EditorChangeListener() {
+		editor.setListener(new EditorChangeListener() {
 			@Override
 			public void onContentChanged(String content) {
 				if (!content.equals(geo.getContent())) {
 					geo.setContent(content);
 					geo.getKernel().storeUndoInfo();
+					geo.notifyUpdate();
 				}
 			}
 
 			@Override
-			public void onSizeChanged(int minHeight) {
-				int actualMinHeight = minHeight + 2 * DrawInlineText.PADDING;
+			public void onInput() {
+				int actualMinHeight = editor.getMinHeight() + 2 * DrawInlineText.PADDING;
 				if (geo.getMinHeight() != actualMinHeight) {
 					geo.setSize(geo.getWidth(), Math.max(actualMinHeight, geo.getHeight()));
 					geo.setMinHeight(actualMinHeight);
@@ -105,7 +107,7 @@ public class InlineTextControllerW implements InlineTextController {
 
 			@Override
 			public void onSelectionChanged() {
-				geo.getKernel().notifyUpdateVisualStyle(geo, GProperty.FONT);
+				geo.getKernel().notifyUpdateVisualStyle(geo, GProperty.TEXT_SELECTION);
 			}
 		});
 	}
@@ -161,6 +163,7 @@ public class InlineTextControllerW implements InlineTextController {
 	public void format(String key, Object val) {
 		editor.format(key, val);
 		geo.setContent(editor.getContent());
+		geo.updateVisualStyleRepaint(GProperty.COMBINED);
 		if ("font".equals(key)) {
 			FontLoader.loadFont(String.valueOf(val), getCallback());
 		}
