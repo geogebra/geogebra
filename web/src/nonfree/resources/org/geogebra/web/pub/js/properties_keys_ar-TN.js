@@ -1524,6 +1524,8 @@ __GGB__keysVar["ar-TN"].menu = {
     "ConstructionProtocolNavigation": "\u0627\u0628\u062d\u0627\u0631 \u0641\u064a \u0645\u0631\u0627\u062d\u0644 \u0627\u0644\u0628\u0646\u0627\u0621",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",

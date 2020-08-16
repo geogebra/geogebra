@@ -1524,6 +1524,8 @@ __GGB__keysVar["mr"].menu = {
     "ConstructionProtocolNavigation": "\u0930\u091a\u0928\u093e\u0915\u094d\u0930\u092e \u092c\u0918\u0923\u094d\u092f\u093e\u0938\u093e\u0920\u0940 \u0928\u0945\u0935\u093f\u0917\u0947\u0936\u0928 \u092a\u091f\u094d\u091f\u0940 (bar)",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",

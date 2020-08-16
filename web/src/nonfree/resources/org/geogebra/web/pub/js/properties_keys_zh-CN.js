@@ -1524,6 +1524,8 @@ __GGB__keysVar["zh-CN"].menu = {
     "ConstructionProtocolNavigation": "\u4f5c\u56fe\u6b65\u9aa4\u5bfc\u822a\u680f",
     "ContextMenu.BringForward": "\u4e0a\u79fb\u4e00\u5c42",
     "ContextMenu.BringToFront": "\u7f6e\u4e8e\u9876\u5c42",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "\u5b57\u4f53",
     "ContextMenu.Group": "\u7ec4\u5408",
     "ContextMenu.SendBackward": "\u4e0b\u79fb\u4e00\u5c42",

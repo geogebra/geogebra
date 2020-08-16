@@ -1524,6 +1524,8 @@ __GGB__keysVar["it"].menu = {
     "ConstructionProtocolNavigation": "Barra di navigazione per i passi della costruzione",
     "ContextMenu.BringForward": "Porta avanti",
     "ContextMenu.BringToFront": "Porta in primo piano",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Carattere",
     "ContextMenu.Group": "Raggruppa",
     "ContextMenu.SendBackward": "Porta indietro",

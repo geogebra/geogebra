@@ -1524,6 +1524,8 @@ __GGB__keysVar["nl-NL"].menu = {
     "ConstructionProtocolNavigation": "Navigatiebalk voor constructieoverzicht",
     "ContextMenu.BringForward": "Naar voren",
     "ContextMenu.BringToFront": "Naar voorgrond",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Lettertype",
     "ContextMenu.Group": "Groepeer",
     "ContextMenu.SendBackward": "Naar achteren",

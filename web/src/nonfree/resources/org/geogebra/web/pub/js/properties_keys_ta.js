@@ -1524,6 +1524,8 @@ __GGB__keysVar["ta"].menu = {
     "ConstructionProtocolNavigation": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1\u0baa\u0bcd \u0baa\u0b9f\u0bbf\u0b95\u0bb3\u0bc1\u0b95\u0bcd\u0b95\u0bbe\u0ba9 \u0bb5\u0bb4\u0bbf\u0b9a\u0bcd\u0b9a\u0bc6\u0bb2\u0bc1\u0ba4\u0bcd\u0ba4\u0bc1\u0bae\u0bcd \u0baa\u0b9f\u0bcd\u0b9f\u0bc8",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",

@@ -1524,6 +1524,8 @@ __GGB__keysVar["fi"].menu = {
     "ConstructionProtocolNavigation": "Konstruktion vaiheiden navigointipalkki",
     "ContextMenu.BringForward": "Tuo yl\xf6sp\xe4in",
     "ContextMenu.BringToFront": "Tuo eteen",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Kirjasin",
     "ContextMenu.Group": "Ryhmit\xe4",
     "ContextMenu.SendBackward": "Vie taaksep\xe4in",

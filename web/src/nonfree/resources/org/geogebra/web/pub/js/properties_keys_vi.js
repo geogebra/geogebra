@@ -1524,6 +1524,8 @@ __GGB__keysVar["vi"].menu = {
     "ConstructionProtocolNavigation": "Thanh c\xf4ng c\u1ee5 d\u1ef1ng h\xecnh",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",

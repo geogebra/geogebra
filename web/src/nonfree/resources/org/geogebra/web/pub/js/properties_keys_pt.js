@@ -1524,6 +1524,8 @@ __GGB__keysVar["pt"].menu = {
     "ConstructionProtocolNavigation": "Barra de Navega\xe7\xe3o para Passos da Constru\xe7\xe3o",
     "ContextMenu.BringForward": "Trazer para frente",
     "ContextMenu.BringToFront": "Trazer para a frente",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Fonte",
     "ContextMenu.Group": "Grupo",
     "ContextMenu.SendBackward": "Enviar para tr\xe1s",

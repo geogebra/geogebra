@@ -1524,6 +1524,8 @@ __GGB__keysVar["sk"].menu = {
     "ConstructionProtocolNavigation": "Naviga\u010dn\xfd panel krokov kon\u0161trukcie",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",

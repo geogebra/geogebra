@@ -1524,6 +1524,8 @@ __GGB__keysVar["lv"].menu = {
     "ConstructionProtocolNavigation": "Navig\u0101cijas josla Konstrukcijas so\u013ciem",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",
