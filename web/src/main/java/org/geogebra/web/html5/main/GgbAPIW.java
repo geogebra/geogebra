@@ -45,6 +45,7 @@ import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 
 import elemental2.core.Global;
+import jsinterop.base.JsPropertyMap;
 
 /**
  * HTML5 version of API. The methods are exported in ScriptManagerW
@@ -1460,7 +1461,7 @@ public class GgbAPIW extends GgbAPI {
 	 *
 	 * @return then embedded calculator apis.
 	 */
-	public JavaScriptObject getEmbeddedCalculators() {
+	public JsPropertyMap<Object> getEmbeddedCalculators() {
 		return ((AppW) app).getEmbeddedCalculators();
 	}
 

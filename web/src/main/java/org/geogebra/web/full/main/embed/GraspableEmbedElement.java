@@ -8,6 +8,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
 /**
@@ -89,6 +90,11 @@ public class GraspableEmbedElement extends EmbedElement {
 		} else if (action == EventType.REDO) {
 			api.controller.redo();
 		}
+	}
+
+	@Override
+	public JavaScriptObject getApi() {
+		return Js.cast(api);
 	}
 
 	@Override
