@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.algos.AlgoAnglePoints;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -179,7 +180,10 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	@Override
 	final public void update() {
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())) {
+		AlgoElement drawAlgorithm = geo != null ? geo.getDrawAlgorithm() : null;
+		if (geo == null
+				|| drawAlgorithm == null
+				|| !drawAlgorithm.equals(geo.getParentAlgorithm())) {
 			init();
 		}
 
