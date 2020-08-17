@@ -88,12 +88,6 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND geo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public HitType getLastHitType() {
 		// TODO Auto-generated method stub
 		return null;

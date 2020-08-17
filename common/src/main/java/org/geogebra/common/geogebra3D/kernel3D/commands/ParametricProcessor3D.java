@@ -52,12 +52,16 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		Construction cons = kernel.getConstruction();
 		if (ev instanceof VectorValue) {
 			if (fv.length == 2) {
-				return processSurface(exp, fv, label, 2);
+				GeoElement[] geoElements = processSurface(exp, fv, 2);
+				geoElements[0].setLabel(label);
+				return geoElements;
 			}
 		}
 		if (ev instanceof Vector3DValue && fv.length < 3) {
 			if (fv.length == 2) {
-				return processSurface(exp, fv, label, 3);
+				GeoElement[] geoElements = processSurface(exp, fv, 3);
+				geoElements[0].setLabel(label);
+				return geoElements;
 			}
 			GeoNumeric loc = getLocalVar(exp, fv[0]);
 			if (exp.getOperation().isIf()) {
@@ -340,7 +344,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 
 	@Override
 	protected GeoElement[] processSurface(ExpressionNode exp,
-			FunctionVariable[] fv, String label, int dim) {
+			FunctionVariable[] fv, int dim) {
 		GeoNumeric loc0 = getLocalVar(exp, fv[0]);
 		GeoNumeric loc1 = getLocalVar(exp, fv[1]);
 		Construction cons = kernel.getConstruction();
@@ -351,7 +355,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			cons.removeFromConstructionList(nx);
 			coords[i] = nx.getNumber();
 		}
-		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(cons, label,
+		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(cons,
 				exp,
 				coords,
 				new GeoNumeric[] { loc0, loc1 },

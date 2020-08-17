@@ -449,7 +449,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return hasSymbolicNumber() || hasSymbolicFunction()
 				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()
 				|| (linkedGeo instanceof EquationValue && !linkedGeo.isGeoConicPart())
-				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine();
+				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine()
+				|| (linkedGeo.isGeoSurfaceCartesian() && linkedGeo.getDefinition() != null);
 	}
 
 	boolean hasSymbolicFunction() {

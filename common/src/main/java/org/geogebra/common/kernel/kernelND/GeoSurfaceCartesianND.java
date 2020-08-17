@@ -65,6 +65,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	protected CoordMatrix jacobian;
 	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
+	private FunctionVariable complexVariable;
 
 	/**
 	 * common constructor
@@ -186,9 +187,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 */
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
-		for (int i = 0; i < fun.length; i++) {
-			if (fun[i] != null) {
-				fun[i].replaceChildrenByValues(geo);
+		for (FunctionNVar functionNVar : fun) {
+			if (functionNVar != null) {
+				functionNVar.replaceChildrenByValues(geo);
 			}
 		}
 	}
@@ -267,28 +268,30 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		StringBuilder sbToString = new StringBuilder(80);
 
-		sbToString.setLength(0);
-		if (isLabelSet()) {
+		if (getDefinition() != null) {
+			StringBuilder sbToString = new StringBuilder(80);
+
+			sbToString.setLength(0);
 			sbToString.append(label);
-			if (fun != null) {
-				sbToString.append('(');
-				sbToString
-						.append(fun[0].getFunctionVariables()[0].toString(tpl));
-				sbToString.append(',');
-				sbToString
-						.append(fun[0].getFunctionVariables()[1].toString(tpl));
-				sbToString.append(") = ");
-			}
+
+			sbToString.append('(');
+			sbToString
+					.append(complexVariable.toString(tpl));
+			sbToString.append(") = ");
+
+			sbToString.append(toValueString(tpl));
+			return sbToString.toString();
 		}
-		sbToString.append(toValueString(tpl));
-		return sbToString.toString();
+		return super.toString(tpl);
 	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isDefined()) {
+			if (getDefinition() != null) {
+				return getDefinition().toString(tpl);
+			}
 			StringBuilder sbTemp = new StringBuilder(80);
 			sbTemp.setLength(0);
 			sbTemp.append(tpl.leftBracket());
@@ -850,6 +853,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public String getVarString(StringTemplate tpl) {
+		if (complexVariable != null) {
+			return complexVariable.toString(tpl);
+		}
 		return fun[0].getVarString(tpl);
 	}
 
@@ -921,4 +927,27 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	}
 
+	public void setComplexVariable(FunctionVariable fv) {
+		complexVariable = fv;
+	}
+
+	@Override
+	public boolean isEqual(GeoElementND other) {
+		if (other instanceof GeoSurfaceCartesianND) {
+			GeoSurfaceCartesianND otherSurface = (GeoSurfaceCartesianND) other;
+			if (point != null && otherSurface.point != null) {
+				return isDifferenceZeroInCAS(other);
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public String getAssignmentLHS(StringTemplate tpl) {
+		if (getDefinition() != null) {
+			return tpl.printVariableName(label) + tpl.leftBracket()
+					+ getVarString(tpl) + tpl.rightBracket();
+		}
+		return super.getAssignmentLHS(tpl);
+	}
 }

@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
 
 /**
@@ -22,7 +23,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
  * @author Markus
  *
  */
-public interface FunctionalNVar extends Evaluate2Var {
+public interface FunctionalNVar extends Evaluate2Var, VarString {
 	/**
 	 * @param vals
 	 *            values of variables

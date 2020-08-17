@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
@@ -381,7 +382,7 @@ public class ParametricProcessor {
 	 * @return surface
 	 */
 	protected GeoElement[] processSurface(ExpressionNode exp,
-			FunctionVariable[] fv, String label, int dim) {
+			FunctionVariable[] fv,int dim) {
 		return null;
 	}
 
@@ -395,8 +396,10 @@ public class ParametricProcessor {
 		// complex.setMode(Kernel.COORD_COMPLEX);
 		ExpressionNode exp2 = exp.deepCopy(kernel).replace(fv, complex).wrap();
 		GeoElement[] surface =  processSurface(exp2,
-				new FunctionVariable[] { u, v }, label, 2);
+				new FunctionVariable[] { u, v },  2);
 		surface[0].setDefinition(exp);
+		((GeoSurfaceCartesianND) surface[0]).setComplexVariable(fv);
+		surface[0].setLabel(label);
 		return surface;
 	}
 

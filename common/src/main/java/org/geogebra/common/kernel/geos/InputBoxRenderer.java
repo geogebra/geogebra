@@ -64,8 +64,10 @@ class InputBoxRenderer {
 
 	private String getTextForSymbolic() {
 		boolean flatEditableList = !hasEditableMatrix() && linkedGeo.isGeoList();
+		boolean isComplexFunction = linkedGeo.isGeoSurfaceCartesian()
+				&& linkedGeo.getDefinition() != null;
 
-		if (inputBox.hasSymbolicFunction() || flatEditableList) {
+		if (inputBox.hasSymbolicFunction() || flatEditableList || isComplexFunction) {
 			return getLaTeXRedefineString();
 		} else if (hasVector()) {
 			return getVectorRenderString((GeoVectorND) linkedGeo);

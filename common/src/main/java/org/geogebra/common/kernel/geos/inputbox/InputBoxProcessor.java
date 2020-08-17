@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -145,7 +146,8 @@ public class InputBoxProcessor {
 			}
 		}
 
-		if (linkedGeo instanceof FunctionalNVar) {
+		if (linkedGeo instanceof FunctionalNVar
+				|| (linkedGeo.isGeoSurfaceCartesian() && linkedGeo.getDefinition() != null)) {
 			if (linkedGeo instanceof GeoInterval
 				|| (linkedGeo instanceof GeoFunction
 					&& ((GeoFunction) linkedGeo).forceInequality())) {
@@ -155,7 +157,7 @@ public class InputBoxProcessor {
 				// string like f(x,y)=x^2
 				// or f(\theta) = \theta
 				defineText = linkedGeo.getLabel(tpl) + "("
-						+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
+						+ ((VarString) linkedGeo).getVarString(tpl) + ")=" + defineText;
 			}
 		}
 

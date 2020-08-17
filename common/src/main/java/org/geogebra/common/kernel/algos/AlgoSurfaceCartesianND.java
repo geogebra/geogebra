@@ -16,15 +16,10 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package org.geogebra.common.geogebra3D.kernel3D.algos;
+package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoDependentFunction;
-import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.Algos;
-import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -35,7 +30,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 
 /**
@@ -58,8 +52,6 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param point
 	 *            point expression
 	 * @param coords
@@ -71,8 +63,7 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 	 * @param to
 	 *            range max
 	 */
-	public AlgoSurfaceCartesianND(Construction cons, String label,
-			ExpressionNode point, GeoNumberValue[] coords,
+	public AlgoSurfaceCartesianND(Construction cons, ExpressionNode point, GeoNumberValue[] coords,
 			GeoNumeric[] localVar, GeoNumberValue[] from, GeoNumberValue[] to) {
 		super(cons);
 
@@ -103,14 +94,12 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 
 		// create the curve
 		surface = createCurve(cons, point, fun);
-		vectorFunctions = point != null
-				&& AlgoDependentFunction.containsVectorFunctions(point);
+		vectorFunctions = AlgoDependentFunction.containsVectorFunctions(point);
 
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
 		compute();
-		surface.setLabel(label);
 	}
 
 	/**
@@ -124,10 +113,7 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 	 */
 	protected GeoSurfaceCartesianND createCurve(Construction cons1,
 			ExpressionNode point, FunctionNVar[] fun) {
-		if (fun.length == 2) {
-			return new GeoSurfaceCartesian2D(cons1, point, fun);
-		}
-		return new GeoSurfaceCartesian3D(cons1, point, fun);
+		return kernel.getGeoFactory().newSurface(cons1, point, fun);
 	}
 
 	@Override
@@ -135,6 +121,13 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 		return surface.getDefinition() == null ? Commands.Surface : Algos.Expression;
 	}
 
+	@Override
+	public String getDefinition(StringTemplate tpl) {
+		if (surface.getDefinition() == null) {
+			return super.getDefinition(tpl);
+		}
+		return getRHS(tpl);
+	}
 
 	@Override
 	public String toString(StringTemplate tpl) {
