@@ -35,7 +35,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public void pauseResumeSound(boolean b) {
-		FunctionSoundW.INSTANCE.pause(b);
+		FunctionSoundW.getInstance().pause(b);
 		mp3active = b;
 	}
 
@@ -54,7 +54,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max) {
-		FunctionSoundW.INSTANCE.playFunction(geoFunction, min, max);
+		FunctionSoundW.getInstance().playFunction(geoFunction, min, max);
 	}
 
 	@Override
@@ -99,14 +99,6 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	// MidiSoundW getMidiSound() {
 	// return MidiSoundW.INSTANCE;
 	// }
-
-	/**
-	 *
-	 * @return the FuctionSound instance
-	 */
-	FunctionSoundW getFunctionSound() {
-		return FunctionSoundW.INSTANCE;
-	}
 
 	/**
 	 * Stops the sound
@@ -244,7 +236,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,
 			int sampleRate, int bitDepth) {
-		FunctionSoundW.INSTANCE.playFunction(geoFunction, min, max, sampleRate,
+		FunctionSoundW.getInstance().playFunction(geoFunction, min, max, sampleRate,
 				bitDepth);
 	}
 

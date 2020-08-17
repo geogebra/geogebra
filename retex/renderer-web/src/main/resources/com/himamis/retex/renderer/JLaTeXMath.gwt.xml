@@ -7,4 +7,5 @@
   <inherits name="elemental2.dom.Dom"/>
   <inherits name="elemental2.core.Core"/>
   <inherits name="elemental2.webstorage.WebStorage" />
+  <inherits name="elemental2.media.Media" />
 </module>
