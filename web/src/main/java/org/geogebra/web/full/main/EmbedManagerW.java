@@ -326,12 +326,17 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		}
 	}
 
-	private GeoElement findById(Integer key) {
+	/**
+	 * Get the embed element with a given id
+	 * @param id embed id to find
+	 * @return GeoEmbed, if found, null otherwise
+	 */
+	public GeoElement findById(int id) {
 		Set<GeoElement> set = app.getKernel().getConstruction()
 				.getGeoSetConstructionOrder();
 		for (GeoElement geo : set) {
 			if (geo instanceof GeoEmbed
-					&& ((GeoEmbed) geo).getEmbedID() == key) {
+					&& ((GeoEmbed) geo).getEmbedID() == id) {
 				return geo;
 			}
 		}

@@ -1,5 +1,6 @@
 package org.geogebra.web.full.main.embed;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.Browser;
@@ -51,7 +52,13 @@ public class GraspableEmbedElement extends EmbedElement {
 		GMCanvas canvas = new GMCanvas("#gm-div" + id,
 				JsPropertyMap.of("ggbNotesAPI", ggbApi));
 
-		canvas.controller.on("undoable-action", () -> embedManager.createUndoAction(id));
+		canvas.controller.on("undoable-action", () -> {
+			embedManager.createUndoAction(id);
+			GeoElement embed = embedManager.findById(id);
+			if (embed != null) {
+				embed.notifyUpdate();
+			}
+		});
 		setAPI(canvas);
 	}
 
