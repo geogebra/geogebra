@@ -1415,4 +1415,14 @@ public class CAStestJSON {
 	public void testRandomUniform() {
 		testCat("RandomUniform.2");
 	}
+
+	@Test
+	public void testRemoveUndefined() {
+		testCat("RemoveUndefined.1");
+	}
+
+	@Test
+	public void testIsInteger() {
+		testCat("IsInteger.1");
+	}
 }
