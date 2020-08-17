@@ -1524,6 +1524,8 @@ __GGB__keysVar["gl"].menu = {
     "ConstructionProtocolNavigation": "Barra de navegaci\xf3n dos pasos da construci\xf3n",
     "ContextMenu.BringForward": "Cara a adiante",
     "ContextMenu.BringToFront": "Traer \xe1 fronte",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Fonte",
     "ContextMenu.Group": "Agrupar",
     "ContextMenu.SendBackward": "Cara atr\xe1s",

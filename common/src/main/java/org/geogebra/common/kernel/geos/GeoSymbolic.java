@@ -193,7 +193,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		String inputName = input.getName();
 		return !Commands.Solve.name().equals(inputName)
 				&& !Commands.NSolve.name().equals(inputName)
-				&& !Commands.IntegralSymbolic.name().equals(inputName);
+				&& !Commands.IntegralSymbolic.name().equals(inputName)
+				&& !Commands.IsInteger.name().equals(inputName);
 	}
 
 	private ExpressionValue parseOutputString(String output) {

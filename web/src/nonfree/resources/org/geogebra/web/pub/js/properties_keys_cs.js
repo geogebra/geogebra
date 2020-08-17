@@ -1524,6 +1524,8 @@ __GGB__keysVar["cs"].menu = {
     "ConstructionProtocolNavigation": "Naviga\u010dn\xed panel pro krokov\xe1n\xed konstrukce",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",

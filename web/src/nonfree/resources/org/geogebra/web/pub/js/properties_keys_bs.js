@@ -1524,6 +1524,8 @@ __GGB__keysVar["bs"].menu = {
     "ConstructionProtocolNavigation": "Traka za korake konstrukcije",
     "ContextMenu.BringForward": "Donesi naprijed",
     "ContextMenu.BringToFront": "Dovedi ispred",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Grupa",
     "ContextMenu.SendBackward": "Po\u0161alji unatrag",

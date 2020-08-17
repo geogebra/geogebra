@@ -1079,6 +1079,17 @@ public class GgbAPIW extends GgbAPI {
 		return geoImage.getLabelSimple();
 	}
 
+	/**
+	 * Add external image to image manager
+	 * @param filename internal filename
+	 * @param url data URL
+	 */
+	public void addImage(String filename, String url) {
+		ImageManagerW imageManager = ((AppW) app).getImageManager();
+		imageManager.addExternalImage(filename, url);
+		imageManager.triggerSingleImageLoading(filename, new GeoImage(construction));
+	}
+
 	private static String checkCorner(String cornerExp) {
 		return StringUtil.isNaN(cornerExp) || StringUtil.empty(cornerExp) ? null
 				: cornerExp;

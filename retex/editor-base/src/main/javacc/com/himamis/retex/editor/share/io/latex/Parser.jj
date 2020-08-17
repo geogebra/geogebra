@@ -165,11 +165,6 @@ void mathAtomOrPower(MathContainer currentField) : {
 		}
 	}
 	(
-		 LOOKAHEAD(2147483647)
-		 (mathAtomCharacter(currentField))+
-		 (superscript(currentField) | power(currentField))
-		 arrayParantheses(currentField)
-	|
 		power(currentField)
 	|
 		superscript(currentField)
@@ -195,7 +190,9 @@ void mathAtomOrPower(MathContainer currentField) : {
 		quotes(currentField)
 	|
 		(
-		  (mathAtomCharacter(currentField))+ (arrayParantheses(currentField))?
+		  (mathAtomCharacter(currentField))+
+		  (power(currentField) | superscript(currentField) | subscript(currentField))?
+		  (arrayParantheses(currentField))?
 		)
 	) (power(currentField) | superscript(currentField) | subscript(currentField))?
 }

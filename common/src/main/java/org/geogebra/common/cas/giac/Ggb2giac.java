@@ -141,16 +141,16 @@ public class Ggb2giac {
 						+ " when(odd(degree(ggbcmpsqarg0))==0,when(degree((ggbcmpsqarg0)[2])==0,"
 						// case px^(2n)+r
 						+ " [[[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[r:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]]],equation(p*(lname(ggbcmpsqarg0)[0]^(2n))+r)][1],"
-						// case px^(2n)+qx^n
-						+ " [[[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]],[h:=-q/(2*p)],[k:=(-q^2)/(4*p)]],when(degree((ggbcmpsqarg0)[2])==n,equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k),?)][1]),"
+						// case px^(2n)+qx^n eg CompleteSquare(a x^2-4x)
+						+ " [[[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]],[h:=-q/(2*p)],[k:=(-q^2)/(4*p)]],when(degree((ggbcmpsqarg0)[2])==n,equation(p*((lname(ggbcmpsqarg0)[-1])^n-h)^2+k),?)][1]),"
 						// 2 terms with even degree
 						+ " ?),"
 						// case 3 term with degree 2
 						+ "when(degree(ggbcmpsqarg0)==2,canonical_form(ggbcmpsqarg0),"
 						// case 3 term with degree>2
 						+ " when(odd(degree(ggbcmpsqarg0))==0&&degree(ggbsort(ggbcmpsqarg0)[2])==degree(ggbsort(ggbcmpsqarg0)[1]) div 2&&type(ggbsort(ggbcmpsqarg0)[3])==DOM_INT,"
-						// case px^(2n)+qx^n+r
-						+ " [[[[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2]],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]],[r:=coeffs(ggbsort(ggbcmpsqarg0)[3])[0]],[h:=-q/(2*p)],[k:=r-(q^2)/(4*p)]],equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k)][1],"
+						// case px^(2n)+qx^n+r eg CompleteSquare(a x^4-4x^2+6)
+						+ " [[[[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2]],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]],[r:=coeffs(ggbsort(ggbcmpsqarg0)[3])[0]],[h:=-q/(2*p)],[k:=r-(q^2)/(4*p)]],equation(p*((lname(ggbcmpsqarg0)[-1])^n-h)^2+k)][1],"
 						// invalid equation
 						+ "?))),"
 						// term>3
@@ -1916,6 +1916,9 @@ public class Ggb2giac {
 		p("Eigenvectors.1", "egv(%0)");
 
 		p("Eigenvalues.1", "{eigenvals(%0)}");
+
+		p("RemoveUndefined.1", "when(type(%0)==DOM_LIST, remove(undef,%0),?)");
+		p("IsInteger.1", "when(type(%0)==DOM_INT,round(%0)==%0, false)");
 
 		return commandMap;
 	}

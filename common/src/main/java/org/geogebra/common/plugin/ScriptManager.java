@@ -17,6 +17,7 @@ public abstract class ScriptManager implements EventListener {
 
 	protected App app;
 	protected boolean listenersEnabled = true;
+	protected boolean jsEnabled = true;
 	// maps between GeoElement and JavaScript function names
 	protected HashMap<GeoElement, JsScript> updateListenerMap;
 	protected HashMap<GeoElement, JsScript> clickListenerMap;
@@ -573,4 +574,13 @@ public abstract class ScriptManager implements EventListener {
 		}
 		return map;
 	}
+
+	public boolean isJsEnabled() {
+		return jsEnabled;
+	}
+
+	public void setJsEnabled(boolean jsEnabled) {
+		this.jsEnabled = jsEnabled;
+	}
+
 }

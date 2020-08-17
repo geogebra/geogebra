@@ -1421,4 +1421,14 @@ public class CAStestJSON {
 		testCat("IntegralSymbolic.1");
 		testCat("IntegralSymbolic.2");
 	}
+
+	@Test
+	public void testRemoveUndefined() {
+		testCat("RemoveUndefined.1");
+	}
+
+	@Test
+	public void testIsInteger() {
+		testCat("IsInteger.1");
+	}
 }

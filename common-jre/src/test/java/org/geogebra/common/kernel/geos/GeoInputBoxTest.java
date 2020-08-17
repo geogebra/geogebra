@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
@@ -133,6 +134,29 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox = (GeoInputBox) lookup("B");
 		assertEquals(wrongSyntax, inputBox.getTempUserEvalInput());
 		assertEquals(wrongSyntax, inputBox.getTempUserDisplayInput());
+	}
+
+	@Test
+	public void inputBoxCorrectlySavedAndLoaded() {
+		GeoText text = add("FormulaText(\\sqrt{n})");
+		GeoInputBox savedInputBox = add("inputbox1=InputBox()");
+		savedInputBox.setSymbolicMode(true);
+		savedInputBox.setAuxiliaryObject(true);
+		savedInputBox.setLength(50);
+		savedInputBox.setAlignment(TextAlignment.CENTER);
+		savedInputBox.setTempUserDisplayInput("abcde");
+		savedInputBox.setTempUserEvalInput("?");
+		savedInputBox.setDynamicCaption(text);
+		String appXML = getApp().getXML();
+		XmlTestUtil.testCurrentXML(getApp());
+		getApp().setXML(appXML, true);
+		GeoInputBox loadedInputBox = (GeoInputBox) lookup("inputbox1");
+
+		assertEquals(50, loadedInputBox.getLength());
+		assertEquals(TextAlignment.CENTER, loadedInputBox.getAlignment());
+		assertEquals("abcde", loadedInputBox.getTempUserDisplayInput());
+		assertEquals("?", loadedInputBox.getTempUserEvalInput());
+		assertEquals(text, loadedInputBox.getDynamicCaption());
 	}
 
 	@Test
@@ -580,5 +604,16 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		add("SetValue(b,?)");
 		assertThat(lookup("b").isDefined(), equalTo(false));
 		assertThat(inputBox2.getText(), equalTo("")); // still preserves user input
+	}
+
+	@Test
+	public void testCommandLikeImplicitMultiplicationParsesCorrectly() {
+		add("f(g, L) = ?");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
+		inputBox.updateLinkedGeo("gL(L+1)");
+		assertEquals("g L (L + 1)", inputBox.getText());
+
+		inputBox.updateLinkedGeo("gL(L+1)^3");
+		assertEquals("g L (L + 1)³", inputBox.getText());
 	}
 }

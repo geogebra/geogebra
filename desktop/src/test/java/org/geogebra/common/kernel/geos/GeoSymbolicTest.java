@@ -1121,6 +1121,29 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertSameAnswer("Solve(z(z+1),z)", "Solve(z (z+1),z)");
 	}
 
+	@Test
+	public void testRemoveUndefinedCommand() {
+		t("l1=Sequence(Sequence(If(ii>j,ii),ii,1,j+1),j,1,5)",
+				"{{?, 2}, {?, ?, 3}, {?, ?, ?, 4}, {?, ?, ?, ?, 5}, {?, ?, ?, ?, ?, 6}}");
+		t("RemoveUndefined(Sequence(If(IsInteger(a^2/2),a^2,?),a,1,10))", "{4, 16, 36, 64, 100}");
+		t("Sequence(RemoveUndefined(Element(l1,ii)),ii,1,Length(l1))", "{{2}, {3}, {4}, {5}, {6}}");
+		t("RemoveUndefined({1,2,3,4,4})", "{1, 2, 3, 4, 4}");
+		t("RemoveUndefined({})", "{}");
+		t("RemoveUndefined({123456789123456789,?})", "{123456789123456789}");
+		t("RemoveUndefined({?,1,2,?,3,4,4,?,?})", "{1, 2, 3, 4, 4}");
+		t("RemoveUndefined(1)", "?");
+	}
+
+	@Test
+	public void tetIsIntegerCommand() {
+		t("IsInteger(1)", "true");
+		t("IsInteger(44/2)", "true");
+		t("IsInteger(44/3)", "false");
+		t("IsInteger(1.5)", "false");
+		t("IsInteger(pi)", "false");
+		t("IsInteger(123456789123456789.1)", "false");
+	}
+
 	private void assertSameAnswer(String input1, String input2) {
 		GeoSymbolic solve1 = add(input1);
 		GeoSymbolic solve2 = add(input2);
