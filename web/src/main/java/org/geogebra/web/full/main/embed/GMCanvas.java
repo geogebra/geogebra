@@ -10,7 +10,10 @@ public class GMCanvas {
 	@JsProperty
 	public GMCanvasController controller;
 
-	public GMCanvas(String elementSelector, JsPropertyMap<Object> settings) {}
+	@SuppressWarnings("unused")
+	public GMCanvas(String elementSelector, JsPropertyMap<Object> settings) {
+		// native
+	}
 
 	public native String toJSON();
 

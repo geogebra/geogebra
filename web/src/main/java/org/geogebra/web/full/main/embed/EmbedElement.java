@@ -92,8 +92,11 @@ public class EmbedElement {
 		// only for ggb
 	}
 
+	/**
+	 * Only for GGB and GM embeds
+	 * @return the javascript api object for the embedded element
+	 */
 	public JavaScriptObject getApi() {
-		// only for GGB and GM
 		return null;
 	}
 }
