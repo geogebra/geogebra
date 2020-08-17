@@ -1187,6 +1187,7 @@ public class CommandsTest {
 	@Test
 	public void cmdNDerivative() {
 		tRound("NDerivative[x^2]", unicode("NDerivative(x^2)"));
+		tRound("NDerivative[x^2, 5]", unicode("NDerivative(x^2, 5)"));
 	}
 
 	@Test

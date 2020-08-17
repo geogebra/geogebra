@@ -2494,7 +2494,12 @@ var __giac = [ {},
 { cat:"IsInteger.1", cmd:"IsInteger(?)", result:"false" },
 { cat:"IsInteger.1", cmd:"IsInteger(a)", result:"false" },
 { cat:"IsInteger.1", cmd:"IsInteger(123456789123456789.1)", result:"false" },
-
+{ cat:"CompleteSquare", cmd:"Expand(CompleteSquare(a x^4-4x^2+6))==a x^4-4x^2+6", result:"true" },
+{ cat:"CompleteSquare", cmd:"Expand(CompleteSquare(a x^4-4x^2))==a x^4-4x^2", result:"true" },
+{ cat:"CompleteSquare", cmd:"Expand(CompleteSquare(a x^2-4x))==a x^2-4x", result:"true" },
+{ cat:"CompleteSquare", cmd:"CompleteSquare(a x^4-4x^2+6)", result:"6 - 16 / (4a) + a (x\u00B2 - 4 / (2a))\u00B2" },
+{ cat:"CompleteSquare", cmd:"CompleteSquare(a x^4-4x^2)", result:"a (x\u00B2 - 4 / (2a))\u00B2 - 16 / (4a)" },
+{ cat:"CompleteSquare", cmd:"CompleteSquare(a x^2-4x)", result:"a (x - 4 / (2a))\u00B2 - 16 / (4a)" },
 //JSONEND
 // { cat:"Integral", cmd:"Integral(sqrt(sin(x))/(sqrt(sin(x)+sqrt(cos(x)))),x,0,pi/2)", result:"?" },
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32

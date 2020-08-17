@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui.dialog.options;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.web.full.gui.dialog.ScriptInputPanelW;
 import org.geogebra.web.full.gui.properties.OptionPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.TabPanel;
  */
 class ScriptEditPanel extends OptionPanel {
 
+	private final ScriptManager scriptManager;
 	private ScriptInputPanelW clickDialog;
 	private ScriptInputPanelW updateDialog;
 	private ScriptInputPanelW globalDialog;
@@ -32,6 +34,7 @@ class ScriptEditPanel extends OptionPanel {
 	 */
 	public ScriptEditPanel(ScriptEditorModel model0, final AppW app) {
 		this.loc = app.getLocalization();
+		this.scriptManager = app.getScriptManager();
 		setModel(model0);
 		model0.setListener(this);
 		tabbedPane = new TabPanel();
@@ -86,7 +89,9 @@ class ScriptEditPanel extends OptionPanel {
 		if (geo.canHaveUpdateScript()) {
 			tabbedPane.add(updateScriptPanel, loc.getMenu("OnUpdate"));
 		}
-		tabbedPane.add(globalScriptPanel, loc.getMenu("GlobalJavaScript"));
+		if (scriptManager.isJsEnabled()) {
+			tabbedPane.add(globalScriptPanel, loc.getMenu("GlobalJavaScript"));
+		}
 
 		// select tab as before
 		tabbedPane.selectTab(Math.max(0,	idx));

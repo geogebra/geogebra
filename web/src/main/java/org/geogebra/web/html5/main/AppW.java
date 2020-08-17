@@ -272,7 +272,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setUndoRedoEnabled(articleElement.getDataParamEnableUndoRedo()
 				&& (laf == null || laf.undoRedoSupported()));
 
-		this.loc = new LocalizationW(dimension);
+		this.loc = new LocalizationW(getConfig(), dimension);
 		this.articleElement = articleElement;
 		this.laf = laf;
 
@@ -837,7 +837,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 
 		}
 
-		ImageLoader imageLoader = new ImageLoader(this, archive,
+		ImageLoader imageLoader = new ImageLoader(this, archive, archiveContent,
 				new Runnable() {
 					@Override
 					public void run() {

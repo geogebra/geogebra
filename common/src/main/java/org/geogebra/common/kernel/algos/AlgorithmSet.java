@@ -13,16 +13,17 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * Set to store AlgoElement objects for updating.
  */
 public class AlgorithmSet implements Iterable<AlgoElement> {
 
-	private HashMap<AlgoElement, AlgoElement> hashMap;
+	private Set<AlgoElement> set;
 
 	private Link head;
 	private Link tail;
@@ -67,22 +68,8 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 			return false;
 		}
 
-		// empty list?
-		if (getHead() == null) {
-			if (hashMap == null) {
-				hashMap = new HashMap<>();
-			}
-			hashMap.put(algo, algo);
-
-			setHead(new Link(algo, null));
-			tail = getHead();
-			size++;
+		if (addToEmpty(algo)) {
 			return true;
-		}
-
-		// check if algo is already at end of list
-		if (tail.algo == algo) {
-			return false;
 		}
 
 		/*
@@ -98,51 +85,25 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 		AlgoElement parentAlgo = algo.getUpdateAfterAlgo();
 
 		// Standard case: insert at end of list
-		if (parentAlgo == null || parentAlgo == tail.algo
-				|| !contains(parentAlgo)) {
-			tail.next = new Link(algo, null);
-			tail = tail.next;
+		if (parentAlgo == null || parentAlgo == tail.algo || !contains(parentAlgo)) {
+			addToEnd(algo);
+		} else { // Special case: insert in the middle, right after parentAlgo
+			insertAfterParentAlgo(algo, parentAlgo);
 		}
 
-		// Special case: insert in the middle, right after parentAlgo
-		else {
-			// search for parentAlgo
-			Link cur = getHead();
-			while (cur.algo != parentAlgo) {
-				cur = cur.next;
-			}
-
-			// now cur.algo == parentAlgo, insert right afterwards
-			cur.next = new Link(algo, cur.next);
-		}
-
-		hashMap.put(algo, algo);
+		set.add(algo);
 		size++;
 
 		return true;
 	}
 
-	final private boolean addSorted(AlgoElement algo) {
+	private boolean addSorted(AlgoElement algo) {
 		if (contains(algo)) {
 			return false;
 		}
 
-		// empty list?
-		if (getHead() == null) {
-			if (hashMap == null) {
-				hashMap = new HashMap<>();
-			}
-			hashMap.put(algo, algo);
-
-			setHead(new Link(algo, null));
-			tail = getHead();
-			size++;
+		if (addToEmpty(algo)) {
 			return true;
-		}
-
-		// check if algo is already at end of list
-		if (tail.algo == algo) {
-			return false;
 		}
 
 		/*
@@ -159,33 +120,57 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 
 		// Standard case: insert at end of list
 		if (parentAlgo == tail.algo) {
-			tail.next = new Link(algo, null);
-			tail = tail.next;
+			addToEnd(algo);
 		} else if (parentAlgo == null || !contains(parentAlgo)) {
 			Link cur = getHead();
-			while (cur.algo.getID() < algo.getID() && cur.next != null) {
-				cur = cur.next;
+			long id = algo.getID();
+			if (cur.algo.getID() > algo.getID()) {
+				head = new Link(algo, head);
+			} else {
+				while (cur.next != null && cur.next.algo.getID() < id) {
+					cur = cur.next;
+				}
+				cur.next = new Link(algo, cur.next);
 			}
-			cur.next = new Link(algo, cur.next);
+		} else { // Special case: insert in the middle, right after parentAlgo
+			insertAfterParentAlgo(algo, parentAlgo);
 		}
 
-		// Special case: insert in the middle, right after parentAlgo
-		else {
-			// search for parentAlgo
-			Link cur = getHead();
-			while (cur.algo != parentAlgo) {
-				cur = cur.next;
-			}
-
-			// now cur.algo == parentAlgo, insert right afterwards
-			cur.next = new Link(algo, cur.next);
-		}
-
-		hashMap.put(algo, algo);
+		set.add(algo);
 		size++;
 
 		return true;
+	}
 
+	private boolean addToEmpty(AlgoElement algo) {
+		if (getHead() == null) {
+			if (set == null) {
+				set = new HashSet<>();
+			}
+			set.add(algo);
+
+			setHead(new Link(algo, null));
+			tail = getHead();
+			size++;
+			return true;
+		}
+		return false;
+	}
+
+	private void addToEnd(AlgoElement algo) {
+		tail.next = new Link(algo, null);
+		tail = tail.next;
+	}
+
+	private void insertAfterParentAlgo(AlgoElement algo, AlgoElement parentAlgo) {
+		// search for parentAlgo
+		Link cur = getHead();
+		while (cur.algo != parentAlgo) {
+			cur = cur.next;
+		}
+
+		// now cur.algo == parentAlgo, insert right afterwards
+		cur.next = new Link(algo, cur.next);
 	}
 
 	/**
@@ -228,7 +213,7 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 			return false;
 		}
 
-		return hashMap.get(algo) != null;
+		return set.contains(algo);
 	}
 
 	/**
@@ -239,13 +224,11 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 	 *            algo to be removed
 	 */
 	final public boolean remove(AlgoElement algo) {
-
-		if (hashMap == null) {
+		if (set == null) {
 			return false;
 		}
 
-		Object remObj = hashMap.remove(algo);
-		if (remObj == null) {
+		if (!set.remove(algo)) {
 			return false;
 		}
 

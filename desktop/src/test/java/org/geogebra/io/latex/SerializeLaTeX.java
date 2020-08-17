@@ -21,7 +21,7 @@ import com.himamis.retex.renderer.share.serialize.ListBracketsAdapter;
 import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
 
 public class SerializeLaTeX {
-	static Parser parser;
+	private static Parser parser;
 
 	/**
 	 * Initilize parser and serializer.
@@ -323,5 +323,4 @@ public class SerializeLaTeX {
 		}
 		return null;
 	}
-
 }

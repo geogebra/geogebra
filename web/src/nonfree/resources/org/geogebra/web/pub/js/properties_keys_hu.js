@@ -1524,6 +1524,8 @@ __GGB__keysVar["hu"].menu = {
     "ConstructionProtocolNavigation": "Navig\xe1ci\xf3s eszk\xf6zt\xe1r a szerkeszt\xe9si l\xe9p\xe9sekhez",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",
