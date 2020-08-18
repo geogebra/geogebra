@@ -180,10 +180,8 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	@Override
 	final public void update() {
-		AlgoElement drawAlgorithm = geo != null ? geo.getDrawAlgorithm() : null;
-		if (geo == null
-				|| drawAlgorithm == null
-				|| !drawAlgorithm.equals(geo.getParentAlgorithm())) {
+		AlgoElement drawAlgorithm = geo.getDrawAlgorithm();
+		if (drawAlgorithm == null || !drawAlgorithm.equals(geo.getParentAlgorithm())) {
 			init();
 		}
 
