@@ -128,15 +128,22 @@ public class ZoomController {
 	/** Zoom In button handler. */
 	public void onZoomInPressed() {
 		app.closeMenuHideKeyboard();
-		view.getEuclidianController().zoomInOut(false,
-				false);
+		zoomInOut(false);
 	}
 
 	/** Zoom Out button handler. */
 	public void onZoomOutPressed() {
 		app.closeMenuHideKeyboard();
-		view.getEuclidianController().zoomInOut(false,
-				true);
+		zoomInOut(true);
+	}
+
+	private void zoomInOut(boolean out) {
+		double factor = out ? 1d / EuclidianView.MODE_ZOOM_FACTOR
+				: EuclidianView.MODE_ZOOM_FACTOR;
+		double px = view.getWidth() / 2.0;
+		double py = view.getHeight() / 2.0;
+
+		view.getEuclidianController().zoomInOut(factor, 15, px, py);
 	}
 
 	/**
