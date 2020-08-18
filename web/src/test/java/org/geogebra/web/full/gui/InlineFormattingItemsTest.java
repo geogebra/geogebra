@@ -173,7 +173,7 @@ public class InlineFormattingItemsTest {
 		geos.add(createPolygon("Poly1"));
 		List<String> expected = Arrays.asList(
 				"Cut", "Copy", "Paste", "SEPARATOR", "General.Order", "SEPARATOR",
-				"FixObject", "ShowTrace", "Settings"
+				"FixObject", "Settings"
 		);
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));
