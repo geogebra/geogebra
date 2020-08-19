@@ -974,7 +974,7 @@ __GGB__keysVar["ca"].command = {
     "SurdText": "TextValorExacte",
     "SurdText.Syntax": "[ <Punt> ]\n[ <Nombre> ]\n[ <Nombre>, <Llista> ]",
     "Surface": "Superf\xedcie",
-    "Surface.Syntax": "[ <Funci\xf3>, <Angle> ]\n[ <Corba>, <Angle>, <Eix> ]\n[ <Expressi\xf3>, <Expressi\xf3>, <Expressi\xf3>, <Variable 1>, <Des de>, <Fins a>, <Variable 2>, <Des de>, <Fins a> ]",
+    "Surface.Syntax": "[ <Funci\xf3>, <Angle> ]\n[ <Objecte>, <Angle>, <Eix de rotaci\xf3> ]\n[ <Expressi\xf3>, <Expressi\xf3>, <Expressi\xf3>, <Variable 1>, <Des de>, <Fins a>, <Variable 2>, <Des de>, <Fins a> ]",
     "TDistribution": "Distribuci\xf3T",
     "TDistribution.Syntax": "[ <Graus de llibertat>, <Valor de la variable> ]\n[ <Graus de llibertat>, x, <Acumulada true/false> ]",
     "TDistribution.SyntaxCAS": "[ <Graus de llibertat>, x ]",
