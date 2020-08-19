@@ -72,6 +72,14 @@ public interface PageListControllerInterface {
 	void setActiveSlide(String slideID);
 
 	/**
+	 * load existing page
+	 *
+	 * @param index
+	 *            index of page to load
+	 */
+	void loadPage(int index);
+
+	/**
 	 * Move source slide to target index
 	 * 
 	 * @param i
@@ -105,4 +113,10 @@ public interface PageListControllerInterface {
 	 * @return base64 encoded PDF
 	 */
 	String exportPDF();
+
+	/**
+	 * @param idx
+	 *            page index
+	 */
+	void selectSlide(int idx);
 }

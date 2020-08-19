@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
@@ -11,7 +12,6 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.toolbar.mow.ToolbarMow;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.CSSAnimation;
@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Page Control Panel for navigating through multiple pages
@@ -98,11 +97,10 @@ public class PageListPanel
 				MaterialDesignResources.INSTANCE.add_white(), null, 24, app);
 		plusButton.setStyleName("mowFloatingButton");
 		plusButton.addStyleName("mowPlusButton");
-		plusButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				loadNewPage(false);
-			}
+		plusButton.addFastClickHandler(source -> {
+			app.dispatchEvent(new Event(EventType.ADD_SLIDE,
+					null, null));
+			loadNewPage(false);
 		});
 		add(plusButton);
 		showPlusButton(false);
@@ -140,6 +138,10 @@ public class PageListPanel
 	 * opens the page control panel
 	 */
 	public void open() {
+		if (isVisible()) {
+			return;
+		}
+
 		dockPanel.hideZoomPanel();
 		toolbarMow.showPageControlButton(false);
 
@@ -149,12 +151,9 @@ public class PageListPanel
 		addStyleName("animateIn");
 		final Style style = app.getFrameElement().getStyle();
 		style.setOverflow(Overflow.HIDDEN);
-		CSSAnimation.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				style.setOverflow(Overflow.VISIBLE);
-				showPlusButton(true);
-			}
+		CSSAnimation.runOnAnimation(() -> {
+			style.setOverflow(Overflow.VISIBLE);
+			showPlusButton(true);
 		}, getElement(), "animateIn");
 	}
 
@@ -247,14 +246,12 @@ public class PageListPanel
 			pageController.loadNewPage(0);
 			update();
 		} else {
-
 			pageController.removeSlide(index);
 			app.getKernel().getConstruction().getUndoManager()
 					.storeAction(EventType.REMOVE_SLIDE, index + "", id,
 							pageController.getSlideCount() + "");
 			updateIndexes(index);
 			// load new slide
-
 			if (index == pageController.getSlideCount()) {
 				// last slide was deleted
 				pageController.loadPage(index - 1);
@@ -262,9 +259,7 @@ public class PageListPanel
 				// otherwise
 				pageController.loadPage(index);
 			}
-
 		}
-
 	}
 
 	/**

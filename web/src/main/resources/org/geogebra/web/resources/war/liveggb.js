@@ -75,6 +75,7 @@
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml);
                         }
+                        that.sendEvent("previewRefresh");
                     }
 
                     updateCallback = null;
@@ -112,6 +113,7 @@
             } else {
                 this.sendEvent("evalXML", xml);
             }
+            this.sendEvent("previewRefresh");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -166,9 +168,24 @@
                     //console.log(xml);
                     this.sendEvent("setXML", xml);
                     break;
-                default:
-                    console.log("unhandled event ", event[0], event);
 
+                case "addSlide":
+                    this.sendEvent(event[0]);
+                    break;
+
+                case "removeSlide":
+                case "moveSlide":
+                case "selectSlide":
+                case "clearSlide":
+                    this.sendEvent(event[0], event[2]);
+                    break;
+
+                case "pasteSlide":
+                    this.sendEvent(event[0], event.cardIdx, event.ggbFile);
+                    break;
+
+                default:
+                    // console.log("unhandled event ", event[0], event);
             }
 
         }).bind(this);
@@ -202,9 +219,22 @@
                     target.unregisterListeners();
                     target.api.setEditorState(last.content, last.label);
                     target.registerListeners();
-                } else  if (last.type == "addImage") {
+                } else if (last.type == "addImage") {
                     var file = JSON.parse(last.content);
                     target.api.addImage(file.fileName, file.fileContent);
+                } else if (last.type == "addSlide"
+                    || last.type == "removeSlide"
+                    || last.type == "moveSlide"
+                    || last.type == "clearSlide") {
+                    target.api.handleSlideAction(last.type, last.content);
+                } else if (last.type == "selectSlide") {
+                    target.unregisterListeners();
+                    target.api.selectSlide(last.content);
+                    target.registerListeners();
+                } else if (last.type == "previewRefresh") {
+                    target.api.previewRefresh();
+                } else if (last.type == "pasteSlide") {
+                    target.api.handleSlideAction(last.type, last.content, last.label);
                 }
             }
         };
@@ -217,6 +247,9 @@
             mainSession.dispatch(last);
         },
         start: function(api, callback) {
+           if (mainSession.api) {
+               return;
+           }
            mainSession.api = api;
            mainSession.eventCallback = callback;
            mainSession.registerListeners();
