@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.scientific.LabelController;
 
-
 public class SuggestionStatistics extends Suggestion {
 
 	private static Suggestion INSTANCE = new SuggestionStatistics();
@@ -67,7 +66,6 @@ public class SuggestionStatistics extends Suggestion {
 	private static boolean[] getNeededAlgos(GeoElementND geo) {
 		boolean[] neededAlgos = {true, true, true, true, true};
 
-
 		if (geo instanceof GeoList && ((GeoList)geo).size() < 2) {
 			neededAlgos[1] = false;
 			neededAlgos[3] = false;
@@ -119,6 +117,7 @@ public class SuggestionStatistics extends Suggestion {
 			algosMissing[4] = false;
 		}
 
-		return !algosMissing[0] && !algosMissing[1] && !algosMissing[2] && !algosMissing[3] && !algosMissing[4];
+		return !algosMissing[0] && !algosMissing[1] && !algosMissing[2]
+				&& !algosMissing[3] && !algosMissing[4];
 	}
 }
