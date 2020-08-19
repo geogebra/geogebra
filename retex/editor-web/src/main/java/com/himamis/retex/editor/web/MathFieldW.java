@@ -39,13 +39,9 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -186,22 +182,18 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		if (canvas == null) {
 			return;
 		}
-		canvas.addDomHandler(new MouseDownHandler() {
-
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				if (!isEnabled()) {
-					return;
-				}
-				event.stopPropagation();
-				// prevent default to keep focus; also avoid dragging the whole
-				// editor
-				event.preventDefault();
-				setFocus(true);
-				setRightAltDown(false);
-				setLeftAltDown(false);
-
+		canvas.addDomHandler(event -> {
+			if (!isEnabled()) {
+				return;
 			}
+			event.stopPropagation();
+			// prevent default to keep focus; also avoid dragging the whole
+			// editor
+			event.preventDefault();
+			setFocus(true);
+			setRightAltDown(false);
+			setLeftAltDown(false);
+
 		}, MouseDownEvent.getType());
 
 		setKeyListener(inputTextArea, keyListener);
@@ -350,82 +342,70 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	private void setKeyListener(final Widget html2,
 			final KeyListener keyListener) {
 		html2.getElement().setAttribute("role", "application");
-		html2.addDomHandler(new KeyPressHandler() {
+		html2.addDomHandler(event -> {
+			// don't kill Ctrl+V or write V
+			if (controlDown(event)
+					&& (event.getCharCode() == 'v'
+							|| event.getCharCode() == 'V')
+					|| isLeftAltDown()) {
 
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				// don't kill Ctrl+V or write V
-				if (controlDown(event)
-						&& (event.getCharCode() == 'v'
-								|| event.getCharCode() == 'V')
-						|| isLeftAltDown()) {
-
-					event.stopPropagation();
-				} else {
-					keyListener.onKeyTyped(
-							new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
-									getChar(event.getNativeEvent())));
-					event.stopPropagation();
-					event.preventDefault();
-				}
-
+				event.stopPropagation();
+			} else {
+				keyListener.onKeyTyped(
+						new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
+								getChar(event.getNativeEvent())));
+				event.stopPropagation();
+				event.preventDefault();
 			}
-		}, KeyPressEvent.getType());
-		html2.addDomHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (checkPowerKeyInput(html2.getElement())) {
-					keyListener.onKeyTyped(new KeyEvent(0, 0, '^'));
-					onFocusTimer(); // refocus to remove the half-written letter
-					updateAltForKeyUp(event);
-					event.preventDefault();
-					return;
-				}
-				int code = convertToJavaKeyCode(event.getNativeEvent());
-				keyListener.onKeyReleased(new KeyEvent(code,
-						getModifiers(event), getChar(event.getNativeEvent())));
-				updateAltForKeyUp(event);
 
-				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
-				if (code == JavaKeyCodes.VK_DELETE
-						|| code == JavaKeyCodes.VK_ESCAPE) {
-					event.preventDefault();
-				}
+		}, KeyPressEvent.getType());
+		html2.addDomHandler(event -> {
+			if (checkPowerKeyInput(html2.getElement())) {
+				keyListener.onKeyTyped(new KeyEvent(0, 0, '^'));
+				onFocusTimer(); // refocus to remove the half-written letter
+				updateAltForKeyUp(event);
+				event.preventDefault();
+				return;
+			}
+			int code = convertToJavaKeyCode(event.getNativeEvent());
+			keyListener.onKeyReleased(new KeyEvent(code,
+					getModifiers(event), getChar(event.getNativeEvent())));
+			updateAltForKeyUp(event);
+
+			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
+			if (code == JavaKeyCodes.VK_DELETE
+					|| code == JavaKeyCodes.VK_ESCAPE) {
+				event.preventDefault();
 			}
 		}, KeyUpEvent.getType());
-		html2.addDomHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (isRightAlt(event.getNativeEvent())) {
-					setRightAltDown(true);
-				}
-				if (isLeftAlt(event.getNativeEvent())) {
-					setLeftAltDown(true);
-				}
-
-				int code = convertToJavaKeyCode(event.getNativeEvent());
-				boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
-						getModifiers(event), getChar(event.getNativeEvent())));
-				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
-				if (code == JavaKeyCodes.VK_LEFT
-						|| code == JavaKeyCodes.VK_RIGHT) {
-					readPosition();
-				}
-				// need to prevent default for arrows to kill keypress
-				// (otherwise strange chars appear in Firefox). Backspace/delete
-				// also need killing.
-				// also kill events while left alt down: alt+e, alt+d working in
-				// browser
-				// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
-				if (code == JavaKeyCodes.VK_DELETE
-						|| code == JavaKeyCodes.VK_ESCAPE || handled
-						|| isLeftAltDown()) {
-					event.preventDefault();
-				}
-				event.stopPropagation();
-
+		html2.addDomHandler(event -> {
+			if (isRightAlt(event.getNativeEvent())) {
+				setRightAltDown(true);
 			}
+			if (isLeftAlt(event.getNativeEvent())) {
+				setLeftAltDown(true);
+			}
+
+			int code = convertToJavaKeyCode(event.getNativeEvent());
+			boolean handled = keyListener.onKeyPressed(new KeyEvent(code,
+					getModifiers(event), getChar(event.getNativeEvent())));
+			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
+			if (code == JavaKeyCodes.VK_LEFT
+					|| code == JavaKeyCodes.VK_RIGHT) {
+				readPosition();
+			}
+			// need to prevent default for arrows to kill keypress
+			// (otherwise strange chars appear in Firefox). Backspace/delete
+			// also need killing.
+			// also kill events while left alt down: alt+e, alt+d working in
+			// browser
+			// YES WE REALLY DO want JavaKeyCodes not GWTKeycodes here
+			if (code == JavaKeyCodes.VK_DELETE
+					|| code == JavaKeyCodes.VK_ESCAPE || handled
+					|| isLeftAltDown()) {
+				event.preventDefault();
+			}
+			event.stopPropagation();
 
 		}, KeyDownEvent.getType());
 	}
@@ -1003,6 +983,14 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void setFontSize(double size) {
 		mathFieldInternal.setSizeAndUpdate(size);
+	}
+
+	/**
+	 * @param type
+	 *            font type
+	 */
+	public void setFontType(int type) {
+		mathFieldInternal.setFontAndUpdate(type);
 	}
 
 	/**
