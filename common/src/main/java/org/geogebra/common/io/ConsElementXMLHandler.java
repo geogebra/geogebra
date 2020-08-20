@@ -1885,6 +1885,8 @@ public class ConsElementXMLHandler {
 			((TextProperties) geo).setFontSizeMultiplier(1);
 			((TextProperties) geo).setSerifFont(false);
 			((TextProperties) geo).setFontStyle(GFont.PLAIN);
+		} else if (!fontTagProcessed && geo.isGeoInputBox()) {
+			((TextProperties) geo).setSerifFont(true);
 		} else if (!lineStyleTagProcessed && ((geo.isGeoFunctionNVar()
 				&& ((GeoFunctionNVar) geo).isFun2Var())
 				|| geo.isGeoSurfaceCartesian())) {
