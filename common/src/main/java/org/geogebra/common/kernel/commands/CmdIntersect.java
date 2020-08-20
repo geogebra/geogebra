@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolys;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -100,15 +101,15 @@ public class CmdIntersect extends CommandProcessor {
 						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 				return ret;
 				// intersection of curves with starting point for iteration
-			} else if ((ok[0] = (arg[0] instanceof GeoCurveCartesian))
-					&& (ok[1] = (arg[1] instanceof GeoCurveCartesian))
+			} else if ((ok[0] = (arg[0] instanceof GeoCurveCartesianND))
+					&& (ok[1] = (arg[1] instanceof GeoCurveCartesianND))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue))
 
 			) {
 				AlgoIntersectCurveCurve algo = new AlgoIntersectCurveCurve(cons,
-						c.getLabels(), (GeoCurveCartesian) arg[0],
-						(GeoCurveCartesian) arg[1], (GeoNumberValue) arg[2],
+						c.getLabels(), (GeoCurveCartesianND) arg[0], (GeoCurveCartesianND) arg[1],
+						(GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3]);
 				return algo.getOutput();
 			}

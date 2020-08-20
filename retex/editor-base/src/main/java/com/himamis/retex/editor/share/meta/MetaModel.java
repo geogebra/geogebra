@@ -53,6 +53,9 @@ public class MetaModel {
     private int defaultVectorSize = 1;
     private int defaultMatrixColumns = 2;
     private int defaultMatrixRows = 2;
+
+    private boolean forceBracketAfterFunction;
+
 	private MetaArray matrixGroup;
 	private FunctionGroup customFunctionGroup;
 	private CharacterGroup characterGroup;
@@ -340,5 +343,13 @@ public class MetaModel {
 	public MetaCharacter merge(String prefix, MetaCharacter symbol) {
 		String mergeName = prefix + symbol.getUnicodeString();
 		return mergeLookup.get(mergeName);
+	}
+
+	public boolean isForceBracketAfterFunction() {
+		return forceBracketAfterFunction;
+	}
+
+	public void setForceBracketAfterFunction(boolean forceBracketAfterFunction) {
+		this.forceBracketAfterFunction = forceBracketAfterFunction;
 	}
 }

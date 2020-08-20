@@ -94,7 +94,7 @@ public class AlgoRandomPointInConic extends AlgoElement {
 			GeoVec2D center = conic.b;
 
 			double r = conic.getHalfAxis(0)
-					* cons.getApplication().getRandomNumber();
+					* Math.sqrt(cons.getApplication().getRandomNumber());
 			double radians = 2 * Math.PI
 					* cons.getApplication().getRandomNumber();
 
@@ -108,25 +108,25 @@ public class AlgoRandomPointInConic extends AlgoElement {
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			center = conic.b;
 
-			double a = conic.getHalfAxis(0)
-					* cons.getApplication().getRandomNumber();
-			double b = conic.getHalfAxis(1)
-					* cons.getApplication().getRandomNumber();
-
-			radians = 2 * Math.PI * cons.getApplication().getRandomNumber();
+			double a = conic.getHalfAxis(0);
+			double b = conic.getHalfAxis(1);
 			double angle = Math.atan2(conic.eigenvec[0].getY(),
 					conic.eigenvec[0].getX());
 
-			if (angle == 0) {
-				xRandom = a * Math.cos(radians);
-				yRandom = b * Math.sin(radians);
-			} else {
-				xRandom = b * Math.cos(radians);
-				yRandom = a * Math.sin(radians);
-			}
+			r = Math.sqrt(cons.getApplication().getRandomNumber());
+			radians = 2 * Math.PI * cons.getApplication().getRandomNumber();
 
-			randomPoint.setCoords(xRandom + center.getX(),
-					yRandom + center.getY(), 1);
+			xRandom = a * r * Math.cos(radians);
+			yRandom = b * r * Math.sin(radians);
+
+			double sin = Math.sin(angle);
+			double cos = Math.cos(angle);
+
+			// rotate to math rotation of ellipse
+			double x2 = xRandom * cos - yRandom * sin;
+			double y2 = xRandom * sin + yRandom * cos;
+
+			randomPoint.setCoords(x2 + center.getX(), y2 + center.getY(), 1);
 			break;
 
 		default:

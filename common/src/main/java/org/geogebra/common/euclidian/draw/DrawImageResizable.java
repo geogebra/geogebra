@@ -125,7 +125,7 @@ public class DrawImageResizable extends DrawImage {
 		default:
 			break;
 		}
-		transformableRectangle.updateSelfAndBoundingBox();
+		geoImage.update();
 	}
 
 	@Override

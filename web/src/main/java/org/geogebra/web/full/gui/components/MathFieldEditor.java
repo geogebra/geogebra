@@ -75,6 +75,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 
 		MetaModel model = new MetaModel();
 		model.enableSubstitutions();
+		model.setForceBracketAfterFunction(true);
 		mathField = new MathFieldW(new SyntaxAdapterImpl(kernel), main,
 				canvas, listener, directFormulaConversion, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));

@@ -412,7 +412,7 @@ var GGBApplet = function() {
             } else if (className !== "applet_scaler prerender") {
                 // Remove the applet
                 appletParent.removeChild(currentChild);
-                removedID = (className && className.contains("appletParameters")) ? currentChild.id : null;
+                removedID = (className && className.indexOf("appletParameters") != -1) ? currentChild.id : null;
                 i--;
             }
         }

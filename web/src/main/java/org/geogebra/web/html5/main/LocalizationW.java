@@ -6,6 +6,7 @@ import java.util.MissingResourceException;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -46,11 +47,14 @@ public final class LocalizationW extends Localization {
 	private ArrayList<SetLabels> setLabelsListeners;
 
 	/**
+	 * @param config
+	 * 			app config
 	 * @param dimension
-	 *            3 for 3D
+	 *           3 for 3D
 	 */
-	public LocalizationW(int dimension) {
+	public LocalizationW(AppConfig config, int dimension) {
 		super(dimension, 13);
+		getCommandSyntax().setSyntaxFilter(config.newCommandSyntaxFilter());
 	}
 
 	//

@@ -787,7 +787,25 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		this.isDefaults = isDefaults;
 		loc = app.getLocalization();
 		// build GUI
+		initPermissions();
 		initGUI(onTabSelection);
+	}
+
+	private void initPermissions() {
+		if (app.getLoginOperation() != null
+				&& app.getArticleElement().getDataParamApp()) {
+			updateJsEnabled();
+			app.getLoginOperation().getView().add(event -> {
+				updateJsEnabled();
+				updateGUI();
+			});
+		}
+	}
+
+	private void updateJsEnabled() {
+		app.getScriptManager().setJsEnabled(!app.isMebis()
+				|| app.getLoginOperation().isTeacherLoggedIn());
+
 	}
 
 	AppW getAppW() {
