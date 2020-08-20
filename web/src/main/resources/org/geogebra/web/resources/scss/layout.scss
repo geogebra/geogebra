@@ -3,6 +3,10 @@
 .GeoGebraFrame {
 	overflow: hidden;
 
+	&.GeoGebraHeader {
+		overflow: unset;
+	}
+
 	div[data-title]:after {
 		opacity: 0;
 		content: "";
