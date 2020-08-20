@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu.action;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.ToStringConverter;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;

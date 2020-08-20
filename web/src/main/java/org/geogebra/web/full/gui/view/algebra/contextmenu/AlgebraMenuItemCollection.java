@@ -1,9 +1,6 @@
 package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DeleteItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateInputItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateOutputItem;
