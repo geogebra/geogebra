@@ -1,9 +1,13 @@
 package org.geogebra.common.gui.view.algebra;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.CommandNotLoadedError;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -29,6 +33,7 @@ public class SuggestionStatistics extends Suggestion {
 
 		new LabelController().ensureHasLabel(geo);
 		checkDependentAlgo(geo, INSTANCE, neededAlgos);
+
 		AlgebraProcessor algebraProcessor = geo.getKernel().getAlgebraProcessor();
 
 		if (neededAlgos[0]) {
@@ -53,6 +58,14 @@ public class SuggestionStatistics extends Suggestion {
 		}
 	}
 
+	private static void ensureCommandsAreLoaded(AlgebraProcessor algebraProcessor) {
+		try {
+			algebraProcessor.getCommandDispatcher().getStatsDispatcher();
+		} catch (CommandNotLoadedError e) {
+			// ignore
+		}
+	}
+
 	protected void processCommand(AlgebraProcessor algebraProcessor, String cmd,
 			boolean isSymbolicMode) {
 		if (isSymbolicMode) {
@@ -66,7 +79,7 @@ public class SuggestionStatistics extends Suggestion {
 	private static boolean[] getNeededAlgos(GeoElementND geo) {
 		boolean[] neededAlgos = {true, true, true, true, true};
 
-		if (geo instanceof GeoList && ((GeoList)geo).size() < 2) {
+		if (geo instanceof GeoList && ((GeoList) geo).size() < 2) {
 			neededAlgos[1] = false;
 			neededAlgos[3] = false;
 		}
@@ -80,6 +93,7 @@ public class SuggestionStatistics extends Suggestion {
 	 */
 	public static Suggestion get(GeoElement geo) {
 		if (isListOfNumbers(geo) && !checkDependentAlgo(geo, INSTANCE, getNeededAlgos(geo))) {
+			ensureCommandsAreLoaded(geo.getKernel().getAlgebraProcessor());
 			return INSTANCE;
 		}
 		return null;
@@ -101,20 +115,13 @@ public class SuggestionStatistics extends Suggestion {
 	@Override
 	protected boolean allAlgosExist(GetCommand className, GeoElement[] input,
 			boolean[] algosMissing) {
-		if (className == Commands.Min) {
-			algosMissing[0] = false;
-		}
-		if (className == Commands.Q1) {
-			algosMissing[1] = false;
-		}
-		if (className == Commands.Median) {
-			algosMissing[2] = false;
-		}
-		if (className == Commands.Q3) {
-			algosMissing[3] = false;
-		}
-		if (className == Commands.Max) {
-			algosMissing[4] = false;
+		ArrayList<String> statCommands = new ArrayList<>(Arrays.asList(Commands.Min.getCommand(),
+				Commands.Q1.getCommand(), Commands.Median.getCommand(), Commands.Q3.getCommand(),
+				Commands.Max.getCommand()));
+
+
+		if (statCommands.contains(className.getCommand())) {
+			algosMissing[statCommands.indexOf(className.getCommand())] = false;
 		}
 
 		return !algosMissing[0] && !algosMissing[1] && !algosMissing[2]
