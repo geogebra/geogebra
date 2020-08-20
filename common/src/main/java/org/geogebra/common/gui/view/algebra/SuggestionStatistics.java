@@ -119,7 +119,6 @@ public class SuggestionStatistics extends Suggestion {
 				Commands.Q1.getCommand(), Commands.Median.getCommand(), Commands.Q3.getCommand(),
 				Commands.Max.getCommand()));
 
-
 		if (statCommands.contains(className.getCommand())) {
 			algosMissing[statCommands.indexOf(className.getCommand())] = false;
 		}
