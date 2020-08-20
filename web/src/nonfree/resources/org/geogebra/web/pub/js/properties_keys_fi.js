@@ -590,7 +590,7 @@ __GGB__keysVar["fi"].command = {
     "Mode": "Tyyppiarvo",
     "Mode.Syntax": "[ <Lukulista> ]",
     "NDerivative": "NDerivaatta",
-    "NDerivative.Syntax": "[ <Funktio> ]",
+    "NDerivative.Syntax": "[ <Funktio> ]\n[ <Function>, <J\xe4rjestys> ]",
     "NIntegral": "NIntegraali",
     "NIntegral.Syntax": "[ <Funktio> ]\n[ <Funktio>, <x-alku>, <x-loppu> ]",
     "NIntegral.SyntaxCAS": "[ <Funktio>, <X:n alaraja>, <X:n yl\xe4raja> ]\n[ <Funktio>, <Muuttuja>, <Alaraja>, <Yl\xe4raja> ]",
