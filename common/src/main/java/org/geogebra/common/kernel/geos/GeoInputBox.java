@@ -54,6 +54,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public GeoInputBox(Construction cons) {
 		super(cons);
+		linkedGeo = new GeoText(cons, "");
 	 	inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
 	}
