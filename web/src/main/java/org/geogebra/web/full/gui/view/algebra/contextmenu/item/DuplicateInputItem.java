@@ -16,7 +16,7 @@ public class DuplicateInputItem extends MenuItem<GeoElement> {
 	 *            algebra view
 	 */
 	public DuplicateInputItem(AlgebraViewW algebraView) {
-		super("Duplicate input",
+		super("ContextMenu.DuplicateInput",
 				MaterialDesignResources.INSTANCE.duplicate_black(),
 				new DuplicateInputAction(algebraView));
 	}

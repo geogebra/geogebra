@@ -16,7 +16,7 @@ public class DuplicateOutputItem extends MenuItem<GeoElement> {
 	 *            algebra view
 	 */
 	public DuplicateOutputItem(AlgebraViewW algebraView) {
-		super("Duplicate output",
+		super("ContextMenu.DuplicateOutput",
 				MaterialDesignResources.INSTANCE.duplicate_black(),
 				new DuplicateOutputAction(algebraView));
 	}

@@ -32,11 +32,7 @@ public class DuplicateOutputAction extends DefaultMenuAction<GeoElement> {
 
 	@Override
 	public boolean isAvailable(GeoElement item) {
-		if (item.isAlgebraDuplicateable()
-				&& AlgebraItem.shouldShowBothRows(item)) {
-			return true;
-		} else {
-			return false;
-		}
+		return item.isAlgebraDuplicateable()
+				&& AlgebraItem.shouldShowBothRows(item);
 	}
 }
