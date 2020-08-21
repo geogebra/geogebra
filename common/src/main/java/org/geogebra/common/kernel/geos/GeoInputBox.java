@@ -58,6 +58,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	public GeoInputBox(Construction cons) {
 		super(cons);
 		linkedGeo = new GeoText(cons, "");
+		setSerifFont(true);
 		createEmptyText(cons);
 		inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, linkedGeo);
@@ -219,11 +220,6 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
-		if (!isSerifFont()) {
-			sb.append("\t<font serif=\"");
-			sb.append(isSerifFont());
-			sb.append("\"/>\n");
-		}
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {
 			sb.append("\t<decimals val=\"");
