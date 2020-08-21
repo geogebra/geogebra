@@ -25,6 +25,7 @@ import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.IndexLaTeXBuilder;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -120,6 +121,9 @@ public class AlgebraItem {
 
 		sm.setSymbolicMode(orig, false);
 		if (text1 == null) {
+			if (text2 == null) {
+				return false;
+			}
 			return true;
 		}
 
