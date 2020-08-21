@@ -4936,6 +4936,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				}
 			} else if (geo instanceof GeoSymbolicI && parent == null) {
 				((GeoSymbolicI) geo).computeOutput();
+				geosToUpdate.add(geo);
 			}
 		}
 
