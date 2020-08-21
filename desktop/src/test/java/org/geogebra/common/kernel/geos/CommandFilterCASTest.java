@@ -87,8 +87,8 @@ public class CommandFilterCASTest extends BaseSymbolicTest {
 
     @Test
     public void cmdRemoveUndefined() {
-        t("RemoveUndefined(Sequence((-1)^i, i, -3, -1, 0.5))",
-                "{-1, 1, -1}");
+        t("RemoveUndefined(Sequence((-1)^j, j, -3, -1, 0.5))",
+                "{-1, -ί, 1, ί, -1}");
     }
 
     @Test

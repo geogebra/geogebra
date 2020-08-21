@@ -1914,6 +1914,9 @@ public class Ggb2giac {
 
 		p("Eigenvalues.1", "{eigenvals(%0)}");
 
+		p("RemoveUndefined.1", "when(type(%0)==DOM_LIST, remove(undef,%0),?)");
+		p("IsInteger.1", "when(type(%0)==DOM_INT,round(%0)==%0, false)");
+
 		return commandMap;
 	}
 

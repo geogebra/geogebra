@@ -1524,6 +1524,8 @@ __GGB__keysVar["ka"].menu = {
     "ConstructionProtocolNavigation": "\u10d0\u10d2\u10d4\u10d1\u10d8\u10e1 \u10e1\u10d0\u10e4\u10d4\u10ee\u10e3\u10e0\u10d4\u10d1\u10d8\u10e1 \u10dc\u10d0\u10d5\u10d8\u10d2\u10d0\u10ea\u10d8\u10d8\u10e1 \u10d6\u10dd\u10da\u10d8",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",

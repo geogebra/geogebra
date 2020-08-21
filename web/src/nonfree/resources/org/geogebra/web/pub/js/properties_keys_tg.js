@@ -1524,6 +1524,8 @@ __GGB__keysVar["tg"].menu = {
     "ConstructionProtocolNavigation": "Navigation Bar for Construction Steps",
     "ContextMenu.BringForward": "Bring forward",
     "ContextMenu.BringToFront": "Bring to front",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Font",
     "ContextMenu.Group": "Group",
     "ContextMenu.SendBackward": "Send backward",
