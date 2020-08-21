@@ -405,11 +405,7 @@ public class DrawInputBox extends CanvasDrawable {
 
 	private void drawText(GGraphics2D g2, String text) {
 		int textTop = (int) Math.round(getInputFieldBounds(g2).getY());
-		if (geoInputBox.isSymbolicMode()) {
-			drawLatex(g2, geo, getLabelFont(), text, getTextLeft(), textTop);
-		} else {
-			textRenderer.drawText(geoInputBox, g2, textFont, text, getTextLeft(), textTop);
-		}
+		textRenderer.drawText(geoInputBox, g2, textFont, text, getTextLeft(), textTop);
 	}
 
 	double getContentWidth() {
