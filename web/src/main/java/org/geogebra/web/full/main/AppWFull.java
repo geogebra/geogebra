@@ -1584,6 +1584,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!isUnbundled() || isStartedWithFile()) {
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives(),
 					p);
+		} else {
+			getGuiManager().getLayout().getDockManager().setActiveTab(getTmpPerspective(p));
 		}
 		if (isUnbundled() && isPortrait()) {
 			getGuiManager().getLayout().getDockManager().adjustViews(true);

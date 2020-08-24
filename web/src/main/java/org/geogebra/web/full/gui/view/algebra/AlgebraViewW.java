@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Kernel;
@@ -1616,7 +1617,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 		}
 
-		if (app.showView(App.VIEW_ALGEBRA) && !isToolMode()) {
+		if (app.showView(App.VIEW_ALGEBRA) && isAvInputMode()) {
 			if (forceKeyboard) {
 				doShowKeyboard();
 			} else if (suggestKeyboard) {
@@ -1629,8 +1630,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		updateFonts();
 	}
 
-	private boolean isToolMode() {
-		return app.isUnbundled() && getAlgebraDockPanel().isToolMode();
+	private boolean isAvInputMode() {
+		return getAlgebraDockPanel().getTabId() == DockPanelData.TabIds.ALGEBRA;
 	}
 
 	private void doShowKeyboard() {
