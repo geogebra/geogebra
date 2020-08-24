@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.properties.EnumerableProperty;
-import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
+import org.geogebra.common.properties.factory.PropertiesArray;
 import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
 import org.geogebra.web.full.gui.HeaderView;
 import org.geogebra.web.full.gui.components.ComponentDropDown;
@@ -66,17 +66,17 @@ public class ScientificSettingsView extends AnimatingPanel implements FastClickH
 		settingsScrollPanel.addStyleName("settingsPanelScientificNoHeader");
 
 		FlowPanel contentPanel = new FlowPanel();
-		PropertiesList propertiesList =
+		PropertiesArray properties =
 				new ScientificPropertiesFactory()
 						.createGeneralProperties(app, localization, null);
 
-		buildPropertiesPanel(propertiesList, contentPanel);
+		buildPropertiesPanel(properties, contentPanel);
 		settingsScrollPanel.add(contentPanel);
 		setContentWidget(settingsScrollPanel);
 	}
 
-	private void buildPropertiesPanel(PropertiesList propertiesList, FlowPanel panel) {
-		for (Property property : propertiesList.getPropertiesList()) {
+	private void buildPropertiesPanel(PropertiesArray properties, FlowPanel panel) {
+		for (Property property : properties.getProperties()) {
 			Widget cell = createPropertyCell(property);
 			if (cell != null) {
 				panel.add(cell);

@@ -122,8 +122,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @version 2011-12-02
  */
 
-public abstract class GeoElement extends ConstructionElement
-		implements GeoElementND {
+public abstract class GeoElement extends ConstructionElement implements GeoElementND {
 
 	/**
 	 * Column headings for spreadsheet trace

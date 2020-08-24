@@ -20,6 +20,8 @@ import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
+import org.geogebra.common.properties.factory.G3DPropertiesFactory;
+import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * Config for 3D Graphing Calculator app
@@ -195,5 +197,10 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	@Override
 	public boolean isCoordinatesObjectSettingEnabled() {
 		return true;
+	}
+
+	@Override
+	public PropertiesFactory createPropertiesFactory() {
+		return new G3DPropertiesFactory();
 	}
 }

@@ -733,4 +733,8 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		this.constant = constant;
 	}
 
+	@Override
+	public boolean isFixable() {
+		return false;
+	}
 }

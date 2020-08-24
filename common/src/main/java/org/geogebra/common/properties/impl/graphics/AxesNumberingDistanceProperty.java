@@ -5,8 +5,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.impl.AbstractProperty;
 
 /**
  * This property controls the distance of the axes numbering.

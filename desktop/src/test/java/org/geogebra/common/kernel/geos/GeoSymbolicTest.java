@@ -13,10 +13,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
-import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
@@ -755,9 +753,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("f: x = y", "x = y");
 
 		GeoSymbolic f = getSymbolic("f");
-		ObjectSettingsModel model = asList(f);
-		model.setLineThickness(7);
-		model.setLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		f.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		f.setLineThickness(8);
+		f.updateRepaint();
+
 		assertEquals(8, f.getLineThickness());
 		assertEquals(8, f.getTwinGeo().getLineThickness());
 
@@ -772,9 +771,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("A: (1, 2)", "(1, 2)");
 
 		GeoSymbolic pointA = getSymbolic("A");
-		ObjectSettingsModel model = asList(pointA);
-		model.setPointSize(7);
-		model.setPointStyle(4);
+		pointA.setPointSize(8);
+		pointA.setPointStyle(4);
+		pointA.updateRepaint();
+
 		assertEquals(8, pointA.getPointSize());
 		assertEquals(8, ((GeoPoint) pointA.getTwinGeo()).getPointSize());
 
@@ -817,16 +817,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoElement geo = app.getKernel().lookupLabel(label);
 		assertThat(geo, CoreMatchers.instanceOf(GeoSymbolic.class));
 		return (GeoSymbolic) geo;
-	}
-
-	private ObjectSettingsModel asList(GeoElement f) {
-		ArrayList<GeoElement> list = new ArrayList<>();
-		list.add(f);
-		ObjectSettingsModel model = new ObjectSettingsModel(app) {
-		};
-		model.setGeoElement(f);
-		model.setGeoElementsList(list);
-		return model;
 	}
 
 	@Test
