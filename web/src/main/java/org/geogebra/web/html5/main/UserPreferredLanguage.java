@@ -10,6 +10,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.user.client.Window.Location;
 
+import elemental2.dom.DomGlobal;
+
 public class UserPreferredLanguage {
 	private static final String DATA_TRANS_KEY = "data-trans-key";
 
@@ -44,6 +46,11 @@ public class UserPreferredLanguage {
 
 		if (!StringUtil.empty(urlLang) && !loggedIn) {
 			return urlLang;
+		}
+
+		String htmlLang = DomGlobal.document.documentElement.lang;
+		if (!StringUtil.empty(htmlLang)) {
+			return htmlLang;
 		}
 
 		return Browser.navigatorLanguage();
