@@ -187,7 +187,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(k(k-16)>0,k)", "{k < 0, k > 16}");
 		t("Solve(x^2=4x)", "{x = 0, x = 4}");
 		t("Solve({x=4x+y,y+x=2},{x, y})", "{{x = -1, y = 3}}");
-		t("Solve(sin(x)=cos(x))", "{x = k_1 * \u03c0 + 1 / 4 * \u03c0}");
 		t("Solve(x^2=1)", "{x = -1, x = 1}");
 		t("Solve(x^2=a)", "{x = -sqrt(a), x = sqrt(a)}");
 		t("Solve({x+y=1, x-y=3})", "{{x = 2, y = -1}}");
@@ -322,7 +321,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
 		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
 		t("Solve(12exp(x)=150)", "{x = ln(25 / 2)}");
-		t("Solve(cos(x)=sin(x))", "{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}");
+		testValidResultCombinations("Solve(cos(x)=sin(x))", "{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}",
+				"{x = 2 * k_1 * " + pi + " - 3 / 4 * π, x = 2 * k_2 * " + pi + " + 1 / 4 * π}");
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
 		t("Solve(x (x-5)>x+7)", "{x < -1, x > 7}");
@@ -395,7 +395,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testTutorial5() {
 		t("f(x)=1/25 x^4", "1 / 25 * x^(4)");
-		t("g=Invert(f)", "nroot(25 * x,4)");
+		testValidResultCombinations("g=Invert(f)", "nroot(25 * x,4)", "nroot(25,4) * nroot(x,4)");
 		t("a=pi Integral(g^2,0,h)", "10 / 3 * sqrt(h) * h * " + pi);
 		t("b=Solve(a=500)", "{h = 5 * cbrt(180 * " + pi + ") / " + pi + "}");
 		t("Numeric(b)", "{h = 13.1611626882}");
