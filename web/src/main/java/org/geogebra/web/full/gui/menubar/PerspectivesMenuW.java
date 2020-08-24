@@ -55,7 +55,7 @@ public class PerspectivesMenuW extends Submenu {
 
 							@Override
 							public void doExecute() {
-								app.getSaveController().showDialogIfNeeded(getExamCallback());
+								app.getSaveController().showDialogIfNeeded(getExamCallback(), true);
 							}
 						});
 			}

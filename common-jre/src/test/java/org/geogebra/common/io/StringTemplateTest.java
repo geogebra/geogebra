@@ -60,7 +60,7 @@ public class StringTemplateTest {
 	}
 
 	@Test
-	public void testCannonicNumber() {
+	public void testCanonicalNumber() {
 		assertEquals("0", StringUtil.canonicalNumber("0.0"));
 		assertEquals("0", StringUtil.canonicalNumber(".0"));
 		assertEquals("1.0E2", StringUtil.canonicalNumber("1.0E2"));

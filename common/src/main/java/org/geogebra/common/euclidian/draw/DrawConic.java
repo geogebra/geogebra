@@ -2051,9 +2051,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 			Coords corner = new Coords(centerX - conic.getMidpoint().getX(),
 					centerY - conic.getMidpoint().getY(), 0);
 			conic.translate(corner);
-
-			// update bounding box
-			conic.updateRepaint();
 		}
 	}
 
@@ -2084,8 +2081,6 @@ public class DrawConic extends SetDrawable implements Previewable {
 			conic.setMatrix(equ);
 		}
 		conic.setSelected(true);
-		conic.updateRepaint();
-		this.update();
 	}
 
 	private static double[] getEquationOfConic(double startX, double startY, double endX,

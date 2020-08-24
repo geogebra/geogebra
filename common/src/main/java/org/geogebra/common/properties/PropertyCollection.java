@@ -11,5 +11,5 @@ public interface PropertyCollection extends Property {
      *
      * @return a list of properties.
      */
-    PropertiesList getProperties();
+    Property[] getProperties();
 }

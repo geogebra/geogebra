@@ -48,7 +48,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -61,7 +60,6 @@ import org.geogebra.common.gui.dialog.options.model.AnimatingModel;
 import org.geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import org.geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel;
-import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
 import org.geogebra.common.gui.dialog.options.model.CenterImageModel;
@@ -74,7 +72,6 @@ import org.geogebra.common.gui.dialog.options.model.DecoAngleModel.IDecoAngleLis
 import org.geogebra.common.gui.dialog.options.model.DecoSegmentModel;
 import org.geogebra.common.gui.dialog.options.model.FixCheckboxModel;
 import org.geogebra.common.gui.dialog.options.model.FixObjectModel;
-import org.geogebra.common.gui.dialog.options.model.GeoComboListener;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.ISliderListener;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
@@ -89,9 +86,6 @@ import org.geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleLis
 import org.geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import org.geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
 import org.geogebra.common.gui.dialog.options.model.LodModel;
-import org.geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
-import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
-import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
 import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
@@ -124,18 +118,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
-import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
-import org.geogebra.desktop.gui.dialog.options.OptionsObjectD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.GeoGebraComboBoxEditor;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -146,7 +136,6 @@ import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
-import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -159,7 +148,8 @@ import org.geogebra.desktop.util.ImageResourceD;
  * @author Markus Hohenwarter
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
+public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
+ UpdateTabs {
 	/** application */
 	AppD app;
 	/** localization */
@@ -170,7 +160,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	GeoGebraColorChooser colChooser;
 
 	private static final long serialVersionUID = 1L;
-	private NamePanel namePanel;
+	private NamePanelD namePanel;
 	private ShowObjectPanel showObjectPanel;
 	private SelectionAllowedPanel selectionAllowed;
 	private ShowTrimmedIntersectionLines showTrimmedIntersectionLines;
@@ -267,7 +257,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		// load panels which are hidden for the defaults dialog
 		if (!isDefaults) {
-			namePanel = new NamePanel(app);
+			namePanel = new NamePanelD(app, this);
 			labelPanel = new LabelPanel();
 			tooltipPanel = new TooltipPanel();
 			layerPanel = new LayerPanel();
@@ -407,6 +397,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		if (!isDefaults) {
 			basicTabList.add(namePanel);
+			basicTabList.add(namePanel.getDynamicCaptionPanel());
 		}
 
 		basicTabList.add(showObjectPanel);
@@ -719,12 +710,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	}
 
-	/**
-	 * Update all tabs after new GeoElements were selected.
-	 * 
-	 * @param geos
-	 */
-	private void updateTabs(Object[] geos) {
+	@Override
+	public void updateTabs(Object[] geos) {
 		if (geos.length == 0) {
 			tabs.setVisible(false);
 			return;
@@ -822,232 +809,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		namePanel.updateName(geo);
 	}
 
-	private abstract class OptionPanel extends JPanel implements ItemListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		protected OptionPanel() {
-			// make this protected
-		}
-
-	}
-
-	private class CheckboxPanel extends OptionPanel
-			implements IBooleanOptionListener {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private BooleanOptionModel model;
-		private JCheckBox checkbox;
-		private String title;
-
-		public CheckboxPanel(final String title) {
-			super();
-			this.title = title;
-			checkbox = new JCheckBox();
-			checkbox.addItemListener(this);
-			add(checkbox);
-		}
-
-		@Override
-		public JPanel updatePanel(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos()) {
-				return null;
-			}
-
-			checkbox.removeItemListener(this);
-
-			model.updateProperties();
-			// set object visible checkbox
-
-			checkbox.addItemListener(this);
-			return this;
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			checkbox.setFont(font);
-
-		}
-
-		@Override
-		public void setLabels() {
-			checkbox.setText(loc.getMenu(title));
-			app.setComponentOrientation(this);
-
-		}
-
-		@Override
-		public void itemStateChanged(ItemEvent e) {
-			Object source = e.getItemSelectable();
-
-			if (source == checkbox) {
-				apply(checkbox.isSelected());
-			}
-		}
-
-		public void apply(boolean value) {
-			model.applyChanges(value);
-			updateSelection(model.getGeos());
-
-		}
-
-		@Override
-		public void updateCheckbox(boolean value) {
-			checkbox.setSelected(value);
-		}
-
-		public void setModel(BooleanOptionModel model) {
-			this.model = model;
-		}
-
-		public JCheckBox getCheckbox() {
-			return checkbox;
-		}
-	}
-
-	private class ComboPanel extends JPanel implements ActionListener,
-			SetLabels, UpdateFonts, UpdateablePropertiesPanel,
-			GeoComboListener {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private JLabel label;
-		protected JComboBox comboBox;
-		private MultipleOptionsModel model;
-		private String title;
-
-		public ComboPanel(final String title) {
-			this.setTitle(title);
-			label = new JLabel();
-			comboBox = new JComboBox();
-
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-			add(label);
-			add(comboBox);
-		}
-
-		@Override
-		public void setLabels() {
-			label.setText(loc.getMenu(getTitle()) + ":");
-
-			int selectedIndex = comboBox.getSelectedIndex();
-			comboBox.removeActionListener(this);
-
-			comboBox.removeAllItems();
-			getModel().fillModes(loc);
-			if (selectedIndex < comboBox.getItemCount()) {
-				comboBox.setSelectedIndex(selectedIndex);
-			}
-			comboBox.addActionListener(this);
-		}
-
-		@Override
-		public JPanel updatePanel(Object[] geos) {
-			model.setGeos(geos);
-			if (!model.checkGeos()) {
-				return null;
-			}
-
-			comboBox.removeActionListener(this);
-
-			getModel().updateProperties();
-
-			comboBox.addActionListener(this);
-			return this;
-		}
-
-		@Override
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			label.setFont(font);
-			comboBox.setFont(font);
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void setSelectedIndex(int index) {
-			comboBox.setSelectedIndex(index);
-		}
-
-		@Override
-		public void addItem(String item) {
-			comboBox.addItem(item);
-		}
-
-		/**
-		 * action listener implementation for label mode combobox
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			Object source = e.getSource();
-			if (source == comboBox) {
-				model.applyChanges(comboBox.getSelectedIndex());
-			}
-		}
-
-		public JLabel getLabel() {
-			return label;
-		}
-
-		public MultipleOptionsModel getModel() {
-			return model;
-		}
-
-		public void setModel(MultipleOptionsModel model) {
-			this.model = model;
-		}
-
-		public String getTitle() {
-			return title;
-		}
-
-		public void setTitle(String title) {
-			this.title = title;
-		}
-
-		@Override
-		public void setSelectedItem(String item) {
-			comboBox.setSelectedItem(item);
-		}
-
-		@Override
-		public void clearItems() {
-			comboBox.removeAllItems();
-		}
-
-		@Override
-		public void addItem(GeoElement geo) {
-			if (geo != null) {
-				addItem(geo.getLabel(StringTemplate.editTemplate));
-			} else {
-				addItem("");
-			}
-		}
-
-	}
-
 	private static class TabPanel extends JPanel {
 
 		private static final long serialVersionUID = 1L;
@@ -1128,7 +889,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public ShowObjectPanel() {
-			super("ShowObject");
+			super(app, "ShowObject", PropertiesPanelD.this);
 			setModel(new ShowObjectModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
@@ -1146,7 +907,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public SelectionAllowedPanel() {
-			super("SelectionAllowed");
+			super(app, "SelectionAllowed", PropertiesPanelD.this);
 			setModel(new SelectionAllowedModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
@@ -1161,7 +922,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public ShowTrimmedIntersectionLines() {
-			super("ShowTrimmed");
+			super(app, "ShowTrimmed", PropertiesPanelD.this);
 			setModel(new TrimmedIntersectionLinesModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
@@ -1176,7 +937,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public CheckBoxFixPanel() {
-			super("FixCheckbox");
+			super(app, "FixCheckbox", PropertiesPanelD.this);
 			setModel(new FixCheckboxModel(this, app));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -1189,7 +950,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public IneqPanel() {
-			super("ShowOnXAxis");
+			super(app, "ShowOnXAxis", PropertiesPanelD.this);
 			IneqStyleModel model = new IneqStyleModel(app);
 			model.setListener(this);
 			setModel(model);
@@ -1214,7 +975,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public SymbolicPanel() {
-			super("Symbolic");
+			super(app, "Symbolic", PropertiesPanelD.this);
 			SymbolicModel model = new SymbolicModel(app);
 			model.setListener(this);
 			setModel(model);
@@ -1402,7 +1163,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public TooltipPanel() {
-			super("Tooltip");
+			super(app, "Tooltip");
 			TooltipModel model = new TooltipModel(app);
 			model.setListener(this);
 			setModel(model);
@@ -1413,7 +1174,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public LayerPanel() {
-			super("Layer");
+			super(app, "Layer");
 			LayerModel model = new LayerModel(app);
 			model.setListener(this);
 			setModel(model);
@@ -1429,7 +1190,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public TracePanel() {
-			super("ShowTrace");
+			super(app, "ShowTrace", PropertiesPanelD.this);
 			setModel(new TraceModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
@@ -1448,7 +1209,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public AnimatingPanel() {
-			super("Animating");
+			super(app, "Animating", PropertiesPanelD.this);
 			setModel(new AnimatingModel(app, this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -1466,7 +1227,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public CheckBoxInterpolateImage() {
-			super("Interpolate");
+			super(app, "Interpolate", PropertiesPanelD.this);
 			InterpolateImageModel model = new InterpolateImageModel(app);
 			model.setListener(this);
 			setModel(model);
@@ -1487,7 +1248,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public FixPanel() {
-			super("FixObject");
+			super(app, "FixObject", PropertiesPanelD.this);
 			setModel(new FixObjectModel(this, app));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -1507,7 +1268,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public AbsoluteScreenLocationPanel(String key,
 				BooleanOptionModel model) {
-			super(key);
+			super(app, key, PropertiesPanelD.this);
 			model.setListener(this);
 			setModel(model);
 			app.setFlowLayoutOrientation(this);
@@ -1532,7 +1293,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 */
 
 		public ListsAsComboBoxPanel() {
-			super("DrawAsDropDownList");
+			super(app, "DrawAsDropDownList", PropertiesPanelD.this);
 			setModel(new ListAsComboModel(app, this));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -1695,7 +1456,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public AllowOutlyingIntersectionsPanel() {
-			super("allowOutlyingIntersections");
+			super(app, "allowOutlyingIntersections", PropertiesPanelD.this);
 			setModel(new OutlyingIntersectionsModel(this, app));
 			app.setFlowLayoutOrientation(this);
 
@@ -1716,7 +1477,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public BackgroundImagePanel() {
-			super("BackgroundImage");
+			super(app, "BackgroundImage", PropertiesPanelD.this);
 			setModel(new BackgroundImageModel(this, app));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -1734,7 +1495,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public AuxiliaryObjectPanel() {
-			super("AuxiliaryObject");
+			super(app, "AuxiliaryObject", PropertiesPanelD.this);
 			setModel(new AuxObjectModel(this, app));
 			app.setFlowLayoutOrientation(this);
 		}
@@ -1882,7 +1643,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private ImageCornerModel model;
 
 		public ImageCornerPanel(int cornerIdx) {
-			super("CornerModel");
+			super(app, "CornerModel");
 			model = new ImageCornerModel(app);
 			model.setListener(this);
 			model.setCornerIdx(cornerIdx);
@@ -2168,7 +1929,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public CoordsPanel() {
-			super("Coordinates");
+			super(app, "Coordinates");
 			CoordsModel model = new CoordsModel(app);
 			model.setListener(this);
 			setModel(model);
@@ -2179,7 +1940,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public LineEqnPanel() {
-			super("Equation");
+			super(app, "Equation");
 			LineEqnModel model = new LineEqnModel(app);
 			model.setListener(this);
 			setModel(model);
@@ -2190,7 +1951,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public PlaneEqnPanel() {
-			super("Equation");
+			super(app, "Equation");
 			PlaneEqnModel model = new PlaneEqnModel(app);
 			model.setListener(this);
 			setModel(model);
@@ -2201,7 +1962,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 
 		public ConicEqnPanel() {
-			super("Equation");
+			super(app, "Equation");
 			ConicEqnModel model = new ConicEqnModel(app);
 			model.setListener(this);
 			setModel(model);
@@ -2210,12 +1971,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		@Override
 		public void setLabels() {
 			getLabel().setText(loc.getMenu(getTitle()));
-			if (getModel().hasGeos() && getModel().checkGeos()) {
+			if (getMultipleModel().hasGeos() && getMultipleModel().checkGeos()) {
 				int selectedIndex = comboBox.getSelectedIndex();
 				comboBox.removeActionListener(this);
 
 				comboBox.removeAllItems();
-				getModel().updateProperties();
+				getMultipleModel().updateProperties();
 				comboBox.setSelectedIndex(selectedIndex);
 				comboBox.addActionListener(this);
 			}
@@ -3504,7 +3265,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		RightAnglePanel() {
 
-			super("EmphasizeRightAngle");
+			super(app, "EmphasizeRightAngle", PropertiesPanelD.this);
 			setModel(new RightAngleModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
@@ -4484,395 +4245,4 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 			return true;
 		}
 	}
-}
-
-/**
- * panel for name of object
- * 
- * @author Markus Hohenwarter
- */
-class NamePanel extends JPanel implements ActionListener, FocusListener,
-		UpdateablePropertiesPanel, SetLabels, UpdateFonts, IObjectNameListener {
-
-	private static final long serialVersionUID = 1L;
-	/** name model */
-	ObjectNameModel model;
-	private AutoCompleteTextFieldD tfName, tfDefinition, tfCaption;
-
-	private Runnable doActionStopped = new Runnable() {
-		@Override
-		public void run() {
-			model.setBusy(false);
-		}
-	};
-	private JLabel nameLabel, defLabel, captionLabel;
-	private InputPanelD inputPanelName, inputPanelDef, inputPanelCap;
-
-	private AppD app;
-	private Localization loc;
-
-	/**
-	 * @param app
-	 *            application
-	 */
-	public NamePanel(AppD app) {
-		this.app = app;
-		this.loc = app.getLocalization();
-		model = new ObjectNameModel(app, this);
-		// NAME PANEL
-
-		// non auto complete input panel
-		inputPanelName = new InputPanelD(null, app, 1, -1, true);
-		tfName = (AutoCompleteTextFieldD) inputPanelName.getTextComponent();
-		tfName.setAutoComplete(false);
-		tfName.addActionListener(this);
-		tfName.addFocusListener(this);
-
-		// definition field: non auto complete input panel
-		inputPanelDef = new InputPanelD(null, app, 1, -1, true);
-		tfDefinition = (AutoCompleteTextFieldD) inputPanelDef
-				.getTextComponent();
-		tfDefinition.setAutoComplete(false);
-		tfDefinition.addActionListener(this);
-		tfDefinition.addFocusListener(this);
-
-		// caption field: non auto complete input panel
-		inputPanelCap = new InputPanelD(null, app, 1, -1, true);
-		tfCaption = (AutoCompleteTextFieldD) inputPanelCap.getTextComponent();
-		tfCaption.setAutoComplete(false);
-		tfCaption.addActionListener(this);
-		tfCaption.addFocusListener(this);
-
-		// name panel
-		nameLabel = new JLabel();
-		nameLabel.setLabelFor(inputPanelName);
-
-		// definition panel
-		defLabel = new JLabel();
-		defLabel.setLabelFor(inputPanelDef);
-
-		// caption panel
-		captionLabel = new JLabel();
-		captionLabel.setLabelFor(inputPanelCap);
-
-		setLabels();
-		updateGUI(true, true);
-	}
-
-	@Override
-	public void setLabels() {
-		nameLabel.setText(loc.getMenu("Name") + ":");
-		defLabel.setText(loc.getMenu("Definition") + ":");
-		captionLabel.setText(loc.getMenu("Button.Caption") + ":");
-	}
-
-	@Override
-	public void updateGUI(boolean showDefinition, boolean showCaption) {
-		int newRows = 1;
-		removeAll();
-
-		if (loc.isRightToLeftReadingOrder()) {
-			add(inputPanelName);
-			add(nameLabel);
-		} else {
-			add(nameLabel);
-			add(inputPanelName);
-		}
-
-		if (showDefinition) {
-			newRows++;
-			if (loc.isRightToLeftReadingOrder()) {
-				add(inputPanelDef);
-				add(defLabel);
-			} else {
-				add(defLabel);
-				add(inputPanelDef);
-			}
-		}
-
-		if (showCaption) {
-			newRows++;
-			if (loc.isRightToLeftReadingOrder()) {
-				add(inputPanelCap);
-				add(captionLabel);
-			} else {
-				add(captionLabel);
-				add(inputPanelCap);
-			}
-		}
-
-		app.setComponentOrientation(this);
-
-		this.rows = newRows;
-		setLayout();
-
-	}
-
-	private int rows;
-
-	private void setLayout() {
-		// Lay out the panel
-		setLayout(new SpringLayout());
-		SpringUtilities.makeCompactGrid(this, rows, 2, // rows, cols
-				5, 5, // initX, initY
-				5, 5); // xPad, yPad
-	}
-
-	/**
-	 * current geo on which focus lost shouls apply (may be different to current
-	 * geo, due to threads)
-	 */
-	private GeoElementND currentGeoForFocusLost = null;
-
-	@Override
-	public JPanel updatePanel(Object[] geos) {
-
-		/*
-		 * DON'T WORK : MAKE IT A TRY FOR 5.0 ? //apply textfields modification
-		 * on previous geo before switching to new geo //skip this if label is
-		 * not set (we re in the middle of redefinition) //skip this if action
-		 * is performing if (currentGeo!=null && currentGeo.isLabelSet() &&
-		 * !actionPerforming && (geos.length!=1 || geos[0]!=currentGeo)){
-		 * 
-		 * //App.printStacktrace("\n"+tfName.getText()+"\n"+currentGeo.getLabel(
-		 * StringTemplate.defaultTemplate));
-		 * 
-		 * String strName = tfName.getText(); if (strName !=
-		 * currentGeo.getLabel(StringTemplate.defaultTemplate))
-		 * nameInputHandler.processInput(tfName.getText());
-		 * 
-		 * 
-		 * String strDefinition = tfDefinition.getText(); if
-		 * (strDefinition.length()>0 &&
-		 * !strDefinition.equals(getDefText(currentGeo)))
-		 * defInputHandler.processInput(strDefinition);
-		 * 
-		 * String strCaption = tfCaption.getText(); if
-		 * (!strCaption.equals(currentGeo.getCaptionSimple())){
-		 * currentGeo.setCaption(tfCaption.getText());
-		 * currentGeo.updateVisualStyleRepaint(); } }
-		 */
-
-		model.setGeos(geos);
-		if (!model.checkGeos()) {
-			// currentGeo=null;
-			return null;
-		}
-
-		model.updateProperties();
-
-		return this;
-	}
-
-	private String redefinitionForFocusLost = "";
-
-	/**
-	 * @param geo
-	 *            element
-	 */
-	public void updateDef(GeoElementND geo) {
-
-		// do nothing if called by doActionPerformed
-		if (model.isBusy()) {
-			return;
-		}
-
-		tfDefinition.removeActionListener(this);
-		model.getDefInputHandler().setGeoElement(geo);
-		String text = ObjectNameModel.getDefText(geo);
-		if (app.isMacOS()) {
-			if (app.isMacOS() && text.length() > 300) {
-				text = text.substring(0, 300);
-				tfDefinition.setEditable(false);
-			} else {
-				tfDefinition.setEditable(true);
-			}
-		}
-
-		tfDefinition.setText(text);
-		tfDefinition.addActionListener(this);
-
-		// App.printStacktrace(""+geo);
-	}
-
-	/**
-	 * @param geo
-	 *            element
-	 */
-	public void updateName(GeoElement geo) {
-
-		// do nothing if called by doActionPerformed
-		if (model.isBusy()) {
-			return;
-		}
-
-		tfName.removeActionListener(this);
-		model.getNameInputHandler().setGeoElement(geo);
-		tfName.setText(geo.getLabel(StringTemplate.editTemplate));
-		tfName.addActionListener(this);
-
-		// App.printStacktrace(""+geo);
-	}
-
-	/**
-	 * handle textfield changes
-	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (model.isBusy()) {
-			return;
-		}
-
-		doActionPerformed(e.getSource());
-	}
-
-	private synchronized void doActionPerformed(Object source) {
-
-		model.setBusy(true);
-
-		if (source == tfName) {
-			// rename
-			model.applyNameChange(tfName.getText(),
-					app.getDefaultErrorHandler());
-
-		} else if (source == tfDefinition) {
-
-			model.applyDefinitionChange(tfDefinition.getText(),
-					app.getDefaultErrorHandler());
-			tfDefinition.requestFocusInWindow();
-
-		} else if (source == tfCaption) {
-			model.applyCaptionChange(tfCaption.getText());
-			if (!"".equals(tfCaption.getText())) {
-				GeoElement geo0 = model.getGeoAt(0);
-				geo0.setLabelVisible(true);
-				geo0.setLabelMode(GeoElement.LABEL_CAPTION);
-
-				OptionPanelD op = ((PropertiesViewD) app.getGuiManager()
-						.getPropertiesView())
-								.getOptionPanel(OptionType.OBJECTS);
-
-				if (op != null && op instanceof OptionsObjectD) {
-					PropertiesPanelD propPanel = ((OptionsObjectD) op)
-							.getPropPanel();
-					if (propPanel != null) {
-						propPanel.getLabelPanel().update(true, true, 0);
-					}
-				}
-
-			}
-		}
-
-		SwingUtilities.invokeLater(doActionStopped);
-	}
-
-	@Override
-	public void focusGained(FocusEvent arg0) {
-		// started to type something : store current geo if focus lost
-		currentGeoForFocusLost = model.getCurrentGeo();
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-
-		if (model.isBusy()) {
-			return;
-		}
-
-		Object source = e.getSource();
-
-		if (source == tfDefinition) {
-			// currentGeo may has changed if focus is lost by clicking another
-			// geo
-
-			if (!tfDefinition.isEditable()) {
-				return;
-			}
-
-			if (model.getCurrentGeo() == currentGeoForFocusLost) {
-				model.applyDefinitionChange(tfDefinition.getText(),
-						app.getDefaultErrorHandler());
-			} else {
-				model.redefineCurrentGeo(currentGeoForFocusLost,
-						tfDefinition.getText(), redefinitionForFocusLost,
-						app.getDefaultErrorHandler());
-			}
-
-			SwingUtilities.invokeLater(doActionStopped);
-
-		} else {
-			doActionPerformed(source);
-		}
-	}
-
-	@Override
-	public void updateFonts() {
-		Font font = app.getPlainFont();
-
-		nameLabel.setFont(font);
-		defLabel.setFont(font);
-		captionLabel.setFont(font);
-
-		inputPanelName.updateFonts();
-		inputPanelDef.updateFonts();
-		inputPanelCap.updateFonts();
-
-		setLayout();
-
-	}
-
-	@Override
-	public void updateVisualStyle(GeoElement geo) {
-		// NOTHING SHOULD BE DONE HERE (ENDLESS CALL WITH UPDATE)
-
-	}
-
-	@Override
-	public void setNameText(final String text) {
-		tfName.setText(text);
-		tfName.requestFocus();
-	}
-
-	@Override
-	public void setDefinitionText(final String text) {
-		tfDefinition.setText(text);
-	}
-
-	@Override
-	public void setCaptionText(final String text) {
-		tfCaption.setText(text);
-		tfCaption.requestFocus();
-	}
-
-	@Override
-	public void updateCaption(String text) {
-		tfCaption.removeActionListener(this);
-		tfCaption.setText(text);
-		tfCaption.addActionListener(this);
-
-	}
-
-	@Override
-	public void updateDefLabel() {
-		updateDef(model.getCurrentGeo());
-
-		if (model.getCurrentGeo().isIndependent()) {
-			defLabel.setText(loc.getMenu("Value") + ":");
-		} else {
-			defLabel.setText(loc.getMenu("Definition") + ":");
-		}
-	}
-
-	@Override
-	public void updateName(String text) {
-		tfName.removeActionListener(this);
-		tfName.setText(text);
-
-		// if a focus lost is called in between, we keep the current definition
-		// text
-		redefinitionForFocusLost = tfDefinition.getText();
-		tfName.addActionListener(this);
-
-	}
-
 }

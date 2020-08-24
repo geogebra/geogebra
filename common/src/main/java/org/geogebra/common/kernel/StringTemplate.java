@@ -1820,7 +1820,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// right wing
 			int opIDright = ExpressionNode.opID(right);
-			if (right.isLeaf() || (opIDright >= Operation.MULTIPLY.ordinal())) { // not
+			if (opIDright == Operation.DIVIDE.ordinal() && !nounary
+					&& stringType == StringType.LATEX) {
+				sb.append(rightStr);
+			} else  if (right.isLeaf() || (opIDright >= Operation.MULTIPLY.ordinal())) { // not
 				// +,
 				// -
 				boolean showMultiplicationSign = false;
@@ -1906,9 +1909,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					if (rtlMinus) {
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					}
-					sb.append(leftBracket());
-					sb.append(rightStr);
-					sb.append(rightBracket());
+					appendWithBrackets(sb, rightStr);
 					if (rtlMinus) {
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					}
@@ -2209,22 +2210,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, "<divide/>", leftStr, rightStr);
 			break;
 		case LATEX:
-			if ((leftStr.charAt(0) == '-') && (left.isLeaf()
-					|| (left instanceof ExpressionNode && ExpressionNode
-							.isMultiplyOrDivide((ExpressionNode) left)))) {
-				sb.append("-\\frac{");
-				sb.append(leftStr.substring(1));
-				sb.append("}{");
-				sb.append(rightStr);
-				sb.append("}");
-			} else {
-
-				sb.append("\\frac{");
-				sb.append(leftStr);
-				sb.append("}{");
-				sb.append(rightStr);
-				sb.append("}");
-			}
+			sb.append("\\frac{");
+			sb.append(leftStr);
+			sb.append("}{");
+			sb.append(rightStr);
+			sb.append("}");
 			break;
 		case LIBRE_OFFICE:
 			sb.append("{ ");
@@ -2267,12 +2257,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append("/");
 			appendOptionalSpace(sb);
 			// right wing
-			append(sb, rightStr, right, Operation.POWER); // not
-
-			// +,
-			// -,
-			// *,
-			// /
+			append(sb, rightStr, right, Operation.POWER); // not +, -, *, /
 		}
 		return sb.toString();
 	}

@@ -33,7 +33,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Dialog for online saving
@@ -249,16 +248,6 @@ public class SaveDialogW extends ComponentDialog implements PopupMenuHandler,
 
 	@Override
 	public void setDiscardMode() {
-		// could be useful
-	}
-
-	@Override
-	public void showAndPosition(Widget anchor) {
-		if (anchor == null) {
-			center();
-		} else {
-			showRelativeTo(anchor);
-		}
 		if (templateCheckbox != null) {
 			templateCheckbox.setVisible(false);
 		}

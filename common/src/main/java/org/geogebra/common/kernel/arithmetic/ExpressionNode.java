@@ -3612,6 +3612,10 @@ public class ExpressionNode extends ValidExpression
 			String leftS = left.isExpressionNode()
 					? left.wrap().toFractionStringFlat(tpl, locale)
 					: left.toValueString(tpl);
+			if (leftS.startsWith("-")) {
+				return "-" + tpl.divideString(left, right, leftS.substring(1),
+						right.toValueString(tpl), true, locale);
+			}
 			return tpl.divideString(left, right, leftS,
 					right.toValueString(tpl), true, locale);
 		}
@@ -3652,28 +3656,34 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Check whether denominator and numerator are both independent integers
 	 * 
-	 * @return whether is a simple fraction like 7/2 or -1/2
+	 * @return whether is a simple fraction like 7/2 or (-1)/2 or -(1/2)
 	 */
 	public boolean isSimpleFraction() {
-		if (operation == Operation.DIVIDE) {
-			ExpressionValue leftUnsigned = left.unwrap();
-			if (left.isExpressionNode()
-					&& getLeftTree().getOperation() == Operation.MULTIPLY
-					&& ExpressionNode.isConstantDouble(getLeftTree().getLeft(),
-							-1)) {
-				leftUnsigned = getLeftTree().getRight();
+		ExpressionValue unsigned = getUnsigned(this);
+		return unsigned.isExpressionNode() && ((ExpressionNode) unsigned).isUnsignedFraction();
+	}
 
-			}
+	private boolean isUnsignedFraction() {
+		if (operation == Operation.DIVIDE) {
+			ExpressionValue leftUnsigned = getUnsigned(left);
 			if (leftUnsigned instanceof MyDouble
 					&& right.unwrap() instanceof MyDouble) {
 				double lt = left.evaluateDouble();
 				double rt = right.evaluateDouble();
-				if (DoubleUtil.isInteger(lt) && DoubleUtil.isInteger(rt)) {
-					return true;
-				}
+				return DoubleUtil.isInteger(lt) && DoubleUtil.isInteger(rt);
 			}
 		}
 		return false;
+	}
+
+	private ExpressionValue getUnsigned(ExpressionValue expr) {
+		if (expr.isExpressionNode()
+				&& expr.wrap().getOperation() == Operation.MULTIPLY
+				&& ExpressionNode.isConstantDouble(expr.wrap().getLeft(),
+				-1)) {
+			return expr.wrap().getRight();
+		}
+		return expr;
 	}
 
 	/**

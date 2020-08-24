@@ -6,16 +6,15 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
-import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
@@ -754,9 +753,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("f: x = y", "x = y");
 
 		GeoSymbolic f = getSymbolic("f");
-		ObjectSettingsModel model = asList(f);
-		model.setLineThickness(7);
-		model.setLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		f.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		f.setLineThickness(8);
+		f.updateRepaint();
+
 		assertEquals(8, f.getLineThickness());
 		assertEquals(8, f.getTwinGeo().getLineThickness());
 
@@ -771,9 +771,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("A: (1, 2)", "(1, 2)");
 
 		GeoSymbolic pointA = getSymbolic("A");
-		ObjectSettingsModel model = asList(pointA);
-		model.setPointSize(7);
-		model.setPointStyle(4);
+		pointA.setPointSize(8);
+		pointA.setPointStyle(4);
+		pointA.updateRepaint();
+
 		assertEquals(8, pointA.getPointSize());
 		assertEquals(8, ((GeoPoint) pointA.getTwinGeo()).getPointSize());
 
@@ -816,16 +817,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoElement geo = app.getKernel().lookupLabel(label);
 		assertThat(geo, CoreMatchers.instanceOf(GeoSymbolic.class));
 		return (GeoSymbolic) geo;
-	}
-
-	private ObjectSettingsModel asList(GeoElement f) {
-		ArrayList<GeoElement> list = new ArrayList<>();
-		list.add(f);
-		ObjectSettingsModel model = new ObjectSettingsModel(app) {
-		};
-		model.setGeoElement(f);
-		model.setGeoElementsList(list);
-		return model;
 	}
 
 	@Test
@@ -1120,6 +1111,29 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertSameAnswer("Solve(z(z+1),z)", "Solve(z (z+1),z)");
 	}
 
+	@Test
+	public void testRemoveUndefinedCommand() {
+		t("l1=Sequence(Sequence(If(ii>j,ii),ii,1,j+1),j,1,5)",
+				"{{?, 2}, {?, ?, 3}, {?, ?, ?, 4}, {?, ?, ?, ?, 5}, {?, ?, ?, ?, ?, 6}}");
+		t("RemoveUndefined(Sequence(If(IsInteger(a^2/2),a^2,?),a,1,10))", "{4, 16, 36, 64, 100}");
+		t("Sequence(RemoveUndefined(Element(l1,ii)),ii,1,Length(l1))", "{{2}, {3}, {4}, {5}, {6}}");
+		t("RemoveUndefined({1,2,3,4,4})", "{1, 2, 3, 4, 4}");
+		t("RemoveUndefined({})", "{}");
+		t("RemoveUndefined({123456789123456789,?})", "{123456789123456789}");
+		t("RemoveUndefined({?,1,2,?,3,4,4,?,?})", "{1, 2, 3, 4, 4}");
+		t("RemoveUndefined(1)", "?");
+	}
+
+	@Test
+	public void tetIsIntegerCommand() {
+		t("IsInteger(1)", "true");
+		t("IsInteger(44/2)", "true");
+		t("IsInteger(44/3)", "false");
+		t("IsInteger(1.5)", "false");
+		t("IsInteger(pi)", "false");
+		t("IsInteger(123456789123456789.1)", "false");
+	}
+
 	private void assertSameAnswer(String input1, String input2) {
 		GeoSymbolic solve1 = add(input1);
 		GeoSymbolic solve2 = add(input2);
@@ -1163,6 +1177,23 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 
 		assertThat(Commands.Solve.getCommand(),
 				is(solveA.getDefinition().getTopLevelCommand().getName()));
+	}
+
+	@Test
+	public void testChangingSliderValue() {
+		add("Integral(x)");
+		lookup("c_1");
+		GeoElement element = add("c_1=10");
+		assertThat(element, is(CoreMatchers.<GeoElement>instanceOf(GeoNumeric.class)));
+		GeoNumeric numeric = (GeoNumeric) element;
+		assertThat(numeric.getValue(), is(closeTo(10, 0.001)));
+	}
+
+	@Test
+	public void testFunctionRedefinition() {
+		add("f(x) = x");
+		GeoSymbolic function = add("f(x) = xx");
+		assertThat(function.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoFunction.class));
 	}
 
 	@Test

@@ -67,6 +67,7 @@ public class MathFieldD extends JLabel implements MathField {
 	static {
 		metaModel = new MetaModel();
 		metaModel.enableSubstitutions();
+		metaModel.setForceBracketAfterFunction(true);
 	}
 
 	private static final long serialVersionUID = 1L;

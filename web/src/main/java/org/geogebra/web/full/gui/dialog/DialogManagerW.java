@@ -42,6 +42,7 @@ import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.full.gui.dialog.template.TemplateChooser;
 import org.geogebra.web.full.gui.properties.PropertiesViewW;
+import org.geogebra.web.full.gui.util.DoYouWantToSaveChangesDialog;
 import org.geogebra.web.full.gui.util.SaveDialogI;
 import org.geogebra.web.full.gui.util.SaveDialogMow;
 import org.geogebra.web.full.gui.util.SaveDialogW;
@@ -419,16 +420,27 @@ public class DialogManagerW extends DialogManager
 	}
 
 	/**
+	 * @param doYouWantSaveChanges true if doYooWantToSaveYourChangesDialog
+	 * 		should be shown
+	 * @param addTempCheckBox
+	 * 	    true if checkbox should be visible
 	 * @return {@link SaveDialogI}
 	 */
-	public SaveDialogI getSaveDialog() {
-		if (saveDialog == null) {
-			if (app.isMebis()) {
-				saveDialog = new SaveDialogMow((AppW) app);
-			} else {
-				DialogData data = new DialogData("Save", "DontSave", "Save");
-				saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
-			}
+	public SaveDialogI getSaveDialog(boolean doYouWantSaveChanges, boolean addTempCheckBox) {
+		if (app.isMebis()) {
+			DialogData data = doYouWantSaveChanges
+					? new DialogData("DoYouWantToSaveYourChanges",
+					"Discard", "Save")
+					:  new DialogData("Save",
+					"Cancel", "Save");
+
+			saveDialog = doYouWantSaveChanges
+					? new DoYouWantToSaveChangesDialog((AppW) app, data)
+					: new SaveDialogMow((AppW) app, data, addTempCheckBox);
+		} else if (saveDialog == null) {
+			DialogData data = new DialogData("Save", "DontSave", "Save");
+			saveDialog = new SaveDialogW((AppW) app, data, widgetFactory);
+
 		}
 		// set default saveType
 		saveDialog.setSaveType(
@@ -440,7 +452,7 @@ public class DialogManagerW extends DialogManager
 	 * shows the {@link SaveDialogW} centered on the screen
 	 */
 	public void showSaveDialog() {
-		getSaveDialog().show();
+		getSaveDialog(false, true).show();
 	}
 
 	@Override

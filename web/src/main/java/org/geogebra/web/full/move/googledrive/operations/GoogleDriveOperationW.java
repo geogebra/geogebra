@@ -494,7 +494,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	@ExternalAccess
 	private void showUploadError() {
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
 		((DialogManagerW) app.getDialogManager()).showAlertDialog(app
 		        .getLocalization().getMenu("GoogleDriveSaveProblem"));
 	}
@@ -503,7 +503,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private void updateAfterGoogleDriveSave(String id, String fileName,
 			String description, boolean isggb) {
 		app.getSaveController().runAfterSaveCallback(true);
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
 		SaveCallback.onSaved(app, SaveState.OK, !isggb);
 		if (isggb) {
 			refreshCurrentFileDescriptors(fileName, description);

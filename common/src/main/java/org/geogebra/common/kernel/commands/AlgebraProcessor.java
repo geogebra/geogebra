@@ -449,7 +449,14 @@ public class AlgebraProcessor {
 			AsyncOperation<GeoElementND> callback, ErrorHandler handler) {
 
 		try {
-			ValidExpression ve = parser.parseGeoGebraExpression(newValue);
+			ValidExpression ve;
+
+			if (info.isMultipleUnassignedAllowed()) {
+				ve = parser.parseInputBoxExpression(newValue);
+			} else {
+				ve = parser.parseGeoGebraExpression(newValue);
+			}
+
 			if ("X".equals(ve.getLabel())) {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
@@ -1947,6 +1954,8 @@ public class AlgebraProcessor {
             cons.setSuppressLabelCreation(true);
 			if (replaceable.isGeoVector()) {
 				expression = getTraversedCopy(labels, expression);
+			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
+				evalInfo = evalInfo.withSymbolicMode(SymbolicMode.NONE);
 			}
         }
 
@@ -3278,11 +3287,7 @@ public class AlgebraProcessor {
 	public FunctionNVar makeFunctionNVar(ExpressionNode n) {
 		FunctionVarCollector fvc = FunctionVarCollector.getCollector();
 		n.traverse(fvc);
-		FunctionVariable[] fvArray = fvc.buildVariables(kernel);
-		if (fvArray.length == 1) {
-			return new Function(n, fvArray);
-		}
-		return new FunctionNVar(n, fvArray);
+		return kernel.getArithmeticFactory().newFunction(n, fvc.buildVariables(kernel));
 	}
 
 	/**
@@ -3802,7 +3807,8 @@ public class AlgebraProcessor {
 	 */
 	public String getSyntax(String cmdInt, Settings settings) {
 		if (localizedCommandSyntax == null) {
-			localizedCommandSyntax = new LocalizedCommandSyntax(loc);
+			localizedCommandSyntax =
+					new LocalizedCommandSyntax(loc, app.getConfig().newCommandSyntaxFilter());
 		}
 		return getSyntax(localizedCommandSyntax, cmdInt, settings);
 	}
@@ -3816,7 +3822,8 @@ public class AlgebraProcessor {
 	 */
 	public String getEnglishSyntax(String cmdInt, Settings settings) {
 		if (englishCommandSyntax == null) {
-			englishCommandSyntax = new EnglishCommandSyntax(loc);
+			englishCommandSyntax =
+					new EnglishCommandSyntax(loc, app.getConfig().newCommandSyntaxFilter());
 		}
 		return getSyntax(englishCommandSyntax, cmdInt, settings);
 	}

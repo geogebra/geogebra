@@ -2,8 +2,8 @@ package org.geogebra.common.properties.impl.graphics;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
-import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.impl.AbstractProperty;
 
 public class PlaneVisibilityProperty extends AbstractProperty implements BooleanProperty {
 

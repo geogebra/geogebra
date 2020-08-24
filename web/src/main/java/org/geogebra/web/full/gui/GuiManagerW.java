@@ -24,6 +24,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
@@ -2228,7 +2229,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void switchToolsToAV() {
 		getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)
-				.setToolMode(false);
+				.setTabId(DockPanelData.TabIds.ALGEBRA);
 	}
 
 	/**

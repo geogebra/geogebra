@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.undoredo.UndoInfoStoredListener;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.main.EmbedManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -74,6 +75,15 @@ public class CalcEmbedElement extends EmbedElement {
 		ScriptManagerW sm = (ScriptManagerW) frame.getApp()
 				.getScriptManager();
 		return sm.getApi();
+	}
+
+	@Override
+	public void setJsEnabled(boolean jsEnabled) {
+		frame.getApp().getScriptManager().setJsEnabled(jsEnabled);
+		GuiManagerW guiManager = frame.getApp().getGuiManager();
+		if (guiManager != null) {
+			guiManager.updatePropertiesView();
+		}
 	}
 
 	private static class UndoRedoGlue implements UndoInfoStoredListener {

@@ -2,8 +2,8 @@ package org.geogebra.common.kernel.statistics;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-
-import java.util.ArrayList;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
@@ -11,11 +11,12 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
-import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.properties.impl.objects.EquationFormProperty;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.junit.Assert;
 import org.junit.Test;
@@ -188,9 +189,8 @@ public class FitTests extends BaseUnitTest {
         GeoElement[] geos = getFitLineGeoElements();
 
         for (GeoElement geo : geos) {
-            ObjectSettingsModel objectSettingsModel = asList(geo);
-
-            Assert.assertFalse(objectSettingsModel.hasEquationModeSetting());
+            assertThrows(NotApplicablePropertyException.class,
+                    () -> new EquationFormProperty(getLocalization(), geo));
             Assert.assertTrue(LineEqnModel.forceInputForm(getApp(), geo));
         }
     }
@@ -202,11 +202,13 @@ public class FitTests extends BaseUnitTest {
 
         GeoElement[] geos = getFitLineGeoElements();
 
-        for (GeoElement geo : geos) {
-            ObjectSettingsModel objectSettingsModel = asList(geo);
-
-            Assert.assertTrue(objectSettingsModel.hasEquationModeSetting());
-            Assert.assertFalse(LineEqnModel.forceInputForm(getApp(), geo));
+        try {
+            for (GeoElement geo : geos) {
+                Assert.assertFalse(LineEqnModel.forceInputForm(getApp(), geo));
+                new EquationFormProperty(getLocalization(), geo);
+            }
+        } catch (NotApplicablePropertyException e) {
+            fail(e.getMessage());
         }
     }
 
@@ -235,15 +237,5 @@ public class FitTests extends BaseUnitTest {
         GeoLine fitLineX = (GeoLine) factory.create("FitLineX({(-1,3),(2,1),(3,4),(5,3),(6,5)})");
 
         return new GeoElement[]{fitLine, fitLineX};
-    }
-
-    private ObjectSettingsModel asList(GeoElement f) {
-        ArrayList<GeoElement> list = new ArrayList<>();
-        list.add(f);
-        ObjectSettingsModel model = new ObjectSettingsModel(getApp()) {
-        };
-        model.setGeoElement(f);
-        model.setGeoElementsList(list);
-        return model;
     }
 }
