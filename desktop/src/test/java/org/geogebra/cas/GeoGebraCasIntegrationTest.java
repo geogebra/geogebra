@@ -1829,10 +1829,10 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
 		t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
 				"(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)");
-		t("Element[Tangent[P, c],1]", "y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2");
+		t("First[Tangent[P, c]]", "{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2}");
 		// this is always numeric, the 13th digit changed multiple times with new Giac
-		t("Numeric(Element[Tangent[P, c],2],12)",	"y = 5.55821394864 * x - 0.026806742873",
-				"y = 5.55821394864 * x - 0.0268067428731");
+		t("Numeric(Last[Tangent[P, c]],12)",	"{y = 5.55821394864 * x - 0.026806742873}",
+				"{y = 5.55821394864 * x - 0.0268067428731}");
 	}
 
 	/* Variable not specified */

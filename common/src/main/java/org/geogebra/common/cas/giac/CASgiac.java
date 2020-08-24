@@ -141,8 +141,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * LeftSide({a,b}={1,2})
 		 */
 		GGB_IS_EQUALS("ggb_is_equals", "ggb_is_equals(a):=when(a=='='||a=='%=',true,false)"),
-		/** Element of a list or structure */
-		GGB_ELEMENT("ggb_element", "ggb_element(l,idx):=when(idx>0&&idx<=size(l),(l)[idx-when(type(l)==DOM_LIST,1,0)],?)"),
+
 		/**
 		 * test if "=" or "%=" or ">" or ">=" - needed for eg
 		 * LeftSide({a,b}={1,2})

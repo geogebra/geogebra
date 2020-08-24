@@ -1,11 +1,16 @@
 package org.geogebra.cas;
 
+import static org.junit.Assume.assumeTrue;
+
+import org.geogebra.desktop.main.AppD;
+
 import org.junit.Test;
 
 public class CASRegressionTest extends BaseCASIntegrationTest {
 
 	@Test
 	public void ticket_TRAC_2343() {
+		assumeTrue(AppD.WINDOWS);
 		// https://jira.geogebra.org/browse/TRAC-2343
 		setupCas();
 		t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
