@@ -517,4 +517,8 @@ public interface ArticleElementInterface {
 	 * @return parameter for switching text/equation mode of the editor, for evaluator app only
 	 */
 	boolean getParamTextMode();
+
+	String getDataParamEditorBackgroundColor();
+
+	String getDataParamEditorForegroundColor();
 }

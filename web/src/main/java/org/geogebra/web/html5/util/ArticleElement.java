@@ -852,4 +852,14 @@ public final class ArticleElement extends Element implements ArticleElementInter
 	public boolean getParamTextMode() {
 		return getBoolDataParam("textMode", false);
 	}
+
+	@Override
+	public String getDataParamEditorBackgroundColor() {
+		return getStringDataParam("editorBackgroundColor", "white");
+	}
+
+	@Override
+	public String getDataParamEditorForegroundColor() {
+		return getStringDataParam("editorForegroundColor", "black");
+	}
 }

@@ -481,4 +481,14 @@ public class TestArticleElement implements ArticleElementInterface {
 	public boolean getParamTextMode() {
 		return "true".equals(attributes.get("textMode"));
 	}
+
+	@Override
+	public String getDataParamEditorBackgroundColor() {
+		return null;
+	}
+
+	@Override
+	public String getDataParamEditorForegroundColor() {
+		return null;
+	}
 }
