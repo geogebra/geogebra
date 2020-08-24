@@ -45,8 +45,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -593,16 +591,12 @@ public abstract class DockPanelW extends ResizeComposite
 		if (getViewId() == App.VIEW_EUCLIDIAN) {
 			focusableWidget.attachTo(app);
 		}
-		FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
 
-			@Override
-			public void onClick(Widget source) {
-				app.getAccessibilityManager().setAnchor(focusableWidget);
-				onGraphicsSettingsPressed();
-			}
+		graphicsContextMenuBtn.addFastClickHandler(source -> {
+			app.getAccessibilityManager().setAnchor(focusableWidget);
+			onGraphicsSettingsPressed();
+		});
 
-		};
-		graphicsContextMenuBtn.addFastClickHandler(graphicsContextMenuHandler);
 		graphicsContextMenuBtn.addStyleName("flatButton");
 		graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
 				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
@@ -623,26 +617,21 @@ public abstract class DockPanelW extends ResizeComposite
 				&& app.getAppletFrame() instanceof GeoGebraFrameFull) {
 			((GeoGebraFrameFull) app.getAppletFrame()).deselectDragBtn();
 		}
-		int x = graphicsContextMenuBtn.getAbsoluteLeft();
-		final int y = 8;
-		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
-				app, x, y, false);
-		final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();
-		popup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-			@Override
-			public void setPosition(int offsetWidth, int offsetHeight) {
-				popup.setPopupPosition((int) app.getWidth() - offsetWidth, y);
-				contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
-			}
-		});
-		popup.addCloseHandler(new CloseHandler<GPopupPanel>() {
+		final int padding = 16;
 
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				if (event.isAutoClosed()) {
-					app.getEuclidianView1().getEuclidianController()
-							.setPopupJustClosed(true);
-				}
+		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
+				app, 0, 0, false);
+
+		final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();
+		popup.setPopupPositionAndShow((offsetWidth, offsetHeight) -> {
+			popup.setPopupPosition((int) app.getWidth() - offsetWidth - padding, padding);
+			contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
+		});
+
+		popup.addCloseHandler(event -> {
+			if (event.isAutoClosed()) {
+				app.getEuclidianView1().getEuclidianController()
+						.setPopupJustClosed(true);
 			}
 		});
 	}
