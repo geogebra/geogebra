@@ -3287,11 +3287,7 @@ public class AlgebraProcessor {
 	public FunctionNVar makeFunctionNVar(ExpressionNode n) {
 		FunctionVarCollector fvc = FunctionVarCollector.getCollector();
 		n.traverse(fvc);
-		FunctionVariable[] fvArray = fvc.buildVariables(kernel);
-		if (fvArray.length == 1) {
-			return new Function(n, fvArray);
-		}
-		return new FunctionNVar(n, fvArray);
+		return kernel.getArithmeticFactory().newFunction(n, fvc.buildVariables(kernel));
 	}
 
 	/**

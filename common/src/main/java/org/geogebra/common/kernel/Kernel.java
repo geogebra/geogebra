@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.algos.AlgoPointVector;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DependentAlgo;
+import org.geogebra.common.kernel.arithmetic.ArithmeticFactory;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
@@ -339,6 +340,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	/** 3D manager */
 	private Manager3DInterface manager3D;
 	private AlgoDispatcher algoDispatcher;
+	private final ArithmeticFactory arithmeticFactory;
 	private final GeoFactory geoFactory;
 
 	private GeoVec2D imaginaryUnit;
@@ -420,8 +422,9 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	protected Kernel(GeoFactory factory) {
 		nf = FormatFactory.getPrototype().getNumberFormat(2);
 		sf = FormatFactory.getPrototype().getScientificFormat(5, 16, false);
-		this.deleteList = new ArrayList<>();
-		this.geoFactory = factory;
+		deleteList = new ArrayList<>();
+		geoFactory = factory;
+		arithmeticFactory = new ArithmeticFactory();
 		scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar(this);
 	}
 
@@ -5285,6 +5288,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	public GeoImplicit newImplicitPoly(Construction cons2) {
 		return geoFactory.newImplicitPoly(cons2);
+	}
+
+	public ArithmeticFactory getArithmeticFactory() {
+		return arithmeticFactory;
 	}
 
 	/**
