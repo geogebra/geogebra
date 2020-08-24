@@ -133,7 +133,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 
 	@Override
 	public void setStartPoint(GeoPointND p, int number) {
-		startPoint = p;
+		setStartPoint(p);
 	}
 
 	@Override
@@ -467,11 +467,7 @@ public class GeoButton extends GeoElement implements TextProperties, Locateable,
 			XMLBuilder.dimension(sb, Integer.toString(getWidth()), Integer.toString(getHeight()));
 		}
 		if (!isAbsoluteScreenLocActive()) {
-			sb.append("\t<startPoint x=\"");
-			sb.append(getRealWorldLocX());
-			sb.append("\" y=\"");
-			sb.append(getRealWorldLocY());
-			sb.append("\" z=\"1\"/>");
+			startPoint.appendStartPointXML(sb);
 		}
 	}
 

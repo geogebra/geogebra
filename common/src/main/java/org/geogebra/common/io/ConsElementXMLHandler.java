@@ -2298,11 +2298,9 @@ public class ConsElementXMLHandler {
 
 	private void processStartPointList() {
 		try {
-			Iterator<LocateableExpPair> it = startPointList.iterator();
 			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
 
-			while (it.hasNext()) {
-				LocateableExpPair pair = it.next();
+			for (LocateableExpPair pair : startPointList) {
 				GeoPointND P = pair.point != null ? pair.point
 						: algProc.evaluateToPoint(pair.exp,
 								ErrorHelper.silent(), true);
