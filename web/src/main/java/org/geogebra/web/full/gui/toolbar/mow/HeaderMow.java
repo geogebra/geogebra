@@ -109,6 +109,10 @@ public class HeaderMow extends FlowPanel
 			
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				if (ClickStartHandler.isInvalidTouchEvent(openCloseBtn, x, y, type)) {
+					return;
+				}
+
 				onOpenClose();
 			}
 		});

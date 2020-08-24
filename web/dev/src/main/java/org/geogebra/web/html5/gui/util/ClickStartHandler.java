@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -164,5 +165,29 @@ public abstract class ClickStartHandler {
 				// just for preventDefault and stopPropagation.
 			}
 		});
+	}
+
+	/**
+	 * Determines that if a touch event happened, it hit the widget.
+	 *
+	 * @param w
+	 * 			  widget to examine.
+	 * @param x
+	 *            x-coordinate of the event
+	 * @param y
+	 *            y-coordinate of the event
+	 * @param type
+	 *            type of the event
+	 * @return whether it is an invalid touch-
+	 */
+	public static boolean isInvalidTouchEvent(Widget w, int x, int y, PointerEventType type) {
+		if (type != PointerEventType.TOUCH) {
+			return false;
+ 		}
+
+		Element element = w.getElement();
+		boolean hit = x > element.getAbsoluteLeft() && x < element.getAbsoluteRight()
+				&& y > element.getAbsoluteTop() && y < element.getAbsoluteBottom();
+		return !hit;
 	}
 }
