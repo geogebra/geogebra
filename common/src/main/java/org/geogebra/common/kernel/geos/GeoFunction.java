@@ -2333,7 +2333,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (str == null || str.length() == 0) {
 			return true;
 		}
-		if ("?".equals(str) || "{?}".equals(str)) {
+		if (isUndefined(str)) {
 			return true; // undefined/NaN
 		}
 		// if (str.indexOf("%i") > -1 ) return true; // complex answer
@@ -2345,6 +2345,18 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param str
+	 *            CAS output
+	 * @return whether output is undefined
+	 */
+	static boolean isUndefined(String str) {
+		if (str == null || str.length() == 0) {
+			return true;
+		}
+		return "?".equals(str) || "{?}".equals(str);
 	}
 
 	/**

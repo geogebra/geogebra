@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -178,8 +179,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
-		String s = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(casInput.wrap(),
-				getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
+		String s = evaluateGeoGebraCAS(casInput.wrap());
+		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
+			casInput.setName(Commands.NSolve.name());
+			s = evaluateGeoGebraCAS(casInput.wrap());
+		}
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 
@@ -188,6 +192,11 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 		isTwinUpToDate = false;
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
+	}
+
+	private String evaluateGeoGebraCAS(ValidExpression exp) {
+		return kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
+				exp, getArbitraryConstant(), StringTemplate.prefixedDefault, null, kernel);
 	}
 
 	private boolean shouldBeEuclidianVisible(Command input) {
