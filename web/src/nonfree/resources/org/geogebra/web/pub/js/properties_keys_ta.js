@@ -1002,7 +1002,7 @@ __GGB__keysVar["ta"].command = {
     "Tetrahedron": "Tetrahedron",
     "Tetrahedron.Syntax": "[ <Equilateral Triangle> ]\n[ <Point>, <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
     "Text": "\u0b89\u0bb0\u0bc8",
-    "Text.Syntax": "[ <Object> ]\n[ <Object>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula> ]",
+    "Text.Syntax": "[ <Object> ]\n[ <Object>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula> ]\n[<Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula>, <Horizontal alignment [-1|0|1]>]\n[<Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula>, <Horizontal alignment [-1|0|1]>, <Vertical alignment [-1|0|1]>]",
     "TextToUnicode": "\u0b92\u0bb0\u0bc1\u0b99\u0bcd\u0b95\u0bc1\u0b95\u0bc1\u0bb1\u0bbf\u0b95\u0bcd\u0b95\u0bbe\u0ba9\u0b89\u0bb0\u0bc8\u0bb5\u0b9f\u0bbf\u0bb5\u0bae\u0bcd",
     "TextToUnicode.Syntax": "[ \"<\u0b89\u0bb0\u0bc8>\" ]",
     "Textfield": "InputBox",

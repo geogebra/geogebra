@@ -1002,7 +1002,7 @@ __GGB__keysVar["ug"].command = {
     "Tetrahedron": "\u0645\u06c7\u0646\u062a\u0649\u0632\u0649\u0645\u060c\u062a\u06c6\u062a\u060c\u064a\u0627\u0642\u0644\u0649\u0642",
     "Tetrahedron.Syntax": "[ <\u0646\u06c7\u0642\u062a\u0627>, <\u0646\u06c7\u0642\u062a\u0627> ]\n[ <\u0646\u06c7\u0642\u062a\u0627>, <\u0646\u06c7\u0642\u062a\u0627>, <\u064a\u06c6\u0646\u0649\u0644\u0649\u0634 \u06cb\u06d0\u0643\u062a\u0648\u0631> ]",
     "Text": "Text",
-    "Text.Syntax": "[ <Object> ]\n[ <Object>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula> ]",
+    "Text.Syntax": "[ <Object> ]\n[ <Object>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula> ]\n[<Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula>, <Horizontal alignment [-1|0|1]>]\n[<Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula>, <Horizontal alignment [-1|0|1]>, <Vertical alignment [-1|0|1]>]",
     "TextToUnicode": "TextToUnicode",
     "TextToUnicode.Syntax": "[ \"<Text>\" ]",
     "Textfield": "InputBox",

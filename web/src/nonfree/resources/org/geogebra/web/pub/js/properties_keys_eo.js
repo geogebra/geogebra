@@ -1002,7 +1002,7 @@ __GGB__keysVar["eo"].command = {
     "Tetrahedron": "Kvaredro",
     "Tetrahedron.Syntax": "[ <Punkto>, <Punkto> ]\n[ <Punkto>, <Punkto>, <Direkcio> ]",
     "Text": "Teksto",
-    "Text.Syntax": "[ <Object> ]\n[ <Object>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula> ]",
+    "Text.Syntax": "[ <Object> ]\n[ <Object>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables> ]\n[ <Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula> ]\n[<Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula>, <Horizontal alignment [-1|0|1]>]\n[<Object>, <Point>, <Boolean for Substitution of Variables>, <Boolean for LaTeX formula>, <Horizontal alignment [-1|0|1]>, <Vertical alignment [-1|0|1]>]",
     "TextToUnicode": "TekstoAlUnikodo",
     "TextToUnicode.Syntax": "[ \"<Teksto>\" ]",
     "Textfield": "EnigaSkatolo",
