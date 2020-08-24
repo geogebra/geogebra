@@ -743,7 +743,7 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void cmdInfiniteCylinder() {
+	public void cmdCylinderInfinite() {
 		tRound("InfiniteCylinder[(1,1),(1,1,2),1]",
 				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"));
 		tRound("InfiniteCylinder[(1,1),Vector[(0,0,2)],1]",
@@ -752,7 +752,7 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void cmdInfiniteCone() {
+	public void cmdConeInfinite() {
 		tRound("InfiniteCone[(1,1),(1,1,2),45deg]",
 				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"));
 		tRound("InfiniteCone[(1,1),Vector[(0,0,2)],45deg]",
