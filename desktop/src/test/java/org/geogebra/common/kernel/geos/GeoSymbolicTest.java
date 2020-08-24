@@ -11,6 +11,7 @@ import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collections;
@@ -1194,5 +1195,14 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("f(x) = x");
 		GeoSymbolic function = add("f(x) = xx");
 		assertThat(function.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoFunction.class));
+	}
+
+	@Test
+	public void testSolveNotReturnUndefined() {
+		add("eq1: (x^2)(e^x)= 5");
+		GeoSymbolic function = add("Solve(eq1, x)");
+		assertNotEquals(function.getValue().toString(StringTemplate.defaultTemplate), "{?}");
+		assertThat(function.getValue().toString(StringTemplate.defaultTemplate),
+				equalTo("{x = 1.2168714889}"));
 	}
 }
