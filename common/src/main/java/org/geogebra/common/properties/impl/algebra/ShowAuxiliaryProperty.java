@@ -2,8 +2,8 @@ package org.geogebra.common.properties.impl.algebra;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.AbstractProperty;
 import org.geogebra.common.properties.BooleanProperty;
+import org.geogebra.common.properties.impl.AbstractProperty;
 
 /**
  * Show auxiliary objects property.

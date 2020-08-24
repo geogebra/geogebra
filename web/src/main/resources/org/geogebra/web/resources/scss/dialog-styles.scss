@@ -1230,8 +1230,15 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
   		}
 	}
 
- 	.MaterialDialogBox.saveDialogMow {
+ 	.dialogComponent.saveDialogMow {
 		@extend .dialogComponent.mediaDialog;
+
+		max-width: 448px;
+		max-height: 188px;
+
+		&.templateSave {
+			max-height: 236px;
+		}
 
 		.mowInputPanelContent {
 				.AutoCompleteTextFieldW {

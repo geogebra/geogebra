@@ -1,13 +1,15 @@
 package org.geogebra.common.kernel.geos;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.GeoElementFactory;
 import org.geogebra.common.gui.dialog.options.model.LineEqnModel;
-import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.properties.impl.objects.EquationFormProperty;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -101,10 +103,9 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoElement[] geos = new GeoElement[]{geoLine, parabola, hyperbola, ray};
 
 		for (GeoElement geo : geos) {
-			ObjectSettingsModel objectSettingsModel = asList(geo);
-
-			Assert.assertFalse(objectSettingsModel.hasEquationModeSetting());
 			Assert.assertTrue(LineEqnModel.forceInputForm(getApp(), geo));
+			assertThrows(NotApplicablePropertyException.class,
+					() -> new EquationFormProperty(getLocalization(), geo));
 		}
 	}
 
@@ -119,26 +120,17 @@ public class ForceInputFormTest extends BaseUnitTest {
 		GeoConic parabola = (GeoConic) factory.create("y=xx");
 		GeoConic hyperbola = (GeoConic) factory.create("yy-xx=1");
 
-		ObjectSettingsModel objectSettingsModel = asList(geoLine);
-		Assert.assertTrue(objectSettingsModel.hasEquationModeSetting());
-
-		objectSettingsModel = asList(ray);
-		Assert.assertTrue(objectSettingsModel.hasEquationModeSetting());
-
 		GeoElement[] geos = new GeoElement[]{geoLine, ray, parabola, hyperbola};
 
 		for (GeoElement geo : geos) {
 			Assert.assertFalse(LineEqnModel.forceInputForm(getApp(), geo));
 		}
-	}
 
-    private ObjectSettingsModel asList(GeoElement f) {
-        ArrayList<GeoElement> list = new ArrayList<>();
-        list.add(f);
-        ObjectSettingsModel model = new ObjectSettingsModel(getApp()) {
-        };
-        model.setGeoElement(f);
-        model.setGeoElementsList(list);
-        return model;
-    }
+		try {
+			new EquationFormProperty(getLocalization(), geoLine);
+			new EquationFormProperty(getLocalization(), ray);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
+	}
 }

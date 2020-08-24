@@ -23,7 +23,21 @@ final public class DockPanelData {
 	private String toolbarString;
 	private int embeddedSize;
 	private String plane;
-	private boolean toolMode;
+	private TabIds tabId = TabIds.ALGEBRA;
+
+	/**
+	 * Tab ids.
+	 */
+	public enum TabIds {
+		/** tab one */
+		ALGEBRA,
+
+		/** tab two */
+		TOOLS,
+
+		/** tab three */
+		TABLE
+	}
 
 	/**
 	 * @param viewId
@@ -271,6 +285,10 @@ final public class DockPanelData {
 		sb.append(getEmbeddedDef());
 		sb.append("\" size=\"");
 		sb.append(getEmbeddedSize());
+		if (viewId == App.VIEW_ALGEBRA) {
+			sb.append("\" tab=\"");
+			sb.append(tabId.name());
+		}
 		sb.append("\" window=\"");
 		sb.append((int) getFrameBounds().getX());
 		sb.append(",");
@@ -343,19 +361,19 @@ final public class DockPanelData {
 	}
 
 	/**
-	 * @param toolMode
-	 *            whether this should be open as toolbar
+	 * @param tabId
+	 *            active tab ID
 	 * @return this
 	 */
-	public DockPanelData setToolMode(boolean toolMode) {
-		this.toolMode = toolMode;
+	public DockPanelData setTabId(TabIds tabId) {
+		this.tabId = tabId;
 		return this;
 	}
 
 	/**
 	 * @return whether this is open as toolbar
 	 */
-	public boolean isToolMode() {
-		return toolMode;
+	public TabIds getTabId() {
+		return tabId;
 	}
 }

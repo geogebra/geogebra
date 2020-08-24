@@ -1450,4 +1450,14 @@ public class CAStestJSON {
 	public void testInequalityOperation() {
 		testCat("InequalityOperation");
 	}
+
+	@Test
+	public void testRemoveUndefined() {
+		testCat("RemoveUndefined.1");
+	}
+
+	@Test
+	public void testIsInteger() {
+		testCat("IsInteger.1");
+	}
 }

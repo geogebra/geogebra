@@ -1,12 +1,12 @@
 package org.geogebra.common.properties.factory;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.GraphicsPropertiesList;
-import org.geogebra.common.properties.PropertiesList;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.properties.impl.algebra.AlgebraDescriptionProperty;
 import org.geogebra.common.properties.impl.algebra.ShowAuxiliaryProperty;
 import org.geogebra.common.properties.impl.algebra.SortByProperty;
@@ -16,6 +16,13 @@ import org.geogebra.common.properties.impl.general.FontSizeProperty;
 import org.geogebra.common.properties.impl.general.LabelingProperty;
 import org.geogebra.common.properties.impl.general.LanguageProperty;
 import org.geogebra.common.properties.impl.general.RoundingProperty;
+import org.geogebra.common.properties.impl.graphics.AxesVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.DistancePropertyCollection;
+import org.geogebra.common.properties.impl.graphics.GraphicsPositionProperty;
+import org.geogebra.common.properties.impl.graphics.GridStyleProperty;
+import org.geogebra.common.properties.impl.graphics.GridVisibilityProperty;
+import org.geogebra.common.properties.impl.graphics.LabelsPropertyCollection;
+import org.geogebra.common.properties.impl.graphics.PointCapturingProperty;
 
 /**
  * Creates properties for the GeoGebra application.
@@ -31,12 +38,13 @@ public class BasePropertiesFactory implements PropertiesFactory {
      * @return an array of general properties
      */
     @Override
-    public PropertiesList createGeneralProperties(
+    public PropertiesArray createGeneralProperties(
             App app, Localization localization,
             LanguageProperty.OnLanguageSetCallback onLanguageSetCallback) {
         Kernel kernel = app.getKernel();
-
-        return new PropertiesList(new RoundingProperty(app, localization),
+        String name = localization.getMenu("General");
+        return new PropertiesArray(name,
+                new RoundingProperty(app, localization),
                 new AngleUnitProperty(kernel, localization),
                 new LabelingProperty(app, localization),
                 new CoordinatesProperty(kernel, localization),
@@ -52,17 +60,18 @@ public class BasePropertiesFactory implements PropertiesFactory {
      * @return an array of algebra specific properties
      */
 	@Override
-    public PropertiesList createAlgebraProperties(App app, Localization localization) {
+    public PropertiesArray createAlgebraProperties(App app, Localization localization) {
         AlgebraView algebraView = app.getAlgebraView();
         Kernel kernel = app.getKernel();
+        String name = localization.getMenu("Algebra");
         if (app.has(Feature.MOB_PROPERTY_SORT_BY)) {
-			return new PropertiesList(
+			return new PropertiesArray(name,
 					new AlgebraDescriptionProperty(kernel, localization),
 					new SortByProperty(algebraView, localization),
 					new ShowAuxiliaryProperty(app, localization)
 			);
 		} else {
-			return new PropertiesList(
+			return new PropertiesArray(name,
 					new AlgebraDescriptionProperty(kernel, localization),
 					new ShowAuxiliaryProperty(app, localization));
 		}
@@ -76,7 +85,18 @@ public class BasePropertiesFactory implements PropertiesFactory {
      * @return an array of graphics specific properties
      */
 	@Override
-    public PropertiesList createGraphicsProperties(App app, Localization localization) {
-        return new GraphicsPropertiesList(app, localization);
+    public PropertiesArray createGraphicsProperties(App app, Localization localization) {
+        EuclidianView activeView = app.getActiveEuclidianView();
+        EuclidianSettings euclidianSettings = activeView.getSettings();
+        return new PropertiesArray(
+                localization.getMenu("DrawingPad"),
+                new GraphicsPositionProperty(app),
+                new AxesVisibilityProperty(localization, euclidianSettings),
+                new GridVisibilityProperty(localization, euclidianSettings),
+                new GridStyleProperty(localization, euclidianSettings),
+                new PointCapturingProperty(app, localization),
+                new DistancePropertyCollection(app, localization, euclidianSettings),
+                new LabelsPropertyCollection(localization, euclidianSettings)
+        );
     }
 }

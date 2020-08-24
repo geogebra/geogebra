@@ -1535,10 +1535,10 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/**
-	 * @param toolMode
-	 *            whether unbundled toolbar is shown in this panel
+	 * @param tabId
+	 *            active tab in the panel
 	 */
-	public void setToolMode(boolean toolMode) {
+	public void setTabId(DockPanelData.TabIds tabId) {
 		// do nothing by default
 	}
 

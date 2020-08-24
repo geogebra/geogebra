@@ -1524,6 +1524,8 @@ __GGB__keysVar["da"].menu = {
     "ConstructionProtocolNavigation": "Navigationslinje for konstruktionstrin",
     "ContextMenu.BringForward": "Flyt fremad",
     "ContextMenu.BringToFront": "Flyt fremad",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Skrifttype",
     "ContextMenu.Group": "Gruppe",
     "ContextMenu.SendBackward": "Flyt bagud",

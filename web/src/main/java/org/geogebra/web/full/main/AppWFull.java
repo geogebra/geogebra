@@ -529,7 +529,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public final void checkSaved(AsyncOperation<Boolean> runnable) {
-		getSaveController().showDialogIfNeeded(runnable);
+		getSaveController().showDialogIfNeeded(runnable, true);
 	}
 
 	@Override
@@ -1584,6 +1584,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (!isUnbundled() || isStartedWithFile()) {
 			getGuiManager().getLayout().setPerspectives(getTmpPerspectives(),
 					p);
+		} else {
+			getGuiManager().getLayout().getDockManager().setActiveTab(getTmpPerspective(p));
 		}
 		if (isUnbundled() && isPortrait()) {
 			getGuiManager().getLayout().getDockManager().adjustViews(true);

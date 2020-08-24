@@ -1524,6 +1524,8 @@ __GGB__keysVar["pl"].menu = {
     "ConstructionProtocolNavigation": "Pasek nawigacji etap\xf3w konstrukcji",
     "ContextMenu.BringForward": "Przesu\u0144 do przodu",
     "ContextMenu.BringToFront": "Przenie\u015b na prz\xf3d",
+    "ContextMenu.DuplicateInput": "Duplicate input",
+    "ContextMenu.DuplicateOutput": "Duplicate output",
     "ContextMenu.Font": "Czcionka",
     "ContextMenu.Group": "Grupa",
     "ContextMenu.SendBackward": "Wy\u015blij do ty\u0142u",

@@ -70,11 +70,12 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.append("}");
 			break;
 		case FRAC:
-			stringBuilder.append('(');
+			boolean unaryMinus = stringBuilder.toString().endsWith("-");
+			stringBuilder.append(unaryMinus ? "((" : '(');
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
-			stringBuilder.append(")");
+			stringBuilder.append(unaryMinus ? "))" : ")");
 			break;
 		case SQRT:
 			appendSingleArg("sqrt", mathFunction, stringBuilder, 0);

@@ -123,36 +123,11 @@ public class ImageManagerW extends ImageManager {
 		return new GBufferedImageW(im);
 	}
 
-	static class ImageLoadCallback2 implements ImageLoadCallback {
-		public GeoImage gi;
-
-		public ImageLoadCallback2(GeoImage gi2) {
-			this.gi = gi2;
-		}
-
-		@Override
-		public void onLoad() {
-			gi.updateRepaint();
-		}
-	}
-
-	static class ImageErrorCallback2 implements ImageLoadCallback {
-		public GeoImage gi;
-		private AppW app;
-
-		public ImageErrorCallback2(GeoImage gi2, AppW app) {
-			this.gi = gi2;
-			this.app = app;
-		}
-
-		@Override
-		public void onLoad() {
-			// Image onerror and onabort actually
-			gi.getCorner(0).remove();
-			gi.getCorner(1).remove();
-			gi.remove();
-			app.getKernel().notifyRepaint();
-		}
+	static void onError(GeoImage gi) {
+		gi.getCorner(0).remove();
+		gi.getCorner(1).remove();
+		gi.remove();
+		gi.getKernel().notifyRepaint();
 	}
 
 	/**
@@ -166,11 +141,10 @@ public class ImageManagerW extends ImageManager {
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
 		ImageElement img = getExternalImage(imageFileName, (AppW) geoi
 				.getKernel().getApplication(), true);
-		ImageWrapper.nativeon(img, "load", new ImageLoadCallback2(geoi));
-		ImageErrorCallback2 i2 = new ImageErrorCallback2(geoi, (AppW) geoi
-				.getKernel().getApplication());
-		ImageWrapper.nativeon(img, "error", i2);
-		ImageWrapper.nativeon(img, "abort", i2);
+		ImageWrapper.nativeon(img, "load", geoi::updateRepaint);
+		ImageLoadCallback errorCallback = () -> onError(geoi);
+		ImageWrapper.nativeon(img, "error", errorCallback);
+		ImageWrapper.nativeon(img, "abort", errorCallback);
 		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 

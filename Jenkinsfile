@@ -67,6 +67,7 @@ pipeline {
                     s3uploadDefault("web/build/s3", "web3d/**", "gzip")
                     s3uploadDefault("web/war", "**/*.html", "")
                     s3uploadDefault("web/war", "*.zip", "")
+                    s3uploadDefault("web/war", "liveggb.js", "")
                 }
             }
         }
