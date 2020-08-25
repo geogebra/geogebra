@@ -75,6 +75,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class DockPanelW extends ResizeComposite
 		implements DockPanel, DockComponent {
+
+	private static final int GEAR_CONTEXT_MENU_MARGIN = 16;
+
 	/** Dock manager */
 	protected DockManagerW dockManager;
 	/** app */
@@ -610,21 +613,20 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/** Graphics Settings button handler */
-	protected void onGraphicsSettingsPressed() {
+	private void onGraphicsSettingsPressed() {
 		app.hideMenu();
 		app.hideKeyboard();
 		if (app.isWhiteboardActive() && app.getAppletFrame() != null
 				&& app.getAppletFrame() instanceof GeoGebraFrameFull) {
 			((GeoGebraFrameFull) app.getAppletFrame()).deselectDragBtn();
 		}
-		final int padding = 16;
 
-		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
-				app, 0, 0, false);
+		final ContextMenuGraphicsWindowW contextMenu = getGraphicsWindowContextMenu();
 
 		final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();
 		popup.setPopupPositionAndShow((offsetWidth, offsetHeight) -> {
-			popup.setPopupPosition((int) app.getWidth() - offsetWidth - padding, padding);
+			popup.setPopupPosition((int) app.getWidth() - offsetWidth - GEAR_CONTEXT_MENU_MARGIN,
+					GEAR_CONTEXT_MENU_MARGIN);
 			contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
 		});
 
@@ -634,6 +636,10 @@ public abstract class DockPanelW extends ResizeComposite
 						.setPopupJustClosed(true);
 			}
 		});
+	}
+
+	protected ContextMenuGraphicsWindowW getGraphicsWindowContextMenu() {
+		return new ContextMenuGraphicsWindowW(app, 0, 0, false);
 	}
 
 	/**
