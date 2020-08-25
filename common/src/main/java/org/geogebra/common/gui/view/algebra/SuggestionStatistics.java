@@ -20,6 +20,16 @@ public class SuggestionStatistics extends Suggestion {
 
 	private static Suggestion INSTANCE = new SuggestionStatistics();
 
+	private static final int MIN = 0;
+	private static final int Q1 = 1;
+	private static final int MEDIAN = 2;
+	private static final int Q3 = 3;
+	private static final int MAX = 4;
+
+	private ArrayList<String> statCommands = new ArrayList<>(Arrays.asList(Commands.Min.getCommand(),
+			Commands.Q1.getCommand(), Commands.Median.getCommand(), Commands.Q3.getCommand(),
+			Commands.Max.getCommand()));
+
 	@Override
 	public String getCommand(Localization loc) {
 		return loc.getMenu("Statistics");
@@ -36,23 +46,23 @@ public class SuggestionStatistics extends Suggestion {
 
 		AlgebraProcessor algebraProcessor = geo.getKernel().getAlgebraProcessor();
 
-		if (neededAlgos[0]) {
+		if (neededAlgos[MIN]) {
 			cmd = "Min[" + geo.getLabelSimple() + "]";
 			processCommand(algebraProcessor, cmd, isSymbolicMode);
 		}
-		if (neededAlgos[1]) {
+		if (neededAlgos[Q1]) {
 			cmd = "Q1[" + geo.getLabelSimple() + "]";
 			processCommand(algebraProcessor, cmd, isSymbolicMode);
 		}
-		if (neededAlgos[2]) {
+		if (neededAlgos[MEDIAN]) {
 			cmd = "Median[" + geo.getLabelSimple() + "]";
 			processCommand(algebraProcessor, cmd, isSymbolicMode);
 		}
-		if (neededAlgos[3]) {
+		if (neededAlgos[Q3]) {
 			cmd = "Q3[" + geo.getLabelSimple() + "]";
 			processCommand(algebraProcessor, cmd, isSymbolicMode);
 		}
-		if (neededAlgos[4]) {
+		if (neededAlgos[MAX]) {
 			cmd = "Max[" + geo.getLabelSimple() + "]";
 			processCommand(algebraProcessor, cmd, isSymbolicMode);
 		}
@@ -80,8 +90,8 @@ public class SuggestionStatistics extends Suggestion {
 		boolean[] neededAlgos = {true, true, true, true, true};
 
 		if (geo instanceof GeoList && ((GeoList) geo).size() < 2) {
-			neededAlgos[1] = false;
-			neededAlgos[3] = false;
+			neededAlgos[Q1] = false;
+			neededAlgos[Q3] = false;
 		}
 
 		return neededAlgos;
@@ -115,15 +125,12 @@ public class SuggestionStatistics extends Suggestion {
 	@Override
 	protected boolean allAlgosExist(GetCommand className, GeoElement[] input,
 			boolean[] algosMissing) {
-		ArrayList<String> statCommands = new ArrayList<>(Arrays.asList(Commands.Min.getCommand(),
-				Commands.Q1.getCommand(), Commands.Median.getCommand(), Commands.Q3.getCommand(),
-				Commands.Max.getCommand()));
 
 		if (statCommands.contains(className.getCommand())) {
 			algosMissing[statCommands.indexOf(className.getCommand())] = false;
 		}
 
-		return !algosMissing[0] && !algosMissing[1] && !algosMissing[2]
-				&& !algosMissing[3] && !algosMissing[4];
+		return !algosMissing[MIN] && !algosMissing[Q1] && !algosMissing[MEDIAN]
+				&& !algosMissing[Q3] && !algosMissing[MAX];
 	}
 }
