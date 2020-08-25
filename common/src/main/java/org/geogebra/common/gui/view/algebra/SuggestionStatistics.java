@@ -26,9 +26,9 @@ public class SuggestionStatistics extends Suggestion {
 	private static final int Q3 = 3;
 	private static final int MAX = 4;
 
-	private ArrayList<String> statCommands = new ArrayList<>(Arrays.asList(Commands.Min.getCommand(),
-			Commands.Q1.getCommand(), Commands.Median.getCommand(), Commands.Q3.getCommand(),
-			Commands.Max.getCommand()));
+	private ArrayList<String> statCommands = new ArrayList<>(Arrays.asList(
+			Commands.Min.getCommand(), Commands.Q1.getCommand(), Commands.Median.getCommand(),
+			Commands.Q3.getCommand(), Commands.Max.getCommand()));
 
 	@Override
 	public String getCommand(Localization loc) {
