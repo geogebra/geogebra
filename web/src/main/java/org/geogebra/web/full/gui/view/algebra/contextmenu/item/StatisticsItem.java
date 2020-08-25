@@ -15,7 +15,7 @@ public class StatisticsItem extends MenuItem<GeoElement> {
 	 */
 	public StatisticsItem() {
 		super("Statistics",
-				MaterialDesignResources.INSTANCE.special_points(),
+				MaterialDesignResources.INSTANCE.statistics(),
 				new StatisticsAction());
 	}
 }
