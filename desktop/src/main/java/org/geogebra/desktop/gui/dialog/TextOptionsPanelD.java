@@ -266,7 +266,7 @@ class TextOptionsPanelD extends JPanel
 		secondLine.setVisible(model.hasRounding());
 		// editPanel includes LaTeX toggle and OK + Cancel buttons
 		editPanel.setVisible(model.isTextEditable());
-		cbFont.setVisible(model.hasFontStyle());
+		cbFont.setVisible(model.hasGeos());
 		btBold.setVisible(model.hasFontStyle());
 		btItalic.setVisible(model.hasFontStyle());
 	}
