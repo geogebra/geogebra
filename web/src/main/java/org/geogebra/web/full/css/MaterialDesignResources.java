@@ -528,4 +528,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
 	SVGResource downloadMenu();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/show_chart-black-24px.svg")
+	SVGResource statistics();
 }
