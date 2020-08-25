@@ -110,8 +110,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codePreamble.append("\\documentclass[");
 			codePreamble.append(frame.getFontSize());
 			codePreamble.append("pt]{article}\n");
-			codePreamble.append("\\usepackage{pgf,tikz");
-			codePreamble.append(",pgfplots}\n");
+			codePreamble.append("\\usepackage{pgfplots}\n");
 			codePreamble.append("\\pgfplotsset{compat=1.15");
 
 			codePreamble.append(
@@ -125,7 +124,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		} else if (format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
 			codePreamble.append("%Uncomment next line if XeTeX is used\n");
 			codePreamble.append("%\\def\\pgfsysdriver{pgfsys-xetex.def}\n\n");
-			codePreamble.append("\\input pgf.tex\n\\input tikz.tex\n");
+			codePreamble.append("\\input tikz.tex\n");
 			codePreamble.append("\\usetikzlibrary{arrows}\n");
 			codePreamble.append("\\baselineskip=");
 			codePreamble.append(frame.getFontSize());
@@ -140,7 +139,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		} else if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
 			codePreamble
 					.append("\\setupbodyfont[" + frame.getFontSize() + "pt]\n");
-			codePreamble.append("\\usemodule[tikz]\n\\usemodule[pgf]\n");
+			codePreamble.append("\\usemodule[tikz]\n");
 			codePreamble.append(
 					"\\usetikzlibrary[arrows]\n\\setuppagenumbering[location=]\n");
 
@@ -153,7 +152,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		} else if (format == GeoGebraToPgf.FORMAT_BEAMER) {
 			codePreamble.append("\\documentclass[" + frame.getFontSize()
 					+ "pt]{beamer}\n"
-					+ "\\usepackage{pgf,tikz}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
+					+ "\\usepackage{tikz}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
 			codeBeginDoc.append("\\begin{frame}\n");
 			codeBeginDoc.append(
 					"\\begin{tikzpicture}[line cap=round,line join=round,>=triangle 45,x=");
