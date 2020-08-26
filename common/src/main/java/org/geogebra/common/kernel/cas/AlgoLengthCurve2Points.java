@@ -95,7 +95,8 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 	@Override
 	public void refreshCASResults() {
 		// First derivative of curve f
-		algoCAS = new AlgoDerivative(cons, c, new EvalInfo(false));
+		algoCAS = new AlgoDerivative(cons, c, null, null, true,
+				new EvalInfo(false));
 		derivative = (GeoCurveCartesianND) ((AlgoDerivative) algoCAS)
 				.getResult();
 		cons.removeFromConstructionList(algoCAS);
