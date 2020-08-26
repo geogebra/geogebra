@@ -1205,4 +1205,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(function.getValue().toString(StringTemplate.defaultTemplate),
 				equalTo("{x = 1.2168714889}"));
 	}
+
+	@Test
+	public void testSolveChangedToNSolve() {
+		add("eq1: (x^2)(e^x)= 5");
+		GeoSymbolic function = add("Solve(eq1, x)");
+		assertThat(function.getDefinition(StringTemplate.defaultTemplate),
+				equalTo("NSolve(eq1,x)"));
+	}
 }
