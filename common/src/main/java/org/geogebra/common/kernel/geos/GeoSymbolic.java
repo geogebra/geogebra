@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
+import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
@@ -181,7 +182,7 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		}
 		String s = evaluateGeoGebraCAS(casInput.wrap());
 		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
-			casInput.setName(Commands.NSolve.name());
+			changeSolveToNSolve(casInput);
 			s = evaluateGeoGebraCAS(casInput.wrap());
 		}
 		this.casOutputString = s;
@@ -192,6 +193,13 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 		isTwinUpToDate = false;
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
+	}
+
+	private void changeSolveToNSolve(Command casInput) {
+		casInput.setName(Commands.NSolve.name());
+		AlgoDependentSymbolic currentConsElement = (AlgoDependentSymbolic)
+				getConstruction().getConstructionElement(getConstructionIndex());
+		currentConsElement.setDefinition(casInput.wrap());
 	}
 
 	private String evaluateGeoGebraCAS(ValidExpression exp) {
