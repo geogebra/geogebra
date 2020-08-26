@@ -2,10 +2,12 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.dialog.PreviewCardRenameDialog;
 import org.geogebra.web.full.gui.util.ContextMenuButtonCard;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.BrowserStorage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Context Menu of Page Preview Cards
@@ -32,10 +34,29 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	@Override
 	protected void initPopup() {
 		super.initPopup();
-		addDeleteItem();
 		addCutItem();
 		addCopyItem();
 		addPasteItem();
+		addSeparator();
+		addRenameItem();
+		addDeleteItem();
+	}
+
+	private void addSeparator() {
+		wrappedPopup.addSeparator();
+	}
+
+	private void addRenameItem() {
+		addItem(MaterialDesignResources.INSTANCE.mow_rename(),
+				loc.getMenu("Rename"), this::onRename);
+
+	}
+
+	private void onRename() {
+		DialogData data = new DialogData("Rename", "Cancel", "OK");
+		PreviewCardRenameDialog renameDialog = new PreviewCardRenameDialog(app, data, card);
+		renameDialog.show();
+		renameDialog.selectAll();
 	}
 
 	private void addDeleteItem() {
