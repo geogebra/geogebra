@@ -136,24 +136,15 @@ public class ZoomPanelMow extends FlowPanel
 		homeBtn.setStyleName("zoomPanelBtn");
 		homeBtn.addStyleName("zoomPanelBtnSmall");
 		getZoomController().hideHomeButton(homeBtn);
-		FastClickHandler handlerHome = new FastClickHandler() {
 
-			@Override
-			public void onClick(Widget source) {
-				getZoomController().onHomePressed();
-				deselectDragBtn();
-			}
-		};
-		homeBtn.addFastClickHandler(handlerHome);
+		homeBtn.addFastClickHandler(source -> {
+			getZoomController().onHomePressed();
+			deselectDragBtn();
+		});
+
 		add(homeBtn);
 		// click handler
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				// to stopPropagation and preventDefault.
-			}
-		});
+		ClickStartHandler.initDefaults(this, true, true);
 	}
 
 	private void addZoomOutButton() {
@@ -161,14 +152,12 @@ public class ZoomPanelMow extends FlowPanel
 				ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24, appW);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 		registerFocusable(zoomOutBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_MINUS);
-		FastClickHandler handlerZoomOut = new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				getZoomController().onZoomOutPressed();
-				deselectDragBtn();
-			}
-		};
-		zoomOutBtn.addFastClickHandler(handlerZoomOut);
+
+		zoomOutBtn.addFastClickHandler(source -> {
+			getZoomController().onZoomOutPressed();
+			deselectDragBtn();
+		});
+
 		add(zoomOutBtn);
 	}
 
@@ -177,14 +166,12 @@ public class ZoomPanelMow extends FlowPanel
 				ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24, appW);
 		zoomInBtn.setStyleName("zoomPanelBtn");
 		registerFocusable(zoomInBtn, AccessibilityGroup.ViewControlId.ZOOM_NOTES_PLUS);
-		FastClickHandler handlerZoomIn = new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				getZoomController().onZoomInPressed();
-				deselectDragBtn();
-			}
-		};
-		zoomInBtn.addFastClickHandler(handlerZoomIn);
+
+		zoomInBtn.addFastClickHandler(source -> {
+			getZoomController().onZoomInPressed();
+			deselectDragBtn();
+		});
+
 		add(zoomInBtn);
 	}
 
