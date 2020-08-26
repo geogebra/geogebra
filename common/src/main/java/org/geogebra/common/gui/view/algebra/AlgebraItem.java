@@ -120,12 +120,8 @@ public class AlgebraItem {
 
 		sm.setSymbolicMode(orig, false);
 		if (text1 == null) {
-			if (text2 == null) {
-				return false;
-			}
-			return true;
+			return text2 != null;
 		}
-
 		return !text1.equals(text2);
 	}
 
