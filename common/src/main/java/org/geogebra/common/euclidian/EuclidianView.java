@@ -869,6 +869,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			optionPanel.updateBounds();
 		}
 
+		invalidateCache();
 		if (updateDrawables) {
 			updateAllDrawablesForView(true);
 			invalidateBackground();
