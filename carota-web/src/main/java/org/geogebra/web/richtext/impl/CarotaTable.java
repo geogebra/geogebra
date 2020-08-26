@@ -70,7 +70,9 @@ public class CarotaTable {
 
 	public native <T> T getFormatting(String key, T fallback);
 
-	public native void setBackgroundColor(String bgcolor);
+	public native void setCellProperty(String property, String value);
+
+	public native String getCellProperty(String property);
 
 	public native void setWidth(double width);
 

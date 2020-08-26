@@ -82,7 +82,8 @@ public class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public void setBackgroundColor(GColor backgroundColor) {
-		tableImpl.setBackgroundColor(backgroundColor == null ? null : backgroundColor.toString());
+		tableImpl.setCellProperty("bgcolor",
+				backgroundColor == null ? null : backgroundColor.toString());
 	}
 
 	@Override
@@ -227,6 +228,17 @@ public class InlineTableControllerW implements InlineTableController {
 	public void removeColumn() {
 		tableImpl.removeColumn();
 		updateSizes();
+	}
+
+	@Override
+	public void setWrapping(String setting) {
+		tableImpl.setCellProperty("wrapping", setting);
+		table.updateRepaint();
+	}
+
+	@Override
+	public String getWrapping() {
+		return tableImpl.getCellProperty("wrapping");
 	}
 
 	@Override

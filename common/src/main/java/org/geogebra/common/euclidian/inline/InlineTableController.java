@@ -60,4 +60,8 @@ public interface InlineTableController extends HasTextFormat {
 	void removeRow();
 
 	void removeColumn();
+
+	void setWrapping(String setting);
+
+	String getWrapping();
 }
