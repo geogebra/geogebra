@@ -60,7 +60,7 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 	@Nullable
 	MenuItem showSwitchCalculator() {
 		return isMobile() && version == GeoGebraConstants.Version.SUITE
-				? new ActionableItemImpl(Icon.GEOGEBRA, "Settings", Action.SWITCH_CALCULATOR)
+				? new ActionableItemImpl(Icon.GEOGEBRA, "SwitchCalculator", Action.SWITCH_CALCULATOR)
 				: null;
 	}
 
