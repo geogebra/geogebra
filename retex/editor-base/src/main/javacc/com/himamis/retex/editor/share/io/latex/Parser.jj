@@ -95,9 +95,9 @@ PARSER_END(Parser)
 	| < LFLOOR : "\u230a" >
 	| < RFLOOR : "\u230b" >
 	| < QUOTE_START : "\""> : IN_QUOTE
-	| < SQRT : "sqrt" >
-	| < NROOT : "nroot" >
-	| < LOG : "log" >
+	| < SQRT : "sqrt(" >
+	| < NROOT : "nroot(" >
+	| < LOG : "log(" >
 	| < ABS : "abs(" >
 	| < DEF_INT : "$defint" >
 	| < PROD_EQ : "$prodeq" >
@@ -270,7 +270,7 @@ void subscript(MathContainer currentField) :
 
 void sqrt(MathContainer currentField) : {}
 {
-	<SQRT> <PARANTHESES_OPEN> {
+	<SQRT> {
 		MathFunction sqrt = new MathFunction(metaModel.getGeneral(Tag.SQRT));
 		MathSequence mathSequence = new MathSequence();
 		mathContainer(mathSequence);
@@ -281,7 +281,7 @@ void sqrt(MathContainer currentField) : {}
 
 void nroot(MathContainer currentField) : {}
 {
-	<NROOT> <PARANTHESES_OPEN> {
+	<NROOT> {
 		MathFunction nroot = new MathFunction(metaModel.getGeneral(Tag.NROOT));
 		MathSequence param1 = new MathSequence();
 		mathContainer(param1);
@@ -328,7 +328,7 @@ void absVecLimeq(MathContainer currentField) : {
 
 void log(MathContainer currentField) : { }
 {
-	<LOG> <PARANTHESES_OPEN> {
+	<LOG> {
 		MathFunction nroot = new MathFunction(metaModel.getGeneral(Tag.LOG));
 		MathSequence param1 = new MathSequence();
 		MathSequence param2 = new MathSequence();
