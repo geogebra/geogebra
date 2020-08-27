@@ -743,7 +743,7 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void cmdInfiniteCylinder() {
+	public void cmdCylinderInfinite() {
 		tRound("InfiniteCylinder[(1,1),(1,1,2),1]",
 				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"));
 		tRound("InfiniteCylinder[(1,1),Vector[(0,0,2)],1]",
@@ -752,7 +752,7 @@ public class CommandsTest {
 	}
 
 	@Test
-	public void cmdInfiniteCone() {
+	public void cmdConeInfinite() {
 		tRound("InfiniteCone[(1,1),(1,1,2),45deg]",
 				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"));
 		tRound("InfiniteCone[(1,1),Vector[(0,0,2)],45deg]",
@@ -1187,6 +1187,7 @@ public class CommandsTest {
 	@Test
 	public void cmdNDerivative() {
 		tRound("NDerivative[x^2]", unicode("NDerivative(x^2)"));
+		tRound("NDerivative[x^2, 5]", unicode("NDerivative(x^2, 5)"));
 	}
 
 	@Test
@@ -1610,16 +1611,6 @@ public class CommandsTest {
 		t("TaylorPolynomial[ sin(x)^2, pi, 5 ]",
 				"(2 * (x - pi)^(2) / 2!) - (8 * (x - pi)^(4) / 4!)"
 						.replaceAll("pi", "3.141592653589793"));
-	}
-
-	@Test
-	public void cmdHoles() {
-		if (app.has(Feature.COMMAND_HOLES)) {
-			t("Holes(x/x)", "{(0, 1)}");
-			t("Holes((x^2 - 4)/(x - 2))", "{(2, 4)}");
-			t("Holes(x + x/x)", "{(0, 1)}");
-			t("Holes(2^(x + x/x))", "{(0, 2)}");
-		}
 	}
 
 	@Test

@@ -317,7 +317,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	}
 
 	@Override
-	public void onKeyTyped() {
+	public void onKeyTyped(String key) {
 		getInputSuggestions().popupSuggestions();
 		onCursorMove();
 	}

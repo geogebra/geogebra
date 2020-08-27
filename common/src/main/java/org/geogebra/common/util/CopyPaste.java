@@ -417,4 +417,8 @@ public abstract class CopyPaste {
 
 		return ret;
 	}
+
+	public void paste(App app, AsyncOperation<String> stringAsyncOperation) {
+		pasteFromXML(app);
+	}
 }

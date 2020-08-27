@@ -2,57 +2,62 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.inline.InlineTextController;
+import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class HyperlinkDialog extends OptionDialog {
-
-	private final String hyperlinkText;
+public class HyperlinkDialog extends ComponentDialog {
+	private String hyperlinkText;
 	private MediaInputPanel textInputPanel;
 	private MediaInputPanel linkInputPanel;
 
-	private InlineTextController inlineText;
+	private HasTextFormat formatter;
 
 	/**
 	 * Dialog for inserting hyperlink into an inline text
+	 *
+	 * @param app see {@link AppW}
+	 * @param data dialog transkeys
+	 * @param formatter text formatter
+	 *
 	 */
-	public HyperlinkDialog(AppW app, InlineTextController inlineText) {
-		super(app.getPanel(), app);
-		this.inlineText = inlineText;
+	public HyperlinkDialog(AppW app, DialogData data, HasTextFormat formatter) {
+		super(app, data, false, true);
+		this.formatter = formatter;
 
+		addStyleName("mediaDialog");
+		addStyleName("hyperLink");
+		addStyleName("mebis");
+
+		buildContent(app);
+		setOnPositiveAction(this::processInput);
+	}
+
+	private void buildContent(AppW app) {
 		textInputPanel = new MediaInputPanel(app, this,	"Text", false);
 		linkInputPanel = new MediaInputPanel(app, this, "Link", true);
 
 		linkInputPanel.addPlaceholder(app.getLocalization().getMenu("pasteLink"));
-		updateButtonLabels("OK");
 
-		hyperlinkText = inlineText.getHyperlinkRangeText().replace('\n', Unicode.ZERO_WIDTH_SPACE);
+		hyperlinkText = formatter.getHyperlinkRangeText().replace('\n', Unicode.ZERO_WIDTH_SPACE);
 		textInputPanel.setText(hyperlinkText);
-		linkInputPanel.setText(getSelectionUrl());
+		linkInputPanel.setText(formatter.getHyperLinkURL());
 
-		FlowPanel mainPanel = new FlowPanel();
-		mainPanel.add(textInputPanel);
-		mainPanel.add(linkInputPanel);
-		mainPanel.add(getButtonPanel());
-		add(mainPanel);
+		FlowPanel contentPanel = new FlowPanel();
+		contentPanel.add(textInputPanel);
+		contentPanel.add(linkInputPanel);
+		addDialogContent(contentPanel);
 
-		addStyleName("GeoGebraPopup");
-		addStyleName("mediaDialog");
-		addStyleName("mebis");
 		linkInputPanel.focusDeferred();
 	}
 
-	private String getSelectionUrl() {
-		return inlineText.getHyperLinkURL();
-	}
-
-	@Override
-	protected void processInput() {
+	private void processInput() {
 		String link = linkInputPanel.getInput();
 		if (StringUtil.empty(link)) {
 			return;
@@ -61,12 +66,11 @@ public class HyperlinkDialog extends OptionDialog {
 		String url = normalizeUrl(link);
 
 		String text = textInputPanel.inputField.getText();
-		if (text.equals(hyperlinkText)	&& !StringUtil.empty(getSelectionUrl())) {
-			inlineText.setHyperlinkUrl(url);
+		if (text.equals(hyperlinkText)	&& !StringUtil.empty(formatter.getHyperLinkURL())) {
+			formatter.setHyperlinkUrl(url);
 		} else {
-			inlineText.insertHyperlink(url,	text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
+			formatter.insertHyperlink(url,	text.replace(Unicode.ZERO_WIDTH_SPACE, '\n'));
 		}
-		hide();
 	}
 
 	private static String normalizeUrl(String url) {

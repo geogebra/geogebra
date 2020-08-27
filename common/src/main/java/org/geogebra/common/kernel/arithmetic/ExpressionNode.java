@@ -76,6 +76,8 @@ public class ExpressionNode extends ValidExpression
 	private boolean forceVector = false;
 	private boolean forcePoint = false;
 	private boolean forceFunction = false;
+	private boolean forceInequality = false;
+	private boolean wasInterval = false;
 
 	/** true if this holds text and the text is in LaTeX format */
 	public boolean holdsLaTeXtext = false;
@@ -890,13 +892,14 @@ public class ExpressionNode extends ValidExpression
 			right = right.traverse(t);
 		}
 
-		// if we did some replacement in a leaf,
-		// we might need to update the leaf flag (#3512)
-		ExpressionNode rewrap = unwrap().wrap();
-		if (isSecret()) {
-			rewrap.secretMaskingAlgo = this.secretMaskingAlgo;
+		if (isLeaf() && left != null && left.isExpressionNode()) {
+			ExpressionNode leftNode = left.wrap();
+			right = leftNode.right;
+			left = leftNode.left;
+			leaf = leftNode.leaf;
+			operation = leftNode.operation;
 		}
-		return rewrap;
+		return this;
 	}
 
 	@Override
@@ -1247,6 +1250,34 @@ public class ExpressionNode extends ValidExpression
 	 */
 	final public boolean isForcedFunction() {
 		return forceFunction;
+	}
+
+	/**
+	 * Force to evaluate to inequality
+	 */
+	public void setForceInequality() {
+		forceInequality = true;
+	}
+
+	/**
+	 * @return true iff forced to be an inequality
+	 */
+	final public boolean isForceInequality() {
+		return forceInequality;
+	}
+
+	/**
+	 * remember if was interval
+	 */
+	public void setWasInterval() {
+		wasInterval = true;
+	}
+
+	/**
+	 * @return true iff was interval
+	 */
+	final public boolean wasInterval() {
+		return wasInterval;
 	}
 
 	/**
@@ -3581,6 +3612,10 @@ public class ExpressionNode extends ValidExpression
 			String leftS = left.isExpressionNode()
 					? left.wrap().toFractionStringFlat(tpl, locale)
 					: left.toValueString(tpl);
+			if (leftS.startsWith("-")) {
+				return "-" + tpl.divideString(left, right, leftS.substring(1),
+						right.toValueString(tpl), true, locale);
+			}
 			return tpl.divideString(left, right, leftS,
 					right.toValueString(tpl), true, locale);
 		}
@@ -3621,28 +3656,34 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Check whether denominator and numerator are both independent integers
 	 * 
-	 * @return whether is a simple fraction like 7/2 or -1/2
+	 * @return whether is a simple fraction like 7/2 or (-1)/2 or -(1/2)
 	 */
 	public boolean isSimpleFraction() {
-		if (operation == Operation.DIVIDE) {
-			ExpressionValue leftUnsigned = left.unwrap();
-			if (left.isExpressionNode()
-					&& getLeftTree().getOperation() == Operation.MULTIPLY
-					&& ExpressionNode.isConstantDouble(getLeftTree().getLeft(),
-							-1)) {
-				leftUnsigned = getLeftTree().getRight();
+		ExpressionValue unsigned = getUnsigned(this);
+		return unsigned.isExpressionNode() && ((ExpressionNode) unsigned).isUnsignedFraction();
+	}
 
-			}
+	private boolean isUnsignedFraction() {
+		if (operation == Operation.DIVIDE) {
+			ExpressionValue leftUnsigned = getUnsigned(left);
 			if (leftUnsigned instanceof MyDouble
 					&& right.unwrap() instanceof MyDouble) {
 				double lt = left.evaluateDouble();
 				double rt = right.evaluateDouble();
-				if (DoubleUtil.isInteger(lt) && DoubleUtil.isInteger(rt)) {
-					return true;
-				}
+				return DoubleUtil.isInteger(lt) && DoubleUtil.isInteger(rt);
 			}
 		}
 		return false;
+	}
+
+	private ExpressionValue getUnsigned(ExpressionValue expr) {
+		if (expr.isExpressionNode()
+				&& expr.wrap().getOperation() == Operation.MULTIPLY
+				&& ExpressionNode.isConstantDouble(expr.wrap().getLeft(),
+				-1)) {
+			return expr.wrap().getRight();
+		}
+		return expr;
 	}
 
 	/**
@@ -3667,7 +3708,7 @@ public class ExpressionNode extends ValidExpression
 			return false;
 		}
 		if ((unwrap instanceof MyDouble && !(unwrap instanceof FunctionVariable))
-				|| unwrap instanceof GeoNumeric) {
+				|| (unwrap instanceof GeoNumeric && !(unwrap instanceof GeoDummyVariable))) {
 			double val = evaluateDouble();
 			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
 					&& !DoubleUtil.isEqual(val, Math.E);

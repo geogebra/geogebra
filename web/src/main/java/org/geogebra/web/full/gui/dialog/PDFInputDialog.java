@@ -15,26 +15,11 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.pdf.PDFWrapper;
 import org.geogebra.web.html5.util.pdf.PDFWrapper.PDFListener;
 import org.geogebra.web.resources.JavaScriptInjector;
-import org.geogebra.web.shared.DialogBoxW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -43,36 +28,25 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.dom.DragEvent;
+import elemental2.dom.File;
+import elemental2.dom.FileList;
+import elemental2.dom.HTMLInputElement;
+import jsinterop.base.Js;
+
 /**
- * @author csilla
- *
+ * dialog to insert pdf page as image
  */
-public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFListener {
-	/**
-	 * see {@link App}
-	 */
-	protected AppW appW;
-	private FlowPanel mainPanel;
+public class PDFInputDialog extends ComponentDialog
+		implements FastClickHandler, PDFListener {
 	private FlowPanel pdfContainerPanel;
-	private FlowPanel pdfPreviewPanel;
 	private FlowPanel imgTextPanel;
 	private FlowPanel pdfPageTextPanel;
-	private Label clickOrDragText;
-	private Label loadText;
-	private Label errorText;
-	private FlowPanel buttonPanel;
-	/**
-	 * Insert button
-	 */
-	StandardButton insertBtn;
-	private StandardButton cancelBtn;
 	private StandardButton leftBtn;
 	private StandardButton rightBtn;
-	private Label pageLbl;
 	private NoDragImage previewImg;
 	private AutoCompleteTextFieldW curPageNrField;
-	private Label ofPageLbl;
-	private PDFChooser pdfChooser = new PDFChooser();
+	private FileUpload pdfChooser = getPDFChooser();
 	/**
 	 * pdf.js wrapper
 	 */
@@ -80,73 +54,49 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	private ProgressBar progressBar;
 
 	/** indicates if current page number text field is in focus */
-	protected boolean tfActive = false;
 	private String previewSrc;
 	private boolean isFocus = false;
 
-	private class PDFChooser extends FileUpload
-			implements ChangeHandler {
-		public PDFChooser() {
-			super();
-			addChangeHandler(this);
-			getElement().setAttribute("accept", ".pdf");
-		}
-
-		public void open() {
-			click();
-		}
-
-		@Override
-		public void onChange(ChangeEvent event) {
-			PDFInputDialog.this.loadPdf(getSelectedFile());
-		}
-
-		private native JavaScriptObject getSelectedFile()/*-{
-			return $doc.querySelector('input[type=file]').files[0];
-		}-*/;
+	private FileUpload getPDFChooser() {
+		FileUpload pdfChooser = new FileUpload();
+		pdfChooser.addChangeHandler(event -> {
+				HTMLInputElement el = Js.uncheckedCast(pdfChooser.getElement());
+				loadPdf(el.files.item(0));
+			});
+		pdfChooser.getElement().setAttribute("accept", ".pdf");
+		return pdfChooser;
 	}
 
 	/**
 	 * @param app
 	 *            see {@link App}
+	 * @param data
+	 * 			  dialog transkeys
 	 */
-	public PDFInputDialog(AppW app) {
-		super(app.getPanel(), app);
-		this.appW = app;
-		initGui();
+	public PDFInputDialog(AppW app, DialogData data) {
+		super(app, data, false, true);
+		addStyleName("pdfDialog");
+		buildContent();
 		initActions();
-		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfCombinedJs());
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfJs());
+		JavaScriptInjector.inject(PDFResources.INSTANCE.pdfWorkerJs());
 	}
 
-	private void initGui() {
-		mainPanel = new FlowPanel();
-		mainPanel.addStyleName("pdfDialogContent");
-		// panel for pdf
+	private void buildContent() {
+		FlowPanel contentPanel = new FlowPanel();
+		contentPanel.addStyleName("pdfDialogContent");
+
 		pdfContainerPanel = new FlowPanel();
 		pdfContainerPanel.setStyleName("pdfContainer");
 		addHelpToImgText();
 		addDropHandler(pdfContainerPanel.getElement());
-		pageLbl = new Label();
-		ofPageLbl = new Label();
-		// panel for buttons
-		buttonPanel = new FlowPanel();
-		buttonPanel.setStyleName("DialogButtonPanel");
-		cancelBtn = createTxtButton(buttonPanel, "cancelBtn", true);
-		insertBtn = createTxtButton(buttonPanel, "insertBtn", false);
-		// add panels
-		add(mainPanel);
-		mainPanel.add(pdfContainerPanel);
-		mainPanel.add(buttonPanel);
-		mainPanel.add(pdfChooser);
+		contentPanel.add(pdfContainerPanel);
+		contentPanel.add(pdfChooser);
+
 		pdfChooser.addStyleName("hidden");
-		// style
-		addStyleName("GeoGebraPopup");
-		addStyleName("pdfDialog");
-		getContainerElement().addClassName("pdfDialogMainPanel");
-		getContainerElement().getFirstChildElement()
-				.addClassName("pdfDialogTable");
-		setGlassEnabled(true);
-		setLabels();
+		setPosBtnDisabled(true);
+
+		addDialogContent(contentPanel);
 	}
 
 	private void createFolderImg() {
@@ -160,32 +110,28 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 
 	private void addHelpToImgText() {
 		createFolderImg();
-		clickOrDragText = new Label();
+		Label clickOrDragText = new Label(app.getLocalization().getMenu("pdfClickOrDrag"));
 		clickOrDragText.addStyleName("pdfDialogText");
 		clickOrDragText.addStyleName("clickOrDragText");
 		imgTextPanel.add(clickOrDragText);
 		pdfContainerPanel.add(imgTextPanel);
 	}
 
-	private native void addDropHandler(
-			com.google.gwt.dom.client.Element element) /*-{
-		var that = this;
-		element
-				.addEventListener(
-						"drop",
-						function(event) {
-							var files = event.dataTransfer.files;
-							that.@org.geogebra.web.full.gui.dialog.PDFInputDialog::loadPdf(Lcom/google/gwt/core/client/JavaScriptObject;)(files[0]);
-							event.stopPropagation();
-							event.preventDefault();
-						});
-
-	}-*/;
+	private void addDropHandler(
+			com.google.gwt.dom.client.Element element) {
+		elemental2.dom.Element el = Js.uncheckedCast(element);
+		el.addEventListener("drop", evt -> {
+			FileList files = ((DragEvent) evt).dataTransfer.files;
+			loadPdf(files.item(0));
+			evt.stopPropagation();
+			evt.preventDefault();
+		});
+	}
 
 	private void buildPdfContainer() {
 		pdfContainerPanel.clear();
 		pdfContainerPanel.addStyleName("withPdf");
-		pdfPreviewPanel = new FlowPanel();
+		FlowPanel pdfPreviewPanel = new FlowPanel();
 		pdfPreviewPanel.addStyleName("pdfPreview");
 		previewImg = new NoDragImage("");
 		previewImg.addStyleName("previewImage");
@@ -199,11 +145,14 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		// text info about pages at bottom
 		pdfPageTextPanel = new FlowPanel();
 		pdfPageTextPanel.addStyleName("pdfPageText");
-		curPageNrField = new AutoCompleteTextFieldW(3, appW);
+		curPageNrField = new AutoCompleteTextFieldW(3, app);
 		curPageNrField.setText("1");
 		curPageNrField.addStyleName("curPageField");
+		Label pageLbl = new Label(app.getLocalization().getMenu("page"));
 		pdfPageTextPanel.add(pageLbl);
 		pdfPageTextPanel.add(curPageNrField);
+		Label ofPageLbl = new Label(app.getLocalization().getMenu("of") + " "
+				+ pdf.getNumberOfPages());
 		pdfPageTextPanel.add(ofPageLbl);
 		pdfContainerPanel.add(pdfPreviewPanel);
 		pdfContainerPanel.add(pdfPageTextPanel);
@@ -211,45 +160,26 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	}
 
 	private void initPreviewActions() {
-
-		curPageNrField.addKeyPressHandler(new KeyPressHandler() {
-
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-					changePageFromTextField();
-				}
+		curPageNrField.addKeyPressHandler(event -> {
+			if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+				changePageFromTextField();
 			}
 		});
 
-		curPageNrField.addKeyUpHandler(new KeyUpHandler() {
-
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				changePageFromTextField(true);
-			}
-		});
+		curPageNrField.addKeyUpHandler(event -> changePageFromTextField(true));
 		addFocusBlurHandlers();
 		addHoverHandlers();
 	}
 
 	private void addFocusBlurHandlers() {
-		curPageNrField.getTextBox().addFocusHandler(new FocusHandler() {
-
-			@Override
-			public void onFocus(FocusEvent event) {
-				setPageTextFieldStyleName("focus");
-				setIsFocus(true);
-			}
+		curPageNrField.getTextBox().addFocusHandler(event -> {
+			setPageTextFieldStyleName("focus");
+			setIsFocus(true);
 		});
 
-		curPageNrField.getTextBox().addBlurHandler(new BlurHandler() {
-
-			@Override
-			public void onBlur(BlurEvent event) {
-				setPageTextFieldStyleName("default");
-				setIsFocus(false);
-			}
+		curPageNrField.getTextBox().addBlurHandler(event -> {
+			setPageTextFieldStyleName("default");
+			setIsFocus(false);
 		});
 	}
 
@@ -272,20 +202,11 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 * Add mouse over/ out handlers
 	 */
 	private void addHoverHandlers() {
-		curPageNrField.getTextBox().addMouseOverHandler(new MouseOverHandler() {
-
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				setPageTextFieldStyleName("hover");
-			}
-		});
-		curPageNrField.getTextBox().addMouseOutHandler(new MouseOutHandler() {
-
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				if (!isFocus()) {
-					setPageTextFieldStyleName("default");
-				}
+		curPageNrField.getTextBox().addMouseOverHandler(event
+				-> setPageTextFieldStyleName("hover"));
+		curPageNrField.getTextBox().addMouseOutHandler(event -> {
+			if (!isFocus()) {
+				setPageTextFieldStyleName("default");
 			}
 		});
 	}
@@ -319,23 +240,14 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 				displayCurrentPageNumber();
 			}
 		} catch (NumberFormatException e) {
-			Log.debug("bad number: " + e.getMessage());
+			Log.debug("page nr not exists: " + e.getMessage());
 		}
-	}
-
-	private StandardButton createTxtButton(FlowPanel root, String styleName,
-			boolean isEnabled) {
-		StandardButton btn = new StandardButton("", appW);
-		btn.addStyleName(styleName);
-		btn.setEnabled(isEnabled);
-		root.add(btn);
-		return btn;
 	}
 
 	private StandardButton createImgButton(FlowPanel root,
 			ImageResource imgSource, int size, String styleName) {
 		StandardButton btn = new StandardButton(imgSource, null, size, size,
-				appW);
+				app);
 		btn.addStyleName(styleName);
 		btn.addFastClickHandler(this);
 		root.add(btn);
@@ -343,50 +255,21 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	}
 
 	private void initActions() {
-		getCaption().setText(appW.getLocalization().getMenu("pdfDialogTitle"));
-		insertBtn.addFastClickHandler(this);
-		cancelBtn.addFastClickHandler(this);
+		setOnPositiveAction(() -> {
+			String data = previewSrc;
+			((AppW) app).imageDropHappened("pdf.png", data);
+		});
 		pdfContainerPanel.sinkEvents(Event.ONCLICK);
-		pdfContainerPanel.addHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!hasPdf()) {
-					choosePdfFile();
-				}
+		pdfContainerPanel.addHandler(event -> {
+			if (!hasPdf()) {
+				choosePdfFile();
 			}
 		}, ClickEvent.getType());
 	}
 
-	/**
-	 * set button labels
-	 */
-	public void setLabels() {
-		clickOrDragText
-				.setText(appW.getLocalization().getMenu("pdfClickOrDrag"));
-		insertBtn.setText(appW.getLocalization().getMenu("Insert")); // insert
-		cancelBtn.setText(appW.getLocalization().getMenu("Cancel")); // cancel
-		pageLbl.setText(appW.getLocalization().getMenu("page")); // Page
-		if (pdf != null) {
-			ofPageLbl.setText(appW.getLocalization().getMenu("of") + " "
-					+ pdf.getPageCount()); // of
-		}
-		if (loadText != null) {
-			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
-		}
-		if (errorText != null) {
-			errorText.setText(appW.getLocalization().getMenu("PdfErrorText"));
-		}
-
-	}
-
 	@Override
 	public void onClick(Widget source) {
-		if (source == cancelBtn) {
-			hide();
-		} else if (source == insertBtn) {
-			insertImage();
-		} else if (source == leftBtn) {
+		if (source == leftBtn) {
 			pdf.previousPage();
 			displayCurrentPageNumber();
 		} else if (source == rightBtn) {
@@ -395,16 +278,10 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		}
 	}
 
-	private void insertImage() {
-		String data = previewSrc;
-		((AppW) app).imageDropHappened("pdf.svg", data);
-		hide();
-	}
-
 	@Override
 	public void hide() {
 		super.hide();
-		appW.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
+		app.getGuiManager().setMode(EuclidianConstants.MODE_SELECT_MOW,
 				ModeSetter.TOOLBAR);
 	}
 
@@ -412,7 +289,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 * Choose PDF to insert.
 	 */
 	void choosePdfFile() {
-		pdfChooser.open();
+		pdfChooser.click();
 	}
 
 	/**
@@ -422,7 +299,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	 *            to load.
 	 *
 	 */
-	void loadPdf(JavaScriptObject file) {
+	void loadPdf(File file) {
 		buildLoadingPanel();
 		pdf = new PDFWrapper(file, this);
 	}
@@ -445,10 +322,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	}
 
 	/**
-	 * Progress bar.
-	 *
-	 * @author judit
-	 *
+	 * Progress bar for loading pdf
 	 */
 	public class ProgressBar extends SimplePanel {
 
@@ -478,7 +352,7 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 				onPDFLoaded();
 			} else {
 				pdf = null;
-				insertBtn.setEnabled(false);
+				setPosBtnDisabled(true);
 				buildErrorPanel();
 			}
 		}
@@ -505,15 +379,14 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 	void onPDFLoaded() {
 		pdf.setPageNumber(1);
 		buildPdfContainer();
-		if (pdf.getPageCount() == 1) {
+		if (pdf.getNumberOfPages() == 1) {
 			leftBtn.addStyleName("hidden");
 			rightBtn.addStyleName("hidden");
 			pdfPageTextPanel.addStyleName("hidden");
 		} else {
 			displayCurrentPageNumber();
 		}
-		setLabels();
-		insertBtn.setEnabled(true);
+		setPosBtnDisabled(false);
 	}
 
 	private void buildLoadingPanel() {
@@ -523,12 +396,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		imgTextPanel.addStyleName("imgTextElement");
 		progressBar = new ProgressBar();
 		pdfContainerPanel.add(progressBar);
-		if (loadText == null) {
-			loadText = new Label();
-			loadText.addStyleName("pdfDialogText");
-			loadText.addStyleName("loadText");
-			loadText.setText(appW.getLocalization().getMenu("PdfLoadText"));
-		}
+		Label loadText = new Label(app.getLocalization().getMenu("PdfLoadText"));
+		loadText.addStyleName("pdfDialogText");
+		loadText.addStyleName("loadText");
 		imgTextPanel.add(progressBar);
 		imgTextPanel.add(loadText);
 		pdfContainerPanel.add(imgTextPanel);
@@ -541,12 +411,9 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		pdfContainerPanel.clear();
 		pdfContainerPanel.removeStyleName("withPdf");
 		createFolderImg();
-		if (errorText == null) {
-			errorText = new Label();
-			errorText.addStyleName("pdfDialogText");
-			errorText.addStyleName("errorText");
-			errorText.setText(appW.getLocalization().getMenu("PdfErrorText"));
-		}
+		Label errorText = new Label(app.getLocalization().getMenu("PdfErrorText"));
+		errorText.addStyleName("pdfDialogText");
+		errorText.addStyleName("errorText");
 		imgTextPanel.add(errorText);
 		pdfContainerPanel.add(imgTextPanel);
 	}
@@ -556,4 +423,3 @@ public class PDFInputDialog extends DialogBoxW implements FastClickHandler, PDFL
 		progressBar.finishLoading(result);
 	}
 }
-

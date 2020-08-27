@@ -1,6 +1,8 @@
 package com.himamis.retex.editor.share.meta;
 
-public class MetaArrayComponent {
+import java.io.Serializable;
+
+public class MetaArrayComponent implements Serializable {
 	private final char key;
 	private final String tex;
 

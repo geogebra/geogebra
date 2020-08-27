@@ -5,6 +5,9 @@ import static java.lang.Math.atan;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,8 +15,10 @@ import java.util.Arrays;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.matrix.Coords;
+import org.geogebra.test.UndoRedoTester;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -124,6 +129,28 @@ public class GeoLocusStrokeTest extends BaseUnitTest {
 		};
 
 		assertPointsEqual(dilatedPoints, stroke.getPoints());
+	}
+
+	@Test
+	public void undoRedoTest() {
+		getApp().setGraphingConfig();
+		UndoRedoTester undoRedoTester = new UndoRedoTester(getApp());
+		undoRedoTester.setupUndoRedo();
+
+		addAvInput("stroke = Polyline((1, 3), (4, 3), true)");
+		undoRedoTester.undo();
+		GeoLocusStroke stroke = undoRedoTester.getAfterRedo("stroke");
+		assertThat(stroke, is(notNullValue()));
+	}
+
+	@Test
+	public void locusBasedOnStrokeShouldHaveEnoughPoints() {
+		addAvInput("stroke = Polyline((1, 3), (4, 3), (2,5), true)");
+		add("A=Point(stroke)");
+		add("B=A-(1,1)");
+		add("loc=Locus(B,A)");
+		GeoElement perimeter = add("Perimeter(loc)");
+		assertThat(perimeter.toValueString(StringTemplate.defaultTemplate), is("8.22"));
 	}
 
 	private GeoLocusStroke getInitialStroke() {

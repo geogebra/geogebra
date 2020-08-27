@@ -1,8 +1,12 @@
 package org.geogebra.web.editor;
 
+import javax.annotation.Nullable;
+
+import org.geogebra.common.gui.inputfield.AnsProvider;
 import org.geogebra.common.gui.inputfield.HasLastItem;
 import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
+import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
@@ -17,7 +21,10 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class MathFieldProcessing implements KeyboardListener {
 
 	private MathFieldW mf;
-	private HasLastItem lastItemProvider;
+	private AnsProvider ansProvider;
+
+	@Nullable
+	private RadioTreeItem avInput;
 	
 	/**
 	 * @param mf
@@ -31,12 +38,23 @@ public class MathFieldProcessing implements KeyboardListener {
 	/**
 	 * @param mf
 	 *            math field
-	 * @param av
-	 *            algebra view
+	 * @param lastItemProvider
+	 *            an object with ordered GeoElement collection
 	 */
-	public MathFieldProcessing(MathFieldW mf, HasLastItem av) {
+	public MathFieldProcessing(MathFieldW mf, HasLastItem lastItemProvider) {
 		this.mf = mf;
-		this.lastItemProvider = av;
+		ansProvider = lastItemProvider != null ? new AnsProvider(lastItemProvider) : null;
+	}
+
+	/**
+	 * @param avInput
+	 * 			current AV input (needed for getting the ANS from the previous row)
+	 * @param lastItemProvider
+	 * 			an object with ordered GeoElement collection
+	 */
+	public MathFieldProcessing(RadioTreeItem avInput, HasLastItem lastItemProvider) {
+		this(avInput.getMathField(), lastItemProvider);
+		this.avInput = avInput;
 	}
 
 	@Override
@@ -185,13 +203,20 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void ansPressed() {
-		if (lastItemProvider != null) {
-			insertString(lastItemProvider.getLastItem());
+		if (!requestsAns()) {
+			return;
 		}
+		boolean isInputInTextMode = !mf.getInternal().getInputController().getCreateFrac();
+		String currentInput = mf.getText();
+		String ans =
+				isInputInTextMode
+						? ansProvider.getAnsForTextInput(avInput.getGeo(), currentInput)
+						: ansProvider.getAns(avInput.getGeo(), currentInput);
+		mf.insertString(ans);
 	}
 
 	@Override
 	public boolean requestsAns() {
-		return lastItemProvider != null;
+		return ansProvider != null && avInput != null;
 	}
 }

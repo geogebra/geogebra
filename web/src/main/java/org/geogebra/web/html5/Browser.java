@@ -258,10 +258,9 @@ public class Browser {
 	 * @return whether we are running this from another website (local install
 	 *         of app bundle)
 	 */
-	public static boolean runningLocal() {
-		return Location.getProtocol().startsWith("http")
-				&& Location.getHost() != null
-				&& !Location.getHost().contains("geogebra.org");
+	public static boolean isGeoGebraOrg() {
+		return Location.getHost() != null
+				&& Location.getHost().contains("geogebra.org");
 	}
 
 	public native static String navigatorLanguage() /*-{

@@ -30,6 +30,7 @@ import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianViewFor3DW;
 import org.geogebra.web.geogebra3D.web.gui.GuiManager3DW;
 import org.geogebra.web.geogebra3D.web.kernel3D.commands.CommandDispatcher3DW;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.GgbFile;
@@ -146,8 +147,11 @@ public class AppWapplet3D extends AppWFull {
 
 	@Override
 	public EuclidianController newEuclidianController(Kernel kernel1) {
-		return new EuclidianControllerFor3DW(kernel);
-
+		if (kernel.getApplication().is3DViewEnabled()) {
+			return new EuclidianControllerFor3DW(kernel);
+		} else {
+			return new EuclidianControllerW(kernel);
+		}
 	}
 
 	@Override

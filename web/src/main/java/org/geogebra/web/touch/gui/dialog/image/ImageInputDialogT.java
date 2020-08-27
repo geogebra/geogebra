@@ -11,6 +11,7 @@ import org.geogebra.web.tablet.Tablet;
 import org.geogebra.web.touch.PhoneGapManager;
 
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -19,9 +20,9 @@ import com.googlecode.gwtphonegap.client.camera.PictureCallback;
 import com.googlecode.gwtphonegap.client.camera.PictureOptions;
 
 /**
- *
+ * image input dialog for touch
  */
-public class ImageInputDialogT extends UploadImageDialog {
+public class ImageInputDialogT extends UploadImageDialog implements ClickHandler {
 	private static final int PREVIEW_HEIGHT = 155;
 	private static final int PREVIEW_WIDTH = 213;
 	private static final int PICTURE_QUALITY = 25;
@@ -40,8 +41,8 @@ public class ImageInputDialogT extends UploadImageDialog {
 	 * @param app
 	 *            {@link App}
 	 */
-	public ImageInputDialogT(final App app) {
-		super((AppW) app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+	public ImageInputDialogT(final AppW app) {
+		super(app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 		this.pictureCallback = new PictureCallback() {
 
 			@Override
@@ -59,12 +60,30 @@ public class ImageInputDialogT extends UploadImageDialog {
 		if (!Tablet.useCordova()) {
 			exportJavascriptMethods();
 		}
+
+		setOnNegativeAction(() -> app.getImageManager().setPreventAuxImage(false));
+		setOnPositiveAction(this::positiveAction);
+	}
+
+	private void positiveAction() {
+		if (location != null && !location.isLabelSet()) {
+			location.setLabel(null);
+		}
+		if (this.cameraIsActive
+				&& !"".equals(this.pictureFromCameraString)) {
+			((AppW) app).imageDropHappened("devicePicture",
+					this.pictureFromCameraString);
+		} else if (!this.cameraIsActive
+				&& !"".equals(this.pictureFromFileString)) {
+			((AppW) app).imageDropHappened("devicePicture",
+					this.pictureFromFileString);
+		}
 	}
 
 	@Override
-	protected void initGUI() {
-		super.initGUI();
-		listPanel.add(camera = new Label(""));
+	protected void buildContent() {
+		super.buildContent();
+		listPanel.add(camera = new Label(app.getLocalization().getMenu("Camera")));
 
 		initFilePanel();
 		initCameraPanel();
@@ -84,7 +103,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 
 		filePanel = new FlowPanel();
 		filePanel.add(chooseFromFile = new StandardButton(
-				appw.getLocalization().getMenu("ChooseFromFile"), appw));
+				((AppW) app).getLocalization().getMenu("ChooseFromFile"), ((AppW) app)));
 		chooseFromFile.addStyleName("gwt-Button");
 		chooseFromFile.addFastClickHandler(new FastClickHandler() {
 
@@ -117,40 +136,15 @@ public class ImageInputDialogT extends UploadImageDialog {
 		}
 	}-*/;
 
-	@Override
 	protected void initActions() {
-		super.initActions();
+		upload.addClickHandler(this);
 		camera.addClickHandler(this);
-	}
-
-	@Override
-	public void setLabels() {
-		super.setLabels();
-		// TODO Translation needed
-		camera.setText("Camera");
 	}
 
 	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
-		if (source == insertBtn) {
-			if (location != null && !location.isLabelSet()) {
-				location.setLabel(null);
-			}
-			if (this.cameraIsActive
-					&& !"".equals(this.pictureFromCameraString)) {
-				appw.imageDropHappened("devicePicture",
-						this.pictureFromCameraString);
-			} else if (!this.cameraIsActive
-					&& !"".equals(this.pictureFromFileString)) {
-				appw.imageDropHappened("devicePicture",
-						this.pictureFromFileString);
-			}
-			hide();
-		} else if (source == cancelBtn) {
-			appw.getImageManager().setPreventAuxImage(false);
-			hide();
-		} else if (source == upload) {
+		if (source == upload) {
 			uploadClicked();
 		} else if (source == camera) {
 			cameraClicked();

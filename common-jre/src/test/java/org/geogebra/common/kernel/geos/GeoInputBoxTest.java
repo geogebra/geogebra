@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
@@ -133,6 +134,29 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox = (GeoInputBox) lookup("B");
 		assertEquals(wrongSyntax, inputBox.getTempUserEvalInput());
 		assertEquals(wrongSyntax, inputBox.getTempUserDisplayInput());
+	}
+
+	@Test
+	public void inputBoxCorrectlySavedAndLoaded() {
+		GeoText text = add("FormulaText(\\sqrt{n})");
+		GeoInputBox savedInputBox = add("inputbox1=InputBox()");
+		savedInputBox.setSymbolicMode(true);
+		savedInputBox.setAuxiliaryObject(true);
+		savedInputBox.setLength(50);
+		savedInputBox.setAlignment(TextAlignment.CENTER);
+		savedInputBox.setTempUserDisplayInput("abcde");
+		savedInputBox.setTempUserEvalInput("?");
+		savedInputBox.setDynamicCaption(text);
+		String appXML = getApp().getXML();
+		XmlTestUtil.testCurrentXML(getApp());
+		getApp().setXML(appXML, true);
+		GeoInputBox loadedInputBox = (GeoInputBox) lookup("inputbox1");
+
+		assertEquals(50, loadedInputBox.getLength());
+		assertEquals(TextAlignment.CENTER, loadedInputBox.getAlignment());
+		assertEquals("abcde", loadedInputBox.getTempUserDisplayInput());
+		assertEquals("?", loadedInputBox.getTempUserEvalInput());
+		assertEquals(text, loadedInputBox.getDynamicCaption());
 	}
 
 	@Test
@@ -358,8 +382,8 @@ public class GeoInputBoxTest extends BaseUnitTest {
 	public void testConicRedefinition() {
 		testRedefinition("eq1", ":", CONIC,
 				GeoClass.CONIC,
-				new String[] {FUNCTION, LINE, PLANE, NUMBER, POINT_3D, POINT_2D},
-				new String[] {CONIC});
+				new String[] {FUNCTION, PLANE, NUMBER, POINT_3D, POINT_2D},
+				new String[] {CONIC, LINE});
 	}
 
 	@Test
@@ -431,7 +455,9 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo(redefinition);
 
 		GeoElementND element = inputBox.getLinkedGeo();
-		assertEquals(assertDefined, element.isDefined());
+		String message = (assertDefined ? "should keep " : "should not keep ")
+				+ keepType + " " + redefinition;
+		assertEquals(message, assertDefined, element.isDefined());
 		assertEquals(keepType, element.getGeoClassType());
 		element.remove();
 	}
@@ -522,5 +548,72 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox.updateLinkedGeo("x+");
 		inputBox.updateLinkedGeo("x");
 		assertTrue(((GeoBoolean) lookup("correct")).getBoolean());
+	}
+
+	@Test
+	public void testSingleIneqRedefinedToDoubleIneq() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("3<x<7");
+		assertThat(lookup("a").isDefined(), equalTo(true));
+
+		inputBox.updateLinkedGeo("3<x");
+		assertThat(lookup("a").isDefined(), equalTo(true));
+	}
+
+	@Test
+	public void testInequalityCannotRedefineAsFunction() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		inputBox.updateLinkedGeo("xx");
+		assertThat(lookup("a").isDefined(), equalTo(false));
+		assertThat(inputBox.getText(), equalTo("xx")); // still preserves user input
+
+		add("b:2<x<9");
+		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(b)");
+		inputBox2.updateLinkedGeo("x+5");
+		assertThat(lookup("b").isDefined(), equalTo(false));
+		assertThat(inputBox2.getText(), equalTo("x+5")); // still preserves user input
+	}
+
+	@Test
+	public void testFunctionCannotRedefineAsInequality() {
+		add("f(x)=xx");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
+		inputBox.updateLinkedGeo("x<5");
+		assertThat(lookup("f").isDefined(), equalTo(false));
+		assertThat(inputBox.getText(), equalTo("x<5")); // still preserves user input
+
+		add("g(x)=x+8");
+		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(g)");
+		inputBox2.updateLinkedGeo("2<x<10");
+		assertThat(lookup("g").isDefined(), equalTo(false));
+		assertThat(inputBox2.getText(), equalTo("2<x<10")); // still preserves user input
+	}
+
+	@Test
+	public void testInequalitySetUndefinedInputboxShouldBeEmpty() {
+		add("a:x<6");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(a)");
+		add("SetValue(a,?)");
+		assertThat(lookup("a").isDefined(), equalTo(false));
+		assertThat(inputBox.getText(), equalTo("")); // still preserves user input
+
+		add("b:2<x<9");
+		GeoInputBox inputBox2 = addAvInput("ib2 = InputBox(b)");
+		add("SetValue(b,?)");
+		assertThat(lookup("b").isDefined(), equalTo(false));
+		assertThat(inputBox2.getText(), equalTo("")); // still preserves user input
+	}
+
+	@Test
+	public void testCommandLikeImplicitMultiplicationParsesCorrectly() {
+		add("f(g, L) = ?");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
+		inputBox.updateLinkedGeo("gL(L+1)");
+		assertEquals("g L (L + 1)", inputBox.getText());
+
+		inputBox.updateLinkedGeo("gL(L+1)^3");
+		assertEquals("g L (L + 1)³", inputBox.getText());
 	}
 }

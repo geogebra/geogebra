@@ -24,6 +24,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
+import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
@@ -180,6 +181,8 @@ public class GuiManagerW extends GuiManager
 
 	private AnimatingPanel sciSettingsView;
 	private TemplateChooserController templateController;
+
+	private Runnable runAfterLogin;
 
 	/**
 	 *
@@ -2029,11 +2032,25 @@ public class GuiManagerW extends GuiManager
 		if (this.uploadWaiting && event instanceof LoginEvent
 				&& ((LoginEvent) event).isSuccessful()) {
 			this.uploadWaiting = false;
-			save();
+			runAfterSuccessfulLogin();
 		} else if (this.uploadWaiting && event instanceof StayLoggedOutEvent) {
 			this.uploadWaiting = false;
 			getApp().getFileManager().saveLoggedOut(getApp());
 		}
+	}
+
+	private void runAfterSuccessfulLogin() {
+		if (app.isMebis() && runAfterLogin != null) {
+			runAfterLogin.run();
+			setRunAfterLogin(null);
+		} else {
+			save();
+		}
+	}
+
+	@Override
+	public void setRunAfterLogin(Runnable runAfterLogin) {
+		this.runAfterLogin = runAfterLogin;
 	}
 
 	@Override
@@ -2070,7 +2087,7 @@ public class GuiManagerW extends GuiManager
 		}
 		if (textField instanceof RadioTreeItem) {
 			return new MathFieldProcessing(
-					((RadioTreeItem) textField).getMathField(),
+					(RadioTreeItem) textField,
 					lastItemProvider);
 		}
 		if (textField instanceof KeyboardListener) {
@@ -2212,7 +2229,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void switchToolsToAV() {
 		getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)
-				.setToolMode(false);
+				.setTabId(DockPanelData.TabIds.ALGEBRA);
 	}
 
 	/**

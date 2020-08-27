@@ -1501,6 +1501,8 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public void cacheGraphics() {
-		cacheGraphics = g2p.getContext().getImageData(0, 0, getWidth(), getHeight());
+		double scale = g2p.getDevicePixelRatio();
+		cacheGraphics = g2p.getContext().getImageData(0, 0, getWidth() * scale,
+				getHeight() * scale);
 	}
 }

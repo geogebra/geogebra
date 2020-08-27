@@ -113,8 +113,11 @@ public enum EventType {
 	/** remove slide (whiteboard) */
 	REMOVE_SLIDE("removeSlide"),
 
+	/** rename slide (whiteboard) */
+	RENAME_SLIDE("renameSlide"),
+
 	/** duplicate slide (whiteboard): source index, target ID, source ID */
-	DUPLICATE_SLIDE("duplicateSlide"),
+	PASTE_SLIDE("pasteSlide"),
 
 	/** Move slide: sourceindex, target index */
 	MOVE_SLIDE("moveSlide"),

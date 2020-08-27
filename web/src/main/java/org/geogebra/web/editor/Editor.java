@@ -101,7 +101,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 	}
 
 	@Override
-	public void onKeyTyped() {
+	public void onKeyTyped(String key) {
 		// TODO Auto-generated method stub
 	}
 

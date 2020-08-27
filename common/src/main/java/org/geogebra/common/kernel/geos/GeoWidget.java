@@ -179,6 +179,6 @@ public abstract class GeoWidget extends GeoElement
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		angle -= r.getDouble();
-		GeoInlineText.rotate(startPoint, r, S);
+		GeoInline.rotate(startPoint, r, S);
 	}
 }

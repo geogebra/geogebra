@@ -11,12 +11,16 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.app.HTMLLogBuilder;
 import org.geogebra.web.full.gui.exam.ExamDialog;
 import org.geogebra.web.full.gui.exam.ExamExitConfirmDialog;
+import org.geogebra.web.full.gui.exam.ExamLogAndExitDialog;
 import org.geogebra.web.full.gui.exam.ExamUtil;
 import org.geogebra.web.full.gui.menubar.DefaultMenuAction;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.GlobalHeader;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.canvas.client.Canvas;
 
@@ -48,25 +52,28 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		String[] optionNames = {loc.getMenu("Cancel"), loc.getMenu("Exit")};
 
 		if (app.getConfig().hasExam()) {
-			new ExamExitConfirmDialog(app, new AsyncOperation<String>() {
-				@Override
-				public void callback(String obj) {
-					if ("exit".equals(obj)) {
-						exitAndResetExamOffline();
-					}
+			DialogData data = new DialogData(null,
+					"Cancel", "Exit");
+			AsyncOperation<String> returnHandler = obj -> {
+				if ("exit".equals(obj)) {
+					exitAndResetExamOffline();
 				}
-			}).show();
+			};
+			ExamExitConfirmDialog exit = new ExamExitConfirmDialog(app, data);
+			exit.setOnPositiveAction(() -> {
+				app.getExam().exit();
+				GlobalHeader.INSTANCE.resetAfterExam();
+				new ExamLogAndExitDialog((AppW) app, false, returnHandler, null).show();
+			});
+			exit.show();
 		} else {
 			app.getGuiManager().getOptionPane().showOptionDialog(
 					loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
 					loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
 					1, GOptionPane.WARNING_MESSAGE, null, optionNames,
-					new AsyncOperation<String[]>() {
-						@Override
-						public void callback(String[] obj) {
-							if ("1".equals(obj[0])) {
-								exitAndResetExam();
-							}
+					obj -> {
+						if ("1".equals(obj[0])) {
+							exitAndResetExam();
 						}
 					});
 		}
@@ -85,21 +92,14 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		AsyncOperation<String[]> handler;
 		AsyncOperation<String[]> welcomeHandler;
 		if (examFile && !app.isUnbundledGraphing()) {
-			handler = new AsyncOperation<String[]>() {
-				@Override
-				public void callback(String[] dialogResult) {
-					app.setNewExam();
-					ExamDialog.startExam(null, app);
-				}
+			handler = dialogResult -> {
+				app.setNewExam();
+				ExamDialog.startExam(null, app);
 			};
-			welcomeHandler = new AsyncOperation<String[]>() {
-
-				@Override
-				public void callback(String[] obj) {
-					app.getLAF().toggleFullscreen(true);
-					app.setNewExam();
-					app.examWelcome();
-				}
+			welcomeHandler = obj -> {
+				app.getLAF().toggleFullscreen(true);
+				app.setNewExam();
+				app.examWelcome();
 			};
 			buttonText = loc.getMenu("Restart");
 			exam.setHasGraph(true);
@@ -118,12 +118,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 						buttonText, welcomeHandler);
 			}
 		} else {
-			handler = new AsyncOperation<String[]>() {
-				@Override
-				public void callback(String[] dialogResult) {
-					app.fileNew();
-				}
-			};
+			handler = dialogResult -> app.fileNew();
 			buttonText = loc.getMenu("OK");
 			showFinalLog(loc.getMenu("exam_log_header") + " " + app.getVersionString(),
 					buttonText, handler);

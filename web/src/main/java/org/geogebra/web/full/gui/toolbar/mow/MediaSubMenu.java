@@ -26,7 +26,7 @@ public class MediaSubMenu extends SubMenuPanel {
 	protected void createContentPanel() {
 		super.createContentPanel();
 		boolean isEnabled = app.getVendorSettings().isGraspableMathEnabled();
-		super.createPanelRow(ToolBar.getMOWMediaToolBarDefString(app, isEnabled));
+		super.createPanelRow(ToolBar.getMOWMediaToolBarDefString(isEnabled));
 		makeButtonsAccessible(AccessibilityGroup.NOTES_TOOL_MEDIA);
 	}
 

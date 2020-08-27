@@ -7,53 +7,40 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.AbstractProperty;
-import org.geogebra.common.properties.PropertiesList;
 import org.geogebra.common.properties.Property;
-import org.geogebra.common.properties.PropertyCollection;
+import org.geogebra.common.properties.impl.AbstractPropertyCollection;
 
 /**
  * This collection groups properties that are related to the distances of axes numbering.
  */
-public class DistancePropertyCollection extends AbstractProperty implements PropertyCollection {
+public class DistancePropertyCollection extends AbstractPropertyCollection {
 
-    private PropertiesList collection;
-
-    /**
+	/**
 	 * Constructs a numbering distances property collection.
-	 * 
-	 * @param app
-	 *            application
-	 * @param localization
-	 *            localization for the title
-	 * @param euclidianSettings
-	 *            EV settings
+	 * @param app application
+	 * @param localization localization for the title
+	 * @param euclidianSettings EV settings
 	 */
-    public DistancePropertyCollection(App app, Localization localization, EuclidianSettings
-            euclidianSettings) {
-        super(localization, "Distance");
+	public DistancePropertyCollection(App app, Localization localization, EuclidianSettings
+			euclidianSettings) {
+		super(localization, "Distance");
 
-        Kernel kernel = app.getKernel();
-        EuclidianView euclidianView = app.getActiveEuclidianView();
-        ArrayList<Property> properties = new ArrayList<>();
+		Kernel kernel = app.getKernel();
+		EuclidianView euclidianView = app.getActiveEuclidianView();
+		ArrayList<Property> properties = new ArrayList<>();
 
-        properties.add(new AxesNumberingDistanceProperty(localization, euclidianSettings,
-                euclidianView, kernel));
-        properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
-                kernel, "xAxis", 0));
-        properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
-                kernel, "yAxis", 1));
+		properties.add(new AxesNumberingDistanceProperty(localization, euclidianSettings,
+				euclidianView, kernel));
+		properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
+				kernel, "xAxis", 0));
+		properties.add(new AxisDistanceProperty(localization, euclidianSettings, euclidianView,
+				kernel, "yAxis", 1));
 		if (euclidianSettings.getDimension() > 2) {
-            properties.add(
-                    new AxisDistanceProperty(localization, euclidianSettings, euclidianView, kernel,
-                            "zAxis", 2));
-        }
+			properties.add(
+					new AxisDistanceProperty(localization, euclidianSettings, euclidianView, kernel,
+							"zAxis", 2));
+		}
 
-		collection = new PropertiesList(properties);
-    }
-
-    @Override
-    public PropertiesList getProperties() {
-        return collection;
-    }
+		setProperties(properties.toArray(new Property[0]));
+	}
 }

@@ -262,6 +262,10 @@ public class ApiExporter {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFilling(Ljava/lang/String;)(objName + "");
 		};
 
+		api.getImageFileName = function(objName) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getImageFileName(Ljava/lang/String;)(objName + "");
+		};
+
 		api.getLineStyle = function(objName) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLineStyle(Ljava/lang/String;)(objName + "");
 		};
@@ -634,6 +638,10 @@ public class ApiExporter {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::insertImage(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(url + "", corner1+"", corner2+"", corner4+"");
 		};
 
+		api.addImage = function(fileName, url) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::addImage(*)(fileName + "", url + "");
+		};
+
 		api.recalculateEnvironments = function() {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::recalculateEnvironments()();
 		};
@@ -672,7 +680,7 @@ public class ApiExporter {
 		};
 		
 		api.setFileJSON = function(zip) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFileJSON(Lcom/google/gwt/core/client/JavaScriptObject;)(zip);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFileJSON(Ljava/lang/Object;)(zip);
 		};
 
 		api.setLanguage = function(lang) {

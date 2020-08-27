@@ -122,8 +122,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @version 2011-12-02
  */
 
-public abstract class GeoElement extends ConstructionElement
-		implements GeoElementND {
+public abstract class GeoElement extends ConstructionElement implements GeoElementND {
 
 	/**
 	 * Column headings for spreadsheet trace
@@ -2950,14 +2949,6 @@ public abstract class GeoElement extends ConstructionElement
 			colFunction.unregisterColorFunctionListener(this);
 		}
 
-		/*
-		 * // remove all dependent algorithms if (algorithmList != null) { final
-		 * Object[] algos = algorithmList.toArray(); for (int i = 0; i <
-		 * algos.length; i++) { algo = (AlgoElement) algos[i];
-		 * algo.remove(this); cons.updateCasCellRows(); } //
-		 * cons.updateCasCellRows(); }
-		 */
-
 		// remove this object from table
 		if (isLabelSet()) {
 			cons.removeLabel(this);
@@ -5626,7 +5617,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public boolean isEqual(GeoElementND geo) {
-		return this == geo;
+		return geo == this;
 	}
 
 	/**
@@ -6272,6 +6263,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for intervals
 	 */
+	@Override
 	public boolean isGeoInterval() {
 		return false;
 	}

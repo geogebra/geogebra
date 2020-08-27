@@ -42,11 +42,6 @@ the Free Software Foundation; either version 2 of the License, or
  * @version 10.4.2004
  */
 
- options {
-   static = false;
-   JAVA_TEMPLATE_TYPE="modern";
-} 
-
 PARSER_BEGIN(Parser)
 package org.geogebra.common.kernel.parser;
 
@@ -79,9 +74,12 @@ public class Parser implements ParserInterface {
     private Kernel kernel;
     private App app;
     private Localization loc;
-    private boolean GeoGebraCASParsing = false;
-    private boolean ExternalCASParsing = false;
-    private boolean GiacParsing = false;
+
+    private boolean geoGebraCASParsing = false;
+    private boolean externalCASParsing = false;
+    private boolean giacParsing = false;
+    private boolean inputBoxParsing = false;
+
     private boolean enableStructures = true;
     private FunctionParser functionParser;
     private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
@@ -111,28 +109,41 @@ public class Parser implements ParserInterface {
         this.highPrecisionParsing = highPrecisionParsing;
     }
 
-    // reset for new parsing
-    public void myReInit(String parseString) throws ParseException {
-        if (!kernel.getConstruction().isFileLoading() && StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString))>=0) {
-          throw new BracketsError(loc,parseString);
-        }
-      ReInit(new StringProvider(StringUtil.fixVerticalBars(parseString)));
-      GeoGebraCASParsing = false;
-      ExternalCASParsing = false;
-      GiacParsing = false;
-      enableStructures = kernel.getAlgebraProcessor().enableStructures();
-      undecided.clear();
-    }
+	// reset for new parsing
+	public void myReInit(String parseString) throws ParseException {
+		if (!kernel.getConstruction().isFileLoading() && StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString)) >= 0) {
+			throw new BracketsError(loc,parseString);
+		}
+		ReInit(new StringProvider(StringUtil.fixVerticalBars(parseString)));
+		geoGebraCASParsing = false;
+		externalCASParsing = false;
+		giacParsing = false;
+		inputBoxParsing = false;
+		enableStructures = kernel.getAlgebraProcessor().enableStructures();
+		undecided.clear();
+	}
 
-    /**
-     * Parses a String and returns a ValidExpression Object
-     */
-    public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {
-        myReInit( parseString.length() > 0 && parseString.charAt(0)=='=' ? parseString.substring(1):parseString );
-        ValidExpression ret = buildValidExpression();
-        processUndecided();
-        return ret;
-    }
+	/**
+	 * Parses a String and returns a ValidExpression Object
+	 */
+	public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {
+		myReInit(stripEqualSign(parseString));
+		ValidExpression ret = buildValidExpression();
+		processUndecided();
+		return ret;
+	}
+
+	public ValidExpression parseInputBoxExpression(String parseString) throws ParseException {
+    	myReInit(stripEqualSign(parseString));
+    	inputBoxParsing = true;
+		ValidExpression ret = buildValidExpression();
+		processUndecided();
+		return ret;
+	}
+
+	private String stripEqualSign(String parseString) {
+		return parseString.length() > 0 && parseString.charAt(0) == '=' ? parseString.substring(1) : parseString;
+	}
 
      /**
      * Parses a String and returns a ValidExpression Object
@@ -140,7 +151,7 @@ public class Parser implements ParserInterface {
     public ValidExpression parseGeoGebraCAS(String parseString, GeoSymbolicI cell) throws ParseException {
         myReInit( parseString );
         // parse x^2 + y^2 as an expression and don't throw Incomplete Equation error
-        GeoGebraCASParsing = true;
+        geoGebraCASParsing = true;
         ValidExpression ret = buildCASExpression(cell);
         processUndecided();
         return ret;
@@ -151,8 +162,8 @@ public class Parser implements ParserInterface {
      */
     public ValidExpression parseGiac(String parseString) throws ParseException {
         myReInit( parseString );
-        ExternalCASParsing = true;
-        GiacParsing = true;
+        externalCASParsing = true;
+        giacParsing = true;
         return buildGiacExpression();
     }
 
@@ -243,7 +254,7 @@ public class Parser implements ParserInterface {
         if (percent) {
             val = val * 0.01;
         }
-        if (ExternalCASParsing || GeoGebraCASParsing || highPrecisionParsing) {
+        if (externalCASParsing || geoGebraCASParsing || highPrecisionParsing) {
             // preserve string from CAS: it may have higher
             // precision than double
             return new MySpecialDouble(kernel, val, percent ? image + "%" : image);
@@ -545,7 +556,7 @@ ValidExpression buildCASExpression(GeoSymbolicI cell) :
           {
             ExpressionNode startCell = new ExpressionNode(kernel, new Variable(kernel, l.image));
     ExpressionNode endCell = new ExpressionNode(kernel, new Variable(kernel, ve.toString(StringTemplate.defaultTemplate)));
-    Command cmd = new Command(kernel, "CellRange", false, !ExternalCASParsing ); // don't translate name
+    Command cmd = new Command(kernel, "CellRange", false, !externalCASParsing ); // don't translate name
     cmd.addArgument(startCell);
     cmd.addArgument(endCell);
     return cmd;
@@ -619,11 +630,11 @@ ValidExpression command():
   (
        (t = <FUNCTION_LABEL>) // includes (
       { cmdName = t.image.substring(0,t.image.length()-1);
-        c = new Command(kernel, cmdName, true, !ExternalCASParsing );    }
+        c = new Command(kernel, cmdName, true, !externalCASParsing );    }
       (   ( en = expressionOrEquation()  { c.addArgument( en.wrap() ); } )?
           ( <COMMA> en = expressionOrEquation() { c.addArgument( en.wrap() ); } )*
       (")"|"]") )
-      { if (GiacParsing)
+      { if (giacParsing)
       {
         ExpressionNode res = CommandDispatcherGiac.processCommand(cmdName,c,kernel);
         if (res != null)
@@ -653,7 +664,7 @@ ExpressionNode expressionNoFreeVars():
     rhs = expressionnode()
     {
       // Giac uses x,y not ggbtmpvarx/y
-        if (!GeoGebraCASParsing && !GiacParsing && rhs.containsFreeFunctionVariable(null)) {
+        if (!geoGebraCASParsing && !giacParsing && rhs.containsFreeFunctionVariable(null)) {
           throw new MyError(loc, "IncompleteEquation");
         }
 
@@ -859,7 +870,7 @@ ExpressionNode expressionnode():
         en = new ExpressionNode(kernel, ret);
 
       //en.expandEquationExpressions();
-      if (ExternalCASParsing)
+      if (externalCASParsing)
         en.simplifyLeafs();
       return en;
     }
@@ -957,7 +968,7 @@ ExpressionValue COMPAREterm():
        (
          (<EQUAL_BOOLEAN>  right = listopnode()
        {
-         if (ExternalCASParsing)
+         if (externalCASParsing)
              result = new ExpressionNode(kernel, new Equation(kernel, left, right));
          else
                 result = new ExpressionNode(kernel, left, Operation.EQUAL_BOOLEAN, right);
@@ -1153,7 +1164,7 @@ ExpressionValue multterm():
      LOOKAHEAD( { getToken(1).kind != VERTICAL_BAR} )
      f = powerdivterm()
         {
-            ExpressionValue special = functionParser.multiplySpecial(ret, f, GiacParsing, GeoGebraCASParsing);
+            ExpressionValue special = functionParser.multiplySpecial(ret, f, giacParsing, geoGebraCASParsing);
             if (special == null) {
                 if (ExpressionNode.isConstantDouble(f, Kernel.PI_180)
                         && ret instanceof ExpressionNode
@@ -1477,7 +1488,7 @@ ExpressionValue numVecVariable():
 {
     c = <VARX>
     {
-        if (GeoGebraCASParsing) {
+        if (geoGebraCASParsing) {
             return new Variable(kernel, c.image);
         }
         return new FunctionVariable(kernel, c.image);
@@ -1485,7 +1496,7 @@ ExpressionValue numVecVariable():
 |
     c = <VARY>
     {
-        if (GeoGebraCASParsing) {
+        if (geoGebraCASParsing) {
             return new Variable(kernel, c.image);
         }
         return new FunctionVariable(kernel, c.image);
@@ -1494,7 +1505,7 @@ ExpressionValue numVecVariable():
     c = <VARZ>
     {
         // check for CAS parsing or if z is defined in kernel
-        if (GeoGebraCASParsing || kernel.lookupLabel("z") != null) {
+        if (geoGebraCASParsing || kernel.lookupLabel("z") != null) {
             return new Variable(kernel, c.image);
         } else {
             // z is not defined: treat as equation variable for 3D view
@@ -1514,11 +1525,11 @@ ExpressionValue numVecVariable():
         // should we read e for Euler constant and i for imaginary unit?
         boolean lookforEulerImaginary = false;
 
-        if (GeoGebraCASParsing) {
+        if (geoGebraCASParsing) {
             // leave e and i untouched in GeoGebraCAS view
             lookforEulerImaginary = false;
         }
-        else if (ExternalCASParsing) {
+        else if (externalCASParsing) {
             // Giac does not need it either, may need changing for other CASes
             lookforEulerImaginary = false;
         } else { // GeoGebraCAS or GeoGebra parsing
@@ -1560,7 +1571,7 @@ Command spreadsheetRange():
     // build command CellRange[ startCell, endCell ]
     ExpressionNode startCell = new ExpressionNode(kernel, new Variable(kernel, c.image));
     ExpressionNode endCell = new ExpressionNode(kernel, new Variable(kernel, c2.image));
-    Command cmd = new Command(kernel, "CellRange", false, !ExternalCASParsing ); // don't translate name
+    Command cmd = new Command(kernel, "CellRange", false, !externalCASParsing ); // don't translate name
     cmd.addArgument(startCell);
     cmd.addArgument(endCell);
     return cmd;
@@ -1728,8 +1739,8 @@ ExpressionNode numberFunction():
 {
     c = <X_FUNC> en = expressionOrEquation() (")"|"]")
     {
-        if (GeoGebraCASParsing) {
-            return Command.xyzCAS(en, 0,!ExternalCASParsing, undecided, kernel);
+        if (geoGebraCASParsing) {
+            return Command.xyzCAS(en, 0,!externalCASParsing, undecided, kernel);
         } else {
             // standard GeoGebra input bar: x(...) is interpreted as "x-coordinate of"
             return new ExpressionNode(kernel, en, Operation.XCOORD, null);
@@ -1738,9 +1749,9 @@ ExpressionNode numberFunction():
 |
      c = <Y_FUNC> en = expressionOrEquation() (")"|"]")
     {
-        if (GeoGebraCASParsing) {
+        if (geoGebraCASParsing) {
             // GeoGebra CAS view: y(...) is interpreted as a function
-            return Command.xyzCAS(en, 1, !ExternalCASParsing, undecided, kernel);
+            return Command.xyzCAS(en, 1, !externalCASParsing, undecided, kernel);
         } else {
             // standard GeoGebra input bar: y(...) is interpreted as "y-coordinate of"
             return new ExpressionNode(kernel, en, Operation.YCOORD, null);
@@ -1749,8 +1760,8 @@ ExpressionNode numberFunction():
 |
      c = <Z_FUNC> en = expressionOrEquation() (")"|"]")
     {
-        if (GeoGebraCASParsing) {
-            return Command.xyzCAS(en, 2, !ExternalCASParsing, undecided, kernel);
+        if (geoGebraCASParsing) {
+            return Command.xyzCAS(en, 2, !externalCASParsing, undecided, kernel);
         } else {
             // standard GeoGebra input bar: z(...) is interpreted as user function z or "z-coordinate of"
             GeoElement userFun = kernel.lookupLabel("z");
@@ -1797,7 +1808,7 @@ ExpressionNode numberFunction():
   // note: the last character of FUNCTION_LABEL is a "("
     {
         // remove the opening parenthesis
-        return functionParser.makeFunctionNode(c.image,myList, undecided, GiacParsing, GeoGebraCASParsing);
+        return functionParser.makeFunctionNode(c.image,myList, undecided, giacParsing, geoGebraCASParsing, inputBoxParsing);
     }
 }
 
@@ -1825,7 +1836,7 @@ ExpressionValue tuple():
     {
 
         if (y == null) {
-            if (GiacParsing) {
+            if (giacParsing) {
                 x = x.unwrap();
             }
             if (x instanceof ExpressionNode) {

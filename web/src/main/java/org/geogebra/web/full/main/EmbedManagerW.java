@@ -19,7 +19,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
+import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -40,7 +42,6 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
-import org.geogebra.web.html5.util.JSON;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -52,13 +53,15 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.Widget;
 
+import elemental2.core.Global;
+
 /**
  * Creates, deletes and resizes embedded applets.
  *
  * @author Zbynek
  *
  */
-public class EmbedManagerW implements EmbedManager {
+public class EmbedManagerW implements EmbedManager, EventRenderable {
 
 	private AppWFull app;
 	private HashMap<DrawWidget, EmbedElement> widgets = new HashMap<>();
@@ -76,6 +79,7 @@ public class EmbedManagerW implements EmbedManager {
 	EmbedManagerW(AppWFull app) {
 		this.app = app;
 		this.counter = 0;
+		app.getLoginOperation().getView().add(this);
 	}
 
 	@Override
@@ -162,13 +166,14 @@ public class EmbedManagerW implements EmbedManager {
 		fr.runAsyncAfterSplash();
 
 		CalcEmbedElement element = new CalcEmbedElement(fr, this, drawEmbed.getEmbedID());
+		element.setJsEnabled(isJsEnabled());
 		if (currentBase64 != null) {
 			fr.getApp().registerOpenFileListener(
 					getListener(drawEmbed, parameters));
 		} else if (content.get(drawEmbed.getEmbedID()) != null) {
 			boolean oldWidget = hasWidgetWithId(drawEmbed.getEmbedID());
 			fr.getApp().getGgbApi().setFileJSON(
-					JSON.parse(content.get(drawEmbed.getEmbedID())));
+					Global.JSON.parse(content.get(drawEmbed.getEmbedID())));
 			if (oldWidget) {
 				drawEmbed.getGeoEmbed().setEmbedId(nextID());
 			}
@@ -255,8 +260,8 @@ public class EmbedManagerW implements EmbedManager {
 		style.setProperty("transform", "rotate(" + drawEmbed.getGeoElement().getAngle() + "rad)");
 		if (drawEmbed.getWidth() > 0) {
 			embedElement.getGreatParent().setSize(
-					drawEmbed.getWidth() + "px",
-					drawEmbed.getHeight() + "px");
+					(int) drawEmbed.getWidth() + "px",
+					(int) drawEmbed.getHeight() + "px");
 			// above the oject canvas (50) and below MOW toolbar (51)
 			toggleBackground(embedElement, drawEmbed);
 			int contentWidth = drawEmbed.getGeoEmbed().getContentWidth();
@@ -417,6 +422,7 @@ public class EmbedManagerW implements EmbedManager {
 		int id = nextID();
 		base64.put(id, material.getBase64());
 		GeoEmbed ge = new GeoEmbed(app.getKernel().getConstruction());
+		ge.setSize(material.getWidth(), material.getHeight());
 		ge.setContentWidth(material.getWidth());
 		ge.setContentHeight(material.getHeight());
 		ge.attr("showToolBar", material.getShowToolbar() || material.getShowMenu());
@@ -424,11 +430,11 @@ public class EmbedManagerW implements EmbedManager {
 		ge.attr("allowStyleBar", material.getAllowStylebar());
 		ge.attr("showAlgebraInput", material.getShowInputbar());
 		ge.setEmbedId(id);
+		ge.initPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
 	}
 
 	private void showAndSelect(final GeoEmbed ge) {
-		ge.initPosition(app.getActiveEuclidianView());
 		ge.setLabel(null);
 		app.storeUndoInfo();
 		app.invokeLater(() -> app.getActiveEuclidianView().getEuclidianController()
@@ -490,6 +496,7 @@ public class EmbedManagerW implements EmbedManager {
 		ge.setUrl("https://graspablemath.com");
 		ge.setAppName("extension");
 		ge.setEmbedId(nextID());
+		ge.initDefaultPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
 	}
 
@@ -545,4 +552,16 @@ public class EmbedManagerW implements EmbedManager {
 			JavaScriptObject jso) /*-{
 		jso[embedName] = api;
 	}-*/;
+
+	@Override
+	public void renderEvent(BaseEvent event) {
+		for (Entry<DrawWidget, EmbedElement> e : widgets.entrySet()) {
+			e.getValue().setJsEnabled(isJsEnabled());
+		}
+	}
+
+	private boolean isJsEnabled() {
+		return !app.isMebis()
+				|| app.getLoginOperation().isTeacherLoggedIn();
+	}
 }

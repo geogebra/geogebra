@@ -20,10 +20,8 @@ public final class GeoGebraElement extends Element implements AttributeProvider 
 	 */
 	public static GeoGebraElement as(Element element) {
 		if (element != null) {
-			element.setTabIndex(0);
+			element.setTabIndex(-1);
 		}
-		// assert element.getTagName().equalsIgnoreCase(TAG);
-		//addNativeHandlers(element);
 		return (GeoGebraElement) element;
 	}
 

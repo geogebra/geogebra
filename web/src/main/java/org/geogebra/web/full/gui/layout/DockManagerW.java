@@ -12,6 +12,7 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -415,7 +416,7 @@ public class DockManagerW extends DockManager {
 				panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
 				panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
 				panel.setShowStyleBar(dpData[i].showStyleBar());
-				panel.setToolMode(dpData[i].isToolMode());
+				panel.setTabId(dpData[i].getTabId());
 
 				// detach views which were visible, but are not in the new
 				// perspective
@@ -1779,6 +1780,19 @@ public class DockManagerW extends DockManager {
 		for (DockPanelW dock : this.dockPanels) {
 			if (dock.getViewId() != App.VIEW_ALGEBRA) {
 				dock.resetStylebar();
+			}
+		}
+	}
+
+	/**
+	 * Set active tab(s) from perspective
+	 * @param p perspective
+	 */
+	public void setActiveTab(Perspective p) {
+		for (DockPanelData dpData: p.getDockPanelData()) {
+			DockPanelW panel = getPanel(dpData.getViewId());
+			if (panel != null) {
+				panel.setTabId(dpData.getTabId());
 			}
 		}
 	}

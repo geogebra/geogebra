@@ -120,29 +120,30 @@ public class ZoomController {
 
 	/** Home button handler. */
 	public void onHomePressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.closeMenuHideKeyboard();
 		view.setStandardView(true);
 		app.getAccessibilityManager().focusFirstElement();
 	}
 
 	/** Zoom In button handler. */
 	public void onZoomInPressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
-		view.getEuclidianController().zoomInOut(false,
-				false);
+		app.closeMenuHideKeyboard();
+		zoomInOut(false);
 	}
 
 	/** Zoom Out button handler. */
 	public void onZoomOutPressed() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
-		view.getEuclidianController().zoomInOut(false,
-				true);
+		app.closeMenuHideKeyboard();
+		zoomInOut(true);
+	}
+
+	private void zoomInOut(boolean out) {
+		double factor = out ? 1d / EuclidianView.MODE_ZOOM_FACTOR
+				: EuclidianView.MODE_ZOOM_FACTOR;
+		double px = view.getWidth() / 2.0;
+		double py = view.getHeight() / 2.0;
+
+		view.getEuclidianController().zoomInOut(factor, 15, px, py);
 	}
 
 	/**
@@ -283,9 +284,7 @@ public class ZoomController {
 	 */
 	protected void onFullscreenPressed(final Element elem,
 			final StandardButton fullscreenBtn, String eventType) {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
+		app.closeMenuHideKeyboard();
 		final Element container;
 		emulated = useEmulatedFullscreen(app, eventType);
 		if (app.getAppletParameters().getDataParamFitToScreen()) {

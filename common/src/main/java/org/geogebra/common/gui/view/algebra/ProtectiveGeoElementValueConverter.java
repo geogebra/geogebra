@@ -19,7 +19,7 @@ public class ProtectiveGeoElementValueConverter implements ToStringConverter<Geo
 		if (functionAndEquationFilter.isAllowed(element)) {
 			return defaultConverter.convert(element);
 		} else {
-			return "(" + element.getDefinition(StringTemplate.algebraTemplate) + ")";
+			return element.getDefinition(StringTemplate.algebraTemplate);
 		}
 	}
 }

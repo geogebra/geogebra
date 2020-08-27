@@ -910,6 +910,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.forceNF = forceNF;
 		result.forceSF = forceSF;
 		result.supportsFractions = supportsFractions;
+		result.questionMarkForNaN = questionMarkForNaN;
 		return result;
 	}
 
@@ -1815,7 +1816,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// right wing
 			int opIDright = ExpressionNode.opID(right);
-			if (right.isLeaf() || (opIDright >= Operation.MULTIPLY.ordinal())) { // not
+			if (opIDright == Operation.DIVIDE.ordinal() && !nounary
+					&& stringType == StringType.LATEX) {
+				sb.append(rightStr);
+			} else  if (right.isLeaf() || (opIDright >= Operation.MULTIPLY.ordinal())) { // not
 				// +,
 				// -
 				boolean showMultiplicationSign = false;
@@ -1901,9 +1905,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					if (rtlMinus) {
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					}
-					sb.append(leftBracket());
-					sb.append(rightStr);
-					sb.append(rightBracket());
+					appendWithBrackets(sb, rightStr);
 					if (rtlMinus) {
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					}
@@ -2204,22 +2206,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, "<divide/>", leftStr, rightStr);
 			break;
 		case LATEX:
-			if ((leftStr.charAt(0) == '-') && (left.isLeaf()
-					|| (left instanceof ExpressionNode && ExpressionNode
-							.isMultiplyOrDivide((ExpressionNode) left)))) {
-				sb.append("-\\frac{");
-				sb.append(leftStr.substring(1));
-				sb.append("}{");
-				sb.append(rightStr);
-				sb.append("}");
-			} else {
-
-				sb.append("\\frac{");
-				sb.append(leftStr);
-				sb.append("}{");
-				sb.append(rightStr);
-				sb.append("}");
-			}
+			sb.append("\\frac{");
+			sb.append(leftStr);
+			sb.append("}{");
+			sb.append(rightStr);
+			sb.append("}");
 			break;
 		case LIBRE_OFFICE:
 			sb.append("{ ");
@@ -2262,12 +2253,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append("/");
 			appendOptionalSpace(sb);
 			// right wing
-			append(sb, rightStr, right, Operation.POWER); // not
-
-			// +,
-			// -,
-			// *,
-			// /
+			append(sb, rightStr, right, Operation.POWER); // not +, -, *, /
 		}
 		return sb.toString();
 	}
@@ -3108,8 +3094,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// eg 4.35372862870553E8
 			// need to add decimal point back in
 			if (i < 0) {
-				return s[0].substring(0, s[0].length() + i) + "."
-						+ s[0].substring(s[0].length() + i);
+				return "(" + s[0] + "/1" + StringUtil.repeat('0', -i) + ")";
 			}
 
 			if (i == 0) {
@@ -3269,6 +3254,20 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		StringTemplate ret = this.copy();
 		ret.supportsFractions = fractions;
+		return ret;
+	}
+
+	/**
+	 * @param questionMark whether to use "?" for Double.NaN
+	 * @return copy of this template with adjusted question mark flag
+	 */
+	public StringTemplate deriveWithQuestionmark(boolean questionMark) {
+		if (questionMarkForNaN == questionMark) {
+			return this;
+		}
+
+		StringTemplate ret = this.copy();
+		ret.questionMarkForNaN = questionMark;
 		return ret;
 	}
 

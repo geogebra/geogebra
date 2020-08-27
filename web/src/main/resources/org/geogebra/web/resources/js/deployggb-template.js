@@ -400,7 +400,11 @@ var GGBApplet = function() {
             var currentChild = appletParent.childNodes[i];
             var className = currentChild.className;
 
+<<<<<<< HEAD
             if (currentChild.className === "applet_screenshot") {
+=======
+            if (className === "applet_screenshot") {
+>>>>>>> master
                 if (showScreenshot) {
                     // Show the screenshot instead of the removed applet
                     currentChild.style.display = "block";
@@ -412,7 +416,11 @@ var GGBApplet = function() {
             } else if (className !== "applet_scaler prerender") {
                 // Remove the applet
                 appletParent.removeChild(currentChild);
+<<<<<<< HEAD
                 removedID = className.contains("appletParameters") ? currentChild.id : null;
+=======
+                removedID = (className && className.indexOf("appletParameters") != -1) ? currentChild.id : null;
+>>>>>>> master
                 i--;
             }
         }
@@ -493,7 +501,11 @@ var GGBApplet = function() {
             scriptLoadStarted = false;
         }
 
+<<<<<<< HEAD
         var article = document.createElement("div");
+=======
+        var article = document.createElement("article");
+>>>>>>> master
         // don't add geogebraweb here, as we don't want to parse it out of the box.
         article.classList.add("appletParameters", "notranslate");
         var oriWidth = parameters.width;

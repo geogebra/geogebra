@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -312,5 +313,13 @@ public class ObjectNameModel extends OptionsModel {
 	@Override
 	public PropertyListener getListener() {
 		return listener;
+	}
+
+	/**
+	 *
+	 * @return if caption can be GeoText or not.
+	 */
+	public boolean canCaptionBeGeoText() {
+		return currentGeo instanceof GeoInputBox;
 	}
 }

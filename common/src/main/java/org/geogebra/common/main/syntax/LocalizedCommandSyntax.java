@@ -1,6 +1,10 @@
 package org.geogebra.common.main.syntax;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 
 /**
  * Class to get the syntax of the command with the
@@ -9,7 +13,11 @@ import org.geogebra.common.main.Localization;
  * @author Laszlo
  */
 public class LocalizedCommandSyntax implements CommandSyntax {
+
 	private final Localization loc;
+
+	@CheckForNull
+	private SyntaxFilter syntaxFilter;
 
 	/**
 	 *
@@ -17,6 +25,15 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 	 */
 	public LocalizedCommandSyntax(Localization localization) {
 		this.loc = localization;
+	}
+
+	/**
+	 * @param localization the localization.
+	 * @param syntaxFilter command syntax filter
+	 */
+	public LocalizedCommandSyntax(Localization localization, SyntaxFilter syntaxFilter) {
+		this(localization);
+		this.syntaxFilter = syntaxFilter;
 	}
 
 	/**
@@ -53,12 +70,14 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 
 	private String getLocalizedSyntax(String key) {
 		String syntaxKey = key + Localization.syntaxStr;
-		return getLocalizedCommand(syntaxKey);
+		String syntax = getLocalizedCommand(syntaxKey);
+		return syntaxFilter != null ? syntaxFilter.getFilteredSyntax(key, syntax) : syntax;
 	}
 
 	private String getLocalizedSyntaxCAS(String key) {
 		String syntaxKey = key + Localization.syntaxCAS;
-		return getLocalizedCommand(syntaxKey);
+		String syntax = getLocalizedCommand(syntaxKey);
+		return syntaxFilter != null ? syntaxFilter.getFilteredSyntax(key, syntax) : syntax;
 	}
 
 	private String buildSyntax(String syntax, String command) {
@@ -88,5 +107,9 @@ public class LocalizedCommandSyntax implements CommandSyntax {
 	 */
 	protected Localization getLocalization() {
 		return loc;
+	}
+
+	public void setSyntaxFilter(@Nullable SyntaxFilter syntaxFilter) {
+		this.syntaxFilter = syntaxFilter;
 	}
 }

@@ -20,10 +20,12 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.EvalInfoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -207,6 +209,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private InputItemControl createInputControl() {
 		return new InputMoreControl(this);
+	}
+
+	/**
+	 * context menu -> delete action
+	 */
+	public void onClear() {
+		setText("");
+		addDummyLabel();
 	}
 
 	/**
@@ -514,6 +524,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected void buildItemWithSingleRow() {
+		if (outputPanel != null) {
+			outputPanel.reset();
+		}
 		// LaTeX
 		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
 				geo.getDescriptionMode() != DescriptionMode.DEFINITION);
@@ -867,32 +880,32 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					this.lastInput = null;
 				}
 
-				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
-						redefine, true,
-						AlgebraInputW.getWarningHandler(this, app),
-						new AsyncOperation<GeoElementND>() {
+				EvalInfo info = EvalInfoFactory.getEvalInfoForRedefinition(kernel, geo, redefine);
+				kernel.getAlgebraProcessor()
+						.changeGeoElementNoExceptionHandling(geo, newValue, info, true,
+								new AsyncOperation<GeoElementND>() {
 
-							@Override
-							public void callback(GeoElementND geo2) {
-								if (geo2 != null) {
-									geo = geo2.toGeoElement();
-									lastTeX = null;
-									lastInput = null;
-								}
-								if (geo instanceof GeoText && wasLaTeX
-										&& geo.isIndependent()) {
-									((GeoText) geo).setLaTeX(true, false);
-								}
-								if (marblePanel != null) {
-									marblePanel.updateIcons(false);
-								}
-								updateAfterRedefine(geo2 != null);
-								if (callback != null) {
-									callback.callback(geo2);
-								}
+									@Override
+									public void callback(GeoElementND geo2) {
+										if (geo2 != null) {
+											geo = geo2.toGeoElement();
+											lastTeX = null;
+											lastInput = null;
+										}
+										if (geo instanceof GeoText && wasLaTeX
+												&& geo.isIndependent()) {
+											((GeoText) geo).setLaTeX(true, false);
+										}
+										if (marblePanel != null) {
+											marblePanel.updateIcons(false);
+										}
+										updateAfterRedefine(geo2 != null);
+										if (callback != null) {
+											callback.callback(geo2);
+										}
 
-							}
-						});
+									}
+								}, AlgebraInputW.getWarningHandler(this, app));
 				// make sure edting ends: run callback even if not successful
 				// TODO maybe prevent running this twice?
 				if (!geo.isIndependent()) {
@@ -1172,6 +1185,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public void ensureEditing() {
+		setFocusedStyle(true);
 		if (!controller.isEditing()) {
 			enterEditMode(geo == null || isMoveablePoint(geo));
 
@@ -1678,6 +1692,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getGeoGebraElement().getScaleX());
 		mf.setOnBlur(getLatexController());
+		mf.setOnFocus(focusEvent -> {
+			setFocusedStyle(true);
+		});
 	}
 
 	private void updateEditorAriaLabel(String text) {
@@ -1707,6 +1724,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (isInputTreeItem()) {
 				MinMaxPanel.closeMinMaxPanel();
 				getAV().restoreWidth(true);
+				setFocusedStyle(true);
 			}
 		} else {
 			if (isInputTreeItem()) {
@@ -1756,15 +1774,15 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	@Override
-	public void setText(String text0) {
-		if (!"".equals(text0)) {
+	public void setText(String text) {
+		if (!"".equals(text)) {
 			removeDummy();
 		}
 		if (mf != null) {
-			mf.setText(text0, this.isTextItem());
+			mf.setText(text, this.isTextItem());
 		}
 		inputControl.ensureInputMoreMenu();
-		updateEditorAriaLabel(text0);
+		updateEditorAriaLabel(text);
 		updatePreview();
 	}
 
@@ -2067,13 +2085,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * Start listening to blur events
-	 */
-	protected void listenToBlur() {
-		mf.setOnBlur(getLatexController());
-	}
-
-	/**
 	 * Switches editor to text mode
 	 *
 	 * @param value
@@ -2159,5 +2170,30 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	public int getEditHeight() {
 		int outputHeight = outputPanel == null ? 0 : outputPanel.getOffsetHeight();
 		return getOffsetHeight() - outputHeight;
+	}
+
+	/**
+	 * set the focused style for inputbar
+	 * @param focused - true if editing started
+	 */
+	public void setFocusedStyle(boolean focused) {
+		if (isInputTreeItem()) {
+			if (focused) {
+				getWidget().getElement().getParentElement().addClassName("focused");
+			} else {
+				getWidget().getElement().getParentElement().removeClassName("focused");
+			}
+		}
+	}
+
+	/**
+	 * if empty input bar remove cursor, put help text,
+	 * and disable focus
+	 */
+	public void resetInputBarOnBlur() {
+		if (isEmpty() && isInputTreeItem()) {
+			addDummyLabel();
+		}
+		setFocusedStyle(false);
 	}
 }

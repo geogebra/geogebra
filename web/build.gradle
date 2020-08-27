@@ -119,10 +119,13 @@ gwt {
     
     maxHeapSize = '2000M'
 
+    jsInteropExports {
+        shouldGenerate = true;
+    }
+
     compiler {
         // Customize the GWT compiler here
         strict = true
-        // enableClosureCompiler = true;        
         disableCastChecking = true
       
         if (project.hasProperty("greport")) {
@@ -288,6 +291,7 @@ task run(type: JavaExec, dependsOn: ['jar','copyHtml', 'createSolverHtml']) {
         '-bindAddress', project.findProperty("gbind") ?: 'localhost',
         '-superDevMode',
         '-war', file(warDirRel),
+        '-generateJsInteropExports',
         devModule
     systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
     systemProperty 'java.io.tmpdir', gwtGlobalCache.getAbsolutePath()

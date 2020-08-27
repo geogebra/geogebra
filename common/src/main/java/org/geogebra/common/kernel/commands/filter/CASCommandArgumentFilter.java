@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
-public class CASCommandArgumentFilter extends DefaultCommandArgumentFilter {
+public class CASCommandArgumentFilter extends BaseCommandArgumentFilter {
 
 	public CASCommandArgumentFilter() {
 		super(Commands.If);

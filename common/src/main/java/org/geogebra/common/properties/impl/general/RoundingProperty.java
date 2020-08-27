@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
 /**
  * Property for setting the rounding.

@@ -29,8 +29,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -114,103 +112,53 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				app.getLocalization(), new ExtendedAVModel(null, app));
 
 		cbSliderFixed = new CheckBox();
-		cbSliderFixed.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				getModel().applyFixed(getCbSliderFixed().getValue());
-
-			}
-		});
+		cbSliderFixed.addClickHandler(event -> getModel()
+				.applyFixed(getCbSliderFixed().getValue()));
 		positionPanel.add(cbSliderFixed);
 
 		cbRandom = new CheckBox();
-		cbRandom.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				getModel().applyRandom(getCbRandom().getValue());
-
-			}
-		});
+		cbRandom.addClickHandler(event -> getModel().applyRandom(getCbRandom().getValue()));
 		positionPanel.add(cbRandom);
 
 		lbSliderHorizontal = new ListBox();
-		lbSliderHorizontal.addChangeHandler(new ChangeHandler() {
-
-			@Override
-			public void onChange(ChangeEvent event) {
-				getModel()
-						.applyDirection(
-								getLbSliderHorizontal().getSelectedIndex());
-
-			}
-		});
+		lbSliderHorizontal.addChangeHandler(event -> getModel()
+				.applyDirection(
+						getLbSliderHorizontal().getSelectedIndex()));
 
 		positionPanel.add(lbSliderHorizontal);
 
 		tfMin = new AngleTextFieldW(6, app);
-		tfMin.addKeyDownHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeEvent().getKeyCode() == 13) {
-					applyMin();
-				}
+		tfMin.addKeyDownHandler(event -> {
+			if (event.getNativeEvent().getKeyCode() == 13) {
+				applyMin();
 			}
 		});
 		tfMin.enableGGBKeyboard();
 		
-		tfMin.addBlurHandler(new BlurHandler() {
-			
-			@Override
-			public void onBlur(BlurEvent event) {
-				applyMin();
-			}
-		});
+		tfMin.addBlurHandler(event -> applyMin());
 
 		tfMax = new AngleTextFieldW(6, app);
-		tfMax.addKeyDownHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeEvent().getKeyCode() == 13) {
-					applyMax();
-				}
+		tfMax.addKeyDownHandler(event -> {
+			if (event.getNativeEvent().getKeyCode() == 13) {
+				applyMax();
 			}
 		});
 
 		tfMax.enableGGBKeyboard();
 
-		tfMax.addBlurHandler(new BlurHandler() {
-			
-			@Override
-			public void onBlur(BlurEvent event) {
-				applyMax();
-			}
-		});
+		tfMax.addBlurHandler(event -> applyMax());
 
 		tfWidth = new AutoCompleteTextFieldW(8, app);
 		tfWidth.removeSymbolTable();
-		tfWidth.addKeyHandler(new KeyHandler() {
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					applyWidth();
-				}
+		tfWidth.addKeyHandler(e -> {
+			if (e.isEnterKey()) {
+				applyWidth();
 			}
 		});
 		
 		tfWidth.enableGGBKeyboard();
 		
-		tfWidth.addBlurHandler(new BlurHandler() {
-			
-			@Override
-			public void onBlur(BlurEvent event) {
-				applyWidth();
-			}
-		});
+		tfWidth.addBlurHandler(event -> applyWidth());
 
 		createBlobSizeTextField(app);
 		createBlobColorChooserBtn(app);

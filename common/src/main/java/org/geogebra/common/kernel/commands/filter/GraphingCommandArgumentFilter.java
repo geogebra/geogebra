@@ -1,14 +1,16 @@
 package org.geogebra.common.kernel.commands.filter;
 
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.commands.CommandNotFoundError;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 
-public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter {
+public class GraphingCommandArgumentFilter extends BaseCommandArgumentFilter {
 
     public GraphingCommandArgumentFilter() {
-        super(Commands.Line, Commands.Length);
+        super(Commands.Line, Commands.Length, Commands.Polyline, Commands.PolyLine);
     }
 
     @Override
@@ -19,15 +21,21 @@ public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter 
         }
         GeoElement[] arguments = commandProcessor.resArgs(command);
 
-        checkAllowedLineCommands(command, arguments, commandProcessor);
-        checkAllowedLengthCommands(command, arguments, commandProcessor);
+        if (areEqual(command, Commands.Line)) {
+            checkLine(command, arguments, commandProcessor);
+        } else if (areEqual(command, Commands.Length)) {
+            checkLength(command, arguments, commandProcessor);
+        } else if (areEqual(command, Commands.PolyLine) || areEqual(command, Commands.Polyline)) {
+            checkPolyline(command, arguments, commandProcessor);
+        }
     }
 
-    private void checkAllowedLineCommands(Command command, GeoElement[] arguments,
+    private boolean areEqual(Command command, Commands commandsValue) {
+        return command.getName().equals(commandsValue.name());
+    }
+
+    private void checkLine(Command command, GeoElement[] arguments,
                                           CommandProcessor commandProcessor) {
-        if (!command.getName().equals(Commands.Line.name())) {
-            return;
-        }
         if (arguments.length < 2) {
             return;
         }
@@ -40,11 +48,8 @@ public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter 
         }
     }
 
-    private void checkAllowedLengthCommands(Command command, GeoElement[] arguments,
+    private void checkLength(Command command, GeoElement[] arguments,
                                             CommandProcessor commandProcessor) {
-        if (!command.getName().equals(Commands.Length.name())) {
-            return;
-        }
         if (arguments.length == 1) {
             GeoElement argument = arguments[0];
             boolean argIsListOrText = argument.isGeoList() || argument.isGeoText();
@@ -55,6 +60,36 @@ public class GraphingCommandArgumentFilter extends DefaultCommandArgumentFilter 
         } else if (arguments.length > 1) {
             GeoElement secondArgument = arguments[1];
             throw commandProcessor.argErr(command, secondArgument);
+        }
+    }
+
+    private void checkPolyline(
+            Command command, GeoElement[] arguments, CommandProcessor commandProcessor) {
+        if (arguments.length < 2) {
+            throw new CommandNotFoundError(commandProcessor.getLocalization(), command);
+        }
+
+        GeoElement lastArgument = arguments[arguments.length - 1];
+        if (!lastArgument.isGeoBoolean()) {
+            throw new CommandNotFoundError(commandProcessor.getLocalization(), command);
+        }
+
+        if (arguments[0].isGeoList()) {
+            if (arguments.length != 2) {
+                throw new CommandNotFoundError(commandProcessor.getLocalization(), command);
+            }
+            GeoList points = (GeoList) arguments[0];
+            for (int i = 0; i < points.size(); i++) {
+                if (!points.get(i).isGeoPoint()) {
+                    throw new CommandNotFoundError(commandProcessor.getLocalization(), command);
+                }
+            }
+        } else {
+            for (int i = 0; i < arguments.length - 1; i++) {
+                if (!arguments[i].isGeoPoint()) {
+                    throw new CommandNotFoundError(commandProcessor.getLocalization(), command);
+                }
+            }
         }
     }
 }

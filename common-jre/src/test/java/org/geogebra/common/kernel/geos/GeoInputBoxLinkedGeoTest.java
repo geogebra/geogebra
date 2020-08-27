@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import static org.geogebra.test.TestStringUtil.unicode;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
@@ -45,7 +46,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	@Test
 	public void enteringNewValueShouldKeepVectorType() {
 		setupAndCheckInput("v", "(1, 3)");
-		t("Rename(v,\"V\")", new String[0]);
+		t("Rename(v,\"V\")");
 		updateInput("(1, 5)");
 		t("V", "(1, 5)");
 		hasType("V", GeoClass.VECTOR);
@@ -146,14 +147,83 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void symbolicShouldShowDefinitionFor3DPoints() {
+		setupInput("P", "(?,?,?)");
+		inputBox.setSymbolicMode(true, false);
+		assertEquals("(?,?,?)", inputBox.getTextForEditor());
+		updateInput("(sqrt(2), 1/3, 0)");
+		assertEquals("(sqrt(2),1/3,0)", inputBox.getTextForEditor());
+		add("SetValue(P,?)");
+		assertEquals("(?,?,?)", inputBox.getTextForEditor());
+	}
+
+	@Test
+	public void shouldAcceptLinesConicsAndFunctionsForImplicitCurve() {
+		setupInput("eq1", "x^3 = y^2");
+		updateInput("x = y"); // line
+		assertEquals("x = y", inputBox.getText());
+		updateInput("y = x"); // function (linear)
+		assertEquals("y = x", inputBox.getText());
+		updateInput("y = x^2"); // function (quadratic)
+		assertEquals(unicode("y = x^2"), inputBox.getText());
+		updateInput("x^2 = y^2"); // conic
+		assertEquals(unicode("x^2 = y^2"), inputBox.getText());
+	}
+
+	@Test
+	public void shouldAcceptLinesAndFunctionsForConics() {
+		setupInput("eq1", "x^2 = y^2");
+		updateInput("x = y"); // line
+		assertEquals("x = y", inputBox.getText());
+		updateInput("y = x"); // function (linear)
+		assertEquals("y = x", inputBox.getText());
+		updateInput("y = x^2"); // function (quadratic)
+		assertEquals(unicode("y = x^2"), inputBox.getText());
+	}
+
+	@Test
+	public void shouldAcceptFunctionsForLines() {
+		setupInput("eq1", "x = y");
+		updateInput("y = x"); // function (linear)
+		assertEquals("y = x", inputBox.getText());
+	}
+
+	@Test
 	public void shouldBeEmptyAfterPlaneInputUndefined() {
 		setupInput("eq1", "4x + 3y + 2z = 1");
 		GeoElement ib2 = add("in2=InputBox(eq1)");
 		updateInput("?");
-		// both input boxes undefined, but first one remembers user input ...
-		assertEquals("?", inputBox.getText());
-		// ... and second one stays empty (APPS-1246)
+		// both input boxes undefined, we prefer empty string over question mark
+		// even if that's what the user typed (APPS-1246)
+		assertEquals("", inputBox.getText());
 		assertEquals("", ((GeoInputBox) ib2).getText());
+	}
+
+	@Test
+	public void shouldBeEmptyAfterImplicitUndefined() {
+		setupInput("eq1", "x^2=y^3");
+		updateInput("?");
+		assertEquals("", inputBox.getText());
+		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void shouldBeEmptyAfterDependentNumberUndefined() {
+		add("a=1");
+		setupInput("b", "3a");
+		updateInput("x=y");
+		assertEquals("b\\, \\text{undefined} ", lookup("b")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void shouldAllowQuestionMarkWhenLinkedToText() {
+		setupInput("txt", "\"GeoGebra Rocks\"");
+		updateInput("?");
+		assertEquals("?", inputBox.getText());
 	}
 
 	@Test
@@ -284,5 +354,49 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		GeoInputBox inputBox2 = add("InputBox(eq2)");
 		Assert.assertTrue(inputBox1.canBeSymbolic());
 		Assert.assertTrue(inputBox2.canBeSymbolic());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingConicUndefined() {
+		setupInput("eq1", "xx+yy = 1");
+		inputBox.setSymbolicMode(true, false);
+		updateInput("?");
+		assertEquals("", inputBox.getTextForEditor());
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("", inputBox.getTextForEditor());
+		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingQuadricUndefined() {
+		setupInput("eq1", "x^2 + y^2 + z^2 = 1");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("?");
+		assertEquals("", inputBox.getTextForEditor());
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("", inputBox.getTextForEditor());
+		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void minusShouldStayInNumerator() {
+		setupInput("f", "x");
+		inputBox.setSymbolicMode(true, false);
+		updateInput("(-1)/4 x");
+		assertEquals("-1/4 x", inputBox.getTextForEditor());
+		assertEquals("\\frac{-1}{4} \\; x", inputBox.getText());
+	}
+
+	@Test
+	public void minusShouldStayInFrontOfFraction() {
+		setupInput("f", "x");
+		inputBox.setSymbolicMode(true, false);
+		updateInput("-(1/4) x");
+		assertEquals("-(1/4) x", inputBox.getTextForEditor());
+		assertEquals("-\\frac{1}{4} \\; x", inputBox.getText());
 	}
 }

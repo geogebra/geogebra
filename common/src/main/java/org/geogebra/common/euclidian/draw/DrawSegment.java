@@ -641,7 +641,6 @@ public class DrawSegment extends SetDrawable implements Previewable {
 		s.getEndPoint().setCoords(view.toRealWorldCoordX(pts.get(1).getX()),
 				view.toRealWorldCoordY(pts.get(1).getY()), 1);
 		s.getParentAlgorithm().update();
-		s.updateRepaint();
 	}
 
 	@Override

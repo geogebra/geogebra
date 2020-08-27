@@ -3095,6 +3095,7 @@ public class Construction {
 
 		usedMacros = null;
 		spreadsheetTraces = false;
+		supressLabelCreation = false;
 
 		groups.clear();
 	}

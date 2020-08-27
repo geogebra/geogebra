@@ -2,13 +2,17 @@ package org.geogebra.common.euclidian;
 
 import java.util.TreeSet;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.LocalizationCommon;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoEmbed;
 import org.geogebra.common.kernel.geos.GeoFormula;
+import org.geogebra.common.kernel.geos.GeoInlineTable;
+import org.geogebra.common.kernel.geos.GeoInlineText;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.GeoVideo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -48,21 +52,25 @@ public class DrawablesTest {
 				"Surface[(u,v,u+v),u,0,1,v,0,1]", "x^3=z^3",
 				"Cone[(0,0,0),(0,0,1),1]", "Side[Cone[(0,0,0),(0,0,1),1]]",
 				"IntersectRegion(x+y+0z=0,Cone[(0,0,0),(0,0,1),1])", "toolPic",
-				"audio", "video", "embed", "symbolic", "formula" };
+				"audio", "video", "embed", "symbolic", "inlinetext", "formula", "table" };
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("toolPic=ToolImage[2]", false);
-		GeoAudio au = new GeoAudio(app.getKernel().getConstruction());
+		Construction construction = app.getKernel().getConstruction();
+		GeoAudio au = new GeoAudio(construction);
 		au.setLabel("audio");
-		GeoVideo video = new GeoVideo(app.getKernel().getConstruction());
+		GeoVideo video = new GeoVideo(construction);
 		video.setLabel("video");
-		GeoEmbed embed = new GeoEmbed(app.getKernel().getConstruction());
+		GeoEmbed embed = new GeoEmbed(construction);
 		embed.setLabel("embed");
-		GeoFormula formula = new GeoFormula(app.getKernel().getConstruction(), null);
+		GeoFormula formula = new GeoFormula(construction, null);
 		formula.setContent("\\frac{a}{b}");
 		formula.setLabel("formula");
-		GeoSymbolic symbolic = new GeoSymbolic(
-				app.getKernel().getConstruction());
+		GeoSymbolic symbolic = new GeoSymbolic(construction);
 		symbolic.setLabel("symbolic");
+		GeoInlineText text = new GeoInlineText(construction, new GPoint2D());
+		text.setLabel("inlinetext");
+		GeoInlineTable table = new GeoInlineTable(construction, new GPoint2D());
+		table.setLabel("table");
 		TreeSet<GeoClass> types = new TreeSet<>();
 		for (int i = 0; i < def.length; i++) {
 			GeoElementND geo = ap.processAlgebraCommand(def[i], false)[0];

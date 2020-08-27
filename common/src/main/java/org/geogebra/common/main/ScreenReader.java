@@ -2,7 +2,11 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -231,8 +235,18 @@ public class ScreenReader {
 			@Override
 			public String mathExpression(String serialize) {
 				try {
-					return parser.parseGeoGebraCAS(serialize, null)
-							.toString(StringTemplate.screenReader);
+					ValidExpression expr = parser.parseGeoGebraCAS(serialize, null);
+					expr.inspect(new Inspecting() {
+						@Override
+						public boolean check(ExpressionValue v) {
+							if (v instanceof Command) {
+								((Command) v).setAllowEvaluationForTypeCheck(false);
+							}
+
+							return false;
+						}
+					});
+					return expr.toString(StringTemplate.screenReader);
 				} catch (org.geogebra.common.kernel.parser.ParseException | Error e) {
 					throw new RuntimeException(e);
 				}

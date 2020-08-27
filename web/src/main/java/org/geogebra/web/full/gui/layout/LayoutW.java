@@ -159,7 +159,8 @@ public class LayoutW extends Layout {
 		return (dp.getViewId() == App.VIEW_ALGEBRA
 				|| dp.getViewId() == App.VIEW_CAS
 				|| dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR
-				|| dp.getViewId() == App.VIEW_SPREADSHEET) && !dp.isToolMode();
+				|| dp.getViewId() == App.VIEW_SPREADSHEET)
+				&& dp.getTabId() == DockPanelData.TabIds.ALGEBRA;
 	}
 
 	/**

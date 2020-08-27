@@ -2,82 +2,71 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Material rename dialog
- * 
- * @author judit
- *
  */
-public class MaterialRenameDialog extends OptionDialog {
-
-	private FlowPanel mainPanel;
-	private FlowPanel inputPanel;
+public class MaterialRenameDialog extends ComponentDialog {
 	private InputPanelW inputField;
-	private FormLabel inputLabel;
 	private boolean inputChanged;
+	private final RenameCard card;
 
 	/**
-	 * application
-	 */
-	protected AppW appW;
-	private MaterialCardI card;
-
-	/**
-	 * @param root
-	 *            popup root
 	 * @param app
 	 *            app
+	 * @param data
+	 * 			  dialog transkeys
 	 * @param card
 	 *            card of file being renamed
 	 */
-	public MaterialRenameDialog(Panel root, AppW app, MaterialCardI card) {
-		super(root, app);
-		appW = app;
+	public MaterialRenameDialog(AppW app, DialogData data, RenameCard card) {
+		super(app, data, false, true);
 		this.card = card;
-		initGui();
+		addStyleName("materialRename");
+		addStyleName("mebis");
+		buildContent();
+		setOnPositiveAction(this::renameCard);
 	}
 
-	private void initGui() {
-		mainPanel = new FlowPanel();
-		inputPanel = new FlowPanel();
-		inputPanel.setStyleName("mowRenameDialogContent");
-		inputPanel.addStyleName("emptyState");
-		inputField = new InputPanelW("", appW, 1, 25, false);
-		inputLabel = new FormLabel().setFor(inputField.getTextComponent());
+	/**
+	 * Rename the card to the current input.
+	 */
+	protected void renameCard() {
+		card.rename(getInputText());
+	}
+
+	/**
+	 *
+	 * @return the trimmed text of the input field.
+	 */
+	protected String getInputText() {
+		return inputField.getText().trim();
+	}
+
+	private void buildContent() {
+		FlowPanel contentPanel = new FlowPanel();
+		inputField = new InputPanelW("", app, 1, 25, false);
+		FormLabel inputLabel = new FormLabel().setFor(inputField.getTextComponent());
 		inputLabel.addStyleName("inputLabel");
-		inputPanel.add(inputLabel);
-		inputPanel.add(inputField);
-		// add panels
-		add(mainPanel);
-		mainPanel.add(inputPanel);
-		mainPanel.add(getButtonPanel());
-		// style
-		addStyleName("GeoGebraPopup");
-		setLabels();
-		inputField.getTextComponent().setText(card.getMaterialTitle());
+		contentPanel.add(inputLabel);
+		contentPanel.add(inputField);
+		setText(card.getCardTitle());
 		initInputFieldActions();
-		addStyleName("mebis");
+		setPosBtnDisabled(true);
+		addDialogContent(contentPanel);
+	}
+
+	private void setText(String text) {
+		inputField.getTextComponent().setText(text);
 	}
 
 	/**
@@ -89,21 +78,10 @@ public class MaterialRenameDialog extends OptionDialog {
 
 	private void initInputFieldActions() {
 		// on input change
-		inputField.getTextComponent().addKeyUpHandler(new KeyUpHandler() {
-
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				validate(event.getNativeKeyCode() == GWTKeycodes.KEY_ENTER);
-			}
-		});
+		inputField.getTextComponent().addKeyUpHandler(
+				event -> validate());
 		// set focus to input field!
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				getInputField().getTextComponent().setFocus(true);
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
 		addHoverHandlers();
 		addFocusHandlers();
 	}
@@ -113,22 +91,14 @@ public class MaterialRenameDialog extends OptionDialog {
 	 */
 	private void addFocusHandlers() {
 		inputField.getTextComponent().getTextBox()
-				.addFocusHandler(new FocusHandler() {
-
-					@Override
-					public void onFocus(FocusEvent event) {
-						getInputField().setStyleName("mowRenameDialogContent");
-						getInputField().addStyleName("focusState");
-					}
+				.addFocusHandler(event -> {
+					getInputField().setStyleName("mowInputPanelContent");
+					getInputField().addStyleName("focusState");
 				});
 		inputField.getTextComponent().getTextBox()
-				.addBlurHandler(new BlurHandler() {
-
-					@Override
-					public void onBlur(BlurEvent event) {
-						getInputField().removeStyleName("focusState");
-						getInputField().addStyleName("emptyState");
-					}
+				.addBlurHandler(event -> {
+					getInputField().removeStyleName("focusState");
+					getInputField().addStyleName("emptyState");
 				});
 	}
 
@@ -137,55 +107,27 @@ public class MaterialRenameDialog extends OptionDialog {
 	 */
 	private void addHoverHandlers() {
 		inputField.getTextComponent().getTextBox()
-				.addMouseOverHandler(new MouseOverHandler() {
-
-					@Override
-					public void onMouseOver(MouseOverEvent event) {
-						getInputField().addStyleName("hoverState");
-					}
-				});
+				.addMouseOverHandler(event -> getInputField().addStyleName("hoverState"));
 		inputField.getTextComponent().getTextBox()
-				.addMouseOutHandler(new MouseOutHandler() {
-
-					@Override
-					public void onMouseOut(MouseOutEvent event) {
-						getInputField().removeStyleName("hoverState");
-					}
-				});
+				.addMouseOutHandler(event -> getInputField().removeStyleName("hoverState"));
 	}
 
 	/**
 	 * Enable or disable
-	 * 
-	 * @param enter
-	 *            enter pressed
 	 */
-	protected void validate(boolean enter) {
+	protected void validate() {
+		setPosBtnDisabled(isTextInvalid());
+	}
+
+	protected boolean isTextInvalid() {
 		inputChanged = inputChanged
-				|| !inputField.getText().trim().equals(card.getMaterialTitle());
-		if (StringUtil.emptyTrim(inputField.getText())
+				|| !getInputText().equals(card.getCardTitle());
+		return StringUtil.emptyTrim(inputField.getText())
 				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH
-				|| !inputChanged) {
-			setPrimaryButtonEnabled(false);
-		} else {
-			setPrimaryButtonEnabled(true);
-			if (enter) {
-				processInput();
-			}
-		}
+				|| !inputChanged;
 	}
 
-	@Override
-	protected void processInput() {
-		card.rename(inputField.getText().trim());
-		hide();
-	}
-
-	/**
-	 * set button labels
-	 */
-	public void setLabels() {
-		getCaption().setText(appW.getLocalization().getMenu("rename.resource"));
-		updateButtonLabels("Rename");
+	protected boolean isInputChanged() {
+		return inputChanged;
 	}
 }
