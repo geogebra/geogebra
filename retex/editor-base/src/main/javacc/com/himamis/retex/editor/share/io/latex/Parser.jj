@@ -316,7 +316,9 @@ void absVecLimeq(MathContainer currentField) : {
 }
 {
 	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ>) {
-		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
+        // cut off the parentheses from the end
+        String image = symbol.image.substring(0, symbol.image.length() - 1);
+		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(image)));
 		MathSequence param1 = new MathSequence();
 		mathContainer(param1);
 		vec.setArgument(0, param1);
