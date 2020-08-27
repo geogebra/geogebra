@@ -79,7 +79,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	/**
 	 * Creates a MenuViewController.
-	 *
 	 * @param app app
 	 */
 	public MenuViewController(AppWFull app) {
@@ -132,11 +131,11 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	private void createDrawerMenuFactories(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
-		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
+		examDrawerMenuFactory = new ExamDrawerMenuFactory(GeoGebraConstants.Platform.WEB, version);
 	}
 
 	private DrawerMenuFactory createDefaultMenuFactory(AppW app,
-													   GeoGebraConstants.Version version) {
+			GeoGebraConstants.Version version) {
 		if (app.isMebis()) {
 			return new MebisDrawerMenuFactory(app.getPlatform(), version, app.getLoginOperation());
 		} else {
@@ -180,7 +179,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	/**
 	 * Set the menu view listener.
-	 *
 	 * @param menuViewListener listener
 	 */
 	public void setMenuViewListener(MenuViewListener menuViewListener) {
@@ -189,7 +187,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	/**
 	 * Get the menu view.
-	 *
 	 * @return view
 	 */
 	public Widget getView() {
@@ -226,7 +223,6 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 
 	/**
 	 * Sets the menu visibility.
-	 *
 	 * @param visible true to show the menu
 	 */
 	public void setMenuVisible(boolean visible) {

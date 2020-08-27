@@ -1,8 +1,5 @@
 package org.geogebra.common.gui.menu.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.ActionableItem;
@@ -18,69 +15,63 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
  */
 public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
-	private GeoGebraConstants.Platform platform;
-	private LogInOperation logInOperation;
-	private boolean createExamEntry;
-	private boolean enableFileFeatures;
+	private final LogInOperation logInOperation;
+	private final boolean createExamEntry;
+	private final boolean enableFileFeatures;
 
 	/**
 	 * Create a new DrawerMenuFactory.
-	 *
 	 * @param platform platform
 	 * @param version version
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
-									GeoGebraConstants.Version version) {
+			GeoGebraConstants.Version version) {
 		this(platform, version, null);
 	}
 
 	/**
 	 * Create a new DrawerMenuFactory.
-	 *
 	 * @param platform platform
 	 * @param version version
 	 * @param logInOperation if loginOperation is not null, it creates menu options that require
-	 *                       login based on the {@link LogInOperation#isLoggedIn()} method.
+	 * login based on the {@link LogInOperation#isLoggedIn()} method.
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
-									GeoGebraConstants.Version version,
-									LogInOperation logInOperation) {
+			GeoGebraConstants.Version version,
+			LogInOperation logInOperation) {
 		this(platform, version, logInOperation, false);
 	}
 
 	/**
 	 * Create a new DrawerMenuFactory.
-	 *
 	 * @param platform platform
 	 * @param version version
 	 * @param logInOperation if loginOperation is not null, it creates menu options that require
-	 *                       login based on the {@link LogInOperation#isLoggedIn()} method.
+	 * login based on the {@link LogInOperation#isLoggedIn()} method.
 	 * @param createExamEntry whether the factory should create the start exam button
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
-									GeoGebraConstants.Version version,
-									LogInOperation logInOperation,
-									boolean createExamEntry) {
+			GeoGebraConstants.Version version,
+			LogInOperation logInOperation,
+			boolean createExamEntry) {
 		this(platform, version, logInOperation, createExamEntry, true);
 	}
 
 	/**
 	 * Create a new DrawerMenuFactory.
-	 *
 	 * @param platform platform
 	 * @param version version
 	 * @param logInOperation if loginOperation is not null, it creates menu options that require
-	 *                       login based on the {@link LogInOperation#isLoggedIn()} method.
+	 * login based on the {@link LogInOperation#isLoggedIn()} method.
 	 * @param createExamEntry whether the factory should create the start exam button
 	 * @param enableFileFeatures wether to show sign-in related file features
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
-									GeoGebraConstants.Version version,
-									LogInOperation logInOperation,
-									boolean createExamEntry,
-									boolean enableFileFeatures) {
-		super(version);
-		this.platform = platform;
+			GeoGebraConstants.Version version,
+			LogInOperation logInOperation,
+			boolean createExamEntry,
+			boolean enableFileFeatures) {
+		super(platform, version);
 		this.logInOperation = logInOperation;
 		this.createExamEntry = createExamEntry;
 		this.enableFileFeatures = enableFileFeatures;
@@ -93,17 +84,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		MenuItemGroup userGroup = createUserGroup();
 		String title = getMenuTitle();
 		return new DrawerMenuImpl(title, removeNulls(main, secondary, userGroup));
-	}
-
-	@SafeVarargs
-	protected final <T> List<T> removeNulls(T... groups) {
-		ArrayList<T> list = new ArrayList<>();
-		for (T group: groups) {
-			if (group != null) {
-				list.add(group);
-			}
-		}
-		return list;
 	}
 
 	private MenuItemGroup createMainMenuItemGroup() {
@@ -122,10 +102,8 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private MenuItemGroup createSecondaryMenuItemGroup() {
-		if (isMobile()) {
-			return new MenuItemGroupImpl(showSettings(), showHelpAndFeedback());
-		}
-		return new MenuItemGroupImpl(showSettings(), showHelpAndFeedback());
+		return new MenuItemGroupImpl(removeNulls(showSwitchCalculator(),
+				showSettings(), showHelpAndFeedback()));
 	}
 
 	private MenuItemGroup createUserGroup() {
@@ -147,11 +125,6 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 			MenuItem signIn = new ActionableItemImpl(Icon.SIGN_IN, "SignIn", Action.SIGN_IN);
 			return new MenuItemGroupImpl(signIn);
 		}
-	}
-
-	private boolean isMobile() {
-		return platform == GeoGebraConstants.Platform.ANDROID
-				|| platform == GeoGebraConstants.Platform.IOS;
 	}
 
 	private boolean isDesktop() {
@@ -176,7 +149,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	protected static MenuItem showSettings() {
-		return new ActionableItemImpl(Icon.SETTINGS, "Settings", Action.SHOW_SETTINGS);
+		return new ActionableItemImpl(Icon.SETTINGS, "SwitchCalculator", Action.SHOW_SETTINGS);
 	}
 
 	protected static MenuItem saveFile() {
@@ -206,19 +179,19 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		ActionableItem pdf = new ActionableItemImpl(null,
 				"Download.PDFDocument", Action.DOWNLOAD_PDF);
 		switch (version) {
-			case NOTES:
-				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs",
-						createDownloadSlides(), png, svg, pdf);
-			case GRAPHING_3D:
-				ActionableItem dae = new ActionableItemImpl(
-						"Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
-				ActionableItem html = new ActionableItemImpl(
-						"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
-				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
-						png, createDownloadStl(), dae, html);
-			default:
-				return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
-						png, svg, pdf, createDownloadStl());
+		case NOTES:
+			return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs",
+					createDownloadSlides(), png, svg, pdf);
+		case GRAPHING_3D:
+			ActionableItem dae = new ActionableItemImpl(
+					"Download.ColladaDae", Action.DOWNLOAD_COLLADA_DAE);
+			ActionableItem html = new ActionableItemImpl(
+					"Download.ColladaHtml", Action.DOWNLOAD_COLLADA_HTML);
+			return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
+					png, createDownloadStl(), dae, html);
+		default:
+			return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", createDownloadGgb(),
+					png, svg, pdf, createDownloadStl());
 		}
 	}
 
