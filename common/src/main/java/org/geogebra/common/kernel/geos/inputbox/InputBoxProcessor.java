@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoInterval;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
@@ -146,8 +147,7 @@ public class InputBoxProcessor {
 			}
 		}
 
-		if (linkedGeo instanceof FunctionalNVar
-				|| (linkedGeo.isGeoSurfaceCartesian() && linkedGeo.getDefinition() != null)) {
+		if (linkedGeo instanceof FunctionalNVar	|| isComplexFunction()) {
 			if (linkedGeo instanceof GeoInterval
 				|| (linkedGeo instanceof GeoFunction
 					&& ((GeoFunction) linkedGeo).forceInequality())) {
@@ -166,6 +166,11 @@ public class InputBoxProcessor {
 		}
 
 		return defineText;
+	}
+
+	private boolean isComplexFunction() {
+		return linkedGeo.isGeoSurfaceCartesian()
+				&& ((GeoSurfaceCartesianND) linkedGeo).getComplexVariable() != null;
 	}
 
 	private RedefinitionRule createRedefinitionRule() {

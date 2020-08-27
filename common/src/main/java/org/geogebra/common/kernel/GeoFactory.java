@@ -130,6 +130,8 @@ public class GeoFactory {
 			return new GeoRay(cons1, null);
 		case "segment":
 			return new GeoSegment(cons1, null, null);
+		case "surfacecartesian":
+			return new GeoSurfaceCartesian2D(cons1, null, null);
 		case "text":
 			return new GeoText(cons1);
 		case "textfield":

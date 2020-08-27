@@ -1637,6 +1637,10 @@ public enum Operation {
 				if (lt instanceof GeoLineND) {
 					return ((GeoLineND) lt).evaluateCurve(rt.evaluateDouble());
 				}
+				if (lt instanceof GeoSurfaceCartesianND) {
+					return ((GeoSurfaceCartesianND) lt).evaluateSurface(
+							rt.evaluateDouble(), 0);
+				}
 				return ((ParametricCurve) lt)
 						.evaluateCurve(rt.evaluateDouble());
 			}

@@ -118,12 +118,12 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 
 	@Override
 	public GetCommand getClassName() {
-		return surface.getDefinition() == null ? Commands.Surface : Algos.Expression;
+		return surface.getComplexVariable() == null ? Commands.Surface : Algos.Expression;
 	}
 
 	@Override
 	public String getDefinition(StringTemplate tpl) {
-		if (surface.getDefinition() == null) {
+		if (surface.getComplexVariable() == null) {
 			return super.getDefinition(tpl);
 		}
 		return getRHS(tpl);
@@ -135,13 +135,13 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 			return super.toString(tpl);
 		}
 		if (surface.isLabelSet() && !tpl.isHideLHS()) {
-			return surface.getLabel(tpl) + "(" + surface.getVarString(tpl)+ ") = "+ getRHS(tpl);
+			return surface.getLabel(tpl) + "(" + surface.getVarString(tpl) + ") = " + getRHS(tpl);
 		}
 		return getRHS(tpl);
 	}
 
 	private String getRHS(StringTemplate tpl) {
-		return surface.getDefinition().toString(tpl);
+		return surface.getDefinition() == null ? "?" : surface.getDefinition().toString(tpl);
 	}
 
 	// for AlgoElement
@@ -235,5 +235,12 @@ public class AlgoSurfaceCartesianND extends AlgoElement {
 
 	public GeoNumeric getLocalVar(int i) {
 		return this.localVar[i];
+	}
+
+	protected String toExpString(StringTemplate tpl) {
+		if (!surface.isDefined() && surface.getComplexVariable() != null) {
+			return surface.getAssignmentLHS(tpl) + " = ?";
+		}
+		return toString(tpl);
 	}
 }

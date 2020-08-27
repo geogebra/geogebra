@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.kernelND;
 import java.util.TreeMap;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -97,7 +98,11 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 	public ExpressionValue evaluateSurface(double u, double v) {
 		double[] tmp = { u, v };
 
-		return new GeoVec2D(kernel, fun[0].evaluate(tmp), fun[1].evaluate(tmp));
+		GeoVec2D ret = new GeoVec2D(kernel, fun[0].evaluate(tmp), fun[1].evaluate(tmp));
+		if (complexVariable != null) {
+			ret.setMode(Kernel.COORD_COMPLEX);
+		}
+		return ret;
 	}
 
 	@Override

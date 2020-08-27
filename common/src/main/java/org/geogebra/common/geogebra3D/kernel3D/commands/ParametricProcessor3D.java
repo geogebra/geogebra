@@ -2,13 +2,11 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentConic3D;
-import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoSurfaceCartesianND;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
-import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -339,33 +337,6 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		// 0
 		// });
 		conic.setMatrix(new double[] { xx, yy, cst, xy / 2, x / 2, y / 2 });
-
-	}
-
-	@Override
-	protected GeoElement[] processSurface(ExpressionNode exp,
-			FunctionVariable[] fv, int dim) {
-		GeoNumeric loc0 = getLocalVar(exp, fv[0]);
-		GeoNumeric loc1 = getLocalVar(exp, fv[1]);
-		Construction cons = kernel.getConstruction();
-		GeoNumberValue[] coords = new GeoNumberValue[dim];
-		for (int i = 0; i < dim; i++) {
-			ExpressionNode cx = VectorArithmetic.computeCoord(exp, i);
-			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
-			cons.removeFromConstructionList(nx);
-			coords[i] = nx.getNumber();
-		}
-		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(cons,
-				exp,
-				coords,
-				new GeoNumeric[] { loc0, loc1 },
-				new GeoNumberValue[] { num(-10), num(-10) },
-				new GeoNumberValue[] { num(10), num(10) });
-		return algo.getOutput();
-	}
-
-	private GeoNumberValue num(double d) {
-		return new GeoNumeric(kernel.getConstruction(), d);
 	}
 
 }
