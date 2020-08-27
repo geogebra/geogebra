@@ -696,8 +696,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			if (EventUtil.isTouchEvent(event)) {
 				s += 4;
 			}
-			Rectangle2D dotRect = new Rectangle2D.Double(dotX - s / 2, dotY - s
-			        / 2, s, s);
+			Rectangle2D dotRect = new Rectangle2D.Double(dotX - s / 2d, dotY - s
+			        / 2d, s, s);
 			boolean overDot = dotRect.contains(point.getX(), point.getY());
 			if (isOverDot != overDot) {
 				isOverDot = overDot;

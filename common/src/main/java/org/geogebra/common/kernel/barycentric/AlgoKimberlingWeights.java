@@ -1724,9 +1724,9 @@ public class AlgoKimberlingWeights {
 					- a * p(b + c, 2) + 2 * (-a + b + c) * u(b * (a - b + c))
 							* u(c * (a + b - c)));
 		case 506:
-			return -((a + b - c) * (a - b + c) * p(a * (-a + b + c), 2 / 3));
+			return -((a + b - c) * (a - b + c) * p(a * (-a + b + c), 2d / 3));
 		case 507:
-			return -((a + b - c) * (a - b + c) * p(a * (-a + b + c), 3 / 4));
+			return -((a + b - c) * (a - b + c) * p(a * (-a + b + c), 3d / 4));
 		case 508:
 			return u(a - b + c) * u(a + b - c);
 		case 509:

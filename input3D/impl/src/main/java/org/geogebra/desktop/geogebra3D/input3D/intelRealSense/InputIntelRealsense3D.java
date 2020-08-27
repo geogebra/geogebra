@@ -70,12 +70,7 @@ public class InputIntelRealsense3D extends Input3D {
 		
 		// screen dimensions
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		screenHalfWidth = gd.getDisplayMode().getWidth()/2;
-		//screenHalfHeight = gd.getDisplayMode().getHeight()/2;		
-		//App.debug("screen:"+screenWidth+"x"+screenHeight);
-		
-		//App.error("height/2="+gd.getDisplayMode().getHeight()/2);
-		
+		screenHalfWidth = gd.getDisplayMode().getWidth() / 2d;
 		
 		outOfField = OutOfField.YES;
 
@@ -93,7 +88,7 @@ public class InputIntelRealsense3D extends Input3D {
 			
 			// mouse position
 			// double factor = screenHalfWidth;
-			double factor = panelWidth / 2;
+			double factor = panelWidth / 2d;
 			mousePosition[0] = socket.handX * factor;
 			mousePosition[1] = socket.handY * factor;
 			mousePosition[2] = socket.handZ * factor;
