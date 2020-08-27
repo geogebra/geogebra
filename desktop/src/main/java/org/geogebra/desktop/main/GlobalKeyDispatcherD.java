@@ -174,7 +174,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			if (app.showAlgebraInput() && !((GuiManagerD) app.getGuiManager())
 					.getAlgebraInput().hasFocus()) {
 				// focus this frame (needed for external view windows)
-				if (!app.isApplet() && ((AppD) app).getFrame() != null) {
+				if (((AppD) app).getFrame() != null) {
 					((AppD) app).getFrame().toFront();
 				}
 

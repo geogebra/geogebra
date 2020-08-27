@@ -835,7 +835,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		// take the user's configuration into consideration
 
 		titlePanel.setVisible(app.getSettings().getLayout().showTitleBar()
-				&& !(isAlone && !isMaximized()) && !app.isApplet()
+				&& !(isAlone && !isMaximized())
 				&& (!isOpenInFrame()));
 
 		// update stylebar visibility
@@ -1360,14 +1360,11 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 			if (openInFrame) {
 				frame.requestFocus();
 			} else {
-				if (!app.isApplet()) {
-					JFrame frame1 = app.getFrame();
+				JFrame frame1 = app.getFrame();
 
-					if (frame1 != null) {
-						frame1.toFront();
-					}
+				if (frame1 != null) {
+					frame1.toFront();
 				}
-
 				setActiveToolBar();
 			}
 		}

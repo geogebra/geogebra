@@ -84,12 +84,10 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		JMenuItem mi;
 
-		if (!app.isApplet()) {
-			// "New" in application: new window
-			mi = new JMenuItem(newWindowAction);
-			setMenuShortCutAccelerator(mi, 'N');
-			add(mi);
-		}
+		// "New" in application: new window
+		mi = new JMenuItem(newWindowAction);
+		setMenuShortCutAccelerator(mi, 'N');
+		add(mi);
 
 		// "New": reset
 		add(deleteAll);
@@ -99,8 +97,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		LoginOperationD signIn = (LoginOperationD) app.getLoginOperation();
 
-		if (!app.isApplet()
-				&& (signIn.isTubeAvailable() || !signIn.isTubeCheckDone())) {
+		if (signIn.isTubeAvailable() || !signIn.isTubeCheckDone()) {
 			loadURLMenuItem = add(loadURLAction);
 
 			// If GeoGebraTube is not available we disable the item and
@@ -176,13 +173,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		mi.setText(loc.getMenu("PrintPreview"));
 		mi.setIcon(app.getMenuIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW));
 		setMenuShortCutAccelerator(mi, 'P');
-
 		// End Export SubMenu
-
-		// DONE HERE WHEN APPLET
-		if (app.isApplet()) {
-			return;
-		}
 
 		// close
 		addSeparator();

@@ -110,25 +110,13 @@ public class App3D extends AppD {
 
 	private class ThreadForCheckInput3D extends Thread {
 
-		private App app;
-
-		public ThreadForCheckInput3D(App app) {
-			this.app = app;
-		}
-
 		@Override
 		public void run() {
-
-			if (app.isApplet()) {
-				return;
-			}
-
 			boolean realsenseInited = initRealsense();
 
 			if (!realsenseInited) {
 				initZspace();
 			}
-
 		}
 
 		private boolean initRealsense() {
@@ -177,10 +165,10 @@ public class App3D extends AppD {
 	}
 
 	private void runThreadForCheckInput3D() {
-		if (!tubeLoginIsShowing && AppD.WINDOWS && !isApplet()
+		if (!tubeLoginIsShowing && AppD.WINDOWS
 				&& getInput3DType().equals(Input3DConstants.PREFS_NONE)) {
 			Log.debug("============ runThreadToCheckInput3D ");
-			Thread t = new ThreadForCheckInput3D(this);
+			Thread t = new ThreadForCheckInput3D();
 			t.start();
 		}
 	}
@@ -372,7 +360,7 @@ public class App3D extends AppD {
 
 		Input3D input3D;
 
-		if (AppD.WINDOWS && !isApplet()) {
+		if (AppD.WINDOWS) {
 			// init the 3D euclidian view (with perhaps a specific 3D input)
 			try {
 				input3D = Input3DFactory.createInput3D(this, getInput3DType());
@@ -773,12 +761,12 @@ public class App3D extends AppD {
 	private boolean isStereo3D;
 
 	public boolean isStereo3D() {
-		return isStereo3D && !isApplet();
+		return isStereo3D;
 	}
 
 	@Override
 	public boolean useShaders() {
-		return useShaders && !isApplet();
+		return useShaders;
 	}
 
 	@Override
