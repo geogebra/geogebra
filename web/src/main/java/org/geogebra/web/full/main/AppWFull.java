@@ -130,8 +130,9 @@ import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.main.ScriptManagerW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.Persistable;
 import org.geogebra.web.shared.DialogBoxW;
 import org.geogebra.web.shared.GlobalHeader;
@@ -207,8 +208,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	/**
 	 *
-	 * @param ae
-	 *            article element
+	 * @param geoGebraElement
+	 *            GeoGebra element
 	 * @param dimension
 	 *            2 or 3 (for 2D or 3D app)
 	 * @param laf
@@ -218,24 +219,24 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 * @param frame
 	 *            frame
 	 */
-	public AppWFull(ArticleElementInterface ae, int dimension,
-			GLookAndFeelI laf,
+	public AppWFull(GeoGebraElement geoGebraElement, AppletParameters parameters,
+			int dimension, GLookAndFeelI laf,
 			GDevice device, GeoGebraFrameFull frame) {
-		super(ae, dimension, laf);
+		super(geoGebraElement, parameters, dimension, laf);
 		this.frame = frame;
 		this.device = device;
 
-		if (getArticleElement().getDataParamApp()) {
+		if (getAppletParameters().getDataParamApp()) {
 			startDialogChain();
 		}
 
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
 
-		this.useFullGui = !isApplet() || ae.getDataParamShowAlgebraInput(false)
-				|| ae.getDataParamShowToolBar(false)
-				|| ae.getDataParamShowMenuBar(false)
-				|| ae.getDataParamEnableRightClick() || !isStartedWithFile();
+		this.useFullGui = !isApplet() || parameters.getDataParamShowAlgebraInput(false)
+				|| parameters.getDataParamShowToolBar(false)
+				|| parameters.getDataParamShowMenuBar(false)
+				|| parameters.getDataParamEnableRightClick() || !isStartedWithFile();
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 				+ GeoGebraConstants.BUILD_DATE + " "
@@ -249,8 +250,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		checkExamPerspective();
 		afterCoreObjectsInited();
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
-		if (ae.getDataParamApp() && !this.getLAF().isSmart()) {
+		Browser.removeDefaultContextMenu(geoGebraElement);
+		if (getAppletParameters().getDataParamApp() && !this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");
 		}
 		setupHeader();
@@ -268,12 +269,12 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void checkExamPerspective() {
-		if (!articleElement.getDataParamPerspective().startsWith("exam")) {
+		if (!appletParameters.getDataParamPerspective().startsWith("exam")) {
 			return;
 		}
 
 		setNewExam();
-		articleElement.attr("perspective", "");
+		appletParameters.setAttribute("perspective", "");
 		afterLocalizationLoaded(new Runnable() {
 			@Override
 			public void run() {
@@ -306,10 +307,10 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private void initActivity() {
-		if (articleElement == null || activity != null) {
+		if (appletParameters == null || activity != null) {
 			return;
 		}
-		switch (articleElement.getDataParamAppName()) {
+		switch (appletParameters.getDataParamAppName()) {
 			case "graphing":
 				activity = new GraphingActivity();
 				break;
@@ -422,8 +423,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	@Override
 	public final boolean letShowPropertiesDialog() {
 		return rightClickEnabled
-				|| getArticleElement().getDataParamShowMenuBar(false)
-				|| getArticleElement().getDataParamApp();
+				|| getAppletParameters().getDataParamShowMenuBar(false)
+				|| getAppletParameters().getDataParamApp();
 	}
 
 	@Override
@@ -510,7 +511,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	 *            perspective ID
 	 */
 	void doShowStartTooltip(int perspID) {
-		if (articleElement.getDataParamShowStartTooltip(perspID > 0)) {
+		if (appletParameters.getDataParamShowStartTooltip(perspID > 0)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			String tooltipText = getLocalization().getMenu("NewToGeoGebra")
 					+ "<br/>"
@@ -594,9 +595,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 					getHeight(),
 					isUnbundledGraphing() || isUnbundled3D()
 							|| "1".equals(
-									articleElement.getDataParamPerspective())
+									appletParameters.getDataParamPerspective())
 							|| "5".equals(
-									articleElement.getDataParamPerspective())));
+									appletParameters.getDataParamPerspective())));
 		} else {
 			p.getSplitPaneData()[0].setDivider(
 					PerspectiveDecoder.landscapeRatio(this, getWidth()));
@@ -752,9 +753,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						.updateMaterials();
 		}
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
-		if (getArticleElement().getDataParamPerspective()
+		if (getAppletParameters().getDataParamPerspective()
 				.startsWith("search:")) {
-			getArticleElement().attr("perspective", "");
+			getAppletParameters().setAttribute("perspective", "");
 		}
 	}
 
@@ -998,8 +999,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public AppKeyboardType getKeyboardType() {
-		if ("evaluator".equals(articleElement.getDataParamAppName())) {
-			String setting = articleElement.getParamKeyboardType("normal");
+		if ("evaluator".equals(appletParameters.getDataParamAppName())) {
+			String setting = appletParameters.getParamKeyboardType("normal");
 			switch (setting) {
 			case "normal":
 				return AppKeyboardType.SUITE;
@@ -1071,7 +1072,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	}
 
 	private boolean hasAutosave() {
-		return articleElement.getDataParamApp();
+		return appletParameters.getDataParamApp();
 	}
 
 	@Override
@@ -1199,7 +1200,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			return activity.isWhiteboard();
 		}
 		return "notes"
-						.equals(getArticleElement().getDataParamAppName());
+						.equals(getAppletParameters().getDataParamAppName());
 	}
 
 	@Override
@@ -1270,7 +1271,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		// and for sync file loading this makes sure perspective setting is not
 		// blocked by initing flag
 		initing = false;
-		GeoGebraFrameW.handleLoadFile(articleElement, this);
+		GeoGebraFrameW.handleLoadFile(appletParameters, this);
 	}
 
 	private void buildSingleApplicationPanel() {
@@ -1324,17 +1325,17 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		// showMenuBar should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
-		if (articleElement.getDataParamShowMenuBar(showMenuBar)) {
+		if (appletParameters.getDataParamShowMenuBar(showMenuBar)) {
 			frame.attachMenubar(this);
 		}
 		// showToolBar should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
-		if (articleElement.getDataParamShowToolBar(showToolBar)
+		if (appletParameters.getDataParamShowToolBar(showToolBar)
 				&& this.getToolbarPosition() != SwingConstants.SOUTH) {
 			frame.attachToolbar(this);
 		}
-		if (this.getInputPosition() == InputPosition.top && articleElement
+		if (this.getInputPosition() == InputPosition.top && appletParameters
 				.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();
 		}
@@ -1344,11 +1345,11 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
-		if (this.getInputPosition() == InputPosition.bottom && articleElement
+		if (this.getInputPosition() == InputPosition.bottom && appletParameters
 				.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();
 		}
-		if (articleElement.getDataParamShowToolBar(showToolBar)
+		if (appletParameters.getDataParamShowToolBar(showToolBar)
 				&& this.getToolbarPosition() == SwingConstants.SOUTH) {
 			frame.attachToolbar(this);
 		}
@@ -1411,7 +1412,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		if (oldSplitLayoutPanel != null) {
 			if (!isFloatingMenu()
-					&& getArticleElement().getDataParamShowMenuBar(false)) {
+					&& getAppletParameters().getDataParamShowMenuBar(false)) {
 				this.splitPanelWrapper = new HorizontalPanel();
 				// TODO
 				splitPanelWrapper.add(oldSplitLayoutPanel);
@@ -1472,7 +1473,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 			removeSplash();
 		}
 		frame.updateHeaderSize();
-		String perspective = getArticleElement().getDataParamPerspective();
+		String perspective = getAppletParameters().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()
 					|| perspective.length() > 0) {
@@ -1512,7 +1513,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 						ToolBar.getAllToolsNoMacros(true, false, this));
 			}
 			getGuiManager().updateFrameSize();
-			if (articleElement.getDataParamShowAlgebraInput(false)
+			if (appletParameters.getDataParamShowAlgebraInput(false)
 					&& !isUnbundledOrWhiteboard()) {
 				Perspective p2 = getTmpPerspective(p);
 				if (!algebraVisible(p2)
@@ -1534,7 +1535,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 		getEuclidianView1().synCanvasSize();
 
-		if (!articleElement.getDataParamFitToScreen()) {
+		if (!appletParameters.getDataParamFitToScreen()) {
 			getAppletFrame().resetAutoSize();
 		}
 
@@ -1644,9 +1645,9 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 
 	@Override
 	public void setCustomToolBar() {
-		String customToolbar = articleElement.getDataParamCustomToolBar();
+		String customToolbar = appletParameters.getDataParamCustomToolBar();
 		if ((customToolbar != null) && (customToolbar.length() > 0)
-				&& (articleElement.getDataParamShowToolBar(false))
+				&& (appletParameters.getDataParamShowToolBar(false))
 				&& (getGuiManager() != null)) {
 			getGuiManager().setGeneralToolBarDefinition(customToolbar);
 		}
@@ -1913,8 +1914,8 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		super.setFileVersion(version, appName);
 
 		if (!"auto".equals(appName)
-				&& "auto".equals(getArticleElement().getDataParamAppName())) {
-			getArticleElement().attr("appName",
+				&& "auto".equals(getAppletParameters().getDataParamAppName())) {
+			getAppletParameters().setAttribute("appName",
 					appName == null ? "" : appName);
 			String appCode = getConfig().getAppCode();
 

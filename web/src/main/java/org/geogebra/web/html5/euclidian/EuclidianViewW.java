@@ -680,7 +680,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (canvas != null) {
 			this.g2p = new LayeredGGraphicsW(canvas);
 			g2p.setDevicePixelRatio(appW.getPixelRatio());
-			if (appW.getArticleElement().isDebugGraphics()) {
+			if (appW.getAppletParameters().isDebugGraphics()) {
 				g2p.startDebug();
 			}
 		} else {

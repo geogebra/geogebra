@@ -724,7 +724,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	private boolean forceCloseButton() {
 		return getViewId() == App.VIEW_PROPERTIES
-				&& app.getArticleElement().getDataParamEnableRightClick();
+				&& app.getAppletParameters().getDataParamEnableRightClick();
 	}
 
 	/**
