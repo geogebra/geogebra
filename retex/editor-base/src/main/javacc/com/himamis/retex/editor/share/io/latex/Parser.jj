@@ -98,12 +98,12 @@ PARSER_END(Parser)
 	| < SQRT : "sqrt" >
 	| < NROOT : "nroot" >
 	| < LOG : "log" >
-	| < ABS : "abs" >
+	| < ABS : "abs(" >
 	| < DEF_INT : "$defint" >
 	| < PROD_EQ : "$prodeq" >
 	| < SUM_EQ : "$sumeq" >
-	| < LIM_EQ : "$limeq" >
-	| < VEC : "$vec" >
+	| < LIM_EQ : "$limeq(" >
+	| < VEC : "$vec(" >
 	| < COMMA : "," >
 	| < SPACE : " " >
 	| < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
@@ -315,7 +315,7 @@ void absVecLimeq(MathContainer currentField) : {
 	Token symbol;
 }
 {
-	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ>) <PARANTHESES_OPEN> {
+	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ>) {
 		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
 		MathSequence param1 = new MathSequence();
 		mathContainer(param1);
