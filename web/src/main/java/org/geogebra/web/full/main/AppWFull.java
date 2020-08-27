@@ -293,7 +293,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 	public AppConfig getConfig() {
 		initActivity();
 		if (activity == null) {
-			return new AppConfigDefault();
+			return super.getConfig();
 		}
 		return activity.getConfig();
 	}

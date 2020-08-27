@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
@@ -3330,11 +3329,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 				.isUnbundledOrNotes(articleElement.getDataParamAppName())
 				&& !"notes".equals(articleElement.getDataParamAppName());
 
-	}
-
-	@Override
-	public AppConfig getConfig() {
-		return new AppConfigDefault();
 	}
 
 	@Override
