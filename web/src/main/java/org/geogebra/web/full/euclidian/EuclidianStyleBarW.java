@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBarSelection;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.AngleProperties;
@@ -36,6 +37,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.TextStyle;
 import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -122,6 +124,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private MyToggleButtonW btnUnderline;
 
 	private BorderStylePopup btnBorderStyle;
+	private PopupMenuButtonW btnVerticalAlignment;
 
 	private MyToggleButtonW btnFixPosition;
 	private MyToggleButtonW btnFixObject;
@@ -458,6 +461,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		if (app.isWhiteboardActive()) {
 			add(btnUnderline);
 
+			add(btnVerticalAlignment);
 			add(btnBorderStyle);
 		}
 
@@ -682,8 +686,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	protected PopupMenuButtonW[] newPopupBtnList() {
 		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
 				btnColor, btnBgColor, btnTextColor, btnTextBgColor, btnFilling,
-				btnLineStyle, btnPointStyle, btnTextSize, btnBorderStyle,
-				btnAngleInterval, btnLabelStyle, btnPointCapture, btnChangeView };
+				btnLineStyle, btnPointStyle, btnTextSize, btnAngleInterval, btnBorderStyle,
+				btnVerticalAlignment, btnLabelStyle, btnPointCapture, btnChangeView };
 	}
 
 	// =====================================================
@@ -712,6 +716,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		createTextItalicBtn();
 		createTextUnderlineBtn();
 		createTableBorderStyleBtn();
+		createTableVerticalAlignmentBtn();
 		createFixPositionBtn();
 		createFixObjectBtn();
 		createTextSizeBtn();
@@ -1390,6 +1395,40 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnBorderStyle.addStyleName("withIcon");
 	}
 
+	private void createTableVerticalAlignmentBtn() {
+		MaterialDesignResources resources = MaterialDesignResources.INSTANCE;
+		ImageOrText[] verticalAlignments = new ImageOrText[] {
+				getImgResource(resources.vertical_align_top()),
+				getImgResource(resources.vertical_align_middle()),
+				getImgResource(resources.vertical_align_bottom()),
+		};
+
+		btnVerticalAlignment = new PopupMenuButtonW(app, verticalAlignments, 1, 3,
+				SelectionTable.MODE_ICON, false) {
+
+			@Override
+			public void update(List<GeoElement> geos) {
+				boolean geosOK = checkGeoTable(geos);
+				super.setVisible(geosOK);
+
+				if (geosOK) {
+					VerticalAlignment alignment = ((GeoInlineTable) geos.get(0)).getFormatter()
+							.getVerticalAlignment();
+					setSelectedIndex(alignment != null ? alignment.ordinal() : -1);
+					if (btnVerticalAlignment.getSelectedIndex() == -1) {
+						btnVerticalAlignment.setIcon(new ImageOrText(
+								MaterialDesignResources.INSTANCE.vertical_align_top(), 24));
+					}
+				}
+			}
+		};
+		btnVerticalAlignment.addPopupHandler(this);
+		btnVerticalAlignment.setKeepVisible(false);
+		btnVerticalAlignment.setIcon(new ImageOrText(
+				MaterialDesignResources.INSTANCE.vertical_align_top(), 24));
+		btnVerticalAlignment.addStyleName("withIcon");
+	}
+
 	private void createTextSizeBtn() {
 		// ========================================
 		// text size button
@@ -1576,6 +1615,10 @@ public class EuclidianStyleBarW extends StyleBarW2
 		} else if (source == btnBorderStyle) {
 			needUndo = applyBorderStyle(targetGeos, btnBorderStyle.getBorderType(),
 					btnBorderStyle.getBorderThickness());
+		} else if (source == btnVerticalAlignment) {
+			VerticalAlignment alignment
+					= VerticalAlignment.values()[btnVerticalAlignment.getSelectedIndex()];
+			needUndo = applyVerticalAlignment(targetGeos, alignment);
 		} else if (source == btnTextSize) {
 			needUndo = applyTextSize(targetGeos,
 					btnTextSize.getSelectedIndex());
@@ -1625,6 +1668,22 @@ public class EuclidianStyleBarW extends StyleBarW2
 				}
 				if (((GeoInlineTable) geo).getBorderThickness() != borderThickness) {
 					((GeoInlineTable) geo).setBorderThickness(borderThickness);
+					changed = true;
+				}
+			}
+		}
+
+		return changed;
+	}
+
+	private boolean applyVerticalAlignment(ArrayList<GeoElement> targetGeos,
+			VerticalAlignment alignment) {
+		boolean changed = false;
+		for (GeoElement geo : targetGeos) {
+			if (geo instanceof GeoInlineTable) {
+				InlineTableController formatter = ((GeoInlineTable) geo).getFormatter();
+				if (alignment != null && !alignment.equals(formatter.getVerticalAlignment())) {
+					formatter.setVerticalAlignment(alignment);
 					changed = true;
 				}
 			}

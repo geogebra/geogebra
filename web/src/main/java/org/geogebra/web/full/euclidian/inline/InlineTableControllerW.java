@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
 import org.geogebra.common.kernel.geos.properties.BorderType;
+import org.geogebra.common.kernel.geos.properties.VerticalAlignment;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -247,20 +248,13 @@ public class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public void setBorderStyle(BorderType borderType) {
-		tableImpl.setBorderStyle(borderType.getName());
+		tableImpl.setBorderStyle(borderType.toString());
 		table.updateRepaint();
 	}
 
 	@Override
 	public BorderType getBorderStyle() {
-		String borderStr = tableImpl.getBorderStyle();
-		switch (borderStr) {
-			case "mixed": return BorderType.MIXED;
-			case "inner": return BorderType.INNER;
-			case "outer": return BorderType.OUTER;
-			case "none": return BorderType.NONE;
-			default: return BorderType.ALL;
-		}
+		return BorderType.fromString(tableImpl.getBorderStyle());
 	}
 
 	@Override
@@ -272,6 +266,17 @@ public class InlineTableControllerW implements InlineTableController {
 	@Override
 	public String getWrapping() {
 		return tableImpl.getCellProperty("wrapping");
+	}
+
+	@Override
+	public VerticalAlignment getVerticalAlignment() {
+		return VerticalAlignment.fromString(tableImpl.getCellProperty("valign"));
+	}
+
+	@Override
+	public void setVerticalAlignment(VerticalAlignment alignment) {
+		tableImpl.setCellProperty("valign", alignment.toString());
+		table.updateRepaint();
 	}
 
 	@Override
