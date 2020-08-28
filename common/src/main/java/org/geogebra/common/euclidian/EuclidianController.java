@@ -9349,7 +9349,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& mode == EuclidianConstants.MODE_SELECT
 					&& (f.isGeoBoolean() || f.isGeoButton() || combo
 							|| slider)
-					|| (f.isGeoBoolean() && mode == EuclidianConstants.MODE_DELETE)) {
+					|| (f.isGeoBoolean() || f.isGeoButton())
+					&& mode == EuclidianConstants.MODE_DELETE) {
 				return;
 			}
 
