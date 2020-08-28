@@ -9348,7 +9348,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
 					&& mode == EuclidianConstants.MODE_SELECT
 					&& (f.isGeoBoolean() || f.isGeoButton() || combo
-							|| slider)) {
+							|| slider)
+					|| (f.isGeoBoolean() && mode == EuclidianConstants.MODE_DELETE)) {
 				return;
 			}
 
