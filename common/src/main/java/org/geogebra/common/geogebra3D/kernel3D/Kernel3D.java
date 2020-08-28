@@ -251,7 +251,11 @@ public class Kernel3D extends Kernel {
 		if (!(geo instanceof GeoCoords4D)) {
 			return super.handleCoords(geo, attrs);
 		}
-
+		if (geo.getParentAlgorithm() != null
+				&& !geo.isPointInRegion() && !geo.isPointOnPath()) {
+			// the coords from XML are redundant and may be buggy (see APPS-1382)
+			return true;
+		}
 		try {
 			double x = Double.parseDouble(attrs.get("x"));
 			double y = Double.parseDouble(attrs.get("y"));
