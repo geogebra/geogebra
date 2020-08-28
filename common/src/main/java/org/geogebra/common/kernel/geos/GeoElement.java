@@ -1566,10 +1566,19 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
-		} else if (!(app.isApplet() && isLocked())) {
+		} else if (!fixedObject()) {
 			remove();
 			kernel.notifyRemoveGroup();
 		}
+	}
+
+	private boolean fixedObject() {
+		// see APPS-2271 + APPS-1982
+		boolean isObjFixed = this instanceof GeoBoolean
+				? ((GeoBoolean) this).isCheckboxFixed()
+				: isLocked();
+		return (app.isApplet() && isObjFixed) || selectionAllowed;
+
 	}
 
 	@Override
