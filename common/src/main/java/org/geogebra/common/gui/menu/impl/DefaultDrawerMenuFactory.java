@@ -15,6 +15,7 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
  */
 public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
+	private final GeoGebraConstants.Platform platform;
 	private final LogInOperation logInOperation;
 	private final boolean createExamEntry;
 	private final boolean enableFileFeatures;
@@ -63,15 +64,35 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	 * @param version version
 	 * @param logInOperation if loginOperation is not null, it creates menu options that require
 	 * login based on the {@link LogInOperation#isLoggedIn()} method.
+	 * @param enableFileFeatures whether to show sign-in related file features
 	 * @param createExamEntry whether the factory should create the start exam button
-	 * @param enableFileFeatures wether to show sign-in related file features
 	 */
 	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
 			GeoGebraConstants.Version version,
 			LogInOperation logInOperation,
 			boolean createExamEntry,
 			boolean enableFileFeatures) {
-		super(platform, version);
+		this(platform, version, logInOperation, createExamEntry, enableFileFeatures, false);
+	}
+
+	/**
+	 * Create a new DrawerMenuFactory.
+	 * @param platform platform
+	 * @param version version
+	 * @param logInOperation if loginOperation is not null, it creates menu options that require
+	 * login based on the {@link LogInOperation#isLoggedIn()} method.
+	 * @param createExamEntry whether the factory should create the start exam button
+	 * @param enableFileFeatures whether to show sign-in related file features
+	 * @param enableSwitchCalculator whether to enable switch calculator
+	 */
+	public DefaultDrawerMenuFactory(GeoGebraConstants.Platform platform,
+			GeoGebraConstants.Version version,
+			LogInOperation logInOperation,
+			boolean createExamEntry,
+			boolean enableFileFeatures,
+			boolean enableSwitchCalculator) {
+		super(version, enableSwitchCalculator);
+		this.platform = platform;
 		this.logInOperation = logInOperation;
 		this.createExamEntry = createExamEntry;
 		this.enableFileFeatures = enableFileFeatures;
@@ -125,6 +146,11 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 			MenuItem signIn = new ActionableItemImpl(Icon.SIGN_IN, "SignIn", Action.SIGN_IN);
 			return new MenuItemGroupImpl(signIn);
 		}
+	}
+
+	private boolean isMobile() {
+		return platform == GeoGebraConstants.Platform.ANDROID
+				|| platform == GeoGebraConstants.Platform.IOS;
 	}
 
 	private boolean isDesktop() {

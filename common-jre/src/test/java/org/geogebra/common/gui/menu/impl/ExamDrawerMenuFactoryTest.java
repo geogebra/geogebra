@@ -11,8 +11,7 @@ public class ExamDrawerMenuFactoryTest {
 
 	@Test
 	public void testGraphingExam() {
-		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Platform.WEB,
-				GeoGebraConstants.Version.GRAPHING);
+		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.GRAPHING);
 		DrawerMenu menu = factory.createDrawerMenu();
 		Assert.assertEquals(1, menu.getMenuItemGroups().size());
 		MenuItemGroup group = menu.getMenuItemGroups().get(0);
@@ -20,9 +19,9 @@ public class ExamDrawerMenuFactoryTest {
 	}
 
 	@Test
-	public void testSuiteExam() {
-		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Platform.ANDROID,
-				GeoGebraConstants.Version.SUITE);
+	public void testSwitchCalculator() {
+		DrawerMenuFactory factory =
+				new ExamDrawerMenuFactory(GeoGebraConstants.Version.SUITE, true);
 		DrawerMenu menu = factory.createDrawerMenu();
 		Assert.assertEquals(1, menu.getMenuItemGroups().size());
 		MenuItemGroup group = menu.getMenuItemGroups().get(0);

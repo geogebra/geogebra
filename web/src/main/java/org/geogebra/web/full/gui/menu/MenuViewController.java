@@ -131,7 +131,7 @@ public class MenuViewController implements ResizeHandler, EventRenderable, SetLa
 	private void createDrawerMenuFactories(AppW app) {
 		GeoGebraConstants.Version version = app.getConfig().getVersion();
 		defaultDrawerMenuFactory = createDefaultMenuFactory(app, version);
-		examDrawerMenuFactory = new ExamDrawerMenuFactory(GeoGebraConstants.Platform.WEB, version);
+		examDrawerMenuFactory = new ExamDrawerMenuFactory(version);
 	}
 
 	private DrawerMenuFactory createDefaultMenuFactory(AppW app,

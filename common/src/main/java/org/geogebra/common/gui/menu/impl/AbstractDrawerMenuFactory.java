@@ -13,18 +13,17 @@ import org.geogebra.common.gui.menu.MenuItem;
 
 abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 
-	protected GeoGebraConstants.Version version;
-	protected GeoGebraConstants.Platform platform;
+	protected final GeoGebraConstants.Version version;
+	private final boolean enableSwitchCalculator;
 
 	/**
 	 * Default constructor.
-	 * @param platform platform
 	 * @param version version
+	 * @param enableSwitchCalculator enable switch calculator item
 	 */
-	AbstractDrawerMenuFactory(GeoGebraConstants.Platform platform,
-			GeoGebraConstants.Version version) {
-		this.platform = platform;
+	AbstractDrawerMenuFactory(GeoGebraConstants.Version version, boolean enableSwitchCalculator) {
 		this.version = version;
+		this.enableSwitchCalculator = enableSwitchCalculator;
 	}
 
 	String getMenuTitle() {
@@ -48,18 +47,13 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 		}
 	}
 
-	boolean isMobile() {
-		return platform == GeoGebraConstants.Platform.ANDROID
-				|| platform == GeoGebraConstants.Platform.IOS;
-	}
-
 	static MenuItem clearConstruction() {
 		return new ActionableItemImpl(Icon.CLEAR, "Clear", Action.CLEAR_CONSTRUCTION);
 	}
 
 	@Nullable
 	MenuItem showSwitchCalculator() {
-		return isMobile() && version == GeoGebraConstants.Version.SUITE
+		return enableSwitchCalculator
 				? new ActionableItemImpl(Icon.GEOGEBRA, "Settings", Action.SWITCH_CALCULATOR)
 				: null;
 	}

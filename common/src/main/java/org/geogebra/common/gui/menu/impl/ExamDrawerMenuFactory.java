@@ -14,12 +14,20 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 
 	/**
 	 * Create a new ExamDrawerMenuFactory.
-	 * @param platform platform
 	 * @param version version of the app
 	 */
-	public ExamDrawerMenuFactory(GeoGebraConstants.Platform platform,
-			GeoGebraConstants.Version version) {
-		super(platform, version);
+	public ExamDrawerMenuFactory(GeoGebraConstants.Version version) {
+		this(version, false);
+	}
+
+	/**
+	 * Create a new ExamDrawerMenuFactory.
+	 * @param version version of the app
+	 * @param enableSwitchCalculator enable switch calculator item
+	 */
+	public ExamDrawerMenuFactory(GeoGebraConstants.Version version,
+			boolean enableSwitchCalculator) {
+		super(version, enableSwitchCalculator);
 	}
 
 	@Override

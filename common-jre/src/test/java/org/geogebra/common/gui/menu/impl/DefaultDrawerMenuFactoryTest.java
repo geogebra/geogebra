@@ -122,10 +122,10 @@ public class DefaultDrawerMenuFactoryTest {
 	}
 
 	@Test
-	public void testSuiteSwitchCalculator() {
+	public void testSwitchCalculator() {
 		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
 				GeoGebraConstants.Platform.IOS,
-				GeoGebraConstants.Version.SUITE, null, false, false);
+				GeoGebraConstants.Version.SUITE, null, false, false, true);
 		DrawerMenu menu = factory.createDrawerMenu();
 		MenuItemGroup group = menu.getMenuItemGroups().get(1);
 
