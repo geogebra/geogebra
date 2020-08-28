@@ -54,7 +54,8 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 	@Nullable
 	MenuItem showSwitchCalculator() {
 		return enableSwitchCalculator
-				? new ActionableItemImpl(Icon.GEOGEBRA, "Settings", Action.SWITCH_CALCULATOR)
+				? new ActionableItemImpl(Icon.GEOGEBRA,
+				"SwitchCalculator", Action.SWITCH_CALCULATOR)
 				: null;
 	}
 

@@ -175,7 +175,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	protected static MenuItem showSettings() {
-		return new ActionableItemImpl(Icon.SETTINGS, "SwitchCalculator", Action.SHOW_SETTINGS);
+		return new ActionableItemImpl(Icon.SETTINGS, "Settings", Action.SHOW_SETTINGS);
 	}
 
 	protected static MenuItem saveFile() {
