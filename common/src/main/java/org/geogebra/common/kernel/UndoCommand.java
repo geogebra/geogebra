@@ -115,6 +115,9 @@ public class UndoCommand {
 		} else if (action == EventType.MOVE_SLIDE) {
 			mgr.executeAction(EventType.MOVE_SLIDE, null,
 					args[1], args[0]);
+		} else if (action == EventType.RENAME_SLIDE) {
+			mgr.executeAction(EventType.RENAME_SLIDE, null,
+					args[0], args[2], args[1]);
 		} else if (action == EventType.EMBEDDED_STORE_UNDO) {
 			mgr.embeddedAction(EventType.UNDO, args[0]);
 		}

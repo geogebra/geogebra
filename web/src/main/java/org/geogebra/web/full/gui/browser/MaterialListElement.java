@@ -654,7 +654,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	@Override
-	public void setMaterialTitle(String oldTitle) {
+	public void setCardTitle(String oldTitle) {
 		title.setText(oldTitle);
 	}
 
@@ -664,7 +664,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	@Override
-	public String getMaterialTitle() {
+	public String getCardTitle() {
 		return getMaterial().getTitle();
 	}
 

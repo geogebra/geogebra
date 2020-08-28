@@ -267,9 +267,6 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public void setEnableTable(boolean enableTable) {
 		this.enableTable = enableTable;
 		getMyTable().setVisible(enableTable);
-		if (!enableTable) {
-			getMyPopup().setHeight(app.isUnbundled() ? "30px" : "65px");
-		}
 	}
 
 	/**

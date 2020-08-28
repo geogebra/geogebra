@@ -425,17 +425,9 @@ public class FunctionParser {
 		for (int i = 0; i < n; i++) {
 			funVar[i] = new FunctionVariable(kernel, localVars.get(i));
 		}
-
-		if (n == 1) { // single variable function
-			Function fun = new Function(rhs, funVar[0]);
-			fun.setLabel(funLabel);
-			rhs = new ExpressionNode(kernel, fun);
-		} else { // multi variable function
-			FunctionNVar funn = new FunctionNVar(rhs, funVar);
-			funn.setLabel(funLabel);
-			rhs = new ExpressionNode(kernel, funn);
-		}
-
+		FunctionNVar fun = kernel.getArithmeticFactory().newFunction(rhs, funVar);
+		fun.setLabel(funLabel);
+		rhs = new ExpressionNode(kernel, fun);
 		rhs.setLabel(funLabel);
 		return rhs;
 	}

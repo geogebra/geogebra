@@ -119,8 +119,8 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	public String getLoginURL(String languageCode) {
-		if (!StringUtil.empty(app.getArticleElement().getParamLoginURL())) {
-			return app.getArticleElement().getParamLoginURL();
+		if (!StringUtil.empty(app.getAppletParameters().getParamLoginURL())) {
+			return app.getAppletParameters().getParamLoginURL();
 		}
 
 		return super.getLoginURL(languageCode);
@@ -144,8 +144,8 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	public void showLogoutUI() {
-		if (!StringUtil.empty(app.getArticleElement().getParamLogoutURL())) {
-			DomGlobal.window.open(app.getArticleElement().getParamLogoutURL(), "_blank",
+		if (!StringUtil.empty(app.getAppletParameters().getParamLogoutURL())) {
+			DomGlobal.window.open(app.getAppletParameters().getParamLogoutURL(), "_blank",
 					"menubar=off,width=450,height=350");
 		}
 	}
@@ -153,14 +153,14 @@ public class LoginOperationW extends LogInOperation {
 	@Override
 	public void passiveLogin() {
 		model.setLoginStarted();
-		if (StringUtil.empty(app.getArticleElement().getParamLoginURL())) {
+		if (StringUtil.empty(app.getAppletParameters().getParamLoginURL())) {
 			processCookie(true);
 			return;
 		}
 		final Frame fr = new Frame();
 		fr.setVisible(false);
 		fr.setUrl(
-				app.getArticleElement().getParamLoginURL()
+				app.getAppletParameters().getParamLoginURL()
 						+ "%3FisPassive=true&isPassive=true");
 		RootPanel.get().add(fr);
 	}

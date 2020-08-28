@@ -150,8 +150,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	protected void doUpdateHelpPosition(final InputBarHelpPanelW helpPanel,
 			final int x, final int y) {
 		AppW appw = (AppW) hasKeyboard;
-		double scale = appw.getArticleElement().getScaleX();
-		double renderScale = appw.getArticleElement().getDataParamApp() ? scale
+		double scale = appw.getGeoGebraElement().getScaleX();
+		double renderScale = appw.getAppletParameters().getDataParamApp() ? scale
 				: 1;
 		double left = x - appw.getAbsLeft()
 				- helpPanel.getPreferredWidth(scale);

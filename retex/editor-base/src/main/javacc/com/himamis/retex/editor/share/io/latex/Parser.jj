@@ -4,6 +4,7 @@ package com.himamis.retex.editor.share.io.latex;
 import com.himamis.retex.editor.share.model.*;
 import com.himamis.retex.editor.share.meta.*;
 import com.himamis.retex.editor.share.controller.*;
+import com.himamis.retex.editor.share.editor.FractionBracketRemover;
 
 public class Parser {
 
@@ -63,6 +64,7 @@ public class Parser {
 		mathFormula.setRootComponent(mathSequence);
 		editorState.setRootComponent(mathSequence);
 		mathContainer(mathSequence);
+		mathFormula.getRootComponent().traverse(new FractionBracketRemover());
 		return mathFormula;
 	}
 }
@@ -239,7 +241,7 @@ void fraction(MathContainer currentField) :
 		editorState.setCurrentField((MathSequence) currentField);
 		editorState.setCurrentOffset(currentField.size());
 		fraction.setArgument(0, passArgs);
-		ArgumentHelper.passArgument(editorState, fraction);
+		ArgumentHelper.passArgument(editorState, fraction, true);
 		//handle denominator
 		MathSequence mathSequence = new MathSequence();
 		mathAtomOrPower(mathSequence);

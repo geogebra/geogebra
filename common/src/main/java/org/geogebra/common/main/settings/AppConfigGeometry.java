@@ -42,7 +42,7 @@ public class AppConfigGeometry implements AppConfig {
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.setLocation("3");
-			dp.setToolMode(true);
+			dp.setTabId(DockPanelData.TabIds.TOOLS);
 		}
 		else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
 			dp.makeVisible();
@@ -279,6 +279,11 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public PropertiesFactory createPropertiesFactory() {
 		return new BasePropertiesFactory();
+	}
+
+	@Override
+	public boolean disableTraceCM() {
+		return false;
 	}
 
 	@Override

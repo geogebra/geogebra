@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.util.file.FileIO;
 import org.junit.Test;
@@ -24,9 +25,9 @@ public class AppWSimpleLoadTest {
 
 	@Test
 	public void testLoadApp() {
-		TestArticleElement articleElement = new TestArticleElement("simple");
+		AppletParameters articleElement = new AppletParameters("simple");
 		String json = FileIO.load(jsonPath);
-		articleElement.attr("jsonFile", json);
+		articleElement.setAttribute("json", json);
 		AppWsimple app = AppMocker.mockAppletSimple(articleElement);
 		assertTrue(((GeoBoolean) app.getKernel().lookupLabel("visible")).getBoolean());
 	}

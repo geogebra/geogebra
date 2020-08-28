@@ -98,5 +98,4 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		cons.removeFromConstructionList(algoCAS);
 		lengthCurve = new LengthCurve(c1);
 	}
-
 }

@@ -52,20 +52,12 @@ public class InputTokenizer {
 	}
 
 	private String getToken() {
-
 		String opPrefix = getOperationPrefix();
 		if (opPrefix != null) {
 			return opPrefix;
 		}
 
-		if (isImaginaryNext()) {
-			return IMAGINARY_STRING;
-		}
-
-		if (isDigitAt(1)) {
-			if (StringUtil.isLetter(input.charAt(0))) {
-				return String.valueOf(input.charAt(0));
-			}
+		if (isDigitAt(0)) {
 			return getNumberToken();
 		}
 
@@ -85,6 +77,10 @@ public class InputTokenizer {
 
 		if (isPiNext()) {
 			return "pi";
+		}
+
+		if (isImaginaryNext()) {
+			return IMAGINARY_STRING;
 		}
 
 		if (minLength <= input.length()) {

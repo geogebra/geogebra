@@ -7,7 +7,7 @@ import org.geogebra.web.full.css.MebisResources;
 import org.geogebra.web.full.css.StylesProvider;
 import org.geogebra.web.full.css.TextStyles;
 import org.geogebra.web.html5.js.ResourcesInjector;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class ResourcesInjectorFull extends ResourcesInjector {
 
 	@Override
-	protected void injectResourcesGUI(ArticleElementInterface ae) {
+	protected void injectResourcesGUI(AppletParameters ae) {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 
 		StylesProvider stylesProvider = createStylesProvider(ae);
@@ -54,7 +54,7 @@ public class ResourcesInjectorFull extends ResourcesInjector {
 		injectGreekFonts();
 	}
 
-	private StylesProvider createStylesProvider(ArticleElementInterface ae) {
+	private StylesProvider createStylesProvider(AppletParameters ae) {
 		if ("mebis".equalsIgnoreCase(ae.getParamVendor())) {
 			return MebisResources.INSTANCE;
 		} else {
