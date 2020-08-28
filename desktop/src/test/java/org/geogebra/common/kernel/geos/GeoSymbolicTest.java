@@ -1195,4 +1195,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoSymbolic function = add("f(x) = xx");
 		assertThat(function.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoFunction.class));
 	}
+
+	@Test
+	public void testPrecision() {
+		GeoSymbolic derivative = add("Derivative(25.8-0.2ℯ^(-0.025x))");
+		assertThat(
+				derivative.toValueString(StringTemplate.defaultTemplate),
+				equalTo("1 / 200 ℯ^((-1) / 40 x)"));
+	}
 }
