@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.cas.view.CASStylebarW;
 import org.geogebra.web.full.css.GuiResources;
@@ -25,7 +26,6 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -1303,19 +1303,19 @@ public abstract class DockPanelW extends ResizeComposite
 	public GDimension getEstimatedSize() {
 		switch (getViewId()) {
 		case App.VIEW_EUCLIDIAN:
-			return new GDimensionW(
+			return new Dimension(
 					app.getSettings().getEuclidian(1).getPreferredSize()
 							.getWidth(),
 					app.getSettings().getEuclidian(1).getPreferredSize()
 							.getHeight());
 		case App.VIEW_EUCLIDIAN2:
-			return new GDimensionW(
+			return new Dimension(
 					app.getSettings().getEuclidian(2).getPreferredSize()
 							.getWidth(),
 					app.getSettings().getEuclidian(2).getPreferredSize()
 							.getHeight());
 		case App.VIEW_SPREADSHEET:
-			return new GDimensionW(
+			return new Dimension(
 					app.getSettings().getSpreadsheet().preferredSize()
 							.getWidth(),
 					app.getSettings().getSpreadsheet().preferredSize()
@@ -1323,7 +1323,7 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 
 		// probably won't work
-		return new GDimensionW(getOffsetWidth(), getOffsetHeight());
+		return new Dimension(getOffsetWidth(), getOffsetHeight());
 	}
 
 	/**

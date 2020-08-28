@@ -7,7 +7,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -255,7 +255,7 @@ public class LoadFilePresenter {
 		}
 		app.getAppletFrame().updateHeaderSize();
 		app.setPreferredSize(
-				new GDimensionW(app.getAppletWidth(), app.getAppletHeight()));
+				new Dimension(app.getAppletWidth(), app.getAppletHeight()));
 		app.ensureStandardView();
 		app.loadPreferences(p);
 		app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");

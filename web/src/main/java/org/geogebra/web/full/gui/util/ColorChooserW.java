@@ -12,11 +12,11 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.CustomColorDialog;
 import org.geogebra.web.full.gui.dialog.CustomColorDialog.ICustomColor;
 import org.geogebra.web.full.gui.images.AppResources;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.GPushButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -58,7 +58,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	public static final double PREVIEW_BORDER_WIDTH = 14;
 	Canvas canvas;
 	Context2d ctx;
-	GDimensionW colorIconSize;
+	Dimension colorIconSize;
 	int padding;
 	List<ColorTable> tables;
 	private ColorTable leftTable;
@@ -573,7 +573,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 *            padding
 	 */
 	public ColorChooserW(final App app, int width, int height,
-			GDimensionW colorIconSize, int padding) {
+			Dimension colorIconSize, int padding) {
 		this.app = app;
 		lbBars = new BarList(app);
 		lbBars.setVisible(false);

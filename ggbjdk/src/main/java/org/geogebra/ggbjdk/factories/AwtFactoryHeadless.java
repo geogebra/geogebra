@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GLine2D;
@@ -16,6 +17,7 @@ import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
 import org.geogebra.ggbjdk.java.awt.geom.Arc2D;
 import org.geogebra.ggbjdk.java.awt.geom.Area;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
@@ -134,6 +136,11 @@ public abstract class AwtFactoryHeadless extends AwtFactory {
 	@Override
 	public GBasicStroke newBasicStroke(double f, int cap, int join) {
 		return new DefaultBasicStroke(f, cap, join);
+	}
+
+	@Override
+	public GDimension newDimension(int width, int height) {
+		return new Dimension(width, height);
 	}
 
 }
