@@ -1577,7 +1577,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		boolean isObjFixed = this instanceof GeoBoolean
 				? ((GeoBoolean) this).isCheckboxFixed()
 				: isLocked();
-		return (app.isApplet() && (isObjFixed || !selectionAllowed));
+		return (app.isApplet() && isObjFixed) || !selectionAllowed;
 	}
 
 	@Override
