@@ -677,4 +677,12 @@ public class AppletParameters {
 	public boolean getParamTextMode() {
 		return getBoolDataParam("textMode", false);
 	}
+
+	/**
+	 *
+	 * @return wether is multiuser applet
+	 */
+	public boolean getDataParamMultiuserApplet() {
+		return getBoolDataParam("multiuserApplet", false);
+	}
 }

@@ -1,10 +1,9 @@
 @import 'colors';
 
 .GeoGebraFrame {
-	overflow: hidden;
 
-	&.GeoGebraHeader {
-		overflow: unset;
+	&.multiuserApplet {
+		overflow: hidden;
 	}
 
 	div[data-title]:after {
