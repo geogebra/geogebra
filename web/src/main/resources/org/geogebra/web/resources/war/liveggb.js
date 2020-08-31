@@ -48,11 +48,13 @@
             }
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
             if (calc) {
-                var calcLive = new LiveApp(this.clientId, label);
-                calcLive.api = calc;
-                calcLive.eventCallback = this.eventCallback;
-                calcLive.registerListeners();
-                this.embeds[label] = calcLive;
+                if (calc.registerClientListener) {
+                    var calcLive = new LiveApp(this.clientId, label);
+                    calcLive.api = calc;
+                    calcLive.eventCallback = this.eventCallback;
+                    calcLive.registerListeners();
+                    this.embeds[label] = calcLive;
+                }
             }
         }
 
@@ -68,6 +70,12 @@
 
                     for (let i = 0; i < tempObjects.length; i++) {
                         const label = tempObjects[i];
+                        const embed = that.api.getEmbeddedCalculators()[label];
+
+                        if (embed && embed.controller) {
+                            that.sendEvent("evalGMContent", embed.toJSON(), label);
+                        }
+
                         let commandString = that.api.getCommandString(label, false);
                         if (commandString) {
                             that.sendEvent("evalCommand", label + " = " + commandString);
@@ -109,7 +117,7 @@
 
             var definition = this.api.getCommandString(label);
             if (definition) {
-                this.sendEvent("evalXML", this.api.getAlgorithmXML(label) );
+                this.sendEvent("evalXML", this.api.getAlgorithmXML(label));
             } else {
                 this.sendEvent("evalXML", xml);
             }
@@ -235,6 +243,11 @@
                     target.api.previewRefresh();
                 } else if (last.type == "pasteSlide") {
                     target.api.handleSlideAction(last.type, last.content, last.label);
+                } else if (last.type == "evalGMContent") {
+                    var gmApi = target.api.getEmbeddedCalculators()[last.label];
+                    if (gmApi) {
+                        gmApi.loadFromJSON(last.content);
+                    }
                 }
             }
         };
