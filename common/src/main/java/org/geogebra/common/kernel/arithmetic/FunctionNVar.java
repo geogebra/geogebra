@@ -431,15 +431,19 @@ public class FunctionNVar extends ValidExpression
 			isBooleanFunction = true;
 		} else if (ev instanceof NumberValue) {
 			isBooleanFunction = false;
-		} else if (ev instanceof FunctionNVar) {
-			expression = ((FunctionNVar) ev).getExpression();
-			fVars = ((FunctionNVar) ev).getFunctionVariables();
-		} else if (ev instanceof GeoFunction) {
-			expression = ((GeoFunction) ev).getFunctionExpression();
-			fVars = ((GeoFunction) ev).getFunction().getFunctionVariables();
-		} else if (ev instanceof GeoFunctionNVar) {
-			expression = ((GeoFunctionNVar) ev).getFunctionExpression();
-			fVars = ((GeoFunctionNVar) ev).getFunction().getFunctionVariables();
+		}  else if (ev instanceof GeoFunction && ((GeoFunction) ev).isLabelSet()) {
+			// f(x) should be a dependent function
+			expression = new ExpressionNode(kernel, ev, Operation.FUNCTION, fVars[0]);
+		} else if (ev instanceof GeoFunctionNVar && ((GeoFunctionNVar) ev).isLabelSet()) {
+			// f(x, y) should be a dependent function
+			MyList args = new MyList(kernel, fVars.length);
+			for (FunctionVariable fVar: fVars){
+				args.addListElement(fVar);
+			}
+			expression = new ExpressionNode(kernel, ev, Operation.FUNCTION_NVAR, args);
+		} else if (ev instanceof FunctionalNVar) {
+			expression = ((FunctionalNVar) ev).getFunctionExpression();
+			fVars = ((FunctionalNVar) ev).getFunctionVariables();
 		} else {
 			return false;
 		}

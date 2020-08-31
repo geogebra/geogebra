@@ -1600,10 +1600,12 @@ public class GeoList extends GeoElement
 			}
 			sb.append("}");
 			for (int i = 0; i < size(); i++) {
-				final GeoList geo = (GeoList) get(i);
-				for (int j = 0; j < geo.size(); j++) {
-					sb.append(geo.get(j).toLaTeXString(symbolic, tpl));
-					if (j < (geo.size() - 1)) {
+				final GeoList row = (GeoList) get(i);
+				for (int j = 0; j < row.size(); j++) {
+					GeoElement geo = row.get(j);
+					sb.append(symbolic ? geo.getLabel(tpl)
+							: geo.toLaTeXString(false, tpl));
+					if (j < row.size() - 1) {
 						sb.append("&");
 					}
 				}
