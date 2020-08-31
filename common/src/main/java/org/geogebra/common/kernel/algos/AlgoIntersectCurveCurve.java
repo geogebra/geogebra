@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -61,7 +60,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 	 *            curve 2
 	 */
 	public AlgoIntersectCurveCurve(Construction c, String[] labels,
-			GeoCurveCartesian c1, GeoCurveCartesian c2) {
+			GeoCurveCartesianND c1, GeoCurveCartesianND c2) {
 
 		super(c);
 
@@ -94,7 +93,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 	 *            path parameter to start iteration from
 	 */
 	public AlgoIntersectCurveCurve(Construction c, String[] labels,
-			GeoCurveCartesian c1, GeoCurveCartesian c2, GeoNumberValue t1,
+			GeoCurveCartesianND c1, GeoCurveCartesianND c2, GeoNumberValue t1,
 			GeoNumberValue t2) {
 
 		super(c);

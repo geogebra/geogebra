@@ -71,7 +71,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		if (getApp().getLoginOperation() != null) {
 			getApp().getLoginOperation().getView().add(this);
 		}
-		updateShareButton();
 	}
 
 	private void buildFileMenu() {
@@ -83,11 +82,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 		addShareItem();
 		addDownloadAsItem();
 		addPrintItem();
-	}
-
-	private void updateShareButton() {
-		shareItem.setVisible(getApp().getLoginOperation() != null
-				&& getApp().getLoginOperation().canUserShare());
 	}
 
 	private void updateOpenFileButton() {
@@ -132,7 +126,6 @@ public class FileMenuW extends Submenu implements BooleanRenderable, EventRender
 	@Override
 	public void renderEvent(BaseEvent event) {
 		if (event instanceof LoginEvent || event instanceof LogOutEvent) {
-			updateShareButton();
 			updateOpenFileButton();
 		}
 	}

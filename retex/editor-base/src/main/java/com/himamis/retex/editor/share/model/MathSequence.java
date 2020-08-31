@@ -97,17 +97,6 @@ public class MathSequence extends MathContainer {
 	}
 
 	/**
-	 * Is i'th argument script.
-	 * 
-	 * @param i
-	 *            index
-	 * @return whether given argument is a sub/super-script
-	 */
-	public boolean isScript(int i) {
-		return i >= 0 && i < size() && MathFunction.isScript(getArgument(i));
-	}
-
-	/**
 	 * Is i'th argument operator.
 	 * 
 	 * @param i

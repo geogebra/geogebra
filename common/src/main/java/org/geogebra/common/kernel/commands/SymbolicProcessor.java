@@ -180,12 +180,13 @@ public class SymbolicProcessor {
 			ExpressionNode rhs = equ.getRHS();
 			FunctionNVar lhs = getRedefiningFunction(equ);
 
-			ValidExpression retVal = rhs;
+			ValidExpression extractedFunction = rhs;
 			if (lhs != null) {
-				retVal = new FunctionNVar(rhs, lhs.getFunctionVariables());
+				extractedFunction =
+						kernel.getArithmeticFactory().newFunction(rhs, lhs.getFunctionVariables());
 			}
-			retVal.setLabel(lhsName);
-			return retVal;
+			extractedFunction.setLabel(lhsName);
+			return extractedFunction;
 		}
 		return equ;
 	}

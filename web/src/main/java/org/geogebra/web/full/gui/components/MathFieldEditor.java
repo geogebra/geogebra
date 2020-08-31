@@ -75,6 +75,7 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 
 		MetaModel model = new MetaModel();
 		model.enableSubstitutions();
+		model.setForceBracketAfterFunction(true);
 		mathField = new MathFieldW(new SyntaxAdapterImpl(kernel), main,
 				canvas, listener, directFormulaConversion, model);
 		mathField.setExpressionReader(ScreenReader.getExpressionReader(app));
@@ -164,6 +165,14 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	 */
 	public void setFontSize(double fontSize) {
 		mathField.setFontSize(fontSize);
+	}
+
+	/**
+	 * Sets editor font type.
+	 * @param fontType to set.
+	 */
+	public void setFontType(int fontType) {
+		mathField.setFontType(fontType);
 	}
 
 	/**

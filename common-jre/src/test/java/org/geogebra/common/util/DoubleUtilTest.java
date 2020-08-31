@@ -5,10 +5,10 @@ import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 
 public class DoubleUtilTest {
+	private final static double PRECISION = 1E-18;
 
 	@Test
 	public void testRange() {
-		final double PRECISION = 1E-18;
 		assertArrayEquals(
 				new double[] {42},
 				DoubleUtil.range(42, 42, 0.002),
@@ -42,6 +42,30 @@ public class DoubleUtilTest {
 		assertArrayEquals(
 				new double[] {0.3, 0.5},
 				DoubleUtil.range(0.3, 0.5, 0.2),
+				PRECISION
+		);
+	}
+
+	@Test
+	public void testRangeInvalid() {
+		assertArrayEquals(
+				new double[] {0.3},
+				DoubleUtil.range(0.3, -0.5, 1),
+				PRECISION
+		);
+		assertArrayEquals(
+				new double[] {0.3},
+				DoubleUtil.range(0.3, -0.5, 0.8),
+				PRECISION
+		);
+		assertArrayEquals(
+				new double[] {0.3},
+				DoubleUtil.range(0.3, -0.5, 0.2),
+				PRECISION
+		);
+		assertArrayEquals(
+				new double[] {0.3},
+				DoubleUtil.range(0.3, 0.5, -0.2),
 				PRECISION
 		);
 	}

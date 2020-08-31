@@ -604,7 +604,7 @@ public class FunctionNVar extends ValidExpression
 		// exists in GeoGebra
 		// see TRAC-2547
 
-		StringTemplate tpl = StringTemplate.prefixedDefault;
+		StringTemplate tpl = StringTemplate.numericNoLocal;
 		// did expression change since last time?
 		// or did symbolic falg change?
 		if (casEvalExpression != expression

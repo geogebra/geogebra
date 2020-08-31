@@ -205,7 +205,7 @@ public class TextOptionsModel extends OptionsModel {
 		if (editGeo != null) {
 			editGeo.setSerifFont(isSerif);
 		}
-
+		storeUndoInfo();
 		listener.updatePreviewPanel();
 	}
 

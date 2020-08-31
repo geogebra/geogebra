@@ -17,16 +17,16 @@ import jsinterop.annotations.JsType;
 public final class FunctionSoundW extends FunctionSound
 		implements FunctionAudioListener {
 
-	public static final FunctionSoundW INSTANCE = new FunctionSoundW();
-	private WebAudioWrapper waw = WebAudioWrapper.INSTANCE;
+	private static FunctionSoundW INSTANCE;
+	private final WebAudioWrapper waw = WebAudioWrapper.getInstance();
 
 	/**
 	 * Constructs instance of FunctionSound
 	 * 
 	 */
-	public FunctionSoundW() {
+	private FunctionSoundW() {
 		super();
-		if (WebAudioWrapper.INSTANCE.init()) {
+		if (waw.isSupported()) {
 			Log.debug("[WEB AUDIO] Initialization is OK.");
 		} else {
 			Log.debug("[WEB AUDIO] Initialization has FAILED.");
@@ -35,6 +35,17 @@ public final class FunctionSoundW extends FunctionSound
 		if (!initStreamingAudio(getSampleRate(), getBitDepth())) {
 			Log.error("Cannot initialize streaming audio");
 		}
+	}
+
+	/**
+	 * @return the function sound instance (singleton)
+	 */
+	public static FunctionSoundW getInstance() {
+		if (INSTANCE == null) {
+			INSTANCE = new FunctionSoundW();
+		}
+
+		return INSTANCE;
 	}
 
 	/**
@@ -106,7 +117,7 @@ public final class FunctionSoundW extends FunctionSound
 	}
 
 	private void generateFunctionSound() {
-		waw.start(getMin(), getMax(), getSampleRate());
+		waw.start(getMin(), getMax());
 	}
 
 	/**

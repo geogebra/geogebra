@@ -12,12 +12,14 @@ import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -25,7 +27,6 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -370,7 +371,7 @@ public class DockManagerW extends DockManager {
 					windowWidth2 = windowWidth;
 					windowHeight2 = windowHeight;
 					app.setPreferredSize(
-							new GDimensionW(windowWidth2, windowHeight2));
+							new Dimension(windowWidth2, windowHeight2));
 				}
 
 				setSplitPaneDividers(spData, splitPanes, windowHeight2,
@@ -415,7 +416,7 @@ public class DockManagerW extends DockManager {
 				panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
 				panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
 				panel.setShowStyleBar(dpData[i].showStyleBar());
-				panel.setToolMode(dpData[i].isToolMode());
+				panel.setTabId(dpData[i].getTabId());
 
 				// detach views which were visible, but are not in the new
 				// perspective
@@ -565,10 +566,10 @@ public class DockManagerW extends DockManager {
 			}
 		}
 
-		if (app.getArticleElement().getDataParamShowMenuBar(false)) {
+		if (app.getAppletParameters().getDataParamShowMenuBar(false)) {
 			DockGlassPaneW glassPane = ((AppWFull) app).getGlassPane();
-			if (glassPane.getArticleElement() == null) {
-				glassPane.setArticleElement(app.getArticleElement());
+			if (glassPane.getGeoGebraElement() == null) {
+				glassPane.setGeoGebraElement(app.getGeoGebraElement());
 			}
 			glassPane.attach(this, (int) app.getWidth(), (int) app.getHeight());
 			glassPane.startDrag(new DnDState(panel));
@@ -1779,6 +1780,19 @@ public class DockManagerW extends DockManager {
 		for (DockPanelW dock : this.dockPanels) {
 			if (dock.getViewId() != App.VIEW_ALGEBRA) {
 				dock.resetStylebar();
+			}
+		}
+	}
+
+	/**
+	 * Set active tab(s) from perspective
+	 * @param p perspective
+	 */
+	public void setActiveTab(Perspective p) {
+		for (DockPanelData dpData: p.getDockPanelData()) {
+			DockPanelW panel = getPanel(dpData.getViewId());
+			if (panel != null) {
+				panel.setTabId(dpData.getTabId());
 			}
 		}
 	}

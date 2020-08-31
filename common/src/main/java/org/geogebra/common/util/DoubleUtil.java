@@ -521,7 +521,7 @@ public class DoubleUtil {
 	 * Create a range of doubles from min to max with the given step
 	 * @param max >= min
 	 * @param step > 0
-	 * @return {min} if min == max,
+	 * @return {min} if min >= max,
 	 * 		{min, min + step, min + 2*step, ..., min + i*step, max}
 	 * 		otherwise, where min + i*step is the greatest such number
 	 * 		that is smaller than max
@@ -535,7 +535,9 @@ public class DoubleUtil {
 		if (min + length * step < max - Kernel.STANDARD_PRECISION) {
 			length++;
 		}
-
+		if (length <= 0) {
+			return new double[] {min};
+		}
 		double[] result = new double[length + 1];
 		for (int i = 0; i < result.length; i++) {
 			result[i] = checkDecimalFraction(min + i * step);

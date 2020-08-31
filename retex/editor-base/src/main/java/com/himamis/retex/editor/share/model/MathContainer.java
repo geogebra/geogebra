@@ -438,4 +438,15 @@ abstract public class MathContainer extends MathComponent {
 		return getClass().getSimpleName();
 	}
 
+	/**
+	 * Is i'th argument script.
+	 *
+	 * @param i
+	 *            index
+	 * @return whether given argument is a sub/super-script
+	 */
+	public boolean isScript(int i) {
+		return i >= 0 && i < size() && MathFunction.isScript(getArgument(i));
+	}
+
 }

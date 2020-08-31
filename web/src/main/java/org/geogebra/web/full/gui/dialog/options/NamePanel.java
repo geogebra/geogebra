@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Label;
 class NamePanel extends OptionPanel
 		implements ObjectNameModel.IObjectNameListener, ErrorHandler,
 		FocusListenerDelegate {
+	private final DynamicCaptionPanel dynamicCaptionPanel;
 	ObjectNameModel model;
 	private AutoCompleteTextFieldW tfName;
 	private AutoCompleteTextFieldW tfDefinition;
@@ -154,11 +155,13 @@ class NamePanel extends OptionPanel
 		errorPanel.addStyleName("Dialog-errorPanel");
 		mainWidget.add(errorPanel);
 
+		dynamicCaptionPanel = new DynamicCaptionPanel(app, tfCaption);
 		// caption panel
 		captionPanel = new FlowPanel();
 		captionLabel = new FormLabel("").setFor(inputPanelCap);
 		captionPanel.add(captionLabel);
 		captionPanel.add(inputPanelCap);
+		captionPanel.add(dynamicCaptionPanel.getWidget());
 		mainWidget.add(captionPanel);
 
 		nameStrPanel.setStyleName("optionsInput");
@@ -230,6 +233,7 @@ class NamePanel extends OptionPanel
 				.setText(app.isUnbundledOrWhiteboard()
 						? loc.getMenu("Button.Caption")
 						: loc.getMenu("Button.Caption") + ":");
+		dynamicCaptionPanel.setLabels();
 	}
 
 	@Override
@@ -318,4 +322,11 @@ class NamePanel extends OptionPanel
 	public String getCurrentCommand() {
 		return tfDefinition.getCommand();
 	}
+
+	@Override
+	public OptionPanel updatePanel(Object[] geos) {
+		dynamicCaptionPanel.updatePanel(geos);
+		return super.updatePanel(geos);
+	}
+
 }

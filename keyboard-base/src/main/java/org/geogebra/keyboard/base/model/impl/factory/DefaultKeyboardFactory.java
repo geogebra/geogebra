@@ -27,9 +27,9 @@ public class DefaultKeyboardFactory implements KeyboardModelFactory {
         KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
         RowImpl row = mathKeyboard.nextRow(9.2f);
-        addInputButton(row, buttonFactory, "x");
-        addInputButton(row, buttonFactory, "y");
-        addInputButton(row, buttonFactory, "z");
+        addInputButton(row, buttonFactory, Characters.x, "x");
+        addInputButton(row, buttonFactory, Characters.y, "y");
+        addInputButton(row, buttonFactory, Characters.z, "z");
         addInputButton(row, buttonFactory, PI);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addFirstRow(row, buttonFactory);

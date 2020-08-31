@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -39,6 +40,8 @@ public class AlgoText extends AlgoElement {
 	private GeoBoolean latex; // optional input
 	private GeoPointND startPoint; // optional input
 	private GeoPointND startPointCopy; // optional input
+	private GeoNumeric horizontalAlign; // optional input
+	private GeoNumeric verticalAlign; // optional input
 	private GeoText text; // output
 
 	public AlgoText(Construction cons, String label, GeoElement geo) {
@@ -73,10 +76,35 @@ public class AlgoText extends AlgoElement {
 	 *            whether to show variables as values
 	 * @param latex
 	 *            whether to use LaTeX output
+	 * @param horizontalAlign
+	 * 	     	  horizontal alignment for text [-1|0|1]
+	 * @param verticalAlign
+	 * 			  vertical alignment for text [-1|0|1]
+	 */
+	public AlgoText(Construction cons, String label, GeoElement geo,
+			GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex,
+			GeoNumeric horizontalAlign, GeoNumeric verticalAlign) {
+		this(cons, geo, p, substituteVars, latex, horizontalAlign, verticalAlign);
+		text.setLabel(label);
+	}
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param geo
+	 *            described geo
+	 * @param p
+	 *            start point
+	 * @param substituteVars
+	 *            whether to show variables as values
+	 * @param latex
+	 *            whether to use LaTeX output
 	 */
 	public AlgoText(Construction cons, String label, GeoElement geo,
 			GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex) {
-		this(cons, geo, p, substituteVars, latex);
+		this(cons, geo, p, substituteVars, latex, null, null);
 		text.setLabel(label);
 	}
 
@@ -91,17 +119,32 @@ public class AlgoText extends AlgoElement {
 	 *            whether to show variables as values
 	 * @param latex
 	 *            whether to use LaTeX output
+	 * @param horizontalAlign
+	 * 			  horizontal alignment for text [-1|0|1]
+	 * @param verticalAlign
+	 * 			  vertical alignment for text [-1|0|1]
 	 */
 	public AlgoText(Construction cons, GeoElement geo, GeoPointND p,
-			GeoBoolean substituteVars, GeoBoolean latex) {
+			GeoBoolean substituteVars, GeoBoolean latex,
+			GeoNumeric horizontalAlign, GeoNumeric verticalAlign) {
 		super(cons);
 		this.geo = geo;
 		this.startPoint = p;
 		this.substituteVars = substituteVars;
 		this.latex = latex;
+		this.horizontalAlign = horizontalAlign;
+		this.verticalAlign = verticalAlign;
 
 		text = new GeoText(cons);
 		text.setIsTextCommand(true); // stop editing as text
+		if (horizontalAlign != null) {
+			text.setNeedsUpdatedBoundingBox(true);
+			text.update();
+			text.setHorizontalAlignment(horizontalAlign);
+			if (verticalAlign != null) {
+				text.setVerticalAlignment(verticalAlign);
+			}
+		}
 
 		// set startpoint
 		if (startPoint != null) {
@@ -145,6 +188,12 @@ public class AlgoText extends AlgoElement {
 		if (latex != null) {
 			inputs++;
 		}
+		if (horizontalAlign != null) {
+			inputs++;
+			if (verticalAlign != null) {
+				inputs++;
+			}
+		}
 
 		int i = 0;
 		input = new GeoElement[inputs];
@@ -160,6 +209,12 @@ public class AlgoText extends AlgoElement {
 		}
 		if (latex != null) {
 			input[i++] = latex;
+		}
+		if (horizontalAlign != null) {
+			input[i++] = horizontalAlign;
+			if (verticalAlign != null) {
+				input[i++] = verticalAlign;
+			}
 		}
 
 		super.setOutputLength(1);

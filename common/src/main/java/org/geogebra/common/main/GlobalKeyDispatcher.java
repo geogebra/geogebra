@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
@@ -826,11 +827,13 @@ public abstract class GlobalKeyDispatcher {
 				// AltGr+ on Spanish keyboard is ] so
 				// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
 				// from eg Input Bar
-				if (!spanish || (fromEuclidianView)) {
-					(app.getActiveEuclidianView()).getEuclidianController()
-							.zoomInOut(false,
-									key.equals(KeyCodes.MINUS)
-											|| key.equals(KeyCodes.SUBTRACT));
+				if (!spanish || fromEuclidianView) {
+					EuclidianController ec = app.getActiveEuclidianView().getEuclidianController();
+					double factor = key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT)
+							? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
+							: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
+
+					ec.zoomInOut(factor, 15, ec.mouseLoc.x, ec.mouseLoc.y);
 					app.setUnsaved();
 					consumed = true;
 				}

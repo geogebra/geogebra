@@ -996,7 +996,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private void setArticleParam(String name, int value) {
-		((AppW) app).getArticleElement().attr(name, value + "");
+		((AppW) app).getAppletParameters().setAttribute(name, value + "");
 
 	}
 
@@ -1077,6 +1077,17 @@ public class GgbAPIW extends GgbAPI {
 				checkCorner(corner4));
 
 		return geoImage.getLabelSimple();
+	}
+
+	/**
+	 * Add external image to image manager
+	 * @param filename internal filename
+	 * @param url data URL
+	 */
+	public void addImage(String filename, String url) {
+		ImageManagerW imageManager = ((AppW) app).getImageManager();
+		imageManager.addExternalImage(filename, url);
+		imageManager.triggerSingleImageLoading(filename, new GeoImage(construction));
 	}
 
 	private static String checkCorner(String cornerExp) {

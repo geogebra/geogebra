@@ -7,7 +7,8 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.geogebra3D.web.main.AppWapplet3D;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.GeoGebraElement;
 
 /**
  * 3D Applets factory class
@@ -16,8 +17,9 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 public class AppletFactory3D implements AppletFactory {
 
 	@Override
-	public AppWFull getApplet(ArticleElementInterface ae, GeoGebraFrameFull fr,
+	public AppWFull getApplet(GeoGebraElement element,
+			AppletParameters parameters, GeoGebraFrameFull fr,
 			GLookAndFeelI laf, GDevice device) {
-		return new AppWapplet3D(ae, fr, (GLookAndFeel) laf, device);
+		return new AppWapplet3D(element, parameters, fr, (GLookAndFeel) laf, device);
 	}
 }

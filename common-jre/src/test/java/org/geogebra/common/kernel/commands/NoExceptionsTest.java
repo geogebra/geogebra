@@ -1700,6 +1700,8 @@ public class NoExceptionsTest {
 		t("Text[ obj, Pt1 ]");
 		t("Text[ obj, Pt1, b1 ]");
 		t("Text[ obj, Pt1, b1, b1 ] ");
+		t("Text[ obj, Pt1, b1, b1, 1 ] ");
+		t("Text[ obj, Pt1, b1, b1, 1, 1 ] ");
 	}
 
 	@Test

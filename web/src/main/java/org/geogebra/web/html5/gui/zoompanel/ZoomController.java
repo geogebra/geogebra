@@ -11,8 +11,8 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.dom.client.Element;
@@ -128,15 +128,22 @@ public class ZoomController {
 	/** Zoom In button handler. */
 	public void onZoomInPressed() {
 		app.closeMenuHideKeyboard();
-		view.getEuclidianController().zoomInOut(false,
-				false);
+		zoomInOut(false);
 	}
 
 	/** Zoom Out button handler. */
 	public void onZoomOutPressed() {
 		app.closeMenuHideKeyboard();
-		view.getEuclidianController().zoomInOut(false,
-				true);
+		zoomInOut(true);
+	}
+
+	private void zoomInOut(boolean out) {
+		double factor = out ? 1d / EuclidianView.MODE_ZOOM_FACTOR
+				: EuclidianView.MODE_ZOOM_FACTOR;
+		double px = view.getWidth() / 2.0;
+		double py = view.getHeight() / 2.0;
+
+		view.getEuclidianController().zoomInOut(factor, 15, px, py);
 	}
 
 	/**
@@ -182,7 +189,7 @@ public class ZoomController {
 			scaler.getStyle().setMarginLeft(marginLeft, Unit.PX);
 			scaler.getStyle().setMarginTop(marginTop, Unit.PX);
 		}
-		app.getArticleElement().resetScale(scale);
+		app.getGeoGebraElement().resetScale(scale);
 		app.recalculateEnvironments();
 		app.deferredForceResize();
 	}
@@ -211,8 +218,8 @@ public class ZoomController {
 	public void onExitFullscreen(Element elem,
 			StandardButton fullscreenButton) {
 		setFullScreenActive(false, fullscreenButton);
-		if (!app.getArticleElement().getDataParamFitToScreen()) {
-			final Element scaler = app.getArticleElement().getParentElement();
+		if (!app.getAppletParameters().getDataParamFitToScreen()) {
+			final Element scaler = app.getGeoGebraElement().getParentElement();
 			// check for null in case external website removed applet from DOM
 			if (scaler != null) {
 				scaler.removeClassName("fullscreen");
@@ -222,9 +229,9 @@ public class ZoomController {
 				Element container = scaler.getParentElement();
 				resetStyleAfterFullscreen(container);
 				double scale = cssScale > 0 ? cssScale
-						: app.getArticleElement().getDataParamScale();
+						: app.getAppletParameters().getDataParamScale();
 				Browser.scale(scaler, scale, 0, 0);
-				app.getArticleElement().resetScale(scale);
+				app.getGeoGebraElement().resetScale(scale);
 				app.checkScaleContainer();
 			}
 		}
@@ -280,7 +287,7 @@ public class ZoomController {
 		app.closeMenuHideKeyboard();
 		final Element container;
 		emulated = useEmulatedFullscreen(app, eventType);
-		if (app.getArticleElement().getDataParamFitToScreen()) {
+		if (app.getAppletParameters().getDataParamFitToScreen()) {
 			container = null;
 			if (!isFullScreenActive()) {
 				Timer t = new Timer() {
@@ -295,8 +302,8 @@ public class ZoomController {
 			}
 			handleIframeFullscreen(fullscreenBtn);
 		} else {
-			ArticleElementInterface ae = app.getArticleElement();
-			final Element scaler = ae.getParentElement();
+			GeoGebraElement geoGebraElement = app.getGeoGebraElement();
+			final Element scaler = geoGebraElement.getParentElement();
 			container = scaler.getParentElement();
 			if (!isFullScreenActive()) {
 				String containerPositionBefore = container.getStyle()
@@ -314,7 +321,7 @@ public class ZoomController {
 				setContainerProp(container, "marginTop", "0");
 				setOldSize(app.getPreferredSize());
 				scaler.addClassName("fullscreen");
-				setCssScale(ae.getParentScaleX());
+				setCssScale(geoGebraElement.getParentScaleX());
 				if (emulated) {
 					overrideParentTransform();
 					setContainerProp(container, "left", "0px");
@@ -382,7 +389,7 @@ public class ZoomController {
 	public static boolean useEmulatedFullscreen(AppW app, String eventType) {
 		return Browser.isiOS()
 				|| Browser.isSafariByVendor() && eventType.startsWith("touch")
-				|| !StringUtil.empty(app.getArticleElement().getParamFullscreenContainer());
+				|| !StringUtil.empty(app.getAppletParameters().getParamFullscreenContainer());
 	}
 
 	/**

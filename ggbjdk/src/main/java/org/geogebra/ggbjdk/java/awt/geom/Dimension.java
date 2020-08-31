@@ -25,6 +25,8 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
+import org.geogebra.common.awt.GDimension;
+
 /**
  * The <code>Dimension</code> class encapsulates the width and
  * height of a component (in integer precision) in a single object.
@@ -48,13 +50,11 @@ package org.geogebra.ggbjdk.java.awt.geom;
  * @see         java.awt.LayoutManager
  * @since       1.0
  */
-public class Dimension extends Dimension2D implements java.io.Serializable {
+public class Dimension extends GDimension implements java.io.Serializable {
 
     /**
      * The width dimension; negative values can be used.
-     *
-     * 
-     * @see #getSize
+
      * @see #setSize
      * @since 1.0
      */
@@ -63,8 +63,6 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
     /**
      * The height dimension; negative values can be used.
      *
-     * 
-     * @see #getSize
      * @see #setSize
      * @since 1.0
      */
@@ -76,36 +74,11 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      private static final long serialVersionUID = 4723952579491349524L;
 
     /**
-     * Initialize JNI field and method IDs
-     */
-//    private static native void initIDs();
-
-//    static {
-//        /* ensure that the necessary native libraries are loaded */
-//        Toolkit.loadLibraries();
-//        if (!GraphicsEnvironment.isHeadless()) {
-//            initIDs();
-//        }
-//    }
-
-    /**
      * Creates an instance of <code>Dimension</code> with a width
      * of zero and a height of zero.
      */
     public Dimension() {
         this(0, 0);
-    }
-
-    /**
-     * Creates an instance of <code>Dimension</code> whose width
-     * and height are the same as for the specified dimension.
-     *
-     * @param    d   the specified dimension for the
-     *               <code>width</code> and
-     *               <code>height</code> values
-     */
-    public Dimension(Dimension d) {
-        this(d.width, d.height);
     }
 
     /**
@@ -125,7 +98,7 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * @since 1.2
      */
     @Override
-	public double getWidth() {
+	public int getWidth() {
         return width;
     }
 
@@ -134,57 +107,11 @@ public class Dimension extends Dimension2D implements java.io.Serializable {
      * @since 1.2
      */
     @Override
-	public double getHeight() {
+	public int getHeight() {
         return height;
     }
 
-    /**
-     * Sets the size of this <code>Dimension</code> object to
-     * the specified width and height in double precision.
-     * Note that if <code>width</code> or <code>height</code>
-     * are larger than <code>Integer.MAX_VALUE</code>, they will
-     * be reset to <code>Integer.MAX_VALUE</code>.
-     *
-     * @param width  the new width for the <code>Dimension</code> object
-     * @param height the new height for the <code>Dimension</code> object
-     * @since 1.2
-     */
-    @Override
-	public void setSize(double width, double height) {
-        this.width = (int) Math.ceil(width);
-        this.height = (int) Math.ceil(height);
-    }
-
-    /**
-     * Gets the size of this <code>Dimension</code> object.
-     * This method is included for completeness, to parallel the
-     * <code>getSize</code> method defined by <code>Component</code>.
-     *
-     * @return   the size of this dimension, a new instance of
-     *           <code>Dimension</code> with the same width and height
-     * @see      java.awt.Dimension#setSize
-     * @see      java.awt.Component#getSize
-     * @since    1.1
-     */
-    //@Transient
-    public Dimension getSize() {
-        return new Dimension(width, height);
-    }
-
-    /**
-     * Sets the size of this <code>Dimension</code> object to the specified size.
-     * This method is included for completeness, to parallel the
-     * <code>setSize</code> method defined by <code>Component</code>.
-     * @param    d  the new size for this <code>Dimension</code> object
-     * @see      java.awt.Dimension#getSize
-     * @see      java.awt.Component#setSize
-     * @since    1.1
-     */
-    public void setSize(Dimension d) {
-        setSize(d.width, d.height);
-    }
-
-    /**
+     /**
      * Sets the size of this <code>Dimension</code> object
      * to the specified width and height.
      * This method is included for completeness, to parallel the

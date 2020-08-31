@@ -2,7 +2,7 @@ package org.geogebra.common.properties.impl.general;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.properties.AbstractEnumerableProperty;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
 /**
  * Property for setting the angle unit.

@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.Operation;
@@ -59,7 +58,7 @@ public class VariableReplacerAlgorithm {
 			Operation op = kernel.getApplication().getParserFunctions().getSingleArgumentOp(next);
 			op = ArcTrigReplacer.getDegreeInverseTrigOp(op);
 			if (op != null) {
-				ExpressionValue arg =  tokenize(tokenizer.getInputRemaining());
+				ExpressionValue arg = tokenize(tokenizer.getInputRemaining());
 				return arg.wrap().apply(op);
 			}
 			ExpressionValue v1 = replaceToken(next);
@@ -130,7 +129,7 @@ public class VariableReplacerAlgorithm {
 		}
 
 		if (InputTokenizer.isImaginaryUnit(expressionString)) {
-			return getImaginaryUnit();
+			return kernel.getImaginaryUnit();
 		}
 
 		if (isCharVariableName(expressionString)) {
@@ -138,12 +137,6 @@ public class VariableReplacerAlgorithm {
 		}
 
 		return new Variable(kernel, expressionString);
-	}
-
-	private GeoVec2D getImaginaryUnit() {
-		GeoVec2D imaginary = new GeoVec2D(kernel, 0, 1);
-		imaginary.setMode(Kernel.COORD_COMPLEX);
-		return imaginary;
 	}
 
 	private ExpressionValue getDerivative(String expressionString) {
