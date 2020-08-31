@@ -5,12 +5,14 @@ import java.lang.reflect.Modifier;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDocument;
+import elemental2.dom.HTMLHtmlElement;
 
 public class ElementalMocker {
 
 	public static void setupElemental() {
 		try {
 			setFinalStatic(DomGlobal.class.getField("document"), new HTMLDocument());
+			DomGlobal.document.documentElement = new HTMLHtmlElement();
 		} catch (Exception e) {
 			System.err.println("Failed to set up elemental2 mocks");
 			e.printStackTrace();
