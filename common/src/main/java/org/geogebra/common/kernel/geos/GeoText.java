@@ -336,9 +336,8 @@ public class GeoText extends GeoElement
 		if (p == null) {
 			if (startPoint != null) {
 				startPoint = startPoint.copy();
-			} else {
-				startPoint = null;
 			}
+
 			labelOffsetX = 0;
 			labelOffsetY = 0;
 		} else {
@@ -698,7 +697,7 @@ public class GeoText extends GeoElement
 		} else {
 			// location of text
 			if (startPoint != null) {
-				sb.append(startPoint.getStartPointXML());
+				startPoint.appendStartPointXML(sb);
 
 				if (labelOffsetX != 0 || labelOffsetY != 0) {
 					sb.append("\t<labelOffset");
