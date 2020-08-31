@@ -69,6 +69,13 @@ public class MathFieldController {
 	}
 
 	/**
+	 * @return font type
+	 */
+	public int getFontType() {
+		return type;
+	}
+
+	/**
 	 * @param mathFormula
 	 *            formula
 	 * @param editorState
