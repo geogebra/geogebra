@@ -7,7 +7,7 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true)
-public class CarotaDocument {
+public class CarotaDocument implements HasContent {
 
 	public native void draw(Context2d canvasElement);
 
@@ -38,12 +38,12 @@ public class CarotaDocument {
 
 	public native void switchListTo(CarotaRange range, String listType);
 
+	public native void load(Object content, boolean focus);
+
 	public native void selectionChanged(EditorCallback editorCallback);
 
 	public native void contentChanged(EditorCallback editorCallback);
 
 	public native JavaScriptObject save();
-
-	public native void load(Object content, boolean focus);
 
 }
