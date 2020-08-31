@@ -300,7 +300,7 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/common/icons/png/web/general/expand24.png")
 	ImageResource expand();
 
-	@Source("org/geogebra/web/resources/scss/fonts.css")
+	@Source("org/geogebra/web/resources/css/fonts.css")
 	TextResource fonts();
 
 	@Source("org/geogebra/web/resources/scss/exam.scss")
