@@ -288,13 +288,13 @@ public class ArithmeticTest extends Assert {
 	}
 
 	@Test
-	public void functionCopySHouldBeDependent(){
+	public void functionCopySHouldBeDependent() {
 		t("f:x", "x");
-		t("g(x)=f","x");
+		t("g(x)=f", "x");
 		assertEquals("f(x)",
 				lookup("g").getDefinition(StringTemplate.defaultTemplate));
 		t("ff(x,y)=x+y", "x + y");
-		t("gg(a,b)=ff","a + b");
+		t("gg(a,b)=ff", "a + b");
 		assertEquals("gg(a, b) = ff(a, b)",
 				lookup("gg").getDefinition(StringTemplate.defaultTemplate));
 	}

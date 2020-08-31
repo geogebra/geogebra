@@ -122,13 +122,12 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void copyParentNameShouldBeVisible() {
+	public void argumentsForFunctionCopyShouldBeVisible() {
 		add("f:x");
-		add("g=3f");
-		setupAndCheckInput("g", "3f (x)");
+		setupInput("g", "3f");
+		assertEquals("3f(x)", inputBox.getText());
 		updateInput("f(x)");
 		assertEquals("f(x)", inputBox.getText());
-		hasType("l", GeoClass.LINE);
 	}
 
 	@Test

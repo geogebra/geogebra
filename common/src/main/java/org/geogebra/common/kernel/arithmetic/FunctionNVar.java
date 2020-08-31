@@ -169,8 +169,8 @@ public class FunctionNVar extends ValidExpression
 			return false;
 		}
 
-		for (int i = 0; i < fVars.length; i++) {
-			if (fVars[i].toString(StringTemplate.defaultTemplate).equals(var)) {
+		for (FunctionVariable fVar : fVars) {
+			if (fVar.toString(StringTemplate.defaultTemplate).equals(var)) {
 				return true;
 			}
 		}
@@ -437,7 +437,7 @@ public class FunctionNVar extends ValidExpression
 		} else if (ev instanceof GeoFunctionNVar && ((GeoFunctionNVar) ev).isLabelSet()) {
 			// f(x, y) should be a dependent function
 			MyList args = new MyList(kernel, fVars.length);
-			for (FunctionVariable fVar: fVars){
+			for (FunctionVariable fVar: fVars) {
 				args.addListElement(fVar);
 			}
 			expression = new ExpressionNode(kernel, ev, Operation.FUNCTION_NVAR, args);
@@ -468,8 +468,8 @@ public class FunctionNVar extends ValidExpression
 		if (isConstantFunction) {
 			return true;
 		}
-		for (int i = 0; i < fVars.length; i++) {
-			if (expression.contains(fVars[i])) {
+		for (FunctionVariable fVar : fVars) {
+			if (expression.contains(fVar)) {
 				return false;
 			}
 		}
@@ -679,13 +679,8 @@ public class FunctionNVar extends ValidExpression
 				resultFun = ensureVarsAreNotNull(resultFun);
 			}
 			resultFun.initFunction();
-		} catch (Error err) {
-			err.printStackTrace();
-			resultFun = null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			resultFun = null;
 		} catch (Throwable e) {
+			e.printStackTrace();
 			resultFun = null;
 		}
 
@@ -772,13 +767,11 @@ public class FunctionNVar extends ValidExpression
 
 	@Override
 	public String getLabelForAssignment() {
-		StringBuilder sb = new StringBuilder();
 		// function, e.g. f(x) := 2*x
-		sb.append(getLabel());
-		sb.append("(");
-		sb.append(getVarString(StringTemplate.defaultTemplate));
-		sb.append(")");
-		return sb.toString();
+		return getLabel()
+				+ "("
+				+ getVarString(StringTemplate.defaultTemplate)
+				+ ")";
 	}
 
 	@Override
