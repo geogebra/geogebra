@@ -2527,7 +2527,9 @@ public class MyXMLHandler implements DocHandler {
 			if (app.getConfig() != null) {
 				app.getConfig().adjust(dp);
 			}
-			dp.setTabId(tabId); // explicitly stored tab overrides config
+			if (tabId != null) {
+				dp.setTabId(tabId); // explicitly stored tab overrides config
+			}
 			tmp_views.add(dp);
 
 			return true;
@@ -2545,7 +2547,7 @@ public class MyXMLHandler implements DocHandler {
 				// enum value not found
 			}
 		}
-		return DockPanelData.TabIds.ALGEBRA;
+		return null;
 	}
 
 	// ====================================
