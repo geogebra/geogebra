@@ -1,7 +1,7 @@
 package org.geogebra.web.full.euclidian;
 
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.main.TestArticleElement;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,7 +19,7 @@ public class StyleBarTest {
 	@Test
 	public void updateGraphingStylebar() {
 		AppWFull app = AppMocker
-				.mockApplet(new TestArticleElement("graphing"));
+				.mockApplet(new AppletParameters("graphing"));
 		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(
 				app.getActiveEuclidianView(), 1);
 		checkUpdate(styleBar);
@@ -39,7 +39,7 @@ public class StyleBarTest {
 	@Test
 	public void updateWhiteboardStylebar() {
 		AppWFull app = AppMocker
-				.mockApplet(new TestArticleElement("notes"));
+				.mockApplet(new AppletParameters("notes"));
 		EuclidianStyleBarW styleBar = new EuclidianStyleBarW(
 				app.getActiveEuclidianView(), 1);
 		checkUpdate(styleBar);

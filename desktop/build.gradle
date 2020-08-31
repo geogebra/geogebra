@@ -68,8 +68,15 @@ for (location in ['lib/jfxrt.jar', 'jre/lib/jfxrt.jar', 'jre/lib/ext/jfxrt.jar']
     }
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+compileJava {
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+}
+
+compileTestJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
 
 List ext = [
     'netscape.javascript:jsobject:1', 

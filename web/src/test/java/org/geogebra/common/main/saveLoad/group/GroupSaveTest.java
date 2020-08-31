@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.main.TestArticleElement;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.util.file.FileIO;
 import org.junit.Before;
@@ -33,7 +33,7 @@ public class GroupSaveTest {
 
     @Before
     public void initTest() {
-        TestArticleElement articleElement = new TestArticleElement("notes");
+        AppletParameters articleElement = new AppletParameters("notes");
         app = AppMocker.mockApplet(articleElement);
         cons = app.getKernel().getConstruction();
     }

@@ -18,6 +18,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public class XmlTestUtil {
+
 	/**
 	 * Validate app's state against XML schema.
 	 * 
@@ -25,12 +26,24 @@ public class XmlTestUtil {
 	 *            app
 	 */
 	public static void testCurrentXML(AppCommon application) {
+		testCurrentXMLWithURL(application, "https://cdn.geogebra.org/apps/xsd/ggb.xsd");
+	}
+
+	/**
+	 * Validate app's state against XML schema at a specified url.
+	 *
+	 * @param application
+	 *            app
+	 * @param xsdUrl
+	 * 			url to the XML schema
+	 */
+	public static void testCurrentXMLWithURL(AppCommon application, String xsdUrl) {
 		String xml = application.getXML();
 		try {
 
 			xml = application.getXML();
 			Source xmlFile = new StreamSource(new StringReader(xml));
-			String url = System.getProperty("xsdUrl", "https://cdn.geogebra.org/apps/xsd/ggb.xsd");
+			String url = System.getProperty("xsdUrl", xsdUrl);
 			getValidator(url).validate(xmlFile);
 		} catch (SAXParseException se) {
 			int l = se.getLineNumber();

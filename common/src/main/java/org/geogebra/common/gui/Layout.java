@@ -151,7 +151,7 @@ public abstract class Layout implements SettingListener {
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
 				app.isPortrait() ? "1" : "3",
-				200).setToolMode(app.isUnbundled());
+				200).setTabId(getGeometryTabId(app));
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
@@ -175,6 +175,10 @@ public abstract class Layout implements SettingListener {
 		perspective.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 
 		return perspective;
+	}
+
+	private static DockPanelData.TabIds getGeometryTabId(App app) {
+		return app.isUnbundled() ? DockPanelData.TabIds.TOOLS : DockPanelData.TabIds.ALGEBRA;
 	}
 
 	private static Perspective createSpreadsheetPerspective(String defToolbar) {

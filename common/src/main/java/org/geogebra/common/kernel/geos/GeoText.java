@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.annotation.CheckForNull;
 
@@ -112,6 +113,9 @@ public class GeoText extends GeoElement
 	// for absolute screen location
 	private boolean hasAbsoluteScreenLocation = false;
 
+	private GeoNumeric verticalAlignment;
+	private GeoNumeric horizontalAlignment;
+
 	/**
 	 */
 	boolean alwaysFixed = false;
@@ -122,6 +126,7 @@ public class GeoText extends GeoElement
 	private boolean symbolicMode;
 	private int totalHeight;
 	private int totalWidth;
+	private List<GeoElement> updateListeners;
 
 	/**
 	 * Creates new text
@@ -137,8 +142,7 @@ public class GeoText extends GeoElement
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
 
-		// don't show in algebra view
-		// setAlgebraVisible(false);
+		updateListeners = new ArrayList<>();
 	}
 
 	/**
@@ -198,6 +202,12 @@ public class GeoText extends GeoElement
 		// needed for Corner[Element[text
 		boundingBox = gt.getBoundingBox();
 
+		if (gt.getHorizontalAlignment() != null) {
+			setHorizontalAlignment(gt.getHorizontalAlignment());
+			if (gt.getVerticalAlignment() != null) {
+				setVerticalAlignment(gt.getVerticalAlignment());
+			}
+		}
 		try {
 			if (gt.startPoint != null) {
 				if (gt.hasAbsoluteLocation()) {
@@ -326,9 +336,8 @@ public class GeoText extends GeoElement
 		if (p == null) {
 			if (startPoint != null) {
 				startPoint = startPoint.copy();
-			} else {
-				startPoint = null;
 			}
+
 			labelOffsetX = 0;
 			labelOffsetY = 0;
 		} else {
@@ -344,6 +353,15 @@ public class GeoText extends GeoElement
 
 	@Override
 	public void doRemove() {
+		List<GeoElement> listenersCopy = new ArrayList<>(updateListeners);
+		updateListeners.clear();
+
+		for (GeoElement geo : listenersCopy) {
+			HasDynamicCaption hasDynamicCaption = (HasDynamicCaption) geo;
+			hasDynamicCaption.removeDynamicCaption();
+			kernel.notifyUpdate(geo);
+		}
+
 		super.doRemove();
 		// tell startPoint
 		if (startPoint != null) {
@@ -387,10 +405,10 @@ public class GeoText extends GeoElement
 				&& getLabelSimple().startsWith("altText")) {
 			kernel.getApplication().setAltText();
 		}
-		// if (needsUpdatedBoundingBox) {
-		// kernel.notifyUpdate(this);
-		// }
 
+		for (GeoElement geo : updateListeners) {
+			geo.notifyUpdate();
+		}
 	}
 
 	/**
@@ -639,7 +657,7 @@ public class GeoText extends GeoElement
 		}
 
 		appendFontTag(sb, serifFont, fontSizeD, fontStyle, isLaTeX,
-				kernel.getApplication());
+				kernel.getApplication(), false);
 
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {
@@ -679,7 +697,7 @@ public class GeoText extends GeoElement
 		} else {
 			// location of text
 			if (startPoint != null) {
-				sb.append(startPoint.getStartPointXML());
+				startPoint.appendStartPointXML(sb);
 
 				if (labelOffsetX != 0 || labelOffsetY != 0) {
 					sb.append("\t<labelOffset");
@@ -1283,11 +1301,14 @@ public class GeoText extends GeoElement
 	 *            latex flag
 	 * @param app
 	 *            application
+	 * @param forceAdd
+	 * 			  true if tag should be added
 	 */
 	public static void appendFontTag(StringBuilder sb, boolean serifFont,
-			double fontSizeD, int fontStyle, boolean isLaTeX, App app) {
+			double fontSizeD, int fontStyle, boolean isLaTeX, App app,
+			boolean forceAdd) {
 		// font settings
-		if (serifFont || fontSizeD != 1 || fontStyle != 0 || isLaTeX) {
+		if (serifFont || fontSizeD != 1 || fontStyle != 0 || isLaTeX || forceAdd) {
 			sb.append("\t<font serif=\"");
 			sb.append(serifFont);
 
@@ -1510,4 +1531,48 @@ public class GeoText extends GeoElement
 		// only read content, no prefix
 	}
 
+	/**
+	 * @param geo element using this as dynamic caption
+	 */
+	public void registerUpdateListener(GeoElement geo) {
+		if (!updateListeners.contains(geo)) {
+			updateListeners.add(geo);
+		}
+	}
+
+	public void unregisterUpdateListener(GeoElement geo) {
+		updateListeners.remove(geo);
+	}
+
+	@Override
+	public void moveDependencies(GeoElement oldGeo) {
+		if (!oldGeo.isGeoText()) {
+			return;
+		}
+
+		GeoText text = (GeoText) oldGeo;
+		List<GeoElement> listenersCopy = new ArrayList<>(text.updateListeners);
+		updateListeners.clear();
+		text.updateListeners.clear();
+		for (GeoElement geo: listenersCopy) {
+			((HasDynamicCaption) geo).setDynamicCaption(this);
+			registerUpdateListener(geo);
+		}
+	}
+
+	public void setHorizontalAlignment(GeoNumeric horizAlign) {
+		horizontalAlignment = horizAlign;
+	}
+
+	public GeoNumeric getHorizontalAlignment() {
+		return horizontalAlignment;
+	}
+
+	public void setVerticalAlignment(GeoNumeric vertAlign) {
+		verticalAlignment = vertAlign;
+	}
+
+	public GeoNumeric getVerticalAlignment() {
+		return verticalAlignment;
+	}
 }

@@ -6,16 +6,15 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collections;
 
-import org.geogebra.common.gui.dialog.options.model.ObjectSettingsModel;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.kernel.StringTemplate;
@@ -188,7 +187,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(k(k-16)>0,k)", "{k < 0, k > 16}");
 		t("Solve(x^2=4x)", "{x = 0, x = 4}");
 		t("Solve({x=4x+y,y+x=2},{x, y})", "{{x = -1, y = 3}}");
-		t("Solve(sin(x)=cos(x))", "{x = k_1 * \u03c0 + 1 / 4 * \u03c0}");
 		t("Solve(x^2=1)", "{x = -1, x = 1}");
 		t("Solve(x^2=a)", "{x = -sqrt(a), x = sqrt(a)}");
 		t("Solve({x+y=1, x-y=3})", "{{x = 2, y = -1}}");
@@ -323,7 +321,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
 		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
 		t("Solve(12exp(x)=150)", "{x = ln(25 / 2)}");
-		t("Solve(cos(x)=sin(x))", "{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}");
+		testValidResultCombinations("Solve(cos(x)=sin(x))", "{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}",
+				"{x = 2 * k_1 * " + pi + " - 3 / 4 * π, x = 2 * k_2 * " + pi + " + 1 / 4 * π}");
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
 		t("Solve(x (x-5)>x+7)", "{x < -1, x > 7}");
@@ -396,7 +395,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testTutorial5() {
 		t("f(x)=1/25 x^4", "1 / 25 * x^(4)");
-		t("g=Invert(f)", "nroot(25 * x,4)");
+		testValidResultCombinations("g=Invert(f)", "nroot(25 * x,4)", "nroot(25,4) * nroot(x,4)");
 		t("a=pi Integral(g^2,0,h)", "10 / 3 * sqrt(h) * h * " + pi);
 		t("b=Solve(a=500)", "{h = 5 * cbrt(180 * " + pi + ") / " + pi + "}");
 		t("Numeric(b)", "{h = 13.1611626882}");
@@ -754,9 +753,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("f: x = y", "x = y");
 
 		GeoSymbolic f = getSymbolic("f");
-		ObjectSettingsModel model = asList(f);
-		model.setLineThickness(7);
-		model.setLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		f.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		f.setLineThickness(8);
+		f.updateRepaint();
+
 		assertEquals(8, f.getLineThickness());
 		assertEquals(8, f.getTwinGeo().getLineThickness());
 
@@ -771,9 +771,10 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("A: (1, 2)", "(1, 2)");
 
 		GeoSymbolic pointA = getSymbolic("A");
-		ObjectSettingsModel model = asList(pointA);
-		model.setPointSize(7);
-		model.setPointStyle(4);
+		pointA.setPointSize(8);
+		pointA.setPointStyle(4);
+		pointA.updateRepaint();
+
 		assertEquals(8, pointA.getPointSize());
 		assertEquals(8, ((GeoPoint) pointA.getTwinGeo()).getPointSize());
 
@@ -816,16 +817,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoElement geo = app.getKernel().lookupLabel(label);
 		assertThat(geo, CoreMatchers.instanceOf(GeoSymbolic.class));
 		return (GeoSymbolic) geo;
-	}
-
-	private ObjectSettingsModel asList(GeoElement f) {
-		ArrayList<GeoElement> list = new ArrayList<>();
-		list.add(f);
-		ObjectSettingsModel model = new ObjectSettingsModel(app) {
-		};
-		model.setGeoElement(f);
-		model.setGeoElementsList(list);
-		return model;
 	}
 
 	@Test
@@ -1120,6 +1111,29 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertSameAnswer("Solve(z(z+1),z)", "Solve(z (z+1),z)");
 	}
 
+	@Test
+	public void testRemoveUndefinedCommand() {
+		t("l1=Sequence(Sequence(If(ii>j,ii),ii,1,j+1),j,1,5)",
+				"{{?, 2}, {?, ?, 3}, {?, ?, ?, 4}, {?, ?, ?, ?, 5}, {?, ?, ?, ?, ?, 6}}");
+		t("RemoveUndefined(Sequence(If(IsInteger(a^2/2),a^2,?),a,1,10))", "{4, 16, 36, 64, 100}");
+		t("Sequence(RemoveUndefined(Element(l1,ii)),ii,1,Length(l1))", "{{2}, {3}, {4}, {5}, {6}}");
+		t("RemoveUndefined({1,2,3,4,4})", "{1, 2, 3, 4, 4}");
+		t("RemoveUndefined({})", "{}");
+		t("RemoveUndefined({123456789123456789,?})", "{123456789123456789}");
+		t("RemoveUndefined({?,1,2,?,3,4,4,?,?})", "{1, 2, 3, 4, 4}");
+		t("RemoveUndefined(1)", "?");
+	}
+
+	@Test
+	public void tetIsIntegerCommand() {
+		t("IsInteger(1)", "true");
+		t("IsInteger(44/2)", "true");
+		t("IsInteger(44/3)", "false");
+		t("IsInteger(1.5)", "false");
+		t("IsInteger(pi)", "false");
+		t("IsInteger(123456789123456789.1)", "false");
+	}
+
 	private void assertSameAnswer(String input1, String input2) {
 		GeoSymbolic solve1 = add(input1);
 		GeoSymbolic solve2 = add(input2);
@@ -1165,4 +1179,28 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				is(solveA.getDefinition().getTopLevelCommand().getName()));
 	}
 
+	@Test
+	public void testChangingSliderValue() {
+		add("Integral(x)");
+		lookup("c_1");
+		GeoElement element = add("c_1=10");
+		assertThat(element, is(CoreMatchers.<GeoElement>instanceOf(GeoNumeric.class)));
+		GeoNumeric numeric = (GeoNumeric) element;
+		assertThat(numeric.getValue(), is(closeTo(10, 0.001)));
+	}
+
+	@Test
+	public void testFunctionRedefinition() {
+		add("f(x) = x");
+		GeoSymbolic function = add("f(x) = xx");
+		assertThat(function.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoFunction.class));
+	}
+
+	@Test
+	public void testPrecision() {
+		GeoSymbolic derivative = add("Derivative(25.8-0.2ℯ^(-0.025x))");
+		assertThat(
+				derivative.toValueString(StringTemplate.defaultTemplate),
+				equalTo("1 / 200 ℯ^((-1) / 40 x)"));
+	}
 }

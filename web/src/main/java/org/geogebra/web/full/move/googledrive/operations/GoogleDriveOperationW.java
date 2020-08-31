@@ -277,7 +277,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
 		if ("open".equals(getAction())) {
 			app.resetPerspectiveParam();
-			app.getArticleElement().attr("appName", "auto");
+			app.getAppletParameters().setAttribute("appName", "auto");
 			openFileFromGoogleDrive(googleDriveURL);
 		}
 	}
@@ -377,7 +377,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	@Override
 	public void refreshCurrentFileDescriptors(String fName, String desc) {
-		if (app.getArticleElement().getDataParamFitToScreen()
+		if (app.getAppletParameters().getDataParamFitToScreen()
 				&& !StringUtil.empty(fName)) {
 			Browser.changeMetaTitle(fName.replace(".ggb", ""));
 		}
@@ -494,7 +494,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	@ExternalAccess
 	private void showUploadError() {
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
 		((DialogManagerW) app.getDialogManager()).showAlertDialog(app
 		        .getLocalization().getMenu("GoogleDriveSaveProblem"));
 	}
@@ -503,7 +503,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private void updateAfterGoogleDriveSave(String id, String fileName,
 			String description, boolean isggb) {
 		app.getSaveController().runAfterSaveCallback(true);
-		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+		((DialogManagerW) app.getDialogManager()).getSaveDialog(false, true).hide();
 		SaveCallback.onSaved(app, SaveState.OK, !isggb);
 		if (isggb) {
 			refreshCurrentFileDescriptors(fileName, description);

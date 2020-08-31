@@ -24,7 +24,7 @@ public class ClearAllAction extends DefaultMenuAction<Void> implements AsyncOper
 	public void execute(Void item, AppWFull app) {
 		this.app = app;
 		if (askForSave) {
-			app.getSaveController().showDialogIfNeeded(this);
+			app.getSaveController().showDialogIfNeeded(this, false);
 		} else {
 			callback(true);
 		}

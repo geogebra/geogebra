@@ -2,8 +2,8 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.full.gui.openfileview.MaterialCardI;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
+import org.geogebra.web.html5.gui.RenameCard;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.ComponentDialog;
@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class MaterialRenameDialog extends ComponentDialog {
 	private InputPanelW inputField;
 	private boolean inputChanged;
-	private MaterialCardI card;
+	private final RenameCard card;
 
 	/**
 	 * @param app
@@ -28,13 +28,28 @@ public class MaterialRenameDialog extends ComponentDialog {
 	 * @param card
 	 *            card of file being renamed
 	 */
-	public MaterialRenameDialog(AppW app, DialogData data, MaterialCardI card) {
+	public MaterialRenameDialog(AppW app, DialogData data, RenameCard card) {
 		super(app, data, false, true);
 		this.card = card;
 		addStyleName("materialRename");
 		addStyleName("mebis");
 		buildContent();
-		setOnPositiveAction(() -> card.rename(inputField.getText().trim()));
+		setOnPositiveAction(this::renameCard);
+	}
+
+	/**
+	 * Rename the card to the current input.
+	 */
+	protected void renameCard() {
+		card.rename(getInputText());
+	}
+
+	/**
+	 *
+	 * @return the trimmed text of the input field.
+	 */
+	protected String getInputText() {
+		return inputField.getText().trim();
 	}
 
 	private void buildContent() {
@@ -44,10 +59,14 @@ public class MaterialRenameDialog extends ComponentDialog {
 		inputLabel.addStyleName("inputLabel");
 		contentPanel.add(inputLabel);
 		contentPanel.add(inputField);
-		inputField.getTextComponent().setText(card.getMaterialTitle());
+		setText(card.getCardTitle());
 		initInputFieldActions();
 		setPosBtnDisabled(true);
 		addDialogContent(contentPanel);
+	}
+
+	private void setText(String text) {
+		inputField.getTextComponent().setText(text);
 	}
 
 	/**
@@ -97,14 +116,18 @@ public class MaterialRenameDialog extends ComponentDialog {
 	 * Enable or disable
 	 */
 	protected void validate() {
+		setPosBtnDisabled(isTextInvalid());
+	}
+
+	protected boolean isTextInvalid() {
 		inputChanged = inputChanged
-				|| !inputField.getText().trim().equals(card.getMaterialTitle());
-		if (StringUtil.emptyTrim(inputField.getText())
+				|| !getInputText().equals(card.getCardTitle());
+		return StringUtil.emptyTrim(inputField.getText())
 				|| inputField.getText().length() > Material.MAX_TITLE_LENGTH
-				|| !inputChanged) {
-			setPosBtnDisabled(true);
-		} else {
-			setPosBtnDisabled(false);
-		}
+				|| !inputChanged;
+	}
+
+	protected boolean isInputChanged() {
+		return inputChanged;
 	}
 }

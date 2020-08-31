@@ -134,6 +134,11 @@ public final class DrawText extends Drawable {
 
 				xLabel = view.toScreenCoordX(p.getX());
 				yLabel = view.toScreenCoordY(p.getY());
+
+				if (text.getVerticalAlignment() != null
+						|| text.getHorizontalAlignment() != null) {
+					handleTextAlignment();
+				}
 			}
 			xLabel += text.labelOffsetX;
 			yLabel += text.labelOffsetY;
@@ -215,6 +220,39 @@ public final class DrawText extends Drawable {
 				g2.setPaint(HIGHLIGHT_COLOR);
 				g2.draw(labelRectangle);
 			}
+		}
+	}
+
+	private void handleTextAlignment() {
+		if (isLaTeX) {
+			yLabel -= labelRectangle.getHeight() - 12;
+		} else {
+			double lineSpread = textFont.getSize() * 1.5f;
+			int newLineNr = labelDesc.length()
+					- labelDesc.replaceAll("\n", "").length();
+			// adjust y position according to nr of lines and line height
+			// needed for multiline texts
+			yLabel -= lineSpread * newLineNr;
+		}
+
+		int horizontalVal = text.getHorizontalAlignment() != null
+				? (int) text.getHorizontalAlignment().getValue()
+				: 1;
+		int verticalVal = text.getVerticalAlignment() != null
+				? (int) text.getVerticalAlignment().getValue()
+				: 1;
+		if (horizontalVal == -1) {
+			xLabel -= labelRectangle.getWidth();
+		}
+		if (verticalVal == -1) {
+			// magic number 6 comes from EuclidianStatic::drawMultiLineText
+	 		yLabel += labelRectangle.getHeight() - 6;
+		}
+		if (horizontalVal == 0) {
+			xLabel -= (labelRectangle.getWidth() / 2);
+		}
+		if (verticalVal == 0) {
+			yLabel += (labelRectangle.getHeight() / 2) - 6;
 		}
 	}
 

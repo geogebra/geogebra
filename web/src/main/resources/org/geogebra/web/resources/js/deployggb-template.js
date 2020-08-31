@@ -412,7 +412,7 @@ var GGBApplet = function() {
             } else if (className !== "applet_scaler prerender") {
                 // Remove the applet
                 appletParent.removeChild(currentChild);
-                removedID = (className && className.contains("appletParameters")) ? currentChild.id : null;
+                removedID = (className && className.indexOf("appletParameters") != -1) ? currentChild.id : null;
                 i--;
             }
         }
@@ -493,7 +493,7 @@ var GGBApplet = function() {
             scriptLoadStarted = false;
         }
 
-        var article = document.createElement("article");
+        var article = document.createElement("div");
         // don't add geogebraweb here, as we don't want to parse it out of the box.
         article.classList.add("appletParameters", "notranslate");
         var oriWidth = parameters.width;

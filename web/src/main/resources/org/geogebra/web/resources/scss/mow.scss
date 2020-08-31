@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'info-card';
 
 .GeoGebraFrame{
 	$pagecontrolpanelWidth: 269px;
@@ -364,22 +365,22 @@
 			cursor: pointer;
 		}
 		.mowTitlePanel {
-			width: 100%;
-			border-radius: 0 0 2px 2px;
-			background-color: $mow_card_background;
-			box-sizing: border-box;
-			display: flex;
+			@extend .cardInfo;
+			height: 60px;
+			flex-direction: column;
 
-			.gwt-Label {
-				line-height: 1;
-				padding: 16px;
-				padding-right: 46px;
-				text-overflow: ellipsis;
-    			white-space: nowrap;
- 				overflow: hidden;
- 				display: block;
-				cursor: default;
+			.cardTitle {
+				padding-bottom: 4px;
+				height: 20px;
 			}
+
+			.cardAuthor {
+				padding-top: 4px;
+				padding-bottom: 8px;
+				position: inherit;
+				display: block;
+			}
+
 			.mowMoreButton {
 				width: 24px;
 				height: 24px;

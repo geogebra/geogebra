@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.geogebra.common.AppCommonFactory;
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.io.XmlTestUtil;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.properties.TextAlignment;
@@ -133,6 +134,29 @@ public class GeoInputBoxTest extends BaseUnitTest {
 		inputBox = (GeoInputBox) lookup("B");
 		assertEquals(wrongSyntax, inputBox.getTempUserEvalInput());
 		assertEquals(wrongSyntax, inputBox.getTempUserDisplayInput());
+	}
+
+	@Test
+	public void inputBoxCorrectlySavedAndLoaded() {
+		GeoText text = add("FormulaText(\\sqrt{n})");
+		GeoInputBox savedInputBox = add("inputbox1=InputBox()");
+		savedInputBox.setSymbolicMode(true);
+		savedInputBox.setAuxiliaryObject(true);
+		savedInputBox.setLength(50);
+		savedInputBox.setAlignment(TextAlignment.CENTER);
+		savedInputBox.setTempUserDisplayInput("abcde");
+		savedInputBox.setTempUserEvalInput("?");
+		savedInputBox.setDynamicCaption(text);
+		String appXML = getApp().getXML();
+		XmlTestUtil.testCurrentXML(getApp());
+		getApp().setXML(appXML, true);
+		GeoInputBox loadedInputBox = (GeoInputBox) lookup("inputbox1");
+
+		assertEquals(50, loadedInputBox.getLength());
+		assertEquals(TextAlignment.CENTER, loadedInputBox.getAlignment());
+		assertEquals("abcde", loadedInputBox.getTempUserDisplayInput());
+		assertEquals("?", loadedInputBox.getTempUserEvalInput());
+		assertEquals(text, loadedInputBox.getDynamicCaption());
 	}
 
 	@Test
@@ -591,5 +615,47 @@ public class GeoInputBoxTest extends BaseUnitTest {
 
 		inputBox.updateLinkedGeo("gL(L+1)^3");
 		assertEquals("g L (L + 1)³", inputBox.getText());
+	}
+
+	@Test
+	public void testDefaultInputBoxSerif() {
+		add("f(x) = xsinx");
+		GeoInputBox inputBox = addAvInput("ib = InputBox(f)");
+		assertTrue(inputBox.isSerifFont());
+	}
+
+	@Test
+	public void testSanSerifInputBoxLoadsSanSerif() {
+		getApp().getGgbApi().evalXML("<element type=\"textfield\" label=\"InputBox1\">\n"
+				+ "\t<show object=\"true\" label=\"true\"/>\n"
+				+ "\t<objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/>\n"
+				+ "\t<layer val=\"0\"/>\n"
+				+ "\t<labelOffset x=\"65\" y=\"65\"/>\n"
+				+ "\t<labelMode val=\"3\"/>\n"
+				+ "\t<fixed val=\"true\"/>\n"
+				+ "\t<auxiliary val=\"true\"/>\n"
+				+ "\t<font serif=\"false\" sizeM=\"1\" size=\"0\" style=\"0\"/>\n"
+				+ "\t<symbolic val=\"true\" />\n"
+				+ "\t<caption val=\"Serif\"/>\n"
+				+ "</element>");
+		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
+		assertTrue(!inputBox.isSerifFont());
+	}
+
+	@Test
+	public void testOldInputBoxLoadsSerif() {
+		getApp().getGgbApi().evalXML("<element type=\"textfield\" label=\"InputBox1\">\n"
+				+ "\t<show object=\"true\" label=\"true\"/>\n"
+				+ "\t<objColor r=\"0\" g=\"0\" b=\"0\" alpha=\"0\"/>\n"
+				+ "\t<layer val=\"0\"/>\n"
+				+ "\t<labelOffset x=\"65\" y=\"65\"/>\n"
+				+ "\t<labelMode val=\"3\"/>\n"
+				+ "\t<fixed val=\"true\"/>\n"
+				+ "\t<auxiliary val=\"true\"/>\n"
+				+ "\t<symbolic val=\"true\" />\n"
+				+ "\t<caption val=\"Serif\"/>\n"
+				+ "</element>");
+		GeoInputBox inputBox = (GeoInputBox) getConstruction().lookupLabel("InputBox1");
+		assertTrue(inputBox.isSerifFont());
 	}
 }

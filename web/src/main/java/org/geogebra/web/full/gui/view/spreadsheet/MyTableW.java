@@ -1464,14 +1464,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		int left, top;
 		if (scaleOffset) {
 			left = (int) ((wt.getAbsoluteLeft() - offx)
-					/ app.getArticleElement().getScaleX()) + offx;
+					/ app.getGeoGebraElement().getScaleX()) + offx;
 			top = (int) ((wt.getAbsoluteTop() - offy)
-					/ app.getArticleElement().getScaleY()) + offy;
+					/ app.getGeoGebraElement().getScaleY()) + offy;
 		} else {
 			left = (int) (wt.getAbsoluteLeft()
-					/ app.getArticleElement().getScaleX());
+					/ app.getGeoGebraElement().getScaleX());
 			top = (int) (wt.getAbsoluteTop()
-					/ app.getArticleElement().getScaleY());
+					/ app.getGeoGebraElement().getScaleY());
 		}
 		// Log.debug("-----------------------" + min);
 

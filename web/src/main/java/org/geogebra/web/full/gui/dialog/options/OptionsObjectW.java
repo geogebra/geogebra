@@ -793,7 +793,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 	private void initPermissions() {
 		if (app.getLoginOperation() != null
-				&& app.getArticleElement().getDataParamApp()) {
+				&& app.getAppletParameters().getDataParamApp()) {
 			updateJsEnabled();
 			app.getLoginOperation().getView().add(event -> {
 				updateJsEnabled();

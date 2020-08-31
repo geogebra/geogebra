@@ -45,10 +45,10 @@ import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.JsEval;
-import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.CopyPasteW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 
@@ -92,10 +92,6 @@ public class GeoGebraFrameFull
 	private PanelTransitioner panelTransitioner;
 	private HeaderResizer headerResizer;
 
-	public GeoGebraFrameFull(GLookAndFeelI laf, ArticleElementInterface articleElement) {
-		super(laf, articleElement);
-	}
-
 	/**
 	 * @param factory
 	 *            factory for applets (2D or 3D)
@@ -103,12 +99,13 @@ public class GeoGebraFrameFull
 	 *            look and feel
 	 * @param device
 	 *            browser/tablet; if left null, defaults to browser
-	 * @param articleElement
+	 * @param geoGebraElement
 	 *            article with parameters
 	 */
 	public GeoGebraFrameFull(AppletFactory factory, GLookAndFeelI laf,
-							 GDevice device, ArticleElementInterface articleElement) {
-		super(laf, articleElement);
+			GDevice device, GeoGebraElement geoGebraElement,
+			AppletParameters parameters) {
+		super(laf, geoGebraElement, parameters);
 		this.device = device;
 		this.factory = factory;
 		panelTransitioner = new PanelTransitioner(this);
@@ -119,9 +116,9 @@ public class GeoGebraFrameFull
 	}
 
 	@Override
-	protected AppW createApplication(ArticleElementInterface article,
-			GLookAndFeelI laf) {
-		AppW application = factory.getApplet(article, this, laf, this.device);
+	protected AppW createApplication(GeoGebraElement geoGebraElement,
+			AppletParameters parameters, GLookAndFeelI laf) {
+		AppW application = factory.getApplet(geoGebraElement, parameters, this, laf, this.device);
 		if (!app.isApplet()) {
 			CopyPasteW.installCutCopyPaste(application, RootPanel.getBodyElement());
 		} else {
@@ -156,15 +153,16 @@ public class GeoGebraFrameFull
 	 * @param device
 	 *            browser/tablet; if left null, defaults to browser
 	 */
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags,
+	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags,
 			AppletFactory factory, GLookAndFeel laf, GDevice device) {
 
-		for (final ArticleElement articleElement : geoGebraMobileTags) {
+		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
+			AppletParameters parameters = new AppletParameters(geoGebraElement);
 			final GeoGebraFrameFull inst = new GeoGebraFrameFull(factory, laf,
-					device, articleElement);
-			LoggerW.startLogger(articleElement);
+					device, geoGebraElement, parameters);
+			LoggerW.startLogger(parameters);
 			inst.createSplash();
-			RootPanel.get(articleElement.getId()).add(inst);
+			RootPanel.get(geoGebraElement.getId()).add(inst);
 		}
 	}
 
@@ -180,9 +178,10 @@ public class GeoGebraFrameFull
 	 */
 	public static void renderArticleElement(Element el, AppletFactory factory,
 			GLookAndFeel laf, JavaScriptObject clb) {
-
-		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameFull(
-				factory, laf, null, ArticleElement.as(el)),
+		GeoGebraElement element = GeoGebraElement.as(el);
+		AppletParameters parameters = new AppletParameters(element);
+		GeoGebraFrameW.renderArticleElementWithFrame(element,
+				new GeoGebraFrameFull(factory, laf, null, element, parameters),
 				clb);
 	}
 
@@ -547,7 +546,7 @@ public class GeoGebraFrameFull
 			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()
 					&& isKeyboardWantedFromStorage()) {
 				if (!app.isStartedWithFile()
-						&& !app.getArticleElement().preventFocus()) {
+						&& !app.getAppletParameters().preventFocus()) {
 					if (getKeyboardManager()
 							.isKeyboardClosedByUser()) {
 						ensureKeyboardEditing();
@@ -943,7 +942,7 @@ public class GeoGebraFrameFull
 
 	@Override
 	public void onPanelHidden() {
-		if (app.getArticleElement().getDataParamFitToScreen()) {
+		if (app.getAppletParameters().getDataParamFitToScreen()) {
 			setSize(Window.getClientWidth(), computeHeight());
 		} else {
 			app.updateViewSizes();

@@ -53,6 +53,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.images.AppResources;
 import org.geogebra.web.full.gui.properties.AnimationSpeedPanelW;
@@ -70,7 +71,6 @@ import org.geogebra.web.full.gui.util.PointStylePopup;
 import org.geogebra.web.full.gui.util.PopupMenuButtonW;
 import org.geogebra.web.full.gui.util.PopupMenuHandler;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
@@ -390,7 +390,7 @@ public class OptionsTab extends FlowPanel {
 			model.setListener(this);
 			setModel(model);
 
-			final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
+			final Dimension colorIconSizeW = new Dimension(20, 20);
 
 			colorChooserW = new ColorChooserW(app, 350, 210, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler() {

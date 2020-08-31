@@ -3,9 +3,9 @@ package org.geogebra.common.properties.impl.graphics;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.properties.AbstractEnumerableProperty;
 import org.geogebra.common.properties.IconsEnumerableProperty;
 import org.geogebra.common.properties.PropertyResource;
+import org.geogebra.common.properties.impl.AbstractEnumerableProperty;
 
 /**
  * This property controls the style of the grid.

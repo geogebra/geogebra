@@ -11,7 +11,7 @@ import org.geogebra.common.plugin.GeoClass;
 @Deprecated
 /*
 * This class is not UI independent that's why it can not be used by mobile. Logic needs changes later to
-* be commonly usable - like ObjectSettingsModel
+* be commonly usable
 * */
 public abstract class OptionsModel {
 	private Object[] geos; // currently selected geos

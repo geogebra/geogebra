@@ -160,6 +160,10 @@ public class Ggb2giac {
 
 		// Use local function rather than subst to make sure t==5 is not
 		// evaluated to false before subst
+		p("KeepIf.3",
+				"[[ggbkeep(%1):=begin when(%0,[%1],[]);end],flatten1(map(%2,loc->ggbkeep(loc)))][1]");
+		p("KeepIf.2",
+				"[[ggbkeep(x):=begin when(%0,[x],[]);end],flatten1(map(%1,loc->ggbkeep(loc)))][1]");
 		p("CountIf.3",
 				"[[ggbcount(%1):=begin when(%0,1,0);end],sum(map(%2,loc->ggbcount(loc)))][1]");
 		p("CountIf.2",
@@ -1228,7 +1232,7 @@ public class Ggb2giac {
 		// exp2pow(lin(pow2exp()) added for Simplify(x^(8*k+9)*x^(5*k))
 		// factor() for Simplify((x^2+2*x+1)/((x+1)^8))
 		p("Simplify.1",
-				"[[[ggbsimparg:=%0],[ggbsimpans:=?],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg))))],[ggbsimpans2:=factor(exp2pow(lin(pow2exp(ggbsimparg))))]],"
+				"[[[ggbsimparg0:=%0],[ggbsimpans:=?],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg0))))],[ggbsimpans2:=factor(exp2pow(lin(pow2exp(ggbsimparg0))))]],"
 						+ "when(length(\"\"+ggbsimpans)<length(\"\"+ggbsimpans2)||indexOf(?,lname(ggbsimpans2))!=?,ggbsimpans,ggbsimpans2)][1]");
 
 		p("Regroup.1", "regroup(%0)");
@@ -1913,6 +1917,9 @@ public class Ggb2giac {
 		p("Eigenvectors.1", "egv(%0)");
 
 		p("Eigenvalues.1", "{eigenvals(%0)}");
+
+		p("RemoveUndefined.1", "when(type(%0)==DOM_LIST, remove(undef,%0),?)");
+		p("IsInteger.1", "when(type(%0)==DOM_INT,round(%0)==%0, false)");
 
 		return commandMap;
 	}

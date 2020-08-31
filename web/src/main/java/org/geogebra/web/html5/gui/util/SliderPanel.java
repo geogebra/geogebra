@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.gui.util;
 
-import org.geogebra.web.html5.awt.GDimensionW;
-
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -66,10 +64,6 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 
 	public void setTickSpacing(int step) {
 		slider.setTickSpacing(step);
-	}
-
-	public GDimensionW getPreferredSize() {
-		return new GDimensionW(180, 10);
 	}
 
 	@Override
