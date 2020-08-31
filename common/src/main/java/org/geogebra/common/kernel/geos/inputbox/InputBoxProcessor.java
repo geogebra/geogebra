@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoInterval;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -58,8 +59,21 @@ public class InputBoxProcessor {
 		// box is correct when updating dependencies
 		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
 
+		String defineText = inputText;
+		if (linkedGeo instanceof GeoNumeric) {
+			GeoNumeric number = (GeoNumeric) linkedGeo;
+			double num = kernel.getAlgebraProcessor()
+						.evaluateToDouble(inputText, true, null);
+
+			if (num < number.getIntervalMin()) {
+				defineText = kernel.format(number.getIntervalMin(), tpl);
+			} else if (num > number.getIntervalMax()) {
+				defineText = kernel.format(number.getIntervalMax(), tpl);
+			}
+		}
+
 		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
-		updateLinkedGeoNoErrorHandling(inputText, tpl, errorHandler);
+		updateLinkedGeoNoErrorHandling(defineText, tpl, errorHandler);
 
 		if (errorHandler.errorOccured) {
 			if ("?".equals(inputText)) {
