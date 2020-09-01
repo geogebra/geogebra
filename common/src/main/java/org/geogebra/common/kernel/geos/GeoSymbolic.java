@@ -172,19 +172,16 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 	public void computeOutput() {
 		ExpressionValue casInputArg = getDefinition().deepCopy(kernel)
 				.traverse(FunctionExpander.getCollector());
-		Command casInput;
-		if (casInputArg.unwrap() instanceof Command) {
-			// don't wrap commands in additional Evaluate
-			casInput = (Command) casInputArg.unwrap();
-		} else {
-			casInput = new Command(kernel, "Evaluate", false);
-			casInput.addArgument(casInputArg.wrap());
-		}
+		Command casInput = getCasInput(casInputArg);
 		String s = evaluateGeoGebraCAS(casInput.wrap());
+
 		if (Commands.Solve.name().equals(casInput.getName()) && GeoFunction.isUndefined(s)) {
-			changeSolveToNSolve(casInput);
+			getDefinition().getTopLevelCommand().setName(Commands.NSolve.name());
+			casInput = getCasInput(getDefinition().deepCopy(kernel)
+					.traverse(FunctionExpander.getCollector()));
 			s = evaluateGeoGebraCAS(casInput.wrap());
 		}
+
 		this.casOutputString = s;
 		ExpressionValue casOutput = parseOutputString(s);
 
@@ -195,11 +192,16 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 		isEuclidianShowable = shouldBeEuclidianVisible(casInput);
 	}
 
-	private void changeSolveToNSolve(Command casInput) {
-		casInput.setName(Commands.NSolve.name());
-		AlgoDependentSymbolic currentConsElement = (AlgoDependentSymbolic)
-				getConstruction().getConstructionElement(getConstructionIndex());
-		currentConsElement.setDefinition(casInput.wrap());
+	private Command getCasInput(ExpressionValue casInputArg) {
+		Command casInput;
+		if (casInputArg.unwrap() instanceof Command) {
+			// don't wrap commands in additional Evaluate
+			casInput = (Command) casInputArg.unwrap();
+			} else {
+			casInput = new Command(kernel, "Evaluate", false);
+			casInput.addArgument(casInputArg.wrap());
+		}
+		return casInput;
 	}
 
 	private String evaluateGeoGebraCAS(ValidExpression exp) {
