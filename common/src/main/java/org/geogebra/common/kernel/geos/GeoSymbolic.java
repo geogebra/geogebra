@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
-import org.geogebra.common.kernel.cas.AlgoDependentSymbolic;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.properties.DelegateProperties;
@@ -194,10 +193,9 @@ public class GeoSymbolic extends GeoElement implements GeoSymbolicI, VarString,
 
 	private Command getCasInput(ExpressionValue casInputArg) {
 		Command casInput;
-		if (casInputArg.unwrap() instanceof Command) {
-			// don't wrap commands in additional Evaluate
+		if (casInputArg.unwrap() instanceof  Command) {
 			casInput = (Command) casInputArg.unwrap();
-			} else {
+		} else {
 			casInput = new Command(kernel, "Evaluate", false);
 			casInput.addArgument(casInputArg.wrap());
 		}
