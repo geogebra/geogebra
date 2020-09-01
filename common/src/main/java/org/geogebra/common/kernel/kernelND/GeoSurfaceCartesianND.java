@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -268,21 +269,23 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
+		StringBuilder sbToString = new StringBuilder(80);
+
+		sbToString.append(label);
+		sbToString.append('(');
 		if (complexVariable != null) {
-			StringBuilder sbToString = new StringBuilder(80);
-
-			sbToString.setLength(0);
-			sbToString.append(label);
-
-			sbToString.append('(');
 			sbToString
 					.append(complexVariable.toString(tpl));
-			sbToString.append(") = ");
-
-			sbToString.append(toValueString(tpl));
-			return sbToString.toString();
+		} else {
+			sbToString
+					.append(fun[0].getFunctionVariables()[0].toString(tpl));
+			sbToString.append(',');
+			sbToString
+					.append(fun[0].getFunctionVariables()[1].toString(tpl));
 		}
-		return super.toString(tpl);
+		sbToString.append(") = ");
+		sbToString.append(toValueString(tpl));
+		return sbToString.toString();
 	}
 
 	@Override
@@ -476,7 +479,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		}
 
 		return false;
-
 	}
 
 	// private static final int GRADIENT_SAMPLES = 8;
@@ -849,7 +851,13 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
 			boolean symbolic, MyArbitraryConstant arbconst) {
-		// TODO Auto-generated method stub
+		GeoSurfaceCartesianND c = (GeoSurfaceCartesianND) f;
+
+		if (c.getDefinition() != null) {
+			FunctionNVar transformed = new Function(c.getDefinition(), complexVariable)
+					.evalCasCommand(ggbCasCmd, symbolic, arbconst);
+			setDefinition(transformed.getFunctionExpression());
+		}
 	}
 
 	@Override
@@ -926,9 +934,15 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 				}
 			}
 		}
-		reuseDefinition(geo);
-		// distFun = new ParametricCurveDistanceFunction(this);
-
+		if (geoSurface.point != point) {
+			point = geoSurface.point.deepCopy(kernel);
+		}
+		if (geoSurface.complexVariable != null) {
+			complexVariable = geoSurface.complexVariable;
+			if (geoSurface.isDefined && geoSurface.getDefinition() != null) {
+				setDefinition(geoSurface.getDefinition().deepCopy(kernel));
+			}
+		}
 	}
 
 	public void setComplexVariable(FunctionVariable fv) {

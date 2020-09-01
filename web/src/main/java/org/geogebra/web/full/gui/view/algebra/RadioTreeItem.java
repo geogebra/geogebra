@@ -485,8 +485,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			definitionValuePanel.add(outputPanel);
 			outputPanel.reset();
 
-			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
-			previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
+			//IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
+			//previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 
 			String text = previewGeo
 					.getAlgebraDescription(StringTemplate.latexTemplate)

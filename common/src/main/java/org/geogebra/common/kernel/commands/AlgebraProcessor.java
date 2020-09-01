@@ -2355,9 +2355,8 @@ public class AlgebraProcessor {
 				return ret;
 			}
 		}
-		if (!fun.initFunction(info)) {
+		if (!fun.initFunction(info.withSimplifying(false))) {
 			return processFunctionAsSurface(fun, info);
-
 		}
 
 		String label = fun.getLabel();
@@ -3145,7 +3144,7 @@ public class AlgebraProcessor {
 				Function fun = (Function) leaf;
 				fun.setLabels(n.getLabels());
 				if (node.isForceSurface()) {
-					fun.initFunction(info);
+					fun.initFunction(info.withSimplifying(false));
 					return getParamProcessor().complexSurface(fun.getExpression(),
 							fun.getFunctionVariable(), fun.getLabel());
 				}

@@ -1619,5 +1619,8 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertable {
 	 */
 	boolean isFunctionOrEquationFromUser();
 
+	/**
+	 * @return true for cartesian surfaces
+	 */
 	boolean isGeoSurfaceCartesian();
 }

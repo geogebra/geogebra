@@ -37,7 +37,7 @@ class InputBoxRenderer {
 			linkedGeoText = linkedGeo.getRedefineString(true, true);
 		}
 
-		if (isComplexNumber(linkedGeo)) {
+		if (isComplex(linkedGeo)) {
 			linkedGeoText = linkedGeoText.replace(Unicode.IMAGINARY, 'i');
 		}
 
@@ -49,13 +49,13 @@ class InputBoxRenderer {
 	}
 
 	/**
-	 *
 	 * @param geo to check
-	 * @return if geo is complex number or not.
+	 * @return true iff geo is a complex number or a complex function
 	 */
-	public static boolean isComplexNumber(GeoElementND geo) {
-		return geo instanceof VectorNDValue
-				&& ((VectorNDValue) geo).getToStringMode() == Kernel.COORD_COMPLEX;
+	public static boolean isComplex(GeoElementND geo) {
+		return (geo instanceof VectorNDValue
+				&& ((VectorNDValue) geo).getToStringMode() == Kernel.COORD_COMPLEX)
+				|| geo.isGeoSurfaceCartesian();
 	}
 
 	private boolean isTextUndefined(String text) {
