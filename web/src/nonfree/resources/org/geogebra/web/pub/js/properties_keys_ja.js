@@ -3425,7 +3425,7 @@ __GGB__keysVar["ja"].menu = {
     "stylebar.AlignCenter": "\u4e2d\u592e",
     "stylebar.AlignLeft": "\u5de6\u5bc4\u305b",
     "stylebar.AlignRight": "\u53f3\u5bc4\u305b",
-    "stylebar.AllBorders": "All borders",
+    "stylebar.AllBorders": "\u3059\u3079\u3066\u306e\u5883\u754c\u7dda",
     "stylebar.Axes": "\u8ef8\u306e\u8868\u793a\uff0f\u975e\u8868\u793a",
     "stylebar.BgColor": "\u80cc\u666f\u8272\u306e\u8a2d\u5b9a",
     "stylebar.Bold": "\u30d5\u30a9\u30f3\u30c8\u3092\u592a\u5b57\u306b\u3059\u308b",
