@@ -28,6 +28,13 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
  */
 public class AppConfigCas extends AppConfigGraphing {
 
+	public AppConfigCas() {
+	}
+
+    public AppConfigCas(String parentAppCode) {
+        super(parentAppCode);
+    }
+
 	@Override
 	public String getAppTitle() {
 		return "CASCalculator";

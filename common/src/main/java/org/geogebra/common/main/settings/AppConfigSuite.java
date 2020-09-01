@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.filter.OperationArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
@@ -20,6 +21,14 @@ import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
  * Config for the Suite app (currently graphing before tool removal)
  */
 public class AppConfigSuite extends AppConfigGraphing {
+
+	public AppConfigSuite() {
+		super();
+	}
+
+	public AppConfigSuite(String parentAppCode) {
+		super(parentAppCode);
+	}
 
 	@Override
 	public String getAppCode() {
@@ -78,8 +87,8 @@ public class AppConfigSuite extends AppConfigGraphing {
 	}
 
 	@Override
-	public ParserFunctionsFactory createParserFunctionsFactory() {
-		return ParserFunctionsFactory.createParserFunctionsFactory();
+	public ParserFunctions createParserFunctions() {
+		return ParserFunctionsFactory.createParserFunctions();
 	}
 
 	@Override
