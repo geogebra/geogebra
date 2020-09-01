@@ -1,7 +1,9 @@
 package org.geogebra.common.io;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.main.settings.AppConfigSuite;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -17,5 +19,17 @@ public class MyXMLioTest extends BaseUnitTest {
 		getApp().setConfig(new AppConfigGraphing());
 		String fullXml = myXMLio.getFullXML();
 		Assert.assertTrue(fullXml.contains("app=\"graphing\""));
+	}
+
+	@Test
+	public void testXmlContainsParentName() {
+		MyXMLio myXMLio = Mockito.mock(MyXMLio.class, Mockito
+				.withSettings()
+				.defaultAnswer(Mockito.CALLS_REAL_METHODS)
+				.useConstructor(getKernel(), getConstruction()));
+		getApp().setConfig(new AppConfigGeometry("suite"));
+		String fullXml = myXMLio.getFullXML();
+		Assert.assertTrue(fullXml.contains("app=\"suite\""));
+		Assert.assertTrue(fullXml.contains("<subapp name=\"geometry\" />"));
 	}
 }

@@ -290,6 +290,12 @@ public class AppConfigDefault implements AppConfig {
 		return false;
 	}
 
+	@CheckForNull
+	@Override
+	public String getParentAppCode() {
+		return null;
+	}
+
 	@Override
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.GRAPHING;

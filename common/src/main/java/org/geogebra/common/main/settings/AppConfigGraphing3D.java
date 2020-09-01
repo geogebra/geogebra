@@ -28,6 +28,13 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
  */
 public class AppConfigGraphing3D extends AppConfigGraphing {
 
+	public AppConfigGraphing3D() {
+	}
+
+    public AppConfigGraphing3D(String parentAppCode) {
+        super(parentAppCode);
+    }
+
 	@Override
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {

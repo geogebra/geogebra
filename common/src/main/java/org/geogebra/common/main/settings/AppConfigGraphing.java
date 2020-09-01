@@ -39,6 +39,15 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
  */
 public class AppConfigGraphing implements AppConfig {
 
+	private String parentAppCode;
+
+	public AppConfigGraphing() {
+	}
+
+	public AppConfigGraphing(String parentAppCode) {
+		this.parentAppCode = parentAppCode;
+	}
+
 	@Override
 	public void adjust(DockPanelData dp) {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
@@ -286,6 +295,11 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public boolean disableTraceCM() {
 		return false;
+	}
+
+	@Override
+	public String getParentAppCode() {
+		return parentAppCode;
 	}
 
 	@Override

@@ -280,5 +280,14 @@ public interface AppConfig {
 	 * @return true if trace is enabled in context menu
 	 */
 	boolean disableTraceCM();
+
+	/**
+	 * @return If there's a parent application then returns the parent application's app code.
+	 * For example, if this instance was created from the Suite app for a sub app
+	 * then the app code of Suite is returned,
+	 * otherwise null.
+	 */
+	@CheckForNull
+	String getParentAppCode();
 }
 

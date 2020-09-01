@@ -22,6 +22,14 @@ import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
  */
 public class AppConfigSuite extends AppConfigGraphing {
 
+	public AppConfigSuite() {
+		super();
+	}
+
+	public AppConfigSuite(String parentAppCode) {
+		super(parentAppCode);
+	}
+
 	@Override
 	public String getAppCode() {
 		return "suite";
