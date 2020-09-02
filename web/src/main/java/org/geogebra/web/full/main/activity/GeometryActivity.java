@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
-import org.geogebra.common.main.settings.AppConfigGeometry;
+import org.geogebra.common.main.settings.config.AppConfigGeometry;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.resources.SVGResource;
 
