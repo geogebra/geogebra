@@ -1,9 +1,8 @@
 package org.geogebra.common.io;
 
 import org.geogebra.common.BaseUnitTest;
-import org.geogebra.common.main.settings.AppConfigGeometry;
-import org.geogebra.common.main.settings.AppConfigGraphing;
-import org.geogebra.common.main.settings.AppConfigSuite;
+import org.geogebra.common.main.settings.config.AppConfigGeometry;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;

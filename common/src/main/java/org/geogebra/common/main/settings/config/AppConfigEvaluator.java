@@ -1,4 +1,4 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.common.main.settings.config;
 
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
