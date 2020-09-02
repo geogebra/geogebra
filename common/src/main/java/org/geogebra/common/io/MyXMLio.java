@@ -202,12 +202,10 @@ public abstract class MyXMLio {
 	public static void addBasicAppInfo(StringBuilder sb, boolean isMacro, String uniqueId,
 									   App app) {
 		AppConfig config = app.getConfig();
-		String parentAppCode = config.getParentAppCode();
-		if (parentAppCode != null) {
-			addGeoGebraHeader(sb, isMacro, uniqueId, app.getPlatform(), parentAppCode);
-			sb.append("<subapp name=\"").append(config.getAppCode()).append("\" />\n");
-		} else {
-			addGeoGebraHeader(sb, isMacro, uniqueId, app.getPlatform(), config.getAppCode());
+		addGeoGebraHeader(sb, isMacro, uniqueId, app.getPlatform(), config.getAppCode());
+		String subAppCode = config.getSubAppCode();
+		if (subAppCode != null) {
+			sb.append("<subapp name=\"").append(subAppCode).append("\" />\n");
 		}
 	}
 

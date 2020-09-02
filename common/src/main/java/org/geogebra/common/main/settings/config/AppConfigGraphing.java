@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.GraphingSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
@@ -37,15 +36,18 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
 /**
  * Config for Graphing Calculator app
  */
-public class AppConfigGraphing implements AppConfig {
-
-	private String parentAppCode;
+public class AppConfigGraphing extends AbstractAppConfig {
 
 	public AppConfigGraphing() {
+		super(GeoGebraConstants.GRAPHING_APPCODE, null);
 	}
 
-	public AppConfigGraphing(String parentAppCode) {
-		this.parentAppCode = parentAppCode;
+	public AppConfigGraphing(String appCode) {
+		super(appCode, GeoGebraConstants.GRAPHING_APPCODE);
+	}
+
+	AppConfigGraphing(String appCode, String subAppCode) {
+		super(appCode, subAppCode);
 	}
 
 	@Override
@@ -236,11 +238,6 @@ public class AppConfigGraphing implements AppConfig {
 	}
 
 	@Override
-	public String getAppCode() {
-		return "graphing";
-	}
-
-	@Override
 	public SettingsUpdater createSettingsUpdater() {
 		return new GraphingSettingsUpdater();
 	}
@@ -295,11 +292,6 @@ public class AppConfigGraphing implements AppConfig {
 	@Override
 	public boolean disableTraceCM() {
 		return false;
-	}
-
-	@Override
-	public String getParentAppCode() {
-		return parentAppCode;
 	}
 
 	@Override
