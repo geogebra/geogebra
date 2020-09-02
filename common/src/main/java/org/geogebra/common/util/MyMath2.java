@@ -68,8 +68,20 @@ public class MyMath2 {
 		}
 	}
 
+	/**
+	 * @param a
+	 *            real number
+	 * @param b
+	 *            real number
+	 * @return beta(a,b)
+	 */
 	final public static double beta(double a, double b) {
-		return Math.exp(Beta.logBeta(a, b));
+		double ret = Math.exp(Beta.logBeta(a, b));
+		if (!MyDouble.isFinite(ret)) {
+			// handle negative cases
+			return Gamma.gamma(a) * Gamma.gamma(b) / Gamma.gamma(a + b);
+		}
+		return ret;
 	}
 
 	/**

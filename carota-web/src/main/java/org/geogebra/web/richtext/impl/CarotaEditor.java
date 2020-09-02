@@ -24,8 +24,7 @@ public class CarotaEditor implements Editor {
 	/**
 	 * Create a new instance of Carota editor.
 	 */
-	public CarotaEditor(int padding, double defaultFontSize) {
-		CarotaUtil.ensureInitialized(defaultFontSize);
+	public CarotaEditor(int padding) {
 		widget = createWidget(padding);
 		editor = Carota.get().getEditor().create(widget.getElement());
 	}

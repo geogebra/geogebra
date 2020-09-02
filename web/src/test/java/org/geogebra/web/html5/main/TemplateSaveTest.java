@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.geogebra.web.util.file.FileIO;
 import org.junit.Assert;
@@ -23,7 +24,7 @@ public class TemplateSaveTest {
 
 	@Test
 	public void testSaveTemplate() {
-		TestArticleElement articleElement = new TestArticleElement("notes");
+		AppletParameters articleElement = new AppletParameters("notes");
 		app = AppMocker.mockApplet(articleElement);
 		app.getSaveController().setSaveType(Material.MaterialType.ggsTemplate);
 		EuclidianSettings settings = app.getActiveEuclidianView().getSettings();

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 
 import com.google.gwt.user.client.Window;
 
@@ -100,7 +100,7 @@ public class LoggerW extends Log {
 	 * @param article
 	 *            parameters
 	 */
-	public static void startLogger(ArticleElementInterface article) {
+	public static void startLogger(AppletParameters article) {
 		if (article.getDataParamShowLogging()) {
 			Log.setLogger(new LoggerW());
 			Log.setLogDestination(LogDestination.CONSOLE);

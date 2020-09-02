@@ -493,7 +493,7 @@ var GGBApplet = function() {
             scriptLoadStarted = false;
         }
 
-        var article = document.createElement("article");
+        var article = document.createElement("div");
         // don't add geogebraweb here, as we don't want to parse it out of the box.
         article.classList.add("appletParameters", "notranslate");
         var oriWidth = parameters.width;

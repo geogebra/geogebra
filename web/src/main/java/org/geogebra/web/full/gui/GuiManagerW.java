@@ -97,7 +97,6 @@ import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.full.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.full.gui.view.probcalculator.ProbabilityCalculatorViewW;
-import org.geogebra.web.full.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.full.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetContextMenuW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
@@ -404,32 +403,6 @@ public class GuiManagerW extends GuiManager
 			getApp().getToolbar().closeAllSubmenu();
 		}
 
-		if (altDown) {
-			// AppW.nativeConsole("alt down");
-			Log.debug("trying to paste image");
-
-			// try to paste image in html format eg
-			// http://jsfiddle.net/bvFNL/8/
-			String html = CopyPasteCutW.getClipboardContents(null);
-			// AppW.nativeConsole("from clipboard = " + html);
-
-			Log.debug("trying to paste image " + html);
-
-			int pngBase64index = html.indexOf(StringUtil.pngMarker);
-
-			if (pngBase64index > -1) {
-				int pngBase64end = html.indexOf("\"", pngBase64index);
-				String base64 = html.substring(
-						pngBase64index,
-						pngBase64end);
-
-				getApp().imageDropHappened("pastedFromClipboard.png",
-						base64);
-
-				return;
-			}
-		}
-
 		((DialogManagerW) app.getDialogManager()).showImageInputDialog(imageLoc,
 				this.device);
 	}
@@ -635,7 +608,7 @@ public class GuiManagerW extends GuiManager
 	@Override
 	public void resize(final int width, final int height) {
 		final Element geogebraFrame = getApp().getFrameElement();
-		int borderThickness = getApp().getArticleElement()
+		int borderThickness = getApp().getAppletParameters()
 				.getBorderThickness();
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
 			if (geogebraFrame.getOffsetHeight() <= 0) {
@@ -1458,7 +1431,7 @@ public class GuiManagerW extends GuiManager
 
 	@Override
 	public void updateFrameSize() {
-		if (!getApp().getArticleElement().getDataParamApp()) {
+		if (!getApp().getAppletParameters().getDataParamApp()) {
 			return;
 		}
 		// get frame size from layout manager
@@ -1685,7 +1658,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	@Override
 	public void showMenuBar(final boolean show) {
-		getApp().getArticleElement().attr("showMenuBar", show + "");
+		getApp().getAppletParameters().setAttribute("showMenuBar", show + "");
 		if (show) {
 			showToolBar(true);
 		}
@@ -1708,7 +1681,7 @@ public class GuiManagerW extends GuiManager
 		}
 		if (currentlyVisible != show) {
 			getApp().setShowToolBar(show);
-			getApp().getArticleElement()
+			getApp().getAppletParameters()
 			.removeAttribute("data-param-showToolBar");
 			getApp().persistWidthAndHeight();
 			getApp()
@@ -2159,7 +2132,7 @@ public class GuiManagerW extends GuiManager
 	 */
 	public static boolean mayForceKeyboard(AppW app) {
 		return !app.isStartedWithFile()
-				&& !app.getArticleElement().preventFocus()
+				&& !app.getAppletParameters().preventFocus()
 				&& (app.getExam() == null || app.getExam().getStart() > 0);
 	}
 

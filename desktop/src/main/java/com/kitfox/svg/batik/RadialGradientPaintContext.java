@@ -350,9 +350,8 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 	 * Build square root lookup table
 	 */
 	private void calculateFixedPointSqrtLookupTable() {
-		float sqStepFloat;
-		sqStepFloat = ((fastGradientArraySize * fastGradientArraySize)
-				/ (MAX_PRECISION - 2));
+		float sqStepFloat = (fastGradientArraySize * fastGradientArraySize)
+				/ (MAX_PRECISION - 2f);
 
 		// The last two values are the same so that linear square root
 		// interpolation can happen on the maximum reachable element in the

@@ -371,7 +371,7 @@ public class MyVec3DNode extends ValidExpression
 		if (mode == Kernel.COORD_CARTESIAN_3D) {
 			stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
 		} else {
-			stringifier.setPrintingMode(VectorPrintingMode.Default);
+			stringifier.setPrintingMode(VectorPrintingMode.Polar);
 		}
 	}
 

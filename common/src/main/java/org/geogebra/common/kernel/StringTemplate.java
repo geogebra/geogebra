@@ -476,6 +476,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		numericNoLocal.allowMoreDigits = true;
 		numericNoLocal.localizeCmds = false;
+		numericNoLocal.forceSF = true;
+		numericNoLocal.sf =
+				FormatFactory.getPrototype()
+						.getScientificFormat(15, 20, false);
 	}
 
 	/**

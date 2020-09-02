@@ -13,8 +13,9 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.laf.MebisLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -45,11 +46,8 @@ public class Web implements EntryPoint {
 		SuperDevUncaughtExceptionHandler.register();
 		exportGGBElementRenderer();
 
-		// setLocaleToQueryParam();
-
 		loadAppletAsync();
 		allowRerun();
-		// just debug for now
 	}
 
 	// TODO: what about global preview events?
@@ -66,7 +64,7 @@ public class Web implements EntryPoint {
 	 * Load UI of all applets.
 	 */
 	public static void loadAppletAsync() {
-		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
+		startGeoGebra(GeoGebraElement.getGeoGebraMobileTags());
 	}
 
 	private native void exportGGBElementRenderer() /*-{
@@ -83,8 +81,7 @@ public class Web implements EntryPoint {
 	 *            callback
 	 */
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
-		GeoGebraFrameFull.renderArticleElement(el,
-				(AppletFactory) GWT.create(AppletFactory.class),
+		GeoGebraFrameFull.renderArticleElement(el, GWT.create(AppletFactory.class),
 				getLAF(), clb);
 	}
 
@@ -92,10 +89,9 @@ public class Web implements EntryPoint {
 	 * @param geoGebraMobileTags
 	 *            article elements
 	 */
-	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
+	static void startGeoGebra(ArrayList<GeoGebraElement> geoGebraMobileTags) {
 		GeoGebraFrameFull.main(geoGebraMobileTags,
-				(AppletFactory) GWT.create(AppletFactory.class),
-				getLAF(), null);
+				GWT.create(AppletFactory.class), getLAF(), null);
 	}
 
 	/**
@@ -105,24 +101,17 @@ public class Web implements EntryPoint {
 		NodeList<Element> nodes = Dom
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			String laf = ((ArticleElement) nodes.getItem(i))
-					.getDataParamLAF();
-			if ("smart".equals(laf)) {
+			String laf = new AppletParameters((GeoGebraElement) nodes.getItem(i)).getDataParamLAF();
+			switch (laf) {
+			case "smart":
 				return new SmartLookAndFeel();
-			}
-
-			if ("office".equals(laf)) {
+			case "office":
 				return new OfficeLookAndFeel();
-			}
-
-			if ("bundle".equals(laf)) {
+			case "bundle":
 				return new BundleLookAndFeel();
-			}
-			if ("mebis".equals(laf)) {
+			case "mebis":
 				return new MebisLookAndFeel();
-			}
-
-			if ("chrome".equals(laf)) {
+			case "chrome":
 				return new ChromeLookAndFeel();
 			}
 		}

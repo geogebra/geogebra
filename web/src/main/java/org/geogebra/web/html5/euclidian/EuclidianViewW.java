@@ -33,8 +33,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.LayeredGGraphicsW;
@@ -680,7 +680,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (canvas != null) {
 			this.g2p = new LayeredGGraphicsW(canvas);
 			g2p.setDevicePixelRatio(appW.getPixelRatio());
-			if (appW.getArticleElement().isDebugGraphics()) {
+			if (appW.getAppletParameters().isDebugGraphics()) {
 				g2p.startDebug();
 			}
 		} else {
@@ -957,7 +957,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 *            the new height (in pixel)
 	 */
 	public void setPreferredSize(int width, int height) {
-		setPreferredSize(new GDimensionW(width, height));
+		setPreferredSize(new Dimension(width, height));
 	}
 
 	private void setDragCursor() {

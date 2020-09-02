@@ -169,8 +169,7 @@ public abstract class RectangularShape implements Shape {
      * @return a <code>Rectangle2D</code>, specified in
      * <code>double</code> coordinates.
      * @see #setFrame(double, double, double, double)
-     * @see #setFrame(GPoint2D, Dimension2D)
-     * @see #setFrame(Rectangle2D)
+     * @see #setFrame(GRectangle2D)
      * @since 1.2
      */
     //@Transient
@@ -202,21 +201,6 @@ public abstract class RectangularShape implements Shape {
      * @since 1.2
      */
     public abstract void setFrame(double x, double y, double w, double h);
-
-    /**
-     * Sets the location and size of the framing rectangle of this
-     * <code>Shape</code> to the specified {@link GPoint2D} and
-     * {@link Dimension2D}, respectively.  The framing rectangle is used
-     * by the subclasses of <code>RectangularShape</code> to define
-     * their geometry.
-     * @param loc the specified <code>Point2D</code>
-     * @param size the specified <code>Dimension2D</code>
-     * @see #getFrame
-     * @since 1.2
-     */
-    public void setFrame(GPoint2D loc, Dimension2D size) {
-        setFrame(loc.getX(), loc.getY(), size.getWidth(), size.getHeight());
-    }
 
     /**
      * Sets the framing rectangle of this <code>Shape</code> to

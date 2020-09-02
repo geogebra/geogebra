@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class TemplateLoadTest {
 
 	@Before
 	public void init() {
-		TestArticleElement articleElement = new TestArticleElement("notes");
+		AppletParameters articleElement = new AppletParameters("notes");
 		app = AppMocker.mockApplet(articleElement);
 		app.setXML("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<geogebra format=\"5.0\" " +
 				"version=\"5.0.570.0\" app=\"notes\" platform=\"w\" " +

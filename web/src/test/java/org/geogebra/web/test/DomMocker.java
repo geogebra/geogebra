@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -19,6 +20,20 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DomMocker {
+
+	public static GeoGebraElement getGeoGebraElement() {
+		GeoGebraElement mock = mock(GeoGebraElement.class);
+
+		when(mock.getStyle()).thenAnswer(new Answer<Style>() {
+			@Override
+			public Style answer(InvocationOnMock invocation) throws Throwable {
+				return mock(Style.class);
+			}
+		});
+
+		return mock;
+	}
+
 	public static Element getElement() {
 		Element elementWithTitle = mock(Element.class);
 		final Map<String, String> title = new HashMap<>();

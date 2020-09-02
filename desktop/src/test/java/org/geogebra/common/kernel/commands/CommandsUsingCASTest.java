@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.Matchers.is;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
@@ -350,6 +351,13 @@ public class CommandsUsingCASTest extends AlgebraTest {
 			t("Holes(x + x/x)", "(0, 1)");
 			t("Holes(2^(x + x/x))", "(0, 2)");
 		}
+	}
+
+	@Test
+	public void cmdPlotSolve() {
+		t("PlotSolve(x^2-2)", "{(-1.4142135623730951, 0), (1.4142135623730951, 0)}");
+		GeoElement element = get("l1");
+		assertThat(element.isEuclidianVisible(), is(true));
 	}
 
 	private void frac(String def, String expect) {
