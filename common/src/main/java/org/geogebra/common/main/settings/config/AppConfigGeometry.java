@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.GeometrySettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
@@ -32,19 +31,16 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
 
 /**
  * App-specific behaviors of Geometry app
- * 
  * @author Zbynek
- *
  */
-public class AppConfigGeometry implements AppConfig {
-
-	private String parentAppCode;
+public class AppConfigGeometry extends AbstractAppConfig {
 
 	public AppConfigGeometry() {
+		super(GeoGebraConstants.GEOMETRY_APPCODE, null);
 	}
 
-	public AppConfigGeometry(String parentAppCode) {
-		this.parentAppCode = parentAppCode;
+	public AppConfigGeometry(String appCode) {
+		super(appCode, GeoGebraConstants.GEOMETRY_APPCODE);
 	}
 
 	@Override
@@ -52,8 +48,7 @@ public class AppConfigGeometry implements AppConfig {
 		if (dp.getViewId() == App.VIEW_ALGEBRA) {
 			dp.setLocation("3");
 			dp.setTabId(DockPanelData.TabIds.TOOLS);
-		}
-		else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
+		} else if (dp.getViewId() == App.VIEW_EUCLIDIAN) {
 			dp.makeVisible();
 			dp.setLocation("1");
 		}
@@ -126,12 +121,12 @@ public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public int[] getDecimalPlaces() {
-		return new int[] {0, 1, 2, 3, 4, 5, 10, 15};
+		return new int[]{0, 1, 2, 3, 4, 5, 10, 15};
 	}
 
 	@Override
 	public int[] getSignificantFigures() {
-		return new int[] {3, 5, 10, 15};
+		return new int[]{3, 5, 10, 15};
 	}
 
 	@Override
@@ -236,11 +231,6 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
-	public String getAppCode() {
-		return "geometry";
-	}
-
-	@Override
 	public SettingsUpdater createSettingsUpdater() {
 		return new GeometrySettingsUpdater();
 	}
@@ -293,12 +283,6 @@ public class AppConfigGeometry implements AppConfig {
 	@Override
 	public boolean disableTraceCM() {
 		return false;
-	}
-
-	@CheckForNull
-	@Override
-	public String getParentAppCode() {
-		return parentAppCode;
 	}
 
 	@Override

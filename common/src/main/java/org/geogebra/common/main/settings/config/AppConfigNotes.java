@@ -2,7 +2,6 @@ package org.geogebra.common.main.settings.config;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.AppKeyboardType;
 
 /**
@@ -10,6 +9,10 @@ import org.geogebra.common.main.AppKeyboardType;
  *
  */
 public class AppConfigNotes extends AppConfigDefault {
+
+	public AppConfigNotes() {
+		super(GeoGebraConstants.NOTES_APPCODE, null);
+	}
 
 	@Override
 	public String getPreferencesKey() {
@@ -24,11 +27,6 @@ public class AppConfigNotes extends AppConfigDefault {
 	@Override
 	public String getAppTitle() {
 		return "Notes";
-	}
-
-	@Override
-	public String getAppCode() {
-		return "notes";
 	}
 
 	@Override

@@ -28,10 +28,11 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
 public class AppConfigGraphing3D extends AppConfigGraphing {
 
 	public AppConfigGraphing3D() {
+		super(GeoGebraConstants.G3D_APPCODE, null);
 	}
 
-	public AppConfigGraphing3D(String parentAppCode) {
-		super(parentAppCode);
+	public AppConfigGraphing3D(String appCode) {
+		super(appCode, GeoGebraConstants.G3D_APPCODE);
 	}
 
 	@Override
@@ -138,11 +139,6 @@ public class AppConfigGraphing3D extends AppConfigGraphing {
 	@Override
 	public boolean hasPreviewPoints() {
 		return false;
-	}
-
-	@Override
-	public String getAppCode() {
-		return "3d";
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package org.geogebra.common.main;
+package org.geogebra.common.main.settings.config;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.parser.function.ParserFunctionsFactory;
+import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
 import org.geogebra.common.main.syntax.suggestionfilter.SyntaxFilter;
 import org.geogebra.common.properties.factory.BasePropertiesFactory;
@@ -26,7 +27,15 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
 /**
  * Config for Classic and derived apps (MR)
  */
-public class AppConfigDefault implements AppConfig {
+public class AppConfigDefault extends AbstractAppConfig {
+
+	public AppConfigDefault() {
+		super(GeoGebraConstants.CLASSIC_APPCODE, null);
+	}
+
+	AppConfigDefault(String appCode, String subAppCode) {
+		super(appCode, subAppCode);
+	}
 
 	@Override
 	public void adjust(DockPanelData dp) {
@@ -59,8 +68,7 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	/**
-	 * @param appName
-	 *            app name
+	 * @param appName app name
 	 * @return whether app name is one of the unbundled apps
 	 */
 	public static boolean isUnbundledOrNotes(String appName) {
@@ -111,12 +119,12 @@ public class AppConfigDefault implements AppConfig {
 
 	@Override
 	public int[] getDecimalPlaces() {
-		return new int[] {0, 1, 2, 3, 4, 5, 10, 15};
+		return new int[]{0, 1, 2, 3, 4, 5, 10, 15};
 	}
 
 	@Override
 	public int[] getSignificantFigures() {
-		return new int[] {3, 5, 10, 15};
+		return new int[]{3, 5, 10, 15};
 	}
 
 	@Override
@@ -149,15 +157,15 @@ public class AppConfigDefault implements AppConfig {
 		return AppType.CLASSIC;
 	}
 
-    @Override
-    public boolean showGridOnFileNew() {
-	    return true;
-    }
+	@Override
+	public boolean showGridOnFileNew() {
+		return true;
+	}
 
-    @Override
-    public boolean showAxesOnFileNew() {
-        return true;
-    }
+	@Override
+	public boolean showAxesOnFileNew() {
+		return true;
+	}
 
 	@Override
 	public boolean hasTableView() {
@@ -218,11 +226,6 @@ public class AppConfigDefault implements AppConfig {
 	@Override
 	public boolean showToolsPanel() {
 		return true;
-	}
-
-	@Override
-	public String getAppCode() {
-		return "classic";
 	}
 
 	@Override
@@ -290,26 +293,20 @@ public class AppConfigDefault implements AppConfig {
 		return false;
 	}
 
-	@CheckForNull
-	@Override
-	public String getParentAppCode() {
-		return null;
-	}
-
 	@Override
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.GRAPHING;
 	}
 
-    @Override
-    public int getEnforcedLineEquationForm() {
-	    return -1;
-    }
+	@Override
+	public int getEnforcedLineEquationForm() {
+		return -1;
+	}
 
-    @Override
-    public int getEnforcedConicEquationForm() {
-        return -1;
-    }
+	@Override
+	public int getEnforcedConicEquationForm() {
+		return -1;
+	}
 
 	@Override
 	public boolean shouldHideEquations() {

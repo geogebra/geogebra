@@ -1,7 +1,6 @@
 package org.geogebra.common.main.settings.config;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.main.AppConfigDefault;
 
 /**
  * App config for mixed reality

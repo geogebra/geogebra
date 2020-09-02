@@ -24,6 +24,10 @@ import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
  */
 public class AppConfigScientific extends AppConfigGraphing {
 
+	public AppConfigScientific() {
+		super(GeoGebraConstants.SCIENTIFIC_APPCODE, null);
+	}
+
 	@Override
 	public String getAppTitle() {
 		return "ScientificCalculator";
@@ -93,11 +97,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public SyntaxFilter newCommandSyntaxFilter() {
 		return null;
-	}
-
-	@Override
-	public String getAppCode() {
-		return "scientific";
 	}
 
 	@Override
