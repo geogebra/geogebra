@@ -125,14 +125,12 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 
 	@Override
 	public void compute() {
-
+		conic.setCoordSys(plane.getCoordSys());
 		if (!quadric.isDefined() || !plane.isDefined()) {
 			conic.setUndefined();
 			return;
 		}
-
 		intersectPlaneQuadric(plane, quadric, conic);
-
 	}
 
 	private void intersectPlaneQuadric(GeoCoordSys2D inputPlane,
