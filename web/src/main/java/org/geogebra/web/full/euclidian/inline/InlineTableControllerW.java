@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
+import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -230,6 +231,35 @@ public class InlineTableControllerW implements InlineTableController {
 	public void removeColumn() {
 		tableImpl.removeColumn();
 		updateSizes();
+	}
+
+	@Override
+	public void setBorderThickness(int borderThickness) {
+		tableImpl.setBorderThickness(borderThickness);
+		table.updateRepaint();
+	}
+
+	@Override
+	public int getBorderThickness() {
+		return tableImpl.getBorderThickness();
+	}
+
+	@Override
+	public void setBorderStyle(BorderType borderType) {
+		tableImpl.setBorderStyle(borderType.getName());
+		table.updateRepaint();
+	}
+
+	@Override
+	public BorderType getBorderStyle() {
+		String borderStr = tableImpl.getBorderStyle();
+		switch (borderStr) {
+			case "mixed": return BorderType.MIXED;
+			case "inner": return BorderType.INNER;
+			case "outer": return BorderType.OUTER;
+			case "none": return BorderType.NONE;
+			default: return BorderType.ALL;
+		}
 	}
 
 	@Override
