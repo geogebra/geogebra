@@ -406,7 +406,7 @@ public class GeoVector3D extends GeoVec4D
 
 		// startPoint of vector
 		if (startPoint != null) {
-			sbXml.append(startPoint.getStartPointXML());
+			startPoint.appendStartPointXML(sbXml);
 		}
 
 	}

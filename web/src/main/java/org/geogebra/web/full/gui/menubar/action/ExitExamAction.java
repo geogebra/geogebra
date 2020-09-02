@@ -87,7 +87,7 @@ public class ExitExamAction extends DefaultMenuAction<Void> {
 		final Localization loc = app.getLocalization();
 		ExamEnvironment exam = app.getExam();
 		exam.exit();
-		boolean examFile = app.getArticleElement().hasDataParamEnableGraphing();
+		boolean examFile = app.getAppletParameters().hasDataParamEnableGraphing();
 		String buttonText;
 		AsyncOperation<String[]> handler;
 		AsyncOperation<String[]> welcomeHandler;

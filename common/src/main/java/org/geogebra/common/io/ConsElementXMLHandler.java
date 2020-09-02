@@ -1887,6 +1887,8 @@ public class ConsElementXMLHandler {
 			((TextProperties) geo).setFontSizeMultiplier(1);
 			((TextProperties) geo).setSerifFont(false);
 			((TextProperties) geo).setFontStyle(GFont.PLAIN);
+		} else if (!fontTagProcessed && geo.isGeoInputBox()) {
+			((TextProperties) geo).setSerifFont(true);
 		} else if (!lineStyleTagProcessed && ((geo.isGeoFunctionNVar()
 				&& ((GeoFunctionNVar) geo).isFun2Var())
 				|| geo.isGeoSurfaceCartesian())) {
@@ -2298,11 +2300,9 @@ public class ConsElementXMLHandler {
 
 	private void processStartPointList() {
 		try {
-			Iterator<LocateableExpPair> it = startPointList.iterator();
 			AlgebraProcessor algProc = xmlHandler.getAlgProcessor();
 
-			while (it.hasNext()) {
-				LocateableExpPair pair = it.next();
+			for (LocateableExpPair pair : startPointList) {
 				GeoPointND P = pair.point != null ? pair.point
 						: algProc.evaluateToPoint(pair.exp,
 								ErrorHelper.silent(), true);

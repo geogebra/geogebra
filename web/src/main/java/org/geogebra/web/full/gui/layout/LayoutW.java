@@ -100,16 +100,16 @@ public class LayoutW extends Layout {
 		if (app.isApplet()) {
 			app.setCustomToolBar();
 
-			app.setShowToolBarNoUpdate(app.getArticleElement()
+			app.setShowToolBarNoUpdate(app.getAppletParameters()
 					.getDataParamShowToolBar(false));
-			app.setShowAlgebraInput(app.getArticleElement()
+			app.setShowAlgebraInput(app.getAppletParameters()
 					.getDataParamShowAlgebraInput(false), false);
 		}
 
 		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
 
 		app.setInputPosition(
-				app.getArticleElement()
+				app.getAppletParameters()
 					.getAlgebraPosition(perspective.getInputPosition()), false);
 		String toolbar3D = "";
 

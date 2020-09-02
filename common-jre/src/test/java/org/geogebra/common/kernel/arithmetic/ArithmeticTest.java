@@ -5,6 +5,7 @@ import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.AppCommon3D;
 import org.geogebra.test.TestStringUtil;
@@ -236,9 +237,9 @@ public class ArithmeticTest extends Assert {
 	public void absFunction() {
 		AlgebraTestHelper.enableCAS(app, false);
 		t("f:abs(x+2)", "abs(x + 2)");
-		Assert.assertTrue(((GeoFunction) app.getKernel().lookupLabel("f"))
+		Assert.assertTrue(((GeoFunction) lookup("f"))
 				.isPolynomialFunction(true));
-		Assert.assertFalse(((GeoFunction) app.getKernel().lookupLabel("f"))
+		Assert.assertFalse(((GeoFunction) lookup("f"))
 				.isPolynomialFunction(false));
 	}
 
@@ -264,7 +265,7 @@ public class ArithmeticTest extends Assert {
 		t("D = (0,4)", "(0, 4)");
 		t("E=Cross(A-B, C-D)", "7");
 		assertEquals(
-				app.getKernel().lookupLabel("E")
+				lookup("E")
 						.getDefinition(StringTemplate.defaultTemplate),
 				"(A - B) " + Unicode.VECTOR_PRODUCT + " (C - D)");
 	}
@@ -284,5 +285,21 @@ public class ArithmeticTest extends Assert {
 		t("g=Element({x}, 2)", "?");
 		t("g(1)", "NaN");
 		t("g((1, 1))", "NaN");
+	}
+
+	@Test
+	public void functionCopySHouldBeDependent() {
+		t("f:x", "x");
+		t("g(x)=f", "x");
+		assertEquals("f(x)",
+				lookup("g").getDefinition(StringTemplate.defaultTemplate));
+		t("ff(x,y)=x+y", "x + y");
+		t("gg(a,b)=ff", "a + b");
+		assertEquals("gg(a, b) = ff(a, b)",
+				lookup("gg").getDefinition(StringTemplate.defaultTemplate));
+	}
+
+	private GeoElement lookup(String g) {
+		return app.getKernel().lookupLabel(g);
 	}
 }

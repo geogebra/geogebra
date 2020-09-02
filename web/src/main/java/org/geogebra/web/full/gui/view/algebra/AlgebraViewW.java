@@ -215,7 +215,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 		addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		addKeyPressHandler(this.app.getGlobalKeyDispatcher());
-		if (!app.getArticleElement().preventFocus()) {
+		if (!app.getAppletParameters().preventFocus()) {
 			setFocus(true);
 		}
 

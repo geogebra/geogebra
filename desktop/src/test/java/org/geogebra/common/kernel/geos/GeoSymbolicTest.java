@@ -1151,6 +1151,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testPlotSolveIsEuclidianVisible() {
+		GeoSymbolic symbolic = add("PlotSolve(x^2-2)");
+		assertThat(symbolic.isEuclidianVisible(), is(true));
+	}
+
+	@Test
 	public void testSymbolicDiffersForSolve() {
 		GeoSymbolic solveX_1 = add("Solve(2x=5)");
 		GeoSymbolic solveX_2 = add("Solve(2x=6)");
@@ -1194,5 +1200,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("f(x) = x");
 		GeoSymbolic function = add("f(x) = xx");
 		assertThat(function.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoFunction.class));
+	}
+
+	@Test
+	public void testPrecision() {
+		GeoSymbolic derivative = add("Derivative(25.8-0.2ℯ^(-0.025x))");
+		assertThat(
+				derivative.toValueString(StringTemplate.defaultTemplate),
+				equalTo("1 / 200 ℯ^((-1) / 40 x)"));
 	}
 }

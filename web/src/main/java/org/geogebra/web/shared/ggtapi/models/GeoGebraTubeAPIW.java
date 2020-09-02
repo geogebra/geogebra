@@ -9,7 +9,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.Cookies;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.WindowW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -42,7 +42,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 *            parameters
 	 */
 	public GeoGebraTubeAPIW(ClientInfo client, boolean beta,
-			ArticleElementInterface articleElement) {
+			AppletParameters articleElement) {
 		super(beta, articleElement);
 		this.client = client;
 	}

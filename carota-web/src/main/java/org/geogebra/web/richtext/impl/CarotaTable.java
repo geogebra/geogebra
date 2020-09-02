@@ -50,12 +50,12 @@ public class CarotaTable {
 
 	@JsOverlay
 	private int selectionX() {
-		return getSelection() == null ? 0 : getSelection().x;
+		return getSelection() == null ? 0 : getSelection().col0;
 	}
 
 	@JsOverlay
 	private int selectionY() {
-		return getSelection() == null ? 0 : getSelection().y;
+		return getSelection() == null ? 0 : getSelection().row0;
 	}
 
 	private native CarotaSelection getHitCell(int x, int y);

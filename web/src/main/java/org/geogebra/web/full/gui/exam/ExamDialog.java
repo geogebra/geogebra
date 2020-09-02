@@ -49,7 +49,7 @@ public class ExamDialog implements ClickHandler {
 		ensureExamStyle();
 		Localization loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
-		final boolean hasGraphing = app.getArticleElement()
+		final boolean hasGraphing = app.getAppletParameters()
 				.hasDataParamEnableGraphing();
 		box = new DialogBoxKbW(false, true, null, app.getPanel(), app) {
 			@Override
@@ -130,7 +130,7 @@ public class ExamDialog implements ClickHandler {
 			btnPanel.addStyleName("DialogButtonPanel");
 			box.getCaption().setText(loc.getMenu("exam_custom_header"));
 		} else {
-			if (app.getArticleElement().hasDataParamEnableGraphing()) {
+			if (app.getAppletParameters().hasDataParamEnableGraphing()) {
 				boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
 				boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();
 				Log.debug(supportsCAS + "," + supports3D + "," + app.enableGraphing());
@@ -174,7 +174,7 @@ public class ExamDialog implements ClickHandler {
 		mainWidget.add(btnPanel);
 		box.setWidget(mainWidget);
 
-		if ((app.getArticleElement().hasDataParamEnableGraphing())) {
+		if ((app.getAppletParameters().hasDataParamEnableGraphing())) {
 			btnOk.addStyleName("ExamTabletStartButton");
 		}
 		app.invokeLater(new Runnable() {
@@ -241,7 +241,7 @@ public class ExamDialog implements ClickHandler {
 		LayoutW.resetPerspectives(app);
 		if (app.enableGraphing()) {
 			// don't check for CAS supported but for data param
-			if (app.getArticleElement().getDataParamEnableCAS(false)) {
+			if (app.getAppletParameters().getDataParamEnableCAS(false)) {
 				// set CAS start view for Exam CAS
 				app.getGgbApi().setPerspective("4");
 			} else {
@@ -295,7 +295,7 @@ public class ExamDialog implements ClickHandler {
 		if (examStyle) {
 			return;
 		}
-		StyleInjector.inject(GuiResources.INSTANCE.examStyleLTR().getText());
+		StyleInjector.inject(GuiResources.INSTANCE.examStyle().getText());
 		examStyle = true;
 	}
 

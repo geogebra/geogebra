@@ -1785,12 +1785,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public String getStartPointXML() {
-		StringBuilder sb = new StringBuilder();
+	public void appendStartPointXML(StringBuilder sb) {
 		sb.append("\t<startPoint ");
 
 		if (isAbsoluteStartPoint()) {
-			sb.append(" x=\"");
+			sb.append("x=\"");
 			sb.append(x);
 			sb.append("\"");
 			sb.append(" y=\"");
@@ -1802,11 +1801,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		} else {
 			sb.append("exp=\"");
 			StringUtil.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
-
 			sb.append("\"");
 		}
 		sb.append("/>\n");
-		return sb.toString();
 	}
 
 	@Override

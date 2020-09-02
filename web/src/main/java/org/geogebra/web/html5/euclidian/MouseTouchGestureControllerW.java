@@ -104,9 +104,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		style = new EnvironmentStyleW();
 		style.setxOffset(getEnvXoffset());
 		style.setyOffset(getEnvYoffset());
-		double scaleX = ((AppW) app).getArticleElement().getScaleX();
+		double scaleX = ((AppW) app).getGeoGebraElement().getScaleX();
 		style.setScaleX(scaleX);
-		style.setScaleY(((AppW) app).getArticleElement().getScaleY());
+		style.setScaleY(((AppW) app).getGeoGebraElement().getScaleY());
 
 		setZoomOffsets(scaleX);
 

@@ -1335,6 +1335,11 @@ public class CommandsTest {
 	}
 
 	@Test
+	public void cmdBeta() {
+		t("Beta(-1.1,-3.1)", "-88.36531346708531");
+	}
+
+	@Test
 	public void cmdTriangular() {
 		prob("Triangular", "1,3,2",
 				"If(x < 1, 0, If(x < 2, (2 (x - 1)) / ((2 - 1) (3 - 1)),"

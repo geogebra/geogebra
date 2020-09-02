@@ -5,32 +5,24 @@ import org.geogebra.common.kernel.printing.printable.vector.PrintableVector;
 import org.geogebra.common.kernel.printing.printer.Printer;
 import org.geogebra.common.kernel.printing.printer.expression.ExpressionPrinter;
 
-class DefaultPrinter implements Printer {
+class GiacPolarPrinter implements Printer {
 
     private PrintableVector vector;
 
-    DefaultPrinter(PrintableVector vector) {
+    GiacPolarPrinter(PrintableVector vector) {
         this.vector = vector;
     }
 
     @Override
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
-        return printLeftParenthesis(tpl)
+        return "point(("
                 + expressionPrinter.print(vector.getX(), tpl)
-                + printDelimiter()
+                + ")*cos("
                 + expressionPrinter.print(vector.getY(), tpl)
-                + printRightParenthesis(tpl);
-    }
-
-    private String printLeftParenthesis(StringTemplate tpl) {
-        return tpl.leftBracket();
-    }
-
-    private String printRightParenthesis(StringTemplate tpl) {
-        return tpl.rightBracket();
-    }
-
-    private String printDelimiter() {
-        return "; ";
+                + "),("
+                + expressionPrinter.print(vector.getX(), tpl)
+                + ")*sin("
+                + expressionPrinter.print(vector.getY(), tpl)
+                + "))";
     }
 }
