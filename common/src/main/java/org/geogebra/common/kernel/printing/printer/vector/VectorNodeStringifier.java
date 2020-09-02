@@ -37,7 +37,7 @@ public class VectorNodeStringifier {
     }
 
     private void initPrinters() {
-        activePrinter = printerMap.get(VectorPrintingMode.Default);
+        activePrinter = printerMap.get(VectorPrintingMode.Polar);
     }
 
     private void initExpressionPrinters() {
@@ -58,7 +58,7 @@ public class VectorNodeStringifier {
             int coordinateSystem = vector.getCoordinateSystem();
             return coordinateSystem == Kernel.COORD_POLAR
                     || coordinateSystem == Kernel.COORD_SPHERICAL
-                    ? printerMap.get(VectorPrintingMode.Spherical)
+                    ? printerMap.get(VectorPrintingMode.GiacPolar)
                     : printerMap.get(VectorPrintingMode.Giac);
         } else {
             return activePrinter;

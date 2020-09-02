@@ -122,6 +122,15 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void argumentsForFunctionCopyShouldBeVisible() {
+		add("f:x");
+		setupInput("g", "3f");
+		assertEquals("3f(x)", inputBox.getText());
+		updateInput("f(x)");
+		assertEquals("f(x)", inputBox.getText());
+	}
+
+	@Test
 	public void symbolicShouldBeEmptyAfterSettingLineUndefined() {
 		setupInput("f", "y = 5");
 		t("SetValue(f, ?)");
