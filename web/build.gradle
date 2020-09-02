@@ -64,8 +64,7 @@ dependencies {
         'com.googlecode:gwtgl:0.9.1:sources',
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion",
         "fr.ujf-grenoble:giac-gwt:$javaGiacVersion:sources",
-        "com.google.gwt:gwt-dev:$gwtCompilerVersion",
-        'com.asual.lesscss:lesscss-engine:1.3.0'
+        "com.google.gwt:gwt-dev:$gwtCompilerVersion"
 
     testCompile "junit:junit:$junitVersion",
         'com.google.gwt.gwtmockito:gwtmockito:1.1.9',
@@ -260,7 +259,7 @@ task mergeDeploy(){
                           .replace('%WEBSIMPLE_PERMUTATION%', webSimplePermutation)
       def parentRoot = project(":common").getBuildDir().getAbsolutePath() + "/../../"
       def currentVersion = getGeogebraVersion(parentRoot)
-      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','')
+      file(warDirRel + "/deployggb.js").text = deployText.replace('%MODULE_BASE%','./')
       file(warDirRel + "/deployggb-latest.js").text = deployText.replace('%MODULE_BASE%','https://www.geogebra.org/apps/latest/')
       file(warDirRel + "/deployggb-${currentVersion}.js").text = deployText.replace('%MODULE_BASE%',"https://www.geogebra.org/apps/${currentVersion}/")
    }

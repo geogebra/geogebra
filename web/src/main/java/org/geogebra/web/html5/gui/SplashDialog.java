@@ -4,7 +4,8 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -21,7 +22,7 @@ public class SplashDialog extends SimplePanel {
 	boolean appLoaded = false;
 	boolean timerEllapsed = false;
 	boolean previewExists = false;
-	private Element article;
+	private GeoGebraElement geoGebraElement;
 
 	private Timer t = new Timer() {
 		@Override
@@ -38,18 +39,18 @@ public class SplashDialog extends SimplePanel {
 	/**
 	 * @param showLogo
 	 *            whether to show GeoGebra logo
-	 * @param article
+	 * @param geoGebraElement
 	 *            configuration element
 	 * @param frame
 	 *            frame
 	 */
-	public SplashDialog(boolean showLogo, ArticleElementInterface article,
-			GeoGebraFrameW frame) {
-		this.article = article.getElement();
+	public SplashDialog(boolean showLogo, GeoGebraElement geoGebraElement,
+			AppletParameters parameters, GeoGebraFrameW frame) {
+		this.geoGebraElement = geoGebraElement;
 		this.geogebraFrame = frame;
-		previewExists = checkIfPreviewExists(this.article)
+		previewExists = checkIfPreviewExists(geoGebraElement)
 				|| AppConfigDefault
-						.isUnbundledOrNotes(article.getDataParamAppName());
+						.isUnbundledOrNotes(parameters.getDataParamAppName());
 
 		if (!previewExists) {
 			FlowPanel panel = new FlowPanel();
@@ -117,7 +118,7 @@ public class SplashDialog extends SimplePanel {
 	 */
 	protected void hide() {
 		this.removeFromParent();
-		removePreviewImg(article);
+		removePreviewImg(geoGebraElement);
 	}
 
 	private native void removePreviewImg(Element thisArticle) /*-{

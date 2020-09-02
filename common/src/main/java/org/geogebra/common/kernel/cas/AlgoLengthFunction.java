@@ -112,5 +112,4 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		lengthFunction = new LengthFunction(f1);
 		cons.removeFromConstructionList(algoCAS);
 	}
-
 }

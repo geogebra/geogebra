@@ -6,7 +6,10 @@
 *	Make sure everything is placed in .GeoGebraFrame!
 **/
 
-@import "definitions.less";
+@import 'colors';
+
+$shadow_dark: 0 0 2px 1px rgba(102, 102, 102, 0.3); // used for popups
+$shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
 
 .GeoGebraFrame {
 
@@ -20,8 +23,8 @@
 
 	.toolbarPanel {
 		position: relative;
-		background-color: @color-lightgrey;
-		box-shadow: @shadow;
+		background-color: $classic-toolbar-bg;
+		box-shadow: $shadow;
 		padding: 5px;
 		box-sizing: border-box;
 		z-index: 100;
@@ -56,7 +59,7 @@
 		}
 
 		.toolBPanel {
-			.float(left);
+			float: left;
 			padding-top: 1px;
 
 			ul {
@@ -65,36 +68,36 @@
 			}
 
 			li.toolbar_item {
-				.margin(0px, 5px, 0px, 0px);
+				margin: 0 5px 0 0;
 				text-align: center;
 				position: relative;
 				width: 40px;
 				height: 40px;
 				display: block;
-				.float(left);
+				float: left;
 				list-style-type: none;
 				cursor: pointer;
 			}
 
 			.toolbar_button {
 				border-radius: 5px;
-				border: 1px solid @color-bordergrey;
-				background-color: @color-white;
+				border: 1px solid $tool-border;
+				background-color: $white;
 				padding: 3px;
 				width: 32px;
 				height: 32px;
 
 				&[isSelected=false] {
-					border-color: @color-bordergrey;
+					border-color: $tool-border;
 				}
 
 				&:hover[isSelected=false][isMobile=false],
 				&:focus[isSelected=false][isMobile=false] {
-					border-color: @color-highlight;
+					border-color: $toolbar-header;
 				}
 
 				&[isSelected=true] {
-					border: 2px solid @color-highlight;
+					border: 2px solid $toolbar-header;
 					padding: 2px;
 				}
 
@@ -106,7 +109,7 @@
 			}
 
 			.touched {
-				border-color: @color-highlight !important;
+				border-color: $toolbar-header !important;
 			}
 
 			.toolbar_submenu {
@@ -121,7 +124,7 @@
 				.submenuArrow {
 					position: absolute;
 					z-index: 300;
-					.left(4px);
+					left: 4px;
 				}
 
 				.submenuContent {
@@ -130,8 +133,8 @@
 					z-index: 250;
 					border-radius: 10px;
 					padding-top: 3px !important;
-					background-color: @color-white-transparent-90;
-					box-shadow: @shadow-dark;
+					background-color: $white-90;
+					box-shadow: $shadow_dark;
 					overflow-y: auto;
 					overflow-x: hidden;
 					-webkit-overflow-scrolling: touch;
@@ -141,13 +144,13 @@
 						list-style-type: none;
 						height: 32px;
 						padding: 5px 0;
-						.text-align(left);
+						text-align: left;
 						cursor: pointer;
 
 						&:hover,
 						&:focus {
-							color: @color-darkgrey;
-							background-color: @color-bg-highlight;
+							color: $selected-tool-text;
+							background-color: $marble-border;
 						}
 
 						img.gwt-Image.plusPadding {
@@ -158,13 +161,13 @@
 					}
 
 					img {
-						.float(left);
+						float: left;
 						padding-left: 5px;
 						padding-right: 5px;
 					}
 
 					.gwt-Label {
-						.padding(7px, 10px, 0, 40px);
+						padding: 7px 10px 0 40px;
 					}
 				}
 			}
@@ -205,42 +208,42 @@
 
 			.submenu_button {
 				border-radius: 5px;
-				border: 1px solid @color-bordergrey;
-				background-color: @color-white;
+				border: 1px solid $tool-border;
+				background-color: $white;
 				padding: 3px;
 				width: 32px;
 				height: 32px;
 
 				&[isSelected=false] {
-					border-color: @color-bordergrey;
+					border-color: $tool-border;
 				}
 			}
 
 			li {
-				.margin(0px, 5px, 0px, 0px);
+				margin: 0 5px 0 0;
 				text-align: center;
 				position: relative;
 				width: 40px;
 				height: 40px;
 				display: block;
-				.float(left);
+				float: left;
 				list-style-type: none;
 				cursor: pointer;
 			}
 		}
 
 		.rightButtonPanel {
-			.float(right);
+			float: right;
 			margin: 6px;
 
 			& > * {
-				.margin(0px, 5px, 0px, 10px);
-				.float(left);
+				margin: 0 5px 0 10px;
+				float: left;
 			}
 
 			// Make redo close to undo button
 			.redoButton {
-				.margin-left(0px);
+				margin-left: 0;
 			}
 
 			.selectedButton {
@@ -262,7 +265,7 @@
 	}
 
 	.toolbarPanelSouth {
-		border-top: 1px solid @color-bordergrey;
+		border-top: 1px solid $tool-border;
 
 		.submenuArrow {
 			bottom: 45px;
@@ -275,7 +278,7 @@
 	}
 
 	.toolbarPanelNorth {
-		border-bottom: 1px solid @color-bordergrey;
+		border-bottom: 1px solid $tool-border;
 
 		.submenuContent {
 			top: 15px;
@@ -299,9 +302,9 @@
 
 	.menubarSMART {
 		overflow-y: auto;
-		background-color: @color-lightgrey;
-		.border-left(1px);
-		.border-left-color(@color-bordergrey);
+		background-color: $classic-toolbar-bg;
+		border-left: 1px;
+		border-left-color: $tool-border;
 		border-left-style: solid;
 		height: 100%;
 
@@ -317,7 +320,7 @@
 			}
 
 			.gwt-MenuItem {
-				.padding(6px, 5px, 6px, 35px);
+				padding: 6px 5px 6px 35px;
 				position: relative;
 				display: block;
 
@@ -327,7 +330,7 @@
 					position: absolute;
 					top: 50%;
 					margin-top: -10px;
-					.left(5px);
+					left: 5px;
 				}
 			}
 
@@ -337,7 +340,7 @@
 
 			.gwt-MenuItem:hover,
 			.gwt-MenuItem:active {
-				background: @color-bg-highlight;
+				background: $marble-border;
 			}
 
 			.RadioButtonMenuItem label {
@@ -359,8 +362,8 @@
 			z-index: 600;
 			border-radius: 10px;
 			padding: 5px;
-			background-color: @color-white-transparent-90;
-			box-shadow: @shadow-dark;
+			background-color: $white-90;
+			box-shadow: $shadow_dark;
 
 			.arrowSubmenu {
 				position: absolute;
@@ -373,12 +376,12 @@
 			}
 
 			input[type="radio"] {
-				.margin(0px, 5px, 0px, 0px);
+				margin: 0 5px 0 0;
 			}
 
 			/* Workaround due to GWT's bug, see ticket #4819 */
 			&.subMenuLeftSide2 {
-				.right(10px);
+				right: 10px;
 			}
 		}
 	}

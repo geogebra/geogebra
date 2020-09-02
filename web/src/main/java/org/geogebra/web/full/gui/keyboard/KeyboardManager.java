@@ -151,7 +151,7 @@ public class KeyboardManager
 	}
 
 	private Element getAppletContainer() {
-		Element scaler = app.getArticleElement().getParentElement();
+		Element scaler = app.getGeoGebraElement().getParentElement();
 		Element container = scaler == null ? null : scaler.getParentElement();
 		if (container == null) {
 			return RootPanel.getBodyElement();

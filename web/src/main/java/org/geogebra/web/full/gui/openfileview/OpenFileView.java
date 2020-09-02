@@ -203,7 +203,7 @@ public class OpenFileView extends MyHeaderPanel
 	 */
 	protected void newFile() {
 		AsyncOperation<Boolean> newConstruction = active -> app.tryLoadTemplatesOnFileNew();
-		app.getArticleElement().attr("perspective", "");
+		app.getAppletParameters().setAttribute("perspective", "");
 		app.getSaveController().showDialogIfNeeded(newConstruction, false);
 		close();
 	}

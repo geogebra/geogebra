@@ -73,6 +73,9 @@ public final class GColor implements GPaint {
 	/** MOW SUBGRID */
 	public static final GColor MOW_SUBGRID = newColor(229, 229, 229);
 
+	// Selection color for inline text and table in Tafel
+	public static final GColor MOW_SELECTION_COLOR = newColor(0, 168, 213, 31);
+
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer
 	 * directly to

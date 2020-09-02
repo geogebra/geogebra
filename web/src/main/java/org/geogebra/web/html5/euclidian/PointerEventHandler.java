@@ -27,6 +27,7 @@ public class PointerEventHandler {
 
 	private @CheckForNull PointerState first;
 	private @CheckForNull PointerState second;
+	private @CheckForNull PointerState third;
 
 	/**
 	 * Mutable representation of pointer events
@@ -123,6 +124,7 @@ public class PointerEventHandler {
 	public void reset() {
 		first = null;
 		second = null;
+		third = null;
 	}
 
 	@ExternalAccess
@@ -132,11 +134,12 @@ public class PointerEventHandler {
 				second.x = e.getClientX();
 				second.y = e.getClientY();
 				twoPointersMove(first, second);
-			} else {
+			} else if (first.id == e.getPointerId()) {
 				first.x = e.getClientX();
 				first.y = e.getClientY();
 			}
-		} else {
+		} else if (match(first, e) || match(second, e)
+				|| "mouse".equals(e.getPointerType())) {
 			this.tc.onPointerEventMove(convertEvent(e));
 		}
 		if (!"INPUT".equals(e.getTarget().getTagName())) {
@@ -145,13 +148,21 @@ public class PointerEventHandler {
 		checkMoveLongTouch();
 	}
 
+	private boolean match(PointerState pointerState, NativePointerEvent event) {
+		return pointerState != null && pointerState.id == event.getPointerId();
+	}
+
 	@ExternalAccess
 	private void onPointerDown(NativePointerEvent e, Element element) {
-		setCapture(element);
-		if (first != null && second != null) {
+		if (first != null && second != null && third != null) {
+			reset();
 			return;
 		}
-		if (first != null) {
+		setCapture(element);
+		if (first != null && second != null) {
+			third = new PointerState(e);
+			return;
+		} else if (first != null) {
 			second = new PointerState(e);
 		} else {
 			first = new PointerState(e);
@@ -183,13 +194,12 @@ public class PointerEventHandler {
 		if (pointerCapture != element) {
 			return;
 		}
-		if (first != null && first.id == event.getPointerId()) {
-			first = null;
-		} else {
-			second = null;
-		}
+		resetPointer(event);
 		if (second == null && first == null) {
 			setCapture(null);
+		}
+		if (match(third, event)) {
+			return;
 		}
 		singleUp(convertEvent(event));
 		setPointerType(event.getPointerType(), false);
@@ -197,12 +207,20 @@ public class PointerEventHandler {
 
 	@ExternalAccess
 	private void onPointerOut(NativePointerEvent event) {
-		if (first != null && first.id == event.getPointerId()) {
-			first = null;
-		} else {
-			second = null;
-		}
+		resetPointer(event);
 		setPointerType(event.getPointerType(), false);
+	}
+
+	private void resetPointer(NativePointerEvent event) {
+		if (match(first, event)) {
+			first = null;
+		} else if (match(second, event)) {
+			second = null;
+		} else if (match(third, event)) {
+			third = null;
+		} else {
+			reset();
+		}
 	}
 
 	/**
@@ -227,6 +245,10 @@ public class PointerEventHandler {
 		});
 
 		element.addEventListener("pointerout", function(e) {
+            zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerOut(*)(e);
+        });
+
+        element.addEventListener("pointercanel", function(e) {
             zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::onPointerOut(*)(e);
         });
 

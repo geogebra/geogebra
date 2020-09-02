@@ -60,4 +60,9 @@ public class AppConfigNotes extends AppConfigDefault {
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.MOW;
 	}
+
+	@Override
+	public boolean disableTraceCM() {
+		return true;
+	}
 }

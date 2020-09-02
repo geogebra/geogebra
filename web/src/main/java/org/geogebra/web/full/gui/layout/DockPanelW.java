@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.cas.view.CASStylebarW;
 import org.geogebra.web.full.css.GuiResources;
@@ -25,7 +26,6 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.full.gui.util.StyleBarW;
 import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -45,8 +45,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -77,6 +75,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class DockPanelW extends ResizeComposite
 		implements DockPanel, DockComponent {
+
+	private static final int GEAR_CONTEXT_MENU_MARGIN = 16;
+
 	/** Dock manager */
 	protected DockManagerW dockManager;
 	/** app */
@@ -593,16 +594,12 @@ public abstract class DockPanelW extends ResizeComposite
 		if (getViewId() == App.VIEW_EUCLIDIAN) {
 			focusableWidget.attachTo(app);
 		}
-		FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
 
-			@Override
-			public void onClick(Widget source) {
-				app.getAccessibilityManager().setAnchor(focusableWidget);
-				onGraphicsSettingsPressed();
-			}
+		graphicsContextMenuBtn.addFastClickHandler(source -> {
+			app.getAccessibilityManager().setAnchor(focusableWidget);
+			onGraphicsSettingsPressed();
+		});
 
-		};
-		graphicsContextMenuBtn.addFastClickHandler(graphicsContextMenuHandler);
 		graphicsContextMenuBtn.addStyleName("flatButton");
 		graphicsContextMenuBtn.addStyleName(app.isWhiteboardActive()
 				? "graphicsContextMenuBtn mow" : "graphicsContextMenuBtn");
@@ -616,35 +613,33 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	/** Graphics Settings button handler */
-	protected void onGraphicsSettingsPressed() {
+	private void onGraphicsSettingsPressed() {
 		app.hideMenu();
 		app.hideKeyboard();
 		if (app.isWhiteboardActive() && app.getAppletFrame() != null
 				&& app.getAppletFrame() instanceof GeoGebraFrameFull) {
 			((GeoGebraFrameFull) app.getAppletFrame()).deselectDragBtn();
 		}
-		int x = graphicsContextMenuBtn.getAbsoluteLeft();
-		final int y = 8;
-		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
-				app, x, y, false);
-		final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();
-		popup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-			@Override
-			public void setPosition(int offsetWidth, int offsetHeight) {
-				popup.setPopupPosition((int) app.getWidth() - offsetWidth, y);
-				contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
-			}
-		});
-		popup.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				if (event.isAutoClosed()) {
-					app.getEuclidianView1().getEuclidianController()
-							.setPopupJustClosed(true);
-				}
+		final ContextMenuGraphicsWindowW contextMenu = getGraphicsWindowContextMenu();
+
+		final GPopupPanel popup = contextMenu.getWrappedPopup().getPopupPanel();
+		popup.setPopupPositionAndShow((offsetWidth, offsetHeight) -> {
+			popup.setPopupPosition((int) app.getWidth() - offsetWidth - GEAR_CONTEXT_MENU_MARGIN,
+					GEAR_CONTEXT_MENU_MARGIN);
+			contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
+		});
+
+		popup.addCloseHandler(event -> {
+			if (event.isAutoClosed()) {
+				app.getEuclidianView1().getEuclidianController()
+						.setPopupJustClosed(true);
 			}
 		});
+	}
+
+	protected ContextMenuGraphicsWindowW getGraphicsWindowContextMenu() {
+		return new ContextMenuGraphicsWindowW(app, 0, 0, false);
 	}
 
 	/**
@@ -724,7 +719,7 @@ public abstract class DockPanelW extends ResizeComposite
 
 	private boolean forceCloseButton() {
 		return getViewId() == App.VIEW_PROPERTIES
-				&& app.getArticleElement().getDataParamEnableRightClick();
+				&& app.getAppletParameters().getDataParamEnableRightClick();
 	}
 
 	/**
@@ -1303,19 +1298,19 @@ public abstract class DockPanelW extends ResizeComposite
 	public GDimension getEstimatedSize() {
 		switch (getViewId()) {
 		case App.VIEW_EUCLIDIAN:
-			return new GDimensionW(
+			return new Dimension(
 					app.getSettings().getEuclidian(1).getPreferredSize()
 							.getWidth(),
 					app.getSettings().getEuclidian(1).getPreferredSize()
 							.getHeight());
 		case App.VIEW_EUCLIDIAN2:
-			return new GDimensionW(
+			return new Dimension(
 					app.getSettings().getEuclidian(2).getPreferredSize()
 							.getWidth(),
 					app.getSettings().getEuclidian(2).getPreferredSize()
 							.getHeight());
 		case App.VIEW_SPREADSHEET:
-			return new GDimensionW(
+			return new Dimension(
 					app.getSettings().getSpreadsheet().preferredSize()
 							.getWidth(),
 					app.getSettings().getSpreadsheet().preferredSize()
@@ -1323,7 +1318,7 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 
 		// probably won't work
-		return new GDimensionW(getOffsetWidth(), getOffsetHeight());
+		return new Dimension(getOffsetWidth(), getOffsetHeight());
 	}
 
 	/**

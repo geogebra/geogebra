@@ -57,7 +57,9 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		this.solutions = new GeoList(cons);
 		setInputOutput();
 		compute();
-		solutions.setEuclidianVisible(false);
+		if (type != Commands.PlotSolve) {
+			solutions.setEuclidianVisible(false);
+		}
 	}
 
 	@Override
@@ -128,7 +130,9 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			solutions.setUndefined();
 			e.printStackTrace();
 		}
-		solutions.setNotDrawable();
+		if (type != Commands.PlotSolve) {
+			solutions.setNotDrawable();
+		}
 	}
 
 	private static void addVars(GeoElement geo, TreeSet<String> vars) {

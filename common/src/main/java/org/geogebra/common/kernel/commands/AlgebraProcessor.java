@@ -2272,7 +2272,7 @@ public class AlgebraProcessor {
 				boolean isPlainVariable = node.isLeaf();
 				boolean returnValueIsInput = node.unwrap() == ret[0];
 				if (isPlainVariable && returnValueIsInput) {
-					ret = array(dependentGeoCopy(ret[0]));
+					ret = array(dependentGeoCopy(ret[0], node));
 				}
 			} else if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoList) {
@@ -2334,9 +2334,9 @@ public class AlgebraProcessor {
 						.isRegisteredFunctionVariable(Unicode.theta_STRING)
 				&& fun.getExpression().evaluatesToNumber(true)) {
 			String label = fun.getLabel();
-			ValidExpression ve = new MyVecNode(kernel, fun.getExpression(),
+			MyVecNode ve = new MyVecNode(kernel, fun.getExpression(),
 					fun.getFunctionVariable().wrap());
-			((MyVecNode) ve).setMode(Kernel.COORD_POLAR);
+			ve.setMode(Kernel.COORD_POLAR);
 			// TODO the "r" check is there to allow r=theta in the
 			// future
 			if (!"r".equals(label)) {
@@ -2416,7 +2416,7 @@ public class AlgebraProcessor {
 					&& right.isNumberValue() && !right.isConstant()
 					&& !isIndependent) {
 				f = (GeoFunction) dependentGeoCopy(
-						((GeoFunctionable) left).getGeoFunction());
+						((GeoFunctionable) left).getGeoFunction(), en);
 				f.setShortLHS(fun.getShortLHS());
 				f.setLabel(label);
 				return array(f);
@@ -2659,8 +2659,8 @@ public class AlgebraProcessor {
 		return f;
 	}
 
-	final private GeoElement dependentGeoCopy(GeoElement origGeoNode) {
-		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, origGeoNode);
+	final private GeoElement dependentGeoCopy(GeoElement origGeoNode, ExpressionNode node) {
+		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, origGeoNode, node);
 		return algo.getGeo();
 	}
 
@@ -3007,8 +3007,7 @@ public class AlgebraProcessor {
 	 */
 	final private GeoLine dependentLine(Equation equ) {
 		AlgoDependentLine algo = new AlgoDependentLine(cons, equ);
-		GeoLine line = algo.getLine();
-		return line;
+		return algo.getLine();
 	}
 
 	/**
@@ -3063,10 +3062,9 @@ public class AlgebraProcessor {
 	 * Conic dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees.
 	 */
-	final private GeoConic dependentConic(Equation equ) {
+	private GeoConic dependentConic(Equation equ) {
 		AlgoDependentConic algo = new AlgoDependentConic(cons, equ);
-		GeoConic conic = algo.getConic();
-		return conic;
+		return algo.getConic();
 	}
 
 	/**

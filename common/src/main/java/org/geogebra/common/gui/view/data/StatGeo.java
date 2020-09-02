@@ -785,7 +785,7 @@ public class StatGeo {
 			GeoPoint p = new GeoPoint(cons, settings.xMin, i + 1d, 1d);
 			GeoText t = new GeoText(cons,
 					"  " + dataTitles[dataTitles.length - i - 1]);
-			AlgoText text = new AlgoText(cons, t, p, null, null);
+			AlgoText text = new AlgoText(cons, t, p, null, null, null, null);
 			cons.removeFromAlgorithmList(text);
 			ret[i] = text.getOutput(0);
 			ret[i].setBackgroundColor(

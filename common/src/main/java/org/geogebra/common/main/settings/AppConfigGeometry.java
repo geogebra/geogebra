@@ -282,6 +282,11 @@ public class AppConfigGeometry implements AppConfig {
 	}
 
 	@Override
+	public boolean disableTraceCM() {
+		return false;
+	}
+
+	@Override
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.GEOMETRY;
 	}

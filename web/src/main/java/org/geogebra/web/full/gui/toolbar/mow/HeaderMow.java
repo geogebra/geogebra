@@ -110,6 +110,7 @@ public class HeaderMow extends FlowPanel
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				onOpenClose();
+				DOM.setCapture(null);
 			}
 		});
 		content.add(openCloseBtn);

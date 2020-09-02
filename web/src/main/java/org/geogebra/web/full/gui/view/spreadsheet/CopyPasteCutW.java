@@ -6,11 +6,9 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.util.CopyPasteW;
 
 public class CopyPasteCutW extends CopyPasteCut {
-
-	private static String staticClipboardString = "";
 
 	public CopyPasteCutW(App app) {
 		super(app);
@@ -115,19 +113,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 			}
 		}
 
-		// store the tab-delimited values in the clipboard
-		/*Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Clipboard clipboard = toolkit.getSystemClipboard();
-		StringSelection stringSelection = new StringSelection(cellBufferStr);
-		clipboard.setContents(stringSelection, null);*/
-
 		// a clipboard inside this application is better than nothing
-		//staticClipboardString = new String(cellBufferStr);
-		if (nat) {
-			// if called from native event, setting clipboard contents
-			// is not crucial, and redundant/harmful in IE...
-			setInternalClipboardContents(new String(getCellBufferStr()));
-		} else {
+		if (!nat) {
 			app.copyTextToSystemClipboard(new String(getCellBufferStr()));
 			getTable().editCellAt(sourceColumn1, sourceRow1);
 		}
@@ -142,17 +129,13 @@ public class CopyPasteCutW extends CopyPasteCut {
 	}
 
 	@Override
-	/** Paste data from the clipboard */
 	public boolean paste(int column1, int row1, int column2, int row2) {
-		/*Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		Transferable contents = clipboard.getContents(null);*/
-		String contents = getClipboardContents(new Runnable() {
-			@Override
-			public void run() {
-				getTable().editCellAt(sourceColumn1, sourceRow1); // reset focus
-			}
+		CopyPasteW.pasteNative(app, (content) -> {
+			getTable().editCellAt(sourceColumn1, sourceRow1);
+			paste(column1, row1, column2, row2, content);
 		});
-		return paste(column1, row1, column2, row2, contents);
+
+		return true;
 	}
 
 	/**
@@ -228,57 +211,4 @@ public class CopyPasteCutW extends CopyPasteCut {
 		setCellBufferStr(null);
 		return delete(column1, row1, column2, row2);
 	}
-
-	/**
-	 * When using the default functionality of the browser,
-	 * getting/setting clipboard contents is solved quite well,
-	 * and it uses the external clipboard. Thus this method is
-	 * redundant in case it's called from paste event! For the
-	 * same reason, it is not called from there.
-	 * 
-	 * However, we may call the same thing from GeoGebraWeb
-	 * context menu, and in that case the form of this method
-	 * is just Okay.
-	 * 
-	 * @return String
-	 */
-	public static String getClipboardContents(Runnable onFocusChange) {
-		String clipboard = null;
-		if (isChromeWebapp()) { // use chrome web app paste API
-			clipboard = getSystemClipboard();
-			if (onFocusChange != null) {
-				onFocusChange.run();
-			}
-		} else if (Browser.isIE()) {
-			clipboard = getSystemClipboardIE();
-		} else { // use internal clipboard
-			clipboard = staticClipboardString;
-		}
-		return clipboard;
-	}
-
-	/**
-	 * As copying to system clipboard is supposed to have done
-	 * @param value String
-	 */
-	private static void setInternalClipboardContents(String value) {
-		staticClipboardString = value;
-	}
-
-	private static native boolean isChromeWebapp() /*-{
-		// check if the app is running in chrome and is installed (has an id)
-		// the function is defined in app.html (but not for applets)
-		return $doc.isChromeWebapp && $doc.isChromeWebapp();
-	}-*/;
-
-	public static native String getSystemClipboard() /*-{
-		var copyFrom = @org.geogebra.web.html5.main.AppW::getHiddenTextArea()();
-		copyFrom.select();
-		$doc.execCommand('paste');
-        return copyFrom.value;
-	}-*/;
-
-	private static native String getSystemClipboardIE() /*-{
-		return $wnd.clipboardData.getData('Text');
-	}-*/;
 }

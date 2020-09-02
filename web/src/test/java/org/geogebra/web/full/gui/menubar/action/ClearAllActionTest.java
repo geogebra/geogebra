@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
-import org.geogebra.web.html5.main.TestArticleElement;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.test.AppMocker;
 import org.junit.Assert;
 import org.junit.Before;
@@ -43,8 +43,8 @@ public class ClearAllActionTest {
 	@Test
 	public void fileNew() {
 		app = AppMocker
-				.mockApplet(new TestArticleElement("notes")
-						.attr("vendor", "mebis"));
+				.mockApplet(new AppletParameters("notes")
+						.setAttribute("vendor", "mebis"));
 		BaseWidgetFactory factory = mock(BaseWidgetFactory.class);
 		ListBox mockBox = mock(ListBox.class);
 		when(factory.newListBox()).thenReturn(mockBox);

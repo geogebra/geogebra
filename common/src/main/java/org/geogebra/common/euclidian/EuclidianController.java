@@ -10995,46 +10995,6 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	/**
-	 * @param altPressed
-	 *            whether alt is pressed
-	 * @param minusPressed
-	 *            whether minus rather than plus is pressed
-	 */
-	public void zoomInOut(boolean altPressed, boolean minusPressed) {
-		double factor = minusPressed
-				? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
-				: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
-		if (app.isUnbundled()) {
-			factor = minusPressed ? 1d / EuclidianView.MODE_ZOOM_FACTOR
-					: EuclidianView.MODE_ZOOM_FACTOR;
-		}
-		// accelerated zoom
-		if (altPressed) {
-			factor *= minusPressed ? 2d / 3d : 1.5;
-		}
-
-		zoomInOut(factor, 15);
-	}
-
-	/**
-	 * @param factor
-	 *            zoom factor (>1 for zoom in)
-	 * @param steps
-	 *            animation steps
-	 */
-	public void zoomInOut(double factor, int steps) {
-		double px, py;
-		if (mouseLoc != null) {
-			px = mouseLoc.x;
-			py = mouseLoc.y;
-		} else {
-			px = view.getWidth() / 2.0;
-			py = view.getHeight() / 2.0;
-		}
-		zoomInOut(factor, steps, px, py);
-	}
-
-	/**
 	 * Zoom around center.
 	 * 
 	 * @param factor

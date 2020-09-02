@@ -6,7 +6,7 @@ import org.geogebra.web.full.gui.applet.AppletFactory;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.GDevice;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
@@ -71,7 +71,7 @@ public class Tablet implements EntryPoint {
 	 * Load in applet mode
 	 */
 	public static void loadAppletAsync() {
-		startGeoGebra(ArticleElement.getGeoGebraMobileTags());
+		startGeoGebra(GeoGebraElement.getGeoGebraMobileTags());
 	}
 
 	private native void exportGGBElementRenderer() /*-{
@@ -96,7 +96,7 @@ public class Tablet implements EntryPoint {
 	 * @param geoGebraMobileTags
 	 *            article elements
 	 */
-	static void startGeoGebra(final ArrayList<ArticleElement> geoGebraMobileTags) {
+	static void startGeoGebra(final ArrayList<GeoGebraElement> geoGebraMobileTags) {
 		GeoGebraFrameFull.main(geoGebraMobileTags,
 		        (AppletFactory) GWT.create(AppletFactory.class),
 				(GLookAndFeel) GWT.create(TabletLookAndFeel.class),

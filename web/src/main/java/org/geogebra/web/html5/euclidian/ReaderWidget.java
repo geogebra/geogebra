@@ -6,11 +6,8 @@ import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Widget to able screen readers to read text from
@@ -34,6 +31,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 	public ReaderWidget(int evNo, Element anchor) {
 		this.anchor = anchor;
 		getElement().setId("screenReader" + evNo);
+		getElement().addClassName("screenReaderStyle");
 		// can't be tabbed, but can get the focus programmatically
 		getElement().setTabIndex(-1);
 		getElement().setAttribute("role", "status");
@@ -42,18 +40,7 @@ public class ReaderWidget extends SimplePanel implements ScreenReaderAdapter {
 		getElement().setAttribute("aria-relevant", "additions text");
 		if (Browser.needsAccessibilityView()) {
 			setVisible(false);
-		} else {
-			offscreen(this);
 		}
-	}
-
-	/**
-	 * @param widget
-	 *            widget to hide offscreen
-	 */
-	private static void offscreen(Widget widget) {
-		widget.getElement().getStyle().setTop(-1000.0, Unit.PX);
-		widget.getElement().getStyle().setPosition(Position.ABSOLUTE);
 	}
 
 	private void createTimer() {

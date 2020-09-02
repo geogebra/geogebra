@@ -996,7 +996,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private void setArticleParam(String name, int value) {
-		((AppW) app).getArticleElement().attr(name, value + "");
+		((AppW) app).getAppletParameters().setAttribute(name, value + "");
 
 	}
 

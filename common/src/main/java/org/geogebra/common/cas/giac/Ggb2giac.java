@@ -160,6 +160,10 @@ public class Ggb2giac {
 
 		// Use local function rather than subst to make sure t==5 is not
 		// evaluated to false before subst
+		p("KeepIf.3",
+				"[[ggbkeep(%1):=begin when(%0,[%1],[]);end],flatten1(map(%2,loc->ggbkeep(loc)))][1]");
+		p("KeepIf.2",
+				"[[ggbkeep(x):=begin when(%0,[x],[]);end],flatten1(map(%1,loc->ggbkeep(loc)))][1]");
 		p("CountIf.3",
 				"[[ggbcount(%1):=begin when(%0,1,0);end],sum(map(%2,loc->ggbcount(loc)))][1]");
 		p("CountIf.2",
@@ -930,20 +934,21 @@ public class Ggb2giac {
 		p("Iteration.3", "regroup((unapply(%0,x)@@%2)(%1))");
 		p("IterationList.3",
 				"[[ggbilans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=regroup(f(l[k-1])); od; l; end],ggbilans(unapply(%0,x),%1,%2)][1]");
-		p("PointList.1",
-				// solution is 3D
-				"when(size((%0)[0])==3,"
+
+		String pointList = // solution is 3D
+				"[[ggbplarg:=%0],[when(size((ggbplarg)[0])==3,"
 						// result of Solve,eg {{x=7,y=7,z=7}}
-						+ " flatten1(coordinates(map(%0,t->when((flatten1(t))[0][0]=='='&&type((flatten1(t))[0][2])=='DOM_INT',"
+						+ " flatten1(coordinates(map(ggbplarg,t->when((flatten1(t))[0][0]=='='&&type((flatten1(t))[0][2])=='DOM_INT',"
 						+ "point((flatten1(t))[0][2],(flatten1(t))[1][2],(flatten1(t))[2][2]),"
 						+ "when(type(flatten1(t)[0])==DOM_INT,"
 						// result of Solution,eg (7 7 7)
 						+ "point(t[0],t[1],t[2]),"
 						// result of Solve as 3D Line
 						+ "point((flatten1(t))[0][2],(flatten1(t))[1][2],(flatten1(t))[2][2])))))),"
-						+ "when(type((%0)[0])==DOM_COMPLEX||(type((%0)[0])==DOM_SYMBOLIC&&(%0)[0][0]=='*'"
-						+ "&& (%0)[0][1]==i),%0,"
-						+ "flatten1(coordinates(map(%0,t->when(t[0]=='=',point(re(t[2]),im(t[2])),t))))))");
+						+ "when(type((ggbplarg)[0])==DOM_COMPLEX||(type((ggbplarg)[0])==DOM_SYMBOLIC&&(ggbplarg)[0][0]=='*'"
+						+ "&& (ggbplarg)[0][1]==i),ggbplarg,"
+						+ "flatten1(coordinates(map(ggbplarg,t->when(t[0]=='=',point(re(t[2]),im(t[2])),t))))))]][-1][0]";
+		p("PointList.1", pointList);
 		p("RootList.1", "apply(x->convert([x,0],25),%0)");
 		p("Invert.1",
 				"[[ggbinvans:=0/0],[ggbinvarg:=%0],[ggbinvans:=when(type(ggbinvarg)!=DOM_LIST,"
@@ -1228,7 +1233,7 @@ public class Ggb2giac {
 		// exp2pow(lin(pow2exp()) added for Simplify(x^(8*k+9)*x^(5*k))
 		// factor() for Simplify((x^2+2*x+1)/((x+1)^8))
 		p("Simplify.1",
-				"[[[ggbsimparg:=%0],[ggbsimpans:=?],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg))))],[ggbsimpans2:=factor(exp2pow(lin(pow2exp(ggbsimparg))))]],"
+				"[[[ggbsimparg0:=%0],[ggbsimpans:=?],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg0))))],[ggbsimpans2:=factor(exp2pow(lin(pow2exp(ggbsimparg0))))]],"
 						+ "when(length(\"\"+ggbsimpans)<length(\"\"+ggbsimpans2)||indexOf(?,lname(ggbsimpans2))!=?,ggbsimpans,ggbsimpans2)][1]");
 
 		p("Regroup.1", "regroup(%0)");
@@ -1262,6 +1267,8 @@ public class Ggb2giac {
 				// assumptions>]
 				"when((type(%0)==DOM_SYMBOLIC||type(%0)==DOM_LIST)&&(type(%1)==DOM_IDENT||type(%1)==DOM_LIST),"
 						+ "(assume(%2),solve(%0,%1))[size(assume(%2),solve(%0,%1))-1],?)");
+
+		p("PlotSolve.1", pointList.replace("%0", root1));
 		p("SolveODE.1",
 				"when((%0)[0]=='=',"
 						// case the equation contains only y and other variable

@@ -47,6 +47,9 @@ public class InlineTableControllerW implements InlineTableController {
 		this.table = table;
 		this.view = view;
 		CarotaUtil.ensureInitialized(view.getFontSize());
+		if (view.getApplication().isMebis()) {
+			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
+		}
 		initTable(parent);
 		if (table.getContent() != null) {
 			checkFonts();
