@@ -79,8 +79,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.profiler.FpsProfiler;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
@@ -1744,7 +1744,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public GDimension getPreferredSize() {
 		if (preferredSize == null) {
-			return new GDimensionW(800, 600);
+			return new Dimension(800, 600);
 		}
 		return preferredSize;
 	}

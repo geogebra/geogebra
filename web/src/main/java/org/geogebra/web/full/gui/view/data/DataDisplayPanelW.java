@@ -15,12 +15,12 @@ import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Validation;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.css.GuiResources;
 import org.geogebra.web.full.gui.util.MyToggleButtonW;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -786,7 +786,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		oldWidth = width;
 		oldHeight = height;
 		
-		plotPanel.setPreferredSize(new GDimensionW(width, height));
+		plotPanel.setPreferredSize(new Dimension(width, height));
 		if (optionsPanel.isVisible()) {
 			optionsPanel.resize(w - width - PLOTPANEL_MARGIN, height);
 		}

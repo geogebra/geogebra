@@ -8,4 +8,7 @@ public class CarotaText {
 
 	@JsProperty
 	public native CarotaCache getCache();
+
+	@JsProperty
+	public native void setSelectionColor(String color);
 }

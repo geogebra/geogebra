@@ -13,10 +13,10 @@ public class VectorPrinterMapBuilder2D implements VectorPrinterMapBuilder {
     @Override
     public Map<VectorPrintingMode, Printer> build(PrintableVector vector) {
         Map<VectorPrintingMode, Printer> printerMap = new EnumMap<>(VectorPrintingMode.class);
-        printerMap.put(VectorPrintingMode.Default, new DefaultPrinter(vector));
+        printerMap.put(VectorPrintingMode.Polar, new PolarPrinter(vector));
         printerMap.put(VectorPrintingMode.Cartesian, new CartesianPrinter(vector));
         printerMap.put(VectorPrintingMode.Vector, new VectorPrinter(vector));
-        printerMap.put(VectorPrintingMode.Spherical, new PolarPrinter(vector));
+        printerMap.put(VectorPrintingMode.GiacPolar, new GiacPolarPrinter(vector));
         printerMap.put(VectorPrintingMode.Giac, new GiacPrinter(vector));
         printerMap.put(VectorPrintingMode.CasLatex, new CasLatexPrinter(vector));
         return printerMap;

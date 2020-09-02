@@ -4,9 +4,9 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.panels.ProbabilityCalculatorDockPanelW;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -38,7 +38,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW
 		
 		// set preferred size so that updateSize will work and this EV can be
 		// properly initialized
-		setPreferredSize(new GDimensionW(
+		setPreferredSize(new Dimension(
 				ProbabilityCalculatorDockPanelW.DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		updateSize();
 	}

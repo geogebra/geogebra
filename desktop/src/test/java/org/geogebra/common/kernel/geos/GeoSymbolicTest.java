@@ -1151,6 +1151,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testPlotSolveIsEuclidianVisible() {
+		GeoSymbolic symbolic = add("PlotSolve(x^2-2)");
+		assertThat(symbolic.isEuclidianVisible(), is(true));
+	}
+
+	@Test
 	public void testSymbolicDiffersForSolve() {
 		GeoSymbolic solveX_1 = add("Solve(2x=5)");
 		GeoSymbolic solveX_2 = add("Solve(2x=6)");

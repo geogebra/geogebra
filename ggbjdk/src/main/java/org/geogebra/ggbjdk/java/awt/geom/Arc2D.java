@@ -516,27 +516,6 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * Sets the location, size, angular extents, and closure type of
      * this arc to the specified values.
      *
-     * @param loc The <CODE>Point2D</CODE> representing the coordinates of
-     * the upper-left corner of the arc.
-     * @param size The <CODE>Dimension2D</CODE> representing the width
-     * and height of the full ellipse of which this arc is
-     * a partial section.
-     * @param angSt The starting angle of the arc in degrees.
-     * @param angExt The angular extent of the arc in degrees.
-     * @param closure The closure type for the arc:
-     * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
-     * @since 1.2
-     */
-    public void setArc(GPoint2D loc, Dimension2D size,
-                       double angSt, double angExt, int closure) {
-        setArc(loc.getX(), loc.getY(), size.getWidth(), size.getHeight(),
-               angSt, angExt, closure);
-    }
-
-    /**
-     * Sets the location, size, angular extents, and closure type of
-     * this arc to the specified values.
-     *
      * @param rect The framing rectangle that defines the
      * outer boundary of the full ellipse of which this arc is a
      * partial section.

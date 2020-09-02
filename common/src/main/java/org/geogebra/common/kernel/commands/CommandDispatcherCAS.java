@@ -79,6 +79,7 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case Solve:
 		case NSolutions:
 		case Solutions:
+		case PlotSolve:
 			return new CmdSolve(kernel, c);
 		case CASLoaded:
 			return new CmdCASLoaded(kernel);
