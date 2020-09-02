@@ -27,4 +27,10 @@ public class CarotaUtil {
 			Carota.get().getRuns().getDefaultFormatting().setSize(fontSize);
 		}
 	}
+
+	public static void setSelectionColor(String selectionColor) {
+		if (Carota.get() != null) {
+			Carota.get().getText().setSelectionColor(selectionColor);
+		}
+	}
 }
