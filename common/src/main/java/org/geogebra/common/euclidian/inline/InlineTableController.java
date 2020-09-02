@@ -69,4 +69,8 @@ public interface InlineTableController extends HasTextFormat {
 	void setBorderStyle(BorderType borderType);
 
 	BorderType getBorderStyle();
+
+	void setWrapping(String setting);
+
+	String getWrapping();
 }

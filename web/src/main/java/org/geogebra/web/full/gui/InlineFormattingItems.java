@@ -2,6 +2,7 @@ package org.geogebra.web.full.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.geogebra.common.euclidian.draw.HasTextFormat;
 import org.geogebra.common.euclidian.inline.InlineTableController;
@@ -17,10 +18,12 @@ import org.geogebra.web.full.gui.contextmenu.FontSubMenu;
 import org.geogebra.web.full.gui.dialog.HyperlinkDialog;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.full.javax.swing.InlineTextToolbar;
+import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.shared.components.DialogData;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Command;
 
@@ -88,7 +91,48 @@ public class InlineFormattingItems {
 		addToolbar();
 		addFontSubmenu();
 		addHyperlinkItems();
+		addTextWrappingItem();
 		menu.addSeparator();
+	}
+
+	private void addTextWrappingItem() {
+		if (!inlines.stream().allMatch(f -> f instanceof InlineTableController)) {
+			return;
+		}
+
+		AriaMenuBar wrappingSubmenu = new AriaMenuBar();
+
+		String firstWrapping = ((InlineTableController) inlines.get(0)).getWrapping();
+
+		String wrapping;
+		if (inlines.stream().allMatch(f ->
+				Objects.equals(firstWrapping, ((InlineTableController) f).getWrapping()))) {
+			wrapping = firstWrapping;
+		} else {
+			wrapping = null;
+		}
+
+		for (String setting : new String[] {"wrap", "clip"}) {
+			Scheduler.ScheduledCommand command = () -> {
+				for (HasTextFormat formatter : inlines) {
+					((InlineTableController) formatter).setWrapping(setting);
+				}
+			};
+
+			AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu." + setting),
+					false, command);
+
+			if (setting.equals(wrapping)) {
+				item.addStyleName("highlighted");
+			}
+
+			wrappingSubmenu.addItem(item);
+		}
+
+		AriaMenuItem item = factory.newAriaMenuItem(loc.getMenu("ContextMenu.textWrapping"),
+				false, wrappingSubmenu);
+		item.addStyleName("no-image");
+		menu.addItem(item);
 	}
 
 	void addTableItemsIfNeeded() {
