@@ -818,7 +818,7 @@ public class GGraphics2DW implements GGraphics2DWI {
 	@Override
 	public void fillRoundRect(int x, int y, int width, int height,
 	        int arcWidth, int arcHeight) {
-		roundRect(x, y, width, height, arcHeight - arcHeight / 2);
+		roundRect(x, y, width, height, arcHeight / 2d);
 		context.fill("evenodd");
 	}
 

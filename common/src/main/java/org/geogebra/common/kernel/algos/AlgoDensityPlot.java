@@ -186,7 +186,7 @@ public class AlgoDensityPlot extends AlgoElement {
 			t = AwtFactory.getPrototype().newTextLayout(format(xx), font,
 					g.getFontRenderContext());
 			g.drawString(format(xx), i - t.getAdvance() / 2,
-					imageSize + 2 * offset - offset / 3);
+					imageSize + 2 * offset - offset / 3d);
 			g.drawString(format(yy), 1, i + 4);
 			yy -= incY * gridPixel * 5 / grade;
 			xx += incX * gridPixel * 5 / grade;
