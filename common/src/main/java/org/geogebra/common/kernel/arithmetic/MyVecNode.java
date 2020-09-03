@@ -227,7 +227,7 @@ public class MyVecNode extends ValidExpression
 		if (mode == Kernel.COORD_CARTESIAN) {
 			stringifier.setPrintingMode(VectorPrintingMode.Cartesian);
 		} else {
-			stringifier.setPrintingMode(VectorPrintingMode.Default);
+			stringifier.setPrintingMode(VectorPrintingMode.Polar);
 		}
 	}
 

@@ -2526,6 +2526,7 @@ var __giac = [ {},
 { cat:"CompleteSquare", cmd:"CompleteSquare(a x^4-4x^2+6)", result:"6 - 16 / (4a) + a (x\u00B2 - 4 / (2a))\u00B2" },
 { cat:"CompleteSquare", cmd:"CompleteSquare(a x^4-4x^2)", result:"a (x\u00B2 - 4 / (2a))\u00B2 - 16 / (4a)" },
 { cat:"CompleteSquare", cmd:"CompleteSquare(a x^2-4x)", result:"a (x - 4 / (2a))\u00B2 - 16 / (4a)" },
+{ cat:"PlotSolve.1", cmd:"PlotSolve(x^2-2)", result:"{(-sqrt(2), 0), (sqrt(2), 0)}" },
 //JSONEND
 
 // gives odd result, tricky to fix

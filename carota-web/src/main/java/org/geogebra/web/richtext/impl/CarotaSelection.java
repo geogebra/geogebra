@@ -5,6 +5,6 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true)
 class CarotaSelection {
 
-	public int x;
-	public int y;
+	public int col0;
+	public int row0;
 }

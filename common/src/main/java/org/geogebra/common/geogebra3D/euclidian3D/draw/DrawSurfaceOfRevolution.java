@@ -116,7 +116,7 @@ public class DrawSurfaceOfRevolution extends Drawable3DSurfaces
 	 */
 	public void createAngle() {
 		Hits hits = new Hits();
-		double angleValue = Math.PI;
+		double angleValue = 2 * Math.PI;
 		if (angle != null
 				&& angle.getValue() > RotationConverter.SNAP_PRECISION) {
 			angleValue = angle.getValue();

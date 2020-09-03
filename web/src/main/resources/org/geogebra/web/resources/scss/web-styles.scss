@@ -208,7 +208,6 @@
 		cursor: default;
 		opacity: .5;
 		zoom: 1;
-		filter: ~'alpha(opacity = 50)';
 	}
 
 	.gwt-Button[disabled="disabled"]:hover,
@@ -385,7 +384,6 @@
 	.gwt-PopupPanelGlass {
 		background-color: #FFF;
 		opacity: 0.7;
-		filter: ~'alpha(opacity = 70)';
 		z-index: 500;
 	}
 
@@ -475,7 +473,6 @@
 		cursor: default !important;
 		opacity: .5;
 		zoom: 1;
-		filter: ~'alpha(opacity = 50)';
 	}
 
 	.MyCanvasButton.disabled:hover {
@@ -856,7 +853,7 @@
 	.TitleBarPanel {
 		left: auto !important;
 		bottom: auto !important;
-		max-width: ~'calc(100% - 4px)';
+		max-width: calc(100% - 4px);
 		overflow: hidden;
 	}
 
@@ -2609,7 +2606,7 @@
 	.functionInspectorMainPanel > .panelRow .gwt-Label {
 		padding: 10px;
 		font-size: 115%;
-		width: ~'calc(100% - 150px)';
+		width: calc(100% - 150px);
 	}
 
 	.functionInspectorMainPanel .panelRowIndent .MyToggleButton {

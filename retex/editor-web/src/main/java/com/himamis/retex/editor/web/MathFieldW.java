@@ -599,7 +599,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 	 */
 	public void paint(Context2d ctx, int top) {
 		JlmLib.draw(lastIcon, ctx, 0, top, new ColorW(foregroundCssColor),
-				backgroundCssColor, null, ratio);
+				new ColorW(backgroundCssColor), null, ratio);
 	}
 
 	private boolean isEdited() {

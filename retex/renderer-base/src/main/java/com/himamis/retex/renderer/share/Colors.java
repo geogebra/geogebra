@@ -298,13 +298,17 @@ public class Colors {
 				.createColor((float) R, (float) G, (float) B);
 	}
 
-	public static Color decode(String string) throws NumberFormatException {
-		int val = Integer.decode(string);
-		return GRAPHICS_FACTORY.createColor(
-				(val >> 16) & 0xFF,
-				(val >> 8) & 0xFF,
-				val & 0xFF
-		);
+	public static Color decode(String string) {
+		try {
+			int val = Integer.decode(string);
+			return GRAPHICS_FACTORY.createColor(
+					(val >> 16) & 0xFF,
+					(val >> 8) & 0xFF,
+					val & 0xFF
+			);
+		} catch (NumberFormatException e) {
+			return null;
+		}
 	}
 
 	/**

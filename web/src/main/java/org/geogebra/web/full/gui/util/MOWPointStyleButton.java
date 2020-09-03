@@ -134,7 +134,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 		canvas.getContext2d().clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 		updateGeo();
 		drawPoint.update();
-		drawPoint.updateStylePreview(CANVAS_SIZE / 2, CANVAS_SIZE / 2);
+		drawPoint.updateStylePreview(CANVAS_SIZE / 2d, CANVAS_SIZE / 2d);
 		drawPoint.draw(g2);
 
 	}

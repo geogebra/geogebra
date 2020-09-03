@@ -88,7 +88,7 @@ public final class CommandFilterFactory {
 				Commands.SolveODE, Commands.ImplicitDerivative,
 				Commands.NextPrime, Commands.PreviousPrime, Commands.Solve,
 				Commands.Solutions, Commands.NSolutions, Commands.NSolve,
-				Commands.RemovableDiscontinuity);
+				Commands.RemovableDiscontinuity, Commands.PlotSolve);
 		return commandNameFilter;
 	}
 

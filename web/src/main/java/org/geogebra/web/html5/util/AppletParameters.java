@@ -679,6 +679,20 @@ public class AppletParameters {
 	}
 
 	/**
+	 * @return the background color of the evaluator app
+	 */
+	public String getDataParamEditorBackgroundColor() {
+		return getStringDataParam("editorBackgroundColor", "white");
+	}
+
+	/**
+	 * @return the text color of the evaluator app
+	 */
+	public String getDataParamEditorForegroundColor() {
+		return getStringDataParam("editorForegroundColor", "black");
+	}
+
+	/**
 	 *
 	 * @return wether is multiuser applet
 	 */

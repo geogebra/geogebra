@@ -1460,4 +1460,9 @@ public class CAStestJSON {
 	public void testIsInteger() {
 		testCat("IsInteger.1");
 	}
+
+	@Test
+	public void testPlotSolve() {
+		testCat("PlotSolve.1");
+	}
 }
