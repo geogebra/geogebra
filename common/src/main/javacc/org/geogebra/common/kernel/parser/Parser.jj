@@ -78,7 +78,6 @@ public class Parser implements ParserInterface {
     private boolean geoGebraCASParsing = false;
     private boolean externalCASParsing = false;
     private boolean giacParsing = false;
-    private boolean inputBoxParsing = false;
 
     private boolean enableStructures = true;
     private FunctionParser functionParser;
@@ -118,7 +117,7 @@ public class Parser implements ParserInterface {
 		geoGebraCASParsing = false;
 		externalCASParsing = false;
 		giacParsing = false;
-		inputBoxParsing = false;
+		functionParser.setInputBoxParsing(false);
 		enableStructures = kernel.getAlgebraProcessor().enableStructures();
 		undecided.clear();
 	}
@@ -135,7 +134,7 @@ public class Parser implements ParserInterface {
 
 	public ValidExpression parseInputBoxExpression(String parseString) throws ParseException {
     	myReInit(stripEqualSign(parseString));
-    	inputBoxParsing = true;
+    	functionParser.setInputBoxParsing(true);
 		ValidExpression ret = buildValidExpression();
 		processUndecided();
 		return ret;
@@ -1808,7 +1807,7 @@ ExpressionNode numberFunction():
   // note: the last character of FUNCTION_LABEL is a "("
     {
         // remove the opening parenthesis
-        return functionParser.makeFunctionNode(c.image,myList, undecided, giacParsing, geoGebraCASParsing, inputBoxParsing);
+        return functionParser.makeFunctionNode(c.image,myList, undecided, giacParsing, geoGebraCASParsing);
     }
 }
 

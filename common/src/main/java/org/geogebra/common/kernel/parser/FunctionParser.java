@@ -48,6 +48,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class FunctionParser {
 	private final Kernel kernel;
 	private final App app;
+	private boolean inputBoxParsing = false;
 
 	/**
 	 * @param kernel
@@ -56,6 +57,10 @@ public class FunctionParser {
 	public FunctionParser(Kernel kernel) {
 		this.kernel = kernel;
 		this.app = kernel.getApplication();
+	}
+
+	public void setInputBoxParsing(boolean inputBoxParsing) {
+		this.inputBoxParsing = inputBoxParsing;
 	}
 
 	/**
@@ -70,8 +75,7 @@ public class FunctionParser {
 	 * @return function node
 	 */
 	public ExpressionNode makeFunctionNode(String cimage, MyList myList,
-			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing,
-			boolean inputBoxParsing) {
+			ArrayList<ExpressionNode> undecided, boolean giacParsing, boolean geoGebraCASParsing) {
 		String funcName = cimage.substring(0, cimage.length() - 1);
 		ExpressionNode en;
 		if (giacParsing) {
@@ -246,6 +250,7 @@ public class FunctionParser {
 				&& !kernel.getLoadingMode()
 				&& !isCommand(funcName)) {
 			VariableReplacerAlgorithm replacer = new VariableReplacerAlgorithm(kernel);
+			replacer.setMultipleUnassignedAllowed(inputBoxParsing);
 			ExpressionValue exprWithDummyArg = replacer.replace(funcName + "$");
 			if (exprWithDummyArg.isExpressionNode()
 					&& exprWithDummyArg.wrap().getOperation() ==  Operation.MULTIPLY
@@ -277,7 +282,8 @@ public class FunctionParser {
 		if (size == 1 && "log".equals(funcName) && kernel.getLoadingMode()) {
 			return Operation.LOG;
 		}
-		return app.getParserFunctions().get(funcName, size);
+
+		return app.getParserFunctions(inputBoxParsing).get(funcName, size);
 	}
 
 	private static boolean hasDerivative(GeoElement geo) {
@@ -511,16 +517,17 @@ public class FunctionParser {
 	 */
 	public ExpressionValue multiplySpecial(ExpressionValue left,
 			ExpressionValue right, boolean giacParsing, boolean geogebraCasParsing) {
+
 		String leftImg;
 		App app = kernel.getApplication();
 
 		// sin x in GGB is function application if "sin" is not a variable
 		if (left instanceof Variable) {
 			leftImg = left.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
+			Operation op = app.getParserFunctions(inputBoxParsing).getSingleArgumentOp(leftImg);
+
 			if (op != null) {
 				return new ExpressionNode(kernel, right, op, null);
-
 			}
 			if (leftImg.startsWith("log_")
 					&& kernel.lookupLabel(leftImg) == null) {
@@ -538,7 +545,7 @@ public class FunctionParser {
 				&& ((ExpressionNode) left).getLeft() instanceof Variable) {
 			leftImg = ((ExpressionNode) left).getLeft()
 					.toString(StringTemplate.defaultTemplate);
-			Operation op = app.getParserFunctions().getSingleArgumentOp(leftImg);
+			Operation op = app.getParserFunctions(inputBoxParsing).getSingleArgumentOp(leftImg);
 			if (op != null) {
 				ExpressionValue exponent = ((ExpressionNode) left).getRight()
 						.unwrap();

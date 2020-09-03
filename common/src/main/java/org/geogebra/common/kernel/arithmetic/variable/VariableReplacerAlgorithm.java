@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.parser.function.ParserFunctions;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 
@@ -44,7 +45,9 @@ public class VariableReplacerAlgorithm {
 	}
 
 	private ExpressionValue tokenize(String expressionString) {
-		InputTokenizer tokenizer = new InputTokenizer(kernel, expressionString);
+		ParserFunctions parserFunctions = kernel.getApplication()
+			.getParserFunctions(multipleUnassignedAllowed);
+		InputTokenizer tokenizer = new InputTokenizer(kernel, parserFunctions, expressionString);
 		String next = expressionString;
 		if (tokenizer.hasToken()) {
 			next = tokenizer.next();
@@ -55,7 +58,7 @@ public class VariableReplacerAlgorithm {
 					return new ExpressionNode(kernel, logIndex, Operation.LOGB, logArg);
 				}
 			}
-			Operation op = kernel.getApplication().getParserFunctions().getSingleArgumentOp(next);
+			Operation op = parserFunctions.getSingleArgumentOp(next);
 			op = ArcTrigReplacer.getDegreeInverseTrigOp(op);
 			if (op != null) {
 				ExpressionValue arg = tokenize(tokenizer.getInputRemaining());
