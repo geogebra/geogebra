@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
@@ -24,7 +24,7 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
-public class ExamEnvironment {
+public abstract class ExamEnvironment {
 
 	private static final long EXAM_START_TIME_NOT_STARTED = -1;
 
@@ -44,30 +44,29 @@ public class ExamEnvironment {
 	private static final CommandFilter noCASFilter = CommandFilterFactory
 			.createNoCasCommandFilter();
 
-	/**
-	 * application
-	 */
-	protected App app;
-	private Localization localization;
-
 	private long ignoreBlurUntil = -1;
 	private boolean temporaryBlur;
-
-	private CommandDispatcher commandDispatcher;
 	private boolean wasCasEnabled;
 
-	/**
-	 *
-	 * @param app
-	 *            application
-	 */
-	public ExamEnvironment(App app) {
-		this.app = app;
-		this.localization = app.getLocalization();
+	public ExamEnvironment() {
 		cheatingEvents = new CheatingEvents();
-		commandDispatcher = app.getKernel().getAlgebraProcessor().getCommandDispatcher();
-		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
 	}
+
+	protected abstract Localization getLocalization();
+
+	protected abstract CommandDispatcher getCommandDispatcher();
+
+	protected abstract boolean isUnbundled();
+
+	protected abstract CopyPaste getCopyPaste();
+
+	protected abstract void copyTextToSystemClipboard(String text);
+
+	protected abstract void clearAll();
+
+	protected abstract AppConfig getConfig();
+
+	protected abstract Settings getSettings();
 
 	/**
 	 * @return exam start timestamp
@@ -146,6 +145,7 @@ public class ExamEnvironment {
 	 * @return The translation identified by the Translation parameter.
 	 */
 	public String getTranslatedString(Translation translation) {
+		Localization localization = getLocalization();
 		switch (translation) {
 		case EXAM_MODE:
 			return localization.getMenu("exam_menu_entry");
@@ -182,21 +182,21 @@ public class ExamEnvironment {
 		// eg "23 October 2015"
 		// don't use \\S for 23rd (not used in eg French)
 		return CmdGetTime.buildLocalizedDate("\\j \\F \\Y",
-				new Date(examStartTime), localization);
+				new Date(examStartTime), getLocalization());
 	}
 
 	/**
 	 * @return The exam start time in localized format.
 	 */
 	public String getStartTime() {
-		return getLocalizedTimeOnly(localization, examStartTime);
+		return getLocalizedTimeOnly(getLocalization(), examStartTime);
 	}
 
 	/**
 	 * @return The exam end time in localized format.
 	 */
 	public String getEndTime() {
-		return getLocalizedTimeOnly(localization, closed);
+		return getLocalizedTimeOnly(getLocalization(), closed);
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class ExamEnvironment {
 			return "";
 		}
 		ExamLogBuilder logBuilder = new ExamLogBuilder();
-		appendLogTimes(localization, logBuilder, withEndTime);
+		appendLogTimes(getLocalization(), logBuilder, withEndTime);
 		return logBuilder.toString().trim();
 	}
 
@@ -342,7 +342,7 @@ public class ExamEnvironment {
 	 *            log builder
 	 */
 	public void getLog(Localization loc, Settings settings, ExamLogBuilder sb) {
-		if (!app.isUnbundled()) {
+		if (!isUnbundled()) {
 			appendSettings(loc, settings, sb);
 		}
 		appendStartEnd(loc, sb, true);
@@ -434,11 +434,11 @@ public class ExamEnvironment {
 	}
 
 	private void clearClipboard() {
-		CopyPaste copyPaste = app.getCopyPaste();
+		CopyPaste copyPaste = getCopyPaste();
 		if (copyPaste != null) {
 			copyPaste.clearClipboard();
 		}
-		app.copyTextToSystemClipboard("");
+		copyTextToSystemClipboard("");
 	}
 
 	/**
@@ -450,12 +450,11 @@ public class ExamEnvironment {
 		disableExamCommandFilter();
 		setShowSyntax(true);
 
-		app.fileNew();
+		clearAll();
 	}
 
 	private void setShowSyntax(boolean showSyntax) {
-		CommandErrorMessageBuilder builder = localization
-				.getCommandErrorMessageBuilder();
+		CommandErrorMessageBuilder builder = getLocalization().getCommandErrorMessageBuilder();
 		builder.setShowingSyntax(showSyntax);
 	}
 
@@ -463,14 +462,14 @@ public class ExamEnvironment {
 	 * @return calculator name for status bar
 	 */
 	public String getCalculatorNameForStatusBar() {
-		return localization.getMenu(app.getConfig().getAppNameShort());
+		return getLocalization().getMenu(getConfig().getAppNameShort());
 	}
 
 	/**
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
-		return localization.getMenu(app.getConfig().getAppNameShort());
+		return getLocalization().getMenu(getConfig().getAppNameShort());
 	}
 
 	/**
@@ -566,13 +565,13 @@ public class ExamEnvironment {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
 		if (examStartTime < 0) {
-			return timeFormatter.format(localization.getLocale(), "%02d:%02d",
+			return timeFormatter.format(getLocalization().getLocale(), "%02d:%02d",
 					0);
 		}
 
 		int millis = (int) (timestamp - examStartTime);
 
-		return timeFormatter.format(localization.getLocale(), "%02d:%02d",
+		return timeFormatter.format(getLocalization().getLocale(), "%02d:%02d",
 				millis);
 	}
 
@@ -588,7 +587,7 @@ public class ExamEnvironment {
 	 * sets the exam command filter for the duration of the exam mode.
 	 */
 	private void enableExamCommandFilter() {
-		commandDispatcher.addCommandArgumentFilter(examCommandFilter);
+		getCommandDispatcher().addCommandArgumentFilter(examCommandFilter);
 	}
 
 	/**
@@ -612,7 +611,7 @@ public class ExamEnvironment {
 	 * the CommandDispatcher
 	 */
 	private void disableExamCommandFilter() {
-		commandDispatcher.removeCommandArgumentFilter(examCommandFilter);
+		getCommandDispatcher().removeCommandArgumentFilter(examCommandFilter);
 	}
 
 	/**
@@ -657,15 +656,15 @@ public class ExamEnvironment {
 
 	private void enableCAS() {
 		getCasSettings().setEnabled(true);
-		commandDispatcher.removeCommandFilter(noCASFilter);
+		getCommandDispatcher().removeCommandFilter(noCASFilter);
 	}
 
 	private void disableCAS() {
 		getCasSettings().setEnabled(false);
-		commandDispatcher.addCommandFilter(noCASFilter);
+		getCommandDispatcher().addCommandFilter(noCASFilter);
 	}
 
 	private CASSettings getCasSettings() {
-		return app.getSettings().getCasSettings();
+		return getSettings().getCasSettings();
 	}
 }

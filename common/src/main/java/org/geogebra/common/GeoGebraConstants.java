@@ -114,6 +114,8 @@ public interface GeoGebraConstants {
 
 	}
 
+	enum MenuType {DEFAULT, EXAM}
+
 	/**
 	 * used by version checker, so that sys admins can disable version checking
 	 * for *all* ggb versions with

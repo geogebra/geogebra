@@ -376,7 +376,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
 	private SpreadsheetTraceManager traceManager;
-	private ExamEnvironment exam;
 
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
@@ -4126,11 +4125,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public ExamEnvironment getExam() {
-		return exam;
+		return null;
 	}
 
 	public boolean isExam() {
-		return exam != null;
+		return getExam() != null;
 	}
 
 	public boolean isExamStarted() {
@@ -4138,11 +4137,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public void setExam(ExamEnvironment exam) {
-		this.exam = exam;
 	}
 
 	public void setNewExam() {
-		setExam(new ExamEnvironment(this));
 	}
 
 	/**
