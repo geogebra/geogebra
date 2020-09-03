@@ -57,7 +57,6 @@ public class ParserFunctionsFactory {
 		put2(pf, 1, "sec", Operation.SEC);
 		put2(pf, 1, "cot", Operation.COT);
 		put2(pf, 1, "cotan", Operation.COT);
-		put2(pf, 1, "ctg", Operation.COT);
 
 		put2(pf, 1, "sinh", Operation.SINH);
 		put2(pf, 1, "cosh", Operation.COSH);
@@ -67,91 +66,46 @@ public class ParserFunctionsFactory {
 		put2(pf, 1, "sech", Operation.SECH);
 		put2(pf, 1, "coth", Operation.COTH);
 		put2(pf, 1, "cotanh", Operation.COTH);
-		put2(pf, 1, "ctgh", Operation.COTH);
 
 		put(pf, 1, "asind", Operation.ARCSIND);
 		put(pf, 1, "arcsind", Operation.ARCSIND);
-		put2(pf, 1, "arcSind", Operation.ARCSIND);
 
 		put(pf, 1, "acosd", Operation.ARCCOSD);
 		put(pf, 1, "arccosd", Operation.ARCCOSD);
-		put2(pf, 1, "arcCosd", Operation.ARCCOSD);
 
 		put(pf, 1, "atand", Operation.ARCTAND);
 		put(pf, 1, "arctand", Operation.ARCTAND);
-		put2(pf, 1, "arcTand", Operation.ARCTAND);
 
 		put(pf, 2, "atan2d", Operation.ARCTAN2D, "( <y>, <x> )");
 		put(pf, 2, "arctan2d", Operation.ARCTAN2D, "( <y>, <x> )");
-		put(pf, 2, "arcTan2d", Operation.ARCTAN2D, null);
-		put(pf, 2, "ArcTan2d", Operation.ARCTAN2D, null);
 
 		put2(pf, 1, "asin", Operation.ARCSIN);
-		put2(pf, 1, "arcsin", Operation.ARCSIN);
-		put(pf, 1, "aSin", Operation.ARCSIN, null);
-		put(pf, 1, "ASin", Operation.ARCSIN, null);
-		put(pf, 1, "arcSin", Operation.ARCSIN, null);
 		put(pf, 1, "arsin", Operation.ARCSIN, null);
-		put(pf, 1, "arSin", Operation.ARCSIN, null);
-		put(pf, 1, "ArcSin", Operation.ARCSIN, null);
+		put2(pf, 1, "arcsin", Operation.ARCSIN);
 
 		put2(pf, 1, "acos", Operation.ARCCOS);
-		put2(pf, 1, "arccos", Operation.ARCCOS);
-		put(pf, 1, "ACos", Operation.ARCCOS, null);
-		put(pf, 1, "aCos", Operation.ARCCOS, null);
-		put(pf, 1, "arcCos", Operation.ARCCOS, null);
 		put(pf, 1, "arcos", Operation.ARCCOS, null);
-		put(pf, 1, "arCos", Operation.ARCCOS, null);
-		put(pf, 1, "ArcCos", Operation.ARCCOS, null);
+		put2(pf, 1, "arccos", Operation.ARCCOS);
 
 		put2(pf, 1, "atan", Operation.ARCTAN);
-		put2(pf, 1, "arctan", Operation.ARCTAN);
-		put(pf, 1, "aTan", Operation.ARCTAN, null);
-		put(pf, 1, "ATan", Operation.ARCTAN, null);
-		put(pf, 1, "arcTan", Operation.ARCTAN, null);
 		put(pf, 1, "artan", Operation.ARCTAN, null);
-		put(pf, 1, "arTan", Operation.ARCTAN, null);
-		put(pf, 1, "ArcTan", Operation.ARCTAN, null);
+		put2(pf, 1, "arctan", Operation.ARCTAN);
 
 		put(pf, 1, "asinh", Operation.ASINH);
-		put(pf, 1, "aSinh", Operation.ASINH, null);
-		put(pf, 1, "Asinh", Operation.ASINH, null);
-		put(pf, 1, "ASinh", Operation.ASINH, null);
-		put(pf, 1, "Arcsinh", Operation.ASINH, null);
-		put(pf, 1, "ArcSinh", Operation.ASINH, null);
 		put(pf, 1, "arsinh", Operation.ASINH, null);
-		put(pf, 1, "arSinh", Operation.ASINH, null);
 		put(pf, 1, "arcsinh", Operation.ASINH);
-		put(pf, 1, "arcSinh", Operation.ASINH, null);
 
 		put(pf, 1, "acosh", Operation.ACOSH);
-		put(pf, 1, "aCosh", Operation.ACOSH, null);
-		put(pf, 1, "Acosh", Operation.ACOSH, null);
-		put(pf, 1, "ACosh", Operation.ACOSH, null);
-		put(pf, 1, "arccosh", Operation.ACOSH);
-		put(pf, 1, "arcCosh", Operation.ACOSH, null);
 		put(pf, 1, "arcosh", Operation.ACOSH, null);
-		put(pf, 1, "arCosh", Operation.ACOSH, null);
-		put(pf, 1, "Arccosh", Operation.ACOSH, null);
-		put(pf, 1, "ArcCosh", Operation.ACOSH, null);
+		put(pf, 1, "arccosh", Operation.ACOSH);
 
-		put2(pf, 1, "arctanh", Operation.ATANH);
-		put(pf, 1, "arcTanh", Operation.ATANH, null);
 		put2(pf, 1, "atanh", Operation.ATANH);
-		put(pf, 1, "aTanh", Operation.ATANH, null);
-		put(pf, 1, "ATanh", Operation.ATANH, null);
 		put(pf, 1, "artanh", Operation.ATANH, null);
-		put(pf, 1, "arTanh", Operation.ATANH, null);
-		put(pf, 1, "ArcTanh", Operation.ATANH, null);
+		put2(pf, 1, "arctanh", Operation.ATANH);
 
 		put2(pf, 2, "atan2", Operation.ARCTAN2, "( <y>, <x> )");
 		put(pf, 2, "artan2", Operation.ARCTAN2, null);
 		put2(pf, 2, "arctan2", Operation.ARCTAN2, "( <y>, <x> )");
-		put(pf, 2, "aTan2", Operation.ARCTAN2, null);
-		put(pf, 2, "ATan2", Operation.ARCTAN2, null);
-		put(pf, 2, "arTan2", Operation.ARCTAN2, null);
-		put(pf, 2, "arcTan2", Operation.ARCTAN2, null);
-		put(pf, 2, "ArcTan2", Operation.ARCTAN2, null);
 
 		put2(pf, 1, "erf", Operation.ERF);
 
