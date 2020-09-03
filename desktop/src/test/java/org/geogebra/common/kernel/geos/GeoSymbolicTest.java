@@ -321,7 +321,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
 		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
 		t("Solve(12exp(x)=150)", "{x = ln(25 / 2)}");
-		testValidResultCombinations("Solve(cos(x)=sin(x))", "{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}",
+		testValidResultCombinations("Solve(cos(x)=sin(x))",
+				"{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}",
 				"{x = 2 * k_1 * " + pi + " - 3 / 4 * π, x = 2 * k_2 * " + pi + " + 1 / 4 * π}");
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
@@ -1209,4 +1210,24 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				derivative.toValueString(StringTemplate.defaultTemplate),
 				equalTo("1 / 200 ℯ^((-1) / 40 x)"));
 	}
+
+	@Test
+	public void testMin() {
+		t("Min({-2, 12, -23, 17, 15})", "-23");
+		t("Min(2 < x < 3)", "2");
+		t("Min(12, 15)", "12");
+		t("Min(ℯ^x*x^3,-4,-2)", "-3");
+		t("Min({1, 2, 3, 4, 5}, {0, 3, 4, 2, 3})", "2");
+	}
+
+	@Test
+	public void testMax() {
+		t("Max({-2, 12, -23, 17, 15})", "17");
+		t("Max(2 < x < 3)", "3");
+		t("Max(12, 15)", "15");
+		t("Max(exp(x)x^2,-3,-1)", "-2");
+		t("Max({1, 2, 3, 4, 5}, {5, 3, 4, 2, 0})", "4");
+	}
+
+
 }

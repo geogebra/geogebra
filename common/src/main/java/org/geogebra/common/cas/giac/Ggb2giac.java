@@ -22,7 +22,7 @@ public class Ggb2giac {
 	/** Giac syntax for Element(list,index) */
 	public static final String ELEMENT_2 = "when(%1>0&&%1<=size(%0),(%0)[%1-when(type(%0)==DOM_LIST,1,0)],?)";
 	private static final String GGBVECT_TYPE = "27";
-	private static Map<String, String> commandMap = new TreeMap<>();
+	private static final Map<String, String> commandMap = new TreeMap<>();
 
 	/**
 	 * @param signature
@@ -1031,14 +1031,14 @@ public class Ggb2giac {
 		p("LimitBelow.3",
 				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1,%2,-1)],[ggblimvans:=when(ggblimvans==inf||ggblimvans==-inf||ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 
-		p("Max.N",
-				"[[ggbmaxarg:=%],when(type(ggbmaxarg)==DOM_LIST,when(type((ggbmaxarg)[0])==DOM_LIST,?,max(ggbmaxarg)),?)][1]");
 		p("MatrixRank.1", "rank(%0)");
 		p("mean.1", listToNumber("mean"));
 		p("Mean.1", listToNumber("mean"));
 		p("Median.1", "median(%0)");
-		p("Min.N",
-				"[[ggbminarg:=%],when(type(ggbminarg)==DOM_LIST,when(type((ggbminarg)[0])==DOM_LIST,?,min(ggbminarg)),?)][1]");
+
+		pOptimize("Min", "min", "fMin");
+		pOptimize("Max", "max", "fMax");
+
 		p("MixedNumber.1", "propfrac(%0)");
 
 		p("Mod.2", "ggbmod(%0,%1)");
@@ -1925,6 +1925,23 @@ public class Ggb2giac {
 		p("IsInteger.1", "when(type(%0)==DOM_INT,round(%0)==%0, false)");
 
 		return commandMap;
+	}
+
+	private static void pOptimize(String optimize, String optimizeGiac, String optimizeGiacFun) {
+		p(optimize + ".1", "[[ggbarg:=%0],"
+				+ " when(type(ggbarg)==DOM_LIST,"
+				+ "  when(type((ggbarg)[0])==DOM_LIST,?," + optimizeGiac + "(ggbarg)),"
+				+ "  when((ggbarg)[0]=='and',[[ggbnumb:=(a,b)->when(type(a)==DOM_IDENT,b,a)],"
+				+ "   [ggba:=ggbnumb(ggbarg[1][1],ggbarg[1][2])],"
+				+ "   [ggbb:=ggbnumb(ggbarg[2][1],ggbarg[2][2])],"
+				+ "   " + optimizeGiac + "(ggba,ggbb)][3],?))"
+				+ "][1]");
+		p(optimize + ".2", "[[ggbparam1:=%0],[ggbparam2:=%1],"
+				+ "when(type(ggbparam1)==DOM_LIST&&type(ggbparam2)==DOM_LIST,"
+				+ optimizeGiac + "(map(remove(x->(x[1]<=0), zip((x,y)->[x,y], ggbparam1, ggbparam2)), x->x[0])),"
+				+ optimizeGiac + "(ggbparam1,ggbparam2))][2]");
+		p(optimize + ".3", "[[ggbfun:=%0], [ggbinta:=%1],[ggbintb:=%2],"
+				+ optimizeGiacFun + "(ggbfun, lname(ggbfun)[0]=ggbinta..ggbintb)][3][0][2]");
 	}
 
 	private static String listToNumber(String string) {
