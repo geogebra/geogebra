@@ -1193,7 +1193,6 @@ public class ConstructionDefaults {
 	 */
 	public void getDefaultsXML(StringBuilder sb2d, StringBuilder sb3d) {
 
-		String appCode = cons.getApplication().getConfig().getAppCode();
 		MyXMLio.addXMLHeader(sb2d);
 		MyXMLio.addBasicAppInfo(sb2d, true, null, cons.getApplication());
 		sb2d.append("<defaults>\n");
