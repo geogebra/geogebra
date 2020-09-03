@@ -13,10 +13,19 @@
 <button onclick="window.open(location.href)" style="margin-top:56px">Local test</button>
 
 <script>
+        var userDatabase = [
+            {id:7, name:'Hypatia', color: '#2E7D3280'},
+            {id:13, name:'Ada', color: '#1565C080'},
+            {id:17, name:'Sophie', color: '#D32F2F80'},
+            {id:23, name:'Emmy', color: '#DB611480'},
+            {id:29, name:'Helge', color: '#6557D280'},
+            {id:31, name:'', color: '#61616180'},
+            {id:37, name:'', color: '#D81B6080'},
+        ]
         var updatingOn = true;
 
         var dispatchNext = 0;
-        var api1;
+        var api1, live;
         function getUrlParam(param) {
             var parts = location.href.split("?");
             if(parts.length<2){
@@ -35,7 +44,7 @@
                 var events = JSON.parse(localStorage.getItem("ggbEvents") || "[]");
                 for (var index = dispatchNext; index < events.length; index++) {
                     var last = events[index];
-                    GeoGebraLive.dispatch(last);
+                    live.dispatch(last);
                 }
                 if (events.length > 0) {
                     api1.setUndoPoint();
@@ -75,12 +84,20 @@
         };
 
 
-
         parameters1.id = "ggbApplet1";
         parameters1.appletOnLoad = function(api) {
+            if (api1) {
+               return;
+            }
+            var userCount = parseInt(localStorage.getItem('ggbUserCount') || '0');
+            localStorage.setItem('ggbUserCount', userCount + 1);
             console.log("applet1 loaded");
             api1 = api;
-            GeoGebraLive.start(api, storageEventBus);
+            live = new GeoGebraLive(api, userDatabase[userCount].id);
+            userDatabase.forEach(function(user){
+                live.addUser(user);
+            });
+            live.start([], storageEventBus);
         }
 
         var applet1 = new GGBApplet(parameters1, '5.0');

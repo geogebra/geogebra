@@ -687,8 +687,12 @@ public class ApiExporter {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLanguage(Ljava/lang/String;)(lang + "");
 		};
 
-		api.showTooltip = function(lang) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;)(lang + "");
+		api.showTooltip = function(content, label, color) {
+			if (label) {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content + "", label + "", color + "");
+			} else {
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;)(content + "");
+			}
 		};
 
 		// APPS-646 deprecated, needs changing to getValue("correct")

@@ -1,8 +1,9 @@
 (function() {
-    function LiveApp(parentClientId, embedLabel) {
+    function LiveApp(parentClientId, embedLabel, users) {
         this.api = null;
         this.eventCallback;
-        this.clientId = parentClientId || btoa(Math.random()).substring(0, 8);
+        this.users = users || {};
+        this.clientId = parentClientId;
         this.embeds = {};
         this.sendEvent = function() {
             var type = arguments[0];
@@ -11,7 +12,7 @@
                 "type": type,
                 "content": content,
                 "embedLabel": embedLabel,
-                "client": this.clientId
+                "clientId": this.clientId
             }
             if (arguments[2]) {
                 event.label = arguments[2];
@@ -49,7 +50,7 @@
             var calc = (this.api.getEmbeddedCalculators() || {})[label];
             if (calc) {
                 if (calc.registerClientListener) {
-                    var calcLive = new LiveApp(this.clientId, label);
+                    var calcLive = new LiveApp(this.clientId, label, this.users);
                     calcLive.api = calc;
                     calcLive.eventCallback = this.eventCallback;
                     calcLive.registerListeners();
@@ -78,10 +79,10 @@
 
                         let commandString = that.api.getCommandString(label, false);
                         if (commandString) {
-                            that.sendEvent("evalCommand", label + " = " + commandString);
+                            that.sendEvent("evalCommand", label + " = " + commandString, label);
                         } else {
                             let xml = that.api.getXML(label);
-                            that.sendEvent("evalXML", xml);
+                            that.sendEvent("evalXML", xml, label);
                         }
                         that.sendEvent("previewRefresh");
                     }
@@ -117,9 +118,9 @@
 
             var definition = this.api.getCommandString(label);
             if (definition) {
-                this.sendEvent("evalXML", this.api.getAlgorithmXML(label));
+                this.sendEvent("evalXML", this.api.getAlgorithmXML(label), label);
             } else {
-                this.sendEvent("evalXML", xml);
+                this.sendEvent("evalXML", xml, label);
             }
             this.sendEvent("previewRefresh");
             window.setTimeout(function(){
@@ -212,8 +213,15 @@
             this.api.unregisterClientListener(clientListener);
         };
 
+        this.showHint = function(event) {
+            var user = this.users[event.clientId];
+            if (user && event.label) {
+                this.api.showTooltip(user.name, event.label, user.color);
+            }
+        }
+
         this.dispatch = function(last) {
-            if (last && last.client != this.clientId) {
+            if (last && last.clientId != this.clientId) {
                 target = last.embedLabel ? this.embeds[last.embedLabel] : this;
                 if (last.type == "evalXML") {
                     target.evalXML(last.content);
@@ -249,21 +257,24 @@
                         gmApi.loadFromJSON(last.content);
                     }
                 }
+                if (last.type != "pasteSlide") { // for slides the label slide label => no hint
+                    target.showHint(last);
+                }
             }
         };
    }
 
-    var mainSession = new LiveApp();
-
-    window.GeoGebraLive = {
-        dispatch: function(last) {
+    window.GeoGebraLive = function(api, id) {
+        var mainSession = new LiveApp(id);
+        mainSession.api = api;
+        this.dispatch = function(last) {
             mainSession.dispatch(last);
         },
-        start: function(api, callback) {
-           if (mainSession.api) {
-               return;
-           }
-           mainSession.api = api;
+        this.addUser = function(user) {
+            mainSession.users[user.id] = user;
+        }
+        this.start = function(events, callback) {
+           mainSession.events = events;
            mainSession.eventCallback = callback;
            mainSession.registerListeners();
        }

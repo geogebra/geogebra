@@ -767,6 +767,18 @@
         .invisible {
             visibility: hidden;
         }
+
+        .tooltipChip {
+            position: absolute;
+            display: inline-flex;
+			padding: 7px 12px;
+			border-radius: 16px;
+			align-items: center;
+			cursor: default;
+			min-height: 32px;
+			height: 1px;
+			box-sizing: border-box;
+        }
 }
 
 /* Outside of GeoGebraFrame */
