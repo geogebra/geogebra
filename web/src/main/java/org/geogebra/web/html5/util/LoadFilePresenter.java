@@ -64,7 +64,7 @@ public class LoadFilePresenter {
 		boolean showToolBar = view.getDataParamShowToolBar(fullApp);
 		boolean showMenuBar = view.getDataParamShowMenuBar(fullApp);
 		boolean showAlgebraInput = view.getDataParamShowAlgebraInput(fullApp);
-		boolean isMultiuserApplet = view.getDataParamMultiuserApplet();
+		boolean isApp = view.getDataParamApp();
 
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(showAlgebraInput, false);
@@ -72,8 +72,8 @@ public class LoadFilePresenter {
 		app.getKernel().setShowAnimationButton(
 		        view.getDataParamShowAnimationButton());
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
-		if (isMultiuserApplet) {
-			app.getAppletFrame().addStyleName("multiuserApplet");
+		if (!isApp) {
+			app.getAppletFrame().addStyleName("appletStyle");
 		}
 
 		boolean undoActive = (showToolBar || showMenuBar
