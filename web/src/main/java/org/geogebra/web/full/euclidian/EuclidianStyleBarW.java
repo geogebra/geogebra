@@ -1376,13 +1376,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					BorderType border = ((GeoInlineTable) geos.get(0)).getBorderStyle();
+					InlineTableController formatter
+							= ((GeoInlineTable) geos.get(0)).getFormatter();
+
+					BorderType border = formatter != null ? formatter.getBorderStyle() : null;
 					setSelectedIndex(btnBorderStyle.getBorderTypeIndex(border));
 					if (btnBorderStyle.getSelectedIndex() == -1) {
 						btnBorderStyle.setIcon(new ImageOrText(
 								MaterialDesignResources.INSTANCE.border_all(), 24));
 					}
-					int borderThickness = ((GeoInlineTable) geos.get(0)).getBorderThickness();
+					int borderThickness = formatter != null ? formatter.getBorderThickness() : 1;
 					btnBorderStyle.setBorderThickness(borderThickness);
 				}
 			}
@@ -1412,8 +1415,11 @@ public class EuclidianStyleBarW extends StyleBarW2
 				super.setVisible(geosOK);
 
 				if (geosOK) {
-					VerticalAlignment alignment = ((GeoInlineTable) geos.get(0)).getFormatter()
-							.getVerticalAlignment();
+					InlineTableController formatter
+							= ((GeoInlineTable) geos.get(0)).getFormatter();
+
+					VerticalAlignment alignment = formatter != null
+							? formatter.getVerticalAlignment() : null;
 					setSelectedIndex(alignment != null ? alignment.ordinal() : -1);
 					if (btnVerticalAlignment.getSelectedIndex() == -1) {
 						btnVerticalAlignment.setIcon(new ImageOrText(
@@ -1427,6 +1433,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 		btnVerticalAlignment.setIcon(new ImageOrText(
 				MaterialDesignResources.INSTANCE.vertical_align_top(), 24));
 		btnVerticalAlignment.addStyleName("withIcon");
+		btnVerticalAlignment.getMyPopup().addStyleName("mowPopup");
 	}
 
 	private void createTextSizeBtn() {
@@ -1661,13 +1668,17 @@ public class EuclidianStyleBarW extends StyleBarW2
 		boolean changed = false;
 		for (GeoElement geo : targetGeos) {
 			if (geo instanceof GeoInlineTable) {
-				if (borderType != null
-						&& !((GeoInlineTable) geo).getBorderStyle().equals(borderType)) {
-					((GeoInlineTable) geo).setBorderStyle(borderType);
+				InlineTableController formatter = ((GeoInlineTable) geo).getFormatter();
+				if (formatter == null) {
+					continue;
+				}
+
+				if (borderType != null && !formatter.getBorderStyle().equals(borderType)) {
+					formatter.setBorderStyle(borderType);
 					changed = true;
 				}
-				if (((GeoInlineTable) geo).getBorderThickness() != borderThickness) {
-					((GeoInlineTable) geo).setBorderThickness(borderThickness);
+				if (formatter.getBorderThickness() != borderThickness) {
+					formatter.setBorderThickness(borderThickness);
 					changed = true;
 				}
 			}
@@ -1969,11 +1980,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 		setToolTipText(btnFixPosition, "AbsoluteScreenLocation");
 		setToolTipText(btnFixObject, "FixObject");
 		setToolTipText(btnTextColor, "stylebar.Color");
-		if (btnTextBgColor != null) {
-			setToolTipText(btnTextBgColor, "stylebar.BgColor");
-		}
+		setToolTipText(btnTextBgColor, "stylebar.BgColor");
+
 		setToolTipText(btnBorderStyle, "stylebar.Borders");
-		btnBorderStyle.setTooltips();
+		setPopupTooltips(btnBorderStyle, new String[] { "AllBorders", "InnerBorders",
+				"OuterBorders", "ClearBorders" });
+		btnBorderStyle.getBorderThicknessBtn()
+				.setTitle(app.getLocalization().getMenu("stylebar.BorderStyle"));
+
+		setToolTipText(btnVerticalAlignment, "stylebar.VerticalAlign");
+		setPopupTooltips(btnVerticalAlignment, new String[] { "Top", "Middle", "Bottom" });
 	}
 
 	private void setToolTipText(MyCJButton btn, String key) {
@@ -1985,6 +2001,16 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private void setToolTipText(MyToggleButtonW btn, String key) {
 		if (btn != null) {
 			btn.setToolTipText(loc.getPlainTooltip(key));
+		}
+	}
+
+	/**
+	 * set tooltips of buttons in the popup
+	 */
+	private void setPopupTooltips(PopupMenuButtonW popup, String[] tooltips) {
+		for (int i = 0; i < popup.getMyTable().getColumnCount(); i++) {
+			popup.getMyTable().getWidget(0, i)
+					.setTitle(app.getLocalization().getMenu("stylebar." + tooltips[i]));
 		}
 	}
 
