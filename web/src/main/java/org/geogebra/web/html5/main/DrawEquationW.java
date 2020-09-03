@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -68,7 +68,7 @@ public class DrawEquationW extends DrawEquation {
 		}, g3, x, y);
 		((GGraphics2DW) g2).updateCanvasColor();
 		g3.maybeNotifyDrawingFinishedCallback(false);
-		return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
+		return new Dimension(icon.getIconWidth(), icon.getIconHeight());
 
 	}
 

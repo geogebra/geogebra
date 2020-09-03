@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.geogebra.common.kernel.geos.BaseSymbolicTest;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.scientific.LabelController;
 import org.hamcrest.CoreMatchers;
@@ -45,6 +46,11 @@ public class RemoveSliderTest extends BaseSymbolicTest {
 		checkIsAvailableFor(numeric, "a");
 		GeoElement angle = add("b = 4.669" + Unicode.alpha);
 		checkIsAvailableFor(angle, "b");
+
+		// Creates constant c_1
+		add("Integral(x)");
+		GeoElement constant = lookup("c_1");
+		assertThat(removeSlider.isAvailable(constant), is(false));
 	}
 
 	private void checkIsAvailableFor(GeoElement element, String label) {

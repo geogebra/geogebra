@@ -95,7 +95,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	 */
 	public static int getAbsoluteX(DomEvent<?> e, AppW app) {
 		return (int) ((EventUtil.getTouchOrClickClientX(e) + Window
-		        .getScrollLeft()) / app.getArticleElement().getScaleX());
+		        .getScrollLeft()) / app.getGeoGebraElement().getScaleX());
 	}
 
 	public int getAbsoluteX(DomEvent<?> e) {
@@ -111,7 +111,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	 */
 	public static int getAbsoluteY(DomEvent<?> e, AppW app) {
 		return (int) ((EventUtil.getTouchOrClickClientY(e) + Window
-		        .getScrollTop()) / app.getArticleElement().getScaleY());
+		        .getScrollTop()) / app.getGeoGebraElement().getScaleY());
 	}
 
 	public int getAbsoluteY(DomEvent<?> e) {
@@ -696,8 +696,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			if (EventUtil.isTouchEvent(event)) {
 				s += 4;
 			}
-			Rectangle2D dotRect = new Rectangle2D.Double(dotX - s / 2, dotY - s
-			        / 2, s, s);
+			Rectangle2D dotRect = new Rectangle2D.Double(dotX - s / 2d, dotY - s
+			        / 2d, s, s);
 			boolean overDot = dotRect.contains(point.getX(), point.getY());
 			if (isOverDot != overDot) {
 				isOverDot = overDot;

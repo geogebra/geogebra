@@ -95,15 +95,15 @@ PARSER_END(Parser)
 	| < LFLOOR : "\u230a" >
 	| < RFLOOR : "\u230b" >
 	| < QUOTE_START : "\""> : IN_QUOTE
-	| < SQRT : "sqrt" >
-	| < NROOT : "nroot" >
-	| < LOG : "log" >
-	| < ABS : "abs" >
+	| < SQRT : "sqrt(" >
+	| < NROOT : "nroot(" >
+	| < LOG : "log(" >
+	| < ABS : "abs(" >
 	| < DEF_INT : "$defint" >
 	| < PROD_EQ : "$prodeq" >
 	| < SUM_EQ : "$sumeq" >
-	| < LIM_EQ : "$limeq" >
-	| < VEC : "$vec" >
+	| < LIM_EQ : "$limeq(" >
+	| < VEC : "$vec(" >
 	| < COMMA : "," >
 	| < SPACE : " " >
 	| < OPERATOR : ["*", "+", "-", "/", "=", ";", "<", ">", "\u2264", "\u2265",
@@ -270,7 +270,7 @@ void subscript(MathContainer currentField) :
 
 void sqrt(MathContainer currentField) : {}
 {
-	<SQRT> <PARANTHESES_OPEN> {
+	<SQRT> {
 		MathFunction sqrt = new MathFunction(metaModel.getGeneral(Tag.SQRT));
 		MathSequence mathSequence = new MathSequence();
 		mathContainer(mathSequence);
@@ -281,7 +281,7 @@ void sqrt(MathContainer currentField) : {}
 
 void nroot(MathContainer currentField) : {}
 {
-	<NROOT> <PARANTHESES_OPEN> {
+	<NROOT> {
 		MathFunction nroot = new MathFunction(metaModel.getGeneral(Tag.NROOT));
 		MathSequence param1 = new MathSequence();
 		mathContainer(param1);
@@ -315,8 +315,10 @@ void absVecLimeq(MathContainer currentField) : {
 	Token symbol;
 }
 {
-	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ>) <PARANTHESES_OPEN> {
-		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
+	(symbol = <ABS> | symbol = <VEC> | symbol = <LIM_EQ>) {
+        // cut off the parentheses from the end
+        String image = symbol.image.substring(0, symbol.image.length() - 1);
+		MathFunction vec = new MathFunction(metaModel.getGeneral(Tag.lookup(image)));
 		MathSequence param1 = new MathSequence();
 		mathContainer(param1);
 		vec.setArgument(0, param1);
@@ -326,7 +328,7 @@ void absVecLimeq(MathContainer currentField) : {
 
 void log(MathContainer currentField) : { }
 {
-	<LOG> <PARANTHESES_OPEN> {
+	<LOG> {
 		MathFunction nroot = new MathFunction(metaModel.getGeneral(Tag.LOG));
 		MathSequence param1 = new MathSequence();
 		MathSequence param2 = new MathSequence();

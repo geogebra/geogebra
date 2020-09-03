@@ -146,8 +146,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		indexTree.setAnimationEnabled(true);
 
 		// show only mathematical functions for exam simple calculator
-		if (app.getArticleElement().hasDataParamEnableGraphing()
-				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {
+		if (app.getAppletParameters().hasDataParamEnableGraphing()
+				&& !app.getAppletParameters().getDataParamEnableGraphing(true)) {
 			detailScroller = new ScrollPanel(detailPanel);
 			detailScroller.setStyleName("AVHelpDetailScroller");
 			add(detailScroller);
@@ -238,8 +238,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
 				.getOffsetWidth() - 60;
 
-		if (app.getArticleElement().hasDataParamEnableGraphing()
-				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {
+		if (app.getAppletParameters().hasDataParamEnableGraphing()
+				&& !app.getAppletParameters().getDataParamEnableGraphing(true)) {
 			int w = (int) Math.min(400, width);
 			detailScroller.setPixelSize(w, height);
 		} else {
@@ -257,8 +257,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
 				.getOffsetWidth() * scale - 60;
 
-		if (app.getArticleElement().hasDataParamEnableGraphing()
-				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {
+		if (app.getAppletParameters().hasDataParamEnableGraphing()
+				&& !app.getAppletParameters().getDataParamEnableGraphing(true)) {
 			return (int) Math.min(400, width);
 		}
 		
@@ -438,8 +438,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			}
 			// don't show cas specific syntax for exam graphing
 			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
-			if (!app.getArticleElement().hasDataParamEnableGraphing()
-					|| (app.getArticleElement().hasDataParamEnableGraphing() && supportsCAS)) {
+			if (!app.getAppletParameters().hasDataParamEnableGraphing()
+					|| (app.getAppletParameters().hasDataParamEnableGraphing() && supportsCAS)) {
 
 				Label headCAS = new Label(loc.getMenu("Type.CAS") + ":");
 				headCAS.addStyleName("inputHelp-headerCAS");

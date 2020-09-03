@@ -6,7 +6,6 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.ContextMenuGraphicsWindow3DW;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -67,22 +66,8 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	}
 
 	@Override
-	protected void onGraphicsSettingsPressed() {
-		int x = graphicsContextMenuBtn.getAbsoluteLeft();
-		final int y = 8;
-		final ContextMenuGraphicsWindow3DW contextMenu = new ContextMenuGraphicsWindow3DW(
-				app, x, y);
-		contextMenu.getWrappedPopup().getPopupPanel()
-				.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-					@Override
-					public void setPosition(int offsetWidth, int offsetHeight) {
-						contextMenu.getWrappedPopup().getPopupPanel()
-								.setPopupPosition(
-										(int) getApp().getWidth() - offsetWidth,
-										y);
-						contextMenu.getWrappedPopup().getPopupMenu().focusDeferred();
-					}
-				});
+	protected ContextMenuGraphicsWindow3DW getGraphicsWindowContextMenu() {
+		return new ContextMenuGraphicsWindow3DW(app, 0, 0);
 	}
 
 	@Override
