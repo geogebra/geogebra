@@ -79,33 +79,33 @@ public class ParserFunctionsFactory {
 		put(pf, 2, "atan2d", Operation.ARCTAN2D, "( <y>, <x> )");
 		put(pf, 2, "arctan2d", Operation.ARCTAN2D, "( <y>, <x> )");
 
-		put2(pf, 1, "asin", Operation.ARCSIN);
-		put(pf, 1, "arsin", Operation.ARCSIN, null);
-		put2(pf, 1, "arcsin", Operation.ARCSIN);
+		put(pf, 1, "asin", Operation.ARCSIN);
+		put(pf, 1, "arsin", Operation.ARCSIN);
+		put(pf, 1, "arcsin", Operation.ARCSIN);
 
-		put2(pf, 1, "acos", Operation.ARCCOS);
-		put(pf, 1, "arcos", Operation.ARCCOS, null);
-		put2(pf, 1, "arccos", Operation.ARCCOS);
+		put(pf, 1, "acos", Operation.ARCCOS);
+		put(pf, 1, "arcos", Operation.ARCCOS);
+		put(pf, 1, "arccos", Operation.ARCCOS);
 
-		put2(pf, 1, "atan", Operation.ARCTAN);
-		put(pf, 1, "artan", Operation.ARCTAN, null);
-		put2(pf, 1, "arctan", Operation.ARCTAN);
+		put(pf, 1, "atan", Operation.ARCTAN);
+		put(pf, 1, "artan", Operation.ARCTAN);
+		put(pf, 1, "arctan", Operation.ARCTAN);
 
 		put(pf, 1, "asinh", Operation.ASINH);
-		put(pf, 1, "arsinh", Operation.ASINH, null);
+		put(pf, 1, "arsinh", Operation.ASINH);
 		put(pf, 1, "arcsinh", Operation.ASINH);
 
 		put(pf, 1, "acosh", Operation.ACOSH);
-		put(pf, 1, "arcosh", Operation.ACOSH, null);
+		put(pf, 1, "arcosh", Operation.ACOSH);
 		put(pf, 1, "arccosh", Operation.ACOSH);
 
-		put2(pf, 1, "atanh", Operation.ATANH);
-		put(pf, 1, "artanh", Operation.ATANH, null);
-		put2(pf, 1, "arctanh", Operation.ATANH);
+		put(pf, 1, "atanh", Operation.ATANH);
+		put(pf, 1, "artanh", Operation.ATANH);
+		put(pf, 1, "arctanh", Operation.ATANH);
 
-		put2(pf, 2, "atan2", Operation.ARCTAN2, "( <y>, <x> )");
-		put(pf, 2, "artan2", Operation.ARCTAN2, null);
-		put2(pf, 2, "arctan2", Operation.ARCTAN2, "( <y>, <x> )");
+		put(pf, 2, "atan2", Operation.ARCTAN2, "( <y>, <x> )");
+		put(pf, 2, "artan2", Operation.ARCTAN2, "( <y>, <x> )");
+		put(pf, 2, "arctan2", Operation.ARCTAN2, "( <y>, <x> )");
 
 		put2(pf, 1, "erf", Operation.ERF);
 
