@@ -17,8 +17,6 @@ import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.PersistablePanel;
 
-import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -30,9 +28,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
  * Page Control Panel for navigating through multiple pages
- * 
- * @author Alicia Hofstaetter
- * 
  */
 public class PageListPanel
 		extends PersistablePanel implements SetLabels, CardListInterface {
@@ -149,12 +144,8 @@ public class PageListPanel
 		setLabels();
 		removeStyleName("animateOut");
 		addStyleName("animateIn");
-		final Style style = app.getFrameElement().getStyle();
-		style.setOverflow(Overflow.HIDDEN);
-		CSSAnimation.runOnAnimation(() -> {
-			style.setOverflow(Overflow.VISIBLE);
-			showPlusButton(true);
-		}, getElement(), "animateIn");
+		CSSAnimation.runOnAnimation(() -> showPlusButton(true),
+				getElement(), "animateIn");
 	}
 
 	/**
@@ -168,13 +159,8 @@ public class PageListPanel
 		}
 		showPlusButton(false);
 		addStyleName("animateOut");
-		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-		CSSAnimation.runOnAnimation(new Runnable() {
-			@Override
-			public void run() {
-				onClose();
-			}
-		}, getElement(), "animateOut");
+		CSSAnimation.runOnAnimation(() -> onClose(),
+				getElement(), "animateOut");
 		return true;
 	}
 
@@ -182,7 +168,6 @@ public class PageListPanel
 	 * handles close actions after animation
 	 */
 	protected void onClose() {
-		app.getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
 		if (app.isWhiteboardActive()) {
 			toolbarMow.showPageControlButton(true);
 			dockPanel.showZoomPanel();

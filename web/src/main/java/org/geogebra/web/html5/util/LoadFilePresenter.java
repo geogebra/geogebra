@@ -64,6 +64,7 @@ public class LoadFilePresenter {
 		boolean showToolBar = view.getDataParamShowToolBar(fullApp);
 		boolean showMenuBar = view.getDataParamShowMenuBar(fullApp);
 		boolean showAlgebraInput = view.getDataParamShowAlgebraInput(fullApp);
+		boolean isApp = view.getDataParamApp();
 
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(showAlgebraInput, false);
@@ -71,6 +72,9 @@ public class LoadFilePresenter {
 		app.getKernel().setShowAnimationButton(
 		        view.getDataParamShowAnimationButton());
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
+		if (!isApp) {
+			app.getAppletFrame().addStyleName("appletStyle");
+		}
 
 		boolean undoActive = (showToolBar || showMenuBar
 		        || view.getDataParamApp() || app.getScriptManager()
