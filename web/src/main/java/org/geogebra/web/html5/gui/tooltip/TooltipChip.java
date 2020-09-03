@@ -30,9 +30,11 @@ public class TooltipChip {
 			}
 			Style style = tooltipMsg.getElement().getStyle();
 			style.setVisibility(Style.Visibility.VISIBLE);
+			int left = app.getActiveEuclidianView().getAbsoluteLeft();
+			int top = app.getActiveEuclidianView().getAbsoluteTop();
 			style.setBackgroundColor(color);
-			style.setLeft(x, Style.Unit.PX);
-			style.setTop(y, Style.Unit.PX);
+			style.setLeft(left + x, Style.Unit.PX);
+			style.setTop(top + y, Style.Unit.PX);
 
 			app.getAppletFrame().add(tooltipMsg);
 			if	(hideTimer == null) {

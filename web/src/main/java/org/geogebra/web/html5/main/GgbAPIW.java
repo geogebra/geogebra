@@ -1504,7 +1504,10 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void previewRefresh() {
-		((AppW) app).getPageController().updatePreviewImage();
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		if (pageController != null) {
+			pageController.updatePreviewImage();
+		}
 	}
 
 }

@@ -71,7 +71,8 @@
 
                     for (let i = 0; i < tempObjects.length; i++) {
                         const label = tempObjects[i];
-                        const embed = that.api.getEmbeddedCalculators()[label];
+                        const calculators= that.api.getEmbeddedCalculators();
+                        const embed = calculators && calculators[label];
 
                         if (embed && embed.controller) {
                             that.sendEvent("evalGMContent", embed.toJSON(), label);
