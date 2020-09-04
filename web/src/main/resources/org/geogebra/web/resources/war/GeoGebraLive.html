@@ -19,8 +19,8 @@
             {id:17, name:'Sophie', color: '#D32F2F80'},
             {id:23, name:'Emmy', color: '#DB611480'},
             {id:29, name:'Helge', color: '#6557D280'},
-            {id:31, name:'', color: '#61616180'},
-            {id:37, name:'', color: '#D81B6080'},
+            {id:31, name:'Florence', color: '#61616180'},
+            {id:37, name:'Maryam', color: '#D81B6080'},
         ]
         var updatingOn = true;
 
@@ -93,7 +93,7 @@
             localStorage.setItem('ggbUserCount', userCount + 1);
             console.log("applet1 loaded");
             api1 = api;
-            live = new GeoGebraLive(api, userDatabase[userCount].id);
+            live = new GeoGebraLive(api, userDatabase[userCount % userDatabase.length].id);
             userDatabase.forEach(function(user){
                 live.addUser(user);
             });
@@ -107,7 +107,7 @@
         }
 
         window.onload = function() {
-            localStorage.clear();
+            localStorage.removeItem('ggbEvents');
             applet1.inject('ggbApplet1');
         };
 

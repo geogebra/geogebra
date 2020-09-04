@@ -85,7 +85,6 @@
                             let xml = that.api.getXML(label);
                             that.sendEvent("evalXML", xml, label);
                         }
-                        that.sendEvent("previewRefresh");
                     }
 
                     updateCallback = null;
@@ -123,7 +122,6 @@
             } else {
                 this.sendEvent("evalXML", xml, label);
             }
-            this.sendEvent("previewRefresh");
             window.setTimeout(function(){
                 that.initEmbed(label);
             },500); //TODO avoid timeout
@@ -134,6 +132,10 @@
         var removeListener = (function(label) {
             console.log(label + " is removed");
             this.sendEvent("deleteObject", label);
+        }).bind(this);
+        
+        var renameListener = (function(oldName, newName) {
+            this.sendEvent("renameObject", oldName, newName);
         }).bind(this);
 
         // *** CLIENT LISTENERS ***
@@ -205,6 +207,7 @@
             this.api.registerRemoveListener(removeListener);
             this.api.registerAddListener(addListener);
             this.api.registerClientListener(clientListener);
+            this.api.registerRenameListener(renameListener);
         };
 
         this.unregisterListeners = function() {
@@ -212,6 +215,7 @@
             this.api.unregisterRemoveListener(removeListener);
             this.api.unregisterAddListener(addListener);
             this.api.unregisterClientListener(clientListener);
+            this.api.unregisterRenameListener(renameListener);
         };
 
         this.showHint = function(event) {
@@ -226,10 +230,12 @@
                 target = last.embedLabel ? this.embeds[last.embedLabel] : this;
                 if (last.type == "evalXML") {
                     target.evalXML(last.content);
+                    target.api.previewRefresh();
                 } else if (last.type == "setXML") {
                     target.setXML(last.content);
                 } else if (last.type == "evalCommand") {
                     target.evalCommand(last.content);
+                    target.api.previewRefresh();
                 } else if (last.type == "deleteObject") {
                     target.api.deleteObject(last.content);
                 } else if (last.type == "setEditorState") {
@@ -248,8 +254,10 @@
                     target.unregisterListeners();
                     target.api.selectSlide(last.content);
                     target.registerListeners();
-                } else if (last.type == "previewRefresh") {
-                    target.api.previewRefresh();
+                } else if (last.type == "renameObject") {
+                    target.unregisterListeners();
+                    target.api.renameObject(last.content, last.label);
+                    target.registerListeners();
                 } else if (last.type == "pasteSlide") {
                     target.api.handleSlideAction(last.type, last.content, last.label);
                 } else if (last.type == "evalGMContent") {
