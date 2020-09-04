@@ -38,7 +38,7 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
 public class AppConfigGeometry extends AbstractAppConfig {
 
 	public AppConfigGeometry() {
-		super(GeoGebraConstants.GEOMETRY_APPCODE, null);
+		super(GeoGebraConstants.GEOMETRY_APPCODE);
 	}
 
 	public AppConfigGeometry(String appCode) {

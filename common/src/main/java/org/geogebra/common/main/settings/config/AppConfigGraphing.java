@@ -39,7 +39,7 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
 public class AppConfigGraphing extends AbstractAppConfig {
 
 	public AppConfigGraphing() {
-		super(GeoGebraConstants.GRAPHING_APPCODE, null);
+		super(GeoGebraConstants.GRAPHING_APPCODE);
 	}
 
 	public AppConfigGraphing(String appCode) {

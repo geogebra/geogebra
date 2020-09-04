@@ -1,6 +1,7 @@
 package org.geogebra.common.main.settings.config;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
 
 import org.geogebra.common.main.AppConfig;
 
@@ -9,7 +10,11 @@ abstract class AbstractAppConfig implements AppConfig {
     private String appCode;
     private String subAppCode;
 
-    AbstractAppConfig(String appCode, String subAppCode) {
+    AbstractAppConfig(String appCode) {
+        this(appCode, null);
+    }
+
+    AbstractAppConfig(String appCode, @Nullable String subAppCode) {
         this.appCode = appCode;
         this.subAppCode = subAppCode;
     }
