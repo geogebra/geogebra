@@ -1228,6 +1228,4 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Max(exp(x)x^2,-3,-1)", "-2");
 		t("Max({1, 2, 3, 4, 5}, {5, 3, 4, 2, 0})", "4");
 	}
-
-
 }
