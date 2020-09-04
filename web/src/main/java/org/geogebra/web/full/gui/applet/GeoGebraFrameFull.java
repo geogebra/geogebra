@@ -698,7 +698,7 @@ public class GeoGebraFrameFull
 					&& !app1.isApplet()) {
 				app1.getGuiManager().menuToGlobalHeader();
 			} else if ((app1.isApplet()
-						&& app1.getArticleElement().getDataParamShowMenuBar(false))
+						&& app1.getAppletParameters().getDataParamShowMenuBar(false))
 					|| app1.isMebis()) {
 				toolbarMow.getUndoRedoButtons().addStyleName("undoRedoPositionMebis");
 				attachMowMainMenu(app1);
