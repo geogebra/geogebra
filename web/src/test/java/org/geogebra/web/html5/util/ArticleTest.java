@@ -16,7 +16,7 @@ import org.junit.Test;
 public class ArticleTest {
 	@Test
 	public void documentedParameters() {
-		Method[] mtds = ArticleElement.class.getMethods();
+		Method[] mtds = AppletParameters.class.getMethods();
 		TreeSet<String> documented = new TreeSet<>();
 		for (Method mtd : mtds) {
 			if (mtd.getName().contains("Data")) {

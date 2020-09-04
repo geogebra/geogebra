@@ -608,7 +608,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 		// startPoint of vector
 		if (startPoint != null) {
-			xmlsb.append(startPoint.getStartPointXML());
+			startPoint.appendStartPointXML(xmlsb);
 		}
 	}
 

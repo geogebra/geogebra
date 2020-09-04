@@ -364,7 +364,7 @@ public class CopyPasteW extends CopyPaste {
 		});
 	}
 
-	private static native void pasteNative(App app, AsyncOperation<String> callback) /*-{
+	public static native void pasteNative(App app, AsyncOperation<String> callback) /*-{
 		function storageFallback() {
 			@org.geogebra.web.html5.util.CopyPasteW::handleStorageFallback(*)(callback);
 		}

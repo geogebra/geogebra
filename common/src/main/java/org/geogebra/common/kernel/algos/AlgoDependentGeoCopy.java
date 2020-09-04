@@ -31,16 +31,6 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param origGeo
-	 *            original element
-	 */
-	public AlgoDependentGeoCopy(Construction cons, GeoElement origGeo) {
-		this(cons, origGeo, origGeo.wrap());
-	}
-
-	/**
-	 * @param cons
-	 *            construction
 	 * @param origGeoNode
 	 *            original expression
 	 */
@@ -49,7 +39,14 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 				.evaluate(StringTemplate.defaultTemplate), origGeoNode);
 	}
 
-	private AlgoDependentGeoCopy(Construction cons, GeoElement origGeo,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param origGeo
+	 *            original element
+	 * @param origGeoNode either "geo" or "geo(x)"
+	 */
+	public AlgoDependentGeoCopy(Construction cons, GeoElement origGeo,
 			ExpressionNode origGeoNode) {
 		super(cons);
 		this.origGeo = origGeo;
@@ -110,10 +107,10 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		// value
 		if (tpl.hasType(StringType.GEOGEBRA_XML) && !origGeo.isLabelSet()
 				&& origGeo instanceof GeoLine
-				&& ((GeoLine) origGeo)
+				&& origGeo
 						.getToStringMode() == GeoLine.PARAMETRIC) {
 			((GeoLine) origGeo).setMode(GeoLine.EQUATION_EXPLICIT);
-			String ret = ((GeoLine) origGeo).getLabel(tpl);
+			String ret = origGeo.getLabel(tpl);
 			((GeoLine) origGeo).setMode(GeoLine.PARAMETRIC);
 			return ret;
 		}

@@ -3,7 +3,6 @@ package org.geogebra.web.html5.util.sliderPanel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.web.html5.awt.GDimensionW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
@@ -125,13 +124,6 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 			currentStep = step;
 			slider.setStep(step);
 		}
-	}
-
-	/**
-	 * @return preferred size
-	 */
-	public GDimensionW getPreferredSize() {
-		return new GDimensionW(180, 10);
 	}
 
 	@Override

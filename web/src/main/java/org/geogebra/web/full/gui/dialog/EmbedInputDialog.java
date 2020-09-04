@@ -42,7 +42,7 @@ public class EmbedInputDialog extends MediaDialog
 		super(app, "Web");
 		if (Window.Location.getHost() != null
 				&& Window.Location.getHost().contains("geogebra")) {
-			urlChecker = new EmbedURLChecker(app.getArticleElement().getParamBackendURL());
+			urlChecker = new EmbedURLChecker(app.getAppletParameters().getParamBackendURL());
 		} else {
 			urlChecker = new MarvlURLChecker();
 		}
@@ -142,7 +142,7 @@ public class EmbedInputDialog extends MediaDialog
 
 	private GeoGebraTubeAPI getGeoGebraTubeAPI() {
 		return new GeoGebraTubeAPIW(((AppW) app).getClientInfo(),
-				false, ((AppW) app).getArticleElement());
+				false, ((AppW) app).getAppletParameters());
 	}
 
 	@Override

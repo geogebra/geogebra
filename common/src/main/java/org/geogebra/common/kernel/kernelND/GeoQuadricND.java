@@ -409,7 +409,9 @@ public abstract class GeoQuadricND extends GeoElement
 		defined = false;
 		empty();
 		resetDefinition();
-		Arrays.fill(matrix, Double.NaN);
+		if (matrix != null) {
+			Arrays.fill(matrix, Double.NaN);
+		}
 	}
 
 	/**

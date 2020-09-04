@@ -44,11 +44,19 @@ public class EvaluatorEditor implements IsWidget, MathFieldListener, BlurHandler
 	public EvaluatorEditor(AppW app) {
 		this.app = app;
 		mathFieldEditor = new MathFieldEditor(app, this);
-		mathFieldEditor.setTextMode(app.getArticleElement().getParamTextMode());
+		mathFieldEditor.setTextMode(app.getAppletParameters().getParamTextMode());
 		mathFieldEditor.addStyleName("evaluatorEditor");
 		mathFieldEditor.addBlurHandler(this);
-		mathFieldEditor.setFontSize(app.getArticleElement().getParamFontSize(18));
+		mathFieldEditor.setFontSize(app.getAppletParameters().getParamFontSize(18));
 		mathFieldEditor.setUseKeyboardButton(false);
+
+		String bgColor = app.getAppletParameters().getDataParamEditorBackgroundColor();
+		String fgColor = app.getAppletParameters().getDataParamEditorForegroundColor();
+
+		mathFieldEditor.getMathField().setBackgroundCssColor(bgColor);
+		mathFieldEditor.getMathField().setForegroundCssColor(fgColor);
+
+		app.getFrameElement().getStyle().setBackgroundColor(bgColor);
 
 		MathFieldInternal mathFieldInternal = mathFieldEditor.getMathField().getInternal();
 		evaluatorAPI = new EvaluatorAPI(app.getKernel(), mathFieldInternal);

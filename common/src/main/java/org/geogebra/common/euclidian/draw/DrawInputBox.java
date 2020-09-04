@@ -257,7 +257,7 @@ public class DrawInputBox extends CanvasDrawable {
 			updateGeoInputBox();
 			updateStyle(getTextField());
 		} else {
-			textFont = getTextFont(getGeoInputBox().getText());
+			textFont = getTextFont(getGeoInputBox().getText(), geoInputBox.isSerifFont());
 		}
 
 		view.getViewTextField().revalidateBox();
@@ -280,7 +280,7 @@ public class DrawInputBox extends CanvasDrawable {
 	}
 
 	private void updateStyle(AutoCompleteTextField tf) {
-		textFont = getTextFont(tf.getText());
+		textFont = getTextFont(tf.getText(), geoInputBox.isSerifFont());
 
 		tf.setFont(textFont);
 
@@ -302,12 +302,13 @@ public class DrawInputBox extends CanvasDrawable {
 
 	/**
 	 * @param text text to display
+	 * @param serif true if font style serif
 	 * @return the font that has the correct size for the input box
 	 * and can display the given text
 	 */
-	public GFont getTextFont(String text) {
+	public GFont getTextFont(String text, boolean serif) {
 		GFont vFont = view.getFont();
-		return view.getApplication().getFontCanDisplay(text, false,
+		return view.getApplication().getFontCanDisplay(text, serif,
 				vFont.getStyle(), getLabelFontSize());
 	}
 

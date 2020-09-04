@@ -9,7 +9,8 @@ import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
@@ -34,9 +35,9 @@ public class AppWsimple extends AppW {
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public AppWsimple(ArticleElementInterface ae, GeoGebraFrameW gf,
-	        final boolean undoActive) {
-		super(ae, 2, null);
+	public AppWsimple(GeoGebraElement ae, AppletParameters parameters,
+			GeoGebraFrameW gf, final boolean undoActive) {
+		super(ae, parameters, 2, null);
 		this.frame = gf;
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
@@ -56,12 +57,12 @@ public class AppWsimple extends AppW {
 		setUndoActive(undoActive);
 		afterCoreObjectsInited();
 		getSettingsUpdater().getFontSettingsUpdater().resetFonts();
-		Browser.removeDefaultContextMenu(ae.getElement());
+		Browser.removeDefaultContextMenu(getGeoGebraElement());
 	}
 
 	private void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
-		GeoGebraFrameW.handleLoadFile(articleElement, this);
+		GeoGebraFrameW.handleLoadFile(appletParameters, this);
 		initing = false;
 		if (ZoomPanel.neededFor(this)) {
 			ZoomPanel zp = new ZoomPanel(getEuclidianView1(), this, true, true);
