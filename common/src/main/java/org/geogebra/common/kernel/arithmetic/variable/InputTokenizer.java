@@ -101,8 +101,8 @@ public class InputTokenizer {
 			int end = input.startsWith("log_{") ? input.indexOf('}') : "log_1".length();
 			return input.substring(0, end);
 		}
-		for (int i = 0; i < input.length(); i++) {
-			String prefix = input.substring(0, i);
+		for (int prefixLength = input.length(); prefixLength > 0; prefixLength--) {
+			String prefix = input.substring(0, prefixLength);
 			Operation op = parserFunctions.getSingleArgumentOp(prefix);
 			if (op != null) {
 				return prefix;
