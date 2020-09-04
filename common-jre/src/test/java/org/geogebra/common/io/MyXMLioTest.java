@@ -28,7 +28,6 @@ public class MyXMLioTest extends BaseUnitTest {
 				.useConstructor(getKernel(), getConstruction()));
 		getApp().setConfig(new AppConfigGeometry("suite"));
 		String fullXml = myXMLio.getFullXML();
-		Assert.assertTrue(fullXml.contains("app=\"suite\""));
-		Assert.assertTrue(fullXml.contains("<subapp name=\"geometry\" />"));
+		Assert.assertTrue(fullXml.contains("app=\"suite\" subApp=\"geometry\""));
 	}
 }
