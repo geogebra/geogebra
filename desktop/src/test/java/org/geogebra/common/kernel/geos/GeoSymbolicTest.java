@@ -1216,7 +1216,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Min({-2, 12, -23, 17, 15})", "-23");
 		t("Min(2 < x < 3)", "2");
 		t("Min(12, 15)", "12");
-		t("Min(ℯ^x*x^3,-4,-2)", "-3");
+		t("Min(ℯ^x*x^3,-4,-2)", "(-3, (-27) / ℯ^(3))");
 		t("Min({1, 2, 3, 4, 5}, {0, 3, 4, 2, 3})", "2");
 	}
 
@@ -1225,7 +1225,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Max({-2, 12, -23, 17, 15})", "17");
 		t("Max(2 < x < 3)", "3");
 		t("Max(12, 15)", "15");
-		t("Max(exp(x)x^2,-3,-1)", "-2");
+		t("Max(exp(x)x^2,-3,-1)", "(-2, 4 / ℯ^(2))");
 		t("Max({1, 2, 3, 4, 5}, {5, 3, 4, 2, 0})", "4");
 	}
 }

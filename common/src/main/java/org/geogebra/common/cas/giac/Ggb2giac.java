@@ -1940,8 +1940,9 @@ public class Ggb2giac {
 				+ "when(type(ggbparam1)==DOM_LIST&&type(ggbparam2)==DOM_LIST,"
 				+ optimizeGiac + "(map(remove(x->(x[1]<=0), zip((x,y)->[x,y], ggbparam1, ggbparam2)), x->x[0])),"
 				+ optimizeGiac + "(ggbparam1,ggbparam2))][2]");
-		p(optimize + ".3", "[[ggbfun:=%0], [ggbinta:=%1],[ggbintb:=%2],"
-				+ optimizeGiacFun + "(ggbfun, lname(ggbfun)[0]=ggbinta..ggbintb)][3][0][2]");
+		p(optimize + ".3", "[[ggbfun:=%0], [ggbinta:=%1],[ggbintb:=%2],[ggbvar:=lname(ggbfun)[0]],"
+				+ "[ggbx:=" + optimizeGiacFun + "(ggbfun, ggbvar=ggbinta..ggbintb)[0][2]],"
+				+ "point(ggbx, normal(subst(ggbfun,ggbvar,ggbx)))][5]");
 	}
 
 	private static String listToNumber(String string) {
