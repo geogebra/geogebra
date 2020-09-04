@@ -30,7 +30,7 @@ import org.geogebra.common.properties.factory.PropertiesFactory;
 public class AppConfigDefault extends AbstractAppConfig {
 
 	public AppConfigDefault() {
-		super(GeoGebraConstants.CLASSIC_APPCODE, null);
+		super(GeoGebraConstants.CLASSIC_APPCODE);
 	}
 
 	AppConfigDefault(String appCode, String subAppCode) {
