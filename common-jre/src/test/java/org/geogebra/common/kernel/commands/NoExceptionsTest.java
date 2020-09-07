@@ -563,11 +563,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdExpand() {
-		t("Expand[ x^2 ]");
-	}
-
-	@Test
 	public void cmdFactor() {
 		t("Factor[ polynom1 ]");
 	}
@@ -1700,6 +1695,8 @@ public class NoExceptionsTest {
 		t("Text[ obj, Pt1 ]");
 		t("Text[ obj, Pt1, b1 ]");
 		t("Text[ obj, Pt1, b1, b1 ] ");
+		t("Text[ obj, Pt1, b1, b1, 1 ] ");
+		t("Text[ obj, Pt1, b1, b1, 1, 1 ] ");
 	}
 
 	@Test

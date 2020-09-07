@@ -1954,6 +1954,8 @@ public class AlgebraProcessor {
             cons.setSuppressLabelCreation(true);
 			if (replaceable.isGeoVector()) {
 				expression = getTraversedCopy(labels, expression);
+			} else if (replaceable instanceof GeoNumeric && !replaceable.getSendValueToCas()) {
+				evalInfo = evalInfo.withSymbolicMode(SymbolicMode.NONE);
 			}
         }
 
@@ -2062,6 +2064,8 @@ public class AlgebraProcessor {
 			RedefinitionRule rule = info.getRedefinitionRule();
 			if (rule != null && !rule.allowed(replaceable.getGeoClassType(),
 					ret[0].getGeoClassType())) {
+				Log.debug("Cannot change " + replaceable.getGeoClassType() + " to "
+						+ ret[0].getGeoClassType());
 				// Set undefined
 				ret[0] = replaceable;
 				replaceable.setUndefined();
@@ -2270,7 +2274,7 @@ public class AlgebraProcessor {
 				boolean isPlainVariable = node.isLeaf();
 				boolean returnValueIsInput = node.unwrap() == ret[0];
 				if (isPlainVariable && returnValueIsInput) {
-					ret = array(dependentGeoCopy(ret[0]));
+					ret = array(dependentGeoCopy(ret[0], node));
 				}
 			} else if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoList) {
@@ -2325,16 +2329,15 @@ public class AlgebraProcessor {
 		if (!enableStructures()) {
 			throw new MyError(loc, Errors.InvalidInput);
 		}
-
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
 		if (varName.equals(Unicode.theta_STRING)
 				&& !kernel.getConstruction()
 						.isRegisteredFunctionVariable(Unicode.theta_STRING)
 				&& fun.getExpression().evaluatesToNumber(true)) {
 			String label = fun.getLabel();
-			ValidExpression ve = new MyVecNode(kernel, fun.getExpression(),
+			MyVecNode ve = new MyVecNode(kernel, fun.getExpression(),
 					fun.getFunctionVariable().wrap());
-			((MyVecNode) ve).setMode(Kernel.COORD_POLAR);
+			ve.setMode(Kernel.COORD_POLAR);
 			// TODO the "r" check is there to allow r=theta in the
 			// future
 			if (!"r".equals(label)) {
@@ -2352,14 +2355,8 @@ public class AlgebraProcessor {
 				return ret;
 			}
 		}
-		if (!fun.initFunction(info)) {
-			ExpressionNode copy = fun.getExpression().deepCopy(kernel);
-			return getParamProcessor().processParametricFunction(
-					fun.getExpression(),
-					copy.evaluate(StringTemplate.defaultTemplate),
-					new FunctionVariable[] { fun.getFunctionVariable() },
-					fun.getLabel(), info);
-
+		if (!fun.initFunction(info.withSimplifying(false))) {
+			return processFunctionAsSurface(fun, info);
 		}
 
 		String label = fun.getLabel();
@@ -2414,7 +2411,7 @@ public class AlgebraProcessor {
 					&& right.isNumberValue() && !right.isConstant()
 					&& !isIndependent) {
 				f = (GeoFunction) dependentGeoCopy(
-						((GeoFunctionable) left).getGeoFunction());
+						((GeoFunctionable) left).getGeoFunction(), en);
 				f.setShortLHS(fun.getShortLHS());
 				f.setLabel(label);
 				return array(f);
@@ -2443,6 +2440,15 @@ public class AlgebraProcessor {
 		throw new MyError(loc, Errors.InvalidFunctionA,
 				fun.getFunctionVariable().getSetVarString());
 
+	}
+
+	private GeoElement[] processFunctionAsSurface(Function fun, EvalInfo info) {
+		ExpressionNode copy = fun.getExpression().deepCopy(kernel);
+		return getParamProcessor().processParametricFunction(
+				fun.getExpression(),
+				copy.evaluate(StringTemplate.defaultTemplate),
+				new FunctionVariable[] { fun.getFunctionVariable() },
+				fun.getLabel(), info);
 	}
 
 	/**
@@ -2657,8 +2663,8 @@ public class AlgebraProcessor {
 		return f;
 	}
 
-	final private GeoElement dependentGeoCopy(GeoElement origGeoNode) {
-		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, origGeoNode);
+	final private GeoElement dependentGeoCopy(GeoElement origGeoNode, ExpressionNode node) {
+		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, origGeoNode, node);
 		return algo.getGeo();
 	}
 
@@ -3005,8 +3011,7 @@ public class AlgebraProcessor {
 	 */
 	final private GeoLine dependentLine(Equation equ) {
 		AlgoDependentLine algo = new AlgoDependentLine(cons, equ);
-		GeoLine line = algo.getLine();
-		return line;
+		return algo.getLine();
 	}
 
 	/**
@@ -3061,10 +3066,9 @@ public class AlgebraProcessor {
 	 * Conic dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees.
 	 */
-	final private GeoConic dependentConic(Equation equ) {
+	private GeoConic dependentConic(Equation equ) {
 		AlgoDependentConic algo = new AlgoDependentConic(cons, equ);
-		GeoConic conic = algo.getConic();
-		return conic;
+		return algo.getConic();
 	}
 
 	/**
@@ -3137,6 +3141,11 @@ public class AlgebraProcessor {
 			} else if (leaf instanceof Function) {
 				Function fun = (Function) leaf;
 				fun.setLabels(n.getLabels());
+				if (node.isForceSurface()) {
+					fun.initFunction(info.withSimplifying(false));
+					return getParamProcessor().complexSurface(fun.getExpression(),
+							fun.getFunctionVariable(), fun.getLabel());
+				}
 				return processFunction(fun, info);
 			} else if (leaf instanceof FunctionNVar) {
 				FunctionNVar fun = (FunctionNVar) leaf;
@@ -3285,11 +3294,7 @@ public class AlgebraProcessor {
 	public FunctionNVar makeFunctionNVar(ExpressionNode n) {
 		FunctionVarCollector fvc = FunctionVarCollector.getCollector();
 		n.traverse(fvc);
-		FunctionVariable[] fvArray = fvc.buildVariables(kernel);
-		if (fvArray.length == 1) {
-			return new Function(n, fvArray);
-		}
-		return new FunctionNVar(n, fvArray);
+		return kernel.getArithmeticFactory().newFunction(n, fvc.buildVariables(kernel));
 	}
 
 	/**

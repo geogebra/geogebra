@@ -73,7 +73,7 @@ public class InlineFormattingItemsTest {
 		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(createTableInline(InlineTableControllerMock.get(true)));
 		List<String> expected = Arrays.asList(
-				"TEXTTOOLBAR", "ContextMenu.Font", "Link",
+				"TEXTTOOLBAR", "ContextMenu.Font", "Link", "ContextMenu.textWrapping",
 				"SEPARATOR",
 				"Cut", "Copy", "Paste",
 				"SEPARATOR",
@@ -96,6 +96,7 @@ public class InlineFormattingItemsTest {
 		geos.add(createTableInline(InlineTableControllerMock.get(false)));
 		List<String> expected = Arrays.asList(
 				"ContextMenu.Font",
+				"ContextMenu.textWrapping",
 				"SEPARATOR", "Cut", "Copy", "Paste",
 				"SEPARATOR", "General.Order",
 				"SEPARATOR",
@@ -173,7 +174,7 @@ public class InlineFormattingItemsTest {
 		geos.add(createPolygon("Poly1"));
 		List<String> expected = Arrays.asList(
 				"Cut", "Copy", "Paste", "SEPARATOR", "General.Order", "SEPARATOR",
-				"FixObject", "ShowTrace", "Settings"
+				"FixObject", "Settings"
 		);
 
 		assertEquals(expected, contextMenu.getEntriesFor(geos));

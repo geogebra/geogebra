@@ -122,6 +122,15 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void argumentsForFunctionCopyShouldBeVisible() {
+		add("f:x");
+		setupInput("g", "3f");
+		assertEquals("3f(x)", inputBox.getText());
+		updateInput("f(x)");
+		assertEquals("f(x)", inputBox.getText());
+	}
+
+	@Test
 	public void symbolicShouldBeEmptyAfterSettingLineUndefined() {
 		setupInput("f", "y = 5");
 		t("SetValue(f, ?)");
@@ -206,7 +215,7 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		assertEquals("", inputBox.getText());
 		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
-				StringTemplate.defaultTemplate, false));
+						StringTemplate.defaultTemplate, false));
 	}
 
 	@Test
@@ -378,6 +387,54 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		getApp().setXML(getApp().getXML(), true);
 		assertEquals("", inputBox.getTextForEditor());
 		assertEquals("eq1\\, \\text{undefined} ", lookup("eq1")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
+
+	@Test
+	public void minusShouldStayInNumerator() {
+		setupInput("f", "x");
+		inputBox.setSymbolicMode(true, false);
+		updateInput("(-1)/4 x");
+		assertEquals("-1/4 x", inputBox.getTextForEditor());
+		assertEquals("\\frac{-1}{4} \\; x", inputBox.getText());
+	}
+
+	@Test
+	public void minusShouldStayInFrontOfFraction() {
+		setupInput("f", "x");
+		inputBox.setSymbolicMode(true, false);
+		updateInput("-(1/4) x");
+		assertEquals("-(1/4) x", inputBox.getTextForEditor());
+		assertEquals("-\\frac{1}{4} \\; x", inputBox.getText());
+	}
+
+	@Test
+	public void implicitMultiplicationWithParenthesis() {
+		add("c = 2");
+		add("a = c + 2");
+		setupInput("a", "2");
+		updateInput("cc(2)");
+		assertEquals("c c * 2", inputBox.getText());
+	}
+
+	@Test
+	public void implicitMultiplicationWithEvaluatable() {
+		add("f: y = 2 * x + 3");
+		setupInput("g", "x");
+		updateInput("xf(x) + 4");
+		assertEquals("x f(x) + 4", inputBox.getText());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingComplexFunctionUndefined() {
+		setupInput("f", "x+i");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("?");
+		assertEquals("", inputBox.getTextForEditor());
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("", inputBox.getTextForEditor());
+		assertEquals("f\\, \\text{undefined} ", lookup("f")
 				.getLaTeXAlgebraDescriptionWithFallback(false,
 						StringTemplate.defaultTemplate, false));
 	}

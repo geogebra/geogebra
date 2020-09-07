@@ -1,11 +1,17 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
+
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.settings.AppConfigGeometry;
 import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.properties.impl.objects.FixObjectProperty;
+import org.geogebra.common.properties.impl.objects.delegate.NotApplicablePropertyException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,9 +22,9 @@ public class FixUnfixTest extends BaseUnitTest {
 		getApp().setConfig(new AppConfigGraphing());
 		Assert.assertTrue(getApp().getConfig().isObjectDraggingRestricted());
 
-		GeoFunction function = (GeoFunction) add("f(x) = x+1");
-		GeoConic conic = (GeoConic) add("x*x+y*y=5");
-		GeoLine line = (GeoLine) add("y=5");
+		GeoFunction function = add("f(x) = x+1");
+		GeoConic conic = add("x*x+y*y=5");
+		GeoLine line = add("y=5");
 
 		Assert.assertTrue(function.isLocked());
 		Assert.assertTrue(conic.isLocked());
@@ -30,9 +36,9 @@ public class FixUnfixTest extends BaseUnitTest {
 		getApp().setConfig(new AppConfigGeometry());
 		Assert.assertFalse(getApp().getConfig().isObjectDraggingRestricted());
 
-		GeoFunction function = (GeoFunction) add("f(x) = x+1");
-		GeoConic conic = (GeoConic) add("x*x+y*y=5");
-		GeoLine line = (GeoLine) add("y=5");
+		GeoFunction function = add("f(x) = x+1");
+		GeoConic conic = add("x*x+y*y=5");
+		GeoLine line = add("y=5");
 
 		Assert.assertTrue(function.isLocked());
 		Assert.assertTrue(conic.isLocked());
@@ -43,9 +49,9 @@ public class FixUnfixTest extends BaseUnitTest {
 	public void testUnfixForFunctionGraphing() {
 		getApp().setConfig(new AppConfigGraphing());
 
-		GeoFunction function = (GeoFunction) add("f(x) = x+1");
-		GeoConic conic = (GeoConic) add("x*x+y*y=5");
-		GeoLine line = (GeoLine) add("y=5");
+		GeoFunction function = add("f(x) = x+1");
+		GeoConic conic = add("x*x+y*y=5");
+		GeoLine line = add("y=5");
 
 		function.setFixed(false);
 		conic.setFixed(false);
@@ -60,9 +66,9 @@ public class FixUnfixTest extends BaseUnitTest {
 	public void testUnfixForFunctionGeometry() {
 		getApp().setConfig(new AppConfigGeometry());
 
-		GeoFunction function = (GeoFunction) add("f(x) = x+1");
-		GeoConic conic = (GeoConic) add("x*x+y*y=5");
-		GeoLine line = (GeoLine) add("y=5");
+		GeoFunction function = add("f(x) = x+1");
+		GeoConic conic = add("x*x+y*y=5");
+		GeoLine line = add("y=5");
 
 		function.setFixed(false);
 		conic.setFixed(false);
@@ -77,42 +83,33 @@ public class FixUnfixTest extends BaseUnitTest {
 	public void testFixHiddenGraphing() {
 		getApp().setConfig(new AppConfigGraphing());
 
-		GeoFunction function = (GeoFunction) add("f(x) = x+1");
-		GeoConic conic = (GeoConic) add("x*x+y*y=5");
-		GeoLine line = (GeoLine) add("y=5");
+		GeoFunction function = add("f(x) = x+1");
+		GeoConic conic = add("x*x+y*y=5");
+		GeoLine line = add("y=5");
 
-		ObjectSettingsModel model = new ObjectSettingsModel(getApp()) {
-		};
+		GeoElement[] geos = new GeoElement[]{function, conic, line};
 
-		model.setGeoElement(function);
-		Assert.assertFalse(model.hasFixUnfixFunctionProperty());
-
-		model.setGeoElement(conic);
-		Assert.assertFalse(model.hasFixUnfixFunctionProperty());
-
-		model.setGeoElement(line);
-		Assert.assertFalse(model.hasFixUnfixFunctionProperty());
+		for (GeoElement geo : geos) {
+			assertThrows(NotApplicablePropertyException.class,
+					() -> new FixObjectProperty(getLocalization(), geo));
+		}
 	}
 
 	@Test
 	public void testFixHiddenGeometry() {
 		getApp().setConfig(new AppConfigGeometry());
 
-		GeoFunction function = (GeoFunction) add("f(x) = x+1");
-		GeoConic conic = (GeoConic) add("x*x+y*y=5");
-		GeoLine line = (GeoLine) add("y=5");
+		GeoFunction function = add("f(x) = x+1");
+		GeoConic conic = add("x*x+y*y=5");
+		GeoLine line = add("y=5");
 
-		ObjectSettingsModel model = new ObjectSettingsModel(getApp()) {
-		};
-
-		model.setGeoElement(function);
-		Assert.assertTrue(model.hasFixUnfixFunctionProperty());
-
-		model.setGeoElement(conic);
-		Assert.assertTrue(model.hasFixUnfixFunctionProperty());
-
-		model.setGeoElement(line);
-		Assert.assertTrue(model.hasFixUnfixFunctionProperty());
+		try {
+			new FixObjectProperty(getLocalization(), function);
+			new FixObjectProperty(getLocalization(), conic);
+			new FixObjectProperty(getLocalization(), line);
+		} catch (NotApplicablePropertyException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
@@ -120,9 +117,9 @@ public class FixUnfixTest extends BaseUnitTest {
 		getApp().setConfig(new AppConfigGraphing());
 		Assert.assertTrue(getApp().getConfig().isObjectDraggingRestricted());
 
-		GeoFunction function = (GeoFunction) add("f(x) = x+1");
-		GeoConic conic = (GeoConic) add("x*x+y*y=5");
-		GeoLine line = (GeoLine) add("y=5");
+		GeoFunction function = add("f(x) = x+1");
+		GeoConic conic = add("x*x+y*y=5");
+		GeoLine line = add("y=5");
 		FixObjectModel fixObjectModel = getModel();
 		Object[] geos = new Object[]{function, conic, line};
 
@@ -140,9 +137,9 @@ public class FixUnfixTest extends BaseUnitTest {
 		getApp().setConfig(new AppConfigGeometry());
 		Assert.assertFalse(getApp().getConfig().isObjectDraggingRestricted());
 
-		GeoFunction function = (GeoFunction) add("f(x) = x+1");
-		GeoConic conic = (GeoConic) add("x*x+y*y=5");
-		GeoLine line = (GeoLine) add("y=5");
+		GeoFunction function = add("f(x) = x+1");
+		GeoConic conic = add("x*x+y*y=5");
+		GeoLine line = add("y=5");
 		FixObjectModel fixObjectModel = getModel();
 		Object[] geos = new Object[]{function, conic, line};
 

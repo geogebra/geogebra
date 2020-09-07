@@ -935,6 +935,8 @@ public class Construction {
 	 *            ConstuctionElement to be removed
 	 */
 	public void removeFromConstructionList(ConstructionElement ce) {
+		tempList.remove(ce);
+
 		int pos = ceList.indexOf(ce);
 		if (pos == -1) {
 			return;

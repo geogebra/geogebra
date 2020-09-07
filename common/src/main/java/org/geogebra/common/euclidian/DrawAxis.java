@@ -375,8 +375,8 @@ public class DrawAxis {
 	private void drawYticksLinear(GGraphics2D g2, double xCrossPix,
 			int fontsize, char minusSign, boolean drawTopArrow,
 			double yCrossPix, double yAxisEnd) {
-		double xoffset = -4 - (fontsize / 4);
-		double yoffset = (fontsize / 2) - 1;
+		double xoffset = -4 - (fontsize / 4d);
+		double yoffset = (fontsize / 2d) - 1;
 		
 		boolean enableTicks = !view.getShowGrid()
 				|| (view.axesNumberingDistances[1] != view.getGridDistances()[1]);
@@ -435,11 +435,8 @@ public class DrawAxis {
 			labelno++;
 		}
 
-		double smallTickPix = pix + tickStep;
-
 		// draw all of the remaining ticks and labels
 
-		// int maxY = height - view.SCREEN_BORDER;
 		int maxY = EuclidianView.SCREEN_BORDER;
 		
 		// yAxisEnd
@@ -532,7 +529,7 @@ public class DrawAxis {
 			}
 
 			// small tick
-			smallTickPix = (pix + tickStep) - smallTickOffset;
+			double smallTickPix = (pix + tickStep) - smallTickOffset;
 			if (drawMinorTicks[1]) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
@@ -615,9 +612,9 @@ public class DrawAxis {
 		GTextLayout layout = AwtFactory.getPrototype().newTextLayout("0",
 				view.getFontAxes(), g2.getFontRenderContext());
 		double width = layout.getAdvance();
-		double xoffset = -4 - (fontsize / 4);
+		double xoffset = -4 - (fontsize / 4d);
 		double yoffset = view.getYOffsetForXAxis(fontsize);
-		double yoffset2 = (fontsize / 2) - 1;
+		double yoffset2 = (fontsize / 2d) - 1;
 
 		Integer x = getXPositionAtEdge(xCrossPix, xoffset, width);
 		if (x == null || view.showAxes[0] && view.showAxesNumbers[0]) {
@@ -710,8 +707,8 @@ public class DrawAxis {
 	private void drawYticksLog(GGraphics2D g2, double xCrossPix, int fontsize,
 			char minusSign, boolean drawTopArrow, double yCrossPix,
 			double yAxisEnd) {
-		double xoffset = -4 - (fontsize / 4);
-		double yoffset = (fontsize / 2) - 1;
+		double xoffset = -4 - (fontsize / 4d);
+		double yoffset = (fontsize / 2d) - 1;
 		boolean[] drawMajorTicks = { view.getAxisTickStyle(0) <= 1, view.getAxisTickStyle(1) <= 1 };
 		boolean[] drawMinorTicks = { view.getAxisTickStyle(0) == 0, view.getAxisTickStyle(1) == 0 };
 		double xSmall1 = xCrossPix - 0;

@@ -21,6 +21,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.renderer.share.TeXFont;
 
 /**
  * MathField-capable editor for EV, Web implementation.
@@ -63,6 +64,8 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		this.bounds = bounds;
 		// add to DOM, but hidden => getHeight works, but widget is not shown in wrong position
 		editor.setVisible(false);
+		editor.setFontType(geoInputBox.isSerifFont() ? TeXFont.SERIF
+				:  TeXFont.SANSSERIF);
 		editor.attach(((EuclidianViewW) view).getAbsolutePanel());
 		// update size and show
 		resetChanges();
@@ -86,12 +89,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.setVisible(true);
 		editor.setText(getGeoInputBox().getTextForEditor());
 		editor.setLabel(getGeoInputBox().getAuralText());
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				editor.requestFocus();
-			}
-		});
+		Scheduler.get().scheduleDeferred(() -> editor.requestFocus());
 	}
 
 	@Override
@@ -115,12 +113,7 @@ public class SymbolicEditorW extends SymbolicEditor implements HasMathKeyboardLi
 		editor.setVisible(false);
 
 		AnimationScheduler.get()
-				.requestAnimationFrame(new AnimationScheduler.AnimationCallback() {
-			@Override
-			public void execute(double timestamp) {
-				((EuclidianViewW) view).doRepaint2();
-			}
-		});
+				.requestAnimationFrame(timestamp -> ((EuclidianViewW) view).doRepaint2());
 	}
 
 	@Override

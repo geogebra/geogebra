@@ -168,6 +168,14 @@ public class MathFieldEditor implements IsWidget, HasKeyboardPopup,
 	}
 
 	/**
+	 * Sets editor font type.
+	 * @param fontType to set.
+	 */
+	public void setFontType(int fontType) {
+		mathField.setFontType(fontType);
+	}
+
+	/**
 	 * Add style to the editor.
 	 *
 	 * @param style to add.

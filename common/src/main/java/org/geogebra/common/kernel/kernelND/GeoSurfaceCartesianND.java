@@ -7,13 +7,16 @@ import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Translateable;
@@ -65,6 +68,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	protected CoordMatrix jacobian;
 	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
+	protected FunctionVariable complexVariable;
 
 	/**
 	 * common constructor
@@ -127,7 +131,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 						ve.derivative(vars[j], getKernel()).wrap(), vars);
 			}
 		}
-
 	}
 
 	/**
@@ -165,7 +168,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -186,9 +188,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 */
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
-		for (int i = 0; i < fun.length; i++) {
-			if (fun[i] != null) {
-				fun[i].replaceChildrenByValues(geo);
+		for (FunctionNVar functionNVar : fun) {
+			if (functionNVar != null) {
+				functionNVar.replaceChildrenByValues(geo);
 			}
 		}
 	}
@@ -269,19 +271,19 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	public String toString(StringTemplate tpl) {
 		StringBuilder sbToString = new StringBuilder(80);
 
-		sbToString.setLength(0);
-		if (isLabelSet()) {
-			sbToString.append(label);
-			if (fun != null) {
-				sbToString.append('(');
-				sbToString
-						.append(fun[0].getFunctionVariables()[0].toString(tpl));
-				sbToString.append(',');
-				sbToString
-						.append(fun[0].getFunctionVariables()[1].toString(tpl));
-				sbToString.append(") = ");
-			}
+		sbToString.append(label);
+		sbToString.append('(');
+		if (complexVariable != null) {
+			sbToString
+					.append(complexVariable.toString(tpl));
+		} else {
+			sbToString
+					.append(fun[0].getFunctionVariables()[0].toString(tpl));
+			sbToString.append(',');
+			sbToString
+					.append(fun[0].getFunctionVariables()[1].toString(tpl));
 		}
+		sbToString.append(") = ");
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
@@ -289,6 +291,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isDefined()) {
+			if (getDefinition() != null) {
+				return getDefinition().toString(tpl);
+			}
 			StringBuilder sbTemp = new StringBuilder(80);
 			sbTemp.setLength(0);
 			sbTemp.append(tpl.leftBracket());
@@ -335,7 +340,9 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		if (isDefined()) {
 			StringBuilder sbTemp = new StringBuilder(80);
-
+			if (getDefinition() != null) {
+				return getDefinition().toString(tpl);
+			}
 			if (point == null) {
 				sbTemp.append("\\left(\\begin{array}{c}");
 
@@ -472,7 +479,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		}
 
 		return false;
-
 	}
 
 	// private static final int GRADIENT_SAMPLES = 8;
@@ -845,11 +851,20 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
 			boolean symbolic, MyArbitraryConstant arbconst) {
-		// TODO Auto-generated method stub
+		GeoSurfaceCartesianND c = (GeoSurfaceCartesianND) f;
+
+		if (c.getDefinition() != null) {
+			FunctionNVar transformed = new Function(c.getDefinition(), complexVariable)
+					.evalCasCommand(ggbCasCmd, symbolic, arbconst);
+			setDefinition(transformed.getFunctionExpression());
+		}
 	}
 
 	@Override
 	public String getVarString(StringTemplate tpl) {
+		if (complexVariable != null) {
+			return complexVariable.toString(tpl);
+		}
 		return fun[0].getVarString(tpl);
 	}
 
@@ -889,12 +904,15 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
+		if (!geo.isGeoSurfaceCartesian()) {
+			setUndefined();
+			return;
+		}
 		GeoSurfaceCartesianND geoSurface = (GeoSurfaceCartesianND) geo;
 		int dim = this.isGeoElement3D() ? 3 : 2;
 		fun = new FunctionNVar[dim];
 		for (int i = 0; i < dim; i++) {
 			fun[i] = new FunctionNVar(geoSurface.fun[i], kernel);
-			// Application.debug(fun[i].toString());
 		}
 
 		fun1 = null;
@@ -916,9 +934,64 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 				}
 			}
 		}
-
-		// distFun = new ParametricCurveDistanceFunction(this);
-
+		if (geoSurface.point != point) {
+			point = geoSurface.point.deepCopy(kernel);
+		}
+		if (geoSurface.complexVariable != null) {
+			complexVariable = geoSurface.complexVariable;
+			if (geoSurface.isDefined && geoSurface.getDefinition() != null) {
+				setDefinition(geoSurface.getDefinition().deepCopy(kernel));
+			}
+		}
 	}
 
+	public void setComplexVariable(FunctionVariable fv) {
+		complexVariable = fv;
+	}
+
+	@Override
+	public boolean isEqual(GeoElementND other) {
+		if (other instanceof GeoSurfaceCartesianND) {
+			GeoSurfaceCartesianND otherSurface = (GeoSurfaceCartesianND) other;
+			if (point != null && otherSurface.point != null) {
+				return isDifferenceZeroInCAS(other);
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public String getAssignmentLHS(StringTemplate tpl) {
+		if (complexVariable != null) {
+			return tpl.printVariableName(label) + tpl.leftBracket()
+					+ getVarString(tpl) + tpl.rightBracket();
+		}
+		return super.getAssignmentLHS(tpl);
+	}
+
+	@Override
+	public String getTypeString() {
+		if (complexVariable != null) {
+			return "ComplexFunction";
+		}
+		return super.getTypeString();
+	}
+
+	@Override
+	public DescriptionMode getDescriptionMode() {
+		if (complexVariable != null) {
+			return DescriptionMode.DEFINITION;
+		}
+		return super.getDescriptionMode();
+	}
+
+	@Override
+	public boolean isMoveable() { // to make SetValue work
+		return getDefinition() != null
+				&& !getDefinition().inspect(Inspecting.dynamicGeosFinder);
+	}
+
+	public FunctionVariable getComplexVariable() {
+		return complexVariable;
+	}
 }

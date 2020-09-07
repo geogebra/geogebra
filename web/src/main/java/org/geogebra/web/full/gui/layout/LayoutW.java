@@ -100,16 +100,16 @@ public class LayoutW extends Layout {
 		if (app.isApplet()) {
 			app.setCustomToolBar();
 
-			app.setShowToolBarNoUpdate(app.getArticleElement()
+			app.setShowToolBarNoUpdate(app.getAppletParameters()
 					.getDataParamShowToolBar(false));
-			app.setShowAlgebraInput(app.getArticleElement()
+			app.setShowAlgebraInput(app.getAppletParameters()
 					.getDataParamShowAlgebraInput(false), false);
 		}
 
 		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
 
 		app.setInputPosition(
-				app.getArticleElement()
+				app.getAppletParameters()
 					.getAlgebraPosition(perspective.getInputPosition()), false);
 		String toolbar3D = "";
 
@@ -159,7 +159,8 @@ public class LayoutW extends Layout {
 		return (dp.getViewId() == App.VIEW_ALGEBRA
 				|| dp.getViewId() == App.VIEW_CAS
 				|| dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR
-				|| dp.getViewId() == App.VIEW_SPREADSHEET) && !dp.isToolMode();
+				|| dp.getViewId() == App.VIEW_SPREADSHEET)
+				&& dp.getTabId() == DockPanelData.TabIds.ALGEBRA;
 	}
 
 	/**

@@ -286,6 +286,11 @@ public class AppConfigDefault implements AppConfig {
 	}
 
 	@Override
+	public boolean disableTraceCM() {
+		return false;
+	}
+
+	@Override
 	public AppKeyboardType getKeyboardType() {
 		return AppKeyboardType.GRAPHING;
 	}

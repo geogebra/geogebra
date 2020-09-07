@@ -113,6 +113,9 @@ public class GeoText extends GeoElement
 	// for absolute screen location
 	private boolean hasAbsoluteScreenLocation = false;
 
+	private GeoNumeric verticalAlignment;
+	private GeoNumeric horizontalAlignment;
+
 	/**
 	 */
 	boolean alwaysFixed = false;
@@ -199,6 +202,12 @@ public class GeoText extends GeoElement
 		// needed for Corner[Element[text
 		boundingBox = gt.getBoundingBox();
 
+		if (gt.getHorizontalAlignment() != null) {
+			setHorizontalAlignment(gt.getHorizontalAlignment());
+			if (gt.getVerticalAlignment() != null) {
+				setVerticalAlignment(gt.getVerticalAlignment());
+			}
+		}
 		try {
 			if (gt.startPoint != null) {
 				if (gt.hasAbsoluteLocation()) {
@@ -327,9 +336,8 @@ public class GeoText extends GeoElement
 		if (p == null) {
 			if (startPoint != null) {
 				startPoint = startPoint.copy();
-			} else {
-				startPoint = null;
 			}
+
 			labelOffsetX = 0;
 			labelOffsetY = 0;
 		} else {
@@ -613,15 +621,7 @@ public class GeoText extends GeoElement
 			sb.append("\"/>\n");
 		}
 
-		sb.append("<element");
-		sb.append(" type=\"text\"");
-		sb.append(" label=\"");
-		StringUtil.encodeXML(sb, label);
-		if (getDefaultGeoType() >= 0) {
-			sb.append("\" default=\"");
-			sb.append(getDefaultGeoType());
-		}
-		sb.append("\">\n");
+		getElementOpenTagXML(sb);
 
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
@@ -649,7 +649,7 @@ public class GeoText extends GeoElement
 		}
 
 		appendFontTag(sb, serifFont, fontSizeD, fontStyle, isLaTeX,
-				kernel.getApplication());
+				kernel.getApplication(), false);
 
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {
@@ -689,7 +689,7 @@ public class GeoText extends GeoElement
 		} else {
 			// location of text
 			if (startPoint != null) {
-				sb.append(startPoint.getStartPointXML());
+				startPoint.appendStartPointXML(sb);
 
 				if (labelOffsetX != 0 || labelOffsetY != 0) {
 					sb.append("\t<labelOffset");
@@ -1293,11 +1293,14 @@ public class GeoText extends GeoElement
 	 *            latex flag
 	 * @param app
 	 *            application
+	 * @param forceAdd
+	 * 			  true if tag should be added
 	 */
 	public static void appendFontTag(StringBuilder sb, boolean serifFont,
-			double fontSizeD, int fontStyle, boolean isLaTeX, App app) {
+			double fontSizeD, int fontStyle, boolean isLaTeX, App app,
+			boolean forceAdd) {
 		// font settings
-		if (serifFont || fontSizeD != 1 || fontStyle != 0 || isLaTeX) {
+		if (serifFont || fontSizeD != 1 || fontStyle != 0 || isLaTeX || forceAdd) {
 			sb.append("\t<font serif=\"");
 			sb.append(serifFont);
 
@@ -1547,5 +1550,21 @@ public class GeoText extends GeoElement
 			((HasDynamicCaption) geo).setDynamicCaption(this);
 			registerUpdateListener(geo);
 		}
+	}
+
+	public void setHorizontalAlignment(GeoNumeric horizAlign) {
+		horizontalAlignment = horizAlign;
+	}
+
+	public GeoNumeric getHorizontalAlignment() {
+		return horizontalAlignment;
+	}
+
+	public void setVerticalAlignment(GeoNumeric vertAlign) {
+		verticalAlignment = vertAlign;
+	}
+
+	public GeoNumeric getVerticalAlignment() {
+		return verticalAlignment;
 	}
 }

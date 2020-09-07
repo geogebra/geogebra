@@ -13,8 +13,9 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -90,10 +91,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * Updates fullscreen button and article.
 	 */
 	public void updateFullscreen() {
-		ArticleElementInterface ae = app.getArticleElement();
+		AppletParameters ae = app.getAppletParameters();
+		GeoGebraElement element = app.getGeoGebraElement();
 		if (!ae.getDataParamApp() && isFullScreen()) {
-			getZoomController().scaleApplet(ae.getParentElement(),
-					ae.getParentElement().getParentElement(),
+			getZoomController().scaleApplet(element.getParentElement(),
+					element.getParentElement().getParentElement(),
 					getPanelElement());
 		}
 		if (ae.getDataParamApp() && fullscreenBtn != null) {
@@ -316,10 +318,10 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	}
 
 	private static boolean needsFullscreenButton(AppW app) {
-		if (app.getArticleElement().getDataParamApp()) {
+		if (app.getAppletParameters().getDataParamApp()) {
 			return ZoomController.isRunningInIframe() || !Browser.isMobile();
 		} else {
-			if (!app.getArticleElement().getDataParamShowFullscreenButton()) {
+			if (!app.getAppletParameters().getDataParamShowFullscreenButton()) {
 				return false;
 			}
 
@@ -328,8 +330,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	}
 
 	private static boolean needsZoomButtons(AppW app) {
-		return (app.getArticleElement().getDataParamShowZoomButtons()
-				|| app.getArticleElement().getDataParamApp())
+		return (app.getAppletParameters().getDataParamShowZoomButtons()
+				|| app.getAppletParameters().getDataParamApp())
 				&& app.isShiftDragZoomEnabled() && !app.isWhiteboardActive();
 	}
 

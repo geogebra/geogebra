@@ -440,6 +440,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	private FontCreator fontCreator;
 	private AlgebraOutputFilter algebraOutputFilter;
 
+	private final AppConfig appConfig = new AppConfigDefault();
+
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
 	}
@@ -3878,9 +3880,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ADJUST_WIDGETS:
 			return false;
 
-		case SURFACE_2D:
-			return prerelease;
-
 		case SYMBOLIC_AV:
 			return true;
 
@@ -4757,7 +4756,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public AppConfig getConfig() {
-		return new AppConfigDefault();
+		return appConfig;
 	}
 
 	/**

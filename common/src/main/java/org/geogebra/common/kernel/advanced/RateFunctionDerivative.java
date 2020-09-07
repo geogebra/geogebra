@@ -53,8 +53,8 @@ public class RateFunctionDerivative implements UnivariateFunction {
 			// 1)^n + x + 1) + a n x^2 (x + 1)^n) / (x^2 (x + 1))),0]
 			// ((1 / 2 * b) * n^(2)) + ((b * c) * n) + (a * n) - ((1 / 2 * b) *
 			// n)
-			return ((1 / 2 * b) * n * n) + ((b * c) * n) + (a * n)
-					- ((1 / 2 * b) * n);
+			return ((b / 2d) * n * n) + ((b * c) * n) + (a * n)
+					- ((b / 2d) * n);
 		}
 
 		double p = Math.pow(1 + x, n);

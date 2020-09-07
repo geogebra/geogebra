@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.ListValue;
@@ -29,7 +28,6 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoSymbolic;
 import org.geogebra.common.kernel.geos.ParametricCurve;
@@ -232,11 +230,10 @@ public class FunctionParser {
 		// a(b) becomes a*b because a is not a function, no list, and no curve
 		// e.g. a(1+x) = a*(1+x) when a is a number
 
-		if (inputBoxParsing && geoExp.wrap().getRight() instanceof GeoFunction) {
+		if (inputBoxParsing && geoExp.wrap().getRight() instanceof Evaluatable) {
 			ExpressionValue left = geoExp.wrap().getLeft();
-			GeoFunction function = (GeoFunction) geoExp.wrap().getRight();
 
-			return new ExpressionNode(kernel, function,
+			return new ExpressionNode(kernel, geoExp.wrap().getRight(),
 					Operation.FUNCTION, toFunctionArgument(myList, funcName)).multiply(left);
 		}
 
@@ -425,17 +422,9 @@ public class FunctionParser {
 		for (int i = 0; i < n; i++) {
 			funVar[i] = new FunctionVariable(kernel, localVars.get(i));
 		}
-
-		if (n == 1) { // single variable function
-			Function fun = new Function(rhs, funVar[0]);
-			fun.setLabel(funLabel);
-			rhs = new ExpressionNode(kernel, fun);
-		} else { // multi variable function
-			FunctionNVar funn = new FunctionNVar(rhs, funVar);
-			funn.setLabel(funLabel);
-			rhs = new ExpressionNode(kernel, funn);
-		}
-
+		FunctionNVar fun = kernel.getArithmeticFactory().newFunction(rhs, funVar);
+		fun.setLabel(funLabel);
+		rhs = new ExpressionNode(kernel, fun);
 		rhs.setLabel(funLabel);
 		return rhs;
 	}

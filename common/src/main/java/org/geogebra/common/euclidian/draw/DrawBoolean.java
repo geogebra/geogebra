@@ -271,14 +271,14 @@ public final class DrawBoolean extends Drawable {
 
 				// outline
 				g.setColor(highlightOutline);
-				highlightCircle.setFrameFromCenter(x + csize / 2, y + csize / 2,
+				highlightCircle.setFrameFromCenter(x + csize / 2d, y + csize / 2d,
 						x + highlightSize + outlineWidth,
 						y + highlightSize + outlineWidth);
 				g.fill(highlightCircle);
 
 				// fill
 				g.setColor(highlightBackground);
-				highlightCircle.setFrameFromCenter(x + csize / 2, y + csize / 2,
+				highlightCircle.setFrameFromCenter(x + csize / 2d, y + csize / 2d,
 						x + highlightSize, y + highlightSize);
 				g.fill(highlightCircle);
 			}

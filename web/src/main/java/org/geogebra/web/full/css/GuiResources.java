@@ -1,7 +1,5 @@
 package org.geogebra.web.full.css;
 
-import org.geogebra.web.html5.util.LessResource;
-import org.geogebra.web.resources.LessReference;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SassResource;
 
@@ -305,15 +303,8 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/css/fonts.css")
 	TextResource fonts();
 
-	// New less resources for GEOGEBRA EXAM
-	@Source("org/geogebra/web/exam/css/exam.ltr.less")
-	LessResource examStyleLTR();
-
-	@Source("org/geogebra/web/exam/css/exam.rtl.less")
-	LessResource examStyleRTL();
-
-	@Source("org/geogebra/web/exam/css/exam.less")
-	LessReference examStyle();
+	@Source("org/geogebra/web/resources/scss/exam.scss")
+	SassResource examStyle();
 
 	@Override
 	@Source("org/geogebra/web/resources/scss/mow.scss")
@@ -323,8 +314,8 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/mow-toolbar.scss")
 	SassResource mowToolbarStyle();
 
-	@Source("org/geogebra/web/resources/css/web-styles.less")
-	LessResource modernStyle();
+	@Source("org/geogebra/web/resources/scss/web-styles.scss")
+	SassResource modernStyle();
 
 	@Source("org/geogebra/web/resources/scss/spreadsheet.scss")
 	SassResource spreadsheetStyle();
@@ -336,35 +327,14 @@ public interface GuiResources extends ClientBundle, StylesProvider {
 	@Source("org/geogebra/web/resources/scss/av-styles.scss")
 	SassResource avStyleScss();
 
-	@Source("org/geogebra/web/resources/css/definitions.less")
-	LessReference lessDefinitions();
+	@Source("org/geogebra/web/resources/scss/general.scss")
+	SassResource generalStyle();
 
-	@Source("org/geogebra/web/resources/css/general.ltr.less")
-	LessResource generalStyleLTR();
+	@Source("org/geogebra/web/resources/scss/headerbar.scss")
+	SassResource headerbarStyle();
 
-	@Source("org/geogebra/web/resources/css/general.rtl.less")
-	LessResource generalStyleRTL();
-
-	@Source("org/geogebra/web/resources/css/general.less")
-	LessReference generalStyle();
-
-	@Source("org/geogebra/web/resources/css/headerbar.ltr.less")
-	LessResource headerbarStyleLTR();
-
-	@Source("org/geogebra/web/resources/css/headerbar.rtl.less")
-	LessResource headerbarStyleRTL();
-
-	@Source("org/geogebra/web/resources/css/headerbar.less")
-	LessReference headerbarStyle();
-
-	@Source("org/geogebra/web/resources/css/av.ltr.less")
-	LessResource avStyleLTR();
-
-	@Source("org/geogebra/web/resources/css/av.rtl.less")
-	LessResource avStyleRTL();
-
-	@Source("org/geogebra/web/resources/css/av.less")
-	LessReference avStyle();
+	@Source("org/geogebra/web/resources/scss/av.scss")
+	SassResource avStyle();
 
 	@Source("org/geogebra/web/resources/scss/toolbar-styles.scss")
 	SassResource toolBarStyleScss();

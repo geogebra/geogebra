@@ -224,34 +224,27 @@ public class AlgoCubicSwitch {
 							+ 2 * c4 * b2 - 2 * c2 * b4);
 		case 29:
 			return a(0, 2 * b * c2
-					* Math.cos(1 / 3 * Math.acos((a2 + b2 - c2) / (2 * a * b)))
-					* Math.cos(1 / 3 * Math.acos((-a2 + b2 + c2) / (2 * b * c)))
-					+ b * c2 * Math.cos(
-							1 / 3 * Math.acos((a2 - b2 + c2) / (2 * a * c))),
+					* Math.cos(Math.acos((a2 + b2 - c2) / (2 * a * b)) / 3)
+					* Math.cos(Math.acos((-a2 + b2 + c2) / (2 * b * c)) / 3)
+					+ b * c2 * Math.cos(Math.acos((a2 - b2 + c2) / (2 * a * c)) / 3),
 					0);
 		case 30:
-			return a(0,
-					2 * b * c2
-							* Math.cos(1 / 3
-									* (2 * Math.PI + Math.acos(
-											(a2 + b2 - c2) / (2 * a * b))))
-							* Math.cos(1 / 3
-									* (2 * Math.PI + Math.acos(
-											(-a2 + b2 + c2) / (2 * b * c))))
-							+ b * c2 * Math.cos(1 / 3 * (2 * Math.PI
-									+ Math.acos((a2 - b2 + c2) / (2 * a * c)))),
+			return a(0, 2 * b * c2
+					* Math.cos((2 * Math.PI + Math.acos(
+									(a2 + b2 - c2) / (2 * a * b))) / 3)
+					* Math.cos((2 * Math.PI + Math.acos(
+									(-a2 + b2 + c2) / (2 * b * c))) / 3)
+					+ b * c2 * Math.cos((2 * Math.PI
+									+ Math.acos((a2 - b2 + c2) / (2 * a * c))) / 3),
 					0);
 		case 31:
-			return a(0,
-					2 * b * c2
-							* Math.cos(1 / 3
-									* (-2 * Math.PI + Math.acos(
-											(a2 + b2 - c2) / (2 * a * b))))
-							* Math.cos(1 / 3
-									* (-2 * Math.PI + Math.acos(
-											(-a2 + b2 + c2) / (2 * b * c))))
-							+ b * c2 * Math.cos(1 / 3 * (-2 * Math.PI
-									+ Math.acos((a2 - b2 + c2) / (2 * a * c)))),
+			return a(0, 2 * b * c2
+					* Math.cos((-2 * Math.PI + Math.acos(
+									(a2 + b2 - c2) / (2 * a * b))) / 3)
+					* Math.cos((-2 * Math.PI + Math.acos(
+									(-a2 + b2 + c2) / (2 * b * c))) / 3)
+					+ b * c2 * Math.cos((-2 * Math.PI
+									+ Math.acos((a2 - b2 + c2) / (2 * a * c))) / 3),
 					0);
 		case 32:
 			return a(0,

@@ -37,68 +37,68 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testAtoms() {
-		checkCannon("a", "a");
+		checkCanonical("a", "a");
 	}
 
 	@Test
 	public void testExpr() {
-		checkCannon("1 * 2", "1 * 2");
-		checkCannon("1 == 2", "1 == 2");
-		checkCannon("1 " + Unicode.PARALLEL + " 2",
+		checkCanonical("1 * 2", "1 * 2");
+		checkCanonical("1 == 2", "1 == 2");
+		checkCanonical("1 " + Unicode.PARALLEL + " 2",
 				"1 " + Unicode.PARALLEL + " 2");
-		checkCannon("1 = 2", "1 = 2");
-		checkCannon("(1 * 2)", "(1 * 2)");
-		checkCannon("(1*2)", "(1*2)");
+		checkCanonical("1 = 2", "1 = 2");
+		checkCanonical("(1 * 2)", "(1 * 2)");
+		checkCanonical("(1*2)", "(1*2)");
 	}
 
 	@Test
 	public void testSqrt() {
-		checkCannon("sqrt(x + 1)", "sqrt(x + 1)");
-		checkCannon("x sqrt(x + 1)", "x sqrt(x + 1)");
-		checkCannon("f(x) = sqrt(x)", "f(x) = sqrt(x)");
-		checkCannon("nroot(x + 1,3)", "nroot(x + 1,3)");
-		checkCannon("f(x) = nroot(x,3)", "f(x) = nroot(x,3)");
+		checkCanonical("sqrt(x + 1)", "sqrt(x + 1)");
+		checkCanonical("x sqrt(x + 1)", "x sqrt(x + 1)");
+		checkCanonical("f(x) = sqrt(x)", "f(x) = sqrt(x)");
+		checkCanonical("nroot(x + 1,3)", "nroot(x + 1,3)");
+		checkCanonical("f(x) = nroot(x,3)", "f(x) = nroot(x,3)");
 	}
 
 	@Test
 	public void testPrime() {
-		checkCannon("f'''(x)/2", "(f'''(x))/(2)");
+		checkCanonical("f'''(x)/2", "(f'''(x))/(2)");
 	}
 
 	@Test
 	public void testInverseTrig() {
-		checkCannon("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2",
+		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + "(1)/2",
 				"(cos^(-1)(1))/(2)");
-		checkCannon("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + " (1)/2",
+		checkCanonical("cos" + Unicode.SUPERSCRIPT_MINUS_ONE_STRING + " (1)/2",
 				"cos^(-1) (1)/(2)");
 	}
 
 	@Test
 	public void testDiv() {
-		checkCannon("1/n^2", "(1)/(n^(2))");
-		checkCannon("1/n_2", "(1)/(n_{2})");
-		checkCannon("1/2", "(1)/(2)");
-		checkCannon("1/2+3", "(1)/(2)+3");
-		checkCannon("1/ ( 2)", "(1)/( 2)");
-		checkCannon("1/ (2+3)", "(1)/(2+3)");
-		checkCannon("1/ ((2+3)+4)", "(1)/((2+3)+4)");
-		checkCannon("1/(2/3)", "(1)/((2)/(3))");
-		checkCannon("x^2/ 3", "(x^(2))/(3)");
-		checkCannon("x^2 / 2", "(x^(2))/(2)");
-		checkCannon("2/cos(x)", "(2)/(cos(x))");
-		checkCannon("1/(2^3)", "(1)/(2^(3))");
-		checkCannon("1/2^3", "(1)/(2^(3))");
-		checkCannon("1/2" + Unicode.SUPERSCRIPT_3, "(1)/(2^(3))");
+		checkCanonical("1/n^2", "(1)/(n^(2))");
+		checkCanonical("1/n_2", "(1)/(n_{2})");
+		checkCanonical("1/2", "(1)/(2)");
+		checkCanonical("1/2+3", "(1)/(2)+3");
+		checkCanonical("1/ ( 2)", "(1)/( 2)");
+		checkCanonical("1/ (2+3)", "(1)/(2+3)");
+		checkCanonical("1/ ((2+3)+4)", "(1)/((2+3)+4)");
+		checkCanonical("1/(2/3)", "(1)/((2)/(3))");
+		checkCanonical("x^2/ 3", "(x^(2))/(3)");
+		checkCanonical("x^2 / 2", "(x^(2))/(2)");
+		checkCanonical("2/cos(x)", "(2)/(cos(x))");
+		checkCanonical("1/(2^3)", "(1)/(2^(3))");
+		checkCanonical("1/2^3", "(1)/(2^(3))");
+		checkCanonical("1/2" + Unicode.SUPERSCRIPT_3, "(1)/(2^(3))");
 	}
 
 	@Test
 	public void testExponent() {
-		checkCannon("exp(-30)", "exp(-30)");
-		checkCannon(Unicode.EULER_STRING + "^-30",
+		checkCanonical("exp(-30)", "exp(-30)");
+		checkCanonical(Unicode.EULER_STRING + "^-30",
 				Unicode.EULER_STRING + "^(-30)");
-		checkCannon(Unicode.EULER_STRING + "^-30+1",
+		checkCanonical(Unicode.EULER_STRING + "^-30+1",
 				Unicode.EULER_STRING + "^(-30)+1");
-		checkCannon(
+		checkCanonical(
 				Unicode.EULER_STRING + Unicode.SUPERSCRIPT_MINUS
 						+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0,
 				Unicode.EULER_STRING + "^(-10)");
@@ -106,87 +106,87 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testFloorCeil() {
-		checkCannon("floor(x)", "floor(x)");
-		checkCannon("ceil(x)", "ceil(x)");
-		checkCannon(Unicode.LFLOOR + "x" + Unicode.RFLOOR, "floor(x)");
-		checkCannon(Unicode.LCEIL + "x" + Unicode.RCEIL, "ceil(x)");
+		checkCanonical("floor(x)", "floor(x)");
+		checkCanonical("ceil(x)", "ceil(x)");
+		checkCanonical(Unicode.LFLOOR + "x" + Unicode.RFLOOR, "floor(x)");
+		checkCanonical(Unicode.LCEIL + "x" + Unicode.RCEIL, "ceil(x)");
 	}
 
 	@Test
 	public void testPower() {
-		checkCannon("x ^ 2", "x ^(2)");
-		checkCannon("x ^ 2 ^3", "x ^(2) ^(3)");
-		checkCannon("(x ^ 2) ^3", "(x ^(2)) ^(3)");
-		checkCannon("x ^ 2 + 1", "x ^(2) + 1");
-		checkCannon("x" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3,
+		checkCanonical("x ^ 2", "x ^(2)");
+		checkCanonical("x ^ 2 ^3", "x ^(2) ^(3)");
+		checkCanonical("(x ^ 2) ^3", "(x ^(2)) ^(3)");
+		checkCanonical("x ^ 2 + 1", "x ^(2) + 1");
+		checkCanonical("x" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3,
 				"x^(23)");
-		checkCannon("x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
+		checkCanonical("x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
 				+ Unicode.SUPERSCRIPT_3, "x^(-23)");
-		checkCannon("1 + x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
+		checkCanonical("1 + x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
 				+ Unicode.SUPERSCRIPT_3, "1 + x^(-23)");
-		checkCannon("e^x*sin(x)", "e^(x)*sin(x)");
-		checkCannon("e^(-10/x)*sin(x)", "e^(-(10)/(x))*sin(x)");
+		checkCanonical("e^x*sin(x)", "e^(x)*sin(x)");
+		checkCanonical("e^(-10/x)*sin(x)", "e^((-10)/(x))*sin(x)");
 	}
 
 	@Test
 	public void testSubscript() {
-		checkCannon("x_2", "x_{2}");
-		checkCannon("x_2 = 7", "x_{2} = 7");
-		checkCannon("x_2 t", "x_{2} t");
-		checkCannon("x_2 sin(x)", "x_{2} sin(x)");
-		checkCannon("f_2(x)", "f_{2}(x)");
-		checkCannon("f_2 (x)", "f_{2} (x)");
+		checkCanonical("x_2", "x_{2}");
+		checkCanonical("x_2 = 7", "x_{2} = 7");
+		checkCanonical("x_2 t", "x_{2} t");
+		checkCanonical("x_2 sin(x)", "x_{2} sin(x)");
+		checkCanonical("f_2(x)", "f_{2}(x)");
+		checkCanonical("f_2 (x)", "f_{2} (x)");
 	}
 
 	@Test
 	public void testPoint() {
-		checkCannon("(1,2)", "(1,2)");
-		checkCannon("(1;2)", "(1;2)");
-		checkCannon("(1,2,3)", "(1,2,3)");
-		checkCannon("(1;2;3)", "(1;2;3)");
+		checkCanonical("(1,2)", "(1,2)");
+		checkCanonical("(1;2)", "(1;2)");
+		checkCanonical("(1,2,3)", "(1,2,3)");
+		checkCanonical("(1;2;3)", "(1;2;3)");
 	}
 
 	@Test
 	public void testMultiply() {
-		checkCannon("t (1,2)", "t (1,2)");
-		checkCannon("x x x", "x x x");
+		checkCanonical("t (1,2)", "t (1,2)");
+		checkCanonical("x x x", "x x x");
 	}
 
 	@Test
 	public void testCommand() {
-		checkCannon("turtle1=Turtle[]", "turtle1=Turtle[]");
-		checkCannon("Turtle[]", "Turtle[]");
-		checkCannon("Turtle[1*3,7]", "Turtle[1*3,7]");
+		checkCanonical("turtle1=Turtle[]", "turtle1=Turtle[]");
+		checkCanonical("Turtle[]", "Turtle[]");
+		checkCanonical("Turtle[1*3,7]", "Turtle[1*3,7]");
 	}
 
 	@Test
 	public void testMatrix() {
-		checkCannon("{{1,2},{3,4}}", "{{1,2},{3,4}}");
+		checkCanonical("{{1,2},{3,4}}", "{{1,2},{3,4}}");
 		// normalize rows, but not cells
-		checkCannon("{{1 , 2} , { 3 , 4}}", "{{1 , 2},{ 3 , 4}}");
-		checkCannon("{{1 , 2} , 3}", "{{1 , 2} , 3}");
-		checkCannon("{{1,2},{3,4}}+1", "{{1,2},{3,4}}+1");
-		checkCannon("{7,{{1,2},{3,4}}+2,4,5,6}", "{7,{{1,2},{3,4}}+2,4,5,6}");
+		checkCanonical("{{1 , 2} , { 3 , 4}}", "{{1 , 2},{ 3 , 4}}");
+		checkCanonical("{{1 , 2} , 3}", "{{1 , 2} , 3}");
+		checkCanonical("{{1,2},{3,4}}+1", "{{1,2},{3,4}}+1");
+		checkCanonical("{7,{{1,2},{3,4}}+2,4,5,6}", "{7,{{1,2},{3,4}}+2,4,5,6}");
 	}
 
 	@Test
 	public void testList() {
-		checkCannon("{x,1}", "{x,1}");
-		checkCannon("{x , 1}", "{x , 1}");
+		checkCanonical("{x,1}", "{x,1}");
+		checkCanonical("{x , 1}", "{x , 1}");
 	}
 
 	@Test
 	public void testComma() {
-		checkCannon("If[x<1/x,x/2,sqrt(x/2)]",
+		checkCanonical("If[x<1/x,x/2,sqrt(x/2)]",
 				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))]");
-		checkCannon("(1;sqrt(2))", "(1;sqrt(2))");
-		checkCannon("(t^n;t)", "(t^(n);t)");
+		checkCanonical("(1;sqrt(2))", "(1;sqrt(2))");
+		checkCanonical("(t^n;t)", "(t^(n);t)");
 	}
 
 	@Test
 	public void testLog() {
-		checkCannon("log(10,x)", "log(10,x)");
-		checkCannon("log(x)", "log(x)");
+		checkCanonical("log(10,x)", "log(10,x)");
+		checkCanonical("log(x)", "log(x)");
 	}
 
 	@Test
@@ -235,8 +235,8 @@ public class SerializeLaTeX {
 		for (char op : new char[] { Unicode.LESS_EQUAL, Unicode.GREATER_EQUAL,
 				Unicode.IS_SUBSET_OF, Unicode.IS_ELEMENT_OF,
 				Unicode.IS_SUBSET_OF_STRICT }) {
-			checkCannon("5 " + op + " 3", "5 " + op + " 3");
-			checkCannon("5 " + op + " (2/3*x+5/3)",
+			checkCanonical("5 " + op + " 3", "5 " + op + " 3");
+			checkCanonical("5 " + op + " (2/3*x+5/3)",
 					"5 " + op + " ((2)/(3)*x+(5)/(3))");
 		}
 	}
@@ -287,7 +287,7 @@ public class SerializeLaTeX {
 				new TeXAtomSerializer(ad).serialize(tf.root));
 	}
 
-	private static void checkCannon(String input, String output) {
+	private static void checkCanonical(String input, String output) {
 		MathFormula mf = checkLaTeXRender(parser, input);
 		Assert.assertNotNull(mf);
 		Assert.assertEquals(mf.getRootComponent() + "", output,

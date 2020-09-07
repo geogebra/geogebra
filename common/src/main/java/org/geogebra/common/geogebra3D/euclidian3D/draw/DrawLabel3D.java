@@ -739,8 +739,8 @@ public class DrawLabel3D {
 			} else {
 				double w = width2 / getFontScale();
 				double h = height2 / getFontScale();
-				textIndex = drawRectangle(renderer, -(pickingX + pickingW / 2) / getFontScale(),
-						-(pickingY + pickingH / 2) / getFontScale(), 0,
+				textIndex = drawRectangle(renderer, -(pickingX + pickingW / 2d) / getFontScale(),
+						-(pickingY + pickingH / 2d) / getFontScale(), 0,
 						w, h, textIndex);
 			}
         } else {
