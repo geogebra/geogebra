@@ -3880,9 +3880,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		case ADJUST_WIDGETS:
 			return false;
 
-		case SURFACE_2D:
-			return prerelease;
-
 		case SYMBOLIC_AV:
 			return true;
 

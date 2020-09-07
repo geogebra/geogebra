@@ -13,7 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.algos.AlgoElement;
 
 /**
@@ -22,19 +22,13 @@ import org.geogebra.common.kernel.algos.AlgoElement;
  * @author Markus
  *
  */
-public interface FunctionalNVar extends Evaluate2Var {
+public interface FunctionalNVar extends Evaluate2Var, VarString {
 	/**
 	 * @param vals
 	 *            values of variables
 	 * @return value at vals
 	 */
 	public double evaluate(double[] vals);
-
-	/**
-	 * @return function
-	 */
-	@Override
-	public FunctionNVar getFunction();
 
 	/**
 	 * @return list of inequalities
@@ -48,37 +42,11 @@ public interface FunctionalNVar extends Evaluate2Var {
 	 */
 	public boolean isBooleanFunction();
 
-	// public GeoFunctionNVar getGeoDerivative(int order, int nvar);
-	/**
-	 * @param tpl
-	 *            string template
-	 * @return comma separated variable names
-	 */
-	@Override
-	public String getVarString(StringTemplate tpl);
-
-	/**
-	 * @return function expression
-	 */
-	@Override
-	public ExpressionNode getFunctionExpression();
-
-	/**
-	 * @return whether this function is defined or not
-	 */
-	@Override
-	public boolean isDefined();
-
 	/**
 	 * @param label
 	 *            new label
 	 */
 	public void setLabel(String label);
-
-	/**
-	 * @return function variables
-	 */
-	public FunctionVariable[] getFunctionVariables();
 
 	/**
 	 * @return kernel

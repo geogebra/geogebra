@@ -527,7 +527,7 @@ public abstract class CommandDispatcher {
 			case Length:
 			case UnitPerpendicularVector:
 			case UnitOrthogonalVector:
-
+			case Surface:
 			case Sort:
 			case BarChart:
 			case Product:

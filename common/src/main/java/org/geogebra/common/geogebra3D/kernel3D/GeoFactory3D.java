@@ -21,6 +21,8 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitCurve3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -35,6 +37,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.main.MyError;
@@ -209,5 +213,14 @@ public class GeoFactory3D extends GeoFactory {
 			return new GeoCurveCartesian3D(cons);
 		}
 		return new GeoCurveCartesian(cons);
+	}
+
+	@Override
+	public GeoSurfaceCartesianND newSurface(Construction cons, ExpressionNode point,
+			FunctionNVar[] fun) {
+		if (fun.length == 2) {
+			return new GeoSurfaceCartesian2D(cons, point, fun);
+		}
+		return new GeoSurfaceCartesian3D(cons, point, fun);
 	}
 }

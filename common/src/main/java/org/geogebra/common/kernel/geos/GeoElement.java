@@ -1566,10 +1566,18 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			// Application.debug("hasFixedDescendent, not deleting");
 			setUndefined();
 			updateRepaint();
-		} else if (!(app.isApplet() && isLocked())) {
+		} else if (!lockedObjectForDelete()) {
 			remove();
 			kernel.notifyRemoveGroup();
 		}
+	}
+
+	private boolean lockedObjectForDelete() {
+		// see APPS-2271 + APPS-1982
+		boolean isObjFixed = this instanceof GeoBoolean
+				? ((GeoBoolean) this).isCheckboxFixed()
+				: isLocked();
+		return (app.isApplet() && isObjFixed) || !selectionAllowed;
 	}
 
 	@Override
@@ -3732,7 +3740,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	final public String getXMLtypeString() {
 		// don't use getTypeString() as it's overridden
-		return StringUtil.toLowerCaseUS(getGeoClassType().xmlName);
+		return getGeoClassType().xmlName;
 	}
 
 	/**
@@ -5203,9 +5211,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
-	/**
-	 * @return true for cartesian surfaces
-	 */
+	@Override
 	public boolean isGeoSurfaceCartesian() {
 		return false;
 	}
