@@ -12,7 +12,7 @@ public class NetworkW implements Network {
 
 	@Override
 	public boolean onLine() {
-		return DomGlobal.navigator.onLine;
+		return DomGlobal.navigator == null || DomGlobal.navigator.onLine;
 	}
 
 	private static native void nativeAttach(String t, BaseEventPool ep) /*-{
