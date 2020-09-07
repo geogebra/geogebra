@@ -752,8 +752,7 @@ public class AppWFull extends AppW implements HasKeyboard, MenuViewListener {
 		if (isWhiteboardActive()
 				&& getGuiManager().browseGUIwasLoaded()
 				&& StringUtil.emptyTrim(query)
-				&& getGuiManager().getBrowseView() instanceof OpenFileView
-				&& getLoginOperation().isLoggedIn()) {
+				&& getGuiManager().getBrowseView() instanceof OpenFileView) {
 			((OpenFileView) getGuiManager().getBrowseView())
 					.updateMaterials();
 		}
