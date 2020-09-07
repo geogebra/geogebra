@@ -124,91 +124,91 @@ public class ArbitraryConstIntegrationTest {
 
 	@Test
 	public void solveODE_0() {
-		ta("SolveODE[y'=7y^2x^3]", "y = 4 / (4 * c_1 - 7 * x^(4))");
+		ta("SolveODE[y'=7y^2x^3]", "y = 4 / (4 * c_{1} - 7 * x^(4))");
 	}
 
 	@Test
 	public void solveODE_1() {
-		ta("SolveODE[y''-5y'+6y=0]", "y = c_1 * " + Unicode.EULER_STRING
-				+ "^(3 * x) + c_2 * " + Unicode.EULER_STRING + "^(2 * x)");
+		ta("SolveODE[y''-5y'+6y=0]", "y = c_{1} * " + Unicode.EULER_STRING
+				+ "^(3 * x) + c_{2} * " + Unicode.EULER_STRING + "^(2 * x)");
 	}
 
 	@Test
 	public void solveODE_2() {
 		ta("SolveODE[y'=5y-3]",
-				"y = c_1 * " + Unicode.EULER_STRING + "^(5*x) + 3 / 5");
+				"y = c_{1} * " + Unicode.EULER_STRING + "^(5*x) + 3 / 5");
 	}
 
 	@Test
 	public void solveODE_3() {
 		ta("SolveODE[y'+y=10]",
-				"y = c_1 * " + Unicode.EULER_STRING + "^(-x) + 10");
+				"y = c_{1} * " + Unicode.EULER_STRING + "^(-x) + 10");
 	}
 
 	@Test
 	public void solveODE_4() {
 		ta("SolveODE[y' = (3 - y) / 2]",
-				"y = c_1 * " + Unicode.EULER_STRING + "^((-x)/ 2) + 3");
+				"y = c_{1} * " + Unicode.EULER_STRING + "^((-x)/ 2) + 3");
 	}
 
 	@Test
 	public void solveODE_5() {
 		ta("SolveODE[y' = -2 + y]",
-				"y = c_1 * " + Unicode.EULER_STRING + "^(x) + 2");
+				"y = c_{1} * " + Unicode.EULER_STRING + "^(x) + 2");
 	}
 
 	@Test
 	public void solveODE_6() {
 		ta("SolveODE[y' = y(y - 2)]",
-				"y = (-2) / (c_1 *" + Unicode.EULER_STRING + "^(2*x) - 1)");
+				"y = (-2) / (c_{1} *" + Unicode.EULER_STRING + "^(2*x) - 1)");
 	}
 
 	@Test
 	public void solveODE_7() {
-		ta("SolveODE[y''=y]", "y = c_1 *" + Unicode.EULER_STRING
-				+ "^(x) + c_2 *" + Unicode.EULER_STRING + "^(-x)");
+		ta("SolveODE[y''=y]", "y = c_{1} *" + Unicode.EULER_STRING
+				+ "^(x) + c_{2} *" + Unicode.EULER_STRING + "^(-x)");
 	}
 
 	@Test
 	public void solveODE_8() {
 		ta("SolveODE[2y''+y'-y=0]",
-				"y = c_1 *" + Unicode.EULER_STRING + "^(-x) + c_2 *"
+				"y = c_{1} *" + Unicode.EULER_STRING + "^(-x) + c_{2} *"
 						+ Unicode.EULER_STRING + "^(x/2)",
-				"y = c_1 *" + Unicode.EULER_STRING + "^(x / 2) + c_2 *"
+				"y = c_{1} *" + Unicode.EULER_STRING + "^(x / 2) + c_{2} *"
 						+ Unicode.EULER_STRING + "^(-x)");
 	}
 
 	@Test
 	public void solveODE_9() {
 		ta("SolveODE[y''-5y=0]",
-				"y = c_1 *" + Unicode.EULER_STRING + "^(sqrt(5) * x) + c_2 *"
+				"y = c_{1} *" + Unicode.EULER_STRING + "^(sqrt(5) * x) + c_{2} *"
 						+ Unicode.EULER_STRING + "^(-sqrt(5) * x)");
 	}
 
 	@Test
 	public void solveODE_10() {
 		ta("SolveODE[2y''+3y'=0]",
-				"y = c_1 *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_2");
+				"y = c_{1} *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_{2}");
 	}
 
 	@Test
 	public void solveODE_11() {
 		ta("SolveODE[y''+2y' + 101y = 0]",
-				"y=c_1 * cos(10 * x) *" + Unicode.EULER_STRING
-						+ "^(-x) + c_2 * " + Unicode.EULER_STRING
+				"y=c_{1} * cos(10 * x) *" + Unicode.EULER_STRING
+						+ "^(-x) + c_{2} * " + Unicode.EULER_STRING
 						+ "^(-x)* sin(10 * x)");
 	}
 
 	@Test
 	public void solveODE_12() {
-		ta("SolveODE[y'' + 4y' + 4y = 0]", "y=c_1 * x * " + Unicode.EULER_STRING
-				+ "^(-2 * x) + c_2 * " + Unicode.EULER_STRING + "^(-2 * x)");
+		ta("SolveODE[y'' + 4y' + 4y = 0]", "y=c_{1} * x * " + Unicode.EULER_STRING
+				+ "^(-2 * x) + c_{2} * " + Unicode.EULER_STRING + "^(-2 * x)");
 	}
 
 	@Test
 	public void solveODE_13() {
 		ta("SolveODE[y''=2y]",
-				"y = c_1 * " + Unicode.EULER_STRING + "^(sqrt(2) * x) + c_2 * "
+				"y = c_{1} * " + Unicode.EULER_STRING + "^(sqrt(2) * x) + c_{2} * "
 						+ Unicode.EULER_STRING + "^(-sqrt(2) * x)");
 	}
 
@@ -255,19 +255,19 @@ public class ArbitraryConstIntegrationTest {
 	@Test
 	public void arbConst_Integration_1() {
 		casCellupdate("Integral[x]", "SolveODE[2y''+3y'=0]",
-				"y = c_1 *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_2");
+				"y = c_{1} *" + Unicode.EULER_STRING + "^(-3 * x / 2) + c_{2}");
 	}
 
 	@Test
 	public void arbConst_Integration_2() {
 		casCellupdate("SolveODE[y''+9y=0]", "SolveODE[y''+4y=0]",
-				"y = c_1 * cos(2 * x) + c_2 * sin(2 * x)");
+				"y = c_{1} * cos(2 * x) + c_{2} * sin(2 * x)");
 	}
 
 	@Test
 	public void casCellLatexShouldSHowName() {
 		GeoCasCell cell = cellFromInput("SolveODE(2x)");
-		Assert.assertEquals("\\mathbf{y = c_1 + x^{2}}", cell.getLaTeXOutput());
+		Assert.assertEquals("\\mathbf{y = c_{1} + x^{2}}", cell.getLaTeXOutput());
 	}
 
 	/**
@@ -360,8 +360,8 @@ public class ArbitraryConstIntegrationTest {
 	@Test
 	public void arbConst_Integration_3() {
 		casCellupdate2("Integral[x]", "Integral[sin(x)]", "SolveODE[y''+9y=0]",
-				"SolveODE[y''+4y=0]", "y = c_1 * cos(3 * x) + c_4 * sin(3 * x)",
-				"y = c_2 * cos(2 * x) + c_3 * sin(2 * x)");
+				"SolveODE[y''+4y=0]", "y = c_{1} * cos(3 * x) + c_{4} * sin(3 * x)",
+				"y = c_{2} * cos(2 * x) + c_{3} * sin(2 * x)");
 	}
 
 	/**
@@ -429,22 +429,22 @@ public class ArbitraryConstIntegrationTest {
 	 */
 	public void arbConst_Integration_4() {
 		casCellupdate3("Integral[x]", "Integral[sin(x)]", "SolveODE[y''+9y=0]",
-				"SolveODE[y''+4y=0]", "y = c_1 * cos(3 * x) + c_2 * sin(3 * x)",
-				"y = c_3 * cos(2 * x) + c_4 * sin(2 * x)");
+				"SolveODE[y''+4y=0]", "y = c_{1} * cos(3 * x) + c_{2} * sin(3 * x)",
+				"y = c_{3} * cos(2 * x) + c_{4} * sin(2 * x)");
 	}
 
 	@Test
 	public void constMulti() {
-		ta("Simplify[SolveODE[ y*ln(2)]]", "y = 2^(x) * c_1");
-		Assert.assertEquals(1, app.getGgbApi().getValue("c_1"), 0.01);
-		ta("SolveODE[ x]", "y = c_2 + 1 / 2 * x^(2)");
+		ta("Simplify[SolveODE[ y*ln(2)]]", "y = 2^(x) * c_{1}");
+		Assert.assertEquals(1, app.getGgbApi().getValue("c_{1}"), 0.01);
+		ta("SolveODE[ x]", "y = c_{2} + 1 / 2 * x^(2)");
 		Assert.assertEquals(0, app.getGgbApi().getValue("c_2"), 0.01);
 	}
 
 	@Test
 	public void reloadTest() {
 		ta("f(x):=sin(x)", "sin(x)");
-		ta("F(x):=Integral[sin(x)]", "-cos(x) + c_1");
+		ta("F(x):=Integral[sin(x)]", "-cos(x) + c_{1}");
 		for (int i = 0; i < 2; i++) {
 			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommand("P=(1,1)", true);
@@ -454,12 +454,12 @@ public class ArbitraryConstIntegrationTest {
 			app.getGgbApi().undo(true);
 		}
 		Assert.assertEquals(app.getGgbApi().getValueString("$2", true),
-				"F(x):=-cos(x) + c_1");
+				"F(x):=-cos(x) + c_{1}");
 		String base64 = app.getGgbApi().getBase64();
 		app.getKernel().clearConstruction(true);
 		app.getGgbApi().setBase64(base64);
 		Assert.assertEquals(app.getGgbApi().getValueString("$2", true),
-				"F(x):=-cos(x) + c_1");
+				"F(x):=-cos(x) + c_{1}");
 	}
 
 	@Test

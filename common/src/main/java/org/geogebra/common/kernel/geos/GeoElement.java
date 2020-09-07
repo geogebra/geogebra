@@ -2802,7 +2802,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 				// check through z_1, z_2, etc and return first one free
 				// (also checks z_{1} to avoid clash)
-				return cons.getIndexLabel("z", 1);
+				return cons.getIndexLabel("z");
 			}
 
 		} else if (equationType == EquationType.IMPLICIT) {
