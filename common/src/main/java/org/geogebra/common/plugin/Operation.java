@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.statistics.AlgoNpR;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public enum Operation {
@@ -458,35 +457,26 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			MyList ret = new MyList(ev.getKernel(), true);
-			if (rt instanceof MyNumberPair) {
-				if (left.wrap().containsFreeFunctionVariable(null)) {
+			if (left.wrap().containsFreeFunctionVariable(null)
+					|| right.wrap().containsFreeFunctionVariable(null)) {
+				ExpressionValue[] leftParts = expandPlusMinus(new ExpressionNode(ev.getKernel(),
+						left, Operation.PLUSMINUS, right), ev.getKernel());
+				for (ExpressionValue part: leftParts) {
 					ret.addListElement(ev.getKernel().getAlgebraProcessor()
-							.makeFunctionNVar(MyList.get(left, 0).wrap()));
-					ret.addListElement(ev.getKernel().getAlgebraProcessor()
-							.makeFunctionNVar(
-									MyList.get(left, 1).wrap().multiplyR(-1)));
-				} else {
+							.makeFunctionNVar(part.wrap()));
+				}
+			} else if (rt instanceof MyNumberPair) {
 					ret.addListElement(MyList.get(lt, 0));
 					ret.addListElement(ExpressionNode
 							.unaryMinus(ev.getKernel(), MyList.get(lt, 1))
 							.evaluate(tpl));
-				}
 			} else {
-				if (left.wrap().containsFreeFunctionVariable(null)
-						|| right.wrap().containsFreeFunctionVariable(null)) {
-					Log.debug(right);
-					add(ret, MyList.get(left, 0), MyList.get(right, 0),
-							Operation.PLUS);
-					add(ret, MyList.get(left, 1), MyList.get(right, 1),
-							Operation.MINUS);
-				} else {
-					ret.addListElement(
-							ev.handlePlus(MyList.get(lt, 0), MyList.get(rt, 0),
-									StringTemplate.defaultTemplate, false));
+				ret.addListElement(
+						ev.handlePlus(MyList.get(lt, 0), MyList.get(rt, 0),
+								StringTemplate.defaultTemplate, false));
 
-					ret.addListElement(ev.handleMinus(MyList.get(lt, 1),
-							MyList.get(rt, 1)));
-				}
+				ret.addListElement(ev.handleMinus(MyList.get(lt, 1),
+						MyList.get(rt, 1)));
 			}
 			return ret;
 		}
@@ -1637,6 +1627,10 @@ public enum Operation {
 				if (lt instanceof GeoLineND) {
 					return ((GeoLineND) lt).evaluateCurve(rt.evaluateDouble());
 				}
+				if (lt instanceof GeoSurfaceCartesianND) {
+					return ((GeoSurfaceCartesianND) lt).evaluateSurface(
+							rt.evaluateDouble(), 0);
+				}
 				return ((ParametricCurve) lt)
 						.evaluateCurve(rt.evaluateDouble());
 			}
@@ -1892,6 +1886,36 @@ public enum Operation {
 					MyList.getCell(list, 0, 1));
 		}
 	};
+
+	protected ExpressionValue[] expandPlusMinus(ExpressionNode exp, Kernel kernel) {
+		ExpressionValue[] expand = new ExpressionValue[2];
+		if (exp == null || exp.isLeaf()) {
+			expand[0] = expand[1] = exp;
+		} else {
+			Operation operation = exp.getOperation();
+			if (operation == Operation.PLUSMINUS) {
+				if (exp.getRight() instanceof MyNumberPair) {
+					ExpressionValue[] expandLeft = expandPlusMinus(exp.getLeftTree(), kernel);
+					expand[0] = expandLeft[0];
+					expand[1] = ExpressionNode.unaryMinus(kernel, expandLeft[0]);
+				} else {
+					expandPlusMinusOperationNode(exp, kernel,
+							Operation.PLUS, Operation.MINUS, expand);
+				}
+			} else {
+				expandPlusMinusOperationNode(exp, kernel, operation, operation, expand);
+			}
+		}
+		return expand;
+	}
+
+	protected void expandPlusMinusOperationNode(ExpressionNode wrap, Kernel kernel,
+			Operation plusOp, Operation minusOp, ExpressionValue[] expand) {
+		ExpressionValue[] expandLeft = expandPlusMinus(wrap.getLeftTree(), kernel);
+		ExpressionValue[] expandRight = expandPlusMinus(wrap.getRightTree(), kernel);
+		expand[0] = new ExpressionNode(kernel, expandLeft[0], plusOp, expandRight[0]);
+		expand[1] = new ExpressionNode(kernel, expandLeft[1], minusOp, expandRight[1]);
+	}
 
 	/**
 	 * @param op

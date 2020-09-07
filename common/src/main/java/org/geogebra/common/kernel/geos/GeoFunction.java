@@ -400,7 +400,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					algoMacro.initFunction(this.fun);
 				}
 			}
-			setForceInequality(((GeoFunction) geo).forceInequality);
+			if (geo instanceof GeoFunction) {
+				setForceInequality(((GeoFunction) geo).forceInequality);
+			}
 			isInequality = null;
 		} else {
 			setUndefined();
@@ -954,15 +956,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			appendFunctionType(sbxml);
 		}
 
-		sbxml.append("<element");
-		sbxml.append(" type=\"function\"");
-		sbxml.append(" label=\"");
-		sbxml.append(label);
-		if (getDefaultGeoType() >= 0) {
-			sbxml.append("\" default=\"");
-			sbxml.append(getDefaultGeoType());
-		}
-		sbxml.append("\">\n");
+		getElementOpenTagXML(sbxml);
 		getXMLtags(sbxml);
 		getCaptionXML(sbxml);
 		printCASEvalMapXML(sbxml);

@@ -26,8 +26,6 @@ public enum Feature {
 	/** MOW-88 */
 	MOW_DIRECT_FORMULA_CONVERSION,
 
-	SURFACE_2D,
-
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 

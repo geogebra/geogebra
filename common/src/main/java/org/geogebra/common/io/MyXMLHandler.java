@@ -3562,6 +3562,8 @@ public class MyXMLHandler implements DocHandler {
 						// has also type "line" but is parsed as ExpressionNode
 					} else if ("inequality".equals(type)) {
 						((ExpressionNode) ve).setForceInequality();
+					} else if ("surfacecartesian".equals(type)) {
+						((ExpressionNode) ve).setForceSurfaceCartesian();
 					}
 				} else if (ve instanceof Equation) {
 					if ("line".equals(type)) {
@@ -3598,17 +3600,11 @@ public class MyXMLHandler implements DocHandler {
 						"error in <expression>: " + exp + ", label: " + label);
 			}
 
-		} catch (Exception e) {
+		} catch (Exception | MyError e) {
 			String msg = "error in <expression>: label=" + label + ", exp= "
 					+ exp;
 			Log.error(msg);
-			e.printStackTrace();
-			errors.add(msg);
-		} catch (MyError e) {
-			String msg = "error in <expression>: label = " + label + ", exp = "
-					+ exp;
-			Log.error(msg);
-			e.printStackTrace();
+			Log.debug(e);
 			errors.add(msg);
 		}
 	}

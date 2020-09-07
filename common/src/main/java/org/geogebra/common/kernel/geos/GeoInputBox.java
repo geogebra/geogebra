@@ -114,7 +114,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public String getTextForEditor() {
 		String textForEditor = getTextForEditor(StringTemplate.editorTemplate);
-		if (InputBoxRenderer.isComplexNumber(linkedGeo)) {
+		if (InputBoxRenderer.isComplex(linkedGeo)) {
 			return textForEditor.replace(Unicode.IMAGINARY, 'i');
 		}
 		return textForEditor;
@@ -449,7 +449,8 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 		return hasSymbolicNumber() || hasSymbolicFunction()
 				|| linkedGeo.isGeoPoint() || linkedGeo.isGeoVector()
 				|| (linkedGeo instanceof EquationValue && !linkedGeo.isGeoConicPart())
-				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine();
+				|| linkedGeo.isGeoList() || linkedGeo.isGeoLine()
+				|| linkedGeo.isGeoSurfaceCartesian();
 	}
 
 	boolean hasSymbolicFunction() {
