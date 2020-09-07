@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.parser.function;
 
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -50,23 +49,19 @@ public class ParserFunctionsFactory {
 	}
 
 	private static void addFunctions(ParserFunctionsImpl pf) {
-		put2(pf, 1, "sin", Operation.SIN);
-		put2(pf, 1, "cos", Operation.COS);
-		put2(pf, 1, "tan", Operation.TAN);
-		put2(pf, 1, "csc", Operation.CSC);
-		put2(pf, 1, "cosec", Operation.CSC);
-		put2(pf, 1, "sec", Operation.SEC);
-		put2(pf, 1, "cot", Operation.COT);
-		put2(pf, 1, "cotan", Operation.COT);
+		put(pf, 1, "sin", Operation.SIN);
+		put(pf, 1, "cos", Operation.COS);
+		put(pf, 1, "tan", Operation.TAN);
+		put(pf, 1, "csc", Operation.CSC);
+		put(pf, 1, "sec", Operation.SEC);
+		put(pf, 1, "cot", Operation.COT);
 
-		put2(pf, 1, "sinh", Operation.SINH);
-		put2(pf, 1, "cosh", Operation.COSH);
-		put2(pf, 1, "tanh", Operation.TANH);
-		put2(pf, 1, "csch", Operation.CSCH);
-		put2(pf, 1, "cosech", Operation.CSCH);
-		put2(pf, 1, "sech", Operation.SECH);
-		put2(pf, 1, "coth", Operation.COTH);
-		put2(pf, 1, "cotanh", Operation.COTH);
+		put(pf, 1, "sinh", Operation.SINH);
+		put(pf, 1, "cosh", Operation.COSH);
+		put(pf, 1, "tanh", Operation.TANH);
+		put(pf, 1, "csch", Operation.CSCH);
+		put(pf, 1, "sech", Operation.SECH);
+		put(pf, 1, "coth", Operation.COTH);
 
 		put(pf, 1, "asind", Operation.ARCSIND);
 		put(pf, 1, "arcsind", Operation.ARCSIND);
@@ -80,13 +75,8 @@ public class ParserFunctionsFactory {
 		put(pf, 2, "atan2d", Operation.ARCTAN2D, "( <y>, <x> )");
 		put(pf, 2, "arctan2d", Operation.ARCTAN2D, "( <y>, <x> )");
 
-		put(pf, 1, "arsin", Operation.ARCSIN);
 		put(pf, 1, "arcsin", Operation.ARCSIN);
-
-		put(pf, 1, "arcos", Operation.ARCCOS);
 		put(pf, 1, "arccos", Operation.ARCCOS);
-
-		put(pf, 1, "artan", Operation.ARCTAN);
 		put(pf, 1, "arctan", Operation.ARCTAN);
 
 		put(pf, 1, "arsinh", Operation.ASINH);
@@ -99,26 +89,23 @@ public class ParserFunctionsFactory {
 		put(pf, 1, "arctanh", Operation.ATANH);
 
 		put(pf, 2, "atan2", Operation.ARCTAN2, "( <y>, <x> )");
-		put(pf, 2, "artan2", Operation.ARCTAN2, "( <y>, <x> )");
 		put(pf, 2, "arctan2", Operation.ARCTAN2, "( <y>, <x> )");
 
-		put2(pf, 1, "erf", Operation.ERF);
+		put(pf, 1, "erf", Operation.ERF);
 
 		put(pf, 1, "psi", Operation.PSI);
 
 		put(pf, 2, "polygamma", Operation.POLYGAMMA, "( <m>, <x> )");
-		put(pf, 2, "polyGamma", Operation.POLYGAMMA, null);
-		put(pf, 2, "PolyGamma", Operation.POLYGAMMA, null);
 
-		put2(pf, 1, "exp", Operation.EXP);
+		put(pf, 1, "exp", Operation.EXP);
 
 		put(pf, 1, "LambertW", Operation.LAMBERTW);
 		put(pf, 2, "LambertW", Operation.LAMBERTW);
 
-		put2(pf, 1, "ln", Operation.LOG);
+		put(pf, 1, "ln", Operation.LOG);
 
 		put(pf, 2, "log", Operation.LOGB, "( <b> , <x> )");
-		put2(pf, 2, "ln", Operation.LOGB, null);
+		put(pf, 2, "ln", Operation.LOGB, null);
 
 		put(pf, 1, "ld", Operation.LOG2);
 		put(pf, 1, "log2", Operation.LOG2);
@@ -127,25 +114,25 @@ public class ParserFunctionsFactory {
 		put(pf, 1, "lg", Operation.LOG10);
 		put(pf, 1, "log10", Operation.LOG10);
 
-		put2(pf, 1, "zeta", Operation.ZETA);
+		put(pf, 1, "zeta", Operation.ZETA);
 
-		put2(pf, 2, "beta", Operation.BETA, "( <a>, <b> )");
+		put(pf, 2, "beta", Operation.BETA, "( <a>, <b> )");
 
-		put2(pf, 3, "beta", Operation.BETA_INCOMPLETE, "( <a>, <b>, <x> )");
+		put(pf, 3, "beta", Operation.BETA_INCOMPLETE, "( <a>, <b>, <x> )");
 
 		put(pf, 3, "betaRegularized", Operation.BETA_INCOMPLETE_REGULARIZED,
 				"( <a>, <b>, <x> )");
 		put(pf, 3, "ibeta", Operation.BETA_INCOMPLETE_REGULARIZED, null);
 
-		put2(pf, 1, "gamma", Operation.GAMMA);
+		put(pf, 1, "gamma", Operation.GAMMA);
 
-		put2(pf, 2, "gamma", Operation.GAMMA_INCOMPLETE, "( <x>, <y> )");
+		put(pf, 2, "gamma", Operation.GAMMA_INCOMPLETE, "( <x>, <y> )");
 
 		put(pf, 2, "gammaRegularized", Operation.GAMMA_INCOMPLETE_REGULARIZED);
 
-		put2(pf, 1, "cosIntegral", Operation.CI);
-		put2(pf, 1, "sinIntegral", Operation.SI);
-		put2(pf, 1, "expIntegral", Operation.EI);
+		put(pf, 1, "cosIntegral", Operation.CI);
+		put(pf, 1, "sinIntegral", Operation.SI);
+		put(pf, 1, "expIntegral", Operation.EI);
 
 		// functions that come from CAS / Giac
 		put(pf, 2, "gGbInTeGrAl", Operation.INTEGRAL, null);
@@ -160,17 +147,17 @@ public class ParserFunctionsFactory {
 
 		put(pf, 1, "arbcomplex", Operation.ARBCOMPLEX);
 
-		put2(pf, 1, "sqrt", Operation.SQRT);
-		put2(pf, 1, "cbrt", Operation.CBRT);
-		put2(pf, 1, "abs", Operation.ABS);
+		put(pf, 1, "sqrt", Operation.SQRT);
+		put(pf, 1, "cbrt", Operation.CBRT);
+		put(pf, 1, "abs", Operation.ABS);
 
 		put(pf, 1, "sgn", Operation.SGN);
-		put2(pf, 1, "sign", Operation.SGN);
-		put2(pf, 1, "floor", Operation.FLOOR);
-		put2(pf, 1, "ceil", Operation.CEIL);
-		put2(pf, 1, "round", Operation.ROUND);
-		put2(pf, 2, "round", Operation.ROUND2, "( <x>, <y> )");
-		put2(pf, 1, "conjugate", Operation.CONJUGATE);
+		put(pf, 1, "sign", Operation.SGN);
+		put(pf, 1, "floor", Operation.FLOOR);
+		put(pf, 1, "ceil", Operation.CEIL);
+		put(pf, 1, "round", Operation.ROUND);
+		put(pf, 2, "round", Operation.ROUND2, "( <x>, <y> )");
+		put(pf, 1, "conjugate", Operation.CONJUGATE);
 
 		put(pf, 0, "random", Operation.RANDOM, "()");
 		put(pf, 1, "x", Operation.XCOORD, null);
@@ -180,11 +167,11 @@ public class ParserFunctionsFactory {
 		put(pf, 2, "nroot", Operation.NROOT, "( <x>, <n> )");
 		put(pf, 2, "NRoot", Operation.NROOT, null);
 
-		put2(pf, 1, "real", Operation.REAL);
-		put2(pf, 1, "imaginary", Operation.IMAGINARY);
+		put(pf, 1, "real", Operation.REAL);
+		put(pf, 1, "imaginary", Operation.IMAGINARY);
 
 		put(pf, 1, "fractionalpart", Operation.FRACTIONAL_PART, null);
-		put2(pf, 1, "fractionalPart", Operation.FRACTIONAL_PART);
+		put(pf, 1, "fractionalPart", Operation.FRACTIONAL_PART);
 
 		put(pf, 2, "ggbdiff", Operation.DIFF, null);
 		put(pf, 3, "ggbdiff", Operation.DIFF, null);
@@ -195,8 +182,8 @@ public class ParserFunctionsFactory {
 	}
 
 	private static void addExtraFunctions(ParserFunctionsImpl pf) {
-		put2(pf, 1, "arg", Operation.ARG);
-		put2(pf, 1, "alt", Operation.ALT, "( (x, y, z) )");
+		put(pf, 1, "arg", Operation.ARG);
+		put(pf, 1, "alt", Operation.ALT, "( (x, y, z) )");
 	}
 
 	static void addTrigShorthandFunctions(ParserFunctionsImpl pf) {
@@ -206,23 +193,16 @@ public class ParserFunctionsFactory {
 		put(pf, 1, "atan", Operation.ARCTAN);
 		put(pf, 1, "acos", Operation.ARCCOS);
 		put(pf, 1, "asin", Operation.ARCSIN);
+
+		put(pf, 1, "cosech", Operation.CSCH);
+		put(pf, 1, "cotanh", Operation.COTH);
+		put(pf, 1, "cosec", Operation.CSC);
+		put(pf, 1, "cotan", Operation.COT);
 	}
 
 	private static void put(ParserFunctionsImpl pf, int size, String name,
 							Operation op) {
 		put(pf, size, name, op, SINGLE_ARG);
-	}
-
-	private static void put2(ParserFunctionsImpl pf, int size, String name,
-							 Operation op) {
-		put2(pf, size, name, op, SINGLE_ARG);
-	}
-
-	private static void put2(ParserFunctionsImpl pf, int size, String name,
-							 Operation op, String arg) {
-		String capitalized = StringUtil.capitalize(name);
-		put(pf, size, name, op, arg);
-		put(pf, size, capitalized, op, null);
 	}
 
 	private static void put(ParserFunctionsImpl pf, int size, String name,
