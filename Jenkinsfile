@@ -68,7 +68,7 @@ pipeline {
                     s3uploadDefault("web/war", "**/*.html", "")
                     s3uploadDefault("web/war", "**/deployggb.js", "")
                     s3uploadDefault("web/war", "*.zip", "")
-                    s3uploadDefault("web/war", "liveggb.js", "")
+                    s3uploadDefault("web/war", "geogebra-live.js", "")
                 }
             }
         }
