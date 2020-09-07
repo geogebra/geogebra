@@ -81,8 +81,7 @@ public abstract class CanvasDrawable extends Drawable {
 		// eg $\math{x}$ for nice x
 		boolean serif = StringUtil.startsWithFormattingCommand(text);
 
-		if (!serif && geo0 instanceof TextProperties
-			&& !text.equals(geo0.getCaptionSimple())) {
+		if (!serif && geo0 instanceof TextProperties) {
 			serif = ((TextProperties) geo0).isSerifFont();
 		}
 
