@@ -1379,7 +1379,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 					InlineTableController formatter
 							= ((GeoInlineTable) geos.get(0)).getFormatter();
 
-					BorderType border = formatter != null ? formatter.getBorderStyle() : null;
+					BorderType border = formatter != null ? formatter.getBorderStyle()
+							: BorderType.MIXED;
 					setSelectedIndex(btnBorderStyle.getBorderTypeIndex(border));
 					if (btnBorderStyle.getSelectedIndex() == -1) {
 						btnBorderStyle.setIcon(new ImageOrText(
