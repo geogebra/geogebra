@@ -2,7 +2,7 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.settings.AppConfigGraphing;
+import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.junit.Assert;
 import org.junit.Test;
 

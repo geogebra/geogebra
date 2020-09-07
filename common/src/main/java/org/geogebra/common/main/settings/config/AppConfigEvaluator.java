@@ -1,16 +1,20 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.common.main.settings.config;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
-import org.geogebra.common.main.AppConfigDefault;
 
 /**
  * Config for Evaluator
  *
  */
 public class AppConfigEvaluator extends AppConfigDefault {
+
+	public AppConfigEvaluator() {
+		super(GeoGebraConstants.EVALUATOR_APPCODE, null);
+	}
 
 	@Override
 	public String getForcedPerspective() {
@@ -20,11 +24,6 @@ public class AppConfigEvaluator extends AppConfigDefault {
 	@Override
 	public String getAppTitle() {
 		return "Evaluator";
-	}
-
-	@Override
-	public String getAppCode() {
-		return "evaluator";
 	}
 
 	@Override

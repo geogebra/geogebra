@@ -1,4 +1,4 @@
-package org.geogebra.common.main.settings;
+package org.geogebra.common.main.settings.config;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -24,6 +24,10 @@ import org.geogebra.common.properties.factory.ScientificPropertiesFactory;
  * Config for Scientific Calculator app
  */
 public class AppConfigScientific extends AppConfigGraphing {
+
+	public AppConfigScientific() {
+		super(GeoGebraConstants.SCIENTIFIC_APPCODE, null);
+	}
 
 	@Override
 	public String getAppTitle() {
@@ -94,11 +98,6 @@ public class AppConfigScientific extends AppConfigGraphing {
 	@Override
 	public SyntaxFilter newCommandSyntaxFilter() {
 		return null;
-	}
-
-	@Override
-	public String getAppCode() {
-		return "scientific";
 	}
 
 	@Override

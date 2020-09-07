@@ -1,6 +1,6 @@
 package org.geogebra.web.full.main.activity;
 
-import org.geogebra.common.main.settings.AppConfigEvaluator;
+import org.geogebra.common.main.settings.config.AppConfigEvaluator;
 import org.geogebra.common.plugin.evaluator.EvaluatorAPI;
 import org.geogebra.web.full.evaluator.EvaluatorEditor;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
