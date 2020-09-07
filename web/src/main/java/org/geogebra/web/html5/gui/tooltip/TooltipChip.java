@@ -15,6 +15,12 @@ public class TooltipChip {
 	public final static TooltipChip INSTANCE = new TooltipChip();
 	private Timer hideTimer;
 
+	/**
+	 * @param tooltip tooltip content
+	 * @param label label of a geo to be used as position anchor
+	 * @param color CSS color code (e.g. "#00FF00")
+	 * @param app app
+	 */
 	public void showMessage(String tooltip, String label, String color, AppW app) {
 		GeoElement geo = app.getKernel().lookupLabel(label);
 		DrawableND drawable = app.getActiveEuclidianView().getDrawableFor(geo);

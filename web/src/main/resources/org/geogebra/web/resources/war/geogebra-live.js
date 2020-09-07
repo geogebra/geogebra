@@ -52,11 +52,16 @@
                 if (calc.registerClientListener) {
                     var calcLive = new LiveApp(this.clientId, label, this.users);
                     calcLive.api = calc;
+                    calcLive.eventCategories = this.eventCategories;
                     calcLive.eventCallback = this.eventCallback;
                     calcLive.registerListeners();
                     this.embeds[label] = calcLive;
                 }
             }
+        }
+
+        this.hasEvent = function(eventCategory) {
+            return this.eventCategories.indexOf(eventCategory) != -1;
         }
 
         let objectsInWaiting = [];
@@ -149,26 +154,29 @@
                     this.sendEvent("evalXML", xml);
                     break;
 
-                case "setMode":
-                    console.log("setMode(" + event[2] + ")");
-                    break;
-
                 case "editorKeyTyped":
-                    var state = this.api.getEditorState();
-                    console.log(state);
-                    this.sendEvent("setEditorState", state, event[1]);
+                    if (this.hasEvent("editor")) {
+                        var state = this.api.getEditorState();
+                        this.sendEvent("setEditorState", state, event[1]);
+                    }
                     break;
 
                 case "editorStop":
-                    this.sendEvent("setEditorState", "{content:\"\"}");
+                    if (this.hasEvent("editor")) {
+                          this.sendEvent("setEditorState", "{content:\"\"}");
+                    }
                     break;
 
                 case "deselect":
-                    this.sendEvent("evalCommand", "SelectObjects[]");
+                    if (this.hasEvent("selection")) {
+                        this.sendEvent("evalCommand", "SelectObjects[]");
+                    }
                     break;
 
                 case "select":
-                    this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]");
+                    if (this.hasEvent("selection")) {
+                        this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]");
+                    }
                     break;
 
                 case "undo":
@@ -282,8 +290,8 @@
         this.addUser = function(user) {
             mainSession.users[user.id] = user;
         }
-        this.start = function(events, callback) {
-           mainSession.events = events;
+        this.start = function(eventCategories, callback) {
+           mainSession.eventCategories = eventCategories;
            mainSession.eventCallback = callback;
            mainSession.registerListeners();
        }
