@@ -755,7 +755,9 @@ public class GeoGebraFrameFull
 			insert(toolbarMow, 0);
 		}
 		add(toolbarMow.getUndoRedoButtons());
-		add(toolbarMow.getPageControlButton());
+		if (!app.isApplet()) {
+			add(toolbarMow.getPageControlButton());
+		}
 	}
 
 	private void initToolbarMowIfNull(AppW app) {
