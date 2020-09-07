@@ -865,7 +865,7 @@ public enum Operation {
 
 				if (lt instanceof NumberValue) {
 					MyDouble root = ((NumberValue) lt).getNumber();
-					if (DoubleUtil.isGreater(0, root.getDouble())
+					if (0 > root.getDouble()
 							&& DoubleUtil.isInteger(n) && Math.round(n) % 2 == 1) {
 						MyDouble.powDoubleSgnChange(root, exp, root);
 					} else {
