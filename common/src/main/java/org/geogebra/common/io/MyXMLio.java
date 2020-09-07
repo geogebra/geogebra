@@ -226,12 +226,13 @@ public abstract class MyXMLio {
 	 * @param platform
 	 *            app platform
 	 */
-	public static void addGeoGebraHeader(StringBuilder sb,
-										 boolean isMacro,
-										 String uniqueId,
-										 Platform platform,
-										 String appCode,
-										 @CheckForNull String subAppCode) {
+	public static void addGeoGebraHeader(
+			StringBuilder sb,
+			boolean isMacro,
+			String uniqueId,
+			Platform platform,
+			String appCode,
+			@CheckForNull String subAppCode) {
 
 		// make sure File -> Share works in HTML5 App
 		// (GeoGebraTube doesn't display 5.0 applets)
