@@ -173,7 +173,7 @@ public class StickyValuesTable extends StickyTable<TVRowData> implements TableVa
 		sb.width(width, Unit.PX).height(height, Unit.PX).trustedNameAndValue("line-height", height,
 				Unit.PX);
 		return  () -> "<div style=\"" + sb.toSafeStyles().asString() + "\" class=\"cell\">"
-		        +"<div class=\"content\">" + content.asString() +"</div></div>";
+				+ "<div class=\"content\">" + content.asString() + "</div></div>";
 	}
 
 	/**
