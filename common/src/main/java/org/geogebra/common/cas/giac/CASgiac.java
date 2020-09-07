@@ -169,6 +169,12 @@ public abstract class CASgiac implements CASGenericInterface {
 		GGB_IS_VARIABLE("ggb_is_variable", "ggb_is_variable(a):=when(length(lvar(a))==1,lvar(a)[0],?)"),
 
 		/**
+		 * Returns 1 if the parameter is a number (float, rational or integer). Returns 0 otherwise.
+		 */
+		GGB_IS_NUMBER("ggb_is_number", "ggb_is_number(a):=[[ggbtype:=type(a)], "
+				+ "when(ggbtype==DOM_INT||ggbtype==DOM_FLOAT||ggbtype==DOM_RAT,1,0)][1]"),
+
+		/**
 		 * Used by Zip.N
 		 * 
 		 * TODO check if it's easier to implement with giac's zip command
