@@ -147,13 +147,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			// Styleshet not loaded yet, add CSS directly
 			splash.getElement().getStyle().setPosition(Position.RELATIVE);
 			splash.getElement().getStyle()
-					.setTop((height / 2) - (splashHeight / 2), Unit.PX);
+					.setTop((height - splashHeight) / 2d, Unit.PX);
 			if (!geoGebraElement.isRTL()) {
 				splash.getElement().getStyle()
-						.setLeft((width / 2) - (splashWidth / 2), Unit.PX);
+					.setLeft((width - splashWidth) / 2d, Unit.PX);
 			} else {
 				splash.getElement().getStyle()
-						.setRight((width / 2) - (splashWidth / 2), Unit.PX);
+						.setRight((width - splashWidth) / 2d, Unit.PX);
 			}
 			useDataParamBorder();
 		}
@@ -319,8 +319,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 		// do we have fit to screen?
 		if (appletParameters.getDataParamFitToScreen()) {
-			int margin = shouldHaveSmallScreenLayout() ? getSmallScreenHeaderHeight()
-					: appletParameters.getDataParamMarginTop();
+			int margin;
+			if (shouldHaveSmallScreenLayout()) {
+				margin = hasSmallWindow() ? getSmallScreenHeaderHeight() : 0;
+			}
+			else {
+				margin = appletParameters.getDataParamMarginTop();
+			}
 			height = Window.getClientHeight() - margin;
 		}
 

@@ -362,14 +362,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 						}
 
 						Scheduler.get().scheduleDeferred(
-								new Scheduler.ScheduledCommand() {
-									@Override
-									public void execute() {
-										app.getActiveEuclidianView()
-												.getViewTextField()
-												.setBoxVisible(true);
-										setFocus(true);
-									}
+								() -> {
+									app.getActiveEuclidianView()
+											.getViewTextField()
+											.setBoxVisible(true);
+									setFocus(true);
 								});
 					}
 				});

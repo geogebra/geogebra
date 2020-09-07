@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import static org.geogebra.test.TestStringUtil.unicode;
+import static org.hamcrest.Matchers.is;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
@@ -22,6 +23,47 @@ import org.junit.Test;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class CommandsUsingCASTest extends AlgebraTest {
+
+	private static void add(String string) {
+		ap.processAlgebraCommand(string, false);
+	}
+
+	private static void runSolveTests() {
+		t("ss=Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
+		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("ss")));
+		t("sm=Solve[ {x+y=1,x-y=0} ]", "{{x = 1 / 2, y = 1 / 2}}");
+		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("sm")));
+		t("Solve[ x^2=-1 ]", "{}");
+		t("Solve[ x=x ]", "{x = x}");
+		t("Solve[ erf(x)=0.5 ]", "?");
+		tdeg("r=Solve[ sin(x)=0 ]", "{x = 0*deg}");
+		tdeg("r2=Solve[ {sin(x)=0, x=y} ]", "{{x = 0*deg, y = 0*deg}}");
+		tdeg("r=Solve[ cos(x)=1/sqrt(2) ]", "{x = (-45*deg), x = 45*deg}");
+		tdeg("r2=Solve[ {cos(x)=1/2, x=y} ]",
+				"{{x = 60*deg, y = 60*deg}, {x = (-60*deg), y = (-60*deg)}}");
+	}
+
+	private static void deg(String def, String expect) {
+		EvalInfo evalInfo = new EvalInfo(true, true).addDegree(true);
+		checkWithEvalInfo(def, expect, evalInfo);
+	}
+
+	private static void checkWithEvalInfo(String def, String expect,
+			EvalInfo evalInfo) {
+		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
+				false, TestErrorHandler.INSTANCE,
+				evalInfo, null);
+		String res = geo[0].toValueString(StringTemplate.editTemplate);
+		Assert.assertEquals(expect, res);
+	}
+
+	private static void tdeg(String string, String string2) {
+		t(string, string2.replace("deg", Unicode.DEGREE_STRING));
+	}
+
+	private static GeoElement get(String label) {
+		return app.getKernel().lookupLabel(label);
+	}
 
 	@Before
 	public void resetSyntaxes() {
@@ -146,13 +188,9 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		t("g(7)-h(7)", "0");
 	}
 
-	private static void add(String string) {
-		ap.processAlgebraCommand(string, false);
-	}
-
 	@Test
 	public void cmdAsymptote() {
-		t("Asymptote[ x*y=1 ]", new String[] { "x = 0", "y = 0" });
+		t("Asymptote[ x*y=1 ]", new String[]{"x = 0", "y = 0"});
 		t("Asymptote[ 1/x ]", "{y = 0, x = 0}");
 		t("Asymptote[ 1/x^3 ]", "{y = 0, x = 0}");
 		t("Asymptote[ 1/x^4 ]", "{y = 0, x = 0}");
@@ -220,6 +258,15 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdExpand() {
+		t("Expand[ (x+1)(x-1) ]", "x^(2) - 1");
+		t("f(x)=(x+i)*(x-i)",
+				"((x + " + Unicode.IMAGINARY + ") * (x - " + Unicode.IMAGINARY + "))");
+		t("Expand[ f ]", "x^(2) + 1");
+		t("Expand[ (x+i)(x-i) ]", "x^(2) + 1");
+	}
+
+	@Test
 	public void cmdSolutions() {
 		tRound("Solutions[ x^2=3 ]", "{-1.73205, 1.73205}");
 		t("Solutions[ 5x=4 ]", "{4 / 5}");
@@ -243,13 +290,13 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	public void testIntersectCurves() {
 		t("Intersect[Curve[t, t^3 - t, t, -2, 2], Curve[t, t, t, -4, 4]]",
-				new String[] { "(0, 0)",
+				new String[]{"(0, 0)",
 						"(1.4142135623730951, 1.4142135623730951)",
-						"(-1.4142135623730951, -1.4142135623730951)" });
+						"(-1.4142135623730951, -1.4142135623730951)"});
 		t("Intersect[Curve[t, t^3 - t, t, -2, 2], Curve[t, t, t, -4, 4], 1, 1]",
 				"(1.4142135623730951, 1.4142135623730956)");
 		tRound("Intersect[sin(x), cos(x), 0, 2pi]",
-				new String[] { "(0.7854, 0.70711)", "(3.92699, -0.70711)" });
+				new String[]{"(0.7854, 0.70711)", "(3.92699, -0.70711)"});
 	}
 
 	@Test
@@ -268,21 +315,6 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	@Test
 	public void cmdCASLoaded() {
 		t("CASLoaded[]", "true");
-	}
-
-	private static void runSolveTests() {
-		t("ss=Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
-		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("ss")));
-		t("sm=Solve[ {x+y=1,x-y=0} ]", "{{x = 1 / 2, y = 1 / 2}}");
-		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("sm")));
-		t("Solve[ x^2=-1 ]", "{}");
-		t("Solve[ x=x ]", "{x = x}");
-		t("Solve[ erf(x)=0.5 ]", "?");
-		tdeg("r=Solve[ sin(x)=0 ]", "{x = 0*deg}");
-		tdeg("r2=Solve[ {sin(x)=0, x=y} ]", "{{x = 0*deg, y = 0*deg}}");
-		tdeg("r=Solve[ cos(x)=1/sqrt(2) ]", "{x = (-45*deg), x = 45*deg}");
-		tdeg("r2=Solve[ {cos(x)=1/2, x=y} ]",
-				"{{x = 60*deg, y = 60*deg}, {x = (-60*deg), y = (-60*deg)}}");
 	}
 
 	@Test
@@ -338,6 +370,11 @@ public class CommandsUsingCASTest extends AlgebraTest {
 	}
 
 	@Test
+	public void cmdIntegralSymbolic() {
+		// Tested in __giac.js
+	}
+
+	@Test
 	public void cmdRemovableDiscontinuity() {
 		t("RemovableDiscontinuity((3-x)/(2x^2-6x))", "(3, -0.16666666666666666)");
 	}
@@ -352,30 +389,15 @@ public class CommandsUsingCASTest extends AlgebraTest {
 		}
 	}
 
+	@Test
+	public void cmdPlotSolve() {
+		t("PlotSolve(x^2-2)", "{(-1.4142135623730951, 0), (1.4142135623730951, 0)}");
+		GeoElement element = get("l1");
+		assertThat(element.isEuclidianVisible(), is(true));
+	}
+
 	private void frac(String def, String expect) {
 		EvalInfo evalInfo = new EvalInfo(true, true).withFractions(true);
 		checkWithEvalInfo(def, expect, evalInfo);
-	}
-
-	private static void deg(String def, String expect) {
-		EvalInfo evalInfo = new EvalInfo(true, true).addDegree(true);
-		checkWithEvalInfo(def, expect, evalInfo);
-	}
-
-	private static void checkWithEvalInfo(String def, String expect,
-			EvalInfo evalInfo) {
-		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
-				false, TestErrorHandler.INSTANCE,
-				evalInfo, null);
-		String res = geo[0].toValueString(StringTemplate.editTemplate);
-		Assert.assertEquals(expect, res);
-	}
-
-	private static void tdeg(String string, String string2) {
-		t(string, string2.replace("deg", Unicode.DEGREE_STRING));
-	}
-
-	private static GeoElement get(String label) {
-		return app.getKernel().lookupLabel(label);
 	}
 }

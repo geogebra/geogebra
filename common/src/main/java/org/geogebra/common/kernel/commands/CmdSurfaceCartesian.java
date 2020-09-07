@@ -1,13 +1,14 @@
-package org.geogebra.common.geogebra3D.kernel3D.commands;
+package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Manager3DInterface;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
+import org.geogebra.common.kernel.algos.AlgoSurfaceCartesianND;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.VectorArithmetic;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
-import org.geogebra.common.kernel.commands.CmdCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -24,12 +25,12 @@ import org.geogebra.common.main.MyError;
  * Surface[expression, expression, expression, u, umin, umax, v, vmin, vmax]
  * Surface[ point expression, u, umin, umax, v, vmin, vmax]
  */
-public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
+public class CmdSurfaceCartesian extends CmdCurveCartesian {
 	/**
 	 * @param kernel
 	 *            Kernel
 	 */
-	public CmdSurfaceCartesian3D(Kernel kernel) {
+	public CmdSurfaceCartesian(Kernel kernel) {
 		super(kernel);
 
 	}
@@ -41,6 +42,10 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
+		Manager3DInterface manager3D = kernel.getManager3D();
+		if (manager3D == null && n != 7) {
+			throw argNumErr(c);
+		}
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
@@ -51,7 +56,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
 
-				ret[0] = kernel.getManager3D().surfaceOfRevolution(
+				ret[0] = manager3D.surfaceOfRevolution(
 						(Path) arg[0], (GeoNumberValue) arg[1],
 						null);
 				ret[0].setLabel(c.getLabel());
@@ -65,7 +70,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
 				GeoElement[] ret = new GeoElement[1];
 
-				ret[0] = kernel.getManager3D().surfaceOfRevolution(
+				ret[0] = manager3D.surfaceOfRevolution(
 						(ParametricCurve) arg[0],
 						(GeoNumberValue) arg[1], (GeoLineND) arg[2]);
 				ret[0].setLabel(c.getLabel());
@@ -76,7 +81,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
 				GeoElement[] ret = new GeoElement[1];
 
-				ret[0] = kernel.getManager3D().surfaceOfRevolution(
+				ret[0] = manager3D.surfaceOfRevolution(
 						(Parametrizable) arg[0], (GeoNumberValue) arg[1],
 						(GeoLineND) arg[2]);
 				ret[0].setLabel(c.getLabel());
@@ -108,7 +113,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					coords[i] = nx.getNumber();
 				}
 				GeoElement[] ret = new GeoElement[1];
-				ret[0] = kernel.getManager3D().surfaceCartesian3D(c.getLabel(),
+				ret[0] = surfaceCartesian3D(c.getLabel(),
 						exp, coords,
 						(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumeric) arg[4],
@@ -132,7 +137,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				GeoNumberValue[] coords = new GeoNumberValue[] {
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2] };
-				ret[0] = kernel.getManager3D().surfaceCartesian3D(c.getLabel(),
+				ret[0] = surfaceCartesian3D(c.getLabel(),
 						null, coords, (GeoNumeric) arg[3],
 						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5],
 						(GeoNumeric) arg[6], (GeoNumberValue) arg[7],
@@ -145,6 +150,18 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	private GeoElement surfaceCartesian3D(String label, ExpressionNode point,
+			GeoNumberValue[] coords, GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
+			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo) {
+		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(cons,
+				point, coords,
+				new GeoNumeric[] { uVar, vVar },
+				new GeoNumberValue[] { uFrom, vFrom },
+				new GeoNumberValue[] { uTo, vTo });
+		algo.getSurface().setLabel(label);
+		return algo.getSurface();
 	}
 
 	@Override

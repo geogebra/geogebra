@@ -50,12 +50,12 @@ public class CarotaTable {
 
 	@JsOverlay
 	private int selectionX() {
-		return getSelection() == null ? 0 : getSelection().x;
+		return getSelection() == null ? 0 : getSelection().col0;
 	}
 
 	@JsOverlay
 	private int selectionY() {
-		return getSelection() == null ? 0 : getSelection().y;
+		return getSelection() == null ? 0 : getSelection().row0;
 	}
 
 	private native CarotaSelection getHitCell(int x, int y);
@@ -70,7 +70,17 @@ public class CarotaTable {
 
 	public native <T> T getFormatting(String key, T fallback);
 
-	public native void setBackgroundColor(String bgcolor);
+	public native void setCellProperty(String property, String value);
+
+	public native String getCellProperty(String property);
+
+	public native void setBorderThickness(int borderThickness);
+
+	public native int getBorderThickness();
+
+	public native void setBorderStyle(String borderType);
+
+	public native String getBorderStyle();
 
 	public native void setWidth(double width);
 

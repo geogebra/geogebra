@@ -295,7 +295,7 @@ public class ExamDialog implements ClickHandler {
 		if (examStyle) {
 			return;
 		}
-		StyleInjector.inject(GuiResources.INSTANCE.examStyleLTR().getText());
+		StyleInjector.inject(GuiResources.INSTANCE.examStyle().getText());
 		examStyle = true;
 	}
 

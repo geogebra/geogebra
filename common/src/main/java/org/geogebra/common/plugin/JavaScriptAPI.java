@@ -523,6 +523,15 @@ public interface JavaScriptAPI {
 	boolean isMoveable(String objName);
 
 	/**
+	 * Returns the localized value of the object with the given name as a string.
+	 *
+	 * @param objName
+	 *            object name
+	 * @return value string
+	 */
+	String getValueString(String objName);
+
+	/**
 	 * Returns the value of the object with the given name as a string.
 	 * 
 	 * @param objName

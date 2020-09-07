@@ -16,13 +16,10 @@ the Free Software Foundation.
  * Created on 30. August 2001, 21:37
  */
 
-package org.geogebra.common.geogebra3D.kernel3D.algos;
+package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoDependentFunction;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -33,7 +30,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 
 /**
@@ -42,7 +38,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoSurfaceCartesian3D extends AlgoElement {
+public class AlgoSurfaceCartesianND extends AlgoElement {
 
 	private GeoNumberValue[] coords; // input
 	private GeoNumberValue[] from;
@@ -56,8 +52,6 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            output label
 	 * @param point
 	 *            point expression
 	 * @param coords
@@ -69,8 +63,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	 * @param to
 	 *            range max
 	 */
-	public AlgoSurfaceCartesian3D(Construction cons, String label,
-			ExpressionNode point, GeoNumberValue[] coords,
+	public AlgoSurfaceCartesianND(Construction cons, ExpressionNode point, GeoNumberValue[] coords,
 			GeoNumeric[] localVar, GeoNumberValue[] from, GeoNumberValue[] to) {
 		super(cons);
 
@@ -101,14 +94,12 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 		// create the curve
 		surface = createCurve(cons, point, fun);
-		vectorFunctions = point != null
-				&& AlgoDependentFunction.containsVectorFunctions(point);
+		vectorFunctions = AlgoDependentFunction.containsVectorFunctions(point);
 
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
 		compute();
-		surface.setLabel(label);
 	}
 
 	/**
@@ -122,15 +113,35 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	 */
 	protected GeoSurfaceCartesianND createCurve(Construction cons1,
 			ExpressionNode point, FunctionNVar[] fun) {
-		if (fun.length == 2) {
-			return new GeoSurfaceCartesian2D(cons1, point, fun);
-		}
-		return new GeoSurfaceCartesian3D(cons1, point, fun);
+		return kernel.getGeoFactory().newSurface(cons1, point, fun);
 	}
 
 	@Override
-	public Commands getClassName() {
-		return Commands.Surface;
+	public GetCommand getClassName() {
+		return surface.getComplexVariable() == null ? Commands.Surface : Algos.Expression;
+	}
+
+	@Override
+	public String getDefinition(StringTemplate tpl) {
+		if (surface.getComplexVariable() == null) {
+			return super.getDefinition(tpl);
+		}
+		return getRHS(tpl);
+	}
+
+	@Override
+	public String toString(StringTemplate tpl) {
+		if (surface.getDefinition() == null) {
+			return super.toString(tpl);
+		}
+		if (surface.isLabelSet() && !tpl.isHideLHS()) {
+			return surface.getLabel(tpl) + "(" + surface.getVarString(tpl) + ") = " + getRHS(tpl);
+		}
+		return getRHS(tpl);
+	}
+
+	private String getRHS(StringTemplate tpl) {
+		return surface.getDefinition() == null ? "?" : surface.getDefinition().toString(tpl);
 	}
 
 	// for AlgoElement
@@ -222,4 +233,15 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 	}
 
+	public GeoNumeric getLocalVar(int i) {
+		return this.localVar[i];
+	}
+
+	@Override
+	protected String toExpString(StringTemplate tpl) {
+		if (!surface.isDefined() && surface.getComplexVariable() != null) {
+			return surface.getAssignmentLHS(tpl) + " = ?";
+		}
+		return toString(tpl);
+	}
 }

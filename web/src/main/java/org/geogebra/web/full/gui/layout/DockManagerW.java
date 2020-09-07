@@ -19,6 +19,7 @@ import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -26,7 +27,6 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -371,7 +371,7 @@ public class DockManagerW extends DockManager {
 					windowWidth2 = windowWidth;
 					windowHeight2 = windowHeight;
 					app.setPreferredSize(
-							new GDimensionW(windowWidth2, windowHeight2));
+							new Dimension(windowWidth2, windowHeight2));
 				}
 
 				setSplitPaneDividers(spData, splitPanes, windowHeight2,

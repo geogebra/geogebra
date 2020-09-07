@@ -108,16 +108,10 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public boolean isFinite();
 
 	/**
-	 * @param p
-	 *            copy algebraic properties from another point
+	 * @param sb string builder to append the correct xml representation as a
+	 * 	start point for an object (button, vector, text)
 	 */
-	// public void set(GeoPointND p);
-
-	/**
-	 * @return string representation for XML if this is start point for some
-	 *         locateable
-	 */
-	public String getStartPointXML();
+	void appendStartPointXML(StringBuilder sb);
 
 	/**
 	 * @return list of locateables this is a start point of

@@ -5,18 +5,18 @@
 	// command suggestion popup in AV
 	.gwt-SuggestBoxPopup.ggb-AlgebraViewSuggestionPopup.matDesign {
 		border-radius: 2px;
-    	padding: 8px 16px;
-    	font-size: 80%;
-    	background-color: white;
-    	box-shadow: 0 0 2px 1px $popup-shadow;
-    		
-    	.item {
-    		height: 16px;
-    		padding: 8px 0px;
-    		cursor: pointer;
-    			
-    		&.selectedItem {
-    			color: $teal-default;
+		padding: 8px 16px;
+		font-size: 80%;
+		background-color: white;
+		box-shadow: 0 0 2px 1px $popup-shadow;
+
+		.item {
+			height: 16px;
+			padding: 8px 0px;
+			cursor: pointer;
+
+			&.selectedItem {
+				color: $teal-default;
 			}
 		}
 	}
@@ -25,45 +25,45 @@
 	.gwt-PopupPanel.helpPopupAV.GeoGebraPopup.matDesign,
 		.gwt-PopupPanel.GeoGebraPopup.matDesign.helpPopupAVBottom {
 		border-radius: 2px;
-    	padding: 8px;
-    	font-size: 80%;	
-    	background-color: white;
-    	box-shadow: 0 0 2px 1px $popup-shadow;
-    	
-    	.inputHelp-CancelBtn,
-    		.inputHelp-OnlineHelpBtn {
-    		text-decoration: none;	
-    		text-align: center;
-    		color: $teal-default;
-    		min-width: 64px;
-    		height: 36px;
-    		border-radius: 2px;
-    		padding: 0px 8px;
-    		border: none;
-    		box-shadow: none;
-    		font-size: 100%;
-    		cursor: pointer;
-    		
-    		&:hover,&:active {
-    			background: $black-10 !important;
-    			color: $teal-dark;
-    		}
-    	}
-    
-    	.inputHelp-leaf {
-    		font-size: 90%;
-    			
-    		&:hover {
-    			background: $selected-menuitem-background;
-    		}
-    	}
-    
-    	.inputHelp-functionTable {
-    		.gwt-Label {
-    			font-size: 90%;	
-    		}
-    	}
-    
+		padding: 8px;
+		font-size: 80%;
+		background-color: white;
+		box-shadow: 0 0 2px 1px $popup-shadow;
+
+		.inputHelp-CancelBtn,
+			.inputHelp-OnlineHelpBtn {
+			text-decoration: none;
+			text-align: center;
+			color: $teal-default;
+			min-width: 64px;
+			height: 36px;
+			border-radius: 2px;
+			padding: 0px 8px;
+			border: none;
+			box-shadow: none;
+			font-size: 100%;
+			cursor: pointer;
+
+			&:hover,&:active {
+				background: $black-10 !important;
+				color: $teal-dark;
+			}
+		}
+
+		.inputHelp-leaf {
+			font-size: 90%;
+
+			&:hover {
+				background: $selected-menuitem-background;
+			}
+		}
+
+		.inputHelp-functionTable {
+			.gwt-Label {
+				font-size: 90%;
+			}
+		}
+
 	}
 
 	// preview point popup
@@ -78,6 +78,78 @@
 		
 		.gwt-Label {
 			text-align: center;
+		}
+	}
+
+	.lineThicknessPopup {
+		width: 152px;
+		padding: 8px 0px;
+
+		.lineThicknessItem {
+			display: flex;
+			height: 24px;
+
+			&:hover {
+				background-color: $selected-menuitem-background;
+				cursor: pointer;
+			}
+
+			.checkImg {
+				opacity: 0;
+				margin: 0px 16px;
+
+				&.selected {
+					opacity: 0.7;
+				}
+			}
+
+			.linePreview {
+				width: 80px;
+				background-color: #757575;
+
+				&.thin {
+					height: 1px;
+					margin: 12px 0px;
+				}
+
+				&.thick {
+					height: 3px;
+					margin: 11px 0px;
+				}
+			}
+		}
+	}
+
+	.borderStylePopup {
+		tbody {
+			display: flex;
+		}
+
+		.stylebarButton {
+			opacity: 0.7;
+		}
+
+		.divider {
+			width: 1px;
+			background-color: $tool-border;
+			height: 24px;
+			margin: 6px 0px 6px 4px;
+		}
+
+		.borderThicknessBtn {
+			width: 44px;
+			height: 32px;
+			margin: 2px 0px 0px 8px;
+			cursor: pointer;
+			border-radius: 2px;
+
+			&:hover, &.active {
+				background-color: $selected-menuitem-background;
+			}
+
+			.penImg {
+				margin: 4px 0px;
+			}
 		}
 	}
 

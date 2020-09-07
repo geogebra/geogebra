@@ -4,6 +4,7 @@ import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.SuggestionRootExtremum;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
+import org.geogebra.common.gui.view.algebra.SuggestionStatistics;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Kernel;
@@ -623,6 +624,54 @@ public class AlgebraStyleTest extends Assert {
 		String rhs = getGeo("c").getLaTeXDescriptionRHS(false,
 				StringTemplate.editorTemplate);
 		assertEquals("Cone((0,0,0),(0,0,1),5)", rhs);
+	}
+
+	@Test
+	public void statisticsSuggestionForEmptyList() {
+		t("l1={}");
+		GeoElement list = getGeo("l1");
+		Assert.assertNull(SuggestionStatistics.get(list));
+	}
+
+	@Test
+	public void statisticsSuggestionForOneElementList() {
+		t("l1={1}");
+		GeoElement list = getGeo("l1");
+		Assert.assertNotNull(SuggestionStatistics.get(list));
+
+		SuggestionStatistics.get(list).execute(list);
+		Assert.assertEquals(4, app.getGgbApi().getObjectNumber());
+	}
+
+	@Test
+	public void statisticsSuggestionForMoreElementList() {
+		t("l1={1,2,3}");
+		GeoElement list = getGeo("l1");
+		Assert.assertNotNull(SuggestionStatistics.get(list));
+
+		SuggestionStatistics.get(list).execute(list);
+		Assert.assertEquals(6, app.getGgbApi().getObjectNumber());
+	}
+
+	@Test
+	public void statisticsSuggestionShouldCreateOneUndoPoint() {
+		app.setUndoRedoEnabled(true);
+		app.setUndoActive(true);
+		app.getKernel().getConstruction().initUndoInfo();
+
+		t("l1={1,2,3}");
+		GeoElement list = getGeo("l1");
+		Assert.assertNotNull(SuggestionStatistics.get(list));
+
+		app.storeUndoInfo();
+		assertEquals(1, app.getKernel().getConstruction()
+				.getUndoManager().getHistorySize());
+
+		SuggestionStatistics.get(list).execute(list);
+		Assert.assertEquals(6, app.getGgbApi().getObjectNumber());
+
+		assertEquals(2, app.getKernel().getConstruction()
+				.getUndoManager().getHistorySize());
 	}
 
 	private static void deg(String def, String expect) {

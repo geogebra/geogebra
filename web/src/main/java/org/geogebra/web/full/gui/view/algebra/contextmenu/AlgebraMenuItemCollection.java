@@ -6,6 +6,7 @@ import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateInputIte
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateOutputItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.SettingsItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.SpecialPointsItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.StatisticsItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.TableOfValuesItem;
 import org.geogebra.web.html5.main.AppW;
 
@@ -22,6 +23,8 @@ public class AlgebraMenuItemCollection extends GeoElementMenuItemCollection {
 	 */
 	public AlgebraMenuItemCollection(AlgebraViewW algebraView) {
 		AppW app = algebraView.getApp();
+		addItems(new StatisticsItem());
+
 		if (app.getConfig().hasTableView()) {
 			addItems(new TableOfValuesItem());
 		}
