@@ -7,11 +7,11 @@ import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.main.AppWFull;
 
-public class DuplicateAction extends DefaultMenuAction<GeoElement> {
+public class DuplicateInputAction extends DefaultMenuAction<GeoElement> {
 
 	private AlgebraViewW algebraView;
 
-	public DuplicateAction(AlgebraViewW algebraView) {
+	public DuplicateInputAction(AlgebraViewW algebraView) {
 		this.algebraView = algebraView;
 	}
 

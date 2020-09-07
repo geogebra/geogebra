@@ -6,7 +6,7 @@ import static org.hamcrest.core.Is.is;
 import org.geogebra.web.full.gui.view.algebra.MenuItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.AddLabelItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.CreateSliderItem;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateInputItem;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.RemoveSliderItem;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.test.AppMocker;
@@ -35,7 +35,7 @@ public class AlgebraMenuItemCollectionCASTest {
 		int indexOfAddLabel = indexOf(AddLabelItem.class);
 		int indexOfCreateSlider = indexOf(CreateSliderItem.class);
 		int indexOfRemoveSlider = indexOf(RemoveSliderItem.class);
-		int indexOfDuplicate = indexOf(DuplicateItem.class);
+		int indexOfDuplicate = indexOf(DuplicateInputItem.class);
 
 		boolean isCreateSliderItemInPlace =
 				indexOfAddLabel < indexOfCreateSlider && indexOfCreateSlider < indexOfDuplicate;
