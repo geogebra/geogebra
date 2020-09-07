@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='tablet3d'>
-  <inherits name='org.geogebra.web.Touch'/>
+<inherits name='org.geogebra.web.WebND'/>
 
-  <!-- Specify the app entry point class.                         -->
-  <entry-point class='org.geogebra.web.tablet.Tablet'/>
+<!-- This was added to remove a compile error in a general case -->
+<define-property name="gwt.logging.popupHandler" values="DISABLED"/>
 
-  <source path='tablet'/>
-  
-  <!-- Compile only one permutation -->
-  <collapse-all-properties />
+<inherits name='com.googlecode.gwtgl.binding'/>
+<!-- Specify the app entry point class.                         -->
+<entry-point class='org.geogebra.web.tablet.Tablet'/>
+
+<!-- compile only for Safari - reduces permutation time -->
+<set-property name="user.agent" value="safari" />
+
+<!-- Specify the paths for translatable code                    -->
+<source path='tablet'/>
+<source path='touch'/>
+<source path='geogebra3D'/>
+
+<set-configuration-property name="devModeRedirectEnabled" value="true"/>
+<!-- Compile only one permutation -->
+<collapse-all-properties />
 </module>

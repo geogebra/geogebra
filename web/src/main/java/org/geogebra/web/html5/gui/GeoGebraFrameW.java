@@ -434,8 +434,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * Splash screen callback
 	 */
 	public void runAsyncAfterSplash() {
-		ResourcesInjector.injectResources(appletParameters);
-		ResourcesInjector.loadFont(appletParameters.getDataParamFontsCssUrl());
+		ResourcesInjector resourcesInjector = getResourcesInjector(appletParameters);
+		resourcesInjector.injectResources(appletParameters);
+		resourcesInjector.loadWebFont(appletParameters.getDataParamFontsCssUrl());
 
 		app = createApplication(geoGebraElement, appletParameters, this.laf);
 		app.setCustomToolBar();
@@ -451,6 +452,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// to print DockPanels' titles
 		app.setLabels();
 		fitSizeToScreen();
+	}
+
+	protected ResourcesInjector getResourcesInjector(AppletParameters appletParameters) {
+		return new ResourcesInjector();
 	}
 
 	/**

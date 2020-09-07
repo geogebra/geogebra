@@ -4,12 +4,12 @@
 
 package org.geogebra.web.full.gui.layout;
 
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.GeoGebraElement;
 
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
@@ -118,7 +118,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
 		private ZoomSplitLayoutPanel splitPanel;
 
-		protected SplitterImpl impl = GWT.create(SplitterImpl.class);
+		protected SplitterImpl impl = Browser.isMobile() ? new SplitterImplTouch()
+				: new SplitterImpl();
 
 		/**
 		 * @param target

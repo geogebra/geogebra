@@ -18,8 +18,4 @@
     <!-- #3511 -->
     <set-property name="compiler.stackMode" value="strip"/>
 
-    <replace-with class="org.geogebra.web.html5.factories.NoCASFactory">
-        <when-type-is class="org.geogebra.common.factories.CASFactory" />
-    </replace-with>
-
 </module>

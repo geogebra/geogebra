@@ -10,9 +10,6 @@ The following tools are used as part of GeoGebra's software development process.
   AndroidAnnotations
   : https://github.com/excilys/androidannotations (Apache 2.0)
 
-  Apache Cordova (Tablet app framework)
-  : http://cordova.apache.org/ (Apache Software license)
-
   The Apache Commons IO Library
   : https://commons.apache.org/proper/commons-io/ (Apache Software License)
 

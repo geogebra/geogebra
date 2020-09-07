@@ -38,13 +38,9 @@ public interface GeoGebraConstants {
 
 		WEB("w"),
 
-		ANDROID_WEBVIEW("aw"),
-
 		IOS("i"),
 
 		IOS_WEBVIEW("iw"),
-
-		WINDOWS_STORE("win"),
 
 		WEB_FOR_BROWSER_2D("w2d"),
 
@@ -52,9 +48,7 @@ public interface GeoGebraConstants {
 
 		SMART("smart"),
 
-		POWERPOINT("p"),
-
-		NO_CAS("nc");
+		POWERPOINT("p");
 
 		private String name;
 
@@ -91,17 +85,6 @@ public interface GeoGebraConstants {
 			case DESKTOP:
 				return VERSION_STRING + "-" + suffix;
 			}
-		}
-
-		/**
-		 * @return whether this is android exam app
-		 */
-		public boolean isAndroidWebview() {
-			switch (this) {
-			case ANDROID_WEBVIEW:
-				return true;
-			}
-			return false;
 		}
 
 		/**
