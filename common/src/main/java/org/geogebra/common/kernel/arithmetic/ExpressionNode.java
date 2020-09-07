@@ -77,6 +77,7 @@ public class ExpressionNode extends ValidExpression
 	private boolean forcePoint = false;
 	private boolean forceFunction = false;
 	private boolean forceInequality = false;
+	private boolean forceSurface = false;
 	private boolean wasInterval = false;
 
 	/** true if this holds text and the text is in LaTeX format */
@@ -3739,5 +3740,13 @@ public class ExpressionNode extends ValidExpression
 		double evaluatedRight = getRight().evaluateDouble();
 		boolean isRightDeg = MyDouble.exactEqual(evaluatedRight, MyMath.DEG);
 		return isLeftMinusOne || isRightDeg;
+	}
+
+	public void setForceSurfaceCartesian() {
+		this.forceSurface = true;
+	}
+
+	public boolean isForceSurface() {
+		return forceSurface;
 	}
 }

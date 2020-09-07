@@ -151,7 +151,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private FlowPanel latexItem;
 	private FlowPanel definitionValuePanel;
 
-	// GTextBox tb;
 	private boolean needsUpdate;
 
 	/**
@@ -484,9 +483,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			definitionValuePanel.clear();
 			definitionValuePanel.add(outputPanel);
 			outputPanel.reset();
-
-			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
-			previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 
 			String text = previewGeo
 					.getAlgebraDescription(StringTemplate.latexTemplate)
