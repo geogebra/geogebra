@@ -62,6 +62,8 @@ public class AlgoKimberlingWeights {
 		T = (a2 - b2 - c2);
 		U = (a2 + b2 - c2);
 		V = (a2 - b2 + c2);
+
+		// four times the area of the triangle using Heron's formula
 		S = u((a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c));
 
 		if (k < 100) {
@@ -1962,9 +1964,7 @@ public class AlgoKimberlingWeights {
 
 		switch (k) {
 		case 600:
-			return a2 * (2 * a2 - a * b + 2 * b2 - 2 * c2)
-					* (2 * a2 - 2 * b2 - a * c + 2 * c2)
-					* (-(b2 * c2) + a2 * R);
+			return a2 * (b * c + S) * (a * b * c * (b + c - a) + (b2 + c2 - a2) * S);
 		case 601:
 			return a3 * (a4 + b4 - 2 * b3 * c - 2 * b2 * c2 - 2 * b * c3 + c4
 					- 2 * a2 * (b2 - b * c + c2));
