@@ -298,7 +298,25 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testGeoNumericIsClampedToMinMax() {
+	public void testGeoNumericExtendsMinMaxInSymbolic() {
+		GeoNumeric numeric = add("a = 5");
+		numeric.setShowExtendedAV(true);
+		numeric.initAlgebraSlider();
+		Assert.assertFalse(numeric.getIntervalMax() >= 20);
+		Assert.assertFalse(numeric.getIntervalMin() <= -20);
+
+		GeoInputBox inputBox = add("ib = InputBox(a)");
+		inputBox.setSymbolicMode(true);
+
+		inputBox.updateLinkedGeo("20");
+		inputBox.updateLinkedGeo("-20");
+
+		Assert.assertTrue(numeric.getIntervalMax() >= 20);
+		Assert.assertTrue(numeric.getIntervalMin() <= -20);
+	}
+
+	@Test
+	public void testGeoNumericIsClampedToMinMaxInNonSymbolic() {
 		GeoNumeric numeric = add("a = 0");
 		numeric.setShowExtendedAV(true);
 		numeric.initAlgebraSlider();

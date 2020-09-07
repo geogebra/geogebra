@@ -59,18 +59,7 @@ public class InputBoxProcessor {
 		// box is correct when updating dependencies
 		String tempUserDisplayInput = getAndClearTempUserDisplayInput(inputText);
 
-		String defineText = inputText;
-		if (linkedGeo instanceof GeoNumeric) {
-			GeoNumeric number = (GeoNumeric) linkedGeo;
-			double num = kernel.getAlgebraProcessor()
-						.evaluateToDouble(inputText, true, null);
-
-			if (num < number.getIntervalMin()) {
-				defineText = kernel.format(number.getIntervalMin(), tpl);
-			} else if (num > number.getIntervalMax()) {
-				defineText = kernel.format(number.getIntervalMax(), tpl);
-			}
-		}
+		String defineText = maybeClampInputForNumeric(inputText, tpl);
 
 		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
 		updateLinkedGeoNoErrorHandling(defineText, tpl, errorHandler);
@@ -87,6 +76,22 @@ public class InputBoxProcessor {
 			linkedGeo.resetDefinition(); // same as SetValue(linkedGeo, ?)
 			linkedGeo.updateRepaint();
 		}
+	}
+
+	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
+		if (!inputBox.isSymbolicMode() && linkedGeo instanceof GeoNumeric) {
+			GeoNumeric number = (GeoNumeric) linkedGeo;
+			double num = kernel.getAlgebraProcessor()
+					.evaluateToDouble(inputText, true, null);
+
+			if (num < number.getIntervalMin()) {
+				return kernel.format(number.getIntervalMin(), tpl);
+			} else if (num > number.getIntervalMax()) {
+				return kernel.format(number.getIntervalMax(), tpl);
+			}
+		}
+
+		return inputText;
 	}
 
 	private void updateTempInput(String inputText, String tempUserDisplayInput) {
