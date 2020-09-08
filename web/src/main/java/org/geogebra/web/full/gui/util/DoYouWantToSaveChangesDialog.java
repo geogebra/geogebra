@@ -1,5 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
+import java.util.Date;
+
 import org.geogebra.common.main.MaterialVisibility;
 import org.geogebra.common.main.SaveController;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -11,6 +13,7 @@ import org.geogebra.web.shared.components.ComponentDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
@@ -18,6 +21,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	private FlowPanel contentPanel;
 	private FlowPanel inputPanel;
 	private InputPanelW titleField;
+	private boolean fallbackChosen = false;
 
 	/**
 	 * base dialog constructor
@@ -174,8 +178,9 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	 */
 	@Override
 	public void setTitle() {
-		app.getSaveController()
-				.updateSaveTitle(getInputField().getTextComponent(), "");
+		fallbackChosen = app.getSaveController()
+				.updateSaveTitle(getInputField().getTextComponent(),
+						DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date()));
 	}
 
 	@Override
@@ -183,6 +188,11 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		super.show();
 		center();
 		setTitle();
-		Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
+		if (fallbackChosen) {
+			Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().selectAll());
+		}
+		else {
+			Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
+		}
 	}
 }
