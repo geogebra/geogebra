@@ -689,7 +689,7 @@ public class ApiExporter {
 
 		api.showTooltip = function(content, label, color) {
 			if (label) {
-				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content + "", label + "", color + "");
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)(content, label, color);
 			} else {
 				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;)(content + "");
 			}
@@ -908,7 +908,7 @@ public class ApiExporter {
 		};
 
 		api.unregisterRenameListener = function(JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerRenameListener(Ljava/lang/String;)(getId(JSFunctionName));
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterRenameListener(Ljava/lang/String;)(getId(JSFunctionName));
 		};
 
 		api.registerUpdateListener = function(JSFunctionName) {

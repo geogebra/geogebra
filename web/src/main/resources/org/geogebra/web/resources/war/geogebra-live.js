@@ -100,6 +100,7 @@
         // *** UPDATE LISTENERS ***
         let updateListener = (function(label) {
             console.log("update event for " + label);
+            this.api.showTooltip(null, label);
             if (!objectsInWaiting.includes(label)) {
                 objectsInWaiting.push(label);
                 dispatchUpdates();
@@ -114,7 +115,8 @@
             if (image) {
                 var json = this.api.getFileJSON();
                 json.archive.forEach(function(item) {
-                    if (item.fileName == image) {
+                    if (item.fileName.indexOf(image) > -1) {
+                        item.fileName = image;
                         that.sendEvent("addImage", JSON.stringify(item));
                     }
                 })
