@@ -192,8 +192,8 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 			Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().selectAll());
 		}
 		else {
-			Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent()
-					.setFocus(true));
+			Scheduler.get()
+					.scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
 		}
 	}
 }
