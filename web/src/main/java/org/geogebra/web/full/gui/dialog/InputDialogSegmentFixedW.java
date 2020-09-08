@@ -5,7 +5,6 @@ import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.dialog.handler.SegmentHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
@@ -44,8 +43,6 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 		try {
 			if (source == btOK || sourceShouldHandleOK(source)) {
 				processInput();
-			} else if (source == btApply) {
-				processInput();
 			} else if (source == btCancel) {
 				setVisible(false);
 			}
@@ -59,13 +56,6 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 		new SegmentHandler(geoPoint1, kernel).doSegmentFixedAsync(
 				inputPanel.getText(),
 				(NumberInputHandler) getInputHandler(), this,
-				new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						setVisible(!ok);
-					}
-				});
+				ok -> setVisible(!ok));
 	}
-
 }

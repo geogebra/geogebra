@@ -3,7 +3,6 @@ package org.geogebra.web.full.gui.dialog;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.InputDialog;
-import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -12,7 +11,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.full.gui.util.WindowsNativeUIController;
 import org.geogebra.web.full.gui.view.algebra.InputPanelW;
 import org.geogebra.web.html5.gui.GDialogBox;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -28,8 +26,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -47,8 +43,6 @@ public class InputDialogW extends InputDialog
 
 	protected InputPanelW inputPanel;
 
-	protected Button btApply;
-	protected Button btProperties;
 	protected Button btCancel;
 	protected Button btOK;
 	protected GDialogBox wrappedPopup;
@@ -104,42 +98,15 @@ public class InputDialogW extends InputDialog
 	 */
 	public InputDialogW(AppW app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
-			boolean modal, boolean selectInitText) {
-		this(app, message, title, initString, autoComplete, handler, modal,
-				selectInitText, DialogType.GeoGebraEditor);
-	}
-
-	/**
-	 * @param app
-	 *            application
-	 * @param message
-	 *            message text
-	 * @param title
-	 *            title
-	 * @param initString
-	 *            initial content
-	 * @param autoComplete
-	 *            whether to allow autocompletion
-	 * @param handler
-	 *            input callback
-	 * @param modal
-	 *            whether it's modal
-	 * @param selectInitText
-	 *            whether to select text after opening
-	 * @param type
-	 *            dialog type
-	 */
-	public InputDialogW(AppW app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler,
-			boolean modal, final boolean selectInitText, DialogType type) {
+			boolean modal, final boolean selectInitText) {
 
 		this(modal, app, true);
 
 		this.setInputHandler(handler);
 		setInitString(initString);
 
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true,
-				selectInitText, false, false, type);
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1,
+				true, selectInitText);
 
 		centerAndFocus(selectInitText);
 	}
@@ -166,23 +133,18 @@ public class InputDialogW extends InputDialog
 				Panel panel, App app) {
 			super(autoHide, modal, inputDialogW, panel, app);
 		}
-
 	}
 
 	protected void centerAndFocus(final boolean selectInitText) {
 		wrappedPopup.center();
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				AutoCompleteTextFieldW textComponent = getTextComponent();
-				if (textComponent != null) {
-					textComponent.setFocus(true);
-					// Firefox: correct cursor position #5419
-					if (!selectInitText) {
-						textComponent.setCaretPosition(
-								inputPanel.getText().length());
-					}
+		Scheduler.get().scheduleDeferred(() -> {
+			AutoCompleteTextFieldW textComponent = getTextComponent();
+			if (textComponent != null) {
+				textComponent.setFocus(true);
+				// Firefox: correct cursor position #5419
+				if (!selectInitText) {
+					textComponent.setCaretPosition(
+							inputPanel.getText().length());
 				}
 			}
 		});
@@ -210,8 +172,9 @@ public class InputDialogW extends InputDialog
 		this.setInputHandler(handler);
 		setInitString(initString);
 
-		createGUI(title, message, true, DEFAULT_COLUMNS, 1, true, false,
-				geo != null, false, DialogType.GeoGebraEditor);
+
+		createGUI(title, message, true, DEFAULT_COLUMNS, 1,
+				true, false);
 
 		centerAndFocus(false);
 	}
@@ -274,35 +237,25 @@ public class InputDialogW extends InputDialog
 	 *            whether to show smbol popup
 	 * @param selectInitText
 	 *            whether to select text
-	 * @param showProperties
-	 *            whether to show properties button
-	 * @param showApply
-	 *            whether to show apply button
-	 * @param type
-	 *            dialog type
 	 */
 	protected void createGUI(String title1, String message,
 			boolean autoComplete, int columns, int rows,
-			boolean showSymbolPopupIcon, boolean selectInitText,
-			boolean showProperties, boolean showApply, DialogType type) {
+			boolean showSymbolPopupIcon, boolean selectInitText) {
 
 		this.title = title1;
 
 		// Create components to be displayed
 		inputPanel = new InputPanelW(getInitString(), app, rows, columns,
-				showSymbolPopupIcon/* , type */);
+				showSymbolPopupIcon);
 
 		if (!app.isWhiteboardActive()) {
 
 			app.registerPopup(wrappedPopup);
 		}
 
-		wrappedPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
-			@Override
-			public void onClose(CloseEvent<GPopupPanel> event) {
-				app.unregisterPopup(wrappedPopup);
-				app.hideKeyboard();
-			}
+		wrappedPopup.addCloseHandler(event -> {
+			app.unregisterPopup(wrappedPopup);
+			app.hideKeyboard();
 		});
 
 		// add key handler for ENTER if inputPanel uses a text field
@@ -325,10 +278,6 @@ public class InputDialogW extends InputDialog
 		errorPanel = new VerticalPanel();
 		errorPanel.addStyleName("Dialog-errorPanel");
 
-		// create buttons
-		btProperties = new Button();
-		btProperties.addClickHandler(this);
-
 		btOK = new Button();
 		btOK.addClickHandler(this);
 
@@ -336,21 +285,11 @@ public class InputDialogW extends InputDialog
 		btCancel.addClickHandler(this);
 		btCancel.addStyleName("cancelBtn");
 
-		btApply = new Button();
-		btApply.addClickHandler(this);
-
 		// create button panel
 		btPanel = new FlowPanel();
 		btPanel.addStyleName("DialogButtonPanel");
 		btPanel.add(btOK);
 		btPanel.add(btCancel);
-		// just tmp.
-		if (showApply) {
-			btPanel.add(btApply);
-		}
-		// if (showProperties) {
-		// btPanel.add(btProperties);
-		// }
 
 		setLabels();
 
@@ -362,7 +301,6 @@ public class InputDialogW extends InputDialog
 		centerPanel.add(btPanel);
 
 		wrappedPopup.setWidget(centerPanel);
-
 	}
 
 	/**
@@ -382,23 +320,13 @@ public class InputDialogW extends InputDialog
 		if (source == btOK || sourceShouldHandleOK(source)) {
 			closeIOSKeyboard();
 			String inputText = inputPanel.getText();
-			processInputHandler(inputText, new AsyncOperation<Boolean>() {
-
-				@Override
-				public void callback(Boolean ok) {
-					setVisible(!ok);
-					if (ok) {
-						resetMode();
-					}
-
+			processInputHandler(inputText, ok -> {
+				setVisible(!ok);
+				if (ok) {
+					resetMode();
 				}
+
 			});
-		} else if (source == btApply) {
-			String inputText = inputPanel.getText();
-			processInputHandler(inputText, null);
-		} else if (source == btProperties && geo != null) {
-			setVisible(false);
-			openProperties(app, geo);
 		} else if (source == btCancel) {
 			closeIOSKeyboard();
 			cancel();
@@ -455,9 +383,7 @@ public class InputDialogW extends InputDialog
 	public void setLabels() {
 		wrappedPopup.setText(title);
 		btOK.setText(loc.getMenu("OK"));
-		btApply.setText(loc.getMenu("Apply"));
 		btCancel.setText(loc.getMenu("Cancel"));
-		btProperties.setText(loc.getMenu("Properties") + Unicode.ELLIPSIS);
 	}
 
 	@Override
@@ -541,17 +467,13 @@ public class InputDialogW extends InputDialog
 		cons.setSuppressLabelCreation(true);
 
 		getInputHandler().processInput(inputPanel.getText(), this,
-				new AsyncOperation<Boolean>() {
+				ok -> {
+					cons.setSuppressLabelCreation(oldVal);
 
-					@Override
-					public void callback(Boolean ok) {
-						cons.setSuppressLabelCreation(oldVal);
-
-						if (ok) {
-							toolAction();
-						}
-						setVisible(!ok);
+					if (ok) {
+						toolAction();
 					}
+					setVisible(!ok);
 				});
 	}
 
@@ -561,5 +483,4 @@ public class InputDialogW extends InputDialog
 	protected void toolAction() {
 		// overridden in subclasses
 	}
-
 }

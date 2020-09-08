@@ -50,8 +50,8 @@ public class AngleInputDialogW extends InputDialogW {
 		rbPanel.add(rbCounterClockWise);
 		rbPanel.add(rbClockWise);
 
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
-				false, false, DialogType.GeoGebraEditor);
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1,
+				true, false);
 
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(messagePanel);

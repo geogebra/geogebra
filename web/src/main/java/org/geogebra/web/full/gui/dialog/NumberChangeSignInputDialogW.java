@@ -1,7 +1,6 @@
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
-import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
@@ -29,8 +28,7 @@ public class NumberChangeSignInputDialogW extends InputDialogW {
 	public NumberChangeSignInputDialogW(AppW app, String message, String title,
 			String initString, NumberChangeSignInputHandler handler,
 			boolean changingSign, String checkBoxText) {
-		super(app, message, title, initString, false, handler, true, false,
-				DialogType.TextArea);
+		super(app, message, title, initString, false, handler, true, false);
 		this.checkBox = new CheckBox(checkBoxText, true);
 		this.changingSign = changingSign;
 	}

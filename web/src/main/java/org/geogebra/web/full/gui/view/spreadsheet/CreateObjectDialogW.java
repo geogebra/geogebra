@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.view.spreadsheet;
 
-import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -14,12 +13,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -33,9 +26,6 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Dialog to create GeoElements (lists, matrices, tabletext, etc.) from
  * spreadsheet cell selections
- * 
- * @author G. Sturr
- * 
  */
 public class CreateObjectDialogW extends InputDialogW implements
 		 ICreateObjectListener {
@@ -85,13 +75,9 @@ public class CreateObjectDialogW extends InputDialogW implements
 		coModel = new CreateObjectModel(app, objectType, this);
 		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
 		coModel.setSelectedCellRanges(table.getSelectedCellRanges());
-		// cp = table.getCellRangeProcessor();
-		// selectedCellRanges = table.selectedCellRanges;
-		//
-		boolean showApply = false;
-		//
-		createGUI(coModel.getTitle(), coModel.getTitle(), false, 16, 1, false, false, false,
-				showApply, DialogType.GeoGebraEditor);
+
+		createGUI(coModel.getTitle(), coModel.getTitle(), false,
+				16, 1, false, false);
 
 		createAdditionalGUI();
 
@@ -117,44 +103,20 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	private void createAdditionalGUI() {
 		typeList = new ListBox();
-		typeList.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				objectTypeChanged();
-			}
-		});
+		typeList.addChangeHandler(event -> objectTypeChanged());
 
 		lblName = new Label();
 		lblName.setStyleName("panelTitle");
 		InputPanelW input = new InputPanelW(app, -1, false);
 
 		fldName = input.getTextComponent();
-		fldName.addBlurHandler(new BlurHandler() {
-			
-			@Override
-			public void onBlur(BlurEvent event) {
-				apply(fldName);
-			}
-		});
+		fldName.addBlurHandler(event -> apply(fldName));
 
 		cbScanOrder = new ListBox();
-		cbScanOrder.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				apply(cbScanOrder);
-			}
-		});
+		cbScanOrder.addChangeHandler(event -> apply(cbScanOrder));
 		
 		cbLeftRightOrder = new ListBox();
-		cbLeftRightOrder.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				apply(cbLeftRightOrder);
-			}
-		});
+		cbLeftRightOrder.addChangeHandler(event -> apply(cbLeftRightOrder));
 	
 		btnObject = new RadioButton("group1", "");
 		btnValue = new RadioButton("group1", "");
@@ -165,13 +127,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		ckTranspose = new CheckBox();
 		ckTranspose.setValue(false);
-		ckTranspose.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				apply(ckTranspose);
-			}
-		});
+		ckTranspose.addClickHandler(event -> apply(ckTranspose));
 
 		lblObject = new Label();
 		lblObject.setStyleName("panelTitle");
@@ -263,7 +219,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		// TODO: using buttons incorrectly for now
 		// btnOK = cancel, cancel = create
 		btOK.setText(loc.getMenu("Create"));
-		btApply.setText(loc.getMenu("Apply"));
 		btCancel.setText(loc.getMenu("Cancel"));
 
 		// object/value checkboxes
@@ -275,12 +230,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		ckSort.setText(loc.getMenu("Sort"));
 		
 		lblName.setText(loc.getMenu("Name") + ": ");
-
-		/*
-		 * lblTake.setText(loc.getMenu("Take") + ": ");
-		 * lblOrder.setText(loc.getMenu("Order") + ":");
-		 * lblXYOrder.setText(loc.getMenu("Order") + ": ");
-		 */
 
 		cbScanOrder.clear();
 		cbScanOrder.addItem(loc.getMenu("RowOrder"));
@@ -298,10 +247,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		lblObject.setText(loc.getMenu("Object") + ":");
 
 		lblPreviewHeader.setText(loc.getMenu("Preview") + ":");
-//
-//		namePanel.setBorder(BorderFactory.createCompoundBorder(
-		// BorderFactory.createTitledBorder(loc.getMenu("Name")),
-//				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		lblOptions.setText(loc.getMenu("Options"));
 		wrappedPopup.getCaption().setText(coModel.getTitle());
@@ -339,26 +284,17 @@ public class CreateObjectDialogW extends InputDialogW implements
 	void apply(Widget source) {
 		if (source == fldName) {
 			doTextFieldActionPerformed();
-		}
-		else if (source == btCancel) {
+		}  else if (source == btCancel) {
 			coModel.cancel();
-
-		} else if (source == btApply) {
-			// processInput();
-
 		} else if (source == btOK) {
 			coModel.ok();
-		}
-
-		else if (source == btnObject) {
+		} else if (source == btnObject) {
 			btnValue.setValue(!btnObject.getValue());
 			coModel.createNewGeo(fldName.getText());
 		} else if (source == btnValue) {
 			btnObject.setValue(!btnValue.getValue());
 			coModel.createNewGeo(fldName.getText());
-		}
-
-		else if (source == cbScanOrder || source == cbLeftRightOrder
+		} else if (source == cbScanOrder || source == cbLeftRightOrder
 				|| source == ckTranspose) {
 			coModel.createNewGeo(fldName.getText());
 		}
@@ -376,15 +312,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	@Override
 	public void setVisible(boolean isVisible) {
-//		if (isModal()) {
-//			if (isVisible) { // set old mode again
-//				wrappedDialog.addWindowFocusListener(this);
-//			} else {
-//				wrappedDialog.removeWindowFocusListener(this);
-//				app.setSelectionListenerMode(null);
-//			}
-//		}
-//
 		// clean up on exit: either remove our geo or keep it and make it
 		// visible
 		if (!isVisible) {
@@ -431,8 +358,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	@Override
 	protected void createGUI(String title, String message,
 	        boolean autoComplete, int columns, int rows,
-	        boolean showSymbolPopupIcon, boolean selectInitText,
-			boolean showProperties, boolean showApply1, DialogType type) {
+	        boolean showSymbolPopupIcon, boolean selectInitText) {
 
 		centerPanel = new FlowPanel();
 		
@@ -442,22 +368,12 @@ public class CreateObjectDialogW extends InputDialogW implements
 		btCancel = new Button();
 		btCancel.addStyleName("cancelBtn");
 		btCancel.addClickHandler(this);
-
-		btApply = new Button();
-		btApply.addClickHandler(this);
 	
 		// create button panel
 		btPanel = new FlowPanel();
 		btPanel.addStyleName("DialogButtonPanel");
 		btPanel.add(btOK);
 		btPanel.add(btCancel);
-		// just tmp.
-		if (showApply1) {
-			btPanel.add(btApply);
-		}
-		// if (showProperties) {
-		// btPanel.add(btProperties);
-		// }
 
 		setLabels();
 
@@ -467,7 +383,5 @@ public class CreateObjectDialogW extends InputDialogW implements
 		mainPanel.add(btPanel);
 
 		wrappedPopup.setWidget(mainPanel);
-
 	}
-	
 }
