@@ -2902,7 +2902,7 @@ __GGB__keysVar["ja"].menu = {
     "Surface": "\u66f2\u9762",
     "SurfaceOfRevolution": "\u56de\u8ee2\u9762",
     "SurfaceOfRevolution.Help": "\u8ef8\u306e\u5468\u308a\u306b\u66f2\u7dda\u3092\u30c9\u30e9\u30c3\u30b0",
-    "SwitchCalculator": "Switch calculator",
+    "SwitchCalculator": "\u30a2\u30d7\u30ea\u306e\u5207\u308a\u66ff\u3048",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",
