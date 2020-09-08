@@ -21,7 +21,7 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	private FlowPanel contentPanel;
 	private FlowPanel inputPanel;
 	private InputPanelW titleField;
-	private boolean fallbackChosen = false;
+	private boolean fallbackChosen;
 
 	/**
 	 * base dialog constructor
