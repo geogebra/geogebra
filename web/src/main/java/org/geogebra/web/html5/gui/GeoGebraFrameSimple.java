@@ -57,8 +57,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 */
 	public static void renderArticleElement(GeoGebraElement el, JavaScriptObject clb) {
 		AppletParameters parameters = new AppletParameters(el);
-		GeoGebraFrameW.renderArticleElementWithFrame(el,
-				new GeoGebraFrameSimple(el, parameters), clb);
+		new GeoGebraFrameSimple(el, parameters).renderArticleElementWithFrame(el, clb);
 	}
 
 	@Override
