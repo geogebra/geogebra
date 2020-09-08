@@ -132,6 +132,11 @@ public interface EmbedManager {
 	 */
 	void openGraspableMTool();
 
+	/**
+	 * opens the H5P tool
+	 */
+	void openH5PTool();
+
 	void initAppEmbed(GeoEmbed ge);
 
 	/**

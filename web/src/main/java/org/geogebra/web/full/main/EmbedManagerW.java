@@ -35,6 +35,7 @@ import org.geogebra.web.full.html5.Sandbox;
 import org.geogebra.web.full.main.embed.CalcEmbedElement;
 import org.geogebra.web.full.main.embed.EmbedElement;
 import org.geogebra.web.full.main.embed.GraspableEmbedElement;
+import org.geogebra.web.full.main.embed.H5PEmbedElement;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.main.ScriptManagerW;
@@ -42,6 +43,7 @@ import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.ImageManagerW;
+import org.geogebra.web.html5.util.h5pviewer.H5PPaths;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -88,15 +90,25 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 			return;
 		}
 		int embedID = drawEmbed.getEmbedID();
-		if ("extension".equals(drawEmbed.getGeoEmbed().getAppName())) {
+		String appName = drawEmbed.getGeoEmbed().getAppName();
+		if ("extension".equals(appName)) {
 			addExtension(drawEmbed);
 			if (content.get(embedID) != null) {
 				widgets.get(drawEmbed)
 						.setContent(content.get(embedID));
 			}
+		} else if ("h5p".equals(appName)) {
+			addHP5Viewer(drawEmbed);
 		} else {
 			addCalcEmbed(drawEmbed);
 		}
+	}
+
+	private void addHP5Viewer(DrawEmbed drawEmbed) {
+		int embedID = drawEmbed.getEmbedID();
+		FlowPanel container = createH5PContainer(embedID);
+		addWidgetToCache(drawEmbed, container);
+		widgets.get(drawEmbed).setContent(H5PPaths.SAMPLE_CONTENT);
 	}
 
 	@Override
@@ -202,6 +214,10 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 
 	private void addExtension(DrawEmbed drawEmbed) {
 		Widget parentPanel = createParentPanel(drawEmbed);
+		addWidgetToCache(drawEmbed, parentPanel);
+	}
+
+	private void addWidgetToCache(DrawEmbed drawEmbed, Widget parentPanel) {
 		FlowPanel scaler = new FlowPanel();
 		scaler.add(parentPanel);
 		scaler.setHeight("100%");
@@ -209,11 +225,9 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 
 		EmbedElement old = cache.get(drawEmbed.getEmbedID());
 		if (old == null) {
-			EmbedElement value = drawEmbed.getGeoEmbed().isGraspableMath()
-					? new GraspableEmbedElement(parentPanel, this)
-					: new EmbedElement(parentPanel);
-			widgets.put(drawEmbed, value);
-			value.addListeners(drawEmbed.getEmbedID());
+			EmbedElement embed = createEmbedElement(drawEmbed, parentPanel);
+			widgets.put(drawEmbed, embed);
+			embed.addListeners(drawEmbed.getEmbedID());
 		} else {
 			old.setVisible(true);
 			widgets.put(drawEmbed, old);
@@ -223,19 +237,50 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		}
 	}
 
-	private static Widget createParentPanel(DrawEmbed embed) {
-		String url = embed.getGeoEmbed().getURL();
-		if (url.contains("graspablemath.com")) {
-			FlowPanel panel = new FlowPanel();
-			String id = "gm-div" + embed.getEmbedID();
-			panel.getElement().setId(id);
-			panel.getElement().addClassName("gwt-Frame");
-			return panel;
+	private EmbedElement createEmbedElement(DrawEmbed drawEmbed, Widget parentPanel) {
+		GeoEmbed geoEmbed = drawEmbed.getGeoEmbed();
+		if (geoEmbed.isGraspableMath()) {
+			return new GraspableEmbedElement(parentPanel, this);
+		} else if (geoEmbed.isH5P()) {
+			return new H5PEmbedElement(parentPanel, geoEmbed);
+		} else {
+			return new EmbedElement(parentPanel);
 		}
+	}
+
+	private static Widget createParentPanel(DrawEmbed embed) {
+
+		GeoEmbed ge = embed.getGeoEmbed();
+
+		if ("h5p".equals(ge.getAppName())) {
+			return createH5PContainer(embed.getEmbedID());
+		}
+
+		String url = ge.getURL();
+
+		if (url != null && url.contains("graspablemath.com")) {
+			return createGraspableMathContainer(embed);
+		}
+
 		Frame frame = new Frame();
 		frame.setUrl(url);
 		frame.getElement().setAttribute("sandbox", Sandbox.embeds());
 		return frame;
+	}
+
+	private static FlowPanel createGraspableMathContainer(DrawEmbed embed) {
+		FlowPanel panel = new FlowPanel();
+		String id = "gm-div" + embed.getEmbedID();
+		panel.getElement().setId(id);
+		panel.getElement().addClassName("gwt-Frame");
+		return panel;
+	}
+
+	private static FlowPanel createH5PContainer(int embedID) {
+		FlowPanel container = new FlowPanel();
+		String id = "h5p-content" + embedID;
+		container.getElement().setId(id);
+		return container;
 	}
 
 	private static OpenFileListener getListener(final DrawEmbed drawEmbed,
@@ -498,6 +543,16 @@ public class EmbedManagerW implements EmbedManager, EventRenderable {
 		ge.setEmbedId(nextID());
 		ge.initDefaultPosition(app.getActiveEuclidianView());
 		showAndSelect(ge);
+	}
+
+	@Override
+	public void openH5PTool() {
+		int embedId = nextID();
+		GeoEmbed geoEmbed = new GeoEmbed(app.getKernel().getConstruction());
+		geoEmbed.setEmbedId(embedId);
+		geoEmbed.setAppName("h5p");
+		geoEmbed.setLabel(null);
+		app.storeUndoInfo();
 	}
 
 	@Override
