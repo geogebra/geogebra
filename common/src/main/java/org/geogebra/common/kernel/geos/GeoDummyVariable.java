@@ -69,4 +69,13 @@ public class GeoDummyVariable extends GeoNumeric {
 		return def;
 	}
 
+	@Override
+	public boolean isSlider() {
+		return false;
+	}
+
+	@Override
+	public boolean isSliderable() {
+		return false;
+	}
 }

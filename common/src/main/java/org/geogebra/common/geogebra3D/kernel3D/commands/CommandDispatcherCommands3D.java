@@ -79,9 +79,6 @@ public class CommandDispatcherCommands3D implements CommandDispatcherInterface {
 			case Function:
 				return new CmdFunction2Var(kernel);
 
-			case Surface:
-				return new CmdSurfaceCartesian3D(kernel);
-
 			default:
 				break;
 		}

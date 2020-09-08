@@ -287,6 +287,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case InputBox:
 		case Textfield:
 			return new CmdTextfield(kernel);
+		case Surface:
+			return new CmdSurfaceCartesian(kernel);
 		default:
 			break;
 		}

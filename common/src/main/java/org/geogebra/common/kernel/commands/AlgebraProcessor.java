@@ -2064,6 +2064,8 @@ public class AlgebraProcessor {
 			RedefinitionRule rule = info.getRedefinitionRule();
 			if (rule != null && !rule.allowed(replaceable.getGeoClassType(),
 					ret[0].getGeoClassType())) {
+				Log.debug("Cannot change " + replaceable.getGeoClassType() + " to "
+						+ ret[0].getGeoClassType());
 				// Set undefined
 				ret[0] = replaceable;
 				replaceable.setUndefined();
@@ -2327,7 +2329,6 @@ public class AlgebraProcessor {
 		if (!enableStructures()) {
 			throw new MyError(loc, Errors.InvalidInput);
 		}
-
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
 		if (varName.equals(Unicode.theta_STRING)
 				&& !kernel.getConstruction()
@@ -2354,14 +2355,8 @@ public class AlgebraProcessor {
 				return ret;
 			}
 		}
-		if (!fun.initFunction(info)) {
-			ExpressionNode copy = fun.getExpression().deepCopy(kernel);
-			return getParamProcessor().processParametricFunction(
-					fun.getExpression(),
-					copy.evaluate(StringTemplate.defaultTemplate),
-					new FunctionVariable[] { fun.getFunctionVariable() },
-					fun.getLabel(), info);
-
+		if (!fun.initFunction(info.withSimplifying(false))) {
+			return processFunctionAsSurface(fun, info);
 		}
 
 		String label = fun.getLabel();
@@ -2445,6 +2440,15 @@ public class AlgebraProcessor {
 		throw new MyError(loc, Errors.InvalidFunctionA,
 				fun.getFunctionVariable().getSetVarString());
 
+	}
+
+	private GeoElement[] processFunctionAsSurface(Function fun, EvalInfo info) {
+		ExpressionNode copy = fun.getExpression().deepCopy(kernel);
+		return getParamProcessor().processParametricFunction(
+				fun.getExpression(),
+				copy.evaluate(StringTemplate.defaultTemplate),
+				new FunctionVariable[] { fun.getFunctionVariable() },
+				fun.getLabel(), info);
 	}
 
 	/**
@@ -3137,6 +3141,11 @@ public class AlgebraProcessor {
 			} else if (leaf instanceof Function) {
 				Function fun = (Function) leaf;
 				fun.setLabels(n.getLabels());
+				if (node.isForceSurface()) {
+					fun.initFunction(info.withSimplifying(false));
+					return getParamProcessor().complexSurface(fun.getExpression(),
+							fun.getFunctionVariable(), fun.getLabel());
+				}
 				return processFunction(fun, info);
 			} else if (leaf instanceof FunctionNVar) {
 				FunctionNVar fun = (FunctionNVar) leaf;

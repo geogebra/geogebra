@@ -1009,6 +1009,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	@Override
+	public synchronized String getValueString(String objName) {
+		return getValueString(objName, true);
+	}
+
+	@Override
 	public synchronized String getValueString(String objName, boolean localized) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) {

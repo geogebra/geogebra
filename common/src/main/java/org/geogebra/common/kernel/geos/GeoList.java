@@ -938,15 +938,7 @@ public class GeoList extends GeoElement
 			sb.append("\"/>\n");
 		}
 
-		sb.append("<element");
-		sb.append(" type=\"list\"");
-		sb.append(" label=\"");
-		sb.append(label);
-		if (getDefaultGeoType() >= 0) {
-			sb.append("\" default=\"");
-			sb.append(getDefaultGeoType());
-		}
-		sb.append("\">\n");
+		getElementOpenTagXML(sb);
 		getXMLtags(sb);
 
 		if (size() == 0 && getTypeStringForXML() != null) {

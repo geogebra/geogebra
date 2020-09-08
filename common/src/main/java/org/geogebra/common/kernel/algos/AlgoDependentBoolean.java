@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
@@ -34,11 +35,13 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.plugin.Operation;
 
 /**
+ * Boolean expression, may require CAS for expressions like f==g where f,g are functions,
+ * curves or surfaces.
  *
  * @author Markus
  */
 public class AlgoDependentBoolean extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre, DependentAlgo {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre, DependentAlgo, UsesCAS {
 
 	private GeoBoolean bool; // output
 	private DependentBooleanAdapter proverAdapter;

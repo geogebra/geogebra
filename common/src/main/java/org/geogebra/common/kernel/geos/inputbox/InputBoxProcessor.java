@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.geos.inputbox;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -14,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoInterval;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
@@ -145,7 +147,7 @@ public class InputBoxProcessor {
 			}
 		}
 
-		if (linkedGeo instanceof FunctionalNVar) {
+		if (linkedGeo instanceof FunctionalNVar	|| isComplexFunction()) {
 			if (linkedGeo instanceof GeoInterval
 				|| (linkedGeo instanceof GeoFunction
 					&& ((GeoFunction) linkedGeo).forceInequality())) {
@@ -155,7 +157,7 @@ public class InputBoxProcessor {
 				// string like f(x,y)=x^2
 				// or f(\theta) = \theta
 				defineText = linkedGeo.getLabel(tpl) + "("
-						+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")=" + defineText;
+						+ ((VarString) linkedGeo).getVarString(tpl) + ")=" + defineText;
 			}
 		}
 
@@ -164,6 +166,11 @@ public class InputBoxProcessor {
 		}
 
 		return defineText;
+	}
+
+	private boolean isComplexFunction() {
+		return linkedGeo.isGeoSurfaceCartesian()
+				&& ((GeoSurfaceCartesianND) linkedGeo).getComplexVariable() != null;
 	}
 
 	private RedefinitionRule createRedefinitionRule() {
