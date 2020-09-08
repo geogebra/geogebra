@@ -65,11 +65,11 @@ public class CurvePlotter {
 	}
 
 	/**
-	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].
+	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
 	 * 
-	 * @param t1
+	 * @param tMin
 	 *            min value of parameter
-	 * @param t2
+	 * @param tMax
 	 *            max value of parameter
 	 * @param curve
 	 *            curve to be drawn
@@ -84,15 +84,15 @@ public class CurvePlotter {
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
-	public static GPoint plotCurve(CurveEvaluable curve, double t1,
-			double t2, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
+	public static GPoint plotCurve(CurveEvaluable curve, double tMin,
+			double tMax, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
 
 		// ensure MIN_PLOT_POINTS
 		double minSamplePoints = Math.max(MIN_SAMPLE_POINTS, view.getWidth() / 6);
-		double max_param_step = Math.abs(t2 - t1) / minSamplePoints;
-		// plot Interval [t1, t2]
-		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step, view,
+		double max_param_step = Math.abs(tMax - tMin) / minSamplePoints;
+		// plot Interval [tMin, tMax]
+		GPoint labelPoint = plotInterval(curve, tMin, tMax, 0, max_param_step, view,
 				gp, calcLabelPos, moveToAllowed);
 		if (moveToAllowed == Gap.CORNER) {
 			gp.corner();
@@ -202,7 +202,7 @@ public class CurvePlotter {
 			// segment from last point off screen?
 			segOffScreen = view.isSegmentOffView(eval0, eval1);
 			// pixel distance from last point OK?
-			distanceOK = segOffScreen || isDistanceOK(diff);
+			distanceOK = !segOffScreen || isDistanceOK(diff);
 			// angle from last segment OK?
 			angleOK = isAngleOK(prevDiff, diff, segOffScreen
 					? MAX_BEND_OFF_SCREEN : MAX_BEND);
