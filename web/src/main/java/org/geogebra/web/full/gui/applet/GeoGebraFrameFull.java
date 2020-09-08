@@ -180,9 +180,8 @@ public class GeoGebraFrameFull
 			GLookAndFeel laf, JavaScriptObject clb) {
 		GeoGebraElement element = GeoGebraElement.as(el);
 		AppletParameters parameters = new AppletParameters(element);
-		GeoGebraFrameW.renderArticleElementWithFrame(element,
-				new GeoGebraFrameFull(factory, laf, null, element, parameters),
-				clb);
+		new GeoGebraFrameFull(factory, laf, null, element, parameters)
+				.renderArticleElementWithFrame(element, clb);
 	}
 
 	/**

@@ -13,6 +13,7 @@ import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.Visibility;
+import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
@@ -611,21 +612,21 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * @param element
 	 *            Html Element
-	 * @param frame
-	 *            GeoGebraFrame subclasses
 	 * @param onLoadCallback
 	 *            load callback
-	 *
 	 */
-	public static void renderArticleElementWithFrame(GeoGebraElement element,
-			GeoGebraFrameW frame, JavaScriptObject onLoadCallback) {
+	public void renderArticleElementWithFrame(GeoGebraElement element,
+			JavaScriptObject onLoadCallback) {
 		element.clear();
 		element.initID(0);
-		frame.onLoadCallback = onLoadCallback;
-		frame.createSplash();
+		if (Log.getLogger() == null) {
+			LoggerW.startLogger(appletParameters);
+		}
+		this.onLoadCallback = onLoadCallback;
+		createSplash();
 		RootPanel root = RootPanel.get(element.getId());
 		if (root != null) {
-			root.add(frame);
+			root.add(this);
 		} else {
 			Log.error("Cannot find article with ID " + element.getId());
 		}
