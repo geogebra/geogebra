@@ -107,12 +107,7 @@ public class ParserFunctionsFactory {
 		put(pf, 2, "log", Operation.LOGB, "( <b> , <x> )");
 		put(pf, 2, "ln", Operation.LOGB, null);
 
-		put(pf, 1, "ld", Operation.LOG2);
-		put(pf, 1, "log2", Operation.LOG2);
-
 		put(pf, 1, "log", Operation.LOG10);
-		put(pf, 1, "lg", Operation.LOG10);
-		put(pf, 1, "log10", Operation.LOG10);
 
 		put(pf, 1, "zeta", Operation.ZETA);
 
@@ -167,9 +162,6 @@ public class ParserFunctionsFactory {
 		put(pf, 2, "nroot", Operation.NROOT, "( <x>, <n> )");
 		put(pf, 2, "NRoot", Operation.NROOT, null);
 
-		put(pf, 1, "real", Operation.REAL);
-		put(pf, 1, "imaginary", Operation.IMAGINARY);
-
 		put(pf, 1, "fractionalpart", Operation.FRACTIONAL_PART, null);
 		put(pf, 1, "fractionalPart", Operation.FRACTIONAL_PART);
 
@@ -198,6 +190,15 @@ public class ParserFunctionsFactory {
 		put(pf, 1, "cotanh", Operation.COTH);
 		put(pf, 1, "cosec", Operation.CSC);
 		put(pf, 1, "cotan", Operation.COT);
+
+		put(pf, 1, "ld", Operation.LOG2);
+		put(pf, 1, "log2", Operation.LOG2);
+
+		put(pf, 1, "lg", Operation.LOG10);
+		put(pf, 1, "log10", Operation.LOG10);
+
+		put(pf, 1, "real", Operation.REAL);
+		put(pf, 1, "imaginary", Operation.IMAGINARY);
 	}
 
 	private static void put(ParserFunctionsImpl pf, int size, String name,
