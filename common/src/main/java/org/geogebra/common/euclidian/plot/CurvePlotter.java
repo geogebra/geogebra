@@ -162,17 +162,9 @@ public class CurvePlotter {
 		// TODO
 		// INIT plotting algorithm
 		int length = MAX_DEFINED_BISECTIONS + 1;
-		int[] dyadicStack = new int[length];
-		int[] depthStack = new int[length];
-		double[][] posStack = new double[length][];
-		boolean[] onScreenStack = new boolean[length];
+		CurvePlotterStack stack = new CurvePlotterStack(length, onScreen, evalRigh);
 		double[] divisors = createDivisors(tMin, tMax, length);
 		int i = 1;
-		dyadicStack[0] = 1;
-		depthStack[0] = 0;
-
-		onScreenStack[0] = onScreen;
-		posStack[0] = Cloner.clone(evalRigh);
 
 		// slope between (tMin, tMax)
 		double[] diff = view.getOnScreenDiff(evalLeft, evalRigh);
@@ -182,7 +174,6 @@ public class CurvePlotter {
 		curve.evaluateCurve(tMin + divisors[length - 1], eval);
 		double[] prevDiff = view.getOnScreenDiff(evalLeft, eval);
 
-		int top = 1;
 		int depth = 0;
 		double t = tMin;
 		double left = tMin;
@@ -212,12 +203,8 @@ public class CurvePlotter {
 					// 0, 6]
 					&& countDiffZeros < MAX_ZERO_COUNT) {
 				// push stacks
-				dyadicStack[top] = i;
-				depthStack[top] = depth;
-				onScreenStack[top] = onScreen;
-				posStack[top] = Cloner.clone(evalRigh);
+				stack.push(i, depth, onScreen, evalRigh);
 				i = 2 * i - 1;
-				top++;
 				depth++;
 				t = tMin + i * divisors[depth]; // t=tMin+(tMax-tMin)*(i/2^depth)
 
@@ -321,15 +308,16 @@ public class CurvePlotter {
 			 * is 2*i/(2^(d+1) = i/2^d !! So we've already calculated the
 			 * corresponding x and y values when we pushed.
 			 */
-			--top;
-			evalRigh = posStack[top];
-			onScreen = onScreenStack[top];
-			depth = depthStack[top] + 1; // pop stack and go to right
-			i = dyadicStack[top] * 2;
+
+			CurvePlotterStackItem item = stack.pop();
+			evalRigh = item.pos;
+			onScreen = item.onScreen;
+			depth = item.depth + 1; // pop stack and go to right
+			i = item.dyadic * 2;
 			prevDiff = Cloner.clone(diff);
 			diff = view.getOnScreenDiff(evalLeft, evalRigh);
 			t = tMin + i * divisors[depth];
-		} while (top != 0); // end of do-while loop for bisection stack
+		} while (stack.hasItems()); // end of do-while loop for bisection stack
 
 		gp.endPlot();
 
