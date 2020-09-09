@@ -19,6 +19,7 @@ public class CardInfoPanel extends FlowPanel {
 	 * @param titleWidget widget for the second row.
 	 */
 	public CardInfoPanel(String id, Widget titleWidget) {
+		setStyleName("cardInfoPanel");
 		addIdLabel(id);
 		addTitleWidget(titleWidget);
 	}

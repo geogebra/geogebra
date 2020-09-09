@@ -68,8 +68,8 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		visibilityPanel.setStyleName("visibilityPanel");
 		updateVisibility(getMaterial().getVisibility());
 		infoPanel = isOwnMaterial()
-				? new CardInfoPanel(getMaterial().getTitle(), getCardAuthor())
-				: new CardInfoPanel(getMaterial().getTitle(), visibilityPanel);
+				? new CardInfoPanel(getMaterial().getTitle(), visibilityPanel)
+				: new CardInfoPanel(getMaterial().getTitle(), getCardAuthor());
 
 		infoPanel.add(moreBtn);
 		this.add(infoPanel);
