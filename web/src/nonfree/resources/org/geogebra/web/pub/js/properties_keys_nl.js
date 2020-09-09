@@ -2902,7 +2902,7 @@ __GGB__keysVar["nl"].menu = {
     "Surface": "Oppervlak",
     "SurfaceOfRevolution": "Omwentelingsoppervlak",
     "SurfaceOfRevolution.Help": "Versleep de kromme rond de as",
-    "SwitchCalculator": "Switch calculator",
+    "SwitchCalculator": "Wijzig rekenmachine",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",
