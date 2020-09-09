@@ -90,9 +90,9 @@ public class CurvePlotter {
 
 		// ensure MIN_PLOT_POINTS
 		double minSamplePoints = Math.max(MIN_SAMPLE_POINTS, view.getWidth() / 6);
-		double max_param_step = Math.abs(tMax - tMin) / minSamplePoints;
+		double maxParamStep = Math.abs(tMax - tMin) / minSamplePoints;
 		// plot Interval [tMin, tMax]
-		GPoint labelPoint = plotInterval(curve, tMin, tMax, 0, max_param_step, view,
+		GPoint labelPoint = plotInterval(curve, tMin, tMax, 0, maxParamStep, view,
 				gp, calcLabelPos, moveToAllowed);
 		if (moveToAllowed == Gap.CORNER) {
 			gp.corner();
@@ -104,7 +104,7 @@ public class CurvePlotter {
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
 	 * 
-	 * @param max_param_step
+	 * @param maxParamStep
 	 *             largest parameter step width allowed
 	 * @param gp
 	 *            generalpath that can be drawn afterwards
@@ -116,7 +116,7 @@ public class CurvePlotter {
 	 * @author Markus Hohenwarter, based on an algori5thm by John Gillam
 	 */
 	private static GPoint plotInterval(CurveEvaluable curve, double tMin,
-			double tMax, int intervalDepth, double max_param_step,
+			double tMax, int intervalDepth, double maxParamStep,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
 		// plot interval for t in [tMin, tMax]
@@ -135,29 +135,29 @@ public class CurvePlotter {
 		double[] move = curve.newDoubleArray();
 		boolean nextLineToNeedsMoveToFirst = false;
 		double[] eval = curve.newDoubleArray();
-		double[] eval0, eval1;
+		double[] evalLeft, evalRigh;
 
 		// evaluate for tMin
 		curve.evaluateCurve(tMin, eval);
 		if (isUndefined(eval)) {
 			return plotProblemInterval(curve, tMin, tMax, intervalDepth,
-					max_param_step, view, gp, calcLabelPos, moveToAllowed,
+					maxParamStep, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
 		}
-		eval0 = Cloner.clone(eval);
+		evalLeft = Cloner.clone(eval);
 
 		// evaluate for tMax
 		curve.evaluateCurve(tMax, eval);
 		if (isUndefined(eval)) {
 			return plotProblemInterval(curve, tMin, tMax, intervalDepth,
-					max_param_step, view, gp, calcLabelPos, moveToAllowed,
+					maxParamStep, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
 		}
 		boolean onScreen = view.isOnView(eval);
-		eval1 = Cloner.clone(eval);
+		evalRigh = Cloner.clone(eval);
 
 		// first point
-		gp.firstPoint(eval0, moveToAllowed);
+		gp.firstPoint(evalLeft, moveToAllowed);
 
 		// TODO
 		// INIT plotting algorithm
@@ -166,25 +166,21 @@ public class CurvePlotter {
 		int[] depthStack = new int[length];
 		double[][] posStack = new double[length][];
 		boolean[] onScreenStack = new boolean[length];
-		double[] divisors = new double[length];
-		divisors[0] = tMax - tMin;
-		for (int i = 1; i < length; i++) {
-			divisors[i] = divisors[i - 1] / 2;
-		}
+		double[] divisors = createDivisors(tMin, tMax, length);
 		int i = 1;
 		dyadicStack[0] = 1;
 		depthStack[0] = 0;
 
 		onScreenStack[0] = onScreen;
-		posStack[0] = Cloner.clone(eval1);
+		posStack[0] = Cloner.clone(evalRigh);
 
 		// slope between (tMin, tMax)
-		double[] diff = view.getOnScreenDiff(eval0, eval1);
+		double[] diff = view.getOnScreenDiff(evalLeft, evalRigh);
 		int countDiffZeros = 0;
 
 		// init previous slope using (tMin, tMin + min_step)
 		curve.evaluateCurve(tMin + divisors[length - 1], eval);
-		double[] prevDiff = view.getOnScreenDiff(eval0, eval);
+		double[] prevDiff = view.getOnScreenDiff(evalLeft, eval);
 
 		int top = 1;
 		int depth = 0;
@@ -200,7 +196,7 @@ public class CurvePlotter {
 		// to avoid multiple evaluations at the same position.
 		do {
 			// segment from last point off screen?
-			segOffScreen = view.isSegmentOffView(eval0, eval1);
+			segOffScreen = view.isSegmentOffView(evalLeft, evalRigh);
 			// pixel distance from last point OK?
 			distanceOK = segOffScreen || isDistanceOK(diff);
 			// angle from last segment OK?
@@ -211,7 +207,7 @@ public class CurvePlotter {
 			while (depth < MAX_DEFINED_BISECTIONS
 					// ... distance not ok or angle not ok or step too big
 					&& (!distanceOK || !angleOK
-							|| divisors[depth] > max_param_step)
+							|| divisors[depth] > maxParamStep)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
 					// 0, 6]
 					&& countDiffZeros < MAX_ZERO_COUNT) {
@@ -219,7 +215,7 @@ public class CurvePlotter {
 				dyadicStack[top] = i;
 				depthStack[top] = depth;
 				onScreenStack[top] = onScreen;
-				posStack[top] = Cloner.clone(eval1);
+				posStack[top] = Cloner.clone(evalRigh);
 				i = 2 * i - 1;
 				top++;
 				depth++;
@@ -238,14 +234,14 @@ public class CurvePlotter {
 					// split interval: f(t+eps) or f(t-eps) not defined
 					if (!singularity) {
 						return plotProblemInterval(curve, left, tMax,
-								intervalDepth, max_param_step, view, gp,
+								intervalDepth, maxParamStep, view, gp,
 								calcLabelPos, moveToAllowed, labelPoint);
 					}
 					Log.debug("SINGULARITY AT" + t);
 				}
 
-				eval1 = Cloner.clone(eval);
-				diff = view.getOnScreenDiff(eval0, eval1);
+				evalRigh = Cloner.clone(eval);
+				diff = view.getOnScreenDiff(evalLeft, evalRigh);
 
 				if (DoubleUtil.isZero(diff[0]) && DoubleUtil.isZero(diff[1])) {
 					countDiffZeros++;
@@ -254,7 +250,7 @@ public class CurvePlotter {
 				}
 
 				// segment from last point off screen?
-				segOffScreen = view.isSegmentOffView(eval0, eval1);
+				segOffScreen = view.isSegmentOffView(evalLeft, evalRigh);
 				// pixel distance from last point OK?
 				distanceOK = segOffScreen || isDistanceOK(diff);
 				// angle from last segment OK?
@@ -275,7 +271,7 @@ public class CurvePlotter {
 					lineTo = isContinuous(curve, left, t, MAX_CONTINUITY_BISECTIONS);
 				}
 			} else if (moveToAllowed == Gap.CORNER) {
-				gp.corner(eval1);
+				gp.corner(evalRigh);
 			}
 
 			// do lineTo or moveTo
@@ -287,28 +283,28 @@ public class CurvePlotter {
 				}
 
 				// draw line
-				gp.lineTo(eval1);
+				gp.lineTo(evalRigh);
 			} else {
 				// moveTo: remember moveTo position to avoid multiple moveTo
 				// operations
-				move = Cloner.clone(eval1);
+				move = Cloner.clone(evalRigh);
 				nextLineToNeedsMoveToFirst = true;
 			}
 
 			// remember last point in general path
-			eval0 = Cloner.clone(eval1);
+			evalLeft = Cloner.clone(evalRigh);
 			left = t;
 
 			// remember first point on screen for label position
 			if (needLabelPos && onScreen) {
-				double xLabel = view.toScreenCoordXd(eval1[0]) + 10;
+				double xLabel = view.toScreenCoordXd(evalRigh[0]) + 10;
 				if (xLabel < 20) {
 					xLabel = 5;
 				}
 				if (xLabel > view.getWidth() - 30) {
 					xLabel = view.getWidth() - 15;
 				}
-				double yLabel = view.toScreenCoordYd(eval1[1]) + 15;
+				double yLabel = view.toScreenCoordYd(evalRigh[1]) + 15;
 				if (yLabel < 40) {
 					yLabel = 15;
 				} else if (yLabel > view.getHeight() - 30) {
@@ -326,18 +322,27 @@ public class CurvePlotter {
 			 * corresponding x and y values when we pushed.
 			 */
 			--top;
-			eval1 = posStack[top];
+			evalRigh = posStack[top];
 			onScreen = onScreenStack[top];
 			depth = depthStack[top] + 1; // pop stack and go to right
 			i = dyadicStack[top] * 2;
 			prevDiff = Cloner.clone(diff);
-			diff = view.getOnScreenDiff(eval0, eval1);
+			diff = view.getOnScreenDiff(evalLeft, evalRigh);
 			t = tMin + i * divisors[depth];
 		} while (top != 0); // end of do-while loop for bisection stack
 
 		gp.endPlot();
 
 		return labelPoint;
+	}
+
+	private static double[] createDivisors(double tMin, double tMax, int length) {
+		double[] divisors = new double[length];
+		divisors[0] = tMax - tMin;
+		for (int i = 1; i < length; i++) {
+			divisors[i] = divisors[i - 1] / 2;
+		}
+		return divisors;
 	}
 
 	/**
@@ -363,7 +368,7 @@ public class CurvePlotter {
 	 * Plots an interval where f(tMin) or f(tMax) is undefined.
 	 */
 	private static GPoint plotProblemInterval(CurveEvaluable curve, double tMin,
-			double tMax, int intervalDepth, double max_param_step,
+			double tMax, int intervalDepth, double maxParamStep,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed, GPoint labelPoint) {
 		boolean calcLabel = calcLabelPos;
@@ -381,18 +386,18 @@ public class CurvePlotter {
 		double splitParam = (tMin + tMax) / 2.0;
 
 		// make sure that we first bisect down to intervals with a max size of
-		// max_param_step
-		boolean intervalsTooLarge = Math.abs(tMin - splitParam) > max_param_step;
+		// maxParamStep
+		boolean intervalsTooLarge = Math.abs(tMin - splitParam) > maxParamStep;
 		if (intervalsTooLarge) {
 			// bisect interval
 			calcLabel = calcLabel && labelPoint == null;
 			labelPointMin = plotInterval(curve, tMin, splitParam, intervalDepth + 1,
-					max_param_step, view, gp, calcLabel, moveToAllowed);
+					maxParamStep, view, gp, calcLabel, moveToAllowed);
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			calcLabel = calcLabel && labelPointMin == null;
 			labelPointMax = plotInterval(curve, splitParam, tMax, intervalDepth + 1,
-					max_param_step, view, gp, calcLabel, moveToAllowed);
+					maxParamStep, view, gp, calcLabel, moveToAllowed);
 		} else {
 			// look at the end points of the intervals [tMin, (tMin+tMax)/2] and
 			// [(tMin+tMax)/2, tMax]
@@ -407,14 +412,14 @@ public class CurvePlotter {
 			getDefinedInterval(curve, tMin, splitParam, borders);
 			calcLabel = calcLabel && labelPoint == null;
 			labelPointMin = plotInterval(curve, borders[0], borders[1],
-					intervalDepth + 1, max_param_step, view, gp, calcLabel,
+					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
 					moveToAllowed);
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			getDefinedInterval(curve, splitParam, tMax, borders);
 			calcLabel = calcLabel && labelPointMin == null;
 			labelPointMax = plotInterval(curve, borders[0], borders[1],
-					intervalDepth + 1, max_param_step, view, gp, calcLabel,
+					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
 					moveToAllowed);
 		}
 
