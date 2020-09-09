@@ -39,7 +39,8 @@ public class HitDetector {
 		}
 		boolean hitMask = false;
 
-		for (Drawable d : view.allDrawableList) {
+		String currentMethod = "HitDetector.setHits(GPoint p, int hitThreshold)";
+		for (Drawable d : view.getAllDrawableList(currentMethod)) {
 			if (d.isEuclidianVisible()) {
 				if (d.hit(p.x, p.y, hitThreshold)) {
 					GeoElement geo = d.getGeoElement();
@@ -167,7 +168,8 @@ public class HitDetector {
 			return;
 		}
 
-		for (Drawable d : view.allDrawableList) {
+		String currentMethod = "HitDetector.addIntersectionHits(GRectangle rect, TestGeo filter)";
+		for (Drawable d : view.getAllDrawableList(currentMethod)) {
 			GeoElement geo = d.getGeoElement();
 			if (geo.isEuclidianVisible() && filter.check(geo) && !hits.contains(geo)
 					&& d.intersectsRectangle(rect)) {
@@ -197,7 +199,8 @@ public class HitDetector {
 			return;
 		}
 
-		for (Drawable d : view.allDrawableList) {
+		String currentMethod = "HitDetector.setHits(GRectangle rect)";
+		for (Drawable d : view.getAllDrawableList(currentMethod)) {
 			GeoElement geo = d.getGeoElement();
 			if (geo.isEuclidianVisible() && d.isInside(rect)) {
 				hits.add(geo);
