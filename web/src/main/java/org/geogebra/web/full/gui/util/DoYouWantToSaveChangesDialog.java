@@ -178,9 +178,13 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	 */
 	@Override
 	public void setTitle() {
-		fallbackChosen = app.getSaveController()
-				.updateSaveTitle(getInputField().getTextComponent(),
-						DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date()));
+		if (app.getSaveController().updateSaveTitle(getInputField().getTextComponent(),
+				DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date()))) {
+			Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().selectAll());
+		} else {
+			Scheduler.get()
+					.scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
+		}
 	}
 
 	@Override
@@ -188,12 +192,5 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 		super.show();
 		center();
 		setTitle();
-		if (fallbackChosen) {
-			Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().selectAll());
-		}
-		else {
-			Scheduler.get()
-					.scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
-		}
 	}
 }
