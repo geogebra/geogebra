@@ -33,7 +33,7 @@ public class WebSimple implements EntryPoint {
 	}
 
 	private void exportGGBElementRenderer() {
-		GeoGebraGlobal.setRenderGGBElement((el, callback)->{
+		GeoGebraGlobal.setRenderGGBElement((el, callback) -> {
 			GeoGebraFrameSimple.renderArticleElement(GeoGebraElement.as(el), callback);
 		});
 		GeoGebraFrameW.renderGGBElementReady();
