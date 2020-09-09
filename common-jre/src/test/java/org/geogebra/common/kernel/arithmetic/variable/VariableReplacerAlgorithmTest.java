@@ -98,6 +98,7 @@ public class VariableReplacerAlgorithmTest extends BaseUnitTest {
 		shouldReplaceAs("log_{2}2", "log(2, 2)");
 		shouldReplaceAs("log_22", "log(2, 2)");
 		shouldReplaceAs("log_{2}xx", "log(2, x * x)");
+		shouldReplaceAs("xlog_{2}x", "x * log(2, x)");
 	}
 
 	private void shouldReplaceAs(String in, String out) {
