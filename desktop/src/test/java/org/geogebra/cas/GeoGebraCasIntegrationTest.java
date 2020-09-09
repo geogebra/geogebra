@@ -2585,8 +2585,8 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	@Test
 	public void solveArbconst() {
 		t("a(t):=2t+3", "2 * t + 3");
-		t("v(t):=Integral[a(t),t]", "t^(2) + 3 * t + c_1");
-		t("Solve[v(0)=0,c_1]", "{c_1 = 0}");
+		t("v(t):=Integral[a(t),t]", "t^(2) + 3 * t + c_{1}");
+		t("Solve[v(0)=0,c_1]", "{c_{1} = 0}");
 	}
 
 	@Test
