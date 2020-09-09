@@ -11,6 +11,8 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.gui.laf.MebisLookAndFeel;
 import org.geogebra.web.full.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.full.gui.laf.SmartLookAndFeel;
+import org.geogebra.web.html5.GeoGebraGlobal;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.util.AppletParameters;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.GeoGebraElement;
@@ -65,9 +67,13 @@ public abstract class Web implements EntryPoint {
 		startGeoGebra(GeoGebraElement.getGeoGebraMobileTags());
 	}
 
-	private native void exportGGBElementRenderer() /*-{
-		$wnd.renderGGBElement = $entry(this.@org.geogebra.web.full.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
-		@org.geogebra.web.html5.gui.GeoGebraFrameW::renderGGBElementReady()();
+	private void exportGGBElementRenderer() {
+		GeoGebraGlobal.setRenderGGBElement(this::renderArticleElement);
+		GeoGebraFrameW.renderGGBElementReady();
+		forwardMessages();
+	}
+
+	public static native void forwardMessages() /*-{
 		//CRITICAL: "window" below is OK, we need to redirect messages from window to $wnd
 		window.addEventListener("message",function(event){$wnd.postMessage(event.data,"*");});
 	}-*/;
@@ -118,5 +124,4 @@ public abstract class Web implements EntryPoint {
 
 		return new GLookAndFeel();
 	}
-
 }

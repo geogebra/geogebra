@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.geogebra.web.full.gui.applet.GeoGebraFrameFull;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
+import org.geogebra.web.html5.GeoGebraGlobal;
+import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.SuperDevUncaughtExceptionHandler;
 import org.geogebra.web.tablet.main.TabletDevice;
@@ -45,10 +47,10 @@ public class Tablet implements EntryPoint {
 		startGeoGebra(GeoGebraElement.getGeoGebraMobileTags());
 	}
 
-	private native void exportGGBElementRenderer() /*-{
-   		$wnd.renderGGBElement = $entry(@org.geogebra.web.tablet.Tablet::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
-   		@org.geogebra.web.html5.gui.GeoGebraFrameW::renderGGBElementReady()();
-   	}-*/;
+	private void exportGGBElementRenderer() {
+		GeoGebraGlobal.setRenderGGBElement(this::renderArticleElement);
+		GeoGebraFrameW.renderGGBElementReady();
+	}
 
 	/**
 	 * @param el
@@ -56,7 +58,7 @@ public class Tablet implements EntryPoint {
 	 * @param clb
 	 *            rendering finished callback
 	 */
-	public static void renderArticleElement(final Element el,
+	public void renderArticleElement(final Element el,
 	        JavaScriptObject clb) {
 		GeoGebraFrameFull.renderArticleElement(el,
 				new AppletFactory3D(), new TabletLookAndFeel(), clb);
