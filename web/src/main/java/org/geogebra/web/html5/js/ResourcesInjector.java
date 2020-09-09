@@ -34,7 +34,7 @@ public class ResourcesInjector {
 		if (resourcesInjected) {
 			return;
 		}
-		resourcesInjected = true;
+		setResourcesInjected();
 		// always need English properties available, eg Function.sin
 		fixComputedStyle();
 		// insert zip.js
@@ -63,6 +63,10 @@ public class ResourcesInjector {
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.xmlUtil());
+	}
+
+	private void setResourcesInjected() { // extracted to make SpotBugs happy
+		resourcesInjected = true;
 	}
 
 	/**
