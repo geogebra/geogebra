@@ -1934,7 +1934,7 @@ public class Ggb2giac {
 		p(optimize + ".1", "[[ggbarg:=%0],"
 				+ " when(type(ggbarg)==DOM_LIST,"
 				+ "  when(type((ggbarg)[0])==DOM_LIST,?," + optimizeGiac + "(ggbarg)),"
-				+ "  when((ggbarg)[0]=='and',[[ggbnumb:=(a,b)->when(type(a)==DOM_IDENT,b,a)],"
+				+ "  when((ggbarg)[0]=='and',[[ggbnumb:=(a,b)->when(type(evalf(a))==DOM_IDENT,b,a)],"
 				+ "   [ggba:=ggbnumb(ggbarg[1][1],ggbarg[1][2])],"
 				+ "   [ggbb:=ggbnumb(ggbarg[2][1],ggbarg[2][2])],"
 				+ "   " + optimizeGiac + "(ggba,ggbb)][3],?))"

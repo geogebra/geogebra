@@ -1230,6 +1230,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Min(1, 2)", "1");
 		t("Min(2, 1, 3)", "1");
 		t("Min(1, 2, -1, 4)", "-1");
+		t("Min(1/2 < x < " + pi + ")", "1 / 2");
 	}
 
 	@Test
@@ -1242,5 +1243,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Max(1, 2)", "2");
 		t("Max(2, 3, 1)", "3");
 		t("Max(1, 2, 4, -2)", "4");
+		t("Max(1/2 < x < " + pi + ")", pi + "");
 	}
 }
