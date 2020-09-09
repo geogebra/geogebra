@@ -1,24 +1,30 @@
 (function() {
     function LiveApp(parentClientId, embedLabel, users) {
         this.api = null;
-        this.eventCallback;
         this.users = users || {};
         this.clientId = parentClientId;
         this.embeds = {};
-        this.sendEvent = function() {
-            var type = arguments[0];
-            var content = arguments[1];
+        this.createEvent = function(type, content, label) {
             var event = {
                 "type": type,
                 "content": content,
                 "embedLabel": embedLabel,
                 "clientId": this.clientId
             }
-            if (arguments[2]) {
-                event.label = arguments[2];
+            if (label) {
+                event.label = label;
             }
-            this.eventCallback(event);
+            event.fire = function(callbacks) {
+                callbacks.forEach(function(callback) {
+                    callback(event);
+                });
+            }
+            return event;
         };
+        this.sendEvent = function(type, content, label) {
+            var event = this.createEvent(type, content, label);
+            event.fire(this.eventCallbacks['construction']);
+        }
         this.evalCommand = function(command) {
             this.unregisterListeners();
             this.api.evalCommand(command);
@@ -52,16 +58,11 @@
                 if (calc.registerClientListener) {
                     var calcLive = new LiveApp(this.clientId, label, this.users);
                     calcLive.api = calc;
-                    calcLive.eventCategories = this.eventCategories;
-                    calcLive.eventCallback = this.eventCallback;
+                    calcLive.eventCallbacks = this.eventCallbacks;
                     calcLive.registerListeners();
                     this.embeds[label] = calcLive;
                 }
             }
-        }
-
-        this.hasEvent = function(eventCategory) {
-            return this.eventCategories.indexOf(eventCategory) != -1;
         }
 
         let objectsInWaiting = [];
@@ -146,7 +147,9 @@
         }).bind(this);
 
         // *** CLIENT LISTENERS ***
-        var clientListener = (function(event){
+        var clientListener = (function(event) {
+            var editorEventBus = this.eventCallbacks["editor"];
+            var selectionEventBus = this.eventCallbacks["selection"];
             switch (event[0]) {
                 case "updateStyle":
                     var label = event[1];
@@ -157,27 +160,27 @@
                     break;
 
                 case "editorKeyTyped":
-                    if (this.hasEvent("editor")) {
+                    if (editorEventBus) {
                         var state = this.api.getEditorState();
-                        this.sendEvent("setEditorState", state, event[1]);
+                        this.createEvent("setEditorState", state, event[1]).fire(editorEventBus);
                     }
                     break;
 
                 case "editorStop":
-                    if (this.hasEvent("editor")) {
-                          this.sendEvent("setEditorState", "{content:\"\"}");
+                    if (editorEventBus) {
+                          this.createEvent("setEditorState", "{content:\"\"}").fire(editorEventBus);
                     }
                     break;
 
                 case "deselect":
-                    if (this.hasEvent("selection")) {
-                        this.sendEvent("evalCommand", "SelectObjects[]");
+                    if (selectionEventBus) {
+                        this.createEvent("evalCommand", "SelectObjects[]").fire(selectionEventBus);
                     }
                     break;
 
                 case "select":
-                    if (this.hasEvent("selection")) {
-                        this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]");
+                    if (selectionEventBus) {
+                        this.sendEvent("evalCommand", "SelectObjects[" + event[1] + "]").fire(selectionEventBus);
                     }
                     break;
 
@@ -286,16 +289,21 @@
     window.GeoGebraLive = function(api, id) {
         var mainSession = new LiveApp(id);
         mainSession.api = api;
+        mainSession.eventCallbacks = {"construction": []}
+        mainSession.registerListeners();
+
         this.dispatch = function(last) {
             mainSession.dispatch(last);
         },
         this.addUser = function(user) {
             mainSession.users[user.id] = user;
         }
-        this.start = function(eventCategories, callback) {
-           mainSession.eventCategories = eventCategories;
-           mainSession.eventCallback = callback;
-           mainSession.registerListeners();
+        this.addEventListener = function(eventCategory, callback) {
+           var eventCategories = typeof eventCategory == "string" ? [eventCategory] : eventCategory;
+           eventCategories.forEach(function(category) {
+               mainSession.eventCallbacks[category] = mainSession.eventCallbacks[category] || [];
+               mainSession.eventCallbacks[category].push(callback);
+           });
        }
     }
 })();

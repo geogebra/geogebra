@@ -94,10 +94,10 @@
             console.log("applet1 loaded");
             api1 = api;
             live = new GeoGebraLive(api, userDatabase[userCount % userDatabase.length].id);
-            userDatabase.forEach(function(user){
+            userDatabase.forEach(function(user) {
                 live.addUser(user);
             });
-            live.start([], storageEventBus);
+            live.addEventListener("construction", storageEventBus);
         }
 
         var applet1 = new GGBApplet(parameters1, '5.0');
