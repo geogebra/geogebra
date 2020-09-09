@@ -102,7 +102,7 @@ public class CurvePlotter {
 	}
 
 	/**
-	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].
+	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
 	 * 
 	 * @param max_param_step
 	 *             largest parameter step width allowed
@@ -115,11 +115,11 @@ public class CurvePlotter {
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algori5thm by John Gillam
 	 */
-	private static GPoint plotInterval(CurveEvaluable curve, double t1,
-			double t2, int intervalDepth, double max_param_step,
+	private static GPoint plotInterval(CurveEvaluable curve, double tMin,
+			double tMax, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
-		// plot interval for t in [t1, t2]
+		// plot interval for t in [tMin, tMax]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
 		// the interval and plot both intervals [left, (left + right)/2] and
 		// [(left + right)/2, right]
@@ -137,19 +137,19 @@ public class CurvePlotter {
 		double[] eval = curve.newDoubleArray();
 		double[] eval0, eval1;
 
-		// evaluate for t1
-		curve.evaluateCurve(t1, eval);
+		// evaluate for tMin
+		curve.evaluateCurve(tMin, eval);
 		if (isUndefined(eval)) {
-			return plotProblemInterval(curve, t1, t2, intervalDepth,
+			return plotProblemInterval(curve, tMin, tMax, intervalDepth,
 					max_param_step, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
 		}
 		eval0 = Cloner.clone(eval);
 
-		// evaluate for t2
-		curve.evaluateCurve(t2, eval);
+		// evaluate for tMax
+		curve.evaluateCurve(tMax, eval);
 		if (isUndefined(eval)) {
-			return plotProblemInterval(curve, t1, t2, intervalDepth,
+			return plotProblemInterval(curve, tMin, tMax, intervalDepth,
 					max_param_step, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
 		}
@@ -167,7 +167,7 @@ public class CurvePlotter {
 		double[][] posStack = new double[length][];
 		boolean[] onScreenStack = new boolean[length];
 		double[] divisors = new double[length];
-		divisors[0] = t2 - t1;
+		divisors[0] = tMax - tMin;
 		for (int i = 1; i < length; i++) {
 			divisors[i] = divisors[i - 1] / 2;
 		}
@@ -178,18 +178,18 @@ public class CurvePlotter {
 		onScreenStack[0] = onScreen;
 		posStack[0] = Cloner.clone(eval1);
 
-		// slope between (t1, t2)
+		// slope between (tMin, tMax)
 		double[] diff = view.getOnScreenDiff(eval0, eval1);
 		int countDiffZeros = 0;
 
-		// init previous slope using (t1, t1 + min_step)
-		curve.evaluateCurve(t1 + divisors[length - 1], eval);
+		// init previous slope using (tMin, tMin + min_step)
+		curve.evaluateCurve(tMin + divisors[length - 1], eval);
 		double[] prevDiff = view.getOnScreenDiff(eval0, eval);
 
 		int top = 1;
 		int depth = 0;
-		double t = t1;
-		double left = t1;
+		double t = tMin;
+		double left = tMin;
 		boolean distanceOK, angleOK, segOffScreen;
 
 		// Actual plotting algorithm:
@@ -202,7 +202,7 @@ public class CurvePlotter {
 			// segment from last point off screen?
 			segOffScreen = view.isSegmentOffView(eval0, eval1);
 			// pixel distance from last point OK?
-			distanceOK = !segOffScreen || isDistanceOK(diff);
+			distanceOK = segOffScreen || isDistanceOK(diff);
 			// angle from last segment OK?
 			angleOK = isAngleOK(prevDiff, diff, segOffScreen
 					? MAX_BEND_OFF_SCREEN : MAX_BEND);
@@ -223,7 +223,7 @@ public class CurvePlotter {
 				i = 2 * i - 1;
 				top++;
 				depth++;
-				t = t1 + i * divisors[depth]; // t=t1+(t2-t1)*(i/2^depth)
+				t = tMin + i * divisors[depth]; // t=tMin+(tMax-tMin)*(i/2^depth)
 
 				// evaluate curve for parameter t
 				curve.evaluateCurve(t, eval);
@@ -237,7 +237,7 @@ public class CurvePlotter {
 
 					// split interval: f(t+eps) or f(t-eps) not defined
 					if (!singularity) {
-						return plotProblemInterval(curve, left, t2,
+						return plotProblemInterval(curve, left, tMax,
 								intervalDepth, max_param_step, view, gp,
 								calcLabelPos, moveToAllowed, labelPoint);
 					}
@@ -332,7 +332,7 @@ public class CurvePlotter {
 			i = dyadicStack[top] * 2;
 			prevDiff = Cloner.clone(diff);
 			diff = view.getOnScreenDiff(eval0, eval1);
-			t = t1 + i * divisors[depth];
+			t = tMin + i * divisors[depth];
 		} while (top != 0); // end of do-while loop for bisection stack
 
 		gp.endPlot();
@@ -360,70 +360,70 @@ public class CurvePlotter {
 	}
 
 	/**
-	 * Plots an interval where f(t1) or f(t2) is undefined.
+	 * Plots an interval where f(tMin) or f(tMax) is undefined.
 	 */
-	private static GPoint plotProblemInterval(CurveEvaluable curve, double t1,
-			double t2, int intervalDepth, double max_param_step,
+	private static GPoint plotProblemInterval(CurveEvaluable curve, double tMin,
+			double tMax, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed, GPoint labelPoint) {
 		boolean calcLabel = calcLabelPos;
 		// stop recursion for too many intervals
-		if (intervalDepth > MAX_PROBLEM_BISECTIONS || t1 == t2) {
+		if (intervalDepth > MAX_PROBLEM_BISECTIONS || tMin == tMax) {
 			return labelPoint;
 		}
 
-		GPoint labelPoint1, labelPoint2;
+		GPoint labelPointMin, labelPointMax;
 
-		// plot interval for t in [t1, t2]
+		// plot interval for t in [tMin, tMax]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
-		// the interval and plot both intervals [t, (t+t2)/2] and [(t+t2)/2],
-		// t2]
-		double splitParam = (t1 + t2) / 2.0;
+		// the interval and plot both intervals [t, (t+tMax)/2] and [(t+tMax)/2],
+		// tMax]
+		double splitParam = (tMin + tMax) / 2.0;
 
 		// make sure that we first bisect down to intervals with a max size of
 		// max_param_step
-		boolean intervalsTooLarge = Math.abs(t1 - splitParam) > max_param_step;
+		boolean intervalsTooLarge = Math.abs(tMin - splitParam) > max_param_step;
 		if (intervalsTooLarge) {
 			// bisect interval
 			calcLabel = calcLabel && labelPoint == null;
-			labelPoint1 = plotInterval(curve, t1, splitParam, intervalDepth + 1,
+			labelPointMin = plotInterval(curve, tMin, splitParam, intervalDepth + 1,
 					max_param_step, view, gp, calcLabel, moveToAllowed);
 
-			// plot interval [(t1+t2)/2, t2]
-			calcLabel = calcLabel && labelPoint1 == null;
-			labelPoint2 = plotInterval(curve, splitParam, t2, intervalDepth + 1,
+			// plot interval [(tMin+tMax)/2, tMax]
+			calcLabel = calcLabel && labelPointMin == null;
+			labelPointMax = plotInterval(curve, splitParam, tMax, intervalDepth + 1,
 					max_param_step, view, gp, calcLabel, moveToAllowed);
 		} else {
-			// look at the end points of the intervals [t1, (t1+t2)/2] and
-			// [(t1+t2)/2, t2]
+			// look at the end points of the intervals [tMin, (tMin+tMax)/2] and
+			// [(tMin+tMax)/2, tMax]
 			// and try to get a defined interval. This is important if one of
 			// both interval borders is defined and the other is undefined. In
 			// this
 			// case we want to find a smaller interval where both borders are
 			// defined
 
-			// plot interval [t1, (t1+t2)/2]
+			// plot interval [tMin, (tMin+tMax)/2]
 			double[] borders = new double[2];
-			getDefinedInterval(curve, t1, splitParam, borders);
+			getDefinedInterval(curve, tMin, splitParam, borders);
 			calcLabel = calcLabel && labelPoint == null;
-			labelPoint1 = plotInterval(curve, borders[0], borders[1],
+			labelPointMin = plotInterval(curve, borders[0], borders[1],
 					intervalDepth + 1, max_param_step, view, gp, calcLabel,
 					moveToAllowed);
 
-			// plot interval [(t1+t2)/2, t2]
-			getDefinedInterval(curve, splitParam, t2, borders);
-			calcLabel = calcLabel && labelPoint1 == null;
-			labelPoint2 = plotInterval(curve, borders[0], borders[1],
+			// plot interval [(tMin+tMax)/2, tMax]
+			getDefinedInterval(curve, splitParam, tMax, borders);
+			calcLabel = calcLabel && labelPointMin == null;
+			labelPointMax = plotInterval(curve, borders[0], borders[1],
 					intervalDepth + 1, max_param_step, view, gp, calcLabel,
 					moveToAllowed);
 		}
 
 		if (labelPoint != null) {
 			return labelPoint;
-		} else if (labelPoint1 != null) {
-			return labelPoint1;
+		} else if (labelPointMin != null) {
+			return labelPointMin;
 		} else {
-			return labelPoint2;
+			return labelPointMax;
 		}
 	}
 
@@ -512,8 +512,8 @@ public class CurvePlotter {
 	}
 
 	/**
-	 * Checks if c is continuous in the interval [t1, t2]. We assume that c(t1)
-	 * and c(t2) are both defined.
+	 * Checks if c is continuous in the interval [tMin, tMax]. We assume that c(tMin)
+	 * and c(tMax) are both defined.
 	 * 
 	 * @param c
 	 *            curve
@@ -524,27 +524,27 @@ public class CurvePlotter {
 	 * @param maxIterations
 	 *            max number of bisections
 	 * 
-	 * @return true when t1 and t2 get closer than Kernel.MAX_DOUBLE_PRECISION
+	 * @return true when tMin and tMax get closer than Kernel.MAX_DOUBLE_PRECISION
 	 */
 	public static boolean isContinuous(CurveEvaluable c, double from, double to,
 			int maxIterations) {
-		double t1 = from;
-		double t2 = to;
-		if (DoubleUtil.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) {
+		double tMin = from;
+		double tMax = to;
+		if (DoubleUtil.isEqual(tMin, tMax, Kernel.MAX_DOUBLE_PRECISION)) {
 			return true;
 		}
 
-		// left = c(t1)
+		// left = c(tMin)
 		double[] left = c.newDoubleArray();
-		c.evaluateCurve(t1, left);
+		c.evaluateCurve(tMin, left);
 		if (isUndefined(left)) {
 			// NaN or infinite: not continuous
 			return false;
 		}
 
-		// right = c(t2)
+		// right = c(tMax)
 		double[] right = c.newDoubleArray();
-		c.evaluateCurve(t2, right);
+		c.evaluateCurve(tMax, right);
 		if (isUndefined(right)) {
 			// NaN or infinite: not continuous
 			return false;
@@ -561,7 +561,7 @@ public class CurvePlotter {
 		double[] middle = c.newDoubleArray();
 
 		while (iterations++ < maxIterations && dist > eps) {
-			double m = (t1 + t2) / 2;
+			double m = (tMin + tMax) / 2;
 			c.evaluateCurve(m, middle);
 			double distLeft = c.distanceMax(left, middle);
 			double distRight = c.distanceMax(right, middle);
@@ -569,13 +569,13 @@ public class CurvePlotter {
 			// take the interval with the larger distance to do the bisection
 			if (distLeft > distRight) {
 				dist = distLeft;
-				t2 = m;
+				tMax = m;
 			} else {
 				dist = distRight;
-				t1 = m;
+				tMin = m;
 			}
 
-			if (DoubleUtil.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) {
+			if (DoubleUtil.isEqual(tMin, tMax, Kernel.MAX_DOUBLE_PRECISION)) {
 				return true;
 			}
 		}
