@@ -53,9 +53,9 @@ public class TooltipChipView {
 
 	private static class TooltipChip extends Label {
 		private final Timer hideTimer;
+
 		public TooltipChip() {
 			addStyleName("tooltipChip");
-
 			hideTimer = new Timer() {
 				@Override
 				public void run() {
@@ -72,7 +72,7 @@ public class TooltipChipView {
 			getElement().removeClassName("invisible");
 			Style style = getElement().getStyle();
 			style.setBackgroundColor(color);
-			style.setLeft( x, Style.Unit.PX);
+			style.setLeft(x, Style.Unit.PX);
 			style.setTop(y, Style.Unit.PX);
 			hideTimer.cancel();
 			hideTimer.schedule(4000);

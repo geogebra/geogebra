@@ -1101,6 +1101,11 @@ public class GgbAPIW extends GgbAPI {
 				(AppW) app);
 	}
 
+	/**
+	 * @param tooltip tooltip content
+	 * @param label label of an object to use as anchor
+	 * @param color color CSS string
+	 */
 	public void showTooltip(Object tooltip, Object label, Object color) {
 		if (tooltipChips == null) {
 			tooltipChips = new TooltipChipView();
