@@ -470,6 +470,9 @@ public class Ggb2giac {
 						.replace("REPLACEME1", "%2").replace("REPLACEME2", "%3")
 						.replace("REPLACEME3", "%4"));
 
+		p("IntegralSymbolic.1", "regroup(integrate(%0))");
+		p("IntegralSymbolic.2", "regroup(integrate(%0,%1))");
+
 		// need to wrap in coordinates() for
 		// Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10]]
 		// but not for Intersect[x^2,x^3]
@@ -1209,11 +1212,11 @@ public class Ggb2giac {
 
 		// default 15,like Input Bar version
 		p("ScientificText.1",
-				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
+				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstabsans))],"
 						+ "[ggbstans:=evalf(ggbstinput/10^ggbstpower,15)+\" * 10^ \"+ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
 		p("ScientificText.2",
-				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
+				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstabsans))],"
 						+ "[ggbstans:=evalf(ggbstinput/10^ggbstpower,%1)+\" * 10^ \"+ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
 		// stdevp / stdev different way round in Giac!

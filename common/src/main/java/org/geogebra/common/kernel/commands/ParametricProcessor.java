@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
+import org.geogebra.common.kernel.algos.AlgoSurfaceCartesianND;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -32,7 +33,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.plugin.Operation;
@@ -233,10 +234,6 @@ public class ParametricProcessor {
 		}
 		if (fv.length < 2 && ev instanceof VectorValue) {
 			if (((VectorValue) ev).getToStringMode() == Kernel.COORD_COMPLEX) {
-				if (!kernel.getApplication().has(Feature.SURFACE_2D)) {
-					throw new MyError(kernel.getApplication().getLocalization(),
-							Errors.InvalidFunction);
-				}
 				return complexSurface(exp, fv[0], label);
 			}
 			GeoNumeric locVar = getLocalVar(exp, fv[0]);
@@ -379,28 +376,55 @@ public class ParametricProcessor {
 	 *            expression
 	 * @param fv
 	 *            variables
-	 * @param label
-	 *            output label
 	 * @param dim
 	 *            dimension
 	 * @return surface
 	 */
 	protected GeoElement[] processSurface(ExpressionNode exp,
-			FunctionVariable[] fv, String label, int dim) {
-		return null;
+			FunctionVariable[] fv, int dim) {
+		GeoNumeric loc0 = getLocalVar(exp, fv[0]);
+		GeoNumeric loc1 = getLocalVar(exp, fv[1]);
+		Construction cons = kernel.getConstruction();
+		GeoNumberValue[] coords = new GeoNumberValue[dim];
+		for (int i = 0; i < dim; i++) {
+			ExpressionNode cx = VectorArithmetic.computeCoord(exp, i);
+			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
+			cons.removeFromConstructionList(nx);
+			coords[i] = nx.getNumber();
+		}
+		AlgoSurfaceCartesianND algo = new AlgoSurfaceCartesianND(cons,
+				exp,
+				coords,
+				new GeoNumeric[] { loc0, loc1 },
+				new GeoNumberValue[] { num(-10), num(-10) },
+				new GeoNumberValue[] { num(10), num(10) });
+		return algo.getOutput();
 	}
 
-	private GeoElement[] complexSurface(ExpressionNode exp,
+	private GeoNumberValue num(double d) {
+		return new GeoNumeric(kernel.getConstruction(), d);
+	}
+
+	/**
+	 * @param exp expression
+	 * @param fv complex variable
+	 * @param label label
+	 * @return function
+	 */
+	public GeoElement[] complexSurface(ExpressionNode exp,
 			FunctionVariable fv, String label) {
-		FunctionVariable x = new FunctionVariable(kernel, "u");
-		FunctionVariable y = new FunctionVariable(kernel, "v");
-		ExpressionNode complex = new ExpressionNode(kernel, x, Operation.PLUS,
-				new ExpressionNode(kernel, y, Operation.MULTIPLY,
+		FunctionVariable u = new FunctionVariable(kernel, "u");
+		FunctionVariable v = new FunctionVariable(kernel, "v");
+		ExpressionNode complex = new ExpressionNode(kernel, u, Operation.PLUS,
+				new ExpressionNode(kernel, v, Operation.MULTIPLY,
 						kernel.getImaginaryUnit()));
-		// complex.setMode(Kernel.COORD_COMPLEX);
-		ExpressionNode exp2 = exp.replace(fv, complex).wrap();
-		return processSurface(exp2,
-				new FunctionVariable[] { x, y }, label, 2);
+		ExpressionNode exp2 = exp.deepCopy(kernel).replace(fv, complex).wrap();
+		GeoElement[] surface =  processSurface(exp2,
+				new FunctionVariable[] { u, v },  2);
+		surface[0].setDefinition(exp);
+		((GeoSurfaceCartesianND) surface[0]).setComplexVariable(fv);
+		surface[0].setLabel(label);
+		return surface;
 	}
 
 	/**

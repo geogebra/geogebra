@@ -2,7 +2,8 @@ package org.geogebra.web.full.gui.view.algebra.contextmenu;
 
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DeleteItem;
-import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateInputItem;
+import org.geogebra.web.full.gui.view.algebra.contextmenu.item.DuplicateOutputItem;
 
 /**
  * AV context menu actions for scientific
@@ -19,6 +20,6 @@ public class AlgebraMenuItemCollectionScientific
 	 */
 	public AlgebraMenuItemCollectionScientific(AlgebraViewW av) {
 		addLabelingActions();
-		addItems(new DuplicateItem(av), new DeleteItem());
+		addItems(new DuplicateInputItem(av), new DuplicateOutputItem(av), new DeleteItem());
 	}
 }

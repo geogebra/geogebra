@@ -1,12 +1,14 @@
 package org.geogebra.common.plugin;
 
+import org.geogebra.common.util.StringUtil;
+
 /**
  * name MUST be in ggbtrans/properties
  */
 public enum GeoClass {
 
 	/** ANGLE */
-	ANGLE("Angle", "Angle", 80, 130, false),
+	ANGLE("Angle", "angle", 80, 130, false),
 
 	/** AXIS */
 	AXIS("Axis", 10, false),
@@ -29,7 +31,7 @@ public enum GeoClass {
 	/** FUNCTION */
 	FUNCTION("Function", 90, false),
 	/** INTERVAL */
-	INTERVAL("Interval", 90, false),
+	INTERVAL("Interval", "function", 90, false),
 
 	/** IMAGE */
 	IMAGE("Image", 20, false),
@@ -43,7 +45,7 @@ public enum GeoClass {
 	LOCUS("Locus", 130, false),
 
 	/** NUMERIC */
-	NUMERIC("Numeric", "Numeric", 80, 130, false),
+	NUMERIC("Numeric", "numeric", 80, 130, false),
 
 	/** POINT */
 	POINT("Point", 140, false),
@@ -89,52 +91,52 @@ public enum GeoClass {
 
 	/* 3Dg geos */
 	/** ANGLE */
-	ANGLE3D("Angle", "Angle3D", 80, true),
+	ANGLE3D("Angle", "angle3d", 80, true),
 
 	/** POINT */
-	POINT3D("Point", "Point3D", 140, true),
+	POINT3D("Point", "point3d", 140, true),
 
 	/** VECTOR */
-	VECTOR3D("Vector", "Vector3D", 120, true),
+	VECTOR3D("Vector", "vector3d", 120, true),
 
 	/** SEGMENT */
-	SEGMENT3D("Segment", "Segment3D", 110, true),
+	SEGMENT3D("Segment", "segment3d", 110, true),
 
 	/** LINE */
-	LINE3D("Line", "Line3D", 100, true),
+	LINE3D("Line", "line3d", 100, true),
 
 	/** RAY */
-	RAY3D("Ray", "Ray3D", 110, true),
+	RAY3D("Ray", "ray3d", 110, true),
 
 	/** CONIC */
-	CONIC3D("Conic", "Conic3D", 70, true),
+	CONIC3D("Conic", "conic3d", 70, true),
 
 	/** CONICSECTION */
-	CONICSECTION("ConicPart", "Conic3DPart", 70, true),
+	CONICSECTION("ConicPart", "conic3dpart", 70, true),
 
 	/** AXIS */
-	AXIS3D("Axis", "Axis3D", 10, true),
+	AXIS3D("Axis", "axis3D", 10, true),
 
 	/** CURVE_CARTESIAN */
-	CURVE_CARTESIAN3D("CurveCartesian", "CurveCartesian3D", 90, true),
+	CURVE_CARTESIAN3D("CurveCartesian", "curvecartesian3d", 90, true),
 
 	/** POLYGON */
-	POLYGON3D("Polygon", "Polygon3D", 50, true),
+	POLYGON3D("Polygon", "polygon3d", 50, true),
 
 	/** PLANE */
-	PLANE3D("Plane", "Plane3D", 45, true),
+	PLANE3D("Plane", "plane3d", 45, true),
 
 	/** QUADRIC */
 	QUADRIC("Quadric", 46, true),
 
 	/** QUADRIC_PART */
-	QUADRIC_PART("Quadric", "QuadricPart", 46, true),
+	QUADRIC_PART("Quadric", "quadricpart", 46, true),
 
 	/** QUADRIC_LIMITED */
-	QUADRIC_LIMITED("Quadric", "QuadricLimited", 47, true),
+	QUADRIC_LIMITED("Quadric", "quadriclimited", 47, true),
 
 	/** POLYLINE */
-	POLYLINE3D("PolyLine", "PolyLine3D", 51, true),
+	POLYLINE3D("PolyLine", "polyline3d", 51, true),
 
 	/** POLYHEDRON */
 	POLYHEDRON("Polyhedron", 50, true),
@@ -143,13 +145,13 @@ public enum GeoClass {
 	NET("Net", 50, true),
 
 	/** SURFACECARTESIAN */
-	SURFACECARTESIAN3D("Surface", "SurfaceCartesian3D", 160, true),
+	SURFACECARTESIAN3D("Surface", "surfacecartesian3d", 160, true),
 
 	/** SURFACECARTESIAN */
-	SURFACECARTESIAN("Surface", "SurfaceCartesian", 160, false),
+	SURFACECARTESIAN("Surface", "surfacecartesian", 160, false),
 
 	/** IMPLICIT_SURFACE_ */
-	IMPLICIT_SURFACE_3D("ImplicitSurface", "ImplicitSurface3D", 160, true),
+	IMPLICIT_SURFACE_3D("ImplicitSurface", "implicitsurface3d", 160, true),
 
 	/** CLIPPINGCUBE */
 	CLIPPINGCUBE3D("ClippingCube3D", 160, true),
@@ -196,7 +198,7 @@ public enum GeoClass {
 	static final public String MULTIVARIABLE_FUNCTION = "MultivariableFunction";
 
 	GeoClass(String name, int priority, boolean is3D) {
-		this(name, name, priority, priority, is3D);
+		this(name, StringUtil.toLowerCaseUS(name), priority, priority, is3D);
 	}
 
 	GeoClass(String name, String xmlName, int priority, int independentPriority,

@@ -425,4 +425,17 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		updateInput("xf(x) + 4");
 		assertEquals("x f(x) + 4", inputBox.getText());
 	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingComplexFunctionUndefined() {
+		setupInput("f", "x+i");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("?");
+		assertEquals("", inputBox.getTextForEditor());
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("", inputBox.getTextForEditor());
+		assertEquals("f\\, \\text{undefined} ", lookup("f")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
+	}
 }
