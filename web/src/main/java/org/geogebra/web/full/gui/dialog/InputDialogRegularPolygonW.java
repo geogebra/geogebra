@@ -37,7 +37,8 @@ public class InputDialogRegularPolygonW extends ComponentInputDialog {
 			GeoCoordSys2D direction) {
 		super(app, data, false, false, handler,
 				app.getLocalization().getMenu("Points"), "4",
-				1, DEFAULT_COLUMNS, false);
+				1, -1, false);
+		addStyleName("regularPolygon");
 		geoPoint1 = point1;
 		geoPoint2 = point2;
 		this.direction = direction;

@@ -25,6 +25,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	private Runnable negativeAction;
 	private StandardButton posButton;
 	private StandardButton negButton;
+	private boolean preventHide = false;
 
 	/**
 	 * base dialog constructor
@@ -120,6 +121,10 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		Dom.toggleClass(btn, "disabled", disabled);
 	}
 
+	public void setPreventHide(boolean preventHide) {
+		this.preventHide = preventHide;
+	}
+
 	/**
 	 * fills the dialog with content
 	 * @param content - content of the dialog
@@ -151,7 +156,9 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		if (positiveAction != null) {
 			positiveAction.run();
 		}
-		//hide();
+		if (!preventHide) {
+			hide();
+		}
 	}
 
 	/**

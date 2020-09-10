@@ -1794,4 +1794,18 @@ $shadow-card-hover: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,
             padding: 0px 15px;
         }
     }
+
+    .dialogComponent.regularPolygon {
+    		max-width: 504px;
+            max-height: 196px;
+
+             .inputTextField {
+             	max-width: 456px;
+             	width: 100%;
+
+             	.AutoCompleteTextFieldW {
+             		margin-right: 0px;
+             	}
+             }
+    }
 }

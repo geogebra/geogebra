@@ -11,21 +11,15 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * dialog component for dialogs with one input text field
  * e.g. regular polygon tool dialog
  */
 public abstract class ComponentInputDialog extends ComponentDialog
-		implements ErrorHandler, KeyUpHandler, KeyPressHandler, HasKeyboardPopup {
+		implements ErrorHandler, HasKeyboardPopup {
 
 	private InputHandler inputHandler;
-	public static final int DEFAULT_COLUMNS = 28;
 	private ComponentInputField inputTextField;
 
 	/**
@@ -41,12 +35,12 @@ public abstract class ComponentInputDialog extends ComponentDialog
 			String initText, int rows, int columns, boolean showSymbolPopupIcon) {
 		super(app, dialogData, autoHide, hasScrim);
 		createGUI(labelText, initText, rows, columns, showSymbolPopupIcon);
+		setPreventHide(true);
 		setInputHandler(inputHandler);
 		setOnPositiveAction(this::processInput);
 		if (!app.isWhiteboardActive()) {
 			app.registerPopup(this);
 		}
-
 		this.addCloseHandler(event -> {
 			app.unregisterPopup(this);
 			app.hideKeyboard();
@@ -58,20 +52,7 @@ public abstract class ComponentInputDialog extends ComponentDialog
 		inputTextField = new ComponentInputField((AppW) app,
 				"", labelText, "", initText, columns, rows,
 				showSymbolPopupIcon, "");
-
-		// add key handler for ENTER if inputPanel uses a text field
-		AutoCompleteTextFieldW textComponent = getTextComponent();
-		if (textComponent != null) {
-			textComponent.getTextField().getValueBox()
-					.addKeyUpHandler(this);
-			textComponent.getTextField().getValueBox()
-					.addKeyPressHandler(this);
-		}
-
-		FlowPanel contentPanel = new FlowPanel();
-		contentPanel.add(inputTextField);
-
-		super.addDialogContent(contentPanel);
+		super.addDialogContent(inputTextField);
 	}
 
 	protected InputHandler getInputHandler() {
@@ -182,16 +163,6 @@ public abstract class ComponentInputDialog extends ComponentDialog
 	 * Callback for tool dialogs
 	 */
 	protected void toolAction() {
-		// overridden in subclasses
-	}
-
-	@Override
-	public void onKeyPress(KeyPressEvent event) {
-		// overridden in subclasses
-	}
-
-	@Override
-	public void onKeyUp(KeyUpEvent event) {
 		// overridden in subclasses
 	}
 }
