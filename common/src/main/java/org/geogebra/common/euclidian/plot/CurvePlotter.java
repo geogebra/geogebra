@@ -178,7 +178,7 @@ public class CurvePlotter {
 		double t = tMin;
 		double left = tMin;
 		boolean distanceOK, angleOK, segOffScreen;
-
+		CurveSegmentInfo info = new CurveSegmentInfo(view, evalLeft, evalRigh, prevDiff);
 		// Actual plotting algorithm:
 		// use bisection for interval until we reach
 		// a small pixel distance between two points and
@@ -186,18 +186,12 @@ public class CurvePlotter {
 		// The evaluated curve points are stored on a stack
 		// to avoid multiple evaluations at the same position.
 		do {
-			// segment from last point off screen?
-			segOffScreen = view.isSegmentOffView(evalLeft, evalRigh);
-			// pixel distance from last point OK?
-			distanceOK = segOffScreen || isDistanceOK(diff);
-			// angle from last segment OK?
-			angleOK = isAngleOK(prevDiff, diff, segOffScreen
-					? MAX_BEND_OFF_SCREEN : MAX_BEND);
+			info.update(evalLeft, evalRigh, diff, prevDiff);
 
 			// bisect interval as long as max bisection depth not reached & ...
 			while (depth < MAX_DEFINED_BISECTIONS
 					// ... distance not ok or angle not ok or step too big
-					&& (!distanceOK || !angleOK
+					&& (!info.isDistanceOK() || !info.isAngleOK()
 							|| divisors[depth] > maxParamStep)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
 					// 0, 6]
@@ -242,6 +236,7 @@ public class CurvePlotter {
 				// angle from last segment OK?
 				angleOK = isAngleOK(prevDiff, diff, segOffScreen
 						? MAX_BEND_OFF_SCREEN : MAX_BEND);
+				info.update(evalLeft, evalRigh, diff, prevDiff);
 
 			} // end of while-loop for interval bisections
 
@@ -249,10 +244,10 @@ public class CurvePlotter {
 			boolean lineTo = true;
 			// TODO
 			if (moveToAllowed == Gap.MOVE_TO) {
-				if (segOffScreen) {
+				if (info.isOffScreen()) {
 					// don't draw segments that are off screen
 					lineTo = false;
-				} else if (!angleOK || !distanceOK) {
+				} else if (!info.isAngleOK() || !info.isDistanceOK()) {
 					// check for DISCONTINUITY
 					lineTo = isContinuous(curve, left, t, MAX_CONTINUITY_BISECTIONS);
 				}
@@ -333,7 +328,7 @@ public class CurvePlotter {
 	/**
 	 * Returns true when x is either NaN or infinite.
 	 */
-	private static boolean isUndefined(double x) {
+	static boolean isUndefined(double x) {
 		return Double.isNaN(x) || Double.isInfinite(x);
 	}
 
