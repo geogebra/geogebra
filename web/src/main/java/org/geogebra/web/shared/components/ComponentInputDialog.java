@@ -155,7 +155,9 @@ public abstract class ComponentInputDialog extends ComponentDialog
 
 	@Override
 	public void showError(String msg) {
-		inputTextField.setError(msg);
+		if (!inputTextField.hasError()) {
+			inputTextField.setError(msg);
+		}
 	}
 
 	public void processInput() {
