@@ -3,6 +3,7 @@ package org.geogebra.common.gui.menu.impl;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInRelativeOrder;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.in;
 
@@ -87,7 +88,7 @@ public class DefaultDrawerMenuFactoryTest {
 	}
 
 	private void assertBasicProperties(DrawerMenuFactory factory, int numberOfGroups,
-									   int... subgroupItemCounts) {
+			int... subgroupItemCounts) {
 		DrawerMenu menu = factory.createDrawerMenu();
 		Assert.assertNotNull(menu.getTitle());
 		List<MenuItemGroup> groups = menu.getMenuItemGroups();
@@ -96,7 +97,7 @@ public class DefaultDrawerMenuFactoryTest {
 			MenuItemGroup group = groups.get(i);
 			List<MenuItem> menuItems = group.getMenuItems();
 			Assert.assertEquals(subgroupItemCounts[i], menuItems.size());
-			for (MenuItem menuItem: menuItems) {
+			for (MenuItem menuItem : menuItems) {
 				Assert.assertNotNull(menuItem.getIcon());
 				Assert.assertNotNull(menuItem.getLabel());
 			}
@@ -118,5 +119,20 @@ public class DefaultDrawerMenuFactoryTest {
 			assertThat(menuItems, not(CoreMatchers.<MenuItem>hasItem(
 					hasProperty("action", is(in(fileFeatureEnabledActions))))));
 		}
+	}
+
+	@Test
+	public void testSwitchCalculator() {
+		DrawerMenuFactory factory = new DefaultDrawerMenuFactory(
+				GeoGebraConstants.Platform.IOS,
+				GeoGebraConstants.Version.SUITE, null, false, false, true);
+		DrawerMenu menu = factory.createDrawerMenu();
+		MenuItemGroup group = menu.getMenuItemGroups().get(1);
+
+		// Contains Switch calculator above the settings item
+		assertThat(group.getMenuItems(),
+				containsInRelativeOrder(
+						hasProperty("action", is(Action.SWITCH_CALCULATOR)),
+						hasProperty("action", is(Action.SHOW_SETTINGS))));
 	}
 }
