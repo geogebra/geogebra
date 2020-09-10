@@ -4,6 +4,7 @@ import static com.himamis.retex.editor.share.util.Unicode.EULER_STRING;
 import static com.himamis.retex.editor.share.util.Unicode.pi;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.closeTo;
@@ -321,8 +322,8 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Solve(2x^2-x=21)", "{x = -3, x = 7 / 2}");
 		t("Solve(6x/(x+3)-x/(x-3)=2)", "{x = 1, x = 6}");
 		t("Solve(12exp(x)=150)", "{x = ln(25 / 2)}");
-		testValidResultCombinations("Solve(cos(x)=sin(x))", "{x = k_1 * " + pi + " + 1 / 4 * " + pi + "}",
-				"{x = 2 * k_1 * " + pi + " - 3 / 4 * π, x = 2 * k_2 * " + pi + " + 1 / 4 * π}");
+		testValidResultCombinations("Solve(cos(x)=sin(x))", "{x = k_{1} * " + pi + " + 1 / 4 * " + pi + "}",
+				"{x = 2 * k_{1} * " + pi + " - 3 / 4 * π, x = 2 * k_{2} * " + pi + " + 1 / 4 * π}");
 		t("Solve(3x+2>-x+8)", "{x > 3 / 2}");
 		// doesn't work without space (multiply) APPS-1031
 		t("Solve(x (x-5)>x+7)", "{x < -1, x > 7}");
@@ -1142,12 +1143,27 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void testSubstituteConstant() {
+		add("f(x)=IntegralSymbolic(x)");
+		add("a=5");
+		GeoSymbolic symbolic = add("g(x)=Substitute(f(x), c_{1}, a)");
+		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate), is("1 / 2 x² + 5"));
+		assertThat(symbolic.getTwinGeo(), is(notNullValue()));
+	}
+
+	@Test
 	public void testIntegralTwinGeoHasSliderValue() {
 		GeoSymbolic symbolic = add("Integral(x)");
 		GeoNumeric slider = (GeoNumeric) lookup("c_1");
 		slider.setValue(10);
 		assertThat(symbolic.getTwinGeo().toString(StringTemplate.defaultTemplate),
 				equalTo("1 / 2 x² + 10"));
+	}
+
+	@Test
+	public void testPlotSolveIsEuclidianVisible() {
+		GeoSymbolic symbolic = add("PlotSolve(x^2-2)");
+		assertThat(symbolic.isEuclidianVisible(), is(true));
 	}
 
 	@Test
@@ -1194,5 +1210,13 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		add("f(x) = x");
 		GeoSymbolic function = add("f(x) = xx");
 		assertThat(function.getTwinGeo(), CoreMatchers.<GeoElementND>instanceOf(GeoFunction.class));
+	}
+
+	@Test
+	public void testPrecision() {
+		GeoSymbolic derivative = add("Derivative(25.8-0.2ℯ^(-0.025x))");
+		assertThat(
+				derivative.toValueString(StringTemplate.defaultTemplate),
+				equalTo("1 / 200 ℯ^((-1) / 40 x)"));
 	}
 }

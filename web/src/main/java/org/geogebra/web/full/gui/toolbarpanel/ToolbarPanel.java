@@ -507,7 +507,7 @@ public class ToolbarPanel extends FlowPanel
 	private void updateHeightForClosing(DockSplitPaneW dockParent, Widget evPanel) {
 		dockParent.setWidgetSize(evPanel,
 				app.getHeight() - header.getOffsetHeight()
-						- app.getArticleElement().getBorderThickness()
+						- app.getAppletParameters().getBorderThickness()
 						- VSHADOW_OFFSET);
 		dockParent.addStyleName("hide-VDragger");
 	}

@@ -458,7 +458,7 @@ public class AlgebraInputW extends FlowPanel
 							helpPopup.getElement().getStyle()
 									.setBottom(
 											getOffsetHeight()
-													* app.getArticleElement()
+													* app.getGeoGebraElement()
 															.getScaleX(),
 											Unit.PX);
 							helpPopup.show();

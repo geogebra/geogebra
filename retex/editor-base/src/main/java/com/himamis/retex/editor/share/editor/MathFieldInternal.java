@@ -160,6 +160,17 @@ public class MathFieldInternal
 	}
 
 	/**
+	 * font type
+	 * @param type font type
+	 */
+	public void setFontAndUpdate(int type) {
+		if (type != mathFieldController.getFontType()) {
+			mathFieldController.setType(type);
+			update();
+		}
+	}
+
+	/**
 	 * @return edited formula
 	 */
 	public MathFormula getFormula() {

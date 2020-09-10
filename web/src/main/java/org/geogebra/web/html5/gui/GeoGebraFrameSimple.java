@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
-import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.ArticleElementInterface;
+import org.geogebra.web.html5.util.AppletParameters;
+import org.geogebra.web.html5.util.GeoGebraElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -24,14 +23,14 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param articleElement
 	 *            article with parameters
 	 */
-	public GeoGebraFrameSimple(ArticleElementInterface articleElement) {
-		super(null, articleElement);
+	public GeoGebraFrameSimple(GeoGebraElement articleElement, AppletParameters parameters) {
+		super(null, articleElement, parameters);
 	}
 
 	@Override
-	protected AppW createApplication(ArticleElementInterface article,
-			GLookAndFeelI laf) {
-		return new AppWsimple(article, this, false);
+	protected AppW createApplication(GeoGebraElement article,
+			AppletParameters parameters, GLookAndFeelI laf) {
+		return new AppWsimple(article, parameters, this, false);
 	}
 
 	/**
@@ -40,12 +39,13 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param geoGebraMobileTags
 	 *            list of &lt;article&gt; elements of the web page
 	 */
-	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
-		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrameW inst = new GeoGebraFrameSimple(articleElement);
-			LoggerW.startLogger(articleElement);
+	public static void main(ArrayList<GeoGebraElement> geoGebraMobileTags) {
+		for (final GeoGebraElement geoGebraElement : geoGebraMobileTags) {
+			AppletParameters parameters = new AppletParameters(geoGebraElement);
+			GeoGebraFrameW inst = new GeoGebraFrameSimple(geoGebraElement, parameters);
+			LoggerW.startLogger(parameters);
 			inst.createSplash();
-			RootPanel.get(articleElement.getId()).add(inst);
+			RootPanel.get(geoGebraElement.getId()).add(inst);
 		}
 	}
 
@@ -55,10 +55,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * @param clb
 	 *            callback
 	 */
-	public static void renderArticleElement(Element el, JavaScriptObject clb) {
-		GeoGebraFrameW.renderArticleElementWithFrame(el,
-				new GeoGebraFrameSimple(ArticleElement.as(el)),
-				clb);
+	public static void renderArticleElement(GeoGebraElement el, JavaScriptObject clb) {
+		AppletParameters parameters = new AppletParameters(el);
+		new GeoGebraFrameSimple(el, parameters).renderArticleElementWithFrame(el, clb);
 	}
 
 	@Override

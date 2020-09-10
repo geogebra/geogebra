@@ -84,7 +84,7 @@ public class MyToggleButton extends GToggleButton {
 		if (mayFocus) {
 			super.setFocus(focus);
 		} else {
-			((AppW) app).getArticleElement().getElement().focus();
+			((AppW) app).getGeoGebraElement().focus();
 		}
 	}
 }

@@ -11,11 +11,20 @@ public class ExamDrawerMenuFactoryTest {
 
 	@Test
 	public void testGraphingExam() {
-		DrawerMenuFactory factory = new ExamDrawerMenuFactory(
-				GeoGebraConstants.Version.GRAPHING);
+		DrawerMenuFactory factory = new ExamDrawerMenuFactory(GeoGebraConstants.Version.GRAPHING);
 		DrawerMenu menu = factory.createDrawerMenu();
 		Assert.assertEquals(1, menu.getMenuItemGroups().size());
 		MenuItemGroup group = menu.getMenuItemGroups().get(0);
 		Assert.assertEquals(3, group.getMenuItems().size());
+	}
+
+	@Test
+	public void testSwitchCalculator() {
+		DrawerMenuFactory factory =
+				new ExamDrawerMenuFactory(GeoGebraConstants.Version.SUITE, true);
+		DrawerMenu menu = factory.createDrawerMenu();
+		Assert.assertEquals(1, menu.getMenuItemGroups().size());
+		MenuItemGroup group = menu.getMenuItemGroups().get(0);
+		Assert.assertEquals(4, group.getMenuItems().size());
 	}
 }

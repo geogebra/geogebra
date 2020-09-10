@@ -15,14 +15,22 @@ class PolarPrinter implements Printer {
 
     @Override
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
-        return "point(("
+        return printLeftParenthesis(tpl)
                 + expressionPrinter.print(vector.getX(), tpl)
-                + ")*cos("
+                + printDelimiter()
                 + expressionPrinter.print(vector.getY(), tpl)
-                + "),("
-                + expressionPrinter.print(vector.getX(), tpl)
-                + ")*sin("
-                + expressionPrinter.print(vector.getY(), tpl)
-                + "))";
+                + printRightParenthesis(tpl);
+    }
+
+    private String printLeftParenthesis(StringTemplate tpl) {
+        return tpl.leftBracket();
+    }
+
+    private String printRightParenthesis(StringTemplate tpl) {
+        return tpl.rightBracket();
+    }
+
+    private String printDelimiter() {
+        return "; ";
     }
 }

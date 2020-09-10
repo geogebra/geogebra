@@ -15,8 +15,8 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.factories.AwtFactoryHeadless;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.awt.GAlphaCompositeW;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGradientPaintW;
@@ -56,7 +56,7 @@ public class AwtFactoryW extends AwtFactoryHeadless {
 
 	@Override
 	public GDimension newDimension(int width, int height) {
-		return new GDimensionW(width, height);
+		return new Dimension(width, height);
 	}
 
 	@Override

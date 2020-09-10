@@ -14,15 +14,8 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                dir('uitest') {
-                   sh '''
-                      npm install
-                      npx http-server -p 8888 content & npx wait-on http://localhost:8888
-                      npx cypress run --env userAgent="Chrome iPad" --spec="cypress/integration/**/*-iPad.spec.js" || true
-                      npx cypress run || true
-                      '''
-                 }
+            steps {                
+                   sh 'docker run --ipc=host -u $(id -u):$(id -g) -e HOME=/work -w /work -v $PWD/uitest:/work cypress/base:12.4.0 sh runtest.sh'
             }
             post {
                 always {

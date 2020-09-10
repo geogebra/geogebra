@@ -97,8 +97,8 @@ public class ViewMenuW extends Submenu {
 					@Override
 					public void doExecute() {
 						app.persistWidthAndHeight();
-						app.getArticleElement()
-								.attr("showAlgebraInput", "true");
+						app.getAppletParameters()
+								.setAttribute("showAlgebraInput", "true");
 
 						app.setShowAlgebraInput(true, false);
 						app.setInputPosition(

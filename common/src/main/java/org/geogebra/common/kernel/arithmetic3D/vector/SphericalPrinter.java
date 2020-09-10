@@ -15,22 +15,12 @@ class SphericalPrinter implements Printer {
 
     @Override
     public String print(StringTemplate tpl, ExpressionPrinter expressionPrinter) {
-        return "point(("
+        return tpl.leftBracket()
                 + expressionPrinter.print(vector.getX(), tpl)
-                + ")*cos("
+                + "; "
                 + expressionPrinter.print(vector.getY(), tpl)
-                + ")*cos("
+                + "; "
                 + expressionPrinter.print(vector.getZ(), tpl)
-                + "),("
-                + expressionPrinter.print(vector.getX(), tpl)
-                + ")*sin("
-                + expressionPrinter.print(vector.getY(), tpl)
-                + ")*cos("
-                + expressionPrinter.print(vector.getZ(), tpl)
-                + "),("
-                + expressionPrinter.print(vector.getX(), tpl)
-                + ")*sin("
-                + expressionPrinter.print(vector.getZ(), tpl)
-                + "))";
+                + tpl.rightBracket();
     }
 }

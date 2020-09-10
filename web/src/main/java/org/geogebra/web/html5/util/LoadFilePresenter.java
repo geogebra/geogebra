@@ -7,7 +7,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.settings.StyleSettings;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.ggbjdk.java.awt.geom.Dimension;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -31,7 +31,7 @@ public class LoadFilePresenter {
 	 * @param vv
 	 *            zip loader
 	 */
-	public void onPageLoad(final ArticleElementInterface view, final AppW app,
+	public void onPageLoad(final AppletParameters view, final AppW app,
 			ViewW vv) {
 
 		String base64String;
@@ -136,7 +136,7 @@ public class LoadFilePresenter {
 	 *            article element
 	 * @return whether special perspective (search / customize) was used
 	 */
-	boolean openEmptyApp(final AppW app, ArticleElementInterface ae) {
+	boolean openEmptyApp(final AppW app, AppletParameters ae) {
 		// we dont have content, it is an app
 		Log.debug("no base64content, possibly App loaded?");
 
@@ -215,8 +215,8 @@ public class LoadFilePresenter {
 				|| "5".equals(perspective)) {
 
 			if (app.isPortrait()) {
-				int height = app.getArticleElement().getDataParamHeight();
-				if (app.getArticleElement().getDataParamFitToScreen()) {
+				int height = app.getAppletParameters().getDataParamHeight();
+				if (app.getAppletParameters().getDataParamFitToScreen()) {
 					height = Window.getClientHeight();
 				}
 				if (height > 0) {
@@ -226,8 +226,8 @@ public class LoadFilePresenter {
 				}
 
 			} else {
-				int width = app.getArticleElement().getDataParamWidth();
-				if (app.getArticleElement().getDataParamFitToScreen()) {
+				int width = app.getAppletParameters().getDataParamWidth();
+				if (app.getAppletParameters().getDataParamFitToScreen()) {
 					width = Window.getClientWidth();
 				}
 				if (width > 0) {
@@ -255,7 +255,7 @@ public class LoadFilePresenter {
 		}
 		app.getAppletFrame().updateHeaderSize();
 		app.setPreferredSize(
-				new GDimensionW(app.getAppletWidth(), app.getAppletHeight()));
+				new Dimension(app.getAppletWidth(), app.getAppletHeight()));
 		app.ensureStandardView();
 		app.loadPreferences(p);
 		app.setFileVersion(GeoGebraConstants.VERSION_STRING, "auto");
@@ -278,7 +278,7 @@ public class LoadFilePresenter {
 
 		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
 				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
-		if (app.getArticleElement().getDataParamShowAppsPicker()
+		if (app.getAppletParameters().getDataParamShowAppsPicker()
 				&& app.getExam() == null && !smallScreen
 				&& !app.isWhiteboardActive()) {
 			app.showPerspectivesPopup();

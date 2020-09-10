@@ -5,7 +5,7 @@ import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.AppConfig;
-import org.geogebra.common.main.AppConfigDefault;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.test.commands.AlgebraTestHelper;

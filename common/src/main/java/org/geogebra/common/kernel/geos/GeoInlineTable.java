@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.draw.DrawInlineTable;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -76,6 +77,22 @@ public class GeoInlineTable extends GeoInline implements TextStyle, HasTextForma
 	@Override
 	public void setBackgroundColor(GColor backgroundColor) {
 		getFormatter().setBackgroundColor(backgroundColor);
+	}
+
+	public void setBorderThickness(int borderThickness) {
+		getFormatter().setBorderThickness(borderThickness);
+	}
+
+	public int getBorderThickness() {
+		return getFormatter().getBorderThickness();
+	}
+
+	public void setBorderStyle(BorderType borderType) {
+		getFormatter().setBorderStyle(borderType);
+	}
+
+	public BorderType getBorderStyle() {
+		return getFormatter().getBorderStyle();
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.inline.InlineTableController;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoInlineTable;
+import org.geogebra.common.kernel.geos.properties.BorderType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
@@ -47,6 +48,9 @@ public class InlineTableControllerW implements InlineTableController {
 		this.table = table;
 		this.view = view;
 		CarotaUtil.ensureInitialized(view.getFontSize());
+		if (view.getApplication().isMebis()) {
+			CarotaUtil.setSelectionColor(GColor.MOW_SELECTION_COLOR.toString());
+		}
 		initTable(parent);
 		if (table.getContent() != null) {
 			checkFonts();
@@ -82,7 +86,8 @@ public class InlineTableControllerW implements InlineTableController {
 
 	@Override
 	public void setBackgroundColor(GColor backgroundColor) {
-		tableImpl.setBackgroundColor(backgroundColor == null ? null : backgroundColor.toString());
+		tableImpl.setCellProperty("bgcolor",
+				backgroundColor == null ? null : backgroundColor.toString());
 	}
 
 	@Override
@@ -227,6 +232,46 @@ public class InlineTableControllerW implements InlineTableController {
 	public void removeColumn() {
 		tableImpl.removeColumn();
 		updateSizes();
+	}
+
+	@Override
+	public void setBorderThickness(int borderThickness) {
+		tableImpl.setBorderThickness(borderThickness);
+		table.updateRepaint();
+	}
+
+	@Override
+	public int getBorderThickness() {
+		return tableImpl.getBorderThickness();
+	}
+
+	@Override
+	public void setBorderStyle(BorderType borderType) {
+		tableImpl.setBorderStyle(borderType.getName());
+		table.updateRepaint();
+	}
+
+	@Override
+	public BorderType getBorderStyle() {
+		String borderStr = tableImpl.getBorderStyle();
+		switch (borderStr) {
+			case "mixed": return BorderType.MIXED;
+			case "inner": return BorderType.INNER;
+			case "outer": return BorderType.OUTER;
+			case "none": return BorderType.NONE;
+			default: return BorderType.ALL;
+		}
+	}
+
+	@Override
+	public void setWrapping(String setting) {
+		tableImpl.setCellProperty("wrapping", setting);
+		table.updateRepaint();
+	}
+
+	@Override
+	public String getWrapping() {
+		return tableImpl.getCellProperty("wrapping");
 	}
 
 	@Override

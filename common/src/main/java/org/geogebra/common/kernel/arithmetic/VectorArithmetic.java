@@ -151,6 +151,10 @@ public class VectorArithmetic {
 
 	private static ExpressionValue extractCoord(ExpressionNode exp, int i,
 			Kernel kernel) {
+		if (exp.getLeft() instanceof NumberValue && exp.getLeft().isConstant()
+				&& Double.isNaN(exp.getLeft().evaluateDouble())) {
+			return new MyDouble(kernel, Double.NaN);
+		}
 		if (exp.getLeft() instanceof MyVecNode && ((MyVecNode) exp.getLeft())
 				.getToStringMode() == Kernel.COORD_CARTESIAN) {
 			return i == 0 ? ((MyVecNode) exp.getLeft()).getX().wrap()

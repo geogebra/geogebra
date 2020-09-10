@@ -94,7 +94,11 @@ public class ShareControllerW implements ShareController {
 	}
 
 	private void autoSaveMaterial(AsyncOperation<Boolean> shareCallback) {
-		app.getSaveController().saveActiveMaterial(shareCallback);
+		if (app.isSaved()) {
+			shareCallback.callback(true);
+		} else {
+			app.getSaveController().saveActiveMaterial(shareCallback);
+		}
 	}
 
 	private void loginForShare() {

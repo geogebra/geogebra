@@ -102,6 +102,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.LabelVisibility;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.main.settings.SettingsBuilder;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.main.settings.updater.FontSettingsUpdater;
 import org.geogebra.common.main.settings.updater.LabelSettingsUpdater;
 import org.geogebra.common.main.settings.updater.SettingsUpdater;
@@ -3878,9 +3879,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
 			return false;
-
-		case SURFACE_2D:
-			return prerelease;
 
 		case SYMBOLIC_AV:
 			return true;

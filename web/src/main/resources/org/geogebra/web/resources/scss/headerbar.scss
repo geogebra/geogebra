@@ -1,0 +1,388 @@
+/** Created by stefanie.bogner
+*	16.09.2015
+*	contains styles for the toolbar in web
+* 	Everything in "toolbarPanel" and the menu in "menuContainer"
+* 
+*	Make sure everything is placed in .GeoGebraFrame!
+**/
+
+@import 'colors';
+
+$shadow_dark: 0 0 2px 1px rgba(102, 102, 102, 0.3); // used for popups
+$shadow: 0px 0px 2px rgba(204, 204, 204, 0.5); // used for header, footer, views
+
+.GeoGebraFrame {
+
+	/*hack for toolbar submenu, that is isn't hidden by 
+	 dockpanel standard div styling (overflow:hidden) */
+	.ggbdockpanelhack > div {
+		overflow: visible !important;
+	}
+
+	position: relative;
+
+	.toolbarPanel {
+		position: relative;
+		background-color: $classic-toolbar-bg;
+		box-shadow: $shadow;
+		padding: 5px;
+		box-sizing: border-box;
+		z-index: 100;
+
+		.toolBPanelMobile {
+			overflow: hidden;
+			height: 46px;
+		}
+
+		::-webkit-scrollbar {
+			height: 5px;
+			overflow: visible;
+		}
+
+		::-webkit-scrollbar-button {
+			height: 0;
+			width: 0;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background-color: #999999;
+		}
+
+		::-webkit-scrollbar-track {
+			background-clip: padding-box;
+			border: solid transparent;
+			border-width: 0 0 0 4px;
+		}
+
+		.overflow {
+			overflow: visible !important;
+		}
+
+		.toolBPanel {
+			float: left;
+			padding-top: 1px;
+
+			ul {
+				margin: 0;
+				padding: 0;
+			}
+
+			li.toolbar_item {
+				margin: 0 5px 0 0;
+				text-align: center;
+				position: relative;
+				width: 40px;
+				height: 40px;
+				display: block;
+				float: left;
+				list-style-type: none;
+				cursor: pointer;
+			}
+
+			.toolbar_button {
+				border-radius: 5px;
+				border: 1px solid $tool-border;
+				background-color: $white;
+				padding: 3px;
+				width: 32px;
+				height: 32px;
+
+				&[isSelected=false] {
+					border-color: $tool-border;
+				}
+
+				&:hover[isSelected=false][isMobile=false],
+				&:focus[isSelected=false][isMobile=false] {
+					border-color: $toolbar-header;
+				}
+
+				&[isSelected=true] {
+					border: 2px solid $toolbar-header;
+					padding: 2px;
+				}
+
+				img.gwt-Image.toolbar_icon.plusPadding {
+					width: 24px !important;
+					height: 24px;
+					padding: 4px;
+				}
+			}
+
+			.touched {
+				border-color: $toolbar-header !important;
+			}
+
+			.toolbar_submenu {
+				position: absolute;
+				z-index: 501;
+				display: none;
+
+				&.visible {
+					display: block;
+				}
+
+				.submenuArrow {
+					position: absolute;
+					z-index: 300;
+					left: 4px;
+				}
+
+				.submenuContent {
+					position: absolute;
+
+					z-index: 250;
+					border-radius: 10px;
+					padding-top: 3px !important;
+					background-color: $white-90;
+					box-shadow: $shadow_dark;
+					overflow-y: auto;
+					overflow-x: hidden;
+					-webkit-overflow-scrolling: touch;
+
+					li {
+						white-space: nowrap;
+						list-style-type: none;
+						height: 32px;
+						padding: 5px 0;
+						text-align: left;
+						cursor: pointer;
+
+						&:hover,
+						&:focus {
+							color: $selected-tool-text;
+							background-color: $marble-border;
+						}
+
+						img.gwt-Image.plusPadding {
+							width: 24px !important;
+							height: 24px;
+							padding: 4px 4px 4px 9px;
+						}
+					}
+
+					img {
+						float: left;
+						padding-left: 5px;
+						padding-right: 5px;
+					}
+
+					.gwt-Label {
+						padding: 7px 10px 0 40px;
+					}
+				}
+			}
+		}
+
+		.submenuBack {
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			cursor: pointer;
+
+			img {
+				opacity: 0.54;
+			}
+
+			img:hover {
+				opacity: 0.84;
+			}
+		}
+
+		.submenuPanel {
+			margin-top: 0;
+		}
+
+		.submenuScrollPanel {
+			overflow-x: auto;
+			overflow-y: hidden;
+
+			position: absolute !important;
+			top: 6px;
+			left: 50px;
+			height: 46px;
+		}
+
+		.submenuItems {
+
+			margin: 0;
+
+			.submenu_button {
+				border-radius: 5px;
+				border: 1px solid $tool-border;
+				background-color: $white;
+				padding: 3px;
+				width: 32px;
+				height: 32px;
+
+				&[isSelected=false] {
+					border-color: $tool-border;
+				}
+			}
+
+			li {
+				margin: 0 5px 0 0;
+				text-align: center;
+				position: relative;
+				width: 40px;
+				height: 40px;
+				display: block;
+				float: left;
+				list-style-type: none;
+				cursor: pointer;
+			}
+		}
+
+		.rightButtonPanel {
+			float: right;
+			margin: 6px;
+
+			& > * {
+				margin: 0 5px 0 10px;
+				float: left;
+			}
+
+			// Make redo close to undo button
+			.redoButton {
+				margin-left: 0;
+			}
+
+			.selectedButton {
+				padding: 0;
+			}
+
+			.MyToggleButton {
+				padding: 0;
+				border: none;
+				background: none;
+			}
+		}
+
+		.rightButtonPanelMobile {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+		}
+	}
+
+	.toolbarPanelSouth {
+		border-top: 1px solid $tool-border;
+
+		.submenuArrow {
+			bottom: 45px;
+			transform: scale(-1);
+		}
+
+		.submenuContent {
+			bottom: 60px;
+		}
+	}
+
+	.toolbarPanelNorth {
+		border-bottom: 1px solid $tool-border;
+
+		.submenuContent {
+			top: 15px;
+		}
+	}
+
+	/**
+	 * GeoGebra Menu
+	 */
+	.menuContainer {
+		left: auto !important;
+		top: 53px !important; /* should be equal to GLookAndFeelI.TOOLBAR_HEIGHT */
+		z-index: 100;
+	}
+
+	.ggbmenubarwrapper {
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+	}
+
+	.menubarSMART {
+		overflow-y: auto;
+		background-color: $classic-toolbar-bg;
+		border-left: 1px;
+		border-left-color: $tool-border;
+		border-left-style: solid;
+		height: 100%;
+
+		.menuPanel {
+			width: 100%;
+			border-collapse: collapse;
+			padding: 0;
+		}
+
+		.GeoGebraMenuBar {
+			& > table {
+				width: 100%;
+			}
+
+			.gwt-MenuItem {
+				padding: 6px 5px 6px 35px;
+				position: relative;
+				display: block;
+
+				.menuImg {
+					width: 20px;
+					height: 20px;
+					position: absolute;
+					top: 50%;
+					margin-top: -10px;
+					left: 5px;
+				}
+			}
+
+			.gwt-MenuItem:focus {
+				background: none;
+			}
+
+			.gwt-MenuItem:hover,
+			.gwt-MenuItem:active {
+				background: $marble-border;
+			}
+
+			.RadioButtonMenuItem label {
+				cursor: pointer;
+			}
+		}
+	}
+
+	.subMenuLeftSidePopup {
+		box-shadow: none;
+		padding: 0;
+		border-radius: 0;
+
+		.GeoGebraMenuBar.subMenuLeftSide {
+			right: 280px;
+			white-space: nowrap;
+			top: -5px;
+			position: absolute;
+			z-index: 600;
+			border-radius: 10px;
+			padding: 5px;
+			background-color: $white-90;
+			box-shadow: $shadow_dark;
+
+			.arrowSubmenu {
+				position: absolute;
+				top: 3px;
+				right: -15px;
+			}
+
+			.gwt-MenuItem {
+				padding: 3px 10px;
+			}
+
+			input[type="radio"] {
+				margin: 0 5px 0 0;
+			}
+
+			/* Workaround due to GWT's bug, see ticket #4819 */
+			&.subMenuLeftSide2 {
+				right: 10px;
+			}
+		}
+	}
+}

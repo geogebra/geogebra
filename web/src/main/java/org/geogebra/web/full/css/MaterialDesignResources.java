@@ -58,6 +58,18 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 			+ ".svg")
 	SVGResource text_underline_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_all-24px.svg")
+	SVGResource border_all();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_clear-24px.svg")
+	SVGResource border_clear();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_inner-24px.svg")
+	SVGResource border_inner();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_outer-24px.svg")
+	SVGResource border_outer();
+
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")
 	SVGResource plane_black();
@@ -528,4 +540,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
 	SVGResource downloadMenu();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/show_chart-black-24px.svg")
+	SVGResource statistics();
 }

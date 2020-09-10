@@ -277,7 +277,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
 		if ("open".equals(getAction())) {
 			app.resetPerspectiveParam();
-			app.getArticleElement().attr("appName", "auto");
+			app.getAppletParameters().setAttribute("appName", "auto");
 			openFileFromGoogleDrive(googleDriveURL);
 		}
 	}
@@ -377,7 +377,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	@Override
 	public void refreshCurrentFileDescriptors(String fName, String desc) {
-		if (app.getArticleElement().getDataParamFitToScreen()
+		if (app.getAppletParameters().getDataParamFitToScreen()
 				&& !StringUtil.empty(fName)) {
 			Browser.changeMetaTitle(fName.replace(".ggb", ""));
 		}

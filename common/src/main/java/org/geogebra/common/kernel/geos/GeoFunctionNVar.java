@@ -514,15 +514,7 @@ public class GeoFunctionNVar extends GeoElement
 			sb.append("\"/>\n");
 		}
 
-		sb.append("<element");
-		sb.append(" type=\"functionNVar\"");
-		sb.append(" label=\"");
-		sb.append(label);
-		if (getDefaultGeoType() >= 0) {
-			sb.append("\" default=\"");
-			sb.append(getDefaultGeoType());
-		}
-		sb.append("\">\n");
+		getElementOpenTagXML(sb);
 		getXMLtags(sb);
 		getCaptionXML(sb);
 		if (getListenersToo) {

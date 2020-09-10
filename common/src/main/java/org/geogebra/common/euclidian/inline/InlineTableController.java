@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.HasTextFormat;
+import org.geogebra.common.kernel.geos.properties.BorderType;
 
 public interface InlineTableController extends HasTextFormat {
 
@@ -60,4 +61,16 @@ public interface InlineTableController extends HasTextFormat {
 	void removeRow();
 
 	void removeColumn();
+
+	void setBorderThickness(int borderThickness);
+
+	int getBorderThickness();
+
+	void setBorderStyle(BorderType borderType);
+
+	BorderType getBorderStyle();
+
+	void setWrapping(String setting);
+
+	String getWrapping();
 }
