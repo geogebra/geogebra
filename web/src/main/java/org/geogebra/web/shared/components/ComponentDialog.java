@@ -151,7 +151,7 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 		if (positiveAction != null) {
 			positiveAction.run();
 		}
-		hide();
+		//hide();
 	}
 
 	/**

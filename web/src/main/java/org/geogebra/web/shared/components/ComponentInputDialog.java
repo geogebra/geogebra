@@ -1,0 +1,195 @@
+package org.geogebra.web.shared.components;
+
+import org.geogebra.common.gui.InputHandler;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.full.gui.components.ComponentInputField;
+import org.geogebra.web.full.gui.util.WindowsNativeUIController;
+import org.geogebra.web.html5.gui.HasKeyboardPopup;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
+
+/**
+ * dialog component for dialogs with one input text field
+ * e.g. regular polygon tool dialog
+ */
+public abstract class ComponentInputDialog extends ComponentDialog
+		implements ErrorHandler, KeyUpHandler, KeyPressHandler, HasKeyboardPopup {
+
+	private InputHandler inputHandler;
+	public static final int DEFAULT_COLUMNS = 28;
+	private ComponentInputField inputTextField;
+
+	/**
+	 * base dialog constructor
+	 * @param app - see {@link AppW}
+	 * @param dialogData - contains trans keys for title and buttons
+	 * @param autoHide - if the dialog should be closed on click outside
+	 * @param hasScrim - background should be greyed out
+	 * @param inputHandler - input handler
+	 */
+	public ComponentInputDialog(AppW app, DialogData dialogData,
+			boolean autoHide, boolean hasScrim, InputHandler inputHandler, String labelText,
+			String initText, int rows, int columns, boolean showSymbolPopupIcon) {
+		super(app, dialogData, autoHide, hasScrim);
+		createGUI(labelText, initText, rows, columns, showSymbolPopupIcon);
+		setInputHandler(inputHandler);
+		setOnPositiveAction(this::processInput);
+		if (!app.isWhiteboardActive()) {
+			app.registerPopup(this);
+		}
+
+		this.addCloseHandler(event -> {
+			app.unregisterPopup(this);
+			app.hideKeyboard();
+		});
+	}
+
+	private void createGUI(String labelText, String initText, int rows, int columns,
+			boolean showSymbolPopupIcon) {
+		inputTextField = new ComponentInputField((AppW) app,
+				"", labelText, "", initText, columns, rows,
+				showSymbolPopupIcon, "");
+
+		// add key handler for ENTER if inputPanel uses a text field
+		AutoCompleteTextFieldW textComponent = getTextComponent();
+		if (textComponent != null) {
+			textComponent.getTextField().getValueBox()
+					.addKeyUpHandler(this);
+			textComponent.getTextField().getValueBox()
+					.addKeyPressHandler(this);
+		}
+
+		FlowPanel contentPanel = new FlowPanel();
+		contentPanel.add(inputTextField);
+
+		super.addDialogContent(contentPanel);
+	}
+
+	protected InputHandler getInputHandler() {
+		return inputHandler;
+	}
+
+	protected void setInputHandler(InputHandler inputHandler) {
+		this.inputHandler = inputHandler;
+	}
+
+	protected void processInputHandler(String inputText,
+			AsyncOperation<Boolean> callback) {
+		getInputHandler().processInput(inputText, this, callback);
+	}
+
+	protected void centerAndFocus(final boolean selectInitText) {
+		Scheduler.get().scheduleDeferred(() -> {
+			if (getTextComponent() != null) {
+				getTextComponent().setFocus(true);
+				// Firefox: correct cursor position #5419
+				if (!selectInitText) {
+					getTextComponent().setCaretPosition(
+							getInputText().length());
+				}
+			}
+		});
+	}
+
+	public String getInputText() {
+		return inputTextField.getTextField().getText();
+	}
+
+	/**
+	 * Note: package visibility to make this accessible from anonymous classes
+	 *
+	 * @return single line text input
+	 */
+	AutoCompleteTextFieldW getTextComponent() {
+		return inputTextField == null ? null : inputTextField.getTextField().getTextComponent();
+	}
+
+	@Override
+	public void show() {
+		super.show();
+		inputTextField.focusDeferred();
+	}
+
+	@Override
+	public void hide() {
+		super.hide();
+		new WindowsNativeUIController((AppW) app).hideKeyboard();
+		if (getTextComponent() != null) {
+			getTextComponent().hideTablePopup();
+		}
+	}
+
+	@Override
+	public void showCommandError(String command, String message) {
+		app.getDefaultErrorHandler().showCommandError(command, message);
+	}
+
+	@Override
+	public String getCurrentCommand() {
+		AutoCompleteTextFieldW textComponent = getTextComponent();
+		if (textComponent != null) {
+			return textComponent.getCommand();
+		}
+		return null;
+	}
+
+	@Override
+	public boolean onUndefinedVariables(String string,
+			AsyncOperation<String[]> callback) {
+		return app.getGuiManager().checkAutoCreateSliders(string, callback);
+	}
+
+	@Override
+	public void resetError() {
+		showError(null);
+	}
+
+	@Override
+	public void showError(String msg) {
+		inputTextField.setError(msg);
+	}
+
+	public void processInput() {
+		// avoid labeling of num
+		final Construction cons = app.getKernel().getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		getInputHandler().processInput(getInputText(), this,
+				ok -> {
+					cons.setSuppressLabelCreation(oldVal);
+					if (ok) {
+						toolAction();
+						show();
+					} else {
+						hide();
+					}
+				});
+	}
+
+	/**
+	 * Callback for tool dialogs
+	 */
+	protected void toolAction() {
+		// overridden in subclasses
+	}
+
+	@Override
+	public void onKeyPress(KeyPressEvent event) {
+		// overridden in subclasses
+	}
+
+	@Override
+	public void onKeyUp(KeyUpEvent event) {
+		// overridden in subclasses
+	}
+}

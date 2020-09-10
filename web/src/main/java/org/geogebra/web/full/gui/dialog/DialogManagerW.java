@@ -59,6 +59,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.Clipboard;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.shared.components.ComponentInputDialog;
 import org.geogebra.web.shared.components.DialogData;
 
 import com.google.gwt.core.client.GWT;
@@ -178,9 +179,10 @@ public class DialogManagerW extends DialogManager
 			GeoCoordSys2D direction) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogW id = new InputDialogRegularPolygonW(((AppW) app), ec,
-				title, handler, geoPoint1, geoPoint2, direction);
-		id.setVisible(true);
+		DialogData data = new DialogData(title, "Cancel", "OK");
+		ComponentInputDialog regularPolyInputDialog = new InputDialogRegularPolygonW(((AppW) app), data,
+				ec,	handler, geoPoint1, geoPoint2, direction);
+		regularPolyInputDialog.show();
 	}
 
 	@Override
