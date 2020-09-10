@@ -19,8 +19,7 @@ import org.geogebra.common.util.debug.Log;
  * @author mathieu
  *
  */
-public class CurvePlotter {
-
+public class IntervalPlotter {
 	public static final int MAX_PIXEL_DISTANCE = 10; // pixels
 
 	// maximum angle between two line segments
@@ -46,43 +45,22 @@ public class CurvePlotter {
 
 	private static final double MAX_JUMP = 5;
 
-	/**
-	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
-	 * 
-	 * @param tMin
-	 *            min value of parameter
-	 * @param tMax
-	 *            max value of parameter
-	 * @param curve
-	 *            curve to be drawn
-	 * @param view
-	 *            Euclidian view to be used
-	 * @param gp
-	 *            generalpath that can be drawn afterwards
-	 * @param calcLabelPos
-	 *            whether label position should be calculated and returned
-	 * @param moveToAllowed
-	 *            whether moveTo() may be used for gp
-	 * @return label position as Point
-	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
-	 */
-	public static GPoint plotCurve(CurveEvaluable curve, double tMin,
-			double tMax, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
-			Gap moveToAllowed) {
 
-		// ensure MIN_PLOT_POINTS
-		double minSamplePoints = Math.max(MIN_SAMPLE_POINTS, view.getWidth() / 6);
-		double maxParamStep = Math.abs(tMax - tMin) / minSamplePoints;
-		// plot Interval [tMin, tMax]
-		IntervalPlotter intervalPlotter =
-				new IntervalPlotter(curve, tMin, tMax, 0, maxParamStep, view,
-						gp, calcLabelPos, moveToAllowed);
-		if (moveToAllowed == Gap.CORNER) {
-			gp.corner();
-		}
-
-		return intervalPlotter.plot();
-	}
+	private CurveEvaluable curve;
+	private double tMin;
+	private double tMax;
+	private int intervalDepth;
+	private double maxParamStep;
+	private EuclidianView view;
+	private PathPlotter gp;
+	private boolean needLabelPos;
+	private Gap moveToAllowed;
+	private GPoint labelPoint;
+	private double[] move;
+	private boolean nextLineToNeedsMoveToFirst;
+	private double[] eval;
+	private double[] evalLeft;
+	private double[] evalRigh;
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
@@ -98,33 +76,42 @@ public class CurvePlotter {
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algori5thm by John Gillam
 	 */
-	private static GPoint plotInterval(CurveEvaluable curve, double tMin,
+	public IntervalPlotter(CurveEvaluable curve, double tMin,
 			double tMax, int intervalDepth, double maxParamStep,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
+		this.curve = curve;
+		this.tMin = tMin;
+		this.tMax = tMax;
+		this.intervalDepth = intervalDepth;
+		this.maxParamStep = maxParamStep;
+		this.view = view;
+		this.gp = gp;
 		// plot interval for t in [tMin, tMax]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
 		// the interval and plot both intervals [left, (left + right)/2] and
 		// [(left + right)/2, right]
 		// see catch block
 
-		boolean needLabelPos = calcLabelPos;
-		GPoint labelPoint = null;
+		needLabelPos = calcLabelPos;
+		this.moveToAllowed = moveToAllowed;
+		labelPoint = null;
 
 		// The following algorithm by John Gillam avoids multiple
 		// evaluations of the curve for the same parameter value t
 		// see an explanation of this algorithm below.
 
-		double[] move = curve.newDoubleArray();
-		boolean nextLineToNeedsMoveToFirst = false;
-		double[] eval = curve.newDoubleArray();
-		double[] evalLeft, evalRigh;
+		move = curve.newDoubleArray();
+		nextLineToNeedsMoveToFirst = false;
+		eval = curve.newDoubleArray();
+	}
 
+	public GPoint plot() {
 		// evaluate for tMin
 		curve.evaluateCurve(tMin, eval);
 		if (isUndefined(eval)) {
 			return plotProblemInterval(curve, tMin, tMax, intervalDepth,
-					maxParamStep, view, gp, calcLabelPos, moveToAllowed,
+					maxParamStep, view, gp, needLabelPos, moveToAllowed,
 					labelPoint);
 		}
 		evalLeft = Cloner.clone(eval);
@@ -133,7 +120,7 @@ public class CurvePlotter {
 		curve.evaluateCurve(tMax, eval);
 		if (isUndefined(eval)) {
 			return plotProblemInterval(curve, tMin, tMax, intervalDepth,
-					maxParamStep, view, gp, calcLabelPos, moveToAllowed,
+					maxParamStep, view, gp, needLabelPos, moveToAllowed,
 					labelPoint);
 		}
 		boolean onScreen = view.isOnView(eval);
@@ -197,7 +184,7 @@ public class CurvePlotter {
 					if (!singularity) {
 						return plotProblemInterval(curve, left, tMax,
 								intervalDepth, maxParamStep, view, gp,
-								calcLabelPos, moveToAllowed, labelPoint);
+								needLabelPos, moveToAllowed, labelPoint);
 					}
 					Log.debug("SINGULARITY AT" + t);
 				}
@@ -352,13 +339,16 @@ public class CurvePlotter {
 		if (intervalsTooLarge) {
 			// bisect interval
 			calcLabel = calcLabel && labelPoint == null;
-			labelPointMin = plotInterval(curve, tMin, splitParam, intervalDepth + 1,
+			IntervalPlotter plotterMin = new IntervalPlotter(curve, tMin, splitParam, intervalDepth + 1,
 					maxParamStep, view, gp, calcLabel, moveToAllowed);
+			labelPointMin = plotterMin.plot();
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			calcLabel = calcLabel && labelPointMin == null;
-			labelPointMax = plotInterval(curve, splitParam, tMax, intervalDepth + 1,
-					maxParamStep, view, gp, calcLabel, moveToAllowed);
+			IntervalPlotter plotterMax =
+					new IntervalPlotter(curve, splitParam, tMax, intervalDepth + 1,
+							maxParamStep, view, gp, calcLabel, moveToAllowed);
+			labelPointMax = plotterMax.plot();
 		} else {
 			// look at the end points of the intervals [tMin, (tMin+tMax)/2] and
 			// [(tMin+tMax)/2, tMax]
@@ -372,16 +362,18 @@ public class CurvePlotter {
 			double[] borders = new double[2];
 			getDefinedInterval(curve, tMin, splitParam, borders);
 			calcLabel = calcLabel && labelPoint == null;
-			labelPointMin = plotInterval(curve, borders[0], borders[1],
+			IntervalPlotter plotterMin = new IntervalPlotter(curve, borders[0], borders[1],
 					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
 					moveToAllowed);
+			labelPointMin = plotterMin.plot();
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			getDefinedInterval(curve, splitParam, tMax, borders);
 			calcLabel = calcLabel && labelPointMin == null;
-			labelPointMax = plotInterval(curve, borders[0], borders[1],
+			IntervalPlotter plotterMax = new IntervalPlotter(curve, borders[0], borders[1],
 					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
 					moveToAllowed);
+			labelPointMax = plotterMax.plot();
 		}
 
 		if (labelPoint != null) {

@@ -3,7 +3,7 @@ package org.geogebra.test.euclidian.plot;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.PathPlotter;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
@@ -43,7 +43,7 @@ public class PathPlotterMock implements PathPlotter {
 	}
 
 	@Override
-	public void firstPoint(double[] pos, CurvePlotter.Gap moveToAllowed) {
+	public void firstPoint(double[] pos, Gap moveToAllowed) {
 		addLog("FIRSTPOINT " + moveToAllowed, pos);
 	}
 

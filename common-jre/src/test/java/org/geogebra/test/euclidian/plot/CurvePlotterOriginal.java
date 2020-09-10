@@ -87,7 +87,7 @@ public class CurvePlotterOriginal {
 	 */
 	public static GPoint plotCurve(CurveEvaluable curve, double t1,
 			double t2, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
-			org.geogebra.common.euclidian.plot.CurvePlotter.Gap moveToAllowed) {
+			org.geogebra.common.euclidian.plot.Gap moveToAllowed) {
 
 		// ensure MIN_PLOT_POINTS
 		double minSamplePoints = Math.max(MIN_SAMPLE_POINTS, view.getWidth() / 6);
@@ -95,7 +95,7 @@ public class CurvePlotterOriginal {
 		// plot Interval [t1, t2]
 		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step, view,
 				gp, calcLabelPos, moveToAllowed);
-		if (moveToAllowed == org.geogebra.common.euclidian.plot.CurvePlotter.Gap.CORNER) {
+		if (moveToAllowed == org.geogebra.common.euclidian.plot.Gap.CORNER) {
 			gp.corner();
 		}
 
@@ -119,7 +119,7 @@ public class CurvePlotterOriginal {
 	private static GPoint plotInterval(CurveEvaluable curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
-			org.geogebra.common.euclidian.plot.CurvePlotter.Gap moveToAllowed) {
+			org.geogebra.common.euclidian.plot.Gap moveToAllowed) {
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
 		// the interval and plot both intervals [left, (left + right)/2] and
@@ -267,7 +267,7 @@ public class CurvePlotterOriginal {
 			// add point to general path: lineTo or moveTo?
 			boolean lineTo = true;
 			// TODO
-			if (moveToAllowed == org.geogebra.common.euclidian.plot.CurvePlotter.Gap.MOVE_TO) {
+			if (moveToAllowed == org.geogebra.common.euclidian.plot.Gap.MOVE_TO) {
 				if (segOffScreen) {
 					// don't draw segments that are off screen
 					lineTo = false;
@@ -275,7 +275,7 @@ public class CurvePlotterOriginal {
 					// check for DISCONTINUITY
 					lineTo = isContinuous(curve, left, t, MAX_CONTINUITY_BISECTIONS);
 				}
-			} else if (moveToAllowed == org.geogebra.common.euclidian.plot.CurvePlotter.Gap.CORNER) {
+			} else if (moveToAllowed == org.geogebra.common.euclidian.plot.Gap.CORNER) {
 				gp.corner(eval1);
 			}
 
@@ -366,7 +366,7 @@ public class CurvePlotterOriginal {
 	private static GPoint plotProblemInterval(CurveEvaluable curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
-			org.geogebra.common.euclidian.plot.CurvePlotter.Gap moveToAllowed, GPoint labelPoint) {
+			org.geogebra.common.euclidian.plot.Gap moveToAllowed, GPoint labelPoint) {
 		boolean calcLabel = calcLabelPos;
 		// stop recursion for too many intervals
 		if (intervalDepth > MAX_PROBLEM_BISECTIONS || t1 == t2) {
