@@ -15,7 +15,7 @@ public class PathPlotterMock implements PathPlotter {
 
 	@Override
 	public void drawTo(double[] pos, SegmentType lineTo) {
-
+		addLog("DRAWTO " + lineTo, pos);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class PathPlotterMock implements PathPlotter {
 
 	@Override
 	public boolean supports(CoordSys transformSys) {
-		return false;
+		return true;
 	}
 
 	String result() {
