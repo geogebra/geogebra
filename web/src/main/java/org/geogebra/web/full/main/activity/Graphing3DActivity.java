@@ -1,7 +1,7 @@
 package org.geogebra.web.full.main.activity;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.settings.AppConfigGraphing3D;
+import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.gui.view.algebra.MenuItemCollection;

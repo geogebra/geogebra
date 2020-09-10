@@ -114,6 +114,16 @@ public interface GeoGebraConstants {
 
 	}
 
+	String GRAPHING_APPCODE = "graphing";
+	String GEOMETRY_APPCODE = "geometry";
+	String G3D_APPCODE = "3d";
+	String SCIENTIFIC_APPCODE = "scientific";
+	String CAS_APPCODE = "cas";
+	String SUITE_APPCODE = "suite";
+	String CLASSIC_APPCODE = "classic";
+	String EVALUATOR_APPCODE = "evaluator";
+	String NOTES_APPCODE = "notes";
+
 	/**
 	 * used by version checker, so that sys admins can disable version checking
 	 * for *all* ggb versions with
