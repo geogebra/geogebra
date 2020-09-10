@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.junit.Test;
 
@@ -35,9 +36,9 @@ public class CurvePlotterTest extends BaseUnitTest {
 		PathPlotterMock gp2 = new PathPlotterMock();
 		EuclidianView view = getApp().getActiveEuclidianView();
 		CurvePlotter.plotCurve(f, tMin, tMax, view,
-				gp1, false, CurvePlotter.Gap.MOVE_TO);
+				gp1, false, Gap.MOVE_TO);
 		CurvePlotterOriginal.plotCurve(f, tMin, tMax, view,
-				gp2, false, CurvePlotter.Gap.MOVE_TO);
+				gp2, false, Gap.MOVE_TO);
 		assertEquals(gp1.result(), gp2.result());
 	}
 }

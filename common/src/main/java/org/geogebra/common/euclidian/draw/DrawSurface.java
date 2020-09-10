@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
@@ -131,14 +132,14 @@ public class DrawSurface extends Drawable {
 			curve.set(i, false);
 			CurvePlotter.plotCurve(curve, surface.getMinParameter(1),
 					surface.getMaxParameter(1), view, gp, labelVisible,
-					CurvePlotter.Gap.MOVE_TO);
+					Gap.MOVE_TO);
 		}
 		for (double i = surface.getMinParameter(1); i <= surface
 				.getMaxParameter(1); i++) {
 			curve.set(i, true);
 			CurvePlotter.plotCurve(curve, surface.getMinParameter(0),
 					surface.getMaxParameter(0), view, gp, labelVisible,
-				CurvePlotter.Gap.MOVE_TO);
+				Gap.MOVE_TO);
 		}
 
 	}

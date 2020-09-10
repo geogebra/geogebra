@@ -6,7 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
-import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
+import org.geogebra.common.euclidian.plot.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.arithmetic.Inequality;
