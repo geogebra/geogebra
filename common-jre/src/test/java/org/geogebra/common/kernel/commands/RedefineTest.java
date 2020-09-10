@@ -33,6 +33,7 @@ public class RedefineTest extends Assert {
 		app.getKernel().clearConstruction(true);
 		if (app.getExam() != null) {
 			app.getExam().closeExam();
+			app.fileNew();
 			app.setExam(null);
 		}
 	}

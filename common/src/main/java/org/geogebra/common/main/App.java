@@ -5177,4 +5177,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	public void closeMenuHideKeyboard() {
 		// nothing here
 	}
+
+	public void onCommandDispatcherSet(CommandDispatcher commandDispatcher) {
+		ExamEnvironment examEnvironment = getExam();
+		if (examEnvironment != null) {
+			examEnvironment.setCommandDispatcher(commandDispatcher);
+		}
+	}
 }

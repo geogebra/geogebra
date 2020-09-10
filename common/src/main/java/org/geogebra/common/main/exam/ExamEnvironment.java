@@ -2,6 +2,8 @@ package org.geogebra.common.main.exam;
 
 import java.util.Date;
 
+import javax.annotation.CheckForNull;
+
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
@@ -10,7 +12,6 @@ import org.geogebra.common.kernel.commands.filter.CommandArgumentFilter;
 import org.geogebra.common.kernel.commands.filter.ExamCommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilter;
 import org.geogebra.common.kernel.commands.selector.CommandFilterFactory;
-import org.geogebra.common.main.AppConfig;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.Translation;
 import org.geogebra.common.main.exam.event.CheatingEvent;
@@ -24,7 +25,7 @@ import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
-public abstract class ExamEnvironment {
+public class ExamEnvironment {
 
 	private static final long EXAM_START_TIME_NOT_STARTED = -1;
 
@@ -33,6 +34,17 @@ public abstract class ExamEnvironment {
 
 	/** exam start timestamp (milliseconds) */
 	private long examStartTime = EXAM_START_TIME_NOT_STARTED;
+
+	private Localization localization;
+	private boolean isIncludingSettingsInLog;
+	private String localizedAppName;
+	private CommandDispatcher commandDispatcher;
+
+	@CheckForNull
+	private CopyPaste copyPaste;
+
+	@CheckForNull
+	private CASSettings casSettings;
 
 	private final CheatingEvents cheatingEvents;
 	private long closed = -1;
@@ -48,25 +60,35 @@ public abstract class ExamEnvironment {
 	private boolean temporaryBlur;
 	private boolean wasCasEnabled;
 
-	public ExamEnvironment() {
+	public ExamEnvironment(Localization localization) {
+		this.localization = localization;
 		cheatingEvents = new CheatingEvents();
 	}
 
-	protected abstract Localization getLocalization();
+	public ExamEnvironment withSettingsInLog() {
+		isIncludingSettingsInLog = true;
+		return this;
+	}
 
-	protected abstract CommandDispatcher getCommandDispatcher();
+	protected Localization getLocalization() {
+		return localization;
+	}
 
-	protected abstract boolean isUnbundled();
+	public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
+		this.commandDispatcher = commandDispatcher;
+	}
 
-	protected abstract CopyPaste getCopyPaste();
+	public void setCopyPaste(CopyPaste copyPaste) {
+		this.copyPaste = copyPaste;
+	}
 
-	protected abstract void copyTextToSystemClipboard(String text);
+	protected CopyPaste getCopyPaste() {
+		return copyPaste;
+	}
 
-	protected abstract void clearAll();
-
-	protected abstract AppConfig getConfig();
-
-	protected abstract Settings getSettings();
+	public void setAppName(String appName) {
+		this.localizedAppName = localization.getMenu(appName);
+	}
 
 	/**
 	 * @return exam start timestamp
@@ -145,7 +167,6 @@ public abstract class ExamEnvironment {
 	 * @return The translation identified by the Translation parameter.
 	 */
 	public String getTranslatedString(Translation translation) {
-		Localization localization = getLocalization();
 		switch (translation) {
 		case EXAM_MODE:
 			return localization.getMenu("exam_menu_entry");
@@ -182,21 +203,21 @@ public abstract class ExamEnvironment {
 		// eg "23 October 2015"
 		// don't use \\S for 23rd (not used in eg French)
 		return CmdGetTime.buildLocalizedDate("\\j \\F \\Y",
-				new Date(examStartTime), getLocalization());
+				new Date(examStartTime), localization);
 	}
 
 	/**
 	 * @return The exam start time in localized format.
 	 */
 	public String getStartTime() {
-		return getLocalizedTimeOnly(getLocalization(), examStartTime);
+		return getLocalizedTimeOnly(localization, examStartTime);
 	}
 
 	/**
 	 * @return The exam end time in localized format.
 	 */
 	public String getEndTime() {
-		return getLocalizedTimeOnly(getLocalization(), closed);
+		return getLocalizedTimeOnly(localization, closed);
 	}
 
 	/**
@@ -210,7 +231,7 @@ public abstract class ExamEnvironment {
 			return "";
 		}
 		ExamLogBuilder logBuilder = new ExamLogBuilder();
-		appendLogTimes(getLocalization(), logBuilder, withEndTime);
+		appendLogTimes(localization, logBuilder, withEndTime);
 		return logBuilder.toString().trim();
 	}
 
@@ -342,7 +363,7 @@ public abstract class ExamEnvironment {
 	 *            log builder
 	 */
 	public void getLog(Localization loc, Settings settings, ExamLogBuilder sb) {
-		if (!isUnbundled()) {
+		if (isIncludingSettingsInLog) {
 			appendSettings(loc, settings, sb);
 		}
 		appendStartEnd(loc, sb, true);
@@ -437,8 +458,8 @@ public abstract class ExamEnvironment {
 		CopyPaste copyPaste = getCopyPaste();
 		if (copyPaste != null) {
 			copyPaste.clearClipboard();
+			copyPaste.copyTextToSystemClipboard("");
 		}
-		copyTextToSystemClipboard("");
 	}
 
 	/**
@@ -449,12 +470,10 @@ public abstract class ExamEnvironment {
 		examStartTime = EXAM_START_TIME_NOT_STARTED;
 		disableExamCommandFilter();
 		setShowSyntax(true);
-
-		clearAll();
 	}
 
 	private void setShowSyntax(boolean showSyntax) {
-		CommandErrorMessageBuilder builder = getLocalization().getCommandErrorMessageBuilder();
+		CommandErrorMessageBuilder builder = localization.getCommandErrorMessageBuilder();
 		builder.setShowingSyntax(showSyntax);
 	}
 
@@ -462,14 +481,14 @@ public abstract class ExamEnvironment {
 	 * @return calculator name for status bar
 	 */
 	public String getCalculatorNameForStatusBar() {
-		return getLocalization().getMenu(getConfig().getAppNameShort());
+		return localizedAppName;
 	}
 
 	/**
 	 * @return calculator name for exam log header
 	 */
 	public String getCalculatorNameForHeader() {
-		return getLocalization().getMenu(getConfig().getAppNameShort());
+		return localizedAppName;
 	}
 
 	/**
@@ -565,13 +584,13 @@ public abstract class ExamEnvironment {
 			timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 		}
 		if (examStartTime < 0) {
-			return timeFormatter.format(getLocalization().getLocale(), "%02d:%02d",
+			return timeFormatter.format(localization.getLocale(), "%02d:%02d",
 					0);
 		}
 
 		int millis = (int) (timestamp - examStartTime);
 
-		return timeFormatter.format(getLocalization().getLocale(), "%02d:%02d",
+		return timeFormatter.format(localization.getLocale(), "%02d:%02d",
 				millis);
 	}
 
@@ -587,7 +606,7 @@ public abstract class ExamEnvironment {
 	 * sets the exam command filter for the duration of the exam mode.
 	 */
 	private void enableExamCommandFilter() {
-		getCommandDispatcher().addCommandArgumentFilter(examCommandFilter);
+		commandDispatcher.addCommandArgumentFilter(examCommandFilter);
 	}
 
 	/**
@@ -611,7 +630,7 @@ public abstract class ExamEnvironment {
 	 * the CommandDispatcher
 	 */
 	private void disableExamCommandFilter() {
-		getCommandDispatcher().removeCommandArgumentFilter(examCommandFilter);
+		commandDispatcher.removeCommandArgumentFilter(examCommandFilter);
 	}
 
 	/**
@@ -642,11 +661,12 @@ public abstract class ExamEnvironment {
 
 	/**
 	 * Enables/disables CAS commands.
-	 * 
-	 * @param casEnabled
-	 *            whether CAS is enabled
+	 *
+	 * @param casEnabled  if true, enable, otherwise disable
+	 * @param casSettings cas settings
 	 */
-	public void setCasEnabled(boolean casEnabled) {
+	public void setCasEnabled(boolean casEnabled, CASSettings casSettings) {
+		this.casSettings = casSettings;
 		if (casEnabled) {
 			enableCAS();
 		} else {
@@ -655,16 +675,16 @@ public abstract class ExamEnvironment {
 	}
 
 	private void enableCAS() {
-		getCasSettings().setEnabled(true);
-		getCommandDispatcher().removeCommandFilter(noCASFilter);
+		if (casSettings != null) {
+			casSettings.setEnabled(true);
+		}
+		commandDispatcher.removeCommandFilter(noCASFilter);
 	}
 
 	private void disableCAS() {
-		getCasSettings().setEnabled(false);
-		getCommandDispatcher().addCommandFilter(noCASFilter);
-	}
-
-	private CASSettings getCasSettings() {
-		return getSettings().getCasSettings();
+		if (casSettings != null) {
+			casSettings.setEnabled(false);
+		}
+		commandDispatcher.addCommandFilter(noCASFilter);
 	}
 }
