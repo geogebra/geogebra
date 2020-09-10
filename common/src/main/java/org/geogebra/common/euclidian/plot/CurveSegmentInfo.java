@@ -55,6 +55,10 @@ public class CurveSegmentInfo {
 
 	}
 
+	public boolean isInvalid() {
+		return !angleOK || !distanceOK;
+	}
+
 	/**
 	 * Returns whether the pixel distance from the last point is smaller than
 	 * MAX_PIXEL_DISTANCE in all directions.

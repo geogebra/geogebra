@@ -177,7 +177,6 @@ public class CurvePlotter {
 		int depth = 0;
 		double t = tMin;
 		double left = tMin;
-		boolean distanceOK, angleOK, segOffScreen;
 		CurveSegmentInfo info = new CurveSegmentInfo(view, evalLeft, evalRigh, prevDiff);
 		// Actual plotting algorithm:
 		// use bisection for interval until we reach
@@ -191,7 +190,7 @@ public class CurvePlotter {
 			// bisect interval as long as max bisection depth not reached & ...
 			while (depth < MAX_DEFINED_BISECTIONS
 					// ... distance not ok or angle not ok or step too big
-					&& (!info.isDistanceOK() || !info.isAngleOK()
+					&& (info.isInvalid()
 							|| divisors[depth] > maxParamStep)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
 					// 0, 6]
@@ -222,38 +221,15 @@ public class CurvePlotter {
 
 				evalRigh = Cloner.clone(eval);
 				diff = view.getOnScreenDiff(evalLeft, evalRigh);
+				countDiffZeros = isDiffZero(diff) ? countDiffZeros +1: 0;
 
-				if (DoubleUtil.isZero(diff[0]) && DoubleUtil.isZero(diff[1])) {
-					countDiffZeros++;
-				} else {
-					countDiffZeros = 0;
-				}
 
-				// segment from last point off screen?
-				segOffScreen = view.isSegmentOffView(evalLeft, evalRigh);
-				// pixel distance from last point OK?
-				distanceOK = segOffScreen || isDistanceOK(diff);
-				// angle from last segment OK?
-				angleOK = isAngleOK(prevDiff, diff, segOffScreen
-						? MAX_BEND_OFF_SCREEN : MAX_BEND);
 				info.update(evalLeft, evalRigh, diff, prevDiff);
 
 			} // end of while-loop for interval bisections
 
 			// add point to general path: lineTo or moveTo?
-			boolean lineTo = true;
-			// TODO
-			if (moveToAllowed == Gap.MOVE_TO) {
-				if (info.isOffScreen()) {
-					// don't draw segments that are off screen
-					lineTo = false;
-				} else if (!info.isAngleOK() || !info.isDistanceOK()) {
-					// check for DISCONTINUITY
-					lineTo = isContinuous(curve, left, t, MAX_CONTINUITY_BISECTIONS);
-				}
-			} else if (moveToAllowed == Gap.CORNER) {
-				gp.corner(evalRigh);
-			}
+			boolean lineTo = isLineTo(curve, gp, moveToAllowed, evalRigh, t, left, info);
 
 			// do lineTo or moveTo
 			if (lineTo) {
@@ -314,6 +290,28 @@ public class CurvePlotter {
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		gp.endPlot();
 		return labelPoint;
+	}
+
+	private static boolean isLineTo(CurveEvaluable curve, PathPlotter gp, Gap moveToAllowed,
+			double[] evalRigh, double t, double left, CurveSegmentInfo info) {
+		boolean lineTo = true;
+		// TODO
+		if (moveToAllowed == Gap.MOVE_TO) {
+			if (info.isOffScreen()) {
+				// don't draw segments that are off screen
+				lineTo = false;
+			} else if (info.isInvalid()) {
+				// check for DISCONTINUITY
+				lineTo = isContinuous(curve, left, t, MAX_CONTINUITY_BISECTIONS);
+			}
+		} else if (moveToAllowed == Gap.CORNER) {
+			gp.corner(evalRigh);
+		}
+		return lineTo;
+	}
+
+	private static boolean isDiffZero(double[] diff) {
+		return DoubleUtil.isZero(diff[0]) && DoubleUtil.isZero(diff[1]);
 	}
 
 	private static double[] createDivisors(double tMin, double tMax, int length) {
@@ -442,58 +440,6 @@ public class CurvePlotter {
 
 		// c(t-eps) or c(t+eps) is undefined
 		return false;
-	}
-
-	/**
-	 * Returns whether the pixel distance from the last point is smaller than
-	 * MAX_PIXEL_DISTANCE in all directions.
-	 */
-	private static boolean isDistanceOK(double[] diff) {
-		for (double d : diff) {
-			if (Math.abs(d) > MAX_PIXEL_DISTANCE) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Returns whether the angle between the vectors (vx, vy) and (wx, wy) is
-	 * smaller than MAX_BEND, where MAX_BEND = tan(MAX_ANGLE).
-	 */
-	private static boolean isAngleOK(double[] v, double[] w, double bend) {
-		// |v| * |w| * sin(alpha) = |det(v, w)|
-		// cos(alpha) = v . w / (|v| * |w|)
-		// tan(alpha) = sin(alpha) / cos(alpha)
-		// tan(alpha) = |det(v, w)| / v . w
-
-		// small angle: tan(alpha) < MAX_BEND
-		// |det(v, w)| / v . w < MAX_BEND
-		// |det(v, w)| < MAX_BEND * (v . w)
-
-		double innerProduct = 0;
-		for (int i = 0; i < v.length; i++) {
-			innerProduct += v[i] * w[i];
-		}
-		if (isUndefined(innerProduct)) {
-			return true;
-		} else if (innerProduct <= 0) {
-			// angle >= 90 degrees
-			return false;
-		} else {
-			// angle < 90 degrees
-			// small angle: |det(v, w)| < MAX_BEND * (v . w)
-			double det;
-			if (v.length < 3) {
-				det = Math.abs(v[0] * w[1] - v[1] * w[0]);
-			} else {
-				double d1 = v[0] * w[1] - v[1] * w[0];
-				double d2 = v[1] * w[2] - v[2] * w[1];
-				double d3 = v[2] * w[0] - v[0] * w[2];
-				det = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
-			}
-			return det < bend * innerProduct;
-		}
 	}
 
 	/**
