@@ -1695,6 +1695,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
+	/**
+	 * @param callingFrom method of calling (for logging it)
+	 * @return allDrawableList
+	 */
 	public DrawableList getAllDrawableList(String callingFrom) {
 		if (shouldLogListAccess) {
 			CrashlyticsHelper.log("getAllDrawableList(...) called from " + callingFrom);
@@ -1750,6 +1754,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
+	/**
+	 * @param callingFrom method of calling (for logging it)
+	 * @return bgImageList
+	 */
 	private DrawableList getBgImageList(String callingFrom) {
 		if (shouldLogListAccess) {
 			CrashlyticsHelper.log("getBgImageList(...) called from " + callingFrom);
