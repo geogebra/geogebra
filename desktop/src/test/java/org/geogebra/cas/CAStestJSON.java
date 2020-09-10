@@ -1447,6 +1447,12 @@ public class CAStestJSON {
 	}
 
 	@Test
+	public void testIntegralSymbolic() {
+		testCat("IntegralSymbolic.1");
+		testCat("IntegralSymbolic.2");
+	}
+
+	@Test
 	public void testInequalityOperation() {
 		testCat("InequalityOperation");
 	}

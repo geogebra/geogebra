@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.StringUtil;
 
 /**
  * Algorithm for the Sequence[ expression of var, var, from-value, to-value,
@@ -126,8 +125,8 @@ public class AlgoSequenceRange extends AlgoElement {
 			}
 		}
 
-		list.setTypeStringForXML(StringUtil.toLowerCaseUS(var_to
-				.getGeoClassType().xmlName));
+		list.setTypeStringForXML(var_to
+				.getGeoClassType().xmlName);
 		setOutputLength(1);
 		setOutput(0, list);
 

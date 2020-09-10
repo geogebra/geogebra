@@ -18,7 +18,8 @@ public class AlgebraMenuItemCollectionCAS extends AlgebraMenuItemCollection {
 		super(algebraView);
 		AlgebraProcessor processor = algebraView.getApp().getKernel().getAlgebraProcessor();
 		addAction(0, new SolveItem());
-		addAction(5, new CreateSliderItem(processor));
-		addAction(5, new RemoveSliderItem(processor));
+		addAction(6, new CreateSliderItem(processor));
+		addAction(6, new RemoveSliderItem(processor));
+
 	}
 }
