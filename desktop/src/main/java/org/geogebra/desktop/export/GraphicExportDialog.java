@@ -1033,7 +1033,12 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			int currentLayer = 0;
 
 			g.startGroup("layer" + currentLayer);
-			for (Drawable d : ev.allDrawableList) {
+			String currentMethod =
+					"GraphicExportDialog.exportSVG(App app, EuclidianView ev, OutputStream file,\n"
+					+ "\t\t\tboolean textAsShapes, int pixelWidth, int pixelHeight,\n"
+					+ "\t\t\tdouble cmWidth, double cmHeight, double exportScale,\n"
+					+ "\t\t\tboolean transparent0)";
+			for (Drawable d : ev.getAllDrawableList(currentMethod)) {
 				if (d.getGeoElement().getLayer() != currentLayer) {
 					g.endGroup("layer" + currentLayer);
 					currentLayer = d.getGeoElement().getLayer();
