@@ -21,7 +21,19 @@ public class CardInfoPanel extends FlowPanel {
 	public CardInfoPanel(String id, Widget titleWidget) {
 		setStyleName("cardInfoPanel");
 		addIdLabel(id);
-		addTitleWidget(titleWidget);
+		add(titleWidget);
+	}
+
+	/**
+	 *
+	 * @param heading text.
+	 * @param title text.
+	 */
+	public CardInfoPanel(String heading, String title) {
+		setStyleName("cardInfoPanel");
+		addIdLabel(heading);
+		titleLabel = new Label(title);
+		addTitleWidget(titleLabel);
 	}
 
 	public CardInfoPanel() {
@@ -37,18 +49,6 @@ public class CardInfoPanel extends FlowPanel {
 	private void addTitleWidget(Widget titleRow) {
 		titleRow.setStyleName("cardAuthor");
 		add(titleRow);
-	}
-
-	/**
-	 *
-	 * @param heading text.
-	 * @param title text.
-	 */
-	public CardInfoPanel(String heading, String title) {
-		setStyleName("cardInfoPanel");
-		addIdLabel(heading);
-		titleLabel = new Label(title);
-		addTitleWidget(titleLabel);
 	}
 
 	/**
@@ -81,6 +81,6 @@ public class CardInfoPanel extends FlowPanel {
 	 * @return the card subtitle if it is a label.
 	 */
 	public String getCardTitle() {
-		return titleLabel != null ?  titleLabel.getText() : "";
+		return titleLabel != null ? titleLabel.getText() : "";
 	}
 }
