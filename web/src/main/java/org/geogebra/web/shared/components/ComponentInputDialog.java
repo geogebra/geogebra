@@ -142,6 +142,10 @@ public abstract class ComponentInputDialog extends ComponentDialog
 		}
 	}
 
+	/**
+	 * process input, show error if input wrong,
+	 * otherwise hide dialog
+	 */
 	public void processInput() {
 		// avoid labeling of num
 		final Construction cons = app.getKernel().getConstruction();
@@ -153,7 +157,7 @@ public abstract class ComponentInputDialog extends ComponentDialog
 					cons.setSuppressLabelCreation(oldVal);
 					if (ok) {
 						toolAction();
-						show();
+						hide();
 					}
 				});
 	}

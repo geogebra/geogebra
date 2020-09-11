@@ -53,7 +53,7 @@ public class ContextMenuButtonPreviewCard extends ContextMenuButtonCard {
 	}
 
 	private void onRename() {
-		DialogData data = new DialogData("Rename", "Cancel", "OK");
+		DialogData data = new DialogData("Rename");
 		PreviewCardRenameDialog renameDialog = new PreviewCardRenameDialog(app, data, card);
 		renameDialog.show();
 		renameDialog.selectAll();

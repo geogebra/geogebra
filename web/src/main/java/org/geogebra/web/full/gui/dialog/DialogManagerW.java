@@ -121,7 +121,7 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public void showBooleanCheckboxCreationDialog(GPoint position,
 			GeoBoolean bool) {
-		DialogData data = new DialogData("CheckBoxTitle", "Cancel", "OK");
+		DialogData data = new DialogData("CheckBoxTitle");
 		CheckboxCreationDialogW dlg = new CheckboxCreationDialogW((AppW) app,
 				data, position, bool);
 		dlg.show();
@@ -179,9 +179,9 @@ public class DialogManagerW extends DialogManager
 			GeoCoordSys2D direction) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		DialogData data = new DialogData(title, "Cancel", "OK");
-		ComponentInputDialog regularPolyInputDialog = new InputDialogRegularPolygonW(((AppW) app), data,
-				ec,	handler, geoPoint1, geoPoint2, direction);
+		DialogData data = new DialogData(title);
+		ComponentInputDialog regularPolyInputDialog = new InputDialogRegularPolygonW(((AppW) app),
+				data, ec, handler, geoPoint1, geoPoint2, direction);
 		regularPolyInputDialog.show();
 	}
 
@@ -213,7 +213,7 @@ public class DialogManagerW extends DialogManager
 	@Override
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
 		DialogData data = new DialogData(textfield ? "TextFieldAction"
-				: "ButtonAction", "Cancel", "OK");
+				: "ButtonAction");
 		ButtonDialogW buttonDialog = new ButtonDialogW(((AppW) app), x, y,
 				data, textfield);
 		buttonDialog.show();
@@ -374,7 +374,7 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public boolean showSliderCreationDialog(int x, int y) {
-		DialogData data = new DialogData("Slider", "Cancel", "OK");
+		DialogData data = new DialogData("Slider");
 		SliderDialogW sliderDialog = new SliderDialogW(((AppW) app), data, x, y);
 		sliderDialog.show();
 		return true;
@@ -406,7 +406,7 @@ public class DialogManagerW extends DialogManager
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		DialogData data = new DialogData(title, "Cancel", "OK");
+		DialogData data = new DialogData(title);
 		InputDialogDilateW dilateInputDialog = new InputDialogDilateW(((AppW) app), data, handler,
 				points, selGeos, app.getKernel(), ec);
 		dilateInputDialog.show();
@@ -630,7 +630,7 @@ public class DialogManagerW extends DialogManager
 
 	@Override
 	public void openTableViewDialog(GeoElement geo) {
-		DialogData data = new DialogData("TableOfValues", "Cancel", "OK");
+		DialogData data = new DialogData("TableOfValues");
 		InputDialogTableView tableViewDialog = new InputDialogTableView((AppW) app, data);
 		tableViewDialog.show(geo);
 	}
