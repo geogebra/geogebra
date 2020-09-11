@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel;
 
 import java.util.ListIterator;
+import java.util.Objects;
 
 import org.geogebra.common.plugin.EventType;
 
@@ -120,6 +121,10 @@ public class UndoCommand {
 					args[0], args[2], args[1]);
 		} else if (action == EventType.EMBEDDED_STORE_UNDO) {
 			mgr.embeddedAction(EventType.UNDO, args[0]);
+		} else if (action == EventType.ADD) {
+			mgr.executeAction(EventType.REMOVE, null, args[0]);
+		} else if (action == EventType.UPDATE) {
+			mgr.executeAction(EventType.UPDATE, null, args[0], args[2], args[1]);
 		}
 	}
 
@@ -173,9 +178,6 @@ public class UndoCommand {
 		if (appState == null || !appState.equalsTo(other.appState)) {
 			return false;
 		}
-		if (slideID != null ? !slideID.equals(other.slideID) : other.slideID != null) {
-			return false;
-		}
-		return true;
+		return Objects.equals(slideID, other.slideID);
 	}
 }

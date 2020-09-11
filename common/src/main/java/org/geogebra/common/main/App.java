@@ -71,6 +71,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
@@ -1030,16 +1031,19 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 	}
 
+	public UndoManager getUndoManager() {
+		return kernel.getConstruction().getUndoManager();
+	}
+
 	public void setPropertiesOccured() {
-		getKernel().getConstruction().getUndoManager().setPropertiesOccured();
+		getUndoManager().setPropertiesOccured();
 	}
 
 	/**
 	 * Store undo point for properties change.
 	 */
 	public void storeUndoInfoForProperties() {
-		getKernel().getConstruction().getUndoManager()
-				.storeUndoInfoForProperties(isUndoActive());
+		getUndoManager().storeUndoInfoForProperties(isUndoActive());
 	}
 
 	public boolean letRename() {

@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EmbedManager;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.undoredo.UndoInfoStoredListener;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 
@@ -120,7 +121,15 @@ public abstract class UndoManager {
 	 */
 	public void executeAction(EventType action, AppState state,
 			String... args) {
-		app.executeAction(action, state, args);
+		if (action == EventType.REMOVE) {
+			app.getGgbApi().deleteObject(args[0]);
+		} else if (action == EventType.ADD) {
+			app.getGgbApi().evalXML(args[1]);
+		} else if (action == EventType.UPDATE) {
+			app.getGgbApi().evalXML(args[2]);
+		} else {
+			app.executeAction(action, state, args);
+		}
 	}
 
 	/**
@@ -433,5 +442,15 @@ public abstract class UndoManager {
 				Log.warn("No undo possible for embed " + id);
 			}
 		}
+	}
+
+	/**
+	 * Store action and notify listeners
+	 * @param type action type
+	 * @param args arguments
+	 */
+	public void storeUndoableAction(EventType type, String... args) {
+		storeAction(type, args);
+		app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO));
 	}
 }

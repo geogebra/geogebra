@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -73,11 +74,11 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	protected boolean deleteInitialPoint = false;
 
-	private GTimer timer = null;
+	private GTimer timer;
 
 	private int penLineStyle;
 	private GColor penColor = GColor.BLACK;
-	private PenPreviewLine penPreviewLine;
+	private final PenPreviewLine penPreviewLine;
 
 	/************************************************
 	 * Construct EuclidianPen
@@ -427,14 +428,12 @@ public class EuclidianPen implements GTimerListener {
 	 * @param y
 	 *            y-coord
 	 *
-	 * @return true if a GeoElement was created
-	 *
 	 */
-	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y,
+	public void handleMouseReleasedForPenMode(boolean right, int x, int y,
 												 boolean isPinchZooming) {
 		view.invalidateCache();
 		if (right || penPoints.size() == 0) {
-			return false;
+			return;
 		}
 
 		if (isPinchZooming && penPoints.size() < 2) {
@@ -442,6 +441,10 @@ public class EuclidianPen implements GTimerListener {
 		}
 
 		timer.start();
+		String oldXML = null;
+		if (lastAlgo != null && !startNewStroke) {
+			oldXML = lastAlgo.getXML();
+		}
 
 		app.setDefaultCursor();
 
@@ -450,8 +453,15 @@ public class EuclidianPen implements GTimerListener {
 		penPoints.clear();
 		// drawing done, so no need for repaint
 		needsRepaint = false;
+		String label = lastAlgo.getOutput(0).getLabelSimple();
 
-		return true;
+		if (oldXML == null) {
+			app.getUndoManager().storeUndoableAction(EventType.ADD, label,
+					lastAlgo.getXML());
+		} else {
+			app.getUndoManager().storeUndoableAction(EventType.UPDATE, label,
+					oldXML, lastAlgo.getXML());
+		}
 	}
 
 	/**
@@ -513,8 +523,6 @@ public class EuclidianPen implements GTimerListener {
 
 		poly.setSelected(false);
 		poly.updateRepaint();
-
-		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
 
 	/**
