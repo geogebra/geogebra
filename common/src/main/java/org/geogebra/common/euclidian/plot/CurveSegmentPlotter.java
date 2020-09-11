@@ -19,7 +19,7 @@ import org.geogebra.common.util.debug.Log;
  * @author mathieu
  *
  */
-public class IntervalPlotter {
+public class CurveSegmentPlotter {
 	public static final int MAX_PIXEL_DISTANCE = 10; // pixels
 
 	// maximum angle between two line segments
@@ -76,7 +76,7 @@ public class IntervalPlotter {
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algori5thm by John Gillam
 	 */
-	public IntervalPlotter(CurveEvaluable curve, double tMin,
+	public CurveSegmentPlotter(CurveEvaluable curve, double tMin,
 			double tMax, int intervalDepth, double maxParamStep,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
@@ -346,14 +346,15 @@ public class IntervalPlotter {
 		if (intervalsTooLarge) {
 			// bisect interval
 			calcLabel = calcLabel && labelPoint == null;
-			IntervalPlotter plotterMin = new IntervalPlotter(curve, tMin, splitParam, intervalDepth + 1,
+			CurveSegmentPlotter
+					plotterMin = new CurveSegmentPlotter(curve, tMin, splitParam, intervalDepth + 1,
 					maxParamStep, view, gp, calcLabel, moveToAllowed);
 			labelPointMin = plotterMin.plot();
 
 			// plot interval [(tMin+tMax)/2, tMax]
 			calcLabel = calcLabel && labelPointMin == null;
-			IntervalPlotter plotterMax =
-					new IntervalPlotter(curve, splitParam, tMax, intervalDepth + 1,
+			CurveSegmentPlotter plotterMax =
+					new CurveSegmentPlotter(curve, splitParam, tMax, intervalDepth + 1,
 							maxParamStep, view, gp, calcLabel, moveToAllowed);
 			labelPointMax = plotterMax.plot();
 		} else {
@@ -369,7 +370,7 @@ public class IntervalPlotter {
 			double[] borders = new double[2];
 			getDefinedInterval(curve, tMin, splitParam, borders);
 			calcLabel = calcLabel && labelPoint == null;
-			IntervalPlotter plotterMin = new IntervalPlotter(curve, borders[0], borders[1],
+			CurveSegmentPlotter plotterMin = new CurveSegmentPlotter(curve, borders[0], borders[1],
 					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
 					moveToAllowed);
 			labelPointMin = plotterMin.plot();
@@ -377,7 +378,7 @@ public class IntervalPlotter {
 			// plot interval [(tMin+tMax)/2, tMax]
 			getDefinedInterval(curve, splitParam, tMax, borders);
 			calcLabel = calcLabel && labelPointMin == null;
-			IntervalPlotter plotterMax = new IntervalPlotter(curve, borders[0], borders[1],
+			CurveSegmentPlotter plotterMax = new CurveSegmentPlotter(curve, borders[0], borders[1],
 					intervalDepth + 1, maxParamStep, view, gp, calcLabel,
 					moveToAllowed);
 			labelPointMax = plotterMax.plot();
