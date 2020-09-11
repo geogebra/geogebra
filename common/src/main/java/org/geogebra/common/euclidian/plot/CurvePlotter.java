@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian.plot;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 
 /**
@@ -12,12 +11,6 @@ import org.geogebra.common.kernel.kernelND.CurveEvaluable;
  *
  */
 public class CurvePlotter {
-
-	public static final int MAX_PIXEL_DISTANCE = 10; // pixels
-
-	// maximum angle between two line segments
-	private static final double MAX_ANGLE = 10; // degrees
-	public static final double MAX_BEND = Math.tan(MAX_ANGLE * Kernel.PI_180);
 
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
@@ -50,13 +43,13 @@ public class CurvePlotter {
 		double minSamplePoints = Math.max(MIN_SAMPLE_POINTS, view.getWidth() / 6);
 		double maxParamStep = Math.abs(tMax - tMin) / minSamplePoints;
 		// plot Interval [tMin, tMax]
-		IntervalPlotter intervalPlotter =
-				new IntervalPlotter(curve, tMin, tMax, 0, maxParamStep, view,
+		CurveSegmentPlotter curveSegmentPlotter =
+				new CurveSegmentPlotter(curve, tMin, tMax, 0, maxParamStep, view,
 						gp, calcLabelPos, moveToAllowed);
 		if (moveToAllowed == Gap.CORNER) {
 			gp.corner();
 		}
 
-		return intervalPlotter.plot();
+		return curveSegmentPlotter.plot();
 	}
 }

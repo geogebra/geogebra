@@ -1,6 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import org.geogebra.common.euclidian.plot.IntervalPlotter;
+import org.geogebra.common.euclidian.plot.CurveSegmentPlotter;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -58,7 +58,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 		brush.setLength(1f);
 
 		try {
-            IntervalPlotter.draw(brush, getLocus().getPoints(), transformCoordSys);
+            CurveSegmentPlotter.draw(brush, getLocus().getPoints(), transformCoordSys);
             setGeometryIndex(brush.end());
         } catch (Exception e) {
 		    setGeometryIndex(-1);
