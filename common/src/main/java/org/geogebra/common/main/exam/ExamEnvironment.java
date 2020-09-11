@@ -65,17 +65,16 @@ public class ExamEnvironment {
 		cheatingEvents = new CheatingEvents();
 	}
 
-	public ExamEnvironment withSettingsInLog() {
-		isIncludingSettingsInLog = true;
-		return this;
-	}
-
-	protected Localization getLocalization() {
-		return localization;
+	public void setIncludingSettingsInLog(boolean includingSettingsInLog) {
+		isIncludingSettingsInLog = includingSettingsInLog;
 	}
 
 	public void setCommandDispatcher(CommandDispatcher commandDispatcher) {
 		this.commandDispatcher = commandDispatcher;
+	}
+
+	protected Localization getLocalization() {
+		return localization;
 	}
 
 	public void setCopyPaste(CopyPaste copyPaste) {

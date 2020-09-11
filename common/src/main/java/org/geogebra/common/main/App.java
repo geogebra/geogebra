@@ -5174,6 +5174,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		ExamEnvironment examEnvironment = getExam();
 		if (examEnvironment != null) {
 			examEnvironment.setCommandDispatcher(commandDispatcher);
+			examEnvironment.setIncludingSettingsInLog(!isUnbundled());
 		}
 	}
 }
