@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Platform;
@@ -5174,7 +5175,12 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		ExamEnvironment examEnvironment = getExam();
 		if (examEnvironment != null) {
 			examEnvironment.setCommandDispatcher(commandDispatcher);
-			examEnvironment.setIncludingSettingsInLog(!isUnbundled());
+			updateExam(examEnvironment);
 		}
+	}
+
+	protected void updateExam(@Nonnull ExamEnvironment examEnvironment) {
+		examEnvironment.setIncludingSettingsInLog(!isUnbundled());
+		examEnvironment.setCopyPaste(getCopyPaste());
 	}
 }
