@@ -1233,12 +1233,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		this.updateCurrentWord(false);
 
 		setCaretPosition(newPos, false);
-
-		// TODO: tried to keep the Mac OS from auto-selecting the field by
-		// resetting the
-		// caret, but not working yet
-		// setCaret(new DefaultCaret());
-		// setCaretPosition(newPos);
 	}
 
 	private int getSelectionEnd() {

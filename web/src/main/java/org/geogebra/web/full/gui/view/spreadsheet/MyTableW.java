@@ -1705,8 +1705,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					KeyboardManagerInterface keyboardManager = app.getKeyboardManager();
 					if (keyboardManager != null) {
 						app.showKeyboard(textField,
-								keyboardManager
-										.shouldKeyboardBeShown());
+								!keyboardManager.isKeyboardClosedByUser());
 					} else {
 						app.showKeyboard(textField, true);
 					}

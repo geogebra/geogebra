@@ -203,11 +203,6 @@ public class KeyboardManager
 	}
 
 	@Override
-	public boolean shouldKeyboardBeShown() {
-		return keyboard != null && keyboard.shouldBeShown();
-	}
-
-	@Override
 	public void updateKeyboardLanguage() {
 		if (keyboard != null) {
 			keyboard.checkLanguage();
@@ -270,9 +265,7 @@ public class KeyboardManager
 		}
 	}
 
-	/**
-	 * @return whether keyboard was closed by clicking the X button
-	 */
+	@Override
 	public boolean isKeyboardClosedByUser() {
 		return this.keyboard != null && !this.keyboard.shouldBeShown();
 	}
