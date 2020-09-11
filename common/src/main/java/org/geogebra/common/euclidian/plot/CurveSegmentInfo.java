@@ -90,7 +90,7 @@ public class CurveSegmentInfo {
 		for (int i = 0; i < v.length; i++) {
 			innerProduct += v[i] * w[i];
 		}
-		if (CurvePlotter.isUndefined(innerProduct)) {
+		if (IntervalPlotter.isUndefined(innerProduct)) {
 			return true;
 		} else if (innerProduct <= 0) {
 			// angle >= 90 degrees
