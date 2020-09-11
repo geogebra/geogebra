@@ -8,6 +8,8 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentInputDialog;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Dialog manager for 3D
@@ -89,10 +91,10 @@ public class DialogManager3DW extends DialogManagerW {
 
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogW id = new InputDialogRotateAxisW(((AppW) app), title,
+		DialogData data = new DialogData(title);
+		ComponentInputDialog id = new InputDialogRotateAxisW(((AppW) app), data,
 				handler, polys, selectedLines, selGeos, ec);
 		id.setVisible(true);
 
 	}
-
 }

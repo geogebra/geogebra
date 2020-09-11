@@ -205,8 +205,9 @@ public class DialogManagerW extends DialogManager
 
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+		DialogData data = new DialogData(title);
 		AngleInputDialogW id = new AngleInputDialogW(((AppW) app), message,
-				title, initText, false, handler, true);
+				data, initText, handler, true);
 		id.setVisible(true);
 	}
 
@@ -385,7 +386,8 @@ public class DialogManagerW extends DialogManager
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogRotateW id = new InputDialogRotatePointW(((AppW) app), title,
+		DialogData data = new DialogData(title);
+		InputDialogRotateW id = new InputDialogRotatePointW(((AppW) app), data,
 				handler, polys, points, selGeos, ec);
 		id.setVisible(true);
 	}
@@ -396,8 +398,9 @@ public class DialogManagerW extends DialogManager
 			EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
+		DialogData data = new DialogData(title);
 		InputDialogAngleFixedW id = new InputDialogAngleFixedW(((AppW) app),
-				title, handler, segments, points, app.getKernel(), ec);
+				data, handler, segments, points, app.getKernel(), ec);
 		id.setVisible(true);
 	}
 

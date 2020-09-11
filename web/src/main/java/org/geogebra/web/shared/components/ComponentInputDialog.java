@@ -18,7 +18,6 @@ import com.google.gwt.core.client.Scheduler;
  */
 public abstract class ComponentInputDialog extends ComponentDialog
 		implements ErrorHandler, HasKeyboardPopup {
-
 	private InputHandler inputHandler;
 	private ComponentInputField inputTextField;
 
@@ -91,7 +90,7 @@ public abstract class ComponentInputDialog extends ComponentDialog
 	 *
 	 * @return single line text input
 	 */
-	AutoCompleteTextFieldW getTextComponent() {
+	protected AutoCompleteTextFieldW getTextComponent() {
 		return inputTextField == null ? null : inputTextField.getTextField().getTextComponent();
 	}
 

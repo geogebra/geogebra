@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.DialogData;
 
 /**
  * Dialog for rotation around a point
@@ -19,8 +20,8 @@ public class InputDialogRotatePointW extends InputDialogRotateW {
 	/**
 	 * @param app
 	 *            application
-	 * @param title
-	 *            title
+	 * @param data
+	 *            dialog data
 	 * @param handler
 	 *            input handler
 	 * @param polys
@@ -32,16 +33,16 @@ public class InputDialogRotatePointW extends InputDialogRotateW {
 	 * @param ec
 	 *            controller
 	 */
-	public InputDialogRotatePointW(AppW app, String title,
+	public InputDialogRotatePointW(AppW app, DialogData data,
 			InputHandler handler, GeoPolygon[] polys, GeoPointND[] points,
 			GeoElement[] selGeos, EuclidianController ec) {
-		super(app, title, handler, polys, selGeos, ec);
+		super(app, data, handler, polys, selGeos, ec);
 		this.points = points;
 	}
 
 	@Override
 	protected void processInput(AsyncOperation<String> callback) {
-		DialogManager.rotateObject(app, inputPanel.getText(),
+		DialogManager.rotateObject(app, getInputText(),
 				rbClockWise.getValue(), polys,
 				new DialogManager.CreateGeoForRotatePoint(points[0]), selGeos,
 				ec, this,

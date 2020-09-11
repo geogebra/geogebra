@@ -13,16 +13,16 @@ the Free Software Foundation.
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.shared.components.ComponentInputDialog;
+import org.geogebra.web.shared.components.DialogData;
 
-import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class AngleInputDialogW extends InputDialogW {
+public class AngleInputDialogW extends ComponentInputDialog {
 
 	protected RadioButton rbCounterClockWise;
 	protected RadioButton rbClockWise;
@@ -30,13 +30,19 @@ public class AngleInputDialogW extends InputDialogW {
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
-	public AngleInputDialogW(AppW app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler,
-			boolean modal) {
-		super(modal, app, true);
+	public AngleInputDialogW(AppW app, String message, DialogData data,
+			String initString, InputHandler handler, boolean modal) {
+		super(app, data, true, false, handler,
+				app.getLocalization().getMenu(message), initString,
+				1, -1, false);
+		super.setModal(modal);
 		setInputHandler(handler);
-		setInitString(initString);
+		extendGUI();
+	}
 
+	private void extendGUI() {
+		//setInitString(initString);
+		Localization loc = app.getLocalization();
 		// create radio buttons for "clockwise" and "counter clockwise"
 		String id = DOM.createUniqueId();
 		rbCounterClockWise = new RadioButton(id,
@@ -44,38 +50,39 @@ public class AngleInputDialogW extends InputDialogW {
 		rbClockWise = new RadioButton(id, loc.getMenu("clockwise"));
 		rbCounterClockWise.setValue(true);
 
-		HorizontalPanel rbPanel = new HorizontalPanel();
+		FlowPanel rbPanel = new FlowPanel();
 		rbPanel.setStyleName("DialogRbPanel");
 		rbPanel.add(rbCounterClockWise);
 		rbPanel.add(rbClockWise);
 
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1,
-				true, false);
+		/*createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1,
+				true, false);*/
 
-		VerticalPanel centerPanel = new VerticalPanel();
+		/*VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(messagePanel);
 		centerPanel.add(inputPanel);
 		centerPanel.add(errorPanel);
 		centerPanel.add(rbPanel);
-		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);
+		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);*/
 
-		wrappedPopup.center();
-		inputPanel.getTextComponent().setFocus(true);
+		//wrappedPopup.center();
+		addDialogContent(rbPanel);
+		getTextComponent().setFocus(true);
 	}
 
-	public boolean isCounterClockWise() {
+	/*public boolean isCounterClockWise() {
 		return rbCounterClockWise.getValue();
-	}
+	}*/
 
-	@Override
+	/*@Override
 	protected void actionPerformed(DomEvent<?> e) {
 		Object source = e.getSource();
 
 		try {
 
 			if (source == btOK || sourceShouldHandleOK(source)) {
-				String inputTextWithSign = inputPanel.getText();
-				inputPanel.getTextComponent().hideTablePopup();
+				String inputTextWithSign = getInputText();
+				getTextComponent().hideTablePopup();
 
 				// negative orientation ?
 				if (rbClockWise.getValue()) {
@@ -83,31 +90,20 @@ public class AngleInputDialogW extends InputDialogW {
 				}
 
 				getInputHandler().processInput(inputTextWithSign, this,
-						new AsyncOperation<Boolean>() {
-
-							@Override
-							public void callback(Boolean ok) {
-								afterActionPerformed(ok);
-
-							}
-						});
-			} else if (source == btCancel) {
-				afterActionPerformed(true);
-				inputPanel.getTextComponent().hideTablePopup();
+						ok -> hide());
 			}
 		} catch (Exception ex) {
-			afterActionPerformed(false);
+			//afterActionPerformed(false);
 			// do nothing on uninitializedValue
 		}
 	}
 
-	void afterActionPerformed(boolean finished) {
+	/*void afterActionPerformed(boolean finished) {
 		if (finished) {
 			wrappedPopup.hide();
 			app.getActiveEuclidianView().requestFocusInWindow();
 		} else {
 			wrappedPopup.show();
 		}
-	}
-
+	}*/
 }
