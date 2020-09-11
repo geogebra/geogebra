@@ -188,7 +188,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 		}
 		visibilityPanel.clear();
 		visibilityPanel
-				.add(LayoutUtilW.panelRow(visibiltyImg, visibilityTxt));
+				.add(LayoutUtilW.panelRowIndent(visibiltyImg, visibilityTxt));
 	}
 
 	private void showSharedIcon(List<String> strings) {
