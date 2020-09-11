@@ -197,22 +197,8 @@ public class IntervalPlotter {
 				info.update(evalLeft, evalRight, diff, prevDiff);
 
 			} // end of while-loop for interval bisections
-	
-			if (isLineTo(t, left, info)) {
-				// handle previous moveTo first
-				if (nextLineToNeedsMoveToFirst) {
-					gp.moveTo(move);
-					nextLineToNeedsMoveToFirst = false;
-				}
 
-				// draw line
-				gp.lineTo(evalRight);
-			} else {
-				// moveTo: remember moveTo position to avoid multiple moveTo
-				// operations
-				move = Cloner.clone(evalRight);
-				nextLineToNeedsMoveToFirst = true;
-			}
+			drawSegment(t, left, info);
 
 			// remember last point in general path
 			evalLeft = Cloner.clone(evalRight);
@@ -241,6 +227,24 @@ public class IntervalPlotter {
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		gp.endPlot();
 		return labelPoint;
+	}
+
+	protected void drawSegment(double t, double left, CurveSegmentInfo info) {
+		if (isLineTo(t, left, info)) {
+			// handle previous moveTo first
+			if (nextLineToNeedsMoveToFirst) {
+				gp.moveTo(move);
+				nextLineToNeedsMoveToFirst = false;
+			}
+
+			// draw line
+			gp.lineTo(evalRight);
+		} else {
+			// moveTo: remember moveTo position to avoid multiple moveTo
+			// operations
+			move = Cloner.clone(evalRight);
+			nextLineToNeedsMoveToFirst = true;
+		}
 	}
 
 	protected void calculateLabelPosition() {
