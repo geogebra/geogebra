@@ -3,6 +3,7 @@ package org.geogebra.test.euclidian.plot;
 import static org.junit.Assert.assertEquals;
 
 import org.geogebra.common.BaseUnitTest;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.Gap;
@@ -35,10 +36,11 @@ public class CurvePlotterTest extends BaseUnitTest {
 		PathPlotterMock gp1 = new PathPlotterMock();
 		PathPlotterMock gp2 = new PathPlotterMock();
 		EuclidianView view = getApp().getActiveEuclidianView();
-		CurvePlotter.plotCurve(f, tMin, tMax, view,
-				gp1, false, Gap.MOVE_TO);
-		CurvePlotterOriginal.plotCurve(f, tMin, tMax, view,
-				gp2, false, Gap.MOVE_TO);
+		GPoint p1 = CurvePlotter.plotCurve(f, tMin, tMax, view,
+				gp1, true, Gap.MOVE_TO);
+		GPoint p2 = CurvePlotterOriginal.plotCurve(f, tMin, tMax, view,
+				gp2, true, Gap.MOVE_TO);
 		assertEquals(gp1.result(), gp2.result());
+		assertEquals(p1, p2);
 	}
 }
