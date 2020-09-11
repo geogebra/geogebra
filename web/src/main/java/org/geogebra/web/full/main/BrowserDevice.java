@@ -112,10 +112,10 @@ public class BrowserDevice implements GDevice {
 		}
 
 		/**
-		 * @return input element
+		 * @param typeHint file extension including the dot or "image/*"
 		 */
-		public Element getInput() {
-			return input;
+		public void setAcceptedFileType(String typeHint) {
+			input.setAttribute("accept", typeHint);
 		}
 	}
 
