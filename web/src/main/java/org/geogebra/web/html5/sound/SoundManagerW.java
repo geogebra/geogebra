@@ -3,25 +3,27 @@ package org.geogebra.web.html5.sound;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.ExternalAccess;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Element;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLAudioElement;
 
 /**
  *
  */
-public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
-	private AppW app;
+public class SoundManagerW implements SoundManager {
+	private final AppW app;
+	private final EuclidianView view;
 	private boolean mp3active = true;
-	private Map<String, Element> urlToAudio = new HashMap<>();
-	private Map<String, GeoAudio> urlToGeoAudio = new HashMap<>();
+	private final Map<String, HTMLAudioElement> audioElements;
+	private final Map<String, GeoAudio> geoAudios;
 	private AsyncOperation<Boolean> urlCallback = null;
 
 	/**
@@ -30,7 +32,9 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	 */
 	public SoundManagerW(AppW app) {
 		this.app = app;
-		// getMidiSound().setListener(this);
+		audioElements = new HashMap<>();
+		geoAudios = new HashMap<>();
+		view = app.getActiveEuclidianView();
 	}
 
 	@Override
@@ -42,14 +46,16 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	@Override
 	public void playSequenceNote(int note, double duration, int instrument,
 			int velocity) {
-		stopCurrentSound();
-		// getMidiSound().playSequenceNote(instrument, note, velocity,
-		// duration);
+		midiNotSupported();
+	}
+
+	protected void midiNotSupported() {
+		Log.warn("midi not supported on web.");
 	}
 
 	@Override
 	public void playSequenceFromString(String string, int double1) {
-		Log.debug("playSequenceFromString");
+		midiNotSupported();
 	}
 
 	@Override
@@ -70,55 +76,37 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		}
 
 		if (fmtMidi || url.endsWith(".mid") || url.endsWith(".midi")) {
-			Log.debug("MIDI not supported");
+			midiNotSupported();
 			return;
 		}
 
 		Log.debug("playing URL as MP3: " + url);
-		final Element audio = urlToAudio.get(url);
+		final HTMLAudioElement audio = audioElements.get(url);
 		if (audio != null) {
-			app.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					playAudioElement(audio);
-				}
-			});
+			app.invokeLater(audio::play);
 		} else {
 			playMP3(url);
 		}
-		// TODO check extension, play MIDI .mid files
-
-		// if (url.endsWith(".mid") || url.endsWith(".midi")) {
-		// getMidiSound().playMidiFile(url);
-		// } else {
-		// playMP3(url);
-		// }
 	}
-
-	// MidiSoundW getMidiSound() {
-	// return MidiSoundW.INSTANCE;
-	// }
 
 	/**
 	 * Stops the sound
 	 */
 	public void stopCurrentSound() {
-		// getMidiSound().stop();
+		midiNotSupported();
 	}
 
 	/**
-	 * 'canplay' audio element handler called from JSNI
-	 * 
+	 *
 	 * @param audio
 	 *            Element that is ready to play.
 	 * @param url
 	 *            The url of the audio element.
 	 */
-	protected void onCanPlay(Element audio, String url) {
-		urlToAudio.put(url, audio);
+	protected void onCanPlay(HTMLAudioElement audio, String url) {
+		audioElements.put(url, audio);
 		if (mp3active) {
-			playAudioElement(audio);
+			audio.play();
 		}
 	}
 
@@ -130,108 +118,91 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	 * @param url
 	 *            The url of the audio element.
 	 */
-	protected void onGeoAudioUpdate(Element audio, String url) {
-		urlToAudio.put(url, audio);
-		GeoAudio geo = urlToGeoAudio.get(url);
-		if (geo != null) {
-			geo.updateRepaint();
-		}
+	protected void onGeoAudioUpdate(HTMLAudioElement audio, String url) {
+		audioElements.put(url, audio);
+		view.update(geoAudios.get(url));
 	}
 
-	private native void playAudioElement(Element audio) /*-{
-		audio.play();
-	}-*/;
+	private int getDuration(HTMLAudioElement audio) {
+		return (int) Math.floor(audio.duration * 1000);
+	}
 
-	private native void pauseAudioElement(Element audio) /*-{
-		audio.pause();
-	}-*/;
+	private int getCurrentTime(HTMLAudioElement audio) {
+		return (int) Math.floor(audio.currentTime * 1000);
+	}
 
-	private native boolean isAudioElementPlaying(Element audio) /*-{
-		return !audio.paused;
-	}-*/;
-
-	private native int getDuration(Element audio) /*-{
-		return Math.floor(audio.duration * 1000)
-	}-*/;
-
-	private native int getCurrentTime(Element audio) /*-{
-		return Math.floor(audio.currentTime * 1000);
-	}-*/;
-
-	private native void setCurrentTime(Element audio, double time) /*-{
+	private void setCurrentTime(HTMLAudioElement audio, double time) {
 		audio.currentTime = time / 1000;
-	}-*/;
+	}
 
 	/**
 	 * @param url
 	 *            eg
 	 *            http://www.geogebra.org/static/spelling/spanish/00/00002.mp3
 	 */
-	native void playMP3(String url) /*-{
-		var audioElement = $doc.createElement('audio');
-		var that = this;
-		audioElement.setAttribute('src', url);
-		audioElement.load();
-		audioElement
-				.addEventListener(
-						"canplay",
-						function() {
-							that.@org.geogebra.web.html5.sound.SoundManagerW::
-								onCanPlay(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)
-								(audioElement,url);
-						});
-	}-*/;
+	void playMP3(String url) {
+		HTMLAudioElement audio = createHtmlAudioElement();
+		audio.src = url;
+		audio.oncanplay = p0 -> {
+			onCanPlay(audio, url);
+			return null;
+		};
 
-	private native void loadGeoAudio(String url) /*-{
-		var audioElement = $doc.createElement('audio');
-		var that = this;
-		audioElement.setAttribute('src', url);
-		audioElement.load();
-		audioElement
-		.addEventListener(
-		"canplay",
-		function() {
-		that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioUpdate(
-			Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
-		});
-		audioElement
-		.addEventListener(
-		"timeupdate",
-		function() {
-		that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioUpdate(
-			Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
-		});
-		
-		audioElement
-		.addEventListener(
-		"play",
-		function() {
-		that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioUpdate(
-			Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
-		});
-		
-		audioElement
-		.addEventListener(
-		"ended",
-		function() {
-		that.@org.geogebra.web.html5.sound.SoundManagerW::onGeoAudioUpdate(
-			Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement, url);
-		});
-		
-		}-*/;
+		audio.load();
+	}
 
-	private native void checkAudio(String url) /*-{
-		var audioElement = $doc.createElement('audio');
-		var that = this;
-		audioElement.setAttribute('src', url);
-		audioElement.load();
-		audioElement.addEventListener("error", function() {
-			that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlError()();
-		});
-		audioElement.addEventListener("canplay", function() {
-			that.@org.geogebra.web.html5.sound.SoundManagerW::onUrlOK()(url);
-		});
-	}-*/;
+	private void loadGeoAudio(String url) {
+		HTMLAudioElement audio = createHtmlAudioElement();
+		if (audio == null) {
+			return;
+		}
+
+		audio.src = url;
+		audio.oncanplay = p0 -> {
+			onGeoAudioUpdate(audio, url);
+			return null;
+		};
+
+		audio.ontimeupdate = p0 -> {
+			onGeoAudioUpdate(audio, url);
+			return null;
+		};
+
+		audio.onplay = p0 -> {
+			onGeoAudioUpdate(audio, url);
+			return null;
+		};
+
+		audio.onended = p0 -> {
+			onGeoAudioUpdate(audio, url);
+			return null;
+		};
+
+		audio.load();
+	}
+
+	private HTMLAudioElement createHtmlAudioElement() {
+		return (HTMLAudioElement) DomGlobal.document.createElement("audio");
+	}
+
+	private void validateAudioUrl(String url) {
+		HTMLAudioElement audio = createHtmlAudioElement();
+		if (audio == null) {
+			return;
+		}
+
+		audio.src = url;
+		audio.load();
+		audio.onerror = p0 -> {
+			onUrlError();
+			return null;
+		};
+
+		audio.oncanplay = p0 -> {
+			onUrlOK();
+			return null;
+		};
+	}
 
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,
@@ -240,24 +211,12 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 				bitDepth);
 	}
 
-	/**
-	 * Error handler
-	 */
-	public void onError(/* int errorCode */) {
-		// if (errorCode == MidiSoundW.MIDI_ERROR_PORT) {
-		// ToolTipManagerW.sharedInstance().showBottomMessage(
-		// "No valid MIDI output port was found.", true, (AppW) app);
-		// }
-	}
-
-	@ExternalAccess
 	private void onUrlError() {
 		if (urlCallback != null) {
 			urlCallback.callback(Boolean.FALSE);
 		}
 	}
 
-	@ExternalAccess
 	private void onUrlOK() {
 		if (urlCallback != null) {
 			urlCallback.callback(Boolean.TRUE);
@@ -276,13 +235,13 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public void loadGeoAudio(GeoAudio geo) {
-		urlToGeoAudio.put(geo.getSrc(), geo);
+		geoAudios.put(geo.getSrc(), geo);
 		loadGeoAudio(geo.getSrc());
 	}
 
 	@Override
 	public int getDuration(String url) {
-		final Element audio = urlToAudio.get(url);
+		final HTMLAudioElement audio = audioElements.get(url);
 		if (audio != null) {
 			return getDuration(audio);
 		}
@@ -291,7 +250,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public int getCurrentTime(String url) {
-		final Element audio = urlToAudio.get(url);
+		final HTMLAudioElement audio = audioElements.get(url);
 		if (audio != null) {
 			return getCurrentTime(audio);
 		}
@@ -300,7 +259,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public void setCurrentTime(String url, int time) {
-		final Element audio = urlToAudio.get(url);
+		final HTMLAudioElement audio = audioElements.get(url);
 		if (audio != null) {
 			setCurrentTime(audio, time);
 		}
@@ -309,30 +268,34 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	@Override
 	public void checkURL(String url, AsyncOperation<Boolean> callback) {
 		urlCallback = callback;
-		checkAudio(url);
+		validateAudioUrl(url);
 	}
 
 	@Override
 	public void play(GeoAudio geo) {
-		final Element audio = urlToAudio.get(geo.getSrc());
+		final HTMLAudioElement audio = geoAudioToElement(geo);
 		if (audio != null) {
-			playAudioElement(audio);
+			audio.play();
 		}
+	}
+
+	protected HTMLAudioElement geoAudioToElement(GeoAudio geo) {
+		return audioElements.get(geo.getSrc());
 	}
 
 	@Override
 	public void pause(GeoAudio geo) {
-		final Element audio = urlToAudio.get(geo.getSrc());
+		final HTMLAudioElement audio = geoAudioToElement(geo);
 		if (audio != null) {
-			pauseAudioElement(audio);
+			audio.pause();
 		}
 	}
 
 	@Override
 	public boolean isPlaying(GeoAudio geo) {
-		final Element audio = urlToAudio.get(geo.getSrc());
+		final HTMLAudioElement audio = geoAudioToElement(geo);
 		if (audio != null) {
-			return isAudioElementPlaying(audio);
+			return !audio.paused;
 		}
 		return false;
 	}
