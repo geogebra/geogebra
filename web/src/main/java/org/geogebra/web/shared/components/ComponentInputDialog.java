@@ -35,6 +35,7 @@ public abstract class ComponentInputDialog extends ComponentDialog
 			String initText, int rows, int columns, boolean showSymbolPopupIcon) {
 		super(app, dialogData, autoHide, hasScrim);
 		createGUI(labelText, initText, rows, columns, showSymbolPopupIcon);
+		addStyleName("inputDialogComponent");
 		setPreventHide(true);
 		setInputHandler(inputHandler);
 		setOnPositiveAction(this::processInput);
@@ -153,8 +154,6 @@ public abstract class ComponentInputDialog extends ComponentDialog
 					if (ok) {
 						toolAction();
 						show();
-					} else {
-						hide();
 					}
 				});
 	}

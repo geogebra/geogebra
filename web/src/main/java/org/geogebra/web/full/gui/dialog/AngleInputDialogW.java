@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 

@@ -170,7 +170,6 @@ public class InputDialogW extends InputDialog
 		this.setInputHandler(handler);
 		setInitString(initString);
 
-
 		createGUI(title, message, true, DEFAULT_COLUMNS, 1,
 				true, false);
 

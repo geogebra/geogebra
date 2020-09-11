@@ -406,9 +406,10 @@ public class DialogManagerW extends DialogManager
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogW id = new InputDialogDilateW(((AppW) app), title, handler,
+		DialogData data = new DialogData(title, "Cancel", "OK");
+		InputDialogDilateW dilateInputDialog = new InputDialogDilateW(((AppW) app), data, handler,
 				points, selGeos, app.getKernel(), ec);
-		id.setVisible(true);
+		dilateInputDialog.show();
 	}
 
 	@Override

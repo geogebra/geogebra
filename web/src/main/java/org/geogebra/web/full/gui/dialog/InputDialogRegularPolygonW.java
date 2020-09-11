@@ -21,6 +21,8 @@ public class InputDialogRegularPolygonW extends ComponentInputDialog {
 	/**
 	 * @param app
 	 *            application
+	 * @param data
+	 * 			  dialog trans keys
 	 * @param ec
 	 *            controller
 	 * @param handler
@@ -38,7 +40,6 @@ public class InputDialogRegularPolygonW extends ComponentInputDialog {
 		super(app, data, false, false, handler,
 				app.getLocalization().getMenu("Points"), "4",
 				1, -1, false);
-		addStyleName("regularPolygon");
 		geoPoint1 = point1;
 		geoPoint2 = point2;
 		this.direction = direction;

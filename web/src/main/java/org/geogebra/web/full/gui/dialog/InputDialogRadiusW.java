@@ -65,5 +65,4 @@ public abstract class InputDialogRadiusW extends InputDialogW {
 	 * @return the circle
 	 */
 	abstract protected GeoElement createOutput(GeoNumberValue num);
-
 }
