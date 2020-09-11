@@ -60,7 +60,7 @@ public class IntervalPlotter {
 	private boolean nextLineToNeedsMoveToFirst;
 	private double[] eval;
 	private double[] evalLeft;
-	private double[] evalRigh;
+	private double[] evalRight;
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [tMin, tMax].
@@ -124,7 +124,7 @@ public class IntervalPlotter {
 					labelPoint);
 		}
 		boolean onScreen = view.isOnView(eval);
-		evalRigh = Cloner.clone(eval);
+		evalRight = Cloner.clone(eval);
 
 		// first point
 		gp.firstPoint(evalLeft, moveToAllowed);
@@ -132,12 +132,12 @@ public class IntervalPlotter {
 		// TODO
 		// INIT plotting algorithm
 		int length = MAX_DEFINED_BISECTIONS + 1;
-		CurvePlotterStack stack = new CurvePlotterStack(length, onScreen, evalRigh);
+		CurvePlotterStack stack = new CurvePlotterStack(length, onScreen, evalRight);
 		double[] divisors = createDivisors(tMin, tMax, length);
 		int dyad = 1;
 
 		// slope between (tMin, tMax)
-		double[] diff = view.getOnScreenDiff(evalLeft, evalRigh);
+		double[] diff = view.getOnScreenDiff(evalLeft, evalRight);
 		int countDiffZeros = 0;
 
 		// init previous slope using (tMin, tMin + min_step)
@@ -147,7 +147,7 @@ public class IntervalPlotter {
 		int depth = 0;
 		double t = tMin;
 		double left = tMin;
-		CurveSegmentInfo info = new CurveSegmentInfo(view, evalLeft, evalRigh, prevDiff);
+		CurveSegmentInfo info = new CurveSegmentInfo(view, evalLeft, evalRight, prevDiff);
 		// Actual plotting algorithm:
 		// use bisection for interval until we reach
 		// a small pixel distance between two points and
@@ -155,18 +155,18 @@ public class IntervalPlotter {
 		// The evaluated curve points are stored on a stack
 		// to avoid multiple evaluations at the same position.
 		do {
-			info.update(evalLeft, evalRigh, diff, prevDiff);
+			info.update(evalLeft, evalRight, diff, prevDiff);
 
 			// bisect interval as long as max bisection depth not reached & ...
 			while (depth < MAX_DEFINED_BISECTIONS
 					// ... distance not ok or angle not ok or step too big
-					&& (info.isInvalid()
+					&& (info.isDistanceOrAngleInvalid()
 							|| divisors[depth] > maxParamStep)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
 					// 0, 6]
 					&& countDiffZeros < MAX_ZERO_COUNT) {
 				// push stacks
-				stack.push(dyad, depth, onScreen, evalRigh);
+				stack.push(dyad, depth, onScreen, evalRight);
 				dyad = 2 * dyad - 1;
 				depth++;
 				t = tMin + dyad * divisors[depth]; // t=tMin+(tMax-tMin)*(dyad/2^depth)
@@ -189,20 +189,16 @@ public class IntervalPlotter {
 					Log.debug("SINGULARITY AT" + t);
 				}
 
-				evalRigh = Cloner.clone(eval);
-				diff = view.getOnScreenDiff(evalLeft, evalRigh);
+				evalRight = Cloner.clone(eval);
+				diff = view.getOnScreenDiff(evalLeft, evalRight);
 				countDiffZeros = isDiffZero(diff) ? countDiffZeros +1: 0;
 
 
-				info.update(evalLeft, evalRigh, diff, prevDiff);
+				info.update(evalLeft, evalRight, diff, prevDiff);
 
 			} // end of while-loop for interval bisections
-
-			// add point to general path: lineTo or moveTo?
-			boolean lineTo = isLineTo(curve, gp, moveToAllowed, evalRigh, t, left, info);
-
-			// do lineTo or moveTo
-			if (lineTo) {
+	
+			if (isLineTo(t, left, info)) {
 				// handle previous moveTo first
 				if (nextLineToNeedsMoveToFirst) {
 					gp.moveTo(move);
@@ -210,28 +206,28 @@ public class IntervalPlotter {
 				}
 
 				// draw line
-				gp.lineTo(evalRigh);
+				gp.lineTo(evalRight);
 			} else {
 				// moveTo: remember moveTo position to avoid multiple moveTo
 				// operations
-				move = Cloner.clone(evalRigh);
+				move = Cloner.clone(evalRight);
 				nextLineToNeedsMoveToFirst = true;
 			}
 
 			// remember last point in general path
-			evalLeft = Cloner.clone(evalRigh);
+			evalLeft = Cloner.clone(evalRight);
 			left = t;
 
 			// remember first point on screen for label position
 			if (needLabelPos && onScreen) {
-				double xLabel = view.toScreenCoordXd(evalRigh[0]) + 10;
+				double xLabel = view.toScreenCoordXd(evalRight[0]) + 10;
 				if (xLabel < 20) {
 					xLabel = 5;
 				}
 				if (xLabel > view.getWidth() - 30) {
 					xLabel = view.getWidth() - 15;
 				}
-				double yLabel = view.toScreenCoordYd(evalRigh[1]) + 15;
+				double yLabel = view.toScreenCoordYd(evalRight[1]) + 15;
 				if (yLabel < 40) {
 					yLabel = 15;
 				} else if (yLabel > view.getHeight() - 30) {
@@ -250,32 +246,31 @@ public class IntervalPlotter {
 			 */
 
 			CurvePlotterStackItem item = stack.pop();
-			evalRigh = item.pos;
+			evalRight = item.pos;
 			onScreen = item.onScreen;
 			depth = item.depth + 1; // pop stack and go to right
 			dyad = item.dyadic * 2;
 			prevDiff = Cloner.clone(diff);
-			diff = view.getOnScreenDiff(evalLeft, evalRigh);
+			diff = view.getOnScreenDiff(evalLeft, evalRight);
 			t = tMin + dyad * divisors[depth];
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		gp.endPlot();
 		return labelPoint;
 	}
 
-	private static boolean isLineTo(CurveEvaluable curve, PathPlotter gp, Gap moveToAllowed,
-			double[] evalRigh, double t, double left, CurveSegmentInfo info) {
+	private boolean isLineTo(double t, double left, CurveSegmentInfo info) {
 		boolean lineTo = true;
 		// TODO
 		if (moveToAllowed == Gap.MOVE_TO) {
 			if (info.isOffScreen()) {
 				// don't draw segments that are off screen
 				lineTo = false;
-			} else if (info.isInvalid()) {
+			} else if (info.isDistanceOrAngleInvalid()) {
 				// check for DISCONTINUITY
 				lineTo = isContinuous(curve, left, t, MAX_CONTINUITY_BISECTIONS);
 			}
 		} else if (moveToAllowed == Gap.CORNER) {
-			gp.corner(evalRigh);
+			gp.corner(evalRight);
 		}
 		return lineTo;
 	}

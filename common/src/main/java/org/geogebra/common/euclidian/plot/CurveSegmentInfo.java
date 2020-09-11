@@ -55,7 +55,7 @@ public class CurveSegmentInfo {
 
 	}
 
-	public boolean isInvalid() {
+	public boolean isDistanceOrAngleInvalid() {
 		return !angleOK || !distanceOK;
 	}
 

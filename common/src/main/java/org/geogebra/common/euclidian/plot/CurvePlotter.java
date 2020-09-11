@@ -173,7 +173,7 @@ public class CurvePlotter {
 			// bisect interval as long as max bisection depth not reached & ...
 			while (depth < MAX_DEFINED_BISECTIONS
 					// ... distance not ok or angle not ok or step too big
-					&& (info.isInvalid()
+					&& (info.isDistanceOrAngleInvalid()
 							|| divisors[depth] > maxParamStep)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
 					// 0, 6]
@@ -283,7 +283,7 @@ public class CurvePlotter {
 			if (info.isOffScreen()) {
 				// don't draw segments that are off screen
 				lineTo = false;
-			} else if (info.isInvalid()) {
+			} else if (info.isDistanceOrAngleInvalid()) {
 				// check for DISCONTINUITY
 				lineTo = isContinuous(curve, left, t, MAX_CONTINUITY_BISECTIONS);
 			}
