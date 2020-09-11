@@ -452,8 +452,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            {@code Integer}
 	 */
 	public void setSelectedIndex(Integer selectedIndex) {
-		myTable.setSelectedIndex(
-				selectedIndex == null ? -1 : selectedIndex.intValue());
+		myTable.setSelectedIndex(selectedIndex == null ? -1 : selectedIndex);
 		updateGUI();
 	}
 

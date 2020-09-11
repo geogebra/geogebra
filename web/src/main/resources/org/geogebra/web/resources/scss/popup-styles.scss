@@ -125,10 +125,6 @@
 			display: flex;
 		}
 
-		.stylebarButton {
-			opacity: 0.7;
-		}
-
 		.divider {
 			width: 1px;
 			background-color: $tool-border;
@@ -149,6 +145,10 @@
 
 			.penImg {
 				margin: 4px 0px;
+			}
+
+			img {
+				opacity: 0.7;
 			}
 		}
 	}

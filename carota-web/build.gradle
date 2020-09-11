@@ -9,26 +9,17 @@ plugins {
     id 'pmd'
 }
 
-apply plugin: 'gwt-base'
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile group: 'com.google.elemental2', name: 'elemental2-core', version: '1.0.0'
-}
-
-gwt {
-    gwtVersion=gwtCompilerVersion
+    compile 'com.google.elemental2:elemental2-core:1.0.0',
+            'org.murok:editor:1.0.202009041017',
+            'org.murok:editor:1.0.202009041017:sources'
 }
 
 pmd {
      ignoreFailures = true
      ruleSets = []
      ruleSetFiles = files("../web/config/pmd.xml")
-}
-
-// Publish the sources in the gwt configuration
-artifacts {
-    gwt sourceSets.main.allSource.srcDirs, jar
 }
