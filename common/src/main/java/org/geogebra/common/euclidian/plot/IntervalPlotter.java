@@ -219,23 +219,8 @@ public class IntervalPlotter {
 			left = t;
 
 			// remember first point on screen for label position
-			if (needLabelPos && onScreen) {
-				double xLabel = view.toScreenCoordXd(evalRight[0]) + 10;
-				if (xLabel < 20) {
-					xLabel = 5;
-				}
-				if (xLabel > view.getWidth() - 30) {
-					xLabel = view.getWidth() - 15;
-				}
-				double yLabel = view.toScreenCoordYd(evalRight[1]) + 15;
-				if (yLabel < 40) {
-					yLabel = 15;
-				} else if (yLabel > view.getHeight() - 30) {
-					yLabel = view.getHeight() - 5;
-				}
-
-				labelPoint = new GPoint((int) xLabel, (int) yLabel);
-				needLabelPos = false;
+			if (onScreen) {
+				calculateLabelPosition();
 			}
 
 			/*
@@ -256,6 +241,29 @@ public class IntervalPlotter {
 		} while (stack.hasItems()); // end of do-while loop for bisection stack
 		gp.endPlot();
 		return labelPoint;
+	}
+
+	protected void calculateLabelPosition() {
+		if (!needLabelPos) {
+			return;
+		}
+
+		double xLabel = view.toScreenCoordXd(evalRight[0]) + 10;
+		if (xLabel < 20) {
+			xLabel = 5;
+		}
+		if (xLabel > view.getWidth() - 30) {
+			xLabel = view.getWidth() - 15;
+		}
+		double yLabel = view.toScreenCoordYd(evalRight[1]) + 15;
+		if (yLabel < 40) {
+			yLabel = 15;
+		} else if (yLabel > view.getHeight() - 30) {
+			yLabel = view.getHeight() - 5;
+		}
+
+		labelPoint = new GPoint((int) xLabel, (int) yLabel);
+		needLabelPos = false;
 	}
 
 	private boolean isLineTo(double t, double left, CurveSegmentInfo info) {
