@@ -1,0 +1,17 @@
+/** Created by stefanie.bogner
+*	16.09.2015
+*	contains general styles for GeoGebra Exam
+**/
+
+.GeoGebraFrame{
+	.toolbarPanel.examToolbar{
+		background-color:rgb(204,204,255);
+	}
+	
+	.timer {
+		font-size: 170%;
+		float: left;
+		font: "Helvetica";
+		padding: 5px 5px 7px;
+	}
+}

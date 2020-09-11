@@ -3027,12 +3027,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		halfAxes[1] = Math.sqrt(mu1[1]);
 		linearEccentricity = Math.sqrt(mu1[0] + mu1[1]);
 		eccentricity = linearEccentricity / Math.sqrt(mu1[0]);
-
-		/*
-		 * Application.debug("Hyperbola"); Application.debug("a : " +
-		 * halfAxes[0]); Application.debug("b : " + halfAxes[1]);
-		 * Application.debug("e : " + excent);
-		 */
 	}
 
 	/*

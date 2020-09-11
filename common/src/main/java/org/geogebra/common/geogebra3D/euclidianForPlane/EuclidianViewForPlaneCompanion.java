@@ -168,8 +168,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		int x = view.toScreenCoordX(tmpCoords.getX());
 		int y = view.toScreenCoordY(tmpCoords.getY());
 
-		setCoordSystem(view.getWidth() / 2 - x + view.getXZero(),
-				view.getHeight() / 2 - y + view.getYZero(), view.getXscale(),
+		setCoordSystem(view.getWidth() / 2d - x + view.getXZero(),
+				view.getHeight() / 2d - y + view.getYZero(), view.getXscale(),
 				view.getYscale());
 
 	}

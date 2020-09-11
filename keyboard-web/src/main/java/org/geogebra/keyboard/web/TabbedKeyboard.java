@@ -361,7 +361,7 @@ public class TabbedKeyboard extends FlowPanel
 					button = keyboard.getButtons().get(buttonIndex);
 					if (offset > 0) {
 						button.getElement().getStyle().setMarginLeft(
-								offset * baseSize + margins / 2, Unit.PX);
+								offset * baseSize + margins / 2d, Unit.PX);
 					}
 					button.getElement().getStyle().setWidth(
 							wb.getWeight() * baseSize - margins, Unit.PX);
@@ -372,7 +372,7 @@ public class TabbedKeyboard extends FlowPanel
 			if (Action.NONE.name().equals(row.getButtons()
 					.get(row.getButtons().size() - 1).getPrimaryActionName())) {
 				button.getElement().getStyle().setMarginRight(
-						offset * baseSize + margins / 2, Unit.PX);
+						offset * baseSize + margins / 2d, Unit.PX);
 			}
 		}
 		if (hasKeyboard.getInnerWidth() < getMinWidthWithoutScaling()) {

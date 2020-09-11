@@ -107,7 +107,7 @@ public class ComponentDropDownPopup {
 
 	private void showHigh() {
 		int top = getTop() - getSelectedItemTop();
-		double spaceToBottom = app.getHeight() - top - 3 * (itemHeight / 2);
+		double spaceToBottom = app.getHeight() - top - 3d * itemHeight / 2;
 		if (spaceToBottom < getPopupHeightRemaining()) {
 			setMaxHeightInPx(spaceToBottom);
 		} else {

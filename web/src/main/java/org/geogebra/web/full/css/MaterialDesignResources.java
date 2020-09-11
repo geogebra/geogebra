@@ -54,9 +54,29 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_italic_black_24px.svg")
 	SVGResource text_italic_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_underlined-24px"
-			+ ".svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/format_underlined-24px.svg")
 	SVGResource text_underline_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_all-24px.svg")
+	SVGResource border_all();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_clear-24px.svg")
+	SVGResource border_clear();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_inner-24px.svg")
+	SVGResource border_inner();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/border_outer-24px.svg")
+	SVGResource border_outer();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_bottom-24px.svg")
+	SVGResource vertical_align_bottom();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_middle-24px.svg")
+	SVGResource vertical_align_middle();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/vertical_align_top-24px.svg")
+	SVGResource vertical_align_top();
 
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")
@@ -528,4 +548,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
 	SVGResource downloadMenu();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/show_chart-black-24px.svg")
+	SVGResource statistics();
 }

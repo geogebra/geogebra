@@ -122,6 +122,15 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 	}
 
 	@Test
+	public void argumentsForFunctionCopyShouldBeVisible() {
+		add("f:x");
+		setupInput("g", "3f");
+		assertEquals("3f(x)", inputBox.getText());
+		updateInput("f(x)");
+		assertEquals("f(x)", inputBox.getText());
+	}
+
+	@Test
 	public void symbolicShouldBeEmptyAfterSettingLineUndefined() {
 		setupInput("f", "y = 5");
 		t("SetValue(f, ?)");
@@ -415,5 +424,18 @@ public class GeoInputBoxLinkedGeoTest extends BaseUnitTest {
 		setupInput("g", "x");
 		updateInput("xf(x) + 4");
 		assertEquals("x f(x) + 4", inputBox.getText());
+	}
+
+	@Test
+	public void symbolicShouldBeEmptyAfterSettingComplexFunctionUndefined() {
+		setupInput("f", "x+i");
+		inputBox.setSymbolicMode(true, false);
+		inputBox.updateLinkedGeo("?");
+		assertEquals("", inputBox.getTextForEditor());
+		getApp().setXML(getApp().getXML(), true);
+		assertEquals("", inputBox.getTextForEditor());
+		assertEquals("f\\, \\text{undefined} ", lookup("f")
+				.getLaTeXAlgebraDescriptionWithFallback(false,
+						StringTemplate.defaultTemplate, false));
 	}
 }
