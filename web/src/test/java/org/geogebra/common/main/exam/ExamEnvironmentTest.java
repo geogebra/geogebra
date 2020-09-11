@@ -50,7 +50,7 @@ public class ExamEnvironmentTest {
 
 	private void testSetCasEnabled(boolean enabled) {
 		boolean casDefaultState = isCasEnabled();
-		examEnvironment.setCasEnabled(enabled);
+		examEnvironment.setCasEnabled(enabled, casSettings);
 		examEnvironment.setupExamEnvironment();
 		if (enabled) {
 			assertThat(isCasEnabled(), is(true));

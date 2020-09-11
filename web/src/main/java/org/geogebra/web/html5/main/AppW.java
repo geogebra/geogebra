@@ -3294,12 +3294,6 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return hiddenTextArea;
 	}-*/;
 
-	@Override
-	public void copyTextToSystemClipboard(String text) {
-		Log.debug("copying to clipboard " + text);
-		CopyPasteW.writeToExternalClipboard(text);
-	}
-
 	/**
 	 * Toggle menu visibility
 	 */

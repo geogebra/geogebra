@@ -289,7 +289,7 @@ public class ShareDialogMow extends ComponentDialog
 	public void onClick(Widget source) {
 		if (source == copyBtn) {
 			linkBox.setFocused(false);
-			app.copyTextToSystemClipboard(linkBox.getText());
+			app.getCopyPaste().copyTextToSystemClipboard(linkBox.getText());
 			linkBox.focus();
 			ToolTipManagerW.sharedInstance()
 			    .showBottomMessage(((AppW) app).getLocalization()

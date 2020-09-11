@@ -3030,14 +3030,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * copy base64 of current .ggb file to clipboard
 	 */
 	public void copyBase64ToClipboard() {
-		copyTextToSystemClipboard(getGgbApi().getBase64());
+		getCopyPaste().copyTextToSystemClipboard(getGgbApi().getBase64());
 	}
 
 	/**
 	 * copy full HTML5 export for current .ggb file to clipboard
 	 */
 	public void copyFullHTML5ExportToClipboard() {
-		copyTextToSystemClipboard(HTML5Export.getFullString(this));
+		getCopyPaste().copyTextToSystemClipboard(HTML5Export.getFullString(this));
 	}
 
 	/**
@@ -4629,14 +4629,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            GeoGebraToPgf object
 	 */
 	public void newGeoGebraToPgf(AsyncOperation<GeoGebraExport> callback) {
-		// overridden in AppD, AppW
-	}
-
-	/**
-	 * @param text
-	 *            text to be copied
-	 */
-	public void copyTextToSystemClipboard(String text) {
 		// overridden in AppD, AppW
 	}
 
