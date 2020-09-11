@@ -35,7 +35,7 @@ public class ExamEnvironment {
 	/** exam start timestamp (milliseconds) */
 	private long examStartTime = EXAM_START_TIME_NOT_STARTED;
 
-	private Localization localization;
+	private final Localization localization;
 	private boolean isIncludingSettingsInLog;
 	private String localizedAppName;
 	private CommandDispatcher commandDispatcher;
@@ -52,7 +52,7 @@ public class ExamEnvironment {
 	private boolean hasGraph = false;
 
 	private TimeFormatAdapter timeFormatter;
-	private CommandArgumentFilter examCommandFilter = new ExamCommandFilter();
+	private final CommandArgumentFilter examCommandFilter = new ExamCommandFilter();
 	private static final CommandFilter noCASFilter = CommandFilterFactory
 			.createNoCasCommandFilter();
 
@@ -667,6 +667,7 @@ public class ExamEnvironment {
 	 */
 	public void setCasEnabled(boolean casEnabled, CASSettings casSettings) {
 		this.casSettings = casSettings;
+		wasCasEnabled = casSettings.isEnabled();
 		if (casEnabled) {
 			enableCAS();
 		} else {
