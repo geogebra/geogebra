@@ -177,13 +177,17 @@ public class DoYouWantToSaveChangesDialog extends ComponentDialog implements
 	 */
 	@Override
 	public void setTitle() {
-		if (app.getSaveController().updateSaveTitle(getInputField().getTextComponent(),
-				DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date()))) {
-			Scheduler.get().scheduleDeferred(() -> getInputField().getTextComponent().selectAll());
-		} else {
-			Scheduler.get()
-					.scheduleDeferred(() -> getInputField().getTextComponent().setFocus(true));
-		}
+		// suggest for the user the current date as title
+		String currentDate = DateTimeFormat.getFormat("dd.MM.yyyy HH:mm").format(new Date());
+		boolean titleSelectionNeeded = app.getSaveController().updateSaveTitle(getInputField()
+						.getTextComponent(), currentDate);
+		Scheduler.get().scheduleDeferred(() -> {
+			if (titleSelectionNeeded) {
+				getInputField().getTextComponent().selectAll();
+			} else {
+				getInputField().getTextComponent().setFocus(true);
+			}
+		});
 	}
 
 	@Override
