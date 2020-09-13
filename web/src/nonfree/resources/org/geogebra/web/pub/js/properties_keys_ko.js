@@ -2902,7 +2902,7 @@ __GGB__keysVar["ko"].menu = {
     "Surface": "\uace1\uba74",
     "SurfaceOfRevolution": "\ud68c\uc804\uba74",
     "SurfaceOfRevolution.Help": "\ucd95\uc744 \uc911\uc2ec\uc73c\ub85c \uace1\uc120\uc744 \ub4dc\ub798\uadf8\ud558\uae30",
-    "SwitchCalculator": "Switch calculator",
+    "SwitchCalculator": "\uacc4\uc0b0\uae30 \uc804\ud658",
     "Sx": "Sx",
     "Sxx": "Sxx",
     "Sxy": "Sxy",
