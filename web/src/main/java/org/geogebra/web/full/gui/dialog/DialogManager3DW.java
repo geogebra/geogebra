@@ -60,7 +60,8 @@ public class DialogManager3DW extends DialogManagerW {
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
 		DialogData data = new DialogData(title);
-		ComponentInputDialog coneTwoPointsInputDialog = new InputDialogConeTwoPointsRadiusW((AppW) app, data,
+		ComponentInputDialog coneTwoPointsInputDialog
+				= new InputDialogConeTwoPointsRadiusW((AppW) app, data,
 				handler, a, b, app.getKernel());
 		coneTwoPointsInputDialog.show();
 	}

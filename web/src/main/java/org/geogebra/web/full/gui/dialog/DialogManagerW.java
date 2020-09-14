@@ -364,10 +364,11 @@ public class DialogManagerW extends DialogManager
 		// avoid labeling of num
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
 				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
-		NumberChangeSignInputDialogW id = new NumberChangeSignInputDialogW(
-				((AppW) app), message, title, initText, handler, changingSign,
+		DialogData data = new DialogData(title);
+		NumberChangeSignInputDialogW extrudeInputDialog = new NumberChangeSignInputDialogW(
+				((AppW) app), message, data, initText, handler, changingSign,
 				checkBoxText);
-		id.setVisible(true);
+		extrudeInputDialog.show();
 	}
 
 	/**
